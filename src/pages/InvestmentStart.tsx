@@ -150,7 +150,7 @@ const CtaBlock = ({
         rel="sponsored noopener"
         target="_blank"
         onClick={onCtaClick}
-        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-[hsl(158_42%_15%)] hover:bg-primary hover:text-[hsl(158_42%_12%)] text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-primary hover:text-primary-hover text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
       >
         Halal investieren →
       </a>
@@ -294,14 +294,14 @@ const InvestmentStart = () => {
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-full bg-white/95 text-[hsl(158_42%_15%)] px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
+                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-full bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
                 )}
               </div>
             ) : (
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-[hsl(160_25%_9%)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-foreground shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
                 <div
                   className="absolute inset-0 opacity-40"
                   style={{
@@ -454,7 +454,7 @@ const InvestmentStart = () => {
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{
-            backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--gold)) 0 1px, transparent 1px 24px)",
+            backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--primary)) 0 1px, transparent 1px 24px)",
           }}
           aria-hidden
         />
@@ -629,7 +629,7 @@ const InvestmentStart = () => {
       </section>
 
       {/* Footer (kanonisch wie Startseite) */}
-      <footer className="bg-[hsl(220_20%_9%)] text-white/80 py-14">
+      <footer className="bg-foreground text-white/80 py-14">
         <div className="container flex flex-col items-center gap-4 text-center">
           <div className="flex items-center">
             <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />

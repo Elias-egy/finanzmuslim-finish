@@ -213,7 +213,7 @@ const HalalGuide = () => {
                           type="button"
                           key={opt.value}
                           onClick={() => chooseLevel(opt.value)}
-                          className="group text-left rounded-2xl border border-border bg-[hsl(40_30%_97%)] hover:border-primary/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 px-4 py-3 md:px-5 md:py-4 transition"
+                          className="group text-left rounded-2xl border border-border bg-surface hover:border-primary/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 px-4 py-3 md:px-5 md:py-4 transition"
                         >
                           <span className="flex items-center justify-between gap-4">
                             <span>
@@ -239,7 +239,7 @@ const HalalGuide = () => {
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 text-[12.5px] text-[#6f695f] hover:text-foreground/80 transition-colors underline underline-offset-4 decoration-[#6f695f]/40"
+                            className="inline-flex items-center gap-1.5 text-[12.5px] text-muted-foreground hover:text-foreground/80 transition-colors underline underline-offset-4 decoration-muted-foreground/40"
                           >
                             <HelpCircle className="h-3.5 w-3.5" aria-hidden />
                             Du kannst dich nicht entscheiden?
@@ -248,7 +248,7 @@ const HalalGuide = () => {
                         <PopoverContent
                           side="top"
                           align="center"
-                          className="w-[280px] rounded-xl border border-border/70 bg-[hsl(40_45%_97%)] p-4 text-[13px] leading-relaxed text-[#6f695f] shadow-[0_20px_45px_-20px_rgba(30,25,10,0.35)]"
+                          className="w-[280px] rounded-xl border border-border/70 bg-surface p-4 text-[13px] leading-relaxed text-muted-foreground shadow-[0_20px_45px_-20px_rgba(30,25,10,0.35)]"
                         >
                           Kein Problem. Starte beim Einstieg-Guide.{"\n"}
                           Die anderen Fassungen kannst du auch im Anschluss noch bekommen
@@ -269,7 +269,7 @@ const HalalGuide = () => {
                     </h2>
                     <div className="mt-4 grid grid-cols-1 sm:grid-cols-[0.8fr_1.2fr] gap-3">
                       <input
-                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-[#143328]/10 transition"
+                        className="w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition"
                         type="text"
                         name="given-name"
                         autoComplete="given-name"
@@ -280,7 +280,7 @@ const HalalGuide = () => {
                         onChange={(e) => setFirstName(e.target.value)}
                       />
                       <input
-                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-[#143328]/10 transition"
+                        className="w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition"
                         type="email"
                         name="email"
                         autoComplete="email"
@@ -298,7 +298,7 @@ const HalalGuide = () => {
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 text-[12.5px] text-[#6f695f] hover:text-foreground/80 transition-colors underline underline-offset-4 decoration-[#6f695f]/40"
+                            className="inline-flex items-center gap-1.5 text-[12.5px] text-muted-foreground hover:text-foreground/80 transition-colors underline underline-offset-4 decoration-muted-foreground/40"
                           >
                             <HelpCircle className="h-3.5 w-3.5" aria-hidden />
                             Schon Gründer?
@@ -307,7 +307,7 @@ const HalalGuide = () => {
                         <PopoverContent
                           side="top"
                           align="start"
-                          className="w-[280px] rounded-xl border border-border/70 bg-[hsl(40_45%_97%)] p-4 text-[13px] leading-relaxed text-[#6f695f] shadow-[0_20px_45px_-20px_rgba(30,25,10,0.35)]"
+                          className="w-[280px] rounded-xl border border-border/70 bg-surface p-4 text-[13px] leading-relaxed text-muted-foreground shadow-[0_20px_45px_-20px_rgba(30,25,10,0.35)]"
                         >
                           Falls du deine E-Mail-Adresse bereits über Instagram angegeben hast und schon Teil der Community bist, kannst du hier einfach dieselbe E-Mail-Adresse eingeben. Du erhältst nichts doppelt.
                         </PopoverContent>
@@ -316,7 +316,7 @@ const HalalGuide = () => {
 
 
                     {error && (
-                      <p role="alert" className="mt-3 text-[14px] leading-relaxed text-[#8a2f22]">
+                      <p role="alert" className="mt-3 text-[14px] leading-relaxed text-destructive">
                         {error}
                       </p>
                     )}
@@ -374,7 +374,7 @@ const HalalGuide = () => {
                       </p>
                       <Link
                         to="/dein-investmentstart"
-                        className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-foreground hover:text-[#1a4233] transition-colors"
+                        className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-foreground hover:text-primary transition-colors"
                       >
                         Zum Investmentstart <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
@@ -533,7 +533,7 @@ const HalalGuide = () => {
               </p>
               <button
                 onClick={scrollToForm}
-                className="mt-7 inline-flex items-center justify-center rounded-full bg-[hsl(43_60%_95%)] text-foreground px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+                className="mt-7 inline-flex items-center justify-center rounded-full bg-white text-foreground px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
               >
                 Guide kostenlos erhalten
               </button>
@@ -543,7 +543,7 @@ const HalalGuide = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-12">
+      <footer className="bg-foreground text-white/80 py-12">
         <div className="container flex flex-col items-center gap-4 text-center">
           <img src={logoMark} alt="finanzmuslim" className="h-9 w-auto brightness-0 invert opacity-90" />
           <div className="h-px w-16 bg-primary/60" />

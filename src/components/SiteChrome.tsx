@@ -48,7 +48,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
 );
 
 export const SiteFooter = () => (
-  <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-14">
+  <footer className="bg-foreground text-white/80 py-14">
     <div className="container flex flex-col items-center gap-4 text-center">
       <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
       <div className="h-px w-16 bg-primary/60" />

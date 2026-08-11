@@ -46,8 +46,8 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
     <div
       className={`group relative h-full min-h-[280px] md:min-h-[340px] overflow-hidden rounded-[1.5rem] md:rounded-[1.75rem] border ${
         isLive
-          ? "bg-[hsl(38_42%_92%)] border-[hsl(38_30%_75%)]/50 shadow-[0_10px_28px_-18px_rgba(20,51,40,0.35)] group-hover:border-primary/50 group-hover:shadow-[0_18px_34px_-16px_rgba(20,51,40,0.4)]"
-          : "bg-[hsl(38_38%_90%)] border-[hsl(38_30%_75%)]/40"
+          ? "bg-surface border-border/50 shadow-[0_10px_28px_-18px_rgba(20,51,40,0.35)] group-hover:border-primary/50 group-hover:shadow-[0_18px_34px_-16px_rgba(20,51,40,0.4)]"
+          : "bg-surface border-border/40"
       } transition-[transform,box-shadow,border-color] duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}
     >
       {hasImage ? (
@@ -60,7 +60,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
             className={`absolute inset-0 h-full w-full object-cover ${"imagePos" in tool ? tool.imagePos ?? "" : ""} transition-transform duration-700 motion-safe:group-hover:scale-[1.02]`}
           />
           <div
-            className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-[hsl(38_38%_18%)]/78 via-[hsl(38_38%_18%)]/22 to-transparent"
+            className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-foreground/78 via-foreground/22 to-transparent"
             aria-hidden
           />
         </>

@@ -31,10 +31,10 @@ type Asset = {
 };
 
 const ASSETS: Asset[] = [
-  { key: "etf",    label: "Halal-Aktien & ETFs", ret: 0.08, vol: 0.15, color: "#4a6b8a" },
-  { key: "sukuk",  label: "Sukuk",               ret: 0.03, vol: 0.05, color: "#1f4a3a" },
-  { key: "gold",   label: "Gold",                ret: 0.06, vol: 0.15, color: "#e8af3c" },
-  { key: "silver", label: "Silber",              ret: 0.05, vol: 0.30, color: "#9aa3ab" },
+  { key: "etf",    label: "Halal-Aktien & ETFs", ret: 0.08, vol: 0.15, color: "hsl(var(--primary))" },
+  { key: "sukuk",  label: "Sukuk",               ret: 0.03, vol: 0.05, color: "hsl(var(--success))" },
+  { key: "gold",   label: "Gold",                ret: 0.06, vol: 0.15, color: "hsl(var(--warning))" },
+  { key: "silver", label: "Silber",              ret: 0.05, vol: 0.30, color: "hsl(var(--muted-foreground))" },
 ];
 
 const CORRELATION: number[][] = [
@@ -385,7 +385,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   return (
     <section
       id="rechner"
-      className="bg-gradient-to-b from-[hsl(40_55%_94%)] via-[hsl(40_45%_96%)] to-background md:-mt-7 pt-10 md:pt-0 pb-2 md:pb-3"
+      className="bg-gradient-to-b from-surface via-surface to-background md:-mt-7 pt-10 md:pt-0 pb-2 md:pb-3"
     >
       <div className="container max-w-6xl">
         {showHeader && (
@@ -502,7 +502,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             <button
               type="button"
               onClick={openBuilder}
-              className="group relative mt-3 w-full overflow-hidden rounded-full border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--gold)/0.55)] focus-visible:border-primary"
+              className="group relative mt-3 w-full overflow-hidden rounded-full border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.55)] focus-visible:border-primary"
               aria-label={mode === "custom" ? "Eigenes Portfolio bearbeiten" : "Eigenes Portfolio bauen"}
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
@@ -621,11 +621,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               </div>
 
               <div className="mt-4 grid grid-cols-3 gap-3 text-[12px]">
-                <div className="rounded-xl bg-[hsl(40_45%_96%)] border border-border/50 px-3 py-2">
+                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
                   <div className="text-muted-foreground">Portfoliorendite</div>
                   <div className="text-sm font-bold text-primary">≈ {fmtPct(builderPortfolio.ret * 100)}% p.a.</div>
                 </div>
-                <div className="rounded-xl bg-[hsl(40_45%_96%)] border border-border/50 px-3 py-2">
+                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
                   <div className="text-muted-foreground">Volatilität</div>
                   <div className="text-sm font-bold text-foreground">≈ {fmtPct(builderPortfolio.vol * 100)}% p.a.</div>
                 </div>
@@ -633,7 +633,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   className={`rounded-xl border px-3 py-2 ${
                     builderTotal === 100
                       ? "bg-primary/5 border-primary/30"
-                      : "bg-[hsl(40_45%_96%)] border-border/50"
+                      : "bg-surface border-border/50"
                   }`}
                   aria-live="polite"
                 >
@@ -695,8 +695,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#e8af3c" stopOpacity={0.35} />
-                      <stop offset="100%" stopColor="#e8af3c" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--warning))" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="hsl(var(--warning))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" vertical={false} />
@@ -740,11 +740,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   <Area
                     type="monotone"
                     dataKey="Portfoliowert"
-                    stroke="#e8af3c"
+                    stroke="hsl(var(--warning))"
                     strokeWidth={3}
                     fill="url(#goldFill)"
                     dot={false}
-                    activeDot={{ r: 5, fill: "#e8af3c", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 5, fill: "hsl(var(--warning))", stroke: "white", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
