@@ -203,8 +203,8 @@ const ZakatCalculator = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="lg:sticky lg:top-24 space-y-4">
-          <div className="rounded-[1.5rem] bg-[#143328] text-white p-6 md:p-7 shadow-[0_25px_60px_-30px_rgba(0,0,0,0.6)]">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+          <div className="rounded-[1.5rem] bg-primary text-white p-6 md:p-7 shadow-[0_25px_60px_-30px_rgba(0,0,0,0.6)]">
+            <span className="text-[11px] font-semibold tracking-wide text-primary">
               Deine Zakat
             </span>
             <p className="headline text-4xl md:text-5xl mt-3 text-white">
@@ -297,7 +297,7 @@ const ZakatCalculator = () => {
 
           <Link
             to="/dein-investmentstart"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-gold/60 bg-white px-5 py-4 transition hover:border-gold hover:-translate-y-[1px]"
+            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:border-primary hover:-translate-y-[1px]"
           >
             <span className="text-[14px] font-semibold text-foreground">
               Noch kein Depot für deine Anlagen?

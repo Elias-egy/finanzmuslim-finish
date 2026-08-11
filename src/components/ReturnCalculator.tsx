@@ -31,10 +31,10 @@ type Asset = {
 };
 
 const ASSETS: Asset[] = [
-  { key: "etf",    label: "Halal-Aktien & ETFs", ret: 0.08, vol: 0.15, color: "#4a6b8a" },
-  { key: "sukuk",  label: "Sukuk",               ret: 0.03, vol: 0.05, color: "#1f4a3a" },
-  { key: "gold",   label: "Gold",                ret: 0.06, vol: 0.15, color: "#e8af3c" },
-  { key: "silver", label: "Silber",              ret: 0.05, vol: 0.30, color: "#9aa3ab" },
+  { key: "etf",    label: "Halal-Aktien & ETFs", ret: 0.08, vol: 0.15, color: "hsl(var(--primary))" },
+  { key: "sukuk",  label: "Sukuk",               ret: 0.03, vol: 0.05, color: "hsl(var(--success))" },
+  { key: "gold",   label: "Gold",                ret: 0.06, vol: 0.15, color: "hsl(var(--warning))" },
+  { key: "silver", label: "Silber",              ret: 0.05, vol: 0.30, color: "hsl(var(--muted-foreground))" },
 ];
 
 const CORRELATION: number[][] = [
@@ -385,13 +385,13 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   return (
     <section
       id="rechner"
-      className="bg-gradient-to-b from-[hsl(40_55%_94%)] via-[hsl(40_45%_96%)] to-background md:-mt-7 pt-10 md:pt-0 pb-2 md:pb-3"
+      className="bg-gradient-to-b from-surface via-surface to-background md:-mt-7 pt-10 md:pt-0 pb-2 md:pb-3"
     >
       <div className="container max-w-6xl">
         {showHeader && (
           <div className="reveal text-center mb-6 md:mb-3">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-              <span className="h-px w-6 bg-gold" aria-hidden /> Renditerechner
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
+              <span className="h-px w-6 bg-primary" aria-hidden /> Renditerechner
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-3 md:mt-1 leading-[1.05]">
               Dein Vermögensaufbau auf einen Blick
@@ -502,7 +502,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             <button
               type="button"
               onClick={openBuilder}
-              className="group relative mt-3 w-full overflow-hidden rounded-full border border-gold/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-gold hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--gold)/0.55)] focus-visible:border-gold"
+              className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.55)] focus-visible:border-primary"
               aria-label={mode === "custom" ? "Eigenes Portfolio bearbeiten" : "Eigenes Portfolio bauen"}
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
@@ -522,7 +522,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   ETFs · Sukuk · Gold · Silber – Anteile selbst festlegen
                 </span>
               </span>
-              <ArrowRight className="h-4 w-4 text-gold-deep shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              <ArrowRight className="h-4 w-4 text-primary shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
               {mode !== "custom" && (
                 <span className="card-shine card-shine-enter" aria-hidden />
               )}
@@ -621,11 +621,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               </div>
 
               <div className="mt-4 grid grid-cols-3 gap-3 text-[12px]">
-                <div className="rounded-xl bg-[hsl(40_45%_96%)] border border-border/50 px-3 py-2">
+                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
                   <div className="text-muted-foreground">Portfoliorendite</div>
                   <div className="text-sm font-bold text-primary">≈ {fmtPct(builderPortfolio.ret * 100)}% p.a.</div>
                 </div>
-                <div className="rounded-xl bg-[hsl(40_45%_96%)] border border-border/50 px-3 py-2">
+                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
                   <div className="text-muted-foreground">Volatilität</div>
                   <div className="text-sm font-bold text-foreground">≈ {fmtPct(builderPortfolio.vol * 100)}% p.a.</div>
                 </div>
@@ -633,7 +633,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   className={`rounded-xl border px-3 py-2 ${
                     builderTotal === 100
                       ? "bg-primary/5 border-primary/30"
-                      : "bg-[hsl(40_45%_96%)] border-border/50"
+                      : "bg-surface border-border/50"
                   }`}
                   aria-live="polite"
                 >
@@ -662,7 +662,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <button
                   type="button"
                   onClick={cancelCustom}
-                  className="rounded-full border border-border bg-white px-4 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary transition"
+                  className="rounded-lg border border-border bg-white px-4 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary transition"
                 >
                   Abbrechen
                 </button>
@@ -671,7 +671,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   onClick={applyCustom}
                   disabled={builderTotal !== 100}
                   aria-disabled={builderTotal !== 100}
-                  className="rounded-full bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary-glow transition shadow-[0_10px_25px_-12px_hsl(var(--primary)/0.6)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary"
+                  className="rounded-lg bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary-glow transition shadow-[0_10px_25px_-12px_hsl(var(--primary)/0.6)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary"
                 >
                   Übernehmen
                 </button>
@@ -695,8 +695,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#e8af3c" stopOpacity={0.35} />
-                      <stop offset="100%" stopColor="#e8af3c" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--warning))" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="hsl(var(--warning))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" vertical={false} />
@@ -740,11 +740,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   <Area
                     type="monotone"
                     dataKey="Portfoliowert"
-                    stroke="#e8af3c"
+                    stroke="hsl(var(--warning))"
                     strokeWidth={3}
                     fill="url(#goldFill)"
                     dot={false}
-                    activeDot={{ r: 5, fill: "#e8af3c", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 5, fill: "hsl(var(--warning))", stroke: "white", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -753,7 +753,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
           <div className="reveal rounded-[1.5rem] bg-card border border-border/70 p-5 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)] flex flex-col">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              <div className="text-[11px] font-semibold tracking-wide text-muted-foreground">
                 Geschätzter Portfoliowert
               </div>
               <div className="mt-1 text-3xl md:text-[32px] font-extrabold text-foreground leading-tight">
@@ -808,7 +808,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
         </div>
 
         {/* CTA below results — brand green next-step card */}
-        <div className="reveal mt-4 md:mt-5 rounded-2xl bg-[#143328] p-4 md:p-5">
+        <div className="reveal mt-4 md:mt-5 rounded-2xl bg-primary p-4 md:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <h3 className="text-base md:text-lg font-bold text-white leading-snug">
@@ -820,7 +820,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </div>
             <Link
               to="/dein-investmentstart"
-              className="inline-flex items-center justify-center rounded-full bg-white text-[#143328] hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
+              className="inline-flex items-center justify-center rounded-lg bg-white text-foreground hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
             >
               Zum Investmentstart →
             </Link>
@@ -874,7 +874,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           <button
             type="button"
             onClick={openBuilder}
-            className={`w-full text-left px-4 py-3 text-sm border-t border-gold/40 bg-gold-soft/40 hover:bg-gold-soft/70 transition ${mode === "custom" ? "bg-gold-soft/70" : ""}`}
+            className={`w-full text-left px-4 py-3 text-sm border-t border-primary/40 bg-primary/10/40 hover:bg-primary/10/70 transition ${mode === "custom" ? "bg-primary/10/70" : ""}`}
           >
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1" aria-hidden>

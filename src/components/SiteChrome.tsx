@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logoMark from "@/assets/logo-mark.png";
+import { Wordmark } from "@/components/Wordmark";
 
 /**
  * Leichte Kopf-/Fusszeile fuer Unterseiten (/tools, /renditerechner, /blog).
@@ -15,13 +15,8 @@ const navLinks = [
 export const SiteHeader = ({ active }: { active?: string }) => (
   <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.08)]">
     <div className="container flex items-center h-[64px] md:h-[68px]">
-      <Link to="/" className="flex items-center gap-2" aria-label="Amanah – zur Startseite">
-        <img
-          src={logoMark}
-          alt="Amanah Investment"
-          className="h-7 md:h-8 w-auto object-contain select-none"
-          draggable={false}
-        />
+      <Link to="/" className="flex items-center gap-2" aria-label="finanzmuslim – zur Startseite">
+        <Wordmark className="text-xl md:text-2xl" />
       </Link>
       <nav className="flex items-center gap-6 md:gap-8 ml-auto mr-4 md:mr-8 font-[family-name:'Source_Sans_3',system-ui,sans-serif]" aria-label="Hauptnavigation">
         {navLinks.map((l) => (
@@ -29,8 +24,8 @@ export const SiteHeader = ({ active }: { active?: string }) => (
             key={l.label}
             to={l.to}
             aria-current={active === l.to ? "page" : undefined}
-            className={`relative py-2 text-[15px] font-semibold transition-colors hover:text-primary after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-px after:bg-gold after:transition-all ${
-              active === l.to ? "text-primary after:w-full" : "text-[#143328] after:w-0 hover:after:w-full"
+            className={`relative py-2 text-[15px] font-semibold transition-colors hover:text-primary after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-px after:bg-primary after:transition-all ${
+              active === l.to ? "text-primary after:w-full" : "text-foreground after:w-0 hover:after:w-full"
             }`}
           >
             {l.label}
@@ -39,7 +34,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
       </nav>
       <Link
         to="/halal-guide"
-        className="hidden sm:inline-flex items-center rounded-full bg-[#143328] text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-[#1a4233] transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
+        className="hidden sm:inline-flex items-center rounded-lg bg-primary text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-primary-hover transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
       >
         Guide sichern
       </Link>
@@ -48,12 +43,12 @@ export const SiteHeader = ({ active }: { active?: string }) => (
 );
 
 export const SiteFooter = () => (
-  <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-14">
+  <footer className="bg-foreground text-white/80 py-14">
     <div className="container flex flex-col items-center gap-4 text-center">
-      <img src={logoMark} alt="Amanah Investment" className="h-10 w-auto brightness-0 invert opacity-90" />
-      <div className="h-px w-16 bg-gold/60" />
+      <Wordmark inverted className="text-lg" />
+      <div className="h-px w-16 bg-primary/60" />
       <p className="text-xs text-white/50 tracking-wide">
-        © {new Date().getFullYear()} Amanah. Alle Rechte vorbehalten.
+        © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
       </p>
       <div className="flex gap-6 text-xs text-white/50">
         <Link to="/impressum" className="hover:text-white/80 transition-colors">

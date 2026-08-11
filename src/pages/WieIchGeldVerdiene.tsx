@@ -37,16 +37,16 @@ const faq = [
 const WieIchGeldVerdiene = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Wie ich Geld verdiene – Transparenz | Amanah"
-      description="Offenlegung: Wie sich Amanah finanziert, was Affiliate-Links bedeuten, was sie dich kosten und wie ich Interessenkonflikte handhabe."
+      title="Wie ich Geld verdiene – Transparenz | finanzmuslim"
+      description="Offenlegung: Wie sich finanzmuslim finanziert, was Affiliate-Links bedeuten, was sie dich kosten und wie ich Interessenkonflikte handhabe."
       path="/wie-ich-geld-verdiene"
       jsonLd={faqJsonLd(faq)}
     />
     <SiteHeader />
     <main>
       <section className="container max-w-3xl pt-14 md:pt-20">
-        <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-          <span className="h-px w-6 bg-gold" aria-hidden /> Transparenz
+        <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
+          <span className="h-px w-6 bg-primary" aria-hidden /> Transparenz
         </span>
         <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
           Wie ich Geld verdiene.
@@ -94,25 +94,25 @@ const WieIchGeldVerdiene = () => (
           <h2 className="headline text-2xl md:text-3xl">Was ich nicht mache</h2>
           <ul className="mt-4 space-y-3 text-muted-foreground leading-relaxed">
             <li className="flex gap-3">
-              <span className="text-gold-deep font-bold shrink-0">·</span>
+              <span className="text-primary font-bold shrink-0">·</span>
               <span>
                 Keine Anlageberatung. Ich sage dir nicht, welches Wertpapier du kaufen
                 sollst, und darf das auch nicht.
               </span>
             </li>
             <li className="flex gap-3">
-              <span className="text-gold-deep font-bold shrink-0">·</span>
+              <span className="text-primary font-bold shrink-0">·</span>
               <span>Keine erfundenen Bewertungen oder Erfahrungsberichte.</span>
             </li>
             <li className="flex gap-3">
-              <span className="text-gold-deep font-bold shrink-0">·</span>
+              <span className="text-primary font-bold shrink-0">·</span>
               <span>
                 Keine Renditeversprechen. Kapitalanlagen bergen Risiken, auch die
                 islamkonformen.
               </span>
             </li>
             <li className="flex gap-3">
-              <span className="text-gold-deep font-bold shrink-0">·</span>
+              <span className="text-primary font-bold shrink-0">·</span>
               <span>
                 Keine Fatwa. Ich bin kein Gelehrter. Wo Gelehrtenmeinungen auseinandergehen,
                 schreibe ich das dazu, statt eine Meinung als die einzige darzustellen.
@@ -140,10 +140,10 @@ const WieIchGeldVerdiene = () => (
             auffällt, schreib mir. Korrekturen sind mir lieber als eine saubere Fassade.
           </p>
           <a
-            href="mailto:elias@amanah-invest.de?subject=Korrekturhinweis"
+            href="mailto:elias@finanzmuslim.com?subject=Korrekturhinweis"
             className="mt-4 inline-block text-primary font-semibold hover:underline"
           >
-            elias@amanah-invest.de
+            elias@finanzmuslim.com
           </a>
         </div>
 

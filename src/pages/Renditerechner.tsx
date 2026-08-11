@@ -31,7 +31,7 @@ const rechnerFaq = [
 const Renditerechner = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Halal Renditerechner – Vermögensaufbau ohne Zinsen berechnen | Amanah"
+      title="Halal Renditerechner – Vermögensaufbau ohne Zinsen berechnen | finanzmuslim"
       description="Berechne kostenlos, wie dein Vermögen mit islamkonformen Anlagen wächst: Aktien, Sukuk, Gold und Silber. Ohne Zinsen, ohne Anmeldung."
       path="/renditerechner"
       jsonLd={[

@@ -20,8 +20,8 @@ import { useEffect } from "react";
  * Build-Pipeline und steht separat an.
  */
 
-const SITE = "https://amanah-invest.de";
-const DEFAULT_OG = `${SITE}/early-og.jpg`;
+const SITE = "https://finanzmuslim.com";
+const DEFAULT_OG = `${SITE}/og-default.jpg`;
 
 /** Erzeugt oder aktualisiert ein <meta>-Tag im <head>. */
 const setMeta = (attr: "name" | "property", key: string, content: string) => {
@@ -58,7 +58,7 @@ const Seo = ({ title, description, path, image, noindex, jsonLd }: SeoProps) => 
     setMeta("name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
     setMeta("property", "og:type", "website");
-    setMeta("property", "og:site_name", "Amanah");
+    setMeta("property", "og:site_name", "finanzmuslim");
     setMeta("property", "og:locale", "de_DE");
     setMeta("property", "og:url", url);
     setMeta("property", "og:title", title);
@@ -100,7 +100,7 @@ const Seo = ({ title, description, path, image, noindex, jsonLd }: SeoProps) => 
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Amanah",
+  name: "finanzmuslim",
   url: SITE,
   logo: `${SITE}/apple-touch-icon.png`,
   description:
@@ -137,7 +137,7 @@ export const calculatorJsonLd = (opts: { name: string; description: string; path
   inLanguage: "de-DE",
   isAccessibleForFree: true,
   offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-  publisher: { "@type": "Organization", name: "Amanah", url: SITE },
+  publisher: { "@type": "Organization", name: "finanzmuslim", url: SITE },
 });
 
 export default Seo;

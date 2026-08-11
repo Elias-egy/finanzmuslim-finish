@@ -1,22 +1,17 @@
 import Seo from "@/components/Seo";
-import logoMark from "@/assets/logo-mark.png";
+import { Wordmark } from "@/components/Wordmark";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background text-foreground">
     <Seo
-      title="Datenschutz – Amanah"
-      description="Datenschutzerklärung von Amanah, Informationen zur Verarbeitung personenbezogener Daten."
+      title="Datenschutz – finanzmuslim"
+      description="Datenschutzerklärung von finanzmuslim, Informationen zur Verarbeitung personenbezogener Daten."
       path="/datenschutz"
     />
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center">
-        <a href="/" className="flex items-center gap-2" aria-label="Amanah">
-          <img
-            src={logoMark}
-            alt="Amanah Investment"
-            className="h-7 md:h-8 w-auto object-contain select-none"
-            draggable={false}
-          />
+        <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim">
+          <Wordmark className="text-xl md:text-2xl" />
         </a>
       </div>
     </header>
@@ -33,7 +28,7 @@ const Datenschutz = () => (
           <br />
           22307 Hamburg
           <br />
-          E-Mail: elias@amanah-invest.de
+          E-Mail: elias@finanzmuslim.com
         </p>
       </section>
 
@@ -62,7 +57,7 @@ const Datenschutz = () => (
           erheben wir folgende personenbezogene Daten: E-Mail-Adresse, Vorname, Nachname
           sowie dein Erfahrungslevel. Die Verarbeitung erfolgt auf Grundlage deiner Einwilligung
           (Art. 6 Abs. 1 lit. a DSGVO) und dient allein dem Versand der angeforderten Inhalte.
-          Du kannst deine Einwilligung jederzeit per E-Mail an elias@amanah-invest.de widerrufen.
+          Du kannst deine Einwilligung jederzeit per E-Mail an elias@finanzmuslim.com widerrufen.
         </p>
       </section>
 
@@ -88,7 +83,7 @@ const Datenschutz = () => (
         <p className="text-muted-foreground leading-relaxed">
           Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
           Datenübertragbarkeit und Widerspruch (Art. 15–21 DSGVO). Zum Ausüben deiner Rechte
-          oder bei Fragen zum Datenschutz erreichst du uns unter elias@amanah-invest.de.
+          oder bei Fragen zum Datenschutz erreichst du uns unter elias@finanzmuslim.com.
         </p>
       </section>
 
@@ -97,7 +92,7 @@ const Datenschutz = () => (
         <p className="text-muted-foreground leading-relaxed">
           Elias El-Gendy
           <br />
-          E-Mail: elias@amanah-invest.de
+          E-Mail: elias@finanzmuslim.com
         </p>
       </section>
     </main>
