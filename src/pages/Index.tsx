@@ -25,7 +25,7 @@ import toolsPlate from "@/assets/tools-plate.webp";
 import renditePlate from "@/assets/renditerechner-plate.jpg";
 
 const categories = [
-  { label: "Depot", icon: LineChart },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
   { label: "Girokonto", icon: Wallet },
   { label: "Halal-Screening", icon: ShieldCheck },
   { label: "Gold", icon: Coins },
@@ -126,10 +126,10 @@ const Index = () => (
     <section className="bg-background">
       <div className="container pb-16 md:pb-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {categories.map(({ label, icon: Icon }) => (
+          {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
-              to="/tools"
+              to={to ?? "/tools"}
               className="group relative flex min-h-[88px] items-center gap-3 rounded-lg border border-border bg-background p-4 transition-colors hover:border-primary"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
@@ -137,9 +137,11 @@ const Index = () => (
               </span>
               <span className="flex-1 pr-4 text-[15px] font-medium text-foreground">{label}</span>
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden />
-              <span className="absolute right-2 top-2 rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
-                bald
-              </span>
+              {!to && (
+                <span className="absolute right-2 top-2 rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
+                  bald
+                </span>
+              )}
             </Link>
           ))}
         </div>
