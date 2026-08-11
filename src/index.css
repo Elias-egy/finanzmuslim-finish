@@ -126,9 +126,9 @@
     background: linear-gradient(
       100deg,
       transparent 0%,
-      hsl(43 80% 78% / 0.14) 40%,
-      hsl(43 90% 88% / 0.32) 50%,
-      hsl(43 80% 78% / 0.14) 60%,
+      hsl(var(--primary) / 0.06) 40%,
+      hsl(var(--primary) / 0.14) 50%,
+      hsl(var(--primary) / 0.06) 60%,
       transparent 100%
     );
     transform: translateX(-140%) skewX(-16deg);
