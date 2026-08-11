@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import Seo, { faqJsonLd } from "@/components/Seo";
 
 /**
@@ -42,7 +41,6 @@ const WieIchGeldVerdiene = () => (
       path="/wie-ich-geld-verdiene"
       jsonLd={faqJsonLd(faq)}
     />
-    <SiteHeader />
     <main>
       <section className="container max-w-3xl pt-14 md:pt-20">
         <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
@@ -167,7 +165,6 @@ const WieIchGeldVerdiene = () => (
         </p>
       </section>
     </main>
-    <SiteFooter />
   </div>
 );
 

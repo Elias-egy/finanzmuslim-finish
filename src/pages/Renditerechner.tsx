@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import ReturnCalculator from "@/components/ReturnCalculator";
 import Seo, { calculatorJsonLd, faqJsonLd } from "@/components/Seo";
 
@@ -44,7 +43,6 @@ const Renditerechner = () => (
         faqJsonLd(rechnerFaq),
       ]}
     />
-    <SiteHeader active="/tools" />
     <main>
       <div className="container pt-2 md:pt-2 pb-0">
         <Link
@@ -121,7 +119,6 @@ const Renditerechner = () => (
         </div>
       </section>
     </main>
-    <SiteFooter />
   </div>
 );
 

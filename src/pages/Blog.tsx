@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import Seo from "@/components/Seo";
 import blogPlate from "@/assets/blog-plate.webp";
 
@@ -63,7 +62,6 @@ const Blog = () => (
       description="Artikel zu islamkonformen Finanzen: Riba, Gharar, Shariah-Screening, Sukuk und halal Anlageklassen. Sorgfältig recherchiert, ohne Anlageberatung."
       path="/blog"
     />
-    <SiteHeader active="/blog" />
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
@@ -113,7 +111,6 @@ const Blog = () => (
         </div>
       </section>
     </main>
-    <SiteFooter />
   </div>
 );
 

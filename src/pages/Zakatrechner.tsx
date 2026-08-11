@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import ZakatCalculator from "@/components/ZakatCalculator";
 import Seo, { calculatorJsonLd, faqJsonLd } from "@/components/Seo";
 
@@ -59,7 +58,6 @@ const Zakatrechner = () => (
         faqJsonLd(zakatFaq),
       ]}
     />
-    <SiteHeader active="/tools" />
     <main>
       <div className="container pt-3 pb-0">
         <Link
@@ -160,7 +158,6 @@ const Zakatrechner = () => (
         </p>
       </section>
     </main>
-    <SiteFooter />
   </div>
 );
 
