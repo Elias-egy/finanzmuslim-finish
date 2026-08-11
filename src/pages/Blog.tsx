@@ -36,7 +36,7 @@ export const ArticleCard = ({ article }: { article: BlogArticle }) => (
       </div>
     )}
     <div className="p-6 md:p-7">
-      <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em]">
+      <div className="flex items-center gap-3 text-[11px] font-semibold tracking-wide">
         <span className="text-primary">{article.category}</span>
         <span className="text-muted-foreground/60">{article.date}</span>
       </div>
@@ -67,7 +67,7 @@ const Blog = () => (
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+          <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
             <span className="h-px w-6 bg-primary" aria-hidden /> Blog
           </span>
           <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">

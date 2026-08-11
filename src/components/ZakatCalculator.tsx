@@ -204,7 +204,7 @@ const ZakatCalculator = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="lg:sticky lg:top-24 space-y-4">
           <div className="rounded-[1.5rem] bg-primary text-white p-6 md:p-7 shadow-[0_25px_60px_-30px_rgba(0,0,0,0.6)]">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+            <span className="text-[11px] font-semibold tracking-wide text-primary">
               Deine Zakat
             </span>
             <p className="headline text-4xl md:text-5xl mt-3 text-white">

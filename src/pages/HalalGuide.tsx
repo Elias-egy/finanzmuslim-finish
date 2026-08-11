@@ -325,7 +325,7 @@ const HalalGuide = () => {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="inline-flex items-center justify-center rounded-full bg-primary text-white px-8 py-3.5 text-[15px] font-semibold hover:bg-primary-hover transition-colors disabled:opacity-60 disabled:cursor-wait"
+                        className="inline-flex items-center justify-center rounded-lg bg-primary text-white px-8 py-3.5 text-[15px] font-semibold hover:bg-primary-hover transition-colors disabled:opacity-60 disabled:cursor-wait"
                       >
                         {submitting ? "Wird gesendet …" : "Guide kostenlos erhalten"}
                       </button>
@@ -392,7 +392,7 @@ const HalalGuide = () => {
               {stats.map((s) => (
                 <div key={s.label} className="flex items-baseline gap-3">
                   <dd className="headline text-2xl md:text-[28px]">{s.value}</dd>
-                  <dt className="text-[12px] font-semibold uppercase tracking-[0.16em] text-foreground/60">
+                  <dt className="text-[12px] font-semibold tracking-wide text-foreground/60">
                     {s.label}
                   </dt>
                 </div>
@@ -404,7 +404,7 @@ const HalalGuide = () => {
         {/* Inhalte des Guides */}
         <section className="bg-background py-16 md:py-20">
           <div className="container max-w-3xl">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" aria-hidden /> Das lernst du
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Was im Guide steht</h2>
@@ -461,7 +461,7 @@ const HalalGuide = () => {
               loading="lazy"
             />
             <div>
-              <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
                 <span className="h-px w-6 bg-primary" aria-hidden /> Wer dahinter steht
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Von Elias, Gründer von finanzmuslim</h2>
@@ -487,7 +487,7 @@ const HalalGuide = () => {
         {/* FAQ */}
         <section className="bg-background pb-16 md:pb-20">
           <div className="container max-w-3xl">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" aria-hidden /> FAQ
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Häufige Fragen</h2>
@@ -533,7 +533,7 @@ const HalalGuide = () => {
               </p>
               <button
                 onClick={scrollToForm}
-                className="mt-7 inline-flex items-center justify-center rounded-full bg-white text-foreground px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+                className="mt-7 inline-flex items-center justify-center rounded-lg bg-white text-foreground px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
               >
                 Guide kostenlos erhalten
               </button>

@@ -39,7 +39,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
       </nav>
       <Link
         to="/halal-guide"
-        className="hidden sm:inline-flex items-center rounded-full bg-primary text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-primary-hover transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
+        className="hidden sm:inline-flex items-center rounded-lg bg-primary text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-primary-hover transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
       >
         Guide sichern
       </Link>

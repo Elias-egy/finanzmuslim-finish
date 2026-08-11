@@ -80,7 +80,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
       )}
       <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
         <span
-          className={`text-[11px] font-semibold uppercase tracking-[0.22em] ${
+          className={`text-[11px] font-semibold tracking-wide ${
             isLive ? "text-primary" : "text-foreground/60"
           }`}
         >
@@ -127,7 +127,7 @@ const Tools = () => (
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+          <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
             <span className="h-px w-6 bg-primary" aria-hidden /> Tools &amp; Wissen
           </span>
           <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">

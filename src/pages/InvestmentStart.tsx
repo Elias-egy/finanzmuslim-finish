@@ -294,7 +294,7 @@ const InvestmentStart = () => {
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-full bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
+                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
@@ -313,7 +313,7 @@ const InvestmentStart = () => {
                   <span className="h-14 w-14 md:h-20 md:w-20 rounded-full bg-white/95 text-primary flex items-center justify-center shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]">
                     <Play className="h-6 w-6 md:h-9 md:w-9 ml-1 fill-primary" />
                   </span>
-                  <span className="text-[10px] md:text-xs uppercase tracking-[0.22em] text-white/55">
+                  <span className="text-[10px] md:text-xs tracking-wide text-white/55">
                     Tutorial-Video folgt hier
                   </span>
                 </div>
@@ -426,7 +426,7 @@ const InvestmentStart = () => {
       <section className="bg-background py-14 md:py-20">
         <div className="container">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" /> Der Broker <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Warum Scalable Capital? Drei Fakten.</h2>
@@ -460,7 +460,7 @@ const InvestmentStart = () => {
         />
         <div className="container relative max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-primary/40 bg-white/5 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Ehrlichkeit zuerst
             </span>
             <h2 className="headline text-white text-3xl md:text-4xl mt-4 leading-[1.1]">
@@ -508,7 +508,7 @@ const InvestmentStart = () => {
               </div>
             </div>
             <div className="reveal text-center md:text-left">
-              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
                 <span className="h-px w-6 bg-primary" /> Über mich
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Wer führt dich hier durch?</h2>
@@ -534,7 +534,7 @@ const InvestmentStart = () => {
       <section className="bg-surface border-t border-border/60 py-14 md:py-20">
         <div className="container max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" /> FAQs <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Kurze Fragen, klare Antworten</h2>
@@ -585,7 +585,7 @@ const InvestmentStart = () => {
           aria-hidden
         />
         <div id="los" ref={finalCtaRef} className="container relative max-w-3xl text-center scroll-mt-24">
-          <span className="reveal inline-flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+          <span className="reveal inline-flex items-center gap-2 rounded-lg border border-primary/50 bg-white/5 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-primary">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Bereit?
           </span>
           <h2 className="reveal headline text-white text-3xl md:text-5xl mt-5 leading-[1.05]">
@@ -666,7 +666,7 @@ const InvestmentStart = () => {
             </a>
           </p>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground shrink-0">Werbung</span>
+            <span className="text-[10px] tracking-wide text-muted-foreground shrink-0">Werbung</span>
             <a
               href={deeplink}
               rel="sponsored noopener"

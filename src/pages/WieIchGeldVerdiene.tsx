@@ -45,7 +45,7 @@ const WieIchGeldVerdiene = () => (
     <SiteHeader />
     <main>
       <section className="container max-w-3xl pt-14 md:pt-20">
-        <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+        <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
           <span className="h-px w-6 bg-primary" aria-hidden /> Transparenz
         </span>
         <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
