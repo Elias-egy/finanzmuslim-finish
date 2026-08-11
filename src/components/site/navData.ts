@@ -53,6 +53,7 @@ export const navGroups: NavGroup[] = [
       {
         title: "Zakat und Pflichten",
         items: [
+          { label: "Alle Rechner", to: "/rechner" },
           { label: "Zakat-Rechner", to: "/zakat-rechner" },
           { label: "Nisab-Rechner" },
           { label: "Zakat auf Depot" },

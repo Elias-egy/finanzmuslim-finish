@@ -1,18 +1,10 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import ZakatCalculator from "@/components/ZakatCalculator";
+import RechnerSeite from "@/components/RechnerSeite";
 import Seo, { calculatorJsonLd, faqJsonLd } from "@/components/Seo";
 
 /**
- * /zakat-rechner — zweites Werkzeug neben dem Renditerechner.
- *
- * Strategisch: Finanzfluss zieht seinen Traffic nicht aus Social Media, sondern
- * aus dutzenden Rechnern, die dauerhaft in der Suche stehen. Genau dieser Teil
- * fehlte hier bisher. "Zakat auf Aktien" und "Zakat Depot berechnen" werden auf
- * Deutsch gesucht, ohne dass es ein brauchbares Werkzeug dazu gibt.
- *
- * Der Erklaertext unter dem Rechner ist kein Beiwerk: ohne Text kann Google die
- * Seite nicht bewerten. Beim Renditerechner war genau das der Fehler.
+ * /zakat-rechner — nutzt jetzt das einheitliche Rechner-Muster (RechnerSeite).
+ * Die Rechenlogik in ZakatCalculator ist unveraendert.
  */
 
 const zakatFaq = [
@@ -43,7 +35,7 @@ const zakatFaq = [
 ];
 
 const Zakatrechner = () => (
-  <div className="min-h-screen bg-background">
+  <>
     <Seo
       title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | finanzmuslim"
       description="Berechne deine Zakat kostenlos: Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto. Mit Nisab nach Gold oder Silber und zwei Berechnungsmethoden für Aktien."
@@ -58,107 +50,93 @@ const Zakatrechner = () => (
         faqJsonLd(zakatFaq),
       ]}
     />
-    <main>
-      <div className="container pt-3 pb-0">
-        <Link
-          to="/tools"
-          className="inline-flex items-center gap-2 text-[13px] font-semibold text-primary hover:text-primary/80 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" aria-hidden /> Alle Tools
-        </Link>
-      </div>
-
-      <section className="container max-w-3xl pt-8 md:pt-10">
-        <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
-          <span className="h-px w-6 bg-primary" aria-hidden /> Zakat-Rechner
-        </span>
-        <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
-          Was schuldest du dieses Jahr?
-        </h1>
-        <p className="mt-4 text-muted-foreground leading-relaxed text-base md:text-[17px]">
-          Zakat auf Bargeld ist einfach. Sobald ein Depot dazukommt, wird es unübersichtlich.
-          Dieser Rechner nimmt Aktien, ETFs, Sukuk, Gold und Krypto mit auf und zeigt dir,
-          worauf du wirklich zahlst.
-        </p>
-      </section>
-
-      <ZakatCalculator />
-
-      <section className="container max-w-3xl pb-16 md:pb-24">
-        <div className="mt-12 md:mt-16">
-          <h2 className="headline text-2xl md:text-3xl">Wie Zakat auf ein Depot berechnet wird</h2>
-          <p className="mt-4 text-muted-foreground leading-relaxed">
-            Zakat ist die dritte Säule des Islam und beträgt 2,5 Prozent auf das
-            zakatpflichtige Vermögen, sofern es ein volles Mondjahr über dem Nisab lag.
-            Für Bargeld, Gold und Silber ist die Rechnung unstrittig. Sobald Wertpapiere
-            dazukommen, wird es differenzierter.
+    <RechnerSeite
+      name="Zakat-Rechner"
+      title="Zakat-Rechner"
+      intro={
+        <>
+          <p>
+            Zakat auf Bargeld ist einfach. Sobald ein Depot dazukommt, wird es unübersichtlich.
+            Dieser Rechner nimmt Aktien, ETFs, Sukuk, Gold und Krypto mit auf und zeigt dir,
+            worauf du wirklich zahlst.
           </p>
-          <p className="mt-4 text-muted-foreground leading-relaxed">
-            Der entscheidende Unterschied liegt in deiner Absicht. Wer Anteile kauft, um
-            sie weiterzuverkaufen, behandelt sie wie Handelsware: 2,5 Prozent auf den
-            vollen Marktwert. Wer langfristig investiert bleibt und von den Erträgen des
-            Unternehmens profitieren will, setzt nach anderer verbreiteter Auffassung nur
-            den Teil an, der auf zakatpflichtige Vermögenswerte des Unternehmens entfällt,
-            also im Wesentlichen Barmittel, Forderungen und Warenbestände. Genau deshalb
-            hat dieser Rechner beide Wege.
-          </p>
-          <p className="mt-4 text-muted-foreground leading-relaxed">
-            Der hier verwendete Näherungswert von 30 Prozent ist eine Schätzung, keine
-            exakte Größe. Wer es genauer will, sieht in die Bilanz der gehaltenen
-            Unternehmen. Für ein breit gestreutes ETF-Portfolio ist das praktisch nicht
-            leistbar, deshalb arbeiten die meisten mit einem pauschalen Anteil.
-          </p>
-        </div>
-
-        <div className="mt-12 md:mt-16">
-          <h2 className="headline text-2xl md:text-3xl">Häufige Fragen zur Zakat</h2>
-          <div className="mt-6 divide-y divide-border/70 border-y border-border/70">
-            {zakatFaq.map((item) => (
-              <div key={item.q} className="py-5">
-                <h3 className="font-semibold text-foreground">{item.q}</h3>
-                <p className="mt-2 text-muted-foreground leading-relaxed text-[15px]">{item.a}</p>
-              </div>
-            ))}
+        </>
+      }
+      erklaerung={
+        <>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Was Zakat ist</h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Zakat ist eine der Säulen des Islam und ein fester Anteil, den du einmal im Jahr von
+              deinem Vermögen abgibst. Sie ist kein freiwilliges Almosen, sondern eine Pflicht, und
+              sie geht an klar bestimmte Empfängergruppen. Anders als eine Spende richtet sie sich
+              nicht nach deinem Einkommen, sondern nach dem Vermögen, das über ein volles Mondjahr
+              bei dir liegt.
+            </p>
           </div>
-        </div>
 
-        <div className="mt-12 md:mt-16 rounded-2xl bg-surface border border-border/70 p-6 md:p-8">
-          <h2 className="headline text-xl md:text-2xl">Wie geht es weiter?</h2>
-          <ul className="mt-4 space-y-3 text-[15px]">
-            <li>
-              <Link to="/renditerechner" className="text-primary font-semibold hover:underline">
-                Renditerechner
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}– wie dein Vermögen mit islamkonformen Anlagen wächst.
-              </span>
-            </li>
-            <li>
-              <Link to="/halal-guide" className="text-primary font-semibold hover:underline">
-                Halal Investment Guide
-              </Link>
-              <span className="text-muted-foreground">
-                {" "}– welche Anlagen islamkonform sind und woran du das erkennst.
-              </span>
-            </li>
-            <li>
-              <Link to="/dein-investmentstart" className="text-primary font-semibold hover:underline">
-                Dein Investmentstart
-              </Link>
-              <span className="text-muted-foreground"> – Depot eröffnen, Schritt für Schritt.</span>
-            </li>
-          </ul>
-        </div>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Wer sie zahlen muss</h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Zakatpflichtig ist, wer volljährig und zurechnungsfähig ist und dessen Vermögen den
+              Nisab überschreitet und ein volles Mondjahr über dieser Schwelle geblieben ist. Wer
+              darunter liegt, zahlt keine Zakat. Verbindlichkeiten, die kurzfristig fällig werden,
+              werden nach verbreiteter Auffassung vorher abgezogen.
+            </p>
+          </div>
 
-        <p className="mt-10 text-[13px] text-muted-foreground leading-relaxed">
-          Dieser Rechner dient der Orientierung und ist keine Fatwa und keine
-          Rechtsauskunft. Zur Behandlung langfristig gehaltener Wertpapiere bestehen
-          unterschiedliche Gelehrtenmeinungen. Im Zweifel wende dich an eine Gelehrte
-          oder einen Gelehrten deines Vertrauens.
-        </p>
-      </section>
-    </main>
-  </div>
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Was zum zakatpflichtigen Vermögen zählt</h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Dazu gehören Bargeld und Guthaben, Gold und Silber, Handelsware sowie Wertpapiere wie
+              Aktien, ETF-Anteile und Sukuk. Nicht dazu zählen üblicherweise Dinge, die du selbst
+              nutzt: die eigene Wohnung, das eigene Auto, Möbel oder Arbeitsgeräte. Bei langfristig
+              gehaltenen Wertpapieren bestehen unterschiedliche Auffassungen zur Bemessungsgrundlage,
+              deshalb bietet der Rechner zwei Methoden an.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Was der Nisab ist</h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Der Nisab ist die Mindestschwelle, ab der Zakat fällig wird. Er wird über eine feste
+              Menge Gold oder Silber bestimmt. Der Betrag in Euro ist deshalb keine feste Größe: er
+              richtet sich nach dem aktuellen Gold- oder Silberpreis und muss tagesaktuell geprüft
+              werden. Welcher der beiden Maßstäbe herangezogen wird, wird unterschiedlich gehandhabt;
+              der Silber-Maßstab liegt niedriger und erfasst dadurch mehr Menschen.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Häufige Fragen zur Zakat</h2>
+            <div className="mt-5 divide-y divide-border border-y border-border">
+              {zakatFaq.map((item) => (
+                <div key={item.q} className="py-5">
+                  <h3 className="font-semibold text-foreground">{item.q}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      }
+      weitereRechner={[
+        {
+          name: "Renditerechner",
+          desc: "wie dein Vermögen mit islamkonformen Anlagen wachsen kann.",
+          to: "/renditerechner",
+        },
+        { name: "Alle Rechner", desc: "Übersicht aller Werkzeuge.", to: "/rechner" },
+        {
+          name: "Depot-Vergleich",
+          desc: "welcher Broker zu islamkonformem Investieren passt.",
+          to: "/vergleich/depot",
+        },
+      ]}
+    >
+      <ZakatCalculator />
+    </RechnerSeite>
+  </>
 );
 
 export default Zakatrechner;
