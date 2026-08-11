@@ -1,4 +1,4 @@
-import { Seo } from "@/components/Seo";
+import Seo from "@/components/Seo";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 
 const Index = () => (

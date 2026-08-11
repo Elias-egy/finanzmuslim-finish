@@ -21,7 +21,7 @@ import { useEffect } from "react";
  */
 
 const SITE = "https://finanzmuslim.com";
-const DEFAULT_OG = `${SITE}/early-og.jpg`;
+const DEFAULT_OG = `${SITE}/og-default.jpg`;
 
 /** Erzeugt oder aktualisiert ein <meta>-Tag im <head>. */
 const setMeta = (attr: "name" | "property", key: string, content: string) => {

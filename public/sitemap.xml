@@ -30,7 +30,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-  <!-- /dein-investmentstart und /early stehen bewusst NICHT hier:
+  <!-- /dein-investmentstart steht bewusst NICHT hier:
        beide sind noindex. Eine noindex-Seite in der Sitemap ist ein
        Widerspruch und kostet Crawl-Budget. -->
   <url>
