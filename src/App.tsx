@@ -19,6 +19,7 @@ const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
+const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="/zakat-rechner" element={<Zakatrechner />} />
             <Route path="/wie-ich-geld-verdiene" element={<WieIchGeldVerdiene />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/vergleich/depot" element={<VergleichDepot />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
