@@ -59,7 +59,7 @@ const upcomingTopics = [
 const Blog = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Blog: Halal Investieren verständlich erklärt | Amanah"
+      title="Blog: Halal Investieren verständlich erklärt | finanzmuslim"
       description="Artikel zu islamkonformen Finanzen: Riba, Gharar, Shariah-Screening, Sukuk und halal Anlageklassen. Sorgfältig recherchiert, ohne Anlageberatung."
       path="/blog"
     />

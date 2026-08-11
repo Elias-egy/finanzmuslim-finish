@@ -12,7 +12,7 @@ const NotFound = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-6">
       <div className="text-center max-w-md">
-        <img src={logoMark} alt="Amanah Investment" className="h-9 w-auto mx-auto mb-8" />
+        <img src={logoMark} alt="finanzmuslim" className="h-9 w-auto mx-auto mb-8" />
         <p className="text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">Fehler 404</p>
         <h1 className="headline text-4xl md:text-5xl mt-3">Diese Seite gibt es nicht.</h1>
         <p className="mt-4 text-muted-foreground leading-relaxed">

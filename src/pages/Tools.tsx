@@ -119,7 +119,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
 const Tools = () => (
   <div className="min-h-screen bg-surface">
     <Seo
-      title="Halal Finanz-Tools & Rechner für Muslime | Amanah"
+      title="Halal Finanz-Tools & Rechner für Muslime | finanzmuslim"
       description="Kostenlose Rechner und Werkzeuge für islamkonformes Investieren: Renditerechner ohne Zinsen, Zakat-Rechner und mehr. Ohne Anmeldung nutzbar."
       path="/tools"
     />
@@ -148,7 +148,7 @@ const Tools = () => (
         <p className="mt-10 text-sm text-muted-foreground">
           Ein Tool fehlt dir? Schreib mir über den{" "}
           <a
-            href="mailto:elias@amanah-invest.de?subject=Tool-Wunsch"
+            href="mailto:elias@finanzmuslim.com?subject=Tool-Wunsch"
             className="font-semibold text-primary underline underline-offset-4 hover:text-primary/80"
           >
             Kontakt

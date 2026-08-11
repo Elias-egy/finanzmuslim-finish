@@ -150,7 +150,7 @@ const HalalGuide = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Seo
-        title="Halal Investment Guide – Kostenlos für Muslime | Amanah"
+        title="Halal Investment Guide – Kostenlos für Muslime | finanzmuslim"
         description="Sichere dir den kostenlosen Halal Investment Guide: Prinzipien, Anlageklassen, Riba- und Gharar-Prüfung, in unter 30 Sekunden."
         path="/halal-guide"
       />
@@ -158,10 +158,10 @@ const HalalGuide = () => {
       {/* Reduzierter Header: Logo + dezenter Rückweg, keine volle Navigation */}
       <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60">
         <div className="container flex items-center justify-between h-[64px] md:h-[68px]">
-          <a href="/" className="flex items-center gap-2" aria-label="Amanah – zur Startseite">
+          <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim – zur Startseite">
             <img
               src={logoMark}
-              alt="Amanah Investment"
+              alt="finanzmuslim"
               className="h-7 md:h-8 w-auto object-contain select-none"
               draggable={false}
             />
@@ -343,7 +343,7 @@ const HalalGuide = () => {
 
                     {/* Consent — bewusst lesbar, nicht als Winzschrift versteckt */}
                     <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground max-w-lg">
-                      Mit dem Absenden erklärst du dich einverstanden, dass Amanah dir den
+                      Mit dem Absenden erklärst du dich einverstanden, dass finanzmuslim dir den
                       Guide und E-Mails rund um islamkonformes Investieren an diese Adresse
                       sendet. Du kannst dich jederzeit abmelden. Deine Daten werden
                       vertraulich behandelt und nicht verkauft{" "}(
@@ -456,7 +456,7 @@ const HalalGuide = () => {
           <div className="container grid md:grid-cols-[0.65fr_1.35fr] gap-8 md:gap-14 items-center max-w-5xl">
             <img
               src={eliasPortrait}
-              alt="Elias, Gründer von Amanah"
+              alt="Elias, Gründer von finanzmuslim"
               className="w-full max-w-[280px] mx-auto md:max-w-none rounded-[1.25rem] object-cover aspect-[4/5] shadow-[0_25px_50px_-30px_rgba(30,25,10,0.4)]"
               loading="lazy"
             />
@@ -464,7 +464,7 @@ const HalalGuide = () => {
               <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
                 <span className="h-px w-6 bg-gold" aria-hidden /> Wer dahinter steht
               </span>
-              <h2 className="headline text-3xl md:text-4xl mt-4">Von Elias, Gründer von Amanah</h2>
+              <h2 className="headline text-3xl md:text-4xl mt-4">Von Elias, Gründer von finanzmuslim</h2>
               <p className="mt-5 text-muted-foreground leading-[1.75] text-[15px] md:text-[16px] max-w-prose">
                 Elias hat nach Vorträgen an deutschen Universitäten und aus
                 eigener Erfahrung heraus den Guide geschrieben: Fast jedes Standard-Finanzprodukt enthält
@@ -545,10 +545,10 @@ const HalalGuide = () => {
       {/* Footer */}
       <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-12">
         <div className="container flex flex-col items-center gap-4 text-center">
-          <img src={logoMark} alt="Amanah Investment" className="h-9 w-auto brightness-0 invert opacity-90" />
+          <img src={logoMark} alt="finanzmuslim" className="h-9 w-auto brightness-0 invert opacity-90" />
           <div className="h-px w-16 bg-gold/60" />
           <p className="text-xs text-white/50 tracking-wide">
-            © {new Date().getFullYear()} Amanah. Alle Rechte vorbehalten.
+            © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6 text-xs text-white/50">
             <Link to="/impressum" className="hover:text-white/80 transition-colors">

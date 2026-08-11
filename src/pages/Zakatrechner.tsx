@@ -46,7 +46,7 @@ const zakatFaq = [
 const Zakatrechner = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | Amanah"
+      title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | finanzmuslim"
       description="Berechne deine Zakat kostenlos: Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto. Mit Nisab nach Gold oder Silber und zwei Berechnungsmethoden für Aktien."
       path="/zakat-rechner"
       jsonLd={[

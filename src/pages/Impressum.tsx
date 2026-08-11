@@ -4,16 +4,16 @@ import logoMark from "@/assets/logo-mark.png";
 const Impressum = () => (
   <div className="min-h-screen bg-background text-foreground">
     <Seo
-      title="Impressum – Amanah"
-      description="Impressum und rechtliche Angaben zu Amanah, Bildung für halal Investieren."
+      title="Impressum – finanzmuslim"
+      description="Impressum und rechtliche Angaben zu finanzmuslim, Bildung für halal Investieren."
       path="/impressum"
     />
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center">
-        <a href="/" className="flex items-center gap-2" aria-label="Amanah">
+        <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim">
           <img
             src={logoMark}
-            alt="Amanah Investment"
+            alt="finanzmuslim"
             className="h-7 md:h-8 w-auto object-contain select-none"
             draggable={false}
           />
@@ -38,7 +38,7 @@ const Impressum = () => (
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">Kontakt:</h2>
         <p className="text-muted-foreground leading-relaxed">
-          E-Mail: elias@amanah-invest.de
+          E-Mail: elias@finanzmuslim.com
         </p>
       </section>
 

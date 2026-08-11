@@ -249,7 +249,7 @@ const InvestmentStart = () => {
       {/* Versteckte Conversion-Seite: nicht indexieren, nicht in Sitemap/Navigation
           aufnehmen. Lief vorher ueber react-helmet-async und war damit wirkungslos. */}
       <Seo
-        title="Dein Investmentstart – Amanah"
+        title="Dein Investmentstart – finanzmuslim"
         description="Schritt für Schritt zum islamkonformen Depot."
         path="/dein-investmentstart"
         noindex
@@ -258,10 +258,10 @@ const InvestmentStart = () => {
       {/* S0 — Header: nur Bildmarke, keine Navigation (Attention Ratio 1:1) */}
       <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.08)]">
         <div className="container flex items-center h-[64px] md:h-[68px]">
-          <span className="flex items-center" aria-label="Amanah">
+          <span className="flex items-center" aria-label="finanzmuslim">
             <img
               src={logoMark}
-              alt="Amanah Investment"
+              alt="finanzmuslim"
               className="h-7 md:h-8 w-auto object-contain select-none"
               draggable={false}
             />
@@ -501,7 +501,7 @@ const InvestmentStart = () => {
               <div className="relative overflow-hidden rounded-[2rem] bg-secondary shadow-[0_30px_70px_-30px_rgba(80,60,20,0.35)] border border-white/60">
                 <img
                   src={founderPortrait}
-                  alt="Elias El-Gendy, Gründer von Amanah"
+                  alt="Elias El-Gendy, Gründer von finanzmuslim"
                   className="w-full h-auto object-cover aspect-[4/5]"
                   loading="lazy"
                 />
@@ -513,7 +513,7 @@ const InvestmentStart = () => {
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Wer führt dich hier durch?</h2>
               <p className="mt-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
-                Salam, ich bin Elias, Gründer von Amanah. Über 10.000 Muslime lernen bei Amanah, wie islamkonformes Investieren wirklich
+                Salam, ich bin Elias, Gründer von finanzmuslim. Über 10.000 Muslime lernen bei finanzmuslim, wie islamkonformes Investieren wirklich
                 funktioniert: ehrlich, mit klaren Quellen, ohne Schönreden.
               </p>
               <div className="mt-5 flex items-center justify-center md:justify-start gap-4 text-[12px] text-muted-foreground">
@@ -632,11 +632,11 @@ const InvestmentStart = () => {
       <footer className="bg-[hsl(220_20%_9%)] text-white/80 py-14">
         <div className="container flex flex-col items-center gap-4 text-center">
           <div className="flex items-center">
-            <img src={logoMark} alt="Amanah Investment" className="h-10 w-auto brightness-0 invert opacity-90" />
+            <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
           </div>
           <div className="h-px w-16 bg-gold/60" />
           <p className="text-xs text-white/50 tracking-wide">
-            © {new Date().getFullYear()} Amanah. Alle Rechte vorbehalten.
+            © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6 text-xs text-white/50">
             <Link to="/impressum" className="hover:text-white/80 transition-colors">

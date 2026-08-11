@@ -37,8 +37,8 @@ const faq = [
 const WieIchGeldVerdiene = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Wie ich Geld verdiene – Transparenz | Amanah"
-      description="Offenlegung: Wie sich Amanah finanziert, was Affiliate-Links bedeuten, was sie dich kosten und wie ich Interessenkonflikte handhabe."
+      title="Wie ich Geld verdiene – Transparenz | finanzmuslim"
+      description="Offenlegung: Wie sich finanzmuslim finanziert, was Affiliate-Links bedeuten, was sie dich kosten und wie ich Interessenkonflikte handhabe."
       path="/wie-ich-geld-verdiene"
       jsonLd={faqJsonLd(faq)}
     />
@@ -140,10 +140,10 @@ const WieIchGeldVerdiene = () => (
             auffällt, schreib mir. Korrekturen sind mir lieber als eine saubere Fassade.
           </p>
           <a
-            href="mailto:elias@amanah-invest.de?subject=Korrekturhinweis"
+            href="mailto:elias@finanzmuslim.com?subject=Korrekturhinweis"
             className="mt-4 inline-block text-primary font-semibold hover:underline"
           >
-            elias@amanah-invest.de
+            elias@finanzmuslim.com
           </a>
         </div>
 

@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://amanah-invest.de/sitemap.xml
+Sitemap: https://finanzmuslim.com/sitemap.xml
