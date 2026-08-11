@@ -48,7 +48,7 @@ export const SiteHeader = () => {
         Neu: Zakat-Rechner. Berechne deine Zakat in 2 Minuten →
       </Link>
 
-      <header className="bg-background border-b border-border" onMouseLeave={() => setOpenGroup(null)}>
+      <header className="relative bg-background border-b border-border" onMouseLeave={() => setOpenGroup(null)}>
         <div className="container flex items-center h-[68px] gap-6">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
             <Wordmark className="text-xl md:text-2xl" />
