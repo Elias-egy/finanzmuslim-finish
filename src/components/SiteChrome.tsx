@@ -29,8 +29,8 @@ export const SiteHeader = ({ active }: { active?: string }) => (
             key={l.label}
             to={l.to}
             aria-current={active === l.to ? "page" : undefined}
-            className={`relative py-2 text-[15px] font-semibold transition-colors hover:text-primary after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-px after:bg-gold after:transition-all ${
-              active === l.to ? "text-primary after:w-full" : "text-[#143328] after:w-0 hover:after:w-full"
+            className={`relative py-2 text-[15px] font-semibold transition-colors hover:text-primary after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-px after:bg-primary after:transition-all ${
+              active === l.to ? "text-primary after:w-full" : "text-foreground after:w-0 hover:after:w-full"
             }`}
           >
             {l.label}
@@ -39,7 +39,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
       </nav>
       <Link
         to="/halal-guide"
-        className="hidden sm:inline-flex items-center rounded-full bg-[#143328] text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-[#1a4233] transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
+        className="hidden sm:inline-flex items-center rounded-full bg-primary text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-primary-hover transition-colors font-[family-name:'Source_Sans_3',system-ui,sans-serif]"
       >
         Guide sichern
       </Link>
@@ -51,7 +51,7 @@ export const SiteFooter = () => (
   <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-14">
     <div className="container flex flex-col items-center gap-4 text-center">
       <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
-      <div className="h-px w-16 bg-gold/60" />
+      <div className="h-px w-16 bg-primary/60" />
       <p className="text-xs text-white/50 tracking-wide">
         © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
       </p>

@@ -46,7 +46,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
     <div
       className={`group relative h-full min-h-[280px] md:min-h-[340px] overflow-hidden rounded-[1.5rem] md:rounded-[1.75rem] border ${
         isLive
-          ? "bg-[hsl(38_42%_92%)] border-[hsl(38_30%_75%)]/50 shadow-[0_10px_28px_-18px_rgba(20,51,40,0.35)] group-hover:border-gold/50 group-hover:shadow-[0_18px_34px_-16px_rgba(20,51,40,0.4)]"
+          ? "bg-[hsl(38_42%_92%)] border-[hsl(38_30%_75%)]/50 shadow-[0_10px_28px_-18px_rgba(20,51,40,0.35)] group-hover:border-primary/50 group-hover:shadow-[0_18px_34px_-16px_rgba(20,51,40,0.4)]"
           : "bg-[hsl(38_38%_90%)] border-[hsl(38_30%_75%)]/40"
       } transition-[transform,box-shadow,border-color] duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}
     >
@@ -74,14 +74,14 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
           }}
         >
           {"icon" in tool && tool.icon && (
-            <tool.icon className="h-10 w-10 text-[#143328]/25" strokeWidth={1.5} />
+            <tool.icon className="h-10 w-10 text-foreground/25" strokeWidth={1.5} />
           )}
         </div>
       )}
       <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
         <span
           className={`text-[11px] font-semibold uppercase tracking-[0.22em] ${
-            isLive ? "text-gold" : "text-[#143328]/60"
+            isLive ? "text-primary" : "text-foreground/60"
           }`}
         >
           {isLive ? "Live" : tool.status}
@@ -105,7 +105,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
   return isLive && tool.to ? (
     <Link
       to={tool.to}
-      className="group block h-full rounded-[1.5rem] md:rounded-[1.75rem] motion-safe:hover:-translate-y-2 motion-safe:hover:scale-[1.03] motion-safe:active:scale-[1.015] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+      className="group block h-full rounded-[1.5rem] md:rounded-[1.75rem] motion-safe:hover:-translate-y-2 motion-safe:hover:scale-[1.03] motion-safe:active:scale-[1.015] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
     >
       {inner}
     </Link>
@@ -127,8 +127,8 @@ const Tools = () => (
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-            <span className="h-px w-6 bg-gold" aria-hidden /> Tools &amp; Wissen
+          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="h-px w-6 bg-primary" aria-hidden /> Tools &amp; Wissen
           </span>
           <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
             Für jede Frage ein Werkzeug.

@@ -390,8 +390,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
       <div className="container max-w-6xl">
         {showHeader && (
           <div className="reveal text-center mb-6 md:mb-3">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-              <span className="h-px w-6 bg-gold" aria-hidden /> Renditerechner
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-6 bg-primary" aria-hidden /> Renditerechner
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-3 md:mt-1 leading-[1.05]">
               Dein Vermögensaufbau auf einen Blick
@@ -502,7 +502,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             <button
               type="button"
               onClick={openBuilder}
-              className="group relative mt-3 w-full overflow-hidden rounded-full border border-gold/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-gold hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--gold)/0.55)] focus-visible:border-gold"
+              className="group relative mt-3 w-full overflow-hidden rounded-full border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--gold)/0.55)] focus-visible:border-primary"
               aria-label={mode === "custom" ? "Eigenes Portfolio bearbeiten" : "Eigenes Portfolio bauen"}
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
@@ -522,7 +522,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   ETFs · Sukuk · Gold · Silber – Anteile selbst festlegen
                 </span>
               </span>
-              <ArrowRight className="h-4 w-4 text-gold-deep shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
+              <ArrowRight className="h-4 w-4 text-primary shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
               {mode !== "custom" && (
                 <span className="card-shine card-shine-enter" aria-hidden />
               )}
@@ -808,7 +808,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
         </div>
 
         {/* CTA below results — brand green next-step card */}
-        <div className="reveal mt-4 md:mt-5 rounded-2xl bg-[#143328] p-4 md:p-5">
+        <div className="reveal mt-4 md:mt-5 rounded-2xl bg-primary p-4 md:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <h3 className="text-base md:text-lg font-bold text-white leading-snug">
@@ -820,7 +820,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </div>
             <Link
               to="/dein-investmentstart"
-              className="inline-flex items-center justify-center rounded-full bg-white text-[#143328] hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
+              className="inline-flex items-center justify-center rounded-full bg-white text-foreground hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
             >
               Zum Investmentstart →
             </Link>
@@ -874,7 +874,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           <button
             type="button"
             onClick={openBuilder}
-            className={`w-full text-left px-4 py-3 text-sm border-t border-gold/40 bg-gold-soft/40 hover:bg-gold-soft/70 transition ${mode === "custom" ? "bg-gold-soft/70" : ""}`}
+            className={`w-full text-left px-4 py-3 text-sm border-t border-primary/40 bg-primary/10/40 hover:bg-primary/10/70 transition ${mode === "custom" ? "bg-primary/10/70" : ""}`}
           >
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1" aria-hidden>

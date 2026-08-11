@@ -168,7 +168,7 @@ const HalalGuide = () => {
           </a>
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[#143328]/80 hover:text-[#143328] transition-colors"
+            className="inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
             Zur Startseite
@@ -213,7 +213,7 @@ const HalalGuide = () => {
                           type="button"
                           key={opt.value}
                           onClick={() => chooseLevel(opt.value)}
-                          className="group text-left rounded-2xl border border-border bg-[hsl(40_30%_97%)] hover:border-[#143328]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 px-4 py-3 md:px-5 md:py-4 transition"
+                          className="group text-left rounded-2xl border border-border bg-[hsl(40_30%_97%)] hover:border-primary/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 px-4 py-3 md:px-5 md:py-4 transition"
                         >
                           <span className="flex items-center justify-between gap-4">
                             <span>
@@ -261,7 +261,7 @@ const HalalGuide = () => {
                 {step === "contact" && (
                   <form onSubmit={handleSubmit} className="max-w-xl mx-auto" noValidate={false}>
                     <p className="text-[15px] text-foreground/80">
-                      <Check className="inline h-4 w-4 text-[#143328] mr-1.5 -translate-y-px" aria-hidden />
+                      <Check className="inline h-4 w-4 text-foreground mr-1.5 -translate-y-px" aria-hidden />
                       {selectedLevel?.title}. Gut, dann schicken wir dir die passende Fassung.
                     </p>
                     <h2 className="headline mt-3 text-xl md:text-2xl text-foreground">
@@ -269,7 +269,7 @@ const HalalGuide = () => {
                     </h2>
                     <div className="mt-4 grid grid-cols-1 sm:grid-cols-[0.8fr_1.2fr] gap-3">
                       <input
-                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-[#143328]/60 focus:ring-2 focus:ring-[#143328]/10 transition"
+                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-[#143328]/10 transition"
                         type="text"
                         name="given-name"
                         autoComplete="given-name"
@@ -280,7 +280,7 @@ const HalalGuide = () => {
                         onChange={(e) => setFirstName(e.target.value)}
                       />
                       <input
-                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-[#143328]/60 focus:ring-2 focus:ring-[#143328]/10 transition"
+                        className="w-full rounded-xl border border-border bg-[hsl(40_30%_97%)] px-4 py-3.5 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-[#143328]/10 transition"
                         type="email"
                         name="email"
                         autoComplete="email"
@@ -325,7 +325,7 @@ const HalalGuide = () => {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="inline-flex items-center justify-center rounded-full bg-[#143328] text-white px-8 py-3.5 text-[15px] font-semibold hover:bg-[#1a4233] transition-colors disabled:opacity-60 disabled:cursor-wait"
+                        className="inline-flex items-center justify-center rounded-full bg-primary text-white px-8 py-3.5 text-[15px] font-semibold hover:bg-primary-hover transition-colors disabled:opacity-60 disabled:cursor-wait"
                       >
                         {submitting ? "Wird gesendet …" : "Guide kostenlos erhalten"}
                       </button>
@@ -357,7 +357,7 @@ const HalalGuide = () => {
 
                 {step === "success" && (
                   <div className="max-w-xl mx-auto">
-                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-[#143328]/10 text-[#143328]">
+                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary/10 text-foreground">
                       <Check className="h-6 w-6" aria-hidden />
                     </span>
                     <h2 className="headline mt-5 text-2xl md:text-3xl text-foreground">
@@ -374,7 +374,7 @@ const HalalGuide = () => {
                       </p>
                       <Link
                         to="/dein-investmentstart"
-                        className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-[#143328] hover:text-[#1a4233] transition-colors"
+                        className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-foreground hover:text-[#1a4233] transition-colors"
                       >
                         Zum Investmentstart <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
@@ -404,14 +404,14 @@ const HalalGuide = () => {
         {/* Inhalte des Guides */}
         <section className="bg-background py-16 md:py-20">
           <div className="container max-w-3xl">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-              <span className="h-px w-6 bg-gold" aria-hidden /> Das lernst du
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-6 bg-primary" aria-hidden /> Das lernst du
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Was im Guide steht</h2>
             <ul className="mt-8 border-t border-border/80">
               {contents.map((c, i) => (
                 <li key={c} className="flex items-start gap-5 border-b border-border/80 py-5">
-                  <span className="headline text-sm text-gold-deep pt-0.5 tabular-nums">
+                  <span className="headline text-sm text-primary pt-0.5 tabular-nums">
                     0{i + 1}
                   </span>
                   <span className="text-[15.5px] md:text-[16px] leading-relaxed text-foreground/90">
@@ -431,7 +431,7 @@ const HalalGuide = () => {
               <ul className="mt-6 space-y-4">
                 {audienceFit.map((t) => (
                   <li key={t} className="flex items-start gap-3 text-[15px] leading-relaxed text-foreground/85">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-[#143328]" aria-hidden />
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-foreground" aria-hidden />
                     {t}
                   </li>
                 ))}
@@ -461,8 +461,8 @@ const HalalGuide = () => {
               loading="lazy"
             />
             <div>
-              <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-                <span className="h-px w-6 bg-gold" aria-hidden /> Wer dahinter steht
+              <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-6 bg-primary" aria-hidden /> Wer dahinter steht
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Von Elias, Gründer von finanzmuslim</h2>
               <p className="mt-5 text-muted-foreground leading-[1.75] text-[15px] md:text-[16px] max-w-prose">
@@ -487,8 +487,8 @@ const HalalGuide = () => {
         {/* FAQ */}
         <section className="bg-background pb-16 md:pb-20">
           <div className="container max-w-3xl">
-            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-              <span className="h-px w-6 bg-gold" aria-hidden /> FAQ
+            <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-6 bg-primary" aria-hidden /> FAQ
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Häufige Fragen</h2>
             <div className="mt-8 border-t border-border/80">
@@ -522,7 +522,7 @@ const HalalGuide = () => {
 
         {/* Abschluss-CTA — führt zum selben Formular */}
         {step !== "success" && (
-          <section className="bg-[#143328] text-white py-16 md:py-20">
+          <section className="bg-primary text-white py-16 md:py-20">
             <div className="container text-center max-w-2xl">
               <h2 className="headline text-white text-3xl md:text-4xl leading-[1.08]">
                 Hol dir den Guide, kostenlos.
@@ -533,7 +533,7 @@ const HalalGuide = () => {
               </p>
               <button
                 onClick={scrollToForm}
-                className="mt-7 inline-flex items-center justify-center rounded-full bg-[hsl(43_60%_95%)] text-[#143328] px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+                className="mt-7 inline-flex items-center justify-center rounded-full bg-[hsl(43_60%_95%)] text-foreground px-8 py-3.5 text-[15px] font-semibold hover:bg-white transition-colors shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
               >
                 Guide kostenlos erhalten
               </button>
@@ -546,7 +546,7 @@ const HalalGuide = () => {
       <footer className="bg-[hsl(40_12%_8%)] text-white/80 py-12">
         <div className="container flex flex-col items-center gap-4 text-center">
           <img src={logoMark} alt="finanzmuslim" className="h-9 w-auto brightness-0 invert opacity-90" />
-          <div className="h-px w-16 bg-gold/60" />
+          <div className="h-px w-16 bg-primary/60" />
           <p className="text-xs text-white/50 tracking-wide">
             © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
           </p>

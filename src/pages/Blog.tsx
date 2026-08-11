@@ -23,7 +23,7 @@ export type BlogArticle = {
 export const ArticleCard = ({ article }: { article: BlogArticle }) => (
   <Link
     to={article.href}
-    className="group block rounded-[1.5rem] overflow-hidden bg-card border border-border/70 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)] hover:-translate-y-1 hover:shadow-[0_25px_60px_-25px_rgba(80,60,20,0.3)] transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2"
+    className="group block rounded-[1.5rem] overflow-hidden bg-card border border-border/70 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)] hover:-translate-y-1 hover:shadow-[0_25px_60px_-25px_rgba(80,60,20,0.3)] transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
   >
     {article.image && (
       <div className="aspect-[16/9] overflow-hidden bg-surface">
@@ -37,7 +37,7 @@ export const ArticleCard = ({ article }: { article: BlogArticle }) => (
     )}
     <div className="p-6 md:p-7">
       <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em]">
-        <span className="text-gold-deep">{article.category}</span>
+        <span className="text-primary">{article.category}</span>
         <span className="text-muted-foreground/60">{article.date}</span>
       </div>
       <h2 className="headline text-xl md:text-[22px] mt-3">{article.title}</h2>
@@ -67,8 +67,8 @@ const Blog = () => (
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-            <span className="h-px w-6 bg-gold" aria-hidden /> Blog
+          <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+            <span className="h-px w-6 bg-primary" aria-hidden /> Blog
           </span>
           <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
             Wissen, das dich weiterbringt.
@@ -94,7 +94,7 @@ const Blog = () => (
             <ul className="mt-4 space-y-3">
               {upcomingTopics.map((topic) => (
                 <li key={topic} className="flex items-start gap-3 text-[15px] text-foreground/80">
-                  <span className="mt-[0.7em] h-px w-5 shrink-0 bg-gold/70" aria-hidden />
+                  <span className="mt-[0.7em] h-px w-5 shrink-0 bg-primary/70" aria-hidden />
                   {topic}
                 </li>
               ))}
@@ -105,7 +105,7 @@ const Blog = () => (
             </p>
             <Link
               to="/halal-guide"
-              className="pill-btn mt-6 bg-[#143328] text-white hover:bg-[#1a4233]"
+              className="pill-btn mt-6 bg-primary text-white hover:bg-primary-hover"
             >
               Guide sichern
             </Link>

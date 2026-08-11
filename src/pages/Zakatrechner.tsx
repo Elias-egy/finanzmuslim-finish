@@ -71,8 +71,8 @@ const Zakatrechner = () => (
       </div>
 
       <section className="container max-w-3xl pt-8 md:pt-10">
-        <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-gold-deep">
-          <span className="h-px w-6 bg-gold" aria-hidden /> Zakat-Rechner
+        <span className="inline-flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.25em] text-primary">
+          <span className="h-px w-6 bg-primary" aria-hidden /> Zakat-Rechner
         </span>
         <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-4">
           Was schuldest du dieses Jahr?

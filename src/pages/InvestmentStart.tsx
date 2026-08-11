@@ -150,7 +150,7 @@ const CtaBlock = ({
         rel="sponsored noopener"
         target="_blank"
         onClick={onCtaClick}
-        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-[hsl(158_42%_15%)] hover:bg-gold hover:text-[hsl(158_42%_12%)] text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-[hsl(158_42%_15%)] hover:bg-primary hover:text-[hsl(158_42%_12%)] text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
       >
         Halal investieren →
       </a>
@@ -159,7 +159,7 @@ const CtaBlock = ({
           href="https://de.scalable.capital/risiko"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2 hover:text-gold transition-colors"
+          className="underline underline-offset-2 hover:text-primary transition-colors"
         >
           Kapitalanlagen bergen Risiken.
         </a>
@@ -176,8 +176,8 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
   <div className="mt-8 text-center">
     <a
       href={to}
-      className={`text-[14px] font-semibold underline underline-offset-4 decoration-gold/60 transition-colors ${
-        light ? "text-white/75 hover:text-gold" : "text-foreground/75 hover:text-primary"
+      className={`text-[14px] font-semibold underline underline-offset-4 decoration-primary/60 transition-colors ${
+        light ? "text-white/75 hover:text-primary" : "text-foreground/75 hover:text-primary"
       }`}
     >
       {children}
@@ -270,12 +270,12 @@ const InvestmentStart = () => {
       </header>
 
       {/* S1 — Hero (dunkel, Look der Landingpage-Premium-Sektionen) */}
-      <section className="relative overflow-hidden bg-[#143328] text-white">
+      <section className="relative overflow-hidden bg-primary text-white">
         <div className="container relative pt-8 pb-8 md:pt-12 md:pb-12">
           <div className="text-center max-w-[820px] mx-auto">
             <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
               In 10 Minuten steht <br className="hidden sm:block" />
-              dein <span className="text-gold">Halal-Depot.</span>
+              dein <span className="text-primary">Halal-Depot.</span>
             </h1>
           </div>
 
@@ -294,7 +294,7 @@ const InvestmentStart = () => {
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-full bg-white/95 text-[hsl(158_42%_15%)] px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-gold transition-colors"
+                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-full bg-white/95 text-[hsl(158_42%_15%)] px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
@@ -339,7 +339,7 @@ const InvestmentStart = () => {
                   key={label}
                   className="flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 rounded-xl bg-white/5 border border-white/10 px-2 py-2.5"
                 >
-                  <Icon className="h-4 w-4 md:h-4 md:w-4 text-gold shrink-0" />
+                  <Icon className="h-4 w-4 md:h-4 md:w-4 text-primary shrink-0" />
                   <span className="text-[12px] md:text-[13px] font-medium text-white/80 leading-tight">
                     {label}
                   </span>
@@ -412,7 +412,7 @@ const InvestmentStart = () => {
             <a
               href="/anleitung-halal-depot.pdf"
               download
-              className="pill-btn bg-transparent text-foreground border border-border hover:border-gold gap-2"
+              className="pill-btn bg-transparent text-foreground border border-border hover:border-primary gap-2"
             >
               <Download className="h-4 w-4" />
               Anleitung als PDF herunterladen
@@ -426,8 +426,8 @@ const InvestmentStart = () => {
       <section className="bg-background py-14 md:py-20">
         <div className="container">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold">
-              <span className="h-px w-6 bg-gold" /> Der Broker <span className="h-px w-6 bg-gold" />
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-6 bg-primary" /> Der Broker <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Warum Scalable Capital? Drei Fakten.</h2>
           </div>
@@ -437,7 +437,7 @@ const InvestmentStart = () => {
                 key={f.title}
                 className="reveal rounded-[1.75rem] bg-card border border-border/70 p-7 md:p-8 text-center shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]"
               >
-                <div className="h-12 w-12 rounded-2xl bg-gold-soft flex items-center justify-center mb-5 mx-auto">
+                <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 mx-auto">
                   <f.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="headline text-lg md:text-xl mb-3">{f.title}</h3>
@@ -450,7 +450,7 @@ const InvestmentStart = () => {
       </section>
 
       {/* S6 — Riba-Checkliste (Ehrlichkeits-Anker, dunkle Premium-Sektion) */}
-      <section className="relative overflow-hidden bg-[#143328] text-white py-14 md:py-20">
+      <section className="relative overflow-hidden bg-primary text-white py-14 md:py-20">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{
@@ -460,11 +460,11 @@ const InvestmentStart = () => {
         />
         <div className="container relative max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Ehrlichkeit zuerst
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Ehrlichkeit zuerst
             </span>
             <h2 className="headline text-white text-3xl md:text-4xl mt-4 leading-[1.1]">
-              2 Einstellungen machen dein Scalable-Depot <span className="text-gold">riba-frei</span>
+              2 Einstellungen machen dein Scalable-Depot <span className="text-primary">riba-frei</span>
             </h2>
           </div>
           <div className="mt-10 space-y-4">
@@ -473,7 +473,7 @@ const InvestmentStart = () => {
                 key={item.nr}
                 className="reveal flex gap-5 rounded-2xl bg-white/5 border border-white/10 p-6 md:p-7"
               >
-                <span className="headline text-2xl text-gold shrink-0">{item.nr}</span>
+                <span className="headline text-2xl text-primary shrink-0">{item.nr}</span>
                 <div>
                   <h3 className="headline text-white text-base md:text-lg">{item.title}</h3>
                   <p className="mt-1.5 text-white/70 leading-relaxed text-[14px] md:text-[15px]">{item.text}</p>
@@ -495,7 +495,7 @@ const InvestmentStart = () => {
           <div className="grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center">
             <div className="reveal relative mx-auto max-w-[240px] md:max-w-none">
               <div
-                className="absolute -inset-5 bg-gradient-to-br from-gold/25 via-gold-soft/40 to-primary/10 rounded-[2.5rem] blur-2xl"
+                className="absolute -inset-5 bg-gradient-to-br from-primary/25 via-primary/10/40 to-primary/10 rounded-[2.5rem] blur-2xl"
                 aria-hidden
               />
               <div className="relative overflow-hidden rounded-[2rem] bg-secondary shadow-[0_30px_70px_-30px_rgba(80,60,20,0.35)] border border-white/60">
@@ -508,8 +508,8 @@ const InvestmentStart = () => {
               </div>
             </div>
             <div className="reveal text-center md:text-left">
-              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold">
-                <span className="h-px w-6 bg-gold" /> Über mich
+              <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+                <span className="h-px w-6 bg-primary" /> Über mich
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Wer führt dich hier durch?</h2>
               <p className="mt-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
@@ -518,10 +518,10 @@ const InvestmentStart = () => {
               </p>
               <div className="mt-5 flex items-center justify-center md:justify-start gap-4 text-[12px] text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-gold" /> Vorträge an Universitäten
+                  <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Vorträge an Universitäten
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Award className="h-3.5 w-3.5 text-gold" /> 10.000+ Community
+                  <Award className="h-3.5 w-3.5 text-primary" /> 10.000+ Community
                 </span>
               </div>
             </div>
@@ -534,8 +534,8 @@ const InvestmentStart = () => {
       <section className="bg-surface border-t border-border/60 py-14 md:py-20">
         <div className="container max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold">
-              <span className="h-px w-6 bg-gold" /> FAQs <span className="h-px w-6 bg-gold" />
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
+              <span className="h-px w-6 bg-primary" /> FAQs <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Kurze Fragen, klare Antworten</h2>
           </div>
@@ -554,7 +554,7 @@ const InvestmentStart = () => {
                   >
                     <span className="headline text-base md:text-lg text-foreground">{f.q}</span>
                     <span
-                      className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-full border border-gold/40 text-primary transition-transform ${
+                      className={`shrink-0 inline-flex items-center justify-center h-9 w-9 rounded-full border border-primary/40 text-primary transition-transform ${
                         isOpen ? "rotate-45" : ""
                       }`}
                     >
@@ -575,7 +575,7 @@ const InvestmentStart = () => {
       </section>
 
       {/* S9 — Abschluss-CTA */}
-      <section className="relative overflow-hidden bg-[#143328] text-white py-16 md:py-24">
+      <section className="relative overflow-hidden bg-primary text-white py-16 md:py-24">
         <div
           className="absolute inset-0 opacity-[0.07] pointer-events-none"
           style={{
@@ -585,11 +585,11 @@ const InvestmentStart = () => {
           aria-hidden
         />
         <div id="los" ref={finalCtaRef} className="container relative max-w-3xl text-center scroll-mt-24">
-          <span className="reveal inline-flex items-center gap-2 rounded-full border border-gold/50 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Bereit?
+          <span className="reveal inline-flex items-center gap-2 rounded-full border border-primary/50 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Bereit?
           </span>
           <h2 className="reveal headline text-white text-3xl md:text-5xl mt-5 leading-[1.05]">
-            Bereit? Dann jetzt, <span className="text-gold">in einem Rutsch.</span>
+            Bereit? Dann jetzt, <span className="text-primary">in einem Rutsch.</span>
           </h2>
           <p className="reveal mt-4 text-white/75 leading-relaxed text-[15px] md:text-base">
             10 Minuten, Schritt für Schritt, und dein Halal-Depot steht.
@@ -599,7 +599,7 @@ const InvestmentStart = () => {
           </div>
           <p className="reveal mt-8 text-[13px] text-white/50 max-w-xl mx-auto">
             Depot eröffnet und erstes Investment gemacht? Antworte auf meine E-Mail mit{" "}
-            <span className="text-gold font-semibold">FERTIG</span>, dann bekommst du sofort den nächsten Guide.
+            <span className="text-primary font-semibold">FERTIG</span>, dann bekommst du sofort den nächsten Guide.
           </p>
         </div>
       </section>
@@ -634,7 +634,7 @@ const InvestmentStart = () => {
           <div className="flex items-center">
             <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
           </div>
-          <div className="h-px w-16 bg-gold/60" />
+          <div className="h-px w-16 bg-primary/60" />
           <p className="text-xs text-white/50 tracking-wide">
             © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
           </p>
@@ -660,7 +660,7 @@ const InvestmentStart = () => {
               href="https://de.scalable.capital/risiko"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-gold transition-colors"
+              className="underline underline-offset-2 hover:text-primary transition-colors"
             >
               Kapitalanlagen bergen Risiken.
             </a>
