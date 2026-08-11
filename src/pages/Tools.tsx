@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Percent, SlidersHorizontal, PieChart } from "lucide-react";
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import Seo from "@/components/Seo";
 import renditerechnerPlate from "@/assets/renditerechner-plate.jpg";
 
@@ -123,7 +122,6 @@ const Tools = () => (
       description="Kostenlose Rechner und Werkzeuge für islamkonformes Investieren: Renditerechner ohne Zinsen, Zakat-Rechner und mehr. Ohne Anmeldung nutzbar."
       path="/tools"
     />
-    <SiteHeader active="/tools" />
     <main>
       <section className="container pt-14 md:pt-20 pb-16 md:pb-24">
         <div className="max-w-2xl">
@@ -157,7 +155,6 @@ const Tools = () => (
         </p>
       </section>
     </main>
-    <SiteFooter />
   </div>
 );
 

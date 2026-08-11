@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { ArrowLeft, ArrowRight, Check, HelpCircle, Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Wordmark } from "@/components/Wordmark";
 import guideTrio from "@/assets/guide-trio.webp";
 import eliasPortrait from "@/assets/story-elias-paneele.jpg";
 
@@ -155,21 +154,6 @@ const HalalGuide = () => {
         path="/halal-guide"
       />
 
-      {/* Reduzierter Header: Logo + dezenter Rückweg, keine volle Navigation */}
-      <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60">
-        <div className="container flex items-center justify-between h-[64px] md:h-[68px]">
-          <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim – zur Startseite">
-            <Wordmark className="text-xl md:text-2xl" />
-          </a>
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground/80 hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden />
-            Zur Startseite
-          </Link>
-        </div>
-      </header>
 
       <main className="flex-1">
         {/* Above the fold — gestraffte Sequenz: Titel → Cover → Fragen → E-Mail → Microcopy.
@@ -537,24 +521,6 @@ const HalalGuide = () => {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-foreground text-white/80 py-12">
-        <div className="container flex flex-col items-center gap-4 text-center">
-          <Wordmark inverted className="text-lg" />
-          <div className="h-px w-16 bg-primary/60" />
-          <p className="text-xs text-white/50 tracking-wide">
-            © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
-          </p>
-          <div className="flex gap-6 text-xs text-white/50">
-            <Link to="/impressum" className="hover:text-white/80 transition-colors">
-              Impressum
-            </Link>
-            <Link to="/datenschutz" className="hover:text-white/80 transition-colors">
-              Datenschutz
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
