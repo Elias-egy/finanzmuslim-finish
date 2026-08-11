@@ -81,7 +81,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
       <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
         <span
           className={`text-[11px] font-semibold tracking-wide ${
-            hasImage ? "text-white" : "text-primary"
+            hasImage ? "text-white" : isLive ? "text-primary" : "text-muted-foreground"
           }`}
         >
           {isLive ? "Live" : tool.status}
