@@ -1,5 +1,4 @@
 import Seo from "@/components/Seo";
-import { Wordmark } from "@/components/Wordmark";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background text-foreground">
@@ -8,13 +7,6 @@ const Datenschutz = () => (
       description="Datenschutzerklärung von finanzmuslim, Informationen zur Verarbeitung personenbezogener Daten."
       path="/datenschutz"
     />
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <div className="container mx-auto px-4 h-16 flex items-center">
-        <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim">
-          <Wordmark className="text-xl md:text-2xl" />
-        </a>
-      </div>
-    </header>
 
     <main className="container mx-auto px-4 py-16 max-w-3xl">
       <h1 className="text-3xl md:text-4xl font-bold mb-10">Datenschutzerklärung</h1>

@@ -14,7 +14,6 @@ import {
   TrendingUp,
   Volume2,
 } from "lucide-react";
-import { Wordmark } from "@/components/Wordmark";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -255,14 +254,6 @@ const InvestmentStart = () => {
         noindex
       />
 
-      {/* S0 — Header: nur Bildmarke, keine Navigation (Attention Ratio 1:1) */}
-      <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.08)]">
-        <div className="container flex items-center h-[64px] md:h-[68px]">
-          <span className="flex items-center" aria-label="finanzmuslim">
-            <Wordmark className="text-xl md:text-2xl" />
-          </span>
-        </div>
-      </header>
 
       {/* S1 — Hero (dunkel, Look der Landingpage-Premium-Sektionen) */}
       <section className="relative overflow-hidden bg-primary text-white">
@@ -623,29 +614,6 @@ const InvestmentStart = () => {
         </div>
       </section>
 
-      {/* Footer (kanonisch wie Startseite) */}
-      <footer className="bg-foreground text-white/80 py-14">
-        <div className="container flex flex-col items-center gap-4 text-center">
-          <div className="flex items-center">
-            <Wordmark inverted className="text-lg" />
-          </div>
-          <div className="h-px w-16 bg-primary/60" />
-          <p className="text-xs text-white/50 tracking-wide">
-            © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
-          </p>
-          <div className="flex gap-6 text-xs text-white/50">
-            <Link to="/impressum" className="hover:text-white/80 transition-colors">
-              Impressum
-            </Link>
-            <Link to="/datenschutz" className="hover:text-white/80 transition-colors">
-              Datenschutz
-            </Link>
-            <Link to="/wie-ich-geld-verdiene" className="hover:text-white/80 transition-colors">
-              Wie ich Geld verdiene
-            </Link>
-          </div>
-        </div>
-      </footer>
 
       {/* Sticky Mobile-CTA */}
       {showSticky && (
