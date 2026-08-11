@@ -5,6 +5,7 @@ import { captureSrc } from "@/lib/attribution";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Layout from "@/components/site/Layout";
 import Index from "./pages/Index.tsx";
 import InvestmentStart from "./pages/InvestmentStart.tsx";
 import HalalGuide from "./pages/HalalGuide.tsx";
@@ -51,6 +52,7 @@ const App = () => (
       <BrowserRouter>
         <SrcCapture />
         <ScrollToTop />
+        <Layout>
         <Suspense fallback={routeFallback}>
           <Routes>
             {/* Öffentlich zugängliche Seiten (Launch: 23.7.26) */}
@@ -69,6 +71,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        </Layout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
