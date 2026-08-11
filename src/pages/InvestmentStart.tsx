@@ -14,7 +14,7 @@ import {
   TrendingUp,
   Volume2,
 } from "lucide-react";
-import logoMark from "@/assets/logo-mark.png";
+import { Wordmark } from "@/components/Wordmark";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -259,12 +259,7 @@ const InvestmentStart = () => {
       <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.08)]">
         <div className="container flex items-center h-[64px] md:h-[68px]">
           <span className="flex items-center" aria-label="finanzmuslim">
-            <img
-              src={logoMark}
-              alt="finanzmuslim"
-              className="h-7 md:h-8 w-auto object-contain select-none"
-              draggable={false}
-            />
+            <Wordmark className="text-xl md:text-2xl" />
           </span>
         </div>
       </header>
@@ -632,7 +627,7 @@ const InvestmentStart = () => {
       <footer className="bg-foreground text-white/80 py-14">
         <div className="container flex flex-col items-center gap-4 text-center">
           <div className="flex items-center">
-            <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
+            <Wordmark inverted className="text-lg" />
           </div>
           <div className="h-px w-16 bg-primary/60" />
           <p className="text-xs text-white/50 tracking-wide">

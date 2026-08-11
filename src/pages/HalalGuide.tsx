@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { ArrowLeft, ArrowRight, Check, HelpCircle, Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import logoMark from "@/assets/logo-mark.png";
+import { Wordmark } from "@/components/Wordmark";
 import guideTrio from "@/assets/guide-trio.webp";
 import eliasPortrait from "@/assets/story-elias-paneele.jpg";
 
@@ -159,12 +159,7 @@ const HalalGuide = () => {
       <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60">
         <div className="container flex items-center justify-between h-[64px] md:h-[68px]">
           <a href="/" className="flex items-center gap-2" aria-label="finanzmuslim – zur Startseite">
-            <img
-              src={logoMark}
-              alt="finanzmuslim"
-              className="h-7 md:h-8 w-auto object-contain select-none"
-              draggable={false}
-            />
+            <Wordmark className="text-xl md:text-2xl" />
           </a>
           <Link
             to="/"
@@ -545,7 +540,7 @@ const HalalGuide = () => {
       {/* Footer */}
       <footer className="bg-foreground text-white/80 py-12">
         <div className="container flex flex-col items-center gap-4 text-center">
-          <img src={logoMark} alt="finanzmuslim" className="h-9 w-auto brightness-0 invert opacity-90" />
+          <Wordmark inverted className="text-lg" />
           <div className="h-px w-16 bg-primary/60" />
           <p className="text-xs text-white/50 tracking-wide">
             © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.

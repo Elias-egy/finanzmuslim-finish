@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logoMark from "@/assets/logo-mark.png";
+import { Wordmark } from "@/components/Wordmark";
 
 /**
  * Leichte Kopf-/Fusszeile fuer Unterseiten (/tools, /renditerechner, /blog).
@@ -16,12 +16,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
   <header className="sticky top-0 z-50 bg-nav/95 backdrop-blur-md border-b border-border/60 shadow-[0_4px_20px_-12px_rgba(0,0,0,0.08)]">
     <div className="container flex items-center h-[64px] md:h-[68px]">
       <Link to="/" className="flex items-center gap-2" aria-label="finanzmuslim – zur Startseite">
-        <img
-          src={logoMark}
-          alt="finanzmuslim"
-          className="h-7 md:h-8 w-auto object-contain select-none"
-          draggable={false}
-        />
+        <Wordmark className="text-xl md:text-2xl" />
       </Link>
       <nav className="flex items-center gap-6 md:gap-8 ml-auto mr-4 md:mr-8 font-[family-name:'Source_Sans_3',system-ui,sans-serif]" aria-label="Hauptnavigation">
         {navLinks.map((l) => (
@@ -50,7 +45,7 @@ export const SiteHeader = ({ active }: { active?: string }) => (
 export const SiteFooter = () => (
   <footer className="bg-foreground text-white/80 py-14">
     <div className="container flex flex-col items-center gap-4 text-center">
-      <img src={logoMark} alt="finanzmuslim" className="h-10 w-auto brightness-0 invert opacity-90" />
+      <Wordmark inverted className="text-lg" />
       <div className="h-px w-16 bg-primary/60" />
       <p className="text-xs text-white/50 tracking-wide">
         © {new Date().getFullYear()} finanzmuslim. Alle Rechte vorbehalten.
