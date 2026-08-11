@@ -81,21 +81,21 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
       <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
         <span
           className={`text-[11px] font-semibold tracking-wide ${
-            isLive ? "text-primary" : "text-foreground/60"
+            hasImage ? "text-white" : "text-primary"
           }`}
         >
           {isLive ? "Live" : tool.status}
         </span>
-        <h2 className={`headline text-2xl md:text-[26px] mt-1.5 ${isLive ? "text-white" : "text-foreground"}`}>
+        <h2 className={`headline text-2xl md:text-[26px] mt-1.5 ${hasImage ? "text-white" : "text-foreground"}`}>
           {tool.title}
           {isLive && (
             <ArrowRight
-              className="ml-3 inline-block h-[0.62em] w-[0.62em] -translate-y-px text-white/80 transition-transform motion-safe:group-hover:translate-x-1"
+              className="ml-3 inline-block h-[0.62em] w-[0.62em] -translate-y-px text-current/80 transition-transform motion-safe:group-hover:translate-x-1"
               aria-hidden
             />
           )}
         </h2>
-        <p className={`mt-2 text-[15px] leading-relaxed max-w-md ${isLive ? "text-white/75" : "text-muted-foreground"}`}>
+        <p className={`mt-2 text-[15px] leading-relaxed max-w-md ${hasImage ? "text-white/75" : "text-muted-foreground"}`}>
           {tool.text}
         </p>
       </div>
