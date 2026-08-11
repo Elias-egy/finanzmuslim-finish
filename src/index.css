@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm cream background — spuerbar cremiger, nicht mehr fast-weiss */
+    --background: 38 44% 94%;
+    --foreground: 220 22% 14%;
+
+    --card: 36 48% 97%;
+    --card-foreground: 220 22% 14%;
+
+    --popover: 36 48% 97%;
+    --popover-foreground: 220 22% 14%;
+
+    /* Approachable warm green */
+    --primary: 158 42% 22%;
+    --primary-foreground: 38 40% 97%;
+    --primary-glow: 158 38% 30%;
+
+    /* Warm gold accent */
+    --gold: 38 70% 58%;
+    --gold-soft: 40 75% 90%;
+    /* Dunkleres Text-Gold fuer helle Flaechen (WCAG: #e8af3c auf Cream faellt unter 3:1) */
+    --gold-deep: 38 62% 34%;
+
+    --secondary: 36 40% 89%;
+    --secondary-foreground: 220 22% 14%;
+
+    --muted: 36 32% 87%;
+    --muted-foreground: 220 10% 38%;
+
+    --accent: 38 70% 58%;
+    --accent-foreground: 220 22% 14%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 26% 83%;
+    --input: 36 26% 83%;
+    --ring: 158 42% 22%;
+
+    --nav: 38 44% 95%;
+    --nav-foreground: 220 14% 24%;
+    /* Deutlicher warmer Creme fuer Wechselsektionen — klar gegen background */
+    --surface: 36 46% 89%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Schibsted Grotesk', 'Source Sans 3', sans-serif;
+    letter-spacing: -0.02em;
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--gold));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .headline {
+    @apply font-bold tracking-tight text-foreground;
+    font-family: 'Schibsted Grotesk', sans-serif;
+    letter-spacing: -0.022em;
+  }
+  .pill-btn {
+    @apply inline-flex items-center justify-center rounded-full px-8 py-4 font-semibold tracking-normal text-sm md:text-base transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  /* Sanftes Einblenden. Sicherheitsnetz: nach spaetestens 1.2s immer sichtbar,
+     damit Anker-Spruenge/Schnell-Scrolls nie unsichtbare Inhalte hinterlassen. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    animation: reveal-fallback 0s 1.2s forwards;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: none;
+  }
+  @keyframes reveal-fallback {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Gründer-Karussell: einmaliger Licht-Sweep über die aktive Karte.
+     Bewusst KEIN Loop — läuft nur beim Aktivwerden (gemounteter Overlay-Div)
+     und beim Hover-Eintritt (CSS-Regel unten). */
+  .card-shine {
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: 0;
+    width: 38%;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      hsl(43 80% 78% / 0.14) 40%,
+      hsl(43 90% 88% / 0.32) 50%,
+      hsl(43 80% 78% / 0.14) 60%,
+      transparent 100%
+    );
+    transform: translateX(-140%) skewX(-16deg);
+  }
+  .card-shine-enter {
+    animation: card-shine 1.15s 0.25s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  }
+  .founder-card:hover .card-shine-hover {
+    animation: card-shine 1.15s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  }
+  @keyframes card-shine {
+    to {
+      transform: translateX(420%) skewX(-16deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.2s ease;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

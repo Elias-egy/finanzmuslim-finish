@@ -1,0 +1,16 @@
+# Amanah
+
+> Bildung für Islam-konformes (halal) Investieren. Kostenloser Halal Investment Guide, Rechner und Tools für Muslime, die halal in Aktien, ETFs, Sukuk und Sachwerte investieren wollen.
+
+Amanah wird von Elias El-Gendy in Hamburg betrieben. Fokus: verständliche, wortwörtlich islam-konforme Anleitungen ohne Beratung — Bildung, Kriterien-Checks und Werkzeuge.
+
+## Pages
+
+- [Startseite](/): Überblick über Amanah, Halal Investment Guide und Community.
+- [Halal Investment Guide](/halal-guide): Kostenloser PDF-Guide für halal Investieren — Prinzipien, Anlageklassen, Riba/Gharar-Prüfung.
+- [Tools](/tools): Rechner und Werkzeuge rund um halal Investieren.
+- [Zakat-Rechner](/zakat-rechner): Zakat auf Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto berechnen, mit Nisab nach Gold oder Silber.
+- [Renditerechner](/renditerechner): Portfolio-Rechner mit Aktien, Sukuk, Gold, Silber und Custom-Allokation.
+- [Blog](/blog): Artikel zu Themen rund um halal Investieren.
+- [Impressum](/impressum): Rechtliche Angaben.
+- [Datenschutz](/datenschutz): Datenschutzerklärung.
