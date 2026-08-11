@@ -305,7 +305,7 @@ const InvestmentStart = () => {
                 <div
                   className="absolute inset-0 opacity-40"
                   style={{
-                    backgroundImage: "linear-gradient(135deg, hsl(160 30% 10%) 0%, hsl(160 25% 14%) 100%)",
+                    backgroundImage: "linear-gradient(135deg, hsl(222 30% 10%) 0%, hsl(222 26% 16%) 100%)",
                   }}
                   aria-hidden
                 />
@@ -580,7 +580,7 @@ const InvestmentStart = () => {
           className="absolute inset-0 opacity-[0.07] pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 30% 20%, hsl(40 70% 70%) 0, transparent 40%), radial-gradient(circle at 75% 85%, hsl(158 50% 60%) 0, transparent 45%)",
+              "radial-gradient(circle at 30% 20%, hsl(var(--primary)) 0, transparent 40%), radial-gradient(circle at 75% 85%, hsl(var(--primary-glow)) 0, transparent 45%)",
           }}
           aria-hidden
         />

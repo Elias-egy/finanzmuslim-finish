@@ -70,7 +70,7 @@ const ToolTile = ({ tool }: { tool: (typeof tools)[number] }) => {
           aria-hidden
           style={{
             background:
-              "repeating-linear-gradient(135deg, hsl(38 32% 85%) 0px, hsl(38 32% 85%) 1px, transparent 1px, transparent 14px), linear-gradient(160deg, hsl(40 40% 90%) 0%, hsl(38 34% 82%) 100%)",
+              "repeating-linear-gradient(135deg, hsl(var(--border)) 0px, hsl(var(--border)) 1px, transparent 1px, transparent 14px), linear-gradient(160deg, hsl(var(--surface)) 0%, hsl(var(--muted)) 100%)",
           }}
         >
           {"icon" in tool && tool.icon && (
