@@ -160,17 +160,17 @@ const Index = () => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[72px] items-center gap-3 card-surface p-4 transition-colors hover:border-primary"
+              className="group relative flex min-h-[72px] items-center gap-3 card-surface p-4 pt-7 transition-colors hover:border-primary sm:pt-4"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <Icon className="h-4 w-4 text-primary" aria-hidden />
               </span>
-              <span className="flex-1 pr-4 text-[15px] font-medium text-foreground">{label}</span>
+              <span className="min-w-0 flex-1 text-[15px] font-medium text-foreground">{label}</span>
               <ArrowRight
                 className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
                 aria-hidden
               />
-              {!to && <span className="badge-soon absolute right-2 top-2">bald</span>}
+              {!to && <span className="badge-soon absolute left-4 top-2 sm:left-auto sm:right-2">bald</span>}
             </Link>
           ))}
         </div>
