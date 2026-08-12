@@ -84,6 +84,7 @@ export const navGroups: NavGroup[] = [
       {
         title: "Investieren",
         items: [
+          { label: "Alle Vergleiche", to: "/vergleiche" },
           { label: "Depot-Vergleich", to: "/vergleich/depot" },
           { label: "Kinderdepot" },
           { label: "Halal-Screening-Apps" },

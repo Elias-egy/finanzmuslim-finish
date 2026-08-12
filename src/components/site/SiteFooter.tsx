@@ -33,7 +33,7 @@ const wissen: NavEntry[] = [
 
 const werkzeuge: NavEntry[] = [
   { label: "Rechner", to: "/tools" },
-  { label: "Vergleiche" },
+  { label: "Vergleiche", to: "/vergleiche" },
   { label: "Halal Investment Guide", to: "/halal-guide" },
 ];
 

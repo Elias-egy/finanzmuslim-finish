@@ -21,6 +21,8 @@ const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
 const Blog = lazy(() => import("./pages/Blog.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
+const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
+const Out = lazy(() => import("./pages/Out.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -72,6 +74,8 @@ const App = () => (
             <Route path="/wie-ich-geld-verdiene" element={<WieIchGeldVerdiene />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
+            <Route path="/vergleiche" element={<Vergleiche />} />
+            <Route path="/out/:kurzname" element={<Out />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
