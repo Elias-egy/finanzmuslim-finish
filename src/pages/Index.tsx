@@ -160,8 +160,8 @@ const Index = () => (
 
     {/* 3 — Guide */}
     <section>
-      <div className="container pb-16 md:pb-24">
-        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-10 lg:grid-cols-2 lg:items-center">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
+        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-12 lg:p-16 lg:grid-cols-2 lg:items-center">
           <img
             src={guideTrio}
             alt="Halal Investment Guide in drei Fassungen"
@@ -191,8 +191,8 @@ const Index = () => (
 
     {/* 4 — Newsletter */}
     <section>
-      <div className="container pb-16 md:pb-24">
-        <div className="card-surface p-6 md:p-10">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
+        <div className="card-surface p-6 md:p-12 lg:p-16">
           <NewsletterBox />
         </div>
       </div>
@@ -200,12 +200,12 @@ const Index = () => (
 
     {/* 5 — Halal-Check */}
     <section>
-      <div className="container pb-16 md:pb-24">
-        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-10 lg:grid-cols-2 lg:items-center">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
+        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-12 lg:p-16 lg:grid-cols-2 lg:items-center">
           <div>
             <span className="badge-note">In Arbeit</span>
             <h2 className="mt-4 text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
-              Ist deine Aktie halal?
+              Finde halal Anlagen
             </h2>
             <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-muted-foreground">
               Hier entsteht eine Datenbank, mit der du Aktien und ETFs auf ihre Islamkonformität prüfen
@@ -233,7 +233,7 @@ const Index = () => (
 
     {/* 6 — Rechner */}
     <section>
-      <div className="container pb-16 md:pb-24">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
         <h2 className="text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Rechnen, prüfen, planen
         </h2>
@@ -263,7 +263,7 @@ const Index = () => (
 
     {/* 7 — Wissen */}
     <section>
-      <div className="container pb-16 md:pb-24">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
         <h2 className="text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Finanzwissen, das dich weiterbringt
         </h2>
@@ -302,7 +302,7 @@ const Index = () => (
 
     {/* 8 — Kanäle */}
     <section>
-      <div className="container pb-16 md:pb-24">
+      <div className="container pb-10 md:pb-16 pt-10 md:pt-14">
         <h2 className="text-center text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Folge mir
         </h2>
