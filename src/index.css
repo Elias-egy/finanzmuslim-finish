@@ -96,7 +96,26 @@
   }
   /* Weisse Karte auf grauer Grundflaeche: feiner Rahmen, 12px Radius, kein Schatten. */
   .card-surface {
-    @apply rounded-xl border border-border bg-card;
+    @apply rounded-2xl border border-border bg-card;
+  }
+  /* Abschnittskarte der Startseite: 64px Innenabstand oben/unten, Inhalt auf 1200px zentriert. */
+  .section-card {
+    @apply rounded-2xl border border-border bg-card px-6 py-12 md:px-10 md:py-16;
+  }
+  .section-inner {
+    @apply mx-auto w-full max-w-[1200px];
+  }
+  /* Kleine Themenzeile ueber einer Abschnittsueberschrift. */
+  .eyebrow {
+    @apply text-[13px] font-semibold uppercase tracking-[0.12em] text-primary;
+  }
+  /* Standardknopf: 48px hoch, 6px Radius, 18px Schrift. */
+  .btn-primary {
+    @apply inline-flex h-12 items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover;
+  }
+  /* Platzhalter fuer noch fehlende Bilder: blasse Primaertoenung, 16px Radius. */
+  .image-placeholder {
+    @apply flex items-center justify-center rounded-2xl bg-hero p-6 text-center text-[15px] text-muted-foreground;
   }
   /* Hinweis-Etiketten (Neu, Anzeige, Kostenlos, In Arbeit): dunkle Flaeche, weisse Schrift. */
   .badge-note {
