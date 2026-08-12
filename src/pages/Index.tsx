@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
-import heroElias from "@/assets/hero-elias-wide.jpg";
+import eliasCutout from "@/assets/elias-freigestellt.png.asset.json";
 import guideTrio from "@/assets/guide-trio.webp";
 import blogPlate from "@/assets/blog-plate.webp";
 import toolsPlate from "@/assets/tools-plate.webp";
