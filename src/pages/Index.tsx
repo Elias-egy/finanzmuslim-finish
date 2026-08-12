@@ -167,7 +167,7 @@ const Index = () => (
               </span>
               <span className="min-w-0 flex-1 text-[15px] font-medium text-foreground">{label}</span>
               <ArrowRight
-                className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                className="hidden h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary sm:block"
                 aria-hidden
               />
               {!to && <span className="badge-soon absolute left-4 top-2 sm:left-auto sm:right-2">bald</span>}
