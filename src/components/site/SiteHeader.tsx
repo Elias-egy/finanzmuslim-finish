@@ -8,9 +8,7 @@ import { cn } from "@/lib/utils";
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
     {label}
-    <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-      bald
-    </span>
+    <span className="badge-soon">bald</span>
   </span>
 );
 
@@ -76,9 +74,7 @@ export const SiteHeader = () => {
             ))}
             <span className="flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-muted-foreground/60 cursor-default">
               Halal-Check
-              <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-                bald
-              </span>
+              <span className="badge-soon">bald</span>
             </span>
           </nav>
 
@@ -192,9 +188,7 @@ export const SiteHeader = () => {
 
               <div className="flex min-h-[44px] items-center gap-2 border-b border-border text-[16px] font-semibold text-muted-foreground/60">
                 Halal-Check
-                <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-                  bald
-                </span>
+                <span className="badge-soon">bald</span>
               </div>
 
               <Link
