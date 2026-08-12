@@ -96,49 +96,49 @@ const Index = () => (
       path="/"
     />
 
-    {/* 1 — Hero: eigene, sehr blasse Primaerflaeche ueber volle Breite */}
-    <section className="hero-surface">
-      <div className="container py-16 md:py-24">
-        <div className="grid gap-10 md:gap-14 lg:grid-cols-2 lg:items-center">
-          <div>
-            <h1 className="text-[34px] sm:text-[44px] lg:text-[52px] font-bold leading-[1.1] tracking-tight text-foreground">
-              Investiere, ohne deinen
-              <br className="hidden sm:block" /> Glauben zu riskieren
-            </h1>
-            <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted-foreground">
-              Lerne, wie du dein Geld islamkonform anlegst, Riba erkennst und die richtigen Anbieter
-              findest. Verständlich erklärt, ohne Fachchinesisch.
-            </p>
-          </div>
+    {/* 1 — Hero-Platte mit ueberlappenden Kategorie-Kacheln */}
+    <section>
+      <div className="container pt-10 md:pt-12">
+        {/* Eingelegte Platte: blasse Primaertoenung, grosszuegig gerundet */}
+        <div className="relative rounded-[2rem] bg-hero px-6 pb-24 pt-8 md:px-12 md:pb-28 md:pt-10">
+          <div className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="pb-4 md:pb-8">
+              <h1 className="text-[28px] font-bold leading-[1.1] tracking-tight text-foreground sm:text-[34px] lg:text-[42px]">
+                Investiere, ohne deinen
+                <br className="hidden sm:block" /> Glauben zu riskieren
+              </h1>
+              <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+                Lerne, wie du dein Geld islamkonform anlegst, Riba erkennst und die richtigen Anbieter
+                findest. Verständlich erklärt, ohne Fachchinesisch.
+              </p>
+            </div>
 
-          <div className="relative">
-            <img
-              src={heroElias}
-              alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="w-full rounded-xl object-cover aspect-[4/3]"
-              loading="eager"
-            />
-            <div className="absolute bottom-4 right-4 rounded-lg border border-border bg-card px-4 py-3">
-              <p className="text-[15px] font-semibold text-foreground">Elias El-Gendy</p>
-              <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
+            {/* Freigestelltes Foto: steht auf der Platte, ragt oben darueber hinaus */}
+            <div className="relative -mt-16 hidden justify-end md:flex lg:-mt-24">
+              <img
+                src={eliasCutout.url}
+                alt="Elias El-Gendy, Gründer von finanzmuslim"
+                className="h-[300px] w-auto object-contain object-bottom lg:h-[360px]"
+                loading="eager"
+              />
+              <div className="absolute bottom-6 right-0 rounded-lg border border-border bg-card px-4 py-3">
+                <p className="text-[15px] font-semibold text-foreground">Elias El-Gendy</p>
+                <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    {/* 2 — Kategorien */}
-    <section>
-      <div className="container py-16 md:py-24">
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {/* Kacheln ueberlappen die Unterkante der Platte */}
+        <div className="relative z-10 -mt-16 grid grid-cols-2 gap-3 md:-mt-20 lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[88px] items-center gap-3 card-surface p-4 transition-colors hover:border-primary"
+              className="group relative flex min-h-[72px] items-center gap-3 card-surface p-4 transition-colors hover:border-primary"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <Icon className="h-5 w-5 text-primary" aria-hidden />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <Icon className="h-4.5 w-4.5 text-primary" aria-hidden />
               </span>
               <span className="flex-1 pr-4 text-[15px] font-medium text-foreground">{label}</span>
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden />
@@ -147,10 +147,10 @@ const Index = () => (
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-6 flex justify-center">
           <Link
-            to="/tools"
-            className="inline-flex min-h-[44px] items-center rounded-lg border border-border px-6 text-[15px] font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+            to="/vergleiche"
+            className="inline-flex min-h-[44px] items-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
           >
             Zu allen Vergleichen
           </Link>
