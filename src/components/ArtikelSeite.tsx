@@ -57,7 +57,7 @@ const ArtikelSeite = ({ title, aktualisiert, kuerze, abschnitte, passendDazu, hi
           ) : null}
         </p>
 
-        <section className="mt-8 rounded-lg bg-secondary p-6">
+        <section className="card-surface mt-8 p-6">
           <h2 className="text-[17px] font-bold text-foreground">Das Wichtigste in Kürze</h2>
           <ul className="mt-3 space-y-2">
             {kuerze.map((punkt) => (
@@ -69,7 +69,7 @@ const ArtikelSeite = ({ title, aktualisiert, kuerze, abschnitte, passendDazu, hi
           </ul>
         </section>
 
-        <nav aria-label="Inhaltsverzeichnis" className="mt-8 rounded-lg border border-border p-5">
+        <nav aria-label="Inhaltsverzeichnis" className="card-surface mt-8 p-5">
           <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">Inhalt</h2>
           <ol className="mt-3 space-y-2">
             {abschnitte.map((a, i) => (
@@ -95,7 +95,7 @@ const ArtikelSeite = ({ title, aktualisiert, kuerze, abschnitte, passendDazu, hi
           <NewsletterBox />
         </section>
 
-        <section className="mt-12 rounded-lg bg-secondary p-6 md:p-8">
+        <section className="card-surface mt-12 p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Passend dazu</h2>
           <ul className="mt-4 space-y-3 text-[15px]">
             {passendDazu.map((p) => (

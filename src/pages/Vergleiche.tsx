@@ -73,7 +73,7 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
     return (
       <Link
         to={to}
-        className="flex min-h-[88px] items-start gap-3 rounded-lg border border-border bg-background p-4 transition-colors hover:border-primary"
+        className="flex min-h-[88px] items-start gap-3 card-surface p-4 transition-colors hover:border-primary"
       >
         {inhalt}
       </Link>
@@ -83,11 +83,9 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[88px] items-start gap-3 rounded-lg border border-border bg-secondary p-4 opacity-70"
+      className="relative flex min-h-[88px] items-start gap-3 rounded-xl border border-border bg-muted p-4 opacity-70"
     >
-      <span className="absolute right-2 top-2 rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
-        bald
-      </span>
+      <span className="badge-soon absolute right-2 top-2">bald</span>
       {inhalt}
     </div>
   );
@@ -132,7 +130,7 @@ const Vergleiche = () => (
         ))}
       </div>
 
-      <section className="mt-14 rounded-lg bg-secondary p-6 md:p-8">
+      <section className="card-surface mt-14 p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Wie wir bewerten</h2>
         <ul className="mt-4 space-y-3">
           {bewertung.map((punkt) => (

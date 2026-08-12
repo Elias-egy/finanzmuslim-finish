@@ -46,17 +46,17 @@ const RechnerSeite = ({ name, title, intro, children, erklaerung, weitereRechner
       {/* Spaeter: gekennzeichneter Werbeplatz. Aktuell unsichtbar. */}
       <AdSlot id="rechner-top" />
 
-      <section className="mt-8 overflow-hidden rounded-lg border border-border bg-background">
+      <section className="card-surface mt-8 overflow-hidden">
         {children}
       </section>
 
-      <section className="mt-12">
+      <section className="card-surface mt-12 p-6 md:p-10">
         <NewsletterBox />
       </section>
 
       <section className="prose-none mt-14 max-w-3xl space-y-10">{erklaerung}</section>
 
-      <section className="mt-14 rounded-lg bg-secondary p-6 md:p-8">
+      <section className="card-surface mt-14 p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Weitere Rechner</h2>
         <ul className="mt-4 space-y-3 text-[15px]">
           {weitereRechner.map((r) => (

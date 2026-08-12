@@ -6,9 +6,7 @@ import type { NavEntry } from "@/components/site/navData";
 const Soon = ({ label }: { label: string }) => (
   <span className="flex min-h-[36px] items-center gap-2 text-[14px] text-muted-foreground/60">
     {label}
-    <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-      bald
-    </span>
+    <span className="badge-soon">bald</span>
   </span>
 );
 
@@ -33,7 +31,7 @@ const wissen: NavEntry[] = [
 ];
 
 const werkzeuge: NavEntry[] = [
-  { label: "Rechner", to: "/tools" },
+  { label: "Rechner", to: "/rechner" },
   { label: "Vergleiche", to: "/vergleiche" },
   { label: "Halal Investment Guide", to: "/halal-guide" },
 ];
@@ -59,7 +57,7 @@ const Column = ({ title, items }: { title: string; items: NavEntry[] }) => (
 );
 
 export const SiteFooter = () => (
-  <footer className="bg-secondary border-t border-border">
+  <footer className="bg-card border-t border-border">
     <div className="container py-14">
       <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
