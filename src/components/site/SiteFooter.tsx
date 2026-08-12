@@ -39,6 +39,7 @@ const werkzeuge: NavEntry[] = [
 const ueber: NavEntry[] = [
   { label: "Über mich" },
   { label: "So verdiene ich Geld", to: "/wie-ich-geld-verdiene" },
+  { label: "Deals", to: "/deals" },
   { label: "Impressum", to: "/impressum" },
   { label: "Datenschutz", to: "/datenschutz" },
 ];
