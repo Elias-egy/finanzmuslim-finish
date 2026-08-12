@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
-import eliasCutout from "@/assets/elias-freigestellt.png.asset.json";
+import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideTrio from "@/assets/guide-trio.webp";
 import blogPlate from "@/assets/blog-plate.webp";
 import toolsPlate from "@/assets/tools-plate.webp";
@@ -116,7 +116,7 @@ const Index = () => (
             {/* Freigestelltes Foto: steht auf der Platte, ragt oben darueber hinaus */}
             <div className="relative -mt-16 hidden justify-end md:flex lg:-mt-24">
               <img
-                src={eliasCutout.url}
+                src={eliasCutout}
                 alt="Elias El-Gendy, Gründer von finanzmuslim"
                 className="h-[300px] w-auto object-contain object-bottom lg:h-[360px]"
                 loading="eager"
