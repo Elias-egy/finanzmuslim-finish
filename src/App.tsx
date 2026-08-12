@@ -22,6 +22,8 @@ const Blog = lazy(() => import("./pages/Blog.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
+const Wissen = lazy(() => import("./pages/Wissen.tsx"));
+const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
 
 const queryClient = new QueryClient();
@@ -75,6 +77,8 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
+            <Route path="/wissen" element={<Wissen />} />
+            <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
             <Route path="/out/:kurzname" element={<Out />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
