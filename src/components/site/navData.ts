@@ -10,7 +10,8 @@ export const navGroups: NavGroup[] = [
       {
         title: "Grundlagen",
         items: [
-          { label: "Was ist Riba" },
+          { label: "Alle Themen", to: "/wissen" },
+          { label: "Was ist Riba", to: "/wissen/was-ist-riba" },
           { label: "Was ist Gharar" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },
           { label: "Häufige Fehler" },
