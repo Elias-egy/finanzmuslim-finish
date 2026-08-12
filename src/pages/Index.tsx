@@ -56,6 +56,24 @@ const calculators = [
 ];
 
 /** Nur echte, existierende Inhalte aus dem Wissensbereich. */
+const plannedCalculators = [
+  {
+    title: "Sparplan-Rechner",
+    desc: "Was aus einer monatlichen Rate über die Jahre werden kann.",
+    icon: Wallet,
+  },
+  {
+    title: "Kinderdepot-Rechner",
+    desc: "Vermögensaufbau für deine Kinder durchrechnen.",
+    icon: Baby,
+  },
+  {
+    title: "Reinigungs-Rechner",
+    desc: "Anteil unreiner Erträge ermitteln und spenden.",
+    icon: ShieldCheck,
+  },
+];
+
 const articles = [
   {
     topic: "Grundlagen",
