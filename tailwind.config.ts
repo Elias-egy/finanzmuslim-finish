@@ -53,6 +53,7 @@ export default {
           foreground: "hsl(var(--nav-foreground))",
         },
         surface: "hsl(var(--surface))",
+        hero: "hsl(var(--hero))",
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
