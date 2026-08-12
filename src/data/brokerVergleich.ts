@@ -109,7 +109,7 @@ const weitereAnbieter = [
 
 const scalable: Broker = {
   ...platzhalter("Scalable Capital"),
-  link: "/dein-investmentstart",
+    link: "/out/scalable",
   halal: {
     // Geprueft: das Verrechnungskonto zahlt keine Zinsen.
     keinGuthabenzins: { status: "gut", note: "geprüft" },
