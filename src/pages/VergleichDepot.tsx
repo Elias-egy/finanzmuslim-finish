@@ -84,7 +84,7 @@ const BrokerKarte = ({ broker }: { broker: Broker }) => {
   ];
 
   return (
-    <li className="rounded-lg border border-border bg-background p-4 md:p-5">
+    <li className="card-surface p-4 md:p-5">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ const BrokerKarte = ({ broker }: { broker: Broker }) => {
               <button
                 type="button"
                 disabled
-                className="inline-flex min-h-[44px] w-full cursor-not-allowed items-center justify-center rounded-lg border border-border bg-secondary px-6 text-[15px] font-semibold text-muted-foreground md:w-auto"
+                className="inline-flex min-h-[44px] w-full cursor-not-allowed items-center justify-center rounded-lg border border-border bg-muted px-6 text-[15px] font-semibold text-muted-foreground md:w-auto"
               >
                 Zum Angebot*
               </button>
@@ -239,7 +239,7 @@ const VergleichDepot = () => {
         </div>
 
         {/* Erklaerkasten */}
-        <section className="mt-10 rounded-lg bg-secondary p-6 md:p-8">
+        <section className="card-surface mt-10 p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Worauf wir bei Halal achten</h2>
           <ul className="mt-4 space-y-4">
             {kriterienBoxen.map((punkt) => (

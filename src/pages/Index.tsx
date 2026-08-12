@@ -57,24 +57,28 @@ const calculators = [
   },
 ];
 
+/** Nur echte, existierende Inhalte aus dem Wissensbereich. */
 const articles = [
   {
     topic: "Grundlagen",
-    title: "Riba verstehen, bevor du investierst",
-    teaser: "Warum Zinsen der Kern des Problems sind und woran du sie erkennst.",
+    title: "Was ist Riba",
+    teaser: "Was Riba bedeutet, welche Formen es gibt und wo sie dir im Alltag begegnet.",
     image: blogPlate,
+    to: "/wissen/was-ist-riba",
   },
   {
-    topic: "Investieren",
-    title: "Der Weg zum islamkonformen Depot",
-    teaser: "Welche Schritte nötig sind, bis dein erster Sparplan läuft.",
+    topic: "Grundlagen",
+    title: "Halal investieren für Anfänger",
+    teaser: "Der Einstieg Schritt für Schritt erklärt, im kostenlosen Guide.",
     image: renditePlate,
+    to: "/halal-guide",
   },
   {
-    topic: "Werkzeuge",
-    title: "Rechner richtig nutzen",
-    teaser: "So kommst du von groben Schätzungen zu belastbaren Zahlen.",
+    topic: "Pflichten",
+    title: "Zakat berechnen",
+    teaser: "So ermittelst du deine Zakat auf Depot, Gold und Ersparnisse.",
     image: toolsPlate,
+    to: "/zakat-rechner",
   },
 ];
 
@@ -92,8 +96,8 @@ const Index = () => (
       path="/"
     />
 
-    {/* 1 — Hero */}
-    <section className="bg-background">
+    {/* 1 — Hero: eigene, sehr blasse Primaerflaeche ueber volle Breite */}
+    <section className="hero-surface">
       <div className="container py-16 md:py-24">
         <div className="grid gap-10 md:gap-14 lg:grid-cols-2 lg:items-center">
           <div>
@@ -114,7 +118,7 @@ const Index = () => (
               className="w-full rounded-xl object-cover aspect-[4/3]"
               loading="eager"
             />
-            <div className="absolute bottom-4 right-4 rounded-lg bg-background px-4 py-3 shadow-[0_10px_30px_-16px_rgba(0,0,0,0.45)]">
+            <div className="absolute bottom-4 right-4 rounded-lg border border-border bg-card px-4 py-3">
               <p className="text-[15px] font-semibold text-foreground">Elias El-Gendy</p>
               <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
@@ -124,25 +128,21 @@ const Index = () => (
     </section>
 
     {/* 2 — Kategorien */}
-    <section className="bg-background">
-      <div className="container pb-16 md:pb-24">
+    <section>
+      <div className="container py-16 md:py-24">
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[88px] items-center gap-3 rounded-lg border border-border bg-background p-4 transition-colors hover:border-primary"
+              className="group relative flex min-h-[88px] items-center gap-3 card-surface p-4 transition-colors hover:border-primary"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <Icon className="h-5 w-5 text-primary" aria-hidden />
               </span>
               <span className="flex-1 pr-4 text-[15px] font-medium text-foreground">{label}</span>
               <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden />
-              {!to && (
-                <span className="absolute right-2 top-2 rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
-                  bald
-                </span>
-              )}
+              {!to && <span className="badge-soon absolute right-2 top-2">bald</span>}
             </Link>
           ))}
         </div>
@@ -159,9 +159,9 @@ const Index = () => (
     </section>
 
     {/* 3 — Guide */}
-    <section className="bg-secondary">
-      <div className="container py-16 md:py-24">
-        <div className="grid gap-10 md:gap-14 lg:grid-cols-2 lg:items-center">
+    <section>
+      <div className="container pb-16 md:pb-24">
+        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-10 lg:grid-cols-2 lg:items-center">
           <img
             src={guideTrio}
             alt="Halal Investment Guide in drei Fassungen"
@@ -169,9 +169,7 @@ const Index = () => (
             loading="lazy"
           />
           <div>
-            <span className="inline-flex items-center rounded border border-primary/30 bg-primary/10 px-2 py-1 text-[12px] font-semibold uppercase tracking-wide text-primary">
-              Kostenlos
-            </span>
+            <span className="badge-note">Kostenlos</span>
             <h2 className="mt-4 text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
               Der Halal Investment Guide
             </h2>
@@ -192,20 +190,20 @@ const Index = () => (
     </section>
 
     {/* 4 — Newsletter */}
-    <section className="bg-background">
-      <div className="container py-16 md:py-24">
-        <NewsletterBox />
+    <section>
+      <div className="container pb-16 md:pb-24">
+        <div className="card-surface p-6 md:p-10">
+          <NewsletterBox />
+        </div>
       </div>
     </section>
 
     {/* 5 — Halal-Check */}
-    <section className="bg-secondary">
-      <div className="container py-16 md:py-24">
-        <div className="grid gap-10 md:gap-14 lg:grid-cols-2 lg:items-center">
+    <section>
+      <div className="container pb-16 md:pb-24">
+        <div className="card-surface grid gap-10 p-6 md:gap-14 md:p-10 lg:grid-cols-2 lg:items-center">
           <div>
-            <span className="inline-flex items-center rounded border border-border bg-background px-2 py-1 text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-              In Arbeit
-            </span>
+            <span className="badge-note">In Arbeit</span>
             <h2 className="mt-4 text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
               Ist deine Aktie halal?
             </h2>
@@ -234,8 +232,8 @@ const Index = () => (
     </section>
 
     {/* 6 — Rechner */}
-    <section className="bg-background">
-      <div className="container py-16 md:py-24">
+    <section>
+      <div className="container pb-16 md:pb-24">
         <h2 className="text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Rechnen, prüfen, planen
         </h2>
@@ -248,7 +246,7 @@ const Index = () => (
             <Link
               key={title}
               to={to}
-              className="group rounded-xl border border-border bg-background p-6 transition-colors hover:border-primary"
+              className="group card-surface p-6 transition-colors hover:border-primary"
             >
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
                 <Icon className="h-5 w-5 text-primary" aria-hidden />
@@ -264,8 +262,8 @@ const Index = () => (
     </section>
 
     {/* 7 — Wissen */}
-    <section className="bg-secondary">
-      <div className="container py-16 md:py-24">
+    <section>
+      <div className="container pb-16 md:pb-24">
         <h2 className="text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Finanzwissen, das dich weiterbringt
         </h2>
@@ -274,8 +272,8 @@ const Index = () => (
           {articles.map((a) => (
             <Link
               key={a.title}
-              to="/blog"
-              className="group overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-primary"
+              to={a.to}
+              className="group card-surface overflow-hidden transition-colors hover:border-primary"
             >
               <img src={a.image} alt="" className="h-44 w-full object-cover" loading="lazy" />
               <div className="p-5">
@@ -293,18 +291,18 @@ const Index = () => (
 
         <div className="mt-8 flex justify-end">
           <Link
-            to="/blog"
+            to="/wissen"
             className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary hover:underline underline-offset-4"
           >
-            Alle Beiträge <ArrowRight className="h-4 w-4" aria-hidden />
+            Alle Themen <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
       </div>
     </section>
 
     {/* 8 — Kanäle */}
-    <section className="bg-background">
-      <div className="container py-16 md:py-24">
+    <section>
+      <div className="container pb-16 md:pb-24">
         <h2 className="text-center text-[28px] md:text-[36px] font-bold leading-tight text-foreground">
           Folge mir
         </h2>
@@ -314,16 +312,16 @@ const Index = () => (
             href="https://instagram.com/finanz.muslim"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-xl border border-border bg-background p-6 transition-colors hover:border-primary"
+            className="flex min-h-[120px] flex-col items-center justify-center gap-3 card-surface p-6 transition-colors hover:border-primary"
           >
             <Instagram className="h-7 w-7 text-primary" aria-hidden />
             <span className="text-[16px] font-semibold text-foreground">Instagram</span>
           </a>
-          <div className="flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-xl border border-border bg-background p-6">
+          <div className="flex min-h-[120px] flex-col items-center justify-center gap-3 card-surface p-6">
             <Music2 className="h-7 w-7 text-muted-foreground" aria-hidden />
             <span className="text-[16px] font-semibold text-muted-foreground">TikTok</span>
           </div>
-          <div className="flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-xl border border-border bg-background p-6">
+          <div className="flex min-h-[120px] flex-col items-center justify-center gap-3 card-surface p-6">
             <Youtube className="h-7 w-7 text-muted-foreground" aria-hidden />
             <span className="text-[16px] font-semibold text-muted-foreground">YouTube</span>
           </div>

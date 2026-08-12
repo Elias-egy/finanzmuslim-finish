@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { captureSrc } from "@/lib/attribution";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -18,7 +18,6 @@ const Tools = lazy(() => import("./pages/Tools.tsx"));
 const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
-const Blog = lazy(() => import("./pages/Blog.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -74,7 +73,9 @@ const App = () => (
             <Route path="/zakatrechner" element={<Zakatrechner />} />
             <Route path="/rechner" element={<Rechner />} />
             <Route path="/wie-ich-geld-verdiene" element={<WieIchGeldVerdiene />} />
-            <Route path="/blog" element={<Blog />} />
+            {/* Blog aufgeloest: alles liegt jetzt im Wissensbereich. */}
+            <Route path="/blog" element={<Navigate to="/wissen" replace />} />
+            <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/wissen" element={<Wissen />} />

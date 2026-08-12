@@ -8,9 +8,7 @@ import { cn } from "@/lib/utils";
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
     {label}
-    <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-      bald
-    </span>
+    <span className="badge-soon">bald</span>
   </span>
 );
 
@@ -48,7 +46,7 @@ export const SiteHeader = () => {
         Neu: Zakat-Rechner. Berechne deine Zakat in 2 Minuten →
       </Link>
 
-      <header className="relative bg-background border-b border-border" onMouseLeave={() => setOpenGroup(null)}>
+      <header className="relative bg-card border-b border-border" onMouseLeave={() => setOpenGroup(null)}>
         <div className="container flex items-center h-[68px] gap-6">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
             <Wordmark className="text-xl md:text-2xl" />
@@ -76,9 +74,7 @@ export const SiteHeader = () => {
             ))}
             <span className="flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-muted-foreground/60 cursor-default">
               Halal-Check
-              <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-                bald
-              </span>
+              <span className="badge-soon">bald</span>
             </span>
           </nav>
 
@@ -109,7 +105,7 @@ export const SiteHeader = () => {
 
         {/* Mega-Menü */}
         {openGroup && (
-          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-background border-b border-border shadow-[0_12px_28px_-18px_rgba(0,0,0,0.35)]">
+          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-card border-b border-border shadow-[0_12px_28px_-18px_rgba(0,0,0,0.35)]">
             <div className="container py-8">
               <div className="grid grid-cols-4 gap-8">
                 {navGroups
@@ -138,7 +134,7 @@ export const SiteHeader = () => {
       {mobileOpen && (
         <div className="min-[900px]:hidden fixed inset-0 z-50">
           <div className="absolute inset-0 bg-foreground/40" onClick={() => setMobileOpen(false)} />
-          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-background overflow-y-auto">
+          <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-card overflow-y-auto">
             <div className="flex items-center justify-between h-[68px] px-4 border-b border-border">
               <Wordmark className="text-xl" />
               <button
@@ -192,9 +188,7 @@ export const SiteHeader = () => {
 
               <div className="flex min-h-[44px] items-center gap-2 border-b border-border text-[16px] font-semibold text-muted-foreground/60">
                 Halal-Check
-                <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/70">
-                  bald
-                </span>
+                <span className="badge-soon">bald</span>
               </div>
 
               <Link

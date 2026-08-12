@@ -4,8 +4,10 @@
 
 @layer base {
   :root {
-    /* finanzmuslim — helles, sachliches Finanzportal */
-    --background: 0 0% 100%;
+    /* finanzmuslim — helles, sachliches Finanzportal.
+       Flaechensystem: die Grundflaeche der Seite ist ein sehr helles Grau,
+       Inhalte liegen darauf als weisse Karten mit feinem Rahmen. */
+    --background: 220 20% 98%;
     --foreground: 222 30% 12%;
 
     --card: 0 0% 100%;
@@ -42,8 +44,10 @@
 
     --nav: 0 0% 100%;
     --nav-foreground: 222 30% 12%;
-    /* Sehr helles Grau fuer Wechselsektionen */
-    --surface: 220 20% 97%;
+    /* Grundflaeche = Seitenhintergrund. Kein Wechsel mehr zwischen hell/dunkel. */
+    --surface: 220 20% 98%;
+    /* Sehr blasse Toenung der Primaerfarbe, nur fuer die Hero-Flaeche. */
+    --hero: 219 100% 96%;
 
     --radius: 0.5rem;
 
@@ -89,6 +93,23 @@
   }
   .pill-btn {
     @apply inline-flex items-center justify-center rounded-lg px-8 py-4 font-semibold tracking-normal text-sm md:text-base transition-all duration-300;
+  }
+  /* Weisse Karte auf grauer Grundflaeche: feiner Rahmen, 12px Radius, kein Schatten. */
+  .card-surface {
+    @apply rounded-xl border border-border bg-card;
+  }
+  /* Hinweis-Etiketten (Neu, Anzeige, Kostenlos, In Arbeit): dunkle Flaeche, weisse Schrift. */
+  .badge-note {
+    @apply inline-flex items-center rounded-md bg-foreground px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-background;
+  }
+  /* Einzige Ausnahme: "bald" bleibt grau und zurueckhaltend. */
+  .badge-soon {
+    @apply inline-flex items-center rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground;
+  }
+  /* Hero-Flaeche der Startseite, volle Breite, unten abgerundet. */
+  .hero-surface {
+    background-color: hsl(var(--hero));
+    @apply rounded-b-[2rem];
   }
 }
 
