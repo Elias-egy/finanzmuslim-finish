@@ -7,17 +7,16 @@ import {
   Coins,
   FileText,
   Globe,
-  Instagram,
   LineChart,
-  Music2,
   PiggyBank,
   Search,
   ShieldCheck,
   TrendingUp,
   Wallet,
-  Youtube,
 } from "lucide-react";
+import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
+
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import blogPlate from "@/assets/blog-plate.webp";
 import toolsPlate from "@/assets/tools-plate.webp";
@@ -397,20 +396,29 @@ const Index = () => (
               rel="noopener noreferrer"
               className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 transition-colors hover:border-primary"
             >
-              <Instagram className="h-9 w-9 text-primary" aria-hidden />
+              <InstagramLogo className="h-14 w-14" />
               <span className="text-[18px] font-semibold text-foreground">Instagram</span>
             </a>
-            <div className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6">
-              <Music2 className="h-9 w-9 text-muted-foreground" aria-hidden />
-              <span className="text-[18px] font-semibold text-muted-foreground">TikTok</span>
-            </div>
-            <div className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6">
-              <Youtube className="h-9 w-9 text-muted-foreground" aria-hidden />
+            <a
+              href="https://tiktok.com/@finanz.muslim"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 transition-colors hover:border-primary"
+            >
+              <TikTokLogo className="h-14 w-14" />
+              <span className="text-[18px] font-semibold text-foreground">TikTok</span>
+            </a>
+            <div
+              aria-label="YouTube – noch nicht verfügbar"
+              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 opacity-50"
+            >
+              <YouTubeLogo className="h-14 w-14" muted />
               <span className="text-[18px] font-semibold text-muted-foreground">YouTube</span>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   </>
 );
