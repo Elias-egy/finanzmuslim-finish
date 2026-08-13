@@ -52,29 +52,15 @@ export const navGroups: NavGroup[] = [
     label: "Rechner",
     columns: [
       {
-        title: "Zakat und Pflichten",
+        title: "Rechner",
         items: [
           { label: "Alle Rechner", to: "/rechner" },
           { label: "Zakat-Rechner", to: "/zakat-rechner" },
-          { label: "Nisab-Rechner" },
-          { label: "Zakat auf Depot" },
-          { label: "Reinigungs-Rechner" },
-        ],
-      },
-      {
-        title: "Investieren",
-        items: [
           { label: "Renditerechner", to: "/renditerechner" },
-          { label: "Sparplan-Rechner" },
-          { label: "Kinderdepot-Rechner" },
-        ],
-      },
-      {
-        title: "Riba vermeiden",
-        items: [
-          { label: "Riba-Kosten-Rechner" },
-          { label: "Auslandsüberweisung" },
-          { label: "Miete oder Kauf" },
+          { label: "Auswanderungsrechner" },
+          { label: "Budgetrechner" },
+          { label: "Brutto-Netto-Rechner" },
+          { label: "Inflationsrechner" },
         ],
       },
     ],
