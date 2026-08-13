@@ -39,6 +39,17 @@ export const SiteHeader = () => {
 
   return (
     <div className="sticky top-0 z-50">
+      <Link
+        to="/zakat-rechner"
+        className="flex items-center justify-center gap-2 bg-violet px-4 py-3.5 text-center text-[16px] font-medium text-violet-foreground transition-colors hover:bg-violet/90"
+      >
+        <span className="badge-new-inverted">Neu</span>
+        <span>
+          <span className="font-bold">Zakat-Rechner:</span>{" "}
+          <span className="font-normal">Berechne deine Zakat in 2 Minuten →</span>
+        </span>
+      </Link>
+
       <header className="relative bg-primary" onMouseLeave={() => setOpenGroup(null)}>
 
         <div className="container flex items-center h-[68px] gap-6">
@@ -125,16 +136,6 @@ export const SiteHeader = () => {
           </div>
         )}
       </header>
-
-      <Link
-        to="/zakat-rechner"
-        className="flex items-center justify-center gap-2 bg-violet text-center text-[13px] font-medium text-violet-foreground py-2 px-4 hover:bg-violet/90 transition-colors"
-      >
-        <span className="badge-new-inverted">Neu</span>
-        <span className="font-bold">Zakat-Rechner</span>
-        <span className="font-normal">: Berechne deine Zakat in 2 Minuten →</span>
-      </Link>
-
 
       {/* Mobile-Menü */}
 
