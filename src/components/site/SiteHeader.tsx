@@ -128,12 +128,13 @@ export const SiteHeader = () => {
 
       <Link
         to="/zakat-rechner"
-        className="inline-flex items-center justify-center gap-2 bg-violet text-center text-[13px] font-medium text-violet-foreground py-2 px-4 hover:bg-violet/90 transition-colors"
+        className="flex items-center justify-center gap-2 bg-violet text-center text-[13px] font-medium text-violet-foreground py-2 px-4 hover:bg-violet/90 transition-colors"
       >
         <span className="badge-new-inverted">Neu</span>
         <span className="font-bold">Zakat-Rechner</span>
         <span className="font-normal">: Berechne deine Zakat in 2 Minuten →</span>
       </Link>
+
 
       {/* Mobile-Menü */}
 
