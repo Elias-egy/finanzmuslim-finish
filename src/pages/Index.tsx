@@ -114,7 +114,7 @@ const Index = () => (
       {/* 1 — Hero-Platte mit ueberlappenden Kategorie-Kacheln */}
       {/* Die erste Bildschirmseite endet genau an der Unterkante dieses Abschnitts:
           Kopfzeile + Hinweisstreifen (ca. 128px) + Aussenabstaende (48px). */}
-      <section className="flex flex-col md:min-h-[calc(100svh-148px)]">
+      <section className="flex flex-col md:min-h-[calc(100svh-152px)]">
         <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[480px] md:px-12 md:pb-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] py-4">
