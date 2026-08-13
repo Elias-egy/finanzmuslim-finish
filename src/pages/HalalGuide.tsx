@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
-import guideTrio from "@/assets/guide-trio.webp";
+import guideCover from "@/assets/guide-cover.png.asset.json";
 import eliasPortrait from "@/assets/story-elias.webp";
 
 /**
@@ -133,11 +133,9 @@ const HalalGuide = () => {
 
               <div className="flex justify-center lg:justify-end">
                 <img
-                  src={guideTrio}
-                  alt="Halal Investment Guide, drei Fassungen"
-                  width={600}
-                  height={368}
-                  className="w-full max-w-md lg:max-w-lg h-auto select-none"
+                  src={guideCover.url}
+                  alt="Der Halal Investment Guide als Buch"
+                  className="h-auto w-full max-w-sm select-none lg:max-w-md"
                   draggable={false}
                 />
               </div>

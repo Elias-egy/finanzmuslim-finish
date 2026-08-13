@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Calculator, ChevronRight, Globe, PiggyBank, Receipt, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
+import rechnerRender from "@/assets/rechner.png.asset.json";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
@@ -66,14 +67,22 @@ const Rechner = () => (
         <span className="text-foreground">Rechner</span>
       </nav>
 
-      <header className="mt-2 max-w-3xl">
-        <h1 className="text-2xl font-bold leading-tight text-foreground md:text-3xl">
-          Rechner für deine Finanzen
-        </h1>
-        <p className="mt-1 text-[15px] text-muted-foreground">
-          Werkzeuge, die dir konkrete Antworten geben. Kostenlos und ohne Anmeldung.
-        </p>
-      </header>
+      <div className="mt-2 flex flex-col items-center gap-4 md:flex-row md:justify-between">
+        <header className="max-w-3xl">
+          <h1 className="text-2xl font-bold leading-tight text-foreground md:text-3xl">
+            Rechner für deine Finanzen
+          </h1>
+          <p className="mt-1 text-[15px] text-muted-foreground">
+            Werkzeuge, die dir konkrete Antworten geben. Kostenlos und ohne Anmeldung.
+          </p>
+        </header>
+        <img
+          src={rechnerRender.url}
+          alt="Taschenrechner mit Geldscheinen und Münzen"
+          className="h-auto w-full max-w-[240px] shrink-0 select-none md:max-w-[280px]"
+          draggable={false}
+        />
+      </div>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {rechnerListe.map((r) => (
