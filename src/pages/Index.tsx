@@ -114,7 +114,7 @@ const Index = () => (
       {/* 1 — Hero-Platte mit ueberlappenden Kategorie-Kacheln */}
       {/* Die erste Bildschirmseite endet genau an der Unterkante dieses Abschnitts:
           Kopfzeile + Hinweisstreifen (ca. 128px) + Aussenabstaende (48px). */}
-      <section className="flex flex-col md:min-h-[calc(100svh-176px)]">
+      <section className="flex flex-col md:min-h-[calc(100svh-148px)]">
         <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[480px] md:px-12 md:pb-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] py-4">
@@ -129,25 +129,25 @@ const Index = () => (
             </div>
           </div>
 
-          {/* Freigestelltes Foto: startet 35px unter der Oberkante, wird unten
-              auf Brusthoehe angeschnitten und bleibt innerhalb der Platte. */}
-          <div className="pointer-events-none absolute right-6 top-[35px] hidden h-[405px] w-[520px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
+          {/* Freigestelltes Foto: steht buendig auf der Unterkante der Platte,
+              ueberlappt die Kacheln nicht und bleibt innerhalb der Platte. */}
+          <div className="pointer-events-none absolute bottom-0 right-6 hidden h-[445px] w-[560px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
             <img
               src={eliasCutout}
               alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="h-[620px] w-full object-cover object-top"
+              className="h-[680px] w-full object-cover object-top"
               loading="eager"
             />
           </div>
         </div>
 
-        {/* Kacheln ueberlappen die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto -mt-6 grid w-full max-w-[1200px] grid-cols-2 gap-4 md:-mt-[60px] lg:grid-cols-4">
+        {/* Kacheln stehen unter der Platte, kompakt gesetzt */}
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-3 md:mt-5 lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[88px] items-center gap-4 card-surface p-5 pt-8 transition-colors hover:border-primary sm:pt-5 md:min-h-[112px]"
+              className="group relative flex min-h-[72px] items-center gap-3 card-surface px-4 py-3 pt-7 transition-colors hover:border-primary sm:pt-3 md:min-h-[76px]"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10">
                 <Icon className="h-5 w-5 text-primary" aria-hidden />
@@ -164,7 +164,7 @@ const Index = () => (
           ))}
         </div>
 
-        <div className="mt-8 flex justify-center md:mt-auto md:pt-8">
+        <div className="mt-6 flex justify-center">
           <Link to="/vergleiche" className="btn-primary h-14 px-8 text-[19px]">
             Zu allen Vergleichen
           </Link>
