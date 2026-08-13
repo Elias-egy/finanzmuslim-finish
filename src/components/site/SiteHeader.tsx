@@ -41,15 +41,15 @@ export const SiteHeader = () => {
     <div className="sticky top-0 z-50">
       <Link
         to="/zakat-rechner"
-        className="block bg-primary text-center text-[13px] font-medium text-primary-foreground py-2 px-4 hover:bg-primary-hover transition-colors"
+        className="block bg-primary-hover text-center text-[13px] font-medium text-primary-foreground py-2 px-4 hover:bg-primary transition-colors"
       >
         Neu: Zakat-Rechner. Berechne deine Zakat in 2 Minuten →
       </Link>
 
-      <header className="relative bg-card border-b border-border" onMouseLeave={() => setOpenGroup(null)}>
+      <header className="relative bg-primary" onMouseLeave={() => setOpenGroup(null)}>
         <div className="container flex items-center h-[68px] gap-6">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
-            <Wordmark className="text-xl md:text-2xl" />
+            <Wordmark inverted className="text-xl md:text-2xl" />
           </Link>
 
           <nav
@@ -64,7 +64,7 @@ export const SiteHeader = () => {
                   onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
                   className={cn(
                     "flex min-h-[44px] items-center gap-1 text-[15px] font-medium transition-colors",
-                    openGroup === group.label ? "text-primary" : "text-foreground hover:text-primary",
+                    openGroup === group.label ? "text-white" : "text-white/85 hover:text-white",
                   )}
                 >
                   {group.label}
@@ -72,9 +72,11 @@ export const SiteHeader = () => {
                 </button>
               </div>
             ))}
-            <span className="flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-muted-foreground/60 cursor-default">
+            <span className="flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-white/60 cursor-default">
               Halal-Check
-              <span className="badge-soon">bald</span>
+              <span className="inline-flex items-center rounded-md border border-white/30 bg-white/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-white/80">
+                bald
+              </span>
             </span>
           </nav>
 
@@ -82,13 +84,13 @@ export const SiteHeader = () => {
             <button
               type="button"
               aria-label="Suche"
-              className="hidden min-[900px]:inline-flex h-11 w-11 items-center justify-center rounded-lg text-foreground hover:text-primary transition-colors"
+              className="hidden min-[900px]:inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/85 hover:bg-white/10 hover:text-white transition-colors"
             >
-              <Search className="h-5 w-5" aria-hidden />
+              <Search className="h-[22px] w-[22px]" aria-hidden />
             </button>
             <Link
               to="/halal-guide"
-              className="inline-flex min-h-[44px] items-center rounded-lg bg-primary px-5 text-[14px] font-semibold text-primary-foreground hover:bg-primary-hover transition-colors"
+              className="inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
             >
               Guide sichern
             </Link>
@@ -96,9 +98,9 @@ export const SiteHeader = () => {
               type="button"
               aria-label="Menü öffnen"
               onClick={() => setMobileOpen(true)}
-              className="min-[900px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-foreground"
+              className="min-[900px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-white"
             >
-              <Menu className="h-6 w-6" aria-hidden />
+              <Menu className="h-[26px] w-[26px]" aria-hidden />
             </button>
           </div>
         </div>

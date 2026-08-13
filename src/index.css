@@ -32,6 +32,9 @@
     --accent-foreground: 219 100% 42%;
 
     --success: 152 62% 34%;
+    /* Akzent nur fuer Etiketten wie "Neu". Nie fuer Klickbares, nie fuer Bewertungen. */
+    --violet: 247 84% 69%;
+    --violet-foreground: 0 0% 100%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 48%;
     --warning-foreground: 222 30% 12%;
@@ -71,12 +74,13 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    font-family: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 {
-    font-family: 'Schibsted Grotesk', 'Source Sans 3', sans-serif;
+    font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
     letter-spacing: -0.02em;
   }
   :focus-visible {
@@ -88,7 +92,7 @@
 @layer components {
   .headline {
     @apply font-bold tracking-tight text-foreground;
-    font-family: 'Schibsted Grotesk', sans-serif;
+    font-family: 'Figtree', system-ui, sans-serif;
     letter-spacing: -0.022em;
   }
   .pill-btn {
@@ -125,6 +129,10 @@
   .badge-soon {
     @apply inline-flex items-center rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground;
   }
+  /* "Neu"-Etikett: violetter Pill, nie klickbar, nie fuer Bewertungen. */
+  .badge-new {
+    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-violet px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-foreground;
+  }
   /* Hero-Flaeche der Startseite, volle Breite, unten abgerundet. */
   .hero-surface {
     background-color: hsl(var(--hero));
@@ -133,6 +141,11 @@
 }
 
 @layer utilities {
+  /* Kraeftigere Icons passend zur fetteren Typografie. */
+  svg.lucide {
+    stroke-width: 2.5;
+    transform: scale(1.08);
+  }
   /* Sanftes Einblenden. Sicherheitsnetz: nach spaetestens 1.2s immer sichtbar,
      damit Anker-Spruenge/Schnell-Scrolls nie unsichtbare Inhalte hinterlassen. */
   .reveal {

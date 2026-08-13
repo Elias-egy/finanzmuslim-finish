@@ -16,7 +16,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 
-type Rechner = { name: string; desc: string; icon: LucideIcon; to?: string };
+type Rechner = { name: string; desc: string; icon: LucideIcon; to?: string; neu?: boolean };
 type Gruppe = { titel: string; rechner: Rechner[] };
 
 const gruppen: Gruppe[] = [
@@ -28,6 +28,7 @@ const gruppen: Gruppe[] = [
         desc: "Zakat auf Bargeld, Depot, Gold und Krypto berechnen.",
         icon: Calculator,
         to: "/zakat-rechner",
+        neu: true,
       },
       { name: "Nisab-Rechner", desc: "Prüfen, ob dein Vermögen über dem Nisab liegt.", icon: Scale },
       { name: "Zakat auf Depot", desc: "Zakat allein für dein Wertpapierdepot ermitteln.", icon: Landmark },
@@ -64,14 +65,17 @@ const gruppen: Gruppe[] = [
   },
 ];
 
-const Kachel = ({ name, desc, icon: Icon, to }: Rechner) => {
+const Kachel = ({ name, desc, icon: Icon, to, neu }: Rechner) => {
   const inhalt = (
     <>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-        <Icon className={`h-5 w-5 ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
+        <Icon className={`h-[22px] w-[22px] ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
       </span>
       <span className="min-w-0">
-        <span className="block text-[15px] font-semibold text-foreground">{name}</span>
+        <span className="flex flex-wrap items-center gap-2 text-[15px] font-bold text-foreground">
+          {name}
+          {neu && <span className="badge-new">Neu</span>}
+        </span>
         <span className="mt-1 block text-[14px] text-muted-foreground">{desc}</span>
       </span>
     </>
