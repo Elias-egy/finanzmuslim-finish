@@ -63,19 +63,6 @@ const screeningPreview = [
   { name: "Demo Bank", tone: "bg-destructive" },
 ];
 
-/** Platzhalter fuer noch fehlende Bilder. Haelt exakt den spaeteren Platz frei. */
-const Placeholder = ({
-  label,
-  className = "",
-}: {
-  label: string;
-  className?: string;
-}) => (
-  <div className={`image-placeholder ${className}`} aria-hidden>
-    {label}
-  </div>
-);
-
 const Index = () => (
   <>
     <Seo
