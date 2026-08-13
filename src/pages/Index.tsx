@@ -16,11 +16,9 @@ import {
 } from "lucide-react";
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
+import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
-import blogPlate from "@/assets/blog-plate.webp";
-import toolsPlate from "@/assets/tools-plate.webp";
-import renditePlate from "@/assets/renditerechner-plate.jpg";
 
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
@@ -73,28 +71,15 @@ const plannedCalculators = [
   },
 ];
 
-const articles = [
-  {
-    topic: "Grundlagen",
-    title: "Was ist Riba",
-    teaser: "Was Riba bedeutet, welche Formen es gibt und wo sie dir im Alltag begegnet.",
-    image: blogPlate,
-    to: "/wissen/was-ist-riba",
-  },
-  {
-    topic: "Grundlagen",
-    title: "Halal investieren für Anfänger",
-    teaser: "Der Einstieg Schritt für Schritt erklärt, im kostenlosen Guide.",
-    image: renditePlate,
-    to: "/halal-guide",
-  },
-  {
-    topic: "Pflichten",
-    title: "Zakat berechnen",
-    teaser: "So ermittelst du deine Zakat auf Depot, Gold und Ersparnisse.",
-    image: toolsPlate,
-    to: "/zakat-rechner",
-  },
+/** Nur der Riba-Artikel existiert. Alles andere ist als "bald" markiert. */
+const wissenKarten: WissenKarte[] = [
+  { thema: "Alltag", titel: "Hauskauf oder Miete" },
+  { thema: "Investieren", titel: "Gold richtig kaufen" },
+  { thema: "Alltag", titel: "Finanzierung" },
+  { thema: "Alltag", titel: "Leasing und Autoabo" },
+  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)" },
+  { thema: "Grundlagen", titel: "Zins (Riba)", to: "/wissen/was-ist-riba" },
+  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)" },
 ];
 
 const screeningPreview = [
