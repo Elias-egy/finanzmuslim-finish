@@ -133,6 +133,11 @@
   .badge-new {
     @apply pointer-events-none inline-flex select-none items-center rounded-full bg-violet px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-foreground;
   }
+  /* Invertierte Variante fuer den violetten Hinweisstreifen. */
+  .badge-new-inverted {
+    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet;
+  }
+
   /* Hero-Flaeche der Startseite, volle Breite, unten abgerundet. */
   .hero-surface {
     background-color: hsl(var(--hero));

@@ -39,14 +39,8 @@ export const SiteHeader = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <Link
-        to="/zakat-rechner"
-        className="block bg-primary-hover text-center text-[13px] font-medium text-primary-foreground py-2 px-4 hover:bg-primary transition-colors"
-      >
-        Neu: Zakat-Rechner. Berechne deine Zakat in 2 Minuten →
-      </Link>
-
       <header className="relative bg-primary" onMouseLeave={() => setOpenGroup(null)}>
+
         <div className="container flex items-center h-[68px] gap-6">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
             <Wordmark inverted className="text-xl md:text-2xl" />
@@ -132,7 +126,18 @@ export const SiteHeader = () => {
         )}
       </header>
 
+      <Link
+        to="/zakat-rechner"
+        className="flex items-center justify-center gap-2 bg-violet text-center text-[13px] font-medium text-violet-foreground py-2 px-4 hover:bg-violet/90 transition-colors"
+      >
+        <span className="badge-new-inverted">Neu</span>
+        <span className="font-bold">Zakat-Rechner</span>
+        <span className="font-normal">: Berechne deine Zakat in 2 Minuten →</span>
+      </Link>
+
+
       {/* Mobile-Menü */}
+
       {mobileOpen && (
         <div className="min-[900px]:hidden fixed inset-0 z-50">
           <div className="absolute inset-0 bg-foreground/40" onClick={() => setMobileOpen(false)} />
