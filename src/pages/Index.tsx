@@ -320,10 +320,11 @@ const Index = () => (
                 className="group card-surface p-6 transition-colors hover:border-primary"
               >
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                  <Icon className="h-5 w-5 text-primary" aria-hidden />
+                  <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
                 </span>
-                <h3 className="mt-4 text-[18px] font-semibold text-foreground group-hover:text-primary">
+                <h3 className="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-bold text-foreground group-hover:text-primary">
                   {title}
+                  {title === "Zakat-Rechner" && <span className="badge-new">Neu</span>}
                 </h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
               </Link>
