@@ -104,7 +104,7 @@
   }
   /* Abschnittskarte der Startseite: 64px Innenabstand oben/unten, Inhalt auf 1200px zentriert. */
   .section-card {
-    @apply rounded-2xl border border-border bg-card px-6 py-12 md:px-10 md:py-16;
+    @apply rounded-2xl bg-card px-6 py-12 md:px-10 md:py-16;
   }
   .section-inner {
     @apply mx-auto w-full max-w-[1200px];

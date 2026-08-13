@@ -82,7 +82,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
     return (
       <Link
         to={to}
-        className="flex min-h-[60px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary"
+        className="flex min-h-[52px] items-center gap-3 card-surface px-3 py-2 transition-colors hover:border-primary"
       >
         {inhalt}
       </Link>
@@ -92,7 +92,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-muted px-4 py-3 pr-14 opacity-70"
+      className="relative flex min-h-[52px] items-center gap-3 rounded-xl border border-border bg-muted px-3 py-2 pr-14 opacity-70"
     >
       <span className="badge-soon absolute right-3 top-1/2 -translate-y-1/2">bald</span>
       {inhalt}
@@ -107,7 +107,7 @@ const Rechner = () => (
       description="Kostenlose Rechner für Zakat, Rendite und islamkonforme Finanzplanung. Ohne Anmeldung nutzbar."
       path="/rechner"
     />
-    <div className="container py-6 md:py-8">
+    <div className="container py-4 md:py-5">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
         <Link to="/" className="hover:text-primary">
           Start
@@ -116,22 +116,22 @@ const Rechner = () => (
         <span className="text-foreground">Rechner</span>
       </nav>
 
-      <header className="mt-4 max-w-3xl">
-        <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
+      <header className="mt-2 max-w-3xl">
+        <h1 className="text-2xl font-bold leading-tight text-foreground md:text-3xl">
           Rechner für deine Finanzen
         </h1>
-        <p className="mt-2 text-[17px] text-muted-foreground">
+        <p className="mt-1 text-[15px] text-muted-foreground">
           Werkzeuge, die dir konkrete Antworten geben. Kostenlos und ohne Anmeldung.
         </p>
       </header>
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-4 space-y-4">
         {gruppen.map((gruppe) => (
           <section key={gruppe.titel}>
             <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
               {gruppe.titel}
             </h2>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
               {gruppe.rechner.map((r) => (
                 <Kachel key={r.name} {...r} />
               ))}

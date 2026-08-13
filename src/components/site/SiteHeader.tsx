@@ -41,7 +41,7 @@ export const SiteHeader = () => {
     <div className="sticky top-0 z-50">
       <Link
         to="/zakat-rechner"
-        className="flex items-center justify-center gap-2 bg-violet px-4 py-3.5 text-center text-[16px] font-medium text-violet-foreground transition-colors hover:bg-violet/90"
+        className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[16px] font-medium text-violet-foreground transition-colors hover:bg-violet/90"
       >
         <span className="badge-new-inverted">Neu</span>
         <span>
