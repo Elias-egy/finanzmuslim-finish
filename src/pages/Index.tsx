@@ -31,44 +31,14 @@ const categories = [
   { label: "Kinderdepot", icon: Baby },
 ];
 
+/** Genau sechs Rechner. Nur die ersten zwei existieren. */
 const calculators = [
-  {
-    title: "Zakat-Rechner",
-    desc: "Berechne deine Zakat auf Depot, Gold und Ersparnisse.",
-    to: "/zakat-rechner",
-    icon: Calculator,
-  },
-  {
-    title: "Renditerechner",
-    desc: "Sieh, wie dein Vermögen über die Jahre wachsen kann.",
-    to: "/renditerechner",
-    icon: TrendingUp,
-  },
-  {
-    title: "Weitere Rechner",
-    desc: "Alle Werkzeuge für deine Finanzplanung an einem Ort.",
-    to: "/rechner",
-    icon: PiggyBank,
-  },
-];
-
-/** Nur echte, existierende Inhalte aus dem Wissensbereich. */
-const plannedCalculators = [
-  {
-    title: "Sparplan-Rechner",
-    desc: "Was aus einer monatlichen Rate über die Jahre werden kann.",
-    icon: Wallet,
-  },
-  {
-    title: "Kinderdepot-Rechner",
-    desc: "Vermögensaufbau für deine Kinder durchrechnen.",
-    icon: Baby,
-  },
-  {
-    title: "Reinigungs-Rechner",
-    desc: "Anteil unreiner Erträge ermitteln und spenden.",
-    icon: ShieldCheck,
-  },
+  { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
+  { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
+  { title: "Auswanderungsrechner", icon: Globe },
+  { title: "Budgetrechner", icon: PiggyBank },
+  { title: "Brutto-Netto-Rechner", icon: Receipt },
+  { title: "Inflationsrechner", icon: TrendingDown },
 ];
 
 /** Nur der Riba-Artikel existiert. Alles andere ist als "bald" markiert. */
