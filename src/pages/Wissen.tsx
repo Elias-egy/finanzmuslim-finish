@@ -21,60 +21,50 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
+import AdSlot from "@/components/AdSlot";
 
-type Artikel = { name: string; desc: string; icon: LucideIcon; to?: string };
-type Block = { titel: string; artikel: Artikel[] };
+type Artikel = { name: string; desc: string; thema: string; icon: LucideIcon; to?: string };
 
-const bloecke: Block[] = [
-  {
-    titel: "Grundlagen",
-    artikel: [
-      { name: "Was ist Riba", desc: "Zins im Islam: Bedeutung, Formen und Alternativen.", icon: Percent, to: "/wissen/was-ist-riba" },
-      { name: "Was ist Gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", icon: ShieldQuestion },
-      { name: "Halal investieren für Anfänger", desc: "Der Einstieg Schritt für Schritt erklärt.", icon: LineChart, to: "/halal-guide" },
-      { name: "Die häufigsten Fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", icon: AlertTriangle },
-    ],
-  },
-  {
-    titel: "Investieren",
-    artikel: [
-      { name: "Halal ETFs", desc: "Wie sharia-konforme ETFs aufgebaut sind.", icon: LineChart },
-      { name: "Aktien richtig prüfen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", icon: Search },
-      { name: "Sukuk", desc: "Was hinter islamischen Anleihen steckt.", icon: Scroll },
-      { name: "Gold kaufen", desc: "Worauf es beim Kauf von physischem Gold ankommt.", icon: Coins },
-      { name: "Krypto", desc: "Die Diskussion um digitale Währungen im Islam.", icon: Bitcoin },
-    ],
-  },
-  {
-    titel: "Alltag",
-    artikel: [
-      { name: "Girokonto ohne Zinsfalle", desc: "Worauf du bei deinem Alltagskonto achtest.", icon: Banknote },
-      { name: "Dispo und Kredit", desc: "Warum eingeräumte Kredite problematisch sind.", icon: CreditCard },
-      { name: "Ratenkauf", desc: "Wann Ratenzahlung zur Zinsfalle wird.", icon: FileWarning },
-      { name: "Leasing", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", icon: Car },
-      { name: "Versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", icon: Umbrella },
-    ],
-  },
-  {
-    titel: "Pflichten",
-    artikel: [
-      { name: "Zakat berechnen", desc: "So ermittelst du deine Zakat.", icon: Scale, to: "/zakat-rechner" },
-      { name: "Nisab verstehen", desc: "Ab welchem Vermögen Zakat fällig wird.", icon: Landmark },
-      { name: "Erträge reinigen", desc: "Wie unreine Erträge ausgesondert werden.", icon: Sparkles },
-      { name: "Erbe nach islamischem Recht", desc: "Grundzüge der Erbteilung.", icon: Users },
-    ],
-  },
+/** Eine durchgehende Liste. Reihenfolge = Anzeigereihenfolge. */
+const artikel: Artikel[] = [
+  { name: "Was ist Riba", desc: "Zins im Islam: Bedeutung, Formen und Alternativen.", thema: "Grundlagen", icon: Percent, to: "/wissen/was-ist-riba" },
+  { name: "Was ist Gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen", icon: ShieldQuestion },
+  { name: "Halal investieren für Anfänger", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", icon: LineChart, to: "/halal-guide" },
+  { name: "Die häufigsten Fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen", icon: AlertTriangle },
+  { name: "Halal ETFs", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren", icon: LineChart },
+  { name: "Aktien richtig prüfen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", icon: Search },
+  { name: "Sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren", icon: Scroll },
+  { name: "Gold kaufen", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren", icon: Coins },
+  { name: "Krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", icon: Bitcoin },
+  { name: "Girokonto ohne Zinsfalle", desc: "Worauf du bei deinem Alltagskonto achtest.", thema: "Alltag", icon: Banknote },
+  { name: "Dispo und Kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag", icon: CreditCard },
+  { name: "Ratenkauf", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", icon: FileWarning },
+  { name: "Leasing", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", thema: "Alltag", icon: Car },
+  { name: "Versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", icon: Umbrella },
+  { name: "Zakat berechnen", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", icon: Scale, to: "/zakat-rechner" },
+  { name: "Nisab verstehen", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", icon: Landmark },
+  { name: "Erträge reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten", icon: Sparkles },
+  { name: "Erbe nach islamischem Recht", desc: "Grundzüge der Erbteilung.", thema: "Pflichten", icon: Users },
 ];
 
-const Kachel = ({ name, desc, icon: Icon, to }: Artikel) => {
+/**
+ * Werbeplatz nach dem dritten Artikel und danach nach jedem weiteren fuenften.
+ * Die Plaetze sind vorbereitet, aber vorerst vollstaendig leer und unsichtbar.
+ */
+const werbeplatzNach = (index: number) => index >= 2 && (index - 2) % 5 === 0;
+
+const Zeile = ({ name, desc, thema, icon: Icon, to }: Artikel) => {
   const inhalt = (
     <>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
         <Icon className={`h-5 w-5 ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
       </span>
-      <span className="min-w-0">
-        <span className="block text-[15px] font-semibold text-foreground">{name}</span>
-        <span className="mt-1 block text-[14px] text-muted-foreground">{desc}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
+          {thema}
+        </span>
+        <span className="mt-1 block text-[17px] font-bold text-foreground">{name}</span>
+        <span className="mt-1 block text-[15px] text-muted-foreground">{desc}</span>
       </span>
     </>
   );
@@ -83,7 +73,7 @@ const Kachel = ({ name, desc, icon: Icon, to }: Artikel) => {
     return (
       <Link
         to={to}
-        className="flex min-h-[88px] items-start gap-3 card-surface p-4 transition-colors hover:border-primary"
+        className="flex w-full items-start gap-4 card-surface p-5 transition-colors hover:border-primary"
       >
         {inhalt}
       </Link>
@@ -93,9 +83,9 @@ const Kachel = ({ name, desc, icon: Icon, to }: Artikel) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[88px] items-start gap-3 rounded-xl border border-border bg-muted p-4 opacity-70"
+      className="relative flex w-full items-start gap-4 rounded-xl border border-border bg-muted p-5 opacity-70"
     >
-      <span className="badge-soon absolute right-2 top-2">bald</span>
+      <span className="badge-soon absolute right-3 top-3">bald</span>
       {inhalt}
     </div>
   );
@@ -124,18 +114,12 @@ const Wissen = () => (
         </p>
       </header>
 
-      <div className="mt-12 space-y-12">
-        {bloecke.map((block) => (
-          <section key={block.titel}>
-            <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
-              {block.titel}
-            </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {block.artikel.map((a) => (
-                <Kachel key={a.name} {...a} />
-              ))}
-            </div>
-          </section>
+      <div className="mt-10 max-w-3xl space-y-4">
+        {artikel.map((a, i) => (
+          <div key={a.name} className="space-y-4">
+            <Zeile {...a} />
+            {werbeplatzNach(i) && <AdSlot id={`wissen-${i + 1}`} />}
+          </div>
         ))}
       </div>
     </div>
