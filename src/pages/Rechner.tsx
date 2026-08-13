@@ -1,68 +1,18 @@
 import { Link } from "react-router-dom";
-import {
-  Baby,
-  Calculator,
-  ChevronRight,
-  Coins,
-  Globe,
-  Home,
-  Landmark,
-  Plane,
-  Scale,
-  Sparkles,
-  TrendingUp,
-  Wallet,
-} from "lucide-react";
+import { Calculator, ChevronRight, Globe, PiggyBank, Receipt, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 
-type Rechner = { name: string; desc: string; icon: LucideIcon; to?: string; neu?: boolean };
-type Gruppe = { titel: string; rechner: Rechner[] };
+type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
-const gruppen: Gruppe[] = [
-  {
-    titel: "Zakat und Pflichten",
-    rechner: [
-      {
-        name: "Zakat-Rechner",
-        desc: "Zakat auf Bargeld, Depot, Gold und Krypto berechnen.",
-        icon: Calculator,
-        to: "/zakat-rechner",
-        neu: true,
-      },
-      { name: "Nisab-Rechner", desc: "Prüfen, ob dein Vermögen über dem Nisab liegt.", icon: Scale },
-      { name: "Zakat auf Depot", desc: "Zakat allein für dein Wertpapierdepot ermitteln.", icon: Landmark },
-      { name: "Reinigungs-Rechner", desc: "Unreine Erträge ermitteln und aussondern.", icon: Sparkles },
-    ],
-  },
-  {
-    titel: "Investieren",
-    rechner: [
-      {
-        name: "Renditerechner",
-        desc: "Sehen, wie dein Vermögen über die Jahre wachsen kann.",
-        icon: TrendingUp,
-        to: "/renditerechner",
-      },
-      { name: "Sparplan-Rechner", desc: "Monatliche Rate und Laufzeit gegeneinander abwägen.", icon: Wallet },
-      { name: "Kinderdepot-Rechner", desc: "Vermögensaufbau für deine Kinder planen.", icon: Baby },
-    ],
-  },
-  {
-    titel: "Riba vermeiden",
-    rechner: [
-      { name: "Riba-Kosten-Rechner", desc: "Was dich Zinsen über die Laufzeit wirklich kosten.", icon: Coins },
-      { name: "Auslandsüberweisung-Rechner", desc: "Kosten einer Überweisung ins Ausland vergleichen.", icon: Globe },
-      { name: "Miete oder Kauf", desc: "Mieten und Kaufen ohne Zinsfalle gegenüberstellen.", icon: Home },
-    ],
-  },
-  {
-    titel: "Familie",
-    rechner: [
-      { name: "Erbteilungs-Rechner nach Fara'id", desc: "Erbanteile nach islamischem Recht aufteilen.", icon: Scale },
-      { name: "Umrah-Sparplan", desc: "Planen, wie du auf die Reisekosten sparst.", icon: Plane },
-    ],
-  },
+/** Genau sechs Rechner, flache Reihe. Nur die ersten zwei existieren. */
+export const rechnerListe: Rechner[] = [
+  { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
+  { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
+  { name: "Auswanderungsrechner", icon: Globe },
+  { name: "Budgetrechner", icon: PiggyBank },
+  { name: "Brutto-Netto-Rechner", icon: Receipt },
+  { name: "Inflationsrechner", icon: TrendingDown },
 ];
 
 const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
@@ -125,18 +75,9 @@ const Rechner = () => (
         </p>
       </header>
 
-      <div className="mt-4 space-y-4">
-        {gruppen.map((gruppe) => (
-          <section key={gruppe.titel}>
-            <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
-              {gruppe.titel}
-            </h2>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              {gruppe.rechner.map((r) => (
-                <Kachel key={r.name} {...r} />
-              ))}
-            </div>
-          </section>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {rechnerListe.map((r) => (
+          <Kachel key={r.name} {...r} />
         ))}
       </div>
     </div>
