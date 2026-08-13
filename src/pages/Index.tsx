@@ -9,8 +9,10 @@ import {
   Globe,
   LineChart,
   PiggyBank,
+  Receipt,
   Search,
   ShieldCheck,
+  TrendingDown,
   TrendingUp,
   Wallet,
 } from "lucide-react";
@@ -101,7 +103,7 @@ const Index = () => (
 
           {/* Freigestelltes Foto: steht buendig auf der Unterkante der Platte,
               ueberlappt die Kacheln nicht und bleibt innerhalb der Platte. */}
-          <div className="pointer-events-none absolute bottom-0 right-6 hidden h-[445px] w-[560px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
+          <div className="pointer-events-none absolute bottom-0 right-12 hidden h-[445px] w-[420px] max-w-[45%] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)] xl:w-[560px]">
             <img
               src={eliasCutout}
               alt="Elias El-Gendy, Gründer von finanzmuslim"
@@ -272,32 +274,35 @@ const Index = () => (
           </div>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {calculators.map(({ title, desc, to, icon: Icon }) => (
-              <Link
-                key={title}
-                to={to}
-                className="group card-surface p-6 transition-colors hover:border-primary"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                  <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
-                </span>
-                <h3 className="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-bold text-foreground group-hover:text-primary">
-                  {title}
-                  {title === "Zakat-Rechner" && <span className="badge-new">Neu</span>}
-                </h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
-              </Link>
-            ))}
-            {plannedCalculators.map(({ title, desc, icon: Icon }) => (
-              <div key={title} className="relative card-surface p-6 opacity-60">
-                <span className="badge-soon absolute right-3 top-3">bald</span>
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                  <Icon className="h-5 w-5 text-muted-foreground" aria-hidden />
-                </span>
-                <h3 className="mt-4 text-[18px] font-semibold text-muted-foreground">{title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{desc}</p>
-              </div>
-            ))}
+            {calculators.map(({ title, to, icon: Icon }) =>
+              to ? (
+                <Link
+                  key={title}
+                  to={to}
+                  className="group flex items-center gap-3 card-surface p-5 transition-colors hover:border-primary"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                    <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
+                  </span>
+                  <span className="flex flex-wrap items-center gap-2 text-[18px] font-bold text-foreground group-hover:text-primary">
+                    {title}
+                    {title === "Zakat-Rechner" && <span className="badge-new">Neu</span>}
+                  </span>
+                </Link>
+              ) : (
+                <div
+                  key={title}
+                  aria-disabled="true"
+                  className="relative flex items-center gap-3 rounded-2xl border border-border bg-muted p-5 pr-14 opacity-60"
+                >
+                  <span className="badge-soon absolute right-3 top-1/2 -translate-y-1/2">bald</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-background">
+                    <Icon className="h-5 w-5 text-muted-foreground" aria-hidden />
+                  </span>
+                  <span className="text-[18px] font-bold text-muted-foreground">{title}</span>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </section>
