@@ -21,6 +21,9 @@ import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
+import guideCover from "@/assets/guide-cover.png.asset.json";
+import newsletterPhone from "@/assets/newsletter-handy.png.asset.json";
+import rechnerRender from "@/assets/rechner.png.asset.json";
 
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
@@ -113,8 +116,8 @@ const Index = () => (
           </div>
         </div>
 
-        {/* Kacheln stehen unter der Platte, kompakt gesetzt */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-3 md:mt-5 lg:grid-cols-4">
+        {/* Kacheln ueberlappen die Unterkante der Platte um 60px */}
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-3 md:-mt-[60px] lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
@@ -146,7 +149,12 @@ const Index = () => (
       {/* 2 — Guide: Bild links, Text rechts */}
       <section className="section-card">
         <div className="section-inner grid items-center gap-10 lg:grid-cols-[380px_1fr] lg:gap-16">
-          <Placeholder label="Guide-Cover folgt" className="h-[380px] w-full lg:h-[480px] lg:w-[380px]" />
+          <img
+            src={guideCover.url}
+            alt="Der Halal Investment Guide als Buch"
+            className="mx-auto w-full max-w-[380px] lg:w-[380px]"
+            loading="lazy"
+          />
           <div>
             <p className="eyebrow">Guide</p>
             <h2 className="mt-3 text-[30px] font-semibold leading-tight text-foreground md:text-[40px] md:leading-[48px]">
@@ -210,9 +218,11 @@ const Index = () => (
             </label>
           </div>
 
-          <Placeholder
-            label="Newsletter-Vorschau folgt"
-            className="h-[320px] w-full lg:h-[500px] lg:w-[420px]"
+          <img
+            src={newsletterPhone.url}
+            alt="Newsletter-Ausgabe auf dem Smartphone"
+            className="mx-auto w-full max-w-[420px] lg:w-[420px]"
+            loading="lazy"
           />
         </div>
       </section>
@@ -267,9 +277,11 @@ const Index = () => (
                 Zu allen Rechnern
               </Link>
             </div>
-            <Placeholder
-              label="Rechner-Vorschau folgt"
-              className="h-[240px] w-full lg:h-[320px] lg:w-[420px]"
+            <img
+              src={rechnerRender.url}
+              alt="Taschenrechner mit Geldscheinen und Münzen"
+              className="mx-auto w-full max-w-[420px] lg:w-[420px]"
+              loading="lazy"
             />
           </div>
 
