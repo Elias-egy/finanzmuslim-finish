@@ -112,46 +112,51 @@ const Index = () => (
     {/* Ein durchgehendes Raster: 24px zwischen allen Abschnitten, Ruhe entsteht innen. */}
     <div className="container space-y-6 py-6">
       {/* 1 — Hero-Platte mit ueberlappenden Kategorie-Kacheln */}
-      <section>
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-10 pt-6 md:h-[417px] md:px-12 md:pb-0">
+      {/* Die erste Bildschirmseite endet genau an der Unterkante dieses Abschnitts:
+          Kopfzeile + Hinweisstreifen (ca. 128px) + Aussenabstaende (48px). */}
+      <section className="flex flex-col md:min-h-[calc(100svh-176px)]">
+        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[620px] md:px-12 md:pb-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] py-4">
-              <h1 className="text-[32px] font-semibold leading-[1.15] tracking-tight text-foreground md:text-[48px] md:leading-[56px]">
+              <h1 className="text-[36px] font-bold leading-[1.12] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-5 max-w-[560px] text-[17px] leading-relaxed text-muted-foreground md:text-[20px] md:leading-[28px]">
+              <p className="mt-6 max-w-[580px] text-[18px] leading-relaxed text-muted-foreground md:text-[22px] md:leading-[32px]">
                 Lerne, wie du dein Geld islamkonform anlegst, Riba erkennst und die richtigen Anbieter
                 findest. Verständlich erklärt, ohne Fachchinesisch.
               </p>
             </div>
           </div>
 
-          {/* Freigestelltes Foto: startet 35px unter der Oberkante, wird unten angeschnitten. */}
-          <div className="pointer-events-none absolute right-6 top-[35px] hidden h-[382px] w-[445px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
+          {/* Freigestelltes Foto: startet 35px unter der Oberkante, wird unten
+              auf Brusthoehe angeschnitten und bleibt innerhalb der Platte. */}
+          <div className="pointer-events-none absolute right-6 top-[35px] hidden h-[525px] w-[600px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
             <img
               src={eliasCutout}
               alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="h-[560px] w-full object-cover object-top"
+              className="h-[760px] w-full object-cover object-top"
               loading="eager"
             />
           </div>
         </div>
 
         {/* Kacheln ueberlappen die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto -mt-6 grid max-w-[1200px] grid-cols-2 gap-3 md:-mt-[60px] lg:grid-cols-4">
+        <div className="relative z-10 mx-auto -mt-6 grid w-full max-w-[1200px] grid-cols-2 gap-4 md:-mt-[60px] lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[72px] items-center gap-3 card-surface p-4 pt-7 transition-colors hover:border-primary sm:pt-4"
+              className="group relative flex min-h-[88px] items-center gap-4 card-surface p-5 pt-8 transition-colors hover:border-primary sm:pt-5 md:min-h-[112px]"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                <Icon className="h-4 w-4 text-primary" aria-hidden />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <Icon className="h-5 w-5 text-primary" aria-hidden />
               </span>
-              <span className="min-w-0 flex-1 text-[15px] font-medium text-foreground">{label}</span>
+              <span className="min-w-0 flex-1 text-[16px] font-bold text-foreground md:text-[18px]">
+                {label}
+              </span>
               <ArrowRight
-                className="hidden h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary sm:block"
+                className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary sm:block"
                 aria-hidden
               />
               {!to && <span className="badge-soon absolute left-4 top-2 sm:left-auto sm:right-2">bald</span>}
@@ -159,8 +164,8 @@ const Index = () => (
           ))}
         </div>
 
-        <div className="mt-6 flex justify-center">
-          <Link to="/vergleiche" className="btn-primary">
+        <div className="mt-8 flex justify-center md:mt-auto md:pt-8">
+          <Link to="/vergleiche" className="btn-primary h-14 px-8 text-[19px]">
             Zu allen Vergleichen
           </Link>
         </div>
@@ -335,33 +340,13 @@ const Index = () => (
             Finanzwissen, das dich weiterbringt
           </h2>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {articles.map((a) => (
-              <Link
-                key={a.title}
-                to={a.to}
-                className="group card-surface overflow-hidden transition-colors hover:border-primary"
-              >
-                <img src={a.image} alt="" className="h-52 w-full object-cover" loading="lazy" />
-                <div className="p-6">
-                  <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-                    {a.topic}
-                  </p>
-                  <h3 className="mt-2 text-[20px] font-semibold leading-snug text-foreground group-hover:text-primary">
-                    {a.title}
-                  </h3>
-                  <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">{a.teaser}</p>
-                </div>
-              </Link>
-            ))}
+          <div className="mt-10">
+            <WissenSlider karten={wissenKarten} />
           </div>
 
-          <div className="mt-8 flex justify-end">
-            <Link
-              to="/wissen"
-              className="inline-flex min-h-[44px] items-center gap-1.5 text-[16px] font-semibold text-primary underline-offset-4 hover:underline"
-            >
-              Alle Themen <ArrowRight className="h-4 w-4" aria-hidden />
+          <div className="mt-8 flex justify-center">
+            <Link to="/wissen" className="btn-primary">
+              Alle Beiträge
             </Link>
           </div>
         </div>
