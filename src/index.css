@@ -141,6 +141,11 @@
 }
 
 @layer utilities {
+  /* Kraeftigere Icons passend zur fetteren Typografie. */
+  svg.lucide {
+    stroke-width: 2.5;
+    transform: scale(1.08);
+  }
   /* Sanftes Einblenden. Sicherheitsnetz: nach spaetestens 1.2s immer sichtbar,
      damit Anker-Spruenge/Schnell-Scrolls nie unsichtbare Inhalte hinterlassen. */
   .reveal {
