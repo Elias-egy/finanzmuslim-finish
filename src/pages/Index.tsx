@@ -115,7 +115,7 @@ const Index = () => (
       {/* Die erste Bildschirmseite endet genau an der Unterkante dieses Abschnitts:
           Kopfzeile + Hinweisstreifen (ca. 128px) + Aussenabstaende (48px). */}
       <section className="flex flex-col md:min-h-[calc(100svh-176px)]">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[620px] md:px-12 md:pb-0">
+        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[480px] md:px-12 md:pb-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] py-4">
               <h1 className="text-[36px] font-bold leading-[1.12] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
@@ -131,11 +131,11 @@ const Index = () => (
 
           {/* Freigestelltes Foto: startet 35px unter der Oberkante, wird unten
               auf Brusthoehe angeschnitten und bleibt innerhalb der Platte. */}
-          <div className="pointer-events-none absolute right-6 top-[35px] hidden h-[525px] w-[600px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
+          <div className="pointer-events-none absolute right-6 top-[35px] hidden h-[405px] w-[520px] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)]">
             <img
               src={eliasCutout}
               alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="h-[760px] w-full object-cover object-top"
+              className="h-[620px] w-full object-cover object-top"
               loading="eager"
             />
           </div>
