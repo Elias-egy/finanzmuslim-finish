@@ -65,18 +65,15 @@ const gruppen: Gruppe[] = [
   },
 ];
 
-const Kachel = ({ name, desc, icon: Icon, to, neu }: Rechner) => {
+const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
   const inhalt = (
     <>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-        <Icon className={`h-[22px] w-[22px] ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+        <Icon className={`h-5 w-5 ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
       </span>
-      <span className="min-w-0">
-        <span className="flex flex-wrap items-center gap-2 text-[15px] font-bold text-foreground">
-          {name}
-          {neu && <span className="badge-new">Neu</span>}
-        </span>
-        <span className="mt-1 block text-[14px] text-muted-foreground">{desc}</span>
+      <span className="flex min-w-0 flex-wrap items-center gap-2 text-[15px] font-bold text-foreground">
+        {name}
+        {neu && <span className="badge-new">Neu</span>}
       </span>
     </>
   );
@@ -85,7 +82,7 @@ const Kachel = ({ name, desc, icon: Icon, to, neu }: Rechner) => {
     return (
       <Link
         to={to}
-        className="flex min-h-[88px] items-start gap-3 card-surface p-4 transition-colors hover:border-primary"
+        className="flex min-h-[60px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary"
       >
         {inhalt}
       </Link>
@@ -95,9 +92,9 @@ const Kachel = ({ name, desc, icon: Icon, to, neu }: Rechner) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[88px] items-start gap-3 rounded-xl border border-border bg-muted p-4 opacity-70"
+      className="relative flex min-h-[60px] items-center gap-3 rounded-xl border border-border bg-muted px-4 py-3 pr-14 opacity-70"
     >
-      <span className="badge-soon absolute right-2 top-2">bald</span>
+      <span className="badge-soon absolute right-3 top-1/2 -translate-y-1/2">bald</span>
       {inhalt}
     </div>
   );
@@ -110,7 +107,7 @@ const Rechner = () => (
       description="Kostenlose Rechner für Zakat, Rendite und islamkonforme Finanzplanung. Ohne Anmeldung nutzbar."
       path="/rechner"
     />
-    <div className="container py-10 md:py-14">
+    <div className="container py-6 md:py-8">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
         <Link to="/" className="hover:text-primary">
           Start
@@ -119,22 +116,22 @@ const Rechner = () => (
         <span className="text-foreground">Rechner</span>
       </nav>
 
-      <header className="mt-6 max-w-3xl">
+      <header className="mt-4 max-w-3xl">
         <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
           Rechner für deine Finanzen
         </h1>
-        <p className="mt-3 text-[17px] text-muted-foreground">
+        <p className="mt-2 text-[17px] text-muted-foreground">
           Werkzeuge, die dir konkrete Antworten geben. Kostenlos und ohne Anmeldung.
         </p>
       </header>
 
-      <div className="mt-12 space-y-12">
+      <div className="mt-6 space-y-6">
         {gruppen.map((gruppe) => (
           <section key={gruppe.titel}>
             <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
               {gruppe.titel}
             </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {gruppe.rechner.map((r) => (
                 <Kachel key={r.name} {...r} />
               ))}
