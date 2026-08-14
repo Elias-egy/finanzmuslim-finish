@@ -352,13 +352,15 @@ const Index = () => (
               <TikTokLogo className="h-14 w-14" />
               <span className="text-[18px] font-semibold text-foreground">TikTok</span>
             </a>
-            <div
-              aria-label="YouTube – noch nicht verfügbar"
-              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 opacity-50"
+            <a
+              href="https://youtube.com/@finanz.muslim"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 transition-colors hover:border-primary"
             >
-              <YouTubeLogo className="h-14 w-14" muted />
-              <span className="text-[18px] font-semibold text-muted-foreground">YouTube</span>
-            </div>
+              <YouTubeLogo className="h-14 w-14" />
+              <span className="text-[18px] font-semibold text-foreground">YouTube</span>
+            </a>
           </div>
         </div>
       </section>

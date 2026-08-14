@@ -84,14 +84,15 @@ export const SiteFooter = () => (
             >
               <TikTokLogo />
             </a>
-            <span
-              aria-label="YouTube – noch nicht verfügbar"
-              aria-disabled="true"
-              title="YouTube folgt"
-              className="inline-flex h-11 w-11 cursor-default items-center justify-center rounded-lg opacity-50"
+            <a
+              href="https://youtube.com/@finanz.muslim"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-muted"
             >
-              <YouTubeLogo muted />
-            </span>
+              <YouTubeLogo />
+            </a>
           </div>
         </div>
 
