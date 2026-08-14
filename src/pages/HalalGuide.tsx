@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
-import guideCover from "@/assets/guide-cover.png.asset.json";
-import eliasPortrait from "@/assets/story-elias.webp";
+import guideTrio from "@/assets/guide-trio.png.asset.json";
+import eliasPortrait from "@/assets/elias-hemd.png.asset.json";
 
 /**
  * /halal-guide — Lead-Magnet-Seite fuer den Halal Investment Guide.
@@ -65,32 +65,123 @@ const faqs = [
   },
 ];
 
+const levels = [
+  { key: "einstieg", title: "Einstieg", text: "Ich starte neu und brauche klare Grundlagen." },
+  {
+    key: "fortgeschritten",
+    title: "Fortgeschritten",
+    text: "Ich kenne die Grundlagen und möchte Anlagen besser einordnen.",
+  },
+  { key: "profi", title: "Profi", text: "Ich investiere bereits und möchte Kriterien und Prüfprozesse vertiefen." },
+];
+
+const inputClass =
+  "h-12 w-full rounded-lg border border-border bg-card px-4 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition";
+
 const GuideForm = ({ id }: { id?: string }) => {
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [vorname, setVorname] = useState("");
   const [email, setEmail] = useState("");
+  const [level, setLevel] = useState<string | null>(null);
+
+  if (step === 3) {
+    return (
+      <div id={id} className="rounded-lg border border-border bg-card p-6 text-left">
+        <p className="text-[17px] font-semibold text-foreground">Dein Guide ist unterwegs.</p>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+          Wir haben deinen Guide an {email || "deine E-Mail-Adresse"} geschickt. Falls er nicht ankommt, schau bitte
+          auch in deinen Spam-Ordner.
+        </p>
+      </div>
+    );
+  }
+
+  if (step === 2) {
+    return (
+      <div id={id} className="flex flex-col gap-4 text-left">
+        <p className="flex items-center gap-2 text-[15px] text-foreground/80">
+          <Check className="h-4 w-4 text-primary" aria-hidden />
+          Danke{vorname ? `, ${vorname}` : ""}!
+        </p>
+        <p className="text-[17px] font-bold text-foreground">Wo stehst du gerade beim halal Investieren?</p>
+
+        <div className="flex flex-col gap-3">
+          {levels.map((l) => {
+            const active = level === l.key;
+            return (
+              <button
+                key={l.key}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setLevel(l.key)}
+                className={`rounded-lg border p-4 text-left transition-colors ${
+                  active ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-border bg-card hover:border-primary/50"
+                }`}
+              >
+                <span className="block text-[15px] font-semibold text-foreground">{l.title}</span>
+                <span className="mt-1 block text-[14px] leading-relaxed text-muted-foreground">{l.text}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          type="button"
+          disabled={!level}
+          onClick={() => setStep(3)}
+          className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Fortfahren
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setStep(1)}
+          className="self-start text-[13px] text-muted-foreground underline underline-offset-2 hover:text-foreground"
+        >
+          Zurück
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form
       id={id}
-      onSubmit={(e) => e.preventDefault()}
-      className="flex flex-col gap-3"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setStep(2);
+      }}
+      className="flex flex-col gap-3 text-left"
       noValidate
     >
-      <input
-        type="email"
-        name="email"
-        autoComplete="email"
-        required
-        placeholder="E-Mail-Adresse"
-        aria-label="E-Mail-Adresse"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="h-12 w-full rounded-lg border border-border bg-card px-4 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition"
-      />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <input
+          type="text"
+          name="vorname"
+          autoComplete="given-name"
+          placeholder="Vorname"
+          aria-label="Vorname"
+          value={vorname}
+          onChange={(e) => setVorname(e.target.value)}
+          className={inputClass}
+        />
+        <input
+          type="email"
+          name="email"
+          autoComplete="email"
+          placeholder="E-Mail-Adresse"
+          aria-label="E-Mail-Adresse"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={inputClass}
+        />
+      </div>
       <button
         type="submit"
         className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground hover:bg-primary-hover transition-colors"
       >
-        Guide kostenlos sichern
+        Lass uns starten
       </button>
       <p className="text-[12px] leading-relaxed text-muted-foreground">
         Mit dem Absenden erklärst du dich einverstanden, dass finanzmuslim dir den Guide und E-Mails rund um islamkonformes Investieren sendet. Du kannst dich jederzeit abmelden.{" "}
@@ -118,14 +209,13 @@ const HalalGuide = () => {
         <section className="bg-hero">
           <div className="container py-12 md:py-20 lg:py-24">
             <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
-              <div className="max-w-xl">
+              <div className="max-w-xl lg:pl-12 xl:pl-20">
                 <span className="badge-note">Kostenlos</span>
                 <h1 className="headline mt-5 text-[32px] leading-[1.1] sm:text-[40px] md:text-[48px] text-foreground">
-                  Der Halal Investment Guide
+                  Bekomme deinen personalisierten Guide
+                  <br />
+                  In unter 30 Sekunden.
                 </h1>
-                <p className="mt-5 text-[16px] leading-relaxed text-foreground/80">
-                  Ein sachlicher Einstieg in islamkonformes Investieren. Du lernst, worauf du achten musst, welche Produkte infrage kommen und wie du typische Fallen vermeidest.
-                </p>
                 <div className="mt-8">
                   <GuideForm />
                 </div>
@@ -133,9 +223,9 @@ const HalalGuide = () => {
 
               <div className="flex justify-center lg:justify-end">
                 <img
-                  src={guideCover.url}
-                  alt="Der Halal Investment Guide als Buch"
-                  className="h-auto w-full max-w-sm select-none lg:max-w-md"
+                  src={guideTrio.url}
+                  alt="Der Halal Investment Guide in drei Stufen: Einsteiger, Fortgeschritten, Profi"
+                  className="h-auto w-full max-w-xl select-none"
                   draggable={false}
                 />
               </div>
@@ -193,9 +283,10 @@ const HalalGuide = () => {
             <div className="card-surface p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <img
-                  src={eliasPortrait}
+                  src={eliasPortrait.url}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
-                  className="h-32 w-32 md:h-40 md:w-40 rounded-full object-cover"
+                  className="h-32 w-32 shrink-0 rounded-full object-cover md:h-40 md:w-40"
+                  style={{ objectPosition: "62% 28%" }}
                   loading="lazy"
                 />
                 <div>
