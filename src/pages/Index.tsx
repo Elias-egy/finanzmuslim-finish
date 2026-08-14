@@ -21,8 +21,8 @@ import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
-import guideCover from "@/assets/guide-cover.png.asset.json";
-import newsletterPhone from "@/assets/newsletter-handy.png.asset.json";
+import guideCover from "@/assets/guide-cover-v2.png.asset.json";
+import newsletterPhone from "@/assets/newsletter-handy-v2.png.asset.json";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
 const categories = [
@@ -352,13 +352,15 @@ const Index = () => (
               <TikTokLogo className="h-14 w-14" />
               <span className="text-[18px] font-semibold text-foreground">TikTok</span>
             </a>
-            <div
-              aria-label="YouTube – noch nicht verfügbar"
-              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 opacity-50"
+            <a
+              href="https://youtube.com/@finanz.muslim"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-[200px] flex-col items-center justify-center gap-4 card-surface p-6 transition-colors hover:border-primary"
             >
-              <YouTubeLogo className="h-14 w-14" muted />
-              <span className="text-[18px] font-semibold text-muted-foreground">YouTube</span>
-            </div>
+              <YouTubeLogo className="h-14 w-14" />
+              <span className="text-[18px] font-semibold text-foreground">YouTube</span>
+            </a>
           </div>
         </div>
       </section>
