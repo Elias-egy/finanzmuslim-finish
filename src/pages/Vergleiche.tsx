@@ -28,7 +28,12 @@ const gruppen: Gruppe[] = [
         to: "/vergleich/depot",
       },
       { name: "Kinderdepot", desc: "Depots für Kinder im Vergleich.", icon: Baby },
-      { name: "Halal-Screening-Apps", desc: "Apps, die Aktien auf Sharia-Konformität prüfen.", icon: ShieldCheck },
+      {
+        name: "Halal-Anlagen finden",
+        desc: "23 geprüfte ETFs, Sukuk, Gold und Silber mit Kosten und Zertifizierer.",
+        icon: ShieldCheck,
+        to: "/halal-anlagen",
+      },
     ],
   },
   {
