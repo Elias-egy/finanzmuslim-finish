@@ -21,8 +21,8 @@ import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
-import guideCover from "@/assets/guide-cover.png.asset.json";
-import newsletterPhone from "@/assets/newsletter-handy.png.asset.json";
+import guideCover from "@/assets/guide-cover-v2.png.asset.json";
+import newsletterPhone from "@/assets/newsletter-handy-v2.png.asset.json";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
 const categories = [
