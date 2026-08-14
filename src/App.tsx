@@ -25,6 +25,11 @@ const Wissen = lazy(() => import("./pages/Wissen.tsx"));
 const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
+const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
+const VorlageHalalAnlagen = lazy(() => import("./pages/vorlagen/HalalAnlagen.tsx"));
+const VorlageVertragsAmpel = lazy(() => import("./pages/vorlagen/VertragsAmpel.tsx"));
+const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx"));
+const Newsletter = lazy(() => import("./pages/Newsletter.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -81,6 +86,11 @@ const App = () => (
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/wissen" element={<Wissen />} />
             <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
+            <Route path="/vorlagen" element={<Vorlagen />} />
+            <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
+            <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />
+            <Route path="/vorlagen/aktien-check" element={<VorlageAktienCheck />} />
+            <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/out/:kurzname" element={<Out />} />
             <Route path="/deals" element={<Deals />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
