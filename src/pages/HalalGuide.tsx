@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
-import guideTrio from "@/assets/guide-trio.png.asset.json";
+import guideTrio from "@/assets/guide-trio-v2.png.asset.json";
 import eliasPortrait from "@/assets/elias-hemd.png.asset.json";
 
 /**
@@ -286,7 +286,7 @@ const HalalGuide = () => {
                   src={eliasPortrait.url}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
                   className="h-32 w-32 shrink-0 rounded-full object-cover md:h-40 md:w-40"
-                  style={{ objectPosition: "70% 20%" }}
+                  style={{ objectPosition: "82% 22%" }}
                   loading="lazy"
                 />
                 <div>
