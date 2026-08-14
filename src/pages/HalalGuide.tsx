@@ -286,7 +286,7 @@ const HalalGuide = () => {
                   src={eliasPortrait.url}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
                   className="h-32 w-32 shrink-0 rounded-full object-cover md:h-40 md:w-40"
-                  style={{ objectPosition: "62% 28%" }}
+                  style={{ objectPosition: "70% 20%" }}
                   loading="lazy"
                 />
                 <div>
