@@ -11,6 +11,7 @@ export const navGroups: NavGroup[] = [
         title: "Grundlagen",
         items: [
           { label: "Alle Themen", to: "/wissen" },
+          { label: "Vorlagen", to: "/vorlagen" },
           { label: "Was ist Riba", to: "/wissen/was-ist-riba" },
           { label: "Was ist Gharar" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },

@@ -30,6 +30,31 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/halal-anlagen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/vertrags-ampel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/aktien-check</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/newsletter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
   <!-- /dein-investmentstart steht bewusst NICHT hier:
        beide sind noindex. Eine noindex-Seite in der Sitemap ist ein
        Widerspruch und kostet Crawl-Budget. -->

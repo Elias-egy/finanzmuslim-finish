@@ -22,6 +22,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
+import { vorlagen } from "@/data/vorlagen";
 
 type Artikel = { name: string; desc: string; thema: string; icon: LucideIcon; to?: string };
 
@@ -113,6 +114,28 @@ const Wissen = () => (
           Verständlich erklärt, ohne Fachchinesisch. Von Riba bis Zakat.
         </p>
       </header>
+
+      <section className="mt-8 max-w-3xl rounded-2xl bg-hero p-6 md:p-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-[17px] font-bold text-foreground">Kostenlose Vorlagen</h2>
+          <Link to="/vorlagen" className="text-[14px] font-semibold text-primary hover:underline">
+            Alle Vorlagen
+          </Link>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {vorlagen.map((v) => (
+            <Link
+              key={v.slug}
+              to={`/vorlagen/${v.slug}`}
+              className="card-surface flex flex-col p-4 transition-colors hover:border-primary"
+            >
+              <span className="badge-new self-start">{v.kicker}</span>
+              <span className="mt-2 block text-[15px] font-bold leading-snug text-foreground">{v.titel}</span>
+              <span className="mt-1 block text-[13px] text-muted-foreground">{v.nutzenZeile}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-10 max-w-3xl space-y-4">
         {artikel.map((a, i) => (
