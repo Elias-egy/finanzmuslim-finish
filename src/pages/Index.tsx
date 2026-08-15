@@ -119,7 +119,7 @@ const Index = () => (
       {/* Die erste Bildschirmseite endet genau an der Unterkante dieses Abschnitts:
           Kopfzeile + Hinweisstreifen (ca. 128px) + Aussenabstaende (48px). */}
       <section className="flex flex-col md:min-h-[calc(100svh-152px)]">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pb-12 pt-8 md:h-[480px] md:px-12 md:pb-0">
+        <div className="relative overflow-hidden rounded-2xl bg-hero px-5 pb-8 pt-8 md:h-[480px] md:px-12 md:pb-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] py-4">
               <h1 className="text-[36px] font-bold leading-[1.12] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
@@ -130,46 +130,67 @@ const Index = () => (
                 Lerne, wie du dein Geld islamkonform anlegst, Riba erkennst und die richtigen Anbieter
                 findest. Verständlich erklärt, ohne Fachchinesisch.
               </p>
+
+              {/* Handy: Namenskarte sichtbar, weil das Foto dort nicht gezeigt wird. */}
+              <div className="mt-6 inline-block rounded-xl border border-border bg-card px-4 py-3 lg:hidden">
+                <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
+                <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
+              </div>
             </div>
           </div>
 
           {/* Freigestelltes Foto: steht buendig auf der Unterkante der Platte,
               ueberlappt die Kacheln nicht und bleibt innerhalb der Platte. */}
-          <div className="pointer-events-none absolute bottom-0 right-12 hidden h-[445px] w-[420px] max-w-[45%] overflow-hidden lg:block xl:right-[calc((100%-1200px)/2)] xl:w-[560px]">
+          <div className="pointer-events-none absolute bottom-0 right-12 hidden h-[445px] w-[420px] max-w-[45%] lg:block xl:right-[calc((100%-1200px)/2)] xl:w-[560px]">
+            <div className="h-full w-full overflow-hidden">
             <img
               src={eliasCutout}
               alt="Elias El-Gendy, Gründer von finanzmuslim"
               className="h-[680px] w-full object-cover object-top"
               loading="eager"
             />
+            </div>
+            {/* Namenskarte ueberlappt das Foto unten rechts, bleibt in der Platte. */}
+            <div className="absolute bottom-[76px] right-0 rounded-xl border border-border bg-card px-4 py-3">
+              <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
+              <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
+            </div>
           </div>
         </div>
 
         {/* Kacheln ueberlappen die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-3 md:-mt-[60px] lg:grid-cols-4">
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:-mt-[60px] md:grid-cols-2 lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[72px] items-center gap-3 card-surface px-4 py-3 pt-7 transition-colors hover:border-primary sm:pt-3 md:min-h-[76px]"
+              className="group relative flex min-h-[72px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary md:min-h-[76px] md:pt-7 lg:pt-3"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">
                 <Icon className="h-5 w-5 text-primary" aria-hidden />
               </span>
               <span className="min-w-0 flex-1 text-[16px] font-bold text-foreground md:text-[18px]">
                 {label}
               </span>
-              <ArrowRight
-                className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary sm:block"
+              <ChevronRight
+                className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:hidden"
                 aria-hidden
               />
-              {!to && <span className="badge-soon absolute left-4 top-2 sm:left-auto sm:right-2">bald</span>}
+              <ArrowRight
+                className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:block"
+                aria-hidden
+              />
+              {!to && (
+                <span className="badge-soon absolute right-11 top-1/2 -translate-y-1/2 md:right-2 md:top-2 md:translate-y-0">
+                  bald
+                </span>
+              )}
             </Link>
           ))}
         </div>
 
         <div className="mt-6 flex justify-center">
-          <Link to="/vergleiche" className="btn-primary h-14 px-8 text-[19px]">
+          <Link to="/vergleiche" className="btn-primary h-14 w-full px-8 text-[19px] sm:w-auto">
             Zu allen Vergleichen
           </Link>
         </div>
