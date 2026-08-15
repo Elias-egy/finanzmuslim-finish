@@ -285,9 +285,9 @@ export const halalAnlagen: Anlage[] = [
   {
     slug: "invesco-physical-gold-etc",
     zertifikatLink:
-      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023.",
     name: "Invesco Physical Gold ETC",
     isin: "IE00B579F325",
     anbieter: "Invesco",
@@ -307,9 +307,9 @@ export const halalAnlagen: Anlage[] = [
   {
     slug: "invesco-physical-gold-ii",
     zertifikatLink:
-      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023. Dieses ETC wurde erst im Juni 2026 aufgelegt, ob es vom Zertifikat 2023 abgedeckt ist, ist noch nicht geprüft.",
     name: "Invesco Physical Gold II",
     isin: "XS3384723154",
     anbieter: "Invesco",
@@ -395,9 +395,9 @@ export const halalAnlagen: Anlage[] = [
   {
     slug: "invesco-physical-silver",
     zertifikatLink:
-      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023.",
     name: "Invesco Physical Silver",
     isin: "IE00B43VDT70",
     anbieter: "Invesco",

@@ -215,7 +215,7 @@ const Index = () => (
               Anlageklassen infrage kommen. Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt
               für Schritt startest.
             </p>
-            <Link to="/halal-guide" className="btn-primary mt-8">
+            <Link to="/halal-guide" className="btn-primary mt-8 w-full sm:w-auto">
               Guide kostenlos sichern
             </Link>
           </div>
@@ -248,7 +248,7 @@ const Index = () => (
                 placeholder="deine@email.de"
                 className="h-12 flex-1 rounded-md border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
-              <button type="submit" className="btn-primary">
+              <button type="submit" className="btn-primary w-full sm:w-auto">
                 Kostenlos anmelden
               </button>
             </form>
@@ -321,7 +321,7 @@ const Index = () => (
               Fondsgröße und der Stelle, die sie geprüft hat. Such nach Name, Anbieter oder ISIN, filter nach
               Kategorie und sortier nach dem, was dir wichtig ist.
             </p>
-            <Link to="/halal-anlagen" className="btn-primary mt-6">
+            <Link to="/halal-anlagen" className="btn-primary mt-6 w-full sm:w-auto">
               Zur Halal-Datenbank
             </Link>
           </div>
@@ -341,7 +341,7 @@ const Index = () => (
                 Werkzeuge, die dir Klarheit über deine Zahlen geben, bevor du eine Entscheidung
                 triffst.
               </p>
-              <Link to="/rechner" className="btn-primary mt-8">
+              <Link to="/rechner" className="btn-primary mt-8 w-full sm:w-auto">
                 Zu allen Rechnern
               </Link>
             </div>
@@ -400,7 +400,7 @@ const Index = () => (
           </div>
 
           <div className="mt-8 flex justify-center">
-            <Link to="/wissen" className="btn-primary">
+            <Link to="/wissen" className="btn-primary w-full sm:w-auto">
               Alle Beiträge
             </Link>
           </div>
