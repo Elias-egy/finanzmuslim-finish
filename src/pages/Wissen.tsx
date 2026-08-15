@@ -34,7 +34,7 @@ const artikel: Artikel[] = [
   { name: "Halal investieren für Anfänger", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", icon: LineChart, to: "/halal-guide" },
   { name: "Die häufigsten Fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen", icon: AlertTriangle },
   { name: "Halal ETFs", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren", icon: LineChart },
-  { name: "Aktien richtig prüfen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", icon: Search },
+  { name: "Aktien richtig prüfen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", icon: Search, to: "/wissen/sind-aktien-halal" },
   { name: "Sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren", icon: Scroll },
   { name: "Gold kaufen", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren", icon: Coins },
   { name: "Krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", icon: Bitcoin },
