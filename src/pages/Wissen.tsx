@@ -41,7 +41,7 @@ const artikel: Artikel[] = [
   { name: "Dispo und Kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag", icon: CreditCard },
   { name: "Ratenkauf", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", icon: FileWarning },
   { name: "Leasing", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", thema: "Alltag", icon: Car },
-  { name: "Versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", icon: Umbrella },
+  { name: "Versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", icon: Umbrella, to: "/wissen/ist-versicherung-haram" },
   { name: "Zakat berechnen", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", icon: Scale, to: "/zakat-rechner" },
   { name: "Nisab verstehen", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", icon: Landmark },
   { name: "Erträge reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten", icon: Sparkles },
