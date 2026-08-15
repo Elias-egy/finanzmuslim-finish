@@ -148,6 +148,7 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
 const HalalAnlagen = () => {
   const [kategorie, setKategorie] = useState<Reiter>("alle");
   const [suche, setSuche] = useState("");
+  const [zeitraum, setZeitraum] = useState<Zeitraum>("r1j");
   const [nurAusschuettend, setNurAusschuettend] = useState(false);
   const [nurPassiv, setNurPassiv] = useState(false);
   const [sortierung, setSortierung] = useState<Sortierung>("kosten");
@@ -168,8 +169,20 @@ const HalalAnlagen = () => {
     if (sortierung === "kosten") sortiert.sort((x, y) => x.kosten - y.kosten);
     if (sortierung === "groesse") sortiert.sort((x, y) => y.groesseSortierwert - x.groesseSortierwert);
     if (sortierung === "name") sortiert.sort((x, y) => x.name.localeCompare(y.name, "de"));
+    if (sortierung === "renditeAb" || sortierung === "renditeAuf") {
+      const wert = (a: Anlage) => kursFuerIsin(a.isin)?.[zeitraum];
+      sortiert.sort((x, y) => {
+        const vx = wert(x);
+        const vy = wert(y);
+        // Anlagen ohne Daten stehen immer hinten.
+        if (vx == null && vy == null) return 0;
+        if (vx == null) return 1;
+        if (vy == null) return -1;
+        return sortierung === "renditeAb" ? vy - vx : vx - vy;
+      });
+    }
     return sortiert;
-  }, [kategorie, suche, nurAusschuettend, nurPassiv, sortierung]);
+  }, [kategorie, suche, nurAusschuettend, nurPassiv, sortierung, zeitraum]);
 
   const zuruecksetzen = () => {
     setKategorie("alle");
@@ -287,6 +300,8 @@ const HalalAnlagen = () => {
                 <option value="kosten">Kosten aufsteigend</option>
                 <option value="groesse">Größe absteigend</option>
                 <option value="name">Name A bis Z</option>
+                <option value="renditeAb">Rendite absteigend</option>
+                <option value="renditeAuf">Rendite aufsteigend</option>
               </select>
             </label>
           </div>
