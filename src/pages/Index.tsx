@@ -59,8 +59,6 @@ const wissenKarten: WissenKarte[] = [
 ];
 
 const datenbankVorschau = [
-  ,
-] as never[];
   { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
   { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
   { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
