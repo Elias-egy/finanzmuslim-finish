@@ -1,16 +1,24 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { illus, type IlluName } from "@/components/illu";
 
-export type WissenKarte = { thema: string; titel: string; to?: string };
-
-/** Leere Bildflaeche: gleiches Seitenverhaeltnis wie spaetere Artikelbilder. */
-const Bildflaeche = () => <div className="aspect-[16/10] w-full bg-hero" aria-hidden />;
+export type WissenKarte = {
+  thema?: string;
+  titel: string;
+  to?: string;
+  /** Illustration oben in der Karte. */
+  illu?: IlluName;
+  /** Eine der vier beliebtesten Karten: kraeftiger Rahmen und Etikett. */
+  beliebt?: boolean;
+  /** Schlichte Abschlusskarte ohne Illustration. */
+  schlicht?: boolean;
+};
 
 /**
  * Waagerechter Schieber fuer die Wissenskarten.
- * Handy: wischen. Desktop: Pfeile links/rechts. Die naechste Karte wird
- * am rechten Rand angeschnitten, damit sichtbar ist, dass es weitergeht.
+ * Handy: wischen, die naechste Karte ragt angeschnitten ins Bild.
+ * Desktop: zusaetzlich Pfeile links/rechts.
  */
 const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
   const spur = useRef<HTMLDivElement>(null);
@@ -44,15 +52,38 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
         className="-mx-2 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-2 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {karten.map((k) => {
+          const basis =
+            "relative w-[260px] shrink-0 snap-start overflow-hidden card-surface sm:w-[300px]";
+
+          if (k.schlicht) {
+            return (
+              <Link
+                key={k.titel}
+                to={k.to ?? "/wissen"}
+                className={`group ${basis} flex items-center justify-center gap-2 p-6 text-[18px] font-bold text-foreground transition-colors hover:border-primary hover:text-primary`}
+              >
+                {k.titel}
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </Link>
+            );
+          }
+
+          const Illu = k.illu ? illus[k.illu] : null;
+
           const inhalt = (
             <>
-              <Bildflaeche />
+              <div className="relative aspect-[16/9] w-full bg-hero">
+                {Illu ? <Illu /> : null}
+                {k.beliebt && <span className="badge-new absolute left-3 top-3 z-10">Beliebt</span>}
+              </div>
               <div className="p-5">
-                <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-                  {k.thema}
-                </p>
+                {k.thema && (
+                  <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    {k.thema}
+                  </p>
+                )}
                 <h3
-                  className={`mt-2 text-[19px] font-bold leading-snug ${
+                  className={`mt-2 text-[18px] font-bold leading-snug ${
                     k.to ? "text-foreground group-hover:text-primary" : "text-muted-foreground"
                   }`}
                 >
@@ -62,11 +93,14 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
             </>
           );
 
-          const basis =
-            "relative w-[280px] shrink-0 snap-start overflow-hidden card-surface sm:w-[320px]";
-
           return k.to ? (
-            <Link key={k.titel} to={k.to} className={`group ${basis} transition-colors hover:border-primary`}>
+            <Link
+              key={k.titel}
+              to={k.to}
+              className={`group ${basis} transition-colors hover:border-primary ${
+                k.beliebt ? "border-2 border-primary" : ""
+              }`}
+            >
               {inhalt}
             </Link>
           ) : (
