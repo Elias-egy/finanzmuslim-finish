@@ -307,9 +307,15 @@ const HalalAnlagen = () => {
           </div>
         </div>
 
-        <p className="mt-4 text-[14px] text-muted-foreground" aria-live="polite">
-          {liste.length} {liste.length === 1 ? "Anlage wird" : "Anlagen werden"} angezeigt
-        </p>
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[14px] text-muted-foreground" aria-live="polite">
+            {liste.length} {liste.length === 1 ? "Anlage wird" : "Anlagen werden"} angezeigt
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[14px] text-muted-foreground">Rendite über</span>
+            <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} />
+          </div>
+        </div>
 
         {liste.length === 0 ? (
           <div className="card-surface mt-4 p-8 text-center">
@@ -328,29 +334,48 @@ const HalalAnlagen = () => {
           <table className="w-full table-fixed border-collapse text-left">
             <thead>
               <tr className="text-[13px] text-muted-foreground">
-                <th scope="col" className="w-[26%] pb-3 pr-3 font-semibold">Anbieter und Name</th>
-                <th scope="col" className="w-[12%] pb-3 pr-3 font-semibold">ISIN</th>
-                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">Kosten pro Jahr</th>
-                <th scope="col" className="w-[12%] pb-3 pr-3 font-semibold">Größe</th>
-                <th scope="col" className="w-[13%] pb-3 pr-3 font-semibold">Ertrag</th>
-                <th scope="col" className="w-[10%] pb-3 pr-3 font-semibold">Bauart</th>
+                <th scope="col" className="w-[22%] pb-3 pr-3 font-semibold">Anbieter und Name</th>
+                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">ISIN</th>
+                <th scope="col" className="w-[9%] pb-3 pr-3 font-semibold">Kosten pro Jahr</th>
+                <th scope="col" className="w-[16%] pb-3 pr-3 font-semibold">Rendite</th>
+                <th scope="col" className="w-[10%] pb-3 pr-3 font-semibold">Größe</th>
+                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">Ertrag</th>
+                <th scope="col" className="w-[9%] pb-3 pr-3 font-semibold">Bauart</th>
                 <th scope="col" className="w-[16%] pb-3 font-semibold">Geprüft von</th>
               </tr>
             </thead>
             <tbody>
-              {liste.map((a) => (
-                <tr key={a.isin} className="border-t border-border align-top">
+              {liste.map((a) => {
+                const kurs = kursFuerIsin(a.isin);
+                return (
+                <tr
+                  key={a.isin}
+                  onClick={() => navigate(`/halal-anlagen/${a.slug}`)}
+                  className="cursor-pointer border-t border-border align-top transition-colors hover:bg-hero"
+                >
                   <td className="py-4 pr-3">
                     <div className="flex items-start gap-3">
                       <AnbieterKachel name={a.anbieter} />
                       <div className="min-w-0">
-                        <p className="text-[15px] font-semibold text-foreground">{a.name}</p>
+                        <Link
+                          to={`/halal-anlagen/${a.slug}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-[15px] font-semibold text-foreground hover:text-primary"
+                        >
+                          {a.name}
+                        </Link>
                         {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
                       </div>
                     </div>
                   </td>
                   <td className="py-4 pr-3 text-[13px] text-muted-foreground">{a.isin}</td>
                   <td className="py-4 pr-3 text-[18px] font-bold text-foreground">{a.kostenLabel}</td>
+                  <td className="py-4 pr-3">
+                    <div className="flex flex-col gap-1">
+                      <RenditeWert wert={kurs?.[zeitraum]} />
+                      <Sparkline verlauf={kurs?.verlauf} />
+                    </div>
+                  </td>
                   <td className="py-4 pr-3 text-[14px] text-foreground">{a.groesse}</td>
                   <td className="py-4 pr-3 text-[14px] text-foreground">{a.ertragDetail}</td>
                   <td className="py-4 pr-3 text-[14px] text-foreground">
@@ -359,20 +384,34 @@ const HalalAnlagen = () => {
                       <BauartHilfe />
                     </span>
                   </td>
-                  <td className="py-4 text-[13px] text-muted-foreground">{a.zertifizierer}</td>
+                  <td className="py-4">
+                    <GeprueftVon a={a} />
+                  </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         <ul className="mt-4 space-y-4 md:hidden">
           {liste.map((a) => (
-            <Karte key={a.isin} a={a} />
+            <Karte key={a.isin} a={a} zeitraum={zeitraum} />
           ))}
         </ul>
           </>
         )}
+
+        {/* Woher die Renditen kommen */}
+        <section className="mt-8 rounded-2xl bg-hero p-6 md:p-8">
+          <h2 className="text-xl font-bold text-foreground">Woher die Renditen kommen</h2>
+          <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
+            Kursdaten von Yahoo Finance, Stand {kursStand}. Alle Renditen sind in Euro umgerechnet, damit sie
+            untereinander vergleichbar sind. Sonst würde bei Anlagen, die in Dollar oder Pfund notieren, der
+            Wechselkurs das Ergebnis verzerren. Die Werte werden nicht automatisch aktualisiert. Vergangene
+            Renditen sagen nichts über die Zukunft.
+          </p>
+        </section>
 
         {/* CTA Mitte */}
         <section className="card-surface mt-10 p-6 md:p-8">
