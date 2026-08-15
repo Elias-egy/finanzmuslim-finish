@@ -24,6 +24,8 @@ export type Anlage = {
   /** Direktlink auf den Shariah-Nachweis, falls geprüft. */
   zertifikatLink?: string;
   zertifikatHinweis?: string;
+  /** "produkt" = eigenes Zertifikat des Anbieters, "index" = Nachweis nur zum Index. */
+  zertifikatArt?: "produkt" | "index";
 };
 
 export type Anbieter = { kuerzel: string; name: string; logo?: string };
@@ -48,6 +50,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "ishares-msci-world-islamic",
     name: "iShares MSCI World Islamic",
     isin: "IE00B27YCN58",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.3,
@@ -66,6 +72,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "ishares-msci-emerging-markets-islamic",
     name: "iShares MSCI Emerging Markets Islamic",
     isin: "IE00B27YCP72",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.35,
@@ -84,6 +94,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "ishares-msci-usa-islamic",
     name: "iShares MSCI USA Islamic",
     isin: "IE00B296QM64",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.3,
@@ -119,9 +133,12 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "invesco-msci-acwi-islamic-m-series",
-    zertifikatHinweis: "Index-Screening, Nachweis noch nicht geprüft.",
     name: "Invesco MSCI ACWI Islamic M-Series",
     isin: "IE000LFC57H7",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "Invesco",
     kategorie: "aktien",
     kosten: 0.35,
@@ -141,6 +158,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "hsbc-msci-world-islamic-screened",
     name: "HSBC MSCI World Islamic Screened",
     isin: "IE000X9FTI22",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "HSBC",
     kategorie: "aktien",
     kosten: 0.3,
@@ -159,6 +180,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "hsbc-msci-usa-islamic-screened",
     name: "HSBC MSCI USA Islamic Screened",
     isin: "IE000I5NV504",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "HSBC",
     kategorie: "aktien",
     kosten: 0.3,
@@ -177,6 +202,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "hsbc-msci-europe-islamic-screened",
     name: "HSBC MSCI Europe Islamic Screened",
     isin: "IE000AGFZM58",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "HSBC",
     kategorie: "aktien",
     kosten: 0.3,
@@ -195,6 +224,10 @@ export const halalAnlagen: Anlage[] = [
     slug: "hsbc-msci-emerging-markets-islamic-screened-capped",
     name: "HSBC MSCI Emerging Markets Islamic Screened Capped",
     isin: "IE0009BC6K22",
+    zertifikatArt: "index",
+    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatHinweis:
+      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
     anbieter: "HSBC",
     kategorie: "aktien",
     kosten: 0.35,
@@ -284,6 +317,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "invesco-physical-gold-etc",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
@@ -306,6 +340,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "invesco-physical-gold-ii",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
@@ -328,6 +363,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "wisdomtree-physical-gold",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
     zertifikatHinweis:
@@ -350,6 +386,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "wisdomtree-core-physical-gold",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
     zertifikatHinweis:
@@ -372,6 +409,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "wisdomtree-physical-swiss-gold",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
     zertifikatHinweis:
@@ -394,6 +432,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "invesco-physical-silver",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
@@ -416,6 +455,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "wisdomtree-physical-silver",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
     zertifikatHinweis:
@@ -438,6 +478,7 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "wisdomtree-core-physical-silver",
+    zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
     zertifikatHinweis:

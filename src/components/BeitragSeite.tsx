@@ -40,7 +40,6 @@ const BeitragSeite = ({
   children,
 }: Props) => {
   const [offen, setOffen] = useState(false);
-  const mitteNach = Math.ceil(abschnitte.length / 2);
 
   return (
     <main className="bg-background">
@@ -71,10 +70,6 @@ const BeitragSeite = ({
               ))}
             </ul>
           </section>
-
-          <div className="mt-6">
-            <EmpfehlungsBox {...boxOben} />
-          </div>
 
           <nav aria-label="Inhaltsübersicht" className="mt-8 card-surface p-5">
             <button
@@ -112,7 +107,7 @@ const BeitragSeite = ({
                   <h2 className="text-2xl font-bold leading-snug text-foreground md:text-[28px]">{a.titel}</h2>
                   <div className="mt-3 space-y-4 text-[17px] leading-relaxed text-foreground/90">{a.inhalt}</div>
                 </section>
-                {i + 1 === mitteNach && i + 1 < abschnitte.length && <EmpfehlungsBox {...boxMitte} />}
+                {i === 0 && abschnitte.length > 1 && <EmpfehlungsBox {...boxOben} />}
               </div>
             ))}
           </div>
@@ -132,6 +127,10 @@ const BeitragSeite = ({
           </section>
 
           {children && <div className="mt-12">{children}</div>}
+
+          <div className="mt-12">
+            <EmpfehlungsBox {...boxMitte} />
+          </div>
 
           <section className="mt-12 flex items-center gap-4 card-surface p-6">
             <img

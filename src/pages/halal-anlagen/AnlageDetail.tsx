@@ -120,6 +120,12 @@ const AnlageDetail = () => {
               )}
             </p>
             {anlage.zertifikatHinweis && <p>{anlage.zertifikatHinweis}</p>}
+            {anlage.zertifikatArt === "index" && (
+              <p>
+                Für dieses Produkt selbst gibt der Anbieter kein eigenes Zertifikat heraus. Der Nachweis bezieht
+                sich auf den zugrunde liegenden Index.
+              </p>
+            )}
             <p>
               <span className="font-semibold text-foreground">Wie geprüft wird: </span>
               Eine unabhängige Gelehrtenstelle schaut sich an, womit die Firmen im Fonds ihr Geld verdienen und
