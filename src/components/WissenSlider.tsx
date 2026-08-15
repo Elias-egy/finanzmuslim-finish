@@ -12,6 +12,8 @@ export type WissenKarte = {
   motiv?: MotivName;
   /** Eine der vier beliebtesten Karten: kraeftiger Rahmen und Etikett. */
   beliebt?: boolean;
+  /** Frisch veroeffentlicht: violettes Etikett "Neu". */
+  neu?: boolean;
   /** Schlichte Abschlusskarte ohne Motivbild. */
   schlicht?: boolean;
 };
@@ -74,6 +76,9 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
               <div className="relative w-full bg-hero">
                 {k.motiv ? <MotivBild name={k.motiv} /> : <div className="aspect-[16/9] w-full" />}
                 {k.beliebt && <span className="badge-new absolute left-3 top-3 z-10">Beliebt</span>}
+                {!k.beliebt && k.neu && (
+                  <span className="badge-new absolute left-3 top-3 z-10">Neu</span>
+                )}
               </div>
               <div className="p-5">
                 {k.thema && (

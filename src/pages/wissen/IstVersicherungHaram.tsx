@@ -226,6 +226,12 @@ const IstVersicherungHaram = () => (
             sind Aktien halal?
           </Link>
         </p>
+        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+          Beim Hauskauf stellt sich dieselbe Frage in größerem Maßstab.{" "}
+          <Link to="/wissen/haus-kaufen-ohne-zinsen" className="text-primary hover:underline">
+            Haus kaufen ohne Zinsen
+          </Link>
+        </p>
       </section>
     </BeitragSeite>
   </>
