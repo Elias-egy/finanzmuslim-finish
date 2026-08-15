@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronRight, HelpCircle } from "lucide-react";
+import { ChevronRight, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
 import { Switch } from "@/components/ui/switch";
@@ -101,23 +101,36 @@ const Karte = ({ a }: { a: Anlage }) => (
 
 const HalalAnlagen = () => {
   const [kategorie, setKategorie] = useState<Reiter>("alle");
+  const [suche, setSuche] = useState("");
   const [nurAusschuettend, setNurAusschuettend] = useState(false);
   const [nurPassiv, setNurPassiv] = useState(false);
   const [sortierung, setSortierung] = useState<Sortierung>("kosten");
 
   const liste = useMemo(() => {
+    const q = suche.trim().toLowerCase();
     const gefiltert = halalAnlagen.filter(
       (a) =>
         (kategorie === "alle" || a.kategorie === kategorie) &&
         (!nurAusschuettend || a.ertrag === "ausschuettend") &&
-        (!nurPassiv || a.bauart === "passiv"),
+        (!nurPassiv || a.bauart === "passiv") &&
+        (q === "" ||
+          a.name.toLowerCase().includes(q) ||
+          a.anbieter.toLowerCase().includes(q) ||
+          a.isin.toLowerCase().includes(q)),
     );
     const sortiert = [...gefiltert];
     if (sortierung === "kosten") sortiert.sort((x, y) => x.kosten - y.kosten);
     if (sortierung === "groesse") sortiert.sort((x, y) => y.groesseSortierwert - x.groesseSortierwert);
     if (sortierung === "name") sortiert.sort((x, y) => x.name.localeCompare(y.name, "de"));
     return sortiert;
-  }, [kategorie, nurAusschuettend, nurPassiv, sortierung]);
+  }, [kategorie, suche, nurAusschuettend, nurPassiv, sortierung]);
+
+  const zuruecksetzen = () => {
+    setKategorie("alle");
+    setSuche("");
+    setNurAusschuettend(false);
+    setNurPassiv(false);
+  };
 
   return (
     <main className="bg-background">
@@ -162,6 +175,31 @@ const HalalAnlagen = () => {
       <div className="container py-10 md:py-14">
         {/* Filterleiste */}
         <div className="card-surface p-4 md:p-5">
+          <div className="relative mb-4">
+            <Search
+              className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={suche}
+              onChange={(e) => setSuche(e.target.value)}
+              aria-label="ETF, Fonds oder ISIN suchen"
+              placeholder="ETF, Fonds oder ISIN suchen"
+              className="min-h-[48px] w-full rounded-lg border border-border bg-background pl-11 pr-11 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+            />
+            {suche && (
+              <button
+                type="button"
+                onClick={() => setSuche("")}
+                aria-label="Suche löschen"
+                className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-hero hover:text-foreground"
+              >
+                <X className="h-4 w-4" aria-hidden />
+              </button>
+            )}
+          </div>
+
           <div className="flex flex-wrap gap-2" role="tablist" aria-label="Kategorie">
             {reiter.map((r) => (
               <button
@@ -212,6 +250,18 @@ const HalalAnlagen = () => {
           {liste.length} {liste.length === 1 ? "Anlage wird" : "Anlagen werden"} angezeigt
         </p>
 
+        {liste.length === 0 ? (
+          <div className="card-surface mt-4 p-8 text-center">
+            <p className="text-[16px] font-semibold text-foreground">Keine Anlage passt zu deiner Suche</p>
+            <p className="mt-2 text-[15px] text-muted-foreground">
+              Probier einen kürzeren Suchbegriff oder setz die Filter zurück.
+            </p>
+            <button type="button" onClick={zuruecksetzen} className="btn-primary mt-5">
+              Filter zurücksetzen
+            </button>
+          </div>
+        ) : (
+          <>
         {/* Tabelle ab md, darunter Karten */}
         <div className="mt-4 hidden md:block">
           <table className="w-full table-fixed border-collapse text-left">
@@ -260,6 +310,8 @@ const HalalAnlagen = () => {
             <Karte key={a.isin} a={a} />
           ))}
         </ul>
+          </>
+        )}
 
         {/* CTA Mitte */}
         <section className="card-surface mt-10 p-6 md:p-8">

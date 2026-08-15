@@ -57,10 +57,16 @@ const wissenKarten: WissenKarte[] = [
   { thema: "Grundlagen", titel: "Glücksspiel (Maysir)" },
 ];
 
-const screeningPreview = [
-  { name: "Beispiel AG", tone: "bg-success" },
-  { name: "Muster Holding", tone: "bg-warning" },
-  { name: "Demo Bank", tone: "bg-destructive" },
+const datenbankVorschau = [
+  { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
+  { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
+  { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
+];
+
+const vorschauLegende = [
+  { label: "Aktien-ETF", tone: "bg-primary" },
+  { label: "Fonds", tone: "bg-success" },
+  { label: "Gold und Silber", tone: "bg-warning" },
 ];
 
 const Index = () => (
@@ -217,32 +223,50 @@ const Index = () => (
       {/* 4 — Finde halal Anlagen: Vorschau links, Text rechts */}
       <section className="section-card">
         <div className="section-inner grid items-center gap-10 lg:grid-cols-[500px_1fr] lg:gap-16">
-          <div className="w-full rounded-2xl border border-border bg-card p-6 lg:w-[500px]" aria-hidden>
+          <Link
+            to="/halal-anlagen"
+            aria-label="Zur Halal-Datenbank mit 23 Anlagen"
+            className="block w-full rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary lg:w-[500px]"
+          >
             <div className="flex h-12 items-center gap-3 rounded-md border border-border px-4">
-              <Search className="h-4 w-4 text-muted-foreground" />
-              <span className="text-[16px] text-muted-foreground">Aktie oder ETF suchen</span>
+              <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
+              <span className="text-[16px] text-muted-foreground">ETF, Fonds oder ISIN suchen</span>
             </div>
             <ul className="mt-4 divide-y divide-border">
-              {screeningPreview.map((row) => (
-                <li key={row.name} className="flex min-h-[52px] items-center justify-between py-2">
+              {datenbankVorschau.map((row) => (
+                <li key={row.name} className="flex min-h-[52px] items-center justify-between gap-3 py-2">
                   <span className="text-[16px] text-foreground">{row.name}</span>
-                  <span className={`h-2.5 w-2.5 rounded-full ${row.tone}`} />
+                  <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
+                    {row.art}
+                    <span className={`h-2.5 w-2.5 rounded-full ${row.tone}`} aria-hidden />
+                  </span>
                 </li>
               ))}
             </ul>
-          </div>
+            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+              {vorschauLegende.map((l) => (
+                <li key={l.label} className="flex items-center gap-2 text-[13px] text-muted-foreground">
+                  <span className={`h-2 w-2 rounded-full ${l.tone}`} aria-hidden />
+                  {l.label}
+                </li>
+              ))}
+            </ul>
+            <span className="mt-4 block text-[15px] font-semibold text-primary">Alle 23 Anlagen ansehen</span>
+          </Link>
 
           <div>
-            <p className="eyebrow">Halal-Check</p>
+            <p className="eyebrow">Halal-Datenbank</p>
             <h2 className="mt-3 text-[30px] font-semibold leading-tight text-foreground md:text-[40px] md:leading-[48px]">
               Finde halal Anlagen
             </h2>
             <p className="mt-5 max-w-[640px] text-[17px] leading-relaxed text-muted-foreground md:text-[20px] md:leading-[28px]">
-              Hier entsteht eine Datenbank, mit der du Aktien und ETFs auf ihre Islamkonformität prüfen
-              kannst. Du gibst einen Namen ein und siehst, welche Kriterien erfüllt sind und welche
-              nicht.
+              23 geprüfte Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold und Silber. Mit Kosten,
+              Fondsgröße und der Stelle, die sie geprüft hat. Such nach Name, Anbieter oder ISIN, filter nach
+              Kategorie und sortier nach dem, was dir wichtig ist.
             </p>
-            <span className="badge-note mt-6">In Arbeit</span>
+            <Link to="/halal-anlagen" className="btn-primary mt-6">
+              Zur Halal-Datenbank
+            </Link>
           </div>
         </div>
       </section>
