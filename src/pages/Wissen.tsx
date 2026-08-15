@@ -22,6 +22,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
+import NewsletterBox from "@/components/NewsletterBox";
 import { vorlagen } from "@/data/vorlagen";
 
 type Artikel = { name: string; desc: string; thema: string; icon: LucideIcon; to?: string };
@@ -48,23 +49,28 @@ const artikel: Artikel[] = [
   { name: "Erbe nach islamischem Recht", desc: "Grundzüge der Erbteilung.", thema: "Pflichten", icon: Users },
 ];
 
-/**
- * Werbeplatz nach dem dritten Artikel und danach nach jedem weiteren fuenften.
- * Die Plaetze sind vorbereitet, aber vorerst vollstaendig leer und unsichtbar.
- */
-const werbeplatzNach = (index: number) => index >= 2 && (index - 2) % 5 === 0;
+/** Kategorien in fester Reihenfolge, je mit Ankerpunkt und Erklaersatz. */
+const kategorien = [
+  { thema: "Grundlagen", id: "grundlagen", satz: "Die Begriffe, ohne die alles andere schwer zu verstehen ist." },
+  { thema: "Investieren", id: "investieren", satz: "Wie du dein Geld anlegst, ohne gegen deine Überzeugung zu handeln." },
+  { thema: "Alltag", id: "alltag", satz: "Verträge, die dir im normalen Leben begegnen, vom Konto bis zum Leasing." },
+  { thema: "Pflichten", id: "pflichten", satz: "Was der Islam an Abgaben und Regeln vorsieht, und wie du es ausrechnest." },
+];
 
-const Zeile = ({ name, desc, thema, icon: Icon, to }: Artikel) => {
+/** Fertige Beitraege zuerst, danach die mit "bald". */
+const sortiert = (thema: string) => {
+  const liste = artikel.filter((a) => a.thema === thema);
+  return [...liste.filter((a) => a.to), ...liste.filter((a) => !a.to)];
+};
+
+const Zeile = ({ name, desc, icon: Icon, to }: Artikel) => {
   const inhalt = (
     <>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
         <Icon className={`h-5 w-5 ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-          {thema}
-        </span>
-        <span className="mt-1 block text-[17px] font-bold text-foreground">{name}</span>
+        <span className="block text-[17px] font-bold text-foreground">{name}</span>
         <span className="mt-1 block text-[15px] text-muted-foreground">{desc}</span>
       </span>
     </>
@@ -96,7 +102,7 @@ const Wissen = () => (
   <main className="bg-background">
     <Seo
       title="Halal-Finanzwissen | finanzmuslim"
-      description="Verständlich erklärt, ohne Fachchinesisch. Von Riba bis Zakat: Grundlagen, Investieren, Alltag und Pflichten."
+      description="Halal-Finanzwissen nach Themen sortiert: Grundlagen, Investieren, Alltag und Pflichten. Verständlich erklärt, ohne Fachchinesisch."
       path="/wissen"
     />
     <div className="container py-10 md:py-14">
@@ -137,13 +143,41 @@ const Wissen = () => (
         </div>
       </section>
 
-      <div className="mt-10 max-w-3xl space-y-4">
-        {artikel.map((a, i) => (
-          <div key={a.name} className="space-y-4">
-            <Zeile {...a} />
-            {werbeplatzNach(i) && <AdSlot id={`wissen-${i + 1}`} />}
+      <nav aria-label="Themen" className="mt-8 flex max-w-3xl flex-wrap gap-2">
+        {kategorien.map((k) => (
+          <a
+            key={k.id}
+            href={`#${k.id}`}
+            className="rounded-full border border-border bg-card px-4 py-2 text-[15px] font-semibold text-primary transition-colors hover:border-primary"
+          >
+            {k.thema} ({sortiert(k.thema).length})
+          </a>
+        ))}
+      </nav>
+
+      <div className="mt-10 max-w-3xl space-y-12">
+        {kategorien.map((k) => (
+          <div key={k.id}>
+            <section id={k.id} className="scroll-mt-32">
+              <h2 className="text-2xl font-bold text-foreground md:text-[28px]">{k.thema}</h2>
+              <p className="mt-2 text-[16px] text-muted-foreground">{k.satz}</p>
+              <div className="mt-5 space-y-4">
+                {sortiert(k.thema).map((a) => (
+                  <Zeile key={a.name} {...a} />
+                ))}
+              </div>
+            </section>
+            {(k.id === "grundlagen" || k.id === "alltag") && (
+              <div className="mt-8">
+                <AdSlot id={`wissen-${k.id}`} />
+              </div>
+            )}
           </div>
         ))}
+      </div>
+
+      <div className="mt-12 max-w-3xl">
+        <NewsletterBox />
       </div>
     </div>
   </main>
