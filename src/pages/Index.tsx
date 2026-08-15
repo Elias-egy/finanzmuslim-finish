@@ -10,6 +10,7 @@ import {
   LineChart,
   PiggyBank,
   Receipt,
+  ChevronRight,
   Search,
   ShieldCheck,
   TrendingDown,
@@ -19,7 +20,6 @@ import {
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
-import BeliebteBeitraege, { type BeliebtKarte } from "@/components/BeliebteBeitraege";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideCover from "@/assets/guide-cover-v3.png.asset.json";
@@ -47,56 +47,56 @@ const calculators = [
   { title: "Inflationsrechner", icon: TrendingDown },
 ];
 
-/** Nur der Riba-Artikel existiert. Alles andere ist als "bald" markiert. */
+/** Erste vier sind die beliebtesten. Danach die uebrigen Themen. */
 const wissenKarten: WissenKarte[] = [
-  { thema: "Alltag", titel: "Hauskauf oder Miete" },
-  { thema: "Investieren", titel: "Gold richtig kaufen" },
-  { thema: "Alltag", titel: "Finanzierung" },
-  { thema: "Alltag", titel: "Leasing und Autoabo" },
-  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)" },
-  { thema: "Grundlagen", titel: "Zins (Riba)", to: "/wissen/was-ist-riba" },
-  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)" },
+  {
+    thema: "Vorlage",
+    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
+    to: "/vorlagen/vertrags-ampel",
+    illu: "versicherung",
+    beliebt: true,
+  },
+  {
+    thema: "Vorlage",
+    titel: "21 halal Anlagen, die du wirklich kaufen kannst",
+    to: "/vorlagen/halal-anlagen",
+    illu: "depot",
+    beliebt: true,
+  },
+  {
+    thema: "Datenbank",
+    titel: "Halal-Anlagen finden",
+    to: "/halal-anlagen",
+    illu: "depot",
+    beliebt: true,
+  },
+  {
+    thema: "Vorlage",
+    titel: "Ist diese Aktie halal?",
+    to: "/vorlagen/aktien-check",
+    illu: "pruefung",
+    beliebt: true,
+  },
+  {
+    thema: "Alltag",
+    titel: "Ist eine Versicherung haram?",
+    to: "/wissen/ist-versicherung-haram",
+    illu: "versicherung",
+  },
+  { thema: "Grundlagen", titel: "Zins (Riba)", to: "/wissen/was-ist-riba", illu: "zins" },
+  { thema: "Investieren", titel: "Gold richtig kaufen", illu: "gold" },
+  { thema: "Alltag", titel: "Finanzierung", illu: "zins" },
+  { thema: "Alltag", titel: "Hauskauf oder Miete", illu: "handel" },
+  { thema: "Alltag", titel: "Leasing und Autoabo", illu: "handel" },
+  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", illu: "handel" },
+  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", illu: "pruefung" },
+  { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
 ];
 
 const datenbankVorschau = [
   { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
   { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
   { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
-];
-
-/** Reihenfolge fest vorgegeben. Die letzte Karte fuehrt in die Uebersicht. */
-const beliebteKarten: BeliebtKarte[] = [
-  {
-    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
-    etikett: "Die Ampel",
-    text: "Zwölf Verträge aus dem Alltag, jeweils mit klarer Farbe",
-    to: "/vorlagen/vertrags-ampel",
-  },
-  {
-    titel: "21 halal Anlagen, die du wirklich kaufen kannst",
-    etikett: "Die Liste",
-    text: "Mit ISIN und der Stelle, die sie geprüft hat",
-    to: "/vorlagen/halal-anlagen",
-  },
-  {
-    titel: "Halal-Anlagen finden",
-    etikett: "Datenbank",
-    text: "23 Anlagen mit Kosten, Rendite und Zertifikat",
-    to: "/halal-anlagen",
-  },
-  {
-    titel: "Ist diese Aktie halal?",
-    etikett: "Der Spickzettel",
-    text: "Die drei Grenzwerte, nach denen jeder Screener entscheidet",
-    to: "/vorlagen/aktien-check",
-  },
-  {
-    titel: "Ist eine Versicherung haram?",
-    etikett: "Neu",
-    text: "Wann sie zulässig ist und wann nicht",
-    to: "/wissen/ist-versicherung-haram",
-  },
-  { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
 ];
 
 const vorschauLegende = [
