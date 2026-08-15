@@ -25,7 +25,7 @@ export const navGroups: NavGroup[] = [
           { label: "Aktien prüfen" },
           { label: "Sukuk" },
           { label: "Gold" },
-          { label: "Krypto" },
+          { label: "Krypto", to: "/wissen/ist-bitcoin-halal" },
         ],
       },
       {

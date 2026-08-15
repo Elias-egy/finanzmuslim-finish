@@ -19,7 +19,7 @@ const artikel: Artikel[] = [
   { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
   { name: "Sukuk", motiv: "sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren" },
   { name: "Gold kaufen", motiv: "gold", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren" },
-  { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren" },
+  { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", to: "/wissen/ist-bitcoin-halal" },
   { name: "Girokonto ohne Zinsfalle", motiv: "karte", desc: "Worauf du bei deinem Alltagskonto achtest.", thema: "Alltag" },
   { name: "Dispo und Kredit", motiv: "kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag" },
   { name: "Ratenkauf", motiv: "raten", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", to: "/wissen/ratenzahlung-haram" },
