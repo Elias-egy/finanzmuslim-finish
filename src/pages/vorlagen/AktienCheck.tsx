@@ -56,6 +56,7 @@ const AktienCheck = () => (
     />
     <VorlagenSeite
       kicker={v.kicker}
+      motiv={v.motiv}
       titel={v.titel}
       einleitung="Drei Zahlen entscheiden. Wer sie kennt, kann jede Aktie in unter einer Minute einordnen, ohne Bilanz lesen zu können."
       pdfPfad={v.pdfPfad}

@@ -89,6 +89,7 @@ const HalalAnlagen = () => (
     />
     <VorlagenSeite
       kicker={v.kicker}
+      motiv={v.motiv}
       titel={v.titel}
       einleitung="Aktien-ETFs, Sukuk, Gold, Silber und Krypto, jeweils mit ISIN und der Stelle, die sie als shariah-konform geprüft oder zertifiziert hat. Zum Nachlesen statt Nachfragen."
       pdfPfad={v.pdfPfad}

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronRight, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
+import { MotivDatenbank } from "@/components/motive";
 import NewsletterBox from "@/components/NewsletterBox";
 import ZeitraumSchalter from "@/components/ZeitraumSchalter";
 import { RenditeWert, Sparkline } from "@/components/Rendite";
@@ -214,9 +215,14 @@ const HalalAnlagen = () => {
             <span className="text-foreground">Halal-Anlagen finden</span>
           </nav>
 
-          <h1 className="mt-6 max-w-3xl text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            Halal-Anlagen finden
-          </h1>
+          <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <h1 className="max-w-3xl text-3xl font-bold leading-tight text-foreground md:text-4xl">
+              Halal-Anlagen finden
+            </h1>
+            <span className="h-16 w-16 shrink-0 overflow-hidden rounded-xl">
+              <MotivDatenbank />
+            </span>
+          </div>
           <p className="mt-3 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
             23 Anlagen, die es wirklich gibt, mit Kosten, Größe und der Stelle, die sie geprüft hat. Sortier
             nach dem, was dir wichtig ist.
