@@ -19,6 +19,7 @@ import {
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
+import BeliebteBeitraege, { type BeliebtKarte } from "@/components/BeliebteBeitraege";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideCover from "@/assets/guide-cover-v3.png.asset.json";
@@ -61,6 +62,41 @@ const datenbankVorschau = [
   { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
   { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
   { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
+];
+
+/** Reihenfolge fest vorgegeben. Die letzte Karte fuehrt in die Uebersicht. */
+const beliebteKarten: BeliebtKarte[] = [
+  {
+    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
+    etikett: "Die Ampel",
+    text: "Zwölf Verträge aus dem Alltag, jeweils mit klarer Farbe",
+    to: "/vorlagen/vertrags-ampel",
+  },
+  {
+    titel: "21 halal Anlagen, die du wirklich kaufen kannst",
+    etikett: "Die Liste",
+    text: "Mit ISIN und der Stelle, die sie geprüft hat",
+    to: "/vorlagen/halal-anlagen",
+  },
+  {
+    titel: "Halal-Anlagen finden",
+    etikett: "Datenbank",
+    text: "23 Anlagen mit Kosten, Rendite und Zertifikat",
+    to: "/halal-anlagen",
+  },
+  {
+    titel: "Ist diese Aktie halal?",
+    etikett: "Der Spickzettel",
+    text: "Die drei Grenzwerte, nach denen jeder Screener entscheidet",
+    to: "/vorlagen/aktien-check",
+  },
+  {
+    titel: "Ist eine Versicherung haram?",
+    etikett: "Neu",
+    text: "Wann sie zulässig ist und wann nicht",
+    to: "/wissen/ist-versicherung-haram",
+  },
+  { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
 ];
 
 const vorschauLegende = [
@@ -140,6 +176,21 @@ const Index = () => (
       </section>
 
       {/* 2 — Guide: Bild links, Text rechts */}
+      {/* Am beliebtesten: direkt unter den Vergleichskacheln */}
+      <section className="section-card">
+        <div className="section-inner">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="badge-new">Am beliebtesten</span>
+            <Link to="/wissen" className="text-[16px] font-semibold text-primary hover:underline">
+              Alle Beiträge
+            </Link>
+          </div>
+          <div className="mt-6">
+            <BeliebteBeitraege karten={beliebteKarten} />
+          </div>
+        </div>
+      </section>
+
       <section className="section-card">
         <div className="section-inner grid items-center gap-10 lg:grid-cols-[380px_1fr] lg:gap-16">
           <img

@@ -25,6 +25,7 @@ const HalalAnlagen = lazy(() => import("./pages/HalalAnlagen.tsx"));
 const AnlageDetail = lazy(() => import("./pages/halal-anlagen/AnlageDetail.tsx"));
 const Wissen = lazy(() => import("./pages/Wissen.tsx"));
 const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
+const IstVersicherungHaram = lazy(() => import("./pages/wissen/IstVersicherungHaram.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
@@ -90,6 +91,7 @@ const App = () => (
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />
             <Route path="/wissen" element={<Wissen />} />
             <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
+            <Route path="/wissen/ist-versicherung-haram" element={<IstVersicherungHaram />} />
             <Route path="/vorlagen" element={<Vorlagen />} />
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />
