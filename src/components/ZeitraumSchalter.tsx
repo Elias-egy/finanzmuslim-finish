@@ -1,0 +1,33 @@
+import { zeitraeume, type Zeitraum } from "@/lib/kurse";
+
+type Props = {
+  wert: Zeitraum;
+  onChange: (z: Zeitraum) => void;
+  className?: string;
+};
+
+/** Gemeinsame Umschaltleiste für Tabelle und Detailseite. */
+const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => (
+  <div
+    role="tablist"
+    aria-label="Zeitraum der Rendite"
+    className={`inline-flex flex-wrap gap-1 rounded-lg bg-muted p-1 ${className}`}
+  >
+    {zeitraeume.map((z) => (
+      <button
+        key={z.key}
+        type="button"
+        role="tab"
+        aria-selected={wert === z.key}
+        onClick={() => onChange(z.key)}
+        className={`min-h-[36px] rounded-md px-3 text-[14px] font-semibold transition-colors ${
+          wert === z.key ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-background"
+        }`}
+      >
+        {z.label}
+      </button>
+    ))}
+  </div>
+);
+
+export default ZeitraumSchalter;
