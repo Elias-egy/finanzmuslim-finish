@@ -78,6 +78,13 @@ const wissenKarten: WissenKarte[] = [
     beliebt: true,
   },
   {
+    thema: "Investieren",
+    titel: "Ist Bitcoin halal?",
+    to: "/wissen/ist-bitcoin-halal",
+    motiv: "krypto",
+    neu: true,
+  },
+  {
     thema: "Alltag",
     titel: "Haus kaufen ohne Zinsen",
     to: "/wissen/haus-kaufen-ohne-zinsen",

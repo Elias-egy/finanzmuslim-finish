@@ -230,6 +230,9 @@ const SindAktienHalal = () => (
           . Zur Versicherung gibt es einen eigenen Beitrag:{" "}
           <Link to="/wissen/ist-versicherung-haram" className="text-primary hover:underline">
             ist eine Versicherung haram?
+          </Link>{" "}
+          <Link to="/wissen/ist-bitcoin-halal" className="text-primary hover:underline">
+            Bei Kryptowährungen stellt sich dieselbe Frage nach echtem Besitz.
           </Link>
         </p>
       </section>
