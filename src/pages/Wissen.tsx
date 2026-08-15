@@ -1,52 +1,34 @@
 import { Link } from "react-router-dom";
-import {
-  AlertTriangle,
-  Banknote,
-  Bitcoin,
-  Car,
-  ChevronRight,
-  Coins,
-  CreditCard,
-  FileWarning,
-  Landmark,
-  LineChart,
-  Percent,
-  Scale,
-  Scroll,
-  Search,
-  ShieldQuestion,
-  Sparkles,
-  Umbrella,
-  Users,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import MotivBild from "@/components/MotivBild";
+import { type MotivName } from "@/components/motive";
 import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
 import { vorlagen } from "@/data/vorlagen";
 
-type Artikel = { name: string; desc: string; thema: string; icon: LucideIcon; to?: string };
+type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to?: string };
 
 /** Eine durchgehende Liste. Reihenfolge = Anzeigereihenfolge. */
 const artikel: Artikel[] = [
-  { name: "Was ist Riba", desc: "Zins im Islam: Bedeutung, Formen und Alternativen.", thema: "Grundlagen", icon: Percent, to: "/wissen/was-ist-riba" },
-  { name: "Was ist Gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen", icon: ShieldQuestion },
-  { name: "Halal investieren für Anfänger", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", icon: LineChart, to: "/halal-guide" },
-  { name: "Die häufigsten Fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen", icon: AlertTriangle },
-  { name: "Halal ETFs", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren", icon: LineChart },
-  { name: "Aktien richtig prüfen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", icon: Search, to: "/wissen/sind-aktien-halal" },
-  { name: "Sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren", icon: Scroll },
-  { name: "Gold kaufen", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren", icon: Coins },
-  { name: "Krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", icon: Bitcoin },
-  { name: "Girokonto ohne Zinsfalle", desc: "Worauf du bei deinem Alltagskonto achtest.", thema: "Alltag", icon: Banknote },
-  { name: "Dispo und Kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag", icon: CreditCard },
-  { name: "Ratenkauf", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", icon: FileWarning },
-  { name: "Leasing", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", thema: "Alltag", icon: Car },
-  { name: "Versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", icon: Umbrella, to: "/wissen/ist-versicherung-haram" },
-  { name: "Zakat berechnen", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", icon: Scale, to: "/zakat-rechner" },
-  { name: "Nisab verstehen", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", icon: Landmark },
-  { name: "Erträge reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten", icon: Sparkles },
-  { name: "Erbe nach islamischem Recht", desc: "Grundzüge der Erbteilung.", thema: "Pflichten", icon: Users },
+  { name: "Was ist Riba", motiv: "zins", desc: "Zins im Islam: Bedeutung, Formen und Alternativen.", thema: "Grundlagen", to: "/wissen/was-ist-riba" },
+  { name: "Was ist Gharar", motiv: "gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen" },
+  { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
+  { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
+  { name: "Halal ETFs", motiv: "etf", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren" },
+  { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
+  { name: "Sukuk", motiv: "sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren" },
+  { name: "Gold kaufen", motiv: "gold", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren" },
+  { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren" },
+  { name: "Girokonto ohne Zinsfalle", motiv: "karte", desc: "Worauf du bei deinem Alltagskonto achtest.", thema: "Alltag" },
+  { name: "Dispo und Kredit", motiv: "kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag" },
+  { name: "Ratenkauf", motiv: "raten", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag" },
+  { name: "Leasing", motiv: "auto", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", thema: "Alltag" },
+  { name: "Versicherung", motiv: "versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", to: "/wissen/ist-versicherung-haram" },
+  { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
+  { name: "Nisab verstehen", motiv: "nisab", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },
+  { name: "Erträge reinigen", motiv: "reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten" },
+  { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Grundzüge der Erbteilung.", thema: "Pflichten" },
 ];
 
 /** Kategorien in fester Reihenfolge, je mit Ankerpunkt und Erklaersatz. */
@@ -63,11 +45,11 @@ const sortiert = (thema: string) => {
   return [...liste.filter((a) => a.to), ...liste.filter((a) => !a.to)];
 };
 
-const Zeile = ({ name, desc, icon: Icon, to }: Artikel) => {
+const Zeile = ({ name, desc, motiv, to }: Artikel) => {
   const inhalt = (
     <>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-        <Icon className={`h-5 w-5 ${to ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
+      <span className="w-28 shrink-0 overflow-hidden rounded-lg sm:w-36">
+        <MotivBild name={motiv} />
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[17px] font-bold text-foreground">{name}</span>
@@ -80,7 +62,7 @@ const Zeile = ({ name, desc, icon: Icon, to }: Artikel) => {
     return (
       <Link
         to={to}
-        className="flex w-full items-start gap-4 card-surface p-5 transition-colors hover:border-primary"
+        className="flex w-full items-center gap-4 card-surface p-4 transition-colors hover:border-primary"
       >
         {inhalt}
       </Link>
@@ -90,7 +72,7 @@ const Zeile = ({ name, desc, icon: Icon, to }: Artikel) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex w-full items-start gap-4 rounded-xl border border-border bg-muted p-5 opacity-70"
+      className="relative flex w-full items-center gap-4 rounded-xl border border-border bg-muted p-4 opacity-70"
     >
       <span className="badge-soon absolute right-3 top-3">bald</span>
       {inhalt}
@@ -133,11 +115,14 @@ const Wissen = () => (
             <Link
               key={v.slug}
               to={`/vorlagen/${v.slug}`}
-              className="card-surface flex flex-col p-4 transition-colors hover:border-primary"
+              className="card-surface flex flex-col overflow-hidden transition-colors hover:border-primary"
             >
+              <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
+              <span className="flex flex-1 flex-col p-4">
               <span className="badge-new self-start">{v.kicker}</span>
               <span className="mt-2 block text-[15px] font-bold leading-snug text-foreground">{v.titel}</span>
               <span className="mt-1 block text-[13px] text-muted-foreground">{v.nutzenZeile}</span>
+              </span>
             </Link>
           ))}
         </div>

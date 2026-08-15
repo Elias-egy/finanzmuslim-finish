@@ -156,6 +156,7 @@ const VertragsAmpel = () => (
     />
     <VorlagenSeite
       kicker={v.kicker}
+      motiv={v.motiv}
       titel={v.titel}
       einleitung="Depot, Kreditkarte, Versicherung, Ratenzahlung, Leasing. Zwölf Verträge, die fast jeder hat oder angeboten bekommt, jeweils mit einer klaren Farbe und der Bedingung dahinter."
       pdfPfad={v.pdfPfad}

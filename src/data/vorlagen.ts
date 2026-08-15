@@ -1,3 +1,5 @@
+import type { MotivName } from "@/components/motive";
+
 export type Vorlage = {
   slug: string;
   titel: string;
@@ -6,6 +8,7 @@ export type Vorlage = {
   nutzenZeile: string;
   kommentarKeyword: string;
   pdfPfad: string;
+  motiv: MotivName;
 };
 
 /** Einzige Quelle fuer die drei kostenlosen Vorlagen. */
@@ -19,6 +22,7 @@ export const vorlagen: Vorlage[] = [
     nutzenZeile: "Alle Halal-Anlagen auf einen Blick",
     kommentarKeyword: "LISTE",
     pdfPfad: "/downloads/halal-anlagen-liste.pdf",
+    motiv: "liste",
   },
   {
     slug: "vertrags-ampel",
@@ -29,6 +33,7 @@ export const vorlagen: Vorlage[] = [
     nutzenZeile: "In Sekunden wissen, woran du bist",
     kommentarKeyword: "AMPEL",
     pdfPfad: "/downloads/vertrags-ampel.pdf",
+    motiv: "ampel",
   },
   {
     slug: "aktien-check",
@@ -39,6 +44,7 @@ export const vorlagen: Vorlage[] = [
     nutzenZeile: "Jede Aktie in unter einer Minute einordnen",
     kommentarKeyword: "CHECK",
     pdfPfad: "/downloads/aktien-spickzettel.pdf",
+    motiv: "spickzettel",
   },
 ];
 
