@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronRight, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
@@ -147,6 +147,7 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
 
 const HalalAnlagen = () => {
   const [kategorie, setKategorie] = useState<Reiter>("alle");
+  const navigate = useNavigate();
   const [suche, setSuche] = useState("");
   const [zeitraum, setZeitraum] = useState<Zeitraum>("r1j");
   const [nurAusschuettend, setNurAusschuettend] = useState(false);
@@ -435,11 +436,21 @@ const HalalAnlagen = () => {
           <ul className="mt-5 grid gap-4 sm:grid-cols-2">
             {kryptoAnlagen.map((k) => (
               <li key={k.name} className="card-surface p-5">
-                <p className="text-[16px] font-semibold text-foreground">{k.name}</p>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-[16px] font-semibold text-foreground">{k.name}</p>
+                  <span className="flex items-center gap-2">
+                    <Sparkline verlauf={kursFuerKrypto(k.kursKey)?.verlauf} />
+                    <RenditeWert wert={kursFuerKrypto(k.kursKey)?.[zeitraum]} />
+                  </span>
+                </div>
                 <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{k.gutachten}</p>
               </li>
             ))}
           </ul>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+            Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Deshalb steht es hier
+            getrennt und gilt nur als kleine Beimischung.
+          </p>
         </section>
 
         {/* Vorlagen-Verweis */}
