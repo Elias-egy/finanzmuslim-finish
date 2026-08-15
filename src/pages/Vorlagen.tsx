@@ -31,7 +31,7 @@ const Vorlagen = () => (
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {vorlagen.map((v) => (
           <article key={v.slug} className="flex flex-col overflow-hidden rounded-2xl bg-hero">
-            <MotivBild name={v.motiv} />
+            <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
             <div className="flex flex-1 flex-col p-6">
             <span className="badge-new self-start">{v.kicker}</span>
             <h2 className="mt-3 text-[19px] font-bold leading-snug text-foreground">{v.titel}</h2>

@@ -117,7 +117,7 @@ const Wissen = () => (
               to={`/vorlagen/${v.slug}`}
               className="card-surface flex flex-col overflow-hidden transition-colors hover:border-primary"
             >
-              <MotivBild name={v.motiv} />
+              <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
               <span className="flex flex-1 flex-col p-4">
               <span className="badge-new self-start">{v.kicker}</span>
               <span className="mt-2 block text-[15px] font-bold leading-snug text-foreground">{v.titel}</span>
