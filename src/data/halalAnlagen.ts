@@ -1,6 +1,8 @@
 export type Kategorie = "aktien" | "sukuk" | "gold" | "silber";
 
 export type Anlage = {
+  /** Fester Slug für /halal-anlagen/[slug]. Nicht zur Laufzeit berechnen. */
+  slug: string;
   name: string;
   isin: string;
   anbieter: string;
@@ -19,6 +21,9 @@ export type Anlage = {
   auflage: string;
   zertifizierer: string;
   hinweis?: string;
+  /** Direktlink auf den Shariah-Nachweis, falls geprüft. */
+  zertifikatLink?: string;
+  zertifikatHinweis?: string;
 };
 
 export type Anbieter = { kuerzel: string; name: string; logo?: string };
@@ -40,6 +45,7 @@ export const anbieterByName = (name: string) => anbieter.find((a) => a.name === 
 
 export const halalAnlagen: Anlage[] = [
   {
+    slug: "ishares-msci-world-islamic",
     name: "iShares MSCI World Islamic",
     isin: "IE00B27YCN58",
     anbieter: "iShares",
@@ -57,6 +63,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "ishares-msci-emerging-markets-islamic",
     name: "iShares MSCI Emerging Markets Islamic",
     isin: "IE00B27YCP72",
     anbieter: "iShares",
@@ -74,6 +81,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "ishares-msci-usa-islamic",
     name: "iShares MSCI USA Islamic",
     isin: "IE00B296QM64",
     anbieter: "iShares",
@@ -91,6 +99,8 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "invesco-dow-jones-islamic-global-developed-markets",
+    zertifikatHinweis: "Index-Screening, Nachweis noch nicht geprüft.",
     name: "Invesco Dow Jones Islamic Global Developed Markets",
     isin: "IE000UOXRAM8",
     anbieter: "Invesco",
@@ -108,6 +118,8 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "S&P Dow Jones Shariah Supervisory Board",
   },
   {
+    slug: "invesco-msci-acwi-islamic-m-series",
+    zertifikatHinweis: "Index-Screening, Nachweis noch nicht geprüft.",
     name: "Invesco MSCI ACWI Islamic M-Series",
     isin: "IE000LFC57H7",
     anbieter: "Invesco",
@@ -126,6 +138,7 @@ export const halalAnlagen: Anlage[] = [
     hinweis: "erst seit Februar 2026 am Markt",
   },
   {
+    slug: "hsbc-msci-world-islamic-screened",
     name: "HSBC MSCI World Islamic Screened",
     isin: "IE000X9FTI22",
     anbieter: "HSBC",
@@ -143,6 +156,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "hsbc-msci-usa-islamic-screened",
     name: "HSBC MSCI USA Islamic Screened",
     isin: "IE000I5NV504",
     anbieter: "HSBC",
@@ -160,6 +174,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "hsbc-msci-europe-islamic-screened",
     name: "HSBC MSCI Europe Islamic Screened",
     isin: "IE000AGFZM58",
     anbieter: "HSBC",
@@ -177,6 +192,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "hsbc-msci-emerging-markets-islamic-screened-capped",
     name: "HSBC MSCI Emerging Markets Islamic Screened Capped",
     isin: "IE0009BC6K22",
     anbieter: "HSBC",
@@ -194,6 +210,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
   },
   {
+    slug: "hanetf-saturna-al-kawthar-global-focused-equity",
     name: "HANetf Saturna Al-Kawthar Global Focused Equity",
     isin: "IE00BMYMHS24",
     anbieter: "HANetf",
@@ -211,6 +228,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Amanie Advisors, SSB mit jährlichem Audit",
   },
   {
+    slug: "ishares-usd-sukuk-ucits-etf",
     name: "iShares USD Sukuk UCITS ETF",
     isin: "IE000929U2U9",
     anbieter: "iShares",
@@ -228,6 +246,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Index-Screening, Zertifizierer noch nicht geprüft",
   },
   {
+    slug: "xtrackers-ii-salam-usd-global-aggregate-sukuk",
     name: "Xtrackers II Salam USD Global Aggregate Sukuk",
     isin: "LU3123443510",
     anbieter: "Xtrackers",
@@ -245,6 +264,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "IdealRatings",
   },
   {
+    slug: "bnp-paribas-islamic-fund-hilal-income-classic-c",
     name: "BNP Paribas Islamic Fund Hilal Income Classic C",
     isin: "LU1150255971",
     anbieter: "BNP Paribas",
@@ -263,6 +283,11 @@ export const halalAnlagen: Anlage[] = [
     hinweis: "sehr kleiner Fonds, die Größe stammt aus dem Factsheet vom 27.03.2024",
   },
   {
+    slug: "invesco-physical-gold-etc",
+    zertifikatLink:
+      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+    zertifikatHinweis:
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
     name: "Invesco Physical Gold ETC",
     isin: "IE00B579F325",
     anbieter: "Invesco",
@@ -280,6 +305,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
   },
   {
+    slug: "invesco-physical-gold-ii",
+    zertifikatLink:
+      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+    zertifikatHinweis:
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
     name: "Invesco Physical Gold II",
     isin: "XS3384723154",
     anbieter: "Invesco",
@@ -297,6 +327,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
   },
   {
+    slug: "wisdomtree-physical-gold",
+    zertifikatLink:
+      "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
     name: "WisdomTree Physical Gold",
     isin: "JE00B1VS3770",
     anbieter: "WisdomTree",
@@ -314,6 +349,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
   },
   {
+    slug: "wisdomtree-core-physical-gold",
+    zertifikatLink:
+      "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
     name: "WisdomTree Core Physical Gold",
     isin: "JE00BN2CJ301",
     anbieter: "WisdomTree",
@@ -331,6 +371,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
   },
   {
+    slug: "wisdomtree-physical-swiss-gold",
+    zertifikatLink:
+      "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
     name: "WisdomTree Physical Swiss Gold",
     isin: "JE00B588CD74",
     anbieter: "WisdomTree",
@@ -348,6 +393,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
   },
   {
+    slug: "invesco-physical-silver",
+    zertifikatLink:
+      "https://etf.invesco.com/de/private/de/product/invesco-physical-gold-etc/documents",
+    zertifikatHinweis:
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards, zu finden im Dokumentenbereich beim Anbieter.",
     name: "Invesco Physical Silver",
     isin: "IE00B43VDT70",
     anbieter: "Invesco",
@@ -365,6 +415,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
   },
   {
+    slug: "wisdomtree-physical-silver",
+    zertifikatLink:
+      "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
     name: "WisdomTree Physical Silver",
     isin: "JE00B1VS3333",
     anbieter: "WisdomTree",
@@ -382,6 +437,11 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
   },
   {
+    slug: "wisdomtree-core-physical-silver",
+    zertifikatLink:
+      "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
     name: "WisdomTree Core Physical Silver",
     isin: "JE00BQRFDY49",
     anbieter: "WisdomTree",
@@ -399,6 +459,7 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
   },
   {
+    slug: "comgest-growth-europe-s-eur-acc",
     name: "Comgest Growth Europe S EUR Acc",
     isin: "IE00B4ZJ4634",
     anbieter: "Comgest",
@@ -417,6 +478,7 @@ export const halalAnlagen: Anlage[] = [
     hinweis: "teuerste Anlage in dieser Übersicht",
   },
   {
+    slug: "franklin-shariah-technology-fund-a-acc-usd",
     name: "Franklin Shariah Technology Fund A (acc) USD",
     isin: "LU2458330086",
     anbieter: "Franklin Templeton",
@@ -436,16 +498,20 @@ export const halalAnlagen: Anlage[] = [
   },
 ];
 
-export type KryptoAnlage = { name: string; gutachten: string };
+export type KryptoAnlage = { name: string; kursKey: string; gutachten: string };
 
 export const kryptoAnlagen: KryptoAnlage[] = [
   {
     name: "Bitcoin",
+    kursKey: "Bitcoin",
     gutachten: "Shariah-Gutachten: Shariyah Review Bureau, 2022, lizenziert von der Central Bank of Bahrain",
   },
   {
     name: "Ether, Ethereum",
+    kursKey: "Ether",
     gutachten:
       "Shariah White Paper: Amanie Advisors und Ethereum Foundation, 2019, Dr. Mohd Daud Bakar",
   },
 ];
+
+export const anlageBySlug = (slug: string) => halalAnlagen.find((a) => a.slug === slug);
