@@ -176,6 +176,21 @@ const Index = () => (
       </section>
 
       {/* 2 — Guide: Bild links, Text rechts */}
+      {/* Am beliebtesten: direkt unter den Vergleichskacheln */}
+      <section className="section-card">
+        <div className="section-inner">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="badge-new">Am beliebtesten</span>
+            <Link to="/wissen" className="text-[16px] font-semibold text-primary hover:underline">
+              Alle Beiträge
+            </Link>
+          </div>
+          <div className="mt-6">
+            <BeliebteBeitraege karten={beliebteKarten} />
+          </div>
+        </div>
+      </section>
+
       <section className="section-card">
         <div className="section-inner grid items-center gap-10 lg:grid-cols-[380px_1fr] lg:gap-16">
           <img
