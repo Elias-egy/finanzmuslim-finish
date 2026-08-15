@@ -135,7 +135,7 @@ const BeitragSeite = ({
 
           <section className="mt-12 flex items-center gap-4 card-surface p-6">
             <img
-              src={eliasPortrait}
+              src={eliasPortrait.url}
               alt="Elias El-Gendy"
               className="h-16 w-16 shrink-0 rounded-full object-cover"
               style={{ objectPosition: "82% 22%" }}
