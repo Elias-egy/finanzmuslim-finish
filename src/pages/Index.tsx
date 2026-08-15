@@ -57,10 +57,16 @@ const wissenKarten: WissenKarte[] = [
   { thema: "Grundlagen", titel: "Glücksspiel (Maysir)" },
 ];
 
-const screeningPreview = [
-  { name: "Beispiel AG", tone: "bg-success" },
-  { name: "Muster Holding", tone: "bg-warning" },
-  { name: "Demo Bank", tone: "bg-destructive" },
+const datenbankVorschau = [
+  { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
+  { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
+  { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
+];
+
+const vorschauLegende = [
+  { label: "Aktien-ETF", tone: "bg-primary" },
+  { label: "Fonds", tone: "bg-success" },
+  { label: "Gold und Silber", tone: "bg-warning" },
 ];
 
 const Index = () => (
