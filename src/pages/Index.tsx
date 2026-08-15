@@ -19,6 +19,7 @@ import {
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
+import BeliebteBeitraege, { type BeliebtKarte } from "@/components/BeliebteBeitraege";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideCover from "@/assets/guide-cover-v3.png.asset.json";
@@ -58,6 +59,8 @@ const wissenKarten: WissenKarte[] = [
 ];
 
 const datenbankVorschau = [
+  ,
+] as never[];
   { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
   { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
   { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
