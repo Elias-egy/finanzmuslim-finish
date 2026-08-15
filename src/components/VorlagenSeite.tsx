@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, Download } from "lucide-react";
 import NewsletterBox from "@/components/NewsletterBox";
+import { motive, type MotivName } from "@/components/motive";
 
 export type VorlagenCta = { titel: string; text: string; buttonLabel: string; to: string };
 
@@ -16,6 +17,8 @@ type Props = {
   /** Rechtshinweis, kleine graue Schrift. */
   rechtshinweis: string;
   ctas: VorlagenCta[];
+  /** Motivbild klein neben der Ueberschrift. */
+  motiv?: MotivName;
 };
 
 /**
@@ -23,7 +26,19 @@ type Props = {
  * Brotkrumen, heller Kopfbereich, Inhalt, Quellen, CTA-Bloecke, Newsletter,
  * Rechtshinweis.
  */
-const VorlagenSeite = ({ kicker, titel, einleitung, pdfPfad, children, quellen, rechtshinweis, ctas }: Props) => (
+const VorlagenSeite = ({
+  kicker,
+  titel,
+  einleitung,
+  pdfPfad,
+  children,
+  quellen,
+  rechtshinweis,
+  ctas,
+  motiv,
+}: Props) => {
+  const Motiv = motiv ? motive[motiv] : null;
+  return (
   <main className="bg-background">
     <div className="container py-10 md:py-14">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
@@ -39,6 +54,11 @@ const VorlagenSeite = ({ kicker, titel, einleitung, pdfPfad, children, quellen, 
       </nav>
 
       <header className="mt-6 rounded-2xl bg-hero p-6 md:p-10">
+        {Motiv && (
+          <span className="mb-4 block h-16 w-16 overflow-hidden rounded-xl md:float-right md:mb-0 md:ml-6">
+            <Motiv />
+          </span>
+        )}
         <span className="badge-new">{kicker}</span>
         <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight text-foreground md:text-4xl">{titel}</h1>
         <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-foreground/90">{einleitung}</p>
@@ -84,6 +104,7 @@ const VorlagenSeite = ({ kicker, titel, einleitung, pdfPfad, children, quellen, 
       <p className="mt-12 max-w-4xl text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
     </div>
   </main>
-);
+  );
+};
 
 export default VorlagenSeite;
