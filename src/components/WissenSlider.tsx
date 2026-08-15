@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { illus, type IlluName } from "@/components/illu";
+import MotivBild from "@/components/MotivBild";
+import { type MotivName } from "@/components/motive";
 
 export type WissenKarte = {
   thema?: string;
   titel: string;
   to?: string;
-  /** Illustration oben in der Karte. */
-  illu?: IlluName;
+  /** Motivbild oben in der Karte. */
+  motiv?: MotivName;
   /** Eine der vier beliebtesten Karten: kraeftiger Rahmen und Etikett. */
   beliebt?: boolean;
-  /** Schlichte Abschlusskarte ohne Illustration. */
+  /** Schlichte Abschlusskarte ohne Motivbild. */
   schlicht?: boolean;
 };
 
@@ -68,12 +69,10 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
             );
           }
 
-          const Illu = k.illu ? illus[k.illu] : null;
-
           const inhalt = (
             <>
-              <div className="relative aspect-[16/9] w-full bg-hero">
-                {Illu ? <Illu /> : null}
+              <div className="relative w-full bg-hero">
+                {k.motiv ? <MotivBild name={k.motiv} /> : <div className="aspect-[16/9] w-full" />}
                 {k.beliebt && <span className="badge-new absolute left-3 top-3 z-10">Beliebt</span>}
               </div>
               <div className="p-5">
