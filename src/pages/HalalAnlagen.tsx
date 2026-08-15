@@ -250,6 +250,18 @@ const HalalAnlagen = () => {
           {liste.length} {liste.length === 1 ? "Anlage wird" : "Anlagen werden"} angezeigt
         </p>
 
+        {liste.length === 0 ? (
+          <div className="card-surface mt-4 p-8 text-center">
+            <p className="text-[16px] font-semibold text-foreground">Keine Anlage passt zu deiner Suche</p>
+            <p className="mt-2 text-[15px] text-muted-foreground">
+              Probier einen kürzeren Suchbegriff oder setz die Filter zurück.
+            </p>
+            <button type="button" onClick={zuruecksetzen} className="btn-primary mt-5">
+              Filter zurücksetzen
+            </button>
+          </div>
+        ) : (
+          <>
         {/* Tabelle ab md, darunter Karten */}
         <div className="mt-4 hidden md:block">
           <table className="w-full table-fixed border-collapse text-left">
@@ -298,6 +310,8 @@ const HalalAnlagen = () => {
             <Karte key={a.isin} a={a} />
           ))}
         </ul>
+          </>
+        )}
 
         {/* CTA Mitte */}
         <section className="card-surface mt-10 p-6 md:p-8">
