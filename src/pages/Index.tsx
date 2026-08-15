@@ -379,7 +379,7 @@ const Index = () => (
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-background">
                     <Icon className="h-5 w-5 text-muted-foreground" aria-hidden />
                   </span>
-                  <span className="text-[18px] font-bold text-muted-foreground">{title}</span>
+                  <span className="min-w-0 break-words text-[18px] font-bold text-muted-foreground">{title}</span>
                 </div>
               ),
             )}
