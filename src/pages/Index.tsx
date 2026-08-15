@@ -64,6 +64,41 @@ const datenbankVorschau = [
   { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
 ];
 
+/** Reihenfolge fest vorgegeben. Die letzte Karte fuehrt in die Uebersicht. */
+const beliebteKarten: BeliebtKarte[] = [
+  {
+    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
+    etikett: "Die Ampel",
+    text: "Zwölf Verträge aus dem Alltag, jeweils mit klarer Farbe",
+    to: "/vorlagen/vertrags-ampel",
+  },
+  {
+    titel: "21 halal Anlagen, die du wirklich kaufen kannst",
+    etikett: "Die Liste",
+    text: "Mit ISIN und der Stelle, die sie geprüft hat",
+    to: "/vorlagen/halal-anlagen",
+  },
+  {
+    titel: "Halal-Anlagen finden",
+    etikett: "Datenbank",
+    text: "23 Anlagen mit Kosten, Rendite und Zertifikat",
+    to: "/halal-anlagen",
+  },
+  {
+    titel: "Ist diese Aktie halal?",
+    etikett: "Der Spickzettel",
+    text: "Die drei Grenzwerte, nach denen jeder Screener entscheidet",
+    to: "/vorlagen/aktien-check",
+  },
+  {
+    titel: "Ist eine Versicherung haram?",
+    etikett: "Neu",
+    text: "Wann sie zulässig ist und wann nicht",
+    to: "/wissen/ist-versicherung-haram",
+  },
+  { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
+];
+
 const vorschauLegende = [
   { label: "Aktien-ETF", tone: "bg-primary" },
   { label: "Fonds", tone: "bg-success" },
