@@ -86,27 +86,64 @@ const Paar = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-const Karte = ({ a }: { a: Anlage }) => (
-  <li className="card-surface p-4">
-    <div className="flex items-start gap-3">
-      <AnbieterKachel name={a.anbieter} />
-      <div className="min-w-0">
-        <p className="text-[15px] font-semibold text-foreground">{a.name}</p>
-        <p className="mt-0.5 text-[13px] text-muted-foreground">{a.isin}</p>
-        {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
+/** Prüfstelle, nur klickbar wo ein Nachweis vorliegt. */
+const GeprueftVon = ({ a }: { a: Anlage }) =>
+  a.zertifikatLink ? (
+    <a
+      href={a.zertifikatLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className="inline-flex items-start gap-1 text-[13px] font-semibold text-primary underline underline-offset-2"
+    >
+      {a.zertifizierer}
+      <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+    </a>
+  ) : (
+    <span className="text-[13px] text-muted-foreground">
+      {a.zertifizierer} <span className="text-muted-foreground">· Nachweis noch nicht geprüft</span>
+    </span>
+  );
+
+const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
+  const kurs = kursFuerIsin(a.isin);
+  return (
+    <li className="card-surface p-4">
+      <Link to={`/halal-anlagen/${a.slug}`} className="flex items-start gap-3">
+        <AnbieterKachel name={a.anbieter} />
+        <div className="min-w-0">
+          <p className="text-[15px] font-semibold text-foreground">{a.name}</p>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">{a.isin}</p>
+          {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
+        </div>
+      </Link>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-[22px] font-bold text-foreground">
+          {a.kostenLabel} <span className="text-[13px] font-normal text-muted-foreground">pro Jahr</span>
+        </p>
+        <span className="flex items-center gap-2">
+          <Sparkline verlauf={kurs?.verlauf} />
+          <RenditeWert wert={kurs?.[zeitraum]} />
+        </span>
       </div>
-    </div>
-    <p className="mt-3 text-[22px] font-bold text-foreground">
-      {a.kostenLabel} <span className="text-[13px] font-normal text-muted-foreground">pro Jahr</span>
-    </p>
-    <div className="mt-3">
-      <Paar label="Größe" value={a.groesse} />
-      <Paar label="Ertrag" value={a.ertragDetail} />
-      <Paar label="Bauart" value={`${a.bauart}, ${a.replikation}`} />
-      <Paar label="Geprüft von" value={a.zertifizierer} />
-    </div>
-  </li>
-);
+      <div className="mt-3">
+        <Paar label="Größe" value={a.groesse} />
+        <Paar label="Ertrag" value={a.ertragDetail} />
+        <Paar label="Bauart" value={`${a.bauart}, ${a.replikation}`} />
+        <div className="flex flex-col gap-1 border-t border-border py-2 text-[14px]">
+          <span className="text-muted-foreground">Geprüft von</span>
+          <GeprueftVon a={a} />
+        </div>
+      </div>
+      <Link
+        to={`/halal-anlagen/${a.slug}`}
+        className="mt-3 inline-block text-[14px] font-semibold text-primary hover:underline"
+      >
+        Details ansehen
+      </Link>
+    </li>
+  );
+};
 
 const HalalAnlagen = () => {
   const [kategorie, setKategorie] = useState<Reiter>("alle");
