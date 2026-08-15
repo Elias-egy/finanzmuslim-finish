@@ -27,6 +27,8 @@ const Wissen = lazy(() => import("./pages/Wissen.tsx"));
 const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
 const IstVersicherungHaram = lazy(() => import("./pages/wissen/IstVersicherungHaram.tsx"));
 const SindAktienHalal = lazy(() => import("./pages/wissen/SindAktienHalal.tsx"));
+const HausKaufenOhneZinsen = lazy(() => import("./pages/wissen/HausKaufenOhneZinsen.tsx"));
+const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
@@ -94,6 +96,8 @@ const App = () => (
             <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
             <Route path="/wissen/ist-versicherung-haram" element={<IstVersicherungHaram />} />
             <Route path="/wissen/sind-aktien-halal" element={<SindAktienHalal />} />
+            <Route path="/wissen/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />
+            <Route path="/wissen/ratenzahlung-haram" element={<RatenzahlungHaram />} />
             <Route path="/vorlagen" element={<Vorlagen />} />
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />

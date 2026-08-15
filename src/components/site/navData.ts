@@ -33,7 +33,8 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Girokonto" },
           { label: "Dispo und Kredit" },
-          { label: "Ratenkauf" },
+          { label: "Ratenkauf", to: "/wissen/ratenzahlung-haram" },
+          { label: "Haus kaufen ohne Zinsen", to: "/wissen/haus-kaufen-ohne-zinsen" },
           { label: "Leasing" },
           { label: "Versicherung" },
         ],

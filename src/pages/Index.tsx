@@ -79,6 +79,19 @@ const wissenKarten: WissenKarte[] = [
   },
   {
     thema: "Alltag",
+    titel: "Haus kaufen ohne Zinsen",
+    to: "/wissen/haus-kaufen-ohne-zinsen",
+    motiv: "haus",
+    neu: true,
+  },
+  {
+    thema: "Alltag",
+    titel: "Ist Ratenzahlung haram?",
+    to: "/wissen/ratenzahlung-haram",
+    motiv: "raten",
+  },
+  {
+    thema: "Alltag",
     titel: "Ist eine Versicherung haram?",
     to: "/wissen/ist-versicherung-haram",
     motiv: "versicherung",
@@ -86,7 +99,6 @@ const wissenKarten: WissenKarte[] = [
   { thema: "Grundlagen", titel: "Zins (Riba)", to: "/wissen/was-ist-riba", motiv: "zins" },
   { thema: "Investieren", titel: "Gold richtig kaufen", motiv: "gold" },
   { thema: "Alltag", titel: "Finanzierung", motiv: "kredit" },
-  { thema: "Alltag", titel: "Hauskauf oder Miete", motiv: "haus" },
   { thema: "Alltag", titel: "Leasing und Autoabo", motiv: "auto" },
   { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", motiv: "gharar" },
   { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", motiv: "maysir" },
