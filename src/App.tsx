@@ -22,6 +22,7 @@ const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
 const HalalAnlagen = lazy(() => import("./pages/HalalAnlagen.tsx"));
+const AnlageDetail = lazy(() => import("./pages/halal-anlagen/AnlageDetail.tsx"));
 const Wissen = lazy(() => import("./pages/Wissen.tsx"));
 const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
@@ -86,6 +87,7 @@ const App = () => (
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
+            <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />
             <Route path="/wissen" element={<Wissen />} />
             <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
             <Route path="/vorlagen" element={<Vorlagen />} />

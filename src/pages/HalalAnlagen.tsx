@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { ChevronRight, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
+import ZeitraumSchalter from "@/components/ZeitraumSchalter";
+import { RenditeWert, Sparkline } from "@/components/Rendite";
+import {
+  kursFuerIsin,
+  kursFuerKrypto,
+  kursStand,
+  type Zeitraum,
+} from "@/lib/kurse";
+import { ExternalLink } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -14,7 +23,7 @@ import {
 } from "@/data/halalAnlagen";
 
 type Reiter = "alle" | Kategorie;
-type Sortierung = "kosten" | "groesse" | "name";
+type Sortierung = "kosten" | "groesse" | "name" | "renditeAb" | "renditeAuf";
 
 const reiter: { key: Reiter; label: string }[] = [
   { key: "alle", label: "Alle" },
