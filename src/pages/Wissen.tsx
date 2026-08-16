@@ -30,7 +30,7 @@ const artikel: Artikel[] = [
   { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
   { name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", to: "/wissen/nisab" },
   { name: "Erträge reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst.", thema: "Pflichten", to: "/wissen/ertraege-reinigen" },
-  { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Grundzüge der Erbteilung.", thema: "Pflichten" },
+  { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Regel dein Erbe, bevor deutsches Recht es tut.", thema: "Pflichten", to: "/wissen/erbe" },
 ];
 
 /** Kategorien in fester Reihenfolge, je mit Ankerpunkt und Erklaersatz. */
