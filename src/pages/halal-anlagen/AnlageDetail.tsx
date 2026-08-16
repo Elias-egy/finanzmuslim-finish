@@ -6,7 +6,7 @@ import KursChart from "@/components/KursChart";
 import ZeitraumSchalter from "@/components/ZeitraumSchalter";
 import { RenditeWert } from "@/components/Rendite";
 import { anbieterByName, anlageBySlug } from "@/data/halalAnlagen";
-import { kursFuerIsin, kursStand, verlaufAusschnitt, zeitraeume, type Zeitraum } from "@/lib/kurse";
+import { kursFuerIsin, kursStand, reiheAusschnitt, zeitraeume, type Zeitraum } from "@/lib/kurse";
 
 const kategorieLabel: Record<string, string> = {
   aktien: "Aktien",
@@ -38,7 +38,7 @@ const AnlageDetail = () => {
   if (!anlage) return <Navigate to="/halal-anlagen" replace />;
 
   const kurs = kursFuerIsin(anlage.isin);
-  const werte = verlaufAusschnitt(kurs?.verlauf, zeitraum);
+  const reihe = reiheAusschnitt(kurs?.reihe, zeitraum);
   const a = anbieterByName(anlage.anbieter);
   const zeitraumLabel = zeitraeume.find((z) => z.key === zeitraum)?.label ?? "1 Jahr";
 
@@ -92,7 +92,7 @@ const AnlageDetail = () => {
             <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} />
           </div>
           <div className="mt-5">
-            <KursChart werte={werte} id={anlage.slug} />
+            <KursChart reihe={reihe} waehrung={kurs?.waehrung} id={anlage.slug} />
           </div>
         </section>
 
