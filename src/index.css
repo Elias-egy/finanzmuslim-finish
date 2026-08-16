@@ -52,6 +52,11 @@
     /* Sehr blasse Toenung der Primaerfarbe, nur fuer die Hero-Flaeche. */
     --hero: 219 100% 96%;
 
+    /* Nur fuer Markierungspunkte der Anlagearten in der Datenbank. */
+    --asset-sukuk: 24 42% 38%;
+    --asset-gold: 42 78% 48%;
+    --asset-silber: 220 8% 62%;
+
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;

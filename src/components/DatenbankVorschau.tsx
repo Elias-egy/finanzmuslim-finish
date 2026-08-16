@@ -3,23 +3,26 @@ import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 
-const gruppen = [
-  { key: "aktien", label: "Aktien", tone: "bg-primary" },
-  { key: "sukuk", label: "Sukuk", tone: "bg-success" },
-  { key: "gold", label: "Gold und Silber", tone: "bg-warning" },
+/** Reihenfolge = Sortierreihenfolge der Liste und der Legende. */
+const arten = [
+  { key: "etf", label: "Aktien-ETF", legende: "Aktien-ETF", tone: "bg-primary" },
+  { key: "fonds", label: "Fonds", legende: "Fonds", tone: "bg-success" },
+  { key: "sukuk", label: "Sukuk", legende: "Sukuk", tone: "bg-asset-sukuk" },
+  { key: "gold", label: "Gold", legende: "Gold", tone: "bg-asset-gold" },
+  { key: "silber", label: "Silber", legende: "Silber", tone: "bg-asset-silber" },
 ] as const;
 
-const gruppeVon = (a: Anlage) => (a.kategorie === "aktien" ? "aktien" : a.kategorie === "sukuk" ? "sukuk" : "gold");
-
-const artVon = (a: Anlage) => {
-  if (a.kategorie === "aktien") return a.bauart === "aktiv" ? "Fonds" : "Aktien-ETF";
-  if (a.kategorie === "sukuk") return "Sukuk";
-  return a.kategorie === "gold" ? "Gold" : "Silber";
+const artKeyVon = (a: Anlage) => {
+  if (a.kategorie === "aktien") return a.bauart === "aktiv" ? "fonds" : "etf";
+  if (a.kategorie === "sukuk") return "sukuk";
+  return a.kategorie === "gold" ? "gold" : "silber";
 };
 
+const artVon = (a: Anlage) => arten.find((g) => g.key === artKeyVon(a))!;
+
 const sortiert = [...halalAnlagen].sort((a, b) => {
-  const ga = gruppen.findIndex((g) => g.key === gruppeVon(a));
-  const gb = gruppen.findIndex((g) => g.key === gruppeVon(b));
+  const ga = arten.findIndex((g) => g.key === artKeyVon(a));
+  const gb = arten.findIndex((g) => g.key === artKeyVon(b));
   if (ga !== gb) return ga - gb;
   return a.name.localeCompare(b.name, "de");
 });
@@ -49,9 +52,10 @@ const DatenbankVorschau = () => {
         />
       </div>
 
-      <ul className="mt-2 max-h-[320px] divide-y divide-border overflow-y-auto pr-1">
+      {/* Genau vier Zeilen sichtbar, die fuenfte wird angeschnitten. */}
+      <ul className="mt-2 max-h-[224px] divide-y divide-border overflow-y-auto pr-1">
         {treffer.map((a) => {
-          const tone = gruppen.find((g) => g.key === gruppeVon(a))!.tone;
+          const art = artVon(a);
           return (
             <li key={a.slug}>
               <Link
@@ -60,8 +64,8 @@ const DatenbankVorschau = () => {
               >
                 <span className="text-[16px] text-foreground group-hover:text-primary">{a.name}</span>
                 <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
-                  {artVon(a)}
-                  <span className={`h-2.5 w-2.5 rounded-full ${tone}`} aria-hidden />
+                  {art.label}
+                  <span className={`h-2.5 w-2.5 rounded-full ${art.tone}`} aria-hidden />
                 </span>
               </Link>
             </li>
@@ -73,13 +77,14 @@ const DatenbankVorschau = () => {
       </ul>
 
       <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-        {gruppen.map((g) => (
+        {arten.map((g) => (
           <li key={g.key} className="flex items-center gap-2 text-[13px] text-muted-foreground">
             <span className={`h-2 w-2 rounded-full ${g.tone}`} aria-hidden />
-            {g.label}
+            {g.legende}
           </li>
         ))}
       </ul>
+
 
       <Link to="/halal-anlagen" className="mt-4 block text-[15px] font-semibold text-primary hover:underline">
         Alle {halalAnlagen.length} Anlagen ansehen

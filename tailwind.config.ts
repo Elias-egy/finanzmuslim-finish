@@ -66,6 +66,11 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        asset: {
+          sukuk: "hsl(var(--asset-sukuk))",
+          gold: "hsl(var(--asset-gold))",
+          silber: "hsl(var(--asset-silber))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
