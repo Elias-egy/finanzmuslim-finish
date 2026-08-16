@@ -13,6 +13,7 @@ import AnlageFilter, {
 import { kursFuerAnlage, kursStand, kursText, type Zeitraum } from "@/lib/kurse";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
+import { inGruppen, type Gruppe } from "@/lib/anlageGruppen";
 
 const BauartHilfe = () => (
   <Popover>
@@ -68,7 +69,7 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
     </span>
   );
 
-const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
+const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe: Gruppe }) => {
   const kurs = kursFuerAnlage(a);
   const preis = kursText(kurs);
   return (
@@ -94,23 +95,27 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
         </span>
       </Link>
 
-      <dl className="mt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Kosten pro Jahr</dt>
-          <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
-        </div>
-        <div className="rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Größe</dt>
-          <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
-        </div>
-      </dl>
+      {(gruppe.kosten || gruppe.groesse) && (
+        <dl className="mt-3 grid grid-cols-2 gap-2">
+          {gruppe.kosten && (
+            <div className="rounded-lg border border-border px-3 py-2">
+              <dt className="text-[12px] text-muted-foreground">Kosten pro Jahr</dt>
+              <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
+            </div>
+          )}
+          {gruppe.groesse && (
+            <div className="rounded-lg border border-border px-3 py-2">
+              <dt className="text-[12px] text-muted-foreground">Größe</dt>
+              <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
+            </div>
+          )}
+        </dl>
+      )}
 
       <div className="mt-2 flex flex-col gap-1 py-2 text-[14px]">
         <span className="text-muted-foreground">Geprüft von</span>
         <GeprueftVon a={a} />
       </div>
-
-      {a.hinweis && <p className="text-[13px] text-muted-foreground">{a.hinweis}</p>}
 
       <Link
         to={`/halal-anlagen/${a.slug}`}
@@ -263,85 +268,109 @@ const HalalAnlagen = () => {
           </div>
         ) : (
           <>
-        {/* Tabelle ab md, darunter Karten */}
-        <div className="mt-4 hidden md:block">
-          <table className="w-full table-fixed border-collapse text-left">
-            <thead>
-              <tr className="text-[13px] text-muted-foreground">
-                <th scope="col" className="w-[24%] pb-3 pr-3 font-semibold">Anlage</th>
-                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">Kurs</th>
-                <th scope="col" className="w-[9%] pb-3 pr-3 font-semibold">Kosten pro Jahr</th>
-                <th scope="col" className="w-[16%] pb-3 pr-3 font-semibold">Rendite</th>
-                <th scope="col" className="w-[10%] pb-3 pr-3 font-semibold">Größe</th>
-                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">Ertrag</th>
-                <th scope="col" className="w-[9%] pb-3 pr-3 font-semibold">Bauart</th>
-                <th scope="col" className="w-[16%] pb-3 font-semibold">Geprüft von</th>
-              </tr>
-            </thead>
-            <tbody>
-              {liste.map((a) => {
-                const kurs = kursFuerAnlage(a);
-                return (
-                <tr
-                  key={anlageSchluessel(a)}
-                  onClick={() => navigate(`/halal-anlagen/${a.slug}`)}
-                  className="cursor-pointer border-t border-border align-top transition-colors hover:bg-hero"
-                >
-                  <td className="py-4 pr-3">
-                    <div className="flex items-start gap-3">
-                      <AnlageLogo a={a} />
-                      <div className="min-w-0">
-                        <Link
-                          to={`/halal-anlagen/${a.slug}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="block text-[15px] font-semibold text-foreground hover:text-primary"
-                        >
-                          {a.name}
-                        </Link>
-                        <p className="mt-0.5 text-[13px] text-muted-foreground">
-                          {a.kuerzel ?? a.isin}
-                        </p>
-                        {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="py-4 pr-3 text-[15px] font-semibold text-foreground">
-                    {kursText(kurs) ?? "—"}
-                  </td>
-                  <td className="py-4 pr-3 text-[18px] font-bold text-foreground">{a.kostenLabel}</td>
-                  <td className="py-4 pr-3">
-                    <div className="flex flex-col gap-1">
-                      <RenditeWert wert={kurs?.[zeitraum]} />
-                      <Sparkline verlauf={kurs?.verlauf} />
-                    </div>
-                  </td>
-                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.groesse ?? "—"}</td>
-                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.ertragDetail ?? "—"}</td>
-                  <td className="py-4 pr-3 text-[14px] text-foreground">
-                    {a.bauart ? (
-                      <span className="inline-flex items-center gap-1">
-                        {a.bauart}
-                        <BauartHilfe />
-                      </span>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="py-4">
-                    <GeprueftVon a={a} />
-                  </td>
-                </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        {/* Nach Art gruppiert: jede Gruppe zeigt nur die Spalten, in denen sie
+            Werte hat. Vorher stand über allem eine Tabelle mit acht Spalten,
+            bei Krypto blieben drei davon leer. Tabelle ab md, darunter Karten. */}
+        {inGruppen(liste).map(({ gruppe, anlagen }) => (
+          <section key={gruppe.key} className="mt-8 first:mt-4">
+            <h2 className="flex items-center gap-1 text-[18px] font-bold text-foreground md:text-xl">
+              {gruppe.titel}
+              <span className="text-[15px] font-semibold text-muted-foreground">
+                {anlagen.length}
+              </span>
+              {gruppe.bauartHilfe && <BauartHilfe />}
+            </h2>
+            {gruppe.zusatz && (
+              <p className="mt-1 text-[14px] text-muted-foreground">{gruppe.zusatz}</p>
+            )}
 
-        <ul className="mt-4 space-y-4 md:hidden">
-          {liste.map((a) => (
-            <Karte key={anlageSchluessel(a)} a={a} zeitraum={zeitraum} />
-          ))}
-        </ul>
+            <div className="mt-3 hidden md:block">
+              <table className="w-full border-collapse text-left">
+                <thead>
+                  <tr className="text-[13px] text-muted-foreground">
+                    <th scope="col" className="pb-3 pr-3 font-semibold">Anlage</th>
+                    <th scope="col" className="pb-3 pr-3 font-semibold">Kurs</th>
+                    {gruppe.kosten && (
+                      <th scope="col" className="pb-3 pr-3 font-semibold">Kosten pro Jahr</th>
+                    )}
+                    <th scope="col" className="w-[18%] pb-3 pr-3 font-semibold">Rendite</th>
+                    {gruppe.groesse && (
+                      <th scope="col" className="pb-3 pr-3 font-semibold">Größe</th>
+                    )}
+                    {gruppe.ertrag && (
+                      <th scope="col" className="pb-3 pr-3 font-semibold">Ertrag</th>
+                    )}
+                    <th scope="col" className="w-[22%] pb-3 font-semibold">Geprüft von</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {anlagen.map((a) => {
+                    const kurs = kursFuerAnlage(a);
+                    return (
+                      <tr
+                        key={anlageSchluessel(a)}
+                        onClick={() => navigate(`/halal-anlagen/${a.slug}`)}
+                        className="cursor-pointer border-t border-border align-top transition-colors hover:bg-hero"
+                      >
+                        <td className="py-4 pr-3">
+                          <div className="flex items-start gap-3">
+                            <AnlageLogo a={a} />
+                            <div className="min-w-0">
+                              <Link
+                                to={`/halal-anlagen/${a.slug}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="block text-[15px] font-semibold text-foreground hover:text-primary"
+                              >
+                                {a.name}
+                              </Link>
+                              <p className="mt-0.5 text-[13px] text-muted-foreground">
+                                {a.kuerzel ?? a.isin}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap py-4 pr-3 text-[15px] font-semibold text-foreground">
+                          {kursText(kurs) ?? "—"}
+                        </td>
+                        {gruppe.kosten && (
+                          <td className="whitespace-nowrap py-4 pr-3 text-[18px] font-bold text-foreground">
+                            {a.kostenLabel}
+                          </td>
+                        )}
+                        <td className="py-4 pr-3">
+                          <div className="flex flex-col gap-1">
+                            <RenditeWert wert={kurs?.[zeitraum]} />
+                            <Sparkline verlauf={kurs?.verlauf} />
+                          </div>
+                        </td>
+                        {gruppe.groesse && (
+                          <td className="py-4 pr-3 text-[14px] text-foreground">
+                            {a.groesse ?? "—"}
+                          </td>
+                        )}
+                        {gruppe.ertrag && (
+                          <td className="py-4 pr-3 text-[14px] text-foreground">
+                            {a.ertragDetail ?? "—"}
+                          </td>
+                        )}
+                        <td className="py-4">
+                          <GeprueftVon a={a} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <ul className="mt-3 space-y-4 md:hidden">
+              {anlagen.map((a) => (
+                <Karte key={anlageSchluessel(a)} a={a} zeitraum={zeitraum} gruppe={gruppe} />
+              ))}
+            </ul>
+          </section>
+        ))}
+
           </>
         )}
 

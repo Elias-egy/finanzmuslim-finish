@@ -271,8 +271,17 @@ const AnlageDetail = () => {
                 }
               />
               <Zeile
+                label="Ausgabeaufschlag"
+                wert={anlage.ausgabeaufschlag}
+                klammer="einmalige Gebühr beim Kauf"
+              />
+              <Zeile
                 label="Fondsgröße"
-                wert={anlage.groesse}
+                wert={
+                  anlage.groesse && anlage.groesseStand
+                    ? `${anlage.groesse}, ${anlage.groesseStand}`
+                    : anlage.groesse
+                }
                 klammer="wie viel Geld insgesamt in dieser Anlage steckt"
               />
               <Zeile
@@ -321,9 +330,6 @@ const AnlageDetail = () => {
                 klammer="damit findest du die Münze bei deinem Anbieter"
               />
             </div>
-            {anlage.hinweis && (
-              <p className="mt-4 text-[14px] text-muted-foreground">Hinweis: {anlage.hinweis}</p>
-            )}
           </div>
         </section>
 
