@@ -113,9 +113,9 @@ const wissenKarten: WissenKarte[] = [
 ];
 
 const datenbankVorschau = [
-  { name: "iShares MSCI World Islamic", art: "Aktien-ETF", tone: "bg-primary" },
-  { name: "HANetf Saturna Al-Kawthar", art: "Fonds", tone: "bg-success" },
-  { name: "Invesco Physical Gold", art: "Gold", tone: "bg-warning" },
+  { name: "iShares MSCI World Islamic", slug: "ishares-msci-world-islamic", art: "Aktien-ETF", tone: "bg-primary" },
+  { name: "HANetf Saturna Al-Kawthar", slug: "hanetf-saturna-al-kawthar-global-focused-equity", art: "Fonds", tone: "bg-success" },
+  { name: "Invesco Physical Gold", slug: "invesco-physical-gold-etc", art: "Gold", tone: "bg-warning" },
 ];
 
 const vorschauLegende = [
