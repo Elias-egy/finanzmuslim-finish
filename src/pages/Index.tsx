@@ -118,8 +118,8 @@ const wissenKarten: WissenKarte[] = [
   { thema: "Investieren", titel: "Gold richtig kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
   { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen", motiv: "karte", neu: true },
   { thema: "Alltag", titel: "Ist Leasing haram?", to: "/wissen/ist-leasing-haram", motiv: "auto", neu: true },
-  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", motiv: "gharar" },
-  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", motiv: "maysir" },
+  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", to: "/wissen/gharar", motiv: "gharar", neu: true },
+  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", to: "/wissen/maysir", motiv: "maysir", neu: true },
   { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
 ];
 
