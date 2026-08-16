@@ -299,46 +299,7 @@ const Index = () => (
       {/* 4 — Finde halal Anlagen: Vorschau links, Text rechts */}
       <section className="section-card">
         <div className="section-inner grid items-center gap-10 lg:grid-cols-[500px_1fr] lg:gap-16">
-          <div className="w-full rounded-2xl border border-border bg-card p-6 lg:w-[500px]">
-            <Link
-              to="/halal-anlagen"
-              aria-label="Zur Halal-Datenbank mit 23 Anlagen"
-              className="flex h-12 items-center gap-3 rounded-md border border-border px-4 transition-colors hover:border-primary hover:bg-hero"
-            >
-              <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
-              <span className="text-[16px] text-muted-foreground">ETF, Fonds oder ISIN suchen</span>
-            </Link>
-            <ul className="mt-2 divide-y divide-border">
-              {datenbankVorschau.map((row) => (
-                <li key={row.name}>
-                  <Link
-                    to={`/halal-anlagen/${row.slug}`}
-                    className="group flex min-h-[52px] items-center justify-between gap-3 rounded-md py-2 transition-colors hover:bg-hero"
-                  >
-                    <span className="text-[16px] text-foreground group-hover:text-primary">{row.name}</span>
-                    <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
-                      {row.art}
-                      <span className={`h-2.5 w-2.5 rounded-full ${row.tone}`} aria-hidden />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-              {vorschauLegende.map((l) => (
-                <li key={l.label} className="flex items-center gap-2 text-[13px] text-muted-foreground">
-                  <span className={`h-2 w-2 rounded-full ${l.tone}`} aria-hidden />
-                  {l.label}
-                </li>
-              ))}
-            </ul>
-            <Link
-              to="/halal-anlagen"
-              className="mt-4 block text-[15px] font-semibold text-primary hover:underline"
-            >
-              Alle 23 Anlagen ansehen
-            </Link>
-          </div>
+          <DatenbankVorschau />
 
           <div>
             <p className="eyebrow">Halal-Datenbank</p>
