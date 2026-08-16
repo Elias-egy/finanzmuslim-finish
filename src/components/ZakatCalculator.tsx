@@ -225,6 +225,11 @@ const ZakatCalculator = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="lg:sticky lg:top-24 space-y-4">
           <div className="rounded-[1.5rem] bg-primary text-white p-6 md:p-7 shadow-[0_25px_60px_-30px_rgba(0,0,0,0.6)]">
+            {istPreisVeraltet(nisabDaten.stand) && (
+              <div className="mb-4 rounded-xl bg-yellow-300 px-4 py-3 text-[13px] font-semibold text-foreground">
+                Der hinterlegte Preis ist vom {nisabDaten.stand} und damit älter als sechs Wochen. Das Ergebnis kann abweichen.
+              </div>
+            )}
             <span className="text-[11px] font-semibold tracking-wide text-primary">
               Deine Zakat
             </span>
