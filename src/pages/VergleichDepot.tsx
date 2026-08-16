@@ -98,31 +98,49 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
   ];
   const hatDaten = raster.some(([, w]) => w) || weitere.some(([, w]) => w);
   const geprueft = HALAL_KRITERIEN.filter((kr) => broker.halal[kr.key].status === "gut");
+  const geprueftIrgendwas = HALAL_KRITERIEN.some(
+    (kr) => broker.halal[kr.key].status !== "unbekannt",
+  );
+
+  const kopf = (
+    <div className="flex items-center gap-3">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-[13px] font-bold text-muted-foreground">
+        {rang}
+      </span>
+      <span className="flex h-10 min-w-[40px] shrink-0 items-center justify-center rounded-lg bg-hero px-2 text-[13px] font-bold text-primary">
+        {initialen(broker.name)}
+      </span>
+      <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground md:text-[17px]">
+        {broker.name}
+      </span>
+      {/* Etikett erst ab zwei erfuellten Kriterien. Bei einem stuende dasselbe
+          zweimal da, oben als Etikett und unten in der Ampelzeile. */}
+      {geprueft.length > 1 && (
+        <span className="shrink-0 rounded-full bg-success/10 px-3 py-1 text-[12px] font-semibold text-success">
+          {geprueft.length} von {HALAL_KRITERIEN.length} erfüllt
+        </span>
+      )}
+    </div>
+  );
+
+  /* Anbieter ohne jede gepruefte Angabe bekommen eine kurze Zeile. Vier Mal
+     "noch nicht geprueft" untereinander ist keine Information, sondern
+     500 Pixel Fuellmaterial je Anbieter. Der Anbieter bleibt sichtbar. */
+  if (!hatDaten && !geprueftIrgendwas) {
+    return (
+      <li className="card-surface px-4 py-3">
+        {kopf}
+        <p className="mt-2 pl-[70px] text-[13px] text-muted-foreground">{UNGEPRUEFT}</p>
+      </li>
+    );
+  }
 
   return (
     <li className="card-surface p-4 md:p-5">
-      {/* Kopf: Rang, Logo, Name, Auszeichnung */}
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-[13px] font-bold text-muted-foreground">
-          {rang}
-        </span>
-        <span className="flex h-10 min-w-[40px] shrink-0 items-center justify-center rounded-lg bg-hero px-2 text-[13px] font-bold text-primary">
-          {initialen(broker.name)}
-        </span>
-        <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground md:text-[17px]">
-          {broker.name}
-        </span>
-        {/* Etikett erst ab zwei erfuellten Kriterien. Bei einem stuende dasselbe
-            zweimal da, oben als Etikett und unten in der Ampelzeile. */}
-        {geprueft.length > 1 && (
-          <span className="shrink-0 rounded-full bg-success/10 px-3 py-1 text-[12px] font-semibold text-success">
-            {geprueft.length} von {HALAL_KRITERIEN.length} Kriterien erfüllt
-          </span>
-        )}
-      </div>
+      {kopf}
 
-      {/* Die vier Halal-Kriterien als Ampelzeile */}
-      <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+      {/* Die vier Halal-Kriterien. Handy zweispaltig, sonst reisst es die Karte auf. */}
+      <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-x-4">
         {HALAL_KRITERIEN.map((kriterium) => {
           const check = broker.halal[kriterium.key];
           return (
@@ -164,11 +182,11 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
       {/* Datenraster. Nur zeigen, wo es etwas zu zeigen gibt. Vier Felder mit
           "noch nicht geprueft" sind keine Information, sondern Fuellmaterial. */}
       {hatDaten ? (
-        <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4 md:grid-cols-4">
+        <dl className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
           {raster.map(([label, wert]) => (
-            <div key={label}>
-              <dt className="text-[12px] text-muted-foreground">{label}</dt>
-              <dd className="mt-0.5 text-[15px] font-semibold">
+            <div key={label} className="rounded-lg border border-border p-3 text-center">
+              <dt className="text-[12px] leading-tight text-muted-foreground">{label}</dt>
+              <dd className="mt-1 text-[15px] font-semibold">
                 <Wert value={wert} />
               </dd>
             </div>
@@ -255,26 +273,27 @@ const VergleichDepot = () => {
           <p className="mt-2 text-[17px] text-muted-foreground">
             Welcher Broker passt, wenn du islamkonform investieren willst
           </p>
-          <p className="mt-6 text-[16px] leading-relaxed text-foreground/90">
-            Ein Depot ist die Grundlage, um in Aktien und ETFs zu investieren. Ohne Depot geht beim
-            Vermögensaufbau nichts. Für Muslime kommt es dabei auf Punkte an, die in normalen
-            Vergleichen schlicht fehlen: Zinsen auf dem Verrechnungskonto, automatisch eingeräumte
-            Kredite, Hebelprodukte und die Frage, ob sharia-konforme ETFs überhaupt besparbar sind.
-            Genau diese Punkte prüfen wir hier.
+          <p className="mt-5 text-[17px] leading-[26px] text-foreground/90">
+            Ein Depot verwahrt deine Aktien und ETFs. Ohne Depot geht beim Vermögensaufbau nichts.
+          </p>
+          <p className="mt-3 text-[17px] leading-[26px] text-foreground/90">
+            Für Muslime entscheiden vier Punkte, die in normalen Vergleichen fehlen: Zinsen auf dem
+            Verrechnungskonto, eingeräumte Kredite und Hebelprodukte. Dazu die Frage, ob
+            sharia-konforme ETFs besparbar sind.
           </p>
         </header>
 
-        {/* Vertrauensleiste */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        {/* Vertrauensleiste. Handy: die beiden Zahlen nebeneinander, Elias darunter. */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
           <div className="rounded-lg border border-border p-4">
-            <p className="text-[20px] font-bold text-foreground">31</p>
+            <p className="text-[20px] font-bold text-foreground">{brokerVergleich.length}</p>
             <p className="text-[14px] text-muted-foreground">Anbieter im Vergleich</p>
           </div>
           <div className="rounded-lg border border-border p-4">
-            <p className="text-[20px] font-bold text-foreground">4</p>
+            <p className="text-[20px] font-bold text-foreground">{HALAL_KRITERIEN.length}</p>
             <p className="text-[14px] text-muted-foreground">Halal-Kriterien</p>
           </div>
-          <div className="flex items-center gap-3 rounded-lg border border-border p-4">
+          <div className="col-span-2 flex items-center gap-3 rounded-lg border border-border p-4 sm:col-span-1">
             <img
               src={eliasPortrait}
               alt="Elias El-Gendy"
