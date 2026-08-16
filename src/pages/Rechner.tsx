@@ -13,7 +13,7 @@ export const rechnerListe: Rechner[] = [
   { name: "Auswanderungsrechner", icon: Globe },
   { name: "Budgetrechner", icon: PiggyBank },
   { name: "Brutto-Netto-Rechner", icon: Receipt },
-  { name: "Inflationsrechner", icon: TrendingDown },
+  { name: "Inflationsrechner", icon: TrendingDown, to: "/inflationsrechner", neu: true },
 ];
 
 const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {

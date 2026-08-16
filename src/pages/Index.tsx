@@ -48,7 +48,7 @@ const calculators = [
   { title: "Auswanderungsrechner", icon: Globe },
   { title: "Budgetrechner", icon: PiggyBank },
   { title: "Brutto-Netto-Rechner", icon: Receipt },
-  { title: "Inflationsrechner", icon: TrendingDown },
+  { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
 ];
 
 /** Erste vier sind die beliebtesten. Danach die uebrigen Themen. */
