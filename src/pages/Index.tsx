@@ -240,7 +240,11 @@ const Index = () => (
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
-              to={to ?? "/tools"}
+              /* Kacheln ohne eigene Seite fuehren auf die Vergleichsuebersicht.
+                 Dort stehen sie mit dem Vermerk "bald" und daneben, wie
+                 bewertet wird. Vorher ging Girokonto auf die Rechnerseite,
+                 das beantwortet die Frage des Nutzers nicht. */
+              to={to ?? "/vergleiche"}
               className="group relative flex min-h-[76px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary lg:pt-7 xl:pt-3"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">

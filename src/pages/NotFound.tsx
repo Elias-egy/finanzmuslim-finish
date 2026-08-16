@@ -23,10 +23,10 @@ const NotFound = () => {
             Zur Startseite
           </Link>
           <Link
-            to="/tools"
+            to="/wissen"
             className="pill-btn bg-transparent text-primary border border-border hover:border-primary"
           >
-            Tools ansehen
+            Zum Wissensbereich
           </Link>
         </div>
       </div>
