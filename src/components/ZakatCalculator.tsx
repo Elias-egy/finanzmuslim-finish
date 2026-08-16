@@ -303,9 +303,8 @@ const ZakatCalculator = () => {
               </span>
             </div>
             <p className="mt-2 text-[12px] text-muted-foreground">
-              Trag den aktuellen Tagespreis ein. Der Silber-Nisab liegt niedriger und wird
-              von vielen Gelehrten bevorzugt, weil er mehr Menschen erfasst und damit den
-              Empfängern zugutekommt.
+              Voreingestellt ist der Preis vom {nisabDaten.stand}. Für eine taggenaue
+              Berechnung trag den Preis deines eigenen Stichtags ein.
             </p>
           </div>
 
