@@ -34,6 +34,67 @@ const zakatFaq = [
   },
 ];
 
+/**
+ * Formel, Beispiel und zwei Sprungmarken direkt unter dem Rechner.
+ *
+ * Warum hier und nicht im Reiter "Verstehen": "zakat berechnen formel",
+ * "zakat berechnen beispiel", "zakat gold rechner" und "zakat rechner aktien"
+ * sind eigene Suchanfragen. Wer danach sucht, will die Antwort neben dem
+ * Rechner sehen und nicht hinter einem Reiter suchen.
+ */
+const UnterDemRechner = () => (
+  <>
+    <div className="rounded-2xl bg-accent p-5 md:p-6">
+      <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
+      {/* Auf dem Handy zweizeilig statt in einem Scrollkasten. Eine Formel,
+          von der man die Hälfte wegschieben muss, liest niemand. */}
+      <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+        (Geld + Depotanteil
+        <br className="sm:hidden" /> − kurzfristige Schulden) × 0,025
+      </p>
+      <p className="mt-3 text-[15px] leading-[24px] text-muted-foreground">
+        0,025 sind die 2,5 Prozent. Der Depotanteil ist bei langfristig gehaltenen Anteilen rund 30
+        Prozent des Depotwerts, beim Handel der volle Wert.
+      </p>
+
+      <h3 className="mt-6 text-[17px] font-bold text-foreground">Ein Beispiel</h3>
+      <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
+        12.000 € auf dem Konto, 8.000 € im Depot liegen gelassen, 2.000 € Schulden im nächsten Jahr.
+      </p>
+      <ul className="mt-3 space-y-1 text-[15px] leading-[24px] text-foreground">
+        <li>Depotanteil: 8.000 € × 30 % = 2.400 €</li>
+        <li>Bemessung: 12.000 € + 2.400 € − 2.000 € = 12.400 €</li>
+        <li className="font-semibold">Zakat: 12.400 € × 2,5 % = 310 €</li>
+      </ul>
+    </div>
+
+    <div id="zakat-gold" className="card-surface scroll-mt-24 p-5 md:p-6">
+      <h2 className="text-[19px] font-bold text-foreground">Zakat auf Gold und Silber</h2>
+      <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
+        Gold und Silber zählen mit ihrem Marktwert am Stichtag, egal ob Barren, Münze oder physisch
+        hinterlegtes Wertpapier. Trag den Wert oben bei „Dein Geld“ ein.
+      </p>
+      <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
+        Zu getragenem Schmuck gibt es unterschiedliche Auffassungen. Die hanafitische Schule zählt
+        ihn mit, andere Schulen nehmen ihn aus.
+      </p>
+    </div>
+
+    <div id="zakat-aktien" className="card-surface scroll-mt-24 p-5 md:p-6">
+      <h2 className="text-[19px] font-bold text-foreground">Zakat auf Aktien und ETFs</h2>
+      <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
+        Aktien und ETF-Anteile sind zakatpflichtig, strittig ist allein die Bemessung. Wer zum
+        Weiterverkauf hält, setzt den vollen Kurswert an, wer langfristig liegen lässt, nach
+        verbreiteter Auffassung rund 30 Prozent davon.
+      </p>
+      <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
+        Trag den Depotwert oben bei „Im Depot angelegt“ ein und wähl unter „Mehr Angaben“, wie du
+        hältst.
+      </p>
+    </div>
+  </>
+);
+
 const Zakatrechner = () => (
   <>
     <Seo
@@ -57,11 +118,19 @@ const Zakatrechner = () => (
         <>
           <p>
             Zakat auf Bargeld ist einfach. Sobald ein Depot dazukommt, wird es unübersichtlich.
-            Dieser Rechner nimmt Aktien, ETFs, Sukuk, Gold und Krypto mit auf und zeigt dir,
-            worauf du wirklich zahlst.
+            Trag zwei Zahlen ein und sieh, worauf du wirklich zahlst.
+          </p>
+          <p className="flex flex-wrap gap-x-4 gap-y-1 text-[15px]">
+            <a href="#zakat-gold" className="font-semibold text-primary hover:underline">
+              Zakat auf Gold und Silber
+            </a>
+            <a href="#zakat-aktien" className="font-semibold text-primary hover:underline">
+              Zakat auf Aktien und ETFs
+            </a>
           </p>
         </>
       }
+      unterRechner={<UnterDemRechner />}
       erklaerung={
         <>
           <div>

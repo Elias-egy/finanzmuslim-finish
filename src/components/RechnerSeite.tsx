@@ -19,6 +19,10 @@ type Props = {
   weitereRechner: WeitererRechner[];
   /** Ein Satz im Reiter "Anlegen", der an den Rechner anknuepft. */
   anlegenSatz?: string;
+  /** Kurze Abschnitte direkt unter dem Rechner, im Reiter "Rechnen".
+   *  Gedacht fuer Formel, Beispiel und Sprungmarken. Nicht fuer Fliesstext,
+   *  der gehoert nach "Verstehen". */
+  unterRechner?: ReactNode;
 };
 
 const REITER = [
@@ -62,6 +66,7 @@ const RechnerSeite = ({
   erklaerung,
   weitereRechner,
   anlegenSatz,
+  unterRechner,
 }: Props) => {
   const [reiter, setReiter] = useState<ReiterId>("rechnen");
 
@@ -120,6 +125,7 @@ const RechnerSeite = ({
           <>
             <AdSlot id="rechner-top" />
             <section className="card-surface mt-6 overflow-hidden">{children}</section>
+            {unterRechner && <div className="mt-6 space-y-4">{unterRechner}</div>}
           </>
         )}
 
