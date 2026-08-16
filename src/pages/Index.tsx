@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
+  Baby,
   Calculator,
   Coins,
+  CreditCard,
+  FileText,
   Globe,
   LineChart,
   PiggyBank,
@@ -23,14 +26,18 @@ import guideCover from "@/assets/guide-cover-v3.png.asset.json";
 import newsletterPhone from "@/assets/newsletter-handy-v3.png.asset.json";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
-/** Vier Kacheln, davon drei mit Ziel. Vorher waren es acht, sieben davon
- *  mit "bald". Wer neu auf die Seite kommt, sah vor allem, was fehlt.
- *  Die uebrigen Kategorien kommen zurueck, sobald sie eine Seite haben. */
+/** Acht Kacheln, sie zeigen die geplante Breite des Angebots. Drei haben ein
+ *  Ziel, die uebrigen tragen "bald", bis der jeweilige Vergleich steht.
+ *  Gekuerzt wird erst kurz vor dem Start, falls dann noch zu viel offen ist. */
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
+  { label: "Girokonto", icon: Wallet },
   { label: "Aktien prüfen", icon: ShieldCheck, to: "/wissen/sind-aktien-halal" },
   { label: "Gold", icon: Coins, to: "/wissen/halal-gold-kaufen" },
-  { label: "Girokonto", icon: Wallet },
+  { label: "Geld ins Ausland", icon: Globe },
+  { label: "Karte ohne Kredit", icon: CreditCard },
+  { label: "Steuersoftware", icon: FileText },
+  { label: "Kinderdepot", icon: Baby },
 ];
 
 /** Genau sechs Rechner. Nur die ersten zwei existieren. */

@@ -70,68 +70,115 @@ const faq = [
   },
 ];
 
-const BrokerKarte = ({ broker }: { broker: Broker }) => {
+/** Anfangsbuchstaben als Logoersatz. Ein leeres Kaestchen mit dem Wort "Logo"
+ *  sieht aus wie ein Fehler, Initialen in Markenblau sehen nach Absicht aus. */
+const initialen = (name: string) =>
+  name
+    .split(/[\s-]+/)
+    .filter((w) => /[A-Za-zÄÖÜäöü]/.test(w[0] ?? ""))
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+
+const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
   const [offen, setOffen] = useState(false);
   const k = broker.konditionen;
-  const felder: Array<[string, string | null]> = [
+
+  /** Die vier Zahlen, die man beim Vergleichen zuerst sucht. */
+  const raster: Array<[string, string | null]> = [
     ["Depotgebühr", k.depotgebuehr],
     ["Kosten pro Order", k.orderkosten],
     ["Sparplan-Kosten", k.sparplanKosten],
     ["Zinsen auf Guthaben", k.zinsenGuthaben],
+  ];
+  const weitere: Array<[string, string | null]> = [
     ["Wertpapierkredit", k.wertpapierkredit],
     ["Hebelprodukte", k.hebelprodukte],
     ["Islamic ETFs besparbar", k.islamicEtfsBesparbar],
   ];
+  const hatDaten = raster.some(([, w]) => w) || weitere.some(([, w]) => w);
+  const geprueft = HALAL_KRITERIEN.filter((kr) => broker.halal[kr.key].status === "gut");
 
   return (
     <li className="card-surface p-4 md:p-5">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded border border-border text-[11px] text-muted-foreground">
-              Logo
-            </span>
-            <span className="truncate text-[16px] font-bold text-foreground">{broker.name}</span>
-          </div>
-
-          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-            {HALAL_KRITERIEN.map((kriterium) => {
-              const check = broker.halal[kriterium.key];
-              return (
-                <li key={kriterium.key} className="flex items-center gap-2 text-[13px]">
-                  <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${dotClass[check.status]}`} aria-hidden />
-                  <span className="text-foreground">{kriterium.label}</span>
-                  <span className="text-muted-foreground">
-                    {check.status === "unbekannt" ? UNGEPRUEFT : check.note ?? ""}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div className="md:shrink-0">
-          {broker.link ? (
-            <Link
-              to={broker.link}
-              className="inline-flex min-h-[44px] w-full items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover md:w-auto"
-            >
-              Zum Angebot*
-            </Link>
-          ) : (
-            <div className="md:text-right">
-              <button
-                type="button"
-                disabled
-                className="inline-flex min-h-[44px] w-full cursor-not-allowed items-center justify-center rounded-lg border border-border bg-muted px-6 text-[15px] font-semibold text-muted-foreground md:w-auto"
-              >
-                Zum Angebot*
-              </button>
-              <p className="mt-1 text-[12px] text-muted-foreground">noch keine Partnerschaft</p>
-            </div>
-          )}
-        </div>
+      {/* Kopf: Rang, Logo, Name, Auszeichnung */}
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-[13px] font-bold text-muted-foreground">
+          {rang}
+        </span>
+        <span className="flex h-10 min-w-[40px] shrink-0 items-center justify-center rounded-lg bg-hero px-2 text-[13px] font-bold text-primary">
+          {initialen(broker.name)}
+        </span>
+        <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground md:text-[17px]">
+          {broker.name}
+        </span>
+        {/* Etikett erst ab zwei erfuellten Kriterien. Bei einem stuende dasselbe
+            zweimal da, oben als Etikett und unten in der Ampelzeile. */}
+        {geprueft.length > 1 && (
+          <span className="shrink-0 rounded-full bg-success/10 px-3 py-1 text-[12px] font-semibold text-success">
+            {geprueft.length} von {HALAL_KRITERIEN.length} Kriterien erfüllt
+          </span>
+        )}
       </div>
+
+      {/* Die vier Halal-Kriterien als Ampelzeile */}
+      <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+        {HALAL_KRITERIEN.map((kriterium) => {
+          const check = broker.halal[kriterium.key];
+          return (
+            <li key={kriterium.key} className="flex items-center gap-2 text-[13px]">
+              <span
+                className={`h-2.5 w-2.5 shrink-0 rounded-full ${dotClass[check.status]}`}
+                aria-hidden
+              />
+              <span className="text-foreground">{kriterium.label}</span>
+              <span className="text-muted-foreground">
+                {check.status === "unbekannt" ? UNGEPRUEFT : check.note ?? ""}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Knopf, auf dem Handy ueber die volle Breite */}
+      {broker.link ? (
+        <Link
+          to={broker.link}
+          className="mt-4 inline-flex min-h-[48px] w-full items-center justify-center rounded-lg bg-primary px-6 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover md:w-auto md:px-10"
+        >
+          Zum Angebot*
+        </Link>
+      ) : (
+        <div className="mt-4">
+          <button
+            type="button"
+            disabled
+            className="inline-flex min-h-[48px] w-full cursor-not-allowed items-center justify-center rounded-lg border border-border bg-muted px-6 text-[16px] font-semibold text-muted-foreground md:w-auto md:px-10"
+          >
+            Zum Angebot
+          </button>
+          <p className="mt-1 text-[12px] text-muted-foreground">noch keine Partnerschaft</p>
+        </div>
+      )}
+
+      {/* Datenraster. Nur zeigen, wo es etwas zu zeigen gibt. Vier Felder mit
+          "noch nicht geprueft" sind keine Information, sondern Fuellmaterial. */}
+      {hatDaten ? (
+        <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4 md:grid-cols-4">
+          {raster.map(([label, wert]) => (
+            <div key={label}>
+              <dt className="text-[12px] text-muted-foreground">{label}</dt>
+              <dd className="mt-0.5 text-[15px] font-semibold">
+                <Wert value={wert} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p className="mt-4 border-t border-border pt-4 text-[13px] text-muted-foreground">
+          Konditionen für diesen Anbieter sind noch nicht geprüft.
+        </p>
+      )}
 
       <button
         type="button"
@@ -139,13 +186,16 @@ const BrokerKarte = ({ broker }: { broker: Broker }) => {
         aria-expanded={offen}
         className="mt-3 inline-flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
       >
-        Alle Konditionen anzeigen
-        <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+        Produktdetails
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`}
+          aria-hidden
+        />
       </button>
 
       {offen && (
         <dl className="mt-2 grid gap-x-8 gap-y-2 border-t border-border pt-4 sm:grid-cols-2">
-          {felder.map(([label, wert]) => (
+          {[...raster, ...weitere].map(([label, wert]) => (
             <div key={label} className="flex flex-wrap justify-between gap-2 text-[14px]">
               <dt className="text-muted-foreground">{label}</dt>
               <dd className="text-right">
@@ -218,7 +268,7 @@ const VergleichDepot = () => {
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-lg border border-border p-4">
             <p className="text-[20px] font-bold text-foreground">31</p>
-            <p className="text-[14px] text-muted-foreground">geprüfte Anbieter</p>
+            <p className="text-[14px] text-muted-foreground">Anbieter im Vergleich</p>
           </div>
           <div className="rounded-lg border border-border p-4">
             <p className="text-[20px] font-bold text-foreground">4</p>
@@ -233,7 +283,7 @@ const VergleichDepot = () => {
             />
             <div className="min-w-0">
               <p className="truncate text-[15px] font-semibold text-foreground">Elias El-Gendy</p>
-              <p className="text-[13px] text-muted-foreground">Zuletzt geprüft: noch offen</p>
+              <p className="text-[13px] text-muted-foreground">prüft diesen Vergleich</p>
             </div>
           </div>
         </div>
@@ -270,8 +320,8 @@ const VergleichDepot = () => {
 
         {/* Tabelle */}
         <ul className="mt-6 space-y-4">
-          {gefiltert.map((broker) => (
-            <BrokerKarte key={broker.id} broker={broker} />
+          {gefiltert.map((broker, i) => (
+            <BrokerKarte key={broker.id} broker={broker} rang={i + 1} />
           ))}
         </ul>
 
