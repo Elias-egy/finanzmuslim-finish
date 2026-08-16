@@ -27,7 +27,7 @@ const artikel: Artikel[] = [
   { name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", to: "/wissen/ist-leasing-haram" },
   { name: "Versicherung", motiv: "versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", to: "/wissen/ist-versicherung-haram" },
   { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
-  { name: "Nisab verstehen", motiv: "nisab", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },
+  { name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", to: "/wissen/nisab" },
   { name: "Erträge reinigen", motiv: "reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten" },
   { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Grundzüge der Erbteilung.", thema: "Pflichten" },
 ];

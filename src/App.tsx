@@ -32,6 +32,7 @@ const IstVersicherungHaram = lazy(() => import("./pages/wissen/IstVersicherungHa
 const SindAktienHalal = lazy(() => import("./pages/wissen/SindAktienHalal.tsx"));
 const HausKaufenOhneZinsen = lazy(() => import("./pages/wissen/HausKaufenOhneZinsen.tsx"));
 const HalalKreditOhneZinsen = lazy(() => import("./pages/wissen/HalalKreditOhneZinsen.tsx"));
+const Nisab = lazy(() => import("./pages/wissen/Nisab.tsx"));
 const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const IstBitcoinHalal = lazy(() => import("./pages/wissen/IstBitcoinHalal.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
@@ -109,6 +110,7 @@ const App = () => (
             <Route path="/wissen/sind-aktien-halal" element={<SindAktienHalal />} />
             <Route path="/wissen/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />
             <Route path="/wissen/halal-kredit-ohne-zinsen" element={<HalalKreditOhneZinsen />} />
+            <Route path="/wissen/nisab" element={<Nisab />} />
             <Route path="/wissen/ratenzahlung-haram" element={<RatenzahlungHaram />} />
             <Route path="/wissen/ist-bitcoin-halal" element={<IstBitcoinHalal />} />
             <Route path="/vorlagen" element={<Vorlagen />} />

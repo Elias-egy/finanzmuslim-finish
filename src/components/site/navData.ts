@@ -43,7 +43,7 @@ export const navGroups: NavGroup[] = [
         title: "Pflichten",
         items: [
           { label: "Zakat berechnen", to: "/zakat-rechner" },
-          { label: "Nisab" },
+          { label: "Nisab", to: "/wissen/nisab" },
           { label: "Erträge reinigen" },
           { label: "Erbe nach islamischem Recht" },
         ],
