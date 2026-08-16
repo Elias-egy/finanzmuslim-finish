@@ -60,8 +60,15 @@ const ZakatCalculator = () => {
   const [aktien, setAktien] = useState("");
   const [schulden, setSchulden] = useState("");
   const [methode, setMethode] = useState<Methode>("anteil");
-  const [goldpreis, setGoldpreis] = useState("75");
+  const preisFuer = (basis: "gold" | "silber") =>
+    basis === "gold" ? nisabDaten.goldPreisJeGramm : nisabDaten.silberPreisJeGramm;
+
   const [nisabBasis, setNisabBasis] = useState<"gold" | "silber">("silber");
+  const [goldpreis, setGoldpreis] = useState(String(preisFuer("silber")));
+
+  useEffect(() => {
+    setGoldpreis(String(preisFuer(nisabBasis)));
+  }, [nisabBasis]);
 
   const num = (s: string) => {
     const v = parseFloat((s || "").replace(/\./g, "").replace(",", "."));
