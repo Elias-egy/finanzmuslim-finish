@@ -23,7 +23,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Halal-Anlagen", to: "/halal-anlagen" },
           { label: "Aktien prüfen", to: "/wissen/sind-aktien-halal" },
-          { label: "Sukuk" },
+          { label: "Sukuk", to: "/wissen/sukuk" },
           { label: "Gold kaufen", to: "/wissen/halal-gold-kaufen" },
           { label: "Krypto", to: "/wissen/ist-bitcoin-halal" },
         ],

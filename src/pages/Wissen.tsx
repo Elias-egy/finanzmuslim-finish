@@ -17,7 +17,7 @@ const artikel: Artikel[] = [
   { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
   { name: "Halal ETFs", motiv: "etf", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren" },
   { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
-  { name: "Sukuk", motiv: "sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren" },
+  { name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", to: "/wissen/sukuk" },
   { name: "Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Barren, Münzen oder Wertpapier.", thema: "Investieren", to: "/wissen/halal-gold-kaufen" },
   { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", to: "/wissen/ist-bitcoin-halal" },
   { name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", to: "/wissen/girokonto-ohne-zinsen" },
