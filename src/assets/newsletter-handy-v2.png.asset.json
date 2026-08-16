@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "349c6e2e-f2bb-4daf-9953-a46a842734f5",
-  "project_id": "6941c4f9-898b-4d34-8cc7-9cb31a5e677d",
-  "url": "/__l5e/assets-v1/349c6e2e-f2bb-4daf-9953-a46a842734f5/newsletter-handy-v2.png",
-  "r2_key": "a/v1/6941c4f9-898b-4d34-8cc7-9cb31a5e677d/349c6e2e-f2bb-4daf-9953-a46a842734f5/newsletter-handy-v2.png",
-  "original_filename": "newsletter-handy-v2.png",
-  "size": 1418900,
   "content_type": "image/png",
-  "created_at": "2026-08-14T09:53:14Z"
+  "created_at": "2026-08-14T09:53:14Z",
+  "original_filename": "newsletter-handy-v2.png",
+  "project_id": "d038cb55-027f-4d46-b9a7-66f546bafd97",
+  "r2_key": "a/v1/d038cb55-027f-4d46-b9a7-66f546bafd97/349c6e2e-f2bb-4daf-9953-a46a842734f5/newsletter-handy-v2.png",
+  "size": 1418900,
+  "url": "/__l5e/assets-v1/349c6e2e-f2bb-4daf-9953-a46a842734f5/newsletter-handy-v2.png",
+  "version": 1
 }
