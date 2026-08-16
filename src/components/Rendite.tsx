@@ -14,13 +14,13 @@ export const RenditeWert = ({
 }) => {
   const text = renditeText(wert);
   if (text === null) {
-    return <span className="text-[13px] text-muted-foreground">noch keine Daten</span>;
+    return <span className="whitespace-nowrap text-[13px] text-muted-foreground">keine Daten</span>;
   }
   const plus = (wert as number) >= 0;
   const Icon = plus ? ArrowUpRight : ArrowDownRight;
   return (
     <span
-      className={`inline-flex items-center gap-1 font-bold ${plus ? "text-success" : "text-destructive"} ${
+      className={`inline-flex items-center gap-1 whitespace-nowrap font-bold ${plus ? "text-success" : "text-destructive"} ${
         gross ? "text-[32px] md:text-[40px]" : "text-[17px]"
       }`}
     >

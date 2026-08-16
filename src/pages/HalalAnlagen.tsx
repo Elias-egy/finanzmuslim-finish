@@ -109,38 +109,50 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
 const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
   const kurs = kursFuerIsin(a.isin);
   return (
+    /* Handy-Karte. Bewusst knapp: vier Zahlen im Raster, eine Zeile Prüfstelle,
+       ein Knopf. Ertragsart und Bauweise stehen auf der Detailseite, in einer
+       Liste mit 23 Karten kosten sie nur Bildschirm. */
     <li className="card-surface p-4">
       <Link to={`/halal-anlagen/${a.slug}`} className="flex items-start gap-3">
         <AnbieterKachel name={a.anbieter} />
         <div className="min-w-0">
           <p className="text-[15px] font-semibold text-foreground">{a.name}</p>
           <p className="mt-0.5 text-[13px] text-muted-foreground">{a.isin}</p>
-          {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
         </div>
       </Link>
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[22px] font-bold text-foreground">
-          {a.kostenLabel} <span className="text-[13px] font-normal text-muted-foreground">pro Jahr</span>
-        </p>
-        <span className="flex items-center gap-2">
-          <Sparkline verlauf={kurs?.verlauf} />
-          <RenditeWert wert={kurs?.[zeitraum]} />
-        </span>
-      </div>
-      <div className="mt-3">
-        <Paar label="Größe" value={a.groesse} />
-        <Paar label="Ertrag" value={a.ertragDetail} />
-        <Paar label="Bauart" value={`${a.bauart}, ${a.replikation}`} />
-        <div className="flex flex-col gap-1 border-t border-border py-2 text-[14px]">
-          <span className="text-muted-foreground">Geprüft von</span>
-          <GeprueftVon a={a} />
+
+      <dl className="mt-3 grid grid-cols-2 gap-2">
+        <div className="rounded-lg border border-border px-3 py-2">
+          <dt className="text-[12px] text-muted-foreground">Kosten pro Jahr</dt>
+          <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
         </div>
+        <div className="rounded-lg border border-border px-3 py-2">
+          <dt className="text-[12px] text-muted-foreground">Rendite</dt>
+          {/* Keine Mini-Grafik hier: bei 145 Pixel Kastenbreite ragt sie raus,
+              und die grosse Grafik steht ohnehin eine Seite weiter. */}
+          <dd className="mt-0.5">
+            <RenditeWert wert={kurs?.[zeitraum]} />
+          </dd>
+        </div>
+        <div className="col-span-2 rounded-lg border border-border px-3 py-2">
+          <dt className="text-[12px] text-muted-foreground">Fondsgröße</dt>
+          <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse}</dd>
+        </div>
+      </dl>
+
+      <div className="mt-2 flex flex-col gap-1 py-2 text-[14px]">
+        <span className="text-muted-foreground">Geprüft von</span>
+        <GeprueftVon a={a} />
       </div>
+
+      {a.hinweis && <p className="text-[13px] text-muted-foreground">{a.hinweis}</p>}
+
       <Link
         to={`/halal-anlagen/${a.slug}`}
-        className="mt-3 inline-block text-[14px] font-semibold text-primary hover:underline"
+        className="mt-3 flex min-h-[48px] items-center justify-center gap-1 rounded-lg border border-border text-[15px] font-semibold text-primary transition-colors hover:border-primary"
       >
-        Details ansehen
+        Kurs und Details
+        <ChevronRight className="h-4 w-4" aria-hidden />
       </Link>
     </li>
   );
