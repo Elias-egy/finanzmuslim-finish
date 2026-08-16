@@ -15,7 +15,7 @@ export const navGroups: NavGroup[] = [
           { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
           { label: "Was ist Gharar", to: "/wissen/gharar" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },
-          { label: "Häufige Fehler" },
+          { label: "Häufige Fehler", to: "/wissen/haeufige-fehler" },
         ],
       },
       {

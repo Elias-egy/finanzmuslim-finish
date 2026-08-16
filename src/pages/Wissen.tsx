@@ -14,7 +14,7 @@ const artikel: Artikel[] = [
   { name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", to: "/wissen/zinsen-im-islam" },
   { name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an drei Fragen.", thema: "Grundlagen", to: "/wissen/gharar" },
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
-  { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
+  { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Umgeh zehn Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen", to: "/wissen/haeufige-fehler" },
   { name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren", to: "/wissen/halal-etfs" },
   { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
   { name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", to: "/wissen/sukuk" },

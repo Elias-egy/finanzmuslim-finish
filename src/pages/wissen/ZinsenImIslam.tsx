@@ -316,6 +316,8 @@ const ZinsenImIslam = () => (
         kategorie: "Vorlage",
         ueberschrift: "Welche deiner Verträge betroffen sind",
         linkZiel: "/vorlagen/vertrags-ampel",
+        text: "Grün, gelb oder rot für zwölf Verträge aus dem Alltag.",
+        knopf: "Zur Vertrags-Ampel",
       }}
       boxMitte={{
         kategorie: "Depot",

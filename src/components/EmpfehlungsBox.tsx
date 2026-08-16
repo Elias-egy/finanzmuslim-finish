@@ -14,7 +14,24 @@ export type EmpfehlungsBoxProps = {
   variante?: "vergleich" | "empfehlung";
   /** Optionale eigene Ueberschrift fuer die Variante "vergleich". */
   ueberschrift?: string;
+  /** Eigener Satz statt "Unser X-Vergleich wird gerade erstellt".
+   *  Noetig, sobald die Box nicht auf einen Vergleich zeigt, sondern auf eine
+   *  fertige Seite. "Unser Guide-Vergleich" ergibt sonst keinen Sinn. */
+  text?: string;
+  /** Eigene Knopfbeschriftung statt "Zu den Vergleichen". */
+  knopf?: string;
 };
+
+/** Kategorien, zu denen es wirklich einen Vergleich gibt oder geben wird.
+ *  Alles andere bekommt einen neutralen Satz. */
+const echteVergleiche = [
+  "Depot",
+  "Girokonto",
+  "Baufinanzierung",
+  "Halal-Screening-Apps",
+  "Kinderdepot",
+  "Steuersoftware",
+];
 
 /**
  * Platzhalter fuer die spaetere Testsieger-Werbung.
@@ -29,6 +46,8 @@ const EmpfehlungsBox = ({
   linkZiel,
   variante,
   ueberschrift,
+  text,
+  knopf,
 }: EmpfehlungsBoxProps) => {
   const modus = anbieter ? "empfehlung" : variante === "empfehlung" ? "vergleich" : variante ?? "vergleich";
 
@@ -51,15 +70,19 @@ const EmpfehlungsBox = ({
     );
   }
 
+  const istVergleich = echteVergleiche.includes(kategorie);
+
   return (
     <aside className="rounded-2xl bg-hero p-6 md:p-8">
-      <span className="badge-new">Unser Vergleich</span>
-      <p className="mt-3 text-[20px] font-bold text-foreground">{ueberschrift ?? `${kategorie} vergleichen`}</p>
+      <span className="badge-new">{istVergleich ? "Unser Vergleich" : kategorie}</span>
+      <p className="mt-3 text-[20px] font-bold text-foreground">
+        {ueberschrift ?? `${kategorie} vergleichen`}
+      </p>
       <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
-        Unser {kategorie}-Vergleich wird gerade erstellt.
+        {text ?? (istVergleich ? `Unser ${kategorie}-Vergleich wird gerade erstellt.` : "")}
       </p>
       <Link to={linkZiel ?? "/vergleiche"} className="btn-primary mt-5">
-        Zu den Vergleichen
+        {knopf ?? (istVergleich ? "Zu den Vergleichen" : "Ansehen")}
       </Link>
     </aside>
   );

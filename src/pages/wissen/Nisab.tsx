@@ -254,11 +254,15 @@ const Nisab = () => (
         kategorie: "Rechner",
         ueberschrift: "Zakat in zwei Minuten ausrechnen",
         linkZiel: "/zakat-rechner",
+        text: "Zwei Felder, Ergebnis als ganzer Satz.",
+        knopf: "Zum Zakat-Rechner",
       }}
       boxMitte={{
         kategorie: "Anlagen",
         ueberschrift: "Geprüfte Anlagen, die in die Zakat-Rechnung gehören",
         linkZiel: "/halal-anlagen",
+        text: "23 geprüfte Anlagen mit Kosten, Größe und Prüfstelle.",
+        knopf: "Zu den Anlagen",
       }}
     >
       <section className="card-surface p-6">
