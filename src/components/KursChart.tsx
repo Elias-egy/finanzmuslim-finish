@@ -50,6 +50,7 @@ const KursChart = ({ reihe, waehrung = "EUR", id }: Props) => {
   const merken = (state: { activeTooltipIndex?: number }) => {
     if (typeof state?.activeTooltipIndex === "number") setAktiv(state.activeTooltipIndex);
   };
+  const touchProps = { onTouchMove: merken, onTouchEnd: () => setAktiv(null) } as Record<string, unknown>;
 
   return (
     <div style={{ touchAction: "pan-y" }}>
@@ -66,9 +67,8 @@ const KursChart = ({ reihe, waehrung = "EUR", id }: Props) => {
             data={daten}
             margin={{ top: 8, right: 4, bottom: 0, left: 4 }}
             onMouseMove={merken}
-            onTouchMove={merken}
             onMouseLeave={() => setAktiv(null)}
-            onTouchEnd={() => setAktiv(null)}
+            {...touchProps}
           >
             <defs>
               <linearGradient id={`verlauf-${id}`} x1="0" y1="0" x2="0" y2="1">
