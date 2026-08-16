@@ -3,23 +3,26 @@ import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 
-const gruppen = [
-  { key: "aktien", label: "Aktien", tone: "bg-primary" },
-  { key: "sukuk", label: "Sukuk", tone: "bg-success" },
-  { key: "gold", label: "Gold und Silber", tone: "bg-warning" },
+/** Reihenfolge = Sortierreihenfolge der Liste und der Legende. */
+const arten = [
+  { key: "etf", label: "Aktien-ETF", legende: "Aktien-ETF", tone: "bg-primary" },
+  { key: "fonds", label: "Fonds", legende: "Fonds", tone: "bg-success" },
+  { key: "sukuk", label: "Sukuk", legende: "Sukuk", tone: "bg-asset-sukuk" },
+  { key: "gold", label: "Gold", legende: "Gold", tone: "bg-asset-gold" },
+  { key: "silber", label: "Silber", legende: "Silber", tone: "bg-asset-silber" },
 ] as const;
 
-const gruppeVon = (a: Anlage) => (a.kategorie === "aktien" ? "aktien" : a.kategorie === "sukuk" ? "sukuk" : "gold");
-
-const artVon = (a: Anlage) => {
-  if (a.kategorie === "aktien") return a.bauart === "aktiv" ? "Fonds" : "Aktien-ETF";
-  if (a.kategorie === "sukuk") return "Sukuk";
-  return a.kategorie === "gold" ? "Gold" : "Silber";
+const artKeyVon = (a: Anlage) => {
+  if (a.kategorie === "aktien") return a.bauart === "aktiv" ? "fonds" : "etf";
+  if (a.kategorie === "sukuk") return "sukuk";
+  return a.kategorie === "gold" ? "gold" : "silber";
 };
 
+const artVon = (a: Anlage) => arten.find((g) => g.key === artKeyVon(a))!;
+
 const sortiert = [...halalAnlagen].sort((a, b) => {
-  const ga = gruppen.findIndex((g) => g.key === gruppeVon(a));
-  const gb = gruppen.findIndex((g) => g.key === gruppeVon(b));
+  const ga = arten.findIndex((g) => g.key === artKeyVon(a));
+  const gb = arten.findIndex((g) => g.key === artKeyVon(b));
   if (ga !== gb) return ga - gb;
   return a.name.localeCompare(b.name, "de");
 });
