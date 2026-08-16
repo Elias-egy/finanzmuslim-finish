@@ -188,10 +188,10 @@ const Index = () => (
     {/* Ein durchgehendes Raster. Handy 16px zwischen den Abschnitten, Desktop 24px. */}
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
       {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter */}
-      <section className="flex flex-col md:min-h-[calc(100svh-152px)]">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pt-7 md:h-[480px] md:px-12 md:pt-0">
+      <section className="flex flex-col lg:min-h-[calc(100svh-152px)]">
+        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pt-7 lg:h-[480px] lg:px-12 lg:pt-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
-            <div className="max-w-[600px] md:py-4">
+            <div className="max-w-[600px] lg:py-4">
               <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
@@ -236,12 +236,12 @@ const Index = () => (
         </div>
 
         {/* Kacheln ueberlappen auf dem Desktop die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:-mt-[60px] md:grid-cols-2 lg:grid-cols-4">
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:grid-cols-2 lg:-mt-[60px] lg:grid-cols-4">
           {categories.map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to ?? "/tools"}
-              className="group relative flex min-h-[76px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary md:pt-7 lg:pt-3"
+              className="group relative flex min-h-[76px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary lg:pt-7 xl:pt-3"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">
                 <Icon className="h-5 w-5 text-primary" aria-hidden />
@@ -258,7 +258,7 @@ const Index = () => (
                 aria-hidden
               />
               {!to && (
-                <span className="badge-soon absolute right-11 top-1/2 -translate-y-1/2 md:right-2 md:top-2 md:translate-y-0">
+                <span className="badge-soon absolute right-11 top-1/2 -translate-y-1/2 lg:right-2 lg:top-2 lg:translate-y-0">
                   bald
                 </span>
               )}
