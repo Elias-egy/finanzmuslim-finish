@@ -12,7 +12,7 @@ type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to
 /** Eine durchgehende Liste. Reihenfolge = Anzeigereihenfolge. */
 const artikel: Artikel[] = [
   { name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", to: "/wissen/zinsen-im-islam" },
-  { name: "Was ist Gharar", motiv: "gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen" },
+  { name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an drei Fragen.", thema: "Grundlagen", to: "/wissen/gharar" },
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
   { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
   { name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren", to: "/wissen/halal-etfs" },

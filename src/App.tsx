@@ -35,6 +35,7 @@ const HalalKreditOhneZinsen = lazy(() => import("./pages/wissen/HalalKreditOhneZ
 const Nisab = lazy(() => import("./pages/wissen/Nisab.tsx"));
 const Sukuk = lazy(() => import("./pages/wissen/Sukuk.tsx"));
 const HalalEtfs = lazy(() => import("./pages/wissen/HalalEtfs.tsx"));
+const Gharar = lazy(() => import("./pages/wissen/Gharar.tsx"));
 const Inflationsrechner = lazy(() => import("./pages/Inflationsrechner.tsx"));
 const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const IstBitcoinHalal = lazy(() => import("./pages/wissen/IstBitcoinHalal.tsx"));
@@ -117,6 +118,7 @@ const App = () => (
             <Route path="/wissen/nisab" element={<Nisab />} />
             <Route path="/wissen/sukuk" element={<Sukuk />} />
             <Route path="/wissen/halal-etfs" element={<HalalEtfs />} />
+            <Route path="/wissen/gharar" element={<Gharar />} />
             <Route path="/wissen/ratenzahlung-haram" element={<RatenzahlungHaram />} />
             <Route path="/wissen/ist-bitcoin-halal" element={<IstBitcoinHalal />} />
             <Route path="/vorlagen" element={<Vorlagen />} />

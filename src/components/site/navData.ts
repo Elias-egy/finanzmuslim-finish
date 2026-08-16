@@ -13,7 +13,7 @@ export const navGroups: NavGroup[] = [
           { label: "Alle Themen", to: "/wissen" },
           { label: "Vorlagen", to: "/vorlagen" },
           { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
-          { label: "Was ist Gharar" },
+          { label: "Was ist Gharar", to: "/wissen/gharar" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },
           { label: "Häufige Fehler" },
         ],
