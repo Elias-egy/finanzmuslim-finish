@@ -25,7 +25,10 @@ export type Anlage = {
   domizil?: string;
   auflage?: string;
   zertifizierer: string;
-  hinweis?: string;
+  /** Einmalige Gebühr beim Kauf, nur wo der Anbieter eine erhebt. */
+  ausgabeaufschlag?: string;
+  /** Stand der Fondsgröße, wo die Zahl aus einem älteren Factsheet stammt. */
+  groesseStand?: string;
   /** Direktlink auf den Shariah-Nachweis, falls geprüft. */
   zertifikatLink?: string;
   zertifikatHinweis?: string;
@@ -35,19 +38,19 @@ export type Anlage = {
   zeichen?: string;
 };
 
-export type Anbieter = { kuerzel: string; name: string; logo?: string };
+export type Anbieter = { kuerzel: string; name: string; logo?: string; domain?: string };
 
 /** Anbieter-Kachel liest hieraus. logo bleibt leer, bis echte Logos vorliegen. */
 export const anbieter: Anbieter[] = [
-  { kuerzel: "iS", name: "iShares" },
-  { kuerzel: "IV", name: "Invesco" },
-  { kuerzel: "HS", name: "HSBC" },
-  { kuerzel: "WT", name: "WisdomTree" },
-  { kuerzel: "XT", name: "Xtrackers" },
-  { kuerzel: "HA", name: "HANetf" },
-  { kuerzel: "CG", name: "Comgest" },
-  { kuerzel: "FT", name: "Franklin Templeton" },
-  { kuerzel: "BP", name: "BNP Paribas" },
+  { kuerzel: "iS", name: "iShares", domain: "ishares.com" },
+  { kuerzel: "IV", name: "Invesco", domain: "invesco.com" },
+  { kuerzel: "HS", name: "HSBC", domain: "hsbc.com" },
+  { kuerzel: "WT", name: "WisdomTree", domain: "wisdomtree.eu" },
+  { kuerzel: "XT", name: "Xtrackers", domain: "xtrackers.com" },
+  { kuerzel: "HA", name: "HANetf", domain: "hanetf.com" },
+  { kuerzel: "CG", name: "Comgest", domain: "comgest.com" },
+  { kuerzel: "FT", name: "Franklin Templeton", domain: "franklintempleton.com" },
+  { kuerzel: "BP", name: "BNP Paribas", domain: "bnpparibas.com" },
 ];
 
 export const anbieterByName = (name: string) => anbieter.find((a) => a.name === name);
@@ -159,7 +162,6 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Irland",
     auflage: "10.02.2026",
     zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
-    hinweis: "erst seit Februar 2026 am Markt",
   },
   {
     slug: "hsbc-msci-world-islamic-screened",
@@ -320,7 +322,7 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Luxemburg",
     auflage: "04.09.2015",
     zertifizierer: "eigenes Shariah-Komitee, Zusammensetzung im Fondsprospekt",
-    hinweis: "sehr kleiner Fonds, die Größe stammt aus dem Factsheet vom 27.03.2024",
+    groesseStand: "Factsheet vom 27.03.2024",
   },
   {
     slug: "invesco-physical-gold-etc",
@@ -523,7 +525,6 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Irland",
     auflage: "Auflage noch nicht geprüft",
     zertifizierer: "Screening nach S&P-Shariah-Methodik, Zertifizierer noch nicht geprüft",
-    hinweis: "teuerste Anlage in dieser Übersicht",
   },
   {
     slug: "franklin-shariah-technology-fund-a-acc-usd",
@@ -542,13 +543,13 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Luxemburg",
     auflage: "24.02.2022",
     zertifizierer: "Franklin-Templeton-Shariah-Supervisory-Board",
-    hinweis: "zusätzlich bis zu 5,75 % Ausgabeaufschlag, Mindestanlage 1.000 USD",
+    ausgabeaufschlag: "bis zu 5,75 %, Mindestanlage 1.000 USD",
   },
 
   /* Krypto steht in derselben Liste wie alles andere, nicht in einem eigenen
      Kasten. Eine Münze hat keine ISIN, keine Fondsgröße und keine Bauart,
-     deshalb bleiben diese Felder leer statt mit einem Platzhalter gefüllt.
-     Der Hinweis zur Schwankung steht an jeder einzelnen Münze. */
+     deshalb zeigt die Krypto-Gruppe diese Spalten gar nicht. Der Satz zur
+     Schwankung steht einmal im Abschnitt "Krypto in dieser Liste". */
   {
     slug: "bitcoin",
     name: "Bitcoin",
@@ -562,7 +563,6 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Shariyah Review Bureau, Gutachten 2022",
     zertifikatHinweis:
       "Shariah-Gutachten des Shariyah Review Bureau von 2022, lizenziert von der Central Bank of Bahrain. Der Nachweis liegt uns nicht als Datei vor, deshalb steht hier kein Link.",
-    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
   },
   {
     slug: "ether",
@@ -577,7 +577,6 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Amanie Advisors, Shariah White Paper 2019",
     zertifikatHinweis:
       "Shariah White Paper von Amanie Advisors und der Ethereum Foundation aus dem Jahr 2019, verantwortlich Dr. Mohd Daud Bakar. Der Nachweis liegt uns nicht als Datei vor, deshalb steht hier kein Link.",
-    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
   },
   {
     slug: "solana",
@@ -592,7 +591,6 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Gutachten noch nicht geprüft",
     zertifikatHinweis:
       "Zu Solana liegt uns kein geprüftes Shariah-Gutachten vor. Bitcoin und Ether haben eins, Solana steht hier ohne. Wer Solana kauft, entscheidet das ohne Nachweis auf dieser Seite.",
-    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
   },
 ];
 
