@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 const NewsletterBox = ({ className = "" }: { className?: string }) => (
   <div className={`mx-auto max-w-[700px] text-center ${className}`}>
     <h2 className="text-[28px] font-bold leading-tight text-foreground md:text-[36px]">
-      Jede Woche ein Schritt näher an halal Vermögen
+      Mache mehr aus deinem Geld, in 5 Minuten pro Woche
     </h2>
     <p className="mt-4 text-[17px] leading-relaxed text-muted-foreground">
-      Ein kurzer Newsletter mit einem konkreten Schritt für deine Finanzen, verständlich erklärt.
+      Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten auf
+      halal oder nicht. Kostenlos und jederzeit abbestellbar.
     </p>
 
     <form onSubmit={(e) => e.preventDefault()} className="mt-8 flex flex-col gap-3 sm:flex-row">

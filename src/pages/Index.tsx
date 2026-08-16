@@ -115,8 +115,8 @@ const wissenKarten: WissenKarte[] = [
 const Index = () => (
   <>
     <Seo
-      title="finanzmuslim – Islamkonform investieren, verständlich erklärt"
-      description="Wissen, Rechner und Vergleiche für islamkonforme Finanzen: Riba erkennen, halal investieren und die richtigen Anbieter finden."
+      title="Halal investieren in Deutschland | finanzmuslim"
+      description="Halal investieren in Deutschland: geprüfte Anlagen, Rechner und Vergleiche. Finde heraus, welches Depot ohne Zinsgeschäft arbeitet."
       path="/"
     />
 
@@ -134,8 +134,8 @@ const Index = () => (
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
               <p className="mt-6 max-w-[580px] text-[18px] leading-relaxed text-muted-foreground md:text-[22px] md:leading-[32px]">
-                Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und die richtigen Anbieter
-                findest. Verständlich erklärt, ohne Fachchinesisch.
+                Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
+                Finde die für dich passenden Anbieter in nur wenigen Schritten.
               </p>
 
               {/* Handy: Namenskarte sichtbar, weil das Foto dort nicht gezeigt wird. */}

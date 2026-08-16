@@ -24,7 +24,10 @@ const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
 const HalalAnlagen = lazy(() => import("./pages/HalalAnlagen.tsx"));
 const AnlageDetail = lazy(() => import("./pages/halal-anlagen/AnlageDetail.tsx"));
 const Wissen = lazy(() => import("./pages/Wissen.tsx"));
-const WasIstRiba = lazy(() => import("./pages/wissen/WasIstRiba.tsx"));
+const ZinsenImIslam = lazy(() => import("./pages/wissen/ZinsenImIslam.tsx"));
+const HalalGoldKaufen = lazy(() => import("./pages/wissen/HalalGoldKaufen.tsx"));
+const IstLeasingHaram = lazy(() => import("./pages/wissen/IstLeasingHaram.tsx"));
+const GirokontoOhneZinsen = lazy(() => import("./pages/wissen/GirokontoOhneZinsen.tsx"));
 const IstVersicherungHaram = lazy(() => import("./pages/wissen/IstVersicherungHaram.tsx"));
 const SindAktienHalal = lazy(() => import("./pages/wissen/SindAktienHalal.tsx"));
 const HausKaufenOhneZinsen = lazy(() => import("./pages/wissen/HausKaufenOhneZinsen.tsx"));
@@ -94,7 +97,13 @@ const App = () => (
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />
             <Route path="/wissen" element={<Wissen />} />
-            <Route path="/wissen/was-ist-riba" element={<WasIstRiba />} />
+            {/* "riba" ist als Suchbegriff wertlos, gesucht wird "zinsen islam".
+                Die alte Adresse leitet deshalb dauerhaft auf den neuen Beitrag. */}
+            <Route path="/wissen/was-ist-riba" element={<Navigate to="/wissen/zinsen-im-islam" replace />} />
+            <Route path="/wissen/zinsen-im-islam" element={<ZinsenImIslam />} />
+            <Route path="/wissen/halal-gold-kaufen" element={<HalalGoldKaufen />} />
+            <Route path="/wissen/ist-leasing-haram" element={<IstLeasingHaram />} />
+            <Route path="/wissen/girokonto-ohne-zinsen" element={<GirokontoOhneZinsen />} />
             <Route path="/wissen/ist-versicherung-haram" element={<IstVersicherungHaram />} />
             <Route path="/wissen/sind-aktien-halal" element={<SindAktienHalal />} />
             <Route path="/wissen/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />

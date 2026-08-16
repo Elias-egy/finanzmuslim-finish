@@ -11,20 +11,20 @@ type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to
 
 /** Eine durchgehende Liste. Reihenfolge = Anzeigereihenfolge. */
 const artikel: Artikel[] = [
-  { name: "Was ist Riba", motiv: "zins", desc: "Zins im Islam: Bedeutung, Formen und Alternativen.", thema: "Grundlagen", to: "/wissen/was-ist-riba" },
+  { name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", to: "/wissen/zinsen-im-islam" },
   { name: "Was ist Gharar", motiv: "gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen" },
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
   { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
   { name: "Halal ETFs", motiv: "etf", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren" },
   { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
   { name: "Sukuk", motiv: "sukuk", desc: "Was hinter islamischen Anleihen steckt.", thema: "Investieren" },
-  { name: "Gold kaufen", motiv: "gold", desc: "Worauf es beim Kauf von physischem Gold ankommt.", thema: "Investieren" },
+  { name: "Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Barren, Münzen oder Wertpapier.", thema: "Investieren", to: "/wissen/halal-gold-kaufen" },
   { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", to: "/wissen/ist-bitcoin-halal" },
-  { name: "Girokonto ohne Zinsfalle", motiv: "karte", desc: "Worauf du bei deinem Alltagskonto achtest.", thema: "Alltag" },
+  { name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", to: "/wissen/girokonto-ohne-zinsen" },
   { name: "Dispo und Kredit", motiv: "kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag" },
   { name: "Ratenkauf", motiv: "raten", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", to: "/wissen/ratenzahlung-haram" },
-  { name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Murabaha, Ijara und Musharaka verständlich erklärt.", thema: "Alltag", to: "/wissen/haus-kaufen-ohne-zinsen" },
-  { name: "Leasing", motiv: "auto", desc: "Wie Leasingverträge aus islamischer Sicht bewertet werden.", thema: "Alltag" },
+  { name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", to: "/wissen/haus-kaufen-ohne-zinsen" },
+  { name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", to: "/wissen/ist-leasing-haram" },
   { name: "Versicherung", motiv: "versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", to: "/wissen/ist-versicherung-haram" },
   { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
   { name: "Nisab verstehen", motiv: "nisab", desc: "Ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },
@@ -85,7 +85,7 @@ const Wissen = () => (
   <main className="bg-background">
     <Seo
       title="Halal-Finanzwissen | finanzmuslim"
-      description="Halal-Finanzwissen nach Themen sortiert: Grundlagen, Investieren, Alltag und Pflichten. Verständlich erklärt, ohne Fachchinesisch."
+      description="Finde Antworten zu Grundlagen, Alltag und Pflichten. Von der ersten Aktie bis zur Zakat."
       path="/wissen"
     />
     <div className="container py-10 md:py-14">
@@ -100,7 +100,7 @@ const Wissen = () => (
       <header className="mt-6 max-w-3xl">
         <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">Halal-Finanzwissen</h1>
         <p className="mt-3 text-[17px] text-muted-foreground">
-          Verständlich erklärt, ohne Fachchinesisch. Von Riba bis Zakat.
+          Finde Antworten zu Grundlagen, Alltag und Pflichten. Von der ersten Aktie bis zur Zakat.
         </p>
       </header>
 
