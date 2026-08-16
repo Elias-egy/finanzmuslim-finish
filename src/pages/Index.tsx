@@ -11,7 +11,6 @@ import {
   PiggyBank,
   Receipt,
   ChevronRight,
-  Search,
   ShieldCheck,
   TrendingDown,
   TrendingUp,
