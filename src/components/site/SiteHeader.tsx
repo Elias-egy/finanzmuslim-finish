@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, Search, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
+import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
 
 const SoonItem = ({ label }: { label: string }) => (
@@ -29,6 +30,7 @@ export const SiteHeader = () => {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
+  const [sucheOffen, setSucheOffen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -38,19 +40,33 @@ export const SiteHeader = () => {
   }, [mobileOpen]);
 
   return (
-    <div className="sticky top-0 z-50">
+    <>
+      {/* Hinweisstreifen. Scrollt mit weg, nur die Kopfleiste bleibt kleben,
+          sonst frisst er auf dem Handy dauerhaft ein Sechstel des Bildschirms.
+          Drei Zeilen: Etikett und Titel, ein Satz, Textlink mit Chevron. */}
       <Link
         to="/zakat-rechner"
-        className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[16px] font-medium text-violet-foreground transition-colors hover:bg-violet/90"
+        className="block bg-[hsl(247_84%_96%)] px-6 py-4 transition-colors hover:bg-[hsl(247_84%_93%)]"
       >
-        <span className="badge-new-inverted">Neu</span>
-        <span>
-          <span className="font-bold">Zakat-Rechner:</span>{" "}
-          <span className="font-normal">Berechne deine Zakat in 2 Minuten →</span>
+        <span className="mx-auto flex w-full max-w-[1200px] flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+          <span className="flex items-center gap-2">
+            <span className="badge-new">Neu</span>
+            <span className="text-[16px] font-bold text-foreground">Zakat-Rechner</span>
+          </span>
+          <span className="text-[16px] leading-[24px] text-muted-foreground">
+            Berechne in zwei Minuten, wie viel Zakat du zahlst.
+          </span>
+          <span className="flex items-center gap-1 text-[16px] font-bold text-violet sm:ml-auto">
+            Zum Rechner
+            <ChevronRight className="h-4 w-4" aria-hidden />
+          </span>
         </span>
       </Link>
 
-      <header className="relative bg-primary" onMouseLeave={() => setOpenGroup(null)}>
+      <header
+        className="sticky top-0 z-50 bg-primary"
+        onMouseLeave={() => setOpenGroup(null)}
+      >
 
         <div className="container flex items-center h-[68px] gap-6">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
@@ -85,17 +101,20 @@ export const SiteHeader = () => {
             </span>
           </nav>
 
-          <div className="ml-auto min-[900px]:ml-0 flex items-center gap-2">
+          {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
+              die halbe Breite und steht ohnehin im Menue. */}
+          <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             <button
               type="button"
               aria-label="Suche"
-              className="hidden min-[900px]:inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/85 hover:bg-white/10 hover:text-white transition-colors"
+              onClick={() => setSucheOffen(true)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Search className="h-[22px] w-[22px]" aria-hidden />
             </button>
             <Link
               to="/halal-guide"
-              className="inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
+              className="hidden min-[900px]:inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
             >
               Guide sichern
             </Link>
@@ -210,7 +229,9 @@ export const SiteHeader = () => {
           </div>
         </div>
       )}
-    </div>
+
+      <Suche offen={sucheOffen} schliessen={() => setSucheOffen(false)} />
+    </>
   );
 };
 

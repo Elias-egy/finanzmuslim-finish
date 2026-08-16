@@ -39,7 +39,7 @@ const DatenbankVorschau = () => {
   }, [suche]);
 
   return (
-    <div className="w-full rounded-2xl border border-border bg-card p-6 lg:w-[500px]">
+    <div className="w-full min-w-0 rounded-2xl border border-border bg-card p-4 lg:w-[500px] lg:p-6">
       <div className="flex h-12 items-center gap-3 rounded-md border border-border px-4 focus-within:border-primary">
         <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
         <input
@@ -60,11 +60,15 @@ const DatenbankVorschau = () => {
             <li key={a.slug}>
               <Link
                 to={`/halal-anlagen/${a.slug}`}
-                className="group flex min-h-[52px] items-center justify-between gap-3 rounded-md py-2 transition-colors hover:bg-hero"
+                className="group flex h-[52px] items-center justify-between gap-3 rounded-md transition-colors hover:bg-hero"
               >
-                <span className="text-[16px] text-foreground group-hover:text-primary">{a.name}</span>
+                <span className="min-w-0 flex-1 truncate text-[16px] text-foreground group-hover:text-primary">
+                  {a.name}
+                </span>
+                {/* Handy: nur der Punkt, die Legende darunter erklaert ihn.
+                    Der Name braucht dort jeden Millimeter. */}
                 <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
-                  {art.label}
+                  <span className="hidden sm:inline">{art.label}</span>
                   <span className={`h-2.5 w-2.5 rounded-full ${art.tone}`} aria-hidden />
                 </span>
               </Link>

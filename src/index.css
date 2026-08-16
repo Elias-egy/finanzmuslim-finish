@@ -107,9 +107,10 @@
   .card-surface {
     @apply rounded-2xl border border-border bg-card;
   }
-  /* Abschnittskarte der Startseite: 64px Innenabstand oben/unten, Inhalt auf 1200px zentriert. */
+  /* Abschnittskarte der Startseite. Handy: 24px ringsum, wie bei Finanzfluss.
+     Desktop: 64px oben/unten, Inhalt auf 1200px zentriert. */
   .section-card {
-    @apply rounded-2xl bg-card px-6 py-12 md:px-10 md:py-16;
+    @apply rounded-2xl bg-card p-6 md:px-10 md:py-16;
   }
   .section-inner {
     @apply mx-auto w-full max-w-[1200px];
@@ -118,9 +119,22 @@
   .eyebrow {
     @apply text-[13px] font-semibold uppercase tracking-[0.12em] text-primary;
   }
-  /* Standardknopf: 48px hoch, 6px Radius, 18px Schrift. */
+  /* Abschnittsueberschrift. Handy 28px, Desktop 40px. Einheitlich ueberall. */
+  .section-title {
+    @apply text-[28px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[40px] md:leading-[48px];
+  }
+  /* Fliesstext einer Abschnittskarte. Handy 17px/26px, Desktop 20px/28px. */
+  .section-text {
+    @apply text-[17px] leading-[26px] text-muted-foreground md:text-[20px] md:leading-[28px];
+  }
+  /* Standardknopf: 48px hoch, 6px Radius, 18px Schrift.
+     Auf dem Handy immer volle Breite, das ist das Finanzfluss-Muster. */
   .btn-primary {
-    @apply inline-flex h-12 items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover;
+    @apply inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto;
+  }
+  /* Zeilenkachel: Symbol, Beschriftung, Chevron. Handy-Grundbaustein. */
+  .row-tile {
+    @apply flex min-h-[76px] min-w-0 items-center gap-3 rounded-2xl border border-border bg-card px-4 transition-colors hover:border-primary;
   }
   /* Platzhalter fuer noch fehlende Bilder: blasse Primaertoenung, 16px Radius. */
   .image-placeholder {

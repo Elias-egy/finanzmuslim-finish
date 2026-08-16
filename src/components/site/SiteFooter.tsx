@@ -45,10 +45,14 @@ const ueber: NavEntry[] = [
   { label: "Datenschutz", to: "/datenschutz" },
 ];
 
+/** Eine Linkspalte. Auf dem Handy stehen die Eintraege zweispaltig,
+ *  einspaltig wird die Fusszeile endlos lang. */
 const Column = ({ title, items }: { title: string; items: NavEntry[] }) => (
   <div>
-    <p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">{title}</p>
-    <ul>
+    <p className="mb-1 text-[18px] font-bold text-foreground lg:mb-2 lg:text-[12px] lg:font-semibold lg:uppercase lg:tracking-wide lg:text-muted-foreground">
+      {title}
+    </p>
+    <ul className="grid grid-cols-2 gap-x-4 lg:grid-cols-1">
       {items.map((i) => (
         <li key={i.label}>
           <Item item={i} />
@@ -58,50 +62,47 @@ const Column = ({ title, items }: { title: string; items: NavEntry[] }) => (
   </div>
 );
 
+const kanaele = [
+  { name: "Instagram", href: "https://instagram.com/finanz.muslim", Logo: InstagramLogo },
+  { name: "TikTok", href: "https://tiktok.com/@finanz.muslim", Logo: TikTokLogo },
+  { name: "YouTube", href: "https://youtube.com/@finanz.muslim", Logo: YouTubeLogo },
+];
+
 export const SiteFooter = () => (
   <footer className="bg-card border-t border-border">
-    <div className="container py-14">
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="container py-10 lg:py-14">
+      {/* Social-Kasten oben, wie bei Finanzfluss: eine Flaeche, eine Reihe Symbole. */}
+      <div className="rounded-2xl bg-accent px-5 py-5">
+        <p className="text-[20px] font-bold text-primary">Hier findest du mich</p>
+        <div className="mt-3 flex items-center gap-2">
+          {kanaele.map(({ name, href, Logo }) => (
+            <a
+              key={name}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={name}
+              className="inline-flex h-12 w-12 items-center justify-center rounded-lg transition-colors hover:bg-card"
+            >
+              <Logo />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-7 lg:mt-12 lg:grid-cols-4 lg:gap-10">
         <div>
           <Wordmark className="text-xl" />
-          <p className="mt-2 text-[14px] text-muted-foreground">Finanzen, Investieren, islamkonform.</p>
-          <div className="mt-4 flex items-center gap-2">
-            <a
-              href="https://instagram.com/finanz.muslim"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-muted"
-            >
-              <InstagramLogo />
-            </a>
-            <a
-              href="https://tiktok.com/@finanz.muslim"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="TikTok"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-muted"
-            >
-              <TikTokLogo />
-            </a>
-            <a
-              href="https://youtube.com/@finanz.muslim"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-muted"
-            >
-              <YouTubeLogo />
-            </a>
-          </div>
+          <p className="mt-2 text-[14px] text-muted-foreground">
+            Finanzen, Investieren, islamkonform.
+          </p>
         </div>
-
         <Column title="Wissen" items={wissen} />
         <Column title="Werkzeuge" items={werkzeuge} />
         <Column title="Über" items={ueber} />
       </div>
 
-      <div className="mt-12 border-t border-border pt-6 space-y-2">
+      <div className="mt-10 border-t border-border pt-6 space-y-2 lg:mt-12">
         <p className="text-[13px] text-muted-foreground">© 2026 finanzmuslim</p>
         <p className="text-[13px] text-muted-foreground">
           Mit * markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt abschließt,
