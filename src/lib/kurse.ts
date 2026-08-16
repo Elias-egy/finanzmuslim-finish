@@ -3,6 +3,11 @@ import kurseJson from "@/data/kurse.json";
 export type Zeitraum = "r1m" | "r6m" | "r1j" | "r5j";
 
 export type Kurs = {
+  name?: string;
+  waehrung?: string;
+  kurs?: number | null;
+  reihe?: [string, number][];
+  status?: string;
   r1m: number | null;
   r6m: number | null;
   r1j: number | null;
@@ -39,6 +44,16 @@ export const verlaufAusschnitt = (verlauf: number[] | undefined, z: Zeitraum) =>
   if (!verlauf || verlauf.length === 0) return [];
   const punkte = monateFuer(z) + 1;
   return verlauf.slice(Math.max(0, verlauf.length - punkte));
+};
+
+/** Hinterer Teil der echten Kursreihe, passend zum gewählten Zeitraum. */
+export const reiheAusschnitt = (
+  reihe: [string, number][] | undefined,
+  z: Zeitraum,
+): [string, number][] => {
+  if (!reihe || reihe.length === 0) return [];
+  const punkte = monateFuer(z) + 1;
+  return reihe.slice(Math.max(0, reihe.length - punkte));
 };
 
 export const renditeText = (wert: number | null | undefined) =>
