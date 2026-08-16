@@ -52,9 +52,10 @@ const DatenbankVorschau = () => {
         />
       </div>
 
-      <ul className="mt-2 max-h-[320px] divide-y divide-border overflow-y-auto pr-1">
+      {/* Genau vier Zeilen sichtbar, die fuenfte wird angeschnitten. */}
+      <ul className="mt-2 max-h-[224px] divide-y divide-border overflow-y-auto pr-1">
         {treffer.map((a) => {
-          const tone = gruppen.find((g) => g.key === gruppeVon(a))!.tone;
+          const art = artVon(a);
           return (
             <li key={a.slug}>
               <Link
@@ -63,8 +64,8 @@ const DatenbankVorschau = () => {
               >
                 <span className="text-[16px] text-foreground group-hover:text-primary">{a.name}</span>
                 <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
-                  {artVon(a)}
-                  <span className={`h-2.5 w-2.5 rounded-full ${tone}`} aria-hidden />
+                  {art.label}
+                  <span className={`h-2.5 w-2.5 rounded-full ${art.tone}`} aria-hidden />
                 </span>
               </Link>
             </li>
@@ -76,13 +77,14 @@ const DatenbankVorschau = () => {
       </ul>
 
       <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-        {gruppen.map((g) => (
+        {arten.map((g) => (
           <li key={g.key} className="flex items-center gap-2 text-[13px] text-muted-foreground">
             <span className={`h-2 w-2 rounded-full ${g.tone}`} aria-hidden />
-            {g.label}
+            {g.legende}
           </li>
         ))}
       </ul>
+
 
       <Link to="/halal-anlagen" className="mt-4 block text-[15px] font-semibold text-primary hover:underline">
         Alle {halalAnlagen.length} Anlagen ansehen
