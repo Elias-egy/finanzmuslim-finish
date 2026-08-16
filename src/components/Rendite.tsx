@@ -8,19 +8,29 @@ import { renditeText } from "@/lib/kurse";
 export const RenditeWert = ({
   wert,
   gross = false,
+  klein = false,
 }: {
   wert: number | null | undefined;
   gross?: boolean;
+  /** Zweite Zeile neben dem Kurs, ohne Pfeil. */
+  klein?: boolean;
 }) => {
   const text = renditeText(wert);
   if (text === null) {
     return <span className="whitespace-nowrap text-[13px] text-muted-foreground">keine Daten</span>;
   }
-  const plus = (wert as number) >= 0;
+  const plus = (wert as number) > 0;
   const Icon = plus ? ArrowUpRight : ArrowDownRight;
+  /* Genau null ist keine Bewegung. Grün wäre hier eine Aussage, die die Zahl
+     nicht hergibt. */
+  const farbe =
+    (wert as number) === 0 ? "text-muted-foreground" : plus ? "text-success" : "text-destructive";
+  if (klein) {
+    return <span className={`whitespace-nowrap text-[13px] font-semibold ${farbe}`}>{text}</span>;
+  }
   return (
     <span
-      className={`inline-flex items-center gap-1 whitespace-nowrap font-bold ${plus ? "text-success" : "text-destructive"} ${
+      className={`inline-flex items-center gap-1 whitespace-nowrap font-bold ${farbe} ${
         gross ? "text-[32px] md:text-[40px]" : "text-[17px]"
       }`}
     >

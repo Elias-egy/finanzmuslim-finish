@@ -30,7 +30,7 @@ const gruppen: Gruppe[] = [
       { name: "Kinderdepot", desc: "Depots für Kinder im Vergleich.", icon: Baby },
       {
         name: "Halal-Anlagen finden",
-        desc: "23 geprüfte ETFs, Sukuk, Gold und Silber mit Kosten und Zertifizierer.",
+        desc: "26 Anlagen: ETFs, Sukuk, Gold, Silber und Krypto mit Kosten und Prüfstelle.",
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },

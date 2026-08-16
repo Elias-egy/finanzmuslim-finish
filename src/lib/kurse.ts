@@ -33,6 +33,22 @@ export const kursQuelle = daten.quelle;
 export const kursFuerIsin = (isin: string): Kurs | undefined => daten.anlagen[isin];
 export const kursFuerKrypto = (key: string): Kurs | undefined => daten.krypto?.[key];
 
+/** Eine Zugriffsstelle für beides. Krypto liegt unter dem Namen, Wertpapiere
+ *  unter der ISIN. Die Oberfläche soll den Unterschied nicht kennen müssen. */
+export const kursFuerAnlage = (a: { isin?: string; kursKey?: string }): Kurs | undefined =>
+  a.kursKey ? kursFuerKrypto(a.kursKey) : a.isin ? kursFuerIsin(a.isin) : undefined;
+
+/** Kurs mit Währung, für die Zeile rechts. */
+export const kursText = (k: Kurs | undefined): string | null => {
+  if (!k || k.kurs == null) return null;
+  const zahl = k.kurs.toLocaleString("de-DE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  const w = k.waehrung === "EUR" ? "€" : k.waehrung === "USD" ? "$" : k.waehrung === "GBP" ? "£" : "";
+  return w ? `${zahl} ${w}` : zahl;
+};
+
 export const zeitraeume: { key: Zeitraum; label: string; kurz: string; monate: number }[] = [
   { key: "r1m", label: "1 Monat", kurz: "1M", monate: 1 },
   { key: "r6m", label: "6 Monate", kurz: "6M", monate: 6 },

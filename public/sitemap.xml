@@ -170,6 +170,21 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+<url>
+    <loc>https://finanzmuslim.com/halal-anlagen/bitcoin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://finanzmuslim.com/halal-anlagen/ether</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://finanzmuslim.com/halal-anlagen/solana</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://finanzmuslim.com/vorlagen/halal-anlagen</loc>
     <changefreq>monthly</changefreq>

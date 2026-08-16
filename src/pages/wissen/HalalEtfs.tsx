@@ -222,7 +222,7 @@ const HalalEtfs = () => (
         kategorie: "Anlagen",
         ueberschrift: "Geprüfte ETFs mit Kosten und Prüfstelle",
         linkZiel: "/halal-anlagen",
-        text: "23 geprüfte Anlagen mit Kosten, Größe und Prüfstelle.",
+        text: "26 Anlagen mit Kosten, Größe und Prüfstelle.",
         knopf: "Zu den Anlagen",
       }}
       boxMitte={{

@@ -37,6 +37,9 @@ export const grundOhneZusammensetzung = (
   kategorie: string,
   replikation: string,
 ): string => {
+  if (kategorie === "krypto") {
+    return "Eine Kryptowährung ist ein einzelner Wert, kein Korb aus Firmen. Eine Aufteilung nach Positionen, Ländern oder Branchen gibt es hier nicht.";
+  }
   if (kategorie === "gold" || kategorie === "silber") {
     return "Dieses Produkt hält ein einziges Metall, physisch hinterlegt. Eine Aufteilung nach Positionen, Ländern oder Branchen gibt es hier nicht.";
   }

@@ -7,10 +7,11 @@ import FaktenRaster from "@/components/anlage/FaktenRaster";
 import KopierWert from "@/components/anlage/KopierWert";
 import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
 import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
-import { anbieterByName, anlageBySlug } from "@/data/halalAnlagen";
+import { AnlageLogo } from "@/components/AnlageZeile";
+import { anlageBySlug } from "@/data/halalAnlagen";
 import { grundOhneZusammensetzung, zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
-import { kursFuerIsin, kursQuelle, kursStand } from "@/lib/kurse";
+import { kursFuerAnlage, kursQuelle, kursStand } from "@/lib/kurse";
 
 const erklaerung: Record<string, string> = {
   thesaurierend: "Gewinne bleiben im Fonds und werden wieder angelegt",
@@ -24,15 +25,28 @@ const abschnitte: Abschnitt[] = [
   { id: "zusammensetzung", label: "Zusammensetzung" },
 ];
 
-const Zeile = ({ label, wert, klammer }: { label: string; wert: string; klammer?: string }) => (
-  <div className="flex flex-col gap-1 border-t border-border py-3 sm:flex-row sm:justify-between sm:gap-6">
-    <span className="text-[15px] text-muted-foreground">{label}</span>
-    <span className="text-[15px] text-foreground sm:text-right">
-      {wert}
-      {klammer && <span className="block text-[13px] text-muted-foreground">({klammer})</span>}
-    </span>
-  </div>
-);
+/** Eine Zeile nur, wenn ein Wert vorliegt. Krypto hat keine Fondsgröße und
+ *  keine Bauart, dort bleibt die Zeile weg statt einen Strich zu zeigen. */
+const Zeile = ({
+  label,
+  wert,
+  klammer,
+}: {
+  label: string;
+  wert?: string;
+  klammer?: string;
+}) => {
+  if (!wert) return null;
+  return (
+    <div className="flex flex-col gap-1 border-t border-border py-3 sm:flex-row sm:justify-between sm:gap-6">
+      <span className="text-[15px] text-muted-foreground">{label}</span>
+      <span className="text-[15px] text-foreground sm:text-right">
+        {wert}
+        {klammer && <span className="block text-[13px] text-muted-foreground">({klammer})</span>}
+      </span>
+    </div>
+  );
+};
 
 const AnlageDetail = () => {
   const { slug } = useParams();
@@ -40,30 +54,35 @@ const AnlageDetail = () => {
 
   if (!anlage) return <Navigate to="/halal-anlagen" replace />;
 
-  const kurs = kursFuerIsin(anlage.isin);
-  const a = anbieterByName(anlage.anbieter);
-  const zus = zusammensetzungFuer(anlage.isin);
-  const region = regionFuer(anlage.isin);
+  const kurs = kursFuerAnlage(anlage);
+  const zus = anlage.isin ? zusammensetzungFuer(anlage.isin) : undefined;
+  const region = anlage.isin ? regionFuer(anlage.isin) : undefined;
+  const istKrypto = anlage.kategorie === "krypto";
   const hatZusammensetzung =
     !!zus && ((zus.positionen?.length ?? 0) > 0 || (zus.laender?.length ?? 0) > 0 || (zus.branchen?.length ?? 0) > 0);
 
   /* Nur Fakten, die es bei dieser Anlageart wirklich gibt. Ein ETC auf Gold
      hat keine Ertragsverwendung im Sinne einer Ausschüttung, das Feld trägt
-     dort trotzdem einen sinnvollen Wert aus den Stammdaten. */
+     dort trotzdem einen sinnvollen Wert aus den Stammdaten. Eine Münze hat
+     weder Fondsgröße noch Domizil, dort fällt der Eintrag weg. */
   const fakten = [
     { label: "Kosten pro Jahr", wert: anlage.kostenLabel },
-    { label: "Fondsgröße", wert: anlage.groesse },
+    { label: istKrypto ? "Kürzel" : "Fondsgröße", wert: istKrypto ? anlage.kuerzel : anlage.groesse },
     { label: "Ertragsverwendung", wert: anlage.ertragDetail },
     { label: "Bauart", wert: anlage.replikation },
     { label: "Domizil", wert: anlage.domizil },
     { label: "Auflage", wert: anlage.auflage },
-  ];
+  ].filter((f): f is { label: string; wert: string } => !!f.wert);
 
   return (
     <main className="bg-background">
       <Seo
         title={`${anlage.name}: Kurs, Kosten und Halal-Einordnung | finanzmuslim`}
-        description={`${anlage.name} (${anlage.isin}): Kursverlauf, ${anlage.kostenLabel} Kosten pro Jahr, Fondsgröße und die Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`}
+        description={
+          istKrypto
+            ? `${anlage.name} (${anlage.kuerzel}): Kursverlauf in Euro, laufende Kosten und die Stelle, die die Münze nach Shariah-Kriterien eingeordnet hat.`
+            : `${anlage.name} (${anlage.isin}): Kursverlauf, ${anlage.kostenLabel} Kosten pro Jahr, Fondsgröße und die Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`
+        }
         path={`/halal-anlagen/${anlage.slug}`}
       />
 
@@ -86,24 +105,19 @@ const AnlageDetail = () => {
           </nav>
 
           <div className="mt-5 flex items-start gap-3">
-            <span
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-card"
-              title={anlage.anbieter}
-            >
-              <span className="text-[15px] font-bold text-foreground">
-                {a?.kuerzel ?? anlage.anbieter.slice(0, 2)}
-              </span>
-            </span>
+            <AnlageLogo a={anlage} gross />
             <div className="min-w-0">
               <h1 className="text-[26px] font-bold leading-[1.15] text-foreground md:text-4xl">
                 {anlage.name}
               </h1>
               <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]">
+                {anlage.ertrag && (
+                  <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
+                    {anlage.ertrag === "thesaurierend" ? "Thesaurierend" : "Ausschüttend"}
+                  </span>
+                )}
                 <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
-                  {anlage.ertrag === "thesaurierend" ? "Thesaurierend" : "Ausschüttend"}
-                </span>
-                <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
-                  {anlage.anbieter}
+                  {istKrypto ? "Kryptowährung" : anlage.anbieter}
                 </span>
                 {region && (
                   <span
@@ -117,9 +131,11 @@ const AnlageDetail = () => {
             </div>
           </div>
 
-          <div className="mt-4">
-            <KopierWert label="ISIN" wert={anlage.isin} />
-          </div>
+          {anlage.isin && (
+            <div className="mt-4">
+              <KopierWert label="ISIN" wert={anlage.isin} />
+            </div>
+          )}
 
           <div className="mt-5">
             <FaktenRaster fakten={fakten} />
@@ -209,16 +225,33 @@ const AnlageDetail = () => {
                   Nachweis bezieht sich auf den Index, den es nachbildet.
                 </p>
               )}
-              <p>
-                <span className="font-semibold text-foreground">Wie geprüft wird: </span>
-                Eine unabhängige Gelehrtenstelle schaut sich an, womit die Firmen im Fonds ihr Geld
-                verdienen und wie hoch ihre Schulden und Zinserträge sind. Was durchfällt, fliegt
-                raus.
-              </p>
-              <p>
-                Solche Zertifizierungen werden meist jedes Jahr neu erteilt. Prüf vor dem Kauf
-                selbst, ob der Nachweis noch aktuell ist.
-              </p>
+              {istKrypto ? (
+                <>
+                  <p>
+                    <span className="font-semibold text-foreground">Wie geprüft wird: </span>
+                    Eine Gelehrtenstelle schaut sich an, wie die Münze entsteht, wofür sie genutzt
+                    wird und ob dabei Zins oder reine Wette im Spiel ist. Ein Gutachten gilt der
+                    Münze selbst, nicht deinem Handel damit.
+                  </p>
+                  <p>
+                    Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt
+                    als kleine Beimischung, nicht als Grundlage eines Depots.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <span className="font-semibold text-foreground">Wie geprüft wird: </span>
+                    Eine unabhängige Gelehrtenstelle schaut sich an, womit die Firmen im Fonds ihr
+                    Geld verdienen und wie hoch ihre Schulden und Zinserträge sind. Was durchfällt,
+                    fliegt raus.
+                  </p>
+                  <p>
+                    Solche Zertifizierungen werden meist jedes Jahr neu erteilt. Prüf vor dem Kauf
+                    selbst, ob der Nachweis noch aktuell ist.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -231,7 +264,11 @@ const AnlageDetail = () => {
               <Zeile
                 label="Kosten pro Jahr"
                 wert={anlage.kostenLabel}
-                klammer="zieht der Anbieter automatisch vom Fondsvermögen ab"
+                klammer={
+                  istKrypto
+                    ? "eine Münze hat keine laufenden Kosten, dein Broker nimmt aber Gebühren beim Kauf"
+                    : "zieht der Anbieter automatisch vom Fondsvermögen ab"
+                }
               />
               <Zeile
                 label="Fondsgröße"
@@ -241,7 +278,7 @@ const AnlageDetail = () => {
               <Zeile
                 label="Ertragsverwendung"
                 wert={anlage.ertragDetail}
-                klammer={erklaerung[anlage.ertrag]}
+                klammer={anlage.ertrag ? erklaerung[anlage.ertrag] : undefined}
               />
               <Zeile
                 label="Bauart"
@@ -256,9 +293,9 @@ const AnlageDetail = () => {
                 label="Bauweise"
                 wert={anlage.replikation}
                 klammer={
-                  anlage.replikation.includes("physisch besichert")
+                  anlage.replikation?.includes("physisch besichert")
                     ? "das Metall liegt wirklich im Tresor"
-                    : anlage.replikation.includes("physisch")
+                    : anlage.replikation?.includes("physisch")
                       ? "der Fonds kauft die Wertpapiere wirklich"
                       : undefined
                 }
@@ -277,6 +314,11 @@ const AnlageDetail = () => {
                 label="ISIN"
                 wert={anlage.isin}
                 klammer="die Nummer, mit der du sie im Depot findest"
+              />
+              <Zeile
+                label="Kürzel"
+                wert={istKrypto ? anlage.kuerzel : undefined}
+                klammer="damit findest du die Münze bei deinem Anbieter"
               />
             </div>
             {anlage.hinweis && (
@@ -323,7 +365,7 @@ const AnlageDetail = () => {
                 </div>
               ) : (
                 <KeineZusammensetzung
-                  grund={grundOhneZusammensetzung(anlage.kategorie, anlage.replikation)}
+                  grund={grundOhneZusammensetzung(anlage.kategorie, anlage.replikation ?? "")}
                 />
               )}
             </div>

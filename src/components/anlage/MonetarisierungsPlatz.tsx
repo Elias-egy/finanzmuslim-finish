@@ -26,7 +26,8 @@ const MonetarisierungsPlatz = ({
 }: {
   platz: Platzierung;
   anlageName: string;
-  isin: string;
+  /** Fehlt bei Krypto, eine Münze hat keine ISIN. */
+  isin?: string;
 }) => {
   const [offen, setOffen] = useState(false);
   const { titel, text } = platzTexte[platz];

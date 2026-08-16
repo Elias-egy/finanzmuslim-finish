@@ -1,24 +1,29 @@
-export type Kategorie = "aktien" | "sukuk" | "gold" | "silber";
+export type Kategorie = "aktien" | "sukuk" | "gold" | "silber" | "krypto";
 
 export type Anlage = {
   /** Fester Slug für /halal-anlagen/[slug]. Nicht zur Laufzeit berechnen. */
   slug: string;
   name: string;
-  isin: string;
+  /** Fehlt bei Krypto, eine Münze hat keine Wertpapierkennnummer. */
+  isin?: string;
+  /** Schlüssel in kurse.json, Feld krypto. Nur bei Krypto gesetzt. */
+  kursKey?: string;
+  /** Börsenkürzel, steht in der Zeile unter dem Namen. */
+  kuerzel?: string;
   anbieter: string;
   kategorie: Kategorie;
   /** Laufende Kosten pro Jahr in Prozent. */
   kosten: number;
   kostenLabel: string;
-  groesse: string;
+  groesse?: string;
   /** Sortierwert in Mio. EUR. */
-  groesseSortierwert: number;
-  ertrag: "ausschuettend" | "thesaurierend";
-  ertragDetail: string;
-  bauart: "passiv" | "aktiv";
-  replikation: string;
-  domizil: string;
-  auflage: string;
+  groesseSortierwert?: number;
+  ertrag?: "ausschuettend" | "thesaurierend";
+  ertragDetail?: string;
+  bauart?: "passiv" | "aktiv";
+  replikation?: string;
+  domizil?: string;
+  auflage?: string;
   zertifizierer: string;
   hinweis?: string;
   /** Direktlink auf den Shariah-Nachweis, falls geprüft. */
@@ -26,6 +31,8 @@ export type Anlage = {
   zertifikatHinweis?: string;
   /** "produkt" = eigenes Zertifikat des Anbieters, "index" = Nachweis nur zum Index. */
   zertifikatArt?: "produkt" | "index";
+  /** Zeichen der Münze, steht in der Kachel bis ein Logo vorliegt. */
+  zeichen?: string;
 };
 
 export type Anbieter = { kuerzel: string; name: string; logo?: string };
@@ -537,22 +544,59 @@ export const halalAnlagen: Anlage[] = [
     zertifizierer: "Franklin-Templeton-Shariah-Supervisory-Board",
     hinweis: "zusätzlich bis zu 5,75 % Ausgabeaufschlag, Mindestanlage 1.000 USD",
   },
-];
 
-export type KryptoAnlage = { name: string; kursKey: string; gutachten: string };
-
-export const kryptoAnlagen: KryptoAnlage[] = [
+  /* Krypto steht in derselben Liste wie alles andere, nicht in einem eigenen
+     Kasten. Eine Münze hat keine ISIN, keine Fondsgröße und keine Bauart,
+     deshalb bleiben diese Felder leer statt mit einem Platzhalter gefüllt.
+     Der Hinweis zur Schwankung steht an jeder einzelnen Münze. */
   {
+    slug: "bitcoin",
     name: "Bitcoin",
+    kuerzel: "BTC",
+    zeichen: "₿",
     kursKey: "Bitcoin",
-    gutachten: "Shariah-Gutachten: Shariyah Review Bureau, 2022, lizenziert von der Central Bank of Bahrain",
+    anbieter: "Bitcoin",
+    kategorie: "krypto",
+    kosten: 0,
+    kostenLabel: "keine",
+    zertifizierer: "Shariyah Review Bureau, Gutachten 2022",
+    zertifikatHinweis:
+      "Shariah-Gutachten des Shariyah Review Bureau von 2022, lizenziert von der Central Bank of Bahrain. Der Nachweis liegt uns nicht als Datei vor, deshalb steht hier kein Link.",
+    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
   },
   {
-    name: "Ether, Ethereum",
+    slug: "ether",
+    name: "Ether",
+    kuerzel: "ETH",
+    zeichen: "Ξ",
     kursKey: "Ether",
-    gutachten:
-      "Shariah White Paper: Amanie Advisors und Ethereum Foundation, 2019, Dr. Mohd Daud Bakar",
+    anbieter: "Ethereum",
+    kategorie: "krypto",
+    kosten: 0,
+    kostenLabel: "keine",
+    zertifizierer: "Amanie Advisors, Shariah White Paper 2019",
+    zertifikatHinweis:
+      "Shariah White Paper von Amanie Advisors und der Ethereum Foundation aus dem Jahr 2019, verantwortlich Dr. Mohd Daud Bakar. Der Nachweis liegt uns nicht als Datei vor, deshalb steht hier kein Link.",
+    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
+  },
+  {
+    slug: "solana",
+    name: "Solana",
+    kuerzel: "SOL",
+    zeichen: "◎",
+    kursKey: "Solana",
+    anbieter: "Solana",
+    kategorie: "krypto",
+    kosten: 0,
+    kostenLabel: "keine",
+    zertifizierer: "Gutachten noch nicht geprüft",
+    zertifikatHinweis:
+      "Zu Solana liegt uns kein geprüftes Shariah-Gutachten vor. Bitcoin und Ether haben eins, Solana steht hier ohne. Wer Solana kauft, entscheidet das ohne Nachweis auf dieser Seite.",
+    hinweis: "schwankt deutlich stärker als alles andere in dieser Übersicht",
   },
 ];
 
 export const anlageBySlug = (slug: string) => halalAnlagen.find((a) => a.slug === slug);
+
+/** Eindeutiger Schlüssel je Anlage. Krypto hat keine ISIN, deshalb der Slug. */
+export const anlageSchluessel = (a: Anlage) => a.isin ?? a.slug;

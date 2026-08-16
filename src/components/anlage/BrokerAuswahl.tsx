@@ -12,7 +12,7 @@ import { monetarisierung } from "@/config/monetarisierung";
  * Nutzer würde bei einem Anbieter suchen, der die Anlage gar nicht führt.
  */
 
-const Inhalt = ({ anlageName, isin }: { anlageName: string; isin: string }) => (
+const Inhalt = ({ anlageName, isin }: { anlageName: string; isin?: string }) => (
   <div className="space-y-4 px-1 pb-2">
     <div className="rounded-xl bg-accent px-4 py-4">
       <p className="text-[15px] font-bold text-foreground">Noch keine geprüfte Zuordnung</p>
@@ -21,9 +21,11 @@ const Inhalt = ({ anlageName, isin }: { anlageName: string; isin: string }) => (
         ist. Erst wenn das belegt ist, steht es hier.
       </p>
     </div>
-    <p className="text-[13px] text-muted-foreground">
-      Bis dahin hilft die ISIN {isin}: Damit findest du die Anlage in der Suche deines Brokers.
-    </p>
+    {isin && (
+      <p className="text-[13px] text-muted-foreground">
+        Bis dahin hilft die ISIN {isin}: Damit findest du die Anlage in der Suche deines Brokers.
+      </p>
+    )}
     <p className="text-[13px] text-muted-foreground">
       finanzmuslim führt keine Order aus. Der Kauf läuft immer über deinen Broker.
     </p>
@@ -39,7 +41,7 @@ const BrokerAuswahl = ({
   offen: boolean;
   schliessen: () => void;
   anlageName: string;
-  isin: string;
+  isin?: string;
 }) => {
   const [handy, setHandy] = useState(false);
 

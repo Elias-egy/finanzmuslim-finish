@@ -1,58 +1,18 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronRight, HelpCircle, Search, X } from "lucide-react";
+import { ChevronRight, ExternalLink, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
-import { MotivDatenbank } from "@/components/motive";
 import NewsletterBox from "@/components/NewsletterBox";
 import ZeitraumSchalter from "@/components/ZeitraumSchalter";
 import { RenditeWert, Sparkline } from "@/components/Rendite";
-import {
-  kursFuerIsin,
-  kursFuerKrypto,
-  kursStand,
-  type Zeitraum,
-} from "@/lib/kurse";
-import { ExternalLink } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { AnlageLogo } from "@/components/AnlageZeile";
+import AnlageFilter, {
+  filterStandard,
+  type FilterStand,
+} from "@/components/anlage/AnlageFilter";
+import { kursFuerAnlage, kursStand, kursText, type Zeitraum } from "@/lib/kurse";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  anbieterByName,
-  halalAnlagen,
-  kryptoAnlagen,
-  type Anlage,
-  type Kategorie,
-} from "@/data/halalAnlagen";
-import { regionFuer } from "@/data/anlageRegion";
-
-type Reiter = "alle" | Kategorie;
-type Sortierung = "kosten" | "groesse" | "name" | "renditeAb" | "renditeAuf";
-
-const reiter: { key: Reiter; label: string }[] = [
-  { key: "alle", label: "Alle" },
-  { key: "aktien", label: "Aktien" },
-  { key: "sukuk", label: "Sukuk" },
-  { key: "gold", label: "Gold" },
-  { key: "silber", label: "Silber" },
-];
-
-const kennzahlen = ["23 Anlagen", "4 Kategorien", "ab 0,12 % Kosten"];
-
-/** Quadratische Anbieter-Kachel. Zeigt ein Logo, sobald eines hinterlegt ist. */
-const AnbieterKachel = ({ name }: { name: string }) => {
-  const a = anbieterByName(name);
-  return (
-    <span
-      className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-hero"
-      title={name}
-    >
-      {a?.logo ? (
-        <img src={a.logo} alt={name} className="h-full w-full object-contain" />
-      ) : (
-        <span className="text-[13px] font-bold text-foreground">{a?.kuerzel ?? name.slice(0, 2)}</span>
-      )}
-    </span>
-  );
-};
+import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 
 const BauartHilfe = () => (
   <Popover>
@@ -103,56 +63,37 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
     </a>
   ) : (
     <span className="text-[13px] text-muted-foreground">
-      {a.zertifizierer} <span className="text-muted-foreground">· Nachweis noch nicht geprüft</span>
+      {a.zertifizierer}
+      {!a.zertifizierer.includes("noch nicht geprüft") && " · Nachweis noch nicht geprüft"}
     </span>
   );
 
-/** Farbe und Name der Anlageart. Der Punkt ersetzt die ausgeschriebene
- *  Bezeichnung, die stand vorher zweimal in derselben Karte. */
-const artTon = (a: Anlage) =>
-  a.kategorie === "aktien"
-    ? a.bauart === "aktiv"
-      ? "bg-success"
-      : "bg-primary"
-    : a.kategorie === "sukuk"
-      ? "bg-asset-sukuk"
-      : a.kategorie === "gold"
-        ? "bg-asset-gold"
-        : "bg-asset-silber";
-
-const artName = (a: Anlage) =>
-  a.kategorie === "aktien" ? (a.bauart === "aktiv" ? "Fonds" : "Aktien-ETF") :
-  a.kategorie === "sukuk" ? "Sukuk" : a.kategorie === "gold" ? "Gold" : "Silber";
-
 const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
-  const kurs = kursFuerIsin(a.isin);
+  const kurs = kursFuerAnlage(a);
+  const preis = kursText(kurs);
   return (
-    /* Handy-Karte. Bewusst knapp: vier Zahlen im Raster, eine Zeile Prüfstelle,
-       ein Knopf. Ertragsart und Bauweise stehen auf der Detailseite, in einer
-       Liste mit 23 Karten kosten sie nur Bildschirm. */
+    /* Handy-Karte. Kopfzeile wie in der Vorschau: rundes Logo, Name mit Kürzel
+       darunter, rechts Kurs und Veränderung. Darunter die zwei Zahlen, wegen
+       derer die Liste überhaupt existiert: Kosten und Prüfstelle. Farbpunkt,
+       Flagge und ausgeschriebene Anlageart sind raus, das war dreimal
+       dieselbe Aussage in einer Karte. */
     <li className="card-surface p-4">
-      <Link to={`/halal-anlagen/${a.slug}`} className="flex items-start gap-3">
-        <AnbieterKachel name={a.anbieter} />
-        <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-2 text-[15px] font-semibold text-foreground">
-            <span
-              className={`h-2.5 w-2.5 shrink-0 rounded-full ${artTon(a)}`}
-              title={artName(a)}
-              aria-hidden
-            />
-            <span className="min-w-0">{a.name}</span>
-          </p>
-          <p className="mt-0.5 text-[13px] text-muted-foreground">{a.isin}</p>
-        </div>
-        {regionFuer(a.isin) && (
-          <span
-            className="shrink-0 text-[18px]"
-            title={regionFuer(a.isin)!.label}
-            aria-label={regionFuer(a.isin)!.label}
-          >
-            {regionFuer(a.isin)!.zeichen}
+      <Link to={`/halal-anlagen/${a.slug}`} className="flex items-center gap-3">
+        <AnlageLogo a={a} />
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-semibold text-foreground">{a.name}</span>
+          <span className="mt-0.5 block truncate text-[13px] text-muted-foreground">
+            {a.kuerzel ?? a.isin}
           </span>
-        )}
+        </span>
+        <span className="shrink-0 text-right">
+          <span className="block whitespace-nowrap text-[15px] font-semibold text-foreground">
+            {preis ?? "—"}
+          </span>
+          <span className="mt-0.5 block">
+            <RenditeWert wert={kurs?.[zeitraum]} klein />
+          </span>
+        </span>
       </Link>
 
       <dl className="mt-3 grid grid-cols-2 gap-2">
@@ -161,16 +102,8 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
           <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
         </div>
         <div className="rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Rendite</dt>
-          {/* Keine Mini-Grafik hier: bei 145 Pixel Kastenbreite ragt sie raus,
-              und die große Grafik steht ohnehin eine Seite weiter. */}
-          <dd className="mt-0.5">
-            <RenditeWert wert={kurs?.[zeitraum]} />
-          </dd>
-        </div>
-        <div className="col-span-2 rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Fondsgröße</dt>
-          <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse}</dd>
+          <dt className="text-[12px] text-muted-foreground">Größe</dt>
+          <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
         </div>
       </dl>
 
@@ -193,13 +126,11 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
 };
 
 const HalalAnlagen = () => {
-  const [kategorie, setKategorie] = useState<Reiter>("alle");
   const navigate = useNavigate();
   const [suche, setSuche] = useState("");
   const [zeitraum, setZeitraum] = useState<Zeitraum>("r1j");
-  const [nurAusschuettend, setNurAusschuettend] = useState(false);
-  const [nurPassiv, setNurPassiv] = useState(false);
-  const [sortierung, setSortierung] = useState<Sortierung>("kosten");
+  const [filter, setFilter] = useState<FilterStand>(filterStandard);
+  const { kategorie, nurAusschuettend, nurPassiv, sortierung } = filter;
 
   const liste = useMemo(() => {
     const q = suche.trim().toLowerCase();
@@ -211,14 +142,16 @@ const HalalAnlagen = () => {
         (q === "" ||
           a.name.toLowerCase().includes(q) ||
           a.anbieter.toLowerCase().includes(q) ||
-          a.isin.toLowerCase().includes(q)),
+          (a.kuerzel ?? "").toLowerCase().includes(q) ||
+          (a.isin ?? "").toLowerCase().includes(q)),
     );
     const sortiert = [...gefiltert];
     if (sortierung === "kosten") sortiert.sort((x, y) => x.kosten - y.kosten);
-    if (sortierung === "groesse") sortiert.sort((x, y) => y.groesseSortierwert - x.groesseSortierwert);
+    if (sortierung === "groesse")
+      sortiert.sort((x, y) => (y.groesseSortierwert ?? -1) - (x.groesseSortierwert ?? -1));
     if (sortierung === "name") sortiert.sort((x, y) => x.name.localeCompare(y.name, "de"));
     if (sortierung === "renditeAb" || sortierung === "renditeAuf") {
-      const wert = (a: Anlage) => kursFuerIsin(a.isin)?.[zeitraum];
+      const wert = (a: Anlage) => kursFuerAnlage(a)?.[zeitraum];
       sortiert.sort((x, y) => {
         const vx = wert(x);
         const vy = wert(y);
@@ -233,22 +166,23 @@ const HalalAnlagen = () => {
   }, [kategorie, suche, nurAusschuettend, nurPassiv, sortierung, zeitraum]);
 
   const zuruecksetzen = () => {
-    setKategorie("alle");
+    setFilter(filterStandard);
     setSuche("");
-    setNurAusschuettend(false);
-    setNurPassiv(false);
   };
 
   return (
     <main className="bg-background">
       <Seo
-        title="Halal-Anlagen finden, 23 geprüfte ETFs und Fonds | finanzmuslim"
-        description="Alle in Deutschland handelbaren Halal-ETFs, Sukuk, Gold und Silber mit Kosten, Fondsgröße und Zertifizierer. Filterbar und sortierbar, kostenlos."
+        title={`Halal-Anlagen finden, ${halalAnlagen.length} ETFs, Fonds und Kryptowährungen | finanzmuslim`}
+        description="Alle in Deutschland handelbaren Halal-ETFs, Sukuk, Gold, Silber und Kryptowährungen mit Kosten, Größe und Zertifizierer. Filterbar und sortierbar, kostenlos."
         path="/halal-anlagen"
       />
 
+      {/* Kopf. Bewusst flach: auf dem Handy stand hier vorher ein Bild, drei
+          Kacheln und zwei Sätze, zusammen fast ein halber Bildschirm, bevor
+          die erste Anlage kam. Die Anzahl steht jetzt einmal über der Liste. */}
       <section className="bg-hero">
-        <div className="container py-10 md:py-14">
+        <div className="container py-5 md:py-12">
           <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
             <Link to="/" className="hover:text-primary">
               Start
@@ -261,33 +195,19 @@ const HalalAnlagen = () => {
             <span className="text-foreground">Halal-Anlagen finden</span>
           </nav>
 
-          <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <h1 className="max-w-3xl text-3xl font-bold leading-tight text-foreground md:text-4xl">
-              Halal-Anlagen finden
-            </h1>
-            <span className="h-16 w-16 shrink-0 overflow-hidden rounded-xl">
-              <MotivDatenbank />
-            </span>
-          </div>
-          <p className="mt-3 max-w-2xl text-[17px] leading-relaxed text-muted-foreground">
-            23 Anlagen, die es wirklich gibt, mit Kosten, Größe und der Stelle, die sie geprüft hat. Sortier
-            nach dem, was dir wichtig ist.
+          <h1 className="mt-3 text-[26px] font-bold leading-tight text-foreground md:mt-5 md:text-4xl">
+            Halal-Anlagen finden
+          </h1>
+          <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
+            Vergleich Kosten, Rendite und Prüfstelle.
           </p>
-
-          <ul className="mt-6 flex flex-wrap gap-3">
-            {kennzahlen.map((k) => (
-              <li key={k} className="rounded-lg bg-card px-4 py-2 text-[14px] font-semibold text-foreground">
-                {k}
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      <div className="container py-10 md:py-14">
+      <div className="container py-5 md:py-12">
         {/* Filterleiste */}
         <div className="card-surface p-4 md:p-5">
-          <div className="relative mb-4">
+          <div className="relative">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
               aria-hidden
@@ -296,8 +216,8 @@ const HalalAnlagen = () => {
               type="search"
               value={suche}
               onChange={(e) => setSuche(e.target.value)}
-              aria-label="ETF, Fonds oder ISIN suchen"
-              placeholder="ETF, Fonds oder ISIN suchen"
+              aria-label="Anlage, Kürzel oder ISIN suchen"
+              placeholder="Anlage, Kürzel oder ISIN suchen"
               className="min-h-[48px] w-full rounded-lg border border-border bg-background pl-11 pr-11 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
             {suche && (
@@ -312,62 +232,25 @@ const HalalAnlagen = () => {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Kategorie">
-            {reiter.map((r) => (
-              <button
-                key={r.key}
-                type="button"
-                role="tab"
-                aria-selected={kategorie === r.key}
-                onClick={() => setKategorie(r.key)}
-                className={`min-h-[44px] rounded-lg px-4 text-[15px] font-semibold transition-colors ${
-                  kategorie === r.key
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-foreground hover:bg-hero"
-                }`}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-4 flex flex-col gap-4 border-t border-border pt-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap items-center gap-6">
-              <label className="flex items-center gap-2 text-[15px] text-foreground">
-                <Switch checked={nurAusschuettend} onCheckedChange={setNurAusschuettend} />
-                nur ausschüttend
-              </label>
-              <label className="flex items-center gap-2 text-[15px] text-foreground">
-                <Switch checked={nurPassiv} onCheckedChange={setNurPassiv} />
-                nur passiv
-              </label>
+          {/* Art, Eigenschaften und Sortierung liegen jetzt hinter einem Knopf.
+              Sichtbar bleibt nur, was die Zahlen in der Liste verändert. Beides
+              in einer Zeile, damit die erste Anlage früher im Bild steht. */}
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <AnlageFilter stand={filter} setzen={setFilter} />
+              <span className="hidden text-[14px] text-muted-foreground sm:inline" aria-live="polite">
+                {liste.length} {liste.length === 1 ? "Anlage" : "Anlagen"}
+              </span>
             </div>
-
-            <label className="flex items-center gap-2 text-[15px] text-muted-foreground">
-              Sortierung
-              <select
-                value={sortierung}
-                onChange={(e) => setSortierung(e.target.value as Sortierung)}
-                className="min-h-[44px] rounded-lg border border-border bg-background px-3 text-[15px] text-foreground focus:border-primary focus:outline-none"
-              >
-                <option value="kosten">Kosten aufsteigend</option>
-                <option value="groesse">Größe absteigend</option>
-                <option value="name">Name A bis Z</option>
-                <option value="renditeAb">Rendite absteigend</option>
-                <option value="renditeAuf">Rendite aufsteigend</option>
-              </select>
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="hidden text-[14px] text-muted-foreground md:inline">Rendite über</span>
+              <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} kurz className="md:hidden" />
+              <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} className="hidden md:inline-flex" />
+            </div>
           </div>
-        </div>
-
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[14px] text-muted-foreground" aria-live="polite">
-            {liste.length} {liste.length === 1 ? "Anlage wird" : "Anlagen werden"} angezeigt
+          <p className="mt-2 text-[13px] text-muted-foreground sm:hidden" aria-live="polite">
+            {liste.length} {liste.length === 1 ? "Anlage" : "Anlagen"}
           </p>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[14px] text-muted-foreground">Rendite über</span>
-            <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} />
-          </div>
         </div>
 
         {liste.length === 0 ? (
@@ -387,8 +270,8 @@ const HalalAnlagen = () => {
           <table className="w-full table-fixed border-collapse text-left">
             <thead>
               <tr className="text-[13px] text-muted-foreground">
-                <th scope="col" className="w-[22%] pb-3 pr-3 font-semibold">Anbieter und Name</th>
-                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">ISIN</th>
+                <th scope="col" className="w-[24%] pb-3 pr-3 font-semibold">Anlage</th>
+                <th scope="col" className="w-[11%] pb-3 pr-3 font-semibold">Kurs</th>
                 <th scope="col" className="w-[9%] pb-3 pr-3 font-semibold">Kosten pro Jahr</th>
                 <th scope="col" className="w-[16%] pb-3 pr-3 font-semibold">Rendite</th>
                 <th scope="col" className="w-[10%] pb-3 pr-3 font-semibold">Größe</th>
@@ -399,43 +282,34 @@ const HalalAnlagen = () => {
             </thead>
             <tbody>
               {liste.map((a) => {
-                const kurs = kursFuerIsin(a.isin);
+                const kurs = kursFuerAnlage(a);
                 return (
                 <tr
-                  key={a.isin}
+                  key={anlageSchluessel(a)}
                   onClick={() => navigate(`/halal-anlagen/${a.slug}`)}
                   className="cursor-pointer border-t border-border align-top transition-colors hover:bg-hero"
                 >
                   <td className="py-4 pr-3">
                     <div className="flex items-start gap-3">
-                      <AnbieterKachel name={a.anbieter} />
+                      <AnlageLogo a={a} />
                       <div className="min-w-0">
                         <Link
                           to={`/halal-anlagen/${a.slug}`}
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center gap-2 text-[15px] font-semibold text-foreground hover:text-primary"
+                          className="block text-[15px] font-semibold text-foreground hover:text-primary"
                         >
-                          <span
-                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${artTon(a)}`}
-                            title={artName(a)}
-                            aria-hidden
-                          />
                           {a.name}
-                          {regionFuer(a.isin) && (
-                            <span
-                              className="ml-1 shrink-0 text-[15px]"
-                              title={regionFuer(a.isin)!.label}
-                              aria-label={regionFuer(a.isin)!.label}
-                            >
-                              {regionFuer(a.isin)!.zeichen}
-                            </span>
-                          )}
                         </Link>
+                        <p className="mt-0.5 text-[13px] text-muted-foreground">
+                          {a.kuerzel ?? a.isin}
+                        </p>
                         {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 pr-3 text-[13px] text-muted-foreground">{a.isin}</td>
+                  <td className="py-4 pr-3 text-[15px] font-semibold text-foreground">
+                    {kursText(kurs) ?? "—"}
+                  </td>
                   <td className="py-4 pr-3 text-[18px] font-bold text-foreground">{a.kostenLabel}</td>
                   <td className="py-4 pr-3">
                     <div className="flex flex-col gap-1">
@@ -443,13 +317,17 @@ const HalalAnlagen = () => {
                       <Sparkline verlauf={kurs?.verlauf} />
                     </div>
                   </td>
-                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.groesse}</td>
-                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.ertragDetail}</td>
+                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.groesse ?? "—"}</td>
+                  <td className="py-4 pr-3 text-[14px] text-foreground">{a.ertragDetail ?? "—"}</td>
                   <td className="py-4 pr-3 text-[14px] text-foreground">
-                    <span className="inline-flex items-center gap-1">
-                      {a.bauart}
-                      <BauartHilfe />
-                    </span>
+                    {a.bauart ? (
+                      <span className="inline-flex items-center gap-1">
+                        {a.bauart}
+                        <BauartHilfe />
+                      </span>
+                    ) : (
+                      "—"
+                    )}
                   </td>
                   <td className="py-4">
                     <GeprueftVon a={a} />
@@ -463,7 +341,7 @@ const HalalAnlagen = () => {
 
         <ul className="mt-4 space-y-4 md:hidden">
           {liste.map((a) => (
-            <Karte key={a.isin} a={a} zeitraum={zeitraum} />
+            <Karte key={anlageSchluessel(a)} a={a} zeitraum={zeitraum} />
           ))}
         </ul>
           </>
@@ -493,29 +371,16 @@ const HalalAnlagen = () => {
         </section>
 
         {/* Krypto */}
-        <section className="mt-10">
-          <h2 className="text-xl font-bold text-foreground md:text-2xl">Krypto, nur als kleine Beimischung</h2>
-          <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
-            Bitcoin und Ether haben keine laufenden Kosten und keine ISIN, deshalb stehen sie hier getrennt.
-            Für beide gibt es ein Gutachten, das sie als zulässig einordnet.
+        <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
+          <h2 className="text-xl font-bold text-foreground">Krypto in dieser Liste</h2>
+          <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
+            Bitcoin, Ether und Solana stehen unter denselben Zeilen wie alles andere, sie haben nur
+            keine ISIN und keine laufenden Kosten. Für Bitcoin und Ether gibt es ein Gutachten, für
+            Solana liegt uns keins vor.
           </p>
-          <ul className="mt-5 grid gap-4 sm:grid-cols-2">
-            {kryptoAnlagen.map((k) => (
-              <li key={k.name} className="card-surface p-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="text-[16px] font-semibold text-foreground">{k.name}</p>
-                  <span className="flex items-center gap-2">
-                    <Sparkline verlauf={kursFuerKrypto(k.kursKey)?.verlauf} />
-                    <RenditeWert wert={kursFuerKrypto(k.kursKey)?.[zeitraum]} />
-                  </span>
-                </div>
-                <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{k.gutachten}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-            Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Deshalb steht es hier
-            getrennt und gilt nur als kleine Beimischung.
+          <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
+            Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt als kleine
+            Beimischung, nicht als Grundlage eines Depots.
           </p>
         </section>
 

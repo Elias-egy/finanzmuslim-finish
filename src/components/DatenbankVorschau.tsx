@@ -1,32 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
-import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
-import { regionFuer } from "@/data/anlageRegion";
+import AnlageZeile from "@/components/AnlageZeile";
+import { halalAnlagen } from "@/data/halalAnlagen";
 
-/** Reihenfolge = Sortierreihenfolge der Liste und der Legende. */
-const arten = [
-  { key: "etf", label: "Aktien-ETF", legende: "Aktien-ETF", tone: "bg-primary" },
-  { key: "fonds", label: "Fonds", legende: "Fonds", tone: "bg-success" },
-  { key: "sukuk", label: "Sukuk", legende: "Sukuk", tone: "bg-asset-sukuk" },
-  { key: "gold", label: "Gold", legende: "Gold", tone: "bg-asset-gold" },
-  { key: "silber", label: "Silber", legende: "Silber", tone: "bg-asset-silber" },
-] as const;
-
-const artKeyVon = (a: Anlage) => {
-  if (a.kategorie === "aktien") return a.bauart === "aktiv" ? "fonds" : "etf";
-  if (a.kategorie === "sukuk") return "sukuk";
-  return a.kategorie === "gold" ? "gold" : "silber";
-};
-
-const artVon = (a: Anlage) => arten.find((g) => g.key === artKeyVon(a))!;
-
-const sortiert = [...halalAnlagen].sort((a, b) => {
-  const ga = arten.findIndex((g) => g.key === artKeyVon(a));
-  const gb = arten.findIndex((g) => g.key === artKeyVon(b));
-  if (ga !== gb) return ga - gb;
-  return a.name.localeCompare(b.name, "de");
-});
+/** A bis Z. Für den Einstieg ist das die Reihenfolge, die niemand erklären muss. */
+const sortiert = [...halalAnlagen].sort((a, b) => a.name.localeCompare(b.name, "de"));
 
 const DatenbankVorschau = () => {
   const [suche, setSuche] = useState("");
@@ -35,7 +14,7 @@ const DatenbankVorschau = () => {
     const q = suche.trim().toLowerCase();
     if (!q) return sortiert;
     return sortiert.filter((a) =>
-      [a.name, a.anbieter, a.isin].some((f) => f.toLowerCase().includes(q)),
+      [a.name, a.anbieter, a.isin ?? "", a.kuerzel ?? ""].some((f) => f.toLowerCase().includes(q)),
     );
   }, [suche]);
 
@@ -47,62 +26,29 @@ const DatenbankVorschau = () => {
           type="search"
           value={suche}
           onChange={(e) => setSuche(e.target.value)}
-          placeholder="ETF, Fonds oder ISIN suchen"
+          placeholder="Anlage, Kürzel oder ISIN suchen"
           aria-label="Halal-Anlagen durchsuchen"
           className="h-full w-full bg-transparent text-[16px] text-foreground outline-none placeholder:text-muted-foreground"
         />
       </div>
 
       {/* Genau vier Zeilen sichtbar, die fuenfte wird angeschnitten. */}
-      <ul className="mt-2 max-h-[224px] divide-y divide-border overflow-y-auto pr-1">
-        {treffer.map((a) => {
-          const art = artVon(a);
-          return (
-            <li key={a.slug}>
-              <Link
-                to={`/halal-anlagen/${a.slug}`}
-                className="group flex h-[52px] items-center justify-between gap-3 rounded-md transition-colors hover:bg-hero"
-              >
-                {/* Punkt vor dem Namen, Herkunftszeichen rechts. Die Art des
-                    Papiers steht schon in der Legende darunter, sie muss nicht
-                    in jeder Zeile ausgeschrieben werden. */}
-                <span
-                  className={`h-2.5 w-2.5 shrink-0 rounded-full ${art.tone}`}
-                  title={art.label}
-                  aria-hidden
-                />
-                <span className="min-w-0 flex-1 truncate text-[16px] text-foreground group-hover:text-primary">
-                  {a.name}
-                </span>
-                {regionFuer(a.isin) && (
-                  <span
-                    className="shrink-0 text-[15px]"
-                    title={regionFuer(a.isin)!.label}
-                    aria-label={regionFuer(a.isin)!.label}
-                  >
-                    {regionFuer(a.isin)!.zeichen}
-                  </span>
-                )}
-              </Link>
-            </li>
-          );
-        })}
+      <ul className="mt-2 max-h-[252px] divide-y divide-border overflow-y-auto pr-1">
+        {treffer.map((a) => (
+          <li key={a.slug}>
+            <AnlageZeile a={a} zeitraum="r1m" />
+          </li>
+        ))}
         {treffer.length === 0 && (
           <li className="py-4 text-[15px] text-muted-foreground">Keine Anlage gefunden.</li>
         )}
       </ul>
 
-      <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-        {arten.map((g) => (
-          <li key={g.key} className="flex items-center gap-2 text-[13px] text-muted-foreground">
-            <span className={`h-2 w-2 rounded-full ${g.tone}`} aria-hidden />
-            {g.legende}
-          </li>
-        ))}
-      </ul>
+      <p className="mt-3 text-[13px] text-muted-foreground">
+        Kurs und Veränderung der letzten 30 Tage. Schlusskurse, keine Echtzeitkurse.
+      </p>
 
-
-      <Link to="/halal-anlagen" className="mt-4 block text-[15px] font-semibold text-primary hover:underline">
+      <Link to="/halal-anlagen" className="mt-3 block text-[15px] font-semibold text-primary hover:underline">
         Alle {halalAnlagen.length} Anlagen ansehen
       </Link>
     </div>
