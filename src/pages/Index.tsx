@@ -107,6 +107,13 @@ const wissenKarten: WissenKarte[] = [
     to: "/wissen/ist-versicherung-haram",
     motiv: "versicherung",
   },
+  {
+    thema: "Alltag",
+    titel: "Halal Kredit ohne Zinsen",
+    to: "/wissen/halal-kredit-ohne-zinsen",
+    motiv: "kredit",
+    neu: true,
+  },
   { thema: "Grundlagen", titel: "Zinsen im Islam", to: "/wissen/zinsen-im-islam", motiv: "zins" },
   { thema: "Investieren", titel: "Gold richtig kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
   { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen", motiv: "karte", neu: true },

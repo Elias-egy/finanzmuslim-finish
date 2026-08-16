@@ -267,6 +267,12 @@ const HausKaufenOhneZinsen = () => (
         <h2 className="text-[19px] font-bold text-foreground">Passt dazu</h2>
         <ul className="mt-3 space-y-2 text-[16px]">
           <li>
+            <Link to="/wissen/halal-kredit-ohne-zinsen" className="text-primary hover:underline">
+              Halal Kredit ohne Zinsen
+            </Link>{" "}
+            erklärt die vier Vertragsformen, die einen Kredit ersetzen.
+          </li>
+          <li>
             <Link to="/vorlagen/vertrags-ampel" className="text-primary hover:underline">
               Die Vertrags-Ampel
             </Link>{" "}

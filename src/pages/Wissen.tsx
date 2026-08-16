@@ -21,7 +21,7 @@ const artikel: Artikel[] = [
   { name: "Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Barren, Münzen oder Wertpapier.", thema: "Investieren", to: "/wissen/halal-gold-kaufen" },
   { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", to: "/wissen/ist-bitcoin-halal" },
   { name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", to: "/wissen/girokonto-ohne-zinsen" },
-  { name: "Dispo und Kredit", motiv: "kredit", desc: "Warum eingeräumte Kredite problematisch sind.", thema: "Alltag" },
+  { name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag", to: "/wissen/halal-kredit-ohne-zinsen" },
   { name: "Ratenkauf", motiv: "raten", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", to: "/wissen/ratenzahlung-haram" },
   { name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", to: "/wissen/haus-kaufen-ohne-zinsen" },
   { name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", to: "/wissen/ist-leasing-haram" },

@@ -32,7 +32,7 @@ export const navGroups: NavGroup[] = [
         title: "Alltag",
         items: [
           { label: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen" },
-          { label: "Dispo und Kredit" },
+          { label: "Kredit ohne Zinsen", to: "/wissen/halal-kredit-ohne-zinsen" },
           { label: "Ratenkauf", to: "/wissen/ratenzahlung-haram" },
           { label: "Haus kaufen ohne Zinsen", to: "/wissen/haus-kaufen-ohne-zinsen" },
           { label: "Leasing", to: "/wissen/ist-leasing-haram" },
