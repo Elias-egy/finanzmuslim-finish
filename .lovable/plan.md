@@ -1,63 +1,52 @@
-# Logos für die Anlagen, Hinweise raus, /halal-anlagen aufräumen
+# Logos, weniger Text, klarere Datenbank
 
-## 1. Echte Logos statt Platzhalter
+Drei Baustellen: echte Anbieter-Logos statt Kürzel-Platzhalter, die subjektiven Zusatzsätze raus, und `/halal-anlagen` so umbauen, dass jede Anlageart nur die Spalten zeigt, die sie hat.
 
-Statt der Kürzel-Kacheln (iS, IV, HS ...) zeigt jede Zeile künftig das echte Firmenlogo — in der Vorschau auf der Startseite, in der Liste `/halal-anlagen` und auf der Detailseite.
+## 1. Logos der Anbieter
 
-Weg dorthin: Logo.dev anbinden. Damit wird das Logo über die Firmen-Domain geladen, Krypto über das Kürzel. Keine Bilddateien im Projekt, kein Nachpflegen, wenn eine Firma ihr Logo ändert.
+Logos kommen über Logo.dev, das läuft rein im Browser über die Domain des Anbieters. Keine Bilddateien im Projekt, keine Pflegearbeit bei neuen Anlagen.
 
-Zuordnung, die ich hinterlege:
+- Je Anbieter kommt eine Domain in `src/data/halalAnlagen.ts` dazu: iShares (ishares.com), Invesco (invesco.com), HSBC (hsbc.com), WisdomTree (wisdomtree.eu), Xtrackers (xtrackers.com), HANetf (hanetf.com), Comgest (comgest.com), Franklin Templeton (franklintempleton.com), BNP Paribas (bnpparibas.com).
+- Bitcoin, Ether und Solana über den Ticker-Weg von Logo.dev (BTC, ETH, SOL). Falls ein Zeichen besser aussieht, bleibt das Münzzeichen.
+- `AnlageLogo` lädt das Bild und fällt bei Fehler still auf das heutige Kürzel bzw. Münzzeichen zurück. Damit sieht keine Zeile leer aus, egal was Logo.dev liefert.
+- Wirkt sofort an allen drei Stellen: Startseiten-Vorschau, Liste `/halal-anlagen`, Detailseite.
 
-| Anbieter | Quelle |
-|---|---|
-| iShares, BlackRock | ishares.com |
-| Invesco | invesco.com |
-| HSBC | hsbc.com |
-| WisdomTree | wisdomtree.eu |
-| Xtrackers | xtrackers.com |
-| HANetf | hanetf.com |
-| Comgest | comgest.com |
-| Franklin Templeton | franklintempleton.com |
-| BNP Paribas | bnpparibas.com |
-| Bitcoin, Ether, Solana | Krypto-Kürzel BTC, ETH, SOL |
+Dafür braucht es einmal die Logo.dev-Verbindung; ich öffne die Verbindungskarte im Chat, du bestätigst.
 
-Für Gold und Silber ohne Emittenten bleibt es beim bisherigen Zeichen. Lädt ein Logo nicht, erscheint automatisch wieder das Kürzel wie heute — es entsteht also nie ein leeres Kästchen.
+## 2. Individuelle Zusatztexte raus
 
-Alternative, falls du keine externe Quelle willst: neun Logodateien im Projekt ablegen. Das ist rechtlich dasselbe, muss aber von Hand gepflegt werden und die Dateien müssten von den Anbieter-Seiten kommen.
+`hinweis` wird aus den Daten entfernt und aus Liste, Karte und Detailseite ausgebaut:
 
-## 2. Individuelle Hinweistexte entfernen
+- „schwankt deutlich stärker als alles andere in dieser Übersicht" (Bitcoin, Ether, Solana) — steht schon einmal im Abschnitt „Krypto in dieser Liste", muss nicht dreimal in Zeilen stehen.
+- „teuerste Anlage in dieser Übersicht" — sagt die Kostenspalte selbst.
+- „erst seit Februar 2026 am Markt" — steht als Auflagedatum schon in den Stammdaten.
 
-Aus den Anlagedaten fliegen die Sätze am einzelnen Produkt raus, unter anderem:
+Zwei harte Angaben bleiben erhalten, aber an der richtigen Stelle:
 
-- „schwankt deutlich stärker als alles andere in dieser Übersicht" (Bitcoin, Ether, Solana)
-- „erst seit Februar 2026 am Markt"
-- „teuerste Anlage in dieser Übersicht"
-- „sehr kleiner Fonds, die Größe stammt aus dem Factsheet vom 27.03.2024"
-- „zusätzlich bis zu 5,75 % Ausgabeaufschlag, Mindestanlage 1.000 USD"
+- „zusätzlich bis zu 5,75 % Ausgabeaufschlag, Mindestanlage 1.000 USD" wird ein eigenes Feld und steht auf der Detailseite bei den Kosten.
+- „Größe aus dem Factsheet vom 27.03.2024" wird ein Stand-Vermerk am Größe-Wert der Detailseite.
 
-Zwei davon sind harte Fakten, nicht Meinung: Ausgabeaufschlag und Mindestanlage beim BNP-Fonds und die Herkunft der Fondsgröße. Die wandern in die Detailseite in das Faktenraster beziehungsweise in die Fußnote, statt in der Liste zu stehen. Der Schwankungssatz zu Krypto steht ohnehin schon einmal als Absatz unter der Liste, der bleibt dort.
+## 3. `/halal-anlagen` übersichtlicher
 
-## 3. /halal-anlagen
+Statt einer Tabelle mit acht Spalten für alles wird nach Anlageart gruppiert. Jede Gruppe bekommt eine Überschrift und nur die Spalten, die dort Werte haben. Damit verschwinden die leeren Felder bei Krypto.
 
-Die Seite ist inhaltlich stark, aber unten stehen sechs Blöcke hintereinander, und in der Tabelle konkurriert alles um dieselbe Breite. Vorschlag:
+```text
+Aktien-ETF (passiv)     Anlage · Kurs · Kosten · Rendite · Größe · Ertrag · Geprüft von
+Aktive Fonds            Anlage · Kurs · Kosten · Rendite · Größe · Ertrag · Geprüft von
+Sukuk                   Anlage · Kurs · Kosten · Rendite · Größe · Ertrag · Geprüft von
+Gold                    Anlage · Kurs · Kosten · Rendite · Größe · Geprüft von
+Silber                  Anlage · Kurs · Kosten · Rendite · Größe · Geprüft von
+Krypto                  Anlage · Kurs · Rendite · Geprüft von
+```
 
-**Tabelle** — mit dem Logo vorn wird die erste Spalte breiter, dafür fällt die Hinweis-Zeile weg. Spalten bleiben: Anlage, Kurs, Kosten, Rendite, Größe, Ertrag, Bauart, Geprüft von.
-
-**Handy-Karten** — Logo, Name, Kürzel, Kurs, Veränderung, darunter Kosten und Größe, darunter Prüfstelle. Ohne Hinweiszeile.
-
-**Blöcke darunter zusammenfassen** von sechs auf drei:
-
-1. Woher die Zahlen kommen (Kursquelle, Produktdaten, Einzelfälle in der Fußnote)
-2. Wo kannst du das kaufen — Verweis auf `/vergleich/depot`
-3. Was diese Übersicht nicht ist, plus Krypto-Absatz und Newsletter
-
-Der PDF-Verweis auf `/vorlagen/halal-anlagen` rutscht als Zeile in Block 1, statt einen eigenen Kasten zu bekommen.
-
-Sag Bescheid, wenn du an dieser Aufteilung etwas anders willst — sonst setze ich sie so um.
+- Die Bauart-Spalte fällt weg, weil passiv und aktiv jetzt die Gruppenüberschrift sind. Die Erklärung dazu wandert als Hilfe-Symbol an die Überschrift „Aktive Fonds".
+- Suche, Filter und Zeitraum-Schalter bleiben oben und wirken über alle Gruppen. Leere Gruppen werden ausgeblendet.
+- Filtert man auf eine Art, bleibt genau eine Gruppe stehen, also die heutige Ansicht ohne Doppelung.
+- Auf dem Handy bleiben Karten, ebenfalls unter denselben Gruppen-Überschriften. Bei Krypto entfallen die Felder Größe und Ertrag.
 
 ## Technisch
 
-- Logo.dev als Connector verbinden, Schlüssel läuft über `VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY`, Bilder direkt von `img.logo.dev`.
-- `Anbieter` in `src/data/halalAnlagen.ts` bekommt ein Feld `domain`, Krypto-Anlagen ein Feld für das Logo-Kürzel.
-- `AnlageLogo` in `src/components/AnlageZeile.tsx` lädt das Bild und fällt bei Fehler per `onError` auf Zeichen beziehungsweise Kürzel zurück. Eine Stelle, alle drei Ansichten profitieren.
-- `hinweis` wird aus dem Typ und den Datensätzen entfernt, ebenso die Ausgabe in `HalalAnlagen.tsx` und `AnlageDetail.tsx`; die zwei Fakten wandern in `FaktenRaster` beziehungsweise die Fußnote.
+- Neu: `logoDomain` an `Anbieter`, `ticker` bzw. Nutzung von `kuerzel` bei Krypto, Logo-URL über `import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY` mit `size=96&format=png`.
+- `AnlageLogo` erhält einen `onError`-Rückfall über lokalen State.
+- Gruppenlogik als kleine Hilfsfunktion neben `AnlageFilter`: `aktien-passiv`, `aktien-aktiv`, `sukuk`, `gold`, `silber`, `krypto`; Spaltensatz je Gruppe als Konstante.
+- Feld `hinweis` verschwindet aus `Anlage`; neu `ausgabeaufschlag?` und `groesseStand?`.
