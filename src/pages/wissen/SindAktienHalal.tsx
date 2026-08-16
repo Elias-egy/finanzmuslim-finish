@@ -196,7 +196,7 @@ const faq: BeitragFrage[] = [
 const SindAktienHalal = () => (
   <>
     <Seo
-      title="Sind Aktien halal oder haram? Die drei Grenzwerte einfach erklärt | finanzmuslim"
+      title="Sind Aktien halal oder haram? Die drei Grenzwerte | finanzmuslim"
       description="Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen."
       path="/wissen/sind-aktien-halal"
     />

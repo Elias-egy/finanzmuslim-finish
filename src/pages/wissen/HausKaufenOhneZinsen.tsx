@@ -236,7 +236,7 @@ const HausKaufenOhneZinsen = () => (
   <>
     <Seo
       title="Haus kaufen ohne Zinsen: die islamkonformen Modelle erklärt | finanzmuslim"
-      description="Murabaha, Ijara und Diminishing Musharaka einfach erklärt. Wie islamkonforme Immobilienfinanzierung wirklich funktioniert, was es davon in Deutschland gibt und worauf du im Vertrag achten musst."
+      description="Die drei Wege, ein Haus ohne Zinsen zu finanzieren. Was es davon in Deutschland gibt und worauf du im Vertrag achten musst."
       path="/wissen/haus-kaufen-ohne-zinsen"
     />
     <BeitragSeite

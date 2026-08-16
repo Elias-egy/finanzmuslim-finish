@@ -185,7 +185,7 @@ const IstVersicherungHaram = () => (
   <>
     <Seo
       title="Ist eine Versicherung haram? Die Antwort für Muslime in Deutschland | finanzmuslim"
-      description="Wann eine Versicherung im Islam problematisch ist, wann sie erlaubt sein kann und welche Ausnahmen anerkannt sind. Verständlich erklärt, ohne Fachchinesisch."
+      description="Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind."
       path="/wissen/ist-versicherung-haram"
     />
     <BeitragSeite
