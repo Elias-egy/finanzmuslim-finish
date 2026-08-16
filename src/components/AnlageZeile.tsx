@@ -1,24 +1,50 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { RenditeWert } from "@/components/Rendite";
 import { anbieterByName, type Anlage } from "@/data/halalAnlagen";
 import { kursFuerAnlage, kursText, type Zeitraum } from "@/lib/kurse";
 
+const logoToken = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY;
+
+/** Bildadresse des Logos. Fonds über die Domain des Anbieters, Münzen über
+ *  ihr Börsenkürzel. Ohne Schlüssel gibt es keine Adresse und der Rückfall
+ *  greift. */
+const logoUrl = (a: Anlage) => {
+  if (!logoToken) return undefined;
+  const anb = anbieterByName(a.anbieter);
+  const pfad =
+    a.kategorie === "krypto" && a.kuerzel
+      ? `crypto/${a.kuerzel}`
+      : anb?.domain
+        ? anb.domain
+        : undefined;
+  if (!pfad) return undefined;
+  return `https://img.logo.dev/${pfad}?token=${logoToken}&size=96&format=png&retina=true`;
+};
+
 /**
- * Runde Kachel links in jeder Zeile. Sobald ein Logo hinterlegt ist, wird es
- * gezeigt. Solange keins vorliegt, steht dort das Zeichen der Münze oder das
- * Kürzel des Anbieters. Ein Rückfall bleibt dauerhaft nötig, weil nicht jeder
- * Anbieter ein brauchbares Logo herausgibt.
+ * Runde Kachel links in jeder Zeile. Zuerst das echte Logo. Lädt es nicht,
+ * steht dort das Zeichen der Münze oder das Kürzel des Anbieters. Ein Rückfall
+ * bleibt dauerhaft nötig, weil nicht jeder Anbieter ein Logo herausgibt.
  */
 export const AnlageLogo = ({ a, gross = false }: { a: Anlage; gross?: boolean }) => {
   const anb = anbieterByName(a.anbieter);
   const mass = gross ? "h-12 w-12" : "h-10 w-10";
+  const [fehler, setFehler] = useState(false);
+  const url = fehler ? undefined : (anb?.logo ?? logoUrl(a));
   return (
     <span
       className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero`}
       title={a.anbieter}
     >
-      {anb?.logo ? (
-        <img src={anb.logo} alt={a.anbieter} className="h-full w-full object-contain" />
+      {url ? (
+        <img
+          src={url}
+          alt={`${a.anbieter} Logo`}
+          loading="lazy"
+          onError={() => setFehler(true)}
+          className="h-full w-full object-contain"
+        />
       ) : a.zeichen ? (
         <span className={`font-bold leading-none text-foreground ${gross ? "text-[26px]" : "text-[22px]"}`}>
           {a.zeichen}
@@ -31,6 +57,7 @@ export const AnlageLogo = ({ a, gross = false }: { a: Anlage; gross?: boolean })
     </span>
   );
 };
+
 
 /**
  * Eine Zeile der Anlagenliste: Logo, Name mit Kürzel darunter, rechts Kurs und
