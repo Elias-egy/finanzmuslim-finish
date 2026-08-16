@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Info } from "lucide-react";
+import nisabDaten from "@/data/nisab.json";
 
 /**
  * Zakat-Rechner fuer Vermoegen inklusive Depot.
