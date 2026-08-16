@@ -42,6 +42,19 @@ const VERMOEGEN: Feld[] = [
 const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
+const parseDeDatum = (s: string) => {
+  const [tag, monat, jahr] = s.split(".").map(Number);
+  return new Date(jahr, (monat || 1) - 1, tag || 1);
+};
+
+const istPreisVeraltet = (stand: string) => {
+  const standDatum = parseDeDatum(stand);
+  const heute = new Date();
+  const diffMs = heute.getTime() - standDatum.getTime();
+  const diffTage = diffMs / (1000 * 60 * 60 * 24);
+  return diffTage > 45;
+};
+
 const ZakatCalculator = () => {
   const [werte, setWerte] = useState<Record<string, string>>({});
   const [aktien, setAktien] = useState("");
