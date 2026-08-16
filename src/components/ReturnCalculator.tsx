@@ -567,7 +567,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   {mode === "custom" ? "Eigenes Portfolio bearbeiten" : "Eigenes Portfolio bauen"}
                 </span>
                 <span className="block text-[11px] text-muted-foreground leading-tight mt-0.5">
-                  ETFs · Sukuk · Gold · Silber – Anteile selbst festlegen
+                  ETFs, Sukuk, Gold und Silber. Anteile selbst festlegen
                 </span>
               </span>
               <ArrowRight className="h-4 w-4 text-primary shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
@@ -731,7 +731,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
         {/* Chart + results */}
         <div className="mt-3 md:mt-4 grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-5">
           <div ref={chartCardRef} className="reveal rounded-[1.5rem] bg-card border border-border/70 p-4 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
-            <div className="flex items-baseline justify-between mb-1">
+            {/* Handy: Zeitraum unter die Ueberschrift, sonst stossen beide zusammen. */}
+            <div className="mb-2 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
               <h3 className="headline text-lg md:text-xl">Portfolioentwicklung</h3>
               <span className="text-xs text-muted-foreground">
                 über {years} {years === 1 ? "Jahr" : "Jahre"} · {mode === "own" ? `${fmtPct(ownRate)}% p.a.` : `≈ ${fmtPct(annual * 100)}% p.a.`}
@@ -743,8 +744,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(var(--warning))" stopOpacity={0.35} />
-                      <stop offset="100%" stopColor="hsl(var(--warning))" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.22} />
+                      <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" vertical={false} />
@@ -779,7 +780,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   <Area
                     type="monotone"
                     dataKey="Eingezahlt"
-                    stroke="hsl(var(--primary))"
+                    stroke="hsl(var(--muted-foreground))"
                     strokeWidth={2}
                     strokeDasharray="5 5"
                     fill="transparent"
@@ -788,11 +789,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   <Area
                     type="monotone"
                     dataKey="Portfoliowert"
-                    stroke="hsl(var(--warning))"
+                    stroke="hsl(var(--primary))"
                     strokeWidth={3}
                     fill="url(#goldFill)"
                     dot={false}
-                    activeDot={{ r: 5, fill: "hsl(var(--warning))", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 5, fill: "hsl(var(--primary))", stroke: "white", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
