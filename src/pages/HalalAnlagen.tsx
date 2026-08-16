@@ -13,6 +13,7 @@ import AnlageFilter, {
 import { kursFuerAnlage, kursStand, kursText, type Zeitraum } from "@/lib/kurse";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
+import { inGruppen, type Gruppe } from "@/lib/anlageGruppen";
 
 const BauartHilfe = () => (
   <Popover>
@@ -68,7 +69,7 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
     </span>
   );
 
-const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
+const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe: Gruppe }) => {
   const kurs = kursFuerAnlage(a);
   const preis = kursText(kurs);
   return (
@@ -94,23 +95,27 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
         </span>
       </Link>
 
-      <dl className="mt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Kosten pro Jahr</dt>
-          <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
-        </div>
-        <div className="rounded-lg border border-border px-3 py-2">
-          <dt className="text-[12px] text-muted-foreground">Größe</dt>
-          <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
-        </div>
-      </dl>
+      {(gruppe.kosten || gruppe.groesse) && (
+        <dl className="mt-3 grid grid-cols-2 gap-2">
+          {gruppe.kosten && (
+            <div className="rounded-lg border border-border px-3 py-2">
+              <dt className="text-[12px] text-muted-foreground">Kosten pro Jahr</dt>
+              <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
+            </div>
+          )}
+          {gruppe.groesse && (
+            <div className="rounded-lg border border-border px-3 py-2">
+              <dt className="text-[12px] text-muted-foreground">Größe</dt>
+              <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
+            </div>
+          )}
+        </dl>
+      )}
 
       <div className="mt-2 flex flex-col gap-1 py-2 text-[14px]">
         <span className="text-muted-foreground">Geprüft von</span>
         <GeprueftVon a={a} />
       </div>
-
-      {a.hinweis && <p className="text-[13px] text-muted-foreground">{a.hinweis}</p>}
 
       <Link
         to={`/halal-anlagen/${a.slug}`}
