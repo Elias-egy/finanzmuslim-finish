@@ -15,7 +15,7 @@ const artikel: Artikel[] = [
   { name: "Was ist Gharar", motiv: "gharar", desc: "Warum übermäßige Unsicherheit in Verträgen problematisch ist.", thema: "Grundlagen" },
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
   { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Stolperfallen, die viele am Anfang übersehen.", thema: "Grundlagen" },
-  { name: "Halal ETFs", motiv: "etf", desc: "Wie sharia-konforme ETFs aufgebaut sind.", thema: "Investieren" },
+  { name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren", to: "/wissen/halal-etfs" },
   { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
   { name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", to: "/wissen/sukuk" },
   { name: "Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Barren, Münzen oder Wertpapier.", thema: "Investieren", to: "/wissen/halal-gold-kaufen" },

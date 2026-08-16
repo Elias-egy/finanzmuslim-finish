@@ -6,7 +6,7 @@ const v = vorlageBySlug("vertrags-ampel")!;
 
 type Farbe = "gruen" | "gelb" | "rot";
 
-/** Ampelfarben ausschliesslich fuer Bewertungen. */
+/** Ampelfarben ausschließlich fuer Bewertungen. */
 const bewertung: Record<Farbe, { wort: string; punkt: string; pille: string }> = {
   gruen: {
     wort: "Grün",

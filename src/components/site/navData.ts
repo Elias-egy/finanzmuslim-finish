@@ -22,6 +22,7 @@ export const navGroups: NavGroup[] = [
         title: "Investieren",
         items: [
           { label: "Halal-Anlagen", to: "/halal-anlagen" },
+          { label: "Halal ETFs", to: "/wissen/halal-etfs" },
           { label: "Aktien prüfen", to: "/wissen/sind-aktien-halal" },
           { label: "Sukuk", to: "/wissen/sukuk" },
           { label: "Gold kaufen", to: "/wissen/halal-gold-kaufen" },

@@ -1,7 +1,7 @@
 /**
  * Anbieterdaten fuer den Depot-Vergleich.
  *
- * WICHTIG: Hier stehen ausschliesslich gepruefte Angaben. Alles, was noch nicht
+ * WICHTIG: Hier stehen ausschließlich gepruefte Angaben. Alles, was noch nicht
  * recherchiert ist, bleibt auf `null` bzw. Status "unbekannt" und wird auf der
  * Seite als "noch nicht geprueft" in Grau ausgegeben. Bitte keine Schaetzungen
  * eintragen.

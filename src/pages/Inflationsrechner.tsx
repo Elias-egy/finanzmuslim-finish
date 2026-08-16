@@ -69,7 +69,7 @@ const Inflationsrechner = () => (
           <div>
             <h2 className="text-2xl font-bold text-foreground">Was Inflation im Alltag bedeutet</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">
-              Inflation heisst, dass die Preise im Durchschnitt steigen. Der Einkauf, die Miete, die
+              Inflation heißt, dass die Preise im Durchschnitt steigen. Der Einkauf, die Miete, die
               Handwerkerstunde. Dein Kontostand bleibt davon unberührt, deine Kaufkraft nicht. Wer
               Geld über Jahre unangetastet liegen lässt, verliert also etwas, ohne je einen Cent
               ausgegeben zu haben. Das ist der Preis fürs Nichtstun, und er fällt jedes Jahr an.

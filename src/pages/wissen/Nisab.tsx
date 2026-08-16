@@ -47,7 +47,7 @@ const abschnitte: BeitragAbschnitt[] = [
       <>
         <p>
           Zakat zahlt nicht jeder. Sie wird erst fällig, wenn dein Vermögen einen bestimmten Betrag
-          erreicht und ein volles Mondjahr darüber bleibt. Dieser Betrag heisst Nisab.
+          erreicht und ein volles Mondjahr darüber bleibt. Dieser Betrag heißt Nisab.
         </p>
         <p>
           Der Sinn dahinter ist einfach: Wer selbst wenig hat, soll nicht abgeben müssen. Die Grenze

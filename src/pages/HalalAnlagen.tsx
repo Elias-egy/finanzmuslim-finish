@@ -129,7 +129,7 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
         <div className="rounded-lg border border-border px-3 py-2">
           <dt className="text-[12px] text-muted-foreground">Rendite</dt>
           {/* Keine Mini-Grafik hier: bei 145 Pixel Kastenbreite ragt sie raus,
-              und die grosse Grafik steht ohnehin eine Seite weiter. */}
+              und die große Grafik steht ohnehin eine Seite weiter. */}
           <dd className="mt-0.5">
             <RenditeWert wert={kurs?.[zeitraum]} />
           </dd>

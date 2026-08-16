@@ -229,6 +229,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://finanzmuslim.com/wissen/halal-etfs</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://finanzmuslim.com/wissen/ratenzahlung-haram</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

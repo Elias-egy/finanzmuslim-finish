@@ -166,7 +166,7 @@ export const SiteHeader = () => {
               <Wordmark className="text-xl" />
               <button
                 type="button"
-                aria-label="Menü schließen"
+                aria-label="Menü schliessen"
                 onClick={() => setMobileOpen(false)}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-foreground"
               >

@@ -14,13 +14,13 @@ type Props = {
   intro: ReactNode;
   /** Der eigentliche Rechner. */
   children: ReactNode;
-  /** Erklaerabschnitte als Fliesstext mit Zwischenueberschriften. */
+  /** Erklaerabschnitte als Fließtext mit Zwischenueberschriften. */
   erklaerung: ReactNode;
   weitereRechner: WeitererRechner[];
   /** Ein Satz im Reiter "Anlegen", der an den Rechner anknuepft. */
   anlegenSatz?: string;
   /** Kurze Abschnitte direkt unter dem Rechner, im Reiter "Rechnen".
-   *  Gedacht fuer Formel, Beispiel und Sprungmarken. Nicht fuer Fliesstext,
+   *  Gedacht fuer Formel, Beispiel und Sprungmarken. Nicht fuer Fließtext,
    *  der gehoert nach "Verstehen". */
   unterRechner?: ReactNode;
 };

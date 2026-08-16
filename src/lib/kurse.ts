@@ -8,7 +8,7 @@ export type Kurs = {
   kurs?: number | null;
   /** Monatsschlusskurse, [Monat, Kurs]. Für Tabelle und Mini-Grafiken. */
   reihe?: [string, number][];
-  /** Wochenschlusskurse, [Datum, Kurs]. Für die grosse Grafik. */
+  /** Wochenschlusskurse, [Datum, Kurs]. Für die große Grafik. */
   reihe_w?: [string, number][];
   status?: string;
   r1m: number | null;
@@ -62,7 +62,7 @@ export const reiheAusschnitt = (
 /* ---------------------------------------------------------------------------
    Wochenreihe. Die Monatsreihe ergibt bei fünf Jahren sechzig Punkte, das ist
    eine Treppe und kein Kursverlauf. Die Wochenreihe hat rund 260 Punkte und
-   sieht aus wie bei den grossen Portalen.
+   sieht aus wie bei den großen Portalen.
 --------------------------------------------------------------------------- */
 
 export type ChartZeitraum = "1m" | "3m" | "1j" | "3j" | "5j";

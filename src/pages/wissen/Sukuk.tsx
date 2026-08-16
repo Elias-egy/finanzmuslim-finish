@@ -70,7 +70,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Das Wort kommt vom arabischen „sakk", Urkunde. Die Mehrzahl ist Sukuk, die Einzahl also
           eigentlich Sakk. Im Deutschen sagt man meist einfach „ein Sukuk".
         </p>
-        <Bild text="Bei der Anleihe fliesst Geld gegen Zins. Beim Sukuk wechselt ein Anteil an einer Sache den Besitzer, und der Ertrag ist die Miete dafür.">
+        <Bild text="Bei der Anleihe fließt Geld gegen Zins. Beim Sukuk wechselt ein Anteil an einer Sache den Besitzer, und der Ertrag ist die Miete dafür.">
           <IlluHandel />
         </Bild>
       </>
@@ -164,9 +164,9 @@ const abschnitte: BeitragAbschnitt[] = [
         </p>
         <p>
           Muhammad Taqi Usmani, langjähriger Vorsitzender des Gremiums der Standardsetzerin AAOIFI,
-          hat 2008 öffentlich festgestellt, dass ein grosser Teil der damals gehandelten Sukuk die
+          hat 2008 öffentlich festgestellt, dass ein großer Teil der damals gehandelten Sukuk die
           Anforderungen nicht erfüllte. Danach wurden die Standards nachgeschärft. Die Frage ist bis
-          heute nicht abschliessend geklärt.
+          heute nicht abschließend geklärt.
         </p>
         <p>
           <strong>Der zweite Punkt</strong> ist der Unterschied zwischen Sukuk, bei denen die Sache
@@ -175,7 +175,7 @@ const abschnitte: BeitragAbschnitt[] = [
           vielen.
         </p>
         <p>
-          Was das für dich heisst: Wer Sukuk hält, sollte wissen, wer sie geprüft hat und nach
+          Was das für dich heißt: Wer Sukuk hält, sollte wissen, wer sie geprüft hat und nach
           welchem Standard. Bei den Fonds in unserer Datenbank steht das jeweils dabei.
         </p>
         <Bild text="Entscheidend ist nicht das Etikett, sondern wer geprüft hat und nach welchem Standard.">
@@ -190,12 +190,12 @@ const abschnitte: BeitragAbschnitt[] = [
     inhalt: (
       <>
         <p>
-          Einzelne Sukuk werden in grossen Stückelungen gehandelt und sind für Privatanleger in
+          Einzelne Sukuk werden in großen Stückelungen gehandelt und sind für Privatanleger in
           Deutschland praktisch nicht erreichbar. Der Zugang läuft über Fonds, die viele Sukuk
           bündeln.
         </p>
         <p>
-          In unserer Datenbank stehen die Sukuk-Fonds mit Kosten, Fondsgrösse und der Stelle, die
+          In unserer Datenbank stehen die Sukuk-Fonds mit Kosten, Fondsgröße und der Stelle, die
           sie geprüft hat, dazu der Kursverlauf.
         </p>
         <p>
@@ -237,7 +237,7 @@ const faq = [
   {
     frage: "Kann ich als Privatanleger einzelne Sukuk kaufen?",
     antwort:
-      "In der Regel nicht. Einzelne Sukuk werden in grossen Stückelungen gehandelt und sind über deutsche Broker kaum verfügbar. Der übliche Weg für Privatanleger sind Fonds, die viele Sukuk bündeln.",
+      "In der Regel nicht. Einzelne Sukuk werden in großen Stückelungen gehandelt und sind über deutsche Broker kaum verfügbar. Der übliche Weg für Privatanleger sind Fonds, die viele Sukuk bündeln.",
   },
   {
     frage: "Wie viel Ertrag bringen Sukuk?",
@@ -289,7 +289,7 @@ const Sukuk = () => (
             <Link to="/halal-anlagen" className="text-primary hover:underline">
               Die Halal-Datenbank
             </Link>{" "}
-            zeigt jede geprüfte Anlage mit Kosten, Grösse und Prüfstelle.
+            zeigt jede geprüfte Anlage mit Kosten, Größe und Prüfstelle.
           </li>
           <li>
             <Link to="/wissen/sind-aktien-halal" className="text-primary hover:underline">

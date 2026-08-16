@@ -1,7 +1,7 @@
 /**
- * Zusammensetzung der Anlagen: grösste Positionen, Länder, Branchen.
+ * Zusammensetzung der Anlagen: größte Positionen, Länder, Branchen.
  *
- * WICHTIG: Hier stehen ausschliesslich Werte, die aus dem Factsheet oder dem
+ * WICHTIG: Hier stehen ausschließlich Werte, die aus dem Factsheet oder dem
  * Monatsbericht des Anbieters abgeschrieben wurden, mit Datum und Quelle.
  * Nichts schätzen, nichts aus einer allgemeinen Marktdaten-Schnittstelle
  * übernehmen. Eine Anlage ohne Eintrag zeigt auf der Seite einen sachlichen
@@ -46,5 +46,5 @@ export const grundOhneZusammensetzung = (
   if (kategorie === "sukuk") {
     return "Die Liste der einzelnen Sukuk tragen wir gerade aus dem Monatsbericht des Anbieters zusammen.";
   }
-  return "Die grössten Positionen tragen wir gerade aus dem Factsheet des Anbieters zusammen. Erst wenn Datum und Quelle feststehen, steht es hier.";
+  return "Die größten Positionen tragen wir gerade aus dem Factsheet des Anbieters zusammen. Erst wenn Datum und Quelle feststehen, steht es hier.";
 };

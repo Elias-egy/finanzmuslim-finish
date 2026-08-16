@@ -2,7 +2,7 @@
  * finanzmuslim Erklaerbilder
  * ------------------------------------------------------------------
  * SORTE B aus BILDSPRACHE.md: zeigt einen VORGANG, nicht einen Gegenstand.
- * Nur im Fliesstext, nie auf Karten. Dafuer gibt es die Motivbilder.
+ * Nur im Fließtext, nie auf Karten. Dafuer gibt es die Motivbilder.
  *
  * Regeln, an die sich jedes Bild hier haelt:
  *   1. Links Ausgangslage, Pfeil, rechts Ergebnis. Immer waagerecht.

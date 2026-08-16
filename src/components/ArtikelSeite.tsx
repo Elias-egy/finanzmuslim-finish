@@ -27,7 +27,7 @@ type Props = {
 /**
  * Einheitliche Vorlage fuer Artikelseiten im Wissensbereich. Feste Reihenfolge:
  * Brotkrumen, Titel, Autorzeile, "Das Wichtigste in Kuerze", Inhaltsverzeichnis,
- * Fliesstext, Newsletter, "Passend dazu", Hinweis.
+ * Fließtext, Newsletter, "Passend dazu", Hinweis.
  */
 const ArtikelSeite = ({ title, aktualisiert, kuerze, abschnitte, passendDazu, hinweis }: Props) => (
   <main className="bg-background">

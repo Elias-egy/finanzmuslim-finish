@@ -76,7 +76,7 @@ const anlagenOptionen: AnlageOption[] = Object.entries(
   }))
   // Nach Namen sortiert, nicht nach Rendite. Eine nach Ertrag sortierte Liste
   // stellt oben die heissesten Jahre der letzten fuenf Jahre nach vorn, hier
-  // waeren das ausschliesslich Gold und Silber. Das liest sich wie eine
+  // waeren das ausschließlich Gold und Silber. Das liest sich wie eine
   // Empfehlung, und eine Empfehlung geben wir nicht ab.
   .sort((a, b) => a.name.localeCompare(b.name, "de"));
 
