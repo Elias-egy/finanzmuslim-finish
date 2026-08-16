@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Info } from "lucide-react";
+import nisabDaten from "@/data/nisab.json";
 
 /**
  * Zakat-Rechner fuer Vermoegen inklusive Depot.
@@ -41,13 +42,33 @@ const VERMOEGEN: Feld[] = [
 const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
+const parseDeDatum = (s: string) => {
+  const [tag, monat, jahr] = s.split(".").map(Number);
+  return new Date(jahr, (monat || 1) - 1, tag || 1);
+};
+
+const istPreisVeraltet = (stand: string) => {
+  const standDatum = parseDeDatum(stand);
+  const heute = new Date();
+  const diffMs = heute.getTime() - standDatum.getTime();
+  const diffTage = diffMs / (1000 * 60 * 60 * 24);
+  return diffTage > 45;
+};
+
 const ZakatCalculator = () => {
   const [werte, setWerte] = useState<Record<string, string>>({});
   const [aktien, setAktien] = useState("");
   const [schulden, setSchulden] = useState("");
   const [methode, setMethode] = useState<Methode>("anteil");
-  const [goldpreis, setGoldpreis] = useState("75");
+  const preisFuer = (basis: "gold" | "silber") =>
+    basis === "gold" ? nisabDaten.goldPreisJeGramm : nisabDaten.silberPreisJeGramm;
+
   const [nisabBasis, setNisabBasis] = useState<"gold" | "silber">("silber");
+  const [goldpreis, setGoldpreis] = useState(String(preisFuer("silber")));
+
+  useEffect(() => {
+    setGoldpreis(String(preisFuer(nisabBasis)));
+  }, [nisabBasis]);
 
   const num = (s: string) => {
     const v = parseFloat((s || "").replace(/\./g, "").replace(",", "."));
@@ -204,6 +225,11 @@ const ZakatCalculator = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="lg:sticky lg:top-24 space-y-4">
           <div className="rounded-[1.5rem] bg-primary text-white p-6 md:p-7 shadow-[0_25px_60px_-30px_rgba(0,0,0,0.6)]">
+            {istPreisVeraltet(nisabDaten.stand) && (
+              <div className="mb-4 rounded-xl bg-yellow-300 px-4 py-3 text-[13px] font-semibold text-foreground">
+                Der hinterlegte Preis ist vom {nisabDaten.stand} und damit älter als sechs Wochen. Das Ergebnis kann abweichen.
+              </div>
+            )}
             <span className="text-[11px] font-semibold tracking-wide text-primary">
               Deine Zakat
             </span>
@@ -277,9 +303,8 @@ const ZakatCalculator = () => {
               </span>
             </div>
             <p className="mt-2 text-[12px] text-muted-foreground">
-              Trag den aktuellen Tagespreis ein. Der Silber-Nisab liegt niedriger und wird
-              von vielen Gelehrten bevorzugt, weil er mehr Menschen erfasst und damit den
-              Empfängern zugutekommt.
+              Voreingestellt ist der Preis vom {nisabDaten.stand}. Für eine taggenaue
+              Berechnung trag den Preis deines eigenen Stichtags ein.
             </p>
           </div>
 
@@ -296,11 +321,11 @@ const ZakatCalculator = () => {
           </div>
 
           <Link
-            to="/dein-investmentstart"
+            to="/vergleich/depot"
             className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:border-primary hover:-translate-y-[1px]"
           >
             <span className="text-[14px] font-semibold text-foreground">
-              Noch kein Depot für deine Anlagen?
+              Wo dein Geld liegt, ohne dass Zinsen mitlaufen
             </span>
             <ArrowRight className="h-4 w-4 text-primary shrink-0 transition group-hover:translate-x-0.5" aria-hidden />
           </Link>
