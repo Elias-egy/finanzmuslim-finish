@@ -321,11 +321,11 @@ const ZakatCalculator = () => {
           </div>
 
           <Link
-            to="/dein-investmentstart"
+            to="/vergleich/depot"
             className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:border-primary hover:-translate-y-[1px]"
           >
             <span className="text-[14px] font-semibold text-foreground">
-              Noch kein Depot für deine Anlagen?
+              Wo dein Geld liegt, ohne dass Zinsen mitlaufen
             </span>
             <ArrowRight className="h-4 w-4 text-primary shrink-0 transition group-hover:translate-x-0.5" aria-hidden />
           </Link>
