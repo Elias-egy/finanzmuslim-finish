@@ -12,7 +12,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Alle Themen", to: "/wissen" },
           { label: "Vorlagen", to: "/vorlagen" },
-          { label: "Was ist Riba", to: "/wissen/was-ist-riba" },
+          { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
           { label: "Was ist Gharar" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },
           { label: "Häufige Fehler" },
@@ -21,22 +21,22 @@ export const navGroups: NavGroup[] = [
       {
         title: "Investieren",
         items: [
-          { label: "Halal ETFs", to: "/dein-investmentstart" },
-          { label: "Aktien prüfen" },
+          { label: "Halal-Anlagen", to: "/halal-anlagen" },
+          { label: "Aktien prüfen", to: "/wissen/sind-aktien-halal" },
           { label: "Sukuk" },
-          { label: "Gold" },
+          { label: "Gold kaufen", to: "/wissen/halal-gold-kaufen" },
           { label: "Krypto", to: "/wissen/ist-bitcoin-halal" },
         ],
       },
       {
         title: "Alltag",
         items: [
-          { label: "Girokonto" },
+          { label: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen" },
           { label: "Dispo und Kredit" },
           { label: "Ratenkauf", to: "/wissen/ratenzahlung-haram" },
           { label: "Haus kaufen ohne Zinsen", to: "/wissen/haus-kaufen-ohne-zinsen" },
-          { label: "Leasing" },
-          { label: "Versicherung" },
+          { label: "Leasing", to: "/wissen/ist-leasing-haram" },
+          { label: "Versicherung", to: "/wissen/ist-versicherung-haram" },
         ],
       },
       {

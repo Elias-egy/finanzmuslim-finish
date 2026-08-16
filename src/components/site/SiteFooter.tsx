@@ -25,9 +25,9 @@ const Item = ({ item }: { item: NavEntry }) =>
 
 const wissen: NavEntry[] = [
   { label: "Alle Themen", to: "/wissen" },
-  { label: "Was ist Riba", to: "/wissen/was-ist-riba" },
+  { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
   { label: "Halal investieren für Anfänger", to: "/halal-guide" },
-  { label: "Halal ETFs", to: "/dein-investmentstart" },
+  { label: "Halal-Anlagen", to: "/halal-anlagen" },
   { label: "Zakat berechnen", to: "/zakat-rechner" },
 ];
 

@@ -99,6 +99,7 @@ const Renditerechner = () => (
           </div>
         </>
       }
+      anlegenSatz="Aus der Rechnung wird erst etwas, wenn das Geld angelegt ist. Diese Depots arbeiten ohne Zinsgeschäft."
       weitereRechner={[
         { name: "Zakat-Rechner", desc: "deine Zakat auf Vermögen und Depot berechnen.", to: "/zakat-rechner" },
         { name: "Alle Rechner", desc: "Übersicht aller Werkzeuge.", to: "/rechner" },

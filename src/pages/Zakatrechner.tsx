@@ -120,6 +120,7 @@ const Zakatrechner = () => (
           </div>
         </>
       }
+      anlegenSatz="Wer jedes Jahr Zakat zahlt, sollte wissen, wo sein Geld liegt. Diese Depots rechnen ohne Zinsgeschäft."
       weitereRechner={[
         {
           name: "Renditerechner",

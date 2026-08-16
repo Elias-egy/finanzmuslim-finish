@@ -46,6 +46,8 @@ const CORRELATION: number[][] = [
 
 type Alloc = Record<AssetKey, number>;
 
+import kursDaten from "@/data/kurse.json";
+
 type PresetKey = "ret3" | "ret5" | "ret8";
 
 const PRESETS: Record<PresetKey, { label: string; short: string; ret: number }> = {
@@ -53,6 +55,32 @@ const PRESETS: Record<PresetKey, { label: string; short: string; ret: number }> 
   ret5: { label: "Ausgewogen — 5 % p.a.",   short: "5 % p.a.",   ret: 0.05 },
   ret8: { label: "Wachstum — 7,5 % p.a.",   short: "7,5 % p.a.", ret: 0.075 },
 };
+
+/** Gepruefte Anlagen mit Fuenfjahresrendite, umgerechnet auf Rendite pro Jahr.
+ *
+ *  Das ist der Punkt, den kein anderer Rechner hat: Statt einer geratenen
+ *  Prozentzahl kann man mit dem rechnen, was eine gepruefte Anlage in den
+ *  letzten fuenf Jahren tatsaechlich gemacht hat. Wichtig ist die Einordnung
+ *  daneben: gewesen ist nicht kuenftig. */
+type AnlageOption = { isin: string; name: string; proJahr: number };
+
+const anlagenOptionen: AnlageOption[] = Object.entries(
+  kursDaten.anlagen as Record<string, { name?: string; r5j?: number | null }>,
+)
+  .filter(([, a]) => typeof a.r5j === "number" && a.name)
+  .map(([isin, a]) => ({
+    isin,
+    name: a.name as string,
+    // Gesamtrendite ueber fuenf Jahre auf einen Jahreswert umrechnen.
+    proJahr: Math.pow(1 + (a.r5j as number) / 100, 1 / 5) - 1,
+  }))
+  // Nach Namen sortiert, nicht nach Rendite. Eine nach Ertrag sortierte Liste
+  // stellt oben die heissesten Jahre der letzten fuenf Jahre nach vorn, hier
+  // waeren das ausschliesslich Gold und Silber. Das liest sich wie eine
+  // Empfehlung, und eine Empfehlung geben wir nicht ab.
+  .sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+const kursStand = (kursDaten as { stand?: string }).stand ?? "";
 
 const formatEuro = (n: number) =>
   new Intl.NumberFormat("de-DE", {
@@ -128,7 +156,7 @@ const niceCeil = (raw: number): number => {
   return nice * base;
 };
 
-type ReturnMode = "custom" | PresetKey | "own";
+type ReturnMode = "custom" | PresetKey | "own" | "anlage";
 
 const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) => {
   // Committed numeric state (drives calculations)
@@ -298,11 +326,16 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
   const portfolio = useMemo(() => (activeAlloc ? computePortfolio(activeAlloc) : null), [activeAlloc]);
 
+  /** ISIN der gewaehlten gepruefen Anlage, nur im Modus "anlage" benutzt. */
+  const [anlageIsin, setAnlageIsin] = useState<string>(anlagenOptionen[0]?.isin ?? "");
+  const gewaehlteAnlage = anlagenOptionen.find((a) => a.isin === anlageIsin);
+
   const annual = useMemo(() => {
     if (mode === "own") return ownRate / 100;
     if (mode === "custom") return portfolio?.ret ?? 0;
+    if (mode === "anlage") return gewaehlteAnlage?.proJahr ?? 0;
     return PRESETS[mode].ret;
-  }, [mode, ownRate, portfolio]);
+  }, [mode, ownRate, portfolio, gewaehlteAnlage]);
 
   const { data, totalContributed, finalValue, estimatedProfit, yMax } = useMemo(() => {
     const monthlyRate = annual === 0 ? 0 : Math.pow(1 + annual, 1 / 12) - 1;
@@ -331,6 +364,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
       yMax,
     };
   }, [startCapital, monthly, years, annual]);
+
+  const selectAnlage = (isin: string) => {
+    setAnlageIsin(isin);
+    setMode("anlage");
+    setDropdownOpen(false);
+    setBuilderOpen(false);
+    scrollToResults();
+  };
 
   const selectPreset = (p: PresetKey) => {
     setMode(p);
@@ -364,6 +405,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
       ? `${fmtPct(ownRate)}% p.a. – Eigene Rendite`
       : mode === "custom"
       ? `≈ ${fmtPct((portfolio?.ret ?? 0) * 100)}% p.a.`
+      : mode === "anlage"
+      ? `${fmtPct((gewaehlteAnlage?.proJahr ?? 0) * 100)}% p.a. – ${gewaehlteAnlage?.name ?? ""}`
       : PRESETS[mode].label;
 
   let summary: { title: string; desc?: string } | null = null;
@@ -372,6 +415,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
       .map((a) => `${customApplied[a.key]}% ${a.label.replace("Halal-Aktien & ETFs", "Aktien/ETFs")}`)
       .join(", ");
     summary = { title: `Eigenes Portfolio · ≈ ${fmtPct((portfolio?.ret ?? 0) * 100)}% p.a.`, desc: parts };
+  } else if (mode === "anlage" && gewaehlteAnlage) {
+    summary = {
+      title: `${gewaehlteAnlage.name} · ${fmtPct(gewaehlteAnlage.proJahr * 100)}% p.a.`,
+      desc: `Rendite der letzten fünf Jahre, Stand ${kursStand}. Das ist keine Vorhersage.`,
+    };
   } else if (mode !== "own") {
     summary = { title: PRESETS[mode].label };
   }
@@ -815,14 +863,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 Du willst aus deiner Rechnung Realität machen?
               </h3>
               <p className="mt-1 text-[13px] md:text-sm text-white/80 leading-relaxed">
-                Starte jetzt Schritt für Schritt mit deinem eigenen Halal-Depot.
+                Vergleiche die Depots, bei denen kein Zinsgeschäft mitläuft.
               </p>
             </div>
             <Link
-              to="/dein-investmentstart"
+              to="/vergleich/depot"
               className="inline-flex items-center justify-center rounded-lg bg-white text-foreground hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
             >
-              Zum Investmentstart →
+              Zum Depot-Vergleich →
             </Link>
           </div>
         </div>
@@ -846,7 +894,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             maxWidth: "calc(100vw - 16px)",
             zIndex: 1000,
           }}
-          className="rounded-2xl border border-border/70 bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
+          className="max-h-[min(70vh,560px)] overflow-y-auto rounded-2xl border border-border/70 bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)]"
           role="listbox"
         >
           <button
@@ -871,6 +919,33 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               </button>
             );
           })}
+          {anlagenOptionen.length > 0 && (
+            <>
+              <div className="border-t border-border/50 bg-surface px-4 py-2">
+                <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  Geprüfte Anlagen
+                </p>
+                <p className="text-[11px] leading-snug text-muted-foreground">
+                  Rendite der letzten fünf Jahre, Stand {kursStand}. Keine Vorhersage.
+                </p>
+              </div>
+              {anlagenOptionen.map((a) => (
+                <button
+                  key={a.isin}
+                  type="button"
+                  onClick={() => selectAnlage(a.isin)}
+                  className={`w-full border-t border-border/50 px-4 py-3 text-left text-sm transition hover:bg-primary/5 ${
+                    mode === "anlage" && anlageIsin === a.isin ? "bg-primary/5" : ""
+                  }`}
+                >
+                  <div className="font-semibold text-foreground">{a.name}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {fmtPct(a.proJahr * 100)} % pro Jahr in den letzten fünf Jahren
+                  </div>
+                </button>
+              ))}
+            </>
+          )}
           <button
             type="button"
             onClick={openBuilder}
