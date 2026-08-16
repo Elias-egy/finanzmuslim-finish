@@ -1,16 +1,82 @@
 # finanzmuslim
 
-> Bildung für Islam-konformes (halal) Investieren. Kostenloser Halal Investment Guide, Rechner und Tools für Muslime, die halal in Aktien, ETFs, Sukuk und Sachwerte investieren wollen.
+> Islamkonform investieren in Deutschland: geprüfte Anlagen, Rechner und
+> Anbietervergleiche. Für Muslime, die in Aktien, ETFs, Sukuk, Gold und Silber
+> anlegen wollen, ohne dass ein Zinsgeschäft mitläuft.
 
-finanzmuslim wird von Elias El-Gendy in Hamburg betrieben. Fokus: verständliche, wortwörtlich islam-konforme Anleitungen ohne Beratung — Bildung, Kriterien-Checks und Werkzeuge.
+finanzmuslim wird von Elias El-Gendy in Hamburg betrieben. Die Seite bildet und
+vergleicht, sie berät nicht und führt keine Order aus. Wo Gelehrte uneins sind,
+werden beide Auffassungen genannt. Ungeprüftes heißt wörtlich „noch nicht
+geprüft".
 
-## Pages
+## Anlagen und Vergleiche
 
-- [Startseite](/): Überblick über finanzmuslim, Halal Investment Guide und Community.
-- [Halal Investment Guide](/halal-guide): Kostenloser PDF-Guide für halal Investieren — Prinzipien, Anlageklassen, Riba/Gharar-Prüfung.
-- [Tools](/tools): Rechner und Werkzeuge rund um halal Investieren.
-- [Zakat-Rechner](/zakat-rechner): Zakat auf Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto berechnen, mit Nisab nach Gold oder Silber.
-- [Renditerechner](/renditerechner): Portfolio-Rechner mit Aktien, Sukuk, Gold, Silber und Custom-Allokation.
-- [Wissen](/wissen): Artikel zu Themen rund um halal Investieren.
-- [Impressum](/impressum): Rechtliche Angaben.
-- [Datenschutz](/datenschutz): Datenschutzerklärung.
+- [Halal-Anlagen](/halal-anlagen): Datenbank mit 23 geprüften Anlagen, je mit
+  ISIN, laufenden Kosten, Fondsgröße und der Stelle, die sie geprüft hat.
+- [Anlage-Detailseite](/halal-anlagen/ishares-msci-world-islamic): Muster einer
+  Einzelseite mit Kursverlauf, Stammdaten und Halal-Einordnung. Kurse sind
+  Wochenschlusskurse, keine Echtzeitkurse.
+- [Depot-Vergleich](/vergleich/depot): Broker nach vier Kriterien, die in
+  normalen Vergleichen fehlen: Guthabenzins, Wertpapierkredit, Hebelprodukte,
+  sharia-konforme ETFs.
+- [Alle Vergleiche](/vergleiche): Übersicht der geplanten und fertigen
+  Anbietervergleiche.
+
+## Rechner
+
+- [Zakat-Rechner](/zakat-rechner): Zakat auf Geld und Depot, mit Nisab nach Gold
+  oder Silber, Formel und durchgerechnetem Beispiel.
+- [Renditerechner](/renditerechner): Modellrechnung mit Aktien, Sukuk, Gold und
+  Silber, wahlweise mit der Fünfjahresrendite einer geprüften Anlage.
+- [Inflationsrechner](/inflationsrechner): Kaufkraftverlust von Geld auf dem
+  Konto über die Jahre.
+- [Alle Rechner](/rechner): Übersicht.
+
+## Wissen, Grundlagen
+
+- [Zinsen im Islam](/wissen/zinsen-im-islam): Was Riba ist und was ausdrücklich nicht.
+- [Gharar](/wissen/gharar): Übermäßige Unsicherheit im Vertrag, abgegrenzt vom Risiko.
+- [Maysir](/wissen/maysir): Was als Glücksspiel gilt, sechs Fälle eingeordnet.
+- [Die häufigsten Fehler](/wissen/haeufige-fehler): Zehn Fehler von Einsteigern.
+- [Halal Investment Guide](/halal-guide): Kostenloser Einstieg als PDF.
+
+## Wissen, Investieren
+
+- [Sind Aktien halal?](/wissen/sind-aktien-halal): Die drei Grenzwerte des Screenings.
+- [Halal ETFs](/wissen/halal-etfs): Die zwei Prüfebenen und vier Fragen an den Fonds.
+- [Sukuk](/wissen/sukuk): Anteil an einer Sache statt Geldforderung, vier Bauformen.
+- [Gold kaufen](/wissen/halal-gold-kaufen): Barren, Münze oder Wertpapier.
+- [Ist Bitcoin halal?](/wissen/ist-bitcoin-halal): Die Diskussion um Krypto.
+
+## Wissen, Alltag
+
+- [Girokonto ohne Zinsen](/wissen/girokonto-ohne-zinsen): Vier Funktionen abstellen.
+- [Halal Kredit ohne Zinsen](/wissen/halal-kredit-ohne-zinsen): Murabaha, Idschara,
+  Muscharaka, Qard hasan.
+- [Haus kaufen ohne Zinsen](/wissen/haus-kaufen-ohne-zinsen): Die Wege zur
+  islamkonformen Immobilienfinanzierung.
+- [Ist Ratenzahlung haram?](/wissen/ratenzahlung-haram): Wann Raten zur Zinsfalle werden.
+- [Ist Leasing haram?](/wissen/ist-leasing-haram): Fünf Punkte im Vertrag.
+- [Ist eine Versicherung haram?](/wissen/ist-versicherung-haram): Konventionell und Takaful.
+
+## Wissen, Pflichten
+
+- [Nisab](/wissen/nisab): Ab welchem Vermögen Zakat fällig wird, beide Grenzen tagesaktuell.
+- [Erträge reinigen](/wissen/ertraege-reinigen): Welchen Anteil du weitergibst und wohin.
+- [Erbe nach islamischem Recht](/wissen/erbe): Vier Stufen, die Anteile und warum
+  in Deutschland ohne Testament deutsches Erbrecht gilt.
+
+## Vorlagen
+
+- [Alle Vorlagen](/vorlagen): Drei kostenlose PDF-Vorlagen.
+- [Vertrags-Ampel](/vorlagen/vertrags-ampel): Zwölf Alltagsverträge, grün, gelb oder rot.
+- [Halal-Anlagen-Liste](/vorlagen/halal-anlagen): Die Liste zum Ausdrucken.
+- [Aktien-Check](/vorlagen/aktien-check): Spickzettel für die Prüfung einer Aktie.
+
+## Weiteres
+
+- [Newsletter](/newsletter): Freitagsbrief.
+- [So verdiene ich Geld](/wie-ich-geld-verdiene): Offenlegung der Einnahmen.
+- [Deals](/deals): Geprüfte Angebote, Partnerlinks gekennzeichnet.
+- [Impressum](/impressum)
+- [Datenschutz](/datenschutz)

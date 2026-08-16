@@ -11,7 +11,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://finanzmuslim.com/tools</loc>
+    <loc>https://finanzmuslim.com/rechner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -265,6 +265,41 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ist-bitcoin-halal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vergleich/depot</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vergleiche</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/deals</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/zinsen-im-islam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/halal-gold-kaufen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/ist-leasing-haram</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/girokonto-ohne-zinsen</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
