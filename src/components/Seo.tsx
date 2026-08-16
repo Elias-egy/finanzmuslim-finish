@@ -96,6 +96,66 @@ const Seo = ({ title, description, path, image, noindex, jsonLd }: SeoProps) => 
   return null;
 };
 
+const MONATE = [
+  "Januar", "Februar", "März", "April", "Mai", "Juni",
+  "Juli", "August", "September", "Oktober", "November", "Dezember",
+];
+
+/** "16. August 2026" nach "2026-08-16". Schema.org will ISO 8601, ein
+ *  deutsches Datum wird dort stillschweigend verworfen. */
+const isoDatum = (deutsch: string) => {
+  const m = /^(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)\s+(\d{4})$/.exec(deutsch.trim());
+  if (!m) return deutsch;
+  const monat = MONATE.indexOf(m[2]) + 1;
+  if (!monat) return deutsch;
+  return `${m[3]}-${String(monat).padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+};
+
+/**
+ * Structured Data eines Wissensbeitrags: Artikel, Fragenliste, Brotkrumen.
+ *
+ * Die Fragenliste ist der Grund für diese Funktion. Google zeigt zu solchen
+ * Fragen ausklappbare Antworten direkt im Ergebnis, und jeder Beitrag hat die
+ * Fragen ohnehin schon als Datenfeld. Ohne Auszeichnung liest sie niemand.
+ */
+export const beitragJsonLd = (opts: {
+  titel: string;
+  beschreibung: string;
+  path: string;
+  geprueftAm: string;
+  faq: { frage: string; antwort: string }[];
+}) => [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: opts.titel,
+    description: opts.beschreibung,
+    inLanguage: "de-DE",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.path}` },
+    author: { "@type": "Person", name: "Elias El-Gendy" },
+    publisher: { "@type": "Organization", name: "finanzmuslim", url: SITE },
+    dateModified: isoDatum(opts.geprueftAm),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: opts.faq.map((f) => ({
+      "@type": "Question",
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Start", item: SITE },
+      { "@type": "ListItem", position: 2, name: "Wissen", item: `${SITE}/wissen` },
+      { "@type": "ListItem", position: 3, name: opts.titel, item: `${SITE}${opts.path}` },
+    ],
+  },
+];
+
 /** Organisation + Autor: E-E-A-T-Signal, auf der Startseite eingebunden. */
 export const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -111,7 +171,11 @@ export const organizationJsonLd = {
     jobTitle: "Gruender",
     knowsAbout: ["Halal Investieren", "Islamic Finance", "ETF", "Sukuk", "Riba"],
   },
-  sameAs: ["https://www.instagram.com/amanahinvest.de/"],
+  sameAs: [
+    "https://www.instagram.com/finanz.muslim/",
+    "https://www.tiktok.com/@finanz.muslim",
+    "https://www.youtube.com/@finanz.muslim",
+  ],
 };
 
 /** Baut ein FAQPage-Schema aus Frage/Antwort-Paaren. */

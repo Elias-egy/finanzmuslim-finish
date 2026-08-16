@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragIllu from "@/components/BeitragIllu";
 import { IlluVersicherung, IlluZins } from "@/components/illu";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
@@ -187,6 +187,13 @@ const IstVersicherungHaram = () => (
       title="Ist eine Versicherung haram? Die Antwort für Muslime in Deutschland | finanzmuslim"
       description="Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind."
       path="/wissen/ist-versicherung-haram"
+      jsonLd={beitragJsonLd({
+        titel: "Ist eine Versicherung haram?",
+        beschreibung: "Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind.",
+        path: "/wissen/ist-versicherung-haram",
+        geprueftAm: "15. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Ist eine Versicherung haram?"

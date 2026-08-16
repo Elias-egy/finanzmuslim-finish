@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluPruefung, IlluVersicherung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -202,6 +202,13 @@ const Gharar = () => (
       title="Gharar: Unsicherheit im Vertrag | finanzmuslim"
       description="Gharar meint übermäßige Unklarheit in einem Vertrag, nicht wirtschaftliches Risiko. Die klassischen Beispiele, wo der Begriff im deutschen Alltag greift und drei Fragen, mit denen du jeden Vertrag prüfst."
       path="/wissen/gharar"
+      jsonLd={beitragJsonLd({
+        titel: "Gharar: Unsicherheit im Vertrag",
+        beschreibung: "Gharar meint übermäßige Unklarheit in einem Vertrag, nicht wirtschaftliches Risiko. Die klassischen Beispiele, wo der Begriff im deutschen Alltag greift und drei Fragen, mit denen du jeden Vertrag prüfst.",
+        path: "/wissen/gharar",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Gharar: Unsicherheit im Vertrag"

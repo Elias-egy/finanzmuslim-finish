@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -164,6 +164,13 @@ const IstBitcoinHalal = () => (
       title="Ist Bitcoin halal oder haram? Der ehrliche Stand | finanzmuslim"
       description="Zu Bitcoin gibt es Gutachten in beide Richtungen. Worüber genau gestritten wird, was unstrittig nicht geht und welche drei Regeln gelten, wenn du dich dafür entscheidest."
       path="/wissen/ist-bitcoin-halal"
+      jsonLd={beitragJsonLd({
+        titel: "Ist Bitcoin halal oder haram?",
+        beschreibung: "Zu Bitcoin gibt es Gutachten in beide Richtungen. Worüber genau gestritten wird, was unstrittig nicht geht und welche drei Regeln gelten, wenn du dich dafür entscheidest.",
+        path: "/wissen/ist-bitcoin-halal",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Ist Bitcoin halal oder haram?"

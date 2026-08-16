@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluPruefung, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -231,6 +231,13 @@ const ErtraegeReinigen = () => (
       title="Erträge reinigen: wie viel und wohin | finanzmuslim"
       description="Auch geprüfte Fonds lassen einen kleinen unreinen Anteil übrig. Wo du den Reinigungssatz findest, wie du ihn ausrechnest, wohin der Betrag geht und warum er nicht als Zakat zählt."
       path="/wissen/ertraege-reinigen"
+      jsonLd={beitragJsonLd({
+        titel: "Den Satz heraussuchen",
+        beschreibung: "Auch geprüfte Fonds lassen einen kleinen unreinen Anteil übrig. Wo du den Reinigungssatz findest, wie du ihn ausrechnest, wohin der Betrag geht und warum er nicht als Zakat zählt.",
+        path: "/wissen/ertraege-reinigen",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Erträge reinigen"

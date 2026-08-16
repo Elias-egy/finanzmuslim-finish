@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluGold, IlluPruefung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -236,6 +236,13 @@ const Nisab = () => (
       title="Nisab: ab welchem Vermögen Zakat fällig wird | finanzmuslim"
       description="Der Nisab entspricht 85 Gramm Gold oder 595 Gramm Silber. Beide Grenzen in Euro mit Datum, warum sie so weit auseinanderliegen und welche du nehmen solltest."
       path="/wissen/nisab"
+      jsonLd={beitragJsonLd({
+        titel: "Nach Silber",
+        beschreibung: "Der Nisab entspricht 85 Gramm Gold oder 595 Gramm Silber. Beide Grenzen in Euro mit Datum, warum sie so weit auseinanderliegen und welche du nehmen solltest.",
+        path: "/wissen/nisab",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Nisab: ab wann du Zakat zahlst"

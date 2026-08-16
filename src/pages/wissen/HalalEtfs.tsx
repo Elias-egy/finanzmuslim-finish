@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluDepot, IlluPruefung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -197,6 +197,13 @@ const HalalEtfs = () => (
       title="Halal ETFs: worauf du beim Fonds achtest | finanzmuslim"
       description="Ein Halal-ETF wird auf zwei Ebenen geprüft: der Index und der Fonds selbst. Vier Fragen zu Wertpapierleihe, Nachbildung, Reinigung und Zertifikat, dazu woran du einen echten erkennst."
       path="/wissen/halal-etfs"
+      jsonLd={beitragJsonLd({
+        titel: "Halal ETFs: worauf du achtest",
+        beschreibung: "Ein Halal-ETF wird auf zwei Ebenen geprüft: der Index und der Fonds selbst. Vier Fragen zu Wertpapierleihe, Nachbildung, Reinigung und Zertifikat, dazu woran du einen echten erkennst.",
+        path: "/wissen/halal-etfs",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Halal ETFs: worauf du achtest"

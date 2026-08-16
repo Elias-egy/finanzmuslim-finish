@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluGold, IlluHandel } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -277,6 +277,13 @@ const HalalGoldKaufen = () => (
       title="Halal Gold kaufen: Die eine Bedingung, die zählt | finanzmuslim"
       description="Gold kaufen ist erlaubt, wenn Zahlung und Übergabe zusammenfallen. Was das für Barren, Münzen, Gold-ETC und Goldsparpläne bedeutet, und wie Zakat auf Gold berechnet wird."
       path="/wissen/halal-gold-kaufen"
+      jsonLd={beitragJsonLd({
+        titel: "Barren oder Münzen beim Händler",
+        beschreibung: "Gold kaufen ist erlaubt, wenn Zahlung und Übergabe zusammenfallen. Was das für Barren, Münzen, Gold-ETC und Goldsparpläne bedeutet, und wie Zakat auf Gold berechnet wird.",
+        path: "/wissen/halal-gold-kaufen",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Halal Gold kaufen"

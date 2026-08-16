@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -238,6 +238,13 @@ const HausKaufenOhneZinsen = () => (
       title="Haus kaufen ohne Zinsen: die islamkonformen Modelle erklärt | finanzmuslim"
       description="Die drei Wege, ein Haus ohne Zinsen zu finanzieren. Was es davon in Deutschland gibt und worauf du im Vertrag achten musst."
       path="/wissen/haus-kaufen-ohne-zinsen"
+      jsonLd={beitragJsonLd({
+        titel: "Haus kaufen ohne Zinsen",
+        beschreibung: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren. Was es davon in Deutschland gibt und worauf du im Vertrag achten musst.",
+        path: "/wissen/haus-kaufen-ohne-zinsen",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Haus kaufen ohne Zinsen"

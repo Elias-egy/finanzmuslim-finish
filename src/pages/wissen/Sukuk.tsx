@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel, IlluPruefung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -257,6 +257,13 @@ const Sukuk = () => (
       title="Sukuk statt Anleihe: Anteil an einer Sache | finanzmuslim"
       description="Ein Sukuk ist ein Anteil an einer Sache, keine Geldforderung. Die vier Bauformen, der Unterschied zur Anleihe, die Kritik aus der islamischen Finanzwelt und wie Privatanleger Zugang bekommen."
       path="/wissen/sukuk"
+      jsonLd={beitragJsonLd({
+        titel: "Sukuk statt Anleihe",
+        beschreibung: "Ein Sukuk ist ein Anteil an einer Sache, keine Geldforderung. Die vier Bauformen, der Unterschied zur Anleihe, die Kritik aus der islamischen Finanzwelt und wie Privatanleger Zugang bekommen.",
+        path: "/wissen/sukuk",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Sukuk statt Anleihe"

@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluZins, IlluHandel } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -298,6 +298,13 @@ const ZinsenImIslam = () => (
       title="Zinsen im Islam: Was verboten ist und was nicht | finanzmuslim"
       description="Warum Zinsen im Islam verboten sind, was der Quran dazu sagt, welche Produkte betroffen sind und welche nicht, und was du tun kannst, wenn du schon Zinsen hast."
       path="/wissen/zinsen-im-islam"
+      jsonLd={beitragJsonLd({
+        titel: "Zins, also betroffen",
+        beschreibung: "Warum Zinsen im Islam verboten sind, was der Quran dazu sagt, welche Produkte betroffen sind und welche nicht, und was du tun kannst, wenn du schon Zinsen hast.",
+        path: "/wissen/zinsen-im-islam",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Zinsen im Islam"

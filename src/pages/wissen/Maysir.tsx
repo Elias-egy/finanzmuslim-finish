@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluPruefung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -186,6 +186,13 @@ const Maysir = () => (
       title="Maysir: was als Glücksspiel gilt | finanzmuslim"
       description="Maysir meint ein Geschäft, bei dem der Zufall entscheidet und der Gewinn des einen der Verlust des anderen ist. Sechs Fälle eingeordnet, dazu die Grenze zwischen Investieren und Wetten."
       path="/wissen/maysir"
+      jsonLd={beitragJsonLd({
+        titel: "Lotto, Sportwetten, Casino",
+        beschreibung: "Maysir meint ein Geschäft, bei dem der Zufall entscheidet und der Gewinn des einen der Verlust des anderen ist. Sechs Fälle eingeordnet, dazu die Grenze zwischen Investieren und Wetten.",
+        path: "/wissen/maysir",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Maysir: was als Glücksspiel gilt"

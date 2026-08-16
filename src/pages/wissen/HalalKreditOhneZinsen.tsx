@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -239,6 +239,13 @@ const HalalKreditOhneZinsen = () => (
       title="Halal Kredit ohne Zinsen: Welche Verträge es wirklich gibt | finanzmuslim"
       description="Einen zinsfreien Kredit gibt es nicht. Es gibt vier andere Verträge: Murabaha, Idschara, Muscharaka und Qard hasan. Was davon in Deutschland verfügbar ist und woran du einen umetikettierten Kredit erkennst."
       path="/wissen/halal-kredit-ohne-zinsen"
+      jsonLd={beitragJsonLd({
+        titel: "Kaufen und mit Aufschlag weiterverkaufen",
+        beschreibung: "Einen zinsfreien Kredit gibt es nicht. Es gibt vier andere Verträge: Murabaha, Idschara, Muscharaka und Qard hasan. Was davon in Deutschland verfügbar ist und woran du einen umetikettierten Kredit erkennst.",
+        path: "/wissen/halal-kredit-ohne-zinsen",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Halal Kredit ohne Zinsen"

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragIllu from "@/components/BeitragIllu";
 import { IlluDepot, IlluHandel, IlluPruefung } from "@/components/illu";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
@@ -199,6 +199,13 @@ const SindAktienHalal = () => (
       title="Sind Aktien halal oder haram? Die drei Grenzwerte | finanzmuslim"
       description="Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen."
       path="/wissen/sind-aktien-halal"
+      jsonLd={beitragJsonLd({
+        titel: "Sind Aktien halal oder haram?",
+        beschreibung: "Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen.",
+        path: "/wissen/sind-aktien-halal",
+        geprueftAm: "15. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Sind Aktien halal oder haram?"

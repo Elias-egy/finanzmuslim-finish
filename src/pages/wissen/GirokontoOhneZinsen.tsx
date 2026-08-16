@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluDepot, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -229,6 +229,13 @@ const GirokontoOhneZinsen = () => (
       title="Girokonto ohne Zinsen: Was du in zehn Minuten umstellst | finanzmuslim"
       description="Ein Girokonto ist erlaubt. Problematisch sind Dispo, Guthabenzinsen, Kreditkarten-Teilzahlung und angehängte Verträge. Fünf Handgriffe, dazu der Stand zur KT Bank in Deutschland."
       path="/wissen/girokonto-ohne-zinsen"
+      jsonLd={beitragJsonLd({
+        titel: "Dispo auf null setzen",
+        beschreibung: "Ein Girokonto ist erlaubt. Problematisch sind Dispo, Guthabenzinsen, Kreditkarten-Teilzahlung und angehängte Verträge. Fünf Handgriffe, dazu der Stand zur KT Bank in Deutschland.",
+        path: "/wissen/girokonto-ohne-zinsen",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Girokonto ohne Zinsen"

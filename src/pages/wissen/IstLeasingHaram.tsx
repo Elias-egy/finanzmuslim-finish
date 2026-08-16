@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -251,6 +251,13 @@ const IstLeasingHaram = () => (
       title="Ist Leasing haram? Die fünf Punkte im Vertrag | finanzmuslim"
       description="Leasing ist im Kern Miete und damit erlaubt. Entscheidend sind fünf Punkte im Vertrag: Risiko bei Totalschaden, Verzugszinsen, Kaufpflicht, Zinssatz und Wartung. Dazu Autoabo und Alternativen."
       path="/wissen/ist-leasing-haram"
+      jsonLd={beitragJsonLd({
+        titel: "Ist Leasing haram?",
+        beschreibung: "Leasing ist im Kern Miete und damit erlaubt. Entscheidend sind fünf Punkte im Vertrag: Risiko bei Totalschaden, Verzugszinsen, Kaufpflicht, Zinssatz und Wartung. Dazu Autoabo und Alternativen.",
+        path: "/wissen/ist-leasing-haram",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Ist Leasing haram?"

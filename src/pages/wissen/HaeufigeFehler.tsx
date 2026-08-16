@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluDepot, IlluZins } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -217,6 +217,13 @@ const HaeufigeFehler = () => (
       title="Die häufigsten Fehler beim halal investieren | finanzmuslim"
       description="Zehn Fehler, die Einsteiger machen: zu lange warten, Schulden ignorieren, dem Etikett vertrauen, das Verrechnungskonto vergessen, beim Rückgang verkaufen. Jeweils mit dem, was stattdessen hilft."
       path="/wissen/haeufige-fehler"
+      jsonLd={beitragJsonLd({
+        titel: "Warten, bis alles geklärt ist",
+        beschreibung: "Zehn Fehler, die Einsteiger machen: zu lange warten, Schulden ignorieren, dem Etikett vertrauen, das Verrechnungskonto vergessen, beim Rückgang verkaufen. Jeweils mit dem, was stattdessen hilft.",
+        path: "/wissen/haeufige-fehler",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Die häufigsten Fehler"

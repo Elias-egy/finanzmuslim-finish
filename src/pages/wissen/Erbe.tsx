@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluPruefung } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -274,6 +274,13 @@ const Erbe = () => (
       title="Erbe nach islamischem Recht: was in Deutschland zählt | finanzmuslim"
       description="Vier Stufen vor der Verteilung, die häufigsten Anteile im Überblick und der entscheidende Punkt: Ohne Testament gilt in Deutschland deutsches Erbrecht mit ganz anderen Anteilen."
       path="/wissen/erbe"
+      jsonLd={beitragJsonLd({
+        titel: "Beerdigung",
+        beschreibung: "Vier Stufen vor der Verteilung, die häufigsten Anteile im Überblick und der entscheidende Punkt: Ohne Testament gilt in Deutschland deutsches Erbrecht mit ganz anderen Anteilen.",
+        path: "/wissen/erbe",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Erbe nach islamischem Recht"

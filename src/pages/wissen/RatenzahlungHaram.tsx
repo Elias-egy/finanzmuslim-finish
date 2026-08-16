@@ -1,4 +1,4 @@
-import Seo from "@/components/Seo";
+import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt } from "@/components/BeitragSeite";
 import { IlluHandel } from "@/components/illu";
 import { Link } from "react-router-dom";
@@ -235,6 +235,13 @@ const RatenzahlungHaram = () => (
       title="Ist Ratenzahlung haram? Die eine Frage, die entscheidet | finanzmuslim"
       description="Ratenzahlung ist nicht automatisch verboten. Entscheidend ist, ob du mehr zahlst als bei Barzahlung. Mit Prüfung für Klarna, PayPal, Null-Prozent-Finanzierung und Handyverträge."
       path="/wissen/ratenzahlung-haram"
+      jsonLd={beitragJsonLd({
+        titel: "Angebot A",
+        beschreibung: "Ratenzahlung ist nicht automatisch verboten. Entscheidend ist, ob du mehr zahlst als bei Barzahlung. Mit Prüfung für Klarna, PayPal, Null-Prozent-Finanzierung und Handyverträge.",
+        path: "/wissen/ratenzahlung-haram",
+        geprueftAm: "16. August 2026",
+        faq,
+      })}
     />
     <BeitragSeite
       titel="Ist Ratenzahlung haram?"
