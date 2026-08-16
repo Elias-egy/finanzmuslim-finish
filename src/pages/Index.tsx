@@ -20,6 +20,7 @@ import {
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
+import DatenbankVorschau from "@/components/DatenbankVorschau";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideCover from "@/assets/guide-cover-v3.png.asset.json";
@@ -110,18 +111,6 @@ const wissenKarten: WissenKarte[] = [
   { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", motiv: "gharar" },
   { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", motiv: "maysir" },
   { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
-];
-
-const datenbankVorschau = [
-  { name: "iShares MSCI World Islamic", slug: "ishares-msci-world-islamic", art: "Aktien-ETF", tone: "bg-primary" },
-  { name: "HANetf Saturna Al-Kawthar", slug: "hanetf-saturna-al-kawthar-global-focused-equity", art: "Fonds", tone: "bg-success" },
-  { name: "Invesco Physical Gold", slug: "invesco-physical-gold-etc", art: "Gold", tone: "bg-warning" },
-];
-
-const vorschauLegende = [
-  { label: "Aktien-ETF", tone: "bg-primary" },
-  { label: "Fonds", tone: "bg-success" },
-  { label: "Gold und Silber", tone: "bg-warning" },
 ];
 
 const Index = () => (
