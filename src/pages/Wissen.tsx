@@ -28,7 +28,7 @@ const artikel: Artikel[] = [
   { name: "Versicherung", motiv: "versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", to: "/wissen/ist-versicherung-haram" },
   { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
   { name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", to: "/wissen/nisab" },
-  { name: "Erträge reinigen", motiv: "reinigen", desc: "Wie unreine Erträge ausgesondert werden.", thema: "Pflichten" },
+  { name: "Erträge reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst.", thema: "Pflichten", to: "/wissen/ertraege-reinigen" },
   { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Grundzüge der Erbteilung.", thema: "Pflichten" },
 ];
 

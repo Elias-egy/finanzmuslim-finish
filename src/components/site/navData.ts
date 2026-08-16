@@ -45,7 +45,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Zakat berechnen", to: "/zakat-rechner" },
           { label: "Nisab", to: "/wissen/nisab" },
-          { label: "Erträge reinigen" },
+          { label: "Erträge reinigen", to: "/wissen/ertraege-reinigen" },
           { label: "Erbe nach islamischem Recht" },
         ],
       },
