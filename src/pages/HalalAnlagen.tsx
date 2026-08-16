@@ -22,6 +22,7 @@ import {
   type Anlage,
   type Kategorie,
 } from "@/data/halalAnlagen";
+import { regionFuer } from "@/data/anlageRegion";
 
 type Reiter = "alle" | Kategorie;
 type Sortierung = "kosten" | "groesse" | "name" | "renditeAb" | "renditeAuf";
@@ -106,6 +107,23 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
     </span>
   );
 
+/** Farbe und Name der Anlageart. Der Punkt ersetzt die ausgeschriebene
+ *  Bezeichnung, die stand vorher zweimal in derselben Karte. */
+const artTon = (a: Anlage) =>
+  a.kategorie === "aktien"
+    ? a.bauart === "aktiv"
+      ? "bg-success"
+      : "bg-primary"
+    : a.kategorie === "sukuk"
+      ? "bg-asset-sukuk"
+      : a.kategorie === "gold"
+        ? "bg-asset-gold"
+        : "bg-asset-silber";
+
+const artName = (a: Anlage) =>
+  a.kategorie === "aktien" ? (a.bauart === "aktiv" ? "Fonds" : "Aktien-ETF") :
+  a.kategorie === "sukuk" ? "Sukuk" : a.kategorie === "gold" ? "Gold" : "Silber";
+
 const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
   const kurs = kursFuerIsin(a.isin);
   return (
@@ -115,10 +133,26 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
     <li className="card-surface p-4">
       <Link to={`/halal-anlagen/${a.slug}`} className="flex items-start gap-3">
         <AnbieterKachel name={a.anbieter} />
-        <div className="min-w-0">
-          <p className="text-[15px] font-semibold text-foreground">{a.name}</p>
+        <div className="min-w-0 flex-1">
+          <p className="flex items-center gap-2 text-[15px] font-semibold text-foreground">
+            <span
+              className={`h-2.5 w-2.5 shrink-0 rounded-full ${artTon(a)}`}
+              title={artName(a)}
+              aria-hidden
+            />
+            <span className="min-w-0">{a.name}</span>
+          </p>
           <p className="mt-0.5 text-[13px] text-muted-foreground">{a.isin}</p>
         </div>
+        {regionFuer(a.isin) && (
+          <span
+            className="shrink-0 text-[18px]"
+            title={regionFuer(a.isin)!.label}
+            aria-label={regionFuer(a.isin)!.label}
+          >
+            {regionFuer(a.isin)!.zeichen}
+          </span>
+        )}
       </Link>
 
       <dl className="mt-3 grid grid-cols-2 gap-2">
@@ -379,9 +413,23 @@ const HalalAnlagen = () => {
                         <Link
                           to={`/halal-anlagen/${a.slug}`}
                           onClick={(e) => e.stopPropagation()}
-                          className="text-[15px] font-semibold text-foreground hover:text-primary"
+                          className="flex items-center gap-2 text-[15px] font-semibold text-foreground hover:text-primary"
                         >
+                          <span
+                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${artTon(a)}`}
+                            title={artName(a)}
+                            aria-hidden
+                          />
                           {a.name}
+                          {regionFuer(a.isin) && (
+                            <span
+                              className="ml-1 shrink-0 text-[15px]"
+                              title={regionFuer(a.isin)!.label}
+                              aria-label={regionFuer(a.isin)!.label}
+                            >
+                              {regionFuer(a.isin)!.zeichen}
+                            </span>
+                          )}
                         </Link>
                         {a.hinweis && <p className="mt-1 text-[13px] text-muted-foreground">{a.hinweis}</p>}
                       </div>

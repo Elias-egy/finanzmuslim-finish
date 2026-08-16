@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ChevronDown, ChevronRight, Menu, Search, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronDown, Menu, Search, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
@@ -31,6 +31,8 @@ export const SiteHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [sucheOffen, setSucheOffen] = useState(false);
+  // Der Hinweisstreifen gehoert auf die Startseite, nicht auf jede Unterseite.
+  const aufStartseite = useLocation().pathname === "/";
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -41,36 +43,30 @@ export const SiteHeader = () => {
 
   return (
     <>
-      {/* Hinweisstreifen. Scrollt mit weg, nur die Kopfleiste bleibt kleben,
-          sonst frisst er auf dem Handy dauerhaft ein Sechstel des Bildschirms.
-          Drei Zeilen: Etikett und Titel, ein Satz, Textlink mit Chevron. */}
-      <Link
-        to="/zakat-rechner"
-        className="block bg-[hsl(247_84%_96%)] px-6 py-4 transition-colors hover:bg-[hsl(247_84%_93%)]"
-      >
-        <span className="mx-auto flex w-full max-w-[1200px] flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
-          <span className="flex items-center gap-2">
-            <span className="badge-new">Neu</span>
-            <span className="text-[16px] font-bold text-foreground">Zakat-Rechner</span>
+      {/* Hinweisstreifen: violett, eine Zeile, kompakt. Genau wie vorher.
+          Einzige Änderung gegenüber früher: er klebt nicht mehr oben, sondern
+          scrollt mit weg. Sonst frisst er auf dem Handy dauerhaft Platz. */}
+      {aufStartseite && (
+        <Link
+          to="/zakat-rechner"
+          className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
+        >
+          <span className="badge-new-inverted shrink-0">Neu</span>
+          <span>
+            <span className="font-bold">Zakat-Rechner:</span>{" "}
+            <span className="font-normal">Berechne deine Zakat in 2 Minuten →</span>
           </span>
-          <span className="text-[16px] leading-[24px] text-muted-foreground">
-            Berechne in zwei Minuten, wie viel Zakat du zahlst.
-          </span>
-          <span className="flex items-center gap-1 text-[16px] font-bold text-violet sm:ml-auto">
-            Zum Rechner
-            <ChevronRight className="h-4 w-4" aria-hidden />
-          </span>
-        </span>
-      </Link>
+        </Link>
+      )}
 
       <header
         className="sticky top-0 z-50 bg-primary"
         onMouseLeave={() => setOpenGroup(null)}
       >
 
-        <div className="container flex items-center h-[68px] gap-6">
+        <div className="container flex h-[60px] items-center gap-6 md:h-[68px]">
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
-            <Wordmark inverted className="text-xl md:text-2xl" />
+            <Wordmark inverted className="text-[23px] md:text-2xl" />
           </Link>
 
           <nav
@@ -166,7 +162,7 @@ export const SiteHeader = () => {
               <Wordmark className="text-xl" />
               <button
                 type="button"
-                aria-label="Menü schliessen"
+                aria-label="Menü schließen"
                 onClick={() => setMobileOpen(false)}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-foreground"
               >

@@ -9,14 +9,8 @@ import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
 import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
 import { anbieterByName, anlageBySlug } from "@/data/halalAnlagen";
 import { grundOhneZusammensetzung, zusammensetzungFuer } from "@/data/zusammensetzung";
+import { regionFuer } from "@/data/anlageRegion";
 import { kursFuerIsin, kursQuelle, kursStand } from "@/lib/kurse";
-
-const kategorieLabel: Record<string, string> = {
-  aktien: "Aktien",
-  sukuk: "Sukuk",
-  gold: "Gold",
-  silber: "Silber",
-};
 
 const erklaerung: Record<string, string> = {
   thesaurierend: "Gewinne bleiben im Fonds und werden wieder angelegt",
@@ -49,6 +43,7 @@ const AnlageDetail = () => {
   const kurs = kursFuerIsin(anlage.isin);
   const a = anbieterByName(anlage.anbieter);
   const zus = zusammensetzungFuer(anlage.isin);
+  const region = regionFuer(anlage.isin);
   const hatZusammensetzung =
     !!zus && ((zus.positionen?.length ?? 0) > 0 || (zus.laender?.length ?? 0) > 0 || (zus.branchen?.length ?? 0) > 0);
 
@@ -103,16 +98,21 @@ const AnlageDetail = () => {
               <h1 className="text-[26px] font-bold leading-[1.15] text-foreground md:text-4xl">
                 {anlage.name}
               </h1>
-              <p className="mt-2 flex flex-wrap gap-2 text-[13px]">
-                <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
-                  {kategorieLabel[anlage.kategorie]}
-                </span>
+              <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]">
                 <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
                   {anlage.ertrag === "thesaurierend" ? "Thesaurierend" : "Ausschüttend"}
                 </span>
                 <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
                   {anlage.anbieter}
                 </span>
+                {region && (
+                  <span
+                    className="rounded-full bg-card px-3 py-1 font-semibold text-foreground"
+                    title={region.label}
+                  >
+                    <span aria-hidden>{region.zeichen}</span> {region.label}
+                  </span>
+                )}
               </p>
             </div>
           </div>

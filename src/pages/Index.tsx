@@ -279,7 +279,7 @@ const Index = () => (
 
       {/* 2 — Guide */}
       <section className="section-card">
-        <div className="section-inner grid items-center gap-6 lg:grid-cols-[380px_1fr] lg:gap-16">
+        <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
           <img
             src={guideCover.url}
             alt="Der Halal Investment Guide als Buch"
@@ -301,9 +301,72 @@ const Index = () => (
         </div>
       </section>
 
-      {/* 3 — Anlagen */}
+      {/* 3 — Newsletter */}
       <section className="section-card">
-        <div className="section-inner grid items-center gap-6 lg:grid-cols-[500px_1fr] lg:gap-16">
+        <div className="section-inner grid items-center gap-2 lg:grid-cols-[1fr_420px] lg:gap-16">
+          <img
+            src={newsletterPhone.url}
+            alt="Newsletter-Ausgabe auf dem Smartphone"
+            className="mx-auto -mb-2 max-h-[340px] w-auto object-contain lg:order-2 lg:mb-0 lg:max-h-none lg:w-[420px]"
+            loading="lazy"
+          />
+
+          <div className="lg:order-1">
+            <p className="eyebrow">Newsletter</p>
+            <h2 className="section-title mt-2">Jede Woche ein Schritt näher</h2>
+            <p className="section-text mt-3 max-w-[640px]">
+              Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten.
+              Jederzeit abbestellbar.
+            </p>
+
+            {/* Wie bei Finanzfluss: erst der Blick in die letzte Ausgabe,
+                dann das Feld. Wer sieht, was drin steht, traegt sich eher ein. */}
+            <Link
+              to="/newsletter"
+              className="mt-5 inline-flex items-center gap-1 text-[17px] font-bold text-primary hover:underline"
+            >
+              Zur aktuellen Ausgabe
+              <ArrowRight className="h-5 w-5" aria-hidden />
+            </Link>
+
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="mt-5 flex max-w-[560px] flex-col gap-3 sm:flex-row"
+            >
+              <label htmlFor="home-newsletter-email" className="sr-only">
+                E-Mail-Adresse
+              </label>
+              <input
+                id="home-newsletter-email"
+                type="email"
+                placeholder="deine@email.de"
+                className="h-14 rounded-lg border border-border bg-background px-4 text-[17px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-12 sm:flex-1 sm:text-[16px]"
+              />
+              <button type="submit" className="btn-primary h-14 sm:h-12">
+                Kostenlos anmelden
+              </button>
+            </form>
+
+            <label className="mt-4 flex max-w-[560px] items-start gap-2 text-[13px] text-muted-foreground">
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-primary"
+              />
+              <span>
+                Ich habe die{" "}
+                <Link to="/datenschutz" className="text-primary underline underline-offset-2">
+                  Datenschutzerklärung
+                </Link>{" "}
+                gelesen und stimme ihr zu.
+              </span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      {/* 4 — Anlagen */}
+      <section className="section-card">
+        <div className="section-inner grid items-center gap-4 lg:grid-cols-[500px_1fr] lg:gap-16">
           <DatenbankVorschau />
 
           <div>
@@ -320,29 +383,10 @@ const Index = () => (
         </div>
       </section>
 
-      {/* 4 — Vorlagen */}
-      <section className="section-card">
-        <div className="section-inner grid items-center gap-6 lg:grid-cols-[380px_1fr] lg:gap-16">
-          <MotivBild name="ampel" className="mx-auto max-w-[340px] rounded-xl lg:max-w-none" />
-
-          <div>
-            <p className="eyebrow">Vorlagen</p>
-            <h2 className="section-title mt-2">Die Vertrags-Ampel für zwölf Verträge</h2>
-            <p className="section-text mt-3 max-w-[640px]">
-              Grün, gelb oder rot: sieh auf einen Blick, welcher Vertrag ohne Zinsgeschäft auskommt.
-              Dazu die Spickzettel für den Aktien-Check und die Anlagenliste zum Ausdrucken.
-            </p>
-            <Link to="/vorlagen/vertrags-ampel" className="btn-primary mt-6">
-              Zur Vertrags-Ampel
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* 5 — Rechner */}
       <section className="section-card">
         <div className="section-inner">
-          <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-start lg:gap-16">
+          <div className="grid gap-2 lg:grid-cols-[1fr_420px] lg:items-start lg:gap-16">
             <img
               src={rechnerRender.url}
               alt="Taschenrechner mit Geldscheinen und Münzen"
@@ -397,60 +441,7 @@ const Index = () => (
         </div>
       </section>
 
-      {/* 7 — Newsletter */}
-      <section className="section-card">
-        <div className="section-inner grid items-center gap-6 lg:grid-cols-[1fr_420px] lg:gap-16">
-          <img
-            src={newsletterPhone.url}
-            alt="Newsletter-Ausgabe auf dem Smartphone"
-            className="mx-auto max-h-[220px] w-auto object-contain lg:order-2 lg:max-h-none lg:w-[420px]"
-            loading="lazy"
-          />
-
-          <div className="lg:order-1">
-            <p className="eyebrow">Newsletter</p>
-            <h2 className="section-title mt-2">Jede Woche ein Schritt näher</h2>
-            <p className="section-text mt-3 max-w-[640px]">
-              Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten.
-              Jederzeit abbestellbar.
-            </p>
-
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="mt-6 flex max-w-[560px] flex-col gap-3 sm:flex-row"
-            >
-              <label htmlFor="home-newsletter-email" className="sr-only">
-                E-Mail-Adresse
-              </label>
-              <input
-                id="home-newsletter-email"
-                type="email"
-                placeholder="deine@email.de"
-                className="h-12 flex-1 rounded-md border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
-              />
-              <button type="submit" className="btn-primary">
-                Kostenlos anmelden
-              </button>
-            </form>
-
-            <label className="mt-4 flex max-w-[560px] items-start gap-2 text-[13px] text-muted-foreground">
-              <input
-                type="checkbox"
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-primary"
-              />
-              <span>
-                Ich habe die{" "}
-                <Link to="/datenschutz" className="text-primary underline underline-offset-2">
-                  Datenschutzerklärung
-                </Link>{" "}
-                gelesen und stimme ihr zu.
-              </span>
-            </label>
-          </div>
-        </div>
-      </section>
-
-      {/* 8 — Kanäle */}
+      {/* 7 — Kanäle */}
       <section className="section-card">
         <div className="section-inner">
           <p className="eyebrow">Kanäle</p>

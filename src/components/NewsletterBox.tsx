@@ -22,11 +22,11 @@ const NewsletterBox = ({ className = "" }: { className?: string }) => (
         id="newsletter-email"
         type="email"
         placeholder="deine@email.de"
-        className="min-h-[44px] flex-1 rounded-lg border border-border bg-background px-4 text-[15px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+        className="h-14 rounded-lg border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-11 sm:flex-1 sm:text-[15px]"
       />
       <button
         type="submit"
-        className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+        className="inline-flex h-14 items-center justify-center rounded-lg bg-primary px-6 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:h-11 sm:text-[15px]"
       >
         Kostenlos anmelden
       </button>

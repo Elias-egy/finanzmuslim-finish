@@ -20,7 +20,7 @@ const AbschnittsNavigation = ({ abschnitte }: { abschnitte: Abschnitt[] }) => {
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
         if (sichtbar) setAktiv(sichtbar.target.id);
       },
-      { rootMargin: "-140px 0px -60% 0px" },
+      { rootMargin: "-130px 0px -60% 0px" },
     );
     abschnitte.forEach((a) => {
       const el = document.getElementById(a.id);
@@ -32,7 +32,7 @@ const AbschnittsNavigation = ({ abschnitte }: { abschnitte: Abschnitt[] }) => {
   return (
     <nav
       aria-label="Abschnitte dieser Seite"
-      className="sticky top-[68px] z-30 border-b border-border bg-background/95 backdrop-blur"
+      className="sticky top-[60px] z-30 md:top-[68px] border-b border-border bg-background/95 backdrop-blur"
     >
       <ul className="container flex max-w-[1200px] gap-1 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {abschnitte.map((a) => (

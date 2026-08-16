@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
+import { regionFuer } from "@/data/anlageRegion";
 
 /** Reihenfolge = Sortierreihenfolge der Liste und der Legende. */
 const arten = [
@@ -62,15 +63,26 @@ const DatenbankVorschau = () => {
                 to={`/halal-anlagen/${a.slug}`}
                 className="group flex h-[52px] items-center justify-between gap-3 rounded-md transition-colors hover:bg-hero"
               >
+                {/* Punkt vor dem Namen, Herkunftszeichen rechts. Die Art des
+                    Papiers steht schon in der Legende darunter, sie muss nicht
+                    in jeder Zeile ausgeschrieben werden. */}
+                <span
+                  className={`h-2.5 w-2.5 shrink-0 rounded-full ${art.tone}`}
+                  title={art.label}
+                  aria-hidden
+                />
                 <span className="min-w-0 flex-1 truncate text-[16px] text-foreground group-hover:text-primary">
                   {a.name}
                 </span>
-                {/* Handy: nur der Punkt, die Legende darunter erklaert ihn.
-                    Der Name braucht dort jeden Millimeter. */}
-                <span className="flex shrink-0 items-center gap-2 text-[13px] text-muted-foreground">
-                  <span className="hidden sm:inline">{art.label}</span>
-                  <span className={`h-2.5 w-2.5 rounded-full ${art.tone}`} aria-hidden />
-                </span>
+                {regionFuer(a.isin) && (
+                  <span
+                    className="shrink-0 text-[15px]"
+                    title={regionFuer(a.isin)!.label}
+                    aria-label={regionFuer(a.isin)!.label}
+                  >
+                    {regionFuer(a.isin)!.zeichen}
+                  </span>
+                )}
               </Link>
             </li>
           );
