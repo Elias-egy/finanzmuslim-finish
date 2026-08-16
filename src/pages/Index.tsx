@@ -146,7 +146,7 @@ const Index = () => (
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
               <p className="mt-6 max-w-[580px] text-[18px] leading-relaxed text-muted-foreground md:text-[22px] md:leading-[32px]">
-                Lerne, wie du dein Geld islamkonform anlegst, Riba erkennst und die richtigen Anbieter
+                Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und die richtigen Anbieter
                 findest. Verständlich erklärt, ohne Fachchinesisch.
               </p>
 
