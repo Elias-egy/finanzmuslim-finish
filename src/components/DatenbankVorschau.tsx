@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import AnlageZeile from "@/components/AnlageZeile";
 import { halalAnlagen } from "@/data/halalAnlagen";
+import { kursFuerAnlage } from "@/lib/kurse";
 
-/** A bis Z. Für den Einstieg ist das die Reihenfolge, die niemand erklären muss. */
-const sortiert = [...halalAnlagen].sort((a, b) => a.name.localeCompare(b.name, "de"));
+/** Beste Monatsrendite zuerst. In vier sichtbaren Zeilen soll etwas stehen,
+ *  das zum Weiterklicken bringt, nicht der erste Buchstabe des Alphabets.
+ *  Anlagen ohne Kursdaten stehen hinten. */
+const sortiert = [...halalAnlagen].sort((a, b) => {
+  const va = kursFuerAnlage(a)?.r1m;
+  const vb = kursFuerAnlage(b)?.r1m;
+  if (va == null && vb == null) return a.name.localeCompare(b.name, "de");
+  if (va == null) return 1;
+  if (vb == null) return -1;
+  return vb - va;
+});
 
 const DatenbankVorschau = () => {
   const [suche, setSuche] = useState("");

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { RenditeWert } from "@/components/Rendite";
 import { anbieterByName, type Anlage } from "@/data/halalAnlagen";
-import { kursFuerAnlage, kursText, renditeText, type Zeitraum } from "@/lib/kurse";
+import { kursFuerAnlage, kursText, type Zeitraum } from "@/lib/kurse";
 
 /**
  * Runde Kachel links in jeder Zeile. Sobald ein Logo hinterlegt ist, wird es
@@ -45,8 +46,6 @@ const AnlageZeile = ({
   zeitraum?: Zeitraum;
 }) => {
   const kurs = kursFuerAnlage(a);
-  const wert = kurs?.[zeitraum];
-  const rendite = renditeText(wert);
   const preis = kursText(kurs);
 
   return (
@@ -63,21 +62,12 @@ const AnlageZeile = ({
           {a.kuerzel ?? a.isin}
         </span>
       </span>
-      <span className="shrink-0 text-right">
-        <span className="block whitespace-nowrap text-[15px] font-semibold text-foreground">
+      <span className="flex shrink-0 flex-col items-end">
+        <span className="whitespace-nowrap text-[15px] font-semibold text-foreground">
           {preis ?? "—"}
         </span>
-        <span
-          className={`mt-0.5 block whitespace-nowrap text-[13px] font-semibold ${
-            rendite === null || wert === 0
-              ? "text-muted-foreground"
-              : (wert as number) > 0
-                ? "text-success"
-                : "text-destructive"
-          }`}
-        >
-          {rendite ?? "keine Daten"}
-        </span>
+        {/* Dieselbe Darstellung wie in der Liste: Pfeil, Vorzeichen, Farbe. */}
+        <RenditeWert wert={kurs?.[zeitraum]} mittel />
       </span>
     </Link>
   );

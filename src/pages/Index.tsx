@@ -23,7 +23,7 @@ import DatenbankVorschau from "@/components/DatenbankVorschau";
 import MotivBild from "@/components/MotivBild";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
-import guideCover from "@/assets/guide-cover-v3.png.asset.json";
+import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.png.asset.json";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
@@ -281,7 +281,7 @@ const Index = () => (
       <section className="section-card">
         <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
           <img
-            src={guideCover.url}
+            src={guideCover}
             alt="Der Halal Investment Guide als Buch"
             className="mx-auto max-h-[220px] w-auto object-contain lg:max-h-none lg:w-[380px]"
             loading="lazy"

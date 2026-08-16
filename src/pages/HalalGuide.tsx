@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
-import guideTrio from "@/assets/guide-trio-v2.png.asset.json";
+import guideTrio from "@/assets/guide-trio-v3.webp";
 import eliasPortrait from "@/assets/elias-hemd.png.asset.json";
 
 /**
@@ -221,11 +221,13 @@ const HalalGuide = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center lg:justify-end">
+              {/* Auf dem Handy laeuft das Bild bewusst ueber die Innenkante
+                  hinaus, sonst wirken die drei Buecher wie Briefmarken. */}
+              <div className="-mx-6 flex justify-center sm:mx-0 lg:justify-end">
                 <img
-                  src={guideTrio.url}
+                  src={guideTrio}
                   alt="Der Halal Investment Guide in drei Stufen: Einsteiger, Fortgeschritten, Profi"
-                  className="h-auto w-full max-w-xl select-none"
+                  className="h-auto w-full max-w-none select-none"
                   draggable={false}
                 />
               </div>

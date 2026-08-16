@@ -8,8 +8,10 @@ export type Kurs = {
   kurs?: number | null;
   /** Monatsschlusskurse, [Monat, Kurs]. Für Tabelle und Mini-Grafiken. */
   reihe?: [string, number][];
-  /** Wochenschlusskurse, [Datum, Kurs]. Für die große Grafik. */
+  /** Wochenschlusskurse, [Datum, Kurs]. Für die langen Zeiträume. */
   reihe_w?: [string, number][];
+  /** Tagesschlusskurse der letzten zwölf Monate. Für 1M, 3M und 1J. */
+  reihe_t?: [string, number][];
   status?: string;
   r1m: number | null;
   r6m: number | null;
@@ -91,17 +93,41 @@ export const chartZeitraeume: { key: ChartZeitraum; kurz: string; lang: string; 
   { key: "5j", kurz: "5J", lang: "fünf Jahren", wochen: 10_000 },
 ];
 
-/** Hinterer Teil der Wochenreihe. Fehlt sie, wird die Monatsreihe genommen,
- *  damit auch junge Anlagen eine Grafik bekommen statt eines leeren Kastens. */
+/* Drei Takte, je nach Zeitraum der feinste, der die Spanne abdeckt.
+   1M und 3M aus Wochenkursen sahen aus wie ein Streckenzug mit vier Ecken.
+   Die Tagesreihe reicht zwölf Monate zurück, darüber bleibt es bei Wochen. */
+const TAGE = 254;
+const tagePro: Record<ChartZeitraum, number> = {
+  "1m": 23,
+  "3m": 66,
+  "1j": TAGE,
+  "3j": 0,
+  "5j": 0,
+};
+
+/** Hinterer Teil der Kursreihe im feinsten verfügbaren Takt. Fehlt alles,
+ *  wird die Monatsreihe genommen, damit auch junge Anlagen eine Grafik
+ *  bekommen statt eines leeren Kastens. */
 export const wochenAusschnitt = (kurs: Kurs | undefined, z: ChartZeitraum): [string, number][] => {
+  const t = kurs?.reihe_t;
+  const n = tagePro[z];
+  if (n > 0 && t && t.length >= 3) return t.slice(Math.max(0, t.length - n));
+
   const w = kurs?.reihe_w;
   if (w && w.length >= 3) {
-    const n = chartZeitraeume.find((x) => x.key === z)?.wochen ?? 53;
-    return w.slice(Math.max(0, w.length - n));
+    const wochen = chartZeitraeume.find((x) => x.key === z)?.wochen ?? 53;
+    return w.slice(Math.max(0, w.length - wochen));
   }
   const monate: Record<ChartZeitraum, number> = { "1m": 2, "3m": 4, "1j": 13, "3j": 37, "5j": 10_000 };
   const m = kurs?.reihe ?? [];
   return m.slice(Math.max(0, m.length - monate[z]));
+};
+
+/** Takt der gezeigten Reihe, für die Fußzeile unter der Grafik. */
+export const taktFuer = (kurs: Kurs | undefined, z: ChartZeitraum): string => {
+  if (tagePro[z] > 0 && (kurs?.reihe_t?.length ?? 0) >= 3) return "Tagesschlusskurse";
+  if ((kurs?.reihe_w?.length ?? 0) >= 3) return "Wochenschlusskurse";
+  return "Monatsschlusskurse";
 };
 
 /** Veränderung zwischen erstem und letztem sichtbaren Schlusskurs. */

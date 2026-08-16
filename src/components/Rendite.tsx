@@ -8,12 +8,12 @@ import { renditeText } from "@/lib/kurse";
 export const RenditeWert = ({
   wert,
   gross = false,
-  klein = false,
+  mittel = false,
 }: {
   wert: number | null | undefined;
   gross?: boolean;
-  /** Zweite Zeile neben dem Kurs, ohne Pfeil. */
-  klein?: boolean;
+  /** Zweite Zeile unter dem Kurs. Pfeil und Farbe bleiben, nur kleiner. */
+  mittel?: boolean;
 }) => {
   const text = renditeText(wert);
   if (text === null) {
@@ -25,16 +25,13 @@ export const RenditeWert = ({
      nicht hergibt. */
   const farbe =
     (wert as number) === 0 ? "text-muted-foreground" : plus ? "text-success" : "text-destructive";
-  if (klein) {
-    return <span className={`whitespace-nowrap text-[13px] font-semibold ${farbe}`}>{text}</span>;
-  }
   return (
     <span
-      className={`inline-flex items-center gap-1 whitespace-nowrap font-bold ${farbe} ${
-        gross ? "text-[32px] md:text-[40px]" : "text-[17px]"
+      className={`inline-flex items-center gap-0.5 whitespace-nowrap font-bold ${farbe} ${
+        gross ? "text-[32px] md:text-[40px]" : mittel ? "text-[14px]" : "text-[17px]"
       }`}
     >
-      <Icon className={gross ? "h-8 w-8" : "h-4 w-4"} aria-hidden />
+      <Icon className={gross ? "h-8 w-8" : mittel ? "h-3.5 w-3.5" : "h-4 w-4"} aria-hidden />
       {text}
     </span>
   );

@@ -3,6 +3,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import {
   chartZeitraeume,
   spanneVeraenderung,
+  taktFuer,
   wochenAusschnitt,
   type ChartZeitraum,
   type Kurs,
@@ -22,7 +23,6 @@ import {
 type Props = {
   kurs: Kurs | undefined;
   id: string;
-  /** Zeigt zusätzlich einen Hinweis, dass es Wochenschlusskurse sind. */
   quelle: string;
   stand: string;
 };
@@ -39,8 +39,11 @@ const datumLang = (s: string) => {
   return t ? `${Number(t)}. ${monat} ${j}` : `${monat} ${j}`;
 };
 
-const datumKurz = (s: string) => {
-  const [j, m] = s.split("-");
+/** Achsenbeschriftung. Bei kurzen Zeitraeumen Tag und Monat, sonst Monat und
+ *  Jahr. Ein Monat mit zweimal "08/26" auf der Achse sagt nichts. */
+const datumKurz = (s: string, tagesTakt: boolean) => {
+  const [j, m, t] = s.split("-");
+  if (tagesTakt && t) return `${t}.${m}.`;
   return `${m}/${j.slice(2)}`;
 };
 
@@ -77,7 +80,8 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
   const reihe = useMemo(() => wochenAusschnitt(kurs, zeitraum), [kurs, zeitraum]);
   const veraenderung = spanneVeraenderung(reihe);
   const waehrung = kurs?.waehrung ?? "EUR";
-  const wochentakt = (kurs?.reihe_w?.length ?? 0) >= 3;
+  const takt = taktFuer(kurs, zeitraum);
+  const kurzerZeitraum = zeitraum === "1m" || zeitraum === "3m";
 
   if (!kurs || kurs.status || reihe.length < 2) {
     return (
@@ -170,7 +174,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
             <CartesianGrid vertical={false} stroke="hsl(var(--border))" strokeOpacity={0.6} />
             <XAxis
               dataKey="datum"
-              tickFormatter={datumKurz}
+              tickFormatter={(w: string) => datumKurz(w, kurzerZeitraum)}
               minTickGap={40}
               tickLine={false}
               axisLine={false}
@@ -221,7 +225,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
       </p>
 
       <p className="mt-4 text-[13px] leading-[20px] text-muted-foreground">
-        Quelle: {quelle} · {wochentakt ? "Wochenschlusskurse" : "Monatsschlusskurse"} · Währung:{" "}
+        Quelle: {quelle} · {takt} · Währung:{" "}
         {waehrung} · Stand: {stand}
       </p>
     </div>

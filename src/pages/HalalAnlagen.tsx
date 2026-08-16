@@ -86,13 +86,11 @@ const Karte = ({ a, zeitraum }: { a: Anlage; zeitraum: Zeitraum }) => {
             {a.kuerzel ?? a.isin}
           </span>
         </span>
-        <span className="shrink-0 text-right">
-          <span className="block whitespace-nowrap text-[15px] font-semibold text-foreground">
+        <span className="flex shrink-0 flex-col items-end">
+          <span className="whitespace-nowrap text-[15px] font-semibold text-foreground">
             {preis ?? "—"}
           </span>
-          <span className="mt-0.5 block">
-            <RenditeWert wert={kurs?.[zeitraum]} klein />
-          </span>
+          <RenditeWert wert={kurs?.[zeitraum]} mittel />
         </span>
       </Link>
 
