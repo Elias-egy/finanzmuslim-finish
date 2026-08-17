@@ -284,7 +284,7 @@ const AnlageDetail = () => {
               <Zeile
                 label="Ausgabeaufschlag"
                 wert={anlage.ausgabeaufschlag}
-                klammer="einmalige Gebühr beim Kauf"
+                klammer={anlage.ausgabeaufschlagHinweis ?? "einmalige Gebühr beim Kauf"}
               />
               <Zeile
                 label="Fondsgröße"

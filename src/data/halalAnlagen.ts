@@ -27,6 +27,9 @@ export type Anlage = {
   zertifizierer: string;
   /** Einmalige Gebühr beim Kauf, nur wo der Anbieter eine erhebt. */
   ausgabeaufschlag?: string;
+  /** Ersetzt den Standardsatz unter dem Ausgabeaufschlag. Nötig, wo die Gebühr
+   *  nur auf einem Kaufweg anfällt und über die Börse entfällt. */
+  ausgabeaufschlagHinweis?: string;
   /** Stand der Fondsgröße, wo die Zahl aus einem älteren Factsheet stammt. */
   groesseStand?: string;
   /** Direktlink auf den Shariah-Nachweis, falls geprüft. */
@@ -268,6 +271,11 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Irland",
     auflage: "28.09.2020",
     zertifizierer: "Amanie Advisors, SSB mit jährlichem Audit",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://hanetf.com/wp-content/assets/Saturna%20Al%20Kawthar%20-%20Shariah%20Compliance%20Cert%20FYE%20-%202025%20(Final%20&%20Executed).pdf",
+    zertifikatHinweis:
+      "Unterschriebenes Shariah-Zertifikat des Shariah Supervisory Board von Amanie Advisors für das Geschäftsjahr 2025, ausgestellt am 22.05.2026 von Dr. Osama Al Dereai. Amanie prüft den Fonds jedes Jahr und bescheinigt für 2025 ausdrücklich die Einhaltung der Shariah-Vorgaben.",
   },
   {
     slug: "ishares-usd-sukuk-ucits-etf",
@@ -542,8 +550,15 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Luxemburg",
     auflage: "24.02.2022",
-    zertifizierer: "Franklin-Templeton-Shariah-Supervisory-Board",
-    ausgabeaufschlag: "bis zu 5,75 %, Mindestanlage 1.000 USD",
+    zertifizierer: "Amanie International Shariah Supervisory Board, Screening über IdealRatings",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.franklintempletonme.com/press-releases/news-room/2022/franklin-templeton-launches-new-shariah-compliant-technology-fund",
+    zertifikatHinweis:
+      "Franklin Templeton schreibt auf der eigenen Seite, alle Shariah-Portfolios würden unabhängig vom Amanie International Shariah Supervisory Board geprüft, das Screening liefert IdealRatings. Ein einzelnes Zertifikat für diesen Fonds veröffentlicht der Anbieter nicht, das hier ist die offizielle Aussage zum Prüfgremium.",
+    ausgabeaufschlag: "5,54 %, Stand 31.07.2026",
+    ausgabeaufschlagHinweis:
+      "fällt nur an, wenn du direkt bei der Fondsgesellschaft zeichnest, dort gilt auch die Mindestanlage von 1.000 USD. Kaufst du über die Börse, etwa bei Scalable Capital, entfällt er",
   },
 
   /* Krypto steht in derselben Liste wie alles andere, nicht in einem eigenen
