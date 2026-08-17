@@ -39,7 +39,12 @@ const gruppen: Gruppe[] = [
   {
     titel: "Konto und Karte",
     eintraege: [
-      { name: "Girokonto ohne Zinsen", desc: "Konten ohne Guthabenzins und ohne Dispo.", icon: Banknote },
+      {
+        name: "Girokonto-Vergleich",
+        desc: "Konten ohne Guthabenzins und ohne Dispo.",
+        icon: Banknote,
+        to: "/vergleich/girokonto",
+      },
       { name: "Karte ohne Kreditrahmen", desc: "Karten, die keinen Kredit einräumen.", icon: CreditCard },
       { name: "Geschäftskonto", desc: "Konten für Selbstständige und Unternehmen.", icon: Briefcase },
     ],

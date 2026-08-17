@@ -15,7 +15,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { brokerVergleich, HALAL_KRITERIEN, type Broker, type CheckStatus } from "@/data/brokerVergleich";
+import {
+  girokontoVergleich,
+  GIRO_KRITERIEN,
+  GIRO_KONDITIONEN,
+  type Girokonto,
+  type CheckStatus,
+} from "@/data/girokontoVergleich";
 
 const UNGEPRUEFT = "noch nicht geprüft";
 
@@ -35,66 +41,56 @@ const Wert = ({ value }: { value: string | null }) =>
 
 const kriterienBoxen = [
   {
-    titel: "Zinsen auf dem Verrechnungskonto",
-    text: "Zahlt das Verrechnungskonto Zinsen, und lässt sich das abschalten?",
+    titel: "Zinsen auf dem Guthaben",
+    text: "Zahlt die Bank Zinsen auf das Guthaben, und lässt sich das abschalten?",
   },
   {
-    titel: "Wertpapierkredit und Dispo",
-    text: "Wird ein Wertpapierkredit oder Dispo automatisch eingeräumt?",
+    titel: "Dispokredit",
+    text: "Wird ein Dispo automatisch eingeräumt, oder nur auf Antrag?",
   },
   {
-    titel: "Hebelprodukte und CFDs",
-    text: "Bietet der Broker Hebelprodukte und CFDs an?",
+    titel: "Karte ohne Kreditrahmen",
+    text: "Ist die Karte eine echte Debitkarte, oder hängt ein Kreditrahmen daran?",
   },
   {
-    titel: "Sharia-konforme ETFs",
-    text: "Sind sharia-konforme ETFs handelbar und besparbar?",
+    titel: "Zinsprodukte im Konto",
+    text: "Ist ein Tagesgeld oder Sparbereich mit Zins fest mit dem Konto verbunden?",
   },
 ];
 
 const faq = [
   {
-    frage: "Was ist ein Depot?",
+    frage: "Was ist an einem normalen Girokonto problematisch?",
     antwort:
-      "Ein Depot ist ein Konto für Wertpapiere. Aktien, ETFs oder Anleihen, die du kaufst, werden dort für dich verwahrt. Zum Depot gehört meist ein Verrechnungskonto, über das Käufe und Verkäufe abgewickelt werden.",
+      "Zwei Dinge. Erstens zahlen manche Banken Zinsen auf das Guthaben, und Zinsen sind Riba. Zweitens räumen viele Banken beim Öffnen des Kontos automatisch einen Dispokredit ein, der ebenfalls verzinst ist. Beides lässt sich bei vielen Banken abschalten oder auf null setzen, es steht nur selten im Vergleich.",
   },
   {
-    frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
+    frage: "Reicht es, den Dispo nicht zu nutzen?",
     antwort:
-      "Entscheidend ist, ob auf dem Verrechnungskonto Zinsen anfallen und ob sich das abschalten lässt, ob automatisch ein Wertpapierkredit oder Dispo eingeräumt wird, ob der Broker dich zu Hebelprodukten und CFDs drängt und ob du sharia-konforme ETFs kaufen und besparen kannst. Wir prüfen genau diese vier Punkte.",
+      "Darüber sind Gelehrte unterschiedlicher Auffassung. Die vorsichtige Linie ist, den Dispo auf null setzen zu lassen, damit gar kein Zinsvertrag besteht. Wer dazu eine verbindliche Antwort braucht, fragt einen Gelehrten seines Vertrauens.",
   },
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
     antwort:
-      "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen. Die konkrete Handhabung besprichst du am besten mit einem Gelehrten deines Vertrauens.",
+      "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
   },
   {
-    frage: "Kann ich mehrere Depots haben?",
+    frage: "Warum steht bei fast allen Anbietern noch nichts?",
     antwort:
-      "Ja. Du kannst bei mehreren Anbietern gleichzeitig ein Depot führen, etwa um Sparpläne und Einzelkäufe zu trennen. Ein Depotwechsel oder Übertrag ist ebenfalls möglich; die Wertpapiere bleiben dabei deine.",
+      "Weil wir nichts eintragen, was wir nicht selbst beim Anbieter nachgelesen haben. Die Anbieterliste steht, jede Kondition wird einzeln geprüft und mit Datum eingetragen. Bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
   },
 ];
 
-const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
+const KontoKarte = ({ konto, rang }: { konto: Girokonto; rang: number }) => {
   const [offen, setOffen] = useState(false);
-  const k = broker.konditionen;
+  const k = konto.konditionen;
 
-  /** Die vier Zahlen, die man beim Vergleichen zuerst sucht. */
-  const raster: Array<[string, string | null]> = [
-    ["Depotgebühr", k.depotgebuehr],
-    ["Kosten pro Order", k.orderkosten],
-    ["Sparplan-Kosten", k.sparplanKosten],
-    ["Zinsen auf Guthaben", k.zinsenGuthaben],
-  ];
-  const weitere: Array<[string, string | null]> = [
-    ["Wertpapierkredit", k.wertpapierkredit],
-    ["Hebelprodukte", k.hebelprodukte],
-    ["Islamic ETFs besparbar", k.islamicEtfsBesparbar],
-  ];
-  const hatDaten = raster.some(([, w]) => w) || weitere.some(([, w]) => w);
-  const geprueft = HALAL_KRITERIEN.filter((kr) => broker.halal[kr.key].status === "gut");
-  const geprueftIrgendwas = HALAL_KRITERIEN.some(
-    (kr) => broker.halal[kr.key].status !== "unbekannt",
+  /** Die vier Zahlen, nach denen bei einem Girokonto zuerst gesucht wird. */
+  const raster = GIRO_KONDITIONEN.slice(0, 4);
+  const hatDaten = GIRO_KONDITIONEN.some(({ key }) => k[key]);
+  const geprueft = GIRO_KRITERIEN.filter((kr) => konto.halal[kr.key].status === "gut");
+  const geprueftIrgendwas = GIRO_KRITERIEN.some(
+    (kr) => konto.halal[kr.key].status !== "unbekannt",
   );
 
   const kopf = (
@@ -102,23 +98,24 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface text-[13px] font-bold text-muted-foreground">
         {rang}
       </span>
-      <AnbieterLogo name={broker.name} domain={broker.domain} />
-      <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground md:text-[17px]">
-        {broker.name}
+      <AnbieterLogo name={konto.name} domain={konto.domain} />
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-[16px] font-bold text-foreground md:text-[17px]">
+          {konto.name}
+        </span>
+        <span className="block truncate text-[13px] text-muted-foreground">{konto.produkt}</span>
       </span>
-      {/* Etikett erst ab zwei erfuellten Kriterien. Bei einem stuende dasselbe
-          zweimal da, oben als Etikett und unten in der Ampelzeile. */}
       {geprueft.length > 1 && (
         <span className="shrink-0 rounded-full bg-success/10 px-3 py-1 text-[12px] font-semibold text-success">
-          {geprueft.length} von {HALAL_KRITERIEN.length} erfüllt
+          {geprueft.length} von {GIRO_KRITERIEN.length} erfüllt
         </span>
       )}
     </div>
   );
 
-  /* Anbieter ohne jede gepruefte Angabe bekommen eine kurze Zeile. Vier Mal
-     "noch nicht geprueft" untereinander ist keine Information, sondern
-     500 Pixel Fuellmaterial je Anbieter. Der Anbieter bleibt sichtbar. */
+  /* Anbieter ohne jede gepruefte Angabe bekommen eine kurze Zeile, genau wie
+     im Depot-Vergleich. Sieben Mal "noch nicht geprueft" untereinander ist
+     keine Information, sondern Fuellmaterial. */
   if (!hatDaten && !geprueftIrgendwas) {
     return (
       <li className="card-surface px-4 py-3">
@@ -132,10 +129,9 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
     <li className="card-surface p-4 md:p-5">
       {kopf}
 
-      {/* Die vier Halal-Kriterien. Handy zweispaltig, sonst reisst es die Karte auf. */}
       <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap lg:gap-x-4">
-        {HALAL_KRITERIEN.map((kriterium) => {
-          const check = broker.halal[kriterium.key];
+        {GIRO_KRITERIEN.map((kriterium) => {
+          const check = konto.halal[kriterium.key];
           return (
             <li key={kriterium.key} className="flex items-center gap-2 text-[13px]">
               <span
@@ -144,17 +140,16 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
               />
               <span className="text-foreground">{kriterium.label}</span>
               <span className="text-muted-foreground">
-                {check.status === "unbekannt" ? UNGEPRUEFT : check.note ?? ""}
+                {check.status === "unbekannt" ? UNGEPRUEFT : (check.note ?? "")}
               </span>
             </li>
           );
         })}
       </ul>
 
-      {/* Knopf, auf dem Handy ueber die volle Breite */}
-      {broker.link ? (
+      {konto.link ? (
         <Link
-          to={broker.link}
+          to={konto.link}
           className="mt-4 inline-flex min-h-[48px] w-full items-center justify-center rounded-lg bg-primary px-6 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover md:w-auto md:px-10"
         >
           Zum Angebot*
@@ -172,15 +167,13 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
         </div>
       )}
 
-      {/* Datenraster. Nur zeigen, wo es etwas zu zeigen gibt. Vier Felder mit
-          "noch nicht geprueft" sind keine Information, sondern Fuellmaterial. */}
       {hatDaten ? (
         <dl className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
-          {raster.map(([label, wert]) => (
-            <div key={label} className="rounded-lg border border-border p-3 text-center">
+          {raster.map(({ key, label }) => (
+            <div key={key} className="rounded-lg border border-border p-3 text-center">
               <dt className="text-[12px] leading-tight text-muted-foreground">{label}</dt>
               <dd className="mt-1 text-[15px] font-semibold">
-                <Wert value={wert} />
+                <Wert value={k[key]} />
               </dd>
             </div>
           ))}
@@ -206,88 +199,96 @@ const BrokerKarte = ({ broker, rang }: { broker: Broker; rang: number }) => {
 
       {offen && (
         <dl className="mt-2 grid gap-x-8 gap-y-2 border-t border-border pt-4 sm:grid-cols-2">
-          {[...raster, ...weitere].map(([label, wert]) => (
-            <div key={label} className="flex flex-wrap justify-between gap-2 text-[14px]">
+          {GIRO_KONDITIONEN.map(({ key, label }) => (
+            <div key={key} className="flex flex-wrap justify-between gap-2 text-[14px]">
               <dt className="text-muted-foreground">{label}</dt>
               <dd className="text-right">
-                <Wert value={wert} />
+                <Wert value={k[key]} />
               </dd>
             </div>
           ))}
+          {konto.stand && (
+            <div className="flex flex-wrap justify-between gap-2 text-[14px]">
+              <dt className="text-muted-foreground">Geprüft am</dt>
+              <dd className="text-right text-foreground">{konto.stand}</dd>
+            </div>
+          )}
         </dl>
       )}
     </li>
   );
 };
 
-const VergleichDepot = () => {
+const VergleichGirokonto = () => {
   const [ohneZins, setOhneZins] = useState(false);
-  const [ohneHebel, setOhneHebel] = useState(false);
-  const [nurSparplan, setNurSparplan] = useState(false);
+  const [ohneDispo, setOhneDispo] = useState(false);
+  const [nurDebit, setNurDebit] = useState(false);
 
-  const gefiltert = brokerVergleich.filter((b) => {
-    if (ohneZins && b.halal.keinGuthabenzins.status !== "gut") return false;
-    if (ohneHebel && b.halal.keineHebelprodukte.status !== "gut") return false;
-    if (nurSparplan && b.sparplanMoeglich !== true) return false;
+  const gefiltert = girokontoVergleich.filter((g) => {
+    if (ohneZins && g.halal.keinGuthabenzins.status !== "gut") return false;
+    if (ohneDispo && g.halal.keinDispo.status !== "gut") return false;
+    if (nurDebit && g.halal.karteOhneKreditrahmen.status !== "gut") return false;
     return true;
   });
 
-  const geprueftAnzahl = brokerVergleich.filter((b) =>
-    HALAL_KRITERIEN.some((kr) => b.halal[kr.key].status !== "unbekannt"),
-  ).length;
-
   const filter = [
-    { label: "Nur Anbieter ohne Guthabenzins", value: ohneZins, set: setOhneZins },
-    { label: "Nur Anbieter ohne Hebelprodukte", value: ohneHebel, set: setOhneHebel },
-    { label: "Sparplan möglich", value: nurSparplan, set: setNurSparplan },
+    { label: "Nur Banken ohne Guthabenzins", value: ohneZins, set: setOhneZins },
+    { label: "Nur Banken ohne Dispo", value: ohneDispo, set: setOhneDispo },
+    { label: "Karte ohne Kreditrahmen", value: nurDebit, set: setNurDebit },
   ];
+
+  const geprueftAnzahl = girokontoVergleich.filter((g) =>
+    GIRO_KRITERIEN.some((kr) => g.halal[kr.key].status !== "unbekannt"),
+  ).length;
 
   return (
     <main className="bg-background">
       <Seo
-        title="Depot-Vergleich für Muslime | finanzmuslim"
-        description="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen Verrechnungskonto, Kredit, Hebelprodukte und sharia-konforme ETFs."
-        path="/vergleich/depot"
-        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Depot-Vergleich", path: "/vergleich/depot" }]}
+        title="Girokonto-Vergleich für Muslime | finanzmuslim"
+        description="Welches Girokonto passt, wenn du keine Zinsen willst. Wir prüfen Guthabenzins, Dispo, Karte ohne Kreditrahmen und Zinsprodukte im Konto."
+        path="/vergleich/girokonto"
+        brotkrumen={[
+          { name: "Vergleiche", path: "/vergleiche" },
+          { name: "Girokonto-Vergleich", path: "/vergleich/girokonto" },
+        ]}
       />
 
       <div className="container py-10 md:py-14">
-        <VergleichsBrotkrumen titel="Depot-Vergleich" />
+        <VergleichsBrotkrumen titel="Girokonto-Vergleich" />
 
-        {/* Titel */}
         <header className="mt-6 max-w-3xl">
           <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            Depot-Vergleich für Muslime
+            Girokonto-Vergleich für Muslime
           </h1>
           <p className="mt-2 text-[17px] text-muted-foreground">
-            Welcher Broker passt, wenn du islamkonform investieren willst
+            Welches Konto passt, wenn du keine Zinsen willst
           </p>
           <p className="mt-5 text-[17px] leading-[26px] text-foreground/90">
-            Ein Depot verwahrt deine Aktien und ETFs. Ohne Depot geht beim Vermögensaufbau nichts.
+            Ein Girokonto ist das Konto, über das dein Gehalt kommt und deine Miete geht. Fast jeder
+            hat eins, kaum jemand prüft es.
           </p>
           <p className="mt-3 text-[17px] leading-[26px] text-foreground/90">
             Für Muslime entscheiden vier Punkte, die in normalen Vergleichen fehlen: Zinsen auf dem
-            Verrechnungskonto, eingeräumte Kredite und Hebelprodukte. Dazu die Frage, ob
-            sharia-konforme ETFs besparbar sind.
+            Guthaben, der eingeräumte Dispo und ein Kreditrahmen an der Karte. Dazu die Frage, ob ein
+            Zinsprodukt fest am Konto hängt.
           </p>
         </header>
 
         <VergleichsLeiste
           kennzahlen={[
-            { zahl: brokerVergleich.length, text: "Anbieter im Vergleich" },
-            { zahl: HALAL_KRITERIEN.length, text: "Halal-Kriterien" },
+            { zahl: girokontoVergleich.length, text: "Banken im Vergleich" },
+            { zahl: GIRO_KRITERIEN.length, text: "Halal-Kriterien" },
             { zahl: geprueftAnzahl, text: "davon geprüft" },
           ]}
           stand="17.08.2026"
-          standHinweis="Anbieterliste steht, Konditionen laufend in Prüfung"
+          standHinweis="Anbieterliste angelegt, Konditionen noch nicht geprüft"
         />
 
         <EmpfehlungsPlatz
-          etikett="Bestes Depot"
-          begruendung="Hier steht eine Empfehlung, sobald die vier Kriterien bei den Anbietern geprüft sind. Vorher wäre jede Nummer eins geraten."
+          etikett="Bestes Girokonto"
+          begruendung="Hier steht eine Empfehlung, sobald die vier Kriterien bei den Banken geprüft sind. Vorher wäre jede Nummer eins geraten."
         />
 
-        {/* Erklaerkasten */}
         <section className="card-surface mt-10 p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Worauf wir bei Halal achten</h2>
           <ul className="mt-4 space-y-4">
@@ -300,33 +301,34 @@ const VergleichDepot = () => {
           </ul>
         </section>
 
-        {/* Filterleiste */}
         <section className="mt-10 rounded-lg border border-border p-4 md:p-5" aria-label="Filter">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-6">
               {filter.map((f) => (
-                <label key={f.label} className="flex min-h-[44px] cursor-pointer items-center gap-3 text-[15px] text-foreground">
+                <label
+                  key={f.label}
+                  className="flex min-h-[44px] cursor-pointer items-center gap-3 text-[15px] text-foreground"
+                >
                   <Switch checked={f.value} onCheckedChange={f.set} />
                   <span>{f.label}</span>
                 </label>
               ))}
             </div>
             <p className="text-[14px] text-muted-foreground md:shrink-0">
-              {gefiltert.length} von {brokerVergleich.length} Anbietern
+              {gefiltert.length} von {girokontoVergleich.length} Banken
             </p>
           </div>
         </section>
 
-        {/* Tabelle */}
         <ul className="mt-6 space-y-4">
-          {gefiltert.map((broker, i) => (
-            <BrokerKarte key={broker.id} broker={broker} rang={i + 1} />
+          {gefiltert.map((konto, i) => (
+            <KontoKarte key={konto.id} konto={konto} rang={i + 1} />
           ))}
         </ul>
 
         {gefiltert.length === 0 && (
           <p className="mt-6 rounded-lg border border-border p-6 text-[15px] text-muted-foreground">
-            Zu dieser Auswahl liegen noch keine geprüften Anbieter vor.
+            Zu dieser Auswahl liegen noch keine geprüften Banken vor.
           </p>
         )}
 
@@ -335,7 +337,6 @@ const VergleichDepot = () => {
           abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten.
         </p>
 
-        {/* FAQ */}
         <section className="mt-14 max-w-3xl">
           <h2 className="text-2xl font-bold text-foreground">Häufige Fragen</h2>
           <Accordion type="single" collapsible className="mt-4">
@@ -353,12 +354,12 @@ const VergleichDepot = () => {
         </section>
 
         <p className="mt-12 text-[13px] leading-relaxed text-muted-foreground">
-          Diese Seite ist keine Anlageberatung und keine Anlageempfehlung. Investitionen in
-          Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust.
+          Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die
+          Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten.
         </p>
       </div>
     </main>
   );
 };
 
-export default VergleichDepot;
+export default VergleichGirokonto;

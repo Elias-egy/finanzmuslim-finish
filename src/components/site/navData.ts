@@ -107,7 +107,7 @@ export const navGroups: NavGroup[] = [
       {
         title: "Konto und Karte",
         items: [
-          { label: "Girokonto ohne Zinsen" },
+          { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
           { label: "Karte ohne Kreditrahmen" },
           { label: "Geschäftskonto" },
         ],

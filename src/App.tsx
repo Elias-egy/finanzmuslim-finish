@@ -18,6 +18,7 @@ const Tools = lazy(() => import("./pages/Tools.tsx"));
 const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
+const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -104,6 +105,7 @@ const App = () => (
             <Route path="/blog" element={<Navigate to="/wissen" replace />} />
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
+            <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />

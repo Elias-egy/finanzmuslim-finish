@@ -65,6 +65,7 @@ export const festeRouten: Route[] = [
   { pfad: "/halal-anlagen", quelle: ["src/pages/HalalAnlagen.tsx", "src/data/halalAnlagen.ts"], changefreq: "weekly", prioritaet: "0.9" },
   { pfad: "/vergleiche", quelle: ["src/pages/Vergleiche.tsx"], changefreq: "monthly", prioritaet: "0.8" },
   { pfad: "/vergleich/depot", quelle: ["src/pages/VergleichDepot.tsx", "src/data/brokerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
+  { pfad: "/vergleich/girokonto", quelle: ["src/pages/VergleichGirokonto.tsx", "src/data/girokontoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
 
   { pfad: "/rechner", quelle: ["src/pages/Rechner.tsx"], changefreq: "monthly", prioritaet: "0.7" },
   rechner("/zakat-rechner", "Zakatrechner.tsx"),

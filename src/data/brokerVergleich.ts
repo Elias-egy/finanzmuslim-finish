@@ -21,6 +21,8 @@ export type Broker = {
   name: string;
   /** Pfad/URL des Logos, sobald vorhanden. */
   logo?: string;
+  /** Domain für das Logo bei Logo.dev. Ohne sie steht dort das Kürzel. */
+  domain?: string;
   /** Nur setzen, wenn eine Partnerschaft besteht. Sonst Knopf ausgegraut. */
   link?: string;
   halal: {
@@ -61,9 +63,10 @@ const slug = (name: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-const platzhalter = (name: string): Broker => ({
+const platzhalter = (name: string, domain?: string): Broker => ({
   id: slug(name),
   name,
+  domain,
   halal: {
     keinGuthabenzins: offen,
     keinWertpapierkredit: offen,
@@ -74,41 +77,41 @@ const platzhalter = (name: string): Broker => ({
   sparplanMoeglich: null,
 });
 
-const weitereAnbieter = [
-  "Trade Republic",
-  "Traders Place",
-  "Smartbroker+",
-  "finanzen.net zero",
-  "Trading 212",
-  "comdirect",
-  "ING",
-  "Consorsbank",
-  "DKB",
-  "S-Broker",
-  "flatex",
-  "Bitpanda",
-  "N26",
-  "justTRADE",
-  "1822direkt",
-  "Targobank",
-  "maxblue",
-  "Commerzbank",
-  "Postbank",
-  "Tradegate Direct",
-  "finvesto",
-  "Fidelity Fondsdepot",
-  "JOE Broker",
-  "Revolut",
-  "Vivid",
-  "XTB",
-  "eToro",
-  "CapTrader",
-  "LYNX",
-  "Bison",
+const weitereAnbieter: Array<[string, string | undefined]> = [
+  ["Trade Republic", "traderepublic.com"],
+  ["Traders Place", "tradersplace.de"],
+  ["Smartbroker+", "smartbroker.de"],
+  ["finanzen.net zero", "finanzen.net"],
+  ["Trading 212", "trading212.com"],
+  ["comdirect", "comdirect.de"],
+  ["ING", "ing.de"],
+  ["Consorsbank", "consorsbank.de"],
+  ["DKB", "dkb.de"],
+  ["S-Broker", "sbroker.de"],
+  ["flatex", "flatex.de"],
+  ["Bitpanda", "bitpanda.com"],
+  ["N26", "n26.com"],
+  ["justTRADE", "justtrade.com"],
+  ["1822direkt", "1822direkt.de"],
+  ["Targobank", "targobank.de"],
+  ["maxblue", "maxblue.de"],
+  ["Commerzbank", "commerzbank.de"],
+  ["Postbank", "postbank.de"],
+  ["Tradegate Direct", "tradegate.de"],
+  ["finvesto", "finvesto.de"],
+  ["Fidelity Fondsdepot", "fidelity.de"],
+  ["JOE Broker", "joebroker.de"],
+  ["Revolut", "revolut.com"],
+  ["Vivid", "vivid.money"],
+  ["XTB", "xtb.com"],
+  ["eToro", "etoro.com"],
+  ["CapTrader", "captrader.com"],
+  ["LYNX", "lynxbroker.de"],
+  ["Bison", "bisonapp.com"],
 ];
 
 const scalable: Broker = {
-  ...platzhalter("Scalable Capital"),
+  ...platzhalter("Scalable Capital", "scalable.capital"),
     link: "/out/scalable",
   halal: {
     // Geprueft: das Verrechnungskonto zahlt keine Zinsen.
@@ -119,7 +122,10 @@ const scalable: Broker = {
   },
 };
 
-export const brokerVergleich: Broker[] = [scalable, ...weitereAnbieter.map(platzhalter)];
+export const brokerVergleich: Broker[] = [
+  scalable,
+  ...weitereAnbieter.map(([name, domain]) => platzhalter(name, domain)),
+];
 
 export const HALAL_KRITERIEN = [
   {
