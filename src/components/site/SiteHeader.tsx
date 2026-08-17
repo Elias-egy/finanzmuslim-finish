@@ -89,12 +89,6 @@ export const SiteHeader = () => {
                 </button>
               </div>
             ))}
-            <span className="flex min-h-[44px] items-center gap-2 text-[15px] font-medium text-white/60 cursor-default">
-              Halal-Check
-              <span className="inline-flex items-center rounded-md border border-white/30 bg-white/10 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-white/80">
-                bald
-              </span>
-            </span>
           </nav>
 
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
@@ -208,11 +202,6 @@ export const SiteHeader = () => {
                   )}
                 </div>
               ))}
-
-              <div className="flex min-h-[44px] items-center gap-2 border-b border-border text-[16px] font-semibold text-muted-foreground/60">
-                Halal-Check
-                <span className="badge-soon">bald</span>
-              </div>
 
               <Link
                 to="/halal-guide"

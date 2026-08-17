@@ -53,6 +53,29 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Halal-Check",
+    columns: [
+      {
+        title: "Selbst prüfen",
+        items: [
+          { label: "Ist diese Aktie halal?", to: "/vorlagen/aktien-check" },
+          { label: "Vertrags-Ampel", to: "/vorlagen/vertrags-ampel" },
+          { label: "Geprüfte Anlagen", to: "/halal-anlagen" },
+          { label: "Alle Vorlagen", to: "/vorlagen" },
+        ],
+      },
+      {
+        title: "Nachschlagen",
+        items: [
+          { label: "Die drei Grenzwerte", to: "/wissen/sind-aktien-halal" },
+          { label: "Erträge reinigen", to: "/wissen/ertraege-reinigen" },
+          { label: "Häufige Fehler", to: "/wissen/haeufige-fehler" },
+          { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
+        ],
+      },
+    ],
+  },
+  {
     label: "Rechner",
     columns: [
       {
@@ -92,6 +115,7 @@ export const navGroups: NavGroup[] = [
       {
         title: "Sonstiges",
         items: [
+          { label: "Aktuelle Deals", to: "/deals" },
           { label: "Physisches Gold" },
           { label: "Geld ins Ausland" },
           { label: "Steuersoftware" },
