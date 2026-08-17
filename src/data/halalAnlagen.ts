@@ -37,6 +37,8 @@ export type Anlage = {
   zertifikatHinweis?: string;
   /** "produkt" = eigenes Zertifikat des Anbieters, "index" = Nachweis nur zum Index. */
   zertifikatArt?: "produkt" | "index";
+  /** Zweiter Nachweis, wo Produkt und Index getrennt geprüft werden. */
+  zweiterBeleg?: { titel: string; url: string };
   /** Zeichen der Münze, steht in der Kachel bis ein Logo vorliegt. */
   zeichen?: string;
 };
@@ -63,10 +65,15 @@ export const halalAnlagen: Anlage[] = [
     slug: "ishares-msci-world-islamic",
     name: "iShares MSCI World Islamic",
     isin: "IE00B27YCN58",
-    zertifikatArt: "index",
-    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+    zweiterBeleg: {
+      titel: "Methodik der MSCI Islamic Index Series",
+      url: "https://www.msci.com/index/methodology/latest/Islamic",
+    },
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.3,
@@ -79,16 +86,21 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "07.12.2007",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Shari'ah Equity Funds Panel bei iShares, Index vom MSCI Shariah Board",
   },
   {
     slug: "ishares-msci-emerging-markets-islamic",
     name: "iShares MSCI Emerging Markets Islamic",
     isin: "IE00B27YCP72",
-    zertifikatArt: "index",
-    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+    zweiterBeleg: {
+      titel: "Methodik der MSCI Islamic Index Series",
+      url: "https://www.msci.com/index/methodology/latest/Islamic",
+    },
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.35,
@@ -101,16 +113,21 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "07.12.2007",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Shari'ah Equity Funds Panel bei iShares, Index vom MSCI Shariah Board",
   },
   {
     slug: "ishares-msci-usa-islamic",
     name: "iShares MSCI USA Islamic",
     isin: "IE00B296QM64",
-    zertifikatArt: "index",
-    zertifikatLink: "https://www.msci.com/index/methodology/latest/Islamic",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Methodik der MSCI Islamic Index Series. Darin bestätigt MSCI, dass die Methodik vom Shariah-Ausschuss aus islamischen Gelehrten als konform freigegeben wurde und dass die Prüfer regelmäßig eine Zertifizierung für den jeweiligen Prüfzeitraum ausstellen. Es ist ein Methodik-Dokument, kein produktbezogenes Einzelzertifikat.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+    zweiterBeleg: {
+      titel: "Methodik der MSCI Islamic Index Series",
+      url: "https://www.msci.com/index/methodology/latest/Islamic",
+    },
     anbieter: "iShares",
     kategorie: "aktien",
     kosten: 0.3,
@@ -123,11 +140,19 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, Sampling",
     domizil: "Irland",
     auflage: "07.12.2007",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Shari'ah Equity Funds Panel bei iShares, Index vom MSCI Shariah Board",
   },
   {
     slug: "invesco-dow-jones-islamic-global-developed-markets",
-    zertifikatHinweis: "Index-Screening, Nachweis noch nicht geprüft.",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://etf.invesco.com/de/private/de/product/invesco-dow-jones-islamic-global-developed-markets-ucits-etf-acc/documents",
+    zertifikatHinweis:
+      "Invesco veröffentlicht für genau diesen ETF jährliche Shariah-Zertifikate, zuletzt für das Jahr 2024. Sie stehen auf der Dokumentenseite unter dem Namen Annual Shariah Compliance Certificate. Dort liegt auch eine Tabelle, mit der du den zu spendenden Anteil deiner Dividende ausrechnest.",
+    zweiterBeleg: {
+      titel: "Methodik der Dow Jones Islamic Market Indizes",
+      url: "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-dj-islamic-market-indices.pdf",
+    },
     name: "Invesco Dow Jones Islamic Global Developed Markets",
     isin: "IE000UOXRAM8",
     anbieter: "Invesco",
@@ -293,7 +318,12 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, Sampling",
     domizil: "Irland",
     auflage: "17.01.2024",
-    zertifizierer: "Index-Screening, Zertifizierer noch nicht geprüft",
+    zertifizierer: "Sukuk Fund Panel bei iShares, besetzt mit dem Shariah-Board von Amanie Advisors",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
+    zertifikatHinweis:
+      "Der Verkaufsprospekt von iShares II plc führt für diesen Fonds ein eigenes Sukuk Fund Panel. Es ist mit dem Shariah Supervisory Board von Amanie Advisors besetzt: Dr. Mohamed Ali Elgari als Vorsitzender, Dr. Mohd Daud Bakar, Dr. Muhammad Amin Ali Qattan und Dr. Osama Al Dereai. Das Panel hat eine Fatwa für den Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus.",
   },
   {
     slug: "xtrackers-ii-salam-usd-global-aggregate-sukuk",
@@ -311,7 +341,11 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Luxemburg",
     auflage: "07.10.2025",
-    zertifizierer: "IdealRatings",
+    zertifizierer: "ASB Capital Shariah Board",
+    zertifikatArt: "produkt",
+    zertifikatLink: "https://asbc.com/asb-capital-sukuk-etf/",
+    zertifikatHinweis:
+      "ASB Capital in Dubai führt den Fonds gemeinsam mit Xtrackers und schreibt auf der eigenen Seite, er werde vom ASB Capital Shariah Board beaufsichtigt. Ein einzelnes Zertifikat veröffentlicht ASB Capital nicht, das hier ist die offizielle Aussage zum Prüfgremium.",
   },
   {
     slug: "bnp-paribas-islamic-fund-hilal-income-classic-c",
@@ -329,7 +363,11 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Luxemburg",
     auflage: "04.09.2015",
-    zertifizierer: "eigenes Shariah-Komitee, Zusammensetzung im Fondsprospekt",
+    zertifizierer: "eigenes Sharia-Komitee, vierteljährliche Prüfung",
+    zertifikatArt: "produkt",
+    zertifikatLink: "https://solutions.vwdservices.com/products/documents/D8C02C3D-0895-43B6-800D-BCCF5B0C0C25",
+    zertifikatHinweis:
+      "Der Verkaufsprospekt des BNP Paribas Islamic Fund nennt das Komitee namentlich: Scheich Nizam Yaquby, Dr. Abdulsattar Abu Ghuddah und Dr. Mohamed Daud Bakar. Es prüft den Fonds vierteljährlich und stellt danach jedes Mal ein Zertifikat aus, häufiger als bei jeder anderen Anlage dieser Liste. Der verlinkte Prospekt trägt den Stand Mai 2017, die Besetzung kann sich seitdem geändert haben.",
     groesseStand: "Factsheet vom 27.03.2024",
   },
   {
@@ -591,11 +629,11 @@ export const halalAnlagen: Anlage[] = [
     kategorie: "krypto",
     kosten: 0,
     kostenLabel: "keine",
-    zertifizierer: "Amanie Advisors, Shariah White Paper 2019",
+    zertifizierer: "Shariyah Review Bureau, Bahrain",
     zertifikatArt: "produkt",
     zertifikatLink: "https://shariyah.net/cryptocurrencies/ethereum/",
     zertifikatHinweis:
-      "Zwei Quellen: das Shariah White Paper von Amanie Advisors und der Ethereum Foundation aus dem Jahr 2019, verantwortlich Dr. Mohd Daud Bakar, sowie eine eigene Sharia-Analyse des Shariyah Review Bureau. Beide behandeln die Münze selbst, nicht das, was Nutzer damit tun.",
+      "Sharia-Analyse des Shariyah Review Bureau, lizenziert von der Central Bank of Bahrain. Ether ist damit die einzige Münze dieser Liste, die zweimal unabhängig geprüft wurde: Amanie Advisors und die Ethereum Foundation haben 2019 zusätzlich ein eigenes Shariah White Paper vorgelegt, verantwortlich Dr. Mohd Daud Bakar. Beide Gutachten behandeln die Münze selbst, nicht das, was Nutzer damit tun.",
   },
   {
     slug: "xrp",

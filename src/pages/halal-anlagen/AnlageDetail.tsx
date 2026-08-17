@@ -230,6 +230,20 @@ const AnlageDetail = () => {
 
             <div className="mt-4 space-y-3 text-[16px] leading-[26px] text-muted-foreground">
               {anlage.zertifikatHinweis && <p>{anlage.zertifikatHinweis}</p>}
+              {anlage.zweiterBeleg && (
+                <p>
+                  Zweiter Nachweis:{" "}
+                  <a
+                    href={anlage.zweiterBeleg.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-primary underline underline-offset-2"
+                  >
+                    {anlage.zweiterBeleg.titel}
+                    <ExternalLink className="h-4 w-4" aria-hidden />
+                  </a>
+                </p>
+              )}
               {anlage.zertifikatArt === "index" && (
                 <p>
                   Für das Produkt selbst gibt der Anbieter kein eigenes Zertifikat heraus. Der
