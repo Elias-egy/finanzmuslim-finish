@@ -1,65 +1,116 @@
+import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
+import type { RohAnbieter, RohWert } from "./vergleichHelfer";
+
 /**
  * Anbieterdaten fuer den Girokonto-Vergleich.
  *
- * Aufbau bewusst wie `brokerVergleich.ts`: Anbieter und Logos stehen fest,
- * jede inhaltliche Angabe ist `null` und wird auf der Seite woertlich als
- * "noch nicht geprueft" ausgegeben. Zum Fuellen nur die Felder ersetzen, an
- * der Seite ist dafuer nichts zu aendern.
+ * Aufbau und Regeln wie in `brokerVergleich.ts`: Anbieter und Logos stehen
+ * fest, jede inhaltliche Angabe ist `null` und erscheint wörtlich als
+ * "noch nicht geprüft". Zum Ausfüllen nur die Felder in `werte` ersetzen.
  *
- * WICHTIG: keine Schaetzungen eintragen. Eine Zahl kommt hier erst rein,
- * wenn sie beim Anbieter selbst nachgelesen wurde, zusammen mit dem Datum
- * in `stand`.
+ * Keine Schätzungen. Eine Zahl kommt erst rein, wenn sie bei der Bank selbst
+ * nachgelesen wurde.
  */
 
-/** Ampel-Status eines Halal-Merkmals. "unbekannt" = noch nicht geprueft. */
-export type CheckStatus = "unbekannt" | "gut" | "teils" | "schlecht";
+export const GIRO_ZEILEN: VergleichsZeile[] = [
+  { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
+  {
+    key: "__note",
+    label: "Halal-Note",
+    art: "text",
+    gruppe: "angebot",
+    hinweis: "Note aus den sechs Halal-Merkmalen. Wird erst vergeben, wenn alle geprüft sind.",
+  },
 
-export type HalalCheck = {
-  status: CheckStatus;
-  /** Kurzer Zusatz, z. B. "geprueft". Leer lassen, wenn unbekannt. */
-  note?: string;
-};
+  {
+    key: "keinGuthabenzins",
+    label: "Kein Guthabenzins",
+    art: "ampel",
+    gruppe: "halal",
+    hinweis: "Zahlt die Bank Zinsen auf das Guthaben, und lässt sich das abschalten?",
+  },
+  {
+    key: "zinsAbschaltbar",
+    label: "Zins abschaltbar",
+    art: "janein",
+    gruppe: "halal",
+    hinweis: "Kann der Guthabenzins selbst deaktiviert werden?",
+  },
+  {
+    key: "keinDispo",
+    label: "Kein Dispo",
+    art: "ampel",
+    gruppe: "halal",
+    hinweis: "Wird ein Dispokredit automatisch eingeräumt, oder nur auf Antrag?",
+  },
+  {
+    key: "dispoAufNull",
+    label: "Dispo auf null setzbar",
+    art: "janein",
+    gruppe: "halal",
+    hinweis: "Lässt sich der Dispo auf null stellen, damit gar kein Zinsvertrag besteht?",
+  },
+  {
+    key: "karteOhneKreditrahmen",
+    label: "Karte ohne Kreditrahmen",
+    art: "ampel",
+    gruppe: "halal",
+    hinweis: "Ist die Karte eine echte Debitkarte, oder hängt ein Kreditrahmen daran?",
+  },
+  {
+    key: "keineZinsbindung",
+    label: "Kein Zinsprodukt im Konto",
+    art: "ampel",
+    gruppe: "halal",
+    hinweis: "Ist ein Tagesgeld oder Sparbereich mit Zins fest mit dem Konto verbunden?",
+  },
 
-export type Girokonto = {
-  id: string;
-  /** Name der Bank, steht in der Kopfzeile der Karte. */
-  name: string;
-  /** Name des Kontomodells, steht klein darunter. */
-  produkt: string;
-  /** Domain fuer das Logo. Ohne sie steht dort das Kuerzel. */
-  domain?: string;
-  /** Nur setzen, wenn eine Partnerschaft besteht. Sonst Knopf ausgegraut. */
-  link?: string;
-  /** Datum der letzten Pruefung. Bleibt leer, solange nichts geprueft ist. */
-  stand?: string;
-  halal: {
-    keinGuthabenzins: HalalCheck;
-    keinDispo: HalalCheck;
-    karteOhneKreditrahmen: HalalCheck;
-    keineZinsbindung: HalalCheck;
-  };
-  konditionen: {
-    kontofuehrung: string | null;
-    girocard: string | null;
-    debitkarte: string | null;
-    bargeld: string | null;
-    mindestgeldeingang: string | null;
-    dispozins: string | null;
-    guthabenzins: string | null;
-  };
-};
+  {
+    key: "kontofuehrung",
+    label: "Kontoführung im Monat",
+    art: "text",
+    gruppe: "kosten",
+    imRaster: true,
+  },
+  {
+    key: "girocard",
+    label: "Girocard im Monat",
+    art: "text",
+    gruppe: "kosten",
+    imRaster: true,
+  },
+  {
+    key: "debitkarte",
+    label: "Debitkarte im Monat",
+    art: "text",
+    gruppe: "kosten",
+    imRaster: true,
+  },
+  {
+    key: "geldautomaten",
+    label: "Geldautomaten",
+    art: "text",
+    gruppe: "kosten",
+    imRaster: true,
+  },
+  { key: "bargeld", label: "Bargeld abheben", art: "text", gruppe: "kosten" },
+  { key: "mindestgeldeingang", label: "Mindestgeldeingang", art: "text", gruppe: "kosten" },
+  { key: "dispozins", label: "Dispozins", art: "text", gruppe: "kosten" },
+  { key: "guthabenzins", label: "Guthabenzins", art: "text", gruppe: "kosten" },
+  { key: "auslandsabhebung", label: "Abheben im Ausland", art: "text", gruppe: "kosten" },
+  { key: "applePay", label: "Apple Pay und Google Pay", art: "janein", gruppe: "kosten" },
+  { key: "unterkonten", label: "Unterkonten möglich", art: "janein", gruppe: "kosten" },
+  { key: "gemeinschaftskonto", label: "Gemeinschaftskonto möglich", art: "janein", gruppe: "kosten" },
+  { key: "einlagensicherung", label: "Einlagensicherung", art: "text", gruppe: "kosten" },
+  { key: "appIos", label: "App-Bewertung iOS", art: "text", gruppe: "kosten" },
+  { key: "appAndroid", label: "App-Bewertung Android", art: "text", gruppe: "kosten" },
+  { key: "kundenservice", label: "Kundenservice", art: "text", gruppe: "kosten" },
+];
 
-const offen: HalalCheck = { status: "unbekannt" };
-
-const leereKonditionen: Girokonto["konditionen"] = {
-  kontofuehrung: null,
-  girocard: null,
-  debitkarte: null,
-  bargeld: null,
-  mindestgeldeingang: null,
-  dispozins: null,
-  guthabenzins: null,
-};
+const leer = (): Record<string, RohWert> =>
+  Object.fromEntries(
+    GIRO_ZEILEN.filter((z) => !z.key.startsWith("__")).map((z) => [z.key, null]),
+  );
 
 const slug = (name: string) =>
   name
@@ -68,27 +119,21 @@ const slug = (name: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-const platzhalter = (name: string, produkt: string, domain?: string): Girokonto => ({
+const platzhalter = (name: string, produkt: string, domain?: string): RohAnbieter => ({
   id: slug(`${name} ${produkt}`),
   name,
   produkt,
   domain,
-  halal: {
-    keinGuthabenzins: offen,
-    keinDispo: offen,
-    karteOhneKreditrahmen: offen,
-    keineZinsbindung: offen,
-  },
-  konditionen: { ...leereKonditionen },
+  note: null,
+  werte: leer(),
 });
 
 /**
- * Die Anbieter selbst sind belegt, alles andere nicht. Ausgewaehlt sind die
- * Banken, die in Deutschland ein kostenloses oder guenstiges Girokonto ohne
- * Filialpflicht fuehren. Ob eines davon ohne Zinsgeschaeft auskommt, steht
- * hier ausdruecklich noch nicht.
+ * Ausgewaehlt sind die Banken, die in Deutschland ein kostenloses oder
+ * guenstiges Girokonto ohne Filialpflicht fuehren. Ob eines davon ohne
+ * Zinsgeschaeft auskommt, steht hier ausdruecklich noch nicht.
  */
-export const girokontoVergleich: Girokonto[] = [
+export const girokontoVergleich: RohAnbieter[] = [
   platzhalter("Trade Republic", "Girokonto", "traderepublic.com"),
   platzhalter("C24", "Smart", "c24bank.de"),
   platzhalter("DKB", "Girokonto", "dkb.de"),
@@ -111,43 +156,8 @@ export const girokontoVergleich: Girokonto[] = [
   platzhalter("1822direkt", "Girokonto Klassik", "1822direkt.de"),
 ];
 
-/**
- * Die vier Fragen, die ein Girokonto fuer einen Muslim entscheiden. Sie
- * stehen bewusst vor den Gebuehren: ein guenstiges Konto mit Dispo nutzt
- * niemandem, der keinen Dispo will.
- */
-export const GIRO_KRITERIEN = [
-  {
-    key: "keinGuthabenzins" as const,
-    label: "Kein Guthabenzins",
-    frage: "Zahlt die Bank Zinsen auf das Guthaben, und lässt sich das abschalten?",
-  },
-  {
-    key: "keinDispo" as const,
-    label: "Kein Dispo",
-    frage: "Wird ein Dispokredit automatisch eingeräumt, oder nur auf Antrag?",
-  },
-  {
-    key: "karteOhneKreditrahmen" as const,
-    label: "Karte ohne Kreditrahmen",
-    frage: "Ist die Karte eine echte Debitkarte, oder hängt ein Kreditrahmen daran?",
-  },
-  {
-    key: "keineZinsbindung" as const,
-    label: "Kein Zinsprodukt im Konto",
-    frage: "Ist ein Tagesgeld oder Sparbereich mit Zins fest mit dem Konto verbunden?",
-  },
+export const GIRO_FILTER = [
+  { key: "keinGuthabenzins", label: "Nur Banken ohne Guthabenzins" },
+  { key: "keinDispo", label: "Nur Banken ohne Dispo" },
+  { key: "karteOhneKreditrahmen", label: "Karte ohne Kreditrahmen" },
 ];
-
-/** Die Zeilen der Konditionstabelle, in dieser Reihenfolge. */
-export const GIRO_KONDITIONEN = [
-  { key: "kontofuehrung" as const, label: "Kontoführung im Monat" },
-  { key: "girocard" as const, label: "Girocard im Monat" },
-  { key: "debitkarte" as const, label: "Debitkarte im Monat" },
-  { key: "bargeld" as const, label: "Bargeld abheben" },
-  { key: "mindestgeldeingang" as const, label: "Mindestgeldeingang" },
-  { key: "dispozins" as const, label: "Dispozins" },
-  { key: "guthabenzins" as const, label: "Guthabenzins" },
-];
-
-export const girokontoById = (id: string) => girokontoVergleich.find((g) => g.id === id);
