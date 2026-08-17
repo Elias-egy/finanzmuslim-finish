@@ -137,6 +137,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/zakatrechner", grund: "Zweitschreibweise von /zakat-rechner" },
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
+  { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
   { pfad: "/dein-investment-start", grund: "Zweitschreibweise, setzt noindex" },
   { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
   { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },

@@ -18,6 +18,7 @@ const Tools = lazy(() => import("./pages/Tools.tsx"));
 const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
+const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
@@ -106,6 +107,9 @@ const App = () => (
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
+            {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet
+                wird ueber Instagram und die bestehende Mailkette. */}
+            <Route path="/dein-guide/:schluessel" element={<DeinGuide />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />

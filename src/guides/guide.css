@@ -1,0 +1,507 @@
+.guide-leser /* ============================================================
+   FINANZMUSLIM — PDF Design System (HTML → Chrome print-to-PDF)
+   Stand 14.08.2026. Regeln aus dem Rebrand-Briefing:
+     Blau  #0057FA  nur fuer Klickbares
+     Violett #7D6EF2 nur fuer Etiketten (Kicker, .guide-leser Pills, .guide-leser "Neu")
+     Gruen/Gelb/Rot  nur fuer Bewertungen (Halal-Ampel, .guide-leser Kriterien)
+     Flaeche Hero/Guide #EBF2FF
+     Schrift Figtree
+   ============================================================ */
+
+:root{
+  /* ---- Marke ---- */
+  --brand:#0057FA;          /* nur klickbar */
+  --brand-dark:#0043C4;
+  --tint:#EBF2FF;           /* Hero-/Guide-Flaeche */
+  --tint-line:#D3E2FF;
+
+  --label:#7D6EF2;          /* Etiketten */
+  --label-bg:#F1EFFE;
+  --label-line:#DCD7FB;
+
+  /* ---- Papier & Text ---- */
+  --paper:#FFFFFF;
+  --base:#F9FAFB;           /* Seitengrundflaeche */
+  --ink:#0B1220;
+  --body:#3F4756;
+  --muted:#767F8E;
+  --line:#E5E8EE;
+  --line-soft:#EEF1F5;
+
+  /* ---- Bewertungen (Ampel) ---- */
+  --halal:#15803D;   --halal-bg:#ECFDF3;   --halal-line:#BBF0CD;
+  --caution:#B45309; --caution-bg:#FFF8EB; --caution-line:#F5DFB0;
+  --haram:#B91C1C;   --haram-bg:#FEF2F2;   --haram-line:#F6CDCD;
+
+  /* ---- Diagramm-Reihen (neutral, kollidiert mit keiner Regel) ---- */
+  --c1:#0B1220;  --c2:#7D6EF2;  --c3:#9AA7BD;  --c4:#C7D2E6;
+
+  /* Altlasten aus dem Amanah-System, damit bestehende Klassen weiterleben */
+  --green:var(--ink);
+  --gold:var(--label);
+  --insight:var(--ink);
+  --insight-bg:var(--base);
+  --insight-line:var(--line);
+  --warm-white:var(--paper);
+  --cream:var(--paper);
+  --beige:var(--base);
+  --sand:#DCE3EC;
+  --border:var(--line);
+  --dark:var(--body);
+
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:none;
+  --shadow-lift:none;
+}
+.guide-leser *{ box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.guide-leser, .guide-leser{ font-family:'Figtree',sans-serif; color:var(--body); background:#C3CBD6; }
+.guide-leser .page{
+  position:relative;
+  width:14.49rem; height:20.493rem;
+  background:var(--paper);
+  padding:1.104rem 1.242rem 1.104rem;
+  overflow:hidden;
+  break-after:page;
+}
+.guide-leser .page:last-child{ break-after:auto; }
+.guide-leser .page.tinted{ background:var(--base); }
+
+
+@media screen{
+  body{ padding:24px 0; }
+.guide-leser .page{ margin:0 auto 26px; box-shadow:0 10px 40px rgba(0,0,0,.22); }
+
+}
+.guide-leser /* ============================================================
+   TYPOGRAFIE
+   ============================================================ */
+h1, .guide-leser h2, .guide-leser h3, .guide-leser h4{ font-weight:800; color:var(--ink); line-height:1.1; letter-spacing:-.018em; }
+.guide-leser p{ font-weight:400; color:var(--body); line-height:1.6; }
+.guide-leser b, .guide-leser strong{ font-weight:700; color:var(--ink); }
+.guide-leser a{ color:var(--brand); }
+.guide-leser /* Wortmarke */
+.wordmark{ font-weight:800; letter-spacing:-.03em; color:var(--ink); font-size:1.131rem; }
+.guide-leser .wordmark.sm{ font-size:0.8265rem; }
+.guide-leser .wordmark.inv{ color:#fff; }
+.guide-leser /* Etikett / Kicker */
+.label{ font-weight:700; font-size:0.696rem; letter-spacing:.14em; text-transform:uppercase; color:var(--label); }
+.guide-leser .label.muted{ color:var(--muted); }
+.guide-leser .pill{ display:inline-block; font-size:0.6525rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+       padding:0.0828rem 0.207rem; border-radius:99px; background:var(--label-bg); color:var(--label); border:1px solid var(--label-line); }
+.guide-leser .gold-dash{ width:0.621rem; height:2.4px; background:var(--label); border-radius:2px; }
+.guide-leser .rule{ height:1px; background:var(--line); border:0; margin:0.414rem 0; }
+.guide-leser .rule.soft{ background:var(--line-soft); }
+.guide-leser .hi{ background:var(--tint); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:.0.207rem 0.069rem; border-radius:3px; }
+.guide-leser .strong-green{ color:var(--ink); font-weight:700; }
+.guide-leser .arabic{ display:block; margin:0 auto; }
+.guide-leser /* ============================================================
+   KOPF DER INNENSEITEN
+   ============================================================ */
+.topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:0.621rem; }
+.guide-leser .topbar img{ height:0.414rem; }
+.guide-leser .chapter-tag{ display:flex; align-items:center; gap:0.207rem; }
+.guide-leser .page-head h1{ font-size:2.088rem; margin-top:0.207rem; }
+.guide-leser .page-head .head-rule{ height:1px; background:var(--line); margin:0.345rem 0 0.414rem; }
+.guide-leser .lead{ font-size:1.0005rem; color:var(--body); line-height:1.55; }
+.guide-leser .lead.big{ font-size:1.131rem; }
+.guide-leser /* ============================================================
+   KENNZAHL-KACHELN
+   ============================================================ */
+.tiles{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.345rem; margin-top:0.138rem; }
+.guide-leser .tile{
+  background:var(--base); border:1px solid var(--line);
+  border-radius:var(--radius); padding:0.483rem 0.414rem;
+  display:flex; flex-direction:column; gap:0.1725rem;
+}
+.guide-leser .tile .tile-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.guide-leser .tile .tile-num{ font-size:2.61rem; font-weight:800; line-height:1; letter-spacing:-.03em; white-space:nowrap; color:var(--ink); }
+.guide-leser .tile .tile-sub{ font-size:0.8265rem; color:var(--body); line-height:1.4; }
+.guide-leser .tile .tile-cap{ font-size:0.7395rem; color:var(--muted); }
+.guide-leser .num-green{ color:var(--ink); }
+.guide-leser .num-gold{ color:var(--label); }
+.guide-leser .num-haram{ color:var(--haram); }
+.guide-leser .num-halal{ color:var(--halal); }
+.guide-leser .num-insight{ color:var(--ink); }
+.guide-leser /* ============================================================
+   KARTEN
+   ============================================================ */
+.card{ background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:0.414rem 0.4485rem; }
+.guide-leser .card h3{ font-size:1.044rem; color:var(--ink); margin-bottom:0.138rem; }
+.guide-leser .card p{ font-size:0.87rem; }
+.guide-leser /* Bewertungszeile (Ampel) */
+.badge-row{ position:relative; border-radius:var(--radius); padding:0.3795rem 0.414rem 0.3795rem 0.621rem; margin-bottom:0.276rem; overflow:hidden; }
+.guide-leser .badge-row::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:0.207rem; }
+.guide-leser .badge-row .br-top{ display:flex; align-items:center; justify-content:space-between; gap:0.276rem; margin-bottom:0.1035rem; }
+.guide-leser .badge-row h3{ font-size:0.957rem; }
+.guide-leser .badge-row p{ font-size:0.8265rem; color:var(--body); }
+.guide-leser .badge{ font-size:0.6525rem; font-weight:800; letter-spacing:.06em; padding:0.0828rem 0.207rem; border-radius:99px; white-space:nowrap; color:#fff; }
+.guide-leser .br-haram{ background:var(--haram-bg); }
+.guide-leser .br-haram::before{ background:var(--haram); }
+.guide-leser .br-haram h3{ color:var(--haram); }
+.guide-leser .br-haram .badge{ background:var(--haram); }
+.guide-leser .br-halal{ background:var(--halal-bg); }
+.guide-leser .br-halal::before{ background:var(--halal); }
+.guide-leser .br-halal h3{ color:var(--halal); }
+.guide-leser .br-halal .badge{ background:var(--halal); }
+.guide-leser .br-caution{ background:var(--caution-bg); }
+.guide-leser .br-caution::before{ background:var(--caution); }
+.guide-leser .br-caution h3{ color:var(--caution); }
+.guide-leser .br-caution .badge{ background:var(--caution); }
+.guide-leser /* ============================================================
+   HINWEIS-BOX
+   ============================================================ */
+.insight{ background:var(--base); border:1px solid var(--line); border-radius:var(--radius);
+          padding:0.3795rem 0.414rem; position:relative; padding-left:0.621rem; }
+.guide-leser .insight::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:0.207rem; background:var(--ink); border-radius:var(--radius) 0 0 var(--radius); }
+.guide-leser .insight .in-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label); margin-bottom:0.1035rem; }
+.guide-leser .insight p{ font-size:0.87rem; color:var(--body); }
+.guide-leser .callout{ background:var(--tint); border:1px solid var(--tint-line); border-radius:var(--radius); padding:0.3795rem 0.414rem; }
+.guide-leser .callout h3{ font-size:0.957rem; color:var(--ink); margin-bottom:0.138rem; }
+.guide-leser .callout p{ font-size:0.8265rem; }
+.guide-leser .panel-green{ background:var(--ink); color:#fff; border-radius:var(--radius); padding:0.414rem; }
+.guide-leser .panel-green h3{ color:#fff; font-size:1.044rem; margin-bottom:0.138rem; }
+.guide-leser .panel-green p{ color:#C6CDD9; font-size:0.87rem; }
+.guide-leser .panel-green .accent{ color:#A79CFA; font-weight:700; }
+.guide-leser /* ============================================================
+   BEGRIFFSKARTEN (Riba / Gharar / Haram)
+   ============================================================ */
+.concept{ position:relative; background:var(--base); border:1px solid var(--line);
+  border-left:0.207rem solid var(--ink); border-radius:var(--radius);
+  padding:0.414rem 2.07rem 0.414rem 0.483rem; margin-bottom:0.345rem; min-height:1.932rem; }
+.guide-leser .concept h3{ font-size:1.218rem; }
+.guide-leser .concept .c-sub{ font-size:0.6525rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--label); margin:.0.552rem 0 0.138rem; }
+.guide-leser .concept p{ font-size:0.8265rem; }
+.guide-leser .concept .c-arabic{ position:absolute; right:0.414rem; top:50%; transform:translateY(-50%); height:1.035rem; opacity:.55; }
+.guide-leser /* ============================================================
+   SCHRITTE
+   ============================================================ */
+.step{ display:flex; gap:0.276rem; align-items:stretch; background:var(--paper);
+  border:1px solid var(--line); border-radius:var(--radius); margin-bottom:0.276rem; overflow:hidden; }
+.guide-leser .step .s-num{ flex:0 0 0.966rem; background:var(--tint); color:var(--ink); font-weight:800; font-size:1.131rem;
+  display:flex; align-items:center; justify-content:center; }
+.guide-leser .step .s-body{ padding:0.276rem 0.345rem; }
+.guide-leser .step .s-body h3{ font-size:0.9135rem; color:var(--ink); margin-bottom:0.069rem; }
+.guide-leser .step .s-body p{ font-size:0.783rem; color:var(--body); }
+.guide-leser /* ============================================================
+   CTA
+   ============================================================ */
+.cta-green{ background:var(--tint); border:1px solid var(--tint-line); border-radius:var(--radius); padding:0.483rem; }
+.guide-leser .cta-green .cta-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label); }
+.guide-leser .cta-green h2{ color:var(--ink); font-size:1.305rem; margin:0.207rem 0; }
+.guide-leser .cta-green p{ color:var(--body); font-size:0.87rem; }
+.guide-leser .cta-green .cta-link, .guide-leser .btn{ display:inline-block; margin-top:0.276rem; background:var(--brand); color:#fff !important;
+  font-weight:700; font-size:0.87rem; padding:0.207rem 0.414rem; border-radius:99px; text-decoration:none; }
+.guide-leser .btn.ghost{ background:#fff; color:var(--brand) !important; border:1.5px solid var(--brand); }
+.guide-leser .cta-gold{ background:var(--label-bg); border:1px solid var(--label-line); border-radius:var(--radius); padding:0.483rem; }
+.guide-leser .cta-gold h2{ color:var(--ink); font-size:1.305rem; margin-bottom:0.1725rem; }
+.guide-leser .cta-gold p{ color:var(--body); font-size:0.87rem; }
+.guide-leser /* Schmales CTA-Band, .guide-leser passt unten auf jede Seite */
+.cta-band{ display:flex; align-items:center; justify-content:space-between; gap:0.414rem;
+  background:var(--tint); border:1px solid var(--tint-line); border-radius:var(--radius); padding:0.345rem 0.414rem; }
+.guide-leser .cta-band .cb-t{ font-size:0.9135rem; font-weight:800; color:var(--ink); line-height:1.25; }
+.guide-leser .cta-band .cb-s{ font-size:0.7395rem; color:var(--muted); margin-top:0.069rem; }
+.guide-leser .cta-band .btn{ margin-top:0; flex:0 0 auto; }
+.guide-leser /* ============================================================
+   BAUSTEINE
+   ============================================================ */
+.baustein{ position:relative; background:var(--paper); border:1px solid var(--line);
+  border-radius:var(--radius); padding:0.3795rem 0.414rem 0.3795rem 0.483rem; margin-bottom:0.3105rem; }
+.guide-leser .baustein .b-head{ display:flex; align-items:baseline; gap:0.276rem; }
+.guide-leser .baustein .b-num{ font-size:1.914rem; font-weight:800; color:#D7DEE9; line-height:1; letter-spacing:-.03em; }
+.guide-leser .baustein .b-title{ font-size:1.131rem; font-weight:800; color:var(--ink); letter-spacing:-.02em; }
+.guide-leser .baustein .b-meta{ font-size:0.696rem; font-weight:600; color:var(--label); margin:0.069rem 0 0.1725rem 1.035rem; letter-spacing:.02em; }
+.guide-leser .baustein .b-intro{ font-size:0.8265rem; color:var(--body); line-height:1.5; margin:0 0 0.207rem 1.035rem; }
+.guide-leser .baustein ul{ list-style:none; margin-left:1.035rem; }
+.guide-leser .baustein li{ position:relative; padding-left:0.345rem; font-size:0.8265rem; color:var(--body); line-height:1.5; margin-bottom:0.1518rem; }
+.guide-leser .baustein li::before{ content:''; position:absolute; left:0; top:0.1242rem; width:0.1242rem; height:0.1242rem; border-radius:50%; background:var(--c3); }
+.guide-leser .baustein.b-etf li::before{ background:var(--c1); }
+.guide-leser .baustein.b-gold li::before{ background:var(--c2); }
+.guide-leser .baustein.b-sukuk li::before{ background:var(--c3); }
+.guide-leser .baustein .b-tag{ position:absolute; right:0.414rem; top:0.414rem; font-size:0.609rem; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; padding:0.0828rem 0.207rem; border-radius:99px; background:var(--label-bg); color:var(--label); }
+.guide-leser .b-etf .b-tag, .guide-leser .b-gold .b-tag, .guide-leser .b-sukuk .b-tag{ background:var(--label-bg); color:var(--label); }
+.guide-leser /* Risiko-Spektrum */
+.spectrum{ background:var(--base); border:1px solid var(--line); border-radius:var(--radius); padding:0.414rem 0.4485rem; }
+.guide-leser .spectrum-top{ display:flex; justify-content:space-between; font-size:0.7395rem; font-weight:600; color:var(--muted); margin-bottom:0.207rem; }
+.guide-leser .spectrum-bar{ height:0.276rem; border-radius:99px; background:linear-gradient(90deg,var(--c4),var(--c2) 50%,var(--c1)); }
+.guide-leser .spectrum-nodes{ display:flex; margin-top:0.2415rem; }
+.guide-leser .spectrum-node{ flex:1; }
+.guide-leser .spectrum-node.mid{ text-align:center; }
+.guide-leser .spectrum-node.right{ text-align:right; }
+.guide-leser .spectrum-node h4{ font-size:0.9135rem; color:var(--ink); margin-bottom:.0.345rem; }
+.guide-leser .spectrum-node span{ font-size:0.7395rem; color:var(--muted); }
+.guide-leser /* Aufteilungsbalken */
+.alloc-wrap{ background:var(--base); border:1px solid var(--line); border-radius:var(--radius); padding:0.3795rem 0.414rem; }
+.guide-leser .alloc-wrap .a-title{ font-size:0.87rem; font-weight:800; color:var(--ink); margin-bottom:0.2415rem; }
+.guide-leser .alloc-bar{ display:flex; height:0.414rem; border-radius:99px; overflow:hidden; }
+.guide-leser .alloc-bar span{ display:block; }
+.guide-leser .alloc-legend{ display:flex; gap:0.483rem; margin-top:0.2415rem; flex-wrap:wrap; }
+.guide-leser .alloc-legend .lg{ display:flex; align-items:center; font-size:0.7395rem; color:var(--body); }
+.guide-leser .alloc-legend .sw{ width:0.207rem; height:0.207rem; border-radius:50%; margin-right:0.138rem; }
+.guide-leser .footnote{ font-size:0.609rem; color:var(--muted); margin-top:0.138rem; }
+.guide-leser .teaser{ background:var(--base); border:1px dashed var(--line); border-radius:var(--radius); padding:0.3795rem 0.414rem; }
+.guide-leser .teaser .t-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label); margin-bottom:0.1035rem; }
+.guide-leser .teaser p{ font-size:0.87rem; color:var(--body); }
+.guide-leser /* Fehler-Karten */
+.fehler{ display:flex; gap:0.276rem; align-items:flex-start; background:var(--base);
+  border:1px solid var(--line); border-radius:var(--radius); padding:0.345rem 0.414rem; margin-bottom:0.3105rem; }
+.guide-leser .fehler .f-num{ flex:0 0 auto; width:0.552rem; height:0.552rem; border-radius:50%; background:var(--haram);
+  color:#fff; font-weight:800; font-size:0.9135rem; display:flex; align-items:center; justify-content:center; }
+.guide-leser .fehler .f-body h3{ font-size:0.957rem; color:var(--ink); margin-bottom:0.1035rem; }
+.guide-leser .fehler .f-body p{ font-size:0.8265rem; color:var(--body); line-height:1.5; }
+.guide-leser /* Zeitstrahl */
+.timeline{ position:relative; margin:0.207rem 0 0 0.207rem; padding-left:0.552rem; }
+.guide-leser .timeline::before{ content:''; position:absolute; left:0; top:0.138rem; bottom:0.414rem; width:2px; background:var(--line); }
+.guide-leser .tl-item{ position:relative; margin-bottom:0.621rem; }
+.guide-leser .tl-item::before{ content:''; position:absolute; left:1px; top:0.0345rem; transform:translateX(-40%);
+  width:0.3105rem; height:0.3105rem; border-radius:50%; background:var(--label); border:2px solid #fff; }
+.guide-leser .tl-item .tl-day{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label); }
+.guide-leser .tl-item h3{ font-size:1.0005rem; color:var(--ink); margin:0.069rem 0 0.1035rem; }
+.guide-leser .tl-item p{ font-size:0.8265rem; color:var(--body); line-height:1.5; }
+.guide-leser .tl-item.tl-last::before{ background:var(--ink); }
+.guide-leser /* Gate */
+.gate{ background:var(--ink); border-radius:var(--radius); padding:0.621rem; color:#fff; display:block; text-decoration:none; }
+.guide-leser .gate .gate-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#A79CFA; }
+.guide-leser .gate h2{ color:#fff; font-size:1.392rem; margin:0.2415rem 0; }
+.guide-leser .gate p{ color:#C6CDD9; font-size:0.87rem; line-height:1.6; }
+.guide-leser .gate ol{ list-style:none; margin:0.345rem 0 0; }
+.guide-leser .gate ol li{ position:relative; padding-left:0.414rem; margin-bottom:0.276rem; color:#E3E8F0; font-size:0.87rem; line-height:1.5; }
+.guide-leser .gate ol li .gn{ position:absolute; left:0; top:0; color:#A79CFA; font-weight:800; }
+.guide-leser .gate b, .guide-leser .gate strong{ color:#fff; }
+.guide-leser .gate .gate-close{ margin-top:0.414rem; font-size:0.87rem; color:#A79CFA; }
+.guide-leser .gate .gate-close b{ color:#fff; }
+.guide-leser .panel-green b, .guide-leser .panel-green strong{ color:#fff; }
+.guide-leser /* Checkliste */
+.checklist{ list-style:none; }
+.guide-leser .checklist li{ display:flex; align-items:flex-start; gap:0.2415rem; font-size:0.9135rem; color:var(--body); margin-bottom:0.2415rem; }
+.guide-leser .checklist li .ck{ flex:0 0 auto; width:0.345rem; height:0.345rem; border-radius:50%; background:var(--halal);
+  color:#fff; font-size:0.6525rem; display:flex; align-items:center; justify-content:center; margin-top:.0.345rem; }
+.guide-leser /* AAOIFI-Kriterienkarten */
+.crit{ position:relative; border-radius:var(--radius); padding:0.414rem 0.414rem 0.414rem 1.38rem; margin-bottom:0.345rem; }
+.guide-leser .crit .cn{ position:absolute; left:0.414rem; top:50%; transform:translateY(-50%);
+  font-size:2.262rem; font-weight:800; line-height:1; letter-spacing:-.03em; }
+.guide-leser .crit h3{ font-size:1.0005rem; margin-bottom:0.138rem; }
+.guide-leser .crit p{ font-size:0.8265rem; color:var(--body); line-height:1.5; }
+.guide-leser .crit-red{ background:var(--haram-bg); }
+.guide-leser .crit-red .cn{ color:var(--haram); }
+.guide-leser .crit-red h3{ color:var(--haram); }
+.guide-leser .crit-amber{ background:var(--caution-bg); }
+.guide-leser .crit-amber .cn{ color:var(--caution); }
+.guide-leser .crit-amber h3{ color:var(--caution); }
+.guide-leser .crit-green{ background:var(--halal-bg); }
+.guide-leser .crit-green .cn{ color:var(--halal); }
+.guide-leser .crit-green h3{ color:var(--halal); }
+.guide-leser /* Anlageklassen-Zeilen */
+.asset-row{ display:flex; gap:0.276rem; align-items:baseline; padding:0.2415rem 0.138rem; border-bottom:1px solid var(--line); }
+.guide-leser .asset-row:first-child{ border-top:1px solid var(--line); }
+.guide-leser .asset-row .ar-dot{ flex:0 0 auto; width:0.1518rem; height:0.1518rem; border-radius:50%; align-self:center; }
+.guide-leser .asset-row .ar-name{ flex:0 0 2.07rem; font-weight:800; font-size:0.9135rem; color:var(--ink); }
+.guide-leser .asset-row .ar-desc{ font-size:0.8265rem; color:var(--body); line-height:1.4; }
+.guide-leser .section-label{ font-size:0.6525rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--label); margin-bottom:0.1725rem; }
+.guide-leser /* Zwei-Spalten-Vergleich */
+.compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0.276rem; }
+.guide-leser .compare-col{ background:var(--base); border:1px solid var(--line); border-radius:var(--radius); padding:0.345rem; }
+.guide-leser .compare-col.hl{ border-color:var(--halal-line); background:var(--halal-bg); }
+.guide-leser .compare-col h3{ font-size:0.9135rem; margin-bottom:0.207rem; }
+.guide-leser .compare-col ul{ list-style:none; }
+.guide-leser .compare-col li{ display:flex; gap:0.1725rem; font-size:0.783rem; color:var(--body); margin-bottom:0.138rem; line-height:1.35; }
+.guide-leser .compare-col li::before{ content:''; flex:0 0 auto; width:0.1104rem; height:0.1104rem; border-radius:50%; background:var(--c3); margin-top:0.1035rem; }
+.guide-leser .compare-col.hl li::before{ background:var(--halal); }
+.guide-leser /* Reinigung */
+.purif{ background:var(--base); border:1px solid var(--line); border-left:0.207rem solid var(--ink);
+  border-radius:var(--radius); padding:0.345rem 0.414rem; display:grid; grid-template-columns:1fr 1fr; gap:0.414rem; }
+.guide-leser .purif h3{ font-size:0.87rem; color:var(--ink); margin-bottom:0.138rem; }
+.guide-leser .purif p{ font-size:0.783rem; color:var(--body); }
+.guide-leser .purif .calc-row{ font-size:0.783rem; color:var(--body); margin-bottom:0.1035rem; }
+.guide-leser .purif .calc-row b{ color:var(--ink); }
+.guide-leser .split-bar{ display:flex; height:0.345rem; border-radius:99px; overflow:hidden; margin:0.138rem 0; }
+.guide-leser /* Quellen */
+.src-sec{ margin-bottom:0.207rem; }
+.guide-leser .src-sec .src-title{ font-size:0.8265rem; font-weight:800; color:var(--ink); margin-bottom:0.138rem;
+  padding-bottom:0.1035rem; border-bottom:1px solid var(--line); }
+.guide-leser .src-entry{ border-left:2.5px solid var(--label); padding-left:0.276rem; margin-bottom:0.1656rem; }
+.guide-leser .src-entry .se-label{ font-size:0.7395rem; font-weight:700; color:var(--ink); }
+.guide-leser .src-entry .se-desc{ font-size:0.6786rem; color:var(--body); line-height:1.4; margin-top:.0.345rem; }
+.guide-leser .src-entry .se-url{ font-size:0.6525rem; color:var(--muted); margin-top:.0.345rem; word-break:break-all; }
+.guide-leser .ayah{ text-align:center; margin-top:0.345rem; }
+.guide-leser .ayah p{ font-size:0.9135rem; color:var(--ink); line-height:1.6; font-weight:500; }
+.guide-leser /* ============================================================
+   RECHTLICHES & FUSSZEILE
+   ============================================================ */
+.disclaimer{ background:var(--base); border-radius:var(--radius-sm); padding:0.276rem 0.345rem; }
+.guide-leser .disclaimer h4{ font-size:0.696rem; font-weight:800; color:var(--ink); margin-bottom:0.069rem; }
+.guide-leser .disclaimer p{ font-size:0.609rem; color:var(--muted); line-height:1.5; }
+.guide-leser .footer{ position:absolute; left:1.242rem; right:1.242rem; bottom:0.552rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid var(--line); padding-top:0.1725rem;
+  font-size:0.5655rem; color:var(--muted); }
+.guide-leser /* ============================================================
+   COVER
+   ============================================================ */
+.cover{ padding:0; background:var(--paper); }
+.guide-leser .cover .top-bar{ background:var(--ink); color:#fff; text-align:center;
+  font-size:0.696rem; font-weight:600; letter-spacing:.1em; padding:0.1932rem; }
+.guide-leser .cover .cover-body{ padding:0.966rem 1.242rem; }
+.guide-leser .cover .hero{ font-size:4.002rem; font-weight:800; line-height:1; letter-spacing:-.035em; color:var(--ink); }
+.guide-leser .cover .hero .g{ color:#7B879B; }
+.guide-leser .cover .intro p{ font-size:0.9135rem; color:var(--body); line-height:1.6; margin-bottom:0.207rem; }
+.guide-leser .cover .bism{ text-align:center; margin:0.483rem 0; }
+.guide-leser .cover .bism .arabic{ height:0.69rem; }
+.guide-leser .cover .bism .tr{ font-size:0.696rem; color:var(--muted); margin-top:0.138rem; }
+.guide-leser .learn h3{ font-size:0.87rem; color:var(--ink); margin-bottom:0.276rem; }
+.guide-leser .learn ul{ list-style:none; }
+.guide-leser .learn li{ position:relative; padding-left:0.5175rem; font-size:0.9135rem; color:var(--body); margin-bottom:0.1725rem; line-height:1.4; }
+.guide-leser .learn li .dot{ position:absolute; left:0; top:0.069rem; width:0.276rem; height:0.276rem; border-radius:50%; background:var(--tint); border:1.5px solid var(--label); }
+.guide-leser .cover .cover-foot{ position:absolute; left:0; right:0; bottom:0; background:var(--base);
+  text-align:center; font-size:0.609rem; color:var(--muted); padding:0.276rem; border-top:1px solid var(--line); }
+.guide-leser /* Cover-CTA */
+.cover-cta{ background:var(--tint); border:1px solid var(--tint-line); border-radius:var(--radius);
+            padding:0.345rem 0.414rem; margin-top:0.345rem; }
+.guide-leser .cover-cta .cc-ad{ font-size:0.609rem; color:var(--muted); margin:0 0 0.138rem; }
+.guide-leser .cover-cta .cc-h{ font-size:1.044rem; font-weight:800; color:var(--ink); margin:0 0 0.1035rem; line-height:1.2; letter-spacing:-.02em; }
+.guide-leser .cover-cta .cc-p{ font-size:0.783rem; color:var(--body); margin:0; line-height:1.45; }
+.guide-leser .cover-cta .cc-btn{ display:inline-block; margin-top:0.2415rem; background:var(--brand); color:#fff;
+                    font-weight:700; font-size:0.87rem; padding:0.1932rem 0.414rem; border-radius:99px; text-decoration:none; }
+.guide-leser .cover-cta .cc-risk{ font-size:0.609rem; color:var(--muted); margin:0.1725rem 0 0; }
+.guide-leser .cover-cta .cc-risk a{ color:var(--muted); }
+.guide-leser /* ============================================================
+   NEU: AMPEL-ZEILEN (Vertrags-Ampel)
+   ============================================================ */
+.amp{ border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+.guide-leser .amp-head{ display:flex; align-items:center; background:var(--base); border-bottom:1px solid var(--line);
+  padding:0.207rem 0.345rem; font-size:0.6525rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.guide-leser .amp-head .h-name{ flex:0 0 3.174rem; }
+.guide-leser .amp-head .h-verd{ flex:0 0 1.794rem; }
+.guide-leser .amp-head .h-cond{ flex:1; }
+.guide-leser .amp-row{ display:flex; align-items:flex-start; padding:0.2898rem 0.345rem; border-bottom:1px solid var(--line-soft); }
+.guide-leser .amp-row:last-child{ border-bottom:0; }
+.guide-leser .amp-row .a-name{ flex:0 0 3.174rem; padding-right:0.276rem; }
+.guide-leser .amp-row .a-name b{ display:block; font-size:0.9135rem; font-weight:800; color:var(--ink); letter-spacing:-.01em; line-height:1.2; }
+.guide-leser .amp-row .a-name span{ display:block; font-size:0.696rem; color:var(--muted); margin-top:.0.552rem; }
+.guide-leser .amp-row .a-verd{ flex:0 0 1.794rem; padding-right:0.276rem; }
+.guide-leser .amp-row .a-cond{ flex:1; font-size:0.783rem; color:var(--body); line-height:1.45; }
+.guide-leser .amp-row .a-cond b{ color:var(--ink); }
+.guide-leser .verd{ display:inline-flex; align-items:center; gap:0.1242rem; font-size:0.7395rem; font-weight:800;
+  padding:0.0966rem 0.207rem; border-radius:99px; white-space:nowrap; }
+.guide-leser .verd .dot{ width:0.1656rem; height:0.1656rem; border-radius:50%; }
+.guide-leser .verd.gruen{ background:var(--halal-bg); color:var(--halal); border:1px solid var(--halal-line); }
+.guide-leser .verd.gruen .dot{ background:var(--halal); }
+.guide-leser .verd.gelb{ background:var(--caution-bg); color:var(--caution); border:1px solid var(--caution-line); }
+.guide-leser .verd.gelb .dot{ background:var(--caution); }
+.guide-leser .verd.rot{ background:var(--haram-bg); color:var(--haram); border:1px solid var(--haram-line); }
+.guide-leser .verd.rot .dot{ background:var(--haram); }
+.guide-leser /* Legende */
+.legende{ display:flex; gap:0.414rem; flex-wrap:wrap; }
+.guide-leser .legende .lg-item{ display:flex; gap:0.1725rem; align-items:flex-start; flex:1; min-width:3.312rem; }
+.guide-leser .legende .lg-dot{ flex:0 0 auto; width:0.2415rem; height:0.2415rem; border-radius:50%; margin-top:0.069rem; }
+.guide-leser .legende .lg-t{ display:block; font-size:0.8265rem; font-weight:800; color:var(--ink); margin-bottom:.0.552rem; }
+.guide-leser .legende .lg-s{ display:block; font-size:0.7395rem; color:var(--muted); line-height:1.4; }
+.guide-leser /* ============================================================
+   NEU: ANLAGEN-LISTE
+   ============================================================ */
+.kat{ margin-bottom:0.345rem; }
+.guide-leser .kat-head{ display:flex; align-items:baseline; justify-content:space-between;
+  border-bottom:1.5px solid var(--ink); padding-bottom:0.138rem; margin-bottom:0.069rem; }
+.guide-leser .kat-head h3{ font-size:1.0005rem; letter-spacing:-.02em; }
+.guide-leser .kat-head .k-count{ font-size:0.696rem; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; }
+.guide-leser .anlage{ display:flex; align-items:flex-start; padding:0.2208rem 0; border-bottom:1px solid var(--line-soft); }
+.guide-leser .anlage:last-child{ border-bottom:0; }
+.guide-leser .anlage .an-main{ flex:1; padding-right:0.345rem; }
+.guide-leser .anlage .an-name{ font-size:0.87rem; font-weight:800; color:var(--ink); line-height:1.25; letter-spacing:-.01em; }
+.guide-leser .anlage .an-zert{ font-size:0.696rem; color:var(--muted); line-height:1.4; margin-top:.0.552rem; }
+.guide-leser .anlage .an-isin{ flex:0 0 2.07rem; text-align:right; font-size:0.7395rem; font-weight:600; color:var(--body);
+  font-variant-numeric:tabular-nums; letter-spacing:.02em; }
+.guide-leser /* ============================================================
+   NEU: SPICKZETTEL-REGELN
+   ============================================================ */
+.regel{ display:flex; gap:0.345rem; align-items:flex-start; background:var(--paper); border:1px solid var(--line);
+  border-radius:var(--radius); padding:0.345rem 0.414rem; margin-bottom:0.276rem; }
+.guide-leser .regel .r-num{ flex:0 0 0.621rem; height:0.621rem; border-radius:50%; background:var(--tint); color:var(--ink);
+  font-size:0.957rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.guide-leser .regel .r-body{ flex:1; }
+.guide-leser .regel .r-body h3{ font-size:0.957rem; margin-bottom:0.1035rem; }
+.guide-leser .regel .r-body p{ font-size:0.8265rem; line-height:1.5; }
+.guide-leser .regel .r-grenz{ flex:0 0 auto; align-self:center; text-align:right; }
+.guide-leser .regel .r-grenz .g-val{ font-size:1.479rem; font-weight:800; color:var(--ink); line-height:1; letter-spacing:-.03em; }
+.guide-leser .regel .r-grenz .g-cap{ font-size:0.6525rem; color:var(--muted); margin-top:0.069rem; }
+.guide-leser .tool{ display:flex; gap:0.276rem; align-items:flex-start; background:var(--base); border:1px solid var(--line);
+  border-radius:var(--radius); padding:0.345rem; }
+.guide-leser .tool .t-name{ font-size:0.9135rem; font-weight:800; color:var(--ink); }
+.guide-leser .tool .t-desc{ font-size:0.783rem; color:var(--body); line-height:1.45; margin-top:0.069rem; }
+.guide-leser .tool .t-meta{ font-size:0.696rem; color:var(--muted); margin-top:0.1035rem; }
+.guide-leser /* Faktenzeile */
+.fakt{ display:flex; gap:0.207rem; align-items:flex-start; font-size:0.8265rem; color:var(--body); margin-bottom:0.1725rem; line-height:1.45; }
+.guide-leser .fakt .fx{ flex:0 0 auto; width:0.276rem; height:0.276rem; border-radius:50%; background:var(--tint); color:var(--brand);
+  font-size:0.609rem; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:.0.552rem; }
+.guide-leser /* Quellenzeile kompakt */
+.q-line{ font-size:0.6525rem; color:var(--muted); line-height:1.5; }
+.guide-leser .q-line b{ color:var(--body); font-weight:700; }
+.guide-leser /* Hilfsklassen */
+.mt2{ margin-top:0.138rem; }
+.guide-leser .mt4{ margin-top:0.276rem; }
+.guide-leser .mt6{ margin-top:0.414rem; }
+.guide-leser .mt8{ margin-top:0.552rem; }
+.guide-leser .mt10{ margin-top:0.69rem; }
+.guide-leser .mt12{ margin-top:0.828rem; }
+.guide-leser .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0.276rem; }
+/* ============================================================
+   BILDSCHIRMFASSUNG
+   Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
+   die mitwaechst. Nur Groesse und Fluss aendern sich, kein Wort.
+   ============================================================ */
+.guide-leser{
+  --guide-max: 46rem;
+  background:transparent;
+  font-family:'Figtree',system-ui,sans-serif;
+}
+.guide-leser .page{
+  width:100%;
+  max-width:var(--guide-max);
+  height:auto;
+  min-height:0;
+  margin:0 auto 1.5rem;
+  padding:1.75rem 1.25rem 2rem;
+  overflow:visible;
+  border-radius:12px;
+  box-shadow:0 1px 3px rgba(16,24,40,.06);
+}
+@media (min-width:48rem){
+  .guide-leser .page{ padding:2.5rem 2.5rem 3rem; }
+}
+/* Kopf- und Fusszeile jeder Druckseite fallen weg. Die Seitenzahl hat auf
+   einer Seite ohne Seiten keinen Sinn, und die laufende Kopfzeile wiederholt
+   nur den Namen, der oben schon im Kopf der Website steht. */
+.guide-leser .footer,
+.guide-leser .topbar,
+.guide-leser .top-bar{ display:none; }
+
+/* Fliesstext. Im Druck sind 11,5pt richtig, auf dem Handy liest sich das zu
+   klein. Kleingedrucktes bleibt klein. */
+.guide-leser .page p{ font-size:1rem; line-height:1.62; }
+.guide-leser .page p.sm,
+.guide-leser .page .sm,
+.guide-leser .page .cc-ad,
+.guide-leser .page .cc-risk,
+.guide-leser .page .footnote,
+.guide-leser .page .src-desc{ font-size:.8125rem; line-height:1.5; }
+
+/* Reihen, die auf A4 nebeneinander passen, stapeln auf dem Handy. */
+@media (max-width:36rem){
+  .guide-leser .badge-row,
+  .guide-leser .br-top,
+  .guide-leser .learn ul,
+  .guide-leser .kpi-row,
+  .guide-leser .concept{
+    display:block;
+  }
+  .guide-leser .badge-row > *,
+  .guide-leser .br-top > *{ margin-bottom:.5rem; }
+}
+
+/* Bilder nie ueber den Rand. */
+.guide-leser img{ max-width:100%; height:auto; }
+
+/* Breite Tabellen bekommen ihren eigenen Schieber, die Seite selbst
+   scrollt nie zur Seite. */
+.guide-leser table{ display:block; overflow-x:auto; max-width:100%; }
