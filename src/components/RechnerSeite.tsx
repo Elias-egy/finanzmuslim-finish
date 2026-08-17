@@ -33,21 +33,12 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "anlegen", label: "2. Anlegen" },
 ];
 
-/** Die drei Schritte vom Rechnen zum Handeln. */
-const SCHRITTE = [
-  {
-    titel: "Depot eröffnen",
-    text: "Ein Depot ist das Regal, in dem deine Anteile liegen. Die Eröffnung dauert meist unter zwanzig Minuten.",
-  },
-  {
-    titel: "Anlage auswählen",
-    text: "Such dir aus, was zu dir passt. In unserer Datenbank steht bei jeder Anlage, wer sie geprüft hat.",
-  },
-  {
-    titel: "Betrag festlegen",
-    text: "Leg fest, wie viel jeden Monat automatisch angelegt wird. Anfangen kannst du mit kleinen Beträgen.",
-  },
-];
+/* Hier standen drei Kacheln "Schritt 1 Depot eröffnen, Schritt 2 Anlage
+   auswählen, Schritt 3 Betrag festlegen". Sie sind raus. Sie sagten nichts,
+   was der Leser nicht schon weiß, und kosteten eine Bildschirmhöhe vor dem
+   einzigen Teil, der ihm wirklich weiterhilft, der Anbieterliste. Finanzfluss
+   hat auf seinen Rechnerseiten auch keinen solchen Block, dort folgt auf den
+   Rechner direkt der Erklaerteil. */
 
 /**
  * Einheitlicher Rahmen fuer jede Rechnerseite.
@@ -125,18 +116,10 @@ const RechnerSeite = ({
               </p>
             )}
 
+            {/* Keine zweite Ueberschrift. Der Satz darueber sagt schon, was
+                die Liste ist, und "Depots ohne Zinsgeschäft" stand direkt
+                unter "So fängst du an" wie ein Echo. */}
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {SCHRITTE.map((s, i) => (
-                <div key={s.titel} className="card-surface p-5">
-                  <span className="text-[13px] font-bold text-primary">Schritt {i + 1}</span>
-                  <p className="mt-1 text-[17px] font-bold text-foreground">{s.titel}</p>
-                  <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{s.text}</p>
-                </div>
-              ))}
-            </div>
-
-            <h3 className="mt-10 text-xl font-bold text-foreground">Depots ohne Zinsgeschäft</h3>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
               {anbieter.map((b) => (
                 <div key={b.id} className="card-surface p-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
