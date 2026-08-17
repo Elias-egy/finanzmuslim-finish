@@ -88,6 +88,7 @@ const Wissen = () => (
       title="Halal-Finanzwissen | finanzmuslim"
       description="Finde Antworten zu Grundlagen, Alltag und Pflichten. Von der ersten Aktie bis zur Zakat."
       path="/wissen"
+      brotkrumen={[{ name: "Wissen", path: "/wissen" }]}
     />
     <div className="container py-10 md:py-14">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">

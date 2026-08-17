@@ -6,6 +6,7 @@ const Impressum = () => (
       title="Impressum – finanzmuslim"
       description="Impressum und rechtliche Angaben zu finanzmuslim, Bildung für halal Investieren."
       path="/impressum"
+      brotkrumen={[{ name: "Impressum", path: "/impressum" }]}
     />
 
     <main className="container mx-auto px-4 py-16 max-w-3xl">

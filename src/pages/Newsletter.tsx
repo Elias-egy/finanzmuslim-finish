@@ -41,6 +41,7 @@ const Newsletter = () => (
       title="Der Freitagsbrief | finanzmuslim"
       description="Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten auf halal oder nicht. Fünf Minuten, kostenlos, jederzeit abbestellbar."
       path="/newsletter"
+      brotkrumen={[{ name: "Newsletter", path: "/newsletter" }]}
     />
     <div className="container py-12 md:py-16">
       <header className="mx-auto max-w-[700px] text-center">

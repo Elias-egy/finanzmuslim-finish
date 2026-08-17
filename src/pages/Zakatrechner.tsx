@@ -101,6 +101,7 @@ const Zakatrechner = () => (
       title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | finanzmuslim"
       description="Berechne deine Zakat kostenlos: Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto. Mit Nisab nach Gold oder Silber und zwei Berechnungsmethoden für Aktien."
       path="/zakat-rechner"
+      brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Zakat-Rechner", path: "/zakat-rechner" }]}
       jsonLd={[
         calculatorJsonLd({
           name: "Zakat-Rechner",

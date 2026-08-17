@@ -106,6 +106,7 @@ const Deals = () => (
       title="Aktuelle Angebote – Deals | finanzmuslim"
       description="Geprüfte Boni und Aktionen für die finanzmuslim Community. Nur Angebote, die sich wirklich lohnen."
       path="/deals"
+      brotkrumen={[{ name: "Deals", path: "/deals" }]}
     />
     <main>
       <section className="container max-w-3xl pt-14 md:pt-20">

@@ -153,6 +153,7 @@ const VertragsAmpel = () => (
       title="Vertrags-Ampel: grün, gelb, rot | finanzmuslim"
       description="Zwölf Verträge aus dem Alltag mit klarer Bewertung und der Bedingung dahinter: Depot, Kreditkarte, Versicherung, Ratenzahlung, Leasing und mehr."
       path="/vorlagen/vertrags-ampel"
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Vertrags-Ampel", path: "/vorlagen/vertrags-ampel" }]}
     />
     <VorlagenSeite
       kicker={v.kicker}

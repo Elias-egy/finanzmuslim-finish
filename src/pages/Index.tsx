@@ -17,7 +17,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
-import Seo from "@/components/Seo";
+import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import DatenbankVorschau from "@/components/DatenbankVorschau";
 import MotivBild from "@/components/MotivBild";
@@ -183,6 +183,7 @@ const Index = () => (
       title="Halal investieren in Deutschland | finanzmuslim"
       description="Halal investieren in Deutschland: geprüfte Anlagen, Rechner und Vergleiche. Finde heraus, welches Depot ohne Zinsgeschäft arbeitet."
       path="/"
+      jsonLd={startseiteJsonLd}
     />
 
     {/* Ein durchgehendes Raster. Handy 16px zwischen den Abschnitten, Desktop 24px. */}

@@ -86,6 +86,7 @@ const HalalAnlagen = () => (
       title="21 halal Anlagen mit ISIN und Prüfstelle | finanzmuslim"
       description="Aktien-ETFs, Sukuk, Gold, Silber und Krypto, jeweils mit ISIN und der Stelle, die sie als shariah-konform geprüft oder zertifiziert hat."
       path="/vorlagen/halal-anlagen"
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal-Anlagen als PDF", path: "/vorlagen/halal-anlagen" }]}
     />
     <VorlagenSeite
       kicker={v.kicker}

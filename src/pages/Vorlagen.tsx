@@ -11,6 +11,7 @@ const Vorlagen = () => (
       title="Kostenlose Vorlagen | finanzmuslim"
       description="Halal-Anlagenliste, Vertrags-Ampel und Aktien-Spickzettel. Kurz, konkret, sofort nutzbar. Kein Konto nötig, keine Anmeldung."
       path="/vorlagen"
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }]}
     />
     <div className="container py-10 md:py-14">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">

@@ -6,6 +6,7 @@ const Datenschutz = () => (
       title="Datenschutz – finanzmuslim"
       description="Datenschutzerklärung von finanzmuslim, Informationen zur Verarbeitung personenbezogener Daten."
       path="/datenschutz"
+      brotkrumen={[{ name: "Datenschutz", path: "/datenschutz" }]}
     />
 
     <main className="container mx-auto px-4 py-16 max-w-3xl">

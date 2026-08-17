@@ -15,6 +15,7 @@ const WieIchGeldVerdiene = () => (
       title="So verdiene ich Geld – Transparenz | finanzmuslim"
       description="Wie sich finanzmuslim finanziert: Affiliate-Links, der kostenlose Guide und die Regel, warum Vertrauen vor Provision kommt."
       path="/wie-ich-geld-verdiene"
+      brotkrumen={[{ name: "Wie ich Geld verdiene", path: "/wie-ich-geld-verdiene" }]}
     />
     <main>
       <section className="container max-w-3xl pt-14 md:pt-20">

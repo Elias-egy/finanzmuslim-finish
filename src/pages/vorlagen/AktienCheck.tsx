@@ -53,6 +53,7 @@ const AktienCheck = () => (
       title="Ist diese Aktie halal? Der Spickzettel | finanzmuslim"
       description="Drei Grenzwerte entscheiden: Haram-Umsatz, Schuldenquote und zinsbasierte Mittel. So ordnest du jede Aktie in unter einer Minute ein."
       path="/vorlagen/aktien-check"
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Ist diese Aktie halal?", path: "/vorlagen/aktien-check" }]}
     />
     <VorlagenSeite
       kicker={v.kicker}

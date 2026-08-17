@@ -102,6 +102,7 @@ const Vergleiche = () => (
       title="Anbieter im Vergleich | finanzmuslim"
       description="Wir prüfen Anbieter nach Kriterien, die in normalen Vergleichen fehlen: Zinsen, Kredit, Hebelprodukte und sharia-konforme Produkte."
       path="/vergleiche"
+      brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
     />
     <div className="container py-10 md:py-14">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">

@@ -202,6 +202,7 @@ const HalalGuide = () => {
         title="Halal Investment Guide – Kostenlos anmelden | finanzmuslim"
         description="Der kostenlose Halal Investment Guide: Grundlagen, Kriterien und praktische Schritte für islamkonformes Investieren. Ohne Verkaufsdruck."
         path="/halal-guide"
+        brotkrumen={[{ name: "Halal Investment Guide", path: "/halal-guide" }]}
       />
 
       <main>

@@ -32,6 +32,7 @@ const Inflationsrechner = () => (
       title="Inflationsrechner: was dein Geld in X Jahren noch wert ist | finanzmuslim"
       description="Sieh, wie viel Kaufkraft dein Geld auf dem Konto verliert. Betrag, Zeitraum und Inflationsrate einstellen, Ergebnis sofort als Zahl und Grafik."
       path="/inflationsrechner"
+      brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Inflationsrechner", path: "/inflationsrechner" }]}
       jsonLd={[
         calculatorJsonLd({
           name: "Inflationsrechner",

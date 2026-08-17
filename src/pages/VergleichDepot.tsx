@@ -251,6 +251,7 @@ const VergleichDepot = () => {
         title="Depot-Vergleich für Muslime | finanzmuslim"
         description="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen Verrechnungskonto, Kredit, Hebelprodukte und sharia-konforme ETFs."
         path="/vergleich/depot"
+        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Depot-Vergleich", path: "/vergleich/depot" }]}
       />
 
       <div className="container py-10 md:py-14">

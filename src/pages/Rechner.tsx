@@ -57,6 +57,7 @@ const Rechner = () => (
       title="Rechner für deine Finanzen | finanzmuslim"
       description="Kostenlose Rechner für Zakat, Rendite und islamkonforme Finanzplanung. Ohne Anmeldung nutzbar."
       path="/rechner"
+      brotkrumen={[{ name: "Rechner", path: "/rechner" }]}
     />
     <div className="container py-4 md:py-5">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">

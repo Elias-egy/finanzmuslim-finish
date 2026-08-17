@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Wordmark } from "@/components/Wordmark";
+import Seo from "@/components/Seo";
 
 const NotFound = () => {
   const location = useLocation();
@@ -11,6 +12,15 @@ const NotFound = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-6">
+      {/* Eigener Titel, sonst behaelt der Reiter den Titel der zuletzt
+          besuchten Seite und die Fehlerseite sieht aus wie ein Treffer.
+          noindex, weil es diese Adresse nicht gibt. */}
+      <Seo
+        title="Diese Seite gibt es nicht | finanzmuslim"
+        description="Die aufgerufene Adresse führt ins Leere. Zurück zur Startseite oder in den Wissensbereich."
+        path={location.pathname}
+        noindex
+      />
       <div className="text-center max-w-md">
         <Wordmark className="text-xl block mx-auto mb-8" />
         <p className="text-[12px] font-semibold tracking-wide text-primary">Fehler 404</p>

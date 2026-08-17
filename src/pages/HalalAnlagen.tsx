@@ -189,6 +189,7 @@ const HalalAnlagen = () => {
         title={`Halal-Anlagen finden, ${halalAnlagen.length} ETFs, Fonds und Kryptowährungen | finanzmuslim`}
         description="Alle in Deutschland handelbaren Halal-ETFs, Sukuk, Gold, Silber und Kryptowährungen mit Kosten, Größe und Zertifizierer. Filterbar und sortierbar, kostenlos."
         path="/halal-anlagen"
+        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal-Anlagen finden", path: "/halal-anlagen" }]}
       />
 
       {/* Kopf. Bewusst flach: auf dem Handy stand hier vorher ein Bild, drei

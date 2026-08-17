@@ -1,6 +1,6 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ChevronRight, ExternalLink } from "lucide-react";
-import Seo from "@/components/Seo";
+import Seo, { anlageJsonLd } from "@/components/Seo";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
 import AnlageKurschart from "@/components/anlage/AnlageKurschart";
 import FaktenRaster from "@/components/anlage/FaktenRaster";
@@ -84,6 +84,17 @@ const AnlageDetail = () => {
             : `${anlage.name} (${anlage.isin}): Kursverlauf, ${anlage.kostenLabel} Kosten pro Jahr, Fondsgröße und die Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`
         }
         path={`/halal-anlagen/${anlage.slug}`}
+        jsonLd={anlageJsonLd({
+          name: anlage.name,
+          beschreibung: istKrypto
+            ? `${anlage.name} mit Kursverlauf in Euro und der Stelle, die die Münze nach Shariah-Kriterien eingeordnet hat.`
+            : `${anlage.name} mit Kursverlauf, ${anlage.kostenLabel} laufenden Kosten pro Jahr und der Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`,
+          path: `/halal-anlagen/${anlage.slug}`,
+          isin: anlage.isin,
+          anbieter: anlage.anbieter,
+          zertifizierer: anlage.zertifizierer,
+          krypto: istKrypto,
+        })}
       />
 
       {/* 1 — Kopf */}
