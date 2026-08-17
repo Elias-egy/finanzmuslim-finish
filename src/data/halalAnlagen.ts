@@ -41,6 +41,12 @@ export type Anlage = {
   zweiterBeleg?: { titel: string; url: string };
   /** Zeichen der Münze, steht in der Kachel bis ein Logo vorliegt. */
   zeichen?: string;
+  /**
+   * Kurzer Vorbehalt zur Anlage. Steht bisher nur bei Chainlink und wird
+   * nirgends angezeigt, der Inhalt steckt auch im zertifikatHinweis. Das Feld
+   * fehlte im Typ, was niemandem auffiel, weil die Typprüfung nie lief.
+   */
+  hinweis?: string;
 };
 
 export type Anbieter = { kuerzel: string; name: string; logo?: string; domain?: string };

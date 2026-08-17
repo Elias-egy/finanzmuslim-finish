@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Zwischenstand der Typpruefung, gehoert nicht ins Repo
+*.tsbuildinfo
