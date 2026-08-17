@@ -268,7 +268,7 @@ const Nisab = () => (
         kategorie: "Anlagen",
         ueberschrift: "Geprüfte Anlagen, die in die Zakat-Rechnung gehören",
         linkZiel: "/halal-anlagen",
-        text: "26 Anlagen mit Kosten, Größe und Prüfstelle.",
+        text: "27 Anlagen mit Kosten, Größe und Prüfstelle.",
         knopf: "Zu den Anlagen",
       }}
     >

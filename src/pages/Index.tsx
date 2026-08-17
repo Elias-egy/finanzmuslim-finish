@@ -373,7 +373,7 @@ const Index = () => (
             <p className="eyebrow">HALAL INVESTMENTS</p>
             <h2 className="section-title mt-2">Welche Anlagen wirklich geprüft sind</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              26 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber und Krypto. Such nach
+              27 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber und Krypto. Such nach
               Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.
             </p>
             <Link to="/halal-anlagen" className="btn-primary mt-6">

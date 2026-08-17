@@ -302,7 +302,7 @@ const HalalGoldKaufen = () => (
         kategorie: "Anlagen",
         ueberschrift: "Welche Gold-Produkte einen Nachweis haben",
         linkZiel: "/halal-anlagen",
-        text: "26 Anlagen mit Kosten, Größe und Prüfstelle.",
+        text: "27 Anlagen mit Kosten, Größe und Prüfstelle.",
         knopf: "Zu den Anlagen",
       }}
       boxMitte={{

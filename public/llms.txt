@@ -11,7 +11,7 @@ geprüft".
 
 ## Anlagen und Vergleiche
 
-- [Halal-Anlagen](/halal-anlagen): Datenbank mit 26 Anlagen, je mit
+- [Halal-Anlagen](/halal-anlagen): Datenbank mit 27 Anlagen, je mit
   ISIN, laufenden Kosten, Fondsgröße und der Stelle, die sie geprüft hat.
 - [Anlage-Detailseite](/halal-anlagen/ishares-msci-world-islamic): Muster einer
   Einzelseite mit Kursverlauf, Stammdaten und Halal-Einordnung. Kurse sind

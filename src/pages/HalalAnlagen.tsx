@@ -13,6 +13,7 @@ import AnlageFilter, {
 import { kursFuerAnlage, kursStand, kursText, type Zeitraum } from "@/lib/kurse";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
+import { regionFuer } from "@/data/anlageRegion";
 import { inGruppen, type Gruppe } from "@/lib/anlageGruppen";
 
 const BauartHilfe = () => (
@@ -72,12 +73,12 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
 const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe: Gruppe }) => {
   const kurs = kursFuerAnlage(a);
   const preis = kursText(kurs);
+  const region = a.isin ? regionFuer(a.isin) : undefined;
   return (
     /* Handy-Karte. Kopfzeile wie in der Vorschau: rundes Logo, Name mit Kürzel
-       darunter, rechts Kurs und Veränderung. Darunter die zwei Zahlen, wegen
-       derer die Liste überhaupt existiert: Kosten und Prüfstelle. Farbpunkt,
-       Flagge und ausgeschriebene Anlageart sind raus, das war dreimal
-       dieselbe Aussage in einer Karte. */
+       darunter, rechts Kurs und Veränderung. Darunter Kosten, Anlagegebiet und
+       Prüfstelle. Farbpunkt und ausgeschriebene Anlageart sind raus, die
+       stehen schon in der Gruppenüberschrift. */
     <li className="card-surface p-4">
       <Link to={`/halal-anlagen/${a.slug}`} className="flex items-center gap-3">
         <AnlageLogo a={a} />
@@ -95,7 +96,7 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe:
         </span>
       </Link>
 
-      {(gruppe.kosten || gruppe.groesse) && (
+      {(gruppe.kosten || region) && (
         <dl className="mt-3 grid grid-cols-2 gap-2">
           {gruppe.kosten && (
             <div className="rounded-lg border border-border px-3 py-2">
@@ -103,10 +104,19 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe:
               <dd className="mt-0.5 text-[17px] font-bold text-foreground">{a.kostenLabel}</dd>
             </div>
           )}
-          {gruppe.groesse && (
+          {/* Statt der Fondsgröße steht hier, wo die Anlage hinzielt. Die Größe
+              sagt einem Privatanleger wenig, das Anlagegebiet entscheidet, ob
+              die Anlage überhaupt in Frage kommt. Das Zeichen bringt außerdem
+              die einzige Farbe in die Karte. */}
+          {region && (
             <div className="rounded-lg border border-border px-3 py-2">
-              <dt className="text-[12px] text-muted-foreground">Größe</dt>
-              <dd className="mt-0.5 text-[15px] font-semibold text-foreground">{a.groesse ?? "—"}</dd>
+              <dt className="text-[12px] text-muted-foreground">Anlagegebiet</dt>
+              <dd className="mt-0.5 flex items-center gap-1.5 text-[14px] font-semibold text-foreground">
+                <span className="shrink-0 text-[17px] leading-none" aria-hidden>
+                  {region.zeichen}
+                </span>
+                <span className="truncate">{region.label}</span>
+              </dd>
             </div>
           )}
         </dl>
@@ -401,9 +411,9 @@ const HalalAnlagen = () => {
         <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Krypto in dieser Liste</h2>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
-            Bitcoin, Ether und Solana stehen unter denselben Zeilen wie alles andere, sie haben nur
-            keine ISIN und keine laufenden Kosten. Für Bitcoin und Ether gibt es ein Gutachten, für
-            Solana liegt uns keins vor.
+            Vier Münzen stehen unter denselben Zeilen wie alles andere, sie haben nur keine ISIN und
+            keine laufenden Kosten. Zu jeder liegt eine Sharia-Analyse vor, drei davon vom Shariyah
+            Review Bureau in Bahrain, verlinkt auf der jeweiligen Seite.
           </p>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt als kleine

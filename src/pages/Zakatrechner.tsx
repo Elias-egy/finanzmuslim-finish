@@ -120,14 +120,6 @@ const Zakatrechner = () => (
             Zakat auf Bargeld ist einfach. Sobald ein Depot dazukommt, wird es unübersichtlich.
             Trag zwei Zahlen ein und sieh, worauf du wirklich zahlst.
           </p>
-          <p className="flex flex-wrap gap-x-4 gap-y-1 text-[15px]">
-            <a href="#zakat-gold" className="font-semibold text-primary hover:underline">
-              Zakat auf Gold und Silber
-            </a>
-            <a href="#zakat-aktien" className="font-semibold text-primary hover:underline">
-              Zakat auf Aktien und ETFs
-            </a>
-          </p>
         </>
       }
       unterRechner={<UnterDemRechner />}
