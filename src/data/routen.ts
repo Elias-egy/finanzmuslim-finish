@@ -1,4 +1,6 @@
 import { halalAnlagen } from "@/data/halalAnlagen";
+import { guides } from "@/data/guides";
+import { partnerLinks } from "@/data/partnerLinks";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -133,6 +135,45 @@ export const alleRouten = (): Route[] => [...festeRouten, ...anlagenRouten()];
  * die Prüfung beim Build erkennt, ob eine Route im Router auftaucht, die weder
  * aufgenommen noch ausdrücklich ausgeschlossen wurde.
  */
+/**
+ * Adressen, die ausgeliefert werden müssen, aber nicht in den Index gehören.
+ *
+ * Der Unterschied zu `bewusstDraussen` ist wichtig: dort steht, was nicht in
+ * die Sitemap gehört. Hier steht, was trotzdem als Datei existieren muss.
+ *
+ * Warum das nötig ist: Ohne SPA-Umleitung liefert ein statischer Hoster nur
+ * aus, was als Datei da liegt. Alles andere wird zu einer echten 404, und
+ * genau das wollen wir für Tippfehler. Eine Seite, die es nur im Router gibt,
+ * fällt damit aber ebenfalls aus. Beim ersten Auslieferungstest traf das die
+ * Guide-Adressen und die Partnerweiterleitung, also ausgerechnet die beiden
+ * Wege, über die Geld und Leser hereinkommen.
+ *
+ * Diese Seiten werden vorgerendert wie jede andere, setzen aber noindex und
+ * stehen nicht in der Sitemap.
+ */
+export const nichtIndexiert: string[] = [
+  "/dein-investmentstart",
+  ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+];
+
+/**
+ * Adressen, die nur weiterleiten. Auf einem statischen Hoster gibt es kein
+ * 301, deshalb bekommt jede eine winzige eigene Datei, die sofort weiterschickt
+ * und per Canonical auf das Ziel zeigt.
+ *
+ * `/blog/*` lässt sich nicht aufzählen. Alte Unteradressen des Blogs landen
+ * damit im 404 statt in der Weiterleitung. Welche das waren, weiß niemand mehr;
+ * sobald die Search Console welche meldet, gehören sie hier hinein.
+ */
+export const weiterleitungen: { von: string; nach: string }[] = [
+  { von: "/zakatrechner", nach: "/zakat-rechner" },
+  { von: "/tools", nach: "/rechner" },
+  { von: "/dein-investment-start", nach: "/dein-investmentstart" },
+  { von: "/blog", nach: "/wissen" },
+  { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
+  ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+];
+
 export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/zakatrechner", grund: "Zweitschreibweise von /zakat-rechner" },
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },

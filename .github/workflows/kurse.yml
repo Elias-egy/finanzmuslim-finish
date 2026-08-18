@@ -1,0 +1,73 @@
+# Holt jede Nacht die Kurse und committet sie, wenn sich etwas geaendert hat.
+#
+# Warum ueberhaupt: src/data/kurse.json ist eine Datei im Repo, keine Abfrage
+# zur Laufzeit. "Taeglich aktuell" heisst deshalb, dass jemand das Skript
+# taeglich laufen laesst und das Ergebnis committet. Genau das macht dieser
+# Lauf, kostenlos und ohne Server.
+#
+# Was der Lauf NICHT macht: veroeffentlichen. Er schreibt nur die Daten. Ob
+# und wann daraus eine neue Auslieferung wird, entscheidet auslieferung.yml.
+name: Kurse holen
+
+on:
+  schedule:
+    # 03:17 UTC. Krumme Minute mit Absicht: zur vollen Stunde stehen bei
+    # GitHub Zehntausende Laeufe in der Warteschlange, das verzoegert um
+    # bis zu einer Stunde.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+# Nie zwei Laeufe gleichzeitig, sonst schreiben beide dieselbe Datei.
+concurrency:
+  group: kurse
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Das Skript kommt mit der Standardbibliothek aus, keine Abhaengigkeiten.
+      - name: Kurse holen
+        run: python3 scripts/kurse_holen.py
+
+      # Sicherheitsnetz: eine leere oder halbe Datei waere schlimmer als eine
+      # alte. Lieber der Lauf faellt aus und die Daten von gestern bleiben.
+      - name: Ergebnis pruefen
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("src/data/kurse.json"))
+          anlagen, krypto = d["anlagen"], d["krypto"]
+          ohne = [k for k, v in anlagen.items() if v.get("status")]
+          print(f"{len(anlagen)} Anlagen, {len(krypto)} Muenzen, Stand {d['stand']}")
+          if len(anlagen) < 23 or len(krypto) < 4:
+              sys.exit(f"Zu wenige Eintraege: {len(anlagen)} Anlagen, {len(krypto)} Muenzen")
+          # Bis zu drei Ausfaelle sind hinnehmbar, Yahoo drosselt gelegentlich.
+          # Mehr heisst, dass etwas grundsaetzlich kaputt ist.
+          if len(ohne) > 3:
+              sys.exit(f"{len(ohne)} Anlagen ohne Kursdaten: {', '.join(ohne)}")
+          if ohne:
+              print(f"Hinweis: ohne Kursdaten: {', '.join(ohne)}")
+          json.load(open("src/data/nisab.json"))
+          PY
+
+      - name: Committen, wenn sich etwas geaendert hat
+        run: |
+          if git diff --quiet -- src/data/kurse.json src/data/nisab.json; then
+            echo "Keine Aenderung, nichts zu committen."
+            exit 0
+          fi
+          git config user.name "finanzmuslim Kursbot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/data/kurse.json src/data/nisab.json
+          git commit -m "Kurse vom $(date -u +%d.%m.%Y)"
+          git push

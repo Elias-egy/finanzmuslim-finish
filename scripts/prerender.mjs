@@ -69,9 +69,42 @@ const TYPEN = {
  * Datei, die selbst erst erzeugt werden muss. Eine Quelle, zwei Verbraucher.
  */
 const adressenLesen = async () => {
-  const { alleRouten } = await routenLaden();
-  return alleRouten().map((r) => r.pfad);
+  const { alleRouten, nichtIndexiert, weiterleitungen } = await routenLaden();
+  return {
+    indexierbar: alleRouten().map((r) => r.pfad),
+    nichtIndexiert,
+    weiterleitungen,
+  };
 };
+
+/**
+ * Winzige Weiterleitungsseite. Ein statischer Hoster kann kein 301, deshalb
+ * schickt eine Meta-Angabe weiter und ein Skript dahinter uebernimmt die
+ * Abfrageparameter. Ohne das ginge bei /out/name das ?src= verloren, und dann
+ * weiss niemand mehr, aus welchem Guide der Klick kam.
+ */
+const weiterleitungsSeite = (nach) => `<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://finanzmuslim.com${nach}">
+<meta http-equiv="refresh" content="0; url=${nach}">
+<title>Weiterleitung</title>
+<script>
+  (function () {
+    var ziel = ${JSON.stringify(nach)};
+    var such = window.location.search;
+    if (such) ziel += (ziel.indexOf("?") === -1 ? "?" : "&") + such.slice(1);
+    window.location.replace(ziel);
+  })();
+</script>
+</head>
+<body>
+<p>Weiter zu <a href="${nach}">${nach}</a></p>
+</body>
+</html>
+`;
 
 /**
  * Statischer Server über dist. Für echte Dateien liefert er die Datei, für
@@ -127,6 +160,12 @@ const aufraeumen = (html) =>
     // leere Portale von Radix schon. Sie sind unsichtbar und harmlos.
     .replace(/<script type="module" src="\/@vite\/client"><\/script>/g, "");
 
+/** Setzt robots auf noindex, egal was die Seite selbst gesetzt hat. */
+const aufNoindex = (html) =>
+  /<meta name="robots"/.test(html)
+    ? html.replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, nofollow">')
+    : html.replace(/<head>/i, '<head><meta name="robots" content="noindex, nofollow">');
+
 const schreiben = async (pfad, html) => {
   const ziel = pfad === "/" ? join(DIST, "index.html") : join(DIST, pfad, "index.html");
   await mkdir(dirname(ziel), { recursive: true });
@@ -141,20 +180,29 @@ const main = async () => {
     throw new Error("dist/index.html fehlt. Erst vite build laufen lassen.");
   }
 
-  /* Ohne Chrome wird nicht abgebrochen, sondern uebersprungen. Der Build in
-     Lovable laeuft in einer Umgebung ohne Browser, und ein harter Fehler
-     wuerde dort jede Veroeffentlichung blockieren. Die Warnung ist bewusst
-     laut: ohne Prerendering geht jede Adresse wieder als leere Huelle raus. */
+  /* Ohne Chrome bricht der Build ab. Frueher wurde hier nur gewarnt und
+     uebersprungen, damit der Build in Lovable durchlaeuft. Das war der
+     teuerste Kompromiss im Projekt: er hat aus jedem Lovable-Deploy still
+     eine Auslieferung ohne Title, Description und Inhalt gemacht, und
+     gemerkt haette man es erst an der Indexierung.
+     Wer bewusst ohne Prerendering bauen will, etwa fuer eine reine
+     Vorschau, setzt PRERENDER_OPTIONAL=1. Dann wird gewarnt statt
+     abgebrochen. Der Auslieferungs-Build setzt das nie. */
   if (!chromeFinden()) {
-    process.stdout.write(
-      "\nACHTUNG: Kein Chrome gefunden, Prerendering uebersprungen.\n" +
-        "Die Seiten gehen ohne Title, Description und Inhalt im Quelltext raus.\n" +
-        "Pfad ueber die Umgebungsvariable CHROME_PFAD setzen.\n\n",
-    );
-    return;
+    const text =
+      "Kein Chrome gefunden, Prerendering nicht moeglich.\n" +
+      "Ohne Prerendering geht jede Adresse als leere Huelle raus:\n" +
+      "kein Title, keine Description, kein Inhalt im Quelltext.\n" +
+      "Pfad ueber die Umgebungsvariable CHROME_PFAD setzen.\n";
+    if (process.env.PRERENDER_OPTIONAL === "1") {
+      process.stdout.write(`\nACHTUNG, uebersprungen: ${text}\n`);
+      return;
+    }
+    throw new Error(text + "Zum bewussten Ueberspringen: PRERENDER_OPTIONAL=1");
   }
 
-  const adressen = await adressenLesen();
+  const { indexierbar, nichtIndexiert, weiterleitungen } = await adressenLesen();
+  const adressen = [...indexierbar, ...nichtIndexiert];
   const { server, port } = await serverStarten();
   const browser = await puppeteer.launch({
     executablePath: chromeFinden(),
@@ -186,7 +234,7 @@ const main = async () => {
       const html = aufraeumen(
         await seite.evaluate(() => "<!DOCTYPE html>\n" + document.documentElement.outerHTML),
       );
-      await schreiben(pfad, html);
+      await schreiben(pfad, nichtIndexiert.includes(pfad) ? aufNoindex(html) : html);
       fertig += 1;
       process.stdout.write(`ok   ${pfad}\n`);
     } catch (e) {
@@ -221,10 +269,24 @@ const main = async () => {
     fehler.push({ pfad: "404.html", grund: e.message.split("\n")[0] });
   }
 
+  /* Weiterleitungen. Ohne eigene Datei laeuft jede davon auf einem
+     statischen Hoster in den 404, und /out/name ist der Weg, ueber den die
+     Provision hereinkommt. */
+  for (const { von, nach } of weiterleitungen) {
+    const ziel = join(DIST, von, "index.html");
+    await mkdir(dirname(ziel), { recursive: true });
+    await writeFile(ziel, weiterleitungsSeite(nach), "utf8");
+    process.stdout.write(`ok   ${von}  leitet auf ${nach}\n`);
+  }
+
   await browser.close();
   server.close();
 
-  process.stdout.write(`\n${fertig} von ${adressen.length} Seiten erzeugt.\n`);
+  process.stdout.write(
+    `\n${fertig} von ${adressen.length} Seiten erzeugt ` +
+      `(${indexierbar.length} indexierbar, ${nichtIndexiert.length} auf noindex), ` +
+      `dazu ${weiterleitungen.length} Weiterleitungen.\n`,
+  );
   if (fehler.length) {
     process.stdout.write(`${fehler.length} Fehler:\n`);
     fehler.forEach((f) => process.stdout.write(`  ${f.pfad}: ${f.grund}\n`));

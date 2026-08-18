@@ -14,6 +14,9 @@
     "test:watch": "vitest",
     "build:only": "vite build",
     "seo:pruefen": "node scripts/prerender-pruefen.mjs",
+    "auslieferung:pruefen": "node scripts/auslieferung-testen.mjs",
+    "pruefen": "npm run seo:pruefen && npm run auslieferung:pruefen",
+    "build:auslieferung": "npm run build && npm run pruefen",
     "sitemap": "node scripts/sitemap.mjs"
   },
   "dependencies": {

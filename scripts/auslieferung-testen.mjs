@@ -10,6 +10,7 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { join, extname, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { routenLaden } from "./routen-laden.mjs";
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), "..", "dist");
 
@@ -48,22 +49,35 @@ const server = createServer(async (anfrage, antwort) => {
   }
 });
 
+/**
+ * Geprueft wird JEDE indexierbare Adresse, nicht eine Handvoll Beispiele.
+ * Die Liste kommt aus src/data/routen.ts, derselben Quelle wie Sitemap und
+ * Prerendering. Eine neue Anlage ist damit automatisch mit im Test.
+ *
+ * Dazu Adressen, die es nicht gibt, in allen drei Tiefen. Sie sind der
+ * eigentliche Punkt: liefert der Hoster dort 200 mit der Startseite, hat er
+ * eine SPA-Umleitung, und dann bekommt Google fuer jeden Tippfehler eine
+ * indexierbare Seite.
+ */
+const { alleRouten, nichtIndexiert, weiterleitungen } = await routenLaden();
 const pruefen = [
-  ["/", 200],
-  ["/wissen/nisab", 200],
-  ["/zakat-rechner", 200],
-  ["/vergleich/depot", 200],
-  ["/halal-anlagen/xrp", 200],
+  ...alleRouten().map((r) => [r.pfad, 200]),
+  // Muessen ausgeliefert werden, obwohl sie nicht in die Sitemap gehoeren.
+  ...nichtIndexiert.map((pfad) => [pfad, 200]),
+  ...weiterleitungen.map((w) => [w.von, 200]),
   ["/sitemap.xml", 200],
   ["/robots.txt", 200],
   ["/gibt-es-nicht", 404],
   ["/wissen/gibt-es-nicht", 404],
   ["/halal-anlagen/gibt-es-nicht", 404],
+  ["/vergleich/gibt-es-nicht", 404],
+  ["/dein-guide/falscher-schluessel", 404],
 ];
 
 server.listen(0, "127.0.0.1", async () => {
   const port = server.address().port;
   let alleOk = true;
+  const zaehler = {};
   for (const [pfad, erwartet] of pruefen) {
     const antwort = await fetch(`http://127.0.0.1:${port}${pfad}`);
     const text = antwort.headers.get("content-type")?.includes("html")
@@ -71,12 +85,23 @@ server.listen(0, "127.0.0.1", async () => {
       : "";
     const titel = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(text)?.[1]?.trim() ?? "";
     const ok = antwort.status === erwartet;
-    if (!ok) alleOk = false;
-    console.log(
-      `${ok ? "ok  " : "FEHL"} ${String(antwort.status).padEnd(4)} ${pfad.padEnd(32)} ${titel.slice(0, 60)}`,
-    );
+    if (!ok) {
+      alleOk = false;
+      console.log(
+        `FEHL ${String(antwort.status).padEnd(4)} erwartet ${erwartet}  ${pfad}`,
+      );
+    } else if (erwartet === 404 || pfad === "/") {
+      console.log(
+        `ok   ${String(antwort.status).padEnd(4)} ${pfad.padEnd(34)} ${titel.slice(0, 55)}`,
+      );
+    }
+    zaehler[erwartet] = (zaehler[erwartet] ?? 0) + (ok ? 1 : 0);
   }
   server.close();
-  console.log(`\n${alleOk ? "ALLE STATUS RICHTIG" : "STATUS FALSCH"}`);
+  console.log(
+    `\n${zaehler[200] ?? 0} Adressen mit 200, ${zaehler[404] ?? 0} mit 404, ` +
+      `${pruefen.length} geprueft`,
+  );
+  console.log(alleOk ? "ALLE STATUS RICHTIG" : "STATUS FALSCH");
   if (!alleOk) process.exit(1);
 });

@@ -1,0 +1,98 @@
+# Baut die Seite so, wie sie ausgeliefert werden muss, und prueft das Ergebnis.
+#
+# Kernpunkt: Prerendering. Die Seite ist eine Vite-SPA, ohne Prerendering geht
+# fuer jede Adresse dieselbe leere Huelle raus. Dieser Lauf hat einen echten
+# Chrome, prerendert jede indexierbare Adresse in eine eigene HTML-Datei und
+# prueft danach ohne JavaScript nach, dass Title, Description, Canonical, H1,
+# sichtbarer Text und JSON-LD wirklich drinstehen.
+#
+# Uebersprungen wird nie: scripts/prerender.mjs bricht ohne Chrome ab. Nur
+# PRERENDER_OPTIONAL=1 wuerde das aushebeln, und das wird hier nirgends gesetzt.
+#
+# Veroeffentlicht wird nur auf ausdruecklichen Wunsch. Der Lauf startet nicht
+# von selbst und der Schritt "veroeffentlichen" steht standardmaessig auf nein.
+name: Auslieferung bauen und pruefen
+
+on:
+  workflow_dispatch:
+    inputs:
+      veroeffentlichen:
+        description: "Nach dem Bauen auf GitHub Pages veroeffentlichen"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: auslieferung
+  cancel-in-progress: true
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      # Ohne Chrome bricht der Build ab. Lieber hier mit einer klaren Meldung
+      # stehenbleiben als spaeter im Prerender-Schritt.
+      - name: Chrome vorhanden?
+        run: |
+          if [ -x /usr/bin/google-chrome ]; then
+            echo "CHROME_PFAD=/usr/bin/google-chrome" >> "$GITHUB_ENV"
+            /usr/bin/google-chrome --version
+          elif [ -x /usr/bin/chromium-browser ]; then
+            echo "CHROME_PFAD=/usr/bin/chromium-browser" >> "$GITHUB_ENV"
+          else
+            echo "Kein Chrome im Runner-Abbild. Ohne Browser kein Prerendering."
+            exit 1
+          fi
+
+      - name: Typen pruefen
+        run: npm run typecheck
+
+      # Sitemap, vite build, Prerendering. Bricht ab, sobald eine Adresse
+      # nicht durchlaeuft.
+      - name: Bauen
+        run: npm run build
+
+      # Ohne JavaScript nachlesen, was ein Crawler beim ersten Abruf sieht.
+      - name: SEO im ausgelieferten HTML pruefen
+        run: npm run seo:pruefen
+
+      # Statuscodes ohne SPA-Umleitung: bekannte Adressen 200, unbekannte 404.
+      - name: Auslieferung pruefen
+        run: npm run auslieferung:pruefen
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+      - uses: actions/configure-pages@v5
+        if: inputs.veroeffentlichen
+      - uses: actions/upload-pages-artifact@v3
+        if: inputs.veroeffentlichen
+        with:
+          path: dist
+
+  veroeffentlichen:
+    needs: bauen
+    if: inputs.veroeffentlichen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - id: pages
+        uses: actions/deploy-pages@v4
