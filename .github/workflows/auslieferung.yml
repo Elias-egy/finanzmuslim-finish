@@ -9,8 +9,11 @@
 # Uebersprungen wird nie: scripts/prerender.mjs bricht ohne Chrome ab. Nur
 # PRERENDER_OPTIONAL=1 wuerde das aushebeln, und das wird hier nirgends gesetzt.
 #
-# Veroeffentlicht wird nur auf ausdruecklichen Wunsch. Der Lauf startet nicht
-# von selbst und der Schritt "veroeffentlichen" steht standardmaessig auf nein.
+# Zwei Wege hierher:
+#   von Hand ueber Actions, oder
+#   automatisch nach einem erfolgreichen Kurslauf, siehe kurse.yml.
+# Veroeffentlicht wird in beiden Faellen nur, wenn "veroeffentlichen" auf ja
+# steht. Beim Kurslauf haengt das zusaetzlich an der Variablen PAGES_LIVE.
 name: Auslieferung bauen und pruefen
 
 on:
@@ -20,6 +23,15 @@ on:
         description: "Nach dem Bauen auf GitHub Pages veroeffentlichen"
         type: boolean
         default: false
+  workflow_call:
+    inputs:
+      veroeffentlichen:
+        type: boolean
+        default: false
+      ref:
+        description: "Stand, der gebaut werden soll. Leer heisst: der ausloesende."
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -34,7 +46,12 @@ jobs:
   bauen:
     runs-on: ubuntu-latest
     steps:
+      # Bei einem angehaengten Lauf muss der Stand NACH dem Kurs-Commit
+      # gebaut werden. Ohne das baut der Lauf den Stand von vorher und die
+      # neuen Kurse gehen gar nicht raus.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - uses: actions/setup-node@v4
         with:
@@ -59,6 +76,11 @@ jobs:
 
       - name: Typen pruefen
         run: npm run typecheck
+
+      # Jede der 27 Anlagen muss ihre Kursdaten haben. Eine Seite ohne Kurs
+      # ist kein Fehler, den man sieht, sie ist einfach leer.
+      - name: Kursabdeckung pruefen
+        run: npm run kurse:pruefen
 
       # Sitemap, vite build, Prerendering. Bricht ab, sobald eine Adresse
       # nicht durchlaeuft.

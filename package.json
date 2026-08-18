@@ -17,6 +17,7 @@
     "auslieferung:pruefen": "node scripts/auslieferung-testen.mjs",
     "pruefen": "npm run seo:pruefen && npm run auslieferung:pruefen",
     "build:auslieferung": "npm run build && npm run pruefen",
+    "kurse:pruefen": "node scripts/kurse-abdeckung.mjs",
     "sitemap": "node scripts/sitemap.mjs"
   },
   "dependencies": {

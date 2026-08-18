@@ -1,12 +1,15 @@
-# Holt jede Nacht die Kurse und committet sie, wenn sich etwas geaendert hat.
+# Holt jede Nacht die Kurse, prueft sie und committet sie, wenn sich etwas
+# geaendert hat. Danach wird die Seite neu gebaut und ausgeliefert, aber nur
+# wenn die Repository-Variable PAGES_LIVE auf true steht.
 #
 # Warum ueberhaupt: src/data/kurse.json ist eine Datei im Repo, keine Abfrage
 # zur Laufzeit. "Taeglich aktuell" heisst deshalb, dass jemand das Skript
-# taeglich laufen laesst und das Ergebnis committet. Genau das macht dieser
-# Lauf, kostenlos und ohne Server.
+# taeglich laufen laesst, das Ergebnis committet und daraus eine neue
+# Auslieferung baut. Genau diese drei Schritte macht dieser Lauf.
 #
-# Was der Lauf NICHT macht: veroeffentlichen. Er schreibt nur die Daten. Ob
-# und wann daraus eine neue Auslieferung wird, entscheidet auslieferung.yml.
+# Der Schalter: Settings, Secrets and variables, Actions, Variables,
+# PAGES_LIVE = true. Solange die Variable fehlt oder anders lautet, wird
+# nur committet und NICHTS veroeffentlicht. Das ist der Standard.
 name: Kurse holen
 
 on:
@@ -28,6 +31,8 @@ permissions:
 jobs:
   holen:
     runs-on: ubuntu-latest
+    outputs:
+      geaendert: ${{ steps.commit.outputs.geaendert }}
     steps:
       - uses: actions/checkout@v4
 
@@ -35,35 +40,46 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Das Skript kommt mit der Standardbibliothek aus, keine Abhaengigkeiten.
+      # Node wird nur fuer die Abdeckungspruefung gebraucht, die liest die
+      # Anlagenliste aus TypeScript.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+
+      # Das Kursskript selbst kommt mit der Standardbibliothek aus.
       - name: Kurse holen
         run: python3 scripts/kurse_holen.py
 
-      # Sicherheitsnetz: eine leere oder halbe Datei waere schlimmer als eine
-      # alte. Lieber der Lauf faellt aus und die Daten von gestern bleiben.
-      - name: Ergebnis pruefen
+      # Sicherheitsnetz gegen halbe Dateien. Eine kaputte Datei waere
+      # schlimmer als die von gestern, deshalb wird bei Fehlern nicht
+      # committet und die alten Daten bleiben stehen.
+      - name: Datei plausibel?
         run: |
           python3 - <<'PY'
           import json, sys
           d = json.load(open("src/data/kurse.json"))
           anlagen, krypto = d["anlagen"], d["krypto"]
-          ohne = [k for k, v in anlagen.items() if v.get("status")]
           print(f"{len(anlagen)} Anlagen, {len(krypto)} Muenzen, Stand {d['stand']}")
           if len(anlagen) < 23 or len(krypto) < 4:
               sys.exit(f"Zu wenige Eintraege: {len(anlagen)} Anlagen, {len(krypto)} Muenzen")
-          # Bis zu drei Ausfaelle sind hinnehmbar, Yahoo drosselt gelegentlich.
-          # Mehr heisst, dass etwas grundsaetzlich kaputt ist.
-          if len(ohne) > 3:
-              sys.exit(f"{len(ohne)} Anlagen ohne Kursdaten: {', '.join(ohne)}")
-          if ohne:
-              print(f"Hinweis: ohne Kursdaten: {', '.join(ohne)}")
           json.load(open("src/data/nisab.json"))
           PY
 
+      # Prueft von der Seite der Website aus, ob wirklich jede der 27 Anlagen
+      # aus halalAnlagen ihren Kurs bekommt. Schlaegt fehl, sobald eine Anlage
+      # gar keinen Eintrag hat, mehr als zwei ohne Kurs dastehen oder ein
+      # Fonds ohne Jahresrendite ist, obwohl er alt genug waere.
+      - name: Abdeckung aller 27 Anlagen pruefen
+        run: npm run kurse:pruefen
+
       - name: Committen, wenn sich etwas geaendert hat
+        id: commit
         run: |
           if git diff --quiet -- src/data/kurse.json src/data/nisab.json; then
             echo "Keine Aenderung, nichts zu committen."
+            echo "geaendert=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "finanzmuslim Kursbot"
@@ -71,3 +87,21 @@ jobs:
           git add src/data/kurse.json src/data/nisab.json
           git commit -m "Kurse vom $(date -u +%d.%m.%Y)"
           git push
+          echo "geaendert=true" >> "$GITHUB_OUTPUT"
+
+  # Neu bauen und ausliefern, aber nur wenn sich wirklich etwas geaendert hat
+  # UND die Variable PAGES_LIVE auf true steht. Fehlt die Variable, wird der
+  # Job uebersprungen. Das ist der Standard.
+  ausliefern:
+    needs: holen
+    if: needs.holen.outputs.geaendert == 'true' && vars.PAGES_LIVE == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/auslieferung.yml
+    with:
+      veroeffentlichen: true
+      # Ausdruecklich der Stand NACH dem Kurs-Commit. Ohne das baut der Lauf
+      # den Stand von vorher und die neuen Kurse gehen gar nicht raus.
+      ref: main
