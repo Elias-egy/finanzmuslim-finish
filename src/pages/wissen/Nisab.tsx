@@ -240,7 +240,7 @@ const Nisab = () => (
         titel: "Nach Silber",
         beschreibung: "Der Nisab entspricht 85 Gramm Gold oder 595 Gramm Silber. Beide Grenzen in Euro mit Datum, warum sie so weit auseinanderliegen und welche du nehmen solltest.",
         path: "/wissen/nisab",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -255,7 +255,7 @@ const Nisab = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt nicht die Auskunft eines Gelehrten. Zur Wahl des Maßstabs, zur Behandlung unterjähriger Schwankungen und zur Bemessung von Wertpapieren bestehen innerhalb der Rechtsschulen unterschiedliche Auffassungen. Die Eurobeträge beruhen auf Terminkursen für Gold und Silber und weichen meist ein bis zwei Prozent vom Spotpreis ab."
       boxOben={{
         kategorie: "Rechner",

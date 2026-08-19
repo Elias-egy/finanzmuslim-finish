@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { isValidElement, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import {
@@ -18,8 +18,13 @@ type Props = {
   kurzGesagt: string[];
   abschnitte: BeitragAbschnitt[];
   faq: BeitragFrage[];
-  /** Zum Beispiel "15. August 2026". */
-  geprueftAm: string;
+  /** Zum Beispiel "15. August 2026". Das Datum, an dem der Beitrag live ging. */
+  datePublished: string;
+  /** Nur setzen, wenn der Beitrag nach der Veröffentlichung inhaltlich
+   *  überarbeitet wurde — nicht bei Layout, Build, Kursdaten oder anderen
+   *  Seiteneffekten. Ohne Beleg bleibt es weg, dann zeigt die Seite nur das
+   *  Veröffentlichungsdatum. */
+  dateModified?: string;
   rechtshinweis: string;
   boxOben: EmpfehlungsBoxProps;
   boxMitte: EmpfehlungsBoxProps;
@@ -27,13 +32,26 @@ type Props = {
   children?: ReactNode;
 };
 
+/** Reiner Text aus einem ReactNode-Baum, für die Lesezeit-Schätzung. Kein
+ *  Rendern, nur die sichtbaren Textknoten einsammeln. */
+const textVon = (node: ReactNode): string => {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(textVon).join(" ");
+  if (isValidElement<{ children?: ReactNode }>(node)) return textVon(node.props.children);
+  return "";
+};
+
+const WOERTER_PRO_MINUTE = 200;
+
 /** Feste Reihenfolge fuer alle Wissensbeitraege. */
 const BeitragSeite = ({
   titel,
   kurzGesagt,
   abschnitte,
   faq,
-  geprueftAm,
+  datePublished,
+  dateModified,
   rechtshinweis,
   boxOben,
   boxMitte,
@@ -41,10 +59,21 @@ const BeitragSeite = ({
 }: Props) => {
   const [offen, setOffen] = useState(false);
 
+  /* Automatisch aus dem tatsächlichen Text geschätzt, nicht von Hand gepflegt
+     — sonst veraltet die Angabe beim nächsten Textwechsel unbemerkt. */
+  const lesezeit = useMemo(() => {
+    const text = [kurzGesagt.join(" "), ...abschnitte.map((a) => textVon(a.inhalt))].join(" ");
+    const woerter = text.trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(woerter / WOERTER_PRO_MINUTE));
+  }, [kurzGesagt, abschnitte]);
+
   return (
     <main className="bg-background">
       <div className="container py-10 md:py-14">
-        <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
+        <nav
+          aria-label="Brotkrumen"
+          className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground lg:mx-auto lg:max-w-[820px]"
+        >
           <Link to="/" className="hover:text-primary">
             Start
           </Link>
@@ -56,8 +85,22 @@ const BeitragSeite = ({
           <span className="text-foreground">{titel}</span>
         </nav>
 
-        <article className="mt-6 max-w-3xl">
+        <article className="mt-6 max-w-3xl lg:mx-auto lg:max-w-[820px]">
           <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">{titel}</h1>
+
+          <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[14px] text-muted-foreground">
+            <span>Von Elias El-Gendy</span>
+            <span aria-hidden>·</span>
+            <span>Veröffentlicht am {datePublished}</span>
+            {dateModified && (
+              <>
+                <span aria-hidden>·</span>
+                <span>Aktualisiert am {dateModified}</span>
+              </>
+            )}
+            <span aria-hidden>·</span>
+            <span>{lesezeit} Min. Lesezeit</span>
+          </p>
 
           <section className="mt-6 rounded-2xl bg-hero p-6 md:p-8">
             <h2 className="text-[17px] font-bold text-foreground">Kurz gesagt</h2>
@@ -145,7 +188,10 @@ const BeitragSeite = ({
               <p className="mt-1 text-[15px] text-muted-foreground">
                 Gründer von finanzmuslim, erklärt islamkonforme Finanzen für Einsteiger.
               </p>
-              <p className="mt-1 text-[13px] text-muted-foreground">Zuletzt geprüft am {geprueftAm}</p>
+              <p className="mt-1 text-[13px] text-muted-foreground">
+                Veröffentlicht am {datePublished}
+                {dateModified && `, zuletzt aktualisiert am ${dateModified}`}
+              </p>
             </div>
           </section>
 

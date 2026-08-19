@@ -155,12 +155,20 @@ const isoDatum = (deutsch: string) => {
  * Die Fragenliste ist der Grund für diese Funktion. Google zeigt zu solchen
  * Fragen ausklappbare Antworten direkt im Ergebnis, und jeder Beitrag hat die
  * Fragen ohnehin schon als Datenfeld. Ohne Auszeichnung liest sie niemand.
+ *
+ * datePublished und dateModified sind bewusst getrennt. dateModified nur
+ * setzen, wenn nach der Veröffentlichung wirklich am Inhalt gearbeitet wurde
+ * — nicht bei jedem Commit, der die Datei berührt (Layout, Build,
+ * Kursdaten). Ohne Beleg fehlt das Feld, dann zeigt Google nur das
+ * Veröffentlichungsdatum. Ein falsches "aktualisiert" ist schlimmer als gar
+ * keine Angabe, siehe git-Historie der Beiträge vom 15./16.08.2026.
  */
 export const beitragJsonLd = (opts: {
   titel: string;
   beschreibung: string;
   path: string;
-  geprueftAm: string;
+  datePublished: string;
+  dateModified?: string;
   faq: { frage: string; antwort: string }[];
 }) => [
   {
@@ -172,7 +180,8 @@ export const beitragJsonLd = (opts: {
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.path}` },
     author: { "@type": "Person", name: "Elias El-Gendy" },
     publisher: { "@type": "Organization", name: "finanzmuslim", url: SITE },
-    dateModified: isoDatum(opts.geprueftAm),
+    datePublished: isoDatum(opts.datePublished),
+    ...(opts.dateModified ? { dateModified: isoDatum(opts.dateModified) } : {}),
   },
   {
     "@context": "https://schema.org",

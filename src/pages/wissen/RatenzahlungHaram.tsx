@@ -239,7 +239,7 @@ const RatenzahlungHaram = () => (
         titel: "Angebot A",
         beschreibung: "Ratenzahlung ist nicht automatisch verboten. Entscheidend ist, ob du mehr zahlst als bei Barzahlung. Mit Prüfung für Klarna, PayPal, Null-Prozent-Finanzierung und Handyverträge.",
         path: "/wissen/ratenzahlung-haram",
-        geprueftAm: "16. August 2026",
+        datePublished: "15. August 2026",
         faq,
       })}
     />
@@ -254,7 +254,7 @@ const RatenzahlungHaram = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="15. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechtsberatung. Genannte Zahlungsdienste sind Beispiele, ihre Bedingungen ändern sich und müssen im Einzelfall selbst geprüft werden. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
       boxOben={{
         kategorie: "Girokonto",

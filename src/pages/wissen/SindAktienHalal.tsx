@@ -203,7 +203,7 @@ const SindAktienHalal = () => (
         titel: "Sind Aktien halal oder haram?",
         beschreibung: "Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen.",
         path: "/wissen/sind-aktien-halal",
-        geprueftAm: "15. August 2026",
+        datePublished: "15. August 2026",
         faq,
       })}
     />
@@ -218,7 +218,7 @@ const SindAktienHalal = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="15. August 2026"
+      datePublished="15. August 2026"
       rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und stellt keine Anlageberatung dar. Genannte Unternehmen und Anbieter sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu Grenzwerten und Nennern."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot" }}
       boxMitte={{ kategorie: "Halal-Screening-Apps", variante: "vergleich", linkZiel: "/vergleiche" }}

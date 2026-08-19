@@ -221,7 +221,7 @@ const HaeufigeFehler = () => (
         titel: "Warten, bis alles geklärt ist",
         beschreibung: "Zehn Fehler, die Einsteiger machen: zu lange warten, Schulden ignorieren, dem Etikett vertrauen, das Verrechnungskonto vergessen, beim Rückgang verkaufen. Jeweils mit dem, was stattdessen hilft.",
         path: "/wissen/haeufige-fehler",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -236,7 +236,7 @@ const HaeufigeFehler = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken und ist weder Anlageberatung noch Fatwa. Er beschreibt allgemeine Muster, keine auf deine Lage zugeschnittene Empfehlung. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust."
       boxOben={{
         kategorie: "Guide",

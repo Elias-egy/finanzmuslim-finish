@@ -242,7 +242,8 @@ const HausKaufenOhneZinsen = () => (
         titel: "Haus kaufen ohne Zinsen",
         beschreibung: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren. Was es davon in Deutschland gibt und worauf du im Vertrag achten musst.",
         path: "/wissen/haus-kaufen-ohne-zinsen",
-        geprueftAm: "16. August 2026",
+        datePublished: "15. August 2026",
+        dateModified: "16. August 2026",
         faq,
       })}
     />
@@ -257,7 +258,8 @@ const HausKaufenOhneZinsen = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="15. August 2026"
+      dateModified="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Finanzierungsberatung. Genannte Anbieter sind Beispiele für den deutschen Markt, keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Modellen abweichende Auffassungen."
       boxOben={{
         kategorie: "Baufinanzierung",

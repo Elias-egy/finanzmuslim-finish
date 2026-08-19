@@ -10,7 +10,14 @@ import AnlageFilter, {
   filterStandard,
   type FilterStand,
 } from "@/components/anlage/AnlageFilter";
-import { kursFuerAnlage, kursStand, kursText, type Zeitraum } from "@/lib/kurse";
+import {
+  kursFuerAnlage,
+  kursStand,
+  kursText,
+  spanneVeraenderung,
+  zeitraumReihe,
+  type ZeitraumWert,
+} from "@/lib/kurse";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 import { regionFuer } from "@/data/anlageRegion";
@@ -70,9 +77,10 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
     </span>
   );
 
-const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe: Gruppe }) => {
+const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gruppe: Gruppe }) => {
   const kurs = kursFuerAnlage(a);
   const preis = kursText(kurs);
+  const veraenderung = spanneVeraenderung(zeitraumReihe(kurs, zeitraum).reihe);
   const region = a.isin ? regionFuer(a.isin) : undefined;
   return (
     /* Handy-Karte. Kopfzeile wie in der Vorschau: rundes Logo, Name mit Kürzel
@@ -92,7 +100,7 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe:
           <span className="whitespace-nowrap text-[15px] font-semibold text-foreground">
             {preis ?? "—"}
           </span>
-          <RenditeWert wert={kurs?.[zeitraum]} mittel />
+          <RenditeWert wert={veraenderung} mittel />
         </span>
       </Link>
 
@@ -141,7 +149,7 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: Zeitraum; gruppe:
 const HalalAnlagen = () => {
   const navigate = useNavigate();
   const [suche, setSuche] = useState("");
-  const [zeitraum, setZeitraum] = useState<Zeitraum>("r1j");
+  const [zeitraum, setZeitraum] = useState<ZeitraumWert>("1j");
   const [filter, setFilter] = useState<FilterStand>(filterStandard);
   const { kategorie, nurAusschuettend, nurPassiv, sortierung } = filter;
 
@@ -164,7 +172,7 @@ const HalalAnlagen = () => {
       sortiert.sort((x, y) => (y.groesseSortierwert ?? -1) - (x.groesseSortierwert ?? -1));
     if (sortierung === "name") sortiert.sort((x, y) => x.name.localeCompare(y.name, "de"));
     if (sortierung === "renditeAb" || sortierung === "renditeAuf") {
-      const wert = (a: Anlage) => kursFuerAnlage(a)?.[zeitraum];
+      const wert = (a: Anlage) => spanneVeraenderung(zeitraumReihe(kursFuerAnlage(a), zeitraum).reihe);
       sortiert.sort((x, y) => {
         const vx = wert(x);
         const vy = wert(y);
@@ -256,10 +264,9 @@ const HalalAnlagen = () => {
                 {liste.length} {liste.length === 1 ? "Anlage" : "Anlagen"}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="hidden text-[14px] text-muted-foreground md:inline">Rendite über</span>
-              <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} kurz className="md:hidden" />
-              <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} className="hidden md:inline-flex" />
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="hidden shrink-0 text-[14px] text-muted-foreground md:inline">Rendite über</span>
+              <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} className="min-w-0" />
             </div>
           </div>
           <p className="mt-2 text-[13px] text-muted-foreground sm:hidden" aria-live="polite">
@@ -317,6 +324,7 @@ const HalalAnlagen = () => {
                 <tbody>
                   {anlagen.map((a) => {
                     const kurs = kursFuerAnlage(a);
+                    const veraenderung = spanneVeraenderung(zeitraumReihe(kurs, zeitraum).reihe);
                     return (
                       <tr
                         key={anlageSchluessel(a)}
@@ -350,7 +358,7 @@ const HalalAnlagen = () => {
                         )}
                         <td className="py-4 pr-3">
                           <div className="flex flex-col gap-1">
-                            <RenditeWert wert={kurs?.[zeitraum]} />
+                            <RenditeWert wert={veraenderung} />
                             <Sparkline verlauf={kurs?.verlauf} />
                           </div>
                         </td>
@@ -391,7 +399,7 @@ const HalalAnlagen = () => {
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Kursdaten von Yahoo Finance, Stand {kursStand}. Alle Renditen sind in Euro umgerechnet, damit sie
             untereinander vergleichbar sind. Sonst würde bei Anlagen, die in Dollar oder Pfund notieren, der
-            Wechselkurs das Ergebnis verzerren. Die Werte werden nicht automatisch aktualisiert. Vergangene
+            Wechselkurs das Ergebnis verzerren. Die Werte werden jede Nacht automatisch aktualisiert. Vergangene
             Renditen sagen nichts über die Zukunft.
           </p>
         </section>

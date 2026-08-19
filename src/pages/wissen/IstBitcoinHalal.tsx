@@ -168,7 +168,7 @@ const IstBitcoinHalal = () => (
         titel: "Ist Bitcoin halal oder haram?",
         beschreibung: "Zu Bitcoin gibt es Gutachten in beide Richtungen. Worüber genau gestritten wird, was unstrittig nicht geht und welche drei Regeln gelten, wenn du dich dafür entscheidest.",
         path: "/wissen/ist-bitcoin-halal",
-        geprueftAm: "16. August 2026",
+        datePublished: "15. August 2026",
         faq,
       })}
     />
@@ -183,7 +183,7 @@ const IstBitcoinHalal = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="15. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und stellt keine Anlageberatung dar. Genannte Gutachten sind Belege für die jeweilige Position, keine Empfehlung zum Kauf. Kryptowährungen schwanken stark, ein Totalverlust ist möglich. Innerhalb der Rechtsschulen und zwischen den Gremien gibt es deutlich abweichende Auffassungen."
       boxOben={{
         kategorie: "Depot",

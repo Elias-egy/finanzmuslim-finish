@@ -281,7 +281,7 @@ const HalalGoldKaufen = () => (
         titel: "Barren oder Münzen beim Händler",
         beschreibung: "Gold kaufen ist erlaubt, wenn Zahlung und Übergabe zusammenfallen. Was das für Barren, Münzen, Gold-ETC und Goldsparpläne bedeutet, und wie Zakat auf Gold berechnet wird.",
         path: "/wissen/halal-gold-kaufen",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -296,7 +296,7 @@ const HalalGoldKaufen = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Steuer- oder Anlageberatung. Genannte Produkte sind Beispiele und keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders bei Gold als Wertpapier und beim getragenen Schmuck."
       boxOben={{
         kategorie: "Anlagen",

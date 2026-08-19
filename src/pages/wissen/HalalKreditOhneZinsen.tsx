@@ -243,7 +243,7 @@ const HalalKreditOhneZinsen = () => (
         titel: "Kaufen und mit Aufschlag weiterverkaufen",
         beschreibung: "Einen zinsfreien Kredit gibt es nicht. Es gibt vier andere Verträge: Murabaha, Idschara, Muscharaka und Qard hasan. Was davon in Deutschland verfügbar ist und woran du einen umetikettierten Kredit erkennst.",
         path: "/wissen/halal-kredit-ohne-zinsen",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -258,7 +258,7 @@ const HalalKreditOhneZinsen = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Zur Ausgestaltung einzelner Vertragsformen und zur Reichweite der Notlagenregel bestehen innerhalb der Rechtsschulen unterschiedliche Auffassungen. Angaben zur KT Bank AG beruhen auf öffentlich zugänglichen Quellen, Stand August 2026, und sind keine Empfehlung."
       boxOben={{
         kategorie: "Vorlage",

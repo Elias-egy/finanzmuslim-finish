@@ -191,7 +191,7 @@ const IstVersicherungHaram = () => (
         titel: "Ist eine Versicherung haram?",
         beschreibung: "Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind.",
         path: "/wissen/ist-versicherung-haram",
-        geprueftAm: "15. August 2026",
+        datePublished: "15. August 2026",
         faq,
       })}
     />
@@ -206,7 +206,7 @@ const IstVersicherungHaram = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="15. August 2026"
+      datePublished="15. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Versicherungsberatung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot", ueberschrift: "Vorsorge ohne Zinsvertrag" }}
       boxMitte={{ kategorie: "Girokonto", variante: "vergleich", linkZiel: "/vergleiche" }}

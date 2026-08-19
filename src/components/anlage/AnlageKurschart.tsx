@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import ZeitraumSchalter from "@/components/ZeitraumSchalter";
 import {
   chartZeitraeume,
+  istEigenerZeitraum,
   spanneVeraenderung,
-  taktFuer,
-  wochenAusschnitt,
-  type ChartZeitraum,
+  zeitraumReihe,
   type Kurs,
+  type ZeitraumWert,
 } from "@/lib/kurse";
 
 /**
@@ -67,26 +68,81 @@ const achsenSkala = (unten: number, oben: number, ziel = 5) => {
   for (let w = start; w <= ende + schritt / 1000; w += schritt) {
     ticks.push(Math.round(w * 1000) / 1000);
   }
-  return { start, ende, ticks };
+  /* Nachkommastellen aus dem Achsenschritt, nicht aus dem Kurswert. Bei
+     einem Fonds um 60 Euro, der sich an einem Tag nur um Cent bewegt, wäre
+     die Achse sonst dreimal "60" — richtig ist, so viele Nachkommastellen zu
+     zeigen, wie der Schritt selbst braucht. Ein glatter Schritt wie 5 oder 10
+     bleibt ohne Komma, das ist der weit häufigere Fall. */
+  const nachkommastellen = Number.isInteger(schritt) ? 0 : schritt < 1 ? 2 : 1;
+  return { start, ende, ticks, nachkommastellen };
 };
 
 const prozent = (w: number) =>
   `${w > 0 ? "+" : w < 0 ? "−" : ""}${Math.abs(w).toFixed(1).replace(".", ",")} %`;
 
 const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
-  const [zeitraum, setZeitraum] = useState<ChartZeitraum>("1j");
+  const [zeitraum, setZeitraum] = useState<ZeitraumWert>("1j");
   const [aktiv, setAktiv] = useState<number | null>(null);
 
-  const reihe = useMemo(() => wochenAusschnitt(kurs, zeitraum), [kurs, zeitraum]);
+  const ausschnitt = useMemo(() => zeitraumReihe(kurs, zeitraum), [kurs, zeitraum]);
+  const reihe = ausschnitt.reihe;
   const veraenderung = spanneVeraenderung(reihe);
   const waehrung = kurs?.waehrung ?? "EUR";
-  const takt = taktFuer(kurs, zeitraum);
-  const kurzerZeitraum = zeitraum === "1m" || zeitraum === "3m";
+  /* Tag-und-Monat auf der Achse, wenn genug Platz zwischen den Punkten ist:
+     bei Tagesschlusskursen bis zu rund hundert Punkten, ob aus einem festen
+     Tab oder einem kurzen selbst gewählten Zeitraum. Darüber, etwa bei "1J"
+     mit rund 250 Punkten, stünde sonst zehnmal derselbe Monat auf der Achse. */
+  const kurzerZeitraum = ausschnitt.takt === "Tagesschlusskurse" && reihe.length <= 100;
 
-  if (!kurs || kurs.status || reihe.length < 2) {
+  if (!kurs || kurs.status) {
     return (
       <div className="rounded-xl bg-accent px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
         Für diese Anlage liegen noch keine Kursdaten vor. Meist ist sie erst seit kurzem am Markt.
+      </div>
+    );
+  }
+
+  /* Kopf und Zeitraumfilter stehen immer, auch wenn der gewählte Zeitraum
+     keine Daten hergibt. Sonst müsste man erst einen anderen Zeitraum raten,
+     um zurück zu einem zu kommen, der etwas zeigt. */
+  const kopf = (
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        {reihe.length >= 2 ? (
+          <>
+            <p className="text-[28px] font-bold leading-tight text-foreground md:text-[34px]">
+              {betrag(reihe[reihe.length - 1][1], waehrung)}
+            </p>
+            <p className="mt-1 flex flex-wrap items-center gap-2 text-[14px] text-muted-foreground">
+              <span>{datumLang(reihe[reihe.length - 1][0])}</span>
+              {veraenderung !== null && (
+                <span className="font-semibold text-foreground">
+                  {prozent(veraenderung)}{" "}
+                  {istEigenerZeitraum(zeitraum)
+                    ? `vom ${datumLang(reihe[0][0])}`
+                    : `in ${chartZeitraeume.find((z) => z.key === zeitraum)?.lang ?? "einem Jahr"}`}
+                </span>
+              )}
+            </p>
+          </>
+        ) : (
+          <p className="text-[15px] text-muted-foreground">Für diesen Zeitraum liegen keine Kursdaten vor.</p>
+        )}
+      </div>
+
+      <ZeitraumSchalter wert={zeitraum} onChange={setZeitraum} />
+    </div>
+  );
+
+  if (reihe.length < 2) {
+    return (
+      <div>
+        {kopf}
+        <div className="mt-5 rounded-xl bg-accent px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
+          {istEigenerZeitraum(zeitraum)
+            ? "Im gewählten Von-bis-Zeitraum liegt kein Kurs vor. Versuch einen anderen Zeitraum."
+            : "Für diesen Zeitraum reicht die Kurshistorie dieser Anlage noch nicht zurück. Wähl einen kürzeren Zeitraum oder einen eigenen Von-bis-Zeitraum."}
+        </div>
       </div>
     );
   }
@@ -108,53 +164,19 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
   };
   const touch = { onTouchMove: merken, onTouchEnd: () => setAktiv(null) } as Record<string, unknown>;
 
-  const spanneLang = chartZeitraeume.find((z) => z.key === zeitraum)?.lang ?? "einem Jahr";
+  const spanneLang = istEigenerZeitraum(zeitraum)
+    ? `vom ${datumLang(reihe[0][0])} bis ${datumLang(reihe[reihe.length - 1][0])}`
+    : `in ${chartZeitraeume.find((z) => z.key === zeitraum)?.lang ?? "einem Jahr"}`;
 
   return (
     <div style={{ touchAction: "pan-y" }}>
-      {/* Kopfzeile: Kurs, Veränderung, Zeitraum */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-[28px] font-bold leading-tight text-foreground md:text-[34px]">
-            {betrag(punkt.wert, waehrung)}
-          </p>
-          <p className="mt-1 flex flex-wrap items-center gap-2 text-[14px] text-muted-foreground">
-            <span>{datumLang(punkt.datum)}</span>
-            {veraenderung !== null && (
-              <span className="font-semibold text-foreground">
-                {prozent(veraenderung)} in {spanneLang}
-              </span>
-            )}
-          </p>
-        </div>
+      {kopf}
 
-        {/* Zeitraumfilter. Echte Knöpfe, auf dem Handy waagerecht scrollbar. */}
-        <div
-          role="tablist"
-          aria-label="Zeitraum"
-          className="-mx-1 flex gap-1 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0"
-        >
-          {chartZeitraeume.map((z) => (
-            <button
-              key={z.key}
-              type="button"
-              role="tab"
-              aria-selected={zeitraum === z.key}
-              onClick={() => {
-                setZeitraum(z.key);
-                setAktiv(null);
-              }}
-              className={`min-h-[40px] shrink-0 rounded-lg px-4 text-[14px] font-semibold transition-colors ${
-                zeitraum === z.key
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-foreground hover:bg-accent"
-              }`}
-            >
-              {z.kurz}
-            </button>
-          ))}
-        </div>
-      </div>
+      {!ausschnitt.vollstaendig && istEigenerZeitraum(zeitraum) && (
+        <p className="mt-2 text-[13px] text-muted-foreground">
+          Kursdaten liegen erst ab {datumLang(reihe[0][0])} vor, davor zeigt die Grafik nichts.
+        </p>
+      )}
 
       <div className="mt-5 h-[280px] w-full md:h-[340px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -188,8 +210,8 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
               axisLine={false}
               tickFormatter={(w: number) =>
                 w.toLocaleString("de-DE", {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: w < 20 ? 2 : 0,
+                  minimumFractionDigits: skala.nachkommastellen,
+                  maximumFractionDigits: skala.nachkommastellen,
                 })
               }
               tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
@@ -218,14 +240,14 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
 
       {/* Zusammenfassung für Vorleseprogramme, die die Grafik nicht sehen. */}
       <p className="sr-only">
-        Kursverlauf über {spanneLang}. Von {betrag(daten[0].wert, waehrung)} am{" "}
+        Kursverlauf {spanneLang}. Von {betrag(daten[0].wert, waehrung)} am{" "}
         {datumLang(daten[0].datum)} auf {betrag(daten[daten.length - 1].wert, waehrung)} am{" "}
         {datumLang(daten[daten.length - 1].datum)}
         {veraenderung !== null ? `, eine Veränderung von ${prozent(veraenderung)}` : ""}.
       </p>
 
       <p className="mt-4 text-[13px] leading-[20px] text-muted-foreground">
-        Quelle: {quelle} · {takt} · Währung:{" "}
+        Quelle: {quelle} · {ausschnitt.takt} · Währung:{" "}
         {waehrung} · Stand: {stand}
       </p>
     </div>

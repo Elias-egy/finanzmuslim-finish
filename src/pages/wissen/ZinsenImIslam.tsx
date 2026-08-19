@@ -302,7 +302,7 @@ const ZinsenImIslam = () => (
         titel: "Zins, also betroffen",
         beschreibung: "Warum Zinsen im Islam verboten sind, was der Quran dazu sagt, welche Produkte betroffen sind und welche nicht, und was du tun kannst, wenn du schon Zinsen hast.",
         path: "/wissen/zinsen-im-islam",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -317,7 +317,7 @@ const ZinsenImIslam = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Quranstellen sind sinngemäß wiedergegeben und nicht wörtlich übersetzt. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders beim Umgang mit bereits bestehenden Verträgen."
       boxOben={{
         kategorie: "Vorlage",

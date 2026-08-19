@@ -233,7 +233,7 @@ const GirokontoOhneZinsen = () => (
         titel: "Dispo auf null setzen",
         beschreibung: "Ein Girokonto ist erlaubt. Problematisch sind Dispo, Guthabenzinsen, Kreditkarten-Teilzahlung und angehängte Verträge. Fünf Handgriffe, dazu der Stand zur KT Bank in Deutschland.",
         path: "/wissen/girokonto-ohne-zinsen",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -248,7 +248,7 @@ const GirokontoOhneZinsen = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Angaben zur KT Bank AG beruhen auf öffentlich zugänglichen Quellen, Stand August 2026, und sind keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders zur Frage der Kontoführung bei konventionellen Banken."
       boxOben={{
         kategorie: "Girokonto",

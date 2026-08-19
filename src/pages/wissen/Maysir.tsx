@@ -190,7 +190,7 @@ const Maysir = () => (
         titel: "Lotto, Sportwetten, Casino",
         beschreibung: "Maysir meint ein Geschäft, bei dem der Zufall entscheidet und der Gewinn des einen der Verlust des anderen ist. Sechs Fälle eingeordnet, dazu die Grenze zwischen Investieren und Wetten.",
         path: "/wissen/maysir",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -205,7 +205,7 @@ const Maysir = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Anlageberatung. Zur Einordnung einzelner Fälle, besonders bei Versicherungen, Gewinnspielen und kurzfristigem Handel, bestehen zwischen den Rechtsschulen unterschiedliche Auffassungen."
       boxOben={{
         kategorie: "Vorlage",

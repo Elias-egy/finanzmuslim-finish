@@ -235,7 +235,7 @@ const ErtraegeReinigen = () => (
         titel: "Den Satz heraussuchen",
         beschreibung: "Auch geprüfte Fonds lassen einen kleinen unreinen Anteil übrig. Wo du den Reinigungssatz findest, wie du ihn ausrechnest, wohin der Betrag geht und warum er nicht als Zakat zählt.",
         path: "/wissen/ertraege-reinigen",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -250,7 +250,7 @@ const ErtraegeReinigen = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Steuer- oder Anlageberatung. Zur Höhe des Reinigungssatzes, zur Behandlung thesaurierender Fonds und zur zulässigen Verwendung des Betrags bestehen zwischen Gelehrten unterschiedliche Auffassungen. Die Zahlen im Beispiel sind erfunden und dienen nur der Veranschaulichung."
       boxOben={{
         kategorie: "Rechner",

@@ -2,35 +2,39 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import AnlageZeile from "@/components/AnlageZeile";
-import { halalAnlagen } from "@/data/halalAnlagen";
-import { kursFuerAnlage } from "@/lib/kurse";
+import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
+import { kursFuerAnlage, kursStand, tagesVeraenderung } from "@/lib/kurse";
 
-/** Beste Monatsrendite zuerst. In vier sichtbaren Zeilen soll etwas stehen,
- *  das zum Weiterklicken bringt, nicht der erste Buchstabe des Alphabets.
- *  Anlagen ohne Kursdaten stehen hinten. */
-const sortiert = [...halalAnlagen].sort((a, b) => {
-  const va = kursFuerAnlage(a)?.r1m;
-  const vb = kursFuerAnlage(b)?.r1m;
-  if (va == null && vb == null) return a.name.localeCompare(b.name, "de");
-  if (va == null) return 1;
-  if (vb == null) return -1;
-  return vb - va;
-});
+/** Veränderung seit dem vorherigen Schlusskurs, einmal je Anlage berechnet.
+ *  Anlagen ohne Tagesreihe (etwa ein Fonds, dessen Kurs erst mit ein paar
+ *  Tagen Verzug veröffentlicht wird) liefern hier "keine Daten" und fallen
+ *  aus der Rangliste, statt mit einer erfundenen Zahl aufzutauchen. */
+const mitTagesveraenderung = halalAnlagen
+  .map((a) => ({ a, veraenderung: tagesVeraenderung(kursFuerAnlage(a)) }))
+  .filter((x): x is { a: Anlage; veraenderung: number } => x.veraenderung !== null);
 
-const DatenbankVorschau = () => {
+const tagesgewinner = [...mitTagesveraenderung]
+  .sort((x, y) => y.veraenderung - x.veraenderung)
+  .slice(0, 4);
+
+const Tagesgewinner = () => {
   const [suche, setSuche] = useState("");
 
   const treffer = useMemo(() => {
     const q = suche.trim().toLowerCase();
-    if (!q) return sortiert;
-    return sortiert.filter((a) =>
+    if (!q) return tagesgewinner.map((x) => x.a);
+    return halalAnlagen.filter((a) =>
       [a.name, a.anbieter, a.isin ?? "", a.kuerzel ?? ""].some((f) => f.toLowerCase().includes(q)),
     );
   }, [suche]);
 
   return (
     <div className="w-full min-w-0 rounded-2xl border border-border bg-card p-4 lg:w-[500px] lg:p-6">
-      <div className="flex h-12 items-center gap-3 rounded-md border border-border px-4 focus-within:border-primary">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="text-[15px] font-bold text-foreground">Tagesgewinner</h3>
+      </div>
+
+      <div className="mt-3 flex h-12 items-center gap-3 rounded-md border border-border px-4 focus-within:border-primary">
         <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
         <input
           type="search"
@@ -46,7 +50,7 @@ const DatenbankVorschau = () => {
       <ul className="mt-2 max-h-[252px] divide-y divide-border overflow-y-auto pr-1">
         {treffer.map((a) => (
           <li key={a.slug}>
-            <AnlageZeile a={a} zeitraum="r1m" />
+            <AnlageZeile a={a} veraenderung={tagesVeraenderung(kursFuerAnlage(a))} />
           </li>
         ))}
         {treffer.length === 0 && (
@@ -55,7 +59,7 @@ const DatenbankVorschau = () => {
       </ul>
 
       <p className="mt-3 text-[13px] text-muted-foreground">
-        Kurs und Veränderung der letzten 30 Tage. Schlusskurse, keine Echtzeitkurse.
+        Seit dem vorherigen Schlusskurs · keine Echtzeitkurse · Stand {kursStand}
       </p>
 
       <Link to="/halal-anlagen" className="mt-3 block text-[15px] font-semibold text-primary hover:underline">
@@ -65,4 +69,4 @@ const DatenbankVorschau = () => {
   );
 };
 
-export default DatenbankVorschau;
+export default Tagesgewinner;

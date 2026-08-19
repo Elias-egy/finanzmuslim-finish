@@ -19,7 +19,7 @@ import {
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
-import DatenbankVorschau from "@/components/DatenbankVorschau";
+import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
@@ -368,7 +368,7 @@ const Index = () => (
       {/* 4 — Anlagen */}
       <section className="section-card">
         <div className="section-inner grid items-center gap-4 lg:grid-cols-[500px_1fr] lg:gap-16">
-          <DatenbankVorschau />
+          <Tagesgewinner />
 
           <div>
             <p className="eyebrow">HALAL INVESTMENTS</p>

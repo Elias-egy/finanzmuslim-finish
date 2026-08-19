@@ -201,7 +201,7 @@ const HalalEtfs = () => (
         titel: "Halal ETFs: worauf du achtest",
         beschreibung: "Ein Halal-ETF wird auf zwei Ebenen geprüft: der Index und der Fonds selbst. Vier Fragen zu Wertpapierleihe, Nachbildung, Reinigung und Zertifikat, dazu woran du einen echten erkennst.",
         path: "/wissen/halal-etfs",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -216,7 +216,7 @@ const HalalEtfs = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Genannte Anbieter und Indexhäuser sind Beispiele, keine Empfehlung. Zu Wertpapierleihe, synthetischer Nachbildung und zur Reinigung von Erträgen bestehen zwischen den Rechtsschulen und einzelnen Gremien unterschiedliche Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust."
       boxOben={{
         kategorie: "Anlagen",

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { RenditeWert } from "@/components/Rendite";
 import { anbieterByName, type Anlage } from "@/data/halalAnlagen";
-import { kursFuerAnlage, kursText, type Zeitraum } from "@/lib/kurse";
+import { kursFuerAnlage, kursText } from "@/lib/kurse";
 
 const logoToken = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY;
 
@@ -67,10 +67,11 @@ export const AnlageLogo = ({ a, gross = false }: { a: Anlage; gross?: boolean })
  */
 const AnlageZeile = ({
   a,
-  zeitraum = "r1m",
+  veraenderung,
 }: {
   a: Anlage;
-  zeitraum?: Zeitraum;
+  /** Veränderung in Prozent, meist die seit dem vorherigen Schlusskurs. */
+  veraenderung?: number | null;
 }) => {
   const kurs = kursFuerAnlage(a);
   const preis = kursText(kurs);
@@ -94,7 +95,7 @@ const AnlageZeile = ({
           {preis ?? "—"}
         </span>
         {/* Dieselbe Darstellung wie in der Liste: Pfeil, Vorzeichen, Farbe. */}
-        <RenditeWert wert={kurs?.[zeitraum]} mittel />
+        <RenditeWert wert={veraenderung} mittel />
       </span>
     </Link>
   );

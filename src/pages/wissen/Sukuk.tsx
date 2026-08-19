@@ -261,7 +261,7 @@ const Sukuk = () => (
         titel: "Sukuk statt Anleihe",
         beschreibung: "Ein Sukuk ist ein Anteil an einer Sache, keine Geldforderung. Die vier Bauformen, der Unterschied zur Anleihe, die Kritik aus der islamischen Finanzwelt und wie Privatanleger Zugang bekommen.",
         path: "/wissen/sukuk",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -276,7 +276,7 @@ const Sukuk = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa, keine Anlageberatung und keine Empfehlung. Zur Zulässigkeit einzelner Sukuk-Bauformen bestehen unterschiedliche Auffassungen, insbesondere zu Murabaha-Sukuk und zu Rückkaufzusagen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust."
       boxOben={{
         kategorie: "Anlagen",

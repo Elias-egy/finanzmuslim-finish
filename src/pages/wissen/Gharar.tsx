@@ -206,7 +206,7 @@ const Gharar = () => (
         titel: "Gharar: Unsicherheit im Vertrag",
         beschreibung: "Gharar meint übermäßige Unklarheit in einem Vertrag, nicht wirtschaftliches Risiko. Die klassischen Beispiele, wo der Begriff im deutschen Alltag greift und drei Fragen, mit denen du jeden Vertrag prüfst.",
         path: "/wissen/gharar",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -221,7 +221,7 @@ const Gharar = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechtsberatung. Zur Reichweite von Gharar und zur Beurteilung einzelner Vertragsarten, besonders bei Versicherungen und Termingeschäften, bestehen zwischen den Rechtsschulen unterschiedliche Auffassungen."
       boxOben={{
         kategorie: "Vorlage",

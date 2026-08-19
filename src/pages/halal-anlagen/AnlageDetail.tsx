@@ -407,7 +407,7 @@ const AnlageDetail = () => {
         <section className="section-card">
           <div className="section-inner space-y-3 text-[13px] leading-[20px] text-muted-foreground">
             <p>
-              Kursdaten: {kursQuelle}. Stand {kursStand}. Die Werte werden nicht laufend
+              Kursdaten: {kursQuelle}. Stand {kursStand}. Die Werte werden jede Nacht automatisch
               aktualisiert, es sind Schlusskurse, keine Echtzeitkurse.
             </p>
             <p>

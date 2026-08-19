@@ -278,7 +278,7 @@ const Erbe = () => (
         titel: "Beerdigung",
         beschreibung: "Vier Stufen vor der Verteilung, die häufigsten Anteile im Überblick und der entscheidende Punkt: Ohne Testament gilt in Deutschland deutsches Erbrecht mit ganz anderen Anteilen.",
         path: "/wissen/erbe",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -293,7 +293,7 @@ const Erbe = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag ist eine stark vereinfachte Übersicht zu Bildungszwecken. Er ist weder Rechtsberatung noch Fatwa und ersetzt weder einen Fachanwalt für Erbrecht oder einen Notar noch einen Gelehrten. Die genannten Anteile gelten für einfache Standardfälle; bei Enkeln, Halbgeschwistern, vorverstorbenen Kindern, mehreren Ehen oder Auslandsvermögen gelten abweichende Regeln. Zwischen den Rechtsschulen bestehen Unterschiede. Angaben zum deutschen Recht und zur Rechtswahl beruhen auf dem Stand August 2026 und können sich ändern."
       boxOben={{
         kategorie: "Rechner",

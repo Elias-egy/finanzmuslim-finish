@@ -255,7 +255,7 @@ const IstLeasingHaram = () => (
         titel: "Ist Leasing haram?",
         beschreibung: "Leasing ist im Kern Miete und damit erlaubt. Entscheidend sind fünf Punkte im Vertrag: Risiko bei Totalschaden, Verzugszinsen, Kaufpflicht, Zinssatz und Wartung. Dazu Autoabo und Alternativen.",
         path: "/wissen/ist-leasing-haram",
-        geprueftAm: "16. August 2026",
+        datePublished: "16. August 2026",
         faq,
       })}
     />
@@ -270,7 +270,7 @@ const IstLeasingHaram = () => (
       ]}
       abschnitte={abschnitte}
       faq={faq}
-      geprueftAm="16. August 2026"
+      datePublished="16. August 2026"
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechtsberatung. Leasingverträge unterscheiden sich stark, maßgeblich ist immer dein eigener Vertrag. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders bei Pflichtversicherungen."
       boxOben={{
         kategorie: "Vorlage",
