@@ -86,7 +86,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
 
   const ausschnitt = useMemo(() => zeitraumReihe(kurs, zeitraum), [kurs, zeitraum]);
   const reihe = ausschnitt.reihe;
-  const veraenderung = spanneVeraenderung(reihe);
+  const veraenderungGesamt = spanneVeraenderung(reihe);
   const waehrung = kurs?.waehrung ?? "EUR";
   /* Tag-und-Monat auf der Achse, wenn genug Platz zwischen den Punkten ist:
      bei Tagesschlusskursen bis zu rund hundert Punkten, ob aus einem festen
@@ -102,25 +102,40 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
     );
   }
 
+  const daten = reihe.map(([datum, wert]) => ({ datum, wert }));
+  const letzterIndex = daten.length - 1;
+  /* Beim Swipen/Hovern zeigt der Kopf den Wert am Finger- bzw. Mauszeiger,
+     nicht den letzten Kurs. Ohne Interaktion (aktiv === null) bleibt es beim
+     letzten Punkt, das ist der Ruhezustand. */
+  const index = aktiv !== null && aktiv >= 0 && aktiv <= letzterIndex ? aktiv : letzterIndex;
+  const punkt = index >= 0 ? daten[index] : undefined;
+  const wirdGescrubbt = aktiv !== null && index !== letzterIndex;
+  /* Rendite immer vom Anfang des gewählten Zeitraums bis zum gerade
+     angezeigten Punkt, nicht bis zum Ende — sonst würde sich die Prozentzahl
+     beim Swipen nicht mitbewegen, obwohl der Wert es tut. */
+  const veraenderungBisPunkt = index >= 0 ? spanneVeraenderung(reihe.slice(0, index + 1)) : null;
+
   /* Kopf und Zeitraumfilter stehen immer, auch wenn der gewählte Zeitraum
      keine Daten hergibt. Sonst müsste man erst einen anderen Zeitraum raten,
      um zurück zu einem zu kommen, der etwas zeigt. */
   const kopf = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        {reihe.length >= 2 ? (
+        {reihe.length >= 2 && punkt ? (
           <>
             <p className="text-[28px] font-bold leading-tight text-foreground md:text-[34px]">
-              {betrag(reihe[reihe.length - 1][1], waehrung)}
+              {betrag(punkt.wert, waehrung)}
             </p>
             <p className="mt-1 flex flex-wrap items-center gap-2 text-[14px] text-muted-foreground">
-              <span>{datumLang(reihe[reihe.length - 1][0])}</span>
-              {veraenderung !== null && (
+              <span>{datumLang(punkt.datum)}</span>
+              {veraenderungBisPunkt !== null && (
                 <span className="font-semibold text-foreground">
-                  {prozent(veraenderung)}{" "}
-                  {istEigenerZeitraum(zeitraum)
-                    ? `vom ${datumLang(reihe[0][0])}`
-                    : `in ${chartZeitraeume.find((z) => z.key === zeitraum)?.lang ?? "einem Jahr"}`}
+                  {prozent(veraenderungBisPunkt)}{" "}
+                  {wirdGescrubbt
+                    ? `seit ${datumLang(reihe[0][0])}`
+                    : istEigenerZeitraum(zeitraum)
+                      ? `vom ${datumLang(reihe[0][0])}`
+                      : `in ${chartZeitraeume.find((z) => z.key === zeitraum)?.lang ?? "einem Jahr"}`}
                 </span>
               )}
             </p>
@@ -146,10 +161,6 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
       </div>
     );
   }
-
-  const daten = reihe.map(([datum, wert]) => ({ datum, wert }));
-  const index = aktiv !== null && aktiv >= 0 && aktiv < daten.length ? aktiv : daten.length - 1;
-  const punkt = daten[index];
 
   const werte = daten.map((d) => d.wert);
   const min = Math.min(...werte);
@@ -243,7 +254,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
         Kursverlauf {spanneLang}. Von {betrag(daten[0].wert, waehrung)} am{" "}
         {datumLang(daten[0].datum)} auf {betrag(daten[daten.length - 1].wert, waehrung)} am{" "}
         {datumLang(daten[daten.length - 1].datum)}
-        {veraenderung !== null ? `, eine Veränderung von ${prozent(veraenderung)}` : ""}.
+        {veraenderungGesamt !== null ? `, eine Veränderung von ${prozent(veraenderungGesamt)}` : ""}.
       </p>
 
       <p className="mt-4 text-[13px] leading-[20px] text-muted-foreground">

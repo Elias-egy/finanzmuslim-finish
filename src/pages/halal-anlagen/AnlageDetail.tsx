@@ -3,6 +3,7 @@ import { ChevronRight, ExternalLink } from "lucide-react";
 import Seo, { anlageJsonLd } from "@/components/Seo";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
 import AnlageKurschart from "@/components/anlage/AnlageKurschart";
+import AnlageRenditerechner from "@/components/anlage/AnlageRenditerechner";
 import FaktenRaster from "@/components/anlage/FaktenRaster";
 import KopierWert from "@/components/anlage/KopierWert";
 import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
@@ -179,6 +180,9 @@ const AnlageDetail = () => {
                 quelle={kursQuelle}
                 stand={kursStand}
               />
+            </div>
+            <div className="mt-6">
+              <AnlageRenditerechner kurs={kurs} name={anlage.name} />
             </div>
             <div className="mt-5 max-w-xl">
               <MonetarisierungsPlatz
