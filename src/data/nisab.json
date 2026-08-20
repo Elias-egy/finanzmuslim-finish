@@ -1,11 +1,11 @@
 {
- "stand": "19.08.2026",
+ "stand": "20.08.2026",
  "quelle": "Yahoo Finance, Terminkurse GC=F und SI=F, in Euro umgerechnet",
  "hinweis": "Terminkurs, nicht Spotpreis. Abweichung meist ein bis zwei Prozent. Fuer eine taggenaue Berechnung den Preis des eigenen Stichtags verwenden.",
- "goldPreisJeGramm": 122.41,
- "silberPreisJeGramm": 1.754,
- "nisabGoldEuro": 10405,
- "nisabSilberEuro": 1043,
+ "goldPreisJeGramm": 125.39,
+ "silberPreisJeGramm": 1.851,
+ "nisabGoldEuro": 10658,
+ "nisabSilberEuro": 1101,
  "nisabGoldGramm": 85,
  "nisabSilberGramm": 595
 }
