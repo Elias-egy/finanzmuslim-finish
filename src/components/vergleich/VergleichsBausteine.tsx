@@ -114,7 +114,7 @@ export const AngebotsKnopf = ({
 }) => {
   const mass = breit ? "w-full" : "w-full";
   const basis =
-    "flex min-h-[44px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold";
+    "flex h-[44px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold";
   if (!link) {
     return (
       <div className="w-full">
