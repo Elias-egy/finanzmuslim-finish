@@ -113,13 +113,15 @@ export const AngebotsKnopf = ({
   breit?: boolean;
 }) => {
   const mass = breit ? "w-full" : "w-full";
+  const basis =
+    "flex min-h-[44px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold";
   if (!link) {
     return (
-      <div>
+      <div className="w-full">
         <button
           type="button"
           disabled
-          className={`inline-flex min-h-[44px] ${mass} cursor-not-allowed items-center justify-center rounded-lg border border-border bg-muted px-4 text-[14px] font-semibold text-muted-foreground`}
+          className={`${basis} ${mass} cursor-not-allowed border border-border bg-muted text-muted-foreground`}
         >
           Zum Angebot
         </button>
@@ -132,7 +134,7 @@ export const AngebotsKnopf = ({
   return (
     <Link
       to={link}
-      className={`inline-flex min-h-[44px] ${mass} items-center justify-center rounded-lg bg-primary px-4 text-[14px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover`}
+      className={`${basis} ${mass} bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
     >
       Zum Angebot*
     </Link>
