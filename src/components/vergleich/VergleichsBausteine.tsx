@@ -112,9 +112,12 @@ export const AngebotsKnopf = ({
   link?: string;
   breit?: boolean;
 }) => {
-  const mass = breit ? "w-full" : "w-full";
+  /* Aktiv und deaktiviert haben dieselben Masse, damit die Zeile in beiden
+     Zustaenden gleich hoch ist und der Text mittig steht. Kein z-index:
+     der Knopf bleibt in seiner Zelle und laeuft beim Scrollen unter der
+     klebenden Kopfzeile durch, statt sie zu uebermalen. */
   const basis =
-    "flex min-h-[52px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold leading-tight";
+    "flex min-h-[52px] w-full shrink-0 items-center justify-center rounded-lg px-3 text-center text-[14px] font-semibold leading-tight";
   if (!link) {
     return (
       <div className="w-full">
@@ -134,7 +137,7 @@ export const AngebotsKnopf = ({
   return (
     <Link
       to={link}
-      className={`${basis} relative z-50 bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
+      className={`${basis} bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
     >
       Zum Angebot*
     </Link>
