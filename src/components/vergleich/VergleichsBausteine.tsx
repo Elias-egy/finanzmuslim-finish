@@ -114,7 +114,7 @@ export const AngebotsKnopf = ({
 }) => {
   const mass = breit ? "w-full" : "w-full";
   const basis =
-    "flex h-[44px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold";
+    "flex min-h-[44px] shrink-0 items-center justify-center rounded-lg px-3 text-[14px] font-semibold";
   if (!link) {
     return (
       <div className="w-full">
@@ -132,12 +132,14 @@ export const AngebotsKnopf = ({
     );
   }
   return (
-    <Link
-      to={link}
-      className={`${basis} ${mass} bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
-    >
-      Zum Angebot*
-    </Link>
+    <div className="w-full">
+      <Link
+        to={link}
+        className={`${basis} ${mass} bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
+      >
+        <span className="block leading-tight">Zum Angebot*</span>
+      </Link>
+    </div>
   );
 };
 
