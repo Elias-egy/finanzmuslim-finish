@@ -143,49 +143,56 @@ export const VergleichsTabelle = ({
           }}
         >
           {/* Kopfzeile: klebt oben, damit beim Scrollen immer sichtbar bleibt,
-              wessen Zahl gerade gelesen wird. */}
-          <div
-            className="sticky left-0 z-30 flex flex-col justify-end border-b border-r border-border bg-card px-3 py-2"
-            style={{ top: KOPF }}
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Kriterium
-            </p>
-            <p className="text-[12px] text-muted-foreground">
-              {von} bis {bis} von {spalten.length}
-            </p>
+              wessen Zahl gerade gelesen wird.
+
+              Zwei verschachtelte Ebenen statt einer: ein `sticky top`-Wert
+              direkt auf einem Grid-Kind verschiebt in Chrome die Startposition
+              der naechsten Zeile um genau diesen Top-Wert nach oben, auch
+              wenn die Kopfzeile noch gar nicht klebt. Ergebnis war, dass die
+              Angebotszeile sichtbar unter der Kopfzeile verschwand. Das
+              aeussere Div bleibt darum ein normales (bzw. nur horizontal
+              klebendes) Grid-Kind und traegt nichts als Platzhalter bei, das
+              vertikale Kleben passiert ausschliesslich am inneren Div, das
+              fuer die Grid-Zeilenberechnung unsichtbar ist. */}
+          <div className="sticky left-0 z-30 border-b border-r border-border">
+            <div className="flex flex-col justify-end bg-card px-3 py-2" style={{ position: "sticky", top: KOPF }}>
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                Kriterium
+              </p>
+              <p className="text-[12px] text-muted-foreground">
+                {von} bis {bis} von {spalten.length}
+              </p>
+            </div>
           </div>
           {spalten.map((s, i) => (
-            <div
-              key={s.id}
-              className="sticky z-20 border-b border-r border-border bg-card last:border-r-0"
-              style={{ top: KOPF }}
-            >
-              <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-surface text-[11px] font-bold text-muted-foreground">
-                  {i + 1}
-                </span>
-                {s.etikett ? (
-                  <span
-                    className={`truncate rounded-full px-2 py-0.5 text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
-                  >
-                    {s.etikett.text}
+            <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
+              <div className="bg-card" style={{ position: "sticky", top: KOPF }}>
+                <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-surface text-[11px] font-bold text-muted-foreground">
+                    {i + 1}
                   </span>
-                ) : (
-                  /* Ohne Etikett bleibt der Platz leer. Ein Wort wie "kein
-                     Etikett" dreissig Mal untereinander ist kein Hinweis,
-                     sondern Laerm. Die Hoehe bleibt reserviert. */
-                  <span className="h-[19px]" aria-hidden />
-                )}
-              </div>
-              <div className="flex flex-col items-center gap-1 px-3 py-2">
-                <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
-                <p className="w-full truncate text-center text-[13px] font-bold text-foreground">
-                  {s.anbieter}
-                </p>
-                <p className="w-full truncate text-center text-[12px] text-muted-foreground">
-                  {s.produkt}
-                </p>
+                  {s.etikett ? (
+                    <span
+                      className={`truncate rounded-full px-2 py-0.5 text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
+                    >
+                      {s.etikett.text}
+                    </span>
+                  ) : (
+                    /* Ohne Etikett bleibt der Platz leer. Ein Wort wie "kein
+                       Etikett" dreissig Mal untereinander ist kein Hinweis,
+                       sondern Laerm. Die Hoehe bleibt reserviert. */
+                    <span className="h-[19px]" aria-hidden />
+                  )}
+                </div>
+                <div className="flex flex-col items-center gap-1 px-3 py-2">
+                  <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
+                  <p className="w-full truncate text-center text-[13px] font-bold text-foreground">
+                    {s.anbieter}
+                  </p>
+                  <p className="w-full truncate text-center text-[12px] text-muted-foreground">
+                    {s.produkt}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
