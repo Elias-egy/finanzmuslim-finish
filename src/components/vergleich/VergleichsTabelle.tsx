@@ -120,6 +120,20 @@ export const VergleichsTabelle = ({
         ref={schieber}
         onScroll={merkeStelle}
         className="overflow-x-auto rounded-lg border border-border bg-card"
+        /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
+           Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
+           aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
+           die letzte Spalte wieder scharf. */
+        style={
+          bis < spalten.length
+            ? {
+                WebkitMaskImage:
+                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+                maskImage:
+                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+              }
+            : undefined
+        }
       >
         <div
           className="grid"
