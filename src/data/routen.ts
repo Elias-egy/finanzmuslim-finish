@@ -75,6 +75,9 @@ export const festeRouten: Route[] = [
   rechner("/inflationsrechner", "Inflationsrechner.tsx"),
   rechner("/bereinigungsrechner", "Bereinigungsrechner.tsx"),
   rechner("/auswanderungsrechner", "Auswanderungsrechner.tsx"),
+  rechner("/kreditkostenrechner", "Kreditkostenrechner.tsx"),
+  rechner("/budgetrechner", "Budgetrechner.tsx"),
+  rechner("/sparzielrechner", "Sparzielrechner.tsx"),
 
   { pfad: "/wissen", quelle: ["src/pages/Wissen.tsx"], changefreq: "weekly", prioritaet: "0.8" },
   wissenBeitrag("zinsen-im-islam", "ZinsenImIslam.tsx"),

@@ -45,6 +45,9 @@ const Erbe = lazy(() => import("./pages/wissen/Erbe.tsx"));
 const Inflationsrechner = lazy(() => import("./pages/Inflationsrechner.tsx"));
 const Bereinigungsrechner = lazy(() => import("./pages/Bereinigungsrechner.tsx"));
 const Auswanderungsrechner = lazy(() => import("./pages/Auswanderungsrechner.tsx"));
+const Kreditkostenrechner = lazy(() => import("./pages/Kreditkostenrechner.tsx"));
+const Budgetrechner = lazy(() => import("./pages/Budgetrechner.tsx"));
+const Sparzielrechner = lazy(() => import("./pages/Sparzielrechner.tsx"));
 const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const IstBitcoinHalal = lazy(() => import("./pages/wissen/IstBitcoinHalal.tsx"));
 const AutoKaufenOhneZinsen = lazy(() => import("./pages/wissen/AutoKaufenOhneZinsen.tsx"));
@@ -107,6 +110,9 @@ const App = () => (
             <Route path="/inflationsrechner" element={<Inflationsrechner />} />
             <Route path="/bereinigungsrechner" element={<Bereinigungsrechner />} />
             <Route path="/auswanderungsrechner" element={<Auswanderungsrechner />} />
+            <Route path="/kreditkostenrechner" element={<Kreditkostenrechner />} />
+            <Route path="/budgetrechner" element={<Budgetrechner />} />
+            <Route path="/sparzielrechner" element={<Sparzielrechner />} />
             <Route path="/zakat-rechner" element={<Zakatrechner />} />
             <Route path="/zakatrechner" element={<Zakatrechner />} />
             <Route path="/rechner" element={<Rechner />} />

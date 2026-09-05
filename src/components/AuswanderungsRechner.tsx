@@ -243,6 +243,13 @@ const AuswanderungsRechner = () => {
 
   /* Die Ampel. Jede Zeile ist eine Regel aus dem Gesetz, angewendet auf die
      Angaben. Fehlt eine Angabe, bleibt die Zeile grau statt zu raten. */
+  /* Fehlt eine Angabe, rechnen wir mit der wahrscheinlichsten Annahme und sagen
+     das dazu. Vorher blieb die Zeile grau, und die Ampel sah leer aus, bevor
+     jemand „Mehr Angaben" geöffnet hatte. */
+  const beteiligungAnn = beteiligung ?? false;
+  const deutschAnn = deutsch ?? true;
+  const annahme = " (Annahme, unter „Mehr Angaben“ ändern)";
+
   const ampel: Ampel[] = useMemo(() => {
     const a = wegzug.anteile;
     const f = wegzug.fonds;
@@ -252,20 +259,21 @@ const AuswanderungsRechner = () => {
     zeilen.push({
       id: "anteile",
       titel: "Wegzugssteuer auf Firmenanteile",
-      ton: beteiligung === null ? "grau" : beteiligung ? "rot" : "gruen",
-      wort: beteiligung === null ? "Angabe fehlt" : beteiligung ? "trifft dich" : "nicht betroffen",
+      ton: beteiligungAnn ? "rot" : "gruen",
+      wort: beteiligung === null ? "keine Firmenanteile" : beteiligungAnn ? "trifft dich" : "nicht betroffen",
       detail:
-        beteiligung
+        (beteiligung === null ? "Wir nehmen an, dass du keine Anteile ab 1 Prozent hältst." + annahme + " " : "") +
+        (beteiligungAnn
           ? `Beim Wegzug wird ein Verkauf deiner Anteile fingiert und der Wertzuwachs versteuert, ohne dass Geld fließt. Das greift ab ${a.schwelleProzent} Prozent an einer Kapitalgesellschaft, wenn du in den letzten ${a.vonJahren} Jahren mindestens ${a.vorbesitzJahre} Jahre in Deutschland unbeschränkt steuerpflichtig warst. Auf Antrag zahlst du in ${a.raten} gleichen Jahresraten, zinslos, meist gegen Sicherheit. Kommst du innerhalb von ${a.rueckkehrJahre} Jahren zurück und hast die Anteile behalten, entfällt die Steuer wieder.`
-          : `Die Wegzugssteuer nach § 6 AStG greift erst ab ${a.schwelleProzent} Prozent Beteiligung an einer GmbH oder AG. Wer keine solche Beteiligung hält, ist hier nicht betroffen. Für ETF- und Fondsanteile gilt eine eigene Regel, siehe nächste Zeile.`,
+          : `Die Wegzugssteuer nach § 6 AStG greift erst ab ${a.schwelleProzent} Prozent Beteiligung an einer GmbH oder AG. Wer keine solche Beteiligung hält, ist hier nicht betroffen. Für ETF- und Fondsanteile gilt eine eigene Regel, siehe nächste Zeile.`),
       quellen: a.quellen,
     });
 
     zeilen.push({
       id: "fonds",
       titel: "Wegzugssteuer auf ETF- und Fondsanteile",
-      ton: depot === 0 ? "grau" : depot >= f.anschaffungskostenEuro ? "rot" : "gruen",
-      wort: depot === 0 ? "Angabe fehlt" : depot >= f.anschaffungskostenEuro ? "trifft dich" : "unter der Grenze",
+      ton: depot >= f.anschaffungskostenEuro ? "rot" : "gruen",
+      wort: depot === 0 ? "Depot unter 500.000 €" : depot >= f.anschaffungskostenEuro ? "trifft dich" : "unter der Grenze",
       detail:
         depot >= f.anschaffungskostenEuro
           ? `Seit der Neuregelung gilt die Wegzugssteuer auch für Investmentanteile: ab ${eur(f.anschaffungskostenEuro)} Anschaffungskosten oder ab ${f.schwelleProzent} Prozent aller Anteile eines Fonds, bei ${f.vorbesitzJahre} Jahren Vorbesitz. Deine ${eur(depot)} liegen darüber. Der Kursgewinn wird beim Wegzug so behandelt, als hättest du verkauft. Das ist der Punkt, den fast kein Auswanderer-Ratgeber nennt.`
@@ -277,20 +285,19 @@ const AuswanderungsRechner = () => {
     zeilen.push({
       id: "erweitert",
       titel: `${e.dauerJahre} Jahre Nachwirkung in Deutschland`,
-      ton: deutsch === null ? "grau" : !deutsch ? "gruen" : niedrig ? "gelb" : "gruen",
-      wort:
-        deutsch === null
-          ? "Angabe fehlt"
-          : !deutsch
-            ? "nur für deutsche Staatsangehörige"
-            : niedrig
-              ? "kann greifen"
-              : "kein Niedrigsteuerland",
-      detail: !deutsch && deutsch !== null
+      ton: !deutschAnn ? "gruen" : niedrig ? "gelb" : "gruen",
+      wort: !deutschAnn
+        ? "nur für deutsche Staatsangehörige"
+        : niedrig
+          ? deutsch === null
+            ? "kann greifen, bei deutschem Pass"
+            : "kann greifen"
+          : "kein Niedrigsteuerland",
+      detail: (deutsch === null && niedrig ? "Wir nehmen an, dass du die deutsche Staatsangehörigkeit hast." + annahme + " " : "") + (!deutschAnn
         ? `Die erweiterte beschränkte Steuerpflicht nach § 2 AStG trifft nur deutsche Staatsangehörige. Ohne deutschen Pass bleibt es bei der normalen beschränkten Steuerpflicht auf deutsche Einkünfte.`
         : niedrig
           ? `Deutsche Staatsangehörige, die in den letzten ${e.vonJahren} Jahren mindestens ${e.vorbesitzJahre} Jahre unbeschränkt steuerpflichtig waren und in ein Gebiet mit niedriger Besteuerung ziehen, bleiben ${e.dauerJahre} Jahre lang erweitert beschränkt steuerpflichtig, wenn sie wesentliche wirtschaftliche Interessen in Deutschland behalten: inländische Einkünfte über 30 Prozent oder ab ${eur(e.inlandsEinkuenfteEuro)}, inländisches Vermögen über 30 Prozent oder ab ${eur(e.inlandsVermoegenEuro)}. Niedrig heißt: mehr als ein Drittel unter der deutschen Steuer, gemessen an einer ledigen Person mit ${eur(e.vergleichseinkommenEuro)} Einkommen. ${land.name} erhebt auf Gehälter keine Einkommensteuer und erfüllt das. Unter ${eur(e.bagatellEuro)} deutschen Einkünften im Jahr greift die Regel nicht.`
-          : `${land.name} besteuert Einkommen progressiv und gilt damit nicht als Gebiet mit niedriger Besteuerung im Sinne von § 2 AStG. Die zehnjährige Nachwirkung entfällt. Was bleibt, ist die normale beschränkte Steuerpflicht auf deutsche Einkünfte.`,
+          : `${land.name} besteuert Einkommen progressiv und gilt damit nicht als Gebiet mit niedriger Besteuerung im Sinne von § 2 AStG. Die zehnjährige Nachwirkung entfällt. Was bleibt, ist die normale beschränkte Steuerpflicht auf deutsche Einkünfte.`),
       quellen: e.quellen,
     });
 
@@ -307,7 +314,7 @@ const AuswanderungsRechner = () => {
     });
 
     return zeilen;
-  }, [beteiligung, depot, deutsch, einkommen, land]);
+  }, [beteiligung, beteiligungAnn, depot, deutsch, deutschAnn, einkommen, land]);
 
   /* Der Zeitstrahl. Jahre nach dem Wegzug, in denen Deutschland noch mitredet. */
   const zeitstrahl = useMemo(() => {
@@ -316,26 +323,26 @@ const AuswanderungsRechner = () => {
         id: "rueckkehr",
         label: `Rückkehr löscht die Wegzugssteuer`,
         jahre: wegzug.anteile.rueckkehrJahre,
-        aktiv: beteiligung === true || depot >= wegzug.fonds.anschaffungskostenEuro,
+        aktiv: beteiligungAnn || depot >= wegzug.fonds.anschaffungskostenEuro,
         ton: "gruen",
       },
       {
         id: "raten",
         label: `Ratenzahlung der Wegzugssteuer`,
         jahre: wegzug.anteile.raten,
-        aktiv: beteiligung === true || depot >= wegzug.fonds.anschaffungskostenEuro,
+        aktiv: beteiligungAnn || depot >= wegzug.fonds.anschaffungskostenEuro,
         ton: "rot",
       },
       {
         id: "erweitert",
         label: `Erweiterte beschränkte Steuerpflicht`,
         jahre: wegzug.erweitert.dauerJahre,
-        aktiv: deutsch === true && land.niedrigsteuer,
+        aktiv: deutschAnn && land.niedrigsteuer,
         ton: "gelb",
       },
     ];
     return zeilen;
-  }, [beteiligung, depot, deutsch, land.niedrigsteuer]);
+  }, [beteiligungAnn, depot, deutschAnn, land.niedrigsteuer]);
 
   const landFakten = useMemo(
     () => [land.einkommensteuer, land.dba, ...land.fakten.filter((f) => !f.nurFuer || f.nurFuer.includes(haushalt))],
@@ -343,6 +350,40 @@ const AuswanderungsRechner = () => {
   );
 
   const toggle = (id: string) => setOffen((o) => (o === id ? null : id));
+
+  /* Die Vergleichstabelle. Jede Zelle ist eine Bewertung aus den Länderdaten,
+     nichts wird hier neu geschätzt. */
+  const blick = useMemo(() => {
+    const aufenthaltId: Record<LandId, string> = { tr: "tr-aufenthalt", ae: "ae-visum", sa: "sa-residency" };
+    const kurz: Record<LandId, string> = { tr: "Antrag binnen 90 Tagen", ae: "hängt am Arbeitgeber", sa: "Premium Residency" };
+    const inflationTon = (w: number): Ton => (w >= 10 ? "rot" : w >= 3 ? "gelb" : "gruen");
+    const preisTon = (r: number): Ton => (r <= 0.6 ? "gruen" : r <= 0.85 ? "gelb" : "grau");
+    return [
+      {
+        titel: "Preise",
+        zellen: laender.map((l) => ({ ton: preisTon(preisniveauRelativ(l)), text: `${Math.round(preisniveauRelativ(l) * 100)} %` })),
+      },
+      {
+        titel: "Steuer auf Gehalt",
+        zellen: laender.map((l) => ({ ton: l.einkommensteuer.ton ?? "grau", text: l.niedrigsteuer ? "keine" : "15 bis 40 %" })),
+      },
+      {
+        titel: "Abkommen mit DE",
+        zellen: laender.map((l) => ({ ton: l.dba.ton ?? "grau", text: l.dba.ton === "gruen" ? "ja" : l.id === "ae" ? "seit 2022 keins" : "keins" })),
+      },
+      {
+        titel: `Inflation ${laender[0].inflation[3].jahr}`,
+        zellen: laender.map((l) => ({ ton: inflationTon(l.inflation[3].wert), text: `${l.inflation[3].wert.toLocaleString("de-DE")} %` })),
+      },
+      {
+        titel: "Aufenthalt",
+        zellen: laender.map((l) => ({
+          ton: l.fakten.find((f) => f.id === aufenthaltId[l.id])?.ton ?? "grau",
+          text: kurz[l.id],
+        })),
+      },
+    ];
+  }, []);
 
   return (
     <section className="container max-w-5xl pb-4 pt-10 md:pt-14">
@@ -574,6 +615,51 @@ const AuswanderungsRechner = () => {
         </div>
       </div>
 
+      {/* ── Auf einen Blick ────────────────────────────────────────── */}
+      <div className="mt-10">
+        <h2 className="headline text-xl md:text-2xl">Die drei Länder auf einen Blick</h2>
+        <p className="mt-1 text-[14px] text-muted-foreground">Tipp auf ein Land, dann rechnet alles oben mit.</p>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border/70 bg-white">
+          <table className="w-full min-w-[560px] border-collapse text-[13px]">
+            <thead>
+              <tr>
+                <th className="w-[140px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">Deutschland = 100</th>
+                {laender.map((l) => (
+                  <th key={l.id} className="px-2 py-2 text-center">
+                    <button
+                      type="button"
+                      onClick={() => setLandId(l.id)}
+                      aria-pressed={l.id === land.id}
+                      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[13px] font-bold transition ${
+                        l.id === land.id ? "border-primary bg-accent text-foreground" : "border-border bg-white text-foreground hover:border-primary/40"
+                      }`}
+                    >
+                      <span aria-hidden>{l.flagge}</span>
+                      {l.name}
+                    </button>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {blick.map((zeile) => (
+                <tr key={zeile.titel} className="border-t border-border/70">
+                  <td className="px-4 py-3 font-semibold text-foreground">{zeile.titel}</td>
+                  {zeile.zellen.map((z, i) => (
+                    <td key={i} className={`px-3 py-3 text-center ${laender[i].id === land.id ? "bg-accent/50" : ""}`}>
+                      <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[12px] font-semibold ${tonFlaeche[z.ton]}`}>
+                        <span className={`h-2 w-2 rounded-full ${tonPunkt[z.ton]}`} aria-hidden />
+                        {z.text}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* ── Steuer-Ampel ───────────────────────────────────────────── */}
       <div className="mt-10">
         <h2 className="headline text-xl md:text-2xl">Was Deutschland beim Wegzug noch will</h2>
@@ -634,7 +720,7 @@ const AuswanderungsRechner = () => {
       {/* ── Zeitstrahl ─────────────────────────────────────────────── */}
       <div className="mt-8 rounded-2xl border border-border/70 bg-white p-5 md:p-6">
         <p className="text-[15px] font-bold text-foreground">Wie lange Deutschland noch mitredet</p>
-        <p className="mt-1 text-[13px] text-muted-foreground">Jahre nach dem Wegzug. Grau heißt: gilt für dich nicht oder Angabe fehlt.</p>
+        <p className="mt-1 text-[13px] text-muted-foreground">Jahre nach dem Wegzug. Grau heißt: gilt nach deinen Angaben nicht für dich.</p>
         <div className="mt-4 space-y-3">
           {zeitstrahl.map((z) => (
             <div key={z.id} className="grid grid-cols-[1fr] gap-1 md:grid-cols-[240px_1fr] md:items-center md:gap-4">
@@ -701,8 +787,13 @@ const AuswanderungsRechner = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+            <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
+              Lässt du <strong>{eur(netto)}</strong> ein Jahr lang in Lira liegen, kaufen sie danach nur noch so viel wie{" "}
+              <strong>{eur(netto / (1 + land.inflation[3].wert / 100))}</strong> heute, bei der Inflation von{" "}
+              {land.inflation[3].jahr}. In Euro wären es {eur(netto / (1 + deutschland.inflation[3].wert / 100))}.
+            </p>
             <p className="mt-1 text-[12px] text-muted-foreground">
-              Deutschland 2025: {deutschland.inflation[3].wert.toLocaleString("de-DE")} Prozent. Weltbank, Verbraucherpreise.
+              Deutschland {deutschland.inflation[3].jahr}: {deutschland.inflation[3].wert.toLocaleString("de-DE")} Prozent. Weltbank, Verbraucherpreise.
             </p>
           </div>
         )}

@@ -3,16 +3,18 @@ import {
   ArrowRight,
   Baby,
   Calculator,
+  ChevronRight,
   Coins,
   CreditCard,
   FileText,
   Globe,
   LineChart,
+  Percent,
   PiggyBank,
   Receipt,
-  ChevronRight,
-  Sparkles,
   ShieldCheck,
+  Sparkles,
+  Target,
   TrendingDown,
   TrendingUp,
   Wallet,
@@ -42,13 +44,15 @@ const categories = [
   { label: "Kinderdepot", icon: Baby },
 ];
 
-/** Sieben Rechner. Budget- und Brutto-Netto-Rechner existieren noch nicht. */
+/** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
   { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
   { title: "Bereinigungsrechner", to: "/bereinigungsrechner", icon: Sparkles },
-  { title: "Budgetrechner", icon: PiggyBank },
+  { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
+  { title: "Kreditkostenrechner", to: "/kreditkostenrechner", icon: Percent },
+  { title: "Sparzielrechner", to: "/sparzielrechner", icon: Target },
   { title: "Brutto-Netto-Rechner", icon: Receipt },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
 ];
