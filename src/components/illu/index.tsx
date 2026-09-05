@@ -339,3 +339,5 @@ export const illus: Record<IlluName, (p: Props) => JSX.Element> = {
   pruefung: IlluPruefung,
   depot: IlluDepot,
 };
+
+export * from "./mehr";

@@ -1,26 +1,19 @@
-import { Link } from "react-router-dom";
 import Seo, { beitragJsonLd } from "@/components/Seo";
-import BeitragIllu from "@/components/BeitragIllu";
-import { IlluDepot, IlluHandel, IlluPruefung } from "@/components/illu";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
-
-const grenzwerte = [
-  {
-    frage: "Womit verdient die Firma ihr Geld?",
-    text: "Umsatz aus Alkohol, Tabak, Glücksspiel, Zinsgeschäft, Waffen oder Pornografie.",
-    wert: "höchstens 5 %",
-  },
-  {
-    frage: "Wie stark ist sie verschuldet?",
-    text: "Gemeint sind ausdrücklich verzinsliche Schulden. Eine Firma, die überwiegend auf Zinskrediten läuft, wird über den Umweg deiner Beteiligung zu einem Zinsgeschäft.",
-    wert: "höchstens 30 %",
-  },
-  {
-    frage: "Wie viel liegt zinsbringend herum?",
-    text: "Zinstragende Wertpapiere und verzinste Guthaben in der Bilanz. Auch eine saubere Firma kann durch ihre Geldanlage durchfallen.",
-    wert: "höchstens 30 %",
-  },
-];
+import { IlluHandel, IlluZweiEbenen } from "@/components/illu";
+import {
+  B,
+  Beispiel,
+  Bild,
+  Checkliste,
+  Frage,
+  Hinweis,
+  Kennzahlen,
+  L,
+  Merksatz,
+  PasstDazu,
+  Tabelle,
+} from "@/components/beitrag";
 
 const abschnitte: BeitragAbschnitt[] = [
   {
@@ -28,35 +21,60 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Warum Aktien überhaupt erlaubt sind",
     inhalt: (
       <>
+        <Frage>Wenn Zinsen verboten sind, warum ist dann ausgerechnet die Börse erlaubt?</Frage>
         <p>
-          Wer eine Aktie kauft, leiht kein Geld gegen Zins, sondern wird{" "}
-          <span className="font-semibold text-foreground">Miteigentümer an einer echten Firma</span> mit echten
-          Maschinen, Mitarbeitern und Produkten. Gewinn und Verlust trägt man mit.
+          Weil eine Aktie kein Darlehen ist. Wer eine Aktie kauft, leiht der Firma kein Geld gegen Zins,
+          sondern wird <B>Miteigentümer an einer echten Firma</B> mit Maschinen, Mitarbeitern und Produkten.
+          Läuft es gut, bekommst du einen Anteil am Gewinn. Läuft es schlecht, verlierst du mit.
         </p>
         <p>
-          Genau das ist der Unterschied zum Zinsgeschäft, bei dem einer sicher gewinnt. Deshalb ist der
-          Aktienkauf im Grundsatz zulässig. Die Frage ist nie, ob Aktien erlaubt sind, sondern welche.
+          Genau das ist der Unterschied zum Zinsgeschäft, bei dem einer im Voraus sicher gewinnt, egal wie es
+          dem anderen ergeht. Deshalb ist der Aktienkauf im Grundsatz zulässig. Die Frage ist nie, ob Aktien
+          erlaubt sind, sondern welche.
         </p>
-        <BeitragIllu unterschrift="Bei einer Aktie tauschst du Geld gegen einen echten Anteil an einer Firma. Beide Seiten tragen das Risiko.">
+        <Merksatz>Nicht die Aktie ist das Problem, sondern die Firma dahinter.</Merksatz>
+        <Bild text="Bei einer Aktie tauschst du Geld gegen einen echten Anteil an einer Firma. Beide Seiten tragen das Risiko.">
           <IlluHandel />
-        </BeitragIllu>
+        </Bild>
       </>
     ),
   },
   {
-    id: "geschaeft",
-    titel: "Die erste Frage: Womit verdient die Firma ihr Geld?",
+    id: "zwei-ebenen",
+    titel: "Zwei Ebenen, auf denen geprüft wird",
     inhalt: (
       <>
         <p>
-          Das ist der einfachste Teil und sortiert die meisten Fälle sofort. Eine Brauerei, ein Wettanbieter
-          oder eine Zinsbank fallen durch, ohne dass man eine Bilanz braucht.
+          Fast jede Verwirrung bei diesem Thema kommt daher, dass zwei ganz verschiedene Fragen
+          durcheinandergehen. Sortier sie einmal sauber, dann wird der Rest einfach.
+        </p>
+        <Bild text="Erst das Geschäft, dann der Umgang mit Geld. Nur auf der zweiten Ebene sind sich Gelehrte uneinig.">
+          <IlluZweiEbenen />
+        </Bild>
+        <Tabelle
+          kopf={["Ebene", "Die Frage", "Wie einig sich Gelehrte sind"]}
+          zeilen={[
+            [
+              "1. Das Geschäft",
+              "Womit verdient die Firma ihr Geld?",
+              "Einig. Wer hauptsächlich mit Verbotenem verdient, fällt durch. Darüber streitet niemand.",
+            ],
+            [
+              "2. Der Umgang mit Geld",
+              "Wie viele Zinsschulden und Zinserträge hat sie?",
+              "Uneinig. Hier liegen die Grenzwerte, und hier gehen die Meinungen auseinander.",
+            ],
+          ]}
+        />
+        <p>
+          Die erste Ebene sortiert die meisten Fälle in Sekunden: Eine Brauerei, ein Wettanbieter oder eine
+          Zinsbank fallen durch, ohne dass jemand eine Bilanz aufschlagen muss. Schwieriger sind
+          <B> Mischfälle</B>, etwa ein Supermarkt, der auch Alkohol verkauft, oder ein Hotelkonzern mit Bar.
+          Für die gilt eine kleine Toleranz.
         </p>
         <p>
-          Schwieriger sind <span className="font-semibold text-foreground">Mischfälle</span>, etwa ein
-          Supermarkt, der auch Alkohol verkauft, oder ein Hotelkonzern mit Bars. Für solche Fälle gilt eine
-          Grenze: Der Umsatz aus unerlaubten Bereichen darf einen kleinen Rest nicht überschreiten,
-          üblicherweise fünf Prozent.
+          Die zweite Ebene ist die eigentliche Streitfrage. Auch eine völlig unverdächtige Firma nimmt
+          Zinskredite auf und legt ihr Geld verzinst an. Ab wann macht dich das zum Mitverdiener?
         </p>
       </>
     ),
@@ -67,26 +85,73 @@ const abschnitte: BeitragAbschnitt[] = [
     inhalt: (
       <>
         <p>
-          So prüft der AAOIFI-Standard, an dem sich fast alle Prüfwerkzeuge orientieren. Reißt eine Firma nur
-          eine dieser Grenzen, fällt sie durch.
+          So prüft der AAOIFI-Standard, an dem sich fast alle Werkzeuge und alle Islamic-Fonds orientieren.
+          Reißt eine Firma nur eine dieser drei Grenzen, fällt sie durch.
         </p>
-        <div className="space-y-4">
-          {grenzwerte.map((g, i) => (
-            <div key={g.frage} className="card-surface flex flex-col gap-4 p-6 sm:flex-row sm:items-start">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-[15px] font-bold text-foreground">
-                {i + 1}
-              </span>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-[17px] font-bold text-foreground">{g.frage}</h3>
-                <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">{g.text}</p>
-              </div>
-              <span className="shrink-0 text-[20px] font-bold text-foreground sm:text-right">{g.wert}</span>
-            </div>
-          ))}
-        </div>
-        <BeitragIllu unterschrift="Alle drei Werte müssen unter der Grenze liegen. Einer reicht zum Durchfallen.">
-          <IlluPruefung />
-        </BeitragIllu>
+        <Kennzahlen
+          zahlen={[
+            {
+              label: "Umsatz aus verbotenen Bereichen",
+              wert: "höchstens 5 %",
+              unter: "Alkohol, Tabak, Glücksspiel, Zinsgeschäft, Waffen, Pornografie.",
+            },
+            {
+              label: "Verzinsliche Schulden",
+              wert: "höchstens 30 %",
+              unter: "Eine Firma, die überwiegend auf Zinskrediten läuft, wird über deinen Anteil zum Zinsgeschäft.",
+            },
+            {
+              label: "Zinstragende Geldanlagen",
+              wert: "höchstens 30 %",
+              unter: "Zinspapiere und verzinste Guthaben in der Bilanz. Auch eine saubere Firma kann hier durchfallen.",
+            },
+          ]}
+        />
+        <Frage>Warum ausgerechnet fünf und dreißig Prozent? Steht das im Koran?</Frage>
+        <p>
+          Nein, und das sagen die Gremien auch offen. Die Zahlen sind Ableitungen. Bei den dreißig Prozent
+          berufen sich Gelehrte auf einen bekannten Bericht: Ein Gefährte des Propheten wollte fast sein
+          ganzes Vermögen spenden, ihm wurde ein Drittel zugestanden mit dem Satz, ein Drittel sei schon viel.
+          Daraus wurde die Vorstellung, dass ein Drittel die Obergrenze für einen Anteil ist, den man gerade
+          noch hinnehmen kann.
+        </p>
+        <p>
+          Die fünf Prozent kommen aus einem anderen Grundsatz: Kleinigkeiten, die sich praktisch nicht
+          vermeiden lassen, werden übersehen. Wollte man null Prozent, bliebe an der Börse fast nichts übrig,
+          weil selbst der sauberste Mittelständler ein Firmenkonto mit Zinsen hat.
+        </p>
+        <Hinweis titel="Die Toleranz erlaubt den Kauf, nicht das Behalten">
+          <p>
+            Derselbe Standard, der die fünf Prozent zulässt, verlangt, dass du den unreinen Anteil deiner
+            Erträge später wieder weggibst. Wie das geht, steht in{" "}
+            <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+          </p>
+        </Hinweis>
+      </>
+    ),
+  },
+  {
+    id: "strengere-sicht",
+    titel: "Die strengere Sicht, die es auch gibt",
+    inhalt: (
+      <>
+        <p>
+          Ehrlich gesagt: Die drei Grenzwerte sind nicht die einzige Meinung, sie sind die praktikable. Eine
+          ganze Reihe klassischer Gelehrter und Gremien lässt <B>gar keine</B> Toleranz zu, wenn es um Zinsen
+          geht. Ihr Argument ist einfach: Zins ist im Koran eindeutig verboten, und ein Verbot kennt keine
+          Fünf-Prozent-Schwelle. Wer dieser Sicht folgt, kauft die allermeisten Aktien nicht und findet auch
+          keinen Islamic-ETF, denn alle bauen auf der Toleranz auf.
+        </p>
+        <p>
+          Die Gegenposition, auf der diese Seite und die geprüften Fonds stehen, sagt: Ohne eine kleine
+          Toleranz gäbe es für Muslime in einem Zinssystem überhaupt keine Möglichkeit zu investieren, und die
+          Alternative wäre, das Geld auf einem Konto liegen zu lassen, das selbst Teil des Zinssystems ist.
+          Deshalb wird ein kleiner, unvermeidbarer Rest hingenommen und anschließend wieder herausgerechnet.
+        </p>
+        <Merksatz>
+          Beide Seiten sind begründet. Du solltest nur wissen, welcher du folgst, statt es nie gehört zu
+          haben.
+        </Merksatz>
       </>
     ),
   },
@@ -95,14 +160,24 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Warum zwei Apps zur selben Aktie Verschiedenes sagen",
     inhalt: (
       <>
+        <Frage>Musaffa sagt halal, die andere App sagt haram. Wer hat sich verrechnet?</Frage>
         <p>
-          Die Prozentgrenze ist das eine, der <span className="font-semibold text-foreground">Nenner</span> das
-          andere. Manche Standards rechnen gegen den Börsenwert der Firma, andere gegen die Bilanzsumme.
+          Wahrscheinlich keiner. Die Prozentgrenze ist das eine, der <B>Nenner</B> das andere. Manche
+          Standards rechnen die Schulden gegen den Börsenwert der Firma, andere gegen die Bilanzsumme. Das
+          sind zwei völlig verschiedene Zahlen.
         </p>
+        <Beispiel
+          titel="Dieselbe Firma, zwei Ergebnisse"
+          rechnung={["25 Mrd. Schulden ÷ 100 Mrd. Börsenwert = 25 %", "25 Mrd. Schulden ÷ 70 Mrd. Bilanzsumme = 36 %"]}
+          ergebnis="Ein Werkzeug sagt bestanden, das andere durchgefallen. Beide rechnen richtig."
+        >
+          <p>Die Zahlen sind erfunden, der Effekt nicht.</p>
+        </Beispiel>
         <p>
-          Bei einer Aktie, deren Kurs schwankt, kann dieselbe Firma damit heute durchfallen und im nächsten
-          Monat bestehen. Wenn zwei Werkzeuge sich widersprechen, liegt es fast immer daran und nicht an einem
-          Fehler. Wer die Regel kennt, versteht den Widerspruch.
+          Daraus folgt etwas Unbequemes: Der Börsenwert schwankt täglich, die Schulden nicht. Eine Aktie kann
+          heute bestehen und in drei Monaten durchfallen, ohne dass die Firma irgendetwas geändert hätte.
+          Besonders trifft das die, die kaufen und dann jahrelang liegen lassen. Deshalb ist einmal geprüft
+          nicht für immer geprüft.
         </p>
       </>
     ),
@@ -112,26 +187,56 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Wer das für dich ausrechnet",
     inhalt: (
       <>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="card-surface p-6">
-            <h3 className="text-[17px] font-bold text-foreground">Musaffa</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-              Screener für Einzelaktien mit Angabe, an welchem Kriterium eine Aktie scheitert. Zeigt auch den
-              Anteil, den du reinigen musst.
-            </p>
-            <p className="mt-4 text-[13px] text-muted-foreground">musaffa.com, Basisfunktionen kostenlos</p>
-          </div>
-          <div className="card-surface p-6">
-            <h3 className="text-[17px] font-bold text-foreground">Zoya</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-              AAOIFI-basierter Screener unter Aufsicht von Shariah Advisors. Schnelle Einzelabfrage,
-              Depot-Durchleuchtung in der Bezahlversion.
-            </p>
-            <p className="mt-4 text-[13px] text-muted-foreground">zoya.finance, Basisversion kostenlos</p>
-          </div>
-        </div>
-        <p className="text-[15px] text-muted-foreground">
-          Weitere Anbieter am Markt sind Islamicly und Finispia. Beide sind von mir noch nicht geprüft.
+        <Tabelle
+          kopf={["Werkzeug", "Was es kann", "Kosten"]}
+          zeilen={[
+            [
+              "Musaffa",
+              "Screener für Einzelaktien mit Angabe, an welchem Kriterium eine Aktie scheitert. Bereinigungsrechner nur im Bezahl-Abo.",
+              "Prüfung kostenlos, musaffa.com",
+            ],
+            [
+              "Zoya",
+              "Screener nach demselben Standard, unter Aufsicht eines Gelehrtengremiums. Depot-Durchleuchtung im Bezahl-Abo.",
+              "Basisversion kostenlos, zoya.finance",
+            ],
+            ["Islamicly, Finispia", "Weitere Anbieter am Markt.", "von mir nicht geprüft"],
+          ]}
+        />
+        <Hinweis titel="Eine App ist kein Freibrief">
+          <p>
+            Diese Werkzeuge wenden Filter auf Bilanzzahlen an. Sie sehen sich nicht jede Firma einzeln an, und
+            sie liegen manchmal falsch. Es ist mehrfach vorgekommen, dass Cannabis-Firmen unter der Branche
+            Pharma durchgerutscht sind oder ein Rüstungskonzern als bestanden angezeigt wurde. Die Zahlen
+            kommen aus der App, der letzte Blick auf das Geschäft der Firma bleibt bei dir.
+          </p>
+        </Hinweis>
+      </>
+    ),
+  },
+  {
+    id: "verboten",
+    titel: "Was auch mit geprüften Aktien nicht geht",
+    inhalt: (
+      <>
+        <p>
+          Eine bestandene Aktie sagt nur, dass du sie <B>kaufen und halten</B> darfst. Über die Art, wie du
+          handelst, sagt sie nichts. Hier sind sich die Gelehrten sogar ausnahmsweise einig, und derselbe
+          Standard, auf den sich die Islamic-Fonds berufen, sagt es genauso.
+        </p>
+        <Checkliste
+          punkte={[
+            { art: "ja", text: "Aktien kaufen, halten, wieder verkaufen. Auch nach kurzer Zeit." },
+            { art: "ja", text: "Dividenden nehmen, nach Abzug des unreinen Anteils." },
+            { art: "nein", text: "Auf Kredit kaufen (Margin). Das ist ein verzinstes Darlehen deines Brokers." },
+            { art: "nein", text: "Leerverkauf, also auf fallende Kurse setzen mit geliehenen Aktien." },
+            { art: "nein", text: "Optionen, Futures, CFDs und andere Derivate. Du kaufst dort keine Firma, du wettest auf einen Kurs." },
+          ]}
+        />
+        <p>
+          Wer sich bei Aktien auf den AAOIFI-Standard beruft, muss diesen Teil mitübernehmen. Man kann nicht
+          die Toleranz nehmen und das Verbot weglassen. Mehr dazu in{" "}
+          <L to="/wissen/maysir">Glücksspiel (Maysir)</L>.
         </p>
       </>
     ),
@@ -140,12 +245,20 @@ const abschnitte: BeitragAbschnitt[] = [
     id: "reinigen",
     titel: "Der Schritt, den fast alle vergessen",
     inhalt: (
-      <p>
-        Selbst eine bestandene Aktie hat oft einen kleinen unerlaubten Ertragsanteil, etwa Zinserträge aus der
-        Firmenkasse. Diesen Anteil rechnest du aus deiner Dividende heraus und{" "}
-        <span className="font-semibold text-foreground">spendest ihn</span>, ohne dafür Belohnung zu erwarten.
-        Musaffa und Zoya weisen den Prozentsatz aus. Der Rest deines Gewinns bleibt damit sauber.
-      </p>
+      <>
+        <p>
+          Selbst eine bestandene Aktie hat oft einen kleinen unerlaubten Ertragsanteil, meist Zinsen aus der
+          Firmenkasse. Diesen Anteil rechnest du aus deinen Erträgen heraus und gibst ihn weiter, ohne dafür
+          eine Belohnung zu erwarten. Das ist keine Zakat und keine Spende, sondern das Aussortieren eines
+          Anteils, der dir nie zustand.
+        </p>
+        <p>
+          Der übliche Weg: Der Fondsanbieter oder die App nennt dir einen Satz, du rechnest ihn auf deine
+          Ausschüttung. Fehlt die Angabe, wird vorsichtig mit fünf Prozent gerechnet. Der{" "}
+          <L to="/reinigungsrechner">Reinigungsrechner</L> macht das in dreißig Sekunden, die ausführliche
+          Anleitung steht in <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+        </p>
+      </>
     ),
   },
   {
@@ -153,18 +266,17 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Der einfachere Weg",
     inhalt: (
       <>
+        <Frage>Muss ich das wirklich für jede einzelne Aktie machen?</Frage>
         <p>
-          Wer sich das alles sparen will, nimmt einen{" "}
-          <span className="font-semibold text-foreground">geprüften Halal-ETF</span>. Dort übernimmt ein
-          Shariah-Board die Prüfung dauerhaft und sortiert laufend aus, was durchfällt.
+          Nein. Wer sich das sparen will, nimmt einen <B>geprüften Fonds</B>. Dort übernimmt ein
+          Gelehrtengremium die Prüfung dauerhaft, und was durchfällt, fliegt automatisch raus. Das kostet ein
+          paar Zehntel Prozent im Jahr und nimmt dir die Arbeit für hunderte Firmen gleichzeitig ab.
         </p>
         <p>
-          Das kostet ein paar Zehntel Prozent im Jahr und nimmt dir die Arbeit für hunderte Firmen gleichzeitig
-          ab.
+          Worauf du beim Fonds selbst achtest, steht in <L to="/wissen/halal-etfs">Halal ETFs</L>. Welche es
+          konkret gibt, mit Kosten und Prüfstelle, steht in der{" "}
+          <L to="/halal-anlagen">Anlagen-Datenbank</L>.
         </p>
-        <BeitragIllu unterschrift="Ein geprüfter ETF nimmt dir die Einzelprüfung dauerhaft ab.">
-          <IlluDepot />
-        </BeitragIllu>
       </>
     ),
   },
@@ -179,70 +291,76 @@ const faq: BeitragFrage[] = [
   {
     frage: "Wie oft muss ich eine Aktie neu prüfen?",
     antwort:
-      "Schulden und zinstragende Mittel ändern sich mit jedem Quartalsbericht. Einmal im Jahr ist das Minimum, bei Einzelaktien lieber häufiger.",
+      "Schulden und zinstragende Mittel ändern sich mit jedem Quartalsbericht, und weil viele Standards gegen den Börsenwert rechnen, verschiebt sich das Ergebnis auch mit dem Kurs. Einmal im Jahr ist das Minimum, bei Einzelaktien lieber häufiger.",
   },
   {
     frage: "Sind Dividenden halal?",
     antwort:
-      "Die Dividende selbst ist dein Anteil am Gewinn und damit unproblematisch. Nur der kleine unerlaubte Ertragsanteil muss herausgerechnet und gespendet werden.",
+      "Die Dividende selbst ist dein Anteil am Gewinn und damit unproblematisch. Nur der kleine unerlaubte Ertragsanteil muss herausgerechnet und weitergegeben werden.",
+  },
+  {
+    frage: "Warum sagen zwei Apps zur selben Aktie etwas Verschiedenes?",
+    antwort:
+      "Fast immer wegen des Nenners. Manche Standards rechnen die Schulden gegen den Börsenwert, andere gegen die Bilanzsumme. Beide rechnen richtig, sie messen nur gegen verschiedene Größen.",
+  },
+  {
+    frage: "Darf ich Aktien auf Kredit kaufen?",
+    antwort:
+      "Nein. Ein Margin-Konto ist ein verzinstes Darlehen deines Brokers. Auch Leerverkäufe, Optionen, Futures und CFDs sind ausgeschlossen, darüber sind sich die Gelehrten einig.",
   },
   {
     frage: "Was ist mit Aktien, die ich schon habe?",
     antwort:
-      "Prüfe sie mit einem der Werkzeuge. Fällt eine durch, ist die verbreitete Empfehlung, sie zu verkaufen und den Gewinnanteil, der auf das unerlaubte Geschäft entfällt, zu spenden. Bei größeren Beträgen lohnt die Rückfrage bei einem Gelehrten.",
+      "Prüfe sie mit einem der Werkzeuge. Fällt eine durch, ist die verbreitete Empfehlung, sie zu verkaufen und den Gewinnanteil, der auf das unerlaubte Geschäft entfällt, weiterzugeben. Bei größeren Beträgen lohnt die Rückfrage bei einem Gelehrten.",
   },
 ];
+
+const beschreibung =
+  "Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind zwei Ebenen und drei Zahlen. Welche das sind, warum zwei Apps sich widersprechen und welche Werkzeuge dir die Arbeit abnehmen.";
 
 const SindAktienHalal = () => (
   <>
     <Seo
       title="Sind Aktien halal oder haram? Die drei Grenzwerte | finanzmuslim"
-      description="Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen."
+      description={beschreibung}
       path="/wissen/sind-aktien-halal"
       jsonLd={beitragJsonLd({
         titel: "Sind Aktien halal oder haram?",
-        beschreibung: "Aktien sind im Islam grundsätzlich erlaubt. Entscheidend sind drei Zahlen. Welche das sind, wie du sie prüfst und welche Werkzeuge dir die Arbeit abnehmen.",
+        beschreibung,
         path: "/wissen/sind-aktien-halal",
         datePublished: "15. August 2026",
+        dateModified: "5. September 2026",
         faq,
       })}
     />
     <BeitragSeite
+      slug="sind-aktien-halal"
       titel="Sind Aktien halal oder haram?"
+      untertitel="Die Frage ist nicht ob, sondern welche. Zwei Ebenen und drei Zahlen entscheiden."
       kurzGesagt={[
-        "Aktien sind grundsätzlich erlaubt, denn du wirst Miteigentümer an einer echten Firma.",
-        "Haram wird es durch das Geschäft der Firma und durch ihre Schulden.",
-        "Drei Grenzwerte entscheiden, alle drei müssen eingehalten sein.",
-        "Werkzeuge wie Musaffa oder Zoya rechnen das für dich aus.",
-        "Einmal geprüft ist nicht für immer geprüft, Zahlen ändern sich jedes Quartal.",
+        "Aktien sind grundsätzlich erlaubt, denn du wirst Miteigentümer an einer echten Firma und trägst das Risiko mit.",
+        "Geprüft wird auf zwei Ebenen: womit die Firma verdient, und wie sie mit Zinsen umgeht.",
+        "Drei Grenzwerte entscheiden: 5 Prozent verbotener Umsatz, 30 Prozent Schulden, 30 Prozent Zinsanlagen.",
+        "Es gibt eine strengere Sicht ohne jede Toleranz. Sie ist begründet, findet aber keinen einzigen ETF.",
+        "Kaufen und halten ist erlaubt. Margin, Leerverkauf und Derivate sind es nicht.",
       ]}
       abschnitte={abschnitte}
       faq={faq}
       datePublished="15. August 2026"
-      rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und stellt keine Anlageberatung dar. Genannte Unternehmen und Anbieter sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu Grenzwerten und Nennern."
+      dateModified="5. September 2026"
+      boxMitteNach={3}
+      rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und stellt keine Anlageberatung dar. Genannte Unternehmen und Anbieter sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu den Grenzwerten, zum Nenner und dazu, ob überhaupt eine Toleranz zulässig ist. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot" }}
       boxMitte={{ kategorie: "Halal-Screening-Apps", variante: "vergleich", linkZiel: "/vergleiche" }}
     >
-      <section className="card-surface p-6">
-        <h2 className="text-xl font-bold text-foreground">Passend dazu</h2>
-        <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
-          Die drei Grenzwerte gibt es auch als{" "}
-          <Link to="/vorlagen/aktien-check" className="text-primary hover:underline">
-            PDF zum Ausdrucken
-          </Link>
-          . Geprüfte Fonds und ETFs stehen in der{" "}
-          <Link to="/halal-anlagen" className="text-primary hover:underline">
-            Halal-Datenbank
-          </Link>
-          . Zur Versicherung gibt es einen eigenen Beitrag:{" "}
-          <Link to="/wissen/ist-versicherung-haram" className="text-primary hover:underline">
-            ist eine Versicherung haram?
-          </Link>{" "}
-          <Link to="/wissen/ist-bitcoin-halal" className="text-primary hover:underline">
-            Bei Kryptowährungen stellt sich dieselbe Frage nach echtem Besitz.
-          </Link>
-        </p>
-      </section>
+      <PasstDazu
+        punkte={[
+          { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "die drei Grenzwerte auf einer Seite zum Ausdrucken." },
+          { to: "/wissen/halal-etfs", name: "Halal ETFs", text: "der Weg, bei dem ein Gremium die Prüfung dauerhaft übernimmt." },
+          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "was mit dem kleinen unreinen Rest passiert, den die Toleranz zulässt." },
+          { to: "/halal-anlagen", name: "Halal-Datenbank", text: "geprüfte Fonds und ETFs mit Kosten, Größe und Prüfstelle." },
+        ]}
+      />
     </BeitragSeite>
   </>
 );

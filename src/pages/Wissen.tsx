@@ -6,40 +6,26 @@ import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
 import { vorlagen } from "@/data/vorlagen";
+import { themen, wissenBeitraege } from "@/data/wissenBeitraege";
 
-type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to?: string };
+type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to?: string; neu?: boolean };
 
-/** Eine durchgehende Liste. Reihenfolge = Anzeigereihenfolge. */
+/** Eine durchgehende Liste aus dem Register. Reihenfolge = Anzeigereihenfolge. */
 const artikel: Artikel[] = [
-  { name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", to: "/wissen/zinsen-im-islam" },
-  { name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an drei Fragen.", thema: "Grundlagen", to: "/wissen/gharar" },
-  { name: "Glücksspiel (Maysir)", motiv: "maysir", desc: "Sieh, wo Investieren zur Wette wird.", thema: "Grundlagen", to: "/wissen/maysir" },
+  ...wissenBeitraege.map((b) => ({
+    name: b.name,
+    desc: b.desc,
+    thema: b.thema,
+    motiv: b.motiv,
+    to: b.bald ? undefined : `/wissen/${b.slug}`,
+    neu: b.neu && !b.bald,
+  })),
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },
-  { name: "Die häufigsten Fehler", motiv: "fehler", desc: "Umgeh zehn Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen", to: "/wissen/haeufige-fehler" },
-  { name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren", to: "/wissen/halal-etfs" },
-  { name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Nach welchen Kriterien Einzelaktien geprüft werden.", thema: "Investieren", to: "/wissen/sind-aktien-halal" },
-  { name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", to: "/wissen/sukuk" },
-  { name: "Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Barren, Münzen oder Wertpapier.", thema: "Investieren", to: "/wissen/halal-gold-kaufen" },
-  { name: "Krypto", motiv: "krypto", desc: "Die Diskussion um digitale Währungen im Islam.", thema: "Investieren", to: "/wissen/ist-bitcoin-halal" },
-  { name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", to: "/wissen/girokonto-ohne-zinsen" },
-  { name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag", to: "/wissen/halal-kredit-ohne-zinsen" },
-  { name: "Ratenkauf", motiv: "raten", desc: "Wann Ratenzahlung zur Zinsfalle wird.", thema: "Alltag", to: "/wissen/ratenzahlung-haram" },
-  { name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", to: "/wissen/haus-kaufen-ohne-zinsen" },
-  { name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", to: "/wissen/ist-leasing-haram" },
-  { name: "Versicherung", motiv: "versicherung", desc: "Konventionelle Versicherung und Takaful im Vergleich.", thema: "Alltag", to: "/wissen/ist-versicherung-haram" },
   { name: "Zakat berechnen", motiv: "zakat", desc: "So ermittelst du deine Zakat.", thema: "Pflichten", to: "/zakat-rechner" },
-  { name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", to: "/wissen/nisab" },
-  { name: "Erträge reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst.", thema: "Pflichten", to: "/wissen/ertraege-reinigen" },
-  { name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Regel dein Erbe, bevor deutsches Recht es tut.", thema: "Pflichten", to: "/wissen/erbe" },
 ];
 
 /** Kategorien in fester Reihenfolge, je mit Ankerpunkt und Erklaersatz. */
-const kategorien = [
-  { thema: "Grundlagen", id: "grundlagen", satz: "Die Begriffe, ohne die alles andere schwer zu verstehen ist." },
-  { thema: "Investieren", id: "investieren", satz: "Wie du dein Geld anlegst, ohne gegen deine Überzeugung zu handeln." },
-  { thema: "Alltag", id: "alltag", satz: "Verträge, die dir im normalen Leben begegnen, vom Konto bis zum Leasing." },
-  { thema: "Pflichten", id: "pflichten", satz: "Was der Islam an Abgaben und Regeln vorsieht, und wie du es ausrechnest." },
-];
+const kategorien = themen;
 
 /** Fertige Beitraege zuerst, danach die mit "bald". */
 const sortiert = (thema: string) => {
@@ -47,14 +33,17 @@ const sortiert = (thema: string) => {
   return [...liste.filter((a) => a.to), ...liste.filter((a) => !a.to)];
 };
 
-const Zeile = ({ name, desc, motiv, to }: Artikel) => {
+const Zeile = ({ name, desc, motiv, to, neu }: Artikel) => {
   const inhalt = (
     <>
       <span className="w-28 shrink-0 overflow-hidden rounded-lg sm:w-36">
         <MotivBild name={motiv} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[17px] font-bold text-foreground">{name}</span>
+        <span className="flex flex-wrap items-center gap-2 text-[17px] font-bold text-foreground">
+          {name}
+          {neu && <span className="badge-new">Neu</span>}
+        </span>
         <span className="mt-1 block text-[15px] text-muted-foreground">{desc}</span>
       </span>
     </>

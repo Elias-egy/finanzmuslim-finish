@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
-import { Calculator, ChevronRight, Globe, PiggyBank, Receipt, TrendingDown, TrendingUp } from "lucide-react";
+import { Calculator, ChevronRight, Globe, PiggyBank, Receipt, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
-/** Genau sechs Rechner, flache Reihe. Nur die ersten zwei existieren. */
+/** Sieben Rechner, flache Reihe. Ohne "to" ist der Rechner noch nicht gebaut. */
 export const rechnerListe: Rechner[] = [
   { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
+  { name: "Reinigungsrechner", icon: Sparkles, to: "/reinigungsrechner", neu: true },
   { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
   { name: "Auswanderungsrechner", icon: Globe },
   { name: "Budgetrechner", icon: PiggyBank },

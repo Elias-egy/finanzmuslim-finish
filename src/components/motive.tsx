@@ -506,6 +506,43 @@ export const MotivRechner = ({ className }: Props) => (
   </M>
 );
 
+/** Trading: Kerzenchart mit Würfel, der Zufall im Bild. */
+export const MotivTrading = ({ className }: Props) => (
+  <M className={className} titel="Trading">
+    <rect x="18" y="22" width="84" height="76" rx="8" fill={C.weiss} />
+    <g stroke={C.tief} strokeWidth={2.5}>
+      <line x1="34" y1="34" x2="34" y2="82" />
+      <line x1="52" y1="40" x2="52" y2="86" />
+      <line x1="70" y1="30" x2="70" y2="78" />
+      <line x1="88" y1="44" x2="88" y2="90" />
+    </g>
+    <rect x="28" y="46" width="12" height="22" rx="2" fill={C.blau} />
+    <rect x="46" y="52" width="12" height="26" rx="2" fill={C.himmel} />
+    <rect x="64" y="38" width="12" height="28" rx="2" fill={C.blau} />
+    <rect x="82" y="58" width="12" height="24" rx="2" fill={C.himmel} />
+    <g transform="translate(74 72) rotate(-12)">
+      <rect x="0" y="0" width="30" height="30" rx="6" fill={C.sand} />
+      <circle cx="8" cy="8" r="3" fill={C.tief} stroke="none" />
+      <circle cx="15" cy="15" r="3" fill={C.tief} stroke="none" />
+      <circle cx="22" cy="22" r="3" fill={C.tief} stroke="none" />
+    </g>
+  </M>
+);
+
+/** Dispo: Bankkarte, deren Kontostand ins Minus zeigt. */
+export const MotivDispo = ({ className }: Props) => (
+  <M className={className} titel="Dispo">
+    <rect x="16" y="32" width="88" height="58" rx="8" fill={C.weiss} />
+    <rect x="16" y="44" width="88" height="10" fill={C.tief} stroke="none" />
+    <rect x="26" y="64" width="26" height="12" rx="3" fill={C.sand} />
+    <g stroke={C.blau} strokeWidth={4}>
+      <line x1="66" y1="70" x2="92" y2="70" />
+    </g>
+    <path d="M60 18 l-8 8 h16 z" fill={C.ton} stroke="none" />
+    <line x1="60" y1="26" x2="60" y2="32" stroke={C.ton} strokeWidth={3} />
+  </M>
+);
+
 export const motive = {
   zins: MotivZins,
   gharar: MotivGharar,
@@ -534,6 +571,8 @@ export const motive = {
   liste: MotivListe,
   spickzettel: MotivSpickzettel,
   rechner: MotivRechner,
+  trading: MotivTrading,
+  dispo: MotivDispo,
 } as const;
 
 export type MotivName = keyof typeof motive;

@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
 import Seo, { beitragJsonLd } from "@/components/Seo";
-import BeitragIllu from "@/components/BeitragIllu";
-import { IlluVersicherung, IlluZins } from "@/components/illu";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
+import { IlluVersicherung, IlluVersicherungPflicht } from "@/components/illu";
+import {
+  B,
+  Begriff,
+  Bild,
+  Faelle,
+  Frage,
+  Hinweis,
+  L,
+  Merksatz,
+  PasstDazu,
+  Schritte,
+} from "@/components/beitrag";
 
 const abschnitte: BeitragAbschnitt[] = [
   {
@@ -11,33 +21,49 @@ const abschnitte: BeitragAbschnitt[] = [
     inhalt: (
       <>
         <p>
-          Die Mehrheit der zeitgenössischen Fiqh-Gremien, also der Gelehrtenräte, die heutige Finanzfragen
-          prüfen, stuft die klassische Versicherung als problematisch ein.
+          Die Gelehrtenräte, die heutige Finanzfragen prüfen, stufen die klassische Versicherung nahezu
+          einhellig als problematisch ein. Der erste, der das ausführlich begründet hat, war ein Gelehrter vor
+          rund vierhundert Jahren, als die europäischen Versicherer nach Damaskus kamen. Seitdem ist die Frage
+          nicht mehr wirklich strittig.
         </p>
         <p>
-          Der Grund ist nicht die Vorsorge selbst. Vorsorge ist im Islam ausdrücklich erwünscht. Du darfst
-          und sollst dich absichern. Das Problem liegt in der Bauweise des Vertrags.
+          Der Grund ist nicht die Vorsorge selbst. Vorsorge ist im Islam ausdrücklich erwünscht. Du darfst und
+          sollst dich absichern. Das Problem liegt in der Bauweise des Vertrags.
         </p>
+        <Merksatz>Nicht die Absicherung ist das Problem, sondern der Vertrag, mit dem sie verkauft wird.</Merksatz>
       </>
     ),
   },
   {
     id: "warum-problem",
-    titel: "Warum eine Versicherung überhaupt ein Problem ist",
+    titel: "Zwei Begründungen, und der Unterschied ist wichtig",
     inhalt: (
       <>
         <p>
-          Erstens Gharar, also übermäßige Unsicherheit in einem Vertrag. Du zahlst sicher jeden Monat, bekommst
-          aber vielleicht nie etwas zurück. Beim Abschluss weiß niemand, wer am Ende wie viel gibt und wer wie
-          viel bekommt. Genau diese offene Rechnung gilt als problematisch.
+          Gelehrte kommen zum selben Ergebnis, aber auf zwei verschiedenen Wegen. Das klingt nach Haarspalterei,
+          ist aber der Grund, warum manche Versicherungen anders beurteilt werden als andere.
         </p>
+        <Begriff wort="Unsicherheit im Vertrag" arabisch="Gharar">
+          Du zahlst sicher jeden Monat, bekommst aber vielleicht nie etwas zurück. Beim Abschluss weiß niemand,
+          wer am Ende wie viel gibt und wer wie viel bekommt. Mehr dazu in <L to="/wissen/gharar">Gharar</L>.
+        </Begriff>
+        <Begriff wort="Zins" arabisch="Riba">
+          Wer 300 Euro einzahlt und 5.000 ausgezahlt bekommt, tauscht Geld gegen mehr Geld über Zeit. Dazu
+          legen Versicherer die Beiträge verzinst an. Mehr dazu in{" "}
+          <L to="/wissen/zinsen-im-islam">Zinsen im Islam</L>.
+        </Begriff>
         <p>
-          Zweitens Riba, also Zinsen. Versicherer legen die Beiträge ihrer Kunden verzinst an. Der Zins steckt
-          damit im Produkt, auch wenn du ihn im Vertrag nicht siehst.
+          Warum das praktisch wird: Für die beiden Begründungen gelten <B>verschiedene Ausnahmen</B>. Ein
+          Vertrag, der wegen der Unsicherheit beanstandet wird, kann bei einer <B>Dringlichkeit</B> erlaubt
+          werden. Ein Vertrag, der wegen des Zinses beanstandet wird, erst bei einer echten <B>Notwendigkeit</B>,
+          also einer erheblich höheren Hürde.
         </p>
-        <BeitragIllu unterschrift="Riba heißt: aus Geld wird mehr Geld, allein weil Zeit vergeht.">
-          <IlluZins />
-        </BeitragIllu>
+        <Hinweis titel="Der Unterschied in einem Satz">
+          <p>
+            Dringlichkeit heißt: Es wäre eine erhebliche Härte ohne. Notwendigkeit heißt: Es geht wirklich
+            nicht anders. Deshalb wird die Versicherung insgesamt milder beurteilt als der Kredit.
+          </p>
+        </Hinweis>
       </>
     ),
   },
@@ -46,17 +72,19 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Der Unterschied zwischen Vorsorge und Versicherung",
     inhalt: (
       <>
+        <Frage>Soll ich mich also gar nicht absichern und einfach auf Gott vertrauen?</Frage>
         <p>
-          Vorsorge ist im Islam ausdrücklich erwünscht. Der Prophet hat gesagt, man solle sein Kamel anbinden
-          und dann auf Gott vertrauen. Rücklagen bilden, sich absichern, an morgen denken, all das ist
-          erwünscht.
+          Nein, und das wäre auch ein Missverständnis davon, was Vertrauen heißt. Der Prophet hat einem Mann,
+          der sein Kamel ungesichert stehen ließ, gesagt: Bind es an und vertrau dann auf Gott. Rücklagen
+          bilden, sich absichern, an morgen denken, all das ist ausdrücklich erwünscht.
         </p>
         <p>
-          Das Problem ist nicht die Absicht, sondern die <span className="font-semibold text-foreground">Bauweise
-          des Vertrags</span>. Wer Geld für den Notfall zurücklegt, tut genau dasselbe wie ein Versicherter, nur
-          ohne den Vertrag, an dem die Bedenken hängen. Deshalb ist eine Rücklage für viele Gelehrte der saubere
-          Weg, wo immer sie ausreicht.
+          Das Problem ist nicht die Absicht, sondern die <B>Bauweise des Vertrags</B>. Wer Geld für den
+          Notfall zurücklegt, tut genau dasselbe wie ein Versicherter, nur ohne den Vertrag, an dem die
+          Bedenken hängen. Deshalb ist eine Rücklage für viele Gelehrte der saubere Weg, wo immer sie
+          ausreicht.
         </p>
+        <Merksatz>Die erste Frage ist nicht, welche Versicherung. Sondern ob eine Rücklage reicht.</Merksatz>
       </>
     ),
   },
@@ -65,64 +93,144 @@ const abschnitte: BeitragAbschnitt[] = [
     titel: "Wann eine Versicherung trotzdem erlaubt sein kann",
     inhalt: (
       <>
-        <p>
-          Es gibt anerkannte Ausnahmen. Die erste ist die gesetzliche Pflicht. Ein Beispiel ist die
-          Kfz-Haftpflicht. Ohne sie darfst du in Deutschland kein Auto fahren.
-        </p>
-        <p>
-          Die zweite ist die berufliche Pflicht. Ein Beispiel ist eine Berufshaftpflicht, ohne die du deinen
-          Beruf gar nicht ausüben darfst.
-        </p>
-        <p>
-          Die dritte ist echte Not. Gemeint ist ein Schaden, der dich oder deine Familie finanziell ruinieren
-          würde.
-        </p>
-        <p>
-          Wichtig: Die Ausnahme ist an die Notwendigkeit gebunden, nicht an die Bequemlichkeit.
-        </p>
+        <Schritte
+          schritte={[
+            {
+              titel: "Gesetzliche Pflicht",
+              text: "Kfz-Haftpflicht, Krankenversicherung, Pflegeversicherung, die Beiträge zur Sozialversicherung. Wo dir der Staat keine Wahl lässt, ist das Urteil aufgehoben. Wichtig: Der Zwang macht die Sache nicht gut, er nimmt dir nur die Verantwortung dafür.",
+            },
+            {
+              titel: "Berufliche Pflicht",
+              text: "Eine Berufshaftpflicht, ohne die du deinen Beruf gar nicht ausüben darfst. Derselbe Gedanke wie bei der gesetzlichen Pflicht.",
+            },
+            {
+              titel: "Echte Dringlichkeit",
+              text: "Ein Schaden, mit dem ernsthaft zu rechnen ist und den du selbst nicht tragen könntest. Beides muss zusammenkommen. Ob das in deinem Fall vorliegt, beurteilt kein Ratgeber im Internet, sondern ein Gelehrter, der deine Lage kennt.",
+            },
+          ]}
+        />
+        <Bild text="Wo dir der Staat keine Wahl lässt, ist das Urteil aufgehoben. Wo du wählen kannst, beginnt die Prüfung.">
+          <IlluVersicherungPflicht />
+        </Bild>
+        <Hinweis titel="Auch bei Pflicht: vergleichen">
+          <p>
+            Dass eine Versicherung Pflicht ist, heißt nicht, dass jeder Tarif in Ordnung ist. Nimm den
+            günstigsten, der die Pflicht erfüllt, und nicht das Paket mit allen Zusatzleistungen. Was über die
+            Pflicht hinausgeht, ist wieder freiwillig.
+          </p>
+        </Hinweis>
       </>
     ),
   },
   {
     id: "einordnung",
-    titel: "Welche Versicherungen wie einzuordnen sind",
+    titel: "Welche Versicherung wie einzuordnen ist",
     inhalt: (
-      <ul className="space-y-3">
-        <li>
-          <span className="font-semibold text-foreground">Kfz-Haftpflicht:</span> gesetzliche Pflicht, fällt
-          unter die Ausnahme.
-        </li>
-        <li>
-          <span className="font-semibold text-foreground">Private Haftpflicht:</span> freiwillig, aber viele
-          Gelehrte sehen bei existenzbedrohenden Schäden eine Not.
-        </li>
-        <li>
-          <span className="font-semibold text-foreground">Hausrat:</span> freiwillig, meist keine Not.
-        </li>
-        <li>
-          <span className="font-semibold text-foreground">Klassische Lebens- und Rentenversicherung mit
-          Garantiezins:</span> der Zins steckt direkt im Vertrag, das ist der klarste Fall.
-        </li>
-        <li>
-          <span className="font-semibold text-foreground">Krankenversicherung:</span> in Deutschland Pflicht.
-        </li>
-      </ul>
+      <>
+        <p>
+          Die Einordnung ist keine Fatwa für deinen Fall, sondern zeigt, wo die Frage überhaupt entsteht. Grün
+          heißt hier: Die Pflicht nimmt dir die Entscheidung ab.
+        </p>
+        <Faelle
+          faelle={[
+            {
+              titel: "Kfz-Haftpflicht",
+              ton: "gruen",
+              wort: "Pflicht",
+              text: "Ohne sie darfst du in Deutschland kein Auto fahren. Fällt unter die Ausnahme.",
+            },
+            {
+              titel: "Kranken- und Pflegeversicherung",
+              ton: "gruen",
+              wort: "Pflicht",
+              text: "In Deutschland besteht Versicherungspflicht. Dieselbe Ausnahme.",
+            },
+            {
+              titel: "Berufshaftpflicht, wo vorgeschrieben",
+              ton: "gruen",
+              wort: "Pflicht",
+              text: "Wo du den Beruf ohne sie nicht ausüben darfst, ist es kein freiwilliger Vertrag.",
+            },
+            {
+              titel: "Private Haftpflicht",
+              ton: "gelb",
+              wort: "kommt auf den Fall an",
+              text: "Freiwillig, aber ein Schaden kann existenzvernichtend sein. Wer selbst nicht dafür aufkommen könnte, hat ein starkes Argument. Das ist ein Fall für einen Gelehrten, nicht für eine Faustregel.",
+            },
+            {
+              titel: "Teilkasko",
+              ton: "gelb",
+              wort: "kommt auf den Fall an",
+              text: "Diebstahl, Hagel, Wildunfall. Wer beruflich auf das Auto angewiesen ist und es nicht ersetzen könnte, kann sich darauf berufen.",
+            },
+            {
+              titel: "Vollkasko",
+              ton: "rot",
+              wort: "kein Dringlichkeitsfall",
+              text: "Sie deckt selbst verschuldete Schäden am eigenen Auto ab. Das ist Bequemlichkeit, keine Härte, und wird von Gelehrten nicht als Dringlichkeit anerkannt. Beim Leasing wird sie oft verlangt, das ist dann ein Problem des Leasingvertrags.",
+            },
+            {
+              titel: "Hausrat",
+              ton: "rot",
+              wort: "meist keine Not",
+              text: "Möbel und Elektrogeräte lassen sich in aller Regel ersetzen oder ansparen.",
+            },
+            {
+              titel: "Rechtsschutz, Zahnzusatz, Handyversicherung",
+              ton: "rot",
+              wort: "freiwillig",
+              text: "Kein Fall, in dem dich der Schaden ruiniert. Hier trägt kein Argument.",
+            },
+            {
+              titel: "Berufsunfähigkeit",
+              ton: "rot",
+              wort: "besonders kritisch",
+              text: "Wird gern als unverzichtbar verkauft. Sie läuft nur bis zu einem bestimmten Alter, Streit um die Leistung ist bei ihr besonders häufig, und die Provision für den Vermittler ist hoch. Wer sein Einkommen absichern will, kommt mit einer eigenen Rücklage oft weiter.",
+            },
+            {
+              titel: "Klassische Lebens- und Rentenversicherung",
+              ton: "rot",
+              wort: "der klarste Fall",
+              text: "Der Zins steht direkt im Vertrag. Wer fürs Alter vorsorgen will, kann dieselbe Funktion über ein Depot mit Auszahlplan abbilden.",
+            },
+          ]}
+        />
+      </>
+    ),
+  },
+  {
+    id: "beigabe",
+    titel: "Der Fall, den fast niemand kennt: die Beigabe",
+    inhalt: (
+      <>
+        <Frage>Im Mitgliedsbeitrag meiner Gewerkschaft steckt eine Rechtsschutzversicherung. Muss ich austreten?</Frage>
+        <p>
+          Nein. Wenn du einer Organisation aus einem anderen Grund beitrittst und eine Versicherung als Zugabe
+          dabei ist, hast du keinen Versicherungsvertrag geschlossen. Du hast eine Mitgliedschaft. Dasselbe
+          gilt für den Mieterbund, für Vereine und für die Transportversicherung, die beim Paketversand
+          automatisch mitläuft.
+        </p>
+        <Merksatz>
+          Entscheidend ist, warum du beigetreten bist. Wegen der Sache: in Ordnung. Wegen der Versicherung:
+          dann ist es doch wieder ein Versicherungsabschluss.
+        </Merksatz>
+      </>
     ),
   },
   {
     id: "schon-versichert",
-    titel: "Was passiert, wenn ich schon eine Versicherung habe?",
+    titel: "Was ist, wenn ich schon eine Versicherung habe?",
     inhalt: (
       <>
         <p>
-          Wer einen Vertrag bereits laufen hat, muss <span className="font-semibold text-foreground">nicht in
-          Panik verfallen</span>. Die verbreitete Empfehlung lautet, den Vertrag zu prüfen, bei freiwilligen
-          Verträgen das Ende zu planen und bei Pflichtverträgen nichts zu überstürzen.
+          Wer einen Vertrag bereits laufen hat, muss <B>nicht in Panik verfallen</B>. Die verbreitete
+          Empfehlung lautet, den Vertrag zu prüfen, bei freiwilligen Verträgen das Ende zu planen und bei
+          Pflichtverträgen nichts zu überstürzen.
         </p>
         <p>
-          Zu einem ausgezahlten Betrag aus einer Versicherung gibt es unterschiedliche Auffassungen. Manche
-          Gelehrte sagen, man darf nur die eingezahlten Beiträge behalten und muss den Überschuss spenden. Das
-          ist genau der Fall, in dem du jemanden fragen solltest, statt selbst zu entscheiden.
+          Zu einem ausgezahlten Betrag gibt es unterschiedliche Auffassungen. Manche Gelehrte sagen, man dürfe
+          nur die eingezahlten Beiträge behalten und müsse den Überschuss weitergeben. Das ist genau der Fall,
+          in dem du jemanden fragen solltest, statt selbst zu entscheiden.
         </p>
       </>
     ),
@@ -134,15 +242,18 @@ const abschnitte: BeitragAbschnitt[] = [
       <>
         <p>
           Takaful funktioniert wie eine Gemeinschaft. Alle zahlen in einen gemeinsamen Topf ein, und aus diesem
-          Topf werden Schäden der Mitglieder bezahlt. Dahinter steht kein Zinsgeschäft.
+          Topf werden Schäden der Mitglieder bezahlt. Es gibt keinen Gewinn für das Unternehmen aus deinem
+          Beitrag und kein Zinsgeschäft dahinter. Der Unterschied ist die Absicht: Beim Takaful spendest du in
+          einen gemeinsamen Topf, du kaufst kein Versprechen.
         </p>
-        <p>
-          Die ehrliche Einordnung: In Deutschland gibt es Takaful praktisch nicht. Für dich ist es derzeit also
-          keine echte Option.
-        </p>
-        <BeitragIllu unterschrift="Beim Takaful zahlen viele in einen gemeinsamen Topf. Wer einen Schaden hat, bekommt daraus ersetzt.">
+        <Bild text="Beim Takaful zahlen viele in einen gemeinsamen Topf. Wer einen Schaden hat, bekommt daraus ersetzt.">
           <IlluVersicherung />
-        </BeitragIllu>
+        </Bild>
+        <p>
+          <B>Die ehrliche Einordnung:</B> In Deutschland gibt es Takaful praktisch nicht. Es gab einen Anlauf
+          mit einer kapitalbildenden Lebensversicherung, der 2018 mangels Nachfrage wieder eingestellt wurde.
+          Für dich ist es derzeit also keine echte Option.
+        </p>
       </>
     ),
   },
@@ -150,15 +261,26 @@ const abschnitte: BeitragAbschnitt[] = [
     id: "was-tun",
     titel: "Was du konkret tun kannst",
     inhalt: (
-      <ol className="space-y-3">
-        <li>1. Prüfe, ob die Versicherung wirklich Pflicht ist oder nur bequem.</li>
-        <li>
-          2. Überlege bei freiwilligen Verträgen, ob eine eigene Rücklage denselben Zweck erfüllt.
-        </li>
-        <li>
-          3. Frag bei allem, was unklar bleibt, einen Gelehrten und lege ihm deinen konkreten Vertrag vor.
-        </li>
-      </ol>
+      <Schritte
+        schritte={[
+          {
+            titel: "Sortiere nach Pflicht und freiwillig",
+            text: "Alles, was der Staat oder dein Beruf vorschreibt, kommt auf einen Stapel und ist erledigt. Nimm dort den günstigsten Tarif, der die Pflicht erfüllt.",
+          },
+          {
+            titel: "Frag bei jedem freiwilligen Vertrag: Was, wenn ich ihn nicht hätte?",
+            text: "Könntest du den Schaden aus einer Rücklage tragen, brauchst du keine Versicherung, sondern eine Rücklage. Könntest du es nicht, ist das ein Argument, aber noch keine Entscheidung.",
+          },
+          {
+            titel: "Bau die Rücklage auf, bevor du kündigst",
+            text: "Erst der Ersatz, dann die Kündigung. Ohne Rücklage dazustehen ist keine Verbesserung.",
+          },
+          {
+            titel: "Leg die schwierigen Fälle einem Gelehrten vor",
+            text: "Mit dem konkreten Vertrag und deiner konkreten Lage. Private Haftpflicht, Teilkasko und Berufsunfähigkeit sind genau solche Fälle.",
+          },
+        ]}
+      />
     ),
   },
 ];
@@ -167,7 +289,12 @@ const faq: BeitragFrage[] = [
   {
     frage: "Ist die Kfz-Versicherung haram?",
     antwort:
-      "Die Kfz-Haftpflicht ist in Deutschland gesetzlich vorgeschrieben und fällt damit unter die anerkannte Ausnahme der Pflicht. Bei der freiwilligen Vollkasko sehen viele Gelehrte das anders, weil sie nicht vorgeschrieben ist.",
+      "Die Kfz-Haftpflicht ist in Deutschland gesetzlich vorgeschrieben und fällt damit unter die anerkannte Ausnahme. Bei der Teilkasko kommt es auf deine Lage an, etwa ob du beruflich auf das Auto angewiesen bist und es nicht ersetzen könntest. Die Vollkasko deckt selbst verschuldete Schäden am eigenen Auto ab und wird von Gelehrten nicht als Dringlichkeitsfall anerkannt.",
+  },
+  {
+    frage: "Ist eine private Haftpflichtversicherung erlaubt?",
+    antwort:
+      "Sie ist freiwillig, deshalb greift keine Pflichtausnahme. Wer einen existenzvernichtenden Schaden nicht selbst tragen könnte, hat ein ernstzunehmendes Argument. Ob es in deinem Fall trägt, beurteilt ein Gelehrter, der deine Lage kennt, und keine allgemeine Faustregel.",
   },
   {
     frage: "Ist eine Lebensversicherung haram?",
@@ -175,71 +302,74 @@ const faq: BeitragFrage[] = [
       "Die klassische Variante mit Garantiezins gilt als der klarste Fall, weil der Zins direkt im Vertrag steht. Wer für das Alter vorsorgen will, kann dieselbe Funktion über ein Depot mit Auszahlplan abbilden, ohne Zinsvertrag.",
   },
   {
+    frage: "Was ist mit der Berufsunfähigkeitsversicherung?",
+    antwort:
+      "Sie wird gern als unverzichtbar verkauft, verdient aber einen genauen Blick: Sie läuft nur bis zu einem bestimmten Alter, Streit um die Leistung ist bei ihr besonders häufig, und die Provision für den Vermittler ist hoch. Eine eigene Rücklage bringt in vielen Fällen mehr.",
+  },
+  {
     frage: "Was ist mit der Krankenversicherung?",
     antwort:
-      "In Deutschland besteht Versicherungspflicht. Damit greift dieselbe Ausnahme wie bei der Kfz-Haftpflicht.",
+      "In Deutschland besteht Versicherungspflicht. Damit greift dieselbe Ausnahme wie bei der Kfz-Haftpflicht. Das gilt auch für die Pflegeversicherung und die übrigen Beiträge zur Sozialversicherung.",
+  },
+  {
+    frage: "In meinem Vereinsbeitrag ist eine Versicherung enthalten. Ist das ein Problem?",
+    antwort:
+      "Nein, solange du wegen der Sache beigetreten bist und nicht wegen der Versicherung. Eine Versicherung als Beigabe zu einer Mitgliedschaft ist kein Versicherungsvertrag, den du geschlossen hast. Dasselbe gilt für die Transportversicherung beim Paketversand.",
+  },
+  {
+    frage: "Darf ich als Versicherungsvermittler arbeiten?",
+    antwort:
+      "Nach verbreiteter Auffassung nicht. Wer den Vertrag vermittelt, wirkt an ihm mit, und die Vergütung stammt genau daraus. Wer in diesem Beruf steckt, sollte das mit einem Gelehrten besprechen und einen Übergang planen, statt von heute auf morgen ohne Einkommen dazustehen.",
   },
 ];
+
+const beschreibung =
+  "Wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den anerkannten Ausnahmen, einer Einordnung von zehn Versicherungen und dem Sonderfall der Versicherung als Beigabe.";
 
 const IstVersicherungHaram = () => (
   <>
     <Seo
       title="Ist eine Versicherung haram? Die Antwort für Muslime in Deutschland | finanzmuslim"
-      description="Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind."
+      description={beschreibung}
       path="/wissen/ist-versicherung-haram"
       jsonLd={beitragJsonLd({
         titel: "Ist eine Versicherung haram?",
-        beschreibung: "Erfahre, wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den Ausnahmen, die anerkannt sind.",
+        beschreibung,
         path: "/wissen/ist-versicherung-haram",
         datePublished: "15. August 2026",
+        dateModified: "5. September 2026",
         faq,
       })}
     />
     <BeitragSeite
+      slug="ist-versicherung-haram"
       titel="Ist eine Versicherung haram?"
+      untertitel="Nicht die Absicherung ist das Problem, sondern der Vertrag. Und der wird nicht bei jeder Versicherung gleich beurteilt."
       kurzGesagt={[
         "Eine Versicherung, die du freiwillig abschließt, gilt bei den meisten Gelehrten als problematisch.",
-        "Der Grund sind zwei Dinge: große Unsicherheit im Vertrag und die verzinste Geldanlage dahinter.",
-        "Anerkannte Ausnahmen sind gesetzliche Pflicht und echte Not.",
-        "Kfz-Haftpflicht ist in Deutschland Pflicht und fällt damit unter die Ausnahme.",
-        "Das hier ist keine Fatwa. Bei deinem konkreten Vertrag frag einen Gelehrten.",
+        "Zwei Begründungen: die Unsicherheit im Vertrag und der Zins dahinter. Für beide gelten verschiedene Ausnahmen.",
+        "Anerkannte Ausnahmen sind gesetzliche Pflicht, berufliche Pflicht und echte Dringlichkeit.",
+        "Kfz-Haftpflicht, Kranken- und Pflegeversicherung sind Pflicht und fallen darunter.",
+        "Vollkasko ist kein Dringlichkeitsfall, Teilkasko kann einer sein.",
+        "Eine Versicherung als Beigabe zu einer Mitgliedschaft ist kein Vertrag, den du geschlossen hast.",
       ]}
       abschnitte={abschnitte}
       faq={faq}
       datePublished="15. August 2026"
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Versicherungsberatung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
+      dateModified="5. September 2026"
+      boxMitteNach={4}
+      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Versicherungsberatung. Die Einordnung einzelner Versicherungen zeigt, wo die Frage entsteht, und ist keine Entscheidung für deinen Fall. Ob eine Dringlichkeit vorliegt, beurteilt ein Gelehrter, der deine Lage kennt. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot", ueberschrift: "Vorsorge ohne Zinsvertrag" }}
       boxMitte={{ kategorie: "Girokonto", variante: "vergleich", linkZiel: "/vergleiche" }}
     >
-      <section className="card-surface p-6">
-        <h2 className="text-xl font-bold text-foreground">Grün, gelb, rot: die Vertrags-Ampel</h2>
-        <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
-          In der Vertrags-Ampel sind elf weitere Verträge aus dem Alltag eingeordnet.
-        </p>
-        <Link to="/vorlagen/vertrags-ampel" className="btn-primary mt-5">
-          Zur Vertrags-Ampel
-        </Link>
-        <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground">
-          Passend dazu:{" "}
-          <Link to="/vorlagen/vertrags-ampel" className="text-primary hover:underline">
-            die Vertrags-Ampel
-          </Link>
-          ,{" "}
-          <Link to="/vergleich/depot" className="text-primary hover:underline">
-            der Depot-Vergleich
-          </Link>{" "}
-          und{" "}
-          <Link to="/wissen/sind-aktien-halal" className="text-primary hover:underline">
-            sind Aktien halal?
-          </Link>
-        </p>
-        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-          Beim Hauskauf stellt sich dieselbe Frage in größerem Maßstab.{" "}
-          <Link to="/wissen/haus-kaufen-ohne-zinsen" className="text-primary hover:underline">
-            Haus kaufen ohne Zinsen
-          </Link>
-        </p>
-      </section>
+      <PasstDazu
+        punkte={[
+          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet elf weitere Verträge aus dem Alltag ein." },
+          { to: "/wissen/gharar", name: "Was ist Gharar", text: "erklärt die erste der beiden Begründungen im Detail." },
+          { to: "/wissen/ist-leasing-haram", name: "Ist Leasing haram?", text: "warum beim Leasing plötzlich eine Vollkasko verlangt wird." },
+          { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Abwägung in größerem Maßstab." },
+        ]}
+      />
     </BeitragSeite>
   </>
 );
