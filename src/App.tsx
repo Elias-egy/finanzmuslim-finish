@@ -43,7 +43,7 @@ const ErtraegeReinigen = lazy(() => import("./pages/wissen/ErtraegeReinigen.tsx"
 const Maysir = lazy(() => import("./pages/wissen/Maysir.tsx"));
 const Erbe = lazy(() => import("./pages/wissen/Erbe.tsx"));
 const Inflationsrechner = lazy(() => import("./pages/Inflationsrechner.tsx"));
-const Reinigungsrechner = lazy(() => import("./pages/Reinigungsrechner.tsx"));
+const Bereinigungsrechner = lazy(() => import("./pages/Bereinigungsrechner.tsx"));
 const Auswanderungsrechner = lazy(() => import("./pages/Auswanderungsrechner.tsx"));
 const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const IstBitcoinHalal = lazy(() => import("./pages/wissen/IstBitcoinHalal.tsx"));
@@ -105,7 +105,7 @@ const App = () => (
             <Route path="/tools" element={<Tools />} />
             <Route path="/renditerechner" element={<Renditerechner />} />
             <Route path="/inflationsrechner" element={<Inflationsrechner />} />
-            <Route path="/reinigungsrechner" element={<Reinigungsrechner />} />
+            <Route path="/bereinigungsrechner" element={<Bereinigungsrechner />} />
             <Route path="/auswanderungsrechner" element={<Auswanderungsrechner />} />
             <Route path="/zakat-rechner" element={<Zakatrechner />} />
             <Route path="/zakatrechner" element={<Zakatrechner />} />
@@ -126,6 +126,7 @@ const App = () => (
             {/* "riba" ist als Suchbegriff wertlos, gesucht wird "zinsen islam".
                 Die alte Adresse leitet deshalb dauerhaft auf den neuen Beitrag. */}
             <Route path="/wissen/was-ist-riba" element={<Navigate to="/wissen/zinsen-im-islam" replace />} />
+            <Route path="/reinigungsrechner" element={<Navigate to="/bereinigungsrechner" replace />} />
             <Route path="/wissen/zinsen-im-islam" element={<ZinsenImIslam />} />
             <Route path="/wissen/halal-gold-kaufen" element={<HalalGoldKaufen />} />
             <Route path="/wissen/ist-leasing-haram" element={<IstLeasingHaram />} />

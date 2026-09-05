@@ -160,7 +160,7 @@ const abschnitte: BeitragAbschnitt[] = [
         </Beispiel>
         <p>
           Die Zahlen in den Beispielen sind erfunden, das Vorgehen nicht. Wer nicht selbst rechnen will,
-          nimmt den <L to="/reinigungsrechner">Reinigungsrechner</L>: Betrag und Satz eintragen, fertig.
+          nimmt den <L to="/bereinigungsrechner">Bereinigungsrechner</L>: Betrag und Satz eintragen, fertig.
         </p>
       </>
     ),
@@ -299,7 +299,7 @@ const faq: BeitragFrage[] = [
   {
     frage: "Welche App rechnet die Bereinigung aus?",
     antwort:
-      "Musaffa hat einen Purification Calculator, allerdings nur im Premium-Abo. Zoya zeigt im Portfolio einen Purification Tracker. Beide prüfen nach dem AAOIFI-Standard. Für ein Depot aus ein oder zwei Islamic-ETFs reicht der Satz des Anbieters und unser Reinigungsrechner.",
+      "Musaffa hat einen Purification Calculator, allerdings nur im Premium-Abo. Zoya zeigt im Portfolio einen Purification Tracker. Beide prüfen nach dem AAOIFI-Standard. Für ein Depot aus ein oder zwei Islamic-ETFs reicht der Satz des Anbieters und unser Bereinigungsrechner.",
   },
   {
     frage: "Zählt die Bereinigung als Zakat oder als Sadaqa?",
@@ -351,9 +351,9 @@ const ErtraegeReinigen = () => (
       boxOben={{
         kategorie: "Rechner",
         ueberschrift: "Bereinigung in dreißig Sekunden ausrechnen",
-        linkZiel: "/reinigungsrechner",
+        linkZiel: "/bereinigungsrechner",
         text: "Ausschüttung und Satz eintragen, der Betrag steht da.",
-        knopf: "Zum Reinigungsrechner",
+        knopf: "Zum Bereinigungsrechner",
       }}
       boxMitte={{
         kategorie: "Anlagen",

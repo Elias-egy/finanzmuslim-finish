@@ -93,7 +93,7 @@ export const navGroups: NavGroup[] = [
           { label: "Budgetrechner" },
           { label: "Brutto-Netto-Rechner" },
           { label: "Inflationsrechner", to: "/inflationsrechner" },
-          { label: "Reinigungsrechner", to: "/reinigungsrechner" },
+          { label: "Bereinigungsrechner", to: "/bereinigungsrechner" },
         ],
       },
     ],

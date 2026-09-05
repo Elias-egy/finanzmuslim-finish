@@ -1,4 +1,4 @@
-import ReinigungsRechner from "@/components/ReinigungsRechner";
+import BereinigungsRechner from "@/components/BereinigungsRechner";
 import RechnerSeite from "@/components/RechnerSeite";
 import Seo, { calculatorJsonLd, faqJsonLd } from "@/components/Seo";
 import { Link } from "react-router-dom";
@@ -30,26 +30,26 @@ const reinigungFaq = [
   },
 ];
 
-const Reinigungsrechner = () => (
+const Bereinigungsrechner = () => (
   <>
     <Seo
-      title="Reinigungsrechner: Aktienbereinigung in dreißig Sekunden | finanzmuslim"
+      title="Bereinigungsrechner: Aktienbereinigung in dreißig Sekunden | finanzmuslim"
       description="Rechne aus, welchen Anteil deiner Erträge du weitergibst. Betrag und Satz eintragen oder Betrag je Anteil mal Anteile, Ergebnis sofort als ganzer Satz."
-      path="/reinigungsrechner"
-      brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Reinigungsrechner", path: "/reinigungsrechner" }]}
+      path="/bereinigungsrechner"
+      brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Bereinigungsrechner", path: "/bereinigungsrechner" }]}
       jsonLd={[
         calculatorJsonLd({
-          name: "Reinigungsrechner",
+          name: "Bereinigungsrechner",
           description:
             "Kostenloser Rechner für die Aktienbereinigung: unreiner Ertragsanteil aus Aktien, ETFs und Fonds.",
-          path: "/reinigungsrechner",
+          path: "/bereinigungsrechner",
         }),
         faqJsonLd(reinigungFaq),
       ]}
     />
     <RechnerSeite
-      name="Reinigungsrechner"
-      title="Reinigungsrechner"
+      name="Bereinigungsrechner"
+      title="Bereinigungsrechner"
       intro={
         <p>
           Auch eine geprüfte Aktie lässt einen kleinen unreinen Rest übrig. Trag zwei Zahlen ein und
@@ -192,9 +192,9 @@ const Reinigungsrechner = () => (
         },
       ]}
     >
-      <ReinigungsRechner />
+      <BereinigungsRechner />
     </RechnerSeite>
   </>
 );
 
-export default Reinigungsrechner;
+export default Bereinigungsrechner;

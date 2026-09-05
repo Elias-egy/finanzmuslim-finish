@@ -126,7 +126,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 "Auch geprüfte Firmen haben kleine Zinserträge. Der Anteil ist gering, aber er verschwindet nicht dadurch, dass ein Gremium den Fonds freigegeben hat.",
                 <>
                   Einmal im Jahr den ausgewiesenen Satz auf deine Erträge rechnen und weitergeben, ohne dafür
-                  eine Belohnung zu erwarten. Der <L to="/reinigungsrechner">Reinigungsrechner</L> macht das in
+                  eine Belohnung zu erwarten. Der <L to="/bereinigungsrechner">Bereinigungsrechner</L> macht das in
                   dreißig Sekunden. Zusammen mit der Zakat erledigt, vergisst man es nicht.
                 </>,
               ),

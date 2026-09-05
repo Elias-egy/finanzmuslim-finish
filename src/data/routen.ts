@@ -73,7 +73,7 @@ export const festeRouten: Route[] = [
   rechner("/zakat-rechner", "Zakatrechner.tsx"),
   rechner("/renditerechner", "Renditerechner.tsx"),
   rechner("/inflationsrechner", "Inflationsrechner.tsx"),
-  rechner("/reinigungsrechner", "Reinigungsrechner.tsx"),
+  rechner("/bereinigungsrechner", "Bereinigungsrechner.tsx"),
   rechner("/auswanderungsrechner", "Auswanderungsrechner.tsx"),
 
   { pfad: "/wissen", quelle: ["src/pages/Wissen.tsx"], changefreq: "weekly", prioritaet: "0.8" },
@@ -178,6 +178,7 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   { von: "/dein-investment-start", nach: "/dein-investmentstart" },
   { von: "/blog", nach: "/wissen" },
   { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
+  { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
@@ -190,6 +191,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
   { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /wissen/zinsen-im-islam" },
+  { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];

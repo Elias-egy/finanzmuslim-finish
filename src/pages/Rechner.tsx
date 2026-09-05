@@ -9,7 +9,7 @@ type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 /** Sieben Rechner, flache Reihe. Ohne "to" ist der Rechner noch nicht gebaut. */
 export const rechnerListe: Rechner[] = [
   { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
-  { name: "Reinigungsrechner", icon: Sparkles, to: "/reinigungsrechner", neu: true },
+  { name: "Bereinigungsrechner", icon: Sparkles, to: "/bereinigungsrechner", neu: true },
   { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
   { name: "Auswanderungsrechner", icon: Globe, to: "/auswanderungsrechner", neu: true },
   { name: "Budgetrechner", icon: PiggyBank },

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Info } from "lucide-react";
 
 /**
- * Reinigungsrechner.
+ * Bereinigungsrechner.
  *
  * Er rechnet eine Multiplikation aus, und das ist Absicht. Der Wert liegt
  * nicht in der Formel, sondern darin, dass der Leser den Satz danach versteht
@@ -77,7 +77,7 @@ const WEGE: { id: Weg; label: string }[] = [
   { id: "jeAnteil", label: "Je Anteil" },
 ];
 
-const ReinigungsRechner = () => {
+const BereinigungsRechner = () => {
   const [weg, setWeg] = useState<Weg>("gesamt");
   const [ertragText, setErtragText] = useState("300");
   const [satzText, setSatzText] = useState("5");
@@ -223,4 +223,4 @@ const ReinigungsRechner = () => {
   );
 };
 
-export default ReinigungsRechner;
+export default BereinigungsRechner;

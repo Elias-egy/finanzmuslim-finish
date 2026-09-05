@@ -255,7 +255,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           Der übliche Weg: Der Fondsanbieter oder die App nennt dir einen Satz, du rechnest ihn auf deine
           Ausschüttung. Fehlt die Angabe, wird vorsichtig mit fünf Prozent gerechnet. Der{" "}
-          <L to="/reinigungsrechner">Reinigungsrechner</L> macht das in dreißig Sekunden, die ausführliche
+          <L to="/bereinigungsrechner">Bereinigungsrechner</L> macht das in dreißig Sekunden, die ausführliche
           Anleitung steht in <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
         </p>
       </>
