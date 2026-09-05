@@ -44,6 +44,7 @@ const Maysir = lazy(() => import("./pages/wissen/Maysir.tsx"));
 const Erbe = lazy(() => import("./pages/wissen/Erbe.tsx"));
 const Inflationsrechner = lazy(() => import("./pages/Inflationsrechner.tsx"));
 const Reinigungsrechner = lazy(() => import("./pages/Reinigungsrechner.tsx"));
+const Auswanderungsrechner = lazy(() => import("./pages/Auswanderungsrechner.tsx"));
 const RatenzahlungHaram = lazy(() => import("./pages/wissen/RatenzahlungHaram.tsx"));
 const IstBitcoinHalal = lazy(() => import("./pages/wissen/IstBitcoinHalal.tsx"));
 const AutoKaufenOhneZinsen = lazy(() => import("./pages/wissen/AutoKaufenOhneZinsen.tsx"));
@@ -105,6 +106,7 @@ const App = () => (
             <Route path="/renditerechner" element={<Renditerechner />} />
             <Route path="/inflationsrechner" element={<Inflationsrechner />} />
             <Route path="/reinigungsrechner" element={<Reinigungsrechner />} />
+            <Route path="/auswanderungsrechner" element={<Auswanderungsrechner />} />
             <Route path="/zakat-rechner" element={<Zakatrechner />} />
             <Route path="/zakatrechner" element={<Zakatrechner />} />
             <Route path="/rechner" element={<Rechner />} />

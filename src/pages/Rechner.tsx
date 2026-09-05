@@ -11,7 +11,7 @@ export const rechnerListe: Rechner[] = [
   { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
   { name: "Reinigungsrechner", icon: Sparkles, to: "/reinigungsrechner", neu: true },
   { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
-  { name: "Auswanderungsrechner", icon: Globe },
+  { name: "Auswanderungsrechner", icon: Globe, to: "/auswanderungsrechner", neu: true },
   { name: "Budgetrechner", icon: PiggyBank },
   { name: "Brutto-Netto-Rechner", icon: Receipt },
   { name: "Inflationsrechner", icon: TrendingDown, to: "/inflationsrechner", neu: true },
