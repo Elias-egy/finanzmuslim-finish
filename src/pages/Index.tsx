@@ -11,6 +11,7 @@ import {
   PiggyBank,
   Receipt,
   ChevronRight,
+  Sparkles,
   ShieldCheck,
   TrendingDown,
   TrendingUp,
@@ -41,11 +42,12 @@ const categories = [
   { label: "Kinderdepot", icon: Baby },
 ];
 
-/** Genau sechs Rechner. Nur die ersten zwei existieren. */
+/** Sieben Rechner. Budget- und Brutto-Netto-Rechner existieren noch nicht. */
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
-  { title: "Auswanderungsrechner", icon: Globe },
+  { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
+  { title: "Bereinigungsrechner", to: "/bereinigungsrechner", icon: Sparkles },
   { title: "Budgetrechner", icon: PiggyBank },
   { title: "Brutto-Netto-Rechner", icon: Receipt },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
