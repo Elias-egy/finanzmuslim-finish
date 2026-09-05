@@ -22,6 +22,10 @@ describe("annuitaet", () => {
   it("returns zero for an empty loan", () => {
     expect(annuitaet(0, 5, 10)).toBe(0);
   });
+  it("treats a term under half a month as one payment", () => {
+    expect(annuitaet(1_000, 5, 0.01)).toBe(1_000);
+    expect(Number.isFinite(kreditKosten(1_000, 5, 0.01).gesamt)).toBe(true);
+  });
 });
 
 describe("kreditKosten", () => {

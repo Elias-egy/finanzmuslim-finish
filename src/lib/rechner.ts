@@ -10,6 +10,9 @@
 export const annuitaet = (summe: number, zinsProzent: number, jahre: number): number => {
   if (summe <= 0 || jahre <= 0) return 0;
   const n = Math.round(jahre * 12);
+  // Below half a month the term rounds to zero months. Found by a Codex review
+  // on 06.09.2026: without this guard the division yields Infinity.
+  if (n <= 0) return summe;
   const r = zinsProzent / 100 / 12;
   if (r === 0) return summe / n;
   return (summe * r) / (1 - (1 + r) ** -n);
