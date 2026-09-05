@@ -274,7 +274,7 @@ const abschnitte: BeitragAbschnitt[] = [
               art: "nein",
               text: (
                 <>
-                  <B>„Ohne Zinsen verliere ich durch die Inflation."</B> Das ist ein echtes Problem, aber kein
+                  <B>„Ohne Zinsen verliere ich durch die Inflation.“</B> Das ist ein echtes Problem, aber kein
                   Argument für Zinsen. Es ist ein Argument dagegen, Geld auf dem Konto liegen zu lassen. Wer
                   sein Geld in Sachwerte legt, also in Anteile an Firmen, in Gold oder in Immobilien, entgeht
                   der Inflation ohne einen einzigen Zins.
@@ -285,7 +285,7 @@ const abschnitte: BeitragAbschnitt[] = [
               art: "nein",
               text: (
                 <>
-                  <B>„Es gibt in Deutschland keine Alternative."</B> Für den Kredit stimmt das weitgehend, das
+                  <B>„Es gibt in Deutschland keine Alternative.“</B> Für den Kredit stimmt das weitgehend, das
                   Angebot ist dünn. Beim Anlegen stimmt es nicht. Geprüfte Fonds, Aktien und Gold sind über
                   jedes normale Depot erreichbar. Was fehlt, ist die Information, nicht das Produkt.
                 </>
@@ -295,7 +295,7 @@ const abschnitte: BeitragAbschnitt[] = [
               art: "nein",
               text: (
                 <>
-                  <B>„Ein bisschen Zins ist doch nicht so schlimm."</B> Diese Abwägung steht niemandem außer
+                  <B>„Ein bisschen Zins ist doch nicht so schlimm.“</B> Diese Abwägung steht niemandem außer
                   dir selbst zu, und sie ist auch nicht nötig. Bei den meisten Verträgen liegt die zinsfreie
                   Alternative direkt daneben und kostet nichts extra.
                 </>

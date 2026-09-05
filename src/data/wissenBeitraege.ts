@@ -28,7 +28,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "gharar", name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an vier Fragen.", thema: "Grundlagen" },
   { slug: "maysir", name: "Glücksspiel (Maysir)", motiv: "maysir", desc: "Sieh, wo Investieren zur Wette wird.", thema: "Grundlagen" },
   { slug: "haeufige-fehler", name: "Die häufigsten Fehler", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen" },
-  { slug: "trading-forex-cfd", name: "Trading, Forex und CFDs", motiv: "trading", desc: "Sieh, warum Hebel, Swap und Short kein Handel sind.", thema: "Grundlagen", neu: true, bald: true },
+  { slug: "trading-forex-cfd", name: "Trading, Forex und CFDs", motiv: "trading", desc: "Sieh, warum Hebel, Swap und Short kein Handel sind.", thema: "Grundlagen", neu: true },
 
   { slug: "halal-etfs", name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren" },
   { slug: "sind-aktien-halal", name: "Aktien richtig prüfen", motiv: "aktienPruefen", desc: "Lerne die zwei Ebenen und drei Grenzwerte kennen.", thema: "Investieren" },
@@ -38,17 +38,17 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "ist-bitcoin-halal", name: "Krypto", motiv: "krypto", desc: "Verstehe die drei Kategorien und den echten Streitpunkt.", thema: "Investieren" },
 
   { slug: "girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag" },
-  { slug: "kreditkarte-halal", name: "Kreditkarte", motiv: "karteSicher", desc: "Erkenne, welche Karte du unterschreibst.", thema: "Alltag", neu: true, bald: true },
-  { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", neu: true, bald: true },
+  { slug: "kreditkarte-halal", name: "Kreditkarte", motiv: "karteSicher", desc: "Erkenne, welche Karte du unterschreibst.", thema: "Alltag", neu: true },
+  { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", neu: true },
   { slug: "halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag" },
   { slug: "ratenzahlung-haram", name: "Ratenkauf", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag" },
-  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", neu: true, bald: true },
+  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", neu: true },
   { slug: "ist-leasing-haram", name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag" },
   { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag" },
   { slug: "ist-versicherung-haram", name: "Versicherung", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht.", thema: "Alltag" },
 
   { slug: "nisab", name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },
-  { slug: "zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", motiv: "zakat", desc: "Rechne aus, was dein Depot an Zakat kostet.", thema: "Pflichten", neu: true, bald: true },
+  { slug: "zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", motiv: "zakat", desc: "Rechne aus, was dein Depot an Zakat kostet.", thema: "Pflichten", neu: true },
   { slug: "erbe", name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Regel dein Erbe, bevor deutsches Recht es tut.", thema: "Pflichten" },
 ];
 

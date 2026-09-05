@@ -39,7 +39,7 @@ const abschnitte: BeitragAbschnitt[] = [
         </p>
         <Begriff wort="Sukuk" arabisch="Sukuk, Einzahl Sakk">
           Das Wort bedeutet Urkunde. Die Mehrzahl ist Sukuk, die Einzahl also eigentlich Sakk. Im Deutschen
-          sagt man meist einfach „ein Sukuk".
+          sagt man meist einfach „ein Sukuk“.
         </Begriff>
       </>
     ),

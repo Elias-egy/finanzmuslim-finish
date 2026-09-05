@@ -15,6 +15,7 @@ export const navGroups: NavGroup[] = [
           { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
           { label: "Was ist Gharar", to: "/wissen/gharar" },
           { label: "Glücksspiel (Maysir)", to: "/wissen/maysir" },
+          { label: "Trading, Forex und CFDs", to: "/wissen/trading-forex-cfd" },
           { label: "Halal investieren für Anfänger", to: "/halal-guide" },
           { label: "Häufige Fehler", to: "/wissen/haeufige-fehler" },
         ],
@@ -34,9 +35,12 @@ export const navGroups: NavGroup[] = [
         title: "Alltag",
         items: [
           { label: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen" },
+          { label: "Kreditkarte", to: "/wissen/kreditkarte-halal" },
+          { label: "Dispo und Schulden", to: "/wissen/dispo-und-schulden" },
           { label: "Kredit ohne Zinsen", to: "/wissen/halal-kredit-ohne-zinsen" },
           { label: "Ratenkauf", to: "/wissen/ratenzahlung-haram" },
           { label: "Haus kaufen ohne Zinsen", to: "/wissen/haus-kaufen-ohne-zinsen" },
+          { label: "Auto kaufen ohne Zinsen", to: "/wissen/auto-kaufen-ohne-zinsen" },
           { label: "Leasing", to: "/wissen/ist-leasing-haram" },
           { label: "Versicherung", to: "/wissen/ist-versicherung-haram" },
         ],
@@ -46,6 +50,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Zakat berechnen", to: "/zakat-rechner" },
           { label: "Nisab", to: "/wissen/nisab" },
+          { label: "Zakat auf Aktien und ETFs", to: "/wissen/zakat-auf-aktien-etf-krypto" },
           { label: "Erträge reinigen", to: "/wissen/ertraege-reinigen" },
           { label: "Erbe nach islamischem Recht", to: "/wissen/erbe" },
         ],

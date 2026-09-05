@@ -14,7 +14,7 @@ const zakatFaq = [
   },
   {
     q: "Wie hoch ist der Nisab?",
-    a: "Der Nisab entspricht dem Gegenwert von 85 Gramm Gold oder 595 Gramm Silber. Weil Silber deutlich günstiger ist, liegt der Silber-Nisab niedriger und erfasst mehr Menschen. Viele Gelehrte empfehlen ihn deshalb, weil er den Empfängern der Zakat zugutekommt.",
+    a: "Der Nisab entspricht dem Gegenwert von 85 Gramm Gold oder 595 Gramm Silber. Beide Maßstäbe werden vertreten: Drei der vier großen Rechtsschulen nehmen Gold, die Hanbaliten nehmen Silber. Weil Silber deutlich günstiger ist, liegt der Silber-Nisab niedriger und erfasst mehr Menschen; viele Hilfsorganisationen rechnen deshalb mit Silber. Beides ist vertretbar, wichtig ist, den einmal gewählten Maßstab beizubehalten.",
   },
   {
     q: "Wie viel Prozent Zakat zahlt man?",

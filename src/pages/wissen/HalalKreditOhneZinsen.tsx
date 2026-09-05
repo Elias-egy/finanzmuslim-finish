@@ -33,7 +33,7 @@ const abschnitte: BeitragAbschnitt[] = [
           deshalb daran verdienen.
         </p>
         <p>
-          Wer nach „halal Kredit" oder „faizsiz kredi" sucht, sucht in Wahrheit nach diesem zweiten Weg. Vier
+          Wer nach „halal Kredit“ oder „faizsiz kredi“ sucht, sucht in Wahrheit nach diesem zweiten Weg. Vier
           Verträge decken fast alle Fälle ab.
         </p>
         <Bild text="Beim Handelsvertrag wechselt eine Sache den Besitzer, und der Aufschlag ist der Preis dafür. Beim Kredit fließt nur Geld.">
@@ -130,7 +130,7 @@ const abschnitte: BeitragAbschnitt[] = [
           der Händler kalkuliert hat.
         </p>
         <p>
-          Genauso wenig hilft es, wenn im Vertrag statt „Zins" das Wort „Gewinn" oder „Profitrate" steht, sich
+          Genauso wenig hilft es, wenn im Vertrag statt „Zins“ das Wort „Gewinn“ oder „Profitrate“ steht, sich
           aber sonst nichts ändert. Es kommt darauf an, was passiert, nicht wie es heißt: Wer gibt was, wem
           gehört die Sache wann, und wächst die Schuld bei Verzug?
         </p>

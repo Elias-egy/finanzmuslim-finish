@@ -94,6 +94,11 @@ export const festeRouten: Route[] = [
   wissenBeitrag("ist-versicherung-haram", "IstVersicherungHaram.tsx"),
   wissenBeitrag("ist-leasing-haram", "IstLeasingHaram.tsx"),
   wissenBeitrag("ratenzahlung-haram", "RatenzahlungHaram.tsx"),
+  wissenBeitrag("auto-kaufen-ohne-zinsen", "AutoKaufenOhneZinsen.tsx"),
+  wissenBeitrag("kreditkarte-halal", "KreditkarteHalal.tsx"),
+  wissenBeitrag("dispo-und-schulden", "DispoUndSchulden.tsx"),
+  wissenBeitrag("trading-forex-cfd", "TradingForexCfd.tsx"),
+  wissenBeitrag("zakat-auf-aktien-etf-krypto", "ZakatAufAktienEtfKrypto.tsx"),
 
   { pfad: "/vorlagen", quelle: ["src/pages/Vorlagen.tsx", "src/data/vorlagen.ts"], changefreq: "monthly", prioritaet: "0.8" },
   vorlage("halal-anlagen", "HalalAnlagen.tsx"),
