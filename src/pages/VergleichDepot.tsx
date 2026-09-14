@@ -8,7 +8,7 @@ const VergleichDepot = () => (
     titel="Depot-Vergleich für Muslime"
     untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
     seoTitel="Depot-Vergleich für Muslime | finanzmuslim"
-    seoText="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen Verrechnungskonto, Kredit, Hebelprodukte und sharia-konforme ETFs."
+    seoText="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen Zinsen ab Start, Kredit und wie viele Halal-Anlagen du dort kaufen kannst."
     einheit="Anbieter"
     einleitung={
       <>
@@ -16,35 +16,31 @@ const VergleichDepot = () => (
           Ein Depot verwahrt deine Aktien und ETFs. Ohne Depot geht beim Vermögensaufbau nichts.
         </p>
         <p>
-          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Zinsen auf dem
-          Verrechnungskonto, eingeräumte Kredite und Hebelprodukte. Dazu die Frage, wie viele der
-          geprüften Anlagen dort überhaupt handelbar und besparbar sind.
+          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld ab
+          Start ohne Zins, wird kein Kredit eingeräumt, und wie viele unserer Halal-Anlagen kannst
+          du dort kaufen? Was ein Broker sonst noch anbietet, zählt nicht gegen ihn.
         </p>
       </>
     }
     zeilen={DEPOT_ZEILEN}
     anbieter={brokerVergleich}
     filter={DEPOT_FILTER}
-    stand="17.08.2026"
+    stand="14.09.2026"
     standHinweis="Anbieterliste steht, Merkmale laufend in Prüfung"
     empfehlungEtikett="Bestes Depot"
     empfehlungText="Hier steht eine Empfehlung, sobald die Halal-Merkmale bei den Anbietern geprüft sind. Vorher wäre jede Nummer eins geraten."
     kriterien={[
       {
-        titel: "Geprüfte Anlagen handelbar",
-        text: "Wie viele der 27 Anlagen aus unserer Liste lassen sich dort kaufen, und wie viele davon als Sparplan?",
+        titel: "Zinsfrei ab Start",
+        text: "Liegt dein Guthaben nach der Eröffnung ohne Zins, ohne dass du etwas abwählen musst?",
       },
       {
-        titel: "Zinsen auf dem Verrechnungskonto",
-        text: "Zahlt das Verrechnungskonto Zinsen, und lässt sich das abschalten?",
+        titel: "Halal-Anlagen",
+        text: "Wie viele Anlagen aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?",
       },
       {
-        titel: "Wertpapierkredit und Dispo",
-        text: "Wird ein Wertpapierkredit oder Dispo automatisch eingeräumt?",
-      },
-      {
-        titel: "Hebelprodukte und CFDs",
-        text: "Bietet der Broker Hebelprodukte und CFDs an, und wie sichtbar sind sie?",
+        titel: "Kein Kredit ab Start",
+        text: "Wird dir nach der Eröffnung kein Wertpapierkredit eingeräumt?",
       },
     ]}
     faq={[
@@ -56,7 +52,7 @@ const VergleichDepot = () => (
       {
         frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
         antwort:
-          "Entscheidend ist, ob auf dem Verrechnungskonto Zinsen anfallen und ob sich das abschalten lässt, ob automatisch ein Wertpapierkredit oder Dispo eingeräumt wird, ob der Broker dich zu Hebelprodukten und CFDs drängt und ob du sharia-konforme ETFs kaufen und besparen kannst.",
+          "Entscheidend ist, ob du das Depot ab Start halal nutzen kannst, ohne etwas abwählen zu müssen: kein Zins auf dem Guthaben und kein eingeräumter Kredit. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
       },
       {
         frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",

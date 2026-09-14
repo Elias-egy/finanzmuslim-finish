@@ -14,7 +14,7 @@ import type {
  * einfach wie möglich:
  *
  *   depotgebuehr: "0 €"        Text
- *   keinGuthabenzins: "gut"    Ampel
+ *   zinsfreiAbStart: "gut"     Ampel
  *   xetra: true                Haken
  *   irgendwas: null            noch nicht geprüft
  */

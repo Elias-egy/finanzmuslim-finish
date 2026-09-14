@@ -8,7 +8,7 @@ const VergleichGirokonto = () => (
     titel="Girokonto-Vergleich für Muslime"
     untertitel="Welches Konto passt, wenn du keine Zinsen willst"
     seoTitel="Girokonto-Vergleich für Muslime | finanzmuslim"
-    seoText="Welches Girokonto passt, wenn du keine Zinsen willst. Wir prüfen Guthabenzins, Dispo, Karte ohne Kreditrahmen und Zinsprodukte im Konto."
+    seoText="Welches Girokonto passt, wenn du keine Zinsen willst. Wir prüfen Zinsen ab Start, Dispo und ob die Karte ohne Kreditrahmen kommt."
     einheit="Banken"
     einleitung={
       <>
@@ -17,35 +17,30 @@ const VergleichGirokonto = () => (
           hat eins, kaum jemand prüft es.
         </p>
         <p>
-          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Zinsen auf dem
-          Guthaben, der eingeräumte Dispo und ein Kreditrahmen an der Karte. Dazu die Frage, ob ein
-          Zinsprodukt fest am Konto hängt.
+          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld ab
+          Start ohne Zins, gibt es keinen Dispo, und kommt die Karte ohne Kreditrahmen?
         </p>
       </>
     }
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoVergleich}
     filter={GIRO_FILTER}
-    stand="17.08.2026"
+    stand="14.09.2026"
     standHinweis="Anbieterliste angelegt, Merkmale noch nicht geprüft"
     empfehlungEtikett="Bestes Girokonto"
     empfehlungText="Hier steht eine Empfehlung, sobald die Halal-Merkmale bei den Banken geprüft sind. Vorher wäre jede Nummer eins geraten."
     kriterien={[
       {
-        titel: "Zinsen auf dem Guthaben",
-        text: "Zahlt die Bank Zinsen auf das Guthaben, und lässt sich das abschalten?",
+        titel: "Zinsfrei ab Start",
+        text: "Kein Guthabenzins und kein verzinstes Unterkonto, ohne dass du etwas abwählen musst?",
       },
       {
-        titel: "Dispokredit",
-        text: "Wird ein Dispo automatisch eingeräumt, oder nur auf Antrag?",
+        titel: "Kein Dispo ab Start",
+        text: "Wird dir nach der Eröffnung kein Dispokredit eingeräumt?",
       },
       {
-        titel: "Karte ohne Kreditrahmen",
-        text: "Ist die Karte eine echte Debitkarte, oder hängt ein Kreditrahmen daran?",
-      },
-      {
-        titel: "Zinsprodukte im Konto",
-        text: "Ist ein Tagesgeld oder Sparbereich mit Zins fest mit dem Konto verbunden?",
+        titel: "Karte ohne Kredit",
+        text: "Ist die Standardkarte ohne Kreditrahmen und ohne Teilzahlung?",
       },
     ]}
     faq={[

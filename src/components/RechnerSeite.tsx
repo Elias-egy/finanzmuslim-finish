@@ -124,7 +124,7 @@ const RechnerSeite = ({
                 <div key={b.id} className="card-surface p-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="text-[17px] font-bold text-foreground">{b.name}</p>
-                    {b.werte.keinGuthabenzins === "gut" && (
+                    {b.werte.zinsfreiAbStart === "gut" && (
                       <span className="rounded-full bg-[hsl(var(--success))]/10 px-3 py-1 text-[13px] font-semibold text-[hsl(var(--success))]">
                         Verrechnungskonto ohne Zinsen
                       </span>
