@@ -5,6 +5,7 @@ import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/Abschn
 import AnlageKurschart from "@/components/anlage/AnlageKurschart";
 import AnlageRenditerechner from "@/components/anlage/AnlageRenditerechner";
 import FaktenRaster from "@/components/anlage/FaktenRaster";
+import KaufbarListe from "@/components/anlage/KaufbarListe";
 import KopierWert from "@/components/anlage/KopierWert";
 import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
 import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
@@ -421,28 +422,12 @@ const AnlageDetail = () => {
               </h2>
               <p className="mt-2 text-[15px] text-muted-foreground">
                 Sieh, bei welchen Depots die Anlage kaufbar ist: geprüft in der Wertpapiersuche oder
-                Produktliste des Anbieters, Stand {kaufbar.stand}.
+                Produktliste des Anbieters.
               </p>
-              {kaufbar.kaufbar.length > 0 && (
-                <ul className="mt-4 flex flex-wrap gap-2" aria-label="Kaufbar bei">
-                  {kaufbar.kaufbar.map((k) => (
-                    <li
-                      key={k.anbieter}
-                      className="rounded-full border border-border bg-background px-3 py-1 text-[14px] text-foreground"
-                    >
-                      {k.anbieter}
-                      {k.hinweis && <span className="text-muted-foreground">, {k.hinweis}</span>}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {kaufbar.nichtImAngebot.length > 0 && (
-                <p className="mt-4 text-[14px] text-muted-foreground">
-                  Nicht im Angebot: {kaufbar.nichtImAngebot.join(", ")}.
-                </p>
-              )}
-              <p className="mt-4 text-[14px] text-muted-foreground">
-                Andere Anbieter sind noch nicht geprüft.{" "}
+              <div className="mt-4">
+                <KaufbarListe kaufbar={kaufbar} />
+              </div>
+              <p className="mt-3 text-[14px]">
                 <Link to="/vergleich/depot" className="font-semibold text-primary hover:underline">
                   Depots vergleichen
                 </Link>
