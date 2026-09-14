@@ -131,6 +131,11 @@ const VergleichMethodik = () => (
           eine seriöse Finanzredaktion. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
         </p>
         <p>
+          Bei den Halal-Anlagen suchen wir jede Anlage einzeln in der Wertpapiersuche oder Produktliste
+          des Anbieters. Steht dort „mind.“, fehlen noch einzelne Anlagen, und die Note wartet, bis
+          alle geprüft sind.
+        </p>
+        <p>
           Die Reihenfolge ist alphabetisch, bis alle Anbieter geprüft sind.
         </p>
       </section>

@@ -22,6 +22,7 @@ describe("anteil", () => {
   it("verwirft alles andere", () => {
     expect(anteil(null)).toBeNull();
     expect(anteil("sieben")).toBeNull();
+    expect(anteil("mind. 7 von 12")).toBeNull();
     expect(anteil("5 von 4")).toBeNull();
     expect(anteil("1 von 0")).toBeNull();
   });

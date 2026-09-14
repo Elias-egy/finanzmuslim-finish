@@ -56,6 +56,20 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     }
   });
 
+  it("schreibt Halal-Anlagen als 'x von N' oder 'mind. x von N'", () => {
+    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8, halalCoins: 4 };
+    for (const a of anbieter) {
+      for (const [key, n] of Object.entries(gesamt)) {
+        const w = a.werte[key];
+        if (w === null || w === undefined) continue;
+        const m = String(w).match(/^(mind\. )?(\d+) von (\d+)$/);
+        expect(m, `${a.id} ${key}: ${w}`).not.toBeNull();
+        expect(Number(m![3]), `${a.id} ${key}`).toBe(n);
+        expect(Number(m![2]), `${a.id} ${key}`).toBeLessThanOrEqual(n);
+      }
+    }
+  });
+
   it("vergibt keine Note, wenn Zinsen nicht abschaltbar oder nicht geprüft sind", () => {
     for (const a of anbieter) {
       const b = bewerte(a, kategorie, max);
