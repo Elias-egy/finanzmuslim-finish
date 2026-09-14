@@ -61,6 +61,9 @@ const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
 const VorlageHalalAnlagen = lazy(() => import("./pages/vorlagen/HalalAnlagen.tsx"));
 const VorlageVertragsAmpel = lazy(() => import("./pages/vorlagen/VertragsAmpel.tsx"));
 const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx"));
+const VorlageRizq = lazy(() => import("./pages/vorlagen/Rizq.tsx"));
+const VorlageBarakaBlocker = lazy(() => import("./pages/vorlagen/BarakaBlocker.tsx"));
+const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"));
 const Newsletter = lazy(() => import("./pages/Newsletter.tsx"));
 
 const queryClient = new QueryClient();
@@ -160,6 +163,9 @@ const App = () => (
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />
             <Route path="/vorlagen/aktien-check" element={<VorlageAktienCheck />} />
+            <Route path="/vorlagen/rizq" element={<VorlageRizq />} />
+            <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
+            <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/out/:kurzname" element={<Out />} />
             <Route path="/deals" element={<Deals />} />

@@ -31,7 +31,7 @@ export const vorlagen: Vorlage[] = [
     kurzbeschreibung:
       "Zwölf Verträge aus dem Alltag, jeweils mit einer klaren Farbe und der Bedingung dahinter.",
     nutzenZeile: "In Sekunden wissen, woran du bist",
-    kommentarKeyword: "AMPEL",
+    kommentarKeyword: "VERTRAG",
     pdfPfad: "/downloads/vertrags-ampel.pdf",
     motiv: "ampel",
   },
@@ -45,6 +45,39 @@ export const vorlagen: Vorlage[] = [
     kommentarKeyword: "CHECK",
     pdfPfad: "/downloads/aktien-spickzettel.pdf",
     motiv: "spickzettel",
+  },
+  {
+    slug: "rizq",
+    titel: "14 Duas für Rizq, mit Quelle und Übersetzung",
+    kicker: "Rizq",
+    kurzbeschreibung:
+      "Sechs Bittgebete aus dem Quran, acht aus der Sunnah. Arabisch, Umschrift, Übersetzung, Fundstelle.",
+    nutzenZeile: "Belegte Bittgebete statt loser Zitate",
+    kommentarKeyword: "RIZQ",
+    pdfPfad: "/downloads/duas-fuer-rizq.pdf",
+    motiv: "kompass",
+  },
+  {
+    slug: "baraka-blocker",
+    titel: "Zehn Dinge, die deiner Baraka im Weg stehen",
+    kicker: "Baraka",
+    kurzbeschreibung:
+      "Zehn belegte Rizq-Blocker aus Quran und Sunnah, jeweils mit Fundstelle und dem, was stattdessen geht.",
+    nutzenZeile: "Nicht mehr bekommen, sondern weniger verlieren",
+    kommentarKeyword: "BARAKA",
+    pdfPfad: "/downloads/baraka-blocker.pdf",
+    motiv: "fehler",
+  },
+  {
+    slug: "top-100-halal-aktien",
+    titel: "100 bekannte Halal-Aktien",
+    kicker: "Aktien-Liste",
+    kurzbeschreibung:
+      "Von Apple bis Nike: bekannte Marken mit Musaffa-Einzelprüfung und Fundstelle, redaktionell sortiert nach Bekanntheit.",
+    nutzenZeile: "94 von 100 bekannten Aktien sind halal",
+    kommentarKeyword: "AKTIE",
+    pdfPfad: "/downloads/100-halal-aktien.pdf",
+    motiv: "aktienPruefen",
   },
 ];
 

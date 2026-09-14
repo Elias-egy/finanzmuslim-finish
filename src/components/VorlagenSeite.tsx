@@ -76,16 +76,16 @@ const VorlagenSeite = ({
         </div>
       </header>
 
-      <div className="mt-10 max-w-4xl space-y-12">{children}</div>
+      <div className="mt-10 max-w-4xl mx-auto space-y-12">{children}</div>
 
-      <section className="mt-12 max-w-4xl">
+      <section className="mt-12 max-w-4xl mx-auto">
         <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
           Grundlage und Quellen
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{quellen}</p>
       </section>
 
-      <div className="mt-12 max-w-4xl space-y-4">
+      <div className="mt-12 max-w-4xl mx-auto space-y-4">
         {ctas.map((c) => (
           <section key={c.titel} className="card-surface p-6 md:p-8">
             <h2 className="text-xl font-bold text-foreground">{c.titel}</h2>
@@ -101,7 +101,7 @@ const VorlagenSeite = ({
         <NewsletterBox />
       </section>
 
-      <p className="mt-12 max-w-4xl text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
+      <p className="mt-12 max-w-4xl mx-auto text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
     </div>
   </main>
   );

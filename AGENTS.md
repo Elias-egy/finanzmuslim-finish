@@ -1,8 +1,10 @@
 # AGENTS.md — Regeln für Codex & alle Agenten in diesem Repo
 
 **Lies zuerst `CLAUDE.md` in diesem Ordner — sie gilt 1:1 auch für dich.**
-Gesamtkontext/Specs: `~/Desktop/Webseite/00_START_HIER.md` (Router) und
-`~/Desktop/Webseite/MASTERPLAN.md` (Gesamtplan).
+Gesamtkontext/Specs: `~/rebrand/STAND.md` (aktueller Stand) und
+`~/rebrand/START.md` (Projektzentrale, http://localhost:5200).
+Die alte Amanah-Ablage `~/Desktop/Webseite/` ist seit 21.08.2026 archiviert unter
+`~/ARCHIV/2026-08-21_grossreinemachen/amanah-alt/Webseite/` und gilt nicht mehr.
 
 Zusätzlich für Codex:
 - **Vor jeder Arbeit `git pull`** — Lovable synct über `main` auf dieses Repo.

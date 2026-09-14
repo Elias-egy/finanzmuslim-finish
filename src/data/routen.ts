@@ -108,6 +108,9 @@ export const festeRouten: Route[] = [
   vorlage("halal-anlagen", "HalalAnlagen.tsx"),
   vorlage("vertrags-ampel", "VertragsAmpel.tsx"),
   vorlage("aktien-check", "AktienCheck.tsx"),
+  vorlage("rizq", "Rizq.tsx"),
+  vorlage("baraka-blocker", "BarakaBlocker.tsx"),
+  vorlage("top-100-halal-aktien", "Top100HalalAktien.tsx"),
 
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   { pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly", prioritaet: "0.6" },

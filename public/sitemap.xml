@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://finanzmuslim.com/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -38,13 +38,13 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/rechner</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/zakat-rechner</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -61,116 +61,176 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://finanzmuslim.com/bereinigungsrechner</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/auswanderungsrechner</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/kreditkostenrechner</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/budgetrechner</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/sparzielrechner</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://finanzmuslim.com/wissen</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/zinsen-im-islam</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/sind-aktien-halal</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/halal-etfs</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/halal-gold-kaufen</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/sukuk</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ist-bitcoin-halal</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/nisab</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ertraege-reinigen</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/gharar</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/maysir</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/haeufige-fehler</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/erbe</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/halal-kredit-ohne-zinsen</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/haus-kaufen-ohne-zinsen</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/girokonto-ohne-zinsen</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ist-versicherung-haram</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ist-leasing-haram</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen/ratenzahlung-haram</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/auto-kaufen-ohne-zinsen</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/kreditkarte-halal</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/dispo-und-schulden</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/trading-forex-cfd</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/wissen/zakat-auf-aktien-etf-krypto</loc>
+    <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -195,6 +255,24 @@
   <url>
     <loc>https://finanzmuslim.com/vorlagen/aktien-check</loc>
     <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/rizq</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/baraka-blocker</loc>
+    <lastmod>2026-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vorlagen/top-100-halal-aktien</loc>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
