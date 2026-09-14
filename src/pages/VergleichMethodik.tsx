@@ -127,8 +127,8 @@ const VergleichMethodik = () => (
         </p>
         <p>
           Jedes Halal-Merkmal prüfen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
-          in den Bedingungen oder in der Hilfe. Hat der Anbieter dazu nichts Öffentliches, nutzen wir
-          eine seriöse Finanzredaktion. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
+          in den Bedingungen oder in der Hilfe. Hat der Anbieter dazu nichts Eindeutiges, nutzen wir
+          eine seriöse Finanzredaktion oder einen etablierten Vergleich, etwa Finanzfluss oder extraETF. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
         </p>
         <p>
           Bei den Halal-Anlagen suchen wir jede Anlage einzeln in der Wertpapiersuche oder Produktliste
