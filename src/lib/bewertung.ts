@@ -4,10 +4,11 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  * Punktesystem der Vergleiche, beschlossen am 14.09.2026.
  * Herleitung: `~/rebrand/KRITERIEN_VERGLEICHE.md`, Abschnitt Punktesystem.
  *
- * 1. Türsteher: "Ohne Zinsen nutzbar". Grün (zinsfrei ab Start) und gelb (Zinsen
- *    abschaltbar) kommen durch. Rot (nicht abschaltbar) heißt keine Note. Nicht
- *    geprüft heißt auch keine Note. Stufe gelb seit 14.09.2026 (Elias: bei Trade
- *    Republic lassen sich die Zinsen leicht ausschalten).
+ * 1. Türsteher: "Ohne Zinsen nutzbar". Grün (zinsfrei ab Start) und gelb (Konto
+ *    startet mit Zinsen, man muss sie selbst abschalten) kommen durch. Gelb
+ *    halbiert den Halal-Teil (Elias, 14.09.2026). Müssen Zinsen erst aktiviert
+ *    werden, ist das grün. Rot (nicht abschaltbar) heißt keine Note. Nicht
+ *    geprüft heißt auch keine Note.
  * 2. Note = 0,5 × Halal-Rest + 0,5 × Finanz-Note, beide von 0 bis 5.
  *    - Halal-Rest: die übrigen Halal-Merkmale mit festen Gewichten.
  *    - Finanz-Note: Finanzpunkte (Punktetabelle von Finanzfluss, nur die
@@ -59,6 +60,8 @@ export const FINANZ_MAX_SUMME: Record<Kategorie, number> = { depot: 62.5, giroko
 
 export const GEWICHT_HALAL = 0.5;
 export const GEWICHT_FINANZ = 0.5;
+/** Faktor auf den Halal-Teil, wenn die Zinsen ab Start laufen und erst abgeschaltet werden müssen. */
+export const FAKTOR_ABSCHALTBAR = 0.5;
 
 export type Bewertung =
   | { status: "offen"; fehlt: string[] }
@@ -138,7 +141,7 @@ export const bewerte = (
   const max = Object.values(finanzMax).reduce((a, b) => a + b, 0);
   const summe = Object.values(punkte!).reduce((a, b) => a + b, 0);
   const finanz = 5 * Math.min(1, Math.max(0, summe / max));
-  const halalNote = 5 * halal;
+  const halalNote = 5 * halal * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
 
   return {
     status: "bewertet",

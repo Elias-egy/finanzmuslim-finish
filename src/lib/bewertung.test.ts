@@ -64,7 +64,20 @@ describe("bewerte", () => {
     expect(b).toEqual({ status: "bewertet", note: 3.5, halal: 2, finanz: 5 });
   });
 
-  it("lässt abschaltbare Zinsen durch und zählt Halal-Anlagen über alle drei Zeilen", () => {
+  it("zählt Halal-Anlagen über alle drei Zeilen", () => {
+    const b = bewerte(
+      depot(
+        { zinsfreiAbStart: "gut", halalEtfsFonds: "6 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" },
+        { a: 60, b: 40 },
+      ),
+      "depot",
+      MAX,
+    );
+    // Anlagen 14/23, Halal (0,6 × 14/23 + 0,4) × 5 = 3,83, Note (3,83 + 5) / 2 = 4,41
+    expect(b).toEqual({ status: "bewertet", note: 4.41, halal: 3.83, finanz: 5 });
+  });
+
+  it("lässt abschaltbare Zinsen durch, halbiert aber den Halal-Teil", () => {
     const b = bewerte(
       depot(
         { zinsfreiAbStart: "teils", halalEtfsFonds: "6 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" },
@@ -73,8 +86,8 @@ describe("bewerte", () => {
       "depot",
       MAX,
     );
-    // Anlagen 14/23, Halal (0,6 × 14/23 + 0,4) × 5 = 3,83, Note (3,83 + 5) / 2 = 4,41
-    expect(b).toEqual({ status: "bewertet", note: 4.41, halal: 3.83, finanz: 5 });
+    // Halal 3,826 × 0,5 = 1,91, Note (1,913 + 5) / 2 = 3,46
+    expect(b).toEqual({ status: "bewertet", note: 3.46, halal: 1.91, finanz: 5 });
   });
 
   it("zieht Abzüge ab und hält die Finanz-Note zwischen 0 und 5", () => {

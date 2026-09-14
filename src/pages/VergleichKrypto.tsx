@@ -28,7 +28,7 @@ const VergleichKrypto = () => (
     filter={KRYPTO_FILTER}
     stand="14.09.2026"
     standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
         titel: "Ohne Zinsen nutzbar",
@@ -62,7 +62,7 @@ const VergleichKrypto = () => (
       {
         frage: "Warum sind manche Merkmale noch nicht geprüft?",
         antwort:
-          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich und stehen mit Datum an jedem Wert. Die Halal-Merkmale lesen wir einzeln bei der Börse nach. Bis ein Beleg vorliegt, steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich. Die Halal-Merkmale prüfen wir einzeln bei der Börse, bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
       },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Börse. Kryptowährungen schwanken stark, ein Totalverlust ist möglich."

@@ -79,8 +79,9 @@ const VergleichMethodik = () => (
         <h2 className="text-2xl font-bold text-foreground">Drei Regeln</h2>
         <p>
           <strong>Erstens: ohne Zinsen nutzbar.</strong> Ein Anbieter bekommt nur eine Note, wenn
-          dein Guthaben ohne Zins liegt oder du die Zinsen abschalten kannst. Lassen sie sich nicht
-          abschalten, erscheint er im Vergleich, aber ohne Note.
+          dein Guthaben ohne Zins liegt oder du die Zinsen abschalten kannst. Startet das Konto mit
+          Zinsen und du musst sie selbst abschalten, zählen die Halal-Merkmale nur halb. Lassen sie sich
+          nicht abschalten, erscheint der Anbieter im Vergleich, aber ohne Note.
         </p>
         <p>
           <strong>Zweitens: Halal und Kosten zählen gleich.</strong> Die Note setzt sich zu{" "}
@@ -125,9 +126,9 @@ const VergleichMethodik = () => (
           für Zinssparer zählen, etwa die Höhe des Guthabenzinses, haben wir gestrichen.
         </p>
         <p>
-          Jedes Halal-Merkmal lesen wir beim Anbieter selbst nach: im Preis- und Leistungsverzeichnis,
-          in den Bedingungen oder in der Hilfe. Am Wert steht der Beleg mit Datum. Bis ein Beleg
-          vorliegt, steht dort „noch nicht geprüft“.
+          Jedes Halal-Merkmal prüfen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
+          in den Bedingungen oder in der Hilfe. Hat der Anbieter dazu nichts Öffentliches, nutzen wir
+          eine seriöse Finanzredaktion. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
         </p>
         <p>
           Die Reihenfolge ist alphabetisch, bis alle Anbieter geprüft sind.

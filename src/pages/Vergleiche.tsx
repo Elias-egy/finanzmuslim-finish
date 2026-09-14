@@ -65,7 +65,7 @@ const bewertung = [
   "Zuerst wird geprüft, dann wird über eine Partnerschaft gesprochen. Nie umgekehrt.",
   "Anbieter ohne Partnerschaft werden trotzdem gelistet.",
   "Wessen Zinsen sich nicht abschalten lassen, bekommt keine Note.",
-  "Jede Angabe hat eine Quelle und ein Prüfdatum.",
+  "Jede Angabe ist mit Stand geprüft.",
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];
 

@@ -27,7 +27,7 @@ const VergleichDepot = () => (
     filter={DEPOT_FILTER}
     stand="14.09.2026"
     standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
         titel: "Ohne Zinsen nutzbar",
@@ -61,7 +61,7 @@ const VergleichDepot = () => (
       {
         frage: "Warum sind manche Merkmale noch nicht geprüft?",
         antwort:
-          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich und stehen mit Datum an jedem Wert. Die Halal-Merkmale lesen wir einzeln beim Anbieter nach. Bis ein Beleg vorliegt, steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich. Die Halal-Merkmale prüfen wir einzeln beim Anbieter, bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
       },
       {
         frage: "Kann ich mehrere Depots haben?",
