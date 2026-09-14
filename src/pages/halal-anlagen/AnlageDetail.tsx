@@ -10,6 +10,7 @@ import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
 import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
+import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { grundOhneZusammensetzung, zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
 import { kursFuerAnlage, kursQuelle, kursStand } from "@/lib/kurse";
@@ -24,6 +25,7 @@ const abschnitte: Abschnitt[] = [
   { id: "halal", label: "Halal" },
   { id: "basisinfos", label: "Basisinfos" },
   { id: "zusammensetzung", label: "Zusammensetzung" },
+  { id: "kaufen", label: "Kaufen" },
 ];
 
 /** Eine Zeile nur, wenn ein Wert vorliegt. Krypto hat keine Fondsgröße und
@@ -59,6 +61,7 @@ const AnlageDetail = () => {
   const zus = anlage.isin ? zusammensetzungFuer(anlage.isin) : undefined;
   const region = anlage.isin ? regionFuer(anlage.isin) : undefined;
   const istKrypto = anlage.kategorie === "krypto";
+  const kaufbar = anlage.isin ? ANLAGEN_KAUFBAR[anlage.isin] : undefined;
   const hatZusammensetzung =
     !!zus && ((zus.positionen?.length ?? 0) > 0 || (zus.laender?.length ?? 0) > 0 || (zus.branchen?.length ?? 0) > 0);
 
@@ -159,7 +162,9 @@ const AnlageDetail = () => {
         </div>
       </section>
 
-      <AbschnittsNavigation abschnitte={abschnitte} />
+      <AbschnittsNavigation
+        abschnitte={kaufbar ? abschnitte : abschnitte.filter((a) => a.id !== "kaufen")}
+      />
 
       <div className="container space-y-4 py-6 md:space-y-6 md:py-10">
         {/* 2 — Partnerstreifen, direkt unter dem Kopf */}
@@ -407,7 +412,46 @@ const AnlageDetail = () => {
           </div>
         </section>
 
-        {/* 7 — Quellen und rechtlicher Hinweis */}
+        {/* 7 — Wo kaufen: aus der Wertpapiersuche der Anbieter, erzeugt von bauen.py */}
+        {kaufbar && (
+          <section id="kaufen" className="section-card scroll-mt-32">
+            <div className="section-inner">
+              <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">
+                Wo du sie kaufen kannst
+              </h2>
+              <p className="mt-2 text-[15px] text-muted-foreground">
+                Sieh, bei welchen Depots die Anlage kaufbar ist: geprüft in der Wertpapiersuche oder
+                Produktliste des Anbieters, Stand {kaufbar.stand}.
+              </p>
+              {kaufbar.kaufbar.length > 0 && (
+                <ul className="mt-4 flex flex-wrap gap-2" aria-label="Kaufbar bei">
+                  {kaufbar.kaufbar.map((k) => (
+                    <li
+                      key={k.anbieter}
+                      className="rounded-full border border-border bg-background px-3 py-1 text-[14px] text-foreground"
+                    >
+                      {k.anbieter}
+                      {k.hinweis && <span className="text-muted-foreground">, {k.hinweis}</span>}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {kaufbar.nichtImAngebot.length > 0 && (
+                <p className="mt-4 text-[14px] text-muted-foreground">
+                  Nicht im Angebot: {kaufbar.nichtImAngebot.join(", ")}.
+                </p>
+              )}
+              <p className="mt-4 text-[14px] text-muted-foreground">
+                Andere Anbieter sind noch nicht geprüft.{" "}
+                <Link to="/vergleich/depot" className="font-semibold text-primary hover:underline">
+                  Depots vergleichen
+                </Link>
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* 8 — Quellen und rechtlicher Hinweis */}
         <section className="section-card">
           <div className="section-inner space-y-3 text-[13px] leading-[20px] text-muted-foreground">
             <p>
