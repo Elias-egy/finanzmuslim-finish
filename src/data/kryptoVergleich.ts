@@ -1,134 +1,58 @@
+// ERZEUGT von ~/rebrand/data/vergleiche/bauen.py. Nicht von Hand ändern.
+// Finanzwerte: Finanzfluss-Vergleich, Stand 14.09.2026. Halal-Werte: recherche/krypto.json.
+// Jeder Wert hat eine Quelle in `quellen`. Was null ist, ist noch nicht geprüft.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
-import { halalAnlagen } from "./halalAnlagen";
-import type { RohAnbieter, RohWert } from "./vergleichHelfer";
-
-/**
- * Anbieterdaten fuer den Krypto-Vergleich.
- *
- * Aufbau und Regeln wie in `brokerVergleich.ts`: jede inhaltliche Angabe ist
- * `null` und erscheint wörtlich als "noch nicht geprüft". Keine Schätzungen.
- *
- * Kriterien beschlossen am 14.09.2026, Herleitung in
- * `~/rebrand/KRITERIEN_VERGLEICHE.md`. Fast jede Börse bietet auch Hebel,
- * Futures oder Staking an. Das ist kein Minuspunkt. Gefragt wird nur, ob man
- * ab Start zinsfrei nutzen kann, wie viele unserer Halal-Coins es echt gibt
- * und ob man sie auf eine eigene Wallet holen kann. Staking wird nicht
- * einbezogen.
- *
- * Anbieter: alle 27 Produkte aus dem Finanzfluss-Krypto-Börsen-Vergleich,
- * Stand 14.09.2026, alphabetisch.
- *
- * Noch ohne eigene Seite und Route.
- */
-
-/** Die Coins aus dem Halal-Anlagen-Vergleich, gegen die gezählt wird. */
-const HALAL_COINS = halalAnlagen.filter((a) => a.kategorie === "krypto").map((a) => a.name);
+import type { RohAnbieter } from "./vergleichHelfer";
 
 export const KRYPTO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
-  {
-    key: "__note",
-    label: "Halal-Note",
-    art: "text",
-    gruppe: "angebot",
-    hinweis: "Wird erst vergeben, wenn alle Merkmale geprüft sind.",
-  },
-
-  {
-    key: "zinsfreiAbStart",
-    label: "Zinsfrei ab Start",
-    art: "ampel",
-    gruppe: "halal",
-    imRaster: true,
-    hinweis:
-      "Bleiben Guthaben und Coins ohne Zins, Earn oder Lending, ohne dass du etwas abwählen musst?",
-  },
-  {
-    key: "halalCoins",
-    label: "Halal-Coins",
-    art: "text",
-    gruppe: "halal",
-    imRaster: true,
-    hinweis: `Wie viele der ${HALAL_COINS.length} Coins aus unserem Halal-Anlagen-Vergleich (${HALAL_COINS.join(", ")}) dort echt kaufbar sind, nicht als ETN oder CFD.`,
-  },
-  {
-    key: "eigeneWallet",
-    label: "Auszahlung auf eigene Wallet",
-    art: "ampel",
-    gruppe: "halal",
-    hinweis: "Kannst du deine Coins auf eine eigene Wallet übertragen?",
-  },
-
+  { key: "zinsfreiAbStart", label: "Zinsfrei ab Start", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Bleiben Guthaben und Coins ohne Zins, Earn oder Lending, ohne dass du etwas abwählen musst? Ohne Ja gibt es keine Note." },
+  { key: "halalCoins", label: "Halal-Coins", art: "text", gruppe: "halal", imRaster: true, hinweis: "Wie viele der 4 Coins aus unserem Halal-Anlagen-Vergleich (Bitcoin, Ether, XRP, Chainlink) dort echt kaufbar sind, nicht als ETN oder CFD." },
+  { key: "eigeneWallet", label: "Auszahlung auf eigene Wallet", art: "ampel", gruppe: "halal", hinweis: "Kannst du deine Coins auf eine eigene Wallet übertragen?" },
   { key: "anzahlCoins", label: "Anzahl Kryptowährungen", art: "text", gruppe: "kosten" },
   { key: "gesamtkosten", label: "Gesamtkosten pro 500 €", art: "text", gruppe: "kosten", imRaster: true },
-  { key: "transparenteKosten", label: "Transparente Kosten", art: "janein", gruppe: "kosten" },
+  { key: "transparenteKosten", label: "Kosten vorab sichtbar", art: "text", gruppe: "kosten" },
   { key: "auszahlungBitcoin", label: "Kosten Auszahlung Bitcoin", art: "text", gruppe: "kosten", imRaster: true },
   { key: "sparplan", label: "Sparplan möglich", art: "janein", gruppe: "kosten" },
   { key: "regulierung", label: "Regulierung", art: "text", gruppe: "kosten" },
-  { key: "standort", label: "Anbieterstandort", art: "text", gruppe: "kosten" },
   { key: "sicherheit", label: "Sicherheitsfeatures", art: "text", gruppe: "kosten" },
   { key: "ident", label: "Ident-Verfahren", art: "text", gruppe: "kosten" },
   { key: "einzahlung", label: "Einzahlungswege", art: "text", gruppe: "kosten" },
   { key: "mindestbetrag", label: "Mindestbetrag", art: "text", gruppe: "kosten" },
-  { key: "steuerbericht", label: "Kostenloser Steuerbericht", art: "janein", gruppe: "kosten" },
-  { key: "appBewertung", label: "App-Bewertung", art: "text", gruppe: "kosten" },
 ];
 
-const leer = (): Record<string, RohWert> =>
-  Object.fromEntries(
-    KRYPTO_ZEILEN.filter((z) => !z.key.startsWith("__")).map((z) => [z.key, null]),
-  );
+/** Höchstpunktzahl je Finanzkriterium, nach der Punktetabelle von Finanzfluss. */
+export const KRYPTO_FINANZ_MAX: Record<string, number> = {"gebuehren": 100, "transparenz": 100, "transferkosten": 70, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20};
 
-const slug = (name: string) =>
-  name
-    .toLowerCase()
-    .replace(/\+/g, "-plus")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-const platzhalter = (name: string, produkt: string, domain?: string): RohAnbieter => ({
-  id: slug(`${name} ${produkt}`),
-  name,
-  produkt,
-  domain,
-  note: null,
-  werte: leer(),
-});
-
-const anbieter: RohAnbieter[] = [
-  platzhalter("21bitcoin", "App", "21bitcoin.app"),
-  platzhalter("Binance", "Standard", "binance.com"),
-  platzhalter("Binance", "Pro", "binance.com"),
-  platzhalter("Bison", "App", "bisonapp.com"),
-  platzhalter("Bitget", "Trading", "bitget.com"),
-  platzhalter("Bitpanda", "Standard", "bitpanda.com"),
-  platzhalter("Bitpanda", "Fusion", "bitpanda.com"),
-  platzhalter("Bitvavo", "Standard", "bitvavo.com"),
-  platzhalter("BSDEX", "Standard", "bsdex.de"),
-  platzhalter("Coinbase", "Standard", "coinbase.com"),
-  platzhalter("Coinbase", "Advanced", "coinbase.com"),
-  platzhalter("crypto.com", "App", "crypto.com"),
-  platzhalter("eToro", "Krypto", "etoro.com"),
-  platzhalter("finanzen.net zero", "Krypto", "finanzen.net"),
-  platzhalter("Finst", "Standard", "finst.com"),
-  platzhalter("flatex", "Krypto", "flatex.de"),
-  platzhalter("justTRADE", "Krypto", "justtrade.com"),
-  platzhalter("Kraken", "Standard", "kraken.com"),
-  platzhalter("Kraken", "Pro", "kraken.com"),
-  platzhalter("OKX", "Trading", "okx.com"),
-  platzhalter("Relai", "App", "relai.app"),
-  platzhalter("Revolut", "Krypto", "revolut.com"),
-  platzhalter("Robinhood", "Krypto", "robinhood.com"),
-  platzhalter("Scalable Capital", "Krypto", "scalable.capital"),
-  platzhalter("Smartbroker+", "Krypto", "smartbrokerplus.de"),
-  platzhalter("Trade Republic", "Krypto", "traderepublic.com"),
-  platzhalter("Traders Place", "Krypto", "tradersplace.de"),
+export const kryptoVergleich: RohAnbieter[] = [
+  {"id": "21bitcoin-app", "name": "21bitcoin", "produkt": "App", "domain": "21bitcoin.app", "haus": "21bitcoin", "finanzfluss": {"produkt": "21bitcoin", "partnerlink": "21bitcoin-kryptoboerse"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "1", "gesamtkosten": "10,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,67 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Österreich)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "15€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 5, "abzug": 0}},
+  {"id": "binance-pro", "name": "Binance", "produkt": "Pro", "domain": "binance.com", "haus": "binance", "finanzfluss": {"produkt": "Binance Pro", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "1,55€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": "1,34 €", "sparplan": false, "regulierung": "keine MiCA-Lizenz", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "5€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 40, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 0, "sparplan": 5, "mindestbetrag": 15, "abzug": 0}},
+  {"id": "binance-standard", "name": "Binance", "produkt": "Standard", "domain": "binance.com", "haus": "binance", "finanzfluss": {"produkt": "Binance", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "23,50€", "transparenteKosten": "nein", "auszahlungBitcoin": "1,34 €", "sparplan": true, "regulierung": "keine MiCA-Lizenz", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 0, "sparplan": 20, "mindestbetrag": 10, "abzug": 0}},
+  {"id": "bison-app", "name": "Bison", "produkt": "App", "domain": "bisonapp.com", "haus": "bison", "finanzfluss": {"produkt": "BISON", "partnerlink": "bison-kryptoboerse"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "71", "gesamtkosten": "6,30€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": "0 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA verknüpft mit Smartphone", "ident": "Video-Ident, E-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 40, "transferkosten": 70, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "bitget-trading", "name": "Bitget", "produkt": "Trading", "domain": "bitget.com", "haus": "bitget", "finanzfluss": {"produkt": "Bitget Trading", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "540+", "gesamtkosten": "2€", "transparenteKosten": "nein", "auszahlungBitcoin": "2,68 €", "sparplan": false, "regulierung": "keine MiCA-Lizenz", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "5€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 0, "sparplan": 5, "mindestbetrag": 15, "abzug": 0}},
+  {"id": "bitpanda-fusion", "name": "Bitpanda", "produkt": "Fusion", "domain": "bitpanda.com", "haus": "bitpanda", "finanzfluss": {"produkt": "Bitpanda Fusion", "partnerlink": "bitpanda-fusion"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "100+", "gesamtkosten": "1,30€", "transparenteKosten": "ja", "auszahlungBitcoin": "0,40 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Österreich)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 100, "transparenz": 100, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "bitpanda-standard", "name": "Bitpanda", "produkt": "Standard", "domain": "bitpanda.com", "haus": "bitpanda", "finanzfluss": {"produkt": "Bitpanda", "partnerlink": "bitpanda-kryptoboerse"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "650+", "gesamtkosten": "7,95€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,40 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Österreich)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "bitvavo-standard", "name": "Bitvavo", "produkt": "Standard", "domain": "bitvavo.com", "haus": "bitvavo", "finanzfluss": {"produkt": "Bitvavo", "partnerlink": "bitvavo-kryptoboerse"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "1,30€", "transparenteKosten": "ja", "auszahlungBitcoin": "1,27 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Niederlande)", "sicherheit": "2FA mit TOTP, Anti-Phishing Code", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "5€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 100, "transparenz": 100, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 15, "abzug": 0}},
+  {"id": "bsdex-standard", "name": "BSDEX", "produkt": "Standard", "domain": "bsdex.de", "haus": "bsdex", "finanzfluss": {"produkt": "BSDEX", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "10", "gesamtkosten": "2,25€", "transparenteKosten": "ja", "auszahlungBitcoin": "0 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA per SMS", "ident": "Video-Ident", "einzahlung": "SEPA-Überweisung", "mindestbetrag": "10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 100, "transferkosten": 70, "sicherheit": 25, "verifizierung": 10, "bezahlmethoden": 30, "mica": 30, "sparplan": 5, "mindestbetrag": 10, "abzug": 0}},
+  {"id": "coinbase-advanced", "name": "Coinbase", "produkt": "Advanced", "domain": "coinbase.com", "haus": "coinbase", "finanzfluss": {"produkt": "Coinbase Advanced", "partnerlink": "coinbase-standard"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "260+", "gesamtkosten": "6,15€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": "0,33 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Luxemburg)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "1 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 40, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "coinbase-standard", "name": "Coinbase", "produkt": "Standard", "domain": "coinbase.com", "haus": "coinbase", "finanzfluss": {"produkt": "Coinbase", "partnerlink": "coinbase-standard"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "260+", "gesamtkosten": "12,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,33 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Luxemburg)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "crypto-com-app", "name": "crypto.com", "produkt": "App", "domain": "crypto.com", "haus": "crypto-com", "finanzfluss": {"produkt": "crypto.com", "partnerlink": "crypto-com"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "12,40€", "transparenteKosten": "nein", "auszahlungBitcoin": "26,79 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Malta)", "sicherheit": "2FA mit TOTP, Anti-Phishing Code", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "3 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 15, "abzug": 0}},
+  {"id": "etoro-krypto", "name": "eToro", "produkt": "Krypto", "domain": "etoro.com", "haus": "etoro", "finanzfluss": {"produkt": "etoro", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": null, "anzahlCoins": "100+", "gesamtkosten": "13,80€", "transparenteKosten": "nein", "auszahlungBitcoin": "9,75 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Zypern)", "sicherheit": "2FA per SMS", "ident": "Video-Ident, Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung (min. 500$), Kreditkarte, PayPal", "mindestbetrag": "ca. 50 €"}, "quellen": {}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 25, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 5, "abzug": 0}},
+  {"id": "finanzen-net-zero-krypto", "name": "finanzen.net zero", "produkt": "Krypto", "domain": "finanzen.net", "haus": "finanzen-net-zero", "finanzfluss": {"produkt": "finanzen.net ZERO", "partnerlink": "finanzen-net-zero-krypto"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "59+", "gesamtkosten": "6€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": null, "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA per SMS", "ident": "Video-Ident, Post-Ident, E-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 40, "transferkosten": 0, "sicherheit": 25, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "finst-standard", "name": "Finst", "produkt": "Standard", "domain": "finst.com", "haus": "finst", "finanzfluss": {"produkt": "Finst", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "0,75€", "transparenteKosten": "ja", "auszahlungBitcoin": "2,61 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Niederlande)", "sicherheit": "2FA per SMS", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "0,05€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 100, "transparenz": 100, "transferkosten": 40, "sicherheit": 25, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "flatex-krypto", "name": "flatex", "produkt": "Krypto", "domain": "flatex.de", "haus": "flatex", "finanzfluss": {"produkt": "Flatex", "partnerlink": "flatex-depot"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "25+", "gesamtkosten": "3,50 €", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": null, "sparplan": false, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA mit eigner App (flatXSecure)", "ident": "Video-Ident, Post-Ident, E-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 50, "transparenz": 40, "transferkosten": 0, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "justtrade-krypto", "name": "justTRADE", "produkt": "Krypto", "domain": "justtrade.com", "haus": "justtrade", "finanzfluss": {"produkt": "justTRADE", "partnerlink": "justtrade-wertpapierdepot"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "74+", "gesamtkosten": "2,38€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": null, "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA per E-Mail", "ident": "Video-Ident, E-Ident, Post-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "50€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 40, "transferkosten": 0, "sicherheit": 25, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 5, "abzug": 0}},
+  {"id": "kraken-pro", "name": "Kraken", "produkt": "Pro", "domain": "kraken.com", "haus": "kraken", "finanzfluss": {"produkt": "Kraken Pro", "partnerlink": "kraken"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "400+", "gesamtkosten": "2,05€", "transparenteKosten": "ja", "auszahlungBitcoin": "1,00 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Irland)", "sicherheit": "2FA mit TOTP, Unterschiedliche 2FA-TOTP für Login & Abheben, Account Lock", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, PayPal, Kreditkarte", "mindestbetrag": "5€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 100, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 15, "abzug": 0}},
+  {"id": "kraken-standard", "name": "Kraken", "produkt": "Standard", "domain": "kraken.com", "haus": "kraken", "finanzfluss": {"produkt": "Kraken", "partnerlink": "kraken"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "600+", "gesamtkosten": "12,47€", "transparenteKosten": "nein", "auszahlungBitcoin": "1,00 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Irland)", "sicherheit": "2FA mit TOTP, Unterschiedliche 2FA-TOTP für Login und Abheben, Account Lock", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, PayPal, Kreditkarte", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "okx-trading", "name": "OKX", "produkt": "Trading", "domain": "okx.com", "haus": "okx", "finanzfluss": {"produkt": "OKX Trading", "partnerlink": "okx-kryptoboerse"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "300+", "gesamtkosten": "1,80€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": "1,00 €", "sparplan": false, "regulierung": "MiCA-Lizenz (Malta)", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte, PayPal", "mindestbetrag": "1 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 40, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 5, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "relai-app", "name": "Relai", "produkt": "App", "domain": "relai.app", "haus": "relai", "finanzfluss": {"produkt": "Relai", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "1", "gesamtkosten": "9,40€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,44 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Frankreich)", "sicherheit": "Eigenes Wallet", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "50€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 20, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 5, "abzug": 0}},
+  {"id": "revolut-krypto", "name": "Revolut", "produkt": "Krypto", "domain": "revolut.com", "haus": "revolut", "finanzfluss": {"produkt": "Revolut", "partnerlink": "revolut"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "300+", "gesamtkosten": "13,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "4,11 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Zypern)", "sicherheit": "Wealth Protection (Biometrische Verifizierung), Passkeys", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "0,01€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "robinhood-krypto", "name": "Robinhood", "produkt": "Krypto", "domain": "robinhood.com", "haus": "robinhood", "finanzfluss": {"produkt": "Robinhood", "partnerlink": null}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "90+", "gesamtkosten": "7,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,10 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Litauen)", "sicherheit": "2FA per SMS", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "0,10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 0, "transferkosten": 40, "sicherheit": 25, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "scalable-capital-krypto", "name": "Scalable Capital", "produkt": "Krypto", "domain": "scalable.capital", "haus": "scalable", "finanzfluss": {"produkt": "Scalable Capital", "partnerlink": "scalable-capital"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "32+", "gesamtkosten": "6,94€", "transparenteKosten": "ja", "auszahlungBitcoin": null, "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA verknüpft mit Smartphone", "ident": "Video-Ident, Post-Ident, E-Ident", "einzahlung": "SEPA-Lastschrift, SEPA-Echtzeitüberweisung", "mindestbetrag": "1 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 100, "transferkosten": 0, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "smartbroker-plus-krypto", "name": "Smartbroker+", "produkt": "Krypto", "domain": "smartbrokerplus.de", "haus": "smartbroker", "finanzfluss": {"produkt": "Smartbroker+", "partnerlink": "smartbroker-depot"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "39+", "gesamtkosten": "5,50€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": null, "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA verknüpft mit Smartphone", "ident": "Video-Ident, Post-Ident, E-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "0,01 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 40, "transferkosten": 0, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "trade-republic-krypto", "name": "Trade Republic", "produkt": "Krypto", "domain": "traderepublic.com", "haus": "trade-republic", "finanzfluss": {"produkt": "Trade Republic", "partnerlink": "trade-republic"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "gut", "anzahlCoins": "50+", "gesamtkosten": "4,90€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,13 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 50, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
+  {"id": "traders-place-krypto", "name": "Traders Place", "produkt": "Krypto", "domain": "tradersplace.de", "haus": "traders-place", "finanzfluss": {"produkt": "Traders Place", "partnerlink": "traders-place"}, "werte": {"zinsfreiAbStart": null, "halalCoins": null, "eigeneWallet": "schlecht", "anzahlCoins": "59+", "gesamtkosten": "5,75€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": null, "sparplan": true, "regulierung": "MiCA-Lizenz (Deutschland)", "sicherheit": "2FA per SMS", "ident": "Video-Ident, E-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "1€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "keine Auszahlung von Krypto laut Finanzfluss-Vergleich"}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 40, "transferkosten": 0, "sicherheit": 25, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}},
 ];
-
-const alphabetisch = (a: RohAnbieter, b: RohAnbieter) =>
-  `${a.name} ${a.produkt}`.localeCompare(`${b.name} ${b.produkt}`, "de", { sensitivity: "base" });
-
-export const kryptoVergleich: RohAnbieter[] = [...anbieter].sort(alphabetisch);
 
 export const KRYPTO_FILTER = [
   { key: "zinsfreiAbStart", label: "Zinsfrei ab Start" },

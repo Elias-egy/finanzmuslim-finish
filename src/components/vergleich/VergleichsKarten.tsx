@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, HinweisPunkt, NotenBlock, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -9,7 +9,7 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  * gedrehte Tabelle unbrauchbar: eine Spalte von 208 Pixeln neben einer
  * Kriterienspalte laesst nichts uebrig.
  *
- * Aufbau je Karte: Rang und Etikett oben, daneben Logo und Note, dann der
+ * Aufbau je Karte: Logo, Name und Etikett oben, dann der
  * Knopf, dann die vier Zahlen, nach denen zuerst gesucht wird. Alles Weitere
  * liegt hinter "Produktdetails". Wer vergleichen will, hakt Karten an und
  * bekommt nur noch diese zu sehen.
@@ -24,13 +24,11 @@ const etikettTon: Record<string, string> = {
 const Karte = ({
   spalte,
   zeilen,
-  rang,
   gewaehlt,
   waehle,
 }: {
   spalte: VergleichsSpalte;
   zeilen: VergleichsZeile[];
-  rang: number;
   gewaehlt: boolean;
   waehle: (id: string) => void;
 }) => {
@@ -46,10 +44,10 @@ const Karte = ({
         hervor ? "border-primary/40" : "border-border"
       }`}
     >
-      {/* Kopfstreifen: Rang, Produkt, Etikett */}
+      {/* Kopfstreifen: Logo, Produkt, Etikett. Keine Nummer, solange nicht bewertet ist. */}
       <div className="flex items-stretch border-b border-border">
-        <span className="flex w-10 shrink-0 items-center justify-center border-r border-border bg-surface text-[14px] font-bold text-muted-foreground">
-          {rang}
+        <span className="flex shrink-0 items-center pl-3">
+          <AnbieterLogo name={spalte.anbieter} domain={spalte.domain} />
         </span>
         <span className="flex min-w-0 flex-1 items-center px-3 py-2 text-[15px] font-bold text-foreground">
           <span className="truncate">
@@ -66,17 +64,7 @@ const Karte = ({
       </div>
 
       <div className="p-3">
-        {/* Logo und Note nebeneinander */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center justify-center rounded-lg border border-border p-3">
-            <AnbieterLogo name={spalte.anbieter} domain={spalte.domain} gross />
-          </div>
-          <div className="flex items-center justify-center rounded-lg border border-border p-3">
-            <NotenBlock note={spalte.note} stand={spalte.noteStand} mittig />
-          </div>
-        </div>
-
-        <div className="mt-3">
+        <div>
           <AngebotsKnopf link={spalte.link} breit />
         </div>
 
@@ -179,7 +167,6 @@ export const VergleichsKarten = ({
             key={s.id}
             spalte={s}
             zeilen={zeilen}
-            rang={spalten.indexOf(s) + 1}
             gewaehlt={gewaehlt.includes(s.id)}
             waehle={waehle}
           />

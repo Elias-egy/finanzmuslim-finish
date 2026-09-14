@@ -1,10 +1,11 @@
-import { Check, Info, Minus, Star, X } from "lucide-react";
+import { Check, ExternalLink, Info, Minus, Star, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   UNGEPRUEFT,
   noteWort,
   noteZahl,
   type CheckStatus,
+  type Quelle,
   type VergleichsSpalte,
   type Zellwert,
 } from "./vergleichTypen";
@@ -153,31 +154,55 @@ const ampelFarbe: Record<CheckStatus, string> = {
   schlecht: "bg-destructive",
 };
 
-/** Eine Zelle. Kennt Freitext, Ampel und Haken. */
+const quellenText = (q?: Quelle) =>
+  q ? ["Quelle: " + (q.hinweis ?? q.url ?? "unbekannt"), q.stand ? `Stand ${q.stand}` : null].filter(Boolean).join(", ") : undefined;
+
+/**
+ * Link zum Beleg. Nur bei Halal-Merkmalen sichtbar, weil dort jeder Wert beim
+ * Anbieter nachgelesen wurde. Kosten stammen gesammelt aus einer Quelle, die
+ * unter der Tabelle steht.
+ */
+const BelegLink = ({ quelle }: { quelle?: Quelle }) =>
+  quelle?.url ? (
+    <a
+      href={quelle.url}
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      title={quellenText(quelle)}
+      className="inline-flex align-middle text-muted-foreground/70 hover:text-primary"
+    >
+      <ExternalLink className="ml-1 h-3.5 w-3.5" aria-label="Beleg öffnen" />
+    </a>
+  ) : null;
+
+/** Eine Zelle. Kennt Freitext, Ampel und Haken. Die Quelle steht im Tooltip. */
 export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
+  const titel = quellenText(wert?.quelle);
+
   if (art === "ampel") {
     const status = wert?.status ?? "unbekannt";
     return (
-      <span className="inline-flex items-center gap-2">
+      <span className="inline-flex items-center gap-2" title={titel}>
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
-          {status === "unbekannt" ? UNGEPRUEFT : (wert?.text ?? "")}
+          {status === "unbekannt" ? UNGEPRUEFT : status === "gut" ? "ja" : status === "schlecht" ? "nein" : (wert?.text ?? "")}
         </span>
+        {status !== "unbekannt" && <BelegLink quelle={wert?.quelle} />}
       </span>
     );
   }
 
   if (art === "janein") {
     const j = wert?.jaNein;
-    if (j === true) return <Check className="mx-auto h-5 w-5 text-success" aria-label="ja" />;
-    if (j === false) return <X className="mx-auto h-5 w-5 text-destructive" aria-label="nein" />;
+    if (j === true) return <span title={titel}><Check className="mx-auto h-5 w-5 text-success" aria-label="ja" /></span>;
+    if (j === false) return <span title={titel}><X className="mx-auto h-5 w-5 text-destructive" aria-label="nein" /></span>;
     return (
       <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label={UNGEPRUEFT} />
     );
   }
 
   return wert?.text ? (
-    <span className="text-foreground">{wert.text}</span>
+    <span className="text-foreground" title={titel}>{wert.text}</span>
   ) : (
     <span className="text-muted-foreground">{UNGEPRUEFT}</span>
   );

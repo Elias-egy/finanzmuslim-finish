@@ -1,5 +1,6 @@
 import type {
   CheckStatus,
+  Quelle,
   VergleichsSpalte,
   VergleichsZeile,
   Zellwert,
@@ -37,6 +38,14 @@ export type RohAnbieter = {
   noteStand?: string;
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" } | null;
   werte: Record<string, RohWert>;
+  /** Beleg je Wert: Finanzfluss-Vergleich oder Seite des Anbieters, mit Prüfdatum. */
+  quellen?: Record<string, Quelle>;
+  /** Anbieterhaus, dessen Halal-Fakten für alle seine Produkte gelten. */
+  haus?: string;
+  /** Herkunft im Finanzfluss-Vergleich, für Abgleich und Partnerliste. */
+  finanzfluss?: { produkt: string; partnerlink: string | null };
+  /** Finanzpunkte je Kriterium nach der Punktetabelle von Finanzfluss. */
+  finanzPunkte?: Record<string, number>;
 };
 
 const ampelText: Record<CheckStatus, string> = {
@@ -50,15 +59,17 @@ const istStatus = (w: RohWert): w is CheckStatus =>
   w === "gut" || w === "teils" || w === "schlecht" || w === "unbekannt";
 
 /** Macht aus einem Roheintrag die Zelle, passend zur Art der Zeile. */
-const zuZelle = (roh: RohWert, art: string): Zellwert => {
+const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
   if (art === "ampel") {
     const status = istStatus(roh) ? roh : "unbekannt";
-    return { status, text: ampelText[status] };
+    return { status, text: ampelText[status], quelle: status === "unbekannt" ? undefined : quelle };
   }
   if (art === "janein") {
-    return { text: null, jaNein: typeof roh === "boolean" ? roh : null };
+    const jaNein = typeof roh === "boolean" ? roh : null;
+    return { text: null, jaNein, quelle: jaNein === null ? undefined : quelle };
   }
-  return { text: typeof roh === "string" && roh.trim() !== "" ? roh : null };
+  const text = typeof roh === "string" && roh.trim() !== "" ? roh : null;
+  return { text, quelle: text === null ? undefined : quelle };
 };
 
 /** Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. */
@@ -70,7 +81,7 @@ export const baueSpalten = (
     const werte: Record<string, Zellwert> = {};
     for (const z of zeilen) {
       if (z.key.startsWith("__")) continue;
-      werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art);
+      werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art, a.quellen?.[z.key]);
     }
     return {
       id: a.id,
@@ -85,10 +96,16 @@ export const baueSpalten = (
     };
   });
 
-/** Zählt, bei wie vielen Anbietern überhaupt etwas geprüft ist. */
-export const anzahlGeprueft = (anbieter: RohAnbieter[]) =>
-  anbieter.filter((a) => Object.values(a.werte).some((w) => w !== null && w !== "unbekannt"))
-    .length;
+/** Zählt, bei wie vielen Anbietern alle Halal-Merkmale geprüft sind. */
+export const anzahlHalalGeprueft = (anbieter: RohAnbieter[], zeilen: VergleichsZeile[]) => {
+  const halal = zeilen.filter((z) => z.gruppe === "halal");
+  return anbieter.filter((a) =>
+    halal.every((z) => {
+      const w = a.werte[z.key];
+      return w !== null && w !== undefined && w !== "unbekannt";
+    }),
+  ).length;
+};
 
 /** Die Halal-Zeilen einer Liste, für Filter und Zählungen. */
 export const halalZeilen = (zeilen: VergleichsZeile[]) =>

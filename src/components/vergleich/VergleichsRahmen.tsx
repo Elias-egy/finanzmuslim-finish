@@ -66,30 +66,17 @@ export const VergleichsLeiste = ({
 );
 
 /**
- * Der hervorgehobene Platz ganz oben, bei Finanzfluss "Bestes Depot".
- * Solange keine Bewertung vorliegt, steht hier ausdrücklich, dass der Platz
- * leer ist. Eine erfundene Nummer eins waere der teuerste Fehler auf einer
- * Seite, die von Vertrauen lebt.
+ * Steht dort, wo bei Finanzfluss "Bestes Depot" steht. Solange nicht alle
+ * Anbieter geprüft sind, gibt es keine Nummer eins und keine Reihenfolge nach
+ * Punkten. Eine vorläufige Rangfolge würde Anbieter bewerten, bei denen wir
+ * noch nicht nachgesehen haben.
  */
-export const EmpfehlungsPlatz = ({
-  etikett,
-  begruendung,
-}: {
-  etikett: string;
-  begruendung: string;
-}) => (
-  <section
-    className="mt-10 overflow-hidden rounded-lg border border-primary/30 bg-hero"
-    aria-label={etikett}
-  >
-    <p className="bg-primary/10 px-4 py-2 text-center text-[13px] font-semibold text-primary">
-      {etikett}
+export const ReihenfolgeHinweis = ({ einheit }: { einheit: string }) => (
+  <section className="mt-10 rounded-lg border border-primary/30 bg-hero px-4 py-5 md:px-6">
+    <p className="text-[16px] font-bold text-foreground">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
+    <p className="mt-1 text-[15px] leading-[24px] text-muted-foreground">
+      Bis dahin stehen alle {einheit} alphabetisch. Kosten und Konditionen sind eingetragen, die
+      Halal-Merkmale prüfen wir einzeln beim Anbieter.
     </p>
-    <div className="px-4 py-6 text-center md:py-8">
-      <p className="text-[17px] font-bold text-foreground">Noch nicht vergeben</p>
-      <p className="mx-auto mt-2 max-w-xl text-[15px] leading-[24px] text-muted-foreground">
-        {begruendung}
-      </p>
-    </div>
   </section>
 );

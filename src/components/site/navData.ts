@@ -108,25 +108,24 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Alle Vergleiche", to: "/vergleiche" },
           { label: "Depot-Vergleich", to: "/vergleich/depot" },
+          { label: "Krypto-Vergleich", to: "/vergleich/krypto" },
           { label: "Kinderdepot" },
           { label: "Halal-Anlagen finden", to: "/halal-anlagen" },
         ],
       },
       {
-        title: "Konto und Karte",
+        title: "Konto und Prüfung",
         items: [
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
-          { label: "Karte ohne Kreditrahmen" },
-          { label: "Geschäftskonto" },
+          { label: "Screening-Apps" },
+          { label: "Steuersoftware" },
         ],
       },
       {
         title: "Sonstiges",
         items: [
+          { label: "So bewerten wir", to: "/vergleiche/methodik" },
           { label: "Aktuelle Deals", to: "/deals" },
-          { label: "Physisches Gold" },
-          { label: "Geld ins Ausland" },
-          { label: "Steuersoftware" },
         ],
       },
     ],

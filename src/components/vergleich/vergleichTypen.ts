@@ -33,8 +33,12 @@ export type VergleichsZeile = {
   gruppe: "halal" | "angebot" | "kosten";
 };
 
+/** Woher ein Wert stammt. Wird am Wert als Tooltip gezeigt. */
+export type Quelle = { url?: string; stand?: string; hinweis?: string };
+
 export type Zellwert = {
   text: string | null;
+  quelle?: Quelle;
   status?: CheckStatus;
   /** true, false oder null fuer noch nicht geprueft. */
   jaNein?: boolean | null;

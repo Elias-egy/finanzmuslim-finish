@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -10,12 +11,12 @@ import {
 import {
   VergleichsBrotkrumen,
   VergleichsLeiste,
-  EmpfehlungsPlatz,
+  ReihenfolgeHinweis,
 } from "./VergleichsRahmen";
 import { VergleichsTabelle } from "./VergleichsTabelle";
 import { VergleichsKarten } from "./VergleichsKarten";
 import type { VergleichsZeile } from "./vergleichTypen";
-import { baueSpalten, anzahlGeprueft, type RohAnbieter } from "@/data/vergleichHelfer";
+import { baueSpalten, anzahlHalalGeprueft, type RohAnbieter } from "@/data/vergleichHelfer";
 
 /**
  * Die gemeinsame Vorlage aller Vergleichsseiten.
@@ -41,8 +42,8 @@ export type VergleichsSeiteProps = {
   filter: Array<{ key: string; label: string }>;
   stand: string;
   standHinweis?: string;
-  empfehlungEtikett: string;
-  empfehlungText: string;
+  /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
+  quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
   faq: Array<{ frage: string; antwort: string }>;
   schluss: string;
@@ -62,8 +63,7 @@ export const VergleichsSeite = ({
   filter,
   stand,
   standHinweis,
-  empfehlungEtikett,
-  empfehlungText,
+  quellenHinweis,
   kriterien,
   faq,
   schluss,
@@ -103,13 +103,13 @@ export const VergleichsSeite = ({
           kennzahlen={[
             { zahl: anbieter.length, text: `${einheit} im Vergleich` },
             { zahl: halalAnzahl, text: "Halal-Merkmale" },
-            { zahl: anzahlGeprueft(anbieter), text: "davon geprüft" },
+            { zahl: anzahlHalalGeprueft(anbieter, zeilen), text: "Halal vollständig geprüft" },
           ]}
           stand={stand}
           standHinweis={standHinweis}
         />
 
-        <EmpfehlungsPlatz etikett={empfehlungEtikett} begruendung={empfehlungText} />
+        <ReihenfolgeHinweis einheit={einheit} />
 
         <section className="card-surface mt-10 p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Worauf wir bei Halal achten</h2>
@@ -121,6 +121,11 @@ export const VergleichsSeite = ({
               </li>
             ))}
           </ul>
+          <p className="mt-5 text-[15px]">
+            <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+              So entsteht die Bewertung
+            </Link>
+          </p>
         </section>
 
         <section className="mt-10 rounded-lg border border-border p-4 md:p-5" aria-label="Filter">
@@ -162,7 +167,8 @@ export const VergleichsSeite = ({
           </>
         )}
 
-        <p className="mt-6 text-[13px] text-muted-foreground">
+        <p className="mt-6 text-[13px] text-muted-foreground">{quellenHinweis}</p>
+        <p className="mt-2 text-[13px] text-muted-foreground">
           * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt
           abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten.
         </p>

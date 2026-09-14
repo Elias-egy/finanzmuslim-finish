@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import {
-  AngebotsKnopf,
-  HinweisPunkt,
-  NotenBlock,
-  ZellInhalt,
-} from "./VergleichsBausteine";
+import { AngebotsKnopf, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -164,26 +159,18 @@ export const VergleichsTabelle = ({
               </p>
             </div>
           </div>
-          {spalten.map((s, i) => (
+          {spalten.map((s) => (
             <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
               <div className="bg-card" style={{ position: "sticky", top: KOPF }}>
-                <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-surface text-[11px] font-bold text-muted-foreground">
-                    {i + 1}
-                  </span>
-                  {s.etikett ? (
+                {s.etikett && (
+                  <div className="border-b border-border px-2 py-1.5">
                     <span
-                      className={`truncate rounded-full px-2 py-0.5 text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
+                      className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
                     >
                       {s.etikett.text}
                     </span>
-                  ) : (
-                    /* Ohne Etikett bleibt der Platz leer. Ein Wort wie "kein
-                       Etikett" dreissig Mal untereinander ist kein Hinweis,
-                       sondern Laerm. Die Hoehe bleibt reserviert. */
-                    <span className="h-[19px]" aria-hidden />
-                  )}
-                </div>
+                  </div>
+                )}
                 <div className="flex flex-col items-center gap-1 px-3 py-2">
                   <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
                   <p className="w-full truncate text-center text-[13px] font-bold text-foreground">
@@ -226,8 +213,6 @@ export const VergleichsTabelle = ({
                   <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
                     {z.key === "__angebot" || z.key === "__angebot_unten" ? (
                       <AngebotsKnopf link={s.link} />
-                    ) : z.key === "__note" ? (
-                      <NotenBlock note={s.note} stand={s.noteStand} mittig />
                     ) : (
                       <ZellInhalt wert={s.werte[z.key]} art={z.art} />
                     )}

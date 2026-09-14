@@ -26,15 +26,26 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/vergleich/depot</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/vergleich/girokonto</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vergleich/krypto</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/vergleiche/methodik</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/rechner</loc>
@@ -44,49 +55,49 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/zakat-rechner</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/renditerechner</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/inflationsrechner</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/bereinigungsrechner</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/auswanderungsrechner</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/kreditkostenrechner</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/budgetrechner</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/sparzielrechner</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

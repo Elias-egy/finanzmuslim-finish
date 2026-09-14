@@ -26,9 +26,8 @@ const VergleichDepot = () => (
     anbieter={brokerVergleich}
     filter={DEPOT_FILTER}
     stand="14.09.2026"
-    standHinweis="Anbieterliste steht, Merkmale laufend in Prüfung"
-    empfehlungEtikett="Bestes Depot"
-    empfehlungText="Hier steht eine Empfehlung, sobald die Halal-Merkmale bei den Anbietern geprüft sind. Vorher wäre jede Nummer eins geraten."
+    standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
     kriterien={[
       {
         titel: "Zinsfrei ab Start",
@@ -60,9 +59,9 @@ const VergleichDepot = () => (
           "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen. Die konkrete Handhabung besprichst du am besten mit einem Gelehrten deines Vertrauens.",
       },
       {
-        frage: "Warum steht bei fast allen Anbietern noch nichts?",
+        frage: "Warum sind manche Merkmale noch nicht geprüft?",
         antwort:
-          "Weil wir nichts eintragen, was wir nicht selbst beim Anbieter nachgelesen haben. Die Anbieterliste steht, jedes Merkmal wird einzeln geprüft und mit Datum eingetragen. Bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich und stehen mit Datum an jedem Wert. Die Halal-Merkmale lesen wir einzeln beim Anbieter nach. Bis ein Beleg vorliegt, steht dort wörtlich, dass es noch nicht geprüft ist.",
       },
       {
         frage: "Kann ich mehrere Depots haben?",

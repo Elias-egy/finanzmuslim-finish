@@ -26,9 +26,8 @@ const VergleichGirokonto = () => (
     anbieter={girokontoVergleich}
     filter={GIRO_FILTER}
     stand="14.09.2026"
-    standHinweis="Anbieterliste angelegt, Merkmale noch nicht geprüft"
-    empfehlungEtikett="Bestes Girokonto"
-    empfehlungText="Hier steht eine Empfehlung, sobald die Halal-Merkmale bei den Banken geprüft sind. Vorher wäre jede Nummer eins geraten."
+    standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
     kriterien={[
       {
         titel: "Zinsfrei ab Start",
@@ -60,9 +59,9 @@ const VergleichGirokonto = () => (
           "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
       },
       {
-        frage: "Warum steht bei allen Banken noch nichts?",
+        frage: "Warum sind manche Merkmale noch nicht geprüft?",
         antwort:
-          "Weil wir nichts eintragen, was wir nicht selbst bei der Bank nachgelesen haben. Die Anbieterliste steht, jedes Merkmal wird einzeln geprüft und mit Datum eingetragen. Bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich und stehen mit Datum an jedem Wert. Die Halal-Merkmale lesen wir einzeln bei der Bank nach. Bis ein Beleg vorliegt, steht dort wörtlich, dass es noch nicht geprüft ist.",
       },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."

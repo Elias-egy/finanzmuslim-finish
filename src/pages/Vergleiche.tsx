@@ -2,13 +2,11 @@ import { Link } from "react-router-dom";
 import {
   Baby,
   Banknote,
-  Briefcase,
+  Bitcoin,
   ChevronRight,
-  CreditCard,
   FileText,
-  Globe,
-  Coins,
   LineChart,
+  ScanSearch,
   ShieldCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -23,11 +21,17 @@ const gruppen: Gruppe[] = [
     eintraege: [
       {
         name: "Depot-Vergleich",
-        desc: "Welcher Broker passt, wenn du islamkonform investieren willst.",
+        desc: "Finde das Depot, bei dem du zinsfrei in Halal-Anlagen investierst.",
         icon: LineChart,
         to: "/vergleich/depot",
       },
-      { name: "Kinderdepot", desc: "Depots für Kinder im Vergleich.", icon: Baby },
+      {
+        name: "Krypto-Vergleich",
+        desc: "Finde die Börse, bei der du echte Coins zinsfrei kaufst.",
+        icon: Bitcoin,
+        to: "/vergleich/krypto",
+      },
+      { name: "Kinderdepot", desc: "Vergleiche Depots für deine Kinder.", icon: Baby },
       {
         name: "Halal-Anlagen finden",
         desc: "27 Anlagen: ETFs, Sukuk, Gold, Silber und Krypto mit Kosten und Prüfstelle.",
@@ -37,24 +41,16 @@ const gruppen: Gruppe[] = [
     ],
   },
   {
-    titel: "Konto und Karte",
+    titel: "Konto und Prüfung",
     eintraege: [
       {
         name: "Girokonto-Vergleich",
-        desc: "Konten ohne Guthabenzins und ohne Dispo.",
+        desc: "Finde das Konto ohne Zins, ohne Dispo und mit Karte ohne Kredit.",
         icon: Banknote,
         to: "/vergleich/girokonto",
       },
-      { name: "Karte ohne Kreditrahmen", desc: "Karten, die keinen Kredit einräumen.", icon: CreditCard },
-      { name: "Geschäftskonto", desc: "Konten für Selbstständige und Unternehmen.", icon: Briefcase },
-    ],
-  },
-  {
-    titel: "Weitere",
-    eintraege: [
-      { name: "Physisches Gold", desc: "Anbieter für physisches Gold im Vergleich.", icon: Coins },
-      { name: "Geld ins Ausland", desc: "Wege, Geld günstig ins Ausland zu senden.", icon: Globe },
-      { name: "Steuersoftware", desc: "Programme für die Steuererklärung.", icon: FileText },
+      { name: "Screening-Apps", desc: "Vergleiche Apps, die Aktien auf Halal prüfen.", icon: ScanSearch },
+      { name: "Steuersoftware", desc: "Vergleiche Programme für die Steuererklärung.", icon: FileText },
     ],
   },
 ];
@@ -62,6 +58,7 @@ const gruppen: Gruppe[] = [
 const bewertung = [
   "Zuerst wird geprüft, dann wird über eine Partnerschaft gesprochen. Nie umgekehrt.",
   "Anbieter ohne Partnerschaft werden trotzdem gelistet.",
+  "Wer nicht zinsfrei ab Start ist, bekommt keine Note.",
   "Jede Angabe hat eine Quelle und ein Prüfdatum.",
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];
@@ -105,7 +102,7 @@ const Vergleiche = () => (
   <main className="bg-background">
     <Seo
       title="Anbieter im Vergleich | finanzmuslim"
-      description="Wir prüfen Anbieter nach Kriterien, die in normalen Vergleichen fehlen: Zinsen, Kredit, Hebelprodukte und sharia-konforme Produkte."
+      description="Vergleiche Depots, Girokonten und Krypto-Börsen nach Halal-Merkmalen: zinsfrei ab Start, Halal-Anlagen und Kosten."
       path="/vergleiche"
       brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
     />
