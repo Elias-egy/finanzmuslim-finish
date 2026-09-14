@@ -39,7 +39,8 @@ export type VergleichsSeiteProps = {
   einheit: string;
   zeilen: VergleichsZeile[];
   anbieter: RohAnbieter[];
-  filter: Array<{ key: string; label: string }>;
+  /** `erlaubt`: welche Ampelstufen der Filter durchlässt. Standard nur geprüftes "gut". */
+  filter: Array<{ key: string; label: string; erlaubt?: string[] }>;
   stand: string;
   standHinweis?: string;
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
@@ -76,7 +77,12 @@ export const VergleichsSeite = ({
   /* Ein Filter greift nur auf geprueftes "gut". Unbekannt faellt bewusst raus:
      wer nach Anbietern ohne Guthabenzins sucht, will keine Anbieter sehen,
      bei denen wir es schlicht nicht wissen. */
-  const gefiltert = anbieter.filter((a) => aktiv.every((k) => a.werte[k] === "gut"));
+  const gefiltert = anbieter.filter((a) =>
+    aktiv.every((k) => {
+      const erlaubt = filter.find((f) => f.key === k)?.erlaubt ?? ["gut"];
+      return erlaubt.includes(String(a.werte[k]));
+    }),
+  );
 
   const spalten = baueSpalten(gefiltert, zeilen);
   const halalAnzahl = zeilen.filter((z) => z.gruppe === "halal").length;

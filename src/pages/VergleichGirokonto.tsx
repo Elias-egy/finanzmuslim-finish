@@ -8,7 +8,7 @@ const VergleichGirokonto = () => (
     titel="Girokonto-Vergleich für Muslime"
     untertitel="Welches Konto passt, wenn du keine Zinsen willst"
     seoTitel="Girokonto-Vergleich für Muslime | finanzmuslim"
-    seoText="Welches Girokonto passt, wenn du keine Zinsen willst. Wir prüfen Zinsen ab Start, Dispo und ob die Karte ohne Kreditrahmen kommt."
+    seoText="Welches Girokonto passt, wenn du keine Zinsen willst. Wir prüfen, ob du ohne Zinsen auskommst, den Dispo und ob die Karte ohne Kreditrahmen kommt."
     einheit="Banken"
     einleitung={
       <>
@@ -30,8 +30,8 @@ const VergleichGirokonto = () => (
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
     kriterien={[
       {
-        titel: "Zinsfrei ab Start",
-        text: "Kein Guthabenzins und kein verzinstes Unterkonto, ohne dass du etwas abwählen musst?",
+        titel: "Ohne Zinsen nutzbar",
+        text: "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten? Geht das nicht, gibt es keine Note.",
       },
       {
         titel: "Kein Dispo ab Start",

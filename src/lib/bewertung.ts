@@ -4,8 +4,10 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  * Punktesystem der Vergleiche, beschlossen am 14.09.2026.
  * Herleitung: `~/rebrand/KRITERIEN_VERGLEICHE.md`, Abschnitt Punktesystem.
  *
- * 1. Türsteher: "Zinsfrei ab Start". Nein heißt keine Note. Nicht geprüft heißt
- *    auch keine Note.
+ * 1. Türsteher: "Ohne Zinsen nutzbar". Grün (zinsfrei ab Start) und gelb (Zinsen
+ *    abschaltbar) kommen durch. Rot (nicht abschaltbar) heißt keine Note. Nicht
+ *    geprüft heißt auch keine Note. Stufe gelb seit 14.09.2026 (Elias: bei Trade
+ *    Republic lassen sich die Zinsen leicht ausschalten).
  * 2. Note = 0,5 × Halal-Rest + 0,5 × Finanz-Note, beide von 0 bis 5.
  *    - Halal-Rest: die übrigen Halal-Merkmale mit festen Gewichten.
  *    - Finanz-Note: Finanzpunkte (Punktetabelle von Finanzfluss, nur die
@@ -22,7 +24,9 @@ type HalalTeil =
   /** Ampel: "gut" zählt voll, "schlecht" null. */
   | { key: string; gewicht: number; art: "ampel" }
   /** Anteil: Text "x von N", zählt x / N. */
-  | { key: string; gewicht: number; art: "anteil" };
+  | { key: string; gewicht: number; art: "anteil" }
+  /** Anteile über mehrere Zeilen: Summe aller x durch Summe aller N. */
+  | { keys: string[]; gewicht: number; art: "anteilSumme" };
 
 type HalalRegel = { tuersteher: string; teile: HalalTeil[] };
 
@@ -30,7 +34,7 @@ export const HALAL_REGELN: Record<Kategorie, HalalRegel> = {
   depot: {
     tuersteher: "zinsfreiAbStart",
     teile: [
-      { key: "halalAnlagen", gewicht: 0.6, art: "anteil" },
+      { keys: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"], gewicht: 0.6, art: "anteilSumme" },
       { key: "keinKreditAbStart", gewicht: 0.4, art: "ampel" },
     ],
   },
@@ -51,7 +55,7 @@ export const HALAL_REGELN: Record<Kategorie, HalalRegel> = {
 };
 
 /** Höchstpunktzahl der Finanzkriterien je Vergleich. Muss zu `*_FINANZ_MAX` passen (Test). */
-export const FINANZ_MAX_SUMME: Record<Kategorie, number> = { depot: 68, girokonto: 72, krypto: 500 };
+export const FINANZ_MAX_SUMME: Record<Kategorie, number> = { depot: 62.5, girokonto: 72, krypto: 500 };
 
 export const GEWICHT_HALAL = 0.5;
 export const GEWICHT_FINANZ = 0.5;
@@ -72,6 +76,17 @@ export const anteil = (wert: unknown): number | null => {
   return x / n;
 };
 
+/** "7 von 12" -> [7, 12]. */
+const zaehler = (wert: unknown): [number, number] | null => {
+  const a = anteil(wert);
+  if (a === null || typeof wert !== "string") return null;
+  const m = wert.match(/(\d+)\s+von\s+(\d+)/)!;
+  return [Number(m[1]), Number(m[2])];
+};
+
+/** Alle Merkmals-Schlüssel einer Regel, für Tests und Anzeige. */
+export const teilKeys = (teil: HalalTeil) => ("keys" in teil ? teil.keys : [teil.key]);
+
 const ampelWert = (wert: unknown): number | null =>
   wert === "gut" ? 1 : wert === "schlecht" ? 0 : null;
 
@@ -86,14 +101,26 @@ export const bewerte = (
   const tuer = anbieter.werte[regel.tuersteher];
 
   if (tuer === "schlecht") {
-    return { status: "gesperrt", grund: "nicht zinsfrei ab Start" };
+    return { status: "gesperrt", grund: "Zinsen nicht abschaltbar" };
   }
 
   const fehlt: string[] = [];
-  if (tuer !== "gut") fehlt.push(regel.tuersteher);
+  if (tuer !== "gut" && tuer !== "teils") fehlt.push(regel.tuersteher);
 
   let halal = 0;
   for (const teil of regel.teile) {
+    if (teil.art === "anteilSumme") {
+      const z = teil.keys.map((k) => zaehler(anbieter.werte[k]));
+      const offen = teil.keys.filter((_, i) => z[i] === null);
+      if (offen.length > 0) {
+        fehlt.push(...offen);
+        continue;
+      }
+      const x = z.reduce((s, v) => s + v![0], 0);
+      const n = z.reduce((s, v) => s + v![1], 0);
+      halal += teil.gewicht * (x / n);
+      continue;
+    }
     const w = anbieter.werte[teil.key];
     const wert = teil.art === "ampel" ? ampelWert(w) : anteil(w);
     if (wert === null) {

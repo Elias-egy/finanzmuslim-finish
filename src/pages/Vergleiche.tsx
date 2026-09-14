@@ -4,6 +4,7 @@ import {
   Banknote,
   Bitcoin,
   ChevronRight,
+  Coins,
   FileText,
   LineChart,
   ScanSearch,
@@ -30,6 +31,11 @@ const gruppen: Gruppe[] = [
         desc: "Finde die Börse, bei der du echte Coins zinsfrei kaufst.",
         icon: Bitcoin,
         to: "/vergleich/krypto",
+      },
+      {
+        name: "Edelmetalle",
+        desc: "Finde das Depot mit den meisten zertifizierten Gold- und Silber-ETCs.",
+        icon: Coins,
       },
       { name: "Kinderdepot", desc: "Vergleiche Depots für deine Kinder.", icon: Baby },
       {
@@ -58,7 +64,7 @@ const gruppen: Gruppe[] = [
 const bewertung = [
   "Zuerst wird geprüft, dann wird über eine Partnerschaft gesprochen. Nie umgekehrt.",
   "Anbieter ohne Partnerschaft werden trotzdem gelistet.",
-  "Wer nicht zinsfrei ab Start ist, bekommt keine Note.",
+  "Wessen Zinsen sich nicht abschalten lassen, bekommt keine Note.",
   "Jede Angabe hat eine Quelle und ein Prüfdatum.",
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];
@@ -102,7 +108,7 @@ const Vergleiche = () => (
   <main className="bg-background">
     <Seo
       title="Anbieter im Vergleich | finanzmuslim"
-      description="Vergleiche Depots, Girokonten und Krypto-Börsen nach Halal-Merkmalen: zinsfrei ab Start, Halal-Anlagen und Kosten."
+      description="Vergleiche Depots, Girokonten und Krypto-Börsen nach Halal-Merkmalen: ohne Zinsen nutzbar, Halal-Anlagen und Kosten."
       path="/vergleiche"
       brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
     />

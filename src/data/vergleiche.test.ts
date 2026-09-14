@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
-import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, type Kategorie } from "@/lib/bewertung";
+import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
@@ -27,7 +27,7 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   it("hat für jedes Halal-Merkmal der Bewertung eine Zeile", () => {
     const regel = HALAL_REGELN[kategorie];
     const keys = zeilen.map((z) => z.key);
-    for (const key of [regel.tuersteher, ...regel.teile.map((t) => t.key)]) {
+    for (const key of [regel.tuersteher, ...regel.teile.flatMap(teilKeys)]) {
       expect(keys).toContain(key);
     }
   });
@@ -56,10 +56,11 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     }
   });
 
-  it("vergibt keine Note ohne geprüften Türsteher", () => {
+  it("vergibt keine Note, wenn Zinsen nicht abschaltbar oder nicht geprüft sind", () => {
     for (const a of anbieter) {
       const b = bewerte(a, kategorie, max);
-      if (a.werte[HALAL_REGELN[kategorie].tuersteher] !== "gut") {
+      const tuer = a.werte[HALAL_REGELN[kategorie].tuersteher];
+      if (tuer !== "gut" && tuer !== "teils") {
         expect(b.status, a.id).not.toBe("bewertet");
       }
     }

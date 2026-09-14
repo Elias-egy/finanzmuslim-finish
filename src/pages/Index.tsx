@@ -4,14 +4,15 @@ import {
   Baby,
   Calculator,
   ChevronRight,
+  Bitcoin,
   Coins,
-  CreditCard,
   FileText,
   Globe,
   LineChart,
   Percent,
   PiggyBank,
   Receipt,
+  ScanSearch,
   ShieldCheck,
   Sparkles,
   Target,
@@ -30,18 +31,17 @@ import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.png.asset.json";
 import rechnerRender from "@/assets/rechner.png.asset.json";
 
-/** Acht Kacheln, sie zeigen die geplante Breite des Angebots. Drei haben ein
- *  Ziel, die uebrigen tragen "bald", bis der jeweilige Vergleich steht.
- *  Gekuerzt wird erst kurz vor dem Start, falls dann noch zu viel offen ist. */
+/** Acht Kacheln, dieselben Vergleiche wie auf /vergleiche (Stand 14.09.2026).
+ *  Mit Ziel verlinkt, sonst "bald", bis der jeweilige Vergleich steht. */
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
-  { label: "Girokonto", icon: Wallet },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
+  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
   { label: "Aktien prüfen", icon: ShieldCheck, to: "/wissen/sind-aktien-halal" },
-  { label: "Gold", icon: Coins, to: "/wissen/halal-gold-kaufen" },
-  { label: "Geld ins Ausland", icon: Globe },
-  { label: "Karte ohne Kredit", icon: CreditCard },
-  { label: "Steuersoftware", icon: FileText },
+  { label: "Edelmetalle", icon: Coins },
   { label: "Kinderdepot", icon: Baby },
+  { label: "Screening-Apps", icon: ScanSearch },
+  { label: "Steuersoftware", icon: FileText },
 ];
 
 /** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */

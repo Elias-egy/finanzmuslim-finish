@@ -8,7 +8,7 @@ const VergleichDepot = () => (
     titel="Depot-Vergleich für Muslime"
     untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
     seoTitel="Depot-Vergleich für Muslime | finanzmuslim"
-    seoText="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen Zinsen ab Start, Kredit und wie viele Halal-Anlagen du dort kaufen kannst."
+    seoText="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen, ob du ohne Zinsen auskommst, ob ein Kredit mitläuft und welche Halal-ETFs, Sukuk und Edelmetalle es gibt."
     einheit="Anbieter"
     einleitung={
       <>
@@ -16,9 +16,9 @@ const VergleichDepot = () => (
           Ein Depot verwahrt deine Aktien und ETFs. Ohne Depot geht beim Vermögensaufbau nichts.
         </p>
         <p>
-          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld ab
-          Start ohne Zins, wird kein Kredit eingeräumt, und wie viele unserer Halal-Anlagen kannst
-          du dort kaufen? Was ein Broker sonst noch anbietet, zählt nicht gegen ihn.
+          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Kommst du ohne Zinsen
+          aus, läuft kein Kredit mit, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort
+          kaufen? Was ein Broker sonst noch anbietet, zählt nicht gegen ihn.
         </p>
       </>
     }
@@ -30,12 +30,12 @@ const VergleichDepot = () => (
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
     kriterien={[
       {
-        titel: "Zinsfrei ab Start",
-        text: "Liegt dein Guthaben nach der Eröffnung ohne Zins, ohne dass du etwas abwählen musst?",
+        titel: "Ohne Zinsen nutzbar",
+        text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Geht beides nicht, gibt es keine Note.",
       },
       {
         titel: "Halal-Anlagen",
-        text: "Wie viele Anlagen aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?",
+        text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?",
       },
       {
         titel: "Kein Kredit ab Start",
@@ -51,7 +51,7 @@ const VergleichDepot = () => (
       {
         frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
         antwort:
-          "Entscheidend ist, ob du das Depot ab Start halal nutzen kannst, ohne etwas abwählen zu müssen: kein Zins auf dem Guthaben und kein eingeräumter Kredit. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
+          "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben oder mit abschaltbarem Zins, und ob kein Kredit eingeräumt wird. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
       },
       {
         frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",

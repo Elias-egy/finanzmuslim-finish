@@ -51,7 +51,7 @@ export type RohAnbieter = {
 const ampelText: Record<CheckStatus, string> = {
   unbekannt: "",
   gut: "erfüllt",
-  teils: "teilweise",
+  teils: "abschaltbar",
   schlecht: "nicht erfüllt",
 };
 

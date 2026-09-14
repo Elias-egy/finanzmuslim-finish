@@ -8,7 +8,7 @@ const VergleichKrypto = () => (
     titel="Krypto-Börsen für Muslime"
     untertitel="Finde die Börse, bei der du echte Coins zinsfrei kaufst"
     seoTitel="Krypto-Börsen-Vergleich für Muslime | finanzmuslim"
-    seoText="Vergleiche Krypto-Börsen nach Halal-Merkmalen: zinsfrei ab Start, echte Coins aus unserer Liste und Auszahlung auf die eigene Wallet."
+    seoText="Vergleiche Krypto-Börsen nach Halal-Merkmalen: ohne Zinsen nutzbar, echte Coins aus unserer Liste und Auszahlung auf die eigene Wallet."
     einheit="Börsen"
     einleitung={
       <>
@@ -31,8 +31,8 @@ const VergleichKrypto = () => (
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter nachgelesen, Beleg am Wert."
     kriterien={[
       {
-        titel: "Zinsfrei ab Start",
-        text: "Bleiben Guthaben und Coins ohne Zins, Earn oder Lending, ohne dass du etwas abwählen musst?",
+        titel: "Ohne Zinsen nutzbar",
+        text: "Bleiben Guthaben und Coins ohne Zins, Earn oder Lending, oder lässt sich das abschalten? Geht das nicht, gibt es keine Note.",
       },
       {
         titel: "Halal-Coins",

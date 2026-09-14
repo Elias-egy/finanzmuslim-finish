@@ -29,25 +29,25 @@ describe("anteil", () => {
 
 describe("bewerte", () => {
   it("gibt ohne Prüfung keine Note", () => {
-    const b = bewerte(depot({ zinsfreiAbStart: null, halalAnlagen: null, keinKreditAbStart: null }), "depot", MAX);
+    const b = bewerte(depot({ zinsfreiAbStart: null, halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null, keinKreditAbStart: null }), "depot", MAX);
     expect(b.status).toBe("offen");
     if (b.status === "offen") {
-      expect(b.fehlt).toEqual(["zinsfreiAbStart", "halalAnlagen", "keinKreditAbStart", "finanzPunkte"]);
+      expect(b.fehlt).toEqual(["zinsfreiAbStart", "halalEtfsFonds", "halalSukuk", "halalEdelmetalle", "keinKreditAbStart", "finanzPunkte"]);
     }
   });
 
-  it("sperrt, wer nicht zinsfrei ab Start ist, auch mit vollen Punkten", () => {
+  it("sperrt, wessen Zinsen nicht abschaltbar sind, auch mit vollen Punkten", () => {
     const b = bewerte(
-      depot({ zinsfreiAbStart: "schlecht", halalAnlagen: "23 von 23", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
+      depot({ zinsfreiAbStart: "schlecht", halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
       "depot",
       MAX,
     );
-    expect(b).toEqual({ status: "gesperrt", grund: "nicht zinsfrei ab Start" });
+    expect(b).toEqual({ status: "gesperrt", grund: "Zinsen nicht abschaltbar" });
   });
 
   it("gibt die Höchstnote nur bei vollem Halal und vollen Finanzpunkten", () => {
     const b = bewerte(
-      depot({ zinsfreiAbStart: "gut", halalAnlagen: "23 von 23", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
+      depot({ zinsfreiAbStart: "gut", halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
       "depot",
       MAX,
     );
@@ -56,7 +56,7 @@ describe("bewerte", () => {
 
   it("gewichtet Halal-Anlagen 60 und Kredit 40 Prozent", () => {
     const b = bewerte(
-      depot({ zinsfreiAbStart: "gut", halalAnlagen: "0 von 23", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
+      depot({ zinsfreiAbStart: "gut", halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "0 von 8", keinKreditAbStart: "gut" }, { a: 60, b: 40 }),
       "depot",
       MAX,
     );
@@ -64,9 +64,22 @@ describe("bewerte", () => {
     expect(b).toEqual({ status: "bewertet", note: 3.5, halal: 2, finanz: 5 });
   });
 
+  it("lässt abschaltbare Zinsen durch und zählt Halal-Anlagen über alle drei Zeilen", () => {
+    const b = bewerte(
+      depot(
+        { zinsfreiAbStart: "teils", halalEtfsFonds: "6 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" },
+        { a: 60, b: 40 },
+      ),
+      "depot",
+      MAX,
+    );
+    // Anlagen 14/23, Halal (0,6 × 14/23 + 0,4) × 5 = 3,83, Note (3,83 + 5) / 2 = 4,41
+    expect(b).toEqual({ status: "bewertet", note: 4.41, halal: 3.83, finanz: 5 });
+  });
+
   it("zieht Abzüge ab und hält die Finanz-Note zwischen 0 und 5", () => {
     const b = bewerte(
-      depot({ zinsfreiAbStart: "gut", halalAnlagen: "23 von 23", keinKreditAbStart: "gut" }, { a: 2, abzug: -8 }),
+      depot({ zinsfreiAbStart: "gut", halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" }, { a: 2, abzug: -8 }),
       "depot",
       MAX,
     );

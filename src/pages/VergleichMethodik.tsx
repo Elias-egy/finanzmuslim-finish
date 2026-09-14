@@ -19,10 +19,10 @@ const kategorien = [
     titel: "Depot",
     to: "/vergleich/depot",
     halal: [
-      "Halal-Anlagen: wie viele der 23 Anlagen aus unserem Halal-Anlagen-Vergleich kaufbar sind, 60 %",
+      "Halal-Anlagen: wie viele der 23 Anlagen aus unserem Halal-Anlagen-Vergleich kaufbar sind, getrennt nach 12 ETFs und Fonds, 3 Sukuk und 8 Edelmetallen, zusammen 60 %",
       "Kein Kredit ab Start: kein Wertpapierkredit nach der Eröffnung, 40 %",
     ],
-    finanz: "Depotgebühr, Order- und Sparplankosten, Sparrate, Intervalle, Handelsplätze, Wertpapierarten, Steuerabführung, Service, App, Ident-Verfahren",
+    finanz: "Depotgebühr, Order- und Sparplankosten, Sparrate, Intervalle, Handelsplätze, Steuerabführung, Service, App",
     max: FINANZ_MAX_SUMME.depot,
   },
   {
@@ -51,7 +51,7 @@ const VergleichMethodik = () => (
   <main className="bg-background">
     <Seo
       title="So bewerten wir Anbieter | finanzmuslim"
-      description="Lies nach, wie die Vergleiche entstehen: Zinsfreiheit als Voraussetzung, feste Halal-Merkmale und Kosten nach einer offenen Punktetabelle."
+      description="Lies nach, wie die Vergleiche entstehen: ohne Zinsen nutzbar als Voraussetzung, feste Halal-Merkmale und Kosten nach einer offenen Punktetabelle."
       path="/vergleiche/methodik"
       brotkrumen={[
         { name: "Vergleiche", path: "/vergleiche" },
@@ -70,7 +70,7 @@ const VergleichMethodik = () => (
       <header className="mt-6">
         <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">So bewerten wir</h1>
         <p className="mt-3 text-[17px] text-muted-foreground">
-          Prüfe selbst, wie eine Note entsteht: erst die Zinsfreiheit, dann Halal-Merkmale und Kosten
+          Prüfe selbst, wie eine Note entsteht: erst die Zinsen, dann Halal-Merkmale und Kosten
           nach festen Regeln.
         </p>
       </header>
@@ -78,9 +78,9 @@ const VergleichMethodik = () => (
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
         <h2 className="text-2xl font-bold text-foreground">Drei Regeln</h2>
         <p>
-          <strong>Erstens: zinsfrei ab Start.</strong> Ein Anbieter bekommt nur eine Note, wenn dein
-          Guthaben nach der Eröffnung ohne Zins liegt und du dafür nichts abwählen musst. Zahlt er
-          Zinsen, erscheint er im Vergleich, aber ohne Note.
+          <strong>Erstens: ohne Zinsen nutzbar.</strong> Ein Anbieter bekommt nur eine Note, wenn
+          dein Guthaben ohne Zins liegt oder du die Zinsen abschalten kannst. Lassen sie sich nicht
+          abschalten, erscheint er im Vergleich, aber ohne Note.
         </p>
         <p>
           <strong>Zweitens: Halal und Kosten zählen gleich.</strong> Die Note setzt sich zu{" "}

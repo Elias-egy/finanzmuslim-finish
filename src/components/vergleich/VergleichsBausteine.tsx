@@ -185,7 +185,7 @@ export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
       <span className="inline-flex items-center gap-2" title={titel}>
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
-          {status === "unbekannt" ? UNGEPRUEFT : status === "gut" ? "ja" : status === "schlecht" ? "nein" : (wert?.text ?? "")}
+          {status === "unbekannt" ? UNGEPRUEFT : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
         </span>
         {status !== "unbekannt" && <BelegLink quelle={wert?.quelle} />}
       </span>
