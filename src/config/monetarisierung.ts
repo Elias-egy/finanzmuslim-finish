@@ -25,8 +25,8 @@ export type MonetarisierungConfig = {
 };
 
 export const monetarisierung: MonetarisierungConfig = {
-  status: "in_vorbereitung",
-  depotVergleichPfad: null,
+  status: "live",
+  depotVergleichPfad: "/vergleich/depot",
   entwurfsflaechenZeigen: false,
 };
 
