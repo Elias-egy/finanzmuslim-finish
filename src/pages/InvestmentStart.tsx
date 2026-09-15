@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { Award, CheckCircle2, Download, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
+import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -293,6 +294,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </div>
         </div>
       </section>
+
+      {/* S1a — Check je Anbieter aus den Vergleichsdaten */}
+      <AnbieterCheck partner={partner} />
 
       {/* S1b — Transparenz-Absatz */}
       <section className="bg-background py-10 md:py-14">

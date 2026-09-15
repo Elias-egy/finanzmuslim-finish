@@ -72,7 +72,7 @@ export const startPartner: StartPartner[] = [
     link: "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
     risikoUrl: "https://de.scalable.capital/risiko",
     titel: ["In 10 Minuten steht", "dein Halal-Depot."],
-    knopf: "Bei Scalable eröffnen →",
+    knopf: "Halal investieren →",
     videoHinweis: false,
     chips: ["Aktien", "ETFs", "Gold", "Krypto"],
     fakten: [
