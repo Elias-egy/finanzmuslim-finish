@@ -79,21 +79,21 @@ const Datenschutz = () => (
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">5. YouTube-Videos</h2>
+        <h2 className="text-xl font-semibold mb-4">5. Videos und Anbieter-Logos</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Auf einzelnen Seiten binden wir Videos von YouTube ein (Google Ireland Limited, Gordon
-          House, Barrow Street, Dublin 4, Irland). Das Video wird erst geladen, wenn du auf
-          „Video laden“ klickst. Erst dann werden Daten wie deine IP-Adresse an YouTube übertragen
-          und YouTube kann Cookies setzen. Rechtsgrundlage ist deine Einwilligung durch den Klick
-          (Art. 6 Abs. 1 lit. a DSGVO). Wir nutzen den erweiterten Datenschutzmodus
-          (youtube-nocookie.com). Weitere Informationen:{" "}
+          Videos auf dieser Website liegen auf unserem eigenen Server, es wird kein Videodienst eines Dritten geladen.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          In den Vergleichen zeigen wir die Logos der Anbieter. Diese Bilder lädt dein Browser vom Dienst logo.dev.
+          Dabei wird deine IP-Adresse an logo.dev übertragen. Rechtsgrundlage ist unser berechtigtes Interesse an
+          einer übersichtlichen Darstellung (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen:{" "}
           <a
-            href="https://policies.google.com/privacy"
+            href="https://www.logo.dev/privacy"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline underline-offset-2"
           >
-            Datenschutzerklärung von Google
+            Datenschutzerklärung von logo.dev
           </a>
           .
         </p>
@@ -114,7 +114,7 @@ const Datenschutz = () => (
         <h2 className="text-xl font-semibold mb-4">7. Weitergabe an Dritte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Wir geben deine Daten nicht an unbefugte Dritte weiter. Außer den oben genannten
-          Dienstleistern (GitHub, MailerLite, Make, YouTube) setzen wir keine weiteren
+          Dienstleistern (GitHub, MailerLite, Make, logo.dev) setzen wir keine weiteren
           Auftragsverarbeiter ein.
         </p>
       </section>

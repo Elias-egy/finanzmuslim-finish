@@ -48,8 +48,10 @@ Ein fallender Kurs wird nicht rot. Ein Partner wird nicht grün hervorgehoben.
 - **Keine Anlageberatung, keine Fatwa.** Wo Gelehrte uneins sind, werden beide
   Seiten genannt und auf einen Gelehrten verwiesen.
 - **Nichts verlinken, was es nicht gibt.**
-- **`/dein-investmentstart` wird nicht mehr verlinkt.** Jeder Aufruf zum Handeln
-  führt auf einen Vergleich, in der Regel `/vergleich/depot`.
+- **Startseiten je Partner** (Elias, 15.09.2026): `/dein-investmentstart` (Scalable)
+  und `/dein-investmentstart/<kurzname>`, Inhalte in `src/data/investmentStart.ts`.
+  Vergleiche und „Wo du sie kaufen kannst“ führen über `/out/<kurzname>` dorthin,
+  erst dort steht der Affiliate-Link. Allgemeine Aufrufe führen weiter auf einen Vergleich.
 - **Partnerlinks ausschließlich** über `src/data/partnerLinks.ts` und die Route
   `/out/name`. Nie ein Direktlink im Text.
 - Werbekennzeichnung vor jedem Partnerknopf, Sternchen mit Fußnote.
@@ -57,7 +59,8 @@ Ein fallender Kurs wird nicht rot. Ein Partner wird nicht grün hervorgehoben.
 ## Technik
 
 - Vite / React / Tailwind / shadcn.
-- Lovable ↔ GitHub-Sync über `main`, Repo `Elias-egy/finanzmuslim-boost`.
+- Lovable ↔ GitHub-Sync über `main`, Lovable-Projekt „finanzmuslim finish“ (Studienaccount),
+  Repo `Elias-egy/finanzmuslim-finish`. Das alte `finanzmuslim-boost` ist stillgelegt (15.09.2026).
 - **Vor jeder Arbeit `git pull`.** Nie gleichzeitig in Lovable und über Git am
   selben Projekt arbeiten, das erzeugt Konflikte.
 - Repo nie umbenennen oder verschieben, das bricht den Lovable-Sync dauerhaft.

@@ -1,58 +1,23 @@
 import { useEffect, useRef, useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { Award, CheckCircle2, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
-import { Link } from "react-router-dom";
-import {
-  Award,
-  Bitcoin,
-  Coins,
-  Download,
-  LineChart,
-  Play,
-  Plus,
-  QrCode,
-  ShieldCheck,
-  TrendingUp,
-  Volume2,
-} from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { findStartPartner, type StartPartner } from "@/data/investmentStart";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
 
-// ============================================================================
-// SCALABLE-AFFILIATE-DEEPLINK — EINZIGE ÄNDERBARE STELLE IM CODE
-// TODO(B1): Kompletten Trackinglink aus dem Scalable-Partner-Dashboard einsetzen
-//   (Ads → „Deeplink generieren" · PartnerID 1017 · Klickziel = Broker-WEB-
-//   Onboarding, NIE App-Store). Der echte Link läuft über
-//   partner.scalable-capital.de/go.cgi und enthält bereits pid=1017 + ein
-//   subid=-Feld.
-//   → SO EINSETZEN: generierten Link hierher kopieren und im subid=-Feld den
-//     Wert durch {SUBID} ersetzen — Klammern behalten! (Hat der Link kein
-//     subid=, hänge &subid={SUBID} ans Ende.) {SUBID} wird zur Laufzeit durch
-//     die Traffic-Quelle ersetzt (Whitelist VALID_SRC unten). NICHT den
-//     wmid/target-Teil anfassen.
-//   Aktueller Wert = funktionierender Direkt-Fallback OHNE Tracking (die Seite
-//   ist noch nicht live) — landet auf der echten Scalable-Broker-Seite.
-// ============================================================================
-const DEEPLINK_TEMPLATE = "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M";
-
-// Baut den finalen Klick-Link. Guard: warnt in Dev, falls beim Einsetzen des
-// echten Deeplinks der {SUBID}-Token verloren ging — sonst gehen ALLE Klicks
-// still ohne Quellen-Attribution raus (Reporting → Sub ID bliebe leer).
-const buildDeeplink = (subId: string): string => {
-  if (import.meta.env.DEV && !DEEPLINK_TEMPLATE.includes("{SUBID}")) {
-    // eslint-disable-next-line no-console
-    console.warn("[InvestmentStart] DEEPLINK_TEMPLATE enthält kein {SUBID} — SubID-Tracking greift nicht.");
-  }
-  return DEEPLINK_TEMPLATE.replace("{SUBID}", subId);
-};
-
-// B2: fertiges Tutorial (YouTube "nicht gelistet"; neues Video 19.7.)
-const VIDEO_YOUTUBE_ID: string | null = "kuvEca69m9o";
-
-// Steuert den YouTube-Player ohne Reload (enablejsapi=1 im iframe-src nötig)
-const ytCommand = (iframe: HTMLIFrameElement | null, func: string) => {
-  iframe?.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*");
-};
+/**
+ * Startseite je Partner: /dein-investmentstart (Scalable) und
+ * /dein-investmentstart/:partner. Inhalte in src/data/investmentStart.ts.
+ *
+ * Das Video liegt selbst gehostet unter /videos/ (Elias, 15.09.2026: direkt
+ * eingebettet konvertiert deutlich besser als YouTube). Es ist der Schnitt vom
+ * 05.09. ohne Werbeblock und ohne Broker-Vergleich.
+ */
+const VIDEO_SRC = "/videos/investmentstart.mp4";
+const VIDEO_POSTER = "/videos/investmentstart-poster.jpg";
 
 // Erlaubte Traffic-Quellen (SubID-Whitelist — klein-alphanumerisch, Scalable-Regeln)
 const VALID_SRC = ["g1", "g2", "g3", "m1", "m2", "m3", "dm", "dmstart", "bio", "yt", "qr", "start"];
@@ -60,123 +25,78 @@ const VALID_SRC = ["g1", "g2", "g3", "m1", "m2", "m3", "dm", "dmstart", "bio", "
 const useSubId = (): string => {
   const [subId, setSubId] = useState("start");
   useEffect(() => {
+    let stored: string | null = null;
+    try {
+      stored = sessionStorage.getItem("amanah_src");
+    } catch {
+      stored = null;
+    }
     const param = new URLSearchParams(window.location.search).get("src");
-    const stored = sessionStorage.getItem("amanah_src");
     const candidate =
       param && VALID_SRC.includes(param) ? param : stored && VALID_SRC.includes(stored) ? stored : "start";
-    sessionStorage.setItem("amanah_src", candidate);
+    try {
+      sessionStorage.setItem("amanah_src", candidate);
+    } catch {
+      // Ohne Storage gilt die Quelle nur für diesen Aufruf.
+    }
     setSubId(candidate);
   }, []);
   return subId;
 };
 
+/** pos = Position des Aufrufs, wird an die SubID gehängt: h = Hero, f = Abschluss, s = Sticky. */
+const partnerLink = (partner: StartPartner, subId: string) => partner.link.replace("{SUBID}", subId);
 
-
-
-const brokerFacts = [
-  {
-    icon: ShieldCheck,
-    title: "Große Auswahl islamkonformer Anlagen",
-    text: "Bei Scalable ist eine große Auswahl auffindbar: mehrere Shariah-geprüfte Aktien-ETFs, ein Sukuk-ETF und zertifizierte Gold-ETCs.",
-  },
-  {
-    icon: Award,
-    title: "Mehrere Halal-Aktien-ETFs handelbar",
-    text: "Bei Scalable sind mehrere Shariah-geprüfte Aktien-ETFs handelbar, darunter auch ein aktiv gemanagter globaler Shariah-ETF. Diese Auswahl gibt es bei vielen deutschen Brokern nicht.",
-  },
-  {
-    icon: Coins,
-    title: "Start ab 1 €, Depot kostenlos",
-    text: "Kostenloses Depot (FREE), Sparpläne ab 1 €, keine Mindestanlage. Du brauchst kein Vermögen, um anzufangen.",
-  },
-];
-
-const ribaChecklist = [
-  {
-    nr: "01",
-    title: "Tagesgeldkonto nicht aktivieren.",
-    text: "Das separate „Scalable Overnight“-Tagesgeld bringt Zinsen (Riba). Einfach nie aktivieren.",
-  },
-  {
-    nr: "02",
-    title: "Finger weg von Derivaten, Optionsscheinen und Hebelprodukten.",
-    text: "Übermäßige Unsicherheit (Gharar), unabhängig vom Broker nicht islamkonform.",
-  },
-];
-
-const faqs = [
-  {
-    q: "Kostet mich der Link etwas?",
-    a: "Nein. Konditionen, Gebühren, App: alles identisch. Scalable teilt lediglich einen Teil mit mir, statt alles zu behalten.",
-  },
-  {
-    q: "Ich habe schon ein Depot. Bringt mir das was?",
-    a: "Ein Zweitdepot ist kostenlos und in 10 Minuten eröffnet. Fakt: Bei Scalable sind islamkonforme Anlagen handelbar, die es bei vielen deutschen Brokern nicht gibt. Darunter mehrere Shariah-geprüfte Aktien-ETFs und ein aktiv gemanagter globaler Shariah-ETF.",
-  },
-  {
-    q: "Ist Scalable überhaupt halal nutzbar?",
-    a: "Ja, mit den 2 Regeln aus der Checkliste oben. Genau deshalb erkläre ich sie dir, bevor du startest.",
-  },
-  {
-    q: "Mein Umfeld sagt, Börse ist haram.",
-    a: "Pauschal stimmt das nicht. Entscheidend ist, WAS du kaufst. Es gibt klare Gelehrten-Standards (AAOIFI), nach denen Anlagen geprüft werden. Genau dafür gibt es Shariah-Boards, und genau das erkläre ich in meinen Inhalten.",
-  },
-];
-
-// Kennzeichnung + Risikohinweis — Pflicht VOR jedem Klick, gleiche Textgröße wie Umgebungstext
-/** pos = Position des CTA auf der Seite. Sie wird an die SubID gehaengt, damit
- *  im Scalable-Reporting sichtbar wird, WELCHER Button verkauft.
- *  h = Hero, f = Abschluss, s = Sticky. Aus src=g1 wird also g1h / g1f / g1s. */
 const CtaBlock = ({
-  subId,
-  pos,
-  light = false,
+  partner,
+  href,
   onCtaClick,
 }: {
-  subId: string;
-  pos: "h" | "f";
-  light?: boolean;
+  partner: StartPartner;
+  href: string;
   onCtaClick?: () => void;
-}) => {
-  const href = buildDeeplink(`${subId}${pos}`);
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <p className={`text-[14px] leading-tight ${light ? "text-white/55" : "text-muted-foreground"}`}>
-        Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten.
+}) => (
+  <div className="flex flex-col items-center gap-3">
+    <p className="text-[14px] leading-tight text-white/60">
+      Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten.
+    </p>
+    <a
+      href={href}
+      rel="sponsored noopener"
+      target="_blank"
+      onClick={onCtaClick}
+      className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+    >
+      {partner.knopf}
+    </a>
+    {partner.art === "depot" && (
+      <p className="text-[14px] leading-tight text-white/60">
+        {partner.risikoUrl ? (
+          <a
+            href={partner.risikoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 transition-colors hover:text-white"
+          >
+            Kapitalanlagen bergen Risiken.
+          </a>
+        ) : (
+          "Kapitalanlagen bergen Risiken."
+        )}
       </p>
-      <a
-        href={href}
-        rel="sponsored noopener"
-        target="_blank"
-        onClick={onCtaClick}
-        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
-      >
-        Halal investieren →
-      </a>
-      <p className={`text-[14px] leading-tight ${light ? "text-white/55" : "text-muted-foreground"}`}>
-        <a
-          href="https://de.scalable.capital/risiko"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`underline underline-offset-2 transition-colors ${light ? "hover:text-white" : "hover:text-primary"}`}
-        >
-          Kapitalanlagen bergen Risiken.
-        </a>
-      </p>
-    </div>
-  );
-};
+    )}
+  </div>
+);
 
-/** Sprunglink INNERHALB der Seite, kein Affiliate-Link. Deshalb bewusst ohne
- *  Werbekennzeichnung und ohne Risikohinweis: es wird nichts beworben, der
- *  Nutzer springt nur zum CTA. So steigt die CTA-Dichte von 3 auf 9, ohne dass
- *  neun Mal der Pflicht-Sandwich wiederholt werden muss. */
+/** Sprunglink innerhalb der Seite, kein Affiliate-Link, deshalb ohne Werbekennzeichnung. */
 const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; children: React.ReactNode; light?: boolean }) => (
   <div className="mt-8 text-center">
     <a
       href={to}
-      className={`text-[14px] font-semibold underline underline-offset-4 decoration-primary/60 transition-colors ${
-        light ? "text-white/75 hover:text-white" : "text-foreground/75 hover:text-primary"
+      className={`text-[14px] font-semibold underline underline-offset-4 transition-colors ${
+        light
+          ? "text-white/80 decoration-white/50 hover:text-white"
+          : "text-foreground/75 decoration-primary/60 hover:text-primary"
       }`}
     >
       {children}
@@ -184,47 +104,63 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
   </div>
 );
 
-const InvestmentStart = () => {
+const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
+  <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[13px] leading-snug text-white/85">
+    <span>
+      (Dieses Beispielvideo zeigt die App von Scalable Capital. Bei {anbieter} unterscheidet sich die Einrichtung nur
+      minimal.)
+    </span>
+    <Popover>
+      <PopoverTrigger
+        aria-label="Warum ein Beispielvideo?"
+        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+      >
+        <HelpCircle className="h-4 w-4" />
+      </PopoverTrigger>
+      <PopoverContent className="w-80 text-left text-[14px] leading-relaxed">
+        <p className="font-semibold text-foreground">Warum ein Beispielvideo?</p>
+        <p className="mt-2 text-muted-foreground">
+          Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Zinsangebote ablehnen und die
+          erste Anlage wählen. Bei {anbieter} heißen nur die Menüs anders. Welche Halal-Anlagen es dort gibt, siehst du
+          im{" "}
+          <Link to="/vergleich/depot" className="text-primary underline underline-offset-2">
+            Depot-Vergleich
+          </Link>
+          .
+        </p>
+      </PopoverContent>
+    </Popover>
+  </p>
+);
+
+const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   const subId = useSubId();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const heroCtaRef = useRef<HTMLDivElement>(null);
   const finalCtaRef = useRef<HTMLDivElement>(null);
   const [heroCtaVisible, setHeroCtaVisible] = useState(true);
   const [finalCtaVisible, setFinalCtaVisible] = useState(false);
+  const istDepot = partner.art === "depot";
+  const produktWort = istDepot ? "Depot" : "Konto";
 
-  // Video: startet automatisch stumm (o-vegas-Muster). "Ton an" entstummt;
-  // jeder CTA-Klick pausiert das Video, damit die Stimme nicht in den
-  // Scalable-Flow hineinläuft (v.a. mobil).
-  const videoRef = useRef<HTMLIFrameElement>(null);
+  // Video startet stumm (o-vegas-Muster). "Ton an" entstummt; jeder Klick auf
+  // einen Aufruf pausiert das Video, damit die Stimme nicht in die
+  // Kontoeröffnung hineinläuft (vor allem mobil).
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoMuted, setVideoMuted] = useState(true);
-  const [youtubeConsent, setYoutubeConsent] = useState(false);
   const unmuteVideo = () => {
-    ytCommand(videoRef.current, "unMute");
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = false;
+    v.volume = 1;
+    void v.play();
     setVideoMuted(false);
   };
-  const pauseVideo = () => ytCommand(videoRef.current, "pauseVideo");
-  const loadYoutubeVideo = () => {
-    try {
-      sessionStorage.setItem("yt-einwilligung", "erteilt");
-    } catch {
-      // Die Einwilligung gilt trotzdem für den aktuellen Seitenaufruf.
-    }
-    setYoutubeConsent(true);
-  };
+  const pauseVideo = () => videoRef.current?.pause();
 
-  // Die YouTube-Einwilligung gilt bis zum Ende der aktuellen Browser-Sitzung.
-  useEffect(() => {
-    try {
-      setYoutubeConsent(sessionStorage.getItem("yt-einwilligung") === "erteilt");
-    } catch {
-      // Ohne Storage bleibt die Vorschau bis zum Klick sichtbar.
-    }
-  }, []);
-
-  // Immer oben starten (interne Links dürfen nicht mittendrin landen)
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [partner.kurzname]);
 
   // Reveal-Animationen (identisch zur Startseite)
   useEffect(() => {
@@ -241,9 +177,9 @@ const InvestmentStart = () => {
     );
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [partner.kurzname]);
 
-  // Sticky-CTA (mobil): sichtbar, sobald Hero-Button aus dem Viewport ist — außer am Seitenende
+  // Sticky-Leiste: sichtbar, sobald der Hero-Knopf aus dem Bild ist, außer am Seitenende
   useEffect(() => {
     const hero = heroCtaRef.current;
     const final = finalCtaRef.current;
@@ -259,111 +195,82 @@ const InvestmentStart = () => {
   }, []);
 
   const showSticky = !heroCtaVisible && !finalCtaVisible;
-  const deeplink = buildDeeplink(`${subId}s`);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Versteckte Conversion-Seite: nicht indexieren, nicht in Sitemap/Navigation
-          aufnehmen. Lief vorher ueber react-helmet-async und war damit wirkungslos. */}
+      {/* Conversion-Seite: nicht indexieren, nicht in Sitemap oder Navigation. */}
       <Seo
-        title="Dein Investmentstart – finanzmuslim"
-        description="Schritt für Schritt zum islamkonformen Depot."
-        path="/dein-investmentstart"
+        title={`Dein ${istDepot ? "Investmentstart" : "Girokonto"} bei ${partner.anbieter} – finanzmuslim`}
+        description={
+          istDepot
+            ? `Schritt für Schritt zum islamkonformen Depot bei ${partner.anbieter}.`
+            : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
+        }
+        path={partner.pfad}
         noindex
       />
 
-
-      {/* S1 — Hero (dunkel, Look der Landingpage-Premium-Sektionen) */}
+      {/* S1 — Hero */}
       <section className="relative overflow-hidden bg-primary text-white">
         <div className="container relative pt-8 pb-8 md:pt-12 md:pb-12">
           <div className="text-center max-w-[820px] mx-auto">
             <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
-              In 10 Minuten steht <br className="hidden sm:block" />
-              dein <span className="text-hero">Halal-Depot.</span>
+              {partner.titel[0]} <br className="hidden sm:block" />
+              <span className="text-hero">{partner.titel[1]}</span>
             </h1>
           </div>
 
-          {/* Video (Platzhalter bis B2) */}
-          <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
-            {VIDEO_YOUTUBE_ID && youtubeConsent ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-                <iframe
+          {istDepot ? (
+            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+                <video
                   ref={videoRef}
-                  className="absolute inset-0 h-full w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${VIDEO_YOUTUBE_ID}?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1&enablejsapi=1&cc_load_policy=1&cc_lang_pref=de`}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src={VIDEO_SRC}
+                  poster={VIDEO_POSTER}
+                  autoPlay
+                  muted
+                  playsInline
+                  controls
+                  preload="metadata"
                   title="Depot-Eröffnung Schritt für Schritt"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
                 />
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
+                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
                 )}
               </div>
-            ) : VIDEO_YOUTUBE_ID ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-foreground shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-                <div className="relative h-full flex flex-col items-center justify-center gap-3 px-6 text-center">
-                  <button
-                    onClick={loadYoutubeVideo}
-                    className="inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2.5 text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
-                  >
-                    <Play className="h-4 w-4 fill-primary" /> Video laden
-                  </button>
-                  <p className="max-w-md text-[12px] leading-relaxed text-white/65">
-                    Beim Laden werden Daten an YouTube (Google) übertragen. Details in der{" "}
-                    <Link to="/datenschutz" className="underline underline-offset-2 hover:text-white">
-                      Datenschutzerklärung.
-                    </Link>
-                  </p>
+              {partner.videoHinweis && <VideoHinweis anbieter={partner.anbieter} />}
+            </div>
+          ) : (
+            <div className="mt-6 md:mt-8 mx-auto grid max-w-[760px] gap-3 sm:grid-cols-3">
+              {(partner.schritte ?? []).map((s, i) => (
+                <div key={s.titel} className="rounded-2xl border border-white/15 bg-white/10 p-5 text-left">
+                  <span className="text-[13px] font-semibold text-white/70">Schritt {i + 1}</span>
+                  <p className="mt-1 text-[16px] font-bold text-white">{s.titel}</p>
+                  <p className="mt-1.5 text-[14px] leading-relaxed text-white/75">{s.text}</p>
                 </div>
-              </div>
-            ) : (
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-foreground shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-                <div
-                  className="absolute inset-0 opacity-40"
-                  style={{
-                    backgroundImage: "linear-gradient(135deg, hsl(222 30% 10%) 0%, hsl(222 26% 16%) 100%)",
-                  }}
-                  aria-hidden
-                />
-                <div className="relative h-full flex flex-col items-center justify-center gap-3">
-                  <span className="h-14 w-14 md:h-20 md:w-20 rounded-full bg-white/95 text-primary flex items-center justify-center shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]">
-                    <Play className="h-6 w-6 md:h-9 md:w-9 ml-1 fill-primary" />
-                  </span>
-                  <span className="text-[10px] md:text-xs tracking-wide text-white/55">
-                    Tutorial-Video folgt hier
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {/* CTA direkt unter dem Video, mobil im ersten Viewport */}
           <div id="start" ref={heroCtaRef} className="mt-5 md:mt-7 scroll-mt-24">
-            <CtaBlock subId={subId} pos="h" light onCtaClick={pauseVideo} />
+            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={pauseVideo} />
           </div>
 
-          {/* Handelbare Anlagen — ruhige Chip-Leiste (ersetzt frühere 4-Schritte-Leiste) */}
           <div className="mt-7 md:mt-9 mx-auto max-w-[760px]">
-            <div className="grid grid-cols-4 gap-2.5 md:gap-3">
-              {[
-                { icon: TrendingUp, label: "Aktien" },
-                { icon: LineChart, label: "ETFs" },
-                { icon: Coins, label: "Gold" },
-                { icon: Bitcoin, label: "Krypto" },
-              ].map(({ icon: Icon, label }) => (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 md:gap-3">
+              {partner.chips.map((label) => (
                 <div
                   key={label}
-                  className="flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2 rounded-xl bg-white/5 border border-white/10 px-2 py-2.5"
+                  className="flex items-center justify-center gap-1.5 md:gap-2 rounded-xl bg-white/10 border border-white/15 px-2 py-2.5"
                 >
-                  <Icon className="h-4 w-4 md:h-4 md:w-4 text-primary shrink-0" />
-                  <span className="text-[12px] md:text-[13px] font-medium text-white/80 leading-tight">
-                    {label}
-                  </span>
+                  <CheckCircle2 className="h-4 w-4 text-hero shrink-0" aria-hidden />
+                  <span className="text-[12px] md:text-[13px] font-medium text-white/90 leading-tight">{label}</span>
                 </div>
               ))}
             </div>
@@ -375,8 +282,8 @@ const InvestmentStart = () => {
       <section className="bg-background py-10 md:py-14">
         <div className="container max-w-2xl text-center">
           <p className="reveal text-[15px] md:text-[17px] text-foreground/85 leading-relaxed">
-            Du kannst dein Depot auch ohne meinen Link eröffnen: derselbe Broker, dieselben Konditionen. Der einzige
-            Unterschied ist, ob Scalable etwas an mich weitergibt.{" "}
+            Du kannst dein {produktWort} auch ohne meinen Link eröffnen: derselbe Anbieter, dieselben Konditionen. Der
+            einzige Unterschied ist, ob {partner.anbieter} etwas an mich weitergibt.{" "}
             <span className="font-semibold">
               Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, Hauptsache du startest halal.
             </span>
@@ -390,16 +297,15 @@ const InvestmentStart = () => {
         <div className="container max-w-3xl">
           <div className="reveal flex items-center gap-8 rounded-[1.75rem] bg-card border border-border/70 p-8 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
             <div className="shrink-0 h-[150px] w-[150px] rounded-xl bg-white border border-border flex items-center justify-center">
-              {/* TODO(B1): public/qr-investmentstart.png einsetzen (Inhalt: Seiten-URL mit ?src=qr — NIE der Deeplink) */}
               <img
-                src="/qr-investmentstart.png"
+                src={`/qr${partner.pfad.replace(/\//g, "-")}.png`}
                 alt="QR-Code: Diese Seite auf dem Handy öffnen"
                 width={150}
                 height={150}
                 className="h-[140px] w-[140px] object-contain"
                 onError={(e) => {
                   (e.currentTarget.parentElement as HTMLElement).innerHTML =
-                    '<span class="text-xs text-muted-foreground text-center px-3">QR-Code<br/>folgt</span>';
+                    '<span class="text-xs text-muted-foreground text-center px-3">Seite auf dem Handy öffnen</span>';
                 }}
               />
             </div>
@@ -409,105 +315,74 @@ const InvestmentStart = () => {
                 <h2 className="headline text-xl md:text-2xl">Am Laptop? Mach&apos;s direkt am Handy.</h2>
               </div>
               <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">
-                Scann den Code, die Seite öffnet sich auf deinem Handy und du eröffnest dein Depot dort, während das
-                Video hier weiterläuft. <span className="font-semibold text-foreground">Wichtig:</span> Klick den Button
-                dann auf dem Handy.
+                Scann den Code, die Seite öffnet sich auf deinem Handy und du eröffnest dein {produktWort} dort
+                {istDepot ? ", während das Video hier weiterläuft" : ""}.{" "}
+                <span className="font-semibold text-foreground">Wichtig:</span> Klick den Button dann auf dem Handy.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* S3 entfernt (19.7.): Der 4-Schritte-Ablauf steht jetzt als kompakte
-          Leiste direkt unterm Video (siehe S1). Kürzt die Seite, hält aber
-          „Text führt neben Video" bei (Fable-Override zu P4). Das steps-Array
-          wird weiterhin von dieser Leiste genutzt. */}
-
-      {/* S4 — PDF-Anleitung */}
-      <section className="bg-surface border-y border-border/60 py-10 md:py-12">
-        <div className="container max-w-2xl text-center">
-          <p className="reveal text-[15px] md:text-[16px] text-foreground/85">
-            Lieber lesen statt schauen? Die komplette Anleitung mit Screenshots:
-          </p>
-          <div className="reveal mt-4">
-            <a
-              href="/anleitung-halal-depot.pdf"
-              download
-              className="pill-btn bg-transparent text-foreground border border-border hover:border-primary gap-2"
-            >
-              <Download className="h-4 w-4" />
-              Anleitung als PDF herunterladen
-            </a>
-          </div>
-        </div>
-        <JumpLink to="#start">Lieber gleich loslegen? ↑</JumpLink>
-      </section>
-
-      {/* S5 — Warum Scalable (Fakten) */}
+      {/* S5 — Fakten */}
       <section className="bg-background py-14 md:py-20">
         <div className="container">
           <div className="reveal text-center">
             <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
-              <span className="h-px w-6 bg-primary" /> Der Broker <span className="h-px w-6 bg-primary" />
+              <span className="h-px w-6 bg-primary" /> {istDepot ? "Der Broker" : "Die Bank"}{" "}
+              <span className="h-px w-6 bg-primary" />
             </span>
-            <h2 className="headline text-3xl md:text-4xl mt-4">Warum Scalable Capital? Drei Fakten.</h2>
+            <h2 className="headline text-3xl md:text-4xl mt-4">Warum {partner.anbieter}? Drei Fakten.</h2>
           </div>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-7">
-            {brokerFacts.map((f) => (
+            {partner.fakten.map((f) => (
               <div
-                key={f.title}
+                key={f.titel}
                 className="reveal rounded-[1.75rem] bg-card border border-border/70 p-7 md:p-8 text-center shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]"
               >
                 <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 mx-auto">
-                  <f.icon className="h-6 w-6 text-primary" />
+                  <ShieldCheck className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="headline text-lg md:text-xl mb-3">{f.title}</h3>
+                <h3 className="headline text-lg md:text-xl mb-3">{f.titel}</h3>
                 <p className="text-muted-foreground leading-relaxed text-[14px]">{f.text}</p>
               </div>
             ))}
           </div>
         </div>
-        <JumpLink to="#los">Zum Depot ↓</JumpLink>
+        <JumpLink to="#los">Zum {produktWort} ↓</JumpLink>
       </section>
 
-      {/* S6 — Riba-Checkliste (Ehrlichkeits-Anker, dunkle Premium-Sektion) */}
+      {/* S6 — Riba-Checkliste */}
       <section className="relative overflow-hidden bg-primary text-white py-14 md:py-20">
-        <div
-          className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{
-            backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--primary)) 0 1px, transparent 1px 24px)",
-          }}
-          aria-hidden
-        />
         <div className="container relative max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-primary/40 bg-white/5 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Ehrlichkeit zuerst
+            <span className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-hero" /> Ehrlichkeit zuerst
             </span>
             <h2 className="headline text-white text-3xl md:text-4xl mt-4 leading-[1.1]">
-              2 Einstellungen machen dein Scalable-Depot <span className="text-primary">riba-frei</span>
+              {partner.checklisteTitel[0]} <span className="text-hero">{partner.checklisteTitel[1]}</span>
             </h2>
           </div>
           <div className="mt-10 space-y-4">
-            {ribaChecklist.map((item) => (
-              <div
-                key={item.nr}
-                className="reveal flex gap-5 rounded-2xl bg-white/5 border border-white/10 p-6 md:p-7"
-              >
-                <span className="headline text-2xl text-primary shrink-0">{item.nr}</span>
+            {partner.checkliste.map((item, i) => (
+              <div key={item.titel} className="reveal flex gap-5 rounded-2xl bg-white/10 border border-white/15 p-6 md:p-7">
+                <span className="headline text-2xl text-hero shrink-0">{String(i + 1).padStart(2, "0")}</span>
                 <div>
-                  <h3 className="headline text-white text-base md:text-lg">{item.title}</h3>
-                  <p className="mt-1.5 text-white/70 leading-relaxed text-[14px] md:text-[15px]">{item.text}</p>
+                  <h3 className="headline text-white text-base md:text-lg">{item.titel}</h3>
+                  <p className="mt-1.5 text-white/75 leading-relaxed text-[14px] md:text-[15px]">{item.text}</p>
                 </div>
               </div>
             ))}
           </div>
-          <p className="reveal mt-8 text-center text-[14px] text-white/60 max-w-xl mx-auto">
-            Genau diese Punkte zeige ich dir im Video live, damit deine Empfehlung nicht nur bequem, sondern sauber
-            ist.
-          </p>
+          {istDepot && (
+            <p className="reveal mt-8 text-center text-[14px] text-white/70 max-w-xl mx-auto">
+              Genau diese Punkte zeige ich dir im Video live, damit dein Start nicht nur bequem, sondern sauber ist.
+            </p>
+          )}
         </div>
-        <JumpLink to="#los" light>Alles geklärt? Zum Depot ↓</JumpLink>
+        <JumpLink to="#los" light>
+          Alles geklärt? Zum {produktWort} ↓
+        </JumpLink>
       </section>
 
       {/* S7 — Vertrauens-Block */}
@@ -516,7 +391,7 @@ const InvestmentStart = () => {
           <div className="grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center">
             <div className="reveal relative mx-auto max-w-[240px] md:max-w-none">
               <div
-                className="absolute -inset-5 bg-gradient-to-br from-primary/25 via-primary/10/40 to-primary/10 rounded-[2.5rem] blur-2xl"
+                className="absolute -inset-5 bg-gradient-to-br from-primary/25 to-primary/5 rounded-[2.5rem] blur-2xl"
                 aria-hidden
               />
               <div className="relative overflow-hidden rounded-[2rem] bg-secondary shadow-[0_30px_70px_-30px_rgba(80,60,20,0.35)] border border-white/60">
@@ -534,8 +409,8 @@ const InvestmentStart = () => {
               </span>
               <h2 className="headline text-3xl md:text-4xl mt-4">Wer führt dich hier durch?</h2>
               <p className="mt-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
-                Salam, ich bin Elias, Gründer von finanzmuslim. Über 10.000 Muslime lernen bei finanzmuslim, wie islamkonformes Investieren wirklich
-                funktioniert: ehrlich, mit klaren Quellen, ohne Schönreden.
+                Salam, ich bin Elias, Gründer von finanzmuslim. Über 10.000 Muslime lernen bei finanzmuslim, wie
+                islamkonformes Investieren wirklich funktioniert: ehrlich, mit klaren Quellen, ohne Schönreden.
               </p>
               <div className="mt-5 flex items-center justify-center md:justify-start gap-4 text-[12px] text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
@@ -548,7 +423,7 @@ const InvestmentStart = () => {
             </div>
           </div>
         </div>
-        <JumpLink to="#los">Zum Depot ↓</JumpLink>
+        <JumpLink to="#los">Zum {produktWort} ↓</JumpLink>
       </section>
 
       {/* S8 — Mini-FAQ */}
@@ -561,11 +436,11 @@ const InvestmentStart = () => {
             <h2 className="headline text-3xl md:text-4xl mt-4">Kurze Fragen, klare Antworten</h2>
           </div>
           <div className="mt-10 space-y-4">
-            {faqs.map((f, i) => {
+            {partner.faqs.map((f, i) => {
               const isOpen = openFaq === i;
               return (
                 <div
-                  key={i}
+                  key={f.q}
                   className="reveal rounded-2xl bg-white border border-border/50 shadow-[0_4px_20px_-12px_rgba(20,51,40,0.15)] transition-all hover:shadow-[0_8px_28px_-12px_rgba(20,51,40,0.2)]"
                 >
                   <button
@@ -595,90 +470,99 @@ const InvestmentStart = () => {
         <JumpLink to="#los">Keine Fragen mehr offen? ↓</JumpLink>
       </section>
 
-      {/* S9 — Abschluss-CTA */}
+      {/* S9 — Abschluss-Aufruf */}
       <section className="relative overflow-hidden bg-primary text-white py-16 md:py-24">
-        <div
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 30% 20%, hsl(var(--primary)) 0, transparent 40%), radial-gradient(circle at 75% 85%, hsl(var(--primary-glow)) 0, transparent 45%)",
-          }}
-          aria-hidden
-        />
         <div id="los" ref={finalCtaRef} className="container relative max-w-3xl text-center scroll-mt-24">
-          <span className="reveal inline-flex items-center gap-2 rounded-lg border border-primary/50 bg-white/5 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-primary">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Bereit?
+          <span className="reveal inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-white">
+            <span className="h-1.5 w-1.5 rounded-full bg-hero" /> Bereit?
           </span>
           <h2 className="reveal headline text-white text-3xl md:text-5xl mt-5 leading-[1.05]">
-            Bereit? Dann jetzt, <span className="text-primary">in einem Rutsch.</span>
+            Dann jetzt, <span className="text-hero">in einem Rutsch.</span>
           </h2>
-          <p className="reveal mt-4 text-white/75 leading-relaxed text-[15px] md:text-base">
-            10 Minuten, Schritt für Schritt, und dein Halal-Depot steht.
+          <p className="reveal mt-4 text-white/80 leading-relaxed text-[15px] md:text-base">
+            {istDepot
+              ? "Schritt für Schritt, und dein Halal-Depot steht."
+              : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
           </p>
           <div className="reveal mt-8">
-            <CtaBlock subId={subId} pos="f" light onCtaClick={pauseVideo} />
+            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}f`)} onCtaClick={pauseVideo} />
           </div>
-          <p className="reveal mt-8 text-[13px] text-white/50 max-w-xl mx-auto">
-            Depot eröffnet und erstes Investment gemacht? Antworte auf meine E-Mail mit{" "}
-            <span className="text-primary font-semibold">FERTIG</span>, dann bekommst du sofort den nächsten Guide.
-          </p>
         </div>
       </section>
 
-      {/* S10 — Compliance-Block */}
-      <section className="bg-surface border-t border-border/60 py-8">
+      {/* S10 — Pflichthinweise */}
+      <section className="bg-surface border-t border-border/60 py-8 pb-28">
         <div className="container max-w-3xl text-center">
-          <p className="text-[12px] leading-relaxed text-muted-foreground">
-            Die in diesem Beitrag enthaltenen Äußerungen, Kommentare und sonstigen Inhalte sind auch dann, wenn einzelne
-            Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder
-            direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines
-            Finanzinstruments oder eine diesbezügliche Beratung dar.
-          </p>
+          {istDepot && (
+            <p className="text-[12px] leading-relaxed text-muted-foreground">
+              Die in diesem Beitrag enthaltenen Äußerungen, Kommentare und sonstigen Inhalte sind auch dann, wenn
+              einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und
+              stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen
+              eines Finanzinstruments oder eine diesbezügliche Beratung dar.
+            </p>
+          )}
           <p className="mt-3 text-[12px] leading-relaxed text-muted-foreground">
-            Kapitalanlagen bergen Risiken. Ausführliche Risikohinweise:{" "}
-            <a
-              href="https://de.scalable.capital/risiko"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2"
-            >
-              de.scalable.capital/risiko
-            </a>{" "}
-            · Diese Seite enthält Werbung/Affiliate-Links zu Scalable Capital.
+            {istDepot && "Kapitalanlagen bergen Risiken. "}
+            {partner.risikoUrl && (
+              <>
+                Ausführliche Risikohinweise:{" "}
+                <a href={partner.risikoUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                  {partner.risikoUrl.replace(/^https:\/\//, "")}
+                </a>{" "}
+                ·{" "}
+              </>
+            )}
+            Diese Seite enthält Werbung/Affiliate-Links zu {partner.anbieter}.{" "}
+            <Link to="/wie-ich-geld-verdiene" className="underline underline-offset-2">
+              Wie ich Geld verdiene
+            </Link>
           </p>
         </div>
       </section>
 
-
-      {/* Sticky Mobile-CTA */}
-      {showSticky && (
-        <div className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur-md border-t border-border shadow-[0_-8px_30px_-12px_rgba(0,0,0,0.15)] px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
-          <p className="text-center text-[10px] text-muted-foreground mb-1.5">
-            <a
-              href="https://de.scalable.capital/risiko"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-primary transition-colors"
-            >
-              Kapitalanlagen bergen Risiken.
-            </a>
-          </p>
+      {/* Sticky-Leiste unten, mobil über die volle Breite, am Desktop als schwebende Leiste */}
+      <div
+        aria-hidden={!showSticky}
+        className={`fixed inset-x-0 bottom-0 z-50 transition-all duration-300 md:bottom-5 md:px-4 ${
+          showSticky ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
+        }`}
+      >
+        <div className="mx-auto border-t border-border bg-background/95 px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_-12px_rgba(0,0,0,0.15)] backdrop-blur-md md:max-w-[720px] md:rounded-2xl md:border md:px-5 md:py-3 md:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.35)]">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] tracking-wide text-muted-foreground shrink-0">Werbung</span>
+            <div className="hidden min-w-0 flex-1 md:block">
+              <p className="truncate text-[15px] font-semibold text-foreground">
+                {istDepot ? `Dein Halal-Depot bei ${partner.anbieter}` : `Dein zinsfreies Konto bei ${partner.anbieter}`}
+              </p>
+              <p className="text-[12px] text-muted-foreground">
+                Werbung/Affiliate-Link{istDepot ? " · Kapitalanlagen bergen Risiken." : ""}
+              </p>
+            </div>
+            <span className="text-[10px] tracking-wide text-muted-foreground shrink-0 md:hidden">Werbung</span>
             <a
-              href={deeplink}
+              href={partnerLink(partner, `${subId}s`)}
               rel="sponsored noopener"
               target="_blank"
+              tabIndex={showSticky ? 0 : -1}
               onClick={pauseVideo}
-              className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-glow text-[15px] font-bold"
+              className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-hover text-[15px] font-bold md:flex-none md:px-8"
             >
-              Depot eröffnen →
+              {istDepot ? "Depot eröffnen →" : "Konto eröffnen →"}
             </a>
           </div>
+          {istDepot && (
+            <p className="mt-1.5 text-center text-[10px] text-muted-foreground md:hidden">Kapitalanlagen bergen Risiken.</p>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
+};
+
+const InvestmentStart = () => {
+  const { partner: kurzname } = useParams();
+  const partner = findStartPartner(kurzname);
+  if (!partner || (kurzname && kurzname === "scalable")) return <Navigate to="/dein-investmentstart" replace />;
+  return <InvestmentStartSeite key={partner.kurzname} partner={partner} />;
 };
 
 export default InvestmentStart;

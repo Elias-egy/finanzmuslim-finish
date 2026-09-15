@@ -42,13 +42,14 @@ const WieIchGeldVerdiene = () => (
                 <p className="mt-3 text-muted-foreground leading-relaxed">
                   Einige Links auf dieser Seite sind mit einem Stern (*) gekennzeichnet.
                   Das sind Werbe- oder Affiliate-Links. Wenn du über einen solchen Link
-                  ein Depot bei Scalable Capital eröffnest und aktiv nutzt, erhalte ich
-                  eine Vergütung vom Anbieter.
+                  ein Depot oder Konto eröffnest, erhalte ich eine Vergütung vom Anbieter.
+                  Stand heute sind das Scalable Capital, Traders Place, DKB, finvesto,
+                  N26 und BBBank, teils über das Partnernetzwerk FinanceQuality.
                 </p>
                 <p className="mt-3 text-muted-foreground leading-relaxed">
                   Für dich ändert sich nichts: derselbe Broker, dieselben Konditionen,
-                  keine Mehrkosten. Du kannst das Depot jederzeit auch direkt bei
-                  Scalable Capital eröffnen, dann bekomme ich nichts.
+                  keine Mehrkosten. Du kannst jedes Depot und Konto jederzeit auch direkt
+                  beim Anbieter eröffnen, dann bekomme ich nichts.
                 </p>
               </div>
             </div>

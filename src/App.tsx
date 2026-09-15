@@ -108,6 +108,7 @@ const App = () => (
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/" element={<Index />} />
             <Route path="/dein-investmentstart" element={<InvestmentStart />} />
+            <Route path="/dein-investmentstart/:partner" element={<InvestmentStart />} />
             <Route path="/dein-investment-start" element={<InvestmentStart />} key="is-alias" />
             <Route path="/halal-guide" element={<HalalGuide />} />
             <Route path="/tools" element={<Tools />} />

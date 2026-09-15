@@ -1,6 +1,7 @@
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { guides } from "@/data/guides";
 import { partnerLinks } from "@/data/partnerLinks";
+import { startPartner } from "./investmentStart";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -168,6 +169,7 @@ export const alleRouten = (): Route[] => [...festeRouten, ...anlagenRouten()];
  */
 export const nichtIndexiert: string[] = [
   "/dein-investmentstart",
+  ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
   ...guides.map((g) => `/dein-guide/${g.schluessel}`),
 ];
 
@@ -194,6 +196,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/zakatrechner", grund: "Zweitschreibweise von /zakat-rechner" },
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
+  { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
   { pfad: "/dein-investment-start", grund: "Zweitschreibweise, setzt noindex" },
   { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
