@@ -106,7 +106,7 @@ const main = async () => {
   const fehlend = [];
 
   for (const pfad of pfade) {
-    const datei = pfad === "/" ? join(DIST, "index.html") : join(DIST, pfad, "index.html");
+    const datei = pfad === "/" ? join(DIST, "index.html") : join(DIST, `${pfad}.html`);
     if (!existsSync(datei)) {
       fehlend.push(pfad);
       continue;

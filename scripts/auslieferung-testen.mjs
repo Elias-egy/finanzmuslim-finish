@@ -32,7 +32,24 @@ const server = createServer(async (anfrage, antwort) => {
   const pfad = decodeURIComponent(new URL(anfrage.url, "http://x").pathname);
   let datei = join(DIST, pfad);
   try {
-    if ((await stat(datei)).isDirectory()) datei = join(datei, "index.html");
+    // Wie GitHub Pages: /wissen/sukuk kommt aus wissen/sukuk.html, ein Ordner
+    // aus seiner index.html. Kein 301 auf die Schraegstrich-Variante.
+    let info = await stat(datei).catch(() => null);
+    if (!extname(pfad) && !pfad.endsWith("/")) {
+      // Datei vor Ordner: /wissen kommt aus wissen.html, auch wenn es den
+      // Ordner wissen/ fuer die Unterseiten gibt.
+      const alsDatei = join(DIST, `${pfad}.html`);
+      const dateiInfo = await stat(alsDatei).catch(() => null);
+      if (dateiInfo?.isFile()) {
+        datei = alsDatei;
+        info = dateiInfo;
+      }
+    }
+    if (info?.isDirectory()) {
+      datei = join(datei, "index.html");
+      info = await stat(datei).catch(() => null);
+    }
+    if (!info?.isFile()) throw new Error("fehlt");
     const inhalt = await readFile(datei);
     antwort.writeHead(200, { "Content-Type": TYPEN[extname(datei)] ?? "application/octet-stream" });
     antwort.end(inhalt);
@@ -67,6 +84,9 @@ const pruefen = [
   ...weiterleitungen.map((w) => [w.von, 200]),
   ["/sitemap.xml", 200],
   ["/robots.txt", 200],
+  // Schraegstrich-Varianten duerfen nicht die Seite sein: Canonical und
+  // Sitemap fuehren ohne Schraegstrich, und genau so liefert Pages jetzt aus.
+  ["/wissen/sukuk/", 404],
   ["/gibt-es-nicht", 404],
   ["/wissen/gibt-es-nicht", 404],
   ["/halal-anlagen/gibt-es-nicht", 404],
