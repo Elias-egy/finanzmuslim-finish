@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
 import MotivBild from "@/components/MotivBild";
+import { werbungFuer } from "@/data/werbung";
 import { beitragBySlug, nachbarn } from "@/data/wissenBeitraege";
 import eliasPortrait from "@/assets/elias-hemd.webp";
 
@@ -117,6 +118,8 @@ const BeitragSeite = ({
   children,
 }: Props) => {
   const [offen, setOffen] = useState(false);
+  const werbung = werbungFuer(slug);
+  const zeigeMitte = boxMitte.kategorie !== werbung.kategorie;
   const eintrag = beitragBySlug(slug);
   const { vorher, nachher } = nachbarn(slug);
 
@@ -165,7 +168,7 @@ const BeitragSeite = ({
     <main className="bg-background">
       <Lesefortschritt />
       <div className="container py-8 md:py-12">
-        <div className="relative lg:mx-auto lg:max-w-[820px]">
+        <div className="relative lg:mx-auto lg:max-w-[900px] xl:max-w-[1160px] xl:pl-[260px]">
           <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
             <Link to="/" className="hover:text-primary">
               Start
@@ -186,7 +189,7 @@ const BeitragSeite = ({
             <header className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
                 {eintrag && <p className="eyebrow">{eintrag.thema}</p>}
-                <h1 className="mt-2 text-[30px] font-bold leading-[1.15] text-foreground md:text-[40px]">{titel}</h1>
+                <h1 className="mt-2 text-[32px] font-bold leading-[1.12] text-foreground md:text-[44px]">{titel}</h1>
                 {untertitel && (
                   <p className="mt-3 text-[18px] leading-relaxed text-muted-foreground md:text-[19px]">{untertitel}</p>
                 )}
@@ -211,7 +214,7 @@ const BeitragSeite = ({
               </h2>
               <ul className="mt-4 space-y-3">
                 {kurzGesagt.map((p, i) => (
-                  <li key={p} className="flex gap-3 text-[16px] leading-relaxed text-foreground md:text-[17px]">
+                  <li key={p} className="flex gap-3 text-[17px] leading-relaxed text-foreground md:text-[18px]">
                     <span
                       className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[12px] font-bold text-primary-foreground"
                       aria-hidden
@@ -259,12 +262,13 @@ const BeitragSeite = ({
                     <p className="text-[13px] font-semibold tabular-nums text-muted-foreground">
                       {String(i + 1).padStart(2, "0")}
                     </p>
-                    <h2 className="mt-1 text-[24px] font-bold leading-[1.2] text-foreground md:text-[30px]">{a.titel}</h2>
-                    <div className="beitrag-text mt-4 space-y-4 text-[17px] leading-[1.65] text-foreground/85 md:text-[18px]">
+                    <h2 className="mt-1 text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">{a.titel}</h2>
+                    <div className="beitrag-text mt-4 space-y-4 text-[18px] leading-[1.7] text-foreground/85 md:text-[19px]">
                       {a.inhalt}
                     </div>
                   </section>
-                  {i === mitteNach && abschnitte.length > 1 && <EmpfehlungsBox {...boxMitte} />}
+                  {i === 0 && abschnitte.length > 1 && <EmpfehlungsBox {...werbung} />}
+                  {i === mitteNach && i !== 0 && zeigeMitte && <EmpfehlungsBox {...boxMitte} />}
                 </div>
               ))}
             </div>
@@ -273,7 +277,7 @@ const BeitragSeite = ({
               <p className="text-[13px] font-semibold tabular-nums text-muted-foreground">
                 {String(abschnitte.length + 1).padStart(2, "0")}
               </p>
-              <h2 className="mt-1 text-[24px] font-bold leading-[1.2] text-foreground md:text-[30px]">Häufig gestellte Fragen</h2>
+              <h2 className="mt-1 text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">Häufig gestellte Fragen</h2>
               <Accordion type="single" collapsible className="mt-4">
                 {faq.map((f, i) => (
                   <AccordionItem key={f.frage} value={`f${i}`}>
