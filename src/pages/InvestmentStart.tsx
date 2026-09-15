@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { Award, CheckCircle2, Download, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
+import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
@@ -211,13 +212,28 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
       />
 
       {/* S1 — Hero */}
-      <section className="relative overflow-hidden bg-primary text-white">
+      <section
+        className="relative overflow-hidden bg-primary text-white"
+        style={{
+          // Kleines Detail je Partner: Schimmer in der Logofarbe oben, Lila unten rechts, damit die Fläche nicht nur blau ist.
+          backgroundImage: `radial-gradient(55% 45% at 50% 0%, ${partner.markenfarbe}59 0%, transparent 70%), radial-gradient(45% 40% at 100% 100%, hsl(var(--violet) / 0.45) 0%, transparent 70%)`,
+        }}
+      >
         <div className="container relative pt-8 pb-8 md:pt-12 md:pb-12">
           <div className="text-center max-w-[820px] mx-auto">
             <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
               {partner.titel[0]} <br className="hidden sm:block" />
               <span className="text-hero">{partner.titel[1]}</span>
             </h1>
+            <p
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-4 text-[14px] font-semibold text-foreground md:text-[15px]"
+              style={{ boxShadow: `0 0 0 3px ${partner.markenfarbe}` }}
+            >
+              <span className="scale-[0.8] -m-1">
+                <AnbieterLogo name={partner.anbieter} domain={partner.domain} />
+              </span>
+              bei {partner.anbieter}
+            </p>
           </div>
 
           {istDepot ? (
@@ -568,7 +584,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               onClick={pauseVideo}
               className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-hover text-[15px] font-bold md:flex-none md:px-8"
             >
-              {istDepot ? "Depot eröffnen →" : "Konto eröffnen →"}
+              {partner.knopf}
             </a>
           </div>
           {istDepot && (

@@ -16,6 +16,12 @@ export type StartArt = "depot" | "girokonto";
 export type StartPartner = {
   kurzname: string;
   anbieter: string;
+  /** Kurzer Name für Knopf und Etikett, z. B. „Scalable“. */
+  kurz: string;
+  /** Domain für das Logo (logo.dev). */
+  domain: string;
+  /** Hauptfarbe aus dem Logo gemessen (15.09.2026), nur als kleines Detail im Hero. */
+  markenfarbe: string;
   art: StartArt;
   /** Pfad der Startseite. */
   pfad: string;
@@ -58,12 +64,15 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "scalable",
     anbieter: "Scalable Capital",
+    kurz: "Scalable",
+    domain: "scalable.capital",
+    markenfarbe: "#22DFCF",
     art: "depot",
     pfad: "/dein-investmentstart",
     link: "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
     risikoUrl: "https://de.scalable.capital/risiko",
     titel: ["In 10 Minuten steht", "dein Halal-Depot."],
-    knopf: "Halal investieren →",
+    knopf: "Bei Scalable eröffnen →",
     videoHinweis: false,
     chips: ["Aktien", "ETFs", "Gold", "Krypto"],
     fakten: [
@@ -107,11 +116,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "traders-place",
     anbieter: "Traders Place",
+    kurz: "Traders Place",
+    domain: "tradersplace.de",
+    markenfarbe: "#12A391",
     art: "depot",
     pfad: "/dein-investmentstart/traders-place",
     link: "https://c.neqty.net/trck/eclick/5a4b0eecd844504b7de215a0b61bfb55",
-    titel: ["In wenigen Minuten steht dein", "Halal-Depot bei Traders Place."],
-    knopf: "Depot eröffnen →",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei Traders Place eröffnen →",
     videoHinweis: true,
     chips: ["Aktien", "ETFs", "Gold", "Sukuk"],
     fakten: [
@@ -152,11 +164,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "dkb-depot",
     anbieter: "DKB",
+    kurz: "DKB",
+    domain: "dkb.de",
+    markenfarbe: "#1283E0",
     art: "depot",
     pfad: "/dein-investmentstart/dkb-depot",
     link: "https://c.neqty.net/trck/eclick/175512c2679834b04880de5a3394ea36",
-    titel: ["In wenigen Minuten steht dein", "Halal-Depot bei der DKB."],
-    knopf: "Depot eröffnen →",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei DKB eröffnen →",
     videoHinweis: true,
     chips: ["Aktien", "ETFs", "Fonds", "Sparpläne"],
     fakten: [
@@ -197,11 +212,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "finvesto",
     anbieter: "finvesto",
+    kurz: "finvesto",
+    domain: "finvesto.de",
+    markenfarbe: "#86B300",
     art: "depot",
     pfad: "/dein-investmentstart/finvesto",
     link: "https://c.neqty.net/trck/eclick/ca16f02d65f99bd7e0a84991894b75e3",
-    titel: ["Dein Fondsdepot", "bei finvesto."],
-    knopf: "Depot eröffnen →",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei finvesto eröffnen →",
     videoHinweis: true,
     chips: ["Fonds", "ETFs", "Sukuk", "Sparpläne"],
     fakten: [
@@ -242,11 +260,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "dkb-girokonto",
     anbieter: "DKB",
+    kurz: "DKB",
+    domain: "dkb.de",
+    markenfarbe: "#1283E0",
     art: "girokonto",
     pfad: "/dein-investmentstart/dkb-girokonto",
     link: "https://c.neqty.net/trck/eclick/79bc49b9d70debbb2d943925ed126d17",
-    titel: ["Dein zinsfreies Girokonto", "bei der DKB."],
-    knopf: "Konto eröffnen →",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei DKB eröffnen →",
     videoHinweis: false,
     chips: ["0 € Kontoführung", "Visa-Debitkarte", "Apple Pay", "Kontowechsel"],
     schritte: [
@@ -290,11 +311,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "n26",
     anbieter: "N26",
+    kurz: "N26",
+    domain: "n26.com",
+    markenfarbe: "#36A18B",
     art: "girokonto",
     pfad: "/dein-investmentstart/n26",
     link: "https://c.neqty.net/trck/eclick/d7289e91a9dbd189bedb781dc15f3a41",
-    titel: ["Dein zinsfreies Girokonto", "bei N26."],
-    knopf: "Konto eröffnen →",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei N26 eröffnen →",
     videoHinweis: false,
     chips: ["0 € Kontoführung", "Mastercard", "Apple Pay", "Kein Dispo ab Start"],
     schritte: [
@@ -338,11 +362,14 @@ export const startPartner: StartPartner[] = [
   {
     kurzname: "bbbank",
     anbieter: "BBBank",
+    kurz: "BBBank",
+    domain: "bbbank.de",
+    markenfarbe: "#0050A0",
     art: "girokonto",
     pfad: "/dein-investmentstart/bbbank",
     link: "https://c.neqty.net/trck/eclick/5a913135bf2744d85558983a6eb6625b",
-    titel: ["Dein zinsfreies Girokonto", "bei der BBBank."],
-    knopf: "Konto eröffnen →",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei BBBank eröffnen →",
     videoHinweis: false,
     chips: ["Filialen", "Visa-Debitkarte", "Apple Pay", "Kein Dispo ab Start"],
     schritte: [
