@@ -380,9 +380,9 @@ export const halalAnlagen: Anlage[] = [
     slug: "invesco-physical-gold-etc",
     zertifikatArt: "produkt",
     zertifikatLink:
-      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Geschäftsjahr 2025, ausgestellt am 1. Juni 2026. Es nennt dieses ETC ausdrücklich.",
     name: "Invesco Physical Gold ETC",
     isin: "IE00B579F325",
     anbieter: "Invesco",
@@ -403,9 +403,9 @@ export const halalAnlagen: Anlage[] = [
     slug: "invesco-physical-gold-ii",
     zertifikatArt: "produkt",
     zertifikatLink:
-      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023. Dieses ETC wurde erst im Juni 2026 aufgelegt, ob es vom Zertifikat 2023 abgedeckt ist, ist noch nicht geprüft.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Geschäftsjahr 2025, ausgestellt am 1. Juni 2026. Es nennt nur Invesco Physical Gold ETC und Invesco Physical Silver ETC. Dieses ETC wurde erst im Juni 2026 aufgelegt und ist darin noch nicht enthalten.",
     name: "Invesco Physical Gold II",
     isin: "XS3384723154",
     anbieter: "Invesco",
@@ -495,9 +495,9 @@ export const halalAnlagen: Anlage[] = [
     slug: "invesco-physical-silver",
     zertifikatArt: "produkt",
     zertifikatLink:
-      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2023.pdf",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Prüfjahr 2023.",
+      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Geschäftsjahr 2025, ausgestellt am 1. Juni 2026. Es nennt dieses ETC ausdrücklich.",
     name: "Invesco Physical Silver",
     isin: "IE00B43VDT70",
     anbieter: "Invesco",

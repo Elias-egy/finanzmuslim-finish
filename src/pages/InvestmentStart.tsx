@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Award, CheckCircle2, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
+import { Award, CheckCircle2, Download, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
@@ -323,6 +323,28 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </div>
         </div>
       </section>
+
+      {/* S4 — PDF-Anleitung, nur Scalable: die Screenshots zeigen die Scalable-Eröffnung */}
+      {partner.kurzname === "scalable" && (
+        <section className="bg-surface border-y border-border/60 py-10 md:py-12">
+          <div className="container max-w-2xl text-center">
+            <p className="reveal text-[15px] md:text-[16px] text-foreground/85">
+              Lieber lesen statt schauen? Die komplette Anleitung mit Screenshots:
+            </p>
+            <div className="reveal mt-4">
+              <a
+                href="/anleitung-halal-depot.pdf"
+                download
+                className="pill-btn bg-card text-foreground border border-border hover:border-primary gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Anleitung als PDF herunterladen
+              </a>
+            </div>
+          </div>
+          <JumpLink to="#start">Lieber gleich loslegen? ↑</JumpLink>
+        </section>
+      )}
 
       {/* S5 — Fakten */}
       <section className="bg-background py-14 md:py-20">
