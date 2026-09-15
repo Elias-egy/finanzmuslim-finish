@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Calculator, ChevronRight, Globe, Percent, PiggyBank, Receipt, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
-import rechnerRender from "@/assets/rechner.png.asset.json";
+import rechnerRender from "@/assets/rechner.png";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
@@ -81,7 +81,7 @@ const Rechner = () => (
           </p>
         </header>
         <img
-          src={rechnerRender.url}
+          src={rechnerRender}
           alt="Taschenrechner mit Geldscheinen und Münzen"
           className="h-auto w-full max-w-[240px] shrink-0 select-none md:max-w-[280px]"
           draggable={false}

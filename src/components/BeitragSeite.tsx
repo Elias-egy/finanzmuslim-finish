@@ -10,7 +10,7 @@ import {
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
 import MotivBild from "@/components/MotivBild";
 import { beitragBySlug, nachbarn } from "@/data/wissenBeitraege";
-import eliasPortrait from "@/assets/elias-hemd.png.asset.json";
+import eliasPortrait from "@/assets/elias-hemd.png";
 
 export type BeitragAbschnitt = { id: string; titel: string; inhalt: ReactNode };
 export type BeitragFrage = { frage: string; antwort: string };
@@ -323,7 +323,7 @@ const BeitragSeite = ({
 
             <section className="mt-12 flex items-center gap-4 card-surface p-6">
               <img
-                src={eliasPortrait.url}
+                src={eliasPortrait}
                 alt="Elias El-Gendy"
                 className="h-16 w-16 shrink-0 rounded-full object-cover"
                 style={{ objectPosition: "82% 22%" }}

@@ -28,8 +28,8 @@ import MotivBild from "@/components/MotivBild";
 
 import eliasCutout from "@/assets/elias-freigestellt.png";
 import guideCover from "@/assets/guide-cover-v4.webp";
-import newsletterPhone from "@/assets/newsletter-handy-v3.png.asset.json";
-import rechnerRender from "@/assets/rechner.png.asset.json";
+import newsletterPhone from "@/assets/newsletter-handy-v3.png";
+import rechnerRender from "@/assets/rechner.png";
 
 /** Acht Kacheln, dieselben Vergleiche wie auf /vergleiche (Stand 14.09.2026).
  *  Mit Ziel verlinkt, sonst "bald", bis der jeweilige Vergleich steht. */
@@ -312,7 +312,7 @@ const Index = () => (
       <section className="section-card">
         <div className="section-inner grid items-center gap-2 lg:grid-cols-[1fr_420px] lg:gap-16">
           <img
-            src={newsletterPhone.url}
+            src={newsletterPhone}
             alt="Newsletter-Ausgabe auf dem Smartphone"
             className="mx-auto -mb-2 max-h-[340px] w-auto object-contain lg:order-2 lg:mb-0 lg:max-h-none lg:w-[420px]"
             loading="lazy"
@@ -395,7 +395,7 @@ const Index = () => (
         <div className="section-inner">
           <div className="grid gap-2 lg:grid-cols-[1fr_420px] lg:items-start lg:gap-16">
             <img
-              src={rechnerRender.url}
+              src={rechnerRender}
               alt="Taschenrechner mit Geldscheinen und Münzen"
               className="mx-auto max-h-[200px] w-auto object-contain lg:order-2 lg:max-h-none lg:w-[420px]"
               loading="lazy"

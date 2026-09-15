@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
 import guideTrio from "@/assets/guide-trio-v3.webp";
-import eliasPortrait from "@/assets/elias-hemd.png.asset.json";
+import eliasPortrait from "@/assets/elias-hemd.png";
 
 /**
  * /halal-guide — Lead-Magnet-Seite fuer den Halal Investment Guide.
@@ -286,7 +286,7 @@ const HalalGuide = () => {
             <div className="card-surface p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <img
-                  src={eliasPortrait.url}
+                  src={eliasPortrait}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
                   className="h-32 w-32 shrink-0 rounded-full object-cover md:h-40 md:w-40"
                   style={{ objectPosition: "82% 22%" }}
