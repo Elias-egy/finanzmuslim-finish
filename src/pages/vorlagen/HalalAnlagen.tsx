@@ -94,6 +94,7 @@ const HalalAnlagen = () => (
       titel={v.titel}
       einleitung="Aktien-ETFs, Sukuk, Gold, Silber und Krypto, jeweils mit ISIN und der Stelle, die sie als shariah-konform geprüft oder zertifiziert hat. Zum Nachlesen statt Nachfragen."
       pdfPfad={v.pdfPfad}
+      slug={v.slug}
       quellen="Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Gold und Silber: AAOIFI Standard No. 1, jeweils bestätigt durch das Zertifikat des genannten Panels. Bitcoin: Shariyah Review Bureau, 2022. Ether: Amanie Advisors und Ethereum Foundation, 2019. Verfügbarkeit und Zertifizierungen: Stand Juli 2026, werden jährlich erneuert, vor dem Kauf selbst prüfen."
       rechtshinweis="Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines Finanzinstruments dar. Dieser Inhalt dient ausschließlich zu Bildungszwecken. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse."
       ctas={[

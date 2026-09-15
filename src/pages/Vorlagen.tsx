@@ -39,11 +39,8 @@ const Vorlagen = () => (
             <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted-foreground">{v.kurzbeschreibung}</p>
             <div className="mt-5 flex flex-wrap items-center gap-4">
               <Link to={`/vorlagen/${v.slug}`} className="btn-primary">
-                Ansehen
+                Ansehen und laden
               </Link>
-              <a href={v.pdfPfad} download className="text-[15px] font-semibold text-primary hover:underline">
-                PDF laden
-              </a>
             </div>
             </div>
           </article>

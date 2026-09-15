@@ -19,6 +19,7 @@ const BarakaBlocker = () => (
       titel={v.titel}
       einleitung="Nicht zehn Meinungen, sondern zehn Punkte, zu denen es eine Stelle im Quran oder eine Überlieferung gibt. Jeweils mit Fundstelle und mit dem, was stattdessen geht."
       pdfPfad={v.pdfPfad}
+      slug={v.slug}
       quellen="Quran: 2:276, 2:278 bis 279, 9:34 bis 35, 14:7, 17:26 bis 27, 25:67. Deutsche Wiedergabe sinngemäß nach Bubenheim/Elyas. Hadith: Ṣaḥīḥ al-Buchari 1454, 2079, 2087, 2227, 5986; Ṣaḥīḥ Muslim 1513, 1532, 1598, 1606, 2963; Sunan Abū Dāwūd 2606; Sunan at-Tirmidhi 1212; Sunan Ibn Māja 2443. Die Nummerierung folgt der jeweils verbreiteten Zählung und kann je nach Ausgabe um wenige Stellen abweichen. Zum Überlieferungsgrad der einzelnen Hadithe äußert sich diese Seite nicht. Punkt 8 und 9 sind in Teilfragen umstritten, das ist dort vermerkt."
       rechtshinweis="Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Sie urteilt nicht über einzelne Personen. Innerhalb der Rechtsschulen gibt es zu mehreren dieser Punkte abweichende Auffassungen. In Zweifelsfällen wende dich an einen Gelehrten, dem du vertraust, und lege ihm deinen konkreten Fall vor."
       ctas={[

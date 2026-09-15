@@ -58,6 +58,7 @@ const Top100HalalAktien = () => (
       titel={v.titel}
       einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem zeitgebundenen Screening-Beleg direkt in der Tabelle."
       pdfPfad={v.pdfPfad}
+      slug={v.slug}
       quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
       ctas={[
