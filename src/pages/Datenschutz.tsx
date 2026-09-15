@@ -88,7 +88,7 @@ const Datenschutz = () => (
           Dabei wird deine IP-Adresse an logo.dev übertragen. Rechtsgrundlage ist unser berechtigtes Interesse an
           einer übersichtlichen Darstellung (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen:{" "}
           <a
-            href="https://www.logo.dev/privacy"
+            href="https://www.logo.dev/legal/privacy"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline underline-offset-2"
