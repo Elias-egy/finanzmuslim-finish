@@ -37,10 +37,10 @@ Seo-Texte. In den Fließtexten der Wissensbeiträge sind längere Sätze richtig
 | Klickbares, Knöpfe, Links, Diagrammlinien | `#0057FA` |
 | Etiketten und Kicker | `#7D6EF2` |
 | Helle Fläche, Ergebniskästen | `#EBF2FF` |
-| Grün, Gelb, Rot | **nur für Bewertungen**, nie als Dekoration |
+| Grün, Gelb, Rot | **nur für Bewertungen und Kursbewegungen**, nie als Dekoration |
 | Schrift | Figtree |
 
-Ein fallender Kurs wird nicht rot. Ein Partner wird nicht grün hervorgehoben.
+Steigende Kurse sind grün, fallende Kurse rot (Elias, 15.09.2026). Ein Partner wird nicht grün hervorgehoben.
 
 ## Inhalt
 
