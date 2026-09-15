@@ -14,6 +14,10 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  *    - Finanz-Note: Finanzpunkte (Punktetabelle von Finanzfluss, nur die
  *      Kriterien, die wir behalten) geteilt durch deren Höchstpunktzahl.
  * 3. Eine Note gibt es erst, wenn alle Halal-Merkmale geprüft sind.
+ * 4. Ausgabeaufschlag (Elias, 15.09.2026): Ein kaufbarer Fonds zählt 1 ohne
+ *    Aufschlag, 0,75 mit Rabatt, 0,5 mit vollem Aufschlag. Die Datendatei liefert
+ *    das fertig gewichtet in `halalAnlagenPunkte`; null heißt Aufschlag unklar,
+ *    dann bleibt die Note offen.
  *
  * Die Seiten zeigen die Note noch nicht. Sie bleiben alphabetisch, bis Elias
  * die Bewertung freischaltet.
@@ -119,7 +123,13 @@ export const bewerte = (
         fehlt.push(...offen);
         continue;
       }
-      const x = z.reduce((s, v) => s + v![0], 0);
+      const gewichtet = teil.keys.map((k) => anbieter.halalAnlagenPunkte?.[k]);
+      const aufschlagOffen = teil.keys.filter((_, i) => gewichtet[i] === null);
+      if (aufschlagOffen.length > 0) {
+        fehlt.push(...aufschlagOffen.map((k) => `${k} (Ausgabeaufschlag)`));
+        continue;
+      }
+      const x = z.reduce((s, v, i) => s + (gewichtet[i] ?? v![0]), 0);
       const n = z.reduce((s, v) => s + v![1], 0);
       halal += teil.gewicht * (x / n);
       continue;

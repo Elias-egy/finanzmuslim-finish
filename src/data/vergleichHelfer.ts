@@ -46,6 +46,12 @@ export type RohAnbieter = {
   finanzfluss?: { produkt: string; partnerlink: string | null };
   /** Finanzpunkte je Kriterium nach der Punktetabelle von Finanzfluss. */
   finanzPunkte?: Record<string, number>;
+  /**
+   * Gewichtete Halal-Anlagen je Zeile, nur bei "x von N": Fonds ohne
+   * Ausgabeaufschlag 1, mit Rabatt 0,75, voll 0,5, börsengehandelte Papiere 1.
+   * null heißt: ein kaufbarer Fonds hat einen unklaren Aufschlag, keine Note.
+   */
+  halalAnlagenPunkte?: Record<string, number | null>;
 };
 
 const ampelText: Record<CheckStatus, string> = {

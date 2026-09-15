@@ -78,6 +78,26 @@ describe("bewerte", () => {
     expect(b).toEqual({ status: "bewertet", note: 4.41, halal: 3.83, finanz: 5 });
   });
 
+  it("zieht den Ausgabeaufschlag über die gewichteten Punkte ab", () => {
+    const a = depot(
+      { zinsfreiAbStart: "gut", halalEtfsFonds: "6 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" },
+      { a: 60, b: 40 },
+    );
+    // zwei Fonds mit Rabatt: 6 - 2 × 0,25 = 5,5, Anlagen 13,5/23
+    const b = bewerte({ ...a, halalAnlagenPunkte: { halalEtfsFonds: 5.5 } }, "depot", MAX);
+    // Halal (0,6 × 13,5/23 + 0,4) × 5 = 3,76, Note (3,76 + 5) / 2 = 4,38
+    expect(b).toEqual({ status: "bewertet", note: 4.38, halal: 3.76, finanz: 5 });
+  });
+
+  it("gibt keine Note, solange der Ausgabeaufschlag eines kaufbaren Fonds unklar ist", () => {
+    const a = depot(
+      { zinsfreiAbStart: "gut", halalEtfsFonds: "6 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "8 von 8", keinKreditAbStart: "gut" },
+      { a: 60, b: 40 },
+    );
+    const b = bewerte({ ...a, halalAnlagenPunkte: { halalEtfsFonds: null, halalSukuk: 0 } }, "depot", MAX);
+    expect(b).toEqual({ status: "offen", fehlt: ["halalEtfsFonds (Ausgabeaufschlag)"] });
+  });
+
   it("lässt abschaltbare Zinsen durch, halbiert aber den Halal-Teil", () => {
     const b = bewerte(
       depot(
