@@ -26,10 +26,10 @@ import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 
-import eliasCutout from "@/assets/elias-freigestellt.png";
+import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.png";
-import rechnerRender from "@/assets/rechner.png";
+import rechnerRender from "@/assets/rechner.webp";
 
 /** Acht Kacheln, dieselben Vergleiche wie auf /vergleiche (Stand 14.09.2026).
  *  Mit Ziel verlinkt, sonst "bald", bis der jeweilige Vergleich steht. */

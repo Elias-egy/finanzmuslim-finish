@@ -149,7 +149,7 @@ const CtaBlock = ({
         rel="sponsored noopener"
         target="_blank"
         onClick={onCtaClick}
-        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-primary hover:text-primary-hover text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+        className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
       >
         Halal investieren →
       </a>
@@ -158,7 +158,7 @@ const CtaBlock = ({
           href="https://de.scalable.capital/risiko"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline underline-offset-2 hover:text-primary transition-colors"
+          className={`underline underline-offset-2 transition-colors ${light ? "hover:text-white" : "hover:text-primary"}`}
         >
           Kapitalanlagen bergen Risiken.
         </a>
@@ -176,7 +176,7 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
     <a
       href={to}
       className={`text-[14px] font-semibold underline underline-offset-4 decoration-primary/60 transition-colors ${
-        light ? "text-white/75 hover:text-primary" : "text-foreground/75 hover:text-primary"
+        light ? "text-white/75 hover:text-white" : "text-foreground/75 hover:text-primary"
       }`}
     >
       {children}
@@ -279,7 +279,7 @@ const InvestmentStart = () => {
           <div className="text-center max-w-[820px] mx-auto">
             <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
               In 10 Minuten steht <br className="hidden sm:block" />
-              dein <span className="text-primary">Halal-Depot.</span>
+              dein <span className="text-hero">Halal-Depot.</span>
             </h1>
           </div>
 
@@ -298,7 +298,7 @@ const InvestmentStart = () => {
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
+                    className="absolute bottom-3 left-3 md:bottom-4 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
@@ -309,7 +309,7 @@ const InvestmentStart = () => {
                 <div className="relative h-full flex flex-col items-center justify-center gap-3 px-6 text-center">
                   <button
                     onClick={loadYoutubeVideo}
-                    className="inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2.5 text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
+                    className="inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2.5 text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
                   >
                     <Play className="h-4 w-4 fill-primary" /> Video laden
                   </button>

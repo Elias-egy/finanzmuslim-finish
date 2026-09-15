@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import eliasPortrait from "@/assets/founder-portrait.png";
+import eliasPortrait from "@/assets/founder-portrait.webp";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:

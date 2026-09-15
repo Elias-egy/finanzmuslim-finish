@@ -10,7 +10,7 @@ import {
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
 import MotivBild from "@/components/MotivBild";
 import { beitragBySlug, nachbarn } from "@/data/wissenBeitraege";
-import eliasPortrait from "@/assets/elias-hemd.png";
+import eliasPortrait from "@/assets/elias-hemd.webp";
 
 export type BeitragAbschnitt = { id: string; titel: string; inhalt: ReactNode };
 export type BeitragFrage = { frage: string; antwort: string };

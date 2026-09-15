@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Calculator, ChevronRight, Globe, Percent, PiggyBank, Receipt, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
-import rechnerRender from "@/assets/rechner.png";
+import rechnerRender from "@/assets/rechner.webp";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 

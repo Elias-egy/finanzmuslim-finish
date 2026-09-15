@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
 import guideTrio from "@/assets/guide-trio-v3.webp";
-import eliasPortrait from "@/assets/elias-hemd.png";
+import eliasPortrait from "@/assets/elias-hemd.webp";
 
 /**
  * /halal-guide — Lead-Magnet-Seite fuer den Halal Investment Guide.
