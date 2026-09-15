@@ -29,65 +29,125 @@ const Datenschutz = () => (
         <h2 className="text-xl font-semibold mb-4">2. Allgemeines zur Datenverarbeitung</h2>
         <p className="text-muted-foreground leading-relaxed">
           Der Schutz deiner persönlichen Daten ist uns wichtig. Wir verarbeiten deine Daten
-          ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TMG).
+          ausschließlich auf Grundlage der Datenschutz-Grundverordnung (DSGVO) und des
+          Bundesdatenschutzgesetzes. Diese Seite setzt keine Analyse- oder Werbe-Tools ein und
+          setzt keine Cookies, die eine Einwilligung brauchen. Schriften liegen auf unserem
+          eigenen Server, es wird keine Schrift von Google geladen.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">3. Erhebung und Verarbeitung personenbezogener Daten</h2>
+        <h2 className="text-xl font-semibold mb-4">3. Hosting und Server-Logfiles</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Bei der Nutzung dieser Website werden automatisch technische Daten (z.B. IP-Adresse,
-          Browsertyp, Datum und Uhrzeit der Anfrage) durch unseren Hosting-Provider erfasst.
-          Diese Daten werden nur zur technischen Bereitstellung der Seite genutzt und nicht
-          mit anderen Datenquellen zusammengeführt.
+          Diese Website wird über GitHub Pages ausgeliefert, einen Dienst der GitHub, Inc.,
+          88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf einer Seite
+          verarbeitet GitHub technische Daten wie IP-Adresse, Browsertyp, Datum und Uhrzeit der
+          Anfrage und die aufgerufene Adresse, um die Seite auszuliefern und den Betrieb abzusichern
+          (Art. 6 Abs. 1 lit. f DSGVO). GitHub ist nach dem EU-US Data Privacy Framework
+          zertifiziert. Wir haben auf diese Logfiles keinen Zugriff und werten sie nicht aus.
+          Weitere Informationen:{" "}
+          <a
+            href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2"
+          >
+            Datenschutzerklärung von GitHub
+          </a>
+          .
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">4. Newsletter & Anmeldeformular</h2>
+        <h2 className="text-xl font-semibold mb-4">4. Newsletter, Guide und kostenlose Vorlagen</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Wenn du dich für unseren Newsletter oder den Halal-Investment-Guide anmeldest,
-          erheben wir folgende personenbezogene Daten: E-Mail-Adresse, Vorname, Nachname
-          sowie dein Erfahrungslevel. Die Verarbeitung erfolgt auf Grundlage deiner Einwilligung
-          (Art. 6 Abs. 1 lit. a DSGVO) und dient allein dem Versand der angeforderten Inhalte.
-          Du kannst deine Einwilligung jederzeit per E-Mail an elias@finanzmuslim.com widerrufen.
+          Wenn du den Halal Investment Guide, eine unserer Vorlagen oder den Newsletter anforderst,
+          erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen und dein
+          Erfahrungslevel. Die Verarbeitung erfolgt auf Grundlage deiner Einwilligung
+          (Art. 6 Abs. 1 lit. a DSGVO) und dient dem Versand der angeforderten Inhalte und, wenn du
+          das ausgewählt hast, von E-Mails rund um islamkonformes Finanzwissen. Du kannst deine
+          Einwilligung jederzeit widerrufen, über den Abmeldelink in jeder E-Mail oder per
+          E-Mail an elias@finanzmuslim.com.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Für die Verwaltung und den Versand nutzen wir MailerLite (MailerLite Limited, 38 Mount
+          Street Upper, Dublin 2, D02 PR89, Irland). Die Übergabe der Formulardaten an MailerLite
+          läuft über den Automatisierungsdienst Make (Celonis Make GmbH, Theresienstraße 6,
+          80333 München). Beide Anbieter verarbeiten die Daten in der EU in unserem Auftrag nach
+          Art. 28 DSGVO.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">5. Weitergabe an Dritte</h2>
+        <h2 className="text-xl font-semibold mb-4">5. YouTube-Videos</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Wir geben deine Daten nicht an unbefugte Dritte weiter. Zur technischen Abwicklung
-          setzen wir ggf. Dienstleister (z.B. Hosting, E-Mail-Versand) ein, die nach Art. 28 DSGVO
-          als Auftragsverarbeiter gebunden sind.
+          Auf einzelnen Seiten binden wir Videos von YouTube ein (Google Ireland Limited, Gordon
+          House, Barrow Street, Dublin 4, Irland). Das Video wird erst geladen, wenn du auf
+          „Video laden“ klickst. Erst dann werden Daten wie deine IP-Adresse an YouTube übertragen
+          und YouTube kann Cookies setzen. Rechtsgrundlage ist deine Einwilligung durch den Klick
+          (Art. 6 Abs. 1 lit. a DSGVO). Wir nutzen den erweiterten Datenschutzmodus
+          (youtube-nocookie.com). Weitere Informationen:{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2"
+          >
+            Datenschutzerklärung von Google
+          </a>
+          .
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">6. Dauer der Speicherung</h2>
+        <h2 className="text-xl font-semibold mb-4">6. Partnerlinks</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          Links, die mit einem Sternchen (*) markiert sind, sind Partnerlinks. Klickst du darauf und
+          eröffnest beim Anbieter ein Konto, bekommen wir eine Provision. Für dich ändert sich der
+          Preis nicht. Beim Klick wird dein Browser zum Anbieter beziehungsweise zu dessen
+          Partnernetzwerk weitergeleitet, das den Klick zur Zuordnung der Provision speichert. Ab
+          diesem Moment gilt die Datenschutzerklärung des jeweiligen Anbieters.
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">7. Weitergabe an Dritte</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          Wir geben deine Daten nicht an unbefugte Dritte weiter. Außer den oben genannten
+          Dienstleistern (GitHub, MailerLite, Make, YouTube) setzen wir keine weiteren
+          Auftragsverarbeiter ein.
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">8. Dauer der Speicherung</h2>
         <p className="text-muted-foreground leading-relaxed">
           Deine Daten werden so lange gespeichert, wie sie für den jeweiligen Zweck erforderlich
-          sind oder bis du deine Einwilligung widerrufst.
+          sind oder bis du deine Einwilligung widerrufst. Nach einer Abmeldung vom Newsletter
+          löschen wir deine Adresse aus der Verteilerliste.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">7. Deine Rechte</h2>
+        <h2 className="text-xl font-semibold mb-4">9. Deine Rechte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
-          Datenübertragbarkeit und Widerspruch (Art. 15–21 DSGVO). Zum Ausüben deiner Rechte
-          oder bei Fragen zum Datenschutz erreichst du uns unter elias@finanzmuslim.com.
+          Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO) sowie das Recht, dich bei
+          einer Datenschutz-Aufsichtsbehörde zu beschweren. Zum Ausüben deiner Rechte oder bei
+          Fragen zum Datenschutz erreichst du uns unter elias@finanzmuslim.com.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">8. Kontakt für Datenschutzanfragen</h2>
+        <h2 className="text-xl font-semibold mb-4">10. Kontakt für Datenschutzanfragen</h2>
         <p className="text-muted-foreground leading-relaxed">
           Elias El-Gendy
           <br />
           E-Mail: elias@finanzmuslim.com
         </p>
+        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 15. September 2026</p>
       </section>
+
     </main>
   </div>
 );

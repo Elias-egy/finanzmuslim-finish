@@ -31,6 +31,27 @@ const Impressum = () => (
       </section>
 
       <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">Hinweis zu den Inhalten:</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          Die Inhalte dieser Website dienen der Bildung und sind keine Anlage-, Steuer- oder
+          Rechtsberatung und keine religiöse Rechtsauskunft (Fatwa). Vergleiche und Rechner geben
+          keine Empfehlung für ein bestimmtes Produkt. Mit Sternchen (*) markierte Links sind
+          Partnerlinks, siehe{" "}
+          <a href="/wie-ich-geld-verdiene" className="text-primary underline underline-offset-2">
+            Wie ich Geld verdiene
+          </a>
+          .
+        </p>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">Inhaltlich verantwortlich (§ 18 Abs. 2 MStV):</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          Elias El-Gendy, Anschrift wie oben
+        </p>
+      </section>
+
+      <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">Steuerliche Angaben:</h2>
         <p className="text-muted-foreground leading-relaxed">
           Steuernummer: 43/054/05731
