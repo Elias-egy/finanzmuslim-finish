@@ -197,11 +197,29 @@ const InvestmentStart = () => {
   // Scalable-Flow hineinläuft (v.a. mobil).
   const videoRef = useRef<HTMLIFrameElement>(null);
   const [videoMuted, setVideoMuted] = useState(true);
+  const [youtubeConsent, setYoutubeConsent] = useState(false);
   const unmuteVideo = () => {
     ytCommand(videoRef.current, "unMute");
     setVideoMuted(false);
   };
   const pauseVideo = () => ytCommand(videoRef.current, "pauseVideo");
+  const loadYoutubeVideo = () => {
+    try {
+      sessionStorage.setItem("yt-einwilligung", "erteilt");
+    } catch {
+      // Die Einwilligung gilt trotzdem für den aktuellen Seitenaufruf.
+    }
+    setYoutubeConsent(true);
+  };
+
+  // Die YouTube-Einwilligung gilt bis zum Ende der aktuellen Browser-Sitzung.
+  useEffect(() => {
+    try {
+      setYoutubeConsent(sessionStorage.getItem("yt-einwilligung") === "erteilt");
+    } catch {
+      // Ohne Storage bleibt die Vorschau bis zum Klick sichtbar.
+    }
+  }, []);
 
   // Immer oben starten (interne Links dürfen nicht mittendrin landen)
   useEffect(() => {
@@ -267,7 +285,7 @@ const InvestmentStart = () => {
 
           {/* Video (Platzhalter bis B2) */}
           <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
-            {VIDEO_YOUTUBE_ID ? (
+            {VIDEO_YOUTUBE_ID && youtubeConsent ? (
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
                 <iframe
                   ref={videoRef}
@@ -285,6 +303,23 @@ const InvestmentStart = () => {
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
                 )}
+              </div>
+            ) : VIDEO_YOUTUBE_ID ? (
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-foreground shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+                <div className="relative h-full flex flex-col items-center justify-center gap-3 px-6 text-center">
+                  <button
+                    onClick={loadYoutubeVideo}
+                    className="inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2.5 text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-primary transition-colors"
+                  >
+                    <Play className="h-4 w-4 fill-primary" /> Video laden
+                  </button>
+                  <p className="max-w-md text-[12px] leading-relaxed text-white/65">
+                    Beim Laden werden Daten an YouTube (Google) übertragen. Details in der{" "}
+                    <Link to="/datenschutz" className="underline underline-offset-2 hover:text-white">
+                      Datenschutzerklärung.
+                    </Link>
+                  </p>
+                </div>
               </div>
             ) : (
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-foreground shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
