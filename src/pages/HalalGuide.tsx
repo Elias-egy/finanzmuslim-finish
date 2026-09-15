@@ -78,11 +78,39 @@ const levels = [
 const inputClass =
   "h-12 w-full rounded-lg border border-border bg-card px-4 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition";
 
+/**
+ * Der Webhook ist derselbe wie auf der alten Seite: Make nimmt E-Mail, Vorname
+ * und Stufe entgegen und legt die Adresse in der passenden MailerLite-Gruppe
+ * ab (Einsteiger, Fortgeschritten, Profi). Der Guide kommt per E-Mail.
+ */
+const GUIDE_WEBHOOK = "https://hook.eu1.make.com/u8nxrirwoycdcw61qd23eu312y79grlk";
+
 const GuideForm = ({ id }: { id?: string }) => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [vorname, setVorname] = useState("");
   const [email, setEmail] = useState("");
   const [level, setLevel] = useState<string | null>(null);
+  const [sendet, setSendet] = useState(false);
+  const [fehler, setFehler] = useState<string | null>(null);
+
+  const absenden = async () => {
+    if (!level || sendet) return;
+    setSendet(true);
+    setFehler(null);
+    try {
+      const res = await fetch(GUIDE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), vorname: vorname.trim(), nachname: "", level }),
+      });
+      if (!res.ok) throw new Error(`Webhook ${res.status}`);
+      setStep(3);
+    } catch {
+      setFehler("Das hat gerade nicht geklappt. Bitte versuch es gleich noch einmal oder schreib an elias@finanzmuslim.com.");
+    } finally {
+      setSendet(false);
+    }
+  };
 
   if (step === 3) {
     return (
@@ -125,13 +153,19 @@ const GuideForm = ({ id }: { id?: string }) => {
           })}
         </div>
 
+        {fehler && (
+          <p role="alert" className="text-[14px] leading-relaxed text-destructive">
+            {fehler}
+          </p>
+        )}
+
         <button
           type="button"
-          disabled={!level}
-          onClick={() => setStep(3)}
+          disabled={!level || sendet}
+          onClick={absenden}
           className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Fortfahren
+          {sendet ? "Wird gesendet …" : "Guide anfordern"}
         </button>
 
         <button
@@ -150,6 +184,11 @@ const GuideForm = ({ id }: { id?: string }) => {
       id={id}
       onSubmit={(e) => {
         e.preventDefault();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+          setFehler("Bitte gib eine gültige E-Mail-Adresse ein.");
+          return;
+        }
+        setFehler(null);
         setStep(2);
       }}
       className="flex flex-col gap-3 text-left"
@@ -177,6 +216,11 @@ const GuideForm = ({ id }: { id?: string }) => {
           className={inputClass}
         />
       </div>
+      {fehler && (
+        <p role="alert" className="text-[14px] leading-relaxed text-destructive">
+          {fehler}
+        </p>
+      )}
       <button
         type="submit"
         className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground hover:bg-primary-hover transition-colors"
