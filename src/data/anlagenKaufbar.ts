@@ -52,6 +52,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
         "anbieter": "Consorsbank"
       },
       {
+        "anbieter": "Scalable Capital"
+      },
+      {
         "anbieter": "tradegate.direct"
       },
       {
@@ -75,6 +78,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "Consorsbank"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "tradegate.direct"
@@ -104,6 +110,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
         "anbieter": "Consorsbank"
       },
       {
+        "anbieter": "Scalable Capital"
+      },
+      {
         "anbieter": "tradegate.direct"
       },
       {
@@ -130,6 +139,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "Trade Republic"
@@ -169,6 +181,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
         "anbieter": "ING"
       },
       {
+        "anbieter": "Scalable Capital"
+      },
+      {
         "anbieter": "Trade Republic"
       },
       {
@@ -195,6 +210,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "Consorsbank"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "tradegate.direct"
@@ -305,6 +323,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
         "anbieter": "S Broker"
       },
       {
+        "anbieter": "Scalable Capital"
+      },
+      {
         "anbieter": "Smartbroker+"
       },
       {
@@ -353,6 +374,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "ING"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "Trade Republic"
@@ -433,6 +457,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
         "hinweis": "Ausgabeaufschlag mit Rabatt"
       },
       {
+        "anbieter": "Scalable Capital"
+      },
+      {
         "anbieter": "Traders Place"
       }
     ],
@@ -503,6 +530,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "ING"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "Trade Republic"
@@ -775,6 +805,9 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "ING"
+      },
+      {
+        "anbieter": "Scalable Capital"
       },
       {
         "anbieter": "Traders Place"

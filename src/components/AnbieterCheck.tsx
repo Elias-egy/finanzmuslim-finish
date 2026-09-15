@@ -26,7 +26,13 @@ const KATEGORIE_TITEL: { titel: string; kategorien: Kategorie[] }[] = [
   { titel: "Gold und Silber", kategorien: ["gold", "silber"] },
 ];
 
-const Zeile = ({ zeile, wert }: { zeile: VergleichsZeile; wert: Parameters<typeof ZellInhalt>[0]["wert"] }) => (
+const Zeile = ({
+  zeile,
+  wert,
+}: {
+  zeile: VergleichsZeile;
+  wert: Parameters<typeof ZellInhalt>[0]["wert"];
+}) => (
   <div className="flex items-center justify-between gap-4 border-b border-border py-3 last:border-b-0">
     <span className="text-[15px] text-foreground/85">{zeile.label}</span>
     <span className="shrink-0 text-right text-[15px] font-semibold [&_svg]:mx-0">
@@ -38,7 +44,9 @@ const Zeile = ({ zeile, wert }: { zeile: VergleichsZeile; wert: Parameters<typeo
 const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
   const zeilen = istDepot ? DEPOT_ZEILEN : GIRO_ZEILEN;
-  const roh = (istDepot ? brokerVergleich : girokontoVergleich).find((a) => a.link === `/out/${partner.kurzname}`);
+  const roh = (istDepot ? brokerVergleich : girokontoVergleich).find(
+    (a) => a.link === `/out/${partner.kurzname}`,
+  );
   if (!roh) return null;
   const [spalte] = baueSpalten([roh], zeilen);
 
@@ -48,7 +56,9 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
     .filter((z): z is VergleichsZeile => Boolean(z));
 
   const mitIsin = halalAnlagen.filter((a) => a.isin && ANLAGEN_KAUFBAR[a.isin]);
-  const kaufbar = mitIsin.filter((a) => ANLAGEN_KAUFBAR[a.isin!].kaufbar.some((k) => k.anbieter === roh.name));
+  const kaufbar = mitIsin.filter((a) =>
+    ANLAGEN_KAUFBAR[a.isin!].kaufbar.some((k) => k.anbieter === roh.name),
+  );
   const offen = mitIsin.filter(
     (a) =>
       !ANLAGEN_KAUFBAR[a.isin!].kaufbar.some((k) => k.anbieter === roh.name) &&
@@ -60,16 +70,20 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
       <div className="container max-w-[960px]">
         <div className="reveal text-center">
           <span className="eyebrow">Dein Check</span>
-          <h2 className="headline mt-3 text-3xl md:text-4xl">Das bekommst du bei {partner.kurz}</h2>
+          <h2 className="headline mt-3 text-3xl md:text-4xl">
+            Das bekommst du bei {partner.kurz}
+          </h2>
           <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted-foreground md:text-[17px]">
-            Prüfe die Halal-Merkmale und Kosten, bevor du startest: dieselben Daten wie im{" "}
-            {istDepot ? "Depot" : "Girokonto"}-Vergleich.
+            Prüfe die Halal-Merkmale und Kosten, bevor du startest: dieselben
+            Daten wie im {istDepot ? "Depot" : "Girokonto"}-Vergleich.
           </p>
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <div className="reveal card-surface p-5 md:p-6">
-            <h3 className="text-[17px] font-bold text-foreground">Halal-Merkmale</h3>
+            <h3 className="text-[17px] font-bold text-foreground">
+              Halal-Merkmale
+            </h3>
             <div className="mt-2">
               {halal.map((z) => (
                 <Zeile key={z.key} zeile={z} wert={spalte.werte[z.key]} />
@@ -86,38 +100,42 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
           </div>
         </div>
 
-        {istDepot && (
+        {/* Unter 3 belegten Anlagen sagt die Karte mehr über die Recherche als über den Anbieter. */}
+        {istDepot && kaufbar.length >= 3 && (
           <div className="reveal card-surface mt-4 p-5 md:p-6">
-            <h3 className="text-[17px] font-bold text-foreground">Diese Halal-Anlagen gibt es bei {partner.kurz}</h3>
-            {kaufbar.length === 0 ? (
-              <p className="mt-2 text-[15px] text-muted-foreground">Noch nicht geprüft.</p>
-            ) : (
-              <div className="mt-3 space-y-4">
-                {KATEGORIE_TITEL.map(({ titel, kategorien }) => {
-                  const liste = kaufbar.filter((a) => kategorien.includes(a.kategorie));
-                  if (liste.length === 0) return null;
-                  return (
-                    <div key={titel}>
-                      <p className="text-[13px] font-semibold text-muted-foreground">{titel}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {liste.map((a) => (
-                          <Link
-                            key={a.slug}
-                            to={`/halal-anlagen/${a.slug}`}
-                            className="rounded-lg border border-border bg-card px-3 py-1.5 text-[14px] text-foreground transition-colors hover:border-primary hover:text-primary"
-                          >
-                            {a.name}
-                          </Link>
-                        ))}
-                      </div>
+            <h3 className="text-[17px] font-bold text-foreground">
+              Diese Halal-Anlagen gibt es bei {partner.kurz}
+            </h3>
+            <div className="mt-3 space-y-4">
+              {KATEGORIE_TITEL.map(({ titel, kategorien }) => {
+                const liste = kaufbar.filter((a) =>
+                  kategorien.includes(a.kategorie),
+                );
+                if (liste.length === 0) return null;
+                return (
+                  <div key={titel}>
+                    <p className="text-[13px] font-semibold text-muted-foreground">
+                      {titel}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {liste.map((a) => (
+                        <Link
+                          key={a.slug}
+                          to={`/halal-anlagen/${a.slug}`}
+                          className="rounded-lg border border-border bg-card px-3 py-1.5 text-[14px] text-foreground transition-colors hover:border-primary hover:text-primary"
+                        >
+                          {a.name}
+                        </Link>
+                      ))}
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
             {offen > 0 && (
               <p className="mt-4 text-[14px] text-muted-foreground">
-                Bei {offen} weiteren Anlagen ist noch nicht geprüft, ob es sie bei {partner.kurz} gibt.
+                Bei {offen} weiteren Anlagen ist noch nicht geprüft, ob es sie
+                bei {partner.kurz} gibt.
               </p>
             )}
           </div>
