@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import Seo from "@/components/Seo";
+import Seo, { vergleichJsonLd } from "@/components/Seo";
 import { Switch } from "@/components/ui/switch";
 import {
   Accordion,
@@ -92,10 +92,16 @@ export const VergleichsSeite = ({
 
   return (
     <main className="bg-background">
-      <Seo title={seoTitel} description={seoText} path={pfad} brotkrumen={[
-        { name: "Vergleiche", path: "/vergleiche" },
-        { name: brotkrumen, path: pfad },
-      ]} />
+      <Seo
+        title={seoTitel}
+        description={seoText}
+        path={pfad}
+        jsonLd={vergleichJsonLd({ titel: seoTitel, beschreibung: seoText, path: pfad, faq })}
+        brotkrumen={[
+          { name: "Vergleiche", path: "/vergleiche" },
+          { name: brotkrumen, path: pfad },
+        ]}
+      />
 
       <div className="container py-10 md:py-14">
         <VergleichsBrotkrumen titel={brotkrumen} />

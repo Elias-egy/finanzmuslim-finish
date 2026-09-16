@@ -194,8 +194,11 @@ const HalalAnlagen = () => {
   return (
     <main className="bg-background">
       <Seo
-        title={`Halal-Anlagen finden, ${halalAnlagen.length} ETFs, Fonds und Kryptowährungen | finanzmuslim`}
-        description="Alle in Deutschland handelbaren Halal-ETFs, Sukuk, Gold, Silber und Kryptowährungen mit Kosten, Größe und Zertifizierer. Filterbar und sortierbar, kostenlos."
+        /* Diese Seite ist das Ziel für "halal Aktien" und "halal ETF" (Elias,
+           16.09.2026): Wer danach sucht, will kaufen, keinen Aufsatz lesen.
+           Deshalb steht der Suchbegriff vorn und die Zahl dahinter. */
+        title={`Halal Aktien und ETFs: ${halalAnlagen.length} geprüfte Anlagen | finanzmuslim`}
+        description="Halal Aktien-ETFs, Sukuk, Gold, Silber, Platin und Krypto, die du in Deutschland kaufen kannst. Mit ISIN, Kosten, Größe und der Stelle, die sie geprüft hat. Filterbar, kostenlos."
         path="/halal-anlagen"
         brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal-Anlagen finden", path: "/halal-anlagen" }]}
       />
@@ -222,6 +225,15 @@ const HalalAnlagen = () => {
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
             Vergleich Kosten, Rendite und Prüfstelle.
+          </p>
+          {/* Wer nach "halal Aktien" sucht, meint oft Einzelaktien und landet
+              hier bei Fonds. Eine Zeile spart ihm den Rücksprung. */}
+          <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-muted-foreground md:text-[15px]">
+            Du suchst einzelne Aktien?{" "}
+            <Link to="/vorlagen/top-100-halal-aktien" className="font-semibold text-primary hover:underline">
+              100 bekannte Aktien, einzeln geprüft
+            </Link>
+            .
           </p>
         </div>
       </section>

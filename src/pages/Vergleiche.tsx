@@ -113,8 +113,8 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
 const Vergleiche = () => (
   <main className="bg-background">
     <Seo
-      title="Anbieter im Vergleich | finanzmuslim"
-      description="Vergleiche Depots, Girokonten und Krypto-Börsen nach Halal-Merkmalen: ohne Zinsen nutzbar, Halal-Anlagen und Kosten."
+      title="Halal Depot, Konto und Börse im Vergleich | finanzmuslim"
+      description="Vergleiche Depots, Girokonten, Krypto-Börsen, Edelmetalle und Screening-Apps nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten."
       path="/vergleiche"
       brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
     />

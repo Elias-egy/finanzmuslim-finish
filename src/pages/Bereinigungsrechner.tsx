@@ -33,7 +33,7 @@ const reinigungFaq = [
 const Bereinigungsrechner = () => (
   <>
     <Seo
-      title="Bereinigungsrechner: Aktienbereinigung in dreißig Sekunden | finanzmuslim"
+      title="Aktien reinigen: Bereinigungsrechner für Dividenden | finanzmuslim"
       description="Rechne aus, welchen Anteil deiner Erträge du weitergibst. Betrag und Satz eintragen oder Betrag je Anteil mal Anteile, Ergebnis sofort als ganzer Satz."
       path="/bereinigungsrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Bereinigungsrechner", path: "/bereinigungsrechner" }]}

@@ -103,7 +103,7 @@ const EmptyState = () => (
 const Deals = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="Aktuelle Angebote – Deals | finanzmuslim"
+      title="Halal Angebote und Boni: aktuelle Deals | finanzmuslim"
       description="Geprüfte Boni und Aktionen für die finanzmuslim Community. Nur Angebote, die sich wirklich lohnen."
       path="/deals"
       brotkrumen={[{ name: "Deals", path: "/deals" }]}

@@ -163,6 +163,33 @@ const isoDatum = (deutsch: string) => {
  * Veröffentlichungsdatum. Ein falsches "aktualisiert" ist schlimmer als gar
  * keine Angabe, siehe git-Historie der Beiträge vom 15./16.08.2026.
  */
+/**
+ * Structured Data einer Vergleichsseite: WebPage plus Fragenliste.
+ *
+ * Befund 16.09.2026: Die Vergleichsseiten hatten ihre Fragen seit jeher als
+ * Aufklapper auf der Seite, aber ohne Auszeichnung. Google zeigt zu solchen
+ * Fragen ausklappbare Antworten direkt im Ergebnis. Bei einem Vergleich, der
+ * um Begriffe wie "halal Depot" konkurriert, ist das der Unterschied zwischen
+ * einer Zeile im Ergebnis und einem Block. Die Daten lagen ohnehin vor.
+ */
+export const vergleichJsonLd = (opts: {
+  titel: string;
+  beschreibung: string;
+  path: string;
+  faq: { frage: string; antwort: string }[];
+}) => [
+  webPage(opts.titel, opts.beschreibung, `${SITE}${opts.path}`),
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: opts.faq.map((f) => ({
+      "@type": "Question",
+      name: f.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.antwort },
+    })),
+  },
+];
+
 export const beitragJsonLd = (opts: {
   titel: string;
   beschreibung: string;
