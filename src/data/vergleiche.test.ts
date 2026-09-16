@@ -18,10 +18,26 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     expect(new Set(anbieter.map((a) => a.id)).size).toBe(anzahl);
   });
 
-  it("steht alphabetisch, damit keine Rangfolge entsteht", () => {
-    const namen = anbieter.map((a) => `${a.name} ${a.produkt}`.toLowerCase());
-    const sortiert = [...namen].sort((a, b) => a.localeCompare(b, "de"));
-    expect(namen).toEqual(sortiert);
+  it("steht alphabetisch, Abgeratene am Ende", () => {
+    const schluessel = (a: RohAnbieter) =>
+      `${a.abgeraten ? 1 : 0}${`${a.name} ${a.produkt}`.toLowerCase()}`;
+    const ist = anbieter.map(schluessel);
+    const soll = [...ist].sort((a, b) => a.localeCompare(b, "de"));
+    expect(ist).toEqual(soll);
+  });
+
+  it("gibt keinem Anbieter einen Partnerlink, von dem wir abraten", () => {
+    for (const a of anbieter) {
+      if (a.abgeraten) expect(a.link, a.id).toBeUndefined();
+    }
+  });
+
+  it("markiert genau die Anbieter als abgeraten, bei denen ein Zins-Merkmal rot ist", () => {
+    const zins = ["zinsfreiAbStart", "zinsfreiesModell"];
+    for (const a of anbieter) {
+      const rot = zins.some((k) => a.werte[k] === "schlecht");
+      expect(Boolean(a.abgeraten), a.id).toBe(rot);
+    }
   });
 
   it("hat für jedes Halal-Merkmal der Bewertung eine Zeile", () => {
@@ -57,7 +73,7 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   });
 
   it("schreibt Halal-Anlagen als 'x von N' oder 'mind. x von N'", () => {
-    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8, halalCoins: 4 };
+    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
     for (const a of anbieter) {
       for (const [key, n] of Object.entries(gesamt)) {
         const w = a.werte[key];

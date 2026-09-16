@@ -108,9 +108,12 @@ export const SpaltenEtikett = ({
 export const AngebotsKnopf = ({
   link,
   breit = false,
+  abgeraten = false,
 }: {
   link?: string;
   breit?: boolean;
+  /** Anbieter, von dem wir abraten. Nie ein Partnerlink, und der Grund steht dabei. */
+  abgeraten?: boolean;
 }) => {
   /* Aktiv und deaktiviert haben dieselben Masse, damit die Zeile in beiden
      Zustaenden gleich hoch ist und der Text mittig steht. Kein z-index:
@@ -128,8 +131,10 @@ export const AngebotsKnopf = ({
         >
           Zum Angebot
         </button>
-        <p className="mt-1 text-center text-[11px] text-muted-foreground">
-          noch keine Partnerschaft
+        <p
+          className={`mt-1 text-center text-[11px] ${abgeraten ? "text-destructive" : "text-muted-foreground"}`}
+        >
+          {abgeraten ? "kein Link, wir empfehlen das nicht" : "noch keine Partnerschaft"}
         </p>
       </div>
     );

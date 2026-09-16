@@ -162,14 +162,22 @@ export const VergleichsTabelle = ({
           {spalten.map((s) => (
             <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
               <div className="bg-card" style={{ position: "sticky", top: KOPF }}>
-                {s.etikett && (
-                  <div className="border-b border-border px-2 py-1.5">
-                    <span
-                      className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
-                    >
-                      {s.etikett.text}
+                {s.abgeraten ? (
+                  <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
+                    <span className="block truncate text-center text-[11px] font-semibold text-destructive">
+                      Davon raten wir ab
                     </span>
                   </div>
+                ) : (
+                  s.etikett && (
+                    <div className="border-b border-border px-2 py-1.5">
+                      <span
+                        className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
+                      >
+                        {s.etikett.text}
+                      </span>
+                    </div>
+                  )
                 )}
                 <div className="flex flex-col items-center gap-1 px-3 py-2">
                   <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
@@ -212,7 +220,7 @@ export const VergleichsTabelle = ({
                 {spalten.map((s) => (
                   <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
                     {z.key === "__angebot" || z.key === "__angebot_unten" ? (
-                      <AngebotsKnopf link={s.link} />
+                      <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
                     ) : (
                       <ZellInhalt wert={s.werte[z.key]} art={z.art} />
                     )}

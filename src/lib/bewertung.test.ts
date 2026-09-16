@@ -130,11 +130,14 @@ describe("bewerte", () => {
     expect(giro).toEqual({ status: "bewertet", note: 2.5, halal: 2.5, finanz: 2.5 });
 
     const krypto = bewerte(
-      depot({ zinsfreiAbStart: "gut", halalCoins: "2 von 4", eigeneWallet: "gut" }, { a: 60, b: 40 }),
+      depot(
+        { zinsfreiAbStart: "gut", echteCoins: "gut", eigeneWallet: "schlecht", zinsfreiesModell: "gut" },
+        { a: 60, b: 40 },
+      ),
       "krypto",
       MAX,
     );
-    // Halal (0,5 × 0,5 + 0,5) × 5 = 3,75, Finanz 5
-    expect(krypto).toEqual({ status: "bewertet", note: 4.38, halal: 3.75, finanz: 5 });
+    // Halal (0,4 + 0 + 0,3) × 5 = 3,5, Finanz 5
+    expect(krypto).toEqual({ status: "bewertet", note: 4.25, halal: 3.5, finanz: 5 });
   });
 });

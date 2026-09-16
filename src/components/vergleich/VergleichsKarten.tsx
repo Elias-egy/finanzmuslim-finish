@@ -41,9 +41,14 @@ const Karte = ({
   return (
     <li
       className={`overflow-hidden rounded-lg border bg-card ${
-        hervor ? "border-primary/40" : "border-border"
+        spalte.abgeraten ? "border-destructive/40" : hervor ? "border-primary/40" : "border-border"
       }`}
     >
+      {spalte.abgeraten && (
+        <p className="border-b border-destructive/30 bg-destructive/10 px-3 py-1.5 text-[12px] font-semibold text-destructive">
+          Davon raten wir ab
+        </p>
+      )}
       {/* Kopfstreifen: Logo, Produkt, Etikett. Keine Nummer, solange nicht bewertet ist. */}
       <div className="flex items-stretch border-b border-border">
         <span className="flex shrink-0 items-center pl-3">
@@ -54,7 +59,7 @@ const Karte = ({
             {spalte.anbieter} <span className="font-medium">{spalte.produkt}</span>
           </span>
         </span>
-        {spalte.etikett && (
+        {spalte.etikett && !spalte.abgeraten && (
           <span
             className={`flex shrink-0 items-center px-3 text-[12px] font-semibold ${etikettTon[spalte.etikett.ton]}`}
           >
@@ -65,7 +70,7 @@ const Karte = ({
 
       <div className="p-3">
         <div>
-          <AngebotsKnopf link={spalte.link} breit />
+          <AngebotsKnopf link={spalte.link} breit abgeraten={spalte.abgeraten} />
         </div>
 
         {/* Vier Zahlen, nach denen zuerst gesucht wird */}

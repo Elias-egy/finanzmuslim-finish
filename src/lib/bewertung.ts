@@ -14,7 +14,12 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  *    - Finanz-Note: Finanzpunkte (Punktetabelle von Finanzfluss, nur die
  *      Kriterien, die wir behalten) geteilt durch deren Höchstpunktzahl.
  * 3. Eine Note gibt es erst, wenn alle Halal-Merkmale geprüft sind.
- * 4. Ausgabeaufschlag (Elias, 15.09.2026): Ein kaufbarer Fonds zählt 1 ohne
+ * 4. Krypto (Elias, 16.09.2026): Gezählt wird nicht mehr, wie viele von vier
+ *    Münzen ein Anbieter führt. Fast jeder führt sie, das trennt nichts. Gezählt
+ *    wird, ob es echte Coins sind statt eines Zertifikats, ob du sie auf deine
+ *    eigene Wallet holen kannst und ob das Bezahlmodell ohne Zinsbindung
+ *    auskommt.
+ * 5. Ausgabeaufschlag (Elias, 15.09.2026): Ein kaufbarer Fonds zählt 1 ohne
  *    Aufschlag, 0,75 mit Rabatt, 0,5 mit vollem Aufschlag. Die Datendatei liefert
  *    das fertig gewichtet in `halalAnlagenPunkte`; null heißt Aufschlag unklar,
  *    dann bleibt die Note offen.
@@ -53,8 +58,9 @@ export const HALAL_REGELN: Record<Kategorie, HalalRegel> = {
   krypto: {
     tuersteher: "zinsfreiAbStart",
     teile: [
-      { key: "halalCoins", gewicht: 0.5, art: "anteil" },
-      { key: "eigeneWallet", gewicht: 0.5, art: "ampel" },
+      { key: "echteCoins", gewicht: 0.4, art: "ampel" },
+      { key: "eigeneWallet", gewicht: 0.3, art: "ampel" },
+      { key: "zinsfreiesModell", gewicht: 0.3, art: "ampel" },
     ],
   },
 };
