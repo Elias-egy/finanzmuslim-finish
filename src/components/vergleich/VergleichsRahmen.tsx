@@ -76,7 +76,8 @@ export const ReihenfolgeHinweis = ({ einheit }: { einheit: string }) => (
     <p className="text-[16px] font-bold text-foreground">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
     <p className="mt-1 text-[15px] leading-[24px] text-muted-foreground">
       Bis dahin stehen alle {einheit} alphabetisch. Kosten und Konditionen sind eingetragen, die
-      Halal-Merkmale prüfen wir einzeln beim Anbieter.
+      Halal-Merkmale prüfen wir einzeln beim Anbieter. Nur eines ändert die Reihenfolge: Wer sich
+      nicht zinsfrei nutzen lässt, steht am Ende, ist rot markiert und bekommt von uns keinen Link.
     </p>
   </section>
 );

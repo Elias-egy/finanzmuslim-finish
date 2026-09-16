@@ -37,6 +37,11 @@ export type RohAnbieter = {
   note?: number | null;
   noteStand?: string;
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" } | null;
+  /**
+   * Gesetzt von `bauen.py`, wenn ein Zins-Merkmal rot ist: Der Anbieter steht
+   * am Ende und bekommt keinen Partnerlink. Wir wollen ihn nicht bewerben.
+   */
+  abgeraten?: boolean;
   werte: Record<string, RohWert>;
   /** Beleg je Wert: Finanzfluss-Vergleich oder Seite des Anbieters, mit Prüfdatum. */
   quellen?: Record<string, Quelle>;
@@ -98,6 +103,7 @@ export const baueSpalten = (
       note: a.note ?? null,
       noteStand: a.noteStand,
       etikett: a.etikett ?? null,
+      abgeraten: a.abgeraten ?? false,
       werte,
     };
   });

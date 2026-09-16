@@ -74,8 +74,8 @@ const Zeile = ({ name, desc, motiv, to, neu }: Artikel) => {
 const Wissen = () => (
   <main className="bg-background">
     <Seo
-      title="Halal-Finanzwissen | finanzmuslim"
-      description="Finde Antworten zu Grundlagen, Alltag und Pflichten. Von der ersten Aktie bis zur Zakat."
+      title="Halal Finanzen: von Zinsen bis Zakat erklärt | finanzmuslim"
+      description="Ist das halal? Antworten zu Zinsen, Aktien, ETFs, Gold, Krypto, Kredit, Versicherung, Leasing und Zakat. Jede mit Beleg und ohne Fachchinesisch."
       path="/wissen"
       brotkrumen={[{ name: "Wissen", path: "/wissen" }]}
     />

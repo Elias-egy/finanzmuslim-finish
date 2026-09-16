@@ -7,8 +7,8 @@ const VergleichDepot = () => (
     brotkrumen="Depot-Vergleich"
     titel="Depot-Vergleich für Muslime"
     untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
-    seoTitel="Depot-Vergleich für Muslime | finanzmuslim"
-    seoText="Welcher Broker passt, wenn du islamkonform investieren willst. Wir prüfen, ob du ohne Zinsen auskommst, ob ein Kredit mitläuft und welche Halal-ETFs, Sukuk und Edelmetalle es gibt."
+    seoTitel="Halal Depot eröffnen: Broker im Vergleich | finanzmuslim"
+    seoText="Welches Depot ist halal? 56 Broker im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind."
     einheit="Anbieter"
     einleitung={
       <>

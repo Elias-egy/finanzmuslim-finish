@@ -12,6 +12,7 @@ export type GruppenKey =
   | "sukuk"
   | "gold"
   | "silber"
+  | "rohstoffe"
   | "krypto";
 
 export type Gruppe = {
@@ -68,6 +69,15 @@ export const gruppen: Gruppe[] = [
     key: "silber",
     titel: "Silber",
     passt: (a) => a.kategorie === "silber",
+    kosten: true,
+    groesse: true,
+    ertrag: false,
+  },
+  {
+    key: "rohstoffe",
+    titel: "Platin und Palladium",
+    zusatz: "für sie gilt die Sonderregel für Gold und Silber nicht",
+    passt: (a) => a.kategorie === "rohstoffe",
     kosten: true,
     groesse: true,
     ertrag: false,

@@ -8,7 +8,7 @@ import MotivBild from "@/components/MotivBild";
 const Vorlagen = () => (
   <main className="bg-background">
     <Seo
-      title="Kostenlose Vorlagen | finanzmuslim"
+      title="Kostenlose Vorlagen für halal Finanzen | finanzmuslim"
       description="Halal-Anlagenliste, Vertrags-Ampel und Aktien-Spickzettel. Kurz, konkret, sofort nutzbar. Kein Konto nötig, keine Anmeldung."
       path="/vorlagen"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }]}

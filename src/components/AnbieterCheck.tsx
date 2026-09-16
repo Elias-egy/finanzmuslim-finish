@@ -24,6 +24,7 @@ const KATEGORIE_TITEL: { titel: string; kategorien: Kategorie[] }[] = [
   { titel: "Aktien-ETFs und Fonds", kategorien: ["aktien"] },
   { titel: "Sukuk", kategorien: ["sukuk"] },
   { titel: "Gold und Silber", kategorien: ["gold", "silber"] },
+  { titel: "Platin und Palladium", kategorien: ["rohstoffe"] },
 ];
 
 const Zeile = ({

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import Seo from "@/components/Seo";
+import Seo, { vergleichJsonLd } from "@/components/Seo";
 import { Switch } from "@/components/ui/switch";
 import {
   Accordion,
@@ -46,6 +46,8 @@ export type VergleichsSeiteProps = {
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
+  /** Freier Abschnitt unter der Tabelle. Für Erklärungen, die nur einen Vergleich betreffen. */
+  zusatz?: ReactNode;
   faq: Array<{ frage: string; antwort: string }>;
   schluss: string;
 };
@@ -66,6 +68,7 @@ export const VergleichsSeite = ({
   standHinweis,
   quellenHinweis,
   kriterien,
+  zusatz,
   faq,
   schluss,
 }: VergleichsSeiteProps) => {
@@ -89,10 +92,16 @@ export const VergleichsSeite = ({
 
   return (
     <main className="bg-background">
-      <Seo title={seoTitel} description={seoText} path={pfad} brotkrumen={[
-        { name: "Vergleiche", path: "/vergleiche" },
-        { name: brotkrumen, path: pfad },
-      ]} />
+      <Seo
+        title={seoTitel}
+        description={seoText}
+        path={pfad}
+        jsonLd={vergleichJsonLd({ titel: seoTitel, beschreibung: seoText, path: pfad, faq })}
+        brotkrumen={[
+          { name: "Vergleiche", path: "/vergleiche" },
+          { name: brotkrumen, path: pfad },
+        ]}
+      />
 
       <div className="container py-10 md:py-14">
         <VergleichsBrotkrumen titel={brotkrumen} />
@@ -178,6 +187,8 @@ export const VergleichsSeite = ({
           * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt
           abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten.
         </p>
+
+        {zusatz}
 
         <section className="mt-14 max-w-3xl">
           <h2 className="text-2xl font-bold text-foreground">Häufige Fragen</h2>

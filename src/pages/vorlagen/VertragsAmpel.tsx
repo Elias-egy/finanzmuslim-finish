@@ -150,8 +150,8 @@ const Pille = ({ farbe }: { farbe: Farbe }) => {
 const VertragsAmpel = () => (
   <>
     <Seo
-      title="Vertrags-Ampel: grün, gelb, rot | finanzmuslim"
-      description="Zwölf Verträge aus dem Alltag mit klarer Bewertung und der Bedingung dahinter: Depot, Kreditkarte, Versicherung, Ratenzahlung, Leasing und mehr."
+      title="Welche Verträge sind halal? Die Ampel für 12 Verträge | finanzmuslim"
+      description="Welche Verträge halal sind und welche nicht: zwölf Verträge aus dem Alltag mit klarer Farbe und der Bedingung dahinter. Kreditkarte, Versicherung, Ratenzahlung, Leasing, Depot und mehr."
       path="/vorlagen/vertrags-ampel"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Vertrags-Ampel", path: "/vorlagen/vertrags-ampel" }]}
     />

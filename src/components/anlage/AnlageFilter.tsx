@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
  * öffnet sich eine Schublade von unten, auf dem Desktop ein Dialog.
  */
 
-export type Reiter = "alle" | "aktien" | "sukuk" | "gold" | "silber" | "krypto";
+export type Reiter = "alle" | "aktien" | "sukuk" | "gold" | "silber" | "rohstoffe" | "krypto";
 export type Sortierung = "name" | "kosten" | "groesse" | "renditeAb" | "renditeAuf";
 
 export const reiter: { key: Reiter; label: string }[] = [
@@ -19,6 +19,7 @@ export const reiter: { key: Reiter; label: string }[] = [
   { key: "sukuk", label: "Sukuk" },
   { key: "gold", label: "Gold" },
   { key: "silber", label: "Silber" },
+  { key: "rohstoffe", label: "Platin" },
   { key: "krypto", label: "Krypto" },
 ];
 

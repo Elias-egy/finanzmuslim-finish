@@ -109,6 +109,7 @@ export const navGroups: NavGroup[] = [
           { label: "Alle Vergleiche", to: "/vergleiche" },
           { label: "Depot-Vergleich", to: "/vergleich/depot" },
           { label: "Krypto-Vergleich", to: "/vergleich/krypto" },
+          { label: "Edelmetalle", to: "/vergleich/edelmetalle" },
           { label: "Kinderdepot" },
           { label: "Halal-Anlagen finden", to: "/halal-anlagen" },
         ],
@@ -117,7 +118,7 @@ export const navGroups: NavGroup[] = [
         title: "Konto und Prüfung",
         items: [
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
-          { label: "Screening-Apps" },
+          { label: "Screening-Apps", to: "/vergleich/screening-apps" },
           { label: "Steuersoftware" },
         ],
       },

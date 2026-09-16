@@ -359,7 +359,7 @@ const ErtraegeReinigen = () => (
         kategorie: "Anlagen",
         ueberschrift: "Welche Fonds den Reinigungssatz nennen",
         linkZiel: "/halal-anlagen",
-        text: "27 Anlagen mit Kosten, Größe und Prüfstelle.",
+        text: "31 Anlagen mit Kosten, Größe und Prüfstelle.",
         knopf: "Zu den Anlagen",
       }}
     >

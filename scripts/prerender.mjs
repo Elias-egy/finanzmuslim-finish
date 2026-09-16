@@ -166,10 +166,37 @@ const aufNoindex = (html) =>
     ? html.replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, nofollow">')
     : html.replace(/<head>/i, '<head><meta name="robots" content="noindex, nofollow">');
 
+/**
+ * Dateiname je Adresse. Seit 16.09.2026 <pfad>.html statt <pfad>/index.html.
+ *
+ * Warum: GitHub Pages liefert /wissen/sukuk aus wissen/sukuk.html direkt mit
+ * 200 aus. Lag die Seite unter wissen/sukuk/index.html, antwortete Pages auf
+ * /wissen/sukuk mit 301 auf /wissen/sukuk/, waehrend Canonical und Sitemap
+ * ohne Schraegstrich zeigten. Live geprueft am 16.09.2026: alle 80
+ * Sitemap-Adressen gaben 301. Google sah damit fuer jede Seite einen Umweg
+ * und einen Canonical, der zurueck auf die Weiterleitung zeigte.
+ */
+export const dateiFuer = (pfad) =>
+  pfad === "/" ? join(DIST, "index.html") : join(DIST, `${pfad}.html`);
+
+/**
+ * Knotenseiten wie /wissen haben Unterseiten (/wissen/sukuk) und damit auf der
+ * Platte einen Ordner wissen/. Damit /wissen sicher ausgeliefert wird, egal ob
+ * der Hoster zuerst die Datei wissen.html oder den Ordner ansieht, liegt die
+ * Seite dort zusaetzlich als wissen/index.html. Beide Fassungen sind gleich
+ * und tragen denselben Canonical ohne Schraegstrich.
+ */
+let knoten = new Set();
+
 const schreiben = async (pfad, html) => {
-  const ziel = pfad === "/" ? join(DIST, "index.html") : join(DIST, pfad, "index.html");
+  const ziel = dateiFuer(pfad);
   await mkdir(dirname(ziel), { recursive: true });
   await writeFile(ziel, html, "utf8");
+  if (knoten.has(pfad)) {
+    const zweit = join(DIST, pfad, "index.html");
+    await mkdir(dirname(zweit), { recursive: true });
+    await writeFile(zweit, html, "utf8");
+  }
   return ziel;
 };
 
@@ -203,6 +230,8 @@ const main = async () => {
 
   const { indexierbar, nichtIndexiert, weiterleitungen } = await adressenLesen();
   const adressen = [...indexierbar, ...nichtIndexiert];
+  const alle = [...adressen, ...weiterleitungen.map((w) => w.von)];
+  knoten = new Set(adressen.filter((p) => p !== "/" && alle.some((a) => a.startsWith(`${p}/`))));
   const { server, port } = await serverStarten();
   const browser = await puppeteer.launch({
     executablePath: chromeFinden(),
@@ -273,7 +302,7 @@ const main = async () => {
      statischen Hoster in den 404, und /out/name ist der Weg, ueber den die
      Provision hereinkommt. */
   for (const { von, nach } of weiterleitungen) {
-    const ziel = join(DIST, von, "index.html");
+    const ziel = dateiFuer(von);
     await mkdir(dirname(ziel), { recursive: true });
     await writeFile(ziel, weiterleitungsSeite(nach), "utf8");
     process.stdout.write(`ok   ${von}  leitet auf ${nach}\n`);

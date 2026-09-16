@@ -63,6 +63,12 @@ export type VergleichsSpalte = {
   noteStand?: string;
   /** Etikett ueber der Spalte, z. B. "Bester Broker" oder "60 € Bonus". */
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" } | null;
+  /**
+   * Von diesem Anbieter raten wir ab, weil ein Zins-Merkmal rot ist. Er steht
+   * am Ende der Liste, wird rot umrandet und bekommt keinen Partnerlink
+   * (Elias, 16.09.2026).
+   */
+  abgeraten?: boolean;
   werte: Record<string, Zellwert>;
 };
 

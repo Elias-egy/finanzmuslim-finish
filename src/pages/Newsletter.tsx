@@ -38,7 +38,7 @@ const rubriken = [
 const Newsletter = () => (
   <main className="bg-background">
     <Seo
-      title="Der Freitagsbrief | finanzmuslim"
+      title="Newsletter für halal Finanzen: der Freitagsbrief | finanzmuslim"
       description="Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten auf halal oder nicht. Fünf Minuten, kostenlos, jederzeit abbestellbar."
       path="/newsletter"
       brotkrumen={[{ name: "Newsletter", path: "/newsletter" }]}

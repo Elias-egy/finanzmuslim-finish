@@ -57,7 +57,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
 const Rechner = () => (
   <main className="bg-background">
     <Seo
-      title="Rechner für deine Finanzen | finanzmuslim"
+      title="Islamische Finanzrechner: Zakat, Rendite, Zinskosten | finanzmuslim"
       description="Kostenlose Rechner für Zakat, Rendite und islamkonforme Finanzplanung. Ohne Anmeldung nutzbar."
       path="/rechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }]}

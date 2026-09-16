@@ -38,9 +38,9 @@ const categories = [
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
   { label: "Aktien prüfen", icon: ShieldCheck, to: "/wissen/sind-aktien-halal" },
-  { label: "Edelmetalle", icon: Coins },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
   { label: "Kinderdepot", icon: Baby },
-  { label: "Screening-Apps", icon: ScanSearch },
+  { label: "Screening-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Steuersoftware", icon: FileText },
 ];
 
@@ -380,7 +380,7 @@ const Index = () => (
             <p className="eyebrow">HALAL INVESTMENTS</p>
             <h2 className="section-title mt-2">Welche Anlagen wirklich geprüft sind</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              27 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber und Krypto. Such nach
+              31 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto. Such nach
               Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.
             </p>
             <Link to="/halal-anlagen" className="btn-primary mt-6">

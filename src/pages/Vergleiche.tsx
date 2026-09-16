@@ -34,13 +34,14 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Edelmetalle",
-        desc: "Finde das Depot mit den meisten zertifizierten Gold- und Silber-ETCs.",
+        desc: "Fünf Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
         icon: Coins,
+        to: "/vergleich/edelmetalle",
       },
       { name: "Kinderdepot", desc: "Vergleiche Depots für deine Kinder.", icon: Baby },
       {
         name: "Halal-Anlagen finden",
-        desc: "27 Anlagen: ETFs, Sukuk, Gold, Silber und Krypto mit Kosten und Prüfstelle.",
+        desc: "31 Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.",
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },
@@ -55,7 +56,12 @@ const gruppen: Gruppe[] = [
         icon: Banknote,
         to: "/vergleich/girokonto",
       },
-      { name: "Screening-Apps", desc: "Vergleiche Apps, die Aktien auf Halal prüfen.", icon: ScanSearch },
+      {
+        name: "Screening-Apps",
+        desc: "Vier Apps, die einzelne Aktien auf Halal prüfen, im Vergleich.",
+        icon: ScanSearch,
+        to: "/vergleich/screening-apps",
+      },
       { name: "Steuersoftware", desc: "Vergleiche Programme für die Steuererklärung.", icon: FileText },
     ],
   },
@@ -107,8 +113,8 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
 const Vergleiche = () => (
   <main className="bg-background">
     <Seo
-      title="Anbieter im Vergleich | finanzmuslim"
-      description="Vergleiche Depots, Girokonten und Krypto-Börsen nach Halal-Merkmalen: ohne Zinsen nutzbar, Halal-Anlagen und Kosten."
+      title="Halal Depot, Konto und Börse im Vergleich | finanzmuslim"
+      description="Vergleiche Depots, Girokonten, Krypto-Börsen, Edelmetalle und Screening-Apps nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten."
       path="/vergleiche"
       brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
     />

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
+import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
+import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
@@ -18,10 +20,26 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     expect(new Set(anbieter.map((a) => a.id)).size).toBe(anzahl);
   });
 
-  it("steht alphabetisch, damit keine Rangfolge entsteht", () => {
-    const namen = anbieter.map((a) => `${a.name} ${a.produkt}`.toLowerCase());
-    const sortiert = [...namen].sort((a, b) => a.localeCompare(b, "de"));
-    expect(namen).toEqual(sortiert);
+  it("steht alphabetisch, Abgeratene am Ende", () => {
+    const schluessel = (a: RohAnbieter) =>
+      `${a.abgeraten ? 1 : 0}${`${a.name} ${a.produkt}`.toLowerCase()}`;
+    const ist = anbieter.map(schluessel);
+    const soll = [...ist].sort((a, b) => a.localeCompare(b, "de"));
+    expect(ist).toEqual(soll);
+  });
+
+  it("gibt keinem Anbieter einen Partnerlink, von dem wir abraten", () => {
+    for (const a of anbieter) {
+      if (a.abgeraten) expect(a.link, a.id).toBeUndefined();
+    }
+  });
+
+  it("markiert genau die Anbieter als abgeraten, bei denen ein Zins-Merkmal rot ist", () => {
+    const zins = ["zinsfreiAbStart", "zinsfreiesModell"];
+    for (const a of anbieter) {
+      const rot = zins.some((k) => a.werte[k] === "schlecht");
+      expect(Boolean(a.abgeraten), a.id).toBe(rot);
+    }
   });
 
   it("hat für jedes Halal-Merkmal der Bewertung eine Zeile", () => {
@@ -57,7 +75,7 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   });
 
   it("schreibt Halal-Anlagen als 'x von N' oder 'mind. x von N'", () => {
-    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8, halalCoins: 4 };
+    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
     for (const a of anbieter) {
       for (const [key, n] of Object.entries(gesamt)) {
         const w = a.werte[key];
@@ -77,6 +95,60 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
       if (tuer !== "gut" && tuer !== "teils") {
         expect(b.status, a.id).not.toBe("bewertet");
       }
+    }
+  });
+});
+
+/* Der Screener-Vergleich hat keine Finanzfluss-Quelle und keine Note. Geprueft
+   wird deshalb nur, was auch dort gelten muss: eindeutige IDs, alphabetische
+   Reihenfolge und ein Beleg hinter jedem Halal-Wert. */
+describe("Vergleichsdaten screening-apps", () => {
+  it("hat eindeutige IDs und steht alphabetisch", () => {
+    const namen = screenerVergleich.map((a) => a.name.toLowerCase());
+    expect(new Set(screenerVergleich.map((a) => a.id)).size).toBe(screenerVergleich.length);
+    expect(namen).toEqual([...namen].sort((a, b) => a.localeCompare(b, "de")));
+  });
+
+  it("belegt jeden eingetragenen Wert mit einer Quelle", () => {
+    const keys = SCREENER_ZEILEN.filter((z) => !z.key.startsWith("__")).map((z) => z.key);
+    for (const a of screenerVergleich) {
+      for (const key of keys) {
+        const wert = a.werte[key];
+        if (wert !== null && wert !== undefined) {
+          expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it("nennt keinen Partnerlink, weil es keine Partnerschaft gibt", () => {
+    for (const a of screenerVergleich) expect(a.link, a.id).toBeUndefined();
+  });
+});
+
+/* Der Edelmetall-Vergleich vergleicht Wege, keine Anbieter. Deshalb keine
+   alphabetische Pruefung, aber dieselbe Belegpflicht. */
+describe("Vergleichsdaten edelmetalle", () => {
+  it("hat eindeutige IDs und keinen Partnerlink", () => {
+    expect(new Set(edelmetallVergleich.map((a) => a.id)).size).toBe(edelmetallVergleich.length);
+    for (const a of edelmetallVergleich) expect(a.link, a.id).toBeUndefined();
+  });
+
+  it("belegt jeden eingetragenen Halal-Wert mit einer Quelle", () => {
+    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+    for (const a of edelmetallVergleich) {
+      for (const key of halal) {
+        if (a.werte[key] !== null && a.werte[key] !== undefined) {
+          expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it("nennt zu jedem Weg alle vier Halal-Merkmale", () => {
+    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+    for (const a of edelmetallVergleich) {
+      for (const key of halal) expect(a.werte[key], `${a.id} ${key}`).not.toBeNull();
     }
   });
 });
