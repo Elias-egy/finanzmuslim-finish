@@ -139,7 +139,7 @@ const Wissen = () => (
               <h2 className="text-2xl font-bold text-foreground md:text-[28px]">{k.thema}</h2>
               <p className="mt-2 text-[16px] text-muted-foreground">{k.satz}</p>
               <div className="mt-5 space-y-4">
-                {sortiert(k.thema).map((a) => (
+                {sortiert(k.thema).filter((a) => a.to).map((a) => (
                   <Zeile key={a.name} {...a} />
                 ))}
               </div>

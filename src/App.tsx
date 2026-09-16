@@ -18,6 +18,8 @@ const Tools = lazy(() => import("./pages/Tools.tsx"));
 const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
+const UeberMich = lazy(() => import("./pages/UeberMich.tsx"));
+const Kooperationen = lazy(() => import("./pages/Kooperationen.tsx"));
 const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
@@ -125,6 +127,8 @@ const App = () => (
             <Route path="/zakatrechner" element={<Zakatrechner />} />
             <Route path="/rechner" element={<Rechner />} />
             <Route path="/wie-ich-geld-verdiene" element={<WieIchGeldVerdiene />} />
+            <Route path="/ueber-mich" element={<UeberMich />} />
+            <Route path="/kooperationen" element={<Kooperationen />} />
             {/* Blog aufgeloest: alles liegt jetzt im Wissensbereich. */}
             <Route path="/blog" element={<Navigate to="/wissen" replace />} />
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />

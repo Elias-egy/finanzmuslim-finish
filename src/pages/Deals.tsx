@@ -74,6 +74,7 @@ const DealCard = ({ deal }: { deal: Deal }) => {
       {ctaUrl ? (
         <Link
           to={ctaUrl}
+          rel="sponsored nofollow"
           className="mt-auto inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-primary-hover transition-colors min-h-[48px]"
         >
           Zum Angebot*

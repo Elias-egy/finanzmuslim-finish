@@ -31,8 +31,8 @@ import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.png";
 import rechnerRender from "@/assets/rechner.webp";
 
-/** Acht Kacheln, dieselben Vergleiche wie auf /vergleiche (Stand 14.09.2026).
- *  Mit Ziel verlinkt, sonst "bald", bis der jeweilige Vergleich steht. */
+/** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
+ *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). */
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
@@ -243,8 +243,8 @@ const Index = () => (
         </div>
 
         {/* Kacheln ueberlappen auf dem Desktop die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:grid-cols-2 lg:-mt-[60px] lg:grid-cols-4">
-          {categories.map(({ label, icon: Icon, to }) => (
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:grid-cols-2 lg:-mt-[60px] lg:grid-cols-3">
+          {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               /* Kacheln ohne eigene Seite fuehren auf die Vergleichsuebersicht.
@@ -414,7 +414,7 @@ const Index = () => (
           </div>
 
           <div className="mt-6 grid gap-3 md:grid-cols-3 md:gap-4 lg:mt-10">
-            {calculators.map(({ title, to, icon: Icon }) => (
+            {calculators.filter((c) => c.to).map(({ title, to, icon: Icon }) => (
               <Zeile
                 key={title}
                 titel={title}

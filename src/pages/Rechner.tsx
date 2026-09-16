@@ -89,7 +89,7 @@ const Rechner = () => (
       </div>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-        {rechnerListe.map((r) => (
+        {rechnerListe.filter((r) => r.to).map((r) => (
           <Kachel key={r.name} {...r} />
         ))}
       </div>

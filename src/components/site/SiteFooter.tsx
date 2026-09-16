@@ -38,7 +38,8 @@ const werkzeuge: NavEntry[] = [
 ];
 
 const ueber: NavEntry[] = [
-  { label: "Über mich" },
+  { label: "Über mich", to: "/ueber-mich" },
+  { label: "Kooperationen", to: "/kooperationen" },
   { label: "So verdiene ich Geld", to: "/wie-ich-geld-verdiene" },
   { label: "Deals", to: "/deals" },
   { label: "Impressum", to: "/impressum" },
@@ -53,7 +54,7 @@ const Column = ({ title, items }: { title: string; items: NavEntry[] }) => (
       {title}
     </p>
     <ul className="grid grid-cols-2 gap-x-4 lg:grid-cols-1">
-      {items.map((i) => (
+      {items.filter((i) => i.to).map((i) => (
         <li key={i.label}>
           <Item item={i} />
         </li>

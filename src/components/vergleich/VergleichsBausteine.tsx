@@ -142,6 +142,7 @@ export const AngebotsKnopf = ({
   return (
     <Link
       to={link}
+      rel="sponsored nofollow"
       className={`${basis} bg-primary text-primary-foreground transition-colors hover:bg-primary-hover`}
     >
       Zum Angebot*

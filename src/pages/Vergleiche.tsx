@@ -142,7 +142,7 @@ const Vergleiche = () => (
               {gruppe.titel}
             </h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {gruppe.eintraege.map((v) => (
+              {gruppe.eintraege.filter((v) => v.to).map((v) => (
                 <Kachel key={v.name} {...v} />
               ))}
             </div>

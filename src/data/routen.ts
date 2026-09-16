@@ -119,6 +119,8 @@ export const festeRouten: Route[] = [
 
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   { pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly", prioritaet: "0.6" },
+  { pfad: "/ueber-mich", quelle: ["src/pages/UeberMich.tsx"], changefreq: "yearly", prioritaet: "0.6" },
+  { pfad: "/kooperationen", quelle: ["src/pages/Kooperationen.tsx"], changefreq: "monthly", prioritaet: "0.4" },
   { pfad: "/wie-ich-geld-verdiene", quelle: ["src/pages/WieIchGeldVerdiene.tsx"], changefreq: "yearly", prioritaet: "0.5" },
   { pfad: "/impressum", quelle: ["src/pages/Impressum.tsx"], changefreq: "yearly", prioritaet: "0.3" },
   { pfad: "/datenschutz", quelle: ["src/pages/Datenschutz.tsx"], changefreq: "yearly", prioritaet: "0.3" },

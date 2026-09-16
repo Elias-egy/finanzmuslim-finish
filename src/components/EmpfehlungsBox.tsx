@@ -22,16 +22,17 @@ export type EmpfehlungsBoxProps = {
   knopf?: string;
 };
 
-/** Kategorien, zu denen es wirklich einen Vergleich gibt oder geben wird.
- *  Alles andere bekommt einen neutralen Satz. */
-const echteVergleiche = [
-  "Depot",
-  "Girokonto",
-  "Baufinanzierung",
-  "Halal-Screening-Apps",
-  "Kinderdepot",
-  "Steuersoftware",
-];
+/** Kategorien mit fertigem Vergleich und ihre Adresse. Steht eine Kategorie
+ *  nicht hier, zeigt die Box neutral auf die Vergleichsuebersicht, nie
+ *  "wird gerade erstellt": ein Leser und ein Netzwerk-Pruefer lesen das als
+ *  unfertige Seite. */
+const fertigeVergleiche: Record<string, string> = {
+  Depot: "/vergleich/depot",
+  Girokonto: "/vergleich/girokonto",
+  Krypto: "/vergleich/krypto",
+  Edelmetalle: "/vergleich/edelmetalle",
+  "Halal-Screening-Apps": "/vergleich/screening-apps",
+};
 
 /**
  * Platzhalter fuer die spaetere Testsieger-Werbung.
@@ -63,14 +64,19 @@ const EmpfehlungsBox = ({
         <p className="mt-5 text-[13px] text-muted-foreground">
           Werbung. Für dich entstehen keine Mehrkosten.
         </p>
-        <Link to={linkZiel ?? "/vergleiche"} className="btn-primary mt-2">
+        <Link
+          to={linkZiel ?? "/vergleiche"}
+          rel={linkZiel?.startsWith("/out/") ? "sponsored nofollow" : undefined}
+          className="btn-primary mt-2"
+        >
           Zu {anbieter}
         </Link>
       </aside>
     );
   }
 
-  const istVergleich = echteVergleiche.includes(kategorie);
+  const vergleichsSeite = fertigeVergleiche[kategorie];
+  const istVergleich = Boolean(vergleichsSeite) || kategorie === "Baufinanzierung";
 
   return (
     <aside className="rounded-2xl bg-hero p-6 md:p-8">
@@ -79,10 +85,15 @@ const EmpfehlungsBox = ({
         {ueberschrift ?? `${kategorie} vergleichen`}
       </p>
       <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
-        {text ?? (istVergleich ? `Unser ${kategorie}-Vergleich wird gerade erstellt.` : "")}
+        {text ??
+          (vergleichsSeite
+            ? `Im ${kategorie}-Vergleich siehst du, bei wem du ohne Zinsen startest und was es kostet.`
+            : istVergleich
+              ? "Depot, Girokonto, Krypto und Edelmetalle: alle Vergleiche mit denselben Halal-Kriterien."
+              : "")}
       </p>
-      <Link to={linkZiel ?? "/vergleiche"} className="btn-primary mt-5">
-        {knopf ?? (istVergleich ? "Zu den Vergleichen" : "Ansehen")}
+      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="btn-primary mt-5">
+        {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
       </Link>
     </aside>
   );

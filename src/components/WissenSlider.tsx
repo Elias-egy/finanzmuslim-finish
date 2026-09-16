@@ -54,7 +54,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
         ref={spur}
         className="-mx-2 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-2 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {karten.map((k) => {
+        {karten.filter((k) => k.to).map((k) => {
           const basis =
             "relative w-[260px] shrink-0 snap-start overflow-hidden card-surface sm:w-[300px]";
 

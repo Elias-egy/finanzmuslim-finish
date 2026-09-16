@@ -25,6 +25,7 @@ const KaufbarListe = ({ kaufbar }: { kaufbar: AnlageKaufbar }) => (
             <li key={k.anbieter}>
               <Link
                 to={`/out/${partner}`}
+                rel="sponsored nofollow"
                 className="inline-flex rounded-full border border-primary bg-primary/5 px-3 py-1 text-[14px] font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
               >
                 {k.anbieter}*

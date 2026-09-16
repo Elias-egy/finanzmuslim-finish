@@ -132,7 +132,7 @@ export const SiteHeader = () => {
                         {col.title}
                       </p>
                       <ul>
-                        {col.items.map((item) => (
+                        {col.items.filter((i) => i.to).map((item) => (
                           <li key={item.label}>
                             <Entry item={item} onClick={() => setOpenGroup(null)} />
                           </li>
@@ -190,7 +190,7 @@ export const SiteHeader = () => {
                             {col.title}
                           </p>
                           <ul>
-                            {col.items.map((item) => (
+                            {col.items.filter((i) => i.to).map((item) => (
                               <li key={item.label}>
                                 <Entry item={item} onClick={() => setMobileOpen(false)} />
                               </li>
