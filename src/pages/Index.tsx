@@ -40,7 +40,7 @@ const categories = [
   { label: "Aktien prüfen", icon: ShieldCheck, to: "/wissen/sind-aktien-halal" },
   { label: "Edelmetalle", icon: Coins },
   { label: "Kinderdepot", icon: Baby },
-  { label: "Screening-Apps", icon: ScanSearch },
+  { label: "Screening-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Steuersoftware", icon: FileText },
 ];
 

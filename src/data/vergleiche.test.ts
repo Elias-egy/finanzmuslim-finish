@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
+import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
@@ -94,5 +95,32 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
         expect(b.status, a.id).not.toBe("bewertet");
       }
     }
+  });
+});
+
+/* Der Screener-Vergleich hat keine Finanzfluss-Quelle und keine Note. Geprueft
+   wird deshalb nur, was auch dort gelten muss: eindeutige IDs, alphabetische
+   Reihenfolge und ein Beleg hinter jedem Halal-Wert. */
+describe("Vergleichsdaten screening-apps", () => {
+  it("hat eindeutige IDs und steht alphabetisch", () => {
+    const namen = screenerVergleich.map((a) => a.name.toLowerCase());
+    expect(new Set(screenerVergleich.map((a) => a.id)).size).toBe(screenerVergleich.length);
+    expect(namen).toEqual([...namen].sort((a, b) => a.localeCompare(b, "de")));
+  });
+
+  it("belegt jeden eingetragenen Wert mit einer Quelle", () => {
+    const keys = SCREENER_ZEILEN.filter((z) => !z.key.startsWith("__")).map((z) => z.key);
+    for (const a of screenerVergleich) {
+      for (const key of keys) {
+        const wert = a.werte[key];
+        if (wert !== null && wert !== undefined) {
+          expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it("nennt keinen Partnerlink, weil es keine Partnerschaft gibt", () => {
+    for (const a of screenerVergleich) expect(a.link, a.id).toBeUndefined();
   });
 });
