@@ -34,13 +34,14 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Edelmetalle",
-        desc: "Finde das Depot mit den meisten zertifizierten Gold- und Silber-ETCs.",
+        desc: "Fünf Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
         icon: Coins,
+        to: "/vergleich/edelmetalle",
       },
       { name: "Kinderdepot", desc: "Vergleiche Depots für deine Kinder.", icon: Baby },
       {
         name: "Halal-Anlagen finden",
-        desc: "27 Anlagen: ETFs, Sukuk, Gold, Silber und Krypto mit Kosten und Prüfstelle.",
+        desc: "31 Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.",
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },

@@ -23,6 +23,7 @@ const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
+const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -131,6 +132,7 @@ const App = () => (
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
             <Route path="/vergleich/krypto" element={<VergleichKrypto />} />
             <Route path="/vergleich/screening-apps" element={<VergleichScreener />} />
+            <Route path="/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet
                 wird ueber Instagram und die bestehende Mailkette. */}

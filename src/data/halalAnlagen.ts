@@ -1,4 +1,4 @@
-export type Kategorie = "aktien" | "sukuk" | "gold" | "silber" | "krypto";
+export type Kategorie = "aktien" | "sukuk" | "gold" | "silber" | "rohstoffe" | "krypto";
 
 export type Anlage = {
   /** Fester Slug für /halal-anlagen/[slug]. Nicht zur Laufzeit berechnen. */
@@ -377,6 +377,35 @@ export const halalAnlagen: Anlage[] = [
     groesseStand: "Factsheet vom 27.03.2024",
   },
   {
+    slug: "royal-mint-responsibly-sourced-physical-gold",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://hanetf.com/wp-content/assets/The%20Royal%20Mint%20ETC%20-%20Shariah%20Compliance%20Cert%20-%202025.pdf",
+    zertifikatHinweis:
+      "Jährliches Shariah-Zertifikat des Shariah-Gremiums von Amanie Advisors, ausgestellt am 17. Juni 2026 für das Geschäftsjahr 2025, unterschrieben von Dr. Osama Al Dereai. Besonderheit dieses ETCs: Das Gold liegt im Tresor der Royal Mint in Cardiff und nicht bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen.",
+    zweiterBeleg: {
+      titel: "Fatwa zum Produkt",
+      url: "https://etp.hanetf.com/Fatwa___The_Royal_Mint_Gold_ETC.pdf",
+    },
+    name: "The Royal Mint Responsibly Sourced Physical Gold",
+    isin: "XS2115336336",
+    kuerzel: "RM8U",
+    anbieter: "HANetf",
+    kategorie: "gold",
+    kosten: 0.25,
+    kostenLabel: "0,25 %",
+    groesse: "1.601 Mio. $",
+    groesseSortierwert: 1601,
+    groesseStand: "14.09.2026",
+    ertrag: "thesaurierend",
+    ertragDetail: "thesaurierend",
+    bauart: "passiv",
+    replikation: "physisch, zugeordnete Barren",
+    domizil: "Irland",
+    auflage: "14.02.2020",
+    zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
+  },
+  {
     slug: "invesco-physical-gold-etc",
     zertifikatArt: "produkt",
     zertifikatLink:
@@ -559,6 +588,75 @@ export const halalAnlagen: Anlage[] = [
     domizil: "Jersey",
     auflage: "13.08.2024",
     zertifizierer: "Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1",
+  },
+  {
+    slug: "wisdomtree-physical-platinum",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt WisdomTree Physical Platinum ausdrücklich. Für Platin gilt die Sonderregel für Gold und Silber nicht, es wird wie eine gewöhnliche Ware behandelt.",
+    name: "WisdomTree Physical Platinum",
+    isin: "JE00B1VS2W53",
+    anbieter: "WisdomTree",
+    kategorie: "rohstoffe",
+    kosten: 0.49,
+    kostenLabel: "0,49 %",
+    groesse: "452 Mio. €",
+    groesseSortierwert: 452,
+    ertrag: "thesaurierend",
+    ertragDetail: "thesaurierend",
+    bauart: "passiv",
+    replikation: "physisch besichert",
+    domizil: "Jersey",
+    auflage: "24.04.2007",
+    zertifizierer: "Al-Qalam Shariah Panel, jährlich",
+  },
+  {
+    slug: "wisdomtree-physical-palladium",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt WisdomTree Physical Palladium ausdrücklich. Auch für Palladium gilt die Sonderregel für Gold und Silber nicht.",
+    name: "WisdomTree Physical Palladium",
+    isin: "JE00B1VS3002",
+    anbieter: "WisdomTree",
+    kategorie: "rohstoffe",
+    kosten: 0.49,
+    kostenLabel: "0,49 %",
+    groesse: "149 Mio. €",
+    groesseSortierwert: 149,
+    ertrag: "thesaurierend",
+    ertragDetail: "thesaurierend",
+    bauart: "passiv",
+    replikation: "physisch besichert",
+    domizil: "Jersey",
+    auflage: "24.04.2007",
+    zertifizierer: "Al-Qalam Shariah Panel, jährlich",
+  },
+  {
+    slug: "wisdomtree-physical-precious-metals",
+    zertifikatArt: "produkt",
+    zertifikatLink:
+      "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    zertifikatHinweis:
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt den Korb als WisdomTree Physical Precious Metals Basket ausdrücklich. Im Korb stecken Gold, Silber, Platin und Palladium, für die beiden ersten gilt die Sonderregel der sofortigen Übergabe.",
+    name: "WisdomTree Physical Precious Metals",
+    isin: "JE00B1VS3W29",
+    anbieter: "WisdomTree",
+    kategorie: "rohstoffe",
+    kosten: 0.44,
+    kostenLabel: "0,44 %",
+    groesse: "387 Mio. €",
+    groesseSortierwert: 387,
+    ertrag: "thesaurierend",
+    ertragDetail: "thesaurierend",
+    bauart: "passiv",
+    replikation: "physisch besichert",
+    domizil: "Jersey",
+    auflage: "24.04.2007",
+    zertifizierer: "Al-Qalam Shariah Panel, jährlich",
   },
   {
     slug: "comgest-growth-europe-s-eur-acc",

@@ -109,6 +109,7 @@ export const navGroups: NavGroup[] = [
           { label: "Alle Vergleiche", to: "/vergleiche" },
           { label: "Depot-Vergleich", to: "/vergleich/depot" },
           { label: "Krypto-Vergleich", to: "/vergleich/krypto" },
+          { label: "Edelmetalle", to: "/vergleich/edelmetalle" },
           { label: "Kinderdepot" },
           { label: "Halal-Anlagen finden", to: "/halal-anlagen" },
         ],

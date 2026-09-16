@@ -3,6 +3,7 @@ import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVerglei
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
+import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
@@ -122,5 +123,32 @@ describe("Vergleichsdaten screening-apps", () => {
 
   it("nennt keinen Partnerlink, weil es keine Partnerschaft gibt", () => {
     for (const a of screenerVergleich) expect(a.link, a.id).toBeUndefined();
+  });
+});
+
+/* Der Edelmetall-Vergleich vergleicht Wege, keine Anbieter. Deshalb keine
+   alphabetische Pruefung, aber dieselbe Belegpflicht. */
+describe("Vergleichsdaten edelmetalle", () => {
+  it("hat eindeutige IDs und keinen Partnerlink", () => {
+    expect(new Set(edelmetallVergleich.map((a) => a.id)).size).toBe(edelmetallVergleich.length);
+    for (const a of edelmetallVergleich) expect(a.link, a.id).toBeUndefined();
+  });
+
+  it("belegt jeden eingetragenen Halal-Wert mit einer Quelle", () => {
+    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+    for (const a of edelmetallVergleich) {
+      for (const key of halal) {
+        if (a.werte[key] !== null && a.werte[key] !== undefined) {
+          expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it("nennt zu jedem Weg alle vier Halal-Merkmale", () => {
+    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+    for (const a of edelmetallVergleich) {
+      for (const key of halal) expect(a.werte[key], `${a.id} ${key}`).not.toBeNull();
+    }
   });
 });

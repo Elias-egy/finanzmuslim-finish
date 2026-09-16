@@ -194,6 +194,14 @@ const abschnitte: BeitragAbschnitt[] = [
           jederzeit ausliefern lassen kannst, ist dagegen der saubere Fall. Es kommt also nicht auf das Wort
           Sparplan an, sondern auf den Vertrag darunter.
         </p>
+        <p>
+          <B>Gibt es einen mit Prüfung?</B> Einen haben wir gefunden. INAIA aus Deutschland lässt seinen Gold- und
+          Silbersparplan von einer Prüfstelle in Dubai nach den AAOIFI-Kriterien zertifizieren, das Metall lagert in
+          Deutschland und der Schweiz und wird auf Wunsch geliefert. Für die bekannteren deutschen Anbieter Auvesta und
+          SOLIT haben wir keinen solchen Nachweis gefunden. Das heißt nicht, dass ihre Verträge unzulässig wären, es
+          heißt, dass du sie selbst prüfen musst. Alle Wege nebeneinander stehen im{" "}
+          <L to="/vergleich/edelmetalle">Edelmetall-Vergleich</L>.
+        </p>
       </>
     ),
   },
@@ -257,6 +265,23 @@ const abschnitte: BeitragAbschnitt[] = [
           sollte ein Zertifikat geben, das du selbst lesen kannst. In unserer{" "}
           <L to="/halal-anlagen">Anlagen-Datenbank</L> steht bei jedem Produkt, ob ein Nachweis vorliegt und
           von wem. Wo keiner vorliegt, steht das ausdrücklich dabei.
+        </p>
+        <Hinweis titel="Ein Produkt fällt aus der Reihe">
+          <p>
+            Bei fast allen Gold-Wertpapieren kommst du an das Metall nicht heran. Der ETC der britischen Royal Mint
+            ist die Ausnahme: Das Gold liegt in ihrem eigenen Tresor in Cardiff und nicht bei einer Bank, und
+            Privatanleger können sich Barren und Münzen ausliefern lassen. Das Zertifikat kommt von Amanie Advisors
+            und wird jedes Jahr neu ausgestellt. Wer dem Einwand zur Übergabe Gewicht gibt, findet hier den kürzesten
+            Weg vom Papier zum Barren.
+          </p>
+        </Hinweis>
+        <p>
+          <B>Was die Prüfer selbst schreiben.</B> Bemerkenswert ehrlich ist der Bericht des Gremiums, das die
+          WisdomTree-Produkte prüft. Es hält fest, dass der AAOIFI-Standard für Gold eine Abwicklung noch am selben
+          Tag verlangt, die Papiere aber erst nach zwei Tagen abgerechnet werden. Es hält sie dennoch für vertretbar,
+          weil ein anderer Standard eine Verzögerung zulässt, die im Geschäftsverkehr unvermeidbar ist. Man muss dem
+          nicht folgen. Aber es zeigt, dass diese Zertifikate keine Gefälligkeit sind, sondern eine Abwägung, die man
+          nachlesen kann.
         </p>
       </>
     ),
@@ -416,6 +441,11 @@ const faq: BeitragFrage[] = [
       "Weißgold und Roségold sind Gold, für sie gilt dieselbe Regel. Platin und Palladium gehören nicht zu den Waren, für die diese Sonderregel gilt, und werden wie normale Waren behandelt.",
   },
   {
+    frage: "Gibt es einen Goldsparplan mit Shariah-Zertifikat?",
+    antwort:
+      "Ja, einen haben wir gefunden. INAIA aus Deutschland lässt seinen Gold- und Silbersparplan von Minhaj Shari'ah Financial Advisory in Dubai nach den AAOIFI-Kriterien prüfen. Das Metall lagert in Deutschland und der Schweiz und wird auf Wunsch geliefert. Für Auvesta und SOLIT, die bekanntesten deutschen Anbieter, haben wir keinen Nachweis gefunden.",
+  },
+  {
     frage: "Wie viel Gold sollte man haben?",
     antwort:
       "Dazu geben wir keine Empfehlung ab, das wäre Anlageberatung. Was sich sagen lässt: Gold wirft nichts ab, es zahlt keine Miete und keinen Gewinn. Es ist ein Wertspeicher, kein Einkommen.",
@@ -436,7 +466,7 @@ const HalalGoldKaufen = () => (
         beschreibung,
         path: "/wissen/halal-gold-kaufen",
         datePublished: "16. August 2026",
-        dateModified: "5. September 2026",
+        dateModified: "16. September 2026",
         faq,
       })}
     />
@@ -455,14 +485,14 @@ const HalalGoldKaufen = () => (
       abschnitte={abschnitte}
       faq={faq}
       datePublished="16. August 2026"
-      dateModified="5. September 2026"
+      dateModified="16. September 2026"
       boxMitteNach={4}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Steuer- oder Anlageberatung. Genannte Produkte sind Beispiele und keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders bei Gold als Wertpapier, bei Sparplänen und beim getragenen Schmuck. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
         kategorie: "Anlagen",
         ueberschrift: "Welche Gold-Produkte einen Nachweis haben",
         linkZiel: "/halal-anlagen",
-        text: "27 Anlagen mit Kosten, Größe und Prüfstelle.",
+        text: "31 Anlagen mit Kosten, Größe und Prüfstelle.",
         knopf: "Zu den Anlagen",
       }}
       boxMitte={{
@@ -473,6 +503,7 @@ const HalalGoldKaufen = () => (
     >
       <PasstDazu
         punkte={[
+          { to: "/vergleich/edelmetalle", name: "Der Edelmetall-Vergleich", text: "stellt die fünf Wege zu Gold und Silber nebeneinander, mit Anbietern und Nachweisen." },
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "rechnet Gold, Silber und Ersparnisse zusammen und zeigt dir den Nisab." },
           { to: "/wissen/nisab", name: "Nisab verstehen", text: "erklärt, welche der beiden Grenzen für dich gilt." },
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
