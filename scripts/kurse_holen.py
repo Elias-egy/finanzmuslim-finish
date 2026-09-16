@@ -49,6 +49,10 @@ ANLAGEN = [
     ("IE00B43VDT70", "Invesco Physical Silver"),
     ("JE00B1VS3333", "WisdomTree Physical Silver"),
     ("JE00BQRFDY49", "WisdomTree Core Physical Silver"),
+    ("XS2115336336", "The Royal Mint Responsibly Sourced Physical Gold"),
+    ("JE00B1VS2W53", "WisdomTree Physical Platinum"),
+    ("JE00B1VS3002", "WisdomTree Physical Palladium"),
+    ("JE00B1VS3W29", "WisdomTree Physical Precious Metals"),
     ("IE00B4ZJ4634", "Comgest Growth Europe S EUR Acc"),
     ("LU2458330086", "Franklin Shariah Technology Fund A (acc) USD"),
 ]
@@ -71,6 +75,9 @@ GESPERRTE_ENDUNGEN = (".T", ".HK", ".SS", ".SZ", ".KS", ".TW", ".AX")
 # nur das Morningstar-Symbol (0P...) Daten liefert, und ETFs, deren Hauptmarkt
 # die Suche gar nicht ausgibt.
 SYMBOL_FEST = {
+    # Die ISIN-Suche findet nur Stuttgart ohne Historie. Mailand hat die volle Reihe in Euro.
+    "JE00B1VS2W53": "PHPT.MI",      # WisdomTree Physical Platinum
+    "JE00B1VS3002": "PHPD.MI",      # WisdomTree Physical Palladium
     "LU1150255971": "0P00016N1Z",   # BNP Paribas Islamic Hilal Income
     "IE00B4ZJ4634": "0P0000U50G.F",  # Comgest Growth Europe S
     # Die Suche findet nur FLX1.MU, Muenchen, mit einem einzigen Kurspunkt.
