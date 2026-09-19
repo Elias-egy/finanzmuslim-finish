@@ -76,7 +76,7 @@ const levels = [
 ];
 
 const inputClass =
-  "h-12 w-full rounded-lg border border-border bg-card px-4 text-[15px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition";
+  "h-12 w-full rounded-lg border border-border bg-card px-4 text-[16px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition";
 
 /**
  * Der Webhook ist derselbe wie auf der alten Seite: Make nimmt E-Mail, Vorname

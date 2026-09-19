@@ -47,7 +47,7 @@ const istPreisVeraltet = (stand: string) => {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[15px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Ein Geldfeld mit Beschriftung, Erklaersatz und Euro-Zeichen.
  *

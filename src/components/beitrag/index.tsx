@@ -276,12 +276,14 @@ export const Kennzahlen = ({ zahlen }: { zahlen: { wert: string; label: string; 
 );
 
 /* ------------------------------------------------------------------ */
-/* Tabelle: schlicht, scrollt bei Bedarf waagerecht.                    */
+/* Tabelle. Ab 640px eine echte Tabelle. Darunter wird jede Zeile zu     */
+/* einem Block: erste Zelle als Titel, die übrigen mit ihrer Spalten-   */
+/* überschrift davor. Nichts scrollt seitlich, nichts wird abgeschnitten.*/
 /* ------------------------------------------------------------------ */
 export const Tabelle = ({ kopf, zeilen }: { kopf: string[]; zeilen: ReactNode[][] }) => (
-  <div className="my-6 overflow-x-auto rounded-2xl border border-border">
-    <table className="w-full min-w-[480px] border-collapse text-[15px]">
-      <thead>
+  <div className="my-6 overflow-hidden rounded-2xl border border-border">
+    <table className="block w-full border-collapse text-[15px] sm:table">
+      <thead className="hidden sm:table-header-group">
         <tr className="bg-muted text-left">
           {kopf.map((k) => (
             <th key={k} className="px-4 py-3 font-semibold text-foreground">
@@ -290,11 +292,19 @@ export const Tabelle = ({ kopf, zeilen }: { kopf: string[]; zeilen: ReactNode[][
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className="block sm:table-row-group">
         {zeilen.map((z, i) => (
-          <tr key={i} className="border-t border-border bg-card">
+          <tr key={i} className="block border-t border-border bg-card py-2 first:border-t-0 sm:table-row sm:py-0 sm:first:border-t">
             {z.map((c, j) => (
-              <td key={j} className={`px-4 py-3 align-top leading-relaxed ${j === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+              <td
+                key={j}
+                data-label={j === 0 ? undefined : kopf[j]}
+                className={`block px-4 py-1.5 align-top leading-relaxed sm:table-cell sm:py-3 ${
+                  j === 0
+                    ? "text-[16px] font-semibold text-foreground sm:text-[15px]"
+                    : "text-muted-foreground before:block before:text-[12px] before:font-semibold before:uppercase before:tracking-[0.06em] before:text-foreground/70 before:content-[attr(data-label)] sm:before:hidden"
+                }`}
+              >
                 {c}
               </td>
             ))}

@@ -19,7 +19,7 @@ const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[15px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Steht ausserhalb der Rechner-Komponente, sonst verliert das Feld bei jedem
  *  Tastendruck den Fokus. Derselbe Fehler wie im Zakat-Rechner. */

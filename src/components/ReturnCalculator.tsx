@@ -645,7 +645,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                             const v = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
                             setCustomAlloc((prev) => ({ ...prev, [a.key]: v }));
                           }}
-                          className="w-16 rounded-lg border border-border/70 bg-white px-2 py-1 text-sm font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          className="w-16 rounded-lg border border-border/70 bg-white px-2 py-1 text-[16px] font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                         <span className="text-xs text-muted-foreground">%</span>
                       </div>

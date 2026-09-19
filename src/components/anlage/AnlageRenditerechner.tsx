@@ -47,7 +47,7 @@ const historischeJahresrendite = (kurs: Kurs | undefined) => {
 };
 
 const inputCls =
-  "w-full rounded-lg border border-border bg-card px-3 py-2.5 text-[15px] font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30";
+  "w-full rounded-lg border border-border bg-card px-3 py-2.5 text-[16px] font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30";
 
 type Props = { kurs: Kurs | undefined; name: string };
 
