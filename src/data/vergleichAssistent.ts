@@ -1,4 +1,4 @@
-import { Banknote, Bitcoin, Coins, LineChart, ScanSearch } from "lucide-react";
+import { Banknote, Bitcoin, Coins, FileText, LineChart, ScanSearch } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Kategorie } from "@/lib/bewertung";
@@ -288,6 +288,7 @@ export const ziele: Ziel[] = [
   { id: "krypto", art: "fragen", titel: "Krypto-Börse", unter: "Für Bitcoin und andere Coins", icon: Bitcoin, vergleich: "/vergleich/krypto", anbieter: kryptoVergleich, finanzMax: KRYPTO_FINANZ_MAX, zeilen: KRYPTO_ZEILEN, fragen: kryptoFragen },
   { id: "aktien", art: "weiter", titel: "Aktien prüfen", unter: "Apps, die Aktien auf Halal prüfen", icon: ScanSearch, vergleich: "/vergleich/screening-apps" },
   { id: "gold", art: "weiter", titel: "Gold und Silber", unter: "Fünf Wege zu Edelmetallen", icon: Coins, vergleich: "/vergleich/edelmetalle" },
+  { id: "steuer", art: "weiter", titel: "Steuersoftware", unter: "Programme für die Steuererklärung", icon: FileText, vergleich: "/vergleich/steuersoftware" },
 ];
 
 /** Antwort-IDs je Frage, so wie sie im Zustand und im sessionStorage liegen. */
