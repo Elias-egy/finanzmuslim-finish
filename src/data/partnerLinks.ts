@@ -20,6 +20,13 @@ export type PartnerLink = {
 
 export const partnerLinks: PartnerLink[] = [
   {
+    kurzname: "kraken",
+    anbieter: "Kraken",
+    ziel: "/dein-investmentstart/kraken",
+    aktiv: true,
+    notiz: "MCANISM, Angebot 2906, Textlink Default. Werbeflaeche finanzmuslim.com (AdSpace 2016).",
+  },
+  {
     kurzname: "scalable",
     anbieter: "Scalable Capital",
     ziel: "/dein-investmentstart",

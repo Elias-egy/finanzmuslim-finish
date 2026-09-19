@@ -11,7 +11,7 @@
  * die drei Schritte zur Kontoeröffnung.
  */
 
-export type StartArt = "depot" | "girokonto";
+export type StartArt = "depot" | "girokonto" | "krypto";
 
 export type StartPartner = {
   kurzname: string;
@@ -41,7 +41,7 @@ export type StartPartner = {
   checkliste: { titel: string; text: string }[];
   checklisteTitel: [string, string];
   faqs: { q: string; a: string }[];
-  /** Nur Girokonten: Schritte statt Video. */
+  /** Girokonten und Krypto: Schritte statt Video. */
   schritte?: { titel: string; text: string }[];
 };
 
@@ -61,6 +61,61 @@ const derivate = {
 };
 
 export const startPartner: StartPartner[] = [
+  {
+    kurzname: "kraken",
+    anbieter: "Kraken",
+    kurz: "Kraken",
+    domain: "kraken.com",
+    markenfarbe: "#5741D9",
+    art: "krypto",
+    pfad: "/dein-investmentstart/kraken",
+    link: "https://api.skynet.mcanism.com/c/09d9dW",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Kraken starten \u2192",
+    videoHinweis: false,
+    chips: ["Echte Coins", "Eigene Wallet", "600+ Coins", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Konto er\u00f6ffnen", text: "E-Mail best\u00e4tigen, dann Foto-Ident mit dem Ausweis. Dauert rund 10 Minuten." },
+      { titel: "Auto Earn ausschalten", text: "In den Kontoeinstellungen deaktivieren, bevor du einzahlst. Dann bleiben deine Coins ohne Zins." },
+      { titel: "Erste Coins kaufen", text: "Ab 1 \u20ac per Echtzeit\u00fcberweisung, PayPal oder Karte. Danach auf deine eigene Wallet \u00fcbertragbar." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, keine Zertifikate",
+        text: "Du kaufst den Coin selbst und kannst ihn auf eine eigene Wallet \u00fcbertragen. Kein ETP, kein Zertifikat auf den Kurs.",
+      },
+      {
+        titel: "Ohne Zinsen nutzbar",
+        text: "Kraken legt Guthaben \u00fcber Auto Earn automatisch an, du kannst das aber in den Kontoeinstellungen abschalten. Das Bezahlmodell h\u00e4ngt an keiner Zinsbindung.",
+      },
+      {
+        titel: "600+ Coins, Sparplan ab 1 \u20ac",
+        text: "MiCA-Lizenz aus Irland, Gesamtkosten 12,47 \u20ac pro 500 \u20ac, Auszahlung von Bitcoin f\u00fcr 1,00 \u20ac.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Kraken-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Auto Earn abschalten, bevor du einzahlst.",
+        text: "Sonst wandern Guthaben und Coins automatisch in Pr\u00e4mienprogramme. Der Schalter sitzt in den Kontoeinstellungen.",
+      },
+      {
+        titel: "Kein Margin, kein Futures-Handel.",
+        text: "Kraken bietet beides an. Beides l\u00e4uft \u00fcber Kredit und Zins, das Konto funktioniert ohne.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist bei Kraken kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Kraken sind es drei Schritte, die oben stehen: Konto er\u00f6ffnen, Auto Earn abschalten, erste Coins kaufen.",
+      },
+      {
+        q: "Ist Kraken halal nutzbar?",
+        a: "Mit den 2 Regeln aus der Checkliste. Du besitzt echte Coins, kannst sie auf deine eigene Wallet holen, und ohne Auto Earn, Margin und Futures f\u00e4llt kein Zins an.",
+      },
+    ],
+  },
   {
     kurzname: "scalable",
     anbieter: "Scalable Capital",

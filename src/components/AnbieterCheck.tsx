@@ -5,6 +5,7 @@ import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { brokerVergleich, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { girokontoVergleich, GIRO_ZEILEN } from "@/data/girokontoVergleich";
+import { kryptoVergleich, KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
 import { halalAnlagen, type Kategorie } from "@/data/halalAnlagen";
 import type { StartPartner } from "@/data/investmentStart";
 import { baueSpalten } from "@/data/vergleichHelfer";
@@ -18,6 +19,13 @@ import { baueSpalten } from "@/data/vergleichHelfer";
 const KOSTEN_KEYS = {
   depot: ["depotgebuehr", "orderkosten", "etfSparplanKosten", "sparrate"],
   girokonto: ["kontofuehrung", "debitkarte", "girocard", "applePay"],
+  krypto: ["gesamtkosten", "auszahlungBitcoin", "anzahlCoins", "mindestbetrag"],
+} as const;
+
+const VERGLEICH = {
+  depot: { daten: brokerVergleich, zeilen: DEPOT_ZEILEN, wort: "Depot" },
+  girokonto: { daten: girokontoVergleich, zeilen: GIRO_ZEILEN, wort: "Girokonto" },
+  krypto: { daten: kryptoVergleich, zeilen: KRYPTO_ZEILEN, wort: "Krypto" },
 } as const;
 
 const KATEGORIE_TITEL: { titel: string; kategorien: Kategorie[] }[] = [
@@ -44,15 +52,13 @@ const Zeile = ({
 
 const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
-  const zeilen = istDepot ? DEPOT_ZEILEN : GIRO_ZEILEN;
-  const roh = (istDepot ? brokerVergleich : girokontoVergleich).find(
-    (a) => a.link === `/out/${partner.kurzname}`,
-  );
+  const { daten, zeilen, wort } = VERGLEICH[partner.art];
+  const roh = daten.find((a) => a.link === `/out/${partner.kurzname}`);
   if (!roh) return null;
   const [spalte] = baueSpalten([roh], zeilen);
 
   const halal = zeilen.filter((z) => z.gruppe === "halal");
-  const kosten = KOSTEN_KEYS[istDepot ? "depot" : "girokonto"]
+  const kosten = KOSTEN_KEYS[partner.art]
     .map((k) => zeilen.find((z) => z.key === k))
     .filter((z): z is VergleichsZeile => Boolean(z));
 
@@ -76,7 +82,7 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted-foreground md:text-[17px]">
             Prüfe die Halal-Merkmale und Kosten, bevor du startest: dieselben
-            Daten wie im {istDepot ? "Depot" : "Girokonto"}-Vergleich.
+            Daten wie im {wort}-Vergleich.
           </p>
         </div>
 
