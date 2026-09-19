@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -220,7 +220,10 @@ export const VergleichsTabelle = ({
                 {spalten.map((s) => (
                   <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
                     {z.key === "__angebot" || z.key === "__angebot_unten" ? (
-                      <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
+                      <div className="w-full">
+                        <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
+                        {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
+                      </div>
                     ) : (
                       <ZellInhalt wert={s.werte[z.key]} art={z.art} />
                     )}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
+import { BonusSchild } from "@/components/vergleich/VergleichsBausteine";
 import { motive, type MotivName } from "@/components/motive";
 import {
   aktiveFragen,
@@ -258,11 +259,15 @@ const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?
         Einrichtung ansehen*
       </Link>
       <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
+      <BonusSchild anbieterId={t.anbieter.id} />
     </div>
   ) : (
-    <Link to={baustein.vergleich} className={gross ? knopf : knopfLeise}>
-      Im Vergleich ansehen
-    </Link>
+    <div>
+      <Link to={baustein.vergleich} className={gross ? knopf : knopfLeise}>
+        Im Vergleich ansehen
+      </Link>
+      <BonusSchild anbieterId={t.anbieter.id} />
+    </div>
   );
 
 /** Die eine Karte oben: wer am besten zu den Angaben passt. */
@@ -352,7 +357,7 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
         )}
         <div className="min-w-0">
           <h2 className="text-[21px] font-bold leading-tight text-foreground">{baustein.titel}</h2>
-          <p className="mt-1 text-[15px] leading-snug text-muted-foreground">{baustein.wozu}</p>
+          <p className="mt-1 text-[15px] leading-snug text-muted-foreground">{typeof baustein.wozu === "function" ? baustein.wozu(antworten) : baustein.wozu}</p>
         </div>
       </div>
 
@@ -387,8 +392,33 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
   );
 };
 
+/** Kleiner als eine Empfehlung: folgt aus den Antworten, wurde aber nicht selbst gewählt. */
+const Zusatz = ({ baustein, antworten }: { baustein: Baustein; antworten: Antworten }) => {
+  const mit = useMemo(() => ({ ...antworten, ...baustein.zusatzAntworten, vorhaben: [...(antworten.vorhaben ?? []), ...(baustein.zusatzAntworten?.vorhaben ?? [])] }), [antworten, baustein]);
+  const auswahl = useMemo(() => auswahlAus(baustein.id, mit), [baustein, mit]);
+  const e = useMemo(() => werteAus(baustein.anbieter, baustein.kategorie, baustein.finanzMax, auswahl), [baustein, auswahl]);
+  if (e.passt.length === 0) return null;
+  return (
+    <section className="mt-10">
+      <p className="text-[13px] font-bold uppercase tracking-[0.08em] text-primary">Passt auch zu dir</p>
+      <h2 className="mt-1 text-[19px] font-bold leading-tight text-foreground">{baustein.titel}</h2>
+      <p className="mt-1 text-[15px] leading-snug text-muted-foreground">{typeof baustein.wozu === "function" ? baustein.wozu(antworten) : baustein.wozu}</p>
+      <ul className="mt-3 space-y-3">
+        {e.passt.slice(0, 2).map((t) => (
+          <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} />
+        ))}
+      </ul>
+      <Link to={baustein.vergleich} className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary">
+        {baustein.vergleichText}
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </Link>
+    </section>
+  );
+};
+
 const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; neu: () => void; aendern: () => void; feier: boolean }) => {
   const paket = bausteine.filter((b) => b.aktiv(antworten));
+  const zusatz = bausteine.filter((b) => !b.aktiv(antworten) && b.zusatzWenn?.(antworten));
   const mitDepot = paket.some((b) => b.id === "depot");
   const sparen = antworten.dauer?.includes("kurz");
   const mitStern = paket.some((b) => b.anbieter.some((a) => a.link));
@@ -410,6 +440,10 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
 
       {paket.map((b, i) => (
         <BausteinAbschnitt key={b.id} baustein={b} antworten={antworten} nummer={i + 1} mehrere={paket.length > 1} />
+      ))}
+
+      {zusatz.map((b) => (
+        <Zusatz key={b.id} baustein={b} antworten={antworten} />
       ))}
 
       <section className="mt-10 rounded-2xl bg-hero p-5">

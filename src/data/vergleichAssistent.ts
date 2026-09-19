@@ -9,6 +9,7 @@ import {
   kostetNichts,
   mindestensEins,
   sparplanAb,
+  werteAus,
   type Auswahl,
   type Grund,
   type Prioritaet,
@@ -85,8 +86,16 @@ export type Frage = {
 export type Baustein = {
   id: BausteinId;
   titel: string;
-  /** Ein Satz, wozu der Baustein im Paket ist. */
-  wozu: string;
+  /** Ein Satz, wozu der Baustein im Paket ist. Darf von den Antworten abhängen. */
+  wozu: string | ((a: Antworten) => string);
+  /**
+   * Zusatz: steht kleiner unter dem Paket ("Passt auch zu dir"), wenn der Nutzer
+   * den Baustein nicht selbst gewählt hat, er aber aus seinen Antworten folgt.
+   * Wer ein Depot hat, braucht ein Steuerprogramm, das Kapitalerträge kann.
+   */
+  zusatzWenn?: (a: Antworten) => boolean;
+  /** Antworten, die für den Zusatz unterstellt werden. */
+  zusatzAntworten?: Antworten;
   /** null: keine Halal-Regel und keine Note, es wird nur gefiltert. */
   kategorie: Kategorie | null;
   vergleich: string;
@@ -540,7 +549,11 @@ export const bausteine: Baustein[] = [
   {
     id: "screener",
     titel: "Deine App zum Prüfen",
-    wozu: "Einzelne Aktien musst du selbst prüfen. Diese Apps sagen dir, ob eine Firma halal ist.",
+    /* Gehört zu jedem Depot (Elias, 19.09.2026). Ehrlich bleibt es über den Satz: Für ETFs braucht man sie nicht. */
+    wozu: (a) =>
+      hat(a, "bestimmtes", "aktien")
+        ? "Einzelne Aktien musst du selbst prüfen. Diese Apps sagen dir, ob eine Firma halal ist."
+        : "Für geprüfte ETFs brauchst du sie nicht. Sobald du eine einzelne Aktie kaufst, sagt sie dir, ob die Firma halal ist.",
     kategorie: null,
     vergleich: "/vergleich/screening-apps",
     vergleichText: "Alle Apps vergleichen",
@@ -560,7 +573,7 @@ export const bausteine: Baustein[] = [
       const gut = keys.filter((k) => a.werte[k] === "gut").length + (kostenlosReicht(a) ? 1 : 0);
       return gut / (keys.length + 1);
     },
-    aktiv: will.aktien,
+    aktiv: will.depot,
   },
   {
     id: "krypto",
@@ -593,7 +606,10 @@ export const bausteine: Baustein[] = [
   {
     id: "steuer",
     titel: "Dein Steuerprogramm",
-    wozu: "Sortiert nach Preis. Die kostenlosen stehen oben.",
+    wozu: (a) =>
+      will.steuer(a)
+        ? "Sortiert nach Preis. Die kostenlosen stehen oben."
+        : "Mit einem Depot gehören Dividenden und Kursgewinne in die Steuererklärung. Diese Programme können das.",
     kategorie: null,
     vergleich: "/vergleich/steuersoftware",
     vergleichText: "Alle Programme vergleichen",
@@ -601,6 +617,8 @@ export const bausteine: Baustein[] = [
     finanzMax: {},
     zeilen: STEUER_ZEILEN,
     fakten: ["preis", "plattform"],
+    zusatzWenn: (a) => will.depot(a) && !will.steuer(a),
+    zusatzAntworten: { vorhaben: ["steuer"], steuerLage: ["kapital"] },
     aktiv: will.steuer,
   },
 ];
@@ -634,4 +652,19 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
     gruende: [...wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])), ...(b?.immer ?? [])],
     nebenSort: [...wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])), ...(grundSort ? [grundSort] : [])],
   };
+};
+
+/**
+ * Darf für diesen Anbieter geworben werden? Nur wenn er ab Start zinsfrei ist,
+ * keine Halal-Grundlage nachweislich verletzt und nicht abgeraten ist. Gilt für
+ * die Seite /deals und jede andere Stelle, die einen Bonus aktiv bewirbt.
+ */
+export const empfehlbar = (anbieterId: string): boolean => {
+  for (const b of bausteine) {
+    const a = b.anbieter.find((x) => x.id === anbieterId);
+    if (!a) continue;
+    if (!b.kategorie) return true;
+    return werteAus([a], b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] }).raus === 0 && a.werte.zinsfreiAbStart === "gut";
+  }
+  return false;
 };

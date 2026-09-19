@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FILTER } from "@/data/kryptoVergleich";
+import { kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
 
 /**
  * Krypto-Vergleich.
@@ -96,6 +96,8 @@ const VergleichKrypto = () => (
     }
     zeilen={KRYPTO_ZEILEN}
     anbieter={kryptoVergleich}
+    kategorie="krypto"
+    finanzMax={KRYPTO_FINANZ_MAX}
     filter={KRYPTO_FILTER}
     stand="16.09.2026"
     standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"

@@ -1,5 +1,5 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { brokerVergleich, DEPOT_ZEILEN, DEPOT_FILTER } from "@/data/brokerVergleich";
+import { brokerVergleich, DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 
 const VergleichDepot = () => (
   <VergleichsSeite
@@ -24,6 +24,8 @@ const VergleichDepot = () => (
     }
     zeilen={DEPOT_ZEILEN}
     anbieter={brokerVergleich}
+    kategorie="depot"
+    finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
     stand="14.09.2026"
     standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"

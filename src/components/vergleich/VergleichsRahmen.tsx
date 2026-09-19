@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
-import eliasPortrait from "@/assets/founder-portrait.webp";
+import { Check, ChevronRight } from "lucide-react";
+import { AnbieterLogo } from "@/components/AnbieterLogo";
+import { BonusSchild } from "./VergleichsBausteine";
+import type { RohAnbieter } from "@/data/vergleichHelfer";
+import type { VergleichsZeile } from "./vergleichTypen";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:
@@ -29,11 +32,11 @@ export const VergleichsBrotkrumen = ({ titel }: { titel: string }) => (
 );
 
 /**
- * Kennzahlen und Prüfdatum. Finanzfluss stellt genau das über die Liste, weil
- * es die einzige Stelle ist, an der ein Vergleich seine Arbeit belegt.
- * `stand` ist bewusst Pflicht: ein Vergleich ohne Datum ist wertlos.
+ * Kennzahlen und Prüfdatum, nur am Laptop, rechts unter der Nummer 1. Ohne Foto
+ * und ohne Namen (Elias, 19.09.2026). `stand` ist Pflicht: Ein Vergleich ohne
+ * Datum ist wertlos.
  */
-export const VergleichsLeiste = ({
+export const Kennzahlen = ({
   kennzahlen,
   stand,
   standHinweis,
@@ -44,28 +47,82 @@ export const VergleichsLeiste = ({
   standHinweis?: string;
   className?: string;
 }) => (
-  <div className={`${className} mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4`}>
-    {kennzahlen.map((k) => (
+  <div className={`${className} grid-cols-2 gap-3`}>
+    {kennzahlen.slice(0, 2).map((k) => (
       <div key={k.text} className="rounded-lg border border-border p-4">
         <p className="text-[20px] font-bold text-foreground">{k.zahl}</p>
-        <p className="text-[14px] text-muted-foreground">{k.text}</p>
+        <p className="text-[14px] leading-snug text-muted-foreground">{k.text}</p>
       </div>
     ))}
-    <div className="col-span-2 flex items-center gap-3 rounded-lg border border-border p-4">
-      <img
-        src={eliasPortrait}
-        alt="Elias El-Gendy"
-        className="h-11 w-11 shrink-0 rounded-full object-cover"
-        loading="lazy"
-      />
-      <div className="min-w-0">
-        <p className="truncate text-[15px] font-semibold text-foreground">Elias El-Gendy</p>
-        <p className="text-[13px] text-muted-foreground">Stand: {stand}</p>
-        {standHinweis && <p className="text-[13px] text-muted-foreground">{standHinweis}</p>}
-      </div>
-    </div>
+    <p className="col-span-2 text-[13px] text-muted-foreground">
+      Stand: {stand}
+      {standHinweis ? `. ${standHinweis}` : ""}
+    </p>
   </div>
 );
+
+/**
+ * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
+ * dem, was belegt ist (siehe `halalBelegt` in `src/lib/vergleichAssistent.ts`),
+ * Partnerstatus zählt nicht. Die Gründe darunter kommen aus den Zeilen des
+ * Vergleichs: erfüllte Halal-Merkmale zuerst, dann die zwei Kostenwerte aus dem Raster.
+ */
+export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbieter; zeilen: VergleichsZeile[]; einheit: string }) => {
+  const halal = zeilen
+    .filter((z) => z.gruppe === "halal")
+    .map((z) => {
+      const w = anbieter.werte[z.key];
+      if (z.art === "ampel") return w === "gut" ? z.label : null;
+      return typeof w === "string" && /\d+ von \d+/.test(w) ? `${z.label}: ${w}` : null;
+    })
+    .filter((x): x is string => !!x)
+    .slice(0, 4);
+  const kosten = zeilen
+    .filter((z) => z.gruppe === "kosten" && z.imRaster && typeof anbieter.werte[z.key] === "string")
+    .slice(0, 2)
+    .map((z) => `${z.label}: ${anbieter.werte[z.key]}`);
+
+  return (
+    <section className="overflow-hidden rounded-2xl border-2 border-primary bg-primary" aria-label="Unsere Nummer 1">
+      <p className="px-4 py-2 text-center text-[14px] font-semibold text-primary-foreground">Unsere Nummer 1</p>
+      <div className="rounded-t-2xl bg-card p-4">
+        <div className="flex items-center gap-3">
+          <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
+          <p className="min-w-0 flex-1 text-[18px] leading-snug text-foreground">
+            <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}
+          </p>
+        </div>
+        <ul className="mt-3 space-y-1.5">
+          {[...halal, ...kosten].map((satz) => (
+            <li key={satz} className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+              {satz}
+            </li>
+          ))}
+        </ul>
+        {anbieter.link && (
+          <div className="mt-4">
+            <Link
+              to={anbieter.link}
+              rel="sponsored nofollow"
+              className="flex min-h-[48px] w-full items-center justify-center rounded-lg bg-primary px-4 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+            >
+              Zum Angebot*
+            </Link>
+          </div>
+        )}
+        <BonusSchild anbieterId={anbieter.id} />
+        <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
+          Aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen nicht. Die übrigen {einheit} stehen alphabetisch, bis alle
+          geprüft sind.{" "}
+          <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+            So bewerten wir
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
+};
 
 /**
  * Steht dort, wo bei Finanzfluss "Bestes Depot" steht. Solange nicht alle

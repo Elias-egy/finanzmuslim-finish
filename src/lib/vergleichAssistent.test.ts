@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import { bewerte } from "@/lib/bewertung";
 import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, halalBelegt, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
-import { aktiveFragen, auswahlAus, bausteine, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
+import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { motive } from "@/components/motive";
-import { hoechsterBonus } from "@/data/deals";
+import { dealFuer, deals, hoechsterBonus, schildText } from "@/data/deals";
 
 const MAX = { gebuehren: 100, sicherheit: 50 };
 
@@ -107,12 +107,38 @@ describe("geführter Vergleich", () => {
   it("zeigt einen Bonus nur mit Betrag, Quelle und laufender Frist", () => {
     const ids = new Set(["dkb-girokonto"]);
     const basis = { anbieter: "DKB", titel: "x", vorteil: "x", bedingungen: "x", anbieterIds: ["dkb-girokonto"] };
-    const quelle = { url: "https://example.org", stand: "19.09.2026" };
+    const quelle = { url: "https://example.org", stand: "15.09.2026" };
     expect(hoechsterBonus(ids, "2026-09-19", [])).toBe(0);
     expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200 }])).toBe(0);
     expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200, quelle, gueltigBis: "2026-09-01" }])).toBe(0);
     expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200, quelle }, { ...basis, betrag: 75, quelle }])).toBe(200);
     expect(hoechsterBonus(new Set(["n26-standard"]), "2026-09-19", [{ ...basis, betrag: 200, quelle }])).toBe(0);
+  });
+
+  it("zeigt je Anbieter den höchsten laufenden, belegten Deal", () => {
+    const quelle = { url: "https://example.org", stand: "15.09.2026" };
+    const d = (betrag: number, extra = {}) => ({ anbieter: "X", titel: "x", vorteil: "x", bedingungen: "x", anbieterIds: ["x"], betrag, quelle, ...extra });
+    expect(dealFuer("x", [], "2026-09-19")).toBeNull();
+    expect(dealFuer("x", [d(50), d(200), d(999, { gueltigBis: "2026-01-01" })], "2026-09-19")?.betrag).toBe(200);
+    expect(dealFuer("y", [d(200)], "2026-09-19")).toBeNull();
+    expect(dealFuer("x", [{ ...d(200), quelle: undefined }], "2026-09-19")).toBeNull();
+    // Ein Abruf, der älter als drei Wochen ist, zählt nicht mehr.
+    expect(dealFuer("x", [d(200)], "2026-10-06")?.betrag).toBe(200);
+    expect(dealFuer("x", [d(200)], "2026-10-07")).toBeNull();
+  });
+
+  it("zeigt nie Zinsen als Bonus und schreibt Schilder richtig", () => {
+    for (const x of deals) {
+      expect(`${x.titel} ${x.vorteil} ${x.schild ?? ""}`, x.anbieter).not.toMatch(/zins|p\.a\./i);
+      expect(schildText(x), x.anbieter).not.toMatch(/zins|p\.a\./i);
+    }
+    expect(schildText({ anbieter: "a", titel: "", vorteil: "", bedingungen: "", betrag: 200, bisZu: true })).toBe("bis zu 200 € Bonus");
+    expect(schildText({ anbieter: "a", titel: "", vorteil: "", bedingungen: "", betrag: 20, schild: "20 € in BTC" })).toBe("20 € in BTC");
+  });
+
+  it("ordnet jeden Bonus einem Anbieter zu, den es gibt", () => {
+    const alle = new Set(bausteine.flatMap((b) => b.anbieter.map((a) => a.id)));
+    for (const x of deals) for (const id of x.anbieterIds ?? []) expect(alle.has(id), `${x.anbieter}: ${id}`).toBe(true);
   });
 
   it("zählt einen ungeprüften Türsteher als null und abschaltbare Zinsen halb", () => {
@@ -228,10 +254,22 @@ describe("Ablauf und Paket", () => {
   });
 
   it("baut das Paket aus den Antworten", () => {
-    expect(aktiv({ vorhaben: ["anlegen"] })).toEqual(["depot"]);
-    expect(aktiv({ vorhaben: ["anlegen"], bestimmtes: ["aktien"] })).toEqual(["depot", "screener"]);
+    // Zum Depot gehört immer eine App zum Prüfen (Elias, 19.09.2026).
+    expect(aktiv({ vorhaben: ["anlegen"] })).toEqual(["depot", "screener"]);
+    expect(aktiv({ vorhaben: ["anlegen"], bestimmtes: ["sukuk", "metalle"] })).toEqual(["depot", "screener"]);
     expect(aktiv({ vorhaben: ["anlegen"], bestimmtes: ["krypto"] })).toEqual(["krypto"]);
-    expect(aktiv({ vorhaben: ["anlegen", "konto", "steuer"], bestimmtes: ["etfs", "krypto"] })).toEqual(["depot", "krypto", "girokonto", "steuer"]);
+    expect(aktiv({ vorhaben: ["anlegen", "konto", "steuer"], bestimmtes: ["etfs", "krypto"] })).toEqual(["depot", "screener", "krypto", "girokonto", "steuer"]);
+    expect(aktiv({ vorhaben: ["konto"] })).toEqual(["girokonto"]);
+  });
+
+  it("schlägt zum Depot ein Steuerprogramm vor, das Kapitalerträge kann, aber nur als Zusatz", () => {
+    const zusatz = (a: Antworten) => bausteine.filter((b) => !b.aktiv(a) && b.zusatzWenn?.(a)).map((b) => b.id);
+    expect(zusatz({ vorhaben: ["anlegen"] })).toEqual(["steuer"]);
+    expect(zusatz({ vorhaben: ["anlegen", "steuer"] })).toEqual([]);
+    expect(zusatz({ vorhaben: ["konto"] })).toEqual([]);
+    const s = baustein("steuer");
+    const e = werteAus(s.anbieter, null, {}, auswahlAus("steuer", { ...s.zusatzAntworten, vorhaben: ["anlegen", "steuer"] }));
+    expect(e.passt.every((t) => /^ja/i.test(String(t.anbieter.werte.kapital)))).toBe(true);
   });
 
   it("vergisst Antworten, deren Frage nicht mehr gestellt wird", () => {
@@ -311,5 +349,16 @@ describe("Prüf-Apps", () => {
     expect(e.passt[0].anbieter.name).toBe("Musaffa");
     expect(e.passt[0].gruende).toContain("Gelehrte stehen mit Namen dahinter");
     expect(e.passt[0].gruende.length).toBeGreaterThanOrEqual(3);
+  });
+});
+
+describe("Werbung nur für Empfehlbares", () => {
+  it("wirbt nie für Anbieter mit Zinsen ab Start", () => {
+    for (const b of bausteine.filter((x) => x.kategorie)) {
+      for (const a of b.anbieter) {
+        if (a.werte.zinsfreiAbStart !== "gut") expect(empfehlbar(a.id), a.name).toBe(false);
+      }
+    }
+    expect(empfehlbar("gibt-es-nicht")).toBe(false);
   });
 });

@@ -1,4 +1,5 @@
 import { Check, Info, Minus, Star, X } from "lucide-react";
+import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
   UNGEPRUEFT,
@@ -102,6 +103,26 @@ export const SpaltenEtikett = ({
     )}
   </div>
 );
+
+/* ------------------------------------------------------------- Bonusschild */
+
+/**
+ * Schild unter dem Knopf, wie bei Finanzfluss: "200 € Bonus". Steht nur da, wenn
+ * in `deals.ts` ein Betrag mit Quelle beim Anbieter und laufender Frist steht.
+ * Der Bonus ändert nie die Reihenfolge, auch Finanzfluss wertet ihn nicht.
+ */
+export const BonusSchild = ({ anbieterId, className = "" }: { anbieterId: string; className?: string }) => {
+  const deal = dealFuer(anbieterId);
+  if (!deal) return null;
+  return (
+    <p
+      className={`mx-auto mt-1.5 w-fit rounded-md border border-success/50 bg-success/10 px-2 py-0.5 text-center text-[12px] font-semibold text-success ${className}`}
+      title={`${deal.bedingungen}${deal.gueltigBis ? ` Gültig bis ${deal.gueltigBis.split("-").reverse().join(".")}.` : ""}`}
+    >
+      {schildText(deal)}
+    </p>
+  );
+};
 
 /* ----------------------------------------------------------- Angebotsknopf */
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -74,6 +74,7 @@ const Karte = ({
         {spalte.link && (
           <div className="mb-3">
             <AngebotsKnopf link={spalte.link} breit />
+            <BonusSchild anbieterId={spalte.id} />
           </div>
         )}
 

@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { deals, type Deal } from "@/data/deals";
+import { deals as alleDeals, type Deal } from "@/data/deals";
+import { empfehlbar } from "@/data/vergleichAssistent";
+
+/** Beworben wird nur, wer ab Start zinsfrei ist. Boni von anderen stehen nur neben ihrem Eintrag im Vergleich. */
+const deals = alleDeals.filter((d) => !d.anbieterIds || d.anbieterIds.every(empfehlbar));
 import { Check, Copy, Gift, TicketPercent } from "lucide-react";
 
 const DealCard = ({ deal }: { deal: Deal }) => {

@@ -1,5 +1,5 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { girokontoVergleich, GIRO_ZEILEN, GIRO_FILTER } from "@/data/girokontoVergleich";
+import { girokontoVergleich, GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 
 const VergleichGirokonto = () => (
   <VergleichsSeite
@@ -24,6 +24,8 @@ const VergleichGirokonto = () => (
     }
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoVergleich}
+    kategorie="girokonto"
+    finanzMax={GIRO_FINANZ_MAX}
     filter={GIRO_FILTER}
     stand="14.09.2026"
     standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
