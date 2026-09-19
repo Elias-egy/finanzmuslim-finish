@@ -143,7 +143,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   const [heroCtaVisible, setHeroCtaVisible] = useState(true);
   const [finalCtaVisible, setFinalCtaVisible] = useState(false);
   const istDepot = partner.art === "depot";
+  const istKrypto = partner.art === "krypto";
   const produktWort = istDepot ? "Depot" : "Konto";
+  // Seitentitel je Art: Depot, Girokonto oder Krypto-Konto.
+  const seitenWort = istDepot ? "Investmentstart" : istKrypto ? "Krypto-Konto" : "Girokonto";
 
   // Video startet stumm (o-vegas-Muster). "Ton an" entstummt; jeder Klick auf
   // einen Aufruf pausiert das Video, damit die Stimme nicht in die
@@ -202,11 +205,13 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     <div className="min-h-screen bg-background">
       {/* Conversion-Seite: nicht indexieren, nicht in Sitemap oder Navigation. */}
       <Seo
-        title={`Dein ${istDepot ? "Investmentstart" : "Girokonto"} bei ${partner.anbieter} – finanzmuslim`}
+        title={`Dein ${seitenWort} bei ${partner.anbieter} – finanzmuslim`}
         description={
           istDepot
             ? `Schritt für Schritt zum islamkonformen Depot bei ${partner.anbieter}.`
-            : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
+            : istKrypto
+              ? `Schritt für Schritt zum zinsfreien Krypto-Konto bei ${partner.anbieter}.`
+              : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
         }
         path={partner.pfad}
         noindex
