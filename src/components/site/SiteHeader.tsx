@@ -106,7 +106,7 @@ export const SiteHeader = () => {
               to="/vergleich/start"
               className="hidden min-[900px]:inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
             >
-              Vergleich starten
+              Was passt zu mir?
             </Link>
             <button
               type="button"
@@ -208,7 +208,7 @@ export const SiteHeader = () => {
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
               >
-                Vergleich starten
+                Was passt zu mir?
               </Link>
             </div>
           </div>

@@ -142,9 +142,9 @@ const Vergleiche = () => (
           to="/vergleich/start"
           className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary px-8 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
         >
-          Vergleich starten
+          Finde, was zu dir passt
         </Link>
-        <p className="mt-2 text-[14px] text-muted-foreground">Drei Fragen, dann siehst du, wer zu dir passt.</p>
+        <p className="mt-2 text-[14px] text-muted-foreground">Ein paar einfache Fragen, dann siehst du dein Paket: Depot, Konto, App.</p>
       </header>
 
       <div className="mt-12 space-y-12">

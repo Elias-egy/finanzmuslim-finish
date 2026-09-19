@@ -1,182 +1,406 @@
-import { Banknote, Bitcoin, Coins, FileText, LineChart, ScanSearch } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Kategorie } from "@/lib/bewertung";
 import {
   ampelGut,
   anzahlVon,
+  euro,
   jaNein,
   kostetNichts,
   mindestensEins,
+  sparplanAb,
+  type Auswahl,
+  type Grund,
   type Prioritaet,
   type Wunsch,
 } from "@/lib/vergleichAssistent";
 import type { RohAnbieter } from "./vergleichHelfer";
+import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { regionFuer } from "./anlageRegion";
+import { halalAnlagen } from "./halalAnlagen";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
+import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
+import { steuersoftwareVergleich, STEUER_ZEILEN } from "./steuersoftwareVergleich";
 
 /**
- * Fragen des geführten Vergleichs. Jede Antwort zeigt auf Felder, die es in den
- * Datendateien wirklich gibt. Eine Frage ohne Datenfeld gehört nicht hierher.
+ * Der geführte Vergleich: ein Fragebogen für alles, am Ende ein Paket.
  *
- * Eine Antwort kann dreierlei bewirken:
- *   wuensche    harte Filter. Nicht erfüllt fliegt raus, ungeprüft steht getrennt.
- *   gewichte    verschiebt, wie stark ein Finanzkriterium zählt.
- *   prioritaet  bestimmt die Sortierung und die Fakten unter dem Anbieter.
+ * Grundsätze (Elias, 19.09.2026):
+ *
+ * - Die Leute an die Hand nehmen. Gefragt wird, was jeder beantworten kann: wie
+ *   viel, wie lange, wofür. Kein Fachwort ohne einen Halbsatz dahinter.
+ * - Nicht jeder bekommt dieselben Fragen. `zeigeWenn` hängt eine Frage an
+ *   frühere Antworten.
+ * - Das Ergebnis ist eine Kombination aus Bausteinen: Depot, dazu bei einzelnen
+ *   Aktien eine App zum Prüfen, dazu Konto, Krypto-Börse, Steuerprogramm.
+ * - Jede Antwort zeigt auf Felder, die es in den Datendateien gibt. Eine Frage
+ *   ohne Datenfeld gehört nicht hierher. Deshalb fragen wir nicht nach dem
+ *   Einkommen: Kein Feld hängt daran.
+ * - Empfohlen werden Anbieter und Werkzeuge, nie ein einzelnes Wertpapier. Wer
+ *   nach persönlichen Angaben ein bestimmtes Wertpapier nennt, berät zur Anlage.
+ *
+ * Eine Antwort wirkt auf den Baustein ihrer Frage, über `auch` zusätzlich auf
+ * andere. So gilt "niedrige Kosten" für Depot, Konto und Krypto zugleich.
  */
 
-export type Antwort = {
-  id: string;
-  titel: string;
-  unter?: string;
+export type BausteinId = "depot" | "screener" | "krypto" | "girokonto" | "steuer";
+
+export type Wirkung = {
   wuensche?: Wunsch[];
   gewichte?: Record<string, number>;
   prioritaet?: Prioritaet;
+  /** Satz unter dem Anbieter: warum er zu dieser Antwort passt. */
+  grund?: Grund;
+  /** Zweitrangige Sortierung, 0 bis 1. */
+  nebenSort?: (a: RohAnbieter) => number | null;
 };
+
+export type Antwort = Wirkung & {
+  id: string;
+  titel: string;
+  unter?: string;
+  auch?: Partial<Record<BausteinId, Wirkung>>;
+};
+
+/** Antwort-IDs je Frage, so wie sie im Zustand und im sessionStorage liegen. */
+export type Antworten = Record<string, string[]>;
 
 export type Frage = {
   id: string;
+  fuer: BausteinId | "start";
   titel: string;
   hinweis?: string;
   mehrfach?: boolean;
+  /** Text des Weiter-Knopfs, solange bei einer Mehrfachfrage nichts gewählt ist. */
+  ohneWahl?: string;
   /** Gehört zur Vertiefung nach den Kernfragen. */
   vertiefung?: boolean;
+  zeigeWenn?: (a: Antworten) => boolean;
   antworten: Antwort[];
 };
 
-export type Ziel =
-  | {
-      id: Kategorie;
-      art: "fragen";
-      titel: string;
-      unter: string;
-      icon: LucideIcon;
-      vergleich: string;
-      anbieter: RohAnbieter[];
-      finanzMax: Record<string, number>;
-      zeilen: VergleichsZeile[];
-      fragen: Frage[];
-    }
-  | { id: string; art: "weiter"; titel: string; unter: string; icon: LucideIcon; vergleich: string };
+export type Baustein = {
+  id: BausteinId;
+  titel: string;
+  /** Ein Satz, wozu der Baustein im Paket ist. */
+  wozu: string;
+  /** null: keine Halal-Regel und keine Note, es wird nur gefiltert. */
+  kategorie: Kategorie | null;
+  vergleich: string;
+  vergleichText: string;
+  anbieter: RohAnbieter[];
+  finanzMax: Record<string, number>;
+  zeilen: VergleichsZeile[];
+  /** Zeilen, die immer unter dem Anbieter stehen, wenn keine Priorität eigene mitbringt. */
+  fakten: string[];
+  aktiv: (a: Antworten) => boolean;
+};
+
+const hat = (a: Antworten, frage: string, id: string) => a[frage]?.includes(id) ?? false;
+
+/* ------------------------------------------------------------ Prüfhelfer */
 
 const halalAnlagenZahl = (a: RohAnbieter) => {
   const z = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"].map((k) => anzahlVon(a.werte[k]));
   return z.every((x) => x === null) ? null : z.reduce<number>((s, x) => s + (x ?? 0), 0);
 };
 
-const depotFragen: Frage[] = [
-  {
-    id: "weg",
-    titel: "Wie willst du investieren?",
-    antworten: [
-      {
-        id: "sparplan",
-        titel: "Jeden Monat per Sparplan",
-        unter: "Ein fester Betrag, automatisch",
-        gewichte: { etfSparplanProzent: 2, etfSparplanPauschal: 2, mindestsparrate: 2, intervalle: 2, orderProzent: 0.5, orderPauschal: 0.5 },
-      },
-      {
-        id: "einzel",
-        titel: "Einzelne Käufe",
-        unter: "Wann und wie viel du willst",
-        gewichte: { orderProzent: 2, orderPauschal: 2, handelsplaetze: 2, etfSparplanProzent: 0.5, etfSparplanPauschal: 0.5 },
-      },
-      { id: "beides", titel: "Beides" },
-    ],
+const sparplanBis = (grenze: number): Wunsch => ({
+  id: `sparplan${grenze}`,
+  label: grenze < 25 ? "Sparplan unter 25 € möglich" : "Sparplan möglich",
+  still: true,
+  pruefe: (a) => {
+    const ab = sparplanAb(a.werte.sparrate);
+    return ab === null ? null : ab <= grenze;
   },
-  {
-    id: "anlagen",
-    titel: "Was willst du dort kaufen?",
-    hinweis: "Mehrere möglich. Gezählt werden die Anlagen aus unserem Halal-Anlagen-Vergleich.",
-    mehrfach: true,
-    antworten: [
-      { id: "etfs", titel: "Halal-ETFs und Fonds", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", pruefe: mindestensEins("halalEtfsFonds") }] },
-      { id: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", pruefe: mindestensEins("halalSukuk") }] },
-      { id: "metalle", titel: "Gold und Silber", unter: "Physisch hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", pruefe: mindestensEins("halalEdelmetalle") }] },
-    ],
-  },
-  {
-    id: "prio",
-    titel: "Was ist dir am wichtigsten?",
-    antworten: [
-      {
-        id: "kosten",
-        titel: "Niedrige Kosten",
-        prioritaet: {
-          id: "kosten",
-          label: "niedrige Kosten",
-          gewichte: { depotgebuehr: 2, etfSparplanProzent: 2, etfSparplanPauschal: 2, orderProzent: 2, orderPauschal: 2 },
-          fakten: ["depotgebuehr", "orderkosten", "etfSparplanKosten"],
-        },
-      },
-      {
-        id: "auswahl",
-        titel: "Große Halal-Auswahl",
-        prioritaet: {
-          id: "auswahl",
-          label: "große Halal-Auswahl",
-          gewichte: {},
-          halalAnteil: 0.65,
-          fakten: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"],
-          sortWert: halalAnlagenZahl,
-        },
-      },
-      {
-        id: "app",
-        titel: "Gute App und Service",
-        prioritaet: {
-          id: "app",
-          label: "App und Service",
-          gewichte: { app: 3, kundenservice: 3 },
-          fakten: ["appIos", "appAndroid", "kundenservice"],
-        },
-      },
-    ],
-  },
-  {
-    id: "muss",
-    titel: "Was muss sicher erfüllt sein?",
-    hinweis: "Mehrere möglich. Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
-    mehrfach: true,
-    vertiefung: true,
-    antworten: [
-      {
-        id: "kredit",
-        titel: "Kein Kredit ab Start",
-        unter: "Dir wird kein Wertpapierkredit eingeräumt",
-        wuensche: [{ id: "kredit", label: "Kein Kredit ab Start", pruefe: ampelGut("keinKreditAbStart") }],
-      },
-      {
-        id: "steuer",
-        titel: "Steuer wird automatisch abgeführt",
-        unter: "Du musst nichts selbst nachmelden",
-        wuensche: [{ id: "steuer", label: "Steuer wird abgeführt", pruefe: jaNein("kapest") }],
-      },
-    ],
-  },
-];
+});
 
-const giroFragen: Frage[] = [
+const grundSparplan: Grund = (a) => {
+  const ab = sparplanAb(a.werte.sparrate);
+  return ab === null || ab === Infinity ? null : `Sparplan schon ab ${ab.toLocaleString("de-DE")} €`;
+};
+
+const grundWert =
+  (key: string, text: (wert: string) => string): Grund =>
+  (a) => {
+    const w = a.werte[key];
+    return typeof w === "string" && w.trim() ? text(w) : null;
+  };
+
+const grundAnzahl =
+  (key: string, text: (n: number, von: string) => string): Grund =>
+  (a) => {
+    const w = a.werte[key];
+    const n = anzahlVon(w);
+    if (n === null || n === 0 || typeof w !== "string") return null;
+    return text(n, w.match(/von\s+(\d+)/)?.[1] ?? "");
+  };
+
+const mehrere =
+  (...gruende: Grund[]): Grund =>
+  (a) => {
+    const teile = gruende.map((g) => g(a)).filter(Boolean);
+    return teile.length > 0 ? teile.join(", ") : null;
+  };
+
+/** Halal-Aktienfonds einer Region und wo sie kaufbar sind. Quelle: `anlagenKaufbar.ts`. */
+const fondsDerRegion = (region: string) =>
+  halalAnlagen.filter((x) => x.kategorie === "aktien" && x.isin && regionFuer(x.isin)?.label === region);
+
+const kaufbareFonds = (a: RohAnbieter, region: string) =>
+  fondsDerRegion(region).filter((f) => ANLAGEN_KAUFBAR[f.isin!]?.kaufbar.some((k) => k.anbieter === a.name));
+
+const regionWunsch = (region: string, label: string): Wunsch => ({
+  id: `region-${region}`,
+  label,
+  still: true,
+  pruefe: (a) => {
+    if (kaufbareFonds(a, region).length > 0) return true;
+    const fonds = fondsDerRegion(region);
+    const ueberallGeprueft = fonds.every((f) => ANLAGEN_KAUFBAR[f.isin!]?.nichtImAngebot.includes(a.name));
+    return fonds.length > 0 && ueberallGeprueft ? false : null;
+  },
+});
+
+const grundRegion =
+  (region: string, wort: string): Grund =>
+  (a) => {
+    const n = kaufbareFonds(a, region).length;
+    if (n === 0) return null;
+    return n === 1 ? `1 Halal-Fonds für ${wort} kaufbar` : `${n} Halal-Fonds für ${wort} kaufbar`;
+  };
+
+/* ---------------------------------------------------------- Prioritäten */
+
+const DEPOT_KOSTEN: Prioritaet = {
+  id: "kosten",
+  label: "niedrige Kosten",
+  gewichte: { depotgebuehr: 2, etfSparplanProzent: 2, etfSparplanPauschal: 2, orderProzent: 2, orderPauschal: 2 },
+  fakten: ["depotgebuehr", "orderkosten", "etfSparplanKosten"],
+};
+const DEPOT_AUSWAHL: Prioritaet = {
+  id: "auswahl",
+  label: "große Halal-Auswahl",
+  gewichte: {},
+  halalAnteil: 0.65,
+  fakten: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"],
+  sortWert: halalAnlagenZahl,
+};
+const DEPOT_APP: Prioritaet = {
+  id: "app",
+  label: "App und Service",
+  gewichte: { app: 3, kundenservice: 3 },
+  fakten: ["appIos", "appAndroid", "kundenservice"],
+};
+const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
+const GIRO_APP: Prioritaet = { id: "app", label: "gute App", gewichte: { app: 4, mobilesBezahlen: 2, ident: 2 }, fakten: ["appIos", "appAndroid", "applePay"] };
+const KRYPTO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { gebuehren: 2, transferkosten: 2 }, fakten: ["gesamtkosten", "auszahlungBitcoin"] };
+const KRYPTO_EINFACH: Prioritaet = { id: "einfach", label: "einfachen Einstieg", gewichte: { verifizierung: 2, bezahlmethoden: 2, mindestbetrag: 2 }, fakten: ["ident", "einzahlung", "mindestbetrag"] };
+
+const SPARPLAN_GEWICHTE = { etfSparplanProzent: 2, etfSparplanPauschal: 2, mindestsparrate: 2, intervalle: 2, orderProzent: 0.5, orderPauschal: 0.5 };
+const KRYPTO_SPARPLAN: Wirkung = {
+  wuensche: [{ id: "kryptoSparplan", label: "Sparplan möglich", pruefe: jaNein("sparplan") }],
+  gewichte: { sparplan: 3, mindestbetrag: 2 },
+};
+
+/* ---------------------------------------------------------------- Fragen */
+
+const will = {
+  anlegen: (a: Antworten) => hat(a, "vorhaben", "anlegen"),
+  depot: (a: Antworten) => {
+    if (!hat(a, "vorhaben", "anlegen")) return false;
+    const b = a.bestimmtes ?? [];
+    return b.length === 0 || b.some((x) => x !== "krypto");
+  },
+  krypto: (a: Antworten) => hat(a, "vorhaben", "anlegen") && hat(a, "bestimmtes", "krypto"),
+  aktien: (a: Antworten) => hat(a, "vorhaben", "anlegen") && hat(a, "bestimmtes", "aktien"),
+  konto: (a: Antworten) => hat(a, "vorhaben", "konto"),
+  steuer: (a: Antworten) => hat(a, "vorhaben", "steuer"),
+};
+
+export const fragen: Frage[] = [
   {
-    id: "preis",
-    titel: "Darf das Konto etwas kosten?",
+    id: "vorhaben",
+    fuer: "start",
+    titel: "Wobei kann ich dir helfen?",
+    hinweis: "Mehrere möglich.",
+    mehrfach: true,
+    antworten: [
+      { id: "anlegen", titel: "Geld anlegen", unter: "Für später, für die Kinder, für die Hajj" },
+      { id: "konto", titel: "Ein Konto ohne Zinsen finden", unter: "Für Gehalt, Miete und den Alltag" },
+      { id: "steuer", titel: "Meine Steuererklärung machen", unter: "Mit einem Programm, das dich durchführt" },
+    ],
+  },
+
+  /* --- Geld anlegen --- */
+  {
+    id: "betrag",
+    fuer: "depot",
+    titel: "Wie viel willst du anlegen?",
+    hinweis: "Grob reicht. Du kannst das später jederzeit ändern.",
+    zeigeWenn: will.anlegen,
     antworten: [
       {
-        id: "kostenlos",
-        titel: "Nein, es muss kostenlos sein",
-        wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }],
+        id: "klein",
+        titel: "Unter 25 € im Monat",
+        wuensche: [sparplanBis(24)],
+        gewichte: SPARPLAN_GEWICHTE,
+        grund: grundSparplan,
+        auch: { krypto: KRYPTO_SPARPLAN },
       },
-      { id: "egal", titel: "Ja, wenn die Leistung stimmt" },
+      {
+        id: "mittel",
+        titel: "25 bis 100 € im Monat",
+        wuensche: [sparplanBis(25)],
+        gewichte: SPARPLAN_GEWICHTE,
+        grund: mehrere(grundSparplan, grundWert("etfSparplanKosten", (w) => `ETF-Sparplan kostet ${w}`)),
+        auch: { krypto: KRYPTO_SPARPLAN },
+      },
+      {
+        id: "gross",
+        titel: "Mehr als 100 € im Monat",
+        wuensche: [sparplanBis(25)],
+        gewichte: SPARPLAN_GEWICHTE,
+        grund: grundWert("etfSparplanKosten", (w) => `ETF-Sparplan kostet ${w}`),
+        auch: { krypto: KRYPTO_SPARPLAN },
+      },
+      {
+        id: "einmal",
+        titel: "Einmal einen größeren Betrag",
+        unter: "Zum Beispiel ein Erbe oder Erspartes",
+        gewichte: { orderProzent: 2, orderPauschal: 2, handelsplaetze: 2, etfSparplanProzent: 0.5, etfSparplanPauschal: 0.5 },
+        grund: grundWert("orderkosten", (w) => `Ein Kauf kostet ${w}`),
+      },
+    ],
+  },
+  {
+    id: "dauer",
+    fuer: "depot",
+    titel: "Wie lange kann das Geld liegen bleiben?",
+    hinweis: "Daran hängt, welche Auswahl dein Depot haben sollte.",
+    zeigeWenn: will.depot,
+    antworten: [
+      {
+        id: "kurz",
+        titel: "Weniger als 3 Jahre",
+        grund: (a) => {
+          const teile = [
+            grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk`)(a),
+            grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren`)(a),
+          ].filter(Boolean);
+          return teile.length > 0 ? `${teile.join(" und ")} kaufbar` : null;
+        },
+        nebenSort: (a) => {
+          const s = anzahlVon(a.werte.halalSukuk);
+          const m = anzahlVon(a.werte.halalEdelmetalle);
+          return s === null && m === null ? null : ((s ?? 0) + (m ?? 0)) / 11;
+        },
+      },
+      {
+        id: "mittel",
+        titel: "3 bis 10 Jahre",
+        grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
+        nebenSort: (a) => {
+          const n = halalAnlagenZahl(a);
+          return n === null ? null : n / 23;
+        },
+      },
+      {
+        id: "lang",
+        titel: "Länger als 10 Jahre",
+        grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
+        nebenSort: (a) => {
+          const n = anzahlVon(a.werte.halalEtfsFonds);
+          return n === null ? null : n / 12;
+        },
+      },
+      { id: "offen", titel: "Weiß ich noch nicht" },
+    ],
+  },
+  {
+    id: "bestimmtes",
+    fuer: "depot",
+    titel: "Weißt du schon, was du kaufen willst?",
+    hinweis: "Mehrere möglich. Du musst nichts wählen.",
+    mehrfach: true,
+    ohneWahl: "Nein, zeig mir, was passt",
+    zeigeWenn: will.anlegen,
+    antworten: [
+      { id: "etfs", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
+      { id: "aktien", titel: "Einzelne Aktien", unter: "Du suchst dir die Firmen selbst aus" },
+      { id: "metalle", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
+      { id: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
+      { id: "krypto", titel: "Krypto", unter: "Bitcoin und andere Coins" },
+    ],
+  },
+  {
+    id: "region",
+    fuer: "depot",
+    titel: "Hast du eine Region im Blick?",
+    hinweis: "Manche Fonds gibt es nur bei wenigen Anbietern. Deshalb fragen wir.",
+    zeigeWenn: (a) => will.depot(a) && ((a.bestimmtes ?? []).length === 0 || hat(a, "bestimmtes", "etfs")),
+    antworten: [
+      { id: "egal", titel: "Nein, egal" },
+      { id: "welt", titel: "Die ganze Welt", wuensche: [regionWunsch("Welt", "Welt-Fonds kaufbar")], grund: grundRegion("Welt", "die ganze Welt") },
+      { id: "usa", titel: "USA", wuensche: [regionWunsch("USA", "USA-Fonds kaufbar")], grund: grundRegion("USA", "die USA") },
+      { id: "europa", titel: "Europa", wuensche: [regionWunsch("Europa", "Europa-Fonds kaufbar")], grund: grundRegion("Europa", "Europa") },
+      { id: "schwellen", titel: "Schwellenländer", unter: "Zum Beispiel Indien, Malaysia, Saudi-Arabien", wuensche: [regionWunsch("Schwellenländer", "Schwellenländer-Fonds kaufbar")], grund: grundRegion("Schwellenländer", "Schwellenländer") },
+    ],
+  },
+  {
+    id: "wallet",
+    fuer: "krypto",
+    titel: "Willst du deine Coins selbst verwahren?",
+    hinweis: "Auf einer eigenen Wallet gehören die Coins nur dir. Beim Anbieter ist es bequemer.",
+    zeigeWenn: will.krypto,
+    antworten: [
+      {
+        id: "ja",
+        titel: "Ja, auf meiner eigenen Wallet",
+        wuensche: [
+          { id: "echt", label: "Echte Coins statt Zertifikat", pruefe: ampelGut("echteCoins") },
+          { id: "wallet", label: "Auszahlung auf eigene Wallet", pruefe: ampelGut("eigeneWallet") },
+        ],
+        grund: grundWert("auszahlungBitcoin", (w) => `Bitcoin auszahlen kostet ${w}`),
+      },
+      { id: "nein", titel: "Nein, sie bleiben beim Anbieter" },
+      { id: "offen", titel: "Weiß ich noch nicht" },
+    ],
+  },
+  {
+    id: "wichtig",
+    fuer: "depot",
+    titel: "Was ist dir am wichtigsten?",
+    zeigeWenn: will.anlegen,
+    antworten: [
+      { id: "kosten", titel: "Niedrige Kosten", prioritaet: DEPOT_KOSTEN, auch: { girokonto: { prioritaet: GIRO_KOSTEN }, krypto: { prioritaet: KRYPTO_KOSTEN } } },
+      { id: "auswahl", titel: "Viel Auswahl an Halal-Anlagen", prioritaet: DEPOT_AUSWAHL },
+      { id: "app", titel: "Eine gute App", unter: "Einfach zu bedienen, guter Service", prioritaet: DEPOT_APP, auch: { girokonto: { prioritaet: GIRO_APP }, krypto: { prioritaet: KRYPTO_EINFACH } } },
+    ],
+  },
+
+  /* --- Konto --- */
+  {
+    id: "kontoPreis",
+    fuer: "girokonto",
+    titel: "Darf das Konto etwas kosten?",
+    zeigeWenn: will.konto,
+    antworten: [
+      { id: "kostenlos", titel: "Nein, es muss kostenlos sein", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
+      { id: "egal", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
     ],
   },
   {
     id: "alltag",
+    fuer: "girokonto",
     titel: "Was brauchst du im Alltag?",
     hinweis: "Mehrere möglich.",
     mehrfach: true,
+    ohneWahl: "Nichts davon, weiter",
+    zeigeWenn: will.konto,
     antworten: [
-      { id: "bargeld", titel: "Oft Bargeld", unter: "Abheben und einzahlen", gewichte: { abheben: 3, einzahlen: 3 } },
+      { id: "bargeld", titel: "Oft Bargeld", unter: "Abheben und einzahlen", gewichte: { abheben: 3, einzahlen: 3 }, grund: grundWert("abhebungen", (w) => `Kostenlose Abhebungen im Monat: ${w}`) },
       {
         id: "girocard",
         titel: "Eine Girocard",
@@ -196,110 +420,220 @@ const giroFragen: Frage[] = [
       { id: "filiale", titel: "Eine Filiale", unter: "Beratung vor Ort", wuensche: [{ id: "filiale", label: "Filialen vorhanden", pruefe: jaNein("filialen") }] },
     ],
   },
+
   {
-    id: "prio",
-    titel: "Was ist dir am wichtigsten?",
+    id: "kontoWichtig",
+    fuer: "girokonto",
+    titel: "Was ist dir beim Konto am wichtigsten?",
+    /* Wer auch anlegt, hat die Frage schon einmal beantwortet. */
+    zeigeWenn: (a) => will.konto(a) && !will.anlegen(a),
+    antworten: [
+      { id: "kosten", titel: "Niedrige Kosten", prioritaet: GIRO_KOSTEN },
+      { id: "app", titel: "Eine gute App", prioritaet: GIRO_APP },
+      { id: "service", titel: "Guter Service", prioritaet: { id: "service", label: "guten Service", gewichte: { support: 4, kontowechsel: 2 }, fakten: ["kundenservice", "filialen", "kontowechsel"] } },
+    ],
+  },
+
+  /* --- Steuererklärung --- */
+  {
+    id: "steuerLage",
+    fuer: "steuer",
+    titel: "Was trifft auf dich zu?",
+    hinweis: "Mehrere möglich. Nicht jedes Programm kann alles.",
+    mehrfach: true,
+    ohneWahl: "Nichts davon, weiter",
+    zeigeWenn: will.steuer,
     antworten: [
       {
-        id: "kosten",
-        titel: "Niedrige Kosten",
-        prioritaet: { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] },
+        id: "kapital",
+        titel: "Ich habe ein Depot",
+        unter: "Dividenden und Kursgewinne gehören dann in die Erklärung",
+        wuensche: [
+          {
+            id: "kapital",
+            label: "Kapitalerträge möglich",
+            pruefe: (a) => {
+              const w = a.werte.kapital;
+              return typeof w === "string" ? /^ja/i.test(w) : null;
+            },
+          },
+        ],
       },
       {
-        id: "app",
-        titel: "Gute App",
-        prioritaet: { id: "app", label: "gute App", gewichte: { app: 4, mobilesBezahlen: 2, ident: 2 }, fakten: ["appIos", "appAndroid", "applePay"] },
+        id: "selbst",
+        titel: "Ich bin selbstständig",
+        wuensche: [
+          {
+            id: "selbst",
+            label: "Für Selbstständige geeignet",
+            pruefe: (a) => {
+              const w = a.werte.selbststaendige;
+              return typeof w === "string" ? !/^nein/i.test(w) : null;
+            },
+          },
+        ],
+        grund: (a) => {
+          const w = a.werte.selbststaendige;
+          return typeof w === "string" && !/^(ja|nein)$/i.test(w.trim()) ? `Selbstständige: ${w}` : null;
+        },
       },
       {
-        id: "service",
-        titel: "Guter Service",
-        prioritaet: { id: "service", label: "guten Service", gewichte: { support: 4, kontowechsel: 2 }, fakten: ["kundenservice", "filialen", "kontowechsel"] },
+        id: "gratis",
+        titel: "Es soll nichts kosten",
+        wuensche: [
+          {
+            id: "gratis",
+            label: "Kostenlos",
+            pruefe: (a) => {
+              const e = euro(a.werte.preis);
+              return e === null ? null : e === 0;
+            },
+          },
+        ],
       },
     ],
   },
+
+  /* --- Vertiefung: was sicher erfüllt sein muss --- */
   {
-    id: "muss",
-    titel: "Was muss sicher erfüllt sein?",
+    id: "mussDepot",
+    fuer: "depot",
+    titel: "Was muss beim Depot sicher erfüllt sein?",
     hinweis: "Mehrere möglich. Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
     mehrfach: true,
+    ohneWahl: "Nichts davon, weiter",
     vertiefung: true,
+    zeigeWenn: will.depot,
+    antworten: [
+      { id: "kredit", titel: "Kein Kredit ab Start", unter: "Dir wird kein Wertpapierkredit eingeräumt", wuensche: [{ id: "kredit", label: "Kein Kredit ab Start", pruefe: ampelGut("keinKreditAbStart") }] },
+      { id: "steuer", titel: "Steuer wird automatisch abgeführt", unter: "Du musst nichts selbst nachmelden", wuensche: [{ id: "steuer", label: "Steuer wird abgeführt", pruefe: jaNein("kapest") }] },
+    ],
+  },
+  {
+    id: "mussKonto",
+    fuer: "girokonto",
+    titel: "Was muss beim Konto sicher erfüllt sein?",
+    hinweis: "Mehrere möglich. Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
+    mehrfach: true,
+    ohneWahl: "Nichts davon, weiter",
+    vertiefung: true,
+    zeigeWenn: will.konto,
     antworten: [
       { id: "dispo", titel: "Kein Dispo ab Start", unter: "Du kannst nicht aus Versehen ins Minus", wuensche: [{ id: "dispo", label: "Kein Dispo ab Start", pruefe: ampelGut("keinDispoAbStart") }] },
       { id: "karte", titel: "Karte ohne Kredit", unter: "Abbuchung sofort, kein Kreditrahmen", wuensche: [{ id: "karte", label: "Karte ohne Kredit", pruefe: ampelGut("karteOhneKredit") }] },
     ],
   },
-];
-
-const kryptoFragen: Frage[] = [
   {
-    id: "wallet",
-    titel: "Willst du deine Coins selbst verwahren?",
-    hinweis: "Auf einer eigenen Wallet gehören die Coins nur dir.",
-    antworten: [
-      {
-        id: "ja",
-        titel: "Ja, auf meiner eigenen Wallet",
-        wuensche: [
-          { id: "echt", label: "Echte Coins statt Zertifikat", pruefe: ampelGut("echteCoins") },
-          { id: "wallet", label: "Auszahlung auf eigene Wallet", pruefe: ampelGut("eigeneWallet") },
-        ],
-      },
-      { id: "nein", titel: "Nein, sie bleiben beim Anbieter" },
-      { id: "offen", titel: "Weiß ich noch nicht" },
-    ],
-  },
-  {
-    id: "weg",
-    titel: "Wie willst du kaufen?",
-    antworten: [
-      { id: "sparplan", titel: "Jeden Monat per Sparplan", wuensche: [{ id: "sparplan", label: "Sparplan möglich", pruefe: jaNein("sparplan") }], gewichte: { sparplan: 3, mindestbetrag: 2 } },
-      { id: "einzel", titel: "Einzelne Käufe" },
-    ],
-  },
-  {
-    id: "prio",
-    titel: "Was ist dir am wichtigsten?",
-    antworten: [
-      { id: "kosten", titel: "Niedrige Kosten", prioritaet: { id: "kosten", label: "niedrige Kosten", gewichte: { gebuehren: 2, transferkosten: 2 }, fakten: ["gesamtkosten", "auszahlungBitcoin", "transparenteKosten"] } },
-      { id: "einfach", titel: "Einfacher Einstieg", prioritaet: { id: "einfach", label: "einfachen Einstieg", gewichte: { verifizierung: 2, bezahlmethoden: 2, mindestbetrag: 2 }, fakten: ["ident", "einzahlung", "mindestbetrag"] } },
-      { id: "sicherheit", titel: "Sicherheit", prioritaet: { id: "sicherheit", label: "Sicherheit", gewichte: { sicherheit: 3, mica: 3 }, fakten: ["regulierung", "sicherheit"] } },
-    ],
-  },
-  {
-    id: "muss",
-    titel: "Was muss sicher erfüllt sein?",
+    id: "mussKrypto",
+    fuer: "krypto",
+    titel: "Was muss bei der Krypto-Börse sicher erfüllt sein?",
     hinweis: "Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
     mehrfach: true,
+    ohneWahl: "Nichts davon, weiter",
     vertiefung: true,
+    zeigeWenn: will.krypto,
     antworten: [
-      {
-        id: "modell",
-        titel: "Bezahlmodell ohne Zinsbindung",
-        unter: "Kein Abo, das an Zinsangebote gekoppelt ist",
-        wuensche: [{ id: "modell", label: "Bezahlmodell ohne Zinsbindung", pruefe: ampelGut("zinsfreiesModell") }],
-      },
+      { id: "modell", titel: "Bezahlmodell ohne Zinsbindung", unter: "Kein Abo, das an Zinsangebote gekoppelt ist", wuensche: [{ id: "modell", label: "Bezahlmodell ohne Zinsbindung", pruefe: ampelGut("zinsfreiesModell") }] },
     ],
   },
 ];
 
-export const ziele: Ziel[] = [
-  { id: "depot", art: "fragen", titel: "Depot zum Investieren", unter: "Für ETFs, Aktien und Sukuk", icon: LineChart, vergleich: "/vergleich/depot", anbieter: brokerVergleich, finanzMax: DEPOT_FINANZ_MAX, zeilen: DEPOT_ZEILEN, fragen: depotFragen },
-  { id: "girokonto", art: "fragen", titel: "Girokonto", unter: "Ohne Zinsen und ohne Dispo", icon: Banknote, vergleich: "/vergleich/girokonto", anbieter: girokontoVergleich, finanzMax: GIRO_FINANZ_MAX, zeilen: GIRO_ZEILEN, fragen: giroFragen },
-  { id: "krypto", art: "fragen", titel: "Krypto-Börse", unter: "Für Bitcoin und andere Coins", icon: Bitcoin, vergleich: "/vergleich/krypto", anbieter: kryptoVergleich, finanzMax: KRYPTO_FINANZ_MAX, zeilen: KRYPTO_ZEILEN, fragen: kryptoFragen },
-  { id: "aktien", art: "weiter", titel: "Aktien prüfen", unter: "Apps, die Aktien auf Halal prüfen", icon: ScanSearch, vergleich: "/vergleich/screening-apps" },
-  { id: "gold", art: "weiter", titel: "Gold und Silber", unter: "Fünf Wege zu Edelmetallen", icon: Coins, vergleich: "/vergleich/edelmetalle" },
-  { id: "steuer", art: "weiter", titel: "Steuersoftware", unter: "Programme für die Steuererklärung", icon: FileText, vergleich: "/vergleich/steuersoftware" },
+/* ------------------------------------------------------------- Bausteine */
+
+export const bausteine: Baustein[] = [
+  {
+    id: "depot",
+    titel: "Dein Depot",
+    wozu: "Hier liegen deine ETFs, Aktien, Sukuk und dein Gold.",
+    kategorie: "depot",
+    vergleich: "/vergleich/depot",
+    vergleichText: "Alle Depots vergleichen",
+    anbieter: brokerVergleich,
+    finanzMax: DEPOT_FINANZ_MAX,
+    zeilen: DEPOT_ZEILEN,
+    fakten: ["depotgebuehr", "orderkosten"],
+    aktiv: will.depot,
+  },
+  {
+    id: "screener",
+    titel: "Deine App zum Prüfen",
+    wozu: "Einzelne Aktien musst du selbst prüfen. Diese Apps sagen dir, ob eine Firma halal ist.",
+    kategorie: null,
+    vergleich: "/vergleich/screening-apps",
+    vergleichText: "Alle Apps vergleichen",
+    anbieter: screenerVergleich,
+    finanzMax: {},
+    zeilen: SCREENER_ZEILEN,
+    fakten: ["preis", "deutscheAktien", "sprache"],
+    aktiv: will.aktien,
+  },
+  {
+    id: "krypto",
+    titel: "Deine Krypto-Börse",
+    wozu: "Coins kaufst du nicht im Depot, sondern bei einer Börse.",
+    kategorie: "krypto",
+    vergleich: "/vergleich/krypto",
+    vergleichText: "Alle Börsen vergleichen",
+    anbieter: kryptoVergleich,
+    finanzMax: KRYPTO_FINANZ_MAX,
+    zeilen: KRYPTO_ZEILEN,
+    fakten: ["gesamtkosten", "anzahlCoins"],
+    aktiv: will.krypto,
+  },
+  {
+    id: "girokonto",
+    titel: "Dein Konto",
+    wozu: "Ohne Zinsen, für Gehalt und Alltag.",
+    kategorie: "girokonto",
+    vergleich: "/vergleich/girokonto",
+    vergleichText: "Alle Konten vergleichen",
+    anbieter: girokontoVergleich,
+    finanzMax: GIRO_FINANZ_MAX,
+    zeilen: GIRO_ZEILEN,
+    fakten: ["kontofuehrung", "debitkarte"],
+    aktiv: will.konto,
+  },
+  {
+    id: "steuer",
+    titel: "Dein Steuerprogramm",
+    wozu: "Sortiert nach Preis. Die kostenlosen stehen oben.",
+    kategorie: null,
+    vergleich: "/vergleich/steuersoftware",
+    vergleichText: "Alle Programme vergleichen",
+    anbieter: steuersoftwareVergleich,
+    finanzMax: {},
+    zeilen: STEUER_ZEILEN,
+    fakten: ["preis", "plattform"],
+    aktiv: will.steuer,
+  },
 ];
 
-/** Antwort-IDs je Frage, so wie sie im Zustand und im sessionStorage liegen. */
-export type Antworten = Record<string, string[]>;
+/* --------------------------------------------------------------- Ablauf */
 
-/** Übersetzt die Antworten in das, was der Rechenkern braucht. */
-export const auswahlAus = (fragen: Frage[], antworten: Antworten) => {
-  const gewaehlt = fragen.flatMap((f) => f.antworten.filter((a) => antworten[f.id]?.includes(a.id)));
+/** Die Fragen, die zu den bisherigen Antworten gehören, in fester Reihenfolge. */
+export const aktiveFragen = (antworten: Antworten, mitVertiefung: boolean) =>
+  fragen.filter((f) => (mitVertiefung || !f.vertiefung) && (f.zeigeWenn?.(antworten) ?? true));
+
+/**
+ * Übersetzt die Antworten in das, was der Rechenkern für einen Baustein braucht.
+ * Antworten auf Fragen, die nicht mehr zum Ablauf gehören, zählen nicht: Wer
+ * zurückgeht und "Geld anlegen" abwählt, nimmt seine Depot-Wünsche nicht mit.
+ */
+export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl => {
+  const wirkungen: Wirkung[] = [];
+  for (const f of aktiveFragen(antworten, true)) {
+    for (const a of f.antworten) {
+      if (!antworten[f.id]?.includes(a.id)) continue;
+      if (f.fuer === baustein) wirkungen.push(a);
+      const auch = a.auch?.[baustein];
+      if (auch) wirkungen.push(auch);
+    }
+  }
   return {
-    wuensche: gewaehlt.flatMap((a) => a.wuensche ?? []),
-    gewichte: gewaehlt.flatMap((a) => (a.gewichte ? [a.gewichte] : [])),
-    prioritaet: gewaehlt.find((a) => a.prioritaet)?.prioritaet,
+    wuensche: wirkungen.flatMap((w) => w.wuensche ?? []),
+    gewichte: wirkungen.flatMap((w) => (w.gewichte ? [w.gewichte] : [])),
+    prioritaet: wirkungen.find((w) => w.prioritaet)?.prioritaet,
+    gruende: wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])),
+    nebenSort: wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])),
   };
 };

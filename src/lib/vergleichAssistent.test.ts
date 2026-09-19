@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { bewerte } from "@/lib/bewertung";
 import { ampelGut, euro, finanzNote, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
-import { auswahlAus, ziele, type Antworten } from "@/data/vergleichAssistent";
+import { aktiveFragen, auswahlAus, bausteine, fragen, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 
 const MAX = { gebuehren: 100, sicherheit: 50 };
@@ -113,30 +113,125 @@ describe("geführter Vergleich", () => {
   });
 });
 
+const baustein = (id: BausteinId) => bausteine.find((b) => b.id === id)!;
+
 describe("Fragen zeigen nur auf Felder, die es gibt", () => {
-  for (const ziel of ziele) {
-    if (ziel.art !== "fragen") continue;
-    it(ziel.titel, () => {
-      const zeilenKeys = new Set(ziel.zeilen.map((z) => z.key));
-      for (const frage of ziel.fragen) {
-        for (const antwort of frage.antworten) {
-          for (const k of Object.keys(antwort.gewichte ?? {})) expect(ziel.finanzMax, `${frage.id}/${antwort.id}`).toHaveProperty(k);
-          for (const k of Object.keys(antwort.prioritaet?.gewichte ?? {})) expect(ziel.finanzMax, `${frage.id}/${antwort.id}`).toHaveProperty(k);
-          for (const k of antwort.prioritaet?.fakten ?? []) expect(zeilenKeys.has(k), `${frage.id}/${antwort.id}: ${k}`).toBe(true);
+  for (const frage of fragen) {
+    it(frage.id, () => {
+      for (const antwort of frage.antworten) {
+        const wirkungen: [BausteinId, Wirkung][] = [
+          ...(frage.fuer === "start" ? [] : ([[frage.fuer, antwort]] as [BausteinId, Wirkung][])),
+          ...(Object.entries(antwort.auch ?? {}) as [BausteinId, Wirkung][]),
+        ];
+        for (const [id, w] of wirkungen) {
+          const b = baustein(id);
+          const zeilenKeys = new Set(b.zeilen.map((z) => z.key));
+          const wo = `${frage.id}/${antwort.id} -> ${id}`;
+          for (const k of Object.keys(w.gewichte ?? {})) expect(b.finanzMax, wo).toHaveProperty(k);
+          for (const k of Object.keys(w.prioritaet?.gewichte ?? {})) expect(b.finanzMax, wo).toHaveProperty(k);
+          for (const k of w.prioritaet?.fakten ?? []) expect(zeilenKeys.has(k), `${wo}: ${k}`).toBe(true);
           // Jeder Wunsch muss bei mindestens einem echten Anbieter erfüllt sein, sonst zeigt er ins Leere.
-          for (const w of antwort.wuensche ?? []) expect(ziel.anbieter.some((a) => w.pruefe(a) === true), `${frage.id}/${w.id}`).toBe(true);
+          for (const wunsch of w.wuensche ?? []) expect(b.anbieter.some((a) => wunsch.pruefe(a) === true), `${wo}: ${wunsch.id}`).toBe(true);
+          // Ein Grund muss bei mindestens einem Anbieter einen Satz liefern.
+          if (w.grund) expect(b.anbieter.some((a) => !!w.grund!(a)), `${wo}: grund`).toBe(true);
         }
       }
     });
-
-    it(`${ziel.titel}: jede Antwortkombination der Kernfragen rechnet durch`, () => {
-      const kern = ziel.fragen.filter((f) => !f.vertiefung);
-      const kombis = kern.reduce<Antworten[]>((acc, f) => acc.flatMap((k) => f.antworten.map((a) => ({ ...k, [f.id]: [a.id] }))), [{}]);
-      for (const k of kombis) {
-        const e = werteAus(ziel.anbieter, ziel.id, ziel.finanzMax, auswahlAus(ziel.fragen, k));
-        expect(e.passt.length + e.ungeprueft.length + e.raus).toBe(ziel.anbieter.length);
-        expect([...e.passt, ...e.ungeprueft].some((t) => t.anbieter.abgeraten)).toBe(false);
-      }
-    });
   }
+
+  it("Bausteine zeigen nur Zeilen, die es gibt", () => {
+    for (const b of bausteine) for (const k of b.fakten) expect(b.zeilen.some((z) => z.key === k), `${b.id}: ${k}`).toBe(true);
+  });
+});
+
+describe("Ablauf und Paket", () => {
+  const ids = (a: Antworten, tief = false) => aktiveFragen(a, tief).map((f) => f.id);
+  const aktiv = (a: Antworten) => bausteine.filter((b) => b.aktiv(a)).map((b) => b.id);
+
+  it("fragt nur, was zum Vorhaben gehört", () => {
+    expect(ids({})).toEqual(["vorhaben"]);
+    expect(ids({ vorhaben: ["konto"] })).toEqual(["vorhaben", "kontoPreis", "alltag", "kontoWichtig"]);
+    expect(ids({ vorhaben: ["steuer"] })).toEqual(["vorhaben", "steuerLage"]);
+    expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "dauer", "bestimmtes", "region", "wichtig"]);
+  });
+
+  it("stellt Folgefragen erst nach der passenden Antwort", () => {
+    const nurGold: Antworten = { vorhaben: ["anlegen"], bestimmtes: ["metalle"] };
+    expect(ids(nurGold)).not.toContain("region");
+    const nurKrypto: Antworten = { vorhaben: ["anlegen"], bestimmtes: ["krypto"] };
+    expect(ids(nurKrypto)).toContain("wallet");
+    expect(ids(nurKrypto)).not.toContain("dauer");
+    expect(ids(nurKrypto, true)).toContain("mussKrypto");
+    expect(ids(nurKrypto, true)).not.toContain("mussDepot");
+  });
+
+  it("baut das Paket aus den Antworten", () => {
+    expect(aktiv({ vorhaben: ["anlegen"] })).toEqual(["depot"]);
+    expect(aktiv({ vorhaben: ["anlegen"], bestimmtes: ["aktien"] })).toEqual(["depot", "screener"]);
+    expect(aktiv({ vorhaben: ["anlegen"], bestimmtes: ["krypto"] })).toEqual(["krypto"]);
+    expect(aktiv({ vorhaben: ["anlegen", "konto", "steuer"], bestimmtes: ["etfs", "krypto"] })).toEqual(["depot", "krypto", "girokonto", "steuer"]);
+  });
+
+  it("vergisst Antworten, deren Frage nicht mehr gestellt wird", () => {
+    const alt: Antworten = { vorhaben: ["konto"], bestimmtes: ["sukuk"], region: ["europa"], kontoPreis: ["kostenlos"] };
+    expect(auswahlAus("depot", alt).wuensche).toEqual([]);
+    expect(auswahlAus("girokonto", alt).wuensche.map((w) => w.id)).toEqual(["kostenlos"]);
+  });
+
+  it("gibt eine Antwort an mehrere Bausteine weiter", () => {
+    const a: Antworten = { vorhaben: ["anlegen", "konto"], bestimmtes: ["krypto", "etfs"], wichtig: ["kosten"], betrag: ["klein"] };
+    expect(auswahlAus("depot", a).prioritaet?.id).toBe("kosten");
+    expect(auswahlAus("girokonto", a).prioritaet?.id).toBe("kosten");
+    expect(auswahlAus("krypto", a).prioritaet?.id).toBe("kosten");
+    expect(auswahlAus("krypto", a).wuensche.map((w) => w.id)).toContain("kryptoSparplan");
+  });
+
+  it("findet den Europa-Fonds dort, wo er kaufbar ist", () => {
+    const a: Antworten = { vorhaben: ["anlegen"], region: ["europa"] };
+    const d = baustein("depot");
+    const e = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahlAus("depot", a));
+    const namen = [...e.passt, ...e.ungeprueft].filter((t) => t.erfuellt.some((w) => w.id === "region-Europa")).map((t) => t.anbieter.name);
+    expect(namen).toContain("Scalable Capital");
+    expect(namen).not.toContain("Trade Republic");
+    const scalable = [...e.passt, ...e.ungeprueft].find((t) => t.anbieter.id === "scalable-capital-free-broker")!;
+    expect(scalable.gruende.join(" ")).toMatch(/Halal-Fonds für Europa kaufbar/);
+  });
+
+  it("rechnet jedes Paket durch, ohne dass ein abgeratener Anbieter auftaucht", () => {
+    const faelle: Antworten[] = [
+      { vorhaben: ["anlegen"], betrag: ["klein"], dauer: ["kurz"], bestimmtes: [], region: ["egal"], wichtig: ["kosten"] },
+      { vorhaben: ["anlegen"], betrag: ["einmal"], dauer: ["lang"], bestimmtes: ["aktien", "krypto", "metalle"], wichtig: ["auswahl"], wallet: ["ja"], mussDepot: ["kredit"] },
+      { vorhaben: ["anlegen", "konto", "steuer"], betrag: ["mittel"], dauer: ["mittel"], bestimmtes: ["etfs", "sukuk"], region: ["usa"], wichtig: ["app"], kontoPreis: ["kostenlos"], alltag: ["girocard", "handy"], steuerLage: ["kapital", "selbst"] },
+      { vorhaben: ["steuer"], steuerLage: ["gratis"] },
+      { vorhaben: ["konto"], kontoPreis: ["egal"], alltag: ["filiale", "bargeld"], kontoWichtig: ["service"], mussKonto: ["dispo", "karte"] },
+    ];
+    for (const a of faelle) {
+      const aktive = bausteine.filter((b) => b.aktiv(a));
+      expect(aktive.length).toBeGreaterThan(0);
+      for (const b of aktive) {
+        const e = werteAus(b.anbieter, b.kategorie, b.finanzMax, auswahlAus(b.id, a));
+        expect(e.passt.length + e.ungeprueft.length + e.raus, b.id).toBe(b.anbieter.length);
+        expect([...e.passt, ...e.ungeprueft].some((t) => t.anbieter.abgeraten), b.id).toBe(false);
+      }
+    }
+  });
+
+  it("zeigt kostenlose Steuerprogramme zuerst und in Preisreihenfolge", () => {
+    const s = baustein("steuer");
+    const e = werteAus(s.anbieter, null, {}, auswahlAus("steuer", { vorhaben: ["steuer"], steuerLage: ["kapital"] }));
+    expect(e.passt[0].anbieter.name).toBe("Mein ELSTER");
+    expect(e.passt.every((t) => t.note === null)).toBe(true);
+  });
+});
+
+describe("Begründungen", () => {
+  it("nennt dieselbe Tatsache nur einmal", () => {
+    const a: Antworten = { vorhaben: ["anlegen"], dauer: ["kurz"], bestimmtes: ["metalle"] };
+    const d = bausteine.find((b) => b.id === "depot")!;
+    const e = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahlAus("depot", a));
+    for (const t of [...e.passt, ...e.ungeprueft]) {
+      expect(t.gruende.filter((g) => g.includes("Gold- und Silberpapieren")).length, t.anbieter.name).toBeLessThanOrEqual(1);
+      expect(t.gruende.every((g) => g.trim().length > 10), t.anbieter.name).toBe(true);
+    }
+  });
 });

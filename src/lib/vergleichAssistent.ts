@@ -34,6 +34,8 @@ export type Wunsch = {
   /** Steht im Ergebnis hinter dem Haken, z. B. "Sukuk kaufbar". */
   label: string;
   pruefe: Pruefung;
+  /** Erfüllt nicht eigens auflisten, weil ein Grund dasselbe genauer sagt ("Sparplan schon ab 1 €"). */
+  still?: boolean;
 };
 
 export type Prioritaet = {
@@ -50,17 +52,29 @@ export type Prioritaet = {
   sortWert?: (a: RohAnbieter) => number | null;
 };
 
+/** Ein Satz, warum der Anbieter zur Antwort passt. Kommt nur aus den Daten, sonst null. */
+export type Grund = (a: RohAnbieter) => string | null;
+
 export type Auswahl = {
   wuensche: Wunsch[];
   /** Mehrere Gewichtungen multiplizieren sich, z. B. Sparplan und niedrige Kosten. */
   gewichte: Record<string, number>[];
   prioritaet?: Prioritaet;
+  gruende?: Grund[];
+  /**
+   * Zweitrangige Sortierung von 0 bis 1, z. B. "wer kurz anlegt, sieht zuerst,
+   * wo es Sukuk und Gold gibt". Zählt halb so stark wie die Priorität und nur,
+   * solange die Rangfolge nicht freigeschaltet ist.
+   */
+  nebenSort?: Array<(a: RohAnbieter) => number | null>;
 };
 
 export type Treffer = {
   anbieter: RohAnbieter;
   erfuellt: Wunsch[];
   ungeprueft: Wunsch[];
+  /** Sätze aus den Daten, warum der Anbieter zu den Antworten passt. */
+  gruende: string[];
   /** Zinsen laufen ab Start und müssen selbst abgeschaltet werden. */
   zinsenAbschalten: boolean;
   /** Nur gesetzt, wenn die Kategorie freigeschaltet und der Anbieter fertig bewertet ist. */
@@ -116,6 +130,13 @@ export const euro = (wert: unknown): number | null => {
   return m ? Number(m[1].replace(",", ".")) : null;
 };
 
+/** "1€ bis unbegrenzt" -> 1, "kein Sparplan" -> Infinity, sonst null. */
+export const sparplanAb = (wert: unknown): number | null => {
+  if (typeof wert !== "string") return null;
+  if (/kein/i.test(wert)) return Infinity;
+  return euro(wert);
+};
+
 export const kostetNichts =
   (key: string): Pruefung =>
   (a) => {
@@ -164,15 +185,28 @@ export const prioWert = (
   return keys.reduce((s, k) => s + (a.finanzPunkte![k] ?? 0), 0) / max;
 };
 
+/** Zwei Antworten können dasselbe belegen. Ein Satz, der ganz in einem anderen steckt, fällt weg. */
+const ohneDoppeltes = (saetze: string[]) => {
+  const einmal = [...new Set(saetze)];
+  return einmal.filter((s) => !einmal.some((t) => t !== s && t.includes(s)));
+};
+
+const nebenWert = (a: RohAnbieter, neben?: Array<(a: RohAnbieter) => number | null>) => {
+  if (!neben || neben.length === 0) return 0;
+  const summe = neben.reduce((s, f) => s + Math.min(1, Math.max(0, f(a) ?? 0)), 0);
+  return 0.5 * (summe / neben.length);
+};
+
 export const werteAus = (
   liste: RohAnbieter[],
-  kategorie: Kategorie,
+  /** null: Vergleich ohne Halal-Regel und ohne Note, etwa Steuersoftware. Dann wird nur gefiltert. */
+  kategorie: Kategorie | null,
   finanzMax: Record<string, number>,
   auswahl: Auswahl,
   /** Nur Tests übergeben das. Die Seite nimmt immer den Schalter oben. */
-  frei: boolean = RANGFOLGE_FREI[kategorie],
+  frei: boolean = kategorie ? RANGFOLGE_FREI[kategorie] : false,
 ): Ergebnis => {
-  const regel = HALAL_REGELN[kategorie];
+  const regel = kategorie ? HALAL_REGELN[kategorie] : null;
   const gewichte = [...auswahl.gewichte, ...(auswahl.prioritaet ? [auswahl.prioritaet.gewichte] : [])];
   const halalAnteil = auswahl.prioritaet?.halalAnteil ?? 0.5;
 
@@ -180,8 +214,10 @@ export const werteAus = (
   const ungeprueft: Treffer[] = [];
   let raus = 0;
 
+  const platz = new Map(liste.map((a, i) => [a.id, i]));
+
   for (const a of liste) {
-    const tuer = a.werte[regel.tuersteher];
+    const tuer = regel ? a.werte[regel.tuersteher] : "gut";
     if (tuer === "schlecht" || a.abgeraten) {
       raus += 1;
       continue;
@@ -194,10 +230,10 @@ export const werteAus = (
     const offen = stand.filter((s) => s.r === null).map((s) => s.w);
     const tuerOffen = tuer !== "gut" && tuer !== "teils";
 
-    const basis = bewerte(a, kategorie, finanzMax);
+    const basis = kategorie ? bewerte(a, kategorie, finanzMax) : null;
     const fin = finanzNote(a, finanzMax, gewichte);
     const note =
-      frei && basis.status === "bewertet" && fin !== null
+      frei && basis?.status === "bewertet" && fin !== null
         ? {
             gesamt: runde(halalAnteil * basis.halal + (1 - halalAnteil) * fin),
             halal: basis.halal,
@@ -209,9 +245,10 @@ export const werteAus = (
       anbieter: a,
       erfuellt: stand.filter((s) => s.r === true).map((s) => s.w),
       ungeprueft: offen,
+      gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       zinsenAbschalten: tuer === "teils",
       note,
-      sortWert: note?.gesamt ?? prioWert(a, finanzMax, auswahl.prioritaet) ?? 0,
+      sortWert: note?.gesamt ?? (prioWert(a, finanzMax, auswahl.prioritaet) ?? 0) + nebenWert(a, auswahl.nebenSort),
     };
 
     // Mit Freischaltung zählt nur, wer fertig bewertet ist. Sonst stünde halbes Wissen auf Platz 1.
@@ -222,6 +259,7 @@ export const werteAus = (
   const ordnung = (p: Treffer, q: Treffer) =>
     q.sortWert - p.sortWert ||
     (q.note?.halal ?? 0) - (p.note?.halal ?? 0) ||
+    (kategorie ? 0 : platz.get(p.anbieter.id)! - platz.get(q.anbieter.id)!) ||
     `${p.anbieter.name} ${p.anbieter.produkt}`.localeCompare(`${q.anbieter.name} ${q.anbieter.produkt}`, "de");
 
   passt.sort(ordnung);

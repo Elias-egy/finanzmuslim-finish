@@ -150,7 +150,7 @@ export const VergleichsSeite = ({
             className="mt-4 flex min-h-[56px] items-center justify-between gap-3 rounded-xl border border-primary/30 bg-hero px-4 py-2.5 text-[15px] text-foreground transition-colors hover:border-primary lg:mt-6 lg:max-w-3xl"
           >
             <span>
-              <span className="font-bold">Drei Fragen statt {anbieter.length} {einheit}.</span> Sieh, wer zu dir passt.
+              <span className="font-bold">Ein paar Fragen statt {anbieter.length} {einheit}.</span> Sieh, was zu dir passt.
             </span>
             <ArrowRight className="h-5 w-5 shrink-0 text-primary" aria-hidden />
           </Link>

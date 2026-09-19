@@ -213,10 +213,10 @@ const Index = () => (
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-primary px-8 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
                 >
-                  Vergleich starten
+                  Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
-                <span className="text-center text-[14px] text-muted-foreground sm:text-left">Drei Fragen, keine Anmeldung</span>
+                <span className="text-center text-[14px] text-muted-foreground sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
               </div>
             </div>
           </div>
