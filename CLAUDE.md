@@ -30,6 +30,25 @@ Vorbild ist Finanzfluss. Deren Beschreibungen halten sich an ein festes Muster:
 Das gilt für Überschriften, Kacheltexte, Kurzbeschreibungen, Einleitungen und
 Seo-Texte. In den Fließtexten der Wissensbeiträge sind längere Sätze richtig.
 
+## Handy zuerst, mit Schwellen
+
+Die meisten Besucher kommen übers Handy (Elias, 19.09.2026). Jede neue oder geänderte Seite wird bei
+390 und 360 px Breite gemessen, nicht geschätzt. Der Laptop bleibt dabei, wie er ist.
+
+| Seite | Schwelle bei 390 px |
+|---|---|
+| Vergleich | erste Anbieterkarte unter 650 px |
+| Rechner | erstes Eingabefeld unter 500 px, Felder mindestens 300 px breit |
+| Übersicht | der erste eigentliche Inhalt auf dem ersten Bildschirm, keine gestapelte Kachelwand |
+| überall | kein seitlicher Überlauf, `scrollWidth` gleich Fensterbreite |
+
+- Eingabefelder haben immer 16 px Schrift. Darunter zoomt das iPhone beim Antippen in die Seite.
+- Tabellen in Beiträgen nie mit `min-w`. Der Baustein `Tabelle` macht unter 640 px aus jeder Zeile einen Block.
+- Kein Knopf, den man nicht drücken kann.
+- Was auf dem Handy vom Nutzen abhält, rutscht per Flex-`order` unter den Inhalt oder steht erst ab `md`.
+  Text nie doppelt rendern.
+- Ein Satz, der nichts sagt, fliegt auf dem Handy zuerst.
+
 ## Farben, nicht verhandelbar
 
 | Zweck | Wert |
