@@ -37,12 +37,15 @@ export interface Deal {
 }
 
 /**
- * Von Hand gepflegte Deals. Die Neukunden-Boni aus dem Finanzfluss-Vergleich kommen
- * aus `dealsFinanzfluss.ts` dazu, erzeugt von `~/rebrand/data/vergleiche/deals_bauen.py`.
+ * Nur Boni, die beim Anbieter selbst nachgeprüft sind (Quelle ist dessen Seite).
+ * Elias, 20.09.2026: "Laut Finanzfluss ist keine Quelle." `dealsFinanzfluss.ts` ist
+ * deshalb nur noch die Prüfliste: welche Aktionen es laut Finanzfluss gibt. Ein Bonus
+ * wandert erst hierher, wenn er beim Anbieter bestätigt ist.
  */
-const vonHand: Deal[] = [];
+export const deals: Deal[] = [];
 
-export const deals: Deal[] = [...vonHand, ...dealsFinanzfluss];
+/** Prüfliste, wird nicht angezeigt. */
+export const dealsZuPruefen = dealsFinanzfluss;
 
 /** Ein Abruf gilt 21 Tage. Danach verschwindet der Bonus, bis neu abgerufen wurde. */
 export const FRISCH_TAGE = 21;

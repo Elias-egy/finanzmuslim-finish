@@ -152,3 +152,30 @@ describe("Vergleichsdaten edelmetalle", () => {
     }
   });
 });
+
+/*
+ * Elias, 20.09.2026: "Wenn etwas Zinsen hat und du sagst, hat keine Zinsen, dann ist es das
+ * Schlimmste, was man mir antun kann." Ein Ja bei den Zinsfragen braucht deshalb einen Beleg
+ * von der Seite des Anbieters selbst. Finanzfluss, Presse oder Blogs reichen nicht.
+ */
+describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
+  const faelle = [
+    ["depot", brokerVergleich, ["zinsfreiAbStart"]],
+    ["girokonto", girokontoVergleich, ["zinsfreiAbStart"]],
+    ["krypto", kryptoVergleich, ["zinsfreiAbStart", "zinsfreiesModell"]],
+  ] as const;
+  for (const [kat, liste, keys] of faelle) {
+    it(kat, () => {
+      for (const a of liste) {
+        for (const k of keys) {
+          const w = a.werte[k];
+          if (w !== "gut" && w !== "teils") continue;
+          const url = a.quellen?.[k]?.url ?? "";
+          const host = url ? new URL(url).hostname.replace(/^www\./, "") : "";
+          const eigen = !!a.domain && (host === a.domain || host.endsWith(`.${a.domain}`) || a.domain.endsWith(`.${host}`));
+          expect(eigen, `${a.name} ${a.produkt}: ${k}=${w} belegt mit ${host || "nichts"}`).toBe(true);
+        }
+      }
+    });
+  }
+});

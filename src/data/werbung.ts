@@ -12,7 +12,7 @@ const depot: EmpfehlungsBoxProps = {
   kategorie: "Depot",
   variante: "vergleich",
   ueberschrift: "Welches Depot passt zu dir?",
-  text: "56 Broker im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar, kein Kredit, welche Halal-Anlagen es dort gibt.",
+  text: "56 Broker im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar und welche Halal-Anlagen es dort gibt.",
   knopf: "Zum Depot-Vergleich",
   linkZiel: "/vergleich/depot",
 };

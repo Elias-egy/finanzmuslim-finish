@@ -175,7 +175,7 @@ export const finanzNote = (
 
 /** Halal-Grundlagen je Kategorie. Steht hier nachweislich "schlecht", wird der Anbieter nie vorgeschlagen. */
 export const BASIS: Record<Kategorie, string[]> = {
-  depot: ["keinKreditAbStart"],
+  depot: [],
   girokonto: ["keinDispoAbStart", "karteOhneKredit"],
   krypto: ["zinsfreiesModell"],
 };
@@ -237,6 +237,15 @@ export const werteAus = (
   const passt: Treffer[] = [];
   const ungeprueft: Treffer[] = [];
   let raus = 0;
+  /*
+   * Finanzteil ohne eigene Priorität des Nutzers: die Reihenfolge im Finanzfluss-Vergleich
+   * (Elias, 20.09.2026: "wenn die Kriterien gleich sind, warum sollte sich das Ranking
+   * ändern?"). Dort bewertet ein Expertenteam mit Punktetabelle und Umfrage. Wählt der
+   * Nutzer eine Priorität (Kosten, App), zählen dagegen die gewichteten Einzelpunkte.
+   */
+  const rangMax = Math.max(0, ...liste.map((a) => a.finanzfluss?.rang ?? 0));
+  const rangNote = (a: RohAnbieter) =>
+    a.finanzfluss?.rang && rangMax > 1 ? 5 * (1 - (a.finanzfluss.rang - 1) / (rangMax - 1)) : null;
 
   const platz = new Map(liste.map((a, i) => [a.id, i]));
 
@@ -256,7 +265,7 @@ export const werteAus = (
     const tuerOffen = tuer !== "gut";
 
     const basis = kategorie ? bewerte(a, kategorie, finanzMax) : null;
-    const fin = finanzNote(a, finanzMax, gewichte);
+    const fin = auswahl.prioritaet || auswahl.gewichte.length > 0 ? finanzNote(a, finanzMax, gewichte) : (rangNote(a) ?? finanzNote(a, finanzMax, gewichte));
     const note =
       frei && basis?.status === "bewertet" && fin !== null
         ? {

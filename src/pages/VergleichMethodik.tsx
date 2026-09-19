@@ -19,8 +19,7 @@ const kategorien = [
     titel: "Depot",
     to: "/vergleich/depot",
     halal: [
-      "Halal-Anlagen: wie viele der 23 Anlagen aus unserem Halal-Anlagen-Vergleich kaufbar sind, getrennt nach 12 ETFs und Fonds, 3 Sukuk und 8 Edelmetallen, zusammen 60 %",
-      "Kein Kredit ab Start: kein Wertpapierkredit nach der Eröffnung, 40 %",
+      "Halal-Anlagen: wie viele der 23 Anlagen aus unserem Halal-Anlagen-Vergleich kaufbar sind, getrennt nach 12 ETFs und Fonds, 3 Sukuk und 8 Edelmetallen, 100 %",
     ],
     finanz: "Depotgebühr, Order- und Sparplankosten, Sparrate, Intervalle, Handelsplätze, Steuerabführung, Service, App",
     max: FINANZ_MAX_SUMME.depot,

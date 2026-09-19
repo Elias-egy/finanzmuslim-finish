@@ -16,9 +16,8 @@ const VergleichDepot = () => (
           Ein Depot verwahrt deine Aktien und ETFs. Ohne Depot geht beim Vermögensaufbau nichts.
         </p>
         <p>
-          Für Muslime entscheiden Punkte, die in normalen Vergleichen fehlen: Kommst du ohne Zinsen
-          aus, läuft kein Kredit mit, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort
-          kaufen? Was ein Broker sonst noch anbietet, zählt nicht gegen ihn.
+          Für Muslime entscheiden zwei Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld
+          dort ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort kaufen?
         </p>
       </>
     }
@@ -39,10 +38,6 @@ const VergleichDepot = () => (
         titel: "Halal-Anlagen",
         text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?",
       },
-      {
-        titel: "Kein Kredit ab Start",
-        text: "Wird dir nach der Eröffnung kein Wertpapierkredit eingeräumt?",
-      },
     ]}
     faq={[
       {
@@ -53,7 +48,7 @@ const VergleichDepot = () => (
       {
         frage: "Woran erkenne ich, ob ein Broker für Muslime geeignet ist?",
         antwort:
-          "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben oder mit abschaltbarem Zins, und ob kein Kredit eingeräumt wird. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
+          "Entscheidend ist, ob du das Depot ohne Zinsen nutzen kannst, also ohne Zins auf dem Guthaben. Dazu zählt, wie viele Halal-Anlagen du dort kaufen kannst. Dass ein Broker auch Hebelprodukte anbietet, ist kein Minuspunkt, solange du sie nicht nutzen musst.",
       },
       {
         frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",

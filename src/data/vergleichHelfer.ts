@@ -48,7 +48,7 @@ export type RohAnbieter = {
   /** Anbieterhaus, dessen Halal-Fakten für alle seine Produkte gelten. */
   haus?: string;
   /** Herkunft im Finanzfluss-Vergleich, für Abgleich und Partnerliste. */
-  finanzfluss?: { produkt: string; partnerlink: string | null };
+  finanzfluss?: { produkt: string; partnerlink: string | null; rang?: number };
   /** Finanzpunkte je Kriterium nach der Punktetabelle von Finanzfluss. */
   finanzPunkte?: Record<string, number>;
   /**

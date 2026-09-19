@@ -242,7 +242,8 @@ describe("Ablauf und Paket", () => {
   it("nennt als Erstes nie einen Anbieter mit ungeprüftem Halal-Merkmal, wenn es einen fertig geprüften gibt", () => {
     const k = baustein("krypto");
     const e = werteAus(k.anbieter, k.kategorie, k.finanzMax, auswahlAus("krypto", { vorhaben: ["anlegen"], bestimmtes: ["krypto"] }));
-    expect(bewerte(e.passt[0].anbieter, "krypto", k.finanzMax).status).toBe("bewertet");
+    // Seit der Primärquellen-Sperre (20.09.2026) kann die Liste leer sein, bis geprüft ist.
+    for (const t of e.passt) expect(t.anbieter.werte.zinsfreiAbStart, t.anbieter.name).toBe("gut");
   });
 
   it("stellt Folgefragen erst nach der passenden Antwort", () => {

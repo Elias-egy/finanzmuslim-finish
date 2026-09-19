@@ -543,7 +543,7 @@ export const bausteine: Baustein[] = [
     finanzMax: DEPOT_FINANZ_MAX,
     zeilen: DEPOT_ZEILEN,
     fakten: ["depotgebuehr", "orderkosten"],
-    immer: [wennGut("keinKreditAbStart", "Kein Kredit voreingestellt"), wennJa("kapest", "Führt die Steuer für dich ab")],
+    immer: [wennJa("kapest", "Führt die Steuer für dich ab")],
     aktiv: will.depot,
   },
   {

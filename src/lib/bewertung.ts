@@ -44,8 +44,9 @@ export const HALAL_REGELN: Record<Kategorie, HalalRegel> = {
   depot: {
     tuersteher: "zinsfreiAbStart",
     teile: [
-      { keys: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"], gewicht: 0.6, art: "anteilSumme" },
-      { key: "keinKreditAbStart", gewicht: 0.4, art: "ampel" },
+      // "Kein Kredit ab Start" (40 %) ist am 20.09.2026 raus, Elias' Entscheidung. Ein
+      // Wertpapierkredit wird überall erst auf Antrag ausgezahlt, das Merkmal trennte nichts.
+      { keys: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"], gewicht: 1, art: "anteilSumme" },
     ],
   },
   girokonto: {
