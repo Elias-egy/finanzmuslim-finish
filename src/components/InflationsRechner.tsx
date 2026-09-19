@@ -88,7 +88,7 @@ const InflationsRechner = () => {
   const anteil = betrag > 0 ? Math.round((verlust / betrag) * 100) : 0;
 
   return (
-    <section className="container max-w-5xl pb-4 pt-10 md:pt-14">
+    <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">

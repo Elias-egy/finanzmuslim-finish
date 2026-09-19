@@ -48,9 +48,8 @@ const Renditerechner = () => (
       title="Renditerechner"
       intro={
         <p>
-          Trage ein, was du heute schon hast und was du monatlich zurücklegen kannst. Der Rechner
-          zeigt dir, wie sich dein Kapital über die Jahre entwickeln kann, wenn die von dir
-          gewählte Rendite eintritt. Zinsprodukte sind bewusst nicht enthalten.
+          Trag ein, was du heute hast und was du monatlich zurücklegst. Sieh, wie dein Kapital über
+          die Jahre wachsen kann, ohne Zinsprodukte.
         </p>
       }
       erklaerung={

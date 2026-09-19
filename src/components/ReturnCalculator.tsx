@@ -433,11 +433,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   return (
     <section
       id="rechner"
-      className="bg-gradient-to-b from-surface via-surface to-background md:-mt-7 pt-10 md:pt-0 pb-2 md:pb-3"
+      className="bg-gradient-to-b from-surface via-surface to-background md:-mt-7 pt-0 md:pt-0 pb-2 md:pb-3"
     >
-      <div className="container max-w-6xl">
+      <div className="container max-w-6xl px-0 md:px-6">
         {showHeader && (
-          <div className="reveal text-center mb-6 md:mb-3">
+          <div className="reveal mb-6 hidden text-center md:mb-3 md:block">
             <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" aria-hidden /> Renditerechner
             </span>

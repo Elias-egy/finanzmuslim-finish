@@ -69,7 +69,7 @@ const RechnerSeite = ({
 
   return (
     <main className="bg-background">
-      <div className="container pt-8 md:pt-10">
+      <div className="container pt-5 md:pt-10">
         <div className="mx-auto w-full max-w-[1100px]">
           <nav
             aria-label="Brotkrumen"
@@ -89,9 +89,9 @@ const RechnerSeite = ({
           {/* Kopf laeuft ueber die ganze Spalte, wie beim iShares-Rechner.
               Ein 800 Pixel breiter Textblock in einer 1100 Pixel breiten
               Spalte sieht aus, als waere rechts etwas verrutscht. */}
-          <header className="mt-5">
-            <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">{title}</h1>
-            <div className="mt-4 space-y-3 text-[17px] leading-relaxed text-foreground/90">
+          <header className="mt-3 md:mt-5">
+            <h1 className="text-[28px] font-bold leading-tight text-foreground md:text-4xl">{title}</h1>
+            <div className="mt-2 space-y-3 text-[16px] leading-relaxed text-foreground/90 md:mt-4 md:text-[17px]">
               {intro}
             </div>
           </header>
@@ -100,11 +100,13 @@ const RechnerSeite = ({
 
       <AbschnittsNavigation abschnitte={ABSCHNITTE} />
 
-      <div className="container py-8 md:py-10">
+      <div className="container py-4 md:py-10">
         <div className="mx-auto w-full max-w-[1100px]">
           <section id="rechnen" className="scroll-mt-32">
             <AdSlot id="rechner-top" />
-            <div className="card-surface mt-4 overflow-hidden">{children}</div>
+            {/* Handy: kein Rahmen um den Rechner. Seine Teile haben eigene Rahmen, und der
+                doppelte Rand hat die Eingabefelder auf 250 von 390 Pixeln gedrückt. */}
+            <div className="overflow-hidden md:mt-4 md:rounded-2xl md:border md:border-border md:bg-card">{children}</div>
             {unterRechner && <div className="mt-6 space-y-4">{unterRechner}</div>}
           </section>
 
