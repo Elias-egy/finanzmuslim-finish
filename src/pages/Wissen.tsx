@@ -95,19 +95,21 @@ const Wissen = () => (
         </p>
       </header>
 
-      <section className="mt-8 max-w-3xl rounded-2xl bg-hero p-6 md:p-8">
+      <section className="mt-6 max-w-3xl overflow-hidden rounded-2xl bg-hero p-6 md:mt-8 md:p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="text-[17px] font-bold text-foreground">Kostenlose Vorlagen</h2>
           <Link to="/vorlagen" className="text-[14px] font-semibold text-primary hover:underline">
             Alle Vorlagen
           </Link>
         </div>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
+        {/* Handy: eine Reihe zum Wischen. Sechs Karten untereinander schoben das erste
+            Wissensthema auf den dritten Bildschirm. */}
+        <div className="-mx-6 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
           {vorlagen.map((v) => (
             <Link
               key={v.slug}
               to={`/vorlagen/${v.slug}`}
-              className="card-surface flex flex-col overflow-hidden transition-colors hover:border-primary"
+              className="card-surface flex w-[230px] shrink-0 snap-start flex-col overflow-hidden transition-colors hover:border-primary md:w-auto"
             >
               <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
               <span className="flex flex-1 flex-col p-4">

@@ -259,7 +259,7 @@ const HalalGuide = () => {
                 <h1 className="headline mt-5 text-[32px] leading-[1.1] sm:text-[40px] md:text-[48px] text-foreground">
                   Bekomme deinen personalisierten Guide
                   <br />
-                  In unter 30 Sekunden.
+                  in unter 30 Sekunden.
                 </h1>
                 <div className="mt-8">
                   <GuideForm />
