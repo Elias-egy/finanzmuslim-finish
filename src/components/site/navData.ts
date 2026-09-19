@@ -119,7 +119,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
           { label: "Aktien prüfen", to: "/vergleich/screening-apps" },
-          { label: "Steuersoftware" },
+          { label: "Steuersoftware", to: "/vergleich/steuersoftware" },
         ],
       },
       {

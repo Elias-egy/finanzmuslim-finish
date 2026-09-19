@@ -72,6 +72,7 @@ export const festeRouten: Route[] = [
   { pfad: "/vergleich/girokonto", quelle: ["src/pages/VergleichGirokonto.tsx", "src/data/girokontoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/krypto", quelle: ["src/pages/VergleichKrypto.tsx", "src/data/kryptoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/screening-apps", quelle: ["src/pages/VergleichScreener.tsx", "src/data/screenerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
+  { pfad: "/vergleich/steuersoftware", quelle: ["src/pages/VergleichSteuersoftware.tsx", "src/data/steuersoftwareVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/edelmetalle", quelle: ["src/pages/VergleichEdelmetalle.tsx", "src/data/edelmetallVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleiche/methodik", quelle: ["src/pages/VergleichMethodik.tsx", "src/lib/bewertung.ts"], changefreq: "monthly", prioritaet: "0.6" },
 

@@ -62,7 +62,12 @@ const gruppen: Gruppe[] = [
         icon: ScanSearch,
         to: "/vergleich/screening-apps",
       },
-      { name: "Steuersoftware", desc: "Vergleiche Programme für die Steuererklärung.", icon: FileText },
+      {
+        name: "Steuersoftware",
+        desc: "Vergleiche 13 Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.",
+        icon: FileText,
+        to: "/vergleich/steuersoftware",
+      },
     ],
   },
 ];

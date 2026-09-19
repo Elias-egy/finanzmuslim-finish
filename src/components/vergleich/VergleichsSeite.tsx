@@ -57,6 +57,19 @@ export type VergleichsSeiteProps = {
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
+  /**
+   * Überschrift über den Kriterien. Standard ist die Halal-Fassung. Ein
+   * Vergleich ohne Halal-Frage, etwa Steuersoftware, setzt hier seine eigene.
+   */
+  kriterienTitel?: string;
+  /**
+   * Zahlen in der Leiste über der Tabelle. Standard sind die Halal-Merkmale.
+   * Ein Vergleich ohne Halal-Merkmale zählt etwas anderes, sonst stünde dort
+   * dreimal die Null.
+   */
+  kennzahlen?: Array<{ zahl: number; text: string }>;
+  /** Ersetzt den Hinweis zur Reihenfolge, der sonst von Halal-Merkmalen spricht. */
+  reihenfolge?: ReactNode;
   /** Freier Abschnitt unter der Tabelle. Für Erklärungen, die nur einen Vergleich betreffen. */
   zusatz?: ReactNode;
   faq: Array<{ frage: string; antwort: string }>;
@@ -79,6 +92,9 @@ export const VergleichsSeite = ({
   standHinweis,
   quellenHinweis,
   kriterien,
+  kriterienTitel = "Worauf wir bei Halal achten",
+  kennzahlen,
+  reihenfolge,
   zusatz,
   faq,
   schluss,
@@ -142,19 +158,21 @@ export const VergleichsSeite = ({
 
         <VergleichsLeiste
           className={NACH_LISTE}
-          kennzahlen={[
-            { zahl: anbieter.length, text: `${einheit} im Vergleich` },
-            { zahl: halalAnzahl, text: "Halal-Merkmale" },
-            { zahl: anzahlHalalGeprueft(anbieter, zeilen), text: "Halal vollständig geprüft" },
-          ]}
+          kennzahlen={
+            kennzahlen ?? [
+              { zahl: anbieter.length, text: `${einheit} im Vergleich` },
+              { zahl: halalAnzahl, text: "Halal-Merkmale" },
+              { zahl: anzahlHalalGeprueft(anbieter, zeilen), text: "Halal vollständig geprüft" },
+            ]
+          }
           stand={stand}
           standHinweis={standHinweis}
         />
 
-        <ReihenfolgeHinweis einheit={einheit} />
+        {reihenfolge ?? <ReihenfolgeHinweis einheit={einheit} />}
 
         <section className={`${NACH_LISTE} card-surface mt-10 p-6 md:p-8`}>
-          <h2 className="text-xl font-bold text-foreground">Worauf wir bei Halal achten</h2>
+          <h2 className="text-xl font-bold text-foreground">{kriterienTitel}</h2>
           <ul className="mt-4 space-y-4">
             {kriterien.map((punkt) => (
               <li key={punkt.titel}>

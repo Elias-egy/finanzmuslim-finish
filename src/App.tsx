@@ -25,6 +25,7 @@ const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
+const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftware.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
 const VergleichAssistent = lazy(() => import("./pages/VergleichAssistent.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
@@ -138,6 +139,7 @@ const App = () => (
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
             <Route path="/vergleich/krypto" element={<VergleichKrypto />} />
             <Route path="/vergleich/screening-apps" element={<VergleichScreener />} />
+            <Route path="/vergleich/steuersoftware" element={<VergleichSteuersoftware />} />
             <Route path="/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet

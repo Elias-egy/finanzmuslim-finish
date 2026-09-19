@@ -39,7 +39,7 @@ const categories = [
   { label: "Aktien prüfen", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
   { label: "Kinderdepot", icon: Baby },
-  { label: "Steuersoftware", icon: FileText },
+  { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
 /** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
