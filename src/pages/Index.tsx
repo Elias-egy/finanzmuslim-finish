@@ -154,14 +154,17 @@ const Zeile = ({
   to,
   icon: Icon,
   etikett,
+  nurAbMd = false,
 }: {
   titel: string;
   to?: string;
   icon: typeof Calculator;
   etikett?: React.ReactNode;
+  /** Auf dem Handy ausblenden. Die Liste dort endet nach vier Zeilen. */
+  nurAbMd?: boolean;
 }) =>
   to ? (
-    <Link to={to} className="group row-tile">
+    <Link to={to} className={`group row-tile ${nurAbMd ? "max-md:hidden" : ""}`}>
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
         <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
       </span>
@@ -251,7 +254,7 @@ const Index = () => (
         </div>
 
         {/* Kacheln ueberlappen auf dem Desktop die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-1 gap-3 md:grid-cols-2 lg:-mt-[60px] lg:grid-cols-3">
+        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-2.5 md:gap-3 lg:-mt-[60px] lg:grid-cols-3">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
@@ -260,18 +263,14 @@ const Index = () => (
                  bewertet wird. Vorher ging Girokonto auf die Rechnerseite,
                  das beantwortet die Frage des Nutzers nicht. */
               to={to ?? "/vergleiche"}
-              className="group relative flex min-h-[76px] items-center gap-3 card-surface px-4 py-3 transition-colors hover:border-primary lg:pt-7 xl:pt-3"
+              className="group relative flex min-h-[64px] items-center gap-2.5 card-surface px-3 py-2.5 transition-colors hover:border-primary md:min-h-[76px] md:gap-3 md:px-4 md:py-3 lg:pt-7 xl:pt-3"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">
-                <Icon className="h-5 w-5 text-primary" aria-hidden />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11 md:rounded-full">
+                <Icon className="h-[18px] w-[18px] text-primary md:h-5 md:w-5" aria-hidden />
               </span>
-              <span className="min-w-0 flex-1 text-[17px] font-bold text-foreground md:text-[18px]">
+              <span className="min-w-0 flex-1 hyphens-auto break-words text-[15px] font-bold leading-tight text-foreground md:text-[18px]">
                 {label}
               </span>
-              <ChevronRight
-                className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:hidden"
-                aria-hidden
-              />
               <ArrowRight
                 className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:block"
                 aria-hidden
@@ -306,8 +305,11 @@ const Index = () => (
             <h2 className="section-title mt-2">Der Halal Investment Guide</h2>
             <p className="section-text mt-3 max-w-[640px]">
               Der Guide erklärt dir die Grundprinzipien islamkonformer Geldanlage und welche
-              Anlageklassen infrage kommen. Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt
-              für Schritt startest.
+              Anlageklassen infrage kommen.
+              <span className="hidden md:inline">
+                {" "}
+                Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
+              </span>
             </p>
             <Link to="/halal-guide" className="btn-primary mt-6 lg:mt-8">
               Guide kostenlos sichern
@@ -388,8 +390,11 @@ const Index = () => (
             <p className="eyebrow">HALAL INVESTMENTS</p>
             <h2 className="section-title mt-2">Welche Anlagen wirklich geprüft sind</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              31 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto. Such nach
-              Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.
+              31 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto.
+              <span className="hidden md:inline">
+                {" "}
+                Such nach Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.
+              </span>
             </p>
             <Link to="/halal-anlagen" className="btn-primary mt-6">
               Zu den Anlagen
@@ -411,7 +416,7 @@ const Index = () => (
             <div className="lg:order-1">
               <p className="eyebrow">Rechner</p>
               <h2 className="section-title mt-2">Rechnen, prüfen, planen</h2>
-              <p className="section-text mt-3 max-w-[640px]">
+              <p className="section-text mt-3 hidden max-w-[640px] md:block">
                 Werkzeuge, die dir Klarheit über deine Zahlen geben, bevor du eine Entscheidung
                 triffst.
               </p>
@@ -422,9 +427,10 @@ const Index = () => (
           </div>
 
           <div className="mt-6 grid gap-3 md:grid-cols-3 md:gap-4 lg:mt-10">
-            {calculators.filter((c) => c.to).map(({ title, to, icon: Icon }) => (
+            {calculators.filter((c) => c.to).map(({ title, to, icon: Icon }, i) => (
               <Zeile
                 key={title}
+                nurAbMd={i >= 4}
                 titel={title}
                 to={to}
                 icon={Icon}
