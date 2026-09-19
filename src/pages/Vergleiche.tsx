@@ -57,8 +57,8 @@ const gruppen: Gruppe[] = [
         to: "/vergleich/girokonto",
       },
       {
-        name: "Screening-Apps",
-        desc: "Vier Apps, die einzelne Aktien auf Halal prüfen, im Vergleich.",
+        name: "Aktien prüfen",
+        desc: "Vergleiche vier Apps, die einzelne Aktien auf Halal prüfen.",
         icon: ScanSearch,
         to: "/vergleich/screening-apps",
       },

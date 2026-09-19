@@ -13,7 +13,6 @@ import {
   PiggyBank,
   Receipt,
   ScanSearch,
-  ShieldCheck,
   Sparkles,
   Target,
   TrendingDown,
@@ -37,10 +36,9 @@ const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
-  { label: "Aktien prüfen", icon: ShieldCheck, to: "/wissen/sind-aktien-halal" },
+  { label: "Aktien prüfen", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
   { label: "Kinderdepot", icon: Baby },
-  { label: "Screening-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Steuersoftware", icon: FileText },
 ];
 

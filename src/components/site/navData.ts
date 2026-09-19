@@ -118,7 +118,7 @@ export const navGroups: NavGroup[] = [
         title: "Konto und Prüfung",
         items: [
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
-          { label: "Screening-Apps", to: "/vergleich/screening-apps" },
+          { label: "Aktien prüfen", to: "/vergleich/screening-apps" },
           { label: "Steuersoftware" },
         ],
       },
