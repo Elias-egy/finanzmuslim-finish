@@ -1,4 +1,4 @@
-import { bewerte, HALAL_REGELN, type Kategorie } from "@/lib/bewertung";
+import { bewerte, FAKTOR_ABSCHALTBAR, HALAL_REGELN, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 
 /**
@@ -14,9 +14,14 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  * 4. Antworten ändern Gewichte und Filter, nie die Fakten.
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
  *
- * Solange `RANGFOLGE_FREI` für eine Kategorie aus ist, zeigt das Ergebnis keine
- * Note und keinen Platz 1. Sortiert wird dann nur nach dem, was der Nutzer
- * selbst gewählt hat: erfüllte Wünsche, danach seine Priorität.
+ * Reihenfolge (Elias, 19.09.2026 abends: "Empfehlung für dein Depot"): Das
+ * Ergebnis nennt je Baustein einen Anbieter, der am besten zu den Angaben passt.
+ * Dafür braucht es immer eine faire Ordnung, auch wo noch nicht alles geprüft
+ * ist. Sie entsteht nur aus Belegtem: Ein ungeprüftes Halal-Merkmal zählt null,
+ * nie als erfüllt. Wer viel Ungeprüftes hat, steht deshalb hinten, nicht vorn.
+ *
+ * `RANGFOLGE_FREI` steuert nur noch, ob die Note als Zahl dasteht. Das setzt
+ * voraus, dass der Anbieter fertig bewertet ist.
  */
 
 /** Schaltet je Kategorie die persönliche Note und "Passt am besten" frei. Entscheidet Elias. */
@@ -48,8 +53,6 @@ export type Prioritaet = {
   halalAnteil?: number;
   /** Zeilen, deren Werte im Ergebnis als Fakten unter dem Anbieter stehen. */
   fakten: string[];
-  /** Eigener Sortierwert statt der gewichteten Finanzpunkte, z. B. Zahl der Halal-Anlagen. */
-  sortWert?: (a: RohAnbieter) => number | null;
 };
 
 /** Ein Satz, warum der Anbieter zur Antwort passt. Kommt nur aus den Daten, sonst null. */
@@ -168,21 +171,33 @@ export const finanzNote = (
   return 5 * Math.min(1, Math.max(0, summe / max));
 };
 
+/** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Muss zu den Zeilentexten passen (Test). */
+export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
+
 /**
- * Sortierwert ohne Freischaltung: nur die Kriterien, die der Nutzer als Priorität
- * gewählt hat, als Anteil von 0 bis 1. Ohne Priorität null, dann bleibt es alphabetisch.
+ * Halal-Teil von 0 bis 1, nur aus dem, was belegt ist. Dieselben Gewichte wie in
+ * `bewerte()`, aber ein ungeprüftes Merkmal zählt null statt die Note zu sperren.
+ * "mind. 4 von 12" zählt als 4, ein unklarer Ausgabeaufschlag als halber Punkt.
  */
-export const prioWert = (
-  a: RohAnbieter,
-  finanzMax: Record<string, number>,
-  prio?: Prioritaet,
-): number | null => {
-  if (!prio) return null;
-  if (prio.sortWert) return prio.sortWert(a);
-  const keys = Object.keys(prio.gewichte).filter((k) => prio.gewichte[k] > 1 && finanzMax[k]);
-  if (keys.length === 0 || !a.finanzPunkte) return null;
-  const max = keys.reduce((s, k) => s + finanzMax[k], 0);
-  return keys.reduce((s, k) => s + (a.finanzPunkte![k] ?? 0), 0) / max;
+export const halalBelegt = (a: RohAnbieter, kategorie: Kategorie): number => {
+  const regel = HALAL_REGELN[kategorie];
+  const tuer = a.werte[regel.tuersteher];
+  if (tuer !== "gut" && tuer !== "teils") return 0;
+  let h = 0;
+  for (const teil of regel.teile) {
+    if (teil.art === "anteilSumme") {
+      const x = teil.keys.reduce((s, k) => s + (a.halalAnlagenPunkte?.[k] ?? (anzahlVon(a.werte[k]) ?? 0) * 0.5), 0);
+      const n = teil.keys.reduce((s, k) => s + (ANTEIL_N[k] ?? 0), 0);
+      h += n > 0 ? teil.gewicht * Math.min(1, x / n) : 0;
+    } else if (teil.art === "ampel") {
+      h += a.werte[teil.key] === "gut" ? teil.gewicht : 0;
+    } else {
+      const w = a.werte[teil.key];
+      const m = typeof w === "string" ? w.match(/^\s*(\d+)\s+von\s+(\d+)\s*$/) : null;
+      h += m && Number(m[2]) > 0 ? teil.gewicht * (Number(m[1]) / Number(m[2])) : 0;
+    }
+  }
+  return h * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
 };
 
 /** Zwei Antworten können dasselbe belegen. Ein Satz, der ganz in einem anderen steckt, fällt weg. */
@@ -248,7 +263,9 @@ export const werteAus = (
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       zinsenAbschalten: tuer === "teils",
       note,
-      sortWert: note?.gesamt ?? (prioWert(a, finanzMax, auswahl.prioritaet) ?? 0) + nebenWert(a, auswahl.nebenSort),
+      sortWert:
+        note?.gesamt ??
+        (kategorie ? halalAnteil * 5 * halalBelegt(a, kategorie) + (1 - halalAnteil) * (fin ?? 0) : 0) + nebenWert(a, auswahl.nebenSort),
     };
 
     // Mit Freischaltung zählt nur, wer fertig bewertet ist. Sonst stünde halbes Wissen auf Platz 1.

@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { bewerte } from "@/lib/bewertung";
-import { ampelGut, euro, finanzNote, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, euro, finanzNote, halalBelegt, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, fragen, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { motive } from "@/components/motive";
 
 const MAX = { gebuehren: 100, sicherheit: 50 };
 
@@ -64,12 +66,27 @@ describe("geführter Vergleich", () => {
     expect(zurueck).toEqual(vor);
   });
 
-  it("bleibt ohne Freischaltung und ohne Priorität alphabetisch und zeigt keine Note", () => {
-    const liste = [krypto("z", {}, { gebuehren: 100, sicherheit: 50 }), krypto("a", {}, { gebuehren: 0, sicherheit: 0 })];
+  it("zeigt ohne Freischaltung keine Note, ordnet aber nach dem, was belegt ist", () => {
+    const liste = [krypto("a", {}, { gebuehren: 0, sicherheit: 0 }), krypto("z", {}, { gebuehren: 100, sicherheit: 50 })];
     const e = werteAus(liste, "krypto", MAX, leer, false);
-    expect(e.passt.map((t) => t.anbieter.id)).toEqual(["a", "z"]);
+    expect(e.passt.map((t) => t.anbieter.id)).toEqual(["z", "a"]);
     expect(e.passt.every((t) => t.note === null)).toBe(true);
     expect(e.gerankt).toBe(false);
+  });
+
+  it("lässt Ungeprüftes nie nach vorn rücken", () => {
+    const geprueft = krypto("geprueft", {});
+    const luecke = krypto("luecke", { echteCoins: null, eigeneWallet: null });
+    const rot = krypto("halb", { echteCoins: "schlecht", eigeneWallet: "schlecht" });
+    expect(halalBelegt(luecke, "krypto")).toBe(halalBelegt(rot, "krypto"));
+    expect(halalBelegt(geprueft, "krypto")).toBeGreaterThan(halalBelegt(luecke, "krypto"));
+    const e = werteAus([luecke, geprueft], "krypto", MAX, leer, false);
+    expect(e.passt[0].anbieter.id).toBe("geprueft");
+  });
+
+  it("zählt einen ungeprüften Türsteher als null und abschaltbare Zinsen halb", () => {
+    expect(halalBelegt(krypto("x", { zinsfreiAbStart: null }), "krypto")).toBe(0);
+    expect(halalBelegt(krypto("y", { zinsfreiAbStart: "teils" }), "krypto")).toBeCloseTo(0.5, 5);
   });
 
   it("sortiert ohne Freischaltung nach der gewählten Priorität", () => {
@@ -100,6 +117,12 @@ describe("geführter Vergleich", () => {
     const e = werteAus(liste, "krypto", MAX, leer, true);
     expect(e.passt.map((t) => t.anbieter.id)).toEqual(["fertig"]);
     expect(e.ungeprueft.map((t) => t.anbieter.id)).toEqual(["luecke"]);
+  });
+
+  it("kennt dieselben Anlagenzahlen wie die Zeilentexte des Depot-Vergleichs", () => {
+    for (const [key, n] of Object.entries(ANTEIL_N)) {
+      expect(DEPOT_ZEILEN.find((z) => z.key === key)?.hinweis, key).toContain(`der ${n} `);
+    }
   });
 
   it("liest Beträge und Mindestangaben richtig", () => {
@@ -153,6 +176,26 @@ describe("Ablauf und Paket", () => {
     expect(ids({ vorhaben: ["konto"] })).toEqual(["vorhaben", "kontoPreis", "alltag", "kontoWichtig"]);
     expect(ids({ vorhaben: ["steuer"] })).toEqual(["vorhaben", "steuerLage"]);
     expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "dauer", "bestimmtes", "region", "wichtig"]);
+    expect(ids({ vorhaben: ["anlegen", "sparen"] })).toContain("dauer");
+  });
+
+  it("behandelt Sparen wie Anlegen mit kurzer Dauer und fragt die Dauer nicht", () => {
+    const a: Antworten = { vorhaben: ["sparen"] };
+    expect(ids(a)).toEqual(["vorhaben", "betrag", "bestimmtes", "region", "wichtig"]);
+    expect(aktiv(a)).toEqual(["depot"]);
+    const d = baustein("depot");
+    const e = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahlAus("depot", a));
+    expect(e.passt.some((t) => t.gruende.some((g) => /Sukuk|Gold- und Silberpapieren/.test(g)))).toBe(true);
+  });
+
+  it("gibt jeder Antwort ein Bild, das es gibt", () => {
+    for (const f of fragen) for (const x of f.antworten) expect(motive, `${f.id}/${x.id}`).toHaveProperty(x.bild);
+  });
+
+  it("nennt als Erstes nie einen Anbieter mit ungeprüftem Halal-Merkmal, wenn es einen fertig geprüften gibt", () => {
+    const k = baustein("krypto");
+    const e = werteAus(k.anbieter, k.kategorie, k.finanzMax, auswahlAus("krypto", { vorhaben: ["anlegen"], bestimmtes: ["krypto"] }));
+    expect(bewerte(e.passt[0].anbieter, "krypto", k.finanzMax).status).toBe("bewertet");
   });
 
   it("stellt Folgefragen erst nach der passenden Antwort", () => {

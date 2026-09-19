@@ -1,3 +1,4 @@
+import type { MotivName } from "@/components/motive";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Kategorie } from "@/lib/bewertung";
 import {
@@ -59,6 +60,9 @@ export type Wirkung = {
 export type Antwort = Wirkung & {
   id: string;
   titel: string;
+  /** Bild auf der Antwortkarte. Pflicht: Eine Karte ohne Bild fällt aus der Reihe. */
+  bild: MotivName;
+  /** Nur wo ein Wort erklärt werden muss (ETF, Sukuk, Girocard). Keine Füllsätze. */
   unter?: string;
   auch?: Partial<Record<BausteinId, Wirkung>>;
 };
@@ -94,6 +98,8 @@ export type Baustein = {
   zeilen: VergleichsZeile[];
   /** Zeilen, die immer unter dem Anbieter stehen, wenn keine Priorität eigene mitbringt. */
   fakten: string[];
+  /** Grundordnung von 0 bis 1 für Bausteine ohne Notenlogik, nur aus Belegtem. */
+  grundSort?: (a: RohAnbieter) => number | null;
   aktiv: (a: Antworten) => boolean;
 };
 
@@ -185,7 +191,6 @@ const DEPOT_AUSWAHL: Prioritaet = {
   gewichte: {},
   halalAnteil: 0.65,
   fakten: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"],
-  sortWert: halalAnlagenZahl,
 };
 const DEPOT_APP: Prioritaet = {
   id: "app",
@@ -204,19 +209,37 @@ const KRYPTO_SPARPLAN: Wirkung = {
   gewichte: { sparplan: 3, mindestbetrag: 2 },
 };
 
+/** Wer das Geld bald braucht: Depots mit Sukuk und Gold rücken nach vorn, und der Grund steht dabei. */
+const KURZ: Wirkung = {
+  grund: (a) => {
+    const teile = [
+      grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk`)(a),
+      grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren`)(a),
+    ].filter(Boolean);
+    return teile.length > 0 ? `${teile.join(" und ")} kaufbar` : null;
+  },
+  nebenSort: (a) => {
+    const s = anzahlVon(a.werte.halalSukuk);
+    const m = anzahlVon(a.werte.halalEdelmetalle);
+    return s === null && m === null ? null : ((s ?? 0) + (m ?? 0)) / 11;
+  },
+};
+
 /* ---------------------------------------------------------------- Fragen */
 
-const will = {
-  anlegen: (a: Antworten) => hat(a, "vorhaben", "anlegen"),
-  depot: (a: Antworten) => {
-    if (!hat(a, "vorhaben", "anlegen")) return false;
+const will: Record<"anlegen" | "dauerFragen" | "depot" | "krypto" | "aktien" | "konto" | "steuer", (a: Antworten) => boolean> = {
+  /** Anlegen und Sparen führen beide ins Depot. Sparen heißt: kurze Dauer, die Frage danach entfällt. */
+  anlegen: (a) => hat(a, "vorhaben", "anlegen") || hat(a, "vorhaben", "sparen"),
+  dauerFragen: (a) => hat(a, "vorhaben", "anlegen"),
+  depot: (a) => {
+    if (!will.anlegen(a)) return false;
     const b = a.bestimmtes ?? [];
     return b.length === 0 || b.some((x) => x !== "krypto");
   },
-  krypto: (a: Antworten) => hat(a, "vorhaben", "anlegen") && hat(a, "bestimmtes", "krypto"),
-  aktien: (a: Antworten) => hat(a, "vorhaben", "anlegen") && hat(a, "bestimmtes", "aktien"),
-  konto: (a: Antworten) => hat(a, "vorhaben", "konto"),
-  steuer: (a: Antworten) => hat(a, "vorhaben", "steuer"),
+  krypto: (a) => will.anlegen(a) && hat(a, "bestimmtes", "krypto"),
+  aktien: (a) => will.anlegen(a) && hat(a, "bestimmtes", "aktien"),
+  konto: (a) => hat(a, "vorhaben", "konto"),
+  steuer: (a) => hat(a, "vorhaben", "steuer"),
 };
 
 export const fragen: Frage[] = [
@@ -227,9 +250,10 @@ export const fragen: Frage[] = [
     hinweis: "Mehrere möglich.",
     mehrfach: true,
     antworten: [
-      { id: "anlegen", titel: "Geld anlegen", unter: "Für später, für die Kinder, für die Hajj" },
-      { id: "konto", titel: "Ein Konto ohne Zinsen finden", unter: "Für Gehalt, Miete und den Alltag" },
-      { id: "steuer", titel: "Meine Steuererklärung machen", unter: "Mit einem Programm, das dich durchführt" },
+      { id: "anlegen", bild: "wachsen", titel: "Geld anlegen" },
+      { id: "sparen", bild: "sparschwein", titel: "Auf etwas sparen", unter: "Auto, Hajj, Hochzeit", auch: { depot: KURZ } },
+      { id: "konto", bild: "karte", titel: "Konto für den Alltag" },
+      { id: "steuer", bild: "steuer", titel: "Steuererklärung" },
     ],
   },
 
@@ -242,7 +266,7 @@ export const fragen: Frage[] = [
     zeigeWenn: will.anlegen,
     antworten: [
       {
-        id: "klein",
+        id: "klein", bild: "betragKlein",
         titel: "Unter 25 € im Monat",
         wuensche: [sparplanBis(24)],
         gewichte: SPARPLAN_GEWICHTE,
@@ -250,7 +274,7 @@ export const fragen: Frage[] = [
         auch: { krypto: KRYPTO_SPARPLAN },
       },
       {
-        id: "mittel",
+        id: "mittel", bild: "betragMittel",
         titel: "25 bis 100 € im Monat",
         wuensche: [sparplanBis(25)],
         gewichte: SPARPLAN_GEWICHTE,
@@ -258,7 +282,7 @@ export const fragen: Frage[] = [
         auch: { krypto: KRYPTO_SPARPLAN },
       },
       {
-        id: "gross",
+        id: "gross", bild: "betragGross",
         titel: "Mehr als 100 € im Monat",
         wuensche: [sparplanBis(25)],
         gewichte: SPARPLAN_GEWICHTE,
@@ -266,9 +290,8 @@ export const fragen: Frage[] = [
         auch: { krypto: KRYPTO_SPARPLAN },
       },
       {
-        id: "einmal",
+        id: "einmal", bild: "geldsack",
         titel: "Einmal einen größeren Betrag",
-        unter: "Zum Beispiel ein Erbe oder Erspartes",
         gewichte: { orderProzent: 2, orderPauschal: 2, handelsplaetze: 2, etfSparplanProzent: 0.5, etfSparplanPauschal: 0.5 },
         grund: grundWert("orderkosten", (w) => `Ein Kauf kostet ${w}`),
       },
@@ -279,26 +302,15 @@ export const fragen: Frage[] = [
     fuer: "depot",
     titel: "Wie lange kann das Geld liegen bleiben?",
     hinweis: "Daran hängt, welche Auswahl dein Depot haben sollte.",
-    zeigeWenn: will.depot,
+    zeigeWenn: (a) => will.depot(a) && will.dauerFragen(a),
     antworten: [
       {
-        id: "kurz",
+        id: "kurz", bild: "sanduhr",
         titel: "Weniger als 3 Jahre",
-        grund: (a) => {
-          const teile = [
-            grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk`)(a),
-            grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren`)(a),
-          ].filter(Boolean);
-          return teile.length > 0 ? `${teile.join(" und ")} kaufbar` : null;
-        },
-        nebenSort: (a) => {
-          const s = anzahlVon(a.werte.halalSukuk);
-          const m = anzahlVon(a.werte.halalEdelmetalle);
-          return s === null && m === null ? null : ((s ?? 0) + (m ?? 0)) / 11;
-        },
+        ...KURZ,
       },
       {
-        id: "mittel",
+        id: "mittel", bild: "kalender",
         titel: "3 bis 10 Jahre",
         grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
         nebenSort: (a) => {
@@ -307,7 +319,7 @@ export const fragen: Frage[] = [
         },
       },
       {
-        id: "lang",
+        id: "lang", bild: "baum",
         titel: "Länger als 10 Jahre",
         grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
         nebenSort: (a) => {
@@ -315,7 +327,7 @@ export const fragen: Frage[] = [
           return n === null ? null : n / 12;
         },
       },
-      { id: "offen", titel: "Weiß ich noch nicht" },
+      { id: "offen", bild: "frage", titel: "Weiß ich noch nicht" },
     ],
   },
   {
@@ -327,11 +339,11 @@ export const fragen: Frage[] = [
     ohneWahl: "Nein, zeig mir, was passt",
     zeigeWenn: will.anlegen,
     antworten: [
-      { id: "etfs", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
-      { id: "aktien", titel: "Einzelne Aktien", unter: "Du suchst dir die Firmen selbst aus" },
-      { id: "metalle", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
-      { id: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
-      { id: "krypto", titel: "Krypto", unter: "Bitcoin und andere Coins" },
+      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
+      { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
+      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
+      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
+      { id: "krypto", bild: "krypto", titel: "Krypto" },
     ],
   },
   {
@@ -341,11 +353,11 @@ export const fragen: Frage[] = [
     hinweis: "Manche Fonds gibt es nur bei wenigen Anbietern. Deshalb fragen wir.",
     zeigeWenn: (a) => will.depot(a) && ((a.bestimmtes ?? []).length === 0 || hat(a, "bestimmtes", "etfs")),
     antworten: [
-      { id: "egal", titel: "Nein, egal" },
-      { id: "welt", titel: "Die ganze Welt", wuensche: [regionWunsch("Welt", "Welt-Fonds kaufbar")], grund: grundRegion("Welt", "die ganze Welt") },
-      { id: "usa", titel: "USA", wuensche: [regionWunsch("USA", "USA-Fonds kaufbar")], grund: grundRegion("USA", "die USA") },
-      { id: "europa", titel: "Europa", wuensche: [regionWunsch("Europa", "Europa-Fonds kaufbar")], grund: grundRegion("Europa", "Europa") },
-      { id: "schwellen", titel: "Schwellenländer", unter: "Zum Beispiel Indien, Malaysia, Saudi-Arabien", wuensche: [regionWunsch("Schwellenländer", "Schwellenländer-Fonds kaufbar")], grund: grundRegion("Schwellenländer", "Schwellenländer") },
+      { id: "egal", bild: "nein", titel: "Nein, egal" },
+      { id: "welt", bild: "globus", titel: "Die ganze Welt", wuensche: [regionWunsch("Welt", "Welt-Fonds kaufbar")], grund: grundRegion("Welt", "die ganze Welt") },
+      { id: "usa", bild: "usa", titel: "USA", wuensche: [regionWunsch("USA", "USA-Fonds kaufbar")], grund: grundRegion("USA", "die USA") },
+      { id: "europa", bild: "europa", titel: "Europa", wuensche: [regionWunsch("Europa", "Europa-Fonds kaufbar")], grund: grundRegion("Europa", "Europa") },
+      { id: "schwellen", bild: "schwellen", titel: "Schwellenländer", unter: "Zum Beispiel Indien, Malaysia, Saudi-Arabien", wuensche: [regionWunsch("Schwellenländer", "Schwellenländer-Fonds kaufbar")], grund: grundRegion("Schwellenländer", "Schwellenländer") },
     ],
   },
   {
@@ -356,7 +368,7 @@ export const fragen: Frage[] = [
     zeigeWenn: will.krypto,
     antworten: [
       {
-        id: "ja",
+        id: "ja", bild: "schluessel",
         titel: "Ja, auf meiner eigenen Wallet",
         wuensche: [
           { id: "echt", label: "Echte Coins statt Zertifikat", pruefe: ampelGut("echteCoins") },
@@ -364,8 +376,8 @@ export const fragen: Frage[] = [
         ],
         grund: grundWert("auszahlungBitcoin", (w) => `Bitcoin auszahlen kostet ${w}`),
       },
-      { id: "nein", titel: "Nein, sie bleiben beim Anbieter" },
-      { id: "offen", titel: "Weiß ich noch nicht" },
+      { id: "nein", bild: "tresor", titel: "Nein, sie bleiben beim Anbieter" },
+      { id: "offen", bild: "frage", titel: "Weiß ich noch nicht" },
     ],
   },
   {
@@ -374,9 +386,9 @@ export const fragen: Frage[] = [
     titel: "Was ist dir am wichtigsten?",
     zeigeWenn: will.anlegen,
     antworten: [
-      { id: "kosten", titel: "Niedrige Kosten", prioritaet: DEPOT_KOSTEN, auch: { girokonto: { prioritaet: GIRO_KOSTEN }, krypto: { prioritaet: KRYPTO_KOSTEN } } },
-      { id: "auswahl", titel: "Viel Auswahl an Halal-Anlagen", prioritaet: DEPOT_AUSWAHL },
-      { id: "app", titel: "Eine gute App", unter: "Einfach zu bedienen, guter Service", prioritaet: DEPOT_APP, auch: { girokonto: { prioritaet: GIRO_APP }, krypto: { prioritaet: KRYPTO_EINFACH } } },
+      { id: "kosten", bild: "sparschwein", titel: "Niedrige Kosten", prioritaet: DEPOT_KOSTEN, auch: { girokonto: { prioritaet: GIRO_KOSTEN }, krypto: { prioritaet: KRYPTO_KOSTEN } } },
+      { id: "auswahl", bild: "datenbank", titel: "Viel Auswahl an Halal-Anlagen", prioritaet: DEPOT_AUSWAHL },
+      { id: "app", bild: "handy", titel: "Eine gute App", prioritaet: DEPOT_APP, auch: { girokonto: { prioritaet: GIRO_APP }, krypto: { prioritaet: KRYPTO_EINFACH } } },
     ],
   },
 
@@ -387,8 +399,8 @@ export const fragen: Frage[] = [
     titel: "Darf das Konto etwas kosten?",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "kostenlos", titel: "Nein, es muss kostenlos sein", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
-      { id: "egal", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
+      { id: "kostenlos", bild: "sparschwein", titel: "Nein, es muss kostenlos sein", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
+      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
     ],
   },
   {
@@ -400,9 +412,9 @@ export const fragen: Frage[] = [
     ohneWahl: "Nichts davon, weiter",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "bargeld", titel: "Oft Bargeld", unter: "Abheben und einzahlen", gewichte: { abheben: 3, einzahlen: 3 }, grund: grundWert("abhebungen", (w) => `Kostenlose Abhebungen im Monat: ${w}`) },
+      { id: "bargeld", bild: "scheine", titel: "Oft Bargeld", gewichte: { abheben: 3, einzahlen: 3 }, grund: grundWert("abhebungen", (w) => `Kostenlose Abhebungen im Monat: ${w}`) },
       {
-        id: "girocard",
+        id: "girocard", bild: "karte",
         titel: "Eine Girocard",
         unter: "Früher EC-Karte",
         wuensche: [
@@ -416,8 +428,8 @@ export const fragen: Frage[] = [
           },
         ],
       },
-      { id: "handy", titel: "Mit dem Handy bezahlen", unter: "Apple Pay oder Google Pay", wuensche: [{ id: "handy", label: "Apple Pay oder Google Pay", pruefe: jaNein("applePay") }] },
-      { id: "filiale", titel: "Eine Filiale", unter: "Beratung vor Ort", wuensche: [{ id: "filiale", label: "Filialen vorhanden", pruefe: jaNein("filialen") }] },
+      { id: "handy", bild: "handy", titel: "Mit dem Handy bezahlen", wuensche: [{ id: "handy", label: "Apple Pay oder Google Pay", pruefe: jaNein("applePay") }] },
+      { id: "filiale", bild: "haus", titel: "Eine Filiale", wuensche: [{ id: "filiale", label: "Filialen vorhanden", pruefe: jaNein("filialen") }] },
     ],
   },
 
@@ -428,9 +440,9 @@ export const fragen: Frage[] = [
     /* Wer auch anlegt, hat die Frage schon einmal beantwortet. */
     zeigeWenn: (a) => will.konto(a) && !will.anlegen(a),
     antworten: [
-      { id: "kosten", titel: "Niedrige Kosten", prioritaet: GIRO_KOSTEN },
-      { id: "app", titel: "Eine gute App", prioritaet: GIRO_APP },
-      { id: "service", titel: "Guter Service", prioritaet: { id: "service", label: "guten Service", gewichte: { support: 4, kontowechsel: 2 }, fakten: ["kundenservice", "filialen", "kontowechsel"] } },
+      { id: "kosten", bild: "sparschwein", titel: "Niedrige Kosten", prioritaet: GIRO_KOSTEN },
+      { id: "app", bild: "handy", titel: "Eine gute App", prioritaet: GIRO_APP },
+      { id: "service", bild: "service", titel: "Guter Service", prioritaet: { id: "service", label: "guten Service", gewichte: { support: 4, kontowechsel: 2 }, fakten: ["kundenservice", "filialen", "kontowechsel"] } },
     ],
   },
 
@@ -445,7 +457,7 @@ export const fragen: Frage[] = [
     zeigeWenn: will.steuer,
     antworten: [
       {
-        id: "kapital",
+        id: "kapital", bild: "etf",
         titel: "Ich habe ein Depot",
         unter: "Dividenden und Kursgewinne gehören dann in die Erklärung",
         wuensche: [
@@ -460,7 +472,7 @@ export const fragen: Frage[] = [
         ],
       },
       {
-        id: "selbst",
+        id: "selbst", bild: "tasche",
         titel: "Ich bin selbstständig",
         wuensche: [
           {
@@ -478,7 +490,7 @@ export const fragen: Frage[] = [
         },
       },
       {
-        id: "gratis",
+        id: "gratis", bild: "sparschwein",
         titel: "Es soll nichts kosten",
         wuensche: [
           {
@@ -505,8 +517,8 @@ export const fragen: Frage[] = [
     vertiefung: true,
     zeigeWenn: will.depot,
     antworten: [
-      { id: "kredit", titel: "Kein Kredit ab Start", unter: "Dir wird kein Wertpapierkredit eingeräumt", wuensche: [{ id: "kredit", label: "Kein Kredit ab Start", pruefe: ampelGut("keinKreditAbStart") }] },
-      { id: "steuer", titel: "Steuer wird automatisch abgeführt", unter: "Du musst nichts selbst nachmelden", wuensche: [{ id: "steuer", label: "Steuer wird abgeführt", pruefe: jaNein("kapest") }] },
+      { id: "kredit", bild: "kredit", titel: "Kein Kredit ab Start", unter: "Dir wird kein Wertpapierkredit eingeräumt", wuensche: [{ id: "kredit", label: "Kein Kredit ab Start", pruefe: ampelGut("keinKreditAbStart") }] },
+      { id: "steuer", bild: "steuer", titel: "Steuer wird automatisch abgeführt", unter: "Du musst nichts selbst nachmelden", wuensche: [{ id: "steuer", label: "Steuer wird abgeführt", pruefe: jaNein("kapest") }] },
     ],
   },
   {
@@ -519,8 +531,8 @@ export const fragen: Frage[] = [
     vertiefung: true,
     zeigeWenn: will.konto,
     antworten: [
-      { id: "dispo", titel: "Kein Dispo ab Start", unter: "Du kannst nicht aus Versehen ins Minus", wuensche: [{ id: "dispo", label: "Kein Dispo ab Start", pruefe: ampelGut("keinDispoAbStart") }] },
-      { id: "karte", titel: "Karte ohne Kredit", unter: "Abbuchung sofort, kein Kreditrahmen", wuensche: [{ id: "karte", label: "Karte ohne Kredit", pruefe: ampelGut("karteOhneKredit") }] },
+      { id: "dispo", bild: "dispo", titel: "Kein Dispo ab Start", unter: "Du kannst nicht aus Versehen ins Minus", wuensche: [{ id: "dispo", label: "Kein Dispo ab Start", pruefe: ampelGut("keinDispoAbStart") }] },
+      { id: "karte", bild: "karteSicher", titel: "Karte ohne Kredit", unter: "Abbuchung sofort, kein Kreditrahmen", wuensche: [{ id: "karte", label: "Karte ohne Kredit", pruefe: ampelGut("karteOhneKredit") }] },
     ],
   },
   {
@@ -533,7 +545,7 @@ export const fragen: Frage[] = [
     vertiefung: true,
     zeigeWenn: will.krypto,
     antworten: [
-      { id: "modell", titel: "Bezahlmodell ohne Zinsbindung", unter: "Kein Abo, das an Zinsangebote gekoppelt ist", wuensche: [{ id: "modell", label: "Bezahlmodell ohne Zinsbindung", pruefe: ampelGut("zinsfreiesModell") }] },
+      { id: "modell", bild: "zins", titel: "Bezahlmodell ohne Zinsbindung", unter: "Kein Abo, das an Zinsangebote gekoppelt ist", wuensche: [{ id: "modell", label: "Bezahlmodell ohne Zinsbindung", pruefe: ampelGut("zinsfreiesModell") }] },
     ],
   },
 ];
@@ -565,6 +577,10 @@ export const bausteine: Baustein[] = [
     finanzMax: {},
     zeilen: SCREENER_ZEILEN,
     fakten: ["preis", "deutscheAktien", "sprache"],
+    grundSort: (a) => {
+      const keys = SCREENER_ZEILEN.filter((z) => z.gruppe === "halal" && z.art === "ampel").map((z) => z.key);
+      return keys.length > 0 ? keys.filter((k) => a.werte[k] === "gut").length / keys.length : null;
+    },
     aktiv: will.aktien,
   },
   {
@@ -629,11 +645,12 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
       if (auch) wirkungen.push(auch);
     }
   }
+  const grundSort = bausteine.find((b) => b.id === baustein)?.grundSort;
   return {
     wuensche: wirkungen.flatMap((w) => w.wuensche ?? []),
     gewichte: wirkungen.flatMap((w) => (w.gewichte ? [w.gewichte] : [])),
     prioritaet: wirkungen.find((w) => w.prioritaet)?.prioritaet,
     gruende: wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])),
-    nebenSort: wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])),
+    nebenSort: [...wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])), ...(grundSort ? [grundSort] : [])],
   };
 };

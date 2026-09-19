@@ -543,6 +543,282 @@ export const MotivDispo = ({ className }: Props) => (
   </M>
 );
 
+/* ============================================================
+   GEFÜHRTER VERGLEICH
+   Bilder für die Antwortkarten unter /vergleich/start.
+   ============================================================ */
+
+/** Geld anlegen: Pflanze wächst aus Münzen. */
+export const MotivWachsen = ({ className }: Props) => (
+  <M className={className} titel="Geld anlegen">
+    <ellipse cx="60" cy="92" rx="30" ry="8" fill={C.messing} />
+    <ellipse cx="60" cy="84" rx="30" ry="8" fill={C.sand} />
+    <path d="M60 84 V44" strokeWidth={4} />
+    <path d="M60 60 C44 58 38 46 40 36 C54 36 60 46 60 60 Z" fill={C.blau} />
+    <path d="M60 50 C76 48 84 36 82 24 C66 26 60 36 60 50 Z" fill={C.himmel} />
+  </M>
+);
+
+/** Auf etwas sparen: Sparschwein mit Münze. */
+export const MotivSparschwein = ({ className }: Props) => (
+  <M className={className} titel="Sparen">
+    <circle cx="62" cy="26" r="10" fill={C.messing} />
+    <ellipse cx="58" cy="68" rx="34" ry="24" fill={C.himmel} />
+    <path d="M88 60 l10 -4 v14 l-8 2" fill={C.himmel} />
+    <line x1="50" y1="46" x2="70" y2="46" strokeWidth={4} />
+    <line x1="40" y1="88" x2="40" y2="98" strokeWidth={5} />
+    <line x1="74" y1="88" x2="74" y2="98" strokeWidth={5} />
+    <circle cx="78" cy="62" r="2.5" fill={C.tief} stroke="none" />
+    <path d="M26 58 q-8 -2 -8 -10" />
+  </M>
+);
+
+/** Steuererklärung: Formular mit Prozentzeichen und Haken. */
+export const MotivSteuer = ({ className }: Props) => (
+  <M className={className} titel="Steuererklärung">
+    <rect x="28" y="16" width="56" height="78" rx="6" fill={C.weiss} />
+    <line x1="38" y1="32" x2="74" y2="32" stroke={C.nebel} />
+    <line x1="38" y1="44" x2="66" y2="44" stroke={C.nebel} />
+    <circle cx="44" cy="62" r="4" fill={C.blau} stroke="none" />
+    <circle cx="64" cy="78" r="4" fill={C.blau} stroke="none" />
+    <line x1="66" y1="58" x2="42" y2="82" stroke={C.blau} strokeWidth={4} />
+    <circle cx="86" cy="86" r="16" fill={C.blau} />
+    <polyline points="78,86 84,92 94,80" stroke={C.weiss} strokeWidth={4} />
+  </M>
+);
+
+const Stapel = ({ x, n, farbe }: { x: number; n: number; farbe: string }) => (
+  <>
+    {Array.from({ length: n }, (_, i) => (
+      <ellipse key={i} cx={x} cy={92 - i * 9} rx="16" ry="6" fill={i % 2 ? C.sand : farbe} />
+    ))}
+  </>
+);
+
+/** Kleiner Betrag: ein kurzer Münzstapel. */
+export const MotivBetragKlein = ({ className }: Props) => (
+  <M className={className} titel="Kleiner Betrag">
+    <Stapel x={60} n={3} farbe={C.messing} />
+  </M>
+);
+
+/** Mittlerer Betrag: zwei Stapel. */
+export const MotivBetragMittel = ({ className }: Props) => (
+  <M className={className} titel="Mittlerer Betrag">
+    <Stapel x={42} n={4} farbe={C.messing} />
+    <Stapel x={78} n={6} farbe={C.messing} />
+  </M>
+);
+
+/** Großer Betrag im Monat: drei wachsende Stapel. */
+export const MotivBetragGross = ({ className }: Props) => (
+  <M className={className} titel="Großer Betrag">
+    <Stapel x={28} n={4} farbe={C.messing} />
+    <Stapel x={60} n={6} farbe={C.messing} />
+    <Stapel x={92} n={8} farbe={C.messing} />
+  </M>
+);
+
+/** Einmalbetrag: Geldsack. */
+export const MotivGeldsack = ({ className }: Props) => (
+  <M className={className} titel="Einmalbetrag">
+    <path d="M46 34 L40 20 H80 L74 34" fill={C.sand} />
+    <path d="M46 34 C20 56 22 100 60 100 C98 100 100 56 74 34 Z" fill={C.sand} />
+    <line x1="44" y1="36" x2="76" y2="36" strokeWidth={5} stroke={C.ton} />
+    <text x="60" y="80" textAnchor="middle" fontSize="30" fontWeight="700" fill={C.tief} stroke="none">€</text>
+  </M>
+);
+
+/** Kurze Zeit: Sanduhr. */
+export const MotivSanduhr = ({ className }: Props) => (
+  <M className={className} titel="Kurze Zeit">
+    <line x1="34" y1="20" x2="86" y2="20" strokeWidth={5} />
+    <line x1="34" y1="100" x2="86" y2="100" strokeWidth={5} />
+    <path d="M40 22 C40 46 56 52 60 60 C64 52 80 46 80 22 Z" fill={C.weiss} />
+    <path d="M40 98 C40 74 56 68 60 60 C64 68 80 74 80 98 Z" fill={C.weiss} />
+    <path d="M46 96 C48 84 56 80 60 76 C64 80 72 84 74 96 Z" fill={C.messing} stroke="none" />
+    <path d="M50 30 H70 C68 40 62 46 60 50 C58 46 52 40 50 30 Z" fill={C.messing} stroke="none" />
+  </M>
+);
+
+/** Mittlere Zeit: Kalender. */
+export const MotivKalender = ({ className }: Props) => (
+  <M className={className} titel="Einige Jahre">
+    <rect x="24" y="28" width="72" height="68" rx="8" fill={C.weiss} />
+    <path d="M24 46 H96 V36 a8 8 0 0 0 -8 -8 H32 a8 8 0 0 0 -8 8 Z" fill={C.blau} />
+    <line x1="42" y1="20" x2="42" y2="36" strokeWidth={5} />
+    <line x1="78" y1="20" x2="78" y2="36" strokeWidth={5} />
+    <g fill={C.himmel} stroke="none">
+      <rect x="34" y="56" width="12" height="10" rx="2" />
+      <rect x="54" y="56" width="12" height="10" rx="2" />
+      <rect x="74" y="56" width="12" height="10" rx="2" />
+      <rect x="34" y="74" width="12" height="10" rx="2" />
+    </g>
+    <rect x="54" y="74" width="12" height="10" rx="2" fill={C.messing} stroke="none" />
+  </M>
+);
+
+/** Lange Zeit: Baum. */
+export const MotivBaum = ({ className }: Props) => (
+  <M className={className} titel="Lange Zeit">
+    <rect x="54" y="66" width="12" height="34" rx="3" fill={C.ton} />
+    <circle cx="60" cy="46" r="28" fill={C.blau} />
+    <circle cx="42" cy="58" r="16" fill={C.himmel} />
+    <circle cx="80" cy="56" r="14" fill={C.himmel} />
+    <line x1="30" y1="100" x2="90" y2="100" />
+  </M>
+);
+
+/** Weiß ich noch nicht. */
+export const MotivFrage = ({ className }: Props) => (
+  <M className={className} titel="Weiß ich noch nicht">
+    <circle cx="60" cy="60" r="38" fill={C.weiss} />
+    <path d="M48 50 C48 34 72 34 72 50 C72 60 60 60 60 72" stroke={C.blau} strokeWidth={6} />
+    <circle cx="60" cy="86" r="4" fill={C.blau} stroke="none" />
+  </M>
+);
+
+/** Nein, egal, nichts davon. */
+export const MotivNein = ({ className }: Props) => (
+  <M className={className} titel="Nein">
+    <line x1="38" y1="38" x2="82" y2="82" stroke={C.himmel} strokeWidth={16} />
+    <line x1="82" y1="38" x2="38" y2="82" stroke={C.himmel} strokeWidth={16} />
+  </M>
+);
+
+const Globus = ({ farbe = C.himmel }: { farbe?: string }) => (
+  <>
+    <circle cx="60" cy="60" r="36" fill={farbe} />
+    <ellipse cx="60" cy="60" rx="16" ry="36" />
+    <line x1="24" y1="60" x2="96" y2="60" />
+    <path d="M30 42 Q60 52 90 42" />
+    <path d="M30 78 Q60 68 90 78" />
+  </>
+);
+
+/** Die ganze Welt. */
+export const MotivGlobus = ({ className }: Props) => (
+  <M className={className} titel="Welt">
+    <Globus />
+  </M>
+);
+
+/** USA: Streifen und Sternenfeld in Markenfarben. */
+export const MotivUsa = ({ className }: Props) => (
+  <M className={className} titel="USA">
+    <rect x="18" y="30" width="84" height="60" rx="6" fill={C.weiss} />
+    <g stroke="none" fill={C.ton}>
+      <rect x="18" y="42" width="84" height="8" />
+      <rect x="18" y="58" width="84" height="8" />
+      <rect x="18" y="74" width="84" height="8" />
+    </g>
+    <rect x="18" y="30" width="38" height="28" fill={C.blau} stroke="none" />
+    <g fill={C.weiss} stroke="none">
+      <circle cx="28" cy="38" r="2.5" /><circle cx="38" cy="38" r="2.5" /><circle cx="48" cy="38" r="2.5" />
+      <circle cx="28" cy="50" r="2.5" /><circle cx="38" cy="50" r="2.5" /><circle cx="48" cy="50" r="2.5" />
+    </g>
+    <rect x="18" y="30" width="84" height="60" rx="6" />
+  </M>
+);
+
+/** Europa: Sternenkreis. */
+export const MotivEuropa = ({ className }: Props) => (
+  <M className={className} titel="Europa">
+    <rect x="18" y="30" width="84" height="60" rx="6" fill={C.blau} />
+    <g fill={C.messing} stroke="none">
+      {Array.from({ length: 12 }, (_, i) => {
+        const w = (i / 12) * Math.PI * 2;
+        return <circle key={i} cx={60 + Math.sin(w) * 20} cy={60 - Math.cos(w) * 20} r="3" />;
+      })}
+    </g>
+  </M>
+);
+
+/** Schwellenländer: Globus mit Pfeil nach oben. */
+export const MotivSchwellen = ({ className }: Props) => (
+  <M className={className} titel="Schwellenländer">
+    <Globus farbe={C.sand} />
+    <circle cx="88" cy="32" r="16" fill={C.blau} />
+    <polyline points="80,34 88,24 96,34" stroke={C.weiss} strokeWidth={4} />
+    <line x1="88" y1="26" x2="88" y2="42" stroke={C.weiss} strokeWidth={4} />
+  </M>
+);
+
+/** Eigene Wallet: Schlüssel. */
+export const MotivSchluessel = ({ className }: Props) => (
+  <M className={className} titel="Eigene Wallet">
+    <circle cx="42" cy="60" r="20" fill={C.messing} />
+    <circle cx="42" cy="60" r="7" fill={C.hell} />
+    <path d="M62 60 H100 V74 M88 60 V72" strokeWidth={6} />
+  </M>
+);
+
+/** Beim Anbieter verwahrt: Tresor. */
+export const MotivTresor = ({ className }: Props) => (
+  <M className={className} titel="Beim Anbieter">
+    <rect x="22" y="22" width="76" height="70" rx="8" fill={C.nebel} />
+    <rect x="32" y="32" width="56" height="50" rx="4" fill={C.weiss} />
+    <circle cx="60" cy="57" r="12" fill={C.blau} />
+    <line x1="60" y1="57" x2="60" y2="48" stroke={C.weiss} />
+    <line x1="32" y1="92" x2="32" y2="100" strokeWidth={5} />
+    <line x1="88" y1="92" x2="88" y2="100" strokeWidth={5} />
+  </M>
+);
+
+/** Gute App: Handy mit Haken. */
+export const MotivHandy = ({ className }: Props) => (
+  <M className={className} titel="App">
+    <rect x="38" y="14" width="44" height="92" rx="9" fill={C.weiss} />
+    <rect x="44" y="24" width="32" height="62" rx="3" fill={C.blau} stroke="none" />
+    <polyline points="52,56 58,62 69,48" stroke={C.weiss} strokeWidth={4} />
+    <circle cx="60" cy="96" r="3" fill={C.tief} stroke="none" />
+  </M>
+);
+
+/** Bargeld: Scheine. */
+export const MotivScheine = ({ className }: Props) => (
+  <M className={className} titel="Bargeld">
+    <rect x="26" y="34" width="72" height="40" rx="5" fill={C.himmel} transform="rotate(-8 62 54)" />
+    <rect x="22" y="46" width="72" height="40" rx="5" fill={C.weiss} />
+    <circle cx="58" cy="66" r="10" fill={C.messing} />
+    <line x1="30" y1="54" x2="38" y2="54" />
+    <line x1="78" y1="78" x2="86" y2="78" />
+  </M>
+);
+
+/** Guter Service: Kopfhörer mit Mikro. */
+export const MotivService = ({ className }: Props) => (
+  <M className={className} titel="Service">
+    <path d="M28 66 V56 a32 32 0 0 1 64 0 V66" strokeWidth={5} />
+    <rect x="20" y="62" width="16" height="26" rx="6" fill={C.blau} />
+    <rect x="84" y="62" width="16" height="26" rx="6" fill={C.blau} />
+    <path d="M92 88 q0 12 -22 12" />
+    <rect x="58" y="94" width="14" height="10" rx="5" fill={C.messing} />
+  </M>
+);
+
+/** Selbstständig: Aktentasche. */
+export const MotivTasche = ({ className }: Props) => (
+  <M className={className} titel="Selbstständig">
+    <path d="M46 40 V30 a6 6 0 0 1 6 -6 H68 a6 6 0 0 1 6 6 V40" />
+    <rect x="20" y="40" width="80" height="52" rx="8" fill={C.ton} />
+    <path d="M20 60 H100" />
+    <rect x="52" y="54" width="16" height="12" rx="3" fill={C.messing} />
+  </M>
+);
+
+/** Direkt zum Ergebnis: Pokal. */
+export const MotivPokal = ({ className }: Props) => (
+  <M className={className} titel="Ergebnis">
+    <path d="M40 22 H80 V44 a20 20 0 0 1 -40 0 Z" fill={C.messing} />
+    <path d="M40 28 H28 q0 18 14 20 M80 28 H92 q0 18 -14 20" />
+    <line x1="60" y1="64" x2="60" y2="82" strokeWidth={5} />
+    <rect x="42" y="82" width="36" height="12" rx="4" fill={C.blau} />
+    <polyline points="52,38 58,44 69,31" stroke={C.weiss} strokeWidth={4} />
+  </M>
+);
+
+
 export const motive = {
   zins: MotivZins,
   gharar: MotivGharar,
@@ -573,6 +849,29 @@ export const motive = {
   rechner: MotivRechner,
   trading: MotivTrading,
   dispo: MotivDispo,
+  wachsen: MotivWachsen,
+  sparschwein: MotivSparschwein,
+  steuer: MotivSteuer,
+  betragKlein: MotivBetragKlein,
+  betragMittel: MotivBetragMittel,
+  betragGross: MotivBetragGross,
+  geldsack: MotivGeldsack,
+  sanduhr: MotivSanduhr,
+  kalender: MotivKalender,
+  baum: MotivBaum,
+  frage: MotivFrage,
+  nein: MotivNein,
+  globus: MotivGlobus,
+  usa: MotivUsa,
+  europa: MotivEuropa,
+  schwellen: MotivSchwellen,
+  schluessel: MotivSchluessel,
+  tresor: MotivTresor,
+  handy: MotivHandy,
+  scheine: MotivScheine,
+  service: MotivService,
+  tasche: MotivTasche,
+  pokal: MotivPokal,
 } as const;
 
 export type MotivName = keyof typeof motive;

@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
+import { motive, type MotivName } from "@/components/motive";
 import {
   aktiveFragen,
   auswahlAus,
@@ -18,28 +19,36 @@ import { werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
  * Geführter Vergleich: ein Fragebogen für alles, eine Frage je Bildschirm, am
  * Ende ein Paket aus Bausteinen. Gerechnet wird in `src/lib/vergleichAssistent.ts`,
  * Fragen und Bausteine stehen in `src/data/vergleichAssistent.ts`. Nichts davon
- * verlässt den Browser.
+ * verlässt den Browser, deshalb braucht es hier auch keine Einwilligung.
  *
  * Der Ablauf merkt sich die Frage, nicht ihre Nummer. Welche Fragen kommen,
  * hängt von den Antworten ab, eine Nummer würde beim Zurückgehen verrutschen.
+ *
+ * Aufbau nach dem Vorbild KassenKompass (von Elias am 19.09.2026 durchgespielt):
+ * oben eine Leiste, die mit jeder Antwort mitläuft, große Antwortkarten mit Bild,
+ * Zurück und "Direkt zum Ergebnis" unten, kurze Ladeansicht, Ergebnis mit Konfetti.
+ * Die Bilder sind unsere eigenen Motive, nicht deren 3D-Emojis.
  */
 
-type Ort = string | "zwischen" | "ergebnis";
+type Ort = string | "zwischen" | "laden" | "ergebnis";
 type Stand = { ort: Ort; antworten: Antworten; vertiefen: boolean };
 
 const START: Stand = { ort: fragen[0].id, antworten: {}, vertiefen: false };
-const SPEICHER = "fm-vergleich-start-2";
+const SPEICHER = "fm-vergleich-start-3";
 
 const lade = (): Stand => {
   try {
     const roh = sessionStorage.getItem(SPEICHER);
     const stand = roh ? ({ ...START, ...JSON.parse(roh) } as Stand) : START;
+    if (stand.ort === "laden") return { ...stand, ort: "ergebnis" };
     const bekannt = stand.ort === "zwischen" || stand.ort === "ergebnis" || fragen.some((f) => f.id === stand.ort);
     return bekannt ? stand : START;
   } catch {
     return START;
   }
 };
+
+const ruhig = () => typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 /* ------------------------------------------------------------- Wegfindung */
 
@@ -51,17 +60,13 @@ const nach = (s: Stand, antworten: Antworten): Ort => {
   const hier = fragen.findIndex((f) => f.id === s.ort);
   const naechste = liste.find((f) => fragen.indexOf(f) > hier);
   if (naechste) return naechste.id;
-  return !s.vertiefen && tiefe(antworten).length > 0 ? "zwischen" : "ergebnis";
+  return !s.vertiefen && tiefe(antworten).length > 0 ? "zwischen" : "laden";
 };
 
 const vor = (s: Stand): Stand => {
   const k = kern(s.antworten);
   const t = tiefe(s.antworten);
   if (s.ort === "zwischen") return { ...s, ort: k[k.length - 1].id };
-  if (s.ort === "ergebnis") {
-    if (s.vertiefen && t.length > 0) return { ...s, ort: t[t.length - 1].id };
-    return t.length > 0 ? { ...s, ort: "zwischen" } : { ...s, ort: k[k.length - 1].id };
-  }
   const liste = [...k, ...(s.vertiefen ? t : [])];
   const i = liste.findIndex((f) => f.id === s.ort);
   if (i <= 0) return s;
@@ -71,212 +76,334 @@ const vor = (s: Stand): Stand => {
   return { ...s, ort: ziel.id };
 };
 
+/** Wie viele Anbieter nach den bisherigen Antworten noch passen oder in Prüfung sind. */
+const zaehle = (antworten: Antworten) => {
+  const aktive = bausteine.filter((b) => b.aktiv(antworten));
+  const liste = aktive.length > 0 ? aktive : bausteine;
+  return liste.reduce((summe, b) => {
+    const e = werteAus(b.anbieter, b.kategorie, b.finanzMax, auswahlAus(b.id, antworten));
+    return summe + e.passt.length + e.ungeprueft.length;
+  }, 0);
+};
+
 const knopf =
   "flex min-h-[52px] w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground";
 const knopfLeise =
   "flex min-h-[52px] w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-5 text-[16px] font-semibold text-foreground transition-colors hover:border-primary";
 
-/* ------------------------------------------------------------ Antwortkarte */
+/* ---------------------------------------------------------------- Bauteile */
+
+/** Zahl, die beim Ändern hoch- oder herunterzählt. Ohne Bewegung, wenn der Nutzer das so eingestellt hat. */
+const Zaehler = ({ wert }: { wert: number }) => {
+  const [zeige, setZeige] = useState(wert);
+  const von = useRef(wert);
+  useEffect(() => {
+    if (ruhig() || von.current === wert) {
+      von.current = wert;
+      setZeige(wert);
+      return;
+    }
+    const start = von.current;
+    const t0 = performance.now();
+    let rahmen = 0;
+    const schritt = (t: number) => {
+      const p = Math.min(1, (t - t0) / 450);
+      setZeige(Math.round(start + (wert - start) * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) rahmen = requestAnimationFrame(schritt);
+      else von.current = wert;
+    };
+    rahmen = requestAnimationFrame(schritt);
+    return () => {
+      cancelAnimationFrame(rahmen);
+      von.current = wert;
+    };
+  }, [wert]);
+  return <>{zeige}</>;
+};
+
+const Bild = ({ name, klein }: { name: MotivName; klein?: boolean }) => {
+  const Motiv = motive[name];
+  return (
+    <span className={`block shrink-0 overflow-hidden rounded-2xl ${klein ? "h-14 w-14" : "h-[72px] w-[72px]"}`} aria-hidden>
+      <Motiv />
+    </span>
+  );
+};
 
 const Karte = ({
   titel,
   unter,
+  bild,
   aktiv,
   mehrfach,
+  breit,
   onClick,
 }: {
   titel: string;
   unter?: string;
+  bild: MotivName;
   aktiv?: boolean;
   mehrfach?: boolean;
+  breit?: boolean;
   onClick: () => void;
 }) => (
   <button
     type="button"
     onClick={onClick}
     aria-pressed={aktiv}
-    className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border bg-card px-4 py-3 text-left transition-colors ${
-      aktiv ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary"
-    }`}
+    className={`relative flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-center transition-colors ${
+      breit ? "col-span-2" : ""
+    } ${aktiv ? "border-primary bg-hero ring-1 ring-primary" : "border-border bg-card hover:border-primary"}`}
   >
-    <span className="min-w-0 flex-1">
-      <span className="block text-[16px] font-semibold leading-snug text-foreground">{titel}</span>
-      {unter && <span className="mt-0.5 block text-[14px] leading-snug text-muted-foreground">{unter}</span>}
-    </span>
-    {mehrfach ? (
+    {mehrfach && (
       <span
-        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${
+        className={`absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-md border ${
           aktiv ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card"
         }`}
         aria-hidden
       >
         {aktiv && <Check className="h-4 w-4" />}
       </span>
-    ) : (
-      <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
     )}
+    <Bild name={bild} />
+    <span className="block text-[15px] font-semibold leading-tight text-foreground">{titel}</span>
+    {unter && <span className="-mt-1 block text-[13px] leading-snug text-muted-foreground">{unter}</span>}
   </button>
 );
+
+const FARBEN = ["#0057FA", "#7D6EF2", "#BBD3FF", "#E0A93B", "#D98C6A", "#0B2B6B"];
+
+/** Konfetti in Markenfarben, von beiden Seiten, einmal beim Ergebnis. Keine Bibliothek. */
+const Konfetti = () => {
+  const teile = useMemo(
+    () =>
+      Array.from({ length: 70 }, (_, i) => {
+        const links = i % 2 === 0;
+        return {
+          links,
+          farbe: FARBEN[i % FARBEN.length],
+          dx: (links ? 1 : -1) * (80 + Math.random() * 420),
+          dy: -(160 + Math.random() * 460),
+          dreh: (Math.random() - 0.5) * 900,
+          dauer: 1.6 + Math.random() * 1.4,
+          start: Math.random() * 0.25,
+          rund: i % 3 === 0,
+          breite: 6 + Math.random() * 6,
+        };
+      }),
+    [],
+  );
+  if (ruhig()) return null;
+  return (
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
+      <style>{`@keyframes fm-konfetti{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 620px)) rotate(var(--dreh));opacity:0}}`}</style>
+      {teile.map((t, i) => (
+        <span
+          key={i}
+          style={
+            {
+              position: "absolute",
+              bottom: "38%",
+              [t.links ? "left" : "right"]: "-12px",
+              width: t.breite,
+              height: t.rund ? t.breite : t.breite * 0.45,
+              borderRadius: t.rund ? "50%" : 2,
+              background: t.farbe,
+              "--dx": `${t.dx}px`,
+              "--dy": `${t.dy}px`,
+              "--dreh": `${t.dreh}deg`,
+              animation: `fm-konfetti ${t.dauer}s cubic-bezier(.15,.6,.35,1) ${t.start}s both`,
+            } as React.CSSProperties
+          }
+        />
+      ))}
+    </div>
+  );
+};
 
 /* ---------------------------------------------------------------- Ergebnis */
 
 const wertText = (w: unknown) =>
   typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "noch nicht geprüft";
 
-const TrefferKarte = ({ t, baustein, auswahl, vorn }: { t: Treffer; baustein: Baustein; auswahl: Auswahl; vorn?: boolean }) => {
-  const a = t.anbieter;
-  const fakten = (auswahl.prioritaet?.fakten ?? baustein.fakten).map((k) => ({
-    label: baustein.zeilen.find((z) => z.key === k)?.label ?? k,
-    wert: wertText(a.werte[k]),
-  }));
+const Gruende = ({ t }: { t: Treffer }) => {
   const passt = [...t.gruende, ...t.erfuellt.filter((w) => !w.still).map((w) => w.label)];
-
+  if (passt.length === 0 && t.ungeprueft.length === 0) return null;
   return (
-    <li className={`rounded-2xl border bg-card p-4 ${vorn ? "border-primary ring-1 ring-primary" : "border-border"}`}>
-      {vorn && <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.08em] text-primary">Passt am besten zu deinen Angaben</p>}
-      <div className="flex items-center gap-3">
-        <AnbieterLogo name={a.name} domain={a.domain} gross />
-        <p className="min-w-0 flex-1 text-[17px] leading-snug text-foreground">
-          <span className="font-bold">{a.name}</span> {a.produkt}
-        </p>
-        {t.note && (
-          <p className="shrink-0 text-right">
-            <span className="block text-[20px] font-bold leading-none text-foreground">{t.note.gesamt.toFixed(1).replace(".", ",")}</span>
-            <span className="text-[11px] text-muted-foreground">von 5</span>
-          </p>
-        )}
-      </div>
-
-      {(passt.length > 0 || t.ungeprueft.length > 0) && (
-        <>
-          {passt.length > 0 && <p className="mt-3 text-[13px] font-semibold text-muted-foreground">Warum das zu dir passt</p>}
-          <ul className="mt-1.5 space-y-1.5">
-            {passt.map((satz) => (
-              <li key={satz} className="flex items-start gap-2 text-[15px] leading-snug text-foreground">
-                <Check className="mt-0.5 h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
-                {satz}
-              </li>
-            ))}
-            {t.ungeprueft.map((w) => (
-              <li key={w.id} className="flex items-start gap-2 text-[15px] leading-snug text-muted-foreground">
-                <span className="mt-[9px] h-1.5 w-[18px] shrink-0 rounded-full bg-muted-foreground/40" aria-hidden />
-                {w.label}: noch nicht geprüft
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      {fakten.length > 0 && (
-        <dl className="mt-3 space-y-1 rounded-xl bg-hero px-3 py-2.5 text-[14px]">
-          {fakten.map((f) => (
-            <div key={f.label} className="flex justify-between gap-3">
-              <dt className="shrink-0 text-muted-foreground">{f.label}</dt>
-              <dd className="text-right font-semibold text-foreground">{f.wert}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-
-      {t.zinsenAbschalten && (
-        <p className="mt-3 flex items-start gap-2 text-[14px] text-foreground">
-          <span className="mt-[7px] h-2 w-2 shrink-0 rounded-full bg-warning" aria-hidden />
-          Zinsen laufen ab Start. Du musst sie selbst abschalten.
-        </p>
-      )}
-
-      <div className="mt-4">
-        {a.link ? (
-          <>
-            <Link to={a.link} rel="sponsored nofollow" className={knopf}>
-              Einrichtung ansehen*
-            </Link>
-            <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
-          </>
-        ) : (
-          <Link to={baustein.vergleich} className={knopfLeise}>
-            Im Vergleich ansehen
-          </Link>
-        )}
-      </div>
-    </li>
+    <ul className="mt-3 space-y-1.5">
+      {passt.map((satz) => (
+        <li key={satz} className="flex items-start gap-2 text-[15px] leading-snug text-foreground">
+          <Check className="mt-0.5 h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
+          {satz}
+        </li>
+      ))}
+      {t.ungeprueft.map((w) => (
+        <li key={w.id} className="flex items-start gap-2 text-[15px] leading-snug text-muted-foreground">
+          <span className="mt-[9px] h-1.5 w-[18px] shrink-0 rounded-full bg-muted-foreground/40" aria-hidden />
+          {w.label}: noch nicht geprüft
+        </li>
+      ))}
+    </ul>
   );
 };
 
-/** So viele Anbieter stehen je Baustein zuerst da. */
-const OBEN = 3;
+const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; auswahl: Auswahl }) => (
+  <dl className="mt-3 space-y-1 rounded-xl bg-hero px-3 py-2.5 text-[14px]">
+    {(auswahl.prioritaet?.fakten ?? baustein.fakten).map((k) => (
+      <div key={k} className="flex justify-between gap-3">
+        <dt className="shrink-0 text-muted-foreground">{baustein.zeilen.find((z) => z.key === k)?.label ?? k}</dt>
+        <dd className="text-right font-semibold text-foreground">{wertText(t.anbieter.werte[k])}</dd>
+      </div>
+    ))}
+  </dl>
+);
 
-const BausteinAbschnitt = ({ baustein, antworten, nummer }: { baustein: Baustein; antworten: Antworten; nummer: number }) => {
+const ZinsHinweis = () => (
+  <p className="mt-3 flex items-start gap-2 text-[14px] text-foreground">
+    <span className="mt-[7px] h-2 w-2 shrink-0 rounded-full bg-warning" aria-hidden />
+    Zinsen laufen ab Start. Du musst sie selbst abschalten.
+  </p>
+);
+
+const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?: boolean }) =>
+  t.anbieter.link ? (
+    <div>
+      <Link to={t.anbieter.link} rel="sponsored nofollow" className={`${knopf} ${gross ? "min-h-[56px] text-[17px]" : ""}`}>
+        Einrichtung ansehen*
+      </Link>
+      <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
+    </div>
+  ) : (
+    <Link to={baustein.vergleich} className={gross ? knopf : knopfLeise}>
+      Im Vergleich ansehen
+    </Link>
+  );
+
+/** Die eine Karte oben: wer am besten zu den Angaben passt. */
+const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; auswahl: Auswahl }) => {
+  const [offen, setOffen] = useState(false);
+  const a = t.anbieter;
+  return (
+    <div className="mt-4 overflow-hidden rounded-2xl border-2 border-primary/40 bg-primary/10">
+      <p className="px-4 py-2.5 text-center text-[14px] font-semibold text-primary">
+        Empfehlung für {baustein.titel.charAt(0).toLowerCase() + baustein.titel.slice(1)}
+      </p>
+      <div className="rounded-t-2xl bg-card p-4">
+        <div className="flex items-center gap-3">
+          <AnbieterLogo name={a.name} domain={a.domain} gross />
+          <p className="min-w-0 flex-1 text-[19px] leading-snug text-foreground">
+            <span className="font-bold">{a.name}</span> {a.produkt}
+          </p>
+          {t.note && (
+            <p className="shrink-0 text-right">
+              <span className="block text-[22px] font-bold leading-none text-foreground">{t.note.gesamt.toFixed(1).replace(".", ",")}</span>
+              <span className="text-[11px] text-muted-foreground">von 5</span>
+            </p>
+          )}
+        </div>
+        <p className="mt-3 text-[13px] font-semibold text-muted-foreground">Warum das zu dir passt</p>
+        <Gruende t={t} />
+        {t.zinsenAbschalten && <ZinsHinweis />}
+        {offen && <Fakten t={t} baustein={baustein} auswahl={auswahl} />}
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="sm:order-2">
+            <Weiter t={t} baustein={baustein} gross />
+          </div>
+          <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className={`${knopfLeise} sm:order-1`}>
+            Details
+            <ChevronDown className={`h-5 w-5 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TrefferKarte = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; auswahl: Auswahl }) => (
+  <li className="rounded-2xl border border-border bg-card p-4">
+    <div className="flex items-center gap-3">
+      <AnbieterLogo name={t.anbieter.name} domain={t.anbieter.domain} />
+      <p className="min-w-0 flex-1 text-[16px] leading-snug text-foreground">
+        <span className="font-bold">{t.anbieter.name}</span> {t.anbieter.produkt}
+      </p>
+    </div>
+    <Gruende t={t} />
+    <Fakten t={t} baustein={baustein} auswahl={auswahl} />
+    {t.zinsenAbschalten && <ZinsHinweis />}
+    <div className="mt-4">
+      <Weiter t={t} baustein={baustein} />
+    </div>
+  </li>
+);
+
+const Klappe = ({ titel, children }: { titel: string; children: React.ReactNode }) => {
+  const [offen, setOffen] = useState(false);
+  return (
+    <div className="mt-3 rounded-2xl border border-border bg-card">
+      <button
+        type="button"
+        onClick={() => setOffen((o) => !o)}
+        aria-expanded={offen}
+        className="flex min-h-[52px] w-full items-center justify-between gap-3 px-4 text-left text-[15px] font-semibold text-foreground"
+      >
+        {titel}
+        <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+      </button>
+      {offen && <div className="border-t border-border p-3">{children}</div>}
+    </div>
+  );
+};
+
+const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein: Baustein; antworten: Antworten; nummer: number; mehrere: boolean }) => {
   const auswahl = useMemo(() => auswahlAus(baustein.id, antworten), [baustein, antworten]);
   const e = useMemo(() => werteAus(baustein.anbieter, baustein.kategorie, baustein.finanzMax, auswahl), [baustein, auswahl]);
-  const [sichtbar, setSichtbar] = useState(OBEN);
-  const [offenAuf, setOffenAuf] = useState(false);
-
-  const sortiert = e.gerankt
-    ? "Sortiert nach deinen Angaben."
-    : auswahl.prioritaet
-      ? `Sortiert nach deiner Angabe: ${auswahl.prioritaet.label}.`
-      : baustein.kategorie
-        ? "Alphabetisch sortiert."
-        : null;
+  const [sichtbar, setSichtbar] = useState(3);
+  const [erster, ...weitere] = e.passt;
 
   return (
-    <section className="mt-8 first:mt-6">
+    <section className="mt-10 first:mt-6">
       <div className="flex items-start gap-3">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-[15px] font-bold text-primary-foreground">{nummer}</span>
+        {mehrere && (
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-[15px] font-bold text-primary-foreground">{nummer}</span>
+        )}
         <div className="min-w-0">
           <h2 className="text-[21px] font-bold leading-tight text-foreground">{baustein.titel}</h2>
           <p className="mt-1 text-[15px] leading-snug text-muted-foreground">{baustein.wozu}</p>
         </div>
       </div>
 
-      {e.passt.length === 0 ? (
+      {erster ? (
+        <Empfehlung t={erster} baustein={baustein} auswahl={auswahl} />
+      ) : (
         <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-[15px] text-muted-foreground">
           Kein Anbieter erfüllt alle deine Angaben nachweislich. Darunter stehen die, bei denen die Prüfung noch läuft.
         </p>
-      ) : (
-        <>
-          <p className="mt-3 text-[14px] text-muted-foreground">
-            {[`${e.passt.length} passen zu dir.`, sortiert, "Partnerschaften zählen dabei nicht."].filter(Boolean).join(" ")}
-          </p>
-          <ul className="mt-3 space-y-3">
-            {e.passt.slice(0, sichtbar).map((t, i) => (
-              <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} vorn={e.gerankt && i === 0} />
-            ))}
-          </ul>
-        </>
       )}
 
-      {e.passt.length > sichtbar && (
-        <button type="button" onClick={() => setSichtbar((n) => n + 5)} className={`${knopfLeise} mt-3`}>
-          Mehr anzeigen ({e.passt.length - sichtbar})
-        </button>
+      {weitere.length > 0 && (
+        <Klappe titel={`${weitere.length} weitere passen auch`}>
+          <ul className="space-y-3">
+            {weitere.slice(0, sichtbar).map((t) => (
+              <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} />
+            ))}
+          </ul>
+          {weitere.length > sichtbar && (
+            <button type="button" onClick={() => setSichtbar((n) => n + 5)} className={`${knopfLeise} mt-3`}>
+              Mehr anzeigen ({weitere.length - sichtbar})
+            </button>
+          )}
+        </Klappe>
       )}
 
       {e.ungeprueft.length > 0 && (
-        <div className="mt-3 rounded-2xl border border-border bg-card">
-          <button
-            type="button"
-            onClick={() => setOffenAuf((o) => !o)}
-            aria-expanded={offenAuf}
-            className="flex min-h-[52px] w-full items-center justify-between gap-3 px-4 text-left text-[15px] font-semibold text-foreground"
-          >
-            {e.ungeprueft.length} weitere sind noch nicht geprüft
-            <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${offenAuf ? "rotate-180" : ""}`} aria-hidden />
-          </button>
-          {offenAuf && (
-            <div className="border-t border-border p-3">
-              <p className="px-1 pb-3 text-[14px] text-muted-foreground">
-                Hier fehlt uns noch ein Nachweis. Sie können passen, wir wissen es nur noch nicht.
-              </p>
-              <ul className="space-y-3">
-                {e.ungeprueft.map((t) => (
-                  <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} />
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        <Klappe titel={`${e.ungeprueft.length} sind noch nicht geprüft`}>
+          <p className="px-1 pb-3 text-[14px] text-muted-foreground">Hier fehlt uns noch ein Nachweis. Sie können passen, wir wissen es nur noch nicht.</p>
+          <ul className="space-y-3">
+            {e.ungeprueft.map((t) => (
+              <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} />
+            ))}
+          </ul>
+        </Klappe>
       )}
 
       <Link to={baustein.vergleich} className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary">
@@ -287,49 +414,49 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer }: { baustein: Baustein
   );
 };
 
-const Ergebnis = ({ antworten, neu, aendern }: { antworten: Antworten; neu: () => void; aendern: () => void }) => {
+const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; neu: () => void; aendern: () => void; feier: boolean }) => {
   const paket = bausteine.filter((b) => b.aktiv(antworten));
   const mitDepot = paket.some((b) => b.id === "depot");
+  const sparen = antworten.vorhaben?.includes("sparen");
   const mitStern = paket.some((b) => b.anbieter.some((a) => a.link));
+  const danach = [
+    ...(sparen ? [{ to: "/sparzielrechner", text: "Rechne aus, wann du dein Ziel erreichst" }] : []),
+    ...(mitDepot ? [{ to: "/halal-anlagen", text: "Sieh, welche Anlagen geprüft sind" }] : []),
+    { to: "/halal-guide", text: "Hol dir den Guide für die ersten Schritte" },
+  ];
 
   return (
     <div>
-      <p className="text-[13px] font-bold uppercase tracking-[0.08em] text-primary">Dein Ergebnis</p>
-      <h1 className="mt-1 text-[26px] font-bold leading-tight text-foreground md:text-[34px]">
-        {paket.length > 1 ? `Dein Paket aus ${paket.length} Bausteinen` : "Das passt zu dir"}
-      </h1>
-      {paket.length > 1 && (
-        <p className="mt-2 text-[15px] text-muted-foreground">{paket.map((b) => b.titel.replace(/^Deine? /, "")).join(" · ")}</p>
-      )}
+      {feier && <Konfetti />}
+      <div className="text-center">
+        <h1 className="text-[28px] font-bold leading-tight text-foreground md:text-[36px]">{paket.length > 1 ? "Dein Paket" : "Das passt zu dir"}</h1>
+        <p className="mt-1 text-[15px] text-muted-foreground">
+          Basierend auf deinen Angaben{paket.length > 1 ? `: ${paket.map((b) => b.titel.replace(/^Deine? /, "")).join(", ")}` : ""}
+        </p>
+      </div>
 
       {paket.map((b, i) => (
-        <BausteinAbschnitt key={b.id} baustein={b} antworten={antworten} nummer={i + 1} />
+        <BausteinAbschnitt key={b.id} baustein={b} antworten={antworten} nummer={i + 1} mehrere={paket.length > 1} />
       ))}
 
-      {mitDepot && (
-        <section className="mt-8 rounded-2xl bg-hero p-5">
-          <h2 className="text-[18px] font-bold text-foreground">Und danach</h2>
-          <div className="mt-3 space-y-2">
-            {[
-              { to: "/halal-anlagen", text: "Sieh, welche Anlagen geprüft sind" },
-              { to: "/halal-guide", text: "Hol dir den Guide für die ersten Schritte" },
-            ].map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="flex min-h-[52px] items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 text-[15px] font-semibold text-foreground transition-colors hover:border-primary"
-              >
-                {l.text}
-                <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="mt-10 rounded-2xl bg-hero p-5">
+        <h2 className="text-[18px] font-bold text-foreground">Und danach</h2>
+        <div className="mt-3 space-y-2">
+          {danach.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className="flex min-h-[52px] items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 text-[15px] font-semibold text-foreground transition-colors hover:border-primary"
+            >
+              {l.text}
+              <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-8 grid gap-3 sm:grid-cols-2">
         <button type="button" onClick={aendern} className={knopfLeise}>
-          <ArrowLeft className="h-[18px] w-[18px]" aria-hidden />
           Antworten ändern
         </button>
         <button type="button" onClick={neu} className={knopfLeise}>
@@ -339,7 +466,8 @@ const Ergebnis = ({ antworten, neu, aendern }: { antworten: Antworten; neu: () =
       </div>
 
       <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
-        Das ist ein Vergleich von Anbietern nach deinen Angaben und keine Anlageberatung.
+        Die Reihenfolge entsteht aus deinen Angaben und aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen dabei nicht. Das ist ein Vergleich von
+        Anbietern und keine Anlageberatung.
         {mitStern &&
           " * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten."}
       </p>
@@ -351,6 +479,7 @@ const Ergebnis = ({ antworten, neu, aendern }: { antworten: Antworten; neu: () =
 
 const VergleichAssistent = () => {
   const [stand, setStand] = useState<Stand>(lade);
+  const [feier, setFeier] = useState(false);
   const { ort, antworten, vertiefen } = stand;
 
   useEffect(() => {
@@ -363,29 +492,44 @@ const VergleichAssistent = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
+    if (ort !== "laden") return;
+    const t = window.setTimeout(
+      () => {
+        setFeier(true);
+        setStand((s) => ({ ...s, ort: "ergebnis" }));
+      },
+      ruhig() ? 0 : 1700,
+    );
+    return () => window.clearTimeout(t);
   }, [ort]);
 
   const frage: Frage | undefined = fragen.find((f) => f.id === ort);
   const liste = [...kern(antworten), ...(vertiefen ? tiefe(antworten) : [])];
   const stelle = frage ? liste.findIndex((f) => f.id === frage.id) : liste.length;
-  const anteil = ort === "ergebnis" ? 1 : Math.min(1, stelle / Math.max(1, liste.length));
   const amAnfang = ort === fragen[0].id;
+  const anteil = ort === "ergebnis" || ort === "laden" ? 1 : amAnfang ? 0.06 : Math.min(0.96, (stelle + 0.5) / Math.max(1, liste.length));
   const gewaehlt = frage ? (antworten[frage.id] ?? []) : [];
   const offeneTiefe = tiefe(antworten).length;
+  const anzahl = useMemo(() => zaehle(antworten), [antworten]);
+  const gewaehltesVorhaben = (antworten.vorhaben ?? []).length > 0;
 
   const weiter = (neu: Antworten = antworten) => setStand((s) => ({ ...s, antworten: neu, ort: nach(s, neu) }));
-  const zurueck = () => setStand(vor);
-  const neu = () => setStand(START);
+  const neu = () => {
+    setFeier(false);
+    setStand(START);
+  };
 
   const waehle = (f: Frage, id: string) => {
     if (f.mehrfach) {
       const alt = antworten[f.id] ?? [];
-      const liste = alt.includes(id) ? alt.filter((x) => x !== id) : [...alt, id];
-      setStand((s) => ({ ...s, antworten: { ...s.antworten, [f.id]: liste } }));
+      const auswahl = alt.includes(id) ? alt.filter((x) => x !== id) : [...alt, id];
+      setStand((s) => ({ ...s, antworten: { ...s.antworten, [f.id]: auswahl } }));
       return;
     }
     weiter({ ...antworten, [f.id]: [id] });
   };
+
+  const imAblauf = !!frage || ort === "zwischen";
 
   return (
     <>
@@ -395,84 +539,124 @@ const VergleichAssistent = () => {
         path="/vergleich/start"
         brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Was passt zu mir", path: "/vergleich/start" }]}
       />
-      <div className="container min-h-[72svh] max-w-[680px] py-6 md:py-10">
-        <div className="mb-6">
-          <div className="flex min-h-[44px] items-center justify-between gap-3 text-[13px] text-muted-foreground">
-            {amAnfang ? (
-              <span />
-            ) : (
-              <button type="button" onClick={zurueck} className="-ml-2 inline-flex min-h-[44px] items-center gap-1.5 px-2 font-semibold text-foreground">
-                <ArrowLeft className="h-4 w-4" aria-hidden />
-                Zurück
-              </button>
-            )}
-            {frage && !amAnfang && (
-              <span>
-                Frage {stelle + 1} von {liste.length}
+      <div className="container min-h-[78svh] max-w-[640px] py-5 md:py-10">
+        {imAblauf && (
+          <>
+            {/* Läuft mit jeder Antwort mit. Eine Euro-Zahl steht hier erst, wenn wir eine belegen können. */}
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-card px-4 py-3 shadow-[0_6px_24px_-12px_rgba(0,87,250,0.35)]" aria-live="polite">
+              <span className="text-[15px] leading-tight text-foreground">{gewaehltesVorhaben ? "Anbieter, die noch zu dir passen" : "Anbieter im Vergleich"}</span>
+              <span className="text-[26px] font-bold leading-none tabular-nums text-primary">
+                <Zaehler wert={anzahl} />
               </span>
-            )}
-          </div>
-          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-border" role="progressbar" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
-            <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${Math.max(6, anteil * 100)}%` }} />
-          </div>
-        </div>
+            </div>
 
-        {frage && (
-          <div>
-            {amAnfang && <p className="mb-2 text-[15px] text-muted-foreground">Ein paar einfache Fragen, dann siehst du, was zu dir passt.</p>}
-            <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">{frage.titel}</h1>
-            {frage.hinweis && <p className="mt-2 text-[15px] text-muted-foreground">{frage.hinweis}</p>}
-            <div className="mt-5 space-y-3">
-              {frage.antworten.map((a) => (
-                <Karte key={a.id} titel={a.titel} unter={a.unter} mehrfach={frage.mehrfach} aktiv={gewaehlt.includes(a.id)} onClick={() => waehle(frage, a.id)} />
+            <div className="mt-4 rounded-2xl border border-border bg-card p-4 md:p-6">
+              <div className="h-2 overflow-hidden rounded-full bg-border" role="progressbar" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
+                <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${anteil * 100}%` }} />
+              </div>
+
+              {frage && (
+                <div key={frage.id} className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-4 motion-safe:duration-300">
+                  <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">{frage.titel}</h1>
+                  {frage.hinweis && <p className="mt-2 text-center text-[14px] text-muted-foreground">{frage.hinweis}</p>}
+                  <div className="mt-5 grid grid-cols-2 gap-3">
+                    {frage.antworten.map((a, i) => (
+                      <Karte
+                        key={a.id}
+                        titel={a.titel}
+                        unter={a.unter}
+                        bild={a.bild}
+                        mehrfach={frage.mehrfach}
+                        breit={frage.antworten.length % 2 === 1 && i === 0}
+                        aktiv={gewaehlt.includes(a.id)}
+                        onClick={() => waehle(frage, a.id)}
+                      />
+                    ))}
+                  </div>
+                  {frage.mehrfach && (
+                    <button type="button" onClick={() => weiter()} disabled={gewaehlt.length === 0 && !frage.ohneWahl} className={`${knopf} mt-4`}>
+                      {gewaehlt.length > 0 || !frage.ohneWahl ? "Weiter" : frage.ohneWahl}
+                      <ArrowRight className="h-5 w-5" aria-hidden />
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {ort === "zwischen" && (
+                <div className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-4 motion-safe:duration-300">
+                  <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">Willst du dein Ergebnis noch genauer machen?</h1>
+                  <p className="mt-2 text-center text-[14px] text-muted-foreground">Lege fest, was sicher erfüllt sein muss: kein Kredit, kein Dispo, keine Zinsbindung.</p>
+                  <div className="mt-5 grid grid-cols-2 gap-3">
+                    <Karte
+                      bild="liste"
+                      titel={offeneTiefe === 1 ? "Ja, 1 Frage mehr" : `Ja, ${offeneTiefe} Fragen mehr`}
+                      onClick={() => setStand((s) => ({ ...s, vertiefen: true, ort: tiefe(s.antworten)[0].id }))}
+                    />
+                    <Karte bild="pokal" titel="Nein, direkt zum Ergebnis" onClick={() => setStand((s) => ({ ...s, ort: "laden" }))} />
+                  </div>
+                </div>
+              )}
+
+              {!amAnfang && (
+                <div className="mt-5 flex justify-center">
+                  <button type="button" onClick={() => setStand(vor)} className="min-h-[44px] rounded-lg border border-primary/40 px-5 text-[15px] font-semibold text-primary hover:border-primary">
+                    Zurück
+                  </button>
+                </div>
+              )}
+
+              {gewaehltesVorhaben && ort !== "zwischen" && (
+                <div className="mt-5 border-t border-border pt-4 text-center">
+                  <p className="text-[14px] text-muted-foreground">Keine Lust auf weitere Fragen?</p>
+                  <button type="button" onClick={() => setStand((s) => ({ ...s, ort: "laden" }))} className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary underline underline-offset-4">
+                    Direkt zum Ergebnis
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {amAnfang && (
+              <p className="mt-4 flex items-center justify-center gap-2 text-center text-[13px] text-muted-foreground">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                Kostenlos, ohne Anmeldung. Deine Antworten bleiben auf deinem Gerät.
+              </p>
+            )}
+          </>
+        )}
+
+        {ort === "laden" && (
+          <div className="pt-16 text-center md:pt-24" role="status">
+            <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">Wir vergleichen jetzt {anzahl} Anbieter für dich</h1>
+            <ul className="mx-auto mt-5 inline-block space-y-2 text-left text-[15px] text-foreground">
+              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Ungeprüftes zählt nie als erfüllt", "Partnerschaften zählen nicht"].map((s) => (
+                <li key={s} className="flex items-center gap-2">
+                  <ShieldCheck className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
+                  {s}
+                </li>
+              ))}
+            </ul>
+            <div className="mx-auto mt-10 max-w-[280px] space-y-4" aria-hidden>
+              {[0, 1].map((i) => (
+                <div key={i} className="flex animate-pulse items-center gap-3" style={{ animationDelay: `${i * 200}ms` }}>
+                  <span className="h-12 w-12 rounded-xl bg-border" />
+                  <span className="flex-1 space-y-2">
+                    <span className="block h-3 w-2/3 rounded bg-border" />
+                    <span className="block h-3 w-full rounded bg-border" />
+                  </span>
+                </div>
               ))}
             </div>
-            {frage.mehrfach && (
-              <button type="button" onClick={() => weiter()} disabled={gewaehlt.length === 0 && !frage.ohneWahl} className={`${knopf} mt-4`}>
-                {gewaehlt.length > 0 || !frage.ohneWahl ? "Weiter" : frage.ohneWahl}
-              </button>
-            )}
-            {!amAnfang && (
-              <div className="mt-3 flex items-center justify-between">
-                {frage.mehrfach ? (
-                  <span />
-                ) : (
-                  <button type="button" onClick={() => weiter()} className="min-h-[44px] text-[15px] font-semibold text-muted-foreground hover:text-foreground">
-                    Überspringen
-                  </button>
-                )}
-                <button type="button" onClick={() => setStand((s) => ({ ...s, ort: "ergebnis" }))} className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary">
-                  Direkt zum Ergebnis
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </button>
-              </div>
-            )}
-            {amAnfang && (
-              <Link to="/vergleiche" className="mt-5 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary">
-                Lieber selbst vergleichen
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            )}
           </div>
         )}
 
-        {ort === "zwischen" && (
-          <div>
-            <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">Noch genauer machen?</h1>
-            <p className="mt-2 text-[15px] text-muted-foreground">
-              Mit {offeneTiefe === 1 ? "einer Frage" : `${offeneTiefe} Fragen`} mehr legst du fest, was sicher erfüllt sein muss: kein Kredit, kein Dispo, keine Zinsbindung.
-            </p>
-            <div className="mt-5 space-y-3">
-              <Karte
-                titel={offeneTiefe === 1 ? "Ja, eine Frage mehr" : `Ja, ${offeneTiefe} Fragen mehr`}
-                onClick={() => setStand((s) => ({ ...s, vertiefen: true, ort: tiefe(s.antworten)[0].id }))}
-              />
-              <Karte titel="Nein, direkt zum Ergebnis" onClick={() => setStand((s) => ({ ...s, ort: "ergebnis" }))} />
-            </div>
-          </div>
+        {ort === "ergebnis" && (
+          <Ergebnis antworten={antworten} feier={feier} neu={neu} aendern={() => {
+              setFeier(false);
+              setStand((s) => ({ ...s, ort: fragen[0].id, vertiefen: false }));
+            }}
+          />
         )}
-
-        {ort === "ergebnis" && <Ergebnis antworten={antworten} neu={neu} aendern={() => setStand((s) => ({ ...s, ort: fragen[0].id, vertiefen: false }))} />}
       </div>
     </>
   );
