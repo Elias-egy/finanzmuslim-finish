@@ -1,9 +1,15 @@
 // ERZEUGT von ~/rebrand/data/vergleiche/bauen.py aus recherche/anlagen.json. Nicht von Hand ändern.
 // Je ISIN: bei welchen Anbietern die Anlage laut Wertpapiersuche oder Produktliste kaufbar ist.
 // Fehlt ein Anbieter, ist er noch nicht geprüft.
+// Vollprüfung ab 20.09.2026: "kaufbar" steht nur mit Einzelbeleg vom Anbieter selbst (beleg.url
+// liegt auf beleg.domain). Ohne Beleg wird die Zeile weggelassen, nicht als kaufbar gezeigt.
 
 export type AnlageKaufbar = {
-  kaufbar: { anbieter: string; hinweis?: string }[];
+  kaufbar: {
+    anbieter: string;
+    hinweis?: string;
+    beleg: { url: string; stand: string; quelle: string; domains: string[] };
+  }[];
   nichtImAngebot: string[];
   stand: string;
 };
@@ -12,31 +18,93 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000929U2U9": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -49,19 +117,48 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE0009BC6K22": {
     "kaufbar": [
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -77,22 +174,59 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000AGFZM58": {
     "kaufbar": [
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -107,19 +241,48 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000I5NV504": {
     "kaufbar": [
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -135,22 +298,70 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000LFC57H7": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -166,37 +377,114 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000UOXRAM8": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -209,19 +497,48 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE000X9FTI22": {
     "kaufbar": [
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -237,58 +554,160 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00B27YCN58": {
     "kaufbar": [
       {
-        "anbieter": "1822direkt"
+        "anbieter": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "DKB"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
       },
       {
-        "anbieter": "finvesto"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
       },
       {
-        "anbieter": "maxblue Wertpapier-Sparplan"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "S Broker"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Smartbroker+"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
-      },
-      {
-        "anbieter": "tradegate.direct"
-      },
-      {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -299,49 +718,138 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00B27YCP72": {
     "kaufbar": [
       {
-        "anbieter": "1822direkt"
+        "anbieter": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "finvesto"
+        "anbieter": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "S Broker"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "Smartbroker+"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
-      },
-      {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -352,46 +860,149 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00B296QM64": {
     "kaufbar": [
       {
-        "anbieter": "1822direkt"
+        "anbieter": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "finvesto"
+        "anbieter": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -402,28 +1013,81 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00B43VDT70": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -437,30 +1101,96 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "comdirect",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "finvesto"
+        "anbieter": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
       },
       {
         "anbieter": "flatex",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
         "anbieter": "ING",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -475,31 +1205,81 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00B579F325": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -511,40 +1291,126 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "IE00BMYMHS24": {
     "kaufbar": [
       {
-        "anbieter": "1822direkt"
+        "anbieter": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
       },
       {
-        "anbieter": "Bitpanda"
+        "anbieter": "Bitpanda",
+        "beleg": {
+          "url": "https://www.bitpanda.com/en/prices",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bitpanda.com"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -556,37 +1422,115 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "JE00B1VS3333": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "justTRADE"
+        "anbieter": "justTRADE",
+        "beleg": {
+          "url": "https://www.justtrade.com/alle-sparplaene",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
       },
       {
-        "anbieter": "Smartbroker+"
+        "anbieter": "Smartbroker+",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/de-de/edelmetalle-kaufen/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -598,34 +1542,104 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "JE00B1VS3770": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -636,34 +1650,104 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "JE00B588CD74": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Smartbroker+"
+        "anbieter": "Smartbroker+",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/de-de/edelmetalle-kaufen/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -675,40 +1759,126 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "JE00BN2CJ301": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "DEGIRO"
+        "anbieter": "DEGIRO",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/?cHash=a629a532ba7f92ac455e4868a4c76452&tx_ftfondssearch_search%5Bcategory%5D=1&tx_ftfondssearch_search%5Bisin%5D=&tx_ftfondssearch_search%5Bpublisher%5D=&tx_ftfondssearch_search%5Brisk%5D=&tx_ftfondssearch_search%5Bsavingplan%5D=&tx_ftfondssearch_search%5Btitle%5D=",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "justTRADE"
+        "anbieter": "justTRADE",
+        "beleg": {
+          "url": "https://www.justtrade.com/alle-sparplaene",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -719,40 +1889,126 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "JE00BQRFDY49": {
     "kaufbar": [
       {
-        "anbieter": "Bison"
+        "anbieter": "Bison",
+        "beleg": {
+          "url": "https://bisonapp.com/aktien-etfs/meistgehandelte-etfs-monat/",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "flatex"
+        "anbieter": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/?cHash=a629a532ba7f92ac455e4868a4c76452&tx_ftfondssearch_search%5Bcategory%5D=1&tx_ftfondssearch_search%5Bisin%5D=&tx_ftfondssearch_search%5Bpublisher%5D=&tx_ftfondssearch_search%5Brisk%5D=&tx_ftfondssearch_search%5Bsavingplan%5D=&tx_ftfondssearch_search%5Btitle%5D=",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "justTRADE"
+        "anbieter": "justTRADE",
+        "beleg": {
+          "url": "https://www.justtrade.com/alle-sparplaene",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Trade Republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       },
       {
-        "anbieter": "Trading 212"
-      },
-      {
-        "anbieter": "XTB"
+        "anbieter": "XTB",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -764,23 +2020,72 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "comdirect",
-        "hinweis": "ohne Ausgabeaufschlag"
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finvesto"
+        "anbieter": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
       },
       {
         "anbieter": "flatex",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -797,20 +2102,60 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "comdirect",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
         "anbieter": "flatex",
-        "hinweis": "Ausgabeaufschlag mit Rabatt"
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
       },
       {
-        "anbieter": "ING"
+        "anbieter": "ING",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
       },
       {
-        "anbieter": "Scalable Capital"
+        "anbieter": "Scalable Capital",
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -826,25 +2171,71 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "LU3123443510": {
     "kaufbar": [
       {
-        "anbieter": "1822direkt"
+        "anbieter": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
       },
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "finanzen.net zero"
+        "anbieter": "finanzen.net zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -859,22 +2250,48 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
   "XS3384723154": {
     "kaufbar": [
       {
-        "anbieter": "comdirect"
+        "anbieter": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
       },
       {
-        "anbieter": "Consorsbank"
+        "anbieter": "Consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
       },
       {
-        "anbieter": "Trade Republic"
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       },
       {
-        "anbieter": "tradegate.direct"
-      },
-      {
-        "anbieter": "Traders Place"
-      },
-      {
-        "anbieter": "Trading 212"
+        "anbieter": "Trading 212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [

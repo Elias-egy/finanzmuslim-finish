@@ -3,6 +3,7 @@ import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVerglei
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
+import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
@@ -178,4 +179,35 @@ describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
       }
     });
   }
+});
+
+/*
+ * Elias, 20.09.2026: Wir haben behauptet, Invesco Physical Gold sei bei Trade Republic kaufbar,
+ * ohne Einzelbeleg. Seitdem gilt fuer die Kaufbarkeit dieselbe Regel wie fuer die Zinsen:
+ * Beleg aus der Wertpapiersuche oder Produktliste des Anbieters selbst. Ohne Beleg wird die
+ * Zeile gar nicht gezeigt, statt sie als kaufbar auszugeben.
+ */
+describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
+  it("belegt jede kaufbare Anlage mit einer Seite des Anbieters", () => {
+    for (const [isin, eintrag] of Object.entries(ANLAGEN_KAUFBAR)) {
+      for (const k of eintrag.kaufbar) {
+        const ort = `${isin} / ${k.anbieter}`;
+        expect(k.beleg, ort).toBeDefined();
+        expect(["anbieter", "elias"], `${ort}: quelle ${k.beleg.quelle}`).toContain(k.beleg.quelle);
+        expect(k.beleg.stand, ort).toMatch(/^\d{2}\.\d{2}\.\d{4}$/);
+        const host = new URL(k.beleg.url).hostname.replace(/^www\./, "");
+        const eigen = k.beleg.domains.some(
+          (d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`),
+        );
+        expect(eigen, `${ort}: belegt mit ${host}`).toBe(true);
+      }
+    }
+  });
+
+  it("nennt keinen Anbieter zugleich als kaufbar und als nicht im Angebot", () => {
+    for (const [isin, eintrag] of Object.entries(ANLAGEN_KAUFBAR)) {
+      const kaufbar = new Set(eintrag.kaufbar.map((k) => k.anbieter));
+      for (const n of eintrag.nichtImAngebot) expect(kaufbar.has(n), `${isin} / ${n}`).toBe(false);
+    }
+  });
 });
