@@ -103,10 +103,10 @@ export const SiteHeader = () => {
               <Search className="h-[22px] w-[22px]" aria-hidden />
             </button>
             <Link
-              to="/halal-guide"
+              to="/vergleich/start"
               className="hidden min-[900px]:inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
             >
-              Guide sichern
+              Vergleich starten
             </Link>
             <button
               type="button"
@@ -204,11 +204,11 @@ export const SiteHeader = () => {
               ))}
 
               <Link
-                to="/halal-guide"
+                to="/vergleich/start"
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
               >
-                Guide sichern
+                Vergleich starten
               </Link>
             </div>
           </div>

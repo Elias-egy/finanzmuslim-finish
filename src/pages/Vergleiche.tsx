@@ -133,6 +133,13 @@ const Vergleiche = () => (
           Wir prüfen Anbieter nach Kriterien, die in normalen Vergleichen fehlen. Was zählt, ist nicht
           nur der Preis, sondern ob das Produkt zu deinem Glauben passt.
         </p>
+        <Link
+          to="/vergleich/start"
+          className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary px-8 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
+        >
+          Vergleich starten
+        </Link>
+        <p className="mt-2 text-[14px] text-muted-foreground">Drei Fragen, dann siehst du, wer zu dir passt.</p>
       </header>
 
       <div className="mt-12 space-y-12">

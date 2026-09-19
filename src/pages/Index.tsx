@@ -198,7 +198,7 @@ const Index = () => (
       <section className="flex flex-col lg:min-h-[calc(100svh-152px)]">
         <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pt-7 lg:h-[480px] lg:px-12 lg:pt-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
-            <div className="max-w-[600px] lg:py-4">
+            <div className="max-w-[600px] lg:pb-24 lg:pt-4">
               <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
@@ -207,6 +207,16 @@ const Index = () => (
                 Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
                 Finde die für dich passenden Anbieter in nur wenigen Schritten.
               </p>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-8">
+                <Link
+                  to="/vergleich/start"
+                  className="inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-primary px-8 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+                >
+                  Vergleich starten
+                  <ArrowRight className="h-5 w-5" aria-hidden />
+                </Link>
+                <span className="text-center text-[14px] text-muted-foreground sm:text-left">Drei Fragen, keine Anmeldung</span>
+              </div>
             </div>
           </div>
 

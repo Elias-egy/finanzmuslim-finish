@@ -25,20 +25,25 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://finanzmuslim.com/vergleich/start</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://finanzmuslim.com/vergleich/depot</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/vergleich/girokonto</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/vergleich/krypto</loc>
-    <lastmod>2026-09-16</lastmod>
+    <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -62,7 +67,7 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/rechner</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -86,7 +91,7 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/bereinigungsrechner</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -116,7 +121,7 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/wissen</loc>
-    <lastmod>2026-09-05</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -260,19 +265,19 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/vorlagen</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/vorlagen/halal-anlagen</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/vorlagen/vertrags-ampel</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -302,15 +307,27 @@
   </url>
   <url>
     <loc>https://finanzmuslim.com/newsletter</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/deals</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/ueber-mich</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://finanzmuslim.com/kooperationen</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://finanzmuslim.com/wie-ich-geld-verdiene</loc>

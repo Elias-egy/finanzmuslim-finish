@@ -26,6 +26,7 @@ const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
+const VergleichAssistent = lazy(() => import("./pages/VergleichAssistent.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -132,6 +133,7 @@ const App = () => (
             {/* Blog aufgeloest: alles liegt jetzt im Wissensbereich. */}
             <Route path="/blog" element={<Navigate to="/wissen" replace />} />
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
+            <Route path="/vergleich/start" element={<VergleichAssistent />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
             <Route path="/vergleich/krypto" element={<VergleichKrypto />} />
