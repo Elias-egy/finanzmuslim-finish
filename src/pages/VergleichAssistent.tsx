@@ -13,6 +13,7 @@ import {
   type Baustein,
   type Frage,
 } from "@/data/vergleichAssistent";
+import { hoechsterBonus } from "@/data/deals";
 import { werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
@@ -28,20 +29,25 @@ import { werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
  * oben eine Leiste, die mit jeder Antwort mitläuft, große Antwortkarten mit Bild,
  * Zurück und "Direkt zum Ergebnis" unten, kurze Ladeansicht, Ergebnis mit Konfetti.
  * Die Bilder sind unsere eigenen Motive, nicht deren 3D-Emojis.
+ *
+ * Halal-Grundlagen werden nicht abgefragt (Elias: "Kein Mensch will Zinsen"). Sie
+ * gelten immer und stehen im Rechenkern. Anbieter, bei denen ein gewünschtes
+ * Merkmal noch nicht geprüft ist, tauchen hier nicht auf: Vor dem Livegang ist
+ * alles geprüft, und bis dahin empfehlen wir nur, was belegt ist.
  */
 
-type Ort = string | "zwischen" | "laden" | "ergebnis";
-type Stand = { ort: Ort; antworten: Antworten; vertiefen: boolean };
+type Ort = string | "laden" | "ergebnis";
+type Stand = { ort: Ort; antworten: Antworten };
 
-const START: Stand = { ort: fragen[0].id, antworten: {}, vertiefen: false };
-const SPEICHER = "fm-vergleich-start-3";
+const START: Stand = { ort: fragen[0].id, antworten: {} };
+const SPEICHER = "fm-vergleich-start-4";
 
 const lade = (): Stand => {
   try {
     const roh = sessionStorage.getItem(SPEICHER);
     const stand = roh ? ({ ...START, ...JSON.parse(roh) } as Stand) : START;
     if (stand.ort === "laden") return { ...stand, ort: "ergebnis" };
-    const bekannt = stand.ort === "zwischen" || stand.ort === "ergebnis" || fragen.some((f) => f.id === stand.ort);
+    const bekannt = stand.ort === "ergebnis" || fragen.some((f) => f.id === stand.ort);
     return bekannt ? stand : START;
   } catch {
     return START;
@@ -52,38 +58,31 @@ const ruhig = () => typeof window !== "undefined" && window.matchMedia?.("(prefe
 
 /* ------------------------------------------------------------- Wegfindung */
 
-const kern = (a: Antworten) => aktiveFragen(a, false);
-const tiefe = (a: Antworten) => aktiveFragen(a, true).filter((f) => f.vertiefung);
-
 const nach = (s: Stand, antworten: Antworten): Ort => {
-  const liste = s.vertiefen ? [...kern(antworten), ...tiefe(antworten)] : kern(antworten);
   const hier = fragen.findIndex((f) => f.id === s.ort);
-  const naechste = liste.find((f) => fragen.indexOf(f) > hier);
-  if (naechste) return naechste.id;
-  return !s.vertiefen && tiefe(antworten).length > 0 ? "zwischen" : "laden";
+  return aktiveFragen(antworten).find((f) => fragen.indexOf(f) > hier)?.id ?? "laden";
 };
 
 const vor = (s: Stand): Stand => {
-  const k = kern(s.antworten);
-  const t = tiefe(s.antworten);
-  if (s.ort === "zwischen") return { ...s, ort: k[k.length - 1].id };
-  const liste = [...k, ...(s.vertiefen ? t : [])];
+  const liste = aktiveFragen(s.antworten);
   const i = liste.findIndex((f) => f.id === s.ort);
-  if (i <= 0) return s;
-  const ziel = liste[i - 1];
-  // Aus der ersten Vertiefungsfrage zurück heißt: zurück zur Wahl, ob vertieft wird.
-  if (liste[i].vertiefung && !ziel.vertiefung) return { ...s, ort: "zwischen", vertiefen: false };
-  return { ...s, ort: ziel.id };
+  return i <= 0 ? s : { ...s, ort: liste[i - 1].id };
 };
 
-/** Wie viele Anbieter nach den bisherigen Antworten noch passen oder in Prüfung sind. */
-const zaehle = (antworten: Antworten) => {
+/**
+ * Was die Leiste oben zeigt: wie viele Anbieter nach den bisherigen Antworten
+ * nachweislich passen, und der höchste belegte Bonus unter ihnen. Solange in
+ * `deals.ts` kein Betrag mit Quelle steht, bleibt der Bonus null und die Leiste
+ * zeigt die Anzahl. Eine Euro-Zahl ohne Beleg gibt es nicht.
+ */
+const lage = (antworten: Antworten) => {
   const aktive = bausteine.filter((b) => b.aktiv(antworten));
-  const liste = aktive.length > 0 ? aktive : bausteine;
-  return liste.reduce((summe, b) => {
+  const ids = new Set<string>();
+  for (const b of aktive.length > 0 ? aktive : bausteine) {
     const e = werteAus(b.anbieter, b.kategorie, b.finanzMax, auswahlAus(b.id, antworten));
-    return summe + e.passt.length + e.ungeprueft.length;
-  }, 0);
+    for (const t of e.passt) ids.add(t.anbieter.id);
+  }
+  return { anzahl: ids.size, bonus: hoechsterBonus(ids, new Date().toISOString().slice(0, 10)) };
 };
 
 const knopf =
@@ -227,20 +226,14 @@ const wertText = (w: unknown) =>
   typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "noch nicht geprüft";
 
 const Gruende = ({ t }: { t: Treffer }) => {
-  const passt = [...t.gruende, ...t.erfuellt.filter((w) => !w.still).map((w) => w.label)];
-  if (passt.length === 0 && t.ungeprueft.length === 0) return null;
+  const passt = [...t.gruende, ...t.erfuellt.filter((w) => !w.still).map((w) => w.label)].slice(0, 5);
+  if (passt.length === 0) return null;
   return (
     <ul className="mt-3 space-y-1.5">
       {passt.map((satz) => (
         <li key={satz} className="flex items-start gap-2 text-[15px] leading-snug text-foreground">
           <Check className="mt-0.5 h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
           {satz}
-        </li>
-      ))}
-      {t.ungeprueft.map((w) => (
-        <li key={w.id} className="flex items-start gap-2 text-[15px] leading-snug text-muted-foreground">
-          <span className="mt-[9px] h-1.5 w-[18px] shrink-0 rounded-full bg-muted-foreground/40" aria-hidden />
-          {w.label}: noch nicht geprüft
         </li>
       ))}
     </ul>
@@ -256,13 +249,6 @@ const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; ausw
       </div>
     ))}
   </dl>
-);
-
-const ZinsHinweis = () => (
-  <p className="mt-3 flex items-start gap-2 text-[14px] text-foreground">
-    <span className="mt-[7px] h-2 w-2 shrink-0 rounded-full bg-warning" aria-hidden />
-    Zinsen laufen ab Start. Du musst sie selbst abschalten.
-  </p>
 );
 
 const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?: boolean }) =>
@@ -284,8 +270,8 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
   const [offen, setOffen] = useState(false);
   const a = t.anbieter;
   return (
-    <div className="mt-4 overflow-hidden rounded-2xl border-2 border-primary/40 bg-primary/10">
-      <p className="px-4 py-2.5 text-center text-[14px] font-semibold text-primary">
+    <div className="mt-4 overflow-hidden rounded-2xl border-2 border-primary bg-primary shadow-[0_14px_40px_-18px_rgba(0,87,250,0.55)]">
+      <p className="px-4 py-2.5 text-center text-[14px] font-semibold text-primary-foreground">
         Empfehlung für {baustein.titel.charAt(0).toLowerCase() + baustein.titel.slice(1)}
       </p>
       <div className="rounded-t-2xl bg-card p-4">
@@ -303,7 +289,6 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
         </div>
         <p className="mt-3 text-[13px] font-semibold text-muted-foreground">Warum das zu dir passt</p>
         <Gruende t={t} />
-        {t.zinsenAbschalten && <ZinsHinweis />}
         {offen && <Fakten t={t} baustein={baustein} auswahl={auswahl} />}
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div className="sm:order-2">
@@ -329,7 +314,6 @@ const TrefferKarte = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein
     </div>
     <Gruende t={t} />
     <Fakten t={t} baustein={baustein} auswahl={auswahl} />
-    {t.zinsenAbschalten && <ZinsHinweis />}
     <div className="mt-4">
       <Weiter t={t} baustein={baustein} />
     </div>
@@ -376,7 +360,7 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
         <Empfehlung t={erster} baustein={baustein} auswahl={auswahl} />
       ) : (
         <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-[15px] text-muted-foreground">
-          Kein Anbieter erfüllt alle deine Angaben nachweislich. Darunter stehen die, bei denen die Prüfung noch läuft.
+          Noch erfüllt kein Anbieter alle deine Angaben nachweislich. Nimm eine Angabe zurück oder sieh in den ganzen Vergleich.
         </p>
       )}
 
@@ -395,17 +379,6 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
         </Klappe>
       )}
 
-      {e.ungeprueft.length > 0 && (
-        <Klappe titel={`${e.ungeprueft.length} sind noch nicht geprüft`}>
-          <p className="px-1 pb-3 text-[14px] text-muted-foreground">Hier fehlt uns noch ein Nachweis. Sie können passen, wir wissen es nur noch nicht.</p>
-          <ul className="space-y-3">
-            {e.ungeprueft.map((t) => (
-              <TrefferKarte key={t.anbieter.id} t={t} baustein={baustein} auswahl={auswahl} />
-            ))}
-          </ul>
-        </Klappe>
-      )}
-
       <Link to={baustein.vergleich} className="mt-3 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary">
         {baustein.vergleichText}
         <ArrowRight className="h-4 w-4" aria-hidden />
@@ -417,7 +390,7 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
 const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; neu: () => void; aendern: () => void; feier: boolean }) => {
   const paket = bausteine.filter((b) => b.aktiv(antworten));
   const mitDepot = paket.some((b) => b.id === "depot");
-  const sparen = antworten.vorhaben?.includes("sparen");
+  const sparen = antworten.dauer?.includes("kurz");
   const mitStern = paket.some((b) => b.anbieter.some((a) => a.link));
   const danach = [
     ...(sparen ? [{ to: "/sparzielrechner", text: "Rechne aus, wann du dein Ziel erreichst" }] : []),
@@ -480,7 +453,7 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
 const VergleichAssistent = () => {
   const [stand, setStand] = useState<Stand>(lade);
   const [feier, setFeier] = useState(false);
-  const { ort, antworten, vertiefen } = stand;
+  const { ort, antworten } = stand;
 
   useEffect(() => {
     try {
@@ -504,13 +477,12 @@ const VergleichAssistent = () => {
   }, [ort]);
 
   const frage: Frage | undefined = fragen.find((f) => f.id === ort);
-  const liste = [...kern(antworten), ...(vertiefen ? tiefe(antworten) : [])];
+  const liste = aktiveFragen(antworten);
   const stelle = frage ? liste.findIndex((f) => f.id === frage.id) : liste.length;
   const amAnfang = ort === fragen[0].id;
   const anteil = ort === "ergebnis" || ort === "laden" ? 1 : amAnfang ? 0.06 : Math.min(0.96, (stelle + 0.5) / Math.max(1, liste.length));
   const gewaehlt = frage ? (antworten[frage.id] ?? []) : [];
-  const offeneTiefe = tiefe(antworten).length;
-  const anzahl = useMemo(() => zaehle(antworten), [antworten]);
+  const { anzahl, bonus } = useMemo(() => lage(antworten), [antworten]);
   const gewaehltesVorhaben = (antworten.vorhaben ?? []).length > 0;
 
   const weiter = (neu: Antworten = antworten) => setStand((s) => ({ ...s, antworten: neu, ort: nach(s, neu) }));
@@ -529,7 +501,7 @@ const VergleichAssistent = () => {
     weiter({ ...antworten, [f.id]: [id] });
   };
 
-  const imAblauf = !!frage || ort === "zwischen";
+  const imAblauf = !!frage;
 
   return (
     <>
@@ -543,10 +515,13 @@ const VergleichAssistent = () => {
         {imAblauf && (
           <>
             {/* Läuft mit jeder Antwort mit. Eine Euro-Zahl steht hier erst, wenn wir eine belegen können. */}
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-card px-4 py-3 shadow-[0_6px_24px_-12px_rgba(0,87,250,0.35)]" aria-live="polite">
-              <span className="text-[15px] leading-tight text-foreground">{gewaehltesVorhaben ? "Anbieter, die noch zu dir passen" : "Anbieter im Vergleich"}</span>
-              <span className="text-[26px] font-bold leading-none tabular-nums text-primary">
-                <Zaehler wert={anzahl} />
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-success/40 bg-card px-4 py-3 shadow-[0_8px_26px_-14px_rgba(22,140,80,0.55)]" aria-live="polite">
+              <span className="text-[15px] font-medium leading-tight text-foreground">
+                {bonus > 0 ? "Bonus für dich bis zu" : gewaehltesVorhaben ? "Anbieter, die zu dir passen" : "Anbieter im Vergleich"}
+              </span>
+              <span className="text-[28px] font-bold leading-none tabular-nums text-success">
+                <Zaehler wert={bonus > 0 ? bonus : anzahl} />
+                {bonus > 0 && " €"}
               </span>
             </div>
 
@@ -582,21 +557,6 @@ const VergleichAssistent = () => {
                 </div>
               )}
 
-              {ort === "zwischen" && (
-                <div className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-4 motion-safe:duration-300">
-                  <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">Willst du dein Ergebnis noch genauer machen?</h1>
-                  <p className="mt-2 text-center text-[14px] text-muted-foreground">Lege fest, was sicher erfüllt sein muss: kein Kredit, kein Dispo, keine Zinsbindung.</p>
-                  <div className="mt-5 grid grid-cols-2 gap-3">
-                    <Karte
-                      bild="liste"
-                      titel={offeneTiefe === 1 ? "Ja, 1 Frage mehr" : `Ja, ${offeneTiefe} Fragen mehr`}
-                      onClick={() => setStand((s) => ({ ...s, vertiefen: true, ort: tiefe(s.antworten)[0].id }))}
-                    />
-                    <Karte bild="pokal" titel="Nein, direkt zum Ergebnis" onClick={() => setStand((s) => ({ ...s, ort: "laden" }))} />
-                  </div>
-                </div>
-              )}
-
               {!amAnfang && (
                 <div className="mt-5 flex justify-center">
                   <button type="button" onClick={() => setStand(vor)} className="min-h-[44px] rounded-lg border border-primary/40 px-5 text-[15px] font-semibold text-primary hover:border-primary">
@@ -605,7 +565,7 @@ const VergleichAssistent = () => {
                 </div>
               )}
 
-              {gewaehltesVorhaben && ort !== "zwischen" && (
+              {gewaehltesVorhaben && (
                 <div className="mt-5 border-t border-border pt-4 text-center">
                   <p className="text-[14px] text-muted-foreground">Keine Lust auf weitere Fragen?</p>
                   <button type="button" onClick={() => setStand((s) => ({ ...s, ort: "laden" }))} className="inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-semibold text-primary underline underline-offset-4">
@@ -653,7 +613,7 @@ const VergleichAssistent = () => {
         {ort === "ergebnis" && (
           <Ergebnis antworten={antworten} feier={feier} neu={neu} aendern={() => {
               setFeier(false);
-              setStand((s) => ({ ...s, ort: fragen[0].id, vertiefen: false }));
+              setStand((s) => ({ ...s, ort: fragen[0].id }));
             }}
           />
         )}

@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { bewerte } from "@/lib/bewertung";
-import { ampelGut, ANTEIL_N, euro, finanzNote, halalBelegt, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, halalBelegt, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
-import { aktiveFragen, auswahlAus, bausteine, fragen, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
+import { aktiveFragen, auswahlAus, bausteine, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { motive } from "@/components/motive";
+import { hoechsterBonus } from "@/data/deals";
 
 const MAX = { gebuehren: 100, sicherheit: 50 };
 
@@ -82,6 +83,36 @@ describe("geführter Vergleich", () => {
     expect(halalBelegt(geprueft, "krypto")).toBeGreaterThan(halalBelegt(luecke, "krypto"));
     const e = werteAus([luecke, geprueft], "krypto", MAX, leer, false);
     expect(e.passt[0].anbieter.id).toBe("geprueft");
+  });
+
+  it("schlägt nie vor, wer Zinsen erst abschalten muss oder Kredit, Dispo, Zinsbindung voreinstellt", () => {
+    const liste = [krypto("abschaltbar", { zinsfreiAbStart: "teils" }), krypto("zinsmodell", { zinsfreiesModell: "schlecht" }), krypto("sauber", {})];
+    const e = werteAus(liste, "krypto", MAX, leer, false);
+    expect([...e.passt, ...e.ungeprueft].map((t) => t.anbieter.id)).toEqual(["sauber"]);
+    expect(e.raus).toBe(2);
+    for (const b of bausteine.filter((x) => x.kategorie)) {
+      const alle = werteAus(b.anbieter, b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] });
+      for (const t of [...alle.passt, ...alle.ungeprueft]) {
+        expect(t.anbieter.werte.zinsfreiAbStart, t.anbieter.name).not.toBe("teils");
+        for (const k of BASIS[b.kategorie!]) expect(t.anbieter.werte[k], `${t.anbieter.name} ${k}`).not.toBe("schlecht");
+      }
+    }
+  });
+
+  it("fragt keine Halal-Grundlage ab", () => {
+    const text = fragen.flatMap((f) => [f.titel, ...f.antworten.map((x) => x.titel)]).join(" ");
+    expect(text).not.toMatch(/Zins|Kredit|Dispo/i);
+  });
+
+  it("zeigt einen Bonus nur mit Betrag, Quelle und laufender Frist", () => {
+    const ids = new Set(["dkb-girokonto"]);
+    const basis = { anbieter: "DKB", titel: "x", vorteil: "x", bedingungen: "x", anbieterIds: ["dkb-girokonto"] };
+    const quelle = { url: "https://example.org", stand: "19.09.2026" };
+    expect(hoechsterBonus(ids, "2026-09-19", [])).toBe(0);
+    expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200 }])).toBe(0);
+    expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200, quelle, gueltigBis: "2026-09-01" }])).toBe(0);
+    expect(hoechsterBonus(ids, "2026-09-19", [{ ...basis, betrag: 200, quelle }, { ...basis, betrag: 75, quelle }])).toBe(200);
+    expect(hoechsterBonus(new Set(["n26-standard"]), "2026-09-19", [{ ...basis, betrag: 200, quelle }])).toBe(0);
   });
 
   it("zählt einen ungeprüften Türsteher als null und abschaltbare Zinsen halb", () => {
@@ -168,7 +199,7 @@ describe("Fragen zeigen nur auf Felder, die es gibt", () => {
 });
 
 describe("Ablauf und Paket", () => {
-  const ids = (a: Antworten, tief = false) => aktiveFragen(a, tief).map((f) => f.id);
+  const ids = (a: Antworten) => aktiveFragen(a).map((f) => f.id);
   const aktiv = (a: Antworten) => bausteine.filter((b) => b.aktiv(a)).map((b) => b.id);
 
   it("fragt nur, was zum Vorhaben gehört", () => {
@@ -176,16 +207,6 @@ describe("Ablauf und Paket", () => {
     expect(ids({ vorhaben: ["konto"] })).toEqual(["vorhaben", "kontoPreis", "alltag", "kontoWichtig"]);
     expect(ids({ vorhaben: ["steuer"] })).toEqual(["vorhaben", "steuerLage"]);
     expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "dauer", "bestimmtes", "region", "wichtig"]);
-    expect(ids({ vorhaben: ["anlegen", "sparen"] })).toContain("dauer");
-  });
-
-  it("behandelt Sparen wie Anlegen mit kurzer Dauer und fragt die Dauer nicht", () => {
-    const a: Antworten = { vorhaben: ["sparen"] };
-    expect(ids(a)).toEqual(["vorhaben", "betrag", "bestimmtes", "region", "wichtig"]);
-    expect(aktiv(a)).toEqual(["depot"]);
-    const d = baustein("depot");
-    const e = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahlAus("depot", a));
-    expect(e.passt.some((t) => t.gruende.some((g) => /Sukuk|Gold- und Silberpapieren/.test(g)))).toBe(true);
   });
 
   it("gibt jeder Antwort ein Bild, das es gibt", () => {
@@ -204,8 +225,6 @@ describe("Ablauf und Paket", () => {
     const nurKrypto: Antworten = { vorhaben: ["anlegen"], bestimmtes: ["krypto"] };
     expect(ids(nurKrypto)).toContain("wallet");
     expect(ids(nurKrypto)).not.toContain("dauer");
-    expect(ids(nurKrypto, true)).toContain("mussKrypto");
-    expect(ids(nurKrypto, true)).not.toContain("mussDepot");
   });
 
   it("baut das Paket aus den Antworten", () => {
@@ -243,10 +262,10 @@ describe("Ablauf und Paket", () => {
   it("rechnet jedes Paket durch, ohne dass ein abgeratener Anbieter auftaucht", () => {
     const faelle: Antworten[] = [
       { vorhaben: ["anlegen"], betrag: ["klein"], dauer: ["kurz"], bestimmtes: [], region: ["egal"], wichtig: ["kosten"] },
-      { vorhaben: ["anlegen"], betrag: ["einmal"], dauer: ["lang"], bestimmtes: ["aktien", "krypto", "metalle"], wichtig: ["auswahl"], wallet: ["ja"], mussDepot: ["kredit"] },
+      { vorhaben: ["anlegen"], betrag: ["einmal"], dauer: ["lang"], bestimmtes: ["aktien", "krypto", "metalle"], wichtig: ["auswahl"], wallet: ["ja"] },
       { vorhaben: ["anlegen", "konto", "steuer"], betrag: ["mittel"], dauer: ["mittel"], bestimmtes: ["etfs", "sukuk"], region: ["usa"], wichtig: ["app"], kontoPreis: ["kostenlos"], alltag: ["girocard", "handy"], steuerLage: ["kapital", "selbst"] },
       { vorhaben: ["steuer"], steuerLage: ["gratis"] },
-      { vorhaben: ["konto"], kontoPreis: ["egal"], alltag: ["filiale", "bargeld"], kontoWichtig: ["service"], mussKonto: ["dispo", "karte"] },
+      { vorhaben: ["konto"], kontoPreis: ["egal"], alltag: ["filiale", "bargeld"], kontoWichtig: ["service"] },
     ];
     for (const a of faelle) {
       const aktive = bausteine.filter((b) => b.aktiv(a));
@@ -276,5 +295,21 @@ describe("Begründungen", () => {
       expect(t.gruende.filter((g) => g.includes("Gold- und Silberpapieren")).length, t.anbieter.name).toBeLessThanOrEqual(1);
       expect(t.gruende.every((g) => g.trim().length > 10), t.anbieter.name).toBe(true);
     }
+  });
+});
+
+describe("Prüf-Apps", () => {
+  it("liest aus dem belegten Feld, ob die kostenlose Fassung reicht", () => {
+    const b = bausteine.find((x) => x.id === "screener")!;
+    const lage = Object.fromEntries(b.anbieter.map((a) => [a.name, kostenlosReicht(a)]));
+    expect(lage).toEqual({ Finispia: true, Islamicly: false, Musaffa: true, Zoya: true });
+  });
+
+  it("stellt die App nach vorn, die am meisten belegt, und sagt warum", () => {
+    const b = bausteine.find((x) => x.id === "screener")!;
+    const e = werteAus(b.anbieter, null, {}, auswahlAus("screener", { vorhaben: ["anlegen"], bestimmtes: ["aktien"] }));
+    expect(e.passt[0].anbieter.name).toBe("Musaffa");
+    expect(e.passt[0].gruende).toContain("Gelehrte stehen mit Namen dahinter");
+    expect(e.passt[0].gruende.length).toBeGreaterThanOrEqual(3);
   });
 });

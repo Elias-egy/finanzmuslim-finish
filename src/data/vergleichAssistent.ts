@@ -78,8 +78,6 @@ export type Frage = {
   mehrfach?: boolean;
   /** Text des Weiter-Knopfs, solange bei einer Mehrfachfrage nichts gewählt ist. */
   ohneWahl?: string;
-  /** Gehört zur Vertiefung nach den Kernfragen. */
-  vertiefung?: boolean;
   zeigeWenn?: (a: Antworten) => boolean;
   antworten: Antwort[];
 };
@@ -98,6 +96,8 @@ export type Baustein = {
   zeilen: VergleichsZeile[];
   /** Zeilen, die immer unter dem Anbieter stehen, wenn keine Priorität eigene mitbringt. */
   fakten: string[];
+  /** Gründe, die unabhängig von den Antworten dastehen, wenn sie belegt sind. */
+  immer?: Grund[];
   /** Grundordnung von 0 bis 1 für Bausteine ohne Notenlogik, nur aus Belegtem. */
   grundSort?: (a: RohAnbieter) => number | null;
   aktiv: (a: Antworten) => boolean;
@@ -142,6 +142,22 @@ const grundAnzahl =
     if (n === null || n === 0 || typeof w !== "string") return null;
     return text(n, w.match(/von\s+(\d+)/)?.[1] ?? "");
   };
+
+/** Screening-Apps: Reicht die kostenlose Fassung, um Aktien zu prüfen? Liest das belegte Feld `kostenlos`. */
+export const kostenlosReicht = (a: RohAnbieter) => {
+  const w = a.werte.kostenlos;
+  return typeof w === "string" && w.trim() !== "" && !/danach Abo|nur eine|eine Prüfung/i.test(w);
+};
+
+const wennGut =
+  (key: string, satz: string): Grund =>
+  (a) =>
+    a.werte[key] === "gut" ? satz : null;
+
+const wennJa =
+  (key: string, satz: string): Grund =>
+  (a) =>
+    a.werte[key] === true ? satz : null;
 
 const mehrere =
   (...gruende: Grund[]): Grund =>
@@ -227,10 +243,8 @@ const KURZ: Wirkung = {
 
 /* ---------------------------------------------------------------- Fragen */
 
-const will: Record<"anlegen" | "dauerFragen" | "depot" | "krypto" | "aktien" | "konto" | "steuer", (a: Antworten) => boolean> = {
-  /** Anlegen und Sparen führen beide ins Depot. Sparen heißt: kurze Dauer, die Frage danach entfällt. */
-  anlegen: (a) => hat(a, "vorhaben", "anlegen") || hat(a, "vorhaben", "sparen"),
-  dauerFragen: (a) => hat(a, "vorhaben", "anlegen"),
+const will: Record<"anlegen" | "depot" | "krypto" | "aktien" | "konto" | "steuer", (a: Antworten) => boolean> = {
+  anlegen: (a) => hat(a, "vorhaben", "anlegen"),
   depot: (a) => {
     if (!will.anlegen(a)) return false;
     const b = a.bestimmtes ?? [];
@@ -250,8 +264,7 @@ export const fragen: Frage[] = [
     hinweis: "Mehrere möglich.",
     mehrfach: true,
     antworten: [
-      { id: "anlegen", bild: "wachsen", titel: "Geld anlegen" },
-      { id: "sparen", bild: "sparschwein", titel: "Auf etwas sparen", unter: "Auto, Hajj, Hochzeit", auch: { depot: KURZ } },
+      { id: "anlegen", bild: "wachsen", titel: "Sparen und anlegen" },
       { id: "konto", bild: "karte", titel: "Konto für den Alltag" },
       { id: "steuer", bild: "steuer", titel: "Steuererklärung" },
     ],
@@ -262,7 +275,7 @@ export const fragen: Frage[] = [
     id: "betrag",
     fuer: "depot",
     titel: "Wie viel willst du anlegen?",
-    hinweis: "Grob reicht. Du kannst das später jederzeit ändern.",
+    hinweis: "Grob reicht. Wir sind nicht das Finanzamt.",
     zeigeWenn: will.anlegen,
     antworten: [
       {
@@ -302,7 +315,7 @@ export const fragen: Frage[] = [
     fuer: "depot",
     titel: "Wie lange kann das Geld liegen bleiben?",
     hinweis: "Daran hängt, welche Auswahl dein Depot haben sollte.",
-    zeigeWenn: (a) => will.depot(a) && will.dauerFragen(a),
+    zeigeWenn: will.depot,
     antworten: [
       {
         id: "kurz", bild: "sanduhr",
@@ -371,7 +384,7 @@ export const fragen: Frage[] = [
         id: "ja", bild: "schluessel",
         titel: "Ja, auf meiner eigenen Wallet",
         wuensche: [
-          { id: "echt", label: "Echte Coins statt Zertifikat", pruefe: ampelGut("echteCoins") },
+          { id: "echt", label: "Echte Coins statt Zertifikat", still: true, pruefe: ampelGut("echteCoins") },
           { id: "wallet", label: "Auszahlung auf eigene Wallet", pruefe: ampelGut("eigeneWallet") },
         ],
         grund: grundWert("auszahlungBitcoin", (w) => `Bitcoin auszahlen kostet ${w}`),
@@ -399,7 +412,7 @@ export const fragen: Frage[] = [
     titel: "Darf das Konto etwas kosten?",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "kostenlos", bild: "sparschwein", titel: "Nein, es muss kostenlos sein", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
+      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
       { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
     ],
   },
@@ -451,7 +464,7 @@ export const fragen: Frage[] = [
     id: "steuerLage",
     fuer: "steuer",
     titel: "Was trifft auf dich zu?",
-    hinweis: "Mehrere möglich. Nicht jedes Programm kann alles.",
+    hinweis: "Mehrere möglich. Das Finanzamt fragt ja auch alles.",
     mehrfach: true,
     ohneWahl: "Nichts davon, weiter",
     zeigeWenn: will.steuer,
@@ -505,49 +518,6 @@ export const fragen: Frage[] = [
       },
     ],
   },
-
-  /* --- Vertiefung: was sicher erfüllt sein muss --- */
-  {
-    id: "mussDepot",
-    fuer: "depot",
-    titel: "Was muss beim Depot sicher erfüllt sein?",
-    hinweis: "Mehrere möglich. Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
-    mehrfach: true,
-    ohneWahl: "Nichts davon, weiter",
-    vertiefung: true,
-    zeigeWenn: will.depot,
-    antworten: [
-      { id: "kredit", bild: "kredit", titel: "Kein Kredit ab Start", unter: "Dir wird kein Wertpapierkredit eingeräumt", wuensche: [{ id: "kredit", label: "Kein Kredit ab Start", pruefe: ampelGut("keinKreditAbStart") }] },
-      { id: "steuer", bild: "steuer", titel: "Steuer wird automatisch abgeführt", unter: "Du musst nichts selbst nachmelden", wuensche: [{ id: "steuer", label: "Steuer wird abgeführt", pruefe: jaNein("kapest") }] },
-    ],
-  },
-  {
-    id: "mussKonto",
-    fuer: "girokonto",
-    titel: "Was muss beim Konto sicher erfüllt sein?",
-    hinweis: "Mehrere möglich. Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
-    mehrfach: true,
-    ohneWahl: "Nichts davon, weiter",
-    vertiefung: true,
-    zeigeWenn: will.konto,
-    antworten: [
-      { id: "dispo", bild: "dispo", titel: "Kein Dispo ab Start", unter: "Du kannst nicht aus Versehen ins Minus", wuensche: [{ id: "dispo", label: "Kein Dispo ab Start", pruefe: ampelGut("keinDispoAbStart") }] },
-      { id: "karte", bild: "karteSicher", titel: "Karte ohne Kredit", unter: "Abbuchung sofort, kein Kreditrahmen", wuensche: [{ id: "karte", label: "Karte ohne Kredit", pruefe: ampelGut("karteOhneKredit") }] },
-    ],
-  },
-  {
-    id: "mussKrypto",
-    fuer: "krypto",
-    titel: "Was muss bei der Krypto-Börse sicher erfüllt sein?",
-    hinweis: "Anbieter, bei denen das noch nicht geprüft ist, stehen getrennt.",
-    mehrfach: true,
-    ohneWahl: "Nichts davon, weiter",
-    vertiefung: true,
-    zeigeWenn: will.krypto,
-    antworten: [
-      { id: "modell", bild: "zins", titel: "Bezahlmodell ohne Zinsbindung", unter: "Kein Abo, das an Zinsangebote gekoppelt ist", wuensche: [{ id: "modell", label: "Bezahlmodell ohne Zinsbindung", pruefe: ampelGut("zinsfreiesModell") }] },
-    ],
-  },
 ];
 
 /* ------------------------------------------------------------- Bausteine */
@@ -564,6 +534,7 @@ export const bausteine: Baustein[] = [
     finanzMax: DEPOT_FINANZ_MAX,
     zeilen: DEPOT_ZEILEN,
     fakten: ["depotgebuehr", "orderkosten"],
+    immer: [wennGut("keinKreditAbStart", "Kein Kredit voreingestellt"), wennJa("kapest", "Führt die Steuer für dich ab")],
     aktiv: will.depot,
   },
   {
@@ -577,9 +548,17 @@ export const bausteine: Baustein[] = [
     finanzMax: {},
     zeilen: SCREENER_ZEILEN,
     fakten: ["preis", "deutscheAktien", "sprache"],
+    immer: [
+      wennGut("gremium", "Gelehrte stehen mit Namen dahinter"),
+      wennGut("begruendung", "Zeigt, woran eine Aktie scheitert"),
+      wennGut("reinigung", "Rechnet den Reinigungsbetrag aus"),
+      (a) => (kostenlosReicht(a) ? "Kostenlose Fassung reicht zum Prüfen" : null),
+    ],
+    /* Drei Halal-Merkmale plus die Frage, ob die kostenlose Fassung zum Prüfen reicht. Alles aus belegten Feldern. */
     grundSort: (a) => {
       const keys = SCREENER_ZEILEN.filter((z) => z.gruppe === "halal" && z.art === "ampel").map((z) => z.key);
-      return keys.length > 0 ? keys.filter((k) => a.werte[k] === "gut").length / keys.length : null;
+      const gut = keys.filter((k) => a.werte[k] === "gut").length + (kostenlosReicht(a) ? 1 : 0);
+      return gut / (keys.length + 1);
     },
     aktiv: will.aktien,
   },
@@ -594,6 +573,7 @@ export const bausteine: Baustein[] = [
     finanzMax: KRYPTO_FINANZ_MAX,
     zeilen: KRYPTO_ZEILEN,
     fakten: ["gesamtkosten", "anzahlCoins"],
+    immer: [wennGut("echteCoins", "Echte Coins statt Zertifikat"), wennGut("zinsfreiesModell", "Bezahlmodell ohne Zinsbindung")],
     aktiv: will.krypto,
   },
   {
@@ -607,6 +587,7 @@ export const bausteine: Baustein[] = [
     finanzMax: GIRO_FINANZ_MAX,
     zeilen: GIRO_ZEILEN,
     fakten: ["kontofuehrung", "debitkarte"],
+    immer: [wennGut("keinDispoAbStart", "Kein Dispo voreingestellt"), wennGut("karteOhneKredit", "Karte ohne Kreditrahmen")],
     aktiv: will.konto,
   },
   {
@@ -627,8 +608,7 @@ export const bausteine: Baustein[] = [
 /* --------------------------------------------------------------- Ablauf */
 
 /** Die Fragen, die zu den bisherigen Antworten gehören, in fester Reihenfolge. */
-export const aktiveFragen = (antworten: Antworten, mitVertiefung: boolean) =>
-  fragen.filter((f) => (mitVertiefung || !f.vertiefung) && (f.zeigeWenn?.(antworten) ?? true));
+export const aktiveFragen = (antworten: Antworten) => fragen.filter((f) => f.zeigeWenn?.(antworten) ?? true);
 
 /**
  * Übersetzt die Antworten in das, was der Rechenkern für einen Baustein braucht.
@@ -637,7 +617,7 @@ export const aktiveFragen = (antworten: Antworten, mitVertiefung: boolean) =>
  */
 export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl => {
   const wirkungen: Wirkung[] = [];
-  for (const f of aktiveFragen(antworten, true)) {
+  for (const f of aktiveFragen(antworten)) {
     for (const a of f.antworten) {
       if (!antworten[f.id]?.includes(a.id)) continue;
       if (f.fuer === baustein) wirkungen.push(a);
@@ -645,12 +625,13 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
       if (auch) wirkungen.push(auch);
     }
   }
-  const grundSort = bausteine.find((b) => b.id === baustein)?.grundSort;
+  const b = bausteine.find((x) => x.id === baustein);
+  const grundSort = b?.grundSort;
   return {
     wuensche: wirkungen.flatMap((w) => w.wuensche ?? []),
     gewichte: wirkungen.flatMap((w) => (w.gewichte ? [w.gewichte] : [])),
     prioritaet: wirkungen.find((w) => w.prioritaet)?.prioritaet,
-    gruende: wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])),
+    gruende: [...wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])), ...(b?.immer ?? [])],
     nebenSort: [...wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])), ...(grundSort ? [grundSort] : [])],
   };
 };

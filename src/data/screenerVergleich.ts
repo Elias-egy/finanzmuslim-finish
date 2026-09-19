@@ -193,7 +193,7 @@ export const screenerVergleich: RohAnbieter[] = [
     domain: "musaffa.com",
     werte: {
       standard: "AAOIFI",
-      gremium: "schlecht",
+      gremium: "gut",
       begruendung: "gut",
       reinigung: "gut",
       deutscheAktien: "ja, 997 deutsche Aktien geprüft, davon 231 halal",
@@ -208,10 +208,10 @@ export const screenerVergleich: RohAnbieter[] = [
     quellen: {
       standard: { url: "https://musaffa.com/", stand, hinweis: "Musaffa prüft nach AAOIFI-Standards, mit Geschäftstätigkeit und Finanzkennzahlen." },
       gremium: {
-        url: "https://musaffa.com/",
-        stand,
+        url: "https://musaffa.com/shariah-compliance",
+        stand: "19.09.2026",
         hinweis:
-          "Der Anbieter spricht von unabhängigen Nachweisen und Zertifizierungen, nennt auf den öffentlichen Seiten aber keine Gelehrten mit Namen.",
+          "Namentlich genannt: Shaikh Dr. Aznan Hasan, Mitglied im Shariah-Rat der AAOIFI, und Mufti Faraz Adam, Leiter von Amanah Advisors, die das Verfahren unabhängig zertifizieren. Am 19.09.2026 korrigiert: Die Namen stehen auf einer Unterseite, nicht auf der Startseite.",
       },
       begruendung: { url: "https://musaffa.com/", stand, hinweis: "Je Aktie gibt es einen ausführlichen Compliance-Bericht mit Rating und den zugrunde liegenden Zahlen." },
       reinigung: { url: "https://musaffa.com/pricing/", stand, hinweis: "Reinigungs- und Zakat-Rechner gehören zum Bezahlmodell." },

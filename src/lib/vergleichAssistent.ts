@@ -6,7 +6,11 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  *
  * Regeln, die hier gelten und getestet sind:
  *
- * 1. Wer sich nicht zinsfrei nutzen lässt, erscheint nie im Ergebnis.
+ * 1. Das Fundament wird nicht abgefragt, es gilt immer (Elias, 19.09.2026: "Kein
+ *    Mensch will Zinsen"). Im Ergebnis steht nur, wer ab Start zinsfrei ist.
+ *    Wer Zinsen erst abschalten muss, steht im Vergleich, wird hier aber nie
+ *    vorgeschlagen. Ebenso fliegt raus, wer nachweislich Kredit, Dispo oder ein
+ *    zinsgebundenes Bezahlmodell voreinstellt (`BASIS`).
  * 2. Ein unbekannter Wert erfüllt nie einen Wunsch. Der Anbieter steht dann
  *    unter "noch nicht geprüft", nicht unter "passt".
  * 3. Partnerlink, Provision und Startseite fließen nirgends ein. Diese Datei
@@ -78,8 +82,6 @@ export type Treffer = {
   ungeprueft: Wunsch[];
   /** Sätze aus den Daten, warum der Anbieter zu den Antworten passt. */
   gruende: string[];
-  /** Zinsen laufen ab Start und müssen selbst abgeschaltet werden. */
-  zinsenAbschalten: boolean;
   /** Nur gesetzt, wenn die Kategorie freigeschaltet und der Anbieter fertig bewertet ist. */
   note: { gesamt: number; halal: number; finanz: number } | null;
   sortWert: number;
@@ -171,6 +173,13 @@ export const finanzNote = (
   return 5 * Math.min(1, Math.max(0, summe / max));
 };
 
+/** Halal-Grundlagen je Kategorie. Steht hier nachweislich "schlecht", wird der Anbieter nie vorgeschlagen. */
+export const BASIS: Record<Kategorie, string[]> = {
+  depot: ["keinKreditAbStart"],
+  girokonto: ["keinDispoAbStart", "karteOhneKredit"],
+  krypto: ["zinsfreiesModell"],
+};
+
 /** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Muss zu den Zeilentexten passen (Test). */
 export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
 
@@ -233,7 +242,8 @@ export const werteAus = (
 
   for (const a of liste) {
     const tuer = regel ? a.werte[regel.tuersteher] : "gut";
-    if (tuer === "schlecht" || a.abgeraten) {
+    const basisRot = kategorie ? BASIS[kategorie].some((k) => a.werte[k] === "schlecht") : false;
+    if (tuer === "schlecht" || tuer === "teils" || basisRot || a.abgeraten) {
       raus += 1;
       continue;
     }
@@ -243,7 +253,7 @@ export const werteAus = (
       continue;
     }
     const offen = stand.filter((s) => s.r === null).map((s) => s.w);
-    const tuerOffen = tuer !== "gut" && tuer !== "teils";
+    const tuerOffen = tuer !== "gut";
 
     const basis = kategorie ? bewerte(a, kategorie, finanzMax) : null;
     const fin = finanzNote(a, finanzMax, gewichte);
@@ -261,7 +271,6 @@ export const werteAus = (
       erfuellt: stand.filter((s) => s.r === true).map((s) => s.w),
       ungeprueft: offen,
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
-      zinsenAbschalten: tuer === "teils",
       note,
       sortWert:
         note?.gesamt ??
