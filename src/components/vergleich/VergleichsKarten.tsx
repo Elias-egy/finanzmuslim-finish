@@ -69,12 +69,16 @@ const Karte = ({
       </div>
 
       <div className="p-3">
-        <div>
-          <AngebotsKnopf link={spalte.link} breit abgeraten={spalte.abgeraten} />
-        </div>
+        {/* Ohne Partnerlink kein Knopf: ein grauer Knopf, den niemand drücken kann, kostet
+            auf dem Handy bei 52 von 56 Karten zusammen fünf Bildschirme. */}
+        {spalte.link && (
+          <div className="mb-3">
+            <AngebotsKnopf link={spalte.link} breit />
+          </div>
+        )}
 
         {/* Vier Zahlen, nach denen zuerst gesucht wird */}
-        <dl className="mt-3 grid grid-cols-2 gap-3">
+        <dl className="grid grid-cols-2 gap-3">
           {raster.map((z) => (
             <div key={z.key} className="rounded-lg border border-border p-3 text-center">
               <dt className="text-[12px] leading-tight text-muted-foreground">
@@ -135,6 +139,9 @@ const Karte = ({
   );
 };
 
+/** So viele Karten stehen zuerst da. Finanzfluss zeigt 27, bei uns sind die Karten alphabetisch, also weniger. */
+const SEITE = 15;
+
 export const VergleichsKarten = ({
   zeilen,
   spalten,
@@ -143,11 +150,14 @@ export const VergleichsKarten = ({
   spalten: VergleichsSpalte[];
 }) => {
   const [gewaehlt, setGewaehlt] = useState<string[]>([]);
+  const [sichtbar, setSichtbar] = useState(SEITE);
 
   const waehle = (id: string) =>
     setGewaehlt((alt) => (alt.includes(id) ? alt.filter((x) => x !== id) : [...alt, id]));
 
-  const zeigen = gewaehlt.length > 0 ? spalten.filter((s) => gewaehlt.includes(s.id)) : spalten;
+  const auswahl = gewaehlt.length > 0;
+  const alle = auswahl ? spalten.filter((s) => gewaehlt.includes(s.id)) : spalten;
+  const zeigen = auswahl ? alle : alle.slice(0, sichtbar);
 
   return (
     <>
@@ -177,6 +187,16 @@ export const VergleichsKarten = ({
           />
         ))}
       </ul>
+
+      {alle.length > zeigen.length && (
+        <button
+          type="button"
+          onClick={() => setSichtbar((n) => n + SEITE)}
+          className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-lg border border-border bg-card text-[16px] font-semibold text-foreground transition-colors hover:border-primary"
+        >
+          Mehr anzeigen ({alle.length - zeigen.length})
+        </button>
+      )}
     </>
   );
 };

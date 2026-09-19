@@ -37,12 +37,14 @@ export const VergleichsLeiste = ({
   kennzahlen,
   stand,
   standHinweis,
+  className = "",
 }: {
   kennzahlen: Array<{ zahl: string | number; text: string }>;
   stand: string;
   standHinweis?: string;
+  className?: string;
 }) => (
-  <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+  <div className={`${className} mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4`}>
     {kennzahlen.map((k) => (
       <div key={k.text} className="rounded-lg border border-border p-4">
         <p className="text-[20px] font-bold text-foreground">{k.zahl}</p>
@@ -72,9 +74,13 @@ export const VergleichsLeiste = ({
  * noch nicht nachgesehen haben.
  */
 export const ReihenfolgeHinweis = ({ einheit }: { einheit: string }) => (
-  <section className="mt-10 rounded-lg border border-primary/30 bg-hero px-4 py-5 md:px-6">
-    <p className="text-[16px] font-bold text-foreground">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
-    <p className="mt-1 text-[15px] leading-[24px] text-muted-foreground">
+  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
+    {/* Handy: ein Satz. Die lange Fassung steht auf dem Laptop und in der Methodik. */}
+    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
+      Alphabetisch sortiert. Die Bewertung folgt, sobald alle {einheit} geprüft sind.
+    </p>
+    <p className="hidden text-[16px] font-bold text-foreground lg:block">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
+    <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
       Bis dahin stehen alle {einheit} alphabetisch. Kosten und Konditionen sind eingetragen, die
       Halal-Merkmale prüfen wir einzeln beim Anbieter. Nur eines ändert die Reihenfolge: Wer sich
       nicht zinsfrei nutzen lässt, steht am Ende, ist rot markiert und bekommt von uns keinen Link.
