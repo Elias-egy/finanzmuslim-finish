@@ -14,7 +14,7 @@ export type AnlageKaufbar = {
   stand: string;
 };
 
-export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
+const ANLAGEN_KAUFBAR_RAW: Record<string, AnlageKaufbar> = {
   "IE000929U2U9": {
     "kaufbar": [
       {
@@ -2302,3 +2302,14 @@ export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = {
     "stand": "15.09.2026"
   }
 };
+
+/** Die beiden TR-Invesco-Goldtreffer stehen im öffentlichen Katalog, sind wegen
+ * des Widerspruchs zur Betreiber-App aber bis zur eingeloggten Gegenprobe U. */
+export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = Object.fromEntries(
+  Object.entries(ANLAGEN_KAUFBAR_RAW).map(([isin, eintrag]) => [
+    isin,
+    isin === "IE00B579F325" || isin === "XS3384723154"
+      ? { ...eintrag, kaufbar: eintrag.kaufbar.filter((x) => x.anbieter !== "Trade Republic") }
+      : eintrag,
+  ]),
+);

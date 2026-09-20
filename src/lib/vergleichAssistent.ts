@@ -18,11 +18,11 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
  * 4. Antworten ändern Gewichte und Filter, nie die Fakten.
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
  *
- * Reihenfolge (Elias, 19.09.2026 abends: "Empfehlung für dein Depot"): Das
- * Ergebnis nennt je Baustein einen Anbieter, der am besten zu den Angaben passt.
- * Dafür braucht es immer eine faire Ordnung, auch wo noch nicht alles geprüft
- * ist. Sie entsteht nur aus Belegtem: Ein ungeprüftes Halal-Merkmal zählt null,
- * nie als erfüllt. Wer viel Ungeprüftes hat, steht deshalb hinten, nicht vorn.
+ * Reihenfolge (Elias, 20.09.2026): Zuerst muss die Nutzung zinsfrei sein. Danach
+ * entscheidet beim Depot das belegte Paket islamischer Anlagen. Erst wenn dieses
+ * Paket identisch ist, entscheidet die Finanzfluss-Reihenfolge. Ein ungeprüfter
+ * oder nur als Mindestwert belegter Anlagenumfang darf kein Gleichstand mit einem
+ * vollständig belegten Paket sein.
  *
  * `RANGFOLGE_FREI` steuert nur noch, ob die Note als Zahl dasteht. Das setzt
  * voraus, dass der Anbieter fertig bewertet ist.
@@ -183,6 +183,38 @@ export const BASIS: Record<Kategorie, string[]> = {
 /** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Muss zu den Zeilentexten passen (Test). */
 export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
 
+const DEPOT_ANLAGEN_KEYS = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"] as const;
+
+/**
+ * Vergleichsschlüssel für das islamische Anlagenpaket.
+ * 1 = exakt belegt, 0 = unbekannt oder nur „mindestens“. Danach zählt der
+ * belegte Anteil. Ausgabeaufschläge gehören nicht in diesen Schlüssel, sondern
+ * zu den finanziellen Produktkosten.
+ */
+export const islamischesPaket = (a: RohAnbieter, kategorie: Kategorie | null): number[] => {
+  if (kategorie !== "depot") return [];
+  return DEPOT_ANLAGEN_KEYS.flatMap((key) => {
+    const wert = a.werte[key];
+    if (typeof wert !== "string") return [0, 0];
+    const m = wert.match(/^(mind\.\s*)?(\d+)\s+von\s+(\d+)$/);
+    if (!m) return [0, 0];
+    const exakt = m[1] ? 0 : 1;
+    const anteil = Number(m[3]) > 0 ? Number(m[2]) / Number(m[3]) : 0;
+    return [exakt, anteil];
+  });
+};
+
+/** q vor p, wenn q beim islamischen Paket besser belegt ist. */
+const vergleicheIslamischesPaket = (p: Treffer, q: Treffer, kategorie: Kategorie | null) => {
+  const pWerte = islamischesPaket(p.anbieter, kategorie);
+  const qWerte = islamischesPaket(q.anbieter, kategorie);
+  for (let i = 0; i < Math.max(pWerte.length, qWerte.length); i += 1) {
+    const unterschied = (qWerte[i] ?? 0) - (pWerte[i] ?? 0);
+    if (unterschied !== 0) return unterschied;
+  }
+  return 0;
+};
+
 /**
  * Halal-Teil von 0 bis 1, nur aus dem, was belegt ist. Dieselben Gewichte wie in
  * `bewerte()`, aber ein ungeprüftes Merkmal zählt null statt die Note zu sperren.
@@ -281,9 +313,9 @@ export const werteAus = (
       ungeprueft: offen,
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
-      sortWert:
-        note?.gesamt ??
-        (kategorie ? halalAnteil * 5 * halalBelegt(a, kategorie) + (1 - halalAnteil) * (fin ?? 0) : 0) + nebenWert(a, auswahl.nebenSort),
+      // Sortierung und angezeigte Note sind getrennt: Die Note kann später
+      // freigeschaltet werden, die fachliche Reihenfolge bleibt lexikografisch.
+      sortWert: (fin ?? 0) + nebenWert(a, auswahl.nebenSort),
     };
 
     // Mit Freischaltung zählt nur, wer fertig bewertet ist. Sonst stünde halbes Wissen auf Platz 1.
@@ -292,6 +324,7 @@ export const werteAus = (
   }
 
   const ordnung = (p: Treffer, q: Treffer) =>
+    vergleicheIslamischesPaket(p, q, kategorie) ||
     q.sortWert - p.sortWert ||
     (q.note?.halal ?? 0) - (p.note?.halal ?? 0) ||
     (kategorie ? 0 : platz.get(p.anbieter.id)! - platz.get(q.anbieter.id)!) ||

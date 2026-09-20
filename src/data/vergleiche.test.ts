@@ -181,6 +181,30 @@ describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
   }
 });
 
+describe("Gegenprüfung 20.09.2026", () => {
+  it("trennt optionale Erträge von echten Startzinsen", () => {
+    const depot = (id: string) => brokerVergleich.find((a) => a.id === id)!;
+    const giro = (id: string) => girokontoVergleich.find((a) => a.id === id)!;
+    const krypto = (id: string) => kryptoVergleich.find((a) => a.id === id)!;
+    expect(depot("trade-republic-depot").werte.zinsfreiAbStart).toBe("gut");
+    expect(depot("scalable-capital-prime-plus-broker").werte.zinsfreiAbStart).toBe("gut");
+    expect(depot("consorsbank-depot").werte.zinsfreiAbStart).toBe("gut");
+    expect(depot("xtb-depot").werte.zinsfreiAbStart).toBe("schlecht");
+    expect(giro("ing-girokonto").werte.zinsfreiAbStart).toBe("gut");
+    expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
+    expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
+    expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBe("gut");
+    expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
+  });
+
+  it("stellt die zwei Trade-Republic-Goldtreffer bis zur App-Gegenprobe auf unklar", () => {
+    for (const isin of ["IE00B579F325", "XS3384723154"]) {
+      expect(ANLAGEN_KAUFBAR[isin].kaufbar.some((x) => x.anbieter === "Trade Republic")).toBe(false);
+    }
+    expect(brokerVergleich.find((a) => a.id === "trade-republic-depot")?.werte.halalEdelmetalle).toBe("mind. 6 von 8");
+  });
+});
+
 /*
  * Elias, 20.09.2026: Wir haben behauptet, Invesco Physical Gold sei bei Trade Republic kaufbar,
  * ohne Einzelbeleg. Seitdem gilt fuer die Kaufbarkeit dieselbe Regel wie fuer die Zinsen:

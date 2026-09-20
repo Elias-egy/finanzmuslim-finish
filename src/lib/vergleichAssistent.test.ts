@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { bewerte } from "@/lib/bewertung";
-import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, halalBelegt, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, halalBelegt, islamischesPaket, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
@@ -65,6 +65,24 @@ describe("geführter Vergleich", () => {
     const zurueck = werteAus([...liste].reverse(), "krypto", MAX, leer, true).passt.map((t) => t.anbieter.id);
     expect(vor).toEqual(["a", "b", "c"]);
     expect(zurueck).toEqual(vor);
+  });
+
+  it("ordnet erst zinsfrei, dann das islamische Anlagenpaket und erst dann Finanzfluss", () => {
+    const depot = (id: string, werte: RohAnbieter["werte"], rang: number): RohAnbieter => ({
+      id,
+      name: id,
+      produkt: "Depot",
+      werte: { zinsfreiAbStart: "gut", halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "0 von 8", ...werte },
+      finanzfluss: { produkt: id, partnerlink: null, rang },
+      finanzPunkte: { gebuehren: 50, sicherheit: 25 },
+    });
+    const voll = depot("voll", { halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "8 von 8" }, 55);
+    const paketA = depot("paket-a", { halalEtfsFonds: "6 von 12", halalSukuk: "1 von 3", halalEdelmetalle: "4 von 8" }, 20);
+    const paketB = depot("paket-b", { halalEtfsFonds: "6 von 12", halalSukuk: "1 von 3", halalEdelmetalle: "4 von 8" }, 2);
+    const wenig = depot("wenig", { halalEtfsFonds: "2 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "1 von 8" }, 1);
+    const e = werteAus([wenig, paketA, voll, paketB], "depot", { gebuehren: 100, sicherheit: 50 }, leer, false);
+    expect(e.passt.map((t) => t.anbieter.id)).toEqual(["voll", "paket-b", "paket-a", "wenig"]);
+    expect(islamischesPaket(voll, "depot")).not.toEqual(islamischesPaket(paketA, "depot"));
   });
 
   it("zeigt ohne Freischaltung keine Note, ordnet aber nach dem, was belegt ist", () => {

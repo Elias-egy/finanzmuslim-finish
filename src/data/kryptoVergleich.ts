@@ -3,6 +3,7 @@
 // Jeder Wert hat eine Quelle in `quellen`. Was null ist, ist noch nicht geprüft.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
+import { korrigiereAnbieter } from "./vergleichKorrekturen";
 
 export const KRYPTO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -25,7 +26,7 @@ export const KRYPTO_ZEILEN: VergleichsZeile[] = [
 /** Höchstpunktzahl je Finanzkriterium, nach der Punktetabelle von Finanzfluss. */
 export const KRYPTO_FINANZ_MAX: Record<string, number> = {"gebuehren": 100, "transparenz": 100, "transferkosten": 70, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20};
 
-export const kryptoVergleich: RohAnbieter[] = [
+const kryptoVergleichRoh: RohAnbieter[] = [
   {"id": "21bitcoin-app", "name": "21bitcoin", "produkt": "App", "domain": "21bitcoin.app", "haus": "21bitcoin", "finanzfluss": {"produkt": "21bitcoin", "partnerlink": "21bitcoin-kryptoboerse", "rang": 20}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": null, "anzahlCoins": "1", "gesamtkosten": "10,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,67 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Österreich)", "sicherheit": "2FA mit TOTP", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "15€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 5, "abzug": 0}, "abgeraten": false},
   {"id": "binance-pro", "name": "Binance", "produkt": "Pro", "domain": "binance.com", "haus": "binance", "finanzfluss": {"produkt": "Binance Pro", "partnerlink": null, "rang": 16}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": null, "anzahlCoins": "400+", "gesamtkosten": "1,55€", "transparenteKosten": "erst nach Anmeldung", "auszahlungBitcoin": "1,34 €", "sparplan": false, "regulierung": "keine MiCA-Lizenz", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "5€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}}, "finanzPunkte": {"gebuehren": 75, "transparenz": 40, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 0, "sparplan": 5, "mindestbetrag": 15, "abzug": 0}, "abgeraten": false},
   {"id": "binance-standard", "name": "Binance", "produkt": "Standard", "domain": "binance.com", "haus": "binance", "finanzfluss": {"produkt": "Binance", "partnerlink": null, "rang": 25}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": null, "anzahlCoins": "400+", "gesamtkosten": "23,50€", "transparenteKosten": "nein", "auszahlungBitcoin": "1,34 €", "sparplan": true, "regulierung": "keine MiCA-Lizenz", "sicherheit": "2FA mit TOTP, Anti-Phishing Code, Whitelist", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 0, "sparplan": 20, "mindestbetrag": 10, "abzug": 0}, "abgeraten": false},
@@ -54,6 +55,36 @@ export const kryptoVergleich: RohAnbieter[] = [
   {"id": "crypto-com-app", "name": "crypto.com", "produkt": "App", "domain": "crypto.com", "haus": "crypto-com", "finanzfluss": {"produkt": "crypto.com", "partnerlink": "crypto-com", "rang": 22}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": "schlecht", "anzahlCoins": "400+", "gesamtkosten": "12,40€", "transparenteKosten": "nein", "auszahlungBitcoin": "26,79 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Malta)", "sicherheit": "2FA mit TOTP, Anti-Phishing Code", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung, Kreditkarte", "mindestbetrag": "3 €"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}, "zinsfreiesModell": {"url": "https://help.crypto.com/en/articles/12017612-level-up-rewards-and-benefits", "stand": "16.09.2026", "hinweis": "Die kostenpflichtigen Level-Up-Stufen laufen über ein Abo oder über eine Bindung von CRO für 365 Tage, und sie zahlen laut Anbieter „Up to 5% rewards on idle cash balances“. Ein Modell, dessen Kern die Verzinsung ist, empfehlen wir nicht."}}, "finanzPunkte": {"gebuehren": 10, "transparenz": 0, "transferkosten": 40, "sicherheit": 50, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 15, "abzug": 0}, "abgeraten": true},
   {"id": "robinhood-krypto", "name": "Robinhood", "produkt": "Krypto", "domain": "robinhood.com", "haus": "robinhood", "finanzfluss": {"produkt": "Robinhood", "partnerlink": null, "rang": 11}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": "schlecht", "anzahlCoins": "90+", "gesamtkosten": "7,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,10 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Litauen)", "sicherheit": "2FA per SMS", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "0,10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}, "zinsfreiesModell": {"url": "https://etf.capital/robinhood-depot-test-2026-erfahrungen-nachteile/", "stand": "16.09.2026", "hinweis": "Robinhood Gold kostet rund 5 Euro im Monat, und sein Hauptnutzen ist die Verzinsung: „Aktuell liegen die Zinsen für Robinhood Gold Mitglieder in Deutschland bei etwa 2 % p.a. auf nicht investiertes Guthaben.“ Ein Abo, das sich über Zinsen rechnet, empfehlen wir nicht."}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 0, "transferkosten": 40, "sicherheit": 25, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}, "abgeraten": true},
 ];
+
+const kryptoOptIn = {
+  zinsfreiAbStart: "gut" as const,
+  zinsfreiesModell: "gut" as const,
+};
+
+export const kryptoVergleich = korrigiereAnbieter(kryptoVergleichRoh, {
+  "binance-pro": kryptoOptIn,
+  "binance-standard": kryptoOptIn,
+  "bison-app": kryptoOptIn,
+  "bitget-trading": kryptoOptIn,
+  "bitvavo-standard": kryptoOptIn,
+  "coinbase-advanced": kryptoOptIn,
+  "coinbase-standard": kryptoOptIn,
+  "etoro-krypto": kryptoOptIn,
+  "finanzen-net-zero-krypto": kryptoOptIn,
+  "finst-standard": kryptoOptIn,
+  "flatex-krypto": kryptoOptIn,
+  "justtrade-krypto": kryptoOptIn,
+  "kraken-pro": kryptoOptIn,
+  "kraken-standard": kryptoOptIn,
+  "okx-trading": kryptoOptIn,
+  "revolut-krypto": kryptoOptIn,
+  "scalable-capital-krypto": kryptoOptIn,
+  "smartbroker-plus-krypto": kryptoOptIn,
+  "trade-republic-krypto": kryptoOptIn,
+  "traders-place-krypto": kryptoOptIn,
+}, {
+  "bitvavo-standard": { zinsfreiAbStart: { url: "https://support.bitvavo.com/hc/de/articles/4405227858449", stand: "20.09.2026", hinweis: "Bitvavo beschreibt Erträge als aktivierbare Funktion; ohne Aktivierung wird das Guthaben nicht automatisch verzinst." } },
+});
 
 export const KRYPTO_FILTER = [
   { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },
