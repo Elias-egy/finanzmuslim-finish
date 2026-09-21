@@ -76,7 +76,7 @@ export const startPartner: StartPartner[] = [
     chips: ["Echte Coins", "Eigene Wallet", "600+ Coins", "MiCA-Lizenz"],
     schritte: [
       { titel: "Konto er\u00f6ffnen", text: "E-Mail best\u00e4tigen, dann Foto-Ident mit dem Ausweis. Dauert rund 10 Minuten." },
-      { titel: "Auto Earn ausschalten", text: "In den Kontoeinstellungen deaktivieren, bevor du einzahlst. Dann bleiben deine Coins ohne Zins." },
+      { titel: "Auto Earn prüfen", text: "In den Kontoeinstellungen muss Auto Earn aus sein, bevor du einzahlst. Dann bleiben deine Coins ohne Zins." },
       { titel: "Erste Coins kaufen", text: "Ab 1 \u20ac per Echtzeit\u00fcberweisung, PayPal oder Karte. Danach auf deine eigene Wallet \u00fcbertragbar." },
     ],
     fakten: [
@@ -86,7 +86,7 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Ohne Zinsen nutzbar",
-        text: "Kraken legt Guthaben \u00fcber Auto Earn automatisch an, du kannst das aber in den Kontoeinstellungen abschalten. Das Bezahlmodell h\u00e4ngt an keiner Zinsbindung.",
+        text: "Auto Earn l\u00e4uft bei Kraken nur, wenn du es selbst einschaltest. Lass es aus, dann bleiben Guthaben und Coins ohne Zins.",
       },
       {
         titel: "600+ Coins, Sparplan ab 1 \u20ac",
@@ -96,8 +96,8 @@ export const startPartner: StartPartner[] = [
     checklisteTitel: ["2 Regeln halten dein Kraken-Konto", "riba-frei"],
     checkliste: [
       {
-        titel: "Auto Earn abschalten, bevor du einzahlst.",
-        text: "Sonst wandern Guthaben und Coins automatisch in Pr\u00e4mienprogramme. Der Schalter sitzt in den Kontoeinstellungen.",
+        titel: "Auto Earn aus lassen.",
+        text: "Kraken startet Pr\u00e4mienprogramme erst, wenn du sie einschaltest. Den Schalter findest du in den Kontoeinstellungen.",
       },
       {
         titel: "Kein Margin, kein Futures-Handel.",
@@ -108,7 +108,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum ist bei Kraken kein Video?",
-        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Kraken sind es drei Schritte, die oben stehen: Konto er\u00f6ffnen, Auto Earn abschalten, erste Coins kaufen.",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Kraken sind es drei Schritte, die oben stehen: Konto er\u00f6ffnen, Auto Earn pr\u00fcfen, erste Coins kaufen.",
       },
       {
         q: "Ist Kraken halal nutzbar?",
