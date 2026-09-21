@@ -63,6 +63,21 @@
     /* Sehr blasse Toenung der Primaerfarbe, nur fuer die Hero-Flaeche. */
     --hero: 219 100% 96%;
 
+    /* Akzente (Elias, 21.09.2026): Das Fundament bleibt blau-weiss, Details duerfen
+       leuchten. --gain ist Wachstum und Gewinn im Rechner, gleiche Farbe wie success.
+       --spark ist der Aktions-Akzent fuer den Haupt-Aufruf, Boni und die Nummer 1.
+       Gold mit dunkler Schrift: 10:1 Kontrast, und nie mit der Ampel zu verwechseln,
+       weil --spark nur auf Knoepfen, Baendern und Rahmen steht, nie als Bewertung. */
+    --gain: 152 62% 34%;
+    --gain-soft: 150 58% 95%;
+    --spark: 42 100% 56%;
+    --spark-hover: 40 100% 50%;
+    --spark-soft: 44 100% 94%;
+    --spark-foreground: 222 60% 14%;
+    --violet-soft: 247 84% 96%;
+    --loss: 12 82% 50%;
+    --loss-soft: 14 100% 95%;
+
     /* Nur fuer Markierungspunkte der Anlagearten in der Datenbank. */
     --asset-sukuk: 24 42% 38%;
     --asset-gold: 42 78% 48%;
@@ -140,6 +155,10 @@
   }
   /* Standardknopf: 48px hoch, 6px Radius, 18px Schrift.
      Auf dem Handy immer volle Breite, das ist das Finanzfluss-Muster. */
+  /* Haupt-Aufruf zur Geldquelle: Gold auf dem blau-weissen Fundament. Hoechstens einer je Bildschirm. */
+  .btn-spark {
+    @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-spark px-6 text-[17px] font-bold text-spark-foreground shadow-[0_10px_24px_-10px_hsl(var(--spark)/0.9)] transition hover:bg-spark-hover hover:-translate-y-px sm:w-auto;
+  }
   .btn-primary {
     @apply inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto;
   }

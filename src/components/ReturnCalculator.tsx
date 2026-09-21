@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "react-router-dom";
 import {
   Area,
   AreaChart,
@@ -12,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 
 /**
  * Simplified Halal Portfolio Calculator
@@ -744,8 +744,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.22} />
-                      <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                      <stop offset="0%" stopColor="hsl(var(--gain))" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="hsl(var(--gain))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" vertical={false} />
@@ -789,11 +789,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   <Area
                     type="monotone"
                     dataKey="Portfoliowert"
-                    stroke="hsl(var(--primary))"
+                    stroke="hsl(var(--gain))"
                     strokeWidth={3}
                     fill="url(#goldFill)"
                     dot={false}
-                    activeDot={{ r: 5, fill: "hsl(var(--primary))", stroke: "white", strokeWidth: 2 }}
+                    activeDot={{ r: 5, fill: "hsl(var(--gain))", stroke: "white", strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -815,9 +815,9 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <span className="text-muted-foreground">Gesamt eingezahlt</span>
                 <span className="font-bold text-foreground">{formatEuro(totalContributed)}</span>
               </div>
-              <div className="flex items-center justify-between border-t border-border/50 pt-3">
-                <span className="text-muted-foreground">Geschätzter Gewinn</span>
-                <span className="font-bold text-primary">+{formatEuro(estimatedProfit)}</span>
+              <div className="-mx-2 flex items-center justify-between rounded-xl bg-gain-soft px-2 py-2.5">
+                <span className="font-medium text-gain">Geschätzter Gewinn</span>
+                <span className="text-[17px] font-extrabold text-gain">+{formatEuro(estimatedProfit)}</span>
               </div>
               <div className="flex items-center justify-between border-t border-border/50 pt-3">
                 <span className="text-muted-foreground">Verwendete Rendite</span>
@@ -856,25 +856,12 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           </div>
         </div>
 
-        {/* CTA below results — brand green next-step card */}
-        <div className="reveal mt-4 md:mt-5 rounded-2xl bg-primary p-4 md:p-5">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <h3 className="text-base md:text-lg font-bold text-white leading-snug">
-                Du willst aus deiner Rechnung Realität machen?
-              </h3>
-              <p className="mt-1 text-[13px] md:text-sm text-white/80 leading-relaxed">
-                Vergleiche die Depots, bei denen kein Zinsgeschäft mitläuft.
-              </p>
-            </div>
-            <Link
-              to="/vergleich/depot"
-              className="inline-flex items-center justify-center rounded-lg bg-white text-foreground hover:bg-white/90 px-5 py-2 font-semibold text-[13px] transition whitespace-nowrap self-start sm:self-auto"
-            >
-              Zum Depot-Vergleich →
-            </Link>
-          </div>
-        </div>
+        {/* Naechster Schritt: der gefuehrte Vergleich statt eines einzelnen Anbieters. */}
+        <FindeDeinAngebot
+          className="reveal mt-4 md:mt-5"
+          titel="Mach aus der Rechnung ein Depot"
+          text="Beantworte ein paar einfache Fragen. Du siehst, welches Depot ohne Zinsen zu dir passt."
+        />
 
         <p className="mt-6 text-center text-[12px] md:text-[13px] text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           Die dargestellten Renditen und Volatilitäten sind vereinfachte, unverbindliche Langfristannahmen und keine Prognosen.

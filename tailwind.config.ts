@@ -62,10 +62,25 @@ export default {
         violet: {
           DEFAULT: "hsl(var(--violet))",
           foreground: "hsl(var(--violet-foreground))",
+          soft: "hsl(var(--violet-soft))",
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
+        },
+        gain: {
+          DEFAULT: "hsl(var(--gain))",
+          soft: "hsl(var(--gain-soft))",
+        },
+        loss: {
+          DEFAULT: "hsl(var(--loss))",
+          soft: "hsl(var(--loss-soft))",
+        },
+        spark: {
+          DEFAULT: "hsl(var(--spark))",
+          hover: "hsl(var(--spark-hover))",
+          soft: "hsl(var(--spark-soft))",
+          foreground: "hsl(var(--spark-foreground))",
         },
         asset: {
           sukuk: "hsl(var(--asset-sukuk))",

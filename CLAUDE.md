@@ -49,17 +49,27 @@ Die meisten Besucher kommen übers Handy (Elias, 19.09.2026). Jede neue oder ge�
   Text nie doppelt rendern.
 - Ein Satz, der nichts sagt, fliegt auf dem Handy zuerst.
 
-## Farben, nicht verhandelbar
+## Farben: blau-weißes Fundament, farbige Details
+
+Elias, 21.09.2026: „Das ist wie ein Zimmer, was schlicht eingerichtet ist: umso mehr stechen ein paar
+farbenvolle Accessoires heraus.“ Flächen, Navigation und Text bleiben blau, weiß und schwarz. Farbe sitzt
+in den Details: Zahlen, Diagramme, Logos, der Haupt-Aufruf.
 
 | Zweck | Wert |
 |---|---|
-| Klickbares, Knöpfe, Links, Diagrammlinien | `#0057FA` |
-| Etiketten und Kicker | `#7D6EF2` |
-| Helle Fläche, Ergebniskästen | `#EBF2FF` |
-| Grün, Gelb, Rot | **nur für Bewertungen und Kursbewegungen**, nie als normale Dekoration. Ausnahmen: die Vorteilszahl oben im geführten Vergleich ist grün (19.09.2026); kurze Erfolgsmomente wie Konfetti dürfen bewusst bunt sein (21.09.2026) |
+| Klickbares, Knöpfe, Links | `#0057FA` (`primary`) |
+| Etiketten und Kicker | `#7D6EF2` (`violet`) |
+| Helle Fläche, Ergebniskästen | `#EBF2FF` (`accent`) |
+| Gewinne, Wachstum, steigende Kurse | `gain` (grün), Fläche `gain-soft` |
+| Verlust, Kaufkraftverlust, Zinskosten, fallende Kurse | `loss`, Fläche `loss-soft` |
+| Haupt-Aufruf zur Geldquelle, Bonus, Rahmen der Nummer 1 | `spark` (Gold, dunkle Schrift), Knopf `.btn-spark` |
+| Grün, Gelb, Rot als Bewertung | Ampel bleibt sachlich. Ein Partner wird nie grün hervorgehoben, dafür gibt es `spark` |
 | Schrift | Figtree |
 
-Steigende Kurse sind grün, fallende Kurse rot (Elias, 15.09.2026). Ein Partner wird nicht grün hervorgehoben.
+- Anbieter immer mit Logo (`AnbieterLogo`). Logos bringen die Farbe, die Fläche bleibt hell.
+- Bester Aufruf ist „Finde, was zu dir passt“ (`FindeDeinAngebot` → `/vergleich/start`), nicht ein einzelner
+  Anbieter im Rechner. Höchstens ein goldener Knopf je Bildschirm.
+- Kurze Erfolgsmomente wie Konfetti dürfen ganz bunt sein.
 
 ## Inhalt
 
