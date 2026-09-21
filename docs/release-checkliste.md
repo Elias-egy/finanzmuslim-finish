@@ -53,7 +53,14 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 - [ ] Musaffa und Zoya: Status der Anträge prüfen.
 
 **Technik und SEO**
-- [ ] Ladezeit messen (Lighthouse mobil, reproduzierbar). Haupt-JavaScript heute 791 KB vor gzip.
+- [x] Ladezeit gemessen (22.09., Lighthouse 13.5 mobil, lokaler Build): Leistung 82 bis 89, Barrierefreiheit 96 bis 100,
+      Best Practices und SEO je 100. Größtes Element nach 3,1 bis 3,7 s (Ziel unter 2,5 s), Layoutverschiebung 0.
+      Beschriftungen, Zeitraum-Knöpfe, Fortschrittsbalken und Überschriftenfolge behoben.
+- [ ] Größtes Element unter 2,5 s: Umstellen von `createRoot` auf `hydrateRoot` getestet, bringt nichts (3,9 s).
+      Die Bremse liegt vor dem JavaScript: blockierendes CSS (455 ms) und viele Modul-Vorladungen. Eigene Sitzung.
+- [ ] Farbkontrast (Elias entscheidet, betrifft die Farbabnahme): Violett #7d6ef2 mit Weiß 3,9:1 (Badges „Neu“,
+      Startseite), Grün #218c5a 4,23:1 auf Weiß und 3,92:1 auf Hellgrün (Renditen, Ergebniskarte). Norm verlangt 4,5:1
+      für kleine Schrift. Eine Stufe dunkler würde reichen.
 - [ ] 50 Suchabsichten gegen die Seiten prüfen: Title, H1, sichtbare Antwort, interne Links.
 - [ ] Search Console nach Release wöchentlich lesen; neue Seiten nur bei echter Antwortlücke.
 
