@@ -172,6 +172,14 @@ describe("geführter Vergleich", () => {
     expect(laufendeDeals("2026-10-07", liste)).toEqual([]);
   });
 
+  it("hängt keinen Bonus an eine ID, die in mehreren Vergleichen vorkommt", () => {
+    // revolut-standard und vivid-standard gibt es als Depot und als Girokonto. Ein Bonus
+    // daran würde im falschen Vergleich auftauchen. Erst die ID eindeutig machen.
+    const zaehler = new Map<string, number>();
+    for (const b of bausteine) for (const a of b.anbieter) zaehler.set(a.id, (zaehler.get(a.id) ?? 0) + 1);
+    for (const x of deals) for (const id of x.anbieterIds ?? []) expect(zaehler.get(id), `${x.anbieter}: ${id}`).toBe(1);
+  });
+
   it("ordnet jeden Bonus einem Anbieter zu, den es gibt", () => {
     const alle = new Set(bausteine.flatMap((b) => b.anbieter.map((a) => a.id)));
     for (const x of deals) for (const id of x.anbieterIds ?? []) expect(alle.has(id), `${x.anbieter}: ${id}`).toBe(true);
