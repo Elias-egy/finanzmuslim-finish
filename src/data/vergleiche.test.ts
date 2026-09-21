@@ -202,7 +202,12 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
     expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBeNull();
-    expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBeNull();
+    // Schriftliche Anbieterantworten mit Zitat geben frei (Bitvavo 18.09., Smartbroker+ 16.09.).
+    expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
+    expect(krypto("smartbroker-plus-krypto").werte.zinsfreiAbStart).toBe("gut");
+    expect(krypto("smartbroker-plus-krypto").werte.zinsfreiesModell).toBe("gut");
+    // Ohne Beleg bleibt der pauschale Opt-in-Vorschlag wirkungslos.
+    expect(krypto("kraken-pro").werte.zinsfreiesModell).toBeNull();
   });
 
   it("stellt die zwei Trade-Republic-Goldtreffer bis zur App-Gegenprobe auf unklar", () => {
