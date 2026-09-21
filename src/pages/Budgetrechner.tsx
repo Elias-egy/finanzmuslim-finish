@@ -132,7 +132,6 @@ const Budgetrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Der grüne Teil braucht einen Platz. Ein Depot ohne Zinsgeschäft ist einer, der wächst."
       weitereRechner={[
         { name: "Sparzielrechner", desc: "wann du mit dem freien Teil am Ziel bist.", to: "/sparzielrechner" },
         { name: "Renditerechner", desc: "was aus dem freien Teil in einem Depot wird.", to: "/renditerechner" },

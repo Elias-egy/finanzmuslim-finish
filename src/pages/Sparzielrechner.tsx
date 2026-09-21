@@ -137,7 +137,6 @@ const Sparzielrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Für Ziele, die weiter weg sind, kann das Geld arbeiten. Ein Depot ohne Zinsgeschäft ist der Ort dafür."
       weitereRechner={[
         { name: "Budgetrechner", desc: "wie viel im Monat wirklich frei ist.", to: "/budgetrechner" },
         { name: "Kreditkostenrechner", desc: "was der Kredit statt des Sparens kosten würde.", to: "/kreditkostenrechner" },

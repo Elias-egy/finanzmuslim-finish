@@ -177,7 +177,6 @@ const Bereinigungsrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Wer noch kein Depot hat, fängt hier an. Ein Verrechnungskonto ohne Guthabenzins erspart dir einen Teil der Rechnerei von vornherein."
       weitereRechner={[
         { name: "Zakat-Rechner", desc: "wie viel Zakat auf dein Vermögen fällt.", to: "/zakat-rechner" },
         {

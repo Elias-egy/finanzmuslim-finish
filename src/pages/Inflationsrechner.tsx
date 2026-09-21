@@ -129,7 +129,6 @@ const Inflationsrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Gegen steigende Preise hilft, was an Preisen hängt. Dafür brauchst du ein Depot, das ohne Zinsgeschäft arbeitet."
       weitereRechner={[
         {
           name: "Renditerechner",

@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
+import { AnlageLogo } from "@/components/AnlageZeile";
+import { halalAnlagen } from "@/data/halalAnlagen";
 
 /**
  * Simplified Halal Portfolio Calculator
@@ -79,6 +81,12 @@ const anlagenOptionen: AnlageOption[] = Object.entries(
   // waeren das ausschließlich Gold und Silber. Das liest sich wie eine
   // Empfehlung, und eine Empfehlung geben wir nicht ab.
   .sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+/** Dieselben Optionen mit dem Datensatz der Anlage, damit die Leiste das Logo zeigen kann. */
+const anlagenMitLogo = anlagenOptionen.flatMap((option) => {
+  const anlage = halalAnlagen.find((a) => a.isin === option.isin);
+  return anlage ? [{ option, anlage }] : [];
+});
 
 const kursStand = (kursDaten as { stand?: string }).stand ?? "";
 
@@ -437,7 +445,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
     >
       <div className="container max-w-6xl px-0 md:px-6">
         {showHeader && (
-          <div className="reveal mb-6 hidden text-center md:mb-3 md:block">
+          <div className="reveal mb-6 hidden text-center md:mb-5 md:block md:pt-10">
             <span className="inline-flex items-center gap-3 text-[12px] font-semibold tracking-wide text-primary">
               <span className="h-px w-6 bg-primary" aria-hidden /> Renditerechner
             </span>
@@ -575,6 +583,48 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <span className="card-shine card-shine-enter" aria-hidden />
               )}
             </button>
+          )}
+
+          {/* Gepruefte Anlagen als Leiste mit Logos (Elias, 21.09.2026). Vorher steckten sie nur
+              im Aufklapper des Renditefelds, wo sie niemand fand. Reihenfolge nach Namen, nicht
+              nach Ertrag: eine nach Rendite sortierte Leiste liest sich wie eine Empfehlung. */}
+          {!builderOpen && anlagenMitLogo.length > 0 && (
+            <div className="mt-4">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+                <p className="text-sm font-bold text-foreground">Rechne mit einer geprüften Anlage</p>
+                <p className="text-[11px] text-muted-foreground">
+                  Rendite der letzten fünf Jahre, Stand {kursStand}. Keine Vorhersage.
+                </p>
+              </div>
+              <div className="-mx-1 mt-2 flex snap-x gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
+                {anlagenMitLogo.map(({ option, anlage }) => {
+                  const aktiv = mode === "anlage" && anlageIsin === option.isin;
+                  const plus = option.proJahr >= 0;
+                  return (
+                    <button
+                      key={option.isin}
+                      type="button"
+                      onClick={() => selectAnlage(option.isin)}
+                      aria-pressed={aktiv}
+                      className={`flex w-[212px] shrink-0 snap-start items-center gap-2.5 rounded-xl border bg-white p-2.5 text-left transition hover:-translate-y-px hover:border-primary ${
+                        aktiv ? "border-primary ring-2 ring-primary/25" : "border-border"
+                      }`}
+                    >
+                      <AnlageLogo a={anlage} />
+                      <span className="min-w-0">
+                        <span className="line-clamp-2 block text-[12.5px] font-semibold leading-tight text-foreground">
+                          {option.name}
+                        </span>
+                        <span className={`mt-0.5 block text-[12px] font-bold ${plus ? "text-gain" : "text-loss"}`}>
+                          {plus ? "+" : ""}
+                          {fmtPct(option.proJahr * 100)} % pro Jahr
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           )}
 
           {/* Summary line */}
@@ -858,9 +908,10 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
         {/* Naechster Schritt: der gefuehrte Vergleich statt eines einzelnen Anbieters. */}
         <FindeDeinAngebot
-          className="reveal mt-4 md:mt-5"
-          titel="Mach aus der Rechnung ein Depot"
-          text="Beantworte ein paar einfache Fragen. Du siehst, welches Depot ohne Zinsen zu dir passt."
+          id="anlegen"
+          className="reveal mt-4 scroll-mt-32 md:mt-5"
+          titel="Finde heraus, welcher Anbieter zu dir passt"
+          text="Beantworte ein paar einfache Fragen. Du siehst, welches Depot ohne Zinsen am besten passt."
         />
 
         <p className="mt-6 text-center text-[12px] md:text-[13px] text-muted-foreground max-w-3xl mx-auto leading-relaxed">

@@ -145,7 +145,6 @@ const Kreditkostenrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Was du nicht an Zinsen zahlst, kann für dich arbeiten. Ein Depot ohne Zinsgeschäft ist der Ort dafür."
       weitereRechner={[
         { name: "Sparzielrechner", desc: "wann du dein Ziel ohne Kredit erreichst.", to: "/sparzielrechner" },
         { name: "Renditerechner", desc: "was aus der gesparten Rate in einem Depot wird.", to: "/renditerechner" },

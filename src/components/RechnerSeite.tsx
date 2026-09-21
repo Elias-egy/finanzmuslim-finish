@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
-import { brokerVergleich } from "@/data/brokerVergleich";
+import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 
 export type WeitererRechner = { name: string; desc: string; to: string };
 
@@ -19,7 +19,8 @@ type Props = {
   erklaerung: ReactNode;
   weitereRechner: WeitererRechner[];
   /** Ein Satz im Abschnitt "Anlegen", der an den Rechner anknuepft. */
-  anlegenSatz?: string;
+  /** Der Rechner zeigt den Aufruf schon selbst und trägt die Sprungmarke „anlegen“. */
+  aufrufImRechner?: boolean;
   /** Kurze Abschnitte direkt unter dem Rechner. Gedacht fuer Formel und
    *  Beispiel. Nicht fuer Fließtext, der gehoert nach "Verstehen". */
   unterRechner?: ReactNode;
@@ -60,13 +61,9 @@ const RechnerSeite = ({
   children,
   erklaerung,
   weitereRechner,
-  anlegenSatz,
+  aufrufImRechner = false,
   unterRechner,
 }: Props) => {
-  // Nur Anbieter mit hinterlegtem Partnerlink. Alles andere waere ein Knopf,
-  // der ins Leere fuehrt.
-  const anbieter = brokerVergleich.filter((b) => b.link).slice(0, 3);
-
   return (
     <main className="bg-background">
       <div className="container pt-5 md:pt-10">
@@ -110,48 +107,14 @@ const RechnerSeite = ({
             {unterRechner && <div className="mt-6 space-y-4">{unterRechner}</div>}
           </section>
 
-          <section id="anlegen" className="mt-14 scroll-mt-32">
-            <h2 className="text-2xl font-bold text-foreground md:text-[28px]">So fängst du an</h2>
-            {anlegenSatz && (
-              <p className="mt-3 max-w-[820px] text-[16px] leading-relaxed text-muted-foreground">
-                {anlegenSatz}
-              </p>
-            )}
-
-            {/* Keine zweite Ueberschrift. Der Satz darueber sagt schon, was
-                die Liste ist, und "Depots ohne Zinsgeschäft" stand direkt
-                unter "So fängst du an" wie ein Echo. */}
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {anbieter.map((b) => (
-                <div key={b.id} className="card-surface p-5">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-[17px] font-bold text-foreground">{b.name}</p>
-                    {b.werte.zinsfreiAbStart === "gut" && (
-                      <span className="rounded-full bg-[hsl(var(--success))]/10 px-3 py-1 text-[13px] font-semibold text-[hsl(var(--success))]">
-                        Verrechnungskonto ohne Zinsen
-                      </span>
-                    )}
-                  </div>
-                  <Link to={b.link!} className="btn-primary mt-4 h-12 w-full text-[16px]">
-                    Zum Angebot*
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-              * Wir bekommen eine Provision, wenn du über diesen Link eröffnest. Für dich ändert
-              sich am Preis nichts.
-            </p>
-
-            <Link
-              to="/vergleich/depot"
-              className="mt-6 inline-flex items-center gap-1 text-[15px] font-semibold text-primary hover:underline"
-            >
-              Alle Depots im Vergleich
-              <ChevronRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </section>
+          {/* Ein Aufruf statt drei einzelner Anbieter (Elias, 21.09.2026): Wir wissen nicht, was
+              der Leser braucht, der gefuehrte Vergleich findet es heraus. Der Renditerechner
+              traegt den Aufruf selbst, direkt unter dem Ergebnis. */}
+          {!aufrufImRechner && (
+            <section id="anlegen" className="mt-10 scroll-mt-32 md:mt-14">
+              <FindeDeinAngebot titel="Finde heraus, welcher Anbieter zu dir passt" />
+            </section>
+          )}
 
           {/* Erklaerteil. Ohne eigene Sprungmarke, aber im Quelltext. */}
           <section id="verstehen" className="prose-none mt-14 max-w-[820px] space-y-10 scroll-mt-32">

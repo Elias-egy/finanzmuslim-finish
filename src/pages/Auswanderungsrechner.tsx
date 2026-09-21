@@ -176,7 +176,6 @@ const Auswanderungsrechner = () => (
           </div>
         </>
       }
-      anlegenSatz="Wer neu anfängt, fängt richtig an. Ein Depot ohne Zinsgeschäft ist der erste Schritt, egal in welchem Land."
       weitereRechner={[
         { name: "Inflationsrechner", desc: "was dein Geld auf dem Konto in ein paar Jahren noch wert ist.", to: "/inflationsrechner" },
         { name: "Zakat-Rechner", desc: "wie viel Zakat auf dein Vermögen fällt, egal wo du wohnst.", to: "/zakat-rechner" },

@@ -15,6 +15,7 @@ type Props = {
   /** Wie viele Anbieter der Vergleich insgesamt prüft, für das „+ n“ hinter den Logos. */
   gesamt?: number;
   className?: string;
+  id?: string;
 };
 
 /**
@@ -47,6 +48,7 @@ export const FindeDeinAngebot = ({
   logos,
   gesamt,
   className = "",
+  id,
 }: Props) => {
   const alle = logos ?? depotLogos();
   const sichtbar = alle.slice(0, 6);
@@ -54,6 +56,7 @@ export const FindeDeinAngebot = ({
 
   return (
     <aside
+      id={id}
       className={`relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EBF2FF_0%,#F4EFFF_55%,#FFF4D8_100%)] p-5 md:p-7 ${className}`}
     >
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
