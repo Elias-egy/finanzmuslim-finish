@@ -1,28 +1,37 @@
 # finanzmuslim.com: Checkliste bis Release und 10/10
 
-Stand 21.09.2026 nachmittags. Nichts veröffentlicht. Zahlen aus den Werten, die der Vergleich
+Stand 22.09.2026 nachts. Nichts veröffentlicht. Zahlen aus den Werten, die der Vergleich
 tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 
 ## A. Muss vor dem Go (Release-Blocker)
 
 - [x] **Mail-Runde 2 abgeschickt**: 27 Mails am 21.09. aus `eliaselgendy2006@gmail.com`, im Gesendet-Ordner einzeln geprüft.
-- [ ] **Antworten eintragen** (Claude): Wortlaut mit Datum als Beleg, dann Tests und Build.
-- [ ] **17 Anbieter ohne Mail-Weg** per App oder Chat fragen oder bewusst auf „noch nicht geprüft“ lassen (Elias entscheidet):
-      21bitcoin, Binance, BISON, Bitpanda, eToro, Kraken, OKX, Revolut, Freedom24, Plus500, bunq, Klarna, Monese,
-      SumUp, Wise, Vivid, BforBank.
+- [ ] **Antworten eintragen** (Claude): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:
+      meine Bank, Haspa, EthikBank, HVB, tradegate.direct, justTRADE, Bitvavo, Smartbroker+. Offen: DKB, Commerzbank,
+      Scalable, flatex, Targobank, finanzen.net zero, BSDEX, Joe Broker, Tomorrow, WillBe-Nachfrage.
+- [ ] **Anbieter ohne Mail-Weg**: Von den 17 sind 7 über ihre eigene Seite belegt (Binance, Kraken, OKX, Freedom24,
+      Plus500, Monese, Vivid). Noch offen, per App oder Chat fragen oder bewusst auf „noch nicht geprüft“ lassen
+      (Elias entscheidet): 21bitcoin, BISON, Bitpanda, eToro, Revolut Krypto, bunq, Klarna, SumUp, Wise, BforBank.
 - [ ] **Offene Halal-Felder**, heute:
-  - Depot: 56 Produkte, 23 komplett grün, 10 abgeraten, 22 mit offenem Zinsfeld
-  - Girokonto: 57 Produkte, 6 abgeraten, 33 mit offenen Feldern; Commerzbank-Dispo am 21.09. belegt
-  - Krypto: 27 Produkte, 3 komplett grün, 4 abgeraten, 20 mit offenen Feldern (36 Zins- oder Bezahlmodell-Felder)
+  - Depot: 56 Produkte, 30 alles ja, 15 offen, 11 mit Nein. Partner: 4 grün, 0 offen
+  - Girokonto: 57 Produkte, 39 alles ja, 10 offen, 8 mit Nein. Partner: 2 grün, 1 offen (DKB)
+  - Krypto: 27 Produkte, 7 alles ja, 10 offen, 10 mit Nein
+  - Je Produkt mit Quelle: http://localhost:5200/pruefstand.html, neu erzeugen mit `npx tsx scripts/pruefstand.ts`
   - Release geht auch mit offenen Feldern, solange sie sichtbar „noch nicht geprüft“ heißen und nie grün werden.
     Das ist technisch schon so erzwungen. Entscheidung Elias: warten auf Antworten oder mit Lücken live.
 - [x] **Datenpipeline repariert**: Korrekturen und Belege liegen in `src/data/vergleichKorrekturenDaten.ts`, `bauen.py`
       bindet sie ein und schreibt sie nie. Echter Lauf geprüft: keine Datenänderung.
 - [x] **Partnerlinks technisch geprüft**: alle 8 leiten mit Partnerkennung auf die Anbieterseite. Portalstatus nur mit
       Elias' Login sichtbar.
-- [ ] **finvesto**: Zins im Vergleich ungeprüft, die Startseite sagt „Guthaben auf dem Abrechnungskonto wird nicht
-      verzinst“. Die FNZ-Zinsseite listet keinen Guthabenzins, ein ausdrückliches 0 % fehlt. Antwort von FNZ abwarten,
-      sonst Satz vor dem Go entschärfen.
+- [x] **finvesto**: belegt mit den FNZ-Bedingungen: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt
+      derzeit nicht“.
+- [x] **Anlagen gegen Zertifikate geprüft**: alle 31 Links geladen. Invesco Physical Gold II ist raus (nicht im
+      Zertifikat vom 01.06.2026), Weiterleitung steht. Edelmetall-Zähler 7 statt 8. Liste jetzt „23 halal Anlagen“ mit
+      Platin, Palladium und Edelmetallkorb, PDF neu gerendert.
+- [x] **Design abgenommen** (Elias, 21.09.): Fundament blau-weiß, Farbe in Daten und Logos, ein Aufruf-Block je
+      Rechnerseite, keine Einzelanbieter in Rechnern.
+- [x] **Kleingedrucktes in den Rechnern gekürzt** (Elias, 22.09.): Wiederholungen raus, Quellen und Hinweise bleiben.
+      Erstes Bedienelement bei 390 px überall unter 500 px, kein Überlauf bei 390 und 360 px.
 - [x] **Kraken-Startseite korrigiert**: Auto Earn läuft laut Kraken nur nach eigenem Einschalten.
 - [ ] **Deploy-Go** (Elias): Workflow `auslieferung.yml` mit „veröffentlichen“, danach mit curl prüfen.
 
@@ -48,10 +57,12 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 - [ ] 50 Suchabsichten gegen die Seiten prüfen: Title, H1, sichtbare Antwort, interne Links.
 - [ ] Search Console nach Release wöchentlich lesen; neue Seiten nur bei echter Antwortlücke.
 
-## C. Erledigt am 21.09.
+## C. Erledigt am 21. und 22.09.
 
 - [x] `/deals` mit Bereichsfilter, zwei beim Anbieter belegte Boni, wieder in der Sitemap
 - [x] „Wo kaufen“ in der Anlagendatenbank, Ratgeber-CTA im Kauf-Abschnitt
 - [x] Bitvavo- und Smartbroker+-Antworten als Belege eingetragen
 - [x] Tagesgeld-Regel festgehalten: bewertet wird das Konto selbst
-- [x] 125 Tests grün, 101 Seiten gebaut, 123 Statusprüfungen richtig, 390 und 360 px ohne Überlauf
+- [x] 37 Zins- und Dispo-Ampeln mit wörtlichem Anbieterzitat neu belegt (6 Mail-Antworten, 31 Anbieterseiten)
+- [x] Klickwege: kein Beitrag führt per Box auf einen anderen Beitrag, Karte in `docs/klickwege.md`
+- [x] 126 Tests grün, 100 Seiten gebaut (89 indexierbar, 15 Weiterleitungen), 123 Statusprüfungen richtig
