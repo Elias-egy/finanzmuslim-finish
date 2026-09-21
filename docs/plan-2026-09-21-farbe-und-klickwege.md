@@ -63,3 +63,16 @@ Prüfen: wie A, dazu Link-Check der geänderten Ziele (keine toten Links, `/out/
 ## Was Elias entscheidet
 
 - finvesto: warten oder entschärfen. 17 Anbieter ohne Mail-Weg: per App fragen oder offen lassen. Mit Lücken live oder warten.
+
+## Nachträge aus Elias' Rückmeldungen am 21.09. abends
+
+- **Fassung 2 gilt:** ruhige Flächen, Farbe in Daten und Logos, CTA-Knopf blau. Steht in `CLAUDE.md`.
+- **A8 Auswanderungsrechner entwirren** (Design): „sieht cool aus, aber sehr unübersichtlich“. Nebeninfos aufklappbar,
+  drei Länder auf einen Blick mit Flaggen, Leute nicht überfordern.
+- **B5 Anlagen neu prüfen** (Recherche, Opus): alle Anlagen der Datenbank einzeln gegen das aktuelle Zertifikat prüfen
+  („nicht dass wir hier falsche Sachen anzeigen“). Platin, Palladium und der Edelmetallkorb stehen in
+  `halalAnlagen.ts` schon mit Al-Qalam-Prüfbericht vom 22.06.2026 (Link am 21.09. erreichbar, PDF 306 KB), fehlen aber
+  in den anderen Listen: Vorlage „21 halal Anlagen“, PDF-Liste, Vergleichsmerkmal `halalEdelmetalle` (zählt nur 8 Gold-
+  und Silber-ETCs).
+- **B6 Erklärtexte unter den Rechnern** durchgehen: manche sind generisch („Warum wir von Rendite sprechen, nicht von
+  Zins“). Je Rechner prüfen, kürzen oder streichen. Elias nennt die schwachen Stellen oder gibt frei.
