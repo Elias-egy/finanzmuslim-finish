@@ -1421,6 +1421,40 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "stand": "15.09.2026"
   },
+  "JE00B1VS2W53": {
+    "kaufbar": [
+      {
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "21.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
+  },
+  "JE00B1VS3002": {
+    "kaufbar": [
+      {
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "21.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
+  },
   "JE00B1VS3333": {
     "kaufbar": [
       {
@@ -1648,6 +1682,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda"
     ],
     "stand": "15.09.2026"
+  },
+  "JE00B1VS3W29": {
+    "kaufbar": [
+      {
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "21.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
   },
   "JE00B588CD74": {
     "kaufbar": [
@@ -2248,6 +2299,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "XTB"
     ],
     "stand": "15.09.2026"
+  },
+  "XS2115336336": {
+    "kaufbar": [
+      {
+        "anbieter": "Traders Place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "21.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
   },
   "XS3384723154": {
     "kaufbar": [
