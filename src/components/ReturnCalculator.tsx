@@ -82,11 +82,33 @@ const anlagenOptionen: AnlageOption[] = Object.entries(
   // Empfehlung, und eine Empfehlung geben wir nicht ab.
   .sort((a, b) => a.name.localeCompare(b.name, "de"));
 
-/** Dieselben Optionen mit dem Datensatz der Anlage, damit die Leiste das Logo zeigen kann. */
-const anlagenMitLogo = anlagenOptionen.flatMap((option) => {
-  const anlage = halalAnlagen.find((a) => a.isin === option.isin);
-  return anlage ? [{ option, anlage }] : [];
+/** Auswahl fuer die Leiste: eine Anlage je Art statt aller 15. Vier Gold-ETCs mit fast
+ *  gleicher Rendite nebeneinander sagen nichts. Anlagen, deren letzte fuenf Jahre im Minus
+ *  lagen, stehen nicht in der Leiste (Elias, 21.09.2026: eine negative Annahme ergibt in
+ *  einem Wachstumsrechner keinen Sinn). Sie bleiben im Aufklapper des Renditefelds waehlbar,
+ *  damit nichts verschwiegen wird. */
+const LEISTE_ISINS = [
+  "IE00B27YCN58", // iShares MSCI World Islamic
+  "IE00B296QM64", // iShares MSCI USA Islamic
+  "IE00B27YCP72", // iShares MSCI Emerging Markets Islamic
+  "IE00BMYMHS24", // HANetf Saturna Al-Kawthar
+  "IE00B579F325", // Invesco Physical Gold
+  "IE00B43VDT70", // Invesco Physical Silver
+  "JE00B1VS2W53", // WisdomTree Physical Platinum
+  "JE00B1VS3002", // WisdomTree Physical Palladium
+  "JE00B1VS3W29", // WisdomTree Physical Precious Metals
+];
+
+const anlagenMitLogo = LEISTE_ISINS.flatMap((isin) => {
+  const option = anlagenOptionen.find((o) => o.isin === isin);
+  const anlage = halalAnlagen.find((a) => a.isin === isin);
+  return option && anlage && option.proJahr > 0 ? [{ option, anlage }] : [];
 });
+
+/** Kopfzeile der Leiste: je Anbieter ein Logo, sonst stehen dort dreimal iShares. */
+const kopfLogos = anlagenMitLogo
+  .filter((e, i, alle) => alle.findIndex((x) => x.anlage.anbieter === e.anlage.anbieter) === i)
+  .slice(0, 4);
 
 const kursStand = (kursDaten as { stand?: string }).stand ?? "";
 
@@ -373,6 +395,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
     };
   }, [startCapital, monthly, years, annual]);
 
+  const [anlagenOffen, setAnlagenOffen] = useState(false);
+
   const selectAnlage = (isin: string) => {
     setAnlageIsin(isin);
     setMode("anlage");
@@ -425,8 +449,8 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
     summary = { title: `Eigenes Portfolio · ≈ ${fmtPct((portfolio?.ret ?? 0) * 100)}% p.a.`, desc: parts };
   } else if (mode === "anlage" && gewaehlteAnlage) {
     summary = {
-      title: `${gewaehlteAnlage.name} · ${fmtPct(gewaehlteAnlage.proJahr * 100)}% p.a.`,
-      desc: `Rendite der letzten fünf Jahre, Stand ${kursStand}. Das ist keine Vorhersage.`,
+      title: `${gewaehlteAnlage.name} · im Schnitt ${fmtPct(gewaehlteAnlage.proJahr * 100)} % pro Jahr in den letzten fünf Jahren`,
+      desc: `Stand ${kursStand}. Das ist keine Vorhersage.`,
     };
   } else if (mode !== "own") {
     summary = { title: PRESETS[mode].label };
@@ -585,45 +609,72 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </button>
           )}
 
-          {/* Gepruefte Anlagen als Leiste mit Logos (Elias, 21.09.2026). Vorher steckten sie nur
-              im Aufklapper des Renditefelds, wo sie niemand fand. Reihenfolge nach Namen, nicht
-              nach Ertrag: eine nach Rendite sortierte Leiste liest sich wie eine Empfehlung. */}
+          {/* Gepruefte Anlagen als aufklappbare Leiste mit Logos (Elias, 21.09.2026). Zu ist sie eine
+              ruhige Zeile wie "Eigenes Portfolio bauen", offen zeigt sie die Karten. Die Zahl heisst
+              ausdruecklich "im Schnitt pro Jahr, letzte 5 Jahre": gewesen, nicht versprochen. */}
           {!builderOpen && anlagenMitLogo.length > 0 && (
-            <div className="mt-4">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
-                <p className="text-sm font-bold text-foreground">Rechne mit einer geprüften Anlage</p>
-                <p className="text-[11px] text-muted-foreground">
-                  Rendite der letzten fünf Jahre, Stand {kursStand}. Keine Vorhersage.
-                </p>
-              </div>
-              <div className="-mx-1 mt-2 flex snap-x gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
-                {anlagenMitLogo.map(({ option, anlage }) => {
-                  const aktiv = mode === "anlage" && anlageIsin === option.isin;
-                  const plus = option.proJahr >= 0;
-                  return (
-                    <button
-                      key={option.isin}
-                      type="button"
-                      onClick={() => selectAnlage(option.isin)}
-                      aria-pressed={aktiv}
-                      className={`flex w-[212px] shrink-0 snap-start items-center gap-2.5 rounded-xl border bg-white p-2.5 text-left transition hover:-translate-y-px hover:border-primary ${
-                        aktiv ? "border-primary ring-2 ring-primary/25" : "border-border"
-                      }`}
-                    >
+            <div className="mt-3 rounded-lg border border-border bg-white">
+              <button
+                type="button"
+                onClick={() => setAnlagenOffen((v) => !v)}
+                aria-expanded={anlagenOffen}
+                className="flex w-full items-center gap-3 px-5 py-3 text-left"
+              >
+                <span className="flex shrink-0 -space-x-2" aria-hidden>
+                  {kopfLogos.map(({ option, anlage }, i) => (
+                    <span key={option.isin} className={`${i > 1 ? "hidden sm:block " : ""}rounded-full bg-white p-[2px] ring-1 ring-black/5 [&>span]:h-7 [&>span]:w-7`}>
                       <AnlageLogo a={anlage} />
-                      <span className="min-w-0">
-                        <span className="line-clamp-2 block text-[12.5px] font-semibold leading-tight text-foreground">
-                          {option.name}
-                        </span>
-                        <span className={`mt-0.5 block text-[12px] font-bold ${plus ? "text-gain" : "text-loss"}`}>
-                          {plus ? "+" : ""}
-                          {fmtPct(option.proJahr * 100)} % pro Jahr
-                        </span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+                    </span>
+                  ))}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-bold leading-tight text-foreground">
+                    Rechne mit einer geprüften Anlage
+                  </span>
+                  <span className="mt-0.5 block text-[11px] leading-tight text-muted-foreground">
+                    ETFs, Gold, Silber und Platin. So liefen sie in den letzten fünf Jahren
+                  </span>
+                </span>
+                <ChevronDown
+                  className={`h-4 w-4 shrink-0 text-primary transition-transform ${anlagenOffen ? "rotate-180" : ""}`}
+                  aria-hidden
+                />
+              </button>
+              {anlagenOffen && (
+                <div className="border-t border-border/70 px-3 pb-3 pt-3 md:px-4">
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {anlagenMitLogo.map(({ option, anlage }) => {
+                      const aktiv = mode === "anlage" && anlageIsin === option.isin;
+                      return (
+                        <button
+                          key={option.isin}
+                          type="button"
+                          onClick={() => selectAnlage(option.isin)}
+                          aria-pressed={aktiv}
+                          className={`flex items-center gap-2.5 rounded-xl border bg-white p-2.5 text-left transition hover:border-primary ${
+                            aktiv ? "border-primary ring-2 ring-primary/25" : "border-border"
+                          }`}
+                        >
+                          <AnlageLogo a={anlage} />
+                          <span className="min-w-0">
+                            <span className="line-clamp-2 block text-[12.5px] font-semibold leading-tight text-foreground">
+                              {option.name}
+                            </span>
+                            <span className="mt-0.5 block text-[12px] leading-tight text-muted-foreground">
+                              <span className="font-bold text-gain">Ø +{fmtPct(option.proJahr * 100)} %</span> pro Jahr,
+                              letzte 5 Jahre
+                            </span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-2.5 text-[11px] leading-snug text-muted-foreground">
+                    Durchschnitt der letzten fünf Jahre, Stand {kursStand}. Keine Vorhersage: Was war, muss nicht
+                    wiederkommen. Alle {anlagenOptionen.length} Anlagen mit Kursdaten stehen im Feld „Geschätzte Rendite“.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
@@ -979,7 +1030,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 >
                   <div className="font-semibold text-foreground">{a.name}</div>
                   <div className="text-[11px] text-muted-foreground">
-                    {fmtPct(a.proJahr * 100)} % pro Jahr in den letzten fünf Jahren
+                    Ø {fmtPct(a.proJahr * 100)} % pro Jahr, letzte 5 Jahre
                   </div>
                 </button>
               ))}
