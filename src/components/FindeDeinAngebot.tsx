@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { brokerVergleich } from "@/data/brokerVergleich";
-
-type LogoAnbieter = { name: string; domain?: string };
+import { logosFuer, type LogoAnbieter } from "@/lib/anbieterLogos";
 
 type Props = {
   titel?: string;
@@ -16,23 +14,6 @@ type Props = {
   gesamt?: number;
   className?: string;
   id?: string;
-};
-
-/**
- * Logos nur von Anbietern, die ab Start ohne Zinsen laufen und nicht abgeraten sind.
- * Partner stehen vorn, weil der Klick dort Geld verdient.
- */
-const depotLogos = (): LogoAnbieter[] => {
-  const gruen = brokerVergleich.filter(
-    (b) => b.werte.zinsfreiAbStart === "gut" && !b.abgeraten && b.domain,
-  );
-  const sortiert = [...gruen.filter((b) => b.link), ...gruen.filter((b) => !b.link)];
-  const gesehen = new Set<string>();
-  return sortiert.filter((b) => {
-    if (gesehen.has(b.domain!)) return false;
-    gesehen.add(b.domain!);
-    return true;
-  });
 };
 
 /**
@@ -50,9 +31,10 @@ export const FindeDeinAngebot = ({
   className = "",
   id,
 }: Props) => {
-  const alle = logos ?? depotLogos();
+  const depot = logos ? null : logosFuer("Depot");
+  const alle = logos ?? depot!.logos;
   const sichtbar = alle.slice(0, 6);
-  const rest = (gesamt ?? (logos ? alle.length : brokerVergleich.length)) - sichtbar.length;
+  const rest = (gesamt ?? depot?.gesamt ?? alle.length) - sichtbar.length;
 
   return (
     <aside

@@ -11,7 +11,7 @@ import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/Empfehlun
 import MotivBild from "@/components/MotivBild";
 import { werbungFuer } from "@/data/werbung";
 import { beitragBySlug, nachbarn } from "@/data/wissenBeitraege";
-import eliasPortrait from "@/assets/story-elias-warm.webp";
+import eliasPortrait from "@/assets/elias-autor.webp";
 
 export type BeitragAbschnitt = { id: string; titel: string; inhalt: ReactNode };
 export type BeitragFrage = { frage: string; antwort: string };
@@ -328,16 +328,16 @@ const BeitragSeite = ({
             )}
 
             <section className="mt-12 flex items-center gap-4 card-surface p-6">
-              {/* Kopf und Schultern: das Porträt ist ein Halbkörperbild, deshalb vergrößert und oben angesetzt. */}
-              <span className="h-16 w-16 shrink-0 overflow-hidden rounded-full bg-[#EFE7DC]">
-                <img
-                  src={eliasPortrait}
-                  alt="Elias El-Gendy"
-                  className="h-full w-full object-cover"
-                  style={{ transform: "scale(1.9)", transformOrigin: "50% 12%" }}
-                  loading="lazy"
-                />
-              </span>
+              {/* Eigener quadratischer Ausschnitt (Kopf und Schultern, 320 px). Vorher wurde das
+                  Halbkörperbild per scale() vergrößert, das Gesicht blieb klein und unscharf. */}
+              <img
+                src={eliasPortrait}
+                alt="Elias El-Gendy"
+                width={80}
+                height={80}
+                className="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-primary/20"
+                loading="lazy"
+              />
               <div>
                 <p className="text-[17px] font-bold text-foreground">Elias El-Gendy</p>
                 <p className="mt-1 text-[15px] text-muted-foreground">

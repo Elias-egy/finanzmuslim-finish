@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Check, ChevronRight } from "lucide-react";
+import { Award, Check, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
@@ -83,9 +83,17 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
     .map((z) => `${z.label}: ${anbieter.werte[z.key]}`);
 
   return (
-    <section className="overflow-hidden rounded-2xl border-2 border-primary bg-primary" aria-label="Unsere Nummer 1">
-      <p className="px-4 py-2 text-center text-[14px] font-semibold text-primary-foreground">Unsere Nummer 1</p>
-      <div className="rounded-t-2xl bg-card p-4">
+    /* Rahmen im Verlauf Blau, Violett, Gold statt einer blauen Fläche (Elias, 21.09.2026: die
+       Nummer 1 darf auffallen, die Fläche bleibt ruhig). Gold nur als Detail: Rahmenende und Siegel. */
+    <section
+      className="overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#0057FA_0%,#7D6EF2_60%,#FFBE1F_100%)] p-[2px] shadow-[0_14px_34px_-22px_rgba(0,87,250,0.55)]"
+      aria-label="Unsere Nummer 1"
+    >
+      <p className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-[14px] font-bold text-white">
+        <Award className="h-4 w-4 text-spark" aria-hidden />
+        Unsere Nummer 1
+      </p>
+      <div className="rounded-[14px] bg-card p-4">
         <div className="flex items-center gap-3">
           <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
           <p className="min-w-0 flex-1 text-[18px] leading-snug text-foreground">

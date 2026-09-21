@@ -41,7 +41,7 @@ const Karte = ({
   return (
     <li
       className={`overflow-hidden rounded-lg border bg-card ${
-        spalte.abgeraten ? "border-destructive/40" : hervor ? "border-primary/40" : "border-border"
+        spalte.abgeraten ? "border-destructive/40" : hervor ? "border-primary ring-2 ring-primary/15" : "border-border"
       }`}
     >
       {spalte.abgeraten && (

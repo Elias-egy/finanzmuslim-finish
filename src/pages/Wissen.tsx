@@ -80,7 +80,7 @@ const Wissen = () => (
       brotkrumen={[{ name: "Wissen", path: "/wissen" }]}
     />
     <div className="container py-10 md:py-14">
-      <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
+      <nav aria-label="Brotkrumen" className="mx-auto flex max-w-3xl flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
         <Link to="/" className="hover:text-primary">
           Start
         </Link>
@@ -88,14 +88,14 @@ const Wissen = () => (
         <span className="text-foreground">Wissen</span>
       </nav>
 
-      <header className="mt-6 max-w-3xl">
+      <header className="mx-auto mt-6 max-w-3xl">
         <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">Halal-Finanzwissen</h1>
         <p className="mt-3 text-[17px] text-muted-foreground">
           Finde Antworten zu Grundlagen, Alltag und Pflichten. Von der ersten Aktie bis zur Zakat.
         </p>
       </header>
 
-      <section className="mt-6 max-w-3xl overflow-hidden rounded-2xl bg-hero p-6 md:mt-8 md:p-8">
+      <section className="mx-auto mt-6 max-w-3xl overflow-hidden rounded-2xl bg-hero p-6 md:mt-8 md:p-8">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="text-[17px] font-bold text-foreground">Kostenlose Vorlagen</h2>
           <Link to="/vorlagen" className="text-[14px] font-semibold text-primary hover:underline">
@@ -122,7 +122,7 @@ const Wissen = () => (
         </div>
       </section>
 
-      <nav aria-label="Themen" className="mt-8 flex max-w-3xl flex-wrap gap-2">
+      <nav aria-label="Themen" className="mx-auto mt-8 flex max-w-3xl flex-wrap gap-2">
         {kategorien.map((k) => (
           <a
             key={k.id}
@@ -134,7 +134,7 @@ const Wissen = () => (
         ))}
       </nav>
 
-      <div className="mt-10 max-w-3xl space-y-12">
+      <div className="mx-auto mt-10 max-w-3xl space-y-12">
         {kategorien.map((k) => (
           <div key={k.id}>
             <section id={k.id} className="scroll-mt-32">
@@ -155,7 +155,7 @@ const Wissen = () => (
         ))}
       </div>
 
-      <div className="mt-12 max-w-3xl">
+      <div className="mx-auto mt-12 max-w-3xl">
         <NewsletterBox />
       </div>
     </div>

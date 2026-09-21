@@ -431,15 +431,15 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
   return (
     <div>
       {feier && <Konfetti />}
-      <div className="relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(135deg,#EBF2FF_0%,#F4EFFF_52%,#FFF4D8_100%)] px-5 py-7 text-center shadow-[0_18px_50px_-28px_rgba(0,87,250,0.55)] md:px-8 md:py-9">
+      <div className="relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(135deg,#EBF2FF_0%,#F4EFFF_52%,#FFF4D8_100%)] px-5 py-4 text-center shadow-[0_14px_40px_-28px_rgba(0,87,250,0.5)] md:px-8 md:py-5">
         <span className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#F25FB3]/15 blur-2xl" aria-hidden />
         <span className="absolute -bottom-10 -left-6 h-32 w-32 rounded-full bg-[#00A7A5]/15 blur-2xl" aria-hidden />
         <p className="relative mx-auto inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[13px] font-bold text-[#6D4FD2] shadow-sm">
           <Sparkles className="h-4 w-4" aria-hidden />
           Geschafft
         </p>
-        <h1 className="relative mt-3 text-[30px] font-bold leading-tight text-foreground md:text-[38px]">{paket.length > 1 ? "Dein Paket steht" : "Das passt zu dir"}</h1>
-        <p className="relative mt-2 text-[15px] text-muted-foreground">
+        <h1 className="relative mt-2 text-[22px] font-bold leading-tight text-foreground md:text-[28px]">{paket.length > 1 ? "Dein Paket steht" : "Das passt zu dir"}</h1>
+        <p className="relative mt-1 text-[14px] text-muted-foreground">
           Basierend auf deinen Angaben{paket.length > 1 ? `: ${paket.map((b) => b.titel.replace(/^Deine? /, "")).join(", ")}` : ""}
         </p>
       </div>

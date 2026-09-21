@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import AnbieterLogo from "@/components/AnbieterLogo";
+import { hatLogos, logosFuer } from "@/lib/anbieterLogos";
 
 export type EmpfehlungsBoxProps = {
   /** Zum Beispiel "Depot" oder "Girokonto". */
@@ -78,8 +81,36 @@ const EmpfehlungsBox = ({
   const vergleichsSeite = fertigeVergleiche[kategorie];
   const istVergleich = Boolean(vergleichsSeite) || kategorie === "Baufinanzierung";
 
+  /* Zeigt die Box auf einen Vergleich mit Anbietern, bringt sie deren Logos mit (Elias, 21.09.2026:
+     mehr mit Logos arbeiten, der Aufruf soll schmackhaft sein). Sonst bleibt sie ruhig hellblau. */
+  const logoDaten = hatLogos(kategorie) ? logosFuer(kategorie) : null;
+  const sichtbar = logoDaten?.logos.slice(0, 5) ?? [];
+  const rest = logoDaten ? logoDaten.gesamt - sichtbar.length : 0;
+
   return (
-    <aside className="rounded-2xl bg-hero p-6 md:p-8">
+    <aside
+      className={`rounded-2xl p-6 md:p-8 ${
+        sichtbar.length > 0
+          ? "border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)]"
+          : "bg-hero"
+      }`}
+    >
+      {sichtbar.length > 0 && (
+        <div className="mb-4 flex items-center">
+          <div className="flex -space-x-2.5">
+            {sichtbar.map((a) => (
+              <span key={a.name} className="rounded-full bg-white p-[3px] shadow-sm ring-1 ring-black/5">
+                <AnbieterLogo name={a.name} domain={a.domain} />
+              </span>
+            ))}
+          </div>
+          {rest > 0 && (
+            <span className="ml-3 rounded-full bg-white/80 px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
+              + {rest}
+            </span>
+          )}
+        </div>
+      )}
       <span className="badge-new">{istVergleich ? "Unser Vergleich" : kategorie}</span>
       <p className="mt-3 text-[20px] font-bold text-foreground">
         {ueberschrift ?? `${kategorie} vergleichen`}
@@ -92,8 +123,9 @@ const EmpfehlungsBox = ({
               ? "Depot, Girokonto, Krypto und Edelmetalle: alle Vergleiche mit denselben Halal-Kriterien."
               : "")}
       </p>
-      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="btn-primary mt-5">
+      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className={`mt-5 ${sichtbar.length > 0 ? "btn-spark" : "btn-primary"}`}>
         {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
+        {sichtbar.length > 0 && <ArrowRight className="h-5 w-5" aria-hidden />}
       </Link>
     </aside>
   );

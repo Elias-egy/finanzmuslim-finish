@@ -3,10 +3,21 @@ import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { laufendeDeals, schildText, type Deal, type DealBereich } from "@/data/deals";
 import { empfehlbar } from "@/data/vergleichAssistent";
+import { brokerVergleich } from "@/data/brokerVergleich";
+import { girokontoVergleich } from "@/data/girokontoVergleich";
+import { kryptoVergleich } from "@/data/kryptoVergleich";
+import AnbieterLogo from "@/components/AnbieterLogo";
 import { Check, Copy, Gift, TicketPercent } from "lucide-react";
 
 /** Beworben wird nur, wer ab Start zinsfrei ist. Boni von anderen stehen nur neben ihrem Eintrag im Vergleich. */
 const deals = laufendeDeals().filter((d) => !d.anbieterIds || d.anbieterIds.every(empfehlbar));
+
+/** Domain fürs Logo: aus dem Vergleichseintrag, an dem der Bonus hängt. */
+const domainFuer = (deal: Deal) => {
+  const id = deal.anbieterIds?.[0];
+  if (!id) return undefined;
+  return [...brokerVergleich, ...girokontoVergleich, ...kryptoVergleich].find((a) => a.id === id)?.domain;
+};
 
 const BEREICHE: { id: DealBereich; label: string; vergleich: string }[] = [
   { id: "depot", label: "Depot", vergleich: "/vergleich/depot" },
@@ -34,15 +45,20 @@ const DealCard = ({ deal }: { deal: Deal }) => {
 
   return (
     <article className="card-surface p-6 md:p-8 flex flex-col gap-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[13px] font-semibold text-muted-foreground uppercase tracking-wide">
-            {deal.anbieter}
-          </p>
-          <h2 className="headline text-xl md:text-2xl mt-1">{deal.titel}</h2>
+      {/* Handy: Betragsschild unter dem Kopf, sonst sprengt es bei 360 px die Karte. */}
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between sm:gap-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <AnbieterLogo name={deal.anbieter} domain={domainFuer(deal)} gross />
+          <div className="min-w-0">
+            <p className="text-[13px] font-semibold text-muted-foreground uppercase tracking-wide">
+              {deal.anbieter}
+            </p>
+            <h2 className="headline text-xl md:text-2xl mt-0.5">{deal.titel}</h2>
+          </div>
         </div>
+        {/* Der Betrag ist das Detail, das leuchten darf: Gold statt Hellblau. */}
         {deal.betrag && (
-          <span className="shrink-0 whitespace-nowrap rounded-full bg-hero px-3 py-1 text-[14px] font-semibold text-primary">
+          <span className="shrink-0 whitespace-nowrap rounded-full bg-spark-soft px-3 py-1 text-[14px] font-bold text-spark-foreground ring-1 ring-spark/60">
             {schildText(deal)}
           </span>
         )}
