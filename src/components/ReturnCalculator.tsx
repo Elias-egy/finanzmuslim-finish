@@ -488,13 +488,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {/* Einmalige Einzahlung */}
             <div>
-              <label className="block text-xs font-semibold text-foreground/70 mb-1.5">Einmalige Einzahlung</label>
+              <label htmlFor="rr-start" className="block text-xs font-semibold text-foreground/70 mb-1.5">Einmalige Einzahlung</label>
               <div className="relative">
                 <input
                   type="number"
                   inputMode="numeric"
                   min={0}
                   step={1}
+                  id="rr-start"
                   value={startCapitalStr}
                   onChange={onChangeInt(setStartCapitalStr, setStartCapital, { min: 0 })}
                   onBlur={onBlurInt(startCapitalStr, setStartCapitalStr, setStartCapital, { min: 0, emptyFallback: 0 })}
@@ -507,13 +508,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
             {/* Regelmäßige Einzahlung */}
             <div>
-              <label className="block text-xs font-semibold text-foreground/70 mb-1.5">Regelmäßige Einzahlung / Monat</label>
+              <label htmlFor="rr-monat" className="block text-xs font-semibold text-foreground/70 mb-1.5">Regelmäßige Einzahlung / Monat</label>
               <div className="relative">
                 <input
                   type="number"
                   inputMode="numeric"
                   min={0}
                   step={1}
+                  id="rr-monat"
                   value={monthlyStr}
                   onChange={onChangeInt(setMonthlyStr, setMonthly, { min: 0 })}
                   onBlur={onBlurInt(monthlyStr, setMonthlyStr, setMonthly, { min: 0, emptyFallback: 0 })}
@@ -526,7 +528,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
             {/* Anlagezeitraum */}
             <div>
-              <label className="block text-xs font-semibold text-foreground/70 mb-1.5">Anlagezeitraum</label>
+              <label htmlFor="rr-jahre" className="block text-xs font-semibold text-foreground/70 mb-1.5">Anlagezeitraum</label>
               <div className="relative">
                 <input
                   type="number"
@@ -534,6 +536,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   min={1}
                   max={50}
                   step={1}
+                  id="rr-jahre"
                   value={yearsStr}
                   onChange={onChangeInt(setYearsStr, setYears, { min: 1, max: 50 })}
                   onBlur={onBlurInt(yearsStr, setYearsStr, setYears, { min: 1, max: 50, emptyFallback: 1 })}
@@ -546,13 +549,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
             {/* Geschätzte Rendite */}
             <div ref={anchorRef} className="relative">
-              <label className="block text-xs font-semibold text-foreground/70 mb-1.5">Geschätzte Rendite</label>
+              <label htmlFor="rr-rendite" className="block text-xs font-semibold text-foreground/70 mb-1.5">Geschätzte Rendite</label>
               <div className="relative">
                 {mode === "own" ? (
                   <input
                     type="text"
                     inputMode="decimal"
-                    value={ownRateStr}
+                    id="rr-rendite"
+                  value={ownRateStr}
                     onChange={onChangeRate}
                     onBlur={onBlurRate}
                     onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
@@ -583,7 +587,6 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               type="button"
               onClick={openBuilder}
               className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.55)] focus-visible:border-primary"
-              aria-label={mode === "custom" ? "Eigenes Portfolio bearbeiten" : "Eigenes Portfolio bauen"}
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
                 {ASSETS.map((a) => (
@@ -834,7 +837,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           <div ref={chartCardRef} className="reveal rounded-[1.5rem] bg-card border border-border/70 p-4 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
             {/* Handy: Zeitraum unter die Ueberschrift, sonst stossen beide zusammen. */}
             <div className="mb-2 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-              <h3 className="headline text-lg md:text-xl">Portfolioentwicklung</h3>
+              {showHeader ? (
+                <h3 className="headline text-lg md:text-xl">Portfolioentwicklung</h3>
+              ) : (
+                <h2 className="headline text-lg md:text-xl">Portfolioentwicklung</h2>
+              )}
               <span className="text-xs text-muted-foreground">
                 über {years} {years === 1 ? "Jahr" : "Jahre"} · {mode === "own" ? `${fmtPct(ownRate)}% p.a.` : `≈ ${fmtPct(annual * 100)}% p.a.`}
               </span>

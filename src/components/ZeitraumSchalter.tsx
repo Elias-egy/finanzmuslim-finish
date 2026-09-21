@@ -57,7 +57,6 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
           type="button"
           role="tab"
           aria-selected={!istEigenerZeitraum(wert) && wert === z.key}
-          aria-label={z.lang}
           onClick={() => onChange(z.key)}
           className={`min-h-[36px] shrink-0 rounded-md px-3 text-[14px] font-semibold transition-colors ${
             !istEigenerZeitraum(wert) && wert === z.key
@@ -66,6 +65,7 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
           }`}
         >
           {z.kurz}
+          <span className="sr-only">, {z.lang}</span>
         </button>
       ))}
 
@@ -74,7 +74,6 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
           type="button"
           role="tab"
           aria-selected={istEigenerZeitraum(wert)}
-          aria-label="Eigener Zeitraum wählen"
           className={`inline-flex min-h-[36px] shrink-0 items-center gap-1.5 rounded-md px-3 text-[14px] font-semibold transition-colors ${
             istEigenerZeitraum(wert)
               ? "bg-primary text-primary-foreground"
@@ -83,6 +82,7 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
         >
           <CalendarRange className="h-3.5 w-3.5 shrink-0" aria-hidden />
           {istEigenerZeitraum(wert) ? `${datumKurz(wert.von)}–${datumKurz(wert.bis)}` : "Von–bis"}
+          <span className="sr-only">, eigener Zeitraum</span>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-auto p-3">
           <p className="px-1 pb-2 text-[13px] font-semibold text-foreground">Eigener Zeitraum</p>

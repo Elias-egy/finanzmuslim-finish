@@ -566,7 +566,7 @@ const VergleichAssistent = () => {
             </div>
 
             <div className="mt-4 rounded-2xl border border-border bg-card p-4 md:p-6">
-              <div className="h-2 overflow-hidden rounded-full bg-border" role="progressbar" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
+              <div className="h-2 overflow-hidden rounded-full bg-border" role="progressbar" aria-label="Fortschritt" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
                 <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${anteil * 100}%` }} />
               </div>
 
