@@ -236,7 +236,7 @@ const ZakatCalculator = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-24">
-          <div className="rounded-[1.5rem] bg-primary p-6 text-white md:p-7">
+          <div className="ergebnis-karte" data-ton="geben">
             {istPreisVeraltet(nisabDaten.stand) && (
               <div className="mb-4 rounded-xl bg-warning px-4 py-3 text-[13px] font-semibold text-warning-foreground">
                 Der hinterlegte Preis ist vom {nisabDaten.stand} und damit älter als sechs Wochen.
@@ -244,7 +244,7 @@ const ZakatCalculator = () => {
               </div>
             )}
             <span className="text-[11px] font-semibold tracking-wide text-white/70">Deine Zakat</span>
-            <p className="headline mt-3 text-4xl text-white md:text-5xl">{eur(ergebnis.zakat)}</p>
+            <p className="ergebnis-zahl">{eur(ergebnis.zakat)}</p>
 
             {/* Das Ergebnis als ganzer Satz. Eine Zahl allein sagt niemandem,
                 wie sie zustande kommt. */}
@@ -360,11 +360,11 @@ const ZakatCalculator = () => {
           </div>
 
           <Link
-            to="/vergleich/depot"
+            to="/bereinigungsrechner"
             className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
           >
             <span className="text-[14px] font-semibold text-foreground">
-              Wer jedes Jahr Zakat zahlt, sollte wissen, wo sein Geld liegt
+              Rechne aus, welchen Teil deiner Erträge du weitergibst
             </span>
             <ArrowRight
               className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5"

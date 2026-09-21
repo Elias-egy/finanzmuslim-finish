@@ -173,6 +173,7 @@ const SparzielRechner = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-36">
           <Ergebnis
+            ton={monate === null ? "verlust" : "gewinn"}
             ueber={monate === 0 ? "Du hast es schon" : monate === null ? "So kommst du nicht an" : `Am Ziel in`}
             zahl={monate === 0 ? eur(zielBetrag) : monate === null ? "nie" : dauerText(monate, false)}
             satz={
@@ -195,7 +196,7 @@ const SparzielRechner = () => {
                 <span>Ziel {eur(zielBetrag)}</span>
               </div>
               <div className="relative mt-1.5 h-3 rounded-full bg-white/25">
-                <div className="absolute left-0 top-0 h-3 rounded-full bg-[hsl(var(--success))]" style={{ width: `${fortschritt}%` }} />
+                <div className="absolute left-0 top-0 h-3 rounded-full bg-gain-bright" style={{ width: `${fortschritt}%` }} />
               </div>
               <p className="mt-1.5 text-[12px] text-white/80">{Math.round(fortschritt)} Prozent geschafft</p>
             </div>

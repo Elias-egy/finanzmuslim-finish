@@ -155,21 +155,25 @@ export const Wahl = <T extends string>({
   </div>
 );
 
-/** Die blaue Ergebniskarte: eine Zeile oben, die Zahl, ein Satz, darunter das Bild. */
+export type ErgebnisTon = "neutral" | "gewinn" | "verlust" | "geben";
+
+/** Die Ergebniskarte: eine Zeile oben, die Zahl im Ton des Ergebnisses, ein Satz, darunter das Bild. */
 export const Ergebnis = ({
   ueber,
   zahl,
   satz,
+  ton = "neutral",
   children,
 }: {
   ueber: string;
   zahl: string;
   satz: ReactNode;
+  ton?: ErgebnisTon;
   children?: ReactNode;
 }) => (
-  <div className="rounded-[1.5rem] bg-primary p-6 text-white md:p-7">
+  <div className="ergebnis-karte" data-ton={ton}>
     <span className="text-[11px] font-semibold tracking-wide text-white/70">{ueber}</span>
-    <p className="headline mt-3 text-4xl text-white md:text-5xl">{zahl}</p>
+    <p className="ergebnis-zahl">{zahl}</p>
     <p className="mt-3 text-[14px] leading-relaxed text-white/80">{satz}</p>
     {children}
   </div>

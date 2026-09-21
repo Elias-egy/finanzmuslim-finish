@@ -520,11 +520,11 @@ const AuswanderungsRechner = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-36">
-          <div className="rounded-[1.5rem] bg-primary p-6 text-white md:p-7">
+          <div className="ergebnis-karte" data-ton={plus >= 0 ? "gewinn" : "verlust"}>
             <span className="text-[11px] font-semibold tracking-wide text-white/70">
               {eur(netto)} {land.imLand} fühlen sich an wie
             </span>
-            <p className="headline mt-3 text-4xl text-white md:text-5xl">{eur(aequivalent)}</p>
+            <p className="ergebnis-zahl">{eur(aequivalent)}</p>
             <p className="mt-3 text-[14px] leading-relaxed text-white/80">
               Mit <strong className="text-white">{eur(netto)}</strong> netto {lebst} {wir} {land.imLand} wie
               mit rund <strong className="text-white">{eur(aequivalent)}</strong> in Deutschland. Das sind{" "}

@@ -153,8 +153,8 @@ const InflationsRechner = () => {
               <AreaChart data={reihe} margin={{ top: 8, right: 4, bottom: 0, left: 4 }}>
                 <defs>
                   <linearGradient id="kaufkraft" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                    <stop offset="0%" stopColor="hsl(var(--loss))" stopOpacity="0.28" />
+                    <stop offset="100%" stopColor="hsl(var(--loss))" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <CartesianGrid vertical={false} stroke="hsl(var(--border))" strokeOpacity={0.6} />
@@ -177,8 +177,8 @@ const InflationsRechner = () => {
                 <Area
                   type="monotone"
                   dataKey="kaufkraft"
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
+                  stroke="hsl(var(--loss))"
+                  strokeWidth={2.5}
                   fill="url(#kaufkraft)"
                   isAnimationActive={false}
                 />
@@ -192,11 +192,11 @@ const InflationsRechner = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-24">
-          <div className="rounded-[1.5rem] bg-primary p-6 text-white md:p-7">
+          <div className="ergebnis-karte" data-ton="verlust">
             <span className="text-[11px] font-semibold tracking-wide text-white/70">
               Wert in {jahre} {jahre === 1 ? "Jahr" : "Jahren"}
             </span>
-            <p className="headline mt-3 text-4xl text-white md:text-5xl">{eur(rest)}</p>
+            <p className="ergebnis-zahl">{eur(rest)}</p>
             <p className="mt-3 text-[14px] leading-relaxed text-white/80">
               Aus <strong className="text-white">{eur(betrag)}</strong> werden nach {jahre}{" "}
               {jahre === 1 ? "Jahr" : "Jahren"} real rund{" "}
@@ -217,11 +217,11 @@ const InflationsRechner = () => {
           </div>
 
           <Link
-            to="/vergleich/depot"
+            to="/renditerechner"
             className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
           >
             <span className="text-[14px] font-semibold text-foreground">
-              Wo dein Geld nicht jedes Jahr schrumpft, ohne dass ein Zins mitläuft
+              Sieh, wie dein Geld stattdessen wachsen kann
             </span>
             <ArrowRight
               className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5"

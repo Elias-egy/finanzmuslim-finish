@@ -187,6 +187,7 @@ const KreditkostenRechner = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-36">
           <Ergebnis
+            ton="verlust"
             ueber={`Für ${eur(summe)} zahlst du zurück`}
             zahl={eur(kosten.gesamt)}
             satz={
@@ -224,7 +225,7 @@ const KreditkostenRechner = () => {
                   />
                   <Bar dataKey="wert" radius={[0, 4, 4, 0]} isAnimationActive={false}>
                     <Cell fill="rgba(255,255,255,0.35)" />
-                    <Cell fill="hsl(var(--destructive))" />
+                    <Cell fill="hsl(var(--loss-bright))" />
                     <LabelList
                       dataKey="wert"
                       position="right"

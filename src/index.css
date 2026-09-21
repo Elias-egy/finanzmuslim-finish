@@ -77,6 +77,9 @@
     --violet-soft: 247 84% 96%;
     --loss: 12 82% 50%;
     --loss-soft: 14 100% 95%;
+    /* Helle Geschwister fuer dunklen Grund (Ergebniskarte). */
+    --gain-bright: 152 68% 58%;
+    --loss-bright: 16 100% 68%;
 
     /* Nur fuer Markierungspunkte der Anlagearten in der Datenbank. */
     --asset-sukuk: 24 42% 38%;
@@ -155,6 +158,24 @@
   }
   /* Standardknopf: 48px hoch, 6px Radius, 18px Schrift.
      Auf dem Handy immer volle Breite, das ist das Finanzfluss-Muster. */
+  /* Ergebniskarte der Rechner (Elias, 21.09.2026: "alles sehr blau und leblos").
+     Marineblau statt Signalblau als Grund, dazu ein Lichtfleck und die grosse Zahl im Ton
+     des Ergebnisses. Auf dunklem Grund tragen Gruen, Rot und Violett, auf Signalblau nicht. */
+  .ergebnis-karte {
+    --ton: 219 100% 66%;
+    --zahl: 0 0% 100%;
+    @apply relative overflow-hidden rounded-[1.5rem] p-6 text-white md:p-7;
+    background:
+      radial-gradient(130% 95% at 100% 0%, hsl(var(--ton) / 0.42) 0%, transparent 58%),
+      linear-gradient(165deg, #0a1a3d 0%, #0f2a66 100%);
+  }
+  .ergebnis-karte[data-ton="gewinn"] { --ton: var(--gain-bright); --zahl: var(--gain-bright); }
+  .ergebnis-karte[data-ton="verlust"] { --ton: var(--loss-bright); --zahl: var(--loss-bright); }
+  .ergebnis-karte[data-ton="geben"] { --ton: 247 84% 69%; --zahl: 247 100% 84%; }
+  .ergebnis-zahl {
+    @apply headline mt-3 text-4xl md:text-5xl;
+    color: hsl(var(--zahl));
+  }
   /* Haupt-Aufruf zur Geldquelle: Gold auf dem blau-weissen Fundament. Hoechstens einer je Bildschirm. */
   .btn-spark {
     @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-spark px-6 text-[17px] font-bold text-spark-foreground shadow-[0_10px_24px_-10px_hsl(var(--spark)/0.9)] transition hover:bg-spark-hover hover:-translate-y-px sm:w-auto;

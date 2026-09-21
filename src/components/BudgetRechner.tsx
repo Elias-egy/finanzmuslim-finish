@@ -143,6 +143,7 @@ const BudgetRechner = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-36">
           <Ergebnis
+            ton={b.minus > 0 ? "verlust" : "gewinn"}
             ueber={b.minus > 0 ? "Dir fehlen jeden Monat" : "Frei im Monat"}
             zahl={b.minus > 0 ? eur(b.minus) : eur(b.frei)}
             satz={
@@ -178,7 +179,7 @@ const BudgetRechner = () => {
                     isAnimationActive={false}
                   >
                     {(teile.length ? teile : [{ id: "leer", farbe: "rgba(255,255,255,0.3)" }]).map((t) => (
-                      <Cell key={t.id} fill={t.id === "frei" ? "hsl(var(--success))" : t.id === "geben" ? "#c9b8ff" : t.farbe.replace("hsl(var(--primary))", "rgba(255,255,255,0.9)").replace("hsl(var(--primary) / 0.6)", "rgba(255,255,255,0.6)").replace("hsl(var(--primary) / 0.3)", "rgba(255,255,255,0.35)")} />
+                      <Cell key={t.id} fill={t.id === "frei" ? "hsl(var(--gain-bright))" : t.id === "geben" ? "#c9b8ff" : t.farbe.replace("hsl(var(--primary))", "rgba(255,255,255,0.9)").replace("hsl(var(--primary) / 0.6)", "rgba(255,255,255,0.6)").replace("hsl(var(--primary) / 0.3)", "rgba(255,255,255,0.35)")} />
                     ))}
                   </Pie>
                 </PieChart>
@@ -191,7 +192,7 @@ const BudgetRechner = () => {
                     className="h-2.5 w-2.5 rounded-full"
                     style={{
                       background:
-                        t.id === "frei" ? "hsl(var(--success))" : t.id === "geben" ? "#c9b8ff" : t.id === "wohnen" ? "rgba(255,255,255,0.9)" : t.id === "fix" ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)",
+                        t.id === "frei" ? "hsl(var(--gain-bright))" : t.id === "geben" ? "#c9b8ff" : t.id === "wohnen" ? "rgba(255,255,255,0.9)" : t.id === "fix" ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)",
                     }}
                   />
                   {t.name} {eur(t.wert)}
