@@ -1,11 +1,85 @@
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
+import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 import { vorlageBySlug } from "@/data/vorlagen";
+import { AnlageLogo } from "@/components/AnlageZeile";
+import { RenditeWert } from "@/components/Rendite";
+import { halalAnlagen } from "@/data/halalAnlagen";
+import { kursFuerAnlage, spanneVeraenderung, zeitraumReihe } from "@/lib/kurse";
 
 const v = vorlageBySlug("halal-anlagen")!;
 
 type Anlage = { name: string; pruefstelle: string; isin?: string };
 type Kategorie = { titel: string; anlagen: Anlage[] };
+
+/** Farbpunkt je Anlageart, dieselben Farben wie in der Anlagendatenbank. */
+const artFarbe = (titel: string) =>
+  titel.startsWith("Sukuk")
+    ? "hsl(var(--asset-sukuk))"
+    : titel.startsWith("Gold")
+      ? "hsl(var(--asset-gold))"
+      : titel.startsWith("Silber")
+        ? "hsl(var(--asset-silber))"
+        : titel.startsWith("Krypto")
+          ? "hsl(var(--violet))"
+          : "hsl(var(--primary))";
+
+/** Datensatz aus der Anlagendatenbank: über die ISIN, sonst über den Namensanfang (Bitcoin, Ether). */
+const datensatz = (a: Anlage) =>
+  (a.isin && halalAnlagen.find((x) => x.isin === a.isin)) ||
+  halalAnlagen.find((x) => x.name.startsWith(a.name.split(",")[0])) ||
+  undefined;
+
+/** Ein Eintrag der Liste. Mit Datensatz: Logo, Kurs-Entwicklung über ein Jahr und Link zur
+ *  Detailseite. Ohne Datensatz bleibt es bei Name, Prüfstelle und ISIN. */
+const Eintrag = ({ a }: { a: Anlage }) => {
+  const d = datensatz(a);
+  const jahr = d ? spanneVeraenderung(zeitraumReihe(kursFuerAnlage(d), "1j").reihe) : null;
+  const inhalt = (
+    <>
+      {d ? (
+        <AnlageLogo a={d} />
+      ) : (
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-hero text-[13px] font-bold text-foreground">
+          {a.name.slice(0, 2)}
+        </span>
+      )}
+      <span className="min-w-0 flex-1">
+        <span className="block text-[15px] font-bold leading-snug text-foreground md:text-[16px]">{a.name}</span>
+        <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{a.pruefstelle}</span>
+        <span className="mt-1 block text-[12px] text-muted-foreground [font-variant-numeric:tabular-nums]">
+          {a.isin ?? "ISIN noch nicht geprüft"}
+        </span>
+      </span>
+      {d && (
+        <span className="flex shrink-0 flex-col items-end gap-0.5">
+          {jahr !== null && (
+            <>
+              <RenditeWert wert={jahr} mittel />
+              <span className="text-[11px] text-muted-foreground">in 1 Jahr</span>
+            </>
+          )}
+        </span>
+      )}
+      {d && <ChevronRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />}
+    </>
+  );
+  return (
+    <li>
+      {d ? (
+        <Link
+          to={`/halal-anlagen/${d.slug}`}
+          className="card-surface flex items-center gap-3 p-4 transition hover:border-primary md:p-5"
+        >
+          {inhalt}
+        </Link>
+      ) : (
+        <div className="card-surface flex items-center gap-3 p-4 md:p-5">{inhalt}</div>
+      )}
+    </li>
+  );
+};
 
 const kategorien: Kategorie[] = [
   {
@@ -122,23 +196,13 @@ const HalalAnlagen = () => (
 
       {kategorien.map((k) => (
         <section key={k.titel}>
-          <h2 className="text-2xl font-bold text-foreground">{k.titel}</h2>
-          <ul className="mt-4 space-y-3">
+          <h2 className="flex items-center gap-2.5 text-2xl font-bold text-foreground">
+            <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: artFarbe(k.titel) }} aria-hidden />
+            {k.titel}
+          </h2>
+          <ul className="mt-4 space-y-2.5">
             {k.anlagen.map((a) => (
-              <li
-                key={a.name}
-                className="card-surface flex flex-col gap-2 p-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
-              >
-                <span className="min-w-0">
-                  <span className="block text-[16px] font-bold text-foreground">{a.name}</span>
-                  <span className="mt-1 block text-[13px] text-muted-foreground">{a.pruefstelle}</span>
-                </span>
-                {a.isin ? (
-                  <span className="shrink-0 text-[14px] text-muted-foreground sm:text-right sm:text-foreground [font-variant-numeric:tabular-nums]">
-                    {a.isin}
-                  </span>
-                ) : null}
-              </li>
+              <Eintrag key={a.name} a={a} />
             ))}
           </ul>
         </section>

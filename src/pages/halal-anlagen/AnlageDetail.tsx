@@ -9,6 +9,7 @@ import FaktenRaster from "@/components/anlage/FaktenRaster";
 import KaufbarListe from "@/components/anlage/KaufbarListe";
 import KopierWert from "@/components/anlage/KopierWert";
 import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
+import VerfuegbarBei from "@/components/anlage/VerfuegbarBei";
 import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
@@ -170,8 +171,14 @@ const AnlageDetail = () => {
             <FaktenRaster fakten={fakten} />
           </div>
 
+          {/* Ein Aufruf im Kopf statt drei auf der Seite. Mit Kaufdaten: Logo-Reihe "Verfügbar bei".
+              Ohne Kaufdaten (Krypto, noch nicht geprüft) bleibt der bisherige Knopf. */}
           <div className="mt-5 max-w-xl">
-            <MonetarisierungsPlatz platz="anlage_kopf" anlageName={anlage.name} isin={anlage.isin} />
+            {kaufbar && kaufbar.kaufbar.length > 0 ? (
+              <VerfuegbarBei kaufbar={kaufbar} />
+            ) : (
+              <MonetarisierungsPlatz platz="anlage_kopf" anlageName={anlage.name} isin={anlage.isin} />
+            )}
           </div>
         </div>
       </section>
@@ -181,13 +188,6 @@ const AnlageDetail = () => {
       />
 
       <div className="container space-y-4 py-6 md:space-y-6 md:py-10">
-        {/* 2 — Partnerstreifen, direkt unter dem Kopf */}
-        <MonetarisierungsPlatz
-          platz="partner_streifen"
-          anlageName={anlage.name}
-          isin={anlage.isin}
-        />
-
         {/* 3 — Kurs */}
         <section id="kurs" className="section-card scroll-mt-32">
           <div className="section-inner">
@@ -202,13 +202,6 @@ const AnlageDetail = () => {
             </div>
             <div className="mt-6">
               <AnlageRenditerechner kurs={kurs} name={anlage.name} />
-            </div>
-            <div className="mt-5 max-w-xl">
-              <MonetarisierungsPlatz
-                platz="chart_aktion"
-                anlageName={anlage.name}
-                isin={anlage.isin}
-              />
             </div>
           </div>
         </section>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import type { AnlageKaufbar } from "@/data/anlagenKaufbar";
 
 /** Anbieter mit Depot-Partnerschaft: Name in anlagenKaufbar.ts -> /out/<kurzname>. */
-const DEPOT_PARTNER: Record<string, string> = {
+export const DEPOT_PARTNER: Record<string, string> = {
   "Scalable Capital": "scalable",
   "Traders Place": "traders-place",
   DKB: "dkb-depot",
