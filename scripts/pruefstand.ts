@@ -200,11 +200,12 @@ const html = `<!doctype html>
     <h3>Deine offenen Entscheidungen</h3>
     <ol>
       <li><b>Relai:</b> Antwort kam vom KI-Assistenten, inhaltlich grün. Als Beleg zählen lassen? Steht bis dahin auf offen.</li>
-      <li><b>WillBe:</b> Support schreibt, „Tagesgeldkonten“ werden automatisch verzinst, nicht abschaltbar. Nachhaken, ob das Depotguthaben dort liegt?</li>
-      <li><b>HypoVereinsbank-Depots:</b> rot laut Finanzfluss (0,7 % auf Verrechnungskonto), HVB schreibt „grundsätzlich nicht verzinst“. Im Preisverzeichnis prüfen?</li>
-      <li><b>finvesto:</b> keine Antwort von FNZ. Satz auf der Startseite jetzt entschärfen?</li>
+      <li><b>Trade Republic:</b> Die Zinsseite sagt „Aktiviere Zinsen in der App“ und zugleich „du kannst die Zinsen deaktivieren“. Das Girokonto steht deshalb auf teils, das Depot auf ja. Beide nutzen dasselbe Cash. Bitte in der App nachsehen, ob Zinsen bei einem neuen Konto sofort laufen.</li>
       <li><b>17 Anbieter ohne Mail-Weg</b> (nur App oder Chat): fragen oder auf offen lassen?</li>
+      <li><b>Scalable und DKB (Partner):</b> 3 Sukuk- und 8 Edelmetall-ISINs in der App suchen.</li>
     </ol>
+    <p class="klein">Geklärt am 21.09.: finvesto (FNZ-Bedingungen: Konto flex unverzinst), HVB-Depots (rot, HVB-Produktprofil: 0,50 % Sonderzins bis 31.12.2026), WillBe (rot, FAQ und Mail).</p>
+
   </div>
   <div class="legende">Status zählt nur die Halal-Ampeln (Zins, Dispo, Karte, Coins usw.): „alles ja“ heißt jede Ampel belegt ja. Rang = Reihenfolge im Vergleich (nur zinsfreie, geprüfte Anbieter bekommen einen Rang). Quelle: <span class="q q-mail">Mail</span> schriftliche Antwort, <span class="q q-seite">Anbieterseite</span> Seite des Anbieters, <span class="q q-ff">Finanzfluss</span> nur Finanzfluss. Maus auf ein Feld zeigt den Belegtext.</div>
   ${BEREICHE.map(tabelle).join("\n")}

@@ -160,6 +160,12 @@ describe("Vergleichsdaten edelmetalle", () => {
  * Schlimmste, was man mir antun kann." Ein Ja bei den Zinsfragen braucht deshalb einen Beleg
  * von der Seite des Anbieters selbst. Finanzfluss, Presse oder Blogs reichen nicht.
  */
+/** Marke und Bank sind verschiedene Domains, die Dokumente der Bank verlinkt die Marke selbst.
+ *  finvesto.de/downloads führt auf die Bedingungen der FNZ Bank. Nur mit so einem Beleg eintragen. */
+const BANK_DOMAINS: Record<string, string[]> = {
+  "finvesto.de": ["fnz.de"],
+};
+
 describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
   it("nimmt keine positive Nachkorrektur ohne konkreten Beleg an", () => {
     const roh: RohAnbieter[] = [{ id: "probe", name: "Probe", produkt: "Konto", domain: "probe.de", werte: { zinsfreiAbStart: null, zinsfreiesModell: null } }];
@@ -181,7 +187,8 @@ describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
           if (w !== "gut" && w !== "teils") continue;
           const url = a.quellen?.[k]?.url ?? "";
           const host = url ? new URL(url).hostname.replace(/^www\./, "") : "";
-          const eigen = !!a.domain && (host === a.domain || host.endsWith(`.${a.domain}`) || a.domain.endsWith(`.${host}`));
+          const domains = [a.domain, ...(BANK_DOMAINS[a.domain ?? ""] ?? [])].filter((d): d is string => !!d);
+          const eigen = domains.some((d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`));
           expect(eigen, `${a.name} ${a.produkt}: ${k}=${w} belegt mit ${host || "nichts"}`).toBe(true);
         }
       }
@@ -206,8 +213,9 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
     expect(krypto("smartbroker-plus-krypto").werte.zinsfreiAbStart).toBe("gut");
     expect(krypto("smartbroker-plus-krypto").werte.zinsfreiesModell).toBe("gut");
-    // Ohne Beleg bleibt der pauschale Opt-in-Vorschlag wirkungslos.
-    expect(krypto("kraken-pro").werte.zinsfreiesModell).toBeNull();
+    // Ohne Beleg bleibt der pauschale Opt-in-Vorschlag wirkungslos (BISON: nur der Staking-Opt-in ist belegt).
+    expect(krypto("bison-app").werte.zinsfreiesModell).toBeNull();
+    expect(krypto("kraken-pro").werte.zinsfreiesModell).toBe("gut");
   });
 
   it("stellt die zwei Trade-Republic-Goldtreffer bis zur App-Gegenprobe auf unklar", () => {

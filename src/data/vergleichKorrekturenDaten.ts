@@ -28,9 +28,27 @@ export const DEPOT_WERTE: Werte = {
   "vivid-standard": { zinsfreiAbStart: "gut" },
   "trade-republic-depot": { zinsfreiAbStart: "gut", halalEdelmetalle: "mind. 6 von 8" },
   "tradegate-direct-depot": { zinsfreiAbStart: "gut" },
+  "finvesto-depot": { zinsfreiAbStart: "gut" },
+  "finvesto-depot-basis": { zinsfreiAbStart: "gut" },
+  "finvesto-wertpapierdepot": { zinsfreiAbStart: "gut" },
+  "plus500-depot": { zinsfreiAbStart: "gut" },
+  "freedom24-smart": { zinsfreiAbStart: "gut" },
+  "freedom24-all-inclusive": { zinsfreiAbStart: "gut" },
+  "willbe-depot": { zinsfreiAbStart: "schlecht" },
+  "hypovereinsbank-hvb-depot": { zinsfreiAbStart: "schlecht" },
+  "hypovereinsbank-smartdepot": { zinsfreiAbStart: "schlecht" },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
+  "finvesto-depot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
+  "finvesto-depot-basis": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
+  "finvesto-wertpapierdepot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
+  "plus500-depot": { zinsfreiAbStart: { url: "https://www.plus500.com/Docs/Plus500EE/UserAgreement.pdf", stand: "21.09.2026", hinweis: "Plus500 User Agreement, Nr. 17.5: „No interest is due or will be paid in respect of Client Money. The Client waives all rights to interest.“" } },
+  "freedom24-smart": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" } },
+  "freedom24-all-inclusive": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" } },
+  "willbe-depot": { zinsfreiAbStart: { url: "https://willbe-invest.com/de/willbe/faq/faq", stand: "21.09.2026", hinweis: "willbe-FAQ: Ausschüttungen gehen „automatisch auf dein willbe Tagesgeldkonto“, „Dein Guthaben wird ab Eingang auf dem Tagesgeldkonto sofort wieder verzinst.“ Schriftlich vom willbe-Support am 21.09.2026: „Unsere Tagesgeldkonten werden automatisch verzinst, wenn Geld auf dem Konto ist. Leider ist es nicht möglich, auf diese Zinsen zu verzichten bzw. diese zu deaktivieren.“" } },
+  "hypovereinsbank-hvb-depot": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/content/dam/hypovereinsbank/shared/pdf/Produktprofile/HVB-Investmentkonto-Produktprofil.pdf", stand: "21.09.2026", hinweis: "HVB-Produktprofil Investmentkonto (das Verrechnungskonto für das Depot): „Vom 8. Januar 2025 bis 31. Dezember 2026 wird auf dem HVB Investmentkonto ein Sonderzins vergütet … Ab 26. Juni 2026 beträgt der Zinssatz bis auf weiteres 0,50% p. a.“ Die Aussage des Kundenservice vom 21.09.2026 („grundsätzlich nicht verzinst“) widerspricht dem Produktprofil. Ab 01.01.2027 neu prüfen." } },
+  "hypovereinsbank-smartdepot": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/content/dam/hypovereinsbank/shared/pdf/Produktprofile/HVB-Investmentkonto-Produktprofil.pdf", stand: "21.09.2026", hinweis: "HVB-Produktprofil Investmentkonto (das Verrechnungskonto für das Depot): „Vom 8. Januar 2025 bis 31. Dezember 2026 wird auf dem HVB Investmentkonto ein Sonderzins vergütet … Ab 26. Juni 2026 beträgt der Zinssatz bis auf weiteres 0,50% p. a.“ Die Aussage des Kundenservice vom 21.09.2026 („grundsätzlich nicht verzinst“) widerspricht dem Produktprofil. Ab 01.01.2027 neu prüfen." } },
   "tradegate-direct-depot": { zinsfreiAbStart: { url: "https://tradegate.direct/?showDocuments=true", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom tradegate.direct-Support am 21.09.2026 (Ticket SUP-5390): „Nicht investiertes Guthaben auf dem Verrechnungskonto von tradegate.direct wird derzeit nicht verzinst. … Es erfolgt somit auch keine Zinsgutschrift auf dieses Konto.“ Der Support weist darauf hin, dass sich die Konditionen künftig ändern könnten." } },
   "bux-basic": { zinsfreiAbStart: { url: "https://getbux.com/de/preise/", stand: "20.09.2026", hinweis: "Das kostenlose BUX-Basic-Modell enthält keine automatische Verzinsung des nicht investierten Guthabens." } },
   "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Sparen-Anlegen/Sparen/Tagesgeld", stand: "20.09.2026", hinweis: "Die Verzinsung gehört zum separat eröffneten Tagesgeldkonto, nicht zum Verrechnungskonto des Depots." } },
@@ -74,12 +92,41 @@ export const GIRO_WERTE: Werte = {
   "tomorrow-now": { zinsfreiAbStart: "gut" },
   "tomorrow-change": { zinsfreiAbStart: "gut" },
   "tomorrow-plus": { zinsfreiAbStart: "gut" },
-  "vivid-standard": { zinsfreiAbStart: "gut" },
-  "vivid-plus": { zinsfreiAbStart: "gut" },
-  "vivid-prime": { zinsfreiAbStart: "gut" },
+  "vivid-standard": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "vivid-plus": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "vivid-prime": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "wise-konto": { keinDispoAbStart: "gut" },
+  "bunq-free": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "bunq-core": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "bunq-pro": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "bunq-elite": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "klarna-guthaben": { keinDispoAbStart: "gut" },
+  "monese-pay-as-you-go": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "pax-bank-pax-bck-individuell": { keinDispoAbStart: "gut" },
+  "trade-republic-girokonto": { zinsfreiAbStart: "teils" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
+  "revolut-standard": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
+  "revolut-plus": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
+  "revolut-premium": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
+  "revolut-metal": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
+  "revolut-ultra": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
+  "wise-konto": { keinDispoAbStart: { url: "https://wise.com/de/help/articles/2897226/was-ist-ein-wise-konto", stand: "21.09.2026", hinweis: "Wise-Hilfe: „Du kannst dein Konto nicht überziehen und kein Darlehen erhalten.“" } },
+  "tomorrow-now": { zinsfreiAbStart: { url: "https://www.tomorrow.one/de-DE/sparen/tagesgeldkonto/", stand: "21.09.2026", hinweis: "Tomorrow: Zinsen nur auf dem Tagesgeldkonto, das man zusätzlich eröffnet. „Eröffnest du ein Girokonto bei uns, kannst du ganz unkompliziert zusätzlich ein Tagesgeldkonto eröffnen.“" } },
+  "tomorrow-change": { zinsfreiAbStart: { url: "https://www.tomorrow.one/de-DE/sparen/tagesgeldkonto/", stand: "21.09.2026", hinweis: "Tomorrow: Zinsen nur auf dem Tagesgeldkonto, das man zusätzlich eröffnet. „Eröffnest du ein Girokonto bei uns, kannst du ganz unkompliziert zusätzlich ein Tagesgeldkonto eröffnen.“" } },
+  "tomorrow-plus": { zinsfreiAbStart: { url: "https://www.tomorrow.one/de-DE/sparen/tagesgeldkonto/", stand: "21.09.2026", hinweis: "Tomorrow: Zinsen nur auf dem Tagesgeldkonto, das man zusätzlich eröffnet. „Eröffnest du ein Girokonto bei uns, kannst du ganz unkompliziert zusätzlich ein Tagesgeldkonto eröffnen.“" } },
+  "bunq-free": { zinsfreiAbStart: { url: "https://help.bunq.com/articles/why-am-i-not-receiving-massinterest", stand: "21.09.2026", hinweis: "bunq-Hilfe: „To start earning MassInterest, you must open a bunq Savings Account - regular Bank Accounts can’t earn interest.“" }, keinDispoAbStart: { url: "https://help.bunq.com/articles/can-i-get-a-loan-with-my-bunq-account", stand: "21.09.2026", hinweis: "bunq-Hilfe: „bunq doesn't offer loans or overdrafts to help you avoid debt“." } },
+  "bunq-core": { zinsfreiAbStart: { url: "https://help.bunq.com/articles/why-am-i-not-receiving-massinterest", stand: "21.09.2026", hinweis: "bunq-Hilfe: „To start earning MassInterest, you must open a bunq Savings Account - regular Bank Accounts can’t earn interest.“" }, keinDispoAbStart: { url: "https://help.bunq.com/articles/can-i-get-a-loan-with-my-bunq-account", stand: "21.09.2026", hinweis: "bunq-Hilfe: „bunq doesn't offer loans or overdrafts to help you avoid debt“." } },
+  "bunq-pro": { zinsfreiAbStart: { url: "https://help.bunq.com/articles/why-am-i-not-receiving-massinterest", stand: "21.09.2026", hinweis: "bunq-Hilfe: „To start earning MassInterest, you must open a bunq Savings Account - regular Bank Accounts can’t earn interest.“" }, keinDispoAbStart: { url: "https://help.bunq.com/articles/can-i-get-a-loan-with-my-bunq-account", stand: "21.09.2026", hinweis: "bunq-Hilfe: „bunq doesn't offer loans or overdrafts to help you avoid debt“." } },
+  "bunq-elite": { zinsfreiAbStart: { url: "https://help.bunq.com/articles/why-am-i-not-receiving-massinterest", stand: "21.09.2026", hinweis: "bunq-Hilfe: „To start earning MassInterest, you must open a bunq Savings Account - regular Bank Accounts can’t earn interest.“" }, keinDispoAbStart: { url: "https://help.bunq.com/articles/can-i-get-a-loan-with-my-bunq-account", stand: "21.09.2026", hinweis: "bunq-Hilfe: „bunq doesn't offer loans or overdrafts to help you avoid debt“." } },
+  "vivid-standard": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
+  "vivid-plus": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
+  "vivid-prime": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
+  "klarna-guthaben": { keinDispoAbStart: { url: "https://cdn.klarna.com/1.0/shared/content/legal/terms/0/de_de/general_conditions_account", stand: "21.09.2026", hinweis: "Klarna-AGB: „Das Klarna Bankkonto hat keine Überziehungsfunktion, d. h. dein Klarna Bankkonto kann nicht unter null fallen.“" } },
+  "monese-pay-as-you-go": { zinsfreiAbStart: { url: "https://www.monese.com/terms/eu-other-personal-terms-and-conditions-09-10-2025", stand: "21.09.2026", hinweis: "Monese-AGB (EU): „As your Monese Account is an e-money account, the law doesn’t let us pay you interest“." }, keinDispoAbStart: { url: "https://support.monese.com/en/articles/41-why-is-my-account-balance-negative", stand: "21.09.2026", hinweis: "Monese-Hilfe: „It’s also worth remembering that we don’t offer overdrafts at the moment.“" } },
+  "pax-bank-pax-bck-individuell": { keinDispoAbStart: { url: "https://www.pax-bank.de/privatkunden/kredit-baufinanzierung/kredit/dispokredit.html", stand: "21.09.2026", hinweis: "Pax-Bank: Der Dispo wird selbst beantragt, „So beantragen Sie innerhalb weniger Minuten und ohne viel Papierkram Ihren Dispokredit.“" } },
+  "trade-republic-girokonto": { zinsfreiAbStart: { url: "https://traderepublic.com/de-de/zinsen", stand: "21.09.2026", hinweis: "Trade Republic: „Aktiviere Zinsen in der App“ und „Ja, du kannst die Zinsen in der App deaktivieren, indem du zum Tab „Cash“ > Kachel „Zinsen“ > „Verwalten“ > „Deaktivieren“ navigierst.“ Ob sie ab Eröffnung laufen, sagt die Seite nicht eindeutig, deshalb teils." } },
   "meine-bank-mein-girokonto": { zinsfreiAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Nein, Guthaben auf dem MEIN-Girokonto werden nicht verzinst. Eine Verzinsung erfolgt ausschließlich auf gesonderte Anlageprodukte, beispielsweise ein Tagesgeldkonto.“" }, keinDispoAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Ja, Sie können das MEIN-Girokonto grundsätzlich auch ohne Dispositionskredit führen. Ein Dispositionskredit wird nicht automatisch genehmigt.“" } },
   "hamburger-sparkasse-haspajoker": { zinsfreiAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der Hamburger Sparkasse (Privat Direkt Beratung) am 21.09.2026: „Unsere Girokonten haben keine Guthabenverzinsung.“" }, keinDispoAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich von der Hamburger Sparkasse am 21.09.2026: „Zudem wird auch kein Dispositionskredit im Rahmen einer Girokontoeröffnung „automatisch“ eingestellt. … In der Regel gibt es einen kleinen Überziehungspuffer, den wir jedoch mit einer Überziehungssperre vermeiden können.“ Die Sperre muss man bei der Eröffnung selbst verlangen, deshalb nur teilweise." } },
   "ethikbank-girokonto": { keinDispoAbStart: { url: "https://www.ethikbank.de/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der EthikBank am 21.09.2026: „Gern können Sie das Konto ohne Überziehungsmöglichkeit eröffnen. In diesem Fall wird das Konto im Guthaben geführt und es fallen keine Dispositionszinsen an.“" } },
@@ -110,7 +157,7 @@ export const KRYPTO_WERTE: Werte = {
   "kraken-pro": kryptoOptIn,
   "kraken-standard": kryptoOptIn,
   "okx-trading": kryptoOptIn,
-  "revolut-krypto": kryptoOptIn,
+  "revolut-krypto": { zinsfreiAbStart: "teils" },
   "scalable-capital-krypto": kryptoOptIn,
   "smartbroker-plus-krypto": kryptoOptIn,
   "trade-republic-krypto": kryptoOptIn,
@@ -118,6 +165,36 @@ export const KRYPTO_WERTE: Werte = {
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
+  "kraken-pro": {
+    zinsfreiesModell: { url: "https://support.kraken.com/articles/202967016-how-to-trade-using-margin", stand: "21.09.2026", hinweis: "Kraken-Hilfe: Margin wird nur auf Wunsch zugeschaltet, „Oben im Order Form Widget findest du einen Schalter zum Aktivieren der Margin.“ Kraken+ mit höheren Rewards ist ein freiwilliges Abo." },
+  },
+  "kraken-standard": {
+    zinsfreiesModell: { url: "https://support.kraken.com/articles/202967016-how-to-trade-using-margin", stand: "21.09.2026", hinweis: "Kraken-Hilfe: Margin wird nur auf Wunsch zugeschaltet, „Oben im Order Form Widget findest du einen Schalter zum Aktivieren der Margin.“" },
+  },
+  "okx-trading": {
+    zinsfreiAbStart: { url: "https://www.okx.com/en-us/help/introduction-to-trading-account-auto-earn-and-its-rules", stand: "21.09.2026", hinweis: "OKX-Hilfe: „By default, Trading Account Auto Earn is not enabled in users' accounts.“" },
+    zinsfreiesModell: { url: "https://www.okx.com/en-us/help/introduction-to-spot-mode-eea", stand: "21.09.2026", hinweis: "OKX-Hilfe (EWR): „In spot mode, only spot trading is available to users, while margin and X-Perps are not supported.“" },
+  },
+  "binance-pro": {
+    zinsfreiAbStart: { url: "https://www.binance.com/en/support/faq/detail/3bd1a6eba20a445da1e94bf6cfa52e80", stand: "21.09.2026", hinweis: "Binance-Hilfe: Simple Earn nur nach eigenem Einschalten, „You can enable Auto-Subscribe for Flexible Products from the subscription pop-up or your Earn Account.“" },
+    zinsfreiesModell: { url: "https://www.binance.com/en/support/faq/detail/360030486471", stand: "21.09.2026", hinweis: "Binance-Hilfe: Margin ist ein eigenes Konto, erst nach Quiz: „You must answer all the questions correctly to open a Binance Margin Account.“" },
+  },
+  "bison-app": {
+    zinsfreiAbStart: { url: "https://support.bisonapp.com/hc/de/articles/21476294743709-Staking-Prozess-Aktivierung-Entstaken-und-Rewards", stand: "21.09.2026", hinweis: "BISON-Hilfe: Staking nur nach eigener Anmeldung, „wie du deine Kryptowährungen aktiv zum Staking anmeldest“ … „Klicke auf „Jetzt staken“ und bestätige die Menge“." },
+  },
+  "etoro-krypto": {
+    zinsfreiAbStart: { url: "https://help.etoro.com/s/article/How-do-I-earn-staking-rewards?language=en_GB", stand: "21.09.2026", hinweis: "eToro-Hilfe: „If you are a client of eToro (Europe) Ltd, you will need to opt in to receive staking rewards.“ Kunden in Deutschland gehören zu eToro (Europe)." },
+  },
+  "revolut-krypto": {
+    zinsfreiAbStart: { url: "https://help.revolut.com/en-DE/help/wealth/cryptocurrencies/crypto-staking/auto-staking/", stand: "21.09.2026", hinweis: "Revolut-Hilfe (Deutschland): Staking läuft automatisch, „if you buy 100 ADA, it will be auto-staked“, lässt sich aber abschalten: „Tap the 'Auto-earn' toggle to disable it“." },
+  },
+  "bitget-trading": {
+    zinsfreiesModell: { url: "https://www.bitget.com/support/articles/12560603820603", stand: "21.09.2026", hinweis: "Bitget-Hilfe: Margin ist ein eigenes Konto, „Transfer your fund to Margin account“." },
+  },
+  "binance-standard": {
+    zinsfreiAbStart: { url: "https://www.binance.com/en/support/faq/detail/3bd1a6eba20a445da1e94bf6cfa52e80", stand: "21.09.2026", hinweis: "Binance-Hilfe: Simple Earn nur nach eigenem Einschalten, „You can enable Auto-Subscribe for Flexible Products from the subscription pop-up or your Earn Account.“" },
+    zinsfreiesModell: { url: "https://www.binance.com/en/support/faq/detail/360030486471", stand: "21.09.2026", hinweis: "Binance-Hilfe: Margin ist ein eigenes Konto, erst nach Quiz: „You must answer all the questions correctly to open a Binance Margin Account.“" },
+  },
   "justtrade-krypto": {
     zinsfreiAbStart: { url: "https://www.justtrade.com/faq", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom justTRADE-Kundenservice am 21.09.2026 (Anfrage #128140): „Gerne bestätigen wir Ihnen, dass Sie nicht automatisch Ausschüttungen in Form von Zinsen oder Staking erhalten. Das Staking kann flexibel aktiviert werden … Eine Verzinsung auf das Guthaben erfolgt bei uns ebenfalls nicht.“" },
   },
