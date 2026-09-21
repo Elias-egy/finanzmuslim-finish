@@ -27,9 +27,11 @@ export const DEPOT_WERTE: Werte = {
   "trading-212-depot": { zinsfreiAbStart: "gut" },
   "vivid-standard": { zinsfreiAbStart: "gut" },
   "trade-republic-depot": { zinsfreiAbStart: "gut", halalEdelmetalle: "mind. 6 von 8" },
+  "tradegate-direct-depot": { zinsfreiAbStart: "gut" },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
+  "tradegate-direct-depot": { zinsfreiAbStart: { url: "https://tradegate.direct/?showDocuments=true", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom tradegate.direct-Support am 21.09.2026 (Ticket SUP-5390): „Nicht investiertes Guthaben auf dem Verrechnungskonto von tradegate.direct wird derzeit nicht verzinst. … Es erfolgt somit auch keine Zinsgutschrift auf dieses Konto.“ Der Support weist darauf hin, dass sich die Konditionen künftig ändern könnten." } },
   "bux-basic": { zinsfreiAbStart: { url: "https://getbux.com/de/preise/", stand: "20.09.2026", hinweis: "Das kostenlose BUX-Basic-Modell enthält keine automatische Verzinsung des nicht investierten Guthabens." } },
   "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Sparen-Anlegen/Sparen/Tagesgeld", stand: "20.09.2026", hinweis: "Die Verzinsung gehört zum separat eröffneten Tagesgeldkonto, nicht zum Verrechnungskonto des Depots." } },
   "etoro-depot": { zinsfreiAbStart: { url: "https://www.etoro.com/de/investing/interest-on-balance/", stand: "20.09.2026", hinweis: "Zinsen werden über ein eigenes Interest-on-Balance-Angebot nach Aktivierung gezahlt." } },
@@ -52,6 +54,11 @@ export const DEPOT_QUELLEN: Quellen = {
 };
 
 export const GIRO_WERTE: Werte = {
+  "meine-bank-mein-girokonto": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "hamburger-sparkasse-haspajoker": { zinsfreiAbStart: "gut", keinDispoAbStart: "teils" },
+  "ethikbank-girokonto": { keinDispoAbStart: "gut" },
+  "hypovereinsbank-aktivkonto": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "hypovereinsbank-pluskonto": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "commerzbank-girokonto": { keinDispoAbStart: "gut" },
   "commerzbank-klassikkonto": { keinDispoAbStart: "gut" },
   "bforbank-bforbasic-konto": { keinDispoAbStart: "gut" },
@@ -73,6 +80,11 @@ export const GIRO_WERTE: Werte = {
 };
 
 export const GIRO_QUELLEN: Quellen = {
+  "meine-bank-mein-girokonto": { zinsfreiAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Nein, Guthaben auf dem MEIN-Girokonto werden nicht verzinst. Eine Verzinsung erfolgt ausschließlich auf gesonderte Anlageprodukte, beispielsweise ein Tagesgeldkonto.“" }, keinDispoAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Ja, Sie können das MEIN-Girokonto grundsätzlich auch ohne Dispositionskredit führen. Ein Dispositionskredit wird nicht automatisch genehmigt.“" } },
+  "hamburger-sparkasse-haspajoker": { zinsfreiAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der Hamburger Sparkasse (Privat Direkt Beratung) am 21.09.2026: „Unsere Girokonten haben keine Guthabenverzinsung.“" }, keinDispoAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich von der Hamburger Sparkasse am 21.09.2026: „Zudem wird auch kein Dispositionskredit im Rahmen einer Girokontoeröffnung „automatisch“ eingestellt. … In der Regel gibt es einen kleinen Überziehungspuffer, den wir jedoch mit einer Überziehungssperre vermeiden können.“ Die Sperre muss man bei der Eröffnung selbst verlangen, deshalb nur teilweise." } },
+  "ethikbank-girokonto": { keinDispoAbStart: { url: "https://www.ethikbank.de/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der EthikBank am 21.09.2026: „Gern können Sie das Konto ohne Überziehungsmöglichkeit eröffnen. In diesem Fall wird das Konto im Guthaben geführt und es fallen keine Dispositionszinsen an.“" } },
+  "hypovereinsbank-aktivkonto": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom HypoVereinsbank-Kundenservice (smartbanking@unicredit.de) am 21.09.2026: „Guthaben auf einem Verrechnungskonto zum Depot (oder auch Girokonto) werden grundsätzlich nicht verzinst. Verzinsungen von Guthaben finden nur auf Sparkonten oder bewusst gewählten Anlagen statt.“" }, keinDispoAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom HypoVereinsbank-Kundenservice am 21.09.2026: „Ein Dispositionskredit kann nur für ein Girokonto welches zum Zahlungsverkehr genutzt wird, aktiv beantragt werden“." } },
+  "hypovereinsbank-pluskonto": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom HypoVereinsbank-Kundenservice (smartbanking@unicredit.de) am 21.09.2026: „Guthaben auf einem Verrechnungskonto zum Depot (oder auch Girokonto) werden grundsätzlich nicht verzinst. Verzinsungen von Guthaben finden nur auf Sparkonten oder bewusst gewählten Anlagen statt.“" }, keinDispoAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom HypoVereinsbank-Kundenservice am 21.09.2026: „Ein Dispositionskredit kann nur für ein Girokonto welches zum Zahlungsverkehr genutzt wird, aktiv beantragt werden“." } },
   "commerzbank-girokonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "commerzbank-klassikkonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
@@ -106,6 +118,9 @@ export const KRYPTO_WERTE: Werte = {
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
+  "justtrade-krypto": {
+    zinsfreiAbStart: { url: "https://www.justtrade.com/faq", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom justTRADE-Kundenservice am 21.09.2026 (Anfrage #128140): „Gerne bestätigen wir Ihnen, dass Sie nicht automatisch Ausschüttungen in Form von Zinsen oder Staking erhalten. Das Staking kann flexibel aktiviert werden … Eine Verzinsung auf das Guthaben erfolgt bei uns ebenfalls nicht.“" },
+  },
   "bitvavo-standard": {
     zinsfreiAbStart: { url: "https://support.bitvavo.com/hc/de/articles/4405227858449", stand: "20.09.2026", hinweis: "Bitvavo beschreibt Erträge als aktivierbare Funktion; ohne Aktivierung wird das Guthaben nicht automatisch verzinst." },
     zinsfreiesModell: { url: "https://support.bitvavo.com/hc/de/articles/4405243949841-Staking-at-Bitvavo", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Bitvavo-Kundenservice am 18.09.2026 (Ticket #1934199): „es gibt bei uns kein Kontomodell, das automatisch Zinsen auf ungenutztes Euro-Guthaben generiert“. „Auto Earn“ ist „nicht automatisch aktiv“, Margin- und Hebelhandel sind „bei Kontoeröffnung nicht aktiviert“." },
