@@ -9,6 +9,7 @@ import { findStartPartner, type StartPartner } from "@/data/investmentStart";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
+import { istGueltigeQuelle } from "@/lib/attribution";
 
 /**
  * Startseite je Partner: /dein-investmentstart (Scalable) und
@@ -21,8 +22,6 @@ import founderPortrait from "@/assets/story-elias-paneele.jpg";
 const VIDEO_SRC = "/videos/investmentstart.mp4";
 const VIDEO_POSTER = "/videos/investmentstart-poster.jpg";
 
-// Erlaubte Traffic-Quellen (SubID-Whitelist — klein-alphanumerisch, Scalable-Regeln)
-const VALID_SRC = ["g1", "g2", "g3", "m1", "m2", "m3", "dm", "dmstart", "bio", "yt", "qr", "start"];
 
 const useSubId = (): string => {
   const [subId, setSubId] = useState("start");
@@ -34,8 +33,7 @@ const useSubId = (): string => {
       stored = null;
     }
     const param = new URLSearchParams(window.location.search).get("src");
-    const candidate =
-      param && VALID_SRC.includes(param) ? param : stored && VALID_SRC.includes(stored) ? stored : "start";
+    const candidate = istGueltigeQuelle(param) ? param : istGueltigeQuelle(stored) ? stored : "start";
     try {
       sessionStorage.setItem("amanah_src", candidate);
     } catch {

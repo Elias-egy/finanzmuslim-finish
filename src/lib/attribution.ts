@@ -6,8 +6,10 @@
 // bestehende useSubId-Logik in InvestmentStart liest den gespeicherten Wert
 // weiterhin als Fallback.
 //
-// Hinweis: VALID_SRC spiegelt bewusst die Whitelist in InvestmentStart.tsx.
-// Bei Änderungen beide Stellen synchron halten.
+// InvestmentStart.tsx importiert diese Liste, es gibt nur eine.
+// Die Freebie-PDFs haengen eigene Kennungen an ihre Links (?src=lstc usw.).
+// Fehlt eine hier, faellt der Klick still auf "start" zurueck und im
+// Partnerportal ist nicht mehr zu sehen, welches PDF verkauft hat.
 export const VALID_SRC = [
   "g1",
   "g2",
@@ -21,7 +23,29 @@ export const VALID_SRC = [
   "yt",
   "qr",
   "start",
+  // Freebie-PDFs, v1 und v2 (~/rebrand/freebies, public/downloads)
+  "pdf",
+  "top100",
+  "liste",
+  "lstc",
+  "ampel",
+  "ampc",
+  "check",
+  "chkc",
+  "baraka",
+  "brkc",
+  "rizq",
+  "rzqc",
+  "g1c",
+  "g1n",
+  "g2c",
+  "g2n",
+  "g3c",
+  "g3n",
 ] as const;
+
+export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
+  !!src && (VALID_SRC as readonly string[]).includes(src);
 
 export const SRC_STORAGE_KEY = "amanah_src";
 
@@ -29,7 +53,7 @@ export const SRC_STORAGE_KEY = "amanah_src";
 export const captureSrc = (): void => {
   try {
     const param = new URLSearchParams(window.location.search).get("src");
-    if (param && (VALID_SRC as readonly string[]).includes(param)) {
+    if (istGueltigeQuelle(param)) {
       sessionStorage.setItem(SRC_STORAGE_KEY, param);
     }
   } catch {
