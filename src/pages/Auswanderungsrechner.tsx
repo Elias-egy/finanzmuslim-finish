@@ -82,9 +82,15 @@ const Auswanderungsrechner = () => (
               Es ist ein Landesdurchschnitt, keine Stadtzahl.
             </p>
           </div>
-          <div className="rounded-2xl border border-border/70 bg-card p-5 md:p-6">
-            <h2 className="text-[19px] font-bold text-foreground">Quellen</h2>
-            <p className="mt-1 text-[13px] text-muted-foreground">
+          {/* Quellen zugeklappt: wichtig als Beleg, aber niemand liest die Liste zuerst. */}
+          <details className="group rounded-2xl border border-border/70 bg-card">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-5 md:px-6 [&::-webkit-details-marker]:hidden">
+              <h2 className="text-[19px] font-bold text-foreground">Quellen</h2>
+              <span className="text-[13px] font-semibold text-primary group-open:hidden">{alleQuellen.length} Quellen zeigen</span>
+              <span className="hidden text-[13px] font-semibold text-primary group-open:inline">Schließen</span>
+            </summary>
+            <div className="px-5 pb-5 md:px-6 md:pb-6">
+            <p className="text-[13px] text-muted-foreground">
               Jede Zahl auf dieser Seite kommt aus einer dieser Quellen. Steuerregeln aus dem
               Gesetzestext, Länderfakten von Behörden, Preise von der Weltbank.
             </p>
@@ -103,7 +109,8 @@ const Auswanderungsrechner = () => (
                 </li>
               ))}
             </ul>
-          </div>
+            </div>
+          </details>
         </>
       }
       erklaerung={

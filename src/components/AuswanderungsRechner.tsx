@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Bar, BarChart, Cell, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import {
   AlertTriangle,
@@ -204,6 +204,50 @@ const JaNein = ({
 /* ------------------------------------------------------------------ */
 
 type Ampel = { id: string; titel: string; ton: Ton; wort: string; detail: string; quellen: { name: string; url: string }[] };
+
+/**
+ * Aufklappbarer Abschnitt (Elias, 21.09.2026: "sieht cool aus, aber sehr unübersichtlich",
+ * "man will die Leute ja nicht überfordern"). Zu zeigt er Zeichen, Titel, einen Satz und
+ * rechts die Ampelpunkte, damit man auch ungeöffnet sieht, worum es geht. <details> statt
+ * State: der Inhalt bleibt im Quelltext und damit für Suchmaschinen lesbar.
+ */
+const Klappe = ({
+  zeichen,
+  titel,
+  satz,
+  toene,
+  children,
+}: {
+  zeichen: ReactNode;
+  titel: ReactNode;
+  satz: string;
+  toene?: Ton[];
+  children: ReactNode;
+}) => (
+  <details className="group mt-3 rounded-2xl border border-border bg-white open:border-primary/40">
+    <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 md:px-5 [&::-webkit-details-marker]:hidden">
+      <span
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-[20px] leading-none"
+        aria-hidden
+      >
+        {zeichen}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[16px] font-bold leading-snug text-foreground md:text-[17px]">{titel}</span>
+        <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{satz}</span>
+      </span>
+      {toene && toene.length > 0 && (
+        <span className="hidden shrink-0 items-center gap-1 sm:flex" aria-hidden>
+          {toene.map((t, i) => (
+            <span key={i} className={`h-2.5 w-2.5 rounded-full ${tonPunkt[t]}`} />
+          ))}
+        </span>
+      )}
+      <ChevronDown className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-180" aria-hidden />
+    </summary>
+    <div className="border-t border-border/70 px-4 pb-5 pt-4 md:px-5">{children}</div>
+  </details>
+);
 
 const AuswanderungsRechner = () => {
   const [landId, setLandId] = useState<LandId>("tr");
@@ -660,12 +704,19 @@ const AuswanderungsRechner = () => {
         </div>
       </div>
 
-      {/* ── Steuer-Ampel ───────────────────────────────────────────── */}
+      {/* ── Mehr dazu, aufklappbar ─────────────────────────────────── */}
       <div className="mt-10">
-        <h2 className="headline text-xl md:text-2xl">Was Deutschland beim Wegzug noch will</h2>
-        <p className="mt-1 text-[14px] text-muted-foreground">
-          Vier Regeln aus dem Gesetz, auf deine Angaben angewendet. Tipp auf eine Zeile.
-        </p>
+        <h2 className="headline text-xl md:text-2xl">Was du vor dem Wegzug wissen musst</h2>
+        <p className="mt-1 text-[14px] text-muted-foreground">Drei Themen. Klapp auf, was dich betrifft.</p>
+      </div>
+
+      {/* ── Steuer-Ampel ───────────────────────────────────────────── */}
+      <Klappe
+        zeichen="§"
+        titel="Was Deutschland beim Wegzug noch will"
+        satz="Vier Regeln aus dem Gesetz, auf deine Angaben angewendet."
+        toene={ampel.map((z) => z.ton)}
+      >
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           {ampel.map((z) => {
             const istOffen = offen === z.id;
@@ -715,10 +766,9 @@ const AuswanderungsRechner = () => {
             );
           })}
         </div>
-      </div>
 
       {/* ── Zeitstrahl ─────────────────────────────────────────────── */}
-      <div className="mt-8 rounded-2xl border border-border/70 bg-white p-5 md:p-6">
+      <div className="mt-5 rounded-2xl border border-border/70 bg-surface p-4 md:p-5">
         <p className="text-[15px] font-bold text-foreground">Wie lange Deutschland noch mitredet</p>
         <p className="mt-1 text-[13px] text-muted-foreground">Jahre nach dem Wegzug. Grau heißt: gilt nach deinen Angaben nicht für dich.</p>
         <div className="mt-4 space-y-3">
@@ -750,14 +800,16 @@ const AuswanderungsRechner = () => {
           </div>
         </div>
       </div>
+      </Klappe>
 
       {/* ── Zielland ───────────────────────────────────────────────── */}
-      <div className="mt-10">
-        <h2 className="headline text-xl md:text-2xl">
-          <span aria-hidden>{land.flagge}</span> Was {land.imLand} auf dich zukommt
-        </h2>
-        <p className="mt-1 text-[14px] text-muted-foreground">Jede Kachel hat eine Quelle. Tipp drauf.</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <Klappe
+        zeichen={land.flagge}
+        titel={<>Was {land.imLand} auf dich zukommt</>}
+        satz={`${landFakten.length} Punkte, jeder mit Quelle.`}
+        toene={landFakten.map((f) => f.ton)}
+      >
+        <div className="grid gap-3 md:grid-cols-2">
           {landFakten.map((f) => (
             <Kachel key={f.id} fakt={f} offen={offen === f.id} onToggle={() => toggle(f.id)} />
           ))}
@@ -797,20 +849,21 @@ const AuswanderungsRechner = () => {
             </p>
           </div>
         )}
-      </div>
+      </Klappe>
 
       {/* ── Deutschland ────────────────────────────────────────────── */}
-      <div className="mt-10">
-        <h2 className="headline text-xl md:text-2xl">
-          <span aria-hidden>🇩🇪</span> Was du hier noch regeln musst
-        </h2>
-        <p className="mt-1 text-[14px] text-muted-foreground">Drei Dinge, die bei jedem Wegzug anfallen.</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
+      <Klappe
+        zeichen="🇩🇪"
+        titel="Was du hier noch regeln musst"
+        satz="Drei Dinge, die bei jedem Wegzug anfallen."
+        toene={deutschlandFakten.map((f) => (f.id === "depot" ? "rot" : "gelb"))}
+      >
+        <div className="grid gap-3 md:grid-cols-3">
           {deutschlandFakten.map((f) => (
             <Kachel key={f.id} fakt={{ ...f, ton: f.id === "depot" ? "rot" : "gelb" }} offen={offen === f.id} onToggle={() => toggle(f.id)} />
           ))}
         </div>
-      </div>
+      </Klappe>
 
       <div className="mt-8 flex items-start gap-2.5 rounded-2xl border border-border/70 bg-surface p-5">
         <Minus className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
