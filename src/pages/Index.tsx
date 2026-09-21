@@ -66,7 +66,7 @@ const wissenKarten: WissenKarte[] = [
   },
   {
     thema: "Vorlage",
-    titel: "21 halal Anlagen, die du wirklich kaufen kannst",
+    titel: "23 halal Anlagen, die du wirklich kaufen kannst",
     to: "/vorlagen/halal-anlagen",
     motiv: "liste",
     beliebt: true,

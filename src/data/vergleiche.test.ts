@@ -77,7 +77,7 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   });
 
   it("schreibt Halal-Anlagen als 'x von N' oder 'mind. x von N'", () => {
-    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
+    const gesamt: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
     for (const a of anbieter) {
       for (const [key, n] of Object.entries(gesamt)) {
         const w = a.werte[key];
@@ -222,7 +222,7 @@ describe("Gegenprüfung 20.09.2026", () => {
     for (const isin of ["IE00B579F325", "XS3384723154"]) {
       expect(ANLAGEN_KAUFBAR[isin].kaufbar.some((x) => x.anbieter === "Trade Republic")).toBe(false);
     }
-    expect(brokerVergleich.find((a) => a.id === "trade-republic-depot")?.werte.halalEdelmetalle).toBe("mind. 6 von 8");
+    expect(brokerVergleich.find((a) => a.id === "trade-republic-depot")?.werte.halalEdelmetalle).toBe("mind. 6 von 7");
   });
 });
 

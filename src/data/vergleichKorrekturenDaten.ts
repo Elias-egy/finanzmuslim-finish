@@ -26,7 +26,7 @@ export const DEPOT_WERTE: Werte = {
   "scalable-capital-prime-plus-broker": { zinsfreiAbStart: "gut" },
   "trading-212-depot": { zinsfreiAbStart: "gut" },
   "vivid-standard": { zinsfreiAbStart: "gut" },
-  "trade-republic-depot": { zinsfreiAbStart: "gut", halalEdelmetalle: "mind. 6 von 8" },
+  "trade-republic-depot": { zinsfreiAbStart: "gut", halalEdelmetalle: "mind. 6 von 7" },
   "tradegate-direct-depot": { zinsfreiAbStart: "gut" },
   "finvesto-depot": { zinsfreiAbStart: "gut" },
   "finvesto-depot-basis": { zinsfreiAbStart: "gut" },
@@ -66,7 +66,7 @@ export const DEPOT_QUELLEN: Quellen = {
     halalEdelmetalle: {
       url: "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
       stand: "20.09.2026",
-      hinweis: "Sechs Edelmetall-ISINs bestätigt; IE00B579F325 und XS3384723154 stehen zwar im Katalog, bleiben wegen des App-Widerspruchs ungeklärt.",
+      hinweis: "Sechs Edelmetall-ISINs bestätigt; IE00B579F325 steht zwar im Katalog, bleibt wegen des App-Widerspruchs ungeklärt.",
     },
   },
 };

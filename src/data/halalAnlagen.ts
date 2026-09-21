@@ -347,11 +347,13 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Luxemburg",
     auflage: "07.10.2025",
-    zertifizierer: "ASB Capital Shariah Board",
+    zertifizierer:
+      "ASB Capital, Shari'a-Berater",
     zertifikatArt: "produkt",
-    zertifikatLink: "https://asbc.com/asb-capital-sukuk-etf/",
+    zertifikatLink:
+      "https://etf.dws.com/download/asset/338a9b54-af7b-4d09-ad33-9bcaacb30ac5",
     zertifikatHinweis:
-      "ASB Capital in Dubai führt den Fonds gemeinsam mit Xtrackers und schreibt auf der eigenen Seite, er werde vom ASB Capital Shariah Board beaufsichtigt. Ein einzelnes Zertifikat veröffentlicht ASB Capital nicht, das hier ist die offizielle Aussage zum Prüfgremium.",
+      "Xtrackers-II-Verkaufsprospekt, Anhang zum Salam-Sukuk-ETF (Klasse 1D, ISIN LU3123443510): „The Management Company has appointed ASB Capital Limited (the „Shari’a Consultant“) to provide Shari’a consultation services“. Ein veröffentlichtes Zertifikat oder eine Fatwa haben wir nicht gefunden.",
   },
   {
     slug: "bnp-paribas-islamic-fund-hilal-income-classic-c",
@@ -426,29 +428,6 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch besichert",
     domizil: "Irland",
     auflage: "25.06.2009",
-    zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
-  },
-  {
-    slug: "invesco-physical-gold-ii",
-    zertifikatArt: "produkt",
-    zertifikatLink:
-      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf",
-    zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Amanie-Shariah-Boards für die Invesco Physical Gold and Silver ETCs, Geschäftsjahr 2025, ausgestellt am 1. Juni 2026. Es nennt nur Invesco Physical Gold ETC und Invesco Physical Silver ETC. Dieses ETC wurde erst im Juni 2026 aufgelegt und ist darin noch nicht enthalten.",
-    name: "Invesco Physical Gold II",
-    isin: "XS3384723154",
-    anbieter: "Invesco",
-    kategorie: "gold",
-    kosten: 0.12,
-    kostenLabel: "0,12 %",
-    groesse: "402 Mio. €",
-    groesseSortierwert: 402,
-    ertrag: "thesaurierend",
-    ertragDetail: "thesaurierend",
-    bauart: "passiv",
-    replikation: "physisch besichert",
-    domizil: "Irland",
-    auflage: "16.06.2026",
     zertifizierer: "Amanie Advisors, jährliches Shariah-Zertifikat",
   },
   {
@@ -660,6 +639,12 @@ export const halalAnlagen: Anlage[] = [
   },
   {
     slug: "comgest-growth-europe-s-eur-acc",
+    zertifikatArt:
+      "produkt",
+    zertifikatLink:
+      "https://www.comgest.com/-/media/feature/data/fund-documentation/2026/05/05/13/02/fd88b7eb-ea4e-41b8-b02f-31393bf06ccf.pdf",
+    zertifikatHinweis:
+      "Verkaufsprospekt von Comgest Growth plc vom 21. Mai 2025: „Currently there is only one Shariah Fund, Comgest Growth Europe S.“ Das Shariah Supervisory Board stellt Amanie Advisors. Die ISIN IE00B4ZJ4634 steht dort als EUR-Acc-Klasse dieses Fonds. Ein eigenes jährliches Zertifikat veröffentlicht Comgest nicht.",
     name: "Comgest Growth Europe S EUR Acc",
     isin: "IE00B4ZJ4634",
     anbieter: "Comgest",
@@ -674,7 +659,8 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Irland",
     auflage: "Auflage noch nicht geprüft",
-    zertifizierer: "Screening nach S&P-Shariah-Methodik, Zertifizierer noch nicht geprüft",
+    zertifizierer:
+      "Amanie Advisors, Shariah Supervisory Board",
   },
   {
     slug: "franklin-shariah-technology-fund-a-acc-usd",
@@ -692,12 +678,13 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Luxemburg",
     auflage: "24.02.2022",
-    zertifizierer: "Amanie International Shariah Supervisory Board, Screening über IdealRatings",
+    zertifizierer:
+      "Amanie Advisors, Shariah Supervisory Board",
     zertifikatArt: "produkt",
     zertifikatLink:
-      "https://www.franklintempletonme.com/press-releases/news-room/2022/franklin-templeton-launches-new-shariah-compliant-technology-fund",
+      "https://www.franklintempleton.ch/download/en-ch/ANNUAL-REPORT/b5b23ffc-daa4-49c1-9b03-8a28a3c4c53e/FTSF-annual-report-en-ch.pdf",
     zertifikatHinweis:
-      "Franklin Templeton schreibt auf der eigenen Seite, alle Shariah-Portfolios würden unabhängig vom Amanie International Shariah Supervisory Board geprüft, das Screening liefert IdealRatings. Ein einzelnes Zertifikat für diesen Fonds veröffentlicht der Anbieter nicht, das hier ist die offizielle Aussage zum Prüfgremium.",
+      "Jahresbericht der Franklin Templeton Shariah Funds mit dem „Annual Shariah Compliance Report“ von Amanie für 1. November 2024 bis 31. Oktober 2025: Die Anlagen des Franklin Shariah Technology Fund „are in compliance with the Islamic investment guidelines as interpreted and issued by Amanie Shariah Supervisory Board Members.“",
     ausgabeaufschlag: "5,54 %, Stand 31.07.2026",
     ausgabeaufschlagHinweis:
       "fällt nur an, wenn du direkt bei der Fondsgesellschaft zeichnest, dort gilt auch die Mindestanlage von 1.000 USD. Kaufst du über die Börse, etwa bei Scalable Capital, entfällt er",
@@ -751,9 +738,10 @@ export const halalAnlagen: Anlage[] = [
     kostenLabel: "keine",
     zertifizierer: "Shariyah Review Bureau, Bahrain",
     zertifikatArt: "produkt",
-    zertifikatLink: "https://shariyah.net/wp-content/uploads/2022/03/PDF-REPORT-RIPPLE.pdf",
+    zertifikatLink:
+      "https://shariyah.net/cryptocurrencies/ripple/",
     zertifikatHinweis:
-      "Sharia-Analyse des Shariyah Review Bureau zu Ripple. Das Urteil dort ist deutlicher als bei den meisten Münzen: XRP habe einen mit der Sharia vereinbaren Nutzen und könne als konform gelten. XRP dient als Brücke zwischen zwei Währungen bei Überweisungen über die Grenze.",
+      "Sharia-Analyse des Shariyah Review Bureau (Bahrain) zu Ripple, Neubewertung August 2021 ohne Änderung: „nothing has come to our attention that causes us to believe that XRP token is in breach of Sharia principles“. Das Büro nennt es ausdrücklich eine vorläufige Recherche, keine Fatwa.",
   },
   {
     slug: "chainlink",

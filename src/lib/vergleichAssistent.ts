@@ -181,7 +181,7 @@ export const BASIS: Record<Kategorie, string[]> = {
 };
 
 /** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Muss zu den Zeilentexten passen (Test). */
-export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
+export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
 
 const DEPOT_ANLAGEN_KEYS = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"] as const;
 

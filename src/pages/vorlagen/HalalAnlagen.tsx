@@ -17,7 +17,7 @@ type Kategorie = { titel: string; anlagen: Anlage[] };
 const artFarbe = (titel: string) =>
   titel.startsWith("Sukuk")
     ? "hsl(var(--asset-sukuk))"
-    : titel.startsWith("Gold")
+    : titel.startsWith("Gold") || titel.startsWith("Platin")
       ? "hsl(var(--asset-gold))"
       : titel.startsWith("Silber")
         ? "hsl(var(--asset-silber))"
@@ -101,13 +101,13 @@ const kategorien: Kategorie[] = [
       },
       {
         name: "Comgest Growth Europe S, Shariah-Strategie",
-        pruefstelle: "S&P-Shariah-Methodik, Vergleichsindex S&P Europe 350 Shariah",
+        pruefstelle: "Shariah Supervisory Board: Amanie Advisors, Vergleichsindex S&P Europe 350 Shariah",
         isin: "IE00B4ZJ4634",
       },
       {
         name: "Franklin Shariah Technology Fund",
-        pruefstelle: "Zertifiziert: Franklin-Templeton-Shariah-Supervisory-Board",
-        isin: "ISIN noch nicht geprüft",
+        pruefstelle: "Zertifiziert: Amanie Advisors, jährlicher Shariah-Bericht",
+        isin: "LU2458330086",
       },
     ],
   },
@@ -131,7 +131,6 @@ const kategorien: Kategorie[] = [
     titel: "Gold, physisch hinterlegt",
     anlagen: [
       { name: "Invesco Physical Gold ETC", pruefstelle: "Zertifiziert: Amanie Advisors, jährliches Shariah-Zertifikat", isin: "IE00B579F325" },
-      { name: "Invesco Physical Gold II", pruefstelle: "Zertifiziert: Amanie Advisors, jährliches Shariah-Zertifikat", isin: "XS3384723154" },
       { name: "WisdomTree Physical Gold", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1", isin: "JE00B1VS3770" },
       { name: "WisdomTree Core Physical Gold", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1", isin: "JE00BN2CJ301" },
       { name: "WisdomTree Physical Swiss Gold", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich, AAOIFI Standard No. 1", isin: "JE00B588CD74" },
@@ -146,6 +145,14 @@ const kategorien: Kategorie[] = [
     ],
   },
   {
+    titel: "Platin, Palladium und Korb",
+    anlagen: [
+      { name: "WisdomTree Physical Platinum", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich", isin: "JE00B1VS2W53" },
+      { name: "WisdomTree Physical Palladium", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich", isin: "JE00B1VS3002" },
+      { name: "WisdomTree Physical Precious Metals", pruefstelle: "Zertifiziert: Al-Qalam Shariah Panel, jährlich", isin: "JE00B1VS3W29" },
+    ],
+  },
+  {
     titel: "Krypto, nur als kleine Beimischung",
     anlagen: [
       { name: "Bitcoin", pruefstelle: "Shariah-Gutachten: Shariyah Review Bureau, 2022, lizenziert von der Central Bank of Bahrain" },
@@ -157,7 +164,7 @@ const kategorien: Kategorie[] = [
 const HalalAnlagen = () => (
   <>
     <Seo
-      title="Halal Anlagen Liste: 21 Produkte mit ISIN und Prüfstelle | finanzmuslim"
+      title="Halal Anlagen Liste: 23 Produkte mit ISIN und Prüfstelle | finanzmuslim"
       description="Aktien-ETFs, Sukuk, Gold, Silber und Krypto, jeweils mit ISIN und der Stelle, die sie als shariah-konform geprüft oder zertifiziert hat."
       path="/vorlagen/halal-anlagen"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal-Anlagen als PDF", path: "/vorlagen/halal-anlagen" }]}

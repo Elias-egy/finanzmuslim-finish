@@ -16,7 +16,7 @@ import { kryptoVergleich, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
  * geprüft sind. Daraus folgt, wen zu prüfen sich zuerst lohnt.
  */
 
-const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 };
+const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
 
 const fuelle = (a: RohAnbieter, kat: Kategorie, fall: "best" | "schlecht"): RohAnbieter => {
   const regel = HALAL_REGELN[kat];

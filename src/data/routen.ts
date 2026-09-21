@@ -195,6 +195,9 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   { von: "/tools", nach: "/rechner" },
   { von: "/dein-investment-start", nach: "/dein-investmentstart" },
   { von: "/blog", nach: "/wissen" },
+  // Invesco Physical Gold II hat noch kein Shariah-Zertifikat (aufgelegt 16.06.2026, das Zertifikat vom 01.06.2026
+  // nennt nur Gold ETC und Silver ETC). Raus aus der Datenbank am 21.09.2026, die alte Adresse zeigt auf Gold ETC.
+  { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
