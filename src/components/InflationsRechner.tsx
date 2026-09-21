@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { ArrowRight, Info } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 /**
  * Inflationsrechner.
@@ -93,18 +93,12 @@ const InflationsRechner = () => {
         {/* ── Eingaben ─────────────────────────────────────────────── */}
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Dein Geld auf dem Konto</h2>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-            Trag ein, was liegen bleibt, und über wie viele Jahre.
-          </p>
 
           <div className="mt-6 space-y-6">
             <div>
               <label className="block text-[15px] font-semibold text-foreground" htmlFor="betrag">
                 Betrag
               </label>
-              <p className="mb-2 mt-0.5 text-[13px] text-muted-foreground">
-                Was unangetastet auf dem Konto liegt.
-              </p>
               <div className="relative">
                 <input
                   id="betrag"
@@ -186,7 +180,7 @@ const InflationsRechner = () => {
             </ResponsiveContainer>
           </div>
           <p className="mt-2 text-[13px] text-muted-foreground">
-            Die Linie ist die Kaufkraft. Auf dem Konto stehen die ganze Zeit {eur(betrag)}.
+            Die Linie ist die Kaufkraft.
           </p>
         </div>
 
@@ -204,16 +198,6 @@ const InflationsRechner = () => {
               <strong>{eur(verlust)}</strong> Kaufkraft, also {anteil}{" "}
               Prozent, ohne dass etwas vom Konto verschwindet.
             </p>
-          </div>
-
-          <div className="rounded-2xl border border-border/70 bg-surface p-5">
-            <div className="flex items-start gap-2.5">
-              <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <p className="text-[13px] leading-relaxed text-muted-foreground">
-                Die Zahl auf dem Konto bleibt gleich. Was sich ändert, ist, wie viel du dafür
-                bekommst. Genau das nennt man Kaufkraftverlust.
-              </p>
-            </div>
           </div>
 
           <Link

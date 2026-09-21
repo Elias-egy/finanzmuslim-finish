@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ArrowRight, Car, Heart, Info, Landmark, MapPin, Moon, ShieldCheck } from "lucide-react";
+import { ArrowRight, Car, Heart, Landmark, MapPin, Moon, ShieldCheck } from "lucide-react";
 import { monatlichFuerZiel, sparMonate, sparVerlauf } from "@/lib/rechner";
 import { EuroFeld, Ergebnis, Regler, Wahl, dauerText, eur, parseEuro } from "@/components/rechner/Bausteine";
 
@@ -87,14 +87,12 @@ const SparzielRechner = () => {
             <EuroFeld
               id="ziel-betrag"
               label="Was es kostet"
-              hinweis="Beispielwert. Trag ein, was dein Ziel wirklich kostet."
               wert={zielText}
               setWert={setZielText}
             />
             <EuroFeld
               id="ziel-start"
               label="Schon gespart"
-              hinweis="Was heute schon dafür liegt."
               wert={startText}
               setWert={setStartText}
               placeholder="0"
@@ -102,7 +100,6 @@ const SparzielRechner = () => {
             <EuroFeld
               id="ziel-monat"
               label="Jeden Monat zur Seite"
-              hinweis="Fest, am besten am Tag nach dem Gehalt."
               wert={monatlichText}
               setWert={setMonatlichText}
             />
@@ -115,7 +112,7 @@ const SparzielRechner = () => {
               schritt={0.5}
               einheit="%"
               setWert={setRendite}
-              hinweis="0 Prozent ist das Konto ohne Zins, der sichere Weg für alles unter drei Jahren. Für lange Ziele kann ein Depot mit geprüften Anlagen mehr bringen, mit Schwankungen."
+              hinweis="0 Prozent ist das Konto ohne Zins."
             />
           </div>
 
@@ -215,18 +212,6 @@ const SparzielRechner = () => {
               </div>
             </div>
           )}
-
-          <div className="flex items-start gap-2.5 rounded-2xl border border-border/70 bg-surface p-4">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-            <p className="text-[13px] leading-relaxed text-muted-foreground">
-              Liegt das Ersparte ein Mondjahr lang über der Nisab-Grenze, fällt darauf Zakat. Wie viel,
-              rechnet der{" "}
-              <Link to="/zakat-rechner" className="font-semibold text-primary hover:underline">
-                Zakat-Rechner
-              </Link>
-              .
-            </p>
-          </div>
 
           <Link
             to="/budgetrechner"

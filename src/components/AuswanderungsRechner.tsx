@@ -169,13 +169,13 @@ const JaNein = ({
   setWert,
 }: {
   label: string;
-  hinweis: string;
+  hinweis?: string;
   wert: boolean | null;
   setWert: (v: boolean | null) => void;
 }) => (
   <div>
-    <p className="text-[15px] font-semibold text-foreground">{label}</p>
-    <p className="mb-2 mt-0.5 text-[13px] text-muted-foreground">{hinweis}</p>
+    <p className={`text-[15px] font-semibold text-foreground${hinweis ? "" : " mb-2"}`}>{label}</p>
+    {hinweis && <p className="mb-2 mt-0.5 text-[13px] text-muted-foreground">{hinweis}</p>}
     <div className="grid grid-cols-2 gap-2">
       {(
         [
@@ -435,9 +435,6 @@ const AuswanderungsRechner = () => {
         {/* ── Eingaben ─────────────────────────────────────────────── */}
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Wohin soll es gehen?</h2>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-            Vier Angaben. Den Rest rechnen wir.
-          </p>
 
           <div className="mt-5 grid grid-cols-3 gap-2 md:gap-3">
             {laender.map((l) => {
@@ -469,9 +466,6 @@ const AuswanderungsRechner = () => {
               <label className="block text-[15px] font-semibold text-foreground" htmlFor="netto">
                 Was du netto im Monat hast
               </label>
-              <p className="mb-2 mt-0.5 text-[13px] text-muted-foreground">
-                Was heute nach Steuern und Abgaben auf dem Konto landet.
-              </p>
               <div className="relative">
                 <input
                   id="netto"
@@ -499,7 +493,6 @@ const AuswanderungsRechner = () => {
 
             <Wahl<Einkommen>
               label="Woher kommt dein Geld dort?"
-              hinweis="Das entscheidet, was Deutschland noch besteuert."
               wert={einkommen}
               setWert={setEinkommen}
               optionen={[
@@ -552,7 +545,6 @@ const AuswanderungsRechner = () => {
                   />
                   <JaNein
                     label="Hast du die deutsche Staatsangehörigkeit?"
-                    hinweis="Nur dann greift die zehnjährige Nachwirkung."
                     wert={deutsch}
                     setWert={setDeutsch}
                   />

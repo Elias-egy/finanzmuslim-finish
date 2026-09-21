@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ArrowRight, Car, Home, Info, Sofa } from "lucide-react";
+import { ArrowRight, Car, Home, Sofa } from "lucide-react";
 import { kreditKosten, kreditVerlauf, sparMonate } from "@/lib/rechner";
 import { bauzins } from "@/data/rechnerQuellen";
 import { EuroFeld, Ergebnis, QuelleZeile, Regler, Wahl, dauerText, eur, parseEuro } from "@/components/rechner/Bausteine";
@@ -68,9 +68,6 @@ const KreditkostenRechner = () => {
         {/* ── Eingaben ─────────────────────────────────────────────── */}
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Was willst du kaufen?</h2>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-            Drei Angaben. Die Beispiele kannst du überschreiben.
-          </p>
 
           <div className="mt-5">
             <Wahl<Vorlage>
@@ -88,7 +85,6 @@ const KreditkostenRechner = () => {
             <EuroFeld
               id="kredit-summe"
               label="Kreditsumme"
-              hinweis="Was die Bank dir leiht."
               wert={summeText}
               setWert={setSummeText}
             />
@@ -104,9 +100,8 @@ const KreditkostenRechner = () => {
               setWert={setZins}
               hinweis={
                 <>
-                  Voreingestellt ist der Durchschnitt für Wohnungsbaukredite im {bauzins.monat},{" "}
-                  {bauzins.prozent.toLocaleString("de-DE")} Prozent. Auto- und Ratenkredite liegen
-                  meist höher. Trag den Zins aus deinem Angebot ein.
+                  Voreingestellt: Durchschnitt für Wohnungsbaukredite im {bauzins.monat}. Trag den
+                  Zins aus deinem Angebot ein.
                 </>
               }
             />
@@ -177,10 +172,6 @@ const KreditkostenRechner = () => {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <p className="mt-2 text-[13px] text-muted-foreground">
-              In den ersten Jahren geht der größte Teil jeder Rate an den Zins. Deshalb bleibt die
-              Schuld anfangs fast gleich groß.
-            </p>
           </div>
         </div>
 
@@ -295,24 +286,13 @@ const KreditkostenRechner = () => {
                     schritt={0.5}
                     einheit="%"
                     setWert={setRendite}
-                    hinweis="0 Prozent ist das Konto ohne Zins. Was ein Depot mit geprüften Anlagen bringen kann, zeigt der Renditerechner."
+                    hinweis="0 Prozent ist das Konto ohne Zins."
                   />
                 </div>
               </>
             ) : (
               <p className="mt-2 text-[14px] text-muted-foreground">Trag eine Kreditsumme ein.</p>
             )}
-          </div>
-
-          <div className="flex items-start gap-2.5 rounded-2xl border border-border/70 bg-surface p-4">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-            <p className="text-[13px] leading-relaxed text-muted-foreground">
-              Ein Haus kann nicht jeder erst ansparen. Welche Wege es ohne Zins gibt, steht in{" "}
-              <Link to="/wissen/haus-kaufen-ohne-zinsen" className="font-semibold text-primary hover:underline">
-                Haus kaufen ohne Zinsen
-              </Link>
-              .
-            </p>
           </div>
 
           <Link

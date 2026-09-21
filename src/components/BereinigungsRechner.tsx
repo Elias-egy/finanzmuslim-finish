@@ -104,7 +104,7 @@ const BereinigungsRechner = () => {
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Was du im Jahr bekommen hast</h2>
           <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-            Wähl den Weg, für den du die Zahlen hast. Beide führen zum selben Ergebnis.
+            Wähl den Weg, für den du die Zahlen hast.
           </p>
 
           <div className="mt-5 grid grid-cols-2 gap-2 rounded-xl bg-muted p-1">

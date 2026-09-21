@@ -926,14 +926,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   {mode === "own" ? `${fmtPct(ownRate)}% p.a.` : `≈ ${fmtPct(annual * 100)}% p.a.`}
                 </span>
               </div>
-              <div className="flex items-start justify-between gap-3 border-t border-border/50 pt-3">
-                <span className="text-muted-foreground">Geschätzte Volatilität</span>
-                <span className="font-bold text-foreground text-right">
-                  {!portfolio
-                    ? <span className="text-[12px] text-muted-foreground font-medium">Nicht berechenbar bei fester Renditeannahme</span>
-                    : `≈ ${fmtPct((portfolio.vol ?? 0) * 100)}% p.a.`}
-                </span>
-              </div>
+              {portfolio && (
+                <div className="flex items-start justify-between gap-3 border-t border-border/50 pt-3">
+                  <span className="text-muted-foreground">Geschätzte Volatilität</span>
+                  <span className="font-bold text-foreground text-right">
+                    {`≈ ${fmtPct((portfolio.vol ?? 0) * 100)}% p.a.`}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="mt-5">

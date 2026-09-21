@@ -68,7 +68,7 @@ const Renditerechner = () => (
           <div>
             <h2 className="text-2xl font-bold text-foreground">Warum wir von Rendite sprechen, nicht von Zins</h2>
             <p className="mt-3 leading-relaxed text-muted-foreground">
-              Zins ist eine feste Vergütung dafür, dass Geld verliehen wird — unabhängig davon, ob
+              Zins ist eine feste Vergütung dafür, dass Geld verliehen wird, unabhängig davon, ob
               damit etwas erwirtschaftet wird. Genau das ist Riba und im islamischen Recht untersagt.
               Rendite dagegen entsteht aus Beteiligung: du trägst unternehmerisches Risiko mit und
               nimmst am Ergebnis teil, im Guten wie im Schlechten. Dieser Rechner arbeitet deshalb

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { ArrowRight, ChevronDown, Info } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { budgetAufteilung } from "@/lib/rechner";
 import { faustregel, sparquote } from "@/data/rechnerQuellen";
 import { EuroFeld, Ergebnis, QuelleZeile, eur, parseEuro, prozent } from "@/components/rechner/Bausteine";
@@ -131,7 +131,7 @@ const BudgetRechner = () => {
                   <EuroFeld
                     id="budget-geben"
                     label="Geben im Monat"
-                    hinweis="Sadaqa, Unterstützung für die Familie, was du regelmäßig weitergibst. Zakat ist einmal im Jahr und gehört nicht hierher."
+                    hinweis="Sadaqa und Unterstützung für die Familie."
                     wert={gebenText}
                     setWert={setGebenText}
                     placeholder="0"
@@ -204,9 +204,6 @@ const BudgetRechner = () => {
           {/* Faustregel */}
           <div className="rounded-2xl border border-border/70 bg-white p-5">
             <p className="text-[13px] font-semibold text-foreground">Du gegen die 50/30/20-Faustregel</p>
-            <p className="mt-0.5 text-[12px] text-muted-foreground">
-              Die Hälfte fürs Nötige, ein knappes Drittel für Wünsche, ein Fünftel zum Aufbauen.
-            </p>
             <div className="mt-4 space-y-3">
               <Zeile name="Nötig" ist={b.noetig} soll={b.ziel.noetig} netto={netto} />
               <Zeile name="Wünsche" ist={b.wuensche} soll={b.ziel.wuensche} netto={netto} />
@@ -254,15 +251,6 @@ const BudgetRechner = () => {
               <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5" aria-hidden />
             </Link>
           )}
-
-          <div className="flex items-start gap-2.5 rounded-2xl border border-border/70 bg-surface p-4">
-            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-            <p className="text-[13px] leading-relaxed text-muted-foreground">
-              Die Faustregel ist eine Orientierung aus den USA, kein Gesetz. Wer in München wohnt,
-              kommt mit 50 Prozent fürs Nötige selten hin. Wichtig ist nur, dass der grüne Teil da
-              ist und jeden Monat einen festen Platz hat.
-            </p>
-          </div>
         </div>
       </div>
     </section>

@@ -153,7 +153,7 @@ const ZakatCalculator = () => {
         <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Dein Vermögen am Stichtag</h2>
           <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-            Trag ein, was du seit einem Mondjahr besitzt. Leere Felder bleiben null.
+            Trag ein, was du seit einem Mondjahr besitzt.
           </p>
 
           <div className="mt-6 space-y-5">
@@ -198,11 +198,8 @@ const ZakatCalculator = () => {
                   />
 
                   <div>
-                    <p className="text-[15px] font-semibold text-foreground">
+                    <p className="mb-2 text-[15px] font-semibold text-foreground">
                       Wie hältst du dein Depot?
-                    </p>
-                    <p className="mb-2 mt-0.5 text-[13px] text-muted-foreground">
-                      Wer handelt, zahlt auf den vollen Wert.
                     </p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       {(
@@ -273,9 +270,6 @@ const ZakatCalculator = () => {
                   Zakat.
                 </>
               )}
-            </p>
-            <p className="mt-3 text-[13px] text-muted-foreground">
-              Voraussetzung ist, dass das Vermögen ein Mondjahr lang bei dir lag.
             </p>
           </div>
 
