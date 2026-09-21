@@ -4,6 +4,7 @@
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
+import { KRYPTO_WERTE, KRYPTO_QUELLEN } from "./vergleichKorrekturenDaten";
 
 export const KRYPTO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -56,42 +57,7 @@ const kryptoVergleichRoh: RohAnbieter[] = [
   {"id": "robinhood-krypto", "name": "Robinhood", "produkt": "Krypto", "domain": "robinhood.com", "haus": "robinhood", "finanzfluss": {"produkt": "Robinhood", "partnerlink": null, "rang": 11}, "werte": {"zinsfreiAbStart": null, "echteCoins": "gut", "eigeneWallet": "gut", "zinsfreiesModell": "schlecht", "anzahlCoins": "90+", "gesamtkosten": "7,45€", "transparenteKosten": "nein", "auszahlungBitcoin": "0,10 €", "sparplan": true, "regulierung": "MiCA-Lizenz (Litauen)", "sicherheit": "2FA per SMS", "ident": "Foto-Ident", "einzahlung": "SEPA-Echtzeitüberweisung", "mindestbetrag": "0,10€"}, "quellen": {"eigeneWallet": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung von Krypto möglich laut Finanzfluss-Vergleich"}, "echteCoins": {"url": "https://www.finanzfluss.de/vergleich/krypto-boersen/", "stand": "14.09.2026", "hinweis": "Auszahlung auf eine eigene Wallet ist möglich, das geht nur mit echten Coins (Finanzfluss-Vergleich)"}, "zinsfreiesModell": {"url": "https://etf.capital/robinhood-depot-test-2026-erfahrungen-nachteile/", "stand": "16.09.2026", "hinweis": "Robinhood Gold kostet rund 5 Euro im Monat, und sein Hauptnutzen ist die Verzinsung: „Aktuell liegen die Zinsen für Robinhood Gold Mitglieder in Deutschland bei etwa 2 % p.a. auf nicht investiertes Guthaben.“ Ein Abo, das sich über Zinsen rechnet, empfehlen wir nicht."}}, "finanzPunkte": {"gebuehren": 30, "transparenz": 0, "transferkosten": 40, "sicherheit": 25, "verifizierung": 40, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20, "abzug": 0}, "abgeraten": true},
 ];
 
-const kryptoOptIn = {
-  zinsfreiAbStart: "gut" as const,
-  zinsfreiesModell: "gut" as const,
-};
-
-export const kryptoVergleich = korrigiereAnbieter(kryptoVergleichRoh, {
-  "binance-pro": kryptoOptIn,
-  "binance-standard": kryptoOptIn,
-  "bison-app": kryptoOptIn,
-  "bitget-trading": kryptoOptIn,
-  "bitvavo-standard": kryptoOptIn,
-  "coinbase-advanced": kryptoOptIn,
-  "coinbase-standard": kryptoOptIn,
-  "etoro-krypto": kryptoOptIn,
-  "finanzen-net-zero-krypto": kryptoOptIn,
-  "finst-standard": kryptoOptIn,
-  "flatex-krypto": kryptoOptIn,
-  "justtrade-krypto": kryptoOptIn,
-  "kraken-pro": kryptoOptIn,
-  "kraken-standard": kryptoOptIn,
-  "okx-trading": kryptoOptIn,
-  "revolut-krypto": kryptoOptIn,
-  "scalable-capital-krypto": kryptoOptIn,
-  "smartbroker-plus-krypto": kryptoOptIn,
-  "trade-republic-krypto": kryptoOptIn,
-  "traders-place-krypto": kryptoOptIn,
-}, {
-  "bitvavo-standard": {
-    zinsfreiAbStart: { url: "https://support.bitvavo.com/hc/de/articles/4405227858449", stand: "20.09.2026", hinweis: "Bitvavo beschreibt Erträge als aktivierbare Funktion; ohne Aktivierung wird das Guthaben nicht automatisch verzinst." },
-    zinsfreiesModell: { url: "https://support.bitvavo.com/hc/de/articles/4405243949841-Staking-at-Bitvavo", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Bitvavo-Kundenservice am 18.09.2026 (Ticket #1934199): „es gibt bei uns kein Kontomodell, das automatisch Zinsen auf ungenutztes Euro-Guthaben generiert“. „Auto Earn“ ist „nicht automatisch aktiv“, Margin- und Hebelhandel sind „bei Kontoeröffnung nicht aktiviert“." },
-  },
-  "smartbroker-plus-krypto": {
-    zinsfreiAbStart: { url: "https://www.smartbrokerplus.de/de-de/kryptowaehrungen-kaufen/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Smartbroker+-Kundenservice am 16.09.2026: „Das Guthaben auf dem Zinskonto wird nicht verzinst. Wir bieten dafür ein Zinskonto an, was Sie eröffnen können aber nicht müssen.“ Gemeint ist das Verrechnungskonto; das Zinskonto ist freiwillig." },
-    zinsfreiesModell: { url: "https://www.smartbrokerplus.de/de-de/kryptowaehrungen-kaufen/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Smartbroker+-Kundenservice am 16.09.2026: „Das Konto kann auch ohne Kreditfunktionen genutzt werden.“ Das Zinskonto ist freiwillig." },
-  },
-});
+export const kryptoVergleich = korrigiereAnbieter(kryptoVergleichRoh, KRYPTO_WERTE, KRYPTO_QUELLEN);
 
 export const KRYPTO_FILTER = [
   { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },

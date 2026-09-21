@@ -4,6 +4,7 @@
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
+import { DEPOT_WERTE, DEPOT_QUELLEN } from "./vergleichKorrekturenDaten";
 
 export const DEPOT_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -87,36 +88,7 @@ const brokerVergleichRoh: RohAnbieter[] = [
   {"id": "xtb-depot", "name": "XTB", "produkt": "Depot", "domain": "xtb.com", "haus": "xtb", "finanzfluss": {"produkt": "XTB Depot", "partnerlink": "xtb-depot", "rang": 26}, "werte": {"zinsfreiAbStart": "schlecht", "halalEtfsFonds": "5 von 12", "halalSukuk": "0 von 3", "halalEdelmetalle": "4 von 8", "depotgebuehr": "0€", "orderkosten": "0€", "etfSparplanKosten": "0€", "aktienSparplanKosten": "0€", "sparrate": "15€ bis unbegrenzt", "intervalle": "Woche, Zweiwöchentlich, Monat, Quartal, Halbjahr", "handelsplaetze": "DE, Europa (ex-DE)", "kapest": false, "appIos": "4,5 / 5", "appAndroid": "4,4 / 5", "kundenservice": "Telefon, Chat", "bank": "J.P. Morgan SE"}, "quellen": {"zinsfreiAbStart": {"url": "https://www.xtb.com/de/hilfe-center/8-6/zinsen-auf-freie-mittel", "stand": "17.09.2026", "hinweis": "„Du musst nichts weiter unternehmen – die Verzinsung der Freien Mittel des Anlegers wird automatisch für alle Kunden aktiviert, die über nicht investierte Mittel auf ihrem Handelskonto verfügen.“ Auf Nachfrage vom 16.09.2026 hat XTB bestätigt, dass sich das Depot nicht zinsfrei nutzen lässt."}, "halalEtfsFonds": {"url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf", "stand": "14.09.2026", "hinweis": "Kaufbar: iShares MSCI World Islamic, iShares MSCI Emerging Markets Islamic, iShares MSCI USA Islamic, Invesco Dow Jones Islamic Global Developed Markets, HSBC MSCI Europe Islamic Screened. Nicht im Angebot: Invesco MSCI ACWI Islamic M-Series, HSBC MSCI World Islamic Screened, HSBC MSCI USA Islamic Screened, HSBC MSCI Emerging Markets Islamic Screened Capped, HANetf Saturna Al-Kawthar Global Focused Equity, Comgest Growth Europe, Franklin Shariah Technology Fund."}, "halalSukuk": {"url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf", "stand": "14.09.2026", "hinweis": "Nicht im Angebot: iShares USD Sukuk, Xtrackers II Salam USD Global Aggregate Sukuk, BNP Paribas Islamic Fund Hilal Income."}, "halalEdelmetalle": {"url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf", "stand": "14.09.2026", "hinweis": "Kaufbar: Invesco Physical Gold, WisdomTree Physical Gold, WisdomTree Core Physical Gold, WisdomTree Core Physical Silver. Nicht im Angebot: Invesco Physical Gold II, WisdomTree Physical Swiss Gold, Invesco Physical Silver, WisdomTree Physical Silver."}}, "finanzPunkte": {"depotgebuehr": 16, "etfSparplanProzent": 6, "etfSparplanPauschal": 4, "orderProzent": 3, "orderPauschal": 6, "mindestsparrate": 1, "maximalsparrate": 1, "intervalle": 2.5, "handelsplaetze": 2, "kapest": 0, "kundenservice": 3, "app": 5, "abzug": 0}, "halalAnlagenPunkte": {"halalEtfsFonds": 5.0, "halalSukuk": 0.0, "halalEdelmetalle": 4.0}, "abgeraten": true},
 ];
 
-export const brokerVergleich = korrigiereAnbieter(brokerVergleichRoh, {
-  "bux-basic": { zinsfreiAbStart: "gut" },
-  "consorsbank-depot": { zinsfreiAbStart: "gut" },
-  "etoro-depot": { zinsfreiAbStart: "gut" },
-  "revolut-standard": { zinsfreiAbStart: "gut" },
-  "scalable-capital-prime-plus-broker": { zinsfreiAbStart: "gut" },
-  "trading-212-depot": { zinsfreiAbStart: "gut" },
-  "vivid-standard": { zinsfreiAbStart: "gut" },
-  "trade-republic-depot": { zinsfreiAbStart: "gut", halalEdelmetalle: "mind. 6 von 8" },
-}, {
-  "bux-basic": { zinsfreiAbStart: { url: "https://getbux.com/de/preise/", stand: "20.09.2026", hinweis: "Das kostenlose BUX-Basic-Modell enthält keine automatische Verzinsung des nicht investierten Guthabens." } },
-  "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Sparen-Anlegen/Sparen/Tagesgeld", stand: "20.09.2026", hinweis: "Die Verzinsung gehört zum separat eröffneten Tagesgeldkonto, nicht zum Verrechnungskonto des Depots." } },
-  "etoro-depot": { zinsfreiAbStart: { url: "https://www.etoro.com/de/investing/interest-on-balance/", stand: "20.09.2026", hinweis: "Zinsen werden über ein eigenes Interest-on-Balance-Angebot nach Aktivierung gezahlt." } },
-  "revolut-standard": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/terms/", stand: "20.09.2026", hinweis: "Revolut weist für das Standardkonto keine automatische Verzinsung des Guthabens aus." } },
-  "scalable-capital-prime-plus-broker": { zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "20.09.2026", hinweis: "Das Verrechnungskonto wird mit 0 % p. a. geführt; das separate Tagesgeld muss aktiv gewählt und befüllt werden." } },
-  "trading-212-depot": { zinsfreiAbStart: { url: "https://www.trading212.com/de/invest", stand: "20.09.2026", hinweis: "Die Verzinsung freier Mittel ist ein aktivierbares Zusatzangebot und nicht automatisch voreingestellt." } },
-  "vivid-standard": { zinsfreiAbStart: { url: "https://vivid.money/de-de/personal/interest-rate-pocket/", stand: "20.09.2026", hinweis: "Der Ertrag setzt ein Interest-Rate-Pocket und eine eigene Einzahlung voraus." } },
-  "trade-republic-depot": {
-    zinsfreiAbStart: {
-      url: "https://traderepublic.com/de-de/zinsen",
-      stand: "20.09.2026",
-      hinweis: "„Aktiviere Zinsen in der App“; Zinsen laufen nicht ohne eigene Aktivierung.",
-    },
-    halalEdelmetalle: {
-      url: "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-      stand: "20.09.2026",
-      hinweis: "Sechs Edelmetall-ISINs bestätigt; IE00B579F325 und XS3384723154 stehen zwar im Katalog, bleiben wegen des App-Widerspruchs ungeklärt.",
-    },
-  },
-});
+export const brokerVergleich = korrigiereAnbieter(brokerVergleichRoh, DEPOT_WERTE, DEPOT_QUELLEN);
 
 export const DEPOT_FILTER = [
   { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },

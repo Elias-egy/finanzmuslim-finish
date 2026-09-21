@@ -4,6 +4,8 @@
 // Vollprüfung ab 20.09.2026: "kaufbar" steht nur mit Einzelbeleg vom Anbieter selbst (beleg.url
 // liegt auf beleg.domain). Ohne Beleg wird die Zeile weggelassen, nicht als kaufbar gezeigt.
 
+import { KAUFBAR_UNKLAR } from "./vergleichKorrekturenDaten";
+
 export type AnlageKaufbar = {
   kaufbar: {
     anbieter: string;
@@ -14,7 +16,7 @@ export type AnlageKaufbar = {
   stand: string;
 };
 
-const ANLAGEN_KAUFBAR_RAW: Record<string, AnlageKaufbar> = {
+const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "IE000929U2U9": {
     "kaufbar": [
       {
@@ -2303,13 +2305,9 @@ const ANLAGEN_KAUFBAR_RAW: Record<string, AnlageKaufbar> = {
   }
 };
 
-/** Die beiden TR-Invesco-Goldtreffer stehen im öffentlichen Katalog, sind wegen
- * des Widerspruchs zur Betreiber-App aber bis zur eingeloggten Gegenprobe U. */
 export const ANLAGEN_KAUFBAR: Record<string, AnlageKaufbar> = Object.fromEntries(
-  Object.entries(ANLAGEN_KAUFBAR_RAW).map(([isin, eintrag]) => [
-    isin,
-    isin === "IE00B579F325" || isin === "XS3384723154"
-      ? { ...eintrag, kaufbar: eintrag.kaufbar.filter((x) => x.anbieter !== "Trade Republic") }
-      : eintrag,
-  ]),
+  Object.entries(ANLAGEN_KAUFBAR_ROH).map(([isin, eintrag]) => {
+    const gesperrt = KAUFBAR_UNKLAR[isin] ?? [];
+    return [isin, gesperrt.length ? { ...eintrag, kaufbar: eintrag.kaufbar.filter((x) => !gesperrt.includes(x.anbieter)) } : eintrag];
+  }),
 );

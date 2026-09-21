@@ -4,6 +4,7 @@
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
+import { GIRO_WERTE, GIRO_QUELLEN } from "./vergleichKorrekturenDaten";
 import { girokontoNachtraege } from "./girokontoNachtraege";
 
 export const GIRO_ZEILEN: VergleichsZeile[] = [
@@ -89,30 +90,7 @@ const girokontoVergleichRoh: RohAnbieter[] = [
   {"id": "santander-bestgiro", "name": "Santander", "produkt": "BestGiro", "domain": "santander.de", "haus": "santander", "finanzfluss": {"produkt": "Santander BestGiro", "partnerlink": "santander-girokonto", "rang": 1}, "werte": {"zinsfreiAbStart": "schlecht", "keinDispoAbStart": null, "karteOhneKredit": "gut", "kontofuehrung": "0€", "girocard": "0€", "debitkarte": "VISA, 0€", "applePay": true, "abhebungen": "Unbegrenzt", "bargeldEinzahlen": "Kostenlos am Schalter der Santander Bank (nicht in allen Filialen möglich)", "geldautomaten": "2.800 bis 49.750", "sepaKostenlos": true, "kundenservice": "Telefon", "filialen": true, "appIos": "4,4 / 5", "appAndroid": "4,1 / 5", "ident": "Video-Ident, Post-Ident", "kontowechsel": true}, "quellen": {"karteOhneKredit": {"url": "https://www.finanzfluss.de/vergleich/girokonto/", "stand": "14.09.2026", "hinweis": "Girocard und Debitkarte (VISA) laut Finanzfluss-Vergleich"}, "zinsfreiAbStart": {"url": "https://www.santander.de/privatkunden/konten-und-karten/konten/kostenloses-girokonto/", "stand": "14.09.2026", "hinweis": "„Guthabenverzinsung – 0,20% Zinsen p.a. für die ersten zwölf Monate“"}}, "finanzPunkte": {"kontofuehrung": 15, "bankkarte": 10, "girocard": 5, "debitkarte": 5, "abheben": 5, "einzahlen": 3, "mobilesBezahlen": 8, "sepa": 10, "support": 5, "kontowechsel": 2, "app": 2, "ident": 2, "abzug": 0}, "abgeraten": true},
 ];
 
-export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), {
-  "bforbank-bforbasic-konto": { keinDispoAbStart: "gut" },
-  "1822direkt-girodirekt": { zinsfreiAbStart: "gut" },
-  "ing-girokonto": { zinsfreiAbStart: "gut" },
-  "ing-girokonto-future": { zinsfreiAbStart: "gut" },
-  "norisbank-top-girokonto": { zinsfreiAbStart: "gut" },
-  "revolut-standard": { zinsfreiAbStart: "gut" },
-  "revolut-plus": { zinsfreiAbStart: "gut" },
-  "revolut-premium": { zinsfreiAbStart: "gut" },
-  "revolut-metal": { zinsfreiAbStart: "gut" },
-  "revolut-ultra": { zinsfreiAbStart: "gut" },
-  "tomorrow-now": { zinsfreiAbStart: "gut" },
-  "tomorrow-change": { zinsfreiAbStart: "gut" },
-  "tomorrow-plus": { zinsfreiAbStart: "gut" },
-  "vivid-standard": { zinsfreiAbStart: "gut" },
-  "vivid-plus": { zinsfreiAbStart: "gut" },
-  "vivid-prime": { zinsfreiAbStart: "gut" },
-}, {
-  "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
-  "1822direkt-girodirekt": { zinsfreiAbStart: { url: "https://www.1822direkt.de/sparen/tagesgeldkonto/", stand: "20.09.2026", hinweis: "Das automatisch eröffnete Tagesgeldkonto bleibt ohne Einzahlung leer; verzinst wird nur dessen Guthaben." } },
-  "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
-  "ing-girokonto-future": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
-  "norisbank-top-girokonto": { zinsfreiAbStart: { url: "https://www.norisbank.de/produkte/girokonto.html", stand: "20.09.2026", hinweis: "Das optionale Top-Zinskonto ist ein separates Konto und wird erst durch eine eigene Einzahlung relevant." } },
-});
+export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), GIRO_WERTE, GIRO_QUELLEN);
 
 export const GIRO_FILTER = [
   { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },
