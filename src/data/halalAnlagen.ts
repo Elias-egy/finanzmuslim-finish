@@ -373,9 +373,10 @@ export const halalAnlagen: Anlage[] = [
     auflage: "04.09.2015",
     zertifizierer: "eigenes Sharia-Komitee, vierteljährliche Prüfung",
     zertifikatArt: "produkt",
-    zertifikatLink: "https://solutions.vwdservices.com/products/documents/D8C02C3D-0895-43B6-800D-BCCF5B0C0C25",
+    zertifikatLink:
+      "https://fondsdocs.edisoft.de/getDoc.php?d=99-65740-12",
     zertifikatHinweis:
-      "Der Verkaufsprospekt des BNP Paribas Islamic Fund nennt das Komitee namentlich: Scheich Nizam Yaquby, Dr. Abdulsattar Abu Ghuddah und Dr. Mohamed Daud Bakar. Es prüft den Fonds vierteljährlich und stellt danach jedes Mal ein Zertifikat aus, häufiger als bei jeder anderen Anlage dieser Liste. Der verlinkte Prospekt trägt den Stand Mai 2017, die Besetzung kann sich seitdem geändert haben.",
+      "Halbjahresbericht des BNP Paribas Islamic Fund zum 30.06.2020: „BNP PARIBAS ISLAMIC FUND (the “Fund”) is a Sharia-compliant Mutual Investment Fund“, mit eigenem Sharia Supervisory Committee (Sheikh Nizam Yaquby, Dr. Abdul Sattar Abu Ghuddah, Dr. Mohamed Daud Bakar). Hilal Income ist ein Teilfonds. Eine neuere Sharia-Bestätigung haben wir nicht gefunden.",
     groesseStand: "Factsheet vom 27.03.2024",
   },
   {

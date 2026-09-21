@@ -122,7 +122,7 @@ const kategorien: Kategorie[] = [
       },
       {
         name: "BNP Paribas Islamic Fund Hilal Income Classic C",
-        pruefstelle: "Islamische SICAV mit eigenem Shariah-Komitee, Zusammensetzung im Fondsprospekt",
+        pruefstelle: "Eigenes Sharia-Komitee, zuletzt belegt im Halbjahresbericht 06/2020",
         isin: "LU1150255971",
       },
     ],
