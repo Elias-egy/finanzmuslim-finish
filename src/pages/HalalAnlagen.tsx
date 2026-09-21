@@ -21,6 +21,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { anlageSchluessel, halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 import { regionFuer } from "@/data/anlageRegion";
+import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { inGruppen, type Gruppe } from "@/lib/anlageGruppen";
 
 const BauartHilfe = () => (
@@ -82,6 +83,7 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gru
   const preis = kursText(kurs);
   const veraenderung = spanneVeraenderung(zeitraumReihe(kurs, zeitraum).reihe);
   const region = a.isin ? regionFuer(a.isin) : undefined;
+  const hatKaufdaten = !!a.isin && (ANLAGEN_KAUFBAR[a.isin]?.kaufbar.length ?? 0) > 0;
   return (
     /* Handy-Karte. Kopfzeile wie in der Vorschau: rundes Logo, Name mit Kürzel
        darunter, rechts Kurs und Veränderung. Darunter Kosten, Anlagegebiet und
@@ -135,13 +137,24 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gru
         <GeprueftVon a={a} />
       </div>
 
-      <Link
-        to={`/halal-anlagen/${a.slug}`}
-        className="mt-3 flex min-h-[48px] items-center justify-center gap-1 rounded-lg border border-border text-[15px] font-semibold text-primary transition-colors hover:border-primary"
-      >
-        Kurs und Details
-        <ChevronRight className="h-4 w-4" aria-hidden />
-      </Link>
+      {/* "Wo kaufen" nur, wenn geprüfte Kaufdaten vorliegen: kein Knopf, der ins Leere führt. */}
+      <div className="mt-3 flex gap-2">
+        <Link
+          to={`/halal-anlagen/${a.slug}`}
+          className="flex min-h-[48px] flex-1 items-center justify-center gap-1 rounded-lg border border-border text-[15px] font-semibold text-primary transition-colors hover:border-primary"
+        >
+          Kurs und Details
+          <ChevronRight className="h-4 w-4" aria-hidden />
+        </Link>
+        {hatKaufdaten && (
+          <Link
+            to={`/halal-anlagen/${a.slug}#kaufen`}
+            className="flex min-h-[48px] flex-1 items-center justify-center rounded-lg bg-primary text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+          >
+            Wo kaufen
+          </Link>
+        )}
+      </div>
     </li>
   );
 };
@@ -357,6 +370,15 @@ const HalalAnlagen = () => {
                               <p className="mt-0.5 text-[13px] text-muted-foreground">
                                 {a.kuerzel ?? a.isin}
                               </p>
+                              {a.isin && (ANLAGEN_KAUFBAR[a.isin]?.kaufbar.length ?? 0) > 0 && (
+                                <Link
+                                  to={`/halal-anlagen/${a.slug}#kaufen`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="mt-1 inline-block text-[13px] font-semibold text-primary hover:underline"
+                                >
+                                  Wo kaufen
+                                </Link>
+                              )}
                             </div>
                           </div>
                         </td>

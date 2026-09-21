@@ -5,7 +5,7 @@ import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { motive } from "@/components/motive";
-import { dealFuer, deals, hoechsterBonus, schildText } from "@/data/deals";
+import { dealFuer, deals, hoechsterBonus, laufendeDeals, schildText } from "@/data/deals";
 
 const MAX = { gebuehren: 100, sicherheit: 50 };
 
@@ -152,6 +152,24 @@ describe("geführter Vergleich", () => {
     }
     expect(schildText({ anbieter: "a", titel: "", vorteil: "", bedingungen: "", betrag: 200, bisZu: true })).toBe("bis zu 200 € Bonus");
     expect(schildText({ anbieter: "a", titel: "", vorteil: "", bedingungen: "", betrag: 20, schild: "20 € in BTC" })).toBe("20 € in BTC");
+  });
+
+  it("belegt jeden Bonus beim Anbieter selbst und ordnet ihn einem Bereich zu", () => {
+    for (const x of deals) {
+      expect(x.quelle?.url, x.anbieter).toBeTruthy();
+      expect(x.quelle!.url, x.anbieter).not.toMatch(/finanzfluss/i);
+      expect(x.bereich, x.anbieter).toBeTruthy();
+    }
+  });
+
+  it("zeigt auf /deals nur laufende Boni, den höchsten zuerst", () => {
+    const d = (betrag: number, extra = {}) => ({
+      anbieter: "a", titel: "", vorteil: "", bedingungen: "", betrag,
+      quelle: { url: "https://anbieter.de", stand: "15.09.2026" }, ...extra,
+    });
+    const liste = [d(50), d(200), d(999, { gueltigBis: "2026-01-01" })];
+    expect(laufendeDeals("2026-09-19", liste).map((x) => x.betrag)).toEqual([200, 50]);
+    expect(laufendeDeals("2026-10-07", liste)).toEqual([]);
   });
 
   it("ordnet jeden Bonus einem Anbieter zu, den es gibt", () => {

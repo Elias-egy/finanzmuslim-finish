@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { deals as alleDeals, type Deal } from "@/data/deals";
+import { laufendeDeals, schildText, type Deal, type DealBereich } from "@/data/deals";
 import { empfehlbar } from "@/data/vergleichAssistent";
+import { Check, Copy, Gift, TicketPercent } from "lucide-react";
 
 /** Beworben wird nur, wer ab Start zinsfrei ist. Boni von anderen stehen nur neben ihrem Eintrag im Vergleich. */
-const deals = alleDeals.filter((d) => !d.anbieterIds || d.anbieterIds.every(empfehlbar));
-import { Check, Copy, Gift, TicketPercent } from "lucide-react";
+const deals = laufendeDeals().filter((d) => !d.anbieterIds || d.anbieterIds.every(empfehlbar));
+
+const BEREICHE: { id: DealBereich; label: string; vergleich: string }[] = [
+  { id: "depot", label: "Depot", vergleich: "/vergleich/depot" },
+  { id: "girokonto", label: "Girokonto", vergleich: "/vergleich/girokonto" },
+  { id: "krypto", label: "Krypto", vergleich: "/vergleich/krypto" },
+];
 
 const DealCard = ({ deal }: { deal: Deal }) => {
   const [copied, setCopied] = useState(false);
@@ -35,9 +41,11 @@ const DealCard = ({ deal }: { deal: Deal }) => {
           </p>
           <h2 className="headline text-xl md:text-2xl mt-1">{deal.titel}</h2>
         </div>
-        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-          <Gift className="h-5 w-5" aria-hidden />
-        </span>
+        {deal.betrag && (
+          <span className="shrink-0 whitespace-nowrap rounded-full bg-hero px-3 py-1 text-[14px] font-semibold text-primary">
+            {schildText(deal)}
+          </span>
+        )}
       </div>
 
       <p className="text-muted-foreground leading-relaxed">{deal.vorteil}</p>
@@ -73,7 +81,10 @@ const DealCard = ({ deal }: { deal: Deal }) => {
         </div>
       )}
 
-      <p className="text-[13px] text-muted-foreground">{deal.bedingungen}</p>
+      <p className="text-[13px] text-muted-foreground">
+        {deal.bedingungen}
+        {deal.quelle && ` Geprüft beim Anbieter am ${deal.quelle.stand}.`}
+      </p>
 
       {ctaUrl ? (
         <Link
@@ -84,9 +95,12 @@ const DealCard = ({ deal }: { deal: Deal }) => {
           Zum Angebot*
         </Link>
       ) : (
-        <span className="mt-auto inline-flex items-center justify-center rounded-lg border border-border bg-muted px-6 py-3 text-base font-semibold text-muted-foreground min-h-[48px]">
-          Kein aktiver Link
-        </span>
+        <Link
+          to={BEREICHE.find((b) => b.id === deal.bereich)?.vergleich ?? "/vergleiche"}
+          className="mt-auto inline-flex items-center justify-center rounded-lg border border-border px-6 py-3 text-base font-semibold text-primary hover:border-primary transition-colors min-h-[48px]"
+        >
+          Im Vergleich ansehen
+        </Link>
       )}
     </article>
   );
@@ -105,7 +119,16 @@ const EmptyState = () => (
   </div>
 );
 
-const Deals = () => (
+const Deals = () => {
+  const [bereich, setBereich] = useState<DealBereich | "alle">("alle");
+  const vorhanden = BEREICHE.filter((b) => deals.some((d) => d.bereich === b.id));
+  const sichtbar = bereich === "alle" ? deals : deals.filter((d) => d.bereich === bereich);
+  const chip = (aktiv: boolean) =>
+    `min-h-[44px] rounded-full border px-4 text-[15px] font-semibold transition-colors ${
+      aktiv ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:border-primary"
+    }`;
+
+  return (
   <div className="min-h-screen bg-background">
     <Seo
       title="Halal Angebote und Boni: aktuelle Deals | finanzmuslim"
@@ -127,12 +150,25 @@ const Deals = () => (
       </section>
 
       <section className="container max-w-4xl pb-16 md:pb-24">
-        <div className="mt-10">
+        {vorhanden.length > 1 && (
+          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Bereich wählen">
+            <button type="button" aria-pressed={bereich === "alle"} onClick={() => setBereich("alle")} className={chip(bereich === "alle")}>
+              Alle
+            </button>
+            {vorhanden.map((b) => (
+              <button key={b.id} type="button" aria-pressed={bereich === b.id} onClick={() => setBereich(b.id)} className={chip(bereich === b.id)}>
+                {b.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-6">
           {deals.length === 0 ? (
             <EmptyState />
           ) : (
             <div className="grid gap-6 md:grid-cols-2">
-              {deals.map((deal) => (
+              {sichtbar.map((deal) => (
                 <DealCard key={`${deal.anbieter}-${deal.titel}`} deal={deal} />
               ))}
             </div>
@@ -159,7 +195,7 @@ const Deals = () => (
             <li className="flex gap-3">
               <span className="text-primary font-bold shrink-0">·</span>
               <span>
-                Angebote ohne Partnerschaft werden hier nicht gelistet.
+                Angebote ohne * liste ich ohne Provision. Der Betrag steht auf der Seite des Anbieters.
               </span>
             </li>
           </ul>
@@ -172,6 +208,7 @@ const Deals = () => (
       </section>
     </main>
   </div>
-);
+  );
+};
 
 export default Deals;

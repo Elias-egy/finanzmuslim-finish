@@ -34,7 +34,11 @@ export interface Deal {
   anbieterIds?: string[];
   /** Wo der Betrag steht, mit Abrufdatum TT.MM.JJJJ. Pflicht, sobald `betrag` gesetzt ist. */
   quelle?: { url: string; stand: string };
+  /** Bereich für den Filter auf /deals. Fest eingetragen, weil Anbieter-IDs über Vergleiche hinweg doppelt vorkommen. */
+  bereich?: DealBereich;
 }
+
+export type DealBereich = "depot" | "girokonto" | "krypto";
 
 /**
  * Nur Boni, die beim Anbieter selbst nachgeprüft sind (Quelle ist dessen Seite).
@@ -42,13 +46,40 @@ export interface Deal {
  * deshalb nur noch die Prüfliste: welche Aktionen es laut Finanzfluss gibt. Ein Bonus
  * wandert erst hierher, wenn er beim Anbieter bestätigt ist.
  */
-export const deals: Deal[] = [];
+export const deals: Deal[] = [
+  {
+    anbieter: "comdirect Depot",
+    titel: "Bis zu 150 € Prämie",
+    vorteil: "Eröffne ein Depot bei comdirect: Du bekommst bis zu 150 € Prämie.",
+    bedingungen: "Die Höhe hängt an Bedingungen, die comdirect auf der Depotseite nennt. Aktion bis 01.11.2026.",
+    betrag: 150,
+    bisZu: true,
+    gueltigBis: "2026-11-01",
+    anbieterIds: ["comdirect-depot"],
+    bereich: "depot",
+    quelle: { url: "https://www.comdirect.de/depot/depot.html", stand: "21.09.2026" },
+  },
+  {
+    anbieter: "BBBank BetterSmart",
+    titel: "50 € Startprämie",
+    vorteil: "Eröffne das Konto BetterSmart: Als Neukunde bekommst du 50 € Startprämie.",
+    bedingungen:
+      "Laut BBBank: „Neukunde (kein Girokonto in den letzten 24 Monaten)“. Auszahlung innerhalb von 8 Wochen, sobald die Voraussetzungen erfüllt sind.",
+    betrag: 50,
+    partnerKurzname: "bbbank",
+    anbieterIds: ["bbbank-bettersmart"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "21.09.2026" },
+  },
+];
 
 /** Prüfliste, wird nicht angezeigt. */
 export const dealsZuPruefen = dealsFinanzfluss;
 
 /** Ein Abruf gilt 21 Tage. Danach verschwindet der Bonus, bis neu abgerufen wurde. */
 export const FRISCH_TAGE = 21;
+
+const heute = () => new Date().toISOString().slice(0, 10);
 
 const tageSeit = (stand: string, heute: string) => {
   const [t, m, j] = stand.split(".").map(Number);
@@ -57,6 +88,10 @@ const tageSeit = (stand: string, heute: string) => {
 
 const laeuft = (d: Deal, tag: string) =>
   !!d.betrag && !!d.quelle && (!d.gueltigBis || d.gueltigBis >= tag) && tageSeit(d.quelle.stand, tag) <= FRISCH_TAGE;
+
+/** Was /deals zeigt: laufend, beim Anbieter belegt, höchster Betrag zuerst. */
+export const laufendeDeals = (tag: string = heute(), liste: Deal[] = deals): Deal[] =>
+  liste.filter((d) => laeuft(d, tag)).sort((a, b) => b.betrag! - a.betrag!);
 
 /** Text fürs Schild: "bis zu 200 € Bonus", "20 € in BTC", "120 € Bonus". */
 export const schildText = (d: Deal) =>
@@ -69,7 +104,6 @@ export const hoechsterBonus = (anbieterIds: Set<string>, heute: string, liste: D
     .filter((d) => d.anbieterIds?.some((id) => anbieterIds.has(id)))
     .reduce((max, d) => Math.max(max, d.betrag!), 0);
 
-const heute = () => new Date().toISOString().slice(0, 10);
 
 /** Der laufende, belegte Deal eines Anbieters, sonst null. Gibt es mehrere, gewinnt der höchste Betrag. */
 export const dealFuer = (anbieterId: string, liste: Deal[] = deals, tag: string = heute()): Deal | null =>

@@ -1,4 +1,5 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import Seo, { anlageJsonLd } from "@/components/Seo";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
@@ -54,7 +55,19 @@ const Zeile = ({
 
 const AnlageDetail = () => {
   const { slug } = useParams();
+  const { hash } = useLocation();
   const anlage = anlageBySlug(slug ?? "");
+
+  /* "Wo kaufen" in der Datenbank springt mit #kaufen direkt in den Abschnitt.
+     Sofort statt weich: die Seite ist lang, und der Kurschart darüber lädt nach,
+     deshalb wird der Sprung einmal nachgezogen. */
+  useEffect(() => {
+    if (!hash) return;
+    const springe = () => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "instant" });
+    springe();
+    const nachzug = window.setTimeout(springe, 600);
+    return () => window.clearTimeout(nachzug);
+  }, [hash, slug]);
 
   if (!anlage) return <Navigate to="/halal-anlagen" replace />;
 
@@ -427,11 +440,20 @@ const AnlageDetail = () => {
               <div className="mt-4">
                 <KaufbarListe kaufbar={kaufbar} />
               </div>
-              <p className="mt-3 text-[14px]">
-                <Link to="/vergleich/depot" className="font-semibold text-primary hover:underline">
-                  Depots vergleichen
-                </Link>
-              </p>
+              <div className="mt-6 rounded-lg bg-hero p-4 md:p-5">
+                <p className="text-[17px] font-bold text-foreground">Welches Depot passt zu dir</p>
+                <p className="mt-1 text-[15px] text-muted-foreground">
+                  Beantworte ein paar Fragen: Du siehst, welches Depot zu dir passt.
+                </p>
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Link to="/vergleich/start" className="btn-primary">
+                    Passendes Depot finden
+                  </Link>
+                  <Link to="/vergleich/depot" className="text-[15px] font-semibold text-primary hover:underline">
+                    Alle Depots vergleichen
+                  </Link>
+                </div>
+              </div>
             </div>
           </section>
         )}
