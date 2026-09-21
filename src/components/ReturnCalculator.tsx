@@ -837,11 +837,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           <div ref={chartCardRef} className="reveal rounded-[1.5rem] bg-card border border-border/70 p-4 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
             {/* Handy: Zeitraum unter die Ueberschrift, sonst stossen beide zusammen. */}
             <div className="mb-2 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-              {showHeader ? (
-                <h3 className="headline text-lg md:text-xl">Portfolioentwicklung</h3>
-              ) : (
-                <h2 className="headline text-lg md:text-xl">Portfolioentwicklung</h2>
-              )}
+              <h2 className="headline text-lg md:text-xl">Portfolioentwicklung</h2>
               <span className="text-xs text-muted-foreground">
                 über {years} {years === 1 ? "Jahr" : "Jahre"} · {mode === "own" ? `${fmtPct(ownRate)}% p.a.` : `≈ ${fmtPct(annual * 100)}% p.a.`}
               </span>
