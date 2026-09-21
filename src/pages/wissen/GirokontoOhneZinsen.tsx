@@ -372,8 +372,10 @@ const GirokontoOhneZinsen = () => (
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Angaben zur KT Bank AG beruhen auf öffentlich zugänglichen Quellen, Stand August 2026, und sind keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders zur Frage der Kontoführung bei konventionellen Banken. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
         kategorie: "Girokonto",
-        ueberschrift: "Konten ohne Dispo-Zwang im Vergleich",
-        linkZiel: "/vergleiche",
+        ueberschrift: "Welches Konto passt zu dir?",
+        text: "Beantworte ein paar einfache Fragen. Du siehst, welche Konten ohne Zinsen und ohne Dispo auskommen.",
+        knopf: "Jetzt herausfinden",
+        linkZiel: "/vergleich/start",
       }}
       boxMitte={{
         kategorie: "Depot",

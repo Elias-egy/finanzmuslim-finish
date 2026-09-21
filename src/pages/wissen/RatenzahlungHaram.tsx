@@ -283,9 +283,11 @@ const RatenzahlungHaram = () => (
       boxMitteNach={2}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechtsberatung. Genannte Zahlungsdienste und Banken sind Beispiele, ihre Bedingungen ändern sich und müssen im Einzelfall selbst geprüft werden. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
-        kategorie: "Girokonto",
-        ueberschrift: "Ein Konto, das dich nicht in den Dispo zieht",
-        linkZiel: "/vergleiche",
+        kategorie: "Rechner",
+        ueberschrift: "Was kostet die Ratenzahlung?",
+        text: "Rechne aus, wie viel Zinsen in den Raten stecken. Danach siehst du, wie schnell du dasselbe ansparst.",
+        knopf: "Zum Kreditkostenrechner",
+        linkZiel: "/kreditkostenrechner",
       }}
       boxMitte={{
         kategorie: "Depot",

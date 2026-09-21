@@ -26,11 +26,41 @@ const girokonto: EmpfehlungsBoxProps = {
   linkZiel: "/vergleich/girokonto",
 };
 
-/** Beiträge, in denen das Konto näher liegt als das Depot. Alle anderen zeigen das Depot. */
+const krypto: EmpfehlungsBoxProps = {
+  kategorie: "Krypto",
+  variante: "vergleich",
+  ueberschrift: "Wo kaufst du Krypto ohne Zinsen?",
+  text: "27 Krypto-Anbieter im Vergleich, mit Halal-Merkmalen: echte Coins, keine Zinsen, kein Lending.",
+  knopf: "Zum Krypto-Vergleich",
+  linkZiel: "/vergleich/krypto",
+};
+
+/** Der geführte Vergleich. Wechselt sich mit dem Depot-Vergleich ab, damit nicht jeder Beitrag
+ *  denselben Aufruf trägt (Elias, 21.09.2026: „ein bisschen mehr Abwechslung“). */
+const test: EmpfehlungsBoxProps = {
+  kategorie: "Depot",
+  variante: "vergleich",
+  ueberschrift: "Was passt zu dir?",
+  text: "Beantworte ein paar einfache Fragen. Du siehst, welches Depot, welches Konto und welche App ohne Zinsen zu dir passen.",
+  knopf: "Jetzt herausfinden",
+  linkZiel: "/vergleich/start",
+};
+
+/** Hauptaufruf nach Kapitel 1, passend zum Thema. Alle anderen zeigen das Depot. */
 const jeBeitrag: Record<string, EmpfehlungsBoxProps> = {
   "girokonto-ohne-zinsen": girokonto,
   "dispo-und-schulden": girokonto,
   "kreditkarte-halal": girokonto,
+  "ratenzahlung-haram": girokonto,
+  "ist-bitcoin-halal": krypto,
+  "zinsen-im-islam": test,
+  "haeufige-fehler": test,
+  "gharar": test,
+  "maysir": test,
+  "ist-leasing-haram": test,
+  "halal-kredit-ohne-zinsen": test,
+  "sind-aktien-halal": test,
+  "ist-versicherung-haram": test,
 };
 
 export const werbungFuer = (slug: string): EmpfehlungsBoxProps => jeBeitrag[slug] ?? depot;

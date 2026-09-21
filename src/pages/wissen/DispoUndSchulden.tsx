@@ -365,18 +365,18 @@ const DispoUndSchulden = () => (
       boxMitteNach={3}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts-, Steuer- oder Schuldnerberatung. Zur Einordnung einzelner Schuldsituationen und zur Pflicht, vorhandenes Vermögen einzusetzen, bestehen unter Gelehrten unterschiedliche Auffassungen. Die genannten monatlichen Beträge sind grobe Erfahrungswerte, keine Empfehlungen für einen konkreten Haushalt. Wer überschuldet ist, sollte zusätzlich eine anerkannte Schuldnerberatung aufsuchen."
       boxOben={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Ein Konto, in dem kein Minus möglich ist",
-        linkZiel: "/wissen/girokonto-ohne-zinsen",
-        text: "Der Schritt, der den Rückfall verhindert, in zehn Minuten.",
-        knopf: "Zum Girokonto",
+        kategorie: "Rechner",
+        ueberschrift: "Wie viel bleibt dir frei?",
+        text: "Rechne in einer Minute aus, was im Monat übrig bleibt. Genau dieser Teil holt dich aus dem Minus.",
+        knopf: "Zum Budgetrechner",
+        linkZiel: "/budgetrechner",
       }}
       boxMitte={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Die Karte, die denselben Mechanismus hat",
-        linkZiel: "/wissen/kreditkarte-halal",
-        text: "Warum ein Kreditrahmen kein Guthaben ist.",
-        knopf: "Zur Kreditkarte",
+        kategorie: "Girokonto",
+        ueberschrift: "Welches Konto passt zu dir?",
+        text: "Beantworte ein paar einfache Fragen. Du siehst, welche Konten ohne Zinsen und ohne Dispo auskommen.",
+        knopf: "Jetzt herausfinden",
+        linkZiel: "/vergleich/start",
       }}
     >
       <PasstDazu

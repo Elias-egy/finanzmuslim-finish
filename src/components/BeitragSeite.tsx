@@ -119,7 +119,8 @@ const BeitragSeite = ({
 }: Props) => {
   const [offen, setOffen] = useState(false);
   const werbung = werbungFuer(slug);
-  const zeigeMitte = boxMitte.kategorie !== werbung.kategorie;
+  // Die Mitte-Box fällt nur weg, wenn sie dasselbe Ziel hätte wie der Hauptaufruf.
+  const zeigeMitte = (boxMitte.linkZiel ?? boxMitte.kategorie) !== (werbung.linkZiel ?? werbung.kategorie);
   const eintrag = beitragBySlug(slug);
   const { vorher, nachher } = nachbarn(slug);
 

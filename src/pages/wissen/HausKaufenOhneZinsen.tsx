@@ -426,9 +426,11 @@ const HausKaufenOhneZinsen = () => (
       boxMitteNach={5}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Finanzierungsberatung. Die Darstellung der Entscheidung des Europäischen Rats für Fatwa und Forschung von 1999 ist eine Zusammenfassung ihres Inhalts und ihrer Voraussetzungen, keine Anwendung auf einen Einzelfall. Genannte Anbieter sind Beispiele für den deutschen Markt, keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Modellen abweichende Auffassungen. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
-        kategorie: "Baufinanzierung",
-        ueberschrift: "Wer finanziert islamkonform?",
-        linkZiel: "/vergleiche",
+        kategorie: "Rechner",
+        ueberschrift: "Was kostet ein Hauskredit?",
+        text: "Rechne aus, wie viel Zinsen über die Laufzeit zusammenkommen. Die Zahl erklärt, warum sich der Umweg lohnt.",
+        knopf: "Zum Kreditkostenrechner",
+        linkZiel: "/kreditkostenrechner",
       }}
       boxMitte={{
         kategorie: "Depot",

@@ -415,11 +415,11 @@ const TradingForexCfd = () => (
       boxMitteNach={4}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Anlageberatung. Angaben zu Hebelgrenzen und Veröffentlichungspflichten beziehen sich auf die Regulierung für Privatanleger in der EU und können sich ändern; außerhalb der EU gelten andere Regeln. Zur Bewertung einzelner Produkte und zum kurzfristigen Aktienhandel bestehen unter Gelehrten unterschiedliche Auffassungen."
       boxOben={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Woran Gelehrte Glücksspiel festmachen",
-        linkZiel: "/wissen/maysir",
-        text: "Zwei Bestandteile, neun Fälle aus dem Alltag.",
-        knopf: "Zu Maysir",
+        kategorie: "Anlagen",
+        ueberschrift: "Was du stattdessen kaufen kannst",
+        text: "Finde geprüfte Halal-ETFs, Sukuk und Gold mit Kurs und Prüfstelle. Alles ohne Hebel und ohne Wette.",
+        knopf: "Zu den Halal-Anlagen",
+        linkZiel: "/halal-anlagen",
       }}
       boxMitte={{
         kategorie: "Vorlage",

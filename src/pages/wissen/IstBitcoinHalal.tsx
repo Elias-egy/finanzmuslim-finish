@@ -335,7 +335,7 @@ const IstBitcoinHalal = () => (
       boxMitte={{
         kategorie: "Halal-Screening-Apps",
         ueberschrift: "Werkzeuge, die für dich prüfen",
-        linkZiel: "/vergleiche",
+        linkZiel: "/vergleich/screening-apps",
       }}
     >
       <PasstDazu

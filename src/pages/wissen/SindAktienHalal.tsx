@@ -351,7 +351,11 @@ const SindAktienHalal = () => (
       boxMitteNach={3}
       rechtshinweis="Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und stellt keine Anlageberatung dar. Genannte Unternehmen und Anbieter sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu den Grenzwerten, zum Nenner und dazu, ob überhaupt eine Toleranz zulässig ist. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot" }}
-      boxMitte={{ kategorie: "Halal-Screening-Apps", variante: "vergleich", linkZiel: "/vergleiche" }}
+      boxMitte={{
+        kategorie: "Halal-Screening-Apps",
+        ueberschrift: "Werkzeuge, die für dich prüfen",
+        linkZiel: "/vergleich/screening-apps",
+      }}
     >
       <PasstDazu
         punkte={[

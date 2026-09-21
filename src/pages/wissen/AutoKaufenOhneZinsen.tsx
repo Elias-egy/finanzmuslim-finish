@@ -490,11 +490,11 @@ const AutoKaufenOhneZinsen = () => (
         knopf: "Zur Vertrags-Ampel",
       }}
       boxMitte={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Wann Raten zur Zinsfalle werden",
-        linkZiel: "/wissen/ratenzahlung-haram",
-        text: "Dieselbe Frage an der Ladenkasse, mit denselben drei Bedingungen.",
-        knopf: "Zum Ratenkauf",
+        kategorie: "Rechner",
+        ueberschrift: "Was kostet der Autokredit?",
+        text: "Rechne aus, wie viel Zinsen in der Rate stecken. Danach siehst du, wie schnell du stattdessen sparst.",
+        knopf: "Zum Kreditkostenrechner",
+        linkZiel: "/kreditkostenrechner",
       }}
     >
       <PasstDazu

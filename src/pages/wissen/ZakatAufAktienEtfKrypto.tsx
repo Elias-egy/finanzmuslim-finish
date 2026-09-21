@@ -431,11 +431,11 @@ const ZakatAufAktienEtfKrypto = () => (
         knopf: "Zum Zakat-Rechner",
       }}
       boxMitte={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Ab welchem Vermögen es losgeht",
-        linkZiel: "/wissen/nisab",
-        text: "Gold oder Silber, und warum die Grenzen so weit auseinanderliegen.",
-        knopf: "Zum Nisab",
+        kategorie: "Krypto",
+        ueberschrift: "Krypto ohne Zinsen halten",
+        text: "Vergleiche Krypto-Anbieter, bei denen keine Rewards und kein Lending mitlaufen. So bleibt die Zakat-Rechnung sauber.",
+        knopf: "Zum Krypto-Vergleich",
+        linkZiel: "/vergleich/krypto",
       }}
     >
       <PasstDazu

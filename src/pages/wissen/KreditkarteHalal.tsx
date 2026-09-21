@@ -330,11 +330,11 @@ const KreditkarteHalal = () => (
       boxMitteNach={3}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts- oder Finanzberatung. Zum Urteil über die Kreditkarte bestehen unter zeitgenössischen Gelehrten unterschiedliche Auffassungen; die Einordnung eines konkreten Falls als Dringlichkeit nimmt ein Gelehrter vor. Beschreibungen von Kartenprodukten, Abrechnungsterminen und Zusatzleistungen beziehen sich auf den Marktstand 2026 und können sich je nach Bank unterscheiden."
       boxOben={{
-        kategorie: "Weiterlesen",
-        ueberschrift: "Das Konto zuerst, dann die Karte",
-        linkZiel: "/wissen/girokonto-ohne-zinsen",
-        text: "Die Karte erbt das Urteil des Kontos, an dem sie hängt.",
-        knopf: "Zum Girokonto",
+        kategorie: "Girokonto",
+        ueberschrift: "Welches Konto passt zu dir?",
+        text: "Beantworte ein paar einfache Fragen. Du siehst, welche Konten ohne Zinsen und ohne Dispo auskommen.",
+        knopf: "Jetzt herausfinden",
+        linkZiel: "/vergleich/start",
       }}
       boxMitte={{
         kategorie: "Vorlage",

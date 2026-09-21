@@ -360,7 +360,11 @@ const IstVersicherungHaram = () => (
       boxMitteNach={4}
       rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Versicherungsberatung. Die Einordnung einzelner Versicherungen zeigt, wo die Frage entsteht, und ist keine Entscheidung für deinen Fall. Ob eine Dringlichkeit vorliegt, beurteilt ein Gelehrter, der deine Lage kennt. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
       boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot", ueberschrift: "Vorsorge ohne Zinsvertrag" }}
-      boxMitte={{ kategorie: "Girokonto", variante: "vergleich", linkZiel: "/vergleiche" }}
+      boxMitte={{
+        kategorie: "Girokonto",
+        ueberschrift: "Welches Konto kommt ohne Zinsen aus?",
+        linkZiel: "/vergleich/girokonto",
+      }}
     >
       <PasstDazu
         punkte={[
