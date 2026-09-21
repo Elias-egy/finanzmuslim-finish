@@ -52,6 +52,8 @@ export const DEPOT_QUELLEN: Quellen = {
 };
 
 export const GIRO_WERTE: Werte = {
+  "commerzbank-girokonto": { keinDispoAbStart: "gut" },
+  "commerzbank-klassikkonto": { keinDispoAbStart: "gut" },
   "bforbank-bforbasic-konto": { keinDispoAbStart: "gut" },
   "1822direkt-girodirekt": { zinsfreiAbStart: "gut" },
   "ing-girokonto": { zinsfreiAbStart: "gut" },
@@ -71,6 +73,8 @@ export const GIRO_WERTE: Werte = {
 };
 
 export const GIRO_QUELLEN: Quellen = {
+  "commerzbank-girokonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
+  "commerzbank-klassikkonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
   "1822direkt-girodirekt": { zinsfreiAbStart: { url: "https://www.1822direkt.de/sparen/tagesgeldkonto/", stand: "20.09.2026", hinweis: "Das automatisch eröffnete Tagesgeldkonto bleibt ohne Einzahlung leer; verzinst wird nur dessen Guthaben." } },
   "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },

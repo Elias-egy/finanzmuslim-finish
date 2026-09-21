@@ -71,6 +71,39 @@ export const deals: Deal[] = [
     bereich: "girokonto",
     quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "21.09.2026" },
   },
+  {
+    anbieter: "ING Girokonto",
+    titel: "200 € Prämie",
+    vorteil: "Eröffne ein Girokonto bei der ING: Du bekommst 200 € Prämie.",
+    bedingungen:
+      "Laut ING: Konto bis 30.09.2026 eröffnen, zwei aufeinanderfolgende monatliche Geldeingänge, Login in die ING App und Einwilligung zu „Tipps für Sie persönlich“.",
+    betrag: 200,
+    gueltigBis: "2026-09-30",
+    anbieterIds: ["ing-girokonto", "ing-girokonto-future"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.ing.de/girokonto/", stand: "21.09.2026" },
+  },
+  {
+    anbieter: "1822direkt GiroDirekt",
+    titel: "200 € Prämie",
+    vorteil: "Eröffne das GiroDirekt bei 1822direkt: Du bekommst 200 € Prämie.",
+    bedingungen: "Laut 1822direkt: „Girokonto mit monatl. Geldeingang eröffnen und 200 € sichern.“ Eine Frist nennt die Seite nicht.",
+    betrag: 200,
+    anbieterIds: ["1822direkt-girodirekt"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.1822direkt.de/girokonto/", stand: "21.09.2026" },
+  },
+  {
+    anbieter: "Commerzbank GiroKonto",
+    titel: "50 € Startguthaben",
+    vorteil: "Eröffne das GiroKonto online: Du bekommst 50 € Startguthaben.",
+    bedingungen:
+      "Laut Commerzbank: kein Commerzbank Girokonto in den letzten 24 Monaten, Online-Eröffnung, drei Monate mindestens 5 Buchungen über je 25 € und Zustimmung zu Werbemitteilungen. Die beworbenen „bis zu 200 €“ enthalten Prämien fürs Weiterempfehlen.",
+    betrag: 50,
+    anbieterIds: ["commerzbank-girokonto"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026" },
+  },
 ];
 
 /** Prüfliste, wird nicht angezeigt. */
