@@ -660,11 +660,15 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
  * die Seite /deals und jede andere Stelle, die einen Bonus aktiv bewirbt.
  */
 export const empfehlbar = (anbieterId: string): boolean => {
-  for (const b of bausteine) {
-    const a = b.anbieter.find((x) => x.id === anbieterId);
-    if (!a) continue;
-    if (!b.kategorie) return true;
-    return werteAus([a], b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] }).raus === 0 && a.werte.zinsfreiAbStart === "gut";
-  }
-  return false;
+  const treffer = bausteine.flatMap((b) =>
+    b.anbieter.filter((a) => a.id === anbieterId).map((a) => ({ b, a })),
+  );
+  // IDs können in mehreren Vergleichen vorkommen. Ein positives Urteil aus
+  // einer Kategorie darf ein ungeprüftes Produkt nicht freischalten.
+  return treffer.length > 0 && treffer.every(({ b, a }) =>
+    !b.kategorie || (
+      a.werte.zinsfreiAbStart === "gut" &&
+      werteAus([a], b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] }).raus === 0
+    ),
+  );
 };

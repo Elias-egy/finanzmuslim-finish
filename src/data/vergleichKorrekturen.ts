@@ -12,18 +12,21 @@ export const korrigiereAnbieter = (
   quellenOverrides: Record<string, Record<string, Quelle>> = {},
 ): RohAnbieter[] =>
   anbieter.map((a) => {
-    const werte = overrides[a.id];
-    if (!werte) return a;
+    const vorgeschlagen = overrides[a.id];
+    if (!vorgeschlagen) return a;
+    const werte: Partial<Record<string, RohWert>> = {};
     const quellen = { ...a.quellen };
-    for (const key of Object.keys(werte)) {
+    for (const [key, wert] of Object.entries(vorgeschlagen)) {
+      // Eine positive Zins- oder Bezahlmodell-Aussage braucht einen konkreten
+      // Anbieterbeleg. Ein generischer Domain-Link ist dafür kein Beleg.
+      if (
+        (key === "zinsfreiAbStart" || key === "zinsfreiesModell") &&
+        (wert === "gut" || wert === "teils") &&
+        !quellenOverrides[a.id]?.[key]?.url
+      ) continue;
+      werte[key] = wert;
       if (quellenOverrides[a.id]?.[key]) {
         quellen[key] = quellenOverrides[a.id][key];
-      } else if (!quellen[key]) {
-        quellen[key] = {
-          url: a.domain ? `https://${a.domain}` : undefined,
-          stand: "20.09.2026",
-          hinweis: "Anbieterquelle, optionaler Ertrag erfordert eine eigene Aktivierung oder Einzahlung.",
-        };
       }
     }
     const zins = werte.zinsfreiAbStart;

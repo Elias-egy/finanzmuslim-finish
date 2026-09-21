@@ -4,6 +4,7 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "./vergleichHelfer";
@@ -11,7 +12,7 @@ import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
 const faelle: Array<[Kategorie, RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
   ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 56],
-  ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 56],
+  ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
   ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 27],
 ];
 
@@ -160,6 +161,13 @@ describe("Vergleichsdaten edelmetalle", () => {
  * von der Seite des Anbieters selbst. Finanzfluss, Presse oder Blogs reichen nicht.
  */
 describe("Zinsfragen nur mit Beleg vom Anbieter", () => {
+  it("nimmt keine positive Nachkorrektur ohne konkreten Beleg an", () => {
+    const roh: RohAnbieter[] = [{ id: "probe", name: "Probe", produkt: "Konto", domain: "probe.de", werte: { zinsfreiAbStart: null, zinsfreiesModell: null } }];
+    const [ungeprueft] = korrigiereAnbieter(roh, { probe: { zinsfreiAbStart: "gut", zinsfreiesModell: "gut" } });
+    expect(ungeprueft.werte.zinsfreiAbStart).toBeNull();
+    expect(ungeprueft.werte.zinsfreiesModell).toBeNull();
+    expect(ungeprueft.quellen?.zinsfreiAbStart).toBeUndefined();
+  });
   const faelle = [
     ["depot", brokerVergleich, ["zinsfreiAbStart"]],
     ["girokonto", girokontoVergleich, ["zinsfreiAbStart"]],
@@ -193,8 +201,8 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(giro("ing-girokonto").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
-    expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBe("gut");
-    expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
+    expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBeNull();
+    expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBeNull();
   });
 
   it("stellt die zwei Trade-Republic-Goldtreffer bis zur App-Gegenprobe auf unklar", () => {

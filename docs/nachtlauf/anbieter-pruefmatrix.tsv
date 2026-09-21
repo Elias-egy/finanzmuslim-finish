@@ -1,0 +1,226 @@
+Kategorie	ID	Anbieter	Produkt	Merkmal	Rohwert	Beleg-URL	Finanzfluss-Linkkennung	Eigener Link	Nächster Belegweg
+Depot	bbbank-depot	BBBank	Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	bison-broker	Bison	Broker	Zins ab Start	gut	https://bisonapp.com/wp-content/uploads/2024/12/BISON-Sutor-Preis.-und-Leistungsverzeichnis.pdf	bison-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	bitpanda-depot	Bitpanda	Depot	Zins ab Start	teils	https://support.bitpanda.com/hc/de/articles/24873644625820-Bitpanda-Passive-Earn	bitpanda-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	bux-basic	Bux	Basic	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	comdirect-depot	comdirect	Depot	Zins ab Start	gut	https://www.comdirect.de/cms/docs/cori7105.pdf	comdirect-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	comdirect-pure-depot	comdirect	Pure Depot	Zins ab Start	gut	https://www.comdirect.de/cms/docs/cori7105.pdf	comdirect-pure-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	commerzbank-direktdepot	Commerzbank	DirektDepot	Zins ab Start	offen		commerzbank-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	commerzbank-klassikdepot	Commerzbank	KlassikDepot	Zins ab Start	offen		commerzbank-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	commerzbank-premiumdepot	Commerzbank	PremiumDepot	Zins ab Start	offen		commerzbank-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	degiro-depot	DEGIRO	Depot	Zins ab Start	gut	https://www.degiro.de/helpdesk/ueberweisungen-und-geld/waehrungseinstellungen/zahlt-degiro-zinsen-auf-nicht-investiertes			bei Änderung erneut gegen Anbieter prüfen
+Depot	dkb-depot	DKB	Depot	Zins ab Start	gut	https://dok.dkb.de/pdf/plv_pk_konten.pdf	dkb-depot	/out/dkb-depot	bei Änderung erneut gegen Anbieter prüfen
+Depot	etoro-depot	eToro	Depot	Zins ab Start	offen		etoro		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	fidelity-fondsdepot	Fidelity	Fondsdepot	Zins ab Start	gut	https://www.fidelity.de/ueber-uns/warum-fidelity/unsere-kosten/	fidelity-fondsdepot		bei Änderung erneut gegen Anbieter prüfen
+Depot	finanzen-net-zero-depot	finanzen.net zero	Depot	Zins ab Start	gut	https://www.finanzen.net/zero/wp-content/uploads/2026/08/Preis-Leistungsverzeichnis-V12_Wertpapiere.pdf	finanzen-net-zero		bei Änderung erneut gegen Anbieter prüfen
+Depot	finvesto-depot	finvesto	Depot	Zins ab Start	offen			/out/finvesto	Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	finvesto-depot-basis	finvesto	Depot Basis	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	finvesto-wertpapierdepot	finvesto	Wertpapierdepot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	flatex-depot	flatex	Depot	Zins ab Start	gut	https://konto.flatex.de/formularcenter_bank/public/1300100.pdf	flatex-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	freedom24-all-inclusive	Freedom24	All inclusive	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	freedom24-smart	Freedom24	Smart	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	geno-broker-genobasis-depot	GENO Broker	GENObasis Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	geno-broker-genoprofi	GENO Broker	GENOprofi	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	gls-bank-depot	GLS Bank	Depot	Zins ab Start	gut	https://www.gls.de/media/PDF/uncached/134020_PAH_09.26_20260902.pdf			bei Änderung erneut gegen Anbieter prüfen
+Depot	joe-broker-depot	JOE Broker	Depot	Zins ab Start	offen		joe-broker		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	justtrade-depot	justTRADE	Depot	Zins ab Start	gut	https://www.justtrade.com/fileadmin/Formulare/Preis-und-Leistungsverzeichnis.pdf	justtrade-wertpapierdepot		bei Änderung erneut gegen Anbieter prüfen
+Depot	libertex-depot	Libertex	Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	maxblue-depot	maxblue	Depot	Zins ab Start	offen		maxblue-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	maxblue-wertpapier-sparplan	maxblue	Wertpapier-Sparplan	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	n26-standard-depot	N26	Standard Depot	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	pax-bank-klassisches-depot	Pax-Bank	Klassisches Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	pax-bank-online-brokerage	Pax-Bank	Online-Brokerage	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	plus500-depot	Plus500	Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	revolut-standard	Revolut	Standard	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	s-broker-direkt-depot	S Broker	Direkt-Depot	Zins ab Start	gut	https://www.sbroker.de/handel/preisuebersicht	s-broker-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	santander-wertpapierdepot	Santander	Wertpapierdepot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	scalable-capital-free-broker	Scalable Capital	Free Broker	Zins ab Start	gut	https://de.scalable.capital/zinsuebersicht	scalable-capital	/out/scalable	bei Änderung erneut gegen Anbieter prüfen
+Depot	scalable-capital-prime-plus-broker	Scalable Capital	Prime+ Broker	Zins ab Start	offen		scalable-capital-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	smartbroker-plus-depot	Smartbroker+	Depot	Zins ab Start	gut	https://www.smartbrokerplus.de/de-de/konditionen/	smartbroker-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	targobank-direkt-depot	Targobank	Direkt-Depot	Zins ab Start	offen		targobank		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	trade-republic-depot	Trade Republic	Depot	Zins ab Start	teils	https://traderepublic.com/de-de/zinsen	trade-republic		bei Änderung erneut gegen Anbieter prüfen
+Depot	tradegate-direct-depot	tradegate.direct	Depot	Zins ab Start	offen		tradegate-direct		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	traders-place-depot	Traders Place	Depot	Zins ab Start	gut	https://tradersplace.de/konditionen/deine-konditionen	traders-place	/out/traders-place	bei Änderung erneut gegen Anbieter prüfen
+Depot	trading-212-depot	Trading 212	Depot	Zins ab Start	offen		trading-212-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	vivid-standard	Vivid	Standard	Zins ab Start	offen		vivid-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	willbe-depot	WillBe	Depot	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Depot	1822direkt-aktiv-depot	1822direkt	Aktiv-Depot	Zins ab Start	schlecht	https://www.1822direkt.de/anlegen-depot/wertpapierdepot/	1822direkt-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	bux-plus	Bux	Plus	Zins ab Start	schlecht	https://getbux.com/blog/interest-on-cash/			bei Änderung erneut gegen Anbieter prüfen
+Depot	bux-prime	Bux	Prime	Zins ab Start	schlecht	https://getbux.com/blog/interest-on-cash/			bei Änderung erneut gegen Anbieter prüfen
+Depot	captrader-depot	CapTrader	Depot	Zins ab Start	schlecht	https://www.captrader.com/en/conditions/interest/	captrader-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	consorsbank-depot	Consorsbank	Depot	Zins ab Start	schlecht	https://www.consorsbank.de/web/Wertpapierhandel/Wertpapierdepot	consorsbank-etf-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	hypovereinsbank-hvb-depot	HypoVereinsbank	HVB Depot	Zins ab Start	schlecht	https://www.finanzfluss.de/vergleich/depot/			bei Änderung erneut gegen Anbieter prüfen
+Depot	hypovereinsbank-smartdepot	HypoVereinsbank	SmartDepot	Zins ab Start	schlecht	https://www.finanzfluss.de/vergleich/depot/			bei Änderung erneut gegen Anbieter prüfen
+Depot	ing-direkt-depot	ING	Direkt-Depot	Zins ab Start	schlecht	https://www.ing.de/sparen-anlegen/direkt-depot/	ing-diba-direkt-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	interactive-brokers-depot	Interactive Brokers	Depot	Zins ab Start	schlecht	https://www.finanzfluss.de/vergleich/depot/			bei Änderung erneut gegen Anbieter prüfen
+Depot	lynx-depot	LYNX	Depot	Zins ab Start	schlecht	https://www.lynxbroker.de/preise-konditionen/zinsen/	lynx-depot		bei Änderung erneut gegen Anbieter prüfen
+Depot	xtb-depot	XTB	Depot	Zins ab Start	schlecht	https://www.xtb.com/de/hilfe-center/8-6/zinsen-auf-freie-mittel	xtb-depot		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbbank-bettersmart	BBBank	BetterSmart	Zins ab Start	gut	https://www.bbbank.de/services/preise-und-konditionen.html	bbbank-smart-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbbank-bettersmart	BBBank	BetterSmart	Dispo ab Start	gut	https://www.bbbank.de/privatkunden/girokonto/erste-schritte-girokonto.html	bbbank-smart-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbbank-girokonto	BBBank	Girokonto	Zins ab Start	gut	https://www.bbbank.de/services/preise-und-konditionen.html	bbbank-girokonto	/out/bbbank	bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbbank-girokonto	BBBank	Girokonto	Dispo ab Start	gut	https://www.bbbank.de/privatkunden/girokonto/erste-schritte-girokonto.html	bbbank-girokonto	/out/bbbank	bei Änderung erneut gegen Anbieter prüfen
+Girokonto	berliner-volksbank-girokonto	Berliner Volksbank	Girokonto	Zins ab Start	offen		berliner-volksbank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	berliner-volksbank-girokonto	Berliner Volksbank	Girokonto	Dispo ab Start	gut	https://www.berliner-volksbank.de/privatkunden/kredite/dispo.html	berliner-volksbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bforbank-bforbasic-konto	Bforbank	BforBASIC Konto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bforbank-bforbasic-konto	Bforbank	BforBASIC Konto	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-core	bunq	Core	Zins ab Start	offen		bunq-core		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-core	bunq	Core	Dispo ab Start	offen		bunq-core		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-elite	bunq	Elite	Zins ab Start	offen		bunq-elite		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-elite	bunq	Elite	Dispo ab Start	offen		bunq-elite		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-free	bunq	Free	Zins ab Start	offen		bunq-free		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-free	bunq	Free	Dispo ab Start	offen		bunq-free		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-pro	bunq	Pro	Zins ab Start	offen		bunq-pro		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bunq-pro	bunq	Pro	Dispo ab Start	offen		bunq-pro		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	comdirect-girokonto-aktiv	comdirect	Girokonto Aktiv	Zins ab Start	gut	https://www.comdirect.de/cms/docs/cori7105.pdf	comdirect-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	comdirect-girokonto-aktiv	comdirect	Girokonto Aktiv	Dispo ab Start	gut	https://www.comdirect.de/cms/zahlungskonto-zahlungsdienste.html	comdirect-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	commerzbank-girokonto	Commerzbank	GiroKonto	Zins ab Start	gut	https://www.commerzbank.de/portal/media/efw-dokumente/preise_konditionen.pdf	commerzbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	commerzbank-girokonto	Commerzbank	GiroKonto	Dispo ab Start	offen		commerzbank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	commerzbank-klassikkonto	Commerzbank	KlassikKonto	Zins ab Start	gut	https://www.commerzbank.de/portal/media/efw-dokumente/preise_konditionen.pdf	commerzbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	commerzbank-klassikkonto	Commerzbank	KlassikKonto	Dispo ab Start	offen		commerzbank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	consorsbank-girokonto	Consorsbank	Girokonto	Zins ab Start	gut	https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Girokonto	consorsbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	consorsbank-girokonto	Consorsbank	Girokonto	Dispo ab Start	gut	https://www.consorsbank.de/web/Wissen/FAQ/kontokarten/Dispositionskredit-beantragen-aendern	consorsbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	deutsche-bank-aktivkonto	Deutsche Bank	AktivKonto	Zins ab Start	gut	https://www.deutsche-bank.de/dam/deutschebank/de/shared/pdf/ser-konditionen_preise-preisaushang.pdf	deutsche-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	deutsche-bank-aktivkonto	Deutsche Bank	AktivKonto	Dispo ab Start	gut	https://www.deutsche-bank.de/pk/kredit-und-immobilien/kredit/dispokredit.html?msockid=3dede389ef1c68de30ddf53fee82694e	deutsche-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	dkb-girokonto	DKB	Girokonto	Zins ab Start	gut	https://dok.dkb.de/pdf/plv_pk_konten.pdf	dkb-konto	/out/dkb-girokonto	bei Änderung erneut gegen Anbieter prüfen
+Girokonto	dkb-girokonto	DKB	Girokonto	Dispo ab Start	offen		dkb-konto	/out/dkb-girokonto	Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	ethikbank-girokonto	EthikBank	Girokonto	Zins ab Start	gut	https://www.ethikbank.de/privatkunden/konten-karten/girokonto			bei Änderung erneut gegen Anbieter prüfen
+Girokonto	ethikbank-girokonto	EthikBank	Girokonto	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	gls-bank-gls-konto	GLS Bank	GLS Konto	Zins ab Start	gut	https://www.gls.de/media/PDF/uncached/134020_PAH_09.26_20260902.pdf	gls-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	gls-bank-gls-konto	GLS Bank	GLS Konto	Dispo ab Start	gut	https://www.gls.de/gls-bank/service/fragen-antworten/allgemeines-finanz-glossar/was-ist-ein-dispositionskredit/	gls-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	hamburger-sparkasse-haspajoker	Hamburger Sparkasse	HaspaJoker	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	hamburger-sparkasse-haspajoker	Hamburger Sparkasse	HaspaJoker	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	hypovereinsbank-aktivkonto	HypoVereinsbank	AktivKonto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	hypovereinsbank-aktivkonto	HypoVereinsbank	AktivKonto	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	hypovereinsbank-pluskonto	HypoVereinsbank	PlusKonto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	hypovereinsbank-pluskonto	HypoVereinsbank	PlusKonto	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	klarna-guthaben	Klarna	Guthaben	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	klarna-guthaben	Klarna	Guthaben	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	kt-bank-girokonto	KT Bank	GiroKonto	Zins ab Start	gut	https://www.kt-bank.de/privatkunden/konten-karten/girokonto/			bei Änderung erneut gegen Anbieter prüfen
+Girokonto	kt-bank-girokonto	KT Bank	GiroKonto	Dispo ab Start	gut	https://www.kt-bank.de/privatkunden/konten-karten/girokonto/			bei Änderung erneut gegen Anbieter prüfen
+Girokonto	meine-bank-mein-girokonto	meine Bank	MEIN Girokonto	Zins ab Start	offen		meinebank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	meine-bank-mein-girokonto	meine Bank	MEIN Girokonto	Dispo ab Start	offen		meinebank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	monese-pay-as-you-go	Monese	Pay as you go	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	monese-pay-as-you-go	Monese	Pay as you go	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	n26-flex	N26	Flex	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-konto-flex		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-flex	N26	Flex	Dispo ab Start	gut	https://support.n26.com/de-de/app-und-produkte/dispokredit-und-kredit/wie-bekomme-ich-einen-dispokredit?gh_jid=801363	n26-konto-flex		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-go	N26	Go	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-go	N26	Go	Dispo ab Start	gut	https://support.n26.com/de-de/app-und-produkte/dispokredit-und-kredit/wie-bekomme-ich-einen-dispokredit?gh_jid=801363	n26-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-metal	N26	Metal	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-metal	N26	Metal	Dispo ab Start	gut	https://support.n26.com/de-de/app-und-produkte/dispokredit-und-kredit/wie-bekomme-ich-einen-dispokredit?gh_jid=801363	n26-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-smart	N26	Smart	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-girokonto-smart		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-smart	N26	Smart	Dispo ab Start	gut	https://support.n26.com/de-de/app-und-produkte/dispokredit-und-kredit/wie-bekomme-ich-einen-dispokredit?gh_jid=801363	n26-girokonto-smart		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-standard	N26	Standard	Zins ab Start	gut	https://n26.com/de-de/tagesgeldkonto	n26-girokonto	/out/n26	bei Änderung erneut gegen Anbieter prüfen
+Girokonto	n26-standard	N26	Standard	Dispo ab Start	gut	https://support.n26.com/de-de/app-und-produkte/dispokredit-und-kredit/wie-bekomme-ich-einen-dispokredit?gh_jid=801363	n26-girokonto	/out/n26	bei Änderung erneut gegen Anbieter prüfen
+Girokonto	pax-bank-pax-bck-individuell	Pax-Bank	Pax-BCK Individuell	Zins ab Start	gut	https://www.pax-bank.de/konditionen-fuer-privatkunden.html			bei Änderung erneut gegen Anbieter prüfen
+Girokonto	pax-bank-pax-bck-individuell	Pax-Bank	Pax-BCK Individuell	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	postbank-giro-pur	Postbank	Giro pur	Zins ab Start	gut	https://www.postbank.de/dam/postbank/pdf/allgemein/Postbank-Preisaushang-678-147-007-0926a.pdf	postbank-start		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	postbank-giro-pur	Postbank	Giro pur	Dispo ab Start	gut	https://www.postbank.de/privatkunden/produkte/konten-karten/girokonten/giro-pur.html	postbank-start		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	psd-bank-n-rnberg-girodirekt	PSD Bank Nürnberg	GiroDirekt	Zins ab Start	offen		psd-bank-nuernberg-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	psd-bank-n-rnberg-girodirekt	PSD Bank Nürnberg	GiroDirekt	Dispo ab Start	offen		psd-bank-nuernberg-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-metal	Revolut	Metal	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-metal	Revolut	Metal	Dispo ab Start	gut	https://help.revolut.com/de-DE/help/credit-products/question-credit-overdraft-availability/	revolut		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	revolut-plus	Revolut	Plus	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-plus	Revolut	Plus	Dispo ab Start	gut	https://help.revolut.com/de-DE/help/credit-products/question-credit-overdraft-availability/	revolut		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	revolut-premium	Revolut	Premium	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-premium	Revolut	Premium	Dispo ab Start	gut	https://help.revolut.com/de-DE/help/credit-products/question-credit-overdraft-availability/	revolut		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	revolut-standard	Revolut	Standard	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-standard	Revolut	Standard	Dispo ab Start	gut	https://help.revolut.com/de-DE/help/credit-products/question-credit-overdraft-availability/	revolut		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	revolut-ultra	Revolut	Ultra	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	revolut-ultra	Revolut	Ultra	Dispo ab Start	gut	https://help.revolut.com/de-DE/help/credit-products/question-credit-overdraft-availability/	revolut		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	targobank-online-konto	Targobank	Online-Konto	Zins ab Start	offen		targobank-online-konto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	targobank-online-konto	Targobank	Online-Konto	Dispo ab Start	schlecht	https://www.targobank.de/de/konto-eroeffnen.html	targobank-online-konto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	tomorrow-change	Tomorrow	Change	Zins ab Start	offen		tomorrow-bank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	tomorrow-change	Tomorrow	Change	Dispo ab Start	gut	https://www.tomorrow.one/de-DE/banking/dispo/?adjust_referrer=adjust_external_click_id%3DEAIaIQobChMI_f-M28_EgwMVIxSLCh2m8wPaEAAYASAAEgJTqvD_BwE	tomorrow-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	tomorrow-now	Tomorrow	Now	Zins ab Start	offen		tomorrow-bank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	tomorrow-now	Tomorrow	Now	Dispo ab Start	gut	https://www.tomorrow.one/de-DE/banking/dispo/?adjust_referrer=adjust_external_click_id%3DEAIaIQobChMI_f-M28_EgwMVIxSLCh2m8wPaEAAYASAAEgJTqvD_BwE	tomorrow-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	tomorrow-plus	Tomorrow	Plus	Zins ab Start	offen		tomorrow-bank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	tomorrow-plus	Tomorrow	Plus	Dispo ab Start	gut	https://www.tomorrow.one/de-DE/banking/dispo/?adjust_referrer=adjust_external_click_id%3DEAIaIQobChMI_f-M28_EgwMVIxSLCh2m8wPaEAAYASAAEgJTqvD_BwE	tomorrow-bank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	trade-republic-girokonto	Trade Republic	Girokonto	Zins ab Start	offen		trade-republic-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	trade-republic-girokonto	Trade Republic	Girokonto	Dispo ab Start	offen		trade-republic-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	umweltbank-umweltgiro	UmweltBank	UmweltGiro	Zins ab Start	gut	https://www.umweltbank.de/konto-karte/girokonto/	umweltbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	umweltbank-umweltgiro	UmweltBank	UmweltGiro	Dispo ab Start	gut	https://www.umweltbank.de/konto-karte/girokonto/?search=2024	umweltbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	vivid-plus	Vivid	Plus	Zins ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	vivid-plus	Vivid	Plus	Dispo ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	vivid-prime	Vivid	Prime	Zins ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	vivid-prime	Vivid	Prime	Dispo ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	vivid-standard	Vivid	Standard	Zins ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	vivid-standard	Vivid	Standard	Dispo ab Start	offen		vivid-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	wise-konto	Wise	Konto	Zins ab Start	teils	https://wise.com/help/articles/b8sVSdAzytqVamfajSirb/how-does-balance-cashback-work-if-you-live-in-the-eea	wise-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	wise-konto	Wise	Konto	Dispo ab Start	offen		wise-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	1822direkt-girodirekt	1822direkt	GiroDirekt	Zins ab Start	schlecht	https://www.1822direkt.de/girokonto/	1822direkt-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	1822direkt-girodirekt	1822direkt	GiroDirekt	Dispo ab Start	gut	https://www.1822direkt.de/produktseiten/girokonto/	1822direkt-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbva-girokonto	BBVA	Girokonto	Zins ab Start	schlecht	https://www.bbva.de/privat/produkte/konten/faqs-girokonto.html	bbva-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	bbva-girokonto	BBVA	Girokonto	Dispo ab Start	gut	https://www.bbva.de/privat/services/finanzierung/dispokredit.html	bbva-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-max	C24	Max	Zins ab Start	schlecht	https://hilfe.c24.de/hc/de/articles/10830005408914-Aktuelle-Zinskonditionen	c24-max		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-max	C24	Max	Dispo ab Start	gut	https://api.c24.de/api/documents/c24_current_accounts_conditions/download/	c24-max		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-plus	C24	Plus	Zins ab Start	schlecht	https://hilfe.c24.de/hc/de/articles/10830005408914-Aktuelle-Zinskonditionen	c24-plus		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-plus	C24	Plus	Dispo ab Start	gut	https://api.c24.de/api/documents/c24_current_accounts_conditions/download/	c24-plus		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-smart	C24	Smart	Zins ab Start	schlecht	https://hilfe.c24.de/hc/de/articles/10830005408914-Aktuelle-Zinskonditionen	c24-smart		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	c24-smart	C24	Smart	Dispo ab Start	gut	https://api.c24.de/api/documents/c24_current_accounts_conditions/download/	c24-smart		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	ing-girokonto	ING	Girokonto	Zins ab Start	schlecht	https://www.ing.de/girokonto/kundenservice/	ing-diba-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	ing-girokonto	ING	Girokonto	Dispo ab Start	gut	https://www.ing.de/dokumente/agb-girokonto/	ing-diba-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	ing-girokonto-future	ING	Girokonto Future	Zins ab Start	schlecht	https://www.ing.de/girokonto/kundenservice/	ing-diba-girokonto-future		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	ing-girokonto-future	ING	Girokonto Future	Dispo ab Start	gut	https://www.ing.de/dokumente/agb-girokonto/	ing-diba-girokonto-future		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	norisbank-girokonto-plus	Norisbank	Girokonto Plus	Zins ab Start	schlecht	https://www.norisbank.de/dam/norisbank/de/shared/pdf/nb_Preisaushang.pdf	norisbank-girokonto-plus		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	norisbank-girokonto-plus	Norisbank	Girokonto Plus	Dispo ab Start	offen		norisbank-girokonto-plus		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	norisbank-top-girokonto	Norisbank	Top-Girokonto	Zins ab Start	schlecht	https://www.norisbank.de/produkte/girokonto.html	norisbank-top-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	norisbank-top-girokonto	Norisbank	Top-Girokonto	Dispo ab Start	schlecht	https://www.norisbank.de/girokonto/produkte/girokonto-dispokredit.html	norisbank-top-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	santander-bestgiro	Santander	BestGiro	Zins ab Start	schlecht	https://www.santander.de/privatkunden/konten-und-karten/konten/kostenloses-girokonto/	santander-girokonto		bei Änderung erneut gegen Anbieter prüfen
+Girokonto	santander-bestgiro	Santander	BestGiro	Dispo ab Start	offen		santander-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	21bitcoin-app	21bitcoin	App	Zins ab Start	offen		21bitcoin-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	21bitcoin-app	21bitcoin	App	Bezahlmodell	offen		21bitcoin-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	binance-pro	Binance	Pro	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	binance-pro	Binance	Pro	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	binance-standard	Binance	Standard	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	binance-standard	Binance	Standard	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bison-app	Bison	App	Zins ab Start	offen		bison-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bison-app	Bison	App	Bezahlmodell	offen		bison-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bitget-trading	Bitget	Trading	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bitget-trading	Bitget	Trading	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bitpanda-fusion	Bitpanda	Fusion	Zins ab Start	teils	https://support.bitpanda.com/hc/de/articles/24873644625820-Bitpanda-Passive-Earn	bitpanda-fusion		bei Änderung erneut gegen Anbieter prüfen
+Krypto	bitpanda-fusion	Bitpanda	Fusion	Bezahlmodell	offen		bitpanda-fusion		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bitpanda-standard	Bitpanda	Standard	Zins ab Start	teils	https://support.bitpanda.com/hc/de/articles/24873644625820-Bitpanda-Passive-Earn	bitpanda-kryptoboerse		bei Änderung erneut gegen Anbieter prüfen
+Krypto	bitpanda-standard	Bitpanda	Standard	Bezahlmodell	offen		bitpanda-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bitvavo-standard	Bitvavo	Standard	Zins ab Start	gut	https://bitvavo.com/de/earn-de	bitvavo-kryptoboerse		bei Änderung erneut gegen Anbieter prüfen
+Krypto	bitvavo-standard	Bitvavo	Standard	Bezahlmodell	offen		bitvavo-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bsdex-standard	BSDEX	Standard	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	bsdex-standard	BSDEX	Standard	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	etoro-krypto	eToro	Krypto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	etoro-krypto	eToro	Krypto	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	finanzen-net-zero-krypto	finanzen.net zero	Krypto	Zins ab Start	offen		finanzen-net-zero-krypto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	finanzen-net-zero-krypto	finanzen.net zero	Krypto	Bezahlmodell	offen		finanzen-net-zero-krypto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	finst-standard	Finst	Standard	Zins ab Start	gut	https://finst.com/de/staking			bei Änderung erneut gegen Anbieter prüfen
+Krypto	finst-standard	Finst	Standard	Bezahlmodell	gut	https://finst.com/de/fees			bei Änderung erneut gegen Anbieter prüfen
+Krypto	flatex-krypto	flatex	Krypto	Zins ab Start	offen		flatex-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	flatex-krypto	flatex	Krypto	Bezahlmodell	offen		flatex-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	justtrade-krypto	justTRADE	Krypto	Zins ab Start	offen		justtrade-wertpapierdepot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	justtrade-krypto	justTRADE	Krypto	Bezahlmodell	offen		justtrade-wertpapierdepot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	kraken-pro	Kraken	Pro	Zins ab Start	gut	https://support.kraken.com/de/articles/overview-of-auto-earn-on-kraken	kraken	/out/kraken	bei Änderung erneut gegen Anbieter prüfen
+Krypto	kraken-pro	Kraken	Pro	Bezahlmodell	offen		kraken	/out/kraken	Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	kraken-standard	Kraken	Standard	Zins ab Start	gut	https://support.kraken.com/de/articles/overview-of-auto-earn-on-kraken	kraken		bei Änderung erneut gegen Anbieter prüfen
+Krypto	kraken-standard	Kraken	Standard	Bezahlmodell	offen		kraken		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	okx-trading	OKX	Trading	Zins ab Start	offen		okx-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	okx-trading	OKX	Trading	Bezahlmodell	offen		okx-kryptoboerse		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	relai-app	Relai	App	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	relai-app	Relai	App	Bezahlmodell	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	revolut-krypto	Revolut	Krypto	Zins ab Start	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	revolut-krypto	Revolut	Krypto	Bezahlmodell	offen		revolut		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	scalable-capital-krypto	Scalable Capital	Krypto	Zins ab Start	offen		scalable-capital		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	scalable-capital-krypto	Scalable Capital	Krypto	Bezahlmodell	offen		scalable-capital		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	smartbroker-plus-krypto	Smartbroker+	Krypto	Zins ab Start	offen		smartbroker-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	smartbroker-plus-krypto	Smartbroker+	Krypto	Bezahlmodell	offen		smartbroker-depot		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	trade-republic-krypto	Trade Republic	Krypto	Zins ab Start	offen		trade-republic		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	trade-republic-krypto	Trade Republic	Krypto	Bezahlmodell	offen		trade-republic		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	traders-place-krypto	Traders Place	Krypto	Zins ab Start	offen		traders-place		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	traders-place-krypto	Traders Place	Krypto	Bezahlmodell	offen		traders-place		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	coinbase-advanced	Coinbase	Advanced	Zins ab Start	offen		coinbase-standard		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	coinbase-advanced	Coinbase	Advanced	Bezahlmodell	schlecht	https://www.coinbase.com/one	coinbase-standard		bei Änderung erneut gegen Anbieter prüfen
+Krypto	coinbase-standard	Coinbase	Standard	Zins ab Start	offen		coinbase-standard		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	coinbase-standard	Coinbase	Standard	Bezahlmodell	schlecht	https://www.coinbase.com/one	coinbase-standard		bei Änderung erneut gegen Anbieter prüfen
+Krypto	crypto-com-app	crypto.com	App	Zins ab Start	offen		crypto-com		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	crypto-com-app	crypto.com	App	Bezahlmodell	schlecht	https://help.crypto.com/en/articles/12017612-level-up-rewards-and-benefits	crypto-com		bei Änderung erneut gegen Anbieter prüfen
+Krypto	robinhood-krypto	Robinhood	Krypto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Krypto	robinhood-krypto	Robinhood	Krypto	Bezahlmodell	schlecht	https://etf.capital/robinhood-depot-test-2026-erfahrungen-nachteile/			bei Änderung erneut gegen Anbieter prüfen
+Girokonto	sumup-privatkonto	SumUp	Privatkonto	Zins ab Start	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung
+Girokonto	sumup-privatkonto	SumUp	Privatkonto	Dispo ab Start	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung
+Girokonto	sumup-privatkonto	SumUp	Privatkonto	Karte ohne Kredit	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung

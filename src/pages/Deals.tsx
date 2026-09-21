@@ -111,6 +111,7 @@ const Deals = () => (
       title="Halal Angebote und Boni: aktuelle Deals | finanzmuslim"
       description="Geprüfte Boni und Aktionen für die finanzmuslim Community. Nur Angebote, die sich wirklich lohnen."
       path="/deals"
+      noindex={deals.length === 0}
       brotkrumen={[{ name: "Deals", path: "/deals" }]}
     />
     <main>

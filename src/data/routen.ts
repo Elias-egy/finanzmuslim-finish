@@ -2,6 +2,7 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { guides } from "@/data/guides";
 import { partnerLinks } from "@/data/partnerLinks";
 import { startPartner } from "./investmentStart";
+import { deals } from "./deals";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -120,7 +121,7 @@ export const festeRouten: Route[] = [
   vorlage("top-100-halal-aktien", "Top100HalalAktien.tsx"),
 
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
-  { pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly", prioritaet: "0.6" },
+  ...(deals.length > 0 ? [{ pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly" as const, prioritaet: "0.6" }] : []),
   { pfad: "/ueber-mich", quelle: ["src/pages/UeberMich.tsx"], changefreq: "yearly", prioritaet: "0.6" },
   { pfad: "/kooperationen", quelle: ["src/pages/Kooperationen.tsx"], changefreq: "monthly", prioritaet: "0.4" },
   { pfad: "/wie-ich-geld-verdiene", quelle: ["src/pages/WieIchGeldVerdiene.tsx"], changefreq: "yearly", prioritaet: "0.5" },
@@ -174,6 +175,7 @@ export const alleRouten = (): Route[] => [...festeRouten, ...anlagenRouten()];
  * stehen nicht in der Sitemap.
  */
 export const nichtIndexiert: string[] = [
+  ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
   ...guides.map((g) => `/dein-guide/${g.schluessel}`),
@@ -199,6 +201,7 @@ export const weiterleitungen: { von: string; nach: string }[] = [
 ];
 
 export const bewusstDraussen: { pfad: string; grund: string }[] = [
+  ...(deals.length === 0 ? [{ pfad: "/deals", grund: "keine belegten Angebote, setzt noindex" }] : []),
   { pfad: "/zakatrechner", grund: "Zweitschreibweise von /zakat-rechner" },
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
