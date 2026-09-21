@@ -44,7 +44,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "ratenzahlung-haram", name: "Ratenkauf", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag" },
   { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", neu: true },
   { slug: "ist-leasing-haram", name: "Leasing", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag" },
-  { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Die drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag" },
+  { slug: "haus-kaufen-ohne-zinsen", name: "Islamische Baufinanzierung", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag" },
   { slug: "ist-versicherung-haram", name: "Versicherung", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht.", thema: "Alltag" },
 
   { slug: "nisab", name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },

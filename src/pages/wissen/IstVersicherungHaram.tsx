@@ -329,7 +329,7 @@ const beschreibung =
 const IstVersicherungHaram = () => (
   <>
     <Seo
-      title="Ist eine Versicherung haram? Die Antwort für Muslime in Deutschland | finanzmuslim"
+      title="Versicherung im Islam: halal oder haram? | finanzmuslim"
       description={beschreibung}
       path="/wissen/ist-versicherung-haram"
       jsonLd={beitragJsonLd({

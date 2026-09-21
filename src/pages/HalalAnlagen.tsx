@@ -221,10 +221,10 @@ const HalalAnlagen = () => {
           </nav>
 
           <h1 className="mt-3 text-[26px] font-bold leading-tight text-foreground md:mt-5 md:text-4xl">
-            Halal-Anlagen finden
+            Halal Aktien und ETFs finden
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
-            Vergleich Kosten, Rendite und Prüfstelle.
+            Vergleiche Kosten, Rendite und Prüfstelle.
           </p>
           {/* Wer nach "halal Aktien" sucht, meint oft Einzelaktien und landet
               hier bei Fonds. Eine Zeile spart ihm den Rücksprung. */}

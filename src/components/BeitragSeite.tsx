@@ -194,7 +194,9 @@ const BeitragSeite = ({
                   <p className="mt-3 text-[18px] leading-relaxed text-muted-foreground md:text-[19px]">{untertitel}</p>
                 )}
                 <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[14px] text-muted-foreground">
-                  <span>Von Elias El-Gendy</span>
+                  <Link to="/ueber-mich" rel="author" className="font-medium text-foreground hover:text-primary hover:underline">
+                    Von Elias El-Gendy
+                  </Link>
                   <span aria-hidden>·</span>
                   <span>{dateModified ? `Aktualisiert am ${dateModified}` : `Veröffentlicht am ${datePublished}`}</span>
                   <span aria-hidden>·</span>

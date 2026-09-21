@@ -205,7 +205,7 @@ export const beitragJsonLd = (opts: {
     description: opts.beschreibung,
     inLanguage: "de-DE",
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.path}` },
-    author: { "@type": "Person", name: "Elias El-Gendy" },
+    author: { "@type": "Person", name: "Elias El-Gendy", url: `${SITE}/ueber-mich` },
     publisher: { "@type": "Organization", name: "finanzmuslim", url: SITE },
     datePublished: isoDatum(opts.datePublished),
     ...(opts.dateModified ? { dateModified: isoDatum(opts.dateModified) } : {}),

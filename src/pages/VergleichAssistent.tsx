@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild } from "@/components/vergleich/VergleichsBausteine";
@@ -171,24 +171,24 @@ const Karte = ({
   </button>
 );
 
-const FARBEN = ["#0057FA", "#7D6EF2", "#BBD3FF", "#E0A93B", "#D98C6A", "#0B2B6B"];
+const FARBEN = ["#0057FA", "#7D6EF2", "#00A7A5", "#FFBF2F", "#FF6B6B", "#F25FB3", "#52B788", "#0B2B6B"];
 
-/** Konfetti in Markenfarben, von beiden Seiten, einmal beim Ergebnis. Keine Bibliothek. */
+/** Großes, bewusst buntes Konfetti von beiden Seiten, einmal beim Ergebnis. Keine Bibliothek. */
 const Konfetti = () => {
   const teile = useMemo(
     () =>
-      Array.from({ length: 70 }, (_, i) => {
+      Array.from({ length: 120 }, (_, i) => {
         const links = i % 2 === 0;
         return {
           links,
           farbe: FARBEN[i % FARBEN.length],
-          dx: (links ? 1 : -1) * (80 + Math.random() * 420),
-          dy: -(160 + Math.random() * 460),
-          dreh: (Math.random() - 0.5) * 900,
-          dauer: 1.6 + Math.random() * 1.4,
-          start: Math.random() * 0.25,
-          rund: i % 3 === 0,
-          breite: 6 + Math.random() * 6,
+          dx: (links ? 1 : -1) * (120 + Math.random() * 680),
+          dy: -(240 + Math.random() * 620),
+          dreh: (Math.random() - 0.5) * 1200,
+          dauer: 2 + Math.random() * 1.5,
+          start: Math.random() * 0.35,
+          rund: i % 4 === 0,
+          breite: 8 + Math.random() * 10,
         };
       }),
     [],
@@ -196,18 +196,18 @@ const Konfetti = () => {
   if (ruhig()) return null;
   return (
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
-      <style>{`@keyframes fm-konfetti{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 620px)) rotate(var(--dreh));opacity:0}}`}</style>
+      <style>{`@keyframes fm-konfetti{0%{transform:translate(0,0) rotate(0) scale(.7);opacity:0}8%{opacity:1}72%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 860px)) rotate(var(--dreh)) scale(1);opacity:0}}`}</style>
       {teile.map((t, i) => (
         <span
           key={i}
           style={
             {
               position: "absolute",
-              bottom: "38%",
-              [t.links ? "left" : "right"]: "-12px",
+              bottom: "18%",
+              [t.links ? "left" : "right"]: "-20px",
               width: t.breite,
               height: t.rund ? t.breite : t.breite * 0.45,
-              borderRadius: t.rund ? "50%" : 2,
+              borderRadius: t.rund ? "50%" : 3,
               background: t.farbe,
               "--dx": `${t.dx}px`,
               "--dy": `${t.dy}px`,
@@ -431,9 +431,15 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
   return (
     <div>
       {feier && <Konfetti />}
-      <div className="text-center">
-        <h1 className="text-[28px] font-bold leading-tight text-foreground md:text-[36px]">{paket.length > 1 ? "Dein Paket" : "Das passt zu dir"}</h1>
-        <p className="mt-1 text-[15px] text-muted-foreground">
+      <div className="relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(135deg,#EBF2FF_0%,#F4EFFF_52%,#FFF4D8_100%)] px-5 py-7 text-center shadow-[0_18px_50px_-28px_rgba(0,87,250,0.55)] md:px-8 md:py-9">
+        <span className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#F25FB3]/15 blur-2xl" aria-hidden />
+        <span className="absolute -bottom-10 -left-6 h-32 w-32 rounded-full bg-[#00A7A5]/15 blur-2xl" aria-hidden />
+        <p className="relative mx-auto inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[13px] font-bold text-[#6D4FD2] shadow-sm">
+          <Sparkles className="h-4 w-4" aria-hidden />
+          Geschafft
+        </p>
+        <h1 className="relative mt-3 text-[30px] font-bold leading-tight text-foreground md:text-[38px]">{paket.length > 1 ? "Dein Paket steht" : "Das passt zu dir"}</h1>
+        <p className="relative mt-2 text-[15px] text-muted-foreground">
           Basierend auf deinen Angaben{paket.length > 1 ? `: ${paket.map((b) => b.titel.replace(/^Deine? /, "")).join(", ")}` : ""}
         </p>
       </div>

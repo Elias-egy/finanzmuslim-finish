@@ -7,13 +7,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Index from "./pages/Index.tsx";
-import InvestmentStart from "./pages/InvestmentStart.tsx";
-import HalalGuide from "./pages/HalalGuide.tsx";
-import Impressum from "./pages/Impressum.tsx";
-import Datenschutz from "./pages/Datenschutz.tsx";
-import NotFound from "./pages/NotFound.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
+const InvestmentStart = lazy(() => import("./pages/InvestmentStart.tsx"));
+const HalalGuide = lazy(() => import("./pages/HalalGuide.tsx"));
+const Impressum = lazy(() => import("./pages/Impressum.tsx"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const Tools = lazy(() => import("./pages/Tools.tsx"));
 const Renditerechner = lazy(() => import("./pages/Renditerechner.tsx"));
 const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));

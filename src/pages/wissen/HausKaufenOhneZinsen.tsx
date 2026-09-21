@@ -395,11 +395,11 @@ const beschreibung =
 const HausKaufenOhneZinsen = () => (
   <>
     <Seo
-      title="Haus kaufen ohne Zinsen: die islamkonformen Modelle erklärt | finanzmuslim"
+      title="Islamische Baufinanzierung ohne Zinsen | finanzmuslim"
       description={beschreibung}
       path="/wissen/haus-kaufen-ohne-zinsen"
       jsonLd={beitragJsonLd({
-        titel: "Haus kaufen ohne Zinsen",
+        titel: "Islamische Baufinanzierung ohne Zinsen",
         beschreibung,
         path: "/wissen/haus-kaufen-ohne-zinsen",
         datePublished: "15. August 2026",
@@ -409,8 +409,8 @@ const HausKaufenOhneZinsen = () => (
     />
     <BeitragSeite
       slug="haus-kaufen-ohne-zinsen"
-      titel="Haus kaufen ohne Zinsen"
-      untertitel="Drei Modelle, eine viel zitierte Fatwa und ein Weg, an den kaum jemand denkt."
+      titel="Islamische Baufinanzierung ohne Zinsen"
+      untertitel="Drei Modelle für den Hauskauf, eine viel zitierte Fatwa und ein Weg, an den kaum jemand denkt."
       kurzGesagt={[
         "Ein normaler Baukredit gilt bei den meisten Gelehrten als nicht zulässig, weil der Aufschlag allein durch Zeit entsteht.",
         "Es gibt drei anerkannte Alternativen. Bei allen kauft der Anbieter das Haus zuerst selbst.",
