@@ -9,7 +9,7 @@ const VergleichGirokonto = () => (
     untertitel="Welches Konto passt, wenn du keine Zinsen willst"
     seoTitel="Halal Girokonto: Konten ohne Zinsen im Vergleich | finanzmuslim"
     seoText="Welches Girokonto ist halal? 56 Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen."
-    einheit="Banken"
+    einheit="Anbieter"
     einleitung={
       <>
         <p>

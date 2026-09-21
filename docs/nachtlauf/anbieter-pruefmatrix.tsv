@@ -62,7 +62,7 @@ Girokonto	bbbank-girokonto	BBBank	Girokonto	Dispo ab Start	gut	https://www.bbban
 Girokonto	berliner-volksbank-girokonto	Berliner Volksbank	Girokonto	Zins ab Start	offen		berliner-volksbank-girokonto		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
 Girokonto	berliner-volksbank-girokonto	Berliner Volksbank	Girokonto	Dispo ab Start	gut	https://www.berliner-volksbank.de/privatkunden/kredite/dispo.html	berliner-volksbank-girokonto		bei Änderung erneut gegen Anbieter prüfen
 Girokonto	bforbank-bforbasic-konto	Bforbank	BforBASIC Konto	Zins ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
-Girokonto	bforbank-bforbasic-konto	Bforbank	BforBASIC Konto	Dispo ab Start	offen				Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
+Girokonto	bforbank-bforbasic-konto	Bforbank	BforBASIC Konto	Dispo ab Start	gut	https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4			Anbieter-FAQ am 21.09.2026: Dispositionskredit aktuell nicht verfügbar
 Girokonto	bunq-core	bunq	Core	Zins ab Start	offen		bunq-core		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
 Girokonto	bunq-core	bunq	Core	Dispo ab Start	offen		bunq-core		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
 Girokonto	bunq-elite	bunq	Elite	Zins ab Start	offen		bunq-elite		Anbieter-Preisverzeichnis/AGB und ggf. schriftliche Tarifbestätigung
@@ -223,4 +223,4 @@ Krypto	robinhood-krypto	Robinhood	Krypto	Zins ab Start	offen				Anbieter-Preisve
 Krypto	robinhood-krypto	Robinhood	Krypto	Bezahlmodell	schlecht	https://etf.capital/robinhood-depot-test-2026-erfahrungen-nachteile/			bei Änderung erneut gegen Anbieter prüfen
 Girokonto	sumup-privatkonto	SumUp	Privatkonto	Zins ab Start	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung
 Girokonto	sumup-privatkonto	SumUp	Privatkonto	Dispo ab Start	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung
-Girokonto	sumup-privatkonto	SumUp	Privatkonto	Karte ohne Kredit	offen				SumUp Privatkonto: Preisverzeichnis/AGB und schriftliche Bestätigung
+Girokonto	sumup-privatkonto	SumUp	Privatkonto	Karte ohne Kredit	gut	https://www.sumup.com/de-de/privat/konto/			Anbieterseite am 21.09.2026: SumUp Pay Mastercard Debitkarte

@@ -90,6 +90,7 @@ const girokontoVergleichRoh: RohAnbieter[] = [
 ];
 
 export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), {
+  "bforbank-bforbasic-konto": { keinDispoAbStart: "gut" },
   "1822direkt-girodirekt": { zinsfreiAbStart: "gut" },
   "ing-girokonto": { zinsfreiAbStart: "gut" },
   "ing-girokonto-future": { zinsfreiAbStart: "gut" },
@@ -106,6 +107,7 @@ export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokon
   "vivid-plus": { zinsfreiAbStart: "gut" },
   "vivid-prime": { zinsfreiAbStart: "gut" },
 }, {
+  "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
   "1822direkt-girodirekt": { zinsfreiAbStart: { url: "https://www.1822direkt.de/sparen/tagesgeldkonto/", stand: "20.09.2026", hinweis: "Das automatisch eröffnete Tagesgeldkonto bleibt ohne Einzahlung leer; verzinst wird nur dessen Guthaben." } },
   "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
   "ing-girokonto-future": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
