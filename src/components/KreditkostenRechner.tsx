@@ -192,9 +192,9 @@ const KreditkostenRechner = () => {
             zahl={eur(kosten.gesamt)}
             satz={
               <>
-                Davon sind <strong className="text-white">{eur(kosten.zinsen)}</strong> Zinsen, also{" "}
+                Davon sind <strong>{eur(kosten.zinsen)}</strong> Zinsen, also{" "}
                 {zinsAnteil} Prozent von allem, was du überweist. {ding} {kostet} dich{" "}
-                <strong className="text-white">{faktorText}-mal</strong>.
+                <strong>{faktorText}-mal</strong>.
               </>
             }
           >
@@ -216,21 +216,21 @@ const KreditkostenRechner = () => {
                     width={72}
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12, fill: "rgba(255,255,255,0.85)" }}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
                   />
                   <Tooltip
                     cursor={false}
                     formatter={(v: number) => [eur(v), ""]}
-                    contentStyle={{ borderRadius: 12, border: "none", fontSize: 13 }}
+                    contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", fontSize: 13 }}
                   />
                   <Bar dataKey="wert" radius={[0, 4, 4, 0]} isAnimationActive={false}>
-                    <Cell fill="rgba(255,255,255,0.35)" />
-                    <Cell fill="hsl(var(--loss-bright))" />
+                    <Cell fill="hsl(var(--primary) / 0.28)" />
+                    <Cell fill="hsl(var(--loss))" />
                     <LabelList
                       dataKey="wert"
                       position="right"
                       formatter={(v: number) => eur(v)}
-                      style={{ fill: "#fff", fontSize: 13, fontWeight: 700 }}
+                      style={{ fill: "hsl(var(--foreground))", fontSize: 13, fontWeight: 700 }}
                     />
                   </Bar>
                 </BarChart>

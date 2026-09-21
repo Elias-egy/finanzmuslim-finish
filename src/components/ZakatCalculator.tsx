@@ -236,28 +236,28 @@ const ZakatCalculator = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-24">
-          <div className="ergebnis-karte" data-ton="geben">
+          <div className="ergebnis-karte" data-ton="neutral">
             {istPreisVeraltet(nisabDaten.stand) && (
               <div className="mb-4 rounded-xl bg-warning px-4 py-3 text-[13px] font-semibold text-warning-foreground">
                 Der hinterlegte Preis ist vom {nisabDaten.stand} und damit älter als sechs Wochen.
                 Das Ergebnis kann abweichen.
               </div>
             )}
-            <span className="text-[11px] font-semibold tracking-wide text-white/70">Deine Zakat</span>
+            <span className="ergebnis-ueber">Deine Zakat</span>
             <p className="ergebnis-zahl">{eur(ergebnis.zakat)}</p>
 
             {/* Das Ergebnis als ganzer Satz. Eine Zahl allein sagt niemandem,
                 wie sie zustande kommt. */}
-            <p className="mt-3 text-[14px] leading-relaxed text-white/80">
+            <p className="ergebnis-satz">
               {ergebnis.pflichtig ? (
                 <>
-                  Bei <strong className="text-white">{eur(ergebnis.geldWert)}</strong> Geld
+                  Bei <strong>{eur(ergebnis.geldWert)}</strong> Geld
                   {ergebnis.depotWert > 0 && (
                     <>
-                      {" "}und <strong className="text-white">{eur(ergebnis.depotWert)}</strong> im Depot
+                      {" "}und <strong>{eur(ergebnis.depotWert)}</strong> im Depot
                     </>
                   )}{" "}
-                  zahlst du <strong className="text-white">{eur(ergebnis.zakat)}</strong> Zakat.
+                  zahlst du <strong>{eur(ergebnis.zakat)}</strong> Zakat.
                   {ergebnis.depotWert > 0 && (
                     <>
                       {" "}Auf dein Geld sind es 2,5 Prozent, auf dein Depot{" "}
@@ -269,12 +269,12 @@ const ZakatCalculator = () => {
               ) : (
                 <>
                   Dein Vermögen liegt unter der Grenze von{" "}
-                  <strong className="text-white">{eur(ergebnis.nisab)}</strong>. Dann zahlst du keine
+                  <strong>{eur(ergebnis.nisab)}</strong>. Dann zahlst du keine
                   Zakat.
                 </>
               )}
             </p>
-            <p className="mt-3 text-[13px] text-white/60">
+            <p className="mt-3 text-[13px] text-muted-foreground">
               Voraussetzung ist, dass das Vermögen ein Mondjahr lang bei dir lag.
             </p>
           </div>

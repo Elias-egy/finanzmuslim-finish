@@ -63,11 +63,13 @@ const BudgetRechner = () => {
   const teile: Teil[] = useMemo(
     () =>
       [
-        { id: "wohnen", name: "Wohnen", wert: wohnen, farbe: "hsl(var(--primary))" },
-        { id: "fix", name: "Feste Kosten", wert: fix, farbe: "hsl(var(--primary) / 0.6)" },
-        { id: "alltag", name: "Alltag und Freizeit", wert: alltag, farbe: "hsl(var(--primary) / 0.3)" },
-        { id: "geben", name: "Geben", wert: geben, farbe: "hsl(var(--violet))" },
-        { id: "frei", name: "Frei", wert: b.frei, farbe: "hsl(var(--success))" },
+        // Farbe sitzt in den Daten, nicht in der Flaeche (Elias, 21.09.2026). Gruen bleibt dem
+        // freien Teil vorbehalten, Rot kommt nicht vor: keine Ausgabe ist hier ein Urteil.
+        { id: "wohnen", name: "Wohnen", wert: wohnen, farbe: "#0057FA" },
+        { id: "fix", name: "Feste Kosten", wert: fix, farbe: "#7D6EF2" },
+        { id: "alltag", name: "Alltag und Freizeit", wert: alltag, farbe: "#FFB020" },
+        { id: "geben", name: "Geben", wert: geben, farbe: "#00A7A5" },
+        { id: "frei", name: "Frei", wert: b.frei, farbe: "hsl(var(--gain))" },
       ].filter((t) => t.wert > 0),
     [wohnen, fix, alltag, geben, b.frei],
   );
@@ -149,13 +151,13 @@ const BudgetRechner = () => {
             satz={
               b.minus > 0 ? (
                 <>
-                  Du gibst <strong className="text-white">{eur(b.minus)}</strong> mehr aus, als reinkommt. Das
+                  Du gibst <strong>{eur(b.minus)}</strong> mehr aus, als reinkommt. Das
                   geht nur mit Dispo oder Erspartem, und beides wird jeden Monat weniger.
                 </>
               ) : (
                 <>
-                  Von <strong className="text-white">{eur(netto)}</strong> bleiben{" "}
-                  <strong className="text-white">{eur(b.frei)}</strong> übrig, also {prozent(b.freiProzent)}. Das
+                  Von <strong>{eur(netto)}</strong> bleiben{" "}
+                  <strong>{eur(b.frei)}</strong> übrig, also {prozent(b.freiProzent)}. Das
                   ist der Teil, mit dem du etwas aufbauen kannst.
                 </>
               )
@@ -166,34 +168,32 @@ const BudgetRechner = () => {
                 <PieChart>
                   <Tooltip
                     formatter={(v: number, name: string) => [eur(v), name]}
-                    contentStyle={{ borderRadius: 12, border: "none", fontSize: 13 }}
+                    contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", fontSize: 13 }}
                   />
                   <Pie
-                    data={teile.length ? teile : [{ id: "leer", name: "Netto", wert: 1, farbe: "rgba(255,255,255,0.3)" }]}
+                    data={teile.length ? teile : [{ id: "leer", name: "Netto", wert: 1, farbe: "hsl(var(--primary) / 0.15)" }]}
                     dataKey="wert"
                     nameKey="name"
                     innerRadius={56}
                     outerRadius={92}
                     paddingAngle={2}
-                    stroke="none"
+                    stroke="hsl(var(--accent))"
+                    strokeWidth={2}
                     isAnimationActive={false}
                   >
-                    {(teile.length ? teile : [{ id: "leer", farbe: "rgba(255,255,255,0.3)" }]).map((t) => (
-                      <Cell key={t.id} fill={t.id === "frei" ? "hsl(var(--gain-bright))" : t.id === "geben" ? "#c9b8ff" : t.farbe.replace("hsl(var(--primary))", "rgba(255,255,255,0.9)").replace("hsl(var(--primary) / 0.6)", "rgba(255,255,255,0.6)").replace("hsl(var(--primary) / 0.3)", "rgba(255,255,255,0.35)")} />
+                    {(teile.length ? teile : [{ id: "leer", farbe: "hsl(var(--primary) / 0.15)" }]).map((t) => (
+                      <Cell key={t.id} fill={t.farbe} />
                     ))}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-white/85">
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-muted-foreground">
               {teile.map((t) => (
                 <span key={t.id} className="inline-flex items-center gap-1.5">
                   <span
                     className="h-2.5 w-2.5 rounded-full"
-                    style={{
-                      background:
-                        t.id === "frei" ? "hsl(var(--gain-bright))" : t.id === "geben" ? "#c9b8ff" : t.id === "wohnen" ? "rgba(255,255,255,0.9)" : t.id === "fix" ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)",
-                    }}
+                    style={{ background: t.farbe }}
                   />
                   {t.name} {eur(t.wert)}
                 </span>

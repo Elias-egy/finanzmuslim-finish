@@ -172,9 +172,9 @@ export const Ergebnis = ({
   children?: ReactNode;
 }) => (
   <div className="ergebnis-karte" data-ton={ton}>
-    <span className="text-[11px] font-semibold tracking-wide text-white/70">{ueber}</span>
+    <span className="ergebnis-ueber">{ueber}</span>
     <p className="ergebnis-zahl">{zahl}</p>
-    <p className="mt-3 text-[14px] leading-relaxed text-white/80">{satz}</p>
+    <p className="ergebnis-satz">{satz}</p>
     {children}
   </div>
 );

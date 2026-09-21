@@ -193,15 +193,15 @@ const InflationsRechner = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-24">
           <div className="ergebnis-karte" data-ton="verlust">
-            <span className="text-[11px] font-semibold tracking-wide text-white/70">
+            <span className="ergebnis-ueber">
               Wert in {jahre} {jahre === 1 ? "Jahr" : "Jahren"}
             </span>
             <p className="ergebnis-zahl">{eur(rest)}</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-white/80">
-              Aus <strong className="text-white">{eur(betrag)}</strong> werden nach {jahre}{" "}
+            <p className="ergebnis-satz">
+              Aus <strong>{eur(betrag)}</strong> werden nach {jahre}{" "}
               {jahre === 1 ? "Jahr" : "Jahren"} real rund{" "}
-              <strong className="text-white">{eur(rest)}</strong>. Du verlierst{" "}
-              <strong className="text-white">{eur(verlust)}</strong> Kaufkraft, also {anteil}{" "}
+              <strong>{eur(rest)}</strong>. Du verlierst{" "}
+              <strong>{eur(verlust)}</strong> Kaufkraft, also {anteil}{" "}
               Prozent, ohne dass etwas vom Konto verschwindet.
             </p>
           </div>

@@ -38,7 +38,7 @@ const depotLogos = (): LogoAnbieter[] => {
 /**
  * Der Haupt-Aufruf unter Rechnern und in Beiträgen (Elias, 21.09.2026):
  * „Finde, was zu dir passt“ statt eines einzelnen Anbieters. Farbe kommt von den
- * echten Logos und vom goldenen Knopf, die Fläche bleibt hell.
+ * echten Logos und einem leisen Verlauf, der Knopf bleibt im Signalblau der Marke.
  */
 export const FindeDeinAngebot = ({
   titel = "Finde, was zu dir passt",
@@ -57,7 +57,7 @@ export const FindeDeinAngebot = ({
   return (
     <aside
       id={id}
-      className={`relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EBF2FF_0%,#F4EFFF_55%,#FFF4D8_100%)] p-5 md:p-7 ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)] p-5 md:p-7 ${className}`}
     >
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
         <div className="min-w-0">

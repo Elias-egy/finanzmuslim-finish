@@ -183,22 +183,22 @@ const SparzielRechner = () => {
                 <>Ohne monatlichen Betrag wächst nichts. Trag ein, was du zur Seite legen kannst.</>
               ) : (
                 <>
-                  Mit <strong className="text-white">{eur(monatlich)}</strong> im Monat hast du{" "}
-                  <strong className="text-white">{eur(zielBetrag)}</strong> {ZIELE[ziel].satz} im{" "}
-                  <strong className="text-white">{datumIn(monate)}</strong> zusammen.
+                  Mit <strong>{eur(monatlich)}</strong> im Monat hast du{" "}
+                  <strong>{eur(zielBetrag)}</strong> {ZIELE[ziel].satz} im{" "}
+                  <strong>{datumIn(monate)}</strong> zusammen.
                 </>
               )
             }
           >
             <div className="mt-5">
-              <div className="flex items-baseline justify-between text-[12px] text-white/80">
+              <div className="flex items-baseline justify-between text-[12px] text-muted-foreground">
                 <span>Heute {eur(start)}</span>
                 <span>Ziel {eur(zielBetrag)}</span>
               </div>
-              <div className="relative mt-1.5 h-3 rounded-full bg-white/25">
-                <div className="absolute left-0 top-0 h-3 rounded-full bg-gain-bright" style={{ width: `${fortschritt}%` }} />
+              <div className="relative mt-1.5 h-3 rounded-full bg-white">
+                <div className="absolute left-0 top-0 h-3 rounded-full bg-gain" style={{ width: `${fortschritt}%` }} />
               </div>
-              <p className="mt-1.5 text-[12px] text-white/80">{Math.round(fortschritt)} Prozent geschafft</p>
+              <p className="mt-1.5 text-[12px] text-muted-foreground">{Math.round(fortschritt)} Prozent geschafft</p>
             </div>
           </Ergebnis>
 

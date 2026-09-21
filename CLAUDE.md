@@ -62,13 +62,16 @@ in den Details: Zahlen, Diagramme, Logos, der Haupt-Aufruf.
 | Helle Fläche, Ergebniskästen | `#EBF2FF` (`accent`) |
 | Gewinne, Wachstum, steigende Kurse | `gain` (grün), Fläche `gain-soft` |
 | Verlust, Kaufkraftverlust, Zinskosten, fallende Kurse | `loss`, Fläche `loss-soft` |
-| Haupt-Aufruf zur Geldquelle, Bonus, Rahmen der Nummer 1 | `spark` (Gold, dunkle Schrift), Knopf `.btn-spark` |
+| Haupt-Aufruf zur Geldquelle | Block `FindeDeinAngebot`: leiser Verlauf, Logos, Knopf `.btn-spark` im Signalblau. Gold (`spark`) nur als kleines Detail, nie als Fläche oder Knopf |
 | Grün, Gelb, Rot als Bewertung | Ampel bleibt sachlich. Ein Partner wird nie grün hervorgehoben, dafür gibt es `spark` |
 | Schrift | Figtree |
 
 - Anbieter immer mit Logo (`AnbieterLogo`). Logos bringen die Farbe, die Fläche bleibt hell.
 - Bester Aufruf ist „Finde, was zu dir passt“ (`FindeDeinAngebot` → `/vergleich/start`), nicht ein einzelner
-  Anbieter im Rechner. Höchstens ein goldener Knopf je Bildschirm.
+  Anbieter im Rechner. Höchstens ein solcher Block je Seite.
+- Flächen bleiben ruhig (Elias, 21.09.2026 abends: dunkle Ergebniskarte mit Lichtfleck und goldener Knopf waren
+  „too much“ und sahen nach KI aus). Farbe gehört in die Daten: Tortenstücke, Linien, die große Zahl, Logos.
+  Ergebniskarte ist `.ergebnis-karte` im Marken-Hellblau, die Zahl grün bei Gewinn, `loss` bei Verlust, sonst blau.
 - Kurze Erfolgsmomente wie Konfetti dürfen ganz bunt sein.
 
 ## Inhalt

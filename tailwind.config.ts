@@ -71,12 +71,10 @@ export default {
         gain: {
           DEFAULT: "hsl(var(--gain))",
           soft: "hsl(var(--gain-soft))",
-          bright: "hsl(var(--gain-bright))",
         },
         loss: {
           DEFAULT: "hsl(var(--loss))",
           soft: "hsl(var(--loss-soft))",
-          bright: "hsl(var(--loss-bright))",
         },
         spark: {
           DEFAULT: "hsl(var(--spark))",

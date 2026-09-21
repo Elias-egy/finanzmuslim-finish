@@ -175,20 +175,20 @@ const BereinigungsRechner = () => {
 
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-24">
-          <div className="ergebnis-karte" data-ton="geben">
-            <span className="text-[11px] font-semibold tracking-wide text-white/70">Das gibst du weiter</span>
+          <div className="ergebnis-karte" data-ton="neutral">
+            <span className="ergebnis-ueber">Das gibst du weiter</span>
             <p className="ergebnis-zahl">{eur(betrag)}</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-white/80">
+            <p className="ergebnis-satz">
               {weg === "gesamt" ? (
                 <>
-                  Von <strong className="text-white">{eur(ertrag)}</strong> gibst du{" "}
-                  <strong className="text-white">{eur(betrag)}</strong> weiter.{" "}
-                  <strong className="text-white">{eur(bleibt)}</strong> bleiben bei dir und gehören dir ganz.
+                  Von <strong>{eur(ertrag)}</strong> gibst du{" "}
+                  <strong>{eur(betrag)}</strong> weiter.{" "}
+                  <strong>{eur(bleibt)}</strong> bleiben bei dir und gehören dir ganz.
                 </>
               ) : (
                 <>
                   Für {anteile.toLocaleString("de-DE")} Anteile kommen{" "}
-                  <strong className="text-white">{eur(betrag)}</strong> zusammen. Der Rest deiner Erträge
+                  <strong>{eur(betrag)}</strong> zusammen. Der Rest deiner Erträge
                   gehört dir.
                 </>
               )}

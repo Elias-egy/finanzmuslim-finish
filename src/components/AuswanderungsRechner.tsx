@@ -521,14 +521,14 @@ const AuswanderungsRechner = () => {
         {/* ── Ergebnis ─────────────────────────────────────────────── */}
         <div className="space-y-4 lg:sticky lg:top-36">
           <div className="ergebnis-karte" data-ton={plus >= 0 ? "gewinn" : "verlust"}>
-            <span className="text-[11px] font-semibold tracking-wide text-white/70">
+            <span className="ergebnis-ueber">
               {eur(netto)} {land.imLand} fühlen sich an wie
             </span>
             <p className="ergebnis-zahl">{eur(aequivalent)}</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-white/80">
-              Mit <strong className="text-white">{eur(netto)}</strong> netto {lebst} {wir} {land.imLand} wie
-              mit rund <strong className="text-white">{eur(aequivalent)}</strong> in Deutschland. Das sind{" "}
-              <strong className="text-white">{eur(plus)}</strong> mehr Kaufkraft im Monat, plus {plusProzent}{" "}
+            <p className="ergebnis-satz">
+              Mit <strong>{eur(netto)}</strong> netto {lebst} {wir} {land.imLand} wie
+              mit rund <strong>{eur(aequivalent)}</strong> in Deutschland. Das sind{" "}
+              <strong>{eur(plus)}</strong> mehr Kaufkraft im Monat, plus {plusProzent}{" "}
               Prozent.
             </p>
 
@@ -550,21 +550,21 @@ const AuswanderungsRechner = () => {
                     width={92}
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fontSize: 12, fill: "rgba(255,255,255,0.85)" }}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
                   />
                   <Tooltip
                     cursor={false}
                     formatter={(v: number) => [eur(v), "Kaufkraft"]}
-                    contentStyle={{ borderRadius: 12, border: "none", fontSize: 13 }}
+                    contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", fontSize: 13 }}
                   />
                   <Bar dataKey="wert" radius={[0, 4, 4, 0]} isAnimationActive={false}>
-                    <Cell fill="rgba(255,255,255,0.35)" />
+                    <Cell fill="hsl(var(--primary) / 0.28)" />
                     <Cell fill={rel < 1 ? "hsl(var(--success))" : "hsl(var(--warning))"} />
                     <LabelList
                       dataKey="wert"
                       position="right"
                       formatter={(v: number) => eur(v)}
-                      style={{ fill: "#fff", fontSize: 13, fontWeight: 700 }}
+                      style={{ fill: "hsl(var(--foreground))", fontSize: 13, fontWeight: 700 }}
                     />
                   </Bar>
                 </BarChart>
