@@ -76,3 +76,16 @@ Prüfen: wie A, dazu Link-Check der geänderten Ziele (keine toten Links, `/out/
   und Silber-ETCs).
 - **B6 Erklärtexte unter den Rechnern** durchgehen: manche sind generisch („Warum wir von Rendite sprechen, nicht von
   Zins“). Je Rechner prüfen, kürzen oder streichen. Elias nennt die schwachen Stellen oder gibt frei.
+
+## Stand 21.09. abends: Auftrag A (Design, Fable) ist fertig
+
+Erledigt und gepusht bis `777ead7`, nichts veröffentlicht: Farb-Tokens und Regel in `CLAUDE.md`, `FindeDeinAngebot`,
+alle acht Rechner (helle Ergebniskarte, Farbe in den Daten, ein Aufruf je Seite, aufklappbare Anlagen-Zeile),
+Auswanderungsrechner mit Klappen, Liste „21 halal Anlagen“ mit Logos und Rendite, „Verfügbar bei“ auf der
+Anlage-Detailseite, Nummer-1-Rahmen, Logos in Deals und Beitrags-Boxen, Wissen zentriert, neues Autorenbild
+(`src/assets/elias-autor.webp`), „Dein Paket steht“ kleiner. Gemeinsame Logo-Auswahl: `src/lib/anbieterLogos.ts`.
+
+Offen für Opus (kein Design mehr nötig): B2 Klickwege in den Beiträgen, B3 Gmail-Antworten, B4 finvesto/Checkliste/Go,
+B5 Anlagen neu prüfen und Platin/Palladium in alle Listen, B6 Erklärtexte. Nicht im Browser angesehen, nur gebaut und
+gemessen: Assistent-Ergebnis („Dein Paket“), Halal-Guide-Autorenbild. Franklin Shariah Technology Fund steht in der Liste
+ohne ISIN, in der Datenbank mit: bei B5 angleichen.
