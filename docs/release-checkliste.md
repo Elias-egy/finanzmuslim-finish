@@ -7,8 +7,9 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 
 - [x] **Mail-Runde 2 abgeschickt**: 27 Mails am 21.09. aus `eliaselgendy2006@gmail.com`, im Gesendet-Ordner einzeln geprüft.
 - [ ] **Antworten eintragen** (Claude): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:
-      meine Bank, Haspa, EthikBank, HVB, tradegate.direct, justTRADE, Bitvavo, Smartbroker+. Offen: DKB, Commerzbank,
-      Scalable, flatex, Targobank, finanzen.net zero, BSDEX, Joe Broker, Tomorrow, WillBe-Nachfrage.
+      meine Bank, Haspa, EthikBank, HVB, tradegate.direct, justTRADE, Bitvavo, Smartbroker+. Am 22.09.: Commerzbank-Depots,
+      Joe Broker, Berliner Volksbank, finanzen.net zero Krypto. Offen: DKB, Scalable, flatex, Targobank, Tomorrow,
+      Pax-Depots, Traders Place Krypto, WillBe-Nachfrage. BSDEX und Relai: Elias entscheidet.
 - [ ] **Anbieter ohne Mail-Weg**: Von den 17 sind 7 über ihre eigene Seite belegt (Binance, Kraken, OKX, Freedom24,
       Plus500, Monese, Vivid). Noch offen, per App oder Chat fragen oder bewusst auf „noch nicht geprüft“ lassen
       (Elias entscheidet): 21bitcoin, BISON, Bitpanda, eToro, Revolut Krypto, bunq, Klarna, SumUp, Wise, BforBank.
