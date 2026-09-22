@@ -37,6 +37,10 @@ export const DEPOT_WERTE: Werte = {
   "willbe-depot": { zinsfreiAbStart: "schlecht" },
   "hypovereinsbank-hvb-depot": { zinsfreiAbStart: "schlecht" },
   "hypovereinsbank-smartdepot": { zinsfreiAbStart: "schlecht" },
+  "commerzbank-direktdepot": { zinsfreiAbStart: "gut" },
+  "commerzbank-klassikdepot": { zinsfreiAbStart: "gut" },
+  "commerzbank-premiumdepot": { zinsfreiAbStart: "gut" },
+  "joe-broker-depot": { zinsfreiAbStart: "gut" },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
@@ -57,6 +61,10 @@ export const DEPOT_QUELLEN: Quellen = {
   "scalable-capital-prime-plus-broker": { zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "20.09.2026", hinweis: "Das Verrechnungskonto wird mit 0 % p. a. geführt; das separate Tagesgeld muss aktiv gewählt und befüllt werden." } },
   "trading-212-depot": { zinsfreiAbStart: { url: "https://www.trading212.com/de/invest", stand: "20.09.2026", hinweis: "Die Verzinsung freier Mittel ist ein aktivierbares Zusatzangebot und nicht automatisch voreingestellt." } },
   "vivid-standard": { zinsfreiAbStart: { url: "https://vivid.money/de-de/personal/interest-rate-pocket/", stand: "20.09.2026", hinweis: "Der Ertrag setzt ein Interest-Rate-Pocket und eine eigene Einzahlung voraus." } },
+  "commerzbank-direktdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus." } },
+  "commerzbank-klassikdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus." } },
+  "commerzbank-premiumdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus." } },
+  "joe-broker-depot": { zinsfreiAbStart: { url: "https://www.joebroker.de/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Joe-Broker-Support am 22.09.2026 (Ticket JBSPROD-13897): „Aktuell wird das Guthaben, das auf dem Verrechnungskonto liegt nicht verzinst.“ Eine geplante Verzinsung gilt laut Support nur für Konten, die nach deren Einführung eröffnet werden: „Wenn Du also zum aktuellen Zeitpunkt ein Depot bei uns eröffnest, erhältst Du keine Zinsen auf Dein Guthaben und wirst auch in Zukunft keine erhalten.“" } },
   "trade-republic-depot": {
     zinsfreiAbStart: {
       url: "https://traderepublic.com/de-de/zinsen",
@@ -104,6 +112,7 @@ export const GIRO_WERTE: Werte = {
   "monese-pay-as-you-go": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "pax-bank-pax-bck-individuell": { keinDispoAbStart: "gut" },
   "trade-republic-girokonto": { zinsfreiAbStart: "teils" },
+  "berliner-volksbank-girokonto": { zinsfreiAbStart: "gut" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
@@ -135,6 +144,7 @@ export const GIRO_QUELLEN: Quellen = {
   "commerzbank-girokonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "commerzbank-klassikkonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
+  "berliner-volksbank-girokonto": { zinsfreiAbStart: { url: "https://www.berliner-volksbank.de/privatkunden/girokonto-karten.html", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Privatkunden-Service der Berliner Volksbank am 22.09.2026: „Sind Sie über 30 Jahre, gibt es keine Guthabenverzinsung auf das Girokonto.“ Beim Girokonto blauorange (18 bis 30 Jahre) gibt es „nur eine Guthabenverzinsung, wenn sie bei uns Mitglied werden“, also nur nach eigener Entscheidung." } },
   "1822direkt-girodirekt": { zinsfreiAbStart: { url: "https://www.1822direkt.de/sparen/tagesgeldkonto/", stand: "20.09.2026", hinweis: "Das automatisch eröffnete Tagesgeldkonto bleibt ohne Einzahlung leer; verzinst wird nur dessen Guthaben." } },
   "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
   "ing-girokonto-future": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
@@ -165,6 +175,10 @@ export const KRYPTO_WERTE: Werte = {
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
+  "finanzen-net-zero-krypto": {
+    zinsfreiAbStart: { url: "https://www.finanzen.net/zero/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom finanzen.net-zero-Support am 22.09.2026 (Anfrage 3706816): „Wir bieten aktuell weder ein Modell noch ein Konto an, bei dem wir Zinsen ausschütten. Ein Abomodell wird ebenfalls nicht angeboten.“" },
+    zinsfreiesModell: { url: "https://www.finanzen.net/zero/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom finanzen.net-zero-Support am 22.09.2026 (Anfrage 3706816): „Wir bieten aktuell weder ein Modell noch ein Konto an, bei dem wir Zinsen ausschütten. Ein Abomodell wird ebenfalls nicht angeboten.“" },
+  },
   "kraken-pro": {
     zinsfreiesModell: { url: "https://support.kraken.com/articles/202967016-how-to-trade-using-margin", stand: "21.09.2026", hinweis: "Kraken-Hilfe: Margin wird nur auf Wunsch zugeschaltet, „Oben im Order Form Widget findest du einen Schalter zum Aktivieren der Margin.“ Kraken+ mit höheren Rewards ist ein freiwilliges Abo." },
   },
