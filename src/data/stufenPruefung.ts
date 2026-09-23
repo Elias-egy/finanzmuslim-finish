@@ -80,4 +80,17 @@ export const STUFEN_STAND: Record<string, StufenStand> = {
     geprueft: "23.09.2026, Passive Earn nennt Fusion, Standard über die AGB",
     notiz: "Standard und Fusion: Passive Earn läuft per AGB-Annahme und ist abschaltbar, gelb. Depot (Wertpapiere): der Krypto-Beleg wurde nicht übertragen, jetzt offen. Abo-Stufen mit Zins nicht gefunden, Bitpanda Club nennt keine Zinsen.",
   },
+  "trade-republic": {
+    geprueft: "23.09.2026, Zins-FAQ im echten Chrome aufgeklappt",
+    notiz: "Depot, Girokonto und Krypto teilen dasselbe Cash-Konto und stehen jetzt einheitlich auf ja. Vorher war Depot ja und Girokonto/Krypto abschaltbar, aus derselben Quelle. Der Anbieter schreibt: „Aktiviere Zinsen in der App“, also Opt-in. Gegenprobe in der App durch Elias steht aus.",
+  },
+  norisbank: {
+    notiz: "23.09.2026: Beim Dispo widerspricht sich die Bank. Werbeseite „erhalten Girokonto-Kunden einen Sofort-Dispo“, Vertragsbedingungen „Auf Antrag … Antragsannahme durch gesonderte Mitteilung“. Top-Girokonto steht beim Dispo deshalb auf offen, vorher rot allein wegen der Werbeseite.",
+  },
+  targobank: {
+    notiz: "23.09.2026: Der Dispo-Beleg des Online-Kontos sagte nichts über einen Dispo und trug das rote Urteil nicht. Jetzt offen. Die Bank verweist für Auskünfte in die Filiale.",
+  },
+  ing: {
+    notiz: "23.09.2026: Direkt-Depot bleibt rot, weil ING Neukunden automatisch ein verzinstes Extra-Konto als Verrechnungskonto eröffnet. Wer schon ein ING-Girokonto hat, kann es stattdessen wählen; das steht jetzt im Beleg. Die Girokonten bleiben grün.",
+  },
 };
