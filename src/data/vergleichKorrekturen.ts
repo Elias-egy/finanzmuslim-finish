@@ -29,19 +29,17 @@ export const korrigiereAnbieter = (
         quellen[key] = quellenOverrides[a.id][key];
       }
     }
-    // Abgeraten wird, sobald eine der beiden Zins-Ampeln rot ist. Bis zum
-    // 23.09.2026 zaehlte nur zinsfreiAbStart; damit blieb ein Anbieter wie
-    // eToro unauffaellig, dessen Abo sich ueber Zinsen und Staking rechnet.
-    const zinsNeu = werte.zinsfreiAbStart;
-    const modellNeu = werte.zinsfreiesModell;
-    const zins = zinsNeu ?? a.werte.zinsfreiAbStart;
-    const modell = modellNeu ?? a.werte.zinsfreiesModell;
-    const bewertet = zinsNeu !== undefined || modellNeu !== undefined;
+    // Abgeraten wird nur, wenn Zinsen ab Start laufen und nicht abschaltbar sind.
+    // Ein rotes Bezahlmodell betrifft dagegen nur die kostenpflichtige Stufe:
+    // eToro und Revolut kann man kostenlos und zinsfrei nutzen, das Abo ist es,
+    // das sich ueber Zinsen rechnet. Deshalb steht die Ampel rot, der Anbieter
+    // bleibt aber nutzbar. Elias am 23.09.2026: jede Stufe einzeln betrachten.
+    const zins = werte.zinsfreiAbStart;
     return {
       ...a,
       werte: { ...a.werte, ...werte },
       quellen,
-      ...(bewertet ? { abgeraten: zins === "schlecht" || modell === "schlecht" } : {}),
+      ...(zins === "schlecht" || zins === "gut" || zins === "teils" ? { abgeraten: zins === "schlecht" } : {}),
     };
   }).sort((a, b) =>
     Number(a.abgeraten ?? false) - Number(b.abgeraten ?? false) ||

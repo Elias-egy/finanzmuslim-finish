@@ -36,11 +36,13 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     }
   });
 
-  it("markiert genau die Anbieter als abgeraten, bei denen ein Zins-Merkmal rot ist", () => {
-    const zins = ["zinsfreiAbStart", "zinsfreiesModell"];
+  it("raet nur ab, wenn Zinsen ab Start laufen, nicht wegen eines Abos", () => {
+    // Ein rotes Bezahlmodell trifft nur die kostenpflichtige Stufe. eToro und
+    // Revolut sind kostenlos zinsfrei nutzbar, nur ihr Abo rechnet sich ueber
+    // Zinsen. Wer davon abraet, verurteilt den ganzen Anbieter fuer etwas, das
+    // niemand buchen muss. Elias am 23.09.2026: jede Stufe zaehlt fuer sich.
     for (const a of anbieter) {
-      const rot = zins.some((k) => a.werte[k] === "schlecht");
-      expect(Boolean(a.abgeraten), a.id).toBe(rot);
+      expect(Boolean(a.abgeraten), a.id).toBe(a.werte.zinsfreiAbStart === "schlecht");
     }
   });
 
