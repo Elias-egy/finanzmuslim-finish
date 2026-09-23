@@ -113,6 +113,7 @@ export const GIRO_WERTE: Werte = {
   "pax-bank-pax-bck-individuell": { keinDispoAbStart: "gut" },
   "trade-republic-girokonto": { zinsfreiAbStart: "teils" },
   "berliner-volksbank-girokonto": { zinsfreiAbStart: "gut" },
+  "psd-bank-n-rnberg-girodirekt": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
@@ -144,6 +145,7 @@ export const GIRO_QUELLEN: Quellen = {
   "commerzbank-girokonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "commerzbank-klassikkonto": { keinDispoAbStart: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026", hinweis: "FAQ „Haben die Girokonten einen Dispokredit?“: „Ja, Sie können auf Wunsch und bei ausreichender Bonität einen Dispositionskredit (eingeräumte Kontoüberziehung) einrichten lassen.“ Kein Dispo ab Start, nur auf Antrag." } },
   "bforbank-bforbasic-konto": { keinDispoAbStart: { url: "https://www.bforbank.com/de/haeufig-gestellte-fragen?category=karte&page=4", stand: "21.09.2026", hinweis: "BforBank: Ein Dispositionskredit ist aktuell nicht verfügbar." } },
+  "psd-bank-n-rnberg-girodirekt": { zinsfreiAbStart: { url: "https://www.psd-nuernberg.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der PSD Bank Nürnberg am 23.09.2026: „nein, standardmäßige Girokonten der PSD Bank Nürnberg (wie PSD GiroDirekt oder PSD GiroKlassik) bieten keine generelle Guthabenverzinsung auf dem normalen Girokonto.“ Zum Dispo: „Bei uns wird ein Dispokredit von 500 Euro bei bestimmten Kontoführungsmodellen (wie dem PSD GiroDirekt) auf Wunsch direkt bei der Kontoeröffnung als Sofort-Dispo beantragt, aber er wird nicht vollkommen automatisch ohne Ihre Zustimmung oder Bonitätsprüfung eingerichtet.“" }, keinDispoAbStart: { url: "https://www.psd-nuernberg.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der PSD Bank Nürnberg am 23.09.2026: „nein, standardmäßige Girokonten der PSD Bank Nürnberg (wie PSD GiroDirekt oder PSD GiroKlassik) bieten keine generelle Guthabenverzinsung auf dem normalen Girokonto.“ Zum Dispo: „Bei uns wird ein Dispokredit von 500 Euro bei bestimmten Kontoführungsmodellen (wie dem PSD GiroDirekt) auf Wunsch direkt bei der Kontoeröffnung als Sofort-Dispo beantragt, aber er wird nicht vollkommen automatisch ohne Ihre Zustimmung oder Bonitätsprüfung eingerichtet.“" } },
   "berliner-volksbank-girokonto": { zinsfreiAbStart: { url: "https://www.berliner-volksbank.de/privatkunden/girokonto-karten.html", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Privatkunden-Service der Berliner Volksbank am 22.09.2026: „Sind Sie über 30 Jahre, gibt es keine Guthabenverzinsung auf das Girokonto.“ Beim Girokonto blauorange (18 bis 30 Jahre) gibt es „nur eine Guthabenverzinsung, wenn sie bei uns Mitglied werden“, also nur nach eigener Entscheidung." } },
   "1822direkt-girodirekt": { zinsfreiAbStart: { url: "https://www.1822direkt.de/sparen/tagesgeldkonto/", stand: "20.09.2026", hinweis: "Das automatisch eröffnete Tagesgeldkonto bleibt ohne Einzahlung leer; verzinst wird nur dessen Guthaben." } },
   "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
@@ -172,9 +174,14 @@ export const KRYPTO_WERTE: Werte = {
   "smartbroker-plus-krypto": kryptoOptIn,
   "trade-republic-krypto": kryptoOptIn,
   "traders-place-krypto": kryptoOptIn,
+  "relai-app": kryptoOptIn,
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
+  "relai-app": {
+    zinsfreiAbStart: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },
+    zinsfreiesModell: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },
+  },
   "finanzen-net-zero-krypto": {
     zinsfreiAbStart: { url: "https://www.finanzen.net/zero/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom finanzen.net-zero-Support am 22.09.2026 (Anfrage 3706816): „Wir bieten aktuell weder ein Modell noch ein Konto an, bei dem wir Zinsen ausschütten. Ein Abomodell wird ebenfalls nicht angeboten.“" },
     zinsfreiesModell: { url: "https://www.finanzen.net/zero/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom finanzen.net-zero-Support am 22.09.2026 (Anfrage 3706816): „Wir bieten aktuell weder ein Modell noch ein Konto an, bei dem wir Zinsen ausschütten. Ein Abomodell wird ebenfalls nicht angeboten.“" },
