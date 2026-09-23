@@ -210,7 +210,10 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(giro("ing-girokonto").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
-    expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBeNull();
+    // Am 20.09. war Coinbase ungeprueft, die Domain sperrt jeden Abruf ohne Browser.
+    // Am 23.09.2026 kam die schriftliche Antwort (Fall 27569519): keine automatischen
+    // Zinsen, Coinbase One enthaelt weder Zinsen noch gesperrte Token.
+    expect(krypto("coinbase-advanced").werte.zinsfreiAbStart).toBe("gut");
     // Schriftliche Anbieterantworten mit Zitat geben frei (Bitvavo 18.09., Smartbroker+ 16.09.).
     expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
     expect(krypto("smartbroker-plus-krypto").werte.zinsfreiAbStart).toBe("gut");
