@@ -29,12 +29,19 @@ export const korrigiereAnbieter = (
         quellen[key] = quellenOverrides[a.id][key];
       }
     }
-    const zins = werte.zinsfreiAbStart;
+    // Abgeraten wird, sobald eine der beiden Zins-Ampeln rot ist. Bis zum
+    // 23.09.2026 zaehlte nur zinsfreiAbStart; damit blieb ein Anbieter wie
+    // eToro unauffaellig, dessen Abo sich ueber Zinsen und Staking rechnet.
+    const zinsNeu = werte.zinsfreiAbStart;
+    const modellNeu = werte.zinsfreiesModell;
+    const zins = zinsNeu ?? a.werte.zinsfreiAbStart;
+    const modell = modellNeu ?? a.werte.zinsfreiesModell;
+    const bewertet = zinsNeu !== undefined || modellNeu !== undefined;
     return {
       ...a,
       werte: { ...a.werte, ...werte },
       quellen,
-      ...(zins === "schlecht" || zins === "gut" || zins === "teils" ? { abgeraten: zins === "schlecht" } : {}),
+      ...(bewertet ? { abgeraten: zins === "schlecht" || modell === "schlecht" } : {}),
     };
   }).sort((a, b) =>
     Number(a.abgeraten ?? false) - Number(b.abgeraten ?? false) ||

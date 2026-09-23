@@ -213,8 +213,9 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(krypto("bitvavo-standard").werte.zinsfreiesModell).toBe("gut");
     expect(krypto("smartbroker-plus-krypto").werte.zinsfreiAbStart).toBe("gut");
     expect(krypto("smartbroker-plus-krypto").werte.zinsfreiesModell).toBe("gut");
-    // Ohne Beleg bleibt der pauschale Opt-in-Vorschlag wirkungslos (BISON: nur der Staking-Opt-in ist belegt).
-    expect(krypto("bison-app").werte.zinsfreiesModell).toBeNull();
+    // BISON hatte am 20.09. keinen Beleg fuer das Bezahlmodell. Seit 23.09.2026 liegt einer vor
+    // (bisonapp.com/select: "Es faellt keine Membership-Gebuehr an."), deshalb jetzt gut.
+    expect(krypto("bison-app").werte.zinsfreiesModell).toBe("gut");
     expect(krypto("kraken-pro").werte.zinsfreiesModell).toBe("gut");
   });
 

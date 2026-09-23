@@ -19,6 +19,7 @@ const kryptoOptIn = {
 };
 
 export const DEPOT_WERTE: Werte = {
+  "libertex-depot": { zinsfreiAbStart: "gut" },
   "bux-basic": { zinsfreiAbStart: "gut" },
   "consorsbank-depot": { zinsfreiAbStart: "gut" },
   "etoro-depot": { zinsfreiAbStart: "gut" },
@@ -44,6 +45,7 @@ export const DEPOT_WERTE: Werte = {
 };
 
 export const DEPOT_QUELLEN: Quellen = {
+  "libertex-depot": { zinsfreiAbStart: { url: "https://app.libertex.com/docs/en/Client_Agreement_Shares_Version_1.pdf", stand: "23.09.2026", hinweis: "The Company shall not pay the Client any interest earned on Client funds (other than profit gained through the Investments from his Account(s) under this Agreement), and the Client waives all right to interest." } },
   "finvesto-depot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
   "finvesto-depot-basis": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
   "finvesto-wertpapierdepot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },
@@ -80,6 +82,9 @@ export const DEPOT_QUELLEN: Quellen = {
 };
 
 export const GIRO_WERTE: Werte = {
+  "santander-bestgiro": { keinDispoAbStart: "gut" },
+  "norisbank-girokonto-plus": { keinDispoAbStart: "gut" },
+  "dkb-girokonto": { keinDispoAbStart: "schlecht" },
   "meine-bank-mein-girokonto": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "hamburger-sparkasse-haspajoker": { zinsfreiAbStart: "gut", keinDispoAbStart: "teils" },
   "ethikbank-girokonto": { keinDispoAbStart: "gut" },
@@ -108,15 +113,18 @@ export const GIRO_WERTE: Werte = {
   "bunq-core": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "bunq-pro": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "bunq-elite": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
-  "klarna-guthaben": { keinDispoAbStart: "gut" },
+  "klarna-guthaben": { keinDispoAbStart: "gut", zinsfreiAbStart: "gut" },
   "monese-pay-as-you-go": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
   "pax-bank-pax-bck-individuell": { keinDispoAbStart: "gut" },
-  "trade-republic-girokonto": { zinsfreiAbStart: "teils" },
+  "trade-republic-girokonto": { zinsfreiAbStart: "teils", keinDispoAbStart: "gut" },
   "berliner-volksbank-girokonto": { zinsfreiAbStart: "gut" },
   "psd-bank-n-rnberg-girodirekt": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
+  "santander-bestgiro": { keinDispoAbStart: { url: "https://www.santander.de/content/pdf/agb-sonderbedingungen/bedingungen-fuer-girokonten.pdf", stand: "23.09.2026", hinweis: "10.3 Der Vertrag kommt durch einen Antrag des Kunden und die Annahme der Bank zustande. Die Annahmeerklärung der Bank bedarf keiner Unterzeichnung, wenn sie mit Hilfe einer automatischen Einrichtung erstellt wird. Die Bank bestätigt die Annahme des Antrags durch Angabe des Verfügungs- bzw. Dispositionsrahmens auf dem Kontoauszug." } },
+  "norisbank-girokonto-plus": { keinDispoAbStart: { url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/norisbank-antrag-girokonto-plus.pdf", stand: "23.09.2026", hinweis: "Auf Antrag und nach Prüfung der Bonität räumt die Bank dem Kunden auf einem Girokonto einen Dispositionskredit, den noris Dispokredit, ein. Die Einräumung und damit Antragsannahme der Bank erfolgt durch gesonderte Mitteilung. [Antragsformular, eigenes Ankreuzfeld: „Beantragung Dispositionskredit* – Ich nutze mein neues Girokonto plus für monatliche Geldeingänge. Bitte räumen Sie mir einen Dispositionskredit in Höhe von 500 Euro ein.“] Hinweis: Die Werbeseite norisbank.de spricht dagegen von einem Sofort-Dispo bis 500 Euro, Bonität vorausgesetzt. Gewertet wurde das Vertragsdokument." } },
+  "dkb-girokonto": { keinDispoAbStart: { url: "https://www.dkb.de/fragen-antworten/ich-habe-mein-konto-ueberzogen-was-muss-ich-tun", stand: "23.09.2026", hinweis: "Für dein Girokonto haben wir dir in der Regel einen Dispokredit eingeräumt. Bis zu diesem Betrag darfst du mit deinem Girokonto ins Minus gehen. Hast du keinen Dispokredit, darfst du das Girokonto nur im Guthaben führen." } },
   "revolut-standard": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
   "revolut-plus": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
   "revolut-premium": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/savings-how-does-it-work/", stand: "21.09.2026", hinweis: "Revolut: Zinsen gibt es nur auf dem Tagesgeld-Unterkonto, das man selbst befüllt. „Das Tagesgeld-Unterkonto ist ein Sichteinlagenkonto. Wenn du Geld auf ein Tagesgeldkonto einzahlst, wird es von deinem Hauptkonto bei Revolut auf ein Tagesgeld-Unterkonto übertragen“." } },
@@ -133,10 +141,10 @@ export const GIRO_QUELLEN: Quellen = {
   "vivid-standard": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
   "vivid-plus": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
   "vivid-prime": { zinsfreiAbStart: { url: "https://support.vivid.money/de/articles/9274783-was-ist-das-interest-rate-pocket", stand: "21.09.2026", hinweis: "Vivid-Hilfe: Zinsen laufen nur in einem Interest Rate Pocket, das man selbst eröffnet: „für das erste eröffnete Interest Rate Pocket erhältst du für zwei Monate einen Aktionszinssatz“." }, keinDispoAbStart: { url: "https://support.vivid.money/de/articles/8460434-warum-wird-mir-ein-negativer-saldo-angezeigt", stand: "21.09.2026", hinweis: "Vivid-Hilfe: „Wir bieten keinen Dispokredit an.“" } },
-  "klarna-guthaben": { keinDispoAbStart: { url: "https://cdn.klarna.com/1.0/shared/content/legal/terms/0/de_de/general_conditions_account", stand: "21.09.2026", hinweis: "Klarna-AGB: „Das Klarna Bankkonto hat keine Überziehungsfunktion, d. h. dein Klarna Bankkonto kann nicht unter null fallen.“" } },
+  "klarna-guthaben": { keinDispoAbStart: { url: "https://cdn.klarna.com/1.0/shared/content/legal/terms/0/de_de/general_conditions_account", stand: "21.09.2026", hinweis: "Klarna-AGB: „Das Klarna Bankkonto hat keine Überziehungsfunktion, d. h. dein Klarna Bankkonto kann nicht unter null fallen.“" }, zinsfreiAbStart: { url: "https://www.klarna.com/de/hilfe/klarna-guthaben/wie-kann-ich-mit-meinem-klarna-guthaben-zinsen-verdienen/", stand: "23.09.2026", hinweis: "Du kannst mit deinem Girokonto Zinsen verdienen, indem du eine unserer Sparoptionen wählst: ein Flexkonto für Flexibilität oder ein Festgeldkonto mit fester Laufzeit. Eröffne einfach ein Sparkonto und lade Geld von deinem Girokonto auf. Dein Geld beginnt sofort, Zinsen zu erwirtschaften." } },
   "monese-pay-as-you-go": { zinsfreiAbStart: { url: "https://www.monese.com/terms/eu-other-personal-terms-and-conditions-09-10-2025", stand: "21.09.2026", hinweis: "Monese-AGB (EU): „As your Monese Account is an e-money account, the law doesn’t let us pay you interest“." }, keinDispoAbStart: { url: "https://support.monese.com/en/articles/41-why-is-my-account-balance-negative", stand: "21.09.2026", hinweis: "Monese-Hilfe: „It’s also worth remembering that we don’t offer overdrafts at the moment.“" } },
   "pax-bank-pax-bck-individuell": { keinDispoAbStart: { url: "https://www.pax-bank.de/privatkunden/kredit-baufinanzierung/kredit/dispokredit.html", stand: "21.09.2026", hinweis: "Pax-Bank: Der Dispo wird selbst beantragt, „So beantragen Sie innerhalb weniger Minuten und ohne viel Papierkram Ihren Dispokredit.“" } },
-  "trade-republic-girokonto": { zinsfreiAbStart: { url: "https://traderepublic.com/de-de/zinsen", stand: "21.09.2026", hinweis: "Trade Republic: „Aktiviere Zinsen in der App“ und „Ja, du kannst die Zinsen in der App deaktivieren, indem du zum Tab „Cash“ > Kachel „Zinsen“ > „Verwalten“ > „Deaktivieren“ navigierst.“ Ob sie ab Eröffnung laufen, sagt die Seite nicht eindeutig, deshalb teils." } },
+  "trade-republic-girokonto": { zinsfreiAbStart: { url: "https://traderepublic.com/de-de/zinsen", stand: "21.09.2026", hinweis: "Trade Republic: „Aktiviere Zinsen in der App“ und „Ja, du kannst die Zinsen in der App deaktivieren, indem du zum Tab „Cash“ > Kachel „Zinsen“ > „Verwalten“ > „Deaktivieren“ navigierst.“ Ob sie ab Eröffnung laufen, sagt die Seite nicht eindeutig, deshalb teils." }, keinDispoAbStart: { url: "https://assets.traderepublic.com/assets/files/FeeInformation_PaymentAccount_de.pdf", stand: "23.09.2026", hinweis: "Überziehungen und damit verbundene Dienste / Eingeräumte Kontoüberziehung: Dienst nicht verfügbar / Geduldete Kontoüberziehung: Dienst nicht verfügbar" } },
   "meine-bank-mein-girokonto": { zinsfreiAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Nein, Guthaben auf dem MEIN-Girokonto werden nicht verzinst. Eine Verzinsung erfolgt ausschließlich auf gesonderte Anlageprodukte, beispielsweise ein Tagesgeldkonto.“" }, keinDispoAbStart: { url: "https://www.meinebank.de/konto-und-karte/mein-girokonto.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von meine Bank am 21.09.2026: „Ja, Sie können das MEIN-Girokonto grundsätzlich auch ohne Dispositionskredit führen. Ein Dispositionskredit wird nicht automatisch genehmigt.“" } },
   "hamburger-sparkasse-haspajoker": { zinsfreiAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der Hamburger Sparkasse (Privat Direkt Beratung) am 21.09.2026: „Unsere Girokonten haben keine Guthabenverzinsung.“" }, keinDispoAbStart: { url: "https://www.haspa.de/de/home.html", stand: "21.09.2026", hinweis: "Schriftlich von der Hamburger Sparkasse am 21.09.2026: „Zudem wird auch kein Dispositionskredit im Rahmen einer Girokontoeröffnung „automatisch“ eingestellt. … In der Regel gibt es einen kleinen Überziehungspuffer, den wir jedoch mit einer Überziehungssperre vermeiden können.“ Die Sperre muss man bei der Eröffnung selbst verlangen, deshalb nur teilweise." } },
   "ethikbank-girokonto": { keinDispoAbStart: { url: "https://www.ethikbank.de/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt von der EthikBank am 21.09.2026: „Gern können Sie das Konto ohne Überziehungsmöglichkeit eröffnen. In diesem Fall wird das Konto im Guthaben geführt und es fallen keine Dispositionszinsen an.“" } },
@@ -154,6 +162,11 @@ export const GIRO_QUELLEN: Quellen = {
 };
 
 export const KRYPTO_WERTE: Werte = {
+  "robinhood-krypto": { zinsfreiAbStart: "gut" },
+  "crypto-com-app": { zinsfreiAbStart: "gut" },
+  "bitpanda-standard": { zinsfreiesModell: "gut" },
+  "bitpanda-fusion": { zinsfreiesModell: "gut" },
+  "21bitcoin-app": { zinsfreiAbStart: "gut", zinsfreiesModell: "gut" },
   "binance-pro": kryptoOptIn,
   "binance-standard": kryptoOptIn,
   "bison-app": kryptoOptIn,
@@ -161,7 +174,7 @@ export const KRYPTO_WERTE: Werte = {
   "bitvavo-standard": kryptoOptIn,
   "coinbase-advanced": kryptoOptIn,
   "coinbase-standard": kryptoOptIn,
-  "etoro-krypto": kryptoOptIn,
+  "etoro-krypto": { zinsfreiAbStart: "gut", zinsfreiesModell: "schlecht" },
   "finanzen-net-zero-krypto": kryptoOptIn,
   "finst-standard": kryptoOptIn,
   "flatex-krypto": kryptoOptIn,
@@ -172,14 +185,23 @@ export const KRYPTO_WERTE: Werte = {
   "revolut-krypto": { zinsfreiAbStart: "teils" },
   "scalable-capital-krypto": kryptoOptIn,
   "smartbroker-plus-krypto": kryptoOptIn,
-  "trade-republic-krypto": kryptoOptIn,
+  "trade-republic-krypto": { zinsfreiAbStart: "teils", zinsfreiesModell: "gut" },
   "traders-place-krypto": kryptoOptIn,
   "relai-app": kryptoOptIn,
-  "bsdex-standard": { zinsfreiAbStart: "gut" },
+  "bsdex-standard": { zinsfreiAbStart: "gut", zinsfreiesModell: "gut" },
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
-  "bsdex-standard": { zinsfreiAbStart: { url: "https://www.bsdex.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom BSDEX-Support am 21.09.2026 (Ticket 609033): Staking läuft nur nach eigener Freigabe. „Möchten Sie am künftigen Staking-Angebot von BSDEX teilnehmen, ist es erforderlich, dass Sie die AGB akzeptieren und uns Ihre Weisung geben.“ Die Weisung wird als Pop-up in der App angezeigt und kann abgelehnt werden: „Sie können einfach auf ‚Ablehnen‘ im Pop-up klicken und sich wie gewohnt in Ihren BSDEX Account einloggen.“ Ohne diese Weisung werden keine Coins gestakt, das Konto ist also von Anfang an zinsfrei nutzbar. Die AGB-Zustimmung selbst ist für Neukunden Pflicht, löst aber kein Staking aus." } },
+  "robinhood-krypto": { zinsfreiAbStart: { url: "https://robinhood.com/us/en/support/articles/crypto-staking/", stand: "23.09.2026", hinweis: "„Staking allows you to earn rewards by locking up crypto.“ / „To stake crypto: Select Get started with staking or Manage staking on the coin detail page of the individual crypto you hold and want to stake“ — Cash-Zinsen nur nach Anmeldung: „How do I sign up? Go to Account (person icon) … Select Investing … Scroll to Cash sweep program“ (robinhood.com/us/en/support/articles/deposit-sweep-program/)" } },
+  "crypto-com-app": { zinsfreiAbStart: { url: "https://help.crypto.com/en/articles/2996965-crypto-earn-how-does-it-work", stand: "23.09.2026", hinweis: "„Allocate your preferred crypto into Crypto Earn to start accruing rewards daily to grow your crypto assets.“ / „Tap on the Menu on the top left corner of the Crypto.com App's homepage — Then, tap Crypto Earn to enter the Crypto Earn product page; Select our preferred token and term to make an allocation — Once the allocation is confirmed, rewards will start to accrue immediately“" } },
+  "traders-place-krypto": { zinsfreiAbStart: { url: "https://tradersplace.de/service/service/konditionen", stand: "23.09.2026", hinweis: "„Zinssätze Verrechnungskonto (gem. Sonderkonditionen zum Preis- und Leistungsverzeichnis der Baader Bank) — EUR-Verrechnungskonto: Guthabenzinssatz 0% p.a.“ und „Fremdwährungs-Verrechnungskonto (USD, CHF, GBP): Guthabenzinssatz 0% p.a.“; das Zinskonto ist getrennt: „Um das Zinskonto zu eröffnen, benötigst du ein Traders Place Depot.“ (tradersplace.de/angebot/uebersicht/zinskonto)" }, zinsfreiesModell: { url: "https://tradersplace.de/service/service/konditionen", stand: "23.09.2026", hinweis: "„Wertpapierverwahrung (Baader Bank) — Depotführung: kostenlos — Verrechnungskonto: kostenlos“; im Preis- und Leistungsverzeichnis ist kein kostenpflichtiges Kontomodell und kein Abo aufgeführt" } },
+  "trade-republic-krypto": { zinsfreiAbStart: { url: "https://traderepublic.com/de-de/zinsen", stand: "23.09.2026", hinweis: "„Aktiviere Zinsen in der App und erhalte jeden Monat Geld auf dein unbegrenztes Cash-Guthaben.“ / FAQ „Kann ich die Zinsen deaktivieren?“: „Ja, du kannst die Zinsen in der App deaktivieren, indem du zum Tab ‚Cash‘ > Kachel ‚Zinsen‘ > ‚Verwalten‘ > ‚Deaktivieren‘ navigierst. Wenn du sie deaktivierst, erhältst du auf nicht investiertes Cash keine Zinsen mehr. Du kannst deine Zinsen jederzeit auf demselben Weg wieder aktivieren.“ Das Trade-Republic-Girokonto steht aus demselben Grund auf teils: es nutzt dasselbe Cash-Guthaben. Ob Zinsen bei einem neuen Konto schon laufen, ist nur in der App zu sehen." } },
+  "scalable-capital-krypto": { zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "23.09.2026", hinweis: "Tabelle „Aktuelle Zinsen“: „Verrechnungskonten — Mit PRIME+ 0 % p.a.* — Ohne PRIME+ 0 % p.a.*“ (Tagesgeld ist ein getrennt zu eröffnendes Konto); Krypto läuft über ETPs: „Aus 32 Kryptowährungen als ETPs wählen und optional von Staking Rewards zwischen 3 und 5 % p.a. profitieren.“ (de.scalable.capital/kryptowaehrung)" }, zinsfreiesModell: { url: "https://de.scalable.capital/prime-plus-broker", stand: "23.09.2026", hinweis: "„Mit PRIME+ machen Sie mehr aus Ihrem Geld. Für nur 4,99 € im Monat.“ / „PRIME+ richtet sich an alle, die regelmäßig handeln und sich zusätzliche Vorteile sichern möchten, darunter unbegrenzte Sparpläne, eine Trading-Flatrate für qualifizierte Trades, niedrigere Crypto-Spreads, erweiterter Einlagenschutz* und exklusive Funktionen.“ — Tagesgeldzins laut Zinsübersicht mit und ohne PRIME+ identisch (2,60 % p.a.)" } },
+  "flatex-krypto": { zinsfreiAbStart: { url: "https://konto.flatex.de/formularcenter_bank/public/1300100.pdf", stand: "23.09.2026", hinweis: "Cash-Konto Zinssätze ... Guthabenzins (freibleibend) 0,00 % p. a." }, zinsfreiesModell: { url: "https://konto.flatex.de/formularcenter_bank/public/1300100.pdf", stand: "23.09.2026", hinweis: "1. Konto & Depot Konto-/Depotführung Wertpapierdepot kostenfrei Cash-Konto kostenfrei Fremdwährungskonto kostenfrei" } },
+  "bitpanda-standard": { zinsfreiesModell: { url: "https://www.bitpanda.com/de/bitpanda-club", stand: "23.09.2026", hinweis: "Wie werde ich ein Gold Member? Unser Premium-Service basiert auf deinem Trade-Volumen, d. h. 100k in einem der letzten 6 Monate, Assets + Fiat-Guthaben über 400 € und mindestens 5 Trades." } },
+  "bitpanda-fusion": { zinsfreiesModell: { url: "https://www.bitpanda.com/de/fusion", stand: "23.09.2026", hinweis: "Degressive Gebührenstruktur: Je mehr du tradest, desto geringer die Gebühren. Deine Gebührenstufe berechnet sich automatisch anhand deines fortlaufenden Trading-Volumens der letzten 30 Tage – ohne manuelle Anträge oder Stufen-Sperren." } },
+  "21bitcoin-app": { zinsfreiAbStart: { url: "https://help.21bitcoin.app/de/articles/12831158-ein-blick-auf-die-bitcoin-geschafte-von-21bitcoin", stand: "23.09.2026", hinweis: "Verleiht 21bitcoin meine Bitcoin? Wir lassen niemanden deine Bitcoin ausleihen oder Zinsen darauf verdienen. Das heißt, du kannst rund um die Uhr auf deine Bitcoin zugreifen." }, zinsfreiesModell: { url: "https://21bitcoin.app/gebuehren", stand: "23.09.2026", hinweis: "Kontogebühren Kontoeröffnung & Kontoführung €0 Versicherte BTC Verwahrung €0 ... Konto-, Depot- oder Verwahrgebühren gibt es nicht." } },
+  "bsdex-standard": { zinsfreiAbStart: { url: "https://www.bsdex.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom BSDEX-Support am 21.09.2026 (Ticket 609033): Staking läuft nur nach eigener Freigabe. „Möchten Sie am künftigen Staking-Angebot von BSDEX teilnehmen, ist es erforderlich, dass Sie die AGB akzeptieren und uns Ihre Weisung geben.“ Die Weisung wird als Pop-up in der App angezeigt und kann abgelehnt werden: „Sie können einfach auf ‚Ablehnen‘ im Pop-up klicken und sich wie gewohnt in Ihren BSDEX Account einloggen.“ Ohne diese Weisung werden keine Coins gestakt, das Konto ist also von Anfang an zinsfrei nutzbar. Die AGB-Zustimmung selbst ist für Neukunden Pflicht, löst aber kein Staking aus." }, zinsfreiesModell: { url: "https://www.bsdex.de/de/fees/", stand: "23.09.2026", hinweis: "Darüber hinaus werden keine weiteren Kosten für die Transaktion der Euro-Beträge und Kryptowährungen sowie deren Verwahrung erhoben." } },
   "relai-app": {
     zinsfreiAbStart: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },
     zinsfreiesModell: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },
@@ -204,15 +226,18 @@ export const KRYPTO_QUELLEN: Quellen = {
   },
   "bison-app": {
     zinsfreiAbStart: { url: "https://support.bisonapp.com/hc/de/articles/21476294743709-Staking-Prozess-Aktivierung-Entstaken-und-Rewards", stand: "21.09.2026", hinweis: "BISON-Hilfe: Staking nur nach eigener Anmeldung, „wie du deine Kryptowährungen aktiv zum Staking anmeldest“ … „Klicke auf „Jetzt staken“ und bestätige die Menge“." },
+    zinsfreiesModell: { url: "https://bisonapp.com/select/", stand: "23.09.2026", hinweis: "Gibt es eine Membership-Gebühr? BISON Select ist unsere Art, uns bei unseren wertvollsten Kunden zu bedanken. Es fällt keine Membership-Gebühr an." },
   },
   "etoro-krypto": {
     zinsfreiAbStart: { url: "https://help.etoro.com/s/article/How-do-I-earn-staking-rewards?language=en_GB", stand: "21.09.2026", hinweis: "eToro-Hilfe: „If you are a client of eToro (Europe) Ltd, you will need to opt in to receive staking rewards.“ Kunden in Deutschland gehören zu eToro (Europe)." },
+    zinsfreiesModell: { url: "https://www.etoro.com/de/about/club/", stand: "23.09.2026", hinweis: "Platin $25.000 Kontostufe -ODER- 4,99€ pro Monat / Platin+ $50.000 Kontostufe -ODER- 14,99 € pro Monat ... Erhalten Sie sofortigen Zugang zu Platinum oder Platinum+ mit einem etoro-Club-Abonnement ... Zinsen auf USD-Barguthaben in allen anderen Regionen 0,75% 2,50% 3,50% 3,80% ... Krypto-Staking 45% 55% 65% 75% 85% 90%" },
   },
   "revolut-krypto": {
     zinsfreiAbStart: { url: "https://help.revolut.com/en-DE/help/wealth/cryptocurrencies/crypto-staking/auto-staking/", stand: "21.09.2026", hinweis: "Revolut-Hilfe (Deutschland): Staking läuft automatisch, „if you buy 100 ADA, it will be auto-staked“, lässt sich aber abschalten: „Tap the 'Auto-earn' toggle to disable it“." },
   },
   "bitget-trading": {
     zinsfreiesModell: { url: "https://www.bitget.com/support/articles/12560603820603", stand: "21.09.2026", hinweis: "Bitget-Hilfe: Margin ist ein eigenes Konto, „Transfer your fund to Margin account“." },
+    zinsfreiAbStart: { url: "https://www.bitget.com/de/support/articles/12560603826506", stand: "23.09.2026", hinweis: "Wenn Sie das Earn-Produkt abonnieren, werden die Assets von Ihrem Spot-Konto abgebucht. ... Schritt 2: Abonnieren Sie „Simple Earn Flexible“ ... Schritt 3: Auto-Subscribe aktivieren (optional)" },
   },
   "binance-standard": {
     zinsfreiAbStart: { url: "https://www.binance.com/en/support/faq/detail/3bd1a6eba20a445da1e94bf6cfa52e80", stand: "21.09.2026", hinweis: "Binance-Hilfe: Simple Earn nur nach eigenem Einschalten, „You can enable Auto-Subscribe for Flexible Products from the subscription pop-up or your Earn Account.“" },
@@ -220,6 +245,7 @@ export const KRYPTO_QUELLEN: Quellen = {
   },
   "justtrade-krypto": {
     zinsfreiAbStart: { url: "https://www.justtrade.com/faq", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom justTRADE-Kundenservice am 21.09.2026 (Anfrage #128140): „Gerne bestätigen wir Ihnen, dass Sie nicht automatisch Ausschüttungen in Form von Zinsen oder Staking erhalten. Das Staking kann flexibel aktiviert werden … Eine Verzinsung auf das Guthaben erfolgt bei uns ebenfalls nicht.“" },
+    zinsfreiesModell: { url: "https://www.justtrade.com/fileadmin/Formulare/Preis-und-Leistungsverzeichnis.pdf", stand: "23.09.2026", hinweis: "1 Konto und Depot Konto-/Depotführung Verrechnungskonto Euro kostenfrei Depotführung/-auflösung kostenfrei ... Die Verwahrung der Kryptowerte erfolgt durch die Tangany GmbH auf Grundlage eines gesondert abzuschließenden unentgeltlichen Verwahrvertrags." },
   },
   "bitvavo-standard": {
     zinsfreiAbStart: { url: "https://support.bitvavo.com/hc/de/articles/4405227858449", stand: "20.09.2026", hinweis: "Bitvavo beschreibt Erträge als aktivierbare Funktion; ohne Aktivierung wird das Guthaben nicht automatisch verzinst." },

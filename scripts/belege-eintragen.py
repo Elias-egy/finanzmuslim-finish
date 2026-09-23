@@ -42,13 +42,93 @@ def ts_text(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', "'").replace("\n", " ").strip()
 
 
-def hat_eintrag(inhalt: str, konstante: str, pid: str, feld: str) -> bool:
-    m = re.search(rf'export const {konstante}[^=]*= \{{(.*?)\n\}};', inhalt, re.S)
+def konstanten_block(inhalt: str, konstante: str) -> tuple[int, int]:
+    m = re.search(rf'export const {konstante}[^=]*= \{{\n', inhalt)
     if not m:
-        return False
-    block = m.group(1)
-    z = re.search(rf'"{re.escape(pid)}": \{{(.*?)\}},?\n', block, re.S)
-    return bool(z and feld in z.group(1))
+        raise SystemExit(f"Konstante {konstante} nicht gefunden")
+    return m.end(), inhalt.index("\n};", m.end())
+
+
+def eintrag_von(inhalt: str, konstante: str, pid: str):
+    """Findet den Eintrag einer ID und liefert (start, ende, rumpf).
+
+    Die Klammern werden gezaehlt, nicht per Muster gesucht. Ein Eintrag kann
+    ueber viele Zeilen gehen und innen weitere Objekte enthalten; ein
+    nicht-gieriges Muster endet dann an der falschen Klammer und schreibt den
+    neuen Beleg mitten in einen bestehenden hinein. Genau das ist am 23.09.2026
+    passiert und hat die Datei zerlegt.
+
+    Ein Eintrag kann auch eine Kurzform sein, etwa `"x": kryptoOptIn,`. Dann
+    ist rumpf der Bezeichner ohne Klammern.
+    """
+    von, bis = konstanten_block(inhalt, konstante)
+    block = inhalt[von:bis]
+    m = re.search(rf'^  "{re.escape(pid)}": ', block, re.M)
+    if not m:
+        return None
+    start = von + m.start()
+    pos = von + m.end()
+    if inhalt[pos] != "{":
+        ende_zeile = inhalt.index("\n", pos)
+        return start, ende_zeile, inhalt[pos:ende_zeile].rstrip().rstrip(",")
+    tiefe, i, in_text = 0, pos, False
+    while i < bis + 3:
+        c = inhalt[i]
+        if in_text:
+            if c == "\\":
+                i += 2
+                continue
+            if c == '"':
+                in_text = False
+        elif c == '"':
+            in_text = True
+        elif c == "{":
+            tiefe += 1
+        elif c == "}":
+            tiefe -= 1
+            if tiefe == 0:
+                ende = i + 1
+                if inhalt[ende : ende + 1] == ",":
+                    ende += 1  # Komma gehoert zum Eintrag, sonst steht es nachher doppelt.
+                return start, ende, inhalt[pos : i + 1]
+        i += 1
+    raise SystemExit(f"Eintrag {pid} in {konstante} nicht sauber geschlossen")
+
+
+def hat_feld(rumpf: str, feld: str) -> bool:
+    """Nur Felder der obersten Ebene zaehlen, nicht Treffer in Belegtexten."""
+    tiefe, i, in_text, oberste = 0, 0, False, []
+    while i < len(rumpf):
+        c = rumpf[i]
+        if in_text:
+            if c == "\\":
+                i += 2
+                continue
+            if c == '"':
+                in_text = False
+        elif c == '"':
+            in_text = True
+        elif c == "{":
+            tiefe += 1
+        elif c == "}":
+            tiefe -= 1
+        elif tiefe == 1 and c not in " \n,":
+            m = re.match(r"[A-Za-z_][\w]*\s*:", rumpf[i:])
+            if m:
+                oberste.append(m.group(0).split(":")[0].strip())
+                i += m.end()
+                continue
+        i += 1
+    return feld in oberste
+
+
+def mit_feld(rumpf: str, text: str) -> str:
+    """Haengt ein Feld an einen Objekt-Rumpf, vor der schliessenden Klammer."""
+    kern = rumpf[1:-1].rstrip().rstrip(",")
+    mehrzeilig = "\n" in kern
+    trenner = ",\n    " if mehrzeilig else ", "
+    schluss = ",\n  }" if mehrzeilig else " }"
+    return "{" + kern + trenner + text + schluss
 
 
 def einfuegen(inhalt: str, konstante: str, zeile: str) -> str:
@@ -84,16 +164,46 @@ def main() -> None:
                     uebersprungen += 1
                     continue
                 w_konst, q_konst = BEREICH[bereich]
-                if hat_eintrag(inhalt, w_konst, pid, feld):
-                    print(f"  uebersprungen (schon gepflegt): {pid} {feld}")
-                    uebersprungen += 1
-                    continue
-                inhalt = einfuegen(inhalt, w_konst, f'  "{pid}": {{ {feld}: "{urteil}" }},\n')
-                quelle = (
-                    f'  "{pid}": {{ {feld}: {{ url: "{ts_text(r["url"])}", '
-                    f'stand: "{ts_text(r.get("stand", ""))}", hinweis: "{ts_text(r["zitat"])}" }} }},\n'
+                quell_text = (
+                    f'{feld}: {{ url: "{ts_text(r["url"])}", stand: "{ts_text(r.get("stand", ""))}", '
+                    f'hinweis: "{ts_text(r["zitat"])}" }}'
                 )
-                inhalt = einfuegen(inhalt, q_konst, quelle)
+
+                # 1. Wert setzen
+                treffer = eintrag_von(inhalt, w_konst, pid)
+                if treffer is None:
+                    inhalt = einfuegen(inhalt, w_konst, f'  "{pid}": {{ {feld}: "{urteil}" }},\n')
+                else:
+                    start, ende, rumpf = treffer
+                    if not rumpf.startswith("{"):
+                        # Kurzform wie kryptoOptIn: setzt beide Ampeln auf gut.
+                        if urteil == "gut":
+                            pass  # Wert stimmt schon, es fehlt nur der Beleg.
+                        else:
+                            ausgeschrieben = '{ zinsfreiAbStart: "gut", zinsfreiesModell: "gut" }'
+                            rumpf_neu = re.sub(rf'{re.escape(feld)}: "gut"', f'{feld}: "{urteil}"', ausgeschrieben)
+                            inhalt = inhalt[:start] + f'  "{pid}": {rumpf_neu},' + inhalt[ende:]
+                    elif hat_feld(rumpf, feld):
+                        print(f"  uebersprungen (Wert schon gepflegt): {pid} {feld}")
+                        uebersprungen += 1
+                        continue
+                    else:
+                        rumpf_neu = mit_feld(rumpf, f'{feld}: "{urteil}"')
+                        inhalt = inhalt[:start] + f'  "{pid}": {rumpf_neu},' + inhalt[ende:]
+
+                # 2. Beleg setzen
+                treffer_q = eintrag_von(inhalt, q_konst, pid)
+                if treffer_q is None:
+                    inhalt = einfuegen(inhalt, q_konst, f'  "{pid}": {{ {quell_text} }},\n')
+                else:
+                    start, ende, rumpf = treffer_q
+                    if hat_feld(rumpf, feld):
+                        print(f"  uebersprungen (Beleg schon vorhanden): {pid} {feld}")
+                        uebersprungen += 1
+                        continue
+                    rumpf_neu = mit_feld(rumpf, quell_text)
+                    inhalt = inhalt[:start] + f'  "{pid}": {rumpf_neu},' + inhalt[ende:]
+
                 print(f"  eingetragen: {pid} {feld} = {urteil}")
                 neu += 1
     if trocken:
