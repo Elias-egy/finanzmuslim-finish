@@ -44,7 +44,7 @@ export const DEPOT_WERTE: Werte = {
   "commerzbank-klassikdepot": { zinsfreiAbStart: "gut" },
   "commerzbank-premiumdepot": { zinsfreiAbStart: "gut" },
   "joe-broker-depot": { zinsfreiAbStart: "gut" },
-  "comdirect-depot": { zinsfreiAbStart: "schlecht" },
+  "comdirect-depot": { zinsfreiAbStart: null },
   "comdirect-pure-depot": { zinsfreiAbStart: null },
   "bitpanda-depot": { zinsfreiAbStart: null },
   "interactive-brokers-depot": { zinsfreiAbStart: "schlecht" },
@@ -93,8 +93,8 @@ export const DEPOT_QUELLEN: Quellen = {
       hinweis: "Sechs Edelmetall-ISINs bestätigt; IE00B579F325 steht zwar im Katalog, bleibt wegen des App-Widerspruchs ungeklärt.",
     },
   },
-  "comdirect-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "23.09.2026", hinweis: "comdirect, vorvertragliche Informationen zum Antrag auf ein comdirect Depot (Stand 19.06.2026), Punkt Verrechnungskonto: „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ Ein Opt-in oder Verzicht steht nicht dabei. Das Verrechnungskonto wird mit dem Depot automatisch verknüpft. Der frühere Beleg (Preisverzeichnis nennt keinen Zins) war nur Abwesenheit und ist ersetzt." } },
-  "comdirect-pure-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "23.09.2026", hinweis: "Kein Beleg für das Pure Depot: Die Klausel „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ steht in den Informationen zum Antrag auf ein comdirect Depot und nennt das Pure Depot nicht. Im selben Dokument kommt das Pure Depot nur im Preisverzeichnis vor. Bis comdirect es für das Pure Depot bestätigt, bleibt das Feld offen." } },
+  "comdirect-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "24.09.2026", hinweis: "comdirect widerspricht sich in zwei eigenen Dokumenten. Die vorvertraglichen Informationen zum Depot sagen: „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ Das Preis- und Leistungsverzeichnis führt dagegen unter „Enthaltene Leistungen im Tagesgeld“ ausdrücklich „Guthabenverzinsung“ auf, unter „Enthaltene Leistungen im Verrechnungskonto“ in der sonst gleich aufgebauten Liste aber nicht. „Variabel verzinst“ kann also auch „variabel, derzeit 0 %“ heißen. Am 24.09.2026 deshalb auf ungeprüft gesetzt und comdirect schriftlich gefragt (info@comdirect.de). Vorher stand hier kurzzeitig rot, gestützt allein auf den Satz aus den vorvertraglichen Informationen." } },
+  "comdirect-pure-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "24.09.2026", hinweis: "Kein Beleg für das Pure Depot. Der Satz „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst“ steht in den Informationen zum comdirect Depot und nennt das Pure Depot nicht. Zudem widerspricht ihm das Preis- und Leistungsverzeichnis, das die „Guthabenverzinsung“ nur beim Tagesgeld auflistet, nicht beim Verrechnungskonto. Am 24.09.2026 schriftlich bei comdirect nachgefragt." } },
   "bitpanda-depot": { zinsfreiAbStart: { url: "https://support.bitpanda.com/hc/de/articles/24873644625820-Bitpanda-Passive-Earn", stand: "23.09.2026", hinweis: "Kein Beleg für das Depot: Passive Earn gilt laut Bitpanda nur für stakingfähige Krypto-Assets. Zu Zinsen oder Erträgen auf Guthaben im Bitpanda-Depot (Wertpapiere) steht auf keiner Bitpanda-Seite etwas. Der Krypto-Beleg wird nicht übertragen." } },
   "interactive-brokers-depot": { zinsfreiAbStart: { url: "https://www.interactivebrokers.ie/de/accounts/fees/pricing-interest-rates.php", stand: "23.09.2026", hinweis: "Interactive Brokers auf der eigenen deutschen Zinsseite: „Unsere Kundinnen und Kunden können Zinsen auf positive, abgerechnete Barsalden verdienen, d. h. auf nicht angelegtes Barguthaben auf ihrem Konto.“ und „Der gemischte Jahreszinssatz gilt für das nicht angelegte Guthaben auf dem Konto, wobei jedoch Guthaben unter einem bestimmten Schwellenwert nicht verzinst werden.“ Von einem Abschalten steht dort nichts. Der frühere Beleg war der Finanzfluss-Vergleich und damit kein Anbieterbeleg; ersetzt am 23.09.2026." } },
   "xtb-depot": { zinsfreiAbStart: { url: "https://www.xtb.com/de/zinsen", stand: "23.09.2026", hinweis: "XTB auf der eigenen Zinsseite: „Es ist keine Maßnahme deinerseits erforderlich, da der Zinssatz automatisch für alle Kunden mit nicht angelegtem Kapital aktiviert wird. Es ist kein Mindestbetrag an freien Mitteln erforderlich.“ Deckt sich mit der schriftlichen Antwort von XTB vom 16.09.2026, wonach das Konto nicht zinsfrei nutzbar ist." } },
@@ -153,6 +153,7 @@ export const GIRO_WERTE: Werte = {
   "c24-plus": { zinsfreiAbStart: "schlecht" },
   "c24-max": { zinsfreiAbStart: "schlecht" },
   "targobank-online-konto": { keinDispoAbStart: null },
+  "comdirect-girokonto-aktiv": { zinsfreiAbStart: "gut" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
@@ -203,6 +204,7 @@ export const GIRO_QUELLEN: Quellen = {
   "c24-plus": { zinsfreiAbStart: { url: "https://www.c24.de/preise", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom C24-Kundenservice am 16.09.2026: „Guthaben auf dem C24 Girokonto und in allen Pockets wird automatisch verzinst …“ Die C24-Preisseite führt in der Tabelle „Kontofunktionen“ die Zeile „0,75 % Zinsen p.a. auf das Girokonto“ mit den Spalten C24 Smart, C24 Plus und C24 Max, also auch für Plus. Ein Verzicht ist nicht vorgesehen." } },
   "c24-max": { zinsfreiAbStart: { url: "https://www.c24.de/preise", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom C24-Kundenservice am 16.09.2026: „Guthaben auf dem C24 Girokonto und in allen Pockets wird automatisch verzinst …“ Die C24-Preisseite führt in der Tabelle „Kontofunktionen“ die Zeile „0,75 % Zinsen p.a. auf das Girokonto“ mit den Spalten C24 Smart, C24 Plus und C24 Max, also auch für Max. Ein Verzicht ist nicht vorgesehen." } },
   "targobank-online-konto": { keinDispoAbStart: { url: "https://www.targobank.de/de/konto-karten/online-konto.html", stand: "23.09.2026", hinweis: "Kein Beleg. Der frühere Belegtext („Schließen Sie jetzt Ihr neues Online-Konto ganz bequem online ab …“) sagt nichts über einen Dispokredit und trug das rote Urteil nicht. Die Produktseite nennt nur eine „Dispo-Freigrenze bis zu 200 €“, woraus nicht hervorgeht, ob der Dispo bei jeder Eröffnung automatisch eingerichtet wird. Am 23.09.2026 auf offen gesetzt, die Targobank verweist für Auskünfte in die Filiale." } },
+  "comdirect-girokonto-aktiv": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori7105.pdf", stand: "24.09.2026", hinweis: "comdirect-Preis- und Leistungsverzeichnis: Die Liste „Enthaltene Leistungen im Tagesgeld“ führt ausdrücklich „Guthabenverzinsung“ auf. Die gleich aufgebaute Liste „Enthaltene Leistungen im Girokonto Aktiv“ (Rechnungsabschluss monatlich, Finanzreport per Postbox, sämtliche Online-Buchungen, Bargeldeinzahlungen, Visa-Debitkarte) enthält keine Guthabenverzinsung. comdirect führt den Zins also dort auf, wo es ihn gibt." } },
 };
 
 export const KRYPTO_WERTE: Werte = {
@@ -215,7 +217,7 @@ export const KRYPTO_WERTE: Werte = {
   "binance-standard": kryptoOptIn,
   "bison-app": kryptoOptIn,
   "bitget-trading": kryptoOptIn,
-  "bitvavo-standard": kryptoOptIn,
+  "bitvavo-standard": { zinsfreiAbStart: "gut", zinsfreiesModell: "gut" },
   "coinbase-advanced": kryptoOptIn,
   "coinbase-standard": kryptoOptIn,
   "etoro-krypto": { zinsfreiAbStart: "gut", zinsfreiesModell: "schlecht" },
@@ -294,10 +296,7 @@ export const KRYPTO_QUELLEN: Quellen = {
     zinsfreiAbStart: { url: "https://www.justtrade.com/faq", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom justTRADE-Kundenservice am 21.09.2026 (Anfrage #128140): „Gerne bestätigen wir Ihnen, dass Sie nicht automatisch Ausschüttungen in Form von Zinsen oder Staking erhalten. Das Staking kann flexibel aktiviert werden … Eine Verzinsung auf das Guthaben erfolgt bei uns ebenfalls nicht.“" },
     zinsfreiesModell: { url: "https://www.justtrade.com/fileadmin/Formulare/Preis-und-Leistungsverzeichnis.pdf", stand: "23.09.2026", hinweis: "1 Konto und Depot Konto-/Depotführung Verrechnungskonto Euro kostenfrei Depotführung/-auflösung kostenfrei ... Die Verwahrung der Kryptowerte erfolgt durch die Tangany GmbH auf Grundlage eines gesondert abzuschließenden unentgeltlichen Verwahrvertrags." },
   },
-  "bitvavo-standard": {
-    zinsfreiAbStart: { url: "https://support.bitvavo.com/hc/de/articles/4405227858449", stand: "20.09.2026", hinweis: "Bitvavo beschreibt Erträge als aktivierbare Funktion; ohne Aktivierung wird das Guthaben nicht automatisch verzinst." },
-    zinsfreiesModell: { url: "https://support.bitvavo.com/hc/de/articles/4405243949841-Staking-at-Bitvavo", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Bitvavo-Kundenservice am 18.09.2026 (Ticket #1934199): „es gibt bei uns kein Kontomodell, das automatisch Zinsen auf ungenutztes Euro-Guthaben generiert“. „Auto Earn“ ist „nicht automatisch aktiv“, Margin- und Hebelhandel sind „bei Kontoeröffnung nicht aktiviert“." },
-  },
+  "bitvavo-standard": { zinsfreiAbStart: { url: "https://bitvavo.com/de/earn", stand: "24.09.2026", hinweis: "Bitvavo auf der eigenen Earn-Seite: „Einmalige Aktivierung — Aktiviere Auto Earn im Earn Hub vom Account-Menü aus, um automatisch mit über 65 berechtigten Kryptowährungen zu verdienen.“ Der Knopf heißt „Staking aktivieren“. Ohne diese Aktivierung läuft kein Ertrag. Deckt sich mit der schriftlichen Antwort von Bitvavo vom 18.09.2026 (Ticket #1934199)." }, zinsfreiesModell: { url: "https://support.bitvavo.com/hc/de/articles/4405243949841-Staking-at-Bitvavo", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Bitvavo-Kundenservice am 18.09.2026 (Ticket #1934199): „es gibt bei uns kein Kontomodell, das automatisch Zinsen auf ungenutztes Euro-Guthaben generiert“. „Auto Earn“ ist „nicht automatisch aktiv“, Margin- und Hebelhandel sind „bei Kontoeröffnung nicht aktiviert“." } },
   "smartbroker-plus-krypto": {
     zinsfreiAbStart: { url: "https://www.smartbrokerplus.de/de-de/kryptowaehrungen-kaufen/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Smartbroker+-Kundenservice am 16.09.2026: „Das Guthaben auf dem Zinskonto wird nicht verzinst. Wir bieten dafür ein Zinskonto an, was Sie eröffnen können aber nicht müssen.“ Gemeint ist das Verrechnungskonto; das Zinskonto ist freiwillig." },
     zinsfreiesModell: { url: "https://www.smartbrokerplus.de/de-de/kryptowaehrungen-kaufen/", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom Smartbroker+-Kundenservice am 16.09.2026: „Das Konto kann auch ohne Kreditfunktionen genutzt werden.“ Das Zinskonto ist freiwillig." },
