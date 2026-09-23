@@ -58,12 +58,18 @@ in den Details: Zahlen, Diagramme, Logos, der Haupt-Aufruf.
 | Zweck | Wert |
 |---|---|
 | Klickbares, Knöpfe, Links | `#0057FA` (`primary`) |
-| Etiketten und Kicker | `#7D6EF2` (`violet`) |
+| Etiketten und Kicker | `#705FF1` (`violet`) |
 | Helle Fläche, Ergebniskästen | `#EBF2FF` (`accent`) |
 | Gewinne, Wachstum, steigende Kurse | `gain` (grün), Fläche `gain-soft` |
 | Verlust, Kaufkraftverlust, Zinskosten, fallende Kurse | `loss`, Fläche `loss-soft` |
 | Haupt-Aufruf zur Geldquelle | Block `FindeDeinAngebot`: leiser Verlauf, Logos, Knopf `.btn-spark` im Signalblau. Gold (`spark`) nur als kleines Detail, nie als Fläche oder Knopf |
 | Grün, Gelb, Rot als Bewertung | Ampel bleibt sachlich. Ein Partner wird nie grün hervorgehoben, dafür gibt es `spark` |
+
+**Kontrast (23.09.2026):** Alle Akzentfarben erreichen 4,5:1, auch auf ihrer eigenen 10-Prozent-Tönung,
+weil die Ampel-Pillen genau so gebaut sind. Deshalb `violet` 66 % statt 69 %, `gain` und `success` 29 %
+statt 34 %, `destructive` 45 % statt 52 %, und die Navigationsschrift `text-white/90` statt `/85`.
+Gemessen mit Lighthouse auf sechs Seiten: Barrierefreiheit 100, Kontrastprüfung ohne Beanstandung.
+Wer diese Werte wieder aufhellt, muss neu messen.
 | Schrift | Figtree |
 
 - Anbieter immer mit Logo (`AnbieterLogo`). Logos bringen die Farbe, die Fläche bleibt hell.

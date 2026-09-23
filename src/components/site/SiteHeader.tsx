@@ -81,7 +81,7 @@ export const SiteHeader = () => {
                   onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
                   className={cn(
                     "flex min-h-[44px] items-center gap-1 text-[15px] font-medium transition-colors",
-                    openGroup === group.label ? "text-white" : "text-white/85 hover:text-white",
+                    openGroup === group.label ? "text-white" : "text-white/90 hover:text-white",
                   )}
                 >
                   {group.label}
@@ -98,7 +98,7 @@ export const SiteHeader = () => {
               type="button"
               aria-label="Suche"
               onClick={() => setSucheOffen(true)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Search className="h-[22px] w-[22px]" aria-hidden />
             </button>
