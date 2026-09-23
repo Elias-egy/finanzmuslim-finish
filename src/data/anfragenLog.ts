@@ -32,6 +32,8 @@ export type Anfrage = {
 const frage1 = "Runde 1: Verzinsung automatisch? dauerhaft abschaltbar? wirklich keine Zinsen? ohne Kredit nutzbar?";
 const frage2 = "Runde 2: Wird nicht investiertes Guthaben automatisch verzinst, und kann ich ab Eröffnung dauerhaft verzichten? Dispo nur auf eigenen Antrag?";
 
+const frage3 = "Runde 3 (23.09.2026): Wird nicht investiertes Guthaben automatisch verzinst und kann ich ab Eröffnung dauerhaft verzichten? Kommt ein Kredit oder Dispo automatisch dazu?";
+
 export const ANFRAGEN: Record<string, Anfrage> = {
   xtb: { anbieter: "XTB", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@xtb.de", kern: frage1 },
@@ -71,6 +73,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@unicredit.de", kern: frage1 },
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@unicredit.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", adresse: "smartbanking@unicredit.de", kern: "Girokonten: Guthaben nicht verzinst, Dispo nur auf Antrag. Depots: „grundsätzlich nicht verzinst“ — das widerspricht dem eigenen Produktprofil (0,50 % Sonderzins bis 31.12.2026)." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "smartbanking@unicredit.de", kern: "Rückfrage zum Widerspruch: Ist das HVB Investmentkonto das Verrechnungskonto zum Depot, und läuft der Sonderzins von 0,50 Prozent für Neukunden automatisch?" },
   ], naechsterSchritt: "Widerspruch klären: im bestehenden Thread nachfragen, welche Aussage für das Investmentkonto gilt." },
   "trade-republic": { anbieter: "Trade Republic", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@traderepublic.com", kern: frage1 },
@@ -117,6 +120,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   "pax-bank": { anbieter: "Pax-Bank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@pax-bkc.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "Dispo nicht automatisch, Girokonto grün. Zum Depot nur: „Im Depot selbst werden keine klassischen Sparzinsen gezahlt“ — das Verrechnungskonto bleibt unbeantwortet." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "julia.vogt@pax-bkc.de", kern: "Rückfrage: Wird das Guthaben auf dem Verrechnungskonto zum Depot verzinst, und ist ein Verzicht ab Start möglich? Kursgewinne und Dividenden ausdrücklich ausgenommen." },
   ], naechsterSchritt: "Depots offen: nachfragen, ob das Verrechnungskonto zum Depot verzinst wird." },
   "tradegate-direct": { anbieter: "tradegate.direct", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@tradegate.direct", kern: frage2 },
@@ -125,6 +129,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   justtrade: { anbieter: "justTRADE", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128140", kern: "Keine automatischen Ausschüttungen als Zins oder Staking. Zinsfrei ab Start grün, Abo und Margin unbeantwortet." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: "Rückfrage zu #128140: Gibt es ein kostenpflichtiges Modell mit Zinsbindung, und sind Margin, Hebel und Wertpapierleihe ab Start aus?" },
   ], naechsterSchritt: "Bezahlmodell offen: fragen, ob es ein kostenpflichtiges Modell mit Zinsbindung gibt." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
@@ -141,10 +146,12 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   willbe: { anbieter: "WillBe", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@willbe-invest.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "„Unsere Tagesgeldkonten werden automatisch verzinst … nicht möglich, auf diese Zinsen zu verzichten.“ Unklar, ob das Depotguthaben gemeint ist. Rot." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@willbe-invest.com", kern: "Rückfrage: Ist das verzinste Tagesgeldkonto zugleich das Verrechnungskonto des Depots, und geht das Depot ohne verzinstes Konto?" },
   ], naechsterSchritt: "Nachfragen, ob das Verrechnungskonto zum Depot dasselbe Tagesgeldkonto ist." },
   "traders-place": { anbieter: "Traders Place", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Die von Ihnen genannten Vorgaben … können wir bei der Bearbeitung Ihres Anliegens leider nicht separat berücksichtigen.“ Keine inhaltliche Antwort." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Zweite, präzisere Anfrage: Laufen Zinsen, Rewards oder Staking ohne eigenes Zutun, und ist das Zinskonto bei der Baader Bank bei einer normalen Depoteröffnung automatisch dabei?" },
   ], naechsterSchritt: "Krypto bleibt offen. Zweite Anfrage lohnt nur mit präziserer Frage." },
   targobank: { anbieter: "Targobank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: frage2 },
@@ -180,7 +187,30 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   tomorrow: { anbieter: "Tomorrow", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@tomorrow.one", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
-  ], naechsterSchritt: "Noch keine inhaltliche Antwort. Abwarten." },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#1568580", kern: "„Das Guthaben auf dem Girokonto selbst wird nicht verzinst.“ Grün, jetzt mit Mail statt nur Anbieterseite." },
+  ] },
+
+
+  // Runde 3, am 23.09.2026 aus eliaselgendy2006@gmail.com gesendet, jede im Gesendet-Ordner geprüft.
+  ing: { anbieter: "ING", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@ing.de", kern: frage3 + " Frage galt dem Verrechnungskonto des Direkt-Depots." },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "A57220434", kern: "Automatische Eingangsbestätigung: „Eine ganz persönliche Antwort bekommen Sie noch von uns.“" },
+  ], naechsterSchritt: "Persönliche Antwort abwarten. Die Impressumsadresse nimmt Anfragen an." },
+  "1822direkt": { anbieter: "1822direkt", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@1822direkt.de", kern: frage3 + " Frage galt dem Aktiv-Depot." },
+  ], naechsterSchritt: "Antwort abwarten." },
+  bux: { anbieter: "BUX", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@getbux.com", kern: frage3 + " Zusätzlich: Unterschied zwischen Basic, Plus und Prime, und ob Hebel und Wertpapierleihe ab Start aus sind." },
+  ], naechsterSchritt: "Antwort abwarten." },
+  norisbank: { anbieter: "norisbank", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus." },
+  ], naechsterSchritt: "Antwort abwarten." },
+  coinbase: { anbieter: "Coinbase", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@coinbase.com", kern: "Zinsen und Rewards auf Guthaben, ob Coinbase One Zinsen oder gebundene Token enthält, und ob Margin und Lending ab Start aus sind." },
+  ], naechsterSchritt: "Antwort abwarten. Die Impressumsadresse ist der einzige Mail-Weg." },
+  revolut: { anbieter: "Revolut", vorgaenge: [
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@revolut.com", kern: "Ob automatisches Krypto-Staking bei einem neuen Konto sofort läuft, ob es dauerhaft abschaltbar ist, und ob Euro-Guthaben im Standardkonto automatisch verzinst wird." },
+  ], naechsterSchritt: "Antwort abwarten." },
 
   // Nie gefragt, weil es kein Postfach gibt. Adressen am 22.09.2026 aus den Impressen geprüft.
   bitpanda: { anbieter: "Bitpanda", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Kontaktformular." },
