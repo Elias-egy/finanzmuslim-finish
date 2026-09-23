@@ -208,7 +208,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Antwort abwarten." },
   norisbank: { anbieter: "norisbank", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus." },
-  ], naechsterSchritt: "Antwort abwarten." },
+  ], naechsterSchritt: "Antwort abwarten, und in der Nachfrage den Dispo-Widerspruch klären: Die Werbeseite sagt „erhalten Girokonto-Kunden einen Sofort-Dispo“, die Bedingungen zum Top-Girokonto sagen „Auf Antrag … Antragsannahme durch gesonderte Mitteilung“." },
   coinbase: { anbieter: "Coinbase", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@coinbase.com", kern: "Zinsen und Rewards auf Guthaben, ob Coinbase One Zinsen oder gebundene Token enthält, und ob Margin und Lending ab Start aus sind." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "Fall 27569519", kern: "Keine automatischen Zinsen oder Rewards, Coinbase One enthält weder Zinsen noch gesperrte Token, Margin und Lending sind ab Start aus. Beide Felder grün." },
@@ -227,6 +227,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   "crypto-com": { anbieter: "Crypto.com", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat. Am 23.09.2026 über help.crypto.com belegt: Rewards erst nach eigener Allocation." },
   robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse. Am 23.09.2026 über robinhood.com belegt: Staking und Cash sweep sind beide Opt-in." },
   // Stufen-Prüfung 23.09.2026: noch nie gefragt, aber je ein offener nächster Schritt.
+  bforbank: { anbieter: "BforBank", vorgaenge: [], naechsterSchritt: "Noch nie gefragt. Im Preisverzeichnis fehlt ein Guthabenzins, Abwesenheit ist kein Beleg. Schriftlich fragen, ob das Girokonto-Guthaben verzinst wird." },
   comdirect: { anbieter: "comdirect", vorgaenge: [], naechsterSchritt: "Schriftlich fragen: Wird das Verrechnungskonto zum Pure Depot verzinst wie beim comdirect Depot? Dort nennt die Bank „variabel verzinst“." },
   n26: { anbieter: "N26", vorgaenge: [], naechsterSchritt: "N26 Flex hat weder Zins- noch Dispo-Beleg. In der App oder beim Support fragen, ob Flex zinsfrei ist und ob ein Dispo möglich ist." },
   vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
