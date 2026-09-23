@@ -15,7 +15,14 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 - [ ] **Anbieter ohne Mail-Weg**: Von den 17 sind 7 über ihre eigene Seite belegt (Binance, Kraken, OKX, Freedom24,
       Plus500, Monese, Vivid). Noch offen, per App oder Chat fragen oder bewusst auf „noch nicht geprüft“ lassen
       (Elias entscheidet): 21bitcoin, BISON, Bitpanda, eToro, Revolut Krypto, bunq, Klarna, SumUp, Wise, BforBank.
-- [ ] **Offene Halal-Felder**, heute:
+- [x] **Offene Halal-Felder am 23.09.2026 von 41 auf 13 gesenkt** (Belege je von der Anbieterdomain, Werkzeug
+      `scripts/belege-eintragen.py`). Offen bleiben bewusst: neun Depot-Verrechnungskonten bei Filialbanken
+      (BBBank, GENO Broker, maxblue, Pax-Bank, Santander, Targobank) — dort steht nirgends ein Satz zum
+      Verrechnungskonto, der Schluss ginge nur über zwei Schritte (Girokonto ist Verrechnungskonto, Girokonto hat
+      0 Prozent); BforBank und Targobank Girokonto (im Preisverzeichnis fehlt ein Guthabenzins, das ist Abwesenheit,
+      kein Beleg); Coinbase (Domain sperrt jeden Abruf, Mail vom 23.09. läuft).
+
+- [ ] **Alter Stand der offenen Felder** (überholt, bleibt zur Nachvollziehbarkeit):
   - Depot: 56 Produkte, 30 alles ja, 15 offen, 11 mit Nein. Partner: 4 grün, 0 offen
   - Girokonto: 57 Produkte, 39 alles ja, 10 offen, 8 mit Nein. Partner: 2 grün, 1 offen (DKB)
   - Krypto: 27 Produkte, 7 alles ja, 10 offen, 10 mit Nein
