@@ -27,7 +27,7 @@ import MotivBild from "@/components/MotivBild";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
-import newsletterPhone from "@/assets/newsletter-handy-v3.png";
+import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
 import rechnerRender from "@/assets/rechner.webp";
 
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
