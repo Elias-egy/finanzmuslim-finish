@@ -16,6 +16,7 @@ import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "../src/data/k
 import { empfehlbar } from "../src/data/vergleichAssistent";
 import { dealFuer } from "../src/data/deals";
 import { anfrageFuer, ANFRAGEN, type Anfrage } from "../src/data/anfragenLog";
+import { STUFEN_STAND } from "../src/data/stufenPruefung";
 import { werteAus } from "../src/lib/vergleichAssistent";
 import type { RohAnbieter } from "../src/data/vergleichHelfer";
 import type { VergleichsZeile } from "../src/components/vergleich/vergleichTypen";
@@ -52,6 +53,7 @@ type Zeile = {
   felder: { label: string; wert: string; art: string; url?: string; stand?: string; hinweis?: string }[];
   kosten: string;
   haus?: string;
+  produkt?: string;
   anfrage?: Anfrage;
 };
 
@@ -96,6 +98,7 @@ for (const b of BEREICHE) {
       abgeraten: !!a.abgeraten,
       felder,
       haus: (a as { haus?: string }).haus,
+      produkt: a.produkt,
       anfrage: anfrageFuer((a as { haus?: string }).haus),
       kosten: kostenZeilen.map((z) => `${z.label}: ${a.werte[z.key] ?? "?"}`).join(" · "),
     });
@@ -173,6 +176,61 @@ const fragezeichen = () => {
     <div class="scroll"><table>
       <thead><tr><th>Anbieter</th><th>Lage</th><th>Betroffene Produkte</th><th>Nächster Schritt</th></tr></thead>
       <tbody>${sortiert.map(([k, e]) => zeile(k, e)).join("")}</tbody>
+    </table></div>
+  </section>`;
+};
+
+/**
+ * Stufen-Prüfung (Elias-Regel 23.09.2026): jede Tarifstufe ist ein eigenes Produkt. Hier steht je Haus mit
+ * mehreren Stufen, wo mehrere Stufen denselben Beleg tragen. "nennt Stufe" heißt: Belegtext oder URL enthalten
+ * den Stufennamen. Alles andere ist ein pauschaler Beleg und gehört je Stufe nachgeprüft (Stand in stufenPruefung.ts).
+ */
+const stufenPruefung = () => {
+  const gruppen = new Map<string, Zeile[]>();
+  for (const z of zeilen) {
+    if (!z.haus) continue;
+    const k = `${z.bereich}|${z.haus}`;
+    gruppen.set(k, [...(gruppen.get(k) ?? []), z]);
+  }
+  const reihen: string[] = [];
+  let pauschal = 0;
+  for (const [k, l] of [...gruppen.entries()].sort((a, b) => a[0].localeCompare(b[0], "de"))) {
+    if (l.length < 2) continue;
+    const labels = [...new Set(l.flatMap((z) => z.felder.map((f) => f.label)))];
+    const teile: string[] = [];
+    let offenGruppe = false;
+    for (const label of labels) {
+      const mit = l.map((z) => ({ z, f: z.felder.find((f) => f.label === label) })).filter((x) => x.f?.url);
+      const byUrl = new Map<string, typeof mit>();
+      for (const m of mit) byUrl.set(m.f!.url!, [...(byUrl.get(m.f!.url!) ?? []), m]);
+      for (const [url, gruppe] of byUrl) {
+        if (gruppe.length < 2 || /finanzfluss\.de/.test(url)) continue;
+        const nennt = gruppe.map((m) => {
+          const prod = (m.z.produkt ?? "").toLowerCase();
+          return prod.length > 2 && ((m.f!.hinweis ?? "").toLowerCase().includes(prod) || url.toLowerCase().includes(prod));
+        });
+        const alle = nennt.every(Boolean);
+        if (!alle) offenGruppe = true;
+        teile.push(`<div><b>${esc(label)}</b>: ${gruppe.map((m, i) => `${esc(m.z.produkt)}${nennt[i] ? " ✓" : ""}`).join(", ")} <span class="klein">(${esc(url.replace(/^https?:\/\//, "").slice(0, 60))})</span></div>`);
+      }
+    }
+    if (!teile.length) continue;
+    const [bereich, haus] = k.split("|");
+    const st = STUFEN_STAND[haus];
+    if (offenGruppe && !st?.geprueft) pauschal++;
+    const lage = st?.geprueft
+      ? `<span class="pill gut">stufenweise geprüft</span> <span class="klein">${esc(st.geprueft)}</span>`
+      : offenGruppe
+        ? '<span class="pill offen">pauschaler Beleg</span>'
+        : '<span class="pill gut">Stufe genannt</span>';
+    reihen.push(`<tr><td class="name">${esc(l[0].name.split(" ")[0])} <span class="klein">${esc(bereich)}</span></td><td>${lage}</td><td class="klein">${teile.join("")}</td><td class="klein">${esc(st?.notiz ?? "")}</td></tr>`);
+  }
+  return `
+  <section class="bereich">
+    <h2>Stufen-Prüfung <small>${pauschal} Häuser mit Belegen, die mehrere Stufen gemeinsam tragen · jede Stufe zählt als eigenes Produkt · ✓ = Belegtext nennt die Stufe</small></h2>
+    <div class="scroll"><table>
+      <thead><tr><th>Anbieter</th><th>Lage</th><th>Feld: Stufen mit demselben Beleg</th><th>Notiz</th></tr></thead>
+      <tbody>${reihen.join("")}</tbody>
     </table></div>
   </section>`;
 };
@@ -269,6 +327,7 @@ const html = `<!doctype html>
     <p class="klein">Geklärt: Relai (23.09., klare KI-Antwort zählt), BSDEX (23.09., Staking nur nach eigener Weisung), PSD Nürnberg, Commerzbank, JOE Broker, Berliner Volksbank, finanzen.net zero, finvesto, tradegate.direct, HVB-Girokonten, meine Bank, Haspa, EthikBank, justTRADE, Bitvavo, Smartbroker+.</p>
   </div>
   <div class="legende">Status zählt nur die Halal-Ampeln (Zins, Dispo, Karte, Coins usw.): „alles ja“ heißt jede Ampel belegt ja. Rang = Reihenfolge im Vergleich (nur zinsfreie, geprüfte Anbieter bekommen einen Rang). Quelle: <span class="q q-mail">Mail</span> schriftliche Antwort, <span class="q q-seite">Anbieterseite</span> Seite des Anbieters, <span class="q q-ff">Finanzfluss</span> nur Finanzfluss. Maus auf ein Feld zeigt den Belegtext.</div>
+  ${stufenPruefung()}
   ${fragezeichen()}
   ${BEREICHE.map(tabelle).join("\n")}
 </main>
