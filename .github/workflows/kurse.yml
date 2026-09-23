@@ -89,12 +89,19 @@ jobs:
           git push
           echo "geaendert=true" >> "$GITHUB_OUTPUT"
 
-  # Neu bauen und ausliefern, aber nur wenn sich wirklich etwas geaendert hat
-  # UND die Variable PAGES_LIVE auf true steht. Fehlt die Variable, wird der
-  # Job uebersprungen. Das ist der Standard.
+  # Taeglich neu bauen und ausliefern, solange PAGES_LIVE auf true steht.
+  # Fehlt die Variable, wird der Job uebersprungen.
+  #
+  # Frueher lief das nur bei geaenderten Kursen. Das war zu wenig: Die Seite
+  # wird vorgerendert, also steht ein abgelaufener Bonus so lange im HTML, bis
+  # jemand neu baut. Die Boni haben ein Enddatum (gueltigBis in src/data/deals.ts),
+  # und dealFuer blendet sie danach aus - aber eben erst beim naechsten Bau.
+  # Beispiel: der ING-Bonus endet am 30.09.2026. Ein taeglicher Lauf raeumt das
+  # von selbst auf, statt es einer Session zu ueberlassen, die vielleicht nicht
+  # daran denkt. Kosten: ein Lauf von rund drei Minuten pro Tag.
   ausliefern:
     needs: holen
-    if: needs.holen.outputs.geaendert == 'true' && vars.PAGES_LIVE == 'true'
+    if: vars.PAGES_LIVE == 'true'
     permissions:
       contents: read
       pages: write
