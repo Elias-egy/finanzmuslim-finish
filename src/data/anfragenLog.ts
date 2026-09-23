@@ -207,16 +207,20 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Antwort abwarten." },
   coinbase: { anbieter: "Coinbase", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@coinbase.com", kern: "Zinsen und Rewards auf Guthaben, ob Coinbase One Zinsen oder gebundene Token enthält, und ob Margin und Lending ab Start aus sind." },
-  ], naechsterSchritt: "Antwort abwarten. Die Impressumsadresse ist der einzige Mail-Weg." },
+  ], naechsterSchritt: "Antwort abwarten. coinbase.com und help.coinbase.com sperren jeden Abruf ohne echten Browser (403), die Seiten sind nur über Chrome lesbar." },
   revolut: { anbieter: "Revolut", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@revolut.com", kern: "Ob automatisches Krypto-Staking bei einem neuen Konto sofort läuft, ob es dauerhaft abschaltbar ist, und ob Euro-Guthaben im Standardkonto automatisch verzinst wird." },
-  ], naechsterSchritt: "Antwort abwarten." },
+  ], naechsterSchritt: "Antwort abwarten. revolut.com sperrt jeden Abruf ohne echten Browser (403), das Bezahlmodell ist nur über Chrome zu belegen." },
 
+
+  // Kein Mail-Weg, aber am 23.09.2026 über die Anbieterseiten belegt:
+  // 21bitcoin, BISON, Bitget, Bitpanda, eToro, flatex, Scalable, Traders Place,
+  // crypto.com und Robinhood. Die Belege stehen in vergleichKorrekturenDaten.ts.
   // Nie gefragt, weil es kein Postfach gibt. Adressen am 22.09.2026 aus den Impressen geprüft.
-  bitpanda: { anbieter: "Bitpanda", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Kontaktformular." },
+  bitpanda: { anbieter: "Bitpanda", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Kontaktformular. Bezahlmodell am 23.09.2026 über bitpanda.com belegt, nichts mehr offen." },
   wise: { anbieter: "Wise", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Help Center." },
-  "crypto-com": { anbieter: "Crypto.com", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat." },
-  robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse." },
+  "crypto-com": { anbieter: "Crypto.com", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat. Am 23.09.2026 über help.crypto.com belegt: Rewards erst nach eigener Allocation." },
+  robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse. Am 23.09.2026 über robinhood.com belegt: Staking und Cash sweep sind beide Opt-in." },
 };
 
 export const anfrageFuer = (haus?: string): Anfrage | undefined => (haus ? ANFRAGEN[haus] : undefined);
