@@ -175,9 +175,11 @@ export const KRYPTO_WERTE: Werte = {
   "trade-republic-krypto": kryptoOptIn,
   "traders-place-krypto": kryptoOptIn,
   "relai-app": kryptoOptIn,
+  "bsdex-standard": { zinsfreiAbStart: "gut" },
 };
 
 export const KRYPTO_QUELLEN: Quellen = {
+  "bsdex-standard": { zinsfreiAbStart: { url: "https://www.bsdex.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom BSDEX-Support am 21.09.2026 (Ticket 609033): Staking läuft nur nach eigener Freigabe. „Möchten Sie am künftigen Staking-Angebot von BSDEX teilnehmen, ist es erforderlich, dass Sie die AGB akzeptieren und uns Ihre Weisung geben.“ Die Weisung wird als Pop-up in der App angezeigt und kann abgelehnt werden: „Sie können einfach auf ‚Ablehnen‘ im Pop-up klicken und sich wie gewohnt in Ihren BSDEX Account einloggen.“ Ohne diese Weisung werden keine Coins gestakt, das Konto ist also von Anfang an zinsfrei nutzbar. Die AGB-Zustimmung selbst ist für Neukunden Pflicht, löst aber kein Staking aus." } },
   "relai-app": {
     zinsfreiAbStart: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },
     zinsfreiesModell: { url: "https://relai.app/de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Relai-Support am 21.09.2026 (Antwort des Assistenten „Relai AI“): „In der Relai App gibt es keine Zinsen, Rewards oder automatische Erträge auf Guthaben.“ und „Es gibt kein Abo oder Kontomodell, das Zinsen, Staking oder gebundene Token enthält. Funktionen wie Margin, Hebel oder Lending sind in der App nicht vorgesehen.“ Dazu relai.app: „Die gekauften Bitcoin werden automatisch in dein persönliches Self-Custody-Wallet in der App übertragen und gehören von Anfang an dir.“" },

@@ -42,9 +42,9 @@
     --accent: 219 100% 96%;
     --accent-foreground: 219 100% 42%;
 
-    --success: 152 62% 34%;
+    --success: 152 62% 32.5%;
     /* Akzent nur fuer Etiketten wie "Neu". Nie fuer Klickbares, nie fuer Bewertungen. */
-    --violet: 247 84% 69%;
+    --violet: 247 84% 66%;
     --violet-foreground: 0 0% 100%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 48%;
@@ -68,7 +68,7 @@
        --spark ist der Aktions-Akzent fuer den Haupt-Aufruf, Boni und die Nummer 1.
        Gold mit dunkler Schrift: 10:1 Kontrast, und nie mit der Ampel zu verwechseln,
        weil --spark nur auf Knoepfen, Baendern und Rahmen steht, nie als Bewertung. */
-    --gain: 152 62% 34%;
+    --gain: 152 62% 32.5%;
     --gain-soft: 150 58% 95%;
     --spark: 42 100% 56%;
     --spark-hover: 40 100% 50%;

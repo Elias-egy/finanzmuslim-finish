@@ -15,6 +15,7 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "../src/data/gi
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "../src/data/kryptoVergleich";
 import { empfehlbar } from "../src/data/vergleichAssistent";
 import { dealFuer } from "../src/data/deals";
+import { anfrageFuer, ANFRAGEN, type Anfrage } from "../src/data/anfragenLog";
 import { werteAus } from "../src/lib/vergleichAssistent";
 import type { RohAnbieter } from "../src/data/vergleichHelfer";
 import type { VergleichsZeile } from "../src/components/vergleich/vergleichTypen";
@@ -50,6 +51,8 @@ type Zeile = {
   abgeraten: boolean;
   felder: { label: string; wert: string; art: string; url?: string; stand?: string; hinweis?: string }[];
   kosten: string;
+  haus?: string;
+  anfrage?: Anfrage;
 };
 
 const zeilen: Zeile[] = [];
@@ -92,6 +95,8 @@ for (const b of BEREICHE) {
       ffRang: a.finanzfluss?.rang ?? null,
       abgeraten: !!a.abgeraten,
       felder,
+      haus: (a as { haus?: string }).haus,
+      anfrage: anfrageFuer((a as { haus?: string }).haus),
       kosten: kostenZeilen.map((z) => `${z.label}: ${a.werte[z.key] ?? "?"}`).join(" · "),
     });
   }
@@ -118,6 +123,60 @@ const zelle = (f: Zeile["felder"][number]) => {
   return `<td class="f" title="${esc(titel)}"><span class="pill ${ton}">${esc(anzeige)}</span>${quelle}${f.hinweis ? `<div class="hw">${esc(f.hinweis)}</div>` : ""}</td>`;
 };
 
+
+/** Was wir den Anbieter gefragt haben, und was kam. Ohne Eintrag: nie gefragt. */
+const anfrageZelle = (z: Zeile) => {
+  const a = z.anfrage;
+  if (!a) return `<td class="anf"><span class="pill offen">nie gefragt</span></td>`;
+  if (a.keinMailWeg && a.vorgaenge.length === 0)
+    return `<td class="anf"><span class="pill teils">kein Mail-Weg</span><div class="hw">${esc(a.naechsterSchritt ?? "")}</div></td>`;
+  const rein = a.vorgaenge.filter((v) => v.richtung === "rein");
+  const letzte = a.vorgaenge[a.vorgaenge.length - 1];
+  const ton = rein.length === 0 ? "offen" : a.naechsterSchritt ? "teils" : "gut";
+  const kopf = rein.length === 0 ? `gefragt ${esc(a.vorgaenge[0]?.datum ?? "")}` : `${rein.length} Antwort${rein.length > 1 ? "en" : ""}`;
+  const liste = a.vorgaenge
+    .map((v) => `<div class="v"><b>${esc(v.datum)}</b> ${v.richtung === "raus" ? "→" : "←"} ${esc(v.kanal)}${v.zeichen ? " " + esc(v.zeichen) : ""}${v.adresse ? " " + esc(v.adresse) : ""}<br>${esc(v.kern)}</div>`)
+    .join("");
+  const schritt = a.naechsterSchritt ? `<div class="schritt">Nächster Schritt: ${esc(a.naechsterSchritt)}</div>` : "";
+  return `<td class="anf" title="${esc(a.vorgaenge.map((v) => `${v.datum} ${v.richtung === "raus" ? "→" : "←"} ${v.kern}`).join("\n"))}"><span class="pill ${ton}">${kopf}</span>${letzte ? `<div class="klein">zuletzt ${esc(letzte.datum)}</div>` : ""}<div class="hw">${liste}${schritt}</div></td>`;
+};
+
+/** Ein Fragezeichen je Haus: wo noch etwas offen ist und was als Nächstes dran ist. */
+const fragezeichen = () => {
+  const offeneHaeuser = new Map<string, { namen: string[]; anfrage?: Anfrage }>();
+  for (const z of zeilen) {
+    if (z.status === "gruen") continue;
+    const key = z.haus ?? z.name;
+    const e = offeneHaeuser.get(key) ?? { namen: [], anfrage: z.anfrage };
+    e.namen.push(z.name);
+    offeneHaeuser.set(key, e);
+  }
+  const zeile = (key: string, e: { namen: string[]; anfrage?: Anfrage }) => {
+    const a = e.anfrage;
+    const lage = !a
+      ? '<span class="pill offen">nie gefragt</span>'
+      : a.keinMailWeg && a.vorgaenge.length === 0
+        ? '<span class="pill teils">kein Mail-Weg</span>'
+        : a.vorgaenge.some((v) => v.richtung === "rein")
+          ? '<span class="pill gut">hat geantwortet</span>'
+          : '<span class="pill offen">wartet auf Antwort</span>';
+    const wann = a?.vorgaenge.length ? ` seit ${esc(a.vorgaenge[0].datum)}` : "";
+    return `<tr><td class="name">${esc(a?.anbieter ?? key)}</td><td>${lage}${wann}</td><td class="klein">${esc(e.namen.slice(0, 4).join(", "))}${e.namen.length > 4 ? ` und ${e.namen.length - 4} weitere` : ""}</td><td class="klein">${esc(a?.naechsterSchritt ?? (a ? "Antwort abwarten" : "noch nie angefragt"))}</td></tr>`;
+  };
+  const sortiert = [...offeneHaeuser.entries()].sort((x, y) => {
+    const rang = (e: { anfrage?: Anfrage }) => (!e.anfrage ? 0 : e.anfrage.keinMailWeg ? 3 : e.anfrage.naechsterSchritt ? 1 : 2);
+    return rang(x[1]) - rang(y[1]) || x[0].localeCompare(y[0], "de");
+  });
+  return `
+  <section class="bereich">
+    <h2>Fragezeichen <small>${sortiert.length} Anbieter mit mindestens einem offenen oder roten Feld · Reihenfolge: zuerst, was sich lohnt</small></h2>
+    <div class="scroll"><table>
+      <thead><tr><th>Anbieter</th><th>Lage</th><th>Betroffene Produkte</th><th>Nächster Schritt</th></tr></thead>
+      <tbody>${sortiert.map(([k, e]) => zeile(k, e)).join("")}</tbody>
+    </table></div>
+  </section>`;
+};
+
 const tabelle = (b: Bereich) => {
   const l = zeilen.filter((z) => z.bereich === b.name).sort((x, y) => (x.rang ?? 999) - (y.rang ?? 999) || x.name.localeCompare(y.name, "de"));
   const kopf = l[0]?.felder.map((f) => `<th>${esc(f.label)}</th>`).join("") ?? "";
@@ -126,7 +185,7 @@ const tabelle = (b: Bereich) => {
   <section class="bereich" data-bereich="${b.id}">
     <h2>${esc(b.name)} <small>${k.gesamt} Produkte · <b class="c-gut">${k.gruen} alles ja</b> · <b class="c-offen">${k.offen} offen</b> · <b class="c-rot">${k.rot} mit Nein</b> (davon ${zeilen.filter((z) => z.bereich === b.name && z.abgeraten).length} abgeraten) · Partner: ${k.partnerGruen} grün, ${k.partnerOffen} offen</small></h2>
     <div class="scroll"><table>
-      <thead><tr><th>Rang</th><th>Produkt</th><th>Status</th><th>Partner</th><th>Bonus</th>${kopf}<th>Kosten</th><th>FF-Rang</th></tr></thead>
+      <thead><tr><th>Rang</th><th>Produkt</th><th>Status</th><th>Partner</th><th>Bonus</th><th>Anfragen</th>${kopf}<th>Kosten</th><th>FF-Rang</th></tr></thead>
       <tbody>${l
         .map(
           (z) => `<tr class="st-${z.status}${z.nummerEins ? " eins" : ""}" data-status="${z.status}" data-partner="${z.partner}" data-name="${esc(z.name.toLowerCase())}">
@@ -135,6 +194,7 @@ const tabelle = (b: Bereich) => {
         <td><span class="pill ${z.status === "gruen" ? "gut" : z.status === "rot" ? "schlecht" : "offen"}">${z.status === "gruen" ? "alles ja" : z.status === "rot" ? "mind. ein Nein" : "offen"}</span>${z.abgeraten ? '<div class="klein rot">abgeraten, kein Partnerlink</div>' : ""}${z.empfehlbar ? "" : '<div class="klein">wird nicht beworben</div>'}</td>
         <td>${z.partner ? "✓" : ""}</td>
         <td>${z.bonus ?? ""}</td>
+        ${anfrageZelle(z)}
         ${z.felder.map(zelle).join("")}
         <td class="kosten">${esc(z.kosten)}</td>
         <td class="num">${z.ffRang ?? ""}</td>
@@ -171,6 +231,9 @@ const html = `<!doctype html>
   tr.st-rot td{background:#fdf2f2} tr.eins td{background:#eef4ff}
   td.name{font-weight:600;white-space:nowrap} td.num{text-align:center;white-space:nowrap} td.kosten{font-size:12px;color:#374151;min-width:180px}
   td.f{min-width:170px;max-width:260px}
+  td.anf{min-width:150px;max-width:240px}
+  td.anf .v{font-size:11px;color:var(--grau);margin-top:4px;padding-left:6px;border-left:2px solid var(--rand)}
+  td.anf .schritt{font-size:11px;color:#92400e;margin-top:4px}
   .pill{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
   .pill.gut{background:#e7f6ee;color:var(--gut)} .pill.teils{background:#fdf3e1;color:var(--teils)} .pill.schlecht{background:#fde8e8;color:var(--rot)}
   .pill.offen{background:#f1f2f4;color:var(--grau)} .pill.text{background:#eef4ff;color:#1e3a8a}
@@ -199,15 +262,14 @@ const html = `<!doctype html>
   <div class="offen-box">
     <h3>Deine offenen Entscheidungen</h3>
     <ol>
-      <li><b>Relai:</b> Antwort kam vom KI-Assistenten, inhaltlich grün. Als Beleg zählen lassen? Steht bis dahin auf offen.</li>
       <li><b>Trade Republic:</b> Die Zinsseite sagt „Aktiviere Zinsen in der App“ und zugleich „du kannst die Zinsen deaktivieren“. Das Girokonto steht deshalb auf teils, das Depot auf ja. Beide nutzen dasselbe Cash. Bitte in der App nachsehen, ob Zinsen bei einem neuen Konto sofort laufen.</li>
-      <li><b>17 Anbieter ohne Mail-Weg</b> (nur App oder Chat): fragen oder auf offen lassen?</li>
-      <li><b>Scalable und DKB (Partner):</b> 3 Sukuk- und 8 Edelmetall-ISINs in der App suchen.</li>
+      <li><b>Scalable und DKB (Partner):</b> 3 Sukuk- und 7 Edelmetall-ISINs in der App suchen.</li>
+      <li><b>Anbieter ohne Mail-Weg:</b> in der App fragen oder bewusst auf offen lassen? Die Tabelle „Fragezeichen“ sagt, wen es betrifft.</li>
     </ol>
-    <p class="klein">Geklärt am 21.09.: finvesto (FNZ-Bedingungen: Konto flex unverzinst), HVB-Depots (rot, HVB-Produktprofil: 0,50 % Sonderzins bis 31.12.2026), WillBe (rot, FAQ und Mail).</p>
-
+    <p class="klein">Geklärt: Relai (23.09., klare KI-Antwort zählt), BSDEX (23.09., Staking nur nach eigener Weisung), PSD Nürnberg, Commerzbank, JOE Broker, Berliner Volksbank, finanzen.net zero, finvesto, tradegate.direct, HVB-Girokonten, meine Bank, Haspa, EthikBank, justTRADE, Bitvavo, Smartbroker+.</p>
   </div>
   <div class="legende">Status zählt nur die Halal-Ampeln (Zins, Dispo, Karte, Coins usw.): „alles ja“ heißt jede Ampel belegt ja. Rang = Reihenfolge im Vergleich (nur zinsfreie, geprüfte Anbieter bekommen einen Rang). Quelle: <span class="q q-mail">Mail</span> schriftliche Antwort, <span class="q q-seite">Anbieterseite</span> Seite des Anbieters, <span class="q q-ff">Finanzfluss</span> nur Finanzfluss. Maus auf ein Feld zeigt den Belegtext.</div>
+  ${fragezeichen()}
   ${BEREICHE.map(tabelle).join("\n")}
 </main>
 <script>
