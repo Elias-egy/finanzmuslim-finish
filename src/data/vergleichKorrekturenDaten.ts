@@ -182,7 +182,7 @@ export const KRYPTO_WERTE: Werte = {
   "kraken-pro": kryptoOptIn,
   "kraken-standard": kryptoOptIn,
   "okx-trading": kryptoOptIn,
-  "revolut-krypto": { zinsfreiAbStart: "teils" },
+  "revolut-krypto": { zinsfreiAbStart: "teils", zinsfreiesModell: "schlecht" },
   "scalable-capital-krypto": kryptoOptIn,
   "smartbroker-plus-krypto": kryptoOptIn,
   "trade-republic-krypto": { zinsfreiAbStart: "teils", zinsfreiesModell: "gut" },
@@ -234,6 +234,7 @@ export const KRYPTO_QUELLEN: Quellen = {
   },
   "revolut-krypto": {
     zinsfreiAbStart: { url: "https://help.revolut.com/en-DE/help/wealth/cryptocurrencies/crypto-staking/auto-staking/", stand: "21.09.2026", hinweis: "Revolut-Hilfe (Deutschland): Staking läuft automatisch, „if you buy 100 ADA, it will be auto-staked“, lässt sich aber abschalten: „Tap the 'Auto-earn' toggle to disable it“." },
+    zinsfreiesModell: { url: "https://www.revolut.com/de-DE/our-pricing-plans/", stand: "23.09.2026", hinweis: "Revolut-Abovergleich: Premium (8,99 Euro im Monat) wirbt mit 'Schalte Marken-Abonnements und höhere Sparzinsen im Wert von 2.250 Euro pro Jahr frei' und 'Für das gewisse Extra im Alltag mit exklusiven Abos, besseren Zinssätzen und unbegrenztem Geldumtausch'. Die kostenpflichtige Stufe verkauft also ausdrücklich bessere Zinsen." },
   },
   "bitget-trading": {
     zinsfreiesModell: { url: "https://www.bitget.com/support/articles/12560603820603", stand: "21.09.2026", hinweis: "Bitget-Hilfe: Margin ist ein eigenes Konto, „Transfer your fund to Margin account“." },
