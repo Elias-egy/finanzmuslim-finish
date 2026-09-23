@@ -228,6 +228,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse. Am 23.09.2026 über robinhood.com belegt: Staking und Cash sweep sind beide Opt-in." },
   // Stufen-Prüfung 23.09.2026: noch nie gefragt, aber je ein offener nächster Schritt.
   bforbank: { anbieter: "BforBank", vorgaenge: [], naechsterSchritt: "Noch nie gefragt. Im Preisverzeichnis fehlt ein Guthabenzins, Abwesenheit ist kein Beleg. Schriftlich fragen, ob das Girokonto-Guthaben verzinst wird." },
+  consorsbank: { anbieter: "Consorsbank", vorgaenge: [], naechsterSchritt: "Noch nie gefragt. Im Preisverzeichnis hat das Verrechnungskonto nur Sollzinsen, eine ausdrückliche Aussage zum Guthabenzins fehlt. Schriftlich bestätigen lassen." },
   comdirect: { anbieter: "comdirect", vorgaenge: [], naechsterSchritt: "Schriftlich fragen: Wird das Verrechnungskonto zum Pure Depot verzinst wie beim comdirect Depot? Dort nennt die Bank „variabel verzinst“." },
   n26: { anbieter: "N26", vorgaenge: [], naechsterSchritt: "N26 Flex hat weder Zins- noch Dispo-Beleg. In der App oder beim Support fragen, ob Flex zinsfrei ist und ob ein Dispo möglich ist." },
   vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
