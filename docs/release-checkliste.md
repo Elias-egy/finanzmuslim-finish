@@ -1,12 +1,12 @@
 # finanzmuslim.com: Checkliste bis Release und 10/10
 
-Stand 23.09.2026 mittags. Nichts veröffentlicht. Zahlen aus den Werten, die der Vergleich
+Stand 23.09.2026 nachmittags. Veröffentlicht. Nichts veröffentlicht. Zahlen aus den Werten, die der Vergleich
 tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 
 ## A. Muss vor dem Go (Release-Blocker)
 
 - [x] **Mail-Runde 2 abgeschickt**: 27 Mails am 21.09. aus `eliaselgendy2006@gmail.com`, im Gesendet-Ordner einzeln geprüft.
-- [ ] **Antworten eintragen** (Claude): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:
+- [ ] **Antworten eintragen** (Claude, laufend; Historie je Anbieter in `src/data/anfragenLog.ts`): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:
       meine Bank, Haspa, EthikBank, HVB, tradegate.direct, justTRADE, Bitvavo, Smartbroker+. Am 22.09.: Commerzbank-Depots,
       Joe Broker, Berliner Volksbank, finanzen.net zero Krypto. Am 23.09.: PSD Bank Nürnberg (Zins und Dispo) und Relai
       (Krypto, klare Antwort des KI-Assistenten, Elias' Regel vom 23.09.).
@@ -36,21 +36,22 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 - [x] **Kleingedrucktes in den Rechnern gekürzt** (Elias, 22.09.): Wiederholungen raus, Quellen und Hinweise bleiben.
       Erstes Bedienelement bei 390 px überall unter 500 px, kein Überlauf bei 390 und 360 px.
 - [x] **Kraken-Startseite korrigiert**: Auto Earn läuft laut Kraken nur nach eigenem Einschalten.
-- [ ] **Deploy-Go** (Elias): Workflow `auslieferung.yml` mit „veröffentlichen“, danach mit curl prüfen.
+- [x] **Veröffentlicht am 23.09.2026** (Elias' Go im Chat). Läufe 35852465892, 35854350147 und 35856965033, live per curl und CSS-Prüfung bestätigt.
 
 ## B. Für 10/10 (darf nach dem Release kommen)
 
 **Daten**
-- [ ] Eindeutige Produkt-IDs. Betroffen sind nur `revolut-standard` und `vivid-standard`; ein Test verhindert, dass ein
-      Bonus daran hängt.
+- [x] Eindeutige Produkt-IDs geprüft (23.09.): Innerhalb jedes Bereichs sind alle IDs eindeutig. Nur `revolut-standard`
+      und `vivid-standard` kommen in zwei Bereichen vor. Ein Umbau würde Partnerlinks, Korrekturen und Kaufbar-Zuordnung
+      anfassen; der Test hält die einzige echte Gefahr (ein Bonus am falschen Produkt) schon auf. Bewusst so gelassen.
 - [x] Kaufdaten für alle 27 ISINs, die vier Metall-ETCs über die Traders-Place-Suche belegt.
 - [ ] Trade-Republic-Goldtreffer (2 ISINs) in der App gegenprüfen (Elias, braucht Login).
-- [ ] Prüfmatrix aus den Laufzeitwerten neu erzeugen statt aus dem Rohimport.
+- [x] Prüfstand ist die Matrix aus Laufzeitwerten, jetzt mit Anfragen-Historie je Anbieter und der Tabelle „Fragezeichen“.
 
 **Deals und Partner**
 - [x] `/deals` mit fünf Boni: ING 200 € (bis 30.09.), 1822direkt 200 €, comdirect Depot bis 150 €, BBBank 50 €,
       Commerzbank 50 €. Postbank ohne laufende Aktion. UmweltBank offen: automatische „Debit-Kreditkarte“ erst klären.
-- [ ] ING-Bonus endet am 30.09.: Seite nach dem Go neu bauen, sonst zeigt das vorgerenderte HTML ihn weiter.
+- [x] ING-Bonus endet am 30.09.: `kurse.yml` liefert jetzt täglich aus, auch ohne Kursänderung. Abgelaufene Boni verschwinden dadurch von selbst.
 - [ ] Partnerprogramme für grüne Anbieter beantragen: comdirect, flatex, Smartbroker+, Bitvavo, Consorsbank u. a.
       (MCANISM, Impact, FinanceQuality, CHECK24, Awin; financeAds wartet).
 - [ ] Musaffa und Zoya: Status der Anträge prüfen.
@@ -61,9 +62,8 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
       Beschriftungen, Zeitraum-Knöpfe, Fortschrittsbalken und Überschriftenfolge behoben.
 - [ ] Größtes Element unter 2,5 s: Umstellen von `createRoot` auf `hydrateRoot` getestet, bringt nichts (3,9 s).
       Die Bremse liegt vor dem JavaScript: blockierendes CSS (455 ms) und viele Modul-Vorladungen. Eigene Sitzung.
-- [ ] Farbkontrast (Elias entscheidet, betrifft die Farbabnahme): Violett #7d6ef2 mit Weiß 3,9:1 (Badges „Neu“,
-      Startseite), Grün #218c5a 4,23:1 auf Weiß und 3,92:1 auf Hellgrün (Renditen, Ergebniskarte). Norm verlangt 4,5:1
-      für kleine Schrift. Eine Stufe dunkler würde reichen.
+- [x] Farbkontrast erledigt (23.09.): violet 66 %, gain und success 29 %, destructive 45 %, Navigationsschrift /90.
+      Lighthouse auf sechs Seiten: Barrierefreiheit 100, Kontrastprüfung ohne Beanstandung.
 - [ ] 50 Suchabsichten gegen die Seiten prüfen: Title, H1, sichtbare Antwort, interne Links.
 - [ ] Search Console nach Release wöchentlich lesen; neue Seiten nur bei echter Antwortlücke.
 
