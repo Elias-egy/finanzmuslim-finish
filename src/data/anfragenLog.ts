@@ -226,6 +226,11 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   wise: { anbieter: "Wise", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Help Center." },
   "crypto-com": { anbieter: "Crypto.com", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat. Am 23.09.2026 über help.crypto.com belegt: Rewards erst nach eigener Allocation." },
   robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse. Am 23.09.2026 über robinhood.com belegt: Staking und Cash sweep sind beide Opt-in." },
+  // Stufen-Prüfung 23.09.2026: noch nie gefragt, aber je ein offener nächster Schritt.
+  comdirect: { anbieter: "comdirect", vorgaenge: [], naechsterSchritt: "Schriftlich fragen: Wird das Verrechnungskonto zum Pure Depot verzinst wie beim comdirect Depot? Dort nennt die Bank „variabel verzinst“." },
+  n26: { anbieter: "N26", vorgaenge: [], naechsterSchritt: "N26 Flex hat weder Zins- noch Dispo-Beleg. In der App oder beim Support fragen, ob Flex zinsfrei ist und ob ein Dispo möglich ist." },
+  vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
+  bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
 };
 
 export const anfrageFuer = (haus?: string): Anfrage | undefined => (haus ? ANFRAGEN[haus] : undefined);

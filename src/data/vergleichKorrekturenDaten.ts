@@ -44,6 +44,9 @@ export const DEPOT_WERTE: Werte = {
   "commerzbank-klassikdepot": { zinsfreiAbStart: "gut" },
   "commerzbank-premiumdepot": { zinsfreiAbStart: "gut" },
   "joe-broker-depot": { zinsfreiAbStart: "gut" },
+  "comdirect-depot": { zinsfreiAbStart: "schlecht" },
+  "comdirect-pure-depot": { zinsfreiAbStart: null },
+  "bitpanda-depot": { zinsfreiAbStart: null },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
@@ -83,6 +86,9 @@ export const DEPOT_QUELLEN: Quellen = {
       hinweis: "Sechs Edelmetall-ISINs bestätigt; IE00B579F325 steht zwar im Katalog, bleibt wegen des App-Widerspruchs ungeklärt.",
     },
   },
+  "comdirect-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "23.09.2026", hinweis: "comdirect, vorvertragliche Informationen zum Antrag auf ein comdirect Depot (Stand 19.06.2026), Punkt Verrechnungskonto: „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ Ein Opt-in oder Verzicht steht nicht dabei. Das Verrechnungskonto wird mit dem Depot automatisch verknüpft. Der frühere Beleg (Preisverzeichnis nennt keinen Zins) war nur Abwesenheit und ist ersetzt." } },
+  "comdirect-pure-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "23.09.2026", hinweis: "Kein Beleg für das Pure Depot: Die Klausel „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ steht in den Informationen zum Antrag auf ein comdirect Depot und nennt das Pure Depot nicht. Im selben Dokument kommt das Pure Depot nur im Preisverzeichnis vor. Bis comdirect es für das Pure Depot bestätigt, bleibt das Feld offen." } },
+  "bitpanda-depot": { zinsfreiAbStart: { url: "https://support.bitpanda.com/hc/de/articles/24873644625820-Bitpanda-Passive-Earn", stand: "23.09.2026", hinweis: "Kein Beleg für das Depot: Passive Earn gilt laut Bitpanda nur für stakingfähige Krypto-Assets. Zu Zinsen oder Erträgen auf Guthaben im Bitpanda-Depot (Wertpapiere) steht auf keiner Bitpanda-Seite etwas. Der Krypto-Beleg wird nicht übertragen." } },
 };
 
 export const GIRO_WERTE: Werte = {
@@ -124,6 +130,14 @@ export const GIRO_WERTE: Werte = {
   "trade-republic-girokonto": { zinsfreiAbStart: "teils", keinDispoAbStart: "gut" },
   "berliner-volksbank-girokonto": { zinsfreiAbStart: "gut" },
   "psd-bank-n-rnberg-girodirekt": { zinsfreiAbStart: "gut", keinDispoAbStart: "gut" },
+  "n26-flex": { zinsfreiAbStart: null, keinDispoAbStart: null },
+  "n26-standard": { zinsfreiAbStart: "gut" },
+  "n26-smart": { zinsfreiAbStart: "gut" },
+  "n26-go": { zinsfreiAbStart: "gut" },
+  "n26-metal": { zinsfreiAbStart: "gut" },
+  "c24-smart": { zinsfreiAbStart: "schlecht" },
+  "c24-plus": { zinsfreiAbStart: "schlecht" },
+  "c24-max": { zinsfreiAbStart: "schlecht" },
 };
 
 export const GIRO_QUELLEN: Quellen = {
@@ -165,6 +179,14 @@ export const GIRO_QUELLEN: Quellen = {
   "ing-girokonto": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
   "ing-girokonto-future": { zinsfreiAbStart: { url: "https://www.ing.de/girokonto/kundenservice/", stand: "20.09.2026", hinweis: "Das Extra-Konto wird als separates Konto eröffnet; eine Verzinsung setzt eine eigene Einzahlung voraus." } },
   "norisbank-top-girokonto": { zinsfreiAbStart: { url: "https://www.norisbank.de/produkte/girokonto.html", stand: "20.09.2026", hinweis: "Das optionale Top-Zinskonto ist ein separates Konto und wird erst durch eine eigene Einzahlung relevant." } },
+  "n26-flex": { zinsfreiAbStart: { url: "https://support.n26.com/de-de/app-und-produkte/savings-und-invest/was-ist-das-n26-tagesgeldkonto-de-iban", stand: "23.09.2026", hinweis: "Kein Beleg für N26 Flex: Der N26-Hilfeartikel zum Tagesgeldkonto nennt Standard, Smart, Go und Metal, für Flex steht dort nichts. Das Flex-Konto ist laut N26 „weder ein N26-Standard-Konto, noch ein Premium-Mitgliedschaftskonto“. Die Aussagen der anderen Stufen werden nicht übertragen." }, keinDispoAbStart: { url: "https://n26.com/de-de/konten-vergleichen", stand: "23.09.2026", hinweis: "Kein Beleg für N26 Flex: Der N26-Kontovergleich führt die Zeile Dispokredit für Standard, Smart, Go und Metal, nicht für Flex. Die Hilfeartikel zum Dispo gelten allgemein und nennen Flex nicht." } },
+  "n26-standard": { zinsfreiAbStart: { url: "https://support.n26.com/de-de/app-und-produkte/savings-und-invest/was-ist-das-n26-tagesgeldkonto-de-iban", stand: "23.09.2026", hinweis: "N26-Hilfe zum Tagesgeldkonto nennt N26 Standard namentlich: „Aktuelle Zinssätze: N26 Metal: 1,50 % p.a. N26 Go: 0,55 % p.a. N26 Smart & N26 Standard: 0,25 % p.a.“ Zinsen gibt es nur dort: „Du musst zuerst ein N26 Bankkonto eröffnen. Danach kannst du ein separates N26 Tagesgeldkonto eröffnen, um Zinsen zu erhalten.“ Das Hauptkonto verzinst in keiner Stufe." } },
+  "n26-smart": { zinsfreiAbStart: { url: "https://support.n26.com/de-de/app-und-produkte/savings-und-invest/was-ist-das-n26-tagesgeldkonto-de-iban", stand: "23.09.2026", hinweis: "N26-Hilfe zum Tagesgeldkonto nennt N26 Smart namentlich: „Aktuelle Zinssätze: N26 Metal: 1,50 % p.a. N26 Go: 0,55 % p.a. N26 Smart & N26 Standard: 0,25 % p.a.“ Zinsen gibt es nur dort: „Du musst zuerst ein N26 Bankkonto eröffnen. Danach kannst du ein separates N26 Tagesgeldkonto eröffnen, um Zinsen zu erhalten.“ Das Hauptkonto verzinst in keiner Stufe." } },
+  "n26-go": { zinsfreiAbStart: { url: "https://support.n26.com/de-de/app-und-produkte/savings-und-invest/was-ist-das-n26-tagesgeldkonto-de-iban", stand: "23.09.2026", hinweis: "N26-Hilfe zum Tagesgeldkonto nennt N26 Go namentlich: „Aktuelle Zinssätze: N26 Metal: 1,50 % p.a. N26 Go: 0,55 % p.a. N26 Smart & N26 Standard: 0,25 % p.a.“ Zinsen gibt es nur dort: „Du musst zuerst ein N26 Bankkonto eröffnen. Danach kannst du ein separates N26 Tagesgeldkonto eröffnen, um Zinsen zu erhalten.“ Das Hauptkonto verzinst in keiner Stufe." } },
+  "n26-metal": { zinsfreiAbStart: { url: "https://support.n26.com/de-de/app-und-produkte/savings-und-invest/was-ist-das-n26-tagesgeldkonto-de-iban", stand: "23.09.2026", hinweis: "N26-Hilfe zum Tagesgeldkonto nennt N26 Metal namentlich: „Aktuelle Zinssätze: N26 Metal: 1,50 % p.a. N26 Go: 0,55 % p.a. N26 Smart & N26 Standard: 0,25 % p.a.“ Zinsen gibt es nur dort: „Du musst zuerst ein N26 Bankkonto eröffnen. Danach kannst du ein separates N26 Tagesgeldkonto eröffnen, um Zinsen zu erhalten.“ Das Hauptkonto verzinst in keiner Stufe." } },
+  "c24-smart": { zinsfreiAbStart: { url: "https://www.c24.de/preise", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom C24-Kundenservice am 16.09.2026: „Guthaben auf dem C24 Girokonto und in allen Pockets wird automatisch verzinst …“ Die C24-Preisseite führt in der Tabelle „Kontofunktionen“ die Zeile „0,75 % Zinsen p.a. auf das Girokonto“ mit den Spalten C24 Smart, C24 Plus und C24 Max, also auch für Smart. Ein Verzicht ist nicht vorgesehen." } },
+  "c24-plus": { zinsfreiAbStart: { url: "https://www.c24.de/preise", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom C24-Kundenservice am 16.09.2026: „Guthaben auf dem C24 Girokonto und in allen Pockets wird automatisch verzinst …“ Die C24-Preisseite führt in der Tabelle „Kontofunktionen“ die Zeile „0,75 % Zinsen p.a. auf das Girokonto“ mit den Spalten C24 Smart, C24 Plus und C24 Max, also auch für Plus. Ein Verzicht ist nicht vorgesehen." } },
+  "c24-max": { zinsfreiAbStart: { url: "https://www.c24.de/preise", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom C24-Kundenservice am 16.09.2026: „Guthaben auf dem C24 Girokonto und in allen Pockets wird automatisch verzinst …“ Die C24-Preisseite führt in der Tabelle „Kontofunktionen“ die Zeile „0,75 % Zinsen p.a. auf das Girokonto“ mit den Spalten C24 Smart, C24 Plus und C24 Max, also auch für Max. Ein Verzicht ist nicht vorgesehen." } },
 };
 
 export const KRYPTO_WERTE: Werte = {
