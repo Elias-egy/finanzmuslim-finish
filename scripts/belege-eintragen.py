@@ -23,17 +23,22 @@ BEREICH = {  # Feld -> (WERTE-Konstante, QUELLEN-Konstante) je nach Datei, in de
     "krypto": ("KRYPTO_WERTE", "KRYPTO_QUELLEN"),
 }
 QUELLDATEI = {
-    "depot": "brokerVergleich.ts",
-    "giro": "girokontoVergleich.ts",
-    "krypto": "kryptoVergleich.ts",
+    "depot": ["brokerVergleich.ts"],
+    # Nachtraege enthalten Produkte, die der Rohimport nicht kennt (z. B. SumUp).
+    "giro": ["girokontoVergleich.ts", "girokontoNachtraege.ts"],
+    "krypto": ["kryptoVergleich.ts"],
 }
 
 
 def bereich_von(pid: str) -> str | None:
-    for bereich, datei in QUELLDATEI.items():
-        t = (DATEI.parent / datei).read_text(encoding="utf-8")
-        if f'"id": "{pid}"' in t:
-            return bereich
+    for bereich, dateien in QUELLDATEI.items():
+        for datei in dateien:
+            pfad = DATEI.parent / datei
+            if not pfad.exists():
+                continue
+            t = pfad.read_text(encoding="utf-8")
+            if f'"id": "{pid}"' in t or f'id: "{pid}"' in t:
+                return bereich
     return None
 
 
@@ -184,9 +189,7 @@ def main() -> None:
                             rumpf_neu = re.sub(rf'{re.escape(feld)}: "gut"', f'{feld}: "{urteil}"', ausgeschrieben)
                             inhalt = inhalt[:start] + f'  "{pid}": {rumpf_neu},' + inhalt[ende:]
                     elif hat_feld(rumpf, feld):
-                        print(f"  uebersprungen (Wert schon gepflegt): {pid} {feld}")
-                        uebersprungen += 1
-                        continue
+                        pass  # Wert steht schon, der Beleg fehlt vielleicht trotzdem.
                     else:
                         rumpf_neu = mit_feld(rumpf, f'{feld}: "{urteil}"')
                         inhalt = inhalt[:start] + f'  "{pid}": {rumpf_neu},' + inhalt[ende:]
