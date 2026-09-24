@@ -465,6 +465,109 @@ export const startPartner: StartPartner[] = [
       },
     ],
   },
+  {
+    kurzname: "joe-broker",
+    anbieter: "JOE Broker",
+    kurz: "JOE",
+    domain: "joebroker.de",
+    markenfarbe: "#78B878",
+    art: "depot",
+    pfad: "/dein-investmentstart/joe-broker",
+    link: "https://www.financeads.net/tc.php?t=87591C5496129308T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei JOE eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sparpläne", "0 € Depotgebühr"],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Guthaben auf dem Verrechnungskonto wird nicht verzinst, schriftlich bestätigt vom Support. Eine geplante Verzinsung gilt laut Support nur für Konten, die danach eröffnet werden.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Das Depot kostet nichts. Eine Order kostet 1 €, ein Sparplan 0,50 € je Ausführung.",
+      },
+      {
+        titel: "Sparpläne ab 25 €",
+        text: "Aktien- und ETF-Sparpläne ab 25 € im Monat. Dein Depot liegt bei der Baader Bank.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein JOE-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Zinsangebote annehmen.",
+        text: "Bietet dir JOE später Zinsen oder ein Tagesgeld an, lehne ab. Dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei JOE genauso ab, nur die Menüs heißen anders.",
+      },
+      {
+        q: "Welche Halal-ETFs gibt es bei JOE?",
+        a: "Welche Anlagen aus unserer Halal-Liste bei JOE kaufbar sind, prüfen wir gerade Anlage für Anlage. Den aktuellen Stand siehst du im Depot-Vergleich.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "bunq",
+    anbieter: "bunq",
+    kurz: "bunq",
+    domain: "bunq.com",
+    markenfarbe: "#208040",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/bunq",
+    link: "https://www.financeads.net/tc.php?t=87591C3156123231T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei bunq eröffnen →",
+    videoHinweis: false,
+    chips: ["ab 0 € im Monat", "Mastercard ab Core", "Apple Pay", "Kein Dispo"],
+    schritte: [
+      { titel: "App laden, Tarif wählen", text: "Free kostet nichts, eine Debitkarte gibt es ab Core." },
+      { titel: "Konto eröffnen", text: "Laut bunq dauert die Anmeldung etwa fünf Minuten." },
+      { titel: "Loslegen", text: "Ab Core kommt die Mastercard per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Konto ohne Zinsen",
+        text: "Zinsen zahlt bunq laut AGB nur auf eigene Sparkonten. Dein Girokonto bleibt ohne, solange du keins eröffnest.",
+      },
+      {
+        titel: "Kein Dispo",
+        text: "bunq räumt laut AGB normalerweise keinen Dispokredit ein, ein Minus auf dem Konto ist nicht erlaubt.",
+      },
+      {
+        titel: "Tarife ab 0 €",
+        text: "Free kostet nichts, Core mit Mastercard-Debitkarte 3,99 € im Monat. SEPA-Überweisungen sind kostenlos.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein bunq-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Sparkonto eröffnen.",
+        text: "bunq wirbt stark mit Zinsen auf Ersparnisse. Die gibt es nur auf einem Sparkonto, dein Girokonto funktioniert ohne.",
+      },
+      {
+        titel: "Keine Kreditkarte mit Teilzahlung.",
+        text: "Teilzahlung kostet Zinsen. Die Debitkarte bucht direkt vom Konto ab und reicht für den Alltag.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Welcher bunq-Tarif passt?",
+        a: "Für eine Debitkarte brauchst du mindestens Core für 3,99 € im Monat. Free kostet nichts, hat laut Finanzfluss-Vergleich aber keine Debitkarte.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
 ];
 
 export const findStartPartner = (kurzname?: string): StartPartner | undefined =>
