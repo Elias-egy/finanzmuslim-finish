@@ -24,6 +24,7 @@ import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
+import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -346,37 +347,7 @@ const Index = () => (
               <ArrowRight className="h-5 w-5" aria-hidden />
             </Link>
 
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="mt-5 flex max-w-[560px] flex-col gap-3 sm:flex-row"
-            >
-              <label htmlFor="home-newsletter-email" className="sr-only">
-                E-Mail-Adresse
-              </label>
-              <input
-                id="home-newsletter-email"
-                type="email"
-                placeholder="deine@email.de"
-                className="h-14 rounded-lg border border-border bg-background px-4 text-[17px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-12 sm:flex-1 sm:text-[16px]"
-              />
-              <button type="submit" className="btn-primary h-14 sm:h-12">
-                Kostenlos anmelden
-              </button>
-            </form>
-
-            <label className="mt-4 flex max-w-[560px] items-start gap-2 text-[13px] text-muted-foreground">
-              <input
-                type="checkbox"
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-primary"
-              />
-              <span>
-                Ich habe die{" "}
-                <Link to="/datenschutz" className="text-primary underline underline-offset-2">
-                  Datenschutzerklärung
-                </Link>{" "}
-                gelesen und stimme ihr zu.
-              </span>
-            </label>
+            <FreitagsbriefFormular id="home-newsletter-email" variante="startseite" />
           </div>
         </div>
       </section>

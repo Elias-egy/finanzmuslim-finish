@@ -7,9 +7,6 @@ import NewsletterBox from "@/components/NewsletterBox";
  * Aufbau nach dem Newsletter-Block von Finanzfluss: Versprechen mit Zahl,
  * darunter die festen Rubriken, dann das Feld. Der Name greift den Freitag auf,
  * weil der Tag bei unseren Lesern ohnehin gesetzt ist.
- *
- * Der Versand ist noch nicht angebunden. Solange das so ist, sagt die Seite das
- * offen, statt eine Anmeldung vorzutaeuschen.
  */
 
 const rubriken = [
@@ -57,9 +54,6 @@ const Newsletter = () => (
 
       <section className="mt-12">
         <NewsletterBox />
-        <p className="mx-auto mt-4 max-w-[700px] text-center text-[13px] text-muted-foreground">
-          Die Anmeldung wird gerade eingerichtet. Sobald sie steht, melden wir uns.
-        </p>
       </section>
 
       <section className="mx-auto mt-14 max-w-[700px]">
