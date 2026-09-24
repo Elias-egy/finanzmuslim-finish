@@ -61,25 +61,63 @@ const Datenschutz = () => (
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">4. Newsletter, Guide und kostenlose Vorlagen</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Wenn du den Halal Investment Guide, eine unserer Vorlagen oder den Newsletter anforderst,
-          erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen und dein
-          Erfahrungslevel. Die Verarbeitung erfolgt auf Grundlage deiner Einwilligung
-          (Art. 6 Abs. 1 lit. a DSGVO) und dient dem Versand der angeforderten Inhalte und, wenn du
-          das ausgewählt hast, von E-Mails rund um islamkonformes Finanzwissen. Du kannst deine
-          Einwilligung jederzeit widerrufen, über den Abmeldelink in jeder E-Mail oder per
-          E-Mail an elias@finanzmuslim.com.
+          Wenn du den Freitagsbrief, den Halal Investment Guide oder eine unserer Vorlagen
+          anforderst, erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen
+          und dein Erfahrungslevel. Dazu speichern wir, über welchen Weg du dich eingetragen hast
+          (zum Beispiel eine bestimmte Vorlage auf dieser Website oder ein Stichwort auf
+          Instagram), in welcher Sprache du unsere E-Mails bekommen möchtest und welche Themen dich
+          interessieren. So bekommst du die passenden E-Mails in deiner Sprache. Die Verarbeitung
+          erfolgt auf Grundlage deiner Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) und dient dem
+          Versand der angeforderten Inhalte und unseres Newsletters rund um islamkonformes
+          Finanzwissen.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
-          Für die Verwaltung und den Versand nutzen wir MailerLite (MailerLite Limited, 38 Mount
-          Street Upper, Dublin 2, D02 PR89, Irland). Die Übergabe der Formulardaten an MailerLite
-          läuft über den Automatisierungsdienst Make (Celonis Make GmbH, Theresienstraße 6,
-          80333 München). Beide Anbieter verarbeiten die Daten in der EU in unserem Auftrag nach
-          Art. 28 DSGVO.
+          Nach der Anmeldung bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
+          anklickst, bist du eingetragen (Double-Opt-in). Wir speichern den Zeitpunkt der Anmeldung
+          und der Bestätigung sowie die dabei verwendete IP-Adresse, um deine Einwilligung
+          nachweisen zu können (Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse an diesem
+          Nachweis).
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          In unseren E-Mails messen wir, ob sie geöffnet und welche Links angeklickt werden. Dafür
+          enthält jede E-Mail ein unsichtbares Bild, das beim Öffnen vom Server von MailerLite
+          geladen wird, und die Links führen zunächst über MailerLite. So sehen wir, welche Themen
+          dich interessieren, und machen den Newsletter besser. Maßgeblich ist für uns die
+          Klickrate, weil manche E-Mail-Programme das Bild auch ohne Öffnen laden. Diese Messung ist
+          Teil deiner Einwilligung in den Newsletter (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1
+          TDDDG). Wenn du nicht gemessen werden möchtest, kannst du dich jederzeit abmelden.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Du kannst deine Einwilligung jederzeit widerrufen, über den Abmeldelink in jeder E-Mail
+          oder per E-Mail an elias@finanzmuslim.com.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Für die Verwaltung, den Versand und die Messung nutzen wir MailerLite (MailerLite Limited,
+          88 Harcourt Street, Dublin 2, D02 DK18, Irland). MailerLite speichert die Daten in der
+          EU. Die Übergabe der Formulardaten an MailerLite läuft über den Automatisierungsdienst
+          Make. Vertragspartner für Make ist Celonis, Inc., One World Trade Center, 87th Floor,
+          New York, NY 10007, USA. Celonis, Inc. ist nach dem EU-US Data Privacy Framework
+          zertifiziert. Beide Anbieter verarbeiten die Daten in unserem Auftrag nach Art. 28 DSGVO.
+        </p>
+        {/* Offen vor dem Livegang: Vertragspartner für Make mit Elias' Make-Rechnung abgleichen.
+            Makes AV-Vertrag (Version Mai 2024, Ziffer 7) kennt Celonis, Inc. (USA, DPF) und
+            Celonis-Firmen in der EU. Stand der Angaben: 24.09.2026. */}
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-4">5. Umfragen</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          In einigen E-Mails verlinken wir eine kurze Umfrage. Sie läuft über Tally (Tally BV,
+          Sint-Pietersnieuwstraat 11, 9000 Gent, Belgien), das die Antworten in unserem Auftrag nach
+          Art. 28 DSGVO in der EU speichert. Die Teilnahme ist freiwillig. Wir verarbeiten deine
+          Antworten auf Grundlage deiner Einwilligung durch die Teilnahme (Art. 6 Abs. 1 lit. a
+          DSGVO) und werten sie aus, um den Newsletter an deinen Fragen auszurichten. Welche Angaben
+          eine Umfrage abfragt, steht in der Umfrage selbst.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">5. Videos und Anbieter-Logos</h2>
+        <h2 className="text-xl font-semibold mb-4">6. Videos und Anbieter-Logos</h2>
         <p className="text-muted-foreground leading-relaxed">
           Videos auf dieser Website liegen auf unserem eigenen Server, es wird kein Videodienst eines Dritten geladen.
         </p>
@@ -100,7 +138,7 @@ const Datenschutz = () => (
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">6. Partnerlinks</h2>
+        <h2 className="text-xl font-semibold mb-4">7. Partnerlinks</h2>
         <p className="text-muted-foreground leading-relaxed">
           Links, die mit einem Sternchen (*) markiert sind, sind Partnerlinks. Klickst du darauf und
           eröffnest beim Anbieter ein Konto, bekommen wir eine Provision. Für dich ändert sich der
@@ -111,16 +149,16 @@ const Datenschutz = () => (
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">7. Weitergabe an Dritte</h2>
+        <h2 className="text-xl font-semibold mb-4">8. Weitergabe an Dritte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Wir geben deine Daten nicht an unbefugte Dritte weiter. Außer den oben genannten
-          Dienstleistern (GitHub, MailerLite, Make, logo.dev) setzen wir keine weiteren
+          Dienstleistern (GitHub, MailerLite, Make, Tally, logo.dev) setzen wir keine weiteren
           Auftragsverarbeiter ein.
         </p>
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">8. Dauer der Speicherung</h2>
+        <h2 className="text-xl font-semibold mb-4">9. Dauer der Speicherung</h2>
         <p className="text-muted-foreground leading-relaxed">
           Deine Daten werden so lange gespeichert, wie sie für den jeweiligen Zweck erforderlich
           sind oder bis du deine Einwilligung widerrufst. Nach einer Abmeldung vom Newsletter
@@ -129,7 +167,7 @@ const Datenschutz = () => (
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">9. Deine Rechte</h2>
+        <h2 className="text-xl font-semibold mb-4">10. Deine Rechte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
           Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO) sowie das Recht, dich bei
@@ -139,13 +177,13 @@ const Datenschutz = () => (
       </section>
 
       <section className="mb-10">
-        <h2 className="text-xl font-semibold mb-4">10. Kontakt für Datenschutzanfragen</h2>
+        <h2 className="text-xl font-semibold mb-4">11. Kontakt für Datenschutzanfragen</h2>
         <p className="text-muted-foreground leading-relaxed">
           Elias El-Gendy
           <br />
           E-Mail: elias@finanzmuslim.com
         </p>
-        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 15. September 2026</p>
+        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 24. September 2026</p>
       </section>
 
     </main>
