@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { quelleAusPfad, spracheAus } from "@/lib/anmeldung";
 import Seo from "@/components/Seo";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
 import guideTrio from "@/assets/guide-trio-v3.webp";
@@ -8,8 +9,7 @@ import eliasPortrait from "@/assets/elias-autor.webp";
 /**
  * /halal-guide — Lead-Magnet-Seite fuer den Halal Investment Guide.
  * Ein Ziel: E-Mail-Adresse einsammeln. Kein Verkaufsdruck, keine erfundene
- * Dringlichkeit. Das Formular ist vorerst funktionslos und wird spaeter an
- * MailerLite angebunden.
+ * Dringlichkeit. Das Formular schickt an Make, Make legt die Adresse in MailerLite ab.
  */
 
 const contents = [
@@ -66,7 +66,7 @@ const faqs = [
 ];
 
 const levels = [
-  { key: "einstieg", title: "Einstieg", text: "Ich starte neu und brauche klare Grundlagen." },
+  { key: "einsteiger", title: "Einstieg", text: "Ich starte neu und brauche klare Grundlagen." },
   {
     key: "fortgeschritten",
     title: "Fortgeschritten",
@@ -81,11 +81,14 @@ const inputClass =
 /**
  * Der Webhook ist derselbe wie auf der alten Seite: Make nimmt E-Mail, Vorname
  * und Stufe entgegen und legt die Adresse in der passenden MailerLite-Gruppe
- * ab (Einsteiger, Fortgeschritten, Profi). Der Guide kommt per E-Mail.
+ * ab (Einsteiger, Fortgeschritten, Profi). Der Guide kommt per E-Mail, mit
+ * Double Opt-in erst nach der Bestätigung. `quelle`, `sprache` und `interesse`
+ * gehen mit, damit Make sie in MailerLite ablegen kann (Szenario 6105836).
  */
 const GUIDE_WEBHOOK = "https://hook.eu1.make.com/u8nxrirwoycdcw61qd23eu312y79grlk";
 
 const GuideForm = ({ id }: { id?: string }) => {
+  const { pathname } = useLocation();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [vorname, setVorname] = useState("");
   const [email, setEmail] = useState("");
@@ -101,7 +104,15 @@ const GuideForm = ({ id }: { id?: string }) => {
       const res = await fetch(GUIDE_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), vorname: vorname.trim(), nachname: "", level }),
+        body: JSON.stringify({
+          email: email.trim(),
+          vorname: vorname.trim(),
+          nachname: "",
+          level,
+          quelle: quelleAusPfad(pathname),
+          sprache: spracheAus(document.documentElement.lang),
+          interesse: `guide-${level}`,
+        }),
       });
       if (!res.ok) throw new Error(`Webhook ${res.status}`);
       setStep(3);
@@ -115,10 +126,10 @@ const GuideForm = ({ id }: { id?: string }) => {
   if (step === 3) {
     return (
       <div id={id} className="rounded-lg border border-border bg-card p-6 text-left">
-        <p className="text-[17px] font-semibold text-foreground">Dein Guide ist unterwegs.</p>
+        <p className="text-[17px] font-semibold text-foreground">Fast geschafft</p>
         <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-          Wir haben deinen Guide an {email || "deine E-Mail-Adresse"} geschickt. Falls er nicht ankommt, schau bitte
-          auch in deinen Spam-Ordner.
+          Bestätige deine Anmeldung über den Link in der E-Mail an {email.trim() || "deine E-Mail-Adresse"}, dann
+          kommt dein Guide. Keine Mail da? Schau auch im Spam-Ordner nach.
         </p>
       </div>
     );
@@ -228,9 +239,10 @@ const GuideForm = ({ id }: { id?: string }) => {
         Lass uns starten
       </button>
       <p className="text-[12px] leading-relaxed text-muted-foreground">
-        Mit dem Absenden erklärst du dich einverstanden, dass finanzmuslim dir den Guide und E-Mails rund um islamkonformes Investieren sendet. Du kannst dich jederzeit abmelden.{" "}
+        Du bekommst den Guide und jeden Freitag meinen Freitagsbrief mit Tipps und Empfehlungen. Abmelden geht mit
+        einem Klick. Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
         <Link to="/datenschutz" className="underline underline-offset-2 hover:text-foreground">
-          Datenschutzerklärung
+          Datenschutz
         </Link>
       </p>
     </form>

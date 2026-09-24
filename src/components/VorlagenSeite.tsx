@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Check, ChevronRight, Download } from "lucide-react";
 import NewsletterBox from "@/components/NewsletterBox";
 import { motive, type MotivName } from "@/components/motive";
+import { quelleAusPfad, spracheAus } from "@/lib/anmeldung";
 
 export type VorlagenCta = { titel: string; text: string; buttonLabel: string; to: string };
 
@@ -26,15 +27,18 @@ type Props = {
 /**
  * Die Vorlage gibt es gegen die E-Mail-Adresse. Der Webhook ist ein Make-Szenario,
  * das die Adresse in die MailerLite-Gruppe der jeweiligen Vorlage legt (eine Gruppe
- * je Vorlage, Name "Vorlage: …"). Es startet noch keine E-Mail-Strecke, deshalb
- * öffnet die PDF direkt nach dem Absenden. `firma` ist ein Honeypot: Menschen
- * sehen das Feld nicht, Bots füllen es aus, Make wirft solche Anfragen weg.
+ * je Vorlage, Name "Vorlage: …"). Die PDF öffnet direkt nach dem Absenden, die
+ * Bestätigungsmail (Double Opt-in) gilt nur für die E-Mails. `firma` ist ein
+ * Honeypot: Menschen sehen das Feld nicht, Bots füllen es aus, Make wirft solche
+ * Anfragen weg. `quelle`, `sprache` und `interesse` gehen mit, damit Make sie in
+ * MailerLite ablegen kann (Szenario 7427792).
  */
 const VORLAGEN_WEBHOOK = "https://hook.eu1.make.com/cbapidkac5iw67brippeucodz6lubnic";
 
 const emailGueltig = (wert: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wert.trim());
 
 const VorlagenFormular = ({ slug, pdfPfad }: { slug: string; pdfPfad: string }) => {
+  const { pathname } = useLocation();
   const [email, setEmail] = useState("");
   const [firma, setFirma] = useState("");
   const [zustand, setZustand] = useState<"offen" | "sendet" | "fertig" | "fehler">("offen");
@@ -52,7 +56,15 @@ const VorlagenFormular = ({ slug, pdfPfad }: { slug: string; pdfPfad: string }) 
       const res = await fetch(VORLAGEN_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), vorname: "", vorlage: slug, firma }),
+        body: JSON.stringify({
+          email: email.trim(),
+          vorname: "",
+          vorlage: slug,
+          firma,
+          quelle: quelleAusPfad(pathname),
+          sprache: spracheAus(document.documentElement.lang),
+          interesse: `vorlage-${slug}`,
+        }),
       });
       if (!res.ok) throw new Error(`Webhook ${res.status}`);
       setZustand("fertig");
@@ -70,7 +82,7 @@ const VorlagenFormular = ({ slug, pdfPfad }: { slug: string; pdfPfad: string }) 
         </p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
           {zustand === "fertig"
-            ? "Du kannst sie jetzt öffnen und speichern."
+            ? "Du kannst sie jetzt öffnen und speichern. Für den Freitagsbrief bestätige noch kurz die E-Mail, die gleich kommt."
             : "Die Vorlage bekommst du trotzdem. Schreib uns gern an elias@finanzmuslim.com, dann tragen wir dich von Hand ein."}
         </p>
         <a href={pdfPfad} download className="btn-primary mt-4 gap-2">
@@ -118,8 +130,8 @@ const VorlagenFormular = ({ slug, pdfPfad }: { slug: string; pdfPfad: string }) 
         </p>
       )}
       <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
-        Mit dem Klick bekommst du die Vorlage und ab und zu eine E-Mail von finanzmuslim, wenn es Neues gibt.
-        Abmelden geht mit einem Klick, jederzeit.{" "}
+        Du bekommst die Vorlage und jeden Freitag meinen Freitagsbrief mit Tipps und Empfehlungen. Abmelden geht
+        mit einem Klick. Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
         <Link to="/datenschutz" className="text-primary underline underline-offset-2">
           Datenschutz
         </Link>
