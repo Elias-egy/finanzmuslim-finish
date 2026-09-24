@@ -18,6 +18,8 @@ export type Vorgang = {
   zeichen?: string;
   /** Ein Satz: was gefragt wurde, oder was geantwortet wurde. */
   kern: string;
+  /** Absender bei ausgehenden Mails. Bis 24.09.2026 ohne Angabe = elias@finanzmuslim.com. Ab 25.09.2026 eine der Privat-Adressen, Kürzel 2006 oder 566. */
+  von?: "elias@finanzmuslim.com" | "eliaselgendy2006@gmail.com" | "eliaselgendy566@gmail.com";
 };
 
 export type Anfrage = {
