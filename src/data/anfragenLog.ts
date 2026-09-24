@@ -230,13 +230,16 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   bforbank: { anbieter: "BforBank", vorgaenge: [], naechsterSchritt: "Noch nie gefragt. Im Preisverzeichnis fehlt ein Guthabenzins, Abwesenheit ist kein Beleg. Schriftlich fragen, ob das Girokonto-Guthaben verzinst wird." },
   consorsbank: { anbieter: "Consorsbank", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenbetreuung@consorsbank.de", kern: "Wird das Verrechnungskonto zum Wertpapierdepot verzinst? Im Preisverzeichnis stehen dort nur Sollzinsen. Bleibt das beworbene Tagesgeldkonto ohne eigene Einzahlung leer?" },
-  ], naechsterSchritt: "Antwort abwarten. Das Depot steht auf grün, gestützt auf die Zinsgliederung im Preisverzeichnis, nicht auf eine ausdrückliche Zusage." },
+    { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Ticket 86382271-78901a6", kern: "Verrechnungskonto wird nicht verzinst. Das Tagesgeldkonto ist ein eigenes Konto und bleibt ohne Guthaben unverzinst. Depot grün, jetzt mit ausdrücklicher Zusage." },
+  ], },
   comdirect: { anbieter: "comdirect", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@comdirect.de", kern: "Gilt „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst“ auch für das Pure Depot, wie hoch ist der Satz, und ist ein dauerhafter Verzicht möglich?" },
-  ], naechsterSchritt: "Antwort abwarten. Solange bleibt das Pure Depot offen und das comdirect Depot rot." },
+    { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Vorgang 11756451", kern: "Guthaben auf dem Verrechnungskonto wird nicht verzinst, ausdrücklich für das Verrechnungskonto beim comdirect Depot und beim Pure Depot. Beide Depots grün." },
+  ], },
   n26: { anbieter: "N26", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@n26.com", kern: "Wird das Guthaben auf einem N26 Flex Konto verzinst, oder nur auf einem separat eröffneten Tagesgeldkonto? Kommt beim Flex Konto ab Eröffnung ein Dispo dazu?" },
-  ], naechsterSchritt: "Antwort abwarten. Flex bleibt bei Zins und Dispo offen, die anderen vier Stufen sind belegt." },
+    { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Confirmation 95124651", kern: "Keine inhaltliche Antwort. Verweis auf den Chat (support.n26.com/de-at/chat), Mail-Postfach ist nur automatisch." },
+  ], keinMailWeg: true, naechsterSchritt: "Nur über den Besucher-Chat zu klären, das machen Elias' Klicks. Flex bleibt bei Zins und Dispo offen, die anderen vier Stufen sind belegt." },
   vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
 };
