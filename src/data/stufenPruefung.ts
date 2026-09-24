@@ -25,32 +25,8 @@ export const STUFEN_STAND: Record<string, StufenStand> = {
     geprueft: "23.09.2026, Vivid-Hilfeartikel nennt Standard, Plus und Prime",
     notiz: "Zins nur im selbst geöffneten Interest Rate Pocket (Standard 0,1 %, Plus 1,0 %, Prime 2,0 %). Dispo: Hilfeartikel von 2023 ohne Stufe, dazu Vivid Now nur auf Antrag, aktuelle Quelle fehlt. Offen: Vivid einmal schriftlich zum Dispo fragen.",
   },
-  tomorrow: {
-    geprueft: "23.09.2026, Tomorrow-Kontoseite nennt Now, Change, Plus",
-    notiz: "Zins nur beim separat eröffneten Tagesgeldkonto, je Plan namentlich (0,75 / 1 / 1,5 %). Dispo ist in allen Plänen nur eine Option. Widersprüche der Anbieterseiten: Dispozins 9,75 % (Tomorrow) gegen 15 % (Solaris), Tagesgeld für Now teils „nicht verfügbar“. Für die Ampeln unerheblich.",
-  },
   hvb: {
     notiz: "23.09.2026 geprüft: HVB Depot und SmartDepot nutzen dasselbe Investmentkonto (0,50 % bis 31.12.2026, automatisch), beides rot. AktivKonto und PlusKonto: nur die Kundenservice-Mail belegt „nicht verzinst“, das PLV schweigt dazu (Abwesenheit ist kein Beleg). Die Mail lag beim Investmentkonto falsch, das Girokonto-Urteil ist deshalb weniger sicher.",
-  },
-  commerzbank: {
-    geprueft: "23.09.2026, Preisaushang, PLV und Kundencenter-Mail",
-    notiz: "Girokonten: Preisaushang 0,00 % Guthabenzins, Dispo nur auf Wunsch. Depots: Die Mail des Kundencenters galt dem Depot allgemein, keine Commerzbank-Seite legt das Verrechnungskonto je Depotstufe fest. Ampel bleibt grün, Stufenbezug ist nicht ausdrücklich belegt.",
-  },
-  n26: {
-    geprueft: "23.09.2026, N26-Hilfe nennt Standard, Smart, Go, Metal",
-    notiz: "Zins nur im separaten Tagesgeldkonto (0,25 / 0,25 / 0,55 / 1,50 %). Flex: weder Zins- noch Dispo-Beleg, deshalb offen.",
-  },
-  c24: {
-    geprueft: "23.09.2026, C24-Preisseite führt Smart, Plus, Max",
-    notiz: "Alle drei Stufen: 0,75 % Zins automatisch aufs Girokonto, kein Verzicht. Dispo nur auf Antrag.",
-  },
-  comdirect: {
-    geprueft: "23.09.2026, Vorvertragliche Informationen zum comdirect Depot",
-    notiz: "comdirect Depot: Verrechnungskonto „variabel verzinst“, jetzt rot (vorher grün nur aus Abwesenheit im Preisverzeichnis, das war falsch). Pure Depot: nicht genannt, jetzt offen.",
-  },
-  bitpanda: {
-    geprueft: "23.09.2026, Passive Earn nennt Fusion, Standard über die AGB",
-    notiz: "Standard und Fusion: Passive Earn läuft per AGB-Annahme, abschaltbar, gelb. Depot (Wertpapiere): der Krypto-Beleg wurde nicht übertragen, jetzt offen. Abo-Stufen mit Zins: nicht gefunden, Bitpanda Club nennt keine Zinsen.",
   },
   tomorrow: {
     geprueft: "23.09.2026, Tomorrow-Kontoseite nennt Now, Change, Plus",
