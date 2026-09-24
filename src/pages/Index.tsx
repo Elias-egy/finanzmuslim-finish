@@ -25,6 +25,7 @@ import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
+import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -185,6 +186,9 @@ const Zeile = ({
     </div>
   );
 
+/** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen. */
+const aktuelleAusgabe = neuesteZuerst()[0];
+
 const Index = () => (
   <>
     <Seo
@@ -339,13 +343,15 @@ const Index = () => (
 
             {/* Wie bei Finanzfluss: erst der Blick in die letzte Ausgabe,
                 dann das Feld. Wer sieht, was drin steht, traegt sich eher ein. */}
-            <Link
-              to="/newsletter"
-              className="mt-5 inline-flex items-center gap-1 text-[17px] font-bold text-primary hover:underline"
-            >
-              Zur aktuellen Ausgabe
-              <ArrowRight className="h-5 w-5" aria-hidden />
-            </Link>
+            {aktuelleAusgabe && (
+              <Link
+                to={ausgabePfad(aktuelleAusgabe)}
+                className="mt-5 inline-flex items-center gap-1 text-[17px] font-bold text-primary hover:underline"
+              >
+                Zur aktuellen Ausgabe
+                <ArrowRight className="h-5 w-5" aria-hidden />
+              </Link>
+            )}
 
             <FreitagsbriefFormular id="home-newsletter-email" variante="startseite" />
           </div>

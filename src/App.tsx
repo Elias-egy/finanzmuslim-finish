@@ -73,6 +73,8 @@ const VorlageRizq = lazy(() => import("./pages/vorlagen/Rizq.tsx"));
 const VorlageBarakaBlocker = lazy(() => import("./pages/vorlagen/BarakaBlocker.tsx"));
 const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"));
 const Newsletter = lazy(() => import("./pages/Newsletter.tsx"));
+const NewsletterArchiv = lazy(() => import("./pages/NewsletterArchiv.tsx"));
+const NewsletterAusgabe = lazy(() => import("./pages/NewsletterAusgabe.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -184,6 +186,8 @@ const App = () => (
             <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
             <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
             <Route path="/newsletter" element={<Newsletter />} />
+            <Route path="/newsletter/archiv" element={<NewsletterArchiv />} />
+            <Route path="/newsletter/:slug" element={<NewsletterAusgabe />} />
             <Route path="/out/:kurzname" element={<Out />} />
             <Route path="/deals" element={<Deals />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

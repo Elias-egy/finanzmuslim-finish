@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
+import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 
 /**
  * Anmeldeseite fuer den Freitagsbrief.
@@ -32,6 +34,9 @@ const rubriken = [
   },
 ];
 
+/** Erst wenn eine Ausgabe verschickt ist, gibt es etwas zum Nachlesen. */
+const letzteAusgabe = neuesteZuerst()[0];
+
 const Newsletter = () => (
   <main className="bg-background">
     <Seo
@@ -54,6 +59,16 @@ const Newsletter = () => (
 
       <section className="mt-12">
         <NewsletterBox />
+        {letzteAusgabe && (
+          <p className="mx-auto mt-6 flex max-w-[700px] flex-wrap justify-center gap-x-6 gap-y-2 text-[15px]">
+            <Link to={ausgabePfad(letzteAusgabe)} className="font-bold text-primary hover:underline">
+              Letzte Ausgabe lesen
+            </Link>
+            <Link to="/newsletter/archiv" className="font-bold text-primary hover:underline">
+              Alle Ausgaben
+            </Link>
+          </p>
+        )}
       </section>
 
       <section className="mx-auto mt-14 max-w-[700px]">

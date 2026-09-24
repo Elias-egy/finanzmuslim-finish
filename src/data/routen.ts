@@ -3,6 +3,7 @@ import { guides } from "@/data/guides";
 import { partnerLinks } from "@/data/partnerLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
+import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -179,6 +180,8 @@ export const nichtIndexiert: string[] = [
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
   ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+  "/newsletter/archiv",
+  ...ausgaben.map(ausgabePfad),
 ];
 
 /**
@@ -211,6 +214,8 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
   { pfad: "/dein-investment-start", grund: "Zweitschreibweise, setzt noindex" },
+  { pfad: "/newsletter/archiv", grund: "Liste der Ausgaben, setzt noindex" },
+  { pfad: "/newsletter/:slug", grund: "eine Ausgabe des Freitagsbriefs, setzt noindex" },
   { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
   { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /wissen/zinsen-im-islam" },

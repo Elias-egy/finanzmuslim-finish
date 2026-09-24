@@ -12,6 +12,7 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Alle Themen", to: "/wissen" },
           { label: "Vorlagen", to: "/vorlagen" },
+          { label: "Newsletter", to: "/newsletter" },
           { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
           { label: "Was ist Gharar", to: "/wissen/gharar" },
           { label: "Glücksspiel (Maysir)", to: "/wissen/maysir" },
