@@ -120,10 +120,11 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "Automatischer Nachfass derselben KI, ohne neuen Inhalt." },
   ] },
   "pax-bank": { anbieter: "Pax-Bank", vorgaenge: [
-    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@pax-bkc.de", kern: frage2 },
+    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@pax-bkc.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "Dispo nicht automatisch, Girokonto grün. Zum Depot nur: „Im Depot selbst werden keine klassischen Sparzinsen gezahlt“ — das Verrechnungskonto bleibt unbeantwortet." },
-    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "julia.vogt@pax-bkc.de", kern: "Rückfrage: Wird das Guthaben auf dem Verrechnungskonto zum Depot verzinst, und ist ein Verzicht ab Start möglich? Kursgewinne und Dividenden ausdrücklich ausgenommen." },
-  ], naechsterSchritt: "Depots offen: nachfragen, ob das Verrechnungskonto zum Depot verzinst wird." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "julia.vogt@pax-bkc.de", kern: "Rückfrage: Wird das Guthaben auf dem Verrechnungskonto zum Depot verzinst, und ist ein Verzicht ab Start möglich? Kursgewinne und Dividenden ausdrücklich ausgenommen.", von: "eliaselgendy2006@gmail.com" },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "teamberatung@pax-bkc.de", kern: "Julia Vogt: Zum Depot wird ein Anlageabwicklungskonto geführt, „auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt“. Ändert sich das später, wäre ein Verzicht nicht möglich. Gleiches Muster wie tradegate.direct („derzeit nicht verzinst“), beide Depots grün (Branch partner-links-2, 25.09.2026)." },
+  ], naechsterSchritt: "Beide Depots auf grün stellen, sobald Elias den Branch partner-links-2 freigibt. Sonst nichts offen." },
   "tradegate-direct": { anbieter: "tradegate.direct", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@tradegate.direct", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "SUP-5390", kern: "Verrechnungskonto „derzeit nicht verzinst“. Grün." },
@@ -174,8 +175,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "KI-Antwort, sagt nur „keine Hinweise“ auf eine Verzinsung. Zu unklar, zählt nicht als Beleg." },
   ], naechsterSchritt: "Klare Aussage nachfordern oder offen lassen." },
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
-    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2 },
-  ], naechsterSchritt: "Noch keine Antwort. Abwarten." },
+    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
+    { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
+  ], naechsterSchritt: "Antwort abwarten, je Tarif einzeln bewerten." },
   dkb: { anbieter: "DKB", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
@@ -210,15 +212,18 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@getbux.com", kern: frage3 + " Zusätzlich: Unterschied zwischen Basic, Plus und Prime, und ob Hebel und Wertpapierleihe ab Start aus sind." },
   ], naechsterSchritt: "Antwort abwarten." },
   norisbank: { anbieter: "norisbank", vorgaenge: [
-    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus.", von: "eliaselgendy2006@gmail.com" },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "db.no-reply@db.com", kern: "Nur automatische Eingangsbestätigung." },
+    { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: "Nachfrage im selben Verlauf, nur Dispo Top-Girokonto: Werbeseite sagt Sofort-Dispo, Bedingungen sagen auf Antrag. Kommt der Dispo bei Eröffnung automatisch?", von: "eliaselgendy2006@gmail.com" },
   ], naechsterSchritt: "Antwort abwarten, und in der Nachfrage den Dispo-Widerspruch klären: Die Werbeseite sagt „erhalten Girokonto-Kunden einen Sofort-Dispo“, die Bedingungen zum Top-Girokonto sagen „Auf Antrag … Antragsannahme durch gesonderte Mitteilung“." },
   coinbase: { anbieter: "Coinbase", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@coinbase.com", kern: "Zinsen und Rewards auf Guthaben, ob Coinbase One Zinsen oder gebundene Token enthält, und ob Margin und Lending ab Start aus sind." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "Fall 27569519", kern: "Keine automatischen Zinsen oder Rewards, Coinbase One enthält weder Zinsen noch gesperrte Token, Margin und Lending sind ab Start aus. Beide Felder grün." },
   ], },
   revolut: { anbieter: "Revolut", vorgaenge: [
-    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@revolut.com", kern: "Ob automatisches Krypto-Staking bei einem neuen Konto sofort läuft, ob es dauerhaft abschaltbar ist, und ob Euro-Guthaben im Standardkonto automatisch verzinst wird." },
-  ], naechsterSchritt: "Antwort abwarten. revolut.com sperrt jeden Abruf ohne echten Browser (403), das Bezahlmodell ist nur über Chrome zu belegen." },
+    { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@revolut.com", kern: "Ob automatisches Krypto-Staking bei einem neuen Konto sofort läuft, ob es dauerhaft abschaltbar ist, und ob Euro-Guthaben im Standardkonto automatisch verzinst wird.", von: "eliaselgendy2006@gmail.com" },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Fallnummer 19180-26959-58274", kern: "Keine inhaltliche Antwort: Anfragen von nicht registrierten Adressen bearbeitet Revolut nicht, nur über den In-App-Chat." },
+  ], keinMailWeg: true, naechsterSchritt: "Nur über den In-App-Chat zu klären (Elias). Kein weiteres Nachfassen per Mail." },
 
 
   // Kein Mail-Weg, aber am 23.09.2026 über die Anbieterseiten belegt:
