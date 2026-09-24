@@ -181,9 +181,10 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
   ], naechsterSchritt: "Noch keine inhaltliche Antwort. Abwarten." },
   scalable: { anbieter: "Scalable Capital", vorgaenge: [
-    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2 },
+    { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", kern: "Nur Eingangsbestätigung." },
-  ], naechsterSchritt: "Noch keine inhaltliche Antwort. Abwarten." },
+    { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Nachfrage im selben Verlauf: Kann ich den Prime+ Broker komplett ohne Zinsen auf Guthaben nutzen?", von: "eliaselgendy2006@gmail.com" },
+  ], naechsterSchritt: "Antwort zu Krypto (21.09.) und Prime+ (24.09.) abwarten, beides im Ticket 03153115." },
   flatex: { anbieter: "flatex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
