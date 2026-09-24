@@ -9,10 +9,6 @@
 // Netzwerk FinanceQuality (neqty), Partner-ID 8507, Projekt finanz.muslim 51087.
 // Links am 15.09.2026 aus dem Portal (Werbemittel, Textlink) geholt und per
 // Weiterleitung gegen die Zielseite geprüft.
-//
-// Netzwerk financeAds, Partner 64685, Werbeflaeche 87591 (finanzmuslim.com).
-// Teilnahmebedingungen: keine Sub-IDs zur Verknuepfung von Besucherdaten, keine
-// Links in Direktnachrichten. Links hier deshalb ohne {SUBID}.
 
 export type PartnerLink = {
   kurzname: string;
@@ -78,20 +74,6 @@ export const partnerLinks: PartnerLink[] = [
     ziel: "/dein-investmentstart/bbbank",
     aktiv: true,
     notiz: "FinanceQuality, Kampagne 1945 BBBank Girokonto, Werbemittel 23181 (Mehrwertkonto).",
-  },
-  {
-    kurzname: "bunq",
-    anbieter: "bunq",
-    ziel: "/dein-investmentstart/bunq",
-    aktiv: true,
-    notiz: "financeAds, Programm 3156, Textlink 123231 (Sign up in 5 minutes, Tarif waehlt der Nutzer). Angenommen 24.09.2026.",
-  },
-  {
-    kurzname: "joe-broker",
-    anbieter: "JOE Broker",
-    ziel: "/dein-investmentstart/joe-broker",
-    aktiv: true,
-    notiz: "financeAds, Programm 5496, Textlink 129308 (Depot). Angenommen 24.09.2026.",
   },
 ];
 
