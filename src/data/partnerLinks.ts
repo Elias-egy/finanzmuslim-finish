@@ -93,6 +93,13 @@ export const partnerLinks: PartnerLink[] = [
     aktiv: true,
     notiz: "financeAds, Programm 5496, Textlink 129308 (Depot). Angenommen 24.09.2026.",
   },
+  {
+    kurzname: "tangem",
+    anbieter: "Tangem",
+    ziel: "/dein-investmentstart/tangem",
+    aktiv: false,
+    notiz: "MCANISM, Angebot 6859, Textlink Default https://api.skynet.mcanism.com/c/09dGii (Werbeflaeche finanzmuslim.com, leitet am 25.09.2026 auf Tangems Tracker). Angenommen 24.09.2026. Inaktiv, bis es eine Startseite und eine Hardware-Wallet-Sektion gibt.",
+  },
 ];
 
 export const findPartnerLink = (kurzname?: string): PartnerLink | undefined =>
