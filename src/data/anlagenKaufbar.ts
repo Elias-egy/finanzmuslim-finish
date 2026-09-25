@@ -109,6 +109,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE000929U2U9",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000929U2U9",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
         "haus": "trade-republic",
         "beleg": {
@@ -150,7 +174,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -163,6 +187,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
           ]
         }
       },
@@ -205,13 +241,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -278,12 +315,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -338,13 +376,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -373,6 +412,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -381,6 +432,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000LFC57H7",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -429,7 +492,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -470,6 +533,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -478,6 +565,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
           ]
         }
       },
@@ -494,6 +593,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE000UOXRAM8",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -502,6 +613,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000UOXRAM8",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -559,7 +682,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -614,13 +737,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -673,6 +797,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -711,6 +847,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -719,6 +867,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue",
+        "haus": "maxblue",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
           ]
         }
       },
@@ -735,6 +907,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B27YCN58",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -743,6 +927,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B27YCN58",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -798,7 +994,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -839,6 +1035,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -877,6 +1085,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -889,6 +1109,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B27YCP72",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -897,6 +1141,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B27YCP72",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -952,7 +1208,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1005,6 +1261,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -1043,6 +1311,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1055,6 +1335,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B296QM64",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -1063,6 +1367,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B296QM64",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -1118,7 +1434,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -1159,6 +1475,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1167,6 +1519,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B43VDT70",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B43VDT70",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -1212,7 +1588,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -1232,12 +1608,25 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
         "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
+          "url": "https://www.consorsbank.de/web-financialinfo-service/api/marketdata/funds",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
           ]
         }
       },
@@ -1246,7 +1635,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
-          "stand": "14.09.2026",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "finanzen.net",
@@ -1257,9 +1646,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       {
         "anbieter": "finvesto",
         "haus": "finvesto",
+        "hinweis": "voller Ausgabeaufschlag",
         "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/IE00B4ZJ4634",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "finvesto.de",
@@ -1294,6 +1684,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B4ZJ4634",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -1306,11 +1709,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B4ZJ4634",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Traders Place",
         "haus": "traders-place",
         "beleg": {
           "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "tradersplace.de"
@@ -1325,7 +1741,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -1366,6 +1782,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1374,6 +1826,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B579F325",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B579F325",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -1418,7 +1894,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "finanzen.net zero"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -1471,6 +1947,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -1508,6 +2008,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/HANetf-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00BMYMHS24",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -1516,6 +2040,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00BMYMHS24",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -1560,7 +2096,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [
@@ -1650,6 +2186,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1670,6 +2230,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B1VS3333",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
           ]
         }
       },
@@ -1726,7 +2298,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -1780,6 +2352,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1788,6 +2384,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/WisdomTree-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B1VS3770",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00B1VS3770",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -1843,7 +2475,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [
@@ -1915,6 +2547,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1923,6 +2567,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/WisdomTree-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B588CD74",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
           ]
         }
       },
@@ -1979,7 +2647,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -2020,6 +2688,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -2045,6 +2725,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2065,6 +2757,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00BN2CJ301",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00BN2CJ301",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -2120,7 +2836,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -2161,6 +2877,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -2186,6 +2914,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24",
+        "haus": "freedom24",
+        "beleg": {
+          "url": "https://freedom24.com/api",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2206,6 +2946,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00BQRFDY49",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00BQRFDY49",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
@@ -2261,7 +3025,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -2281,9 +3045,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
         "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
+          "url": "https://www.consorsbank.de/web-financialinfo-service/api/marketdata/funds",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
@@ -2291,11 +3056,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finvesto",
         "haus": "finvesto",
+        "hinweis": "voller Ausgabeaufschlag",
         "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/LU1150255971",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "finvesto.de",
@@ -2329,11 +3107,36 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU1150255971",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU1150255971",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Traders Place",
         "haus": "traders-place",
         "beleg": {
           "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "tradersplace.de"
@@ -2349,7 +3152,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -2363,6 +3166,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
           ]
         }
       },
@@ -2392,6 +3207,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU2458330086",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -2404,11 +3232,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU2458330086",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Traders Place",
         "haus": "traders-place",
         "beleg": {
           "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "tradersplace.de"
@@ -2418,13 +3259,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Consorsbank",
       "finanzen.net zero",
       "Trade Republic",
       "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -2478,6 +3320,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU3123443510",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU3123443510",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Traders Place",
         "haus": "traders-place",
         "beleg": {
@@ -2509,7 +3375,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "25.09.2026"
   },
   "XS2115336336": {
     "kaufbar": [
