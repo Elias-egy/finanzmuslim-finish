@@ -18,7 +18,7 @@ export type Vorgang = {
   zeichen?: string;
   /** Ein Satz: was gefragt wurde, oder was geantwortet wurde. */
   kern: string;
-  /** Absender bei ausgehenden Mails. Bis 24.09.2026 ohne Angabe = elias@finanzmuslim.com. Ab 25.09.2026 eine der Privat-Adressen, Kürzel 2006 oder 566. */
+  /** Absender bei ausgehenden Mails. Ohne Angabe: Runden 1 bis 3 (16. bis 23.09.2026) kamen meist von eliaselgendy2006@gmail.com, die Einzelmails vom 24.09.2026 von elias@finanzmuslim.com. Ab 26.09.2026 gehen gebündelte Anfragen immer von elias@finanzmuslim.com (Elias-Ansage 25.09.2026). */
   von?: "elias@finanzmuslim.com" | "eliaselgendy2006@gmail.com" | "eliaselgendy566@gmail.com";
 };
 
@@ -64,7 +64,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   smartbroker: { anbieter: "Smartbroker+", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@smartbrokerplus.de", kern: frage1 },
     { datum: "16.09.2026", richtung: "rein", kanal: "Mail", kern: "Guthaben nicht verzinst, Zinskonto optional, ohne Kreditfunktion nutzbar. Grün." },
-  ] },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@smartbrokerplus.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit der vier HSBC-ETFs, in der Wertpapiersuche nicht gefunden.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   bitget: { anbieter: "Bitget", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bitget.com", kern: frage1 },
   ], naechsterSchritt: "Antwortet nur über das eigene Ticket-Portal. Mail läuft ins Leere." },
@@ -93,11 +94,13 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   finvesto: { anbieter: "finvesto / FNZ", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", zeichen: "WF_46229739", kern: "„Das Guthaben auf dem Verrechnungskonto wird nicht verzinst.“ Grün." },
-  ] },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", zeichen: "WF_46229739", kern: "Gebündelte Anfrage als finanzmuslim.com: Gilt „nicht verzinst“ für Depot, Depot Basis und Wertpapierdepot? Kaufbarkeit von acht ISINs (ETCs, Franklin), beim Wertpapierdepot aller 22.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   "joe-broker": { anbieter: "JOE Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "JBSPROD-13897", kern: "Guthaben nicht verzinst. Eine geplante Verzinsung gilt nur für Konten, die nach deren Einführung eröffnet werden. Grün." },
-  ] },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", zeichen: "JBSPROD-13897", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs samt Fondsaufschlag.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   "berliner-volksbank": { anbieter: "Berliner Volksbank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@berliner-volksbank.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "Über 30 keine Guthabenverzinsung, blauorange nur mit Mitgliedschaft. Grün." },
@@ -134,7 +137,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128140", kern: "Keine automatischen Ausschüttungen als Zins oder Staking. Zinsfrei ab Start grün, Abo und Margin unbeantwortet." },
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: "Rückfrage zu #128140: Gibt es ein kostenpflichtiges Modell mit Zinsbindung, und sind Margin, Hebel und Wertpapierleihe ab Start aus?" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128292", kern: "„Die Depoteröffnung und Depotführung ist gleichermaßen kostenfrei für alle Kunden. Der Handel findet ausschließlich auf Guthabenbasis ab.“ Bezahlmodell damit geklärt." },
-  ], },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128292", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von 13 ISINs, die in Partner-Listen und Sparplanliste fehlen.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Konto ohne Überziehungsmöglichkeit eröffenbar. Dispo grün." },
@@ -156,7 +160,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Die von Ihnen genannten Vorgaben … können wir bei der Bearbeitung Ihres Anliegens leider nicht separat berücksichtigen.“ Keine inhaltliche Antwort." },
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Zweite, präzisere Anfrage: Laufen Zinsen, Rewards oder Staking ohne eigenes Zutun, und ist das Zinskonto bei der Baader Bank bei einer normalen Depoteröffnung automatisch dabei?" },
-  ], naechsterSchritt: "Krypto bleibt offen. Zweite Anfrage lohnt nur mit präziserer Frage." },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Laufen Zinsen, Rewards oder Staking ohne Zutun, ist das Baader-Zinskonto automatisch dabei? Dazu Kaufbarkeit aller 22 Halal-ISINs samt Fondsaufschlag.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   targobank: { anbieter: "Targobank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: frage2 },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "#REF0003695700", kern: "Bittet um einen Beratungstermin in der Filiale. Keine inhaltliche Antwort." },
@@ -181,16 +186,19 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   dkb: { anbieter: "DKB", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
-  ], naechsterSchritt: "Noch keine inhaltliche Antwort. Abwarten." },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Girokonto ab Eröffnung ohne Dispokredit möglich? Dazu Kaufbarkeit aller 22 Halal-ISINs im Depot.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   scalable: { anbieter: "Scalable Capital", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", kern: "Nur Eingangsbestätigung." },
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Nachfrage im selben Verlauf: Kann ich den Prime+ Broker komplett ohne Zinsen auf Guthaben nutzen?", von: "eliaselgendy2006@gmail.com" },
-  ], naechsterSchritt: "Antwort zu Krypto (21.09.) und Prime+ (24.09.) abwarten, beides im Ticket 03153115." },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Gebündelte Anfrage als finanzmuslim.com: Bleibt das Verrechnungskonto mit PRIME+ dauerhaft bei 0 %? Kaufbarkeit der vier HSBC-ETFs in FREE und PRIME+ (App gegen ETP-Verzeichnis).", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten, Ticket 03153115." },
   flatex: { anbieter: "flatex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
-  ], naechsterSchritt: "Noch keine inhaltliche Antwort. Abwarten." },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von sieben ISINs (Invesco ACWI, vier HSBC, zwei Sukuk-ETFs). Die Krypto-Frage vom 21.09. ist über die Website erledigt.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   tomorrow: { anbieter: "Tomorrow", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@tomorrow.one", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
@@ -244,11 +252,15 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   comdirect: { anbieter: "comdirect", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@comdirect.de", kern: "Gilt „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst“ auch für das Pure Depot, wie hoch ist der Satz, und ist ein dauerhafter Verzicht möglich?" },
     { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Vorgang 11756451", kern: "Guthaben auf dem Verrechnungskonto wird nicht verzinst, ausdrücklich für das Verrechnungskonto beim comdirect Depot und beim Pure Depot. Beide Depots grün." },
-  ], },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@comdirect.de", zeichen: "Vorgang 11756451", kern: "Antwort im Faden als finanzmuslim.com: Was heißt „Handelbar auf Anfrage“ bei den HSBC-ETFs? Kaufbarkeit von elf ISINs fürs comdirect Depot, aller 22 fürs Pure Depot.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die Kaufbarkeitsfragen vom 26.09. abwarten." },
   n26: { anbieter: "N26", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@n26.com", kern: "Wird das Guthaben auf einem N26 Flex Konto verzinst, oder nur auf einem separat eröffneten Tagesgeldkonto? Kommt beim Flex Konto ab Eröffnung ein Dispo dazu?" },
     { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Confirmation 95124651", kern: "Keine inhaltliche Antwort. Verweis auf den Chat (support.n26.com/de-at/chat), Mail-Postfach ist nur automatisch." },
   ], keinMailWeg: true, naechsterSchritt: "Nur über den Besucher-Chat zu klären, das machen Elias' Klicks. Flex bleibt bei Zins und Dispo offen, die anderen vier Stufen sind belegt." },
+  degiro: { anbieter: "DEGIRO", vorgaenge: [
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@degiro.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von zwölf ISINs außerhalb der ETF-Kernauswahl.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten. Der Partnerfaden mit affiliates@flatexdegiro.com läuft getrennt." },
   vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
 };
