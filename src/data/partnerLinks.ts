@@ -100,6 +100,27 @@ export const partnerLinks: PartnerLink[] = [
     aktiv: false,
     notiz: "MCANISM, Angebot 6859, Textlink Default https://api.skynet.mcanism.com/c/09dGii (Werbeflaeche finanzmuslim.com, leitet am 25.09.2026 auf Tangems Tracker). Angenommen 24.09.2026. Inaktiv, bis es eine Startseite und eine Hardware-Wallet-Sektion gibt.",
   },
+  {
+    kurzname: "trezor",
+    anbieter: "Trezor",
+    ziel: "/dein-investmentstart/trezor",
+    aktiv: false,
+    notiz: "financeAds, Programm 5431, Textlink 127829 https://www.financeads.net/tc.php?t=87591C5431127829T (einziges Werbemittel, englische Trezor-Seite, leitet am 25.09.2026 auf trezor.io). Angenommen 24.09.2026. Inaktiv, bis es eine Startseite und eine Hardware-Wallet-Sektion gibt.",
+  },
+  {
+    kurzname: "finanzguru",
+    anbieter: "Finanzguru",
+    ziel: "/dein-investmentstart/finanzguru",
+    aktiv: false,
+    notiz: "financeAds, Programm 3772, Textlink 72598 https://www.financeads.net/tc.php?t=87591C377272598T (Hier Finanzguru eröffnen, leitet am 25.09.2026 auf finanzguru.mein-onlineantrag.de). Angenommen 24.09.2026. Inaktiv, bis die Seite einen Platz fuer Finanz-Apps hat.",
+  },
+  {
+    kurzname: "postbank",
+    anbieter: "Postbank",
+    ziel: "/dein-investmentstart/postbank",
+    aktiv: false,
+    notiz: "financeAds, Programm 426, Textlinks 14532 und 14723 https://www.financeads.net/tc.php?t=87591C42614723T. Beide leiten am 25.09.2026 auf Giro plus, bewertet ist im Girokonto-Vergleich nur Giro pur. Zusage im Portal gesehen 25.09.2026. Inaktiv, bis Giro plus bewertet ist oder ein Giro-pur-Link vorliegt.",
+  },
 ];
 
 export const findPartnerLink = (kurzname?: string): PartnerLink | undefined =>
