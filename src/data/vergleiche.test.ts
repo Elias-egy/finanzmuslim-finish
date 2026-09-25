@@ -246,11 +246,14 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
         expect(k.beleg, ort).toBeDefined();
         expect(["anbieter", "elias"], `${ort}: quelle ${k.beleg.quelle}`).toContain(k.beleg.quelle);
         expect(k.beleg.stand, ort).toMatch(/^\d{2}\.\d{2}\.\d{4}$/);
-        const host = new URL(k.beleg.url).hostname.replace(/^www\./, "");
-        const eigen = k.beleg.domains.some(
-          (d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`),
-        );
-        expect(eigen, `${ort}: belegt mit ${host}`).toBe(true);
+        // Belegmodell v2 (25.09.2026 abends): ein vom Anbieter selbst verlinktes Verzeichnis zählt, wenn die
+        // Herkunft (die verlinkende Seite) auf seiner Domain liegt, z. B. Scalable -> ETP-Universum.
+        const aufDomain = (u: string) => {
+          const host = new URL(u).hostname.replace(/^www\./, "");
+          return k.beleg.domains.some((d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`));
+        };
+        const eigen = aufDomain(k.beleg.url) || (k.beleg.herkunft ? aufDomain(k.beleg.herkunft) : false);
+        expect(eigen, `${ort}: belegt mit ${new URL(k.beleg.url).hostname}`).toBe(true);
       }
     }
   });
@@ -266,7 +269,7 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
         if (!m) continue;
         const isins = Object.keys(ANLAGE_ZEILE).filter((isin) => ANLAGE_ZEILE[isin] === zeile);
         const belegt = isins.filter((isin) =>
-          ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => schluessel.includes(k.haus)),
+          ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => [k.haus, ...(k.haeuser ?? [])].some((h) => schluessel.includes(h))),
         ).length;
         expect(Number(m[1]), `${a.id} ${zeile}: ${m[0]}, belegt ${belegt}`).toBe(belegt);
         expect(Number(m[2]), `${a.id} ${zeile}: Nenner`).toBe(isins.length);

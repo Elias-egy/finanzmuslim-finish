@@ -11,8 +11,10 @@ export type AnlageKaufbar = {
     anbieter: string;
     /** Schlüssel in recherche/anlagen.json, gleich `haus` bzw. Finanzfluss-Produkt der Vergleichszeile. */
     haus: string;
+    /** Alle Haeuser mit diesem Anzeigenamen und Beleg (z. B. Scalable FREE und PRIME+), nur wenn mehr als eins. */
+    haeuser?: string[];
     hinweis?: string;
-    beleg: { url: string; stand: string; quelle: string; domains: string[] };
+    beleg: { url: string; stand: string; quelle: string; domains: string[]; herkunft?: string };
   }[];
   nichtImAngebot: string[];
   stand: string;
@@ -109,15 +111,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE000929U2U9",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -145,18 +152,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -171,6 +166,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finvesto",
       "XTB"
     ],
@@ -191,18 +189,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "beleg": {
@@ -211,18 +197,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -241,7 +215,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
@@ -277,18 +253,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -315,7 +279,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
@@ -350,18 +316,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -376,7 +330,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
@@ -412,20 +368,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -460,18 +408,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -486,10 +422,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
-      "tradegate.direct",
       "XTB"
     ],
     "stand": "25.09.2026"
@@ -533,18 +471,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -569,18 +495,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -593,20 +507,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE000UOXRAM8",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -641,18 +547,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -679,6 +573,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto"
     ],
@@ -711,18 +608,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -737,7 +622,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
@@ -757,6 +644,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux",
+        "haus": "bux",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
           ]
         }
       },
@@ -847,18 +747,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -883,18 +771,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "maxblue",
-        "haus": "maxblue",
-        "beleg": {
-          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "maxblue.de"
-          ]
-        }
-      },
-      {
         "anbieter": "maxblue Wertpapier-Sparplan",
         "haus": "maxblue Wertpapier Sparplan",
         "beleg": {
@@ -907,20 +783,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B27YCN58",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -951,18 +819,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -1085,18 +941,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1121,20 +965,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B27YCP72",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -1169,18 +1005,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1206,7 +1030,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime"
     ],
     "stand": "25.09.2026"
   },
@@ -1311,18 +1138,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1347,20 +1162,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B296QM64",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -1395,18 +1202,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1432,24 +1227,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime"
     ],
     "stand": "25.09.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -1475,18 +1261,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1495,18 +1269,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
           ]
         }
       },
@@ -1523,15 +1285,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B43VDT70",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -1555,18 +1322,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -1684,28 +1439,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B4ZJ4634",
+          "url": "https://www.gettex.de/fonds",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
             "scalable.capital"
-          ]
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -1720,24 +1468,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "smartbrokerplus.de"
           ]
         }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
       }
     ],
     "nichtImAngebot": [
       "Bitpanda",
       "Trade Republic",
-      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -1746,14 +1481,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "IE00B579F325": {
     "kaufbar": [
       {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
+        "anbieter": "Bux",
+        "haus": "bux",
         "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "comdirect.de"
+            "getbux.com",
+            "bux.com"
           ]
         }
       },
@@ -1782,18 +1518,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1802,18 +1526,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
           ]
         }
       },
@@ -1830,15 +1542,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00B579F325",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -1850,18 +1567,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "smartbrokerplus.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -1911,18 +1616,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Bitpanda",
-        "haus": "bitpanda",
-        "beleg": {
-          "url": "https://www.bitpanda.com/en/prices",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "bitpanda.com"
-          ]
-        }
-      },
-      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -1943,18 +1636,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
           ]
         }
       },
@@ -2020,20 +1701,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=IE00BMYMHS24",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -2068,18 +1741,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2093,58 +1754,37 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finvesto",
       "XTB"
     ],
     "stand": "25.09.2026"
   },
   "JE00B1VS2W53": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
   "JE00B1VS3002": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
   "JE00B1VS3333": {
     "kaufbar": [
       {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
+        "anbieter": "Bux",
+        "haus": "bux",
         "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "comdirect.de"
+            "getbux.com",
+            "bux.com"
           ]
         }
       },
@@ -2194,18 +1834,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
           ]
         }
       },
@@ -2234,15 +1862,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B1VS3333",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -2270,18 +1903,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2302,18 +1923,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B1VS3770": {
     "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2364,18 +1973,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2400,15 +1997,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B1VS3770",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -2432,18 +2034,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -2478,37 +2068,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "stand": "25.09.2026"
   },
   "JE00B1VS3W29": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
   "JE00B588CD74": {
     "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2583,15 +2148,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00B588CD74",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -2619,18 +2189,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2652,18 +2210,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "JE00BN2CJ301": {
     "kaufbar": [
       {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -2684,18 +2230,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "degiro.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
           ]
         }
       },
@@ -2725,18 +2259,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2761,15 +2283,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00BN2CJ301",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -2793,18 +2320,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -2841,30 +2356,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "JE00BQRFDY49": {
     "kaufbar": [
       {
-        "anbieter": "Bison",
-        "haus": "bison",
-        "beleg": {
-          "url": "https://bisonapp.com/aktien-etfs/meistgehandelte-etfs-monat/",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "bisonapp.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -2873,18 +2364,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/de/customer-service/key-information-documents/",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
           ]
         }
       },
@@ -2914,18 +2393,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24",
-        "haus": "freedom24",
-        "beleg": {
-          "url": "https://freedom24.com/api",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ]
-        }
-      },
-      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2950,15 +2417,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=JE00BQRFDY49",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -2982,18 +2454,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -3107,15 +2567,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU1150255971",
+          "url": "https://www.gettex.de/fonds",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -3130,25 +2596,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "smartbrokerplus.de"
           ]
         }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
       }
     ],
     "nichtImAngebot": [
       "Bitpanda",
       "finanzen.net zero",
       "Trade Republic",
-      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -3207,28 +2660,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU2458330086",
+          "url": "https://www.gettex.de/fonds",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
             "scalable.capital"
-          ]
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -3243,18 +2689,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "smartbrokerplus.de"
           ]
         }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "25.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
       }
     ],
     "nichtImAngebot": [
@@ -3262,7 +2696,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Consorsbank",
       "finanzen.net zero",
       "Trade Republic",
-      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -3320,15 +2753,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "S Broker",
-        "haus": "sbroker",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.sbroker.de/wertpapiere/aktien/aktienportrait.html?ISIN=LU3123443510",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
           "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "sbroker.de"
-          ]
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
@@ -3340,18 +2778,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "smartbrokerplus.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
@@ -3370,6 +2796,9 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finvesto",
       "ING",
       "Trade Republic",
@@ -3378,37 +2807,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "stand": "25.09.2026"
   },
   "XS2115336336": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
   "XS3384723154": {
     "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "haus": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -3418,18 +2822,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "haus": "traders-place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
           ]
         }
       },
