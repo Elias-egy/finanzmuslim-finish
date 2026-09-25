@@ -3,7 +3,7 @@ import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVerglei
 import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVergleich";
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
-import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
@@ -251,6 +251,25 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
           (d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`),
         );
         expect(eigen, `${ort}: belegt mit ${host}`).toBe(true);
+      }
+    }
+  });
+
+  it("zeigt im Depot-Vergleich keine exakte Anlagen-Zahl, die nicht einzeln belegt ist", () => {
+    // Rangfolge-Plan P1a (25.09.2026): tradegate.direct stand mit 9/12, 2/3, 7/7 da, belegt nur von der
+    // Börse tradegate.de; Trade Republic mit 7/7 Edelmetallen, obwohl eine ISIN unklar ist.
+    const zeilen = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"] as const;
+    for (const a of brokerVergleich) {
+      const schluessel = [a.haus, a.finanzfluss?.produkt].filter(Boolean);
+      for (const zeile of zeilen) {
+        const m = String(a.werte[zeile] ?? "").match(/^(\d+) von (\d+)$/);
+        if (!m) continue;
+        const isins = Object.keys(ANLAGE_ZEILE).filter((isin) => ANLAGE_ZEILE[isin] === zeile);
+        const belegt = isins.filter((isin) =>
+          ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => schluessel.includes(k.haus)),
+        ).length;
+        expect(Number(m[1]), `${a.id} ${zeile}: ${m[0]}, belegt ${belegt}`).toBe(belegt);
+        expect(Number(m[2]), `${a.id} ${zeile}: Nenner`).toBe(isins.length);
       }
     }
   });
