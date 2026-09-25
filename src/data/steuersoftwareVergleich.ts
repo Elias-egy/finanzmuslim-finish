@@ -187,10 +187,10 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "lexware.de",
     werte: {
       plattform: "nur Windows",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: "ja, EÜR nur in der Fassung Deluxe",
-      vermietung: null,
-      belegabruf: null,
+      vermietung: "ja",
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "19,99 €, Deluxe 34,99 €",
       zahlung: "vor dem Ausfüllen",
@@ -198,7 +198,25 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://shop.lexware.de/quicksteuer", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung."),
+      kapital: {
+        url: "https://shop.lexware.de/quicksteuer",
+        stand: "26.09.2026",
+        hinweis:
+          "Im Leistungsvergleich des Shops steht bei beiden Fassungen als enthalten markiert: „Amtliche Formulare und Steueranlagen (Mantelbogen, N, Kind, KAP, SO, R, V, FW, AUS, G, S, Unterhalt, L, AV, Vorsorgeaufwand, Eigenheimzulage)“, darunter die Anlage KAP.",
+      },
       selbststaendige: q("https://shop.lexware.de/quicksteuer", "Beide Fassungen nennen Freiberufler und Selbstständige. Den EÜR-Rechner und die gewerbliche Erklärung hat nur Deluxe."),
+      vermietung: {
+        url: "https://shop.lexware.de/quicksteuer",
+        stand: "26.09.2026",
+        hinweis:
+          "Dieselbe Zeile im Leistungsvergleich, „Amtliche Formulare und Steueranlagen (Mantelbogen, N, Kind, KAP, SO, R, V, FW, AUS, G, S, Unterhalt, L, AV, Vorsorgeaufwand, Eigenheimzulage)“, nennt auch die Anlage V und ist bei beiden Fassungen enthalten markiert.",
+      },
+      belegabruf: {
+        url: "https://shop.lexware.de/quicksteuer",
+        stand: "26.09.2026",
+        hinweis:
+          "Im Leistungsvergleich ist die Zeile „Vorausgefüllte Steuererklärung (VaSt)“ bei beiden Fassungen als enthalten markiert.",
+      },
       preis: q("https://shop.lexware.de/quicksteuer", "19,99 € für die Standardfassung, 34,99 € für Deluxe, jeweils inklusive Mehrwertsteuer."),
       abgaben: q("https://shop.lexware.de/quicksteuer", "Bis zu 3 Steuererklärungen in der Standardfassung, bis zu 5 in Deluxe, jeweils Privatlizenz für einen Arbeitsplatz."),
       sprache: q("https://shop.lexware.de/quicksteuer", "Nur auf Deutsch."),
@@ -211,10 +229,10 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "lexware.de",
     werte: {
       plattform: "nur Windows",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
-      belegabruf: null,
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "34,90 €",
       zahlung: "vor dem Ausfüllen",
@@ -222,7 +240,19 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://shop.lexware.de/taxman", "Windows 10 oder 11 in der 64-Bit-Fassung. Der Anbieter nennt ausdrücklich keine Mac-Unterstützung."),
+      kapital: {
+        url: "https://shop.lexware.de/taxman",
+        stand: "26.09.2026",
+        hinweis:
+          "Im Leistungsvergleich des Shops steht bei beiden Fassungen als enthalten markiert: „Amtliche Formulare und Steueranlagen (Mantelbogen, N, Kind, KAP, SO, R, V, FW, AUS, G, S, Unterhalt, L, AV, Vorsorgeaufwand, Eigenheimzulage)“, darunter die Anlage KAP.",
+      },
       selbststaendige: q("https://shop.lexware.de/taxman", "Der Anbieter nennt Selbstständige und Freiberufler als Zielgruppe der Standardfassung."),
+      belegabruf: {
+        url: "https://shop.lexware.de/taxman",
+        stand: "26.09.2026",
+        hinweis:
+          "Im Leistungsvergleich ist die Zeile „Vorausgefüllte Steuererklärung (VaSt)“ bei beiden Fassungen als enthalten markiert.",
+      },
       vermietung: q("https://shop.lexware.de/taxman", "Vermieter stehen in der Zielgruppe der Standardfassung."),
       preis: q("https://shop.lexware.de/taxman", "34,90 € inklusive Mehrwertsteuer für Taxman 2026. Die Fassung für Steuerberater kostet 172,43 €."),
       abgaben: q("https://shop.lexware.de/taxman", "Bis zu 5 Steuererklärungen je Privatlizenz."),
@@ -239,7 +269,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
-      belegabruf: null,
+      belegabruf: true,
       sprache: "Deutsch, Englisch, Polnisch, Rumänisch, Russisch",
       preis: "34,95 €, 3 für 89,95 €, 4 für 114,95 €",
       zahlung: "erst bei Abgabe",
@@ -248,6 +278,12 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     quellen: {
       plattform: q("https://www.steuergo.de", "Browser auf Windows, Mac und Linux, dazu Apps für iOS und Android."),
       kapital: q("https://www.steuergo.de", "Kapitalerträge nennt der Anbieter unter den abgedeckten Einkunftsarten."),
+      belegabruf: {
+        url: "https://www.steuergo.de/de/texte/0/460/belegabruf_die_vorausgefuellte_steuererklaerung_vast",
+        stand: "26.09.2026",
+        hinweis:
+          "„SteuerGo bietet als besonderen Service den Datenabruf an. Dadurch haben Sie die Möglichkeit, personenbezogene Daten abzurufen, die beim Finanzamt über Sie gespeichert sind. Diese Daten können Sie direkt in Ihre Steuererklärung importieren.“",
+      },
       selbststaendige: q("https://www.steuergo.de", "Der Anbieter nennt Selbstständige unter den abgedeckten Fällen."),
       vermietung: q("https://www.steuergo.de", "Einkünfte aus Vermietung nennt der Anbieter ausdrücklich."),
       sprache: q("https://www.steuergo.de", "Die Oberfläche gibt es auf Deutsch, Englisch, Polnisch, Rumänisch und Russisch. Das ist unter allen Anbietern die grösste Auswahl."),
@@ -263,10 +299,10 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "lohnsteuer-kompakt.de",
     werte: {
       plattform: "Web, iOS, Android",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: null,
-      vermietung: null,
-      belegabruf: null,
+      vermietung: "ja",
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "34,95 €, 3 für 89,95 €, 4 für 114,95 €",
       zahlung: "erst bei Abgabe",
@@ -274,7 +310,25 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://www.lohnsteuer-kompakt.de/", "Läuft im Browser ohne Installation, dazu Apps für iOS und Android."),
-      selbststaendige: q("https://www.lohnsteuer-kompakt.de/", "Der Anbieter nennt auf der Startseite Angestellte, Rentner und Studierende. Zu Selbstständigen steht dort nichts, deshalb ungeprüft."),
+      kapital: {
+        url: "https://www.lohnsteuer-kompakt.de/de/feldhilfe/2025/40/947/einkprozc3prozbcnfte+aus+kapitalvermprozc3prozb6gen-+anlage+kap+-",
+        stand: "26.09.2026",
+        hinweis:
+          "Die Feldhilfe zur Steuererklärung 2025 fragt wörtlich: „Haben Sie Einkünfte aus Kapitalvermögen erzielt? (Anlage KAP, KAP-BET oder KAP-INV)“. Das ist ein Eingabefeld im Interview für das laufende Steuerjahr.",
+      },
+      selbststaendige: q("https://www.lohnsteuer-kompakt.de/", "Der Anbieter nennt auf der Startseite Angestellte, Rentner und Studierende. Zu Selbstständigen steht dort nichts, deshalb ungeprüft. Ratgeberseiten zur Anlage EÜR (Stand 26.09.2026) belegen keine Funktion im Programm."),
+      vermietung: {
+        url: "https://www.lohnsteuer-kompakt.de/de/feldhilfe/2025/40/950/einkprozc3prozbcnfte+aus+vermietung+proz26+verpachtung-+anlage+v+-",
+        stand: "26.09.2026",
+        hinweis:
+          "Die Feldhilfe zur Steuererklärung 2025 fragt wörtlich: „Erwirtschafteten Sie Einkünfte aus Vermietung und Verpachtung? (Anlage V)“.",
+      },
+      belegabruf: {
+        url: "https://www.lohnsteuer-kompakt.de/texte/0/460/elektronischer_datenabruf_die_vorausgefuellte_steuererklaerung",
+        stand: "26.09.2026",
+        hinweis:
+          "„Lohnsteuer kompakt bietet als besonderen Service den Datenabruf an. Dadurch haben Sie die Möglichkeit, personenbezogene Daten abzurufen, die beim Finanzamt über Sie gespeichert sind. Diese Daten können Sie direkt in Ihre Steuererklärung importieren.“",
+      },
       preis: q("https://www.lohnsteuer-kompakt.de/", "34,95 € für eine Erklärung, 89,95 € für drei, 114,95 € für vier."),
       zahlung: q("https://www.lohnsteuer-kompakt.de/", "„Kostenlos testen, erst bei Abgabe bezahlen.“ Kein Abo, jedes Paket ist ein Einmalkauf."),
       abgaben: q("https://www.lohnsteuer-kompakt.de/", "Je Kauf eine Abgabe, das Paket ist an das Benutzerkonto gebunden."),
@@ -288,10 +342,10 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "steuertipps.de",
     werte: {
       plattform: "Windows, Mac, Online, App",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: "nur in der Fassung für Selbstständige, 94,95 €",
-      vermietung: null,
-      belegabruf: null,
+      vermietung: "nur in der Fassung plus, 45,95 €",
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "ab 34,95 €, plus 45,95 €, Selbstständige 94,95 €",
       zahlung: "vor dem Ausfüllen",
@@ -299,6 +353,24 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://www.steuertipps.de/shop/software", "Die Online-Fassung läuft auf Windows, Mac und Linux, dazu gibt es Download, DVD und eine App."),
+      kapital: {
+        url: "https://www.steuertipps.de/shop/software",
+        stand: "26.09.2026",
+        hinweis:
+          "Im Abschnitt „Mehr als nur eine Steuererklärung“ zur SteuerSparErklärung nennt der Anbieter: „Abgeltungsteuer: Ist die Abgabe der Anlage KAP für Kapitalerträge für Sie von Vorteil?“",
+      },
+      vermietung: {
+        url: "https://www.steuertipps.de/shop/software",
+        stand: "26.09.2026",
+        hinweis:
+          "Vermietung nennt der Anbieter nur bei der Plus-Version: „Die Plus-Version richtet sich an alle, die mehr steuerliche Themen abdecken möchten: Immobilien (Kauf, Bau, Vermietung, Abschreibung)“. Bei der Standardfassung fehlt das Thema in der Beschreibung.",
+      },
+      belegabruf: {
+        url: "https://www.steuertipps.de/shop/software",
+        stand: "26.09.2026",
+        hinweis:
+          "„Vorausgefüllte Steuererklärung (VaSt): Die vom Arbeitgeber, Rententräger und Versicherungen gemeldeten Daten (z.B. die Lohnsteuerbescheinigung, Rentenbezugsmitteilung) können über ELSTER in die SteuerSparErklärung übernommen werden.“",
+      },
       selbststaendige: q("https://www.steuertipps.de/shop/software", "Erst die Fassung für Selbstständige zu 94,95 € bringt Einnahmenüberschussrechnung, Umsatzsteuer und Gewerbesteuer."),
       preis: q("https://www.steuertipps.de/shop/software", "Standard ab 34,95 €, plus ab 45,95 €, Fassung für Selbstständige ab 94,95 €."),
       abgaben: q("https://www.steuertipps.de/shop/software", "Die Standardfassung erlaubt eine Abgabe je Lizenz, die Fassung plus bis zu fünf."),
@@ -337,7 +409,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "buhl.de",
     werte: {
       plattform: "Windows, Mac, Web, iOS, Android",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
       belegabruf: true,
@@ -348,6 +420,12 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://www.buhl.de/steuer/", "Web ohne Installation, dazu Windows 10 und 11, macOS ab 12 Monterey sowie Apps für iOS und Android. Das ist die breiteste Abdeckung im Vergleich."),
+      kapital: {
+        url: "https://www.buhl.de/steuer/tipps/aktien/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Schluss mit Formular-Chaos. WISO Steuer importiert deine Depot-Daten automatisch und erledigt die Anlage KAP für dich.“",
+      },
       selbststaendige: q("https://www.buhl.de/steuer/", "Der Anbieter nennt Selbstständige unter den abgedeckten Fällen."),
       vermietung: q("https://www.buhl.de/steuer/", "Einkünfte aus Vermietung nennt der Anbieter ausdrücklich."),
       belegabruf: q("https://www.buhl.de/steuer/", "Amtlich anerkannte Datenübertragung nach § 87c AO, die Daten des Finanzamts werden übernommen."),
@@ -366,8 +444,8 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       plattform: "Browser, auch am Handy",
       kapital: "ja",
       selbststaendige: "ja",
-      vermietung: null,
-      belegabruf: null,
+      vermietung: "ja",
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "39,99 € je Steuerjahr",
       zahlung: "erst bei Abgabe",
@@ -376,6 +454,18 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     quellen: {
       plattform: q("https://www.smartsteuer.de/online/", "Keine eigene App: Die Anwendung läuft im Browser auf Handy, Laptop und Tablet."),
       kapital: q("https://www.smartsteuer.de/online/", "Einkünfte aus Kapitalvermögen nennt der Anbieter unter den abgedeckten Einkunftsarten."),
+      vermietung: {
+        url: "https://www.smartsteuer.de/online/faqs/",
+        stand: "26.09.2026",
+        hinweis:
+          "Die eigene FAQ-Rubrik führt „Vermietung & Verpachtung“ mit den Unterthemen „Abschreibung“ und „Untervermietung“ als eigene Kategorie, dazu eine „Anlage V (Einkünfte aus Vermietung und Verpachtung) – Ausfüllhilfe“.",
+      },
+      belegabruf: {
+        url: "https://www.smartsteuer.de/online/faq/du-gibt-es-anleitungen-zum-belegabruf/",
+        stand: "26.09.2026",
+        hinweis:
+          "Die Anleitung beschreibt den Ablauf im eigenen Konto: „Gehe rechts in den Bereich vorausgefüllte Steuererklärung und klicke auf › Daten abholen ‹.“",
+      },
       selbststaendige: q("https://www.smartsteuer.de/online/", "Für Selbstständige auch Umsatzsteuer- und Gewerbesteuererklärung."),
       preis: q("https://www.smartsteuer.de/online/preise/", "39,99 € je Steuerjahr, inklusive Mehrwertsteuer."),
       zahlung: q("https://www.smartsteuer.de/online/preise/", "Bezahlt wird im Bereich Abgabe, also am Ende. Zahlung per PayPal, Lastschrift oder Karte."),
@@ -393,7 +483,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       kapital: "nein",
       selbststaendige: "nein",
       vermietung: "nein",
-      belegabruf: null,
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "39,99 €",
       zahlung: "erst bei Abgabe",
@@ -401,6 +491,11 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://www.steuerbot.com/", "Apps für iOS und Android, dazu die Fassung im Browser."),
+      belegabruf: {
+        url: "https://www.steuerbot.com/vorausgefuellte-steuererklaerung",
+        stand: "26.09.2026",
+        hinweis: "„Wir rufen deine Steuerdaten beim Finanzamt ab, sobald diese vorliegen.“",
+      },
       kapital: q("https://www.steuerbot.com/", "Kapitalerträge gehören laut Anbieter nicht zu den unterstützten Fällen."),
       selbststaendige: q("https://www.steuerbot.com/", "Selbstständige unterstützt der Anbieter nicht, das Programm ist auf Angestellte zugeschnitten."),
       vermietung: q("https://www.steuerbot.com/", "Vermietung gehört nicht zu den unterstützten Fällen."),
@@ -420,7 +515,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
-      belegabruf: null,
+      belegabruf: true,
       sprache: "Deutsch",
       preis: "39,99 € im Abo, 49,99 € einmalig",
       zahlung: "erst bei Abgabe",
@@ -428,6 +523,12 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://taxfix.de/kosten/", "Apps für iOS und Android, dazu die Fassung im Browser."),
+      belegabruf: {
+        url: "https://taxfix.de/ratgeber/dokumente-fristen/vorausgefuellte-steuererklaerung/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Auch bei der Taxfix Steuer-App ist diese Funktion durch die enge Zusammenarbeit mit ELSTER möglich!“",
+      },
       kapital: q("https://taxfix.de/kosten/", "Kapitalerträge nennt der Anbieter unter den abgedeckten Fällen."),
       selbststaendige: q("https://taxfix.de/kosten/", "Selbstständige und Kleinunternehmer nennt der Anbieter unter den abgedeckten Fällen."),
       vermietung: q("https://taxfix.de/kosten/", "Einkünfte aus Vermietung nennt der Anbieter unter den abgedeckten Fällen."),

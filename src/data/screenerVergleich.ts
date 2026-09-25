@@ -95,11 +95,17 @@ export const screenerVergleich: RohAnbieter[] = [
       etfs: true,
       kostenlos: "Screening ohne Konto",
       preis: "kostenlos, Geld verdient das Haus mit Lizenzen an Firmen",
-      depot: null,
+      depot: true,
       zakat: true,
       sprache: "Englisch",
     },
     quellen: {
+      depot: {
+        url: "https://finispia.com/halal-stock-screener/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Start Trading Start trading halal right away. Connect with a third-party broker, and you can start trading with peace of mind.“",
+      },
       standard: {
         url: "https://finispia.com/",
         stand,
@@ -147,11 +153,11 @@ export const screenerVergleich: RohAnbieter[] = [
       reinigung: "gut",
       deutscheAktien: "ja, Deutschland ist unter den gelisteten Ländern",
       umfang: "17.000 bis 25.000 Aktien, je nach Bereich",
-      etfs: null,
+      etfs: true,
       kostenlos: "eine Prüfung als Bericht, danach Abo",
       preis: "999 Rupien im Monat, 9.999 im Jahr (rund 100 Euro)",
       depot: true,
-      zakat: null,
+      zakat: true,
       sprache: "Englisch",
     },
     quellen: {
@@ -171,6 +177,18 @@ export const screenerVergleich: RohAnbieter[] = [
       reinigung: { url: "https://islamicly.com/", stand, hinweis: "„Get dividend purification insights“, der zu spendende Anteil wird ausgewiesen." },
       deutscheAktien: { url: "https://islamicly.com/", stand, hinweis: "Deutschland steht in der Länderliste des Anbieters." },
       umfang: { url: "https://islamicly.com/", stand, hinweis: "Der Anbieter nennt 17.000+ und an anderer Stelle 25.000+ Aktien." },
+      etfs: {
+        url: "https://www.islamicly.com/home/strategy",
+        stand: "26.09.2026",
+        hinweis:
+          "„Islamicly Moons“ prüft die Aktien innerhalb eines bestehenden Fonds oder ETFs auf Scharia-Konformität und baut daraus ein nachbildendes Portfolio: „An Islamicly Moon, screens Shariah compliant stocks within an existing Fund or ETF, re-weights the fund or ETF portfolio proportionately and gives a ready to invest basket of stocks.“ Eine Prüfung des ETFs selbst als Ganzes wie bei anderen Anbietern bietet die Seite nicht, geprüft werden die enthaltenen Aktien.",
+      },
+      zakat: {
+        url: "https://islamicly.com/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Our app also provides valuable insights, alerts on compliance changes, zakat calculator, and everything you need to invest in a halal way — all in one place.“",
+      },
       kostenlos: { url: "https://islamicly.com/", stand, hinweis: "Beworben wird eine kostenlose Shariah Compliance Report Card, der laufende Zugang ist ein Abo." },
       preis: {
         url: "https://islamicly.com/",
@@ -243,7 +261,7 @@ export const screenerVergleich: RohAnbieter[] = [
       standard: "AAOIFI",
       gremium: "schlecht",
       begruendung: "gut",
-      reinigung: null,
+      reinigung: "teils",
       deutscheAktien: "ja, Deutschland ist einer von neun Märkten",
       umfang: "über 40.000 Aktien, ETFs und Fonds",
       etfs: true,
@@ -259,6 +277,12 @@ export const screenerVergleich: RohAnbieter[] = [
         stand,
         hinweis:
           "„Zoya applies the AAOIFI screening methodology under the guidance of our shariah advisors.“",
+      },
+      reinigung: {
+        url: "https://blog.zoya.finance/stock-purification-guide/",
+        stand: "26.09.2026",
+        hinweis:
+          "Die App weist den Anteil nicht konformer Einnahmen aus, den Betrag zum Spenden rechnet man selbst: „Use Zoya to determine the total percentage of non-compliant income“. Einen fertigen Reinigungsbetrag nennt der Anbieter nicht, deshalb teils.",
       },
       gremium: {
         url: "https://zoya.finance/",
