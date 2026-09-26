@@ -20,6 +20,8 @@ export type Vorgang = {
   kern: string;
   /** Absender bei ausgehenden Mails. Ohne Angabe: Runden 1 bis 3 (16. bis 23.09.2026) kamen meist von eliaselgendy2006@gmail.com, die Einzelmails vom 24.09.2026 von elias@finanzmuslim.com. Ab 26.09.2026 gehen gebündelte Anfragen immer von elias@finanzmuslim.com (Elias-Ansage 25.09.2026). */
   von?: "elias@finanzmuslim.com" | "eliaselgendy2006@gmail.com" | "eliaselgendy566@gmail.com";
+  /** Automatische Eingangsbestätigung oder Autoantwort ohne Inhalt. Zählt nicht als Antwort (scripts/anfragen-offen.ts). */
+  automatisch?: true;
 };
 
 export type Anfrage = {
@@ -81,7 +83,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   "trade-republic": { anbieter: "Trade Republic", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@traderepublic.com", kern: frage1 },
-    { datum: "16.09.2026", richtung: "rein", kanal: "Mail", kern: "Automatische Antwort, will die Anfrage aus der App." },
+    { datum: "16.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatische Antwort, will die Anfrage aus der App." },
   ], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat. Im Impressum steht allein eine Beschwerde-Adresse. Elias muss in der App fragen, ob Zinsen beim Neukonto sofort laufen." },
   santander: { anbieter: "Santander", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@santander.de", zeichen: "SCM5145440", kern: frage1 },
@@ -97,7 +99,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", zeichen: "WF_46229739", kern: "„Das Guthaben auf dem Verrechnungskonto wird nicht verzinst.“ Grün." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", zeichen: "WF_46229739", kern: "Gebündelte Anfrage als finanzmuslim.com: Gilt „nicht verzinst“ für Depot, Depot Basis und Wertpapierdepot? Kaufbarkeit von acht ISINs (ETCs, Franklin), beim Wertpapierdepot aller 22.", von: "elias@finanzmuslim.com" },
-    { datum: "26.09.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", zeichen: "813330104", kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
+    { datum: "26.09.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", zeichen: "813330104", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   "joe-broker": { anbieter: "JOE Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", kern: frage2 },
@@ -124,7 +126,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   relai: { anbieter: "Relai", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@relai.app", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Antwort des Assistenten „Relai AI“: keine Zinsen, keine Rewards, kein Abo, kein Staking, kein Margin oder Lending. Nach Elias' Regel vom 23.09. gilt das als Beleg. Grün." },
-    { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "Automatischer Nachfass derselben KI, ohne neuen Inhalt." },
+    { datum: "22.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatischer Nachfass derselben KI, ohne neuen Inhalt." },
   ] },
   "pax-bank": { anbieter: "Pax-Bank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@pax-bkc.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
@@ -144,7 +146,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: "Rückfrage zu #128140: Gibt es ein kostenpflichtiges Modell mit Zinsbindung, und sind Margin, Hebel und Wertpapierleihe ab Start aus?" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128292", kern: "„Die Depoteröffnung und Depotführung ist gleichermaßen kostenfrei für alle Kunden. Der Handel findet ausschließlich auf Guthabenbasis ab.“ Bezahlmodell damit geklärt." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128292", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von 13 ISINs, die in Partner-Listen und Sparplanliste fehlen.", von: "elias@finanzmuslim.com" },
-    { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
+    { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
@@ -196,23 +198,23 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   dkb: { anbieter: "DKB", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: frage2 },
-    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
+    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Girokonto ab Eröffnung ohne Dispokredit möglich? Dazu Kaufbarkeit aller 22 Halal-ISINs im Depot.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   scalable: { anbieter: "Scalable Capital", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2, von: "eliaselgendy2006@gmail.com" },
-    { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", kern: "Nur Eingangsbestätigung." },
+    { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Nachfrage im selben Verlauf: Kann ich den Prime+ Broker komplett ohne Zinsen auf Guthaben nutzen?", von: "eliaselgendy2006@gmail.com" },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Gebündelte Anfrage als finanzmuslim.com: Bleibt das Verrechnungskonto mit PRIME+ dauerhaft bei 0 %? Kaufbarkeit der vier HSBC-ETFs in FREE und PRIME+ (App gegen ETP-Verzeichnis).", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten, Ticket 03153115." },
   flatex: { anbieter: "flatex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: frage2 },
-    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
+    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von sieben ISINs (Invesco ACWI, vier HSBC, zwei Sukuk-ETFs). Die Krypto-Frage vom 21.09. ist über die Website erledigt.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   tomorrow: { anbieter: "Tomorrow", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@tomorrow.one", kern: frage2 },
-    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Nur Eingangsbestätigung." },
+    { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#1568580", kern: "„Das Guthaben auf dem Girokonto selbst wird nicht verzinst.“ Grün, jetzt mit Mail statt nur Anbieterseite." },
   ] },
 
@@ -220,8 +222,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   // Runde 3, am 23.09.2026 aus eliaselgendy2006@gmail.com gesendet, jede im Gesendet-Ordner geprüft.
   ing: { anbieter: "ING", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@ing.de", kern: frage3 + " Frage galt dem Verrechnungskonto des Direkt-Depots." },
-    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "A57220434", kern: "Automatische Eingangsbestätigung: „Eine ganz persönliche Antwort bekommen Sie noch von uns.“" },
-    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", kern: "Automatische Eingangsbestätigung, persönliche Antwort angekündigt." },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "A57220434", automatisch: true, kern: "Automatische Eingangsbestätigung: „Eine ganz persönliche Antwort bekommen Sie noch von uns.“" },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatische Eingangsbestätigung, persönliche Antwort angekündigt." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#1568580", kern: "Girokonto-Guthaben wird nicht verzinst. Grün." },
   ], naechsterSchritt: "Persönliche Antwort abwarten. Die Impressumsadresse nimmt Anfragen an." },
   "1822direkt": { anbieter: "1822direkt", vorgaenge: [
@@ -234,7 +236,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   norisbank: { anbieter: "norisbank", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus.", von: "eliaselgendy2006@gmail.com" },
-    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "db.no-reply@db.com", kern: "Nur automatische Eingangsbestätigung." },
+    { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "db.no-reply@db.com", automatisch: true, kern: "Nur automatische Eingangsbestätigung." },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: "Nachfrage im selben Verlauf, nur Dispo Top-Girokonto: Werbeseite sagt Sofort-Dispo, Bedingungen sagen auf Antrag. Kommt der Dispo bei Eröffnung automatisch?", von: "eliaselgendy2006@gmail.com" },
   ], naechsterSchritt: "Antwort abwarten, und in der Nachfrage den Dispo-Widerspruch klären: Die Werbeseite sagt „erhalten Girokonto-Kunden einen Sofort-Dispo“, die Bedingungen zum Top-Girokonto sagen „Auf Antrag … Antragsannahme durch gesonderte Mitteilung“." },
   coinbase: { anbieter: "Coinbase", vorgaenge: [
