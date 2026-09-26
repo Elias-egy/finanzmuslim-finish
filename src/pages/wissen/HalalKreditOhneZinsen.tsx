@@ -261,8 +261,8 @@ const abschnitte: BeitragAbschnitt[] = [
         </p>
         <Beispiel
           titel="Ein Auto für 12.000 Euro"
-          rechnung={["Finanzierung: 6 % auf 4 Jahre → rund 1.500 € obendrauf", "Sparen: 24 × 500 € → dasselbe Auto, 1.500 € bleiben bei dir"]}
-          ergebnis="Der Unterschied ist Wartezeit, nicht Geld."
+          rechnung={["Sparen: 500 € im Monat", "Nach 24 Monaten ist das Auto bezahlt"]}
+          ergebnis="Kein Aufschlag, kein Vertrag. Es kostet nur Wartezeit."
         />
         <p>
           Was in dieser Wartezeit mit dem Ersparten passiert, ist die zweite Frage. Auf dem Konto verliert es

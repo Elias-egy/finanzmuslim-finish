@@ -4,7 +4,6 @@ import { IlluMurabaha, IlluRaten } from "@/components/illu";
 import {
   B,
   Begriff,
-  Beispiel,
   Bild,
   Checkliste,
   Faelle,
@@ -99,17 +98,10 @@ const abschnitte: BeitragAbschnitt[] = [
           aus, was die Bank an Zinsen verdient hätte, und schlägt diesen Betrag auf den Kaufpreis. Danach
           steht im Vertrag null Prozent, und der Aufschlag steckt im Preis.
         </p>
-        <Beispiel
-          titel="Was hinter einer Null-Prozent-Aktion steckt"
-          rechnung={["Auto 10.000 €", "Zinsen, die die Bank bekommen hätte: 2.000 €", "Kaufpreis in der Aktion: 12.000 €, Zinssatz 0 %"]}
-          ergebnis="Der Aufschlag ist derselbe. Nur der Name auf dem Formular hat sich geändert."
-        >
-          <p>
-            Die Zahlen sind ein einfaches Rechenbeispiel, kein reales Angebot. Entscheidend ist die
-            Struktur: Es fließt weiterhin Geld von der Bank zum Händler, und du zahlst der Bank mehr
-            zurück, als sie gegeben hat.
-          </p>
-        </Beispiel>
+        <p>
+          Entscheidend ist die Struktur: Es fließt weiterhin Geld von der Bank zum Händler, und du zahlst der
+          Bank mehr zurück, als sie gegeben hat. Nur der Name auf dem Formular hat sich geändert.
+        </p>
         <p>
           Gelehrte sagen dazu deutlich: Ob der Aufschlag als jährlicher Prozentsatz gerechnet wird oder
           als einmalige Summe im Preis versteckt, macht keinen Unterschied. Das Problem ist nicht die

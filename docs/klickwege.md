@@ -24,7 +24,7 @@ Anbieter stehen, auch die ohne Partnerlink.
 
 | Beitrag | oben | Hauptaufruf | Mitte |
 |---|---|---|---|
-| auto-kaufen-ohne-zinsen | Vertrags-Ampel | Depot | Kreditkostenrechner |
+| auto-kaufen-ohne-zinsen | Vertrags-Ampel | Depot | Sparzielrechner |
 | dispo-und-schulden | Budgetrechner | Girokonto | Test |
 | erbe | Zakat-Rechner | Depot | Vertrags-Ampel |
 | ertraege-reinigen | Bereinigungsrechner | Depot | Halal-Anlagen |
@@ -34,14 +34,14 @@ Anbieter stehen, auch die ohne Partnerlink.
 | halal-etfs | Halal-Anlagen | Depot | – |
 | halal-gold-kaufen | Halal-Anlagen | Depot | – |
 | halal-kredit-ohne-zinsen | Vertrags-Ampel | Test | Depot |
-| haus-kaufen-ohne-zinsen | Kreditkostenrechner | Depot | – |
+| haus-kaufen-ohne-zinsen | Sparzielrechner | Depot | – |
 | ist-bitcoin-halal | Depot | Krypto | Screening-Apps |
 | ist-leasing-haram | Vertrags-Ampel | Test | Depot |
 | ist-versicherung-haram | Depot | Test | Girokonto |
 | kreditkarte-halal | Test | Girokonto | Vertrags-Ampel |
 | maysir | Vertrags-Ampel | Test | Depot |
 | nisab | Zakat-Rechner | Depot | Halal-Anlagen |
-| ratenzahlung-haram | Kreditkostenrechner | Girokonto | Depot |
+| ratenzahlung-haram | Sparzielrechner | Girokonto | Depot |
 | sind-aktien-halal | Depot | Test | Screening-Apps |
 | sukuk | Halal-Anlagen | Depot | – |
 | trading-forex-cfd | Halal-Anlagen | Depot | Aktien-Check |

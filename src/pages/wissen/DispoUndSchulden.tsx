@@ -41,8 +41,8 @@ const abschnitte: BeitragAbschnitt[] = [
         </Bild>
         <p>
           Dazu kommt die Rechenfalle, an der die meisten Rückzahlungspläne scheitern: Auf den Betrag, den
-          du im Minus bist, laufen weiter Zinsen auf, während du tilgst. Wer 100 Euro im Monat zurückzahlt
-          und dabei 30 Euro Zinsen aufbaut, tilgt in Wahrheit 70. Genau diese Differenz zieht Leute über
+          du im Minus bist, laufen weiter Zinsen auf, während du tilgst. Ein Teil jeder Rückzahlung geht
+          also nicht ins Minus, sondern an die Bank. Genau diese Differenz zieht Leute über
           Jahre bis an das Limit, das die Bank ihnen eingeräumt hat.
         </p>
         <Hinweis titel="Kontokorrentkonto, nicht Girokonto">

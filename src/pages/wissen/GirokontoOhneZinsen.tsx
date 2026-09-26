@@ -96,13 +96,6 @@ const abschnitte: BeitragAbschnitt[] = [
         <Bild text="Im Minus läuft der Zins jeden Tag mit. Nicht erst ab einer bestimmten Summe und nicht erst ab einer bestimmten Dauer.">
           <IlluDispo />
         </Bild>
-        <Beispiel
-          titel="Was 500 Euro im Minus kosten"
-          rechnung={["500 € × 12 % ÷ 365 × 40 Tage = 6,58 €"]}
-          ergebnis="Klingt nach wenig. Wer jeden Monat so lebt, zahlt im Jahr rund 60 Euro dafür, dass er zu früh dran war."
-        >
-          <p>Zahlen als Beispiel, Dispozinssätze liegen je nach Bank zwischen etwa 9 und 14 Prozent.</p>
-        </Beispiel>
         <p>
           Und noch etwas, das ungemütlich, aber wichtig ist: Wer Rücklagen hat, Gold im Schrank oder Geld auf
           einem anderen Konto, ist gehalten, damit das Minus auszugleichen, statt es laufen zu lassen. Und wer
