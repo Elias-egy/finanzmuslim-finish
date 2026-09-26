@@ -71,7 +71,7 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
 
 const TOR = "zinsfreiAbStart";
 
-const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array<[string, number]>> = {
+export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array<[string, number]>> = {
   girokonto: [
     ["keinDispoAbStart", 0.5],
     ["karteOhneKredit", 0.5],

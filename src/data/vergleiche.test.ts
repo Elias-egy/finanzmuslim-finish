@@ -6,11 +6,12 @@ import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
-import { bewerte, FINANZ_MAX_SUMME, HALAL_REGELN, teilKeys, type Kategorie } from "@/lib/bewertung";
+import { FINANZ_MAX_SUMME } from "@/lib/bewertung";
+import { AMPEL_GEWICHTE, ANTEIL_N, rangfolge } from "@/lib/rangfolge";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
-const faelle: Array<[Kategorie, RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
+const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
   ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 56],
   ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
   ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 27],
@@ -47,9 +48,9 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   });
 
   it("hat für jedes Halal-Merkmal der Bewertung eine Zeile", () => {
-    const regel = HALAL_REGELN[kategorie];
+    const merkmale = kategorie === "depot" ? Object.keys(ANTEIL_N) : AMPEL_GEWICHTE[kategorie].map(([k]) => k);
     const keys = zeilen.map((z) => z.key);
-    for (const key of [regel.tuersteher, ...regel.teile.flatMap(teilKeys)]) {
+    for (const key of ["zinsfreiAbStart", ...merkmale]) {
       expect(keys).toContain(key);
     }
   });
@@ -93,12 +94,10 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
   });
 
   it("vergibt keine Note, wenn Zinsen nicht abschaltbar oder nicht geprüft sind", () => {
+    const gerankt = new Set(rangfolge(anbieter, kategorie, { finanzMax: max }).gerankt.map((b) => b.anbieter.id));
     for (const a of anbieter) {
-      const b = bewerte(a, kategorie, max);
-      const tuer = a.werte[HALAL_REGELN[kategorie].tuersteher];
-      if (tuer !== "gut" && tuer !== "teils") {
-        expect(b.status, a.id).not.toBe("bewertet");
-      }
+      const tuer = a.werte.zinsfreiAbStart;
+      if (tuer !== "gut" && tuer !== "teils") expect(gerankt.has(a.id), a.id).toBe(false);
     }
   });
 });

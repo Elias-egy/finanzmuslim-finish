@@ -63,7 +63,7 @@ export const Kennzahlen = ({
 
 /**
  * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
- * dem, was belegt ist (siehe `halalBelegt` in `src/lib/vergleichAssistent.ts`),
+ * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`),
  * Partnerstatus zählt nicht. Die Gründe darunter kommen aus den Zeilen des
  * Vergleichs: erfüllte Halal-Merkmale zuerst, dann die zwei Kostenwerte aus dem Raster.
  */

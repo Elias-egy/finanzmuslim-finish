@@ -23,7 +23,7 @@ import {
   anzahlHalalGeprueft,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
-import type { Kategorie } from "@/lib/bewertung";
+import type { RangKategorie } from "@/lib/rangfolge";
 import { werteAus } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
@@ -80,7 +80,7 @@ export type VergleichsSeiteProps = {
    * Partnerstatus zählt nicht. Die übrige Liste bleibt alphabetisch, bis alle
    * Anbieter fertig geprüft sind.
    */
-  kategorie?: Kategorie;
+  kategorie?: RangKategorie;
   finanzMax?: Record<string, number>;
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
