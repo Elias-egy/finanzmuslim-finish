@@ -296,6 +296,12 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
+  wundertax: { anbieter: "wundertax", vorgaenge: [
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@wundertax.com", kern: "Als finanzmuslim.com: Ruft wundertax die beim Finanzamt vorliegenden Daten ab (vorausgefüllte Steuererklärung), in welchem Paket? KAP und Anlage V sind per Anbieterseite belegt." },
+  ], naechsterSchritt: "Antwort abwarten, dann belegabruf setzen." },
+  steuereasy: { anbieter: "STEUEReasy", vorgaenge: [
+    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Als finanzmuslim.com: Anlage KAP mit STEUEReasy möglich, sonst welches Programm? Datenabruf vom Finanzamt möglich?" },
+  ], naechsterSchritt: "Antwort abwarten, dann kapital und belegabruf setzen." },
 };
 
 export const anfrageFuer = (haus?: string): Anfrage | undefined => (haus ? ANFRAGEN[haus] : undefined);

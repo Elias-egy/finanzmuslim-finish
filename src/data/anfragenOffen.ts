@@ -18,6 +18,8 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "scalable",
   "scalable-prime",
   "smartbroker",
+  "steuereasy",
   "traders-place",
   "willbe",
+  "wundertax",
 ]);
