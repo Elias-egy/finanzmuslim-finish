@@ -184,3 +184,34 @@ Bericht wortgleich in `P3-REVIEW-2026-09-26.md`. Die fehlenden Tests dort gehör
 15. Anzeige (P4): Note mit einer Nachkommastelle, halbe Sterne, Typ-Kommentar zu `abgeraten` auf „ungeeignet, mit
     Grund“ verallgemeinern.
 16. **Umsetzungsreihenfolge:** wie im Bericht, Schritte 1 bis 9 in P3, Schritt 10 in P4.
+
+## 11. Umsetzung (26.09.2026, Opus, TDD)
+
+Schritte 1 bis 9 aus dem Bericht sind gebaut, Schritt 10 bleibt P4. Branch `rangfolge`, 234 Tests grün,
+`npx tsc -b --force` sauber, `npm run build:auslieferung` sauber.
+
+| Commit | Inhalt |
+|---|---|
+| `0c1e76e` | Pipeline: unklarer oder fehlender Aufschlag = 0,5, Zähler `aufschlag_unklar` in `depot.json` (finanzen.net zero, ING neu mit Punkten) |
+| `ef48b6b` | `src/lib/rangfolge.ts` mit `rangfolge`, `nummerEins`, `sterne`; Leser in `src/lib/vergleichLeser.ts`; Feld `preisEinzel` |
+| `3c73fb2` | `scripts/anfragen-offen.ts` erzeugt `src/data/anfragenOffen.ts`; Feld `automatisch` im Log |
+| `21a5b40` | `werteAus` sitzt auf `rangfolge`; `RANGFOLGE_FREI`, Rangnote, Paket, `halalBelegt`, `halalAnteil`, Nebensortierungen weg |
+| `f6acbeb` | `bewerte()` entfernt, `bewertung.ts` hält nur noch die drei Zahlen der Methodik-Seite |
+| `5859064` | bunq: Karte ohne Kreditrahmen mit AGB Nr. 9.2 belegt, alle vier Tarife |
+
+Festlegungen beim Bau, die in den Abschnitten oben nicht wörtlich standen:
+
+- `Bewertet.uneingeschraenkt` trägt Abschnitt 10.7. `nummerEins()` liefert die besten Einträge ohne
+  Einschränkung, mehrere heißt gleichauf, keiner heißt kein Kasten.
+- Ein Haus ohne Mailweg (`keinMailWeg`) zählt nie als „Anfrage läuft“. Eine eingeplante Mail zählt ab ihrem
+  Datum; dann meldet der Frischetest, dass `npx tsx scripts/anfragen-offen.ts` laufen muss.
+- `werteAus` übergibt `offeneAnfragen` nur, wenn der Aufrufer es mitgibt. Seite und Assistent reichen es erst in P4
+  durch, heute steht in `ungeprueft` noch kein Grund.
+- Der geführte Vergleich zeigt jetzt die Note der Rangfolge bei jedem fertig bewerteten Vorschlag (vorher durch
+  `RANGFOLGE_FREI` verborgen). Nur auf dem Branch sichtbar.
+- Steuer-Satz im Assistenten: „Sortiert nach Leistung und Preis.“ statt „Sortiert nach Preis …“.
+- `empfehlbar` ist für alle 155 Anbieter unverändert (vorher und nachher gerechnet).
+
+Stand der echten Daten: Depot 4 gerankt (Nummer 1 Scalable Free Broker 4,87), 41 offen, 11 abgeraten. Giro 46
+gerankt (Consorsbank 4,90). Krypto 27 (Bitvavo 4,72). Steuer: ELSTER und CHECK24 gleichauf mit 5,0. Screener:
+Musaffa 5,0. Edelmetall: Barren beim Händler 5,0.
