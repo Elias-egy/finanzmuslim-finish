@@ -97,6 +97,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", zeichen: "WF_46229739", kern: "„Das Guthaben auf dem Verrechnungskonto wird nicht verzinst.“ Grün." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", zeichen: "WF_46229739", kern: "Gebündelte Anfrage als finanzmuslim.com: Gilt „nicht verzinst“ für Depot, Depot Basis und Wertpapierdepot? Kaufbarkeit von acht ISINs (ETCs, Franklin), beim Wertpapierdepot aller 22.", von: "elias@finanzmuslim.com" },
+    { datum: "26.09.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", zeichen: "813330104", kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   "joe-broker": { anbieter: "JOE Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", kern: frage2 },
@@ -143,6 +144,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: "Rückfrage zu #128140: Gibt es ein kostenpflichtiges Modell mit Zinsbindung, und sind Margin, Hebel und Wertpapierleihe ab Start aus?" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128292", kern: "„Die Depoteröffnung und Depotführung ist gleichermaßen kostenfrei für alle Kunden. Der Handel findet ausschließlich auf Guthabenbasis ab.“ Bezahlmodell damit geklärt." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128292", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von 13 ISINs, die in Partner-Listen und Sparplanliste fehlen.", von: "elias@finanzmuslim.com" },
+    { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
