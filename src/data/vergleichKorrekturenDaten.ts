@@ -21,6 +21,8 @@ const kryptoOptIn = {
 export const DEPOT_WERTE: Werte = {
   "maxblue-wertpapier-sparplan": { zinsfreiAbStart: "gut" },
   "maxblue-depot": { zinsfreiAbStart: "gut" },
+  "geno-broker-genobasis-depot": { zinsfreiAbStart: "gut" },
+  "geno-broker-genoprofi": { zinsfreiAbStart: "gut" },
   "libertex-depot": { zinsfreiAbStart: "gut" },
   "bux-basic": { zinsfreiAbStart: "gut" },
   "consorsbank-depot": { zinsfreiAbStart: "gut" },
@@ -60,6 +62,8 @@ export const DEPOT_WERTE: Werte = {
 
 export const DEPOT_QUELLEN: Quellen = {
   "maxblue-wertpapier-sparplan": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." } },
+  "geno-broker-genobasis-depot": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." } },
+  "geno-broker-genoprofi": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." } },
   "maxblue-depot": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." } },
   "libertex-depot": { zinsfreiAbStart: { url: "https://app.libertex.com/docs/en/Client_Agreement_Shares_Version_1.pdf", stand: "23.09.2026", hinweis: "The Company shall not pay the Client any interest earned on Client funds (other than profit gained through the Investments from his Account(s) under this Agreement), and the Client waives all right to interest." } },
   "finvesto-depot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "21.09.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads." } },

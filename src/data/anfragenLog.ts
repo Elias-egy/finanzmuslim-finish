@@ -194,6 +194,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
+    { datum: "25.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@genobroker.de", kern: "Ticket DP02-107847: GENO Broker verzinst das Verrechnungskonto nicht, PLV ohne Guthabenverzinsung; das Konto führt die jeweilige Partnerbank, deren Konditionen gelten. Beide Depots grün mit Hinweis. Kaufbarkeit weiter offen (Tranche 2).", von: "eliaselgendy2006@gmail.com" },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Verrechnungskonto GENObasis und GENOprofi automatisch verzinst, Verzicht ab Eröffnung? Kaufbarkeit aller 22 Halal-ISINs je Tarif.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   dkb: { anbieter: "DKB", vorgaenge: [
