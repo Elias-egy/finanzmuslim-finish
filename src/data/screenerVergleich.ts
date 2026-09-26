@@ -89,7 +89,7 @@ export const screenerVergleich: RohAnbieter[] = [
       standard: "fünf zur Wahl: AAOIFI, Dow Jones, FTSE, MSCI, S&P",
       gremium: "schlecht",
       begruendung: "gut",
-      reinigung: null,
+      reinigung: "schlecht",
       deutscheAktien: "ja, über 90 Börsen",
       umfang: "Aktien, ETFs, REITs, Fonds, Sukuk, Indizes und Börsengänge",
       etfs: true,
@@ -100,6 +100,12 @@ export const screenerVergleich: RohAnbieter[] = [
       sprache: "Englisch",
     },
     quellen: {
+      reinigung: {
+        url: "https://app.finispia.com/help",
+        stand: "26.09.2026",
+        hinweis:
+          "„Purification rate is the ratio of revenues derived from non-compliant activities divided by the total revenue. There is a tremendous work to be done to get this feature. Finispia is eagerly working to include it in future version of the solution.“ Die App rechnet den Reinigungsbetrag also noch nicht aus.",
+      },
       depot: {
         url: "https://finispia.com/halal-stock-screener/",
         stand: "26.09.2026",

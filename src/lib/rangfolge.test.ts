@@ -573,9 +573,11 @@ describe("rangfolge: echte Daten", () => {
     expect(r.gerankt.filter((x) => x.platz === 1).map((x) => x.anbieter.id).sort()).toEqual(["check24-steuer", "elster"]);
   });
 
-  it("Screener: Musaffa steht allein auf Platz 1, Finispia ist nicht bewertet", () => {
+  it("Screener: Musaffa steht allein auf Platz 1, Finispia ist seit 26.09. bewertet und steht hinten", () => {
+    // Finispia rechnet laut eigener Hilfe noch keinen Reinigungsbetrag aus (Ampel rot, Beleg 26.09.2026).
     const r = rangfolge(screenerVergleich, "screener");
     expect(ids(nummerEins(r))).toEqual(["musaffa"]);
-    expect(ids(r.nichtBewertet)).toContain("finispia");
+    expect(ids(r.nichtBewertet)).toEqual([]);
+    expect(ids(r.gerankt).at(-1)).toBe("finispia");
   });
 });

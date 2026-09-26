@@ -312,7 +312,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "ja",
-      selbststaendige: null,
+      selbststaendige: "ja, Anlage EÜR; Umsatz- und Gewerbesteuer führt das Programm nicht auf",
       vermietung: "ja",
       belegabruf: true,
       sprache: "Deutsch",
@@ -328,7 +328,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
         hinweis:
           "Die Feldhilfe zur Steuererklärung 2025 fragt wörtlich: „Haben Sie Einkünfte aus Kapitalvermögen erzielt? (Anlage KAP, KAP-BET oder KAP-INV)“. Das ist ein Eingabefeld im Interview für das laufende Steuerjahr.",
       },
-      selbststaendige: q("https://www.lohnsteuer-kompakt.de/", "Der Anbieter nennt auf der Startseite Angestellte, Rentner und Studierende. Zu Selbstständigen steht dort nichts, deshalb ungeprüft. Ratgeberseiten zur Anlage EÜR (Stand 26.09.2026) belegen keine Funktion im Programm."),
+      selbststaendige: { url: "https://www.lohnsteuer-kompakt.de/fag/0/118/fuer_wen_ist_lohnsteuer_kompakt_geeignet", stand: "26.09.2026", hinweis: "Das Inhaltsverzeichnis des Programms (Steuerhandbuch) führt „Anlage EÜR“ mit Betriebseinnahmen und Betriebsvermögen. Eine Umsatz- oder Gewerbesteuererklärung steht darin nicht." },
       vermietung: {
         url: "https://www.lohnsteuer-kompakt.de/de/feldhilfe/2025/40/950/einkprozc3prozbcnfte+aus+vermietung+proz26+verpachtung-+anlage+v+-",
         stand: "26.09.2026",
@@ -398,9 +398,9 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     preisEinzel: 34.99,
     werte: {
       plattform: "Web",
-      kapital: null,
+      kapital: "ja",
       selbststaendige: "ja",
-      vermietung: null,
+      vermietung: "ja",
       belegabruf: null,
       sprache: "Deutsch, Englisch über germantaxes.de",
       preis: "34,99 €, zusammen veranlagt 49,99 €",
@@ -409,6 +409,8 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     },
     quellen: {
       plattform: q("https://wundertax.de/", "Läuft im Browser, eine eigene App nennt der Anbieter nicht."),
+      kapital: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
+      vermietung: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
       selbststaendige: q("https://wundertax.de/", "Selbstständige stehen in der Liste der Zielgruppen, daneben eigene Seiten für Studierende, Polizei und Bundeswehr."),
       sprache: q("https://wundertax.de/", "Für Menschen ohne Deutschkenntnisse führt der Anbieter die Schwesterseite germantaxes.de auf Englisch."),
       preis: q("https://wundertax.de/preise/", "34,99 € für eine Erklärung, 49,99 € bei Zusammenveranlagung, Pakete ab 89,99 € für drei."),

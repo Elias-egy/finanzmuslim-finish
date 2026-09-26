@@ -12,7 +12,7 @@
 export type Vorgang = {
   datum: string;
   richtung: "raus" | "rein";
-  kanal: "Mail" | "Ticket" | "Formular" | "App";
+  kanal: "Mail" | "Ticket" | "Formular" | "App" | "Chat";
   adresse?: string;
   /** Ticket-, Vorgangs- oder Anfragenummer, falls es eine gibt. */
   zeichen?: string;
@@ -273,7 +273,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   n26: { anbieter: "N26", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@n26.com", kern: "Wird das Guthaben auf einem N26 Flex Konto verzinst, oder nur auf einem separat eröffneten Tagesgeldkonto? Kommt beim Flex Konto ab Eröffnung ein Dispo dazu?" },
     { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Confirmation 95124651", kern: "Keine inhaltliche Antwort. Verweis auf den Chat (support.n26.com/de-at/chat), Mail-Postfach ist nur automatisch." },
-  ], keinMailWeg: true, naechsterSchritt: "Nur über den Besucher-Chat zu klären, das machen Elias' Klicks. Flex bleibt bei Zins und Dispo offen, die anderen vier Stufen sind belegt." },
+    { datum: "26.09.2026", richtung: "raus", kanal: "Chat", adresse: "support.n26.com Besucher-Chat", kern: "Als finanzmuslim.com: N26 Flex Zins und Dispo; N26 Depot Kaufbarkeit von acht Halal-ETFs." },
+    { datum: "26.09.2026", richtung: "rein", kanal: "Chat", adresse: "support.n26.com Besucher-Chat", kern: "KI-Assistent Neon: Flex nicht automatisch verzinst (nur mit selbst eröffnetem Tagesgeld), Dispo nur auf Antrag. Beide Flex-Ampeln grün. Zu einzelnen ISINs keine Auskunft, nur Suche in der App." },
+  ], keinMailWeg: true, naechsterSchritt: "Flex erledigt per Chat am 26.09. Depot-ISINs gibt N26 schriftlich nicht heraus, nur per Suche in der App mit Konto. Offen, bis Elias entscheidet, wie Häuser ohne schriftliche Auskunft gerankt werden." },
   degiro: { anbieter: "DEGIRO", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@degiro.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von zwölf ISINs außerhalb der ETF-Kernauswahl.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten. Der Partnerfaden mit affiliates@flatexdegiro.com läuft getrennt." },
