@@ -215,3 +215,22 @@ Festlegungen beim Bau, die in den Abschnitten oben nicht wörtlich standen:
 Stand der echten Daten: Depot 4 gerankt (Nummer 1 Scalable Free Broker 4,87), 41 offen, 11 abgeraten. Giro 46
 gerankt (Consorsbank 4,90). Krypto 27 (Bitvavo 4,72). Steuer: ELSTER und CHECK24 gleichauf mit 5,0. Screener:
 Musaffa 5,0. Edelmetall: Barren beim Händler 5,0.
+
+## 12. Aufnahmeregel (Elias, 26.09.2026)
+
+Wortgleich im Vault: `raw/2026-09-26-finanzmuslim-online-prio-2.md` und `-prio-3.md`.
+
+- **Depot und Girokonto** zeigen Haram sichtbar: Wer sich nicht zinsfrei nutzen lässt, steht rot am Ende, ohne Link.
+  Dort muss der Leser wissen, wovon wir abraten.
+- **Alle anderen Vergleiche** (Krypto, Steuer, Screener, Edelmetall) führen nur, was einen halalen Weg bietet und für
+  Anleger Sinn ergibt. Kein roter Eintrag, der nur sagt „bieten wir nicht an“. Test: `vergleiche.test.ts`, „Aufnahmeregel“.
+- **Reine Trading-Apps ohne halalen Nutzungsweg** gehören in keinen Vergleich, auch nicht ins Depot. Hebel als Zusatz,
+  den man nie nutzen muss (Knock-outs, Optionsscheine, Margin), führt nicht zum Ausschluss, wie „Zinsen abschaltbar“.
+- Tarife zählen einzeln (Memory `tarifstufen-einzeln-bewerten`): ein Abo mit Zinsen macht das kostenlose Angebot nicht haram.
+
+Umgesetzt am 26.09.2026:
+- Raus: Steuerbot (keine Anlage KAP), Gold-Schuldverschreibung (Xetra-Gold, EUWAX Gold II), Zertifikate und CFDs auf den
+  Goldpreis. Texte nachgezogen: 12 Steuerprogramme, 3 Wege zu Gold. Die Xetra-Gold-FAQ bleibt und sagt, warum.
+- Libertex und Plus500 bleiben vorerst: Beide werben auf der deutschen Seite mit echten Aktien (Plus500 „Invest in Aktien“,
+  Libertex „CFDs & Reale Aktien“, gesehen am 26.09.2026). Die Anfragen in Tranche 3 (28.09.) klären, ob Privatkunden in
+  Deutschland echte Wertpapiere bekommen. Wenn nein, fliegen sie raus.

@@ -14,7 +14,10 @@ import type { RohAnbieter } from "./vergleichHelfer";
  * Die entscheidende Regel steht in /wissen/halal-gold-kaufen: Bei Gold und
  * Silber müssen Zahlung und Übergabe zusammenfallen. Alles, was das
  * auseinanderzieht oder die Übergabe durch ein Versprechen ersetzt, fällt.
- * Diese Tabelle übersetzt die Regel in die fünf Wege, die es hier gibt.
+ * Diese Tabelle zeigt nur die Wege, bei denen echtes Metall übergeben wird.
+ * Schuldverschreibungen und Wetten auf den Preis sind seit 26.09.2026 draußen:
+ * außerhalb von Depot und Girokonto kommt nur in den Vergleich, was einen halalen
+ * Weg bietet (Elias, raw/2026-09-26-finanzmuslim-online-prio-3.md im Vault).
  */
 export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -196,67 +199,6 @@ export const edelmetallVergleich: RohAnbieter[] = [
         hinweis:
           "Steuerfrei nach einem Jahr ist der Gewinn nur, wenn du dir das Metall ausliefern lassen kannst. Bei den meisten ETCs geht das nicht, dann greift die Abgeltungsteuer. Keine Steuerberatung.",
       },
-    },
-  },
-  {
-    id: "schuldverschreibung",
-    name: "Gold-Schuldverschreibung",
-    produkt: "Xetra-Gold, EUWAX Gold II",
-    werte: {
-      uebergabe: "schlecht",
-      echtesMetall: "teils",
-      nachweis: "schlecht",
-      ausliefern: "gut",
-      anbieter: "Deutsche Börse Commodities, Boerse Stuttgart",
-      kosten: "Xetra-Gold mit jährlicher Verwahrgebühr, EUWAX Gold II ohne",
-      einstieg: "ab einem Gramm",
-      aufbewahrung: "Tresor in Deutschland",
-      sparplan: true,
-      steuer: "steuerfrei, weil Auslieferung möglich ist",
-    },
-    quellen: {
-      uebergabe: {
-        url: "https://www.xetra-gold.com/",
-        stand,
-        hinweis:
-          "Der Anbieter sagt selbst, was du kaufst: eine Schuldverschreibung, die „den Anspruch auf jederzeitige Auslieferung von Goldbarren“ verbrieft. Ein Anspruch ist ein Versprechen, kein Metall. Genau diese Bauart trennt die Zahlung von der Übergabe.",
-      },
-      echtesMetall: {
-        url: "https://www.euwax-gold.de/ewg2ld/faq/",
-        stand,
-        hinweis:
-          "Metall liegt da: „EUWAX Gold II ist zu 100% mit physischem Gold hinterlegt, das entsprechend in einem Tresor lagert“. Es gehört dir aber nicht, du hast eine Forderung gegen den Herausgeber.",
-      },
-      nachweis: { stand, hinweis: "Weder für Xetra-Gold noch für EUWAX Gold II haben wir ein Gutachten eines Gelehrtengremiums gefunden." },
-      ausliefern: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "„Die physische Auslieferung des Goldes ist prinzipiell ab einem Gramm möglich“." },
-      anbieter: { url: "https://www.xetra-gold.com/", stand, hinweis: "Xetra-Gold von Deutsche Börse Commodities, EUWAX Gold II von der Boerse Stuttgart." },
-      kosten: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "EUWAX Gold II: „Für die Verwahrung fallen von Seiten der Emittentin keine jährlichen Gebühren an“. Xetra-Gold erhebt eine jährliche Verwahrgebühr." },
-      einstieg: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "Auslieferung ab einem Gramm." },
-      steuer: { stand, hinweis: "Weil die Auslieferung möglich ist, wird der Gewinn nach einem Jahr wie bei physischem Gold behandelt. Keine Steuerberatung." },
-    },
-  },
-  {
-    id: "zertifikate-und-cfds",
-    name: "Zertifikate und CFDs",
-    produkt: "Wetten auf den Preis",
-    werte: {
-      uebergabe: "schlecht",
-      echtesMetall: "schlecht",
-      nachweis: "schlecht",
-      ausliefern: "schlecht",
-      anbieter: "Banken und Broker mit Hebelprodukten",
-      kosten: "Spread, Finanzierungskosten, bei Hebel laufende Zinsen",
-      einstieg: "wenige Euro",
-      aufbewahrung: "kein Metall vorhanden",
-      sparplan: false,
-      steuer: "Abgeltungsteuer",
-    },
-    quellen: {
-      uebergabe: { ...artikel, hinweis: "Es wird nichts übergeben, weil nichts gekauft wird. Du wettest auf einen Preis." },
-      echtesMetall: { ...artikel, hinweis: "Hinter diesen Papieren liegt kein Metall. Der Herausgeber bildet den Preis nach." },
-      nachweis: { stand, hinweis: "Kein Gremium zertifiziert eine Wette auf den Goldpreis." },
-      ausliefern: { ...artikel, hinweis: "Es gibt nichts auszuliefern." },
-      kosten: { ...artikel, hinweis: "Bei Hebelprodukten kommt ein verzinstes Darlehen dazu. Das ist neben der Wette der zweite Einwand." },
     },
   },
 ];

@@ -90,9 +90,9 @@ const VergleichSteuersoftware = () => (
     pfad="/vergleich/steuersoftware"
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
-    untertitel="Dreizehn Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
+    untertitel="Zwölf Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
     seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText="Dreizehn Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
+    seoText="Zwölf Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
     einheit="Programme"
     einleitung={
       <>
@@ -103,8 +103,8 @@ const VergleichSteuersoftware = () => (
         </p>
         <p>
           Für dich zählt vor allem eine Zeile. Wenn du anlegst, brauchst du ein Programm, das
-          Kapitalerträge kann. Zwei der günstigen Programme können das nicht, und das merkst du
-          erst, wenn du mitten in der Erklärung steckst.
+          Kapitalerträge kann. Zehn der zwölf können das laut Anbieter, bei zweien prüfen wir es
+          noch.
         </p>
       </>
     }
@@ -164,7 +164,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Was heisst erst bei Abgabe zahlen?",
         antwort:
-          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sieben der dreizehn Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
+          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sechs der zwölf Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
       },
       {
         frage: "Lohnt sich die Steuererklärung überhaupt?",

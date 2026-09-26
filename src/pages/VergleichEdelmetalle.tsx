@@ -86,9 +86,9 @@ const VergleichEdelmetalle = () => (
     pfad="/vergleich/edelmetalle"
     brotkrumen="Edelmetalle"
     titel="Halal Gold kaufen: die Wege im Vergleich"
-    untertitel="Fünf Wege zu Gold und Silber, und welcher die Regel der sofortigen Übergabe erfüllt"
+    untertitel="Drei Wege zu Gold und Silber, die echtes Metall übergeben, und wie gut sie die Regel erfüllen"
     seoTitel="Halal Gold kaufen: Wege und Anbieter im Vergleich | finanzmuslim"
-    seoText="Barren, Goldsparplan, Gold-ETC oder Schuldverschreibung? Fünf Wege zu Gold und Silber im Vergleich, mit Shariah-Nachweis, Auslieferung, Kosten und Steuer."
+    seoText="Barren, Goldsparplan oder Gold-ETC? Drei Wege zu Gold und Silber im Vergleich, mit Shariah-Nachweis, Auslieferung, Kosten und Steuer."
     einheit="Wege"
     einleitung={
       <>
@@ -99,8 +99,8 @@ const VergleichEdelmetalle = () => (
         </p>
         <p>
           Der Grund ist eine Regel, die es sonst nirgends gibt: Bei Gold und Silber müssen Zahlung
-          und Übergabe im selben Moment stattfinden. Diese Tabelle übersetzt die Regel in die fünf
-          Wege, die es in Deutschland gibt, und nennt zu jedem die Anbieter.
+          und Übergabe im selben Moment stattfinden. Diese Tabelle zeigt die drei Wege in
+          Deutschland, bei denen du echtes Metall bekommst, und nennt zu jedem die Anbieter.
         </p>
       </>
     }
@@ -143,7 +143,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Was ist mit Xetra-Gold und EUWAX Gold II?",
         antwort:
-          "Beide sind Schuldverschreibungen. Du kaufst nicht Gold, sondern einen Anspruch auf Lieferung von Gold gegen den Herausgeber. Metall liegt zwar im Tresor, aber zwischen dir und dem Barren steht ein Versprechen. Ein Gutachten eines Gelehrtengremiums haben wir für keines der beiden gefunden. Wer diesen Weg trotzdem geht, sollte ihn mit einem Gelehrten besprechen.",
+          "Beide sind Schuldverschreibungen. Du kaufst nicht Gold, sondern einen Anspruch auf Lieferung von Gold gegen den Herausgeber. Metall liegt zwar im Tresor, aber zwischen dir und dem Barren steht ein Versprechen. Ein Gutachten eines Gelehrtengremiums haben wir für keines der beiden gefunden. Deshalb stehen sie nicht im Vergleich. Wer diesen Weg trotzdem geht, sollte ihn mit einem Gelehrten besprechen.",
       },
       {
         frage: "Gibt es einen Goldsparplan mit Shariah-Zertifikat?",

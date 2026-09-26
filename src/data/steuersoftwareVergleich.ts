@@ -105,6 +105,7 @@ const q = (url: string, hinweis: string) => ({ url, stand, hinweis });
  * und zugleich die unbequeme: Die beiden Programme an der Spitze zahlen uns
  * nichts, weil sie nichts kosten.
  */
+// Steuerbot ist seit 26.09.2026 draußen: kann keine Anlage KAP, für Anleger ohne Nutzen.
 export const steuersoftwareVergleich: RohAnbieter[] = [
   {
     id: "elster",
@@ -486,39 +487,6 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       zahlung: q("https://www.smartsteuer.de/online/preise/", "Bezahlt wird im Bereich Abgabe, also am Ende. Zahlung per PayPal, Lastschrift oder Karte."),
       abgaben: q("https://www.smartsteuer.de/online/preise/", "Fünf Abgaben je Kauf, aber nur im selben Steuerjahr. Geteilt mit der Familie sind das rund 8 € je Person."),
       sprache: q("https://www.smartsteuer.de/online/", "Nur auf Deutsch."),
-    },
-  },
-  {
-    id: "steuerbot",
-    name: "Steuerbot",
-    produkt: "Web und App",
-    domain: "steuerbot.com",
-    preisEinzel: 39.99,
-    werte: {
-      plattform: "Web, iOS, Android",
-      kapital: "nein",
-      selbststaendige: "nein",
-      vermietung: "nein",
-      belegabruf: true,
-      sprache: "Deutsch",
-      preis: "39,99 €",
-      zahlung: "erst bei Abgabe",
-      abgaben: "1",
-    },
-    quellen: {
-      plattform: q("https://www.steuerbot.com/", "Apps für iOS und Android, dazu die Fassung im Browser."),
-      belegabruf: {
-        url: "https://www.steuerbot.com/vorausgefuellte-steuererklaerung",
-        stand: "26.09.2026",
-        hinweis: "„Wir rufen deine Steuerdaten beim Finanzamt ab, sobald diese vorliegen.“",
-      },
-      kapital: q("https://www.steuerbot.com/", "Kapitalerträge gehören laut Anbieter nicht zu den unterstützten Fällen."),
-      selbststaendige: q("https://www.steuerbot.com/", "Selbstständige unterstützt der Anbieter nicht, das Programm ist auf Angestellte zugeschnitten."),
-      vermietung: q("https://www.steuerbot.com/", "Vermietung gehört nicht zu den unterstützten Fällen."),
-      preis: q("https://www.steuerbot.com/", "39,99 € je Steuererklärung."),
-      zahlung: q("https://www.steuerbot.com/", "Die Berechnung der Erstattung ist kostenlos, bezahlt wird vor der Abgabe."),
-      abgaben: q("https://www.steuerbot.com/", "Eine Erklärung je Kauf."),
-      sprache: q("https://www.steuerbot.com/", "Nur auf Deutsch."),
     },
   },
   {

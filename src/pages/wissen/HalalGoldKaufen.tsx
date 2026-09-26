@@ -503,7 +503,7 @@ const HalalGoldKaufen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/vergleich/edelmetalle", name: "Der Edelmetall-Vergleich", text: "stellt die fünf Wege zu Gold und Silber nebeneinander, mit Anbietern und Nachweisen." },
+          { to: "/vergleich/edelmetalle", name: "Der Edelmetall-Vergleich", text: "stellt die drei Wege zu echtem Gold und Silber nebeneinander, mit Anbietern und Nachweisen." },
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "rechnet Gold, Silber und Ersparnisse zusammen und zeigt dir den Nisab." },
           { to: "/wissen/nisab", name: "Nisab verstehen", text: "erklärt, welche der beiden Grenzen für dich gilt." },
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },

@@ -6,6 +6,7 @@ import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
+import { steuersoftwareVergleich } from "./steuersoftwareVergleich";
 import { FINANZ_MAX_SUMME } from "@/lib/bewertung";
 import { AMPEL_GEWICHTE, ANTEIL_N, rangfolge } from "@/lib/rangfolge";
 import type { RohAnbieter } from "./vergleichHelfer";
@@ -281,5 +282,18 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
       const kaufbar = new Set(eintrag.kaufbar.map((k) => k.anbieter));
       for (const n of eintrag.nichtImAngebot) expect(kaufbar.has(n), `${isin} / ${n}`).toBe(false);
     }
+  });
+});
+
+describe("Aufnahmeregel", () => {
+  // Elias, 26.09.2026: Nur Depot und Girokonto zeigen Haram rot, weil man dort wissen muss,
+  // wovon wir abraten. In allen anderen Vergleichen steht nur, was einen halalen Weg bietet.
+  it.each([
+    ["krypto", kryptoVergleich],
+    ["steuer", steuersoftwareVergleich],
+    ["screener", screenerVergleich],
+    ["edelmetall", edelmetallVergleich],
+  ] as const)("%s hat keinen abgeratenen Eintrag", (kategorie, liste) => {
+    expect(rangfolge(liste, kategorie).abgeraten.map((x) => x.anbieter.id)).toEqual([]);
   });
 });

@@ -34,7 +34,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Edelmetalle",
-        desc: "Fünf Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
+        desc: "Drei Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
         icon: Coins,
         to: "/vergleich/edelmetalle",
       },
@@ -64,7 +64,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Steuersoftware",
-        desc: "Vergleiche 13 Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.",
+        desc: "Vergleiche 12 Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.",
         icon: FileText,
         to: "/vergleich/steuersoftware",
       },
