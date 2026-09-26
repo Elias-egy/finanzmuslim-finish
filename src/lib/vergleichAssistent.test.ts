@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { bewerte } from "@/lib/bewertung";
-import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, halalBelegt, islamischesPaket, mindestensEins, RANGFOLGE_FREI, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { nummerEins, rangfolge } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
@@ -20,31 +20,27 @@ const krypto = (id: string, werte: RohAnbieter["werte"], punkte = { gebuehren: 5
 
 const leer: Auswahl = { wuensche: [], gewichte: [] };
 const wallet: Auswahl = { wuensche: [{ id: "wallet", label: "Wallet", pruefe: ampelGut("eigeneWallet") }], gewichte: [] };
+const ids = (xs: Array<{ anbieter: RohAnbieter }>) => xs.map((x) => x.anbieter.id);
+const istZinsKategorie = (k: string): k is keyof typeof BASIS => k in BASIS;
 
 describe("geführter Vergleich", () => {
-  it("zeigt die Rangfolge noch nicht, bis Elias sie freischaltet", () => {
-    expect(RANGFOLGE_FREI).toEqual({ depot: false, girokonto: false, krypto: false });
-  });
-
   it("empfiehlt nie einen Anbieter, dessen Zinsen sich nicht abschalten lassen", () => {
     const liste = [krypto("rot", { zinsfreiAbStart: "schlecht" }, { gebuehren: 100, sicherheit: 50 }), krypto("gruen", {})];
-    for (const frei of [false, true]) {
-      const e = werteAus(liste, "krypto", MAX, leer, frei);
-      expect([...e.passt, ...e.ungeprueft].map((t) => t.anbieter.id)).toEqual(["gruen"]);
-      expect(e.raus).toBe(1);
-    }
+    const e = werteAus(liste, "krypto", MAX, leer);
+    expect([...e.passt, ...e.ungeprueft].map((t) => t.anbieter.id)).toEqual(["gruen"]);
+    expect(e.raus).toBe(1);
   });
 
   it("lässt einen unbekannten Wert nie als erfüllt gelten", () => {
     const liste = [krypto("unbekannt", { eigeneWallet: null }), krypto("status-unbekannt", { eigeneWallet: "unbekannt" }), krypto("ja", {}), krypto("nein", { eigeneWallet: "schlecht" })];
-    const e = werteAus(liste, "krypto", MAX, wallet, false);
+    const e = werteAus(liste, "krypto", MAX, wallet);
     expect(e.passt.map((t) => t.anbieter.id)).toEqual(["ja"]);
     expect(e.ungeprueft.map((t) => t.anbieter.id).sort()).toEqual(["status-unbekannt", "unbekannt"]);
     expect(e.raus).toBe(1);
   });
 
   it("stellt einen ungeprüften Türsteher nicht unter die passenden", () => {
-    const e = werteAus([krypto("offen", { zinsfreiAbStart: null })], "krypto", MAX, leer, false);
+    const e = werteAus([krypto("offen", { zinsfreiAbStart: null })], "krypto", MAX, leer);
     expect(e.passt).toHaveLength(0);
     expect(e.ungeprueft).toHaveLength(1);
   });
@@ -52,67 +48,70 @@ describe("geführter Vergleich", () => {
   it("ändert nichts, wenn nur der Partnerlink dazukommt", () => {
     const ohne = [krypto("a", {}, { gebuehren: 80, sicherheit: 10 }), krypto("b", {}, { gebuehren: 60, sicherheit: 50 })];
     const mit = [krypto("a", {}, { gebuehren: 80, sicherheit: 10 }), krypto("b", {}, { gebuehren: 60, sicherheit: 50 }, "/out/b")];
-    for (const frei of [false, true]) {
-      const x = werteAus(ohne, "krypto", MAX, leer, frei);
-      const y = werteAus(mit, "krypto", MAX, leer, frei);
-      expect(y.passt.map((t) => [t.anbieter.id, t.sortWert, t.note])).toEqual(x.passt.map((t) => [t.anbieter.id, t.sortWert, t.note]));
-    }
+    const x = werteAus(ohne, "krypto", MAX, leer);
+    const y = werteAus(mit, "krypto", MAX, leer);
+    expect(y.passt.map((t) => [t.anbieter.id, t.sortWert, t.note])).toEqual(x.passt.map((t) => [t.anbieter.id, t.sortWert, t.note]));
   });
 
   it("liefert bei gleichen Antworten dieselbe Reihenfolge, egal wie die Liste sortiert ist", () => {
     const liste = [krypto("c", {}), krypto("a", {}), krypto("b", {})];
-    const vor = werteAus(liste, "krypto", MAX, leer, true).passt.map((t) => t.anbieter.id);
-    const zurueck = werteAus([...liste].reverse(), "krypto", MAX, leer, true).passt.map((t) => t.anbieter.id);
+    const vor = werteAus(liste, "krypto", MAX, leer).passt.map((t) => t.anbieter.id);
+    const zurueck = werteAus([...liste].reverse(), "krypto", MAX, leer).passt.map((t) => t.anbieter.id);
     expect(vor).toEqual(["a", "b", "c"]);
     expect(zurueck).toEqual(vor);
   });
 
-  it("ordnet erst zinsfrei, dann das islamische Anlagenpaket und erst dann Finanzfluss", () => {
-    const depot = (id: string, werte: RohAnbieter["werte"], rang: number): RohAnbieter => ({
+  it("ordnet ohne Antworten wie die Rangfolge, der Finanzfluss-Rang zählt nicht", () => {
+    const depot = (id: string, werte: RohAnbieter["werte"], punkte: Record<string, number>, rang: number): RohAnbieter => ({
       id,
       name: id,
       produkt: "Depot",
-      werte: { zinsfreiAbStart: "gut", halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "0 von 8", ...werte },
+      werte: { zinsfreiAbStart: "gut", ...werte },
+      halalAnlagenPunkte: punkte,
       finanzfluss: { produkt: id, partnerlink: null, rang },
       finanzPunkte: { gebuehren: 50, sicherheit: 25 },
     });
-    const voll = depot("voll", { halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "8 von 8" }, 55);
-    const paketA = depot("paket-a", { halalEtfsFonds: "6 von 12", halalSukuk: "1 von 3", halalEdelmetalle: "4 von 8" }, 20);
-    const paketB = depot("paket-b", { halalEtfsFonds: "6 von 12", halalSukuk: "1 von 3", halalEdelmetalle: "4 von 8" }, 2);
-    const wenig = depot("wenig", { halalEtfsFonds: "2 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "1 von 8" }, 1);
-    const e = werteAus([wenig, paketA, voll, paketB], "depot", { gebuehren: 100, sicherheit: 50 }, leer, false);
-    expect(e.passt.map((t) => t.anbieter.id)).toEqual(["voll", "paket-b", "paket-a", "wenig"]);
-    expect(islamischesPaket(voll, "depot")).not.toEqual(islamischesPaket(paketA, "depot"));
+    const zeilen = (x: number, y: number, z: number) => ({ halalEtfsFonds: `${x} von 12`, halalSukuk: `${y} von 3`, halalEdelmetalle: `${z} von 7` });
+    const punkte = (x: number, y: number, z: number) => ({ halalEtfsFonds: x, halalSukuk: y, halalEdelmetalle: z });
+    const voll = depot("voll", zeilen(12, 3, 7), punkte(12, 3, 7), 55);
+    const paketA = depot("paket-a", zeilen(6, 1, 4), punkte(6, 1, 4), 20);
+    const paketB = depot("paket-b", zeilen(6, 1, 4), punkte(6, 1, 4), 2);
+    const wenig = depot("wenig", zeilen(2, 0, 1), punkte(2, 0, 1), 1);
+    const liste = [wenig, paketA, voll, paketB];
+    const e = werteAus(liste, "depot", { gebuehren: 100, sicherheit: 50 }, leer);
+    expect(ids(e.passt)).toEqual(["voll", "paket-a", "paket-b", "wenig"]);
+    expect(ids(e.passt)).toEqual(ids(rangfolge(liste, "depot", { finanzMax: { gebuehren: 100, sicherheit: 50 } }).gerankt));
   });
 
-  it("zeigt ohne Freischaltung keine Note, ordnet aber nach dem, was belegt ist", () => {
+  it("zeigt die Note der Rangfolge und ordnet nach ihr", () => {
     const liste = [krypto("a", {}, { gebuehren: 0, sicherheit: 0 }), krypto("z", {}, { gebuehren: 100, sicherheit: 50 })];
-    const e = werteAus(liste, "krypto", MAX, leer, false);
-    expect(e.passt.map((t) => t.anbieter.id)).toEqual(["z", "a"]);
-    expect(e.passt.every((t) => t.note === null)).toBe(true);
-    expect(e.gerankt).toBe(false);
+    const e = werteAus(liste, "krypto", MAX, leer);
+    expect(e.passt.map((t) => [t.anbieter.id, t.note?.gesamt])).toEqual([
+      ["z", 5],
+      ["a", 2.5],
+    ]);
   });
 
   it("lässt Ungeprüftes nie nach vorn rücken", () => {
     const geprueft = krypto("geprueft", {});
-    const luecke = krypto("luecke", { echteCoins: null, eigeneWallet: null });
-    const rot = krypto("halb", { echteCoins: "schlecht", eigeneWallet: "schlecht" });
-    expect(halalBelegt(luecke, "krypto")).toBe(halalBelegt(rot, "krypto"));
-    expect(halalBelegt(geprueft, "krypto")).toBeGreaterThan(halalBelegt(luecke, "krypto"));
-    const e = werteAus([luecke, geprueft], "krypto", MAX, leer, false);
-    expect(e.passt[0].anbieter.id).toBe("geprueft");
+    const luecke = krypto("luecke", { echteCoins: null, eigeneWallet: null }, { gebuehren: 100, sicherheit: 50 });
+    const e = werteAus([luecke, geprueft], "krypto", MAX, leer);
+    expect(ids(e.passt)).toEqual(["geprueft"]);
+    expect(ids(e.ungeprueft)).toEqual(["luecke"]);
+    expect(e.ungeprueft[0].note).toBeNull();
   });
 
   it("schlägt nie vor, wer Zinsen erst abschalten muss oder Kredit, Dispo, Zinsbindung voreinstellt", () => {
     const liste = [krypto("abschaltbar", { zinsfreiAbStart: "teils" }), krypto("zinsmodell", { zinsfreiesModell: "schlecht" }), krypto("sauber", {})];
-    const e = werteAus(liste, "krypto", MAX, leer, false);
+    const e = werteAus(liste, "krypto", MAX, leer);
     expect([...e.passt, ...e.ungeprueft].map((t) => t.anbieter.id)).toEqual(["sauber"]);
     expect(e.raus).toBe(2);
-    for (const b of bausteine.filter((x) => x.kategorie)) {
+    for (const b of bausteine) {
+      if (!istZinsKategorie(b.kategorie)) continue;
       const alle = werteAus(b.anbieter, b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] });
       for (const t of [...alle.passt, ...alle.ungeprueft]) {
         expect(t.anbieter.werte.zinsfreiAbStart, t.anbieter.name).not.toBe("teils");
-        for (const k of BASIS[b.kategorie!]) expect(t.anbieter.werte[k], `${t.anbieter.name} ${k}`).not.toBe("schlecht");
+        for (const k of BASIS[b.kategorie]) expect(t.anbieter.werte[k], `${t.anbieter.name} ${k}`).not.toBe("schlecht");
       }
     }
   });
@@ -185,37 +184,32 @@ describe("geführter Vergleich", () => {
     for (const x of deals) for (const id of x.anbieterIds ?? []) expect(alle.has(id), `${x.anbieter}: ${id}`).toBe(true);
   });
 
-  it("zählt einen ungeprüften Türsteher als null und abschaltbare Zinsen halb", () => {
-    expect(halalBelegt(krypto("x", { zinsfreiAbStart: null }), "krypto")).toBe(0);
-    expect(halalBelegt(krypto("y", { zinsfreiAbStart: "teils" }), "krypto")).toBeCloseTo(0.5, 5);
-  });
-
-  it("sortiert ohne Freischaltung nach der gewählten Priorität", () => {
+  it("sortiert nach der gewählten Priorität", () => {
     const liste = [krypto("teuer-sicher", {}, { gebuehren: 10, sicherheit: 50 }), krypto("guenstig", {}, { gebuehren: 90, sicherheit: 0 })];
     const kosten: Auswahl = { ...leer, prioritaet: { id: "k", label: "Kosten", gewichte: { gebuehren: 2 }, fakten: [] } };
-    expect(werteAus(liste, "krypto", MAX, kosten, false).passt[0].anbieter.id).toBe("guenstig");
+    expect(werteAus(liste, "krypto", MAX, kosten).passt[0].anbieter.id).toBe("guenstig");
   });
 
-  it("rechnet ohne Gewichte dieselbe Finanznote wie bewerte()", () => {
+  it("rechnet ohne Gewichte dieselbe Finanznote wie der Kosten-Teil der Rangfolge", () => {
     const a = krypto("a", {}, { gebuehren: 70, sicherheit: 20 });
-    const b = bewerte(a, "krypto", MAX);
-    expect(b.status).toBe("bewertet");
-    if (b.status === "bewertet") expect(finanzNote(a, MAX, [])).toBeCloseTo(b.finanz, 2);
+    expect(finanzNote(a, MAX, [])).toBeCloseTo(rangfolge([a], "krypto", { finanzMax: MAX }).gerankt[0].kosten!, 2);
   });
 
-  it("verschiebt mit Gewichten die Rangfolge, aber nicht die Halal-Note", () => {
+  it("verschiebt mit Gewichten die Rangfolge, aber weder Halal-Teil noch angezeigte Note", () => {
     const liste = [krypto("guenstig", {}, { gebuehren: 100, sicherheit: 0 }), krypto("sicher", {}, { gebuehren: 40, sicherheit: 50 })];
     const sicherheit: Auswahl = { ...leer, prioritaet: { id: "s", label: "Sicherheit", gewichte: { sicherheit: 5 }, fakten: [] } };
-    const ohne = werteAus(liste, "krypto", MAX, leer, true);
-    const mit = werteAus(liste, "krypto", MAX, sicherheit, true);
+    const ohne = werteAus(liste, "krypto", MAX, leer);
+    const mit = werteAus(liste, "krypto", MAX, sicherheit);
     expect(ohne.passt[0].anbieter.id).toBe("guenstig");
     expect(mit.passt[0].anbieter.id).toBe("sicher");
     expect(mit.passt.map((t) => t.note!.halal)).toEqual([5, 5]);
+    const noten = (e: typeof ohne) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, t.note!.gesamt]));
+    expect(noten(mit)).toEqual(noten(ohne));
   });
 
-  it("nimmt mit Freischaltung nur fertig bewertete Anbieter in die Rangfolge", () => {
+  it("nimmt nur fertig bewertete Anbieter in die Rangfolge", () => {
     const liste = [krypto("fertig", {}), krypto("luecke", { zinsfreiesModell: null }, { gebuehren: 100, sicherheit: 50 })];
-    const e = werteAus(liste, "krypto", MAX, leer, true);
+    const e = werteAus(liste, "krypto", MAX, leer);
     expect(e.passt.map((t) => t.anbieter.id)).toEqual(["fertig"]);
     expect(e.ungeprueft.map((t) => t.anbieter.id)).toEqual(["luecke"]);
   });
@@ -234,6 +228,41 @@ describe("geführter Vergleich", () => {
     expect(mindestensEins("halalSukuk")(a)).toBe(true);
     expect(mindestensEins("halalEtfsFonds")(a)).toBe(false);
     expect(mindestensEins("halalEdelmetalle")(a)).toBeNull();
+  });
+});
+
+describe("geführter Vergleich und Rangfolge sind eins (Spec 6 und 10.7)", () => {
+  it.each(bausteine.map((b) => [b.id, b] as const))("%s: ohne Antworten dieselbe Reihenfolge wie die Rangfolge, nur ohne Einschränkung", (_id, b) => {
+    const r = rangfolge(b.anbieter, b.kategorie, { finanzMax: b.finanzMax });
+    expect(ids(werteAus(b.anbieter, b.kategorie, b.finanzMax, leer).passt)).toEqual(ids(r.gerankt.filter((x) => x.uneingeschraenkt)));
+  });
+
+  it.each(bausteine.map((b) => [b.id, b] as const))("%s: dieselbe Nummer 1 wie der Kasten der Vergleichsseite", (_id, b) => {
+    const eins = ids(nummerEins(rangfolge(b.anbieter, b.kategorie, { finanzMax: b.finanzMax })));
+    const erster = werteAus(b.anbieter, b.kategorie, b.finanzMax, leer).passt[0];
+    if (eins.length === 0) expect(erster).toBeUndefined();
+    else expect(eins).toContain(erster.anbieter.id);
+  });
+
+  it.each(bausteine.map((b) => [b.id, b] as const))("%s: nicht Bewertete ohne Einschränkung stehen unter ungeprüft", (_id, b) => {
+    const r = rangfolge(b.anbieter, b.kategorie, { finanzMax: b.finanzMax });
+    const e = werteAus(b.anbieter, b.kategorie, b.finanzMax, leer);
+    const eingeschraenkt = (a: RohAnbieter) =>
+      istZinsKategorie(b.kategorie) && (a.werte.zinsfreiAbStart === "teils" || BASIS[b.kategorie].some((k) => a.werte[k] === "schlecht"));
+    const erwartet = r.nichtBewertet.filter((x) => !eingeschraenkt(x.anbieter)).map((x) => x.anbieter.id).sort();
+    expect(ids(e.ungeprueft).sort()).toEqual(erwartet);
+  });
+
+  it("eine Priorität ändert nie Halal-Teil, Note oder Gruppe", () => {
+    const d = bausteine.find((b) => b.id === "depot")!;
+    const kosten = auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: ["kosten"] });
+    const ohne = werteAus(d.anbieter, d.kategorie, d.finanzMax, leer);
+    const mit = werteAus(d.anbieter, d.kategorie, d.finanzMax, { ...kosten, wuensche: [] });
+    expect(ids(mit.passt).sort()).toEqual(ids(ohne.passt).sort());
+    expect(ids(mit.ungeprueft).sort()).toEqual(ids(ohne.ungeprueft).sort());
+    expect(mit.raus).toBe(ohne.raus);
+    const noten = (e: typeof ohne) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, [t.note?.gesamt, t.note?.halal]]));
+    expect(noten(mit)).toEqual(noten(ohne));
   });
 });
 
@@ -313,7 +342,7 @@ describe("Ablauf und Paket", () => {
     expect(zusatz({ vorhaben: ["anlegen", "steuer"] })).toEqual([]);
     expect(zusatz({ vorhaben: ["konto"] })).toEqual([]);
     const s = baustein("steuer");
-    const e = werteAus(s.anbieter, null, {}, auswahlAus("steuer", { ...s.zusatzAntworten, vorhaben: ["anlegen", "steuer"] }));
+    const e = werteAus(s.anbieter, s.kategorie, s.finanzMax, auswahlAus("steuer", { ...s.zusatzAntworten, vorhaben: ["anlegen", "steuer"] }));
     expect(e.passt.every((t) => /^ja/i.test(String(t.anbieter.werte.kapital)))).toBe(true);
   });
 
@@ -361,11 +390,14 @@ describe("Ablauf und Paket", () => {
     }
   });
 
-  it("zeigt kostenlose Steuerprogramme zuerst und in Preisreihenfolge", () => {
+  it("stellt die beiden kostenlosen Vollprogramme gemeinsam an die Spitze", () => {
     const s = baustein("steuer");
-    const e = werteAus(s.anbieter, null, {}, auswahlAus("steuer", { vorhaben: ["steuer"], steuerLage: ["kapital"] }));
-    expect(e.passt[0].anbieter.name).toBe("Mein ELSTER");
-    expect(e.passt.every((t) => t.note === null)).toBe(true);
+    const e = werteAus(s.anbieter, s.kategorie, s.finanzMax, auswahlAus("steuer", { vorhaben: ["steuer"], steuerLage: ["kapital"] }));
+    expect(e.passt.slice(0, 2).map((t) => [t.anbieter.name, t.note?.gesamt])).toEqual([
+      ["CHECK24 Steuer", 5],
+      ["Mein ELSTER", 5],
+    ]);
+    expect(e.passt.map((t) => t.anbieter.id)).not.toContain("steuerbot");
   });
 });
 
@@ -390,7 +422,7 @@ describe("Prüf-Apps", () => {
 
   it("stellt die App nach vorn, die am meisten belegt, und sagt warum", () => {
     const b = bausteine.find((x) => x.id === "screener")!;
-    const e = werteAus(b.anbieter, null, {}, auswahlAus("screener", { vorhaben: ["anlegen"], bestimmtes: ["aktien"] }));
+    const e = werteAus(b.anbieter, b.kategorie, b.finanzMax, auswahlAus("screener", { vorhaben: ["anlegen"], bestimmtes: ["aktien"] }));
     expect(e.passt[0].anbieter.name).toBe("Musaffa");
     expect(e.passt[0].gruende).toContain("Gelehrte stehen mit Namen dahinter");
     expect(e.passt[0].gruende.length).toBeGreaterThanOrEqual(3);
@@ -399,11 +431,16 @@ describe("Prüf-Apps", () => {
 
 describe("Werbung nur für Empfehlbares", () => {
   it("wirbt nie für Anbieter mit Zinsen ab Start", () => {
-    for (const b of bausteine.filter((x) => x.kategorie)) {
+    for (const b of bausteine) {
+      if (!istZinsKategorie(b.kategorie)) continue;
       for (const a of b.anbieter) {
         if (a.werte.zinsfreiAbStart !== "gut") expect(empfehlbar(a.id), a.name).toBe(false);
       }
     }
     expect(empfehlbar("gibt-es-nicht")).toBe(false);
+  });
+
+  it("lässt Steuerprogramme und Prüf-Apps empfehlbar wie bisher", () => {
+    for (const b of bausteine) if (!istZinsKategorie(b.kategorie)) for (const a of b.anbieter) expect(empfehlbar(a.id), a.name).toBe(true);
   });
 });

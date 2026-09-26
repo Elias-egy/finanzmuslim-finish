@@ -1,42 +1,28 @@
-import { bewerte, FAKTOR_ABSCHALTBAR, HALAL_REGELN, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { ANTEIL_N, BASIS, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
-export { finanzNote };
+export { ANTEIL_N, BASIS, finanzNote };
 
 /**
- * Rechenkern des geführten Vergleichs.
+ * Rechenkern des geführten Vergleichs. Er sitzt auf der Rangfolge (`rangfolge.ts`, P3-Spec
+ * Abschnitt 6 und 10): dieselbe Note, dieselbe Reihenfolge, dieselbe Nummer 1 wie auf der
+ * Vergleichsseite.
  *
  * Regeln, die hier gelten und getestet sind:
  *
  * 1. Das Fundament wird nicht abgefragt, es gilt immer (Elias, 19.09.2026: "Kein
- *    Mensch will Zinsen"). Im Ergebnis steht nur, wer ab Start zinsfrei ist.
- *    Wer Zinsen erst abschalten muss, steht im Vergleich, wird hier aber nie
- *    vorgeschlagen. Ebenso fliegt raus, wer nachweislich Kredit, Dispo oder ein
- *    zinsgebundenes Bezahlmodell voreinstellt (`BASIS`).
+ *    Mensch will Zinsen"). Vorgeschlagen wird nur, wer ohne Einschränkung ist: ab
+ *    Start zinsfrei und ohne voreingestellten Kredit, Dispo oder zinsgebundenes
+ *    Bezahlmodell (`BASIS`). Die übrigen stehen im Vergleich, aber nie hier.
  * 2. Ein unbekannter Wert erfüllt nie einen Wunsch. Der Anbieter steht dann
- *    unter "noch nicht geprüft", nicht unter "passt".
- * 3. Partnerlink, Provision und Startseite fließen nirgends ein. Diese Datei
- *    liest `link` nicht.
- * 4. Antworten ändern Gewichte und Filter, nie die Fakten.
+ *    unter "noch nicht geprüft", nicht unter "passt". Dort steht auch, wem die
+ *    Rangfolge noch keine Note gibt.
+ * 3. Partnerlink, Provision, Startseite und Finanzfluss-Rang fließen nirgends ein.
+ * 4. Antworten ändern Filter und die Gewichte des Kosten-Teils, nie Halal-Teil,
+ *    Note oder Gruppe. Die angezeigte Note ist immer die der Rangfolge.
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
- *
- * Reihenfolge (Elias, 20.09.2026): Zuerst muss die Nutzung zinsfrei sein. Danach
- * entscheidet beim Depot das belegte Paket islamischer Anlagen. Erst wenn dieses
- * Paket identisch ist, entscheidet die Finanzfluss-Reihenfolge. Ein ungeprüfter
- * oder nur als Mindestwert belegter Anlagenumfang darf kein Gleichstand mit einem
- * vollständig belegten Paket sein.
- *
- * `RANGFOLGE_FREI` steuert nur noch, ob die Note als Zahl dasteht. Das setzt
- * voraus, dass der Anbieter fertig bewertet ist.
  */
-
-/** Schaltet je Kategorie die persönliche Note und "Passt am besten" frei. Entscheidet Elias. */
-export const RANGFOLGE_FREI: Record<Kategorie, boolean> = {
-  depot: false,
-  girokonto: false,
-  krypto: false,
-};
 
 /** true erfüllt, false nicht erfüllt, null noch nicht geprüft. */
 export type Pruefung = (a: RohAnbieter) => boolean | null;
@@ -54,10 +40,8 @@ export type Prioritaet = {
   id: string;
   /** Steht über der Liste: "Sortiert nach: niedrige Kosten". */
   label: string;
-  /** Faktor je Finanzkriterium. Nicht genannte Kriterien zählen einfach. */
+  /** Faktor je Finanzkriterium. Nicht genannte Kriterien zählen einfach. Wirkt nur auf den Kosten-Teil. */
   gewichte: Record<string, number>;
-  /** Anteil des Halal-Teils an der persönlichen Note. Standard 0,5. */
-  halalAnteil?: number;
   /** Zeilen, deren Werte im Ergebnis als Fakten unter dem Anbieter stehen. */
   fakten: string[];
 };
@@ -71,12 +55,6 @@ export type Auswahl = {
   gewichte: Record<string, number>[];
   prioritaet?: Prioritaet;
   gruende?: Grund[];
-  /**
-   * Zweitrangige Sortierung von 0 bis 1, z. B. "wer kurz anlegt, sieht zuerst,
-   * wo es Sukuk und Gold gibt". Zählt halb so stark wie die Priorität und nur,
-   * solange die Rangfolge nicht freigeschaltet ist.
-   */
-  nebenSort?: Array<(a: RohAnbieter) => number | null>;
 };
 
 export type Treffer = {
@@ -85,17 +63,17 @@ export type Treffer = {
   ungeprueft: Wunsch[];
   /** Sätze aus den Daten, warum der Anbieter zu den Antworten passt. */
   gruende: string[];
-  /** Nur gesetzt, wenn die Kategorie freigeschaltet und der Anbieter fertig bewertet ist. */
-  note: { gesamt: number; halal: number; finanz: number } | null;
+  /** Note der Rangfolge. null, solange der Anbieter nicht fertig bewertet ist. */
+  note: { gesamt: number; halal: number; finanz: number | null } | null;
+  /** Wonach sortiert wird: die Note, mit gewählter Priorität der neu gewichtete Kosten-Teil. */
   sortWert: number;
 };
 
 export type Ergebnis = {
   passt: Treffer[];
   ungeprueft: Treffer[];
-  /** Zahl der Anbieter, die wegen Zinsen oder eines nicht erfüllten Wunsches fehlen. */
+  /** Zahl der Anbieter, die wegen Zinsen, einer Einschränkung oder eines nicht erfüllten Wunsches fehlen. */
   raus: number;
-  gerankt: boolean;
 };
 
 /* ------------------------------------------------------------- Prüfhelfer */
@@ -156,73 +134,7 @@ export const kostetNichts =
 
 const runde = (x: number) => Math.round(x * 100) / 100;
 
-/** Halal-Grundlagen je Kategorie. Steht hier nachweislich "schlecht", wird der Anbieter nie vorgeschlagen. */
-export const BASIS: Record<Kategorie, string[]> = {
-  depot: [],
-  girokonto: ["keinDispoAbStart", "karteOhneKredit"],
-  krypto: ["zinsfreiesModell"],
-};
-
-/** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Muss zu den Zeilentexten passen (Test). */
-export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
-
-const DEPOT_ANLAGEN_KEYS = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"] as const;
-
-/**
- * Vergleichsschlüssel für das islamische Anlagenpaket.
- * 1 = exakt belegt, 0 = unbekannt oder nur „mindestens“. Danach zählt der
- * belegte Anteil. Ausgabeaufschläge gehören nicht in diesen Schlüssel, sondern
- * zu den finanziellen Produktkosten.
- */
-export const islamischesPaket = (a: RohAnbieter, kategorie: Kategorie | null): number[] => {
-  if (kategorie !== "depot") return [];
-  return DEPOT_ANLAGEN_KEYS.flatMap((key) => {
-    const wert = a.werte[key];
-    if (typeof wert !== "string") return [0, 0];
-    const m = wert.match(/^(mind\.\s*)?(\d+)\s+von\s+(\d+)$/);
-    if (!m) return [0, 0];
-    const exakt = m[1] ? 0 : 1;
-    const anteil = Number(m[3]) > 0 ? Number(m[2]) / Number(m[3]) : 0;
-    return [exakt, anteil];
-  });
-};
-
-/** q vor p, wenn q beim islamischen Paket besser belegt ist. */
-const vergleicheIslamischesPaket = (p: Treffer, q: Treffer, kategorie: Kategorie | null) => {
-  const pWerte = islamischesPaket(p.anbieter, kategorie);
-  const qWerte = islamischesPaket(q.anbieter, kategorie);
-  for (let i = 0; i < Math.max(pWerte.length, qWerte.length); i += 1) {
-    const unterschied = (qWerte[i] ?? 0) - (pWerte[i] ?? 0);
-    if (unterschied !== 0) return unterschied;
-  }
-  return 0;
-};
-
-/**
- * Halal-Teil von 0 bis 1, nur aus dem, was belegt ist. Dieselben Gewichte wie in
- * `bewerte()`, aber ein ungeprüftes Merkmal zählt null statt die Note zu sperren.
- * "mind. 4 von 12" zählt als 4, ein unklarer Ausgabeaufschlag als halber Punkt.
- */
-export const halalBelegt = (a: RohAnbieter, kategorie: Kategorie): number => {
-  const regel = HALAL_REGELN[kategorie];
-  const tuer = a.werte[regel.tuersteher];
-  if (tuer !== "gut" && tuer !== "teils") return 0;
-  let h = 0;
-  for (const teil of regel.teile) {
-    if (teil.art === "anteilSumme") {
-      const x = teil.keys.reduce((s, k) => s + (a.halalAnlagenPunkte?.[k] ?? (anzahlVon(a.werte[k]) ?? 0) * 0.5), 0);
-      const n = teil.keys.reduce((s, k) => s + (ANTEIL_N[k] ?? 0), 0);
-      h += n > 0 ? teil.gewicht * Math.min(1, x / n) : 0;
-    } else if (teil.art === "ampel") {
-      h += a.werte[teil.key] === "gut" ? teil.gewicht : 0;
-    } else {
-      const w = a.werte[teil.key];
-      const m = typeof w === "string" ? w.match(/^\s*(\d+)\s+von\s+(\d+)\s*$/) : null;
-      h += m && Number(m[2]) > 0 ? teil.gewicht * (Number(m[1]) / Number(m[2])) : 0;
-    }
-  }
-  return h * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
-};
+const istZinsKategorie = (k: RangKategorie): k is keyof typeof BASIS => k in BASIS;
 
 /** Zwei Antworten können dasselbe belegen. Ein Satz, der ganz in einem anderen steckt, fällt weg. */
 const ohneDoppeltes = (saetze: string[]) => {
@@ -230,44 +142,35 @@ const ohneDoppeltes = (saetze: string[]) => {
   return einmal.filter((s) => !einmal.some((t) => t !== s && t.includes(s)));
 };
 
-const nebenWert = (a: RohAnbieter, neben?: Array<(a: RohAnbieter) => number | null>) => {
-  if (!neben || neben.length === 0) return 0;
-  const summe = neben.reduce((s, f) => s + Math.min(1, Math.max(0, f(a) ?? 0)), 0);
-  return 0.5 * (summe / neben.length);
-};
-
 export const werteAus = (
-  liste: RohAnbieter[],
-  /** null: Vergleich ohne Halal-Regel und ohne Note, etwa Steuersoftware. Dann wird nur gefiltert. */
-  kategorie: Kategorie | null,
+  liste: readonly RohAnbieter[],
+  kategorie: RangKategorie,
   finanzMax: Record<string, number>,
   auswahl: Auswahl,
-  /** Nur Tests übergeben das. Die Seite nimmt immer den Schalter oben. */
-  frei: boolean = kategorie ? RANGFOLGE_FREI[kategorie] : false,
+  /** Häuser mit laufender Anfrage, für den Grund in "noch nicht geprüft". */
+  offeneAnfragen?: ReadonlySet<string>,
 ): Ergebnis => {
-  const regel = kategorie ? HALAL_REGELN[kategorie] : null;
+  const r = rangfolge(liste, kategorie, { finanzMax, offeneAnfragen });
   const gewichte = [...auswahl.gewichte, ...(auswahl.prioritaet ? [auswahl.prioritaet.gewichte] : [])];
-  const halalAnteil = auswahl.prioritaet?.halalAnteil ?? 0.5;
+  const gewichtet = istZinsKategorie(kategorie) && gewichte.length > 0;
+
+  const eingeschraenkt = (a: RohAnbieter) =>
+    istZinsKategorie(kategorie) && (a.werte.zinsfreiAbStart === "teils" || BASIS[kategorie].some((k) => a.werte[k] === "schlecht"));
 
   const passt: Treffer[] = [];
   const ungeprueft: Treffer[] = [];
-  let raus = 0;
-  /*
-   * Finanzteil ohne eigene Priorität des Nutzers: die Reihenfolge im Finanzfluss-Vergleich
-   * (Elias, 20.09.2026: "wenn die Kriterien gleich sind, warum sollte sich das Ranking
-   * ändern?"). Dort bewertet ein Expertenteam mit Punktetabelle und Umfrage. Wählt der
-   * Nutzer eine Priorität (Kosten, App), zählen dagegen die gewichteten Einzelpunkte.
-   */
-  const rangMax = Math.max(0, ...liste.map((a) => a.finanzfluss?.rang ?? 0));
-  const rangNote = (a: RohAnbieter) =>
-    a.finanzfluss?.rang && rangMax > 1 ? 5 * (1 - (a.finanzfluss.rang - 1) / (rangMax - 1)) : null;
+  let raus = r.abgeraten.length;
+  /** Position in der Rangfolge: Gerankte vor nicht Bewerteten, darin wie dort sortiert. */
+  const position = new Map<string, number>();
 
-  const platz = new Map(liste.map((a, i) => [a.id, i]));
+  const kandidaten = [
+    ...r.gerankt.map((b) => ({ anbieter: b.anbieter, bewertet: b, frei: b.uneingeschraenkt })),
+    ...r.nichtBewertet.map((n) => ({ anbieter: n.anbieter, bewertet: null, frei: !eingeschraenkt(n.anbieter) })),
+  ];
+  kandidaten.forEach((k, i) => position.set(k.anbieter.id, i));
 
-  for (const a of liste) {
-    const tuer = regel ? a.werte[regel.tuersteher] : "gut";
-    const basisRot = kategorie ? BASIS[kategorie].some((k) => a.werte[k] === "schlecht") : false;
-    if (tuer === "schlecht" || tuer === "teils" || basisRot || a.abgeraten) {
+  for (const { anbieter: a, bewertet, frei } of kandidaten) {
+    if (!frei) {
       raus += 1;
       continue;
     }
@@ -277,44 +180,23 @@ export const werteAus = (
       continue;
     }
     const offen = stand.filter((s) => s.r === null).map((s) => s.w);
-    const tuerOffen = tuer !== "gut";
-
-    const basis = kategorie ? bewerte(a, kategorie, finanzMax) : null;
-    const fin = auswahl.prioritaet || auswahl.gewichte.length > 0 ? finanzNote(a, finanzMax, gewichte) : (rangNote(a) ?? finanzNote(a, finanzMax, gewichte));
-    const note =
-      frei && basis?.status === "bewertet" && fin !== null
-        ? {
-            gesamt: runde(halalAnteil * basis.halal + (1 - halalAnteil) * fin),
-            halal: basis.halal,
-            finanz: runde(fin),
-          }
-        : null;
-
+    const note = bewertet ? { gesamt: bewertet.note, halal: bewertet.halal, finanz: bewertet.kosten } : null;
+    const kosten = gewichtet ? finanzNote(a, finanzMax, gewichte) : null;
     const treffer: Treffer = {
       anbieter: a,
       erfuellt: stand.filter((s) => s.r === true).map((s) => s.w),
       ungeprueft: offen,
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
-      // Sortierung und angezeigte Note sind getrennt: Die Note kann später
-      // freigeschaltet werden, die fachliche Reihenfolge bleibt lexikografisch.
-      sortWert: (fin ?? 0) + nebenWert(a, auswahl.nebenSort),
+      sortWert: note ? (kosten !== null ? runde(0.5 * note.halal + 0.5 * kosten) : note.gesamt) : 0,
     };
-
-    // Mit Freischaltung zählt nur, wer fertig bewertet ist. Sonst stünde halbes Wissen auf Platz 1.
-    if (offen.length > 0 || tuerOffen || (frei && !note)) ungeprueft.push(treffer);
+    if (offen.length > 0 || !bewertet) ungeprueft.push(treffer);
     else passt.push(treffer);
   }
 
-  const ordnung = (p: Treffer, q: Treffer) =>
-    vergleicheIslamischesPaket(p, q, kategorie) ||
-    q.sortWert - p.sortWert ||
-    (q.note?.halal ?? 0) - (p.note?.halal ?? 0) ||
-    (kategorie ? 0 : platz.get(p.anbieter.id)! - platz.get(q.anbieter.id)!) ||
-    `${p.anbieter.name} ${p.anbieter.produkt}`.localeCompare(`${q.anbieter.name} ${q.anbieter.produkt}`, "de");
-
+  const ordnung = (p: Treffer, q: Treffer) => q.sortWert - p.sortWert || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);
-  ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || ordnung(p, q));
+  ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!);
 
-  return { passt, ungeprueft, raus, gerankt: frei };
+  return { passt, ungeprueft, raus };
 };
