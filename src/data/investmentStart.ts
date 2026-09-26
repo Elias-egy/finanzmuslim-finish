@@ -375,7 +375,7 @@ export const startPartner: StartPartner[] = [
     titel: ["Dein zinsfreies", "Girokonto."],
     knopf: "Bei N26 eröffnen →",
     videoHinweis: false,
-    chips: ["0 € Kontoführung", "Mastercard", "Apple Pay", "Kein Dispo ab Start"],
+    chips: ["ab 0 € im Monat", "Mastercard", "Apple Pay", "Kein Dispo ab Start"],
     schritte: [
       { titel: "Antrag in der App", text: "Name, Adresse, Steuer-ID. Dauert ein paar Minuten." },
       { titel: "Per Video-Ident bestätigen", text: "Ausweis in die Kamera halten, alternativ Post-Ident." },
@@ -391,8 +391,8 @@ export const startPartner: StartPartner[] = [
         text: "Ein Dispositionskredit wird nicht automatisch eingeräumt, und die Mastercard bucht direkt vom Konto ab.",
       },
       {
-        titel: "Kontoführung 0 €",
-        text: "Das Standard-Konto kostet nichts, zwei Abhebungen im Monat sind inklusive.",
+        titel: "Tarife ab 0 €",
+        text: "Standard kostet nichts, Smart 4,90 €, Go 9,90 € und Metal 16,90 € im Monat. Für die Eröffnung brauchst du keinen Mindestgeldeingang.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein N26-Konto", "riba-frei"],
@@ -408,6 +408,10 @@ export const startPartner: StartPartner[] = [
     ],
     faqs: [
       allgemeineFaq,
+      {
+        q: "Welcher N26-Tarif passt?",
+        a: "Wir bewerten alle Tarife gleich: ohne Zinsen, ohne Dispo ab Start. Standard reicht für den Alltag, die höheren Tarife bringen mehr kostenlose Abhebungen und Extras.",
+      },
       {
         q: "Ist ein Girokonto überhaupt halal?",
         a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
@@ -566,6 +570,464 @@ export const startPartner: StartPartner[] = [
         q: "Ist ein Girokonto überhaupt halal?",
         a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
       },
+    ],
+  },
+  {
+    kurzname: "wise",
+    anbieter: "Wise",
+    kurz: "Wise",
+    domain: "wise.com",
+    markenfarbe: "#9FE870",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/wise",
+    link: "https://wise.prf.hn/click/camref:1011l5RuSL/destination:https%3A%2F%2Fwise.com%2Fde%2F",
+    titel: ["Dein zinsfreies", "Wise-Konto."],
+    knopf: "Bei Wise eröffnen →",
+    videoHinweis: false,
+    chips: ["Kein Abo", "Mastercard", "Apple Pay", "Kein Dispo"],
+    schritte: [
+      { titel: "Konto registrieren", text: "Die Registrierung bei Wise ist kostenlos, ein Abo gibt es nicht." },
+      { titel: "Cashback abschalten", text: "Wise meldet Kunden im EWR automatisch für Cashback an. Schalte es in der App ab, bevor du Geld einzahlst." },
+      { titel: "Karte bestellen", text: "Die Wise-Debitkarte kostet einmalig 7 €. Danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Cashback lässt sich abschalten",
+        text: "Wise zahlt monatlich Cashback auf dein Guthaben in EUR, GBP und USD und meldet dich dafür automatisch an. Abmelden kannst du dich laut Wise jederzeit.",
+      },
+      {
+        titel: "Kein Dispo möglich",
+        text: "Laut Wise kannst du dein Konto nicht überziehen und kein Darlehen erhalten.",
+      },
+      {
+        titel: "Keine Abo-Gebühren",
+        text: "Das Konto kostet nichts, die Karte einmalig 7 €. Abheben ist bis 250 € im Monat kostenlos, darüber kostet es 2,69 %.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Wise-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Cashback abschalten.",
+        text: "Das Cashback richtet sich nach deinem Guthaben und ist voreingestellt. Einmal in der App abmelden, dann bleibt dein Geld ohne Ertrag.",
+      },
+      {
+        titel: "Keine Zinsanlage über Assets.",
+        text: "Wise bietet in manchen Regionen das Assets-Feature an, damit liegt dein Geld in Aktien oder Zinsanlagen. Dein Konto funktioniert ohne.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ersetzt Wise mein Girokonto?",
+        a: "Eher als Zweitkonto. Eine Girocard gibt es nicht, und Bargeld einzahlen geht laut Finanzfluss-Vergleich nicht.",
+      },
+      {
+        q: "Ist Wise halal nutzbar?",
+        a: "Mit den 2 Regeln aus der Checkliste. Auf Guthaben im Konto zahlt Wise laut eigener Hilfe keine Zinsen, das Cashback schaltest du ab, und überziehen geht nicht.",
+      },
+    ],
+  },
+  {
+    kurzname: "comdirect-girokonto",
+    anbieter: "comdirect",
+    kurz: "comdirect",
+    domain: "comdirect.de",
+    markenfarbe: "#FFF500",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/comdirect-girokonto",
+    link: "https://www.financeads.net/tc.php?t=87591C87024068T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei comdirect eröffnen →",
+    videoHinweis: false,
+    chips: ["Visa-Debitkarte", "Apple Pay", "Kein Dispo ab Start", "3 Abhebungen im Monat"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Die Eröffnung läuft komplett online und dauert laut comdirect wenige Minuten." },
+      { titel: "Identität bestätigen", text: "Sofort online oder bei der Post." },
+      { titel: "PIN vergeben", text: "Wunsch-PIN wählen, photoTAN aktivieren, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Im Preis- und Leistungsverzeichnis steht die Guthabenverzinsung nur beim Tagesgeld, nicht beim Girokonto Aktiv.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Einen Dispo gibt es nur, wenn du ihn eigens mit comdirect vereinbarst. Die Visa-Debitkarte bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "Kostenlos mit Bedingung",
+        text: "Die ersten 6 Monate kosten nichts. Danach bleibt es kostenlos mit 700 € Geldeingang, 3 Zahlungen per Apple Pay oder Google Pay oder einem Trade im Monat. Sonst 4,90 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein comdirect-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Geld aufs Tagesgeld legen.",
+        text: "Zu jedem comdirect-Konto gehört ein Tagesgeldkonto, derzeit mit 1,75 % Zinsen beworben. Lass es leer, dein Girokonto funktioniert ohne.",
+      },
+      {
+        titel: "Keinen Dispo vereinbaren.",
+        text: "Der Dispo kostet laut comdirect 8,90 % Zinsen im Jahr, sobald du ihn nutzt. Einfach nicht beantragen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Welches comdirect-Konto passt?",
+        a: "Bewertet haben wir das Girokonto Aktiv. Für den Alltag reicht es, die Visa-Debitkarte ist dabei.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "postbank",
+    anbieter: "Postbank",
+    kurz: "Postbank",
+    domain: "postbank.de",
+    markenfarbe: "#FFCC00",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/postbank",
+    link: "https://www.financeads.net/tc.php?t=87591C426125749T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei Postbank eröffnen →",
+    videoHinweis: false,
+    chips: ["Filialen", "Debitkarte 0 €", "Apple Pay", "Kein Dispo ab Start"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Giro pur ist ein Online-Konto, du eröffnest es ohne Besuch in der Filiale." },
+      { titel: "Per Video- oder Post-Ident bestätigen", text: "Ausweis in die Kamera halten oder in der Postfiliale vorzeigen." },
+      { titel: "Loslegen", text: "Die Postbank Card kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Der Preisaushang nennt für Guthaben auf Privat-Girokonten 0,00 %.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Eine eingeräumte Überziehung musst du eigens beantragen. Die Postbank Card bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "Kostenlos ab 900 € Geldeingang",
+        text: "Bei mindestens 900 € Geldeingang im Monat kostet die Kontoführung nichts, sonst 5,90 €. Die Postbank Card ist inklusive.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Postbank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Die eingeräumte Überziehung kostet laut Postbank 11,04 % Zinsen im Jahr. Einfach nicht beantragen.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Auch ohne Dispo kostet ein geduldetes Minus 12,85 % Zinsen. Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum Giro pur und nicht Giro plus?",
+        a: "Bewertet haben wir Giro pur. Der Link führt direkt auf dieses Konto.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "bbbank-bettersmart",
+    anbieter: "BBBank",
+    kurz: "BBBank",
+    domain: "bbbank.de",
+    markenfarbe: "#0050A0",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/bbbank-bettersmart",
+    link: "https://c.neqty.net/trck/eclick/5a913135bf2744d81a8eb17829b592ec115422fda1f305ee",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei BBBank eröffnen →",
+    videoHinweis: false,
+    chips: ["Filialen", "Visa-Debitkarte", "Apple Pay", "Kein Dispo ab Start"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Name, Adresse, Steuer-ID. Dauert ein paar Minuten." },
+      { titel: "Per Video- oder E-Ident bestätigen", text: "Ausweis in die Kamera halten oder mit dem Online-Ausweis." },
+      { titel: "App einrichten", text: "Karte kommt per Post, Beratung gibt es auch in der Filiale." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Im Preisverzeichnis der BBBank steht beim BetterSmart Konto kein Guthabenzins.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Den Dispo beantragst du laut BBBank eigens online oder in der Filiale. Die Visa-Debitkarte bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "Kostenlos mit Bedingung",
+        text: "Kostenlos bei 1.000 € Geldeingang im Monat oder für alle unter 30. Sonst 4,95 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein BBBank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Geld aufs Tagesgeld legen.",
+        text: "Zum BetterSmart Konto gehört ein Tagesgeldkonto. Lass es leer, dein Girokonto funktioniert ohne.",
+      },
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Ein Dispositionskredit kostet Zinsen, sobald du ihn nutzt. Lass ihn einfach weg.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Was ist der Unterschied zum BBBank-Girokonto?",
+        a: "Beide sind Girokonten der BBBank. BetterSmart ist unter den genannten Bedingungen kostenlos, das klassische Girokonto kostet 2,95 € im Monat.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "comdirect-depot",
+    anbieter: "comdirect",
+    kurz: "comdirect",
+    domain: "comdirect.de",
+    markenfarbe: "#FFF500",
+    art: "depot",
+    pfad: "/dein-investmentstart/comdirect-depot",
+    link: "https://www.financeads.net/tc.php?t=87591C87024090T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei comdirect eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sukuk", "Sparpläne"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "comdirect hat uns schriftlich bestätigt: Guthaben auf dem Verrechnungskonto wird nicht verzinst.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        text: "Mindestens 8 von 12 Halal-ETFs und Fonds unserer Liste und alle 3 Sukuk-Fonds sind bei comdirect kaufbar.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Die Depotführung kostet nichts. Als Neukunde zahlst du 36 Monate lang 3,90 € je Order, dazu Spreads und Börsenentgelte.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein comdirect-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Tagesgeld und keinen Dispo nutzen.",
+        text: "comdirect bietet verzinstes Tagesgeld und einen Dispositionskredit an. Beides bringt Zinsen ins Spiel. Das Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
+      },
+      {
+        q: "Pure Depot oder comdirect Depot?",
+        a: "Das Pure Depot kostet 1 € je Order, hat aber nicht das volle Wertpapierangebot. Für unsere Halal-Liste ist das comdirect Depot die sichere Wahl.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "comdirect-pure-depot",
+    anbieter: "comdirect",
+    kurz: "comdirect",
+    domain: "comdirect.de",
+    markenfarbe: "#FFF500",
+    art: "depot",
+    pfad: "/dein-investmentstart/comdirect-pure-depot",
+    link: "https://www.financeads.net/tc.php?t=87591C870133258T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei comdirect eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "1 € je Order", "Sparpläne 0 €"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "comdirect hat uns schriftlich bestätigt, dass Guthaben auf dem Verrechnungskonto nicht verzinst wird, ausdrücklich auch beim Pure Depot.",
+      },
+      {
+        titel: "Günstig handeln",
+        text: "Die Depotführung kostet nichts, eine Order 1 €, Sparpläne 0 €. Dazu kommen marktübliche Spreads.",
+      },
+      {
+        titel: "Nicht das volle Angebot",
+        text: "Das Pure Depot hat nicht das volle comdirect-Wertpapierangebot. Welche Halal-Anlagen dort kaufbar sind, prüfen wir gerade Anlage für Anlage.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein comdirect-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Tagesgeld und keinen Dispo nutzen.",
+        text: "comdirect bietet verzinstes Tagesgeld und einen Dispositionskredit an. Beides bringt Zinsen ins Spiel. Das Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "finanzen-net-zero",
+    anbieter: "finanzen.net ZERO",
+    kurz: "ZERO",
+    domain: "finanzen.net",
+    markenfarbe: "#FF1C7C",
+    art: "depot",
+    pfad: "/dein-investmentstart/finanzen-net-zero",
+    link: "https://www.financeads.net/tc.php?t=87591C372273516T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei ZERO eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sukuk", "Edelmetalle"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Laut Preis- und Leistungsverzeichnis liegt der Guthabenzins auf dem Verrechnungskonto bei 0 %.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        text: "5 von 12 Halal-ETFs und Fonds unserer Liste, 2 von 3 Sukuk-Fonds und 5 von 7 Edelmetall-Produkten sind bei ZERO kaufbar.",
+      },
+      {
+        titel: "Ab 0 € Ordergebühr",
+        text: "Die Depotführung ist kostenlos, Orders kosten 0 € plus Spread. Unter 500 € Ordervolumen kommt 1 € dazu.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein ZERO-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Depotkredit nutzen.",
+        text: "ZERO bietet einen Kredit auf dein Depot an. Der kostet Zinsen, dein Depot funktioniert ohne.",
+      },
+      {
+        titel: "Kein Zinsangebot über Geldmarkt-ETFs.",
+        text: "ZERO wirbt mit einem Zinsangebot über Geldmarkt-ETFs. Die bilden Zinsen ab, deshalb Finger weg.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei ZERO genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "finanzen-net-zero-krypto",
+    anbieter: "finanzen.net ZERO",
+    kurz: "ZERO",
+    domain: "finanzen.net",
+    markenfarbe: "#FF1C7C",
+    art: "krypto",
+    pfad: "/dein-investmentstart/finanzen-net-zero-krypto",
+    link: "https://www.financeads.net/tc.php?t=87591C372295574T",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei ZERO starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "59 Coins", "Sparplan", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto läuft bei ZERO im selben Depot wie Aktien und ETFs. Bestätigen per Video-, Post- oder E-Ident." },
+      { titel: "Wallet freischalten", text: "Die Wallet ist Teil des ZERO-Depots und kostet nichts." },
+      { titel: "Erste Coins kaufen", text: "Ein Mindestordervolumen gibt es nicht. Unter 500 € kommt 1 € Zuschlag dazu." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, verwahrt in Deutschland",
+        text: "Du kaufst echte Coins, verwahrt bei der Tangany GmbH unter BaFin-Aufsicht. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Ohne Zinsen",
+        text: "Das Kontomodell hat keine kostenpflichtige Stufe, der Guthabenzins liegt laut Preisverzeichnis bei 0 %.",
+      },
+      {
+        titel: "1 % Provision, keine Verwahrgebühr",
+        text: "Dazu ein reduzierter Spread und unter 500 € Ordervolumen 1 € Zuschlag. Depot- und Verwahrgebühren gibt es nicht.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein ZERO-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Depotkredit nutzen.",
+        text: "ZERO bietet einen Kredit auf dein Depot an. Der kostet Zinsen, dein Depot funktioniert ohne.",
+      },
+      {
+        titel: "Keine Derivate auf Kryptos.",
+        text: "ZERO führt auch Zertifikate und Optionsscheine. Kauf den Coin selbst, kein Papier auf den Kurs.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei ZERO sind es drei Schritte, die oben stehen: Depot eröffnen, Wallet freischalten, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut Finanzfluss-Vergleich ist bei ZERO keine Auszahlung von Krypto möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
+    ],
+  },
+  {
+    kurzname: "s-broker",
+    anbieter: "S Broker",
+    kurz: "S Broker",
+    domain: "sbroker.de",
+    markenfarbe: "#EE0000",
+    art: "depot",
+    pfad: "/dein-investmentstart/s-broker",
+    link: "https://www.financeads.net/tc.php?t=87591C19119676T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Beim S Broker eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sparpläne 0 €", "Broker der Sparkassen"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Laut Preisübersicht liegt der Zins auf dem Euro-Verrechnungskonto bei 0,00 %.",
+      },
+      {
+        titel: "Günstig handeln",
+        text: "Die Depotführung ist kostenlos, eine Sofortorder kostet 0,95 €. ETF-Sparpläne sind kostenlos, ab 5 € im Monat.",
+      },
+      {
+        titel: "Halal-Anlagen",
+        text: "Welche Anlagen aus unserer Halal-Liste beim S Broker kaufbar sind, prüfen wir gerade Anlage für Anlage.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein S Broker-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Nur das Verrechnungskonto nutzen.",
+        text: "Das Verrechnungskonto hat laut S Broker 0,00 % Zins. Zusatzkonten wie das KontoPlus musst du eigens beauftragen, das Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen beim S Broker genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
     ],
   },
 ];
