@@ -15,6 +15,7 @@ import {
   type Prioritaet,
   type Wunsch,
 } from "@/lib/vergleichAssistent";
+import { kostenlosReicht } from "@/lib/vergleichLeser";
 import type { RohAnbieter } from "./vergleichHelfer";
 import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { regionFuer } from "./anlageRegion";
@@ -24,6 +25,8 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { steuersoftwareVergleich, STEUER_ZEILEN } from "./steuersoftwareVergleich";
+
+export { kostenlosReicht };
 
 /**
  * Der geführte Vergleich: ein Fragebogen für alles, am Ende ein Paket.
@@ -151,12 +154,6 @@ const grundAnzahl =
     if (n === null || n === 0 || typeof w !== "string") return null;
     return text(n, w.match(/von\s+(\d+)/)?.[1] ?? "");
   };
-
-/** Screening-Apps: Reicht die kostenlose Fassung, um Aktien zu prüfen? Liest das belegte Feld `kostenlos`. */
-export const kostenlosReicht = (a: RohAnbieter) => {
-  const w = a.werte.kostenlos;
-  return typeof w === "string" && w.trim() !== "" && !/danach Abo|nur eine|eine Prüfung/i.test(w);
-};
 
 const wennGut =
   (key: string, satz: string): Grund =>

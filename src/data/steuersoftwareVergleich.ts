@@ -97,6 +97,10 @@ const stand = "19.09.2026";
 const q = (url: string, hinweis: string) => ({ url, stand, hinweis });
 
 /**
+ * `preisEinzel` ist der Preis für die Rangfolge (P3-Spec 10.9, 26.09.2026): eine Erklärung,
+ * einmalig statt Abo, reguläre Grundfassung statt Aktionspreis. Er steht wörtlich im Feld
+ * `preis` und hat dieselbe Quelle.
+ *
  * Sortiert nach Preis, die kostenlosen zuerst. Das ist die ehrliche Reihenfolge
  * und zugleich die unbequeme: Die beiden Programme an der Spitze zahlen uns
  * nichts, weil sie nichts kosten.
@@ -107,6 +111,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "Mein ELSTER",
     produkt: "Amtlich",
     domain: "elster.de",
+    preisEinzel: 0,
     werte: {
       plattform: "Browser, App MeinELSTER+",
       kapital: "ja",
@@ -134,6 +139,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "CHECK24 Steuer",
     produkt: "Web und App",
     domain: "steuer.check24.de",
+    preisEinzel: 0,
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "ja",
@@ -160,6 +166,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "STEUEReasy",
     produkt: "Windows",
     domain: "steuertipps.de",
+    preisEinzel: 17.99,
     werte: {
       plattform: "nur Windows",
       kapital: null,
@@ -185,6 +192,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "QuickSteuer",
     produkt: "Windows",
     domain: "lexware.de",
+    preisEinzel: 19.99,
     werte: {
       plattform: "nur Windows",
       kapital: "ja",
@@ -227,6 +235,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "Taxman",
     produkt: "Windows",
     domain: "lexware.de",
+    preisEinzel: 34.9,
     werte: {
       plattform: "nur Windows",
       kapital: "ja",
@@ -264,6 +273,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "SteuerGo",
     produkt: "Web und App",
     domain: "steuergo.de",
+    preisEinzel: 34.95,
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "ja",
@@ -297,6 +307,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "Lohnsteuer kompakt",
     produkt: "Web und App",
     domain: "lohnsteuer-kompakt.de",
+    preisEinzel: 34.95,
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "ja",
@@ -340,6 +351,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "SteuerSparErklärung",
     produkt: "Download und Online",
     domain: "steuertipps.de",
+    preisEinzel: 34.95,
     werte: {
       plattform: "Windows, Mac, Online, App",
       kapital: "ja",
@@ -382,6 +394,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "wundertax",
     produkt: "Web",
     domain: "wundertax.de",
+    preisEinzel: 34.99,
     werte: {
       plattform: "Web",
       kapital: null,
@@ -407,6 +420,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "WISO Steuer",
     produkt: "Abo oder Einzelkauf",
     domain: "buhl.de",
+    preisEinzel: 45.99,
     werte: {
       plattform: "Windows, Mac, Web, iOS, Android",
       kapital: "ja",
@@ -440,6 +454,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "smartsteuer",
     produkt: "Web",
     domain: "smartsteuer.de",
+    preisEinzel: 39.99,
     werte: {
       plattform: "Browser, auch am Handy",
       kapital: "ja",
@@ -478,6 +493,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "Steuerbot",
     produkt: "Web und App",
     domain: "steuerbot.com",
+    preisEinzel: 39.99,
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "nein",
@@ -510,6 +526,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "Taxfix",
     produkt: "Web und App",
     domain: "taxfix.de",
+    preisEinzel: 49.99,
     werte: {
       plattform: "Web, iOS, Android",
       kapital: "ja",

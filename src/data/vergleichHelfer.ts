@@ -54,9 +54,15 @@ export type RohAnbieter = {
   /**
    * Gewichtete Halal-Anlagen je Zeile, nur bei "x von N": Fonds ohne
    * Ausgabeaufschlag 1, mit Rabatt 0,75, voll 0,5, börsengehandelte Papiere 1.
-   * null heißt: ein kaufbarer Fonds hat einen unklaren Aufschlag, keine Note.
+   * Ein unklarer Aufschlag zählt seit 26.09.2026 wie ein voller (0,5).
+   * Fehlt der Schlüssel oder steht null, bekommt das Depot keine Note.
    */
   halalAnlagenPunkte?: Record<string, number | null>;
+  /**
+   * Nur Steuersoftware: Preis in Euro für eine Erklärung, einmalig, reguläre
+   * Grundfassung. Quelle wie beim Feld `preis`. null heißt noch nicht geprüft.
+   */
+  preisEinzel?: number | null;
 };
 
 const ampelText: Record<CheckStatus, string> = {

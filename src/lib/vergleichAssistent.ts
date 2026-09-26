@@ -1,5 +1,8 @@
 import { bewerte, FAKTOR_ABSCHALTBAR, HALAL_REGELN, type Kategorie } from "@/lib/bewertung";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { finanzNote } from "@/lib/vergleichLeser";
+
+export { finanzNote };
 
 /**
  * Rechenkern des geführten Vergleichs.
@@ -152,26 +155,6 @@ export const kostetNichts =
 /* ---------------------------------------------------------------- Rechnen */
 
 const runde = (x: number) => Math.round(x * 100) / 100;
-
-/** Gewichtete Finanznote von 0 bis 5. Ohne Gewichte identisch mit `bewerte().finanz`. */
-export const finanzNote = (
-  a: RohAnbieter,
-  finanzMax: Record<string, number>,
-  gewichte: Record<string, number>[],
-): number | null => {
-  if (!a.finanzPunkte) return null;
-  const faktor = (k: string) => gewichte.reduce((f, g) => f * (g[k] ?? 1), 1);
-  let max = 0;
-  let summe = 0;
-  for (const [k, m] of Object.entries(finanzMax)) {
-    max += m * faktor(k);
-    summe += (a.finanzPunkte[k] ?? 0) * faktor(k);
-  }
-  // Abzüge gelten immer voll, egal was der Nutzer gewichtet.
-  summe += Math.min(0, a.finanzPunkte.abzug ?? 0);
-  if (max === 0) return null;
-  return 5 * Math.min(1, Math.max(0, summe / max));
-};
 
 /** Halal-Grundlagen je Kategorie. Steht hier nachweislich "schlecht", wird der Anbieter nie vorgeschlagen. */
 export const BASIS: Record<Kategorie, string[]> = {
