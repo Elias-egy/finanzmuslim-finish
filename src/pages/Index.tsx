@@ -9,7 +9,6 @@ import {
   FileText,
   Globe,
   LineChart,
-  Percent,
   PiggyBank,
   Receipt,
   ScanSearch,
@@ -44,14 +43,13 @@ const categories = [
   { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
-/** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
+/** Acht Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
   { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
   { title: "Bereinigungsrechner", to: "/bereinigungsrechner", icon: Sparkles },
   { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
-  { title: "Kreditkostenrechner", to: "/kreditkostenrechner", icon: Percent },
   { title: "Sparzielrechner", to: "/sparzielrechner", icon: Target },
   { title: "Brutto-Netto-Rechner", icon: Receipt },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },

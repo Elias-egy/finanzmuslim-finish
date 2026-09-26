@@ -6,68 +6,6 @@
  * unless the name says months. Nothing here rounds; the components do.
  */
 
-/** Monthly rate for the classic annuity, so the rate stays constant over the term. */
-export const annuitaet = (summe: number, zinsProzent: number, jahre: number): number => {
-  if (summe <= 0 || jahre <= 0) return 0;
-  const n = Math.round(jahre * 12);
-  // Below half a month the term rounds to zero months. Found by a Codex review
-  // on 06.09.2026: without this guard the division yields Infinity.
-  if (n <= 0) return summe;
-  const r = zinsProzent / 100 / 12;
-  if (r === 0) return summe / n;
-  return (summe * r) / (1 - (1 + r) ** -n);
-};
-
-export type KreditKosten = {
-  /** monthly payment */
-  rate: number;
-  /** everything paid back over the term */
-  gesamt: number;
-  /** the part of it that is interest */
-  zinsen: number;
-  /** gesamt divided by summe, "das Haus kostet 1,66-mal" */
-  faktor: number;
-};
-
-export const kreditKosten = (summe: number, zinsProzent: number, jahre: number): KreditKosten => {
-  const rate = annuitaet(summe, zinsProzent, jahre);
-  const gesamt = rate * Math.round(jahre * 12);
-  const zinsen = Math.max(0, gesamt - summe);
-  return { rate, gesamt, zinsen, faktor: summe > 0 ? gesamt / summe : 1 };
-};
-
-export type KreditJahr = {
-  jahr: number;
-  /** cumulative interest paid by the end of the year */
-  zinsen: number;
-  /** cumulative principal repaid by the end of the year */
-  tilgung: number;
-  /** remaining debt at the end of the year */
-  rest: number;
-};
-
-/** Year-by-year split of the annuity into interest and principal. */
-export const kreditVerlauf = (summe: number, zinsProzent: number, jahre: number): KreditJahr[] => {
-  const rate = annuitaet(summe, zinsProzent, jahre);
-  const r = zinsProzent / 100 / 12;
-  const n = Math.round(jahre * 12);
-  const reihe: KreditJahr[] = [{ jahr: 0, zinsen: 0, tilgung: 0, rest: summe }];
-  let rest = summe;
-  let zinsen = 0;
-  let tilgung = 0;
-  for (let m = 1; m <= n; m++) {
-    const z = rest * r;
-    const t = Math.min(rest, rate - z);
-    zinsen += z;
-    tilgung += t;
-    rest -= t;
-    if (m % 12 === 0 || m === n) {
-      reihe.push({ jahr: Math.ceil(m / 12), zinsen, tilgung, rest: Math.max(0, rest) });
-    }
-  }
-  return reihe;
-};
-
 /** Monthly growth factor for a yearly return, compounded monthly. */
 const monatsFaktor = (renditeProzent: number) => (1 + renditeProzent / 100) ** (1 / 12);
 

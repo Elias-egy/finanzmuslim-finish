@@ -491,10 +491,10 @@ const AutoKaufenOhneZinsen = () => (
       }}
       boxMitte={{
         kategorie: "Rechner",
-        ueberschrift: "Was kostet der Autokredit?",
-        text: "Rechne aus, wie viel Zinsen in der Rate stecken. Danach siehst du, wie schnell du stattdessen sparst.",
-        knopf: "Zum Kreditkostenrechner",
-        linkZiel: "/kreditkostenrechner",
+        ueberschrift: "Auto ohne Kredit ansparen",
+        text: "Rechne aus, wie viel du im Monat zurücklegst und wann du das Auto bar bezahlst.",
+        knopf: "Zum Sparzielrechner",
+        linkZiel: "/sparzielrechner",
       }}
     >
       <PasstDazu

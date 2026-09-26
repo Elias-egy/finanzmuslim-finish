@@ -139,7 +139,7 @@ const Sparzielrechner = () => (
       }
       weitereRechner={[
         { name: "Budgetrechner", desc: "wie viel im Monat wirklich frei ist.", to: "/budgetrechner" },
-        { name: "Kreditkostenrechner", desc: "was der Kredit statt des Sparens kosten würde.", to: "/kreditkostenrechner" },
+        { name: "Inflationsrechner", desc: "was das Ersparte ohne Anlage an Wert verliert.", to: "/inflationsrechner" },
         { name: "Zakat-Rechner", desc: "was einmal im Jahr auf das Ersparte fällt.", to: "/zakat-rechner" },
       ]}
     >

@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
-import { Calculator, ChevronRight, Globe, Percent, PiggyBank, Receipt, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
+import { Calculator, ChevronRight, Globe, PiggyBank, Receipt, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import rechnerRender from "@/assets/rechner.webp";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
-/** Neun Rechner, flache Reihe. Ohne "to" ist der Rechner noch nicht gebaut. */
+/** Acht Rechner, flache Reihe. Ohne "to" ist der Rechner noch nicht gebaut. */
 export const rechnerListe: Rechner[] = [
   { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
   { name: "Bereinigungsrechner", icon: Sparkles, to: "/bereinigungsrechner", neu: true },
   { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
   { name: "Auswanderungsrechner", icon: Globe, to: "/auswanderungsrechner", neu: true },
   { name: "Budgetrechner", icon: PiggyBank, to: "/budgetrechner", neu: true },
-  { name: "Kreditkostenrechner", icon: Percent, to: "/kreditkostenrechner", neu: true },
   { name: "Sparzielrechner", icon: Target, to: "/sparzielrechner", neu: true },
   { name: "Brutto-Netto-Rechner", icon: Receipt },
   { name: "Inflationsrechner", icon: TrendingDown, to: "/inflationsrechner", neu: true },

@@ -84,7 +84,6 @@ export const festeRouten: Route[] = [
   rechner("/inflationsrechner", "Inflationsrechner.tsx"),
   rechner("/bereinigungsrechner", "Bereinigungsrechner.tsx"),
   rechner("/auswanderungsrechner", "Auswanderungsrechner.tsx"),
-  rechner("/kreditkostenrechner", "Kreditkostenrechner.tsx"),
   rechner("/budgetrechner", "Budgetrechner.tsx"),
   rechner("/sparzielrechner", "Sparzielrechner.tsx"),
 
@@ -203,6 +202,8 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
+  // Kreditkostenrechner raus am 26.09.2026 (Elias: nichts, was mit Zinsen rechnet), die Adresse zeigt auf alle Rechner.
+  { von: "/kreditkostenrechner", nach: "/rechner" },
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
@@ -220,6 +221,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /wissen/zinsen-im-islam" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
+  { pfad: "/kreditkostenrechner", grund: "Weiterleitung auf /rechner, Rechner seit 26.09.2026 entfernt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];

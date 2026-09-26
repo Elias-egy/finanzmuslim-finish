@@ -92,7 +92,6 @@ export const navGroups: NavGroup[] = [
           { label: "Renditerechner", to: "/renditerechner" },
           { label: "Auswanderungsrechner", to: "/auswanderungsrechner" },
           { label: "Budgetrechner", to: "/budgetrechner" },
-          { label: "Kreditkostenrechner", to: "/kreditkostenrechner" },
           { label: "Sparzielrechner", to: "/sparzielrechner" },
           { label: "Brutto-Netto-Rechner" },
           { label: "Inflationsrechner", to: "/inflationsrechner" },
