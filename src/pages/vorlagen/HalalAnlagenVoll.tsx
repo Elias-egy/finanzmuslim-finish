@@ -12,7 +12,7 @@ import {
   artFarbe,
 } from "@/components/vorlagen/anlagenTeile";
 import { vorlageBySlug } from "@/data/vorlagen";
-import { optinFreebie, vollPfad } from "@/data/optin";
+import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { kaufGruppen, kaufZeilen, krypto, ohneBeleg } from "@/data/halalAnlagenKauf";
 
 /**
@@ -21,7 +21,8 @@ import { kaufGruppen, kaufZeilen, krypto, ohneBeleg } from "@/data/halalAnlagenK
  * Nur über die Danke-Seite und den Link aus der Mail (noindex, nicht in der Sitemap).
  */
 const v = vorlageBySlug("halal-anlagen")!;
-const pfad = vollPfad(optinFreebie("halal-anlagen")!);
+const freebie = optinFreebie("halal-anlagen")!;
+const pfad = vollPfad(freebie);
 const mitPartner = kaufZeilen.some((z) => z.kaufbar.kaufbar.some((k) => DEPOT_PARTNER[k.anbieter]));
 const staende = [...new Set(kaufZeilen.map((z) => z.kaufbar.stand))].sort(
   (a, b) => Number(a.split(".").reverse().join("")) - Number(b.split(".").reverse().join("")),
@@ -40,7 +41,7 @@ const HalalAnlagenVoll = () => (
       motiv={v.motiv}
       titel={v.titel}
       einleitung={ANLAGEN_EINLEITUNG}
-      pdfPfad={v.pdfPfad}
+      pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
       quellen={ANLAGEN_QUELLEN}
       rechtshinweis={ANLAGEN_RECHTSHINWEIS}

@@ -14,7 +14,7 @@ import {
   type Farbe,
 } from "@/components/vorlagen/ampelTeile";
 import { vorlageBySlug } from "@/data/vorlagen";
-import { optinFreebie, vollPfad } from "@/data/optin";
+import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { fragen, zeilen } from "@/data/vertragsAmpel";
 
 /**
@@ -23,7 +23,8 @@ import { fragen, zeilen } from "@/data/vertragsAmpel";
  * (Plan 27.09.2026, „sparsam aufgefrischt“). Die offene Seite ist `VertragsAmpel.tsx`.
  */
 const v = vorlageBySlug("vertrags-ampel")!;
-const pfad = vollPfad(optinFreebie("vertrags-ampel")!);
+const freebie = optinFreebie("vertrags-ampel")!;
+const pfad = vollPfad(freebie);
 const farben: Farbe[] = ["gruen", "gelb", "rot"];
 
 const VertragsAmpelVoll = () => (
@@ -39,7 +40,7 @@ const VertragsAmpelVoll = () => (
       motiv={v.motiv}
       titel={v.titel}
       einleitung={AMPEL_EINLEITUNG}
-      pdfPfad={v.pdfPfad}
+      pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
       quellen={AMPEL_QUELLEN}
       rechtshinweis={AMPEL_RECHTSHINWEIS}

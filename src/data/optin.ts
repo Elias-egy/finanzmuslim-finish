@@ -119,6 +119,13 @@ export const vollPfad = (f: OptinFreebie, stufe?: Stufe) => {
   return `/vorlagen/${f.id}/${f.schluessel}`;
 };
 
+/**
+ * PDF der vollen Fassung unter `/downloads/v/<schluessel>/`, per robots.txt gesperrt und nicht in
+ * der Sitemap. Die alten offenen PDF-Adressen bleiben bis zum Launch-Tag stehen (Plan P2), ein
+ * statischer Server kann ein PDF nicht umleiten.
+ */
+export const vollPdfPfad = (f: OptinFreebie, pdfPfad: string) => `/downloads/v/${f.schluessel}/${pdfPfad.split("/").pop()}`;
+
 /** Alle Adressen, die als Datei existieren müssen, aber nicht in den Index gehören. */
 export const optinAdressen = (): string[] => [
   ...optinFreebies.map((f) => `/gratis/${f.id}`),

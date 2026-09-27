@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { istGesperrt, optinAdressen, optinFreebies, vollPfad } from "./optin";
+import { istGesperrt, optinAdressen, optinFreebies, vollPdfPfad, vollPfad } from "./optin";
+import { existsSync } from "node:fs";
 import { vorlagen } from "./vorlagen";
 import { aktien, fraglich } from "./top100Aktien";
 import { kante, offen } from "./top100Ausschnitt";
@@ -28,6 +29,15 @@ describe("gesperrte Freebies", () => {
     const a = optinAdressen();
     expect(new Set(a).size).toBe(a.length);
     for (const p of a) expect(p).toMatch(/^\/[a-z0-9/-]+$/);
+  });
+
+  it("jede gesperrte Vorlage hat ihr PDF unter /downloads/v/<schluessel>/, und robots.txt sperrt den Ordner", () => {
+    for (const f of optinFreebies.filter((x) => x.schluessel)) {
+      const v = vorlagen.find((x) => x.slug === f.id)!;
+      expect(existsSync(`public${vollPdfPfad(f, v.pdfPfad)}`)).toBe(true);
+    }
+    const robots = readFileSync("public/robots.txt", "utf8");
+    expect(robots.match(/^User-agent:/gm)?.length).toBe(robots.match(/^Disallow: \/downloads\/v\/$/gm)?.length);
   });
 
   it("der Guide führt je nach Stufe auf seinen Guide, ohne Stufe auf den Einsteiger", () => {

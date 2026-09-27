@@ -2,7 +2,7 @@ import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
 import { vorlageBySlug } from "@/data/vorlagen";
-import { optinFreebie, vollPfad } from "@/data/optin";
+import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { aktien, fraglich } from "@/data/top100Aktien";
 
 /**
@@ -11,7 +11,8 @@ import { aktien, fraglich } from "@/data/top100Aktien";
  * `Top100HalalAktien.tsx`; nur diese Datei hier lädt die ganze Liste.
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
-const pfad = vollPfad(optinFreebie("top-100-halal-aktien")!);
+const freebie = optinFreebie("top-100-halal-aktien")!;
+const pfad = vollPfad(freebie);
 
 const themen = [
   { titel: "Digital & Chips", spanne: "1–20", intro: "Technik, Software und Halbleiter, die viele aus dem Alltag oder Berufsleben kennen." },
@@ -34,7 +35,7 @@ const Top100Voll = () => (
       motiv={v.motiv}
       titel={v.titel}
       einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem zeitgebundenen Screening-Beleg direkt in der Tabelle."
-      pdfPfad={v.pdfPfad}
+      pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
       quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."

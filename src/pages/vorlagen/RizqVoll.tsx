@@ -3,7 +3,7 @@ import VorlagenSeite from "@/components/VorlagenSeite";
 import DuaKarte from "@/components/vorlagen/DuaKarte";
 import { RIZQ_CTAS, RIZQ_EINLEITUNG, RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqHinweis, RizqWarum } from "@/components/vorlagen/rizqTeile";
 import { vorlageBySlug } from "@/data/vorlagen";
-import { optinFreebie, vollPfad } from "@/data/optin";
+import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { anliegen, duas, nummerVon } from "@/data/duas";
 
 /**
@@ -12,7 +12,8 @@ import { anliegen, duas, nummerVon } from "@/data/duas";
  * Quran und Sunnah (Elias, 27.09.2026). Die offene Seite mit dem Ausschnitt ist `Rizq.tsx`.
  */
 const v = vorlageBySlug("rizq")!;
-const pfad = vollPfad(optinFreebie("rizq")!);
+const freebie = optinFreebie("rizq")!;
+const pfad = vollPfad(freebie);
 const nachNummer = new Map(duas.map((d) => [nummerVon(d), d]));
 
 const GebendeHand = () => (
@@ -58,7 +59,7 @@ const RizqVoll = () => (
       motiv={v.motiv}
       titel="Dua für was?"
       einleitung={RIZQ_EINLEITUNG}
-      pdfPfad={v.pdfPfad}
+      pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
       quellen={RIZQ_QUELLEN}
       rechtshinweis={RIZQ_RECHTSHINWEIS}
