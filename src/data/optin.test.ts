@@ -4,6 +4,8 @@ import { istGesperrt, optinAdressen, optinFreebies, vollPfad } from "./optin";
 import { vorlagen } from "./vorlagen";
 import { aktien } from "./top100Aktien";
 import { kante, offen } from "./top100Ausschnitt";
+import { anliegen, duas, nummerVon } from "./duas";
+import * as duasAusschnitt from "./duasAusschnitt";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -57,5 +59,34 @@ describe("Ausschnitt der 100 Halal-Aktien", () => {
   it("enthält selbst kein Urteil", () => {
     const text = readFileSync("src/data/top100Ausschnitt.ts", "utf8");
     expect(text).not.toMatch(/Doubtful|status:/);
+  });
+});
+
+describe("Ausschnitt „Dua für was?“", () => {
+  const nachNummer = new Map(duas.map((d) => [nummerVon(d), d]));
+
+  it("zeigt oben Bittgebete wortgleich wie in der vollen Fassung", () => {
+    for (const d of duasAusschnitt.offen) expect(nachNummer.get(nummerVon(d))).toEqual(d);
+  });
+
+  it("nennt an der Kante nur Anliegen, die die volle Fassung auflöst, und keins, das oben offen steht", () => {
+    const oben = new Set(duasAusschnitt.offen.map(nummerVon));
+    for (const k of duasAusschnitt.kante) {
+      expect(nachNummer.get(k.nr)?.nr).toContain(k.name);
+      expect(oben.has(k.nr)).toBe(false);
+    }
+  });
+
+  it("ordnet jedes der 14 Bittgebete genau einem Anliegen zu", () => {
+    const alle = anliegen.flatMap((a) => a.nummern).sort();
+    expect(alle).toEqual(duas.map(nummerVon).sort());
+  });
+
+  it("lädt auf der offenen Seite weder die volle Liste noch einen gesperrten Wortlaut", () => {
+    for (const datei of ["src/pages/vorlagen/Rizq.tsx", "src/components/vorlagen/rizqTeile.tsx", "src/data/duasAusschnitt.ts"]) {
+      const text = readFileSync(datei, "utf8");
+      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/duas";/m);
+      for (const k of duasAusschnitt.kante) expect(text).not.toContain(nachNummer.get(k.nr)!.ar);
+    }
   });
 });

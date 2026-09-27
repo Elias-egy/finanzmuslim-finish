@@ -1,3 +1,8 @@
+/**
+ * Die 14 Duas der Vorlage „Dua für was?“ (früher „14 Duas für Rizq“). Gegen E-Mail seit
+ * 27.09.2026 (Elias, Vault raw 2026-09-26-doomscroll-web/09): Diese Datei lädt nur die volle
+ * Fassung. Die offene Seite nimmt `duasAusschnitt.ts`, ein Test hält beide gleich.
+ */
 export type Dua = {
   nr: string;
   when: string;
@@ -128,3 +133,30 @@ export const duas: Dua[] = [
     kurz: true,
   },
 ];
+
+/**
+ * Die volle Fassung ordnet nach Anliegen statt nach Quran und Sunnah (Elias: „Dua für was?“).
+ * Jede Nummer steht genau einmal, ein Test prüft das.
+ */
+export type Anliegen = { titel: string; text: string; nummern: string[] };
+
+export const anliegen: Anliegen[] = [
+  { titel: "Für jeden Tag", text: "Sprich sie am Morgen, am Abend und zwischendurch.", nummern: ["01", "08", "13", "05"] },
+  {
+    titel: "Für Arbeit und Einkommen",
+    text: "Bitte darum, wenn die Arbeit fehlt, die Familie versorgt werden will oder das Einkommen halal bleiben soll.",
+    nummern: ["07", "02", "04", "03"],
+  },
+  {
+    titel: "Bei Schulden und Rückschlägen",
+    text: "Sprich sie, wenn Schulden drücken, eine Tür zugeht oder die eigene Kraft nicht reicht.",
+    nummern: ["09", "06", "11"],
+  },
+  {
+    titel: "Bei Geschäft und Entscheidungen",
+    text: "Sprich sie vor einem Kauf, vor einer Entscheidung und wenn der Vergleich mit anderen nagt.",
+    nummern: ["10", "14", "12"],
+  },
+];
+
+export const nummerVon = (d: Dua) => d.nr.slice(0, 2);
