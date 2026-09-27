@@ -1,4 +1,5 @@
 import type { MotivName } from "@/components/motive";
+import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 
 export type Vorlage = {
   slug: string;
@@ -15,10 +16,10 @@ export type Vorlage = {
 export const vorlagen: Vorlage[] = [
   {
     slug: "halal-anlagen",
-    titel: "23 halal Anlagen, die du wirklich kaufen kannst",
+    titel: `${ANZAHL_KAUFBAR} halal Anlagen, die du wirklich kaufen kannst`,
     kicker: "Die Liste",
     kurzbeschreibung:
-      "Aktien-ETFs, Sukuk, Edelmetalle und Krypto. Zu jeder Anlage die ISIN und die Stelle, die sie geprüft hat.",
+      "Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder Anlage die ISIN und die Häuser, bei denen du sie kaufen kannst.",
     nutzenZeile: "Alle Halal-Anlagen auf einen Blick",
     kommentarKeyword: "LISTE",
     pdfPfad: "/downloads/halal-anlagen-liste.pdf",

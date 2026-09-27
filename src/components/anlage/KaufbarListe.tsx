@@ -1,13 +1,25 @@
 import { Link } from "react-router-dom";
 import type { AnlageKaufbar } from "@/data/anlagenKaufbar";
 
+/** Was die Liste anzeigt. `AnlageKaufbar` passt, der Ausschnitt der Vorlage liefert nur diese Felder. */
+export type KaufbarAnzeige = {
+  kaufbar: Pick<AnlageKaufbar["kaufbar"][number], "anbieter" | "hinweis">[];
+  nichtImAngebot: string[];
+  stand: string;
+};
+
 /** Anbieter mit Depot-Partnerschaft: Name in anlagenKaufbar.ts -> /out/<kurzname>. */
 export const DEPOT_PARTNER: Record<string, string> = {
   "Scalable Capital": "scalable",
   "Traders Place": "traders-place",
   DKB: "dkb-depot",
   finvesto: "finvesto",
+  comdirect: "comdirect-depot",
+  "finanzen.net zero": "finanzen-net-zero",
 };
+
+export const WERBE_FUSSNOTE =
+  "* Werbung/Partnerlink: führt zur Einrichtungsseite des Anbieters, gleiche Konditionen, keine Mehrkosten.";
 
 /**
  * Geprüfte Kaufbarkeit einer Anlage je Anbieter, aus der Wertpapiersuche oder
@@ -15,7 +27,7 @@ export const DEPOT_PARTNER: Record<string, string> = {
  * Wird im Abschnitt "Wo du sie kaufen kannst" und in der Broker-Auswahl benutzt.
  * Fehlt ein Anbieter, ist er noch nicht geprüft, nie "nicht kaufbar".
  */
-const KaufbarListe = ({ kaufbar }: { kaufbar: AnlageKaufbar }) => (
+const KaufbarListe = ({ kaufbar, kompakt = false }: { kaufbar: KaufbarAnzeige; kompakt?: boolean }) => (
   <div>
     {kaufbar.kaufbar.length > 0 && (
       <ul className="flex flex-wrap gap-2" aria-label="Kaufbar bei">
@@ -44,19 +56,19 @@ const KaufbarListe = ({ kaufbar }: { kaufbar: AnlageKaufbar }) => (
         })}
       </ul>
     )}
-    {kaufbar.kaufbar.some((k) => DEPOT_PARTNER[k.anbieter]) && (
-      <p className="mt-3 text-[13px] text-muted-foreground">
-        * Werbung/Partnerlink: führt zur Einrichtungsseite des Anbieters, gleiche Konditionen, keine Mehrkosten.
-      </p>
+    {!kompakt && kaufbar.kaufbar.some((k) => DEPOT_PARTNER[k.anbieter]) && (
+      <p className="mt-3 text-[13px] text-muted-foreground">{WERBE_FUSSNOTE}</p>
     )}
-    {kaufbar.nichtImAngebot.length > 0 && (
+    {!kompakt && kaufbar.nichtImAngebot.length > 0 && (
       <p className="mt-4 text-[14px] text-muted-foreground">
         Nicht im Angebot: {kaufbar.nichtImAngebot.join(", ")}.
       </p>
     )}
-    <p className="mt-4 text-[13px] text-muted-foreground">
-      Stand {kaufbar.stand}. Andere Anbieter sind noch nicht geprüft.
-    </p>
+    {!kompakt && (
+      <p className="mt-4 text-[13px] text-muted-foreground">
+        Stand {kaufbar.stand}. Andere Anbieter sind noch nicht geprüft.
+      </p>
+    )}
   </div>
 );
 

@@ -8,6 +8,9 @@ import { anliegen, duas, nummerVon } from "./duas";
 import * as duasAusschnitt from "./duasAusschnitt";
 import { zeilen as ampelZeilen } from "./vertragsAmpel";
 import * as ampelAusschnitt from "./vertragsAmpelAusschnitt";
+import { kaufGruppen, kaufZeilen } from "./halalAnlagenKauf";
+import * as anlagenAusschnitt from "./halalAnlagenAusschnitt";
+import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -115,6 +118,39 @@ describe("Ausschnitt der Vertrags-Ampel", () => {
       const text = readFileSync(datei, "utf8");
       expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/vertragsAmpel";/m);
       for (const k of ampelAusschnitt.kante) expect(text).not.toContain(nachName.get(k.vertrag)!.woran);
+    }
+  });
+});
+
+describe("Ausschnitt der Halal-Anlagen", () => {
+  it("rechnet die Zahl im Titel aus den Belegen nach", () => {
+    expect(anlagenAusschnitt.ANZAHL_KAUFBAR).toBe(kaufZeilen.length);
+    expect(vorlagen.find((v) => v.slug === "halal-anlagen")?.titel).toMatch(new RegExp(`^${kaufZeilen.length} `));
+  });
+
+  it("zeigt je Gruppe dieselbe Anzahl wie die Kauf-Tabelle", () => {
+    expect(anlagenAusschnitt.gruppen.map((g) => [g.kategorie, g.anzahl])).toEqual(
+      kaufGruppen.map((g) => [g.kategorie, g.zeilen.length]),
+    );
+  });
+
+  it("zeigt oben Häuser wortgleich wie die Belege", () => {
+    for (const o of anlagenAusschnitt.offen) {
+      const z = kaufZeilen.find((x) => x.anlage.slug === o.slug)!;
+      expect(o.kaufbar.kaufbar.map((k) => [k.anbieter, k.hinweis])).toEqual(z.kaufbar.kaufbar.map((k) => [k.anbieter, k.hinweis]));
+      expect(o.kaufbar.stand).toBe(z.kaufbar.stand);
+      expect(o.kaufbar.nichtImAngebot).toEqual(z.kaufbar.nichtImAngebot);
+    }
+  });
+
+  it("nimmt nur Anlagen mit Eigenbeleg in die Tabelle", () => {
+    for (const z of kaufZeilen) expect(ANLAGEN_KAUFBAR[z.anlage.isin!].kaufbar.length).toBeGreaterThan(0);
+  });
+
+  it("lädt auf der offenen Seite keine Kaufbarkeit", () => {
+    for (const datei of ["src/pages/vorlagen/HalalAnlagen.tsx", "src/components/vorlagen/anlagenTeile.tsx", "src/data/halalAnlagenAusschnitt.ts"]) {
+      const text = readFileSync(datei, "utf8");
+      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/(anlagenKaufbar|halalAnlagenKauf)";/m);
     }
   });
 });

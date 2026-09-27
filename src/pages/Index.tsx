@@ -26,6 +26,7 @@ import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
+import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -68,7 +69,7 @@ const wissenKarten: WissenKarte[] = [
   },
   {
     thema: "Vorlage",
-    titel: "23 halal Anlagen, die du wirklich kaufen kannst",
+    titel: `${ANZAHL_KAUFBAR} halal Anlagen, die du wirklich kaufen kannst`,
     to: "/vorlagen/halal-anlagen",
     motiv: "liste",
     beliebt: true,
