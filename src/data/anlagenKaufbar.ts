@@ -182,9 +182,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -235,10 +236,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -301,9 +303,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -354,10 +357,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -458,9 +462,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -619,9 +624,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finanzen.net zero",
-      "finvesto"
+      "finvesto",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -672,10 +678,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -830,8 +837,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "anbieter": "maxblue Wertpapier-Sparplan",
         "haus": "maxblue Wertpapier Sparplan",
         "beleg": {
-          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
-          "stand": "14.09.2026",
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
             "maxblue.de"
@@ -863,6 +870,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/ishares-msci-world-islamic-ucits-etf-usd-ie00b27ycn58",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
           ]
         }
       },
@@ -906,7 +925,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1101,9 +1120,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
-      "Bux Prime"
+      "Bux Prime",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1310,9 +1330,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
-      "Bux Prime"
+      "Bux Prime",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -1434,9 +1455,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -1561,16 +1583,29 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "smartbrokerplus.de"
           ]
         }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/fonds/comgest-growth-europe-s-acc-ie00b4zj4634",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -1648,6 +1683,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -1706,7 +1753,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "finanzen.net zero"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -1848,6 +1895,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/saturna-al-kawthar-global-focused-equity-ie00bmymhs24",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
         "haus": "trade-republic",
         "beleg": {
@@ -1878,9 +1937,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -1993,6 +2053,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -2051,7 +2123,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -2141,6 +2213,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -2210,7 +2294,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -2305,6 +2389,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -2363,7 +2459,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -2520,9 +2616,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect Pure Depot"
+      "comdirect Pure Depot",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -2667,9 +2764,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect Pure Depot"
+      "comdirect Pure Depot",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -2786,11 +2884,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -2881,11 +2980,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "Consorsbank",
       "finanzen.net zero",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -2980,6 +3080,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/xtrackers-ii-salam-usd-global-aggregate-lu3123443510",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2999,10 +3111,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "finvesto",
       "ING",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "27.09.2026"
+    "stand": "28.09.2026"
   },
   "XS2115336336": {
     "kaufbar": [],
