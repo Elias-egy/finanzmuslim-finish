@@ -58,6 +58,8 @@ export const DEPOT_WERTE: Werte = {
   "bux-plus": { zinsfreiAbStart: "schlecht" },
   "bux-prime": { zinsfreiAbStart: "schlecht" },
   "scalable-capital-free-broker": { zinsfreiAbStart: "gut" },
+  "bbbank-depot": { zinsfreiAbStart: "gut" },
+  "targobank-direkt-depot": { zinsfreiAbStart: "gut" },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
@@ -106,6 +108,8 @@ export const DEPOT_QUELLEN: Quellen = {
   "bux-plus": { zinsfreiAbStart: { url: "https://getbux.com/blog/interest-on-cash/", stand: "24.09.2026", hinweis: "BUX nennt alle drei Stufen in einem Satz: „All onboarded BUX users that are on BUX Plus and BUX Prime immediately earn interest on uninvested cash.“ Und die Staffel: „Your interest rate depends on your account type: BUX Basic 0% / BUX Plus 1,75% on up to €100k / BUX Prime 2,00% on up to €100k“. BUX Plus wird namentlich genannt und verzinst nicht investiertes Guthaben mit 1,75 %, ohne dass der Kunde etwas einschaltet." } },
   "bux-prime": { zinsfreiAbStart: { url: "https://getbux.com/blog/interest-on-cash/", stand: "24.09.2026", hinweis: "BUX nennt alle drei Stufen in einem Satz: „All onboarded BUX users that are on BUX Plus and BUX Prime immediately earn interest on uninvested cash.“ Und die Staffel: „Your interest rate depends on your account type: BUX Basic 0% / BUX Plus 1,75% on up to €100k / BUX Prime 2,00% on up to €100k“. BUX Prime wird namentlich genannt und verzinst nicht investiertes Guthaben mit 2,00 %, ohne dass der Kunde etwas einschaltet." } },
   "scalable-capital-free-broker": { zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "24.09.2026", hinweis: "Scalable Capital führt in der Zinsübersicht beide Stufen nebeneinander („Mit PRIME+“ und „Ohne PRIME+“) und nennt für beide: „Verrechnungskonten 0 % p.a.“ Das Tagesgeld mit 2,60 % p.a. ist eine eigene Zeile und ein eigenes Produkt, das man aktiv wählen und befüllen muss. Gilt damit auch für Free Broker." } },
+  "bbbank-depot": { zinsfreiAbStart: { url: "https://www.bbbank.de/privatkunden/geldanlage/depot.html", stand: "28.09.2026", hinweis: "Die BBBank rechnet das Depot über ein eigenes Girokonto ab: „Voraussetzungen für die Online-Depoteröffnung: BBBank Kunde, volljährig und ein Girokonto auf Ihren Namen.“ Das Preis- und Leistungsverzeichnis (3.1.1 Privatkonten, Zeile „Ab 0,01 Euro Anlagebetrag“) führt beim BBBank-Girokonto und beim BetterSmart Konto „./.“, nur das Junge BBBank-Girokonto (unter 18) hat „0,01%“. Für Erwachsene liegt das Geld also ab Eröffnung ohne Zins." } },
+  "targobank-direkt-depot": { zinsfreiAbStart: { url: "https://www.targobank.de/de/download/agb/agb.pdf", stand: "28.09.2026", hinweis: "Die TARGOBANK rechnet über das Girokonto ab (Bedingungen, 4.4 Investment-Auszahlpläne: „Der Gegenwert wird dem Verrechnungskonto des Kunden gutgeschrieben“ … „Gutschrift des Gegenwerts auf dem Girokonto“). Das Online-Konto hat keinen Guthabenzins, derselbe Sonderfall wie beim Girokonto (vollständige Zinsgliederung im Preis- und Leistungsverzeichnis, Tagesgeld-Seite: „Auf dem Girokonto liegt Ihr Erspartes unverzinst“). Eine schriftliche Bestätigung fehlt, die TARGOBANK verweist auf die Filiale." } },
 };
 
 export const GIRO_WERTE: Werte = {
