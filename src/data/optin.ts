@@ -124,6 +124,19 @@ export const optinFreebies: OptinFreebie[] = [
     schluessel: "voll-7gc3",
     motiv: "gold",
   },
+  {
+    id: "auto-abo-check",
+    name: "Auto-Abo-Check",
+    objekt: "den Auto-Abo-Check",
+    deinObjekt: "dein Auto-Abo-Check",
+    ueberschrift: ["Hol dir den ganzen", "Auto\u2011Abo\u2011Check"],
+    nutzen: "Prüfe jeden Anbieter vor der Unterschrift: Urteil, Wortlaut und Rechenbeispiel.",
+    knopf: "Auto-Abo-Check holen",
+    frage: "Welches Abo kommt für dich infrage?",
+    seite: "/vorlagen/auto-abo-check",
+    schluessel: "voll-2ak6",
+    motiv: "auto",
+  },
 ];
 
 export const optinFreebie = (id?: string) => optinFreebies.find((f) => f.id === id);

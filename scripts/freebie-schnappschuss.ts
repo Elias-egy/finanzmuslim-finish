@@ -6,10 +6,12 @@
 import { writeFileSync } from "node:fs";
 import { faelle, fragen, gutZuWissen } from "../src/data/goldCheck";
 import nisab from "../src/data/nisab.json";
+import { anbieter, firmen, fragen as aboFragen, nichtBuchbar, rechnung } from "../src/data/autoAboCheck";
 
 const [welches, ziel] = process.argv.slice(2);
 const daten: Record<string, () => unknown> = {
   "gold-check": () => ({ erzeugt: new Date().toISOString(), goldpreis: { euroJeGramm: nisab.goldPreisJeGramm, stand: nisab.stand }, faelle, fragen, gutZuWissen }),
+  "auto-abo-check": () => ({ erzeugt: new Date().toISOString(), anbieter, fragen: aboFragen, nichtBuchbar, firmen, rechnung }),
 };
 
 if (!welches || !ziel || !daten[welches]) {

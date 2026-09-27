@@ -13,6 +13,7 @@ const voll: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   "vertrags-ampel": lazy(() => import("./vorlagen/VertragsAmpelVoll.tsx")),
   rizq: lazy(() => import("./vorlagen/RizqVoll.tsx")),
   "gold-check": lazy(() => import("./vorlagen/GoldCheckVoll.tsx")),
+  "auto-abo-check": lazy(() => import("./vorlagen/AutoAboCheckVoll.tsx")),
 };
 
 const VorlageVoll = () => {

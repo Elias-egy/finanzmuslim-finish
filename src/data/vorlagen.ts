@@ -99,6 +99,19 @@ export const vorlagen: Vorlage[] = [
     pdfPfad: "/downloads/gold-check.pdf",
     motiv: "gold",
   },
+  {
+    slug: "auto-abo-check",
+    gegenEmail: true,
+    // Die Zahl prüft ein Test gegen src/data/autoAboCheck.ts.
+    titel: "Auto-Abo-Check: 7 Anbieter mit Urteil",
+    kicker: "Auto-Abo-Check",
+    kurzbeschreibung:
+      "Prüfe Auto-Abos als Alternative zu Kredit und Leasing. Zu jedem Anbieter das Urteil und der Wortlaut aus den eigenen Bedingungen.",
+    nutzenZeile: "Auto fahren ohne Zinsvertrag",
+    kommentarKeyword: "AUTO",
+    pdfPfad: "/downloads/auto-abo-check.pdf",
+    motiv: "auto",
+  },
 ];
 
 export const vorlageBySlug = (slug: string) => vorlagen.find((v) => v.slug === slug);

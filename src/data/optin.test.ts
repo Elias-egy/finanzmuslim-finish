@@ -13,6 +13,8 @@ import { kaufGruppen, kaufZeilen } from "./halalAnlagenKauf";
 import * as anlagenAusschnitt from "./halalAnlagenAusschnitt";
 import { faelle as goldFaelle } from "./goldCheck";
 import * as goldAusschnitt from "./goldCheckAusschnitt";
+import { anbieter as aboAnbieter, fragen as aboFragen } from "./autoAboCheck";
+import * as aboAusschnitt from "./autoAboCheckAusschnitt";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -232,6 +234,43 @@ describe("Ausschnitt des Gold-Checks", () => {
       for (const f of goldFaelle.filter((x) => !oben.has(x.id))) {
         expect(text).not.toContain(f.grund);
         expect(text).not.toContain(f.beispiel.slice(0, 60));
+      }
+    }
+  });
+});
+
+describe("Ausschnitt des Auto-Abo-Checks", () => {
+  it("nennt an der Kante jeden geprüften Anbieter genau einmal, gleicher Name, ohne Urteil", () => {
+    expect(aboAusschnitt.kante.map((k) => [k.id, k.name, k.unter])).toEqual(aboAnbieter.map((a) => [a.id, a.name, a.unter]));
+    for (const k of aboAusschnitt.kante) {
+      expect(k).not.toHaveProperty("farbe");
+      expect(k).not.toHaveProperty("urteil");
+    }
+  });
+
+  it("zählt die Anbieter aus den Daten, der Titel stimmt mit der vollen Fassung", () => {
+    expect(aboAusschnitt.ANZAHL_ANBIETER).toBe(aboAnbieter.length);
+    expect(vorlagen.find((v) => v.slug === "auto-abo-check")?.titel).toContain(`${aboAnbieter.length} Anbieter`);
+  });
+
+  it("belegt je Anbieter Vertragsart, Verzugszins, Kaution, Versicherung, Kilometer, Pauschalen, Laufzeit und Preis", () => {
+    const pflicht = ["Vertragsart", "Verzugszins", "Kaution", "Versicherung", "Kilometer", "Pauschalen", "Laufzeit"];
+    for (const a of aboAnbieter) {
+      const themen = new Set(a.klauseln.map((k) => k.thema));
+      for (const t of pflicht) expect(themen.has(t as never), `${a.name}: ${t}`).toBe(true);
+      expect(a.preisAb.length).toBeGreaterThan(10);
+      for (const k of a.klauseln) expect(k.zitat || k.hinweis, `${a.name} ${k.thema}`).toBeTruthy();
+    }
+    expect(aboFragen).toHaveLength(5);
+  });
+
+  it("lädt auf der offenen Seite kein Urteil, keinen Grund und keinen Wortlaut", () => {
+    for (const datei of ["src/pages/vorlagen/AutoAboCheck.tsx", "src/components/vorlagen/autoAboTeile.tsx", "src/data/autoAboCheckAusschnitt.ts"]) {
+      const text = readFileSync(datei, "utf8");
+      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/autoAboCheck";/m);
+      for (const a of aboAnbieter) {
+        expect(text).not.toContain(a.grund);
+        for (const k of a.klauseln) if (k.zitat) expect(text).not.toContain(k.zitat);
       }
     }
   });
