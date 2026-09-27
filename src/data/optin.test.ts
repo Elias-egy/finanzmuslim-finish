@@ -6,6 +6,8 @@ import { aktien } from "./top100Aktien";
 import { kante, offen } from "./top100Ausschnitt";
 import { anliegen, duas, nummerVon } from "./duas";
 import * as duasAusschnitt from "./duasAusschnitt";
+import { zeilen as ampelZeilen } from "./vertragsAmpel";
+import * as ampelAusschnitt from "./vertragsAmpelAusschnitt";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -87,6 +89,32 @@ describe("Ausschnitt „Dua für was?“", () => {
       const text = readFileSync(datei, "utf8");
       expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/duas";/m);
       for (const k of duasAusschnitt.kante) expect(text).not.toContain(nachNummer.get(k.nr)!.ar);
+    }
+  });
+});
+
+describe("Ausschnitt der Vertrags-Ampel", () => {
+  const nachName = new Map(ampelZeilen.map((z) => [z.vertrag, z]));
+
+  it("zeigt oben Depot grün und Dispo rot, wortgleich wie in der vollen Fassung", () => {
+    expect(ampelAusschnitt.offen.map((z) => z.farbe)).toEqual(["gruen", "rot"]);
+    for (const z of ampelAusschnitt.offen) expect(nachName.get(z.vertrag)).toEqual(z);
+  });
+
+  it("nennt alle übrigen Verträge genau einmal an der Kante, ohne Farbe", () => {
+    const alle = [...ampelAusschnitt.offen, ...ampelAusschnitt.kante].map((z) => z.vertrag).sort();
+    expect(alle).toEqual(ampelZeilen.map((z) => z.vertrag).sort());
+    for (const z of ampelAusschnitt.kante) {
+      expect(z).not.toHaveProperty("farbe");
+      expect(nachName.get(z.vertrag)?.unter).toBe(z.unter);
+    }
+  });
+
+  it("lädt auf der offenen Seite keine gesperrte Farbe und keine Bedingung", () => {
+    for (const datei of ["src/pages/vorlagen/VertragsAmpel.tsx", "src/components/vorlagen/ampelTeile.tsx", "src/data/vertragsAmpelAusschnitt.ts"]) {
+      const text = readFileSync(datei, "utf8");
+      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/vertragsAmpel";/m);
+      for (const k of ampelAusschnitt.kante) expect(text).not.toContain(nachName.get(k.vertrag)!.woran);
     }
   });
 });
