@@ -211,6 +211,10 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(giro("ing-girokonto").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
+    // 27.09.2026: Targobank legt den Guthabenzins ins Preisverzeichnis (AGB 1.6), dort hat nur
+    // das Vorteils-Konto eine Zinszeile. Der rote Dispo hält das Online-Konto trotzdem hinten.
+    expect(giro("targobank-online-konto").werte.zinsfreiAbStart).toBe("gut");
+    expect(giro("targobank-online-konto").werte.keinDispoAbStart).toBe("schlecht");
     // Am 20.09. war Coinbase ungeprueft, die Domain sperrt jeden Abruf ohne Browser.
     // Am 23.09.2026 kam die schriftliche Antwort (Fall 27569519): keine automatischen
     // Zinsen, Coinbase One enthaelt weder Zinsen noch gesperrte Token.
