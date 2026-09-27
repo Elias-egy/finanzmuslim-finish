@@ -125,7 +125,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "unbegrenzt",
     },
     quellen: {
-      plattform: q("https://www.elster.de/", "Zugang über den Browser, dazu die App MeinELSTER+ für Handy und Tablet."),
+      plattform: { url: "https://www.elster.de/eportal/infoseite/meinelsterplus", stand: "27.09.2026", hinweis: "Mein ELSTER läuft im Browser, dazu: „MeinELSTER+ ist verfügbar für Smartphones und Tablets ab Android-Version 14 sowie iPhones ab iOS 18 bzw. iPads ab iPadOS 18“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Geben Sie dazu unter anderem Zinsen, Dividenden, Steuerabzugsbeträge sowie anrechenbare Steuern an.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       selbststaendige: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Haben Sie Einkünfte aus Gewerbebetrieb, dann können hier Angaben zum Gewinn und zur Steuerermäßigung nach § 35 EStG gemacht werden.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       vermietung: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Vermietung/Verpachtung von bebauten/unbebauten Grundstücken, Gemeinschaften, Fonds, Gesellschaften sowie die dazu gehörenden Werbungskosten.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
@@ -153,7 +153,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: null,
     },
     quellen: {
-      plattform: q("https://steuer.check24.de/", "Der Anbieter nennt eine Webfassung und eine App fürs Handy."),
+      plattform: { url: "https://steuer.check24.de/ul/sl/testberichte/", stand: "27.09.2026", hinweis: "Testsieger „als Browser-Version und als Smartphone-App.“ Die App ist die CHECK24-App für iOS und Android. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage KAP = Kapitaleinkünfte“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       selbststaendige: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage S = Einkünfte aus selbständiger Arbeit“. Für Jahre vor 2023 nennt dieselbe Seite Selbstständige als „derzeit nicht unterstützt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       vermietung: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage V = Einkünfte aus Vermietung und Verpachtung“. Für Jahre vor 2023 nennt dieselbe Seite Vermietung als „derzeit nicht unterstützt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
@@ -180,7 +180,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1",
     },
     quellen: {
-      plattform: q("https://www.steuertipps.de/shop/software/steuereasy", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung. Eine Mac-Fassung gibt es nicht."),
+      plattform: { url: "https://www.steuertipps.de/shop/software/steuereasy", stand: "27.09.2026", hinweis: "„Diese Software ist ausschließlich für Windows verfügbar.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       // Selbstständige und Vermietung seit 27.09.2026 ungeprüft: Die Seite nennt nur die Zielgruppe
       // („Arbeitnehmer:innen …, Studierende, Ferienjobber und Berufseinsteiger:innen“), schließt aber nichts aus.
       // Die Fassung fürs Steuerjahr 2024 warb mit „mit allen Anlagen und Formularen“. Nichtnennung ist kein Nein.
@@ -207,7 +207,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "3, Deluxe 5",
     },
     quellen: {
-      plattform: q("https://shop.lexware.de/quicksteuer", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung."),
+      plattform: { url: "https://shop.lexware.de/quicksteuer", stand: "27.09.2026", hinweis: "Systemvoraussetzungen: „Windows® 10 (64-Bit-Variante) / Windows® 11 (dt. Version)“, eine Mac-Fassung nennt der Shop nicht. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://shop.lexware.de/quicksteuer",
         stand: "26.09.2026",
@@ -250,7 +250,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "bis 5",
     },
     quellen: {
-      plattform: q("https://shop.lexware.de/taxman", "Windows 10 oder 11 in der 64-Bit-Fassung. Der Anbieter nennt ausdrücklich keine Mac-Unterstützung."),
+      plattform: { url: "https://shop.lexware.de/steuer", stand: "27.09.2026", hinweis: "„Die TAXMAN-Software installierst du einfach und schnell auf jedem Windows-PC.“ Zur Profi-Fassung: „Auch hier gilt: Die Software ist nur mit Windows-Rechnern kompatibel.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://shop.lexware.de/taxman",
         stand: "26.09.2026",
@@ -288,7 +288,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://www.steuergo.de", "Browser auf Windows, Mac und Linux, dazu Apps für iOS und Android."),
+      plattform: { url: "https://www.steuergo.de/du", stand: "27.09.2026", hinweis: "„Nutze SteuerGo auf all deinen Geräten mit Webbrowser – Windows, Mac, Linux, iPhone, iPad und Android“ und „Auch als App für Tablets und Smartphones.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: { url: "https://www.steuergo.de/du", stand: "27.09.2026", hinweis: "„Egal, ob Lohnsteuer, Kapitalerträge oder Kinderbetreuungskosten, SteuerGo hilft, zu viel gezahlte Einkommensteuern zu sichern.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       belegabruf: {
         url: "https://www.steuergo.de/de/texte/0/460/belegabruf_die_vorausgefuellte_steuererklaerung_vast",
@@ -322,7 +322,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://www.lohnsteuer-kompakt.de/", "Läuft im Browser ohne Installation, dazu Apps für iOS und Android."),
+      plattform: { url: "https://www.lohnsteuer-kompakt.de/steuerwissen/lohnsteuer-kompakt-app/", stand: "27.09.2026", hinweis: "„Mobil-App für die schnelle Steuererklärung“ und „Im Browser mit allen Funktionen“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.lohnsteuer-kompakt.de/de/feldhilfe/2025/40/947/einkprozc3prozbcnfte+aus+kapitalvermprozc3prozb6gen-+anlage+kap+-",
         stand: "26.09.2026",
@@ -366,7 +366,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1, in der Fassung plus bis 5",
     },
     quellen: {
-      plattform: q("https://www.steuertipps.de/shop/software", "Die Online-Fassung läuft auf Windows, Mac und Linux, dazu gibt es Download, DVD und eine App."),
+      plattform: { url: "https://www.steuertipps.de/shop/software", stand: "27.09.2026", hinweis: "„Egal ob PC, Mac, Tablet oder Smartphone – mit der SteuerSparErklärung finden Sie die passende Lösung:“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.steuertipps.de/shop/software",
         stand: "26.09.2026",
@@ -398,7 +398,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "wundertax.de",
     preisEinzel: 34.99,
     werte: {
-      plattform: "Web",
+      plattform: "Web, iOS, Android",
       kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
@@ -409,7 +409,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://wundertax.de/", "Läuft im Browser, eine eigene App nennt der Anbieter nicht."),
+      plattform: { url: "https://apps.apple.com/de/app/id6480043147", stand: "27.09.2026", hinweis: "wundertax läuft im Browser, dazu eine App der wundertax GmbH für iOS und Android: „Mit der wundertax Steuer-App kannst Du Deine Steuererklärung unkompliziert und schnell online erledigen.“ Am 27.09.2026 korrigiert, vorher „keine App“." },
       kapital: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
       vermietung: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
       selbststaendige: { url: "https://wundertax.de/selbststaendig/", stand: "27.09.2026", hinweis: "Seite für Selbstständige: „ESt, EÜR und USt werden automatisch erstellt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
@@ -437,7 +437,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "bis 5",
     },
     quellen: {
-      plattform: q("https://www.buhl.de/steuer/", "Web ohne Installation, dazu Windows 10 und 11, macOS ab 12 Monterey sowie Apps für iOS und Android. Das ist die breiteste Abdeckung im Vergleich."),
+      plattform: { url: "https://www.buhl.de/steuer/", stand: "27.09.2026", hinweis: "„Nutze WISO Steuer direkt online – ohne Download, ohne Installation, ohne Updates.“ Dazu laut Seitendaten „Mobile App-Version der WISO Steuer Software für iOS und Android.“ sowie Download für Windows und macOS. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.buhl.de/steuer/tipps/aktien/",
         stand: "26.09.2026",
@@ -471,7 +471,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "5 im selben Steuerjahr",
     },
     quellen: {
-      plattform: q("https://www.smartsteuer.de/online/", "Keine eigene App: Die Anwendung läuft im Browser auf Handy, Laptop und Tablet."),
+      plattform: { url: "https://www.smartsteuer.de/online/online-steuererklaerung/smartsteuer-app/", stand: "27.09.2026", hinweis: "„Die smartsteuer App kannst Du auf dem Desktop, Tablett oder Smartphone ohne Download direkt im Browser nutzen.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: { url: "https://www.smartsteuer.de/online/funktionsumfang-2025/", stand: "27.09.2026", hinweis: "„smartsteuer unterstützt Auszubildende, Studierende, Arbeitnehmer, Kapitalanleger, Vermieter, Eigenheimbesitzer, Rentner und Pensionäre sowie Selbständige und Gewerbetreibende.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       vermietung: {
         url: "https://www.smartsteuer.de/online/faqs/",
@@ -510,7 +510,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1",
     },
     quellen: {
-      plattform: q("https://taxfix.de/kosten/", "Apps für iOS und Android, dazu die Fassung im Browser."),
+      plattform: { url: "https://taxfix.de/", stand: "27.09.2026", hinweis: "„Du kannst dir die Taxfix App kostenlos aus dem Apple App Store und dem Google Play Store herunterladen oder unsere Seite im Web-Browser aufrufen.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       belegabruf: {
         url: "https://taxfix.de/ratgeber/dokumente-fristen/vorausgefuellte-steuererklaerung/",
         stand: "26.09.2026",
