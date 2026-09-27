@@ -72,6 +72,7 @@ const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx")
 const VorlageRizq = lazy(() => import("./pages/vorlagen/Rizq.tsx"));
 const VorlageBarakaBlocker = lazy(() => import("./pages/vorlagen/BarakaBlocker.tsx"));
 const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"));
+const VorlageGoldCheck = lazy(() => import("./pages/vorlagen/GoldCheck.tsx"));
 const Newsletter = lazy(() => import("./pages/Newsletter.tsx"));
 const NewsletterArchiv = lazy(() => import("./pages/NewsletterArchiv.tsx"));
 const NewsletterAusgabe = lazy(() => import("./pages/NewsletterAusgabe.tsx"));
@@ -189,6 +190,7 @@ const App = () => (
             <Route path="/vorlagen/rizq" element={<VorlageRizq />} />
             <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
             <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
+            <Route path="/vorlagen/gold-check" element={<VorlageGoldCheck />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap: Opt-in, Danke, volle Fassung. */}
             <Route path="/vorlagen/:slug/:schluessel" element={<VorlageVoll />} />
             <Route path="/gratis/:freebie" element={<Gratis />} />

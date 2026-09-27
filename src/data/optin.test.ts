@@ -11,6 +11,8 @@ import { zeilen as ampelZeilen } from "./vertragsAmpel";
 import * as ampelAusschnitt from "./vertragsAmpelAusschnitt";
 import { kaufGruppen, kaufZeilen } from "./halalAnlagenKauf";
 import * as anlagenAusschnitt from "./halalAnlagenAusschnitt";
+import { faelle as goldFaelle } from "./goldCheck";
+import * as goldAusschnitt from "./goldCheckAusschnitt";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -189,6 +191,48 @@ describe("Ausschnitt der Halal-Anlagen", () => {
     for (const datei of ["src/pages/vorlagen/HalalAnlagen.tsx", "src/components/vorlagen/anlagenTeile.tsx", "src/data/halalAnlagenAusschnitt.ts"]) {
       const text = readFileSync(datei, "utf8");
       expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/(anlagenKaufbar|halalAnlagenKauf)";/m);
+    }
+  });
+});
+
+describe("Ausschnitt des Gold-Checks", () => {
+  const nachId = new Map(goldFaelle.map((f) => [f.id, f]));
+
+  it("zeigt oben einen grünen und einen roten Fall, wortgleich wie in der vollen Fassung", () => {
+    expect(goldAusschnitt.offen.map((f) => f.farbe)).toEqual(["gruen", "rot"]);
+    for (const f of goldAusschnitt.offen) expect(nachId.get(f.id)).toEqual(f);
+  });
+
+  it("nennt alle übrigen Fälle genau einmal an der Kante, ohne Urteil", () => {
+    const alle = [...goldAusschnitt.offen, ...goldAusschnitt.kante].map((f) => f.id).sort();
+    expect(alle).toEqual(goldFaelle.map((f) => f.id).sort());
+    for (const k of goldAusschnitt.kante) {
+      expect(k).not.toHaveProperty("farbe");
+      expect(k).not.toHaveProperty("urteil");
+      expect(nachId.get(k.id)?.fall).toBe(k.fall);
+      expect(nachId.get(k.id)?.unter).toBe(k.unter);
+    }
+  });
+
+  it("zeigt an der Kante zuerst Altgold, Goldsparplan und Gold-ETC (Plan P3)", () => {
+    expect(goldAusschnitt.kante.slice(0, 4).map((k) => k.id)).toEqual(["altgold", "sparplan-zertifikat", "sparplan-ohne", "etc"]);
+  });
+
+  it("zählt die Wege aus den Daten, Titel und Knopf stimmen mit der vollen Fassung", () => {
+    expect(goldAusschnitt.ANZAHL_FAELLE).toBe(goldFaelle.length);
+    expect(vorlagen.find((v) => v.slug === "gold-check")?.titel).toContain(`${goldFaelle.length} Wege`);
+    expect(new Set(goldFaelle.map((f) => f.farbe))).toEqual(new Set(["gruen", "gelb", "rot"]));
+  });
+
+  it("lädt auf der offenen Seite keinen gesperrten Grund und kein gesperrtes Beispiel", () => {
+    const oben = new Set(goldAusschnitt.offen.map((f) => f.id));
+    for (const datei of ["src/pages/vorlagen/GoldCheck.tsx", "src/components/vorlagen/goldTeile.tsx", "src/data/goldCheckAusschnitt.ts"]) {
+      const text = readFileSync(datei, "utf8");
+      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/goldCheck";/m);
+      for (const f of goldFaelle.filter((x) => !oben.has(x.id))) {
+        expect(text).not.toContain(f.grund);
+        expect(text).not.toContain(f.beispiel.slice(0, 60));
+      }
     }
   });
 });

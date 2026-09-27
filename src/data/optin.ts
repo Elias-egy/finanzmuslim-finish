@@ -15,7 +15,14 @@ import { guides } from "@/data/guides";
  *
  * Die Texte folgen der Sprachregel in CLAUDE.md: Verb zuerst, höchstens zwei Sätze.
  */
-export type FreebieId = "guide" | "top-100-halal-aktien" | "halal-anlagen" | "vertrags-ampel" | "rizq";
+export type FreebieId =
+  | "guide"
+  | "top-100-halal-aktien"
+  | "halal-anlagen"
+  | "vertrags-ampel"
+  | "rizq"
+  | "gold-check"
+  | "auto-abo-check";
 
 export type OptinFreebie = {
   id: FreebieId;
@@ -102,6 +109,20 @@ export const optinFreebies: OptinFreebie[] = [
     seite: "/vorlagen/rizq",
     schluessel: "voll-9pw5",
     motiv: "kompass",
+  },
+  {
+    id: "gold-check",
+    name: "Gold-Check",
+    objekt: "den Gold-Check",
+    deinObjekt: "dein Gold-Check",
+    // Geschützter Bindestrich, damit „Gold-Check“ in der Karte nicht umbricht.
+    ueberschrift: ["Hol dir den ganzen", "Gold\u2011Check"],
+    nutzen: "Prüfe jeden Weg zu Gold, bevor du zahlst: Urteil, Grund und Beispiel.",
+    knopf: "Gold-Check holen",
+    frage: "Wie kaufst du dein Gold?",
+    seite: "/vorlagen/gold-check",
+    schluessel: "voll-7gc3",
+    motiv: "gold",
   },
 ];
 

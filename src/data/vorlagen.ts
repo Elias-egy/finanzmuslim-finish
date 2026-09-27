@@ -86,6 +86,19 @@ export const vorlagen: Vorlage[] = [
     pdfPfad: "/downloads/100-halal-aktien.pdf",
     motiv: "aktienPruefen",
   },
+  {
+    slug: "gold-check",
+    gegenEmail: true,
+    // Die Zahl prüft ein Test gegen src/data/goldCheck.ts.
+    titel: "Gold-Check: 10 Wege, Gold zu kaufen",
+    kicker: "Gold-Check",
+    kurzbeschreibung:
+      "Prüfe zehn Wege zu Gold, vom Barren beim Händler bis zum Sparplan. Zu jedem das Urteil, der Grund und ein Beispiel.",
+    nutzenZeile: "Vor dem Goldkauf wissen, was geht",
+    kommentarKeyword: "GOLD",
+    pdfPfad: "/downloads/gold-check.pdf",
+    motiv: "gold",
+  },
 ];
 
 export const vorlageBySlug = (slug: string) => vorlagen.find((v) => v.slug === slug);

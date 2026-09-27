@@ -24,6 +24,11 @@ const merkmale = {
   "vorlagen/halal-anlagen": [...new Set([...lies("src/data/anlagenKaufbar.ts").matchAll(/"url": "([^"]+)"/g)].map((m) => m[1]))].filter(
     (u) => new URL(u).pathname.length > 1,
   ),
+  // Grund und festes Beispiel je Fall; Beispiele mit Goldpreis sind Vorlagen-Strings und stehen nicht drin.
+  "vorlagen/gold-check": [
+    ...ohne(werte("src/data/goldCheck.ts", "grund"), werte("src/data/goldCheckAusschnitt.ts", "grund")),
+    ...ohne(werte("src/data/goldCheck.ts", "beispiel"), werte("src/data/goldCheckAusschnitt.ts", "beispiel")),
+  ],
   // Namen sind zu kurz und zu allgemein („Canon“ steckt in „canonical“), deshalb die Zeile darunter.
   "vorlagen/top-100-halal-aktien": werte("src/data/top100Aktien.ts", "bekanntFuer").filter(
     (w) => w.length > 8 && !werte("src/data/top100Ausschnitt.ts", "bekanntFuer").includes(w),
