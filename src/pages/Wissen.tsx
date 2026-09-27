@@ -113,7 +113,10 @@ const Wissen = () => (
             >
               <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
               <span className="flex flex-1 flex-col p-4">
-              <span className="badge-new self-start">{v.kicker}</span>
+              <span className="flex flex-wrap items-center gap-2">
+                <span className="badge-new">{v.kicker}</span>
+                {v.gegenEmail && <span className="text-[12px] font-semibold text-primary">Gegen E-Mail</span>}
+              </span>
               <span className="mt-2 block text-[15px] font-bold leading-snug text-foreground">{v.titel}</span>
               <span className="mt-1 block text-[13px] text-muted-foreground">{v.nutzenZeile}</span>
               </span>

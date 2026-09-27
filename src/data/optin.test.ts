@@ -19,6 +19,10 @@ describe("gesperrte Freebies", () => {
     for (const f of optinFreebies.filter((x) => x.schluessel)) expect(slugs).toContain(f.id);
   });
 
+  it("vorlagen.ts kennzeichnet genau die gesperrten Vorlagen mit gegenEmail", () => {
+    for (const v of vorlagen) expect(Boolean(v.gegenEmail)).toBe(istGesperrt(v.slug));
+  });
+
   it("offen bleiben der Spickzettel und der Baraka-Blocker", () => {
     expect(istGesperrt("aktien-check")).toBe(false);
     expect(istGesperrt("baraka-blocker")).toBe(false);

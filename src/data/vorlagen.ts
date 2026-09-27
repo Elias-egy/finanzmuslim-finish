@@ -10,12 +10,15 @@ export type Vorlage = {
   kommentarKeyword: string;
   pdfPfad: string;
   motiv: MotivName;
+  /** Ganz nur gegen E-Mail (`src/data/optin.ts`, ein Test hält beides gleich). */
+  gegenEmail?: true;
 };
 
 /** Einzige Quelle fuer die drei kostenlosen Vorlagen. */
 export const vorlagen: Vorlage[] = [
   {
     slug: "halal-anlagen",
+    gegenEmail: true,
     titel: `${ANZAHL_KAUFBAR} halal Anlagen, die du wirklich kaufen kannst`,
     kicker: "Die Liste",
     kurzbeschreibung:
@@ -27,6 +30,7 @@ export const vorlagen: Vorlage[] = [
   },
   {
     slug: "vertrags-ampel",
+    gegenEmail: true,
     titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
     kicker: "Die Ampel",
     kurzbeschreibung:
@@ -49,6 +53,7 @@ export const vorlagen: Vorlage[] = [
   },
   {
     slug: "rizq",
+    gegenEmail: true,
     titel: "14 Duas für Rizq, mit Quelle und Übersetzung",
     kicker: "Rizq",
     kurzbeschreibung:
@@ -71,6 +76,7 @@ export const vorlagen: Vorlage[] = [
   },
   {
     slug: "top-100-halal-aktien",
+    gegenEmail: true,
     titel: "100 bekannte Halal-Aktien",
     kicker: "Aktien-Liste",
     kurzbeschreibung:
