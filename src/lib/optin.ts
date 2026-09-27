@@ -1,13 +1,16 @@
 /**
  * Anmeldung über die Opt-in-Karte (Guide und die Vorlagen hinter der Schranke).
  *
- * Die Karte postet einmal JSON an ein eigenes Make-Szenario („finanzmuslim Opt-in-Karte“,
- * 7640717). Make legt die Adresse in die MailerLite-Gruppe des Freebies und antwortet mit
- * dem Status der Adresse: `unconfirmed` bei neuen Adressen (Double Opt-in, die
- * Bestätigungsmail geht raus), `active` bei Leuten, die schon bestätigt sind. Wer schon
- * dabei ist, bekommt keine Bestätigungsmail mehr, deshalb zeigt die Danke-Seite ihm den
- * Link sofort. Eine Bot-Anfrage (`firma` gefüllt) verwirft Make ohne Antwort, dann kommt
+ * Schritt 1 postet einmal JSON an das Make-Szenario „finanzmuslim Opt-in-Karte“ (7640717).
+ * Make legt die Adresse in die MailerLite-Gruppe des Freebies (Guide: „Guide-Eingang“, die
+ * Automation „Guide-Verteiler“ kopiert nach 15 Minuten in die Stufen-Gruppe) und antwortet mit
+ * Status, Abonnenten-ID und einem Zufallsschlüssel, den Make beim Abonnenten ablegt. Eine
+ * Bot-Anfrage (`firma` gefüllt) oder eine Anfrage ohne Einwilligung verwirft Make, dann kommt
  * nur „Accepted“ zurück.
+ *
+ * Die Klickfragen danach gehen an ein zweites Szenario („Opt-in Nachtrag“). Es schreibt nur
+ * Felder und nur, wenn der Schlüssel zur ID passt. Ein zweites „Create/Update“ würde bei
+ * unbestätigten Adressen eine zweite Bestätigungsmail auslösen (getestet 27.09.2026).
  *
  * Die zwei alten Szenarien (6105836 Guide, 7427792 Vorlagen) laufen bis zum Launch weiter,
  * sie bedienen die Live-Seite.
@@ -15,25 +18,34 @@
 import { quelleAusPfad, spracheAus, type Sprache } from "@/lib/anmeldung";
 
 export const OPTIN_WEBHOOK = "https://hook.eu1.make.com/dfaovmwbhhnd7wtdgfwkdf82inyyk820";
+export const NACHTRAG_WEBHOOK = "https://hook.eu1.make.com/di13npa7ith0tguzhc954mint11yje1i";
+
+/** Fassung des Einwilligungstexts auf der Karte. Neue Fassung, neuer Wert. */
+export const EINWILLIGUNG = "karte-2026-09-27";
 
 export type Stufe = "einsteiger" | "fortgeschritten" | "profi";
+
+/** Die erste Frage des Vergleichs-Assistenten, dieselben Werte (`src/data/vergleichAssistent.ts`). */
+export type Vorhaben = "anlegen" | "konto" | "steuer";
+export const VORHABEN: Vorhaben[] = ["anlegen", "konto", "steuer"];
 
 export type OptinDaten = {
   email: string;
   vorname: string;
   freebie: string;
-  level?: Stufe;
   quelle: string;
   sprache: Sprache;
   firma: string;
+  einwilligung: string;
 };
 
 /**
- * `sofort`: schon bestätigt oder abgemeldet, es kommt keine Bestätigungsmail, der Link
- * steht deshalb direkt auf der Danke-Seite. `bestaetigen`: neu oder noch unbestätigt, das
- * Freebie kommt nach dem Klick in der Bestätigungsmail.
+ * `sofort`: schon bestätigt oder abgemeldet, es kommt keine Bestätigungsmail.
+ * `bestaetigen`: neu oder noch unbestätigt.
  */
 export type OptinErgebnis = "sofort" | "bestaetigen";
+
+export type Anmeldung = { ergebnis: OptinErgebnis; id?: string; token?: string };
 
 /**
  * Woher jemand kommt. Aus einer Instagram-DM (`?src=dmaktie`) wird `dm:aktie`, aus dem
@@ -49,7 +61,6 @@ export const optinDaten = ({
   email,
   vorname,
   freebie,
-  level,
   pfad,
   src,
   lang,
@@ -58,7 +69,6 @@ export const optinDaten = ({
   email: string;
   vorname: string;
   freebie: string;
-  level?: Stufe;
   pfad: string;
   src?: string | null;
   lang: string | undefined;
@@ -67,10 +77,10 @@ export const optinDaten = ({
   email: email.trim(),
   vorname: vorname.trim(),
   freebie,
-  ...(level ? { level } : {}),
   quelle: quelleFuer(pfad, src),
   sprache: spracheAus(lang),
   firma,
+  einwilligung: EINWILLIGUNG,
 });
 
 export const ergebnisAus = (status: unknown): OptinErgebnis =>
@@ -78,17 +88,61 @@ export const ergebnisAus = (status: unknown): OptinErgebnis =>
 
 type FetchFn = (url: string, init: RequestInit) => Promise<Pick<Response, "ok" | "status" | "text">>;
 
-export const optinAnmelden = async (daten: OptinDaten, fetchFn: FetchFn = fetch): Promise<OptinErgebnis> => {
+const ID = /^[0-9]{10,25}$/;
+const TOKEN = /^[0-9a-f-]{36}$/;
+
+/** Liest die Antwort von Make. Was nicht passt, fällt weg, statt die Karte aufzuhalten. */
+export const anmeldungAus = (text: string): Anmeldung => {
+  try {
+    const d = JSON.parse(text) as { status?: unknown; id?: unknown; token?: unknown };
+    return {
+      ergebnis: ergebnisAus(d.status),
+      ...(typeof d.id === "string" && ID.test(d.id) ? { id: d.id } : {}),
+      ...(typeof d.token === "string" && TOKEN.test(d.token) ? { token: d.token } : {}),
+    };
+  } catch {
+    return { ergebnis: "bestaetigen" };
+  }
+};
+
+export const optinAnmelden = async (daten: OptinDaten, fetchFn: FetchFn = fetch): Promise<Anmeldung> => {
   const res = await fetchFn(OPTIN_WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(daten),
   });
   if (!res.ok) throw new Error(`Webhook ${res.status}`);
-  const text = await res.text();
+  return anmeldungAus(await res.text());
+};
+
+/** Mehrfachauswahl als feste, kommagetrennte Liste, wie Make sie prüft. */
+export const vorhabenListe = (auswahl: readonly string[]) => VORHABEN.filter((v) => auswahl.includes(v)).join(",");
+
+/** `abonnent` statt `id`: Das Feld `id` kam in Make nicht an (Tests 27.09.2026). */
+export type Nachtrag = { abonnent: string; token: string; freebie: string; stufe?: Stufe; vorhaben?: readonly string[] };
+
+/** Der Inhalt des Nachtrags, oder `null`, wenn es nichts nachzutragen gibt. */
+export const nachtragDaten = ({ abonnent, token, freebie, stufe, vorhaben = [] }: Nachtrag) => {
+  const liste = vorhabenListe(vorhaben);
+  if (!stufe && !liste) return null;
+  return { abonnent, token, freebie, stufe: stufe ?? "", vorhaben: liste };
+};
+
+/**
+ * Trägt Stufe und Vorhaben nach. Scheitert es, merkt es niemand: Die Adresse ist schon
+ * gespeichert, und ohne Stufe gilt beim Guide der Einsteiger.
+ */
+export const optinNachtragen = async (n: Nachtrag, fetchFn: FetchFn = fetch): Promise<boolean> => {
+  const daten = nachtragDaten(n);
+  if (!daten) return false;
   try {
-    return ergebnisAus((JSON.parse(text) as { status?: unknown }).status);
+    const res = await fetchFn(NACHTRAG_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(daten),
+    });
+    return res.ok;
   } catch {
-    return "bestaetigen";
+    return false;
   }
 };

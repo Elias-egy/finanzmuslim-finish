@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
@@ -15,7 +15,7 @@ import {
   type Frage,
 } from "@/data/vergleichAssistent";
 import { hoechsterBonus } from "@/data/deals";
-import { werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
+import { vorhabenAusSuche, werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
  * Geführter Vergleich: ein Fragebogen für alles, eine Frage je Bildschirm, am
@@ -44,6 +44,13 @@ const START: Stand = { ort: fragen[0].id, antworten: {} };
 const SPEICHER = "fm-vergleich-start-4";
 
 const lade = (): Stand => {
+  /* Von der Danke-Seite der Opt-in-Strecke: die erste Frage ist schon beantwortet. */
+  const vorbelegt =
+    typeof window === "undefined" ? [] : vorhabenAusSuche(window.location.search, fragen[0].antworten.map((a) => a.id));
+  if (vorbelegt.length) {
+    const antworten: Antworten = { [fragen[0].id]: vorbelegt };
+    return { ort: nach(START, antworten), antworten };
+  }
   try {
     const roh = sessionStorage.getItem(SPEICHER);
     const stand = roh ? ({ ...START, ...JSON.parse(roh) } as Stand) : START;
@@ -494,6 +501,14 @@ const VergleichAssistent = () => {
   const [stand, setStand] = useState<Stand>(lade);
   const [feier, setFeier] = useState(false);
   const { ort, antworten } = stand;
+
+  const { pathname, search, state: routerState } = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    /* Den Parameter nur einmal lesen, sonst setzt ein Neuladen mitten im Ablauf zurück.
+       Über den Router, damit Kopf-Links und Zurück-Taste den richtigen Stand kennen. */
+    if (new URLSearchParams(search).has("vorhaben")) navigate(pathname, { replace: true, state: routerState });
+  }, [search, pathname, routerState, navigate]);
 
   useEffect(() => {
     try {

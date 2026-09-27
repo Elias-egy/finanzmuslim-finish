@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { nummerEins, rangfolge } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
@@ -442,5 +442,19 @@ describe("Werbung nur für Empfehlbares", () => {
 
   it("lässt Steuerprogramme und Prüf-Apps empfehlbar wie bisher", () => {
     for (const b of bausteine) if (!istZinsKategorie(b.kategorie)) for (const a of b.anbieter) expect(empfehlbar(a.id), a.name).toBe(true);
+  });
+});
+
+describe("vorhabenAusSuche", () => {
+  const erlaubt = ["anlegen", "konto", "steuer"];
+
+  it("übernimmt bekannte Werte in der Reihenfolge der Frage", () => {
+    expect(vorhabenAusSuche("?vorhaben=steuer,anlegen", erlaubt)).toEqual(["anlegen", "steuer"]);
+  });
+
+  it("verwirft Fremdes und leere Parameter", () => {
+    expect(vorhabenAusSuche("?vorhaben=boese,konto,", erlaubt)).toEqual(["konto"]);
+    expect(vorhabenAusSuche("", erlaubt)).toEqual([]);
+    expect(vorhabenAusSuche("?vorhaben=", erlaubt)).toEqual([]);
   });
 });

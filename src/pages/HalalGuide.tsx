@@ -49,11 +49,11 @@ const audience = [
 const faqs = [
   {
     q: "Ist der Guide wirklich kostenlos?",
-    a: "Ja. Du bekommst ihn per E-Mail zugeschickt und kannst dich jederzeit wieder abmelden.",
+    a: "Ja. Du öffnest ihn direkt nach der Anmeldung und kannst dich jederzeit wieder abmelden.",
   },
   {
     q: "Wie bekomme ich den Guide?",
-    a: "Nach der Anmeldung senden wir dir den Guide an die angegebene E-Mail-Adresse. Prüfe gegebenenfalls auch deinen Spam-Ordner.",
+    a: "Trag deine E-Mail-Adresse ein und öffne den Guide auf der nächsten Seite. Nach der Bestätigung kommt der Link auch per Mail, schau notfalls im Spam-Ordner.",
   },
   {
     q: "Was passiert mit meiner E-Mail-Adresse?",
@@ -222,7 +222,7 @@ const HalalGuide = () => {
             <div className="card-surface p-8 md:p-12 text-center">
               <h2 className="headline text-2xl md:text-3xl text-foreground">Halal Investment Guide kostenlos sichern</h2>
               <p className="mt-3 text-muted-foreground">
-                Trage deine E-Mail-Adresse ein. Du bekommst den Guide zugeschickt.
+                Trage deine E-Mail-Adresse ein und öffne den Guide sofort.
               </p>
               <div className="mt-6 text-left">
                 <OptinKarte freebie={guideFreebie} ohneUeberschrift />

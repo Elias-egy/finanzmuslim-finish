@@ -200,3 +200,12 @@ export const werteAus = (
 
   return { passt, ungeprueft, raus };
 };
+
+/**
+ * `?vorhaben=anlegen,konto` von der Danke-Seite der Opt-in-Strecke: nur bekannte Werte,
+ * jeder einmal, in der Reihenfolge der Frage. Alles andere fällt weg.
+ */
+export const vorhabenAusSuche = (search: string, erlaubt: readonly string[]): string[] => {
+  const roh = (new URLSearchParams(search).get("vorhaben") ?? "").split(",");
+  return erlaubt.filter((w) => roh.includes(w));
+};

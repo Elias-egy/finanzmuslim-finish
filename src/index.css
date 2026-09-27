@@ -282,3 +282,17 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Laufband auf der Danke-Seite (Vorbild SKAILE „Relevant für“). Anhaltbar per Knopf
+   (WCAG 2.2.2), steht still bei reduzierter Bewegung. */
+@keyframes laufband {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.laufband { animation: laufband 30s linear infinite; }
+.laufband[data-pause="true"],
+.laufband:hover,
+.laufband:focus-within { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .laufband { animation: none; }
+}

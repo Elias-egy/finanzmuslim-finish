@@ -6,15 +6,19 @@ import { Wordmark } from "@/components/Wordmark";
 
 /**
  * Opt-in-Seiten für die Instagram-DM (`/gratis/…`) laufen ohne Menü (Baustein 29):
- * nur die Wortmarke oben, unten nur Impressum und Datenschutz. Alles andere mit Kopf und Fuß.
+ * nur die Wortmarke oben, unten nur Impressum und Datenschutz. Die Danke-Seiten (`/danke/…`,
+ * Baustein 30) bringen ihren eigenen Kopf mit Knopf mit, wie bei SKAILE (skaile-danke-02).
+ * Alles andere mit Kopf und Fuß.
  */
-const Schlicht = ({ children }: { children: ReactNode }) => (
-  <div className="flex min-h-screen flex-col bg-hero">
-    <header className="container flex h-16 items-center">
-      <Link to="/" aria-label="finanzmuslim Startseite">
-        <Wordmark className="text-xl" />
-      </Link>
-    </header>
+const Schlicht = ({ children, eigenerKopf = false }: { children: ReactNode; eigenerKopf?: boolean }) => (
+  <div className={`flex min-h-screen flex-col ${eigenerKopf ? "bg-background" : "bg-hero"}`}>
+    {!eigenerKopf && (
+      <header className="container flex h-16 items-center">
+        <Link to="/" aria-label="finanzmuslim Startseite">
+          <Wordmark className="text-xl" />
+        </Link>
+      </header>
+    )}
     <main className="flex-1">{children}</main>
     <footer className="container flex gap-5 py-6 text-[13px] text-muted-foreground">
       <Link to="/impressum" className="min-h-[44px] inline-flex items-center hover:text-foreground">
@@ -30,6 +34,7 @@ const Schlicht = ({ children }: { children: ReactNode }) => (
 export const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
+  if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />

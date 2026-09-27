@@ -8,7 +8,9 @@ import { guides } from "@/data/guides";
  *
  * Die offene Seite zeigt einen Ausschnitt. Das Ganze liegt unter einer Adresse mit
  * `schluessel`, wie beim Guide: nicht in der Sitemap, nicht in der Navigation, noindex.
- * Zugestellt wird der Link in der ersten Mail nach der Bestätigung (B0 je MailerLite-Gruppe).
+ * Seit 27.09.2026 nachmittags (Vault raw 2026-09-26-doomscroll-web/11) öffnet die Danke-Seite
+ * das Freebie sofort, wie bei SKAILE; die erste Mail nach der Bestätigung (B0) bringt den Link
+ * noch einmal. Die Schranke ist weich wie beim Guide: Die Schlüssel stehen im JavaScript.
  * Wer den Schlüssel ändert, macht alle verschickten Links ungültig.
  *
  * Die Texte folgen der Sprachregel in CLAUDE.md: Verb zuerst, höchstens zwei Sätze.
@@ -33,8 +35,6 @@ export type OptinFreebie = {
   frage: string;
   /** Die offene Seite zum Freebie. */
   seite: string;
-  /** Nur beim Guide: erst die Stufe, dann die Anmeldung. */
-  mitStufe: boolean;
   schluessel?: string;
   motiv?: MotivName;
 };
@@ -50,7 +50,6 @@ export const optinFreebies: OptinFreebie[] = [
     knopf: "Guide holen",
     frage: "Du willst den Guide?",
     seite: "/halal-guide",
-    mitStufe: true,
   },
   {
     id: "top-100-halal-aktien",
@@ -62,7 +61,6 @@ export const optinFreebies: OptinFreebie[] = [
     knopf: "Liste holen",
     frage: "Ist deine Aktie dabei?",
     seite: "/vorlagen/top-100-halal-aktien",
-    mitStufe: false,
     schluessel: "voll-8mq4",
     motiv: "aktienPruefen",
   },
@@ -76,7 +74,6 @@ export const optinFreebies: OptinFreebie[] = [
     knopf: "Liste holen",
     frage: "Du willst die ganze Liste?",
     seite: "/vorlagen/halal-anlagen",
-    mitStufe: false,
     schluessel: "voll-3tz9",
     motiv: "liste",
   },
@@ -90,7 +87,6 @@ export const optinFreebies: OptinFreebie[] = [
     knopf: "Ampel holen",
     frage: "Welche Farbe hat dein Vertrag?",
     seite: "/vorlagen/vertrags-ampel",
-    mitStufe: false,
     schluessel: "voll-6kd2",
     motiv: "ampel",
   },
@@ -104,7 +100,6 @@ export const optinFreebies: OptinFreebie[] = [
     knopf: "Duas holen",
     frage: "Welche Dua suchst du?",
     seite: "/vorlagen/rizq",
-    mitStufe: false,
     schluessel: "voll-9pw5",
     motiv: "kompass",
   },

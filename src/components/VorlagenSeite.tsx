@@ -31,8 +31,8 @@ type Props = {
 /**
  * Seit 27.09.2026 gibt es zwei Arten Vorlage. Offene (Aktien-Spickzettel, Baraka-Blocker)
  * zeigen alles und das PDF ohne Anmeldung. Gesperrte (`src/data/optin.ts`) zeigen auf ihrer
- * offenen Seite einen Ausschnitt, das Ganze kommt nach dem Bestätigungsklick per Mail an
- * eine Adresse mit Schlüssel. Das alte Formular, das das PDF sofort und auch bei einem
+ * offenen Seite einen Ausschnitt, das Ganze öffnet die Danke-Seite nach der Anmeldung
+ * (Adresse mit Schlüssel), und die erste Mail nach der Bestätigung bringt den Link noch einmal. Das alte Formular, das das PDF sofort und auch bei einem
  * Fehler herausgab, ist weg.
  */
 
