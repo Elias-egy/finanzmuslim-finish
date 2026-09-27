@@ -32,7 +32,12 @@ const Danke = () => {
 
   return (
     <div className="bg-background">
-      <Seo title="Fast geschafft | finanzmuslim" description="Bestätige kurz deine E-Mail-Adresse." path={`/danke/${freebie.id}`} noindex />
+      <Seo
+        title={sofort ? "Du bist dabei | finanzmuslim" : "Fast geschafft | finanzmuslim"}
+        description="Bestätige kurz deine E-Mail-Adresse."
+        path={`/danke/${freebie.id}`}
+        noindex
+      />
 
       <div className="container pt-6 md:pt-10">
         <div

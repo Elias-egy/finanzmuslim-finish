@@ -20,8 +20,7 @@ const Schnittkante = ({ freebie, weitere, zeilen = 4 }: Props) => (
     <div aria-hidden className="relative">
       <div className="card-surface overflow-hidden p-0">
         {Array.from({ length: zeilen }, (_, i) => (
-          <div key={i} className="grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 border-b border-border px-2 py-3 last:border-b-0">
-            <span className="h-3 w-5 rounded bg-muted" />
+          <div key={i} className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-border px-4 py-3 last:border-b-0">
             <span className="space-y-2">
               <span className="block h-3.5 rounded bg-muted" style={{ width: `${55 - i * 7}%` }} />
               <span className="block h-3 w-1/3 rounded bg-muted/70" />

@@ -29,7 +29,7 @@ const Top100HalalAktien = () => (
       kicker={v.kicker}
       motiv={v.motiv}
       titel={v.titel}
-      einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem Screening-Beleg zu jedem Titel."
+      einleitung="Von Apple bis Nike: bekannte Marken, alltagstauglich sortiert und mit dem Screening-Beleg zu jedem Titel."
       pdfPfad={v.pdfPfad}
       slug={v.slug}
       gesperrt={freebie}

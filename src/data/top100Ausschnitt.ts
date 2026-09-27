@@ -6,6 +6,7 @@
  * `kante` sind die Namen direkt an der Schranke, ohne Urteil. Gemischt aus der Liste und aus
  * bekannten Namen, die Musaffa als fraglich führt, damit der Name allein nichts verrät
  * (Elias, 27.09.2026: „dass man nicht das Urteil sieht, aber vielleicht schon manche Namen“).
+ * Kein Name, der schon im offenen Text steht („von Apple bis Nike“), sonst verrät der Text das Urteil.
  */
 export type AusschnittAktie = { name: string; ticker: string; bekanntFuer: string };
 
@@ -25,6 +26,6 @@ export const kante: Omit<AusschnittAktie, "ticker">[] = [
   { name: "Mondelez", bekanntFuer: "Oreo & Milka" },
   { name: "NVIDIA", bekanntFuer: "KI-Chips" },
   { name: "Ryanair", bekanntFuer: "Fluggesellschaft" },
-  { name: "Nike", bekanntFuer: "Sportmode" },
+  { name: "L’Oréal", bekanntFuer: "Kosmetik" },
   { name: "Lindt & Sprüngli", bekanntFuer: "Schokolade" },
 ];

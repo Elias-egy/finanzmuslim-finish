@@ -49,6 +49,11 @@ describe("Ausschnitt der 100 Halal-Aktien", () => {
     expect(status.size).toBeGreaterThan(1);
   });
 
+  it("nennt an der Kante keinen Namen, den der offene Text schon verrät", () => {
+    const seite = readFileSync("src/pages/vorlagen/Top100HalalAktien.tsx", "utf8");
+    for (const a of kante) expect(seite).not.toContain(a.name);
+  });
+
   it("enthält selbst kein Urteil", () => {
     const text = readFileSync("src/data/top100Ausschnitt.ts", "utf8");
     expect(text).not.toMatch(/Doubtful|status:/);

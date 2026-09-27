@@ -13,11 +13,11 @@ type Props = {
 /** Eine Zeile der Aktienliste. Enthält keine Daten, nur die Darstellung. */
 const AktienZeile = ({ rang, name, ticker, bekanntFuer, status, highlight }: Props) => (
   <div
-    className={`grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 border-b border-border px-2 py-3 last:border-b-0 ${
-      highlight ? "bg-[hsl(var(--primary)/0.05)]" : ""
-    }`}
+    className={`grid items-center gap-3 border-b border-border py-3 last:border-b-0 ${
+      rang === undefined ? "grid-cols-[1fr_auto] px-4" : "grid-cols-[2.5rem_1fr_auto] px-2"
+    } ${highlight ? "bg-[hsl(var(--primary)/0.05)]" : ""}`}
   >
-    <span className="text-[13px] font-semibold text-muted-foreground">{rang ?? ""}</span>
+    {rang !== undefined && <span className="text-[13px] font-semibold text-muted-foreground">{rang}</span>}
     <div className="min-w-0">
       <span className="block text-[15px] font-bold text-foreground">
         {name} {ticker && <span className="font-normal text-muted-foreground">· {ticker}</span>}
