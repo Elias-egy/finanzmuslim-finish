@@ -110,6 +110,7 @@ const Kopfband = () => {
       <img
         src={eliasFreigestellt}
         alt=""
+        fetchPriority="high"
         className="absolute bottom-0 left-1/2 z-10 h-[190px] w-auto max-w-none -translate-x-1/2 translate-y-6 md:h-[290px] md:translate-y-10"
       />
       <span className="absolute -bottom-12 left-1/2 z-20 h-24 w-[180%] -translate-x-1/2 rounded-[50%] bg-background md:-bottom-16 md:h-32 md:w-[140%]" />
