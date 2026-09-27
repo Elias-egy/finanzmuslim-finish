@@ -3,13 +3,14 @@
  *
  * Schritt 1 postet einmal JSON an das Make-Szenario „finanzmuslim Opt-in-Karte“ (7640717).
  * Make legt die Adresse in die MailerLite-Gruppe des Freebies (Guide: „Guide-Eingang“, die
- * Automation „Guide-Verteiler“ kopiert nach 15 Minuten in die Stufen-Gruppe) und antwortet mit
- * Status, Abonnenten-ID und einem Zufallsschlüssel, den Make beim Abonnenten ablegt. Eine
- * Bot-Anfrage (`firma` gefüllt) oder eine Anfrage ohne Einwilligung verwirft Make, dann kommt
- * nur „Accepted“ zurück.
+ * Automation „Guide-Verteiler“ kopiert nach 15 Minuten in die Stufen-Gruppe) und antwortet nur
+ * mit einem Zufallsschlüssel, den Make beim Abonnenten ablegt. Kein Status und keine ID: Sonst
+ * könnte jeder mit einer fremden Adresse abfragen, ob sie schon bestätigte Leserin ist
+ * (Security-Review 27.09.2026). Eine Bot-Anfrage (`firma` gefüllt) oder eine Anfrage ohne
+ * Einwilligung verwirft Make, dann kommt nur „Accepted“ zurück.
  *
  * Die Klickfragen danach gehen an ein zweites Szenario („Opt-in Nachtrag“). Es schreibt nur
- * Felder und nur, wenn der Schlüssel zur ID passt. Ein zweites „Create/Update“ würde bei
+ * Felder und nur, wenn der Schlüssel zur Adresse passt. Ein zweites „Create/Update“ würde bei
  * unbestätigten Adressen eine zweite Bestätigungsmail auslösen (getestet 27.09.2026).
  *
  * Die zwei alten Szenarien (6105836 Guide, 7427792 Vorlagen) laufen bis zum Launch weiter,
@@ -39,13 +40,7 @@ export type OptinDaten = {
   einwilligung: string;
 };
 
-/**
- * `sofort`: schon bestätigt oder abgemeldet, es kommt keine Bestätigungsmail.
- * `bestaetigen`: neu oder noch unbestätigt.
- */
-export type OptinErgebnis = "sofort" | "bestaetigen";
-
-export type Anmeldung = { ergebnis: OptinErgebnis; id?: string; token?: string };
+export type Anmeldung = { token?: string };
 
 /**
  * Woher jemand kommt. Aus einer Instagram-DM (`?src=dmaktie`) wird `dm:aktie`, aus dem
@@ -83,25 +78,17 @@ export const optinDaten = ({
   einwilligung: EINWILLIGUNG,
 });
 
-export const ergebnisAus = (status: unknown): OptinErgebnis =>
-  status === "active" || status === "unsubscribed" ? "sofort" : "bestaetigen";
-
 type FetchFn = (url: string, init: RequestInit) => Promise<Pick<Response, "ok" | "status" | "text">>;
 
-const ID = /^[0-9]{10,25}$/;
-const TOKEN = /^[0-9a-f-]{36}$/;
+const TOKEN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 /** Liest die Antwort von Make. Was nicht passt, fällt weg, statt die Karte aufzuhalten. */
 export const anmeldungAus = (text: string): Anmeldung => {
   try {
-    const d = JSON.parse(text) as { status?: unknown; id?: unknown; token?: unknown };
-    return {
-      ergebnis: ergebnisAus(d.status),
-      ...(typeof d.id === "string" && ID.test(d.id) ? { id: d.id } : {}),
-      ...(typeof d.token === "string" && TOKEN.test(d.token) ? { token: d.token } : {}),
-    };
+    const d = JSON.parse(text) as { token?: unknown };
+    return typeof d.token === "string" && TOKEN.test(d.token) ? { token: d.token } : {};
   } catch {
-    return { ergebnis: "bestaetigen" };
+    return {};
   }
 };
 
@@ -119,8 +106,8 @@ export const optinAnmelden = async (daten: OptinDaten, fetchFn: FetchFn = fetch)
 export const vorhabenListe = (auswahl: readonly string[]) => VORHABEN.filter((v) => auswahl.includes(v)).join(",");
 
 /**
- * `abonnent` ist die MailerLite-ID aus der Anmeldung. Die leeren Felder in den ersten Tests
- * (27.09.2026) kamen vom Testskript (kaputter Content-Type), nicht von Make oder vom Namen.
+ * `abonnent` ist die E-Mail-Adresse aus Schritt 1, Make sucht den Abonnenten darüber. Die leeren
+ * Felder in den ersten Tests (27.09.2026) kamen vom Testskript (kaputter Content-Type).
  */
 export type Nachtrag = { abonnent: string; token: string; freebie: string; stufe?: Stufe; vorhaben?: readonly string[] };
 

@@ -4,7 +4,6 @@ import {
   NACHTRAG_WEBHOOK,
   OPTIN_WEBHOOK,
   anmeldungAus,
-  ergebnisAus,
   nachtragDaten,
   optinAnmelden,
   optinDaten,
@@ -59,33 +58,27 @@ describe("optinDaten", () => {
   });
 });
 
-describe("ergebnisAus", () => {
-  it("zeigt den Link sofort, wenn keine Bestätigungsmail kommt", () => {
-    expect(ergebnisAus("active")).toBe("sofort");
-    expect(ergebnisAus("unsubscribed")).toBe("sofort");
-  });
-
-  it("bittet sonst um die Bestätigung", () => {
-    expect(ergebnisAus("unconfirmed")).toBe("bestaetigen");
-    expect(ergebnisAus(undefined)).toBe("bestaetigen");
-    expect(ergebnisAus("junk")).toBe("bestaetigen");
-  });
-});
-
 describe("anmeldungAus", () => {
-  it("liest Status, ID und Schlüssel", () => {
+  it("liest nur den Schlüssel", () => {
+    expect(anmeldungAus('{"token":"78958670-421f-4310-82a4-3db6470c3364"}')).toEqual({
+      token: "78958670-421f-4310-82a4-3db6470c3364",
+    });
+  });
+
+  it("übernimmt keinen Status und keine ID, auch wenn Make sie schicken würde", () => {
     expect(
-      anmeldungAus('{"status":"unconfirmed","id":"199765185340114885","token":"78958670-421f-4310-82a4-3db6470c3364"}'),
-    ).toEqual({ ergebnis: "bestaetigen", id: "199765185340114885", token: "78958670-421f-4310-82a4-3db6470c3364" });
+      anmeldungAus('{"status":"active","id":"199765185340114885","token":"78958670-421f-4310-82a4-3db6470c3364"}'),
+    ).toEqual({ token: "78958670-421f-4310-82a4-3db6470c3364" });
   });
 
-  it("lässt eine ID oder einen Schlüssel weg, die nicht passen", () => {
-    expect(anmeldungAus('{"status":"active","id":"abc","token":"x"}')).toEqual({ ergebnis: "sofort" });
-    expect(anmeldungAus('{"status":"active","id":"","token":""}')).toEqual({ ergebnis: "sofort" });
+  it("lässt einen Schlüssel weg, der keine UUID ist", () => {
+    expect(anmeldungAus('{"token":"x"}')).toEqual({});
+    expect(anmeldungAus('{"token":""}')).toEqual({});
+    expect(anmeldungAus('{"token":"78958670-421f-4310-82a4-3db6470c3364/../x"}')).toEqual({});
   });
 
-  it("nimmt „Accepted“ ohne JSON als unbestätigt ohne ID", () => {
-    expect(anmeldungAus("Accepted")).toEqual({ ergebnis: "bestaetigen" });
+  it("nimmt „Accepted“ ohne JSON als Anmeldung ohne Schlüssel", () => {
+    expect(anmeldungAus("Accepted")).toEqual({});
   });
 });
 
@@ -93,8 +86,8 @@ describe("optinAnmelden", () => {
   const daten = optinDaten({ email: "a@b.de", vorname: "", freebie: "rizq", pfad: "/vorlagen/rizq", lang: "de", firma: "" });
 
   it("schickt JSON an das Opt-in-Szenario und liest die Antwort", async () => {
-    const fetchFn = vi.fn(async () => antwort(true, '{"status":"active","id":"199765185340114885","token":""}'));
-    await expect(optinAnmelden(daten, fetchFn)).resolves.toEqual({ ergebnis: "sofort", id: "199765185340114885" });
+    const fetchFn = vi.fn(async () => antwort(true, '{"token":"78958670-421f-4310-82a4-3db6470c3364"}'));
+    await expect(optinAnmelden(daten, fetchFn)).resolves.toEqual({ token: "78958670-421f-4310-82a4-3db6470c3364" });
     expect(fetchFn).toHaveBeenCalledWith(OPTIN_WEBHOOK, expect.objectContaining({ method: "POST" }));
     const body = JSON.parse((fetchFn.mock.calls[0] as unknown as [string, RequestInit])[1].body as string);
     expect(body.freebie).toBe("rizq");
@@ -107,7 +100,7 @@ describe("optinAnmelden", () => {
 });
 
 describe("Nachtrag", () => {
-  const basis = { abonnent: "199765185340114885", token: "78958670-421f-4310-82a4-3db6470c3364", freebie: "guide" };
+  const basis = { abonnent: "a@b.de", token: "78958670-421f-4310-82a4-3db6470c3364", freebie: "guide" };
 
   it("schreibt das Vorhaben in fester Reihenfolge, ohne Doppelte und Fremdes", () => {
     expect(vorhabenListe(["steuer", "anlegen", "steuer", "boese"])).toBe("anlegen,steuer");

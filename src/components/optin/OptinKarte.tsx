@@ -74,8 +74,8 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
   }, [schritt]);
 
   const nachtragen = (werte: { stufe?: Stufe; vorhaben?: Vorhaben[] }) => {
-    if (!anmeldung?.id || !anmeldung.token) return;
-    void optinNachtragen({ abonnent: anmeldung.id, token: anmeldung.token, freebie: freebie.id, ...werte });
+    if (!anmeldung?.token || !gespeichert) return;
+    void optinNachtragen({ abonnent: gespeichert, token: anmeldung.token, freebie: freebie.id, ...werte });
   };
 
   const absenden = async (e: React.FormEvent) => {
