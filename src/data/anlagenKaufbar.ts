@@ -62,6 +62,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -172,7 +184,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -218,13 +230,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -282,12 +296,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -333,13 +349,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -349,6 +367,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -430,7 +460,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -440,6 +470,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -579,7 +621,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -625,13 +667,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -666,6 +710,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -850,7 +906,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -872,6 +928,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1035,7 +1103,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1057,6 +1125,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1232,10 +1312,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -1340,10 +1432,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -1472,11 +1565,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -1490,6 +1584,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "getbux.com",
             "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
           ]
         }
       },
@@ -1597,9 +1703,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "finanzen.net zero"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -1621,6 +1728,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1761,7 +1880,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -1785,6 +1904,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "getbux.com",
             "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
           ]
         }
       },
@@ -1917,12 +2048,25 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2063,9 +2207,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "comdirect Pure Depot"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -2074,6 +2219,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B588CD74": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2203,12 +2360,25 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2349,12 +2519,25 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "comdirect Pure Depot"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2483,9 +2666,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "comdirect Pure Depot"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -2600,12 +2784,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -2693,13 +2878,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "comdirect Pure Depot",
       "Consorsbank",
       "finanzen.net zero",
       "Trade Republic",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -2721,6 +2907,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -2804,7 +3002,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "27.09.2026"
   },
   "XS2115336336": {
     "kaufbar": [],

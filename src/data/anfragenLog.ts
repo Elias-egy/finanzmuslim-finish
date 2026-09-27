@@ -270,7 +270,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@comdirect.de", kern: "Gilt „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst“ auch für das Pure Depot, wie hoch ist der Satz, und ist ein dauerhafter Verzicht möglich?" },
     { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Vorgang 11756451", kern: "Guthaben auf dem Verrechnungskonto wird nicht verzinst, ausdrücklich für das Verrechnungskonto beim comdirect Depot und beim Pure Depot. Beide Depots grün." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@comdirect.de", zeichen: "Vorgang 11756451", kern: "Antwort im Faden als finanzmuslim.com: Was heißt „Handelbar auf Anfrage“ bei den HSBC-ETFs? Kaufbarkeit von elf ISINs fürs comdirect Depot, aller 22 fürs Pure Depot.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die Kaufbarkeitsfragen vom 26.09. abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Vorgang 11763010", kern: "„Auf Anfrage“ heißt nur übertragbar, kein Kauf. HSBC-ETFs in beiden Depots „nicht handelbar“. Pure Depot: fünf Islamic-ETFs, HANetf und zwei Sukuk-ETFs handelbar, Hilal Income, Comgest, Franklin und alle Metall-ETCs „nur comdirect Depot“. comdirect Depot: Metall-ETCs per Börsenhandel. Beide Depots jetzt 22 von 22 geprüft." },
+  ] },
   n26: { anbieter: "N26", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@n26.com", kern: "Wird das Guthaben auf einem N26 Flex Konto verzinst, oder nur auf einem separat eröffneten Tagesgeldkonto? Kommt beim Flex Konto ab Eröffnung ein Dispo dazu?" },
     { datum: "24.09.2026", richtung: "rein", kanal: "Mail", zeichen: "Confirmation 95124651", kern: "Keine inhaltliche Antwort. Verweis auf den Chat (support.n26.com/de-at/chat), Mail-Postfach ist nur automatisch." },

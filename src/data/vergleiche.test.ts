@@ -4,6 +4,7 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { kaufstatus } from "./kaufstatus";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
 import { steuersoftwareVergleich } from "./steuersoftwareVergleich";
@@ -268,13 +269,33 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
         const m = String(a.werte[zeile] ?? "").match(/^(\d+) von (\d+)$/);
         if (!m) continue;
         const isins = Object.keys(ANLAGE_ZEILE).filter((isin) => ANLAGE_ZEILE[isin] === zeile);
-        const belegt = isins.filter((isin) =>
-          ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => [k.haus, ...(k.haeuser ?? [])].some((h) => schluessel.includes(h))),
-        ).length;
+        // Ein Eintrag unter dem Tarif geht vor dem Hauseintrag (anlagen_matrix.py): Das Pure Depot erbt
+        // nicht die Fonds des comdirect Depots, die comdirect dort am 27.09.2026 ausgeschlossen hat.
+        const produktName = `${a.name} ${a.produkt}`;
+        const belegt = isins.filter((isin) => {
+          const e = ANLAGEN_KAUFBAR[isin];
+          if (!e) return false;
+          const vom = (keys: unknown[]) => e.kaufbar.some((k) => [k.haus, ...(k.haeuser ?? [])].some((h) => keys.includes(h)));
+          const produkt = a.finanzfluss?.produkt;
+          if (produkt && (vom([produkt]) || e.nichtImAngebot.includes(produktName))) return vom([produkt]);
+          return vom(schluessel);
+        }).length;
         expect(Number(m[1]), `${a.id} ${zeile}: ${m[0]}, belegt ${belegt}`).toBe(belegt);
         expect(Number(m[2]), `${a.id} ${zeile}: Nenner`).toBe(isins.length);
       }
     }
+  });
+
+  it("lässt den Tarifeintrag vor dem Hauseintrag gelten (comdirect Pure Depot)", () => {
+    // comdirect schriftlich am 27.09.2026 (Vorgang 11763010): Comgest und Gold „nur comdirect Depot“.
+    const depot = { name: "comdirect", produkt: "Depot" };
+    const pure = { name: "comdirect", produkt: "Pure Depot" };
+    expect(kaufstatus("IE00B4ZJ4634", depot)).toBe("kaufbar");
+    expect(kaufstatus("IE00B4ZJ4634", pure)).toBe("nicht");
+    expect(kaufstatus("IE00B579F325", depot)).toBe("kaufbar");
+    expect(kaufstatus("IE00B579F325", pure)).toBe("nicht");
+    expect(kaufstatus("IE00B27YCN58", pure)).toBe("kaufbar");
+    expect(kaufstatus("IE000X9FTI22", depot)).toBe("nicht");
   });
 
   it("nennt keinen Anbieter zugleich als kaufbar und als nicht im Angebot", () => {

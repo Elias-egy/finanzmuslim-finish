@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { ZellInhalt } from "@/components/vergleich/VergleichsBausteine";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
+import { kaufstatus } from "@/data/kaufstatus";
 import { brokerVergleich, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { girokontoVergleich, GIRO_ZEILEN } from "@/data/girokontoVergleich";
 import { kryptoVergleich, KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
@@ -63,14 +64,8 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
     .filter((z): z is VergleichsZeile => Boolean(z));
 
   const mitIsin = halalAnlagen.filter((a) => a.isin && ANLAGEN_KAUFBAR[a.isin]);
-  const kaufbar = mitIsin.filter((a) =>
-    ANLAGEN_KAUFBAR[a.isin!].kaufbar.some((k) => k.anbieter === roh.name),
-  );
-  const offen = mitIsin.filter(
-    (a) =>
-      !ANLAGEN_KAUFBAR[a.isin!].kaufbar.some((k) => k.anbieter === roh.name) &&
-      !ANLAGEN_KAUFBAR[a.isin!].nichtImAngebot.includes(roh.name),
-  ).length;
+  const kaufbar = mitIsin.filter((a) => kaufstatus(a.isin!, roh) === "kaufbar");
+  const offen = mitIsin.filter((a) => kaufstatus(a.isin!, roh) === null).length;
 
   return (
     <section className="bg-background py-12 md:py-16">

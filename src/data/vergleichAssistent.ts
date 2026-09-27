@@ -18,7 +18,7 @@ import {
 } from "@/lib/vergleichAssistent";
 import { kostenlosReicht } from "@/lib/vergleichLeser";
 import type { RohAnbieter } from "./vergleichHelfer";
-import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { kaufstatus } from "./kaufstatus";
 import { regionFuer } from "./anlageRegion";
 import { halalAnlagen } from "./halalAnlagen";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
@@ -169,7 +169,7 @@ const fondsDerRegion = (region: string) =>
   halalAnlagen.filter((x) => x.kategorie === "aktien" && x.isin && regionFuer(x.isin)?.label === region);
 
 const kaufbareFonds = (a: RohAnbieter, region: string) =>
-  fondsDerRegion(region).filter((f) => ANLAGEN_KAUFBAR[f.isin!]?.kaufbar.some((k) => k.anbieter === a.name));
+  fondsDerRegion(region).filter((f) => kaufstatus(f.isin!, a) === "kaufbar");
 
 const regionWunsch = (region: string, label: string): Wunsch => ({
   id: `region-${region}`,
@@ -178,7 +178,7 @@ const regionWunsch = (region: string, label: string): Wunsch => ({
   pruefe: (a) => {
     if (kaufbareFonds(a, region).length > 0) return true;
     const fonds = fondsDerRegion(region);
-    const ueberallGeprueft = fonds.every((f) => ANLAGEN_KAUFBAR[f.isin!]?.nichtImAngebot.includes(a.name));
+    const ueberallGeprueft = fonds.every((f) => kaufstatus(f.isin!, a) === "nicht");
     return fonds.length > 0 && ueberallGeprueft ? false : null;
   },
 });

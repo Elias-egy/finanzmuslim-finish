@@ -7,7 +7,6 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "bison",
   "bitget",
   "bux",
-  "comdirect",
   "commerzbank",
   "degiro",
   "dkb",
