@@ -59,11 +59,11 @@ export const anbieter: AboAnbieter[] = [
     id: "finn",
     name: "FINN",
     unter: "Unabhängiger Anbieter, privat und für Firmen",
-    farbe: "gruen",
-    urteil: "Passt zur zulässigen Miete",
+    farbe: "gelb",
+    urteil: "Aufbau passt, die Haftung hakt",
     grund:
-      "FINN vermietet und zahlt Haftpflicht, Kfz-Steuer, Wartung und Verschleiß. Du haftest nach den allgemeinen Regeln, also für eigenes Verschulden, und in den AGB stehen weder Verzugszinsen noch ein Kauf.",
-    preisAb: "ab 149 Euro im Monat, dazu einmalig 1.500 Euro Bereitstellung (finn.com, 27.09.2026)",
+      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Aber Reparaturen, die nicht auf Verschleiß zurückgehen, trägst du, und bei Hagel oder Diebstahl zahlst du die Selbstbeteiligung, obwohl dich keine Schuld trifft.",
+    preisAb: "ab 149 Euro im Monat, dazu einmalig 1.500 Euro Bereitstellung und 299 Euro Übergabe (finn.com und Gebührenkatalog, 27.09.2026)",
     grundlage: "AGB, Stand 30.09.2025, Gebührenkatalog vom 18.09.2026",
     agbUrl: "https://www.finn.com/de-DE/terms",
     klauseln: [
@@ -77,14 +77,21 @@ export const anbieter: AboAnbieter[] = [
         thema: "Haftung",
         fundstelle: "AGB Ziffer 12.1",
         zitat: "Der Kunde haftet bei Fahrzeugschäden, Fahrzeugverlust und Mietvertragsverletzungen nach den allgemeinen gesetzlichen Bestimmungen.",
-        hinweis: "Wartung und Verschleiß zahlt FINN (Ziffer 10.2), normale Abnutzung hast du nicht zu vertreten (Ziffer 12.2).",
+        hinweis: "Wartung und Verschleiß zahlt FINN, normale Abnutzung hast du nicht zu vertreten (Ziffern 10.2 und 12.2).",
+      },
+      {
+        thema: "Haftung",
+        fundstelle: "AGB Ziffer 10.2 und Hilfeseite Versicherung",
+        zitat:
+          "Die erforderlichen Kosten für Reparaturen (einschließlich Kosten für die Stellung eines Ersatzfahrzeugs), die nicht auf Verschleiß oder einen von FINN oder einem von FINN beauftragten Dritten zu vertretenden Sachmangel zurückzuführen sind, trägt der Kunde.",
+        hinweis: "Die Hilfeseite sagt dazu: „Die Teilkasko deckt unverschuldete Schäden am eigenen Fahrzeug ab“, mit Selbstbeteiligung, die du trägst.",
       },
       {
         thema: "Versicherung",
         fundstelle: "AGB Ziffer 2.5",
         zitat:
           "Das Mietfahrzeug ist stets angemessen haftpflichtversichert. Der Kunde wird von Schäden am Fahrzeug nach dem Leitbild einer Vollkaskoversicherung mit Selbstbeteiligung freigestellt.",
-        hinweis: "Die Höhe der Selbstbeteiligung steht erst in der Vertragsbestätigung.",
+        hinweis: "Laut Hilfe-Center im Basis-Schutz ab 500 Euro bei Teilkasko und ab 1.000 Euro bei Vollkasko, gegen Aufpreis weniger.",
       },
       {
         thema: "Verzugszins",
@@ -124,10 +131,10 @@ export const anbieter: AboAnbieter[] = [
     name: "SIXT+ Auto Abo",
     unter: "Autovermietung, privat und für Firmen",
     farbe: "gelb",
-    urteil: "Aufbau passt, zwei Klauseln haken",
+    urteil: "Aufbau passt, eine Klausel klären",
     grund:
-      "Sixt vermietet, du haftest nur, wenn du den Schaden zu vertreten hast, und es gibt weder Verzugszinsen noch einen Kauf. Aber Rabatte gelten nur bei pünktlicher Zahlung, wer zu spät zahlt, zahlt also mehr, und die Kaution legt Sixt nicht getrennt vom eigenen Geld an.",
-    preisAb: "ab 307 Euro im Monat (Seitentitel sixt.de/plus, 27.09.2026)",
+      "Sixt vermietet, du haftest ausdrücklich nur, wenn du den Schaden zu vertreten hast, und es gibt weder Verzugszinsen noch einen Kauf. Zu klären ist eine Klausel: Rabatte gelten nur bei pünktlicher Zahlung, das kann als Aufschlag für Verzug gelten.",
+    preisAb: "ab 307 Euro im Monat (Seitentitel sixt.de/plus, 27.09.2026, Bedingungen hinter dem Sternchen noch nicht geprüft)",
     grundlage: "Abo-AGB, Stand April 2026, und ergänzende Vermietbedingungen, Stand 06.26",
     agbUrl: "https://www.sixt.de/shared/plus/subscription_terms_and_conditions_de_DE.pdf",
     klauseln: [
@@ -148,13 +155,13 @@ export const anbieter: AboAnbieter[] = [
         zitat:
           "In diesem Fall haften der Mieter sowie die in den Schutzbereich der vertraglichen Haftungsbefreiung einbezogenen Fahrer je einzelnem Schadenereignis bis zu einem Betrag in Höhe des vereinbarten Selbstbehalts;",
         hinweis:
-          "Haftpflicht bis 100 Millionen Euro (F.1). Die Höhe des Selbstbehalts steht nicht in den AGB, dass Steuer und Wartung in der Rate stecken, auch nicht.",
+          "Haftpflicht bis 100 Millionen Euro (F.1). Die Haftungsfreistellung ist dort gegen Entgelt zubuchbar, ob sie im Abo enthalten ist und dass Steuer und Wartung in der Rate stecken, sagen die Abo-AGB nicht.",
       },
       {
         thema: "Verzugszins",
         fundstelle: "Vermietbedingungen D.1",
         zitat: "Sonderpreise und Preisnachlässe gelten nur für den Fall der fristgerechten Zahlung.",
-        hinweis: "Keine Verzugszinsen in den AGB. Aber wer zu spät zahlt, verliert den Rabatt und zahlt damit mehr für dieselbe Leistung.",
+        hinweis: "Keine Verzugszinsen in den AGB. Wer zu spät zahlt, verliert aber einen Rabatt und zahlt mehr für dieselbe Leistung: mit einem Gelehrten klären.",
       },
       {
         thema: "Kaution",
@@ -187,9 +194,9 @@ export const anbieter: AboAnbieter[] = [
     name: "VW FS Private Langzeitmiete",
     unter: "Nachfolger des VW-Abos, 3 oder 6 Monate",
     farbe: "gelb",
-    urteil: "Verzugszinsen im Vertrag",
+    urteil: "Verzugszinsen unterschreibst du mit",
     grund:
-      "Vermieterin ist die Euromobil GmbH aus dem VW-Konzern, sie ist Halterin und zahlt Steuer, Wartung und Verschleiß, du haftest bei einfacher Fahrlässigkeit nur bis zur Selbstbeteiligung. Aber die Bedingungen schreiben Verzugszinsen ausdrücklich fest, und Rabatte gelten nur bei pünktlicher Zahlung.",
+      "Vermieterin ist die Euromobil GmbH aus dem VW-Konzern, sie ist Halterin und zahlt Steuer, Wartung und Verschleiß. Aber die Bedingungen schreiben Verzugszinsen in gesetzlicher Höhe ausdrücklich fest, und die Selbstbeteiligung fällt je Schaden an, auch bei Diebstahl oder Hagel.",
     preisAb: "ab 729 Euro im Monat für den CUPRA Born bei 6 Monaten (Preisliste vom 01.06.2026)",
     grundlage: "Allgemeine Vermietbedingungen Private Langzeitmiete, Stand 27.05.2026, und Preisliste",
     agbUrl:
@@ -205,6 +212,7 @@ export const anbieter: AboAnbieter[] = [
         thema: "Haftung",
         fundstelle: "AVB XIII. 1. c.",
         zitat: "Greift die Haftungsreduzierung, haftet der Mieter je Schadenfall auch bei einfacher Fahrlässigkeit nur bis zur Höhe der vertraglich vereinbarten Selbstbeteiligung.",
+        hinweis: "Nach XIII. 1. a. fällt die Selbstbeteiligung „je Schaden“ an, auch bei Teilkasko-Schäden wie Diebstahl.",
       },
       {
         thema: "Versicherung",
@@ -217,7 +225,7 @@ export const anbieter: AboAnbieter[] = [
         fundstelle: "AVB III. 3. a)",
         zitat:
           "Befindet sich der Mieter in Zahlungsverzug, hat er Verzugszinsen in gesetzlicher Höhe zu entrichten. Der Verzugszins beträgt 5%-Punkte über dem Basiszinssatz.",
-        hinweis: "Dazu II. 2. a): „Etwaige Sonderpreise und Preisnachlässe gelten nur für den Fall der fristgerechten Zahlung.“",
+        hinweis: "Gelten würden sie auch ohne Klausel (§ 288 BGB), hier unterschreibst du sie. Dazu II. 2. a): „Etwaige Sonderpreise und Preisnachlässe gelten nur für den Fall der fristgerechten Zahlung.“",
       },
       {
         thema: "Kaution",
@@ -235,7 +243,7 @@ export const anbieter: AboAnbieter[] = [
         thema: "Pauschalen",
         fundstelle: "AVB V. 2. m) und Preisliste",
         zitat:
-          "Darüber hinaus ist der Mieter zur Zahlung einer Sicherstellungspauschale der bei Vertragsschluss geltenden Preisliste „Private Langzeitmiete“",
+          "Darüber hinaus ist der Mieter zur Zahlung einer Sicherstellungspauschale der bei Vertragsschluss geltenden Preisliste „Private Langzeitmiete“ […] verpflichtet.",
         hinweis: "Laut Preisliste 1.000 Euro plus Auslagen, Ersatzschlüssel 150 Euro, Mietvertragsänderung 100 Euro.",
       },
       {
@@ -253,7 +261,7 @@ export const anbieter: AboAnbieter[] = [
     farbe: "gelb",
     urteil: "Aufbau passt, die Haftung hakt",
     grund:
-      "Die Hyundai-Tochter vermietet, Versicherung, Kfz-Steuer und Wartung stecken in der Rate, kaufen kannst du nicht, Verzugszinsen gibt es keine. Aber laut eigener FAQ zahlst du die Selbstbeteiligung auch für Schäden, deren Verursacher unbekannt ist, und bei vorzeitiger Kündigung bis zu alle restlichen Raten.",
+      "Die Hyundai-Tochter vermietet, Versicherung, Kfz-Steuer und Wartung stecken in der Rate, kaufen kannst du nicht, Verzugszinsen gibt es keine. Aber laut eigener FAQ zahlst du die Selbstbeteiligung auch für Schäden, deren Verursacher unbekannt ist.",
     preisAb: "ab 380 Euro im Monat für den i20, als Aktion ab 336 Euro (de.subscription.mocean.com, 27.09.2026)",
     grundlage: "AGB der Hyundai Connected Mobility GmbH, ohne Datum, und FAQ",
     agbUrl: "https://de.subscription.mocean.com/agreements/general-terms-b2c",
@@ -273,9 +281,13 @@ export const anbieter: AboAnbieter[] = [
       },
       {
         thema: "Versicherung",
-        fundstelle: "AGB Nr. 7.3 und FAQ",
-        zitat:
-          "Die Versicherungs-Prämie ist in der monatlichen Rate enthalten. […] Für alle MOCEAN -Abos gilt die standardmäßige Selbstbeteiligung von 1.000 Euro pro Schadensfall.",
+        fundstelle: "AGB Nr. 7.3",
+        zitat: "Die Versicherungs-Prämie ist in der monatlichen Rate enthalten.",
+      },
+      {
+        thema: "Versicherung",
+        fundstelle: "FAQ",
+        zitat: "Für alle MOCEAN -Abos gilt die standardmäßige Selbstbeteiligung von 1.000 Euro pro Schadensfall.",
       },
       {
         thema: "Verzugszins",
@@ -307,8 +319,8 @@ export const anbieter: AboAnbieter[] = [
         thema: "Laufzeit",
         fundstelle: "AGB Nr. 11.1 b)",
         zitat:
-          "Im Falle einer vorzeitigen Kündigung verpflichten Sie sich, uns eine Stornierungsgebühr gemäß Anhang 2 zu zahlen",
-        hinweis: "Laut Anhang 2 je nach Laufzeit 25 bis 100 Prozent der restlichen Monatsgebühren.",
+          "Im Falle einer vorzeitigen Kündigung verpflichten Sie sich, uns eine Stornierungsgebühr gemäß Anhang 2 zu zahlen, es sei denn, Sie weisen nach, daß uns kein oder ein wesentlich geringerer Aufwand und/oder Schaden entstanden ist.",
+        hinweis: "Laut Anhang 2 je nach Laufzeit 25 bis 100 Prozent der restlichen Monatsgebühren. Das ist mehr Spielraum als bei den meisten anderen, dort ist vorzeitig gar nicht kündbar.",
       },
       {
         thema: "Kauf",
@@ -331,9 +343,13 @@ export const anbieter: AboAnbieter[] = [
     klauseln: [
       {
         thema: "Vertragsart",
-        fundstelle: "FAQ und Produktseite",
-        zitat:
-          "Alle Fahrzeuge im KINTO Auto Abo sind auf die KINTO Deutschland GmbH zugelassen. Diese ist auch Versicherungsnehmer. […] Der Händler kontaktiert Sie, klärt die Details und schließt den Vertrag mit Ihnen.",
+        fundstelle: "FAQ",
+        zitat: "Alle Fahrzeuge im KINTO Auto Abo sind auf die KINTO Deutschland GmbH zugelassen. Diese ist auch Versicherungsnehmer.",
+      },
+      {
+        thema: "Vertragsart",
+        fundstelle: "Produktseite",
+        zitat: "Der Händler kontaktiert Sie, klärt die Details und schließt den Vertrag mit Ihnen.",
       },
       {
         thema: "Haftung",
@@ -385,7 +401,7 @@ export const anbieter: AboAnbieter[] = [
     farbe: "rot",
     urteil: "Haftung auch ohne Verschulden",
     grund:
-      "Mercedes vermietet und bleibt Eigentümer, Wartung und Reifen zahlt der Vermieter. Aber die Selbstbeteiligung zahlst du für jeden Schadenfall, ob du ihn zu vertreten hast oder nicht, und die Bedingungen nennen ausdrücklich Verzugszinsen.",
+      "Mercedes vermietet und bleibt Eigentümer, Wartung und Reifen zahlt der Vermieter. Aber die Selbstbeteiligung zahlst du für jeden Schadenfall, ob du ihn zu vertreten hast oder nicht, ohne Vereinbarung 2.000 Euro, und die Bedingungen nennen Verzugszinsen ausdrücklich.",
     preisAb: "kein Monatspreis veröffentlicht, der Preis entsteht erst im Buchungsweg (mieten.mercedes-benz.de, 27.09.2026)",
     grundlage: "Allgemeine Mietbedingungen der Mercedes-Benz Automotive Mobility GmbH, Stand Oktober 2025",
     agbUrl: "https://mieten.mercedes-benz.de/documents/de-DE/Allgemeine_Mietbedingungen_Mercedes-Benz_Rent_PKW.pdf",
@@ -446,7 +462,7 @@ export const anbieter: AboAnbieter[] = [
     farbe: "rot",
     urteil: "Fällt bei der Muster-AGB durch",
     grund:
-      "FAAREN vermittelt nur, gemietet wird beim Autohaus zu dessen AGB. Die Muster-AGB, die gut die Hälfte der Autohäuser dort nutzt, legt dir ab Übergabe die Gefahr für Diebstahl, Unfall und Hagel auf, genau daran scheitert auch klassisches Leasing.",
+      "FAAREN vermittelt nur, gemietet wird beim Autohaus zu dessen AGB. Die Muster-AGB, die gut die Hälfte der Autohäuser dort nutzt, legt dir ab Übergabe die Gefahr für Diebstahl, Unfall und Hagel auf, daran scheitert auch klassisches Leasing.",
     preisAb: "Renault ab 289 Euro im Monat, dazu 79 Euro Servicegebühr je Buchung (faaren.com, 27.09.2026)",
     grundlage: "Endkunden-AGB vom 08.06.2026 und Muster-AGB für Autohäuser, Stand 01.07.2024",
     agbUrl: "https://faaren.com/agbs/agb-de",
@@ -548,7 +564,7 @@ export const fragen: { titel: string; text: string }[] = [
     text: "Richtig ist: auf den Anbieter. Steht dein Name im Fahrzeugbrief, trägst du Pflichten, die zum Eigentümer gehören.",
   },
   {
-    titel: "Zahlst du Versicherung, Steuer, Wartung und Verschleiß?",
+    titel: "Wer zahlt Versicherung, Steuer und Wartung?",
     text: "Alles, was das Auto fahrbereit hält, gehört zum Vermieter. Er darf es in die Rate einrechnen, aber nicht auf dich abwälzen.",
   },
   {
@@ -557,7 +573,7 @@ export const fragen: { titel: string; text: string }[] = [
   },
   {
     titel: "Was kostet es, wenn ich eine Rate zu spät zahle?",
-    text: "Verzugszinsen, ein Aufschlag oder ein wegfallender Rabatt sind Zins für Zeit. Ohne Klausel erlaubt das Gesetz Verzugszinsen trotzdem, pünktlich zahlen hält dich davon fern.",
+    text: "Verzugszinsen oder ein Aufschlag für Verzug sind Zins für Zeit, ein wegfallender Rabatt kann es sein. Ohne Klausel erlaubt das Gesetz Verzugszinsen trotzdem, pünktlich zahlen hält dich davon fern.",
   },
   {
     titel: "Muss ich am Ende kaufen, oder läuft etwas über eine Bank?",
@@ -567,7 +583,7 @@ export const fragen: { titel: string; text: string }[] = [
 
 /** Was für Firmen anders ist. */
 export const firmen =
-  "FINN und SIXT nutzen für Firmen dieselben AGB wie für Privatkunden, die Prüfung oben gilt also genauso. Das Business Abo von VW FS hat eigene Bedingungen, mit 9 Prozentpunkten Verzugszins über dem Basiszins. Für klassisches Leasing als Firma sehen einzelne Gelehrte je nach Lage eine Ausnahme, die klärst du aber mit einem Gelehrten, nicht mit dem Steuerberater.";
+  "FINN und SIXT nutzen für Firmen dieselben AGB wie für Privatkunden, die Prüfung oben gilt also genauso. Das Business Abo von VW FS hat eigene Bedingungen, mit ausdrücklich vereinbartem Verzugszins in gesetzlicher Höhe. Für klassisches Leasing als Firma sehen einzelne Gelehrte je nach Lage eine Ausnahme, die klärst du aber mit einem Gelehrten, nicht mit dem Steuerberater.";
 
 /**
  * Rechenbeispiel Hyundai IONIQ 5 (63 kWh, 125 kW, Heckantrieb), die einzige Version, die im Abo, im
@@ -577,45 +593,53 @@ export const firmen =
  * Session, übernommen in `~/rebrand/P3_GOLD_AUTO_PRUEFUNG.md`.
  */
 const ADAC_FIX = 199; // Kfz-Steuer mit Befreiung, Haftpflicht und Vollkasko je 50 Prozent Beitragssatz, pro Monat
-const ADAC_WERKSTATT = 79; // pro Monat, 5 Jahre, 15.000 km
-const ADAC_WERTVERLUST = 515; // pro Monat, 5 Jahre, 15.000 km
+const ADAC_WERKSTATT = 54; // pro Monat, ADAC-Datensatz 48 Monate, 10.000 km im Jahr (passend zum Leasingbeispiel)
+const ADAC_WERTVERLUST = 560; // pro Monat, derselbe Datensatz
+
+const summe = (posten: { betrag: number }[]) => posten.reduce((s, p) => s + p.betrag, 0);
+const rund = (n: number) => (Math.round(n / 10) * 10).toLocaleString("de-DE");
+
+const abo = [
+  { was: "12 Raten zu 602 Euro", betrag: 12 * 602 },
+  { was: "Versicherung, Steuer, Wartung", betrag: 0 },
+];
+const leasing = [
+  { was: "12 Raten zu 329 Euro", betrag: 12 * 329 },
+  { was: "Ein Viertel der Sonderzahlung von 4.000 Euro", betrag: 4000 / 4 },
+  { was: "Versicherung und Steuer (ADAC)", betrag: 12 * ADAC_FIX },
+  { was: "Werkstatt (ADAC)", betrag: 12 * ADAC_WERKSTATT },
+];
+const barkauf = [
+  { was: "Wertverlust (ADAC)", betrag: 12 * ADAC_WERTVERLUST },
+  { was: "Versicherung und Steuer (ADAC)", betrag: 12 * ADAC_FIX },
+  { was: "Werkstatt (ADAC)", betrag: 12 * ADAC_WERKSTATT },
+];
 
 export const rechnung: Rechnung = {
   einleitung:
-    "Sieh ein Jahr mit demselben Auto, dem Hyundai IONIQ 5 mit 63 kWh. Die Kilometer weichen ab, weil jeder rechnet, wie er anbietet: Abo 12.000, Leasing 10.000, ADAC 15.000 im Jahr.",
+    "Sieh ein Jahr mit demselben Auto, dem Hyundai IONIQ 5 mit 63 kWh. Das Abo rechnet mit 12.000 km im Jahr, Leasing und ADAC mit 10.000 km.",
   summeWort: "Im Jahr",
   wege: [
     {
       name: "Auto-Abo",
-      posten: [
-        { was: "12 Raten zu 602 Euro", betrag: 12 * 602 },
-        { was: "Versicherung, Steuer, Wartung", betrag: 0 },
-      ],
+      posten: abo,
       hinweis: "Alles in der Rate außer Strom. Abholung beim Händler kostenlos, Lieferung nach Hause 249 Euro.",
     },
     {
       name: "Leasing",
-      posten: [
-        { was: "12 Raten zu 329 Euro", betrag: 12 * 329 },
-        { was: "Ein Viertel der Sonderzahlung von 4.000 Euro", betrag: 4000 / 4 },
-        { was: "Versicherung und Steuer (ADAC)", betrag: 12 * ADAC_FIX },
-        { was: "Werkstatt (ADAC)", betrag: 12 * ADAC_WERKSTATT },
-      ],
+      posten: leasing,
       hinweis: "Vier Jahre fest, die Vollkasko ist Pflicht und läuft auf dich. Dazu Überführungskosten, deren Höhe das Beispiel nicht nennt.",
     },
     {
       name: "Bar kaufen",
-      posten: [
-        { was: "Wertverlust (ADAC)", betrag: 12 * ADAC_WERTVERLUST },
-        { was: "Versicherung und Steuer (ADAC)", betrag: 12 * ADAC_FIX },
-        { was: "Werkstatt (ADAC)", betrag: 12 * ADAC_WERKSTATT },
-      ],
+      posten: barkauf,
       hinweis:
-        "Du legst 45.750 Euro plus Überführung auf einmal hin. Der Wertverlust ist ein Schnitt über fünf Jahre, bei zwei Jahren und 10.000 km rechnet der ADAC mit 755 Euro im Monat.",
+        "Du legst 45.750 Euro plus Überführung auf einmal hin, eine staatliche Förderung hängt vom Einkommen ab und ist nicht abgezogen. Der Wertverlust ist ein Schnitt über vier Jahre, bei zwei Jahren rechnet der ADAC mit 755 Euro im Monat.",
     },
   ],
-  fazit:
-    "In diesem Beispiel kostet das Abo im Jahr rund 1.060 Euro weniger als Leasing und rund 2.290 Euro weniger als der Barkauf, weil Versicherung, Wartung und Wertverlust in der Rate stecken. Wer ein Auto viele Jahre fährt oder günstiger versichert ist, kann mit dem Barkauf vorne liegen: Rechne mit deinen eigenen Zahlen.",
+  fazit: `In diesem Beispiel kostet das Abo im Jahr rund ${rund(summe(leasing) - summe(abo))} Euro weniger als Leasing und rund ${rund(
+    summe(barkauf) - summe(abo),
+  )} Euro weniger als der Barkauf, vor allem weil Versicherung und Wartung in der Rate stecken. Wer ein Auto viele Jahre fährt, günstiger versichert ist oder gefördert wird, kann mit dem Barkauf vorne liegen: Rechne mit deinen eigenen Zahlen.`,
   quellen:
-    "Abo: MOCEAN, IONIQ 5 63 kWh, 12 Monate, 1.000 km im Monat. Leasing: Leasingbeispiel der HYUNDAI Finance auf hyundai.com, 48 Monate, 40.000 km, gültig bis 30.09.2026. Kaufpreis: Preisliste Hyundai, Stand Juli 2026. Laufende Kosten: ADAC Autokosten für den IONIQ 5 (63 kWh) 2WD, 5 Jahre, 15.000 km im Jahr, Versicherung mit 50 Prozent Beitragssatz. Alles abgerufen am 27.09.2026.",
+    "Abo: MOCEAN, IONIQ 5 63 kWh, 12 Monate, 1.000 km im Monat. Leasing: Leasingbeispiel der HYUNDAI Finance auf hyundai.com, 48 Monate, 40.000 km, gültig bis 30.09.2026. Kaufpreis: Preisliste Hyundai, Stand Juli 2026. Laufende Kosten: ADAC Autokosten für den IONIQ 5 (63 kWh) 2WD, 4 Jahre, 10.000 km im Jahr, Versicherung mit 50 Prozent Beitragssatz. Alles abgerufen am 27.09.2026.",
 };

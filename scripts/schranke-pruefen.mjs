@@ -11,6 +11,9 @@ import { dirname, join, resolve } from "node:path";
 const DIST = resolve("dist");
 const lies = (p) => readFileSync(p, "utf8");
 const werte = (datei, feld) => [...lies(datei).matchAll(new RegExp(`${feld}:\\s*"((?:[^"\\\\]|\\\\.)*)"`, "g"))].map((m) => m[1]);
+// Vorlagen-Strings (`…${x}…`): jedes feste Stück zwischen den Platzhaltern zählt als Merkmal.
+const stuecke = (datei, feld) =>
+  [...lies(datei).matchAll(new RegExp(`${feld}:\\s*\`([^\`]*)\``, "g"))].flatMap((m) => m[1].split(/\$\{[^}]*\}/));
 
 // Gesperrt ist, was in der vollen Datei steht und nicht im Ausschnitt.
 const ohne = (alle, offen) => alle.filter((w) => w.length > 12 && !offen.includes(w));
@@ -28,9 +31,16 @@ const merkmale = {
   "vorlagen/gold-check": [
     ...ohne(werte("src/data/goldCheck.ts", "grund"), werte("src/data/goldCheckAusschnitt.ts", "grund")),
     ...ohne(werte("src/data/goldCheck.ts", "beispiel"), werte("src/data/goldCheckAusschnitt.ts", "beispiel")),
+    ...ohne(stuecke("src/data/goldCheck.ts", "beispiel"), stuecke("src/data/goldCheckAusschnitt.ts", "beispiel")),
+    ...ohne(werte("src/data/goldCheck.ts", "urteil"), werte("src/data/goldCheckAusschnitt.ts", "urteil")),
+    // Titel nur bei den Fragen: Zwischenüberschriften wie „Platin und Palladium“ stehen auch in offenen Beiträgen.
+    ...ohne([...werte("src/data/goldCheck.ts", "titel").filter((t) => t.endsWith("?")), ...werte("src/data/goldCheck.ts", "text")], []),
   ],
   // Grund und Wortlaut je Anbieter; die offene Seite nennt nur Namen.
-  "vorlagen/auto-abo-check": [...werte("src/data/autoAboCheck.ts", "grund"), ...werte("src/data/autoAboCheck.ts", "zitat")].filter((w) => w.length > 12),
+  "vorlagen/auto-abo-check": ohne(
+    ["grund", "zitat", "hinweis", "urteil", "preisAb", "text", "beleg", "einleitung", "grundlage"].flatMap((f) => werte("src/data/autoAboCheck.ts", f)),
+    [],
+  ),
   // Namen sind zu kurz und zu allgemein („Canon“ steckt in „canonical“), deshalb die Zeile darunter.
   "vorlagen/top-100-halal-aktien": werte("src/data/top100Aktien.ts", "bekanntFuer").filter(
     (w) => w.length > 8 && !werte("src/data/top100Ausschnitt.ts", "bekanntFuer").includes(w),

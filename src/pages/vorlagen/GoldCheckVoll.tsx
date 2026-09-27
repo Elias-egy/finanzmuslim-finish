@@ -16,8 +16,8 @@ const freebie = optinFreebie("gold-check")!;
 const pfad = vollPfad(freebie);
 const farben: Farbe[] = ["gruen", "gelb", "rot"];
 const ueberschrift: Record<Farbe, string> = {
-  gruen: "Zulässig mit Bedingung",
-  gelb: "Kommt auf den Vertrag an",
+  gruen: "Zulässig",
+  gelb: "Prüfen oder umstritten",
   rot: "Fällt weg",
 };
 
@@ -50,7 +50,7 @@ const GoldCheckVoll = () => (
             <div className="flex items-center gap-3">
               <span className={`h-6 w-6 shrink-0 rounded-full shadow-[inset_0_-2px_4px_rgba(0,0,0,0.15)] ${bewertung[farbe].punkt}`} aria-hidden />
               <h2 id={`farbe-${farbe}`} className="text-2xl font-bold text-foreground">
-                {ueberschrift[farbe]}: {gruppe.length} Wege
+                {ueberschrift[farbe]}: {gruppe.length} {gruppe.length === 1 ? "Weg" : "Wege"}
               </h2>
             </div>
             <div className="mt-4 space-y-3">

@@ -19,7 +19,7 @@ const GoldCheck = () => (
   <>
     <Seo
       title="Gold kaufen halal? Der Gold-Check für zehn Wege | finanzmuslim"
-      description="Prüfe, welcher Weg zu Gold halal ist: Barren beim Händler, Online-Kauf, Sparplan, ETC und Altgold beim Juwelier. Zu jedem Weg das Urteil, der Grund und ein Beispiel."
+      description="Prüfe, welcher Weg zu Gold halal ist: Barren, Sparplan und Altgold beim Juwelier. Zu jedem Weg das Urteil, der Grund und ein Beispiel."
       path="/vorlagen/gold-check"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Gold-Check", path: "/vorlagen/gold-check" }]}
     />

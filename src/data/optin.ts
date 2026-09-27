@@ -132,7 +132,7 @@ export const optinFreebies: OptinFreebie[] = [
     ueberschrift: ["Hol dir den ganzen", "Auto\u2011Abo\u2011Check"],
     nutzen: "Prüfe jeden Anbieter vor der Unterschrift: Urteil, Wortlaut und Rechenbeispiel.",
     knopf: "Auto-Abo-Check holen",
-    frage: "Welches Abo kommt für dich infrage?",
+    frage: "Welches Abo passt zu dir?",
     seite: "/vorlagen/auto-abo-check",
     schluessel: "voll-2ak6",
     motiv: "auto",

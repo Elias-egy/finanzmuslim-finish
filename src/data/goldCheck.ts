@@ -34,7 +34,7 @@ export const faelle: GoldFall[] = [
     farbe: "gruen",
     urteil: "Zulässig",
     grund:
-      "Du zahlst und bekommst im selben Moment ein bestimmtes Stück, genau dafür ist die Regel gemacht. Mit Karte geht es auch, solange du die Zahlung nicht mehr zurückholen kannst.",
+      "Du zahlst und bekommst im selben Moment ein bestimmtes Stück, dafür ist die Regel gemacht. Mit Karte geht es auch, solange du die Zahlung nicht mehr zurückholen kannst.",
     beispiel: `Du kaufst in einer Filiale einen 10-g-Barren. Der reine Metallwert liegt bei rund ${euro(10)} (${preisStand}), dazu kommt der Aufschlag des Händlers. Du zahlst mit Girocard und nimmst den Barren mit.`,
   },
   {
@@ -44,16 +44,16 @@ export const faelle: GoldFall[] = [
     farbe: "rot",
     urteil: "Fällt weg",
     grund:
-      "Liegt das Gold bei dir und das Geld erst Tage später beim Händler, fallen Übergabe und Zahlung auseinander. Genau das verbietet die Regel, auch wenn kein Cent Zins anfällt.",
+      "Liegt das Gold bei dir und das Geld erst Tage später beim Händler, fallen Übergabe und Zahlung auseinander. Das verbietet die Regel, auch wenn kein Cent Zins anfällt.",
     beispiel:
-      "Ein Shop bietet „Kauf auf Rechnung, zahlbar in 14 Tagen“ oder Ratenzahlung über einen Zahlungsdienst an. Du bekommst den Barren und zahlst später: fällt weg. Andersherum genauso, wenn du heute zahlst und der Barren erst in vier Wochen kommt.",
+      "Ein Shop bietet „Kauf auf Rechnung, zahlbar in 14 Tagen“ oder Ratenzahlung über einen Zahlungsdienst an. Du bekommst den Barren und zahlst später: fällt weg. Andersherum genauso, wenn du heute zahlst und der Händler den Barren erst in vier Wochen besorgt.",
   },
   {
     id: "altgold",
     fall: "Altgold gegen neues Gold",
     unter: "Beim Juwelier in Zahlung geben",
     farbe: "rot",
-    urteil: "Fällt weg, als ein Geschäft",
+    urteil: "Fällt weg",
     grund:
       "Gold gegen Gold geht nur im gleichen Gewicht, egal ob Schmuck oder Barren, alt oder neu. Altgold plus Zuzahlung gegen einen Barren ist deshalb Riba, auch wenn der Juwelier es anders rechnet.",
     beispiel: `Du gibst eine 585er-Kette mit 20 g und legst Geld drauf, dafür bekommst du einen 10-g-Barren: fällt weg. Richtig sind zwei Geschäfte. Der Juwelier kauft die Kette an und zahlt dir den Betrag aus, ihr Feingoldwert liegt bei rund ${euro(20 * 0.585)} (${preisStand}). Danach kaufst du mit dem Geld den Barren, gern beim selben Juwelier.`,
@@ -67,29 +67,29 @@ export const faelle: GoldFall[] = [
     grund:
       "Der Aufbau kann sauber sein: Du beauftragst den Anbieter, er kauft sofort und teilt dir das Gold zu. Das Zertifikat prüft diesen Ablauf, die Gebühren prüft es nicht, die schaust du selbst an.",
     beispiel:
-      "INAIA lässt seinen Gold-Sparplan von Minhaj Shari'ah Financial Advisory in Dubai nach den AAOIFI-Kriterien prüfen. Das Gold lagert in Deutschland und der Schweiz, die Lagerung kostet 1 Euro im Monat, auf Wunsch wird geliefert. Vor dem Abschluss fragst du nach einer Abschlussgebühr: Steht ihr keine Leistung gegenüber, hilft auch das Zertifikat nicht.",
+      "INAIA lässt seinen Gold-Sparplan von Minhaj Shari'ah Financial Advisory in Dubai nach den AAOIFI-Kriterien prüfen. Das Gold lagert in Deutschland und der Schweiz, die Lagerung kostet 1 Euro im Monat, auf Wunsch wird geliefert. Frag vor dem Abschluss nach einer Abschlussgebühr: Einzelne Gelehrte sehen eine Gebühr ohne Gegenleistung kritisch, und das Zertifikat prüft sie nicht.",
   },
   {
     id: "sparplan-ohne",
     fall: "Goldsparplan ohne Zertifikat",
     unter: "Oft mit Abschlussgebühr vorab",
     farbe: "gelb",
-    urteil: "Prüfen, meist hakt es an der Gebühr",
+    urteil: "Prüfen: Zuteilung und Gebühr",
     grund:
-      "Die meisten Goldsparpläne sind nicht auf islamische Regeln ausgelegt. Der häufigste Haken ist eine Abschlussgebühr, die mit Sparsumme und Laufzeit wächst, obwohl die Leistung dieselbe bleibt.",
+      "Die meisten Goldsparpläne sind nicht auf islamische Regeln ausgelegt. Prüfe zuerst, ob dir jede Einzahlung sofort als Gold zugeteilt wird, dann die Abschlussgebühr, die bei manchen Anbietern mit Sparsumme und Laufzeit wächst.",
     beispiel:
-      "Zwei Sparer, gleicher Vertrag: einer spart 50 Euro im Monat, der andere 150. Der zweite zahlt die dreifache Abschlussgebühr für dieselbe Beratung. Wird die Gebühr von den ersten Raten abgezogen, liegen nach einem halben Jahr oft erst ein, zwei Gramm im Tresor.",
+      "Zwei Sparer, gleicher Vertrag: einer spart 50 Euro im Monat, der andere 150. Bei einer Gebühr in Prozent der Sparsumme zahlt der zweite das Dreifache für dieselbe Beratung. Bei manchen Sparern, deren Gebühr von den ersten Raten abging, lagen nach einem halben Jahr erst ein, zwei Gramm im Tresor.",
   },
   {
     id: "etc",
     fall: "Gold-ETC mit echtem Metall",
     unter: "Wertpapier im Depot, physisch besichert",
     farbe: "gelb",
-    urteil: "Gelehrte sind uneins",
+    urteil: "Umstritten unter Gelehrten",
     grund:
       "Hinter guten ETCs liegen nummerierte Barren, und ein Gremium prüft sie jedes Jahr. Ein Teil der Gelehrten lässt das gelten, ein anderer sagt, ohne Zugriff auf das Metall gibt es keine echte Übergabe.",
     beispiel:
-      "Der ETC der Royal Mint lagert das Gold im eigenen Tresor in Cardiff, Privatanleger können sich Barren und Münzen ausliefern lassen, das Zertifikat kommt von Amanie Advisors. Bei den meisten anderen ETCs geht die Auslieferung nicht, und das Gremium der WisdomTree-Produkte schreibt selbst, dass erst nach zwei Tagen abgerechnet wird. Wer sichergehen will, kauft Barren oder fragt einen Gelehrten.",
+      "Der ETC der Royal Mint lagert das Gold im eigenen Tresor in Wales, Privatanleger können sich Barren und Münzen ausliefern lassen, das Zertifikat kommt von Amanie Advisors. Bei den meisten anderen ETCs geht die Auslieferung nicht, und das Gremium der WisdomTree-Produkte schreibt selbst, dass erst nach zwei Tagen abgerechnet wird. Wer sichergehen will, kauft Barren oder fragt einen Gelehrten.",
   },
   {
     id: "online-lieferung",
@@ -109,8 +109,8 @@ export const faelle: GoldFall[] = [
     farbe: "gelb",
     urteil: "Kommt auf den Lagervertrag an",
     grund:
-      "Du musst das Gold nicht in der Hand halten, es muss dir aber gehören. Sauber ist ein bestimmter Bestand auf deinen Namen, über den der Händler nicht mehr verfügen darf, heikel ist ein bloßes Lieferversprechen.",
-    beispiel: `Du kaufst einen 50-g-Barren für einen Metallwert von rund ${euro(50)} (${preisStand}) und lässt ihn im Tresor des Händlers. Steht im Lagervertrag „Eigentum des Kunden“, „Sondervermögen“ oder deine Barrennummer, passt es. Steht dort nur, dass der Händler dir Gold „schuldet“ oder „liefert“, hast du einen Anspruch gekauft und kein Gold.`,
+      "Du musst das Gold nicht in der Hand halten, es muss dir aber gehören. Sauber ist ein Bestand, der dir am Kauftag zugeteilt wird und über den der Händler nicht mehr verfügen darf, heikel ist ein bloßes Lieferversprechen.",
+    beispiel: `Du kaufst einen 50-g-Barren für einen Metallwert von rund ${euro(50)} (${preisStand}) und lässt ihn im Tresor des Händlers. Steht im Lagervertrag deine Barrennummer oder dein zugeteilter Anteil ab dem Kauftag, passt es. Steht dort nur, dass der Händler dir Gold „schuldet“ oder „liefert“, hast du einen Anspruch gekauft und kein Gold.`,
   },
   {
     id: "zertifikat-cfd",
@@ -132,7 +132,7 @@ export const faelle: GoldFall[] = [
     grund:
       "Schmuck ist Gold, auch Weißgold und Roségold. Du zahlst und bekommst das Stück im selben Moment, Raten und Tausch gegen alten Schmuck mit Aufpreis fallen weg.",
     beispiel:
-      "Du kaufst Brautschmuck in 22 Karat beim Juwelier, zahlst mit Karte und nimmst ihn mit: passt. Wird das Stück erst angefertigt und du zahlst vorab, gibt es beim Kauf noch nichts zu übergeben. Sauberer ist es, zu zahlen, wenn das fertige Stück vor dir liegt.",
+      "Du kaufst Brautschmuck in 22 Karat beim Juwelier, zahlst mit Karte und nimmst ihn mit: passt. Wird das Stück erst angefertigt, fällt Vorabzahlen weg: Bestellen darfst du, gekauft und bezahlt wird, wenn das fertige Stück vor dir liegt.",
   },
 ];
 
@@ -147,7 +147,7 @@ export const fragen: { titel: string; text: string }[] = [
     text: "Keine Raten, keine Rechnung, keine Anzahlung mit Rest später. Altes Gold verkaufst du vorher in einem eigenen Geschäft.",
   },
   {
-    titel: "Gehört dir ein bestimmtes Stück?",
+    titel: "Gehört dir ein bestimmter Bestand?",
     text: "Barrennummer, Zertifikatskarte oder eine Menge, die als dein Eigentum getrennt lagert. Ein bloßes Lieferversprechen ist kein Gold.",
   },
 ];
@@ -164,6 +164,6 @@ export const gutZuWissen: { titel: string; text: string }[] = [
   },
   {
     titel: "Zakat",
-    text: "Gold ist Sparen, kein Investment: Es arbeitet nicht. Liegst du über dem Nisab, fallen jedes Jahr 2,5 Prozent auf den Wert an.",
+    text: "Gold ist Sparen, kein Investment. Liegst du ein Mondjahr lang über dem Nisab, fallen 2,5 Prozent auf den Wert an, ob getragener Schmuck mitzählt, ist unter Gelehrten umstritten.",
   },
 ];

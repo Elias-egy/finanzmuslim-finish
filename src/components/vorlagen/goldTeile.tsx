@@ -1,4 +1,4 @@
-import { bewertung, type Farbe } from "@/components/vorlagen/ampelTeile";
+import { bewertung, UrteilPille, type Farbe } from "@/components/vorlagen/ampelTeile";
 import type { GoldFall } from "@/data/goldCheck";
 
 /**
@@ -9,7 +9,7 @@ import type { GoldFall } from "@/data/goldCheck";
 const legende: { farbe: Farbe; text: string }[] = [
   { farbe: "gruen", text: "Zulässig, solange die Bedingung im Grund erfüllt ist." },
   { farbe: "gelb", text: "Kommt auf den Vertrag an, oder Gelehrte sind uneins. Prüfen, nicht raten." },
-  { farbe: "rot", text: "Fällt weg. Keine Bedingung macht das Geschäft zulässig." },
+  { farbe: "rot", text: "Fällt weg. Keine Bedingung rettet dieses Geschäft, das Beispiel zeigt den sauberen Weg." },
 ];
 
 export const GoldLegende = () => (
@@ -40,17 +40,9 @@ export const Grundregel = () => (
     </p>
     <p className="mt-3 text-[16px] leading-relaxed text-foreground/90">
       Hand zu Hand heißt nicht, dass du den Barren in der Hand halten musst. Es reicht, wenn dir ein bestimmtes Stück
-      gehört, sobald dein Geld unwiderruflich rausgeht.
+      oder ein fest zugeteilter Anteil gehört, sobald dein Geld unwiderruflich rausgeht.
     </p>
   </section>
-);
-
-/** Urteil als Pille: Farbpunkt und Wort, damit die Farbe nicht allein trägt. */
-export const UrteilPille = ({ farbe, urteil }: { farbe: Farbe; urteil: string }) => (
-  <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-bold ${bewertung[farbe].pille}`}>
-    <span className={`h-3 w-3 shrink-0 rounded-full ${bewertung[farbe].punkt}`} aria-hidden />
-    {urteil}
-  </span>
 );
 
 /** Ein Fall mit Urteil, Grund und Beispiel. */
@@ -77,7 +69,7 @@ export const GOLD_EINLEITUNG =
   "Prüfe zehn Wege, Gold zu kaufen, vom Barren beim Händler bis zum Sparplan. Zu jedem das Urteil, der Grund und ein Beispiel aus der Praxis.";
 
 export const GOLD_QUELLEN =
-  "Grundregel: Hadith von Ubada ibn as-Samit, Sahih Muslim 1587. Tausch, Reinheit, Zuteilung und Kartenzahlung: AAOIFI Shariah Standard No. 57, Gold and Its Trading Controls, Ziffern 3/1, 3/3, 3/4 und 10/4, Gold-ETFs Ziffer 10/3. Beispielbeträge rechnen mit dem Goldpreis aus unserem Zakat-Rechner, den Stand nennt jedes Beispiel. Angaben zu INAIA, Royal Mint und WisdomTree: Seiten und Zertifikate der Anbieter, Stand 16.09.2026, verlinkt im Edelmetall-Vergleich.";
+  "Grundregel: Hadith von Ubada ibn as-Samit, Sahih Muslim 1587. Tausch, Zuteilung und Kartenzahlung: AAOIFI Shariah Standard No. 57, Gold and Its Trading Controls, Ziffern 3/1, 3/4 und 10/4, Gold-ETFs Ziffer 10/3. Beispielbeträge rechnen mit dem Goldpreis aus unserem Zakat-Rechner, den Stand nennt jedes Beispiel. Angaben zu INAIA, Royal Mint und WisdomTree: Seiten und Zertifikate der Anbieter, Stand 16.09.2026, verlinkt im Edelmetall-Vergleich.";
 
 export const GOLD_RECHTSHINWEIS =
   "Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Bei allem, was gelb markiert ist, lege deinen konkreten Vertrag einem Gelehrten vor, dem du vertraust.";

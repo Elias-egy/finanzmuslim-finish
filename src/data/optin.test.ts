@@ -230,10 +230,13 @@ describe("Ausschnitt des Gold-Checks", () => {
     const oben = new Set(goldAusschnitt.offen.map((f) => f.id));
     for (const datei of ["src/pages/vorlagen/GoldCheck.tsx", "src/components/vorlagen/goldTeile.tsx", "src/data/goldCheckAusschnitt.ts"]) {
       const text = readFileSync(datei, "utf8");
-      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/goldCheck";/m);
+      expect(text).not.toMatch(/^import (?!type )[^;]*from "(@\/data\/|\.\/)goldCheck";/m);
       for (const f of goldFaelle.filter((x) => !oben.has(x.id))) {
         expect(text).not.toContain(f.grund);
-        expect(text).not.toContain(f.beispiel.slice(0, 60));
+        expect(text).not.toContain(f.urteil.length > 12 ? f.urteil : f.grund);
+        // Längstes Stück ohne Zahlen, damit auch Beispiele mit Goldpreis geprüft werden.
+        const stueck = f.beispiel.split(/[0-9]/).sort((x, y) => y.length - x.length)[0];
+        expect(text).not.toContain(stueck);
       }
     }
   });
@@ -253,8 +256,8 @@ describe("Ausschnitt des Auto-Abo-Checks", () => {
     expect(vorlagen.find((v) => v.slug === "auto-abo-check")?.titel).toContain(`${aboAnbieter.length} Anbieter`);
   });
 
-  it("belegt je Anbieter Vertragsart, Verzugszins, Kaution, Versicherung, Kilometer, Pauschalen, Laufzeit und Preis", () => {
-    const pflicht = ["Vertragsart", "Verzugszins", "Kaution", "Versicherung", "Kilometer", "Pauschalen", "Laufzeit"];
+  it("belegt je Anbieter Vertragsart, Haftung, Verzugszins, Kaution, Versicherung, Kilometer, Pauschalen, Laufzeit und Preis", () => {
+    const pflicht = ["Vertragsart", "Haftung", "Verzugszins", "Kaution", "Versicherung", "Kilometer", "Pauschalen", "Laufzeit"];
     for (const a of aboAnbieter) {
       const themen = new Set(a.klauseln.map((k) => k.thema));
       for (const t of pflicht) expect(themen.has(t as never), `${a.name}: ${t}`).toBe(true);
@@ -267,10 +270,15 @@ describe("Ausschnitt des Auto-Abo-Checks", () => {
   it("lädt auf der offenen Seite kein Urteil, keinen Grund und keinen Wortlaut", () => {
     for (const datei of ["src/pages/vorlagen/AutoAboCheck.tsx", "src/components/vorlagen/autoAboTeile.tsx", "src/data/autoAboCheckAusschnitt.ts"]) {
       const text = readFileSync(datei, "utf8");
-      expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/autoAboCheck";/m);
+      expect(text).not.toMatch(/^import (?!type )[^;]*from "(@\/data\/|\.\/)autoAboCheck";/m);
       for (const a of aboAnbieter) {
         expect(text).not.toContain(a.grund);
-        for (const k of a.klauseln) if (k.zitat) expect(text).not.toContain(k.zitat);
+        expect(text).not.toContain(a.urteil);
+        expect(text).not.toContain(a.preisAb);
+        for (const k of a.klauseln) {
+          if (k.zitat) expect(text).not.toContain(k.zitat);
+          if (k.hinweis) expect(text).not.toContain(k.hinweis);
+        }
       }
     }
   });

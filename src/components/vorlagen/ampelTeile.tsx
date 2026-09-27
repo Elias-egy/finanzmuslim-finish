@@ -42,6 +42,14 @@ export const Pille = ({ farbe }: { farbe: Farbe }) => {
   );
 };
 
+/** Urteil als Pille: Farbpunkt und Wort, damit die Farbe nicht allein trägt. */
+export const UrteilPille = ({ farbe, urteil }: { farbe: Farbe; urteil: string }) => (
+  <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-bold ${bewertung[farbe].pille}`}>
+    <span className={`h-3 w-3 shrink-0 rounded-full ${bewertung[farbe].punkt}`} aria-hidden />
+    {urteil}
+  </span>
+);
+
 export const Legende = () => (
   <section>
     <div className="grid gap-4 md:grid-cols-3">

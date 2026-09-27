@@ -1,5 +1,4 @@
-import { bewertung, type Farbe } from "@/components/vorlagen/ampelTeile";
-import { UrteilPille } from "@/components/vorlagen/goldTeile";
+import { bewertung, UrteilPille, type Farbe } from "@/components/vorlagen/ampelTeile";
 import type { AboAnbieter, Rechnung } from "@/data/autoAboCheck";
 
 /**
@@ -25,7 +24,7 @@ const warumNicht: { titel: string; text: string }[] = [
 export const WarumNicht = () => (
   <section aria-labelledby="warum-nicht">
     <h2 id="warum-nicht" className="text-2xl font-bold text-foreground">
-      Warum Kredit und Leasing meist rausfallen
+      Warum Kredit und Leasing scheitern
     </h2>
     <div className="mt-4 grid gap-4 md:grid-cols-3">
       {warumNicht.map((w) => (
@@ -159,7 +158,7 @@ export const AUTO_EINLEITUNG =
   "Prüfe Auto-Abos als Alternative zu Kredit und Leasing, Anbieter für Anbieter. Zu jedem das Urteil, der Wortlaut aus den eigenen Bedingungen und ein Rechenbeispiel.";
 
 export const AUTO_QUELLEN =
-  "Anbieter: eigene AGB, FAQ, Gebührenkataloge und Preisseiten, abgerufen am 27.09.2026, jeweils mit Stand und Ziffer bei der Klausel. Miete, Leasing und Autofinanzierung: Positionen zeitgenössischer Gelehrter zu Miete (Ijara) und Riba, dazu AAOIFI Shariah Standard No. 9, Ijarah. Gesetzliche Verzugszinsen: § 288 BGB. Partnerlinks enthält diese Seite nicht.";
+  "Anbieter: eigene AGB, FAQ, Gebührenkataloge und Preisseiten, abgerufen am 27.09.2026, jeweils mit Stand und Ziffer bei der Klausel. Miete, Leasing und Autofinanzierung: Positionen zeitgenössischer Gelehrter zu Miete (Ijara) und Riba. Gesetzliche Verzugszinsen: § 288 BGB. Partnerlinks enthält diese Seite nicht.";
 
 export const AUTO_RECHTSHINWEIS =
   "Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. AGB ändern sich: Lies vor der Unterschrift deinen eigenen Vertrag und lege ihn im Zweifel einem Gelehrten vor, dem du vertraust.";

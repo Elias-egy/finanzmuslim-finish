@@ -55,7 +55,8 @@ const AutoAboCheckVoll = () => (
           {anbieter.length} Anbieter geprüft
         </h2>
         <p className="mt-2 text-[15px] text-muted-foreground">
-          Sieh zu jedem Anbieter das Urteil, den Grund und den Wortlaut, auf dem es beruht. Stand der Bedingungen: 27.09.2026.
+          Sieh zu jedem Anbieter das Urteil, den Grund und den Wortlaut, auf dem es beruht, Stand 27.09.2026.
+          {anbieter.every((a) => a.farbe !== "gruen") && " Grün erreicht keiner, die fünf Fragen unten zeigen, was du vor der Unterschrift klärst."}
         </p>
         <div className="mt-4 space-y-4">
           {sortiert.map((a) => (
@@ -101,7 +102,7 @@ const AutoAboCheckVoll = () => (
 
       <section className="rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="firmen">
         <h2 id="firmen" className="text-xl font-bold text-foreground">
-          Für Firmen
+          Abos für Firmen
         </h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{firmen}</p>
       </section>

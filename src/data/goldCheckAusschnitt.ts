@@ -20,7 +20,7 @@ export const offen: GoldFall[] = [
     farbe: "gruen",
     urteil: "Zulässig",
     grund:
-      "Du zahlst und bekommst im selben Moment ein bestimmtes Stück, genau dafür ist die Regel gemacht. Mit Karte geht es auch, solange du die Zahlung nicht mehr zurückholen kannst.",
+      "Du zahlst und bekommst im selben Moment ein bestimmtes Stück, dafür ist die Regel gemacht. Mit Karte geht es auch, solange du die Zahlung nicht mehr zurückholen kannst.",
     beispiel: `Du kaufst in einer Filiale einen 10-g-Barren. Der reine Metallwert liegt bei rund ${euro(10)} (${preisStand}), dazu kommt der Aufschlag des Händlers. Du zahlst mit Girocard und nimmst den Barren mit.`,
   },
   {
@@ -30,9 +30,9 @@ export const offen: GoldFall[] = [
     farbe: "rot",
     urteil: "Fällt weg",
     grund:
-      "Liegt das Gold bei dir und das Geld erst Tage später beim Händler, fallen Übergabe und Zahlung auseinander. Genau das verbietet die Regel, auch wenn kein Cent Zins anfällt.",
+      "Liegt das Gold bei dir und das Geld erst Tage später beim Händler, fallen Übergabe und Zahlung auseinander. Das verbietet die Regel, auch wenn kein Cent Zins anfällt.",
     beispiel:
-      "Ein Shop bietet „Kauf auf Rechnung, zahlbar in 14 Tagen“ oder Ratenzahlung über einen Zahlungsdienst an. Du bekommst den Barren und zahlst später: fällt weg. Andersherum genauso, wenn du heute zahlst und der Barren erst in vier Wochen kommt.",
+      "Ein Shop bietet „Kauf auf Rechnung, zahlbar in 14 Tagen“ oder Ratenzahlung über einen Zahlungsdienst an. Du bekommst den Barren und zahlst später: fällt weg. Andersherum genauso, wenn du heute zahlst und der Händler den Barren erst in vier Wochen besorgt.",
   },
 ];
 
