@@ -301,6 +301,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   vivid: { anbieter: "Vivid", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "press@vivid.money", kern: "Gilt heute für Standard, Plus und Prime: kein Dispokredit, kein Minus ohne eigenen Antrag (Hilfeartikel von 2023, Vivid Now auf Antrag)? Kaufbarkeit aller 22 Halal-Anlagen im Depot Vivid Standard.", von: "elias@finanzmuslim.com" },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "press@vivid.money", automatisch: true, kern: "Automatische Eingangsbestätigung des Pressebüros: meldet sich „shortly“, beantwortet aber keine Kundenanfragen und verweist auf In-App-Chat und Formular vivid.money/en-eu/support." },
   ], naechsterSchritt: "Antwort abwarten. Presseadresse aus dem Impressum, weil persönliche Konten laut Impressum nur Chat und Formular haben (27.09.2026)." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
   wundertax: { anbieter: "wundertax", vorgaenge: [
