@@ -260,7 +260,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   "crypto-com": { anbieter: "Crypto.com", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur In-App-Chat. Am 23.09.2026 über help.crypto.com belegt: Rewards erst nach eigener Allocation." },
   robinhood: { anbieter: "Robinhood", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Nur Beschwerde-Adresse. Am 23.09.2026 über robinhood.com belegt: Staking und Cash sweep sind beide Opt-in." },
   // Stufen-Prüfung 23.09.2026: noch nie gefragt, aber je ein offener nächster Schritt.
-  bforbank: { anbieter: "BforBank", vorgaenge: [], naechsterSchritt: "Noch nie gefragt. Im Preisverzeichnis und in der Kontovereinbarung (DAV, Juni 2026) fehlt ein Guthabenzins fürs Girokonto, Abwesenheit ist kein Beleg. Mailweg gefunden am 27.09.2026: Die FAQ nennt kundenservice-de@customers.bforbank.com. Gebündelte Frage von finanzmuslim.com." },
+  bforbank: { anbieter: "BforBank", vorgaenge: [
+    { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", kern: "Wird Guthaben auf dem Girokonto verzinst oder nur auf Bfor+ und Livret A? Kann das Konto trotz „kein Dispo“ über die geduldete Überziehung (16 %) ohne Antrag ins Minus rutschen?", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort abwarten. Mailweg aus der FAQ (27.09.2026), vorher nur Telefon und App-Chat bekannt." },
   kraken: { anbieter: "Kraken", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Am 25.09.2026 geprüft: Produktsupport nur im Chat oder eingeloggt, das öffentliche Formular (support.kraken.com/forms/648008) ist nur für Compliance und Recht. Beide Stufen stehen über Opt-in schon auf grün, eine Nachfrage ist nicht nötig." },
   consorsbank: { anbieter: "Consorsbank", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenbetreuung@consorsbank.de", kern: "Wird das Verrechnungskonto zum Wertpapierdepot verzinst? Im Preisverzeichnis stehen dort nur Sollzinsen. Bleibt das beworbene Tagesgeldkonto ohne eigene Einzahlung leer?" },
