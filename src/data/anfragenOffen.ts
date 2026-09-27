@@ -27,6 +27,7 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "steuereasy",
   "tradegate-direct",
   "traders-place",
+  "vivid",
   "willbe",
   "wundertax",
 ]);

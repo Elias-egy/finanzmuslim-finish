@@ -299,7 +299,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   plus500: { anbieter: "Plus500", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@plus500.co.ee", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Aktien und ETFs statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
-  vivid: { anbieter: "Vivid", vorgaenge: [], naechsterSchritt: "Dispo einmal schriftlich bestätigen lassen: Der Hilfeartikel ist von 2023, Vivid Now gab es nur auf Antrag." },
+  vivid: { anbieter: "Vivid", vorgaenge: [
+    { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "press@vivid.money", kern: "Gilt heute für Standard, Plus und Prime: kein Dispokredit, kein Minus ohne eigenen Antrag (Hilfeartikel von 2023, Vivid Now auf Antrag)? Kaufbarkeit aller 22 Halal-Anlagen im Depot Vivid Standard.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort abwarten. Presseadresse aus dem Impressum, weil persönliche Konten laut Impressum nur Chat und Formular haben (27.09.2026)." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
   wundertax: { anbieter: "wundertax", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@wundertax.com", kern: "Als finanzmuslim.com: Ruft wundertax die beim Finanzamt vorliegenden Daten ab (vorausgefüllte Steuererklärung), in welchem Paket? KAP und Anlage V sind per Anbieterseite belegt." },
