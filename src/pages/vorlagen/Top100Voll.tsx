@@ -26,7 +26,7 @@ const Top100Voll = () => (
   <>
     <Seo
       title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-      description="Alle 100 bekannten Aktien halal nach Musaffa-Einzelprüfung. Von Apple bis Nike, mit Fundstelle zu jedem Titel."
+      description="Sieh alle 100 bekannten Aktien mit Musaffa-Einzelprüfung, von Apple bis Nike. Jede ist halal, jede mit Fundstelle."
       path={pfad}
       noindex
     />
@@ -37,7 +37,7 @@ const Top100Voll = () => (
       einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem zeitgebundenen Screening-Beleg direkt in der Tabelle."
       pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
-      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
+      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, sechs Ersatztitel 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
       ctas={[
         {
@@ -93,7 +93,7 @@ const Top100Voll = () => (
                 rang={a.rang}
                 name={a.name}
                 ticker={a.ticker}
-                bekanntFuer={a.bekanntFuer}
+                bekanntFuer={a.geprueft ? `${a.bekanntFuer} · neu geprüft ${a.geprueft}` : a.bekanntFuer}
                 status={a.status}
                 highlight={a.rang >= 96}
               />

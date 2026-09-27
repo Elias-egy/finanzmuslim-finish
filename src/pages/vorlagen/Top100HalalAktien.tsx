@@ -18,7 +18,7 @@ const Top100HalalAktien = () => (
   <>
     <Seo
       title="100 bekannte Halal-Aktien, von Apple bis Nike | finanzmuslim"
-      description="Prüfe 100 bekannte Aktien auf halal, von Apple bis Nike. Mit Musaffa-Einzelprüfung vom 20.08.2026 und Fundstelle zu jedem Titel."
+      description="Prüfe 100 bekannte Aktien auf halal, von Apple bis Nike. Mit Musaffa-Einzelprüfung vom 20.08. und 27.09.2026 und Fundstelle zu jedem Titel."
       path="/vorlagen/top-100-halal-aktien"
       brotkrumen={[
         { name: "Vorlagen", path: "/vorlagen" },
@@ -33,7 +33,7 @@ const Top100HalalAktien = () => (
       pdfPfad={v.pdfPfad}
       slug={v.slug}
       gesperrt={freebie}
-      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab."
+      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, sechs Ersatztitel 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
       ctas={[
         {

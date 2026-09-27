@@ -11,7 +11,6 @@ import { zeilen as ampelZeilen } from "./vertragsAmpel";
 import * as ampelAusschnitt from "./vertragsAmpelAusschnitt";
 import { kaufGruppen, kaufZeilen } from "./halalAnlagenKauf";
 import * as anlagenAusschnitt from "./halalAnlagenAusschnitt";
-import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 
 describe("gesperrte Freebies", () => {
   it("jede gesperrte Vorlage gibt es auch in vorlagen.ts", () => {
@@ -40,8 +39,9 @@ describe("gesperrte Freebies", () => {
       const v = vorlagen.find((x) => x.slug === f.id)!;
       expect(existsSync(`public${vollPdfPfad(f, v.pdfPfad)}`)).toBe(true);
     }
-    const robots = readFileSync("public/robots.txt", "utf8");
-    expect(robots.match(/^User-agent:/gm)?.length).toBe(robots.match(/^Disallow: \/downloads\/v\/$/gm)?.length);
+    const gruppen = readFileSync("public/robots.txt", "utf8").split(/^(?=User-agent:)/m).filter((g) => g.startsWith("User-agent:"));
+    expect(gruppen.length).toBeGreaterThan(0);
+    for (const g of gruppen) expect(g).toMatch(/^Disallow: \/downloads\/v\/$/m);
   });
 
   it("der Guide führt je nach Stufe auf seinen Guide, ohne Stufe auf den Einsteiger", () => {
@@ -113,7 +113,12 @@ describe("Ausschnitt „Dua für was?“", () => {
     for (const datei of ["src/pages/vorlagen/Rizq.tsx", "src/components/vorlagen/rizqTeile.tsx", "src/data/duasAusschnitt.ts"]) {
       const text = readFileSync(datei, "utf8");
       expect(text).not.toMatch(/^import \{[^}]*\} from "@\/data\/duas";/m);
-      for (const k of duasAusschnitt.kante) expect(text).not.toContain(nachNummer.get(k.nr)!.ar);
+      const oben = new Set(duasAusschnitt.offen.map(nummerVon));
+      for (const d of duas.filter((x) => !oben.has(nummerVon(x)))) {
+        expect(text).not.toContain(d.ar);
+        expect(text).not.toContain(d.tr);
+        expect(text).not.toContain(d.de);
+      }
     }
   });
 });
@@ -165,8 +170,19 @@ describe("Ausschnitt der Halal-Anlagen", () => {
     }
   });
 
-  it("nimmt nur Anlagen mit Eigenbeleg in die Tabelle", () => {
-    for (const z of kaufZeilen) expect(ANLAGEN_KAUFBAR[z.anlage.isin!].kaufbar.length).toBeGreaterThan(0);
+  it("zeigt nur Häuser mit einer der drei Belegarten aus dem Quellensatz", () => {
+    // Anbietersuche oder -liste (URL auf der Anbieter-Domain), vom Anbieter verlinktes Verzeichnis
+    // (`herkunft` auf der Anbieter-Domain) oder Elias' eigene Prüfung in der App (`quelle: "elias"`).
+    const aufDomain = (url: string, domains: string[]) =>
+      domains.some((d) => new URL(url).hostname === d || new URL(url).hostname.endsWith(`.${d}`));
+    for (const z of kaufZeilen) {
+      expect(z.kaufbar.kaufbar.length).toBeGreaterThan(0);
+      for (const k of z.kaufbar.kaufbar) {
+        const b = k.beleg;
+        const ok = b.quelle === "elias" || aufDomain(b.url, b.domains) || (!!b.herkunft && aufDomain(b.herkunft, b.domains));
+        expect(ok, `${z.anlage.name} bei ${k.anbieter}: ${b.url}`).toBe(true);
+      }
+    }
   });
 
   it("lädt auf der offenen Seite keine Kaufbarkeit", () => {

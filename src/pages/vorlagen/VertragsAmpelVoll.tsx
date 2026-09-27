@@ -31,7 +31,7 @@ const VertragsAmpelVoll = () => (
   <>
     <Seo
       title="Vertrags-Ampel: alle zwölf Verträge mit Farbe | finanzmuslim"
-      description="Alle zwölf Verträge aus dem Alltag, nach Farbe geordnet, mit der Bedingung dahinter und drei Fragen für gelbe Fälle."
+      description="Sieh alle zwölf Verträge aus dem Alltag nach Farbe geordnet, jeweils mit der Bedingung dahinter."
       path={pfad}
       noindex
     />

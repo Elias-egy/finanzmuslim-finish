@@ -21,7 +21,7 @@ const Rizq = () => (
   <>
     <Seo
       title="Dua für Rizq: 14 Bittgebete mit Quelle und Übersetzung | finanzmuslim"
-      description="Finde die Dua für dein Anliegen: Arbeit, Schulden oder eine Entscheidung. Drei Bittgebete offen, alle 14 mit Arabisch und Fundstelle gegen deine E-Mail."
+      description="Finde das Dua für dein Anliegen: Arbeit, Schulden oder eine Entscheidung. Drei Bittgebete offen, alle 14 mit Arabisch und Fundstelle gegen deine E-Mail."
       path="/vorlagen/rizq"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Dua für was?", path: "/vorlagen/rizq" }]}
     />
@@ -41,7 +41,7 @@ const Rizq = () => (
 
       <section>
         <h2 className="text-2xl font-bold text-foreground">Drei Duas aus dem Quran</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">Ganz offen, mit Wortlaut, Umschrift und Fundstelle.</p>
+        <p className="mt-2 text-[15px] text-muted-foreground">Lies sie ganz, mit Wortlaut, Umschrift und Fundstelle.</p>
         <div className="mt-4 space-y-4">
           {offen.map((d) => (
             <DuaKarte key={d.nr} d={d} />

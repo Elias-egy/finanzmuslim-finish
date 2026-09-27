@@ -16,7 +16,7 @@ import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { kaufGruppen, kaufZeilen, krypto, ohneBeleg } from "@/data/halalAnlagenKauf";
 
 /**
- * Die volle Vorlage „Halal-Anlagen“: die Kauf-Tabelle, jede Anlage mit den Häusern, bei denen sie
+ * Die volle Vorlage „Halal-Anlagen“: die Kauf-Tabelle, jede Anlage mit den Anbietern, bei denen sie
  * laut Eigenbeleg kaufbar ist, Partner mit Sternchen über /out/ (Plan 27.09.2026, Entscheidung 8).
  * Nur über die Danke-Seite und den Link aus der Mail (noindex, nicht in der Sitemap).
  */
@@ -24,7 +24,8 @@ const v = vorlageBySlug("halal-anlagen")!;
 const freebie = optinFreebie("halal-anlagen")!;
 const pfad = vollPfad(freebie);
 const mitPartner = kaufZeilen.some((z) => z.kaufbar.kaufbar.some((k) => DEPOT_PARTNER[k.anbieter]));
-const staende = [...new Set(kaufZeilen.map((z) => z.kaufbar.stand))].sort(
+/** Datum jedes Einzelbelegs, nicht das Datum des Datenstands (Gegenlese 27.09.2026). */
+const staende = [...new Set(kaufZeilen.flatMap((z) => z.kaufbar.kaufbar.map((k) => k.beleg.stand)))].sort(
   (a, b) => Number(a.split(".").reverse().join("")) - Number(b.split(".").reverse().join("")),
 );
 
@@ -32,7 +33,7 @@ const HalalAnlagenVoll = () => (
   <>
     <Seo
       title="Halal-Anlagen: wo du jede kaufen kannst | finanzmuslim"
-      description={`Alle ${kaufZeilen.length} Halal-Anlagen mit Kaufbeleg und den Häusern, bei denen du sie kaufen kannst.`}
+      description={`Finde alle ${kaufZeilen.length} Halal-Anlagen mit Kaufbeleg und die Anbieter, bei denen du sie kaufen kannst.`}
       path={pfad}
       noindex
     />
@@ -74,7 +75,7 @@ const HalalAnlagenVoll = () => (
                 <AnlageKopf a={z.anlage} />
                 <div className="mt-4 border-t border-border pt-4">
                   <p className="mb-2 text-[13px] font-semibold text-muted-foreground">
-                    Kaufbar bei {z.kaufbar.kaufbar.length} {z.kaufbar.kaufbar.length === 1 ? "Haus" : "Häusern"}
+                    Kaufbar bei {z.kaufbar.kaufbar.length} {z.kaufbar.kaufbar.length === 1 ? "Anbieter" : "Anbietern"}
                   </p>
                   <KaufbarListe kaufbar={z.kaufbar} kompakt />
                 </div>
@@ -87,8 +88,8 @@ const HalalAnlagenVoll = () => (
       <section className="space-y-2 text-[13px] text-muted-foreground">
         {mitPartner && <p>{WERBE_FUSSNOTE}</p>}
         <p>
-          {staende.length === 1 ? `Belege vom ${staende[0]}.` : `Belege vom ${staende[0]} bis ${staende[staende.length - 1]}.`} Ein Haus,
-          das bei einer Anlage fehlt, ist noch nicht geprüft, nicht ausgeschlossen.
+          {staende.length === 1 ? `Belege vom ${staende[0]}.` : `Belege vom ${staende[0]} bis ${staende[staende.length - 1]}.`} Ein Anbieter,
+          der bei einer Anlage fehlt, ist noch nicht geprüft, nicht ausgeschlossen.
         </p>
       </section>
 
@@ -96,7 +97,7 @@ const HalalAnlagenVoll = () => (
         <section>
           <h2 className="text-2xl font-bold text-foreground">Noch ohne Kaufbeleg</h2>
           <p className="mt-2 text-[15px] text-muted-foreground">
-            Geprüft und zertifiziert, aber noch kein Haus mit eigenem Beleg. Mit der ISIN findest du sie in der Suche deines Depots.
+            Geprüft und zertifiziert, aber noch kein Anbieter mit eigenem Beleg. Prüfe mit der ISIN in der Suche deines Depots, ob es sie führt.
           </p>
           <ul className="mt-4 space-y-3">
             {ohneBeleg.map((a) => (
@@ -109,10 +110,10 @@ const HalalAnlagenVoll = () => (
       )}
 
       <section className="card-surface p-6 md:p-8">
-        <h2 className="text-xl font-bold text-foreground">Krypto kaufst du an einer Börse</h2>
+        <h2 className="text-xl font-bold text-foreground">Krypto gibt es an Börsen</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-          {krypto.map((a) => a.name).join(", ")} gibt es nicht im Depot, sondern an einer Krypto-Börse. Welche Börse echte Coins
-          ohne Zins und Lending führt, steht im Vergleich.
+          Die {krypto.length} Coins aus der Anlagen-Datenbank gibt es nicht im Depot, sondern an einer Krypto-Börse. Welche Börse
+          echte Coins ohne Zins und Lending führt, steht im Vergleich.
         </p>
         <Link to="/vergleich/krypto" className="btn-primary mt-5">
           Krypto-Börsen im Vergleich

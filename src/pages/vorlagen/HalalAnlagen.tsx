@@ -19,7 +19,7 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { ANZAHL_KAUFBAR, gruppen, kante, offen } from "@/data/halalAnlagenAusschnitt";
 
 /**
- * Offene Seite der Halal-Anlagen: Anzahl je Gruppe und drei Anlagen mit ihren Häusern, die ganze
+ * Offene Seite der Halal-Anlagen: Anzahl je Gruppe und drei Anlagen mit ihren Anbietern, die ganze
  * Kauf-Tabelle gegen E-Mail (Elias, 27.09.2026, Vault raw 2026-09-26-doomscroll-web/09). Diese
  * Datei importiert bewusst weder `anlagenKaufbar.ts` noch `halalAnlagenKauf.ts`. Jede Anlage
  * bleibt einzeln auf /halal-anlagen offen. Die volle Fassung ist `HalalAnlagenVoll.tsx`.
@@ -32,7 +32,7 @@ const HalalAnlagen = () => (
   <>
     <Seo
       title={ANLAGEN_SEO_TITEL}
-      description="Aktien-ETFs, Sukuk und Edelmetalle, die du in Deutschland wirklich kaufen kannst, jeweils mit ISIN, Prüfstelle und den Häusern mit Kaufbeleg."
+      description="Finde Aktien-ETFs, Sukuk und Edelmetalle, die du in Deutschland wirklich kaufen kannst. Zu jeder die ISIN, die Prüfstelle und die Anbieter mit Kaufbeleg."
       path="/vorlagen/halal-anlagen"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal-Anlagen", path: "/vorlagen/halal-anlagen" }]}
     />
@@ -66,8 +66,8 @@ const HalalAnlagen = () => (
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground">Drei Anlagen, alle Häuser</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">So sieht die Kauf-Tabelle aus, die anderen gegen deine E-Mail.</p>
+        <h2 className="text-2xl font-bold text-foreground">Drei Anlagen, alle Anbieter</h2>
+        <p className="mt-2 text-[15px] text-muted-foreground">Sieh, wie die Kauf-Tabelle aussieht. Die übrigen Anlagen gibt es gegen deine E-Mail.</p>
         <ul className="mt-4 space-y-3">
           {offen.map((o) => (
             <li key={o.slug} className="card-surface p-4 md:p-5">
@@ -89,13 +89,13 @@ const HalalAnlagen = () => (
               key={k.name}
               name={k.name}
               unterzeile={`${k.anzahl} Anlagen mit Kaufbeleg`}
-              verborgen="Anlagen und Häuser nach der Anmeldung"
+              verborgen="Anlagen und Anbieter nach der Anmeldung"
             />
           ))}
         </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_KAUFBAR} Anlagen mit ihren Häusern`} />
+      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_KAUFBAR} Anlagen mit ihren Anbietern`} />
     </VorlagenSeite>
   </>
 );

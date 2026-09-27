@@ -50,7 +50,7 @@ const RizqVoll = () => (
   <>
     <Seo
       title="Dua für was? Alle 14 Bittgebete nach Anliegen | finanzmuslim"
-      description="Alle 14 Duas für Rizq, geordnet nach Anliegen, mit Arabisch, Umschrift, Übersetzung und Fundstelle."
+      description="Lies alle 14 Duas für Rizq nach Anliegen: mit Arabisch, Übersetzung und Fundstelle."
       path={pfad}
       noindex
     />

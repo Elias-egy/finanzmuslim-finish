@@ -52,10 +52,10 @@ export const AnlageKopf = ({ a }: { a: Anlage }) => {
 export const ANLAGEN_SEO_TITEL = `Halal Anlagen Liste: ${ANZAHL_KAUFBAR} kaufbare Produkte mit ISIN | finanzmuslim`;
 
 export const ANLAGEN_EINLEITUNG =
-  "Finde jede Halal-Anlage, die du wirklich kaufen kannst: Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder die ISIN, die Prüfstelle und die Häuser mit Kaufbeleg.";
+  "Finde die Halal-Anlagen mit Kaufbeleg: Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder die ISIN, die Prüfstelle und die Anbieter, bei denen du sie kaufen kannst.";
 
 export const ANLAGEN_QUELLEN =
-  "Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Gold und Silber: AAOIFI Standard No. 1, jeweils bestätigt durch das Zertifikat des genannten Panels. Kaufbarkeit: Wertpapiersuche oder Produktliste des jeweiligen Anbieters, Einzelbeleg mit Datum, Stand September 2026. Ein Haus, das hier fehlt, ist noch nicht geprüft, nicht ausgeschlossen. Zertifizierungen werden jährlich erneuert, vor dem Kauf selbst prüfen.";
+  "Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Gold und Silber: AAOIFI Standard No. 1, jeweils bestätigt durch das Zertifikat des genannten Panels. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App, Stand September 2026. Ein Anbieter, der hier fehlt, ist noch nicht geprüft, nicht ausgeschlossen. Zertifizierungen werden jährlich erneuert, vor dem Kauf selbst prüfen.";
 
 export const ANLAGEN_RECHTSHINWEIS =
   "Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines Finanzinstruments dar. Dieser Inhalt dient ausschließlich zu Bildungszwecken. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse.";

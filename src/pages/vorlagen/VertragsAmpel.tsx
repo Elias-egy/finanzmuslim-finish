@@ -49,7 +49,7 @@ const VertragsAmpel = () => (
 
       <section>
         <h2 className="text-2xl font-bold text-foreground">Zwei Verträge, zwei Farben</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">Offen mit Farbe und Bedingung, die übrigen zehn gegen deine E-Mail.</p>
+        <p className="mt-2 text-[15px] text-muted-foreground">Sieh zwei Verträge mit Farbe und Bedingung. Die übrigen zehn gibt es gegen deine E-Mail.</p>
         <div className="mt-4 space-y-3">
           {offen.map((z) => (
             <AmpelKarte key={z.vertrag} z={z} />

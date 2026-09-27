@@ -6,6 +6,9 @@
  * `kante` sind die Namen direkt an der Schranke, ohne Urteil. Gemischt aus der Liste und aus
  * bekannten Namen, die Musaffa als fraglich führt, damit der Name allein nichts verrät
  * (Elias, 27.09.2026: „dass man nicht das Urteil sieht, aber vielleicht schon manche Namen“).
+ * Seit 27.09.2026 abends sind alle 100 halal; Mondelez, Ryanair und Lindt beantwortet die volle
+ * Fassung im Abschnitt „Sechs bekannte Namen, fraglich“. Die Frage an der Kante heißt deshalb
+ * „Ist deine Aktie dabei?“, nicht „Ist sie halal?“.
  * Kein Name, der schon im offenen Text steht („von Apple bis Nike“), sonst verrät der Text das Urteil.
  */
 export type AusschnittAktie = { name: string; ticker: string; bekanntFuer: string };

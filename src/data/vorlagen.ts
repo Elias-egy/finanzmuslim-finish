@@ -22,7 +22,7 @@ export const vorlagen: Vorlage[] = [
     titel: `${ANZAHL_KAUFBAR} halal Anlagen, die du wirklich kaufen kannst`,
     kicker: "Die Liste",
     kurzbeschreibung:
-      "Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder Anlage die ISIN und die Häuser, bei denen du sie kaufen kannst.",
+      "Finde Aktien-ETFs, Sukuk und Edelmetalle mit Kaufbeleg. Zu jeder Anlage die ISIN und die Anbieter, bei denen du sie kaufen kannst.",
     nutzenZeile: "Alle Halal-Anlagen auf einen Blick",
     kommentarKeyword: "LISTE",
     pdfPfad: "/downloads/halal-anlagen-liste.pdf",
