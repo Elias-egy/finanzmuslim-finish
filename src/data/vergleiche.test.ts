@@ -334,6 +334,18 @@ describe("Halal-Merkmale mit Anbieterbeleg statt Finanzfluss", () => {
     expect(ohne).toEqual([]);
   });
 
+  it("belegt „echte Coins“ und „eigene Wallet“ beim Anbieter, nicht bei Finanzfluss", () => {
+    // binance-pro: kein eigener Satz zur Pro-Oberfläche gefunden; traders-place-krypto: Nachtrag vom 27.09.2026 läuft.
+    const offen = new Set(["binance-pro", "traders-place-krypto"]);
+    const ohne = kryptoVergleich
+      .filter((a) => !offen.has(a.id))
+      .flatMap((a) => (["echteCoins", "eigeneWallet"] as const).map((k) => [a, k] as const))
+      .filter(([a, k]) => a.werte[k] === "gut" || a.werte[k] === "schlecht")
+      .filter(([a, k]) => !a.quellen?.[k]?.url || /finanzfluss\.de/.test(a.quellen[k].url))
+      .map(([a, k]) => `${a.id}.${k}`);
+    expect(ohne).toEqual([]);
+  });
+
   it("wertet „eigene Wallet“ nur mit Anbieterbeleg rot", () => {
     // traders-place-krypto: Sonderbedingungen Nr. 14 schließen die Übertragung nicht aus, Nachtrag an Traders Place 27.09.2026.
     const offen = new Set(["traders-place-krypto"]);
