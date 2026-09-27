@@ -169,6 +169,63 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    kurzname: "scalable-krypto",
+    anbieter: "Scalable Capital",
+    kurz: "Scalable",
+    domain: "scalable.capital",
+    markenfarbe: "#22DFCF",
+    art: "krypto",
+    pfad: "/dein-investmentstart/scalable-krypto",
+    link: "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
+    risikoUrl: "https://de.scalable.capital/risiko",
+    titel: ["In 10 Minuten steht", "dein Krypto-Zugang."],
+    knopf: "Bei Scalable starten →",
+    videoHinweis: false,
+    chips: ["Krypto-ETPs", "32 Kryptowährungen", "Sparplan ab 1 €", "Ohne Wallet"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto läuft bei Scalable über ETPs im Scalable Broker, im selben Depot wie Aktien und ETFs." },
+      { titel: "Preismodell wählen", text: "FREE: 0,99 € je Trade und 0,99 % Aufschlag auf den Spread. PRIME+: 4,99 € im Monat, Trades ab 250 € kostenlos, 0,69 % Aufschlag." },
+      { titel: "Erste Anteile kaufen", text: "Sparpläne gehen ab 1 €, jede Sparplanausführung kostet 0 €." },
+    ],
+    fakten: [
+      {
+        titel: "Keine echten Coins",
+        text: "Scalable bietet Krypto nur als ETPs an. Das sind Wertpapiere eines Emittenten, die den Kurs abbilden. Die Coins dahinter verwahrt der Emittent, eine eigene Wallet hast du nicht.",
+      },
+      {
+        titel: "32 Kryptowährungen",
+        text: "Bitcoin, Ethereum, Solana und weitere, zusammen 32 Kryptowährungen als ETPs.",
+      },
+      {
+        titel: "Handel zu Börsenzeiten",
+        text: "ETPs laufen über regulierte Börsen. Kaufen und verkaufen geht nur, solange die Börse offen ist, nicht rund um die Uhr.",
+      },
+    ],
+    checklisteTitel: ["3 Regeln halten dein Scalable-Krypto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Tagesgeldkonto nicht aktivieren.",
+        text: "Das separate Tagesgeld bringt Zinsen (Riba). Einfach nie aktivieren.",
+      },
+      {
+        titel: "ETPs ohne Staking nehmen.",
+        text: "Manche Krypto-ETPs zahlen Staking Rewards von 3 bis 5 % im Jahr. Nimm die Variante ohne Staking.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Sind Krypto-ETPs dasselbe wie echte Coins?",
+        a: "Nein. Du kaufst ein Wertpapier des Emittenten, rechtlich eine Inhaberschuldverschreibung. Geht der Emittent pleite und reicht die Besicherung nicht, kann das Geld weg sein. Wer echte Coins will, nimmt einen Anbieter mit eigener Wallet.",
+      },
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Für Krypto sind es drei Schritte, die oben stehen: Depot eröffnen, Preismodell wählen, erste Anteile kaufen.",
+      },
+    ],
+  },
+  {
     kurzname: "traders-place",
     anbieter: "Traders Place",
     kurz: "Traders Place",
@@ -214,6 +271,61 @@ export const startPartner: StartPartner[] = [
         a: "Ja, mit den 2 Regeln aus der Checkliste oben. Guthaben wird nicht verzinst, und kein Kredit wird automatisch eingeräumt.",
       },
       boerseFaq,
+    ],
+  },
+  {
+    kurzname: "traders-place-krypto",
+    anbieter: "Traders Place",
+    kurz: "Traders Place",
+    domain: "tradersplace.de",
+    markenfarbe: "#12A391",
+    art: "krypto",
+    pfad: "/dein-investmentstart/traders-place-krypto",
+    link: "https://c.neqty.net/trck/eclick/5a4b0eecd844504b7de215a0b61bfb55",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Traders Place starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "59 Kryptowerte", "24/7 Handel", "Wallet im Depot"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto läuft bei Traders Place im selben Depot wie Aktien und ETFs." },
+      { titel: "Wallet freischalten", text: "In der App oder im Web-Portal schaltest du die Krypto-Wallet mit wenigen Klicks frei. Sie ist Teil deines Depots." },
+      { titel: "Erste Coins kaufen", text: "Je Order 0,9 % vom Kurswert. Unter 500 € kommt 1 € Zuschlag dazu." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, verwahrt in Deutschland",
+        text: "Du kaufst echte Kryptowerte, verwahrt bei der Tangany GmbH unter BaFin-Aufsicht. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Ohne Zinsen",
+        text: "Das Verrechnungskonto hat laut Preisverzeichnis 0 % Guthabenzins.",
+      },
+      {
+        titel: "Nur mit Wohnsitz in Deutschland",
+        text: "Den Kryptohandel bietet Traders Place derzeit nur Kunden mit Wohnsitz in Deutschland an.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Traders-Place-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Tagesgeld dazubuchen.",
+        text: "Traders Place bietet zusätzlich ein verzinstes Tagesgeld an. Das Depot funktioniert ohne. Einfach nicht abschließen.",
+      },
+      {
+        titel: "Keine Derivate auf Kryptos.",
+        text: "Traders Place führt auch Zertifikate und Optionsscheine. Kauf den Coin selbst, kein Papier auf den Kurs.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Traders Place sind es drei Schritte, die oben stehen: Depot eröffnen, Wallet freischalten, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut Preisverzeichnis von Traders Place ist die Ein- oder Auslieferung auf eigene Wallets nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
     ],
   },
   {

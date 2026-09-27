@@ -45,6 +45,20 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "FinanceQuality, Kampagne 1981, Werbemittel 23712 (Textlink Home).",
   },
   {
+    kurzname: "scalable-krypto",
+    anbieter: "Scalable Capital",
+    ziel: "/dein-investmentstart/scalable-krypto",
+    aktiv: true,
+    notiz: "Gleicher Partnerlink wie scalable (Broker). Krypto laeuft bei Scalable als ETPs im Scalable Broker (de.scalable.capital/kryptowaehrung, 27.09.2026).",
+  },
+  {
+    kurzname: "traders-place-krypto",
+    anbieter: "Traders Place",
+    ziel: "/dein-investmentstart/traders-place-krypto",
+    aktiv: true,
+    notiz: "Gleicher Partnerlink wie traders-place (FinanceQuality 23712). Krypto-Wallet ist Teil des Depots (tradersplace.de/angebot/uebersicht/kryptowerte, 27.09.2026).",
+  },
+  {
     kurzname: "dkb-depot",
     anbieter: "DKB",
     ziel: "/dein-investmentstart/dkb-depot",
