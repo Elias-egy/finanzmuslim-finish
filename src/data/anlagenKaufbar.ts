@@ -1724,6 +1724,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3137,6 +3149,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3154,7 +3178,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "28.09.2026"
   }
 };
 

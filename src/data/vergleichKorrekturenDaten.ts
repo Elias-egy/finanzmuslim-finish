@@ -334,8 +334,6 @@ export const KRYPTO_QUELLEN: Quellen = {
 };
 
 /** Kaufbar-Treffer, die trotz Beleg bis zur Gegenprobe nicht gezeigt werden: ISIN -> Anbieter.
- *  Die beiden TR-Invesco-Goldtreffer stehen im öffentlichen Katalog, widersprechen aber der App. */
-export const KAUFBAR_UNKLAR: Record<string, string[]> = {
-  IE00B579F325: ["Trade Republic"],
-  XS3384723154: ["Trade Republic"],
-};
+ *  Leer seit 28.09.2026: Die beiden TR-Invesco-Goldtreffer gelten nach Elias' Entscheidung (Frage 8) nach
+ *  Trade Republics eigener Handelsliste, die App-Gegenprobe entfällt. */
+export const KAUFBAR_UNKLAR: Record<string, string[]> = {};

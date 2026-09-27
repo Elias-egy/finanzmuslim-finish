@@ -229,11 +229,12 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(krypto("kraken-pro").werte.zinsfreiesModell).toBe("gut");
   });
 
-  it("stellt die zwei Trade-Republic-Goldtreffer bis zur App-Gegenprobe auf unklar", () => {
+  // Elias, 28.09.2026 (Frage 8): Trade Republics eigene Handelsliste gilt, die App-Gegenprobe entfaellt.
+  it("zeigt die zwei Trade-Republic-Goldtreffer nach der Handelsliste als kaufbar", () => {
     for (const isin of ["IE00B579F325", "XS3384723154"]) {
-      expect(ANLAGEN_KAUFBAR[isin].kaufbar.some((x) => x.anbieter === "Trade Republic")).toBe(false);
+      expect(ANLAGEN_KAUFBAR[isin].kaufbar.some((x) => x.anbieter === "Trade Republic")).toBe(true);
     }
-    expect(brokerVergleich.find((a) => a.id === "trade-republic-depot")?.werte.halalEdelmetalle).toBe("mind. 6 von 7");
+    expect(brokerVergleich.find((a) => a.id === "trade-republic-depot")?.werte.halalEdelmetalle).toBe("7 von 7");
   });
 });
 
