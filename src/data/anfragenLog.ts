@@ -262,6 +262,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   // Stufen-Prüfung 23.09.2026: noch nie gefragt, aber je ein offener nächster Schritt.
   bforbank: { anbieter: "BforBank", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", kern: "Wird Guthaben auf dem Girokonto verzinst oder nur auf Bfor+ und Livret A? Kann das Konto trotz „kein Dispo“ über die geduldete Überziehung (16 %) ohne Antrag ins Minus rutschen?", von: "elias@finanzmuslim.com" },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", zeichen: "3163751-1790518984", automatisch: true, kern: "Automatische Eingangsbestätigung der Anfrage." },
   ], naechsterSchritt: "Antwort abwarten. Mailweg aus der FAQ (27.09.2026), vorher nur Telefon und App-Chat bekannt." },
   kraken: { anbieter: "Kraken", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Am 25.09.2026 geprüft: Produktsupport nur im Chat oder eingeloggt, das öffentliche Formular (support.kraken.com/forms/648008) ist nur für Compliance und Recht. Beide Stufen stehen über Opt-in schon auf grün, eine Nachfrage ist nicht nötig." },
   consorsbank: { anbieter: "Consorsbank", vorgaenge: [
