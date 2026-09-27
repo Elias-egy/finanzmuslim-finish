@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { quelleAusPfad, spracheAus } from "@/lib/anmeldung";
 import Seo from "@/components/Seo";
+import OptinKarte from "@/components/optin/OptinKarte";
+import { optinFreebie } from "@/data/optin";
 import { BookOpen, Check, ChevronDown, Shield, Sparkles, TrendingUp, Users } from "lucide-react";
 import guideTrio from "@/assets/guide-trio-v3.webp";
 import eliasPortrait from "@/assets/elias-autor.webp";
@@ -65,189 +65,12 @@ const faqs = [
   },
 ];
 
-const levels = [
-  { key: "einsteiger", title: "Einstieg", text: "Ich starte neu und brauche klare Grundlagen." },
-  {
-    key: "fortgeschritten",
-    title: "Fortgeschritten",
-    text: "Ich kenne die Grundlagen und möchte Anlagen besser einordnen.",
-  },
-  { key: "profi", title: "Profi", text: "Ich investiere bereits und möchte Kriterien und Prüfprozesse vertiefen." },
-];
-
-const inputClass =
-  "h-12 w-full rounded-lg border border-border bg-card px-4 text-[16px] text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/10 transition";
-
 /**
- * Der Webhook ist derselbe wie auf der alten Seite: Make nimmt E-Mail, Vorname
- * und Stufe entgegen und legt die Adresse in der passenden MailerLite-Gruppe
- * ab (Einsteiger, Fortgeschritten, Profi). Der Guide kommt per E-Mail, mit
- * Double Opt-in erst nach der Bestätigung. `quelle`, `sprache` und `interesse`
- * gehen mit, damit Make sie in MailerLite ablegen kann (Szenario 6105836).
+ * Anmeldung seit 27.09.2026 über die gemeinsame Opt-in-Karte (Make 7640717, antwortet mit dem
+ * Status der Adresse), danach die Danke-Seite /danke/guide. Vorher postete das Formular an
+ * Make 6105836 und zeigte „Fast geschafft“ an Ort und Stelle.
  */
-const GUIDE_WEBHOOK = "https://hook.eu1.make.com/u8nxrirwoycdcw61qd23eu312y79grlk";
-
-const GuideForm = ({ id }: { id?: string }) => {
-  const { pathname } = useLocation();
-  const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [vorname, setVorname] = useState("");
-  const [email, setEmail] = useState("");
-  const [level, setLevel] = useState<string | null>(null);
-  const [sendet, setSendet] = useState(false);
-  const [fehler, setFehler] = useState<string | null>(null);
-
-  const absenden = async () => {
-    if (!level || sendet) return;
-    setSendet(true);
-    setFehler(null);
-    try {
-      const res = await fetch(GUIDE_WEBHOOK, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          vorname: vorname.trim(),
-          nachname: "",
-          level,
-          quelle: quelleAusPfad(pathname),
-          sprache: spracheAus(document.documentElement.lang),
-          interesse: `guide-${level}`,
-        }),
-      });
-      if (!res.ok) throw new Error(`Webhook ${res.status}`);
-      setStep(3);
-    } catch {
-      setFehler("Das hat gerade nicht geklappt. Bitte versuch es gleich noch einmal oder schreib an elias@finanzmuslim.com.");
-    } finally {
-      setSendet(false);
-    }
-  };
-
-  if (step === 3) {
-    return (
-      <div id={id} className="rounded-lg border border-border bg-card p-6 text-left">
-        <p className="text-[17px] font-semibold text-foreground">Fast geschafft</p>
-        <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-          Bestätige deine Anmeldung über den Link in der E-Mail an {email.trim() || "deine E-Mail-Adresse"}, dann
-          kommt dein Guide. Keine Mail da? Schau auch im Spam-Ordner nach.
-        </p>
-      </div>
-    );
-  }
-
-  if (step === 2) {
-    return (
-      <div id={id} className="flex flex-col gap-4 text-left">
-        <p className="flex items-center gap-2 text-[15px] text-foreground/80">
-          <Check className="h-4 w-4 text-primary" aria-hidden />
-          Danke{vorname ? `, ${vorname}` : ""}!
-        </p>
-        <p className="text-[17px] font-bold text-foreground">Wo stehst du gerade beim halal Investieren?</p>
-
-        <div className="flex flex-col gap-3">
-          {levels.map((l) => {
-            const active = level === l.key;
-            return (
-              <button
-                key={l.key}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setLevel(l.key)}
-                className={`rounded-lg border p-4 text-left transition-colors ${
-                  active ? "border-primary bg-primary/5 ring-2 ring-primary/20" : "border-border bg-card hover:border-primary/50"
-                }`}
-              >
-                <span className="block text-[15px] font-semibold text-foreground">{l.title}</span>
-                <span className="mt-1 block text-[14px] leading-relaxed text-muted-foreground">{l.text}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {fehler && (
-          <p role="alert" className="text-[14px] leading-relaxed text-destructive">
-            {fehler}
-          </p>
-        )}
-
-        <button
-          type="button"
-          disabled={!level || sendet}
-          onClick={absenden}
-          className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {sendet ? "Wird gesendet …" : "Guide anfordern"}
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setStep(1)}
-          className="self-start text-[13px] text-muted-foreground underline underline-offset-2 hover:text-foreground"
-        >
-          Zurück
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <form
-      id={id}
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-          setFehler("Bitte gib eine gültige E-Mail-Adresse ein.");
-          return;
-        }
-        setFehler(null);
-        setStep(2);
-      }}
-      className="flex flex-col gap-3 text-left"
-      noValidate
-    >
-      <div className="grid gap-3 sm:grid-cols-2">
-        <input
-          type="text"
-          name="vorname"
-          autoComplete="given-name"
-          placeholder="Vorname"
-          aria-label="Vorname"
-          value={vorname}
-          onChange={(e) => setVorname(e.target.value)}
-          className={inputClass}
-        />
-        <input
-          type="email"
-          name="email"
-          autoComplete="email"
-          placeholder="E-Mail-Adresse"
-          aria-label="E-Mail-Adresse"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={inputClass}
-        />
-      </div>
-      {fehler && (
-        <p role="alert" className="text-[14px] leading-relaxed text-destructive">
-          {fehler}
-        </p>
-      )}
-      <button
-        type="submit"
-        className="h-12 w-full inline-flex items-center justify-center rounded-lg bg-primary px-6 text-[15px] font-semibold text-primary-foreground hover:bg-primary-hover transition-colors"
-      >
-        Lass uns starten
-      </button>
-      <p className="text-[12px] leading-relaxed text-muted-foreground">
-        Du bekommst den Guide und jeden Freitag meinen Freitagsbrief mit Tipps und Empfehlungen. Abmelden geht mit
-        einem Klick. Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
-        <Link to="/datenschutz" className="underline underline-offset-2 hover:text-foreground">
-          Datenschutz
-        </Link>
-      </p>
-    </form>
-  );
-};
+const guideFreebie = optinFreebie("guide")!;
 
 const HalalGuide = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -274,7 +97,7 @@ const HalalGuide = () => {
                   in unter 30 Sekunden.
                 </h1>
                 <div className="mt-8">
-                  <GuideForm />
+                  <OptinKarte freebie={guideFreebie} ohneUeberschrift />
                 </div>
               </div>
 
@@ -402,7 +225,7 @@ const HalalGuide = () => {
                 Trage deine E-Mail-Adresse ein. Du bekommst den Guide zugeschickt.
               </p>
               <div className="mt-6 text-left">
-                <GuideForm />
+                <OptinKarte freebie={guideFreebie} ohneUeberschrift />
               </div>
             </div>
           </div>

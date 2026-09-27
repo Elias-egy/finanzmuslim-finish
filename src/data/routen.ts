@@ -1,5 +1,6 @@
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { guides } from "@/data/guides";
+import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
@@ -180,6 +181,8 @@ export const nichtIndexiert: string[] = [
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
   ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+  // Opt-in-Seite (DM), Danke-Seite und volle Fassung je gesperrtem Freebie, siehe src/data/optin.ts
+  ...optinAdressen(),
   "/newsletter/archiv",
   ...ausgaben.map(ausgabePfad),
 ];
@@ -213,6 +216,9 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
+  { pfad: "/gratis/:freebie", grund: "Opt-in-Seite fuer die Instagram-DM, kein eigener Suchbegriff, setzt noindex" },
+  { pfad: "/danke/:freebie", grund: "Danke-Seite nach der Anmeldung, setzt noindex" },
+  { pfad: "/vorlagen/:slug/:schluessel", grund: "volle Fassung nur ueber den Link aus der Mail, setzt noindex" },
   { pfad: "/dein-investment-start", grund: "Zweitschreibweise, setzt noindex" },
   { pfad: "/newsletter/archiv", grund: "Liste der Ausgaben, setzt noindex" },
   { pfad: "/newsletter/:slug", grund: "eine Ausgabe des Freitagsbriefs, setzt noindex" },

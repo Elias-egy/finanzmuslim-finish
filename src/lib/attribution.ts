@@ -42,6 +42,15 @@ export const VALID_SRC = [
   "g2n",
   "g3c",
   "g3n",
+  // Instagram-DM auf die Opt-in-Karte (/gratis/<freebie>?src=dm<stichwort>), seit 27.09.2026.
+  // Ohne Bindestrich: Scalable nimmt als SubID nur Kleinbuchstaben und Ziffern.
+  "dmguide",
+  "dmliste",
+  "dmaktie",
+  "dmampel",
+  "dmdua",
+  "dmgold",
+  "dmauto",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
@@ -58,5 +67,14 @@ export const captureSrc = (): void => {
     }
   } catch {
     /* sessionStorage kann in strengen Browsern blockiert sein — dann greift der Fallback "start". */
+  }
+};
+
+/** Die zuletzt gemerkte Quelle dieser Sitzung, oder null. */
+export const gemerkteQuelle = (): string | null => {
+  try {
+    return sessionStorage.getItem(SRC_STORAGE_KEY);
+  } catch {
+    return null;
   }
 };

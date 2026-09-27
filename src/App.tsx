@@ -75,6 +75,10 @@ const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"
 const Newsletter = lazy(() => import("./pages/Newsletter.tsx"));
 const NewsletterArchiv = lazy(() => import("./pages/NewsletterArchiv.tsx"));
 const NewsletterAusgabe = lazy(() => import("./pages/NewsletterAusgabe.tsx"));
+// Opt-in-Strecke (27.09.2026): Opt-in-Seite für die DM, Danke-Seite, volle Fassung hinter der Schranke.
+const Gratis = lazy(() => import("./pages/Gratis.tsx"));
+const Danke = lazy(() => import("./pages/Danke.tsx"));
+const VorlageVoll = lazy(() => import("./pages/VorlageVoll.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -185,6 +189,10 @@ const App = () => (
             <Route path="/vorlagen/rizq" element={<VorlageRizq />} />
             <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
             <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
+            {/* Nicht verlinkt, noindex, nicht in der Sitemap: Opt-in, Danke, volle Fassung. */}
+            <Route path="/vorlagen/:slug/:schluessel" element={<VorlageVoll />} />
+            <Route path="/gratis/:freebie" element={<Gratis />} />
+            <Route path="/danke/:freebie" element={<Danke />} />
             <Route path="/newsletter" element={<Newsletter />} />
             <Route path="/newsletter/archiv" element={<NewsletterArchiv />} />
             <Route path="/newsletter/:slug" element={<NewsletterAusgabe />} />
