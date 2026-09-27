@@ -172,7 +172,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Die von Ihnen genannten Vorgaben … können wir bei der Bearbeitung Ihres Anliegens leider nicht separat berücksichtigen.“ Keine inhaltliche Antwort." },
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Zweite, präzisere Anfrage: Laufen Zinsen, Rewards oder Staking ohne eigenes Zutun, und ist das Zinskonto bei der Baader Bank bei einer normalen Depoteröffnung automatisch dabei?" },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Laufen Zinsen, Rewards oder Staking ohne Zutun, ist das Baader-Zinskonto automatisch dabei? Dazu Kaufbarkeit aller 22 Halal-ISINs samt Fondsaufschlag.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
+    { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: "Nachtrag im selben Faden: Lassen sich Kryptowerte auf eine eigene, externe Wallet übertragen und umgekehrt? Die Sonderbedingungen Nr. 14 verweisen nur auf Tangany.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. samt Nachtrag abwarten, dann eigeneWallet bei traders-place-krypto setzen." },
   targobank: { anbieter: "Targobank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: frage2 },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "#REF0003695700", kern: "Bittet um einen Beratungstermin in der Filiale. Keine inhaltliche Antwort." },

@@ -322,3 +322,25 @@ describe("Aufnahmeregel", () => {
     expect(rangfolge(liste, kategorie).abgeraten.map((x) => x.anbieter.id)).toEqual([]);
   });
 });
+
+describe("Halal-Merkmale mit Anbieterbeleg statt Finanzfluss", () => {
+  // 27.09.2026: „Karte ohne Kredit“ zählt die Hälfte der Halal-Note im Girokonto. Belegt aus der Entgeltinformation
+  // des Kontos, nicht aus dem Finanzfluss-Vergleich.
+  it("belegt „Karte ohne Kredit“ bei jedem Girokonto beim Anbieter", () => {
+    const ohne = girokontoVergleich
+      .filter((a) => a.werte.karteOhneKredit === "gut" || a.werte.karteOhneKredit === "schlecht")
+      .filter((a) => !a.quellen?.karteOhneKredit?.url || /finanzfluss\.de/.test(a.quellen.karteOhneKredit.url))
+      .map((a) => a.id);
+    expect(ohne).toEqual([]);
+  });
+
+  it("wertet „eigene Wallet“ nur mit Anbieterbeleg rot", () => {
+    // traders-place-krypto: Sonderbedingungen Nr. 14 schließen die Übertragung nicht aus, Nachtrag an Traders Place 27.09.2026.
+    const offen = new Set(["traders-place-krypto"]);
+    const ohne = kryptoVergleich
+      .filter((a) => a.werte.eigeneWallet === "schlecht" && !offen.has(a.id))
+      .filter((a) => !a.quellen?.eigeneWallet?.url || /finanzfluss\.de/.test(a.quellen.eigeneWallet.url))
+      .map((a) => a.id);
+    expect(ohne).toEqual([]);
+  });
+});
