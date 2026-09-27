@@ -309,7 +309,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Antwort abwarten, dann belegabruf setzen." },
   steuereasy: { anbieter: "STEUEReasy", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Als finanzmuslim.com: Anlage KAP mit STEUEReasy möglich, sonst welches Programm? Datenabruf vom Finanzamt möglich?" },
-  ], naechsterSchritt: "Antwort abwarten, dann kapital und belegabruf setzen." },
+    { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Nachtrag im selben Faden: Anlage V und Einkünfte aus selbstständiger oder gewerblicher Tätigkeit mit EÜR in STEUEReasy möglich? Beide Felder standen nur wegen Nichtnennung auf Nein.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort abwarten, dann kapital, belegabruf, vermietung und selbststaendige setzen." },
 };
 
 export const anfrageFuer = (haus?: string): Anfrage | undefined => (haus ? ANFRAGEN[haus] : undefined);
