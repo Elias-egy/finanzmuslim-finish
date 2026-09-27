@@ -118,7 +118,10 @@ export const optinAnmelden = async (daten: OptinDaten, fetchFn: FetchFn = fetch)
 /** Mehrfachauswahl als feste, kommagetrennte Liste, wie Make sie prüft. */
 export const vorhabenListe = (auswahl: readonly string[]) => VORHABEN.filter((v) => auswahl.includes(v)).join(",");
 
-/** `abonnent` statt `id`: Das Feld `id` kam in Make nicht an (Tests 27.09.2026). */
+/**
+ * `abonnent` ist die MailerLite-ID aus der Anmeldung. Die leeren Felder in den ersten Tests
+ * (27.09.2026) kamen vom Testskript (kaputter Content-Type), nicht von Make oder vom Namen.
+ */
 export type Nachtrag = { abonnent: string; token: string; freebie: string; stufe?: Stufe; vorhaben?: readonly string[] };
 
 /** Der Inhalt des Nachtrags, oder `null`, wenn es nichts nachzutragen gibt. */
