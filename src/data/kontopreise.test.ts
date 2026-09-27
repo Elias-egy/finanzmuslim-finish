@@ -65,13 +65,23 @@ describe("Kontoführung beim Anbieter geprüft (Elias, 27.09.2026: wie Finanzflu
     }
   });
 
-  it("gibt offenen Konten keine Extrapunkte und SumUp keine Finanzpunkte", () => {
+  it("gibt offenen Konten keine Extrapunkte", () => {
     for (const a of girokontoVergleich) {
       if (a.id in KONTOPREIS_OFFEN && a.finanzPunkte && Object.keys(a.finanzPunkte).length > 0) {
         expect(a.finanzPunkte.ohneBedingung, a.id).toBe(0);
       }
     }
-    expect(girokontoVergleich.find((a) => a.id === "sumup-privatkonto")?.finanzPunkte).toEqual({});
+  });
+
+  it("rechnet SumUp nach der Finanzfluss-Tabelle vollständig (27.09.2026)", () => {
+    // Finanzfluss führt SumUp nicht; die Punkte kommen aus SumUps eigenen Seiten (girokontoNachtraege.ts).
+    const p = girokontoVergleich.find((a) => a.id === "sumup-privatkonto")?.finanzPunkte ?? {};
+    for (const [k, max] of Object.entries(GIRO_FINANZ_MAX)) {
+      expect(p[k], k).toBeTypeOf("number");
+      expect(p[k], k).toBeLessThanOrEqual(max);
+    }
+    expect(p.kontofuehrung).toBe(15);
+    expect(p.ohneBedingung).toBe(OHNE_BEDINGUNG_PUNKTE);
   });
 
   it("nennt bei der Postbank die Bedingung (Ankerfall)", () => {
