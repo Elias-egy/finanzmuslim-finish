@@ -580,4 +580,13 @@ describe("rangfolge: echte Daten", () => {
     expect(ids(r.nichtBewertet)).toEqual([]);
     expect(ids(r.gerankt).at(-1)).toBe("finispia");
   });
+
+  it("Screener: Zoya nennt seine Shariah-Berater auf der About-Seite, Gremium grün", () => {
+    // zoya.finance/about, „Our Shariah Advisors“: Joe Bradford und Umer Khan (Beleg 27.09.2026).
+    const zoya = screenerVergleich.find((a) => a.id === "zoya")!;
+    expect(zoya.werte.gremium).toBe("gut");
+    expect(zoya.quellen?.gremium?.url).toBe("https://zoya.finance/about");
+    const r = rangfolge(screenerVergleich, "screener");
+    expect(ids(r.gerankt).slice(0, 2)).toEqual(["musaffa", "zoya"]);
+  });
 });

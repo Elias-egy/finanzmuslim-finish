@@ -265,7 +265,7 @@ export const screenerVergleich: RohAnbieter[] = [
     domain: "zoya.finance",
     werte: {
       standard: "AAOIFI",
-      gremium: "schlecht",
+      gremium: "gut",
       begruendung: "gut",
       reinigung: "teils",
       deutscheAktien: "ja, Deutschland ist einer von neun Märkten",
@@ -291,9 +291,10 @@ export const screenerVergleich: RohAnbieter[] = [
           "Die App weist den Anteil nicht konformer Einnahmen aus, den Betrag zum Spenden rechnet man selbst: „Use Zoya to determine the total percentage of non-compliant income“. Einen fertigen Reinigungsbetrag nennt der Anbieter nicht, deshalb teils.",
       },
       gremium: {
-        url: "https://zoya.finance/",
-        stand,
-        hinweis: "Der Anbieter spricht von Shariah-Beratern, nennt sie auf den öffentlichen Seiten aber nicht mit Namen.",
+        url: "https://zoya.finance/about",
+        stand: "27.09.2026",
+        hinweis:
+          "Namentlich genannt unter „Our Shariah Advisors“: Sheikh Joe Bradford, „Certified Shariah Adviser and Auditor (CSAA), accredited by the Accounting and Auditing Organization for Islamic Financial Institutions (AAOIFI)“, und Sheikh Umer Khan mit „iftā' (License to Give Islāmic Legal Verdicts) from Darulifta Birmingham“. Am 27.09.2026 korrigiert: Vorher stand hier rot, weil die Namen nicht auf der Startseite stehen.",
       },
       begruendung: { url: "https://zoya.finance/", stand, hinweis: "Zu jeder Aktie gibt es einen Compliance-Bericht mit den Einzelwerten." },
       deutscheAktien: {
