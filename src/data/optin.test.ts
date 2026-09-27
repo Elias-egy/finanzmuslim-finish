@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { istGesperrt, optinAdressen, optinFreebies, vollPfad } from "./optin";
 import { vorlagen } from "./vorlagen";
-import { aktien } from "./top100Aktien";
+import { aktien, fraglich } from "./top100Aktien";
 import { kante, offen } from "./top100Ausschnitt";
 import { anliegen, duas, nummerVon } from "./duas";
 import * as duasAusschnitt from "./duasAusschnitt";
@@ -38,7 +38,15 @@ describe("gesperrte Freebies", () => {
 });
 
 describe("Ausschnitt der 100 Halal-Aktien", () => {
-  const nachName = new Map(aktien.map((a) => [a.name, a]));
+  const nachName = new Map([...aktien, ...fraglich.map((f) => ({ ...f, status: "Doubtful" as const }))].map((a) => [a.name, a]));
+
+  it("führt alle 100 als halal und die sechs fraglichen getrennt", () => {
+    expect(aktien).toHaveLength(100);
+    expect(aktien.every((a) => a.status === "Halal")).toBe(true);
+    expect(new Set(aktien.map((a) => a.ticker)).size).toBe(100);
+    expect(fraglich).toHaveLength(6);
+    for (const f of fraglich) expect(aktien.some((a) => a.ticker === f.ticker)).toBe(false);
+  });
 
   it("zeigt oben nur Titel, die als Halal in der Liste stehen, mit richtigem Ticker", () => {
     for (const a of offen) {

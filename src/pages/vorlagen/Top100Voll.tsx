@@ -3,7 +3,7 @@ import VorlagenSeite from "@/components/VorlagenSeite";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
-import { aktien } from "@/data/top100Aktien";
+import { aktien, fraglich } from "@/data/top100Aktien";
 
 /**
  * Die volle Fassung der 100 Halal-Aktien, nur über den Link aus der Mail nach der
@@ -25,7 +25,7 @@ const Top100Voll = () => (
   <>
     <Seo
       title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-      description="94 von 100 bekannten Aktien sind halal. Von Apple bis Nike, mit Musaffa-Einzelprüfung vom 20.08.2026 und Fundstelle zu jedem Titel."
+      description="Alle 100 bekannten Aktien halal nach Musaffa-Einzelprüfung. Von Apple bis Nike, mit Fundstelle zu jedem Titel."
       path={pfad}
       noindex
     />
@@ -60,9 +60,10 @@ const Top100Voll = () => (
               Stand & Status
             </div>
             <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">
-              <b>Musaffa-Einzelprüfung, 20.08.2026.</b> Alle 100 Titel wurden einzeln geprüft: 94
-              halal, 6 doubtful. Halal- und Boykottstatus können sich jederzeit ändern und sollten
-              vor einer Entscheidung erneut geprüft werden.
+              <b>Musaffa-Einzelprüfung, 20.08.2026.</b> Alle 100 Titel einzeln geprüft und halal. Sechs
+              Titel, die Musaffa als fraglich führt, sind am 27.09.2026 durch neu geprüfte ersetzt. Halal-
+              und Boykottstatus können sich jederzeit ändern und sollten vor einer Entscheidung erneut
+              geprüft werden.
             </p>
           </div>
           <div>
@@ -100,10 +101,22 @@ const Top100Voll = () => (
         </section>
       ))}
 
+      <section>
+        <h2 className="text-2xl font-bold text-foreground">Sechs bekannte Namen, fraglich</h2>
+        <p className="mt-2 text-[15px] text-muted-foreground">
+          Musaffa führt sie als „Doubtful“, Stand September 2026. Deshalb stehen sie nicht in der Liste.
+        </p>
+        <div className="card-surface mt-4 overflow-hidden p-0">
+          {fraglich.map((a) => (
+            <AktienZeile key={a.ticker} name={a.name} ticker={a.ticker} bekanntFuer={`${a.bekanntFuer} · ${a.grund}`} status="Doubtful" />
+          ))}
+        </div>
+      </section>
+
       <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
-          Die Einstufung basiert auf dem Stand vom 20.08.2026. Prüfe Name und Ticker am Tag deiner
+          Die Einstufung basiert auf dem Stand vom 20.08.2026, bei den sechs Ersatztiteln vom 27.09.2026. Prüfe Name und Ticker am Tag deiner
           Entscheidung erneut, idealerweise in mehr als einem Screener, und ob dein Broker genau
           diese Aktie und Börsenlinie anbietet. Boykottstatus und aktuelle Unternehmensverbindungen
           bitte separat prüfen, das ist eine eigene Prüfung, keine Halal-Frage.

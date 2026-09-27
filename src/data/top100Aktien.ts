@@ -5,8 +5,16 @@ export type Aktie = {
   bekanntFuer: string;
   status: "Halal" | "Doubtful";
   quelle: string;
+  /** Nur bei den sechs Ersatztiteln: Tag der Musaffa-Einzelprüfung. Sonst gilt der 20.08.2026. */
+  geprueft?: string;
 };
 
+/**
+ * Die 100 bekannten Halal-Aktien. Seit 27.09.2026 alle 100 halal (Elias, Vault raw
+ * 2026-09-26-doomscroll-web/09): Die sechs Titel, die Musaffa am 20.08.2026 als „Doubtful“ führte,
+ * sind durch sechs neu geprüfte ersetzt, Wortlaut in Vault raw 2026-09-27-musaffa-top100-ersatz.md.
+ * Die sechs stehen jetzt unter `fraglich` und in der vollen Fassung als eigener Abschnitt.
+ */
 export const aktien: Aktie[] = [
   {
     rang: 1,
@@ -82,11 +90,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 10,
-    name: "ServiceNow",
-    ticker: "NOW",
-    bekanntFuer: "Workflow-Software",
-    status: "Doubtful",
+    name: "Intel",
+    ticker: "INTC",
+    bekanntFuer: "Prozessoren",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 11,
@@ -146,11 +155,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 18,
-    name: "Analog Devices",
-    ticker: "ADI",
-    bekanntFuer: "Sensoren & Halbleiter",
-    status: "Doubtful",
+    name: "TDK",
+    ticker: "6762",
+    bekanntFuer: "Elektronik-Bauteile",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 19,
@@ -178,11 +188,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 22,
-    name: "Mondelez",
-    ticker: "MDLZ",
-    bekanntFuer: "Oreo & Milka",
-    status: "Doubtful",
+    name: "Monster Beverage",
+    ticker: "MNST",
+    bekanntFuer: "Energy-Drinks",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 23,
@@ -258,11 +269,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 32,
-    name: "Lindt & Sprüngli",
-    ticker: "LISN",
-    bekanntFuer: "Schokolade",
-    status: "Doubtful",
+    name: "Essity",
+    ticker: "ESSITY B",
+    bekanntFuer: "Tempo & Zewa",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 33,
@@ -458,11 +470,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 57,
-    name: "Ryanair",
-    ticker: "RYA",
-    bekanntFuer: "Fluggesellschaft",
-    status: "Doubtful",
+    name: "Haleon",
+    ticker: "HLN",
+    bekanntFuer: "Sensodyne & Voltaren",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 58,
@@ -722,11 +735,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 90,
-    name: "Axon Enterprise",
-    ticker: "AXON",
-    bekanntFuer: "Taser & Bodycams",
-    status: "Doubtful",
+    name: "Makita",
+    ticker: "6586",
+    bekanntFuer: "Akkuwerkzeug",
+    status: "Halal",
     quelle: "M",
+    geprueft: "27.09.2026",
   },
   {
     rang: 91,
@@ -808,4 +822,14 @@ export const aktien: Aktie[] = [
     status: "Halal",
     quelle: "M",
   },
+];
+
+/** Bekannte Namen, die Musaffa als „Doubtful“ führt, Stand September 2026 (Vault raw 2026-09-27-musaffa-top100-ersatz.md). */
+export const fraglich: { name: string; ticker: string; bekanntFuer: string; grund: string }[] = [
+  { name: "ServiceNow", ticker: "NOW", bekanntFuer: "Workflow-Software", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
+  { name: "Analog Devices", ticker: "ADI", bekanntFuer: "Sensoren & Halbleiter", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
+  { name: "Mondelez", ticker: "MDLZ", bekanntFuer: "Oreo & Milka", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
+  { name: "Lindt & Sprüngli", ticker: "LISN", bekanntFuer: "Schokolade", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
+  { name: "Ryanair", ticker: "RYA", bekanntFuer: "Fluggesellschaft", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
+  { name: "Axon Enterprise", ticker: "AXON", bekanntFuer: "Taser & Bodycams", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
 ];
