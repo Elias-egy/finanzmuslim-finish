@@ -167,23 +167,24 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "STEUEReasy",
     produkt: "Windows",
     domain: "steuertipps.de",
-    preisEinzel: 17.99,
+    preisEinzel: 15.99,
     werte: {
       plattform: "nur Windows",
       kapital: null,
-      selbststaendige: "nein",
-      vermietung: "nein",
+      selbststaendige: null,
+      vermietung: null,
       belegabruf: null,
       sprache: "Deutsch",
-      preis: "15,99 €, regulär 17,99 €",
+      preis: "15,99 €",
       zahlung: "vor dem Ausfüllen",
       abgaben: "1",
     },
     quellen: {
       plattform: q("https://www.steuertipps.de/shop/software/steuereasy", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung. Eine Mac-Fassung gibt es nicht."),
-      selbststaendige: q("https://www.steuertipps.de/shop/software/steuereasy", "Das Programm ist auf einfache Fälle zugeschnitten, Selbstständige nennt der Anbieter nicht."),
-      vermietung: q("https://www.steuertipps.de/shop/software/steuereasy", "Vermietung nennt der Anbieter nicht, das Programm zielt auf Angestellte, Studierende und Berufseinsteiger."),
-      preis: q("https://www.steuertipps.de/shop/software/steuereasy", "15,99 € im Angebot, regulär 17,99 €, als Sofort-Download."),
+      // Selbstständige und Vermietung seit 27.09.2026 ungeprüft: Die Seite nennt nur die Zielgruppe
+      // („Arbeitnehmer:innen …, Studierende, Ferienjobber und Berufseinsteiger:innen“), schließt aber nichts aus.
+      // Die Fassung fürs Steuerjahr 2024 warb mit „mit allen Anlagen und Formularen“. Nichtnennung ist kein Nein.
+      preis: { url: "https://www.steuertipps.de/shop/software/steuereasy", stand: "27.09.2026", hinweis: "„Regulärer Preis: 15,99 €“, als Sofort-Download. Die Angabe „regulär 17,99 €“ vom 19.09.2026 steht nicht mehr auf der Seite." },
       abgaben: q("https://www.steuertipps.de/shop/software/steuereasy", "Eine Abgabe ist enthalten, weitere lassen sich nicht nachkaufen."),
       sprache: q("https://www.steuertipps.de/shop/software/steuereasy", "Nur auf Deutsch."),
     },
