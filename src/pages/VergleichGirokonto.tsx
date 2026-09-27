@@ -29,7 +29,7 @@ const VergleichGirokonto = () => (
     filter={GIRO_FILTER}
     stand="14.09.2026"
     standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
         titel: "Ohne Zinsen nutzbar",

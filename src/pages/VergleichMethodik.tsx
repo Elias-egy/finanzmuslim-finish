@@ -31,7 +31,7 @@ const kategorien = [
       "Kein Dispo ab Start: kein Dispokredit nach der Eröffnung, 50 %",
       "Karte ohne Kredit: Girocard oder Debitkarte ohne Kreditrahmen, 50 %",
     ],
-    finanz: "Kontoführung, kostenlose Karten, Abheben, Einzahlen, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App, Ident-Verfahren",
+    finanz: "Kontoführung (gerechnet mit 1.000 € Geldeingang, Extrapunkte ohne Bedingung), kostenlose Karten, Abheben, Einzahlen, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App, Ident-Verfahren",
     max: FINANZ_MAX_SUMME.girokonto,
   },
   {

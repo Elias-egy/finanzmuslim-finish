@@ -211,7 +211,7 @@ const DEPOT_APP: Prioritaet = {
   gewichte: { app: 3, kundenservice: 3 },
   fakten: ["appIos", "appAndroid", "kundenservice"],
 };
-const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
+const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, ohneBedingung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
 const GIRO_APP: Prioritaet = { id: "app", label: "gute App", gewichte: { app: 4, mobilesBezahlen: 2, ident: 2 }, fakten: ["appIos", "appAndroid", "applePay"] };
 const KRYPTO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { gebuehren: 2, transferkosten: 2 }, fakten: ["gesamtkosten", "auszahlungBitcoin"] };
 const KRYPTO_EINFACH: Prioritaet = { id: "einfach", label: "einfachen Einstieg", gewichte: { verifizierung: 2, bezahlmethoden: 2, mindestbetrag: 2 }, fakten: ["ident", "einzahlung", "mindestbetrag"] };
@@ -396,8 +396,8 @@ export const fragen: Frage[] = [
     titel: "Darf das Konto etwas kosten?",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
-      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
+      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", still: true, pruefe: kostetNichts("kontofuehrung") }], grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
+      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
     ],
   },
   {

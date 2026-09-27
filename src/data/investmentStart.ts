@@ -324,7 +324,7 @@ export const startPartner: StartPartner[] = [
     titel: ["Dein zinsfreies", "Girokonto."],
     knopf: "Bei DKB eröffnen →",
     videoHinweis: false,
-    chips: ["0 € Kontoführung", "Visa-Debitkarte", "Apple Pay", "Kontowechsel"],
+    chips: ["0 € ab 700 € Geldeingang", "Visa-Debitkarte", "Apple Pay", "Kontowechsel"],
     schritte: [
       { titel: "Antrag online ausfüllen", text: "Name, Adresse, Steuer-ID. Dauert ein paar Minuten." },
       { titel: "Per Video-Ident bestätigen", text: "Ausweis in die Kamera halten, fertig." },
@@ -340,8 +340,8 @@ export const startPartner: StartPartner[] = [
         text: "Die Visa-Debitkarte bucht direkt vom Konto ab, ohne Kreditrahmen und ohne Teilzahlung.",
       },
       {
-        titel: "Kontoführung 0 €",
-        text: "Keine Kontoführungsgebühr, weltweit an rund 49.750 Automaten Geld abheben, Kontowechsel-Service inklusive.",
+        titel: "Kostenlos ab 700 € Geldeingang",
+        text: "Bei mindestens 700 € Geldeingang im Monat oder unter 28 kostet die Kontoführung nichts, sonst 4,50 €. Weltweit an rund 49.750 Automaten Geld abheben, Kontowechsel-Service inklusive.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein DKB-Konto", "riba-frei"],
@@ -766,7 +766,7 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Kostenlos mit Bedingung",
-        text: "Kostenlos bei 1.000 € Geldeingang im Monat oder für alle unter 30. Sonst 4,95 € im Monat.",
+        text: "Kostenlos mit e-Postfach und 1.000 € Geldeingang im Monat, unter 30 auch ohne Geldeingang. Sonst 4,95 € im Monat.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein BBBank-Konto", "riba-frei"],
