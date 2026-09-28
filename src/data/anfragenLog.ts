@@ -202,7 +202,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "„Mit einem Mitarbeiter sprechen“ plus Frage: Libertex Invest in Deutschland mit echten Wertpapieren? Je ISIN ja/nein, alle 22. Zoho Gesendet #101." },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "Mitarbeiter (Reiner) verweist auf die Instrumentenliste: „Dort finden Sie alle Aktien die Sie bei und kaufen können. Wählen Sie bitte als Plattform Libertex Invest aus.“ Ausgewertet: 260 Aktien, Gruppe ETF leer, keine der 22 ISINs. Eingetragen als vollständige Liste: 0 von 12, 0 von 3, 0 von 7." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "Nachfrage im selben Faden: Wird Guthaben auf einem Libertex-Invest-Konto verzinst, automatisch oder gegen Aufpreis? Zoho Gesendet #102. Nur Gegenprobe: das Zins-Tor ist seit 23.09. über das Client Agreement Shares belegt." },
-  ], naechsterSchritt: "Depot gerankt 28.09.2026 (0 von 22 über die vollständige Liste). Antwort auf die Zins-Gegenprobe nur ablegen; widerspricht sie dem Client Agreement, Zins-Tor neu prüfen." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "KI-Antwort zur Gegenprobe: „nicht investiertes Guthaben auf einem Libertex‑Invest‑Konto wird nicht verzinst“, kein Aufpreis-Modell. Bestätigt das Client Agreement." },
+  ], naechsterSchritt: "Erledigt 28.09.2026: Depot gerankt, Zins zweifach belegt." },
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
@@ -253,7 +254,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus.", von: "eliaselgendy2006@gmail.com" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "db.no-reply@db.com", automatisch: true, kern: "Nur automatische Eingangsbestätigung." },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: "Nachfrage im selben Verlauf, nur Dispo Top-Girokonto: Werbeseite sagt Sofort-Dispo, Bedingungen sagen auf Antrag. Kommt der Dispo bei Eröffnung automatisch?", von: "eliaselgendy2006@gmail.com" },
-  ], naechsterSchritt: "Antwort abwarten, und in der Nachfrage den Dispo-Widerspruch klären: Die Werbeseite sagt „erhalten Girokonto-Kunden einen Sofort-Dispo“, die Bedingungen zum Top-Girokonto sagen „Auf Antrag … Antragsannahme durch gesonderte Mitteilung“." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "e-mail.service-norisbank@norisbank.de", automatisch: true, kern: "Standardtext an eliaselgendy2006@gmail.com: „senden Ihnen schnellstmöglich die gewünschten Unterlagen zum Top-Girokonto zu“, 0 € ab 500 € Geldeingang. Dispo-Frage nicht beantwortet, zählt nicht als Antwort." },
+  ], naechsterSchritt: "Elias fasst im Gmail-2006-Faden „Re: Ihre Anfrage Top Girokonto“ nach (Text im Handoff KONTOFUEHRUNG-6) oder entscheidet N: ohne Antwort rot nach DKB-Maßstab." },
   coinbase: { anbieter: "Coinbase", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@coinbase.com", kern: "Zinsen und Rewards auf Guthaben, ob Coinbase One Zinsen oder gebundene Token enthält, und ob Margin und Lending ab Start aus sind." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "Fall 27569519", kern: "Keine automatischen Zinsen oder Rewards, Coinbase One enthält weder Zinsen noch gesperrte Token, Margin und Lending sind ab Start aus. Beide Felder grün." },
@@ -303,7 +305,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   bison: { anbieter: "BISON", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs. Partnerfaden affiliate@bsdigital.com läuft getrennt.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "„Aktuell gibt es bei BISON leider keine Sparplanfunktion für Wertpapiere.“ Einmalkauf nicht beantwortet." },
+    { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", zeichen: "#613686", kern: "Nachfrage im selben Ticket: Einmalkauf je ISIN ja/nein, alle 22, oder Link auf eine vollständige Liste. Zoho Gesendet #103." },
+  ], naechsterSchritt: "Antwort zum Einmalkauf abwarten (Ticket #613686)." },
   freedom24: { anbieter: "Freedom24", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support_germany@freedom24.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Zins nur auf selbst eröffnetem D-Konto, gilt das für Smart und All inclusive? Kaufbarkeit aller 22 ISINs je Tarif.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
