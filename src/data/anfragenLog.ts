@@ -152,7 +152,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "Online als Einmalanlage handelbar (keine Sparpläne): Invesco DJ Islamic, Invesco ACWI, iShares Sukuk, Xtrackers Sukuk. „Den Handel von klassischen Fonds bieten wir generell nicht an“. HSBC ×4 und die zwei Invesco-ETCs nicht eindeutig beantwortet." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128412", kern: "Nachfrage im selben Ticket (Elias-Freigabe 17): HSBC ×4, IE00B579F325, IE00B43VDT70 je Einmalkauf ja/nein. Zoho Gesendet #100." },
-  ], naechsterSchritt: "Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "„Die von Ihnen genannten Wertpapiere sind derzeit bei uns nicht handelbar.“ Alle sechs nein. Depot vollständig: 6 von 12, 2 von 3, 5 von 7." },
+  ], naechsterSchritt: "Erledigt 28.09.2026: alle 22 ISINs belegt." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Konto ohne Überziehungsmöglichkeit eröffenbar. Dispo grün." },

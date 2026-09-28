@@ -18,7 +18,6 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "geno-broker",
   "hvb",
   "joe-broker",
-  "justtrade",
   "libertex",
   "norisbank",
   "pax-bank",
