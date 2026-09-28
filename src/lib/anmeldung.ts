@@ -73,7 +73,7 @@ export const freitagsbriefAnmelden = async (daten: AnmeldeDaten, fetchFn: FetchF
  * „Warteliste“. `einwilligung` nennt die Fassung des Einwilligungstextes, der beim
  * Absenden unter dem Feld stand.
  */
-export const WARTELISTE_WEBHOOK = "";
+export const WARTELISTE_WEBHOOK = "https://hook.eu1.make.com/t2xmeptu3as3odqs6hcidxbuk9aaalab";
 
 export const WARTELISTE_EINWILLIGUNG = "sperrfenster-2026-09-28";
 
