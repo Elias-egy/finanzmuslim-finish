@@ -30,6 +30,8 @@ const datumKurz = (iso: string) => {
  * Gemeinsame Umschaltleiste für Übersicht und Detailseite: sieben feste
  * Zeiträume plus ein selbst gewählter Von-bis-Zeitraum über den Kalender.
  * Auf dem Handy waagerecht scrollbar, damit acht Knöpfe nicht umbrechen.
+ * `relative` ist Pflicht: Die sr-only-Texte sind absolut positioniert und
+ * würden sonst am Body hängen und die ganze Seite seitlich verbreitern.
  */
 const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
   const [offen, setOffen] = useState(false);
@@ -49,7 +51,7 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
     <div
       role="tablist"
       aria-label="Zeitraum"
-      className={`-mx-1 flex items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}
+      className={`relative -mx-1 flex items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}
     >
       {chartZeitraeume.map((z) => (
         <button
