@@ -201,6 +201,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -252,6 +253,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -322,6 +324,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -379,6 +382,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -501,6 +505,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -691,6 +696,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -742,6 +748,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -771,6 +778,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
           ]
         }
       },
@@ -1031,6 +1050,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -1238,6 +1269,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
           ]
         }
       },
@@ -1579,6 +1622,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
@@ -1727,6 +1771,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "justTRADE",
@@ -1905,6 +1950,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
@@ -2102,6 +2148,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -2302,6 +2349,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "Libertex",
@@ -2487,6 +2535,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "Libertex"
@@ -2664,6 +2713,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "Libertex",
@@ -2837,6 +2887,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "Libertex",
@@ -2846,6 +2897,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00BQRFDY49": {
     "kaufbar": [
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -3117,6 +3180,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
@@ -3215,6 +3279,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
       "Consorsbank",
@@ -3371,6 +3436,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",

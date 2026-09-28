@@ -307,7 +307,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs. Partnerfaden affiliate@bsdigital.com läuft getrennt.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "„Aktuell gibt es bei BISON leider keine Sparplanfunktion für Wertpapiere.“ Einmalkauf nicht beantwortet." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", zeichen: "#613686", kern: "Nachfrage im selben Ticket: Einmalkauf je ISIN ja/nein, alle 22, oder Link auf eine vollständige Liste. Zoho Gesendet #103." },
-  ], naechsterSchritt: "Antwort zum Einmalkauf abwarten (Ticket #613686)." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "Zoho INBOX 389, 15:10, vor unserer Nachfrage eingegangen und erst abends gelesen: „Gerne haben wir die Kaufbarkeit der genannten Wertpapiere geprüft. Die folgenden Wertpapiere können bei uns gehandelt werden:“ iShares MSCI World, EM und USA Islamic, WisdomTree Core Physical Silver. Die übrigen 18 nein. Depot vollständig: 3 von 12, 0 von 3, 1 von 7." },
+  ], naechsterSchritt: "Nichts offen. Kommt auf #103 noch eine Antwort, gegen die Liste vom 28.09. prüfen." },
   freedom24: { anbieter: "Freedom24", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support_germany@freedom24.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Zins nur auf selbst eröffnetem D-Konto, gilt das für Smart und All inclusive? Kaufbarkeit aller 22 ISINs je Tarif.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
