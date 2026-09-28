@@ -1,5 +1,6 @@
 import { bewertung, UrteilPille, type Farbe } from "@/components/vorlagen/ampelTeile";
 import type { AboAnbieter, Rechnung } from "@/data/autoAboCheck";
+import { titelVon } from "@/data/autoAboCheckAusschnitt";
 
 /**
  * Einleitung, Legende und Anbieter-Karte des Auto-Abo-Checks. Enthält kein Urteil über einen
@@ -48,8 +49,8 @@ export const WasAboAndersMacht = () => (
       Rate und tankst.
     </p>
     <p className="mt-3 text-[16px] leading-relaxed text-foreground/90">
-      So beschreiben Gelehrte die zulässige Miete, aber nur, wenn der Vertrag hält, was die Werbung sagt. Die Rate liegt
-      höher als beim Leasing, dafür fallen die Nebenkosten weg.
+      So beschreiben Gelehrte die zulässige Miete: Als Modell ist das Abo die Alternative zum Leasing. Ob ein Vertrag das
+      hält, entscheidet vor allem eine Frage: Zahlst du für Schäden, die du nicht verursacht hast?
     </p>
   </section>
 );
@@ -57,12 +58,15 @@ export const WasAboAndersMacht = () => (
 const legende: { farbe: Farbe; text: string }[] = [
   {
     farbe: "gruen",
-    text: "Passt zur zulässigen Miete: Der Anbieter trägt Eigentum, Versicherung und Wartung, du haftest nur für eigenes Verschulden. Im Vertrag steht weder Zins noch Kauf.",
+    text: "Passt zur zulässigen Miete: Der Anbieter trägt Eigentum, Versicherung und Wartung, du zahlst Rate und Tank. Du haftest nur für eigenes Verschulden, im Vertrag steht weder Zins noch Kauf.",
   },
-  { farbe: "gelb", text: "Der Aufbau passt, aber eine Klausel hakt, oder der Vertrag ist nicht öffentlich. Vor der Unterschrift klären." },
+  {
+    farbe: "gelb",
+    text: "Der Aufbau passt, aber eine Klausel hakt, oder der Vertrag ist nicht öffentlich. Meist ist es eine Selbstbeteiligung für Schäden ohne deine Schuld: Die meisten Gelehrten halten sie für unzulässig, einzelne erlauben sie.",
+  },
   {
     farbe: "rot",
-    text: "Die Gefahr für das Auto liegt bei dir, oder im Vertrag stecken Kauf oder Kredit. Daran scheitert auch Leasing.",
+    text: "Du stimmst Verzugszinsen zu, trägst die Gefahr für das Auto, oder im Vertrag stecken Kauf oder Kredit. Daran scheitert auch Leasing.",
   },
 ];
 
@@ -88,7 +92,7 @@ export const AnbieterKarte = ({ a }: { a: AboAnbieter }) => (
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div className="min-w-0">
         <h3 id={`abo-${a.id}`} className="text-[19px] font-bold text-foreground">
-          {a.name}
+          {titelVon(a)}
         </h3>
         <span className="mt-1 block text-[13px] text-muted-foreground">{a.unter}</span>
       </div>
@@ -158,7 +162,7 @@ export const AUTO_EINLEITUNG =
   "Prüfe Auto-Abos als Alternative zu Kredit und Leasing, Anbieter für Anbieter. Zu jedem das Urteil, der Wortlaut aus den eigenen Bedingungen und ein Rechenbeispiel.";
 
 export const AUTO_QUELLEN =
-  "Anbieter: eigene AGB, FAQ, Gebührenkataloge und Preisseiten, abgerufen am 27.09.2026, jeweils mit Stand und Ziffer bei der Klausel. Miete, Leasing und Autofinanzierung: Positionen zeitgenössischer Gelehrter zu Miete (Ijara) und Riba. Gesetzliche Verzugszinsen: § 288 BGB. Partnerlinks enthält diese Seite nicht.";
+  "Anbieter: eigene AGB, FAQ, Gebührenkataloge und Preisseiten, abgerufen am 27. und 28.09.2026, jeweils mit Stand und Ziffer bei der Klausel. Miete, Leasing und Autofinanzierung: Positionen zeitgenössischer Gelehrter zu Miete (Ijara) und Riba, AAOIFI-Standard Nr. 9 (Miete), Beschlüsse 108 und 110 der Internationalen Islamischen Fiqh-Akademie. Recht: § 288 BGB (Verzugszinsen), AG München, Urteil vom 29.04.2024, 231 C 10607/24 (Selbstbehalt ohne Verschulden). Partnerlinks enthält diese Seite nicht.";
 
 export const AUTO_RECHTSHINWEIS =
   "Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. AGB ändern sich: Lies vor der Unterschrift deinen eigenen Vertrag und lege ihn im Zweifel einem Gelehrten vor, dem du vertraust.";

@@ -26,6 +26,8 @@ const freebie = optinFreebie("auto-abo-check")!;
 const pfad = vollPfad(freebie);
 const reihenfolge: Farbe[] = ["gruen", "gelb", "rot"];
 const sortiert = [...anbieter].sort((a, b) => reihenfolge.indexOf(a.farbe) - reihenfolge.indexOf(b.farbe));
+// FINN steht in zwei Schutzstufen drin, gezählt wird nach Anbieter.
+const anzahl = new Set(anbieter.map((a) => a.name)).size;
 
 const AutoAboCheckVoll = () => (
   <>
@@ -52,10 +54,10 @@ const AutoAboCheckVoll = () => (
 
       <section aria-labelledby="anbieter">
         <h2 id="anbieter" className="text-2xl font-bold text-foreground">
-          {anbieter.length} Anbieter geprüft
+          {anzahl} Anbieter geprüft
         </h2>
         <p className="mt-2 text-[15px] text-muted-foreground">
-          Sieh zu jedem Anbieter das Urteil, den Grund und den Wortlaut, auf dem es beruht, Stand 27.09.2026.
+          Sieh zu jedem Anbieter das Urteil, den Grund und den Wortlaut, auf dem es beruht, Stand 28.09.2026.
           {anbieter.every((a) => a.farbe !== "gruen") && " Grün erreicht keiner, die fünf Fragen unten zeigen, was du vor der Unterschrift klärst."}
         </p>
         <div className="mt-4 space-y-4">

@@ -13,7 +13,7 @@ import {
 } from "@/components/vorlagen/autoAboTeile";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie } from "@/data/optin";
-import { ANZAHL_ANBIETER, kante } from "@/data/autoAboCheckAusschnitt";
+import { ANZAHL_ANBIETER, kante, titelVon } from "@/data/autoAboCheckAusschnitt";
 
 /**
  * Offene Seite des Auto-Abo-Checks: warum Kredit und Leasing meist rausfallen, was ein Abo anders
@@ -55,7 +55,7 @@ const AutoAboCheck = () => (
         </p>
         <div className="card-surface mt-4 overflow-hidden p-0">
           {kante.map((a) => (
-            <GesperrteZeile key={a.id} name={a.name} unterzeile={a.unter} verborgen="Urteil und Klauseln nach der Anmeldung" />
+            <GesperrteZeile key={a.id} name={titelVon(a)} unterzeile={a.unter} verborgen="Urteil und Klauseln nach der Anmeldung" />
           ))}
         </div>
       </section>

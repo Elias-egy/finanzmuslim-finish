@@ -244,7 +244,7 @@ describe("Ausschnitt des Gold-Checks", () => {
 
 describe("Ausschnitt des Auto-Abo-Checks", () => {
   it("nennt an der Kante jeden geprüften Anbieter genau einmal, gleicher Name, ohne Urteil", () => {
-    expect(aboAusschnitt.kante.map((k) => [k.id, k.name, k.unter])).toEqual(aboAnbieter.map((a) => [a.id, a.name, a.unter]));
+    expect(aboAusschnitt.kante.map((k) => [k.id, k.name, k.stufe, k.unter])).toEqual(aboAnbieter.map((a) => [a.id, a.name, a.stufe, a.unter]));
     for (const k of aboAusschnitt.kante) {
       expect(k).not.toHaveProperty("farbe");
       expect(k).not.toHaveProperty("urteil");
@@ -252,8 +252,24 @@ describe("Ausschnitt des Auto-Abo-Checks", () => {
   });
 
   it("zählt die Anbieter aus den Daten, der Titel stimmt mit der vollen Fassung", () => {
-    expect(aboAusschnitt.ANZAHL_ANBIETER).toBe(aboAnbieter.length);
-    expect(vorlagen.find((v) => v.slug === "auto-abo-check")?.titel).toContain(`${aboAnbieter.length} Anbieter`);
+    const anbieterZahl = new Set(aboAnbieter.map((a) => a.name)).size;
+    expect(aboAusschnitt.ANZAHL_ANBIETER).toBe(anbieterZahl);
+    expect(vorlagen.find((v) => v.slug === "auto-abo-check")?.titel).toContain(`${anbieterZahl} Anbieter`);
+  });
+
+  it("trennt Stufen desselben Anbieters sichtbar und wertet nur Anbieter, die es gibt", () => {
+    const titel = aboAnbieter.map((a) => aboAusschnitt.titelVon(a));
+    expect(new Set(titel).size).toBe(titel.length);
+    for (const a of aboAnbieter.filter((x) => aboAnbieter.filter((y) => y.name === x.name).length > 1)) expect(a.stufe).toBeTruthy();
+  });
+
+  it("gibt Grün nur, wo keine Selbstbeteiligung ohne Schuld und kein Verzugszins im Wortlaut steht (Prüfprotokoll Punkt 8)", () => {
+    for (const a of aboAnbieter.filter((x) => x.farbe === "gruen")) {
+      const wortlaut = a.klauseln.map((k) => `${k.zitat ?? ""} ${k.hinweis ?? ""}`).join(" ");
+      expect(wortlaut, a.id).toContain("0 € Selbstbeteiligung");
+      expect(wortlaut, a.id).not.toMatch(/Verzugszinsen (in gesetzlicher Höhe zu entrichten|an)/);
+    }
+    for (const id of ["vwfs", "mercedes"]) expect(aboAnbieter.find((a) => a.id === id)?.farbe).toBe("rot");
   });
 
   it("belegt je Anbieter Vertragsart, Haftung, Verzugszins, Kaution, Versicherung, Kilometer, Pauschalen, Laufzeit und Preis", () => {

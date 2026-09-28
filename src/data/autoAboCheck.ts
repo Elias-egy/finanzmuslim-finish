@@ -34,6 +34,8 @@ export type Klausel = {
 export type AboAnbieter = {
   id: string;
   name: string;
+  /** Schutzstufe, wenn derselbe Anbieter in zwei Fassungen geprüft ist, z. B. „mit Sorglos Schutz“. Gezählt wird nach `name`. */
+  stufe?: string;
   unter: string;
   farbe: Farbe;
   urteil: string;
@@ -54,15 +56,96 @@ export type Rechnung = {
   quellen: string;
 };
 
+/**
+ * Farbregel nach der Recherche vom 28.09.2026 (Prüfprotokoll Punkt 8, Vault `raw/2026-09-28-auto-abo-gelehrte*`):
+ * grün, wenn du nur Rate und Tank zahlst und nur für eigenes Verschulden haftest; gelb bei einer Selbstbeteiligung
+ * für Schäden ohne deine Schuld (nach der Mehrheit unzulässig, nach einzelnen Gelehrten erlaubt) oder ohne
+ * öffentlichen Vertrag; rot bei einer Zinsklausel, voller Gefahr beim Kunden, Kauf oder Kredit.
+ */
 export const anbieter: AboAnbieter[] = [
+  {
+    id: "finn-sorglos",
+    name: "FINN",
+    stufe: "mit Sorglos Schutz",
+    unter: "Unabhängiger Anbieter, Schutzpaket gegen Aufpreis",
+    farbe: "gruen",
+    urteil: "Du zahlst nur Rate und Tank",
+    grund:
+      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Mit dem Sorglos Schutz zahlst du auch bei Hagel, Diebstahl oder Schäden durch Unbekannte keine Selbstbeteiligung, der Aufpreis steckt fest in der Monatsrate.",
+    preisAb:
+      "ab 149 Euro im Monat plus ab 129 Euro für den Sorglos Schutz, dazu einmalig 1.500 Euro Bereitstellung und 299 Euro Übergabe (finn.com, Hilfeseite Versicherung und Gebührenkatalog, 28.09.2026)",
+    grundlage: "AGB, Stand 30.09.2025, Gebührenkatalog vom 18.09.2026, Hilfeseiten Versicherung und Schadenmanagement vom 28.09.2026",
+    agbUrl: "https://www.finn.com/de-DE/hilfe/versicherung",
+    klauseln: [
+      {
+        thema: "Vertragsart",
+        fundstelle: "AGB Ziffer 1.2",
+        zitat:
+          "Gegenstand der Geschäftsbeziehung ist die entgeltliche Gebrauchsüberlassung von Fahrzeugen (Miete) und die Erbringung von damit in Zusammenhang stehender Zusatzleistungen durch FINN an den Kunden.",
+      },
+      {
+        thema: "Versicherung",
+        fundstelle: "Hilfeseite Versicherung, Schutzpakete",
+        zitat: "FINN Sorglos Schutz Teilkasko: 0 € Selbstbeteiligung Vollkasko: 0 € Selbstbeteiligung Kosten: ab 129 € pro Monat",
+        hinweis: "Die Teilkasko deckt Sturm, Hagel und Diebstahl. Buchbar ist das Paket nur vor der Übergabe.",
+      },
+      {
+        thema: "Haftung",
+        fundstelle: "Hilfeseite Versicherung",
+        zitat: "Auch Schäden durch unbekannte Dritte, etwa bei Fahrerflucht, sind abgesichert.",
+        hinweis:
+          "Selbst zahlst du, was an dir liegt, etwa bei Vorsatz, unter Alkohol oder Drogen und bei Schäden, die du nicht meldest. So beschreiben Gelehrte die Haftung des Mieters.",
+      },
+      {
+        thema: "Haftung",
+        fundstelle: "AGB Ziffer 2.5",
+        zitat:
+          "Soweit ein Schaden von der vereinbarten Haftungsfreistellung umfasst ist, beschränkt sich die Haftung des Kunden für den Schaden auf den Betrag der vereinbarten Selbstbeteiligung je Schadensfall.",
+        hinweis: "Im Sorglos Schutz beträgt diese Selbstbeteiligung 0 Euro.",
+      },
+      {
+        thema: "Verzugszins",
+        fundstelle: "AGB Ziffer 5.4",
+        zitat:
+          "Im Fall einer Rücklastschrift im Rahmen eines Lastschrifteinzuges, die vom Kunden zu vertreten ist, hat der Kunde pauschal eine Rücklastschriftgebühr in der im Gebührenkatalog angegebenen Höhe zu zahlen.",
+        hinweis: "Keine Klausel zu Verzugszinsen. Die Rücklastschrift kostet 9 Euro, du darfst nachweisen, dass weniger Kosten entstanden sind.",
+      },
+      {
+        thema: "Kaution",
+        fundstelle: "AGB Ziffer 3.3",
+        zitat: "FINN behält es sich vor, eine Kaution zu erheben. Die maximale Höhe der Kaution ergibt sich aus dem Gebührenkatalog.",
+        hinweis: "Höchstens drei Monatsraten, abhängig von der Bonität. Abgezogen werden nur Kosten aus der Endabrechnung, der Rest kommt zurück.",
+      },
+      {
+        thema: "Kilometer",
+        fundstelle: "AGB Ziffer 8.6",
+        zitat: "Die Erstattung oder Verrechnung nicht genutzter Kilometer des vereinbarten Kilometerpakets ist ausgeschlossen.",
+        hinweis: "Der Preis je Mehrkilometer steht in der Vertragsbestätigung.",
+      },
+      {
+        thema: "Pauschalen",
+        fundstelle: "Gebührenkatalog, Stand 18.09.2026",
+        zitat:
+          "Wenn Teile fehlen (z.B. Fahrzeugschein, Zweitschlüssel, Hutablage oder Ladekabel), müssen wir diese neu beschaffen und den Verlust bearbeiten.",
+        hinweis:
+          "Das kostet 49 Euro plus Material. Dazu Raucherreinigung 299 Euro, versäumter Wartungstermin 99 Euro plus bis zu 20 Prozent Minderwert, Storno vor der Übergabe eine Monatsrate.",
+      },
+      {
+        thema: "Laufzeit",
+        fundstelle: "AGB Ziffer 17.2.1",
+        zitat: "Während der vereinbarten fixen Laufzeit ist der Mietvertrag nicht ordentlich kündbar.",
+      },
+    ],
+  },
   {
     id: "finn",
     name: "FINN",
+    stufe: "im Basis Schutz",
     unter: "Unabhängiger Anbieter, privat und für Firmen",
     farbe: "gelb",
     urteil: "Aufbau passt, die Haftung hakt",
     grund:
-      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Aber Reparaturen, die nicht auf Verschleiß zurückgehen, trägst du, und bei Hagel oder Diebstahl zahlst du die Selbstbeteiligung, obwohl dich keine Schuld trifft.",
+      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Aber im Basis Schutz zahlst du bei Hagel oder Diebstahl ab 500 Euro Selbstbeteiligung, obwohl dich keine Schuld trifft, der Sorglos Schutz macht daraus 0 Euro.",
     preisAb: "ab 149 Euro im Monat, dazu einmalig 1.500 Euro Bereitstellung und 299 Euro Übergabe (finn.com und Gebührenkatalog, 27.09.2026)",
     grundlage: "AGB, Stand 30.09.2025, Gebührenkatalog vom 18.09.2026",
     agbUrl: "https://www.finn.com/de-DE/terms",
@@ -81,17 +164,18 @@ export const anbieter: AboAnbieter[] = [
       },
       {
         thema: "Haftung",
-        fundstelle: "AGB Ziffer 10.2 und Hilfeseite Versicherung",
+        fundstelle: "AGB Ziffer 10.2 und Hilfeseite Schadenmanagement",
         zitat:
           "Die erforderlichen Kosten für Reparaturen (einschließlich Kosten für die Stellung eines Ersatzfahrzeugs), die nicht auf Verschleiß oder einen von FINN oder einem von FINN beauftragten Dritten zu vertretenden Sachmangel zurückzuführen sind, trägt der Kunde.",
-        hinweis: "Die Hilfeseite sagt dazu: „Die Teilkasko deckt unverschuldete Schäden am eigenen Fahrzeug ab“, mit Selbstbeteiligung, die du trägst.",
+        hinweis:
+          "Die Hilfeseite sagt dazu: „Die Teilkasko deckt unverschuldete Schäden am eigenen Fahrzeug ab“, mit Selbstbeteiligung, die du trägst. Das Amtsgericht München hat FINN 2024 verurteilt, diese Selbstbeteiligung nach einem unverschuldeten Steinschlag zurückzuzahlen (231 C 10607/24).",
       },
       {
         thema: "Versicherung",
         fundstelle: "AGB Ziffer 2.5",
         zitat:
           "Das Mietfahrzeug ist stets angemessen haftpflichtversichert. Der Kunde wird von Schäden am Fahrzeug nach dem Leitbild einer Vollkaskoversicherung mit Selbstbeteiligung freigestellt.",
-        hinweis: "Laut Hilfe-Center im Basis-Schutz ab 500 Euro bei Teilkasko und ab 1.000 Euro bei Vollkasko, gegen Aufpreis weniger.",
+        hinweis: "Laut Hilfeseite im Basis Schutz ab 500 Euro bei Teilkasko und ab 1.000 Euro bei Vollkasko, mit Schutzpaket weniger, im Sorglos Schutz 0 Euro.",
       },
       {
         thema: "Verzugszins",
@@ -117,7 +201,7 @@ export const anbieter: AboAnbieter[] = [
         fundstelle: "AGB Ziffer 9.3",
         zitat:
           "Nach Rücknahme des Mietfahrzeugs werden eventuell entstandene Schäden und Minderwerte, die die üblichen Gebrauchs- und Verschleißspuren überschreiten, durch einen sachkundigen Mitarbeiter von FINN oder einen beauftragten sachkundigen Dritten im Rahmen eines Minderwertgutachtens oder einer Zustandsbewertung bewertet.",
-        hinweis: "Gebührenkatalog: Raucherreinigung 299 Euro, versäumter Wartungstermin 99 Euro plus bis zu 20 Prozent Minderwert.",
+        hinweis: "Gebührenkatalog: Raucherreinigung 299 Euro, versäumter Wartungstermin 99 Euro plus bis zu 20 Prozent Minderwert, Storno vor der Übergabe eine Monatsrate.",
       },
       {
         thema: "Laufzeit",
@@ -193,7 +277,7 @@ export const anbieter: AboAnbieter[] = [
     id: "vwfs",
     name: "VW FS Private Langzeitmiete",
     unter: "Nachfolger des VW-Abos, 3 oder 6 Monate",
-    farbe: "gelb",
+    farbe: "rot",
     urteil: "Verzugszinsen unterschreibst du mit",
     grund:
       "Vermieterin ist die Euromobil GmbH aus dem VW-Konzern, sie ist Halterin und zahlt Steuer, Wartung und Verschleiß. Aber die Bedingungen schreiben Verzugszinsen in gesetzlicher Höhe ausdrücklich fest, und die Selbstbeteiligung fällt je Schaden an, auch bei Diebstahl oder Hagel.",
@@ -287,7 +371,8 @@ export const anbieter: AboAnbieter[] = [
       {
         thema: "Versicherung",
         fundstelle: "FAQ",
-        zitat: "Für alle MOCEAN -Abos gilt die standardmäßige Selbstbeteiligung von 1.000 Euro pro Schadensfall.",
+        zitat: "Für alle MOCEAN -Abos gilt die standardmäßige Selbstbeteiligung von 1.000 Euro pro Schadensfall. Diese Selbstbeteiligung kann nicht erlassen werden.",
+        hinweis: "Ein Schutzpaket, das sie senkt, bietet MOCEAN nicht an.",
       },
       {
         thema: "Verzugszins",
@@ -399,9 +484,9 @@ export const anbieter: AboAnbieter[] = [
     name: "Mercedes-Benz Rent Langzeitmiete",
     unter: "Nachfolger des Mercedes-Abos, bis 24 Monate",
     farbe: "rot",
-    urteil: "Haftung auch ohne Verschulden",
+    urteil: "Verzugszinsen und Haftung ohne Schuld",
     grund:
-      "Mercedes vermietet und bleibt Eigentümer, Wartung und Reifen zahlt der Vermieter. Aber die Selbstbeteiligung zahlst du für jeden Schadenfall, ob du ihn zu vertreten hast oder nicht, ohne Vereinbarung 2.000 Euro, und die Bedingungen nennen Verzugszinsen ausdrücklich.",
+      "Mercedes vermietet und bleibt Eigentümer, Wartung und Reifen zahlt der Vermieter. Aber die Bedingungen nennen Verzugszinsen ausdrücklich, und die Selbstbeteiligung zahlst du für jeden Schadenfall, ob du ihn zu vertreten hast oder nicht, ohne Vereinbarung 2.000 Euro.",
     preisAb: "kein Monatspreis veröffentlicht, der Preis entsteht erst im Buchungsweg (mieten.mercedes-benz.de, 27.09.2026)",
     grundlage: "Allgemeine Mietbedingungen der Mercedes-Benz Automotive Mobility GmbH, Stand Oktober 2025",
     agbUrl: "https://mieten.mercedes-benz.de/documents/de-DE/Allgemeine_Mietbedingungen_Mercedes-Benz_Rent_PKW.pdf",
@@ -569,7 +654,7 @@ export const fragen: { titel: string; text: string }[] = [
   },
   {
     titel: "Zahle ich auch, wenn ein Unbekannter den Schaden verursacht?",
-    text: "Frag nach der Selbstbeteiligung bei Parkschäden, Diebstahl und Hagel. Zahlen solltest du nur, was du selbst verursacht hast.",
+    text: "Frag nach der Selbstbeteiligung bei Parkschäden, Diebstahl und Hagel, zahlen solltest du nur, was du selbst verursacht hast. Gibt es ein Schutzpaket mit 0 Euro Selbstbeteiligung, nimm es: Ein fester Aufpreis in der Rate gehört zur Miete.",
   },
   {
     titel: "Was kostet es, wenn ich eine Rate zu spät zahle?",
