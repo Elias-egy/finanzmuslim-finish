@@ -151,7 +151,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128292", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von 13 ISINs, die in Partner-Listen und Sparplanliste fehlen.", von: "elias@finanzmuslim.com" },
     { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "Online als Einmalanlage handelbar (keine Sparpläne): Invesco DJ Islamic, Invesco ACWI, iShares Sukuk, Xtrackers Sukuk. „Den Handel von klassischen Fonds bieten wir generell nicht an“. HSBC ×4 und die zwei Invesco-ETCs nicht eindeutig beantwortet." },
-  ], naechsterSchritt: "Nachfrage im Ticket #128412: HSBC ×4 und die ETCs IE00B579F325, IE00B43VDT70 je ja/nein (braucht Entscheidung 17)." },
+    { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128412", kern: "Nachfrage im selben Ticket (Elias-Freigabe 17): HSBC ×4, IE00B579F325, IE00B43VDT70 je Einmalkauf ja/nein. Zoho Gesendet #100." },
+  ], naechsterSchritt: "Antwort abwarten." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Konto ohne Überziehungsmöglichkeit eröffenbar. Dispo grün." },
@@ -197,7 +198,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "KI-Antwort, sagt nur „keine Hinweise“ auf eine Verzinsung. Zu unklar, zählt nicht als Beleg." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Wertpapiere statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "KI-Antwort: Libertex hauptsächlich CFD, dazu Libertex Invest mit echten Aktien; zu den ISINs „keine bestätigten Informationen“. Zu unklar, zählt nicht. Die KI bietet an: Antwort „Mit einem Mitarbeiter sprechen“." },
-  ], naechsterSchritt: "Mit „Mit einem Mitarbeiter sprechen“ antworten (braucht Entscheidung 17)." },
+    { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "„Mit einem Mitarbeiter sprechen“ plus Frage: Libertex Invest in Deutschland mit echten Wertpapieren? Je ISIN ja/nein, alle 22. Zoho Gesendet #101." },
+  ], naechsterSchritt: "Antwort abwarten." },
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
