@@ -271,7 +271,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   bforbank: { anbieter: "BforBank", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", kern: "Wird Guthaben auf dem Girokonto verzinst oder nur auf Bfor+ und Livret A? Kann das Konto trotz „kein Dispo“ über die geduldete Überziehung (16 %) ohne Antrag ins Minus rutschen?", von: "elias@finanzmuslim.com" },
     { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", zeichen: "3163751-1790518984", automatisch: true, kern: "Automatische Eingangsbestätigung der Anfrage." },
-  ], naechsterSchritt: "Antwort abwarten. Mailweg aus der FAQ (27.09.2026), vorher nur Telefon und App-Chat bekannt." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice-de@customers.bforbank.com", zeichen: "3163751-1790518984", kern: "Girokonto 0,00 % Zinsen, Tagesgeld für Kunden in Deutschland pausiert. Kein Dispositionskredit, kein aktives Überziehen per Karte oder Überweisung; Minus nur durch Entgelte oder technische Buchungen (dann Zins der geduldeten Überziehung). Zins-Tor grün, Girokonto gerankt." },
+  ], naechsterSchritt: "Erledigt 28.09.2026: beide Fragen schriftlich beantwortet." },
   kraken: { anbieter: "Kraken", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Am 25.09.2026 geprüft: Produktsupport nur im Chat oder eingeloggt, das öffentliche Formular (support.kraken.com/forms/648008) ist nur für Compliance und Recht. Beide Stufen stehen über Opt-in schon auf grün, eine Nachfrage ist nicht nötig." },
   consorsbank: { anbieter: "Consorsbank", vorgaenge: [
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenbetreuung@consorsbank.de", kern: "Wird das Verrechnungskonto zum Wertpapierdepot verzinst? Im Preisverzeichnis stehen dort nur Sollzinsen. Bleibt das beworbene Tagesgeldkonto ohne eigene Einzahlung leer?" },
