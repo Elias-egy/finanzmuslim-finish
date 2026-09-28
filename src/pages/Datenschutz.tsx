@@ -76,7 +76,7 @@ const Datenschutz = () => (
           bekommst dann nach der Bestätigung die Liste der Halal-Anlagen, zum Start eine E-Mail und
           danach den Freitagsbrief. Damit die Seite sich merkt, dass du sie über einen Zugangslink
           oder einen Guide-Link geöffnet hast, legt sie dafür einen Eintrag in deinem Browser ab
-          (§ 25 Abs. 2 Nr. 2 TDDDG). Er enthält keine Angaben zu dir und verfällt mit dem Start.
+          (§ 25 Abs. 2 Nr. 2 TDDDG). Er enthält keine Angaben zu dir, wird nach dem Start nicht mehr genutzt und lässt sich in deinem Browser jederzeit löschen.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
           Nach der Anmeldung bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
@@ -190,7 +190,7 @@ const Datenschutz = () => (
           <br />
           E-Mail: elias@finanzmuslim.com
         </p>
-        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 24. September 2026</p>
+        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 28. September 2026</p>
       </section>
 
     </main>
