@@ -212,9 +212,9 @@ describe("Gegenprüfung 20.09.2026", () => {
     expect(giro("1822direkt-girodirekt").werte.zinsfreiAbStart).toBe("gut");
     expect(giro("norisbank-top-girokonto").werte.zinsfreiAbStart).toBe("gut");
     // 27.09.2026: Targobank legt den Guthabenzins ins Preisverzeichnis (AGB 1.6), dort hat nur
-    // das Vorteils-Konto eine Zinszeile. Der rote Dispo hält das Online-Konto trotzdem hinten.
+    // das Vorteils-Konto eine Zinszeile. Der Dispo (seit 28.09.2026 gelb statt rot) kostet Halal-Punkte.
     expect(giro("targobank-online-konto").werte.zinsfreiAbStart).toBe("gut");
-    expect(giro("targobank-online-konto").werte.keinDispoAbStart).toBe("schlecht");
+    expect(giro("targobank-online-konto").werte.keinDispoAbStart).toBe("teils");
     // Am 20.09. war Coinbase ungeprueft, die Domain sperrt jeden Abruf ohne Browser.
     // Am 23.09.2026 kam die schriftliche Antwort (Fall 27569519): keine automatischen
     // Zinsen, Coinbase One enthaelt weder Zinsen noch gesperrte Token.
@@ -355,5 +355,13 @@ describe("Halal-Merkmale mit Anbieterbeleg statt Finanzfluss", () => {
       .filter((a) => !a.quellen?.eigeneWallet?.url || /finanzfluss\.de/.test(a.quellen.eigeneWallet.url))
       .map((a) => a.id);
     expect(ohne).toEqual([]);
+  });
+});
+
+describe("Dispo", () => {
+  it("wertet einen Dispo höchstens gelb, nie rot (Elias, 28.09.2026)", () => {
+    // Ein Dispo macht ein Konto nicht haram wie Zinsen, zählt aber in die Wertung.
+    const rot = girokontoVergleich.filter((a) => a.werte.keinDispoAbStart === "schlecht").map((a) => a.id);
+    expect(rot).toEqual([]);
   });
 });
