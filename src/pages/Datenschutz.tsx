@@ -72,6 +72,13 @@ const Datenschutz = () => (
           Finanzwissen.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
+          Bis zum Start am 9. Oktober 2026 kannst du dich auf unserer Warteliste eintragen. Du
+          bekommst dann nach der Bestätigung die Liste der Halal-Anlagen, zum Start eine E-Mail und
+          danach den Freitagsbrief. Damit die Seite sich merkt, dass du sie über einen Zugangslink
+          oder einen Guide-Link geöffnet hast, legt sie dafür einen Eintrag in deinem Browser ab
+          (§ 25 Abs. 2 Nr. 2 TDDDG). Er enthält keine Angaben zu dir und verfällt mit dem Start.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
           Nach der Anmeldung bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
           anklickst, bist du eingetragen (Double-Opt-in). Wir speichern den Zeitpunkt der Anmeldung
           und der Bestätigung sowie die dabei verwendete IP-Adresse, um deine Einwilligung
