@@ -91,7 +91,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@santander.de", zeichen: "SCM5145440", kern: frage1 },
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@santander.de", zeichen: "SCM5156656", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "„Für Depots sind nur Filialen zuständig“. Keine inhaltliche Antwort." },
-  ], naechsterSchritt: "Per Mail kommt nichts mehr. Bleibt offen oder Filiale." },
+  ], naechsterSchritt: "Per Mail kommt nichts mehr. Bleibt offen oder Filiale. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   commerzbank: { anbieter: "Commerzbank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@commerzbank.com", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Depots und Konten grün. Zum Dispo nur der allgemeine Hinweis auf die geduldete Überziehung." },
@@ -182,18 +182,18 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   targobank: { anbieter: "Targobank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: frage2 },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "#REF0003695700", kern: "Bittet um einen Beratungstermin in der Filiale. Keine inhaltliche Antwort." },
-  ], naechsterSchritt: "Per Mail kommt nichts mehr." },
+  ], naechsterSchritt: "Per Mail kommt nichts mehr. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   bbbank: { anbieter: "BBBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@bbbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Leitet die Anfrage an eine Filiale weiter, will die Postleitzahl." },
-  ], naechsterSchritt: "Per Mail kommt nichts mehr." },
+  ], naechsterSchritt: "Per Mail kommt nichts mehr. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   maxblue: { anbieter: "maxblue", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info.maxblue@db.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Auskunft nur nach Legitimation." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "„Das maxblue Depotkonto besitzt momentan keine Verzinsung.“ Beide maxblue-Produkte grün. Für eine dauerhafte Zusage verweist die Bank an eine Filiale." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "online.service@db.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Depot und als maxblue Wertpapier-Sparplan.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "Keine Auskunft je ISIN, Verweis auf die eigene Suche: „Über den folgenden Link können Sie ganz einfach prüfen, ob das Wertpapier sparplanfähig oder handelbar ist: https://www.maxblue.de/marktdaten/suche.html“." },
-  ], naechsterSchritt: "Suche am 28.09. abends in Chrome geprüft: sie zeigt je Treffer nur „sparplanfähig“ oder „-“, kein Merkmal „handelbar“ (HSBC World: „Ihre Suche ergab keine Treffer.“). Für den Einmalkauf im Depot damit nur Kandidaten, Depot bleibt offen. Sparplan-Produkt ist über die CSV vollständig." },
+  ], naechsterSchritt: "Suche am 28.09. abends in Chrome geprüft: sie zeigt je Treffer nur „sparplanfähig“ oder „-“, kein Merkmal „handelbar“ (HSBC World: „Ihre Suche ergab keine Treffer.“). Für den Einmalkauf im Depot damit nur Kandidaten, Depot bleibt offen. Sparplan-Produkt ist über die CSV vollständig. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   libertex: { anbieter: "Libertex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "KI-Antwort, sagt nur „keine Hinweise“ auf eine Verzinsung. Zu unklar, zählt nicht als Beleg." },
@@ -215,7 +215,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Girokonto ab Eröffnung ohne Dispokredit möglich? Dazu Kaufbarkeit aller 22 Halal-ISINs im Depot.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@dkb.de", automatisch: true, kern: "Standardantwort ohne Inhalt: „können wir Anfragen nur beantworten, wenn sie von der E-Mail-Adresse gesendet werden, die in Ihrem Banking unter „Mein Profil“ hinterlegt ist“. Zählt nicht als Antwort." },
-  ], naechsterSchritt: "DKB bearbeitet nur Mails von der im Banking hinterlegten Adresse. Elias klärt, ob er DKB-Kunde ist und welche Adresse hinterlegt ist; dann die Anfrage von dort neu senden." },
+  ], naechsterSchritt: "DKB bearbeitet nur Mails von der im Banking hinterlegten Adresse. Elias klärt, ob er DKB-Kunde ist und welche Adresse hinterlegt ist; dann die Anfrage von dort neu senden. Elias ist kein DKB-Kunde (28.09.2026), Depot bleibt offen." },
   scalable: { anbieter: "Scalable Capital", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", automatisch: true, kern: "Nur Eingangsbestätigung." },
@@ -322,7 +322,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   vivid: { anbieter: "Vivid", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "press@vivid.money", kern: "Gilt heute für Standard, Plus und Prime: kein Dispokredit, kein Minus ohne eigenen Antrag (Hilfeartikel von 2023, Vivid Now auf Antrag)? Kaufbarkeit aller 22 Halal-Anlagen im Depot Vivid Standard.", von: "elias@finanzmuslim.com" },
     { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "press@vivid.money", automatisch: true, kern: "Automatische Eingangsbestätigung des Pressebüros: meldet sich „shortly“, beantwortet aber keine Kundenanfragen und verweist auf In-App-Chat und Formular vivid.money/en-eu/support." },
-  ], naechsterSchritt: "Antwort abwarten. Presseadresse aus dem Impressum, weil persönliche Konten laut Impressum nur Chat und Formular haben (27.09.2026)." },
+  ], naechsterSchritt: "Antwort abwarten. Presseadresse aus dem Impressum, weil persönliche Konten laut Impressum nur Chat und Formular haben (27.09.2026). Formular vivid.money/support am 28.09. geprüft: verlangt Telefon, bei Vivid registrierte Adresse, Ausweis- oder Passnummer und Geburtsdatum, also nur für Kunden. Kein schriftlicher Weg für Nicht-Kunden." },
   bunq: { anbieter: "bunq", vorgaenge: [], naechsterSchritt: "Optional: schriftlich bestätigen lassen, dass in keiner Stufe automatisch ein Dispo eingeräumt wird (AGB sagen „normalerweise“ nicht)." },
   wundertax: { anbieter: "wundertax", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@wundertax.com", kern: "Als finanzmuslim.com: Ruft wundertax die beim Finanzamt vorliegenden Daten ab (vorausgefüllte Steuererklärung), in welchem Paket? KAP und Anlage V sind per Anbieterseite belegt." },
@@ -332,6 +332,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Nachtrag im selben Faden: Anlage V und Einkünfte aus selbstständiger oder gewerblicher Tätigkeit mit EÜR in STEUEReasy möglich? Beide Felder standen nur wegen Nichtnennung auf Nein.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice@steuertipps.de", zeichen: "TI06037245", automatisch: true, kern: "Automatische Eingangsbestätigung zum Nachtrag." },
   ], naechsterSchritt: "Antwort abwarten, dann kapital, belegabruf, vermietung und selbststaendige setzen." },
+  gls: { anbieter: "GLS Bank", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Kein schriftlicher Weg für Nicht-Kunden gefunden. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
+  etoro: { anbieter: "eToro", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Besucherformular etoro.com/customer-service am 28.09.2026 abends ausgefüllt (Kaufbarkeit 22 ISINs als echtes Wertpapier, Absender elias@finanzmuslim.com). Beim Absenden kam ein reCAPTCHA, das Claude nicht löst; Elias löst es im offenen Tab und sendet. Danach Vorgang „raus“ eintragen." },
 };
 
 export const anfrageFuer = (haus?: string): Anfrage | undefined => (haus ? ANFRAGEN[haus] : undefined);
