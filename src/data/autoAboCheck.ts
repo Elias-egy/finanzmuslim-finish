@@ -58,7 +58,9 @@ export type Rechnung = {
 
 /**
  * Farbregel nach der Recherche vom 28.09.2026 (Prüfprotokoll Punkt 8, Vault `raw/2026-09-28-auto-abo-gelehrte*`):
- * grün, wenn du nur Rate und Tank zahlst und nur für eigenes Verschulden haftest; gelb bei einer Selbstbeteiligung
+ * grün, wenn du laufend nur Rate und Tank zahlst und nur für eigenes Verschulden haftest; feste Einmalkosten, die vor
+ * Vertragsschluss feststehen (Bereitstellung, Übergabe), sind Teil des Preises und ändern die Farbe nicht (Codex-Gegenlese
+ * 28.09.2026). Gelb bei einer Selbstbeteiligung
  * für Schäden ohne deine Schuld (nach der Mehrheit unzulässig, nach einzelnen Gelehrten erlaubt) oder ohne
  * öffentlichen Vertrag; rot bei einer Zinsklausel, voller Gefahr beim Kunden, Kauf oder Kredit.
  */
@@ -71,9 +73,9 @@ export const anbieter: AboAnbieter[] = [
     farbe: "gruen",
     urteil: "Du zahlst nur Rate und Tank",
     grund:
-      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Mit dem Sorglos Schutz zahlst du auch bei Hagel, Diebstahl oder Schäden durch Unbekannte keine Selbstbeteiligung, der Aufpreis steckt fest in der Monatsrate.",
+      "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Mit dem Sorglos Schutz zahlst du auch bei Hagel, Diebstahl oder Schäden durch Unbekannte keine Selbstbeteiligung, der Aufpreis steckt fest in der Monatsrate. Einmalig kommen Bereitstellung und Übergabe dazu, beide stehen vor dem Vertrag fest.",
     preisAb:
-      "ab 149 Euro im Monat plus ab 129 Euro für den Sorglos Schutz, dazu einmalig 1.500 Euro Bereitstellung und 299 Euro Übergabe (finn.com, Hilfeseite Versicherung und Gebührenkatalog, 28.09.2026)",
+      "ab 149 Euro im Monat plus ab 129 Euro für den Sorglos Schutz, dazu einmalig 1.500 Euro Bereitstellung und 199 Euro Übergabe an einer FINN Station oder 299 Euro bei Lieferung (finn.com, Hilfeseiten Versicherung und Bereitstellungskosten, 28.09.2026)",
     grundlage: "AGB, Stand 30.09.2025, Gebührenkatalog vom 18.09.2026, Hilfeseiten Versicherung und Schadenmanagement vom 28.09.2026",
     agbUrl: "https://www.finn.com/de-DE/hilfe/versicherung",
     klauseln: [
@@ -146,7 +148,7 @@ export const anbieter: AboAnbieter[] = [
     urteil: "Aufbau passt, die Haftung hakt",
     grund:
       "FINN vermietet, zahlt Versicherung, Kfz-Steuer und Wartung, und in den AGB stehen weder Verzugszinsen noch ein Kauf. Aber im Basis Schutz zahlst du bei Hagel oder Diebstahl ab 500 Euro Selbstbeteiligung, obwohl dich keine Schuld trifft, der Sorglos Schutz macht daraus 0 Euro.",
-    preisAb: "ab 149 Euro im Monat, dazu einmalig 1.500 Euro Bereitstellung und 299 Euro Übergabe (finn.com und Gebührenkatalog, 27.09.2026)",
+    preisAb: "ab 149 Euro im Monat, dazu einmalig 1.500 Euro Bereitstellung und 199 Euro Übergabe an einer FINN Station oder 299 Euro bei Lieferung (finn.com, Hilfeseite Bereitstellungskosten, 27.09.2026)",
     grundlage: "AGB, Stand 30.09.2025, Gebührenkatalog vom 18.09.2026",
     agbUrl: "https://www.finn.com/de-DE/terms",
     klauseln: [
@@ -239,7 +241,7 @@ export const anbieter: AboAnbieter[] = [
         zitat:
           "In diesem Fall haften der Mieter sowie die in den Schutzbereich der vertraglichen Haftungsbefreiung einbezogenen Fahrer je einzelnem Schadenereignis bis zu einem Betrag in Höhe des vereinbarten Selbstbehalts;",
         hinweis:
-          "Haftpflicht bis 100 Millionen Euro (F.1). Die Haftungsfreistellung ist dort gegen Entgelt zubuchbar, ob sie im Abo enthalten ist und dass Steuer und Wartung in der Rate stecken, sagen die Abo-AGB nicht.",
+          "Haftpflicht bis 100 Millionen Euro (F.1). Bei 12 Monaten ist Vollkasko mit 1.000 Euro Selbstbeteiligung enthalten, 0 Euro kosten beim BMW 1er in München 140 Euro im Monat mehr (Konfigurator, 28.09.2026) und decken Unfall und Diebstahl. Hagel nennt SIXT nirgends, nach I.1 haftest du ohne eigene Schuld ohnehin nicht. Reifen und Scheiben sind ein eigenes Paket für 29,99 Euro.",
       },
       {
         thema: "Verzugszins",

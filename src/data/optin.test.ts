@@ -266,8 +266,17 @@ describe("Ausschnitt des Auto-Abo-Checks", () => {
   it("gibt Grün nur, wo keine Selbstbeteiligung ohne Schuld und kein Verzugszins im Wortlaut steht (Prüfprotokoll Punkt 8)", () => {
     for (const a of aboAnbieter.filter((x) => x.farbe === "gruen")) {
       const wortlaut = a.klauseln.map((k) => `${k.zitat ?? ""} ${k.hinweis ?? ""}`).join(" ");
-      expect(wortlaut, a.id).toContain("0 € Selbstbeteiligung");
       expect(wortlaut, a.id).not.toMatch(/Verzugszinsen (in gesetzlicher Höhe zu entrichten|an)/);
+      // Hagel und Diebstahl laufen über die Teilkasko: beide Stufen müssen im zitierten Wortlaut 0 € zeigen.
+      const versicherung = a.klauseln.filter((k) => k.thema === "Versicherung").map((k) => k.zitat ?? "").join(" ");
+      expect(versicherung, a.id).toMatch(/Teilkasko: 0 € Selbstbeteiligung/);
+      expect(versicherung, a.id).toMatch(/Vollkasko: 0 € Selbstbeteiligung/);
+      const verzug = a.klauseln.filter((k) => k.thema === "Verzugszins");
+      expect(verzug.length, a.id).toBeGreaterThan(0);
+      for (const k of verzug) {
+        expect(k.zitat ?? "", a.id).not.toMatch(/zins/i);
+        expect(k.hinweis ?? "", a.id).toMatch(/^Keine Klausel zu Verzugszinsen/);
+      }
     }
     for (const id of ["vwfs", "mercedes"]) expect(aboAnbieter.find((a) => a.id === id)?.farbe).toBe("rot");
   });
