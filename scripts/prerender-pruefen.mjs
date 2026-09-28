@@ -95,6 +95,18 @@ const pruefeSeite = (pfad, html) => {
   const ogTitle = attr(html, /<meta[^>]*property="og:title"[^>]*>/i, "content");
   if (!ogTitle) maengel.push("kein og:title");
 
+  // Vorschaubild muss als Datei ausgeliefert werden. Bis 28.09.2026 zeigte
+  // og:image auf .png, erzeugt wurde .jpg, jeder geteilte Link blieb ohne Bild.
+  for (const [name, re] of [
+    ["og:image", /<meta[^>]*property="og:image"[^>]*>/i],
+    ["twitter:image", /<meta[^>]*name="twitter:image"[^>]*>/i],
+  ]) {
+    const bild = attr(html, re, "content");
+    if (!bild) maengel.push(`kein ${name}`);
+    else if (!bild.startsWith(`${SITE}/`)) maengel.push(`${name} nicht auf ${SITE}: ${bild}`);
+    else if (!existsSync(join(DIST, new URL(bild).pathname))) maengel.push(`${name} fehlt in dist: ${bild}`);
+  }
+
   return { pfad, title, desc, canonical, h1: h1Text, zeichen: text.length, ldTypen, maengel };
 };
 

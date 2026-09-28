@@ -77,7 +77,7 @@ const abschnitte: BeitragAbschnitt[] = [
             },
             {
               titel: "Beide Seiten geben im selben Moment ab",
-              text: "Dein Geld geht raus und ist nicht rückholbar, sein Gold ist dir zugeordnet. Kartenzahlung ist in Ordnung, solange die Zahlung nicht widerrufbar ist. Für die reine Verbuchung räumt der Goldstandard, an dem sich die Prüfstellen orientieren, ein paar Bankwerktage ein.",
+              text: "Dein Geld geht raus und ist nicht rückholbar, sein Gold ist dir zugeordnet. Kartenzahlung ist in Ordnung, solange die Zahlung nicht widerrufbar ist. Dass die Buchung bei der Bank etwas dauert, schadet nicht: Die Internationale Fiqh-Akademie lässt die dort übliche Dauer zu.",
             },
           ]}
         />
@@ -269,7 +269,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <Hinweis titel="Ein Produkt fällt aus der Reihe">
           <p>
             Bei fast allen Gold-Wertpapieren kommst du an das Metall nicht heran. Der ETC der britischen Royal Mint
-            ist die Ausnahme: Das Gold liegt in ihrem eigenen Tresor in Cardiff und nicht bei einer Bank, und
+            ist die Ausnahme: Das Gold liegt in ihrem eigenen Tresor in Wales und nicht bei einer Bank, und
             Privatanleger können sich Barren und Münzen ausliefern lassen. Das Zertifikat kommt von Amanie Advisors
             und wird jedes Jahr neu ausgestellt. Wer dem Einwand zur Übergabe Gewicht gibt, findet hier den kürzesten
             Weg vom Papier zum Barren.

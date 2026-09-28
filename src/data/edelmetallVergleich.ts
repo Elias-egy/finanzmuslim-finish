@@ -165,7 +165,7 @@ export const edelmetallVergleich: RohAnbieter[] = [
       anbieter: "Royal Mint, Invesco, WisdomTree, alle mit jährlichem Zertifikat",
       kosten: "0,12 bis 0,49 Prozent im Jahr, dazu die Ordergebühr",
       einstieg: "ein Anteil, oft unter 100 Euro",
-      aufbewahrung: "Tresor der Verwahrstelle, bei RMAU die Royal Mint in Cardiff",
+      aufbewahrung: "Tresor der Verwahrstelle, bei RMAU die Royal Mint in Wales",
       sparplan: true,
       steuer: "meist Abgeltungsteuer",
     },
@@ -186,11 +186,11 @@ export const edelmetallVergleich: RohAnbieter[] = [
         url: "https://hanetf.com/de/fund/rmau-the-royal-mint-responsibly-sourced-physical-gold-etc/",
         stand,
         hinweis:
-          "Nur bei wenigen Produkten. Der Royal-Mint-ETC ist die Ausnahme: Das Gold liegt im Tresor der Royal Mint in Cardiff statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Bei den meisten anderen geht das nicht.",
+          "Nur bei wenigen Produkten. Der Royal-Mint-ETC ist die Ausnahme: Das Gold liegt im Tresor der Royal Mint in Wales statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Bei den meisten anderen geht das nicht.",
       },
       anbieter: { url: "/halal-anlagen", stand, hinweis: "Sieben Gold- und Silberprodukte mit Zertifikat stehen in unserer Anlagen-Datenbank, dazu Platin, Palladium und ein Korb." },
       kosten: { url: "/halal-anlagen", stand, hinweis: "Laufende Kosten zwischen 0,12 und 0,49 Prozent im Jahr, je Produkt in der Datenbank ausgewiesen." },
-      aufbewahrung: { url: "https://hanetf.com/de/fund/rmau-the-royal-mint-responsibly-sourced-physical-gold-etc/", stand, hinweis: "Beim Royal-Mint-ETC im Tresor der Royal Mint in Cardiff, außerhalb des Londoner Bankensystems." },
+      aufbewahrung: { url: "https://hanetf.com/de/fund/rmau-the-royal-mint-responsibly-sourced-physical-gold-etc/", stand, hinweis: "Beim Royal-Mint-ETC im eigenen Tresor der Royal Mint in Llantrisant, Wales, und nicht bei einer Bank." },
       steuer: {
         stand,
         hinweis:

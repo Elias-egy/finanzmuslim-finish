@@ -385,7 +385,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://hanetf.com/wp-content/assets/The%20Royal%20Mint%20ETC%20-%20Shariah%20Compliance%20Cert%20-%202025.pdf",
     zertifikatHinweis:
-      "Jährliches Shariah-Zertifikat des Shariah-Gremiums von Amanie Advisors, ausgestellt am 17. Juni 2026 für das Geschäftsjahr 2025, unterschrieben von Dr. Osama Al Dereai. Besonderheit dieses ETCs: Das Gold liegt im Tresor der Royal Mint in Cardiff und nicht bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen.",
+      "Jährliches Shariah-Zertifikat des Shariah-Gremiums von Amanie Advisors, ausgestellt am 17. Juni 2026 für das Geschäftsjahr 2025, unterschrieben von Dr. Osama Al Dereai. Besonderheit dieses ETCs: Das Gold liegt im Tresor der Royal Mint in Wales und nicht bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen.",
     zweiterBeleg: {
       titel: "Fatwa zum Produkt",
       url: "https://etp.hanetf.com/Fatwa___The_Royal_Mint_Gold_ETC.pdf",
