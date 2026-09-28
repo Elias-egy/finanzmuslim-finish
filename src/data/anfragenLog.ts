@@ -96,7 +96,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@commerzbank.com", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Depots und Konten grün. Zum Dispo nur der allgemeine Hinweis auf die geduldete Überziehung." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@commerzbank.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Gilt „nicht verzinst“ für DirektDepot, KlassikDepot und PremiumDepot? Kaufbarkeit aller 22 Halal-ISINs je Depotmodell.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 79, 27.09. 10 Uhr). Antwort abwarten." },
   finvesto: { anbieter: "finvesto / FNZ", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", zeichen: "WF_46229739", kern: "„Das Guthaben auf dem Verrechnungskonto wird nicht verzinst.“ Grün." },
@@ -116,7 +116,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@finanzen-zero.net", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "3706816", kern: "Weder Zinsmodell noch Abo. Krypto grün." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@finanzen-zero.net", zeichen: "3706816", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Ausgabeaufschlag und Mindestanlage für Comgest Growth Europe (IE00B4ZJ4634).", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@finanzen-zero.net", zeichen: "3710028", automatisch: true, kern: "Zoho INBOX 339: Eingangsbestätigung mit neuer Vorgangsnummer 3710028. Bittet, künftig das Ticketsystem im Depot zu nutzen, meldet sich aber „persönlich“ zurück." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 87, 27.09. 10 Uhr), nur Eingangsbestätigung. Antwort abwarten." },
   bsdex: { anbieter: "BSDEX", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bsdex.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "609033", kern: "Staking nur nach eigener ausdrücklicher Weisung im Pop-up, ablehnbar. Zinsfreie Nutzung ab Start möglich, deshalb grün (Elias, 23.09.)." },
@@ -136,7 +137,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "julia.vogt@pax-bkc.de", kern: "Rückfrage: Wird das Guthaben auf dem Verrechnungskonto zum Depot verzinst, und ist ein Verzicht ab Start möglich? Kursgewinne und Dividenden ausdrücklich ausgenommen.", von: "eliaselgendy2006@gmail.com" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "teamberatung@pax-bkc.de", kern: "Julia Vogt: Zum Depot wird ein Anlageabwicklungskonto geführt, „auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt“. Ändert sich das später, wäre ein Verzicht nicht möglich. Gleiches Muster wie tradegate.direct („derzeit nicht verzinst“), beide Depots grün (Branch partner-links-2, 25.09.2026)." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "julia.vogt@pax-bkc.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com an Julia Vogt: Kaufbarkeit aller 22 Halal-ISINs für Online-Brokerage und Klassisches Depot.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 80, 27.09. 10 Uhr). Antwort abwarten." },
   "tradegate-direct": { anbieter: "tradegate.direct", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@tradegate.direct", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "SUP-5390", kern: "Verrechnungskonto „derzeit nicht verzinst“. Grün." },
@@ -171,7 +172,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "„Unsere Tagesgeldkonten werden automatisch verzinst … nicht möglich, auf diese Zinsen zu verzichten.“ Unklar, ob das Depotguthaben gemeint ist. Rot." },
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@willbe-invest.com", kern: "Rückfrage: Ist das verzinste Tagesgeldkonto zugleich das Verrechnungskonto des Depots, und geht das Depot ohne verzinstes Konto?" },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@willbe-invest.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Ist das verzinste Tagesgeld das Verrechnungskonto, Depot ohne verzinstes Konto möglich? Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 93, 28.09. 10 Uhr). Antwort abwarten." },
   "traders-place": { anbieter: "Traders Place", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@tradersplace.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", kern: "„Die von Ihnen genannten Vorgaben … können wir bei der Bearbeitung Ihres Anliegens leider nicht separat berücksichtigen.“ Keine inhaltliche Antwort." },
@@ -209,7 +210,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@genobroker.de", kern: "Ticket DP02-107847: GENO Broker verzinst das Verrechnungskonto nicht, PLV ohne Guthabenverzinsung; das Konto führt die jeweilige Partnerbank, deren Konditionen gelten. Beide Depots grün mit Hinweis. Kaufbarkeit weiter offen (Tranche 2).", von: "eliaselgendy2006@gmail.com" },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Verrechnungskonto GENObasis und GENOprofi automatisch verzinst, Verzicht ab Eröffnung? Kaufbarkeit aller 22 Halal-ISINs je Tarif.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "postfach-service@genobroker.de", automatisch: true, kern: "Zoho INBOX 340: Automatische Antwort, Auftrag erhalten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 84, 27.09. 10 Uhr), nur Eingangsbestätigung. Antwort abwarten." },
   dkb: { anbieter: "DKB", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
@@ -245,11 +247,13 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   "1822direkt": { anbieter: "1822direkt", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@1822direkt.de", kern: frage3 + " Frage galt dem Aktiv-Depot." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@1822direkt.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: GiroDirekt statt verzinstem Tagesgeld als Verrechnungskonto möglich? Kaufbarkeit von 17 ISINs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "autoreply@1822direkt.de", automatisch: true, kern: "Zoho INBOX 343: Automatische Eingangsbestätigung." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 82, 27.09. 10 Uhr), nur Eingangsbestätigung. Antwort abwarten." },
   bux: { anbieter: "BUX", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@getbux.com", kern: frage3 + " Zusätzlich: Unterschied zwischen Basic, Plus und Prime, und ob Hebel und Wertpapierleihe ab Start aus sind." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@getbux.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von elf ISINs (ETCs, Fonds, iShares World Islamic) für BUX Basic.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@getbux.com", automatisch: true, kern: "Zoho INBOX 341: Automatische Eingangsbestätigung." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 83, 27.09. 10 Uhr), nur Eingangsbestätigung. Antwort abwarten." },
   norisbank: { anbieter: "norisbank", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@norisbank.de", kern: frage3 + " Frage galt Top-Girokonto und Girokonto Plus.", von: "eliaselgendy2006@gmail.com" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "db.no-reply@db.com", automatisch: true, kern: "Nur automatische Eingangsbestätigung." },
@@ -302,7 +306,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten. Der Partnerfaden mit affiliates@flatexdegiro.com läuft getrennt." },
   fidelity: { anbieter: "Fidelity Fondsdepot", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@fidelity-direkt.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Ausgabeaufschlag und Mindestanlage der drei Halal-Fonds, Kaufbarkeit von 14 ETFs und ETCs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@fidelity-direkt.de", zeichen: "00269193", automatisch: true, kern: "Zoho INBOX 342: Eingangsbestätigung 00269193." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 88, 27.09. 10 Uhr), nur Eingangsbestätigung. Antwort abwarten." },
   bison: { anbieter: "BISON", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs. Partnerfaden affiliate@bsdigital.com läuft getrennt.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "„Aktuell gibt es bei BISON leider keine Sparplanfunktion für Wertpapiere.“ Einmalkauf nicht beantwortet." },
@@ -311,14 +316,14 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Nichts offen. Kommt auf #103 noch eine Antwort, gegen die Liste vom 28.09. prüfen." },
   freedom24: { anbieter: "Freedom24", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support_germany@freedom24.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Zins nur auf selbst eröffnetem D-Konto, gilt das für Smart und All inclusive? Kaufbarkeit aller 22 ISINs je Tarif.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 95, 28.09. 10 Uhr). Antwort abwarten." },
   sbroker: { anbieter: "S Broker", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@sbroker.de", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Direkt-Depot.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", automatisch: true, kern: "Automatische Eingangsbestätigung." },
   ], naechsterSchritt: "Antwort abwarten." },
   plus500: { anbieter: "Plus500", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@plus500.co.ee", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Aktien und ETFs statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+  ], naechsterSchritt: "Versand belegt (Zoho Gesendet 97, 28.09. 10 Uhr). Antwort abwarten." },
   vivid: { anbieter: "Vivid", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "press@vivid.money", kern: "Gilt heute für Standard, Plus und Prime: kein Dispokredit, kein Minus ohne eigenen Antrag (Hilfeartikel von 2023, Vivid Now auf Antrag)? Kaufbarkeit aller 22 Halal-Anlagen im Depot Vivid Standard.", von: "elias@finanzmuslim.com" },
     { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "press@vivid.money", automatisch: true, kern: "Automatische Eingangsbestätigung des Pressebüros: meldet sich „shortly“, beantwortet aber keine Kundenanfragen und verweist auf In-App-Chat und Formular vivid.money/en-eu/support." },
