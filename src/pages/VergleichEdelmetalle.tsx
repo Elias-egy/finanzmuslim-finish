@@ -153,7 +153,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Welcher Gold-ETC lässt sich ausliefern?",
         antwort:
-          "Von den zertifizierten kennen wir einen: den ETC der Royal Mint. Das Gold liegt im Tresor der Royal Mint in Cardiff statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Das ist auch steuerlich der Unterschied, weil der Gewinn nach einem Jahr dann wie bei physischem Gold behandelt wird.",
+          "Von den zertifizierten kennen wir einen: den ETC der Royal Mint. Das Gold liegt im Tresor der Royal Mint in Wales statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Das ist auch steuerlich der Unterschied, weil der Gewinn nach einem Jahr dann wie bei physischem Gold behandelt wird.",
       },
       {
         frage: "Ist Platin halal?",
