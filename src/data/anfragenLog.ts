@@ -193,7 +193,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "„Das maxblue Depotkonto besitzt momentan keine Verzinsung.“ Beide maxblue-Produkte grün. Für eine dauerhafte Zusage verweist die Bank an eine Filiale." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "online.service@db.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Depot und als maxblue Wertpapier-Sparplan.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "Keine Auskunft je ISIN, Verweis auf die eigene Suche: „Über den folgenden Link können Sie ganz einfach prüfen, ob das Wertpapier sparplanfähig oder handelbar ist: https://www.maxblue.de/marktdaten/suche.html“." },
-  ], naechsterSchritt: "maxblue-Suche je ISIN selbst auswerten (Feld handelbar/sparplanfähig); Sparplan-Produkt ist über die CSV vollständig." },
+  ], naechsterSchritt: "Suche am 28.09. abends in Chrome geprüft: sie zeigt je Treffer nur „sparplanfähig“ oder „-“, kein Merkmal „handelbar“ (HSBC World: „Ihre Suche ergab keine Treffer.“). Für den Einmalkauf im Depot damit nur Kandidaten, Depot bleibt offen. Sparplan-Produkt ist über die CSV vollständig." },
   libertex: { anbieter: "Libertex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "KI-Antwort, sagt nur „keine Hinweise“ auf eine Verzinsung. Zu unklar, zählt nicht als Beleg." },
