@@ -65,3 +65,52 @@ export const freitagsbriefAnmelden = async (daten: AnmeldeDaten, fetchFn: FetchF
   });
   if (!res.ok) throw new Error(`Webhook ${res.status}`);
 };
+
+/**
+ * Warteliste aus dem Sperrfenster vor dem Start am 9. Oktober 2026.
+ *
+ * Eigenes Make-Szenario („finanzmuslim Warteliste“) und eigene MailerLite-Gruppe
+ * „Warteliste“. `einwilligung` nennt die Fassung des Einwilligungstextes, der beim
+ * Absenden unter dem Feld stand.
+ */
+export const WARTELISTE_WEBHOOK = "https://hook.eu1.make.com/t2xmeptu3as3odqs6hcidxbuk9aaalab";
+
+export const WARTELISTE_EINWILLIGUNG = "sperrfenster-2026-09-28";
+
+export type WartelisteDaten = {
+  email: string;
+  quelle: string;
+  sprache: Sprache;
+  interesse: "warteliste";
+  firma: string;
+  einwilligung: typeof WARTELISTE_EINWILLIGUNG;
+};
+
+export const wartelisteDaten = ({
+  email,
+  pfad,
+  lang,
+  firma,
+}: {
+  email: string;
+  pfad: string;
+  lang: string | undefined;
+  firma: string;
+}): WartelisteDaten => ({
+  email: email.trim(),
+  quelle: `web:sperrfenster${pfad.replace(/\/+$/, "") || "/startseite"}`,
+  sprache: spracheAus(lang),
+  interesse: "warteliste",
+  firma,
+  einwilligung: WARTELISTE_EINWILLIGUNG,
+});
+
+export const wartelisteAnmelden = async (daten: WartelisteDaten, fetchFn: FetchFn = fetch) => {
+  if (!WARTELISTE_WEBHOOK) throw new Error("Webhook fehlt");
+  const res = await fetchFn(WARTELISTE_WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(daten),
+  });
+  if (!res.ok) throw new Error(`Webhook ${res.status}`);
+};

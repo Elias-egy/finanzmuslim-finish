@@ -88,6 +88,10 @@ const pruefeSeite = (pfad, html) => {
     }
   }
 
+  // Das Sperrfenster entsteht erst im Browser. Steht es im HTML, liest Google den Timer statt der Seite.
+  if (/id="sperrfenster"/.test(html) || /<html[^>]*data-sperre/i.test(html) || /id="root"[^>]*inert/i.test(html))
+    maengel.push("Sperrfenster steht im statischen HTML");
+
   const ogTitle = attr(html, /<meta[^>]*property="og:title"[^>]*>/i, "content");
   if (!ogTitle) maengel.push("kein og:title");
 
