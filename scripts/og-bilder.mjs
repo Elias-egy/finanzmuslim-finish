@@ -8,7 +8,7 @@
  * gerenderten Seite, im Stil der Freebie-Cover (Blau, Wortmarke, Titel gross).
  *
  * Ablauf: liest dist/<pfad>.html, zeichnet die Karte in Chrome, schreibt
- * dist/og/<slug>.png und tauscht og:image und twitter:image in der HTML-Datei.
+ * dist/og/<slug>.jpg und tauscht og:image und twitter:image in der HTML-Datei.
  * Seiten mit eigenem Bild (image-Prop in Seo.tsx, also nicht og-default.jpg)
  * bleiben unangetastet.
  *
@@ -109,9 +109,12 @@ const main = async () => {
     const text = entity(attr(html, /<meta[^>]*name="description"[^>]*>/i, "content") ?? "");
     await seite.setContent(karte(titel, text, etikett(pfad), schrift), { waitUntil: "load" });
     await seite.evaluate(() => document.fonts.ready);
-    const datei = join(DIST, "og", `${slug(pfad)}.jpg`);
+    // Ein Name fuer Datei und URL: bis 28.09.2026 schrieb das Skript .jpg und
+    // verwies auf .png, jeder geteilte Link lief damit ins Leere (404).
+    const name = `${slug(pfad)}.jpg`;
+    const datei = join(DIST, "og", name);
     await seite.screenshot({ path: datei, type: "jpeg", quality: 88 });
-    const url = `${SITE}/og/${slug(pfad)}.png`;
+    const url = `${SITE}/og/${name}`;
     const neu = html
       .replace(/(<meta[^>]*property="og:image"[^>]*content=")[^"]*(")/i, `$1${url}$2`)
       .replace(/(<meta[^>]*name="twitter:image"[^>]*content=")[^"]*(")/i, `$1${url}$2`);
