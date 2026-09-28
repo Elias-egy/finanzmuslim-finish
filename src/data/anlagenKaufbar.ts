@@ -226,18 +226,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
         "anbieter": "tradegate.direct",
         "haus": "tradegate-direct",
         "beleg": {
@@ -274,6 +262,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
@@ -290,18 +279,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
           ]
         }
       },
@@ -354,6 +331,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic"
     ],
     "stand": "28.09.2026"
@@ -369,18 +347,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
           ]
         }
       },
@@ -421,6 +387,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
@@ -744,18 +711,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
         "anbieter": "tradegate.direct",
         "haus": "tradegate-direct",
         "beleg": {
@@ -792,6 +747,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],

@@ -217,7 +217,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "24.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Nachfrage im selben Verlauf: Kann ich den Prime+ Broker komplett ohne Zinsen auf Guthaben nutzen?", von: "eliaselgendy2006@gmail.com" },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03153115", kern: "Gebündelte Anfrage als finanzmuslim.com: Bleibt das Verrechnungskonto mit PRIME+ dauerhaft bei 0 %? Kaufbarkeit der vier HSBC-ETFs in FREE und PRIME+ (App gegen ETP-Verzeichnis).", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten, Ticket 03153115." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@scalable.capital", zeichen: "03158853", kern: "Verrechnungskonto in FREE und PRIME+ 0 % p.a., Tagesgeld nur bei eigener Eröffnung. HSBC ×4 in beiden Tarifen „Derzeit nicht handelbar (Einmalkauf: Nein | Sparplan: Nein)“, auch nicht telefonisch. Ersetzt Elias' App-Suche vom 15.09.; Prime+ Broker damit vollständig." },
+  ], naechsterSchritt: "Erledigt 28.09.2026: beide Fragen schriftlich beantwortet." },
   flatex: { anbieter: "flatex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
