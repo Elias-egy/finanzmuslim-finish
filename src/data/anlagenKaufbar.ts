@@ -206,6 +206,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
@@ -261,6 +262,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
       "Trade Republic",
@@ -330,6 +332,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
       "Trade Republic"
@@ -386,6 +389,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
       "Trade Republic",
@@ -504,6 +508,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "tradegate.direct",
       "XTB"
@@ -692,6 +697,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "finanzen.net zero",
       "finvesto",
+      "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
     "stand": "28.09.2026"
@@ -746,6 +752,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
       "Trade Republic",
@@ -1004,7 +1011,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "Libertex"
     ],
     "stand": "28.09.2026"
   },
@@ -1214,6 +1222,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
     "stand": "28.09.2026"
@@ -1436,6 +1445,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
     "stand": "28.09.2026"
@@ -1573,6 +1583,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "finanzen.net zero",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
@@ -1719,6 +1730,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
@@ -1896,7 +1908,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
-      "justTRADE"
+      "justTRADE",
+      "Libertex"
     ],
     "stand": "28.09.2026"
   },
@@ -2094,6 +2107,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
@@ -2290,6 +2304,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "Libertex",
       "XTB"
     ],
     "stand": "28.09.2026"
@@ -2473,7 +2488,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
-      "comdirect Pure Depot"
+      "comdirect Pure Depot",
+      "Libertex"
     ],
     "stand": "28.09.2026"
   },
@@ -2650,6 +2666,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "Libertex",
       "XTB"
     ],
     "stand": "28.09.2026"
@@ -2822,6 +2839,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
     "stand": "28.09.2026"
@@ -2982,6 +3000,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
     "stand": "28.09.2026"
@@ -3102,6 +3121,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "finanzen.net zero",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
@@ -3200,6 +3220,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Consorsbank",
       "finanzen.net zero",
       "justTRADE",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
@@ -3356,6 +3377,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "finvesto",
       "ING",
+      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"

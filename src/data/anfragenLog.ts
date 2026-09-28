@@ -200,7 +200,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Wertpapiere statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "KI-Antwort: Libertex hauptsächlich CFD, dazu Libertex Invest mit echten Aktien; zu den ISINs „keine bestätigten Informationen“. Zu unklar, zählt nicht. Die KI bietet an: Antwort „Mit einem Mitarbeiter sprechen“." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "„Mit einem Mitarbeiter sprechen“ plus Frage: Libertex Invest in Deutschland mit echten Wertpapieren? Je ISIN ja/nein, alle 22. Zoho Gesendet #101." },
-  ], naechsterSchritt: "Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "Mitarbeiter (Reiner) verweist auf die Instrumentenliste: „Dort finden Sie alle Aktien die Sie bei und kaufen können. Wählen Sie bitte als Plattform Libertex Invest aus.“ Ausgewertet: 260 Aktien, Gruppe ETF leer, keine der 22 ISINs. Eingetragen als vollständige Liste: 0 von 12, 0 von 3, 0 von 7." },
+    { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "Nachfrage im selben Faden: Wird Guthaben auf einem Libertex-Invest-Konto verzinst, automatisch oder gegen Aufpreis? Zoho Gesendet #102. Nur Gegenprobe: das Zins-Tor ist seit 23.09. über das Client Agreement Shares belegt." },
+  ], naechsterSchritt: "Depot gerankt 28.09.2026 (0 von 22 über die vollständige Liste). Antwort auf die Zins-Gegenprobe nur ablegen; widerspricht sie dem Client Agreement, Zins-Tor neu prüfen." },
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
@@ -211,7 +213,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@dkb.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Girokonto ab Eröffnung ohne Dispokredit möglich? Dazu Kaufbarkeit aller 22 Halal-ISINs im Depot.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@dkb.de", automatisch: true, kern: "Standardantwort ohne Inhalt: „können wir Anfragen nur beantworten, wenn sie von der E-Mail-Adresse gesendet werden, die in Ihrem Banking unter „Mein Profil“ hinterlegt ist“. Zählt nicht als Antwort." },
+  ], naechsterSchritt: "DKB bearbeitet nur Mails von der im Banking hinterlegten Adresse. Elias klärt, ob er DKB-Kunde ist und welche Adresse hinterlegt ist; dann die Anfrage von dort neu senden." },
   scalable: { anbieter: "Scalable Capital", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@scalable.capital", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "03153115", automatisch: true, kern: "Nur Eingangsbestätigung." },
@@ -322,6 +325,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   steuereasy: { anbieter: "STEUEReasy", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Als finanzmuslim.com: Anlage KAP mit STEUEReasy möglich, sonst welches Programm? Datenabruf vom Finanzamt möglich?" },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Nachtrag im selben Faden: Anlage V und Einkünfte aus selbstständiger oder gewerblicher Tätigkeit mit EÜR in STEUEReasy möglich? Beide Felder standen nur wegen Nichtnennung auf Nein.", von: "elias@finanzmuslim.com" },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice@steuertipps.de", zeichen: "TI06037245", automatisch: true, kern: "Automatische Eingangsbestätigung zum Nachtrag." },
   ], naechsterSchritt: "Antwort abwarten, dann kapital, belegabruf, vermietung und selbststaendige setzen." },
 };
 
