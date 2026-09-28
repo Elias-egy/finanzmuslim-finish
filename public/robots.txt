@@ -1,16 +1,21 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /downloads/v/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /downloads/v/
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /downloads/v/
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /downloads/v/
 
 User-agent: *
 Allow: /
+Disallow: /downloads/v/
 
 Sitemap: https://finanzmuslim.com/sitemap.xml

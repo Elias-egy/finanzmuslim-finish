@@ -32,6 +32,10 @@ export const SPERRE = {
     "/danke",
     "/out",
   ],
-  /** Anzahl der Anlagen im Bonus-PDF. Gehört zum PDF, nicht zur Liste der Seite. */
+  /**
+   * Anzahl der Anlagen im Bonus-PDF. Gehört zum PDF, nicht zur Liste der Seite.
+   * PDF: public/downloads/v/bonus-lv1d/halal-anlagen-liste.pdf, verlinkt nur aus der Willkommensmail der
+   * Warteliste. Gebaut mit ~/rebrand/freebies/anlagen_bonus.py, das abbricht, wenn die Zahl nicht passt.
+   */
   bonusAnzahl: 30,
 } as const;
