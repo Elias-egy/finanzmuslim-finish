@@ -123,6 +123,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -160,6 +172,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -210,6 +234,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -265,6 +301,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -331,6 +379,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -402,6 +462,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -463,6 +535,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "maxblue Wertpapier-Sparplan",
+      "tradegate.direct",
       "XTB"
     ],
     "stand": "28.09.2026"
@@ -554,6 +627,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -590,6 +675,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -652,6 +749,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -898,6 +1007,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1088,6 +1209,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -1302,6 +1435,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1435,6 +1580,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -1600,8 +1757,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "justTRADE",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -1732,6 +1891,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -1931,6 +2102,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2118,6 +2301,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2274,6 +2469,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -2454,6 +2661,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2598,6 +2817,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -2750,6 +2981,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2896,8 +3139,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "comdirect Pure Depot",
       "finanzen.net zero",
+      "justTRADE",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -2992,8 +3237,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "Consorsbank",
       "finanzen.net zero",
+      "justTRADE",
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
@@ -3063,6 +3310,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -3100,6 +3359,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "targobank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },

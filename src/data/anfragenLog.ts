@@ -81,7 +81,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "smartbanking@unicredit.de", kern: "Rückfrage zum Widerspruch: Ist das HVB Investmentkonto das Verrechnungskonto zum Depot, und läuft der Sonderzins von 0,50 Prozent für Neukunden automatisch?" },
     { datum: "25.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@unicredit.de", kern: "Antwort auf die Mail vom 21.09. (Smart Banking Team): Girokonto „wird NICHT verzinst“, Dispo nur auf eigene Anfrage. Bestätigt die grünen Girokonten, beantwortet die Depot-Rückfrage vom 23.09. nicht; die geht gebündelt am 28.09. neu raus.", von: "eliaselgendy2006@gmail.com" },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "smartbanking@unicredit.de", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: HVB Depot oder SmartDepot mit AktivKonto statt Investmentkonto? Sonderzins automatisch? Girokonten je Stufe, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "smartbanking@unicredit.de", automatisch: true, kern: "Automatische Eingangsbestätigung des Smart Banking Teams." },
+  ], naechsterSchritt: "Antwort abwarten." },
   "trade-republic": { anbieter: "Trade Republic", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@traderepublic.com", kern: frage1 },
     { datum: "16.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatische Antwort, will die Anfrage aus der App." },
@@ -140,7 +141,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@tradegate.direct", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "SUP-5390", kern: "Verrechnungskonto „derzeit nicht verzinst“. Grün." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@tradegate.direct", zeichen: "SUP-5390", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs, die Instrumentensuche zeigt kein Kaufmerkmal.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "SUP-5441", kern: "Handelsuniversum = alle an der Tradegate BSX gelisteten Aktien und ETPs, klassische Investmentfonds ausgenommen. Nicht sparplanfähig: Invesco ACWI, 4 × HSBC, 3 Fonds; alle anderen sparplanfähig. Eingetragen: 18 ja, 4 nein, Depot vollständig." },
+  ], naechsterSchritt: "Erledigt: alle 22 ISINs belegt." },
   justtrade: { anbieter: "justTRADE", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128140", kern: "Keine automatischen Ausschüttungen als Zins oder Staking. Zinsfrei ab Start grün, Abo und Margin unbeantwortet." },
@@ -148,7 +150,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128292", kern: "„Die Depoteröffnung und Depotführung ist gleichermaßen kostenfrei für alle Kunden. Der Handel findet ausschließlich auf Guthabenbasis ab.“ Bezahlmodell damit geklärt." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@justtrade.com", zeichen: "#128292", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von 13 ISINs, die in Partner-Listen und Sparplanliste fehlen.", von: "elias@finanzmuslim.com" },
     { datum: "26.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#128412", kern: "Online als Einmalanlage handelbar (keine Sparpläne): Invesco DJ Islamic, Invesco ACWI, iShares Sukuk, Xtrackers Sukuk. „Den Handel von klassischen Fonds bieten wir generell nicht an“. HSBC ×4 und die zwei Invesco-ETCs nicht eindeutig beantwortet." },
+  ], naechsterSchritt: "Nachfrage im Ticket #128412: HSBC ×4 und die ETCs IE00B579F325, IE00B43VDT70 je ja/nein (braucht Entscheidung 17)." },
   ethikbank: { anbieter: "EthikBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hallo@ethikbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Konto ohne Überziehungsmöglichkeit eröffenbar. Dispo grün." },
@@ -187,12 +190,14 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Auskunft nur nach Legitimation." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "„Das maxblue Depotkonto besitzt momentan keine Verzinsung.“ Beide maxblue-Produkte grün. Für eine dauerhafte Zusage verweist die Bank an eine Filiale." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "online.service@db.com", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Depot und als maxblue Wertpapier-Sparplan.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "online.service@db.com", kern: "Keine Auskunft je ISIN, Verweis auf die eigene Suche: „Über den folgenden Link können Sie ganz einfach prüfen, ob das Wertpapier sparplanfähig oder handelbar ist: https://www.maxblue.de/marktdaten/suche.html“." },
+  ], naechsterSchritt: "maxblue-Suche je ISIN selbst auswerten (Feld handelbar/sparplanfähig); Sparplan-Produkt ist über die CSV vollständig." },
   libertex: { anbieter: "Libertex", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "KI-Antwort, sagt nur „keine Hinweise“ auf eine Verzinsung. Zu unklar, zählt nicht als Beleg." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@help.libertex.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Wertpapiere statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "support@help.libertex.com", kern: "KI-Antwort: Libertex hauptsächlich CFD, dazu Libertex Invest mit echten Aktien; zu den ISINs „keine bestätigten Informationen“. Zu unklar, zählt nicht. Die KI bietet an: Antwort „Mit einem Mitarbeiter sprechen“." },
+  ], naechsterSchritt: "Mit „Mit einem Mitarbeiter sprechen“ antworten (braucht Entscheidung 17)." },
   "geno-broker": { anbieter: "GENO Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: frage2, von: "eliaselgendy2006@gmail.com" },
     { datum: "25.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@genobroker.de", kern: "Nachfrage im selben Verlauf: Verrechnungskonto zum GENObasis Depot automatisch verzinst, Verzicht ab Eröffnung möglich? Gilt dasselbe für GENOprofi?", von: "eliaselgendy2006@gmail.com" },
@@ -296,7 +301,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
   sbroker: { anbieter: "S Broker", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@sbroker.de", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Direkt-Depot.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
+    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", automatisch: true, kern: "Automatische Eingangsbestätigung." },
+  ], naechsterSchritt: "Antwort abwarten." },
   plus500: { anbieter: "Plus500", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@plus500.co.ee", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Aktien und ETFs statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand in Zoho prüfen (Ordner Gesendet), dann Antwort abwarten." },
