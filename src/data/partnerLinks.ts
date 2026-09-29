@@ -13,6 +13,9 @@
 // Netzwerk financeAds, Partner 64685, Werbeflaeche 87591 (finanzmuslim.com).
 // Teilnahmebedingungen: keine Sub-IDs zur Verknuepfung von Besucherdaten, keine
 // Links in Direktnachrichten. Links hier deshalb ohne {SUBID}.
+//
+// Netzwerk Awin, Publisher-ID 3099915 (finanzmuslim). Standard-Link
+// https://www.awin1.com/cread.php?awinmid=<Programm>&awinaffid=3099915.
 
 export type PartnerLink = {
   kurzname: string;
@@ -190,6 +193,13 @@ export const partnerLinks: PartnerLink[] = [
     ziel: "/dein-investmentstart/postbank",
     aktiv: true,
     notiz: "financeAds, Programm 426. Werbemittelkategorie Giro pur, Textlink 125749 (Postbank kostenloses Giro - Giro pur), leitet am 26.09.2026 auf postbank.de/.../giro-pur.html. Die Textlinks 14532 und 14723 fuehren auf Giro plus und werden nicht genutzt.",
+  },
+  {
+    kurzname: "smartsteuer",
+    anbieter: "smartsteuer",
+    ziel: "/dein-investmentstart/smartsteuer",
+    aktiv: false,
+    notiz: "Awin, Programm 15043 (smartsteuer DE), Standard-Link https://www.awin1.com/cread.php?awinmid=15043&awinaffid=3099915 (leitet am 29.09.2026 auf smartsteuer.de/online/). Zugelassen 28.09.2026, Willkommensmail 29.09.2026: Neukunde 20 €, Bestandskunde 1,50 €. Inaktiv, bis es eine Startseite fuer Steuersoftware gibt und der Steuervergleich Partner zeigt.",
   },
 ];
 
