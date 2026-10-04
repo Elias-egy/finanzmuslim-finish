@@ -82,7 +82,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "25.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@unicredit.de", kern: "Antwort auf die Mail vom 21.09. (Smart Banking Team): Girokonto „wird NICHT verzinst“, Dispo nur auf eigene Anfrage. Bestätigt die grünen Girokonten, beantwortet die Depot-Rückfrage vom 23.09. nicht; die geht gebündelt am 28.09. neu raus.", von: "eliaselgendy2006@gmail.com" },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "smartbanking@unicredit.de", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: HVB Depot oder SmartDepot mit AktivKonto statt Investmentkonto? Sonderzins automatisch? Girokonten je Stufe, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "smartbanking@unicredit.de", automatisch: true, kern: "Automatische Eingangsbestätigung des Smart Banking Teams." },
-  ], naechsterSchritt: "Antwort abwarten." },
+    { datum: "01.10.2026", richtung: "rein", kanal: "Mail", kern: "HVB Media Relations (Zoho INBOX 445): Alle Girokonten als Buchungskonto für HVB Depot und SmartDepot möglich, „Die Gutschrift der Verzinsung erfolgt automatisch auf das Investmentkonto.“ AktivKonto und PlusKonto ohne Guthabenverzinsung, Dispo nur auf aktiven Antrag. Alle 22 ISINs: Einmalanlage ja, Sparplan nein, eine Tabelle für beide Depots. Ausgabeaufschlag Comgest 4 %, Franklin 5,75 %, keine Mindestanlage. Kaufweg nicht genannt." },
+  ], naechsterSchritt: "Elias entscheidet: Bleiben die Depots rot (Neukundenfall mit Investmentkonto, wie ING) oder gelb, weil das Depot auch mit dem unverzinsten AktivKonto läuft?" },
   "trade-republic": { anbieter: "Trade Republic", vorgaenge: [
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@traderepublic.com", kern: frage1 },
     { datum: "16.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatische Antwort, will die Anfrage aus der App." },
@@ -102,7 +103,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "22.09.2026", richtung: "rein", kanal: "Mail", zeichen: "WF_46229739", kern: "„Das Guthaben auf dem Verrechnungskonto wird nicht verzinst.“ Grün." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@fnz.de", zeichen: "WF_46229739", kern: "Gebündelte Anfrage als finanzmuslim.com: Gilt „nicht verzinst“ für Depot, Depot Basis und Wertpapierdepot? Kaufbarkeit von acht ISINs (ETCs, Franklin), beim Wertpapierdepot aller 22.", von: "elias@finanzmuslim.com" },
     { datum: "26.09.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", zeichen: "813330104", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
+    { datum: "02.10.2026", richtung: "rein", kanal: "Mail", adresse: "Kundenberatung@finvesto.de", zeichen: "WF_46229739", kern: "Kundenberatung (Zoho INBOX 450): Verrechnungskonto in allen drei Modellen unverzinst („Ja.“). „ETCs können Sie über das Wertpapierdepot ordern, der Franklin Shariah Technology Fund A (acc) USD ist bei uns nicht handelbar.“ ETFs und Fonds im Wertpapierdepot nicht je ISIN beantwortet, Verweis auf die Fondssuche. Die Zusätze „(nur Wertpapierdepot)“ in der Mail stammen aus unserer Anfrage, nicht von finvesto." },
+  ], naechsterSchritt: "ETFs und Fonds im Wertpapierdepot je ISIN in der Fondssuche prüfen, auf die finvesto verweist. Ausgabeaufschlag und Mindestanlage blieben unbeantwortet." },
   "joe-broker": { anbieter: "JOE Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", kern: frage2 },
     { datum: "22.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "JBSPROD-13897", kern: "Guthaben nicht verzinst. Eine geplante Verzinsung gilt nur für Konten, die nach deren Einführung eröffnet werden. Grün." },
@@ -243,7 +245,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "A57220434", automatisch: true, kern: "Automatische Eingangsbestätigung: „Eine ganz persönliche Antwort bekommen Sie noch von uns.“" },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Automatische Eingangsbestätigung, persönliche Antwort angekündigt." },
     { datum: "23.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#1568580", kern: "Girokonto-Guthaben wird nicht verzinst. Grün." },
-  ], naechsterSchritt: "Persönliche Antwort abwarten. Die Impressumsadresse nimmt Anfragen an." },
+    { datum: "29.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@ing.de", zeichen: "A57220433", kern: "Persönliche Antwort an eliaselgendy2006@gmail.com: „Aber das Verrechnungskonto zum Direkt-Depot wird verzinst. Individuelle Lösungen sind nicht möglich.“ Wertpapierkredite bietet die ING nicht an. Bestätigt rot für das Direkt-Depot." },
+  ] },
   "1822direkt": { anbieter: "1822direkt", vorgaenge: [
     { datum: "23.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@1822direkt.de", kern: frage3 + " Frage galt dem Aktiv-Depot." },
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@1822direkt.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: GiroDirekt statt verzinstem Tagesgeld als Verrechnungskonto möglich? Kaufbarkeit von 17 ISINs.", von: "elias@finanzmuslim.com" },
@@ -320,7 +323,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   sbroker: { anbieter: "S Broker", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "service@sbroker.de", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit aller 22 Halal-ISINs im Direkt-Depot.", von: "elias@finanzmuslim.com" },
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", automatisch: true, kern: "Automatische Eingangsbestätigung." },
-  ], naechsterSchritt: "Antwort abwarten." },
+    { datum: "01.10.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", zeichen: "1-3HHQSKX", kern: "Kundenservice (Zoho INBOX 442): „Eine Stichprobe hat ergeben, dass die ETFs/Fonds handelbar sind. Kauf / Sparplan möglich“. Keine Angabe je ISIN, deshalb kein Kaufbeleg, alle 22 bleiben offen. Einzelne ETFs stellt S Broker auf Anfrage handelbar." },
+  ], naechsterSchritt: "Kaufbarkeit je ISIN bleibt offen. Entweder mit Bitte um Antwort je ISIN nachfassen oder im Depot selbst prüfen." },
   plus500: { anbieter: "Plus500", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@plus500.co.ee", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Aktien und ETFs statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
   ], naechsterSchritt: "Versand belegt (Zoho Gesendet 97, 28.09. 10 Uhr). Antwort abwarten." },
