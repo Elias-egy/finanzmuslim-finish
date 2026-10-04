@@ -45,7 +45,7 @@ const Zeile = ({
 }) => (
   <div className="flex items-center justify-between gap-4 border-b border-border py-3 last:border-b-0">
     <span className="text-[15px] text-foreground/85">{zeile.label}</span>
-    <span className="shrink-0 text-right text-[15px] font-semibold [&_svg]:mx-0">
+    <span className="min-w-0 text-right text-[15px] font-semibold [&_svg]:mx-0">
       <ZellInhalt wert={wert} art={zeile.art} />
     </span>
   </div>

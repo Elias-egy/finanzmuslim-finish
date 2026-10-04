@@ -1,5 +1,6 @@
 import type { Quelle } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter, RohWert } from "./vergleichHelfer";
+import { NACHGETRAGENE_LINKS } from "./vergleichKorrekturenDaten";
 
 /**
  * Kleine, datierte Nachträge zur Prüfung vom 20.09.2026.
@@ -35,8 +36,11 @@ export const korrigiereAnbieter = (
     // das sich ueber Zinsen rechnet. Deshalb steht die Ampel rot, der Anbieter
     // bleibt aber nutzbar. Elias am 23.09.2026: jede Stufe einzeln betrachten.
     const zins = werte.zinsfreiAbStart;
+    const abgeraten = zins === "schlecht" || zins === "gut" || zins === "teils" ? zins === "schlecht" : a.abgeraten;
+    const link = a.link ?? (abgeraten ? undefined : NACHGETRAGENE_LINKS[a.id]);
     return {
       ...a,
+      ...(link ? { link } : {}),
       werte: { ...a.werte, ...werte },
       quellen,
       ...(zins === "schlecht" || zins === "gut" || zins === "teils" ? { abgeraten: zins === "schlecht" } : {}),

@@ -393,6 +393,11 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               </div>
             ))}
           </div>
+          {partner.pflichthinweis && (
+            <p className="reveal mx-auto mt-8 max-w-2xl text-center text-[15px] md:text-base leading-relaxed text-foreground">
+              {partner.pflichthinweis}
+            </p>
+          )}
         </div>
         <JumpLink to="#los">Zum {produktWort} ↓</JumpLink>
       </section>

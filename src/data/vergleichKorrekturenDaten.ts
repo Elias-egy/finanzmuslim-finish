@@ -18,7 +18,19 @@ const kryptoOptIn = {
   zinsfreiesModell: "gut" as const,
 };
 
+/**
+ * Partnerlinks für Angebote, die der Rohimport als abgeraten führt und die erst ein Anbieterbeleg
+ * in den Korrekturen unten nutzbar gemacht hat. `bauen.py` kennt nur den Rohwert und vergibt dort
+ * keinen Link. Der Link greift nur, solange das Angebot nach der Korrektur nicht abgeraten ist.
+ */
+export const NACHGETRAGENE_LINKS: Record<string, string> = {
+  "consorsbank-depot": "/out/consorsbank-depot",
+  "norisbank-top-girokonto": "/out/norisbank",
+};
+
 export const DEPOT_WERTE: Werte = {
+  // justTRADE-Teilnahmebedingungen (financeAds, 04.10.2026): Orderkosten nur mit dem Zusatz zu Spreads nennen.
+  "justtrade-depot": { orderkosten: "1€ zzgl. marktüblicher Spreads" },
   "maxblue-wertpapier-sparplan": { zinsfreiAbStart: "gut" },
   "maxblue-depot": { zinsfreiAbStart: "gut" },
   "geno-broker-genobasis-depot": { zinsfreiAbStart: "gut" },
