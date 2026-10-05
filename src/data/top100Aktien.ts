@@ -3,7 +3,9 @@ export type Aktie = {
   name: string;
   ticker: string;
   bekanntFuer: string;
-  status: "Halal" | "Doubtful";
+  status: "Halal";
+  /** Only set for the six titles checked later; all others were checked on 20.08.2026. */
+  geprueft?: string;
   quelle: string;
 };
 
@@ -82,10 +84,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 10,
-    name: "ServiceNow",
-    ticker: "NOW",
-    bekanntFuer: "Workflow-Software",
-    status: "Doubtful",
+    name: "Intel",
+    ticker: "INTC",
+    bekanntFuer: "Prozessoren",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {
@@ -146,10 +149,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 18,
-    name: "Analog Devices",
-    ticker: "ADI",
-    bekanntFuer: "Sensoren & Halbleiter",
-    status: "Doubtful",
+    name: "TDK",
+    ticker: "6762",
+    bekanntFuer: "Elektronik-Bauteile",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {
@@ -178,10 +182,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 22,
-    name: "Mondelez",
-    ticker: "MDLZ",
-    bekanntFuer: "Oreo & Milka",
-    status: "Doubtful",
+    name: "Monster Beverage",
+    ticker: "MNST",
+    bekanntFuer: "Energy-Drinks",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {
@@ -258,10 +263,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 32,
-    name: "Lindt & Sprüngli",
-    ticker: "LISN",
-    bekanntFuer: "Schokolade",
-    status: "Doubtful",
+    name: "Essity",
+    ticker: "ESSITY B",
+    bekanntFuer: "Tempo & Zewa",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {
@@ -458,10 +464,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 57,
-    name: "Ryanair",
-    ticker: "RYA",
-    bekanntFuer: "Fluggesellschaft",
-    status: "Doubtful",
+    name: "Haleon",
+    ticker: "HLN",
+    bekanntFuer: "Sensodyne & Voltaren",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {
@@ -722,10 +729,11 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 90,
-    name: "Axon Enterprise",
-    ticker: "AXON",
-    bekanntFuer: "Taser & Bodycams",
-    status: "Doubtful",
+    name: "Makita",
+    ticker: "6586",
+    bekanntFuer: "Akkuwerkzeug",
+    status: "Halal",
+    geprueft: "27.09.2026",
     quelle: "M",
   },
   {

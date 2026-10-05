@@ -8,7 +8,7 @@ const v = vorlageBySlug("top-100-halal-aktien")!;
 const themen = [
   { titel: "Digital & Chips", spanne: "1–20", intro: "Technik, Software und Halbleiter, die viele aus dem Alltag oder Berufsleben kennen." },
   { titel: "Konsum & Alltag", spanne: "21–40", intro: "Marken aus Sport, Kosmetik, Getränken, Elektronik und Handel." },
-  { titel: "Gesundheit & Mobilität", spanne: "41–60", intro: "Pharma, Medizintechnik, Autos, Lieferdienste und Fluggesellschaften." },
+  { titel: "Gesundheit & Mobilität", spanne: "41–60", intro: "Pharma, Medizintechnik, Autos und Lieferdienste." },
   { titel: "Industrie & Energie", spanne: "61–80", intro: "Globale Konzerne hinter Energie, Automation, Chemie, Bau und Rohstoffen." },
   { titel: "Global & überraschend", spanne: "81–100", intro: "Fünfzehn globale Namen plus fünf überraschende Highlights ab Platz 96." },
 ];
@@ -29,13 +29,7 @@ const AktienZeile = ({ a }: { a: Aktie }) => (
         {a.rang >= 96 && <span className="ml-1 font-semibold text-primary">· Highlight</span>}
       </span>
     </div>
-    <span
-      className={`inline-flex h-7 items-center rounded-full border px-3 text-[12px] font-bold ${
-        a.status === "Halal"
-          ? "border-[hsl(var(--success)/0.35)] bg-[hsl(var(--success)/0.12)] text-[hsl(var(--success))]"
-          : "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)]"
-      }`}
-    >
+    <span className="inline-flex h-7 items-center rounded-full border border-[hsl(var(--success)/0.35)] bg-[hsl(var(--success)/0.12)] px-3 text-[12px] font-bold text-[hsl(var(--success))]">
       {a.status}
     </span>
   </div>
@@ -45,7 +39,7 @@ const Top100HalalAktien = () => (
   <>
     <Seo
       title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-      description="94 von 100 bekannten Aktien sind halal. Von Apple bis Nike, mit Musaffa-Einzelprüfung vom 20.08.2026 und Fundstelle zu jedem Titel."
+      description="100 bekannte Aktien im Halal-Check. Von Apple bis Nike, mit Musaffa-Einzelprüfung und Fundstelle zu jedem Titel."
       path="/vorlagen/top-100-halal-aktien"
       brotkrumen={[
         { name: "Vorlagen", path: "/vorlagen" },
@@ -59,7 +53,7 @@ const Top100HalalAktien = () => (
       einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem zeitgebundenen Screening-Beleg direkt in der Tabelle."
       pdfPfad={v.pdfPfad}
       slug={v.slug}
-      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
+      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08. und 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
       ctas={[
         {
@@ -83,9 +77,9 @@ const Top100HalalAktien = () => (
               Stand & Status
             </div>
             <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">
-              <b>Musaffa-Einzelprüfung, 20.08.2026.</b> Alle 100 Titel wurden einzeln geprüft: 94
-              halal, 6 doubtful. Halal- und Boykottstatus können sich jederzeit ändern und sollten
-              vor einer Entscheidung erneut geprüft werden.
+              <b>Musaffa-Einzelprüfung, 20.08. und 27.09.2026.</b> Alle 100 Titel wurden einzeln
+              geprüft. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer
+              Entscheidung erneut geprüft werden.
             </p>
           </div>
           <div>
@@ -118,7 +112,7 @@ const Top100HalalAktien = () => (
       <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
-          Die Einstufung basiert auf dem Stand vom 20.08.2026. Prüfe Name und Ticker am Tag deiner
+          Die Einstufung basiert auf dem Stand vom 20.08.2026, bei sechs Titeln vom 27.09.2026. Prüfe Name und Ticker am Tag deiner
           Entscheidung erneut, idealerweise in mehr als einem Screener, und ob dein Broker genau
           diese Aktie und Börsenlinie anbietet. Boykottstatus und aktuelle Unternehmensverbindungen
           bitte separat prüfen, das ist eine eigene Prüfung, keine Halal-Frage.
