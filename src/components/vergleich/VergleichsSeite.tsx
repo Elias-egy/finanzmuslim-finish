@@ -191,6 +191,7 @@ export const VergleichsSeite = ({
           : a,
     ),
     zeilen,
+    kategorie,
   );
 
   return (
@@ -318,6 +319,7 @@ export const VergleichsSeite = ({
               zeilen={zeilen}
               einheit={einheit}
               linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
+              kategorie={kategorie}
             />
           )}
           {sieger && (

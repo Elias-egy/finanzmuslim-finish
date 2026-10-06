@@ -3,6 +3,7 @@ import { Award, Check, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { zinsHinweis } from "@/data/zinsHinweise";
 import type { VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -61,6 +62,9 @@ export const Kennzahlen = ({
   </div>
 );
 
+/** Ein Grund im Kasten der Nummer 1, bei der Zins-Ampel mit dem Satz darunter. */
+type Punkt = { text: string; zusatz?: string };
+
 /**
  * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
  * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`). Ein Partnerlink
@@ -73,26 +77,32 @@ export const NummerEins = ({
   zeilen,
   einheit,
   linkVorrang = false,
+  kategorie,
 }: {
   anbieter: RohAnbieter;
   zeilen: VergleichsZeile[];
   einheit: string;
   /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat. Dann steht das hier. */
   linkVorrang?: boolean;
+  /** Depot, Girokonto und Krypto: unter „Ohne Zinsen nutzbar“ steht, was dafür zu tun oder zu lassen ist. */
+  kategorie?: string;
 }) => {
   const halal = zeilen
     .filter((z) => z.gruppe === "halal")
-    .map((z) => {
+    .map((z): Punkt | null => {
       const w = anbieter.werte[z.key];
-      if (z.art === "ampel") return w === "gut" ? z.label : null;
-      return typeof w === "string" && /\d+ von \d+/.test(w) ? `${z.label}: ${w}` : null;
+      if (z.art === "ampel")
+        return w === "gut"
+          ? { text: z.label, zusatz: z.key === "zinsfreiAbStart" ? zinsHinweis(kategorie, anbieter) : undefined }
+          : null;
+      return typeof w === "string" && /\d+ von \d+/.test(w) ? { text: `${z.label}: ${w}` } : null;
     })
-    .filter((x): x is string => !!x)
+    .filter((x): x is Punkt => !!x)
     .slice(0, 4);
   const kosten = zeilen
     .filter((z) => z.gruppe === "kosten" && z.imRaster && typeof anbieter.werte[z.key] === "string")
     .slice(0, 2)
-    .map((z) => `${z.label}: ${anbieter.werte[z.key]}`);
+    .map((z): Punkt => ({ text: `${z.label}: ${anbieter.werte[z.key]}` }));
 
   return (
     /* Rahmen im Verlauf Blau, Violett, Gold statt einer blauen Fläche (Elias, 21.09.2026: die
@@ -113,10 +123,15 @@ export const NummerEins = ({
           </p>
         </div>
         <ul className="mt-3 space-y-1.5">
-          {[...halal, ...kosten].map((satz) => (
-            <li key={satz} className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
+          {[...halal, ...kosten].map((punkt) => (
+            <li key={punkt.text} className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              {satz}
+              <span>
+                {punkt.text}
+                {punkt.zusatz && (
+                  <span className="mt-0.5 block text-[12px] leading-[16px] text-muted-foreground">{punkt.zusatz}</span>
+                )}
+              </span>
             </li>
           ))}
         </ul>

@@ -6,6 +6,7 @@ import type {
   Zellwert,
 } from "@/components/vergleich/vergleichTypen";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
+import { zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -90,10 +91,14 @@ const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
   return { text, quelle: text === null ? undefined : quelle };
 };
 
-/** Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. */
+/**
+ * Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. Mit `kategorie` trägt die
+ * Ampel „Ohne Zinsen nutzbar“ den Satz aus `zinsHinweise.ts`.
+ */
 export const baueSpalten = (
   anbieter: RohAnbieter[],
   zeilen: VergleichsZeile[],
+  kategorie?: string,
 ): VergleichsSpalte[] =>
   anbieter.map((a) => {
     const werte: Record<string, Zellwert> = {};
@@ -101,6 +106,8 @@ export const baueSpalten = (
       if (z.key.startsWith("__")) continue;
       werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art, a.quellen?.[z.key]);
     }
+    const zusatz = zinsHinweis(kategorie, a);
+    if (zusatz && werte.zinsfreiAbStart) werte.zinsfreiAbStart.zusatz = zusatz;
     return {
       id: a.id,
       anbieter: a.name,

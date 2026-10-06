@@ -45,6 +45,8 @@ export type Zellwert = {
   status?: CheckStatus;
   /** true, false oder null fuer noch nicht geprueft. */
   jaNein?: boolean | null;
+  /** Satz unter der Ampel: was der Besucher tun oder lassen muss. */
+  zusatz?: string;
 };
 
 export type VergleichsSpalte = {

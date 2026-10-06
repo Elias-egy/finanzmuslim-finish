@@ -193,17 +193,34 @@ const ampelFarbe: Record<CheckStatus, string> = {
 /**
  * Eine Zelle. Kennt Freitext, Ampel und Haken. Belege zeigt sie in der Regel nicht:
  * Leser sehen nur das Ergebnis, die Recherche bleibt im Hintergrund (Elias, 14.09.2026).
- * Ausnahme sind Werte mit `quelle.anzeige`: Dort stehen Quelle und Stand unter dem Wert.
+ * Ausnahmen: Werte mit `quelle.anzeige` zeigen Quelle und Stand unter dem Wert, und eine Ampel
+ * mit `zusatz` zeigt darunter den Satz, was der Besucher tun oder lassen muss. Die Karte auf dem
+ * Handy setzt den Satz über die volle Breite unter das Raster und schaltet ihn hier ab.
  */
-export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
+export const ZellInhalt = ({
+  wert,
+  art,
+  ohneZusatz = false,
+}: {
+  wert?: Zellwert;
+  art: string;
+  ohneZusatz?: boolean;
+}) => {
   if (art === "ampel") {
     const status = wert?.status ?? "unbekannt";
-    return (
+    const ampel = (
       <span className="inline-flex items-center gap-2">
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
           {status === "unbekannt" ? KEINE_ANGABE : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
         </span>
+      </span>
+    );
+    if (!wert?.zusatz || ohneZusatz) return ampel;
+    return (
+      <span className="inline-flex flex-col items-center gap-1">
+        {ampel}
+        <span className="text-[12px] font-normal leading-[16px] text-muted-foreground">{wert.zusatz}</span>
       </span>
     );
   }
