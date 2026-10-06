@@ -1,5 +1,6 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
@@ -16,7 +17,9 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    Start gehen"): Jedes Depot, das nicht abgeraten ist, bekommt eine Note. In den
  *    Halal-Anteil zählen nur Anlagen mit Kaufbeleg, Unbelegtes zählt als nicht vorhanden
  *    (0 Punkte), nie als geschätzt. Dasselbe gilt für ein nicht belegtes Zins-Tor (Halal-Teil 0,
- *    nie Nummer 1) und fehlende Kosten-Punkte (Kosten 0).
+ *    nie Nummer 1) und fehlende Kosten-Punkte (Kosten 0). Edelmetall rechnet dieselben Depots
+ *    nach derselben Regel, im Halal-Teil zählen aber nur die Gold- und Silber-ETCs und bei den
+ *    Kosten nur, was ein Kauf kostet (`EDELMETALL_FINANZ_MAX`).
  * 2. Partner kaufen keine Plätze: Diese Datei liest weder `link` noch
  *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals.
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
@@ -39,7 +42,7 @@ export type Bewertet = {
   note: number;
   /** Halal-Teil nach der Halbierung. Bei Steuer die Leistung, beim Screener die Transparenz. */
   halal: number;
-  /** Kosten-Teil. Bei Steuer der Preis, beim Screener der Nutzen, bei Edelmetallen null. */
+  /** Kosten-Teil. Bei Steuer der Preis, beim Screener der Nutzen. */
   kosten: number | null;
   /** Zins-Tor grün und keine rote Grundlage. Nur solche Einträge können Nummer 1 werden. */
   uneingeschraenkt: boolean;
@@ -72,11 +75,12 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
   depot: DEPOT_FINANZ_MAX,
   girokonto: GIRO_FINANZ_MAX,
   krypto: KRYPTO_FINANZ_MAX,
+  edelmetall: EDELMETALL_FINANZ_MAX,
 };
 
 const TOR = "zinsfreiAbStart";
 
-export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array<[string, number]>> = {
+export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
   girokonto: [
     ["keinDispoAbStart", 0.5],
     ["karteOhneKredit", 0.5],
@@ -85,13 +89,6 @@ export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array
     ["echteCoins", 0.4],
     ["eigeneWallet", 0.3],
     ["zinsfreiesModell", 0.3],
-  ],
-  // Gewichte nach Hourani, Episode 15, geprüft am 26.09.2026 (Zitate in der Spec, Abschnitt 5).
-  edelmetall: [
-    ["uebergabe", 0.35],
-    ["echtesMetall", 0.3],
-    ["nachweis", 0.25],
-    ["ausliefern", 0.1],
   ],
 };
 
@@ -149,12 +146,13 @@ const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
   return belegt ? punkte : 0;
 };
 
-const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Urteil => {
+/** Depot zählt alle 22 Halal-Anlagen, Edelmetall nur die Zeile der Gold- und Silber-ETCs. */
+const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, zeilen: Record<string, number> = ANTEIL_N): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
-  const nenner = Object.values(ANTEIL_N).reduce((s, n) => s + n, 0);
-  const anteil = Object.entries(ANTEIL_N).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0);
+  const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
+  const anteil = Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0);
   const kosten = kostenAus(a, finanzMax) ?? 0;
 
   const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
@@ -208,15 +206,6 @@ const screenerUrteil = (a: RohAnbieter): Urteil => {
   return { art: "bewertet", halal: transparenz, kosten: nutzen, note: halbe(transparenz, nutzen), uneingeschraenkt: true };
 };
 
-const edelmetallUrteil = (a: RohAnbieter): Urteil => {
-  if (a.werte.echtesMetall === "schlecht") return { art: "abgeraten", grund: "kein echtes Metall" };
-  if (a.werte.uebergabe === "schlecht") return { art: "abgeraten", grund: "kein Besitzübergang" };
-  const { fehlt, lies } = sammler();
-  const halal = 5 * AMPEL_GEWICHTE.edelmetall.reduce((s, [k, g]) => s + g * lies(k, ampel(a.werte[k])), 0);
-  if (fehlt.length > 0) return { art: "offen", fehlt };
-  return { art: "bewertet", halal, kosten: null, note: halal, uneingeschraenkt: true };
-};
-
 const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<string, number>): Urteil => {
   switch (kategorie) {
     case "steuer":
@@ -224,7 +213,7 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
     case "screener":
       return screenerUrteil(a);
     case "edelmetall":
-      return edelmetallUrteil(a);
+      return depotUrteil(a, finanzMax, { halalEdelmetalle: ANTEIL_N.halalEdelmetalle });
     case "depot":
       return depotUrteil(a, finanzMax);
     default:

@@ -34,7 +34,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Edelmetalle",
-        desc: "Drei Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
+        desc: "Finde das Depot, in dem du Gold und Silber zinsfrei kaufst.",
         icon: Coins,
         to: "/vergleich/edelmetalle",
       },

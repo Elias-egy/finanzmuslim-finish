@@ -7,10 +7,13 @@
  * ausgeschlossen, und alles gerankt. Gezählt wird je Angebot.
  * - Blau in Depot, Girokonto und Krypto: unter den Angeboten, die nicht abgeraten sind und
  *   bei Finanzfluss einen Partnerlink haben, der Anteil mit eigenem `link`.
- * - Blau in Steuer, Screener und Edelmetall (Elias, 06.10.2026, dort verdient Finanzfluss
- *   nicht): unter den Angeboten, die nicht abgeraten sind und ein eigenes Partnerprogramm
- *   haben (Zusage oder Link), der Anteil mit eigenem `link`. Gibt es dort kein Programm,
- *   steht "0 von 0": Programm besorgen oder die Kategorie von der Seite nehmen.
+ * - Blau in Steuer und Screener (Elias, 06.10.2026, dort verdient Finanzfluss nicht): unter
+ *   den Angeboten, die nicht abgeraten sind und ein eigenes Partnerprogramm haben (Zusage oder
+ *   Link), der Anteil mit eigenem `link`. Gibt es dort kein Programm, steht "0 von 0":
+ *   Programm besorgen oder die Kategorie von der Seite nehmen.
+ * - Edelmetall zeigt Depots des Depot-Vergleichs noch einmal nach Gold und Silber. Blau zählt
+ *   dort wie im Depot. Die Zeile steht für sich und geht nicht in den Richtwert ein, sonst
+ *   zählten dieselben Angebote doppelt.
  * - Gerankt: unter allen nicht abgeratenen Angeboten der Anteil in `rangfolge().gerankt`.
  */
 import { rangfolge, type RangKategorie } from "../src/lib/rangfolge";
@@ -24,7 +27,9 @@ import { edelmetallVergleich } from "../src/data/edelmetallVergleich";
 import { OFFENE_ANFRAGEN } from "../src/data/anfragenOffen";
 
 /** Kategorien, in denen Finanzfluss nicht verdient. Blau zählt dort an eigenen Programmen. */
-const EIGENE_PROGRAMME: RangKategorie[] = ["steuer", "screener", "edelmetall"];
+const EIGENE_PROGRAMME: RangKategorie[] = ["steuer", "screener"];
+/** Zweite Sicht auf Angebote, die schon in einer anderen Kategorie gezählt sind. */
+const ZWEITE_SICHT: RangKategorie[] = ["edelmetall"];
 /**
  * Marken mit Zusage, aber noch ohne Link auf der Seite. Dieselbe Liste wie ZUSAGE in
  * ~/rebrand/partner-cockpit/bauen.py (Insert Affiliate: Zoya; smartsteuer und WISO haben seit 06.10.2026 einen Link).
@@ -46,8 +51,9 @@ for (const [kat, liste] of sets) {
   const eigene = EIGENE_PROGRAMME.includes(kat);
   const ff = halal.filter((a) => (eigene ? a.link || hatZusage(a) : a.finanzfluss?.partnerlink));
   const grau = ff.filter((a) => !a.link);
-  ffN += ff.length; ffBlau += ff.length - grau.length; alle += halal.length; gerankt += r.gerankt.length;
-  console.log(`\n## ${kat}: blau ${prozent(ff.length - grau.length, ff.length)}${eigene ? " an eigenen Programmen" : ""}, gerankt ${prozent(r.gerankt.length, halal.length)}, abgeraten ${ab.size}`);
+  const zweit = ZWEITE_SICHT.includes(kat);
+  if (!zweit) { ffN += ff.length; ffBlau += ff.length - grau.length; alle += halal.length; gerankt += r.gerankt.length; }
+  console.log(`\n## ${kat}${zweit ? " (Depots nach Gold und Silber, nicht im Richtwert)" : ""}: blau ${prozent(ff.length - grau.length, ff.length)}${eigene ? " an eigenen Programmen" : ""}, gerankt ${prozent(r.gerankt.length, halal.length)}, abgeraten ${ab.size}`);
   if (eigene && ff.length === 0) console.log("  kein eigenes Partnerprogramm: besorgen oder Kategorie von der Seite nehmen");
   if (grau.length) console.log(`  grau, ${eigene ? "Zusage ohne Link" : "Finanzfluss verdient"}: ${grau.map(name).join(" | ")}`);
   if (r.nichtBewertet.length) console.log(`  nicht gerankt: ${r.nichtBewertet.map((x) => `${name(x.anbieter)} [${x.grund}]`).join(" | ")}`);

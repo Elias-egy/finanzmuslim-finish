@@ -3,12 +3,12 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { brokerVergleich } from "@/data/brokerVergleich";
+import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
 import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
 import { screenerVergleich } from "@/data/screenerVergleich";
-import { edelmetallVergleich } from "@/data/edelmetallVergleich";
+import { edelmetallVergleich, EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 
 /**
  * Rechenkern der Rangfolge, Spezifikation `docs/rangfolge/P3-SPEC.md` (Abschnitt 10 hat Vorrang).
@@ -69,13 +69,6 @@ const screener = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => 
     kostenlos: "unbegrenzte Prüfungen",
     ...werte,
   },
-});
-
-const metall = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => ({
-  id,
-  name: id,
-  produkt: "Metall",
-  werte: { uebergabe: "gut", echtesMetall: "gut", nachweis: "gut", ausliefern: "gut", ...werte },
 });
 
 const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
@@ -403,32 +396,43 @@ describe("rangfolge: Screener", () => {
 /* --------------------------------------------------------------- Edelmetalle */
 
 describe("rangfolge: Edelmetalle", () => {
-  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall");
+  // Dieselben Depots wie im Depot-Vergleich (Elias, 06.10.2026), im Halal-Teil zählt nur die Zeile der 7 Gold- und Silber-ETCs.
+  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT });
 
-  it("rechnet nur Halal und zeigt keine Kosten", () => {
-    expect(einzig(r([metall("barren")]))).toMatchObject({ note: 5, halal: 5, kosten: null });
+  it("zählt im Halal-Teil nur Gold und Silber, ETFs und Sukuk ändern nichts", () => {
+    // Halal 5 × 7/7 = 5, Kosten 5, Note 5
+    const ohneRest = depot("metall", { halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3" }, { halalAnlagenPunkte: { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 7 } });
+    expect(einzig(r([ohneRest]))).toMatchObject({ note: 5, halal: 5, kosten: 5, uneingeschraenkt: true });
   });
 
-  it("gewichtet die Auslieferung am niedrigsten", () => {
-    // Halal 5 × (0,35 + 0,30 + 0,25 + 0,10 × 0,5) = 4,75
-    expect(einzig(r([metall("etc", { ausliefern: "teils" })])).note).toBe(4.75);
+  it("rechnet den Anteil der belegten Papiere und teilt mit den Kosten", () => {
+    // Halal 5 × 5/7 = 3,5714…, Kosten 5 × 10/20 = 2,5, Note 3,0357…
+    const a = depot("teil", { halalEdelmetalle: "5 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 5 }, finanzPunkte: { depotgebuehr: 10, app: 0 } });
+    expect(einzig(r([a]))).toMatchObject({ halal: 3.57, kosten: 2.5, note: 3.04 });
   });
 
-  it("rät ab ohne echtes Metall oder ohne Besitzübergang", () => {
-    const e = r([
-      metall("papier", { uebergabe: "schlecht" }),
-      metall("wette", { uebergabe: "schlecht", echtesMetall: "schlecht" }),
-      metall("zertifikat", { echtesMetall: "schlecht" }),
+  it("zählt bei „mind. x von 7“ nur die belegten Papiere und Unbelegtes als 0", () => {
+    // Halal 5 × 6/7 = 4,2857…
+    const mind = depot("mind", { halalEdelmetalle: "mind. 6 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 6 } });
+    const leer = depot("leer", { halalEdelmetalle: null }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3 } });
+    const e = r([mind, leer]);
+    expect(e.nichtBewertet).toEqual([]);
+    expect(e.gerankt.map((x) => [x.anbieter.id, x.halal])).toEqual([
+      ["mind", 4.29],
+      ["leer", 0],
     ]);
-    expect(e.abgeraten.map((x) => [x.anbieter.id, x.grund])).toEqual([
-      ["papier", "kein Besitzübergang"],
-      ["wette", "kein echtes Metall"],
-      ["zertifikat", "kein echtes Metall"],
-    ]);
   });
 
-  it("lässt einen fehlenden Nachweis offen", () => {
-    expect(r([metall("x", { nachweis: null })]).nichtBewertet[0].fehlt).toEqual(["nachweis"]);
+  it("halbiert bei abschaltbaren Zinsen und rät bei rotem Zins-Tor ab", () => {
+    // Halal 5 × 7/7 × 0,5 = 2,5
+    const e = r([depot("gelb", { zinsfreiAbStart: "teils" }), depot("rot", { zinsfreiAbStart: "schlecht" })]);
+    expect(einzig(e)).toMatchObject({ halal: 2.5, uneingeschraenkt: false });
+    expect(e.abgeraten.map((x) => [x.anbieter.id, x.grund])).toEqual([["rot", "Zinsen nicht abschaltbar"]]);
+  });
+
+  it("rechnet die Kosten ohne Sparplan-Kriterien", () => {
+    expect(Object.keys(EDELMETALL_FINANZ_MAX).filter((k) => /spar/i.test(k))).toEqual([]);
+    for (const [k, m] of Object.entries(EDELMETALL_FINANZ_MAX)) expect(m, k).toBe(DEPOT_FINANZ_MAX[k]);
   });
 });
 
@@ -532,8 +536,9 @@ describe("rangfolge: Nummer 1 nur ohne Einschränkung (Spec 10.7)", () => {
     expect(nummerEins(rKrypto([krypto("gelb", { zinsfreiAbStart: "teils" })]))).toEqual([]);
   });
 
-  it("kennt bei Steuer, Screener und Edelmetall keine Einschränkung", () => {
-    expect(einzig(rangfolge([metall("etc", { uebergabe: "teils" })], "edelmetall")).uneingeschraenkt).toBe(true);
+  it("kennt bei Steuer und Screener keine Einschränkung", () => {
+    expect(einzig(rangfolge([steuer("a")], "steuer")).uneingeschraenkt).toBe(true);
+    expect(einzig(rangfolge([screener("a")], "screener")).uneingeschraenkt).toBe(true);
   });
 });
 
@@ -607,6 +612,14 @@ describe("rangfolge: echte Daten", () => {
     const r = rangfolge(brokerVergleich, "depot");
     expect(r.nichtBewertet).toEqual([]);
     expect(r.gerankt.length + r.abgeraten.length).toBe(brokerVergleich.length);
+  });
+
+  it("Edelmetall: jedes Depot des Vergleichs ist gerankt und führt mindestens ein belegtes Papier", () => {
+    const r = rangfolge(edelmetallVergleich, "edelmetall");
+    expect(r.nichtBewertet).toEqual([]);
+    expect(r.abgeraten).toEqual([]);
+    expect(r.gerankt.length).toBe(edelmetallVergleich.length);
+    for (const b of r.gerankt) expect(b.halal, b.anbieter.id).toBeGreaterThan(0);
   });
 
   it("Steuer: jeder Anbieter hat einen Einzelpreis als Zahl oder ausdrücklich null", () => {

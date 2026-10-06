@@ -6,7 +6,7 @@ import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { kaufstatus } from "./kaufstatus";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
-import { edelmetallVergleich, EDELMETALL_ZEILEN } from "./edelmetallVergleich";
+import { edelmetallVergleich, EDELMETALL_FINANZ_MAX, EDELMETALL_WEGE, EDELMETALL_ZEILEN, GOLD_ISINS, SILBER_ISINS, WEGE_ZEILEN } from "./edelmetallVergleich";
 import { steuersoftwareVergleich } from "./steuersoftwareVergleich";
 import { FINANZ_MAX_SUMME } from "@/lib/bewertung";
 import { AMPEL_GEWICHTE, ANTEIL_N, rangfolge } from "@/lib/rangfolge";
@@ -137,29 +137,55 @@ describe("Vergleichsdaten screening-apps", () => {
   });
 });
 
-/* Der Edelmetall-Vergleich vergleicht Wege, keine Anbieter. Deshalb keine
-   alphabetische Pruefung, aber dieselbe Belegpflicht. */
+/* Der Edelmetall-Vergleich zeigt die Depots des Depot-Vergleichs noch einmal nach Gold und Silber
+   (Elias, 06.10.2026). Die drei Wege stehen daneben als Abschnitt und werden nicht gerankt. */
 describe("Vergleichsdaten edelmetalle", () => {
-  it("hat eindeutige IDs und keinen Partnerlink", () => {
+  const zahl = (w: unknown) => Number(String(w ?? "").match(/(\d+) von \d+$/)?.[1]);
+
+  it("nimmt nur Depots des Depot-Vergleichs auf, ohne rotes Zins-Tor und mit belegtem Papier", () => {
     expect(new Set(edelmetallVergleich.map((a) => a.id)).size).toBe(edelmetallVergleich.length);
-    for (const a of edelmetallVergleich) expect(a.link, a.id).toBeUndefined();
+    const erwartet = brokerVergleich
+      .filter((a) => !a.abgeraten && a.werte.zinsfreiAbStart !== "schlecht" && (a.halalAnlagenPunkte?.halalEdelmetalle ?? 0) > 0)
+      .map((a) => a.id);
+    expect(edelmetallVergleich.map((a) => a.id)).toEqual(erwartet);
+    expect(erwartet.length).toBeGreaterThanOrEqual(10);
   });
 
-  it("belegt jeden eingetragenen Halal-Wert mit einer Quelle", () => {
-    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+  it("übernimmt Link, Kosten und Zins-Tor unverändert aus dem Depot-Vergleich", () => {
     for (const a of edelmetallVergleich) {
-      for (const key of halal) {
-        if (a.werte[key] !== null && a.werte[key] !== undefined) {
-          expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
-        }
-      }
+      const depot = brokerVergleich.find((b) => b.id === a.id)!;
+      expect(a.link, a.id).toBe(depot.link);
+      expect(a.finanzPunkte, a.id).toEqual(depot.finanzPunkte);
+      expect(a.werte.zinsfreiAbStart, a.id).toBe(depot.werte.zinsfreiAbStart);
     }
   });
 
-  it("nennt zu jedem Weg alle vier Halal-Merkmale", () => {
-    const halal = EDELMETALL_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+  it("teilt die belegte Edelmetall-Zeile ohne Rest in Gold und Silber", () => {
+    expect([GOLD_ISINS.length, SILBER_ISINS.length]).toEqual([4, 3]);
     for (const a of edelmetallVergleich) {
-      for (const key of halal) expect(a.werte[key], `${a.id} ${key}`).not.toBeNull();
+      expect(zahl(a.werte.gold) + zahl(a.werte.silber), a.id).toBe(zahl(a.werte.halalEdelmetalle));
+      expect(String(a.werte.gold), a.id).toMatch(/^(mind\. )?[0-4] von 4$/);
+      expect(String(a.werte.silber), a.id).toMatch(/^(mind\. )?[0-3] von 3$/);
+      for (const key of ["gold", "silber"]) expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+    }
+  });
+
+  it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {
+    const depotKeys = DEPOT_ZEILEN.map((z) => z.key);
+    for (const z of EDELMETALL_ZEILEN) expect([...depotKeys, "gold", "silber"], z.key).toContain(z.key);
+    const summe = Object.values(EDELMETALL_FINANZ_MAX).reduce((x, y) => x + y, 0);
+    expect(summe).toBe(FINANZ_MAX_SUMME.edelmetall);
+  });
+
+  it("belegt bei den drei Wegen jeden Halal-Wert mit einer Quelle und verlinkt keinen Partner", () => {
+    const halal = WEGE_ZEILEN.filter((z) => z.gruppe === "halal").map((z) => z.key);
+    expect(EDELMETALL_WEGE.length).toBe(3);
+    for (const a of EDELMETALL_WEGE) {
+      expect(a.link, a.id).toBeUndefined();
+      for (const key of halal) {
+        expect(a.werte[key], `${a.id} ${key}`).not.toBeNull();
+        expect(a.quellen?.[key], `${a.id} ${key}`).toBeDefined();
+      }
     }
   });
 });

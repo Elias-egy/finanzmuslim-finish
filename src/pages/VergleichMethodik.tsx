@@ -25,6 +25,15 @@ const kategorien = [
     max: FINANZ_MAX_SUMME.depot,
   },
   {
+    titel: "Edelmetalle",
+    to: "/vergleich/edelmetalle",
+    halal: [
+      "Gold und Silber: wie viele der 7 Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kaufbar sind, 100 %",
+    ],
+    finanz: "Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service, App",
+    max: FINANZ_MAX_SUMME.edelmetall,
+  },
+  {
     titel: "Girokonto",
     to: "/vergleich/girokonto",
     halal: [
