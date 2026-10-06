@@ -318,8 +318,9 @@ export const VergleichsSeite = ({
               {standHinweis ? `. ${standHinweis}` : ""}
             </p>
           )}
+          {!sieger && (
           <Kennzahlen
-            className={sieger ? "hidden" : "hidden lg:grid"}
+            className="hidden lg:grid"
             kennzahlen={
               kennzahlen ?? [
                 { zahl: anbieter.length, text: `${einheit} im Vergleich` },
@@ -332,6 +333,7 @@ export const VergleichsSeite = ({
             stand={stand}
             standHinweis={standHinweis}
           />
+          )}
         </aside>
 
         {!sieger && (

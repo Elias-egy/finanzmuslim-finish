@@ -90,7 +90,7 @@ export const VergleichsTabelle = ({
     <div className="relative">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-[14px] text-muted-foreground">
-          {von} bis {bis} von {spalten.length} Anbietern
+          {von} bis {bis} von {spalten.length} Angeboten
         </p>
         <div className="flex gap-2">
           <button

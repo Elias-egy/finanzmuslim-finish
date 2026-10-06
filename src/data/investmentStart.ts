@@ -1586,8 +1586,8 @@ export const startPartner: StartPartner[] = [
         text: "Bei mindestens 500 € Geldeingang im Monat oder unter 30 Jahren kostet die Kontoführung nichts, sonst 3,90 €.",
       },
       {
-        titel: "Dispo noch offen",
-        text: "Laut Werbeseite gibt es einen Sofort-Dispo bis 500 €, laut Vertragsbedingungen nur auf Antrag. Bis die Bank das klärt, werten wir den schlechteren Fall.",
+        titel: "Sofort-Dispo bis 500 €",
+        text: "Die Bank wirbt mit einem Sofort-Dispo bis 500 €, in den Vertragsbedingungen steht er nur auf Antrag. Im Vergleich zählt das Konto deshalb als Konto mit Dispo.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein norisbank-Konto", "riba-frei"],

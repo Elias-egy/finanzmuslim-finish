@@ -103,8 +103,7 @@ const VergleichSteuersoftware = () => (
         </p>
         <p>
           Für dich zählt vor allem eine Zeile. Wenn du anlegst, brauchst du ein Programm, das
-          Kapitalerträge kann. Zehn der zwölf können das laut Anbieter, bei zweien prüfen wir es
-          noch.
+          Kapitalerträge kann. Elf der zwölf nehmen sie laut Anbieter an.
         </p>
       </>
     }
@@ -114,7 +113,7 @@ const VergleichSteuersoftware = () => (
     kennzahlen={[
       { zahl: steuersoftwareVergleich.length, text: "Programme im Vergleich" },
       { zahl: 2, text: "davon kostenlos" },
-      { zahl: 7, text: "zahlen erst bei Abgabe" },
+      { zahl: steuersoftwareVergleich.filter((a) => a.werte.zahlung === "erst bei Abgabe").length, text: "zahlen erst bei Abgabe" },
     ]}
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
@@ -136,7 +135,7 @@ const VergleichSteuersoftware = () => (
       },
       {
         titel: "Läuft auf",
-        text: "Vier Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
+        text: "Drei Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
       },
     ]}
     zusatz={<WozuBlock />}
@@ -144,7 +143,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Welche Steuersoftware ist die beste?",
         antwort:
-          "Das hängt an deinen Einkünften. Wer nur Lohn hat, kommt mit jedem Programm zurecht, auch mit den kostenlosen. Wer Kapitalerträge, Vermietung oder ein Gewerbe hat, braucht ein Programm, das diese Anlagen annimmt. Steuerbot und STEUEReasy scheiden dann aus.",
+          "Das hängt an deinen Einkünften. Wer nur Lohn hat, kommt mit jedem Programm zurecht, auch mit den kostenlosen. Wer Kapitalerträge, Vermietung oder ein Gewerbe hat, braucht ein Programm, das diese Anlagen annimmt. Das steht in den Zeilen Kapitalerträge, Selbstständige und Vermietung.",
       },
       {
         frage: "Gibt es eine kostenlose Steuersoftware?",
@@ -159,7 +158,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Wie versteuere ich Krypto?",
         antwort:
-          "Gewinne aus Krypto zählen nicht als Kapitalerträge, sondern als private Veräusserungsgeschäfte. Wer länger als ein Jahr hält, zahlt darauf keine Steuer. Wer früher verkauft, gibt den Gewinn an, sobald er über der Freigrenze liegt. Ob dein Programm diesen Fall annimmt, haben wir noch nicht bei allen geprüft.",
+          "Gewinne aus Krypto zählen nicht als Kapitalerträge, sondern als private Veräusserungsgeschäfte. Wer länger als ein Jahr hält, zahlt darauf keine Steuer. Wer früher verkauft, gibt den Gewinn an, sobald er über der Freigrenze liegt. Prüfe vor dem Kauf, ob dein Programm diesen Fall annimmt.",
       },
       {
         frage: "Was heisst erst bei Abgabe zahlen?",

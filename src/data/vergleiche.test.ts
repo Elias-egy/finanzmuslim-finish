@@ -397,3 +397,12 @@ describe("Dispo", () => {
     expect(rot).toEqual([]);
   });
 });
+
+describe("Zahlen in Kacheltexten", () => {
+  it("passen zu den Daten", async () => {
+    const { ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME } = await import("./anzahlen");
+    const { halalAnlagen } = await import("./halalAnlagen");
+    expect(ANZAHL_HALAL_ANLAGEN).toBe(halalAnlagen.length);
+    expect(ANZAHL_STEUERPROGRAMME).toBe(steuersoftwareVergleich.length);
+  });
+});

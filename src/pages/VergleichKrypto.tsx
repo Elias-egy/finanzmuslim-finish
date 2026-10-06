@@ -55,14 +55,14 @@ const ArtenBlock = () => (
     </ul>
     <p className="mt-6 text-[15px] leading-[24px] text-muted-foreground">
       Umgekehrt heißt das: Eine Münze mit einem echten Nutzen, ohne festen Ertrag und ohne
-      verbotenes Geschäft dahinter ist nicht deshalb ausgeschlossen, weil sie bei uns noch nicht
-      steht. Wir führen in der{" "}
+      verbotenes Geschäft dahinter ist nicht deshalb ausgeschlossen, weil sie bei uns nicht steht.
+      Wir führen in der{" "}
       <Link to="/halal-anlagen" className="font-semibold text-primary hover:underline">
         Anlagen-Datenbank
       </Link>{" "}
       nur Münzen, zu denen ein Gutachten einer Prüfstelle vorliegt, das wir selbst gelesen haben.
-      Das ist eine Aussage über unseren Prüfstand, keine Liste aller zulässigen Münzen. Die
-      Begründungen im Einzelnen stehen in{" "}
+      Die Datenbank ist keine Liste aller zulässigen Münzen. Die Begründungen im Einzelnen stehen
+      in{" "}
       <Link to="/wissen/ist-bitcoin-halal" className="font-semibold text-primary hover:underline">
         Ist Bitcoin halal?
       </Link>
@@ -78,7 +78,7 @@ const VergleichKrypto = () => (
     titel="Krypto-Börsen für Muslime"
     untertitel="Finde die Börse, bei der du echte Coins zinsfrei kaufst"
     seoTitel="Halal Krypto kaufen: Krypto-Börsen im Vergleich | finanzmuslim"
-    seoText="Welche Krypto-Börse lässt sich ohne Zinsen nutzen? 27 Anbieter im Vergleich: echte Coins statt Zertifikat, Auszahlung auf die eigene Wallet, Kosten und Bezahlmodell."
+    seoText={`Welche Krypto-Börse lässt sich ohne Zinsen nutzen? ${kryptoVergleich.length} Angebote im Vergleich: echte Coins statt Zertifikat, Auszahlung auf die eigene Wallet, Kosten und Bezahlmodell.`}
     einheit="Börsen"
     einleitung={
       <>
@@ -89,7 +89,7 @@ const VergleichKrypto = () => (
         <p>
           Das zählt hier nicht gegen eine Börse. Wir prüfen, ob du ab dem ersten Tag zinsfrei
           kaufst, ob du echte Coins bekommst statt eines Zertifikats auf den Kurs und ob du sie auf
-          deine eigene Wallet holen kannst. Dazu kommt seit September eine vierte Frage: Hängt das
+          deine eigene Wallet holen kannst. Dazu kommt eine vierte Frage: Hängt das
           kostenpflichtige Modell des Anbieters am Zins?
         </p>
       </>
@@ -128,9 +128,9 @@ const VergleichKrypto = () => (
           "Darüber sind Gelehrte unterschiedlicher Auffassung. Viele halten Münzen mit echtem Nutzen für zulässig, solange keine Zinsen, kein Hebel und kein Glücksspiel im Spiel sind. Ausgeschlossen sind Token mit verbotenem Zweck, Token mit festem Ertragsversprechen und Münzen ohne jeden Nutzen. Eine verbindliche Antwort gibt dir ein Gelehrter deines Vertrauens.",
       },
       {
-        frage: "Warum steht hier nicht mehr, wie viele Halal-Coins eine Börse hat?",
+        frage: "Warum zählt ihr nicht, wie viele Halal-Coins eine Börse hat?",
         antwort:
-          "Weil die Zahl nichts getrennt hat. Fast jede Börse führt Bitcoin, Ether, XRP und Chainlink, und es gibt weit mehr Münzen, die nach denselben Maßstäben zulässig wären. Eine Zahl wie vier von vier hätte den Eindruck erweckt, es gäbe genau vier erlaubte Münzen. Wir prüfen stattdessen, ob du dort echte Coins bekommst.",
+          "Weil die Zahl nichts trennt. Fast jede Börse führt Bitcoin, Ether, XRP und Chainlink, und es gibt weit mehr Münzen, die nach denselben Maßstäben zulässig wären. Eine Zahl wie vier von vier würde den Eindruck erwecken, es gäbe genau vier erlaubte Münzen. Wir prüfen stattdessen, ob du dort echte Coins bekommst.",
       },
       {
         frage: "Warum ist ein Hebelangebot kein Minuspunkt?",
@@ -140,12 +140,12 @@ const VergleichKrypto = () => (
       {
         frage: "Was heißt Auszahlung auf die eigene Wallet?",
         antwort:
-          "Du überträgst deine Coins von der Börse auf eine Wallet, deren Schlüssel nur du hast. Damit gehört dir der Coin tatsächlich, und nicht nur ein Anspruch gegenüber der Börse. Fünf Anbieter im Vergleich lassen das nicht zu, sie halten die Coins für dich in Verwahrung.",
+          "Du überträgst deine Coins von der Börse auf eine Wallet, deren Schlüssel nur du hast. Damit gehört dir der Coin tatsächlich, und nicht nur ein Anspruch gegenüber der Börse. Manche Anbieter im Vergleich lassen das nicht zu, sie halten die Coins für dich in Verwahrung.",
       },
       {
-        frage: "Warum stehen manche Anbieter ganz unten und rot?",
+        frage: "Warum ist ein Anbieter mit rotem Bezahlmodell nie die Nummer 1?",
         antwort:
-          "Weil ihr kostenpflichtiges Modell am Zins hängt: Es verlangt gebundene Token oder es rechnet sich über die Verzinsung deines Guthabens. Solche Anbieter bekommen von uns keinen Link, auch wenn wir daran verdienen könnten. Kaufen kannst du dort trotzdem zinsfrei, deshalb stehen sie überhaupt noch in der Liste.",
+          "Weil sein kostenpflichtiges Modell am Zins hängt: Es verlangt gebundene Token oder es rechnet sich über die Verzinsung deines Guthabens. Solche Anbieter stehen bei uns nie auf Platz 1, auch wenn wir daran verdienen könnten. Kaufen kannst du dort trotzdem zinsfrei, deshalb stehen sie in der Liste.",
       },
       {
         frage: "Was ist mit Krypto-ETPs, etwa bei Scalable Capital?",

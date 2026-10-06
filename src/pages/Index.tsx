@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Baby,
   Calculator,
   ChevronRight,
   Bitcoin,
@@ -26,6 +25,7 @@ import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
+import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -40,7 +40,6 @@ const categories = [
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
   { label: "Aktien prüfen", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
-  { label: "Kinderdepot", icon: Baby },
   { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
@@ -367,7 +366,7 @@ const Index = () => (
             <p className="eyebrow">HALAL INVESTMENTS</p>
             <h2 className="section-title mt-2">Welche Anlagen wirklich geprüft sind</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              31 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto.
+              {ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto.
               <span className="hidden md:inline">
                 {" "}
                 Such nach Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.

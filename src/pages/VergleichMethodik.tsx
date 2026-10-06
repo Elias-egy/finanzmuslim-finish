@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import Seo from "@/components/Seo";
 import { FINANZ_MAX_SUMME, GEWICHT_FINANZ, GEWICHT_HALAL } from "@/lib/bewertung";
+import { AMPEL_GEWICHTE } from "@/lib/rangfolge";
+import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
 
 /**
  * Offenlegung der Bewertung. Zwei Gründe: Partner wie Trading 212 fragen
@@ -46,10 +48,9 @@ const kategorien = [
   {
     titel: "Krypto",
     to: "/vergleich/krypto",
-    halal: [
-      "Halal-Coins: wie viele der 4 Coins aus unserem Halal-Anlagen-Vergleich echt kaufbar sind, 50 %",
-      "Auszahlung auf eigene Wallet, 50 %",
-    ],
+    halal: AMPEL_GEWICHTE.krypto.map(
+      ([key, gewicht]) => `${KRYPTO_ZEILEN.find((z) => z.key === key)?.label ?? key}, ${prozent(gewicht)}`,
+    ),
     finanz: "Kosten pro 500 €, Kostentransparenz, Kosten der Auszahlung, Sicherheit, Verifizierung, Einzahlungswege, Regulierung, Sparplan, Mindestbetrag",
     max: FINANZ_MAX_SUMME.krypto,
   },
@@ -119,7 +120,7 @@ const VergleichMethodik = () => (
               ))}
             </ul>
             <p className="mt-4 text-[14px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Kosten und Konditionen, bis zu {k.max} Punkte
+              Kosten und Konditionen, bis zu {k.max.toLocaleString("de-DE")} Punkte
             </p>
             <p className="mt-2 text-[15px] text-foreground">{k.finanz}</p>
           </div>
