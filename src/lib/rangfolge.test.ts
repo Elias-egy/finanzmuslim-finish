@@ -316,17 +316,21 @@ describe("rangfolge: Steuersoftware", () => {
     expect(einzig(r([steuer("teuer", {}, 75)])).kosten).toBe(0);
   });
 
-  it("verlangt einen Einzelpreis als Zahl", () => {
+  it("zählt einen fehlenden Einzelpreis als 0 Kostenpunkte", () => {
     const ohne = steuer("ohne");
     delete ohne.preisEinzel;
-    expect(r([ohne]).nichtBewertet[0].fehlt).toEqual(["preisEinzel"]);
-    expect(r([steuer("null", {}, null)]).nichtBewertet[0].fehlt).toEqual(["preisEinzel"]);
+    expect(einzig(r([ohne]))).toMatchObject({ kosten: 0, halal: 5, note: 2.5 });
+    expect(einzig(r([steuer("null", {}, null)])).kosten).toBe(0);
+    expect(r([steuer("null", {}, null)]).nichtBewertet).toEqual([]);
   });
 
   it("wertet den Belegabruf als Ja/Nein", () => {
     // Leistung 5 × 0,65 = 3,25
     expect(einzig(r([steuer("ohne-abruf", { belegabruf: false })])).halal).toBe(3.25);
-    expect(r([steuer("offen", { belegabruf: null })]).nichtBewertet[0].fehlt).toEqual(["belegabruf"]);
+    // Nicht belegt zählt 0 und der Anbieter bekommt trotzdem eine Note.
+    const ungeprueft = r([steuer("ungeprueft", { belegabruf: null })]);
+    expect(ungeprueft.nichtBewertet).toEqual([]);
+    expect(einzig(ungeprueft).halal).toBe(3.25);
   });
 
   it("liest „ja, …“ als 1, „nur in der Fassung …“ als 0,5 und „nein“ als 0", () => {
@@ -341,14 +345,15 @@ describe("rangfolge: Steuersoftware", () => {
     expect(einzig(r([steuer("nein", { selbststaendige: "nein" })])).halal).toBe(3.75);
   });
 
-  it("wertet einen unlesbaren Text als fehlend", () => {
-    expect(r([steuer("x", { vermietung: "vielleicht" })]).nichtBewertet[0].fehlt).toEqual(["vermietung"]);
+  it("wertet einen unlesbaren Text als nicht belegt (0 Punkte)", () => {
+    // Leistung 5 × (0,35 + 0,25 + 0,15) = 3,75
+    expect(einzig(r([steuer("x", { vermietung: "vielleicht" })])).halal).toBe(3.75);
   });
 
-  it("zählt „nur Windows“ als 0 und eine fehlende Plattform als fehlend", () => {
+  it("zählt „nur Windows“ als 0 und eine fehlende Plattform als nicht belegt (0 Punkte)", () => {
     // Leistung 5 × 0,85 = 4,25
     expect(einzig(r([steuer("win", { plattform: "nur Windows" })])).halal).toBe(4.25);
-    expect(r([steuer("x", { plattform: null })]).nichtBewertet[0].fehlt).toEqual(["plattform"]);
+    expect(einzig(r([steuer("x", { plattform: null })])).halal).toBe(4.25);
   });
 
   it("rät bei „kapital = nein“ ab, auch mit Lücken, und lässt „kapital = null“ offen", () => {

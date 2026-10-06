@@ -1,6 +1,6 @@
 // Von Hand gepflegt. Wie bei den Screening-Apps steht hinter diesem Vergleich keine
 // Finanzfluss-Tabelle. Jeder Wert ist beim Anbieter selbst geprüft, mit Quelle und
-// Prüfdatum. Was null ist, ist noch nicht geprüft und wird auch so angezeigt.
+// Prüfdatum. Was null ist, ist nicht belegt: Die Zelle zeigt einen Strich, die Rangfolge zählt 0 Punkte.
 //
 // Die Übersichten von Finanzfluss und Finanztip widersprachen sich bei den Preisen,
 // deshalb zählt hier ausschliesslich die Seite des Herstellers.
@@ -160,33 +160,6 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       belegabruf: { url: "https://steuer.check24.de/", stand: "27.09.2026", hinweis: "„Deine Steuerdaten direkt vom Finanzamt abrufen und automatisch übernehmen – kein Abtippen, kein Aufwand.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://steuer.check24.de/", "Der Anbieter wirbt ausdrücklich mit kostenloser Abgabe, auch bei Zusammenveranlagung."),
       sprache: q("https://steuer.check24.de/", "Das Angebot gibt es nur auf Deutsch."),
-    },
-  },
-  {
-    id: "steuereasy",
-    name: "STEUEReasy",
-    produkt: "Windows",
-    domain: "steuertipps.de",
-    preisEinzel: 15.99,
-    werte: {
-      plattform: "nur Windows",
-      kapital: null,
-      selbststaendige: null,
-      vermietung: null,
-      belegabruf: null,
-      sprache: "Deutsch",
-      preis: "15,99 €",
-      zahlung: "vor dem Ausfüllen",
-      abgaben: "1",
-    },
-    quellen: {
-      plattform: { url: "https://www.steuertipps.de/shop/software/steuereasy", stand: "27.09.2026", hinweis: "„Diese Software ist ausschließlich für Windows verfügbar.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
-      // Selbstständige und Vermietung seit 27.09.2026 ungeprüft: Die Seite nennt nur die Zielgruppe
-      // („Arbeitnehmer:innen …, Studierende, Ferienjobber und Berufseinsteiger:innen“), schließt aber nichts aus.
-      // Die Fassung fürs Steuerjahr 2024 warb mit „mit allen Anlagen und Formularen“. Nichtnennung ist kein Nein.
-      preis: { url: "https://www.steuertipps.de/shop/software/steuereasy", stand: "27.09.2026", hinweis: "„Regulärer Preis: 15,99 €“, als Sofort-Download. Die Angabe „regulär 17,99 €“ vom 19.09.2026 steht nicht mehr auf der Seite." },
-      abgaben: q("https://www.steuertipps.de/shop/software/steuereasy", "Eine Abgabe ist enthalten, weitere lassen sich nicht nachkaufen."),
-      sprache: q("https://www.steuertipps.de/shop/software/steuereasy", "Nur auf Deutsch."),
     },
   },
   {

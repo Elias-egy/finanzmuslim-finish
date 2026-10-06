@@ -14,7 +14,7 @@ import {
   type Baustein,
   type Frage,
 } from "@/data/vergleichAssistent";
-import { hoechsterBonus } from "@/data/deals";
+import { dealFuer, hoechsterBonus } from "@/data/deals";
 import { werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
@@ -256,7 +256,7 @@ const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?
   t.anbieter.link ? (
     <div>
       <Link to={t.anbieter.link} rel="sponsored nofollow" className={`${knopf} ${gross ? "min-h-[56px] text-[17px]" : ""}`}>
-        Einrichtung ansehen*
+        Schritt für Schritt starten*
       </Link>
       <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
       <BonusSchild anbieterId={t.anbieter.id} />
@@ -351,7 +351,16 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
   /* Hat die Empfehlung keine Einrichtungsseite, steht der beste Treffer mit einer
      sichtbar darunter statt in der Klappe. Die Reihenfolge bleibt, wie sie ist. */
   const mitEinrichtung = erster && !erster.anbieter.link ? rest.find((t) => t.anbieter.link) : undefined;
-  const weitere = mitEinrichtung ? rest.filter((t) => t !== mitEinrichtung) : rest;
+  /* Die Leiste über den Fragen nennt den höchsten Bonus. Steht er bei keinem der
+     sichtbaren Treffer, bekommt das Angebot mit dem höchsten Bonus einen eigenen Platz. */
+  const hatBonus = (t?: Treffer) => !!t && !!dealFuer(t.anbieter.id);
+  const mitBonus =
+    erster && !hatBonus(erster) && !hatBonus(mitEinrichtung)
+      ? rest
+          .filter((t) => t !== mitEinrichtung && hatBonus(t))
+          .sort((x, y) => dealFuer(y.anbieter.id)!.betrag! - dealFuer(x.anbieter.id)!.betrag!)[0]
+      : undefined;
+  const weitere = rest.filter((t) => t !== mitEinrichtung && t !== mitBonus);
 
   return (
     <section className="mt-10 first:mt-6">
@@ -375,9 +384,18 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
 
       {mitEinrichtung && (
         <div className="mt-4">
-          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Einrichtung Schritt für Schritt</p>
+          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Anleitung zum Start</p>
           <ul className="mt-2">
             <TrefferKarte t={mitEinrichtung} baustein={baustein} auswahl={auswahl} />
+          </ul>
+        </div>
+      )}
+
+      {mitBonus && (
+        <div className="mt-4">
+          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Bonus zum Start</p>
+          <ul className="mt-2">
+            <TrefferKarte t={mitBonus} baustein={baustein} auswahl={auswahl} />
           </ul>
         </div>
       )}

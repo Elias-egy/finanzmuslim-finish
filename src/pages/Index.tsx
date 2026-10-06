@@ -37,7 +37,7 @@ const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
-  { label: "Aktien prüfen", icon: ScanSearch, to: "/vergleich/screening-apps" },
+  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
   { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
@@ -47,9 +47,9 @@ const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
   { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
-  { title: "Bereinigungsrechner", to: "/bereinigungsrechner", icon: Sparkles },
+  { title: "Dividenden reinigen", to: "/bereinigungsrechner", icon: Sparkles },
   { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
-  { title: "Kreditkostenrechner", to: "/kreditkostenrechner", icon: Percent },
+  { title: "Zinskosten-Rechner", to: "/kreditkostenrechner", icon: Percent },
   { title: "Sparzielrechner", to: "/sparzielrechner", icon: Target },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
 ];
@@ -57,14 +57,14 @@ const calculators = [
 /** Erste vier sind die beliebtesten. Danach die uebrigen Themen. */
 const wissenKarten: WissenKarte[] = [
   {
-    thema: "Vorlage",
-    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
+    thema: "Liste",
+    titel: "Haram oder halal: 12 Verträge aus dem Alltag",
     to: "/vorlagen/vertrags-ampel",
     motiv: "ampel",
     beliebt: true,
   },
   {
-    thema: "Vorlage",
+    thema: "Liste",
     titel: "23 halal Anlagen, die du wirklich kaufen kannst",
     to: "/vorlagen/halal-anlagen",
     motiv: "liste",
@@ -78,7 +78,7 @@ const wissenKarten: WissenKarte[] = [
     beliebt: true,
   },
   {
-    thema: "Vorlage",
+    thema: "Liste",
     titel: "Ist diese Aktie halal?",
     to: "/vorlagen/aktien-check",
     motiv: "spickzettel",
@@ -118,7 +118,7 @@ const wissenKarten: WissenKarte[] = [
     neu: true,
   },
   { thema: "Grundlagen", titel: "Zinsen im Islam", to: "/wissen/zinsen-im-islam", motiv: "zins" },
-  { thema: "Investieren", titel: "Gold richtig kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
+  { thema: "Investieren", titel: "Halal Gold kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
   { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen", motiv: "karte", neu: true },
   { thema: "Alltag", titel: "Ist Leasing haram?", to: "/wissen/ist-leasing-haram", motiv: "auto", neu: true },
   { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", to: "/wissen/gharar", motiv: "gharar", neu: true },

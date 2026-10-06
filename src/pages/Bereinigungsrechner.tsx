@@ -49,7 +49,7 @@ const Bereinigungsrechner = () => (
     />
     <RechnerSeite
       name="Bereinigungsrechner"
-      title="Bereinigungsrechner"
+      title="Dividenden reinigen"
       intro={
         <p>
           Auch eine geprüfte Aktie lässt einen kleinen unreinen Rest übrig. Trag zwei Zahlen ein und

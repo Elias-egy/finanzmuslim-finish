@@ -10,7 +10,7 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
       Zins-Tor (Santander) zählt Halal 0 und kann nie Nummer 1 sein; fehlende Kosten-Punkte zählen 0. Die Seiten zeigen keine
       Wörter über den Stand der Prüfung mehr, leere Zellen sind ein Strich. Depot-, Giro- und Krypto-Liste stehen in
       Rangfolge mit „Platz n“. Blau in Steuer, Screener, Edelmetall zählt an eigenen Programmen (Zusage oder Link):
-      Steuer 0 von 2, Screener 0 von 1, Edelmetall 0 von 0. Offen: Steuer 10 von 12 gerankt (STEUEReasy, wundertax).
+      Steuer 0 von 2, Screener 0 von 1, Edelmetall 0 von 0. Steuer 11 von 11 gerankt (06.10.2026): wundertax nach derselben Regel gerankt, STEUEReasy aus dem Vergleich genommen.
 
 - [x] **Mail-Runde 2 abgeschickt**: 27 Mails am 21.09. aus `eliaselgendy2006@gmail.com`, im Gesendet-Ordner einzeln geprüft.
 - [ ] **Antworten eintragen** (Claude, laufend; Historie je Anbieter in `src/data/anfragenLog.ts`): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:

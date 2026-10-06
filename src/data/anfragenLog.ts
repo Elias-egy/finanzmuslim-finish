@@ -337,11 +337,6 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   wundertax: { anbieter: "wundertax", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@wundertax.com", kern: "Als finanzmuslim.com: Ruft wundertax die beim Finanzamt vorliegenden Daten ab (vorausgefüllte Steuererklärung), in welchem Paket? KAP und Anlage V sind per Anbieterseite belegt." },
   ], naechsterSchritt: "Antwort abwarten, dann belegabruf setzen." },
-  steuereasy: { anbieter: "STEUEReasy", vorgaenge: [
-    { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Als finanzmuslim.com: Anlage KAP mit STEUEReasy möglich, sonst welches Programm? Datenabruf vom Finanzamt möglich?" },
-    { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@steuertipps.de", kern: "Nachtrag im selben Faden: Anlage V und Einkünfte aus selbstständiger oder gewerblicher Tätigkeit mit EÜR in STEUEReasy möglich? Beide Felder standen nur wegen Nichtnennung auf Nein.", von: "elias@finanzmuslim.com" },
-    { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "kundenservice@steuertipps.de", zeichen: "TI06037245", automatisch: true, kern: "Automatische Eingangsbestätigung zum Nachtrag." },
-  ], naechsterSchritt: "Antwort abwarten, dann kapital, belegabruf, vermietung und selbststaendige setzen." },
   gls: { anbieter: "GLS Bank", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Kein schriftlicher Weg für Nicht-Kunden gefunden. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   etoro: { anbieter: "eToro", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Besucherformular etoro.com/customer-service am 28.09.2026 abends ausgefüllt (Kaufbarkeit 22 ISINs als echtes Wertpapier, Absender elias@finanzmuslim.com). Beim Absenden kam ein reCAPTCHA, das Claude nicht löst; Elias löst es im offenen Tab und sendet. Danach Vorgang „raus“ eintragen." },
 };

@@ -20,6 +20,9 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    nie Nummer 1) und fehlende Kosten-Punkte (Kosten 0). Edelmetall rechnet dieselben Depots
  *    nach derselben Regel, im Halal-Teil zählen aber nur die Gold- und Silber-ETCs und bei den
  *    Kosten nur, was ein Kauf kostet (`EDELMETALL_FINANZ_MAX`).
+ *    Steuersoftware folgt seit 06.10.2026 derselben Regel: Unbelegte Leistungs- und Preiswerte
+ *    zählen 0 Punkte und die Zelle zeigt einen Strich. Das Tor Anlage KAP bleibt: ohne Beleg
+ *    dafür gibt es keinen Platz.
  * 2. Partner kaufen keine Plätze: Diese Datei liest weder `link` noch
  *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals.
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
@@ -180,18 +183,20 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax
 
 const steuerUrteil = (a: RohAnbieter): Urteil => {
   if (fassung(a.werte.kapital) === 0) return { art: "abgeraten", grund: "kann keine Anlage KAP" };
-  const { fehlt, lies } = sammler();
-  if (fassung(a.werte.kapital) !== 1) fehlt.push("kapital");
+  // Das Tor Anlage KAP bleibt: ohne Beleg dafür gibt es keinen Platz.
+  if (fassung(a.werte.kapital) !== 1) return { art: "offen", fehlt: ["kapital"] };
+  // Wie beim Depot: Was nicht belegt ist, zählt 0 Punkte und nie geschätzt. Jedes Programm mit
+  // belegter Anlage KAP bekommt eine Note, die Zelle zeigt dann einen Strich.
+  const belegt = (wert: number | null) => wert ?? 0;
   const plattform = a.werte.plattform;
   const leistung =
     5 *
-    (0.35 * lies("belegabruf", jaNein(a.werte.belegabruf)) +
-      0.25 * lies("vermietung", fassung(a.werte.vermietung)) +
-      0.25 * lies("selbststaendige", fassung(a.werte.selbststaendige)) +
-      0.15 * lies("plattform", typeof plattform === "string" && plattform.trim() ? (/nur Windows/i.test(plattform) ? 0 : 1) : null));
+    (0.35 * belegt(jaNein(a.werte.belegabruf)) +
+      0.25 * belegt(fassung(a.werte.vermietung)) +
+      0.25 * belegt(fassung(a.werte.selbststaendige)) +
+      0.15 * belegt(typeof plattform === "string" && plattform.trim() ? (/nur Windows/i.test(plattform) ? 0 : 1) : null));
   const p = a.preisEinzel;
-  const preis = lies("preisEinzel", typeof p === "number" && Number.isFinite(p) && p >= 0 ? begrenze(5 * (1 - p / PREIS_MAX_STEUER)) : null);
-  if (fehlt.length > 0) return { art: "offen", fehlt };
+  const preis = belegt(typeof p === "number" && Number.isFinite(p) && p >= 0 ? begrenze(5 * (1 - p / PREIS_MAX_STEUER)) : null);
   return { art: "bewertet", halal: leistung, kosten: preis, note: halbe(leistung, preis), uneingeschraenkt: true };
 };
 

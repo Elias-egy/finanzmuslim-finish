@@ -90,9 +90,9 @@ const VergleichSteuersoftware = () => (
     pfad="/vergleich/steuersoftware"
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
-    untertitel="Zwölf Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
+    untertitel="Elf Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
     seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText="Zwölf Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
+    seoText="Elf Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
     einheit="Programme"
     einleitung={
       <>
@@ -103,7 +103,7 @@ const VergleichSteuersoftware = () => (
         </p>
         <p>
           Für dich zählt vor allem eine Zeile. Wenn du anlegst, brauchst du ein Programm, das
-          Kapitalerträge kann. Elf der zwölf nehmen sie laut Anbieter an.
+          Kapitalerträge kann. Alle elf nehmen sie laut Anbieter an.
         </p>
       </>
     }
@@ -135,7 +135,7 @@ const VergleichSteuersoftware = () => (
       },
       {
         titel: "Läuft auf",
-        text: "Drei Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
+        text: "Zwei Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
       },
     ]}
     zusatz={<WozuBlock />}
@@ -163,7 +163,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Was heisst erst bei Abgabe zahlen?",
         antwort:
-          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sechs der zwölf Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
+          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sechs der elf Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
       },
       {
         frage: "Lohnt sich die Steuererklärung überhaupt?",

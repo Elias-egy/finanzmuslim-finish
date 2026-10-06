@@ -305,7 +305,9 @@ describe("Ablauf und Paket", () => {
     expect(ids({})).toEqual(["vorhaben"]);
     expect(ids({ vorhaben: ["konto"] })).toEqual(["vorhaben", "kontoPreis", "alltag", "kontoWichtig"]);
     expect(ids({ vorhaben: ["steuer"] })).toEqual(["vorhaben", "steuerLage"]);
-    expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "dauer", "bestimmtes", "region", "wichtig"]);
+    expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "bestimmtes", "dauer", "region", "wichtig"]);
+    // Wer nur Krypto will, bekommt die Depot-Frage nach der Anlagedauer nicht.
+    expect(ids({ vorhaben: ["anlegen"], bestimmtes: ["krypto"] })).toEqual(["vorhaben", "betrag", "bestimmtes", "wallet", "wichtig"]);
   });
 
   it("gibt jeder Antwort ein Bild, das es gibt", () => {

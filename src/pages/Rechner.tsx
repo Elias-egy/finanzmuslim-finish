@@ -9,11 +9,11 @@ type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 /** Acht Rechner, flache Reihe. */
 export const rechnerListe: Rechner[] = [
   { name: "Zakat-Rechner", icon: Calculator, to: "/zakat-rechner", neu: true },
-  { name: "Bereinigungsrechner", icon: Sparkles, to: "/bereinigungsrechner", neu: true },
+  { name: "Dividenden reinigen", icon: Sparkles, to: "/bereinigungsrechner", neu: true },
   { name: "Renditerechner", icon: TrendingUp, to: "/renditerechner" },
   { name: "Auswanderungsrechner", icon: Globe, to: "/auswanderungsrechner", neu: true },
   { name: "Budgetrechner", icon: PiggyBank, to: "/budgetrechner", neu: true },
-  { name: "Kreditkostenrechner", icon: Percent, to: "/kreditkostenrechner", neu: true },
+  { name: "Zinskosten-Rechner", icon: Percent, to: "/kreditkostenrechner", neu: true },
   { name: "Sparzielrechner", icon: Target, to: "/sparzielrechner", neu: true },
   { name: "Inflationsrechner", icon: TrendingDown, to: "/inflationsrechner", neu: true },
 ];

@@ -19,7 +19,6 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "pax-bank",
   "plus500",
   "smartbroker",
-  "steuereasy",
   "traders-place",
   "vivid",
   "willbe",

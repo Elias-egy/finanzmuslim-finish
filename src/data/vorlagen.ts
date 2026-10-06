@@ -26,8 +26,8 @@ export const vorlagen: Vorlage[] = [
   },
   {
     slug: "vertrags-ampel",
-    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
-    kicker: "Die Ampel",
+    titel: "Haram oder halal: 12 Verträge aus dem Alltag",
+    kicker: "Verträge",
     kurzbeschreibung:
       "Zwölf Verträge aus dem Alltag, jeweils mit einer klaren Farbe und der Bedingung dahinter.",
     nutzenZeile: "In Sekunden wissen, woran du bist",

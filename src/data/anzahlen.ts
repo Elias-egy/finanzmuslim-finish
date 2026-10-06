@@ -4,4 +4,4 @@
  * sie zu den Daten passen.
  */
 export const ANZAHL_HALAL_ANLAGEN = 30;
-export const ANZAHL_STEUERPROGRAMME = 12;
+export const ANZAHL_STEUERPROGRAMME = 11;

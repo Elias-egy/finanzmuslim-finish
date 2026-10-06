@@ -49,7 +49,7 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
     <div
       role="tablist"
       aria-label="Zeitraum"
-      className={`-mx-1 flex items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}
+      className={`relative -mx-1 flex items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}
     >
       {chartZeitraeume.map((z) => (
         <button
