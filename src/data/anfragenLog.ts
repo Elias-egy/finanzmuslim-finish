@@ -92,6 +92,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "16.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@santander.de", zeichen: "SCM5145440", kern: frage1 },
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "impressum@santander.de", zeichen: "SCM5156656", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "„Für Depots sind nur Filialen zuständig“. Keine inhaltliche Antwort." },
+    { datum: "05.10.2026", richtung: "rein", kanal: "Mail", adresse: "email-service@santander.de", zeichen: "SCM5145440", kern: "Antwort an eliaselgendy2006@gmail.com zum BestGiro: Auf die „zeitlich befristeten Habenzinsen“ zu verzichten, sei „aus technischer und prozessualer Sicht“ nicht umsetzbar. Bestätigt rot für das BestGiro. Zum Wertpapierdepot sagt die Antwort nichts." },
   ], naechsterSchritt: "Per Mail kommt nichts mehr. Bleibt offen oder Filiale. Elias ruft an (Entscheidung 28.09.2026), Ziel ist eine Antwort per Mail; Zettel `~/rebrand/TELEFONZETTEL_2026-09-29.md`." },
   commerzbank: { anbieter: "Commerzbank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@commerzbank.com", kern: frage2 },
