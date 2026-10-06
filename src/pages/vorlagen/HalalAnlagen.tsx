@@ -48,9 +48,11 @@ const Eintrag = ({ a }: { a: Anlage }) => {
       <span className="min-w-0 flex-1">
         <span className="block text-[15px] font-bold leading-snug text-foreground md:text-[16px]">{a.name}</span>
         <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{a.pruefstelle}</span>
-        <span className="mt-1 block text-[12px] text-muted-foreground [font-variant-numeric:tabular-nums]">
-          {a.isin ?? "ISIN noch nicht geprüft"}
-        </span>
+        {a.isin && (
+          <span className="mt-1 block text-[12px] text-muted-foreground [font-variant-numeric:tabular-nums]">
+            {a.isin}
+          </span>
+        )}
       </span>
       {d && (
         <span className="flex shrink-0 flex-col items-end gap-0.5">

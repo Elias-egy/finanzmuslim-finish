@@ -143,6 +143,8 @@ export const AngebotsKnopf = ({
      klebenden Kopfzeile durch, statt sie zu uebermalen. */
   const basis =
     "flex min-h-[52px] w-full shrink-0 items-center justify-center rounded-lg px-3 text-center text-[14px] font-semibold leading-tight";
+  /* Ohne Link kein Knopf, wie auf den Handy-Karten. Die Zelle bleibt leer. */
+  if (!link && !abgeraten) return null;
   if (!link) {
     return (
       <div className="w-full">
@@ -153,11 +155,7 @@ export const AngebotsKnopf = ({
         >
           Zum Angebot
         </button>
-        <p
-          className={`mt-1 text-center text-[11px] ${abgeraten ? "text-destructive" : "text-muted-foreground"}`}
-        >
-          {abgeraten ? "kein Link, wir empfehlen das nicht" : "noch keine Partnerschaft"}
-        </p>
+        <p className="mt-1 text-center text-[11px] text-destructive">kein Link, wir empfehlen das nicht</p>
       </div>
     );
   }

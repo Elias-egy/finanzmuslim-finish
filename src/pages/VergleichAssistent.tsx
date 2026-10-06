@@ -285,7 +285,7 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
           <p className="min-w-0 flex-1 text-[19px] leading-snug text-foreground">
             <span className="font-bold">{a.name}</span> {a.produkt}
           </p>
-          {t.note && (
+          {t.note && baustein.kategorie !== "steuer" && baustein.kategorie !== "screener" && (
             <p className="shrink-0 text-right">
               <span className="block text-[22px] font-bold leading-none text-foreground">{t.note.gesamt.toFixed(1).replace(".", ",")}</span>
               <span className="text-[11px] text-muted-foreground">von 5</span>
@@ -347,7 +347,11 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
   const auswahl = useMemo(() => auswahlAus(baustein.id, antworten), [baustein, antworten]);
   const e = useMemo(() => werteAus(baustein.anbieter, baustein.kategorie, baustein.finanzMax, auswahl), [baustein, auswahl]);
   const [sichtbar, setSichtbar] = useState(3);
-  const [erster, ...weitere] = e.passt;
+  const [erster, ...rest] = e.passt;
+  /* Hat die Empfehlung keine Einrichtungsseite, steht der beste Treffer mit einer
+     sichtbar darunter statt in der Klappe. Die Reihenfolge bleibt, wie sie ist. */
+  const mitEinrichtung = erster && !erster.anbieter.link ? rest.find((t) => t.anbieter.link) : undefined;
+  const weitere = mitEinrichtung ? rest.filter((t) => t !== mitEinrichtung) : rest;
 
   return (
     <section className="mt-10 first:mt-6">
@@ -367,6 +371,15 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
         <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-[15px] text-muted-foreground">
           Noch erfüllt kein Anbieter alle deine Angaben nachweislich. Nimm eine Angabe zurück oder sieh in den ganzen Vergleich.
         </p>
+      )}
+
+      {mitEinrichtung && (
+        <div className="mt-4">
+          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Einrichtung Schritt für Schritt</p>
+          <ul className="mt-2">
+            <TrefferKarte t={mitEinrichtung} baustein={baustein} auswahl={auswahl} />
+          </ul>
+        </div>
       )}
 
       {weitere.length > 0 && (

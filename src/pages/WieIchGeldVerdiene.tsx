@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { Mail, Star, Users } from "lucide-react";
+import { partnerNamen } from "@/data/partnerLinks";
 
 /**
  * /wie-ich-geld-verdiene — Transparenzseite.
@@ -8,6 +9,8 @@ import { Mail, Star, Users } from "lucide-react";
  * Zeigt auf, wie finanzmuslim finanziert wird. Nur belegbare Aussagen,
  * keine Zahlen, keine Provisionshöhen, keine erfundenen Einnahmequellen.
  */
+
+const partner = partnerNamen();
 
 const WieIchGeldVerdiene = () => (
   <div className="min-h-screen bg-background">
@@ -43,9 +46,21 @@ const WieIchGeldVerdiene = () => (
                   Einige Links auf dieser Seite sind mit einem Stern (*) gekennzeichnet.
                   Das sind Werbe- oder Affiliate-Links. Wenn du über einen solchen Link
                   ein Depot oder Konto eröffnest oder ein Steuerprogramm startest, erhalte ich eine Vergütung vom Anbieter.
-                  Stand heute sind das Scalable Capital, Traders Place, DKB, finvesto,
-                  N26, BBBank, smartsteuer und WISO Steuer, teils über die Partnernetzwerke FinanceQuality und Awin.
                 </p>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  Eine Vergütung bekomme ich von {partner.length} Anbietern, teils direkt, teils über ein
+                  Partnernetzwerk:
+                </p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {partner.map((name) => (
+                    <li
+                      key={name}
+                      className="rounded-full border border-border bg-background px-3 py-1 text-[14px] font-medium text-foreground"
+                    >
+                      {name}
+                    </li>
+                  ))}
+                </ul>
                 <p className="mt-3 text-muted-foreground leading-relaxed">
                   Für dich ändert sich nichts: derselbe Broker, dieselben Konditionen,
                   keine Mehrkosten. Du kannst jedes Depot und Konto jederzeit auch direkt

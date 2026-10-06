@@ -184,14 +184,14 @@ const abschnitte: BeitragAbschnitt[] = [
             ["iShares MSCI USA Islamic, EM Islamic", "Tabelle Purification Data auf der Produktseite", "Satz ablesen und auf deine Ausschüttung rechnen"],
             ["iShares USD Sukuk", "entfällt", "nichts, Sukuk haben keinen Firmengewinn"],
             ["Invesco Dow Jones Islamic", "nicht im Fonds, thesaurierend", "selbst schätzen, der Prospekt verweist auf den AAOIFI-Standard"],
-            ["HSBC Islamic Screened, alle vier", "noch nicht geprüft", "beim Anbieter nachsehen oder schätzen"],
-            ["HANetf Saturna, Franklin, Comgest", "noch nicht geprüft", "beim Anbieter nachsehen oder schätzen"],
+            ["HSBC Islamic Screened, alle vier", "im Fonds, einmal im Jahr als Spende an Hilfsorganisationen", "nichts, der Fonds gibt den unreinen Anteil selbst weiter"],
             ["Gold- und Silber-ETCs", "entfällt", "nichts"],
           ]}
         />
         <p>
-          Die Tabelle gilt für die Fonds in unserer <L to="/halal-anlagen">Anlagen-Datenbank</L>, Stand
-          September 2026. Anbieter ändern so etwas ohne große Ankündigung, deshalb steht bei jeder Anlage
+          Die Tabelle zeigt ETFs und ETCs aus unserer <L to="/halal-anlagen">Anlagen-Datenbank</L>, Stand
+          Oktober 2026. Bei den vier HSBC-ETFs steht die Regel im Nachtrag zum Verkaufsprospekt vom
+          22. Dezember 2025. Anbieter ändern so etwas ohne große Ankündigung, deshalb steht bei jeder Anlage
           dort, wann wir zuletzt nachgesehen haben.
         </p>
       </>
@@ -294,7 +294,7 @@ const faq: BeitragFrage[] = [
   {
     frage: "Welche ETFs bereinigen selbst?",
     antwort:
-      "Der iShares MSCI World Islamic reinigt seit dem 1. Januar 2026 im Fonds, der unreine Anteil geht an Hilfsorganisationen, die das Gelehrtengremium freigegeben hat. Bei den anderen iShares-Islamic-ETFs steht eine Tabelle mit dem Satz auf der Produktseite. Bei thesaurierenden Fonds wie dem Invesco Dow Jones Islamic bleibt es bei dir.",
+      "Der iShares MSCI World Islamic reinigt seit dem 1. Januar 2026 im Fonds, der unreine Anteil geht an Hilfsorganisationen, die das Gelehrtengremium freigegeben hat. Die vier HSBC Islamic Screened ETFs spenden den unreinen Anteil einmal im Jahr aus dem Fonds. Bei den anderen iShares-Islamic-ETFs steht eine Tabelle mit dem Satz auf der Produktseite. Bei thesaurierenden Fonds wie dem Invesco Dow Jones Islamic bleibt es bei dir.",
   },
   {
     frage: "Welche App rechnet die Bereinigung aus?",
@@ -347,7 +347,7 @@ const ErtraegeReinigen = () => (
       datePublished="16. August 2026"
       dateModified="5. September 2026"
       boxMitteNach={3}
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Steuer- oder Anlageberatung. Zur Höhe des Reinigungssatzes, zur Behandlung thesaurierender Fonds und zur zulässigen Verwendung des Betrags bestehen zwischen Gelehrten unterschiedliche Auffassungen. Angaben zu Anbietern und Apps beruhen auf öffentlich zugänglichen Quellen, Stand September 2026. Die Zahlen in den Beispielen sind erfunden."
+      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Steuer- oder Anlageberatung. Zur Höhe des Reinigungssatzes, zur Behandlung thesaurierender Fonds und zur zulässigen Verwendung des Betrags bestehen zwischen Gelehrten unterschiedliche Auffassungen. Angaben zu Anbietern und Apps beruhen auf öffentlich zugänglichen Quellen, Stand Oktober 2026. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
         kategorie: "Rechner",
         ueberschrift: "Bereinigung in dreißig Sekunden ausrechnen",

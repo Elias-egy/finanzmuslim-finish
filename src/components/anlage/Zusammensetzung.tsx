@@ -54,11 +54,3 @@ export const AufteilungsBalken = ({
     </div>
   );
 };
-
-/** Sachlicher Leerzustand. Nie Nullen zeichnen, wo keine Daten sind. */
-export const KeineZusammensetzung = ({ grund }: { grund: string }) => (
-  <div className="rounded-xl bg-accent px-4 py-5">
-    <p className="text-[15px] font-bold text-foreground">Zusammensetzung noch nicht erfasst</p>
-    <p className="mt-1 text-[14px] leading-[21px] text-muted-foreground">{grund}</p>
-  </div>
-);

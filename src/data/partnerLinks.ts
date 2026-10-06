@@ -288,5 +288,12 @@ export const partnerLinks: PartnerLink[] = [
   },
 ];
 
+/** Namen aller Anbieter mit aktivem Partnerlink, jeder einmal, nach Alphabet.
+ *  Daraus entsteht die Liste auf /wie-ich-geld-verdiene. */
+export const partnerNamen = (): string[] =>
+  [...new Set(partnerLinks.filter((p) => p.aktiv).map((p) => p.anbieter))].sort((a, b) =>
+    a.localeCompare(b, "de", { sensitivity: "base" }),
+  );
+
 export const findPartnerLink = (kurzname?: string): PartnerLink | undefined =>
   partnerLinks.find((p) => p.kurzname === kurzname);

@@ -200,9 +200,12 @@ const abschnitte: BeitragAbschnitt[] = [
               "Screener nach demselben Standard, unter Aufsicht eines Gelehrtengremiums. Depot-Durchleuchtung im Bezahl-Abo.",
               "Basisversion kostenlos, zoya.finance",
             ],
-            ["Islamicly, Finispia", "Weitere Anbieter am Markt.", "von mir nicht geprüft"],
           ]}
         />
+        <p>
+          Am Markt gibt es noch Islamicly und Finispia. Alle vier Apps stehen Punkt für Punkt im{" "}
+          <L to="/vergleich/screening-apps">Vergleich der Screening-Apps</L>.
+        </p>
         <Hinweis titel="Eine App ist kein Freibrief">
           <p>
             Diese Werkzeuge wenden Filter auf Bilanzzahlen an. Sie sehen sich nicht jede Firma einzeln an, und

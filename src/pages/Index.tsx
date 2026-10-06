@@ -10,7 +10,6 @@ import {
   LineChart,
   Percent,
   PiggyBank,
-  Receipt,
   ScanSearch,
   Sparkles,
   Target,
@@ -43,7 +42,7 @@ const categories = [
   { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
-/** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
+/** Acht Rechner, jeder mit eigener Seite. */
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
@@ -52,7 +51,6 @@ const calculators = [
   { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
   { title: "Kreditkostenrechner", to: "/kreditkostenrechner", icon: Percent },
   { title: "Sparzielrechner", to: "/sparzielrechner", icon: Target },
-  { title: "Brutto-Netto-Rechner", icon: Receipt },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
 ];
 
