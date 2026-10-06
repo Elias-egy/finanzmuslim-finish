@@ -33,8 +33,11 @@ export type VergleichsZeile = {
   gruppe: "halal" | "angebot" | "kosten";
 };
 
-/** Woher ein Wert stammt. Wird am Wert als Tooltip gezeigt. */
-export type Quelle = { url?: string; stand?: string; hinweis?: string };
+/**
+ * Woher ein Wert stammt. Mit `anzeige` steht die Quelle samt Stand sichtbar unter dem Wert,
+ * ohne bleibt sie im Hintergrund.
+ */
+export type Quelle = { url?: string; stand?: string; hinweis?: string; anzeige?: string };
 
 export type Zellwert = {
   text: string | null;
@@ -69,6 +72,8 @@ export type VergleichsSpalte = {
    * (Elias, 16.09.2026).
    */
   abgeraten?: boolean;
+  /** Kostenpflichtiger Tarif: Marke am Produktnamen und ein Satz, wofür die Gebühr steht. */
+  tarif?: { marke: string; satz: string } | null;
   werte: Record<string, Zellwert>;
 };
 

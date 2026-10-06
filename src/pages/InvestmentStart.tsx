@@ -243,8 +243,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             </p>
           </div>
 
+          {/* Laptop: Das Video gibt Höhe ab, bis der Knopf darunter ohne Scrollen im Bild steht.
+              475 px sind Kopfleiste, Titel, Hinweis zum Video und Knopf zusammen. */}
           {istDepot ? (
-            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
+            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px] md:[max-width:clamp(320px,calc((100svh_-_475px)_*_1.7778),760px)]">
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
                 <video
                   ref={videoRef}

@@ -191,8 +191,9 @@ const ampelFarbe: Record<CheckStatus, string> = {
 };
 
 /**
- * Eine Zelle. Kennt Freitext, Ampel und Haken. Belege zeigt sie bewusst nicht:
+ * Eine Zelle. Kennt Freitext, Ampel und Haken. Belege zeigt sie in der Regel nicht:
  * Leser sehen nur das Ergebnis, die Recherche bleibt im Hintergrund (Elias, 14.09.2026).
+ * Ausnahme sind Werte mit `quelle.anzeige`: Dort stehen Quelle und Stand unter dem Wert.
  */
 export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
   if (art === "ampel") {
@@ -213,6 +214,27 @@ export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
     if (j === false) return <X className="mx-auto h-5 w-5 text-destructive" aria-label="nein" />;
     return (
       <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label="ohne Angabe" />
+    );
+  }
+
+  if (wert?.text && wert.quelle?.anzeige) {
+    const beleg = `Quelle: ${wert.quelle.anzeige}${wert.quelle.stand ? `, Stand ${wert.quelle.stand}` : ""}`;
+    return (
+      <span className="inline-flex flex-col gap-0.5">
+        <span className="text-foreground">{wert.text}</span>
+        {wert.quelle.url ? (
+          <a
+            href={wert.quelle.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-normal leading-[14px] text-muted-foreground underline underline-offset-2 hover:text-primary"
+          >
+            {beleg}
+          </a>
+        ) : (
+          <span className="text-[11px] font-normal leading-[14px] text-muted-foreground">{beleg}</span>
+        )}
+      </span>
     );
   }
 

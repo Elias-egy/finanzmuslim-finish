@@ -94,7 +94,5 @@ const girokontoVergleichRoh: RohAnbieter[] = [
 export const girokontoVergleich = korrigiereAnbieter(girokontoNachtraege(girokontoVergleichRoh), GIRO_WERTE, GIRO_QUELLEN);
 
 export const GIRO_FILTER = [
-  { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },
   { key: "keinDispoAbStart", label: "Kein Dispo ab Start" },
-  { key: "karteOhneKredit", label: "Karte ohne Kredit" },
 ];

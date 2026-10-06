@@ -92,5 +92,5 @@ const brokerVergleichRoh: RohAnbieter[] = [
 export const brokerVergleich = korrigiereAnbieter(brokerVergleichRoh, DEPOT_WERTE, DEPOT_QUELLEN);
 
 export const DEPOT_FILTER = [
-  { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },
+
 ];

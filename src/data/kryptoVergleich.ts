@@ -61,7 +61,6 @@ const kryptoVergleichRoh: RohAnbieter[] = [
 export const kryptoVergleich = korrigiereAnbieter(kryptoVergleichRoh, KRYPTO_WERTE, KRYPTO_QUELLEN);
 
 export const KRYPTO_FILTER = [
-  { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", erlaubt: ["gut", "teils"] },
   { key: "echteCoins", label: "Echte Coins statt Zertifikat" },
   { key: "eigeneWallet", label: "Auszahlung auf eigene Wallet" },
 ];

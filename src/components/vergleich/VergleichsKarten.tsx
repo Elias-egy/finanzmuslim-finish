@@ -69,6 +69,15 @@ const Karte = ({
         )}
       </div>
 
+      {spalte.tarif && (
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-border px-3 py-2 text-[13px] leading-snug text-muted-foreground">
+          <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
+            {spalte.tarif.marke}
+          </span>
+          {spalte.tarif.satz}
+        </p>
+      )}
+
       <div className="p-3">
         {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
             kostet auf dem Handy über viele Karten mehrere Bildschirme. */}

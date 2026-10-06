@@ -162,7 +162,8 @@ export const VergleichsTabelle = ({
           </div>
           {spalten.map((s) => (
             <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
-              <div className="bg-card" style={{ position: "sticky", top: KOPF }}>
+              {/* `h-full`: Trägt eine Spalte eine Tarif-Marke, wächst die Kopfzeile für alle gleich. */}
+              <div className="h-full bg-card" style={{ position: "sticky", top: KOPF }}>
                 {s.abgeraten ? (
                   <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
                     <span className="block truncate text-center text-[11px] font-semibold text-destructive">
@@ -185,9 +186,23 @@ export const VergleichsTabelle = ({
                   <p className="w-full truncate text-center text-[13px] font-bold text-foreground">
                     {s.anbieter}
                   </p>
-                  <p className="w-full truncate text-center text-[12px] text-muted-foreground">
-                    {s.produkt}
-                  </p>
+                  {s.tarif ? (
+                    <>
+                      <p className="flex w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px] text-muted-foreground">
+                        {s.produkt}
+                        <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
+                          {s.tarif.marke}
+                        </span>
+                      </p>
+                      <p className="text-center text-[11px] leading-[14px] text-muted-foreground">
+                        {s.tarif.satz}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="w-full truncate text-center text-[12px] text-muted-foreground">
+                      {s.produkt}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

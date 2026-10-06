@@ -5,6 +5,7 @@ import type {
   VergleichsZeile,
   Zellwert,
 } from "@/components/vergleich/vergleichTypen";
+import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -110,6 +111,7 @@ export const baueSpalten = (
       noteStand: a.noteStand,
       etikett: a.etikett ?? null,
       abgeraten: a.abgeraten ?? false,
+      tarif: TARIF_MARKEN[a.id] ?? null,
       werte,
     };
   });

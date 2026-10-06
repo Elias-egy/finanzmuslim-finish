@@ -255,6 +255,8 @@ export const VergleichsSeite = ({
             </Link>
           )}
 
+          {/* Ohne Knopf kein Kasten und keine Handy-Leiste: ein Filter, der nichts kürzt, kostet nur Platz. */}
+          {filter.length > 0 && (
           <section
             className="mt-4 rounded-lg border border-border lg:mt-5 lg:max-w-3xl lg:px-5 lg:py-3"
             aria-label="Filter"
@@ -305,6 +307,7 @@ export const VergleichsSeite = ({
               </p>
             </div>
           </section>
+          )}
         </div>
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
