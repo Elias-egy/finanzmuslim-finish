@@ -12,6 +12,11 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *
  * 1. Nur Belegtes zählt. Fehlt ein Merkmal der Formel, gibt es keinen Platz und
  *    keine Note, sondern "noch nicht geprüft" mit der Liste, was fehlt.
+ *    Ausnahme Depot (Elias, 06.10.2026: "Wir können mit diesem Depot-Ranking nicht an den
+ *    Start gehen"): Jedes Depot, das nicht abgeraten ist, bekommt eine Note. In den
+ *    Halal-Anteil zählen nur Anlagen mit Kaufbeleg, Unbelegtes zählt als nicht vorhanden
+ *    (0 Punkte), nie als geschätzt. Dasselbe gilt für ein nicht belegtes Zins-Tor (Halal-Teil 0,
+ *    nie Nummer 1) und fehlende Kosten-Punkte (Kosten 0).
  * 2. Partner kaufen keine Plätze: Diese Datei liest weder `link` noch
  *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals.
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
@@ -132,7 +137,32 @@ const halbe = (halal: number, kosten: number) => 0.5 * halal + 0.5 * kosten;
 const kostenAus = (a: RohAnbieter, finanzMax: Record<string, number>): number | null =>
   a.finanzPunkte && Object.keys(a.finanzPunkte).length > 0 ? finanzNote(a, finanzMax, []) : null;
 
-const zinsUrteil = (a: RohAnbieter, kategorie: "depot" | "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
+/** "x von N" und "mind. x von N": x ist die Zahl der belegten Treffer. Alles andere ist kein Beleg. */
+const ANLAGEN_ZEILE = /^\s*(?:mind\.\s+)?(\d+)\s+von\s+(\d+)\s*$/;
+
+/** Belegte, gewichtete Punkte einer Halal-Anlagen-Zeile. Fehlt der Beleg oder passt N nicht, zählt die Zeile 0. */
+const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
+  const w = a.werte[key];
+  const m = typeof w === "string" ? w.match(ANLAGEN_ZEILE) : null;
+  const punkte = a.halalAnlagenPunkte?.[key];
+  const belegt = m !== null && Number(m[2]) === n && Number(m[1]) <= n && typeof punkte === "number" && punkte >= 0 && punkte <= n;
+  return belegt ? punkte : 0;
+};
+
+const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Urteil => {
+  const tuer = a.werte[TOR];
+  if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
+
+  const nenner = Object.values(ANTEIL_N).reduce((s, n) => s + n, 0);
+  const anteil = Object.entries(ANTEIL_N).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0);
+  const kosten = kostenAus(a, finanzMax) ?? 0;
+
+  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
+  const halal = 5 * anteil * faktor;
+  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" };
+};
+
+const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
@@ -140,18 +170,7 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "depot" | "girokonto" | "krypto",
   if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
 
   let anteil = 0;
-  if (kategorie === "depot") {
-    const nenner = Object.values(ANTEIL_N).reduce((s, n) => s + n, 0);
-    for (const [key, n] of Object.entries(ANTEIL_N)) {
-      const w = a.werte[key];
-      const m = typeof w === "string" ? w.match(/^\s*(\d+)\s+von\s+(\d+)\s*$/) : null;
-      const punkte = a.halalAnlagenPunkte?.[key];
-      const exakt = m !== null && Number(m[2]) === n && Number(m[1]) <= n && typeof punkte === "number";
-      anteil += lies(key, exakt ? punkte / nenner : null);
-    }
-  } else {
-    for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
-  }
+  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
@@ -206,6 +225,8 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
       return screenerUrteil(a);
     case "edelmetall":
       return edelmetallUrteil(a);
+    case "depot":
+      return depotUrteil(a, finanzMax);
     default:
       return zinsUrteil(a, kategorie, finanzMax);
   }

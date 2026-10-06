@@ -224,7 +224,7 @@ const Konfetti = () => {
 /* ---------------------------------------------------------------- Ergebnis */
 
 const wertText = (w: unknown) =>
-  typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "noch nicht geprüft";
+  typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "–";
 
 const Gruende = ({ t }: { t: Treffer }) => {
   const passt = [...t.gruende, ...t.erfuellt.filter((w) => !w.still).map((w) => w.label)].slice(0, 5);
@@ -629,7 +629,7 @@ const VergleichAssistent = () => {
           <div className="pt-16 text-center md:pt-24" role="status">
             <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">Wir vergleichen jetzt {anzahl} Anbieter für dich</h1>
             <ul className="mx-auto mt-5 inline-block space-y-2 text-left text-[15px] text-foreground">
-              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Ungeprüftes zählt nie als erfüllt", "Partnerschaften zählen nicht"].map((s) => (
+              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Nur Belegtes zählt", "Partnerschaften zählen nicht"].map((s) => (
                 <li key={s} className="flex items-center gap-2">
                   <ShieldCheck className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
                   {s}

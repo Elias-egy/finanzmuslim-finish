@@ -27,7 +27,6 @@ const VergleichDepot = () => (
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
     stand="14.09.2026"
-    standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
@@ -56,9 +55,9 @@ const VergleichDepot = () => (
           "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen. Die konkrete Handhabung besprichst du am besten mit einem Gelehrten deines Vertrauens.",
       },
       {
-        frage: "Warum sind manche Merkmale noch nicht geprüft?",
+        frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich. Die Halal-Merkmale prüfen wir einzeln beim Anbieter, bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, Partnerschaften zählen nicht.",
       },
       {
         frage: "Kann ich mehrere Depots haben?",

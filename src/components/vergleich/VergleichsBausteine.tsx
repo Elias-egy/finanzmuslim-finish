@@ -2,7 +2,7 @@ import { Check, Info, Minus, Star, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
-  UNGEPRUEFT,
+  KEINE_ANGABE,
   noteWort,
   noteZahl,
   type CheckStatus,
@@ -64,7 +64,7 @@ export const NotenBlock = ({
       <Sterne note={note} />
     </div>
     <p className="mt-1 text-[12px] text-muted-foreground">
-      {note === null ? "Halal-Kriterien noch offen" : stand}
+      {note === null ? "" : stand}
     </p>
   </div>
 );
@@ -75,6 +75,7 @@ const etikettTon: Record<string, string> = {
   empfehlung: "bg-primary/10 text-primary",
   bonus: "bg-success/10 text-success",
   hinweis: "bg-accent/10 text-accent",
+  platz: "bg-muted text-foreground",
 };
 
 /**
@@ -191,7 +192,7 @@ export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
       <span className="inline-flex items-center gap-2">
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
-          {status === "unbekannt" ? UNGEPRUEFT : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
+          {status === "unbekannt" ? KEINE_ANGABE : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
         </span>
       </span>
     );
@@ -202,14 +203,14 @@ export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
     if (j === true) return <Check className="mx-auto h-5 w-5 text-success" aria-label="ja" />;
     if (j === false) return <X className="mx-auto h-5 w-5 text-destructive" aria-label="nein" />;
     return (
-      <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label={UNGEPRUEFT} />
+      <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label="ohne Angabe" />
     );
   }
 
   return wert?.text ? (
     <span className="text-foreground">{wert.text}</span>
   ) : (
-    <span className="text-muted-foreground">{UNGEPRUEFT}</span>
+    <span className="text-muted-foreground" aria-label="ohne Angabe">{KEINE_ANGABE}</span>
   );
 };
 

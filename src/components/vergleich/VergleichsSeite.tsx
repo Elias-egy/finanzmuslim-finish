@@ -23,7 +23,7 @@ import {
   anzahlHalalGeprueft,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
-import type { RangKategorie } from "@/lib/rangfolge";
+import { rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { werteAus } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
@@ -77,8 +77,8 @@ export type VergleichsSeiteProps = {
   /**
    * Mit Kategorie und Höchstpunkten steht oben die Nummer 1. Sie entsteht aus
    * derselben fairen Ordnung wie im geführten Vergleich: nur Belegtes zählt,
-   * Partnerstatus zählt nicht. Die übrige Liste bleibt alphabetisch, bis alle
-   * Anbieter fertig geprüft sind.
+   * Partnerstatus zählt nicht. Die übrige Liste folgt der Rangfolge, sobald jeder
+   * Anbieter ohne rotes Zins-Merkmal eine Note hat, sonst bleibt sie alphabetisch.
    */
   kategorie?: RangKategorie;
   finanzMax?: Record<string, number>;
@@ -154,12 +154,28 @@ export const VergleichsSeite = ({
           gewichte: [],
         }).passt[0]?.anbieter ?? null)
       : null;
-  const sortiert = sieger
+  /* Ist jeder Anbieter ohne rotes Zins-Merkmal gerankt, steht die Liste in der Reihenfolge der
+     Rangfolge und jede Spalte trägt ihren Platz. Sonst bleibt es alphabetisch. */
+  const rang =
+    kategorie && finanzMax ? rangfolge(anbieter, kategorie, { finanzMax }) : null;
+  const platz =
+    rang && rang.nichtBewertet.length === 0
+      ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.platz]))
+      : null;
+  const nachRang = platz
     ? [
-        ...gefiltert.filter((a) => a.id === sieger.id),
-        ...gefiltert.filter((a) => a.id !== sieger.id),
+        ...gefiltert
+          .filter((a) => platz.has(a.id))
+          .sort((p, q) => platz.get(p.id)! - platz.get(q.id)!),
+        ...gefiltert.filter((a) => !platz.has(a.id)),
       ]
     : gefiltert;
+  const sortiert = sieger
+    ? [
+        ...nachRang.filter((a) => a.id === sieger.id),
+        ...nachRang.filter((a) => a.id !== sieger.id),
+      ]
+    : nachRang;
   const spalten = baueSpalten(
     sortiert.map((a) =>
       a.id === sieger?.id
@@ -167,7 +183,12 @@ export const VergleichsSeite = ({
             ...a,
             etikett: { text: "Unsere Nummer 1", ton: "empfehlung" as const },
           }
-        : a,
+        : platz?.has(a.id) && !a.etikett
+          ? {
+              ...a,
+              etikett: { text: `Platz ${platz.get(a.id)}`, ton: "platz" as const },
+            }
+          : a,
     ),
     zeilen,
   );
@@ -352,8 +373,8 @@ export const VergleichsSeite = ({
           <p
             className={`${BREIT} mt-6 rounded-lg border border-border p-6 text-[15px] text-muted-foreground`}
           >
-            Zu dieser Auswahl liegen noch keine geprüften {einheit} vor. Die
-            Merkmale sind eingetragen, aber noch nicht nachgesehen.
+            Zu dieser Auswahl gibt es keine {einheit}. Nimm einen Filter heraus,
+            dann siehst du alle.
           </p>
         ) : (
           <>

@@ -62,7 +62,7 @@ export type VergleichsSpalte = {
   /** Monat und Jahr der Bewertung, z. B. "08/2026". */
   noteStand?: string;
   /** Etikett ueber der Spalte, z. B. "Bester Broker" oder "60 € Bonus". */
-  etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" } | null;
+  etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" | "platz" } | null;
   /**
    * Von diesem Anbieter raten wir ab, weil ein Zins-Merkmal rot ist. Er steht
    * am Ende der Liste, wird rot umrandet und bekommt keinen Partnerlink
@@ -72,11 +72,12 @@ export type VergleichsSpalte = {
   werte: Record<string, Zellwert>;
 };
 
-export const UNGEPRUEFT = "noch nicht geprüft";
+/** Zelle ohne Angabe: ein Strich, nie ein Wort über den Stand der Prüfung (Elias, 05.10.2026). */
+export const KEINE_ANGABE = "–";
 
 /** Wort zur Note, wie man es aus Vergleichen kennt. */
 export const noteWort = (note: number | null) => {
-  if (note === null) return "noch nicht bewertet";
+  if (note === null) return "–";
   if (note >= 4.5) return "Sehr gut";
   if (note >= 3.5) return "Gut";
   if (note >= 2.5) return "Befriedigend";

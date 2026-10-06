@@ -80,7 +80,8 @@ const metall = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => ({
 
 const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
   rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen });
-const rGiro = (liste: RohAnbieter[]) => rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO });
+const rGiro = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
+  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen });
 const rKrypto = (liste: RohAnbieter[]) => rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO });
 
 /** Das eine Ergebnis eines Einzelanbieters in `gerankt`. */
@@ -94,15 +95,15 @@ const ids = (xs: Array<{ anbieter: RohAnbieter }>) => xs.map((x) => x.anbieter.i
 
 describe("rangfolge: Gruppen", () => {
   it("legt jede Eingabe in genau eine Gruppe", () => {
-    const liste = [depot("voll"), depot("rot", { zinsfreiAbStart: "schlecht" }), depot("offen", { zinsfreiAbStart: null })];
-    const r = rDepot(liste);
+    const liste = [giro("voll"), giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })];
+    const r = rGiro(liste);
     expect(ids(r.gerankt)).toEqual(["voll"]);
     expect(ids(r.abgeraten)).toEqual(["rot"]);
     expect(ids(r.nichtBewertet)).toEqual(["offen"]);
   });
 
   it("gibt nicht Bewerteten und Abgeratenen weder Platz noch Note", () => {
-    const r = rDepot([depot("rot", { zinsfreiAbStart: "schlecht" }), depot("offen", { zinsfreiAbStart: null })]);
+    const r = rGiro([giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })]);
     for (const x of [...r.abgeraten, ...r.nichtBewertet]) {
       expect(x).not.toHaveProperty("platz");
       expect(x).not.toHaveProperty("note");
@@ -120,16 +121,16 @@ describe("rangfolge: Gruppen", () => {
     expect(ids(r.abgeraten)).toEqual(["markiert"]);
   });
 
-  it("wertet einen ungeprüften oder unbekannten Türsteher als fehlend", () => {
+  it("wertet einen ungeprüften oder unbekannten Türsteher bei Girokonto und Krypto als fehlend", () => {
     for (const tuer of [null, "unbekannt"] as const) {
-      const r = rDepot([depot("x", { zinsfreiAbStart: tuer })]);
+      const r = rGiro([giro("x", { zinsfreiAbStart: tuer })]);
       expect(r.nichtBewertet).toEqual([{ anbieter: expect.objectContaining({ id: "x" }), grund: "noch nicht geprüft", fehlt: ["zinsfreiAbStart"] }]);
     }
   });
 
   it("setzt den Grund „Anfrage läuft“ nur, wenn das Haus angefragt ist", () => {
-    const liste = [depot("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), depot("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
-    const r = rDepot(liste, new Set(["haus-a"]));
+    const liste = [giro("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), giro("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
+    const r = rGiro(liste, new Set(["haus-a"]));
     expect(r.nichtBewertet.map((x) => [x.anbieter.id, x.grund])).toEqual([
       ["a", "Anfrage läuft"],
       ["b", "noch nicht geprüft"],
@@ -137,7 +138,7 @@ describe("rangfolge: Gruppen", () => {
   });
 
   it("nimmt ohne Haus die id als Schlüssel für offene Anfragen", () => {
-    const r = rDepot([depot("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
+    const r = rGiro([giro("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
     expect(r.nichtBewertet[0].grund).toBe("Anfrage läuft");
   });
 
@@ -149,11 +150,11 @@ describe("rangfolge: Gruppen", () => {
   });
 
   it("sortiert nicht Bewertete und Abgeratene nach Name", () => {
-    const r = rDepot([
-      depot("c", { zinsfreiAbStart: null }),
-      depot("a", { zinsfreiAbStart: null }),
-      depot("z", { zinsfreiAbStart: "schlecht" }),
-      depot("m", { zinsfreiAbStart: "schlecht" }),
+    const r = rGiro([
+      giro("c", { zinsfreiAbStart: null }),
+      giro("a", { zinsfreiAbStart: null }),
+      giro("z", { zinsfreiAbStart: "schlecht" }),
+      giro("m", { zinsfreiAbStart: "schlecht" }),
     ]);
     expect(ids(r.nichtBewertet)).toEqual(["a", "c"]);
     expect(ids(r.abgeraten)).toEqual(["m", "z"]);
@@ -184,25 +185,61 @@ describe("rangfolge: Depot", () => {
     expect(einzig(rDepot([a]))).toMatchObject({ halal: 1.36, note: 3.18 });
   });
 
-  it("lässt eine Zeile „mind. x von N“ offen", () => {
-    const r = rDepot([depot("mind", { halalEtfsFonds: "mind. 3 von 12" })]);
-    expect(r.nichtBewertet[0].fehlt).toEqual(["halalEtfsFonds"]);
+  it("zählt bei „mind. x von N“ nur die belegten Punkte", () => {
+    // Halal 5 × (3 + 3 + 7) / 22 = 2,9545…, Kosten 5, Note 3,9772…
+    const a = depot("mind", { halalEtfsFonds: "mind. 3 von 12" }, { halalAnlagenPunkte: { halalEtfsFonds: 3, halalSukuk: 3, halalEdelmetalle: 7 } });
+    expect(einzig(rDepot([a]))).toMatchObject({ halal: 2.95, kosten: 5, note: 3.98 });
   });
 
-  it("fällt bei exakter Zeile ohne Punkte nie auf die Rohzahl zurück", () => {
+  it("zählt unbelegte Zeilen als nicht vorhanden und rät nie", () => {
+    // Fehlender Schlüssel, null und gar keine Punkte: jede Zeile zählt 0, das Depot bekommt trotzdem eine Note.
     const ohneSchluessel = depot("ohne", {}, { halalAnlagenPunkte: { halalSukuk: 3, halalEdelmetalle: 7 } });
     const mitNull = depot("null", {}, { halalAnlagenPunkte: { halalEtfsFonds: null, halalSukuk: 3, halalEdelmetalle: 7 } });
     const ganzOhne = depot("ganz", {}, { halalAnlagenPunkte: undefined });
-    const r = rDepot([ohneSchluessel, mitNull, ganzOhne]);
-    expect(r.gerankt).toHaveLength(0);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "ohne")!.fehlt).toEqual(["halalEtfsFonds"]);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "null")!.fehlt).toEqual(["halalEtfsFonds"]);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "ganz")!.fehlt).toEqual(["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]);
+    const leereZeilen = depot("leer", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null });
+    const r = rDepot([ohneSchluessel, mitNull, ganzOhne, leereZeilen]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    const nach = (id: string) => r.gerankt.find((x) => x.anbieter.id === id)!;
+    // Halal 5 × (0 + 3 + 7) / 22 = 2,2727…, Note 3,64
+    expect(nach("ohne")).toMatchObject({ halal: 2.27, note: 3.64 });
+    expect(nach("null")).toMatchObject({ halal: 2.27, note: 3.64 });
+    expect(nach("ganz")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
+    expect(nach("leer")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
   });
 
-  it("verlangt N = 12, 3 und 7", () => {
-    const r = rDepot([depot("acht", { halalEdelmetalle: "8 von 8" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 } })]);
-    expect(r.nichtBewertet[0].fehlt).toEqual(["halalEdelmetalle"]);
+  it("zählt eine Zeile mit falschem N oder Punkten über N als nicht belegt", () => {
+    // 8 von 8 Edelmetalle passt nicht zu N = 7, Punkte 8 liegen über 7: Zeile zählt 0, Halal 5 × 15 / 22 = 3,4090…
+    const falschesN = depot("acht", { halalEdelmetalle: "8 von 8" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 } });
+    const zuViel = depot("viel", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 9 } });
+    const r = rDepot([falschesN, zuViel]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    for (const x of r.gerankt) expect(x.halal).toBe(3.41);
+  });
+
+  it("gibt jedem Depot ohne rotes Zins-Tor eine Note, auch ohne Beleg für das Tor", () => {
+    const r = rDepot([depot("gut"), depot("teils", { zinsfreiAbStart: "teils" }), depot("offen", { zinsfreiAbStart: null }), depot("unbekannt", { zinsfreiAbStart: "unbekannt" })]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    expect(r.gerankt).toHaveLength(4);
+    // Nicht belegtes Tor: Halal-Teil zählt nicht, Kosten 5, Note 2,5. Nie Nummer 1.
+    for (const id of ["offen", "unbekannt"]) {
+      const x = r.gerankt.find((y) => y.anbieter.id === id)!;
+      expect(x).toMatchObject({ halal: 0, kosten: 5, note: 2.5, uneingeschraenkt: false });
+    }
+    expect(ids(nummerEins(r))).toEqual(["gut"]);
+  });
+
+  it("stellt bei gleichen Kosten kein Depot ohne belegte Anlage vor eines mit belegten", () => {
+    const keine = { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 0 };
+    const etwas = { halalEtfsFonds: 1, halalSukuk: 0, halalEdelmetalle: 0 };
+    const viel = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
+    const r = rDepot([
+      depot("keine", {}, { halalAnlagenPunkte: keine }),
+      depot("null", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null }, { halalAnlagenPunkte: undefined }),
+      depot("etwas", {}, { halalAnlagenPunkte: etwas }),
+      depot("viel", {}, { halalAnlagenPunkte: viel }),
+    ]);
+    expect(ids(r.gerankt)).toEqual(["viel", "etwas", "keine", "null"]);
+    expect(r.gerankt.find((x) => x.anbieter.id === "keine")!.platz).toBe(r.gerankt.find((x) => x.anbieter.id === "null")!.platz);
   });
 
   it("halbiert den Halal-Teil, wenn Zinsen erst abgeschaltet werden müssen, und gibt ihn halbiert aus", () => {
@@ -210,9 +247,11 @@ describe("rangfolge: Depot", () => {
     expect(einzig(rDepot([depot("gelb", { zinsfreiAbStart: "teils" })]))).toMatchObject({ halal: 2.5, kosten: 5, note: 3.75 });
   });
 
-  it("wertet fehlende oder leere Finanzpunkte als fehlend", () => {
+  it("zählt fehlende oder leere Finanzpunkte als Kosten 0", () => {
+    // Halal 5, Kosten 0, Note 2,5
     const r = rDepot([depot("ohne", {}, { finanzPunkte: undefined }), depot("leer", {}, { finanzPunkte: {} })]);
-    expect(r.nichtBewertet.map((x) => x.fehlt)).toEqual([["finanzPunkte"], ["finanzPunkte"]]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    for (const x of r.gerankt) expect(x).toMatchObject({ halal: 5, kosten: 0, note: 2.5 });
   });
 });
 
@@ -555,13 +594,19 @@ describe("rangfolge: echte Daten", () => {
     }
   });
 
-  it("Depot: jede exakte Anlagenzeile hat gewichtete Punkte", () => {
+  it("Depot: jede Anlagenzeile mit Zahl hat gewichtete Punkte, auch „mind. x von N“", () => {
     for (const a of brokerVergleich) {
       for (const k of ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) {
         const w = a.werte[k];
-        if (typeof w === "string" && /^\d+ von \d+$/.test(w)) expect(typeof a.halalAnlagenPunkte?.[k], `${a.id} ${k}`).toBe("number");
+        if (typeof w === "string" && /^(mind\. )?\d+ von \d+$/.test(w)) expect(typeof a.halalAnlagenPunkte?.[k], `${a.id} ${k}`).toBe("number");
       }
     }
+  });
+
+  it("Depot: jedes Depot ohne rotes Zins-Tor steht in der Rangfolge, nichts bleibt unbewertet", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    expect(r.nichtBewertet).toEqual([]);
+    expect(r.gerankt.length + r.abgeraten.length).toBe(brokerVergleich.length);
   });
 
   it("Steuer: jeder Anbieter hat einen Einzelpreis als Zahl oder ausdrücklich null", () => {

@@ -32,6 +32,7 @@ const etikettTon: Record<string, string> = {
   empfehlung: "bg-primary/10 text-primary",
   bonus: "bg-success/10 text-success",
   hinweis: "bg-accent/10 text-accent",
+  platz: "bg-muted text-foreground",
 };
 
 export const VergleichsTabelle = ({

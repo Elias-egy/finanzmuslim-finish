@@ -95,11 +95,17 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     }
   });
 
-  it("vergibt keine Note, wenn Zinsen nicht abschaltbar oder nicht geprüft sind", () => {
-    const gerankt = new Set(rangfolge(anbieter, kategorie, { finanzMax: max }).gerankt.map((b) => b.anbieter.id));
+  it("vergibt keine Note, wenn Zinsen nicht abschaltbar sind, und nie Nummer 1 ohne belegtes Zins-Tor", () => {
+    const r = rangfolge(anbieter, kategorie, { finanzMax: max });
+    const gerankt = new Map(r.gerankt.map((b) => [b.anbieter.id, b]));
     for (const a of anbieter) {
       const tuer = a.werte.zinsfreiAbStart;
-      if (tuer !== "gut" && tuer !== "teils") expect(gerankt.has(a.id), a.id).toBe(false);
+      if (tuer === "schlecht") expect(gerankt.has(a.id), a.id).toBe(false);
+      else if (tuer !== "gut" && tuer !== "teils") {
+        // Nicht belegtes Tor: bewertet, aber der Halal-Teil zählt nichts und es kann nie Nummer 1 werden.
+        expect(gerankt.get(a.id)?.halal, a.id).toBe(0);
+        expect(gerankt.get(a.id)?.uneingeschraenkt, a.id).toBe(false);
+      }
     }
   });
 });

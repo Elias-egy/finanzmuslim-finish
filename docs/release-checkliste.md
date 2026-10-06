@@ -5,6 +5,13 @@ tatsächlich anzeigt, nicht aus der alten Prüfmatrix.
 
 ## A. Muss vor dem Go (Release-Blocker)
 
+- [x] **Depot-Rangfolge 45 von 45 (06.10.2026, Paket A):** Jedes nicht rote Depot hat eine Note. In den Halal-Anteil zählen nur
+      Anlagen mit Kaufbeleg, Unbelegtes zählt 0, nichts wird geschätzt (`src/lib/rangfolge.ts`, `depotUrteil`). Ein nicht belegtes
+      Zins-Tor (Santander) zählt Halal 0 und kann nie Nummer 1 sein; fehlende Kosten-Punkte zählen 0. Die Seiten zeigen keine
+      Wörter über den Stand der Prüfung mehr, leere Zellen sind ein Strich. Depot-, Giro- und Krypto-Liste stehen in
+      Rangfolge mit „Platz n“. Blau in Steuer, Screener, Edelmetall zählt an eigenen Programmen (Zusage oder Link):
+      Steuer 0 von 2, Screener 0 von 1, Edelmetall 0 von 0. Offen: Steuer 10 von 12 gerankt (STEUEReasy, wundertax).
+
 - [x] **Mail-Runde 2 abgeschickt**: 27 Mails am 21.09. aus `eliaselgendy2006@gmail.com`, im Gesendet-Ordner einzeln geprüft.
 - [ ] **Antworten eintragen** (Claude, laufend; Historie je Anbieter in `src/data/anfragenLog.ts`): Wortlaut mit Datum als Beleg, dann Tests und Build. Eingetragen bis 21.09.:
       meine Bank, Haspa, EthikBank, HVB, tradegate.direct, justTRADE, Bitvavo, Smartbroker+. Am 22.09.: Commerzbank-Depots,

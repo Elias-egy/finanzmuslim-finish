@@ -239,7 +239,7 @@ const AnlageDetail = () => {
                     ? anlage.zertifikatArt === "index"
                       ? "liegt vor, gilt dem Index"
                       : "liegt vor"
-                    : "noch nicht geprüft"}
+                    : "–"}
                 </dd>
               </div>
             </dl>

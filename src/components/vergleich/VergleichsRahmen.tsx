@@ -121,8 +121,7 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
         )}
         <BonusSchild anbieterId={anbieter.id} />
         <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
-          Aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen nicht. Die übrigen {einheit} stehen alphabetisch, bis alle
-          geprüft sind.{" "}
+          Aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen nicht. Die übrigen {einheit} folgen nach unserer Note.{" "}
           <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
             So bewerten wir
           </Link>
@@ -133,21 +132,15 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
 };
 
 /**
- * Steht dort, wo bei Finanzfluss "Bestes Depot" steht. Solange nicht alle
- * Anbieter geprüft sind, gibt es keine Nummer eins und keine Reihenfolge nach
- * Punkten. Eine vorläufige Rangfolge würde Anbieter bewerten, bei denen wir
- * noch nicht nachgesehen haben.
+ * Ordnung der Liste, wenn es keine Nummer 1 gibt: alphabetisch, Kosten und Konditionen
+ * stehen in der Tabelle. Nur ein rotes Zins-Merkmal ändert die Stellung.
  */
 export const ReihenfolgeHinweis = ({ einheit }: { einheit: string }) => (
   <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
-    {/* Handy: ein Satz. Die lange Fassung steht auf dem Laptop und in der Methodik. */}
-    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
-      Alphabetisch sortiert. Die Bewertung folgt, sobald alle {einheit} geprüft sind.
-    </p>
-    <p className="hidden text-[16px] font-bold text-foreground lg:block">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
+    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">Alphabetisch sortiert.</p>
+    <p className="hidden text-[16px] font-bold text-foreground lg:block">Alle {einheit} stehen alphabetisch</p>
     <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
-      Bis dahin stehen alle {einheit} alphabetisch. Kosten und Konditionen sind eingetragen, die
-      Halal-Merkmale prüfen wir einzeln beim Anbieter. Nur eines ändert die Reihenfolge: Wer sich
+      Kosten und Konditionen stehen in der Tabelle. Nur eines ändert die Reihenfolge: Wer sich
       nicht zinsfrei nutzen lässt, steht am Ende, ist rot markiert und bekommt von uns keinen Link.
     </p>
   </section>

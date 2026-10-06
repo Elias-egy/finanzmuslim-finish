@@ -125,17 +125,18 @@ const VergleichMethodik = () => (
           für Zinssparer zählen, etwa die Höhe des Guthabenzinses, haben wir gestrichen.
         </p>
         <p>
-          Jedes Halal-Merkmal prüfen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
+          Jedes Halal-Merkmal belegen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
           in den Bedingungen oder in der Hilfe. Hat der Anbieter dazu nichts Eindeutiges, nutzen wir
-          eine seriöse Finanzredaktion oder einen etablierten Vergleich, etwa Finanzfluss oder extraETF. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
+          eine seriöse Finanzredaktion oder einen etablierten Vergleich, etwa Finanzfluss oder extraETF.
         </p>
         <p>
           Bei den Halal-Anlagen suchen wir jede Anlage einzeln in der Wertpapiersuche oder Produktliste
-          des Anbieters. Steht dort „mind.“, fehlen noch einzelne Anlagen, und die Note wartet, bis
-          alle geprüft sind.
+          des Anbieters. Es zählen nur Anlagen mit Beleg. „mind. 3 von 12“ heißt: Für drei Anlagen
+          liegt der Beleg vor.
         </p>
         <p>
-          Die Reihenfolge ist alphabetisch, bis alle Anbieter geprüft sind.
+          Die Reihenfolge folgt der Note. Der Halal-Teil und die Kosten zählen je zur Hälfte. Von
+          Anbietern, bei denen sich die Zinsen nicht abschalten lassen, raten wir ab.
         </p>
       </section>
 

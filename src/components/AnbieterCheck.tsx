@@ -65,7 +65,6 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
 
   const mitIsin = halalAnlagen.filter((a) => a.isin && ANLAGEN_KAUFBAR[a.isin]);
   const kaufbar = mitIsin.filter((a) => kaufstatus(a.isin!, roh) === "kaufbar");
-  const offen = mitIsin.filter((a) => kaufstatus(a.isin!, roh) === null).length;
 
   return (
     <section className="bg-background py-12 md:py-16">
@@ -134,12 +133,6 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
                 );
               })}
             </div>
-            {offen > 0 && (
-              <p className="mt-4 text-[14px] text-muted-foreground">
-                Bei {offen} weiteren Anlagen ist noch nicht geprüft, ob es sie
-                bei {partner.kurz} gibt.
-              </p>
-            )}
           </div>
         )}
 
