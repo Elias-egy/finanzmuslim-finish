@@ -8,10 +8,11 @@
  *
  * Das Einrichtungsvideo zeigt Scalable Capital. Für andere Depots läuft
  * dasselbe Video mit einem Hinweis darunter; Girokonten zeigen stattdessen
- * die drei Schritte zur Kontoeröffnung.
+ * die drei Schritte zur Kontoeröffnung. Steuersoftware (art "steuer") zeigt
+ * drei Schritte zur Erklärung und hat keine Halal-Merkmale.
  */
 
-export type StartArt = "depot" | "girokonto" | "krypto";
+export type StartArt = "depot" | "girokonto" | "krypto" | "steuer";
 
 export type StartPartner = {
   kurzname: string;
@@ -66,6 +67,116 @@ const derivate = {
 };
 
 export const startPartner: StartPartner[] = [
+  {
+    kurzname: "smartsteuer",
+    anbieter: "smartsteuer",
+    kurz: "smartsteuer",
+    domain: "smartsteuer.de",
+    markenfarbe: "#5F6FFF",
+    art: "steuer",
+    pfad: "/dein-investmentstart/smartsteuer",
+    link: "https://www.awin1.com/cread.php?awinmid=15043&awinaffid=3099915&clickref={SUBID}",
+    titel: ["Deine Steuererklärung,", "auch mit Kapitalerträgen."],
+    knopf: "Bei smartsteuer starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Zahlen erst bei Abgabe", "Auch am Handy", "Daten vom Finanzamt"],
+    schritte: [
+      { titel: "Im Browser starten", text: "smartsteuer läuft direkt im Browser, auch am Handy, ohne Download." },
+      { titel: "Daten vom Finanzamt abholen", text: "Im Bereich „vorausgefüllte Steuererklärung“ holst du die Daten ab, die dem Finanzamt schon vorliegen." },
+      { titel: "Erstattung sehen, dann abgeben", text: "Bezahlt wird erst im Bereich Abgabe, also am Ende." },
+    ],
+    fakten: [
+      {
+        titel: "Kapitalerträge inklusive",
+        text: "Laut smartsteuer unterstützt das Programm unter anderem Kapitalanleger, Vermieter und Selbständige. Dividenden und Gewinne aus Verkäufen trägst du in die Anlage KAP ein.",
+      },
+      {
+        titel: "Zahlen erst bei Abgabe",
+        text: "Du füllst alles aus und siehst deine Erstattung, bevor du bezahlst. Der Preis liegt bei 39,99 € je Steuerjahr, inklusive Mehrwertsteuer.",
+      },
+      {
+        titel: "Bis zu fünf Abgaben",
+        text: "Eine Lizenz gilt für fünf Abgaben im selben Steuerjahr. Geteilt mit der Familie sind das rund 8 € je Person.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben smartsteuer, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+      {
+        q: "Wann zahle ich bei smartsteuer?",
+        a: "Erst im Bereich Abgabe. Vorher füllst du alles aus und siehst, was zurückkommt. Bezahlen geht per PayPal, Lastschrift oder Karte.",
+      },
+    ],
+  },
+  {
+    kurzname: "wiso-steuer",
+    anbieter: "WISO Steuer",
+    kurz: "WISO Steuer",
+    domain: "buhl.de",
+    markenfarbe: "#023E84",
+    art: "steuer",
+    pfad: "/dein-investmentstart/wiso-steuer",
+    link: "https://www.awin1.com/cread.php?awinmid=17387&awinaffid=3099915&clickref={SUBID}",
+    titel: ["Deine Steuererklärung", "mit Depot-Import."],
+    knopf: "Bei WISO Steuer starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Zahlen erst bei Abgabe", "Web, App, Download", "Bis zu 5 Erklärungen"],
+    schritte: [
+      { titel: "Kostenlos ausprobieren", text: "Du kannst alles ausfüllen, bevor du etwas bezahlst." },
+      { titel: "Daten vom Finanzamt abrufen", text: "Der Steuer-Abruf füllt deine Erklärung automatisch vor, laut WISO ein kostenloser Service." },
+      { titel: "Erst bei der Abgabe bezahlen", text: "Bezahlt wird, wenn du die Erklärung abgibst, per PayPal, Kreditkarte oder Lastschrift." },
+    ],
+    fakten: [
+      {
+        titel: "Depot-Daten und Anlage KAP",
+        text: "Laut WISO Steuer importiert das Programm deine Depot-Daten automatisch und erledigt die Anlage KAP für dich.",
+      },
+      {
+        titel: "Zahlen erst bei Abgabe",
+        text: "Du probierst alles kostenlos aus. Das Vorteils-Abo kostet 35,99 € im Jahr und verlängert sich automatisch, der Einzelkauf 45,99 €.",
+      },
+      {
+        titel: "Auf jedem Gerät",
+        text: "WISO Steuer läuft im Web, als Download für Windows und Mac sowie als App für iOS und Android. Eine Lizenz gilt für bis zu 5 Erklärungen.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Abo oder Einzelkauf?",
+        a: "Das Vorteils-Abo kostet 35,99 € im Jahr und verlängert sich automatisch. Der Einzelkauf kostet 45,99 € und endet nach der Erklärung. Wer nur einmal abgibt, fährt mit dem Einzelkauf besser.",
+      },
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben WISO Steuer, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+    ],
+  },
   {
     kurzname: "kraken",
     anbieter: "Kraken",

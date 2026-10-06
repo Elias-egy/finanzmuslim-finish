@@ -42,9 +42,9 @@ const WieIchGeldVerdiene = () => (
                 <p className="mt-3 text-muted-foreground leading-relaxed">
                   Einige Links auf dieser Seite sind mit einem Stern (*) gekennzeichnet.
                   Das sind Werbe- oder Affiliate-Links. Wenn du über einen solchen Link
-                  ein Depot oder Konto eröffnest, erhalte ich eine Vergütung vom Anbieter.
+                  ein Depot oder Konto eröffnest oder ein Steuerprogramm startest, erhalte ich eine Vergütung vom Anbieter.
                   Stand heute sind das Scalable Capital, Traders Place, DKB, finvesto,
-                  N26 und BBBank, teils über das Partnernetzwerk FinanceQuality.
+                  N26, BBBank, smartsteuer und WISO Steuer, teils über die Partnernetzwerke FinanceQuality und Awin.
                 </p>
                 <p className="mt-3 text-muted-foreground leading-relaxed">
                   Für dich ändert sich nichts: derselbe Broker, dieselben Konditionen,

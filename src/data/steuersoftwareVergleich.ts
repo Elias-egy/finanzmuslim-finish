@@ -424,6 +424,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "WISO Steuer",
     produkt: "Abo oder Einzelkauf",
     domain: "buhl.de",
+    link: "/out/wiso-steuer",
     preisEinzel: 45.99,
     werte: {
       plattform: "Windows, Mac, Web, iOS, Android",
@@ -458,6 +459,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "smartsteuer",
     produkt: "Web",
     domain: "smartsteuer.de",
+    link: "/out/smartsteuer",
     preisEinzel: 39.99,
     werte: {
       plattform: "Browser, auch am Handy",

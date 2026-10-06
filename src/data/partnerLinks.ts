@@ -198,8 +198,16 @@ export const partnerLinks: PartnerLink[] = [
     kurzname: "smartsteuer",
     anbieter: "smartsteuer",
     ziel: "/dein-investmentstart/smartsteuer",
-    aktiv: false,
-    notiz: "Awin, Programm 15043 (smartsteuer DE), Standard-Link https://www.awin1.com/cread.php?awinmid=15043&awinaffid=3099915 (leitet am 29.09.2026 auf smartsteuer.de/online/). Zugelassen 28.09.2026, Willkommensmail 29.09.2026: Neukunde 20 €, Bestandskunde 1,50 €. Inaktiv, bis es eine Startseite fuer Steuersoftware gibt und der Steuervergleich Partner zeigt.",
+    aktiv: true,
+    notiz: "Awin, Programm 15043 (smartsteuer DE), Standard-Link https://www.awin1.com/cread.php?awinmid=15043&awinaffid=3099915 (leitet am 29.09.2026 auf smartsteuer.de/online/). Zugelassen 28.09.2026, Willkommensmail 29.09.2026: Neukunde 20 €, Bestandskunde 1,50 €. Aktiv seit 06.10.2026, Startseite mit Steuer-Aufbau (art steuer), Link mit clickref.",
+  },
+
+  {
+    kurzname: "wiso-steuer",
+    anbieter: "WISO Steuer",
+    ziel: "/dein-investmentstart/wiso-steuer",
+    aktiv: true,
+    notiz: "Awin, Programm 17387 (WISO Steuer-Software von Buhl Data), Standard-Link https://www.awin1.com/cread.php?awinmid=17387&awinaffid=3099915 (leitet am 06.10.2026 auf buhl.de/steuer/). Zugelassen 29.09.2026, im Portal gesehen 06.10.2026. Provision laut Programmtext: Abo 15 €, Einzelkauf 5 €, SignUp 2,50 €, nur WISO Steuer-App im Buhl-Shop. Link mit clickref.",
   },
   {
     kurzname: "consorsbank-depot",

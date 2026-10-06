@@ -142,9 +142,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   const [finalCtaVisible, setFinalCtaVisible] = useState(false);
   const istDepot = partner.art === "depot";
   const istKrypto = partner.art === "krypto";
-  const produktWort = istDepot ? "Depot" : "Konto";
-  // Seitentitel je Art: Depot, Girokonto oder Krypto-Konto.
-  const seitenWort = istDepot ? "Investmentstart" : istKrypto ? "Krypto-Konto" : "Girokonto";
+  const istSteuer = partner.art === "steuer";
+  const produktWort = istDepot ? "Depot" : istSteuer ? "Programm" : "Konto";
+  // Seitentitel je Art: Depot, Girokonto, Krypto-Konto oder Steuererklärung.
+  const seitenWort = istDepot ? "Investmentstart" : istKrypto ? "Krypto-Konto" : istSteuer ? "Steuererklärung" : "Girokonto";
 
   // Video startet stumm (o-vegas-Muster). "Ton an" entstummt; jeder Klick auf
   // einen Aufruf pausiert das Video, damit die Stimme nicht in die
@@ -203,13 +204,15 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     <div className="min-h-screen bg-background">
       {/* Conversion-Seite: nicht indexieren, nicht in Sitemap oder Navigation. */}
       <Seo
-        title={`Dein ${seitenWort} bei ${partner.anbieter} – finanzmuslim`}
+        title={`${istSteuer ? "Deine" : "Dein"} ${seitenWort} bei ${partner.anbieter} – finanzmuslim`}
         description={
           istDepot
             ? `Schritt für Schritt zum islamkonformen Depot bei ${partner.anbieter}.`
             : istKrypto
               ? `Schritt für Schritt zum zinsfreien Krypto-Konto bei ${partner.anbieter}.`
-              : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
+              : istSteuer
+                ? `Deine Steuererklärung bei ${partner.anbieter}, auch mit Kapitalerträgen aus Depot und Krypto.`
+                : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
         }
         path={partner.pfad}
         noindex
@@ -305,10 +308,12 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
       <section className="bg-background py-10 md:py-14">
         <div className="container max-w-2xl text-center">
           <p className="reveal text-[15px] md:text-[17px] text-foreground/85 leading-relaxed">
-            Du kannst dein {produktWort} auch ohne meinen Link eröffnen: derselbe Anbieter, dieselben Konditionen. Der
+            Du kannst {istSteuer ? partner.anbieter : `dein ${produktWort}`} auch ohne meinen Link {istSteuer ? "nutzen" : "eröffnen"}: derselbe Anbieter, dieselben Konditionen. Der
             einzige Unterschied ist, ob {partner.anbieter} etwas an mich weitergibt.{" "}
             <span className="font-semibold">
-              Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, Hauptsache du startest halal.
+              {istSteuer
+                ? "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, nimm gern Mein ELSTER, das kostet nichts."
+                : "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, Hauptsache du startest halal."}
             </span>
           </p>
         </div>
@@ -338,7 +343,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 <h2 className="headline text-xl md:text-2xl">Am Laptop? Mach&apos;s direkt am Handy.</h2>
               </div>
               <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">
-                Scann den Code, die Seite öffnet sich auf deinem Handy und du eröffnest dein {produktWort} dort
+                Scann den Code, die Seite öffnet sich auf deinem Handy und du {istSteuer ? "startest deine Steuererklärung" : `eröffnest dein ${produktWort}`} dort
                 {istDepot ? ", während das Video hier weiterläuft" : ""}.{" "}
                 <span className="font-semibold text-foreground">Wichtig:</span> Klick den Button dann auf dem Handy.
               </p>
@@ -374,7 +379,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
         <div className="container">
           <div className="reveal text-center">
             <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
-              <span className="h-px w-6 bg-primary" /> {istDepot ? "Der Broker" : "Die Bank"}{" "}
+              <span className="h-px w-6 bg-primary" /> {istDepot ? "Der Broker" : istSteuer ? "Das Programm" : "Die Bank"}{" "}
               <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Warum {partner.anbieter}? Drei Fakten.</h2>
@@ -532,7 +537,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           <p className="reveal mt-4 text-white/80 leading-relaxed text-[15px] md:text-base">
             {istDepot
               ? "Schritt für Schritt, und dein Halal-Depot steht."
-              : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
+              : istSteuer
+                ? "Ausfüllen, Erstattung sehen, dann entscheiden."
+                : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
           </p>
           <div className="reveal mt-8">
             <CtaBlock partner={partner} href={partnerLink(partner, `${subId}f`)} onCtaClick={pauseVideo} />
@@ -581,7 +588,11 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           <div className="flex items-center gap-3">
             <div className="hidden min-w-0 flex-1 md:block">
               <p className="truncate text-[15px] font-semibold text-foreground">
-                {istDepot ? `Dein Halal-Depot bei ${partner.anbieter}` : `Dein zinsfreies Konto bei ${partner.anbieter}`}
+                {istDepot
+                  ? `Dein Halal-Depot bei ${partner.anbieter}`
+                  : istSteuer
+                    ? `Deine Steuererklärung bei ${partner.anbieter}`
+                    : `Dein zinsfreies Konto bei ${partner.anbieter}`}
               </p>
               <p className="text-[12px] text-muted-foreground">
                 Werbung/Affiliate-Link{istDepot ? " · Kapitalanlagen bergen Risiken." : ""}

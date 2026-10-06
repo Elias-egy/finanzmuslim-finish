@@ -27,9 +27,9 @@ import { OFFENE_ANFRAGEN } from "../src/data/anfragenOffen";
 const EIGENE_PROGRAMME: RangKategorie[] = ["steuer", "screener", "edelmetall"];
 /**
  * Marken mit Zusage, aber noch ohne Link auf der Seite. Dieselbe Liste wie ZUSAGE in
- * ~/rebrand/partner-cockpit/bauen.py (Awin: smartsteuer, WISO; Insert Affiliate: Zoya).
+ * ~/rebrand/partner-cockpit/bauen.py (Insert Affiliate: Zoya; smartsteuer und WISO haben seit 06.10.2026 einen Link).
  */
-const ZUSAGEN_OHNE_LINK = ["smartsteuer", "wiso", "zoya"];
+const ZUSAGEN_OHNE_LINK = ["zoya"];
 const hatZusage = (a: RohAnbieter) => ZUSAGEN_OHNE_LINK.some((k) => a.name.toLowerCase().includes(k));
 
 const sets: [RangKategorie, RohAnbieter[]][] = [

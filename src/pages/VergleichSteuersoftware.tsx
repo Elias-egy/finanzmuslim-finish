@@ -119,7 +119,7 @@ const VergleichSteuersoftware = () => (
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
     standHinweis="Alle Preise beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Keines dieser Programme ist ein Partner von uns."
+    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei smartsteuer und WISO Steuer erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns."
     kriterienTitel="Worauf wir hier achten"
     kriterien={[
       {

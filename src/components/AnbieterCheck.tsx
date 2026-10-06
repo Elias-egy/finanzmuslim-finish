@@ -7,6 +7,7 @@ import { kaufstatus } from "@/data/kaufstatus";
 import { brokerVergleich, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { girokontoVergleich, GIRO_ZEILEN } from "@/data/girokontoVergleich";
 import { kryptoVergleich, KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
+import { steuersoftwareVergleich, STEUER_ZEILEN } from "@/data/steuersoftwareVergleich";
 import { halalAnlagen, type Kategorie } from "@/data/halalAnlagen";
 import type { StartPartner } from "@/data/investmentStart";
 import { baueSpalten } from "@/data/vergleichHelfer";
@@ -21,12 +22,17 @@ const KOSTEN_KEYS = {
   depot: ["depotgebuehr", "orderkosten", "etfSparplanKosten", "sparrate"],
   girokonto: ["kontofuehrung", "debitkarte", "girocard", "applePay"],
   krypto: ["gesamtkosten", "auszahlungBitcoin", "anzahlCoins", "mindestbetrag"],
+  steuer: ["preis", "zahlung", "abgaben"],
 } as const;
+
+/** Steuersoftware hat keine Halal-Merkmale, dort stehen stattdessen die Leistungen. */
+const LEISTUNGEN_STEUER = ["plattform", "kapital", "selbststaendige", "vermietung", "belegabruf"];
 
 const VERGLEICH = {
   depot: { daten: brokerVergleich, zeilen: DEPOT_ZEILEN, wort: "Depot" },
   girokonto: { daten: girokontoVergleich, zeilen: GIRO_ZEILEN, wort: "Girokonto" },
   krypto: { daten: kryptoVergleich, zeilen: KRYPTO_ZEILEN, wort: "Krypto" },
+  steuer: { daten: steuersoftwareVergleich, zeilen: STEUER_ZEILEN, wort: "Steuersoftware" },
 } as const;
 
 const KATEGORIE_TITEL: { titel: string; kategorien: Kategorie[] }[] = [
@@ -53,12 +59,15 @@ const Zeile = ({
 
 const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
+  const istSteuer = partner.art === "steuer";
   const { daten, zeilen, wort } = VERGLEICH[partner.art];
   const roh = daten.find((a) => a.link === `/out/${partner.kurzname}`);
   if (!roh) return null;
   const [spalte] = baueSpalten([roh], zeilen);
 
-  const halal = zeilen.filter((z) => z.gruppe === "halal");
+  const halal = istSteuer
+    ? LEISTUNGEN_STEUER.map((k) => zeilen.find((z) => z.key === k)).filter((z): z is VergleichsZeile => Boolean(z))
+    : zeilen.filter((z) => z.gruppe === "halal");
   const kosten = KOSTEN_KEYS[partner.art]
     .map((k) => zeilen.find((z) => z.key === k))
     .filter((z): z is VergleichsZeile => Boolean(z));
@@ -75,7 +84,7 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
             Das bekommst du bei {partner.kurz}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted-foreground md:text-[17px]">
-            Prüfe die Halal-Merkmale und Kosten, bevor du startest: dieselben
+            Prüfe {istSteuer ? "Leistungen" : "die Halal-Merkmale"} und Kosten, bevor du startest: dieselben
             Daten wie im {wort}-Vergleich.
           </p>
         </div>
@@ -83,7 +92,7 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <div className="reveal card-surface p-5 md:p-6">
             <h3 className="text-[17px] font-bold text-foreground">
-              Halal-Merkmale
+              {istSteuer ? "Leistungen" : "Halal-Merkmale"}
             </h3>
             <div className="mt-2">
               {halal.map((z) => (
@@ -138,7 +147,7 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
 
         <div className="mt-6 text-center">
           <Link
-            to={istDepot ? "/vergleich/depot" : "/vergleich/girokonto"}
+            to={istDepot ? "/vergleich/depot" : istSteuer ? "/vergleich/steuersoftware" : "/vergleich/girokonto"}
             className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-primary hover:underline"
           >
             Alle Anbieter im Vergleich <ArrowRight className="h-4 w-4" />
