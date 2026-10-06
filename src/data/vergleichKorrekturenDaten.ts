@@ -47,16 +47,30 @@ const scalableFactsheet = (hinweis: string): Quelle => ({
   hinweis,
 });
 
+/** Preisseite oder Preisverzeichnis des Anbieters, gelesen am 06.10.2026. */
+const preisseite = (anzeige: string, url: string, hinweis: string): Quelle => ({
+  url,
+  stand: "06.10.2026",
+  anzeige,
+  hinweis,
+});
+
 export const DEPOT_WERTE: Werte = {
   // justTRADE-Teilnahmebedingungen (financeAds, 04.10.2026): Orderkosten nur mit dem Zusatz zu Spreads nennen.
   "justtrade-depot": { orderkosten: "1€ zzgl. marktüblicher Spreads" },
-  "maxblue-wertpapier-sparplan": { zinsfreiAbStart: "gut" },
+  "maxblue-wertpapier-sparplan": {
+    zinsfreiAbStart: "gut",
+    etfSparplanKosten: "1,25%. iShares MSCI World Islamic bis 250€ je Rate: 0€ bis 31.12.2026",
+  },
   "maxblue-depot": { zinsfreiAbStart: "gut" },
   "geno-broker-genobasis-depot": { zinsfreiAbStart: "gut" },
   "geno-broker-genoprofi": { zinsfreiAbStart: "gut" },
   "libertex-depot": { zinsfreiAbStart: "gut" },
   "bux-basic": { zinsfreiAbStart: "gut" },
-  "consorsbank-depot": { zinsfreiAbStart: "gut" },
+  "consorsbank-depot": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "4,95€ + 0,25% (min. 9,95€, max. 69€), dazu Handelsplatz: Tradegate 0,95€",
+  },
   "etoro-depot": { zinsfreiAbStart: "gut" },
   "revolut-standard": { zinsfreiAbStart: "gut" },
   "scalable-capital-prime-plus-broker": {
@@ -66,7 +80,7 @@ export const DEPOT_WERTE: Werte = {
   },
   "trading-212-depot": { zinsfreiAbStart: "gut" },
   "vivid-standard": { zinsfreiAbStart: "gut" },
-  "trade-republic-depot": { zinsfreiAbStart: "gut" },
+  "trade-republic-depot": { zinsfreiAbStart: "gut", depotgebuehr: "0€" },
   "tradegate-direct-depot": { zinsfreiAbStart: "gut" },
   "pax-bank-klassisches-depot": { zinsfreiAbStart: "gut" },
   "pax-bank-online-brokerage": { zinsfreiAbStart: "gut" },
@@ -83,7 +97,10 @@ export const DEPOT_WERTE: Werte = {
   "commerzbank-klassikdepot": { zinsfreiAbStart: "gut" },
   "commerzbank-premiumdepot": { zinsfreiAbStart: "gut" },
   "joe-broker-depot": { zinsfreiAbStart: "gut" },
-  "comdirect-depot": { zinsfreiAbStart: "gut" },
+  "comdirect-depot": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "3,90€ in den ersten 36 Monaten für Neukunden, danach 4,90€ + 0,25% (min. 9,90€, max. 59,90€)",
+  },
   "comdirect-pure-depot": { zinsfreiAbStart: "gut" },
   "bitpanda-depot": { zinsfreiAbStart: "gut" },
   "interactive-brokers-depot": { zinsfreiAbStart: "schlecht" },
@@ -98,10 +115,17 @@ export const DEPOT_WERTE: Werte = {
   },
   "bbbank-depot": { zinsfreiAbStart: "gut" },
   "targobank-direkt-depot": { zinsfreiAbStart: "gut" },
+  "smartbroker-plus-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
+  "traders-place-depot": {
+    orderkosten: "0€ ab 500€ je Order, darunter 0,95€",
+    etfSparplanKosten: "0€ bei Amundi, DWS, DJE, Xtrackers, iShares und Vanguard, sonst 0,50€",
+  },
+  "finanzen-net-zero-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
+  "flatex-depot": { orderkosten: "5,90€ + 2€ Fremdkostenpauschale" },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
-  "maxblue-wertpapier-sparplan": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." } },
+  "maxblue-wertpapier-sparplan": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." }, etfSparplanKosten: preisseite("maxblue", "https://www.maxblue.de/geldanlage/geld-anlegen/wertpapiersparplan.html", "„1,25% vom Kurswert je Kauf (regulär)“. Aktion: „0 Euro Kaufgebühren für Anlagebeträge bis zu 250 Euro je ETF“, „Aktion gültig vom 1. Juni 2021 bis 31. Dezember 2026.“ Die Produktliste von maxblue führt den iShares MSCI World Islamic UCITS ETF (WKN A0NA46) mit „100% bis 250€ Rate“ als Aktionsprodukt.") },
   "geno-broker-genobasis-depot": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." } },
   "geno-broker-genoprofi": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." } },
   "maxblue-depot": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." } },
@@ -119,7 +143,7 @@ export const DEPOT_QUELLEN: Quellen = {
   "pax-bank-klassisches-depot": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." } },
   "pax-bank-online-brokerage": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." } },
   "bux-basic": { zinsfreiAbStart: { url: "https://getbux.com/blog/interest-on-cash/", stand: "24.09.2026", hinweis: "BUX nennt alle drei Stufen in einem Satz: „All onboarded BUX users that are on BUX Plus and BUX Prime immediately earn interest on uninvested cash.“ Und die Staffel: „Your interest rate depends on your account type: BUX Basic 0% / BUX Plus 1,75% on up to €100k / BUX Prime 2,00% on up to €100k“. Basic steht ausdrücklich auf 0 %, die Verzinsung hängt an den kostenpflichtigen Stufen." } },
-  "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Konten", stand: "24.09.2026", hinweis: "Consorsbank listet im Preis- und Leistungsverzeichnis Konten jede Kontoart einzeln auf. Beim Tagesgeldkonto steht „1.1 Zinsen Zinssatz 1,00 % p. a.“, beim Verrechnungskonto dagegen nur „3.1 Zinsen Sollzinsen … für eingeräumte Überziehungen (Wertpapierkredit) 7,55 % p. a.“ und keine Guthabenzinsen. Das auf der Depotseite beworbene Tagesgeldkonto („inklusive Tagesgeldkonto mit 3,60 % p. a.“) ist damit ein eigenes Konto neben dem Verrechnungskonto, und bleibt ohne eigene Einzahlung leer. Einschränkung: Eine ausdrückliche Aussage „das Verrechnungskonto wird nicht verzinst“ steht dort nicht, die Zinsstruktur ist aber vollständig aufgeschlüsselt. Schriftlich bestätigt von der Consorsbank-Kundenbetreuung am 24.09.2026 (Ticket 86382271-78901a6): „Auf dem Verrechnungskonto wird das Guthaben nicht verzinst. Das Tagesgeldkonto ist ein eigenes Konto das im Verbund mit dem Verrechnungskonto und Depot eröffnet wird. Wenn Kein Guthaben auf dem Tagesgeldkonto liegt, werden auch hier keine Zinsen ausgeschüttet.“" } },
+  "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Konten", stand: "24.09.2026", hinweis: "Consorsbank listet im Preis- und Leistungsverzeichnis Konten jede Kontoart einzeln auf. Beim Tagesgeldkonto steht „1.1 Zinsen Zinssatz 1,00 % p. a.“, beim Verrechnungskonto dagegen nur „3.1 Zinsen Sollzinsen … für eingeräumte Überziehungen (Wertpapierkredit) 7,55 % p. a.“ und keine Guthabenzinsen. Das auf der Depotseite beworbene Tagesgeldkonto („inklusive Tagesgeldkonto mit 3,60 % p. a.“) ist damit ein eigenes Konto neben dem Verrechnungskonto, und bleibt ohne eigene Einzahlung leer. Einschränkung: Eine ausdrückliche Aussage „das Verrechnungskonto wird nicht verzinst“ steht dort nicht, die Zinsstruktur ist aber vollständig aufgeschlüsselt. Schriftlich bestätigt von der Consorsbank-Kundenbetreuung am 24.09.2026 (Ticket 86382271-78901a6): „Auf dem Verrechnungskonto wird das Guthaben nicht verzinst. Das Tagesgeldkonto ist ein eigenes Konto das im Verbund mit dem Verrechnungskonto und Depot eröffnet wird. Wenn Kein Guthaben auf dem Tagesgeldkonto liegt, werden auch hier keine Zinsen ausgeschüttet.“" }, orderkosten: preisseite("Consorsbank", "https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Wertpapiere", "Grundpreis je Order „Silver: 4,95 Euro zzgl. marktüblicher Spreads“, Provisionssatz „Silver: 0,25 %“, mindestens „Silver: 9,95 Euro“, höchstens „Silver: 69 Euro“. Dazu Handelsplatzkosten: „Tradegate Exchange: 0,95 Euro“, „gettex: 1,95 Euro“, „XETRA: 1,95 Euro zzgl. Transaktionsentgelt“.") },
   "etoro-depot": { zinsfreiAbStart: { url: "https://www.etoro.com/de/investing/interest-on-balance/", stand: "24.09.2026", hinweis: "eToro beschreibt die Guthabenzinsen als Schalter, den der Kunde selbst umlegt: „So erhalten Sie Zinsen: Loggen Sie sich bei Ihrem etoro Konto ein / Gehen Sie zum Club-Dashboard / Aktivieren Sie den Schalter ‚Guthabenzinsen‘.“ Ohne diesen Schritt läuft kein Zins. Am 24.09.2026 im echten Chrome gelesen." } },
   "revolut-standard": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/terms/", stand: "24.09.2026", hinweis: "Revolut-AGB Privatkunden, Abschnitt 2: „Wir zahlen keine Zinsen auf die Einlagen auf deinem Girokonto. Du kannst Zinsen verdienen, indem du dein Geld in eines unserer zinstragenden Produkte einzahlst.“ Das Depot läuft über dasselbe Revolut-Standardkonto, für das diese AGB gelten. Zinsen entstehen nur im Tagesgeld-Unterkonto, das man selbst eröffnet und befüllt. Der frühere Beleg sagte nur, Revolut weise nichts aus; Abwesenheit ist kein Beleg, deshalb am 24.09.2026 ersetzt." } },
   "scalable-capital-prime-plus-broker": {
@@ -138,8 +162,13 @@ export const DEPOT_QUELLEN: Quellen = {
       stand: "20.09.2026",
       hinweis: "„Aktiviere Zinsen in der App“; Zinsen laufen nicht ohne eigene Aktivierung.",
     },
+    depotgebuehr: {
+      url: "https://traderepublic.com/de-de/support",
+      stand: "06.10.2026",
+      hinweis: "Hilfe, Frage „Welche Gebühren berechnet ihr?“: „Die Eröffnung eines Wertpapierdepots ist gebührenfrei. Es gibt keine Depotgebühr, keine Negativzinsen und keinen Mindestanlagebetrag.“",
+    },
   },
-  "comdirect-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "24.09.2026", hinweis: "comdirect widerspricht sich in zwei eigenen Dokumenten. Die vorvertraglichen Informationen zum Depot sagen: „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ Das Preis- und Leistungsverzeichnis führt dagegen unter „Enthaltene Leistungen im Tagesgeld“ ausdrücklich „Guthabenverzinsung“ auf, unter „Enthaltene Leistungen im Verrechnungskonto“ in der sonst gleich aufgebauten Liste aber nicht. „Variabel verzinst“ kann also auch „variabel, derzeit 0 %“ heißen. Aufgelöst durch die schriftliche Antwort von comdirect vom 24.09.2026 (Kundenservice, Vorgangsnummer 11756451): „Auf einem Verrechnungskonto befindliches Guthaben wird nicht verzinst. Dies gilt sowohl für das Verrechnungskonto bei einem comdirect Depot als auch bei einem Pure Depot.“ Die Aussage nennt beide Depots ausdrücklich." } },
+  "comdirect-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "24.09.2026", hinweis: "comdirect widerspricht sich in zwei eigenen Dokumenten. Die vorvertraglichen Informationen zum Depot sagen: „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst.“ Das Preis- und Leistungsverzeichnis führt dagegen unter „Enthaltene Leistungen im Tagesgeld“ ausdrücklich „Guthabenverzinsung“ auf, unter „Enthaltene Leistungen im Verrechnungskonto“ in der sonst gleich aufgebauten Liste aber nicht. „Variabel verzinst“ kann also auch „variabel, derzeit 0 %“ heißen. Aufgelöst durch die schriftliche Antwort von comdirect vom 24.09.2026 (Kundenservice, Vorgangsnummer 11756451): „Auf einem Verrechnungskonto befindliches Guthaben wird nicht verzinst. Dies gilt sowohl für das Verrechnungskonto bei einem comdirect Depot als auch bei einem Pure Depot.“ Die Aussage nennt beide Depots ausdrücklich." }, orderkosten: preisseite("comdirect", "https://www.comdirect.de/depot/pure-depot.html", "Vergleichstabelle auf der Depotseite, Spalte comdirect Depot: „3,90 Euro Orderentgelt pro Trade für 36 Monate für Depotneukundinnen und -kunden (zzgl. marktüblicher Spreads, Zuwendungen, börsenplatzabhängiger Entgelte und ggf. anfallender fremder Kosten)“. Preis- und Leistungsverzeichnis, gültig ab 15.07.2026: „4,90 EUR + 0,25 % des Ordervolumens“, „mindestens (bis 2.000 EUR Ordervolumen) 9,90 EUR“, „maximal 59,90 EUR“.") },
   "comdirect-pure-depot": { zinsfreiAbStart: { url: "https://www.comdirect.de/cms/docs/cori8384.pdf", stand: "24.09.2026", hinweis: "Die vorvertraglichen Informationen zum comdirect Depot allein belegten das Pure Depot nicht. Der Satz „Das Guthaben auf dem Verrechnungskonto wird von der Bank variabel verzinst“ steht in den Informationen zum comdirect Depot und nennt das Pure Depot nicht. Zudem widerspricht ihm das Preis- und Leistungsverzeichnis, das die „Guthabenverzinsung“ nur beim Tagesgeld auflistet, nicht beim Verrechnungskonto. Aufgelöst durch die schriftliche Antwort von comdirect vom 24.09.2026 (Kundenservice, Vorgangsnummer 11756451): „Auf einem Verrechnungskonto befindliches Guthaben wird nicht verzinst. Dies gilt sowohl für das Verrechnungskonto bei einem comdirect Depot als auch bei einem Pure Depot.“ Das Pure Depot wird namentlich genannt." } },
   "bitpanda-depot": { zinsfreiAbStart: { url: "https://www.bitpanda.com/en/bitpanda-cash-plus", stand: "26.09.2026", hinweis: "Rendite auf das Euro-Guthaben gibt es nur über Bitpanda Cash Plus, und das schaltest du selbst ein: „Activate Cash Plus Open the Bitpanda App, deposit EUR/GBP/USD or tap on your available EUR/GBP/USD balance.“ … „By switching the toggles you accept the derivative contract and start earning a yield.“ Ohne diesen Schalter bleibt das Guthaben ohne Ertrag. Passive Earn betrifft nur Krypto." } },
   "interactive-brokers-depot": { zinsfreiAbStart: { url: "https://www.interactivebrokers.ie/de/accounts/fees/pricing-interest-rates.php", stand: "23.09.2026", hinweis: "Interactive Brokers auf der eigenen deutschen Zinsseite: „Unsere Kundinnen und Kunden können Zinsen auf positive, abgerechnete Barsalden verdienen, d. h. auf nicht angelegtes Barguthaben auf ihrem Konto.“ und „Der gemischte Jahreszinssatz gilt für das nicht angelegte Guthaben auf dem Konto, wobei jedoch Guthaben unter einem bestimmten Schwellenwert nicht verzinst werden.“ Von einem Abschalten steht dort nichts. Der frühere Beleg war der Finanzfluss-Vergleich und damit kein Anbieterbeleg; ersetzt am 23.09.2026." } },
@@ -153,6 +182,19 @@ export const DEPOT_QUELLEN: Quellen = {
     zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "28.09.2026", hinweis: "Scalable Capital führt in der Zinsübersicht beide Stufen nebeneinander („Mit PRIME+“ und „Ohne PRIME+“) und nennt für beide: „Verrechnungskonten 0 % p.a.“ Das Tagesgeld mit 2,60 % p.a. ist eine eigene Zeile und ein eigenes Produkt, das man aktiv wählen und befüllen muss. Gilt damit auch für Free Broker. Schriftlich bestätigt vom Scalable-Kundenservice am 28.09.2026 (Ticket 03158853): „Das Guthaben auf dem Verrechnungskonto wird weder im FREE Broker noch im PRIME+ Modell verzinst (0 % p.a.).“ Zum Tagesgeld: „eine Neueröffnung ist für die Nutzung des Brokers jedoch nicht zwingend erforderlich“." } },
   "bbbank-depot": { zinsfreiAbStart: { url: "https://www.bbbank.de/privatkunden/geldanlage/depot.html", stand: "28.09.2026", hinweis: "Die BBBank rechnet das Depot über ein eigenes Girokonto ab: „Voraussetzungen für die Online-Depoteröffnung: BBBank Kunde, volljährig und ein Girokonto auf Ihren Namen.“ Das Preis- und Leistungsverzeichnis (3.1.1 Privatkonten, Zeile „Ab 0,01 Euro Anlagebetrag“) führt beim BBBank-Girokonto und beim BetterSmart Konto „./.“, nur das Junge BBBank-Girokonto (unter 18) hat „0,01%“. Für Erwachsene liegt das Geld also ab Eröffnung ohne Zins." } },
   "targobank-direkt-depot": { zinsfreiAbStart: { url: "https://www.targobank.de/de/download/agb/agb.pdf", stand: "28.09.2026", hinweis: "Die TARGOBANK rechnet über das Girokonto ab (Bedingungen, 4.4 Investment-Auszahlpläne: „Der Gegenwert wird dem Verrechnungskonto des Kunden gutgeschrieben“ … „Gutschrift des Gegenwerts auf dem Girokonto“). Das Online-Konto hat keinen Guthabenzins, derselbe Sonderfall wie beim Girokonto (vollständige Zinsgliederung im Preis- und Leistungsverzeichnis, Tagesgeld-Seite: „Auf dem Girokonto liegt Ihr Erspartes unverzinst“). Eine schriftliche Bestätigung fehlt, die TARGOBANK verweist auf die Filiale." } },
+  "smartbroker-plus-depot": {
+    orderkosten: preisseite("Smartbroker+", "https://www.smartbrokerplus.de/de-de/konditionen/", "Transaktionspreise, gettex (Aktien, Anleihen, ETFs/ETPs, Fonds): „0 EUR (ab 500 EUR Ordervolumen)“, „1 EUR (bis 499,99 EUR Ordervolumen)“."),
+  },
+  "traders-place-depot": {
+    orderkosten: preisseite("Traders Place", "https://tradersplace.de/konditionen/deine-konditionen", "Handelsplatz gettex: „Gebühr je Order bei Aktien, ETFs, Fonds und Anleihen“ „€ 0,00“, „Gebühr bei Orders unter € 500,- Kurswert“ „€ 0,95“."),
+    etfSparplanKosten: preisseite("Traders Place", "https://tradersplace.de/konditionen/deine-konditionen", "„Sparpläne in ETFs und Fonds unserer Premium Partner Amundi, DWS, DJE, DWS xtrackers, iShares und Vanguard“ „€ 0,00“, „Sonstige Sparpläne in ETFs und Fonds“ „€ 0,50“."),
+  },
+  "finanzen-net-zero-depot": {
+    orderkosten: preisseite("finanzen.net zero", "https://www.finanzen.net/zero/wp-content/uploads/2026/08/Preis-Leistungsverzeichnis-V12_Wertpapiere.pdf", "Preis- und Leistungsverzeichnis, Stand Juli 2026 (V12): „Kauf oder Verkauf von Aktien, ETFs und Fonds über den Handelsplatz gettex oder im außerbörslichen Handel mit der Bank“ „0 €“, „Mindermengenzuschlag bei Orders unter einem Kurswert von 500 € in Aktien, Fonds, ETFs und Bezugsrechten“ „1 €“."),
+  },
+  "flatex-depot": {
+    orderkosten: preisseite("flatex", "https://konto.flatex.de/formularcenter_bank/public/1300100.pdf", "Preis- und Leistungsverzeichnis, gültig ab 24.08.2026: „Deutschland 5,90 EUR“. „Bei den folgenden Handelsplätzen beträgt die Fremdkostenpauschale 2,00 EUR pro Order: Tradegate Exchange, Quotrix, Lang & Schwarz, Lang & Schwarz Exchange, Baader Bank, gettex, Société Générale.“"),
+  },
 };
 
 export const GIRO_WERTE: Werte = {
