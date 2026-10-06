@@ -57,8 +57,17 @@ const AM_ENDE = "order-2";
  * 19.09.2026: "du siehst ja nichts vom Vergleich"). Das Raster hat zwei Spalten,
  * alles außer dem Kopf läuft über beide.
  */
-const RASTER = "lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-12";
+const RASTER = "lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:grid-rows-[auto_1fr] lg:gap-x-12";
+const RASTER_KASTEN_BREIT = "xl:grid-cols-[minmax(0,1fr)_540px]";
 const BREIT = "lg:col-span-2";
+/**
+ * Mit Nummer 1 beginnt der Kasten rechts schon neben den Brotkrumen und wird ab `xl` breit
+ * (Gründe in zwei Spalten). So endet er etwa auf Höhe des Kopfs links, darunter folgt gleich
+ * die Tabelle (Elias, 07.10.2026: Leerraum links neben dem Kasten).
+ */
+const KOPF_LINKS = "lg:col-start-1 lg:row-start-1";
+const KASTEN_OBEN = "lg:row-start-1 lg:row-span-2 lg:mt-0";
+const KASTEN_NEBEN_KOPF = "lg:row-start-2 lg:mt-6";
 export type VergleichsSeiteProps = {
   pfad: string;
   brotkrumen: string;
@@ -212,8 +221,8 @@ export const VergleichsSeite = ({
         ]}
       />
 
-      <div className={`container flex flex-col py-6 md:py-10 ${RASTER}`}>
-        <div className={BREIT}>
+      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${sieger ? RASTER_KASTEN_BREIT : ""}`}>
+        <div className={sieger ? KOPF_LINKS : BREIT}>
           <VergleichsBrotkrumen titel={brotkrumen} />
         </div>
 
@@ -312,7 +321,7 @@ export const VergleichsSeite = ({
         </div>
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
-        <aside className="mt-4 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:self-start">
+        <aside className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF}`}>
           {sieger && (
             <NummerEins
               anbieter={sieger}

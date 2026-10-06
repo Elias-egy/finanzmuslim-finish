@@ -50,7 +50,8 @@ export const VergleichsTabelle = ({
     const el = schieber.current;
     if (!el) return;
     const sichtbar = Math.max(1, Math.floor((el.clientWidth - KRITERIEN) / SPALTE));
-    const erste = Math.floor(el.scrollLeft / SPALTE) + 1;
+    /* Runden statt Abschneiden: sanftes Blättern endet oft einen Bruchteil vor der Spaltenkante. */
+    const erste = Math.round(el.scrollLeft / SPALTE) + 1;
     setVon(Math.min(erste, spalten.length));
     setBis(Math.min(erste + sichtbar - 1, spalten.length));
   }, [spalten.length]);
@@ -151,7 +152,8 @@ export const VergleichsTabelle = ({
               vertikale Kleben passiert ausschliesslich am inneren Div, das
               fuer die Grid-Zeilenberechnung unsichtbar ist. */}
           <div className="sticky left-0 z-30 border-b border-r border-border">
-            <div className="flex flex-col justify-end bg-card px-3 py-2" style={{ position: "sticky", top: KOPF }}>
+            {/* `h-full`: Die Fläche deckt die ganze Zelle. Sonst scheint beim seitlichen Blättern die Spalte darunter durch. */}
+            <div className="flex h-full flex-col justify-end bg-card px-3 py-2" style={{ position: "sticky", top: KOPF }}>
               <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                 Kriterium
               </p>

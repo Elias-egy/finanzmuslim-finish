@@ -115,16 +115,17 @@ export const NummerEins = ({
         <Award className="h-4 w-4 text-spark" aria-hidden />
         Unsere Nummer 1
       </p>
-      <div className="rounded-[14px] bg-card p-4">
+      <div className="rounded-[14px] bg-card p-4 xl:p-5">
         <div className="flex items-center gap-3">
           <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
           <p className="min-w-0 flex-1 text-[18px] leading-snug text-foreground">
             <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}
           </p>
         </div>
-        <ul className="mt-3 space-y-1.5">
+        {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
+        <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
           {[...halal, ...kosten].map((punkt) => (
-            <li key={punkt.text} className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
+            <li key={punkt.text} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span>
                 {punkt.text}
@@ -136,7 +137,7 @@ export const NummerEins = ({
           ))}
         </ul>
         {anbieter.link && (
-          <div className="mt-4">
+          <div className="mt-2.5 xl:mt-3">
             <Link
               to={anbieter.link}
               rel="sponsored nofollow"
