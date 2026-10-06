@@ -143,8 +143,19 @@ export const AngebotsKnopf = ({
      klebenden Kopfzeile durch, statt sie zu uebermalen. */
   const basis =
     "flex min-h-[52px] w-full shrink-0 items-center justify-center rounded-lg px-3 text-center text-[14px] font-semibold leading-tight";
-  /* Ohne Link kein Knopf, wie auf den Handy-Karten. Die Zelle bleibt leer. */
-  if (!link && !abgeraten) return null;
+  /* Ohne Partnerlink wie bei Finanzfluss: derselbe Knopf, blass und nicht klickbar,
+     mit dem Hinweis, dass man das Angebot beim Anbieter selbst abschließt. */
+  if (!link && !abgeraten) {
+    return (
+      <button
+        type="button"
+        disabled
+        className={`${basis} cursor-not-allowed bg-primary px-2 text-[12px] font-normal leading-[14px] text-primary-foreground opacity-40`}
+      >
+        Beim Anbieter direkt abschließbar
+      </button>
+    );
+  }
   if (!link) {
     return (
       <div className="w-full">

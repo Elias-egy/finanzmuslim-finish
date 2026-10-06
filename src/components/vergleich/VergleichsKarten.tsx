@@ -70,13 +70,17 @@ const Karte = ({
       </div>
 
       <div className="p-3">
-        {/* Ohne Partnerlink kein Knopf: ein grauer Knopf, den niemand drücken kann, kostet
-            auf dem Handy bei 52 von 56 Karten zusammen fünf Bildschirme. */}
-        {spalte.link && (
+        {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
+            kostet auf dem Handy über viele Karten mehrere Bildschirme. */}
+        {spalte.link ? (
           <div className="mb-3">
             <AngebotsKnopf link={spalte.link} breit />
             <BonusSchild anbieterId={spalte.id} />
           </div>
+        ) : (
+          !spalte.abgeraten && (
+            <p className="mb-3 text-[12px] text-muted-foreground">Beim Anbieter direkt abschließbar</p>
+          )
         )}
 
         {/* Vier Zahlen, nach denen zuerst gesucht wird */}
