@@ -63,11 +63,23 @@ export const Kennzahlen = ({
 
 /**
  * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
- * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`),
- * Partnerstatus zählt nicht. Die Gründe darunter kommen aus den Zeilen des
+ * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`). Ein Partnerlink
+ * ändert keine Note; in Depot, Girokonto und Krypto steht bei gleicher Sternzahl zuerst,
+ * was einen eigenen Link hat (`linkVorrang`). Die Gründe darunter kommen aus den Zeilen des
  * Vergleichs: erfüllte Halal-Merkmale zuerst, dann die zwei Kostenwerte aus dem Raster.
  */
-export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbieter; zeilen: VergleichsZeile[]; einheit: string }) => {
+export const NummerEins = ({
+  anbieter,
+  zeilen,
+  einheit,
+  linkVorrang = false,
+}: {
+  anbieter: RohAnbieter;
+  zeilen: VergleichsZeile[];
+  einheit: string;
+  /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat. Dann steht das hier. */
+  linkVorrang?: boolean;
+}) => {
   const halal = zeilen
     .filter((z) => z.gruppe === "halal")
     .map((z) => {
@@ -121,7 +133,10 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
         )}
         <BonusSchild anbieterId={anbieter.id} />
         <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
-          Aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen nicht. Die übrigen {einheit} folgen nach unserer Note.{" "}
+          Aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note.{" "}
+          {linkVorrang
+            ? `Bei gleich vielen Sternen steht zuerst, was du über unseren Link eröffnen kannst, danach folgen die ${einheit} nach unserer Note.`
+            : `Die übrigen ${einheit} folgen nach unserer Note.`}{" "}
           <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
             So bewerten wir
           </Link>

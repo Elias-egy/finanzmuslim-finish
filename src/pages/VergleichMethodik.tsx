@@ -155,7 +155,10 @@ const VergleichMethodik = () => (
         <p>
           Mit manchen Anbietern arbeite ich zusammen und erhalte eine Provision, wenn du über einen
           mit Stern markierten Link ein Konto eröffnest. Das ändert nichts an der Bewertung: Kriterien
-          und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft.{" "}
+          und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft. Nur die
+          Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto gleich
+          viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet
+          die Note.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

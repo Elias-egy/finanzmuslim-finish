@@ -23,13 +23,18 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    Steuersoftware folgt seit 06.10.2026 derselben Regel: Unbelegte Leistungs- und Preiswerte
  *    zählen 0 Punkte und die Zelle zeigt einen Strich. Das Tor Anlage KAP bleibt: ohne Beleg
  *    dafür gibt es keinen Platz.
- * 2. Partner kaufen keine Plätze: Diese Datei liest weder `link` noch
- *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals.
+ * 2. Partner kaufen keine Note: Note, Halal- und Kosten-Teil lesen weder `link` noch
+ *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Nur die Reihenfolge in
+ *    Depot, Girokonto und Krypto kennt den eigenen Link (Elias, 06.10.2026: "Die Eins muss
+ *    immer von uns kaufbar sein"): Bei gleicher Sternzahl (`sterne`, halbe Schritte) steht
+ *    zuerst, was über unseren Link eröffnet werden kann, danach entscheidet die Note. Ein
+ *    Link hebt nie über eine höhere Sternzahl. Steuer, Screener und Edelmetall ordnen
+ *    allein nach der Note (`LINK_VORRANG`).
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
  *    bewertet vor gerankt.
- * 4. Reihenfolge: Note, Kosten, Halal, jeweils auf zwei Stellen gerundet und
- *    absteigend, dann Name, Produkt, id. Gleiche Note, Kosten und Halal teilen
- *    den Platz (1, 1, 3).
+ * 4. Reihenfolge: zuerst Regel 2 (`vorrang`), dann Note, Kosten, Halal, jeweils auf zwei
+ *    Stellen gerundet und absteigend, dann Name, Produkt, id. Gleiche Note, Kosten und
+ *    Halal teilen den Platz (1, 1, 3), wo Regel 2 gilt nur bei gleichem Link-Stand.
  * 5. Die Nummer 1 für Kasten und geführten Vergleich kommt nur aus Einträgen
  *    ohne Einschränkung: Zins-Tor grün und keine rote Grundlage (`BASIS`).
  *    So gilt "gelb halbiert" (Elias, 14.09.2026) für die Liste und "kein Mensch
@@ -82,6 +87,23 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
 };
 
 const TOR = "zinsfreiAbStart";
+
+/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
+export const sterne = (note: number): number => Math.round(note * 2) / 2;
+
+/** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
+export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
+
+type MitNote = { note: number; anbieter: RohAnbieter };
+
+/**
+ * Regel 2 als Vergleich: Sterne absteigend, bei gleicher Sternzahl der eigene Link zuerst.
+ * 0 heißt, die Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
+ */
+export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
+  LINK_VORRANG.has(kategorie)
+    ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
+    : 0;
 
 export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
   girokonto: [
@@ -253,7 +275,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   }
 
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
-    q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
+    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
 
   const gerankt: Bewertet[] = [];
@@ -276,8 +298,6 @@ export const nummerEins = (r: Rangliste): Bewertet[] => {
   const kandidaten = r.gerankt.filter((b) => b.uneingeschraenkt);
   if (kandidaten.length === 0) return [];
   const erster = kandidaten[0];
-  return kandidaten.filter((b) => b.note === erster.note && b.kosten === erster.kosten && b.halal === erster.halal);
+  // Derselbe Platz heißt gleichauf in allem, was die Reihenfolge bestimmt (Regel 4).
+  return kandidaten.filter((b) => b.platz === erster.platz);
 };
-
-/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
-export const sterne = (note: number): number => Math.round(note * 2) / 2;

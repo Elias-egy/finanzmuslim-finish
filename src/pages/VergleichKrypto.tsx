@@ -148,6 +148,11 @@ const VergleichKrypto = () => (
           "Weil sein kostenpflichtiges Modell am Zins hängt: Es verlangt gebundene Token oder es rechnet sich über die Verzinsung deines Guthabens. Solche Anbieter stehen bei uns nie auf Platz 1, auch wenn wir daran verdienen könnten. Kaufen kannst du dort trotzdem zinsfrei, deshalb stehen sie in der Liste.",
       },
       {
+        frage: "Wie entsteht die Reihenfolge?",
+        antwort:
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Haben mehrere Börsen gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
+      },
+      {
         frage: "Was ist mit Krypto-ETPs, etwa bei Scalable Capital?",
         antwort:
           "Ein ETP bildet den Kurs ab, du kaufst ein Wertpapier und keinen Coin. Wer den Coin selbst besitzen will, findet dort nicht, was er sucht. Das steht in der Zeile „Echte Coins statt Zertifikat“ und ist unabhängig davon, wie gut der Anbieter sonst ist.",

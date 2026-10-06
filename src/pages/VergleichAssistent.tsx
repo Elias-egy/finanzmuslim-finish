@@ -510,7 +510,7 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
       </div>
 
       <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
-        Die Reihenfolge entsteht aus deinen Angaben und aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen dabei nicht. Das ist ein Vergleich von
+        Die Reihenfolge entsteht aus deinen Angaben und aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note. Bei gleich vielen Sternen steht zuerst, was du über unseren Link eröffnen kannst. Das ist ein Vergleich von
         Anbietern und keine Anlageberatung.
         {mitStern &&
           " * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten."}
@@ -660,7 +660,7 @@ const VergleichAssistent = () => {
           <div className="pt-16 text-center md:pt-24" role="status">
             <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">Wir vergleichen jetzt {anzahl} Anbieter für dich</h1>
             <ul className="mx-auto mt-5 inline-block space-y-2 text-left text-[15px] text-foreground">
-              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Nur Belegtes zählt", "Partnerschaften zählen nicht"].map((s) => (
+              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Nur Belegtes zählt", "Eine Partnerschaft ändert keine Note"].map((s) => (
                 <li key={s} className="flex items-center gap-2">
                   <ShieldCheck className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
                   {s}

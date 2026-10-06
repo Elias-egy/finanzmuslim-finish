@@ -62,7 +62,7 @@ const VergleichGirokonto = () => (
       {
         frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir bei der Bank, Partnerschaften zählen nicht.",
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir bei der Bank, eine Partnerschaft ändert keine Note. Haben mehrere Konten gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
       },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."

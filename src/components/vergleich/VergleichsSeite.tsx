@@ -23,7 +23,7 @@ import {
   anzahlHalalGeprueft,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
-import { rangfolge, type RangKategorie } from "@/lib/rangfolge";
+import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { werteAus } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
@@ -76,8 +76,8 @@ export type VergleichsSeiteProps = {
   standHinweis?: string;
   /**
    * Mit Kategorie und Höchstpunkten steht oben die Nummer 1. Sie entsteht aus
-   * derselben fairen Ordnung wie im geführten Vergleich: nur Belegtes zählt,
-   * Partnerstatus zählt nicht. Die übrige Liste folgt der Rangfolge, sobald jeder
+   * derselben Ordnung wie im geführten Vergleich: nur Belegtes zählt, ein Partnerlink
+   * ändert keine Note (Regel 2 in `rangfolge.ts`). Die übrige Liste folgt der Rangfolge, sobald jeder
    * Anbieter ohne rotes Zins-Merkmal eine Note hat, sonst bleibt sie alphabetisch.
    */
   kategorie?: RangKategorie;
@@ -310,7 +310,12 @@ export const VergleichsSeite = ({
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
         <aside className="mt-4 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:self-start">
           {sieger && (
-            <NummerEins anbieter={sieger} zeilen={zeilen} einheit={einheit} />
+            <NummerEins
+              anbieter={sieger}
+              zeilen={zeilen}
+              einheit={einheit}
+              linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
+            />
           )}
           {sieger && (
             <p className="mt-2 hidden text-[13px] text-muted-foreground lg:block">

@@ -503,7 +503,7 @@ describe("rangfolge: Reihenfolge", () => {
     expect(rKrypto([...liste].reverse())).toEqual(rKrypto(liste));
   });
 
-  it("liest weder Partnerlink noch Finanzfluss-Rang, Etikett oder alte Note", () => {
+  it("rechnet Note, Halal und Kosten ohne Partnerlink, Finanzfluss-Rang, Etikett oder alte Note", () => {
     const ohne = [krypto("a", {}, { finanzPunkte: { gebuehren: 80 } }), krypto("b", {}, { finanzPunkte: { gebuehren: 60 } })];
     const mit = [
       krypto("a", {}, { finanzPunkte: { gebuehren: 80 }, finanzfluss: { produkt: "A", partnerlink: null, rang: 9 } }),
@@ -516,8 +516,75 @@ describe("rangfolge: Reihenfolge", () => {
         noteStand: "09/2026",
       }),
     ];
-    const kurz = (r: Rangliste) => r.gerankt.map((x) => [x.anbieter.id, x.platz, x.note, x.halal, x.kosten]);
+    const kurz = (r: Rangliste) => r.gerankt.map((x) => [x.anbieter.id, x.note, x.halal, x.kosten]).sort();
     expect(kurz(rKrypto(mit))).toEqual(kurz(rKrypto(ohne)));
+  });
+});
+
+/* ------------------------------------------- Eigener Link bei gleichen Sternen */
+
+describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2026)", () => {
+  // a: Kosten 5, Note 5. b: Kosten 5 × 96 / 100 = 4,8, Note 4,9. Beide 5 Sterne.
+  const a = krypto("a");
+  const b = krypto("b", {}, { finanzPunkte: { gebuehren: 96 }, link: "/out/b" });
+
+  it("stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat, die Noten bleiben", () => {
+    const r = rKrypto([a, b]);
+    expect(r.gerankt.map((x) => [x.anbieter.id, x.platz, x.note])).toEqual([
+      ["b", 1, 4.9],
+      ["a", 2, 5],
+    ]);
+    expect(ids(nummerEins(r))).toEqual(["b"]);
+  });
+
+  it("hebt mit Link nie über eine höhere Sternzahl", () => {
+    // c: Kosten 5 × 60 / 100 = 3, Note 4, also 4 Sterne. a hat 5.
+    const c = krypto("c", {}, { finanzPunkte: { gebuehren: 60 }, link: "/out/c" });
+    expect(ids(rKrypto([c, a]).gerankt)).toEqual(["a", "c"]);
+  });
+
+  it("ordnet unter mehreren mit Link nach der Note", () => {
+    // d: Kosten 4,6, Note 4,8, 5 Sterne, mit Link. b hat 4,9.
+    const d = krypto("d", {}, { finanzPunkte: { gebuehren: 92 }, link: "/out/d" });
+    expect(ids(rKrypto([a, d, b]).gerankt)).toEqual(["b", "d", "a"]);
+  });
+
+  it("teilt den Platz nur bei gleichem Link-Stand", () => {
+    const r = rKrypto([krypto("x"), krypto("y", {}, { link: "/out/y" }), krypto("z", {}, { link: "/out/z" })]);
+    expect(r.gerankt.map((x) => [x.anbieter.id, x.platz])).toEqual([
+      ["y", 1],
+      ["z", 1],
+      ["x", 3],
+    ]);
+    expect(ids(nummerEins(r))).toEqual(["y", "z"]);
+  });
+
+  it("gilt in Depot und Girokonto, nicht in Steuer, Screener und Edelmetall", () => {
+    const mitLink = { link: "/out/x" };
+    // Depot: zweiter Kosten 5 × 19 / 20 = 4,75, Note 4,88, 5 Sterne.
+    expect(ids(rDepot([depot("a"), depot("b", {}, { ...mitLink, finanzPunkte: { depotgebuehr: 10, app: 9 } })]).gerankt)).toEqual(["b", "a"]);
+    // Girokonto: zweiter Kosten 4,5, Note 4,75, 5 Sterne.
+    expect(ids(rGiro([giro("a"), giro("b", {}, { ...mitLink, finanzPunkte: { kontofuehrung: 9 } })]).gerankt)).toEqual(["b", "a"]);
+    // Edelmetall: dieselben Depots, die Note entscheidet allein.
+    const metall = rangfolge([depot("a"), depot("b", {}, { ...mitLink, finanzPunkte: { depotgebuehr: 10, app: 9 } })], "edelmetall", { finanzMax: MAX_DEPOT });
+    expect(ids(metall.gerankt)).toEqual(["a", "b"]);
+    // Steuer: 3 € kosten Note 4,88, 5 Sterne wie das kostenlose Programm.
+    expect(ids(rangfolge([steuer("a"), { ...steuer("b", {}, 3), ...mitLink }], "steuer").gerankt)).toEqual(["a", "b"]);
+    // Screener: ohne Zakat Nutzen 4,17, Note 4,58, das sind 4,5 Sterne; mit gleicher Note bleibt der Name.
+    expect(ids(rangfolge([screener("a"), { ...screener("b"), ...mitLink }], "screener").gerankt)).toEqual(["a", "b"]);
+  });
+
+  it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
+    const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["consorsbank-girokonto"]);
+    expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
+    for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
+      const r = rangfolge(liste, kategorie);
+      for (const x of eins(liste, kategorie)) expect(x.anbieter.link, x.anbieter.id).toBeTruthy();
+      // Nie steht ein Eintrag mit weniger Sternen vor einem mit mehr.
+      r.gerankt.forEach((x, i) => i > 0 && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i - 1].note)));
+    }
   });
 });
 

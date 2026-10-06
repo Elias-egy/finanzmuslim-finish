@@ -57,7 +57,7 @@ const VergleichDepot = () => (
       {
         frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, Partnerschaften zählen nicht.",
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Haben mehrere Depots gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
       },
       {
         frage: "Kann ich mehrere Depots haben?",
