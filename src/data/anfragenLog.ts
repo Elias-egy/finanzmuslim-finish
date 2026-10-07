@@ -246,7 +246,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von sieben ISINs (Invesco ACWI, vier HSBC, zwei Sukuk-ETFs). Die Krypto-Frage vom 21.09. ist über die Website erledigt.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten." },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "info@flatex.de", kern: "Alle sieben angefragten Wertpapiere sind bei flatex handelbar und regulär online kaufbar. Sparplan nur für LU3123443510 (Xtrackers II Salam Sukuk), für die anderen sechs nicht freigeschaltet. Damit sind alle 22 Halal-Anlagen bei flatex belegt (belege/flatex/99-j3-antwort-2026-10-07.txt)." },
+  ], naechsterSchritt: "Erledigt 07.10.2026: Kaufbarkeit der sieben ISINs schriftlich beantwortet." },
   tomorrow: { anbieter: "Tomorrow", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@tomorrow.one", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },

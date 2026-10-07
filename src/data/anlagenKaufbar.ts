@@ -111,6 +111,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -223,7 +235,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -236,6 +248,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
           ]
         }
       },
@@ -294,7 +318,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -307,6 +331,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
           ]
         }
       },
@@ -376,7 +412,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Scalable Capital",
       "Trade Republic"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -389,6 +425,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
           ]
         }
       },
@@ -447,7 +495,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -484,6 +532,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
           ]
         }
       },
@@ -578,7 +638,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -795,6 +855,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -849,7 +921,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -3794,6 +3866,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -3896,7 +3980,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "XS2115336336": {
     "kaufbar": [],

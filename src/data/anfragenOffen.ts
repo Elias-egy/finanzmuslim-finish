@@ -13,7 +13,6 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "fidelity",
   "finanzen-net-zero",
   "finvesto",
-  "flatex",
   "freedom24",
   "geno-broker",
   "gls",
