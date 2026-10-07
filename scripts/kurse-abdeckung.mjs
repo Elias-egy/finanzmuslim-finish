@@ -41,14 +41,29 @@ const ERLAUBT_OHNE_KURS = 2;
  * Laesst sich das Datum nicht lesen, gilt die Anlage als alt genug. Lieber
  * einmal zu viel gemeldet als eine stille Luecke.
  */
-const jungerAlsEinJahr = (auflage) => {
+const jungerAlsEinJahr = (auflage, fristTage = 0) => {
   const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(auflage ?? "");
   if (!m) return false;
   const [, tag, monat, jahr] = m;
   const start = new Date(Number(jahr), Number(monat) - 1, Number(tag));
   const einJahrHer = new Date();
   einJahrHer.setFullYear(einJahrHer.getFullYear() - 1);
+  einJahrHer.setDate(einJahrHer.getDate() - fristTage);
   return start > einJahrHer;
+};
+
+/* Ein Fonds kommt oft erst Wochen nach der Auflage an die Boerse. Bis seine
+   Kursreihe ein Jahr alt ist, kann es keine Jahresrendite geben. Die Frist ist
+   gedeckelt, damit eine zu kurz gelieferte Reihe bei einem alten Fonds weiter
+   auffaellt. */
+const BOERSENSTART_FRIST_TAGE = 90;
+
+const reiheJuengerAlsEinJahr = (k) => {
+  const erster = Array.isArray(k?.reihe_t) ? k.reihe_t[0]?.[0] : undefined;
+  if (!erster) return false;
+  const einJahrHer = new Date();
+  einJahrHer.setFullYear(einJahrHer.getFullYear() - 1);
+  return new Date(erster) > einJahrHer;
 };
 
 const anlagenLaden = async () => {
@@ -91,7 +106,9 @@ const main = async () => {
     const hatKurs = k.kurs != null && !k.status;
     const tage = Array.isArray(k.reihe_t) ? k.reihe_t.length : 0;
     if (!hatKurs) ohneKurs.push(`${a.name} (${schluessel})`);
-    const jung = jungerAlsEinJahr(a.auflage);
+    const jung =
+      jungerAlsEinJahr(a.auflage) ||
+      (jungerAlsEinJahr(a.auflage, BOERSENSTART_FRIST_TAGE) && reiheJuengerAlsEinJahr(k));
     if (jung) zuJung.push(`${a.name}, aufgelegt ${a.auflage}`);
     if (hatKurs && k.r1j == null && !jung) {
       ohneJahr.push(`${a.name} (${schluessel}), aufgelegt ${a.auflage ?? "Datum unbekannt"}`);
