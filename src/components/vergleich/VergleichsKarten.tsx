@@ -94,12 +94,12 @@ const Karte = ({
         {/* Vier Zahlen, nach denen zuerst gesucht wird */}
         <dl className="grid grid-cols-2 gap-3">
           {raster.map((z) => (
-            <div key={z.key} className="rounded-lg border border-border p-3 text-center">
+            <div key={z.key} className="min-w-0 rounded-lg border border-border p-3 text-center">
               <dt className="text-[12px] leading-tight text-muted-foreground">
                 {z.label}
                 <HinweisPunkt text={z.hinweis} />
               </dt>
-              <dd className="mt-1 text-[14px] font-semibold">
+              <dd className="mt-1 hyphens-auto break-words text-[14px] font-semibold">
                 <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
               </dd>
             </div>
