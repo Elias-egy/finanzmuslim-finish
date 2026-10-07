@@ -108,6 +108,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "26.09.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", zeichen: "813330104", automatisch: true, kern: "Automatische Eingangsbestätigung der gebündelten Anfrage." },
     { datum: "02.10.2026", richtung: "rein", kanal: "Mail", adresse: "Kundenberatung@finvesto.de", zeichen: "WF_46229739", kern: "Kundenberatung (Zoho INBOX 450): Verrechnungskonto in allen drei Modellen unverzinst („Ja.“). „ETCs können Sie über das Wertpapierdepot ordern, der Franklin Shariah Technology Fund A (acc) USD ist bei uns nicht handelbar.“ ETFs und Fonds im Wertpapierdepot nicht je ISIN beantwortet, Verweis auf die Fondssuche. Die Zusätze „(nur Wertpapierdepot)“ in der Mail stammen aus unserer Anfrage, nicht von finvesto." },
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "Kundenberatung@finvesto.de", zeichen: "WF_46229739", kern: "Rückfragen im Faden zur Antwort vom 02.10.: Wertpapierdepot, drei iShares Islamic ETFs, vier HSBC Islamic ETFs und iShares USD Sukuk ETF über die Börse kaufbar? Depot und Depot Basis: Gold- und Silber-ETCs dort nicht, nur im Wertpapierdepot? Depot: Fällt je Ausführung eines ETF-Sparplans nur das ETF-Transaktionsentgelt von 0,20 % an oder zusätzlich 1,99 Euro?", von: "elias@finanzmuslim.com" },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "noreply-service@fnz.de", automatisch: true, kern: "Automatische Eingangsbestätigung (Zoho INBOX 571)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/finvesto/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   "joe-broker": { anbieter: "JOE Broker", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@joebroker.de", kern: frage2 },
@@ -193,11 +194,13 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: frage2 },
     { datum: "23.09.2026", richtung: "rein", kanal: "Mail", zeichen: "#REF0003695700", kern: "Bittet um einen Beratungstermin in der Filiale. Keine inhaltliche Antwort." },
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "kontakt@targobank.de", kern: "Neue Mail als finanzmuslim.com: Gold- und Silber-ETCs von Invesco und WisdomTree im Direkt-Depot online kaufbar? Online-Konto ohne eingeräumte Kontoüberziehung führbar, also nur im Guthaben?", von: "elias@finanzmuslim.com" },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "NoReply@targobank.de", zeichen: "#REF0003774306", automatisch: true, kern: "Automatische Eingangsbestätigung mit Bearbeitungsnummer (Zoho INBOX 573)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/targobank/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   bbbank: { anbieter: "BBBank", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@bbbank.de", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Leitet die Anfrage an eine Filiale weiter, will die Postleitzahl." },
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "info@bbbank.de", kern: "Neue Mail als finanzmuslim.com: Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree im BBBank Depot.", von: "elias@finanzmuslim.com" },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "autoreply@bbbank.de", automatisch: true, kern: "Automatische Eingangsbestätigung (Zoho Spam 5)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/bbbank/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   maxblue: { anbieter: "maxblue", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info.maxblue@db.com", kern: frage2 },
@@ -339,6 +342,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "28.09.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", automatisch: true, kern: "Automatische Eingangsbestätigung." },
     { datum: "01.10.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", zeichen: "1-3HHQSKX", kern: "Kundenservice (Zoho INBOX 442): „Eine Stichprobe hat ergeben, dass die ETFs/Fonds handelbar sind. Kauf / Sparplan möglich“. Keine Angabe je ISIN, deshalb kein Kaufbeleg, alle 22 bleiben offen. Einzelne ETFs stellt S Broker auf Anfrage handelbar." },
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "service@sbroker.de", zeichen: "1-3HHQSKX", kern: "Rückfrage zur Stichprobe im selben Faden: Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree, „Ein Ja für alle genügt, sonst bitte nur die Ausnahmen“.", von: "elias@finanzmuslim.com" },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "service@sbroker.de", automatisch: true, kern: "Automatische Eingangsbestätigung (Zoho INBOX 570)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/sbroker/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   plus500: { anbieter: "Plus500", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@plus500.co.ee", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Echte Aktien und ETFs statt CFDs in Deutschland? Falls ja, Kaufbarkeit aller 22 ISINs.", von: "elias@finanzmuslim.com" },
@@ -353,6 +357,7 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], naechsterSchritt: "Antwort abwarten, dann belegabruf setzen." },
   gls: { anbieter: "GLS Bank", vorgaenge: [
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "kundendialog@gls.de", kern: "Erste Mail als finanzmuslim.com an die Kundenberatung (Adresse aus dem Impressum, belege/gls/99-m1-kontaktadresse-2026-10-07.txt): Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree im GLS Depot. Dazu ETF-Sparplan: ab welcher Rate, in welchen Abständen?", von: "elias@finanzmuslim.com" },
+    { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "autoreply@gls.de", automatisch: true, kern: "Automatische Antwort, Anliegen wird bearbeitet (Zoho INBOX 572)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/gls/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   etoro: { anbieter: "eToro", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Besucherformular etoro.com/customer-service am 28.09.2026 abends ausgefüllt (Kaufbarkeit 22 ISINs als echtes Wertpapier, Absender elias@finanzmuslim.com). Beim Absenden kam ein reCAPTCHA, das Claude nicht löst; Elias löst es im offenen Tab und sendet. Danach Vorgang „raus“ eintragen." },
 };
