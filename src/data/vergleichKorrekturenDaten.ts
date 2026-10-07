@@ -63,6 +63,36 @@ const preisseite = (anzeige: string, url: string, hinweis: string): Quelle => ({
   hinweis,
 });
 
+/** Wie `preisseite`, gelesen am 07.10.2026. */
+const preisseite0710 = (anzeige: string, url: string, hinweis: string): Quelle => ({
+  ...preisseite(anzeige, url, hinweis),
+  stand: "07.10.2026",
+});
+
+const FINVESTO_PLV = "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/511/customerFormVersion/13";
+const FINVESTO_AKTION = "finvesto.de/depots-konten/finvesto-depot: „ETF-Aktion: Bis zum 31.03.2027 kaufen Sie alle ETFs ohne ETF-Transaktionsentgelt (regulär 0,20%).“";
+const finvestoDepotKosten = {
+  orderkosten: preisseite0710("finvesto", FINVESTO_PLV, `Preis- und Leistungsverzeichnis für das finvesto Depot, „Gültig ab: 01.01.2026“, Transaktionsentgelte für Kauf, Verkauf und Fondsumschichtung je Transaktion: „Transaktionen“ „1,99 Euro“. Dazu für ETFs: „ETF-Transaktionsentgelt“ „0,20 %“ „(des Transaktionsvolumens)“. ${FINVESTO_AKTION}`),
+  etfSparplanKosten: preisseite0710("finvesto", FINVESTO_PLV, `Preis- und Leistungsverzeichnis für das finvesto Depot, „Gültig ab: 01.01.2026“: „ETF-Transaktionsentgelt“ „0,20 %“. finvesto zum Sparplan: „*Geldanlage abzüglich 0,20 % Transaktionsentgelt und 46 Euro jährliches Depotführungsentgelt.“ ${FINVESTO_AKTION}`),
+};
+
+const PAX_PLV = "https://atruvia.scene7.com/is/content/atruvia/Pax-BKC_PLV-gesamt_2025-07-15pdf";
+const paxSparplan = preisseite0710("Pax-Bank", PAX_PLV, "Preis- und Leistungsverzeichnis, „Stand: 15.07.2025“, „Kurswert bis 25.000,00 EUR“: „Entgelt pro Sparplanausführung“ „2,50 EUR“. Depotseite der Bank: „Fonds-, ETF- und Aktiensparpläne“.");
+const paxDepotKosten = {
+  etfSparplanKosten: paxSparplan,
+  aktienSparplanKosten: paxSparplan,
+  depotgebuehr: preisseite0710("Pax-Bank", PAX_PLV, "Preis- und Leistungsverzeichnis, „Stand: 15.07.2025“: „– Depot mit Fremdtiteln (inkl. USt)“ „pro Fremdtitel je Kalendervierteljahr 1,25 EUR“ „mindestens 5,00 EUR“. „– Depot nur mit hauseigenen Titeln (inkl. USt)“ „0,00 EUR“."),
+};
+
+const FREEDOM24_GEBUEHREN = "https://freedom24.com/download/documents/1203/Appendix_6_Fee_Schedule_19082026";
+const freedom24Sparplan = preisseite0710("Freedom24", FREEDOM24_GEBUEHREN, "Gebührenverzeichnis (Appendix 6), „Effective from August 19, 2026“: „Trading commission for transactions executed under an Auto Invest“ Instruction / Recurring Investment functionality: „0 USD / EUR *“.");
+
+const GLS_PLV = "https://www.gls.de/media/PDF/AGB_Konditionen_PLV/134200_Preis-_und_Leistungsverzeichnis_mit_Logo_05.26_Stand_01.09.2026.pdf";
+const glsSparplan = preisseite0710("GLS Bank", GLS_PLV, "Preis- und Leistungsverzeichnis, „Stand: 01.09.2026“: „Kosten pro Sparplanausführung (Aktien/ETF)“ „1,00 % der Sparrate“ „min. 1,30 EUR“.");
+
+const VIVID_KOSTEN = "https://website-static.vivid.money/static/legal-docs/de-de/costs-brochure-vivid-money-bv-vmsa.pdf";
+const vividSparplan = preisseite0710("Vivid", VIVID_KOSTEN, "Kostenübersicht, „Version 2.0“: „Vivid berechnet einen festen Betrag von 1 EUR für jede Transaktion, unabhängig vom Umfang der“ Order. Sparplanseite: „Investiere regelmäßig einen festen Betrag in Aktien, oder ETFs“, „Für regelmäßige Trades zahlst du keine zusätzlichen Gebühren.“");
+
 export const DEPOT_WERTE: Werte = {
   // justTRADE-Teilnahmebedingungen (financeAds, 04.10.2026): Orderkosten nur mit dem Zusatz zu Spreads nennen.
   "justtrade-depot": { orderkosten: "1€ zzgl. marktüblicher Spreads" },
@@ -81,13 +111,16 @@ export const DEPOT_WERTE: Werte = {
     depotgebuehr: "0€ bei mindestens einem Kauf oder Verkauf im Quartal, sonst 0,05% (min. 9,95€, max. 24,95€) je Quartal",
   },
   "geno-broker-genoprofi": { zinsfreiAbStart: "gut", orderkosten: "0,19% (min. 9,95€, max. 49,95€)" },
-  "libertex-depot": { zinsfreiAbStart: "gut" },
+  "libertex-depot": {
+    zinsfreiAbStart: "gut",
+    depotgebuehr: "0€, nach 180 Tagen ohne Kauf, Ein- oder Auszahlung 10€ im Monat",
+  },
   "bux-basic": { zinsfreiAbStart: "gut" },
   "consorsbank-depot": {
     zinsfreiAbStart: "gut",
     orderkosten: "4,95€ + 0,25% (min. 9,95€, max. 69€), dazu Handelsplatz: Tradegate 0,95€",
   },
-  "etoro-depot": { zinsfreiAbStart: "gut" },
+  "etoro-depot": { zinsfreiAbStart: "gut", orderkosten: "0$ bei ETFs, 1$ oder 2$ bei Aktien" },
   "revolut-standard": { zinsfreiAbStart: "gut", orderkosten: "0,25% (min. 1€), eine Order im Monat ohne Gebühr" },
   "scalable-capital-prime-plus-broker": {
     zinsfreiAbStart: "gut",
@@ -95,25 +128,71 @@ export const DEPOT_WERTE: Werte = {
     orderkosten: "0€ ab 250€ je Order, darunter 0,99€",
   },
   "trading-212-depot": { zinsfreiAbStart: "gut" },
-  "vivid-standard": { zinsfreiAbStart: "gut" },
+  "vivid-standard": {
+    zinsfreiAbStart: "gut",
+    etfSparplanKosten: "1€",
+    aktienSparplanKosten: "1€",
+    sparrate: "ab 1€",
+    intervalle: null,
+  },
   "trade-republic-depot": { zinsfreiAbStart: "gut", depotgebuehr: "0€" },
   "tradegate-direct-depot": { zinsfreiAbStart: "gut" },
-  "pax-bank-klassisches-depot": { zinsfreiAbStart: "gut" },
-  "pax-bank-online-brokerage": { zinsfreiAbStart: "gut" },
-  "finvesto-depot": { zinsfreiAbStart: "gut" },
-  "finvesto-depot-basis": { zinsfreiAbStart: "gut" },
+  "pax-bank-klassisches-depot": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "0,8% (min. 50€)",
+    etfSparplanKosten: "2,50€",
+    aktienSparplanKosten: "2,50€",
+    depotgebuehr: "1,25€ je Wertpapier im Quartal (min. 5€ im Quartal)",
+  },
+  "pax-bank-online-brokerage": {
+    zinsfreiAbStart: "gut",
+    etfSparplanKosten: "2,50€",
+    aktienSparplanKosten: "2,50€",
+    depotgebuehr: "1,25€ je Wertpapier im Quartal (min. 5€ im Quartal)",
+  },
+  "finvesto-depot": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "1,99€ + 0,2%, bis 31.03.2027 ohne die 0,2%",
+    etfSparplanKosten: "0,2%, bis 31.03.2027 0%",
+  },
+  "finvesto-depot-basis": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "1,99€ + 0,2%, bis 31.03.2027 ohne die 0,2%",
+    etfSparplanKosten: "0,2%, bis 31.03.2027 0%",
+  },
   "finvesto-wertpapierdepot": {
     zinsfreiAbStart: "gut",
     etfSparplanKosten: "1,75% als Aktien-Sparplan. ETF-Sparpläne laufen im finvesto Depot",
     aktienSparplanKosten: "1,75%",
   },
-  "plus500-depot": { zinsfreiAbStart: "gut" },
-  "freedom24-smart": { zinsfreiAbStart: "gut" },
-  "freedom24-all-inclusive": { zinsfreiAbStart: "gut" },
+  "plus500-depot": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "0,045% (min. 2€) an der Frankfurter Börse, US-Aktien 0,006$ je Aktie",
+  },
+  "freedom24-smart": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "2€ + 0,02€ je Anteil",
+    etfSparplanKosten: "0€",
+    aktienSparplanKosten: "0€",
+    sparrate: null,
+    intervalle: null,
+  },
+  "freedom24-all-inclusive": {
+    zinsfreiAbStart: "gut",
+    orderkosten: "1,20€ + 0,5% + 0,012€ je Anteil",
+    etfSparplanKosten: "0€",
+    aktienSparplanKosten: "0€",
+    sparrate: null,
+    intervalle: null,
+  },
   "willbe-depot": { zinsfreiAbStart: "schlecht" },
   "hypovereinsbank-hvb-depot": { zinsfreiAbStart: "schlecht" },
   "hypovereinsbank-smartdepot": { zinsfreiAbStart: "schlecht" },
-  "commerzbank-direktdepot": { zinsfreiAbStart: "gut" },
+  "commerzbank-direktdepot": {
+    zinsfreiAbStart: "gut",
+    aktienSparplanKosten: "1,5%",
+    depotgebuehr: "0€ bei einer Order oder einem Sparplan im Quartal, sonst 0,175% (min. 4,95€ im Quartal)",
+  },
   "commerzbank-klassikdepot": { zinsfreiAbStart: "gut" },
   "commerzbank-premiumdepot": { zinsfreiAbStart: "gut" },
   "joe-broker-depot": { zinsfreiAbStart: "gut", etfSparplanKosten: "0,50€, bei Premium-Partnern 0€" },
@@ -143,6 +222,13 @@ export const DEPOT_WERTE: Werte = {
   "finanzen-net-zero-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
   "flatex-depot": { orderkosten: "5,90€ + 2€ Fremdkostenpauschale" },
   "degiro-depot": { orderkosten: "2€ + 1€ Bearbeitungsgebühr. ETFs der Kernauswahl: 1€" },
+  "gls-bank-depot": {
+    orderkosten: "0,5% (min. 15€, max. 500€) bei ETFs über die Börse, Aktien 1% (min. 20€)",
+    etfSparplanKosten: "1% (min. 1,30€)",
+    aktienSparplanKosten: "1% (min. 1,30€)",
+    depotgebuehr: "0,119% (min. 5,95€, max. 59,50€ je Posten)",
+    intervalle: null,
+  },
 };
 
 export const DEPOT_QUELLEN: Quellen = {
@@ -150,30 +236,30 @@ export const DEPOT_QUELLEN: Quellen = {
   "geno-broker-genobasis-depot": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." }, depotgebuehr: preisseite("GENO Broker", "https://atruvia.scene7.com/is/content/atruvia/10000013_PLVpdf", "Preis- und Leistungsverzeichnis, gültig ab 01.07.2026, Depotführung im GENObasis Depot: „kostenfrei (bei mindestens einer kostenpflichtigen Börsentransaktion (Wertpapierkauf oder -verkauf; kein Sparplan) pro Quartal; ansonsten 0,05 % vom Durchschnittsvolumen (mind. 9,95 EUR, max 24,95 EUR) pro Quartal)“.") },
   "geno-broker-genoprofi": { zinsfreiAbStart: { url: "https://www.genobroker.de/", stand: "25.09.2026", hinweis: "Schriftlich vom GENO Broker Serviceteam am 25.09.2026 (Ticket DP02-107847): „Eine Guthabenverzinsung wird durch den GENO Broker nicht automatisch vorgenommen.“ Das Preis- und Leistungsverzeichnis „enthält keine gesonderte Guthabenverzinsung für die Depotmodelle GENObasis und GENOprofi“. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank, deren Konditionen gelten." }, orderkosten: preisseite("GENO Broker", "https://atruvia.scene7.com/is/content/atruvia/10000013_PLVpdf", "Preis- und Leistungsverzeichnis, Orderentgelte im Onlinegeschäft, Spalte GENOprofi Depot: „0,19 %“, mindestens „9,95 EUR“, höchstens „49,95 EUR“. Bedingung für GENOprofi: „mindestens 12 börsliche Orders p.a.“ „Für alle Neukunden gilt zunächst das Depotmodell GENObasis.“") },
   "maxblue-depot": { zinsfreiAbStart: { url: "https://www.maxblue.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt vom Online-Service der Deutschen Bank am 23.09.2026: 'Das maxblue Depotkonto besitzt momentan keine Verzinsung.' Für eine dauerhafte Zusage verweist die Bank an eine Filiale." }, orderkosten: preisseite("maxblue", "https://www.maxblue.de/wertpapierhandel/handeln/depot.html", "„Die Provision einer Order beträgt 0,25 % vom Kurswert. Die Mindestprovision liegt bei 8,90 Euro, die Maximalprovision bei 58,90 Euro.“ Über maxblue Direct Trade: „Börsengebühren entfallen“. Preis- und Leistungsverzeichnis, Stand 01.10.2026, an der Börse zusätzlich: „Elektronische Handelsplattform Xetra (Inland)“ „2,00 EUR“."), etfSparplanKosten: preisseite("maxblue", "https://www.maxblue.de/wertpapierhandel/handeln/depot.html", "„Für Einmalanlagen können Sie das maxblue Depot nutzen. Für die regelmäßige Geldanlage bietet sich der maxblue Wertpapier Sparplan an.“ Preis- und Leistungsverzeichnis, Stand 01.10.2026, Spalte maxblue Wertpapier Sparplan: „Bei Kauf: 1,25 % vom Kurswert“."), aktienSparplanKosten: preisseite("maxblue", "https://www.maxblue.de/wertpapierhandel/handeln/depot.html", "„Für Einmalanlagen können Sie das maxblue Depot nutzen. Für die regelmäßige Geldanlage bietet sich der maxblue Wertpapier Sparplan an.“ Preis- und Leistungsverzeichnis, Stand 01.10.2026, Spalte maxblue Wertpapier Sparplan: „Bei Kauf: 1,25 % vom Kurswert“.") },
-  "libertex-depot": { zinsfreiAbStart: { url: "https://app.libertex.com/docs/en/Client_Agreement_Shares_Version_1.pdf", stand: "23.09.2026", hinweis: "The Company shall not pay the Client any interest earned on Client funds (other than profit gained through the Investments from his Account(s) under this Agreement), and the Client waives all right to interest." } },
-  "finvesto-depot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "02.10.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads. Schriftlich bestätigt von der finvesto Kundenberatung am 02.10.2026: Auf die Frage, ob „nicht verzinst“ für finvesto Depot, Depot Basis und Wertpapierdepot gilt, lautet die Antwort „Ja.“" } },
-  "finvesto-depot-basis": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "02.10.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads. Schriftlich bestätigt von der finvesto Kundenberatung am 02.10.2026: Auf die Frage, ob „nicht verzinst“ für finvesto Depot, Depot Basis und Wertpapierdepot gilt, lautet die Antwort „Ja.“" } },
+  "libertex-depot": { zinsfreiAbStart: { url: "https://app.libertex.com/docs/en/Client_Agreement_Shares_Version_1.pdf", stand: "23.09.2026", hinweis: "The Company shall not pay the Client any interest earned on Client funds (other than profit gained through the Investments from his Account(s) under this Agreement), and the Client waives all right to interest." }, depotgebuehr: preisseite0710("Libertex", "https://libertex.com/de/terms-fees", "Bedingungen und Gebühren, Reiter Invest-Konto: „Gebühr für Inaktivität“ „10 EUR pro Monat (bzw. 10 GBP, 10 CHF und 50 PLN), wenn das Konto für 180 Kalendertage inaktiv ist (d. h. keine Investitionen, Ein- oder Auszahlungen stattgefunden haben).“") },
+  "finvesto-depot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "02.10.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads. Schriftlich bestätigt von der finvesto Kundenberatung am 02.10.2026: Auf die Frage, ob „nicht verzinst“ für finvesto Depot, Depot Basis und Wertpapierdepot gilt, lautet die Antwort „Ja.“" }, ...finvestoDepotKosten },
+  "finvesto-depot-basis": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "02.10.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads. Schriftlich bestätigt von der finvesto Kundenberatung am 02.10.2026: Auf die Frage, ob „nicht verzinst“ für finvesto Depot, Depot Basis und Wertpapierdepot gilt, lautet die Antwort „Ja.“" }, ...finvestoDepotKosten },
   "finvesto-wertpapierdepot": { zinsfreiAbStart: { url: "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/855/customerFormVersion/1", stand: "02.10.2026", hinweis: "Bedingungen für finvesto Konten bei der FNZ Bank, Nr. 1.5: „Eine Verzinsung für das Guthaben auf dem Konto flex erfolgt derzeit nicht.“ Das Konto flex dient laut denselben Bedingungen der Abwicklung von Wertpapiergeschäften; Tages- und Festgeld sind eigene Konten. Verlinkt von finvesto.de/downloads. Schriftlich bestätigt von der finvesto Kundenberatung am 02.10.2026: Auf die Frage, ob „nicht verzinst“ für finvesto Depot, Depot Basis und Wertpapierdepot gilt, lautet die Antwort „Ja.“" }, etfSparplanKosten: preisseite("finvesto", "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/69/customerFormVersion/5", "Preis- und Leistungsverzeichnis Wertpapierdepot, gültig ab 01.08.2024: „Orderentgelt Aktiensparpläne“ „1,75 %“. finvesto zum ETF-Sparplan im finvesto Depot: „ETF-Aktion: Bis zum 31.03.2027 kaufen Sie alle ETFs ohne ETF-Transaktionsentgelt (regulär 0,20%).“"), aktienSparplanKosten: preisseite("finvesto", "https://banking.fnz.de/p/eoxpublic/rest/download-public-formular/getCustomerFormPdf/customerFormId/69/customerFormVersion/5", "Preis- und Leistungsverzeichnis Wertpapierdepot, gültig ab 01.08.2024: „Orderentgelt Aktiensparpläne“ „1,75 %“.") },
-  "plus500-depot": { zinsfreiAbStart: { url: "https://www.plus500.com/Docs/Plus500EE/UserAgreement.pdf", stand: "21.09.2026", hinweis: "Plus500 User Agreement, Nr. 17.5: „No interest is due or will be paid in respect of Client Money. The Client waives all rights to interest.“" } },
-  "freedom24-smart": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" } },
-  "freedom24-all-inclusive": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" } },
+  "plus500-depot": { zinsfreiAbStart: { url: "https://www.plus500.com/Docs/Plus500EE/UserAgreement.pdf", stand: "21.09.2026", hinweis: "Plus500 User Agreement, Nr. 17.5: „No interest is due or will be paid in respect of Client Money. The Client waives all rights to interest.“" }, orderkosten: preisseite0710("Plus500", "https://www.plus500.com/de/invest/help/feescharges", "Gebührenseite von Plus500 Invest, Handelsprovisionen Aktienmarkt: „Frankfurter Börse“ „0,045 %“ „(min. 2 EUR)“. „New Yorker Börse, Amerikanische Börse, Nasdaq, Nasdaq Small Cap“ „0,006 $“ „pro Aktie“.") },
+  "freedom24-smart": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" }, orderkosten: preisseite0710("Freedom24", FREEDOM24_GEBUEHREN, "Gebührenverzeichnis (Appendix 6), „Effective from August 19, 2026“, Spalte Smart, USA und Europa: „2 USD/ 2 EUR“ je Order plus „0.02 USD/ 0.02 EUR“ je Anteil. Tarifseite „Smart in EUR“: „0.02$/€“ „2$/€“."), etfSparplanKosten: freedom24Sparplan, aktienSparplanKosten: freedom24Sparplan },
+  "freedom24-all-inclusive": { zinsfreiAbStart: { url: "https://freedom24.com/download/documents/272/Appendix_12_Automatic_Swap_Program_on_D_Accounts_15032024", stand: "21.09.2026", hinweis: "Freedom24, Anhang 12 (Automatic Swap Program): Zinsen laufen nur auf einem eigenen D-Konto. „In order to participate in the Program, the Client must open a special brokerage D-Account and transfer funds there.“" }, orderkosten: preisseite0710("Freedom24", FREEDOM24_GEBUEHREN, "Gebührenverzeichnis (Appendix 6), „Effective from August 19, 2026“, Spalte All-inclusive, USA und Europa: „0.5% of the volume of each“ transaction, „0.012 USD / EUR per share“, „+ 1.2 USD / EUR per order“. Tarifseite „All inclusive in EUR“: „0.5% +0.012€“ „1.2$/€“."), etfSparplanKosten: freedom24Sparplan, aktienSparplanKosten: freedom24Sparplan },
   "willbe-depot": { zinsfreiAbStart: { url: "https://willbe-invest.com/de/willbe/faq/faq", stand: "21.09.2026", hinweis: "willbe-FAQ: Ausschüttungen gehen „automatisch auf dein willbe Tagesgeldkonto“, „Dein Guthaben wird ab Eingang auf dem Tagesgeldkonto sofort wieder verzinst.“ Schriftlich vom willbe-Support am 21.09.2026: „Unsere Tagesgeldkonten werden automatisch verzinst, wenn Geld auf dem Konto ist. Leider ist es nicht möglich, auf diese Zinsen zu verzichten bzw. diese zu deaktivieren.“" } },
   "hypovereinsbank-hvb-depot": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot", stand: "01.10.2026", hinweis: "HVB-Depotseite: „Eröffnen Sie zunächst Ihr kostenloses HVB Investmentkonto – das Verrechnungskonto für Ihr Depot“. Produktprofil Investmentkonto (Stand Juni 2026): „Ab 26. Juni 2026 beträgt der Zinssatz bis auf weiteres 0,50% p. a.“ (Sonderzins bis 31.12.2026). Die Aussage des Kundenservice vom 21.09.2026 („grundsätzlich nicht verzinst“) widerspricht dem Produktprofil. HVB Media Relations schriftlich am 01.10.2026: „Ja, es können alle angebotenen Girokonten als Buchungskonto genutzt werden. Die Gutschrift der Verzinsung erfolgt automatisch auf das Investmentkonto.“ Wer das Depot über ein HVB Girokonto führt, bekommt also keine Zinsen. Die Ampel bewertet den Neukundenfall mit Investmentkonto. Ab 01.01.2027 neu prüfen." } },
   "hypovereinsbank-smartdepot": { zinsfreiAbStart: { url: "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/smart-depot", stand: "01.10.2026", hinweis: "HVB-SmartDepot-Seite: „Eröffnen Sie zunächst Ihr kostenloses HVB Investmentkonto – das Verrechnungskonto für Ihr Depot“ und „Als kostenloses Abwicklungskonto steht Ihnen optional das HVB Investmentkonto zur Verfügung.“ Produktprofil Investmentkonto (Stand Juni 2026): „Ab 26. Juni 2026 beträgt der Zinssatz bis auf weiteres 0,50% p. a.“ (Sonderzins bis 31.12.2026). Die Aussage des Kundenservice vom 21.09.2026 („grundsätzlich nicht verzinst“) widerspricht dem Produktprofil. HVB Media Relations schriftlich am 01.10.2026: „Ja, es können alle angebotenen Girokonten als Buchungskonto genutzt werden. Die Gutschrift der Verzinsung erfolgt automatisch auf das Investmentkonto.“ Wer das Depot über ein HVB Girokonto führt, bekommt also keine Zinsen. Die Ampel bewertet den Neukundenfall mit Investmentkonto. Ab 01.01.2027 neu prüfen." } },
   "tradegate-direct-depot": { zinsfreiAbStart: { url: "https://tradegate.direct/?showDocuments=true", stand: "21.09.2026", hinweis: "Schriftlich bestätigt vom tradegate.direct-Support am 21.09.2026 (Ticket SUP-5390): „Nicht investiertes Guthaben auf dem Verrechnungskonto von tradegate.direct wird derzeit nicht verzinst. … Es erfolgt somit auch keine Zinsgutschrift auf dieses Konto.“ Der Support weist darauf hin, dass sich die Konditionen künftig ändern könnten." } },
-  "pax-bank-klassisches-depot": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." } },
-  "pax-bank-online-brokerage": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." } },
+  "pax-bank-klassisches-depot": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." }, ...paxDepotKosten, orderkosten: preisseite0710("Pax-Bank", PAX_PLV, "Preis- und Leistungsverzeichnis, „Stand: 15.07.2025“, „Kurswert bis 25.000,00 EUR“, Ausführung im Inland: „Investmentanteile über Börse“ „0,80“. „Die Mindestprovision beträgt bei einem Kurswert über 10,00 EUR“ „50,00 EUR“.") },
+  "pax-bank-online-brokerage": { zinsfreiAbStart: { url: "https://www.pax-bank.de/", stand: "23.09.2026", hinweis: "Schriftlich bestätigt von der Pax-Bank-Teamberatung (Julia Vogt) am 23.09.2026: „Zu Ihrem Depot wird ein Anlageabwicklungskonto als Gegenkonto geführt. Auf dieses Guthaben wird aktuell keine Guthabenverzinsung gezahlt.“ Ändert sich das später, wäre ein Verzicht laut Bank nicht möglich. Die Anfrage vom 21.09.2026 nannte Klassisches Depot und Online-Brokerage." }, ...paxDepotKosten },
   "bux-basic": { zinsfreiAbStart: { url: "https://getbux.com/blog/interest-on-cash/", stand: "24.09.2026", hinweis: "BUX nennt alle drei Stufen in einem Satz: „All onboarded BUX users that are on BUX Plus and BUX Prime immediately earn interest on uninvested cash.“ Und die Staffel: „Your interest rate depends on your account type: BUX Basic 0% / BUX Plus 1,75% on up to €100k / BUX Prime 2,00% on up to €100k“. Basic steht ausdrücklich auf 0 %, die Verzinsung hängt an den kostenpflichtigen Stufen." } },
   "consorsbank-depot": { zinsfreiAbStart: { url: "https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Konten", stand: "24.09.2026", hinweis: "Consorsbank listet im Preis- und Leistungsverzeichnis Konten jede Kontoart einzeln auf. Beim Tagesgeldkonto steht „1.1 Zinsen Zinssatz 1,00 % p. a.“, beim Verrechnungskonto dagegen nur „3.1 Zinsen Sollzinsen … für eingeräumte Überziehungen (Wertpapierkredit) 7,55 % p. a.“ und keine Guthabenzinsen. Das auf der Depotseite beworbene Tagesgeldkonto („inklusive Tagesgeldkonto mit 3,60 % p. a.“) ist damit ein eigenes Konto neben dem Verrechnungskonto, und bleibt ohne eigene Einzahlung leer. Einschränkung: Eine ausdrückliche Aussage „das Verrechnungskonto wird nicht verzinst“ steht dort nicht, die Zinsstruktur ist aber vollständig aufgeschlüsselt. Schriftlich bestätigt von der Consorsbank-Kundenbetreuung am 24.09.2026 (Ticket 86382271-78901a6): „Auf dem Verrechnungskonto wird das Guthaben nicht verzinst. Das Tagesgeldkonto ist ein eigenes Konto das im Verbund mit dem Verrechnungskonto und Depot eröffnet wird. Wenn Kein Guthaben auf dem Tagesgeldkonto liegt, werden auch hier keine Zinsen ausgeschüttet.“" }, orderkosten: preisseite("Consorsbank", "https://www.consorsbank.de/web/Service/Preise-Zinsen/Preise-Zinsen-Wertpapiere", "Grundpreis je Order „Silver: 4,95 Euro zzgl. marktüblicher Spreads“, Provisionssatz „Silver: 0,25 %“, mindestens „Silver: 9,95 Euro“, höchstens „Silver: 69 Euro“. Dazu Handelsplatzkosten: „Tradegate Exchange: 0,95 Euro“, „gettex: 1,95 Euro“, „XETRA: 1,95 Euro zzgl. Transaktionsentgelt“.") },
-  "etoro-depot": { zinsfreiAbStart: { url: "https://www.etoro.com/de/investing/interest-on-balance/", stand: "24.09.2026", hinweis: "eToro beschreibt die Guthabenzinsen als Schalter, den der Kunde selbst umlegt: „So erhalten Sie Zinsen: Loggen Sie sich bei Ihrem etoro Konto ein / Gehen Sie zum Club-Dashboard / Aktivieren Sie den Schalter ‚Guthabenzinsen‘.“ Ohne diesen Schritt läuft kein Zins. Am 24.09.2026 im echten Chrome gelesen." } },
+  "etoro-depot": { zinsfreiAbStart: { url: "https://www.etoro.com/de/investing/interest-on-balance/", stand: "24.09.2026", hinweis: "eToro beschreibt die Guthabenzinsen als Schalter, den der Kunde selbst umlegt: „So erhalten Sie Zinsen: Loggen Sie sich bei Ihrem etoro Konto ein / Gehen Sie zum Club-Dashboard / Aktivieren Sie den Schalter ‚Guthabenzinsen‘.“ Ohne diesen Schritt läuft kein Zins. Am 24.09.2026 im echten Chrome gelesen." }, orderkosten: preisseite0710("eToro", "https://www.etoro.com/de/trading/fees/", "„Für den Handel mit ETFs berechnen wir keine Provision.“ Aktien: „Beim Eröffnen und Schließen einer Aktienposition kann eine Provisionsgebühr von 1 oder 2 US-Dollar anfallen, je nach Wohnsitzland und Börse, an der der Vermögenswert gehandelt wird.“") },
   "revolut-standard": { zinsfreiAbStart: { url: "https://www.revolut.com/de-DE/legal/terms/", stand: "24.09.2026", hinweis: "Revolut-AGB Privatkunden, Abschnitt 2: „Wir zahlen keine Zinsen auf die Einlagen auf deinem Girokonto. Du kannst Zinsen verdienen, indem du dein Geld in eines unserer zinstragenden Produkte einzahlst.“ Das Depot läuft über dasselbe Revolut-Standardkonto, für das diese AGB gelten. Zinsen entstehen nur im Tagesgeld-Unterkonto, das man selbst eröffnet und befüllt. Der frühere Beleg sagte nur, Revolut weise nichts aus; Abwesenheit ist kein Beleg, deshalb am 24.09.2026 ersetzt." }, orderkosten: preisseite("Revolut", "https://help.revolut.com/de-DE/help/wealth/stocks/trading-stocks/trading-fees/what-fees-will-i-be-charged-for-my-trading/", "„Die Kommissionsgebühr entspricht dem höheren Betrag von 0,25 % des Orderbetrags“ … „oder der Mindestgebühr von 1 €“. Orders ohne Kommission je Monat: „Standard: eine Order“.") },
   "scalable-capital-prime-plus-broker": {
     depotgebuehr: scalableFactsheet("„PRIME+: Für 4,99 € im Monat ab einem Volumen von 250 € pro Order unlimitiert handeln, darunter kostet ein Trade 0,99 €.“ 12 Monate ergeben 59,88 €."),
     orderkosten: scalableFactsheet("„PRIME+: Für 4,99 € im Monat ab einem Volumen von 250 € pro Order unlimitiert handeln, darunter kostet ein Trade 0,99 €.“ Gilt für die European Investor Exchange, auf Xetra und gettex 1,99 €."),
     zinsfreiAbStart: { url: "https://de.scalable.capital/zinsuebersicht", stand: "28.09.2026", hinweis: "Scalable Capital führt in der Zinsübersicht beide Stufen nebeneinander („Mit PRIME+“ und „Ohne PRIME+“) und nennt für beide: „Verrechnungskonten 0 % p.a.“ Das Tagesgeld mit 2,60 % p.a. ist eine eigene Zeile und ein eigenes Produkt, das man aktiv wählen und befüllen muss. Gilt damit auch für Prime+ Broker. Schriftlich bestätigt vom Scalable-Kundenservice am 28.09.2026 (Ticket 03158853): „Das Guthaben auf dem Verrechnungskonto wird weder im FREE Broker noch im PRIME+ Modell verzinst (0 % p.a.).“ Zum Tagesgeld: „eine Neueröffnung ist für die Nutzung des Brokers jedoch nicht zwingend erforderlich“." } },
   "trading-212-depot": { zinsfreiAbStart: { url: "https://www.trading212.com/de/interest-on-cash", stand: "24.09.2026", hinweis: "Trading 212 auf der eigenen Zinsseite: „Wenn du Zinsen aktivierst, halten wir dein Guthaben bei unseren Partnerbanken und in qualifizierten Geldmarktfonds. Andernfalls halten wir es ausschließlich bei unseren Partnerbanken.“ Es gibt also einen Zustand ohne Zinsen, die Verzinsung ist ein Opt-in. Am 24.09.2026 im echten Chrome gelesen, die Seite sperrt Abrufe ohne Browser." } },
-  "vivid-standard": { zinsfreiAbStart: { url: "https://support.vivid.money/en/articles/9274751-what-are-the-interest-rates-offered-by-vivid", stand: "24.09.2026", hinweis: "Vivid-Hilfe: Zinsen gibt es nur im selbst geöffneten Interest Rate Pocket. „To start earning fixed interest, just deposit funds into the 'Cash with fixed interest' section of your newly created Interest Rate Pocket.“ Der Artikel nennt Standard namentlich (Zinssatz im Pocket 0,1 % p. a.), nichts läuft automatisch auf dem Hauptkonto. Gleicher Beleg wie beim Vivid-Girokonto, am 24.09.2026 angeglichen." } },
-  "commerzbank-direktdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus. Öffentliche Commerzbank-Seite: „Das Verrechnungskonto Plus kann als zinsloses Tagesgeldkonto … als Verrechnungskonto z. B. für ein oder mehrere Wertpapierdepots genutzt werden.“ Keine Commerzbank-Seite legt das Verrechnungskonto je Depotstufe fest, die Antwort des Kundencenters galt dem Depot allgemein." } },
+  "vivid-standard": { zinsfreiAbStart: { url: "https://support.vivid.money/en/articles/9274751-what-are-the-interest-rates-offered-by-vivid", stand: "24.09.2026", hinweis: "Vivid-Hilfe: Zinsen gibt es nur im selbst geöffneten Interest Rate Pocket. „To start earning fixed interest, just deposit funds into the 'Cash with fixed interest' section of your newly created Interest Rate Pocket.“ Der Artikel nennt Standard namentlich (Zinssatz im Pocket 0,1 % p. a.), nichts läuft automatisch auf dem Hauptkonto. Gleicher Beleg wie beim Vivid-Girokonto, am 24.09.2026 angeglichen." }, etfSparplanKosten: vividSparplan, aktienSparplanKosten: vividSparplan, sparrate: preisseite0710("Vivid", "https://vivid.money/de-de/personal/saving-plans/", "Sparplanseite: „Schon ab 1 €“.") },
+  "commerzbank-direktdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus. Öffentliche Commerzbank-Seite: „Das Verrechnungskonto Plus kann als zinsloses Tagesgeldkonto … als Verrechnungskonto z. B. für ein oder mehrere Wertpapierdepots genutzt werden.“ Keine Commerzbank-Seite legt das Verrechnungskonto je Depotstufe fest, die Antwort des Kundencenters galt dem Depot allgemein." }, aktienSparplanKosten: preisseite0710("Commerzbank", "https://www.commerzbank.de/portal/media/efw-dokumente/preis_leistungsverzeichnis.pdf", "Preis- und Leistungsverzeichnis, DirektDepot, Kommissionsgeschäfte: „Aktien und Zertifikate im Rahmen von Wertpapier-Sparplänen“ „1,5 %“. Depotseite: „Aktiensparpläne können Sie ab 1,5% Ausführungsentgelt pro Ausführung erwerben.“"), depotgebuehr: preisseite0710("Commerzbank", "https://www.commerzbank.de/portal/media/efw-dokumente/preis_leistungsverzeichnis.pdf", "Preis- und Leistungsverzeichnis, DirektDepot, Depotentgelt: „Sofern mindestens eine Kauf- oder Verkaufsorder im abgelaufenen Quartal zur Abrechnung kam“ „entgeltfrei“, sonst „0,175 % p. a. inkl. USt“, „Mindestentgelt“ „4,95 EUR p. Q. inkl. USt“. Depotseite: „Mit nur einer Order pro Quartal oder einem aktiven Sparplan bleibt die Depotführung kostenlos.“") },
   "commerzbank-klassikdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus. Öffentliche Commerzbank-Seite: „Das Verrechnungskonto Plus kann als zinsloses Tagesgeldkonto … als Verrechnungskonto z. B. für ein oder mehrere Wertpapierdepots genutzt werden.“ Keine Commerzbank-Seite legt das Verrechnungskonto je Depotstufe fest, die Antwort des Kundencenters galt dem Depot allgemein." } },
   "commerzbank-premiumdepot": { zinsfreiAbStart: { url: "https://www.commerzbank.de/plv", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Commerzbank-Kundencenter am 22.09.2026: „Aktuell wird Guthaben, dass Sie auf einem Girokonto oder Verrechnungskonto Plus anlegen nicht verzinst.“ Ohne Commerzbank-Girokonto eröffnet die Bank zum Depot automatisch ein Verrechnungskonto Plus. Öffentliche Commerzbank-Seite: „Das Verrechnungskonto Plus kann als zinsloses Tagesgeldkonto … als Verrechnungskonto z. B. für ein oder mehrere Wertpapierdepots genutzt werden.“ Keine Commerzbank-Seite legt das Verrechnungskonto je Depotstufe fest, die Antwort des Kundencenters galt dem Depot allgemein." } },
   "joe-broker-depot": { zinsfreiAbStart: { url: "https://www.joebroker.de/", stand: "22.09.2026", hinweis: "Schriftlich bestätigt vom Joe-Broker-Support am 22.09.2026 (Ticket JBSPROD-13897): „Aktuell wird das Guthaben, das auf dem Verrechnungskonto liegt nicht verzinst.“ Eine geplante Verzinsung gilt laut Support nur für Konten, die nach deren Einführung eröffnet werden: „Wenn Du also zum aktuellen Zeitpunkt ein Depot bei uns eröffnest, erhältst Du keine Zinsen auf Dein Guthaben und wirst auch in Zukunft keine erhalten.“" }, etfSparplanKosten: preisseite("JOE Broker", "https://www.joebroker.de/Preise%20&%20Leistungen", "„Sparpläne allgemein ab 1,00 EUR“ „0,50 EUR“, „Sparpläne in Wertpapiere von unseren Premium-Partnern ab 1,00 EUR“ „0,00 EUR“.") },
@@ -218,6 +304,12 @@ export const DEPOT_QUELLEN: Quellen = {
   },
   "degiro-depot": {
     orderkosten: preisseite("DEGIRO", "https://www.degiro.de/data/pdf/de/Preisverzeichnis.pdf", "Preisverzeichnis, gültig ab 01.01.2026: „Andere Börsen“ „2,00 €“, „ETFs Kernauswahl“ „0,00 €“. Dazu: „Wird eine Order über eine Börse oder eine andere Handelsplattform aufgegeben, fällt eine Bearbeitungsgebühr von 1,00 € für alle Produkte an“. Zur Kernauswahl: „Jeder Handel innerhalb der Kernauswahl kostet nur 1 € pro Transaktion.“ Der iShares MSCI World Islamic UCITS ETF (IE00B27YCN58) gehört zur Kernauswahl."),
+  },
+  "gls-bank-depot": {
+    orderkosten: preisseite0710("GLS Bank", GLS_PLV, "Preis- und Leistungsverzeichnis, „Stand: 01.09.2026“, Ausführung im Inland: „Investmentanteile über Börse“ „0,50 %“ „min. 15,00 EUR“ „max. 500,00 EUR“. „Aktien“ „1,00 %“ „min. 20,00 EUR“."),
+    etfSparplanKosten: glsSparplan,
+    aktienSparplanKosten: glsSparplan,
+    depotgebuehr: preisseite0710("GLS Bank", GLS_PLV, "Preis- und Leistungsverzeichnis, „Stand: 01.09.2026“: „1,19 ‰“, „- Mindestpreis pro Depot (inkl. USt)“ „5,95 EUR“, „- Maximalpreis pro Bestandsposten (inkl. USt)“ „59,50 EUR“. Depotseite: „5,95 EUR jährlich Mindestpreis pro Depot, 59,50 EUR jährlich maximal pro Bestandsposten“."),
   },
 };
 
