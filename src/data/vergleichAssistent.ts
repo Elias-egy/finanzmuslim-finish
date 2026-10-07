@@ -1,9 +1,10 @@
 import type { MotivName } from "@/components/motive";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
-import type { Kategorie } from "@/lib/bewertung";
+import type { RangKategorie } from "@/lib/rangfolge";
 import {
   ampelGut,
   anzahlVon,
+  BASIS,
   euro,
   jaNein,
   kostetNichts,
@@ -15,8 +16,9 @@ import {
   type Prioritaet,
   type Wunsch,
 } from "@/lib/vergleichAssistent";
+import { kostenlosReicht } from "@/lib/vergleichLeser";
 import type { RohAnbieter } from "./vergleichHelfer";
-import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { kaufstatus } from "./kaufstatus";
 import { regionFuer } from "./anlageRegion";
 import { halalAnlagen } from "./halalAnlagen";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
@@ -24,6 +26,8 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { steuersoftwareVergleich, STEUER_ZEILEN } from "./steuersoftwareVergleich";
+
+export { kostenlosReicht };
 
 /**
  * Der geführte Vergleich: ein Fragebogen für alles, am Ende ein Paket.
@@ -54,8 +58,6 @@ export type Wirkung = {
   prioritaet?: Prioritaet;
   /** Satz unter dem Anbieter: warum er zu dieser Antwort passt. */
   grund?: Grund;
-  /** Zweitrangige Sortierung, 0 bis 1. */
-  nebenSort?: (a: RohAnbieter) => number | null;
 };
 
 export type Antwort = Wirkung & {
@@ -96,8 +98,8 @@ export type Baustein = {
   zusatzWenn?: (a: Antworten) => boolean;
   /** Antworten, die für den Zusatz unterstellt werden. */
   zusatzAntworten?: Antworten;
-  /** null: keine Halal-Regel und keine Note, es wird nur gefiltert. */
-  kategorie: Kategorie | null;
+  /** Formel der Rangfolge, siehe `src/lib/rangfolge.ts`. */
+  kategorie: RangKategorie;
   vergleich: string;
   vergleichText: string;
   anbieter: RohAnbieter[];
@@ -107,19 +109,12 @@ export type Baustein = {
   fakten: string[];
   /** Gründe, die unabhängig von den Antworten dastehen, wenn sie belegt sind. */
   immer?: Grund[];
-  /** Grundordnung von 0 bis 1 für Bausteine ohne Notenlogik, nur aus Belegtem. */
-  grundSort?: (a: RohAnbieter) => number | null;
   aktiv: (a: Antworten) => boolean;
 };
 
 const hat = (a: Antworten, frage: string, id: string) => a[frage]?.includes(id) ?? false;
 
 /* ------------------------------------------------------------ Prüfhelfer */
-
-const halalAnlagenZahl = (a: RohAnbieter) => {
-  const z = ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"].map((k) => anzahlVon(a.werte[k]));
-  return z.every((x) => x === null) ? null : z.reduce<number>((s, x) => s + (x ?? 0), 0);
-};
 
 const sparplanBis = (grenze: number): Wunsch => ({
   id: `sparplan${grenze}`,
@@ -152,12 +147,6 @@ const grundAnzahl =
     return text(n, w.match(/von\s+(\d+)/)?.[1] ?? "");
   };
 
-/** Screening-Apps: Reicht die kostenlose Fassung, um Aktien zu prüfen? Liest das belegte Feld `kostenlos`. */
-export const kostenlosReicht = (a: RohAnbieter) => {
-  const w = a.werte.kostenlos;
-  return typeof w === "string" && w.trim() !== "" && !/danach Abo|nur eine|eine Prüfung/i.test(w);
-};
-
 const wennGut =
   (key: string, satz: string): Grund =>
   (a) =>
@@ -180,7 +169,7 @@ const fondsDerRegion = (region: string) =>
   halalAnlagen.filter((x) => x.kategorie === "aktien" && x.isin && regionFuer(x.isin)?.label === region);
 
 const kaufbareFonds = (a: RohAnbieter, region: string) =>
-  fondsDerRegion(region).filter((f) => ANLAGEN_KAUFBAR[f.isin!]?.kaufbar.some((k) => k.anbieter === a.name));
+  fondsDerRegion(region).filter((f) => kaufstatus(f.isin!, a) === "kaufbar");
 
 const regionWunsch = (region: string, label: string): Wunsch => ({
   id: `region-${region}`,
@@ -189,7 +178,7 @@ const regionWunsch = (region: string, label: string): Wunsch => ({
   pruefe: (a) => {
     if (kaufbareFonds(a, region).length > 0) return true;
     const fonds = fondsDerRegion(region);
-    const ueberallGeprueft = fonds.every((f) => ANLAGEN_KAUFBAR[f.isin!]?.nichtImAngebot.includes(a.name));
+    const ueberallGeprueft = fonds.every((f) => kaufstatus(f.isin!, a) === "nicht");
     return fonds.length > 0 && ueberallGeprueft ? false : null;
   },
 });
@@ -214,7 +203,6 @@ const DEPOT_AUSWAHL: Prioritaet = {
   id: "auswahl",
   label: "große Halal-Auswahl",
   gewichte: {},
-  halalAnteil: 0.65,
   fakten: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"],
 };
 const DEPOT_APP: Prioritaet = {
@@ -223,7 +211,7 @@ const DEPOT_APP: Prioritaet = {
   gewichte: { app: 3, kundenservice: 3 },
   fakten: ["appIos", "appAndroid", "kundenservice"],
 };
-const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
+const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, ohneBedingung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
 const GIRO_APP: Prioritaet = { id: "app", label: "gute App", gewichte: { app: 4, mobilesBezahlen: 2, ident: 2 }, fakten: ["appIos", "appAndroid", "applePay"] };
 const KRYPTO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { gebuehren: 2, transferkosten: 2 }, fakten: ["gesamtkosten", "auszahlungBitcoin"] };
 const KRYPTO_EINFACH: Prioritaet = { id: "einfach", label: "einfachen Einstieg", gewichte: { verifizierung: 2, bezahlmethoden: 2, mindestbetrag: 2 }, fakten: ["ident", "einzahlung", "mindestbetrag"] };
@@ -234,7 +222,7 @@ const KRYPTO_SPARPLAN: Wirkung = {
   gewichte: { sparplan: 3, mindestbetrag: 2 },
 };
 
-/** Wer das Geld bald braucht: Depots mit Sukuk und Gold rücken nach vorn, und der Grund steht dabei. */
+/** Wer das Geld bald braucht, sieht, wo es Sukuk und Gold gibt. Die Reihenfolge bleibt die der Rangfolge (P3-Spec 10.8). */
 const KURZ: Wirkung = {
   grund: (a) => {
     const teile = [
@@ -242,11 +230,6 @@ const KURZ: Wirkung = {
       grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren`)(a),
     ].filter(Boolean);
     return teile.length > 0 ? `${teile.join(" und ")} kaufbar` : null;
-  },
-  nebenSort: (a) => {
-    const s = anzahlVon(a.werte.halalSukuk);
-    const m = anzahlVon(a.werte.halalEdelmetalle);
-    return s === null && m === null ? null : ((s ?? 0) + (m ?? 0)) / 11;
   },
 };
 
@@ -320,6 +303,22 @@ export const fragen: Frage[] = [
     ],
   },
   {
+    id: "bestimmtes",
+    fuer: "depot",
+    titel: "Weißt du schon, was du kaufen willst?",
+    hinweis: "Mehrere möglich. Du musst nichts wählen.",
+    mehrfach: true,
+    ohneWahl: "Nein, zeig mir, was passt",
+    zeigeWenn: will.anlegen,
+    antworten: [
+      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
+      { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
+      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
+      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
+      { id: "krypto", bild: "krypto", titel: "Krypto" },
+    ],
+  },
+  {
     id: "dauer",
     fuer: "depot",
     titel: "Wie lange kann das Geld liegen bleiben?",
@@ -335,37 +334,13 @@ export const fragen: Frage[] = [
         id: "mittel", bild: "kalender",
         titel: "3 bis 10 Jahre",
         grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
-        nebenSort: (a) => {
-          const n = halalAnlagenZahl(a);
-          return n === null ? null : n / 23;
-        },
       },
       {
         id: "lang", bild: "baum",
         titel: "Länger als 10 Jahre",
         grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
-        nebenSort: (a) => {
-          const n = anzahlVon(a.werte.halalEtfsFonds);
-          return n === null ? null : n / 12;
-        },
       },
       { id: "offen", bild: "frage", titel: "Weiß ich noch nicht" },
-    ],
-  },
-  {
-    id: "bestimmtes",
-    fuer: "depot",
-    titel: "Weißt du schon, was du kaufen willst?",
-    hinweis: "Mehrere möglich. Du musst nichts wählen.",
-    mehrfach: true,
-    ohneWahl: "Nein, zeig mir, was passt",
-    zeigeWenn: will.anlegen,
-    antworten: [
-      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
-      { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
-      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
-      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
-      { id: "krypto", bild: "krypto", titel: "Krypto" },
     ],
   },
   {
@@ -421,8 +396,8 @@ export const fragen: Frage[] = [
     titel: "Darf das Konto etwas kosten?",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
-      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
+      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", still: true, pruefe: kostetNichts("kontofuehrung") }], grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
+      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
     ],
   },
   {
@@ -554,7 +529,7 @@ export const bausteine: Baustein[] = [
       hat(a, "bestimmtes", "aktien")
         ? "Einzelne Aktien musst du selbst prüfen. Diese Apps sagen dir, ob eine Firma halal ist."
         : "Für geprüfte ETFs brauchst du sie nicht. Sobald du eine einzelne Aktie kaufst, sagt sie dir, ob die Firma halal ist.",
-    kategorie: null,
+    kategorie: "screener",
     vergleich: "/vergleich/screening-apps",
     vergleichText: "Alle Apps vergleichen",
     anbieter: screenerVergleich,
@@ -567,12 +542,6 @@ export const bausteine: Baustein[] = [
       wennGut("reinigung", "Rechnet den Reinigungsbetrag aus"),
       (a) => (kostenlosReicht(a) ? "Kostenlose Fassung reicht zum Prüfen" : null),
     ],
-    /* Drei Halal-Merkmale plus die Frage, ob die kostenlose Fassung zum Prüfen reicht. Alles aus belegten Feldern. */
-    grundSort: (a) => {
-      const keys = SCREENER_ZEILEN.filter((z) => z.gruppe === "halal" && z.art === "ampel").map((z) => z.key);
-      const gut = keys.filter((k) => a.werte[k] === "gut").length + (kostenlosReicht(a) ? 1 : 0);
-      return gut / (keys.length + 1);
-    },
     aktiv: will.depot,
   },
   {
@@ -608,9 +577,9 @@ export const bausteine: Baustein[] = [
     titel: "Dein Steuerprogramm",
     wozu: (a) =>
       will.steuer(a)
-        ? "Sortiert nach Preis. Die kostenlosen stehen oben."
+        ? "Sortiert nach Leistung und Preis."
         : "Mit einem Depot gehören Dividenden und Kursgewinne in die Steuererklärung. Diese Programme können das.",
-    kategorie: null,
+    kategorie: "steuer",
     vergleich: "/vergleich/steuersoftware",
     vergleichText: "Alle Programme vergleichen",
     anbieter: steuersoftwareVergleich,
@@ -644,13 +613,11 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
     }
   }
   const b = bausteine.find((x) => x.id === baustein);
-  const grundSort = b?.grundSort;
   return {
     wuensche: wirkungen.flatMap((w) => w.wuensche ?? []),
     gewichte: wirkungen.flatMap((w) => (w.gewichte ? [w.gewichte] : [])),
     prioritaet: wirkungen.find((w) => w.prioritaet)?.prioritaet,
     gruende: [...wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])), ...(b?.immer ?? [])],
-    nebenSort: [...wirkungen.flatMap((w) => (w.nebenSort ? [w.nebenSort] : [])), ...(grundSort ? [grundSort] : [])],
   };
 };
 
@@ -665,8 +632,9 @@ export const empfehlbar = (anbieterId: string): boolean => {
   );
   // IDs können in mehreren Vergleichen vorkommen. Ein positives Urteil aus
   // einer Kategorie darf ein ungeprüftes Produkt nicht freischalten.
+  // Steuerprogramme und Prüf-Apps haben keine Zinsfrage und bleiben empfehlbar wie bisher.
   return treffer.length > 0 && treffer.every(({ b, a }) =>
-    !b.kategorie || (
+    !(b.kategorie in BASIS) || (
       a.werte.zinsfreiAbStart === "gut" &&
       werteAus([a], b.kategorie, b.finanzMax, { wuensche: [], gewichte: [] }).raus === 0
     ),

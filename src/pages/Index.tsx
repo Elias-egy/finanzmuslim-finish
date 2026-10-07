@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Baby,
   Calculator,
   ChevronRight,
   Bitcoin,
@@ -11,7 +10,6 @@ import {
   LineChart,
   Percent,
   PiggyBank,
-  Receipt,
   ScanSearch,
   Sparkles,
   Target,
@@ -26,6 +24,7 @@ import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
+import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -38,36 +37,34 @@ const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
-  { label: "Aktien prüfen", icon: ScanSearch, to: "/vergleich/screening-apps" },
+  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
-  { label: "Kinderdepot", icon: Baby },
   { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
-/** Neun Rechner. Nur der Brutto-Netto-Rechner existiert noch nicht. */
+/** Acht Rechner, jeder mit eigener Seite. */
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
   { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
-  { title: "Bereinigungsrechner", to: "/bereinigungsrechner", icon: Sparkles },
+  { title: "Dividenden reinigen", to: "/bereinigungsrechner", icon: Sparkles },
   { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
-  { title: "Kreditkostenrechner", to: "/kreditkostenrechner", icon: Percent },
+  { title: "Zinskosten-Rechner", to: "/kreditkostenrechner", icon: Percent },
   { title: "Sparzielrechner", to: "/sparzielrechner", icon: Target },
-  { title: "Brutto-Netto-Rechner", icon: Receipt },
   { title: "Inflationsrechner", to: "/inflationsrechner", icon: TrendingDown },
 ];
 
 /** Erste vier sind die beliebtesten. Danach die uebrigen Themen. */
 const wissenKarten: WissenKarte[] = [
   {
-    thema: "Vorlage",
-    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
+    thema: "Liste",
+    titel: "Haram oder halal: 12 Verträge aus dem Alltag",
     to: "/vorlagen/vertrags-ampel",
     motiv: "ampel",
     beliebt: true,
   },
   {
-    thema: "Vorlage",
+    thema: "Liste",
     titel: "23 halal Anlagen, die du wirklich kaufen kannst",
     to: "/vorlagen/halal-anlagen",
     motiv: "liste",
@@ -81,7 +78,7 @@ const wissenKarten: WissenKarte[] = [
     beliebt: true,
   },
   {
-    thema: "Vorlage",
+    thema: "Liste",
     titel: "Ist diese Aktie halal?",
     to: "/vorlagen/aktien-check",
     motiv: "spickzettel",
@@ -121,7 +118,7 @@ const wissenKarten: WissenKarte[] = [
     neu: true,
   },
   { thema: "Grundlagen", titel: "Zinsen im Islam", to: "/wissen/zinsen-im-islam", motiv: "zins" },
-  { thema: "Investieren", titel: "Gold richtig kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
+  { thema: "Investieren", titel: "Halal Gold kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
   { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen", motiv: "karte", neu: true },
   { thema: "Alltag", titel: "Ist Leasing haram?", to: "/wissen/ist-leasing-haram", motiv: "auto", neu: true },
   { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", to: "/wissen/gharar", motiv: "gharar", neu: true },
@@ -367,7 +364,7 @@ const Index = () => (
             <p className="eyebrow">HALAL INVESTMENTS</p>
             <h2 className="section-title mt-2">Welche Anlagen wirklich geprüft sind</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              31 Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto.
+              {ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort: Aktien-ETFs, Fonds, Sukuk, Gold, Silber, Platin und Krypto.
               <span className="hidden md:inline">
                 {" "}
                 Such nach Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.

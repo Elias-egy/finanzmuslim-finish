@@ -55,7 +55,7 @@ const KaufbarListe = ({ kaufbar }: { kaufbar: AnlageKaufbar }) => (
       </p>
     )}
     <p className="mt-4 text-[13px] text-muted-foreground">
-      Stand {kaufbar.stand}. Andere Anbieter sind noch nicht geprüft.
+      Stand {kaufbar.stand}.
     </p>
   </div>
 );

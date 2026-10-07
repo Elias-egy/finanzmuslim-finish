@@ -8,8 +8,8 @@ const VergleichDepot = () => (
     titel="Depot-Vergleich für Muslime"
     untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
     seoTitel="Halal Depot eröffnen: Broker im Vergleich | finanzmuslim"
-    seoText="Welches Depot ist halal? 56 Broker im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind."
-    einheit="Anbieter"
+    seoText={`Welches Depot ist halal? ${brokerVergleich.length} Depots im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind.`}
+    einheit="Depots"
     einleitung={
       <>
         <p>
@@ -27,7 +27,6 @@ const VergleichDepot = () => (
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
     stand="14.09.2026"
-    standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
@@ -56,9 +55,9 @@ const VergleichDepot = () => (
           "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen. Die konkrete Handhabung besprichst du am besten mit einem Gelehrten deines Vertrauens.",
       },
       {
-        frage: "Warum sind manche Merkmale noch nicht geprüft?",
+        frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich. Die Halal-Merkmale prüfen wir einzeln beim Anbieter, bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Haben mehrere Depots gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
       },
       {
         frage: "Kann ich mehrere Depots haben?",

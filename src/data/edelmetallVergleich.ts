@@ -1,22 +1,103 @@
-// Von Hand gepflegt. Hier steht keine Finanzfluss-Tabelle dahinter, es gibt
-// auch keine für Edelmetalle. Jeder Wert hat eine Quelle mit Prüfdatum.
+// Zwei Teile. Die Depots kommen aus brokerVergleich.ts (erzeugt) und werden hier nur nach Gold
+// und Silber gelesen. Die drei Wege darunter sind von Hand gepflegt, jeder Wert hat eine Quelle
+// mit Prüfdatum.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
+import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
+import { ANLAGEN_KAUFBAR, ANLAGE_ZEILE } from "./anlagenKaufbar";
+import { halalAnlagen } from "./halalAnlagen";
 
 /**
- * Wege zu Gold und Silber im Vergleich.
+ * Edelmetalle im Depot (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch einmal
+ * nach Gold und Silber gerankt, so wie Finanzfluss Kinderdepot oder Geschäftskonto neben den
+ * allgemeinen Vergleich stellt. Gezählt werden die physisch hinterlegten Gold- und Silber-ETCs
+ * aus dem Halal-Anlagen-Vergleich, die beim Anbieter einzeln belegt kaufbar sind.
  *
- * Warum Wege und nicht Händler: Bei Gold entscheidet nicht der Anbieter über
- * halal oder nicht, sondern die Bauart des Geschäfts. Ob du bei philoro oder
- * bei Degussa einen Barren kaufst, ändert an der Sharia-Frage nichts. Ob du
- * einen Barren kaufst oder eine Schuldverschreibung auf Gold, ändert alles.
- *
- * Die entscheidende Regel steht in /wissen/halal-gold-kaufen: Bei Gold und
- * Silber müssen Zahlung und Übergabe zusammenfallen. Alles, was das
- * auseinanderzieht oder die Übergabe durch ein Versprechen ersetzt, fällt.
- * Diese Tabelle übersetzt die Regel in die fünf Wege, die es hier gibt.
+ * Aufnahme: Zins-Tor nicht rot und mindestens ein belegtes Papier. Rote Depots stehen nur im
+ * Depot-Vergleich (Aufnahmeregel vom 26.09.2026).
  */
+const METALL_ISINS = Object.keys(ANLAGE_ZEILE).filter((isin) => ANLAGE_ZEILE[isin] === "halalEdelmetalle");
+const kategorieVon = (isin: string) => halalAnlagen.find((a) => a.isin === isin)?.kategorie;
+export const GOLD_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "gold");
+export const SILBER_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "silber");
+
+/** Kaufbeleg je ISIN. Ein Eintrag unter dem Tarif geht vor dem Hauseintrag, wie in anlagen_matrix.py. */
+const belegt = (a: RohAnbieter, isin: string): boolean => {
+  const e = ANLAGEN_KAUFBAR[isin];
+  if (!e) return false;
+  const vom = (keys: unknown[]) => e.kaufbar.some((k) => [k.haus, ...(k.haeuser ?? [])].some((h) => keys.includes(h)));
+  const produkt = a.finanzfluss?.produkt;
+  if (produkt && (vom([produkt]) || e.nichtImAngebot.includes(`${a.name} ${a.produkt}`))) return vom([produkt]);
+  return vom([a.haus, produkt].filter(Boolean));
+};
+
+const depotZeile = (key: string): VergleichsZeile => DEPOT_ZEILEN.find((z) => z.key === key)!;
+
 export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
+  { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
+  {
+    ...depotZeile("zinsfreiAbStart"),
+    hinweis: "Grün: das Guthaben liegt ab Eröffnung ohne Zins. Gelb: Zinsen laufen, lassen sich aber abschalten.",
+  },
+  {
+    key: "gold",
+    label: "Gold",
+    art: "text",
+    gruppe: "halal",
+    imRaster: true,
+    hinweis: `Wie viele der ${GOLD_ISINS.length} Gold-ETCs aus unserem Halal-Anlagen-Vergleich dort kaufbar sind. Hinter jedem liegen Barren im Tresor.`,
+  },
+  {
+    key: "silber",
+    label: "Silber",
+    art: "text",
+    gruppe: "halal",
+    imRaster: true,
+    hinweis: `Wie viele der ${SILBER_ISINS.length} Silber-ETCs aus unserem Halal-Anlagen-Vergleich dort kaufbar sind. Hinter jedem liegen Barren im Tresor.`,
+  },
+  depotZeile("orderkosten"),
+  { ...depotZeile("depotgebuehr"), imRaster: false },
+  ...["handelsplaetze", "kapest", "appIos", "appAndroid", "kundenservice", "bank"].map(depotZeile),
+];
+
+/**
+ * Kosten für den Kauf eines Papiers: die Kriterien des Depot-Vergleichs ohne die Sparplan-Zeilen.
+ * Ob ein ETC sparplanfähig ist, steht in keinem Beleg, also zählt es hier nicht.
+ */
+export const EDELMETALL_FINANZ_MAX: Record<string, number> = Object.fromEntries(
+  ["depotgebuehr", "orderProzent", "orderPauschal", "handelsplaetze", "kapest", "kundenservice", "app"].map((k) => [k, DEPOT_FINANZ_MAX[k]]),
+);
+
+const anzahl = (a: RohAnbieter, isins: string[]) => {
+  const n = isins.filter((isin) => belegt(a, isin)).length;
+  const mindestens = String(a.werte.halalEdelmetalle ?? "").startsWith("mind.") && n < isins.length;
+  return `${mindestens ? "mind. " : ""}${n} von ${isins.length}`;
+};
+
+export const edelmetallVergleich: RohAnbieter[] = brokerVergleich
+  .filter((a) => !a.abgeraten && a.werte.zinsfreiAbStart !== "schlecht" && (a.halalAnlagenPunkte?.halalEdelmetalle ?? 0) > 0)
+  .map((a) => ({
+    ...a,
+    werte: { ...a.werte, gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
+    quellen: { ...a.quellen, gold: a.quellen?.halalEdelmetalle, silber: a.quellen?.halalEdelmetalle } as RohAnbieter["quellen"],
+  }));
+
+export const EDELMETALL_FILTER = [
+  { key: "gold", label: "Alle Gold-ETCs kaufbar", erlaubt: [`${GOLD_ISINS.length} von ${GOLD_ISINS.length}`] },
+  { key: "silber", label: "Alle Silber-ETCs kaufbar", erlaubt: [`${SILBER_ISINS.length} von ${SILBER_ISINS.length}`] },
+];
+
+/* ------------------------------------------------------------------ Wege */
+
+/**
+ * Die drei Wege zu Gold und Silber, bei denen echtes Metall übergeben wird. Sie stehen als
+ * Abschnitt unter dem Depot-Ranking und werden nicht gerankt.
+ *
+ * Die Regel dahinter steht in /wissen/halal-gold-kaufen: Bei Gold und Silber müssen Zahlung und
+ * Übergabe zusammenfallen. Schuldverschreibungen und Wetten auf den Preis sind seit 26.09.2026
+ * draußen (Elias, raw/2026-09-26-finanzmuslim-online-prio-3.md im Vault).
+ */
+export const WEGE_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
   {
     key: "uebergabe",
@@ -64,7 +145,7 @@ export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
 const stand = "16.09.2026";
 const artikel = { url: "/wissen/halal-gold-kaufen", stand, hinweis: "Hergeleitet aus der Regel zur sofortigen Übergabe, siehe unser Beitrag Halal Gold kaufen." };
 
-export const edelmetallVergleich: RohAnbieter[] = [
+export const EDELMETALL_WEGE: RohAnbieter[] = [
   {
     id: "barren-beim-haendler",
     name: "Barren und Münzen",
@@ -198,70 +279,4 @@ export const edelmetallVergleich: RohAnbieter[] = [
       },
     },
   },
-  {
-    id: "schuldverschreibung",
-    name: "Gold-Schuldverschreibung",
-    produkt: "Xetra-Gold, EUWAX Gold II",
-    werte: {
-      uebergabe: "schlecht",
-      echtesMetall: "teils",
-      nachweis: "schlecht",
-      ausliefern: "gut",
-      anbieter: "Deutsche Börse Commodities, Boerse Stuttgart",
-      kosten: "Xetra-Gold mit jährlicher Verwahrgebühr, EUWAX Gold II ohne",
-      einstieg: "ab einem Gramm",
-      aufbewahrung: "Tresor in Deutschland",
-      sparplan: true,
-      steuer: "steuerfrei, weil Auslieferung möglich ist",
-    },
-    quellen: {
-      uebergabe: {
-        url: "https://www.xetra-gold.com/",
-        stand,
-        hinweis:
-          "Der Anbieter sagt selbst, was du kaufst: eine Schuldverschreibung, die „den Anspruch auf jederzeitige Auslieferung von Goldbarren“ verbrieft. Ein Anspruch ist ein Versprechen, kein Metall. Genau diese Bauart trennt die Zahlung von der Übergabe.",
-      },
-      echtesMetall: {
-        url: "https://www.euwax-gold.de/ewg2ld/faq/",
-        stand,
-        hinweis:
-          "Metall liegt da: „EUWAX Gold II ist zu 100% mit physischem Gold hinterlegt, das entsprechend in einem Tresor lagert“. Es gehört dir aber nicht, du hast eine Forderung gegen den Herausgeber.",
-      },
-      nachweis: { stand, hinweis: "Weder für Xetra-Gold noch für EUWAX Gold II haben wir ein Gutachten eines Gelehrtengremiums gefunden." },
-      ausliefern: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "„Die physische Auslieferung des Goldes ist prinzipiell ab einem Gramm möglich“." },
-      anbieter: { url: "https://www.xetra-gold.com/", stand, hinweis: "Xetra-Gold von Deutsche Börse Commodities, EUWAX Gold II von der Boerse Stuttgart." },
-      kosten: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "EUWAX Gold II: „Für die Verwahrung fallen von Seiten der Emittentin keine jährlichen Gebühren an“. Xetra-Gold erhebt eine jährliche Verwahrgebühr." },
-      einstieg: { url: "https://www.euwax-gold.de/ewg2ld/faq/", stand, hinweis: "Auslieferung ab einem Gramm." },
-      steuer: { stand, hinweis: "Weil die Auslieferung möglich ist, wird der Gewinn nach einem Jahr wie bei physischem Gold behandelt. Keine Steuerberatung." },
-    },
-  },
-  {
-    id: "zertifikate-und-cfds",
-    name: "Zertifikate und CFDs",
-    produkt: "Wetten auf den Preis",
-    werte: {
-      uebergabe: "schlecht",
-      echtesMetall: "schlecht",
-      nachweis: "schlecht",
-      ausliefern: "schlecht",
-      anbieter: "Banken und Broker mit Hebelprodukten",
-      kosten: "Spread, Finanzierungskosten, bei Hebel laufende Zinsen",
-      einstieg: "wenige Euro",
-      aufbewahrung: "kein Metall vorhanden",
-      sparplan: false,
-      steuer: "Abgeltungsteuer",
-    },
-    quellen: {
-      uebergabe: { ...artikel, hinweis: "Es wird nichts übergeben, weil nichts gekauft wird. Du wettest auf einen Preis." },
-      echtesMetall: { ...artikel, hinweis: "Hinter diesen Papieren liegt kein Metall. Der Herausgeber bildet den Preis nach." },
-      nachweis: { stand, hinweis: "Kein Gremium zertifiziert eine Wette auf den Goldpreis." },
-      ausliefern: { ...artikel, hinweis: "Es gibt nichts auszuliefern." },
-      kosten: { ...artikel, hinweis: "Bei Hebelprodukten kommt ein verzinstes Darlehen dazu. Das ist neben der Wette der zweite Einwand." },
-    },
-  },
-];
-
-export const EDELMETALL_FILTER = [
-  { key: "uebergabe", label: "Übergabe fällt mit der Zahlung zusammen" },
-  { key: "nachweis", label: "Shariah-Nachweis vorhanden" },
 ];

@@ -61,7 +61,7 @@ const Kreditkostenrechner = () => (
     />
     <RechnerSeite
       name="Kreditkostenrechner"
-      title="Kreditkostenrechner"
+      title="Zinskosten-Rechner"
       intro={
         <p>
           Sieh, was ein Kredit über die Jahre wirklich kostet. Die Bank zeigt dir die Rate, wir

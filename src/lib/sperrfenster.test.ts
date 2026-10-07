@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { SPERRE } from "@/data/sperrfenster";
@@ -145,5 +145,21 @@ describe("Skript im Kopf von index.html", () => {
   it("trägt dieselben freien Pfade", () => {
     const liste = /var frei = (\[[^\]]+\]);/.exec(html)?.[1];
     expect(JSON.parse(liste ?? "[]")).toEqual([...SPERRE.frei]);
+  });
+});
+
+describe("Partnerzugang public/partner.html", () => {
+  const datei = "public/partner.html";
+  const html = existsSync(datei) ? readFileSync(datei, "utf8") : "";
+
+  it("merkt die Freischaltung bis zum selben Zeitpunkt und führt auf die Startseite", () => {
+    expect(html).toContain(`Date.parse("${SPERRE.ende}")`);
+    expect(html).toContain(`localStorage.setItem("${SPERRE.merker}"`);
+    expect(html).toContain('location.replace("/")');
+  });
+
+  it("bleibt aus dem Index und führt auch ohne Skript weiter", () => {
+    expect(html).toMatch(/<meta name="robots" content="noindex, nofollow"/);
+    expect(html).toMatch(/<a href="\/">/);
   });
 });

@@ -9,11 +9,41 @@ import { KAUFBAR_UNKLAR } from "./vergleichKorrekturenDaten";
 export type AnlageKaufbar = {
   kaufbar: {
     anbieter: string;
+    /** Schlüssel in recherche/anlagen.json, gleich `haus` bzw. Finanzfluss-Produkt der Vergleichszeile. */
+    haus: string;
+    /** Alle Haeuser mit diesem Anzeigenamen und Beleg (z. B. Scalable FREE und PRIME+), nur wenn mehr als eins. */
+    haeuser?: string[];
     hinweis?: string;
-    beleg: { url: string; stand: string; quelle: string; domains: string[] };
+    beleg: { url: string; stand: string; quelle: string; domains: string[]; herkunft?: string };
   }[];
   nichtImAngebot: string[];
   stand: string;
+};
+
+/** Die 22 Halal-Anlagen des Depot-Vergleichs und ihre Zeile (auftraege/halal-isins.json). */
+export const ANLAGE_ZEILE: Record<string, "halalEtfsFonds" | "halalSukuk" | "halalEdelmetalle"> = {
+  "IE00B27YCN58": "halalEtfsFonds",
+  "IE00B27YCP72": "halalEtfsFonds",
+  "IE00B296QM64": "halalEtfsFonds",
+  "IE000UOXRAM8": "halalEtfsFonds",
+  "IE000LFC57H7": "halalEtfsFonds",
+  "IE000X9FTI22": "halalEtfsFonds",
+  "IE000I5NV504": "halalEtfsFonds",
+  "IE000AGFZM58": "halalEtfsFonds",
+  "IE0009BC6K22": "halalEtfsFonds",
+  "IE00BMYMHS24": "halalEtfsFonds",
+  "IE000929U2U9": "halalSukuk",
+  "LU3123443510": "halalSukuk",
+  "LU1150255971": "halalSukuk",
+  "IE00B579F325": "halalEdelmetalle",
+  "JE00B1VS3770": "halalEdelmetalle",
+  "JE00BN2CJ301": "halalEdelmetalle",
+  "JE00B588CD74": "halalEdelmetalle",
+  "IE00B43VDT70": "halalEdelmetalle",
+  "JE00B1VS3333": "halalEdelmetalle",
+  "JE00BQRFDY49": "halalEdelmetalle",
+  "IE00B4ZJ4634": "halalEtfsFonds",
+  "LU2458330086": "halalEtfsFonds"
 };
 
 const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
@@ -21,6 +51,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -31,7 +62,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -43,6 +87,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -54,6 +99,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -65,7 +111,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -76,7 +147,49 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000929U2U9",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -87,18 +200,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -110,16 +225,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -130,29 +252,44 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
           ]
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -164,19 +301,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -187,29 +335,44 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
           ]
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -221,6 +384,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -232,18 +396,29 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -254,29 +429,44 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
           ]
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -288,19 +478,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -311,7 +512,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -322,7 +536,48 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -333,7 +588,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000LFC57H7",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -344,18 +612,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -367,19 +625,26 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -390,7 +655,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -402,6 +680,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -412,7 +691,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
           "stand": "14.09.2026",
@@ -423,7 +715,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -434,7 +739,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
           "url": "https://de.scalable.capital",
           "stand": "15.09.2026",
@@ -445,7 +767,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000UOXRAM8",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -456,18 +791,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -479,6 +816,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -490,16 +828,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finanzen.net zero",
-      "finvesto"
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "15.09.2026"
+    "stand": "01.10.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -510,29 +855,44 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
           ]
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -544,19 +904,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
       {
         "anbieter": "1822direkt",
+        "haus": "1822direkt",
         "beleg": {
           "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
           "stand": "14.09.2026",
@@ -567,7 +938,46 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux",
+        "haus": "bux",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -578,7 +988,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -590,6 +1013,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -600,7 +1024,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -613,6 +1050,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "finvesto",
+        "haus": "finvesto",
         "beleg": {
           "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
           "stand": "14.09.2026",
@@ -625,6 +1063,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
           "stand": "14.09.2026",
@@ -635,7 +1074,1077 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B27YCN58",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/ishares-msci-world-islamic-ucits-etf-usd-ie00b27ycn58",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "XTB",
+        "haus": "xtb",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bitpanda",
+      "Libertex"
+    ],
+    "stand": "07.10.2026"
+  },
+  "IE00B27YCP72": {
+    "kaufbar": [
+      {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto",
+        "haus": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B27YCP72",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "XTB",
+        "haus": "xtb",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
+    ],
+    "stand": "01.10.2026"
+  },
+  "IE00B296QM64": {
+    "kaufbar": [
+      {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "DEGIRO",
+        "haus": "degiro",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto",
+        "haus": "finvesto",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/iShares-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B296QM64",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "XTB",
+        "haus": "xtb",
+        "beleg": {
+          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "xtb.com"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
+    ],
+    "stand": "01.10.2026"
+  },
+  "IE00B43VDT70": {
+    "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "DEGIRO",
+        "haus": "degiro",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B43VDT70",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finanzen.net zero",
+      "finvesto",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "XTB"
+    ],
+    "stand": "07.10.2026"
+  },
+  "IE00B4ZJ4634": {
+    "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.consorsbank.de/web-financialinfo-service/api/marketdata/funds",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto",
+        "haus": "finvesto",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/IE00B4ZJ4634",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.gettex.de/fonds",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B4ZJ4634",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/fonds/comgest-growth-europe-s-acc-ie00b4zj4634",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Trade Republic",
+      "tradegate.direct",
+      "Trading 212",
+      "XTB"
+    ],
+    "stand": "01.10.2026"
+  },
+  "IE00B579F325": {
+    "kaufbar": [
+      {
+        "anbieter": "Bux",
+        "haus": "bux",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "DEGIRO",
+        "haus": "degiro",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/3393",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -647,9 +2156,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
         "beleg": {
-          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
-          "stand": "14.09.2026",
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
             "maxblue.de"
@@ -658,20 +2168,39 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
           "domains": [
             "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00B579F325",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
           ]
         }
       },
       {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-          "stand": "15.09.2026",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
@@ -679,18 +2208,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -702,6 +2233,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -713,587 +2245,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
-    ],
-    "stand": "15.09.2026"
-  },
-  "IE00B27YCP72": {
-    "kaufbar": [
-      {
-        "anbieter": "1822direkt",
-        "beleg": {
-          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "1822direkt.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "finanzen.net zero",
-        "beleg": {
-          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finanzen.net",
-            "finanzen-zero.net"
-          ]
-        }
-      },
-      {
-        "anbieter": "finvesto",
-        "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finvesto.de",
-            "fnz.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "flatex",
-        "beleg": {
-          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "ING",
-        "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trade Republic",
-        "beleg": {
-          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trading 212",
-        "beleg": {
-          "url": "https://www.trading212.com/de/trading-instruments/invest",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "trading212.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "XTB",
-        "beleg": {
-          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "xtb.com"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "Bitpanda"
-    ],
-    "stand": "15.09.2026"
-  },
-  "IE00B296QM64": {
-    "kaufbar": [
-      {
-        "anbieter": "1822direkt",
-        "beleg": {
-          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "1822direkt.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "DEGIRO",
-        "beleg": {
-          "url": "https://www.degiro.de/preise/etf-core-selection",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "degiro.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "finanzen.net zero",
-        "beleg": {
-          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finanzen.net",
-            "finanzen-zero.net"
-          ]
-        }
-      },
-      {
-        "anbieter": "finvesto",
-        "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finvesto.de",
-            "fnz.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "flatex",
-        "beleg": {
-          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "ING",
-        "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trade Republic",
-        "beleg": {
-          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trading 212",
-        "beleg": {
-          "url": "https://www.trading212.com/de/trading-instruments/invest",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "trading212.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "XTB",
-        "beleg": {
-          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "xtb.com"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "Bitpanda"
-    ],
-    "stand": "15.09.2026"
-  },
-  "IE00B43VDT70": {
-    "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "DEGIRO",
-        "beleg": {
-          "url": "https://www.degiro.de/preise/etf-core-selection",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "degiro.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "ING",
-        "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trade Republic",
-        "beleg": {
-          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trading 212",
-        "beleg": {
-          "url": "https://www.trading212.com/de/trading-instruments/invest",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "trading212.com"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
-      "XTB"
+      "finvesto",
+      "justTRADE",
+      "Libertex"
     ],
-    "stand": "15.09.2026"
-  },
-  "IE00B4ZJ4634": {
-    "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "finanzen.net zero",
-        "beleg": {
-          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finanzen.net",
-            "finanzen-zero.net"
-          ]
-        }
-      },
-      {
-        "anbieter": "finvesto",
-        "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finvesto.de",
-            "fnz.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "flatex",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
-        "beleg": {
-          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "flatex.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "ING",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
-        "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "Bitpanda",
-      "Trade Republic",
-      "tradegate.direct",
-      "Trading 212",
-      "XTB"
-    ],
-    "stand": "15.09.2026"
-  },
-  "IE00B579F325": {
-    "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "DEGIRO",
-        "beleg": {
-          "url": "https://www.degiro.de/preise/etf-core-selection",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "degiro.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "ING",
-        "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trading 212",
-        "beleg": {
-          "url": "https://www.trading212.com/de/trading-instruments/invest",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "trading212.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "XTB",
-        "beleg": {
-          "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "xtb.com"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "Bitpanda",
-      "finanzen.net zero"
-    ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
       {
         "anbieter": "1822direkt",
+        "haus": "1822direkt",
         "beleg": {
           "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
           "stand": "14.09.2026",
@@ -1304,18 +2271,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Bitpanda",
-        "beleg": {
-          "url": "https://www.bitpanda.com/en/prices",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "bitpanda.com"
-          ]
-        }
-      },
-      {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -1326,7 +2283,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -1337,7 +2307,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -1350,6 +2333,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
           "stand": "14.09.2026",
@@ -1360,150 +2344,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "ING",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Scalable Capital",
-        "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
-          "domains": [
-            "scalable.capital"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trade Republic",
-        "beleg": {
-          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "traderepublic.com"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Trading 212",
-        "beleg": {
-          "url": "https://www.trading212.com/de/trading-instruments/invest",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "trading212.com"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "finvesto",
-      "XTB"
-    ],
-    "stand": "15.09.2026"
-  },
-  "JE00B1VS2W53": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [],
-    "stand": "21.09.2026"
-  },
-  "JE00B1VS3002": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [],
-    "stand": "21.09.2026"
-  },
-  "JE00B1VS3333": {
-    "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Consorsbank",
-        "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "consorsbank.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "DEGIRO",
-        "beleg": {
-          "url": "https://www.degiro.de/preise/etf-core-selection",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "degiro.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "finanzen.net zero",
-        "beleg": {
-          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "finanzen.net",
-            "finanzen-zero.net"
+            "hypovereinsbank.de"
           ]
         }
       },
       {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -1515,9 +2369,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "justTRADE",
+        "haus": "justtrade",
         "beleg": {
-          "url": "https://www.justtrade.com/alle-sparplaene",
-          "stand": "14.09.2026",
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/HANetf-ETFs.pdf",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
@@ -1525,10 +2380,27 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Smartbroker+",
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
         "beleg": {
-          "url": "https://www.smartbrokerplus.de/de-de/edelmetalle-kaufen/",
-          "stand": "14.09.2026",
+          "url": "https://de.scalable.capital",
+          "stand": "15.09.2026",
+          "quelle": "elias",
+          "domains": [
+            "scalable.capital"
+          ]
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE00BMYMHS24",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "smartbrokerplus.de"
@@ -1536,7 +2408,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/saturna-al-kawthar-global-focused-equity-ie00bmymhs24",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -1547,18 +2432,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -1570,18 +2457,62 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "01.10.2026"
   },
-  "JE00B1VS3770": {
+  "JE00B1VS2W53": {
+    "kaufbar": [],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
+  },
+  "JE00B1VS3002": {
+    "kaufbar": [],
+    "nichtImAngebot": [],
+    "stand": "21.09.2026"
+  },
+  "JE00B1VS3333": {
     "kaufbar": [
       {
+        "anbieter": "Bux",
+        "haus": "bux",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1590,6 +2521,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -1601,6 +2533,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -1612,6 +2545,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -1623,7 +2557,45 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -1634,7 +2606,61 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/alle-sparplaene",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/de-de/edelmetalle-kaufen/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -1645,18 +2671,221 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.trading212.com/de/trading-instruments/invest",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
+      "XTB"
+    ],
+    "stand": "07.10.2026"
+  },
+  "JE00B1VS3770": {
+    "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.consorsbank.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "DEGIRO",
+        "haus": "degiro",
+        "beleg": {
+          "url": "https://www.degiro.de/preise/etf-core-selection",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
+        "beleg": {
+          "url": "https://mein.finanzen-zero.net/handelbare-produkte",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finanzen.net",
+            "finanzen-zero.net"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/WisdomTree-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00B1VS3770",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "15.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -1668,6 +2897,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -1679,24 +2909,17 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00B1VS3W29": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
@@ -1704,9 +2927,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1715,6 +2939,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -1726,6 +2951,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -1737,6 +2963,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -1748,7 +2975,45 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/edelmetalle/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -1759,7 +3024,49 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/fileadmin/Handelspartner/ETF-Listen/WisdomTree-ETFs.pdf",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
         "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
         "beleg": {
           "url": "https://www.smartbrokerplus.de/de-de/edelmetalle-kaufen/",
           "stand": "14.09.2026",
@@ -1771,6 +3078,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -1781,18 +3089,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -1804,18 +3114,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1824,6 +3140,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -1835,6 +3152,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "DEGIRO",
+        "haus": "degiro",
         "beleg": {
           "url": "https://www.degiro.de/preise/etf-core-selection",
           "stand": "14.09.2026",
@@ -1845,7 +3163,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12218",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -1857,7 +3188,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/?cHash=a629a532ba7f92ac455e4868a4c76452&tx_ftfondssearch_search%5Bcategory%5D=1&tx_ftfondssearch_search%5Bisin%5D=&tx_ftfondssearch_search%5Bpublisher%5D=&tx_ftfondssearch_search%5Brisk%5D=&tx_ftfondssearch_search%5Bsavingplan%5D=&tx_ftfondssearch_search%5Btitle%5D=",
           "stand": "14.09.2026",
@@ -1868,7 +3213,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -1880,6 +3238,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "justTRADE",
+        "haus": "justtrade",
         "beleg": {
           "url": "https://www.justtrade.com/alle-sparplaene",
           "stand": "14.09.2026",
@@ -1890,7 +3249,37 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00BN2CJ301",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -1901,18 +3290,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -1924,6 +3315,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -1935,17 +3327,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
       {
         "anbieter": "Bison",
+        "haus": "bison",
         "beleg": {
-          "url": "https://bisonapp.com/aktien-etfs/meistgehandelte-etfs-monat/",
-          "stand": "15.09.2026",
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
             "bisonapp.com"
@@ -1954,9 +3353,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1965,6 +3365,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -1975,7 +3376,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12206",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -1987,7 +3401,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/?cHash=a629a532ba7f92ac455e4868a4c76452&tx_ftfondssearch_search%5Bcategory%5D=1&tx_ftfondssearch_search%5Bisin%5D=&tx_ftfondssearch_search%5Bpublisher%5D=&tx_ftfondssearch_search%5Brisk%5D=&tx_ftfondssearch_search%5Bsavingplan%5D=&tx_ftfondssearch_search%5Btitle%5D=",
           "stand": "14.09.2026",
@@ -1998,7 +3426,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -2010,6 +3451,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "justTRADE",
+        "haus": "justtrade",
         "beleg": {
           "url": "https://www.justtrade.com/alle-sparplaene",
           "stand": "14.09.2026",
@@ -2020,7 +3462,37 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=JE00BQRFDY49",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
           "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
           "stand": "15.09.2026",
@@ -2031,18 +3503,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -2054,6 +3528,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "XTB",
+        "haus": "xtb",
         "beleg": {
           "url": "https://xtb.com/de/Einzelaufstellung-der-Finanzinstrumente_OMI_aktuell.pdf",
           "stand": "14.09.2026",
@@ -2065,14 +3540,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
@@ -2085,9 +3566,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
         "beleg": {
-          "url": "https://www.consorsbank.de/",
-          "stand": "14.09.2026",
+          "url": "https://www.consorsbank.de/web-financialinfo-service/api/marketdata/funds",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
@@ -2095,10 +3578,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "finvesto",
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
         "beleg": {
-          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/",
-          "stand": "14.09.2026",
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto",
+        "haus": "finvesto",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://portal.fnz.de/finvesto-md/p/Fonds/LU1150255971",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
             "finvesto.de",
@@ -2108,6 +3605,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "flatex",
+        "haus": "flatex",
         "hinweis": "Ausgabeaufschlag mit Rabatt",
         "beleg": {
           "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
@@ -2119,66 +3617,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "ING",
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
         "beleg": {
-          "url": "https://wertpapiere.ing.de/",
-          "stand": "14.09.2026",
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "ing.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
-    "nichtImAngebot": [
-      "Bitpanda",
-      "finanzen.net zero",
-      "Trade Republic",
-      "tradegate.direct",
-      "Trading 212",
-      "XTB"
-    ],
-    "stand": "15.09.2026"
-  },
-  "LU2458330086": {
-    "kaufbar": [
-      {
-        "anbieter": "comdirect",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
-        "anbieter": "flatex",
-        "hinweis": "Ausgabeaufschlag mit Rabatt",
-        "beleg": {
-          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "flatex.de"
+            "hypovereinsbank.de"
           ]
         }
       },
       {
         "anbieter": "ING",
+        "haus": "ing",
         "beleg": {
           "url": "https://wertpapiere.ing.de/",
           "stand": "14.09.2026",
@@ -2190,41 +3642,171 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.gettex.de/fonds",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
           "domains": [
             "scalable.capital"
-          ]
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU1150255971",
+          "stand": "25.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "smartbrokerplus.de"
           ]
         }
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
       "finanzen.net zero",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "01.10.2026"
+  },
+  "LU2458330086": {
+    "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Fidelity",
+        "haus": "fidelity",
+        "beleg": {
+          "url": "https://www.fidelity.de/produkte-services/fonds-verschiedener-anbieter/fondsfinder/",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.flatex.de/produkte-handel/produkte/etfs/ergebnisse/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "ING",
+        "haus": "ing",
+        "beleg": {
+          "url": "https://wertpapiere.ing.de/",
+          "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.gettex.de/fonds",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "hinweis": "ohne Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU2458330086",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      }
+    ],
+    "nichtImAngebot": [
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Consorsbank",
+      "finanzen.net zero",
+      "finvesto",
+      "finvesto Wertpapierdepot",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Trade Republic",
+      "tradegate.direct",
+      "Trading 212",
+      "XTB"
+    ],
+    "stand": "02.10.2026"
   },
   "LU3123443510": {
     "kaufbar": [
       {
         "anbieter": "1822direkt",
+        "haus": "1822direkt",
         "beleg": {
           "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-etf-sparplanliste-aktuell.pdf",
           "stand": "14.09.2026",
@@ -2236,6 +3818,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "comdirect",
+        "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
@@ -2246,7 +3829,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -2258,6 +3854,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       },
       {
         "anbieter": "finanzen.net zero",
+        "haus": "finanzen-net-zero",
         "beleg": {
           "url": "https://mein.finanzen-zero.net/handelbare-produkte",
           "stand": "14.09.2026",
@@ -2269,18 +3866,97 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/search.html?search=ETFS&spc=96&ls=any",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=LU3123443510",
+          "stand": "25.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/xtrackers-ii-salam-usd-global-aggregate-lu3123443510",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -2292,46 +3968,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "finvesto",
       "ING",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "07.10.2026"
   },
   "XS2115336336": {
-    "kaufbar": [
-      {
-        "anbieter": "Traders Place",
-        "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "21.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "tradersplace.de"
-          ]
-        }
-      }
-    ],
+    "kaufbar": [],
     "nichtImAngebot": [],
     "stand": "21.09.2026"
   },
   "XS3384723154": {
     "kaufbar": [
       {
-        "anbieter": "comdirect",
-        "beleg": {
-          "url": "https://www.comdirect.de/inf/search/all.html",
-          "stand": "14.09.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "comdirect.de"
-          ]
-        }
-      },
-      {
         "anbieter": "Consorsbank",
+        "haus": "consorsbank",
         "beleg": {
           "url": "https://www.consorsbank.de/",
           "stand": "14.09.2026",
@@ -2342,18 +4002,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Traders Place",
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
         "beleg": {
-          "url": "https://www.tradersplace.de/wertpapiersuche",
-          "stand": "15.09.2026",
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
-            "tradersplace.de"
+            "traderepublic.com"
           ]
         }
       },
       {
         "anbieter": "Trading 212",
+        "haus": "trading212",
         "beleg": {
           "url": "https://www.trading212.com/de/trading-instruments/invest",
           "stand": "14.09.2026",
@@ -2369,7 +4031,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "28.09.2026"
   }
 };
 

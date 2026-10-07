@@ -26,8 +26,8 @@ export const vorlagen: Vorlage[] = [
   },
   {
     slug: "vertrags-ampel",
-    titel: "Grün, gelb, rot: welchen Vertrag du unterschreibst",
-    kicker: "Die Ampel",
+    titel: "Haram oder halal: 12 Verträge aus dem Alltag",
+    kicker: "Verträge",
     kurzbeschreibung:
       "Zwölf Verträge aus dem Alltag, jeweils mit einer klaren Farbe und der Bedingung dahinter.",
     nutzenZeile: "In Sekunden wissen, woran du bist",
@@ -74,7 +74,7 @@ export const vorlagen: Vorlage[] = [
     kicker: "Aktien-Liste",
     kurzbeschreibung:
       "Von Apple bis Nike: bekannte Marken mit Musaffa-Einzelprüfung und Fundstelle, redaktionell sortiert nach Bekanntheit.",
-    nutzenZeile: "94 von 100 bekannten Aktien sind halal",
+    nutzenZeile: "Alle 100 bekannten Aktien sind halal",
     kommentarKeyword: "AKTIE",
     pdfPfad: "/downloads/100-halal-aktien.pdf",
     motiv: "aktienPruefen",

@@ -90,9 +90,9 @@ const VergleichSteuersoftware = () => (
     pfad="/vergleich/steuersoftware"
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
-    untertitel="Dreizehn Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
+    untertitel="Elf Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
     seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText="Dreizehn Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
+    seoText="Elf Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
     einheit="Programme"
     einleitung={
       <>
@@ -103,8 +103,7 @@ const VergleichSteuersoftware = () => (
         </p>
         <p>
           Für dich zählt vor allem eine Zeile. Wenn du anlegst, brauchst du ein Programm, das
-          Kapitalerträge kann. Zwei der günstigen Programme können das nicht, und das merkst du
-          erst, wenn du mitten in der Erklärung steckst.
+          Kapitalerträge kann. Alle elf nehmen sie laut Anbieter an.
         </p>
       </>
     }
@@ -114,12 +113,12 @@ const VergleichSteuersoftware = () => (
     kennzahlen={[
       { zahl: steuersoftwareVergleich.length, text: "Programme im Vergleich" },
       { zahl: 2, text: "davon kostenlos" },
-      { zahl: 7, text: "zahlen erst bei Abgabe" },
+      { zahl: steuersoftwareVergleich.filter((a) => a.werte.zahlung === "erst bei Abgabe").length, text: "zahlen erst bei Abgabe" },
     ]}
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
     standHinweis="Alle Preise beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Keines dieser Programme ist ein Partner von uns."
+    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei smartsteuer und WISO Steuer erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns."
     kriterienTitel="Worauf wir hier achten"
     kriterien={[
       {
@@ -136,7 +135,7 @@ const VergleichSteuersoftware = () => (
       },
       {
         titel: "Läuft auf",
-        text: "Vier Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
+        text: "Zwei Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
       },
     ]}
     zusatz={<WozuBlock />}
@@ -144,7 +143,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Welche Steuersoftware ist die beste?",
         antwort:
-          "Das hängt an deinen Einkünften. Wer nur Lohn hat, kommt mit jedem Programm zurecht, auch mit den kostenlosen. Wer Kapitalerträge, Vermietung oder ein Gewerbe hat, braucht ein Programm, das diese Anlagen annimmt. Steuerbot und STEUEReasy scheiden dann aus.",
+          "Das hängt an deinen Einkünften. Wer nur Lohn hat, kommt mit jedem Programm zurecht, auch mit den kostenlosen. Wer Kapitalerträge, Vermietung oder ein Gewerbe hat, braucht ein Programm, das diese Anlagen annimmt. Das steht in den Zeilen Kapitalerträge, Selbstständige und Vermietung.",
       },
       {
         frage: "Gibt es eine kostenlose Steuersoftware?",
@@ -159,12 +158,12 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Wie versteuere ich Krypto?",
         antwort:
-          "Gewinne aus Krypto zählen nicht als Kapitalerträge, sondern als private Veräusserungsgeschäfte. Wer länger als ein Jahr hält, zahlt darauf keine Steuer. Wer früher verkauft, gibt den Gewinn an, sobald er über der Freigrenze liegt. Ob dein Programm diesen Fall annimmt, haben wir noch nicht bei allen geprüft.",
+          "Gewinne aus Krypto zählen nicht als Kapitalerträge, sondern als private Veräusserungsgeschäfte. Wer länger als ein Jahr hält, zahlt darauf keine Steuer. Wer früher verkauft, gibt den Gewinn an, sobald er über der Freigrenze liegt. Prüfe vor dem Kauf, ob dein Programm diesen Fall annimmt.",
       },
       {
         frage: "Was heisst erst bei Abgabe zahlen?",
         antwort:
-          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sieben der dreizehn Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
+          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sechs der elf Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
       },
       {
         frage: "Lohnt sich die Steuererklärung überhaupt?",

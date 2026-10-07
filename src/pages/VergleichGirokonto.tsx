@@ -8,8 +8,8 @@ const VergleichGirokonto = () => (
     titel="Girokonto-Vergleich für Muslime"
     untertitel="Welches Konto passt, wenn du keine Zinsen willst"
     seoTitel="Halal Girokonto: Konten ohne Zinsen im Vergleich | finanzmuslim"
-    seoText="Welches Girokonto ist halal? 56 Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen."
-    einheit="Anbieter"
+    seoText={`Welches Girokonto ist halal? ${girokontoVergleich.length} Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen.`}
+    einheit="Konten"
     einleitung={
       <>
         <p>
@@ -28,8 +28,7 @@ const VergleichGirokonto = () => (
     finanzMax={GIRO_FINANZ_MAX}
     filter={GIRO_FILTER}
     stand="14.09.2026"
-    standHinweis="Konditionen eingetragen, Halal-Merkmale in Prüfung"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
         titel: "Ohne Zinsen nutzbar",
@@ -61,9 +60,9 @@ const VergleichGirokonto = () => (
           "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
       },
       {
-        frage: "Warum sind manche Merkmale noch nicht geprüft?",
+        frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Kosten und Konditionen stammen aus dem Finanzfluss-Vergleich. Die Halal-Merkmale prüfen wir einzeln bei der Bank, bis dahin steht dort wörtlich, dass es noch nicht geprüft ist.",
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir bei der Bank, eine Partnerschaft ändert keine Note. Haben mehrere Konten gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
       },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."

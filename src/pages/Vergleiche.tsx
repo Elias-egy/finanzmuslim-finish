@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  Baby,
   Banknote,
   Bitcoin,
   ChevronRight,
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
+import { ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME } from "@/data/anzahlen";
 
 type Vergleich = { name: string; desc: string; icon: LucideIcon; to?: string };
 type Gruppe = { titel: string; eintraege: Vergleich[] };
@@ -34,14 +34,13 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Edelmetalle",
-        desc: "Fünf Wege zu Gold und Silber, mit Nachweis und Auslieferung.",
+        desc: "Finde das Depot, in dem du Gold und Silber zinsfrei kaufst.",
         icon: Coins,
         to: "/vergleich/edelmetalle",
       },
-      { name: "Kinderdepot", desc: "Vergleiche Depots für deine Kinder.", icon: Baby },
       {
         name: "Halal-Anlagen finden",
-        desc: "31 Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.",
+        desc: `${ANZAHL_HALAL_ANLAGEN} Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.`,
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },
@@ -64,7 +63,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Steuersoftware",
-        desc: "Vergleiche 13 Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.",
+        desc: `Vergleiche ${ANZAHL_STEUERPROGRAMME} Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.`,
         icon: FileText,
         to: "/vergleich/steuersoftware",
       },

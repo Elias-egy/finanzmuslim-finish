@@ -72,10 +72,7 @@ const GeprueftVon = ({ a }: { a: Anlage }) =>
       <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
     </a>
   ) : (
-    <span className="text-[13px] text-muted-foreground">
-      {a.zertifizierer}
-      {!a.zertifizierer.includes("noch nicht geprüft") && " · Nachweis noch nicht geprüft"}
-    </span>
+    <span className="text-[13px] text-muted-foreground">{a.zertifizierer}</span>
   );
 
 const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gruppe: Gruppe }) => {
@@ -487,8 +484,7 @@ const HalalAnlagen = () => {
         <p className="mt-8 text-[13px] leading-relaxed text-muted-foreground">
           Produktdaten: Angaben der Anbieter, erhoben über justETF, Stand August 2026. Zertifizierungen werden
           jährlich erneuert, vor dem Kauf selbst prüfen. Beim BNP Paribas Islamic Fund Hilal Income stammt die
-          Fondsgröße aus dem Factsheet vom 27.03.2024, aktueller liegt öffentlich nichts vor. Der Zertifizierer
-          des Comgest Growth Europe S und des iShares USD Sukuk ist noch nicht geprüft.
+          Fondsgröße aus dem Factsheet vom 27.03.2024, aktueller liegt öffentlich nichts vor.
         </p>
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
           Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder

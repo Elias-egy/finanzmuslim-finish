@@ -659,7 +659,6 @@ export const halalAnlagen: Anlage[] = [
     bauart: "aktiv",
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Irland",
-    auflage: "Auflage noch nicht geprüft",
     zertifizierer:
       "Amanie Advisors, Shariah Supervisory Board",
   },

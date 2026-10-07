@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
 import { vorlageBySlug } from "@/data/vorlagen";
@@ -62,7 +63,7 @@ const AktienCheck = () => (
       einleitung="Drei Zahlen entscheiden. Wer sie kennt, kann jede Aktie in unter einer Minute einordnen, ohne Bilanz lesen zu können."
       pdfPfad={v.pdfPfad}
       slug={v.slug}
-      quellen="Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Haram-Umsatz höchstens 5 Prozent, Schuldenquote höchstens 30 Prozent, zinsbasierte liquide Mittel höchstens 30 Prozent. Zinsverbot: Quran 2:275 und 2:279, deutsche Übersetzung nach Bubenheim/Elyas. Werkzeuge: Musaffa und Zoya, Angaben der Anbieter, Stand August 2026. Islamicly und Finispia sind noch nicht geprüft. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu Grenzwerten und Nennern."
+      quellen="Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Haram-Umsatz höchstens 5 Prozent, Schuldenquote höchstens 30 Prozent, zinsbasierte liquide Mittel höchstens 30 Prozent. Zinsverbot: Quran 2:275 und 2:279, deutsche Übersetzung nach Bubenheim/Elyas. Werkzeuge: Musaffa und Zoya, Angaben der Anbieter, Stand August 2026. Zwischen den Rechtsschulen und einzelnen Gremien gibt es abweichende Auffassungen zu Grenzwerten und Nennern."
       rechtshinweis="Diese Seite dient ausschließlich zu Bildungszwecken, ist keine Fatwa und stellt keine personalisierte Anlageberatung dar. Genannte Unternehmen und Anbieter sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf. Zu den genannten Werkzeugen bestehen derzeit keine Partnerschaften."
       ctas={[
         {
@@ -149,8 +150,11 @@ const AktienCheck = () => (
           </div>
         </div>
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-          Weitere Anbieter am Markt: Islamicly und Finispia. Beide sind von mir noch nicht geprüft und stehen deshalb
-          ohne Einordnung hier.
+          Am Markt gibt es noch Islamicly und Finispia. Alle vier Apps stehen Punkt für Punkt im{" "}
+          <Link to="/vergleich/screening-apps" className="font-semibold text-primary underline underline-offset-2">
+            Vergleich der Screening-Apps
+          </Link>
+          .
         </p>
       </section>
 

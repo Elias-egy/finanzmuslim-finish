@@ -89,49 +89,52 @@ export const screenerVergleich: RohAnbieter[] = [
       standard: "fünf zur Wahl: AAOIFI, Dow Jones, FTSE, MSCI, S&P",
       gremium: "schlecht",
       begruendung: "gut",
-      reinigung: null,
+      reinigung: "schlecht",
       deutscheAktien: "ja, über 90 Börsen",
       umfang: "Aktien, ETFs, REITs, Fonds, Sukuk, Indizes und Börsengänge",
       etfs: true,
-      kostenlos: "Screening ohne Konto",
+      kostenlos: "Halal-Wert je Aktie auf der Website, volle Berichte in der App für drei Aktien",
       preis: "kostenlos, Geld verdient das Haus mit Lizenzen an Firmen",
-      depot: null,
-      zakat: true,
+      depot: true,
+      zakat: false,
       sprache: "Englisch",
     },
     quellen: {
+      reinigung: {
+        url: "https://app.finispia.com/help",
+        stand: "26.09.2026",
+        hinweis:
+          "„Purification rate is the ratio of revenues derived from non-compliant activities divided by the total revenue. There is a tremendous work to be done to get this feature. Finispia is eagerly working to include it in future version of the solution.“ Die App rechnet den Reinigungsbetrag also noch nicht aus.",
+      },
+      depot: {
+        url: "https://finispia.com/halal-stock-screener/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Start Trading Start trading halal right away. Connect with a third-party broker, and you can start trading with peace of mind.“",
+      },
       standard: {
         url: "https://finispia.com/",
         stand,
         hinweis:
           "Finispia stellt fünf Methoden zur Wahl: Dow Jones, FTSE, S&P, MSCI und AAOIFI. Das ist der größte Unterschied zu allen anderen: Du siehst, wie sich das Urteil mit dem Maßstab ändert.",
       },
-      gremium: {
-        url: "https://finispia.com/",
-        stand,
-        hinweis:
-          "Es wird kein eigenes Gremium genannt. Die App wendet die Regelwerke fremder Indexhäuser an, die Verantwortung liegt dort.",
-      },
-      begruendung: {
-        url: "https://finispia.com/",
-        stand,
-        hinweis: "Das Ergebnis wird je Methode mit den Kennzahlen gezeigt, aus denen es folgt.",
-      },
+      gremium: { url: "https://finispia.com/", stand: "27.09.2026", hinweis: "„Screening methodologies inspired from Five Islamic investment methodologies: DJ, FTSE, S&P, MSCI and AAOIFI.“ Auf keiner Seite und nicht im App-Text stehen Gelehrte mit Namen (geprüft 27.09.2026)." },
+      begruendung: { url: "https://finispia.com/halal-stock-screener/", stand: "27.09.2026", hinweis: "„Results based on five Islamic investment methodologies: DJ, FTSE, S&P, MSCI and AAOIFI.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       deutscheAktien: {
         url: "https://finispia.com/",
         stand,
         hinweis: "Laut Anbieter werden Aktien an über 90 Börsen geprüft, deutsche eingeschlossen.",
       },
       umfang: { url: "https://finispia.com/", stand, hinweis: "Geprüft werden Aktien, ETFs, REITs, Fonds, Sukuk, Indizes und Börsengänge." },
-      etfs: { url: "https://finispia.com/", stand, hinweis: "ETFs und Fonds stehen ausdrücklich in der Liste der geprüften Wertpapierarten." },
-      kostenlos: { url: "https://finispia.com/", stand, hinweis: "Das Screening ist ohne Anmeldung nutzbar." },
+      etfs: { url: "https://finispia.com/", stand: "27.09.2026", hinweis: "„You can also screen Market, ETF, REITS, Fund, Sukuk, Index, IPO and Private Equity.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kostenlos: { url: "https://finispia.com/", stand: "27.09.2026", hinweis: "„Screen stock in over 90 stock exchanges for Free.“ Die Website zeigt je Aktie den Wert von fünf Methoden; volle Berichte in der App gratis für drei Aktien, laut App Store: „our free plan includes the search of 3 stocks from all over the world.“" },
       preis: {
         url: "https://finispia.com/",
         stand,
         hinweis:
           "Für Leser kostenlos. Das Haus verkauft daneben Lizenzen an Firmen (White Label, API, Widget).",
       },
-      zakat: { url: "https://finispia.com/", stand, hinweis: "Ein Zakat-Rechner gehört zum Angebot." },
+      zakat: { url: "https://finispia.com/", stand: "27.09.2026", hinweis: "Den Zakat-Rechner gibt es nur als Baustein für fremde Websites: „Integrate our advanced Zakat calculator tool on your website to help your customers and improve traffic on your website.“ Im Text der App kommt „Zakat“ nicht vor. Am 27.09.2026 korrigiert, vorher ja." },
       sprache: { url: "https://finispia.com/", stand, hinweis: "Die Seite und das Screening gibt es nur auf Englisch." },
     },
   },
@@ -147,11 +150,11 @@ export const screenerVergleich: RohAnbieter[] = [
       reinigung: "gut",
       deutscheAktien: "ja, Deutschland ist unter den gelisteten Ländern",
       umfang: "17.000 bis 25.000 Aktien, je nach Bereich",
-      etfs: null,
-      kostenlos: "eine Prüfung als Bericht, danach Abo",
+      etfs: true,
+      kostenlos: "eine kostenlose Report Card fürs Depot, danach Abo",
       preis: "999 Rupien im Monat, 9.999 im Jahr (rund 100 Euro)",
       depot: true,
-      zakat: null,
+      zakat: true,
       sprache: "Englisch",
     },
     quellen: {
@@ -161,24 +164,31 @@ export const screenerVergleich: RohAnbieter[] = [
         hinweis:
           "„Our screening process follows globally recognized Islamic finance standards set by AAOIFI“, dazu die Schwelle: Erlöse aus nicht zulässigen Tätigkeiten unter 5 Prozent.",
       },
-      gremium: {
-        url: "https://islamicly.com/",
-        stand,
-        hinweis:
-          "Drei Gelehrte stehen mit Namen dahinter: Dr. Mohamed A. Elgari (Vorsitz, Saudi-Arabien), Dr. Muhammad Amin Qattan (Kuwait) und Dr. Nazih Hammad (Kanada). Elgari sitzt im AAOIFI-Gremium.",
-      },
-      begruendung: { url: "https://islamicly.com/", stand, hinweis: "Die App gibt je Aktie eine Compliance Report Card mit den Kennzahlen aus." },
+      gremium: { url: "https://www.islamicly.com/home/stocks", stand: "27.09.2026", hinweis: "Namentlich genannt: „Dr. Mohamed A. Elgari“ (Vorsitz), „Dr. Nazih Hammad“, „Dr. Muhammad Amin Qattan“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      begruendung: { url: "https://www.islamicly.com/home/stocks", stand: "27.09.2026", hinweis: "„Access scholar approved reports explaining why a stock is Shariah Compliant or Not.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       reinigung: { url: "https://islamicly.com/", stand, hinweis: "„Get dividend purification insights“, der zu spendende Anteil wird ausgewiesen." },
       deutscheAktien: { url: "https://islamicly.com/", stand, hinweis: "Deutschland steht in der Länderliste des Anbieters." },
       umfang: { url: "https://islamicly.com/", stand, hinweis: "Der Anbieter nennt 17.000+ und an anderer Stelle 25.000+ Aktien." },
-      kostenlos: { url: "https://islamicly.com/", stand, hinweis: "Beworben wird eine kostenlose Shariah Compliance Report Card, der laufende Zugang ist ein Abo." },
+      etfs: {
+        url: "https://www.islamicly.com/home/strategy",
+        stand: "26.09.2026",
+        hinweis:
+          "„Islamicly Moons“ prüft die Aktien innerhalb eines bestehenden Fonds oder ETFs auf Scharia-Konformität und baut daraus ein nachbildendes Portfolio: „An Islamicly Moon, screens Shariah compliant stocks within an existing Fund or ETF, re-weights the fund or ETF portfolio proportionately and gives a ready to invest basket of stocks.“ Eine Prüfung des ETFs selbst als Ganzes wie bei anderen Anbietern bietet die Seite nicht, geprüft werden die enthaltenen Aktien.",
+      },
+      zakat: {
+        url: "https://islamicly.com/",
+        stand: "26.09.2026",
+        hinweis:
+          "„Our app also provides valuable insights, alerts on compliance changes, zakat calculator, and everything you need to invest in a halal way — all in one place.“",
+      },
+      kostenlos: { url: "https://www.islamicly.com/", stand: "27.09.2026", hinweis: "„Get your FREE Shariah Compliance Report Card in 60 Seconds!“ Die Report Card gilt dem Depot, weitere Prüfungen laufen über die Abo-Stufen. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: {
         url: "https://islamicly.com/",
         stand,
         hinweis:
           "Der Anbieter rechnet in indischen Rupien ab: 999 im Monat, 2.499 für drei Monate, 9.999 im Jahr. Die App ist auf den indischen Markt zugeschnitten, das erklärt auch die Anlageprodukte daneben.",
       },
-      depot: { url: "https://islamicly.com/", stand, hinweis: "Über 30 angebundene Broker, Zugang zu Märkten in über 175 Ländern." },
+      depot: { url: "https://www.islamicly.com/", stand: "27.09.2026", hinweis: "„Simply connect your current broker. Islamicly will auto import your holdings so you can get started right away“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       sprache: {
         url: "https://apps.apple.com/de/app/islamicly-halal-stocks-gold/id1484332448",
         stand,
@@ -199,7 +209,7 @@ export const screenerVergleich: RohAnbieter[] = [
       deutscheAktien: "ja, 997 deutsche Aktien geprüft, davon 231 halal",
       umfang: "120.000 Aktien und ETFs in 60 Märkten",
       etfs: true,
-      kostenlos: "unbegrenzte Halal-Prüfungen mit Bericht, 10 neue Abdeckungsanfragen am Tag",
+      kostenlos: "unbegrenzt Halal-Status für Aktien und ETFs, Berichte und Depot-Verknüpfung nur im Abo",
       preis: "80 US-Dollar im Jahr im Angebot, regulär 200",
       depot: true,
       zakat: true,
@@ -207,14 +217,9 @@ export const screenerVergleich: RohAnbieter[] = [
     },
     quellen: {
       standard: { url: "https://musaffa.com/", stand, hinweis: "Musaffa prüft nach AAOIFI-Standards, mit Geschäftstätigkeit und Finanzkennzahlen." },
-      gremium: {
-        url: "https://musaffa.com/shariah-compliance",
-        stand: "19.09.2026",
-        hinweis:
-          "Namentlich genannt: Shaikh Dr. Aznan Hasan, Mitglied im Shariah-Rat der AAOIFI, und Mufti Faraz Adam, Leiter von Amanah Advisors, die das Verfahren unabhängig zertifizieren. Am 19.09.2026 korrigiert: Die Namen stehen auf einer Unterseite, nicht auf der Startseite.",
-      },
-      begruendung: { url: "https://musaffa.com/", stand, hinweis: "Je Aktie gibt es einen ausführlichen Compliance-Bericht mit Rating und den zugrunde liegenden Zahlen." },
-      reinigung: { url: "https://musaffa.com/pricing/", stand, hinweis: "Reinigungs- und Zakat-Rechner gehören zum Bezahlmodell." },
+      gremium: { url: "https://musaffa.com/shariah-compliance", stand: "27.09.2026", hinweis: "Liste „Shariah Advisors“: „Shaikh Dr. Aznan Hasan“, „Shariah Board member of Accounting and Auditing Organization for Islamic Financial Institutions“, und „Mufti Faraz Adam“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      begruendung: { url: "https://musaffa.com/pricing", stand: "27.09.2026", hinweis: "„Read detailed reports that explain why a stock or ETF is classified as Halal, Doubtful, or Not Halal.“ Die Berichte gibt es laut Preistabelle nur im Abo. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      reinigung: { url: "https://musaffa.com/pricing", stand: "27.09.2026", hinweis: "Preistabelle, Zeile „Manual Purification Calculator“, auch in der Gratis-Fassung. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       deutscheAktien: {
         url: "https://musaffa.com/pricing/",
         stand,
@@ -222,11 +227,11 @@ export const screenerVergleich: RohAnbieter[] = [
           "Der Anbieter weist die Abdeckung je Land aus: Deutschland 997 Aktien, davon 231 halal, dazu 121 ETFs mit einem halal. 28,41 Prozent der deutschen Marktkapitalisierung gelten als halal.",
       },
       umfang: { url: "https://musaffa.com/pricing/", stand, hinweis: "120.000+ Aktien und ETFs aus 60 Märkten zur Recherche, 11.000+ US-Aktien und 1.000+ ETFs durchleuchtet." },
-      etfs: { url: "https://musaffa.com/", stand, hinweis: "Eigener ETF-Screener, über 1.000 Fonds gegen Halal-Filter geprüft." },
-      kostenlos: { url: "https://musaffa.com/pricing/", stand, hinweis: "Kostenlos sind unbegrenzte Halal-Prüfungen, Rating, Bericht und Verlauf, begrenzt auf 10 Abdeckungsanfragen am Tag." },
+      etfs: { url: "https://musaffa.com/shariah-compliance", stand: "27.09.2026", hinweis: "Halal ETF screener: „1,000+ ETFs, screened against halal filters“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kostenlos: { url: "https://musaffa.com/pricing", stand: "27.09.2026", hinweis: "Gratis-Spalte: „UNLIMITED Stocks & ETFs Halal Status“. Berichte und Depot-Verknüpfung tragen dort ein X, und „All paid users can submit daily halal stock coverage requests for review by our Shariah experts.“ Am 27.09.2026 korrigiert: vorher stand hier, Berichte und zehn Anfragen am Tag seien gratis." },
       preis: { url: "https://musaffa.com/pricing/", stand, hinweis: "Ein Modell: 80 US-Dollar im Jahr als Sonderangebot, regulär 200 US-Dollar, umgerechnet 6,67 im Monat." },
-      depot: { url: "https://musaffa.com/", stand, hinweis: "Depot verbinden über 1.500 Banken und Broker." },
-      zakat: { url: "https://musaffa.com/", stand, hinweis: "Zakat-Rechner gehört zum Angebot." },
+      depot: { url: "https://musaffa.com/pricing", stand: "27.09.2026", hinweis: "„Link real brokerage accounts to track for full Shariah compliance and trade your holdings in one place“, laut Preistabelle nur im Abo. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      zakat: { url: "https://musaffa.com/pricing", stand: "27.09.2026", hinweis: "„Work out your zakat obligations accurately, with the option to import live portfolio data“ (Zeile „Manual Zakat Calculator“). Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       sprache: {
         url: "https://apps.apple.com/de/app/musaffa-halal-investing-app/id1614624968",
         stand,
@@ -241,13 +246,13 @@ export const screenerVergleich: RohAnbieter[] = [
     domain: "zoya.finance",
     werte: {
       standard: "AAOIFI",
-      gremium: "schlecht",
+      gremium: "gut",
       begruendung: "gut",
-      reinigung: null,
+      reinigung: "teils",
       deutscheAktien: "ja, Deutschland ist einer von neun Märkten",
       umfang: "über 40.000 Aktien, ETFs und Fonds",
       etfs: true,
-      kostenlos: "Halal-Bewertung tausender Aktien",
+      kostenlos: "Halal-Status für Aktien, bei Fonds die zehn größten Positionen, volle Berichte nur in Pro",
       preis: "nur in der App sichtbar, nicht auf der Website",
       depot: true,
       zakat: true,
@@ -260,12 +265,19 @@ export const screenerVergleich: RohAnbieter[] = [
         hinweis:
           "„Zoya applies the AAOIFI screening methodology under the guidance of our shariah advisors.“",
       },
-      gremium: {
-        url: "https://zoya.finance/",
-        stand,
-        hinweis: "Der Anbieter spricht von Shariah-Beratern, nennt sie auf den öffentlichen Seiten aber nicht mit Namen.",
+      reinigung: {
+        url: "https://blog.zoya.finance/stock-purification-guide/",
+        stand: "26.09.2026",
+        hinweis:
+          "Die App weist den Anteil nicht konformer Einnahmen aus, den Betrag zum Spenden rechnet man selbst: „Use Zoya to determine the total percentage of non-compliant income“. Einen fertigen Reinigungsbetrag nennt der Anbieter nicht, deshalb teils.",
       },
-      begruendung: { url: "https://zoya.finance/", stand, hinweis: "Zu jeder Aktie gibt es einen Compliance-Bericht mit den Einzelwerten." },
+      gremium: {
+        url: "https://zoya.finance/about",
+        stand: "27.09.2026",
+        hinweis:
+          "Namentlich genannt unter „Our Shariah Advisors“: Sheikh Joe Bradford, „Certified Shariah Adviser and Auditor (CSAA), accredited by the Accounting and Auditing Organization for Islamic Financial Institutions (AAOIFI)“, und Sheikh Umer Khan mit „iftā' (License to Give Islāmic Legal Verdicts) from Darulifta Birmingham“. Am 27.09.2026 korrigiert: Vorher stand hier rot, weil die Namen nicht auf der Startseite stehen.",
+      },
+      begruendung: { url: "https://help.zoya.finance/en/articles/4189798-how-does-zoya-screen-stocks-for-shariah-compliance", stand: "27.09.2026", hinweis: "„You can see the exact ratios, thresholds, and underlying data for any stock by tapping the “See Full Report” button.“ Volle Berichte nur in Pro. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       deutscheAktien: {
         url: "https://zoya.finance/",
         stand,
@@ -273,20 +285,16 @@ export const screenerVergleich: RohAnbieter[] = [
           "Abgedeckt sind USA, Großbritannien, Kanada, Australien, Deutschland, Indien, Japan, Polen, Taiwan und der Freiverkehr. Am vollständigsten sind die USA.",
       },
       umfang: { url: "https://zoya.finance/", stand, hinweis: "Über 40.000 Aktien, ETFs und Fonds, Daten täglich aktualisiert, Compliance-Berichte im Takt der Geschäftsberichte." },
-      etfs: { url: "https://zoya.finance/", stand, hinweis: "ETFs und Investmentfonds lassen sich bis auf die einzelnen Positionen filtern." },
-      kostenlos: {
-        url: "https://apps.apple.com/de/app/zoya-halal-investing-app/id1447547610",
-        stand,
-        hinweis: "App-Store-Beschreibung: „Access shariah compliance ratings of thousands of stocks worldwide, for free!“",
-      },
+      etfs: { url: "https://help.zoya.finance/en/articles/4189861-does-zoya-screen-etfs-and-mutual-funds", stand: "27.09.2026", hinweis: "„For both ETFs and mutual funds, we screen the underlying holdings that make up the fund.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kostenlos: { url: "https://help.zoya.finance/en/articles/8455907-what-is-included-in-a-zoya-pro-subscription", stand: "27.09.2026", hinweis: "Vergleich Free gegen Pro: Shariah Compliance „Status only“ gegen „Full reports“, Fund Screener „Top 10 holdings only“ gegen „All holdings“." },
       preis: {
         url: "https://apps.apple.com/de/app/zoya-halal-investing-app/id1447547610",
         stand,
         hinweis:
           "Der App-Store-Eintrag weist die App als kostenlos mit In-App-Käufen aus. Einen Preis nennt der Anbieter weder auf der Website noch im Hilfebereich, er steht erst in der App.",
       },
-      depot: { url: "https://zoya.finance/", stand, hinweis: "Depot verbinden und Bestände laufend auf Compliance prüfen." },
-      zakat: { url: "https://zoya.finance/", stand, hinweis: "Zakat-Rechner mit Import der Bestände." },
+      depot: { url: "https://zoya.finance/", stand: "27.09.2026", hinweis: "„Connect and sync your existing brokerage accounts to track your portfolio and monitor your holdings.“ Gratis ein Konto, in Pro beliebig viele. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      zakat: { url: "https://zoya.finance/", stand: "27.09.2026", hinweis: "„Calculate zakat due on your investments with precision and donate to your favorite charities.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       sprache: {
         url: "https://apps.apple.com/de/app/zoya-halal-investing-app/id1447547610",
         stand,
