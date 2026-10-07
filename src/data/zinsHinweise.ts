@@ -3,7 +3,8 @@ import type { CheckStatus } from "@/components/vergleich/vergleichTypen";
 /**
  * Was der Besucher tun oder lassen muss, damit kein Zins anfällt. HANDGEPFLEGT.
  *
- * Steht in Depot, Girokonto und Krypto unter der Ampel „Ohne Zinsen nutzbar“. Jeder Satz folgt dem
+ * Steht in Depot, Girokonto und Krypto beim aufgeklappten Angebot, nicht im Hauptvergleich
+ * (Elias, 07.10.2026), und gehört zur Ampel „Ohne Zinsen nutzbar“. Jeder Satz folgt dem
  * Beleg des Angebots (`quellen.zinsfreiAbStart`) und gilt nur für die Ampelfarbe, für die er
  * geschrieben ist: Wechselt die Ampel nach einem neuen Datenlauf, verschwindet der Satz, statt
  * etwas Falsches zu sagen. Ein Angebot ohne Beleg bekommt keinen Satz.

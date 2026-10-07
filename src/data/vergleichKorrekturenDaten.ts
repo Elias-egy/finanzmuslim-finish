@@ -29,13 +29,21 @@ export const NACHGETRAGENE_LINKS: Record<string, string> = {
 };
 
 /**
- * Kostenpflichtige Tarife. Die Marke steht in Tabelle und Karte am Produktnamen, der Satz sagt,
- * wofür die Gebühr steht. Der Streifen mit dem Platz bleibt davon unberührt.
+ * Kostenpflichtige Tarife. Die Marke steht in Tabelle und Karte am Produktnamen. Der Satz steht in
+ * der Karte und am Laptop beim aufgeklappten Angebot und nennt die stärksten Vorteile, die der
+ * Anbieter selbst für den Tarif nennt. Zinsen und Kredit zählen hier
+ * nicht als Vorteil. Der Streifen mit dem Platz bleibt davon unberührt.
+ *
+ * Scalable Capital, de.scalable.capital/prime-plus-broker, gelesen am 07.10.2026: „Für nur 4,99 € im
+ * Monat.“ „Unbegrenzt traden in der Trading Flatrate, ab 250 € Ordervolumen“, auf de.scalable.capital/trading „Flatrate für 4,99 € / Monat“. „Im PRIME+ Broker
+ * können beliebig viele Preisalarme eingerichtet werden.“ „Optimieren Sie Ihr Portfolio mit
+ * Insights, dem Portfolio Analytics Tool im Scalable Broker.“ Die Seite de.scalable.capital/trading
+ * führt „Portfolioanalyse, Preisalarme und mehr“ in FREE als „Begrenzt“, in PRIME+ als „Vollversion“.
  */
 export const TARIF_MARKEN: Record<string, { marke: string; satz: string }> = {
   "scalable-capital-prime-plus-broker": {
     marke: "Premium-Tarif",
-    satz: "4,99 € im Monat: Handel ab 250 € je Order ohne Ordergebühr.",
+    satz: "Für 4,99 € im Monat: Flatrate für Orders ab 250 €, beliebig viele Preisalarme, Portfolioanalyse Insights.",
   },
 };
 

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
+import { AngebotsDialog } from "./AngebotsDialog";
 import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
-import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
+import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 
 /**
  * Die gedrehte Tabelle fuer den Laptop: links stehen die Kriterien, rechts je
@@ -16,6 +17,9 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  * wessen Zahl man liest. Zweitens klebt die Kriterienspalte links, sonst
  * verliert man beim Schieben die Frage. Drittens steht die Angebotszeile
  * zweimal, oben und ganz unten, damit der Weg zum Anbieter nie weit ist.
+ *
+ * Die Zellen zeigen nur den Wert. Ein Klick auf die Kopfzeile eines Angebots öffnet
+ * `AngebotsDialog` mit dem Satz zur Zins-Ampel und den Quellen (Elias, 07.10.2026).
  */
 const SPALTE = 208;
 const KRITERIEN = 224;
@@ -45,6 +49,7 @@ export const VergleichsTabelle = ({
   const schieber = useRef<HTMLDivElement>(null);
   const [von, setVon] = useState(1);
   const [bis, setBis] = useState(1);
+  const [offen, setOffen] = useState<string | null>(null);
 
   const merkeStelle = useCallback(() => {
     const el = schieber.current;
@@ -162,53 +167,72 @@ export const VergleichsTabelle = ({
               </p>
             </div>
           </div>
-          {spalten.map((s) => (
-            <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
-              {/* `h-full`: Trägt eine Spalte eine Tarif-Marke, wächst die Kopfzeile für alle gleich. */}
-              <div className="h-full bg-card" style={{ position: "sticky", top: KOPF }}>
-                {s.abgeraten ? (
-                  <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
-                    <span className="block truncate text-center text-[11px] font-semibold text-destructive">
-                      Davon raten wir ab
+          {spalten.map((s) => {
+            const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
+            const kopf = (
+              <>
+                <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
+                <span className="block w-full truncate text-center text-[13px] font-bold text-foreground">
+                  {s.anbieter}
+                </span>
+                {s.tarif ? (
+                  /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Kopfzeile aller Spalten mit. */
+                  <span className="flex w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px] font-normal text-muted-foreground">
+                    {s.produkt}
+                    <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
+                      {s.tarif.marke}
                     </span>
-                  </div>
+                  </span>
                 ) : (
-                  s.etikett && (
-                    <div className="border-b border-border px-2 py-1.5">
-                      <span
-                        className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
-                      >
-                        {s.etikett.text}
+                  <span className="block w-full truncate text-center text-[12px] font-normal text-muted-foreground">
+                    {s.produkt}
+                  </span>
+                )}
+                {klickbar && (
+                  <span className="mt-auto inline-flex items-center pt-1 text-[12px] font-medium text-primary">
+                    Produktdetails
+                    <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                  </span>
+                )}
+              </>
+            );
+            return (
+              <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
+                {/* `h-full`: Bricht ein Produktname um, wächst die Kopfzeile für alle gleich. */}
+                <div className="flex h-full flex-col bg-card" style={{ position: "sticky", top: KOPF }}>
+                  {s.abgeraten ? (
+                    <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
+                      <span className="block truncate text-center text-[11px] font-semibold text-destructive">
+                        Davon raten wir ab
                       </span>
                     </div>
-                  )
-                )}
-                <div className="flex flex-col items-center gap-1 px-3 py-2">
-                  <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
-                  <p className="w-full truncate text-center text-[13px] font-bold text-foreground">
-                    {s.anbieter}
-                  </p>
-                  {s.tarif ? (
-                    <>
-                      <p className="flex w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px] text-muted-foreground">
-                        {s.produkt}
-                        <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
-                          {s.tarif.marke}
-                        </span>
-                      </p>
-                      <p className="text-center text-[11px] leading-[14px] text-muted-foreground">
-                        {s.tarif.satz}
-                      </p>
-                    </>
                   ) : (
-                    <p className="w-full truncate text-center text-[12px] text-muted-foreground">
-                      {s.produkt}
-                    </p>
+                    s.etikett && (
+                      <div className="border-b border-border px-2 py-1.5">
+                        <span
+                          className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
+                        >
+                          {s.etikett.text}
+                        </span>
+                      </div>
+                    )
+                  )}
+                  {klickbar ? (
+                    <button
+                      type="button"
+                      onClick={() => setOffen(s.id)}
+                      aria-haspopup="dialog"
+                      className="flex w-full flex-1 flex-col items-center gap-1 px-3 py-2 transition-colors hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+                    >
+                      {kopf}
+                    </button>
+                  ) : (
+                    <div className="flex flex-1 flex-col items-center gap-1 px-3 py-2">{kopf}</div>
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Datenzeilen */}
           {alleZeilen.map((z) => {
@@ -252,6 +276,12 @@ export const VergleichsTabelle = ({
           })}
         </div>
       </div>
+
+      <AngebotsDialog
+        spalte={spalten.find((s) => s.id === offen) ?? null}
+        zeilen={zeilen}
+        schliessen={() => setOffen(null)}
+      />
     </div>
   );
 };

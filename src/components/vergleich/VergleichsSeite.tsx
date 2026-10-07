@@ -328,7 +328,7 @@ export const VergleichsSeite = ({
               zeilen={zeilen}
               einheit={einheit}
               linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
-              kategorie={kategorie}
+              spalte={baueSpalten([sieger], zeilen, kategorie)[0]}
             />
           )}
           {sieger && (

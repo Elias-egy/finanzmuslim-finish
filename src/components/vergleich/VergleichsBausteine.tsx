@@ -3,10 +3,13 @@ import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
   KEINE_ANGABE,
+  einzelheiten,
   noteWort,
   noteZahl,
+  quellenText,
   type CheckStatus,
   type VergleichsSpalte,
+  type VergleichsZeile,
   type Zellwert,
 } from "./vergleichTypen";
 
@@ -191,36 +194,28 @@ const ampelFarbe: Record<CheckStatus, string> = {
 };
 
 /**
- * Eine Zelle. Kennt Freitext, Ampel und Haken. Belege zeigt sie in der Regel nicht:
- * Leser sehen nur das Ergebnis, die Recherche bleibt im Hintergrund (Elias, 14.09.2026).
- * Ausnahmen: Werte mit `quelle.anzeige` zeigen Quelle und Stand unter dem Wert, und eine Ampel
- * mit `zusatz` zeigt darunter den Satz, was der Besucher tun oder lassen muss. Die Karte auf dem
- * Handy setzt den Satz über die volle Breite unter das Raster und schaltet ihn hier ab.
+ * Eine Zelle. Kennt Freitext, Ampel und Haken und zeigt nur den Wert: Leser sehen das Ergebnis,
+ * die Recherche bleibt im Hintergrund (Elias, 14.09.2026). Der Satz zur Zins-Ampel und die Quellen
+ * stehen erst beim aufgeklappten Angebot (`AngebotsEinzelheiten`, Elias, 07.10.2026). Nur die
+ * Startseite je Partner zeigt mit `mitQuelle` Quelle und Stand unter dem Wert.
  */
 export const ZellInhalt = ({
   wert,
   art,
-  ohneZusatz = false,
+  mitQuelle = false,
 }: {
   wert?: Zellwert;
   art: string;
-  ohneZusatz?: boolean;
+  mitQuelle?: boolean;
 }) => {
   if (art === "ampel") {
     const status = wert?.status ?? "unbekannt";
-    const ampel = (
+    return (
       <span className="inline-flex items-center gap-2">
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
           {status === "unbekannt" ? KEINE_ANGABE : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
         </span>
-      </span>
-    );
-    if (!wert?.zusatz || ohneZusatz) return ampel;
-    return (
-      <span className="inline-flex flex-col items-center gap-1">
-        {ampel}
-        <span className="text-[12px] font-normal leading-[16px] text-muted-foreground">{wert.zusatz}</span>
       </span>
     );
   }
@@ -234,8 +229,8 @@ export const ZellInhalt = ({
     );
   }
 
-  if (wert?.text && wert.quelle?.anzeige) {
-    const beleg = `Quelle: ${wert.quelle.anzeige}${wert.quelle.stand ? `, Stand ${wert.quelle.stand}` : ""}`;
+  if (mitQuelle && wert?.text && wert.quelle?.anzeige) {
+    const beleg = `Quelle: ${quellenText(wert.quelle)}`;
     return (
       <span className="inline-flex flex-col gap-0.5">
         <span className="text-foreground">{wert.text}</span>
@@ -259,6 +254,89 @@ export const ZellInhalt = ({
     <span className="text-foreground">{wert.text}</span>
   ) : (
     <span className="text-muted-foreground" aria-label="ohne Angabe">{KEINE_ANGABE}</span>
+  );
+};
+
+/* ------------------------------------------------- Aufgeklapptes Angebot */
+
+/** Der Satz zur Zins-Ampel: was der Besucher tun oder lassen muss. Etwas größer als die Quellen. */
+export const ZinsSatz = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
+  const { zins } = einzelheiten(spalte, zeilen);
+  if (!zins) return null;
+  return (
+    <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
+      <span className="font-semibold">{zins.label}:</span> {zins.satz}
+    </p>
+  );
+};
+
+/** Quelle und Stand je Wert, klein und am Ende. */
+export const QuellenListe = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
+  const { quellen } = einzelheiten(spalte, zeilen);
+  if (quellen.length === 0) return null;
+  return (
+    <div className="text-[12px] leading-[17px] text-muted-foreground">
+      <p className="font-semibold">Quellen</p>
+      <ul className="mt-0.5">
+        {quellen.map((q) => (
+          <li key={q.key}>
+            {q.label}:{" "}
+            {q.quelle.url ? (
+              <a
+                href={q.quelle.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-primary"
+              >
+                {quellenText(q.quelle)}
+              </a>
+            ) : (
+              quellenText(q.quelle)
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+/**
+ * Was hinter „Produktdetails“ steht: der Satz zur Zins-Ampel, die übrigen Werte, am Ende die Quellen.
+ * `ohne` nimmt Zeilen heraus, die schon darüber stehen.
+ */
+export const ProduktDetails = ({
+  spalte,
+  zeilen,
+  ohne = [],
+}: {
+  spalte: VergleichsSpalte;
+  zeilen: VergleichsZeile[];
+  ohne?: string[];
+}) => {
+  const rest = zeilen.filter((z) => !z.imRaster && !z.key.startsWith("__") && !ohne.includes(z.key));
+  return (
+    <div className="border-t border-border pt-3 text-left">
+      <ZinsSatz spalte={spalte} zeilen={zeilen} />
+      <dl className="mt-1">
+        {rest.map((z) => (
+          <div
+            key={z.key}
+            className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-[14px] last:border-b-0"
+          >
+            <dt className="text-muted-foreground">
+              {z.label}
+              <HinweisPunkt text={z.hinweis} />
+            </dt>
+            <dd className="text-right">
+              <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-1 border-t border-border pt-3 empty:hidden">
+        <QuellenListe spalte={spalte} zeilen={zeilen} />
+      </div>
+    </div>
   );
 };
 

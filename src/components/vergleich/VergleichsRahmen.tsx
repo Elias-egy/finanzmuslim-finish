@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Award, Check, ChevronRight } from "lucide-react";
+import { Award, Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BonusSchild } from "./VergleichsBausteine";
+import { BonusSchild, ProduktDetails } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { zinsHinweis } from "@/data/zinsHinweise";
-import type { VergleichsZeile } from "./vergleichTypen";
+import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:
@@ -62,8 +62,8 @@ export const Kennzahlen = ({
   </div>
 );
 
-/** Ein Grund im Kasten der Nummer 1, bei der Zins-Ampel mit dem Satz darunter. */
-type Punkt = { text: string; zusatz?: string };
+/** Ein Grund im Kasten der Nummer 1. */
+type Punkt = { key: string; text: string };
 
 /**
  * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
@@ -71,38 +71,40 @@ type Punkt = { text: string; zusatz?: string };
  * ändert keine Note; in Depot, Girokonto und Krypto steht bei gleicher Sternzahl zuerst,
  * was einen eigenen Link hat (`linkVorrang`). Die Gründe darunter kommen aus den Zeilen des
  * Vergleichs: erfüllte Halal-Merkmale zuerst, dann die zwei Kostenwerte aus dem Raster.
+ *
+ * Auf dem Handy ersetzt der Kasten die Karte der Nummer 1. Deshalb trägt er dort dieselben
+ * „Produktdetails“ wie jede Karte; am Laptop stehen sie in der Tabelle darunter.
  */
 export const NummerEins = ({
   anbieter,
   zeilen,
   einheit,
   linkVorrang = false,
-  kategorie,
+  spalte,
 }: {
   anbieter: RohAnbieter;
   zeilen: VergleichsZeile[];
   einheit: string;
   /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat. Dann steht das hier. */
   linkVorrang?: boolean;
-  /** Depot, Girokonto und Krypto: unter „Ohne Zinsen nutzbar“ steht, was dafür zu tun oder zu lassen ist. */
-  kategorie?: string;
+  /** Die Nummer 1 als Spalte des Vergleichs, für die „Produktdetails“ auf dem Handy. */
+  spalte?: VergleichsSpalte;
 }) => {
+  const [offen, setOffen] = useState(false);
   const halal = zeilen
     .filter((z) => z.gruppe === "halal")
     .map((z): Punkt | null => {
       const w = anbieter.werte[z.key];
-      if (z.art === "ampel")
-        return w === "gut"
-          ? { text: z.label, zusatz: z.key === "zinsfreiAbStart" ? zinsHinweis(kategorie, anbieter) : undefined }
-          : null;
-      return typeof w === "string" && /\d+ von \d+/.test(w) ? { text: `${z.label}: ${w}` } : null;
+      if (z.art === "ampel") return w === "gut" ? { key: z.key, text: z.label } : null;
+      return typeof w === "string" && /\d+ von \d+/.test(w) ? { key: z.key, text: `${z.label}: ${w}` } : null;
     })
     .filter((x): x is Punkt => !!x)
     .slice(0, 4);
   const kosten = zeilen
     .filter((z) => z.gruppe === "kosten" && z.imRaster && typeof anbieter.werte[z.key] === "string")
     .slice(0, 2)
-    .map((z): Punkt => ({ text: `${z.label}: ${anbieter.werte[z.key]}` }));
+    .map((z): Punkt => ({ key: z.key, text: `${z.label}: ${anbieter.werte[z.key]}` }));
+  const punkte = [...halal, ...kosten];
 
   return (
     /* Rahmen im Verlauf Blau, Violett, Gold statt einer blauen Fläche (Elias, 21.09.2026: die
@@ -124,15 +126,10 @@ export const NummerEins = ({
         </div>
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
         <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
-          {[...halal, ...kosten].map((punkt) => (
-            <li key={punkt.text} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
+          {punkte.map((punkt) => (
+            <li key={punkt.key} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              <span>
-                {punkt.text}
-                {punkt.zusatz && (
-                  <span className="mt-0.5 block text-[12px] leading-[16px] text-muted-foreground">{punkt.zusatz}</span>
-                )}
-              </span>
+              <span>{punkt.text}</span>
             </li>
           ))}
         </ul>
@@ -148,6 +145,20 @@ export const NummerEins = ({
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} />
+        {spalte && (
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setOffen((v) => !v)}
+              aria-expanded={offen}
+              className="mx-auto mt-1 flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
+            >
+              Produktdetails
+              <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+            </button>
+            {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} ohne={punkte.map((x) => x.key)} />}
+          </div>
+        )}
         <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
           Aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note.{" "}
           {linkVorrang

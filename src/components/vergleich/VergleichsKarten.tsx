@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, ProduktDetails, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -11,8 +11,8 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  *
  * Aufbau je Karte: Logo, Name und Etikett oben, dann der
  * Knopf, dann die vier Zahlen, nach denen zuerst gesucht wird. Alles Weitere
- * liegt hinter "Produktdetails". Wer vergleichen will, hakt Karten an und
- * bekommt nur noch diese zu sehen.
+ * liegt hinter "Produktdetails", auch der Satz zur Zins-Ampel und die Quellen.
+ * Wer vergleichen will, hakt Karten an und bekommt nur noch diese zu sehen.
  */
 
 const etikettTon: Record<string, string> = {
@@ -35,9 +35,6 @@ const Karte = ({
 }) => {
   const [offen, setOffen] = useState(false);
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
-  const rest = zeilen.filter((z) => !z.imRaster && !z.key.startsWith("__"));
-  /* Der Satz zur Zins-Ampel braucht die volle Breite: im halben Kästchen bricht er auf sechs Zeilen um. */
-  const zinsZeile = raster.find((z) => spalte.werte[z.key]?.zusatz);
 
   const hervor = spalte.etikett?.ton === "empfehlung";
 
@@ -103,18 +100,11 @@ const Karte = ({
                 <HinweisPunkt text={z.hinweis} />
               </dt>
               <dd className="mt-1 text-[14px] font-semibold">
-                <ZellInhalt wert={spalte.werte[z.key]} art={z.art} ohneZusatz />
+                <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
               </dd>
             </div>
           ))}
         </dl>
-
-        {zinsZeile && (
-          <p className="mt-3 text-[13px] leading-snug text-muted-foreground">
-            <span className="font-semibold text-foreground">{zinsZeile.label}:</span>{" "}
-            {spalte.werte[zinsZeile.key].zusatz}
-          </p>
-        )}
 
         <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
           <label className="flex min-h-[44px] cursor-pointer items-center gap-2 text-[14px] text-foreground">
@@ -140,24 +130,7 @@ const Karte = ({
           </button>
         </div>
 
-        {offen && (
-          <dl className="border-t border-border pt-3">
-            {rest.map((z) => (
-              <div
-                key={z.key}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-[14px] last:border-b-0"
-              >
-                <dt className="text-muted-foreground">
-                  {z.label}
-                  <HinweisPunkt text={z.hinweis} />
-                </dt>
-                <dd className="text-right">
-                  <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-        )}
+        {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} />}
       </div>
     </li>
   );

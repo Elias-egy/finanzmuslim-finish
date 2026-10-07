@@ -93,7 +93,7 @@ const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
 
 /**
  * Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. Mit `kategorie` trägt die
- * Ampel „Ohne Zinsen nutzbar“ den Satz aus `zinsHinweise.ts`.
+ * Ampel „Ohne Zinsen nutzbar“ den Satz aus `zinsHinweise.ts`; gezeigt wird er beim aufgeklappten Angebot.
  */
 export const baueSpalten = (
   anbieter: RohAnbieter[],
