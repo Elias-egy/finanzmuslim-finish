@@ -891,6 +891,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -1129,7 +1142,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Libertex"
     ],
-    "stand": "01.10.2026"
+    "stand": "07.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1770,13 +1783,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
+      "finvesto",
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -1958,6 +1973,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -1990,6 +2018,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/3393",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
           ]
         }
       },
@@ -2136,11 +2176,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
+      "finvesto",
       "justTRADE",
       "Libertex"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -2381,6 +2423,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -2572,10 +2627,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
       "Libertex",
       "XTB"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -2783,9 +2840,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
       "Libertex"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -2986,10 +3045,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
       "Libertex",
       "XTB"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -3026,6 +3087,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "degiro.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12218",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
           ]
         }
       },
@@ -3185,10 +3258,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bison",
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -3225,6 +3300,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12206",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
           ]
         }
       },
@@ -3383,10 +3470,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "02.10.2026"
+    "stand": "07.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
