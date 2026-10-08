@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { screenerVergleich, SCREENER_ZEILEN, SCREENER_FILTER } from "@/data/screenerVergleich";
+import { SCREENER_ZEILEN, SCREENER_FILTER } from "@/data/screenerVergleich";
+import { screenerAnzeige } from "@/data/vergleichAnzeige";
+import { zahlwort } from "@/data/anzahlen";
 
 /**
  * Vergleich der Apps, die einzelne Aktien auf Halal prüfen.
@@ -84,11 +86,16 @@ const WozuBlock = () => (
 
 const Reihenfolge = () => (
   <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
-    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">Alphabetisch sortiert.</p>
-    <p className="hidden text-[16px] font-bold text-foreground lg:block">Alle Apps stehen alphabetisch</p>
+    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
+      Sortiert nach Nachvollziehbarkeit und Nutzen, je zur Hälfte.
+    </p>
+    <p className="hidden text-[16px] font-bold text-foreground lg:block">
+      Sortiert nach Nachvollziehbarkeit und Nutzen
+    </p>
     <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
-      Welche App passt, hängt daran, was du prüfen willst. Maßstab, Prüfgremium und Preis stehen
-      in der Tabelle.
+      Beides zählt je zur Hälfte. Nachvollziehbar heißt: Prüfgremium mit Namen, Zahlen hinter dem
+      Urteil und Reinigungsbetrag. Zum Nutzen zählen die kostenlose Fassung, ETFs und Fonds, das
+      Verbinden des Depots und der Zakat-Rechner.
     </p>
   </section>
 );
@@ -98,7 +105,7 @@ const VergleichScreener = () => (
     pfad="/vergleich/screening-apps"
     brotkrumen="Screening-Apps"
     titel="Halal-Aktien prüfen: die Apps im Vergleich"
-    untertitel="Vier Werkzeuge, die dir sagen, ob eine Aktie halal ist, und worin sie sich unterscheiden"
+    untertitel={`${zahlwort(screenerAnzeige.length, true)} Werkzeuge, die dir sagen, ob eine Aktie halal ist, und worin sie sich unterscheiden`}
     seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich | finanzmuslim"
     seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag, Preis und was die kostenlose Fassung kann."
     einheit="Apps"
@@ -119,7 +126,10 @@ const VergleichScreener = () => (
       </>
     }
     zeilen={SCREENER_ZEILEN}
-    anbieter={screenerVergleich}
+    anbieter={screenerAnzeige}
+    kategorie="screener"
+    finanzMax={{}}
+    ohneNummerEins
     filter={SCREENER_FILTER}
     stand="16.09.2026"
     standHinweis="Alle Angaben beim Anbieter geprüft"

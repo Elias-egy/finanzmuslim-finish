@@ -91,6 +91,14 @@ export type VergleichsSeiteProps = {
    */
   kategorie?: RangKategorie;
   finanzMax?: Record<string, number>;
+  /**
+   * Plätze ja, Kasten nein: Die Liste folgt der Rangfolge und jede Spalte trägt ihren Platz, oben
+   * steht aber keine „Nummer 1“. Für Vergleiche, in denen mehrere gleichauf vorn liegen oder die
+   * Wahl am eigenen Fall hängt (Steuersoftware, Halal-Aktien-Apps).
+   */
+  ohneNummerEins?: boolean;
+  /** Ein Satz direkt über der Liste: wonach sie sortiert ist. */
+  sortiertNach?: string;
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
@@ -129,6 +137,8 @@ export const VergleichsSeite = ({
   standHinweis,
   kategorie,
   finanzMax,
+  ohneNummerEins = false,
+  sortiertNach,
   quellenHinweis,
   kriterien,
   kriterienTitel = "Worauf wir bei Halal achten",
@@ -157,7 +167,7 @@ export const VergleichsSeite = ({
   );
 
   const sieger =
-    kategorie && finanzMax
+    kategorie && finanzMax && !ohneNummerEins
       ? (werteAus(anbieter, kategorie, finanzMax, {
           wuensche: [],
           gewichte: [],
@@ -399,11 +409,16 @@ export const VergleichsSeite = ({
           </p>
         ) : (
           <>
+            {sortiertNach && (
+              <p className={`${BREIT} mt-5 text-[14px] leading-snug text-muted-foreground lg:mt-8`}>
+                {sortiertNach}
+              </p>
+            )}
             {/* Laptop: gedrehte Tabelle. Handy: Karten. */}
-            <div className={`${BREIT} mt-6 hidden lg:block`}>
+            <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
               <VergleichsTabelle zeilen={zeilen} spalten={spalten} />
             </div>
-            <div className={`${BREIT} mt-4 lg:hidden`}>
+            <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. */}
               <VergleichsKarten
                 zeilen={zeilen}

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
+import { KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
+import { kryptoAnzeige } from "@/data/vergleichAnzeige";
 
 /**
  * Krypto-Vergleich.
@@ -78,7 +79,7 @@ const VergleichKrypto = () => (
     titel="Krypto-Börsen für Muslime"
     untertitel="Finde die Börse, bei der du echte Coins zinsfrei kaufst"
     seoTitel="Halal Krypto kaufen: Krypto-Börsen im Vergleich | finanzmuslim"
-    seoText={`Welche Krypto-Börse lässt sich ohne Zinsen nutzen? ${kryptoVergleich.length} Angebote im Vergleich: echte Coins statt Zertifikat, Auszahlung auf die eigene Wallet, Kosten und Bezahlmodell.`}
+    seoText={`Welche Krypto-Börse lässt sich ohne Zinsen nutzen? ${kryptoAnzeige.length} Angebote im Vergleich: echte Coins statt Zertifikat, Auszahlung auf die eigene Wallet, Kosten und Bezahlmodell.`}
     einheit="Börsen"
     einleitung={
       <>
@@ -95,7 +96,8 @@ const VergleichKrypto = () => (
       </>
     }
     zeilen={KRYPTO_ZEILEN}
-    anbieter={kryptoVergleich}
+    anbieter={kryptoAnzeige}
+    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
     kategorie="krypto"
     finanzMax={KRYPTO_FINANZ_MAX}
     filter={KRYPTO_FILTER}

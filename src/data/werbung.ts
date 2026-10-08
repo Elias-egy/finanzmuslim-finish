@@ -1,4 +1,5 @@
 import type { EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
+import { ANZAHL_DEPOTS, ANZAHL_KONTEN, ANZAHL_KRYPTO } from "./anzahlen";
 
 /**
  * Werbe-Box in jedem Wissensbeitrag, direkt nach Kapitel 1 (Elias, 15.09.2026: der erste Aufruf muss
@@ -12,7 +13,7 @@ const depot: EmpfehlungsBoxProps = {
   kategorie: "Depot",
   variante: "vergleich",
   ueberschrift: "Welches Depot passt zu dir?",
-  text: "56 Broker im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar und welche Halal-Anlagen es dort gibt.",
+  text: `${ANZAHL_DEPOTS} Broker im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar und welche Halal-Anlagen es dort gibt.`,
   knopf: "Zum Depot-Vergleich",
   linkZiel: "/vergleich/depot",
 };
@@ -21,7 +22,7 @@ const girokonto: EmpfehlungsBoxProps = {
   kategorie: "Girokonto",
   variante: "vergleich",
   ueberschrift: "Welches Konto kommt ohne Zinsen aus?",
-  text: "56 Girokonten im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar, kein Dispo, Karte ohne Kredit.",
+  text: `${ANZAHL_KONTEN} Girokonten im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar, kein Dispo, Karte ohne Kredit.`,
   knopf: "Zum Girokonto-Vergleich",
   linkZiel: "/vergleich/girokonto",
 };
@@ -30,7 +31,7 @@ const krypto: EmpfehlungsBoxProps = {
   kategorie: "Krypto",
   variante: "vergleich",
   ueberschrift: "Wo kaufst du Krypto ohne Zinsen?",
-  text: "27 Krypto-Anbieter im Vergleich, mit Halal-Merkmalen: echte Coins, keine Zinsen, kein Lending.",
+  text: `${ANZAHL_KRYPTO} Krypto-Anbieter im Vergleich, mit Halal-Merkmalen: echte Coins, keine Zinsen, kein Lending.`,
   knopf: "Zum Krypto-Vergleich",
   linkZiel: "/vergleich/krypto",
 };

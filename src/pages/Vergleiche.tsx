@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
-import { ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME } from "@/data/anzahlen";
+import { ANZAHL_APPS, ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME, zahlwort } from "@/data/anzahlen";
 
 type Vergleich = { name: string; desc: string; icon: LucideIcon; to?: string };
 type Gruppe = { titel: string; eintraege: Vergleich[] };
@@ -57,7 +57,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Aktien prüfen",
-        desc: "Vergleiche vier Apps, die einzelne Aktien auf Halal prüfen.",
+        desc: `Vergleiche ${zahlwort(ANZAHL_APPS)} Apps, die einzelne Aktien auf Halal prüfen.`,
         icon: ScanSearch,
         to: "/vergleich/screening-apps",
       },

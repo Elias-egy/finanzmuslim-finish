@@ -5,6 +5,7 @@ import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
+import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
@@ -48,13 +49,13 @@ export const SiteHeader = () => {
           scrollt mit weg. Sonst frisst er auf dem Handy dauerhaft Platz. */}
       {aufStartseite && (
         <Link
-          to="/zakat-rechner"
+          to="/halal-anlagen"
           className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
         >
           <span className="badge-new-inverted shrink-0">Neu</span>
           <span>
-            <span className="font-bold">Zakat-Rechner:</span>{" "}
-            <span className="font-normal">Berechne deine Zakat in 2 Minuten →</span>
+            <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
+            <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
           </span>
         </Link>
       )}

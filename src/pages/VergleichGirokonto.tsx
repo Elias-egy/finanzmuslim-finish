@@ -1,5 +1,6 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { girokontoVergleich, GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
+import { GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
+import { girokontoAnzeige } from "@/data/vergleichAnzeige";
 
 const VergleichGirokonto = () => (
   <VergleichsSeite
@@ -8,7 +9,7 @@ const VergleichGirokonto = () => (
     titel="Girokonto-Vergleich für Muslime"
     untertitel="Welches Konto passt, wenn du keine Zinsen willst"
     seoTitel="Halal Girokonto: Konten ohne Zinsen im Vergleich | finanzmuslim"
-    seoText={`Welches Girokonto ist halal? ${girokontoVergleich.length} Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen.`}
+    seoText={`Welches Girokonto ist halal? ${girokontoAnzeige.length} Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen.`}
     einheit="Konten"
     einleitung={
       <>
@@ -23,7 +24,8 @@ const VergleichGirokonto = () => (
       </>
     }
     zeilen={GIRO_ZEILEN}
-    anbieter={girokontoVergleich}
+    anbieter={girokontoAnzeige}
+    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
     filter={GIRO_FILTER}

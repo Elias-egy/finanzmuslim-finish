@@ -128,6 +128,28 @@ const VergleichMethodik = () => (
       </section>
 
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
+        <h2 className="text-2xl font-bold text-foreground">Steuersoftware und Halal-Aktien-Apps</h2>
+        <p>
+          <strong>
+            <Link to="/vergleich/steuersoftware" className="hover:text-primary">Steuersoftware:</Link>
+          </strong>{" "}
+          Leistung und Preis zählen je zur Hälfte. Zur Leistung gehören Daten vom Finanzamt mit 35 %,
+          Vermietung und Selbstständige mit je 25 % und mit 15 %, dass das Programm nicht nur unter
+          Windows läuft. Beim Preis gibt ein kostenloses Programm die volle Punktzahl, ab 60 € für
+          eine Erklärung gibt es keine Punkte mehr. Voraussetzung für einen Platz sind Kapitalerträge.
+        </p>
+        <p>
+          <strong>
+            <Link to="/vergleich/screening-apps" className="hover:text-primary">Halal-Aktien-Apps:</Link>
+          </strong>{" "}
+          Nachvollziehbarkeit und Nutzen zählen je zur Hälfte. Nachvollziehbar heißt zu gleichen
+          Teilen: Prüfgremium mit Namen, Zahlen hinter dem Urteil und Reinigungsbetrag. Beim Nutzen
+          zählt zur Hälfte, ob die kostenlose Fassung zum Prüfen reicht, zur anderen Hälfte ETFs und
+          Fonds, das Verbinden des Depots und der Zakat-Rechner.
+        </p>
+      </section>
+
+      <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
         <h2 className="text-2xl font-bold text-foreground">Woher die Daten kommen</h2>
         <p>
           Kosten und Konditionen übernehmen wir aus dem öffentlichen Vergleich von Finanzfluss (Daten:

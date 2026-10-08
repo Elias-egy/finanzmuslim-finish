@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { Tabelle } from "@/components/beitrag";
 import {
-  edelmetallVergleich,
   EDELMETALL_ZEILEN,
   EDELMETALL_FILTER,
   EDELMETALL_FINANZ_MAX,
@@ -10,6 +9,7 @@ import {
   GOLD_ISINS,
   SILBER_ISINS,
 } from "@/data/edelmetallVergleich";
+import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
 
 /**
  * Edelmetalle im Vergleich (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch
@@ -120,7 +120,7 @@ const VergleichEdelmetalle = () => (
     titel="Halal Gold kaufen: Depots im Vergleich"
     untertitel="Welcher Broker passt, wenn du Gold und Silber islamkonform kaufen willst"
     seoTitel="Halal Gold kaufen: Depots im Vergleich | finanzmuslim"
-    seoText={`Wo kannst du Gold halal kaufen? ${edelmetallVergleich.length} Depots im Vergleich: ohne Zinsen nutzbar, mit geprüften Gold- und Silber-ETCs und den Kosten pro Kauf.`}
+    seoText={`Wo kannst du Gold halal kaufen? ${edelmetallAnzeige.length} Depots im Vergleich: ohne Zinsen nutzbar, mit geprüften Gold- und Silber-ETCs und den Kosten pro Kauf.`}
     einheit="Depots"
     einleitung={
       <>
@@ -140,7 +140,8 @@ const VergleichEdelmetalle = () => (
       </>
     }
     zeilen={EDELMETALL_ZEILEN}
-    anbieter={edelmetallVergleich}
+    anbieter={edelmetallAnzeige}
+    sortiertNach="Sortiert nach unserer Note: kaufbare Gold- und Silber-ETCs und die Kosten pro Kauf zählen je zur Hälfte."
     kategorie="edelmetall"
     finanzMax={EDELMETALL_FINANZ_MAX}
     filter={EDELMETALL_FILTER}

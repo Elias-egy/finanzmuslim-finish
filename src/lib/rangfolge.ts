@@ -248,6 +248,42 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
   }
 };
 
+/**
+ * Welche Eingaben der Note bei diesem Angebot nicht belegt sind. Depot, Edelmetall und Steuer
+ * zählen so etwas als 0 Punkte, Girokonto, Krypto und Screener vergeben dann keinen Platz. Leer
+ * heißt: Jeder Wert, aus dem die Note entsteht, ist belegt. Darauf baut `src/lib/vollstaendig.ts`.
+ */
+export const unbelegteWerte = (a: RohAnbieter, kategorie: RangKategorie, opt: RangOptionen = {}): string[] => {
+  const finanzMax = opt.finanzMax ?? STANDARD_FINANZ_MAX[kategorie] ?? {};
+  if (kategorie === "depot" || kategorie === "edelmetall") {
+    const tuer = a.werte[TOR];
+    const zeilen = kategorie === "depot" ? ANTEIL_N : { halalEdelmetalle: ANTEIL_N.halalEdelmetalle };
+    return [
+      ...(tuer === "gut" || tuer === "teils" || tuer === "schlecht" ? [] : [TOR]),
+      ...Object.entries(zeilen)
+        .filter(([key, n]) => {
+          const w = a.werte[key];
+          const m = typeof w === "string" ? w.match(ANLAGEN_ZEILE) : null;
+          return !(m !== null && Number(m[2]) === n && typeof a.halalAnlagenPunkte?.[key] === "number");
+        })
+        .map(([key]) => key),
+      ...(kostenAus(a, finanzMax) === null ? ["finanzPunkte"] : []),
+    ];
+  }
+  if (kategorie === "steuer") {
+    const plattform = a.werte.plattform;
+    const p = a.preisEinzel;
+    return [
+      ...(["kapital", "vermietung", "selbststaendige"] as const).filter((k) => fassung(a.werte[k]) === null),
+      ...(jaNein(a.werte.belegabruf) === null ? ["belegabruf"] : []),
+      ...(typeof plattform === "string" && plattform.trim() ? [] : ["plattform"]),
+      ...(typeof p === "number" && Number.isFinite(p) && p >= 0 ? [] : ["preisEinzel"]),
+    ];
+  }
+  const u = urteil(a, kategorie, finanzMax);
+  return u.art === "offen" ? u.fehlt : [];
+};
+
 const nachName = (p: RohAnbieter, q: RohAnbieter) =>
   p.name.localeCompare(q.name, "de") || p.produkt.localeCompare(q.produkt, "de") || p.id.localeCompare(q.id, "de");
 
