@@ -256,7 +256,7 @@ const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?
   t.anbieter.link ? (
     <div>
       <Link to={t.anbieter.link} rel="sponsored nofollow" className={`${knopf} ${gross ? "min-h-[56px] text-[17px]" : ""}`}>
-        Schritt für Schritt starten*
+        Zum Angebot
       </Link>
       <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
       <BonusSchild anbieterId={t.anbieter.id} />
