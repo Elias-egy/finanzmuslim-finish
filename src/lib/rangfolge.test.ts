@@ -3,12 +3,12 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { brokerVergleich } from "@/data/brokerVergleich";
+import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
 import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
 import { screenerVergleich } from "@/data/screenerVergleich";
-import { edelmetallVergleich } from "@/data/edelmetallVergleich";
+import { edelmetallVergleich, EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 
 /**
  * Rechenkern der Rangfolge, Spezifikation `docs/rangfolge/P3-SPEC.md` (Abschnitt 10 hat Vorrang).
@@ -71,16 +71,10 @@ const screener = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => 
   },
 });
 
-const metall = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => ({
-  id,
-  name: id,
-  produkt: "Metall",
-  werte: { uebergabe: "gut", echtesMetall: "gut", nachweis: "gut", ausliefern: "gut", ...werte },
-});
-
 const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
   rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen });
-const rGiro = (liste: RohAnbieter[]) => rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO });
+const rGiro = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
+  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen });
 const rKrypto = (liste: RohAnbieter[]) => rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO });
 
 /** Das eine Ergebnis eines Einzelanbieters in `gerankt`. */
@@ -94,15 +88,15 @@ const ids = (xs: Array<{ anbieter: RohAnbieter }>) => xs.map((x) => x.anbieter.i
 
 describe("rangfolge: Gruppen", () => {
   it("legt jede Eingabe in genau eine Gruppe", () => {
-    const liste = [depot("voll"), depot("rot", { zinsfreiAbStart: "schlecht" }), depot("offen", { zinsfreiAbStart: null })];
-    const r = rDepot(liste);
+    const liste = [giro("voll"), giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })];
+    const r = rGiro(liste);
     expect(ids(r.gerankt)).toEqual(["voll"]);
     expect(ids(r.abgeraten)).toEqual(["rot"]);
     expect(ids(r.nichtBewertet)).toEqual(["offen"]);
   });
 
   it("gibt nicht Bewerteten und Abgeratenen weder Platz noch Note", () => {
-    const r = rDepot([depot("rot", { zinsfreiAbStart: "schlecht" }), depot("offen", { zinsfreiAbStart: null })]);
+    const r = rGiro([giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })]);
     for (const x of [...r.abgeraten, ...r.nichtBewertet]) {
       expect(x).not.toHaveProperty("platz");
       expect(x).not.toHaveProperty("note");
@@ -120,16 +114,16 @@ describe("rangfolge: Gruppen", () => {
     expect(ids(r.abgeraten)).toEqual(["markiert"]);
   });
 
-  it("wertet einen ungeprüften oder unbekannten Türsteher als fehlend", () => {
+  it("wertet einen ungeprüften oder unbekannten Türsteher bei Girokonto und Krypto als fehlend", () => {
     for (const tuer of [null, "unbekannt"] as const) {
-      const r = rDepot([depot("x", { zinsfreiAbStart: tuer })]);
+      const r = rGiro([giro("x", { zinsfreiAbStart: tuer })]);
       expect(r.nichtBewertet).toEqual([{ anbieter: expect.objectContaining({ id: "x" }), grund: "noch nicht geprüft", fehlt: ["zinsfreiAbStart"] }]);
     }
   });
 
   it("setzt den Grund „Anfrage läuft“ nur, wenn das Haus angefragt ist", () => {
-    const liste = [depot("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), depot("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
-    const r = rDepot(liste, new Set(["haus-a"]));
+    const liste = [giro("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), giro("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
+    const r = rGiro(liste, new Set(["haus-a"]));
     expect(r.nichtBewertet.map((x) => [x.anbieter.id, x.grund])).toEqual([
       ["a", "Anfrage läuft"],
       ["b", "noch nicht geprüft"],
@@ -137,7 +131,7 @@ describe("rangfolge: Gruppen", () => {
   });
 
   it("nimmt ohne Haus die id als Schlüssel für offene Anfragen", () => {
-    const r = rDepot([depot("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
+    const r = rGiro([giro("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
     expect(r.nichtBewertet[0].grund).toBe("Anfrage läuft");
   });
 
@@ -149,11 +143,11 @@ describe("rangfolge: Gruppen", () => {
   });
 
   it("sortiert nicht Bewertete und Abgeratene nach Name", () => {
-    const r = rDepot([
-      depot("c", { zinsfreiAbStart: null }),
-      depot("a", { zinsfreiAbStart: null }),
-      depot("z", { zinsfreiAbStart: "schlecht" }),
-      depot("m", { zinsfreiAbStart: "schlecht" }),
+    const r = rGiro([
+      giro("c", { zinsfreiAbStart: null }),
+      giro("a", { zinsfreiAbStart: null }),
+      giro("z", { zinsfreiAbStart: "schlecht" }),
+      giro("m", { zinsfreiAbStart: "schlecht" }),
     ]);
     expect(ids(r.nichtBewertet)).toEqual(["a", "c"]);
     expect(ids(r.abgeraten)).toEqual(["m", "z"]);
@@ -184,25 +178,61 @@ describe("rangfolge: Depot", () => {
     expect(einzig(rDepot([a]))).toMatchObject({ halal: 1.36, note: 3.18 });
   });
 
-  it("lässt eine Zeile „mind. x von N“ offen", () => {
-    const r = rDepot([depot("mind", { halalEtfsFonds: "mind. 3 von 12" })]);
-    expect(r.nichtBewertet[0].fehlt).toEqual(["halalEtfsFonds"]);
+  it("zählt bei „mind. x von N“ nur die belegten Punkte", () => {
+    // Halal 5 × (3 + 3 + 7) / 22 = 2,9545…, Kosten 5, Note 3,9772…
+    const a = depot("mind", { halalEtfsFonds: "mind. 3 von 12" }, { halalAnlagenPunkte: { halalEtfsFonds: 3, halalSukuk: 3, halalEdelmetalle: 7 } });
+    expect(einzig(rDepot([a]))).toMatchObject({ halal: 2.95, kosten: 5, note: 3.98 });
   });
 
-  it("fällt bei exakter Zeile ohne Punkte nie auf die Rohzahl zurück", () => {
+  it("zählt unbelegte Zeilen als nicht vorhanden und rät nie", () => {
+    // Fehlender Schlüssel, null und gar keine Punkte: jede Zeile zählt 0, das Depot bekommt trotzdem eine Note.
     const ohneSchluessel = depot("ohne", {}, { halalAnlagenPunkte: { halalSukuk: 3, halalEdelmetalle: 7 } });
     const mitNull = depot("null", {}, { halalAnlagenPunkte: { halalEtfsFonds: null, halalSukuk: 3, halalEdelmetalle: 7 } });
     const ganzOhne = depot("ganz", {}, { halalAnlagenPunkte: undefined });
-    const r = rDepot([ohneSchluessel, mitNull, ganzOhne]);
-    expect(r.gerankt).toHaveLength(0);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "ohne")!.fehlt).toEqual(["halalEtfsFonds"]);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "null")!.fehlt).toEqual(["halalEtfsFonds"]);
-    expect(r.nichtBewertet.find((x) => x.anbieter.id === "ganz")!.fehlt).toEqual(["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]);
+    const leereZeilen = depot("leer", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null });
+    const r = rDepot([ohneSchluessel, mitNull, ganzOhne, leereZeilen]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    const nach = (id: string) => r.gerankt.find((x) => x.anbieter.id === id)!;
+    // Halal 5 × (0 + 3 + 7) / 22 = 2,2727…, Note 3,64
+    expect(nach("ohne")).toMatchObject({ halal: 2.27, note: 3.64 });
+    expect(nach("null")).toMatchObject({ halal: 2.27, note: 3.64 });
+    expect(nach("ganz")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
+    expect(nach("leer")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
   });
 
-  it("verlangt N = 12, 3 und 7", () => {
-    const r = rDepot([depot("acht", { halalEdelmetalle: "8 von 8" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 } })]);
-    expect(r.nichtBewertet[0].fehlt).toEqual(["halalEdelmetalle"]);
+  it("zählt eine Zeile mit falschem N oder Punkten über N als nicht belegt", () => {
+    // 8 von 8 Edelmetalle passt nicht zu N = 7, Punkte 8 liegen über 7: Zeile zählt 0, Halal 5 × 15 / 22 = 3,4090…
+    const falschesN = depot("acht", { halalEdelmetalle: "8 von 8" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 } });
+    const zuViel = depot("viel", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 9 } });
+    const r = rDepot([falschesN, zuViel]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    for (const x of r.gerankt) expect(x.halal).toBe(3.41);
+  });
+
+  it("gibt jedem Depot ohne rotes Zins-Tor eine Note, auch ohne Beleg für das Tor", () => {
+    const r = rDepot([depot("gut"), depot("teils", { zinsfreiAbStart: "teils" }), depot("offen", { zinsfreiAbStart: null }), depot("unbekannt", { zinsfreiAbStart: "unbekannt" })]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    expect(r.gerankt).toHaveLength(4);
+    // Nicht belegtes Tor: Halal-Teil zählt nicht, Kosten 5, Note 2,5. Nie Nummer 1.
+    for (const id of ["offen", "unbekannt"]) {
+      const x = r.gerankt.find((y) => y.anbieter.id === id)!;
+      expect(x).toMatchObject({ halal: 0, kosten: 5, note: 2.5, uneingeschraenkt: false });
+    }
+    expect(ids(nummerEins(r))).toEqual(["gut"]);
+  });
+
+  it("stellt bei gleichen Kosten kein Depot ohne belegte Anlage vor eines mit belegten", () => {
+    const keine = { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 0 };
+    const etwas = { halalEtfsFonds: 1, halalSukuk: 0, halalEdelmetalle: 0 };
+    const viel = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
+    const r = rDepot([
+      depot("keine", {}, { halalAnlagenPunkte: keine }),
+      depot("null", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null }, { halalAnlagenPunkte: undefined }),
+      depot("etwas", {}, { halalAnlagenPunkte: etwas }),
+      depot("viel", {}, { halalAnlagenPunkte: viel }),
+    ]);
+    expect(ids(r.gerankt)).toEqual(["viel", "etwas", "keine", "null"]);
+    expect(r.gerankt.find((x) => x.anbieter.id === "keine")!.platz).toBe(r.gerankt.find((x) => x.anbieter.id === "null")!.platz);
   });
 
   it("halbiert den Halal-Teil, wenn Zinsen erst abgeschaltet werden müssen, und gibt ihn halbiert aus", () => {
@@ -210,9 +240,11 @@ describe("rangfolge: Depot", () => {
     expect(einzig(rDepot([depot("gelb", { zinsfreiAbStart: "teils" })]))).toMatchObject({ halal: 2.5, kosten: 5, note: 3.75 });
   });
 
-  it("wertet fehlende oder leere Finanzpunkte als fehlend", () => {
+  it("zählt fehlende oder leere Finanzpunkte als Kosten 0", () => {
+    // Halal 5, Kosten 0, Note 2,5
     const r = rDepot([depot("ohne", {}, { finanzPunkte: undefined }), depot("leer", {}, { finanzPunkte: {} })]);
-    expect(r.nichtBewertet.map((x) => x.fehlt)).toEqual([["finanzPunkte"], ["finanzPunkte"]]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    for (const x of r.gerankt) expect(x).toMatchObject({ halal: 5, kosten: 0, note: 2.5 });
   });
 });
 
@@ -284,17 +316,21 @@ describe("rangfolge: Steuersoftware", () => {
     expect(einzig(r([steuer("teuer", {}, 75)])).kosten).toBe(0);
   });
 
-  it("verlangt einen Einzelpreis als Zahl", () => {
+  it("zählt einen fehlenden Einzelpreis als 0 Kostenpunkte", () => {
     const ohne = steuer("ohne");
     delete ohne.preisEinzel;
-    expect(r([ohne]).nichtBewertet[0].fehlt).toEqual(["preisEinzel"]);
-    expect(r([steuer("null", {}, null)]).nichtBewertet[0].fehlt).toEqual(["preisEinzel"]);
+    expect(einzig(r([ohne]))).toMatchObject({ kosten: 0, halal: 5, note: 2.5 });
+    expect(einzig(r([steuer("null", {}, null)])).kosten).toBe(0);
+    expect(r([steuer("null", {}, null)]).nichtBewertet).toEqual([]);
   });
 
   it("wertet den Belegabruf als Ja/Nein", () => {
     // Leistung 5 × 0,65 = 3,25
     expect(einzig(r([steuer("ohne-abruf", { belegabruf: false })])).halal).toBe(3.25);
-    expect(r([steuer("offen", { belegabruf: null })]).nichtBewertet[0].fehlt).toEqual(["belegabruf"]);
+    // Nicht belegt zählt 0 und der Anbieter bekommt trotzdem eine Note.
+    const ungeprueft = r([steuer("ungeprueft", { belegabruf: null })]);
+    expect(ungeprueft.nichtBewertet).toEqual([]);
+    expect(einzig(ungeprueft).halal).toBe(3.25);
   });
 
   it("liest „ja, …“ als 1, „nur in der Fassung …“ als 0,5 und „nein“ als 0", () => {
@@ -309,14 +345,15 @@ describe("rangfolge: Steuersoftware", () => {
     expect(einzig(r([steuer("nein", { selbststaendige: "nein" })])).halal).toBe(3.75);
   });
 
-  it("wertet einen unlesbaren Text als fehlend", () => {
-    expect(r([steuer("x", { vermietung: "vielleicht" })]).nichtBewertet[0].fehlt).toEqual(["vermietung"]);
+  it("wertet einen unlesbaren Text als nicht belegt (0 Punkte)", () => {
+    // Leistung 5 × (0,35 + 0,25 + 0,15) = 3,75
+    expect(einzig(r([steuer("x", { vermietung: "vielleicht" })])).halal).toBe(3.75);
   });
 
-  it("zählt „nur Windows“ als 0 und eine fehlende Plattform als fehlend", () => {
+  it("zählt „nur Windows“ als 0 und eine fehlende Plattform als nicht belegt (0 Punkte)", () => {
     // Leistung 5 × 0,85 = 4,25
     expect(einzig(r([steuer("win", { plattform: "nur Windows" })])).halal).toBe(4.25);
-    expect(r([steuer("x", { plattform: null })]).nichtBewertet[0].fehlt).toEqual(["plattform"]);
+    expect(einzig(r([steuer("x", { plattform: null })])).halal).toBe(4.25);
   });
 
   it("rät bei „kapital = nein“ ab, auch mit Lücken, und lässt „kapital = null“ offen", () => {
@@ -364,32 +401,43 @@ describe("rangfolge: Screener", () => {
 /* --------------------------------------------------------------- Edelmetalle */
 
 describe("rangfolge: Edelmetalle", () => {
-  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall");
+  // Dieselben Depots wie im Depot-Vergleich (Elias, 06.10.2026), im Halal-Teil zählt nur die Zeile der 7 Gold- und Silber-ETCs.
+  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT });
 
-  it("rechnet nur Halal und zeigt keine Kosten", () => {
-    expect(einzig(r([metall("barren")]))).toMatchObject({ note: 5, halal: 5, kosten: null });
+  it("zählt im Halal-Teil nur Gold und Silber, ETFs und Sukuk ändern nichts", () => {
+    // Halal 5 × 7/7 = 5, Kosten 5, Note 5
+    const ohneRest = depot("metall", { halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3" }, { halalAnlagenPunkte: { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 7 } });
+    expect(einzig(r([ohneRest]))).toMatchObject({ note: 5, halal: 5, kosten: 5, uneingeschraenkt: true });
   });
 
-  it("gewichtet die Auslieferung am niedrigsten", () => {
-    // Halal 5 × (0,35 + 0,30 + 0,25 + 0,10 × 0,5) = 4,75
-    expect(einzig(r([metall("etc", { ausliefern: "teils" })])).note).toBe(4.75);
+  it("rechnet den Anteil der belegten Papiere und teilt mit den Kosten", () => {
+    // Halal 5 × 5/7 = 3,5714…, Kosten 5 × 10/20 = 2,5, Note 3,0357…
+    const a = depot("teil", { halalEdelmetalle: "5 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 5 }, finanzPunkte: { depotgebuehr: 10, app: 0 } });
+    expect(einzig(r([a]))).toMatchObject({ halal: 3.57, kosten: 2.5, note: 3.04 });
   });
 
-  it("rät ab ohne echtes Metall oder ohne Besitzübergang", () => {
-    const e = r([
-      metall("papier", { uebergabe: "schlecht" }),
-      metall("wette", { uebergabe: "schlecht", echtesMetall: "schlecht" }),
-      metall("zertifikat", { echtesMetall: "schlecht" }),
+  it("zählt bei „mind. x von 7“ nur die belegten Papiere und Unbelegtes als 0", () => {
+    // Halal 5 × 6/7 = 4,2857…
+    const mind = depot("mind", { halalEdelmetalle: "mind. 6 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 6 } });
+    const leer = depot("leer", { halalEdelmetalle: null }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3 } });
+    const e = r([mind, leer]);
+    expect(e.nichtBewertet).toEqual([]);
+    expect(e.gerankt.map((x) => [x.anbieter.id, x.halal])).toEqual([
+      ["mind", 4.29],
+      ["leer", 0],
     ]);
-    expect(e.abgeraten.map((x) => [x.anbieter.id, x.grund])).toEqual([
-      ["papier", "kein Besitzübergang"],
-      ["wette", "kein echtes Metall"],
-      ["zertifikat", "kein echtes Metall"],
-    ]);
   });
 
-  it("lässt einen fehlenden Nachweis offen", () => {
-    expect(r([metall("x", { nachweis: null })]).nichtBewertet[0].fehlt).toEqual(["nachweis"]);
+  it("halbiert bei abschaltbaren Zinsen und rät bei rotem Zins-Tor ab", () => {
+    // Halal 5 × 7/7 × 0,5 = 2,5
+    const e = r([depot("gelb", { zinsfreiAbStart: "teils" }), depot("rot", { zinsfreiAbStart: "schlecht" })]);
+    expect(einzig(e)).toMatchObject({ halal: 2.5, uneingeschraenkt: false });
+    expect(e.abgeraten.map((x) => [x.anbieter.id, x.grund])).toEqual([["rot", "Zinsen nicht abschaltbar"]]);
+  });
+
+  it("rechnet die Kosten ohne Sparplan-Kriterien", () => {
+    expect(Object.keys(EDELMETALL_FINANZ_MAX).filter((k) => /spar/i.test(k))).toEqual([]);
+    for (const [k, m] of Object.entries(EDELMETALL_FINANZ_MAX)) expect(m, k).toBe(DEPOT_FINANZ_MAX[k]);
   });
 });
 
@@ -455,7 +503,7 @@ describe("rangfolge: Reihenfolge", () => {
     expect(rKrypto([...liste].reverse())).toEqual(rKrypto(liste));
   });
 
-  it("liest weder Partnerlink noch Finanzfluss-Rang, Etikett oder alte Note", () => {
+  it("rechnet Note, Halal und Kosten ohne Partnerlink, Finanzfluss-Rang, Etikett oder alte Note", () => {
     const ohne = [krypto("a", {}, { finanzPunkte: { gebuehren: 80 } }), krypto("b", {}, { finanzPunkte: { gebuehren: 60 } })];
     const mit = [
       krypto("a", {}, { finanzPunkte: { gebuehren: 80 }, finanzfluss: { produkt: "A", partnerlink: null, rang: 9 } }),
@@ -468,8 +516,75 @@ describe("rangfolge: Reihenfolge", () => {
         noteStand: "09/2026",
       }),
     ];
-    const kurz = (r: Rangliste) => r.gerankt.map((x) => [x.anbieter.id, x.platz, x.note, x.halal, x.kosten]);
+    const kurz = (r: Rangliste) => r.gerankt.map((x) => [x.anbieter.id, x.note, x.halal, x.kosten]).sort();
     expect(kurz(rKrypto(mit))).toEqual(kurz(rKrypto(ohne)));
+  });
+});
+
+/* ------------------------------------------- Eigener Link bei gleichen Sternen */
+
+describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2026)", () => {
+  // a: Kosten 5, Note 5. b: Kosten 5 × 96 / 100 = 4,8, Note 4,9. Beide 5 Sterne.
+  const a = krypto("a");
+  const b = krypto("b", {}, { finanzPunkte: { gebuehren: 96 }, link: "/out/b" });
+
+  it("stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat, die Noten bleiben", () => {
+    const r = rKrypto([a, b]);
+    expect(r.gerankt.map((x) => [x.anbieter.id, x.platz, x.note])).toEqual([
+      ["b", 1, 4.9],
+      ["a", 2, 5],
+    ]);
+    expect(ids(nummerEins(r))).toEqual(["b"]);
+  });
+
+  it("hebt mit Link nie über eine höhere Sternzahl", () => {
+    // c: Kosten 5 × 60 / 100 = 3, Note 4, also 4 Sterne. a hat 5.
+    const c = krypto("c", {}, { finanzPunkte: { gebuehren: 60 }, link: "/out/c" });
+    expect(ids(rKrypto([c, a]).gerankt)).toEqual(["a", "c"]);
+  });
+
+  it("ordnet unter mehreren mit Link nach der Note", () => {
+    // d: Kosten 4,6, Note 4,8, 5 Sterne, mit Link. b hat 4,9.
+    const d = krypto("d", {}, { finanzPunkte: { gebuehren: 92 }, link: "/out/d" });
+    expect(ids(rKrypto([a, d, b]).gerankt)).toEqual(["b", "d", "a"]);
+  });
+
+  it("teilt den Platz nur bei gleichem Link-Stand", () => {
+    const r = rKrypto([krypto("x"), krypto("y", {}, { link: "/out/y" }), krypto("z", {}, { link: "/out/z" })]);
+    expect(r.gerankt.map((x) => [x.anbieter.id, x.platz])).toEqual([
+      ["y", 1],
+      ["z", 1],
+      ["x", 3],
+    ]);
+    expect(ids(nummerEins(r))).toEqual(["y", "z"]);
+  });
+
+  it("gilt in Depot und Girokonto, nicht in Steuer, Screener und Edelmetall", () => {
+    const mitLink = { link: "/out/x" };
+    // Depot: zweiter Kosten 5 × 19 / 20 = 4,75, Note 4,88, 5 Sterne.
+    expect(ids(rDepot([depot("a"), depot("b", {}, { ...mitLink, finanzPunkte: { depotgebuehr: 10, app: 9 } })]).gerankt)).toEqual(["b", "a"]);
+    // Girokonto: zweiter Kosten 4,5, Note 4,75, 5 Sterne.
+    expect(ids(rGiro([giro("a"), giro("b", {}, { ...mitLink, finanzPunkte: { kontofuehrung: 9 } })]).gerankt)).toEqual(["b", "a"]);
+    // Edelmetall: dieselben Depots, die Note entscheidet allein.
+    const metall = rangfolge([depot("a"), depot("b", {}, { ...mitLink, finanzPunkte: { depotgebuehr: 10, app: 9 } })], "edelmetall", { finanzMax: MAX_DEPOT });
+    expect(ids(metall.gerankt)).toEqual(["a", "b"]);
+    // Steuer: 3 € kosten Note 4,88, 5 Sterne wie das kostenlose Programm.
+    expect(ids(rangfolge([steuer("a"), { ...steuer("b", {}, 3), ...mitLink }], "steuer").gerankt)).toEqual(["a", "b"]);
+    // Screener: ohne Zakat Nutzen 4,17, Note 4,58, das sind 4,5 Sterne; mit gleicher Note bleibt der Name.
+    expect(ids(rangfolge([screener("a"), { ...screener("b"), ...mitLink }], "screener").gerankt)).toEqual(["a", "b"]);
+  });
+
+  it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
+    const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["consorsbank-girokonto"]);
+    expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
+    for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
+      const r = rangfolge(liste, kategorie);
+      for (const x of eins(liste, kategorie)) expect(x.anbieter.link, x.anbieter.id).toBeTruthy();
+      // Nie steht ein Eintrag mit weniger Sternen vor einem mit mehr.
+      r.gerankt.forEach((x, i) => i > 0 && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i - 1].note)));
+    }
   });
 });
 
@@ -493,8 +608,9 @@ describe("rangfolge: Nummer 1 nur ohne Einschränkung (Spec 10.7)", () => {
     expect(nummerEins(rKrypto([krypto("gelb", { zinsfreiAbStart: "teils" })]))).toEqual([]);
   });
 
-  it("kennt bei Steuer, Screener und Edelmetall keine Einschränkung", () => {
-    expect(einzig(rangfolge([metall("etc", { uebergabe: "teils" })], "edelmetall")).uneingeschraenkt).toBe(true);
+  it("kennt bei Steuer und Screener keine Einschränkung", () => {
+    expect(einzig(rangfolge([steuer("a")], "steuer")).uneingeschraenkt).toBe(true);
+    expect(einzig(rangfolge([screener("a")], "screener")).uneingeschraenkt).toBe(true);
   });
 });
 
@@ -555,13 +671,27 @@ describe("rangfolge: echte Daten", () => {
     }
   });
 
-  it("Depot: jede exakte Anlagenzeile hat gewichtete Punkte", () => {
+  it("Depot: jede Anlagenzeile mit Zahl hat gewichtete Punkte, auch „mind. x von N“", () => {
     for (const a of brokerVergleich) {
       for (const k of ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) {
         const w = a.werte[k];
-        if (typeof w === "string" && /^\d+ von \d+$/.test(w)) expect(typeof a.halalAnlagenPunkte?.[k], `${a.id} ${k}`).toBe("number");
+        if (typeof w === "string" && /^(mind\. )?\d+ von \d+$/.test(w)) expect(typeof a.halalAnlagenPunkte?.[k], `${a.id} ${k}`).toBe("number");
       }
     }
+  });
+
+  it("Depot: jedes Depot ohne rotes Zins-Tor steht in der Rangfolge, nichts bleibt unbewertet", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    expect(r.nichtBewertet).toEqual([]);
+    expect(r.gerankt.length + r.abgeraten.length).toBe(brokerVergleich.length);
+  });
+
+  it("Edelmetall: jedes Depot des Vergleichs ist gerankt und führt mindestens ein belegtes Papier", () => {
+    const r = rangfolge(edelmetallVergleich, "edelmetall");
+    expect(r.nichtBewertet).toEqual([]);
+    expect(r.abgeraten).toEqual([]);
+    expect(r.gerankt.length).toBe(edelmetallVergleich.length);
+    for (const b of r.gerankt) expect(b.halal, b.anbieter.id).toBeGreaterThan(0);
   });
 
   it("Steuer: jeder Anbieter hat einen Einzelpreis als Zahl oder ausdrücklich null", () => {
@@ -579,5 +709,14 @@ describe("rangfolge: echte Daten", () => {
     expect(ids(nummerEins(r))).toEqual(["musaffa"]);
     expect(ids(r.nichtBewertet)).toEqual([]);
     expect(ids(r.gerankt).at(-1)).toBe("finispia");
+  });
+
+  it("Screener: Zoya nennt seine Shariah-Berater auf der About-Seite, Gremium grün", () => {
+    // zoya.finance/about, „Our Shariah Advisors“: Joe Bradford und Umer Khan (Beleg 27.09.2026).
+    const zoya = screenerVergleich.find((a) => a.id === "zoya")!;
+    expect(zoya.werte.gremium).toBe("gut");
+    expect(zoya.quellen?.gremium?.url).toBe("https://zoya.finance/about");
+    const r = rangfolge(screenerVergleich, "screener");
+    expect(ids(r.gerankt).slice(0, 2)).toEqual(["musaffa", "zoya"]);
   });
 });

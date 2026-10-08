@@ -18,7 +18,7 @@ import {
 } from "@/lib/vergleichAssistent";
 import { kostenlosReicht } from "@/lib/vergleichLeser";
 import type { RohAnbieter } from "./vergleichHelfer";
-import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { kaufstatus } from "./kaufstatus";
 import { regionFuer } from "./anlageRegion";
 import { halalAnlagen } from "./halalAnlagen";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
@@ -169,7 +169,7 @@ const fondsDerRegion = (region: string) =>
   halalAnlagen.filter((x) => x.kategorie === "aktien" && x.isin && regionFuer(x.isin)?.label === region);
 
 const kaufbareFonds = (a: RohAnbieter, region: string) =>
-  fondsDerRegion(region).filter((f) => ANLAGEN_KAUFBAR[f.isin!]?.kaufbar.some((k) => k.anbieter === a.name));
+  fondsDerRegion(region).filter((f) => kaufstatus(f.isin!, a) === "kaufbar");
 
 const regionWunsch = (region: string, label: string): Wunsch => ({
   id: `region-${region}`,
@@ -178,7 +178,7 @@ const regionWunsch = (region: string, label: string): Wunsch => ({
   pruefe: (a) => {
     if (kaufbareFonds(a, region).length > 0) return true;
     const fonds = fondsDerRegion(region);
-    const ueberallGeprueft = fonds.every((f) => ANLAGEN_KAUFBAR[f.isin!]?.nichtImAngebot.includes(a.name));
+    const ueberallGeprueft = fonds.every((f) => kaufstatus(f.isin!, a) === "nicht");
     return fonds.length > 0 && ueberallGeprueft ? false : null;
   },
 });
@@ -211,7 +211,7 @@ const DEPOT_APP: Prioritaet = {
   gewichte: { app: 3, kundenservice: 3 },
   fakten: ["appIos", "appAndroid", "kundenservice"],
 };
-const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
+const GIRO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { kontofuehrung: 2, ohneBedingung: 2, bankkarte: 2, girocard: 2, debitkarte: 2 }, fakten: ["kontofuehrung", "debitkarte", "girocard"] };
 const GIRO_APP: Prioritaet = { id: "app", label: "gute App", gewichte: { app: 4, mobilesBezahlen: 2, ident: 2 }, fakten: ["appIos", "appAndroid", "applePay"] };
 const KRYPTO_KOSTEN: Prioritaet = { id: "kosten", label: "niedrige Kosten", gewichte: { gebuehren: 2, transferkosten: 2 }, fakten: ["gesamtkosten", "auszahlungBitcoin"] };
 const KRYPTO_EINFACH: Prioritaet = { id: "einfach", label: "einfachen Einstieg", gewichte: { verifizierung: 2, bezahlmethoden: 2, mindestbetrag: 2 }, fakten: ["ident", "einzahlung", "mindestbetrag"] };
@@ -303,6 +303,22 @@ export const fragen: Frage[] = [
     ],
   },
   {
+    id: "bestimmtes",
+    fuer: "depot",
+    titel: "Weißt du schon, was du kaufen willst?",
+    hinweis: "Mehrere möglich. Du musst nichts wählen.",
+    mehrfach: true,
+    ohneWahl: "Nein, zeig mir, was passt",
+    zeigeWenn: will.anlegen,
+    antworten: [
+      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
+      { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
+      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
+      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
+      { id: "krypto", bild: "krypto", titel: "Krypto" },
+    ],
+  },
+  {
     id: "dauer",
     fuer: "depot",
     titel: "Wie lange kann das Geld liegen bleiben?",
@@ -325,22 +341,6 @@ export const fragen: Frage[] = [
         grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`),
       },
       { id: "offen", bild: "frage", titel: "Weiß ich noch nicht" },
-    ],
-  },
-  {
-    id: "bestimmtes",
-    fuer: "depot",
-    titel: "Weißt du schon, was du kaufen willst?",
-    hinweis: "Mehrere möglich. Du musst nichts wählen.",
-    mehrfach: true,
-    ohneWahl: "Nein, zeig mir, was passt",
-    zeigeWenn: will.anlegen,
-    antworten: [
-      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
-      { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
-      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
-      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
-      { id: "krypto", bild: "krypto", titel: "Krypto" },
     ],
   },
   {
@@ -396,8 +396,8 @@ export const fragen: Frage[] = [
     titel: "Darf das Konto etwas kosten?",
     zeigeWenn: will.konto,
     antworten: [
-      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", pruefe: kostetNichts("kontofuehrung") }] },
-      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung ${w} im Monat`) },
+      { id: "kostenlos", bild: "sparschwein", titel: "Nein, keinen Cent", wuensche: [{ id: "kostenlos", label: "Kontoführung 0 €", still: true, pruefe: kostetNichts("kontofuehrung") }], grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
+      { id: "egal", bild: "karte", titel: "Ja, wenn die Leistung stimmt", grund: grundWert("kontofuehrung", (w) => `Kontoführung im Monat: ${w}`) },
     ],
   },
   {

@@ -1,26 +1,58 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
+import { Tabelle } from "@/components/beitrag";
 import {
   edelmetallVergleich,
   EDELMETALL_ZEILEN,
   EDELMETALL_FILTER,
+  EDELMETALL_FINANZ_MAX,
+  EDELMETALL_WEGE,
+  GOLD_ISINS,
+  SILBER_ISINS,
 } from "@/data/edelmetallVergleich";
 
 /**
- * Edelmetalle im Vergleich, und zwar nach Weg statt nach Händler.
- *
- * Der Grund steht in der Datendatei: Bei Gold entscheidet die Bauart des
- * Geschäfts über die Zulässigkeit, nicht der Name auf der Rechnung. Ein
- * Händlervergleich wäre ein Preisvergleich und hätte mit unserer Frage nichts
- * zu tun.
+ * Edelmetalle im Vergleich (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch
+ * einmal nach Gold und Silber gerankt. Darunter die drei Wege, bei denen echtes Metall übergeben
+ * wird. Die Wege werden nicht gerankt: Bei Gold entscheidet die Bauart des Geschäfts über die
+ * Zulässigkeit, nicht der Name auf der Rechnung.
  */
 
+const METALLE = GOLD_ISINS.length + SILBER_ISINS.length;
+
+const WegeBlock = () => (
+  <section className="mt-14">
+    <div className="max-w-3xl">
+      <h2 className="text-2xl font-bold text-foreground">Drei Wege zu Gold und Silber</h2>
+      <p className="mt-3 text-[17px] leading-[26px] text-foreground/90">
+        Bei Gold entscheidet nicht der Händler über halal oder nicht, sondern die Bauart des
+        Geschäfts. Der Grund ist eine Regel, die es sonst nirgends gibt: Bei Gold und Silber müssen
+        Zahlung und Übergabe im selben Moment stattfinden. Diese drei Wege übergeben echtes Metall.
+      </p>
+    </div>
+    <div className="max-w-4xl">
+      <Tabelle
+        kopf={["Weg", "Wer das anbietet", "Was es kostet", "Steuer nach einem Jahr"]}
+        zeilen={EDELMETALL_WEGE.map((w) => [
+          <>
+            {w.name}
+            <span className="block text-[14px] font-normal text-muted-foreground">{w.produkt}</span>
+          </>,
+          w.werte.anbieter,
+          w.werte.kosten,
+          w.werte.steuer,
+        ])}
+      />
+    </div>
+  </section>
+);
+
 const RohstoffeBlock = () => (
-  <section className="mt-14 max-w-3xl">
+  <section className="mt-10 max-w-3xl">
     <h2 className="text-2xl font-bold text-foreground">Silber, Platin und die anderen Rohstoffe</h2>
     <p className="mt-3 text-[17px] leading-[26px] text-foreground/90">
       Für <strong className="font-semibold">Silber</strong> gilt dieselbe Sonderregel wie für Gold:
-      Zahlung und Übergabe müssen zusammenfallen. Die Tabelle oben gilt für Silber unverändert, nur
+      Zahlung und Übergabe müssen zusammenfallen. Die drei Wege gelten für Silber unverändert, nur
       der Nisab ist ein anderer.
     </p>
     <p className="mt-4 text-[17px] leading-[26px] text-foreground/90">
@@ -85,55 +117,65 @@ const VergleichEdelmetalle = () => (
   <VergleichsSeite
     pfad="/vergleich/edelmetalle"
     brotkrumen="Edelmetalle"
-    titel="Halal Gold kaufen: die Wege im Vergleich"
-    untertitel="Drei Wege zu Gold und Silber, die echtes Metall übergeben, und wie gut sie die Regel erfüllen"
-    seoTitel="Halal Gold kaufen: Wege und Anbieter im Vergleich | finanzmuslim"
-    seoText="Barren, Goldsparplan oder Gold-ETC? Drei Wege zu Gold und Silber im Vergleich, mit Shariah-Nachweis, Auslieferung, Kosten und Steuer."
-    einheit="Wege"
+    titel="Halal Gold kaufen: Depots im Vergleich"
+    untertitel="Welcher Broker passt, wenn du Gold und Silber islamkonform kaufen willst"
+    seoTitel="Halal Gold kaufen: Depots im Vergleich | finanzmuslim"
+    seoText={`Wo kannst du Gold halal kaufen? ${edelmetallVergleich.length} Depots im Vergleich: ohne Zinsen nutzbar, mit geprüften Gold- und Silber-ETCs und den Kosten pro Kauf.`}
+    einheit="Depots"
     einleitung={
       <>
         <p>
-          Bei Gold entscheidet nicht der Händler über halal oder nicht, sondern die Bauart des
-          Geschäfts. Ob du den Barren bei philoro oder bei Degussa kaufst, ändert an der Frage
-          nichts. Ob du einen Barren kaufst oder ein Papier, das dir Gold verspricht, ändert alles.
+          Gold und Silber kaufst du im Depot als Wertpapier, das physisch hinterlegt ist: Hinter
+          jedem Anteil liegen Barren im Tresor.
         </p>
         <p>
-          Der Grund ist eine Regel, die es sonst nirgends gibt: Bei Gold und Silber müssen Zahlung
-          und Übergabe im selben Moment stattfinden. Diese Tabelle zeigt die drei Wege in
-          Deutschland, bei denen du echtes Metall bekommst, und nennt zu jedem die Anbieter.
+          Für Muslime entscheiden zwei Punkte: Liegt dein Geld dort ohne Zinsen, und welche Gold-
+          und Silberpapiere mit Shariah-Zertifikat kannst du dort kaufen? Alle Halal-Anlagen je
+          Broker stehen im{" "}
+          <Link to="/vergleich/depot" className="font-semibold text-primary hover:underline">
+            Depot-Vergleich
+          </Link>
+          .
         </p>
       </>
     }
     zeilen={EDELMETALL_ZEILEN}
     anbieter={edelmetallVergleich}
+    kategorie="edelmetall"
+    finanzMax={EDELMETALL_FINANZ_MAX}
     filter={EDELMETALL_FILTER}
-    stand="16.09.2026"
-    standHinweis="Wege und Nachweise geprüft"
-    quellenHinweis="Angaben von den Seiten der Anbieter und aus den Shariah-Zertifikaten, geprüft am 16.09.2026. Die Einordnung folgt der Regel zur sofortigen Übergabe, nachzulesen im Beitrag Halal Gold kaufen."
+    stand="14.09.2026"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Gold- und Silberpapiere: je Papier beim Anbieter geprüft, Shariah-Zertifikate in der Anlagen-Datenbank."
     kriterien={[
       {
-        titel: "Übergabe fällt mit der Zahlung zusammen",
-        text: "Die Kernregel bei Gold und Silber. Du zahlst, und im selben Moment gehört dir bestimmtes Metall. Alles, was das auseinanderzieht, ist das Problem.",
+        titel: "Ohne Zinsen nutzbar",
+        text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur solche Depots stehen in diesem Vergleich.",
       },
       {
-        titel: "Echtes Metall dahinter",
-        text: "Liegt hinter dem, was du kaufst, wirklich Metall mit Nummer und Liste, oder bildet jemand nur einen Preis nach?",
+        titel: "Gold und Silber kaufbar",
+        text: `Wie viele der ${METALLE} Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen? Jedes hat ein Shariah-Zertifikat und Barren im Tresor.`,
       },
       {
-        titel: "Shariah-Nachweis vorhanden",
-        text: "Gibt es auf diesem Weg mindestens einen Anbieter mit einem Gutachten, das du selbst lesen kannst? Bei den Wertpapieren ist das der entscheidende Unterschied.",
-      },
-      {
-        titel: "Ausliefern möglich",
-        text: "Kommst du an das Metall heran, wenn du willst? Das ist die Probe darauf, ob hinter dem Papier Barren liegen, und sie entscheidet nebenbei über die Steuer.",
+        titel: "Kosten pro Kauf",
+        text: "Was kostet dich ein Kauf? Es zählen Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service und App.",
       },
     ]}
-    zusatz={<RohstoffeBlock />}
+    zusatz={
+      <>
+        <WegeBlock />
+        <RohstoffeBlock />
+      </>
+    }
     faq={[
       {
         frage: "Ist Gold kaufen halal?",
         antwort:
           "Ja, mit einer Bedingung: Zahlung und Übergabe müssen zusammenfallen. Du zahlst und bekommst das Gold. Gold auf Raten, Gold mit später Lieferung und Wetten auf den Goldpreis erfüllen das nicht.",
+      },
+      {
+        frage: "Wie entsteht die Reihenfolge?",
+        antwort:
+          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Im Halal-Teil zählt, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, Partnerschaften zählen nicht.",
       },
       {
         frage: "Ist ein Gold-ETC halal?",
@@ -171,7 +213,7 @@ const VergleichEdelmetalle = () => (
           "Dazu geben wir keine Empfehlung ab, das wäre Anlageberatung. Was sich sagen lässt: Gold wirft nichts ab, es zahlt keine Miete und keinen Gewinn. Es ist ein Wertspeicher, kein Einkommen. Und auf den Bestand fällt jedes Jahr Zakat an.",
       },
     ]}
-    schluss="Diese Seite ist keine Anlageberatung und keine Fatwa. Sie gibt bekannte Positionen wieder, bei Gold als Wertpapier und bei Sparplänen gibt es abweichende Auffassungen. Steuerliche Angaben sind keine Steuerberatung."
+    schluss="Diese Seite ist keine Anlageberatung und keine Fatwa. Sie gibt bekannte Positionen wieder, bei Gold als Wertpapier und bei Sparplänen gibt es abweichende Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Steuerliche Angaben sind keine Steuerberatung."
   />
 );
 

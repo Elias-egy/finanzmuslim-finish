@@ -8,10 +8,11 @@
  *
  * Das Einrichtungsvideo zeigt Scalable Capital. Für andere Depots läuft
  * dasselbe Video mit einem Hinweis darunter; Girokonten zeigen stattdessen
- * die drei Schritte zur Kontoeröffnung.
+ * die drei Schritte zur Kontoeröffnung. Steuersoftware (art "steuer") zeigt
+ * drei Schritte zur Erklärung und hat keine Halal-Merkmale.
  */
 
-export type StartArt = "depot" | "girokonto" | "krypto";
+export type StartArt = "depot" | "girokonto" | "krypto" | "steuer";
 
 export type StartPartner = {
   kurzname: string;
@@ -29,6 +30,11 @@ export type StartPartner = {
   link: string;
   /** Risikohinweis des Anbieters, nur bei Depots. */
   risikoUrl?: string;
+  /**
+   * Pflichthinweis aus den Teilnahmebedingungen des Partnerprogramms (justTRADE, Finst).
+   * Steht wörtlich und in Textgröße unter den Fakten.
+   */
+  pflichthinweis?: string;
   /** Überschrift in zwei Teilen, der zweite Teil ist hervorgehoben. */
   titel: [string, string];
   /** Knopftext der Aufrufe. */
@@ -61,6 +67,116 @@ const derivate = {
 };
 
 export const startPartner: StartPartner[] = [
+  {
+    kurzname: "smartsteuer",
+    anbieter: "smartsteuer",
+    kurz: "smartsteuer",
+    domain: "smartsteuer.de",
+    markenfarbe: "#5F6FFF",
+    art: "steuer",
+    pfad: "/dein-investmentstart/smartsteuer",
+    link: "https://www.awin1.com/cread.php?awinmid=15043&awinaffid=3099915&clickref={SUBID}",
+    titel: ["Deine Steuererklärung,", "auch mit Kapitalerträgen."],
+    knopf: "Bei smartsteuer starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Zahlen erst bei Abgabe", "Auch am Handy", "Daten vom Finanzamt"],
+    schritte: [
+      { titel: "Im Browser starten", text: "smartsteuer läuft direkt im Browser, auch am Handy, ohne Download." },
+      { titel: "Daten vom Finanzamt abholen", text: "Im Bereich „vorausgefüllte Steuererklärung“ holst du die Daten ab, die dem Finanzamt schon vorliegen." },
+      { titel: "Erstattung sehen, dann abgeben", text: "Bezahlt wird erst im Bereich Abgabe, also am Ende." },
+    ],
+    fakten: [
+      {
+        titel: "Kapitalerträge inklusive",
+        text: "Laut smartsteuer unterstützt das Programm unter anderem Kapitalanleger, Vermieter und Selbständige. Dividenden und Gewinne aus Verkäufen trägst du in die Anlage KAP ein.",
+      },
+      {
+        titel: "Zahlen erst bei Abgabe",
+        text: "Du füllst alles aus und siehst deine Erstattung, bevor du bezahlst. Der Preis liegt bei 39,99 € je Steuerjahr, inklusive Mehrwertsteuer.",
+      },
+      {
+        titel: "Bis zu fünf Abgaben",
+        text: "Eine Lizenz gilt für fünf Abgaben im selben Steuerjahr. Geteilt mit der Familie sind das rund 8 € je Person.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben smartsteuer, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+      {
+        q: "Wann zahle ich bei smartsteuer?",
+        a: "Erst im Bereich Abgabe. Vorher füllst du alles aus und siehst, was zurückkommt. Bezahlen geht per PayPal, Lastschrift oder Karte.",
+      },
+    ],
+  },
+  {
+    kurzname: "wiso-steuer",
+    anbieter: "WISO Steuer",
+    kurz: "WISO Steuer",
+    domain: "buhl.de",
+    markenfarbe: "#023E84",
+    art: "steuer",
+    pfad: "/dein-investmentstart/wiso-steuer",
+    link: "https://www.awin1.com/cread.php?awinmid=17387&awinaffid=3099915&clickref={SUBID}",
+    titel: ["Deine Steuererklärung", "mit Depot-Import."],
+    knopf: "Bei WISO Steuer starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Zahlen erst bei Abgabe", "Web, App, Download", "Bis zu 5 Erklärungen"],
+    schritte: [
+      { titel: "Kostenlos ausprobieren", text: "Du kannst alles ausfüllen, bevor du etwas bezahlst." },
+      { titel: "Daten vom Finanzamt abrufen", text: "Der Steuer-Abruf füllt deine Erklärung automatisch vor, laut WISO ein kostenloser Service." },
+      { titel: "Erst bei der Abgabe bezahlen", text: "Bezahlt wird, wenn du die Erklärung abgibst, per PayPal, Kreditkarte oder Lastschrift." },
+    ],
+    fakten: [
+      {
+        titel: "Depot-Daten und Anlage KAP",
+        text: "Laut WISO Steuer importiert das Programm deine Depot-Daten automatisch und erledigt die Anlage KAP für dich.",
+      },
+      {
+        titel: "Zahlen erst bei Abgabe",
+        text: "Du probierst alles kostenlos aus. Das Vorteils-Abo kostet 35,99 € im Jahr und verlängert sich automatisch, der Einzelkauf 45,99 €.",
+      },
+      {
+        titel: "Auf jedem Gerät",
+        text: "WISO Steuer läuft im Web, als Download für Windows und Mac sowie als App für iOS und Android. Eine Lizenz gilt für bis zu 5 Erklärungen.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Abo oder Einzelkauf?",
+        a: "Das Vorteils-Abo kostet 35,99 € im Jahr und verlängert sich automatisch. Der Einzelkauf kostet 45,99 € und endet nach der Erklärung. Wer nur einmal abgibt, fährt mit dem Einzelkauf besser.",
+      },
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben WISO Steuer, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+    ],
+  },
   {
     kurzname: "kraken",
     anbieter: "Kraken",
@@ -169,6 +285,63 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    kurzname: "scalable-krypto",
+    anbieter: "Scalable Capital",
+    kurz: "Scalable",
+    domain: "scalable.capital",
+    markenfarbe: "#22DFCF",
+    art: "krypto",
+    pfad: "/dein-investmentstart/scalable-krypto",
+    link: "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
+    risikoUrl: "https://de.scalable.capital/risiko",
+    titel: ["In 10 Minuten steht", "dein Krypto-Zugang."],
+    knopf: "Bei Scalable starten →",
+    videoHinweis: false,
+    chips: ["Krypto-ETPs", "32 Kryptowährungen", "Sparplan ab 1 €", "Ohne Wallet"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto läuft bei Scalable über ETPs im Scalable Broker, im selben Depot wie Aktien und ETFs." },
+      { titel: "Preismodell wählen", text: "FREE: 0,99 € je Trade und 0,99 % Aufschlag auf den Spread. PRIME+: 4,99 € im Monat, Trades ab 250 € kostenlos, 0,69 % Aufschlag." },
+      { titel: "Erste Anteile kaufen", text: "Sparpläne gehen ab 1 €, jede Sparplanausführung kostet 0 €." },
+    ],
+    fakten: [
+      {
+        titel: "Keine echten Coins",
+        text: "Scalable bietet Krypto nur als ETPs an. Das sind Wertpapiere eines Emittenten, die den Kurs abbilden. Die Coins dahinter verwahrt der Emittent, eine eigene Wallet hast du nicht.",
+      },
+      {
+        titel: "32 Kryptowährungen",
+        text: "Bitcoin, Ethereum, Solana und weitere, zusammen 32 Kryptowährungen als ETPs.",
+      },
+      {
+        titel: "Handel zu Börsenzeiten",
+        text: "ETPs laufen über regulierte Börsen. Kaufen und verkaufen geht nur, solange die Börse offen ist, nicht rund um die Uhr.",
+      },
+    ],
+    checklisteTitel: ["3 Regeln halten dein Scalable-Krypto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Tagesgeldkonto nicht aktivieren.",
+        text: "Das separate Tagesgeld bringt Zinsen (Riba). Einfach nie aktivieren.",
+      },
+      {
+        titel: "ETPs ohne Staking nehmen.",
+        text: "Manche Krypto-ETPs zahlen Staking Rewards von 3 bis 5 % im Jahr. Nimm die Variante ohne Staking.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Sind Krypto-ETPs dasselbe wie echte Coins?",
+        a: "Nein. Du kaufst ein Wertpapier des Emittenten, rechtlich eine Inhaberschuldverschreibung. Geht der Emittent pleite und reicht die Besicherung nicht, kann das Geld weg sein. Wer echte Coins will, nimmt einen Anbieter mit eigener Wallet.",
+      },
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Für Krypto sind es drei Schritte, die oben stehen: Depot eröffnen, Preismodell wählen, erste Anteile kaufen.",
+      },
+    ],
+  },
+  {
     kurzname: "traders-place",
     anbieter: "Traders Place",
     kurz: "Traders Place",
@@ -214,6 +387,61 @@ export const startPartner: StartPartner[] = [
         a: "Ja, mit den 2 Regeln aus der Checkliste oben. Guthaben wird nicht verzinst, und kein Kredit wird automatisch eingeräumt.",
       },
       boerseFaq,
+    ],
+  },
+  {
+    kurzname: "traders-place-krypto",
+    anbieter: "Traders Place",
+    kurz: "Traders Place",
+    domain: "tradersplace.de",
+    markenfarbe: "#12A391",
+    art: "krypto",
+    pfad: "/dein-investmentstart/traders-place-krypto",
+    link: "https://c.neqty.net/trck/eclick/5a4b0eecd844504b7de215a0b61bfb55",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Traders Place starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "59 Kryptowerte", "24/7 Handel", "Wallet im Depot"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto läuft bei Traders Place im selben Depot wie Aktien und ETFs." },
+      { titel: "Wallet freischalten", text: "In der App oder im Web-Portal schaltest du die Krypto-Wallet mit wenigen Klicks frei. Sie ist Teil deines Depots." },
+      { titel: "Erste Coins kaufen", text: "Je Order 0,9 % vom Kurswert. Unter 500 € kommt 1 € Zuschlag dazu." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, verwahrt in Deutschland",
+        text: "Du kaufst echte Kryptowerte, verwahrt bei der Tangany GmbH unter BaFin-Aufsicht. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Ohne Zinsen",
+        text: "Das Verrechnungskonto hat laut Preisverzeichnis 0 % Guthabenzins.",
+      },
+      {
+        titel: "Nur mit Wohnsitz in Deutschland",
+        text: "Den Kryptohandel bietet Traders Place derzeit nur Kunden mit Wohnsitz in Deutschland an.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Traders-Place-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Tagesgeld dazubuchen.",
+        text: "Traders Place bietet zusätzlich ein verzinstes Tagesgeld an. Das Depot funktioniert ohne. Einfach nicht abschließen.",
+      },
+      {
+        titel: "Keine Derivate auf Kryptos.",
+        text: "Traders Place führt auch Zertifikate und Optionsscheine. Kauf den Coin selbst, kein Papier auf den Kurs.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Traders Place sind es drei Schritte, die oben stehen: Depot eröffnen, Wallet freischalten, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut Preisverzeichnis von Traders Place ist die Ein- oder Auslieferung auf eigene Wallets nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
     ],
   },
   {
@@ -324,7 +552,7 @@ export const startPartner: StartPartner[] = [
     titel: ["Dein zinsfreies", "Girokonto."],
     knopf: "Bei DKB eröffnen →",
     videoHinweis: false,
-    chips: ["0 € Kontoführung", "Visa-Debitkarte", "Apple Pay", "Kontowechsel"],
+    chips: ["0 € ab 700 € Geldeingang", "Visa-Debitkarte", "Apple Pay", "Kontowechsel"],
     schritte: [
       { titel: "Antrag online ausfüllen", text: "Name, Adresse, Steuer-ID. Dauert ein paar Minuten." },
       { titel: "Per Video-Ident bestätigen", text: "Ausweis in die Kamera halten, fertig." },
@@ -340,8 +568,8 @@ export const startPartner: StartPartner[] = [
         text: "Die Visa-Debitkarte bucht direkt vom Konto ab, ohne Kreditrahmen und ohne Teilzahlung.",
       },
       {
-        titel: "Kontoführung 0 €",
-        text: "Keine Kontoführungsgebühr, weltweit an rund 49.750 Automaten Geld abheben, Kontowechsel-Service inklusive.",
+        titel: "Kostenlos ab 700 € Geldeingang",
+        text: "Bei mindestens 700 € Geldeingang im Monat oder unter 28 kostet die Kontoführung nichts, sonst 4,50 €. Weltweit an rund 49.750 Automaten Geld abheben, Kontowechsel-Service inklusive.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein DKB-Konto", "riba-frei"],
@@ -766,7 +994,7 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Kostenlos mit Bedingung",
-        text: "Kostenlos bei 1.000 € Geldeingang im Monat oder für alle unter 30. Sonst 4,95 € im Monat.",
+        text: "Kostenlos mit e-Postfach und 1.000 € Geldeingang im Monat, unter 30 auch ohne Geldeingang. Sonst 4,95 € im Monat.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein BBBank-Konto", "riba-frei"],
@@ -1028,6 +1256,565 @@ export const startPartner: StartPartner[] = [
         a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen beim S Broker genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
+    ],
+  },
+  {
+    kurzname: "consorsbank-depot",
+    anbieter: "Consorsbank",
+    kurz: "Consorsbank",
+    domain: "consorsbank.de",
+    markenfarbe: "#0AD0DD",
+    art: "depot",
+    pfad: "/dein-investmentstart/consorsbank-depot",
+    link: "https://www.financeads.net/tc.php?t=87591C15240776T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei Consorsbank eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sukuk", "Sparpläne ab 10 €"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Die Consorsbank hat uns schriftlich bestätigt: Guthaben auf dem Verrechnungskonto wird nicht verzinst.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        text: "11 von 12 Halal-ETFs und Fonds unserer Liste, alle 3 Sukuk-Fonds und alle 7 Gold- und Silber-Anlagen sind bei der Consorsbank kaufbar.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Die Depotführung kostet nichts, ETF-Sparpläne laufen kostenlos ab 10 €. Eine Order kostet 4,95 € plus 0,25 %, mindestens 9,95 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Consorsbank-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Tagesgeld leer lassen, keinen Wertpapierkredit nutzen.",
+        text: "Mit dem Depot eröffnet die Consorsbank ein Tagesgeldkonto, ohne Guthaben darauf fallen laut Consorsbank keine Zinsen an. Der Wertpapierkredit kostet 7,55 % Zinsen im Jahr, das Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei der Consorsbank genauso ab, nur die Menüs heißen anders.",
+      },
+      {
+        q: "Die Consorsbank wirbt mit Tagesgeld-Zinsen. Was heißt das für mich?",
+        a: "Das Tagesgeldkonto ist ein eigenes Konto neben dem Verrechnungskonto. Zahlst du dort nichts ein, bekommst du keine Zinsen, das hat die Consorsbank am 24.09.2026 schriftlich bestätigt.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "consorsbank-girokonto",
+    anbieter: "Consorsbank",
+    kurz: "Consorsbank",
+    domain: "consorsbank.de",
+    markenfarbe: "#0AD0DD",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/consorsbank-girokonto",
+    link: "https://www.financeads.net/tc.php?t=87591C15273616T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei Consorsbank eröffnen →",
+    videoHinweis: false,
+    chips: ["Visa Debit 0 €", "Girocard 0 €", "Apple Pay", "Kein Dispo ab Start"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Das Girokonto eröffnest du komplett online." },
+      { titel: "Per Video-, Post- oder E-Ident bestätigen", text: "Ausweis in die Kamera halten, in der Postfiliale vorzeigen oder mit dem Online-Ausweis bestätigen." },
+      { titel: "Loslegen", text: "Die Visa Debitkarte kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Laut Consorsbank wird Guthaben auf dem Girokonto aktuell nicht verzinst.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Einen Dispo gibt es erst, wenn du ihn beantragst und die Bank ihn genehmigt. Die Visa Karte ist eine Debitkarte und bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "Kostenlos ab 700 € Geldeingang",
+        text: "Bei mindestens 700 € Geldeingang im Monat oder unter 31 Jahren kostet die Kontoführung nichts, sonst 4 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Consorsbank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Ein Dispo kostet Zinsen. Einfach nicht beantragen, das Konto funktioniert ohne.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Auch ohne Dispo kann ein geduldetes Minus Zinsen kosten. Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Welche Karte gehört zum Konto?",
+        a: "Der Link führt auf das Girokonto mit Visa Debitkarte. Sie bucht direkt vom Konto ab, eine Kreditkarte brauchst du nicht.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "deutsche-bank-aktivkonto",
+    anbieter: "Deutsche Bank",
+    kurz: "Deutsche Bank",
+    domain: "deutsche-bank.de",
+    markenfarbe: "#0018A8",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/deutsche-bank-aktivkonto",
+    link: "https://www.financeads.net/tc.php?t=87591C472101924T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei Deutsche Bank eröffnen →",
+    videoHinweis: false,
+    chips: ["Filialen", "Girocard 0 €", "Apple Pay", "Kein Dispo ab Start"],
+    schritte: [
+      { titel: "AktivKonto wählen", text: "Der Link führt auf die Konten der Deutschen Bank. Wähle dort das AktivKonto und fülle den Antrag aus." },
+      { titel: "Per Video- oder Post-Ident bestätigen", text: "Ausweis in die Kamera halten oder in der Postfiliale vorzeigen." },
+      { titel: "Loslegen", text: "Die Deutsche Bank Card kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Der Preisaushang nennt für Guthaben auf persönlichen Konten 0,00 %.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Den Dispo musst du eigens im Online-Banking oder in der App beantragen. Die Deutsche Bank Card bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "6,90 € im Monat",
+        text: "Die Kontoführung kostet 6,90 € im Monat. Dafür hast du Filialen und zahlst Bargeld am Schalter kostenlos ein.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Deutsche-Bank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Ein Dispo kostet Zinsen. Einfach nicht beantragen, das Konto funktioniert ohne.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Auch ohne Dispo kann ein geduldetes Minus Zinsen kosten. Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum AktivKonto und nicht BestKonto?",
+        a: "Bewertet haben wir das AktivKonto. Der Link führt auf die Kontenübersicht der Deutschen Bank, dort wählst du es aus.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "maxblue-depot",
+    anbieter: "maxblue",
+    kurz: "maxblue",
+    domain: "maxblue.de",
+    markenfarbe: "#0018A8",
+    art: "depot",
+    pfad: "/dein-investmentstart/maxblue-depot",
+    link: "https://www.financeads.net/tc.php?t=87591C47285472T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei maxblue eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "0 € Depotgebühr", "Depot der Deutschen Bank"],
+    fakten: [
+      {
+        titel: "Depotkonto ohne Zinsen",
+        text: "Die Deutsche Bank hat uns am 23.09.2026 schriftlich bestätigt: Das maxblue Depotkonto wird momentan nicht verzinst.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Die Depotführung kostet nichts. Eine Order kostet 2 € plus 0,25 %, mindestens 10,90 €.",
+      },
+      {
+        titel: "Halal-Anlagen",
+        text: "Welche Anlagen aus unserer Halal-Liste bei maxblue kaufbar sind, prüfen wir gerade Anlage für Anlage.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein maxblue-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Zinsangebote annehmen.",
+        text: "Bietet dir maxblue später Zinsen, Tagesgeld oder einen Kredit an, lehne ab. Dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei maxblue genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "justtrade",
+    anbieter: "justTRADE",
+    kurz: "justTRADE",
+    domain: "justtrade.com",
+    markenfarbe: "#2F3B47",
+    art: "depot",
+    pfad: "/dein-investmentstart/justtrade",
+    link: "https://www.financeads.net/tc.php?t=87591C326261718T",
+    pflichthinweis: "Investitionen in Wertpapiere bergen Verlustrisiken.",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei justTRADE eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "ETF-Sparpläne 0 €", "0 € Depotgebühr"],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Preisverzeichnis nennt für Guthaben auf dem Verrechnungskonto 0,00 % Zins.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        text: "6 von 12 Halal-ETFs und Fonds unserer Liste, 2 von 3 Sukuk-Fonds und 5 von 7 Gold- und Silber-Anlagen sind bei justTRADE kaufbar.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Das Depot kostet nichts, eine Order kostet 1 € zzgl. marktüblicher Spreads. ETF-Sparpläne laufen kostenlos ab 25 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein justTRADE-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Zinsangebote annehmen.",
+        text: "Bietet dir justTRADE später Zinsen an, lehne ab. Dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei justTRADE genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "justtrade-krypto",
+    anbieter: "justTRADE",
+    kurz: "justTRADE",
+    domain: "justtrade.com",
+    markenfarbe: "#2F3B47",
+    art: "krypto",
+    pfad: "/dein-investmentstart/justtrade-krypto",
+    link: "https://www.financeads.net/tc.php?t=87591C326261718T",
+    pflichthinweis: "Investitionen in Wertpapiere bergen Verlustrisiken.",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei justTRADE starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "74+ Coins", "Sparplan", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Konto eröffnen", text: "Krypto handelst du über dein justTRADE-Konto. Bestätigen per Video-, Post- oder E-Ident." },
+      { titel: "Verwahrung freischalten", text: "Für deine Coins schließt du einen eigenen Verwahrvertrag mit der Tangany GmbH ab. Er kostet nichts." },
+      { titel: "Erste Coins kaufen", text: "Der Mindestbetrag je Kauf liegt bei 50 €. Staking bleibt aus, solange du es nicht selbst aktivierst." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, verwahrt in München",
+        text: "Du kaufst echte Coins, verwahrt bei der Tangany GmbH in München. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Ohne Zinsen",
+        text: "justTRADE hat uns schriftlich bestätigt: Es gibt keine Zinsen auf Guthaben und kein automatisches Staking.",
+      },
+      {
+        titel: "Keine Verwahrgebühr",
+        text: "Konto, Depot und Verwahrung der Coins kosten nichts. Sparpläne sind möglich.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein justTRADE-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Staking aus lassen.",
+        text: "Staking startet bei justTRADE nur, wenn du es selbst aktivierst. Lass es aus, dann bleiben deine Coins ohne Zins.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei justTRADE sind es drei Schritte, die oben stehen: Konto eröffnen, Verwahrung freischalten, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut justTRADE ist die Auslieferung von Kryptowerten nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
+    ],
+  },
+  {
+    kurzname: "norisbank",
+    anbieter: "norisbank",
+    kurz: "norisbank",
+    domain: "norisbank.de",
+    markenfarbe: "#F26522",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/norisbank",
+    link: "https://www.financeads.net/tc.php?t=87591C127132812T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei norisbank eröffnen →",
+    videoHinweis: false,
+    chips: ["Debitkarte 0 €", "Girocard 0 €", "Apple Pay", "Online-Konto"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Das Top-Girokonto ist ein Online-Konto, du eröffnest es ohne Filiale." },
+      { titel: "Per Video- oder Post-Ident bestätigen", text: "Ausweis in die Kamera halten oder in der Postfiliale vorzeigen." },
+      { titel: "Loslegen", text: "Die Karte kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Top-Girokonto bringt keine Zinsen. Das Top-Zinskonto, das Neukunden dazu erhalten, ist ein eigenes Konto und bleibt ohne Einzahlung leer.",
+      },
+      {
+        titel: "Kostenlos ab 500 € Geldeingang",
+        text: "Bei mindestens 500 € Geldeingang im Monat oder unter 30 Jahren kostet die Kontoführung nichts, sonst 3,90 €.",
+      },
+      {
+        titel: "Sofort-Dispo bis 500 €",
+        text: "Die Bank wirbt mit einem Sofort-Dispo bis 500 €, in den Vertragsbedingungen steht er nur auf Antrag. Im Vergleich zählt das Konto deshalb als Konto mit Dispo.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein norisbank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Dispo und Top-Zinskonto nicht nutzen.",
+        text: "Ein Dispo kostet Zinsen, das Top-Zinskonto bringt Zinsen. Das Girokonto funktioniert ohne beides.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen. Ein Minus kostet Zinsen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum Top-Girokonto und nicht Girokonto plus?",
+        a: "Das Girokonto plus verzinst Guthaben, deshalb raten wir davon ab. Der Link führt direkt auf das Top-Girokonto.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "smartbroker",
+    anbieter: "Smartbroker+",
+    kurz: "Smartbroker+",
+    domain: "smartbrokerplus.de",
+    markenfarbe: "#80FF04",
+    art: "depot",
+    pfad: "/dein-investmentstart/smartbroker",
+    link: "https://www.financeads.net/tc.php?t=87591C296855636T",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei Smartbroker+ eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sukuk", "Sparpläne ab 1 €"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Laut Konditionen gibt es Guthabenzinsen nur auf dem separaten Zinskonto. Das musst du eigens eröffnen.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        text: "Mindestens 8 von 12 Halal-ETFs und Fonds unserer Liste, alle 3 Sukuk-Fonds und alle 7 Gold- und Silber-Anlagen sind bei Smartbroker+ kaufbar.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Die Depotführung kostet nichts. ETF- und Aktien-Sparpläne laufen kostenlos ab 1 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Smartbroker+-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Zinskonto eröffnen.",
+        text: "Smartbroker+ bietet ein Zinskonto mit Guthabenzins an. Eröffne es nicht, dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei Smartbroker+ genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "smartbroker-krypto",
+    anbieter: "Smartbroker+",
+    kurz: "Smartbroker+",
+    domain: "smartbrokerplus.de",
+    markenfarbe: "#80FF04",
+    art: "krypto",
+    pfad: "/dein-investmentstart/smartbroker-krypto",
+    link: "https://www.financeads.net/tc.php?t=87591C2968124479T",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Smartbroker+ starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "39+ Coins", "Sparplan", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto handelst du über dein Smartbroker+-Depot. Bestätigen per Video-, Post- oder E-Ident." },
+      { titel: "Zinskonto weglassen", text: "Das Zinskonto ist freiwillig. Lass es weg, dann bleibt dein Guthaben ohne Zins." },
+      { titel: "Erste Coins kaufen", text: "Der Mindestbetrag je Kauf liegt bei 0,01 €." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins",
+        text: "Du kaufst echte Coins, kein Zertifikat auf den Kurs. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Ohne Zinsen",
+        text: "Smartbroker+ hat uns schriftlich bestätigt: Das Verrechnungskonto wird nicht verzinst, das Zinskonto ist freiwillig.",
+      },
+      {
+        titel: "39+ Coins, Sparplan möglich",
+        text: "MiCA-Lizenz aus Deutschland, Sparpläne sind möglich. Der Mindestbetrag je Kauf liegt bei 0,01 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Smartbroker+-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Zinskonto eröffnen.",
+        text: "Smartbroker+ bietet ein Zinskonto mit Guthabenzins an. Eröffne es nicht, dein Konto funktioniert ohne.",
+      },
+      {
+        titel: "Keine Kreditfunktionen nutzen.",
+        text: "Smartbroker+ bietet Kreditfunktionen an. Laut Kundenservice funktioniert das Konto ohne.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Smartbroker+ sind es drei Schritte, die oben stehen: Depot eröffnen, Zinskonto weglassen, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut Smartbroker+ ist eine Übertragung in eine externe Wallet nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
+    ],
+  },
+  {
+    kurzname: "umweltbank",
+    anbieter: "UmweltBank",
+    kurz: "UmweltBank",
+    domain: "umweltbank.de",
+    markenfarbe: "#0B8A3B",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/umweltbank",
+    link: "https://www.financeads.net/tc.php?t=87591C4946128612T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei UmweltBank eröffnen →",
+    videoHinweis: false,
+    chips: ["Debitkarte", "Apple Pay", "Kein Dispo ab Start", "Online-Konto"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Das UmweltGiro ist ein Online-Konto, du eröffnest es ohne Filiale." },
+      { titel: "Per Video-, Post- oder E-Ident bestätigen", text: "Ausweis in die Kamera halten, in der Postfiliale vorzeigen oder mit dem Online-Ausweis bestätigen." },
+      { titel: "Loslegen", text: "Die Karte kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Laut UmweltBank erhältst du für Geld auf dem Girokonto keine Zinsen.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Einen Dispo gibt es nur, wenn du ihn beantragst. Die Karte ist eine Debitkarte und bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "4,90 € im Monat",
+        text: "Die Kontoführung kostet 4,90 € im Monat, im Jahr 58,80 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein UmweltBank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Bei der Eröffnung keinen Dispo beantragen.",
+        text: "Die UmweltBank bietet im Antrag einen Dispokredit von 500 € an. Wähle ihn nicht, das Konto funktioniert ohne.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Auch ohne Dispo kann ein geduldetes Minus Zinsen kosten. Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "finst",
+    anbieter: "Finst",
+    kurz: "Finst",
+    domain: "finst.com",
+    markenfarbe: "#34C4CC",
+    art: "krypto",
+    pfad: "/dein-investmentstart/finst",
+    link: "https://www.financeads.net/tc.php?t=87591C5710135756T",
+    pflichthinweis:
+      "Investitionen in Kryptowerte sind mit dem Risiko des Kapitalverlusts verbunden. Kryptowerte sind sehr volatil und du kannst einen Teil oder deine gesamte Investition verlieren. Informiere dich immer selbst, bevor du investierst, und investiere nur Geld, dessen Verlust du dir leisten kannst.",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Finst starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "Eigene Wallet", "400+ Coins", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Konto eröffnen", text: "Registrieren, dann per Foto-Ident mit dem Ausweis bestätigen." },
+      { titel: "Staking aus lassen", text: "Staking läuft bei Finst nur, wenn du es selbst aktivierst. Lass es aus, dann bleiben deine Coins ohne Zins." },
+      { titel: "Erste Coins kaufen", text: "Ab 0,05 € per Echtzeitüberweisung. Danach auf deine eigene Wallet übertragbar." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, keine Zertifikate",
+        text: "Du kaufst den Coin selbst und kannst ihn laut Finst auf eine eigene Wallet senden. Kein ETP, kein Zertifikat auf den Kurs.",
+      },
+      {
+        titel: "Ohne Zinsen nutzbar",
+        text: "Staking startet bei Finst erst, wenn du es mit einem Klick aktivierst. Lass es aus, dann bleiben deine Coins ohne Zins.",
+      },
+      {
+        titel: "400+ Coins, 0,15 % Gebühr",
+        text: "MiCA-Lizenz aus den Niederlanden, laut Finst 0,15 % Gebühr ohne extra Spread. Die Auszahlung von Bitcoin kostet 2,61 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Finst-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Staking aus lassen.",
+        text: "Finst startet Staking erst, wenn du es selbst aktivierst. Lass den Schalter aus.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist bei Finst kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Finst sind es drei Schritte, die oben stehen: Konto eröffnen, Staking aus lassen, erste Coins kaufen.",
+      },
+      {
+        q: "Ist Finst halal nutzbar?",
+        a: "Mit den 2 Regeln aus der Checkliste. Du besitzt echte Coins, kannst sie auf deine eigene Wallet holen, und ohne Staking fällt kein Zins an.",
+      },
     ],
   },
 ];

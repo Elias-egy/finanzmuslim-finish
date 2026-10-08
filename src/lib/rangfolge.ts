@@ -1,5 +1,6 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
@@ -12,13 +13,28 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *
  * 1. Nur Belegtes zählt. Fehlt ein Merkmal der Formel, gibt es keinen Platz und
  *    keine Note, sondern "noch nicht geprüft" mit der Liste, was fehlt.
- * 2. Partner kaufen keine Plätze: Diese Datei liest weder `link` noch
- *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals.
+ *    Ausnahme Depot (Elias, 06.10.2026: "Wir können mit diesem Depot-Ranking nicht an den
+ *    Start gehen"): Jedes Depot, das nicht abgeraten ist, bekommt eine Note. In den
+ *    Halal-Anteil zählen nur Anlagen mit Kaufbeleg, Unbelegtes zählt als nicht vorhanden
+ *    (0 Punkte), nie als geschätzt. Dasselbe gilt für ein nicht belegtes Zins-Tor (Halal-Teil 0,
+ *    nie Nummer 1) und fehlende Kosten-Punkte (Kosten 0). Edelmetall rechnet dieselben Depots
+ *    nach derselben Regel, im Halal-Teil zählen aber nur die Gold- und Silber-ETCs und bei den
+ *    Kosten nur, was ein Kauf kostet (`EDELMETALL_FINANZ_MAX`).
+ *    Steuersoftware folgt seit 06.10.2026 derselben Regel: Unbelegte Leistungs- und Preiswerte
+ *    zählen 0 Punkte und die Zelle zeigt einen Strich. Das Tor Anlage KAP bleibt: ohne Beleg
+ *    dafür gibt es keinen Platz.
+ * 2. Partner kaufen keine Note: Note, Halal- und Kosten-Teil lesen weder `link` noch
+ *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Nur die Reihenfolge in
+ *    Depot, Girokonto und Krypto kennt den eigenen Link (Elias, 06.10.2026: "Die Eins muss
+ *    immer von uns kaufbar sein"): Bei gleicher Sternzahl (`sterne`, halbe Schritte) steht
+ *    zuerst, was über unseren Link eröffnet werden kann, danach entscheidet die Note. Ein
+ *    Link hebt nie über eine höhere Sternzahl. Steuer, Screener und Edelmetall ordnen
+ *    allein nach der Note (`LINK_VORRANG`).
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
  *    bewertet vor gerankt.
- * 4. Reihenfolge: Note, Kosten, Halal, jeweils auf zwei Stellen gerundet und
- *    absteigend, dann Name, Produkt, id. Gleiche Note, Kosten und Halal teilen
- *    den Platz (1, 1, 3).
+ * 4. Reihenfolge: zuerst Regel 2 (`vorrang`), dann Note, Kosten, Halal, jeweils auf zwei
+ *    Stellen gerundet und absteigend, dann Name, Produkt, id. Gleiche Note, Kosten und
+ *    Halal teilen den Platz (1, 1, 3), wo Regel 2 gilt nur bei gleichem Link-Stand.
  * 5. Die Nummer 1 für Kasten und geführten Vergleich kommt nur aus Einträgen
  *    ohne Einschränkung: Zins-Tor grün und keine rote Grundlage (`BASIS`).
  *    So gilt "gelb halbiert" (Elias, 14.09.2026) für die Liste und "kein Mensch
@@ -34,7 +50,7 @@ export type Bewertet = {
   note: number;
   /** Halal-Teil nach der Halbierung. Bei Steuer die Leistung, beim Screener die Transparenz. */
   halal: number;
-  /** Kosten-Teil. Bei Steuer der Preis, beim Screener der Nutzen, bei Edelmetallen null. */
+  /** Kosten-Teil. Bei Steuer der Preis, beim Screener der Nutzen. */
   kosten: number | null;
   /** Zins-Tor grün und keine rote Grundlage. Nur solche Einträge können Nummer 1 werden. */
   uneingeschraenkt: boolean;
@@ -67,11 +83,29 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
   depot: DEPOT_FINANZ_MAX,
   girokonto: GIRO_FINANZ_MAX,
   krypto: KRYPTO_FINANZ_MAX,
+  edelmetall: EDELMETALL_FINANZ_MAX,
 };
 
 const TOR = "zinsfreiAbStart";
 
-export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array<[string, number]>> = {
+/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
+export const sterne = (note: number): number => Math.round(note * 2) / 2;
+
+/** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
+export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
+
+type MitNote = { note: number; anbieter: RohAnbieter };
+
+/**
+ * Regel 2 als Vergleich: Sterne absteigend, bei gleicher Sternzahl der eigene Link zuerst.
+ * 0 heißt, die Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
+ */
+export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
+  LINK_VORRANG.has(kategorie)
+    ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
+    : 0;
+
+export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
   girokonto: [
     ["keinDispoAbStart", 0.5],
     ["karteOhneKredit", 0.5],
@@ -80,13 +114,6 @@ export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "edelmetall", Array
     ["echteCoins", 0.4],
     ["eigeneWallet", 0.3],
     ["zinsfreiesModell", 0.3],
-  ],
-  // Gewichte nach Hourani, Episode 15, geprüft am 26.09.2026 (Zitate in der Spec, Abschnitt 5).
-  edelmetall: [
-    ["uebergabe", 0.35],
-    ["echtesMetall", 0.3],
-    ["nachweis", 0.25],
-    ["ausliefern", 0.1],
   ],
 };
 
@@ -132,7 +159,33 @@ const halbe = (halal: number, kosten: number) => 0.5 * halal + 0.5 * kosten;
 const kostenAus = (a: RohAnbieter, finanzMax: Record<string, number>): number | null =>
   a.finanzPunkte && Object.keys(a.finanzPunkte).length > 0 ? finanzNote(a, finanzMax, []) : null;
 
-const zinsUrteil = (a: RohAnbieter, kategorie: "depot" | "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
+/** "x von N" und "mind. x von N": x ist die Zahl der belegten Treffer. Alles andere ist kein Beleg. */
+const ANLAGEN_ZEILE = /^\s*(?:mind\.\s+)?(\d+)\s+von\s+(\d+)\s*$/;
+
+/** Belegte, gewichtete Punkte einer Halal-Anlagen-Zeile. Fehlt der Beleg oder passt N nicht, zählt die Zeile 0. */
+const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
+  const w = a.werte[key];
+  const m = typeof w === "string" ? w.match(ANLAGEN_ZEILE) : null;
+  const punkte = a.halalAnlagenPunkte?.[key];
+  const belegt = m !== null && Number(m[2]) === n && Number(m[1]) <= n && typeof punkte === "number" && punkte >= 0 && punkte <= n;
+  return belegt ? punkte : 0;
+};
+
+/** Depot zählt alle 22 Halal-Anlagen, Edelmetall nur die Zeile der Gold- und Silber-ETCs. */
+const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, zeilen: Record<string, number> = ANTEIL_N): Urteil => {
+  const tuer = a.werte[TOR];
+  if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
+
+  const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
+  const anteil = Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0);
+  const kosten = kostenAus(a, finanzMax) ?? 0;
+
+  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
+  const halal = 5 * anteil * faktor;
+  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" };
+};
+
+const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
@@ -140,18 +193,7 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "depot" | "girokonto" | "krypto",
   if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
 
   let anteil = 0;
-  if (kategorie === "depot") {
-    const nenner = Object.values(ANTEIL_N).reduce((s, n) => s + n, 0);
-    for (const [key, n] of Object.entries(ANTEIL_N)) {
-      const w = a.werte[key];
-      const m = typeof w === "string" ? w.match(/^\s*(\d+)\s+von\s+(\d+)\s*$/) : null;
-      const punkte = a.halalAnlagenPunkte?.[key];
-      const exakt = m !== null && Number(m[2]) === n && Number(m[1]) <= n && typeof punkte === "number";
-      anteil += lies(key, exakt ? punkte / nenner : null);
-    }
-  } else {
-    for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
-  }
+  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
@@ -163,18 +205,20 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "depot" | "girokonto" | "krypto",
 
 const steuerUrteil = (a: RohAnbieter): Urteil => {
   if (fassung(a.werte.kapital) === 0) return { art: "abgeraten", grund: "kann keine Anlage KAP" };
-  const { fehlt, lies } = sammler();
-  if (fassung(a.werte.kapital) !== 1) fehlt.push("kapital");
+  // Das Tor Anlage KAP bleibt: ohne Beleg dafür gibt es keinen Platz.
+  if (fassung(a.werte.kapital) !== 1) return { art: "offen", fehlt: ["kapital"] };
+  // Wie beim Depot: Was nicht belegt ist, zählt 0 Punkte und nie geschätzt. Jedes Programm mit
+  // belegter Anlage KAP bekommt eine Note, die Zelle zeigt dann einen Strich.
+  const belegt = (wert: number | null) => wert ?? 0;
   const plattform = a.werte.plattform;
   const leistung =
     5 *
-    (0.35 * lies("belegabruf", jaNein(a.werte.belegabruf)) +
-      0.25 * lies("vermietung", fassung(a.werte.vermietung)) +
-      0.25 * lies("selbststaendige", fassung(a.werte.selbststaendige)) +
-      0.15 * lies("plattform", typeof plattform === "string" && plattform.trim() ? (/nur Windows/i.test(plattform) ? 0 : 1) : null));
+    (0.35 * belegt(jaNein(a.werte.belegabruf)) +
+      0.25 * belegt(fassung(a.werte.vermietung)) +
+      0.25 * belegt(fassung(a.werte.selbststaendige)) +
+      0.15 * belegt(typeof plattform === "string" && plattform.trim() ? (/nur Windows/i.test(plattform) ? 0 : 1) : null));
   const p = a.preisEinzel;
-  const preis = lies("preisEinzel", typeof p === "number" && Number.isFinite(p) && p >= 0 ? begrenze(5 * (1 - p / PREIS_MAX_STEUER)) : null);
-  if (fehlt.length > 0) return { art: "offen", fehlt };
+  const preis = belegt(typeof p === "number" && Number.isFinite(p) && p >= 0 ? begrenze(5 * (1 - p / PREIS_MAX_STEUER)) : null);
   return { art: "bewertet", halal: leistung, kosten: preis, note: halbe(leistung, preis), uneingeschraenkt: true };
 };
 
@@ -189,15 +233,6 @@ const screenerUrteil = (a: RohAnbieter): Urteil => {
   return { art: "bewertet", halal: transparenz, kosten: nutzen, note: halbe(transparenz, nutzen), uneingeschraenkt: true };
 };
 
-const edelmetallUrteil = (a: RohAnbieter): Urteil => {
-  if (a.werte.echtesMetall === "schlecht") return { art: "abgeraten", grund: "kein echtes Metall" };
-  if (a.werte.uebergabe === "schlecht") return { art: "abgeraten", grund: "kein Besitzübergang" };
-  const { fehlt, lies } = sammler();
-  const halal = 5 * AMPEL_GEWICHTE.edelmetall.reduce((s, [k, g]) => s + g * lies(k, ampel(a.werte[k])), 0);
-  if (fehlt.length > 0) return { art: "offen", fehlt };
-  return { art: "bewertet", halal, kosten: null, note: halal, uneingeschraenkt: true };
-};
-
 const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<string, number>): Urteil => {
   switch (kategorie) {
     case "steuer":
@@ -205,7 +240,9 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
     case "screener":
       return screenerUrteil(a);
     case "edelmetall":
-      return edelmetallUrteil(a);
+      return depotUrteil(a, finanzMax, { halalEdelmetalle: ANTEIL_N.halalEdelmetalle });
+    case "depot":
+      return depotUrteil(a, finanzMax);
     default:
       return zinsUrteil(a, kategorie, finanzMax);
   }
@@ -238,7 +275,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   }
 
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
-    q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
+    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
 
   const gerankt: Bewertet[] = [];
@@ -261,8 +298,6 @@ export const nummerEins = (r: Rangliste): Bewertet[] => {
   const kandidaten = r.gerankt.filter((b) => b.uneingeschraenkt);
   if (kandidaten.length === 0) return [];
   const erster = kandidaten[0];
-  return kandidaten.filter((b) => b.note === erster.note && b.kosten === erster.kosten && b.halal === erster.halal);
+  // Derselbe Platz heißt gleichauf in allem, was die Reihenfolge bestimmt (Regel 4).
+  return kandidaten.filter((b) => b.platz === erster.platz);
 };
-
-/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
-export const sterne = (note: number): number => Math.round(note * 2) / 2;

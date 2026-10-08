@@ -23,7 +23,7 @@ import {
   anzahlHalalGeprueft,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
-import type { RangKategorie } from "@/lib/rangfolge";
+import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { werteAus } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
@@ -57,8 +57,17 @@ const AM_ENDE = "order-2";
  * 19.09.2026: "du siehst ja nichts vom Vergleich"). Das Raster hat zwei Spalten,
  * alles außer dem Kopf läuft über beide.
  */
-const RASTER = "lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-12";
+const RASTER = "lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:grid-rows-[auto_1fr] lg:gap-x-12";
+const RASTER_KASTEN_BREIT = "xl:grid-cols-[minmax(0,1fr)_540px]";
 const BREIT = "lg:col-span-2";
+/**
+ * Mit Nummer 1 beginnt der Kasten rechts schon neben den Brotkrumen und wird ab `xl` breit
+ * (Gründe in zwei Spalten). So endet er etwa auf Höhe des Kopfs links, darunter folgt gleich
+ * die Tabelle (Elias, 07.10.2026: Leerraum links neben dem Kasten).
+ */
+const KOPF_LINKS = "lg:col-start-1 lg:row-start-1";
+const KASTEN_OBEN = "lg:row-start-1 lg:row-span-2 lg:mt-0";
+const KASTEN_NEBEN_KOPF = "lg:row-start-2 lg:mt-6";
 export type VergleichsSeiteProps = {
   pfad: string;
   brotkrumen: string;
@@ -76,9 +85,9 @@ export type VergleichsSeiteProps = {
   standHinweis?: string;
   /**
    * Mit Kategorie und Höchstpunkten steht oben die Nummer 1. Sie entsteht aus
-   * derselben fairen Ordnung wie im geführten Vergleich: nur Belegtes zählt,
-   * Partnerstatus zählt nicht. Die übrige Liste bleibt alphabetisch, bis alle
-   * Anbieter fertig geprüft sind.
+   * derselben Ordnung wie im geführten Vergleich: nur Belegtes zählt, ein Partnerlink
+   * ändert keine Note (Regel 2 in `rangfolge.ts`). Die übrige Liste folgt der Rangfolge, sobald jeder
+   * Anbieter ohne rotes Zins-Merkmal eine Note hat, sonst bleibt sie alphabetisch.
    */
   kategorie?: RangKategorie;
   finanzMax?: Record<string, number>;
@@ -154,12 +163,28 @@ export const VergleichsSeite = ({
           gewichte: [],
         }).passt[0]?.anbieter ?? null)
       : null;
-  const sortiert = sieger
+  /* Ist jeder Anbieter ohne rotes Zins-Merkmal gerankt, steht die Liste in der Reihenfolge der
+     Rangfolge und jede Spalte trägt ihren Platz. Sonst bleibt es alphabetisch. */
+  const rang =
+    kategorie && finanzMax ? rangfolge(anbieter, kategorie, { finanzMax }) : null;
+  const platz =
+    rang && rang.nichtBewertet.length === 0
+      ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.platz]))
+      : null;
+  const nachRang = platz
     ? [
-        ...gefiltert.filter((a) => a.id === sieger.id),
-        ...gefiltert.filter((a) => a.id !== sieger.id),
+        ...gefiltert
+          .filter((a) => platz.has(a.id))
+          .sort((p, q) => platz.get(p.id)! - platz.get(q.id)!),
+        ...gefiltert.filter((a) => !platz.has(a.id)),
       ]
     : gefiltert;
+  const sortiert = sieger
+    ? [
+        ...nachRang.filter((a) => a.id === sieger.id),
+        ...nachRang.filter((a) => a.id !== sieger.id),
+      ]
+    : nachRang;
   const spalten = baueSpalten(
     sortiert.map((a) =>
       a.id === sieger?.id
@@ -167,9 +192,15 @@ export const VergleichsSeite = ({
             ...a,
             etikett: { text: "Unsere Nummer 1", ton: "empfehlung" as const },
           }
-        : a,
+        : platz?.has(a.id) && !a.etikett
+          ? {
+              ...a,
+              etikett: { text: `Platz ${platz.get(a.id)}`, ton: "platz" as const },
+            }
+          : a,
     ),
     zeilen,
+    kategorie,
   );
 
   return (
@@ -190,8 +221,8 @@ export const VergleichsSeite = ({
         ]}
       />
 
-      <div className={`container flex flex-col py-6 md:py-10 ${RASTER}`}>
-        <div className={BREIT}>
+      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${sieger ? RASTER_KASTEN_BREIT : ""}`}>
+        <div className={sieger ? KOPF_LINKS : BREIT}>
           <VergleichsBrotkrumen titel={brotkrumen} />
         </div>
 
@@ -234,6 +265,8 @@ export const VergleichsSeite = ({
             </Link>
           )}
 
+          {/* Ohne Knopf kein Kasten und keine Handy-Leiste: ein Filter, der nichts kürzt, kostet nur Platz. */}
+          {filter.length > 0 && (
           <section
             className="mt-4 rounded-lg border border-border lg:mt-5 lg:max-w-3xl lg:px-5 lg:py-3"
             aria-label="Filter"
@@ -284,12 +317,19 @@ export const VergleichsSeite = ({
               </p>
             </div>
           </section>
+          )}
         </div>
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
-        <aside className="mt-4 lg:col-start-2 lg:row-start-2 lg:mt-6 lg:self-start">
+        <aside className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF}`}>
           {sieger && (
-            <NummerEins anbieter={sieger} zeilen={zeilen} einheit={einheit} />
+            <NummerEins
+              anbieter={sieger}
+              zeilen={zeilen}
+              einheit={einheit}
+              linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
+              spalte={baueSpalten([sieger], zeilen, kategorie)[0]}
+            />
           )}
           {sieger && (
             <p className="mt-2 hidden text-[13px] text-muted-foreground lg:block">
@@ -297,8 +337,9 @@ export const VergleichsSeite = ({
               {standHinweis ? `. ${standHinweis}` : ""}
             </p>
           )}
+          {!sieger && (
           <Kennzahlen
-            className={sieger ? "hidden" : "hidden lg:grid"}
+            className="hidden lg:grid"
             kennzahlen={
               kennzahlen ?? [
                 { zahl: anbieter.length, text: `${einheit} im Vergleich` },
@@ -311,6 +352,7 @@ export const VergleichsSeite = ({
             stand={stand}
             standHinweis={standHinweis}
           />
+          )}
         </aside>
 
         {!sieger && (
@@ -352,8 +394,8 @@ export const VergleichsSeite = ({
           <p
             className={`${BREIT} mt-6 rounded-lg border border-border p-6 text-[15px] text-muted-foreground`}
           >
-            Zu dieser Auswahl liegen noch keine geprüften {einheit} vor. Die
-            Merkmale sind eingetragen, aber noch nicht nachgesehen.
+            Zu dieser Auswahl gibt es keine {einheit}. Nimm einen Filter heraus,
+            dann siehst du alle.
           </p>
         ) : (
           <>

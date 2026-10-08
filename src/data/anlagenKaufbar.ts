@@ -62,6 +62,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -99,6 +111,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -107,6 +143,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
           ]
         }
       },
@@ -152,6 +200,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -165,14 +225,17 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -189,14 +252,38 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -214,17 +301,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -241,14 +335,38 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -278,16 +396,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -304,14 +429,38 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -329,17 +478,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -356,6 +512,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -364,6 +532,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
           ]
         }
       },
@@ -421,6 +625,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
@@ -428,9 +633,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "tradegate.direct",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -440,6 +648,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -495,6 +715,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -503,6 +735,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
           ]
         }
       },
@@ -547,6 +791,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -572,14 +828,17 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
       "finanzen.net zero",
-      "finvesto"
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -596,14 +855,38 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Scalable Capital",
-        "haus": "scalable",
+        "anbieter": "flatex",
+        "haus": "flatex",
         "beleg": {
-          "url": "https://de.scalable.capital",
-          "stand": "15.09.2026",
-          "quelle": "elias",
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
           "domains": [
-            "scalable.capital"
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -621,17 +904,24 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "comdirect",
+      "comdirect Pure Depot",
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
+      "Scalable Capital",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -644,6 +934,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
           ]
         }
       },
@@ -661,11 +963,36 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -747,6 +1074,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -774,8 +1113,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "anbieter": "maxblue Wertpapier-Sparplan",
         "haus": "maxblue Wertpapier Sparplan",
         "beleg": {
-          "url": "https://www.maxblue.de/dam/maxblue/de/files/pdf/Sparplanliste_ETFs.pdf",
-          "stand": "14.09.2026",
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
           "quelle": "anbieter",
           "domains": [
             "maxblue.de"
@@ -811,6 +1150,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/ishares-msci-world-islamic-ucits-etf-usd-ie00b27ycn58",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
         "haus": "trade-republic",
         "beleg": {
@@ -819,6 +1170,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -848,9 +1211,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "Libertex"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -867,11 +1231,35 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -937,6 +1325,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -1005,6 +1405,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1033,9 +1445,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
-      "Bux Prime"
+      "Bux Prime",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1052,11 +1466,35 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1138,6 +1576,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1202,6 +1652,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1230,12 +1692,26 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
-      "Bux Prime"
+      "Bux Prime",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -1261,6 +1737,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1269,6 +1758,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -1326,6 +1827,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1339,11 +1852,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
+      "finvesto",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -1426,6 +1946,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "hinweis": "Ausgabeaufschlag mit Rabatt",
@@ -1468,15 +2001,33 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "smartbrokerplus.de"
           ]
         }
+      },
+      {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/fonds/comgest-growth-europe-s-acc-ie00b4zj4634",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -1490,6 +2041,31 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "getbux.com",
             "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
           ]
         }
       },
@@ -1518,6 +2094,31 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/3393",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1530,6 +2131,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1538,6 +2151,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
           ]
         }
       },
@@ -1571,6 +2196,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1596,10 +2245,16 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
-      "finanzen.net zero"
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finanzen.net zero",
+      "finvesto",
+      "justTRADE",
+      "Libertex"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -1621,6 +2276,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         "beleg": {
           "url": "https://www.comdirect.de/inf/search/all.html",
           "stand": "14.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
           "quelle": "anbieter",
           "domains": [
             "comdirect.de"
@@ -1677,6 +2344,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -1729,6 +2408,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/saturna-al-kawthar-global-focused-equity-ie00bmymhs24",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trade Republic",
         "haus": "trade-republic",
         "beleg": {
@@ -1737,6 +2428,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
           ]
         }
       },
@@ -1754,14 +2457,17 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -1785,6 +2491,31 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "getbux.com",
             "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Basic",
+        "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
           ]
         }
       },
@@ -1826,6 +2557,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1834,6 +2578,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -1858,6 +2614,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
           ]
         }
       },
@@ -1903,6 +2671,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1916,13 +2696,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -1961,6 +2758,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1969,6 +2779,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -1993,6 +2815,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
           ]
         }
       },
@@ -2038,6 +2872,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2063,9 +2909,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -2074,6 +2925,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B588CD74": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2112,6 +2975,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -2120,6 +2996,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -2144,6 +3032,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "justtrade.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "maxblue Wertpapier-Sparplan",
+        "haus": "maxblue Wertpapier Sparplan",
+        "beleg": {
+          "url": "https://www.maxblue.de/dam/maxblue/de/files/csv/Produktliste_Maxblue1.csv",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "maxblue.de"
           ]
         }
       },
@@ -2189,6 +3089,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2202,13 +3114,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2234,6 +3163,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12218",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
+          ]
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -2247,6 +3188,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -2255,6 +3209,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -2324,6 +3290,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2349,12 +3327,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bison",
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
+      {
+        "anbieter": "Bison",
+        "haus": "bison",
+        "beleg": {
+          "url": "https://bisonapp.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bisonapp.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -2364,6 +3372,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "eToro",
+        "haus": "etoro",
+        "beleg": {
+          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12206",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "etoro.com"
           ]
         }
       },
@@ -2381,6 +3401,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.finvesto.de/",
+          "stand": "02.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -2389,6 +3422,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -2458,6 +3503,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2483,9 +3540,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
-      "Bitpanda"
+      "Bitpanda",
+      "comdirect Pure Depot",
+      "Fidelity",
+      "finvesto",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -2555,6 +3617,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "ING",
         "haus": "ing",
         "beleg": {
@@ -2599,13 +3673,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
       "finanzen.net zero",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "01.10.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -2644,6 +3724,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "hinweis": "voller Ausgabeaufschlag",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
           ]
         }
       },
@@ -2692,14 +3785,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
+      "comdirect Pure Depot",
       "Consorsbank",
       "finanzen.net zero",
+      "finvesto",
+      "finvesto Wertpapierdepot",
+      "justTRADE",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
+      "tradegate.direct",
       "Trading 212",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "02.10.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -2728,6 +3829,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "comdirect Pure Depot",
+        "haus": "Comdirect Pure Depot",
+        "beleg": {
+          "url": "https://www.comdirect.de/inf/search/all.html",
+          "stand": "27.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -2749,6 +3862,42 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "finanzen.net",
             "finanzen-zero.net"
+          ]
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.flatex.de/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "HypoVereinsbank",
+        "haus": "hvb",
+        "beleg": {
+          "url": "https://www.hypovereinsbank.de/hvb/privatkunden/geldanlage/depotmodelle/depot",
+          "stand": "01.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "justTRADE",
+        "haus": "justtrade",
+        "beleg": {
+          "url": "https://www.justtrade.com/",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "justtrade.com"
           ]
         }
       },
@@ -2782,6 +3931,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Targobank",
+        "haus": "targobank",
+        "beleg": {
+          "url": "https://investments.targobank.de/fio/etfs/xtrackers-ii-salam-usd-global-aggregate-lu3123443510",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "targobank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://tradegate.direct/etps",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2795,16 +3968,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [
+      "Bison",
       "Bitpanda",
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
       "finvesto",
       "ING",
+      "Libertex",
+      "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "25.09.2026"
+    "stand": "07.10.2026"
   },
   "XS2115336336": {
     "kaufbar": [],
@@ -2826,6 +4002,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "28.09.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2843,7 +4031,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "XTB"
     ],
-    "stand": "15.09.2026"
+    "stand": "28.09.2026"
   }
 };
 

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import Seo from "@/components/Seo";
 import { FINANZ_MAX_SUMME, GEWICHT_FINANZ, GEWICHT_HALAL } from "@/lib/bewertung";
+import { AMPEL_GEWICHTE } from "@/lib/rangfolge";
+import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
 
 /**
  * Offenlegung der Bewertung. Zwei Gründe: Partner wie Trading 212 fragen
@@ -25,22 +27,30 @@ const kategorien = [
     max: FINANZ_MAX_SUMME.depot,
   },
   {
+    titel: "Edelmetalle",
+    to: "/vergleich/edelmetalle",
+    halal: [
+      "Gold und Silber: wie viele der 7 Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kaufbar sind, 100 %",
+    ],
+    finanz: "Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service, App",
+    max: FINANZ_MAX_SUMME.edelmetall,
+  },
+  {
     titel: "Girokonto",
     to: "/vergleich/girokonto",
     halal: [
       "Kein Dispo ab Start: kein Dispokredit nach der Eröffnung, 50 %",
       "Karte ohne Kredit: Girocard oder Debitkarte ohne Kreditrahmen, 50 %",
     ],
-    finanz: "Kontoführung, kostenlose Karten, Abheben, Einzahlen, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App, Ident-Verfahren",
+    finanz: "Kontoführung (gerechnet mit 1.000 € Geldeingang, Extrapunkte ohne Bedingung), kostenlose Karten, Abheben, Einzahlen, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App, Ident-Verfahren",
     max: FINANZ_MAX_SUMME.girokonto,
   },
   {
     titel: "Krypto",
     to: "/vergleich/krypto",
-    halal: [
-      "Halal-Coins: wie viele der 4 Coins aus unserem Halal-Anlagen-Vergleich echt kaufbar sind, 50 %",
-      "Auszahlung auf eigene Wallet, 50 %",
-    ],
+    halal: AMPEL_GEWICHTE.krypto.map(
+      ([key, gewicht]) => `${KRYPTO_ZEILEN.find((z) => z.key === key)?.label ?? key}, ${prozent(gewicht)}`,
+    ),
     finanz: "Kosten pro 500 €, Kostentransparenz, Kosten der Auszahlung, Sicherheit, Verifizierung, Einzahlungswege, Regulierung, Sparplan, Mindestbetrag",
     max: FINANZ_MAX_SUMME.krypto,
   },
@@ -110,7 +120,7 @@ const VergleichMethodik = () => (
               ))}
             </ul>
             <p className="mt-4 text-[14px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Kosten und Konditionen, bis zu {k.max} Punkte
+              Kosten und Konditionen, bis zu {k.max.toLocaleString("de-DE")} Punkte
             </p>
             <p className="mt-2 text-[15px] text-foreground">{k.finanz}</p>
           </div>
@@ -125,17 +135,18 @@ const VergleichMethodik = () => (
           für Zinssparer zählen, etwa die Höhe des Guthabenzinses, haben wir gestrichen.
         </p>
         <p>
-          Jedes Halal-Merkmal prüfen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
+          Jedes Halal-Merkmal belegen wir beim Anbieter selbst: im Preis- und Leistungsverzeichnis,
           in den Bedingungen oder in der Hilfe. Hat der Anbieter dazu nichts Eindeutiges, nutzen wir
-          eine seriöse Finanzredaktion oder einen etablierten Vergleich, etwa Finanzfluss oder extraETF. Bis ein Merkmal geprüft ist, steht dort „noch nicht geprüft“.
+          eine seriöse Finanzredaktion oder einen etablierten Vergleich, etwa Finanzfluss oder extraETF.
         </p>
         <p>
           Bei den Halal-Anlagen suchen wir jede Anlage einzeln in der Wertpapiersuche oder Produktliste
-          des Anbieters. Steht dort „mind.“, fehlen noch einzelne Anlagen, und die Note wartet, bis
-          alle geprüft sind.
+          des Anbieters. Es zählen nur Anlagen mit Beleg. „mind. 3 von 12“ heißt: Für drei Anlagen
+          liegt der Beleg vor.
         </p>
         <p>
-          Die Reihenfolge ist alphabetisch, bis alle Anbieter geprüft sind.
+          Die Reihenfolge folgt der Note. Der Halal-Teil und die Kosten zählen je zur Hälfte. Von
+          Anbietern, bei denen sich die Zinsen nicht abschalten lassen, raten wir ab.
         </p>
       </section>
 
@@ -144,7 +155,10 @@ const VergleichMethodik = () => (
         <p>
           Mit manchen Anbietern arbeite ich zusammen und erhalte eine Provision, wenn du über einen
           mit Stern markierten Link ein Konto eröffnest. Das ändert nichts an der Bewertung: Kriterien
-          und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft.{" "}
+          und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft. Nur die
+          Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto gleich
+          viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet
+          die Note.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

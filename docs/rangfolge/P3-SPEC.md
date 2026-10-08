@@ -73,6 +73,8 @@ Daten schon als `gut` (Elias-Entscheidung 3).
 
 ### Girokonto
 - Tor: `zinsfreiAbStart`. Halal = 0,5 × `keinDispoAbStart` + 0,5 × `karteOhneKredit`. Kosten wie heute. Note 50/50.
+  Dispo ist seit 28.09.2026 höchstens gelb (Elias: „dispo heißt nicht rot, es macht es nicht haram wie zinsen, aber
+  natürlich werten“). Grün: kein Dispo ab Start. Gelb: Dispo oder Überziehungspuffer ab Start. Test in `vergleiche.test.ts`.
 
 ### Krypto
 - Tor: `zinsfreiAbStart`. Halal = 0,4 × `echteCoins` + 0,3 × `eigeneWallet` + 0,3 × `zinsfreiesModell`. Kosten wie

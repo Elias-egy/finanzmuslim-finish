@@ -64,7 +64,7 @@ const VorlagenSeite = ({
         </Link>
         <ChevronRight className="h-3.5 w-3.5" aria-hidden />
         <Link to="/vorlagen" className="hover:text-primary">
-          Vorlagen
+          Kostenlose Listen
         </Link>
         <ChevronRight className="h-3.5 w-3.5" aria-hidden />
         <span className="text-foreground">{titel}</span>
@@ -92,7 +92,7 @@ const VorlagenSeite = ({
             </a>
           )}
           <Link to="/vorlagen" className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-primary hover:underline">
-            Alle Vorlagen ansehen
+            Alle Listen ansehen
           </Link>
         </div>
       </header>

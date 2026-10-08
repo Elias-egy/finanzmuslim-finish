@@ -5,6 +5,8 @@ import type {
   VergleichsZeile,
   Zellwert,
 } from "@/components/vergleich/vergleichTypen";
+import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
+import { zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -36,7 +38,7 @@ export type RohAnbieter = {
    */
   note?: number | null;
   noteStand?: string;
-  etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" } | null;
+  etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" | "platz" } | null;
   /**
    * Gesetzt von `bauen.py`, wenn ein Zins-Merkmal rot ist: Der Anbieter steht
    * am Ende und bekommt keinen Partnerlink. Wir wollen ihn nicht bewerben.
@@ -89,10 +91,14 @@ const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
   return { text, quelle: text === null ? undefined : quelle };
 };
 
-/** Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. */
+/**
+ * Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. Mit `kategorie` trägt die
+ * Ampel „Ohne Zinsen nutzbar“ den Satz aus `zinsHinweise.ts`; gezeigt wird er beim aufgeklappten Angebot.
+ */
 export const baueSpalten = (
   anbieter: RohAnbieter[],
   zeilen: VergleichsZeile[],
+  kategorie?: string,
 ): VergleichsSpalte[] =>
   anbieter.map((a) => {
     const werte: Record<string, Zellwert> = {};
@@ -100,6 +106,8 @@ export const baueSpalten = (
       if (z.key.startsWith("__")) continue;
       werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art, a.quellen?.[z.key]);
     }
+    const zusatz = zinsHinweis(kategorie, a);
+    if (zusatz && werte.zinsfreiAbStart) werte.zinsfreiAbStart.zusatz = zusatz;
     return {
       id: a.id,
       anbieter: a.name,
@@ -110,6 +118,7 @@ export const baueSpalten = (
       noteStand: a.noteStand,
       etikett: a.etikett ?? null,
       abgeraten: a.abgeraten ?? false,
+      tarif: TARIF_MARKEN[a.id] ?? null,
       werte,
     };
   });

@@ -2,11 +2,14 @@ import { Check, Info, Minus, Star, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
-  UNGEPRUEFT,
+  KEINE_ANGABE,
+  einzelheiten,
   noteWort,
   noteZahl,
+  quellenText,
   type CheckStatus,
   type VergleichsSpalte,
+  type VergleichsZeile,
   type Zellwert,
 } from "./vergleichTypen";
 
@@ -64,7 +67,7 @@ export const NotenBlock = ({
       <Sterne note={note} />
     </div>
     <p className="mt-1 text-[12px] text-muted-foreground">
-      {note === null ? "Halal-Kriterien noch offen" : stand}
+      {note === null ? "" : stand}
     </p>
   </div>
 );
@@ -75,6 +78,7 @@ const etikettTon: Record<string, string> = {
   empfehlung: "bg-primary/10 text-primary",
   bonus: "bg-success/10 text-success",
   hinweis: "bg-accent/10 text-accent",
+  platz: "bg-muted text-foreground",
 };
 
 /**
@@ -142,6 +146,19 @@ export const AngebotsKnopf = ({
      klebenden Kopfzeile durch, statt sie zu uebermalen. */
   const basis =
     "flex min-h-[52px] w-full shrink-0 items-center justify-center rounded-lg px-3 text-center text-[14px] font-semibold leading-tight";
+  /* Ohne Partnerlink wie bei Finanzfluss: derselbe Knopf, blass und nicht klickbar,
+     mit dem Hinweis, dass man das Angebot beim Anbieter selbst abschließt. */
+  if (!link && !abgeraten) {
+    return (
+      <button
+        type="button"
+        disabled
+        className={`${basis} cursor-not-allowed bg-primary px-2 text-[12px] font-normal leading-[14px] text-primary-foreground opacity-40`}
+      >
+        Beim Anbieter direkt abschließbar
+      </button>
+    );
+  }
   if (!link) {
     return (
       <div className="w-full">
@@ -152,11 +169,7 @@ export const AngebotsKnopf = ({
         >
           Zum Angebot
         </button>
-        <p
-          className={`mt-1 text-center text-[11px] ${abgeraten ? "text-destructive" : "text-muted-foreground"}`}
-        >
-          {abgeraten ? "kein Link, wir empfehlen das nicht" : "noch keine Partnerschaft"}
-        </p>
+        <p className="mt-1 text-center text-[11px] text-destructive">kein Link, wir empfehlen das nicht</p>
       </div>
     );
   }
@@ -181,17 +194,27 @@ const ampelFarbe: Record<CheckStatus, string> = {
 };
 
 /**
- * Eine Zelle. Kennt Freitext, Ampel und Haken. Belege zeigt sie bewusst nicht:
- * Leser sehen nur das Ergebnis, die Recherche bleibt im Hintergrund (Elias, 14.09.2026).
+ * Eine Zelle. Kennt Freitext, Ampel und Haken und zeigt nur den Wert: Leser sehen das Ergebnis,
+ * die Recherche bleibt im Hintergrund (Elias, 14.09.2026). Der Satz zur Zins-Ampel und die Quellen
+ * stehen erst beim aufgeklappten Angebot (`AngebotsEinzelheiten`, Elias, 07.10.2026). Nur die
+ * Startseite je Partner zeigt mit `mitQuelle` Quelle und Stand unter dem Wert.
  */
-export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
+export const ZellInhalt = ({
+  wert,
+  art,
+  mitQuelle = false,
+}: {
+  wert?: Zellwert;
+  art: string;
+  mitQuelle?: boolean;
+}) => {
   if (art === "ampel") {
     const status = wert?.status ?? "unbekannt";
     return (
       <span className="inline-flex items-center gap-2">
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
-          {status === "unbekannt" ? UNGEPRUEFT : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
+          {status === "unbekannt" ? KEINE_ANGABE : status === "gut" ? "ja" : status === "schlecht" ? "nein" : "abschaltbar"}
         </span>
       </span>
     );
@@ -202,14 +225,118 @@ export const ZellInhalt = ({ wert, art }: { wert?: Zellwert; art: string }) => {
     if (j === true) return <Check className="mx-auto h-5 w-5 text-success" aria-label="ja" />;
     if (j === false) return <X className="mx-auto h-5 w-5 text-destructive" aria-label="nein" />;
     return (
-      <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label={UNGEPRUEFT} />
+      <Minus className="mx-auto h-5 w-5 text-muted-foreground/50" aria-label="ohne Angabe" />
+    );
+  }
+
+  if (mitQuelle && wert?.text && wert.quelle?.anzeige) {
+    const beleg = `Quelle: ${quellenText(wert.quelle)}`;
+    return (
+      <span className="inline-flex flex-col gap-0.5">
+        <span className="text-foreground">{wert.text}</span>
+        {wert.quelle.url ? (
+          <a
+            href={wert.quelle.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-normal leading-[14px] text-muted-foreground underline underline-offset-2 hover:text-primary"
+          >
+            {beleg}
+          </a>
+        ) : (
+          <span className="text-[11px] font-normal leading-[14px] text-muted-foreground">{beleg}</span>
+        )}
+      </span>
     );
   }
 
   return wert?.text ? (
     <span className="text-foreground">{wert.text}</span>
   ) : (
-    <span className="text-muted-foreground">{UNGEPRUEFT}</span>
+    <span className="text-muted-foreground" aria-label="ohne Angabe">{KEINE_ANGABE}</span>
+  );
+};
+
+/* ------------------------------------------------- Aufgeklapptes Angebot */
+
+/** Der Satz zur Zins-Ampel: was der Besucher tun oder lassen muss. Etwas größer als die Quellen. */
+export const ZinsSatz = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
+  const { zins } = einzelheiten(spalte, zeilen);
+  if (!zins) return null;
+  return (
+    <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
+      <span className="font-semibold">{zins.label}:</span> {zins.satz}
+    </p>
+  );
+};
+
+/** Quelle und Stand je Wert, klein und am Ende. */
+export const QuellenListe = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
+  const { quellen } = einzelheiten(spalte, zeilen);
+  if (quellen.length === 0) return null;
+  return (
+    <div className="text-[12px] leading-[17px] text-muted-foreground">
+      <p className="font-semibold">Quellen</p>
+      <ul className="mt-0.5">
+        {quellen.map((q) => (
+          <li key={q.key}>
+            {q.label}:{" "}
+            {q.quelle.url ? (
+              <a
+                href={q.quelle.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-primary"
+              >
+                {quellenText(q.quelle)}
+              </a>
+            ) : (
+              quellenText(q.quelle)
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+/**
+ * Was hinter „Produktdetails“ steht: der Satz zur Zins-Ampel, die übrigen Werte, am Ende die Quellen.
+ * `ohne` nimmt Zeilen heraus, die schon darüber stehen.
+ */
+export const ProduktDetails = ({
+  spalte,
+  zeilen,
+  ohne = [],
+}: {
+  spalte: VergleichsSpalte;
+  zeilen: VergleichsZeile[];
+  ohne?: string[];
+}) => {
+  const rest = zeilen.filter((z) => !z.imRaster && !z.key.startsWith("__") && !ohne.includes(z.key));
+  return (
+    <div className="border-t border-border pt-3 text-left">
+      <ZinsSatz spalte={spalte} zeilen={zeilen} />
+      <dl className="mt-1">
+        {rest.map((z) => (
+          <div
+            key={z.key}
+            className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-[14px] last:border-b-0"
+          >
+            <dt className="text-muted-foreground">
+              {z.label}
+              <HinweisPunkt text={z.hinweis} />
+            </dt>
+            <dd className="text-right">
+              <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-1 border-t border-border pt-3 empty:hidden">
+        <QuellenListe spalte={spalte} zeilen={zeilen} />
+      </div>
+    </div>
   );
 };
 

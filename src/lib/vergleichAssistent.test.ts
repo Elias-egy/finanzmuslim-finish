@@ -45,12 +45,19 @@ describe("geführter Vergleich", () => {
     expect(e.ungeprueft).toHaveLength(1);
   });
 
-  it("ändert nichts, wenn nur der Partnerlink dazukommt", () => {
+  it("ändert keine Note, wenn nur der Partnerlink dazukommt", () => {
     const ohne = [krypto("a", {}, { gebuehren: 80, sicherheit: 10 }), krypto("b", {}, { gebuehren: 60, sicherheit: 50 })];
     const mit = [krypto("a", {}, { gebuehren: 80, sicherheit: 10 }), krypto("b", {}, { gebuehren: 60, sicherheit: 50 }, "/out/b")];
-    const x = werteAus(ohne, "krypto", MAX, leer);
-    const y = werteAus(mit, "krypto", MAX, leer);
-    expect(y.passt.map((t) => [t.anbieter.id, t.sortWert, t.note])).toEqual(x.passt.map((t) => [t.anbieter.id, t.sortWert, t.note]));
+    const kurz = (e: ReturnType<typeof werteAus>) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, [t.sortWert, t.note]]));
+    expect(kurz(werteAus(mit, "krypto", MAX, leer))).toEqual(kurz(werteAus(ohne, "krypto", MAX, leer)));
+  });
+
+  it("stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat, wie die Rangfolge", () => {
+    const liste = [krypto("a", {}, { gebuehren: 80, sicherheit: 20 }), krypto("b", {}, { gebuehren: 78, sicherheit: 20 }, "/out/b")];
+    const e = werteAus(liste, "krypto", MAX, leer);
+    expect(e.passt.map((t) => t.anbieter.id)).toEqual(rangfolge(liste, "krypto", { finanzMax: MAX }).gerankt.map((b) => b.anbieter.id));
+    expect(e.passt[0].anbieter.id).toBe("b");
+    expect(e.passt[0].sortWert).toBeLessThan(e.passt[1].sortWert);
   });
 
   it("liefert bei gleichen Antworten dieselbe Reihenfolge, egal wie die Liste sortiert ist", () => {
@@ -305,7 +312,9 @@ describe("Ablauf und Paket", () => {
     expect(ids({})).toEqual(["vorhaben"]);
     expect(ids({ vorhaben: ["konto"] })).toEqual(["vorhaben", "kontoPreis", "alltag", "kontoWichtig"]);
     expect(ids({ vorhaben: ["steuer"] })).toEqual(["vorhaben", "steuerLage"]);
-    expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "dauer", "bestimmtes", "region", "wichtig"]);
+    expect(ids({ vorhaben: ["anlegen"] })).toEqual(["vorhaben", "betrag", "bestimmtes", "dauer", "region", "wichtig"]);
+    // Wer nur Krypto will, bekommt die Depot-Frage nach der Anlagedauer nicht.
+    expect(ids({ vorhaben: ["anlegen"], bestimmtes: ["krypto"] })).toEqual(["vorhaben", "betrag", "bestimmtes", "wallet", "wichtig"]);
   });
 
   it("gibt jeder Antwort ein Bild, das es gibt", () => {

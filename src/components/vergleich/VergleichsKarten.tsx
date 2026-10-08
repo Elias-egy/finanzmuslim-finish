@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, ProduktDetails, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -11,14 +11,15 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  *
  * Aufbau je Karte: Logo, Name und Etikett oben, dann der
  * Knopf, dann die vier Zahlen, nach denen zuerst gesucht wird. Alles Weitere
- * liegt hinter "Produktdetails". Wer vergleichen will, hakt Karten an und
- * bekommt nur noch diese zu sehen.
+ * liegt hinter "Produktdetails", auch der Satz zur Zins-Ampel und die Quellen.
+ * Wer vergleichen will, hakt Karten an und bekommt nur noch diese zu sehen.
  */
 
 const etikettTon: Record<string, string> = {
   empfehlung: "bg-primary/10 text-primary",
   bonus: "bg-success/10 text-success",
   hinweis: "bg-accent/10 text-accent",
+  platz: "bg-muted text-foreground",
 };
 
 const Karte = ({
@@ -34,7 +35,6 @@ const Karte = ({
 }) => {
   const [offen, setOffen] = useState(false);
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
-  const rest = zeilen.filter((z) => !z.imRaster && !z.key.startsWith("__"));
 
   const hervor = spalte.etikett?.ton === "empfehlung";
 
@@ -68,25 +68,38 @@ const Karte = ({
         )}
       </div>
 
+      {spalte.tarif && (
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-border px-3 py-2 text-[13px] leading-snug text-muted-foreground">
+          <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
+            {spalte.tarif.marke}
+          </span>
+          {spalte.tarif.satz}
+        </p>
+      )}
+
       <div className="p-3">
-        {/* Ohne Partnerlink kein Knopf: ein grauer Knopf, den niemand drücken kann, kostet
-            auf dem Handy bei 52 von 56 Karten zusammen fünf Bildschirme. */}
-        {spalte.link && (
+        {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
+            kostet auf dem Handy über viele Karten mehrere Bildschirme. */}
+        {spalte.link ? (
           <div className="mb-3">
             <AngebotsKnopf link={spalte.link} breit />
             <BonusSchild anbieterId={spalte.id} />
           </div>
+        ) : (
+          !spalte.abgeraten && (
+            <p className="mb-3 text-[12px] text-muted-foreground">Beim Anbieter direkt abschließbar</p>
+          )
         )}
 
         {/* Vier Zahlen, nach denen zuerst gesucht wird */}
         <dl className="grid grid-cols-2 gap-3">
           {raster.map((z) => (
-            <div key={z.key} className="rounded-lg border border-border p-3 text-center">
+            <div key={z.key} className="min-w-0 rounded-lg border border-border p-3 text-center">
               <dt className="text-[12px] leading-tight text-muted-foreground">
                 {z.label}
                 <HinweisPunkt text={z.hinweis} />
               </dt>
-              <dd className="mt-1 text-[14px] font-semibold">
+              <dd className="mt-1 hyphens-auto break-words text-[14px] font-semibold">
                 <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
               </dd>
             </div>
@@ -117,24 +130,7 @@ const Karte = ({
           </button>
         </div>
 
-        {offen && (
-          <dl className="border-t border-border pt-3">
-            {rest.map((z) => (
-              <div
-                key={z.key}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-[14px] last:border-b-0"
-              >
-                <dt className="text-muted-foreground">
-                  {z.label}
-                  <HinweisPunkt text={z.hinweis} />
-                </dt>
-                <dd className="text-right">
-                  <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-        )}
+        {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} />}
       </div>
     </li>
   );

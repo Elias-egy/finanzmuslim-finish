@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Award, Check, ChevronRight } from "lucide-react";
+import { Award, Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BonusSchild } from "./VergleichsBausteine";
+import { BonusSchild, ProduktDetails } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import type { VergleichsZeile } from "./vergleichTypen";
+import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:
@@ -61,26 +62,49 @@ export const Kennzahlen = ({
   </div>
 );
 
+/** Ein Grund im Kasten der Nummer 1. */
+type Punkt = { key: string; text: string };
+
 /**
  * Der Kasten, der bei Finanzfluss "Bestes Depot" heißt. Die Nummer 1 entsteht aus
- * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`),
- * Partnerstatus zählt nicht. Die Gründe darunter kommen aus den Zeilen des
+ * dem, was belegt ist (siehe `nummerEins` in `src/lib/rangfolge.ts`). Ein Partnerlink
+ * ändert keine Note; in Depot, Girokonto und Krypto steht bei gleicher Sternzahl zuerst,
+ * was einen eigenen Link hat (`linkVorrang`). Die Gründe darunter kommen aus den Zeilen des
  * Vergleichs: erfüllte Halal-Merkmale zuerst, dann die zwei Kostenwerte aus dem Raster.
+ *
+ * Auf dem Handy ersetzt der Kasten die Karte der Nummer 1. Deshalb trägt er dort dieselben
+ * „Produktdetails“ wie jede Karte; am Laptop stehen sie in der Tabelle darunter.
  */
-export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbieter; zeilen: VergleichsZeile[]; einheit: string }) => {
+export const NummerEins = ({
+  anbieter,
+  zeilen,
+  einheit,
+  linkVorrang = false,
+  spalte,
+}: {
+  anbieter: RohAnbieter;
+  zeilen: VergleichsZeile[];
+  einheit: string;
+  /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat. Dann steht das hier. */
+  linkVorrang?: boolean;
+  /** Die Nummer 1 als Spalte des Vergleichs, für die „Produktdetails“ auf dem Handy. */
+  spalte?: VergleichsSpalte;
+}) => {
+  const [offen, setOffen] = useState(false);
   const halal = zeilen
     .filter((z) => z.gruppe === "halal")
-    .map((z) => {
+    .map((z): Punkt | null => {
       const w = anbieter.werte[z.key];
-      if (z.art === "ampel") return w === "gut" ? z.label : null;
-      return typeof w === "string" && /\d+ von \d+/.test(w) ? `${z.label}: ${w}` : null;
+      if (z.art === "ampel") return w === "gut" ? { key: z.key, text: z.label } : null;
+      return typeof w === "string" && /\d+ von \d+/.test(w) ? { key: z.key, text: `${z.label}: ${w}` } : null;
     })
-    .filter((x): x is string => !!x)
+    .filter((x): x is Punkt => !!x)
     .slice(0, 4);
   const kosten = zeilen
     .filter((z) => z.gruppe === "kosten" && z.imRaster && typeof anbieter.werte[z.key] === "string")
     .slice(0, 2)
-    .map((z) => `${z.label}: ${anbieter.werte[z.key]}`);
+    .map((z): Punkt => ({ key: z.key, text: `${z.label}: ${anbieter.werte[z.key]}` }));
+  const punkte = [...halal, ...kosten];
 
   return (
     /* Rahmen im Verlauf Blau, Violett, Gold statt einer blauen Fläche (Elias, 21.09.2026: die
@@ -93,23 +117,24 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
         <Award className="h-4 w-4 text-spark" aria-hidden />
         Unsere Nummer 1
       </p>
-      <div className="rounded-[14px] bg-card p-4">
+      <div className="rounded-[14px] bg-card p-4 xl:p-5">
         <div className="flex items-center gap-3">
           <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
           <p className="min-w-0 flex-1 text-[18px] leading-snug text-foreground">
             <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}
           </p>
         </div>
-        <ul className="mt-3 space-y-1.5">
-          {[...halal, ...kosten].map((satz) => (
-            <li key={satz} className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
+        {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
+        <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
+          {punkte.map((punkt) => (
+            <li key={punkt.key} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-              {satz}
+              <span>{punkt.text}</span>
             </li>
           ))}
         </ul>
         {anbieter.link && (
-          <div className="mt-4">
+          <div className="mt-2.5 xl:mt-3">
             <Link
               to={anbieter.link}
               rel="sponsored nofollow"
@@ -120,9 +145,25 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} />
+        {spalte && (
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setOffen((v) => !v)}
+              aria-expanded={offen}
+              className="mx-auto mt-1 flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
+            >
+              Produktdetails
+              <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+            </button>
+            {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} ohne={punkte.map((x) => x.key)} />}
+          </div>
+        )}
         <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
-          Aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen nicht. Die übrigen {einheit} stehen alphabetisch, bis alle
-          geprüft sind.{" "}
+          Aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note.{" "}
+          {linkVorrang
+            ? `Bei gleich vielen Sternen steht zuerst, was du über unseren Link eröffnen kannst, danach folgen die ${einheit} nach unserer Note.`
+            : `Die übrigen ${einheit} folgen nach unserer Note.`}{" "}
           <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
             So bewerten wir
           </Link>
@@ -133,21 +174,15 @@ export const NummerEins = ({ anbieter, zeilen, einheit }: { anbieter: RohAnbiete
 };
 
 /**
- * Steht dort, wo bei Finanzfluss "Bestes Depot" steht. Solange nicht alle
- * Anbieter geprüft sind, gibt es keine Nummer eins und keine Reihenfolge nach
- * Punkten. Eine vorläufige Rangfolge würde Anbieter bewerten, bei denen wir
- * noch nicht nachgesehen haben.
+ * Ordnung der Liste, wenn es keine Nummer 1 gibt: alphabetisch, Kosten und Konditionen
+ * stehen in der Tabelle. Nur ein rotes Zins-Merkmal ändert die Stellung.
  */
 export const ReihenfolgeHinweis = ({ einheit }: { einheit: string }) => (
   <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
-    {/* Handy: ein Satz. Die lange Fassung steht auf dem Laptop und in der Methodik. */}
-    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
-      Alphabetisch sortiert. Die Bewertung folgt, sobald alle {einheit} geprüft sind.
-    </p>
-    <p className="hidden text-[16px] font-bold text-foreground lg:block">Die Bewertung folgt, sobald alle {einheit} geprüft sind</p>
+    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">Alphabetisch sortiert.</p>
+    <p className="hidden text-[16px] font-bold text-foreground lg:block">Alle {einheit} stehen alphabetisch</p>
     <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
-      Bis dahin stehen alle {einheit} alphabetisch. Kosten und Konditionen sind eingetragen, die
-      Halal-Merkmale prüfen wir einzeln beim Anbieter. Nur eines ändert die Reihenfolge: Wer sich
+      Kosten und Konditionen stehen in der Tabelle. Nur eines ändert die Reihenfolge: Wer sich
       nicht zinsfrei nutzen lässt, steht am Ende, ist rot markiert und bekommt von uns keinen Link.
     </p>
   </section>

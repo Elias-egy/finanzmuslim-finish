@@ -91,7 +91,7 @@ export const AmpelKarte = ({ z }: { z: { vertrag: string; unter: string; farbe: 
 );
 
 export const AMPEL_QUELLEN =
-  "Zinsverbot: Quran 2:275 und 2:279, deutsche Übersetzung nach Bubenheim/Elyas. Glücksspiel und Spekulation: Quran 5:90. Screening von Anlagen: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Versicherung, Kreditkarte, Ratenkauf: Die hier wiedergegebene Einordnung folgt der Mehrheitsposition zeitgenössischer Fiqh-Gremien, insbesondere der OIC Islamic Fiqh Academy und AAOIFI. Die genauen Beschlussnummern sind noch nicht geprüft und werden nachgetragen.";
+  "Zinsverbot: Quran 2:275 und 2:279, deutsche Übersetzung nach Bubenheim/Elyas. Glücksspiel und Spekulation: Quran 5:90. Screening von Anlagen: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Versicherung, Kreditkarte, Ratenkauf: Die hier wiedergegebene Einordnung folgt der Mehrheitsposition zeitgenössischer Fiqh-Gremien, insbesondere der OIC Islamic Fiqh Academy und AAOIFI.";
 
 export const AMPEL_RECHTSHINWEIS =
   "Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. In Zweifelsfällen, besonders bei allem, was gelb markiert ist, wende dich an einen Gelehrten, dem du vertraust, und lege ihm deinen konkreten Vertrag vor. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen.";

@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, rangfolge, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, rangfolge, vorrang, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -18,7 +18,9 @@ export { ANTEIL_N, BASIS, finanzNote };
  * 2. Ein unbekannter Wert erfüllt nie einen Wunsch. Der Anbieter steht dann
  *    unter "noch nicht geprüft", nicht unter "passt". Dort steht auch, wem die
  *    Rangfolge noch keine Note gibt.
- * 3. Partnerlink, Provision, Startseite und Finanzfluss-Rang fließen nirgends ein.
+ * 3. Partnerlink, Provision, Startseite und Finanzfluss-Rang fließen in keine Note ein.
+ *    Die Reihenfolge folgt Regel 2 der Rangfolge (`vorrang`): In Depot, Girokonto und Krypto
+ *    steht bei gleicher Sternzahl zuerst, was über unseren Link eröffnet werden kann.
  * 4. Antworten ändern Filter und die Gewichte des Kosten-Teils, nie Halal-Teil,
  *    Note oder Gruppe. Die angezeigte Note ist immer die der Rangfolge.
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
@@ -194,7 +196,10 @@ export const werteAus = (
     else passt.push(treffer);
   }
 
-  const ordnung = (p: Treffer, q: Treffer) => q.sortWert - p.sortWert || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
+  const ordnung = (p: Treffer, q: Treffer) =>
+    vorrang(kategorie, { note: p.sortWert, anbieter: p.anbieter }, { note: q.sortWert, anbieter: q.anbieter }) ||
+    q.sortWert - p.sortWert ||
+    position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);
   ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!);
 

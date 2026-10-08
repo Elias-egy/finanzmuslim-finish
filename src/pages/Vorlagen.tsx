@@ -8,10 +8,10 @@ import MotivBild from "@/components/MotivBild";
 const Vorlagen = () => (
   <main className="bg-background">
     <Seo
-      title="Kostenlose Vorlagen für halal Finanzen | finanzmuslim"
-      description="Hol dir die 100 Halal-Aktien, die Vertrags-Ampel und die kaufbaren Halal-Anlagen gegen deine E-Mail. Spickzettel und Baraka-Blocker sind sofort offen."
+      title="Kostenlose Listen: halal Anlagen, haram Verträge, Aktien | finanzmuslim"
+      description="Hol dir die 100 Halal-Aktien, zwölf Verträge im Halal-Check und die kaufbaren Halal-Anlagen gegen deine E-Mail. Spickzettel und Baraka-Blocker sind sofort offen."
       path="/vorlagen"
-      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }]}
+      brotkrumen={[{ name: "Kostenlose Listen", path: "/vorlagen" }]}
     />
     <div className="container py-10 md:py-14">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
@@ -19,11 +19,11 @@ const Vorlagen = () => (
           Start
         </Link>
         <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-        <span className="text-foreground">Vorlagen</span>
+        <span className="text-foreground">Kostenlose Listen</span>
       </nav>
 
       <header className="mt-6 max-w-3xl">
-        <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">Kostenlose Vorlagen</h1>
+        <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">Kostenlose Listen</h1>
         <p className="mt-3 text-[17px] text-muted-foreground">
           Kurz, konkret, sofort nutzbar. Die Bestseller gibt es gegen deine E-Mail, den Rest ohne Anmeldung.
         </p>

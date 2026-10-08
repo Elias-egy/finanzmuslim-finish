@@ -14,7 +14,7 @@ import {
   type Baustein,
   type Frage,
 } from "@/data/vergleichAssistent";
-import { hoechsterBonus } from "@/data/deals";
+import { dealFuer, hoechsterBonus } from "@/data/deals";
 import { vorhabenAusSuche, werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
@@ -231,7 +231,7 @@ const Konfetti = () => {
 /* ---------------------------------------------------------------- Ergebnis */
 
 const wertText = (w: unknown) =>
-  typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "noch nicht geprüft";
+  typeof w === "boolean" ? (w ? "ja" : "nein") : typeof w === "string" && w.trim() ? w : "–";
 
 const Gruende = ({ t }: { t: Treffer }) => {
   const passt = [...t.gruende, ...t.erfuellt.filter((w) => !w.still).map((w) => w.label)].slice(0, 5);
@@ -263,7 +263,7 @@ const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?
   t.anbieter.link ? (
     <div>
       <Link to={t.anbieter.link} rel="sponsored nofollow" className={`${knopf} ${gross ? "min-h-[56px] text-[17px]" : ""}`}>
-        Einrichtung ansehen*
+        Schritt für Schritt starten*
       </Link>
       <p className="mt-1 text-center text-[11px] text-muted-foreground">Anzeige</p>
       <BonusSchild anbieterId={t.anbieter.id} />
@@ -292,7 +292,7 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
           <p className="min-w-0 flex-1 text-[19px] leading-snug text-foreground">
             <span className="font-bold">{a.name}</span> {a.produkt}
           </p>
-          {t.note && (
+          {t.note && baustein.kategorie !== "steuer" && baustein.kategorie !== "screener" && (
             <p className="shrink-0 text-right">
               <span className="block text-[22px] font-bold leading-none text-foreground">{t.note.gesamt.toFixed(1).replace(".", ",")}</span>
               <span className="text-[11px] text-muted-foreground">von 5</span>
@@ -354,7 +354,20 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
   const auswahl = useMemo(() => auswahlAus(baustein.id, antworten), [baustein, antworten]);
   const e = useMemo(() => werteAus(baustein.anbieter, baustein.kategorie, baustein.finanzMax, auswahl), [baustein, auswahl]);
   const [sichtbar, setSichtbar] = useState(3);
-  const [erster, ...weitere] = e.passt;
+  const [erster, ...rest] = e.passt;
+  /* Hat die Empfehlung keine Einrichtungsseite, steht der beste Treffer mit einer
+     sichtbar darunter statt in der Klappe. Die Reihenfolge bleibt, wie sie ist. */
+  const mitEinrichtung = erster && !erster.anbieter.link ? rest.find((t) => t.anbieter.link) : undefined;
+  /* Die Leiste über den Fragen nennt den höchsten Bonus. Steht er bei keinem der
+     sichtbaren Treffer, bekommt das Angebot mit dem höchsten Bonus einen eigenen Platz. */
+  const hatBonus = (t?: Treffer) => !!t && !!dealFuer(t.anbieter.id);
+  const mitBonus =
+    erster && !hatBonus(erster) && !hatBonus(mitEinrichtung)
+      ? rest
+          .filter((t) => t !== mitEinrichtung && hatBonus(t))
+          .sort((x, y) => dealFuer(y.anbieter.id)!.betrag! - dealFuer(x.anbieter.id)!.betrag!)[0]
+      : undefined;
+  const weitere = rest.filter((t) => t !== mitEinrichtung && t !== mitBonus);
 
   return (
     <section className="mt-10 first:mt-6">
@@ -374,6 +387,24 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
         <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-[15px] text-muted-foreground">
           Noch erfüllt kein Anbieter alle deine Angaben nachweislich. Nimm eine Angabe zurück oder sieh in den ganzen Vergleich.
         </p>
+      )}
+
+      {mitEinrichtung && (
+        <div className="mt-4">
+          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Anleitung zum Start</p>
+          <ul className="mt-2">
+            <TrefferKarte t={mitEinrichtung} baustein={baustein} auswahl={auswahl} />
+          </ul>
+        </div>
+      )}
+
+      {mitBonus && (
+        <div className="mt-4">
+          <p className="text-[13px] font-semibold text-muted-foreground">Passt auch, mit Bonus zum Start</p>
+          <ul className="mt-2">
+            <TrefferKarte t={mitBonus} baustein={baustein} auswahl={auswahl} />
+          </ul>
+        </div>
       )}
 
       {weitere.length > 0 && (
@@ -486,7 +517,7 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
       </div>
 
       <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
-        Die Reihenfolge entsteht aus deinen Angaben und aus dem, was wir beim Anbieter belegt haben. Partnerschaften zählen dabei nicht. Das ist ein Vergleich von
+        Die Reihenfolge entsteht aus deinen Angaben und aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note. Bei gleich vielen Sternen steht zuerst, was du über unseren Link eröffnen kannst. Das ist ein Vergleich von
         Anbietern und keine Anlageberatung.
         {mitStern &&
           " * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt abschließt, erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten."}
@@ -644,7 +675,7 @@ const VergleichAssistent = () => {
           <div className="pt-16 text-center md:pt-24" role="status">
             <h1 className="text-[26px] font-bold leading-tight text-foreground md:text-[34px]">Wir vergleichen jetzt {anzahl} Anbieter für dich</h1>
             <ul className="mx-auto mt-5 inline-block space-y-2 text-left text-[15px] text-foreground">
-              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Ungeprüftes zählt nie als erfüllt", "Partnerschaften zählen nicht"].map((s) => (
+              {["Wer Zinsen nicht abschalten lässt, fliegt raus", "Nur Belegtes zählt", "Eine Partnerschaft ändert keine Note"].map((s) => (
                 <li key={s} className="flex items-center gap-2">
                   <ShieldCheck className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
                   {s}

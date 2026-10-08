@@ -82,6 +82,17 @@ const WozuBlock = () => (
   </section>
 );
 
+const Reihenfolge = () => (
+  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
+    <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">Alphabetisch sortiert.</p>
+    <p className="hidden text-[16px] font-bold text-foreground lg:block">Alle Apps stehen alphabetisch</p>
+    <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
+      Welche App passt, hängt daran, was du prüfen willst. Maßstab, Prüfgremium und Preis stehen
+      in der Tabelle.
+    </p>
+  </section>
+);
+
 const VergleichScreener = () => (
   <VergleichsSeite
     pfad="/vergleich/screening-apps"
@@ -91,6 +102,7 @@ const VergleichScreener = () => (
     seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich | finanzmuslim"
     seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag, Preis und was die kostenlose Fassung kann."
     einheit="Apps"
+    reihenfolge={<Reihenfolge />}
     einleitung={
       <>
         <p>

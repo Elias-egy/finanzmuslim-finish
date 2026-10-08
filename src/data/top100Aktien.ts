@@ -3,7 +3,7 @@ export type Aktie = {
   name: string;
   ticker: string;
   bekanntFuer: string;
-  status: "Halal" | "Doubtful";
+  status: "Halal";
   quelle: string;
   /** Nur bei den sechs Ersatztiteln: Tag der Musaffa-Einzelprüfung. Sonst gilt der 20.08.2026. */
   geprueft?: string;

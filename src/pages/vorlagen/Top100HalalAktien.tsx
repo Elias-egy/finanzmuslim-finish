@@ -33,7 +33,7 @@ const Top100HalalAktien = () => (
       pdfPfad={v.pdfPfad}
       slug={v.slug}
       gesperrt={freebie}
-      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, sechs Ersatztitel 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab."
+      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08. und 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab."
       rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
       ctas={[
         {
@@ -93,10 +93,10 @@ const Top100HalalAktien = () => (
       <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
-          Die Einstufung basiert auf dem Stand vom 20.08.2026, bei sechs Titeln vom 27.09.2026. Prüfe Name und Ticker am Tag deiner Entscheidung erneut,
-          idealerweise in mehr als einem Screener, und ob dein Broker genau diese Aktie und Börsenlinie anbietet.
-          Boykottstatus und aktuelle Unternehmensverbindungen bitte separat prüfen, das ist eine eigene Prüfung, keine
-          Halal-Frage.
+          Die Einstufung basiert auf dem Stand vom 20.08.2026, bei sechs Titeln vom 27.09.2026. Prüfe Name und Ticker am Tag deiner
+          Entscheidung erneut, idealerweise in mehr als einem Screener, und ob dein Broker genau
+          diese Aktie und Börsenlinie anbietet. Boykottstatus und aktuelle Unternehmensverbindungen
+          bitte separat prüfen, das ist eine eigene Prüfung, keine Halal-Frage.
         </p>
       </section>
     </VorlagenSeite>

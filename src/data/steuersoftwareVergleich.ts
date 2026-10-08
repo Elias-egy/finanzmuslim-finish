@@ -1,6 +1,6 @@
 // Von Hand gepflegt. Wie bei den Screening-Apps steht hinter diesem Vergleich keine
 // Finanzfluss-Tabelle. Jeder Wert ist beim Anbieter selbst geprüft, mit Quelle und
-// Prüfdatum. Was null ist, ist noch nicht geprüft und wird auch so angezeigt.
+// Prüfdatum. Was null ist, ist nicht belegt: Die Zelle zeigt einen Strich, die Rangfolge zählt 0 Punkte.
 //
 // Die Übersichten von Finanzfluss und Finanztip widersprachen sich bei den Preisen,
 // deshalb zählt hier ausschliesslich die Seite des Herstellers.
@@ -125,11 +125,11 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "unbegrenzt",
     },
     quellen: {
-      plattform: q("https://www.elster.de/", "Zugang über den Browser, dazu die App MeinELSTER+ für Handy und Tablet."),
-      kapital: q("https://www.elster.de/", "Der Anbieter nennt Kapitalerträge ausdrücklich als abgedeckte Einkunftsart."),
-      selbststaendige: q("https://www.elster.de/", "Auch Einkünfte aus selbstständiger Arbeit und betriebliche Erklärungen sind möglich."),
-      vermietung: q("https://www.elster.de/", "Einkünfte aus Vermietung sind ausdrücklich genannt."),
-      belegabruf: q("https://www.elster.de/", "Die vorausgefüllte Steuererklärung übernimmt die Daten, die der Verwaltung vorliegen."),
+      plattform: { url: "https://www.elster.de/eportal/infoseite/meinelsterplus", stand: "27.09.2026", hinweis: "Mein ELSTER läuft im Browser, dazu: „MeinELSTER+ ist verfügbar für Smartphones und Tablets ab Android-Version 14 sowie iPhones ab iOS 18 bzw. iPads ab iPadOS 18“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kapital: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Geben Sie dazu unter anderem Zinsen, Dividenden, Steuerabzugsbeträge sowie anrechenbare Steuern an.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      selbststaendige: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Haben Sie Einkünfte aus Gewerbebetrieb, dann können hier Angaben zum Gewinn und zur Steuerermäßigung nach § 35 EStG gemacht werden.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      vermietung: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_est_ufa_10_2025", stand: "27.09.2026", hinweis: "„Vermietung/Verpachtung von bebauten/unbebauten Grundstücken, Gemeinschaften, Fonds, Gesellschaften sowie die dazu gehörenden Werbungskosten.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      belegabruf: { url: "https://www.elster.de/eportal/helpGlobal?themaGlobal=help_belegabruf", stand: "27.09.2026", hinweis: "„Die vorausgefüllte Steuererklärung ist ein kostenloses Serviceangebot der Steuerverwaltung, das Ihnen die Erstellung Ihrer Einkommensteuererklärung erleichtern soll.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://www.elster.de/", "ELSTER ist das Portal der Steuerverwaltung und vollständig kostenlos."),
       abgaben: q("https://www.elster.de/", "Es gibt keine Lizenz und damit keine Begrenzung der Abgaben."),
       sprache: q("https://www.elster.de/", "Das Portal gibt es nur auf Deutsch."),
@@ -153,39 +153,13 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: null,
     },
     quellen: {
-      plattform: q("https://steuer.check24.de/", "Der Anbieter nennt eine Webfassung und eine App fürs Handy."),
-      kapital: q("https://steuer.check24.de/", "Kapitalanleger stehen in der Liste der unterstützten Fälle."),
-      selbststaendige: q("https://steuer.check24.de/", "Selbstständige stehen in der Liste der unterstützten Fälle."),
-      vermietung: q("https://steuer.check24.de/", "Vermieter stehen in der Liste der unterstützten Fälle."),
-      belegabruf: q("https://steuer.check24.de/", "Der Steuer-Abruf holt die Daten laut Anbieter direkt vom Finanzamt."),
+      plattform: { url: "https://steuer.check24.de/ul/sl/testberichte/", stand: "27.09.2026", hinweis: "Testsieger „als Browser-Version und als Smartphone-App.“ Die App ist die CHECK24-App für iOS und Android. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kapital: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage KAP = Kapitaleinkünfte“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      selbststaendige: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage S = Einkünfte aus selbständiger Arbeit“. Für Jahre vor 2023 nennt dieselbe Seite Selbstständige als „derzeit nicht unterstützt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      vermietung: { url: "https://steuer.check24.de/programmumfang/", stand: "27.09.2026", hinweis: "Programmumfang, Reiter Steuerjahr 2025, Liste „Die folgenden Anlagen werden unterstützt:“: „Anlage V = Einkünfte aus Vermietung und Verpachtung“. Für Jahre vor 2023 nennt dieselbe Seite Vermietung als „derzeit nicht unterstützt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      belegabruf: { url: "https://steuer.check24.de/", stand: "27.09.2026", hinweis: "„Deine Steuerdaten direkt vom Finanzamt abrufen und automatisch übernehmen – kein Abtippen, kein Aufwand.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://steuer.check24.de/", "Der Anbieter wirbt ausdrücklich mit kostenloser Abgabe, auch bei Zusammenveranlagung."),
       sprache: q("https://steuer.check24.de/", "Das Angebot gibt es nur auf Deutsch."),
-    },
-  },
-  {
-    id: "steuereasy",
-    name: "STEUEReasy",
-    produkt: "Windows",
-    domain: "steuertipps.de",
-    preisEinzel: 17.99,
-    werte: {
-      plattform: "nur Windows",
-      kapital: null,
-      selbststaendige: "nein",
-      vermietung: "nein",
-      belegabruf: null,
-      sprache: "Deutsch",
-      preis: "15,99 €, regulär 17,99 €",
-      zahlung: "vor dem Ausfüllen",
-      abgaben: "1",
-    },
-    quellen: {
-      plattform: q("https://www.steuertipps.de/shop/software/steuereasy", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung. Eine Mac-Fassung gibt es nicht."),
-      selbststaendige: q("https://www.steuertipps.de/shop/software/steuereasy", "Das Programm ist auf einfache Fälle zugeschnitten, Selbstständige nennt der Anbieter nicht."),
-      vermietung: q("https://www.steuertipps.de/shop/software/steuereasy", "Vermietung nennt der Anbieter nicht, das Programm zielt auf Angestellte, Studierende und Berufseinsteiger."),
-      preis: q("https://www.steuertipps.de/shop/software/steuereasy", "15,99 € im Angebot, regulär 17,99 €, als Sofort-Download."),
-      abgaben: q("https://www.steuertipps.de/shop/software/steuereasy", "Eine Abgabe ist enthalten, weitere lassen sich nicht nachkaufen."),
-      sprache: q("https://www.steuertipps.de/shop/software/steuereasy", "Nur auf Deutsch."),
     },
   },
   {
@@ -206,14 +180,14 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "3, Deluxe 5",
     },
     quellen: {
-      plattform: q("https://shop.lexware.de/quicksteuer", "Vorausgesetzt wird Windows 10 oder 11 in der 64-Bit-Fassung."),
+      plattform: { url: "https://shop.lexware.de/quicksteuer", stand: "27.09.2026", hinweis: "Systemvoraussetzungen: „Windows® 10 (64-Bit-Variante) / Windows® 11 (dt. Version)“, eine Mac-Fassung nennt der Shop nicht. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://shop.lexware.de/quicksteuer",
         stand: "26.09.2026",
         hinweis:
           "Im Leistungsvergleich des Shops steht bei beiden Fassungen als enthalten markiert: „Amtliche Formulare und Steueranlagen (Mantelbogen, N, Kind, KAP, SO, R, V, FW, AUS, G, S, Unterhalt, L, AV, Vorsorgeaufwand, Eigenheimzulage)“, darunter die Anlage KAP.",
       },
-      selbststaendige: q("https://shop.lexware.de/quicksteuer", "Beide Fassungen nennen Freiberufler und Selbstständige. Den EÜR-Rechner und die gewerbliche Erklärung hat nur Deluxe."),
+      selbststaendige: { url: "https://shop.lexware.de/quicksteuer", stand: "27.09.2026", hinweis: "Nur die Fassung Deluxe nennt: „EÜR-Rechner 2025 und 2024 inkl. Umsatzsteuer-Voranmeldung“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       vermietung: {
         url: "https://shop.lexware.de/quicksteuer",
         stand: "26.09.2026",
@@ -249,21 +223,21 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "bis 5",
     },
     quellen: {
-      plattform: q("https://shop.lexware.de/taxman", "Windows 10 oder 11 in der 64-Bit-Fassung. Der Anbieter nennt ausdrücklich keine Mac-Unterstützung."),
+      plattform: { url: "https://shop.lexware.de/steuer", stand: "27.09.2026", hinweis: "„Die TAXMAN-Software installierst du einfach und schnell auf jedem Windows-PC.“ Zur Profi-Fassung: „Auch hier gilt: Die Software ist nur mit Windows-Rechnern kompatibel.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://shop.lexware.de/taxman",
         stand: "26.09.2026",
         hinweis:
           "Im Leistungsvergleich des Shops steht bei beiden Fassungen als enthalten markiert: „Amtliche Formulare und Steueranlagen (Mantelbogen, N, Kind, KAP, SO, R, V, FW, AUS, G, S, Unterhalt, L, AV, Vorsorgeaufwand, Eigenheimzulage)“, darunter die Anlage KAP.",
       },
-      selbststaendige: q("https://shop.lexware.de/taxman", "Der Anbieter nennt Selbstständige und Freiberufler als Zielgruppe der Standardfassung."),
+      selbststaendige: { url: "https://shop.lexware.de/taxman", stand: "27.09.2026", hinweis: "Zielgruppe der privaten Lizenz laut Shop: „Selbständige und Freiberufler“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       belegabruf: {
         url: "https://shop.lexware.de/taxman",
         stand: "26.09.2026",
         hinweis:
           "Im Leistungsvergleich ist die Zeile „Vorausgefüllte Steuererklärung (VaSt)“ bei beiden Fassungen als enthalten markiert.",
       },
-      vermietung: q("https://shop.lexware.de/taxman", "Vermieter stehen in der Zielgruppe der Standardfassung."),
+      vermietung: { url: "https://shop.lexware.de/taxman", stand: "27.09.2026", hinweis: "Zielgruppe der privaten Lizenz laut Shop: „Vermieter, Kapitalanleger“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://shop.lexware.de/taxman", "34,90 € inklusive Mehrwertsteuer für Taxman 2026. Die Fassung für Steuerberater kostet 172,43 €."),
       abgaben: q("https://shop.lexware.de/taxman", "Bis zu 5 Steuererklärungen je Privatlizenz."),
       sprache: q("https://shop.lexware.de/taxman", "Nur auf Deutsch."),
@@ -287,16 +261,16 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://www.steuergo.de", "Browser auf Windows, Mac und Linux, dazu Apps für iOS und Android."),
-      kapital: q("https://www.steuergo.de", "Kapitalerträge nennt der Anbieter unter den abgedeckten Einkunftsarten."),
+      plattform: { url: "https://www.steuergo.de/du", stand: "27.09.2026", hinweis: "„Nutze SteuerGo auf all deinen Geräten mit Webbrowser – Windows, Mac, Linux, iPhone, iPad und Android“ und „Auch als App für Tablets und Smartphones.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kapital: { url: "https://www.steuergo.de/du", stand: "27.09.2026", hinweis: "„Egal, ob Lohnsteuer, Kapitalerträge oder Kinderbetreuungskosten, SteuerGo hilft, zu viel gezahlte Einkommensteuern zu sichern.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       belegabruf: {
         url: "https://www.steuergo.de/de/texte/0/460/belegabruf_die_vorausgefuellte_steuererklaerung_vast",
         stand: "26.09.2026",
         hinweis:
           "„SteuerGo bietet als besonderen Service den Datenabruf an. Dadurch haben Sie die Möglichkeit, personenbezogene Daten abzurufen, die beim Finanzamt über Sie gespeichert sind. Diese Daten können Sie direkt in Ihre Steuererklärung importieren.“",
       },
-      selbststaendige: q("https://www.steuergo.de", "Der Anbieter nennt Selbstständige unter den abgedeckten Fällen."),
-      vermietung: q("https://www.steuergo.de", "Einkünfte aus Vermietung nennt der Anbieter ausdrücklich."),
+      selbststaendige: { url: "https://www.steuergo.de/du/texte/2025/258/selbstaendige_taetigkeiten", stand: "27.09.2026", hinweis: "Feldhilfe im Programm: „gib eine kurze und präzise Beschreibung deiner selbständigen oder freiberuflichen Tätigkeit an.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      vermietung: { url: "https://www.steuergo.de/du/texte/2025/176/vermietungseinkuenfte", stand: "27.09.2026", hinweis: "Feldhilfe im Programm: „Hast du Einkünfte aus Häusern oder Wohnungen erwirtschaftet?“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       sprache: q("https://www.steuergo.de", "Die Oberfläche gibt es auf Deutsch, Englisch, Polnisch, Rumänisch und Russisch. Das ist unter allen Anbietern die grösste Auswahl."),
       preis: q("https://www.steuergo.de/du/start/preise", "34,95 € für eine Erklärung, 89,95 € für drei, 114,95 € für vier, jeweils inklusive Mehrwertsteuer."),
       zahlung: q("https://www.steuergo.de/du/start/preise", "Kostenlos ausfüllen, bezahlt wird erst bei der Abgabe."),
@@ -321,7 +295,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://www.lohnsteuer-kompakt.de/", "Läuft im Browser ohne Installation, dazu Apps für iOS und Android."),
+      plattform: { url: "https://www.lohnsteuer-kompakt.de/steuerwissen/lohnsteuer-kompakt-app/", stand: "27.09.2026", hinweis: "„Mobil-App für die schnelle Steuererklärung“ und „Im Browser mit allen Funktionen“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.lohnsteuer-kompakt.de/de/feldhilfe/2025/40/947/einkprozc3prozbcnfte+aus+kapitalvermprozc3prozb6gen-+anlage+kap+-",
         stand: "26.09.2026",
@@ -365,7 +339,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1, in der Fassung plus bis 5",
     },
     quellen: {
-      plattform: q("https://www.steuertipps.de/shop/software", "Die Online-Fassung läuft auf Windows, Mac und Linux, dazu gibt es Download, DVD und eine App."),
+      plattform: { url: "https://www.steuertipps.de/shop/software", stand: "27.09.2026", hinweis: "„Egal ob PC, Mac, Tablet oder Smartphone – mit der SteuerSparErklärung finden Sie die passende Lösung:“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.steuertipps.de/shop/software",
         stand: "26.09.2026",
@@ -397,7 +371,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     domain: "wundertax.de",
     preisEinzel: 34.99,
     werte: {
-      plattform: "Web",
+      plattform: "Web, iOS, Android",
       kapital: "ja",
       selbststaendige: "ja",
       vermietung: "ja",
@@ -408,10 +382,10 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1 je Kauf",
     },
     quellen: {
-      plattform: q("https://wundertax.de/", "Läuft im Browser, eine eigene App nennt der Anbieter nicht."),
+      plattform: { url: "https://apps.apple.com/de/app/id6480043147", stand: "27.09.2026", hinweis: "wundertax läuft im Browser, dazu eine App der wundertax GmbH für iOS und Android: „Mit der wundertax Steuer-App kannst Du Deine Steuererklärung unkompliziert und schnell online erledigen.“ Am 27.09.2026 korrigiert, vorher „keine App“." },
       kapital: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
       vermietung: { url: "https://wundertax.de/l/steuererklaerung-online-machen/", stand: "26.09.2026", hinweis: "„Mit wundertax kannst Du nun getrost auf das komplizierte Ausfüllen der bekannten Formulare Mantelbogen Est 1a, Anlage N ..., Anlage KAP, Anlage V, Anlage Kind, Anlage Sonderausgaben etc. verzichten.“" },
-      selbststaendige: q("https://wundertax.de/", "Selbstständige stehen in der Liste der Zielgruppen, daneben eigene Seiten für Studierende, Polizei und Bundeswehr."),
+      selbststaendige: { url: "https://wundertax.de/selbststaendig/", stand: "27.09.2026", hinweis: "Seite für Selbstständige: „ESt, EÜR und USt werden automatisch erstellt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       sprache: q("https://wundertax.de/", "Für Menschen ohne Deutschkenntnisse führt der Anbieter die Schwesterseite germantaxes.de auf Englisch."),
       preis: q("https://wundertax.de/preise/", "34,99 € für eine Erklärung, 49,99 € bei Zusammenveranlagung, Pakete ab 89,99 € für drei."),
       zahlung: q("https://wundertax.de/preise/", "Die Gebühr fällt erst an, wenn du die ausgefüllte Erklärung ans Finanzamt schickst."),
@@ -423,6 +397,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "WISO Steuer",
     produkt: "Abo oder Einzelkauf",
     domain: "buhl.de",
+    link: "/out/wiso-steuer",
     preisEinzel: 45.99,
     werte: {
       plattform: "Windows, Mac, Web, iOS, Android",
@@ -436,16 +411,16 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "bis 5",
     },
     quellen: {
-      plattform: q("https://www.buhl.de/steuer/", "Web ohne Installation, dazu Windows 10 und 11, macOS ab 12 Monterey sowie Apps für iOS und Android. Das ist die breiteste Abdeckung im Vergleich."),
+      plattform: { url: "https://www.buhl.de/steuer/", stand: "27.09.2026", hinweis: "„Nutze WISO Steuer direkt online – ohne Download, ohne Installation, ohne Updates.“ Dazu laut Seitendaten „Mobile App-Version der WISO Steuer Software für iOS und Android.“ sowie Download für Windows und macOS. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       kapital: {
         url: "https://www.buhl.de/steuer/tipps/aktien/",
         stand: "26.09.2026",
         hinweis:
           "„Schluss mit Formular-Chaos. WISO Steuer importiert deine Depot-Daten automatisch und erledigt die Anlage KAP für dich.“",
       },
-      selbststaendige: q("https://www.buhl.de/steuer/", "Der Anbieter nennt Selbstständige unter den abgedeckten Fällen."),
-      vermietung: q("https://www.buhl.de/steuer/", "Einkünfte aus Vermietung nennt der Anbieter ausdrücklich."),
-      belegabruf: q("https://www.buhl.de/steuer/", "Amtlich anerkannte Datenübertragung nach § 87c AO, die Daten des Finanzamts werden übernommen."),
+      selbststaendige: { url: "https://www.buhl.de/steuer/steuererklaerung-selbststaendige/", stand: "27.09.2026", hinweis: "„Bei WISO Steuer kannst du alle Einkunftsarten angeben – auch Einkünfte aus Gewerbebetrieb oder Selbstständigkeit.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      vermietung: { url: "https://www.buhl.de/steuer/steuererklaerung-vermieter/", stand: "27.09.2026", hinweis: "„WISO Steuer führt dich verständlich durch Vermietung & Verpachtung – die Formulare laufen im Hintergrund.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      belegabruf: { url: "https://www.buhl.de/steuer/steuer-abruf/", stand: "27.09.2026", hinweis: "„Der Steuer-Abruf ist ein kostenloser Service von WISO Steuer, bei dem deine Steuererklärung automatisch vorausgefüllt wird.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://www.buhl.de/steuer/", "Testfassung 0 €, Vorteils-Abo 35,99 € im Jahr mit automatischer Verlängerung, Einzelkauf 45,99 €."),
       zahlung: q("https://www.buhl.de/steuer/", "Alles kostenlos ausprobieren, bezahlt wird erst bei der Abgabe."),
       abgaben: q("https://www.buhl.de/steuer/", "Mit einer Lizenz bis zu 5 Steuererklärungen, also auch für Ehepartner und Kinder."),
@@ -457,6 +432,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "smartsteuer",
     produkt: "Web",
     domain: "smartsteuer.de",
+    link: "/out/smartsteuer",
     preisEinzel: 39.99,
     werte: {
       plattform: "Browser, auch am Handy",
@@ -470,8 +446,8 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "5 im selben Steuerjahr",
     },
     quellen: {
-      plattform: q("https://www.smartsteuer.de/online/", "Keine eigene App: Die Anwendung läuft im Browser auf Handy, Laptop und Tablet."),
-      kapital: q("https://www.smartsteuer.de/online/", "Einkünfte aus Kapitalvermögen nennt der Anbieter unter den abgedeckten Einkunftsarten."),
+      plattform: { url: "https://www.smartsteuer.de/online/online-steuererklaerung/smartsteuer-app/", stand: "27.09.2026", hinweis: "„Die smartsteuer App kannst Du auf dem Desktop, Tablett oder Smartphone ohne Download direkt im Browser nutzen.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      kapital: { url: "https://www.smartsteuer.de/online/funktionsumfang-2025/", stand: "27.09.2026", hinweis: "„smartsteuer unterstützt Auszubildende, Studierende, Arbeitnehmer, Kapitalanleger, Vermieter, Eigenheimbesitzer, Rentner und Pensionäre sowie Selbständige und Gewerbetreibende.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       vermietung: {
         url: "https://www.smartsteuer.de/online/faqs/",
         stand: "26.09.2026",
@@ -484,7 +460,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
         hinweis:
           "Die Anleitung beschreibt den Ablauf im eigenen Konto: „Gehe rechts in den Bereich vorausgefüllte Steuererklärung und klicke auf › Daten abholen ‹.“",
       },
-      selbststaendige: q("https://www.smartsteuer.de/online/", "Für Selbstständige auch Umsatzsteuer- und Gewerbesteuererklärung."),
+      selbststaendige: { url: "https://www.smartsteuer.de/online/funktionsumfang-2025/", stand: "27.09.2026", hinweis: "Funktionsumfang 2025: „Selbständige, Freiberufler und Gewerbetreibende, auch mit Einnahmenüberschussrechnung (EÜR).“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q("https://www.smartsteuer.de/online/preise/", "39,99 € je Steuerjahr, inklusive Mehrwertsteuer."),
       zahlung: q("https://www.smartsteuer.de/online/preise/", "Bezahlt wird im Bereich Abgabe, also am Ende. Zahlung per PayPal, Lastschrift oder Karte."),
       abgaben: q("https://www.smartsteuer.de/online/preise/", "Fünf Abgaben je Kauf, aber nur im selben Steuerjahr. Geteilt mit der Familie sind das rund 8 € je Person."),
@@ -509,16 +485,16 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
       abgaben: "1",
     },
     quellen: {
-      plattform: q("https://taxfix.de/kosten/", "Apps für iOS und Android, dazu die Fassung im Browser."),
+      plattform: { url: "https://taxfix.de/", stand: "27.09.2026", hinweis: "„Du kannst dir die Taxfix App kostenlos aus dem Apple App Store und dem Google Play Store herunterladen oder unsere Seite im Web-Browser aufrufen.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       belegabruf: {
         url: "https://taxfix.de/ratgeber/dokumente-fristen/vorausgefuellte-steuererklaerung/",
         stand: "26.09.2026",
         hinweis:
           "„Auch bei der Taxfix Steuer-App ist diese Funktion durch die enge Zusammenarbeit mit ELSTER möglich!“",
       },
-      kapital: q("https://taxfix.de/kosten/", "Kapitalerträge nennt der Anbieter unter den abgedeckten Fällen."),
-      selbststaendige: q("https://taxfix.de/kosten/", "Selbstständige und Kleinunternehmer nennt der Anbieter unter den abgedeckten Fällen."),
-      vermietung: q("https://taxfix.de/kosten/", "Einkünfte aus Vermietung nennt der Anbieter unter den abgedeckten Fällen."),
+      kapital: { url: "https://taxfix.de/steuererklaerung-fuer-anleger/", stand: "27.09.2026", hinweis: "„Mit Taxfix trägst du deine Kapitalerträge einfach per Frage-Antwort-Prinzip ein. Die Anlage KAP wird dann automatisch für dich erstellt.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      selbststaendige: { url: "https://taxfix.de/steuererklaerung-fuer-selbststaendige/", stand: "27.09.2026", hinweis: "„Als Kleinunternehmer*in erstellst du deine Einkommensteuererklärung inklusive EÜR mit Basic direkt im geführten Frage-Antwort-Prozess“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
+      vermietung: { url: "https://taxfix.de/programmbeschreibung/", stand: "27.09.2026", hinweis: "Programmbeschreibung, Vermietung nur, „soweit nicht verbilligt vermietet wurde und es sich um umsatzsteuerbefreite Vermietung gemäß §4 Nr. 12 UStG handelt“. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       preis: q(
         "https://taxfix.de/kosten/",
         "39,99 € im Jahresabo, 49,99 € als Einmalzahlung. Zusammen veranlagt 59,99 € im Abo und 69,99 € einmalig. Der Experten-Service kostet 20 Prozent der Erstattung, mindestens 99,99 €, und wird auch fällig, wenn nicht abgegeben wird.",

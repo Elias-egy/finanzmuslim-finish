@@ -10,11 +10,11 @@ import KaufbarListe from "@/components/anlage/KaufbarListe";
 import KopierWert from "@/components/anlage/KopierWert";
 import MonetarisierungsPlatz from "@/components/anlage/MonetarisierungsPlatz";
 import VerfuegbarBei from "@/components/anlage/VerfuegbarBei";
-import { AufteilungsBalken, KeineZusammensetzung } from "@/components/anlage/Zusammensetzung";
+import { AufteilungsBalken } from "@/components/anlage/Zusammensetzung";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
-import { grundOhneZusammensetzung, zusammensetzungFuer } from "@/data/zusammensetzung";
+import { zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
 import { kursFuerAnlage, kursQuelle, kursStand } from "@/lib/kurse";
 
@@ -184,7 +184,9 @@ const AnlageDetail = () => {
       </section>
 
       <AbschnittsNavigation
-        abschnitte={kaufbar ? abschnitte : abschnitte.filter((a) => a.id !== "kaufen")}
+        abschnitte={abschnitte.filter(
+          (a) => (a.id !== "kaufen" || kaufbar) && (a.id !== "zusammensetzung" || hatZusammensetzung),
+        )}
       />
 
       <div className="container space-y-4 py-6 md:space-y-6 md:py-10">
@@ -239,7 +241,7 @@ const AnlageDetail = () => {
                     ? anlage.zertifikatArt === "index"
                       ? "liegt vor, gilt dem Index"
                       : "liegt vor"
-                    : "noch nicht geprüft"}
+                    : "–"}
                 </dd>
               </div>
             </dl>
@@ -374,14 +376,14 @@ const AnlageDetail = () => {
           </div>
         </section>
 
-        {/* 6 — Zusammensetzung */}
-        <section id="zusammensetzung" className="section-card scroll-mt-32">
-          <div className="section-inner">
-            <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">
-              Zusammensetzung
-            </h2>
-            <div className="mt-4">
-              {hatZusammensetzung ? (
+        {/* 6 — Zusammensetzung: nur mit Werten aus dem Factsheet des Anbieters */}
+        {hatZusammensetzung && (
+          <section id="zusammensetzung" className="section-card scroll-mt-32">
+            <div className="section-inner">
+              <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">
+                Zusammensetzung
+              </h2>
+              <div className="mt-4">
                 <div className="grid gap-8 lg:grid-cols-2">
                   {zus?.positionen && zus.positionen.length > 0 && (
                     <div className="lg:col-span-2">
@@ -410,14 +412,10 @@ const AnlageDetail = () => {
                     />
                   )}
                 </div>
-              ) : (
-                <KeineZusammensetzung
-                  grund={grundOhneZusammensetzung(anlage.kategorie, anlage.replikation ?? "")}
-                />
-              )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* 7 — Wo kaufen: aus der Wertpapiersuche der Anbieter, erzeugt von bauen.py */}
         {kaufbar && (
