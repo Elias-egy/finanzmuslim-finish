@@ -1,11 +1,10 @@
-import { brokerVergleich } from "@/data/brokerVergleich";
-import { girokontoVergleich } from "@/data/girokontoVergleich";
-import { kryptoVergleich } from "@/data/kryptoVergleich";
+import { depotAnzeige, girokontoAnzeige, kryptoAnzeige } from "@/data/vergleichAnzeige";
 import { empfehlbar } from "@/data/vergleichAssistent";
 
 export type LogoAnbieter = { name: string; domain?: string };
 
-const LISTEN = { Depot: brokerVergleich, Girokonto: girokontoVergleich, Krypto: kryptoVergleich } as const;
+/** Die Angebote, die der Vergleich zeigt: Ein Logo führt dorthin und muss dort zu finden sein. */
+const LISTEN = { Depot: depotAnzeige, Girokonto: girokontoAnzeige, Krypto: kryptoAnzeige } as const;
 export type LogoKategorie = keyof typeof LISTEN;
 
 export const hatLogos = (kategorie: string): kategorie is LogoKategorie => kategorie in LISTEN;

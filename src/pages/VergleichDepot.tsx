@@ -1,5 +1,6 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { brokerVergleich, DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { depotAnzeige } from "@/data/vergleichAnzeige";
 
 const VergleichDepot = () => (
   <VergleichsSeite
@@ -8,7 +9,7 @@ const VergleichDepot = () => (
     titel="Depot-Vergleich für Muslime"
     untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
     seoTitel="Halal Depot eröffnen: Broker im Vergleich | finanzmuslim"
-    seoText={`Welches Depot ist halal? ${brokerVergleich.length} Depots im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind.`}
+    seoText={`Welches Depot ist halal? ${depotAnzeige.length} Depots im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind.`}
     einheit="Depots"
     einleitung={
       <>
@@ -22,7 +23,8 @@ const VergleichDepot = () => (
       </>
     }
     zeilen={DEPOT_ZEILEN}
-    anbieter={brokerVergleich}
+    anbieter={depotAnzeige}
+    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}

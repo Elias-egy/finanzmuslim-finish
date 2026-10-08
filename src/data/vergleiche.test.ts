@@ -400,9 +400,15 @@ describe("Dispo", () => {
 
 describe("Zahlen in Kacheltexten", () => {
   it("passen zu den Daten", async () => {
-    const { ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME } = await import("./anzahlen");
+    const { ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME, ANZAHL_DEPOTS, ANZAHL_KONTEN, ANZAHL_KRYPTO, ANZAHL_APPS } = await import("./anzahlen");
     const { halalAnlagen } = await import("./halalAnlagen");
+    const anzeige = await import("./vergleichAnzeige");
     expect(ANZAHL_HALAL_ANLAGEN).toBe(halalAnlagen.length);
-    expect(ANZAHL_STEUERPROGRAMME).toBe(steuersoftwareVergleich.length);
+    // Gezählt wird, was der Vergleich zeigt, nicht was in der Datendatei steht.
+    expect(ANZAHL_STEUERPROGRAMME).toBe(anzeige.steuerAnzeige.length);
+    expect(ANZAHL_DEPOTS).toBe(anzeige.depotAnzeige.length);
+    expect(ANZAHL_KONTEN).toBe(anzeige.girokontoAnzeige.length);
+    expect(ANZAHL_KRYPTO).toBe(anzeige.kryptoAnzeige.length);
+    expect(ANZAHL_APPS).toBe(anzeige.screenerAnzeige.length);
   });
 });

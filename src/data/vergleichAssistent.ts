@@ -26,6 +26,7 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { steuersoftwareVergleich, STEUER_ZEILEN } from "./steuersoftwareVergleich";
+import { depotAnzeige, girokontoAnzeige, kryptoAnzeige, screenerAnzeige, steuerAnzeige } from "./vergleichAnzeige";
 
 export { kostenlosReicht };
 
@@ -514,7 +515,7 @@ export const bausteine: Baustein[] = [
     kategorie: "depot",
     vergleich: "/vergleich/depot",
     vergleichText: "Alle Depots vergleichen",
-    anbieter: brokerVergleich,
+    anbieter: depotAnzeige,
     finanzMax: DEPOT_FINANZ_MAX,
     zeilen: DEPOT_ZEILEN,
     fakten: ["depotgebuehr", "orderkosten"],
@@ -532,7 +533,7 @@ export const bausteine: Baustein[] = [
     kategorie: "screener",
     vergleich: "/vergleich/screening-apps",
     vergleichText: "Alle Apps vergleichen",
-    anbieter: screenerVergleich,
+    anbieter: screenerAnzeige,
     finanzMax: {},
     zeilen: SCREENER_ZEILEN,
     fakten: ["preis", "deutscheAktien", "sprache"],
@@ -551,7 +552,7 @@ export const bausteine: Baustein[] = [
     kategorie: "krypto",
     vergleich: "/vergleich/krypto",
     vergleichText: "Alle Börsen vergleichen",
-    anbieter: kryptoVergleich,
+    anbieter: kryptoAnzeige,
     finanzMax: KRYPTO_FINANZ_MAX,
     zeilen: KRYPTO_ZEILEN,
     fakten: ["gesamtkosten", "anzahlCoins"],
@@ -565,7 +566,7 @@ export const bausteine: Baustein[] = [
     kategorie: "girokonto",
     vergleich: "/vergleich/girokonto",
     vergleichText: "Alle Konten vergleichen",
-    anbieter: girokontoVergleich,
+    anbieter: girokontoAnzeige,
     finanzMax: GIRO_FINANZ_MAX,
     zeilen: GIRO_ZEILEN,
     fakten: ["kontofuehrung", "debitkarte"],
@@ -582,7 +583,7 @@ export const bausteine: Baustein[] = [
     kategorie: "steuer",
     vergleich: "/vergleich/steuersoftware",
     vergleichText: "Alle Programme vergleichen",
-    anbieter: steuersoftwareVergleich,
+    anbieter: steuerAnzeige,
     finanzMax: {},
     zeilen: STEUER_ZEILEN,
     fakten: ["preis", "plattform"],
@@ -621,14 +622,24 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
   };
 };
 
+const ALLE_ANGEBOTE: Record<BausteinId, RohAnbieter[]> = {
+  depot: brokerVergleich,
+  screener: screenerVergleich,
+  krypto: kryptoVergleich,
+  girokonto: girokontoVergleich,
+  steuer: steuersoftwareVergleich,
+};
+
 /**
  * Darf für diesen Anbieter geworben werden? Nur wenn er ab Start zinsfrei ist,
  * keine Halal-Grundlage nachweislich verletzt und nicht abgeraten ist. Gilt für
  * die Seite /deals und jede andere Stelle, die einen Bonus aktiv bewirbt.
  */
 export const empfehlbar = (anbieterId: string): boolean => {
+  // Liest alle Angebote der Datendateien, nicht nur die im Vergleich gezeigten: Ein Bonus auf
+  // /deals hängt am Zins-Urteil, nicht daran, ob jede Zeile des Vergleichs gefüllt ist.
   const treffer = bausteine.flatMap((b) =>
-    b.anbieter.filter((a) => a.id === anbieterId).map((a) => ({ b, a })),
+    ALLE_ANGEBOTE[b.id].filter((a) => a.id === anbieterId).map((a) => ({ b, a })),
   );
   // IDs können in mehreren Vergleichen vorkommen. Ein positives Urteil aus
   // einer Kategorie darf ein ungeprüftes Produkt nicht freischalten.

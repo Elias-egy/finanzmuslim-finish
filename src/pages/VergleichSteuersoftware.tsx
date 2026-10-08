@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { steuersoftwareVergleich, STEUER_ZEILEN, STEUER_FILTER } from "@/data/steuersoftwareVergleich";
+import { STEUER_ZEILEN, STEUER_FILTER } from "@/data/steuersoftwareVergleich";
+import { steuerAnzeige } from "@/data/vergleichAnzeige";
+import { zahlwort } from "@/data/anzahlen";
 
 /**
  * Vergleich der Programme für die Steuererklärung.
@@ -10,23 +12,31 @@ import { steuersoftwareVergleich, STEUER_ZEILEN, STEUER_FILTER } from "@/data/st
  * Baustein zwar die Tabelle, setzt aber eigene Kennzahlen, eine eigene
  * Überschrift über den Kriterien und einen eigenen Hinweis zur Reihenfolge.
  *
- * Sortiert wird nach Preis, die kostenlosen zuerst. Das stellt ausgerechnet die
- * zwei Anbieter nach oben, die uns nichts einbringen. Genau so gehört es sich.
+ * Sortiert wird nach der Rangfolge aus `src/lib/rangfolge.ts`: Leistung und Preis je zur
+ * Hälfte, jede Spalte trägt ihren Platz (Elias, 08.10.2026: „mindestens ein Ranking haben“).
+ * Das stellt die zwei kostenlosen Programme nach oben, die uns nichts einbringen. Genau so
+ * gehört es sich. Einen Kasten „Nummer 1“ gibt es nicht, vorn liegen zwei gleichauf.
  */
+
+const ANZAHL = steuerAnzeige.length;
+const ERST_BEI_ABGABE = steuerAnzeige.filter((a) => a.werte.zahlung === "erst bei Abgabe").length;
+const KOSTENLOS = steuerAnzeige.filter((a) => a.preisEinzel === 0).length;
+const NUR_WINDOWS = steuerAnzeige.filter((a) => a.werte.plattform === "nur Windows").length;
 
 const Reihenfolge = () => (
   <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
     <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
-      Nach Preis sortiert. Die beiden kostenlosen stehen oben und zahlen uns nichts.
+      Sortiert nach Leistung und Preis, je zur Hälfte. Die beiden kostenlosen stehen oben und
+      zahlen uns nichts.
     </p>
     <p className="hidden text-[16px] font-bold text-foreground lg:block">
-      Nach Preis sortiert, das Günstigste zuerst
+      Sortiert nach Leistung und Preis
     </p>
     <p className="mt-1 hidden text-[15px] leading-[24px] text-muted-foreground lg:block">
-      Eine Note vergeben wir hier nicht. Was ein Steuerprogramm taugt, hängt daran, welche
-      Einkünfte du hast, und das ist bei jedem anders. Oben stehen die beiden kostenlosen
-      Programme. Von denen bekommen wir nichts, und sie sind für viele trotzdem die richtige
-      Wahl.
+      Leistung und Preis zählen je zur Hälfte. Zur Leistung gehören die Daten vom Finanzamt,
+      Vermietung, Selbstständige und worauf das Programm läuft. Oben stehen die beiden
+      kostenlosen Programme. Von denen bekommen wir nichts, und sie sind für viele trotzdem die
+      richtige Wahl.
     </p>
   </section>
 );
@@ -90,9 +100,9 @@ const VergleichSteuersoftware = () => (
     pfad="/vergleich/steuersoftware"
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
-    untertitel="Elf Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen"
+    untertitel={`${zahlwort(ANZAHL, true)} Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen`}
     seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText="Elf Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft."
+    seoText={`${zahlwort(ANZAHL, true)} Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft.`}
     einheit="Programme"
     einleitung={
       <>
@@ -103,17 +113,20 @@ const VergleichSteuersoftware = () => (
         </p>
         <p>
           Für dich zählt vor allem eine Zeile. Wenn du anlegst, brauchst du ein Programm, das
-          Kapitalerträge kann. Alle elf nehmen sie laut Anbieter an.
+          Kapitalerträge kann. Alle {zahlwort(ANZAHL)} nehmen sie laut Anbieter an.
         </p>
       </>
     }
     zeilen={STEUER_ZEILEN}
-    anbieter={steuersoftwareVergleich}
+    anbieter={steuerAnzeige}
+    kategorie="steuer"
+    finanzMax={{}}
+    ohneNummerEins
     filter={STEUER_FILTER}
     kennzahlen={[
-      { zahl: steuersoftwareVergleich.length, text: "Programme im Vergleich" },
-      { zahl: 2, text: "davon kostenlos" },
-      { zahl: steuersoftwareVergleich.filter((a) => a.werte.zahlung === "erst bei Abgabe").length, text: "zahlen erst bei Abgabe" },
+      { zahl: ANZAHL, text: "Programme im Vergleich" },
+      { zahl: KOSTENLOS, text: "davon kostenlos" },
+      { zahl: ERST_BEI_ABGABE, text: "zahlen erst bei Abgabe" },
     ]}
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
@@ -135,7 +148,7 @@ const VergleichSteuersoftware = () => (
       },
       {
         titel: "Läuft auf",
-        text: "Zwei Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.",
+        text: `${zahlwort(NUR_WINDOWS, true)} Programme laufen nur unter Windows. Wer einen Mac hat oder am Handy arbeitet, fällt damit raus, egal wie günstig sie sind.`,
       },
     ]}
     zusatz={<WozuBlock />}
@@ -163,7 +176,7 @@ const VergleichSteuersoftware = () => (
       {
         frage: "Was heisst erst bei Abgabe zahlen?",
         antwort:
-          "Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. Sechs der elf Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.",
+          `Du füllst die Erklärung vollständig aus und siehst, wie viel du zurückbekommst. Erst wenn du sie ans Finanzamt schickst, wird die Gebühr fällig. ${zahlwort(ERST_BEI_ABGABE, true)} der ${zahlwort(ANZAHL)} Programme machen das so, die reinen Windows-Programme nicht: Die kaufst du vorher.`,
       },
       {
         frage: "Lohnt sich die Steuererklärung überhaupt?",
