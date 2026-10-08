@@ -2,11 +2,40 @@ import { mitKontopreisen } from "./kontopreise";
 import type { RohAnbieter } from "./vergleichHelfer";
 
 /**
+ * Ident-Verfahren, das der Import nicht kennt (dort zählen nur Video-, Post- und E-Ident), beim
+ * Anbieter gelesen am 09.10.2026. Die Punkte bleiben wie im Import.
+ */
+const IDENT_JE_HAUS: Record<string, { wert: string; quelle: { url: string; stand: string; hinweis: string } }> = {
+  bunq: {
+    wert: "Ausweisfoto und Selfie",
+    quelle: {
+      url: "https://together.bunq.com/d/24112-how-do-i-verify-my-identity-with-incode",
+      stand: "09.10.2026",
+      hinweis: "bunq: „Follow the verification flow: scan your identification document and take a selfie“. Die Prüfung läuft in der App, bunq akzeptiert nur ein Foto des Originaldokuments.",
+    },
+  },
+  wise: {
+    wert: "Ausweisfoto und Live-Foto",
+    quelle: {
+      url: "https://wise.com/de/help/articles/3lclMmfpEuLXpf6uEkbhaL/bestatigung-deiner-identitat-mit-einem-foto-deines-ausweises-und-einem-selfie",
+      stand: "09.10.2026",
+      hinweis: "Wise: „Für diese Prüfung machst du zuerst ein Foto deines Ausweises und anschließend ein separates Live-Foto deines Gesichts.“ Im EWR gelten Reisepass oder Personalausweis.",
+    },
+  },
+};
+
+const mitIdent = (a: RohAnbieter): RohAnbieter => {
+  const ident = a.haus ? IDENT_JE_HAUS[a.haus] : undefined;
+  if (!ident || a.werte.ident) return a;
+  return { ...a, werte: { ...a.werte, ident: ident.wert }, quellen: { ...a.quellen, ident: ident.quelle } };
+};
+
+/**
  * Aktuelle Produktnamen und neue Produkte bis zum nächsten geprüften Datenimport.
  * Danach die beim Anbieter geprüfte Kontoführung (`kontopreise.ts`).
  */
 export const girokontoNachtraege = (anbieter: RohAnbieter[]): RohAnbieter[] => mitKontopreisen([
-  ...anbieter.map((a) => a.id === "bforbank-bforbasic-konto" ? {
+  ...anbieter.map(mitIdent).map((a) => a.id === "bforbank-bforbasic-konto" ? {
     ...a,
     name: "BforBank",
     produkt: "Girokonto",
