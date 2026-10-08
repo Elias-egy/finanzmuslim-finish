@@ -1,10 +1,9 @@
 // Erzeugt von scripts/anfragen-offen.ts aus src/data/anfragenLog.ts. Nicht von Hand ändern.
 // Nur Hausschlüssel, keine Adressen oder Ticketnummern. Wird von der Rangfolge gelesen.
-export const ANFRAGEN_STAND = "07.10.2026";
+export const ANFRAGEN_STAND = "08.10.2026";
 
 export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "1822direkt",
-  "bbbank",
   "bitget",
   "bux",
   "commerzbank",
@@ -17,12 +16,10 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "geno-broker",
   "gls",
   "joe-broker",
-  "maxblue",
   "norisbank",
   "pax-bank",
   "plus500",
   "santander",
-  "sbroker",
   "smartbroker",
   "targobank",
   "traders-place",
