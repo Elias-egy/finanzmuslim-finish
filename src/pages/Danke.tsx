@@ -25,12 +25,27 @@ import type { DankeState } from "@/components/optin/OptinKarte";
 
 const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** Anbieter-Logos am Netz: Partner zuerst, je Haus eines (`logosFuer`). */
+/**
+ * Namen, die jeder kennt (Elias, 08.10.2026: „die logos sowas was jeder kennt wie trade republic,
+ * scalable, revolut, comdirect“). Gezeigt wird ein Name nur, solange `logosFuer` ihn führt.
+ */
+const BEKANNT = ["Scalable Capital", "Trade Republic", "comdirect", "Revolut"];
+
+/** Die bekannten Namen vorn, danach die übrigen in der Reihenfolge von `logosFuer` (Partner zuerst). */
+const bekannteZuerst = (logos: LogoAnbieter[]): LogoAnbieter[] => {
+  const vorn = BEKANNT.flatMap((name) => logos.filter((a) => a.name === name));
+  return [...vorn, ...logos.filter((a) => !BEKANNT.includes(a.name))];
+};
+
+/** Anbieter-Logos am Netz, je Haus eines: erst die bekannten, dann Partner aus Depot und Girokonto. */
 const netzLogos = (): LogoAnbieter[] => {
-  const alle = [...logosFuer("Depot").logos.slice(0, 5), ...logosFuer("Girokonto").logos.slice(0, 4)];
+  const alle = [...bekannteZuerst(logosFuer("Depot").logos).slice(0, 6), ...logosFuer("Girokonto").logos.slice(0, 4)];
   const gesehen = new Set<string>();
   return alle.filter((a) => (gesehen.has(a.domain ?? a.name) ? false : (gesehen.add(a.domain ?? a.name), true))).slice(0, 8);
 };
+
+/** Die vier Plätze, die auch auf dem Handy zu sehen sind, bekommen die ersten vier Logos. */
+const PLATZ = [1, 2, 5, 6, 0, 3, 4, 7];
 
 /** Lage der Logos im Kopfband in Prozent, links und rechts gespiegelt. Die äußeren nur ab md. */
 const knoten = [
@@ -98,9 +113,9 @@ const Kopfband = () => {
         <span
           key={a.domain ?? a.name}
           className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/15 bg-white/10 p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] ${
-            knoten[i].md ? "hidden md:block" : ""
+            knoten[PLATZ[i]].md ? "hidden md:block" : ""
           }`}
-          style={{ left: `${knoten[i].x}%`, top: `${knoten[i].y}%` }}
+          style={{ left: `${knoten[PLATZ[i]].x}%`, top: `${knoten[PLATZ[i]].y}%` }}
         >
           <AnbieterLogo name={a.name} domain={a.domain} />
         </span>
@@ -185,7 +200,7 @@ const Danke = () => {
   const ausKarte = !!state;
   const vorhaben = state?.vorhaben?.length ? `?vorhaben=${vorhabenListe(state.vorhaben)}` : "";
   const ziel = `/vergleich/start${vorhaben}`;
-  const logos = logosFuer("Depot").logos.slice(0, 3);
+  const logos = bekannteZuerst(logosFuer("Depot").logos).slice(0, 3);
 
   const karten = [
     {

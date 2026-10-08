@@ -88,16 +88,15 @@ const HalalAnlagenVoll = () => (
       <section className="space-y-2 text-[13px] text-muted-foreground">
         {mitPartner && <p>{WERBE_FUSSNOTE}</p>}
         <p>
-          {staende.length === 1 ? `Belege vom ${staende[0]}.` : `Belege vom ${staende[0]} bis ${staende[staende.length - 1]}.`} Ein Anbieter,
-          der bei einer Anlage fehlt, ist noch nicht geprüft, nicht ausgeschlossen.
+          {staende.length === 1 ? `Belege vom ${staende[0]}.` : `Belege vom ${staende[0]} bis ${staende[staende.length - 1]}.`}
         </p>
       </section>
 
       {ohneBeleg.length > 0 && (
         <section>
-          <h2 className="text-2xl font-bold text-foreground">Noch ohne Kaufbeleg</h2>
+          <h2 className="text-2xl font-bold text-foreground">Weitere geprüfte Anlagen</h2>
           <p className="mt-2 text-[15px] text-muted-foreground">
-            Geprüft und zertifiziert, aber noch kein Anbieter mit eigenem Beleg. Prüfe mit der ISIN in der Suche deines Depots, ob es sie führt.
+            Geprüft und zertifiziert. Prüfe mit der ISIN in der Suche deines Depots, ob es sie führt.
           </p>
           <ul className="mt-4 space-y-3">
             {ohneBeleg.map((a) => (

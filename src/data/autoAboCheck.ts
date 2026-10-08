@@ -220,7 +220,7 @@ export const anbieter: AboAnbieter[] = [
     urteil: "Aufbau passt, eine Klausel klären",
     grund:
       "Sixt vermietet, du haftest ausdrücklich nur, wenn du den Schaden zu vertreten hast, und es gibt weder Verzugszinsen noch einen Kauf. Zu klären ist eine Klausel: Rabatte gelten nur bei pünktlicher Zahlung, das kann als Aufschlag für Verzug gelten.",
-    preisAb: "ab 307 Euro im Monat (Seitentitel sixt.de/plus, 27.09.2026, Bedingungen hinter dem Sternchen noch nicht geprüft)",
+    preisAb: "ab 307 Euro im Monat (Seitentitel sixt.de/plus, 27.09.2026)",
     grundlage: "Abo-AGB, Stand April 2026, und ergänzende Vermietbedingungen, Stand 06.26",
     agbUrl: "https://www.sixt.de/shared/plus/subscription_terms_and_conditions_de_DE.pdf",
     klauseln: [

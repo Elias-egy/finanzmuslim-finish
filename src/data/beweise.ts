@@ -11,10 +11,12 @@ import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
  */
 
 /**
- * Follower von @finanz.muslim. Quelle: Vault `data/ig-history.csv`, Zeile vom 21.09.2026
- * (11.973). Abgerundet, damit die Zahl auch morgen noch stimmt. Vor dem Launch neu lesen.
+ * Follower von @finanz.muslim. Quelle: Vault `data/ig-history.csv`, Zeile vom 08.10.2026
+ * (13.877, Instagram Graph API). Abgerundet, damit die Zahl auch morgen noch stimmt. Elias will
+ * „über 14.000“ (Vault raw 2026-10-08-elias-funnel-instagram-zahl-und-bekannte-logos.md): umstellen,
+ * sobald die Messung 14.000 zeigt.
  */
-export const instagramFollower = "11.900";
+export const instagramFollower = "13.800";
 
 /**
  * Alle Anbieter aus den Vergleichen, jedes Haus einmal. Wächst mit den Daten. Ohne den

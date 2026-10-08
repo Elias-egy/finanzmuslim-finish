@@ -61,10 +61,9 @@ const Top100Voll = () => (
               Stand & Status
             </div>
             <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">
-              <b>Musaffa-Einzelprüfung, 20.08.2026.</b> Alle 100 Titel einzeln geprüft und halal. Sechs
-              Titel, die Musaffa als fraglich führt, sind am 27.09.2026 durch neu geprüfte ersetzt. Halal-
-              und Boykottstatus können sich jederzeit ändern und sollten vor einer Entscheidung erneut
-              geprüft werden.
+              <b>Musaffa-Einzelprüfung, 20.08. und 27.09.2026.</b> Alle 100 Titel einzeln geprüft und
+              halal. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer
+              Entscheidung erneut geprüft werden.
             </p>
           </div>
           <div>
@@ -93,7 +92,7 @@ const Top100Voll = () => (
                 rang={a.rang}
                 name={a.name}
                 ticker={a.ticker}
-                bekanntFuer={a.geprueft ? `${a.bekanntFuer} · neu geprüft ${a.geprueft}` : a.bekanntFuer}
+                bekanntFuer={a.geprueft ? `${a.bekanntFuer} · geprüft ${a.geprueft}` : a.bekanntFuer}
                 status={a.status}
                 highlight={a.rang >= 96}
               />
