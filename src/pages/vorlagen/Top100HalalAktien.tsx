@@ -1,3 +1,4 @@
+import { BadgeCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
 import { vorlageBySlug } from "@/data/vorlagen";
@@ -71,7 +72,11 @@ const Top100HalalAktien = () => (
       ]}
     >
       <section className="rounded-2xl bg-hero p-6 md:p-8">
-        <div className="grid gap-4 sm:grid-cols-2">
+        <p className="flex items-start gap-3 text-[22px] font-bold leading-tight text-foreground md:text-[28px]">
+          <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-primary md:h-8 md:w-8" aria-hidden />
+          Alle 100 Aktien einzeln mit Musaffa geprüft
+        </p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <div>
             <div className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
               Stand & Status
