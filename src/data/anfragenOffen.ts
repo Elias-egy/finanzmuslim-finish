@@ -4,7 +4,6 @@ export const ANFRAGEN_STAND = "08.10.2026";
 
 export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "1822direkt",
-  "bbbank",
   "bitget",
   "bux",
   "commerzbank",
@@ -17,12 +16,10 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "geno-broker",
   "gls",
   "joe-broker",
-  "maxblue",
   "norisbank",
   "pax-bank",
   "plus500",
   "santander",
-  "sbroker",
   "smartbroker",
   "targobank",
   "traders-place",
