@@ -24,6 +24,9 @@ import { kante, offen } from "@/data/vertragsAmpelAusschnitt";
 const v = vorlageBySlug("vertrags-ampel")!;
 const freebie = optinFreebie("vertrags-ampel")!;
 
+/** So viele Namen stehen lesbar an der Schranke, darunter läuft die Liste verschwommen aus. */
+const AN_DER_KANTE = 3;
+
 const VertragsAmpel = () => (
   <>
     <Seo
@@ -55,16 +58,13 @@ const VertragsAmpel = () => (
             <AmpelKarte key={z.vertrag} z={z} />
           ))}
         </div>
-
-        <h3 className="mt-8 text-[17px] font-bold text-foreground">{freebie.frage}</h3>
-        <div className="card-surface mt-3 overflow-hidden p-0">
-          {kante.map((z) => (
-            <GesperrteZeile key={z.vertrag} name={z.vertrag} unterzeile={z.unter} verborgen="Farbe und Bedingung nach der Anmeldung" />
-          ))}
-        </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere="Alle zwölf Verträge mit Farbe, Bedingung und drei Fragen" />
+      <Schnittkante freebie={freebie} weitere="Alle zwölf Verträge mit Farbe, Bedingung und drei Fragen">
+        {kante.slice(0, AN_DER_KANTE).map((z) => (
+          <GesperrteZeile key={z.vertrag} name={z.vertrag} unterzeile={z.unter} verborgen="Farbe und Bedingung nach der Anmeldung" />
+        ))}
+      </Schnittkante>
     </VorlagenSeite>
   </>
 );

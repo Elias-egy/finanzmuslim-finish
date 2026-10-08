@@ -15,6 +15,9 @@ import { ANZAHL_FAELLE, kante, offen } from "@/data/goldCheckAusschnitt";
 const v = vorlageBySlug("gold-check")!;
 const freebie = optinFreebie("gold-check")!;
 
+/** So viele Namen stehen lesbar an der Schranke, darunter läuft die Liste verschwommen aus. */
+const AN_DER_KANTE = 3;
+
 const GoldCheck = () => (
   <>
     <Seo
@@ -48,16 +51,13 @@ const GoldCheck = () => (
             <FallKarte key={f.id} f={f} />
           ))}
         </div>
-
-        <h3 className="mt-8 text-[17px] font-bold text-foreground">{freebie.frage}</h3>
-        <div className="card-surface mt-3 overflow-hidden p-0">
-          {kante.map((f) => (
-            <GesperrteZeile key={f.id} name={f.fall} unterzeile={f.unter} verborgen="Urteil, Grund und Beispiel nach der Anmeldung" />
-          ))}
-        </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_FAELLE} Wege mit Urteil, Grund und Beispiel`} />
+      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_FAELLE} Wege mit Urteil, Grund und Beispiel`}>
+        {kante.slice(0, AN_DER_KANTE).map((f) => (
+          <GesperrteZeile key={f.id} name={f.fall} unterzeile={f.unter} verborgen="Urteil, Grund und Beispiel nach der Anmeldung" />
+        ))}
+      </Schnittkante>
     </VorlagenSeite>
   </>
 );

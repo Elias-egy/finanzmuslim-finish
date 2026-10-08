@@ -17,6 +17,9 @@ import { RIZQ_CTAS, RIZQ_EINLEITUNG, RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqHinwe
 const v = vorlageBySlug("rizq")!;
 const freebie = optinFreebie("rizq")!;
 
+/** So viele Namen stehen lesbar an der Schranke, darunter läuft die Liste verschwommen aus. */
+const AN_DER_KANTE = 3;
+
 const Rizq = () => (
   <>
     <Seo
@@ -47,16 +50,13 @@ const Rizq = () => (
             <DuaKarte key={d.nr} d={d} />
           ))}
         </div>
-
-        <h3 className="mt-8 text-[17px] font-bold text-foreground">{freebie.frage}</h3>
-        <div className="card-surface mt-3 overflow-hidden p-0">
-          {kante.map((k) => (
-            <GesperrteZeile key={k.nr} name={k.name} unterzeile={k.wann} verborgen="Wortlaut nach der Anmeldung" />
-          ))}
-        </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere="Alle 14 Duas nach Anliegen, mit Arabisch und Fundstelle" />
+      <Schnittkante freebie={freebie} weitere="Alle 14 Duas nach Anliegen, mit Arabisch und Fundstelle">
+        {kante.slice(0, AN_DER_KANTE).map((k) => (
+          <GesperrteZeile key={k.nr} name={k.name} unterzeile={k.wann} verborgen="Wortlaut nach der Anmeldung" />
+        ))}
+      </Schnittkante>
 
       <RizqHinweis />
     </VorlagenSeite>

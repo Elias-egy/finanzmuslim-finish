@@ -24,6 +24,9 @@ import { ANZAHL_ANBIETER, kante, titelVon } from "@/data/autoAboCheckAusschnitt"
 const v = vorlageBySlug("auto-abo-check")!;
 const freebie = optinFreebie("auto-abo-check")!;
 
+/** So viele Namen stehen lesbar an der Schranke, darunter läuft die Liste verschwommen aus. */
+const AN_DER_KANTE = 4;
+
 const AutoAboCheck = () => (
   <>
     <Seo
@@ -48,19 +51,22 @@ const AutoAboCheck = () => (
       <WasAboAndersMacht />
       <AboLegende />
 
-      <section>
-        <h2 className="text-2xl font-bold text-foreground">{freebie.frage}</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">
-          Sieh, welche Anbieter geprüft sind. Urteil, Klauseln und Preise gibt es gegen deine E-Mail.
-        </p>
-        <div className="card-surface mt-4 overflow-hidden p-0">
-          {kante.map((a) => (
-            <GesperrteZeile key={a.id} name={titelVon(a)} unterzeile={a.unter} verborgen="Urteil und Klauseln nach der Anmeldung" />
-          ))}
-        </div>
-      </section>
-
-      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_ANBIETER} Anbieter mit Urteil, Wortlaut und Rechenbeispiel`} />
+      <Schnittkante
+        freebie={freebie}
+        weitere={`Alle ${ANZAHL_ANBIETER} Anbieter mit Urteil, Wortlaut und Rechenbeispiel`}
+        kopf={
+          <>
+            <h2 className="text-2xl font-bold text-foreground">{freebie.frage}</h2>
+            <p className="mt-2 text-[15px] text-muted-foreground">
+              Sieh, welche Anbieter geprüft sind. Urteil, Klauseln und Preise gibt es gegen deine E-Mail.
+            </p>
+          </>
+        }
+      >
+        {kante.slice(0, AN_DER_KANTE).map((a) => (
+          <GesperrteZeile key={a.id} name={titelVon(a)} unterzeile={a.unter} verborgen="Urteil und Klauseln nach der Anmeldung" />
+        ))}
+      </Schnittkante>
     </VorlagenSeite>
   </>
 );

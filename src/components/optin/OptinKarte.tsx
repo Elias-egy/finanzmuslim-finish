@@ -139,7 +139,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
   const Ueberschrift = variante === "seite" ? "h1" : "h2";
 
   return (
-    <div className="relative overflow-hidden rounded-[1.75rem] border border-primary/15 bg-card p-6 text-left shadow-[0_24px_60px_-32px_hsl(var(--primary)/0.55)] sm:p-8">
+    <div className="relative overflow-hidden rounded-[1.75rem] border border-primary/20 bg-card p-6 text-left shadow-[0_28px_64px_-28px_hsl(var(--primary)/0.6),0_0_44px_-6px_hsl(219_100%_62%/0.28)] sm:p-8">
       {/* Glanz: ein feiner Farbverlauf an der Oberkante, sonst bleibt die Karte ruhig. */}
       <span
         aria-hidden
@@ -233,7 +233,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                   {fehler}
                 </p>
               )}
-              <button type="submit" disabled={sendet} className="btn-spark mt-1 sm:w-full disabled:opacity-60">
+              <button type="submit" disabled={sendet} className="btn-leuchte mt-1 h-[52px] w-full px-6 text-[17px] disabled:opacity-60">
                 {sendet ? "Wird gesendet …" : freebie.knopf}
                 {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
               </button>
@@ -308,7 +308,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
               type="button"
               disabled={!vorhaben.length}
               onClick={() => fertig(vorhaben)}
-              className="btn-spark mt-5 w-full disabled:opacity-50"
+              className="btn-leuchte mt-5 h-[52px] w-full px-6 text-[17px] disabled:opacity-50"
             >
               Weiter
               <ArrowRight className="h-5 w-5" aria-hidden />

@@ -78,22 +78,19 @@ const Top100HalalAktien = () => (
 
       <section>
         <h2 className="text-2xl font-bold text-foreground">Ein Blick in die Liste</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">Sechs Titel offen, der Rest mit Ergebnis gegen deine E-Mail.</p>
+        <p className="mt-2 text-[15px] text-muted-foreground">Drei Titel offen, der Rest mit Ergebnis gegen deine E-Mail.</p>
         <div className="card-surface mt-4 overflow-hidden p-0">
           {offen.map((a) => (
             <AktienZeile key={a.ticker} name={a.name} ticker={a.ticker} bekanntFuer={a.bekanntFuer} status="Halal" />
           ))}
         </div>
-
-        <h3 className="mt-8 text-[17px] font-bold text-foreground">{freebie.frage}</h3>
-        <div className="card-surface mt-3 overflow-hidden p-0">
-          {kante.map((a) => (
-            <AktienZeile key={a.name} name={a.name} bekanntFuer={a.bekanntFuer} status="offen" />
-          ))}
-        </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere="Alle 100 Titel mit Ergebnis und Fundstelle" />
+      <Schnittkante freebie={freebie} weitere="Alle 100 Titel mit Ergebnis und Fundstelle">
+        {kante.map((a) => (
+          <AktienZeile key={a.name} name={a.name} bekanntFuer={a.bekanntFuer} status="offen" />
+        ))}
+      </Schnittkante>
 
       <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>

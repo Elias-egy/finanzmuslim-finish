@@ -177,6 +177,44 @@
   .btn-spark {
     @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-[17px] font-bold text-primary-foreground shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.8)] transition hover:bg-primary-hover hover:-translate-y-px sm:w-auto;
   }
+  /* Leuchtender Haupt-Knopf der Opt-in-Strecke (Elias, 08.10.2026, Vorbild SKAILE-Danke-Seite):
+     Verlauf, helle Oberkante, dunkle Unterkante, weicher Schein darunter, dazu alle paar
+     Sekunden ein Lichtstreif. Der hellste Ton des Verlaufs hält Weiß bei 4,5:1. */
+  .btn-leuchte {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl font-bold text-primary-foreground transition;
+    background: linear-gradient(180deg, #1f6bff 0%, hsl(var(--primary)) 55%, hsl(219 100% 43%) 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      inset 0 -1px 0 rgb(0 0 0 / 0.14),
+      0 5px 0 0 hsl(219 100% 34%),
+      0 18px 34px -10px hsl(var(--primary) / 0.75),
+      0 0 30px 0 hsl(219 100% 62% / 0.38);
+  }
+  .btn-leuchte:hover {
+    transform: translateY(-1px);
+  }
+  .btn-leuchte:active {
+    transform: translateY(3px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      0 2px 0 0 hsl(219 100% 34%),
+      0 8px 18px -10px hsl(var(--primary) / 0.7);
+  }
+  .btn-leuchte::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    bottom: -30%;
+    left: 0;
+    width: 34%;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent 0%, rgb(255 255 255 / 0.26) 50%, transparent 100%);
+    transform: translateX(-160%) skewX(-18deg);
+    animation: leuchte-streif 5s ease-in-out 1.2s infinite;
+  }
+  .btn-leuchte:disabled::after {
+    animation: none;
+  }
   .btn-primary {
     @apply inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto;
   }
@@ -295,4 +333,13 @@
 .laufband:focus-within { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .laufband { animation: none; }
+}
+
+/* Lichtstreif über dem leuchtenden Knopf: ein kurzer Durchlauf, dann vier Sekunden Ruhe. */
+@keyframes leuchte-streif {
+  0% { transform: translateX(-160%) skewX(-18deg); }
+  22%, 100% { transform: translateX(420%) skewX(-18deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-leuchte::after { animation: none; }
 }

@@ -37,9 +37,14 @@ const bekannteZuerst = (logos: LogoAnbieter[]): LogoAnbieter[] => {
   return [...vorn, ...logos.filter((a) => !BEKANNT.includes(a.name))];
 };
 
-/** Anbieter-Logos am Netz, je Haus eines: erst die bekannten, dann Partner aus Depot und Girokonto. */
+/**
+ * Anbieter-Logos am Netz, je Haus eines: erst die bekannten, dann Partner aus Depot und Girokonto.
+ * Die bekannten Namen kommen aus beiden Vergleichen, Revolut steht nur beim Girokonto.
+ */
 const netzLogos = (): LogoAnbieter[] => {
-  const alle = [...bekannteZuerst(logosFuer("Depot").logos).slice(0, 6), ...logosFuer("Girokonto").logos.slice(0, 4)];
+  const depot = logosFuer("Depot").logos;
+  const giro = logosFuer("Girokonto").logos;
+  const alle = bekannteZuerst([...depot.slice(0, 6), ...giro.slice(0, 4), ...depot.slice(6), ...giro.slice(4)]);
   const gesehen = new Set<string>();
   return alle.filter((a) => (gesehen.has(a.domain ?? a.name) ? false : (gesehen.add(a.domain ?? a.name), true))).slice(0, 8);
 };
@@ -66,7 +71,9 @@ const Kopfband = () => {
     <section aria-hidden className="relative h-[230px] overflow-hidden md:h-[320px]">
       {/* Der Verlauf endet zwei Pixel über der Unterkante, sonst blitzt an der Schnittkante
           des Bogens eine graue Linie durch. */}
-      <span className="absolute inset-x-0 bottom-0.5 top-0 bg-[radial-gradient(120%_90%_at_50%_0%,#0B3FA8_0%,#07286E_45%,#041A4A_100%)]" />
+      <span className="absolute inset-x-0 bottom-0.5 top-0 bg-[radial-gradient(120%_95%_at_50%_0%,#1D5FE0_0%,#0D43B4_36%,#07297A_72%,#052061_100%)]" />
+      {/* Licht von unten: Der Schein hinter dem Porträt läuft in den hellen Bogen aus (Elias, 08.10.2026: „leuchtender“). */}
+      <span className="absolute inset-x-0 bottom-0 h-[62%] bg-[radial-gradient(70%_100%_at_50%_100%,rgba(140,185,255,0.6)_0%,rgba(82,142,255,0.28)_45%,transparent_100%)]" />
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
         {knoten.slice(0, logos.length).map((k, i) => (
           <line
@@ -76,7 +83,7 @@ const Kopfband = () => {
             x2={k.x}
             y2={k.y}
             stroke="white"
-            strokeOpacity="0.16"
+            strokeOpacity="0.24"
             strokeWidth="0.25"
             vectorEffect="non-scaling-stroke"
             className={k.md ? "hidden md:block" : undefined}
@@ -93,7 +100,7 @@ const Kopfband = () => {
               x2={n.x}
               y2={n.y}
               stroke="white"
-              strokeOpacity="0.08"
+              strokeOpacity="0.12"
               strokeWidth="0.25"
               vectorEffect="non-scaling-stroke"
               className={k.md || n.md ? "hidden md:block" : undefined}
@@ -103,7 +110,7 @@ const Kopfband = () => {
       </svg>
 
       <span
-        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-primary text-[26px] font-extrabold leading-none text-white shadow-[0_0_0_6px_rgba(255,255,255,0.08),0_0_48px_12px_rgba(82,142,255,0.55)] md:h-14 md:w-14"
+        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-primary text-[26px] font-extrabold leading-none text-white shadow-[0_0_0_6px_rgba(255,255,255,0.12),0_0_26px_6px_rgba(160,200,255,0.75),0_0_72px_22px_rgba(82,142,255,0.7)] md:h-14 md:w-14"
         style={{ left: `${MITTE.x}%`, top: `${MITTE.y}%` }}
       >
         F
@@ -112,7 +119,7 @@ const Kopfband = () => {
       {logos.map((a, i) => (
         <span
           key={a.domain ?? a.name}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/15 bg-white/10 p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] ${
+          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/25 bg-white/15 p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45),0_0_22px_0_rgba(120,170,255,0.35)] ${
             knoten[PLATZ[i]].md ? "hidden md:block" : ""
           }`}
           style={{ left: `${knoten[PLATZ[i]].x}%`, top: `${knoten[PLATZ[i]].y}%` }}
@@ -121,7 +128,7 @@ const Kopfband = () => {
         </span>
       ))}
 
-      <span className="absolute bottom-0 left-1/2 h-[260px] w-[340px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(82,142,255,0.55),transparent)] md:h-[340px] md:w-[460px]" />
+      <span className="absolute bottom-0 left-1/2 h-[280px] w-[380px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(190,215,255,0.7)_0%,rgba(110,165,255,0.5)_42%,transparent_100%)] md:h-[380px] md:w-[540px]" />
       <img
         src={eliasFreigestellt}
         alt=""
@@ -133,14 +140,9 @@ const Kopfband = () => {
   );
 };
 
-/** Haupt-Knopf mit sichtbarer Unterkante wie bei SKAILE. */
+/** Haupt-Knopf wie bei SKAILE: Verlauf, helle Oberkante, dunkle Unterkante, Schein darunter (`.btn-leuchte`). */
 const TestKnopf = ({ ziel, klein = false }: { ziel: string; klein?: boolean }) => (
-  <Link
-    to={ziel}
-    className={`inline-flex items-center justify-center gap-2 rounded-xl bg-primary font-bold text-primary-foreground shadow-[0_5px_0_0_hsl(219_100%_36%),0_16px_30px_-14px_hsl(var(--primary)/0.8)] transition hover:bg-primary-hover active:translate-y-[3px] active:shadow-[0_2px_0_0_hsl(219_100%_36%)] ${
-      klein ? "h-11 px-4 text-[15px]" : "h-14 w-full px-10 text-[18px] sm:w-auto"
-    }`}
-  >
+  <Link to={ziel} className={`btn-leuchte ${klein ? "h-11 px-4 text-[15px]" : "h-14 w-full px-10 text-[18px] sm:w-auto"}`}>
     Jetzt testen
     {!klein && <ArrowRight className="h-5 w-5" aria-hidden />}
   </Link>
@@ -286,7 +288,7 @@ const Danke = () => {
       <section className="container relative z-30 -mt-2 text-center md:-mt-4">
         <div
           role="status"
-          className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0 rounded-2xl border border-gain/40 bg-card px-3 py-1 text-[14px] text-foreground sm:gap-x-2 sm:px-4 sm:text-[15px] shadow-[0_10px_30px_-18px_rgba(4,26,74,0.5)]"
+          className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0 rounded-2xl border border-gain/40 bg-card px-3 py-1 text-[14px] text-foreground sm:gap-x-2 sm:px-4 sm:text-[15px] shadow-[0_12px_32px_-14px_hsl(var(--primary)/0.55),0_0_0_4px_hsl(var(--primary)/0.06)]"
         >
           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gain text-white">
             <Check className="h-3.5 w-3.5" aria-hidden />
@@ -296,9 +298,10 @@ const Danke = () => {
               <span>{gross(freebie.deinObjekt)} ist freigeschaltet.</span>
               <Link
                 to={vollPfad(freebie, state?.stufe)}
-                className="inline-flex min-h-[44px] items-center font-semibold text-primary underline underline-offset-2"
+                className="inline-flex min-h-[44px] items-center gap-1 font-bold text-primary underline underline-offset-2"
               >
                 Direkt öffnen
+                <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </>
           ) : (

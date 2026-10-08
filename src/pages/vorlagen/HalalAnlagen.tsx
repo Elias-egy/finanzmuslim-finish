@@ -26,6 +26,8 @@ import { ANZAHL_KAUFBAR, gruppen, kante, offen } from "@/data/halalAnlagenAussch
  */
 const v = vorlageBySlug("halal-anlagen")!;
 const freebie = optinFreebie("halal-anlagen")!;
+/** So viele Zeilen stehen lesbar an der Schranke, darunter läuft die Liste verschwommen aus. */
+const AN_DER_KANTE = 4;
 const anlage = (slug: string) => halalAnlagen.find((a) => a.slug === slug)!;
 
 const HalalAnlagen = () => (
@@ -81,21 +83,18 @@ const HalalAnlagen = () => (
         {offen.some((o) => o.kaufbar.kaufbar.some((k) => DEPOT_PARTNER[k.anbieter])) && (
           <p className="mt-3 text-[13px] text-muted-foreground">{WERBE_FUSSNOTE}</p>
         )}
-
-        <h3 className="mt-8 text-[17px] font-bold text-foreground">{freebie.frage}</h3>
-        <div className="card-surface mt-3 overflow-hidden p-0">
-          {kante.map((k) => (
-            <GesperrteZeile
-              key={k.name}
-              name={k.name}
-              unterzeile={`${k.anzahl} Anlagen mit Kaufbeleg`}
-              verborgen="Anlagen und Anbieter nach der Anmeldung"
-            />
-          ))}
-        </div>
       </section>
 
-      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_KAUFBAR} Anlagen mit ihren Anbietern`} />
+      <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_KAUFBAR} Anlagen mit ihren Anbietern`}>
+        {kante.slice(0, AN_DER_KANTE).map((k) => (
+          <GesperrteZeile
+            key={k.name}
+            name={k.name}
+            unterzeile={`${k.anzahl} Anlagen mit Kaufbeleg`}
+            verborgen="Anlagen und Anbieter nach der Anmeldung"
+          />
+        ))}
+      </Schnittkante>
     </VorlagenSeite>
   </>
 );

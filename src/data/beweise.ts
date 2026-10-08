@@ -1,8 +1,4 @@
-import { brokerVergleich } from "@/data/brokerVergleich";
-import { girokontoVergleich } from "@/data/girokontoVergleich";
-import { kryptoVergleich } from "@/data/kryptoVergleich";
-import { screenerVergleich } from "@/data/screenerVergleich";
-import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
+import { depotAnzeige, girokontoAnzeige, kryptoAnzeige, screenerAnzeige, steuerAnzeige } from "@/data/vergleichAnzeige";
 
 /**
  * Zahlen für die Beweisleiste der Danke-Seite (Vorbild SKAILE, Vault raw
@@ -19,17 +15,15 @@ import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
 export const instagramFollower = "13.800";
 
 /**
- * Alle Anbieter aus den Vergleichen, jedes Haus einmal. Wächst mit den Daten. Ohne den
- * Edelmetall-Vergleich: Der vergleicht Produktformen (Barren, Sparplan, ETC), keine Anbieter.
+ * Alle Anbieter, die die Vergleiche zeigen, jedes Haus einmal (gleiche Domain, gleiches Haus).
+ * Gezählt wird die Anzeige, nicht die Datendatei: Die Zahl stimmt mit dem überein, was der
+ * Besucher im Vergleich findet, und wächst mit jedem Beleg. Ohne den Edelmetall-Vergleich: Der
+ * vergleicht Produktformen (Barren, Sparplan, ETC), keine Anbieter.
  */
 export const anbieterZahl = new Set(
-  [
-    ...brokerVergleich,
-    ...girokontoVergleich,
-    ...kryptoVergleich,
-    ...steuersoftwareVergleich,
-    ...screenerVergleich,
-  ].map((a) => a.name.trim().toLowerCase()),
+  [...depotAnzeige, ...girokontoAnzeige, ...kryptoAnzeige, ...steuerAnzeige, ...screenerAnzeige].map((a) =>
+    (("domain" in a && a.domain) || a.name).trim().toLowerCase(),
+  ),
 ).size;
 
 /** Die Vergleichsseiten, die es gibt, fürs Laufband „Vergleiche für“. */

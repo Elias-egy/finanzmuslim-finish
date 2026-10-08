@@ -106,6 +106,31 @@ const Datenschutz = () => (
           New York, NY 10007, USA. Celonis, Inc. ist nach dem EU-US Data Privacy Framework
           zertifiziert. Beide Anbieter verarbeiten die Daten in unserem Auftrag nach Art. 28 DSGVO.
         </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Schreibst du uns auf Instagram ein Stichwort als Kommentar oder Nachricht, antwortet dir
+          ein automatischer Ablauf und schickt dir den Link zu dem, was du angefordert hast. Dafür
+          nutzen wir ManyChat (Manychat, Inc., 8605 Santa Monica Blvd, #64372, West Hollywood, CA
+          90069, USA). ManyChat verarbeitet dabei deinen Instagram-Namen, deine Nachricht und deine
+          Antworten im Ablauf, auch eine E-Mail-Adresse, wenn du sie dort eingibst. Das geschieht in
+          unserem Auftrag nach Art. 28 DSGVO. Nach Angaben von ManyChat liegen die Daten in einem
+          Rechenzentrum in Frankfurt. Manychat, Inc. ist nach dem EU-US Data Privacy Framework
+          zertifiziert. Rechtsgrundlage ist unser berechtigtes Interesse, deine Anfrage zu
+          beantworten (Art. 6 Abs. 1 lit. f DSGVO).
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Verantwortlich für Instagram ist nach der Datenschutzrichtlinie von Meta die Meta
+          Platforms Ireland Limited, Merrion Road, Dublin 4, D04 X2K5, Irland. Was Meta mit deinen
+          Kommentaren und Nachrichten macht, steht dort:{" "}
+          <a
+            href="https://privacycenter.instagram.com/policy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2"
+          >
+            Datenschutzrichtlinie von Meta
+          </a>
+          .
+        </p>
         {/* Offen vor dem Livegang: Vertragspartner für Make mit Elias' Make-Rechnung abgleichen.
             Makes AV-Vertrag (Version Mai 2024, Ziffer 7) kennt Celonis, Inc. (USA, DPF) und
             Celonis-Firmen in der EU. Stand der Angaben: 24.09.2026. */}
@@ -159,7 +184,7 @@ const Datenschutz = () => (
         <h2 className="text-xl font-semibold mb-4">8. Weitergabe an Dritte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Wir geben deine Daten nicht an unbefugte Dritte weiter. Außer den oben genannten
-          Dienstleistern (GitHub, MailerLite, Make, Tally, logo.dev) setzen wir keine weiteren
+          Dienstleistern (GitHub, MailerLite, Make, ManyChat, Tally, logo.dev) setzen wir keine weiteren
           Auftragsverarbeiter ein.
         </p>
       </section>
@@ -190,7 +215,7 @@ const Datenschutz = () => (
           <br />
           E-Mail: elias@finanzmuslim.com
         </p>
-        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 28. September 2026</p>
+        <p className="mt-3 text-[13px] text-muted-foreground">Stand: 9. Oktober 2026</p>
       </section>
 
     </main>
