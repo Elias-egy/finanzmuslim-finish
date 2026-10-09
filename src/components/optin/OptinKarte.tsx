@@ -325,7 +325,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
 const Fuss = ({ adresse, andereAdresse, ueberspringen }: { adresse: string; andereAdresse: () => void; ueberspringen: () => void }) => (
   <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
     <p className="min-w-0 text-[13px] text-muted-foreground">
-      Gespeichert: <span className="break-all">{adresse.trim()}</span>{" "}
+      Gespeichert: <span className="[overflow-wrap:anywhere]">{adresse.trim()}</span>{" "}
       <button type="button" onClick={andereAdresse} className="min-h-[44px] underline underline-offset-2 hover:text-foreground">
         Andere Adresse
       </button>
