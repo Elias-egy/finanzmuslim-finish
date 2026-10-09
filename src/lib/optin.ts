@@ -21,8 +21,11 @@ import { quelleAusPfad, spracheAus, type Sprache } from "@/lib/anmeldung";
 export const OPTIN_WEBHOOK = "https://hook.eu1.make.com/dfaovmwbhhnd7wtdgfwkdf82inyyk820";
 export const NACHTRAG_WEBHOOK = "https://hook.eu1.make.com/di13npa7ith0tguzhc954mint11yje1i";
 
-/** Fassung des Einwilligungstexts auf der Karte. Neue Fassung, neuer Wert. */
-export const EINWILLIGUNG = "karte-2026-09-27";
+/**
+ * Fassung des Einwilligungstexts auf der Karte. Neue Fassung, neuer Wert. Seit 09.10.2026 ein
+ * Satz für alle Karten, ohne den Namen des Freebies (`EINWILLIGUNG_TEXT` in `OptinKarte.tsx`).
+ */
+export const EINWILLIGUNG = "karte-2026-10-09";
 
 export type Stufe = "einsteiger" | "fortgeschritten" | "profi";
 
@@ -60,6 +63,7 @@ export const optinDaten = ({
   src,
   lang,
   firma,
+  einwilligung = EINWILLIGUNG,
 }: {
   email: string;
   vorname: string;
@@ -68,6 +72,8 @@ export const optinDaten = ({
   src?: string | null;
   lang: string | undefined;
   firma: string;
+  /** Wer wiederkommt, schickt die Fassung mit, die er damals angehakt hat (`src/lib/merken.ts`). */
+  einwilligung?: string;
 }): OptinDaten => ({
   email: email.trim(),
   vorname: vorname.trim(),
@@ -75,7 +81,7 @@ export const optinDaten = ({
   quelle: quelleFuer(pfad, src),
   sprache: spracheAus(lang),
   firma,
-  einwilligung: EINWILLIGUNG,
+  einwilligung,
 });
 
 type FetchFn = (url: string, init: RequestInit) => Promise<Pick<Response, "ok" | "status" | "text">>;
