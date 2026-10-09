@@ -72,13 +72,6 @@ const Datenschutz = () => (
           Finanzwissen.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
-          Bis zum Start am 9. Oktober 2026 kannst du dich auf unserer Warteliste eintragen. Du
-          bekommst dann nach der Bestätigung die Liste der Halal-Anlagen, zum Start eine E-Mail und
-          danach den Freitagsbrief. Damit die Seite sich merkt, dass du sie über einen Zugangslink
-          oder einen Guide-Link geöffnet hast, legt sie dafür einen Eintrag in deinem Browser ab
-          (§ 25 Abs. 2 Nr. 2 TDDDG). Er enthält keine Angaben zu dir, wird nach dem Start nicht mehr genutzt und lässt sich in deinem Browser jederzeit löschen.
-        </p>
-        <p className="mt-3 text-muted-foreground leading-relaxed">
           Damit du deine Angaben nicht für jede Vorlage neu eingeben musst, legt die Seite nach
           deinem Klick auf den Knopf des Formulars einen Eintrag in deinem Browser ab (§ 25 Abs. 2
           Nr. 2 TDDDG). Er enthält deine E-Mail-Adresse, deinen Vornamen, die Fassung und den Tag

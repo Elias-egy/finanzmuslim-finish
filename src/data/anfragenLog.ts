@@ -202,7 +202,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "info@bbbank.de", kern: "Neue Mail als finanzmuslim.com: Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree im BBBank Depot.", von: "elias@finanzmuslim.com" },
     { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "autoreply@bbbank.de", automatisch: true, kern: "Automatische Eingangsbestätigung (Zoho Spam 5)." },
     { datum: "08.10.2026", richtung: "rein", kanal: "Mail", adresse: "jan.filler@bbbank.de", kern: "BBDirekt Wertpapier (Zoho INBOX 598): keine Auskunft, bittet um die Wertpapierkennnummern oder ISINs, gern als Tabelle (belege/bbbank/2026-10-08-antwort-bittet-um-isins.txt)." },
-  ], naechsterSchritt: "Antwort mit den 15 ISINs liegt seit 08.10.2026 als Entwurf in Zoho, Elias sendet. Danach als Vorgang „raus“ nachtragen und die Antwort abwarten." },
+    { datum: "09.10.2026", richtung: "raus", kanal: "Mail", adresse: "jan.filler@bbbank.de", kern: "Antwort im Faden mit Tabelle der 15 Papiere (Name und ISIN): Kann man jedes im BBBank Depot kaufen? (Zoho Gesendet 120).", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die Tabelle vom 09.10.2026 abwarten. Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
   maxblue: { anbieter: "maxblue", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "info.maxblue@db.com", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", kern: "Auskunft nur nach Legitimation." },

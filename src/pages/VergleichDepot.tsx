@@ -1,6 +1,7 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { juengsterStand } from "@/lib/juengsterStand";
 
 const VergleichDepot = () => (
   <VergleichsSeite
@@ -28,7 +29,8 @@ const VergleichDepot = () => (
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
-    stand="14.09.2026"
+    stand={juengsterStand(depotAnzeige, "14.09.2026")}
+    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
