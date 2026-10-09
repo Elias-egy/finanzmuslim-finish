@@ -8,7 +8,7 @@ import { faelle, fragen, gutZuWissen } from "@/data/goldCheck";
 
 /**
  * Der volle Gold-Check, nur über die Danke-Seite und den Link aus der Mail (noindex, nicht in der
- * Sitemap). Nach Farbe gruppiert wie die Vertrags-Ampel, dazu drei Fragen vor jedem Goldkauf.
+ * Sitemap). Nach Farbe gruppiert wie der Halal Vertrags-Check, dazu drei Fragen vor jedem Goldkauf.
  * Die offene Seite ist `GoldCheck.tsx`.
  */
 const v = vorlageBySlug("gold-check")!;

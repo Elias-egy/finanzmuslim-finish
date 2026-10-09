@@ -71,7 +71,7 @@ const abschnitte: BeitragAbschnitt[] = [
           </p>
         </Hinweis>
         <p>
-          Deshalb steht Leasing in unserer <L to="/vorlagen/vertrags-ampel">Vertrags-Ampel</L> auf Gelb und
+          Deshalb steht Leasing in unserem <L to="/vorlagen/vertrags-ampel">Halal Vertrags-Check</L> auf Gelb und
           nicht auf Grün. Es hängt an einer Bedingung, die die wenigsten Verträge von selbst erfüllen.
         </p>
       </>
@@ -316,7 +316,7 @@ const IstLeasingHaram = () => (
         ueberschrift: "Leasing und elf weitere Verträge auf einen Blick",
         linkZiel: "/vorlagen/vertrags-ampel",
         text: "Grün, gelb oder rot für zwölf Verträge aus dem Alltag.",
-        knopf: "Zur Vertrags-Ampel",
+        knopf: "Zum Halal Vertrags-Check",
       }}
       boxMitte={{
         kategorie: "Depot",

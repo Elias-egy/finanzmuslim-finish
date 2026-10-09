@@ -6,7 +6,7 @@ import NotFound from "@/pages/NotFound";
 import { ausgabeAusSlug, ausgabePfad, datumLang, nachbarn } from "@/data/newsletterAusgaben";
 
 /**
- * Eine Ausgabe des Freitagsbriefs als Seite. Gleiche Rubriken und Reihenfolge wie in
+ * Eine Ausgabe der Halal-News als Seite. Gleiche Rubriken und Reihenfolge wie in
  * der Mail, Werbeplätze bleiben drin und sind gekennzeichnet. Am Ende das Anmeldefeld,
  * darunter vorige und nächste Ausgabe (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
  */
@@ -20,14 +20,14 @@ const NewsletterAusgabe = () => {
   return (
     <main className="bg-background">
       <Seo
-        title={`${ausgabe.titel} | Freitagsbrief Nr. ${ausgabe.nr}`}
+        title={`${ausgabe.titel} | Halal-News Nr. ${ausgabe.nr}`}
         description={ausgabe.kurz}
         path={ausgabePfad(ausgabe)}
         noindex
       />
       <article className="container py-12 md:py-16">
         <header className="mx-auto max-w-[700px]">
-          <p className="text-[13px] font-bold uppercase tracking-wide text-violet">Freitagsbrief Nr. {ausgabe.nr}</p>
+          <p className="text-[13px] font-bold uppercase tracking-wide text-violet">Halal-News Nr. {ausgabe.nr}</p>
           <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground md:text-4xl">{ausgabe.titel}</h1>
           <p className="mt-3 text-[14px] text-muted-foreground">
             {datumLang(ausgabe.datum)} · {ausgabe.lesezeitMin} Minuten Lesezeit

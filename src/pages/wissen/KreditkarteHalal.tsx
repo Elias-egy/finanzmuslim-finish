@@ -341,7 +341,7 @@ const KreditkarteHalal = () => (
         ueberschrift: "Vertragsklauseln, an denen es kippt",
         linkZiel: "/vorlagen/vertrags-ampel",
         text: "Woran du im Kleingedruckten eine Zinsklausel erkennst.",
-        knopf: "Zur Vertrags-Ampel",
+        knopf: "Zum Halal Vertrags-Check",
       }}
     >
       <PasstDazu

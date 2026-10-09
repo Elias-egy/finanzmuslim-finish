@@ -4,7 +4,7 @@ import { MailCheck } from "lucide-react";
 import { anmeldeDaten, emailGueltig, freitagsbriefAnmelden } from "@/lib/anmeldung";
 
 /**
- * Anmeldefeld für den Freitagsbrief. Eine Logik für den Newsletter-Kasten und die
+ * Anmeldefeld für die Halal-News. Eine Logik für den Newsletter-Kasten und die
  * Startseite, nur die Gestaltung unterscheidet sich (`variante`).
  * Versand und Felder: `src/lib/anmeldung.ts`.
  */
@@ -114,7 +114,7 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
         </p>
       )}
       <p className={s.text}>
-        Du bekommst jeden Freitag meinen Freitagsbrief mit Tipps und Empfehlungen. Abmelden geht mit einem Klick.
+        Du bekommst jeden Freitag meine Halal-News mit Tipps und Empfehlungen. Abmelden geht mit einem Klick.
         Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
         <Link to="/datenschutz" className="text-primary underline underline-offset-2">
           Datenschutz

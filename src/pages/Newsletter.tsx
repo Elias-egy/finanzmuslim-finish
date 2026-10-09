@@ -4,7 +4,7 @@ import NewsletterBox from "@/components/NewsletterBox";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 
 /**
- * Anmeldeseite fuer den Freitagsbrief.
+ * Anmeldeseite fuer die Halal-News.
  *
  * Aufbau nach dem Newsletter-Block von Finanzfluss: Versprechen mit Zahl,
  * darunter die festen Rubriken, dann das Feld. Der Name greift den Freitag auf,
@@ -40,7 +40,7 @@ const letzteAusgabe = neuesteZuerst()[0];
 const Newsletter = () => (
   <main className="bg-background">
     <Seo
-      title="Newsletter für halal Finanzen: der Freitagsbrief | finanzmuslim"
+      title="Newsletter für halal Finanzen: die Halal-News | finanzmuslim"
       description="Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten auf halal oder nicht. Fünf Minuten, kostenlos, jederzeit abbestellbar."
       path="/newsletter"
       brotkrumen={[{ name: "Newsletter", path: "/newsletter" }]}
@@ -49,7 +49,7 @@ const Newsletter = () => (
       <header className="mx-auto max-w-[700px] text-center">
         <p className="text-[13px] font-bold uppercase tracking-wide text-violet">Newsletter</p>
         <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground md:text-4xl">
-          Der Freitagsbrief
+          Die Halal-News
         </h1>
         <p className="mt-4 text-[17px] leading-relaxed text-muted-foreground">
           Lies jeden Freitag früh in fünf Minuten, was für dein Geld zählt. Kostenlos und jederzeit

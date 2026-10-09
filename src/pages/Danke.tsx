@@ -309,7 +309,7 @@ const Danke = () => {
           )}
         </div>
         <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
-          Bestätige kurz die Mail in deinem Postfach, falls du neu bist: Dann kommt jeden Freitag der Freitagsbrief.
+          Bestätige kurz die Mail in deinem Postfach, falls du neu bist: Dann kommen jeden Freitag die Halal-News.
         </p>
 
         <p className="eyebrow mt-8">Teste dich</p>

@@ -1,7 +1,7 @@
 import type { AmpelZeile } from "@/data/vertragsAmpel";
 
 /**
- * Der offene Ausschnitt der Vertrags-Ampel. Bewusst ohne Laufzeit-Import aus
+ * Der offene Ausschnitt des Halal Vertrags-Checks. Bewusst ohne Laufzeit-Import aus
  * `vertragsAmpel.ts`: Die offene Seite lädt nur zwei Verträge mit Farbe, alle zwölf mit Farbe
  * und Bedingung lädt erst die volle Fassung. Ein Test prüft, dass die zwei hier wortgleich dort
  * stehen. Plan 27.09.2026: alle Namen offen, zwei Farben (Depot grün, Dispo rot), an der Kante

@@ -86,12 +86,13 @@ export const optinFreebies: OptinFreebie[] = [
   },
   {
     id: "vertrags-ampel",
-    name: "Vertrags-Ampel",
-    objekt: "die Ampel",
-    deinObjekt: "deine Ampel",
-    ueberschrift: ["Hol dir die", "Vertrags-Ampel"],
+    name: "Halal Vertrags-Check",
+    objekt: "den Vertrags-Check",
+    deinObjekt: "dein Vertrags-Check",
+    // Geschützter Bindestrich, damit „Vertrags-Check“ in der Karte nicht umbricht.
+    ueberschrift: ["Hol dir den", "Halal Vertrags\u2011Check"],
     nutzen: "Sieh auf einen Blick, welcher Vertrag grün, gelb oder rot ist, und die Bedingung dahinter.",
-    knopf: "Ampel holen",
+    knopf: "Vertrags-Check holen",
     frage: "Welche Farbe hat dein Vertrag?",
     seite: "/vorlagen/vertrags-ampel",
     schluessel: "voll-6kd2",

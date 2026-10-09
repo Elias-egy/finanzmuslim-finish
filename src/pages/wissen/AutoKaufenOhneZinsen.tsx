@@ -487,7 +487,7 @@ const AutoKaufenOhneZinsen = () => (
         ueberschrift: "Vertrag prüfen, bevor du unterschreibst",
         linkZiel: "/vorlagen/vertrags-ampel",
         text: "Die Klauseln, an denen ein Vertrag kippt, in einer Liste.",
-        knopf: "Zur Vertrags-Ampel",
+        knopf: "Zum Halal Vertrags-Check",
       }}
       boxMitte={{
         kategorie: "Rechner",

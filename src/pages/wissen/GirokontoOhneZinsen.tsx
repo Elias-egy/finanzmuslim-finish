@@ -148,7 +148,7 @@ const abschnitte: BeitragAbschnitt[] = [
             },
             {
               titel: "Angehängte Verträge durchsehen",
-              text: "Bausparvertrag, Lebensversicherung, Riester. Was davon läuft, gehört auf den Prüfstand. Die Vertrags-Ampel ordnet sie ein.",
+              text: "Bausparvertrag, Lebensversicherung, Riester. Was davon läuft, gehört auf den Prüfstand. Der Halal Vertrags-Check ordnet sie ein.",
             },
           ]}
         />
@@ -386,7 +386,7 @@ const GirokontoOhneZinsen = () => (
       <PasstDazu
         punkte={[
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
-          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet Girokonto, Kreditkarte, Dispo und neun weitere Verträge ein." },
+          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet Girokonto, Kreditkarte, Dispo und neun weitere Verträge ein." },
           { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "zeigt, worauf du an der Kasse achten musst." },
           { to: "/inflationsrechner", name: "Der Inflationsrechner", text: "rechnet aus, was Liegenlassen dich über die Jahre kostet." },
         ]}

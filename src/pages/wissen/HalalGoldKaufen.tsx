@@ -507,7 +507,7 @@ const HalalGoldKaufen = () => (
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "rechnet Gold, Silber und Ersparnisse zusammen und zeigt dir den Nisab." },
           { to: "/wissen/nisab", name: "Nisab verstehen", text: "erklärt, welche der beiden Grenzen für dich gilt." },
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
-          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet zwölf Verträge ein, die fast jeder hat." },
+          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Verträge ein, die fast jeder hat." },
         ]}
       />
     </BeitragSeite>

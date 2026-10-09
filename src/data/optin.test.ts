@@ -127,7 +127,7 @@ describe("Ausschnitt „Dua für was?“", () => {
   });
 });
 
-describe("Ausschnitt der Vertrags-Ampel", () => {
+describe("Ausschnitt des Halal Vertrags-Checks", () => {
   const nachName = new Map(ampelZeilen.map((z) => [z.vertrag, z]));
 
   it("zeigt oben Depot grün und Dispo rot, wortgleich wie in der vollen Fassung", () => {

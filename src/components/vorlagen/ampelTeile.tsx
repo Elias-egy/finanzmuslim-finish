@@ -1,5 +1,5 @@
 /**
- * Farben, Legende und Pille der Vertrags-Ampel. Enthält keine Bewertung eines Vertrags, deshalb
+ * Farben, Legende und Pille des Halal Vertrags-Checks. Enthält keine Bewertung eines Vertrags, deshalb
  * darf die offene Seite es laden.
  */
 export type Farbe = "gruen" | "gelb" | "rot";

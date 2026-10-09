@@ -1,5 +1,5 @@
 /**
- * Anmeldung zum Freitagsbrief.
+ * Anmeldung zur Halal-News (früher „Freitagsbrief“).
  *
  * Das Formular postet JSON an ein Make-Szenario („finanzmuslim Anmeldung Freitagsbrief“,
  * 7597159). Make legt die Adresse mit `quelle`, `sprache` und `interesse` in die
