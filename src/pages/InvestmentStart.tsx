@@ -17,7 +17,9 @@ import { istGueltigeQuelle } from "@/lib/attribution";
  *
  * Das Video liegt selbst gehostet unter /videos/ (Elias, 15.09.2026: direkt
  * eingebettet konvertiert deutlich besser als YouTube). Es ist der Schnitt vom
- * 05.09. ohne Werbeblock und ohne Broker-Vergleich.
+ * 05.09. ohne Werbeblock und ohne Broker-Vergleich, seit 09.10.2026 mit der
+ * finanzmuslim-Seite auf dem Handy-Bild am Anfang und ohne die Stelle zu
+ * Zinsen bei Scalable PRIME (Schnitt: ~/rebrand/video/schnitt-2026-10-09.sh).
  */
 const VIDEO_SRC = "/videos/investmentstart.mp4";
 const VIDEO_POSTER = "/videos/investmentstart-poster.jpg";
