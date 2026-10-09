@@ -17,6 +17,8 @@ const DOKUMENT_DOMAINS: Record<string, string[]> = {
   // Dokumentablage der Websites, verlinkt von bforbank.de und monese.com.
   "bforbank.de": ["bforbank.cdn.prismic.io"],
   "monese.com": ["cdn.prod.website-files.com"],
+  // Die Belege vom 27.09.2026 liegen unter santander.de, die Adresse leitet heute auf openbank.de um.
+  "openbank.de": ["santander.de"],
 };
 
 const ids = girokontoVergleich.map((a) => a.id);
