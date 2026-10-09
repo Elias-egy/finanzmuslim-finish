@@ -21,6 +21,8 @@ export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "pax-bank",
   "plus500",
   "santander",
+  "scalable",
+  "scalable-prime",
   "smartbroker",
   "targobank",
   "traders-place",
