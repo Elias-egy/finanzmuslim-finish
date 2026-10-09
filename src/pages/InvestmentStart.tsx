@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Award, CheckCircle2, Download, HelpCircle, Plus, QrCode, ShieldCheck, Volume2 } from "lucide-react";
+import { Award, CheckCircle2, Download, HelpCircle, Plus, ShieldCheck, Volume2 } from "lucide-react";
 import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
@@ -322,38 +322,6 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </p>
         </div>
         <JumpLink to="#start">Direkt starten ↑</JumpLink>
-      </section>
-
-      {/* S2 — QR-Block (nur Desktop) */}
-      <section className="hidden lg:block bg-surface border-y border-border/60 py-10">
-        <div className="container max-w-3xl">
-          <div className="reveal flex items-center gap-8 rounded-[1.75rem] bg-card border border-border/70 p-8 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
-            <div className="shrink-0 h-[150px] w-[150px] rounded-xl bg-white border border-border flex items-center justify-center">
-              <img
-                src={`/qr${partner.pfad.replace(/\//g, "-")}.png`}
-                alt="QR-Code: Diese Seite auf dem Handy öffnen"
-                width={150}
-                height={150}
-                className="h-[140px] w-[140px] object-contain"
-                onError={(e) => {
-                  (e.currentTarget.parentElement as HTMLElement).innerHTML =
-                    '<span class="text-xs text-muted-foreground text-center px-3">Seite auf dem Handy öffnen</span>';
-                }}
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 text-primary">
-                <QrCode className="h-5 w-5" />
-                <h2 className="headline text-xl md:text-2xl">Am Laptop? Mach&apos;s direkt am Handy.</h2>
-              </div>
-              <p className="mt-2 text-[15px] text-muted-foreground leading-relaxed">
-                Scann den Code, die Seite öffnet sich auf deinem Handy und du {istSteuer ? "startest deine Steuererklärung" : `eröffnest dein ${produktWort}`} dort
-                {istDepot ? ", während das Video hier weiterläuft" : ""}.{" "}
-                <span className="font-semibold text-foreground">Wichtig:</span> Klick den Button dann auf dem Handy.
-              </p>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* S4 — PDF-Anleitung, nur Scalable: die Screenshots zeigen die Scalable-Eröffnung */}

@@ -204,6 +204,7 @@ const DEPOT_AUSWAHL: Prioritaet = {
   id: "auswahl",
   label: "große Halal-Auswahl",
   gewichte: {},
+  nachHalal: true,
   fakten: ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"],
 };
 const DEPOT_APP: Prioritaet = {
