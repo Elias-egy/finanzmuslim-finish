@@ -18,7 +18,7 @@ import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
 import { fragen, zeilen } from "@/data/vertragsAmpel";
 
 /**
- * Die volle Vertrags-Ampel, nur über die Danke-Seite und den Link aus der Mail (noindex, nicht
+ * Der volle Halal Vertrags-Check, nur über die Danke-Seite und den Link aus der Mail (noindex, nicht
  * in der Sitemap). Nach Farbe gruppiert, mit größeren Ampelpunkten und Karten auf dem Handy
  * (Plan 27.09.2026, „sparsam aufgefrischt“). Die offene Seite ist `VertragsAmpel.tsx`.
  */
@@ -30,7 +30,7 @@ const farben: Farbe[] = ["gruen", "gelb", "rot"];
 const VertragsAmpelVoll = () => (
   <>
     <Seo
-      title="Vertrags-Ampel: alle zwölf Verträge mit Farbe | finanzmuslim"
+      title="Halal Vertrags-Check: alle zwölf Verträge mit Farbe | finanzmuslim"
       description="Sieh alle zwölf Verträge aus dem Alltag nach Farbe geordnet, jeweils mit der Bedingung dahinter."
       path={pfad}
       noindex
@@ -96,7 +96,7 @@ const VertragsAmpelVoll = () => (
       })}
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground">Wenn die Ampel gelb zeigt, drei Fragen</h2>
+        <h2 className="text-2xl font-bold text-foreground">Wenn ein Vertrag gelb ist, drei Fragen</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {fragen.map((f) => (
             <div key={f.titel} className="card-surface p-5">

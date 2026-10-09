@@ -4,7 +4,7 @@ import NewsletterBox from "@/components/NewsletterBox";
 import { ausgabePfad, datumLang, neuesteZuerst } from "@/data/newsletterAusgaben";
 
 /**
- * Alle Ausgaben des Freitagsbriefs. Eine einfache Liste, keine Kacheln: je Zeile
+ * Alle Ausgaben der Halal-News. Eine einfache Liste, keine Kacheln: je Zeile
  * Datum, Titel und der eine Satz, worum es ging (~/rebrand/NEWSLETTER_SYSTEM.md).
  * noindex, nicht in der Sitemap, verlinkt erst, wenn es eine Ausgabe gibt.
  */
@@ -14,8 +14,8 @@ const NewsletterArchiv = () => {
   return (
     <main className="bg-background">
       <Seo
-        title="Alle Ausgaben des Freitagsbriefs | finanzmuslim"
-        description="Lies jede Ausgabe des Freitagsbriefs nach, die neueste steht oben."
+        title="Alle Ausgaben der Halal-News | finanzmuslim"
+        description="Lies jede Ausgabe der Halal-News nach, die neueste steht oben."
         path="/newsletter/archiv"
         noindex
       />
@@ -24,7 +24,7 @@ const NewsletterArchiv = () => {
           <p className="text-[13px] font-bold uppercase tracking-wide text-violet">Newsletter</p>
           <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground md:text-4xl">Alle Ausgaben</h1>
           <p className="mt-4 text-[17px] leading-relaxed text-muted-foreground">
-            Lies jede Ausgabe des Freitagsbriefs nach, die neueste steht oben.
+            Lies jede Ausgabe der Halal-News nach, die neueste steht oben.
           </p>
         </header>
 

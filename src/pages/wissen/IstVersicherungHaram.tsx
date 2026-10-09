@@ -368,7 +368,7 @@ const IstVersicherungHaram = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet elf weitere Verträge aus dem Alltag ein." },
+          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet elf weitere Verträge aus dem Alltag ein." },
           { to: "/wissen/gharar", name: "Was ist Gharar", text: "erklärt die erste der beiden Begründungen im Detail." },
           { to: "/wissen/ist-leasing-haram", name: "Ist Leasing haram?", text: "warum beim Leasing plötzlich eine Vollkasko verlangt wird." },
           { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Abwägung in größerem Maßstab." },

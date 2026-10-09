@@ -432,9 +432,9 @@ export const MotivErbe = ({ className }: Props) => (
    VORLAGEN UND WERKZEUGE
    ============================================================ */
 
-/** Vertrags-Ampel. Hier ist die Ampelfarbe die Aussage, deshalb erlaubt. */
+/** Halal Vertrags-Check (Motiv „ampel“). Hier ist die Ampelfarbe die Aussage, deshalb erlaubt. */
 export const MotivAmpel = ({ className }: Props) => (
-  <M className={className} titel="Vertrags-Ampel">
+  <M className={className} titel="Halal Vertrags-Check">
     <rect x="30" y="18" width="60" height="84" rx="7" fill={C.weiss} />
     <g stroke={C.himmel} strokeWidth={4}>
       <line x1="56" y1="34" x2="80" y2="34" />

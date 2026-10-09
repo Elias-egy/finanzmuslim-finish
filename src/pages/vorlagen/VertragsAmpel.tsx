@@ -16,7 +16,7 @@ import { optinFreebie } from "@/data/optin";
 import { kante, offen } from "@/data/vertragsAmpelAusschnitt";
 
 /**
- * Offene Seite der Vertrags-Ampel: alle Namen, zwei Farben, der Rest gegen E-Mail (Elias,
+ * Offene Seite des Halal Vertrags-Checks (früher Vertrags-Ampel): alle Namen, zwei Farben, der Rest gegen E-Mail (Elias,
  * 27.09.2026, Vault raw 2026-09-26-doomscroll-web/09). Diese Datei importiert bewusst nicht
  * `vertragsAmpel.ts`, sonst stünden alle Farben im JavaScript dieser Seite. Die volle Fassung
  * ist `VertragsAmpelVoll.tsx`.
@@ -30,10 +30,10 @@ const AN_DER_KANTE = 3;
 const VertragsAmpel = () => (
   <>
     <Seo
-      title="Welche Verträge sind halal? Die Ampel für 12 Verträge | finanzmuslim"
+      title="Welche Verträge sind halal? Der Halal Vertrags-Check für 12 Verträge | finanzmuslim"
       description="Welche Verträge halal sind und welche nicht: zwölf Verträge aus dem Alltag mit klarer Farbe und der Bedingung dahinter. Kreditkarte, Versicherung, Ratenzahlung, Leasing, Depot und mehr."
       path="/vorlagen/vertrags-ampel"
-      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Vertrags-Ampel", path: "/vorlagen/vertrags-ampel" }]}
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal Vertrags-Check", path: "/vorlagen/vertrags-ampel" }]}
     />
     <VorlagenSeite
       kicker={v.kicker}

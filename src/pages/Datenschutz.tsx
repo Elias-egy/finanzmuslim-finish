@@ -61,7 +61,7 @@ const Datenschutz = () => (
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">4. Newsletter, Guide und kostenlose Vorlagen</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Wenn du den Freitagsbrief, den Halal Investment Guide oder eine unserer Vorlagen
+          Wenn du die Halal-News, den Halal Investment Guide oder eine unserer Vorlagen
           anforderst, erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen
           und dein Erfahrungslevel. Dazu speichern wir, über welchen Weg du dich eingetragen hast
           (zum Beispiel eine bestimmte Vorlage auf dieser Website oder ein Stichwort auf

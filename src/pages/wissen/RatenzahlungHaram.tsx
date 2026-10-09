@@ -298,7 +298,7 @@ const RatenzahlungHaram = () => (
       <PasstDazu
         punkte={[
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum ein Aufschlag auf eine Ware etwas anderes ist als einer auf geliehenes Geld." },
-          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet Ratenzahlung, Leasing, Kreditkarte und neun weitere Verträge ein." },
+          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet Ratenzahlung, Leasing, Kreditkarte und neun weitere Verträge ein." },
           { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "der Dispo ist die teuerste Form, später zu zahlen." },
           { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Frage bei der größten Anschaffung des Lebens." },
         ]}

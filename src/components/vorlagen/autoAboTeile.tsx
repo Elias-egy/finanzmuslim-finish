@@ -177,7 +177,7 @@ export const AUTO_CTAS = [
   {
     titel: "Welche Verträge gehen?",
     text: "Sieh zwölf Verträge aus dem Alltag mit Farbe und Bedingung, von der Kreditkarte bis zur Versicherung.",
-    buttonLabel: "Zur Vertrags-Ampel",
+    buttonLabel: "Zum Halal Vertrags-Check",
     to: "/vorlagen/vertrags-ampel",
   },
 ];

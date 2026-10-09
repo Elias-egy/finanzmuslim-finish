@@ -248,7 +248,7 @@ const Maysir = () => (
         ueberschrift: "Zwölf Verträge, grün, gelb oder rot einsortiert",
         linkZiel: "/vorlagen/vertrags-ampel",
         text: "Grün, gelb oder rot für zwölf Verträge aus dem Alltag.",
-        knopf: "Zur Vertrags-Ampel",
+        knopf: "Zum Halal Vertrags-Check",
       }}
       boxMitte={{
         kategorie: "Depot",

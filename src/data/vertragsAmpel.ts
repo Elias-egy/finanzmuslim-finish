@@ -1,5 +1,5 @@
 /**
- * Die Vertrags-Ampel: zwölf Verträge mit Farbe und Bedingung. Gegen E-Mail seit 27.09.2026
+ * Der Halal Vertrags-Check (Datei früher „Vertrags-Ampel“): zwölf Verträge mit Farbe und Bedingung. Gegen E-Mail seit 27.09.2026
  * (Elias, Vault raw 2026-09-26-doomscroll-web/09): Diese Datei lädt nur die volle Fassung. Die
  * offene Seite nimmt `vertragsAmpelAusschnitt.ts`, ein Test hält beide gleich.
  */

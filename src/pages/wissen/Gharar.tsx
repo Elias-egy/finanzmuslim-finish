@@ -159,8 +159,8 @@ const abschnitte: BeitragAbschnitt[] = [
         />
         <p>
           Bleibt eine der vier Antworten offen, heißt das nicht sofort verboten. Es heißt: nachlesen,
-          nachfragen, und im Zweifel jemanden fragen, der sich auskennt. Die{" "}
-          <L to="/vorlagen/vertrags-ampel">Vertrags-Ampel</L> hat zwölf Alltagsverträge nach genau diesen
+          nachfragen, und im Zweifel jemanden fragen, der sich auskennt. Der{" "}
+          <L to="/vorlagen/vertrags-ampel">Halal Vertrags-Check</L> hat zwölf Alltagsverträge nach genau diesen
           Fragen eingeordnet.
         </p>
       </>
@@ -284,7 +284,7 @@ const Gharar = () => (
         ueberschrift: "Zwölf Verträge, grün, gelb oder rot einsortiert",
         linkZiel: "/vorlagen/vertrags-ampel",
         text: "Grün, gelb oder rot für zwölf Verträge aus dem Alltag.",
-        knopf: "Zur Vertrags-Ampel",
+        knopf: "Zum Halal Vertrags-Check",
       }}
       boxMitte={{
         kategorie: "Depot",
@@ -297,7 +297,7 @@ const Gharar = () => (
           { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "behandelt den ersten Grundbegriff, ohne den nichts zu verstehen ist." },
           { to: "/wissen/maysir", name: "Glücksspiel (Maysir)", text: "die schärfste Form der Unklarheit, mit eigenen Regeln." },
           { to: "/wissen/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "geht den meistdiskutierten Fall im Einzelnen durch." },
-          { to: "/vorlagen/vertrags-ampel", name: "Die Vertrags-Ampel", text: "ordnet zwölf Alltagsverträge ein." },
+          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Alltagsverträge ein." },
         ]}
       />
     </BeitragSeite>

@@ -1,5 +1,5 @@
 /**
- * Die Ausgaben des Freitagsbriefs als Webseiten.
+ * Die Ausgaben der Halal-News als Webseiten.
  *
  * Jede verschickte Ausgabe bekommt eine Seite unter `/newsletter/<datum>-<thema>`,
  * dazu die Liste unter `/newsletter/archiv`. Beide stehen auf noindex und nicht in der
