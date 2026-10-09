@@ -56,6 +56,18 @@ export const girokontoNachtraege = (anbieter: RohAnbieter[]): RohAnbieter[] => m
     name: "BforBank",
     produkt: "Girokonto",
     finanzfluss: a.finanzfluss ? { ...a.finanzfluss, produkt: "BforBank Girokonto" } : undefined,
+  } : a.id === "santander-bestgiro" ? {
+    // santander.de leitet auf openbank.de um, das Konto heißt dort weiter BestGiro (gelesen 09.10.2026).
+    ...a,
+    name: "Openbank",
+    domain: "openbank.de",
+    werte: {
+      ...a.werte,
+      // Die Filialen heißen beim Anbieter „Openbank Filiale“ (Produktseite BestGiro, gelesen 09.10.2026).
+      ...(typeof a.werte.bargeldEinzahlen === "string"
+        ? { bargeldEinzahlen: a.werte.bargeldEinzahlen.replace("Santander Bank", "Openbank") }
+        : {}),
+    },
   } : a),
   {
     id: "sumup-privatkonto",

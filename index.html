@@ -20,48 +20,6 @@
     <meta name="apple-mobile-web-app-title" content="finanzmuslim" />
     <link rel="canonical" href="https://finanzmuslim.com/" />
 
-    <!-- Sperrfenster bis zum Start (src/data/sperrfenster.ts). Zeigt das Glas, bevor React
-         geladen ist. Uebernimmt React nicht, faellt es nach sechs Sekunden von selbst. -->
-    <script>
-      (function () {
-        try {
-          var aktiv = true;
-          var ende = Date.parse("2026-10-09T07:00:00+02:00");
-          var frei = ["/impressum", "/datenschutz", "/dein-investmentstart", "/dein-investment-start", "/dein-guide", "/gratis", "/danke", "/out"];
-          if (!aktiv || window.__PRERENDER__ || Date.now() >= ende) return;
-          var p = location.pathname.replace(/\/+$/, "") || "/";
-          for (var i = 0; i < frei.length; i++) if (p === frei[i] || p.indexOf(frei[i] + "/") === 0) return;
-          if (/^\/vorlagen\/[^/]+\/[^/]+$/.test(p)) return;
-          if (/[?&]zugang=/.test(location.search)) return;
-          try {
-            if (Number(localStorage.getItem("fm_zugang")) > Date.now()) return;
-          } catch (e) {}
-          var h = document.documentElement;
-          h.setAttribute("data-sperre", "vor");
-          setTimeout(function () {
-            if (h.getAttribute("data-sperre") === "vor") h.removeAttribute("data-sperre");
-          }, 6000);
-        } catch (e) {}
-      })();
-    </script>
-    <style>
-      html[data-sperre] { overflow: hidden; }
-      html[data-sperre="vor"] body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        z-index: 2147483000;
-        background: rgba(8, 10, 16, 0.76);
-        -webkit-backdrop-filter: blur(4px);
-        backdrop-filter: blur(4px);
-      }
-    </style>
-
-    
-
-    
-    
-    
     <!-- Sitewide-Fallback. Jede Route ueberschreibt Title/Description/og via
          src/components/Seo.tsx. Vorher stand hier global der Gruenderzugang-
          Teaser, dadurch zeigte JEDER geteilte Link "nur 50 Plaetze". -->

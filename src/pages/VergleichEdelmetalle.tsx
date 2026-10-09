@@ -10,6 +10,7 @@ import {
   SILBER_ISINS,
 } from "@/data/edelmetallVergleich";
 import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
+import { juengsterStand } from "@/lib/juengsterStand";
 
 /**
  * Edelmetalle im Vergleich (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch
@@ -145,7 +146,8 @@ const VergleichEdelmetalle = () => (
     kategorie="edelmetall"
     finanzMax={EDELMETALL_FINANZ_MAX}
     filter={EDELMETALL_FILTER}
-    stand="14.09.2026"
+    stand={juengsterStand(edelmetallAnzeige, "14.09.2026")}
+    standHinweis="Gold- und Silberpapiere geprüft, Konditionen vom 14.09.2026"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Gold- und Silberpapiere: je Papier beim Anbieter geprüft, Shariah-Zertifikate in der Anlagen-Datenbank."
     kriterien={[
       {

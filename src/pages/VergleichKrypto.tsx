@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
 import { kryptoAnzeige } from "@/data/vergleichAnzeige";
+import { juengsterStand } from "@/lib/juengsterStand";
 
 /**
  * Krypto-Vergleich.
@@ -101,9 +102,9 @@ const VergleichKrypto = () => (
     kategorie="krypto"
     finanzMax={KRYPTO_FINANZ_MAX}
     filter={KRYPTO_FILTER}
-    stand="16.09.2026"
+    stand={juengsterStand(kryptoAnzeige, "16.09.2026")}
     standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft, Stand 16.09.2026."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {
         titel: "Ohne Zinsen nutzbar",

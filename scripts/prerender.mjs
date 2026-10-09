@@ -241,10 +241,6 @@ const main = async () => {
 
   const seite = await browser.newPage();
   await seite.setViewport({ width: 1280, height: 900 });
-  // Das Sperrfenster (src/components/Sperrfenster.tsx) darf nie im statischen HTML stehen.
-  await seite.evaluateOnNewDocument(() => {
-    window.__PRERENDER__ = true;
-  });
   // Keine Bilder und Videos laden, das spart beim Prerendern die meiste Zeit.
   // Auf das erzeugte HTML hat es keinen Einfluss.
   await seite.setRequestInterception(true);

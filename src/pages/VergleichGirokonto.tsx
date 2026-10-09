@@ -1,6 +1,7 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { juengsterStand } from "@/lib/juengsterStand";
 
 const VergleichGirokonto = () => (
   <VergleichsSeite
@@ -29,7 +30,8 @@ const VergleichGirokonto = () => (
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
     filter={GIRO_FILTER}
-    stand="14.09.2026"
+    stand={juengsterStand(girokontoAnzeige, "14.09.2026")}
+    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
     quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={[
       {

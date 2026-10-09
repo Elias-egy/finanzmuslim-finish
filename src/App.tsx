@@ -6,7 +6,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
-import Sperrfenster from "@/components/Sperrfenster";
 import Index from "./pages/Index.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
@@ -208,7 +207,6 @@ const App = () => (
           </Routes>
         </Suspense>
         </Layout>
-        <Sperrfenster />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
