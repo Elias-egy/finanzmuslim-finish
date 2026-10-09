@@ -72,6 +72,15 @@ const Datenschutz = () => (
           Finanzwissen.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
+          Damit du deine Angaben nicht für jede Vorlage neu eingeben musst, legt die Seite nach
+          deinem Klick auf den Knopf des Formulars einen Eintrag in deinem Browser ab (§ 25 Abs. 2
+          Nr. 2 TDDDG). Er enthält deine E-Mail-Adresse, deinen Vornamen, die Fassung und den Tag
+          deiner Einwilligung, dein Erfahrungslevel und welche Vorlagen du auf diesem Gerät geholt
+          hast. Der Eintrag bleibt auf deinem Gerät. An uns geht deine Adresse erst wieder, wenn du
+          die nächste Vorlage anforderst. Über „Andere Adresse“ im Formular oder in den
+          Einstellungen deines Browsers löschst du ihn jederzeit.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
           Nach der Anmeldung bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
           anklickst, bist du eingetragen (Double-Opt-in). Wir speichern den Zeitpunkt der Anmeldung
           und der Bestätigung sowie die dabei verwendete IP-Adresse, um deine Einwilligung

@@ -5,8 +5,9 @@ import eliasPortrait from "@/assets/elias-autor.webp";
 import { motive, type MotivName } from "@/components/motive";
 import { emailGueltig } from "@/lib/anmeldung";
 import { gemerkteQuelle } from "@/lib/attribution";
-import { optinAnmelden, optinDaten, optinNachtragen, type Anmeldung, type Stufe, type Vorhaben } from "@/lib/optin";
-import type { OptinFreebie } from "@/data/optin";
+import { gemerktLesen, hatGeholt, merken, stufeMerken, vergessen, type Gemerkt } from "@/lib/merken";
+import { EINWILLIGUNG, optinAnmelden, optinDaten, optinNachtragen, type Anmeldung, type Stufe, type Vorhaben } from "@/lib/optin";
+import { vollPfad, type OptinFreebie } from "@/data/optin";
 
 /** Was die Danke-Seite über den Router-State bekommt. Nie über die Adresse. */
 export type DankeState = { vorname: string; stufe?: Stufe; vorhaben?: Vorhaben[] };
@@ -24,6 +25,17 @@ export const vorhabenAntworten: { key: Vorhaben; titel: string; bild: MotivName 
   { key: "konto", titel: "Konto für den Alltag", bild: "karte" },
   { key: "steuer", titel: "Steuererklärung", bild: "steuer" },
 ];
+
+/**
+ * Der Satz am Häkchen, derselbe auf jeder Karte (Elias, 09.10.2026: „einfach den normalsten
+ * Double-Opt-in und nichts Spezifisches“, dazu kleiner). Vorbilder gemessen am 09.10.2026:
+ * Finanzfluss 14 px am Häkchen, justETF 16 px, beide mit „jederzeit abmelden“ direkt am Formular.
+ * Absender, Newsletter und Abmelden bleiben im Satz. Ändert sich der Wortlaut, bekommt
+ * `EINWILLIGUNG` in `src/lib/optin.ts` einen neuen Wert.
+ */
+export const EINWILLIGUNG_TEXT = "Ich möchte den Newsletter von finanzmuslim per E-Mail bekommen. Abmelden geht jederzeit.";
+
+const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /**
  * Was diese Seite schon gesendet hat. Nur im Speicher, nie im Browser abgelegt. Auf
@@ -48,6 +60,11 @@ type Props = {
  * (Vault raw 2026-09-26-doomscroll-web/bilder/goodmorning-01): E-Mail zuerst und sofort
  * gespeichert, dann zwei Klickfragen mit „Überspringen“. Die Einwilligung ist ein Häkchen wie
  * bei SKAILE (skaile-danke-04). Danach die Danke-Seite, der Vorname reist im Router-State.
+ *
+ * Seit 09.10.2026 merkt sich das Gerät die Anmeldung (`src/lib/merken.ts`): Wer wiederkommt,
+ * holt die nächste Vorlage mit einem Klick und landet direkt in der vollen Fassung. Was schon
+ * geholt ist, zeigt statt des Formulars den Knopf „Öffnen“. Vor dem ersten Klick steht nichts
+ * von den zwei Fragen, auch keine Schrittzahl (Elias, 09.10.2026).
  */
 const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = false }: Props) => {
   const { pathname, search } = useLocation();
@@ -64,6 +81,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
   const [gespeichert, setGespeichert] = useState("");
   const [stufe, setStufe] = useState<Stufe | undefined>();
   const [vorhaben, setVorhaben] = useState<Vorhaben[]>([]);
+  const [gemerkt, setGemerkt] = useState<Gemerkt | null>(() => gemerktLesen());
   const frage = useRef<HTMLParagraphElement>(null);
   const emailFeld = useRef<HTMLInputElement>(null);
   const zurueck = useRef(false);
@@ -104,6 +122,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
       }
       setAnmeldung(await laeuft);
       setGespeichert(adresse);
+      setGemerkt(merken({ email: adresse, vorname, einwilligung: EINWILLIGUNG, freebie: freebie.id }));
       setSchritt(2);
     } catch {
       gesendet.delete(schluessel);
@@ -113,9 +132,39 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     }
   };
 
+  /** Wer wiederkommt: ein Klick, keine Felder, direkt in die volle Fassung. */
+  const einKlick = async () => {
+    if (sendet || !gemerkt) return;
+    setSendet(true);
+    setFehler(null);
+    try {
+      const src = new URLSearchParams(search).get("src") ?? gemerkteQuelle();
+      await optinAnmelden(
+        optinDaten({
+          email: gemerkt.email,
+          vorname: gemerkt.vorname,
+          freebie: freebie.id,
+          pfad: pathname,
+          src,
+          lang: document.documentElement.lang,
+          firma: "",
+          einwilligung: gemerkt.einwilligung,
+        }),
+      );
+      const g = merken({ email: gemerkt.email, vorname: gemerkt.vorname, einwilligung: gemerkt.einwilligung, freebie: freebie.id });
+      navigate(vollPfad(freebie, g.stufe));
+    } catch {
+      setFehler("Das hat gerade nicht geklappt. Versuch es gleich noch einmal oder schreib an elias@finanzmuslim.com.");
+      setSendet(false);
+    }
+  };
+
   const stufeWaehlen = (s?: Stufe) => {
     setStufe(s);
-    if (s) nachtragen({ stufe: s });
+    if (s) {
+      nachtragen({ stufe: s });
+      stufeMerken(s);
+    }
     setSchritt(3);
   };
 
@@ -134,6 +183,9 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     setAnmeldung(null);
     setStufe(undefined);
     setVorhaben([]);
+    setFehler(null);
+    vergessen();
+    setGemerkt(null);
   };
 
   const Ueberschrift = variante === "seite" ? "h1" : "h2";
@@ -158,30 +210,72 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="badge-new">Gratis</span>
-        <span className="text-[12px] font-semibold text-muted-foreground">Schritt {schritt} von 3</span>
-      </div>
-      <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-accent" aria-hidden>
-        <div
-          className="h-full rounded-full bg-primary transition-[width] duration-300"
-          style={{ width: `${(schritt / 3) * 100}%` }}
-        />
-      </div>
+      {schritt > 1 && (
+        <>
+          <p className="text-[12px] font-semibold text-muted-foreground">Frage {schritt - 1} von 2</p>
+          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-accent" aria-hidden>
+            <div
+              className="h-full rounded-full bg-primary transition-[width] duration-300"
+              style={{ width: `${((schritt - 1) / 2) * 100}%` }}
+            />
+          </div>
+        </>
+      )}
 
       <div>
-        {schritt === 1 && (
+        {schritt === 1 && gemerkt && hatGeholt(gemerkt, freebie.id) && (
+          <>
+            <Ueberschrift className="text-[26px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[30px]">
+              {gross(freebie.deinObjekt)} <span className="text-primary">ist offen</span>
+            </Ueberschrift>
+            <Link to={vollPfad(freebie, gemerkt.stufe)} className="btn-leuchte mt-5 h-[52px] w-full px-6 text-[17px]">
+              Öffnen
+              <ArrowRight className="h-5 w-5" aria-hidden />
+            </Link>
+            <Bekannt adresse={gemerkt.email} andereAdresse={andereAdresse} />
+          </>
+        )}
+
+        {schritt === 1 && gemerkt && !hatGeholt(gemerkt, freebie.id) && (
           <>
             {!ohneUeberschrift && (
               <>
-                <Ueberschrift className="mt-4 text-[26px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[30px]">
+                <Ueberschrift className="text-[26px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[30px]">
+                  {freebie.ueberschrift[0]} <span className="text-primary">{freebie.ueberschrift[1]}</span>
+                </Ueberschrift>
+                <p className="mt-3 text-[16px] leading-relaxed text-foreground/75">{freebie.nutzen}</p>
+              </>
+            )}
+            {fehler && (
+              <p role="alert" className="mt-4 text-[14px] leading-relaxed text-destructive">
+                {fehler}
+              </p>
+            )}
+            <button
+              type="button"
+              disabled={sendet}
+              onClick={einKlick}
+              className={`btn-leuchte h-[52px] w-full px-6 text-[17px] disabled:opacity-60 ${ohneUeberschrift ? "" : "mt-5"}`}
+            >
+              {sendet ? "Wird geöffnet …" : freebie.knopf}
+              {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
+            </button>
+            <Bekannt adresse={gemerkt.email} andereAdresse={andereAdresse} />
+          </>
+        )}
+
+        {schritt === 1 && !gemerkt && (
+          <>
+            {!ohneUeberschrift && (
+              <>
+                <Ueberschrift className="text-[26px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[30px]">
                   {freebie.ueberschrift[0]} <span className="text-primary">{freebie.ueberschrift[1]}</span>
                 </Ueberschrift>
                 <p className="mt-3 text-[16px] leading-relaxed text-foreground/75">{freebie.nutzen}</p>
               </>
             )}
 
-            <form onSubmit={absenden} noValidate className="mt-5">
+            <form onSubmit={absenden} noValidate className={ohneUeberschrift ? "" : "mt-5"}>
               <fieldset disabled={sendet} className="flex flex-col gap-3">
               <input
                 type="text"
@@ -216,17 +310,14 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 aria-hidden="true"
                 className="hidden"
               />
-              <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-1 text-[14px] leading-snug text-foreground/80">
+              <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 text-[13px] leading-snug text-muted-foreground">
                 <input
                   type="checkbox"
                   checked={zustimmung}
                   onChange={(e) => setZustimmung(e.target.checked)}
-                  className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-border accent-[hsl(var(--primary))]"
+                  className="h-4 w-4 shrink-0 cursor-pointer rounded border-border accent-[hsl(var(--primary))]"
                 />
-                <span>
-                  Ich will {freebie.objekt} und jeden Freitag den Freitagsbrief per Mail. Abmelden geht mit einem
-                  Klick.
-                </span>
+                <span>{EINWILLIGUNG_TEXT}</span>
               </label>
               {fehler && (
                 <p role="alert" className="text-[14px] leading-relaxed text-destructive">
@@ -237,7 +328,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 {sendet ? "Wird gesendet …" : freebie.knopf}
                 {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
               </button>
-              <p className="text-center text-[13px] text-muted-foreground">Als Nächstes: zwei kurze Fragen</p>
               </fieldset>
             </form>
 
@@ -254,9 +344,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
           <div className="mt-4">
             <p ref={frage} tabIndex={-1} className="text-[22px] font-bold leading-tight text-foreground outline-none">
               Wo stehst du beim Anlegen?
-            </p>
-            <p className="mt-2 text-[15px] text-muted-foreground">
-              {freebie.id === "guide" ? "Wähl deine Stufe, dann kommt der passende Guide." : "Wähl deine Stufe, dann passt der Freitagsbrief besser zu dir."}
             </p>
             <div className="mt-5 flex flex-col gap-3">
               {stufen.map((s) => (
@@ -320,6 +407,16 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     </div>
   );
 };
+
+/** Für Wiederkehrer: welche Adresse gemerkt ist, und der Weg, sie zu löschen. */
+const Bekannt = ({ adresse, andereAdresse }: { adresse: string; andereAdresse: () => void }) => (
+  <p className="mt-3 text-center text-[13px] text-muted-foreground">
+    <span className="[overflow-wrap:anywhere]">{adresse}</span>{" "}
+    <button type="button" onClick={andereAdresse} className="min-h-[44px] underline underline-offset-2 hover:text-foreground">
+      Andere Adresse
+    </button>
+  </p>
+);
 
 /** Unter den Fragen: die gespeicherte Adresse statt eines Zurück ins Formular, dazu Überspringen. */
 const Fuss = ({ adresse, andereAdresse, ueberspringen }: { adresse: string; andereAdresse: () => void; ueberspringen: () => void }) => (
