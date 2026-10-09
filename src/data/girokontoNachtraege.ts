@@ -22,6 +22,22 @@ const IDENT_JE_HAUS: Record<string, { wert: string; quelle: { url: string; stand
       hinweis: "Wise: „Für diese Prüfung machst du zuerst ein Foto deines Ausweises und anschließend ein separates Live-Foto deines Gesichts.“ Im EWR gelten Reisepass oder Personalausweis.",
     },
   },
+  monese: {
+    wert: "Ausweis-Scan und Video-Selfie",
+    quelle: {
+      url: "https://www.monese.com/terms/deutschland-personal-terms-and-conditions-03-07-2026",
+      stand: "09.10.2026",
+      hinweis: "Monese, AGB Deutschland vom 03.07.2026: „Dazu können wir Ihr Ausweisdokument scannen oder ein Selfie-Video- oder Live-Agent-Video-Interview durchführen.“ Auf monese.com nennt Monese als Ablauf ein Ausweisdokument und „ein kurzes Video-Selfie in der App zur Bestätigung Ihrer Identität“.",
+    },
+  },
+  vivid: {
+    wert: "Ausweisfoto und Selfie",
+    quelle: {
+      url: "https://support.vivid.money/de/articles/12324949-wie-aktiviere-ich-den-kamerazugriff-um-meine-identitatsprufung-abzuschliessen",
+      stand: "09.10.2026",
+      hinweis: "Vivid: „Nach dem Herunterladen und Starten der Vivid-App wirst du aufgefordert, deine Identität per Fotoprüfung zu bestätigen.“ und „einschließlich eines Selfies zusammen mit deinem Ausweisdokument“. Die Prüfung läuft in der App.",
+    },
+  },
 };
 
 const mitIdent = (a: RohAnbieter): RohAnbieter => {
