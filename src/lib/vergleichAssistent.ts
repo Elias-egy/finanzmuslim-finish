@@ -21,8 +21,9 @@ export { ANTEIL_N, BASIS, finanzNote };
  * 3. Partnerlink, Provision, Startseite und Finanzfluss-Rang fließen in keine Note ein.
  *    Die Reihenfolge folgt Regel 2 der Rangfolge (`vorrang`): In Depot, Girokonto und Krypto
  *    steht bei gleicher Sternzahl zuerst, was über unseren Link eröffnet werden kann.
- * 4. Antworten ändern Filter und die Gewichte des Kosten-Teils, nie Halal-Teil,
- *    Note oder Gruppe. Die angezeigte Note ist immer die der Rangfolge.
+ * 4. Antworten ändern Filter, die Gewichte des Kosten-Teils und, bei "große Halal-Auswahl",
+ *    die Sortierung nach dem Halal-Teil, nie Halal-Teil, Note oder Gruppe selbst. Die
+ *    angezeigte Note ist immer die der Rangfolge.
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
  */
 
@@ -44,6 +45,8 @@ export type Prioritaet = {
   label: string;
   /** Faktor je Finanzkriterium. Nicht genannte Kriterien zählen einfach. Wirkt nur auf den Kosten-Teil. */
   gewichte: Record<string, number>;
+  /** Sortiert nach der Halal-Note (bei Gleichstand nach der Gesamtnote) statt nach der Gesamtnote. Die angezeigte Note bleibt. */
+  nachHalal?: boolean;
   /** Zeilen, deren Werte im Ergebnis als Fakten unter dem Anbieter stehen. */
   fakten: string[];
 };
@@ -190,7 +193,13 @@ export const werteAus = (
       ungeprueft: offen,
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
-      sortWert: note ? (kosten !== null ? runde(0.5 * note.halal + 0.5 * kosten) : note.gesamt) : 0,
+      sortWert: note
+        ? auswahl.prioritaet?.nachHalal
+          ? runde(note.halal + note.gesamt / 100)
+          : kosten !== null
+            ? runde(0.5 * note.halal + 0.5 * kosten)
+            : note.gesamt
+        : 0,
     };
     if (offen.length > 0 || !bewertet) ungeprueft.push(treffer);
     else passt.push(treffer);

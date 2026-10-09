@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
-import { nummerEins, rangfolge } from "@/lib/rangfolge";
+import { nummerEins, rangfolge, sterne } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
@@ -258,6 +258,19 @@ describe("geführter Vergleich und Rangfolge sind eins (Spec 6 und 10.7)", () =>
       istZinsKategorie(b.kategorie) && (a.werte.zinsfreiAbStart === "teils" || BASIS[b.kategorie].some((k) => a.werte[k] === "schlecht"));
     const erwartet = r.nichtBewertet.filter((x) => !eingeschraenkt(x.anbieter)).map((x) => x.anbieter.id).sort();
     expect(ids(e.ungeprueft).sort()).toEqual(erwartet);
+  });
+
+  it("große Halal-Auswahl ordnet nach dem Halal-Teil und lässt die Noten stehen", () => {
+    const d = bausteine.find((b) => b.id === "depot")!;
+    const auswahl = { ...auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: ["auswahl"] }), wuensche: [] };
+    const ohne = werteAus(d.anbieter, d.kategorie, d.finanzMax, leer);
+    const mit = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahl);
+    expect(ids(mit.passt).sort()).toEqual(ids(ohne.passt).sort());
+    const halal = mit.passt.map((t) => sterne(t.note!.halal));
+    expect(halal).toEqual([...halal].sort((x, y) => y - x));
+    expect(mit.passt[0].note!.halal).toBeGreaterThan(ohne.passt[0].note!.halal);
+    const noten = (e: typeof ohne) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, [t.note?.gesamt, t.note?.halal]]));
+    expect(noten(mit)).toEqual(noten(ohne));
   });
 
   it("eine Priorität ändert nie Halal-Teil, Note oder Gruppe", () => {
