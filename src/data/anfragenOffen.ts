@@ -4,6 +4,7 @@ export const ANFRAGEN_STAND = "12.10.2026";
 
 export const OFFENE_ANFRAGEN: ReadonlySet<string> = new Set([
   "1822direkt",
+  "bbbank",
   "bison",
   "bitget",
   "bux",
