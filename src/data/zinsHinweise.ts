@@ -196,7 +196,7 @@ const ANGEBOT: Record<string, Eintrag> = {
  */
 const ACHTUNG_KREDIT: Record<string, string> = {
   flatex:
-    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten. Deshalb steht flatex im Vergleich weiter hinten, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.",
+    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten. Deshalb steht flatex im Vergleich nicht ganz vorn, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.",
 };
 
 /** Die Achtung-Meldung zum Angebot, oder nichts: nur im Depot-Vergleich und nur mit Beleg. */

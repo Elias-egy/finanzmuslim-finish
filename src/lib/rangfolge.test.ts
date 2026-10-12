@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { FAKTOR_KREDIT, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
@@ -724,12 +724,13 @@ describe("rangfolge: echte Daten", () => {
 describe("automatischer Kredit im Depot (Elias, 12.10.2026)", () => {
   const flatex = () => brokerVergleich.find((a) => a.id === "flatex-depot")!;
 
-  it("zieht ein Viertel vom Halal-Teil ab und macht das Depot nie zur Nummer 1", () => {
+  it("zieht den Kredit-Abzug vom Halal-Teil ab und macht das Depot nie zur Nummer 1", () => {
     const mit = rangfolge(brokerVergleich, "depot").gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
     expect(flatex().werte.kreditAbStart).toBe("teils");
     expect(mit.kredit).toBe(true);
     expect(mit.uneingeschraenkt).toBe(false);
-    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * 0.75, 1);
+    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * FAKTOR_KREDIT, 1);
+    expect(mit.halal).toBeLessThan(mit.halalVorKredit);
     expect(nummerEins(rangfolge(brokerVergleich, "depot")).map((b) => b.anbieter.id)).not.toContain("flatex-depot");
   });
 

@@ -76,10 +76,13 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
 /**
  * Faktor auf den Halal-Teil, wenn ein Depot Neukunden automatisch einen Kredit einräumt und Zinsen nur
  * bei Nutzung anfallen (flatex, flex-Kredit). Elias, 12.10.2026: Der Kredit zählt ins Zins-Kriterium,
- * "du musst halt ehrlich gucken". Gleiches Gewicht wie ein Dispo auf "gelb" im Girokonto: halbe Stufe
- * auf eine von zwei Ampeln, also ein Viertel Abzug. Ein Kredit ohne Zinsen macht kein Konto haram.
+ * "du musst halt ehrlich gucken". Ein Kredit ohne Zinsen macht kein Konto haram, deshalb ein Abzug und
+ * kein Tor. Erst ein Viertel (wie ein Dispo auf "gelb"), das ergab Platz 8. Elias am selben Abend:
+ * "Platz 8 ist schon echt weit unten", er dachte an Platz 5. Platz 5 gibt es rechnerisch nicht (mit
+ * Link steht flatex bei 4,5 Sternen auf 4, bei 4 Sternen auf 6). Ein Zehntel Abzug ergibt Platz 4.
+ * Nie Nummer 1, dafür sorgt `uneingeschraenkt`, nicht dieser Faktor.
  */
-export const FAKTOR_KREDIT = 0.75;
+export const FAKTOR_KREDIT = 0.9;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
