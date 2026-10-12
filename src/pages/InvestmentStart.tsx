@@ -164,6 +164,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     setVideoMuted(false);
   };
   const pauseVideo = () => videoRef.current?.pause();
+  const hinweise = startHinweise(partner.kurzname, partner.art);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -235,8 +236,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               {partner.titel[0]} <br className="hidden sm:block" />
               <span className="text-hero">{partner.titel[1]}</span>
             </h1>
+            <div className="mt-4 flex items-center justify-center gap-2">
             <p
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-4 text-[14px] font-semibold text-foreground md:text-[15px]"
+              className="inline-flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-4 text-[14px] font-semibold text-foreground md:text-[15px]"
               style={{ boxShadow: `0 0 0 3px ${partner.markenfarbe}` }}
             >
               <span className="scale-[0.8] -m-1">
@@ -244,6 +246,18 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               </span>
               bei {partner.anbieter}
             </p>
+            {/* Zeichen rechts neben dem Anbieter (Elias, 13.10.2026): Klick führt auf den Hinweis unter dem Knopf. */}
+            {hinweise.length > 0 && (
+              <button
+                type="button"
+                onClick={() => document.getElementById("start-hinweis")?.scrollIntoView({ behavior: "smooth", block: "center" })}
+                aria-label={`Wichtiger Hinweis zu ${partner.anbieter}, Klick zeigt ihn`}
+                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${hinweise.some((h) => h.art !== "tarif") ? "bg-amber-500" : "bg-violet"}`}
+              >
+                <span aria-hidden>{hinweise.some((h) => h.art !== "tarif") ? "!" : "?"}</span>
+              </button>
+            )}
+            </div>
           </div>
 
           {/* Laptop: Das Video gibt Höhe ab, bis der Knopf darunter ohne Scrollen im Bild steht.
@@ -291,9 +305,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </div>
 
           {/* Ausnahmen des Angebots, direkt unter dem Knopf beim Video (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
-          {startHinweise(partner.kurzname, partner.art).length > 0 && (
-            <div className="mx-auto mt-5 max-w-[760px] space-y-2 text-left">
-              {startHinweise(partner.kurzname, partner.art).map((h) => {
+          {hinweise.length > 0 && (
+            <div id="start-hinweis" className="mx-auto mt-5 max-w-[760px] scroll-mt-24 space-y-2 text-left">
+              {hinweise.map((h) => {
                 const vorteil = h.art === "tarif";
                 return (
                   <p
