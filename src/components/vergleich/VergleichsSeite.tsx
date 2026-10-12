@@ -24,7 +24,7 @@ import {
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
-import { werteAus } from "@/lib/vergleichAssistent";
+import { siegerDerSeite } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
 const MIT_ASSISTENT = [
@@ -168,10 +168,7 @@ export const VergleichsSeite = ({
 
   const sieger =
     kategorie && finanzMax && !ohneNummerEins
-      ? (werteAus(anbieter, kategorie, finanzMax, {
-          wuensche: [],
-          gewichte: [],
-        }).passt[0]?.anbieter ?? null)
+      ? siegerDerSeite(anbieter, kategorie, finanzMax)
       : null;
   /* Ist jeder Anbieter ohne rotes Zins-Merkmal gerankt, steht die Liste in der Reihenfolge der
      Rangfolge und jede Spalte trägt ihren Platz. Sonst bleibt es alphabetisch. */

@@ -77,6 +77,12 @@ jobs:
       - name: Typen pruefen
         run: npm run typecheck
 
+      # Die Regeln der Seite als Tests: Rangfolge, Hinweise am Angebot, ein Depot
+      # mit Kredit nie als Nummer 1. Ein roter Test haelt die Auslieferung an,
+      # bevor gebaut wird. Das gilt auch fuer den taeglichen Kurslauf.
+      - name: Tests
+        run: npm test
+
       # Jede der 27 Anlagen muss ihre Kursdaten haben. Eine Seite ohne Kurs
       # ist kein Fehler, den man sieht, sie ist einfach leer.
       - name: Kursabdeckung pruefen

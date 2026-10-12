@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, siegerDerSeite, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { nummerEins, rangfolge, sterne } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
-import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { angebotsHinweise, type RohAnbieter } from "@/data/vergleichHelfer";
+import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { EDELMETALL_FINANZ_MAX, edelmetallVergleich } from "@/data/edelmetallVergleich";
 import { motive } from "@/components/motive";
 import { dealFuer, deals, hoechsterBonus, laufendeDeals, schildText } from "@/data/deals";
 
@@ -499,5 +501,64 @@ describe("Depot mit automatischem Kredit im geführten Test (Elias, 12.10.2026)"
   it("lässt kein Zins-Tor teils herein", () => {
     const e = werteAus(d().anbieter, d().kategorie, d().finanzMax, leer);
     for (const t of [...e.passt, ...e.ungeprueft]) expect(t.anbieter.werte.zinsfreiAbStart, t.anbieter.name).not.toBe("teils");
+  });
+});
+
+describe("Depot mit automatischem Kredit: nie im Kasten, nie ohne Hinweis (Elias, 12.10.2026)", () => {
+  const depot = bausteine.find((b) => b.id === "depot")!;
+  const alleAuswahlen = (["kosten", "auswahl", "app"] as const).map((w) => auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: [w] }));
+
+  it("der Kasten der Vergleichsseite nimmt kein Depot mit Kredit, auch wenn es die beste Note hat", () => {
+    // Nur flatex und die Depots hinter ihm: Dann ist flatex der beste Treffer, im Kasten steht trotzdem der Nächste.
+    const r = rangfolge(brokerVergleich, "depot", { finanzMax: DEPOT_FINANZ_MAX });
+    const flatex = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
+    const dahinter = r.gerankt.filter((b) => b.uneingeschraenkt && b.note < flatex.note).slice(0, 3).map((b) => b.anbieter);
+    const liste = [flatex.anbieter, ...dahinter];
+    expect(dahinter.length).toBe(3);
+    expect(werteAus(liste, "depot", DEPOT_FINANZ_MAX, leer).passt[0].anbieter.id).toBe("flatex-depot");
+    const sieger = siegerDerSeite(liste, "depot", DEPOT_FINANZ_MAX);
+    expect(sieger?.id).not.toBe("flatex-depot");
+    expect(dahinter.map((a) => a.id)).toContain(sieger?.id);
+  });
+
+  it("der Kasten zeigt in jedem Vergleich einen Eintrag aus nummerEins, oder keinen", () => {
+    const vergleiche = [
+      ...bausteine.map((b) => [b.anbieter, b.kategorie, b.finanzMax] as const),
+      [edelmetallVergleich, "edelmetall", EDELMETALL_FINANZ_MAX] as const,
+    ];
+    for (const [liste, kategorie, finanzMax] of vergleiche) {
+      const eins = ids(nummerEins(rangfolge(liste, kategorie, { finanzMax })));
+      const sieger = siegerDerSeite(liste, kategorie, finanzMax);
+      if (eins.length === 0) expect(sieger).toBeNull();
+      else expect(eins).toContain(sieger?.id);
+    }
+  });
+
+  it("jeder Treffer mit Kredit trägt im geführten Test die Achtung mit dem Grund für den Platz", () => {
+    let gesehen = 0;
+    for (const auswahl of [leer, ...alleAuswahlen]) {
+      const e = werteAus(depot.anbieter, depot.kategorie, depot.finanzMax, { ...auswahl, wuensche: [] });
+      for (const t of [...e.passt, ...e.ungeprueft].filter((x) => x.kredit)) {
+        gesehen += 1;
+        const achtung = angebotsHinweise(t.anbieter, depot.zeilen, depot.kategorie).find((h) => h.art === "achtung");
+        expect(achtung?.text, t.anbieter.id).toMatch(/Kredit/);
+        expect(achtung?.text, t.anbieter.id).toMatch(/nicht ganz vorn/);
+      }
+    }
+    expect(gesehen).toBeGreaterThan(0);
+  });
+
+  it("flatex als Empfehlung bei großer Halal-Auswahl steht mit der Achtung da", () => {
+    const auswahl = { ...auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: ["auswahl"] }), wuensche: [] };
+    const erster = werteAus(depot.anbieter, depot.kategorie, depot.finanzMax, auswahl).passt[0];
+    expect(erster.anbieter.id).toBe("flatex-depot");
+    expect(erster.kredit).toBe(true);
+    expect(angebotsHinweise(erster.anbieter, depot.zeilen, depot.kategorie).map((h) => h.art)).toContain("achtung");
+  });
+
+  it("kein Depot trägt den Kredit-Abzug ohne Achtung-Text", () => {
+    for (const a of brokerVergleich.filter((x) => x.werte.kreditAbStart === "teils")) {
+      expect(angebotsHinweise(a, depot.zeilen, "depot").map((h) => h.art), a.id).toContain("achtung");
+    }
   });
 });

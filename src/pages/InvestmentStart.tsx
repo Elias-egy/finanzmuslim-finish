@@ -7,6 +7,7 @@ import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
+import { HinweisKasten } from "@/components/vergleich/HinweisKasten";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -307,24 +308,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           {/* Ausnahmen des Angebots, direkt unter dem Knopf beim Video (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
           {hinweise.length > 0 && (
             <div id="start-hinweis" className="mx-auto mt-5 max-w-[760px] scroll-mt-24 space-y-2 text-left">
-              {hinweise.map((h) => {
-                const vorteil = h.art === "tarif";
-                return (
-                  <p
-                    key={h.titel}
-                    role="note"
-                    className={`rounded-xl border-2 px-4 py-3 text-[15px] leading-[23px] text-foreground ${vorteil ? "border-violet bg-[#f1efff]" : "border-amber-500 bg-amber-50"}`}
-                  >
-                    <span
-                      className={`mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full align-text-bottom text-[13px] font-bold leading-none text-white ${vorteil ? "bg-violet" : "bg-amber-500"}`}
-                      aria-hidden
-                    >
-                      {vorteil ? "?" : "!"}
-                    </span>
-                    <span className="font-semibold">{h.titel}:</span> {h.text}
-                  </p>
-                );
-              })}
+              {hinweise.map((h) => (
+                <HinweisKasten key={h.titel} hinweis={h} />
+              ))}
             </div>
           )}
 

@@ -4,6 +4,7 @@ import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, S
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild } from "@/components/vergleich/VergleichsBausteine";
+import { HinweisKasten } from "@/components/vergleich/HinweisKasten";
 import { motive, type MotivName } from "@/components/motive";
 import {
   aktiveFragen,
@@ -15,6 +16,7 @@ import {
   type Frage,
 } from "@/data/vergleichAssistent";
 import { dealFuer, hoechsterBonus } from "@/data/deals";
+import { angebotsHinweise } from "@/data/vergleichHelfer";
 import { vorhabenAusSuche, werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
@@ -259,6 +261,23 @@ const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; ausw
   </dl>
 );
 
+/**
+ * Die Ausnahmen des Angebots, dieselben wie im Vergleich und auf der Startseite. Sie stehen über dem Knopf,
+ * nicht hinter „Details“: flatex ist hier bei großer Halal-Auswahl die Empfehlung, und der Besucher liest
+ * vor dem Klick, warum es im Vergleich sonst weiter hinten liegt (Elias, 12.10.2026).
+ */
+const Hinweise = ({ t, baustein }: { t: Treffer; baustein: Baustein }) => {
+  const liste = angebotsHinweise(t.anbieter, baustein.zeilen, baustein.kategorie);
+  if (liste.length === 0) return null;
+  return (
+    <div className="mt-3 space-y-2">
+      {liste.map((h) => (
+        <HinweisKasten key={h.art} hinweis={h} klein />
+      ))}
+    </div>
+  );
+};
+
 const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?: boolean }) =>
   t.anbieter.link ? (
     <div>
@@ -301,6 +320,7 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
         </div>
         <p className="mt-3 text-[13px] font-semibold text-muted-foreground">Warum das zu dir passt</p>
         <Gruende t={t} />
+        <Hinweise t={t} baustein={baustein} />
         {offen && <Fakten t={t} baustein={baustein} auswahl={auswahl} />}
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div className="sm:order-2">
@@ -325,6 +345,7 @@ const TrefferKarte = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein
       </p>
     </div>
     <Gruende t={t} />
+    <Hinweise t={t} baustein={baustein} />
     <Fakten t={t} baustein={baustein} auswahl={auswahl} />
     <div className="mt-4">
       <Weiter t={t} baustein={baustein} />

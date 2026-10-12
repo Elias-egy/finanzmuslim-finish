@@ -72,6 +72,8 @@ export type Treffer = {
   note: { gesamt: number; halal: number; finanz: number | null } | null;
   /** Wonach sortiert wird: die Note, mit gewählter Priorität der neu gewichtete Kosten-Teil. */
   sortWert: number;
+  /** Räumt Neukunden automatisch einen Kredit ein: steht nur über die Ausnahme des geführten Tests hier. */
+  kredit: boolean;
 };
 
 export type Ergebnis = {
@@ -206,6 +208,7 @@ export const werteAus = (
             ? runde(0.5 * note.halal + 0.5 * kosten)
             : note.gesamt
         : 0,
+      kredit: bewertet?.kredit ?? false,
     };
     if (offen.length > 0 || !bewertet) ungeprueft.push(treffer);
     else passt.push(treffer);
@@ -220,6 +223,18 @@ export const werteAus = (
 
   return { passt, ungeprueft, raus };
 };
+
+/**
+ * Wer im Kasten „Unsere Nummer 1“ der Vergleichsseite steht: der beste Treffer ohne Wünsche, aber ohne die
+ * Ausnahme des geführten Tests. Ein Depot mit automatischem Kredit steht dort nie, egal wie hoch seine Note
+ * ist (Elias, 12.10.2026: „auf 1 ist schon nicht so geil“).
+ */
+export const siegerDerSeite = (
+  liste: readonly RohAnbieter[],
+  kategorie: RangKategorie,
+  finanzMax: Record<string, number>,
+): RohAnbieter | null =>
+  werteAus(liste, kategorie, finanzMax, { wuensche: [], gewichte: [] }).passt.find((t) => !t.kredit)?.anbieter ?? null;
 
 /**
  * `?vorhaben=anlegen,konto` von der Danke-Seite der Opt-in-Strecke: nur bekannte Werte,

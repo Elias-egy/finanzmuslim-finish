@@ -194,21 +194,33 @@ const ANGEBOT: Record<string, Eintrag> = {
  * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Sie zahlt ins Zins-Kriterium
  * ein (`FAKTOR_KREDIT` in `src/lib/rangfolge.ts`). Beleg: `quellen.kreditAbStart` des Angebots.
  */
-const ACHTUNG_KREDIT: Record<string, string> = {
+/** Der belegte Teil: was das Haus tut und was der Besucher tun kann. */
+const KREDIT_SACHE: Record<string, string> = {
   flatex:
-    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten. Deshalb steht flatex im Vergleich nicht ganz vorn, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.",
+    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten.",
 };
 
-/** Die Achtung-Meldung zum Angebot, oder nichts: nur im Depot-Vergleich und nur mit Beleg. */
+/** Im Depot-Vergleich dazu der Grund für den Platz. */
+const ACHTUNG_KREDIT: Record<string, string> = {
+  flatex: `${KREDIT_SACHE.flatex} Deshalb steht flatex im Vergleich nicht ganz vorn, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.`,
+};
+
+/**
+ * Die Achtung-Meldung zum Angebot, oder nichts: nur mit Beleg. Im Depot-Vergleich mit dem Grund für den
+ * Platz. Im Edelmetall-Vergleich wirkt derselbe Abzug, dort steht nur die Sache: Die 22 Anlagen sind nicht
+ * das Thema der Seite.
+ */
 export const kreditAchtung = (
   kategorie: string | undefined,
   angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
-): string | undefined =>
-  kategorie === "depot" && angebot.haus && angebot.werte.kreditAbStart === "teils" && angebot.quellen?.kreditAbStart?.url
-    ? ACHTUNG_KREDIT[angebot.haus]
-    : undefined;
+): string | undefined => {
+  if (!angebot.haus || angebot.werte.kreditAbStart !== "teils" || !angebot.quellen?.kreditAbStart?.url) return undefined;
+  if (kategorie === "depot") return ACHTUNG_KREDIT[angebot.haus];
+  if (kategorie === "edelmetall") return KREDIT_SACHE[angebot.haus];
+  return undefined;
+};
 
-export const ALLE_ACHTUNG_SAETZE: string[] = Object.values(ACHTUNG_KREDIT);
+export const ALLE_ACHTUNG_SAETZE: string[] = [...Object.values(ACHTUNG_KREDIT), ...Object.values(KREDIT_SACHE)];
 
 const istHinweis = (e: Eintrag): e is Hinweis => "satz" in e;
 

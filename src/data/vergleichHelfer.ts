@@ -1,9 +1,11 @@
-import type {
-  CheckStatus,
-  Quelle,
-  VergleichsSpalte,
-  VergleichsZeile,
-  Zellwert,
+import {
+  hinweiseAmAngebot,
+  type AngebotsHinweis,
+  type CheckStatus,
+  type Quelle,
+  type VergleichsSpalte,
+  type VergleichsZeile,
+  type Zellwert,
 } from "@/components/vergleich/vergleichTypen";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
 import { kreditAchtung, zinsHinweis } from "./zinsHinweise";
@@ -124,6 +126,13 @@ export const baueSpalten = (
       werte,
     };
   });
+
+/**
+ * Die Ausnahmen eines einzelnen Angebots, für Stellen ohne Tabelle: Startseite mit dem Video und geführter
+ * Test. Dieselbe Quelle wie beim aufgeklappten Angebot im Vergleich.
+ */
+export const angebotsHinweise = (a: RohAnbieter, zeilen: VergleichsZeile[], kategorie?: string): AngebotsHinweis[] =>
+  hinweiseAmAngebot(baueSpalten([a], zeilen, kategorie)[0], zeilen);
 
 /** Zählt, bei wie vielen Anbietern alle Halal-Merkmale geprüft sind. */
 export const anzahlHalalGeprueft = (anbieter: RohAnbieter[], zeilen: VergleichsZeile[]) => {

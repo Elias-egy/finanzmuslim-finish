@@ -56,8 +56,13 @@ describe("Zins-Hinweise", () => {
 describe("Achtung-Meldung zum automatischen Kredit", () => {
   const flatex = { id: "flatex-depot", haus: "flatex", werte: { kreditAbStart: "teils" }, quellen: { kreditAbStart: { url: "https://www.flatex.de/" } } };
 
-  it("steht nur im Depot-Vergleich und nur mit Beleg", () => {
+  it("steht im Depot- und im Edelmetall-Vergleich und nur mit Beleg", () => {
     expect(kreditAchtung("depot", flatex)).toMatch(/Kredit/);
+    expect(kreditAchtung("depot", flatex)).toMatch(/nicht ganz vorn/);
+    // Im Edelmetall-Vergleich wirkt derselbe Abzug: die Sache ja, der Satz zu den 22 Anlagen nein.
+    expect(kreditAchtung("edelmetall", flatex)).toMatch(/Kredit/);
+    expect(kreditAchtung("edelmetall", flatex)).not.toMatch(/22/);
+    expect(kreditAchtung("edelmetall", { ...flatex, quellen: {} })).toBeUndefined();
     expect(kreditAchtung("krypto", flatex)).toBeUndefined();
     expect(kreditAchtung("depot", { ...flatex, quellen: {} })).toBeUndefined();
     expect(kreditAchtung("depot", { ...flatex, werte: {} })).toBeUndefined();
