@@ -50,6 +50,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "IE000929U2U9": {
     "kaufbar": [
       {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -247,10 +259,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -342,10 +366,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -448,10 +484,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Scalable Capital",
       "Trade Republic"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
@@ -543,7 +591,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -891,6 +939,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "IE000X9FTI22": {
     "kaufbar": [
       {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Consorsbank",
         "haus": "consorsbank",
         "beleg": {
@@ -981,7 +1041,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -994,6 +1054,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
           ]
         }
       },
@@ -1286,7 +1358,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Libertex"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1299,6 +1371,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
           ]
         }
       },
@@ -1533,7 +1617,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1546,6 +1630,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
           ]
         }
       },
@@ -1792,10 +1888,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -1971,7 +2079,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -2139,6 +2247,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "IE00B579F325": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Bux",
         "haus": "bux",
@@ -2374,7 +2494,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -2601,6 +2721,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B1VS3333": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Bux",
         "haus": "bux",
@@ -2836,10 +2968,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -3060,7 +3204,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "Libertex"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -3069,6 +3213,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B588CD74": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -3278,10 +3434,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -3503,10 +3671,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "12.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "Bison",
         "haus": "bison",
@@ -3727,7 +3907,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "08.10.2026"
+    "stand": "12.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
