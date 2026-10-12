@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
 import { HinweisKasten } from "@/components/vergleich/HinweisKasten";
+import { istVorteil } from "@/components/vergleich/vergleichTypen";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -253,9 +254,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 type="button"
                 onClick={() => document.getElementById("start-hinweis")?.scrollIntoView({ behavior: "smooth", block: "center" })}
                 aria-label={`Wichtiger Hinweis zu ${partner.anbieter}, Klick zeigt ihn`}
-                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${hinweise.some((h) => h.art !== "tarif") ? "bg-amber-500" : "bg-violet"}`}
+                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${hinweise.some((h) => !istVorteil(h)) ? "bg-amber-500" : "bg-violet"}`}
               >
-                <span aria-hidden>{hinweise.some((h) => h.art !== "tarif") ? "!" : "?"}</span>
+                <span aria-hidden>{hinweise.some((h) => !istVorteil(h)) ? "!" : "?"}</span>
               </button>
             )}
             </div>

@@ -78,6 +78,8 @@ export type VergleichsSpalte = {
   abgeraten?: boolean;
   /** Kostenpflichtiger Tarif: Marke am Produktnamen und ein Satz, was man für die Gebühr bekommt. */
   tarif?: { marke: string; satz: string } | null;
+  /** Führt das Haus mehrere Produkte: was dieses von den anderen unterscheidet, mit Beleg (`produktUnterschiede.ts`). */
+  unterschied?: { titel: string; satz: string } | null;
   werte: Record<string, Zellwert>;
 };
 
@@ -115,14 +117,18 @@ export const einzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]
 };
 
 /** Ein Hinweis, der eine Ausnahme am Angebot erklärt. Im Hauptvergleich steht dafür nur das Zeichen. */
-export type AngebotsHinweis = { art: "achtung" | "tarif" | "zins"; titel: string; text: string };
+export type AngebotsHinweis = { art: "achtung" | "tarif" | "zins" | "unterschied"; titel: string; text: string };
+
+/** Ein Tarif oder ein Unterschied zwischen Produkten ist keine Warnung: violett mit „?“. Gelb mit „!“ bleibt für Warnungen. */
+export const istVorteil = (h: AngebotsHinweis) => h.art === "tarif" || h.art === "unterschied";
 
 /** Was ein Premium-Tarif zusätzlich sagt (Elias, 12.10.2026): der Ton, kein Vorteil. */
 export const TARIF_ERNSTER = "Hilfreich, wenn du das Ganze etwas ernster nehmen möchtest.";
 
 /**
- * Die Ausnahmen eines Angebots: automatischer Kredit (Achtung), kostenpflichtiger Tarif und eine
- * Zins-Ampel auf „teils“, bei der der Besucher etwas abschalten muss. Hat ein Angebot eine davon,
+ * Die Ausnahmen eines Angebots: automatischer Kredit (Achtung), kostenpflichtiger Tarif, eine
+ * Zins-Ampel auf „teils“, bei der der Besucher etwas abschalten muss, und der Unterschied zu den anderen
+ * Produkten desselben Hauses. Hat ein Angebot eine davon,
  * steht beim aufgeklappten Angebot der markierte Hinweis mit dem Zeichen „!“. Im Hauptvergleich
  * steht das Zeichen nicht (Elias, 12.10.2026 nachts). Eine grüne Ampel mit „Du musst nichts einstellen“ ist keine Ausnahme.
  */
@@ -135,11 +141,12 @@ export const hinweiseAmAngebot = (spalte: VergleichsSpalte, zeilen: VergleichsZe
   }
   const zinsZeile = zeilen.find((z) => spalte.werte[z.key]?.zusatz && spalte.werte[z.key]?.status === "teils");
   if (zinsZeile) liste.push({ art: "zins", titel: zinsZeile.label, text: spalte.werte[zinsZeile.key].zusatz! });
+  if (spalte.unterschied) liste.push({ art: "unterschied", titel: spalte.unterschied.titel, text: spalte.unterschied.satz });
   return liste;
 };
 
 /** Trägt das Angebot etwas, das erst aufgeklappt zu sehen ist? */
 export const hatEinzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]) => {
   const e = einzelheiten(spalte, zeilen);
-  return Boolean(e.zins) || Boolean(e.achtung) || Boolean(spalte.tarif) || e.quellen.length > 0;
+  return Boolean(e.zins) || Boolean(e.achtung) || Boolean(spalte.tarif) || Boolean(spalte.unterschied) || e.quellen.length > 0;
 };

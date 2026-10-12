@@ -7,6 +7,7 @@ import {
   type VergleichsZeile,
   type Zellwert,
 } from "@/components/vergleich/vergleichTypen";
+import { PRODUKT_UNTERSCHIEDE } from "./produktUnterschiede";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
 import { kreditAchtung, zinsHinweis } from "./zinsHinweise";
 
@@ -123,6 +124,7 @@ export const baueSpalten = (
       etikett: a.etikett ?? null,
       abgeraten: a.abgeraten ?? false,
       tarif: TARIF_MARKEN[a.id] ?? null,
+      unterschied: PRODUKT_UNTERSCHIEDE[a.id] ?? null,
       werte,
     };
   });

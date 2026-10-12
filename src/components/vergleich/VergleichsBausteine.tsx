@@ -6,6 +6,7 @@ import {
   KEINE_ANGABE,
   einzelheiten,
   hinweiseAmAngebot,
+  istVorteil,
   noteWort,
   noteZahl,
   quellenText,
@@ -295,7 +296,7 @@ const HinweisBlock = ({
     <div id={hinweisId(spalte.id)} ref={ref} tabIndex={-1} className="scroll-mt-24 space-y-2 outline-none">
       {liste.map((h) => {
         /* Ein Tarif ist ein Vorteil: freundliches Fragezeichen in Violett. Gelb mit „!“ bleibt für Warnungen. */
-        const vorteil = h.art === "tarif";
+        const vorteil = istVorteil(h);
         const ton = vorteil
           ? hell
             ? "border-violet bg-violet/15"

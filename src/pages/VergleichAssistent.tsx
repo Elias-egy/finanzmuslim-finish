@@ -267,7 +267,8 @@ const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; ausw
  * vor dem Klick, warum es im Vergleich sonst weiter hinten liegt (Elias, 12.10.2026).
  */
 const Hinweise = ({ t, baustein }: { t: Treffer; baustein: Baustein }) => {
-  const liste = angebotsHinweise(t.anbieter, baustein.zeilen, baustein.kategorie);
+  // Der Unterschied zwischen den Produkten eines Hauses steht beim geöffneten Angebot und auf der Startseite, hier nicht.
+  const liste = angebotsHinweise(t.anbieter, baustein.zeilen, baustein.kategorie).filter((h) => h.art !== "unterschied");
   if (liste.length === 0) return null;
   return (
     <div className="mt-3 space-y-2">

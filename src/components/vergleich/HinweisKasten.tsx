@@ -1,4 +1,4 @@
-import type { AngebotsHinweis } from "./vergleichTypen";
+import { istVorteil, type AngebotsHinweis } from "./vergleichTypen";
 
 /**
  * Der Kasten zu einer Ausnahme am Angebot, außerhalb des Vergleichs: auf der Startseite mit dem Video und
@@ -6,7 +6,7 @@ import type { AngebotsHinweis } from "./vergleichTypen";
  * Gelb wirkt abschreckend und bleibt für Warnungen).
  */
 export const HinweisKasten = ({ hinweis, klein = false }: { hinweis: AngebotsHinweis; klein?: boolean }) => {
-  const vorteil = hinweis.art === "tarif";
+  const vorteil = istVorteil(hinweis);
   return (
     <p
       role="note"

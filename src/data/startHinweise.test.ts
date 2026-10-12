@@ -10,6 +10,12 @@ describe("Hinweise auf der Startseite (Seite mit dem Video)", () => {
     expect(t?.titel).toContain("Prime+");
     expect(t?.text).toContain("4,99 €");
   });
+  it("Scalable und finvesto nennen je Produkt den Unterschied, mit dem Produkt als Titel", () => {
+    const frei = startHinweise("scalable", "depot").find((h) => h.art === "unterschied");
+    expect(frei?.titel).toBe("Free Broker");
+    expect(startHinweise("finvesto", "depot").filter((h) => h.art === "unterschied").map((h) => h.titel)).toEqual(["Depot", "Depot Basis"]);
+    expect(startHinweise("comdirect-pure-depot", "depot").map((h) => h.titel)).toEqual(["Depot oder Pure Depot"]);
+  });
   it("ohne Ausnahme und bei unbekannter Art bleibt es still", () => {
     expect(startHinweise("smartbroker", "depot")).toEqual([]);
     expect(startHinweise("flatex", "steuer")).toEqual([]);

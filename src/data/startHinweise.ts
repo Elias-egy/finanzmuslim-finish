@@ -23,7 +23,8 @@ export const startHinweise = (kurzname: string, art: string): AngebotsHinweis[] 
   return baueSpalten(passende, zeilen, art).flatMap((s) =>
     hinweiseAmAngebot(s, zeilen).map((h) => ({
       ...h,
-      titel: passende.length > 1 ? `${s.produkt}, ${h.titel}` : h.titel,
+      // Der Unterschied nennt die Produkte schon im Titel, dort reicht der Produktname.
+      titel: passende.length > 1 ? (h.art === "unterschied" ? s.produkt : `${s.produkt}, ${h.titel}`) : h.titel,
     })),
   );
 };
