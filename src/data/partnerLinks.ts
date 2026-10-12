@@ -139,6 +139,13 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "financeAds, Programm 870, Textlink 24068 (comdirect Girokonto \"Aktiv\", leitet am 26.09.2026 auf giro_praemie_media_wm250-aff.html).",
   },
   {
+    kurzname: "1822direkt-girokonto",
+    anbieter: "1822direkt",
+    ziel: "/dein-investmentstart/1822direkt-girokonto",
+    aktiv: true,
+    notiz: "financeAds, Programm 107, Kategorie GiroDirekt, Textlink 10165 (leitet am 11.10.2026 auf 1822direkt.de/girokonto). Angenommen, im Portal gesehen 11.10.2026.",
+  },
+  {
     kurzname: "finanzen-net-zero",
     anbieter: "finanzen.net ZERO",
     ziel: "/dein-investmentstart/finanzen-net-zero",

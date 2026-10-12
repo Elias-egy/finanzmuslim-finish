@@ -911,6 +911,61 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    kurzname: "1822direkt-girokonto",
+    anbieter: "1822direkt",
+    kurz: "1822direkt",
+    domain: "1822direkt.de",
+    markenfarbe: "#00386A",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/1822direkt-girokonto",
+    link: "https://www.financeads.net/tc.php?t=87591C10710165T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei 1822direkt eröffnen →",
+    videoHinweis: false,
+    chips: ["Sparkassen-Card 0 €", "Apple Pay", "Kein Dispo ab Start", "21.000 Sparkassen-Automaten"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Die Eröffnung läuft laut 1822direkt komplett digital und dauert wenige Minuten." },
+      { titel: "Identität bestätigen", text: "Online per Video oder eID, oder persönlich bei der Post." },
+      { titel: "Loslegen", text: "Mit der Sparkassen-Card bezahlen und Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Zinsen nur auf dem Tagesgeld",
+        text: "Zum GiroDirekt eröffnet 1822direkt automatisch ein Tagesgeldkonto. Verzinst wird nur, was dort liegt. Ohne Einzahlung bleibt es leer.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Einen Dispo gibt es erst auf Antrag, laut 1822direkt nach drei Gehaltseingängen. Die Sparkassen-Card bucht direkt vom Konto ab.",
+      },
+      {
+        titel: "Kostenlos mit Bedingung",
+        text: "Mit 700 € Geldeingang im Monat oder unter 30 Jahren kostet das Konto nichts. Sonst 4,90 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein 1822direkt-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Geld aufs Tagesgeld legen.",
+        text: "Das Tagesgeldkonto kommt automatisch mit, für Neukunden derzeit mit 3,50 % Zinsen im Jahr beworben. Lass es leer, dein Girokonto funktioniert ohne.",
+      },
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Den Dispo gibt es nur auf Antrag. Einfach nicht beantragen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Welches 1822direkt-Konto passt?",
+        a: "Bewertet haben wir das GiroDirekt. Für den Alltag reicht es, die Sparkassen-Card ist dabei.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
     kurzname: "postbank",
     anbieter: "Postbank",
     kurz: "Postbank",
