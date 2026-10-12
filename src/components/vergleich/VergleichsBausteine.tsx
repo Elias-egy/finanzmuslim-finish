@@ -261,42 +261,10 @@ export const ZellInhalt = ({
 
 /* ------------------------------------------------- Aufgeklapptes Angebot */
 
-/** Ziel des Zeichens „!“: Die Kennung, auf die der Klick springt. */
-export const hinweisId = (spaltenId: string) => `hinweis-${spaltenId}`;
+/** Kennung des Hinweisblocks im aufgeklappten Angebot. */
+const hinweisId = (spaltenId: string) => `hinweis-${spaltenId}`;
 
-/**
- * Das Zeichen „!“ am Angebot (Elias, 12.10.2026: „minimal, aber offensichtlich“). Es ist ein echter Knopf:
- * Ein Klick öffnet die Einzelheiten und führt auf den markierten Hinweis. Ohne Ausnahme steht es nicht da.
- */
-export const HinweisZeichen = ({
-  spalte,
-  zeilen,
-  beiKlick,
-  className = "relative",
-}: {
-  spalte: VergleichsSpalte;
-  zeilen: VergleichsZeile[];
-  beiKlick: () => void;
-  className?: string;
-}) => {
-  if (hinweiseAmAngebot(spalte, zeilen).length === 0) return null;
-  return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        beiKlick();
-      }}
-      aria-label={`Wichtiger Hinweis zu ${spalte.anbieter} ${spalte.produkt}, Klick zeigt ihn`}
-      title="Wichtiger Hinweis, hier lesen"
-      className={`inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border border-amber-500 bg-amber-100 text-[13px] font-bold leading-none text-amber-900 transition-colors before:absolute before:-inset-[11px] before:content-[''] hover:bg-amber-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:bg-amber-950/60 dark:text-amber-200 ${className}`}
-    >
-      <span aria-hidden>!</span>
-    </button>
-  );
-};
-
-/** Der markierte Block mit den Hinweisen. Mit `markieren` scrollt er ins Bild und trägt kurz einen kräftigen Rahmen. */
+/** Der markierte Block mit den Hinweisen. Mit `markieren` scrollt er ins Bild und trägt kurz einen kräftigen Rahmen. Das Zeichen „!“ steht nur hier, nicht im Hauptvergleich (Elias, 12.10.2026 nachts: vorn wirkt es abstoßend). */
 const HinweisBlock = ({
   spalte,
   zeilen,
@@ -324,22 +292,33 @@ const HinweisBlock = ({
   }, [markieren]);
   if (liste.length === 0) return null;
   return (
-    <div
-      id={hinweisId(spalte.id)}
-      ref={ref}
-      tabIndex={-1}
-      className={`scroll-mt-24 space-y-2 rounded-md border-2 p-2 outline-none transition-colors duration-700 motion-reduce:transition-none ${
-        hell ? "border-amber-500 bg-amber-100 dark:bg-amber-950/50" : "border-amber-500/60 bg-amber-50 dark:bg-amber-950/30"
-      }`}
-    >
-      {liste.map((h) => (
-        <p key={h.art} role="note" className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
-          <span className="mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-amber-500 align-text-bottom text-[12px] font-bold leading-none text-white" aria-hidden>
-            !
-          </span>
-          <span className="font-semibold">{h.titel}:</span> {h.text}
-        </p>
-      ))}
+    <div id={hinweisId(spalte.id)} ref={ref} tabIndex={-1} className="scroll-mt-24 space-y-2 outline-none">
+      {liste.map((h) => {
+        /* Ein Tarif ist ein Vorteil: freundliches Fragezeichen in Violett. Gelb mit „!“ bleibt für Warnungen. */
+        const vorteil = h.art === "tarif";
+        const ton = vorteil
+          ? hell
+            ? "border-violet bg-violet/15"
+            : "border-violet/40 bg-violet/5"
+          : hell
+            ? "border-amber-500 bg-amber-100 dark:bg-amber-950/50"
+            : "border-amber-500/60 bg-amber-50 dark:bg-amber-950/30";
+        return (
+          <p
+            key={h.art}
+            role="note"
+            className={`rounded-md border-2 px-3 py-2 text-[14px] leading-[21px] text-foreground transition-colors duration-700 motion-reduce:transition-none lg:text-[15px] lg:leading-[23px] ${ton}`}
+          >
+            <span
+              className={`mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full align-text-bottom text-[12px] font-bold leading-none text-white ${vorteil ? "bg-violet" : "bg-amber-500"}`}
+              aria-hidden
+            >
+              {vorteil ? "?" : "!"}
+            </span>
+            <span className="font-semibold">{h.titel}:</span> {h.text}
+          </p>
+        );
+      })}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { AngebotsKnopf, BonusSchild, QuellenListe, ZinsSatz } from "./Vergleichs
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
- * Das aufgeklappte Angebot am Laptop: ein Klick auf die Kopfzeile der Tabelle öffnet es, ebenso das Zeichen „!“ am Angebot (dann wird der Hinweis angesteuert und markiert).
+ * Das aufgeklappte Angebot am Laptop: ein Klick auf die Kopfzeile der Tabelle öffnet es. Hat das Angebot eine Ausnahme, steht dort der Hinweis mit dem Zeichen „!“ und ist kurz markiert.
  * Hier steht, was im Hauptvergleich nichts zu suchen hat (Elias, 07.10.2026): die Vorteile
  * eines kostenpflichtigen Tarifs und der Satz zur Zins-Ampel etwas größer, die Quellen der Werte
  * klein darunter. Auf dem Handy steht der Tarif oben in der Karte, der Rest hinter „Produktdetails“.
@@ -18,7 +18,7 @@ export const AngebotsDialog = ({
   spalte: VergleichsSpalte | null;
   zeilen: VergleichsZeile[];
   schliessen: () => void;
-  /** true, wenn der Klick vom Zeichen „!“ kam: Der Hinweis wird angesteuert und kurz markiert. */
+  /** true: Der Hinweis wird beim Öffnen angesteuert und kurz markiert. */
   markieren?: boolean;
 }) => (
   <Dialog open={spalte !== null} onOpenChange={(o) => !o && schliessen()}>

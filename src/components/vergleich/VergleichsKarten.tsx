@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, HinweisZeichen, ProduktDetails, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, ProduktDetails, ZellInhalt } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -34,8 +34,6 @@ const Karte = ({
   waehle: (id: string) => void;
 }) => {
   const [offen, setOffen] = useState(false);
-  /** true, wenn die Details über das Zeichen „!“ aufgingen: Der Hinweis wird angesteuert und kurz markiert. */
-  const [markiere, setMarkiere] = useState(false);
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
 
   const hervor = spalte.etikett?.ton === "empfehlung";
@@ -60,16 +58,6 @@ const Karte = ({
           <span className="truncate">
             {spalte.anbieter} <span className="font-medium">{spalte.produkt}</span>
           </span>
-        </span>
-        <span className="flex shrink-0 items-center pr-3 empty:hidden">
-          <HinweisZeichen
-            spalte={spalte}
-            zeilen={zeilen}
-            beiKlick={() => {
-              setMarkiere(true);
-              setOffen(true);
-            }}
-          />
         </span>
         {spalte.etikett && !spalte.abgeraten && (
           <span
@@ -130,10 +118,7 @@ const Karte = ({
           </label>
           <button
             type="button"
-            onClick={() => {
-              setMarkiere(false);
-              setOffen((v) => !v);
-            }}
+            onClick={() => setOffen((v) => !v)}
             aria-expanded={offen}
             className="inline-flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
           >
@@ -145,7 +130,7 @@ const Karte = ({
           </button>
         </div>
 
-        {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} markieren={markiere} />}
+        {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} markieren />}
       </div>
     </li>
   );

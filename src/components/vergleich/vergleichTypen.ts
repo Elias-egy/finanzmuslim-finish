@@ -123,8 +123,8 @@ export const TARIF_ERNSTER = "Hilfreich, wenn du das Ganze etwas ernster nehmen 
 /**
  * Die Ausnahmen eines Angebots: automatischer Kredit (Achtung), kostenpflichtiger Tarif und eine
  * Zins-Ampel auf „teils“, bei der der Besucher etwas abschalten muss. Hat ein Angebot eine davon,
- * trägt es im Hauptvergleich das Zeichen „!“, und ein Klick führt auf genau diesen Hinweis
- * (Elias, 12.10.2026). Eine grüne Ampel mit „Du musst nichts einstellen“ ist keine Ausnahme.
+ * steht beim aufgeklappten Angebot der markierte Hinweis mit dem Zeichen „!“. Im Hauptvergleich
+ * steht das Zeichen nicht (Elias, 12.10.2026 nachts). Eine grüne Ampel mit „Du musst nichts einstellen“ ist keine Ausnahme.
  */
 export const hinweiseAmAngebot = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]): AngebotsHinweis[] => {
   const liste: AngebotsHinweis[] = [];
