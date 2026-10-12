@@ -255,7 +255,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@flatex.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von sieben ISINs (Invesco ACWI, vier HSBC, zwei Sukuk-ETFs). Die Krypto-Frage vom 21.09. ist über die Website erledigt.", von: "elias@finanzmuslim.com" },
     { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "info@flatex.de", kern: "Alle sieben angefragten Wertpapiere sind bei flatex handelbar und regulär online kaufbar. Sparplan nur für LU3123443510 (Xtrackers II Salam Sukuk), für die anderen sechs nicht freigeschaltet. Damit sind alle 22 Halal-Anlagen bei flatex belegt (belege/flatex/99-j3-antwort-2026-10-07.txt)." },
-  ], naechsterSchritt: "Erledigt 07.10.2026: Kaufbarkeit der sieben ISINs schriftlich beantwortet." },
+    { datum: "12.10.2026", richtung: "raus", kanal: "Mail", adresse: "j.aslander@financeads.net", kern: "Partnerfaden, nicht Kaufbarkeit: Nachfass an die financeAds-Betreuerin zu den offenen Programm-Bewerbungen (Partner 64685), darunter flatex (in Prüfung seit 24.09.). Zoho Gesendet 123.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Erledigt 07.10.2026: Kaufbarkeit der sieben ISINs schriftlich beantwortet. Partnerprogramm: Antwort der financeAds-Betreuerin auf die Mail vom 12.10.2026 abwarten." },
   tomorrow: { anbieter: "Tomorrow", vorgaenge: [
     { datum: "21.09.2026", richtung: "raus", kanal: "Mail", adresse: "hello@tomorrow.one", kern: frage2 },
     { datum: "21.09.2026", richtung: "rein", kanal: "Mail", automatisch: true, kern: "Nur Eingangsbestätigung." },
@@ -331,7 +332,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
   ], keinMailWeg: true, naechsterSchritt: "Flex erledigt per Chat am 26.09. Depot: Antwort über FinanceQuality auf die Mail vom 07.10.2026 abwarten (Paket M1, belege/n26/99-m1-anfrage-2026-10-07.txt), sonst nur per Suche in der App mit Konto." },
   degiro: { anbieter: "DEGIRO", vorgaenge: [
     { datum: "26.09.2026", richtung: "raus", kanal: "Mail", adresse: "kundenservice@degiro.de", kern: "Gebündelte Anfrage als finanzmuslim.com: Kaufbarkeit von zwölf ISINs außerhalb der ETF-Kernauswahl.", von: "elias@finanzmuslim.com" },
-  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten. Der Partnerfaden mit affiliates@flatexdegiro.com läuft getrennt." },
+    { datum: "12.10.2026", richtung: "raus", kanal: "Mail", adresse: "affiliates@flatexdegiro.com", kern: "Partnerfaden, nicht Kaufbarkeit: dritte Mail nach Erstanfrage 13.09. und Nachfass 25.09., ohne Antwort. Zoho Gesendet 125 und 126, acht Sekunden auseinander; Ursache der Doppelung offen.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort auf die gebündelte Anfrage vom 26.09. abwarten. Partnerfaden mit affiliates@flatexdegiro.com läuft getrennt: Antwort auf die Mail vom 12.10.2026 abwarten." },
   fidelity: { anbieter: "Fidelity Fondsdepot", vorgaenge: [
     { datum: "27.09.2026", richtung: "raus", kanal: "Mail", adresse: "info@fidelity-direkt.de", kern: "In Zoho am 26.09. eingeplant für 27.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Ausgabeaufschlag und Mindestanlage der drei Halal-Fonds, Kaufbarkeit von 14 ETFs und ETCs.", von: "elias@finanzmuslim.com" },
     { datum: "27.09.2026", richtung: "rein", kanal: "Mail", adresse: "info@fidelity-direkt.de", zeichen: "00269193", automatisch: true, kern: "Zoho INBOX 342: Eingangsbestätigung 00269193." },
@@ -341,7 +343,8 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "„Aktuell gibt es bei BISON leider keine Sparplanfunktion für Wertpapiere.“ Einmalkauf nicht beantwortet." },
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support@bisonapp.com", zeichen: "#613686", kern: "Nachfrage im selben Ticket: Einmalkauf je ISIN ja/nein, alle 22, oder Link auf eine vollständige Liste. Zoho Gesendet #103." },
     { datum: "28.09.2026", richtung: "rein", kanal: "Ticket", zeichen: "#613686", kern: "Zoho INBOX 389, 15:10, vor unserer Nachfrage eingegangen und erst abends gelesen: „Gerne haben wir die Kaufbarkeit der genannten Wertpapiere geprüft. Die folgenden Wertpapiere können bei uns gehandelt werden:“ iShares MSCI World, EM und USA Islamic, WisdomTree Core Physical Silver. Die übrigen 18 nein. Depot vollständig: 3 von 12, 0 von 3, 1 von 7." },
-  ], naechsterSchritt: "Nichts offen. Kommt auf #103 noch eine Antwort, gegen die Liste vom 28.09. prüfen." },
+    { datum: "12.10.2026", richtung: "raus", kanal: "Mail", adresse: "affiliate@bsdigital.com", kern: "Partnerfaden, nicht Kaufbarkeit: Nachfass zur Bewerbung für das BISON Affiliate-Programm (Mails vom 13.09., 17.09. und 25.09. ohne Antwort). Zoho Gesendet 127.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Kaufbarkeit: nichts offen. Kommt auf #103 noch eine Antwort, gegen die Liste vom 28.09. prüfen. Partnerprogramm: Antwort auf die Mail vom 12.10.2026 abwarten." },
   freedom24: { anbieter: "Freedom24", vorgaenge: [
     { datum: "28.09.2026", richtung: "raus", kanal: "Mail", adresse: "support_germany@freedom24.com", kern: "In Zoho am 26.09. eingeplant für 28.09., 10 Uhr. Gebündelte Anfrage als finanzmuslim.com: Zins nur auf selbst eröffnetem D-Konto, gilt das für Smart und All inclusive? Kaufbarkeit aller 22 ISINs je Tarif.", von: "elias@finanzmuslim.com" },
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "support_germany@freedom24.com", kern: "Nachfass im Faden vom 28.09.: Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree in den Tarifen Smart und All inclusive. Dazu Sparplan (Auto Invest): ab welchem Betrag, in welchen Abständen?", von: "elias@finanzmuslim.com" },
@@ -369,6 +372,9 @@ export const ANFRAGEN: Record<string, Anfrage> = {
     { datum: "07.10.2026", richtung: "raus", kanal: "Mail", adresse: "kundendialog@gls.de", kern: "Erste Mail als finanzmuslim.com an die Kundenberatung (Adresse aus dem Impressum, belege/gls/99-m1-kontaktadresse-2026-10-07.txt): Kaufbarkeit der drei iShares Islamic ETFs, der vier HSBC Islamic ETFs, des iShares USD Sukuk ETF und der Gold- und Silber-ETCs von Invesco und WisdomTree im GLS Depot. Dazu ETF-Sparplan: ab welcher Rate, in welchen Abständen?", von: "elias@finanzmuslim.com" },
     { datum: "07.10.2026", richtung: "rein", kanal: "Mail", adresse: "autoreply@gls.de", automatisch: true, kern: "Automatische Antwort, Anliegen wird bearbeitet (Zoho INBOX 572)." },
   ], naechsterSchritt: "Antwort auf die Mail vom 07.10.2026 abwarten (Paket M1, Wortlaut unter belege/gls/99-m1-anfrage-2026-10-07.txt). Antworten mit anlage_setzen.py und Belegart schriftlich eintragen." },
+  trading212: { anbieter: "Trading 212", vorgaenge: [
+    { datum: "12.10.2026", richtung: "raus", kanal: "Mail", adresse: "partnerships@trading212.com", kern: "Partnerfaden, nicht Kaufbarkeit: Erinnerung an die am 03.09. zugesagte Compliance-Prüfung (Yoan Galchev), dritte Nachfrage seit dem 13.09. Zoho Gesendet 124.", von: "elias@finanzmuslim.com" },
+  ], naechsterSchritt: "Antwort von partnerships@trading212.com abwarten. Kein anderes Netzwerk für Deutschland belegt." },
   etoro: { anbieter: "eToro", vorgaenge: [], keinMailWeg: true, naechsterSchritt: "Besucherformular etoro.com/customer-service am 28.09.2026 abends ausgefüllt (Kaufbarkeit 22 ISINs als echtes Wertpapier, Absender elias@finanzmuslim.com). Beim Absenden kam ein reCAPTCHA, das Claude nicht löst; Elias löst es im offenen Tab und sendet. Danach Vorgang „raus“ eintragen." },
 };
 
