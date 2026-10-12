@@ -6,6 +6,7 @@ import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
+import { startHinweise } from "@/data/startHinweise";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -288,6 +289,30 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           <div id="start" ref={heroCtaRef} className="mt-5 md:mt-7 scroll-mt-24">
             <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={pauseVideo} />
           </div>
+
+          {/* Ausnahmen des Angebots, direkt unter dem Knopf beim Video (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
+          {startHinweise(partner.kurzname, partner.art).length > 0 && (
+            <div className="mx-auto mt-5 max-w-[760px] space-y-2 text-left">
+              {startHinweise(partner.kurzname, partner.art).map((h) => {
+                const vorteil = h.art === "tarif";
+                return (
+                  <p
+                    key={h.titel}
+                    role="note"
+                    className={`rounded-xl border-2 px-4 py-3 text-[15px] leading-[23px] text-foreground ${vorteil ? "border-violet bg-[#f1efff]" : "border-amber-500 bg-amber-50"}`}
+                  >
+                    <span
+                      className={`mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full align-text-bottom text-[13px] font-bold leading-none text-white ${vorteil ? "bg-violet" : "bg-amber-500"}`}
+                      aria-hidden
+                    >
+                      {vorteil ? "?" : "!"}
+                    </span>
+                    <span className="font-semibold">{h.titel}:</span> {h.text}
+                  </p>
+                );
+              })}
+            </div>
+          )}
 
           <div className="mt-7 md:mt-9 mx-auto max-w-[760px]">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 md:gap-3">
