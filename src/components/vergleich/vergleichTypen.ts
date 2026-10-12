@@ -114,8 +114,32 @@ export const einzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]
   };
 };
 
+/** Ein Hinweis, der eine Ausnahme am Angebot erklärt. Im Hauptvergleich steht dafür nur das Zeichen. */
+export type AngebotsHinweis = { art: "achtung" | "tarif" | "zins"; titel: string; text: string };
+
+/** Was ein Premium-Tarif zusätzlich sagt (Elias, 12.10.2026): der Ton, kein Vorteil. */
+export const TARIF_ERNSTER = "Hilfreich, wenn du das Ganze etwas ernster nehmen möchtest.";
+
+/**
+ * Die Ausnahmen eines Angebots: automatischer Kredit (Achtung), kostenpflichtiger Tarif und eine
+ * Zins-Ampel auf „teils“, bei der der Besucher etwas abschalten muss. Hat ein Angebot eine davon,
+ * trägt es im Hauptvergleich das Zeichen „!“, und ein Klick führt auf genau diesen Hinweis
+ * (Elias, 12.10.2026). Eine grüne Ampel mit „Du musst nichts einstellen“ ist keine Ausnahme.
+ */
+export const hinweiseAmAngebot = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]): AngebotsHinweis[] => {
+  const liste: AngebotsHinweis[] = [];
+  const e = einzelheiten(spalte, zeilen);
+  if (e.achtung) liste.push({ art: "achtung", titel: "Achtung", text: e.achtung });
+  if (spalte.tarif) {
+    liste.push({ art: "tarif", titel: spalte.tarif.marke, text: `${spalte.tarif.satz} ${TARIF_ERNSTER}` });
+  }
+  const zinsZeile = zeilen.find((z) => spalte.werte[z.key]?.zusatz && spalte.werte[z.key]?.status === "teils");
+  if (zinsZeile) liste.push({ art: "zins", titel: zinsZeile.label, text: spalte.werte[zinsZeile.key].zusatz! });
+  return liste;
+};
+
 /** Trägt das Angebot etwas, das erst aufgeklappt zu sehen ist? */
 export const hatEinzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]) => {
   const e = einzelheiten(spalte, zeilen);
-  return Boolean(e.zins) || Boolean(e.achtung) || e.quellen.length > 0;
+  return Boolean(e.zins) || Boolean(e.achtung) || Boolean(spalte.tarif) || e.quellen.length > 0;
 };

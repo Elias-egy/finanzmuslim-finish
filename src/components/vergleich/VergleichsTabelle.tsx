@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { AngebotsDialog } from "./AngebotsDialog";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, HinweisPunkt, HinweisZeichen, ZellInhalt } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -50,6 +50,8 @@ export const VergleichsTabelle = ({
   const [von, setVon] = useState(1);
   const [bis, setBis] = useState(1);
   const [offen, setOffen] = useState<string | null>(null);
+  /** true, wenn das Angebot über das Zeichen „!“ geöffnet wurde: Der Hinweis wird angesteuert. */
+  const [markiere, setMarkiere] = useState(false);
 
   const merkeStelle = useCallback(() => {
     const el = schieber.current;
@@ -217,18 +219,32 @@ export const VergleichsTabelle = ({
                       </div>
                     )
                   )}
-                  {klickbar ? (
-                    <button
-                      type="button"
-                      onClick={() => setOffen(s.id)}
-                      aria-haspopup="dialog"
-                      className="flex w-full flex-1 flex-col items-center gap-1 px-3 py-2 transition-colors hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
-                    >
-                      {kopf}
-                    </button>
-                  ) : (
-                    <div className="flex flex-1 flex-col items-center gap-1 px-3 py-2">{kopf}</div>
-                  )}
+                  <div className="relative flex flex-1 flex-col">
+                    {klickbar ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMarkiere(false);
+                          setOffen(s.id);
+                        }}
+                        aria-haspopup="dialog"
+                        className="flex w-full flex-1 flex-col items-center gap-1 px-3 py-2 transition-colors hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+                      >
+                        {kopf}
+                      </button>
+                    ) : (
+                      <div className="flex flex-1 flex-col items-center gap-1 px-3 py-2">{kopf}</div>
+                    )}
+                    <HinweisZeichen
+                      spalte={s}
+                      zeilen={zeilen}
+                      className="absolute right-2 top-2"
+                      beiKlick={() => {
+                        setMarkiere(true);
+                        setOffen(s.id);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             );
@@ -281,6 +297,7 @@ export const VergleichsTabelle = ({
         spalte={spalten.find((s) => s.id === offen) ?? null}
         zeilen={zeilen}
         schliessen={() => setOffen(null)}
+        markieren={markiere}
       />
     </div>
   );

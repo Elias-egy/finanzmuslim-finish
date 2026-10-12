@@ -4,7 +4,7 @@ import { AngebotsKnopf, BonusSchild, QuellenListe, ZinsSatz } from "./Vergleichs
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
- * Das aufgeklappte Angebot am Laptop: ein Klick auf die Kopfzeile der Tabelle öffnet es.
+ * Das aufgeklappte Angebot am Laptop: ein Klick auf die Kopfzeile der Tabelle öffnet es, ebenso das Zeichen „!“ am Angebot (dann wird der Hinweis angesteuert und markiert).
  * Hier steht, was im Hauptvergleich nichts zu suchen hat (Elias, 07.10.2026): die Vorteile
  * eines kostenpflichtigen Tarifs und der Satz zur Zins-Ampel etwas größer, die Quellen der Werte
  * klein darunter. Auf dem Handy steht der Tarif oben in der Karte, der Rest hinter „Produktdetails“.
@@ -13,10 +13,13 @@ export const AngebotsDialog = ({
   spalte,
   zeilen,
   schliessen,
+  markieren = false,
 }: {
   spalte: VergleichsSpalte | null;
   zeilen: VergleichsZeile[];
   schliessen: () => void;
+  /** true, wenn der Klick vom Zeichen „!“ kam: Der Hinweis wird angesteuert und kurz markiert. */
+  markieren?: boolean;
 }) => (
   <Dialog open={spalte !== null} onOpenChange={(o) => !o && schliessen()}>
     <DialogContent className="max-w-lg gap-5">
@@ -33,15 +36,7 @@ export const AngebotsDialog = ({
               </DialogDescription>
             </div>
           </DialogHeader>
-          {spalte.tarif && (
-            <p className="text-[15px] leading-[23px] text-foreground">
-              <span className="mr-2 rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
-                {spalte.tarif.marke}
-              </span>
-              {spalte.tarif.satz}
-            </p>
-          )}
-          <ZinsSatz spalte={spalte} zeilen={zeilen} />
+          <ZinsSatz spalte={spalte} zeilen={zeilen} markieren={markieren} />
           {spalte.link && (
             <div>
               <AngebotsKnopf link={spalte.link} breit />
