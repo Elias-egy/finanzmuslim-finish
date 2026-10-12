@@ -47,6 +47,8 @@ export type Zellwert = {
   jaNein?: boolean | null;
   /** Satz zur Ampel, steht beim aufgeklappten Angebot: was der Besucher tun oder lassen muss. */
   zusatz?: string;
+  /** Eigene Achtung-Meldung, die es nur bei wenigen Angeboten gibt (automatischer Kredit). Steht beim aufgeklappten Angebot. */
+  achtung?: string;
 };
 
 export type VergleichsSpalte = {
@@ -104,6 +106,7 @@ export const einzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]
   const zinsZeile = zeilen.find((z) => spalte.werte[z.key]?.zusatz);
   return {
     zins: zinsZeile ? { label: zinsZeile.label, satz: spalte.werte[zinsZeile.key].zusatz! } : null,
+    achtung: zeilen.map((z) => spalte.werte[z.key]?.achtung).find(Boolean) ?? null,
     quellen: zeilen.flatMap((z) => {
       const w = spalte.werte[z.key];
       return w?.text && w.quelle?.anzeige ? [{ key: z.key, label: z.label, quelle: w.quelle }] : [];
@@ -114,5 +117,5 @@ export const einzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]
 /** Trägt das Angebot etwas, das erst aufgeklappt zu sehen ist? */
 export const hatEinzelheiten = (spalte: VergleichsSpalte, zeilen: VergleichsZeile[]) => {
   const e = einzelheiten(spalte, zeilen);
-  return Boolean(e.zins) || e.quellen.length > 0;
+  return Boolean(e.zins) || Boolean(e.achtung) || e.quellen.length > 0;
 };

@@ -241,7 +241,9 @@ describe("geführter Vergleich", () => {
 describe("geführter Vergleich und Rangfolge sind eins (Spec 6 und 10.7)", () => {
   it.each(bausteine.map((b) => [b.id, b] as const))("%s: ohne Antworten dieselbe Reihenfolge wie die Rangfolge, nur ohne Einschränkung", (_id, b) => {
     const r = rangfolge(b.anbieter, b.kategorie, { finanzMax: b.finanzMax });
-    expect(ids(werteAus(b.anbieter, b.kategorie, b.finanzMax, leer).passt)).toEqual(ids(r.gerankt.filter((x) => x.uneingeschraenkt)));
+    expect(ids(werteAus(b.anbieter, b.kategorie, b.finanzMax, leer).passt)).toEqual(
+      ids(r.gerankt.filter((x) => x.uneingeschraenkt || (x.kredit && x.anbieter.werte.zinsfreiAbStart === "gut"))),
+    );
   });
 
   it.each(bausteine.map((b) => [b.id, b] as const))("%s: dieselbe Nummer 1 wie der Kasten der Vergleichsseite", (_id, b) => {
@@ -266,9 +268,10 @@ describe("geführter Vergleich und Rangfolge sind eins (Spec 6 und 10.7)", () =>
     const ohne = werteAus(d.anbieter, d.kategorie, d.finanzMax, leer);
     const mit = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahl);
     expect(ids(mit.passt).sort()).toEqual(ids(ohne.passt).sort());
-    const halal = mit.passt.map((t) => sterne(t.note!.halal));
+    const vorKredit = new Map(rangfolge(d.anbieter, d.kategorie, { finanzMax: d.finanzMax }).gerankt.map((b) => [b.anbieter.id, b.halalVorKredit]));
+    const halal = mit.passt.map((t) => sterne(vorKredit.get(t.anbieter.id)!));
     expect(halal).toEqual([...halal].sort((x, y) => y - x));
-    expect(mit.passt[0].note!.halal).toBeGreaterThan(ohne.passt[0].note!.halal);
+    expect(vorKredit.get(mit.passt[0].anbieter.id)!).toBeGreaterThan(vorKredit.get(ohne.passt[0].anbieter.id)!);
     const noten = (e: typeof ohne) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, [t.note?.gesamt, t.note?.halal]]));
     expect(noten(mit)).toEqual(noten(ohne));
   });
@@ -478,5 +481,23 @@ describe("vorhabenAusSuche", () => {
     expect(vorhabenAusSuche("?vorhaben=boese,konto,", erlaubt)).toEqual(["konto"]);
     expect(vorhabenAusSuche("", erlaubt)).toEqual([]);
     expect(vorhabenAusSuche("?vorhaben=", erlaubt)).toEqual([]);
+  });
+});
+
+describe("Depot mit automatischem Kredit im geführten Test (Elias, 12.10.2026)", () => {
+  const d = () => bausteine.find((b) => b.id === "depot")!;
+
+  it("steht bei Wunsch nach vielen Anlagen vorn und sonst weiter hinten", () => {
+    const auswahl = { ...auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: ["auswahl"] }), wuensche: [] };
+    const viele = werteAus(d().anbieter, d().kategorie, d().finanzMax, auswahl);
+    expect(viele.passt[0].anbieter.id).toBe("flatex-depot");
+    const normal = werteAus(d().anbieter, d().kategorie, d().finanzMax, leer);
+    const platz = ids(normal.passt).indexOf("flatex-depot");
+    expect(platz).toBeGreaterThan(2);
+  });
+
+  it("lässt kein Zins-Tor teils herein", () => {
+    const e = werteAus(d().anbieter, d().kategorie, d().finanzMax, leer);
+    for (const t of [...e.passt, ...e.ungeprueft]) expect(t.anbieter.werte.zinsfreiAbStart, t.anbieter.name).not.toBe("teils");
   });
 });

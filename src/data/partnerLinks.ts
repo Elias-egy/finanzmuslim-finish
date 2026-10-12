@@ -146,6 +146,20 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "financeAds, Programm 107, Kategorie GiroDirekt, Textlink 10165 (leitet am 11.10.2026 auf 1822direkt.de/girokonto). Angenommen, im Portal gesehen 11.10.2026.",
   },
   {
+    kurzname: "flatex",
+    anbieter: "flatex",
+    ziel: "/dein-investmentstart/flatex",
+    aktiv: true,
+    notiz: "financeAds, Programm 130 (flatex Online-Broker DE), Textlink 10749 (leitet am 12.10.2026 auf flatex.de). Zugesagt am 12.10.2026, schriftlich von flatexDEGIRO Affiliates (Zoho INBOX 655) und im Portal gelesen. Werbe-Bedingungen: flatex.de/fileadmin/dateien_flatex/pdf/info_flatex_disclaimers.pdf.",
+  },
+  {
+    kurzname: "flatex-krypto",
+    anbieter: "flatex",
+    ziel: "/dein-investmentstart/flatex-krypto",
+    aktiv: true,
+    notiz: "financeAds, Programm 130, Textlink 125837 (leitet am 12.10.2026 auf flatex.de/produkte-handel/produkte/krypto). Zugesagt am 12.10.2026.",
+  },
+  {
     kurzname: "finanzen-net-zero",
     anbieter: "finanzen.net ZERO",
     ziel: "/dein-investmentstart/finanzen-net-zero",

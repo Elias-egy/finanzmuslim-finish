@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, rangfolge, vorrang, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -139,6 +139,12 @@ export const kostetNichts =
 
 const runde = (x: number) => Math.round(x * 100) / 100;
 
+/**
+ * Elias, 12.10.2026: Im geführten Test darf ein Depot mit automatischem Kredit bei den Treffern stehen
+ * (im Vergleich nie Nummer 1), solange das Guthaben zinsfrei ist. Das Zins-Tor "teils" bleibt draußen.
+ */
+const imTestErlaubt = (b: Bewertet) => b.kredit && b.anbieter.werte.zinsfreiAbStart === "gut";
+
 const istZinsKategorie = (k: RangKategorie): k is keyof typeof BASIS => k in BASIS;
 
 /** Zwei Antworten können dasselbe belegen. Ein Satz, der ganz in einem anderen steckt, fällt weg. */
@@ -169,7 +175,7 @@ export const werteAus = (
   const position = new Map<string, number>();
 
   const kandidaten = [
-    ...r.gerankt.map((b) => ({ anbieter: b.anbieter, bewertet: b, frei: b.uneingeschraenkt })),
+    ...r.gerankt.map((b) => ({ anbieter: b.anbieter, bewertet: b, frei: b.uneingeschraenkt || imTestErlaubt(b) })),
     ...r.nichtBewertet.map((n) => ({ anbieter: n.anbieter, bewertet: null, frei: !eingeschraenkt(n.anbieter) })),
   ];
   kandidaten.forEach((k, i) => position.set(k.anbieter.id, i));
@@ -194,8 +200,8 @@ export const werteAus = (
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
       sortWert: note
-        ? auswahl.prioritaet?.nachHalal
-          ? runde(note.halal + note.gesamt / 100)
+        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert ohne den Abzug für den Kredit (Elias, 12.10.2026).
+          ? runde(bewertet!.halalVorKredit + note.gesamt / 100)
           : kosten !== null
             ? runde(0.5 * note.halal + 0.5 * kosten)
             : note.gesamt

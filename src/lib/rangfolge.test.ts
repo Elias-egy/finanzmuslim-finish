@@ -720,3 +720,30 @@ describe("rangfolge: echte Daten", () => {
     expect(ids(r.gerankt).slice(0, 2)).toEqual(["musaffa", "zoya"]);
   });
 });
+
+describe("automatischer Kredit im Depot (Elias, 12.10.2026)", () => {
+  const flatex = () => brokerVergleich.find((a) => a.id === "flatex-depot")!;
+
+  it("zieht ein Viertel vom Halal-Teil ab und macht das Depot nie zur Nummer 1", () => {
+    const mit = rangfolge(brokerVergleich, "depot").gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
+    expect(flatex().werte.kreditAbStart).toBe("teils");
+    expect(mit.kredit).toBe(true);
+    expect(mit.uneingeschraenkt).toBe(false);
+    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * 0.75, 1);
+    expect(nummerEins(rangfolge(brokerVergleich, "depot")).map((b) => b.anbieter.id)).not.toContain("flatex-depot");
+  });
+
+  it("bleibt auch mit eigenem Link hinter den Häusern mit höherer Sternzahl", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    const platz = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!.platz;
+    expect(flatex().link).toBeTruthy();
+    expect(platz).toBeGreaterThan(3);
+  });
+
+  it("trägt ohne Kredit-Merkmal keinen Abzug", () => {
+    const a = depot("ohne", { zinsfreiAbStart: "gut" });
+    const b = rangfolge([a], "depot").gerankt[0];
+    expect(b.kredit).toBe(false);
+    expect(b.halal).toBe(b.halalVorKredit);
+  });
+});

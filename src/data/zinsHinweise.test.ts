@@ -3,7 +3,7 @@ import { brokerVergleich } from "./brokerVergleich";
 import { girokontoVergleich } from "./girokontoVergleich";
 import { kryptoVergleich } from "./kryptoVergleich";
 import { rangfolge } from "@/lib/rangfolge";
-import { ALLE_ZINS_SAETZE, zinsHinweis } from "./zinsHinweise";
+import { ALLE_ACHTUNG_SAETZE, ALLE_ZINS_SAETZE, kreditAchtung, zinsHinweis } from "./zinsHinweise";
 import type { RohAnbieter } from "./vergleichHelfer";
 
 const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[]]> = [
@@ -50,5 +50,28 @@ describe("Zins-Hinweise", () => {
       expect(satz.length, satz).toBeLessThanOrEqual(150);
       expect(satz.replace("finanzen.net", "finanzen").match(/\.(\s|$)/g)?.length, satz).toBeLessThanOrEqual(2);
     }
+  });
+});
+
+describe("Achtung-Meldung zum automatischen Kredit", () => {
+  const flatex = { id: "flatex-depot", haus: "flatex", werte: { kreditAbStart: "teils" }, quellen: { kreditAbStart: { url: "https://www.flatex.de/" } } };
+
+  it("steht nur im Depot-Vergleich und nur mit Beleg", () => {
+    expect(kreditAchtung("depot", flatex)).toMatch(/Kredit/);
+    expect(kreditAchtung("krypto", flatex)).toBeUndefined();
+    expect(kreditAchtung("depot", { ...flatex, quellen: {} })).toBeUndefined();
+    expect(kreditAchtung("depot", { ...flatex, werte: {} })).toBeUndefined();
+  });
+
+  it("hat keine Gedankenstriche und nennt keine Plätze", () => {
+    for (const s of ALLE_ACHTUNG_SAETZE) {
+      expect(s).not.toMatch(/[–—]/);
+      expect(s).not.toMatch(/Platz \d/);
+    }
+  });
+
+  it("stimmt mit den Daten: flatex hat alle 22 Anlagen belegt", () => {
+    const f = brokerVergleich.find((a) => a.id === "flatex-depot")!;
+    expect([f.werte.halalEtfsFonds, f.werte.halalSukuk, f.werte.halalEdelmetalle]).toEqual(["12 von 12", "3 von 3", "7 von 7"]);
   });
 });

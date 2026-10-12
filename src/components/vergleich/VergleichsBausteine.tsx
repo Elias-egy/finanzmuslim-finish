@@ -261,12 +261,24 @@ export const ZellInhalt = ({
 
 /** Der Satz zur Zins-Ampel: was der Besucher tun oder lassen muss. Etwas größer als die Quellen. */
 export const ZinsSatz = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
-  const { zins } = einzelheiten(spalte, zeilen);
-  if (!zins) return null;
+  const { zins, achtung } = einzelheiten(spalte, zeilen);
+  if (!zins && !achtung) return null;
   return (
-    <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
-      <span className="font-semibold">{zins.label}:</span> {zins.satz}
-    </p>
+    <>
+      {zins && (
+        <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
+          <span className="font-semibold">{zins.label}:</span> {zins.satz}
+        </p>
+      )}
+      {achtung && (
+        <p
+          role="note"
+          className="rounded-md border border-amber-500/60 bg-amber-50 px-3 py-2 text-[14px] leading-[21px] text-foreground dark:bg-amber-950/30 lg:text-[15px] lg:leading-[23px]"
+        >
+          <span className="font-semibold">Achtung:</span> {achtung}
+        </p>
+      )}
+    </>
   );
 };
 

@@ -1872,6 +1872,113 @@ export const startPartner: StartPartner[] = [
       },
     ],
   },
+  {
+    kurzname: "flatex",
+    anbieter: "flatex",
+    kurz: "flatex",
+    domain: "flatex.de",
+    markenfarbe: "#F47323",
+    art: "depot",
+    pfad: "/dein-investmentstart/flatex",
+    link: "https://www.financeads.net/tc.php?t=87591C13010749T",
+    pflichthinweis: "Investieren birgt Verlustrisiken.",
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei flatex eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Alle 22 Halal-Anlagen", "Sparpläne ab 25 €"],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Preisverzeichnis nennt für Guthaben auf dem Cash-Konto 0,00 % Zins.",
+      },
+      {
+        titel: "Alle Halal-Anlagen kaufbar",
+        text: "Alle 12 Halal-ETFs und Fonds unserer Liste, alle 3 Sukuk-Fonds und alle 7 Gold- und Silber-Anlagen sind bei flatex kaufbar.",
+      },
+      {
+        titel: "Keine Depotgebühr",
+        text: "Das Depot kostet nichts, exkl. Verwahrgebühr für Xetra-Gold, ADRs, GDRs. Eine Order kostet 5,90 €, an einigen Handelsplätzen kommen 2 € Fremdkosten dazu. ETF-Sparpläne kosten 0 € zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten.",
+      },
+    ],
+    checklisteTitel: ["3 Regeln halten dein flatex-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Den flex-Kredit nicht nutzen.",
+        text: "flatex räumt Neukunden mit der Kontoeröffnung automatisch einen Wertpapierkredit ein. Zinsen fallen nur an, wenn du ihn nutzt. Halte dein Konto im Plus. Abwählen kannst du den Kredit mit einer kurzen Nachricht an flatex.",
+      },
+      {
+        titel: "Keine Zinsangebote annehmen.",
+        text: "Bietet dir flatex später Zinsen an, lehne ab. Dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei flatex genauso ab, nur die Menüs heißen anders.",
+      },
+      {
+        q: "Wie werde ich den flex-Kredit los?",
+        a: "Laut flatex reicht eine Mitteilung in Textform, dass du auf den Kreditrahmen verzichtest. Bis dahin gilt: Solange dein Konto im Plus bleibt, zahlst du keine Zinsen.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "flatex-krypto",
+    anbieter: "flatex",
+    kurz: "flatex",
+    domain: "flatex.de",
+    markenfarbe: "#F47323",
+    art: "krypto",
+    pfad: "/dein-investmentstart/flatex-krypto",
+    link: "https://www.financeads.net/tc.php?t=87591C130125837T",
+    pflichthinweis:
+      "Investieren birgt Verlustrisiken. Kryptowerte sind hochvolatile Vermögenswerte. Der Wert kann stark schwanken. Es besteht das Risiko des vollständigen Verlusts des Kapitals.",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei flatex starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "25 Coins", "0,6 % inkl. Spreads", "Verwahrung in München"],
+    schritte: [
+      { titel: "Depot eröffnen", text: "Krypto handelst du über dein flatex-Depot. Laut flatex brauchst du ein Einzeldepot, einen Wohnsitz in Deutschland und musst volljährig sein." },
+      { titel: "Identität bestätigen", text: "Per Video-, Post- oder E-Ident." },
+      { titel: "Erste Coins kaufen", text: "Bitcoin und 24 weitere Kryptowerte stehen zur Wahl." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, verwahrt in München",
+        text: "Du kaufst echte Coins, verwahrt beim deutschen Kryptoverwahrer Tangany in München. Auf eine eigene Wallet übertragen kannst du sie nicht.",
+      },
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Preisverzeichnis nennt für Guthaben auf dem Cash-Konto 0,00 % Zins.",
+      },
+      {
+        titel: "Kosten",
+        text: "Liquide Kryptowerte wie Bitcoin kosten laut flatex 0,6 % Gesamtkosten inkl. Spreads bei handelsüblichem Ordervolumen, weniger liquide 0,7 %.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein flatex-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Den flex-Kredit nicht nutzen.",
+        text: "flatex räumt Neukunden mit der Kontoeröffnung automatisch einen Wertpapierkredit ein. Zinsen fallen nur an, wenn du ihn nutzt. Halte dein Konto im Plus. Abwählen kannst du den Kredit mit einer kurzen Nachricht an flatex.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei flatex sind es drei Schritte, die oben stehen: Depot eröffnen, Identität bestätigen, erste Coins kaufen.",
+      },
+      {
+        q: "Kann ich meine Coins auf eine eigene Wallet holen?",
+        a: "Nein. Laut flatex ist die Auslieferung von Kryptowerten derzeit nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
+    ],
+  },
 ];
 
 export const findStartPartner = (kurzname?: string): StartPartner | undefined =>

@@ -54,6 +54,10 @@ export type Bewertet = {
   kosten: number | null;
   /** Zins-Tor grün und keine rote Grundlage. Nur solche Einträge können Nummer 1 werden. */
   uneingeschraenkt: boolean;
+  /** Das Haus räumt Neukunden automatisch einen Kredit ein (`kreditAbStart` "teils"). Zählt im Halal-Teil, nie Nummer 1. */
+  kredit: boolean;
+  /** Halal-Teil vor dem Abzug für den Kredit. Der geführte Test sortiert damit, wer möglichst viele Anlagen will. */
+  halalVorKredit: number;
 };
 export type NichtBewertet = { anbieter: RohAnbieter; grund: "noch nicht geprüft" | "Anfrage läuft"; fehlt: string[] };
 export type Abgeraten = { anbieter: RohAnbieter; grund: string };
@@ -68,6 +72,14 @@ export type RangOptionen = {
 
 /** Faktor auf den Halal-Teil, wenn Zinsen ab Start laufen und erst abgeschaltet werden müssen. */
 export const FAKTOR_ABSCHALTBAR = 0.5;
+
+/**
+ * Faktor auf den Halal-Teil, wenn ein Depot Neukunden automatisch einen Kredit einräumt und Zinsen nur
+ * bei Nutzung anfallen (flatex, flex-Kredit). Elias, 12.10.2026: Der Kredit zählt ins Zins-Kriterium,
+ * "du musst halt ehrlich gucken". Gleiches Gewicht wie ein Dispo auf "gelb" im Girokonto: halbe Stufe
+ * auf eine von zwei Ampeln, also ein Viertel Abzug. Ein Kredit ohne Zinsen macht kein Konto haram.
+ */
+export const FAKTOR_KREDIT = 0.75;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
@@ -123,7 +135,15 @@ export const PREIS_MAX_STEUER = 60;
 type Urteil =
   | { art: "abgeraten"; grund: string }
   | { art: "offen"; fehlt: string[] }
-  | { art: "bewertet"; halal: number; kosten: number | null; note: number; uneingeschraenkt: boolean };
+  | {
+      art: "bewertet";
+      halal: number;
+      kosten: number | null;
+      note: number;
+      uneingeschraenkt: boolean;
+      kredit?: boolean;
+      halalVorKredit?: number;
+    };
 
 const runde = (x: number) => Math.round(x * 100) / 100;
 const begrenze = (x: number) => Math.min(5, Math.max(0, x));
@@ -181,8 +201,10 @@ const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, zeilen: 
   const kosten = kostenAus(a, finanzMax) ?? 0;
 
   const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
-  const halal = 5 * anteil * faktor;
-  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" };
+  const kredit = a.werte.kreditAbStart === "teils";
+  const halalVorKredit = 5 * anteil * faktor;
+  const halal = halalVorKredit * (kredit ? FAKTOR_KREDIT : 1);
+  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !kredit, kredit, halalVorKredit };
 };
 
 const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
@@ -306,6 +328,8 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
         halal: runde(u.halal),
         kosten: u.kosten === null ? null : runde(u.kosten),
         uneingeschraenkt: u.uneingeschraenkt,
+        kredit: u.kredit ?? false,
+        halalVorKredit: runde(u.halalVorKredit ?? u.halal),
       });
     }
   }

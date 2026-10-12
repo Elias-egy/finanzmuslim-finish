@@ -189,6 +189,27 @@ const ANGEBOT: Record<string, Eintrag> = {
   ),
 };
 
+/**
+ * Achtung-Meldung für Depots, die Neukunden automatisch einen Kredit einräumen (`kreditAbStart` "teils").
+ * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Sie zahlt ins Zins-Kriterium
+ * ein (`FAKTOR_KREDIT` in `src/lib/rangfolge.ts`). Beleg: `quellen.kreditAbStart` des Angebots.
+ */
+const ACHTUNG_KREDIT: Record<string, string> = {
+  flatex:
+    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten. Deshalb steht flatex im Vergleich weiter hinten, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.",
+};
+
+/** Die Achtung-Meldung zum Angebot, oder nichts: nur im Depot-Vergleich und nur mit Beleg. */
+export const kreditAchtung = (
+  kategorie: string | undefined,
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined =>
+  kategorie === "depot" && angebot.haus && angebot.werte.kreditAbStart === "teils" && angebot.quellen?.kreditAbStart?.url
+    ? ACHTUNG_KREDIT[angebot.haus]
+    : undefined;
+
+export const ALLE_ACHTUNG_SAETZE: string[] = Object.values(ACHTUNG_KREDIT);
+
 const istHinweis = (e: Eintrag): e is Hinweis => "satz" in e;
 
 /** Der Satz zum Angebot, oder nichts: ohne Beleg, in anderen Vergleichen und bei anderer Ampelfarbe. */

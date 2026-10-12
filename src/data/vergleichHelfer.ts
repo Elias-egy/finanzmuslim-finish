@@ -6,7 +6,7 @@ import type {
   Zellwert,
 } from "@/components/vergleich/vergleichTypen";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
-import { zinsHinweis } from "./zinsHinweise";
+import { kreditAchtung, zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -108,6 +108,8 @@ export const baueSpalten = (
     }
     const zusatz = zinsHinweis(kategorie, a);
     if (zusatz && werte.zinsfreiAbStart) werte.zinsfreiAbStart.zusatz = zusatz;
+    const achtung = kreditAchtung(kategorie, a);
+    if (achtung && werte.zinsfreiAbStart) werte.zinsfreiAbStart.achtung = achtung;
     return {
       id: a.id,
       anbieter: a.name,

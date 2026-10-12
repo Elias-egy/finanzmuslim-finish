@@ -95,6 +95,7 @@ const VIVID_KOSTEN = "https://website-static.vivid.money/static/legal-docs/de-de
 const vividSparplan = preisseite0710("Vivid", VIVID_KOSTEN, "Kostenübersicht, „Version 2.0“: „Vivid berechnet einen festen Betrag von 1 EUR für jede Transaktion, unabhängig vom Umfang der“ Order. Sparplanseite: „Investiere regelmäßig einen festen Betrag in Aktien, oder ETFs“, „Für regelmäßige Trades zahlst du keine zusätzlichen Gebühren.“");
 
 export const DEPOT_WERTE: Werte = {
+  // flatex räumt Neukunden automatisch einen Kredit ein (Elias, 12.10.2026: eigene Achtung-Meldung, zählt ins Zins-Kriterium).
   // justTRADE-Teilnahmebedingungen (financeAds, 04.10.2026): Orderkosten nur mit dem Zusatz zu Spreads nennen.
   "justtrade-depot": { orderkosten: "1€ zzgl. marktüblicher Spreads" },
   "maxblue-wertpapier-sparplan": {
@@ -221,7 +222,7 @@ export const DEPOT_WERTE: Werte = {
     etfSparplanKosten: "0€ bei Amundi, DWS, DJE, Xtrackers, iShares und Vanguard, sonst 0,50€",
   },
   "finanzen-net-zero-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
-  "flatex-depot": { orderkosten: "5,90€ + 2€ Fremdkostenpauschale" },
+  "flatex-depot": { orderkosten: "5,90€ + 2€ Fremdkostenpauschale", kreditAbStart: "teils" },
   "degiro-depot": { orderkosten: "2€ + 1€ Bearbeitungsgebühr. ETFs der Kernauswahl: 1€" },
   "gls-bank-depot": {
     orderkosten: "0,5% (min. 15€, max. 500€) bei ETFs über die Börse, Aktien 1% (min. 20€)",
@@ -301,6 +302,7 @@ export const DEPOT_QUELLEN: Quellen = {
     orderkosten: preisseite("finanzen.net zero", "https://www.finanzen.net/zero/wp-content/uploads/2026/08/Preis-Leistungsverzeichnis-V12_Wertpapiere.pdf", "Preis- und Leistungsverzeichnis, Stand Juli 2026 (V12): „Kauf oder Verkauf von Aktien, ETFs und Fonds über den Handelsplatz gettex oder im außerbörslichen Handel mit der Bank“ „0 €“, „Mindermengenzuschlag bei Orders unter einem Kurswert von 500 € in Aktien, Fonds, ETFs und Bezugsrechten“ „1 €“."),
   },
   "flatex-depot": {
+    kreditAbStart: { url: "https://www.flatex.de/produkte-handel/produkte/wertpapierkredite/", stand: "12.10.2026", hinweis: "flatex.de, Wertpapierkredite, gelesen 12.10.2026: „Kreditvergabe: Für Neukunden mit Kontoeröffnung automatisch; eine Antragstellung ist nicht notwendig.“ „Zinsberechnung: quartalsweise nachträglich auf die Inanspruchnahme“. „Ablehnung: Wenn Sie auf die Vorteile des problemlosen und sofort frei verfügbaren Dispositionsrahmens verzichten möchten, teilen Sie uns dies bitte in Textform mit.“" },
     orderkosten: preisseite("flatex", "https://konto.flatex.de/formularcenter_bank/public/1300100.pdf", "Preis- und Leistungsverzeichnis, gültig ab 24.08.2026: „Deutschland 5,90 EUR“. „Bei den folgenden Handelsplätzen beträgt die Fremdkostenpauschale 2,00 EUR pro Order: Tradegate Exchange, Quotrix, Lang & Schwarz, Lang & Schwarz Exchange, Baader Bank, gettex, Société Générale.“"),
   },
   "degiro-depot": {
