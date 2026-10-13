@@ -57,19 +57,19 @@ export const deals: Deal[] = [
     gueltigBis: "2026-11-01",
     anbieterIds: ["comdirect-depot"],
     bereich: "depot",
-    quelle: { url: "https://www.comdirect.de/depot/depot.html", stand: "21.09.2026" },
+    quelle: { url: "https://www.comdirect.de/depot/depot.html", stand: "13.10.2026" },
   },
   {
     anbieter: "BBBank BetterSmart",
     titel: "50 € Startprämie",
     vorteil: "Eröffne das Konto BetterSmart: Als Neukunde bekommst du 50 € Startprämie.",
     bedingungen:
-      "Laut BBBank: „Neukunde (kein Girokonto in den letzten 24 Monaten)“. Auszahlung innerhalb von 8 Wochen, sobald die Voraussetzungen erfüllt sind.",
+      "Laut BBBank: „Neukunde, du hast in den letzten 24 Monaten kein Girokonto bei uns geführt.“ Auszahlung innerhalb von 8 Wochen, sobald die Voraussetzungen erfüllt sind.",
     betrag: 50,
     partnerKurzname: "bbbank",
     anbieterIds: ["bbbank-bettersmart"],
     bereich: "girokonto",
-    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "21.09.2026" },
+    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "13.10.2026" },
   },
   {
     anbieter: "ING Girokonto",
@@ -91,7 +91,7 @@ export const deals: Deal[] = [
     betrag: 200,
     anbieterIds: ["1822direkt-girodirekt"],
     bereich: "girokonto",
-    quelle: { url: "https://www.1822direkt.de/girokonto/", stand: "21.09.2026" },
+    quelle: { url: "https://www.1822direkt.de/girokonto/", stand: "13.10.2026" },
   },
   {
     anbieter: "Commerzbank GiroKonto",
@@ -102,7 +102,7 @@ export const deals: Deal[] = [
     betrag: 50,
     anbieterIds: ["commerzbank-girokonto"],
     bereich: "girokonto",
-    quelle: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "21.09.2026" },
+    quelle: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "13.10.2026" },
   },
 ];
 
