@@ -107,7 +107,10 @@ const pruefeSeite = (pfad, html) => {
 };
 
 const main = async () => {
-  const xml = await readFile(join(WURZEL, "public/sitemap.xml"), "utf8");
+  /* Geprueft wird die Sitemap, die ausgeliefert wird. prerender.mjs nimmt dort Seiten heraus, die sich am
+     Tag des Baus selbst auf noindex setzen. */
+  const ausgeliefert = join(DIST, "sitemap.xml");
+  const xml = await readFile(existsSync(ausgeliefert) ? ausgeliefert : join(WURZEL, "public/sitemap.xml"), "utf8");
   const pfade = [...new Set(
     [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map(
       (m) => new URL(m[1]).pathname.replace(/\/+$/, "") || "/",

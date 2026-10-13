@@ -253,6 +253,7 @@ const main = async () => {
   const fehler = [];
   let fertig = 0;
 
+  const selbstGesperrt = [];
   for (const pfad of adressen) {
     try {
       await seite.goto(`http://127.0.0.1:${port}${pfad}`, {
@@ -264,6 +265,8 @@ const main = async () => {
         await seite.evaluate(() => "<!DOCTYPE html>\n" + document.documentElement.outerHTML),
       );
       await schreiben(pfad, nichtIndexiert.includes(pfad) ? aufNoindex(html) : html);
+      /* Eine Seite der Sitemap, die sich heute selbst auf noindex setzt (/deals ohne laufenden Bonus). */
+      if (indexierbar.includes(pfad) && /<meta name="robots" content="[^"]*noindex/i.test(html)) selbstGesperrt.push(pfad);
       fertig += 1;
       process.stdout.write(`ok   ${pfad}\n`);
     } catch (e) {
@@ -310,6 +313,22 @@ const main = async () => {
 
   await browser.close();
   server.close();
+
+  /* Eine Seite mit noindex gehoert nicht in die Sitemap. Ob /deals leer ist, haengt am Tag: Laeuft kein
+     belegter Bonus, sperrt sich die Seite selbst. Dann faellt sie aus der ausgelieferten Sitemap, statt
+     die Auslieferung anzuhalten (13.10.2026: alle Belege aelter als 21 Tage, jeder Lauf rot). */
+  const sitemapDatei = join(DIST, "sitemap.xml");
+  if (selbstGesperrt.length && existsSync(sitemapDatei)) {
+    const xml = await readFile(sitemapDatei, "utf8");
+    const gesperrt = new Set(selbstGesperrt.map((p) => (p === "/" ? "/" : p.replace(/\/$/, ""))));
+    const ohne = xml.replace(/  <url>\n[\s\S]*?  <\/url>\n/g, (block) => {
+      const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? "";
+      const pfad = new URL(loc).pathname.replace(/\/$/, "") || "/";
+      return gesperrt.has(pfad) ? "" : block;
+    });
+    await writeFile(sitemapDatei, ohne, "utf8");
+    process.stdout.write(`\nAus der Sitemap genommen, weil die Seite heute noindex traegt: ${selbstGesperrt.join(", ")}\n`);
+  }
 
   process.stdout.write(
     `\n${fertig} von ${adressen.length} Seiten erzeugt ` +
