@@ -224,7 +224,49 @@ export const PRODUKT_UNTERSCHIEDE: Record<UnterschiedKategorie, Record<string, P
       beleg: "vivid/96-kontopreis-2026-09-27-plus.txt Z. 35, 40, 58-64, vivid/98-kontopreis-2026-09-27-gebuehren.txt Z. 11, 107-112",
     },
   },
-  krypto: {},
+  // Krypto: Gebührenseiten der Anbieter, am 13.10.2026 gelesen. Wortlaut je Zeile im Vault, Datei siehe Beleg.
+  krypto: {
+    "binance-standard": {
+      titel: "Binance Standard oder Pro",
+      satz: "Du kaufst direkt mit Karte, Apple Pay oder Google Pay und zahlst dafür 2 % Gebühr.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeile B5 (binance.com/en/fee/buyandsell, 13.10.2026)",
+    },
+    "binance-pro": {
+      titel: "Binance Standard oder Pro",
+      satz: "Du handelst an der Börse von Binance und zahlst als normaler Nutzer 0,1 % je Order. Beim direkten Kauf mit Karte sind es 2 %.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen B1, B5 (binance.com/en/fee/trading und /fee/buyandsell, 13.10.2026)",
+    },
+    "bitpanda-standard": {
+      titel: "Bitpanda Standard oder Fusion",
+      satz: "Du kaufst direkt, im Preis steckt ein Aufschlag ab 0,99 %, je nach Kryptowährung. Einen Sparplan startest du ab 10 €.",
+      beleg: "bitpanda/99-i3-sparplan-2026-10-06.txt Z. 240-246, 361-363 (bitpanda.com, 06.10.2026)",
+    },
+    "bitpanda-fusion": {
+      titel: "Bitpanda Standard oder Fusion",
+      satz: "Du handelst mit gestaffelter Gebühr: 0,25 % je Trade bis 100.000 € Handelsvolumen in 30 Tagen. Bitpanda erhebt dort keine Gebühren für Ein- und Auszahlungen.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen F2-F6 (bitpanda.com/de/fusion, 13.10.2026)",
+    },
+    "coinbase-standard": {
+      titel: "Coinbase Standard oder Advanced",
+      satz: "Du kaufst mit einer einfachen Order, im Preis steckt ein Aufschlag (Spread). Die Gebühr siehst du in der Vorschau, bevor du kaufst.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen C2, C3 (help.coinbase.com, Preise und Gebühren, 13.10.2026)",
+    },
+    "coinbase-advanced": {
+      titel: "Coinbase Standard oder Advanced",
+      satz: "Du handelst direkt an der Börse von Coinbase, ohne Aufschlag im Preis. Die Gebühr hängt von deiner Stufe ab, die Sätze zeigt Coinbase erst nach Anmeldung.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen C4-C6 (help.coinbase.com, Gebühren für Coinbase Advanced Trading, 13.10.2026)",
+    },
+    "kraken-standard": {
+      titel: "Kraken Standard oder Pro",
+      satz: "Sofortkauf und wiederkehrende Käufe kosten 1 % Gebühr. Im angezeigten Preis steckt zusätzlich ein Aufschlag (Spread).",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen K1, K2, K4 (kraken.com/de-de/features/fee-schedule, 13.10.2026)",
+    },
+    "kraken-pro": {
+      titel: "Kraken Standard oder Pro",
+      satz: "Du handelst an der Börse von Kraken und zahlst in der ersten Stufe höchstens 0,80 % je Order. Mit mehr Handelsvolumen sinkt der Satz.",
+      beleg: "Vault raw/2026-10-13-krypto-gebuehrenseiten-anbieter.md Zeilen K5-K7 (kraken.com/de-de/features/fee-schedule, 13.10.2026)",
+    },
+  },
 };
 
 /** Der Satz zum Angebot im genannten Vergleich, sonst nichts. */

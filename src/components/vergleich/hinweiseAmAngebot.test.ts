@@ -88,6 +88,20 @@ describe("Unterschied zwischen den Produkten eines Hauses (Elias, 12.10.2026)", 
     expect(mit.length).toBe(mehrfach.filter((a) => PRODUKT_UNTERSCHIEDE.girokonto[a.id]).length);
   });
 
+  it("Krypto: jedes Produkt eines Hauses mit mehreren Produkten trägt den Satz oder steht mit Grund auf der Liste", () => {
+    const mehrfach = kryptoVergleich.filter((a) => kryptoVergleich.filter((x) => x.name === a.name).length > 1);
+    expect(new Set(mehrfach.map((a) => a.name)).size).toBe(4);
+    expect(mehrfach.length).toBe(8);
+    for (const a of mehrfach) {
+      const satz = Boolean(PRODUKT_UNTERSCHIEDE.krypto[a.id]);
+      const grund = OHNE_UNTERSCHIED.krypto[a.id];
+      expect(satz || (grund ?? "").length > 10, a.id).toBe(true);
+      expect(satz && Boolean(grund), `${a.id} steht doppelt`).toBe(false);
+    }
+    const mit = krypto.filter((s) => hinweiseAmAngebot(s, KRYPTO_ZEILEN).some((h) => h.art === "unterschied"));
+    expect(mit.length).toBe(mehrfach.filter((a) => PRODUKT_UNTERSCHIEDE.krypto[a.id]).length);
+  });
+
   it("dieselbe Kennung in zwei Vergleichen: Revolut Standard als Depot trägt nicht den Satz des Girokontos", () => {
     const alsDepot = depot.find((s) => s.id === "revolut-standard");
     const alsKonto = giro.find((s) => s.id === "revolut-standard");
