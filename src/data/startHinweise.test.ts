@@ -20,4 +20,10 @@ describe("Hinweise auf der Startseite (Seite mit dem Video)", () => {
     expect(startHinweise("smartbroker", "depot")).toEqual([]);
     expect(startHinweise("flatex", "steuer")).toEqual([]);
   });
+
+  it("mehrere Konten eines Hauses: N26 zeigt Standard zuerst und Flex zuletzt, bunq beginnt mit Free", () => {
+    const n26 = startHinweise("n26", "girokonto").filter((h) => h.art === "unterschied").map((h) => h.titel);
+    expect(n26).toEqual(["Standard", "Smart", "Go", "Metal", "Flex"]);
+    expect(startHinweise("bunq", "girokonto").filter((h) => h.art === "unterschied").map((h) => h.titel)).toEqual(["Free", "Core", "Pro", "Elite"]);
+  });
 });

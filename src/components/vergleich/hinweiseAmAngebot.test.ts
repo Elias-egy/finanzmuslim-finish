@@ -5,7 +5,7 @@ import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { baueSpalten } from "@/data/vergleichHelfer";
 import { GIRO_ZEILEN as GIROKONTO_ZEILEN } from "@/data/girokontoVergleich";
 import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
-import { PRODUKT_UNTERSCHIEDE } from "@/data/produktUnterschiede";
+import { OHNE_UNTERSCHIED, PRODUKT_UNTERSCHIEDE } from "@/data/produktUnterschiede";
 import { TARIF_ERNSTER, hinweiseAmAngebot, istVorteil } from "./vergleichTypen";
 
 const depot = baueSpalten(brokerVergleich, DEPOT_ZEILEN, "depot");
@@ -54,21 +54,54 @@ describe("Hinweis am Angebot (Zeichen „!“)", () => {
 });
 
 describe("Unterschied zwischen den Produkten eines Hauses (Elias, 12.10.2026)", () => {
-  const alle = [...brokerVergleich, ...girokontoVergleich, ...kryptoVergleich];
+  const LISTEN = { depot: brokerVergleich, girokonto: girokontoVergleich, krypto: kryptoVergleich } as const;
+  const KATEGORIEN = Object.keys(LISTEN) as Array<keyof typeof LISTEN>;
+  const saetze = KATEGORIEN.flatMap((k) => Object.entries(PRODUKT_UNTERSCHIEDE[k]).map(([id, u]) => ({ k, id, u })));
 
-  it("jeder Satz gehört zu einem Angebot, dessen Haus mehrere Produkte führt", () => {
-    for (const id of Object.keys(PRODUKT_UNTERSCHIEDE)) {
-      const a = alle.find((x) => x.id === id);
-      expect(a, id).toBeDefined();
-      expect(alle.filter((x) => x.name === a!.name).length, id).toBeGreaterThan(1);
+  it("jeder Satz gehört zu einem Angebot seines Vergleichs, dessen Haus dort mehrere Produkte führt", () => {
+    for (const { k, id } of saetze) {
+      const a = LISTEN[k].find((x) => x.id === id);
+      expect(a, `${k}:${id}`).toBeDefined();
+      expect(LISTEN[k].filter((x) => x.name === a!.name).length, `${k}:${id}`).toBeGreaterThan(1);
     }
   });
 
-  it("jeder Satz hat einen Beleg, höchstens zwei Sätze und kein Wort zu Zinsen, Kredit oder halal", () => {
-    for (const [id, u] of Object.entries(PRODUKT_UNTERSCHIEDE)) {
+  it("jeder Satz hat einen Beleg, höchstens zwei Sätze und kein Wort zu Zinsen, Kredit, Versicherung oder halal", () => {
+    for (const { id, u } of saetze) {
       expect(u.beleg.length, id).toBeGreaterThan(10);
       expect(u.satz.split(/(?<=[.!?])\s+/).length, id).toBeLessThanOrEqual(2);
-      expect(`${u.titel} ${u.satz}`, id).not.toMatch(/Zins|Kredit|Dispo|Tagesgeld|halal|haram|[–—!]/i);
+      expect(`${u.titel} ${u.satz}`, id).not.toMatch(/Zins|Kredit|Dispo|Tagesgeld|Versicher|Staking|Hebel|halal|haram|[–—!]/i);
+    }
+  });
+
+  it("Girokonto: jedes Konto eines Hauses mit mehreren Konten trägt den Satz oder steht mit Grund auf der Liste", () => {
+    const mehrfach = girokontoVergleich.filter((a) => girokontoVergleich.filter((x) => x.name === a.name).length > 1);
+    expect(new Set(mehrfach.map((a) => a.name)).size).toBe(11);
+    expect(mehrfach.length).toBe(33);
+    for (const a of mehrfach) {
+      const satz = Boolean(PRODUKT_UNTERSCHIEDE.girokonto[a.id]);
+      const grund = OHNE_UNTERSCHIED.girokonto[a.id];
+      expect(satz || (grund ?? "").length > 10, a.id).toBe(true);
+      expect(satz && Boolean(grund), `${a.id} steht doppelt`).toBe(false);
+    }
+    const mit = giro.filter((s) => hinweiseAmAngebot(s, GIROKONTO_ZEILEN).some((h) => h.art === "unterschied"));
+    expect(mit.length).toBe(mehrfach.filter((a) => PRODUKT_UNTERSCHIEDE.girokonto[a.id]).length);
+  });
+
+  it("dieselbe Kennung in zwei Vergleichen: Revolut Standard als Depot trägt nicht den Satz des Girokontos", () => {
+    const alsDepot = depot.find((s) => s.id === "revolut-standard");
+    const alsKonto = giro.find((s) => s.id === "revolut-standard");
+    expect(alsDepot && alsKonto).toBeTruthy();
+    expect(hinweiseAmAngebot(alsDepot!, DEPOT_ZEILEN).some((h) => h.art === "unterschied")).toBe(false);
+    expect(hinweiseAmAngebot(alsKonto!, GIROKONTO_ZEILEN).some((h) => h.art === "unterschied")).toBe(true);
+  });
+
+  it("die Sätze eines Hauses tragen in einem Vergleich denselben Titel", () => {
+    for (const k of KATEGORIEN) {
+      for (const name of new Set(LISTEN[k].map((a) => a.name))) {
+        const titel = new Set(LISTEN[k].filter((a) => a.name === name && PRODUKT_UNTERSCHIEDE[k][a.id]).map((a) => PRODUKT_UNTERSCHIEDE[k][a.id].titel));
+        expect(titel.size, `${k}:${name}`).toBeLessThanOrEqual(1);
+      }
     }
   });
 
