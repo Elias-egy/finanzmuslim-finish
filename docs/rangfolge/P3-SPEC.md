@@ -236,3 +236,21 @@ Umgesetzt am 26.09.2026:
 - Libertex und Plus500 bleiben vorerst: Beide werben auf der deutschen Seite mit echten Aktien (Plus500 „Invest in Aktien“,
   Libertex „CFDs & Reale Aktien“, gesehen am 26.09.2026). Die Anfragen in Tranche 3 (28.09.) klären, ob Privatkunden in
   Deutschland echte Wertpapiere bekommen. Wenn nein, fliegen sie raus.
+
+## 13. Der geführte Test sortiert nach dem, was der Besucher kaufen will (Elias, 13.10.2026)
+
+Wortgleich im Vault: `raw/2026-10-13-elias-v2-flatex-platz-vier-bei-vielen-etfs-basis-der-einordnung.md`. Geht Abschnitt 10.8 vor.
+
+- **Anlass:** Die Antwort „ETFs und Fonds“ auf „Weißt du schon, was du kaufen willst?“ war nur ein Filter (mindestens ein
+  Halal-ETF). Sortiert wurde nach der Note des Vergleichs, in der die zwölf ETFs nur 12 von 22 Anlagen sind. flatex mit
+  zwölf von zwölf stand deshalb auf Platz 4.
+- **Regel:** Nennt der Besucher eine oder mehrere Anlagen (ETFs, Sukuk, Gold und Silber), zählt der Halal-Teil der
+  Sortierung nur diese Zeilen (`Auswahl.anlagen`, `depotHalal` in `rangfolge.ts`), halb gegen die Kosten wie im
+  Vergleich. Vorbild ist der Edelmetall-Vergleich, der nur Gold und Silber zählt. Wählt er nichts, gilt die Rangfolge.
+- **Was bleibt:** Note, Sterne, Halal-Teil und Platz des Vergleichs, der Vorrang des eigenen Links bei gleichen Sternen,
+  der Abzug für den automatischen Kredit. Ohne Abzug sortiert weiter nur die Antwort „Viel Auswahl an Halal-Anlagen“
+  (Elias, 12.10.2026).
+- **Gegenprobe bei jedem neuen Anbieter und jeder Änderung an der Formel:** nicht nur den Platz in der Liste ansehen,
+  sondern die Reihenfolge je Antwort des Tests (nichts gewählt, ETFs, Sukuk, Gold und Silber, je mit Kosten, Auswahl,
+  App). Steht ein Depot hinter einem, das bei der gewählten Anlage und bei den Kosten schwächer ist, ist das ein Fehler.
+  Test: `vergleichAssistent.test.ts`, Block „Wer sagt, was er kaufen will“.

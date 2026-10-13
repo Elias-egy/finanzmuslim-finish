@@ -59,6 +59,8 @@ export type Wirkung = {
   prioritaet?: Prioritaet;
   /** Satz unter dem Anbieter: warum er zu dieser Antwort passt. */
   grund?: Grund;
+  /** Zeilen der Halal-Anlagen, die der Besucher mit dieser Antwort kaufen will. Danach wird sortiert (`Auswahl.anlagen`). */
+  anlagen?: string[];
 };
 
 export type Antwort = Wirkung & {
@@ -313,10 +315,10 @@ export const fragen: Frage[] = [
     ohneWahl: "Nein, zeig mir, was passt",
     zeigeWenn: will.anlegen,
     antworten: [
-      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
+      { id: "etfs", bild: "etf", titel: "ETFs und Fonds", unter: "Ein Korb aus vielen geprüften Firmen", anlagen: ["halalEtfsFonds"], wuensche: [{ id: "etfs", label: "Halal-ETFs kaufbar", still: true, pruefe: mindestensEins("halalEtfsFonds") }], grund: grundAnzahl("halalEtfsFonds", (n, von) => `${n} von ${von} Halal-ETFs und Fonds kaufbar`) },
       { id: "aktien", bild: "aktienPruefen", titel: "Einzelne Aktien" },
-      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
-      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
+      { id: "metalle", bild: "gold", titel: "Gold und Silber", unter: "Als Wertpapier, im Tresor hinterlegt", anlagen: ["halalEdelmetalle"], wuensche: [{ id: "metalle", label: "Gold und Silber kaufbar", still: true, pruefe: mindestensEins("halalEdelmetalle") }], grund: grundAnzahl("halalEdelmetalle", (n, von) => `${n} von ${von} Gold- und Silberpapieren kaufbar`) },
+      { id: "sukuk", bild: "sukuk", titel: "Sukuk", unter: "Islamische Anleihen ohne Zins", anlagen: ["halalSukuk"], wuensche: [{ id: "sukuk", label: "Sukuk kaufbar", still: true, pruefe: mindestensEins("halalSukuk") }], grund: grundAnzahl("halalSukuk", (n, von) => `${n} von ${von} Sukuk kaufbar`) },
       { id: "krypto", bild: "krypto", titel: "Krypto" },
     ],
   },
@@ -620,6 +622,7 @@ export const auswahlAus = (baustein: BausteinId, antworten: Antworten): Auswahl 
     gewichte: wirkungen.flatMap((w) => (w.gewichte ? [w.gewichte] : [])),
     prioritaet: wirkungen.find((w) => w.prioritaet)?.prioritaet,
     gruende: [...wirkungen.flatMap((w) => (w.grund ? [w.grund] : [])), ...(b?.immer ?? [])],
+    anlagen: [...new Set(wirkungen.flatMap((w) => w.anlagen ?? []))],
   };
 };
 

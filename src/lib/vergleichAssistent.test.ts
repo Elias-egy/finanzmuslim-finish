@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, siegerDerSeite, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
-import { nummerEins, rangfolge, sterne } from "@/lib/rangfolge";
+import { depotHalal, nummerEins, rangfolge, sterne } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
 import { angebotsHinweise, type RohAnbieter } from "@/data/vergleichHelfer";
@@ -560,5 +560,93 @@ describe("Depot mit automatischem Kredit: nie im Kasten, nie ohne Hinweis (Elias
     for (const a of brokerVergleich.filter((x) => x.werte.kreditAbStart === "teils")) {
       expect(angebotsHinweise(a, depot.zeilen, "depot").map((h) => h.art), a.id).toContain("achtung");
     }
+  });
+});
+
+describe("Wer sagt, was er kaufen will, bekommt danach sortiert (Elias, 13.10.2026)", () => {
+  const MAX_D = { kosten: 100 };
+  const depot = (id: string, etfs: number, sukuk: number, metalle: number, kosten: number, mehr: RohAnbieter["werte"] = {}): RohAnbieter => ({
+    id,
+    name: id,
+    produkt: "Depot",
+    link: "/out/" + id,
+    werte: { zinsfreiAbStart: "gut", halalEtfsFonds: `${etfs} von 12`, halalSukuk: `${sukuk} von 3`, halalEdelmetalle: `${metalle} von 7`, ...mehr },
+    halalAnlagenPunkte: { halalEtfsFonds: etfs, halalSukuk: sukuk, halalEdelmetalle: metalle },
+    finanzPunkte: { kosten },
+  });
+  /* "guenstig" führt die Rangfolge an: alles außer ETFs und die besseren Kosten. "alleEtfs" hat jeden ETF, sonst nichts. */
+  const liste = [depot("guenstig", 6, 3, 7, 95), depot("alleEtfs", 12, 0, 0, 90), depot("sukuk", 2, 3, 0, 80)];
+  const mit = (anlagen: string[], rest: Partial<Auswahl> = {}) => werteAus(liste, "depot", MAX_D, { ...leer, anlagen, ...rest });
+
+  it("ohne Angabe gilt die Rangfolge des Vergleichs", () => {
+    expect(ids(mit([]).passt)).toEqual(ids(rangfolge(liste, "depot", { finanzMax: MAX_D }).gerankt));
+    expect(ids(mit([]).passt)[0]).toBe("guenstig");
+  });
+
+  it("ETFs gewählt: das Depot mit allen ETFs steht vorn, auch wenn es sonst wenig führt", () => {
+    expect(ids(mit(["halalEtfsFonds"]).passt)[0]).toBe("alleEtfs");
+  });
+
+  it("Sukuk gewählt: es zählen nur die Sukuk und die Kosten", () => {
+    expect(ids(mit(["halalSukuk"]).passt)).toEqual(["guenstig", "sukuk", "alleEtfs"]);
+  });
+
+  it("zwei Anlagen gewählt: beide zählen nach ihrer Zahl, wie im Vergleich", () => {
+    const beide = mit(["halalEtfsFonds", "halalSukuk"]).passt;
+    for (const t of beide) {
+      const h = depotHalal(t.anbieter, { halalEtfsFonds: 12, halalSukuk: 3 }).halal;
+      expect(t.sortWert).toBeCloseTo(0.5 * h + 0.5 * t.note!.finanz!, 1);
+    }
+  });
+
+  it("ändert nie Note, Halal-Teil oder Gruppe, nur die Reihenfolge", () => {
+    const ohne = mit([]);
+    const etfs = mit(["halalEtfsFonds"]);
+    const noten = (e: typeof ohne) => Object.fromEntries(e.passt.map((t) => [t.anbieter.id, t.note]));
+    expect(noten(etfs)).toEqual(noten(ohne));
+    expect(etfs.raus).toBe(ohne.raus);
+    expect(ids(etfs.ungeprueft)).toEqual(ids(ohne.ungeprueft));
+  });
+
+  it("wer bei der gewählten Anlage und bei den Kosten vorn liegt, steht nie hinter dem Schwächeren", () => {
+    const d = bausteine.find((b) => b.id === "depot")!;
+    for (const key of Object.keys(ANTEIL_N)) {
+      const passt = werteAus(d.anbieter, d.kategorie, d.finanzMax, { ...leer, anlagen: [key] }).passt;
+      const h = (t: (typeof passt)[number]) => depotHalal(t.anbieter, { [key]: ANTEIL_N[key] }).halal;
+      passt.forEach((vorn, i) =>
+        passt.slice(i + 1).forEach((hinten) => {
+          const staerker = h(hinten) > h(vorn) && hinten.note!.finanz! > vorn.note!.finanz! && !!hinten.anbieter.link === !!vorn.anbieter.link;
+          expect(staerker, `${key}: ${hinten.anbieter.name} steht hinter ${vorn.anbieter.name}`).toBe(false);
+        }),
+      );
+    }
+  });
+
+  it("der Abzug für den Kredit bleibt, außer der Besucher will ausdrücklich die größte Auswahl", () => {
+    const k = [depot("kredit", 12, 0, 0, 90, { kreditAbStart: "teils" }), depot("frei", 12, 0, 0, 90)];
+    const normal = werteAus(k, "depot", MAX_D, { ...leer, anlagen: ["halalEtfsFonds"] }).passt;
+    expect(ids(normal)).toEqual(["frei", "kredit"]);
+    expect(normal[1].sortWert).toBeLessThan(normal[0].sortWert);
+    const auswahl = auswahlAus("depot", { vorhaben: ["anlegen"], bestimmtes: ["etfs"], wichtig: ["auswahl"] });
+    const viele = werteAus(k, "depot", MAX_D, { ...auswahl, wuensche: [] }).passt;
+    /* Gleich viele Anlagen: Es trennt sie nur noch die Note des Vergleichs, als Hundertstel. */
+    expect(Math.abs(viele[0].sortWert - viele[1].sortWert)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("jede Antwort mit einer Anlage zeigt auf eine Zeile der Halal-Anlagen und filtert auf dieselbe", () => {
+    const frage = fragen.find((f) => f.id === "bestimmtes")!;
+    const mitAnlage = frage.antworten.filter((a) => a.anlagen);
+    expect(mitAnlage.map((a) => a.id).sort()).toEqual(["etfs", "metalle", "sukuk"]);
+    for (const a of mitAnlage) for (const key of a.anlagen!) expect(Object.keys(ANTEIL_N)).toContain(key);
+    expect(auswahlAus("depot", { vorhaben: ["anlegen"], bestimmtes: ["etfs", "sukuk"] }).anlagen).toEqual(["halalEtfsFonds", "halalSukuk"]);
+    expect(auswahlAus("depot", { vorhaben: ["anlegen"], bestimmtes: ["aktien"] }).anlagen).toEqual([]);
+  });
+
+  it("flatex steht vorn, wenn jemand ETFs kaufen will, solange es als einziges alle zwölf führt", () => {
+    const d = bausteine.find((b) => b.id === "depot")!;
+    const alle = d.anbieter.filter((a) => a.werte.halalEtfsFonds === "12 von 12" && a.werte.zinsfreiAbStart === "gut");
+    if (alle.length !== 1 || alle[0].id !== "flatex-depot") return;
+    const etfs = werteAus(d.anbieter, d.kategorie, d.finanzMax, auswahlAus("depot", { vorhaben: ["anlegen"], bestimmtes: ["etfs"] })).passt;
+    expect(ids(etfs).indexOf("flatex-depot")).toBeLessThan(3);
   });
 });

@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotHalal, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -24,6 +24,10 @@ export { ANTEIL_N, BASIS, finanzNote };
  * 4. Antworten ändern Filter, die Gewichte des Kosten-Teils und, bei "große Halal-Auswahl",
  *    die Sortierung nach dem Halal-Teil, nie Halal-Teil, Note oder Gruppe selbst. Die
  *    angezeigte Note ist immer die der Rangfolge.
+ *    Sagt der Besucher, was er kaufen will (ETFs, Sukuk, Gold und Silber), zählt der Halal-Teil
+ *    der Sortierung nur diese Anlagen (`Auswahl.anlagen`), so wie der Edelmetall-Vergleich nur
+ *    Gold und Silber zählt. Elias, 13.10.2026: flatex mit zwölf von zwölf ETFs auf Platz 4, wenn
+ *    jemand ETFs will, "macht auch relativ wenig Sinn".
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
  */
 
@@ -60,6 +64,8 @@ export type Auswahl = {
   gewichte: Record<string, number>[];
   prioritaet?: Prioritaet;
   gruende?: Grund[];
+  /** Zeilen der Halal-Anlagen (`ANTEIL_N`), die der Besucher kaufen will. Nur diese zählen dann im Halal-Teil der Sortierung. */
+  anlagen?: string[];
 };
 
 export type Treffer = {
@@ -166,6 +172,9 @@ export const werteAus = (
   const r = rangfolge(liste, kategorie, { finanzMax, offeneAnfragen });
   const gewichte = [...auswahl.gewichte, ...(auswahl.prioritaet ? [auswahl.prioritaet.gewichte] : [])];
   const gewichtet = istZinsKategorie(kategorie) && gewichte.length > 0;
+  /** Was der Besucher kaufen will. Leer heißt: alle 22 Anlagen, also der Halal-Teil der Rangfolge. */
+  const gewollt = kategorie === "depot" ? [...new Set(auswahl.anlagen ?? [])].filter((k) => k in ANTEIL_N) : [];
+  const zeilen = gewollt.length > 0 ? Object.fromEntries(gewollt.map((k) => [k, ANTEIL_N[k]])) : null;
 
   const eingeschraenkt = (a: RohAnbieter) =>
     istZinsKategorie(kategorie) && (a.werte.zinsfreiAbStart === "teils" || BASIS[kategorie].some((k) => a.werte[k] === "schlecht"));
@@ -195,6 +204,7 @@ export const werteAus = (
     const offen = stand.filter((s) => s.r === null).map((s) => s.w);
     const note = bewertet ? { gesamt: bewertet.note, halal: bewertet.halal, finanz: bewertet.kosten } : null;
     const kosten = gewichtet ? finanzNote(a, finanzMax, gewichte) : null;
+    const eigen = zeilen && bewertet ? depotHalal(a, zeilen) : null;
     const treffer: Treffer = {
       anbieter: a,
       erfuellt: stand.filter((s) => s.r === true).map((s) => s.w),
@@ -203,9 +213,9 @@ export const werteAus = (
       note,
       sortWert: note
         ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert ohne den Abzug für den Kredit (Elias, 12.10.2026).
-          ? runde(bewertet!.halalVorKredit + note.gesamt / 100)
-          : kosten !== null
-            ? runde(0.5 * note.halal + 0.5 * kosten)
+          ? runde((eigen?.halalVorKredit ?? bewertet!.halalVorKredit) + note.gesamt / 100)
+          : kosten !== null || eigen
+            ? runde(0.5 * (eigen?.halal ?? note.halal) + 0.5 * (kosten ?? note.finanz ?? 0))
             : note.gesamt
         : 0,
       kredit: bewertet?.kredit ?? false,

@@ -195,19 +195,31 @@ const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
   return belegt ? punkte : 0;
 };
 
+/**
+ * Halal-Teil eines Depots über die genannten Zeilen der Halal-Anlagen, 0 bis 5: Anteil der belegten Anlagen,
+ * mal Zins-Tor, mal Abzug für den Kredit. Der Vergleich zählt alle 22, der Edelmetall-Vergleich nur Gold und
+ * Silber, der geführte Test die Zeilen, die der Besucher kaufen will (`werteAus`).
+ */
+export const depotHalal = (
+  a: RohAnbieter,
+  zeilen: Record<string, number> = ANTEIL_N,
+): { halal: number; halalVorKredit: number; kredit: boolean } => {
+  const tuer = a.werte[TOR];
+  const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
+  const anteil = nenner > 0 ? Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0) : 0;
+  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
+  const kredit = a.werte.kreditAbStart === "teils";
+  const halalVorKredit = 5 * anteil * faktor;
+  return { halal: halalVorKredit * (kredit ? FAKTOR_KREDIT : 1), halalVorKredit, kredit };
+};
+
 /** Depot zählt alle 22 Halal-Anlagen, Edelmetall nur die Zeile der Gold- und Silber-ETCs. */
 const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, zeilen: Record<string, number> = ANTEIL_N): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
-  const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
-  const anteil = Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0);
   const kosten = kostenAus(a, finanzMax) ?? 0;
-
-  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
-  const kredit = a.werte.kreditAbStart === "teils";
-  const halalVorKredit = 5 * anteil * faktor;
-  const halal = halalVorKredit * (kredit ? FAKTOR_KREDIT : 1);
+  const { halal, halalVorKredit, kredit } = depotHalal(a, zeilen);
   return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !kredit, kredit, halalVorKredit };
 };
 
