@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {
   KEINE_ANGABE,
   einzelheiten,
+  hatZeichen,
   hinweiseAmAngebot,
   istVorteil,
   noteWort,
@@ -295,6 +296,13 @@ const HinweisBlock = ({
   return (
     <div id={hinweisId(spalte.id)} ref={ref} tabIndex={-1} className="scroll-mt-24 space-y-2 outline-none">
       {liste.map((h) => {
+        /* Der Unterschied zwischen den Produkten eines Hauses ist keine Ausnahme: ein schlichter Satz ohne Zeichen und Rahmen (Elias, 13.10.2026). */
+        if (!hatZeichen(h))
+          return (
+            <p key={h.art} className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
+              <span className="font-semibold">{h.titel}:</span> {h.text}
+            </p>
+          );
         /* Ein Tarif ist ein Vorteil: freundliches Fragezeichen in Violett. Gelb mit „!“ bleibt für Warnungen. */
         const vorteil = istVorteil(h);
         const ton = vorteil

@@ -17,6 +17,7 @@ import {
 } from "@/data/vergleichAssistent";
 import { dealFuer, hoechsterBonus } from "@/data/deals";
 import { angebotsHinweise } from "@/data/vergleichHelfer";
+import { hatZeichen } from "@/components/vergleich/vergleichTypen";
 import { vorhabenAusSuche, werteAus, type Auswahl, type Treffer } from "@/lib/vergleichAssistent";
 
 /**
@@ -262,13 +263,14 @@ const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; ausw
 );
 
 /**
- * Die Ausnahmen des Angebots, dieselben wie im Vergleich und auf der Startseite. Sie stehen über dem Knopf,
- * nicht hinter „Details“: flatex ist hier bei großer Halal-Auswahl die Empfehlung, und der Besucher liest
- * vor dem Klick, warum es im Vergleich sonst weiter hinten liegt (Elias, 12.10.2026).
+ * Die Ausnahmen des Angebots, dieselben wie im Vergleich und auf der Startseite. Über dem Knopf steht nur das
+ * Zeichen mit dem Titel, der Text erscheint nach dem Druck darauf (Elias, 13.10.2026: „nicht direkt
+ * ausgeschrieben“). flatex ist hier bei großer Halal-Auswahl die Empfehlung: Der Besucher sieht vor dem Klick,
+ * dass es eine Ausnahme gibt (Elias, 12.10.2026).
  */
 const Hinweise = ({ t, baustein }: { t: Treffer; baustein: Baustein }) => {
   // Der Unterschied zwischen den Produkten eines Hauses steht beim geöffneten Angebot und auf der Startseite, hier nicht.
-  const liste = angebotsHinweise(t.anbieter, baustein.zeilen, baustein.kategorie).filter((h) => h.art !== "unterschied");
+  const liste = angebotsHinweise(t.anbieter, baustein.zeilen, baustein.kategorie).filter(hatZeichen);
   if (liste.length === 0) return null;
   return (
     <div className="mt-3 space-y-2">

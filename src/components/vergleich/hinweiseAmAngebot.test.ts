@@ -6,7 +6,7 @@ import { baueSpalten } from "@/data/vergleichHelfer";
 import { GIRO_ZEILEN as GIROKONTO_ZEILEN } from "@/data/girokontoVergleich";
 import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
 import { OHNE_UNTERSCHIED, PRODUKT_UNTERSCHIEDE } from "@/data/produktUnterschiede";
-import { TARIF_ERNSTER, hinweiseAmAngebot, istVorteil } from "./vergleichTypen";
+import { TARIF_ERNSTER, hinweiseAmAngebot, istVorteil, hatZeichen } from "./vergleichTypen";
 
 const depot = baueSpalten(brokerVergleich, DEPOT_ZEILEN, "depot");
 const giro = baueSpalten(girokontoVergleich, GIROKONTO_ZEILEN, "girokonto");
@@ -44,6 +44,20 @@ describe("Hinweis am Angebot (Zeichen „!“)", () => {
     for (const [liste, zeilen] of [[depot, DEPOT_ZEILEN], [giro, GIROKONTO_ZEILEN], [krypto, KRYPTO_ZEILEN]] as const) {
       for (const s of liste) for (const h of hinweiseAmAngebot(s, zeilen)) expect(`${h.titel} ${h.text}`, s.id).not.toMatch(/[–—!]/);
     }
+  });
+
+  it("ein Zeichen trägt nur die Ausnahme, der Unterschied der Produkte eines Hauses nie (Elias, 13.10.2026)", () => {
+    let unterschiede = 0;
+    for (const [liste, zeilen] of [[depot, DEPOT_ZEILEN], [giro, GIROKONTO_ZEILEN], [krypto, KRYPTO_ZEILEN]] as const) {
+      for (const s of liste) for (const h of hinweiseAmAngebot(s, zeilen)) {
+        expect(hatZeichen(h), `${s.id}:${h.art}`).toBe(h.art !== "unterschied");
+        if (h.art === "unterschied") unterschiede += 1;
+      }
+    }
+    expect(unterschiede).toBeGreaterThan(40);
+    /* Mit Zeichen bleiben sechs Angebote von über hundert. */
+    const mit = (l: typeof depot, z: typeof DEPOT_ZEILEN) => l.filter((s) => hinweiseAmAngebot(s, z).some(hatZeichen)).length;
+    expect(mit(depot, DEPOT_ZEILEN) + mit(giro, GIROKONTO_ZEILEN) + mit(krypto, KRYPTO_ZEILEN)).toBe(6);
   });
 
   it("zählt die Warnungen und Tarife: Depot 2, Girokonto 1, Krypto 3 (Sichtung, damit das Zeichen „!“ selten bleibt)", () => {

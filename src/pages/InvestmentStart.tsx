@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Award, CheckCircle2, Download, HelpCircle, Plus, ShieldCheck, Volume2 } from "lucide-react";
+import { Award, CheckCircle2, ChevronDown, Download, HelpCircle, Plus, ShieldCheck, Volume2 } from "lucide-react";
 import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { findStartPartner, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
-import { HinweisKasten } from "@/components/vergleich/HinweisKasten";
-import { istVorteil } from "@/components/vergleich/vergleichTypen";
+import { HinweisText } from "@/components/vergleich/HinweisKasten";
+import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
@@ -167,6 +167,14 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   };
   const pauseVideo = () => videoRef.current?.pause();
   const hinweise = startHinweise(partner.kurzname, partner.art);
+  /* Elias, 13.10.2026: Das Zeichen steht nur bei einer Ausnahme, und der Text erscheint erst nach dem Druck darauf. */
+  const ausnahmen = hinweise.filter(hatZeichen);
+  const unterschiede = hinweise.filter((h) => !hatZeichen(h));
+  const [ausnahmenOffen, setAusnahmenOffen] = useState(false);
+  const [unterschiedeOffen, setUnterschiedeOffen] = useState(false);
+  useEffect(() => {
+    if (ausnahmenOffen) document.getElementById("start-hinweis")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [ausnahmenOffen]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -248,15 +256,17 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               </span>
               bei {partner.anbieter}
             </p>
-            {/* Zeichen rechts neben dem Anbieter (Elias, 13.10.2026): Klick führt auf den Hinweis unter dem Knopf. */}
-            {hinweise.length > 0 && (
+            {/* Zeichen rechts neben dem Anbieter (Elias, 13.10.2026): nur bei einer Ausnahme, der Druck darauf zeigt den Hinweis unter dem Knopf. */}
+            {ausnahmen.length > 0 && (
               <button
                 type="button"
-                onClick={() => document.getElementById("start-hinweis")?.scrollIntoView({ behavior: "smooth", block: "center" })}
+                onClick={() => setAusnahmenOffen((o) => !o)}
+                aria-expanded={ausnahmenOffen}
+                aria-controls="start-hinweis"
                 aria-label={`Wichtiger Hinweis zu ${partner.anbieter}, Klick zeigt ihn`}
-                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${hinweise.some((h) => !istVorteil(h)) ? "bg-amber-500" : "bg-violet"}`}
+                className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${ausnahmen.some((h) => !istVorteil(h)) ? "bg-amber-500" : "bg-violet"}`}
               >
-                <span aria-hidden>{hinweise.some((h) => !istVorteil(h)) ? "!" : "?"}</span>
+                <span aria-hidden>{ausnahmen.some((h) => !istVorteil(h)) ? "!" : "?"}</span>
               </button>
             )}
             </div>
@@ -306,12 +316,38 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={pauseVideo} />
           </div>
 
-          {/* Ausnahmen des Angebots, direkt unter dem Knopf beim Video (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
-          {hinweise.length > 0 && (
+          {/* Ausnahmen des Angebots unter dem Knopf beim Video, erst nach dem Druck auf das Zeichen (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
+          {ausnahmen.length > 0 && ausnahmenOffen && (
             <div id="start-hinweis" className="mx-auto mt-5 max-w-[760px] scroll-mt-24 space-y-2 text-left">
-              {hinweise.map((h) => (
-                <HinweisKasten key={h.titel} hinweis={h} />
+              {ausnahmen.map((h) => (
+                <HinweisText key={h.titel} hinweis={h} />
               ))}
+            </div>
+          )}
+
+          {/* Was die Produkte eines Hauses unterscheidet: ohne Zeichen und zugeklappt, nur für den, der es wissen will. */}
+          {unterschiede.length > 0 && (
+            <div className="mx-auto mt-3 max-w-[760px] text-center">
+              <button
+                type="button"
+                onClick={() => setUnterschiedeOffen((o) => !o)}
+                aria-expanded={unterschiedeOffen}
+                aria-controls="start-unterschied"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 text-[14px] font-semibold text-white/85 underline underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                {unterschiede.length > 1 ? `Was die ${unterschiede.length} Angebote von ${partner.anbieter} unterscheidet` : unterschiede[0].titel}
+                <ChevronDown className={`h-4 w-4 shrink-0 transition-transform motion-reduce:transition-none ${unterschiedeOffen ? "rotate-180" : ""}`} aria-hidden />
+              </button>
+              {unterschiedeOffen && (
+                <ul id="start-unterschied" className="mt-2 space-y-2 rounded-xl bg-white px-4 py-3 text-left text-[15px] leading-[23px] text-foreground">
+                  {unterschiede.map((h) => (
+                    <li key={h.titel}>
+                      {unterschiede.length > 1 && <span className="font-semibold">{h.titel}: </span>}
+                      {h.text}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
 

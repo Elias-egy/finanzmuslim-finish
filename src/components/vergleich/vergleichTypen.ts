@@ -122,6 +122,14 @@ export type AngebotsHinweis = { art: "achtung" | "tarif" | "zins" | "unterschied
 /** Ein Tarif oder ein Unterschied zwischen Produkten ist keine Warnung: violett mit „?“. Gelb mit „!“ bleibt für Warnungen. */
 export const istVorteil = (h: AngebotsHinweis) => h.art === "tarif" || h.art === "unterschied";
 
+/**
+ * Ein Zeichen („!“ oder „?“) trägt nur die Ausnahme, die ein einzelnes Angebot betrifft: automatischer Kredit,
+ * Zinsen zum Abschalten, kostenpflichtiger Tarif. Der Unterschied zwischen den Produkten eines Hauses ist keine
+ * Ausnahme, er steht ohne Zeichen beim geöffneten Angebot. Elias, 13.10.2026: „nur wenn sie relevant oder
+ * Ausnahmen widerspiegeln“, „jetzt nicht alles voll mit diesem Fragezeichen“.
+ */
+export const hatZeichen = (h: AngebotsHinweis) => h.art !== "unterschied";
+
 /** Was ein Premium-Tarif zusätzlich sagt (Elias, 12.10.2026): der Ton, kein Vorteil. */
 export const TARIF_ERNSTER = "Hilfreich, wenn du das Ganze etwas ernster nehmen möchtest.";
 
