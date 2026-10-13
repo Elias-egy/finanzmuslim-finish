@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ampelGut, ANTEIL_N, BASIS, euro, finanzNote, mindestensEins, siegerDerSeite, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
+import { ampelGut, ANTEIL_N, ANTEIL_NOTE, BASIS, euro, finanzNote, mindestensEins, siegerDerSeite, vorhabenAusSuche, werteAus, type Auswahl } from "@/lib/vergleichAssistent";
 import { depotHalal, nummerEins, rangfolge, sterne } from "@/lib/rangfolge";
 import { DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { aktiveFragen, auswahlAus, bausteine, empfehlbar, fragen, kostenlosReicht, type Antworten, type BausteinId, type Wirkung } from "@/data/vergleichAssistent";
@@ -595,8 +595,21 @@ describe("Wer sagt, was er kaufen will, bekommt danach sortiert (Elias, 13.10.20
     const beide = mit(["halalEtfsFonds", "halalSukuk"]).passt;
     for (const t of beide) {
       const h = depotHalal(t.anbieter, { halalEtfsFonds: 12, halalSukuk: 3 }).halal;
-      expect(t.sortWert).toBeCloseTo(0.5 * h + 0.5 * t.note!.finanz!, 1);
+      expect(t.sortWert).toBeCloseTo(ANTEIL_NOTE * t.note!.gesamt + (1 - ANTEIL_NOTE) * (0.5 * h + 0.5 * t.note!.finanz!), 1);
     }
+  });
+
+  it("die Note des Vergleichs zählt zu einem Viertel mit, der Rest ist die gewählte Anlage (Elias, 13.10.2026)", () => {
+    expect(ANTEIL_NOTE).toBe(0.25);
+    for (const t of mit(["halalEtfsFonds"]).passt) {
+      const eigen = 0.5 * depotHalal(t.anbieter, { halalEtfsFonds: 12 }).halal + 0.5 * t.note!.finanz!;
+      expect(t.sortWert).toBeCloseTo(0.25 * t.note!.gesamt + 0.75 * eigen, 2);
+    }
+    /* Wer im Vergleich vorn liegt, rückt mit dem Viertel näher an den Besten der gewählten Anlage. */
+    const [erster, zweiter] = mit(["halalEtfsFonds"]).passt;
+    const ohneViertel = (t: typeof erster) => 0.5 * depotHalal(t.anbieter, { halalEtfsFonds: 12 }).halal + 0.5 * t.note!.finanz!;
+    expect(ids([erster, zweiter])).toEqual(["alleEtfs", "guenstig"]);
+    expect(erster.sortWert - zweiter.sortWert).toBeLessThan(ohneViertel(erster) - ohneViertel(zweiter));
   });
 
   it("ändert nie Note, Halal-Teil oder Gruppe, nur die Reihenfolge", () => {

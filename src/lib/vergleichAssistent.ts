@@ -28,6 +28,8 @@ export { ANTEIL_N, BASIS, finanzNote };
  *    der Sortierung nur diese Anlagen (`Auswahl.anlagen`), so wie der Edelmetall-Vergleich nur
  *    Gold und Silber zählt. Elias, 13.10.2026: flatex mit zwölf von zwölf ETFs auf Platz 4, wenn
  *    jemand ETFs will, "macht auch relativ wenig Sinn".
+ *    Die Note des Vergleichs zählt dabei zu einem Viertel mit (`ANTEIL_NOTE`), damit die
+ *    Hauptreihenfolge erkennbar bleibt. Elias, 13.10.2026: "Mach ein Viertel."
  * 5. Gleiche Antworten liefern immer dieselbe Reihenfolge.
  */
 
@@ -148,6 +150,12 @@ export const kostetNichts =
 const runde = (x: number) => Math.round(x * 100) / 100;
 
 /**
+ * Nennt der Besucher eine Anlage, zählt die Note des Vergleichs zu diesem Anteil in die Sortierung, der Rest
+ * ist der Wert der gewählten Anlage (halb Halal-Teil dieser Anlage, halb Kosten). Elias, 13.10.2026: ein Viertel.
+ */
+export const ANTEIL_NOTE = 0.25;
+
+/**
  * Elias, 12.10.2026: Im geführten Test darf ein Depot mit automatischem Kredit bei den Treffern stehen
  * (im Vergleich nie Nummer 1), solange das Guthaben zinsfrei ist. Das Zins-Tor "teils" bleibt draußen.
  */
@@ -214,9 +222,11 @@ export const werteAus = (
       sortWert: note
         ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert ohne den Abzug für den Kredit (Elias, 12.10.2026).
           ? runde((eigen?.halalVorKredit ?? bewertet!.halalVorKredit) + note.gesamt / 100)
-          : kosten !== null || eigen
-            ? runde(0.5 * (eigen?.halal ?? note.halal) + 0.5 * (kosten ?? note.finanz ?? 0))
-            : note.gesamt
+          : eigen
+            ? runde(ANTEIL_NOTE * note.gesamt + (1 - ANTEIL_NOTE) * (0.5 * eigen.halal + 0.5 * (kosten ?? note.finanz ?? 0)))
+            : kosten !== null
+              ? runde(0.5 * note.halal + 0.5 * kosten)
+              : note.gesamt
         : 0,
       kredit: bewertet?.kredit ?? false,
     };

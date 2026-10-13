@@ -247,6 +247,14 @@ Wortgleich im Vault: `raw/2026-10-13-elias-v2-flatex-platz-vier-bei-vielen-etfs-
 - **Regel:** Nennt der Besucher eine oder mehrere Anlagen (ETFs, Sukuk, Gold und Silber), zählt der Halal-Teil der
   Sortierung nur diese Zeilen (`Auswahl.anlagen`, `depotHalal` in `rangfolge.ts`), halb gegen die Kosten wie im
   Vergleich. Vorbild ist der Edelmetall-Vergleich, der nur Gold und Silber zählt. Wählt er nichts, gilt die Rangfolge.
+- **Mix (Elias, 13.10.2026: „Mach ein Viertel“, wortgleich in `raw/2026-10-13-elias-v4-mix-ein-viertel.md` im Vault):**
+  Sortierwert = ein Viertel Note des Vergleichs plus drei Viertel Wert der gewählten Anlage (halb Halal-Teil dieser
+  Anlage, halb Kosten). Konstante `ANTEIL_NOTE` in `vergleichAssistent.ts`. So bleibt die Hauptreihenfolge erkennbar,
+  die Nummer 1 des Vergleichs fällt nicht weit. Gemessen am 13.10.2026 mit „ETFs und Fonds“: Consorsbank 4,34,
+  flatex 4,32, Smartbroker+ 4,25 (roh 4,246, damit knapp 4,5 Sterne und vor Trading 212 ohne Link), Trading 212 4,52.
+  Mit „Niedrige Kosten“ dazu dieselbe Reihenfolge. Ohne Angabe, bei Sukuk und bei Gold und Silber steht Smartbroker+
+  auf 1, außer mit „Viel Auswahl an Halal-Anlagen“ (dort flatex, bei Sukuk und Gold weiter Smartbroker+). Den Anteil
+  ändert nur Elias.
 - **Was bleibt:** Note, Sterne, Halal-Teil und Platz des Vergleichs, der Vorrang des eigenen Links bei gleichen Sternen,
   der Abzug für den automatischen Kredit. Ohne Abzug sortiert weiter nur die Antwort „Viel Auswahl an Halal-Anlagen“
   (Elias, 12.10.2026).
