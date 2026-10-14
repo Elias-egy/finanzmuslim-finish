@@ -25,7 +25,7 @@ import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
-import { ANZAHL_DEPOTS, ANZAHL_HALAL_ANLAGEN, ANZAHL_KONTEN, ANZAHL_KRYPTO } from "@/data/anzahlen";
+import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -208,13 +208,15 @@ const Index = () => (
       <section className="flex min-h-[calc(100svh-148px)] flex-col md:min-h-0 lg:min-h-[calc(100svh-154px)]">
         <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-6 py-6 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px]">
-            <div className="max-w-[600px] lg:pb-24 lg:pt-4">
+            <div className="max-w-[680px] lg:pb-24 lg:pt-4">
               <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-3 max-w-[580px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                Vergleiche {ANZAHL_DEPOTS}&nbsp;Depots, {ANZAHL_KONTEN}&nbsp;Girokonten und {ANZAHL_KRYPTO}&nbsp;Kryptobörsen.
+              <p className="mt-3 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+                Lerne, wie du dein Geld islamkonform anlegst und Zinsen erkennst.
+                {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
+                <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8">
                 <Link
