@@ -53,7 +53,12 @@ export const SiteHeader = () => {
           className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
         >
           <span className="badge-new-inverted shrink-0">Neu</span>
-          <span>
+          {/* Am Handy eine Zeile, sonst schiebt der Streifen die zweite Reihe der Vergleiche
+              aus dem ersten Bildschirm (Elias, 14.10.2026: "Am Handy einzeilig"). */}
+          <span className="whitespace-nowrap sm:hidden">
+            <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
+          </span>
+          <span className="hidden sm:inline">
             <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
             <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
           </span>
