@@ -200,24 +200,22 @@ const Index = () => (
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
       {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
           bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
-          Unter lg loesen sich Platte und Spalte auf (contents), damit die Reihenfolge lautet:
-          Ueberschrift, die sechs Vergleiche, dann "Finde, was zu dir passt". Wer das Angebot
-          gesehen hat, nimmt den Fragebogen als Abkuerzung (Elias, 12.10.2026). */}
-      <section className="flex flex-col">
-        <div className="max-lg:contents lg:relative lg:h-[480px] lg:overflow-hidden lg:rounded-2xl lg:bg-hero lg:px-12">
-          <div className="max-lg:contents lg:mx-auto lg:flex lg:h-full lg:max-w-[1200px] lg:items-center">
-            <div className="max-lg:contents lg:max-w-[600px] lg:pb-24 lg:pt-4">
-              <div className="max-lg:order-1 max-lg:rounded-2xl max-lg:bg-hero max-lg:px-6 max-lg:py-7">
-                <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
-                  Investiere, ohne deinen
-                  <br className="hidden sm:block" /> Glauben zu riskieren
-                </h1>
-                <p className="mt-4 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                  Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
-                  Finde die für dich passenden Anbieter in nur wenigen Schritten.
-                </p>
-              </div>
-              <div className="mt-3 flex flex-col gap-3 max-lg:order-3 sm:flex-row sm:items-center md:mt-4 lg:mt-8">
+          Unter lg fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs
+          Vergleiche unten, der Guide beginnt erst darunter statt angeschnitten (Elias,
+          14.10.2026: "die Hauptseite muss vollstaendig sein"). 148 und 154 sind Kopf plus
+          Abstaende bei Handy und Tablet. */}
+      <section className="flex min-h-[calc(100svh-148px)] flex-col md:min-h-[calc(100svh-154px)] lg:min-h-0">
+        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-6 py-8 lg:block lg:h-[480px] lg:flex-none lg:px-12 lg:py-0">
+          <div className="mx-auto max-w-[1200px] lg:flex lg:h-full lg:items-center">
+            <div className="max-w-[600px] lg:pb-24 lg:pt-4">
+              <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
+                Investiere, ohne deinen
+                <br className="hidden sm:block" /> Glauben zu riskieren
+              </h1>
+              <p className="mt-3 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+                Vergleiche geprüfte Anbieter für Depot, Girokonto und Gold.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8">
                 <Link
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8"
@@ -225,7 +223,7 @@ const Index = () => (
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
-                <span className="text-center text-[14px] text-muted-foreground sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
+                <span className="text-center text-[14px] text-muted-foreground [text-wrap:balance] sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
               </div>
             </div>
           </div>
@@ -253,15 +251,15 @@ const Index = () => (
         {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche
             im ersten Bildschirm stehen (Muster wie das Kachelraster von Check24).
             Ab md Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto mt-3 grid w-full max-lg:order-2 max-w-[1200px] auto-rows-fr grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
+        <div className="relative z-10 mx-auto mt-3 grid w-full max-w-[1200px] auto-rows-fr grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to}
-              className="group relative flex min-h-[84px] flex-col items-center justify-start gap-1.5 card-surface px-1 pb-2.5 pt-3 text-center transition-colors hover:border-primary md:min-h-[76px] md:flex-row md:justify-start md:gap-3 md:px-4 md:py-3 md:text-left lg:pt-7 xl:pt-3"
+              className="group relative flex min-h-[104px] flex-col items-center justify-start gap-2 card-surface px-1 pb-3 pt-4 text-center transition-colors hover:border-primary md:min-h-[76px] md:flex-row md:justify-start md:gap-3 md:px-4 md:py-3 md:text-left lg:pt-7 xl:pt-3"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11 md:rounded-full">
-                <Icon className="h-[18px] w-[18px] text-primary md:h-5 md:w-5" aria-hidden />
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">
+                <Icon className="h-[22px] w-[22px] text-primary md:h-5 md:w-5" aria-hidden />
               </span>
               <span className="w-full min-w-0 hyphens-manual text-[14px] font-bold leading-tight text-foreground md:w-auto md:flex-1 md:text-[18px]">
                 {label}
