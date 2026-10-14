@@ -88,8 +88,10 @@ const main = async () => {
     if (process.env.PRERENDER_OPTIONAL === "1") return console.log("og-bilder uebersprungen, kein Chrome");
     throw new Error("Kein Chrome gefunden, keine Vorschaubilder.");
   }
-  const { alleRouten } = await routenLaden();
-  const pfade = alleRouten().map((r) => r.pfad);
+  const { alleRouten, nichtIndexiert } = await routenLaden();
+  // Ausgaben der Halal-News sind noindex, werden aber per WhatsApp geteilt und
+  // brauchen deshalb ein eigenes Bild statt og-default.jpg (Elias, 15.10.2026).
+  const pfade = [...alleRouten().map((r) => r.pfad), ...nichtIndexiert.filter((p) => p.startsWith("/newsletter/"))];
   const schrift = (await readFile(join(WURZEL, "public/fonts/figtree-latin.woff2"))).toString("base64");
   await mkdir(join(DIST, "og"), { recursive: true });
 
@@ -105,9 +107,12 @@ const main = async () => {
     const html = await readFile(haupt, "utf8");
     const bild = attr(html, /<meta[^>]*property="og:image"[^>]*>/i, "content");
     if (bild && bild !== STANDARD) { uebersprungen += 1; continue; }
-    const titel = kurzTitel(entity((/<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "finanzmuslim")));
+    let titel = kurzTitel(entity((/<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "finanzmuslim")));
+    let label = etikett(pfad);
+    const ausgabe = /^(.*?)\s*\|\s*(Halal-News Nr\. \d+)$/.exec(titel);
+    if (ausgabe) [, titel, label] = ausgabe;
     const text = entity(attr(html, /<meta[^>]*name="description"[^>]*>/i, "content") ?? "");
-    await seite.setContent(karte(titel, text, etikett(pfad), schrift), { waitUntil: "load" });
+    await seite.setContent(karte(titel, text, label, schrift), { waitUntil: "load" });
     await seite.evaluate(() => document.fonts.ready);
     // Ein Name fuer Datei und URL: bis 28.09.2026 schrieb das Skript .jpg und
     // verwies auf .png, jeder geteilte Link lief damit ins Leere (404).
