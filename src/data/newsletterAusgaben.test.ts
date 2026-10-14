@@ -79,3 +79,33 @@ describe("die echten Ausgaben", () => {
     }
   });
 });
+
+describe("verschickte Ausgaben", () => {
+  it("haben je eine eigene Adresse", () => {
+    const pfade = ausgaben.map(ausgabePfad);
+    expect(new Set(pfade).size).toBe(pfade.length);
+  });
+
+  it("springen aus der Inhaltsliste nur auf Rubriken, die es gibt", () => {
+    for (const a of ausgaben) {
+      const ziele = new Set(a.rubriken.map((r) => r.anker).filter(Boolean));
+      for (const z of a.inhalt ?? []) if (z.anker) expect(ziele.has(z.anker), `${a.nr} #${z.anker}`).toBe(true);
+    }
+  });
+
+  it("verlinken nur Seiten von finanzmuslim und laden Bilder über https", () => {
+    for (const a of ausgaben) {
+      const texte = [...(a.einleitung ?? []), ...a.rubriken.flatMap((r) => r.absaetze)].join("\n");
+      for (const [, pfad] of texte.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)) expect(pfad.trim().startsWith("/"), pfad).toBe(true);
+      for (const [, src] of texte.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)) expect(src.startsWith("https://"), src).toBe(true);
+      for (const r of a.rubriken) if (r.link) expect(r.link.to.startsWith("/")).toBe(true);
+    }
+  });
+
+  it("tragen kein HTML außer fett und klein", () => {
+    for (const a of ausgaben) {
+      const texte = [...(a.einleitung ?? []), ...a.rubriken.flatMap((r) => [r.titel, ...r.absaetze])].join("\n");
+      expect(texte.replace(/<\/?(strong|small)>/g, "")).not.toMatch(/<[a-z]/i);
+    }
+  });
+});

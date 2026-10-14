@@ -3,7 +3,74 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Seo from "@/components/Seo";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import NotFound from "@/pages/NotFound";
-import { ausgabeAusSlug, ausgabePfad, datumLang, nachbarn } from "@/data/newsletterAusgaben";
+import { ausgabeAusSlug, ausgabePfad, datumLang, nachbarn, type Rubrik } from "@/data/newsletterAusgaben";
+
+const WERBEHINWEIS =
+  "Werbung: Auf der Seite stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich nichts.";
+
+/** Fett, klein und Links wie in der Mail: `<strong>`, `<small>`, `[[Text|/pfad]]`. */
+const Inline = ({ text }: { text: string }) => {
+  const teile = text.split(/(<strong>.*?<\/strong>|<small>.*?<\/small>|\[\[[^\]]+\]\])/g).filter(Boolean);
+  return (
+    <>
+      {teile.map((t, i) => {
+        if (t.startsWith("<strong>")) return <strong key={i}><Inline text={t.slice(8, -9)} /></strong>;
+        if (t.startsWith("<small>")) return <small key={i} className="text-[13px] text-muted-foreground">{t.slice(7, -8)}</small>;
+        const link = t.match(/^\[\[([^|\]]+)\|([^\]]+)\]\]$/);
+        if (link)
+          return (
+            <Link key={i} to={link[2].trim()} className="text-primary underline underline-offset-2">
+              {link[1].trim()}
+            </Link>
+          );
+        return t.replace(/ (€|%)/g, "\u00a0$1"); // no lone € or % at the start of a line, like the mail
+      })}
+    </>
+  );
+};
+
+/** Ein Absatz der Mail: Bild, Zwischentitel, Liste oder Text. */
+const Absatz = ({ text }: { text: string }) => {
+  const bild = text.match(/^!\[([^\]]*)\]\((https:[^)]+)\)$/);
+  if (bild) return <img src={bild[2]} alt={bild[1]} loading="lazy" className="mt-4 h-auto w-full rounded-lg" />;
+  if (text.startsWith("## ")) return <h3 className="mt-6 text-lg font-bold text-foreground"><Inline text={text.slice(3)} /></h3>;
+  if (text.startsWith("- "))
+    return (
+      <ul className="mt-3 list-disc space-y-2 pl-6 text-[17px] leading-relaxed text-foreground/90">
+        {text.split("\n").map((z) => <li key={z}><Inline text={z.slice(2)} /></li>)}
+      </ul>
+    );
+  return <p className="mt-3 text-[17px] leading-relaxed text-foreground/90"><Inline text={text} /></p>;
+};
+
+const Abschnitt = ({ r }: { r: Rubrik }) => (
+  <section id={r.anker} className="scroll-mt-32">
+    {(r.anzeige || r.kicker) && (
+      <p className="mb-1 text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {r.anzeige ? "Anzeige" : r.kicker}
+      </p>
+    )}
+    <h2 className="text-xl font-bold text-foreground">{r.emoji && !r.anzeige ? `${r.emoji} ${r.titel}` : r.titel}</h2>
+    {r.absaetze.map((text) => <Absatz key={text} text={text} />)}
+    {r.abstimmung && (
+      <p className="mt-3 text-[17px] leading-relaxed text-foreground/90">
+        <strong>{r.abstimmung.frage}</strong> {r.abstimmung.woerter.join(" · ")}
+      </p>
+    )}
+    {r.link && (
+      <Link
+        to={r.link.to}
+        className="mt-3 inline-flex items-center gap-1 text-[16px] font-bold text-primary hover:underline"
+      >
+        {r.link.text}
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </Link>
+    )}
+    {(r.anzeige || r.werbung) && (
+      <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{r.werbung ?? WERBEHINWEIS}</p>
+    )}
+  </section>
+);
 
 /**
  * Eine Ausgabe der Halal-News als Seite. Gleiche Rubriken und Reihenfolge wie in
@@ -34,29 +101,44 @@ const NewsletterAusgabe = () => {
           </p>
         </header>
 
+        {ausgabe.titelbild && (
+          <img
+            src={ausgabe.titelbild}
+            alt={ausgabe.titelbildAlt ?? ausgabe.titel}
+            className="mx-auto mt-8 h-auto w-full max-w-[700px] rounded-lg"
+          />
+        )}
+
+        {(ausgabe.einleitung || ausgabe.inhalt) && (
+          <div className="mx-auto mt-8 max-w-[700px]">
+            {ausgabe.einleitung?.map((t) =>
+              t.startsWith("# ") ? (
+                <p key={t} className="mt-3 text-[22px] font-bold leading-snug text-foreground">{t.slice(2)}</p>
+              ) : (
+                <Absatz key={t} text={t} />
+              ),
+            )}
+            {ausgabe.inhalt && (
+              <ul className="mt-3 list-disc space-y-2 pl-6 text-[17px] leading-relaxed text-foreground/90">
+                {ausgabe.inhalt.map((z) => (
+                  <li key={z.wort}>
+                    {z.emoji} <strong>{z.wort}:</strong>{" "}
+                    {z.anker ? (
+                      <a href={`#${z.anker}`} className="text-primary underline underline-offset-2">{z.text}</a>
+                    ) : z.to ? (
+                      <Link to={z.to} className="text-primary underline underline-offset-2">{z.text}</Link>
+                    ) : (
+                      z.text
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
         <div className="mx-auto mt-10 max-w-[700px] space-y-10">
-          {ausgabe.rubriken.map((r) => (
-            <section key={r.titel}>
-              {r.anzeige && (
-                <p className="mb-1 text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">Anzeige</p>
-              )}
-              <h2 className="text-xl font-bold text-foreground">{r.titel}</h2>
-              {r.absaetze.map((text) => (
-                <p key={text} className="mt-3 text-[17px] leading-relaxed text-foreground/90">
-                  {text}
-                </p>
-              ))}
-              {r.link && (
-                <Link
-                  to={r.link.to}
-                  className="mt-3 inline-flex items-center gap-1 text-[16px] font-bold text-primary hover:underline"
-                >
-                  {r.link.text}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-              )}
-            </section>
-          ))}
+          {ausgabe.rubriken.map((r) => <Abschnitt key={r.titel} r={r} />)}
         </div>
 
         <section className="mx-auto mt-14 max-w-[700px] rounded-2xl bg-accent px-5 py-8 text-center md:px-10">

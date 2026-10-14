@@ -1,0 +1,177 @@
+{
+  "nr": 2,
+  "datum": "2026-10-16",
+  "thema": "islamic",
+  "titel": "Islamic schlägt den MSCI World: +21,5 % seit Januar",
+  "kurz": "Der MSCI World Islamic liegt 2026 vor dem MSCI World, und warum. Dazu die Krankenkasse, die ohne Brief erhöht, 1.240 € vom Finanzamt, Gold, die Kfz-Frist und die neue Abstimmung.",
+  "lesezeitMin": 6,
+  "titelbild": "https://storage.mlcdn.com/account_image/2353109/uHBBJ0CUJPepl2Y6Z8edim3bQ4YU6eun6or6jhv2.gif",
+  "titelbildAlt": "MSCI World Islamic +21,51 % gegen MSCI World +10,66 % seit Jahresanfang, Kurs in US-Dollar, Stand 30.09.2026",
+  "einleitung": [
+    "# Hol dir dein Geld zurück und zahl nicht mehr als nötig.",
+    "Letzte Woche habt ihr für STEUER abgestimmt, deshalb steht das Thema heute drin. Das liest du in dieser Ausgabe:"
+  ],
+  "inhalt": [
+    {
+      "emoji": "🩺",
+      "wort": "Krankenkasse",
+      "text": "Erhöhungen ohne Vorwarnung",
+      "anker": "krankenkasse"
+    },
+    {
+      "emoji": "💶",
+      "wort": "Geld zurück",
+      "text": "im Schnitt 1.240 € vom Finanzamt",
+      "anker": "geld-zurueck"
+    },
+    {
+      "emoji": "📈",
+      "wort": "Halal investieren",
+      "text": "Islamic schlägt den MSCI World, und warum",
+      "anker": "halal-investieren"
+    },
+    {
+      "emoji": "🥇",
+      "wort": "Gold",
+      "text": "das stärkste Jahr seit 1979, und heute?",
+      "anker": "gold"
+    },
+    {
+      "emoji": "🚗",
+      "wort": "Kfz",
+      "text": "Wechsel bis 30. November",
+      "anker": "kfz"
+    },
+    {
+      "emoji": "🗳️",
+      "wort": "Abstimmen",
+      "text": "dein Thema für nächsten Freitag",
+      "anker": "abstimmen"
+    }
+  ],
+  "rubriken": [
+    {
+      "titel": "Deine Kasse erhöht, und diesmal kommt kein Brief",
+      "absaetze": [
+        "![Krankenkasse 2026: Zusatzbeitrag von 2,18 bis 4,39 %, und seit Juli 2026 kein Brief mehr bei einer Erhöhung](https://storage.mlcdn.com/account_image/2353109/o9GoCKrMZywKOcmAhK3rR9MB3pPBYi6ZQS5PrawB.png)",
+        "Laut Verbraucherzentrale muss dir deine Krankenkasse seit Ende Juli 2026 <strong>nicht mehr schreiben</strong>, wenn sie den Zusatzbeitrag erhöht. Dein Recht auf Sonderkündigung bleibt. Du merkst die Erhöhung nur erst auf deiner Lohnabrechnung.",
+        "Und 2027 wird es wahrscheinlich teurer. Für 2026 liegt der durchschnittliche Zusatzbeitrag amtlich bei 2,9 %. Für 2027 erwarten Fachleute <strong>3,3 bis 3,9 %</strong>, die amtliche Zahl gibt das Gesundheitsministerium bis 1. November bekannt.",
+        "## Was heißt das für dich?",
+        "Bei den Kassen, die jeder wählen kann, liegt der Zusatzbeitrag 2026 zwischen <strong>2,18 und 4,39 %</strong>. Den Zusatzbeitrag teilst du dir mit deinem Arbeitgeber.",
+        "Ein Beispiel: Verdienst du 3.000 € brutto, kostet dich der Unterschied zwischen 2,18 und 4,39 % <strong>33,15 € im Monat</strong>. Im Jahr sind das 397,80 €.",
+        "## So wehrst du dich",
+        "- <strong>Satz nachsehen:</strong> Auf deiner Lohnabrechnung steht, welchen Zusatzbeitrag deine Kasse nimmt.\n- <strong>Vergleichen:</strong> Der GKV-Spitzenverband führt eine Liste aller Kassen mit ihrem Satz.\n- <strong>Im Dezember noch mal schauen:</strong> Ihren Satz für 2027 legen die Kassen meist im Dezember fest.\n- <strong>Online wechseln:</strong> Den Antrag stellst du bei der neuen Kasse, sie kündigt die alte für dich.\n- <strong>Frist kennen:</strong> Kündigen kannst du bis zum Ende des Monats, in dem der neue Satz zum ersten Mal gilt. Bei einer Erhöhung zum 1. Januar ist das der 31. Januar 2027.",
+        "Als Muslim musst du hier nicht lange überlegen. Die gesetzliche Krankenkasse ist Pflicht, und in meinem [[Beitrag zu Versicherungen|/wissen/ist-versicherung-haram]] steht dazu der Satz: <strong>„Nimm den günstigsten, der die Pflicht erfüllt.“</strong>",
+        "Heute musst du nichts kündigen. Trag dir den Dezember in den Kalender ein, dann reicht dir ein Blick auf die Liste."
+      ],
+      "kicker": "Krankenkasse",
+      "emoji": "🩺",
+      "anker": "krankenkasse"
+    },
+    {
+      "titel": "Welches Depot passt zu dir? Teste dich",
+      "absaetze": [
+        "![Wo investiere ich halal? Ein paar Fragen, dann siehst du dein Depot, dein Konto und deine App](https://storage.mlcdn.com/account_image/2353109/bq16i0Bqdhgki687SIiXNNiHnS4wcMUR9LMBxrZB.png)",
+        "Ein paar einfache Fragen, am Ende siehst du, welches Depot, welches Konto und welche App zu dir passen. Alles ohne Zinsen nutzbar, sortiert nur nach dem, was dir wichtig ist."
+      ],
+      "emoji": "🧭",
+      "anzeige": true,
+      "link": {
+        "text": "Test starten",
+        "to": "/vergleich/start"
+      }
+    },
+    {
+      "titel": "Im Schnitt 1.240 € vom Finanzamt, für 2022 nur noch bis Silvester",
+      "absaetze": [
+        "Das ist das Thema, für das du letzte Woche abgestimmt hast.",
+        "![Im Schnitt 1.240 € vom Finanzamt zurück. Steuerjahr 2022: freiwillige Erklärung bis 31.12.2026](https://storage.mlcdn.com/account_image/2353109/PLi6NESpr15CwOXWo8ByiMnPQLY8tv5otpvwg5tI.png)",
+        "Laut Statistischem Bundesamt bekamen für das Steuerjahr 2022 <strong>13,2 Millionen Menschen</strong> Geld vom Finanzamt zurück, im Schnitt 1.240 €. Bei gut der Hälfte lag die Erstattung zwischen 100 und 1.000 €.",
+        "Hast du für 2022 keine Steuererklärung gemacht, kannst du sie noch freiwillig abgeben. Die Frist endet am <strong>31. Dezember 2026</strong>, danach ist das Geld weg.",
+        "## Und was zahlst du auf deine ETF-Gewinne?",
+        "Gewinne aus ETFs und Aktien kosten 25 % Abgeltungsteuer plus Solidaritätszuschlag. Deine Bank zieht das direkt ab. <strong>Bis 1.000 € im Jahr</strong> bleiben aber steuerfrei, bei Ehepaaren 2.000 €.",
+        "- <strong>Freistellungsauftrag stellen:</strong> Das machst du im Online-Banking deines Depots. Über alle Banken zusammen darfst du höchstens 1.000 € verteilen.\n- <strong>Bis 31. Dezember anpassen:</strong> Hast du zwei Depots, gib den Betrag dorthin, wo deine Gewinne und Ausschüttungen anfallen.\n- <strong>Zu viel gezahlt:</strong> Hat deine Bank Steuern abgezogen, obwohl dein Freibetrag noch frei war, holst du sie mit der Steuererklärung zurück.",
+        "Noch ein Punkt für uns Muslime: Gibst du Zakat oder Sadaqa an einen gemeinnützigen Verein, zählt das als Spende. Mit der Spendenquittung gehört sie in deine Erklärung.",
+        "Für die Erklärung brauchst du kein teures Programm. Im [[Steuersoftware-Vergleich|/vergleich/steuersoftware]] siehst du 10 Programme nebeneinander, mit Preis und was sie können. Zwei davon kosten nichts, darunter Mein ELSTER vom Finanzamt."
+      ],
+      "kicker": "Geld zurück",
+      "emoji": "💶",
+      "anker": "geld-zurueck",
+      "werbung": "Werbung: Auf der Seite stehen Partnerlinks. Kaufst du darüber ein Programm, bekomme ich eine Provision. Für dich ändert sich nichts."
+    },
+    {
+      "titel": "Islamic schlägt den MSCI World: +21,51 % seit Januar",
+      "absaetze": [
+        "Der MSCI World Islamic Index liegt seit Jahresanfang bei <strong>+21,51 %</strong>. Der normale MSCI World kommt im selben Zeitraum auf +10,66 %. So steht es in den Factsheets von MSCI, Kurs in US-Dollar, Stand 30. September 2026.",
+        "## Warum liegt Islamic vorn?",
+        "Der Islamic-Index ist der MSCI World mit Filter. Raus fliegt laut Methodik jede Firma, die mehr als 5 % ihres Umsatzes mit Alkohol, Tabak, Schweinefleisch, Glücksspiel, Waffen oder klassischem Bankgeschäft macht. Zum Bankgeschäft zählen auch Versicherungen und Kreditkarten. Dazu darf eine Firma höchstens ein Drittel ihrer Bilanz als Schulden haben.",
+        "![Warum Islamic vorn liegt: Finanzwerte 0 % gegen 15,74 %, Technologie 45,85 % gegen 31,78 %](https://storage.mlcdn.com/account_image/2353109/nH8BGZF3HWEmCJ9yPEJHFUaEcf3fKhPy1972ar00.png)",
+        "Was übrig bleibt, sieht so aus:",
+        "- <strong>Banken und Versicherungen:</strong> 0 % im Islamic, 15,74 % im MSCI World.\n- <strong>Technologie und KI:</strong> 45,85 % gegen 31,78 %.\n- <strong>Zahl der Firmen:</strong> 385 statt 1.249.",
+        "Steigen Technologiewerte, zieht ein Index mit fast der Hälfte Technologie stärker mit. So war es 2026.",
+        "## Was heißt das für dich?",
+        "Die Auswahl hat das Sharia-Gremium von MSCI als schariakonform freigegeben, das steht in der Methodik. <strong>Halal hieß in diesem Jahr also nicht weniger Rendite.</strong>",
+        "Eine Sache solltest du aber wissen: Die 10 größten Firmen machen im Islamic 38,54 % aus, im MSCI World nur 11,30 %. Du setzt also stärker auf wenige Namen.",
+        "Das ist keine Anlageberatung. Eine Rendite von gestern sagt nichts über morgen, und ob ein Islamic-ETF zu dir passt, entscheidest du mit Blick auf deinen ganzen Plan."
+      ],
+      "kicker": "Halal investieren",
+      "emoji": "📈",
+      "anker": "halal-investieren"
+    },
+    {
+      "titel": "Gold hatte das stärkste Jahr seit 1979. Und heute?",
+      "absaetze": [
+        "![Gold: 2025 das stärkste Jahr seit 1979, Rekord im Januar 2026 bei 5.594,70 US-Dollar je Unze](https://storage.mlcdn.com/account_image/2353109/8YY0PzaExF5rMjHtPiRHQi9Wm4P5YQ4J32blzRPu.png)",
+        "2025 war für Gold das stärkste Jahr seit 1979. Im Januar 2026 kam der Rekord: Am Tageshoch kostete eine Unze <strong>5.594,70 US-Dollar</strong>.",
+        "Jetzt kostet ein Gramm <strong>118,86 €</strong>, eine Unze 4.139 US-Dollar. Das ist rund ein Viertel unter dem Rekord. In Euro steht Gold fast genau da, wo es im Januar angefangen hat: +0,09 %. <small>(goldpreis.de, Stand 14.10.2026)</small>",
+        "## Lohnt sich das noch?",
+        "Das kann dir niemand ehrlich sagen, ich auch nicht. Was ich dir sagen kann: Wie du kaufst, entscheidet, ob es halal ist.",
+        "In meinem Beitrag [[Halal Gold kaufen|/wissen/halal-gold-kaufen]] steht die Regel dazu: <strong>„Geld und Gold müssen im selben Moment den Besitzer wechseln.“</strong> Du zahlst, du bekommst das Gold. Gold auf Raten fällt weg."
+      ],
+      "kicker": "Wo stehst du",
+      "emoji": "🥇",
+      "anker": "gold"
+    },
+    {
+      "titel": "Kfz-Versicherung: Wechsel bis Montag, 30. November",
+      "absaetze": [
+        "![Kfz-Versicherung wechseln: Kündigung bis 30.11.2026 beim Versicherer](https://storage.mlcdn.com/account_image/2353109/lYlH6tTad2GYruEi8ZiYmyAPlIfIPSRVmNkxo3uE.png)",
+        "Für 2027 hat der Versicherer-Verband GDV die Typklassen neu verteilt. In der Haftpflicht rutschen <strong>7,4 Millionen Autofahrer</strong> höher, 5,1 Millionen niedriger.",
+        "Willst du zum 1. Januar wechseln, muss deine Kündigung bis <strong>Montag, 30. November 2026</strong> bei deinem Versicherer sein. Abgeschickt reicht nicht. Schließ zuerst den neuen Vertrag ab, dann kündigst du den alten. Deine Schadenfreiheitsklasse nimmst du mit.",
+        "Die Kfz-Haftpflicht ist Pflicht wie die Krankenkasse, also gilt derselbe Satz: Nimm den günstigsten Tarif, der die Pflicht erfüllt."
+      ],
+      "kicker": "Kleine Aufgabe",
+      "emoji": "🚗",
+      "anker": "kfz"
+    },
+    {
+      "titel": "Was diese Woche noch wichtig war",
+      "absaetze": [
+        "![Inflation im September 2026: 3,3 %, Heizöl +74,9 %, Sprit +37,1 %](https://storage.mlcdn.com/account_image/2353109/niTig3N5cN2dzPsNtfLYwvo4UVDHip7BvQo0pqPp.png)",
+        "- <strong>Inflation 3,3 %:</strong> So hoch war sie im September, laut Statistischem Bundesamt der höchste Stand seit Dezember 2023. Heizöl kostet 74,9 % mehr als vor einem Jahr, Sprit 37,1 %.\n- <strong>Falsche Bank-Mails:</strong> Die Verbraucherzentrale warnt seit Anfang Oktober vor gefälschten Mails im Namen von PayPal, DKB und Sparkasse. Öffne deine Bank-App lieber selbst, statt auf einen Link zu tippen.\n- <strong>Turbo-Zertifikate:</strong> Laut BaFin verloren 74,2 % der Privatanleger damit Geld, im Schnitt 6.358 €. Seit 16. Juni 2026 gibt es vor dem Kauf einen Wissenstest.\n- <strong>Sukuk wachsen:</strong> Laut Fitch wurden im dritten Quartal 58 % mehr Dollar-Sukuk ausgegeben als im Quartal davor, zusammen 25,5 Milliarden US-Dollar. Sukuk sind islamkonforme Wertpapiere."
+      ],
+      "kicker": "Kurz notiert",
+      "emoji": "📰"
+    },
+    {
+      "titel": "Was soll nächsten Freitag drinstehen?",
+      "absaetze": [
+        "![Du entscheidest: TRADING, ALTERSVORSORGE, FINANZIERUNG oder BOYKOTT](https://storage.mlcdn.com/account_image/2353109/CnMW5DDDZBlnG7mvMAqu6OcmfrEmIevnbtaGxR9G.png)",
+        "<strong>Du entscheidest, was nächsten Freitag drinsteht.</strong> Tipp unten auf ein Wort und schick die Mail ab, das dauert zwei Sekunden.",
+        "- <strong>TRADING:</strong> In Videos machen junge Leute schnelles Geld mit Trading. Ist das halal?\n- <strong>ALTERSVORSORGE:</strong> 2027 kommt das Altersvorsorgedepot. Geht das halal?\n- <strong>FINANZIERUNG:</strong> Anbieter werben mit halal Bau- und Autofinanzierung. Stimmt das?\n- <strong>BOYKOTT:</strong> Was der Boykott die Konzerne kostet, in Zahlen."
+      ],
+      "kicker": "Deine Stimme",
+      "emoji": "🗳️",
+      "anker": "abstimmen",
+      "abstimmung": {
+        "frage": "Welches Thema?",
+        "woerter": [
+          "TRADING",
+          "ALTERSVORSORGE",
+          "FINANZIERUNG",
+          "BOYKOTT"
+        ]
+      }
+    }
+  ]
+}

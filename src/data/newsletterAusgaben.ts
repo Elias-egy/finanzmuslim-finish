@@ -11,6 +11,11 @@
  * Solange die Liste leer ist, verlinkt die Seite weder Archiv noch „aktuelle Ausgabe“.
  */
 
+/**
+ * Ein Absatz trägt dieselbe Auszeichnung wie in der Mail (`~/rebrand/mails/archiv.py` setzt sie um):
+ * `<strong>`, `<small>`, Links als `[[Text|/pfad]]`, `## ` Zwischentitel, Zeilen mit `- ` als Liste,
+ * `![Alt](https://…)` als Bild, `# ` als große Zeile in der Einleitung.
+ */
 export type Rubrik = {
   titel: string;
   absaetze: string[];
@@ -18,7 +23,17 @@ export type Rubrik = {
   link?: { text: string; to: string };
   /** Werbeplatz, wird als „Anzeige“ gekennzeichnet. */
   anzeige?: boolean;
+  /** Kleine Zeile über dem Titel, z. B. „Krankenkasse“. */
+  kicker?: string;
+  emoji?: string;
+  /** Sprungziel der Inhaltsliste, wie in der Mail. */
+  anker?: string;
+  /** Eigener Werbehinweis, wenn die Rubrik auf Partnerlinks führt. */
+  werbung?: string;
+  abstimmung?: { frage: string; woerter: string[] };
 };
+
+export type InhaltZeile = { emoji: string; wort: string; text: string; to?: string; anker?: string };
 
 export type Ausgabe = {
   nr: number;
@@ -30,10 +45,29 @@ export type Ausgabe = {
   /** Ein Satz, worum es ging. Steht im Archiv. */
   kurz: string;
   lesezeitMin: number;
+  titelbild?: string;
+  titelbildAlt?: string;
+  einleitung?: string[];
+  inhalt?: InhaltZeile[];
   rubriken: Rubrik[];
 };
 
-export const ausgaben: Ausgabe[] = [];
+/**
+ * Je verschickte Ausgabe eine Datei in `src/data/newsletter/`, erzeugt aus der Mail mit `~/rebrand/mails/archiv.py`.
+ * Das Skript trägt Import und Zeile zwischen den Markern selbst nach. Feste Importe statt import.meta.glob,
+ * weil die Sitemap diese Datei über esbuild liest (scripts/routen-laden.mjs).
+ */
+// archiv:importe:start
+import nr1 from "./newsletter/2026-10-09-launch.json";
+import nr2 from "./newsletter/2026-10-16-islamic.json";
+// archiv:importe:end
+
+export const ausgaben: Ausgabe[] = [
+  // archiv:liste:start
+  nr1,
+  nr2,
+  // archiv:liste:end
+];
 
 export const ausgabePfad = (a: Ausgabe) => `/newsletter/${a.datum}-${a.thema}`;
 
