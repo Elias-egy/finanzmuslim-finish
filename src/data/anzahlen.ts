@@ -7,7 +7,7 @@
  * nicht was in den Datendateien steht. Kommt ein Angebot dazu, meldet der Test die neue Zahl.
  */
 export const ANZAHL_HALAL_ANLAGEN = 30;
-export const ANZAHL_DEPOTS = 23;
+export const ANZAHL_DEPOTS = 25;
 export const ANZAHL_KONTEN = 54;
 export const ANZAHL_KRYPTO = 27;
 export const ANZAHL_APPS = 4;

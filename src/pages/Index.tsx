@@ -200,27 +200,27 @@ const Index = () => (
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
       {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
           bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
-          Am Handy und am Laptop fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs
-          Vergleiche unten, der Guide beginnt erst darunter statt angeschnitten (Elias,
-          14.10.2026: "die Hauptseite muss vollstaendig sein"). 130 und 154 sind Kopf plus
-          Abstaende bei Handy und ab Tablet. Das Tablet fuellt die Flaeche mit grossen Kacheln statt
-          mit Leere, der Laptop mit dem Foto. Auf kurzen Handys (Hoehe bis 700px, Safari mit Leisten, kleine Android)
-          ruecken die Abstaende eine Stufe enger, damit beide Kachelreihen ganz zu sehen sind; auf hohen
-          Handys stehen die Vergleiche in zwei Spalten und groesser, statt die Platte leer zu strecken. */}
-      <section className="flex min-h-[calc(100svh-130px)] flex-col md:min-h-[calc(100svh-154px)]">
-        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-4 pb-[68px] pt-6 kurz:pb-[64px] kurz:pt-5 md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <div className="max-w-[680px] lg:pb-[76px] lg:pt-4">
-              <h1 className="text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
+          Ab Tablet fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs Vergleiche
+          unten, der Guide beginnt erst darunter (Elias, 14.10.2026: "die Hauptseite muss vollstaendig
+          sein"); 154 ist Kopf plus Abstaende. Das Tablet fuellt die Flaeche mit grossen Kacheln, der
+          Laptop mit dem Foto. Am Handy wie bei Finanzfluss: Ueberschrift, Unterzeile, Foto, darunter
+          der Knopf mit Abstand zur Safari-Leiste; die Vergleiche beginnen erst im zweiten Bildschirm ("Finde, was zu
+          dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 76px kuerzer als das Fenster,
+          hoechstens 720px; die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
+      <section className="flex flex-col md:min-h-[calc(100svh-154px)]">
+        <div className="relative flex min-h-[min(calc(100svh-76px),720px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+          <div className="mx-auto w-full max-w-[1200px] max-md:contents">
+            <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
+              <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-3 kurz:mt-2 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+              <p className="max-md:order-2 mt-3 kurz:mt-2 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
                 Lerne, wie du dein Geld islamkonform anlegst und Zinsen erkennst.
                 {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
-              <div className="mt-6 kurz:mt-4 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
+              <div className="max-md:order-4 mt-4 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
                 <Link
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8 lg:min-h-[60px] lg:px-10 lg:text-[20px]"
@@ -228,13 +228,26 @@ const Index = () => (
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
-                <span className="text-center text-[14px] kurz:text-[13px] text-muted-foreground [text-wrap:balance] sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
               </div>
             </div>
           </div>
 
-          {/* Handy und Tablet ohne Foto: es schob die Vergleiche aus dem ersten Bildschirm
-              ("Mein Gesicht bringt kein Geld", Elias, 14.10.2026). */}
+          {/* Handy: Foto zwischen Unterzeile und Knopf, wie bei Finanzfluss; es fuellt den Rest des ersten
+              Bildschirms. Ohne Gesicht wirkte die Platte "gefuehlslos" und
+              leer (Elias, 14.10.2026 abends); die Vergleiche stehen jetzt am Ende des ersten Bildschirms
+              und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
+          <div className="relative max-md:order-3 mt-3 min-h-[190px] flex-1 overflow-hidden md:hidden">
+            <img
+              src={eliasCutout}
+              alt=""
+              className="absolute left-1/2 top-0 h-[158%] w-auto max-w-none -translate-x-1/2"
+              loading="eager"
+            />
+            <div className="absolute bottom-3 right-2 rounded-lg border border-border bg-card px-3 py-1.5">
+              <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
+              <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
+            </div>
+          </div>
 
           {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. Es waechst mit der
               Platte bis knapp unter ihre Oberkante, wie bei Finanzfluss; sonst bleibt ueber dem Kopf
@@ -265,12 +278,12 @@ const Index = () => (
             die Kacheln eingerueckt in die Platte, statt abgetrennt darunter zu stehen ("wie auf Laptop",
             Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
             Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto -mt-11 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-3 gap-2 hoch:grid-cols-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
+        <div className="relative z-10 mx-auto -mt-11 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-3 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to}
-              className="group relative flex min-h-[80px] hoch:min-h-[clamp(96px,calc((100svh_-_520px)/3),140px)] flex-col items-center justify-center gap-1.5 kurz:gap-1 card-surface px-0.5 pb-2.5 pt-3 kurz:pt-2 text-center transition-colors hover:border-primary md:min-h-[140px] md:justify-center md:gap-3 lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
+              className="group relative flex min-h-[80px] flex-col items-center justify-center gap-1.5 kurz:gap-1 card-surface px-0.5 min-[400px]:px-2 pb-2.5 pt-3 kurz:pt-2 text-center transition-colors hover:border-primary md:min-h-[140px] md:justify-center md:gap-3 lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
             >
               {/* Am Handy das Zeichen frei, ohne hellblaues Quadrat: das Quadrat war die Icon-Kachel
                   aus Pruefzeile 12.6 und kostete zwei Reihen 24px. */}

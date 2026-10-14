@@ -229,7 +229,7 @@ export const DEPOT_WERTE: Werte = {
     etfSparplanKosten: "1% (min. 1,30€)",
     aktienSparplanKosten: "1% (min. 1,30€)",
     depotgebuehr: "0,119% (min. 5,95€, max. 59,50€ je Posten)",
-    intervalle: null,
+    intervalle: "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr (zum 1. oder 15.)",
   },
 };
 
@@ -312,6 +312,7 @@ export const DEPOT_QUELLEN: Quellen = {
     orderkosten: preisseite0710("GLS Bank", GLS_PLV, "Preis- und Leistungsverzeichnis, „Stand: 01.09.2026“, Ausführung im Inland: „Investmentanteile über Börse“ „0,50 %“ „min. 15,00 EUR“ „max. 500,00 EUR“. „Aktien“ „1,00 %“ „min. 20,00 EUR“."),
     etfSparplanKosten: glsSparplan,
     aktienSparplanKosten: glsSparplan,
+    intervalle: { url: "https://www.gls.de/", stand: "14.10.2026", hinweis: "Mail GLS Wertpapier-Service vom 13.10.2026: „Die Anlage eines Sparplans ist ab 50 € möglich“ und „Der Turnus ist monatlich, alle 2, 3, 6 oder 12 Monate jeweils zum 1. oder 15. des Monats.“ Nicht jedes kaufbare Papier ist sparplanfähig." },
     depotgebuehr: preisseite0710("GLS Bank", GLS_PLV, "Preis- und Leistungsverzeichnis, „Stand: 01.09.2026“: „1,19 ‰“, „- Mindestpreis pro Depot (inkl. USt)“ „5,95 EUR“, „- Maximalpreis pro Bestandsposten (inkl. USt)“ „59,50 EUR“. Depotseite: „5,95 EUR jährlich Mindestpreis pro Depot, 59,50 EUR jährlich maximal pro Bestandsposten“."),
   },
 };
