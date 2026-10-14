@@ -7,7 +7,9 @@
  * unter /wissen nicht schaden (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
  *
  * Was in der Mail steht, steht auch auf der Seite, Werbeplätze eingeschlossen
- * (`anzeige: true`). Eine Ausgabe kommt erst hierher, wenn sie verschickt ist.
+ * (`anzeige: true`). Eine Ausgabe wird beim Einplanen eingetragen und trägt `sichtbarAb`, die Versandzeit:
+ * Erst ein Bau ab diesem Zeitpunkt zeigt sie (Liste, Seite, Startseite, Prerender). Den Bau zur Versandzeit
+ * startet `.github/workflows/ausgabe-live.yml`.
  * Solange die Liste leer ist, verlinkt die Seite weder Archiv noch „aktuelle Ausgabe“.
  */
 
@@ -50,7 +52,20 @@ export type Ausgabe = {
   einleitung?: string[];
   inhalt?: InhaltZeile[];
   rubriken: Rubrik[];
+  /** Versandzeit in UTC, z. B. `2026-10-16T05:00:00Z`. Vorher baut die Seite die Ausgabe nicht. Fehlt sie: sofort. */
+  sichtbarAb?: string;
 };
+
+declare const __BAUZEIT__: string | undefined;
+
+/**
+ * Zeitpunkt des Baus. Vite (`vite.config.ts`) und das Laden der Routen (`scripts/routen-laden.mjs`) setzen ihn
+ * aus der Umgebungsvariablen BAUZEIT, sonst gilt die Uhrzeit beim Bauen. Zur Laufzeit im Browser ändert er sich nicht,
+ * damit Seite, Prerender und Sitemap dieselben Ausgaben zeigen.
+ */
+export const BAUZEIT = typeof __BAUZEIT__ === "string" ? Date.parse(__BAUZEIT__) : Date.now();
+
+export const sichtbar = (a: Ausgabe, zeit: number = BAUZEIT) => !a.sichtbarAb || Date.parse(a.sichtbarAb) <= zeit;
 
 /**
  * Je verschickte Ausgabe eine Datei in `src/data/newsletter/`, erzeugt aus der Mail mit `~/rebrand/mails/archiv.py`.
@@ -62,12 +77,15 @@ import nr1 from "./newsletter/2026-10-09-launch.json";
 import nr2 from "./newsletter/2026-10-16-islamic.json";
 // archiv:importe:end
 
-export const ausgaben: Ausgabe[] = [
+export const eingetragen: Ausgabe[] = [
   // archiv:liste:start
   nr1,
   nr2,
   // archiv:liste:end
 ];
+
+/** Was die Seite zeigt: nur Ausgaben, deren Versandzeit beim Bau erreicht ist. */
+export const ausgaben = eingetragen.filter((a) => sichtbar(a));
 
 export const ausgabePfad = (a: Ausgabe) => `/newsletter/${a.datum}-${a.thema}`;
 

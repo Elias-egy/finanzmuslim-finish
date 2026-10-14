@@ -23,6 +23,10 @@ on:
         description: "Nach dem Bauen auf GitHub Pages veroeffentlichen"
         type: boolean
         default: false
+      bauzeit:
+        description: "Bauzeit in UTC (ISO). Leer heisst: jetzt. Steuert, welche Halal-News-Ausgaben schon sichtbar sind."
+        type: string
+        default: ""
   workflow_call:
     inputs:
       veroeffentlichen:
@@ -30,6 +34,10 @@ on:
         default: false
       ref:
         description: "Stand, der gebaut werden soll. Leer heisst: der ausloesende."
+        type: string
+        default: ""
+      bauzeit:
+        description: "Bauzeit in UTC (ISO). Leer heisst: jetzt. Gesetzt von ausgabe-live.yml."
         type: string
         default: ""
 
@@ -73,6 +81,15 @@ jobs:
             echo "Kein Chrome im Runner-Abbild. Ohne Browser kein Prerendering."
             exit 1
           fi
+
+      # Eine Bauzeit fuer alle Schritte: Sitemap, vite build und Prerender zeigen dieselben
+      # Halal-News-Ausgaben (sichtbarAb in src/data/newsletterAusgaben.ts). Vorgabe von ausgabe-live.yml.
+      - name: Bauzeit festhalten
+        env:
+          VORGABE: ${{ inputs.bauzeit }}
+        run: |
+          echo "BAUZEIT=${VORGABE:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}" >> "$GITHUB_ENV"
+          echo "Bauzeit: ${VORGABE:-jetzt}"
 
       - name: Typen pruefen
         run: npm run typecheck
