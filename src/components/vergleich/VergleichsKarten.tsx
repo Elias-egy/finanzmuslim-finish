@@ -1,18 +1,29 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Minus, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ProduktDetails, ZellInhalt } from "./VergleichsBausteine";
-import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
+import {
+  AngebotsKnopf,
+  BonusSchild,
+  ProduktDetails,
+} from "./VergleichsBausteine";
+import {
+  KEINE_ANGABE,
+  type VergleichsSpalte,
+  type VergleichsZeile,
+  type Zellwert,
+} from "./vergleichTypen";
 
 /**
- * Dieselben Daten wie in der Tabelle, nur als Karten. Auf dem Handy ist die
- * gedrehte Tabelle unbrauchbar: eine Spalte von 208 Pixeln neben einer
- * Kriterienspalte laesst nichts uebrig.
+ * Dieselben Daten wie in der Tabelle, nur als Karten fuer Handy und Tablet. Auf dem Handy ist die
+ * gedrehte Tabelle unbrauchbar: eine Spalte von 208 Pixeln neben einer Kriterienspalte laesst
+ * nichts uebrig.
  *
- * Aufbau je Karte: Logo, Name und Etikett oben, dann der
- * Knopf, dann die vier Zahlen, nach denen zuerst gesucht wird. Alles Weitere
+ * Jede Karte ist der Kasten "Unsere Nummer 1" in klein: Logo, Name und Platz oben, dann die vier
+ * Werte, nach denen zuerst gesucht wird, als Liste mit Haken, darunter der Knopf und die
+ * Produktdetails (Elias, 14.10.2026: "eher wie Smart Broker in Mini", "zum Angebot eher unten").
+ * Keine Kaestchen mehr: lange Kosten liefen dort auf fuenf Zeilen mit Trennstrichen. Das
+ * Ankreuzen "Produkt vergleichen" entfaellt hier, am Laptop vergleicht die Tabelle. Alles Weitere
  * liegt hinter "Produktdetails", auch der Satz zur Zins-Ampel und die Quellen.
- * Wer vergleichen will, hakt Karten an und bekommt nur noch diese zu sehen.
  */
 
 const etikettTon: Record<string, string> = {
@@ -22,16 +33,62 @@ const etikettTon: Record<string, string> = {
   platz: "bg-muted text-foreground",
 };
 
+type Zeichen = "ja" | "teils" | "nein" | "offen";
+
+/** Zeichen und Satz einer Zeile: Kriterium und Wert als ein Satz wie beim Sieger. */
+const punktText = (
+  zeile: VergleichsZeile,
+  wert?: Zellwert,
+): [Zeichen, string] => {
+  const offen: [Zeichen, string] = ["offen", `${zeile.label}: ${KEINE_ANGABE}`];
+  if (zeile.art === "ampel") {
+    const status = wert?.status ?? "unbekannt";
+    if (status === "gut") return ["ja", zeile.label];
+    if (status === "teils") return ["teils", `${zeile.label}: abschaltbar`];
+    if (status === "schlecht") return ["nein", `${zeile.label}: nein`];
+    return offen;
+  }
+  if (zeile.art === "janein") {
+    if (wert?.jaNein === true) return ["ja", zeile.label];
+    if (wert?.jaNein === false) return ["nein", `${zeile.label}: nein`];
+    return offen;
+  }
+  return wert?.text ? ["ja", `${zeile.label}: ${wert.text}`] : offen;
+};
+
+const Punkt = ({
+  zeile,
+  wert,
+}: {
+  zeile: VergleichsZeile;
+  wert?: Zellwert;
+}) => {
+  const [zeichen, text] = punktText(zeile, wert);
+  const Icon = zeichen === "nein" ? X : zeichen === "offen" ? Minus : Check;
+  const farbe = {
+    ja: "text-primary",
+    teils: "text-warning",
+    nein: "text-destructive",
+    offen: "text-muted-foreground/60",
+  }[zeichen];
+  return (
+    <li className="flex items-start gap-2 text-[14px] leading-snug text-foreground">
+      <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${farbe}`} aria-hidden />
+      <span
+        className={zeichen === "offen" ? "text-muted-foreground" : undefined}
+      >
+        {text}
+      </span>
+    </li>
+  );
+};
+
 const Karte = ({
   spalte,
   zeilen,
-  gewaehlt,
-  waehle,
 }: {
   spalte: VergleichsSpalte;
   zeilen: VergleichsZeile[];
-  gewaehlt: boolean;
-  waehle: (id: string) => void;
 }) => {
   const [offen, setOffen] = useState(false);
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
@@ -40,87 +97,74 @@ const Karte = ({
 
   return (
     <li
-      className={`overflow-hidden rounded-lg border bg-card ${
-        spalte.abgeraten ? "border-destructive/40" : hervor ? "border-primary ring-2 ring-primary/15" : "border-border"
+      className={`flex flex-col overflow-hidden rounded-xl border bg-card ${
+        spalte.abgeraten
+          ? "border-destructive/40"
+          : hervor
+            ? "border-primary ring-2 ring-primary/15"
+            : "border-border"
       }`}
     >
       {spalte.abgeraten && (
-        <p className="border-b border-destructive/30 bg-destructive/10 px-3 py-1.5 text-[12px] font-semibold text-destructive">
+        <p className="border-b border-destructive/30 bg-destructive/10 px-4 py-1.5 text-[12px] font-semibold text-destructive">
           Davon raten wir ab
         </p>
       )}
-      {/* Kopfstreifen: Logo, Produkt, Etikett. Keine Nummer, solange nicht bewertet ist. */}
-      <div className="flex items-stretch border-b border-border">
-        <span className="flex shrink-0 items-center pl-3">
+
+      <div className="flex flex-1 flex-col px-4 pb-1 pt-4">
+        {/* Kopf: Logo, Produkt, Platz. Keine Nummer, solange nicht bewertet ist. */}
+        <div className="flex items-center gap-3">
           <AnbieterLogo name={spalte.anbieter} domain={spalte.domain} />
-        </span>
-        <span className="flex min-w-0 flex-1 items-center px-3 py-2 text-[15px] font-bold text-foreground">
-          <span className="truncate">
-            {spalte.anbieter} <span className="font-medium">{spalte.produkt}</span>
-          </span>
-        </span>
-        {spalte.etikett && !spalte.abgeraten && (
-          <span
-            className={`flex shrink-0 items-center px-3 text-[12px] font-semibold ${etikettTon[spalte.etikett.ton]}`}
-          >
-            {spalte.etikett.text}
-          </span>
+          <p className="min-w-0 flex-1 text-[16px] leading-snug text-foreground">
+            <span className="font-bold">{spalte.anbieter}</span>{" "}
+            {spalte.produkt}
+          </p>
+          {spalte.etikett && !spalte.abgeraten && (
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-semibold ${etikettTon[spalte.etikett.ton]}`}
+            >
+              {spalte.etikett.text}
+            </span>
+          )}
+        </div>
+
+        {spalte.tarif && (
+          <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-snug text-muted-foreground">
+            <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
+              {spalte.tarif.marke}
+            </span>
+            {spalte.tarif.satz}
+          </p>
         )}
-      </div>
 
-      {spalte.tarif && (
-        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-border px-3 py-2 text-[13px] leading-snug text-muted-foreground">
-          <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
-            {spalte.tarif.marke}
-          </span>
-          {spalte.tarif.satz}
-        </p>
-      )}
+        <ul className="mt-3 space-y-1.5">
+          {raster.map((z) => (
+            <Punkt key={z.key} zeile={z} wert={spalte.werte[z.key]} />
+          ))}
+        </ul>
 
-      <div className="p-3">
         {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
             kostet auf dem Handy über viele Karten mehrere Bildschirme. */}
-        {spalte.link ? (
-          <div className="mb-3">
-            <AngebotsKnopf link={spalte.link} breit />
-            <BonusSchild anbieterId={spalte.id} />
-          </div>
-        ) : (
-          !spalte.abgeraten && (
-            <p className="mb-3 text-[12px] text-muted-foreground">Beim Anbieter direkt abschließbar</p>
-          )
-        )}
-
-        {/* Vier Zahlen, nach denen zuerst gesucht wird */}
-        <dl className="grid grid-cols-2 gap-3">
-          {raster.map((z) => (
-            <div key={z.key} className="min-w-0 rounded-lg border border-border p-3 text-center">
-              <dt className="text-[12px] leading-tight text-muted-foreground">
-                {z.label}
-                <HinweisPunkt text={z.hinweis} />
-              </dt>
-              <dd className="mt-1 hyphens-auto break-words text-[14px] font-semibold">
-                <ZellInhalt wert={spalte.werte[z.key]} art={z.art} />
-              </dd>
+        {/* Knopf und Details unten buendig, auch wenn die Karten auf dem Tablet ungleich lang sind. */}
+        <div className="mt-auto">
+          {spalte.link ? (
+            <div className="mt-3">
+              <AngebotsKnopf link={spalte.link} breit klein />
+              <BonusSchild anbieterId={spalte.id} />
             </div>
-          ))}
-        </dl>
+          ) : (
+            !spalte.abgeraten && (
+              <p className="mt-3 text-[13px] text-muted-foreground">
+                Beim Anbieter direkt abschließbar
+              </p>
+            )
+          )}
 
-        <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-          <label className="flex min-h-[44px] cursor-pointer items-center gap-2 text-[14px] text-foreground">
-            <input
-              type="checkbox"
-              checked={gewaehlt}
-              onChange={() => waehle(spalte.id)}
-              className="h-4 w-4 rounded border-border accent-[color:hsl(var(--primary))]"
-            />
-            Produkt vergleichen
-          </label>
           <button
             type="button"
             onClick={() => setOffen((v) => !v)}
             aria-expanded={offen}
-            className="inline-flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
+            className="mx-auto mt-1 flex min-h-[44px] items-center gap-1 text-[14px] font-medium text-primary"
           >
             Produktdetails
             <ChevronDown
@@ -146,52 +190,25 @@ export const VergleichsKarten = ({
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
 }) => {
-  const [gewaehlt, setGewaehlt] = useState<string[]>([]);
   const [sichtbar, setSichtbar] = useState(SEITE);
-
-  const waehle = (id: string) =>
-    setGewaehlt((alt) => (alt.includes(id) ? alt.filter((x) => x !== id) : [...alt, id]));
-
-  const auswahl = gewaehlt.length > 0;
-  const alle = auswahl ? spalten.filter((s) => gewaehlt.includes(s.id)) : spalten;
-  const zeigen = auswahl ? alle : alle.slice(0, sichtbar);
+  const zeigen = spalten.slice(0, sichtbar);
 
   return (
     <>
-      {gewaehlt.length > 0 && (
-        <div className="mb-4 flex items-center justify-between rounded-lg border border-primary/30 bg-hero px-4 py-3">
-          <p className="text-[14px] text-foreground">
-            {gewaehlt.length} zum Vergleichen ausgewählt
-          </p>
-          <button
-            type="button"
-            onClick={() => setGewaehlt([])}
-            className="min-h-[44px] text-[14px] font-semibold text-primary"
-          >
-            Auswahl aufheben
-          </button>
-        </div>
-      )}
-
-      <ul className="space-y-4">
+      {/* Tablet: zwei Karten nebeneinander, sonst laufen Liste und Knopf über die ganze Breite. */}
+      <ul className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
         {zeigen.map((s) => (
-          <Karte
-            key={s.id}
-            spalte={s}
-            zeilen={zeilen}
-            gewaehlt={gewaehlt.includes(s.id)}
-            waehle={waehle}
-          />
+          <Karte key={s.id} spalte={s} zeilen={zeilen} />
         ))}
       </ul>
 
-      {alle.length > zeigen.length && (
+      {spalten.length > zeigen.length && (
         <button
           type="button"
           onClick={() => setSichtbar((n) => n + SEITE)}
           className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-lg border border-border bg-card text-[16px] font-semibold text-foreground transition-colors hover:border-primary"
         >
-          Mehr anzeigen ({alle.length - zeigen.length})
+          Mehr anzeigen ({spalten.length - zeigen.length})
         </button>
       )}
     </>
