@@ -208,9 +208,9 @@ const Index = () => (
           ruecken die Abstaende eine Stufe enger, damit beide Kachelreihen ganz zu sehen sind; auf hohen
           Handys stehen die Vergleiche in zwei Spalten und groesser, statt die Platte leer zu strecken. */}
       <section className="flex min-h-[calc(100svh-130px)] flex-col md:min-h-[calc(100svh-154px)]">
-        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-5 py-6 kurz:py-5 hoch:px-4 md:px-10 md:py-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-4 pb-[68px] pt-6 kurz:pb-[64px] kurz:pt-5 md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px]">
-            <div className="max-w-[680px] lg:pb-24 lg:pt-4">
+            <div className="max-w-[680px] lg:pb-[76px] lg:pt-4">
               <h1 className="text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
@@ -220,10 +220,10 @@ const Index = () => (
                 {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
-              <div className="mt-6 kurz:mt-4 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8 lg:flex-col lg:items-start xl:flex-row xl:items-center">
+              <div className="mt-6 kurz:mt-4 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
                 <Link
                   to="/vergleich/start"
-                  className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary lg:min-h-[52px] px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8"
+                  className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8 lg:min-h-[60px] lg:px-10 lg:text-[20px]"
                 >
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
@@ -261,21 +261,23 @@ const Index = () => (
 
         {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche im ersten
             Bildschirm stehen (Muster wie das Kachelraster von Check24); hohe Handys und Tablet zwei
-            Spalten, die Kacheln fuellen dort die Hoehe statt einer leeren Platte.
+            Spalten, die Kacheln fuellen dort die Hoehe statt einer leeren Platte. Auf allen Breiten ragen
+            die Kacheln eingerueckt in die Platte, statt abgetrennt darunter zu stehen ("wie auf Laptop",
+            Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
             Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto mt-2 grid w-full lg:w-[calc(100%-48px)] xl:w-full max-w-[1200px] auto-rows-fr grid-cols-3 gap-2 hoch:grid-cols-2 md:mt-3 md:grid-cols-2 md:gap-3 lg:grid-cols-3 lg:-mt-[60px]">
+        <div className="relative z-10 mx-auto -mt-11 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-3 gap-2 hoch:grid-cols-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
               to={to}
-              className="group relative flex min-h-[80px] hoch:min-h-[clamp(96px,calc((100svh_-_520px)/3),140px)] flex-col items-center justify-start gap-1.5 hoch:justify-center kurz:gap-1 card-surface px-1 pb-2.5 pt-3 kurz:pt-2 text-center transition-colors hover:border-primary md:min-h-[140px] md:justify-center md:gap-3 lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
+              className="group relative flex min-h-[80px] hoch:min-h-[clamp(96px,calc((100svh_-_520px)/3),140px)] flex-col items-center justify-center gap-1.5 kurz:gap-1 card-surface px-0.5 pb-2.5 pt-3 kurz:pt-2 text-center transition-colors hover:border-primary md:min-h-[140px] md:justify-center md:gap-3 lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
             >
               {/* Am Handy das Zeichen frei, ohne hellblaues Quadrat: das Quadrat war die Icon-Kachel
                   aus Pruefzeile 12.6 und kostete zwei Reihen 24px. */}
               <span className="flex h-7 w-7 shrink-0 items-center justify-center md:h-9 md:w-9 lg:h-11 lg:w-11 lg:rounded-full lg:bg-primary/10">
                 <Icon className="h-[26px] w-[26px] text-primary md:h-8 md:w-8 lg:h-5 lg:w-5" aria-hidden />
               </span>
-              <span className="w-full min-w-0 hyphens-manual text-[14px] font-bold leading-tight text-foreground md:text-[18px] lg:w-auto lg:flex-1">
+              <span className="w-full min-w-0 hyphens-manual text-[14px] kurz:text-[13px] font-bold leading-tight text-foreground md:text-[18px] lg:w-auto lg:flex-1">
                 {label}
               </span>
               <ArrowRight
