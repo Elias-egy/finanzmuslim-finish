@@ -76,7 +76,7 @@ export const SiteHeader = () => {
           </Link>
 
           <nav
-            className="hidden min-[900px]:flex items-center gap-8 mx-auto"
+            className="hidden min-[900px]:flex items-center gap-6 lg:gap-8 mx-auto"
             aria-label="Hauptnavigation"
           >
             {navGroups.map((group) => (
@@ -86,7 +86,7 @@ export const SiteHeader = () => {
                   aria-expanded={openGroup === group.label}
                   onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
                   className={cn(
-                    "flex min-h-[44px] items-center gap-1 text-[15px] font-medium transition-colors",
+                    "flex min-h-[44px] items-center gap-1 whitespace-nowrap text-[15px] font-medium transition-colors",
                     openGroup === group.label ? "text-white" : "text-white/90 hover:text-white",
                   )}
                 >
@@ -110,9 +110,9 @@ export const SiteHeader = () => {
             </button>
             <Link
               to="/vergleich/start"
-              className="hidden min-[900px]:inline-flex min-h-[44px] items-center rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
+              className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
             >
-              Was passt zu mir?
+              Finde, was zu dir passt
             </Link>
             <button
               type="button"
@@ -214,7 +214,7 @@ export const SiteHeader = () => {
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
               >
-                Was passt zu mir?
+                Finde, was zu dir passt
               </Link>
             </div>
           </div>
