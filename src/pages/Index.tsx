@@ -205,11 +205,11 @@ const Index = () => (
           sein"); 154 ist Kopf plus Abstaende. Das Tablet fuellt die Flaeche mit grossen Kacheln, der
           Laptop mit dem Foto. Am Handy fuellen Text, Foto und die sechs Vergleiche den ersten Bildschirm samt
           dem Streifen unter der Safari-Leiste ("dann kommt alles perfekt rauf", Elias, 14.10.2026): die
-          Platte ist 173px kuerzer als das Fenster, hoechstens 580px, damit das Foto auf hohen Handys nicht
+          Platte ist 205px kuerzer als das Fenster, hoechstens 548px (ohne Kleinzeile 32px hoeher, "die kleine Zeile weg und den Rest hochziehen", Elias, 14.10.2026), damit das Foto auf hohen Handys nicht
           ueberlebensgross wird. Auf kurzen Handys (Hoehe bis 700px,
           Safari mit Leisten, kleine Android) ruecken die Abstaende eine Stufe enger. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)]">
-        <div className="relative flex min-h-[min(calc(100svh-173px),580px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-11 pt-6 kurz:pt-5 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex min-h-[min(calc(100svh-205px),548px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-11 pt-6 kurz:pt-5 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="max-w-[680px] lg:pb-[76px] lg:pt-4">
               <h1 className="text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -229,7 +229,6 @@ const Index = () => (
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
-                <span className="text-center text-[14px] kurz:text-[13px] text-muted-foreground [text-wrap:balance] sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
               </div>
             </div>
           </div>
