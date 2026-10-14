@@ -138,9 +138,12 @@ export const AngebotsKnopf = ({
   link,
   breit = false,
   abgeraten = false,
+  klein = false,
 }: {
   link?: string;
   breit?: boolean;
+  /** Karte am Handy: so hoch wie der Knopf beim Sieger, damit Platz 1 der stärkste bleibt. */
+  klein?: boolean;
   /** Anbieter, von dem wir abraten. Nie ein Partnerlink, und der Grund steht dabei. */
   abgeraten?: boolean;
 }) => {
@@ -149,7 +152,7 @@ export const AngebotsKnopf = ({
      der Knopf bleibt in seiner Zelle und laeuft beim Scrollen unter der
      klebenden Kopfzeile durch, statt sie zu uebermalen. */
   const basis =
-    "flex min-h-[52px] w-full shrink-0 items-center justify-center rounded-lg px-3 text-center text-[14px] font-semibold leading-tight";
+    `flex ${klein ? "min-h-[44px] text-[15px]" : "min-h-[52px] text-[14px]"} w-full shrink-0 items-center justify-center rounded-lg px-3 text-center font-semibold leading-tight`;
   /* Ohne Partnerlink wie bei Finanzfluss: derselbe Knopf, blass und nicht klickbar,
      mit dem Hinweis, dass man das Angebot beim Anbieter selbst abschließt. */
   if (!link && !abgeraten) {
