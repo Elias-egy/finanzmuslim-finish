@@ -217,7 +217,7 @@ const Index = () => (
                   Finde die für dich passenden Anbieter in nur wenigen Schritten.
                 </p>
               </div>
-              <div className="mt-4 flex flex-col gap-3 max-lg:order-3 sm:flex-row sm:items-center md:mt-6 lg:mt-8">
+              <div className="mt-3 flex flex-col gap-3 max-lg:order-3 sm:flex-row sm:items-center md:mt-4 lg:mt-8">
                 <Link
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8"
@@ -253,7 +253,7 @@ const Index = () => (
         {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche
             im ersten Bildschirm stehen (Muster wie das Kachelraster von Check24).
             Ab md Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto mt-3 grid w-full max-lg:order-2 max-w-[1200px] grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
+        <div className="relative z-10 mx-auto mt-3 grid w-full max-lg:order-2 max-w-[1200px] auto-rows-fr grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
