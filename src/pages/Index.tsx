@@ -40,7 +40,7 @@ const categories = [
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
   { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
-  { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
+  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */
@@ -198,9 +198,10 @@ const Index = () => (
 
     {/* Ein durchgehendes Raster. Handy 16px zwischen den Abschnitten, Desktop 24px. */}
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
-      {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter */}
-      <section className="flex flex-col lg:min-h-[calc(100svh-152px)]">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pt-7 lg:h-[480px] lg:px-12 lg:pt-0">
+      {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
+          bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026). */}
+      <section className="flex flex-col">
+        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 py-7 lg:h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto flex h-full max-w-[1200px] items-center">
             <div className="max-w-[600px] lg:pb-24 lg:pt-4">
               <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
@@ -214,7 +215,7 @@ const Index = () => (
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-8">
                 <Link
                   to="/vergleich/start"
-                  className="inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-primary px-8 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+                  className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8"
                 >
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
@@ -224,20 +225,8 @@ const Index = () => (
             </div>
           </div>
 
-          {/* Handy: das Foto steht in der Platte auf der Unterkante, angeschnitten.
-              Genau 230px hoch, damit Text und Bild zusammen auf einen Bildschirm passen. */}
-          <div className="relative mt-5 h-[230px] overflow-hidden lg:hidden">
-            <img
-              src={eliasCutout}
-              alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="absolute left-1/2 top-0 h-[300px] max-w-none -translate-x-1/2 object-contain object-top"
-              loading="eager"
-            />
-            <div className="absolute bottom-4 right-0 rounded-xl border border-border bg-card px-4 py-2.5">
-              <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
-              <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
-            </div>
-          </div>
+          {/* Handy und Tablet ohne Foto: es schob die Vergleiche aus dem ersten Bildschirm
+              ("Mein Gesicht bringt kein Geld", Elias, 14.10.2026). */}
 
           {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. */}
           <div className="pointer-events-none absolute bottom-0 right-12 hidden h-[445px] w-[420px] max-w-[45%] lg:block xl:right-[calc((100%-1200px)/2)] xl:w-[560px]">
@@ -256,41 +245,28 @@ const Index = () => (
           </div>
         </div>
 
-        {/* Kacheln ueberlappen auf dem Desktop die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-2.5 md:gap-3 lg:-mt-[60px] lg:grid-cols-3">
+        {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche
+            im ersten Bildschirm stehen (Muster wie das Kachelraster von Check24).
+            Ab md Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
+        <div className="relative z-10 mx-auto mt-3 grid w-full max-w-[1200px] grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
-              /* Kacheln ohne eigene Seite fuehren auf die Vergleichsuebersicht.
-                 Dort stehen sie mit dem Vermerk "bald" und daneben, wie
-                 bewertet wird. Vorher ging Girokonto auf die Rechnerseite,
-                 das beantwortet die Frage des Nutzers nicht. */
-              to={to ?? "/vergleiche"}
-              className="group relative flex min-h-[64px] items-center gap-2.5 card-surface px-3 py-2.5 transition-colors hover:border-primary md:min-h-[76px] md:gap-3 md:px-4 md:py-3 lg:pt-7 xl:pt-3"
+              to={to}
+              className="group relative flex min-h-[84px] flex-col items-center justify-start gap-1.5 card-surface px-1 pb-2.5 pt-3 text-center transition-colors hover:border-primary md:min-h-[76px] md:flex-row md:justify-start md:gap-3 md:px-4 md:py-3 md:text-left lg:pt-7 xl:pt-3"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11 md:rounded-full">
                 <Icon className="h-[18px] w-[18px] text-primary md:h-5 md:w-5" aria-hidden />
               </span>
-              <span className="min-w-0 flex-1 hyphens-auto break-words text-[15px] font-bold leading-tight text-foreground md:text-[18px]">
+              <span className="w-full min-w-0 hyphens-manual text-[14px] font-bold leading-tight text-foreground md:w-auto md:flex-1 md:text-[18px]">
                 {label}
               </span>
               <ArrowRight
                 className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:block"
                 aria-hidden
               />
-              {!to && (
-                <span className="badge-soon absolute right-11 top-1/2 -translate-y-1/2 lg:right-2 lg:top-2 lg:translate-y-0">
-                  bald
-                </span>
-              )}
             </Link>
           ))}
-        </div>
-
-        <div className="mt-4 flex justify-center md:mt-6">
-          <Link to="/vergleiche" className="btn-primary h-14 px-8 text-[19px]">
-            Zu allen Vergleichen
-          </Link>
         </div>
       </section>
 
