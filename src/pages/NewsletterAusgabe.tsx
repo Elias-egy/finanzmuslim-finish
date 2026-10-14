@@ -2,6 +2,10 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
+import leser1 from "@/assets/leser/leser-1.webp";
+import leser2 from "@/assets/leser/leser-2.webp";
+import leser3 from "@/assets/leser/leser-3.webp";
+import leser4 from "@/assets/leser/leser-4.webp";
 import NotFound from "@/pages/NotFound";
 import { ausgabeAusSlug, ausgabePfad, datumLang, nachbarn, type Rubrik } from "@/data/newsletterAusgaben";
 
@@ -47,9 +51,11 @@ const Absatz = ({ text }: { text: string }) => {
  * Erster Handy-Schirm ganz für die Anmeldung, die Ausgabe folgt beim Scrollen. Für Leser, denen jemand die
  * Ausgabe über WhatsApp geschickt hat (Elias, H8, 14.10.2026: raw/2026-10-14-elias-h8-erster-schirm-volle-anmeldung.md,
  * raw/2026-10-14-elias-h8-d-dunkel-haken-f-logo.md). Dunkel wie die Newsletter-Seite von Finanzfluss, am Handy
- * randlos ohne Ecken, ohne Bild der Ausgabe. Höchstens 680 px hoch, sonst steht an hohen Handys dunkle Leere.
+ * randlos ohne Ecken, ohne Bild der Ausgabe, vier Lesergesichter über der Leserzahl. Höchstens 680 px hoch, sonst steht an hohen Handys dunkle Leere.
  */
 const LESER = "Über 1.100 Leser sind schon dabei";
+/** Vier Leser wie die Gesichter bei Finanzfluss, Bilder von Elias (raw/2026-10-14-elias-h8-vier-leserbilder.md). */
+const GESICHTER = [leser1, leser2, leser3, leser4];
 const HAKEN = ["Geprüfte Halal-Anlagen, Fristen und Steuertipps", "Jeden Freitag, abmelden mit einem Klick"];
 
 const Anmeldeschirm = () => (
@@ -66,10 +72,19 @@ const Anmeldeschirm = () => (
         ))}
       </ul>
       <FreitagsbriefFormular id="ausgabe-oben" variante="platte" />
-      <p className="mt-6 flex items-center gap-3 text-[14px] text-white/90">
-        <img src="/icon-192.png" alt="" width={32} height={32} className="h-8 w-8 rounded-lg" />
-        {LESER}
-      </p>
+      <div className="mt-6 flex items-center">
+        {GESICHTER.map((bild, i) => (
+          <img
+            key={bild}
+            src={bild}
+            alt=""
+            width={40}
+            height={40}
+            className={`h-10 w-10 rounded-full border-2 border-[hsl(222_45%_14%)] object-cover ${i > 0 ? "-ml-2.5" : ""}`}
+          />
+        ))}
+      </div>
+      <p className="mt-2 text-[15px] text-white/90">{LESER}</p>
     </div>
     <a href="#ausgabe" className="mx-auto mt-auto inline-flex items-center gap-1 pt-8 text-[16px] font-bold text-white">
       Diese Ausgabe lesen
