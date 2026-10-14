@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { FAKTOR_KREDIT, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
@@ -271,9 +271,23 @@ describe("rangfolge: Kosten wie finanzNote", () => {
 /* ---------------------------------------------------------- Giro und Krypto */
 
 describe("rangfolge: Girokonto", () => {
-  it("zählt Dispo „teils“ halb", () => {
-    // Halal 5 × (0,5 × 0,5 + 0,5 × 1) = 3,75
-    expect(einzig(rGiro([giro("haspa", { keinDispoAbStart: "teils" })])).halal).toBe(3.75);
+  it("zieht für einen abschaltbaren Dispo („teils“) ein Zehntel vom Halal-Teil ab (Elias, 14.10.2026)", () => {
+    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 0,9 = 4,5, bisher 3,75 mit einem Viertel Abzug
+    const b = einzig(rGiro([giro("haspa", { keinDispoAbStart: "teils" })]));
+    expect(FAKTOR_DISPO).toBe(0.9);
+    expect(b.halal).toBe(4.5);
+    expect(b.halalVorKredit).toBe(5);
+  });
+
+  it("macht ein Konto mit abschaltbarem Dispo nie zur Nummer 1, auch mit Link und bester Note", () => {
+    const r = rGiro([giro("ohne"), giro("mit-dispo", { keinDispoAbStart: "teils" }, { link: "/out/x" })]);
+    expect(r.gerankt.find((b) => b.anbieter.id === "mit-dispo")!.uneingeschraenkt).toBe(false);
+    expect(ids(nummerEins(r))).toEqual(["ohne"]);
+  });
+
+  it("wirkt nur auf das Girokonto: Dispo „teils“ im Krypto-Vergleich ändert nichts", () => {
+    const b = einzig(rKrypto([krypto("k", { keinDispoAbStart: "teils" })]));
+    expect(b.uneingeschraenkt).toBe(true);
   });
 
   it("rankt ein Konto mit Dispo ab Start, das Merkmal zählt 0", () => {
@@ -577,7 +591,7 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
   it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
     expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
-    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["consorsbank-girokonto"]);
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
       const r = rangfolge(liste, kategorie);
@@ -746,5 +760,33 @@ describe("automatischer Kredit im Depot (Elias, 12.10.2026)", () => {
     const b = rangfolge([a], "depot").gerankt[0];
     expect(b.kredit).toBe(false);
     expect(b.halal).toBe(b.halalVorKredit);
+  });
+});
+
+describe("Feinwert: Kleinigkeiten entscheiden nur bei sonst gleichem Stand (Elias, 14.10.2026)", () => {
+  const klein = (id: string, werte: RohAnbieter["werte"]) => giro(id, werte);
+
+  it("mittelt App-Bewertung, Geldautomaten und Support-Wege, jede Kleinigkeit zählt gleich", () => {
+    // App (4,7 + 4,5) / 2 / 5 = 0,92; Automaten 5.000 / 10.000 = 0,5; Support 2 von 3 Wegen = 0,67; Mittel 0,70
+    const f = feinwert(klein("x", { appIos: "4,7 / 5", appAndroid: "4,5 / 5", geldautomaten: "5.000 bis 49.750", kundenservice: "Telefon, Chat" }));
+    expect(f).toBeCloseTo(0.7, 2);
+  });
+
+  it("ist 0 ohne jede Angabe und rechnet nur mit dem, was belegt ist", () => {
+    expect(feinwert(klein("leer", {}))).toBe(0);
+    expect(feinwert(klein("nur-app", { appIos: "5 / 5", appAndroid: "5 / 5" }))).toBe(1);
+  });
+
+  it("entscheidet bei gleicher Note, gleichen Kosten und gleichem Halal-Teil, nie davor", () => {
+    const gut = klein("a-gut", { appIos: "4,8 / 5", appAndroid: "4,8 / 5" });
+    const schwach = klein("b-schwach", { appIos: "3,0 / 5", appAndroid: "3,0 / 5" });
+    const r = rGiro([schwach, gut]);
+    expect(ids(r.gerankt)).toEqual(["a-gut", "b-schwach"]);
+    expect(r.gerankt.map((b) => b.platz)).toEqual([1, 2]);
+    // Eine bessere Note schlägt jeden Feinwert.
+    const besser = giro("c-besser", {}, { finanzPunkte: { kontofuehrung: 10 }, werte: { zinsfreiAbStart: "gut", keinDispoAbStart: "gut", karteOhneKredit: "gut", appIos: "1 / 5" } });
+    const schlechter = klein("d-schlechter", { appIos: "5 / 5", appAndroid: "5 / 5" });
+    schlechter.finanzPunkte = { kontofuehrung: 5 };
+    expect(ids(rGiro([schlechter, besser]).gerankt)).toEqual(["c-besser", "d-schlechter"]);
   });
 });

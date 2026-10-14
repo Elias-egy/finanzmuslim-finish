@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
 
 export default {
   darkMode: ["class"],
@@ -127,5 +128,14 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+    /* Handy nach Hoehe: "kurz" ist Safari mit Leisten und kleine Android, "hoch" ein iPhone ohne
+       Leisten (Startseite, 14.10.2026). Als Variante, nicht als screen: ein raw-screen schaltet in
+       Tailwind 3.4 alle min-[...]-Klassen ab, dann fehlt am Laptop die Navigation. */
+    plugin(({ addVariant }) => {
+      addVariant("kurz", "@media (max-width: 767px) and (max-height: 700px)");
+      addVariant("hoch", "@media (max-width: 767px) and (min-height: 760px)");
+    }),
+  ],
 } satisfies Config;

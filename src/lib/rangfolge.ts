@@ -85,6 +85,15 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
  */
 export const FAKTOR_KREDIT = 0.9;
 
+/**
+ * Faktor auf den Halal-Teil im Girokonto, wenn der Dispo ab Start eingeräumt wird, sich aber abschalten lässt
+ * (`keinDispoAbStart` "teils"). Vorbild `FAKTOR_KREDIT`. Elias, 13.10.2026: eine abschaltbare Ausnahme soll
+ * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
+ * werten". Bisher zählte "teils" nur halb (ein Viertel Abzug vom Halal-Teil, ein ganzer Stern). Nie Nummer 1,
+ * wie flatex: Ob ein belegtes Abschalten den Abzug ganz aufhebt, entscheidet Elias.
+ */
+export const FAKTOR_DISPO = 0.9;
+
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
   depot: [],
@@ -120,6 +129,26 @@ export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): numbe
   LINK_VORRANG.has(kategorie)
     ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : 0;
+
+/**
+ * Kleinigkeiten, die nur bei sonst gleichem Stand entscheiden (Elias, 14.10.2026: "alles einbeziehen, aber nur
+ * mini minimal", nie "nur weil der eine eine Plastikkarte hat"). Mittel aus App-Bewertung (iOS und Android),
+ * kostenlosen Geldautomaten (10.000 und mehr gelten als voll) und Support-Wegen (drei Wege gelten als voll).
+ * Es zählt nur, was belegt ist; ohne jede Angabe 0. Steht in `gleichauf` hinter Note, Kosten und Halal-Teil.
+ */
+export const feinwert = (a: RohAnbieter): number => {
+  const zahl = (w: RohWert | undefined) => (typeof w === "string" ? Number(w.match(/\d+(?:[.,]\d+)?/)?.[0].replace(/\./g, "").replace(",", ".")) : NaN);
+  const teile: number[] = [];
+  const apps = [a.werte.appIos, a.werte.appAndroid]
+    .map((w) => (typeof w === "string" ? Number(w.match(/^\s*(\d+(?:,\d+)?)\s*\/\s*5/)?.[1]?.replace(",", ".")) : NaN))
+    .filter((x) => Number.isFinite(x));
+  if (apps.length > 0) teile.push(apps.reduce((s, x) => s + x, 0) / apps.length / 5);
+  const automaten = zahl(a.werte.geldautomaten);
+  if (Number.isFinite(automaten)) teile.push(Math.min(1, automaten / 10000));
+  const dienst = a.werte.kundenservice;
+  if (typeof dienst === "string" && dienst.trim()) teile.push(Math.min(1, dienst.split(",").filter((x) => x.trim()).length / 3));
+  return teile.length === 0 ? 0 : runde(teile.reduce((s, x) => s + x, 0) / teile.length);
+};
 
 export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
   girokonto: [
@@ -230,15 +259,26 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax
   const { fehlt, lies } = sammler();
   if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
 
+  // Dispo "teils" im Girokonto: voller Punkt für das Merkmal, dafür ein Zehntel Abzug auf den ganzen Halal-Teil.
+  const dispoAbschaltbar = kategorie === "girokonto" && a.werte.keinDispoAbStart === "teils";
   let anteil = 0;
-  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
+  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie])
+    anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : ampel(a.werte[key]));
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
 
-  const halal = 5 * anteil * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
+  const halalVorDispo = 5 * anteil * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
+  const halal = halalVorDispo * (dispoAbschaltbar ? FAKTOR_DISPO : 1);
   const basisRot = BASIS[kategorie].some((k) => a.werte[k] === "schlecht");
-  return { art: "bewertet", halal, kosten: kosten!, note: halbe(halal, kosten!), uneingeschraenkt: tuer === "gut" && !basisRot };
+  return {
+    art: "bewertet",
+    halal,
+    kosten: kosten!,
+    note: halbe(halal, kosten!),
+    uneingeschraenkt: tuer === "gut" && !basisRot && !dispoAbschaltbar,
+    halalVorKredit: halalVorDispo,
+  };
 };
 
 const steuerUrteil = (a: RohAnbieter): Urteil => {
@@ -351,7 +391,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   }
 
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
-    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
+    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
 
   const gerankt: Bewertet[] = [];

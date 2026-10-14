@@ -40,7 +40,7 @@ const categories = [
   { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
   { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
-  { label: "Steuersoftware", icon: FileText, to: "/vergleich/steuersoftware" },
+  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */
@@ -198,99 +198,94 @@ const Index = () => (
 
     {/* Ein durchgehendes Raster. Handy 16px zwischen den Abschnitten, Desktop 24px. */}
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
-      {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter */}
-      <section className="flex flex-col lg:min-h-[calc(100svh-152px)]">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 pt-7 lg:h-[480px] lg:px-12 lg:pt-0">
-          <div className="mx-auto flex h-full max-w-[1200px] items-center">
-            <div className="max-w-[600px] lg:pb-24 lg:pt-4">
-              <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
+      {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
+          bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
+          Am Handy und am Laptop fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs
+          Vergleiche unten, der Guide beginnt erst darunter statt angeschnitten (Elias,
+          14.10.2026: "die Hauptseite muss vollstaendig sein"). 130 und 154 sind Kopf plus
+          Abstaende bei Handy und ab Tablet. Das Tablet fuellt die Flaeche mit grossen Kacheln statt
+          mit Leere, der Laptop mit dem Foto. Auf kurzen Handys (Hoehe bis 700px, Safari mit Leisten, kleine Android)
+          ruecken die Abstaende eine Stufe enger, damit beide Kachelreihen ganz zu sehen sind; auf hohen
+          Handys stehen die Vergleiche in zwei Spalten und groesser, statt die Platte leer zu strecken. */}
+      <section className="flex min-h-[calc(100svh-130px)] flex-col md:min-h-[calc(100svh-154px)]">
+        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-4 pb-[68px] pt-6 kurz:pb-[64px] kurz:pt-5 md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+          <div className="mx-auto w-full max-w-[1200px]">
+            <div className="max-w-[680px] lg:pb-[76px] lg:pt-4">
+              <h1 className="text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-4 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
-                Finde die für dich passenden Anbieter in nur wenigen Schritten.
+              <p className="mt-3 kurz:mt-2 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+                Lerne, wie du dein Geld islamkonform anlegst und Zinsen erkennst.
+                {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
+                <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-8">
+              <div className="mt-6 kurz:mt-4 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
                 <Link
                   to="/vergleich/start"
-                  className="inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-primary px-8 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+                  className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8 lg:min-h-[60px] lg:px-10 lg:text-[20px]"
                 >
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Link>
-                <span className="text-center text-[14px] text-muted-foreground sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
+                <span className="text-center text-[14px] kurz:text-[13px] text-muted-foreground [text-wrap:balance] sm:text-left">Ein paar einfache Fragen, keine Anmeldung</span>
               </div>
             </div>
           </div>
 
-          {/* Handy: das Foto steht in der Platte auf der Unterkante, angeschnitten.
-              Genau 230px hoch, damit Text und Bild zusammen auf einen Bildschirm passen. */}
-          <div className="relative mt-5 h-[230px] overflow-hidden lg:hidden">
-            <img
-              src={eliasCutout}
-              alt="Elias El-Gendy, Gründer von finanzmuslim"
-              className="absolute left-1/2 top-0 h-[300px] max-w-none -translate-x-1/2 object-contain object-top"
-              loading="eager"
-            />
-            <div className="absolute bottom-4 right-0 rounded-xl border border-border bg-card px-4 py-2.5">
-              <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
-              <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
-            </div>
-          </div>
+          {/* Handy und Tablet ohne Foto: es schob die Vergleiche aus dem ersten Bildschirm
+              ("Mein Gesicht bringt kein Geld", Elias, 14.10.2026). */}
 
-          {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. */}
-          <div className="pointer-events-none absolute bottom-0 right-12 hidden h-[445px] w-[420px] max-w-[45%] lg:block xl:right-[calc((100%-1200px)/2)] xl:w-[560px]">
+          {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. Es waechst mit der
+              Platte bis knapp unter ihre Oberkante, wie bei Finanzfluss; sonst bleibt ueber dem Kopf
+              eine leere Flaeche ("ein bisschen zu leer", Elias, 14.10.2026). Der Ausschnitt bleibt
+              gleich: sichtbar sind die oberen zwei Drittel des Bildes. Es endet auf der Oberkante der
+              Kachelreihe (60px), so scheint die Jacke nicht zwischen den Kacheln durch. Unter xl
+              schmaler und weiter rechts, der Hinweis steht dort unter dem Knopf: sonst liegen Haare
+              oder Jacke auf dem Text. */}
+          <div className="pointer-events-none absolute bottom-[60px] right-6 hidden h-[calc(100%-92px)] max-h-[445px] w-[440px] max-w-[48%] lg:block xl:right-[calc((100%-1200px)/2)] xl:max-h-[600px] xl:w-[560px]">
             <div className="h-full w-full overflow-hidden">
               <img
                 src={eliasCutout}
                 alt=""
-                className="h-[680px] w-full object-cover object-top"
+                className="h-[153%] w-full object-cover object-top"
                 loading="eager"
               />
             </div>
-            <div className="absolute bottom-[76px] right-0 rounded-xl border border-border bg-card px-4 py-3">
+            <div className="absolute bottom-4 right-0 rounded-xl border border-border bg-card px-4 py-3">
               <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
               <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
           </div>
         </div>
 
-        {/* Kacheln ueberlappen auf dem Desktop die Unterkante der Platte um 60px */}
-        <div className="relative z-10 mx-auto mt-4 grid w-full max-w-[1200px] grid-cols-2 gap-2.5 md:gap-3 lg:-mt-[60px] lg:grid-cols-3">
+        {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche im ersten
+            Bildschirm stehen (Muster wie das Kachelraster von Check24); hohe Handys und Tablet zwei
+            Spalten, die Kacheln fuellen dort die Hoehe statt einer leeren Platte. Auf allen Breiten ragen
+            die Kacheln eingerueckt in die Platte, statt abgetrennt darunter zu stehen ("wie auf Laptop",
+            Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
+            Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
+        <div className="relative z-10 mx-auto -mt-11 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-3 gap-2 hoch:grid-cols-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
-              /* Kacheln ohne eigene Seite fuehren auf die Vergleichsuebersicht.
-                 Dort stehen sie mit dem Vermerk "bald" und daneben, wie
-                 bewertet wird. Vorher ging Girokonto auf die Rechnerseite,
-                 das beantwortet die Frage des Nutzers nicht. */
-              to={to ?? "/vergleiche"}
-              className="group relative flex min-h-[64px] items-center gap-2.5 card-surface px-3 py-2.5 transition-colors hover:border-primary md:min-h-[76px] md:gap-3 md:px-4 md:py-3 lg:pt-7 xl:pt-3"
+              to={to}
+              className="group relative flex min-h-[80px] hoch:min-h-[clamp(96px,calc((100svh_-_520px)/3),140px)] flex-col items-center justify-center gap-1.5 kurz:gap-1 card-surface px-0.5 pb-2.5 pt-3 kurz:pt-2 text-center transition-colors hover:border-primary md:min-h-[140px] md:justify-center md:gap-3 lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11 md:rounded-full">
-                <Icon className="h-[18px] w-[18px] text-primary md:h-5 md:w-5" aria-hidden />
+              {/* Am Handy das Zeichen frei, ohne hellblaues Quadrat: das Quadrat war die Icon-Kachel
+                  aus Pruefzeile 12.6 und kostete zwei Reihen 24px. */}
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center md:h-9 md:w-9 lg:h-11 lg:w-11 lg:rounded-full lg:bg-primary/10">
+                <Icon className="h-[26px] w-[26px] text-primary md:h-8 md:w-8 lg:h-5 lg:w-5" aria-hidden />
               </span>
-              <span className="min-w-0 flex-1 hyphens-auto break-words text-[15px] font-bold leading-tight text-foreground md:text-[18px]">
+              <span className="w-full min-w-0 hyphens-manual text-[14px] kurz:text-[13px] font-bold leading-tight text-foreground md:text-[18px] lg:w-auto lg:flex-1">
                 {label}
               </span>
               <ArrowRight
-                className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary md:block"
+                className="hidden h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary lg:block"
                 aria-hidden
               />
-              {!to && (
-                <span className="badge-soon absolute right-11 top-1/2 -translate-y-1/2 lg:right-2 lg:top-2 lg:translate-y-0">
-                  bald
-                </span>
-              )}
             </Link>
           ))}
-        </div>
-
-        <div className="mt-4 flex justify-center md:mt-6">
-          <Link to="/vergleiche" className="btn-primary h-14 px-8 text-[19px]">
-            Zu allen Vergleichen
-          </Link>
         </div>
       </section>
 
