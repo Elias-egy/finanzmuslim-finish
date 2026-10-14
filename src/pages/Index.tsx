@@ -203,25 +203,24 @@ const Index = () => (
           Ab Tablet fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs Vergleiche
           unten, der Guide beginnt erst darunter (Elias, 14.10.2026: "die Hauptseite muss vollstaendig
           sein"); 154 ist Kopf plus Abstaende. Das Tablet fuellt die Flaeche mit grossen Kacheln, der
-          Laptop mit dem Foto. Am Handy fuellen Text, Foto und die sechs Vergleiche den ersten Bildschirm samt
-          dem Streifen unter der Safari-Leiste ("dann kommt alles perfekt rauf", Elias, 14.10.2026): die
-          Platte ist 177px kuerzer als das Fenster, hoechstens 576px (Kleinzeile weg, Rest hoch; dann Foto groesser und die Platte "minimal ein bisschen weiter runter", Namensschild klein wie bei Finanzfluss, Elias, 14.10.2026), damit das Foto auf hohen Handys nicht
-          ueberlebensgross wird. Auf kurzen Handys (Hoehe bis 700px,
-          Safari mit Leisten, kleine Android) ruecken die Abstaende eine Stufe enger. */}
+          Laptop mit dem Foto. Am Handy wie bei Finanzfluss: Ueberschrift, Unterzeile, Foto, darunter
+          der Knopf mit Abstand zur Safari-Leiste; die Vergleiche beginnen erst im zweiten Bildschirm ("Finde, was zu
+          dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 76px kuerzer als das Fenster,
+          hoechstens 720px; die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)]">
-        <div className="relative flex min-h-[min(calc(100svh-177px),576px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-11 pt-6 kurz:pt-5 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <div className="max-w-[680px] lg:pb-[76px] lg:pt-4">
-              <h1 className="text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
+        <div className="relative flex min-h-[min(calc(100svh-76px),720px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+          <div className="mx-auto w-full max-w-[1200px] max-md:contents">
+            <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
+              <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-3 kurz:mt-2 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+              <p className="max-md:order-2 mt-3 kurz:mt-2 max-w-[680px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
                 Lerne, wie du dein Geld islamkonform anlegst und Zinsen erkennst.
                 {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
-              <div className="mt-8 kurz:mt-7 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
+              <div className="max-md:order-4 mt-4 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
                 <Link
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8 lg:min-h-[60px] lg:px-10 lg:text-[20px]"
@@ -233,15 +232,15 @@ const Index = () => (
             </div>
           </div>
 
-          {/* Handy: Foto unter Ueberschrift und Knopf, wie bei Finanzfluss; es fuellt den Rest des ersten
-              Bildschirms und endet auf der Kachelreihe. Ohne Gesicht wirkte die Platte "gefuehlslos" und
+          {/* Handy: Foto zwischen Unterzeile und Knopf, wie bei Finanzfluss; es fuellt den Rest des ersten
+              Bildschirms. Ohne Gesicht wirkte die Platte "gefuehlslos" und
               leer (Elias, 14.10.2026 abends); die Vergleiche stehen jetzt am Ende des ersten Bildschirms
               und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
-          <div className="relative mt-5 min-h-[190px] flex-1 overflow-hidden md:hidden">
+          <div className="relative max-md:order-3 mt-3 min-h-[190px] flex-1 overflow-hidden md:hidden">
             <img
               src={eliasCutout}
               alt=""
-              className="absolute left-1/2 top-0 h-[165%] w-auto max-w-none -translate-x-1/2"
+              className="absolute left-1/2 top-0 h-[158%] w-auto max-w-none -translate-x-1/2"
               loading="eager"
             />
             <div className="absolute bottom-3 right-2 rounded-lg border border-border bg-card px-3 py-1.5">
