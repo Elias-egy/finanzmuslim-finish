@@ -199,20 +199,25 @@ const Index = () => (
     {/* Ein durchgehendes Raster. Handy 16px zwischen den Abschnitten, Desktop 24px. */}
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
       {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
-          bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026). */}
+          bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
+          Unter lg loesen sich Platte und Spalte auf (contents), damit die Reihenfolge lautet:
+          Ueberschrift, die sechs Vergleiche, dann "Finde, was zu dir passt". Wer das Angebot
+          gesehen hat, nimmt den Fragebogen als Abkuerzung (Elias, 12.10.2026). */}
       <section className="flex flex-col">
-        <div className="relative overflow-hidden rounded-2xl bg-hero px-6 py-7 lg:h-[480px] lg:px-12 lg:py-0">
-          <div className="mx-auto flex h-full max-w-[1200px] items-center">
-            <div className="max-w-[600px] lg:pb-24 lg:pt-4">
-              <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
-                Investiere, ohne deinen
-                <br className="hidden sm:block" /> Glauben zu riskieren
-              </h1>
-              <p className="mt-4 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
-                Finde die für dich passenden Anbieter in nur wenigen Schritten.
-              </p>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-8">
+        <div className="max-lg:contents lg:relative lg:h-[480px] lg:overflow-hidden lg:rounded-2xl lg:bg-hero lg:px-12">
+          <div className="max-lg:contents lg:mx-auto lg:flex lg:h-full lg:max-w-[1200px] lg:items-center">
+            <div className="max-lg:contents lg:max-w-[600px] lg:pb-24 lg:pt-4">
+              <div className="max-lg:order-1 max-lg:rounded-2xl max-lg:bg-hero max-lg:px-6 max-lg:py-7">
+                <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
+                  Investiere, ohne deinen
+                  <br className="hidden sm:block" /> Glauben zu riskieren
+                </h1>
+                <p className="mt-4 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+                  Lerne, wie du dein Geld islamkonform anlegst, Zinsen erkennst und Verträge prüfst.
+                  Finde die für dich passenden Anbieter in nur wenigen Schritten.
+                </p>
+              </div>
+              <div className="mt-4 flex flex-col gap-3 max-lg:order-3 sm:flex-row sm:items-center md:mt-6 lg:mt-8">
                 <Link
                   to="/vergleich/start"
                   className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8"
@@ -248,7 +253,7 @@ const Index = () => (
         {/* Handy: drei Spalten, Symbol ueber dem Namen, damit alle sechs Vergleiche
             im ersten Bildschirm stehen (Muster wie das Kachelraster von Check24).
             Ab md Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto mt-3 grid w-full max-w-[1200px] grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
+        <div className="relative z-10 mx-auto mt-3 grid w-full max-lg:order-2 max-w-[1200px] grid-cols-3 gap-1.5 md:mt-4 md:gap-3 lg:-mt-[60px]">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
             <Link
               key={label}
