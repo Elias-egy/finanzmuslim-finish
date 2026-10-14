@@ -130,6 +130,26 @@ export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): numbe
     ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : 0;
 
+/**
+ * Kleinigkeiten, die nur bei sonst gleichem Stand entscheiden (Elias, 14.10.2026: "alles einbeziehen, aber nur
+ * mini minimal", nie "nur weil der eine eine Plastikkarte hat"). Mittel aus App-Bewertung (iOS und Android),
+ * kostenlosen Geldautomaten (10.000 und mehr gelten als voll) und Support-Wegen (drei Wege gelten als voll).
+ * Es zählt nur, was belegt ist; ohne jede Angabe 0. Steht in `gleichauf` hinter Note, Kosten und Halal-Teil.
+ */
+export const feinwert = (a: RohAnbieter): number => {
+  const zahl = (w: RohWert | undefined) => (typeof w === "string" ? Number(w.match(/\d+(?:[.,]\d+)?/)?.[0].replace(/\./g, "").replace(",", ".")) : NaN);
+  const teile: number[] = [];
+  const apps = [a.werte.appIos, a.werte.appAndroid]
+    .map((w) => (typeof w === "string" ? Number(w.match(/^\s*(\d+(?:,\d+)?)\s*\/\s*5/)?.[1]?.replace(",", ".")) : NaN))
+    .filter((x) => Number.isFinite(x));
+  if (apps.length > 0) teile.push(apps.reduce((s, x) => s + x, 0) / apps.length / 5);
+  const automaten = zahl(a.werte.geldautomaten);
+  if (Number.isFinite(automaten)) teile.push(Math.min(1, automaten / 10000));
+  const dienst = a.werte.kundenservice;
+  if (typeof dienst === "string" && dienst.trim()) teile.push(Math.min(1, dienst.split(",").filter((x) => x.trim()).length / 3));
+  return teile.length === 0 ? 0 : runde(teile.reduce((s, x) => s + x, 0) / teile.length);
+};
+
 export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
   girokonto: [
     ["keinDispoAbStart", 0.5],
@@ -371,7 +391,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   }
 
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
-    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal;
+    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
 
   const gerankt: Bewertet[] = [];
