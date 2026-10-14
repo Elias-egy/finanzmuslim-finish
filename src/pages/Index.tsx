@@ -214,7 +214,7 @@ const Index = () => (
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
               <p className="mt-3 max-w-[580px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                Vergleiche {ANZAHL_DEPOTS} Depots, {ANZAHL_KONTEN} Girokonten und {ANZAHL_KRYPTO} Kryptobörsen.
+                Vergleiche {ANZAHL_DEPOTS}&nbsp;Depots, {ANZAHL_KONTEN}&nbsp;Girokonten und {ANZAHL_KRYPTO}&nbsp;Kryptobörsen.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8">
                 <Link
