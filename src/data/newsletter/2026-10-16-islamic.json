@@ -20,7 +20,7 @@
     {
       "emoji": "💶",
       "wort": "Geld zurück",
-      "text": "im Schnitt 1.240 € vom Finanzamt",
+      "text": "im Schnitt 1.240 € vom Finanzamt (von euch gewählt)",
       "anker": "geld-zurueck"
     },
     {
@@ -83,7 +83,7 @@
     {
       "titel": "Im Schnitt 1.240 € vom Finanzamt, für 2022 nur noch bis Silvester",
       "absaetze": [
-        "<small>Für dieses Thema habt ihr letzte Woche abgestimmt. Mitbestimmen kannst du ganz unten.</small>",
+        "<small>Für dieses Thema habt ihr letzte Woche abgestimmt.</small> <small>Mitbestimmen kannst du ganz unten.</small>",
         "![Im Schnitt 1.240 € vom Finanzamt zurück. Steuerjahr 2022: freiwillige Erklärung bis 31.12.2026](https://storage.mlcdn.com/account_image/2353109/PLi6NESpr15CwOXWo8ByiMnPQLY8tv5otpvwg5tI.png)",
         "Laut Statistischem Bundesamt bekamen für das Steuerjahr 2022 <strong>13,2 Millionen Menschen</strong> Geld vom Finanzamt zurück, im Schnitt 1.240 €. Bei gut der Hälfte lag die Erstattung zwischen 100 und 1.000 €.",
         "Hast du für 2022 keine Steuererklärung gemacht, kannst du sie noch freiwillig abgeben. Die Frist endet am <strong>31. Dezember 2026</strong>, danach ist das Geld weg.",
