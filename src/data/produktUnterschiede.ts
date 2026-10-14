@@ -64,8 +64,8 @@ export const PRODUKT_UNTERSCHIEDE: Record<UnterschiedKategorie, Record<string, P
     // Girokonto (Fundstellen: M-unterschiede-girokonto-a.md, -b.md, -c.md; jedes Zitat am 13.10.2026 an der Zeile nachgelesen)
     "bbbank-bettersmart": {
       titel: "BetterSmart oder Girokonto",
-      satz: "Kostet 4,95 € im Monat, ab 1.000 € Geldeingang und mit e-Postfach 0 €. Die Visa DirectCard kostet 0 € im Jahr, beim Girokonto 19,95 €.",
-      beleg: "bbbank/95-kontopreis-2026-09-27.txt Z. 579-584, 683-684, 120-121 (Entgeltinformation, Stand Juli 2026)",
+      satz: "Kostet 4,95 € im Monat, ab 1.000 € Geldeingang und mit e-Postfach 0 €. Die Visa DirectCard kostet 0 € im Jahr, beim Girokonto 19,95 €; die digitale girocard ist kostenlos, die Plastikkarte kostet 14,95 € im Jahr.",
+      beleg: "bbbank/95-kontopreis-2026-09-27.txt Z. 579-584, 683-684, 120-121 (Entgeltinformation, Stand Juli 2026), bbbank/92-plv-gesamt-2026-09-26.txt Z. 929, 933",
     },
     "bbbank-girokonto": {
       titel: "BetterSmart oder Girokonto",

@@ -85,6 +85,15 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
  */
 export const FAKTOR_KREDIT = 0.9;
 
+/**
+ * Faktor auf den Halal-Teil im Girokonto, wenn der Dispo ab Start eingeräumt wird, sich aber abschalten lässt
+ * (`keinDispoAbStart` "teils"). Vorbild `FAKTOR_KREDIT`. Elias, 13.10.2026: eine abschaltbare Ausnahme soll
+ * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
+ * werten". Bisher zählte "teils" nur halb (ein Viertel Abzug vom Halal-Teil, ein ganzer Stern). Nie Nummer 1,
+ * wie flatex: Ob ein belegtes Abschalten den Abzug ganz aufhebt, entscheidet Elias.
+ */
+export const FAKTOR_DISPO = 0.9;
+
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
   depot: [],
@@ -230,15 +239,26 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax
   const { fehlt, lies } = sammler();
   if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
 
+  // Dispo "teils" im Girokonto: voller Punkt für das Merkmal, dafür ein Zehntel Abzug auf den ganzen Halal-Teil.
+  const dispoAbschaltbar = kategorie === "girokonto" && a.werte.keinDispoAbStart === "teils";
   let anteil = 0;
-  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) anteil += gewicht * lies(key, ampel(a.werte[key]));
+  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie])
+    anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : ampel(a.werte[key]));
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
 
-  const halal = 5 * anteil * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
+  const halalVorDispo = 5 * anteil * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
+  const halal = halalVorDispo * (dispoAbschaltbar ? FAKTOR_DISPO : 1);
   const basisRot = BASIS[kategorie].some((k) => a.werte[k] === "schlecht");
-  return { art: "bewertet", halal, kosten: kosten!, note: halbe(halal, kosten!), uneingeschraenkt: tuer === "gut" && !basisRot };
+  return {
+    art: "bewertet",
+    halal,
+    kosten: kosten!,
+    note: halbe(halal, kosten!),
+    uneingeschraenkt: tuer === "gut" && !basisRot && !dispoAbschaltbar,
+    halalVorKredit: halalVorDispo,
+  };
 };
 
 const steuerUrteil = (a: RohAnbieter): Urteil => {
