@@ -25,6 +25,15 @@ const stil = {
     text: "mt-4 max-w-[560px] text-[13px] leading-relaxed text-muted-foreground",
     ergebnis: "mt-5 max-w-[560px]",
   },
+  /** Dunkle Fläche oben auf einer Ausgabe der Halal-News. Statt des Satzes darunter ein Kästchen (Elias, H8). */
+  platte: {
+    form: "mt-6 flex flex-col gap-3",
+    feld: "h-14 rounded-lg border border-white/20 bg-white px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none",
+    knopf:
+      "inline-flex h-14 items-center justify-center rounded-lg bg-primary px-6 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-60",
+    text: "",
+    ergebnis: "mt-6 text-left text-foreground",
+  },
 } as const;
 
 type Props = {
@@ -39,13 +48,19 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
   const [firma, setFirma] = useState("");
   const [zustand, setZustand] = useState<"offen" | "sendet" | "fertig">("offen");
   const [hinweis, setHinweis] = useState<string | null>(null);
+  const [gelesen, setGelesen] = useState(false);
   const s = stil[variante];
+  const mitKaestchen = variante === "platte";
 
   const absenden = async (e: React.FormEvent) => {
     e.preventDefault();
     if (zustand === "sendet") return;
     if (!emailGueltig(email)) {
       setHinweis("Bitte gib eine gültige E-Mail-Adresse ein.");
+      return;
+    }
+    if (mitKaestchen && !gelesen) {
+      setHinweis("Bitte bestätige, dass du die Datenschutzerklärung zur Kenntnis genommen hast.");
       return;
     }
     setHinweis(null);
@@ -109,17 +124,35 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
         </button>
       </form>
       {hinweis && (
-        <p id={`${id}-hinweis`} role="alert" className="mt-2 text-[14px] text-destructive">
+        <p id={`${id}-hinweis`} role="alert" className={`mt-2 text-[14px] ${mitKaestchen ? "text-[hsl(0_90%_78%)]" : "text-destructive"}`}>
           {hinweis}
         </p>
       )}
-      <p className={s.text}>
-        Du bekommst jeden Freitag meine Halal-News mit Tipps und Empfehlungen. Abmelden geht mit einem Klick.
-        Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
-        <Link to="/datenschutz" className="text-primary underline underline-offset-2">
-          Datenschutz
-        </Link>
-      </p>
+      {mitKaestchen ? (
+        <label className="mt-4 flex items-start gap-3 text-[14px] leading-snug text-white/80">
+          <input
+            type="checkbox"
+            checked={gelesen}
+            onChange={(e) => setGelesen(e.target.checked)}
+            className="mt-0.5 h-5 w-5 shrink-0 rounded accent-primary"
+          />
+          <span>
+            Ich habe die{" "}
+            <Link to="/datenschutz" className="text-white underline underline-offset-2">
+              Datenschutzerklärung
+            </Link>{" "}
+            zur Kenntnis genommen.
+          </span>
+        </label>
+      ) : (
+        <p className={s.text}>
+          Du bekommst jeden Freitag meine Halal-News mit Tipps und Empfehlungen. Abmelden geht mit einem Klick.
+          Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
+          <Link to="/datenschutz" className="text-primary underline underline-offset-2">
+            Datenschutz
+          </Link>
+        </p>
+      )}
     </>
   );
 };

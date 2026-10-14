@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import NotFound from "@/pages/NotFound";
@@ -43,6 +43,41 @@ const Absatz = ({ text }: { text: string }) => {
   return <p className="mt-3 text-[17px] leading-relaxed text-foreground/90"><Inline text={text} /></p>;
 };
 
+/**
+ * Erster Handy-Schirm ganz für die Anmeldung, die Ausgabe folgt beim Scrollen. Für Leser, denen jemand die
+ * Ausgabe über WhatsApp geschickt hat (Elias, H8, 14.10.2026: raw/2026-10-14-elias-h8-erster-schirm-volle-anmeldung.md,
+ * raw/2026-10-14-elias-h8-d-dunkel-haken-f-logo.md). Dunkel wie die Newsletter-Seite von Finanzfluss, am Handy
+ * randlos ohne Ecken, ohne Bild der Ausgabe. Höchstens 680 px hoch, sonst steht an hohen Handys dunkle Leere.
+ */
+const LESER = "Über 1.100 Leser sind schon dabei";
+const HAKEN = ["Geprüfte Halal-Anlagen, Fristen und Steuertipps", "Jeden Freitag, abmelden mit einem Klick"];
+
+const Anmeldeschirm = () => (
+  <section className="relative left-1/2 -mt-12 flex min-h-[min(calc(100svh-60px),680px)] w-screen -translate-x-1/2 flex-col bg-[hsl(222_45%_14%)] px-5 pb-16 pt-12 text-white sm:left-auto sm:mx-auto sm:mt-0 sm:min-h-0 sm:w-auto sm:max-w-[700px] sm:translate-x-0 sm:rounded-2xl sm:pb-10 sm:pt-10 md:-mt-4">
+    <div className="mx-auto w-full max-w-[560px]">
+      <p className="text-[13px] font-bold uppercase tracking-wide text-white/60">Dir hat jemand die Halal-News geschickt</p>
+      <h2 className="mt-2 text-balance text-[28px] font-bold leading-tight">Die nächste kommt direkt zu dir</h2>
+      <ul className="mt-5 space-y-2">
+        {HAKEN.map((h) => (
+          <li key={h} className="flex items-start gap-2 text-[16px] text-white/90">
+            <Check className="mt-0.5 h-5 w-5 shrink-0 text-white" aria-hidden />
+            {h}
+          </li>
+        ))}
+      </ul>
+      <FreitagsbriefFormular id="ausgabe-oben" variante="platte" />
+      <p className="mt-6 flex items-center gap-3 text-[14px] text-white/90">
+        <img src="/icon-192.png" alt="" width={32} height={32} className="h-8 w-8 rounded-lg" />
+        {LESER}
+      </p>
+    </div>
+    <a href="#ausgabe" className="mx-auto mt-auto inline-flex items-center gap-1 pt-8 text-[16px] font-bold text-white">
+      Diese Ausgabe lesen
+      <ArrowDown className="h-5 w-5" aria-hidden />
+    </a>
+  </section>
+);
+
 const Abschnitt = ({ r }: { r: Rubrik }) => (
   <section id={r.anker} className="scroll-mt-32">
     {(r.anzeige || r.kicker) && (
@@ -74,7 +109,7 @@ const Abschnitt = ({ r }: { r: Rubrik }) => (
 
 /**
  * Eine Ausgabe der Halal-News als Seite. Gleiche Rubriken und Reihenfolge wie in
- * der Mail, Werbeplätze bleiben drin und sind gekennzeichnet. Am Ende das Anmeldefeld,
+ * der Mail, Werbeplätze bleiben drin und sind gekennzeichnet. Oben der Anmeldeschirm, am Ende das Anmeldefeld,
  * darunter vorige und nächste Ausgabe (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
  */
 const NewsletterAusgabe = () => {
@@ -93,7 +128,8 @@ const NewsletterAusgabe = () => {
         noindex
       />
       <article className="container py-12 md:py-16">
-        <header className="mx-auto max-w-[700px]">
+        <Anmeldeschirm />
+        <header id="ausgabe" className="mx-auto mt-10 max-w-[700px] scroll-mt-24">
           <p className="text-[13px] font-bold uppercase tracking-wide text-violet">Halal-News Nr. {ausgabe.nr}</p>
           <h1 className="mt-2 text-3xl font-bold leading-tight text-foreground md:text-4xl">{ausgabe.titel}</h1>
           <p className="mt-3 text-[14px] text-muted-foreground">
