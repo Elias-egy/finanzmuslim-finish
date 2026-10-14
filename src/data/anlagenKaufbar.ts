@@ -135,6 +135,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -259,7 +271,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -975,6 +987,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -1041,7 +1065,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -1206,6 +1230,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -1358,7 +1394,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Libertex"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1481,6 +1517,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -1617,7 +1665,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1756,6 +1804,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -1888,7 +1948,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -2359,6 +2419,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -2494,7 +2566,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -2722,6 +2794,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "JE00B1VS3333": {
     "kaufbar": [
       {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-zertifikat-sparplanliste-200801.pdf",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
+      },
+      {
         "anbieter": "BBBank",
         "haus": "bbbank",
         "beleg": {
@@ -2830,6 +2914,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -2968,10 +3064,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
+      {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-zertifikat-sparplanliste-200801.pdf",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
+      },
       {
         "anbieter": "BBBank",
         "haus": "bbbank",
@@ -3204,7 +3312,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "Libertex"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -3213,6 +3321,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   },
   "JE00B588CD74": {
     "kaufbar": [
+      {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.1822direkt.de/fileadmin/Home/Dokumente/PDF/Wertpapiere/1822direkt-zertifikat-sparplanliste-200801.pdf",
+          "stand": "14.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ]
+        }
+      },
       {
         "anbieter": "BBBank",
         "haus": "bbbank",
@@ -3434,7 +3554,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "14.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
