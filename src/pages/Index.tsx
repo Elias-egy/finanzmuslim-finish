@@ -25,7 +25,7 @@ import MotivBild from "@/components/MotivBild";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
-import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
+import { ANZAHL_DEPOTS, ANZAHL_HALAL_ANLAGEN, ANZAHL_KONTEN, ANZAHL_KRYPTO } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
@@ -200,20 +200,21 @@ const Index = () => (
     <div className="container space-y-4 py-4 md:space-y-6 md:py-6">
       {/* 1 — Hero-Platte mit Kategorie-Kacheln darunter. Kein Knopf "Zu allen Vergleichen":
           bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
-          Unter lg fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs
+          Am Handy und am Laptop fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs
           Vergleiche unten, der Guide beginnt erst darunter statt angeschnitten (Elias,
           14.10.2026: "die Hauptseite muss vollstaendig sein"). 148 und 154 sind Kopf plus
-          Abstaende bei Handy und Tablet. */}
-      <section className="flex min-h-[calc(100svh-148px)] flex-col md:min-h-[calc(100svh-154px)] lg:min-h-0">
-        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-6 py-8 lg:block lg:h-[480px] lg:flex-none lg:px-12 lg:py-0">
-          <div className="mx-auto max-w-[1200px] lg:flex lg:h-full lg:items-center">
+          Abstaende bei Handy und Laptop; das Tablet bekommt keine Mindesthoehe, sonst bleibt die
+          Platte leer. */}
+      <section className="flex min-h-[calc(100svh-148px)] flex-col md:min-h-0 lg:min-h-[calc(100svh-154px)]">
+        <div className="relative flex flex-1 flex-col justify-center overflow-hidden rounded-2xl bg-hero px-6 py-6 lg:min-h-[480px] lg:px-12 lg:py-0">
+          <div className="mx-auto w-full max-w-[1200px]">
             <div className="max-w-[600px] lg:pb-24 lg:pt-4">
               <h1 className="text-[30px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[56px] md:leading-[64px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
-              <p className="mt-3 max-w-[580px] text-[17px] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
-                Vergleiche geprüfte Anbieter für Depot, Girokonto und Gold.
+              <p className="mt-3 max-w-[580px] text-[17px] [text-wrap:balance] leading-[26px] text-muted-foreground md:mt-6 md:text-[22px] md:leading-[32px]">
+                Vergleiche {ANZAHL_DEPOTS} Depots, {ANZAHL_KONTEN} Girokonten und {ANZAHL_KRYPTO} Kryptobörsen.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-8">
                 <Link
@@ -256,9 +257,9 @@ const Index = () => (
             <Link
               key={label}
               to={to}
-              className="group relative flex min-h-[104px] flex-col items-center justify-start gap-2 card-surface px-1 pb-3 pt-4 text-center transition-colors hover:border-primary md:min-h-[76px] md:flex-row md:justify-start md:gap-3 md:px-4 md:py-3 md:text-left lg:pt-7 xl:pt-3"
+              className="group relative flex min-h-[92px] flex-col items-center justify-start gap-1.5 card-surface px-1 pb-2.5 pt-3 text-center transition-colors hover:border-primary md:min-h-[76px] md:flex-row md:justify-start md:gap-3 md:px-4 md:py-3 md:text-left lg:pt-7 xl:pt-3"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:rounded-full">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11 md:rounded-full">
                 <Icon className="h-[22px] w-[22px] text-primary md:h-5 md:w-5" aria-hidden />
               </span>
               <span className="w-full min-w-0 hyphens-manual text-[14px] font-bold leading-tight text-foreground md:w-auto md:flex-1 md:text-[18px]">
