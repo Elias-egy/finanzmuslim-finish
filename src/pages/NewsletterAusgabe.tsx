@@ -33,7 +33,7 @@ const Inline = ({ text }: { text: string }) => {
 const Absatz = ({ text }: { text: string }) => {
   const bild = text.match(/^!\[([^\]]*)\]\((https:[^)]+)\)$/);
   if (bild) return <img src={bild[2]} alt={bild[1]} loading="lazy" className="mt-4 h-auto w-full rounded-lg" />;
-  if (text.startsWith("## ")) return <h3 className="mt-6 text-lg font-bold text-foreground"><Inline text={text.slice(3)} /></h3>;
+  if (text.startsWith("## ")) return <h3 className="mt-6 text-[19px] font-bold leading-snug text-foreground"><Inline text={text.slice(3)} /></h3>;
   if (text.startsWith("- "))
     return (
       <ul className="mt-3 list-disc space-y-2 pl-6 text-[17px] leading-relaxed text-foreground/90">
