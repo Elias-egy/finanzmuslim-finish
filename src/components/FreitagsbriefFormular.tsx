@@ -15,14 +15,12 @@ const stil = {
     feld: "h-14 rounded-lg border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-11 sm:flex-1 sm:text-[15px]",
     knopf:
       "inline-flex h-14 items-center justify-center rounded-lg bg-primary px-6 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-60 sm:h-11 sm:text-[15px]",
-    text: "mt-4 text-center text-[13px] leading-relaxed text-muted-foreground",
     ergebnis: "mt-8 text-left",
   },
   startseite: {
     form: "mt-5 flex max-w-[560px] flex-col gap-3 sm:flex-row",
     feld: "h-14 rounded-lg border border-border bg-background px-4 text-[17px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-12 sm:flex-1 sm:text-[16px]",
     knopf: "btn-primary h-14 disabled:opacity-60 sm:h-12",
-    text: "mt-4 max-w-[560px] text-[13px] leading-relaxed text-muted-foreground",
     ergebnis: "mt-5 max-w-[560px]",
   },
   /** Dunkle Fläche oben auf einer Ausgabe der Halal-News. Statt des Satzes darunter ein Kästchen (Elias, H8). */
@@ -31,7 +29,6 @@ const stil = {
     feld: "h-14 rounded-lg border border-white/20 bg-white px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none",
     knopf:
       "inline-flex h-14 items-center justify-center rounded-lg bg-primary px-6 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-60",
-    text: "",
     ergebnis: "mt-6 text-left text-foreground",
   },
 } as const;
@@ -50,7 +47,7 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
   const [hinweis, setHinweis] = useState<string | null>(null);
   const [gelesen, setGelesen] = useState(false);
   const s = stil[variante];
-  const mitKaestchen = variante === "platte";
+  const dunkel = variante === "platte";
 
   const absenden = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +56,7 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
       setHinweis("Bitte gib eine gültige E-Mail-Adresse ein.");
       return;
     }
-    if (mitKaestchen && !gelesen) {
+    if (!gelesen) {
       setHinweis("Bitte bestätige, dass du die Datenschutzerklärung zur Kenntnis genommen hast.");
       return;
     }
@@ -124,35 +121,32 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
         </button>
       </form>
       {hinweis && (
-        <p id={`${id}-hinweis`} role="alert" className={`mt-2 text-[14px] ${mitKaestchen ? "text-[hsl(0_90%_78%)]" : "text-destructive"}`}>
+        <p id={`${id}-hinweis`} role="alert" className={`mt-2 text-[14px] ${dunkel ? "text-[hsl(0_90%_78%)]" : "text-destructive"}`}>
           {hinweis}
         </p>
       )}
-      {mitKaestchen ? (
-        <label className="mt-4 flex items-start gap-3 text-[14px] leading-snug text-white/80">
-          <input
-            type="checkbox"
-            checked={gelesen}
-            onChange={(e) => setGelesen(e.target.checked)}
-            className="mt-0.5 h-5 w-5 shrink-0 rounded accent-primary"
-          />
-          <span>
-            Ich habe die{" "}
-            <Link to="/datenschutz" className="text-white underline underline-offset-2">
-              Datenschutzerklärung
-            </Link>{" "}
-            zur Kenntnis genommen.
-          </span>
-        </label>
-      ) : (
-        <p className={s.text}>
-          Du bekommst jeden Freitag meine Halal-News mit Tipps und Empfehlungen. Abmelden geht mit einem Klick.
-          Hinweise zur Erfolgsmessung und zum Widerruf:{" "}
-          <Link to="/datenschutz" className="text-primary underline underline-offset-2">
-            Datenschutz
-          </Link>
-        </p>
-      )}
+      {/* Überall nur das Kästchen, kein Satz über Freitag und Abmelden ("Mehr nicht", Elias, 15.10.2026,
+          wie auf der Seite der letzten Ausgabe). */}
+      <label
+        className={`mt-4 flex items-start gap-3 text-[14px] leading-snug ${dunkel ? "text-white/80" : "text-muted-foreground"}`}
+      >
+        <input
+          type="checkbox"
+          checked={gelesen}
+          onChange={(e) => setGelesen(e.target.checked)}
+          className="mt-0.5 h-5 w-5 shrink-0 rounded accent-primary"
+        />
+        <span>
+          Ich habe die{" "}
+          <Link
+            to="/datenschutz"
+            className={`underline underline-offset-2 ${dunkel ? "text-white" : "text-primary"}`}
+          >
+            Datenschutzerklärung
+          </Link>{" "}
+          zur Kenntnis genommen.
+        </span>
+      </label>
     </>
   );
 };
