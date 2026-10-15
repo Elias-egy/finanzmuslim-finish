@@ -41,6 +41,25 @@ export const KOSTEN_KURZ: Record<string, Record<string, string>> = {
   "ing-direkt-depot": { orderkosten: "ab 4,90€" },
   "interactive-brokers-depot": { orderkosten: "ab 1,25€" },
   "lynx-depot": { orderkosten: "ab 5$" },
+  // Girokonto: Preis bei 1.000 € Geldeingang wie im Hinweis der Zeile, die Bedingung in Kurzform.
+  "1822direkt-girodirekt": { kontofuehrung: "0 € ab 700 € Geldeingang" },
+  "bbbank-bettersmart": { kontofuehrung: "0 € ab 1.000 € Geldeingang, mit e-Postfach" },
+  "bforbank-bforbasic-konto": { kontofuehrung: "0 € ab einer Kartenzahlung im Monat" },
+  "bunq-elite": { kontofuehrung: "18,99 €" },
+  "bunq-pro": { kontofuehrung: "9,99 €" },
+  "comdirect-girokonto-aktiv": { kontofuehrung: "0 € ab 700 € Geldeingang" },
+  "commerzbank-girokonto": { kontofuehrung: "4,90 €" },
+  "consorsbank-girokonto": { kontofuehrung: "0 € ab 700 € Geldeingang" },
+  "dkb-girokonto": { kontofuehrung: "0 € ab 700 € Geldeingang" },
+  "gls-bank-gls-konto": { kontofuehrung: "8,80 €" },
+  "hypovereinsbank-aktivkonto": { kontofuehrung: "4,90 €" },
+  "hypovereinsbank-pluskonto": { kontofuehrung: "9,90 €" },
+  "ing-girokonto": { kontofuehrung: "0 € ab 1.000 € Geldeingang" },
+  "ing-girokonto-future": { kontofuehrung: "1 € ab 1.000 € Geldeingang" },
+  "norisbank-top-girokonto": { kontofuehrung: "0 € ab 500 € Geldeingang" },
+  "postbank-giro-pur": { kontofuehrung: "0 € ab 900 € Geldeingang" },
+  "targobank-online-konto": { kontofuehrung: "0 € ab 600 € Gehaltseingang" },
+  "vivid-standard": { kontofuehrung: "4,90 €" },
 };
 
 export const kostenKurz = (anbieterId: string, key: string): string | undefined => KOSTEN_KURZ[anbieterId]?.[key];

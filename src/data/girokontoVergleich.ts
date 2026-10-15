@@ -12,7 +12,7 @@ export const GIRO_ZEILEN: VergleichsZeile[] = [
   { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Grün: kein Guthabenzins und kein verzinstes Unterkonto ab Eröffnung. Gelb: Zinsen laufen, lassen sich aber abschalten. Rot: nicht abschaltbar, dann gibt es keine Note." },
   { key: "keinDispoAbStart", label: "Kein Dispo ab Start", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Wird nach der Eröffnung kein Dispokredit eingeräumt?" },
   { key: "karteOhneKredit", label: "Karte ohne Kredit", art: "ampel", gruppe: "halal", hinweis: "Gibt es eine Girocard oder Debitkarte ohne Kreditrahmen?" },
-  { key: "kontofuehrung", label: "Kontoführung im Monat", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Gerechnet mit 1.000 € Geldeingang im Monat, wie bei Finanzfluss. Gilt der Preis nur unter einer Bedingung, steht sie dabei." },
+  { key: "kontofuehrung", label: "Kontoführung im Monat", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Gerechnet mit 1.000 € Geldeingang im Monat, wie bei Finanzfluss. Gilt der Preis nur unter einer Bedingung, steht sie dabei. Den ganzen Preis siehst du beim aufgeklappten Angebot." },
   { key: "girocard", label: "Girocard im Monat", art: "text", gruppe: "kosten", imRaster: true },
   { key: "debitkarte", label: "Debitkarte im Monat", art: "text", gruppe: "kosten" },
   { key: "applePay", label: "Apple Pay oder Google Pay", art: "janein", gruppe: "kosten" },
