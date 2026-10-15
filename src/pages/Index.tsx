@@ -202,12 +202,13 @@ const Index = () => (
           bei sechs Vergleichen stehen alle als Kachel da (Elias, 14.10.2026).
           Ab Tablet fuellt der Abschnitt genau den ersten Bildschirm: Platte oben, die sechs Vergleiche
           unten, der Guide beginnt erst darunter (Elias, 14.10.2026: "die Hauptseite muss vollstaendig
-          sein"); 154 ist Kopf plus Abstaende. Das Tablet fuellt die Flaeche mit grossen Kacheln, der
+          sein"); 154 ist Kopf plus Abstaende, am Laptop 190: die Kacheln stehen gut einen Zentimeter ueber
+          der Fensterkante (Elias, 15.10.2026). Das Tablet fuellt die Flaeche mit grossen Kacheln, der
           Laptop mit dem Foto. Am Handy wie bei Finanzfluss: Ueberschrift, Unterzeile, Foto, darunter
           der Knopf mit Abstand zur Safari-Leiste; die Vergleiche beginnen erst im zweiten Bildschirm ("Finde, was zu
           dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 76px kuerzer als das Fenster,
           hoechstens 720px; die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
-      <section className="flex flex-col md:min-h-[calc(100svh-154px)]">
+      <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-190px)]">
         <div className="relative flex min-h-[min(calc(100svh-76px),720px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
@@ -252,20 +253,21 @@ const Index = () => (
           {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. Es waechst mit der
               Platte bis knapp unter ihre Oberkante, wie bei Finanzfluss; sonst bleibt ueber dem Kopf
               eine leere Flaeche ("ein bisschen zu leer", Elias, 14.10.2026). Der Ausschnitt bleibt
-              gleich: sichtbar sind die oberen zwei Drittel des Bildes. Es endet auf der Oberkante der
-              Kachelreihe (60px), so scheint die Jacke nicht zwischen den Kacheln durch. Unter xl
+              gleich: sichtbar sind die oberen zwei Drittel des Bildes. Es laeuft bis zur Unterkante der
+              Platte durch und liegt hinter der Kachelreihe ("soll bis zur blauen Linie gehen, auch wenn er
+              nicht hundertprozentig sichtbar ist", Elias, 15.10.2026); das Schild steht ueber den Kacheln. Unter xl
               schmaler und weiter rechts, der Hinweis steht dort unter dem Knopf: sonst liegen Haare
               oder Jacke auf dem Text. */}
-          <div className="pointer-events-none absolute bottom-[60px] right-6 hidden h-[calc(100%-92px)] max-h-[445px] w-[440px] max-w-[48%] lg:block xl:right-[calc((100%-1200px)/2)] xl:max-h-[600px] xl:w-[560px]">
+          <div className="pointer-events-none absolute bottom-0 right-6 hidden h-[calc(100%-32px)] max-h-[505px] w-[440px] max-w-[48%] lg:block xl:right-[calc((100%-1200px)/2)] xl:max-h-[660px] xl:w-[560px]">
             <div className="h-full w-full overflow-hidden">
               <img
                 src={eliasCutout}
                 alt=""
-                className="h-[153%] w-full object-cover object-top"
+                className="h-[calc((100%-60px)*1.53)] w-full object-cover object-top"
                 loading="eager"
               />
             </div>
-            <div className="absolute bottom-4 right-0 rounded-xl border border-border bg-card px-4 py-3">
+            <div className="absolute bottom-[76px] right-0 rounded-xl border border-border bg-card px-4 py-3">
               <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
               <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
