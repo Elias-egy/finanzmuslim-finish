@@ -1,0 +1,71 @@
+# Stellt jede Ausgabe der Halal-News zur Versandzeit auf die Seite, ohne Sitzung.
+#
+# Elias, 14.10.2026 (H8): "immer wieder, wenn ein Freitagsbrief kommt, ... automatisch während du
+# rausschickst, ... gleichzeitig auf meine Webseite". Jede Ausgabe trägt sichtbarAb (Versandzeit in UTC);
+# ein Bau vorher zeigt sie nicht (src/data/newsletterAusgaben.ts). Dieser Lauf prüft am Morgen mehrmals,
+# ob eine Ausgabe fällig und noch nicht live ist (scripts/ausgabe-faellig.mjs), und startet dann die
+# Auslieferung mit Bauzeit = Versandzeit. Ohne fällige Ausgabe endet er nach wenigen Sekunden.
+#
+# Zeiten: 07:00 Berlin ist im Sommer 05:00 UTC, im Winter 06:00 UTC. Die Prüfungen um :31 und :51
+# zwischen 04 und 06 UTC treffen beide; 09:11 und 15:11 fangen einen ausgefallenen Lauf auf.
+# Krumme Minuten, weil zur vollen Stunde bei GitHub die Warteschlange voll ist (siehe kurse.yml).
+# Veröffentlicht wird nur, solange PAGES_LIVE auf true steht, wie beim täglichen Kurslauf.
+name: Ausgabe zur Versandzeit live
+
+on:
+  schedule:
+    - cron: "31,51 4-6 * * *"
+    - cron: "11 9,15 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ausgabe-live
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    outputs:
+      bauzeit: ${{ steps.faellig.outputs.bauzeit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Läuft schon eine Auslieferung, startet dieser Lauf keine zweite: sie würde die erste abbrechen
+      # (concurrency in auslieferung.yml). Die nächste Prüfung 20 Minuten später sieht dann, ob die Seite steht.
+      - name: Auslieferung schon unterwegs?
+        id: unterwegs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow auslieferung.yml --json status \
+            --jq '[.[] | select(.status != "completed")] | length')
+          echo "laufend=$n" >> "$GITHUB_OUTPUT"
+          echo "Laufende Auslieferungen: $n"
+
+      - name: Ausgabe fällig?
+        id: faellig
+        if: steps.unterwegs.outputs.laufend == '0'
+        run: node scripts/ausgabe-faellig.mjs
+
+  ausliefern:
+    needs: pruefen
+    if: needs.pruefen.outputs.bauzeit != '' && vars.PAGES_LIVE == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/auslieferung.yml
+    with:
+      veroeffentlichen: true
+      ref: main
+      bauzeit: ${{ needs.pruefen.outputs.bauzeit }}

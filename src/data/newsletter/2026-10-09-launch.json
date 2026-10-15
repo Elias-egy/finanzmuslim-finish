@@ -1,0 +1,127 @@
+{
+  "nr": 1,
+  "datum": "2026-10-09",
+  "thema": "launch",
+  "titel": "finanzmuslim.com ist offen. Hier ist die Auflösung.",
+  "kurz": "Launch von finanzmuslim.com: alle sechs Teile der Reihe aufgelöst, dazu die Frage, ob ein Girokonto halal ist, und die erste Abstimmung.",
+  "lesezeitMin": 4,
+  "titelbild": "https://storage.mlcdn.com/account_image/2353109/yFZkELWUw6l4nggF4U3a7yUKgNqNSK4jVunWBYKp.gif",
+  "titelbildAlt": "finanzmuslim.com, einmal von oben nach unten",
+  "einleitung": [
+    "Seit 7 Uhr ist [[finanzmuslim.com|/]] offen. Sechs Teile lang habe ich dir Zahlen gezeigt und die Namen zurückgehalten. <strong>Heute bekommst du beides.</strong>",
+    "Das hier ist mein erster Freitagsbrief, er kommt ab jetzt jede Woche um diese Zeit:"
+  ],
+  "inhalt": [
+    {
+      "emoji": "🔓",
+      "wort": "Auflösen",
+      "text": "alle sechs Teile, mit Namen und Links",
+      "to": "/vergleiche"
+    },
+    {
+      "emoji": "⚖️",
+      "wort": "Prüfen",
+      "text": "Ist ein Girokonto halal?",
+      "to": "/wissen/girokonto-ohne-zinsen"
+    },
+    {
+      "emoji": "🔢",
+      "wort": "Rechnen",
+      "text": "13 von 57 Girokonten kosten 0 €",
+      "to": "/vergleich/girokonto"
+    },
+    {
+      "emoji": "🗳️",
+      "wort": "Abstimmen",
+      "text": "dein Thema für nächsten Freitag"
+    }
+  ],
+  "rubriken": [
+    {
+      "titel": "Sechs Teile, eine Seite",
+      "absaetze": [
+        "## 📊 Teil 1: Die Vergleiche",
+        "![Vergleiche für Muslime: 57 Girokonten, 56 Depots, 27 Krypto-Angebote, 12 Steuerprogramme, 3 Wege zu Gold und Silber](https://storage.mlcdn.com/account_image/2353109/C7SfJgQThq1bFMTABeltBdFaL3Vjm5oL5UQpDgAQ.png)",
+        "Neben dem Depot stehen <strong>57 Girokonten, 27 Krypto-Angebote, 3 Wege zu Gold und Silber und 12 Steuerprogramme</strong> nebeneinander. Du findest sie alle auf der Seite [[Vergleiche|/vergleiche]].",
+        "## 🚦 Teil 2: Das Depot-Ranking",
+        "![11 von 56 Depots: Zinsen aufs Guthaben, die du nicht abschalten kannst](https://storage.mlcdn.com/account_image/2353109/QdgRoK2lEAXdkEz7OBGEayhE0YrR7tsRvJ0wO6Ac.png)",
+        "Bei <strong>11 von 56 Depots</strong> kannst du die Zinsen aufs Guthaben nicht abschalten. Welche 11 das sind, steht jetzt im [[Depot-Ranking|/vergleich/depot]].",
+        "Dort stehen alle 56 Depots, bei jedem die Ampel für die Zinsen und wie viele der 12 Halal-ETFs du dort kaufen kannst.",
+        "## ✅ Teil 3: Die Halal-Anlagen",
+        "![30 Halal-Anlagen: 12 Aktien-ETFs und Fonds, 3 Sukuk, 5 Gold, 3 Silber, 3 Rohstoffe, 4 Krypto](https://storage.mlcdn.com/account_image/2353109/th57i6X3VH9ejNigCU41UvJjFw13cjrIQxLbx9Ub.png)",
+        "Es sind <strong>30</strong>:",
+        "- 12 Aktien-ETFs und Fonds\n- 3 islamkonforme Wertpapiere (Sukuk)\n- 5 Gold\n- 3 Silber\n- 3 Rohstoffe\n- 4 Krypto",
+        "Bei jeder siehst du <strong>den Kurs, das Gremium, das sie geprüft hat, und den Link zum Zertifikat</strong>. Die ganze Liste steht unter [[Halal-Anlagen|/halal-anlagen]].",
+        "## 📚 Teil 4: Die Wissensecke",
+        "![3 Wege zum Haus ohne Zinsen, und was die Fatwa von 1999 wirklich sagt](https://storage.mlcdn.com/account_image/2353109/9LqZTqL2VvaxXOgEO1FRBxCbdW2brMSHfaLZFGAZ.png)",
+        "<strong>23 Beiträge</strong>, von Zinsen bis Erbe. Der Beitrag [[Haus kaufen ohne Zinsen|/wissen/haus-kaufen-ohne-zinsen]] zeigt drei Wege und erklärt, was die Fatwa von 1999 wirklich sagt.",
+        "## 📱 Teil 5: Die Prüf-Apps",
+        "![Ist die Aktie halal? 4 Apps prüfen das: Finispia, Islamicly, Musaffa und Zoya](https://storage.mlcdn.com/account_image/2353109/YoM8bfNAnSVl0uAZG5rTXRjFzWFxBXOHAPTMlnH3.png)",
+        "<strong>Finispia, Islamicly, Musaffa und Zoya</strong> stehen im [[Vergleich|/vergleich/screening-apps]]. Du siehst, nach welchem Standard jede prüft und ob sie ihre Gelehrten beim Namen nennt.",
+        "## 💯 Teil 6: Die 100 Aktien",
+        "![100 Aktien im Halal-Check, jede einzeln geprüft, mit Quelle](https://storage.mlcdn.com/account_image/2353109/KB63p9D0WmQQ4mZfuLjtTOTAP9n77sE5uG2MxcAH.png)",
+        "<strong>Jede ist einzeln geprüft</strong>, jeweils mit der Quelle. Du findest sie in der [[Liste der 100 Aktien|/vorlagen/top-100-halal-aktien]].",
+        "Das ist keine Anlageberatung, nur das Ergebnis der Prüfung."
+      ],
+      "kicker": "Die Auflösung",
+      "emoji": "🔓",
+      "werbung": "Werbung: Auf der Seite stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich nichts."
+    },
+    {
+      "titel": "Welches Depot passt zu dir? Teste dich",
+      "absaetze": [
+        "![Wo investiere ich halal? Ein paar Fragen, dann siehst du dein Depot, dein Konto und deine App](https://storage.mlcdn.com/account_image/2353109/bq16i0Bqdhgki687SIiXNNiHnS4wcMUR9LMBxrZB.png)",
+        "Ein paar einfache Fragen, am Ende siehst du, welches Depot, welches Konto und welche App zu dir passen. Alles ohne Zinsen nutzbar, sortiert nur nach dem, was dir wichtig ist."
+      ],
+      "emoji": "🧭",
+      "anzeige": true,
+      "link": {
+        "text": "Test starten",
+        "to": "/vergleich/start"
+      }
+    },
+    {
+      "titel": "Ist ein Girokonto halal?",
+      "absaetze": [
+        "<strong>Per DM gefragt:</strong> „Bei … gibt es Zinsen, wenn man dort Geld drauf hat. Ist es eine Sünde?“",
+        "![Ist dein Girokonto halal? Diese 5 Dinge stellst du ab: Dispo, Zinsen aufs Guthaben, Teilzahlung der Kreditkarte, Neukundenboni, angehängte Verträge](https://storage.mlcdn.com/account_image/2353109/riNte12yy4Qxtdo1mqmuHQ1DsPbpyrBAoQXq35N0.png)",
+        "<strong>Ein Girokonto an sich ist erlaubt.</strong> Problematisch sind fünf Dinge:",
+        "- der Dispo\n- Zinsen aufs Guthaben\n- die Teilzahlung der Kreditkarte\n- Neukundenboni\n- angehängte Verträge",
+        "Alle fünf kannst du abstellen, meist in <strong>weniger als zehn Minuten</strong> im Online-Banking und ohne mit jemandem zu sprechen.",
+        "Wie das Schritt für Schritt geht, steht im Beitrag [[Girokonto ohne Zinsen|/wissen/girokonto-ohne-zinsen]]. Einer hat mir danach geschrieben: „Danke, hab es jetzt deaktiviert.“"
+      ],
+      "kicker": "Halal oder nicht",
+      "emoji": "⚖️"
+    },
+    {
+      "titel": "13 von 57 Girokonten kosten 0 €",
+      "absaetze": [
+        "![13 von 57 Girokonten kosten 0 Euro im Monat ohne Bedingung, 10 weitere mit 1.000 Euro Geldeingang](https://storage.mlcdn.com/account_image/2353109/QTTJ5tGnD8cdlmS1kmK7w9vrAUg9kA2AdrpKKejj.png)",
+        "<strong>13 von 57 Girokonten</strong> kosten 0 € im Monat, ohne jede Bedingung. Gehen bei dir im Monat 1.000 € ein, sind es 23.",
+        "Welche das sind und ob sie Zinsen aufs Guthaben zahlen, siehst du im [[Girokonto-Vergleich|/vergleich/girokonto]]."
+      ],
+      "kicker": "Kurz gerechnet",
+      "emoji": "🔢",
+      "werbung": "Werbung: Auf der Seite stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich nichts."
+    },
+    {
+      "titel": "Was soll nächsten Freitag drinstehen?",
+      "absaetze": [
+        "![Du entscheidest: ZAKAT, HAUS, KRYPTO oder STEUER](https://storage.mlcdn.com/account_image/2353109/CBsdLaDrAkIsNqkOqPHsImjXy6B2xcxXCZaPcCGq.png)",
+        "Nächste Woche nehme ich mir ein Thema vor und gehe es ganz durch. <strong>Du entscheidest, welches.</strong> Das Ergebnis steht nächsten Freitag hier oben.",
+        "- <strong>ZAKAT:</strong> wie du sie auf Depot, ETF und Krypto rechnest.\n- <strong>HAUS:</strong> die drei Wege ohne Zinsen, einzeln durchgerechnet.\n- <strong>KRYPTO:</strong> was Bitcoin halal macht und was nicht.\n- <strong>STEUER:</strong> was du auf Gewinne zahlst und welches Programm dir dabei hilft."
+      ],
+      "kicker": "Deine Stimme",
+      "emoji": "🗳️",
+      "abstimmung": {
+        "frage": "Welches Thema?",
+        "woerter": [
+          "ZAKAT",
+          "HAUS",
+          "KRYPTO",
+          "STEUER"
+        ]
+      }
+    }
+  ]
+}

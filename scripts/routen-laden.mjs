@@ -32,6 +32,8 @@ export const routenLaden = async () => {
     // "@/..." löst Vite über tsconfig auf, esbuild muss es hier erfahren.
     alias: { "@": join(WURZEL, "src") },
     loader: { ".json": "json" },
+    // Dieselbe Bauzeit wie vite.config.ts, sonst stünde eine Ausgabe vor ihrer Versandzeit in Sitemap und Prerender.
+    define: { __BAUZEIT__: JSON.stringify(process.env.BAUZEIT || new Date().toISOString()) },
   });
 
   const modul = await import(pathToFileURL(ziel).href);

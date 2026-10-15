@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  ausgaben,
+  eingetragen,
+  sichtbar,
   ausgabeAusSlug,
   ausgabePfad,
   datumLang,
@@ -67,15 +68,63 @@ describe("datumLang", () => {
   });
 });
 
+describe("sichtbar", () => {
+  const nr2 = { ...beispiel(2, "2026-10-16", "islamic"), sichtbarAb: "2026-10-16T05:00:00Z" };
+
+  it("zeigt eine Ausgabe erst ab ihrer Versandzeit", () => {
+    expect(sichtbar(nr2, Date.parse("2026-10-16T04:59:59Z"))).toBe(false);
+    expect(sichtbar(nr2, Date.parse("2026-10-16T05:00:00Z"))).toBe(true);
+  });
+
+  it("zeigt eine Ausgabe ohne Versandzeit sofort", () => {
+    expect(sichtbar(liste[0], Date.parse("2000-01-01T00:00:00Z"))).toBe(true);
+  });
+});
+
 describe("die echten Ausgaben", () => {
+  it("tragen eine lesbare Versandzeit in UTC, wenn sie eine haben", () => {
+    for (const a of eingetragen)
+      if (a.sichtbarAb) expect(a.sichtbarAb, `${a.nr}`).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+  });
+
   it("haben gültige, eindeutige Adressen und Nummern", () => {
-    const pfade = ausgaben.map(ausgabePfad);
+    const pfade = eingetragen.map(ausgabePfad);
     expect(new Set(pfade).size).toBe(pfade.length);
-    expect(new Set(ausgaben.map((a) => a.nr)).size).toBe(ausgaben.length);
-    for (const a of ausgaben) {
+    expect(new Set(eingetragen.map((a) => a.nr)).size).toBe(eingetragen.length);
+    for (const a of eingetragen) {
       expect(a.datum).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(a.thema).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
       expect(a.rubriken.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("eingetragene Ausgaben, auch die noch nicht sichtbaren", () => {
+  it("haben je eine eigene Adresse", () => {
+    const pfade = eingetragen.map(ausgabePfad);
+    expect(new Set(pfade).size).toBe(pfade.length);
+  });
+
+  it("springen aus der Inhaltsliste nur auf Rubriken, die es gibt", () => {
+    for (const a of eingetragen) {
+      const ziele = new Set(a.rubriken.map((r) => r.anker).filter(Boolean));
+      for (const z of a.inhalt ?? []) if (z.anker) expect(ziele.has(z.anker), `${a.nr} #${z.anker}`).toBe(true);
+    }
+  });
+
+  it("verlinken nur Seiten von finanzmuslim und laden Bilder über https", () => {
+    for (const a of eingetragen) {
+      const texte = [...(a.einleitung ?? []), ...a.rubriken.flatMap((r) => r.absaetze)].join("\n");
+      for (const [, pfad] of texte.matchAll(/\[\[[^|\]]+\|([^\]]+)\]\]/g)) expect(pfad.trim().startsWith("/"), pfad).toBe(true);
+      for (const [, src] of texte.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)) expect(src.startsWith("https://"), src).toBe(true);
+      for (const r of a.rubriken) if (r.link) expect(r.link.to.startsWith("/")).toBe(true);
+    }
+  });
+
+  it("tragen kein HTML außer fett und klein", () => {
+    for (const a of eingetragen) {
+      const texte = [...(a.einleitung ?? []), ...a.rubriken.flatMap((r) => [r.titel, ...r.absaetze])].join("\n");
+      expect(texte.replace(/<\/?(strong|small)>/g, "")).not.toMatch(/<[a-z]/i);
     }
   });
 });

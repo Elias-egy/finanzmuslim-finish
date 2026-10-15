@@ -7,10 +7,17 @@
  * unter /wissen nicht schaden (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
  *
  * Was in der Mail steht, steht auch auf der Seite, Werbeplätze eingeschlossen
- * (`anzeige: true`). Eine Ausgabe kommt erst hierher, wenn sie verschickt ist.
+ * (`anzeige: true`). Eine Ausgabe wird beim Einplanen eingetragen und trägt `sichtbarAb`, die Versandzeit:
+ * Erst ein Bau ab diesem Zeitpunkt zeigt sie (Liste, Seite, Startseite, Prerender). Den Bau zur Versandzeit
+ * startet `.github/workflows/ausgabe-live.yml`.
  * Solange die Liste leer ist, verlinkt die Seite weder Archiv noch „aktuelle Ausgabe“.
  */
 
+/**
+ * Ein Absatz trägt dieselbe Auszeichnung wie in der Mail (`~/rebrand/mails/archiv.py` setzt sie um):
+ * `<strong>`, `<small>`, Links als `[[Text|/pfad]]`, `## ` Zwischentitel, Zeilen mit `- ` als Liste,
+ * `![Alt](https://…)` als Bild, `# ` als große Zeile in der Einleitung.
+ */
 export type Rubrik = {
   titel: string;
   absaetze: string[];
@@ -18,7 +25,17 @@ export type Rubrik = {
   link?: { text: string; to: string };
   /** Werbeplatz, wird als „Anzeige“ gekennzeichnet. */
   anzeige?: boolean;
+  /** Kleine Zeile über dem Titel, z. B. „Krankenkasse“. */
+  kicker?: string;
+  emoji?: string;
+  /** Sprungziel der Inhaltsliste, wie in der Mail. */
+  anker?: string;
+  /** Eigener Werbehinweis, wenn die Rubrik auf Partnerlinks führt. */
+  werbung?: string;
+  abstimmung?: { frage: string; woerter: string[] };
 };
+
+export type InhaltZeile = { emoji: string; wort: string; text: string; to?: string; anker?: string };
 
 export type Ausgabe = {
   nr: number;
@@ -30,10 +47,45 @@ export type Ausgabe = {
   /** Ein Satz, worum es ging. Steht im Archiv. */
   kurz: string;
   lesezeitMin: number;
+  titelbild?: string;
+  titelbildAlt?: string;
+  einleitung?: string[];
+  inhalt?: InhaltZeile[];
   rubriken: Rubrik[];
+  /** Versandzeit in UTC, z. B. `2026-10-16T05:00:00Z`. Vorher baut die Seite die Ausgabe nicht. Fehlt sie: sofort. */
+  sichtbarAb?: string;
 };
 
-export const ausgaben: Ausgabe[] = [];
+declare const __BAUZEIT__: string | undefined;
+
+/**
+ * Zeitpunkt des Baus. Vite (`vite.config.ts`) und das Laden der Routen (`scripts/routen-laden.mjs`) setzen ihn
+ * aus der Umgebungsvariablen BAUZEIT, sonst gilt die Uhrzeit beim Bauen. Zur Laufzeit im Browser ändert er sich nicht,
+ * damit Seite, Prerender und Sitemap dieselben Ausgaben zeigen.
+ */
+export const BAUZEIT = typeof __BAUZEIT__ === "string" ? Date.parse(__BAUZEIT__) : Date.now();
+
+export const sichtbar = (a: Ausgabe, zeit: number = BAUZEIT) => !a.sichtbarAb || Date.parse(a.sichtbarAb) <= zeit;
+
+/**
+ * Je verschickte Ausgabe eine Datei in `src/data/newsletter/`, erzeugt aus der Mail mit `~/rebrand/mails/archiv.py`.
+ * Das Skript trägt Import und Zeile zwischen den Markern selbst nach. Feste Importe statt import.meta.glob,
+ * weil die Sitemap diese Datei über esbuild liest (scripts/routen-laden.mjs).
+ */
+// archiv:importe:start
+import nr1 from "./newsletter/2026-10-09-launch.json";
+import nr2 from "./newsletter/2026-10-16-islamic.json";
+// archiv:importe:end
+
+export const eingetragen: Ausgabe[] = [
+  // archiv:liste:start
+  nr1,
+  nr2,
+  // archiv:liste:end
+];
+
+/** Was die Seite zeigt: nur Ausgaben, deren Versandzeit beim Bau erreicht ist. */
+export const ausgaben = eingetragen.filter((a) => sichtbar(a));
 
 export const ausgabePfad = (a: Ausgabe) => `/newsletter/${a.datum}-${a.thema}`;
 
