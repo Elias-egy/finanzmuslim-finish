@@ -1,6 +1,6 @@
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AngebotsKnopf, BonusSchild, QuellenListe, ZinsSatz } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, KostenGenau, QuellenListe, ZinsSatz } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -37,6 +37,7 @@ export const AngebotsDialog = ({
             </div>
           </DialogHeader>
           <ZinsSatz spalte={spalte} zeilen={zeilen} markieren={markieren} />
+          <KostenGenau spalte={spalte} zeilen={zeilen} />
           {spalte.link && (
             <div>
               <AngebotsKnopf link={spalte.link} breit />

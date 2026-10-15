@@ -13,7 +13,7 @@ export const DEPOT_ZEILEN: VergleichsZeile[] = [
   { key: "halalSukuk", label: "Sukuk", art: "text", gruppe: "halal", hinweis: "Wie viele der 3 Sukuk-ETFs und Fonds aus unserem Halal-Anlagen-Vergleich dort kaufbar sind." },
   { key: "halalEdelmetalle", label: "Edelmetalle", art: "text", gruppe: "halal", hinweis: "Wie viele der 7 Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich dort kaufbar sind." },
   { key: "depotgebuehr", label: "Depotgebühr im Jahr", art: "text", gruppe: "kosten", imRaster: true },
-  { key: "orderkosten", label: "Kosten pro Order", art: "text", gruppe: "kosten", imRaster: true },
+  { key: "orderkosten", label: "Kosten pro Order", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Was eine Order beim Anbieter mindestens kostet. Den ganzen Preis mit Staffeln und Börsengebühren siehst du beim aufgeklappten Angebot." },
   { key: "etfSparplanKosten", label: "Kosten ETF-Sparplan", art: "text", gruppe: "kosten" },
   { key: "aktienSparplanKosten", label: "Kosten Aktien-Sparplan", art: "text", gruppe: "kosten" },
   { key: "sparrate", label: "Sparrate", art: "text", gruppe: "kosten" },

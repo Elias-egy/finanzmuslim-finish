@@ -53,7 +53,7 @@ const punktText = (
     if (wert?.jaNein === false) return ["nein", `${zeile.label}: nein`];
     return offen;
   }
-  return wert?.text ? ["ja", `${zeile.label}: ${wert.text}`] : offen;
+  return wert?.text ? ["ja", `${zeile.label}: ${wert.kurz ?? wert.text}`] : offen;
 };
 
 const Punkt = ({

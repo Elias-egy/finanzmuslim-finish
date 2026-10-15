@@ -1,3 +1,4 @@
+import { kostenKurz } from "./kostenKurz";
 import {
   hinweiseAmAngebot,
   type AngebotsHinweis,
@@ -108,6 +109,8 @@ export const baueSpalten = (
     for (const z of zeilen) {
       if (z.key.startsWith("__")) continue;
       werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art, a.quellen?.[z.key]);
+      const kurz = kostenKurz(a.id, z.key);
+      if (kurz && werte[z.key].text) werte[z.key].kurz = kurz;
     }
     const zusatz = zinsHinweis(kategorie, a);
     if (zusatz && werte.zinsfreiAbStart) werte.zinsfreiAbStart.zusatz = zusatz;

@@ -258,7 +258,7 @@ export const ZellInhalt = ({
   }
 
   return wert?.text ? (
-    <span className="text-foreground">{wert.text}</span>
+    <span className="text-foreground">{wert.kurz ?? wert.text}</span>
   ) : (
     <span className="text-muted-foreground" aria-label="ohne Angabe">{KEINE_ANGABE}</span>
   );
@@ -412,6 +412,7 @@ export const ProduktDetails = ({
       <div className="space-y-3 empty:hidden">
         <ZinsSatz spalte={spalte} zeilen={zeilen} markieren={markieren} />
       </div>
+      <KostenGenau spalte={spalte} zeilen={zeilen} />
       <dl className="mt-1">
         {rest.map((z) => (
           <div
@@ -432,6 +433,22 @@ export const ProduktDetails = ({
         <QuellenListe spalte={spalte} zeilen={zeilen} />
       </div>
     </div>
+  );
+};
+
+/** Der ganze Kostensatz zu jeder Zelle, die vorn nur die Kurzform zeigt (`kostenKurz.ts`). */
+export const KostenGenau = ({ spalte, zeilen }: { spalte: VergleichsSpalte; zeilen: VergleichsZeile[] }) => {
+  const liste = zeilen.filter((z) => spalte.werte[z.key]?.kurz && spalte.werte[z.key]?.text);
+  if (liste.length === 0) return null;
+  return (
+    <dl className="mt-1">
+      {liste.map((z) => (
+        <div key={z.key} className="border-b border-border py-2 text-[14px]">
+          <dt className="text-muted-foreground">{z.label}, genau</dt>
+          <dd className="mt-0.5 text-foreground">{spalte.werte[z.key].text}</dd>
+        </div>
+      ))}
+    </dl>
   );
 };
 

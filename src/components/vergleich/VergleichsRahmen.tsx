@@ -1,3 +1,4 @@
+import { kostenKurz } from "@/data/kostenKurz";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Award, Check, ChevronDown, ChevronRight } from "lucide-react";
@@ -103,7 +104,7 @@ export const NummerEins = ({
   const kosten = zeilen
     .filter((z) => z.gruppe === "kosten" && z.imRaster && typeof anbieter.werte[z.key] === "string")
     .slice(0, 2)
-    .map((z): Punkt => ({ key: z.key, text: `${z.label}: ${anbieter.werte[z.key]}` }));
+    .map((z): Punkt => ({ key: z.key, text: `${z.label}: ${kostenKurz(anbieter.id, z.key) ?? anbieter.werte[z.key]}` }));
   const punkte = [...halal, ...kosten];
 
   return (

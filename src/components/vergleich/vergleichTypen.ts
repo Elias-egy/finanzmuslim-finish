@@ -41,6 +41,8 @@ export type Quelle = { url?: string; stand?: string; hinweis?: string; anzeige?:
 
 export type Zellwert = {
   text: string | null;
+  /** Kurzform fuer Tabelle und Karten (`src/data/kostenKurz.ts`); `text` bleibt der ganze Satz. */
+  kurz?: string;
   quelle?: Quelle;
   status?: CheckStatus;
   /** true, false oder null fuer noch nicht geprueft. */
