@@ -2403,6 +2403,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       {
         "anbieter": "Traders Place",
         "haus": "traders-place",
+        "hinweis": "ohne Ausgabeaufschlag",
         "beleg": {
           "url": "https://www.tradersplace.de/wertpapiersuche",
           "stand": "16.10.2026",
