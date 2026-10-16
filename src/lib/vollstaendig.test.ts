@@ -65,7 +65,12 @@ describe("Nur vollständig Belegtes steht im Vergleich", () => {
   });
 
   it("wer belegt wird, erscheint von selbst wieder", () => {
-    const tp = brokerVergleich.find((a) => a.id === "traders-place-depot")!;
+    const belegtVorher = brokerVergleich.find((a) => a.id === "traders-place-depot")!;
+    const tp: RohAnbieter = {
+      ...belegtVorher,
+      werte: { ...belegtVorher.werte, halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null },
+      halalAnlagenPunkte: undefined,
+    };
     expect(zeigbar([tp], "depot", DEPOT_ZEILEN)).toEqual([]);
     expect(luecken(tp, "depot", DEPOT_ZEILEN).sort()).toEqual(["halalEdelmetalle", "halalEtfsFonds", "halalSukuk"]);
     const belegt: RohAnbieter = {
