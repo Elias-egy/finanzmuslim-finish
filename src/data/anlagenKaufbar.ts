@@ -248,6 +248,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -271,7 +283,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -348,6 +360,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -378,7 +402,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -494,9 +518,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
-      "Trade Republic"
+      "Trade Republic",
+      "Traders Place"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -601,9 +626,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
       "Trade Republic",
+      "Traders Place",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -720,6 +746,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -746,7 +784,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "07.10.2026"
+    "stand": "16.10.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -911,6 +949,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -946,7 +996,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "01.10.2026"
+    "stand": "16.10.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -1035,6 +1085,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1065,7 +1127,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -1366,6 +1428,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1394,7 +1468,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Libertex"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1633,6 +1707,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1665,7 +1751,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1916,6 +2002,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -1948,7 +2046,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -2115,6 +2213,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2139,7 +2249,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -2289,6 +2399,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "targobank.de"
           ]
         }
+      },
+      {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
       }
     ],
     "nichtImAngebot": [
@@ -2303,7 +2425,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -2532,6 +2654,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2566,7 +2700,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -2756,6 +2890,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -2779,7 +2925,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "16.10.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -3043,6 +3189,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3064,7 +3222,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -3280,6 +3438,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3312,7 +3482,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "Libertex"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -3533,6 +3703,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3554,7 +3736,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "14.10.2026"
+    "stand": "16.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -3758,6 +3940,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -3791,7 +3985,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -3995,6 +4189,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -4027,7 +4233,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "12.10.2026"
+    "stand": "16.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -4162,10 +4368,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
+      "Traders Place",
       "Trading 212",
       "XTB"
     ],
-    "stand": "01.10.2026"
+    "stand": "16.10.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -4277,10 +4484,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "Trade Republic",
       "tradegate.direct",
+      "Traders Place",
       "Trading 212",
       "XTB"
     ],
-    "stand": "02.10.2026"
+    "stand": "16.10.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -4435,6 +4643,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "16.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Trading 212",
         "haus": "trading212",
         "beleg": {
@@ -4460,7 +4680,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "07.10.2026"
+    "stand": "16.10.2026"
   },
   "XS2115336336": {
     "kaufbar": [],

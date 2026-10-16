@@ -22,25 +22,25 @@ export const offen: { slug: string; kaufbar: KaufbarAnzeige }[] = [
   {
     slug: "ishares-msci-world-islamic",
     kaufbar: {
-      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "Bux" }, { anbieter: "Bux Basic" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "DEGIRO" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "maxblue Wertpapier-Sparplan" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Targobank" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
+      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "Bux" }, { anbieter: "Bux Basic" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "DEGIRO" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "maxblue Wertpapier-Sparplan" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Targobank" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Traders Place" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
       nichtImAngebot: ["Bitpanda", "Libertex"],
-      stand: "14.10.2026",
+      stand: "16.10.2026",
     },
   },
   {
     slug: "ishares-msci-emerging-markets-islamic",
     kaufbar: {
-      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
+      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Traders Place" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
       nichtImAngebot: ["Bitpanda", "Bux Basic", "Bux Plus", "Bux Prime", "Libertex", "maxblue Wertpapier-Sparplan"],
-      stand: "14.10.2026",
+      stand: "16.10.2026",
     },
   },
   {
     slug: "ishares-msci-usa-islamic",
     kaufbar: {
-      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "DEGIRO" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
+      kaufbar: [{ anbieter: "1822direkt" }, { anbieter: "BBBank" }, { anbieter: "Bison" }, { anbieter: "comdirect" }, { anbieter: "comdirect Pure Depot" }, { anbieter: "Consorsbank" }, { anbieter: "DEGIRO" }, { anbieter: "Fidelity" }, { anbieter: "finanzen.net zero" }, { anbieter: "finvesto" }, { anbieter: "flatex" }, { anbieter: "GLS Bank" }, { anbieter: "HypoVereinsbank" }, { anbieter: "ING" }, { anbieter: "justTRADE" }, { anbieter: "S Broker" }, { anbieter: "Scalable Capital" }, { anbieter: "Smartbroker+" }, { anbieter: "Trade Republic" }, { anbieter: "tradegate.direct" }, { anbieter: "Traders Place" }, { anbieter: "Trading 212" }, { anbieter: "XTB" }],
       nichtImAngebot: ["Bitpanda", "Bux Basic", "Bux Plus", "Bux Prime", "Libertex", "maxblue Wertpapier-Sparplan"],
-      stand: "14.10.2026",
+      stand: "16.10.2026",
     },
   },
 ];
