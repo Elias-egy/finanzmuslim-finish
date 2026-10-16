@@ -147,7 +147,8 @@ export const feinwert = (a: RohAnbieter): number => {
   if (Number.isFinite(automaten)) teile.push(Math.min(1, automaten / 10000));
   const dienst = a.werte.kundenservice;
   if (typeof dienst === "string" && dienst.trim()) teile.push(Math.min(1, dienst.split(",").filter((x) => x.trim()).length / 3));
-  return teile.length === 0 ? 0 : runde(teile.reduce((s, x) => s + x, 0) / teile.length);
+  // Drei Stellen: Auf zwei Stellen gerundet fiel ein Zehntel Unterschied in der App-Bewertung weg (16.10.2026).
+  return teile.length === 0 ? 0 : Math.round((teile.reduce((s, x) => s + x, 0) / teile.length) * 1000) / 1000;
 };
 
 export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
