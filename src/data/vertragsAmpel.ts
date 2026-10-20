@@ -48,7 +48,7 @@ export const zeilen: AmpelZeile[] = [
     unter: "Finanzierung im Laden oder online",
     farbe: "gelb",
     woran:
-      "Hängt an den Bedingungen. Zahlst du in Raten genau den Barpreis, ohne Aufschlag, Gebühr oder Zins, ist das für viele Gelehrte in Ordnung. Jeder Cent Aufpreis gegenüber der Sofortzahlung ist Riba.",
+      "Hängt daran, wer dir das Geld gibt. Verkauft dir der Händler selbst auf Raten, darf der Ratenpreis höher sein als der Barpreis, wenn er vor der Unterschrift feststeht und sich danach nicht mehr ändert. Läuft die Finanzierung über eine Bank, ist es ein Kreditvertrag, auch bei null Prozent Zinsen.",
   },
   {
     vertrag: "Leasing und Autoabo",
@@ -100,7 +100,7 @@ export const fragen = [
   },
   {
     titel: "Zahle ich einen Aufpreis?",
-    text: "Vergleiche den Gesamtpreis mit dem Barpreis. Jede Differenz für die Zeit ist der Punkt, an dem es kippt.",
+    text: "Vergleiche den Gesamtpreis mit dem Barpreis. Leiht dir jemand Geld und du zahlst mehr zurück, ist das der Punkt, an dem es kippt. Ein höherer Ratenpreis beim Händler selbst ist erlaubt, wenn er vorher feststeht.",
   },
   {
     titel: "Gibt es eine Alternative, die grün ist?",
