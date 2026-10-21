@@ -44,7 +44,7 @@ const punktText = (
   if (zeile.art === "ampel") {
     const status = wert?.status ?? "unbekannt";
     if (status === "gut") return ["ja", zeile.label];
-    if (status === "teils") return ["teils", `${zeile.label}: abschaltbar`];
+    if (status === "teils") return ["teils", `${zeile.label}: ${zeile.teilsText ?? "abschaltbar"}`];
     if (status === "schlecht") return ["nein", `${zeile.label}: nein`];
     return offen;
   }

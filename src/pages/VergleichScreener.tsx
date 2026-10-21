@@ -133,7 +133,7 @@ const VergleichScreener = () => (
     filter={SCREENER_FILTER}
     stand="16.09.2026"
     standHinweis="Alle Angaben beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Anbieter, geprüft am 16.09.2026. Keine dieser Apps ist ein Partner von uns, und keine bezahlt für die Aufnahme."
+    quellenHinweis="Alle Angaben stammen von den Seiten der Anbieter, geprüft am 16.09.2026. Bei Zoya erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Apps sind keine Partner von uns, und keine bezahlt für die Aufnahme."
     kriterien={[
       {
         titel: "Maßstab",

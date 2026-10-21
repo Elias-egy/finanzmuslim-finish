@@ -183,6 +183,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "S Broker",
         "haus": "sbroker",
         "beleg": {
@@ -283,7 +295,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -402,7 +414,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -521,7 +533,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "Traders Place"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -629,7 +641,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Traders Place",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -784,7 +796,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -897,6 +909,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -996,7 +1020,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -1127,7 +1151,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -1352,6 +1376,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "S Broker",
         "haus": "sbroker",
         "beleg": {
@@ -1468,7 +1504,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bitpanda",
       "Libertex"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1643,6 +1679,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "S Broker",
         "haus": "sbroker",
         "beleg": {
@@ -1751,7 +1799,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1938,6 +1986,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "S Broker",
         "haus": "sbroker",
         "beleg": {
@@ -2046,7 +2106,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -2144,6 +2204,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
           ]
         }
       },
@@ -2249,7 +2321,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -2426,7 +2498,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -2590,6 +2662,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "S Broker",
         "haus": "sbroker",
         "beleg": {
@@ -2701,7 +2785,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -2827,6 +2911,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://n26.com/de-de/aktien-und-etfs",
+          "stand": "21.10.2026",
+          "quelle": "elias",
+          "domains": [
+            "n26.com"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -2926,7 +3022,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -3223,7 +3319,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -3483,7 +3579,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "Libertex"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -3737,7 +3833,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -3986,7 +4082,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -4234,7 +4330,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -4373,7 +4469,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -4489,7 +4585,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -4681,7 +4777,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "16.10.2026"
+    "stand": "21.10.2026"
   },
   "XS2115336336": {
     "kaufbar": [],

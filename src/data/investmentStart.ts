@@ -12,7 +12,7 @@
  * drei Schritte zur Erklärung und hat keine Halal-Merkmale.
  */
 
-export type StartArt = "depot" | "girokonto" | "krypto" | "steuer";
+export type StartArt = "depot" | "girokonto" | "krypto" | "steuer" | "app";
 
 export type StartPartner = {
   kurzname: string;
@@ -1976,6 +1976,64 @@ export const startPartner: StartPartner[] = [
       {
         q: "Kann ich meine Coins auf eine eigene Wallet holen?",
         a: "Nein. Laut flatex ist die Auslieferung von Kryptowerten derzeit nicht möglich. Wer seine Coins selbst verwahren will, braucht einen Anbieter mit Auszahlung.",
+      },
+    ],
+  },
+  {
+    kurzname: "zoya",
+    anbieter: "Zoya",
+    kurz: "Zoya",
+    domain: "zoya.finance",
+    markenfarbe: "#123331",
+    art: "app",
+    pfad: "/dein-investmentstart/zoya",
+    link: "https://zoya.onelink.me/l7r0/finanzmuslim",
+    titel: ["Ist deine Aktie halal?", "Prüf sie nach AAOIFI."],
+    knopf: "Zoya laden \u2192",
+    videoHinweis: false,
+    chips: ["Maßstab AAOIFI", "Gelehrte mit Namen", "Deutsche Aktien", "Kostenlos laden"],
+    schritte: [
+      { titel: "App laden", text: "Über den Knopf lädst du Zoya. Laden kostet nichts, die App ist auf Englisch." },
+      { titel: "Aktie suchen", text: "Gib Namen oder Kürzel ein. Deutschland ist einer von neun Märkten, die Zoya abdeckt." },
+      { titel: "Status lesen", text: "Kostenlos siehst du den Status jeder Aktie. Die Zahlen hinter dem Urteil zeigt Zoya in Pro." },
+    ],
+    fakten: [
+      {
+        titel: "Maßstab AAOIFI, Gelehrte mit Namen",
+        text: "Zoya prüft nach AAOIFI, dem strengsten verbreiteten Regelwerk. Die Gelehrten dahinter stehen mit Namen da: Sheikh Joe Bradford und Sheikh Umer Khan.",
+      },
+      {
+        titel: "Aktien, ETFs und Fonds",
+        text: "Über 40.000 Papiere. Bei ETFs und Fonds prüft Zoya die Positionen im Fonds, kostenlos die zehn größten.",
+      },
+      {
+        titel: "Depot und Zakat",
+        text: "Du kannst dein Depot verbinden, kostenlos ein Konto. Der Zakat-Rechner zeigt dir, was auf deine Investments fällig ist.",
+      },
+    ],
+    checklisteTitel: ["2 Dinge, die die App", "nicht für dich macht"],
+    checkliste: [
+      {
+        titel: "Die Reinigung rechnest du selbst.",
+        text: "Zoya zeigt dir den Anteil unerlaubter Einnahmen einer Aktie. Welchen Betrag du davon spendest, rechnest du selbst aus.",
+      },
+      {
+        titel: "Eine andere App kann anders ausfallen.",
+        text: "Apps rechnen nach unterschiedlichen Regelwerken. AAOIFI misst Schulden am Marktwert, andere am Gesamtwert der Bilanz. Bei Firmen nahe der Grenze kippt das Ergebnis.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Kostet mich der Link etwas?",
+        a: "Laden kostet nichts, im App Store ist Zoya kostenlos mit In-App-Käufen. Den Preis für Zoya Pro nennt Zoya erst in der App. Startest du über meinen Link, gibt Zoya einen Teil an mich weiter.",
+      },
+      {
+        q: "Warum ist hier kein Video?",
+        a: "Das Einrichtungsvideo zeigt ein Depot. Bei Zoya sind es drei Schritte, die oben stehen: App laden, Aktie suchen, Status lesen.",
+      },
+      {
+        q: "Gibt es Zoya auf Deutsch?",
+        a: "Nein, nur auf Englisch. Die Begriffe dafür erklären wir in unseren Beiträgen auf Deutsch.",
       },
     ],
   },

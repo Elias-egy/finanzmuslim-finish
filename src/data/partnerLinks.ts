@@ -224,6 +224,13 @@ export const partnerLinks: PartnerLink[] = [
   },
 
   {
+    kurzname: "zoya",
+    anbieter: "Zoya",
+    ziel: "/dein-investmentstart/zoya",
+    aktiv: true,
+    notiz: "Insert Affiliate (app.insertaffiliate.com), angenommen 23.09.2026, 30 % auf zwölf Monate. Deep Link https://zoya.onelink.me/l7r0/finanzmuslim, im Dashboard gelesen am 21.10.2026 (Beleg rebrand belege/zoya/99-p6-insertaffiliate-link-2026-10-21.txt). Aktiv seit 21.10.2026, Startseite mit App-Aufbau (art app), Link ohne {SUBID}.",
+  },
+  {
     kurzname: "wiso-steuer",
     anbieter: "WISO Steuer",
     ziel: "/dein-investmentstart/wiso-steuer",

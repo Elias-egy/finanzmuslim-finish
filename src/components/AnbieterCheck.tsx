@@ -7,6 +7,7 @@ import { kaufstatus } from "@/data/kaufstatus";
 import { brokerVergleich, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { girokontoVergleich, GIRO_ZEILEN } from "@/data/girokontoVergleich";
 import { kryptoVergleich, KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
+import { screenerVergleich, SCREENER_ZEILEN } from "@/data/screenerVergleich";
 import { steuersoftwareVergleich, STEUER_ZEILEN } from "@/data/steuersoftwareVergleich";
 import { halalAnlagen, type Kategorie } from "@/data/halalAnlagen";
 import type { StartPartner } from "@/data/investmentStart";
@@ -23,6 +24,7 @@ const KOSTEN_KEYS = {
   girokonto: ["kontofuehrung", "debitkarte", "girocard", "applePay"],
   krypto: ["gesamtkosten", "auszahlungBitcoin", "anzahlCoins", "mindestbetrag"],
   steuer: ["preis", "zahlung", "abgaben"],
+  app: ["kostenlos", "preis", "depot", "zakat"],
 } as const;
 
 /** Steuersoftware hat keine Halal-Merkmale, dort stehen stattdessen die Leistungen. */
@@ -33,6 +35,7 @@ const VERGLEICH = {
   girokonto: { daten: girokontoVergleich, zeilen: GIRO_ZEILEN, wort: "Girokonto" },
   krypto: { daten: kryptoVergleich, zeilen: KRYPTO_ZEILEN, wort: "Krypto" },
   steuer: { daten: steuersoftwareVergleich, zeilen: STEUER_ZEILEN, wort: "Steuersoftware" },
+  app: { daten: screenerVergleich, zeilen: SCREENER_ZEILEN, wort: "Screening-App" },
 } as const;
 
 const KATEGORIE_TITEL: { titel: string; kategorien: Kategorie[] }[] = [
@@ -52,7 +55,7 @@ const Zeile = ({
   <div className="flex items-center justify-between gap-4 border-b border-border py-3 last:border-b-0">
     <span className="text-[15px] text-foreground/85">{zeile.label}</span>
     <span className="min-w-0 text-right text-[15px] font-semibold [&_svg]:mx-0">
-      <ZellInhalt wert={wert} art={zeile.art} mitQuelle />
+      <ZellInhalt wert={wert} art={zeile.art} mitQuelle teilsText={zeile.teilsText} />
     </span>
   </div>
 );
@@ -60,6 +63,7 @@ const Zeile = ({
 const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
   const istSteuer = partner.art === "steuer";
+  const istApp = partner.art === "app";
   const { daten, zeilen, wort } = VERGLEICH[partner.art];
   const roh = daten.find((a) => a.link === `/out/${partner.kurzname}`);
   if (!roh) return null;
@@ -84,15 +88,21 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
             Das bekommst du bei {partner.kurz}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[16px] text-muted-foreground md:text-[17px]">
-            Prüfe {istSteuer ? "Leistungen" : "die Halal-Merkmale"} und Kosten, bevor du startest: dieselben
-            Daten wie im {wort}-Vergleich.
+            {istApp ? (
+              "Prüfe, nach welchem Maßstab die App urteilt und was sie kostet: dieselben Daten wie im Screening-App-Vergleich."
+            ) : (
+              <>
+                Prüfe {istSteuer ? "Leistungen" : "die Halal-Merkmale"} und Kosten, bevor du startest: dieselben
+                Daten wie im {wort}-Vergleich.
+              </>
+            )}
           </p>
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           <div className="reveal card-surface p-5 md:p-6">
             <h3 className="text-[17px] font-bold text-foreground">
-              {istSteuer ? "Leistungen" : "Halal-Merkmale"}
+              {istSteuer ? "Leistungen" : istApp ? "So urteilt die App" : "Halal-Merkmale"}
             </h3>
             <div className="mt-2">
               {halal.map((z) => (
@@ -147,7 +157,15 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
 
         <div className="mt-6 text-center">
           <Link
-            to={istDepot ? "/vergleich/depot" : istSteuer ? "/vergleich/steuersoftware" : "/vergleich/girokonto"}
+            to={
+              istDepot
+                ? "/vergleich/depot"
+                : istSteuer
+                  ? "/vergleich/steuersoftware"
+                  : istApp
+                    ? "/vergleich/screening-apps"
+                    : "/vergleich/girokonto"
+            }
             className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-primary hover:underline"
           >
             Alle Anbieter im Vergleich <ArrowRight className="h-4 w-4" />

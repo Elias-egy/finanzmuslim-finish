@@ -269,7 +269,7 @@ export const VergleichsTabelle = ({
                         {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
                       </div>
                     ) : (
-                      <ZellInhalt wert={s.werte[z.key]} art={z.art} />
+                      <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />
                     )}
                   </div>
                 ))}

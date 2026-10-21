@@ -50,6 +50,7 @@ export const SCREENER_ZEILEN: VergleichsZeile[] = [
     label: "Reinigungsbetrag",
     art: "ampel",
     gruppe: "halal",
+    teilsText: "teils",
     hinweis:
       "Rechnet die App aus, welchen Anteil deiner Erträge du spenden musst, weil er aus unerlaubten Quellen stammt?",
   },
@@ -244,6 +245,7 @@ export const screenerVergleich: RohAnbieter[] = [
     name: "Zoya",
     produkt: "App",
     domain: "zoya.finance",
+    link: "/out/zoya",
     werte: {
       standard: "AAOIFI",
       gremium: "gut",
