@@ -31,6 +31,8 @@ export type VergleichsZeile = {
   imRaster?: boolean;
   /** Trennt die Halal-Merkmale von den Konditionen. */
   gruppe: "halal" | "angebot" | "kosten";
+  /** Wort für eine gelbe Ampel. Ohne Angabe „abschaltbar“ (Zinsen, Dispo); der Reinigungsbetrag sagt „teils“. */
+  teilsText?: string;
 };
 
 /**

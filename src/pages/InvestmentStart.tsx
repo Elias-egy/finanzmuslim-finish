@@ -63,7 +63,7 @@ const CtaBlock = ({
 }) => (
   <div className="flex flex-col items-center gap-3">
     <p className="text-[14px] leading-tight text-white/60">
-      Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten.
+      {partner.art === "app" ? "Werbung/Affiliate-Link." : "Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten."}
     </p>
     <a
       href={href}
@@ -148,9 +148,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
   const istKrypto = partner.art === "krypto";
   const istSteuer = partner.art === "steuer";
-  const produktWort = istDepot ? "Depot" : istSteuer ? "Programm" : "Konto";
-  // Seitentitel je Art: Depot, Girokonto, Krypto-Konto oder Steuererklärung.
-  const seitenWort = istDepot ? "Investmentstart" : istKrypto ? "Krypto-Konto" : istSteuer ? "Steuererklärung" : "Girokonto";
+  const istApp = partner.art === "app";
+  const produktWort = istDepot ? "Depot" : istSteuer ? "Programm" : istApp ? "App" : "Konto";
+  // Seitentitel je Art: Depot, Girokonto, Krypto-Konto, Steuererklärung oder Aktien-Check (Halal-Screening-App).
+  const seitenWort = istDepot ? "Investmentstart" : istKrypto ? "Krypto-Konto" : istSteuer ? "Steuererklärung" : istApp ? "Aktien-Check" : "Girokonto";
 
   // Video startet stumm (o-vegas-Muster). "Ton an" entstummt; jeder Klick auf
   // einen Aufruf pausiert das Video, damit die Stimme nicht in die
@@ -226,7 +227,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               ? `Schritt für Schritt zum zinsfreien Krypto-Konto bei ${partner.anbieter}.`
               : istSteuer
                 ? `Deine Steuererklärung bei ${partner.anbieter}, auch mit Kapitalerträgen aus Depot und Krypto.`
-                : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
+                : istApp
+                  ? `So prüfst du mit ${partner.anbieter}, ob eine Aktie halal ist.`
+                  : `Schritt für Schritt zum zinsfreien Girokonto bei ${partner.anbieter}.`
         }
         path={partner.pfad}
         noindex
@@ -374,13 +377,25 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
       <section className="bg-background py-10 md:py-14">
         <div className="container max-w-2xl text-center">
           <p className="reveal text-[15px] md:text-[17px] text-foreground/85 leading-relaxed">
-            Du kannst {istSteuer ? partner.anbieter : `dein ${produktWort}`} auch ohne meinen Link {istSteuer ? "nutzen" : "eröffnen"}: derselbe Anbieter, dieselben Konditionen. Der
-            einzige Unterschied ist, ob {partner.anbieter} etwas an mich weitergibt.{" "}
-            <span className="font-semibold">
-              {istSteuer
-                ? "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, nimm gern Mein ELSTER, das kostet nichts."
-                : "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, Hauptsache du startest halal."}
-            </span>
+            {istApp ? (
+              <>
+                Du kannst {partner.anbieter} auch ohne meinen Link laden: dieselbe App. Der einzige Unterschied ist,
+                ob {partner.anbieter} etwas an mich weitergibt.{" "}
+                <span className="font-semibold">
+                  Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, stehen im Vergleich drei weitere Apps.
+                </span>
+              </>
+            ) : (
+              <>
+                Du kannst {istSteuer ? partner.anbieter : `dein ${produktWort}`} auch ohne meinen Link {istSteuer ? "nutzen" : "eröffnen"}: derselbe Anbieter, dieselben Konditionen. Der
+                einzige Unterschied ist, ob {partner.anbieter} etwas an mich weitergibt.{" "}
+                <span className="font-semibold">
+                  {istSteuer
+                    ? "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, nimm gern Mein ELSTER, das kostet nichts."
+                    : "Wenn dir meine Arbeit geholfen hat, freue ich mich. Wenn nicht, Hauptsache du startest halal."}
+                </span>
+              </>
+            )}
           </p>
         </div>
         <JumpLink to="#start">Direkt starten ↑</JumpLink>
@@ -413,7 +428,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
         <div className="container">
           <div className="reveal text-center">
             <span className="inline-flex items-center gap-3 text-[11px] font-semibold tracking-wide text-primary">
-              <span className="h-px w-6 bg-primary" /> {istDepot ? "Der Broker" : istSteuer ? "Das Programm" : "Die Bank"}{" "}
+              <span className="h-px w-6 bg-primary" /> {istDepot ? "Der Broker" : istSteuer ? "Das Programm" : istApp ? "Die App" : "Die Bank"}{" "}
               <span className="h-px w-6 bg-primary" />
             </span>
             <h2 className="headline text-3xl md:text-4xl mt-4">Warum {partner.anbieter}? Drei Fakten.</h2>
@@ -438,7 +453,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             </p>
           )}
         </div>
-        <JumpLink to="#los">Zum {produktWort} ↓</JumpLink>
+        <JumpLink to="#los">{istApp ? "Zur" : "Zum"} {produktWort} ↓</JumpLink>
       </section>
 
       {/* S6 — Riba-Checkliste */}
@@ -470,7 +485,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           )}
         </div>
         <JumpLink to="#los" light>
-          Alles geklärt? Zum {produktWort} ↓
+          Alles geklärt? {istApp ? "Zur" : "Zum"} {produktWort} ↓
         </JumpLink>
       </section>
 
@@ -512,7 +527,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             </div>
           </div>
         </div>
-        <JumpLink to="#los">Zum {produktWort} ↓</JumpLink>
+        <JumpLink to="#los">{istApp ? "Zur" : "Zum"} {produktWort} ↓</JumpLink>
       </section>
 
       {/* S8 — Mini-FAQ */}
@@ -573,7 +588,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               ? "Schritt für Schritt, und dein Halal-Depot steht."
               : istSteuer
                 ? "Ausfüllen, Erstattung sehen, dann entscheiden."
-                : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
+                : istApp
+                  ? "App laden und die erste Aktie prüfen."
+                  : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
           </p>
           <div className="reveal mt-8">
             <CtaBlock partner={partner} href={partnerLink(partner, `${subId}f`)} onCtaClick={pauseVideo} />
@@ -626,7 +643,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                   ? `Dein Halal-Depot bei ${partner.anbieter}`
                   : istSteuer
                     ? `Deine Steuererklärung bei ${partner.anbieter}`
-                    : `Dein zinsfreies Konto bei ${partner.anbieter}`}
+                    : istApp
+                      ? `Deine Aktien prüfen mit ${partner.anbieter}`
+                      : `Dein zinsfreies Konto bei ${partner.anbieter}`}
               </p>
               <p className="text-[12px] text-muted-foreground">
                 Werbung/Affiliate-Link{istDepot ? " · Kapitalanlagen bergen Risiken." : ""}

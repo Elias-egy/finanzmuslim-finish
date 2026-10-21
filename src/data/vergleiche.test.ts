@@ -132,8 +132,8 @@ describe("Vergleichsdaten screening-apps", () => {
     }
   });
 
-  it("nennt keinen Partnerlink, weil es keine Partnerschaft gibt", () => {
-    for (const a of screenerVergleich) expect(a.link, a.id).toBeUndefined();
+  it("nur Zoya hat einen Partnerlink", () => {
+    for (const a of screenerVergleich) expect(a.link, a.id).toBe(a.id === "zoya" ? "/out/zoya" : undefined);
   });
 });
 
