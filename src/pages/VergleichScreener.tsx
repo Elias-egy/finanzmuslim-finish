@@ -133,11 +133,11 @@ const VergleichScreener = () => (
     filter={SCREENER_FILTER}
     stand="16.09.2026"
     standHinweis="Alle Angaben beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Anbieter, geprüft am 16.09.2026. Bei Zoya erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Apps sind keine Partner von uns, und keine bezahlt für die Aufnahme."
+    quellenHinweis="Alle Angaben stammen von den Seiten der Anbieter und aus dem App Store, geprüft zwischen dem 16.09. und dem 21.10.2026. Bei Zoya erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Apps sind keine Partner von uns, und keine bezahlt für die Aufnahme."
     kriterien={[
       {
         titel: "Maßstab",
-        text: "Nach welchem Regelwerk wird geprüft? AAOIFI ist der strengste verbreitete Maßstab. Dow Jones, MSCI, S&P und FTSE lassen bei Schulden und Zinserträgen mehr zu, deshalb kann dieselbe Aktie unterschiedlich ausfallen.",
+        text: "Nach welchem Regelwerk wird geprüft? AAOIFI, Dow Jones, MSCI, S&P und FTSE rechnen Schulden und Zinserträge unterschiedlich, deshalb kann dieselbe Aktie unterschiedlich ausfallen.",
       },
       {
         titel: "Prüfgremium namentlich",
@@ -172,7 +172,7 @@ const VergleichScreener = () => (
       {
         frage: "Findet eine solche App auch deutsche Aktien?",
         antwort:
-          "Ja, aber nicht überall gleich gut. Musaffa weist für Deutschland 997 geprüfte Aktien aus, davon 231 halal. Zoya führt Deutschland als einen von neun Märkten, am vollständigsten sind dort die USA. Wer deutsche Nebenwerte kauft, sollte vor dem Abo prüfen, ob sein Titel überhaupt drin ist.",
+          "Ja, aber nicht überall gleich gut. Musaffa weist für Deutschland 997 geprüfte Aktien aus, davon 231 halal. Zoya führt Deutschland unter seinen Märkten, am vollständigsten sind dort die USA. Wer deutsche Nebenwerte kauft, sollte vor dem Abo prüfen, ob sein Titel überhaupt drin ist.",
       },
       {
         frage: "Brauche ich eine App, wenn ich nur ETFs kaufe?",

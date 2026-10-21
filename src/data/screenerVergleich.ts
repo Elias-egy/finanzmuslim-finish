@@ -26,7 +26,7 @@ export const SCREENER_ZEILEN: VergleichsZeile[] = [
     gruppe: "halal",
     imRaster: true,
     hinweis:
-      "Nach welchem Regelwerk geprüft wird. AAOIFI ist der strengste verbreitete Maßstab, Dow Jones, MSCI, S&P und FTSE lassen bei den Finanzkennzahlen mehr zu. Dieselbe Aktie kann deshalb bei zwei Apps unterschiedlich ausfallen.",
+      "Nach welchem Regelwerk geprüft wird, etwa AAOIFI, Dow Jones, MSCI, S&P oder FTSE. Sie rechnen die Finanzkennzahlen unterschiedlich, AAOIFI zum Beispiel am Marktwert. Dieselbe Aktie kann deshalb bei zwei Apps unterschiedlich ausfallen.",
   },
   {
     key: "gremium",
@@ -52,7 +52,7 @@ export const SCREENER_ZEILEN: VergleichsZeile[] = [
     gruppe: "halal",
     teilsText: "teils",
     hinweis:
-      "Rechnet die App aus, welchen Anteil deiner Erträge du spenden musst, weil er aus unerlaubten Quellen stammt?",
+      "Rechnet die App aus, welchen Anteil deiner Erträge du spendest, weil er aus unerlaubten Quellen stammt?",
   },
   {
     key: "deutscheAktien",
@@ -251,11 +251,11 @@ export const screenerVergleich: RohAnbieter[] = [
       gremium: "gut",
       begruendung: "gut",
       reinigung: "teils",
-      deutscheAktien: "ja, Deutschland ist einer von neun Märkten",
+      deutscheAktien: "ja, Deutschland gehört zu den abgedeckten Märkten",
       umfang: "über 40.000 Aktien, ETFs und Fonds",
       etfs: true,
       kostenlos: "Halal-Status für Aktien, bei Fonds die zehn größten Positionen, volle Berichte nur in Pro",
-      preis: "nur in der App sichtbar, nicht auf der Website",
+      preis: "im App Store unter In-App-Käufe, nicht auf der Website",
       depot: true,
       zakat: true,
       sprache: "Englisch",
@@ -291,9 +291,9 @@ export const screenerVergleich: RohAnbieter[] = [
       kostenlos: { url: "https://help.zoya.finance/en/articles/8455907-what-is-included-in-a-zoya-pro-subscription", stand: "27.09.2026", hinweis: "Vergleich Free gegen Pro: Shariah Compliance „Status only“ gegen „Full reports“, Fund Screener „Top 10 holdings only“ gegen „All holdings“." },
       preis: {
         url: "https://apps.apple.com/de/app/zoya-halal-investing-app/id1447547610",
-        stand,
+        stand: "21.10.2026",
         hinweis:
-          "Der App-Store-Eintrag weist die App als kostenlos mit In-App-Käufen aus. Einen Preis nennt der Anbieter weder auf der Website noch im Hilfebereich, er steht erst in der App.",
+          "Der App-Store-Eintrag weist die App als kostenlos mit In-App-Käufen aus und listet dort die Preise für Zoya Pro (geprüft 21.10.2026). Auf der Website und im Hilfebereich nennt der Anbieter keinen Preis.",
       },
       depot: { url: "https://zoya.finance/", stand: "27.09.2026", hinweis: "„Connect and sync your existing brokerage accounts to track your portfolio and monitor your holdings.“ Gratis ein Konto, in Pro beliebig viele. Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },
       zakat: { url: "https://zoya.finance/", stand: "27.09.2026", hinweis: "„Calculate zakat due on your investments with precision and donate to your favorite charities.“ Ersetzt am 27.09.2026 eine Umschreibung ohne Zitat." },

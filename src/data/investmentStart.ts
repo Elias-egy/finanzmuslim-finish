@@ -1994,17 +1994,17 @@ export const startPartner: StartPartner[] = [
     chips: ["Maßstab AAOIFI", "Gelehrte mit Namen", "Deutsche Aktien", "Kostenlos laden"],
     schritte: [
       { titel: "App laden", text: "Über den Knopf lädst du Zoya. Laden kostet nichts, die App ist auf Englisch." },
-      { titel: "Aktie suchen", text: "Gib Namen oder Kürzel ein. Deutschland ist einer von neun Märkten, die Zoya abdeckt." },
+      { titel: "Aktie suchen", text: "Gib Namen oder Kürzel ein. Deutschland gehört zu den Märkten, die Zoya abdeckt, neben den USA, Großbritannien und weiteren." },
       { titel: "Status lesen", text: "Kostenlos siehst du den Status jeder Aktie. Die Zahlen hinter dem Urteil zeigt Zoya in Pro." },
     ],
     fakten: [
       {
         titel: "Maßstab AAOIFI, Gelehrte mit Namen",
-        text: "Zoya prüft nach AAOIFI, dem strengsten verbreiteten Regelwerk. Die Gelehrten dahinter stehen mit Namen da: Sheikh Joe Bradford und Sheikh Umer Khan.",
+        text: "Zoya prüft nach AAOIFI, den Standards einer gemeinnützigen Organisation in Bahrain für islamische Finanzen. Die Gelehrten dahinter stehen mit Namen da: Sheikh Joe Bradford und Sheikh Umer Khan.",
       },
       {
         titel: "Aktien, ETFs und Fonds",
-        text: "Über 40.000 Papiere. Bei ETFs und Fonds prüft Zoya die Positionen im Fonds, kostenlos die zehn größten.",
+        text: "Über 40.000 Papiere. Bei ETFs und Fonds aus den USA prüft Zoya die Positionen im Fonds, kostenlos die zehn größten.",
       },
       {
         titel: "Depot und Zakat",
@@ -2015,17 +2015,17 @@ export const startPartner: StartPartner[] = [
     checkliste: [
       {
         titel: "Die Reinigung rechnest du selbst.",
-        text: "Zoya zeigt dir den Anteil unerlaubter Einnahmen einer Aktie. Welchen Betrag du davon spendest, rechnest du selbst aus.",
+        text: "Zoya zeigt dir in Pro den Anteil unerlaubter Einnahmen einer Aktie. Welchen Betrag du davon spendest, rechnest du selbst aus.",
       },
       {
         titel: "Eine andere App kann anders ausfallen.",
-        text: "Apps rechnen nach unterschiedlichen Regelwerken. AAOIFI misst Schulden am Marktwert, andere am Gesamtwert der Bilanz. Bei Firmen nahe der Grenze kippt das Ergebnis.",
+        text: "Apps rechnen nach unterschiedlichen Regelwerken. AAOIFI misst Schulden am Marktwert, andere am Gesamtwert der Bilanz. Bei Firmen nahe der Grenze kann das Ergebnis kippen.",
       },
     ],
     faqs: [
       {
         q: "Kostet mich der Link etwas?",
-        a: "Laden kostet nichts, im App Store ist Zoya kostenlos mit In-App-Käufen. Den Preis für Zoya Pro nennt Zoya erst in der App. Startest du über meinen Link, gibt Zoya einen Teil an mich weiter.",
+        a: "Laden kostet nichts, im App Store ist Zoya kostenlos mit In-App-Käufen. Die Preise für Zoya Pro stehen im App Store unter In-App-Käufe, auf der Website nennt Zoya keinen. Startest du über meinen Link, gibt Zoya einen Teil an mich weiter.",
       },
       {
         q: "Warum ist hier kein Video?",
