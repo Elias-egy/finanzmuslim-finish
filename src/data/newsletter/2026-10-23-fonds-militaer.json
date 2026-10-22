@@ -1,0 +1,165 @@
+{
+  "nr": 3,
+  "datum": "2026-10-23",
+  "thema": "fonds-militaer",
+  "titel": "Ein Islamic-Fonds kaufte Aktien einer Firma, die Israels Militär beliefert",
+  "kurz": "Ein britischer Islamic-Fonds kaufte für 38 Mio. US-Dollar Aktien einer Firma, die Software für das israelische Militär liefert. Warum das ging und was es für deinen ETF heißt. Dazu Trading, bis zu 12.348 € für Unterhalt an die Familie im Ausland und die neue Abstimmung.",
+  "lesezeitMin": 7,
+  "titelbild": "https://storage.mlcdn.com/account_image/2353109/X6OuArg88XIJ9D6OMGa3aKTmbQaArcmPu6NXOBKm.gif",
+  "titelbildAlt": "38,3 Millionen US-Dollar aus einem Islamic-Fonds für Aktien einer Firma, die Software für Israels Militär liefert, erstes Halbjahr 2026, laut Hyphen",
+  "einleitung": [
+    "Warum kauft ein Islamic-Fonds Aktien einer Firma, die Israels Militär beliefert? Dazu: Trading und Geld zurück für deine Familie im Ausland:"
+  ],
+  "inhalt": [
+    {
+      "emoji": "📉",
+      "wort": "Trading",
+      "text": "die meisten verlieren, und ist das halal? (von euch gewählt)",
+      "anker": "trading"
+    },
+    {
+      "emoji": "💶",
+      "wort": "Geld zurück",
+      "text": "bis zu 12.348 € für die Familie in der Heimat",
+      "anker": "geld-zurueck"
+    },
+    {
+      "emoji": "❗",
+      "wort": "Islamic-Fonds",
+      "text": "Aktien einer Firma, die Israels Militär beliefert",
+      "anker": "fonds"
+    },
+    {
+      "emoji": "📋",
+      "wort": "Dein ETF",
+      "text": "in fünf Minuten nachsehen, was drinsteckt",
+      "anker": "etf"
+    },
+    {
+      "emoji": "🗳️",
+      "wort": "Abstimmen",
+      "text": "dein Thema für nächsten Freitag",
+      "anker": "abstimmen"
+    }
+  ],
+  "rubriken": [
+    {
+      "titel": "Beim CFD-Trading verlieren 74 bis 89 % der Konten Geld",
+      "absaetze": [
+        "<small>Für dieses Thema habt ihr letzte Woche abgestimmt.</small> <small>Mitbestimmen kannst du ganz unten.</small>",
+        "In Videos machen junge Leute schnelles Geld mit Trading. Was dort selten zu sehen ist, steht klein auf der Seite jedes Anbieters von CFDs, also von Wetten auf Kurse. Die Finanzaufsicht BaFin schreibt diesen Satz vor:",
+        "<strong>„Zwischen 74 % und 89 % der Kleinanlegerkonten verlieren beim Handel mit CFD Geld.“</strong>",
+        "![Beim CFD-Trading verlieren 74 bis 89 von 100 Konten Geld, Pflichthinweis der BaFin](https://storage.mlcdn.com/account_image/2353109/X5C5dEpFF35BrGINcLYXRwrmbLCoIqdraiXxipKY.png)",
+        "Jeder Anbieter muss dazu seine eigene Quote nennen und sie alle drei Monate neu rechnen. Ein Konto zählt als Verlust, wenn es über die letzten zwölf Monate im Minus liegt.",
+        "## Warum verlieren so viele?",
+        "Bei einem CFD kaufst du nichts und besitzt nichts. Du setzt nur darauf, ob ein Kurs steigt oder fällt. Damit sich die kleinen Bewegungen lohnen, leiht dir der Anbieter Geld dazu. Das nennt sich Hebel.",
+        "In der EU ist der Hebel für Privatanleger begrenzt, bei großen Währungen auf 30 zu 1. Ein Beispiel: Mit 100 € Einsatz bewegst du dann <strong>3.000 €</strong>. Ein Prozent Kursbewegung ist dann ein Drittel deines Geldes.",
+        "## Und ist das halal?",
+        "In meinem [[Beitrag zu Trading|/wissen/trading-forex-cfd]] steht es ausführlich. Für die Wette auf Kurse entscheiden diese Punkte:",
+        "- <strong>Der Hebel ist ein Kredit:</strong> Der Anbieter gibt dir Geld und bekommt über Gebühren und Finanzierungskosten mehr zurück. Unter Gelehrten gilt der Hebel einstimmig als unzulässig.\n- <strong>Es entsteht kein neues Geld:</strong> Was du gewinnst, hat jemand anderes verloren. Genau diese Struktur beschreiben Gelehrte als Glücksspiel.\n- <strong>Das „islamische Konto“:</strong> Manche Anbieter streichen dafür die Gebühr fürs Halten über Nacht, den Swap. Sonst ändert sich nichts.",
+        "Aktien oder ETFs zu kaufen und zu halten, ist eine eigene Frage. Da wirst du Miteigentümer einer Firma, und dein Gewinn setzt nicht den Verlust eines anderen voraus.",
+        "Siehst du das nächste Video mit schnellem Geld, such den kleinen Satz mit den Prozenten. Er steht dort, weil die Aufsicht es so will."
+      ],
+      "kicker": "Trading",
+      "emoji": "📉",
+      "anker": "trading"
+    },
+    {
+      "titel": "Welches Depot passt zu dir? Teste dich",
+      "absaetze": [
+        "![Welches Depot passt zu dir? Ein paar Fragen, dann siehst du dein Depot, dein Konto und deine App, alles ohne Zinsen nutzbar](https://storage.mlcdn.com/account_image/2353109/tSzhEASk75TdXRemKhH7IdEs06DSJF7bq5RaS7NV.png)",
+        "Ein paar einfache Fragen, am Ende siehst du, welches Depot, welches Konto und welche App zu dir passen. Alles ohne Zinsen nutzbar, sortiert nur nach dem, was dir wichtig ist."
+      ],
+      "emoji": "🧭",
+      "anzeige": true,
+      "link": {
+        "text": "Test starten",
+        "to": "/vergleich/start"
+      }
+    },
+    {
+      "titel": "Bis zu 12.348 € absetzen: Geld an die Familie in der Heimat",
+      "absaetze": [
+        "Schickst du deinen Eltern in der Türkei, in Marokko oder in Bosnien regelmäßig Geld, kann dir das Finanzamt einen Teil davon zurückgeben. Das nennt sich Unterhalt an Angehörige im Ausland und steht in § 33a des Einkommensteuergesetzes.",
+        "Für 2026 kannst du bis zu <strong>12.348 €</strong> im Jahr absetzen, in der Erklärung für 2025 sind es 12.096 €. Zahlst du für die Person auch Kranken- und Pflegeversicherung, kommt das obendrauf.",
+        "![Bis zu 12.348 € im Jahr absetzen, Türkei die Hälfte, Marokko ein Viertel, laut Finanzministerium](https://storage.mlcdn.com/account_image/2353109/eBOOTFrMCL6XBW46mS1MdGFcZpJyVc6eWP14COJN.png)",
+        "## Wie viel gilt für dein Land?",
+        "Das Finanzamt rechnet mit den Preisen im Heimatland. Dafür teilt das Finanzministerium alle Länder in vier Gruppen ein. Nach dem Schreiben vom 2. Dezember 2025 gilt, gerechnet mit dem Betrag für 2026:",
+        "- <strong>Zur Hälfte, also bis 6.174 €:</strong> Türkei, Bosnien und Herzegowina, Kosovo, Albanien und Irak.\n- <strong>Zu einem Viertel, also bis 3.087 €:</strong> Marokko, Ägypten, Tunesien, Algerien, Syrien, Libanon, Pakistan, Afghanistan, Iran, Somalia und Indonesien.",
+        "Hat die Person eigenes Einkommen über 624 € im Jahr, sinkt der Betrag. Für jeden Monat, in dem du nichts geschickt hast, fällt ein Zwölftel weg.",
+        "## Worauf du achten musst",
+        "- <strong>Nur per Überweisung:</strong> Seit 2025 zählt nur Geld, das du auf ein Konto der Person überweist. Bargeld im Urlaub zählt nicht mehr.\n- <strong>Nur wer Anspruch hat:</strong> Die Person muss nach deutschem Recht unterhaltsberechtigt sein. Im Beispiel des Finanzministeriums zählt die Mutter, die Schwester nicht.\n- <strong>Nicht im arbeitsfähigen Alter:</strong> Wer arbeiten kann, gilt in der Regel nicht als bedürftig.\n- <strong>Unterhaltserklärung:</strong> Für jede Person gibt es eine zweisprachige Erklärung, die sie unterschreibt, mit Belegen über ihr Einkommen. Das Finanzamt will sie nur sehen, wenn es danach fragt.",
+        "Überweist du schon jeden Monat, schau in deine Kontoauszüge von 2025. Die Überweisungen sind dein wichtigster Beleg."
+      ],
+      "kicker": "Geld zurück",
+      "emoji": "💶",
+      "anker": "geld-zurueck"
+    },
+    {
+      "titel": "Ein Islamic-Fonds kaufte Aktien einer Firma, die Israels Militär beliefert",
+      "absaetze": [
+        "![Firmensitz von Palantir](https://storage.mlcdn.com/account_image/2353109/LbqtGU1z2NRQtmvRpvfAzXG3ZUyUkDtsnG0qAl2D.jpg)",
+        "Laut dem britischen Magazin Hyphen kaufte der Islamic Global Equity Index Fund der Bank HSBC im ersten Halbjahr 2026 Aktien von Palantir, für <strong>38,3 Millionen US-Dollar</strong>. Das steht im Halbjahresbericht des Fonds.",
+        "Die Firma liefert Software für das israelische Militär. Im Januar 2024 schloss sie eine Partnerschaft mit dem Verteidigungsministerium in Israel, laut Bloomberg zur Unterstützung von Einsätzen im Krieg.",
+        "Laut Middle East Eye kaufte derselbe Fonds im Halbjahr für <strong>über 100 Millionen US-Dollar</strong> Aktien von fünf Firmen mit Bezug zum israelischen Militär, darunter ein großer Rüstungskonzern. In diesem Fonds liegen die meisten britischen Betriebsrenten, die als schariakonform angeboten werden.",
+        "## Wie kommt so etwas in einen Islamic-Fonds?",
+        "Der Fonds sucht seine Aktien nicht selbst aus. Er bildet einen Index nach, also eine Liste nach festen Regeln. Am 23. März 2026 hat er diesen Index gewechselt.",
+        "![Was die Regeln zu Waffen sagen: alter Index schließt Firmen mit über 5 % Umsatz mit Waffen aus, die nicht der Verteidigung dienen, neuer Index hat keinen Punkt dazu, MSCI Islamic schließt Rüstung aus](https://storage.mlcdn.com/account_image/2353109/BWiit12glDV2m4vtSeTpdLwQB8VYKN4q6ORpQWRf.png)",
+        "- <strong>Alter Index:</strong> Im Dow Jones Islamic Market Titans 100 fliegen laut Methodik Firmen raus, die mehr als 5 % ihres Umsatzes mit Waffen machen, die nicht der Verteidigung dienen. Spähsoftware ist dort ausdrücklich genannt.\n- <strong>Neuer Index:</strong> In der Ausschlussliste des S&P Global 1200 Shariah steht in der Methodik vom Oktober 2026 kein Punkt zu Waffen oder Rüstung.\n- <strong>MSCI Islamic:</strong> Hersteller von Rüstung und Waffen fliegen raus, auch Firmen mit über 5 % Umsatz damit.",
+        "Am 20. Oktober kündigte HSBC an, die Anlage mit unabhängigen Beratern zu prüfen. Laut Financial Times kam das nach Bedenken der staatlich gestützten Betriebsrente Nest, deren Scharia-Fonds in diesem Fonds steckt.",
+        "## Was heißt das für dich?",
+        "Ein Urteil über die Firma fälle ich hier nicht. In der Methodik des alten Index schreibt S&P zur Rüstung: Unter Gelehrten gibt es dazu keine einheitliche Meinung, <strong>die meisten Scharia-Gremien raten aber davon ab</strong>.",
+        "Steckt dein Geld in einem Islamic-ETF, hilft der Blick in die Bestandsliste. Ich habe die Liste des iShares MSCI World Islamic vom 20. Oktober durchgesehen: <strong>387 Aktien, die Firma steht nicht drin.</strong> Von den fünf Firmen aus dem Bericht steckt eine drin, ein Chiphersteller mit 0,74 %.",
+        "Wie du das für deinen eigenen ETF in fünf Minuten nachsiehst, steht gleich darunter."
+      ],
+      "kicker": "Halal investieren",
+      "emoji": "❗",
+      "anker": "fonds"
+    },
+    {
+      "titel": "In fünf Minuten sehen, was in deinem ETF steckt",
+      "absaetze": [
+        "![In fünf Minuten nachsehen, welche Aktien in deinem ETF stecken: Bestandsliste beim Anbieter](https://storage.mlcdn.com/account_image/2353109/GCLY0crUYG0g0sd5cNoDNzaze3vl5DH6BmzwwHe6.png)",
+        "Die Liste aller Aktien in deinem ETF findest du beim Anbieter selbst. So gehst du vor:",
+        "- <strong>ISIN nachsehen:</strong> Sie steht in deinem Depot neben dem Namen des ETFs.\n- <strong>Produktseite öffnen:</strong> Gib die ISIN in die Suche des Anbieters ein. Bei iShares heißt der Bereich mit der Liste „Positionen“.\n- <strong>Liste herunterladen:</strong> In der Datei suchst du nach den Firmen, die dir wichtig sind, und siehst ihr Gewicht in Prozent.",
+        "Alle geprüften Halal-ETFs mit Kosten und Zertifizierung findest du in meiner [[Halal-Datenbank|/halal-anlagen]].",
+        "Nimm dir heute Abend die fünf Minuten. Danach weißt du selbst, was du besitzt."
+      ],
+      "kicker": "Kleine Aufgabe",
+      "emoji": "📋",
+      "anker": "etf",
+      "werbung": "Werbung: Auf der Seite stehen Partnerlinks. Eröffnest du darüber ein Depot, bekomme ich eine Provision. Für dich ändert sich nichts."
+    },
+    {
+      "titel": "Was diese Woche noch wichtig war",
+      "absaetze": [
+        "![Altersvorsorgedepot: halal? Start am 1. Januar 2027, stimm unten mit ALTERSVORSORGE ab](https://storage.mlcdn.com/account_image/2353109/8JuykQJcJdmXkjs7CoDAt6zCePmyeoaWEdrYRvUL.png)",
+        "- <strong>Altersvorsorgedepot:</strong> Es startet am 1. Januar 2027. Für das geplante staatliche Standarddepot fehlt laut Finanzministerium noch die Verordnung.\n- <strong>Geld weg durch Phishing:</strong> Der Europäische Gerichtshof hat am 15. Oktober entschieden: Wird ohne deine Freigabe Geld abgebucht und meldest du das sofort, muss deine Bank es zuerst erstatten, spätestens am nächsten Geschäftstag. Grobe Fahrlässigkeit muss sie dir danach selbst beweisen.\n- <strong>Falsche Steuer-Mails:</strong> Die Verbraucherzentrale warnt vor Mails zu einer angeblichen ELSTER-Erstattung für 2025, die deine Kartendaten verlangen. Öffne ELSTER lieber selbst, statt auf den Link zu tippen.\n- <strong>Sukuk digital:</strong> Malaysias Zentralbank hat am 20. Oktober eine Plattform gestartet, über die Anleihen und Sukuk digital ausgegeben werden. Sukuk sind die islamische Alternative zu Anleihen."
+      ],
+      "kicker": "Kurz notiert",
+      "emoji": "📰",
+      "anker": "kurz"
+    },
+    {
+      "titel": "Was soll nächsten Freitag drinstehen?",
+      "absaetze": [
+        "![Du entscheidest: ALTERSVORSORGE, FINANZIERUNG, BOYKOTT oder KRYPTO](https://storage.mlcdn.com/account_image/2353109/iQXg39nvoMN63CxfEHKCkef1LEQbfWaYagAsb2SX.png)",
+        "<strong>Du entscheidest, was nächsten Freitag drinsteht.</strong> Tipp unten auf ein Wort und schick die Mail ab, das dauert zwei Sekunden.",
+        "- <strong>ALTERSVORSORGE:</strong> 2027 kommt das Altersvorsorgedepot. Geht das halal?\n- <strong>FINANZIERUNG:</strong> Anbieter werben mit halal Bau- und Autofinanzierung. Stimmt das?\n- <strong>BOYKOTT:</strong> Was der Boykott die Konzerne kostet, in Zahlen.\n- <strong>KRYPTO:</strong> Bitcoin, halal oder nicht, und worauf du achten musst."
+      ],
+      "kicker": "Deine Stimme",
+      "emoji": "🗳️",
+      "anker": "abstimmen",
+      "abstimmung": {
+        "frage": "Welches Thema?",
+        "woerter": [
+          "ALTERSVORSORGE",
+          "FINANZIERUNG",
+          "BOYKOTT",
+          "KRYPTO"
+        ]
+      }
+    }
+  ],
+  "sichtbarAb": "2026-10-23T05:00:00Z"
+}
