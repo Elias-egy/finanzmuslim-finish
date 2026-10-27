@@ -1,6 +1,6 @@
 import type { Quelle } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter, RohWert } from "./vergleichHelfer";
-import { NACHGETRAGENE_LINKS } from "./vergleichKorrekturenDaten";
+import { NACHGETRAGENE_LINKS, PUNKTE_KORREKTUREN } from "./vergleichKorrekturenDaten";
 
 /**
  * Kleine, datierte Nachträge zur Prüfung vom 20.09.2026.
@@ -12,7 +12,10 @@ export const korrigiereAnbieter = (
   overrides: Record<string, Partial<Record<string, RohWert>>>,
   quellenOverrides: Record<string, Record<string, Quelle>> = {},
 ): RohAnbieter[] =>
-  anbieter.map((a) => {
+  anbieter.map((roh) => {
+    // Handgesetzte Finanzpunkte (PUNKTE_KORREKTUREN) liegen über den erzeugten Punkten.
+    const punkte = PUNKTE_KORREKTUREN[roh.id];
+    const a = punkte ? { ...roh, finanzPunkte: { ...roh.finanzPunkte, ...punkte } } : roh;
     const vorgeschlagen = overrides[a.id];
     if (!vorgeschlagen) return a;
     const werte: Partial<Record<string, RohWert>> = {};

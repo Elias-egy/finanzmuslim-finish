@@ -22,17 +22,16 @@ describe("Danke-Seite", () => {
     expect(screen.getByRole("status").textContent).toContain("Postfach");
   });
 
-  it("öffnet aus der Karte das Freebie sofort", () => {
+  it("zeigt auch aus der Karte keinen Schlüssellink, der Link kommt per Mail", () => {
     zeige({ pathname: "/danke/top-100-halal-aktien", state: { vorname: "", vorhaben: ["konto"] } });
-    const links = schluesselLinks();
-    expect(links).toHaveLength(1);
-    expect(links[0].getAttribute("href")).toBe("/vorlagen/top-100-halal-aktien/voll-8mq4");
+    expect(schluesselLinks()).toHaveLength(0);
+    expect(screen.getByRole("status").textContent).toContain("per Mail");
     const test = screen.getAllByRole("link", { name: /Jetzt testen/ });
     expect(test[0].getAttribute("href")).toBe("/vergleich/start?vorhaben=konto");
   });
 
-  it("führt beim Guide auf den Guide der gewählten Stufe", () => {
+  it("zeigt beim Guide keinen Schlüssellink, auch mit gewählter Stufe", () => {
     zeige({ pathname: "/danke/guide", state: { vorname: "", stufe: "profi" } });
-    expect(schluesselLinks()[0].getAttribute("href")).toBe("/dein-guide/tiefe-2026");
+    expect(schluesselLinks()).toHaveLength(0);
   });
 });

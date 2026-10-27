@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MERK_SCHLUESSEL, gemerktAus, gemerktLesen, hatGeholt, merken, stufeMerken, vergessen } from "./merken";
+import { MERK_SCHLUESSEL, gemerktAus, gemerktLesen, merken, stufeMerken, vergessen } from "./merken";
 
 const speicher = () => {
   const m = new Map<string, string>();
@@ -16,7 +16,6 @@ const erste = { email: " Lea@Example.com ", vorname: " Lea ", einwilligung: "kar
 describe("was die Opt-in-Karte sich auf dem Gerät merkt", () => {
   it("ist leer, solange niemand abgeschickt hat", () => {
     expect(gemerktLesen(speicher())).toBeNull();
-    expect(hatGeholt(null, "gold-check")).toBe(false);
   });
 
   it("merkt Adresse, Vorname, Einwilligung, Tag und das Geholte", () => {
@@ -45,8 +44,6 @@ describe("was die Opt-in-Karte sich auf dem Gerät merkt", () => {
     expect(g.seit).toBe("2026-10-09");
     expect(g.vorname).toBe("Lea");
     expect(g.stufe).toBe("profi");
-    expect(hatGeholt(g, "rizq")).toBe(true);
-    expect(hatGeholt(g, "halal-anlagen")).toBe(false);
   });
 
   it("fängt bei einer anderen Adresse neu an", () => {

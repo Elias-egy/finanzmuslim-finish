@@ -8,7 +8,7 @@ import eliasFreigestellt from "@/assets/elias-freigestellt.webp";
 import { logosFuer, type LogoAnbieter } from "@/lib/anbieterLogos";
 import { vorhabenListe } from "@/lib/optin";
 import { anbieterZahl, instagramFollower, vergleichsSeiten } from "@/data/beweise";
-import { optinFreebie, vollPfad } from "@/data/optin";
+import { optinFreebie } from "@/data/optin";
 import type { DankeState } from "@/components/optin/OptinKarte";
 
 /**
@@ -18,9 +18,10 @@ import type { DankeState } from "@/components/optin/OptinKarte";
  * Beweisleiste, Laufband, drei Karten, Prüf-Block. Welches Element woher kommt, steht im Plan
  * `~/.claude/plans/shimmering-seeking-spindle.md`.
  *
- * Das Freebie ist sofort offen (Elias, 27.09.2026), aber nur mit dem Router-State aus der Karte.
- * Direkt aufgerufen gibt es keinen Link, nur den Hinweis aufs Postfach. Die Pille sagt allen
- * denselben Satz, damit niemand über eine fremde Adresse erfährt, ob sie schon bestätigt ist.
+ * Seit 27.10.2026 (Elias, MC1, Nachricht 8) öffnet die Seite das Freebie nicht mehr: Es liegt
+ * unter einem versteckten Pfad, der Link kommt per Mail (nach der Bestätigung, bei Bestätigten
+ * sofort). Die Pille sagt allen denselben Satz, damit niemand über eine fremde Adresse erfährt,
+ * ob sie schon bestätigt ist.
  */
 
 const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -199,7 +200,6 @@ const Danke = () => {
   const freebie = optinFreebie(id);
   if (!freebie) return <Navigate to="/vorlagen" replace />;
 
-  const ausKarte = !!state;
   const vorhaben = state?.vorhaben?.length ? `?vorhaben=${vorhabenListe(state.vorhaben)}` : "";
   const ziel = `/vergleich/start${vorhaben}`;
   const logos = bekannteZuerst(logosFuer("Depot").logos).slice(0, 3);
@@ -268,8 +268,8 @@ const Danke = () => {
   return (
     <div className="bg-background">
       <Seo
-        title={ausKarte ? "Freigeschaltet | finanzmuslim" : "Schau in dein Postfach | finanzmuslim"}
-        description="Öffne dein Freebie und finde, was zu dir passt."
+        title="Schau in dein Postfach | finanzmuslim"
+        description="Dein Link kommt per Mail. Finde, was zu dir passt."
         path={`/danke/${freebie.id}`}
         noindex
       />
@@ -293,23 +293,10 @@ const Danke = () => {
           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gain text-white">
             <Check className="h-3.5 w-3.5" aria-hidden />
           </span>
-          {ausKarte ? (
-            <>
-              <span>{gross(freebie.deinObjekt)} ist freigeschaltet.</span>
-              <Link
-                to={vollPfad(freebie, state?.stufe)}
-                className="inline-flex min-h-[44px] items-center gap-1 font-bold text-primary underline underline-offset-2"
-              >
-                Direkt öffnen
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            </>
-          ) : (
-            <span className="py-2.5">Schau in dein Postfach: Der Link kommt nach der Bestätigung.</span>
-          )}
+          <span className="py-2.5">Schau in dein Postfach: Dein Link kommt per Mail.</span>
         </div>
         <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
-          Bestätige kurz die Mail in deinem Postfach, falls du neu bist: Dann kommen jeden Freitag die Halal-News.
+          Bist du neu, bestätige zuerst die Mail in deinem Postfach: Dann kommt dein Link und jeden Freitag die Halal-News.
         </p>
 
         <p className="eyebrow mt-8">Teste dich</p>

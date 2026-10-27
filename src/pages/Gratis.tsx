@@ -9,7 +9,7 @@ import { optinFreebie } from "@/data/optin";
  * (`?src=dm<stichwort>`, z. B. `dmaktie`). Ohne Menü, eine Karte, ein Ziel. noindex, weil sie keinen
  * eigenen Suchbegriff hat; wer über Google kommt, landet auf der offenen Seite.
  */
-const punkte = ["Kostenlos", "Sofort offen", "Abmelden mit einem Klick"];
+const punkte = ["Kostenlos", "Link per Mail", "Abmelden mit einem Klick"];
 
 const Gratis = () => {
   const { freebie: id } = useParams();
