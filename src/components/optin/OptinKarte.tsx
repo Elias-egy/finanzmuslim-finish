@@ -5,9 +5,9 @@ import eliasPortrait from "@/assets/elias-autor.webp";
 import { motive, type MotivName } from "@/components/motive";
 import { emailGueltig } from "@/lib/anmeldung";
 import { gemerkteQuelle } from "@/lib/attribution";
-import { gemerktLesen, hatGeholt, merken, stufeMerken, vergessen, type Gemerkt } from "@/lib/merken";
+import { gemerktLesen, merken, stufeMerken, vergessen, type Gemerkt } from "@/lib/merken";
 import { EINWILLIGUNG, optinAnmelden, optinDaten, optinNachtragen, type Anmeldung, type Stufe, type Vorhaben } from "@/lib/optin";
-import { vollPfad, type OptinFreebie } from "@/data/optin";
+import type { OptinFreebie } from "@/data/optin";
 
 /** Was die Danke-Seite über den Router-State bekommt. Nie über die Adresse. */
 export type DankeState = { vorname: string; stufe?: Stufe; vorhaben?: Vorhaben[] };
@@ -62,8 +62,10 @@ type Props = {
  * bei SKAILE (skaile-danke-04). Danach die Danke-Seite, der Vorname reist im Router-State.
  *
  * Seit 09.10.2026 merkt sich das Gerät die Anmeldung (`src/lib/merken.ts`): Wer wiederkommt,
- * holt die nächste Vorlage mit einem Klick und landet direkt in der vollen Fassung. Was schon
- * geholt ist, zeigt statt des Formulars den Knopf „Öffnen“. Vor dem ersten Klick steht nichts
+ * holt die nächste Vorlage mit einem Klick, ohne Felder. Seit 27.10.2026 (Elias, MC1, Nachricht 8)
+ * schaltet das Gerät nichts mehr frei: Jede Vorlage kommt als Link per Mail, auch beim Klick
+ * ohne Felder, die Karte ist die Tür Webseite. Das Freebie selbst liegt unter einem versteckten
+ * Pfad (`vollPfad`), den die Instagram-DM und die Mail kennen. Vor dem ersten Klick steht nichts
  * von den zwei Fragen, auch keine Schrittzahl (Elias, 09.10.2026).
  */
 const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = false }: Props) => {
@@ -132,7 +134,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     }
   };
 
-  /** Wer wiederkommt: ein Klick, keine Felder, direkt in die volle Fassung. */
+  /** Wer wiederkommt: ein Klick, keine Felder, der Link kommt per Mail. */
   const einKlick = async () => {
     if (sendet || !gemerkt) return;
     setSendet(true);
@@ -151,8 +153,9 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
           einwilligung: gemerkt.einwilligung,
         }),
       );
-      const g = merken({ email: gemerkt.email, vorname: gemerkt.vorname, einwilligung: gemerkt.einwilligung, freebie: freebie.id });
-      navigate(vollPfad(freebie, g.stufe));
+      merken({ email: gemerkt.email, vorname: gemerkt.vorname, einwilligung: gemerkt.einwilligung, freebie: freebie.id });
+      const state: DankeState = { vorname: gemerkt.vorname, stufe: gemerkt.stufe };
+      navigate(`/danke/${freebie.id}`, { state });
     } catch {
       setFehler("Das hat gerade nicht geklappt. Versuch es gleich noch einmal oder schreib an elias@finanzmuslim.com.");
       setSendet(false);
@@ -223,20 +226,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
       )}
 
       <div>
-        {schritt === 1 && gemerkt && hatGeholt(gemerkt, freebie.id) && (
-          <>
-            <Ueberschrift className="text-[26px] font-bold leading-[1.15] tracking-tight text-foreground sm:text-[30px]">
-              {gross(freebie.deinObjekt)} <span className="text-primary">ist offen</span>
-            </Ueberschrift>
-            <Link to={vollPfad(freebie, gemerkt.stufe)} className="btn-leuchte mt-5 h-[52px] w-full px-6 text-[17px]">
-              Öffnen
-              <ArrowRight className="h-5 w-5" aria-hidden />
-            </Link>
-            <Bekannt adresse={gemerkt.email} andereAdresse={andereAdresse} />
-          </>
-        )}
-
-        {schritt === 1 && gemerkt && !hatGeholt(gemerkt, freebie.id) && (
+        {schritt === 1 && gemerkt && (
           <>
             {!ohneUeberschrift && (
               <>
@@ -257,7 +247,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
               onClick={einKlick}
               className={`btn-leuchte h-[52px] w-full px-6 text-[17px] disabled:opacity-60 ${ohneUeberschrift ? "" : "mt-5"}`}
             >
-              {sendet ? "Wird geöffnet …" : freebie.knopf}
+              {sendet ? "Wird gesendet …" : freebie.knopf}
               {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
             </button>
             <Bekannt adresse={gemerkt.email} andereAdresse={andereAdresse} />

@@ -2,7 +2,8 @@
  * Was sich die Opt-in-Karte auf dem Gerät merkt (Elias, 09.10.2026: „irgendwie musst du
  * speichern, dass er nicht jedes Mal neu alles eingeben muss, wenn man sich mehrere Sachen
  * holt“). Wer einmal Adresse und Häkchen abgeschickt hat, holt die nächste Vorlage mit einem
- * Klick, und was geholt ist, bleibt auf diesem Gerät offen.
+ * Klick. Seit 27.10.2026 schaltet das Gerät nichts mehr frei (Elias, MC1, Nachricht 8): `geholt` ist nur
+ * noch ein Merkzettel, der Link zu jeder Vorlage kommt per Mail.
  *
  * Geschrieben wird erst nach dem Klick auf den Knopf der Karte, nie beim bloßen Besuch
  * (§ 25 Abs. 2 Nr. 2 TDDDG, Vault wiki/website-playbook.md Abschnitt 9). Der Eintrag bleibt im
@@ -114,4 +115,3 @@ export const vergessen = (s: Speicher | null = geraet()) => {
   }
 };
 
-export const hatGeholt = (g: Gemerkt | null, freebie: string) => !!g?.geholt.includes(freebie);

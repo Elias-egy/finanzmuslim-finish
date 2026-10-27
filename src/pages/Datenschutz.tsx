@@ -81,11 +81,20 @@ const Datenschutz = () => (
           Einstellungen deines Browsers löschst du ihn jederzeit.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
-          Nach der Anmeldung bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
+          Nach der Anmeldung auf dieser Website bekommst du eine E-Mail mit einem Bestätigungslink. Erst wenn du ihn
           anklickst, bist du eingetragen (Double-Opt-in). Wir speichern den Zeitpunkt der Anmeldung
           und der Bestätigung sowie die dabei verwendete IP-Adresse, um deine Einwilligung
           nachweisen zu können (Art. 6 Abs. 1 lit. f DSGVO, unser berechtigtes Interesse an diesem
           Nachweis).
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Schreibst du deine E-Mail-Adresse im Instagram-Chat in den automatischen Ablauf, bekommst
+          du die angeforderte Vorlage und unseren Newsletter, ohne eine Bestätigungsmail. Du
+          schreibst die Adresse selbst in dein eigenes Konto, der Ablauf nennt dir vorher, dass wir
+          dir damit weitere kostenlose Guides und Empfehlungen schicken und dass du dich jederzeit
+          abmelden kannst. Zum Nachweis speichern wir den Weg (das Stichwort), den Zeitpunkt und
+          deinen Instagram-Namen (Art. 6 Abs. 1 lit. a und f DSGVO). Ein Abmeldelink steht in jeder
+          E-Mail.
         </p>
         <p className="mt-3 text-muted-foreground leading-relaxed">
           In unseren E-Mails messen wir, ob sie geöffnet und welche Links angeklickt werden. Dafür
