@@ -49,7 +49,7 @@ export const bausteine: Baustein[] = [
     id: "etf",
     name: "Islamic ETF",
     rolle: "Wachstum",
-    satz: "Hunderte Firmen mit einem Kauf. Ein Shariah-Gremium sortiert laufend aus, was nicht passt.",
+    satz: "Hunderte Firmen mit einem Kauf. Ein Shariah-Gremium prüft jedes Quartal und sortiert aus, was nicht passt.",
     pruefung: "Beispiel: iShares MSCI World Islamic, mit eigenem Shariah-Gremium und Fatwa.",
     farbe: "#0057FA",
   },
@@ -66,7 +66,7 @@ export const bausteine: Baustein[] = [
     name: "Krypto",
     rolle: "Chance",
     satz: "Schwankt am stärksten. Darum nur ein kleiner Teil, und nur wenn das Geld lange liegen bleibt.",
-    pruefung: "Beispiel: Bitcoin, mit Shariah-Gutachten des Shariyah Review Bureau.",
+    pruefung: "Beispiel: Bitcoin, mit Shariah-Analyse des Shariyah Review Bureau.",
     farbe: "#F26B1D",
   },
 ];
@@ -133,8 +133,8 @@ export const euro = (prozent: number) => Math.round((MONATLICH * prozent) / 100)
 
 /** Die belegten Zahlen für den Schmerz (Stand der Vergleiche, siehe Begleitdatei). */
 export const SCHMERZ = {
-  girokonto: "Jedes fünfte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon kannst du das nicht abschalten.",
-  depot: "Fast jedes vierte Depot in meinem Vergleich verzinst dein Guthaben, oft automatisch. Und nicht jedes hat alle Islamic ETFs: Von zwölf geprüften führt eines alle, ein bekanntes nur sechs.",
+  girokonto: "Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon kannst du das nicht abschalten.",
+  depot: "Etwa jedes fünfte Depot in meinem Vergleich verzinst dein Guthaben, oft automatisch. Und nicht jedes hat alle Islamic ETFs: Von zwölf geprüften führen nur zwei alle, ein bekanntes nur sechs.",
 };
 
 export const quellen: { titel: string; url: string }[] = [
