@@ -30,7 +30,7 @@ Kein Haram-Geschäft: Alkohol, Schwein, Glücksspiel und normale Finanzfirmen wi
 
 Wenig Schulden: Firmen mit zu vielen Schulden fliegen auch raus.
 
-Ein kleiner Rest unter 5 % der Einnahmen ist erlaubt. Gelehrte haben diese Regeln geprüft und freigegeben.
+Firmen mit bis zu 5 % Einnahmen aus Zinsen oder solchen Geschäften bleiben drin. Diesen Anteil der Ausschüttung spendest du. Gelehrte haben diese Regeln geprüft und freigegeben.
 
 MSCI World
 1.249 Firmen
@@ -49,10 +49,8 @@ Mit Shariah-Prüfung, zum Beispiel:
 
 iShares MSCI World Islamic
 Fatwa des Shari'ah-Gremiums bei iShares
-Invesco Dow Jones Islamic Global Developed
-Jährliches Shariah-Zertifikat
-HSBC MSCI World Islamic Screened
-Index vom MSCI-Gremium geprüft
+Saturna Al-Kawthar Global Focused Equity
+Shariah-Zertifikat von Amanie für 2025
 Wo kann ich sie kaufen?
 
 In meiner Liste stehen 12 Islamic ETFs und Fonds. Nicht jedes Depot hat sie alle: Von 18 zinsfreien Depots, die ich ganz geprüft habe, hat nur eins alle 12.
@@ -90,4 +88,4 @@ MSCI World Index, Factsheet 30.09.2026
 MSCI World Islamic Index, Factsheet 30.09.2026
 Methodik der MSCI Islamic Index Series
 iShares II plc, Verkaufsprospekt (Shari'ah Equity Funds Panel)
-Invesco Dow Jones Islamic Global Developed Markets, Dokumente mit Shariah-Zertifikat
+Saturna Al Kawthar Global Focused Equity UCITS ETF, Shariah Compliance Certificate FYE 2025 (Amanie)

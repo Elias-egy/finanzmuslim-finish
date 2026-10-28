@@ -51,14 +51,13 @@ export const REGELN = [
   { wort: "Kein Haram-Geschäft", satz: "Alkohol, Schwein, Glücksspiel und normale Finanzfirmen wie Banken fliegen raus." },
   { wort: "Wenig Schulden", satz: "Firmen mit zu vielen Schulden fliegen auch raus." },
 ] as const;
-export const REST_SATZ = "Ein kleiner Rest unter 5 % der Einnahmen ist erlaubt.";
+export const REST_SATZ = "Firmen mit bis zu 5 % Einnahmen aus Zinsen oder solchen Geschäften bleiben drin. Diesen Anteil der Ausschüttung spendest du.";
 export const GREMIUM_SATZ = "Gelehrte haben diese Regeln geprüft und freigegeben.";
 
 /** Beispiele mit eigener Shariah-Prüfung, als Kasten mit Logo, nicht anklickbar (Bauplan Punkt 10). */
 export const ETF_BEISPIELE = [
   { slug: "ishares-msci-world-islamic", titel: "iShares MSCI World Islamic", pruefung: "Fatwa des Shari'ah-Gremiums bei iShares" },
-  { slug: "invesco-dow-jones-islamic-global-developed-markets", titel: "Invesco Dow Jones Islamic Global Developed", pruefung: "Jährliches Shariah-Zertifikat" },
-  { slug: "hsbc-msci-world-islamic-screened", titel: "HSBC MSCI World Islamic Screened", pruefung: "Index vom MSCI-Gremium geprüft" },
+  { slug: "hanetf-saturna-al-kawthar-global-focused-equity", titel: "Saturna Al-Kawthar Global Focused Equity", pruefung: "Shariah-Zertifikat von Amanie für 2025" },
 ] as const;
 
 /** Die 12 Islamic ETFs und Fonds des Depot-Vergleichs (auftraege/halal-isins.json). */
@@ -104,5 +103,5 @@ export const etfQuellen: { titel: string; url: string }[] = [
   { titel: "MSCI World Islamic Index, Factsheet 30.09.2026", url: "https://www.msci.com/documents/10199/c0b90e16-5746-4cdc-b033-1ec7da64386e" },
   { titel: "Methodik der MSCI Islamic Index Series", url: "https://www.msci.com/index/methodology/latest/Islamic" },
   { titel: "iShares II plc, Verkaufsprospekt (Shari'ah Equity Funds Panel)", url: "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf" },
-  { titel: "Invesco Dow Jones Islamic Global Developed Markets, Dokumente mit Shariah-Zertifikat", url: "https://etf.invesco.com/de/private/de/product/invesco-dow-jones-islamic-global-developed-markets-ucits-etf-acc/documents" },
+  { titel: "Saturna Al Kawthar Global Focused Equity UCITS ETF, Shariah Compliance Certificate FYE 2025 (Amanie)", url: "https://hanetf.com/wp-content/assets/Saturna%20Al%20Kawthar%20-%20Shariah%20Compliance%20Cert%20FYE%20-%202025%20(Final%20&%20Executed).pdf" },
 ];
