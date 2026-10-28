@@ -18,6 +18,8 @@ import {
   bereiche,
   boykottLink,
   boykottQuellen,
+  listenQuellen,
+  type Alternative,
   type BoykottFirma,
 } from "@/data/boykottListe";
 
@@ -57,7 +59,26 @@ const Karte = ({ f }: { f: BoykottFirma }) => (
   </div>
 );
 
-const Bereich = ({ id, titel, firmen }: { id: string; titel: string; firmen: BoykottFirma[] }) => (
+/** Alternativen wie die Beispiele in Fassung 5: heller Unterkasten mit Logo, nicht anklickbar. */
+const AlternativenKasten = ({ alternativen }: { alternativen: Alternative[] }) => (
+  <div className="mt-4 rounded-2xl bg-accent p-4" data-alternativen>
+    <p className="text-[16px] font-bold text-foreground">Das geht stattdessen</p>
+    <p className="text-[12px] text-muted-foreground">Steht auf keiner der geprüften Listen.</p>
+    <ul className="mt-3 grid gap-3">
+      {alternativen.map((a) => (
+        <li key={a.name} className="flex items-center gap-3">
+          <AnbieterLogo name={a.name} domain={a.domain} />
+          <p className="min-w-0 text-[16px] leading-tight">
+            <span className="font-bold text-foreground">{a.name}</span>
+            <span className="block text-[14px] text-muted-foreground">statt {a.statt}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const Bereich = ({ id, titel, firmen, alternativen }: { id: string; titel: string; firmen: BoykottFirma[]; alternativen: Alternative[] }) => (
   <section className="reveal mt-12" aria-labelledby={`bereich-${id}`}>
     <p className="text-[14px] font-bold text-violet">{firmen.length} Firmen</p>
     <h2 id={`bereich-${id}`} className="mt-1 text-[24px] font-extrabold text-foreground">
@@ -68,6 +89,7 @@ const Bereich = ({ id, titel, firmen }: { id: string; titel: string; firmen: Boy
         <Karte key={f.name} f={f} />
       ))}
     </div>
+    {alternativen.length > 0 && <AlternativenKasten alternativen={alternativen} />}
   </section>
 );
 
@@ -173,7 +195,7 @@ const BoykottListe = () => {
 
         {bereiche.map((b) => (
           <Fragment key={b.id}>
-            <Bereich id={b.id} titel={b.titel} firmen={b.firmen} />
+            <Bereich id={b.id} titel={b.titel} firmen={b.firmen} alternativen={b.alternativen} />
             {b.id === "technik" && <Boerse />}
           </Fragment>
         ))}
@@ -207,6 +229,18 @@ const BoykottListe = () => {
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Die Liste und die Gründe geben die Seite der BDS-Bewegung wieder, kein eigenes Urteil. Der Grund bei McDonald's stammt von Al Jazeera.</p>
+          <p>
+            Die Alternativen stehen auf keiner dieser Listen, Stand {BOYKOTT_STAND}:{" "}
+            {listenQuellen.map((q, i) => (
+              <Fragment key={q.url}>
+                {i > 0 && ", "}
+                <a href={q.url} className="underline underline-offset-2 hover:text-primary" rel="noopener noreferrer" target="_blank">
+                  {q.titel}
+                </a>
+              </Fragment>
+            ))}
+            . Auch ihre bekannten Eigentümer stehen auf keiner davon. Ob ein Essen halal ist, sagt diese Seite nicht.
+          </p>
           <p>Keine Anlageberatung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.</p>
           <p>Quellen:</p>
           <ul className="space-y-1">
