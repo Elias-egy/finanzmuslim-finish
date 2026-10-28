@@ -51,7 +51,7 @@ export const REGELN = [
   { wort: "Kein Haram-Geschäft", satz: "Alkohol, Schwein, Glücksspiel und normale Finanzfirmen wie Banken fliegen raus." },
   { wort: "Wenig Schulden", satz: "Firmen mit zu vielen Schulden fliegen auch raus." },
 ] as const;
-export const REST_SATZ = "Firmen mit bis zu 5 % Einnahmen aus Zinsen oder solchen Geschäften bleiben drin. Diesen Anteil der Ausschüttung spendest du.";
+export const REST_SATZ = "Firmen mit bis zu 5 % Einnahmen aus Zinsen oder solchen Geschäften bleiben drin. Dieser Anteil der Dividende gehört gespendet.";
 export const GREMIUM_SATZ = "Gelehrte haben diese Regeln geprüft und freigegeben.";
 
 /** Beispiele mit eigener Shariah-Prüfung, als Kasten mit Logo, nicht anklickbar (Bauplan Punkt 10). */
