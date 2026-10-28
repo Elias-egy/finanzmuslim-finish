@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { bausteine, euro, lagen, MONATLICH, PLAN_PFAD } from "./portfolioPlan";
+import { bausteine, euro, lagen, MONATLICH, PLAN_PFAD, SPIELRAUM } from "./portfolioPlan";
+import { anlageBySlug } from "./halalAnlagen";
 import { alleRouten, bewusstDraussen, nichtIndexiert } from "./routen";
 
 describe("Halal-Portfolio-Plan", () => {
@@ -11,12 +12,13 @@ describe("Halal-Portfolio-Plan", () => {
     }
   });
 
-  it("Krypto und Einzelaktien nur im langen Plan, zusammen höchstens 15 %", () => {
-    for (const l of lagen) {
-      const extra = l.anteile.filter((a) => a.baustein === "krypto" || a.baustein === "aktien");
-      if (l.id !== "lang") expect(extra).toHaveLength(0);
-      else expect(extra.reduce((s, a) => s + a.prozent, 0)).toBeLessThanOrEqual(15);
-    }
+  it("Krypto und Einzelaktien in keinem Plan, nur freiwillig, zusammen höchstens 15 % (Elias, 28.10.2026)", () => {
+    for (const l of lagen) expect(l.anteile.filter((a) => SPIELRAUM.bausteine.includes(a.baustein))).toHaveLength(0);
+    expect(SPIELRAUM.hoechstens).toBeLessThanOrEqual(15);
+  });
+
+  it("jedes Beispiel zeigt auf eine Seite, die es gibt", () => {
+    for (const b of bausteine) if (b.beispiel?.slug) expect(anlageBySlug(b.beispiel.slug)).toBeDefined();
   });
 
   it("das Girokonto steht nur im kurzen Plan (Elias, 28.10.2026)", () => {
