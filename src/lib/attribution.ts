@@ -58,6 +58,9 @@ export const VALID_SRC = [
   "dminvest",
   "dmnachinvest",
   "dmnachgold",
+  // Wort etf in ManyChat (MC4e, 28.10.2026)
+  "dmetf",
+  "dmnachetf",
   "v0",
 ] as const;
 
