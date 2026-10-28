@@ -26,8 +26,11 @@ export type Baustein = {
   name: string;
   /** Höchstens zwei Zeilen am Handy (Elias, 28.10.2026: „Gold sieben Zeilen, das zu viel“). */
   satz: string;
-  /** Ein Beispiel zum Antippen, die Einzelheiten stehen auf der verlinkten Seite. */
-  beispiel?: { slug?: string; titel: string; pfad: string };
+  /**
+   * Ein Beispiel mit Logo, nicht anklickbar (Elias, 28.10.2026: „das führt die Leute direkt
+   * irgendwo anders hin“). Logo aus der Anlage (`slug`) oder über die Domain des Anbieters.
+   */
+  beispiel?: { slug?: string; domain?: string; titel: string };
   farbe: string;
 };
 
@@ -36,35 +39,35 @@ export const bausteine: Baustein[] = [
     id: "sukuk",
     name: "Sukuk",
     satz: "Schwankt wenig. Gut für Geld, das du bald brauchst.",
-    beispiel: { slug: "ishares-usd-sukuk-ucits-etf", titel: "iShares USD Sukuk", pfad: "/halal-anlagen/ishares-usd-sukuk-ucits-etf" },
+    beispiel: { slug: "ishares-usd-sukuk-ucits-etf", titel: "iShares USD Sukuk" },
     farbe: "#0E9F8A",
   },
   {
     id: "gold",
     name: "Gold",
     satz: "Hält seinen Wert. Liegt für dich im Tresor, nicht zu Hause.",
-    beispiel: { slug: "invesco-physical-gold-etc", titel: "Invesco Physical Gold", pfad: "/halal-anlagen/invesco-physical-gold-etc" },
+    beispiel: { slug: "invesco-physical-gold-etc", titel: "Invesco Physical Gold" },
     farbe: "#E0A21A",
   },
   {
     id: "etf",
     name: "Islamic ETF",
     satz: "Hunderte Firmen mit einem Kauf, jedes Quartal geprüft.",
-    beispiel: { slug: "ishares-msci-world-islamic", titel: "iShares MSCI World Islamic", pfad: "/halal-anlagen/ishares-msci-world-islamic" },
+    beispiel: { slug: "ishares-msci-world-islamic", titel: "iShares MSCI World Islamic" },
     farbe: "#0057FA",
   },
   {
     id: "aktien",
     name: "Einzelaktien",
     satz: "Firmen, die du selbst auswählst. Jede braucht ihre eigene Prüfung.",
-    beispiel: { titel: "Apps zum Prüfen", pfad: "/vergleich/screening-apps" },
+    beispiel: { domain: "zoya.finance", titel: "Zoya, eine App zum Prüfen" },
     farbe: "#705FF1",
   },
   {
     id: "krypto",
     name: "Krypto",
     satz: "Schwankt am stärksten, deswegen freiwillig und mit Vorsicht.",
-    beispiel: { slug: "bitcoin", titel: "Bitcoin", pfad: "/halal-anlagen/bitcoin" },
+    beispiel: { slug: "bitcoin", titel: "Bitcoin" },
     farbe: "#F26B1D",
   },
 ];
@@ -123,15 +126,18 @@ export const lagen: Lage[] = [
     seele: "Das Geld bleibt mindestens fünf Jahre liegen. Du baust Vermögen für später auf.",
     verhalten: "Schwankt am meisten und brachte langfristig im Schnitt am meisten.",
     anteile: [
-      { baustein: "etf", prozent: 70 },
-      { baustein: "gold", prozent: 30 },
+      { baustein: "etf", prozent: 60 },
+      { baustein: "gold", prozent: 25 },
+      { baustein: "aktien", prozent: 10 },
+      { baustein: "krypto", prozent: 5 },
     ],
   },
 ];
 
 /**
- * Einzelaktien und Krypto stehen in keinem Plan, nur als freiwilliger Spielraum beim langen Plan
- * (Elias, 28.10.2026: „komplett freiwillig … nicht mehr als 15 Prozent“).
+ * Einzelaktien und Krypto stehen nur im langen Plan, als Beispiel im Ring (10 und 5 %), und sind
+ * freiwillig: Wer das Risiko nicht will, ergänzt mit Gold oder ETF (Elias, 28.10.2026, dritte
+ * Nachricht, Vault raw/2026-10-28-elias-mc3b-nahbarer-broker-anzeige.md; zusammen höchstens 15 %).
  */
 export const SPIELRAUM = { bausteine: ["aktien", "krypto"] as BausteinId[], hoechstens: 15 };
 
@@ -140,8 +146,17 @@ export const euro = (prozent: number) => Math.round((MONATLICH * prozent) / 100)
 /** Die belegten Zahlen für den Schmerz (Stand der Vergleiche, siehe Begleitdatei). */
 export const SCHMERZ = {
   girokonto: "Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon läuft das automatisch.",
-  depot: "Nicht jedes Depot hat alle Islamic ETFs: Von zwölf geprüften führen nur zwei alle, ein bekanntes nur sechs.",
 };
+
+/**
+ * Die bekanntesten Depots, je mit einer belegten Tatsache, nie mit einem Urteil (Elias, 28.10.2026:
+ * „die bekanntesten Broker sind nicht die besten“). Trade Republic: 6 von 12 Islamic ETFs und Fonds
+ * aus `anlagenKaufbar.ts` (der Test zählt nach); XTB: Anbieter-Beleg https://www.xtb.com/de/zinsen.
+ */
+export const BEKANNTE = [
+  { name: "Trade Republic", domain: "traderepublic.com", gross: "6 von 12", klein: "Islamic ETFs" },
+  { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet" },
+] as const;
 
 export const quellen: { titel: string; url: string }[] = [
   { titel: "iShares II plc, Verkaufsprospekt (Shari'ah Panels für Islamic- und Sukuk-Fonds)", url: "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf" },
