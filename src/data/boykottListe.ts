@@ -43,7 +43,15 @@ export const artVon = (f: BoykottFirma): BoykottArt => (f.gruppe === "druck" ? "
 /** Für die Gruppe „von unten“ nennt BDS keinen Grund je Firma, nur diesen gemeinsamen. */
 const VON_UNTEN = "Laut BDS hat die Firma oder ihr Partner in Israel den Staat offen unterstützt oder der Armee gespendet.";
 
-export type BoykottBereich = { id: string; titel: string; firmen: BoykottFirma[] };
+/**
+ * Alternative je Bereich (Elias, 28.10.2026: „Läden, die es in Deutschland gibt, die eigentlich super sind“,
+ * raw/2026-10-28-elias-bk1-edelmetalle-und-alternativen.md). Jede steht in keiner der gesicherten Listen
+ * (`docs/freebies/quellen/`, Test in boykottListe.test.ts), Eigentümer je Marke in
+ * `docs/freebies/boykott-liste.belege.md`. Nicht anklickbar: Auf Freebie-Seiten führen nur Links zum Vergleich weg.
+ */
+export type Alternative = { name: string; domain: string; statt: string };
+
+export type BoykottBereich = { id: string; titel: string; firmen: BoykottFirma[]; alternativen: Alternative[] };
 
 export const bereiche: BoykottBereich[] = [
   {
@@ -59,6 +67,12 @@ export const bereiche: BoykottBereich[] = [
       { name: "SodaStream", domain: "sodastream.de", alltag: "Wassersprudler", grund: "Laut BDS beteiligt sich die Firma an der Vertreibung von Beduinen und benachteiligt palästinensische Arbeiter.", gruppe: "ziel" },
       { name: "Carrefour", domain: "carrefour.com", alltag: "Supermärkte", grund: "Der Partner in Israel hat Soldaten Pakete geschenkt, eine Filiale steht in einer Siedlung.", gruppe: "ziel" },
     ],
+    alternativen: [
+      { name: "Fritz-Kola", domain: "fritz-kola.com", statt: "Coca-Cola" },
+      { name: "Vita Cola", domain: "vita-cola.de", statt: "Coca-Cola" },
+      { name: "Peter Pane", domain: "peterpane.de", statt: "McDonald's und Burger King" },
+      { name: "Call a Pizza", domain: "call-a-pizza.de", statt: "Pizza Hut, Domino's und Papa John's" },
+    ],
   },
   {
     id: "technik",
@@ -73,6 +87,7 @@ export const bereiche: BoykottBereich[] = [
       { name: "Disney+", domain: "disneyplus.com", alltag: "Filme und Serien", grund: "Wirbt laut BDS in Disney- und Marvel-Filmen für Israel.", gruppe: "ziel" },
       { name: "Wix", domain: "wix.com", alltag: "Webseiten-Baukasten", grund: VON_UNTEN, gruppe: "vonUnten" },
     ],
+    alternativen: [{ name: "LibreOffice", domain: "libreoffice.org", statt: "Microsoft Office, kostenlos" }],
   },
   {
     id: "reisen",
@@ -84,6 +99,7 @@ export const bereiche: BoykottBereich[] = [
       { name: "RE/MAX", domain: "remax.de", alltag: "Immobilienmakler", grund: "Verkauft Häuser in Siedlungen im Westjordanland.", gruppe: "ziel" },
       { name: "Chevron", domain: "chevron.com", alltag: "Tankstellen Texaco und Caltex", grund: "Fördert das Gas, das Israel im Mittelmeer für sich beansprucht.", gruppe: "ziel" },
     ],
+    alternativen: [{ name: "HalalBooking", domain: "halalbooking.com", statt: "Booking.com, Airbnb und Expedia" }],
   },
   {
     id: "haushalt",
@@ -93,6 +109,10 @@ export const bereiche: BoykottBereich[] = [
       { name: "Teva", domain: "teva.de", alltag: "Medikamente von ratiopharm", grund: "Israelische Firma, verdient laut BDS seit Jahrzehnten an der Besatzung.", gruppe: "ziel", hinweis: "Setz nie ein Medikament einfach ab. Frag in der Apotheke nach demselben Wirkstoff von einem anderen Hersteller." },
       { name: "Reebok", domain: "reebok.de", alltag: "Sportschuhe", grund: "Sponsert seit 2025 Israels Fußballverband, mit Vereinen aus Siedlungen.", gruppe: "ziel" },
       { name: "AXA", domain: "axa.de", alltag: "Versicherungen", grund: "Hält Anteile an Firmen, die Israel Waffen liefern.", gruppe: "ziel" },
+    ],
+    alternativen: [
+      { name: "Miele", domain: "miele.de", statt: "Siemens-Geräten" },
+      { name: "Jako", domain: "jako.de", statt: "Reebok bei Vereinskleidung" },
     ],
   },
 ];
@@ -119,6 +139,18 @@ export const AUCH_GENANNT = {
   domain: "starbucks.de",
   satz: "Steht nicht auf der BDS-Liste. In Malaysia und Indonesien boykottieren ihn trotzdem viele: Der Betreiber in Malaysia machte 2025 Rekordverlust, auch wegen des Boykotts.",
 };
+
+export const alleAlternativen = bereiche.flatMap((b) => b.alternativen);
+
+/** Die Listen, gegen die jede Alternative geprüft ist; gesichert in docs/freebies/quellen/ (LISTEN-INDEX.md). */
+export const listenQuellen: { titel: string; url: string; datei: string }[] = [
+  { titel: "BDS-Bewegung, What to boycott", url: "https://bdsmovement.net/get-involved/what-to-boycott", datei: "bds-what-to-boycott-2026-10-28.txt" },
+  { titel: "Vereinte Nationen, Firmen in Siedlungen (2025)", url: "https://www.un.org/unispal/wp-content/uploads/2025/09/a-hrc-60-19-aev.pdf", datei: "un-ohchr-siedlungen-datenbank-2026-10-28.txt" },
+  { titel: "Who Profits, Firmen-Datenbank", url: "https://www.whoprofits.org/companies/all", datei: "whoprofits-datenbank-2026-10-28.txt" },
+  { titel: "AFSC Investigate, alle Firmen", url: "https://investigate.afsc.org/all-companies", datei: "afsc-investigate-2026-10-28.txt" },
+  { titel: "Ethical Consumer, Palestine boycott list", url: "https://www.ethicalconsumer.org/ethical-campaigns-boycotts/palestine-boycott-list", datei: "ethical-consumer-palestine-boycott-list-2026-10-28.txt" },
+  { titel: "Ethical Consumer, Boykott-Liste", url: "https://www.ethicalconsumer.org/ethicalcampaigns/boycotts", datei: "ethical-consumer-boycotts-list-2026-10-28.txt" },
+];
 
 export const boykottQuellen: { titel: string; url: string }[] = [
   { titel: "BDS-Bewegung, What to boycott (Stand 28.10.2026)", url: "https://bdsmovement.net/get-involved/what-to-boycott" },
