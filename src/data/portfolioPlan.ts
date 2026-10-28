@@ -7,7 +7,10 @@
  *
  * Die Pläne sind Beispiele für eine Beispielperson, keine Empfehlung. Die Prozente stammen aus
  * Elias' Einsteiger-Guide (Ali, Seite 7) und den Stufen von Wahed (Blog vom 02.12.2025), Krypto
- * nur im offensiven Plan und klein (Elias, 27.10.2026). Jede Halal- und Zinsaussage hat ihren
+ * nur im langen Plan und klein (Elias, 27.10.2026). Die Lagen gehen nach Zeit, nicht nach Risiko:
+ * 1 Jahr, 3 Jahre, 5 Jahre und mehr; wer es nicht weiß, nimmt die Mitte; der kurze Plan hält
+ * einen Teil auf dem Girokonto ohne Zinsen (Elias, 28.10.2026, Vault
+ * raw/2026-10-28-elias-mc3b-zeitlagen-krypto-bruecke.md). Jede Halal- und Zinsaussage hat ihren
  * Beleg in `docs/freebies/portfolio-plan.belege.md`.
  */
 export const PLAN_SCHLUESSEL = "invest-5rk8";
@@ -16,7 +19,7 @@ export const PLAN_PFAD = `/dein-plan/${PLAN_SCHLUESSEL}`;
 /** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
 export const planLink = (ziel: string, stelle: string) => `${ziel}?src=ginvest-${stelle}`;
 
-export type BausteinId = "sukuk" | "gold" | "etf" | "aktien" | "krypto";
+export type BausteinId = "konto" | "sukuk" | "gold" | "etf" | "aktien" | "krypto";
 
 export type Baustein = {
   id: BausteinId;
@@ -66,21 +69,32 @@ export const bausteine: Baustein[] = [
     name: "Krypto",
     rolle: "Chance",
     satz: "Schwankt am stärksten. Darum nur ein kleiner Teil, und nur wenn das Geld lange liegen bleibt.",
-    pruefung: "Beispiel: Bitcoin, mit Shariah-Analyse des Shariyah Review Bureau.",
+    pruefung:
+      "Gelehrte sind uneins: Das Shariyah Review Bureau fand bei Bitcoin nichts, was gegen die Scharia spricht. Der Großmufti von Ägypten verbot den Handel damit 2018.",
     farbe: "#F26B1D",
   },
 ];
 
-export const bausteinById = (id: BausteinId) => bausteine.find((b) => b.id === id)!;
+/** Kein Anlage-Baustein, darum nicht in Schritt 2: Schritt 1 erklärt das Girokonto. */
+export const konto: Baustein = {
+  id: "konto",
+  name: "Girokonto ohne Zinsen",
+  rolle: "Bereit",
+  satz: "Liegt da, wenn du es brauchst.",
+  pruefung: "",
+  farbe: "#94A3B8",
+};
 
-export type LageId = "sicher" | "mittel" | "offensiv";
+export const bausteinById = (id: BausteinId) => (id === "konto" ? konto : bausteine.find((b) => b.id === id)!);
+
+export type LageId = "bald" | "mittel" | "lang";
 
 export type Lage = {
   id: LageId;
-  name: string;
-  /** „Für dich, wenn …“ */
-  fuerDich: string;
-  beispiel: string;
+  /** Knopf: wann das Geld gebraucht wird. */
+  wann: string;
+  /** Aus der Seele des Lesers gesprochen (Elias, 28.10.2026). */
+  seele: string;
   verhalten: string;
   anteile: { baustein: BausteinId; prozent: number }[];
 };
@@ -90,22 +104,20 @@ export const MONATLICH = 500;
 
 export const lagen: Lage[] = [
   {
-    id: "sicher",
-    name: "Sicher",
-    fuerDich: "du das Geld in ein bis drei Jahren brauchst.",
-    beispiel: "Ali heiratet bald und spart für die Feier.",
-    verhalten: "Schwankt am wenigsten.",
+    id: "bald",
+    wann: "In 1 Jahr",
+    seele: "Du hast bald etwas Großes vor: Auto, Hochzeit, Umzug. Dann muss das Geld da sein, wenn du es brauchst.",
+    verhalten: "Schwankt am wenigsten. Die Hälfte bleibt einfach auf dem Girokonto.",
     anteile: [
-      { baustein: "sukuk", prozent: 70 },
-      { baustein: "gold", prozent: 20 },
-      { baustein: "etf", prozent: 10 },
+      { baustein: "konto", prozent: 50 },
+      { baustein: "sukuk", prozent: 40 },
+      { baustein: "gold", prozent: 10 },
     ],
   },
   {
     id: "mittel",
-    name: "Mittel",
-    fuerDich: "du noch nicht weißt, wofür, und wenig Risiko willst.",
-    beispiel: "Ali will Rücklagen aufbauen.",
+    wann: "In 3 Jahren",
+    seele: "Du fängst an und weißt noch nicht, wie lange das Geld liegen bleibt. Dann nimm die Mitte.",
     verhalten: "Wächst ruhig, schwankt mittel.",
     anteile: [
       { baustein: "etf", prozent: 50 },
@@ -114,10 +126,9 @@ export const lagen: Lage[] = [
     ],
   },
   {
-    id: "offensiv",
-    name: "Offensiv",
-    fuerDich: "das Geld mindestens fünf Jahre liegen bleibt.",
-    beispiel: "Ali baut Vermögen für später auf.",
+    id: "lang",
+    wann: "In 5+ Jahren",
+    seele: "Das Geld bleibt mindestens fünf Jahre liegen. Du baust Vermögen für später auf.",
     verhalten: "Schwankt am meisten und brachte langfristig im Schnitt am meisten.",
     anteile: [
       { baustein: "etf", prozent: 65 },
@@ -141,4 +152,5 @@ export const quellen: { titel: string; url: string }[] = [
   { titel: "iShares II plc, Verkaufsprospekt (Shari'ah Panels für Islamic- und Sukuk-Fonds)", url: "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf" },
   { titel: "Invesco Physical Gold ETC, Shariah-Zertifikat 2025", url: "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf" },
   { titel: "Shariyah Review Bureau, Analyse zu Bitcoin", url: "https://shariyah.net/cryptocurrencies/bitcoin/" },
+  { titel: "Africanews, Großmufti von Ägypten verbietet Bitcoin-Handel (02.01.2018)", url: "https://www.africanews.com/amp/2018/01/02/top-egyptian-cleric-forbids-muslims-from-bitcoin-trading/" },
 ];

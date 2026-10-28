@@ -10,16 +10,20 @@ describe("Halal-Portfolio-Plan", () => {
     }
   });
 
-  it("Krypto und Einzelaktien nur im offensiven Plan, zusammen höchstens 15 %", () => {
+  it("Krypto und Einzelaktien nur im langen Plan, zusammen höchstens 15 %", () => {
     for (const l of lagen) {
       const extra = l.anteile.filter((a) => a.baustein === "krypto" || a.baustein === "aktien");
-      if (l.id !== "offensiv") expect(extra).toHaveLength(0);
+      if (l.id !== "lang") expect(extra).toHaveLength(0);
       else expect(extra.reduce((s, a) => s + a.prozent, 0)).toBeLessThanOrEqual(15);
     }
   });
 
+  it("das Girokonto steht nur im kurzen Plan (Elias, 28.10.2026)", () => {
+    for (const l of lagen) expect(l.anteile.some((a) => a.baustein === "konto")).toBe(l.id === "bald");
+  });
+
   it("jeder Baustein im Plan ist erklärt", () => {
-    const ids = new Set(bausteine.map((b) => b.id));
+    const ids = new Set([...bausteine.map((b) => b.id), "konto"]);
     for (const l of lagen) for (const a of l.anteile) expect(ids.has(a.baustein)).toBe(true);
   });
 
