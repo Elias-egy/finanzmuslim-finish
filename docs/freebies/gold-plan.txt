@@ -33,18 +33,20 @@ Gold-CFDs gibt es zum Beispiel bei
 XTB, Plus500, Capital.com
 Die Ausnahme mit Zertifikat
 
-Bei einem Physical Gold ETC liegen echte Barren im Tresor. Jeder Barren ist gekennzeichnet, die Barrenliste ist öffentlich.
+Bei einem Physical Gold ETC liegen echte Barren im Tresor. Die Barren sind nummeriert und stehen in einer öffentlichen Liste.
 
-Tresor
-4718
-4719
-5032
-5033
-6120
-6121
-7304
-7305
+Tresor des ETC
+Nummern als Beispiel
+71842
+30517
+9266
+48120
+15703
+62291
+84405
+27938
 Für 100 € im Monat: rund 0,8 g
+aus dem ganzen Bestand im Tresor
 
 Nach einem Jahr rund 10 g. Gerechnet mit dem Goldpreis vom 14.10.2026, ohne Aufschlag.
 
@@ -59,7 +61,7 @@ Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Frag im Zweifel ein
 
 Nicht jeder Broker hat sie
 
-Von 22 zinsfreien Depots haben nur 14 alle 4 Gold-ETCs mit Zertifikat.
+In meiner Liste stehen 4 Gold-ETCs mit Zertifikat. Von 22 zinsfreien Depots haben nur 14 alle 4.
 
 Die bekanntesten Apps sind nicht die besten für Muslime.
 

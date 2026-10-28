@@ -79,7 +79,8 @@ export const GrafikWette = () => (
   </figure>
 );
 
-const NUMMERN = ["4718", "4719", "5032", "5033", "6120", "6121", "7304", "7305"];
+/** Beispiel-Nummern, keine echten Barren; die echte Liste veröffentlicht der Anbieter. */
+const NUMMERN = ["71842", "30517", "9266", "48120", "15703", "62291", "84405", "27938"];
 
 const Barren = ({ x, y, nr, i }: { x: number; y: number; nr: string; i: number }) => (
   <g className="gg-barren" style={{ animationDelay: `${0.15 + i * 0.06}s` }}>
@@ -95,7 +96,7 @@ export const GrafikTresor = ({ zeile }: { zeile: string }) => (
   <figure className="card-surface p-4">
     <style>{BEWEGUNG}</style>
     <svg
-      viewBox="0 0 320 184"
+      viewBox="0 0 320 198"
       className="h-auto w-full"
       role="img"
       aria-label={`Ein Tresor mit nummerierten Goldbarren. ${zeile}`}
@@ -109,16 +110,22 @@ export const GrafikTresor = ({ zeile }: { zeile: string }) => (
       <rect x={8} y={6} width={304} height={124} rx={18} fill="#1F2937" />
       <rect x={14} y={12} width={292} height={112} rx={14} fill="none" stroke="#374151" strokeWidth={2} />
       <text x={30} y={36} fontSize={13} fontWeight={700} fill="#E5E7EB">
-        Tresor
+        Tresor des ETC
+      </text>
+      <text x={290} y={36} textAnchor="end" fontSize={11} fill="#94A3B8">
+        Nummern als Beispiel
       </text>
       {NUMMERN.map((nr, i) => (
         <Barren key={nr} nr={nr} i={i} x={30 + (i % 4) * 66} y={i < 4 ? 50 : 88} />
       ))}
       <g className="gg-anteil">
-        <line x1={160} y1={130} x2={160} y2={142} className="stroke-primary" strokeWidth={2} strokeDasharray="3 3" />
-        <rect x={34} y={142} width={252} height={38} rx={19} fill="#EBF2FF" className="stroke-primary" strokeWidth={1.5} />
-        <text x={160} y={166} textAnchor="middle" fontSize={15} fontWeight={800} className="fill-primary">
+        <line x1={160} y1={130} x2={160} y2={142} stroke={GOLD_DUNKEL} strokeWidth={2} strokeDasharray="3 3" />
+        <rect x={20} y={142} width={280} height={52} rx={12} fill="#FFF7E0" stroke="#F3D58A" strokeWidth={1.5} />
+        <text x={160} y={164} textAnchor="middle" fontSize={15} fontWeight={800} fill={TINTE}>
           {zeile}
+        </text>
+        <text x={160} y={183} textAnchor="middle" fontSize={12} fill="#6B4E00">
+          aus dem ganzen Bestand im Tresor
         </text>
       </g>
     </svg>

@@ -56,7 +56,7 @@ export const CFD_ANBIETER = [
  * Namen des Käufers; WisdomTree: „Jeder physische Barren wird getrennt gelagert, ist einzeln
  * gekennzeichnet und zugewiesen“, Barrenliste auf der Produktseite.
  */
-export const ETC_SATZ = "Bei einem Physical Gold ETC liegen echte Barren im Tresor. Jeder Barren ist gekennzeichnet, die Barrenliste ist öffentlich.";
+export const ETC_SATZ = "Bei einem Physical Gold ETC liegen echte Barren im Tresor. Die Barren sind nummeriert und stehen in einer öffentlichen Liste.";
 export const GELEHRTE_SATZ = "Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Frag im Zweifel einen Gelehrten.";
 export const ETC_BEISPIELE = [
   { slug: "wisdomtree-physical-gold", titel: "WisdomTree Physical Gold", zertifikat: "Prüfbericht Al-Qalam" },
@@ -70,7 +70,7 @@ export const ETC_BEISPIELE = [
 export const GOLD_ETC_ZAHL = GOLD_ISINS.length;
 export const DEPOTS_ZINSFREI = edelmetallVergleich.length;
 export const DEPOTS_MIT_ALLEN = edelmetallVergleich.filter((a) => a.werte.gold === `${GOLD_ETC_ZAHL} von ${GOLD_ETC_ZAHL}`).length;
-export const BROKER_SATZ = `Von ${DEPOTS_ZINSFREI} zinsfreien Depots haben nur ${DEPOTS_MIT_ALLEN} alle ${GOLD_ETC_ZAHL} Gold-ETCs mit Zertifikat.`;
+export const BROKER_SATZ = `In meiner Liste stehen ${GOLD_ETC_ZAHL} Gold-ETCs mit Zertifikat. Von ${DEPOTS_ZINSFREI} zinsfreien Depots haben nur ${DEPOTS_MIT_ALLEN} alle ${GOLD_ETC_ZAHL}.`;
 
 /**
  * Bekannte Apps, je mit einer belegten Tatsache, nie mit einem Urteil (Elias, 28.10.2026: „die
