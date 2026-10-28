@@ -152,7 +152,7 @@ export const euro = (prozent: number, betrag: number = MONATLICH) => Math.round(
 export const SCHMERZ = {
   girokonto: "Etwa jedes achte Girokonto zahlt dir Zinsen auf dein Geld.",
   /** Zweite, abgesetzte Zeile (Elias, 28.10.2026, MC3c); Beleg Sure 2, Vers 275, 278 und 279. */
-  muslim: "Als Muslim meidest du Zinsen.",
+  muslim: "Als Muslim musst du Zinsen meiden.",
 };
 
 /**
@@ -162,8 +162,26 @@ export const SCHMERZ = {
  */
 export const BEKANNTE = [
   // Farbe nach Elias, 28.10.2026, MC3c: Trade Republic gelb, XTB mit leichtem Rot.
-  { name: "Trade Republic", domain: "traderepublic.com", gross: "6 von 12", klein: "Islamic ETFs", ton: "gelb" },
+  // „nur“ klein und schwarz davor (Elias, 28.10.2026, MC3c).
+  { name: "Trade Republic", domain: "traderepublic.com", vor: "nur", gross: "6 von 12", klein: "Islamic ETFs", ton: "gelb" },
   { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet", ton: "rot" },
+] as const;
+
+/** Girokonten, die Zinsen zahlen, klein als Beispiel unter dem Satz (Elias, 28.10.2026, MC3c). Ids aus girokontoAnzeige. */
+export const GIRO_MIT_ZINSEN = [
+  { id: "c24-smart", name: "C24", domain: "c24.de" },
+  { id: "bbva-girokonto", name: "BBVA", domain: "bbva.de" },
+  { id: "santander-bestgiro", name: "Openbank", domain: "openbank.de" },
+] as const;
+
+/** Bekannte Depots für den Aufruf zum Depot-Vergleich (Elias, 28.10.2026, MC3c). Alle empfehlbar. */
+export const DEPOT_LOGOS = [
+  { id: "scalable-capital-free-broker", name: "Scalable Capital", domain: "scalable.capital" },
+  { id: "trading-212-depot", name: "Trading 212", domain: "trading212.com" },
+  { id: "traders-place-depot", name: "Traders Place", domain: "tradersplace.de" },
+  { id: "finanzen-net-zero-depot", name: "finanzen.net zero", domain: "finanzen.net" },
+  { id: "comdirect-depot", name: "comdirect", domain: "comdirect.de" },
+  { id: "consorsbank-depot", name: "Consorsbank", domain: "consorsbank.de" },
 ] as const;
 
 export const quellen: { titel: string; url: string }[] = [
