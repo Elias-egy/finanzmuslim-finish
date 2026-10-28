@@ -1,0 +1,31 @@
+MSCI World Index (USD), Datenblatt mit Stand 30.09.2026 (Kopf: CUMULATIVE INDEX PERFORMANCE, SEP 2011 bis SEP 2026), abgerufen 28.10.2026 von https://www.msci.com/documents/10199/178e6643-6ae6-47b9-82be-e1fc565ededb
+                                                                                                                                                                                     Index Factsheet
+
+
+
+
+MSCI World Index (USD)
+
+The MSCI World Index captures large and mid-cap representation across 23 Developed Markets (DM) countries*. With 1,249 constituents,
+the index covers approximately 85% of the free ﬂoat-adjusted market capitalization in each country.
+For a complete description of the index methodology, please see Index methodology - MSCI.
+
+CUMULATIVE INDEX PERFORMANCE — GROSS RETURNS (USD)                                                                                                      ANNUAL PERFORMANCE (%)
+INDEX CHARACTERISTICS                                                               TOP 10 CONSTITUENTS
+                                       MSCI World                                                                                 Float Adj Mkt        Index                      Sector
+ Number of                                          1,249                                                                                   Cap       Wt. (%)
+                                                                                                                                 ( USD Billions)
+ Constituents                                                                          NVIDIA                                        5,250.46           5.81             Info Tech
+                               Mkt Cap ( USD Millions)
+                                                                                       APPLE                                         4,891.18           5.41             Info Tech
+ Index                                  90,414,368.77
+                                                                                       MICROSOFT CORP                                3,619.54           4.00             Info Tech
+ Largest                                 5,250,456.20                                  AMAZON.COM                                    2,412.12           2.67            Cons Discr
+ Smallest                                    2,331.22                                  ALPHABET A                                    2,018.89           2.23           Comm Srvcs
+ Average                                    72,389.41                                  ALPHABET C                                    1,592.85           1.76           Comm Srvcs
+ Median                                     24,069.32                                  META PLATFORMS A                              1,592.53           1.76           Comm Srvcs
+                                                                                       BROADCOM                                      1,587.27           1.76             Info Tech
+                                                                                       MICRON TECHNOLOGY                             1,202.93           1.33             Info Tech
+                                                                                       TESLA                                         1,015.10           1.12            Cons Discr
+                                                                                       Total                                        25,182.87          27.85
+
