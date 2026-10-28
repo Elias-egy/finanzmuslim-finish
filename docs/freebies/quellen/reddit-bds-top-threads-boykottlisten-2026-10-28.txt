@@ -1,0 +1,40 @@
+URL: https://www.reddit.com/r/BDS/ (Trefferliste über die öffentliche PullPush-API, Suche nach "boycott list", "Boykott Liste", "alternatives boycott", "boycott alternatives germany", "boycott brands", sortiert nach Score)
+Abrufdatum: 2026-10-28
+Titel: Reddit r/BDS, Top-Threads zu Boykottlisten (NUR TITEL, SCORE, KOMMENTARZAHL UND LINKS)
+UNVOLLSTÄNDIG: Post-Texte und Kommentare konnten nicht gesichert werden. reddit.com (json, rss, old.reddit), WebFetch und die Chrome-Erweiterung sind blockiert bzw. gesperrt, die PullPush-API lieferte nach den ersten Anfragen nur noch Rate-Limit-Fehler. Für r/Palestine, r/islam, r/MuslimLounge, r/germany, r/de gibt es keine Daten.
+==========
+Spalten: ID | Score | Kommentare | Titel | Link
+1miqady	782	24	Bisan from Gaza: “This is a reminder to boycott Coca-Cola”	https://www.reddit.com/r/BDS/comments/1miqady/bisan_from_gaza_this_is_a_reminder_to_boycott/
+1tezc79	352	38	I made a list of cruelty free beauty companies NOT on the boycott list! If there’s anything here that’s incorrect, please feel free to correct me :)	https://www.reddit.com/r/BDS/comments/1tezc79/i_made_a_list_of_cruelty_free_beauty_companies/
+1nj7lax	335	12	I'm not just boycotting products at the is point, I'm boycotting nations. Every country who made this happened need to be boycotted. Reddit is american owned, I need to look for alternatives.	https://www.reddit.com/r/BDS/comments/1nj7lax/im_not_just_boycotting_products_at_the_is_point/
+1u8auk6	321	1	Another reason to boycott on top of an extremely long list	https://www.reddit.com/r/BDS/comments/1u8auk6/another_reason_to_boycott_on_top_of_an_extremely/
+1njzmy5	247	1	Add ExpressVPN to your boycott list	https://www.reddit.com/r/BDS/comments/1njzmy5/add_expressvpn_to_your_boycott_list/
+1rty5qy	235	41	List of Big Techs that we need to boycott as much as we could (we can use their alternatives instead)	https://www.reddit.com/r/BDS/comments/1rty5qy/list_of_big_techs_that_we_need_to_boycott_as_much/
+1qucfet	184	5	Illinois passed a law making it illegal to boycott Israel	https://www.reddit.com/r/BDS/comments/1qucfet/illinois_passed_a_law_making_it_illegal_to/
+1s17mbn	171	2	The No Thanks App updated their Boycott list	https://www.reddit.com/r/BDS/comments/1s17mbn/the_no_thanks_app_updated_their_boycott_list/
+1rbjmmm	130	0	The president of Burger King is giving customers his phone number. Should we phone him and ask why he's feeding the IDF instead of those in Gaza?	https://www.reddit.com/r/BDS/comments/1rbjmmm/the_president_of_burger_king_is_giving_customers/
+1unxwdh	112	9	If anyone is trying to boycott Google/ Hollywood here are some alternatives	https://www.reddit.com/r/BDS/comments/1unxwdh/if_anyone_is_trying_to_boycott_google_hollywood/
+1sk4w1l	105	41	Are Ninja and Shark safe?	https://www.reddit.com/r/BDS/comments/1sk4w1l/are_ninja_and_shark_safe/
+1q9zo26	101	19	A guide to help boycott big US tech and supporting more ethical alternatives!	https://www.reddit.com/r/BDS/comments/1q9zo26/a_guide_to_help_boycott_big_us_tech_and/
+1use008	84	0	Just found out Avec Les Filles is a Zionist brand	https://www.reddit.com/r/BDS/comments/1use008/just_found_out_avec_les_filles_is_a_zionist_brand/
+1q9v772	79	16	help	https://www.reddit.com/r/BDS/comments/1q9v772/help/
+1nkx28y	77	20	Good afternoon everyone! A Computer engineering graduate and a game development learner this side. I have decided to fully boycott any tech connected to Israel.....need help....read more below	https://www.reddit.com/r/BDS/comments/1nkx28y/good_afternoon_everyone_a_computer_engineering/
+1qae8vm	73	26	Boycotting Spotify. Alternatives?	https://www.reddit.com/r/BDS/comments/1qae8vm/boycotting_spotify_alternatives/
+1uqzrgu	73	4	Help protect the soul of Ben & Jerry’s	https://www.reddit.com/r/BDS/comments/1uqzrgu/help_protect_the_soul_of_ben_jerrys/
+1naszf5	72	0	Boycott "Lefties" clothing store	https://www.reddit.com/r/BDS/comments/1naszf5/boycott_lefties_clothing_store/
+1qym0y7	71	7	My perfumes boycott list	https://www.reddit.com/r/BDS/comments/1qym0y7/my_perfumes_boycott_list/
+1vjvr3k	56	4	BDS, No Thanks in India.	https://www.reddit.com/r/BDS/comments/1vjvr3k/bds_no_thanks_in_india/
+1tpvd5w	56	12	IS ASICS BEING BOYCOTTED?	https://www.reddit.com/r/BDS/comments/1tpvd5w/is_asics_being_boycotted/
+1nr13lr	55	32	Spotify alternative	https://www.reddit.com/r/BDS/comments/1nr13lr/spotify_alternative/
+1vlv1xr	54	21	Working in PepsiCo Egypt	https://www.reddit.com/r/BDS/comments/1vlv1xr/working_in_pepsico_egypt/
+1pvyi3w	51	0	Tip for the holiday season: what to do with gift cards to boycotted places	https://www.reddit.com/r/BDS/comments/1pvyi3w/tip_for_the_holiday_season_what_to_do_with_gift/
+1vcc2d7	46	33	Are Marvel movies like Spider Man on the BDS list?	https://www.reddit.com/r/BDS/comments/1vcc2d7/are_marvel_movies_like_spider_man_on_the_bds_list/
+1osy4ol	42	5	Bella Hadid make up video	https://www.reddit.com/r/BDS/comments/1osy4ol/bella_hadid_make_up_video/
+1qcb73w	40	9	How do you guys reconcile about having to give up comfort things?	https://www.reddit.com/r/BDS/comments/1qcb73w/how_do_you_guys_reconcile_about_having_to_give_up/
+1qe1dwq	28	3	So what running shoe brands are we not boycotting?	https://www.reddit.com/r/BDS/comments/1qe1dwq/so_what_running_shoe_brands_are_we_not_boycotting/
+1ni8ldx	18	5	Bds friendly browser and music alternatives	https://www.reddit.com/r/BDS/comments/1ni8ldx/bds_friendly_browser_and_music_alternatives/
+1lb3vb1	17	0	Is JBL still on the boycott list? Cannot find updated info.	https://www.reddit.com/r/BDS/comments/1lb3vb1/is_jbl_still_on_the_boycott_list_cannot_find/
+1ksp8y0	15	6	Amazon shipping?	https://www.reddit.com/r/BDS/comments/1ksp8y0/amazon_shipping/
+1nmql7g	13	1	Alternatives for baby nappies and other products in Ireland	https://www.reddit.com/r/BDS/comments/1nmql7g/alternatives_for_baby_nappies_and_other_products/
+1mjrhvb	8	3	List of Daily Products	https://www.reddit.com/r/BDS/comments/1mjrhvb/list_of_daily_products/
+1m985wv	3	2	Investing money	https://www.reddit.com/r/BDS/comments/1m985wv/investing_money/

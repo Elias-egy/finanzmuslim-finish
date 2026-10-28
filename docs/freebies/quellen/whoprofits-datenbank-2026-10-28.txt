@@ -1,0 +1,476 @@
+URL: https://www.whoprofits.org/companies/excel (Export der Datenbank; Ansicht https://www.whoprofits.org/companies/all, PDF https://www.whoprofits.org/companies/pdf)
+Abrufdatum: 2026-10-28
+Titel: Who Profits, Database of Complicit Companies (Company Database)
+Vollständigkeit: komplette Datenbank laut Excel-Export, 470 Firmen. Die langen Beschreibungstexte (Spalte Description) sind hier weggelassen, die Spalten Name, Börse, Hauptsitz, Art der Verwicklung, Branche, Umsatz, Region sind vollständig. Beschreibungen liegen im Export und sind bei Bedarf unter https://www.whoprofits.org/companies/company/<id> abrufbar.
+Spalten (Tab-getrennt): Nr, Firma, Börse, Hauptsitz, Involvement, Sektor, Umsatz, Region
+===========
+1	Thyssenkrupp	FWB	Germany	Population Control, Specialized Equipment and Services	Industrial Manufacturing, Military, Security and Surveillance	$25B-$50B	Gaza
+2	Villar International	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Construction, Real Estate	$100M-$250M	West Bank
+3	Shikun & Binui Group	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Construction, Energy and Renewable Energy, Real Estate	$1B-$5B	East Jerusalem, Gaza, Naqab, West Bank
+4	Boeing Company	NYSE	USA	Specialized Equipment and Services	Military, Security and Surveillance	$50B-$100B	Gaza, Syrian Golan, West Bank
+5	JCB (JC Bamford Excavators)	Private	UK	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$5B-$10B	East Jerusalem, Gaza, Naqab, West Bank
+6	Orad	TASE	Israel	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Energy and Renewable Energy, Military, Security and Surveillance	$50M-$100M	East Jerusalem, Naqab, West Bank
+7	G1 Secure Solutions	TASE	Israel	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$250M-$500M	East Jerusalem, Gaza, Syrian Golan, West Bank
+8	Danya Cebus	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Construction	$1B-$5B	East Jerusalem, Gaza, Naqab, West Bank
+9	Airbnb, Inc.	NASDAQ	USA	Services to the Settlements, Settlement Enterprise	Tourism	$10B-$20B	East Jerusalem, Syrian Golan, West Bank
+10	Booking.com	Subsidiary of Public	Netherlands	Services to the Settlements, Settlement Enterprise	Tourism	$10B-$20B	East Jerusalem, Syrian Golan, West Bank
+11	Tripadvisor, Inc.	NASDAQ, Public	USA	Services to the Settlements, Settlement Enterprise	Tourism	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+12	Electra	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Population Control, Private Security and Surveillance Technology, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Construction, Real Estate, Transportation	$1B-$5B	East Jerusalem, Naqab, Syrian Golan, West Bank
+13	Microsoft	NASDAQ	USA	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$250B-$500B	Gaza, Naqab, West Bank
+14	IBM	NYSE, NYSE Chicago	USA	Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$50B-$100B	East Jerusalem, Gaza, Naqab, Syrian Golan, West Bank
+15	L3Harris Technologies	NYSE	USA	Population Control, Specialized Equipment and Services	Military, Security and Surveillance	$15B-$25B	Gaza
+16	Expedia Group	NASDAQ	USA	Services to the Settlements, Settlement Enterprise	Tourism	$10B-$20B	East Jerusalem, Syrian Golan, West Bank
+17	MDT Armor	Private	USA	Specialized Equipment and Services	Industrial Manufacturing, Military, Security and Surveillance	$10M-$50M	East Jerusalem, Gaza, West Bank
+18	Toyota Motor Corporation	NYSE, LON, NSE, TSE	Japan	Specialized Equipment and Services	Automotive	$250B-$500B	East Jerusalem, Gaza, Naqab, West Bank
+19	Partner Communications	TASE	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Telecommunication	$1B-$5B	East Jerusalem, Gaza, Syrian Golan, West Bank
+20	Ford Motor Company	NYSE	USA	Specialized Equipment and Services, The Wall and Checkpoints	Automotive	$100B-$250B	East Jerusalem, Gaza, West Bank
+21	TUI Group	Public	Germany	Services to the Settlements, Settlement Enterprise	Tourism	$25B-$50B	East Jerusalem
+22	Carrefour Israel	Private, Subsidiary of Public	Israel	Palestinian Captive Market, Services to the Settlements, Settlement Enterprise	Food Industry, Service Industry and Retail	$1B-$5B	East Jerusalem, Gaza, West Bank
+23	Phoenix Financial	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Finance	$1B-$5B	East Jerusalem, Naqab, Syrian Golan
+24	Clal Insurance Enterprises Holdings	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Finance	$5B-$10B	East Jerusalem, Gaza, Naqab, Syrian Golan, West Bank
+25	Apax Partners	Private	UK	Services to the Settlements, The Wall and Checkpoints	Finance, Real Estate		East Jerusalem, Syrian Golan, West Bank
+26	Oracle	Public, NYSE	USA	Population Control, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$50B-$100B	East Jerusalem, Gaza, West Bank
+27	Hamat Group	TASE	Israel, Occupied Palestinian Territory	Services to the Settlements, Settlement Enterprise, Settlement Production	Industrial Manufacturing	$250M-$500M	East Jerusalem, West Bank
+28	Israel Discount Bank	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements	Finance	$1B-$5B	East Jerusalem, Naqab, Syrian Golan, West Bank
+29	Efco Equipment	Private	Israel	Israeli Construction on Occupied Land, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$50M-$100M	East Jerusalem, Gaza, West Bank
+30	Palantir Technologies	NASDAQ	USA	Specialized Equipment and Services	Military, Security and Surveillance, Technology and Hi-tech	$5B-$10B	Gaza
+31	Amazon	NASDAQ	USA	Services to the Settlements, Specialized Equipment and Services	Technology and Hi-tech	$500B-$1T	Gaza, West Bank
+32	Google LLC (Alphabet Inc.)	NASDAQ	USA	Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$250B-$500B	Gaza, West Bank
+33	Caterpillar	NYSE	USA	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$50B-$100B	East Jerusalem, Gaza, Naqab, Syrian Golan, West Bank
+34	Fassi	Private	Italy	Specialized Equipment and Services	Heavy Machinery	$500M-$1B	West Bank
+35	Hapoalim Bank	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements	Finance	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+36	Bank Leumi	TASE	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, The Wall and Checkpoints	Finance	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+37	Mizrahi Tefahot Bank	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Finance	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+38	First International Bank of Israel	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Finance	$50B-$100B	East Jerusalem, West Bank
+39	Migdal Insurance	TASE, Public	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Finance	$500M-$1B	East Jerusalem, Gaza, Naqab, Syrian Golan, West Bank
+40	Mercedes Benz	FWB, STU	Germany	Population Control, Specialized Equipment and Services	Automotive , Industrial Manufacturing	$100B-$250B	Gaza
+41	Hewlett Packard Enterprise (HPE)	NYSE	USA	Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$25B-$50B	East Jerusalem, Gaza, Syrian Golan, West Bank
+42	Formula Systems	NASDAQ, TASE	Israel, USA	Services to the Settlements, Specialized Equipment and Services	Military, Security and Surveillance, Technology and Hi-tech	$1B-$5B	Gaza, Naqab, West Bank
+43	Menora Mivtachim Holdings	TASE, Public	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Enterprise	Finance	$500M-$1B	East Jerusalem, Naqab, West Bank
+44	Harel Insurance Investments and Financial Services	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Finance	$1B-	East Jerusalem, Syrian Golan, West Bank
+45	ICL Group Ltd.	TASE, Public, NYSE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Enterprise	Agriculture and Agrotechnology, Industrial Manufacturing	$1B-$5B	Naqab, Syrian Golan, West Bank
+46	K-9 Solutions	Private	Israel	Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		Gaza, West Bank
+47	New Way Traffic	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Construction, Transportation	$100M-$250M	East Jerusalem, Gaza, West Bank
+48	Agrotop	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Agriculture and Agrotechnology	$10M-$50M	Naqab, Syrian Golan, West Bank
+49	Greenkote	Private	USA	Settlement Production, Specialized Equipment and Services	Industrial Manufacturing	$10M-$50M	West Bank
+50	Dell Technologies	NYSE	USA	Population Control, Specialized Equipment and Services	Technology and Hi-tech	$50B-$100B	Naqab
+51	Zoko Enterprises	Private	Israel	Population Control, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery, Military, Security and Surveillance	$250M-$500M	East Jerusalem, Gaza, Syrian Golan, West Bank
+52	Maersk (Mærsk)	Public	Denmark	Services to the Settlements, Specialized Equipment and Services	Transportation	$50B-$100B	Gaza, West Bank
+53	Cisco Systems	NASDAQ	USA	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services	Technology and Hi-tech, Telecommunication	$50B-$100B	East Jerusalem, Naqab, Syrian Golan, West Bank
+54	Doosan Bobcat	KRX	South Korea	Israeli Construction on Occupied Land, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$5B-$10B	Gaza, West Bank
+55	Mikud Guarding (Mikud Group)	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services	Military, Security and Surveillance		East Jerusalem, West Bank
+56	Sheleg Lavan (White Snow)	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, Gaza, Syrian Golan, West Bank
+57	Reshef Security	Private, Subsidiary of Public	Israel	Private Security and Surveillance Technology, Services to the Settlements, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, Syrian Golan, West Bank
+58	Leonardo S.p.A	BIT	Italy	Population Control, Specialized Equipment and Services	Military, Security and Surveillance	$10B-$20B	Gaza
+59	Bezeq - The Israeli Telecommunication Corporation	TASE	Israel	Economic Exploitation, Palestinian Captive Market, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Telecommunication	$1B-	East Jerusalem, Gaza, Syrian Golan, West Bank
+60	HD Hyundai	KRX	South Korea	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$1B-$5B	East Jerusalem, Gaza, Syrian Golan, West Bank
+61	Galshan Marketing Human Resources Guarding & Security	Private	Israel	Population Control, Private Security and Surveillance Technology, Services to the Settlements, Settlement Enterprise	Military, Security and Surveillance	$10M-$50M	East Jerusalem, West Bank
+62	Colmobil	Private	Israel	Specialized Equipment and Services	Service Industry and Retail, Transportation	$1B-$5B	East Jerusalem, Gaza
+63	Psagot Winery	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology, Food Industry	$5M-$10M	East Jerusalem, Syrian Golan, West Bank
+64	ISPRA - Explosives Manufacturing Industries	Private	Israel	Population Control, Specialized Equipment and Services	Military, Security and Surveillance	$1M-$5M	Gaza, West Bank
+65	Heidelberg Materials (formerly HeidelbergCement)	FWB, DUS, MUN, STU	Germany	Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Production	Industrial Manufacturing	$25B-$50B	West Bank
+66	Syensqo	Public	Belgium	Population Control, Specialized Equipment and Services	Military, Security and Surveillance	$5B-$10B	Gaza, West Bank
+67	Rolls-Royce	LON	UK	Population Control, Specialized Equipment and Services	Industrial Manufacturing, Military, Security and Surveillance	$25B-$50B	Gaza, Syrian Golan, West Bank
+68	Shamir Salads	Private	Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Settlement Production	Food Industry		West Bank
+69	Ness A.T.	Private, Subsidiary of Public	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$250M-$500M	East Jerusalem, West Bank
+70	Cellcom Israel	TASE	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Telecommunication	$1B-$5B	East Jerusalem, Gaza, Syrian Golan, West Bank
+71	Delek Israel Fuel Company Ltd.	Private	Israel	Services to the Settlements, Settlement Enterprise	Electricity, Gas and Water Supply	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+72	Dor Alon Energy Israel (1988) Ltd.	TASE	Israel	Economic Exploitation, Palestinian Captive Market, Services to the Settlements, Settlement Enterprise	Electricity, Gas and Water Supply, Service Industry and Retail	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+73	Paz Energy	TASE	Israel	Economic Exploitation, Palestinian Captive Market, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Electricity, Gas and Water Supply	$1B-$5B	East Jerusalem, Gaza, Syrian Golan, West Bank
+74	ABB Group	NASDAQ, NYSE, SIX	Sweden, Switzerland	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements	Energy and Renewable Energy	$1B-	West Bank
+75	Hadiklaim - Israel Date Growers Cooperative	Cooperative	Israel	Settlement Production	Agriculture and Agrotechnology	$100M-$250M	
+76	Tnuva Group	Subsidiary of Public	Israel	Economic Exploitation, Palestinian Captive Market, Services to the Settlements, Settlement Enterprise, Settlement Production, Specialized Equipment and Services	Agriculture and Agrotechnology, Food Industry	$1B-$5B	Gaza, Syrian Golan, West Bank
+77	HOT Telecommunication Systems	Private	Israel	Economic Exploitation, Israeli Construction on Occupied Land, Palestinian Captive Market, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Telecommunication	$250M-$500M	East Jerusalem, Syrian Golan, West Bank
+78	DJI - DaJiang Innovation Technology Company	Private	China	Specialized Equipment and Services	Military, Security and Surveillance	$1B-	East Jerusalem, West Bank
+79	CNH Industrial	NYSE	UK	Israeli Construction on Occupied Land, Population Control, Settlement Enterprise, The Wall and Checkpoints	Heavy Machinery	$15B-$25B	West Bank
+80	Volvo Group (AB Volvo)	Public	Sweden	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery, Transportation	$50B-$100B	East Jerusalem, Naqab, West Bank
+81	General Electric	NYSE	USA	Exploitation of Occupied Production and Resources, Settlement Production, Specialized Equipment and Services	Energy and Renewable Energy, Military, Security and Surveillance	$25B-$50B	Gaza, Syrian Golan
+82	Gush Etzion Wineries	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+83	Tishbi Estate Winery (Habaron Wine Cellars)	Private	Israel	Settlement Production	Agriculture and Agrotechnology, Food Industry		Syrian Golan, West Bank
+84	Matrix IT	TASE, Subsidiary of Public	Israel	Population Control, Settlement Enterprise, Settlement Production, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$1B-$5B	East Jerusalem, Gaza, West Bank
+85	RE/MAX Holdings	NYSE	USA	Services to the Settlements	Real Estate	$250M-$500M	East Jerusalem, Syrian Golan, West Bank
+86	Ashtrom Group	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Settlement Enterprise, Settlement Production	Construction, Real Estate	$1B-$5B	East Jerusalem, West Bank
+87	Peled - Klein Civil Engineering	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction		Syrian Golan, West Bank
+88	One Software Technologies	TASE	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance, Technology and Hi-tech	$1B-$5B	Gaza, Naqab, West Bank
+89	Merkavim Transportation Technologies	Private	Israel	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Heavy Machinery, Industrial Manufacturing, Transportation	$50M-$100M	West Bank
+90	Volkswagen Group	Public	Germany	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Industrial Manufacturing, Transportation	$250B-$500B	East Jerusalem, West Bank
+91	Sturm, Ruger & Co.	NYSE	USA	Population Control, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$500M-$1B	East Jerusalem, Gaza, West Bank
+92	Altice International	Private	Luxembourg	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Telecommunication	$5B-$10B	East Jerusalem, Gaza, Syrian Golan, West Bank
+93	GMV Innovating Solutions	Private	Spain	Services to the Settlements, Settlement Enterprise	Technology and Hi-tech	$250M-$500M	East Jerusalem
+94	CAF - Construcciones y Auxiliar de Ferrocarriles	BME	Spain	Israeli Construction on Occupied Land, Services to the Settlements	Transportation	$1B-$5B	East Jerusalem
+95	Meshek Achiya (Achiyah Farm)	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Enterprise, Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+96	The Central Bottling Company (Coca Cola Israel)	Private	Israel	Settlement Enterprise, Settlement Production	Food Industry		East Jerusalem, Syrian Golan, West Bank
+97	Achdut Factory for Tahini Halva and Sweets (Achdut-Achva)	Private	Occupied Palestinian Territory	Exploitation of Labor, Services to the Settlements, Settlement Production	Food Industry	$50M-$100M	West Bank
+98	ZIM Integrated Shipping Services		Israel, USA	Population Control, Specialized Equipment and Services	Transportation	$5B-$10B	
+99	Roboteam	Private, Subsidiary of Public	Israel	Population Control, Specialized Equipment and Services	Military, Security and Surveillance		Gaza, West Bank
+100	Elbit Systems	NASDAQ, TASE	Israel, USA	Population Control, Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$5B-$10B	East Jerusalem, Gaza, Naqab, West Bank
+101	Motorola Solutions	NYSE	USA	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance, Telecommunication	$10B-$20B	East Jerusalem, Gaza, Naqab, West Bank
+102	RE/MAX Israel (Impact Property Developers)	Private	Israel	Services to the Settlements	Real Estate		East Jerusalem, Syrian Golan, West Bank
+103	MAN Truck & Bus	Subsidiary of Public	Germany	Population Control, Services to the Settlements, Specialized Equipment and Services	Industrial Manufacturing	$10B-$20B	East Jerusalem, West Bank
+104	Zion Wines	Private	Occupied Palestinian Territory	Settlement Production	Food Industry	$10M-$50M	Naqab, Syrian Golan, West Bank
+105	Padcon	Private	Germany	Economic Exploitation, Services to the Settlements	Electricity, Gas and Water Supply	$5M-$10M	
+106	American President Lines	Subsidiary of Public		Population Control, Specialized Equipment and Services	Transportation	$1B-$5B	
+107	S.I.H Security Cleaning and Services	Private	Israel	Private Security and Surveillance Technology, The Wall and Checkpoints	Military, Security and Surveillance	$50M-$100M	East Jerusalem, West Bank
+108	Hitachi	TYO	Japan	Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery, Other	$50M-$100M	East Jerusalem, Gaza, Naqab, West Bank
+109	Bar Amana Buildings Construction & Development Co.	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land, Services to the Settlements	Construction	$100M-$250M	East Jerusalem, Syrian Golan, West Bank
+110	Tabasco Holdings (Pizza Hut Israel)	Private	Israel	Services to the Settlements	Food Industry	$10M-$50M	East Jerusalem, West Bank
+111	Powergen Solar A (formerly Solegreen)	TASE, Public	Israel	Services to the Settlements	Electricity, Gas and Water Supply, Energy and Renewable Energy	$10M-$50M	Syrian Golan, West Bank
+112	Delta Galil Industries	TASE	Israel	Services to the Settlements, Settlement Production	Industrial Manufacturing, Service Industry and Retail	$1B-$5B	East Jerusalem, West Bank
+113	Egis Rail	Private	France	Israeli Construction on Occupied Land, Services to the Settlements	Transportation	$1B-$5B	East Jerusalem
+114	Bank of Jerusalem	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Finance	$100M-$250M	East Jerusalem, West Bank
+115	Electra Afikim (formerly Afikim)	Subsidiary of Public	Israel	Services to the Settlements, Settlement Enterprise	Transportation	$10M-$50M	East Jerusalem, West Bank
+116	Minrav Group	Private	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Population Control, Settlement Enterprise, Specialized Equipment and Services	Construction, Real Estate	$250M-$500M	East Jerusalem, Naqab, Syrian Golan, West Bank
+117	Teva Pharmaceutical Industries	NASDAQ, TASE	Israel	Palestinian Captive Market	Pharmaceutical	$1B-	East Jerusalem, Gaza, West Bank
+118	Shapir Engineering and Industry	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, Settlement Production, Specialized Equipment and Services	Construction, Electricity, Gas and Water Supply, Real Estate	$1B-$5B	East Jerusalem, Naqab, West Bank
+119	General Motors Company	NYSE	USA	Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery, Industrial Manufacturing	$100B-$250B	West Bank
+120	Rad-Bynet	Private	Israel	Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech, Telecommunication		East Jerusalem, Gaza, Naqab, West Bank
+121	Castro Model		Israel	Services to the Settlements	Service Industry and Retail	$500M-$1B	
+122	Shamrad Electronics	Private	Israel	Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$10M-$50M	West Bank
+123	Modi'in Ezrachi	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements, The Wall and Checkpoints	Military, Security and Surveillance	$100M-$250M	East Jerusalem, Syrian Golan, West Bank
+124	Corsight AI		Israel	Population Control, Private Security and Surveillance Technology, The Wall and Checkpoints	Military, Security and Surveillance, Technology and Hi-tech		Gaza
+125	Oshkosh Corporation	NYSE	USA	Specialized Equipment and Services	Industrial Manufacturing, Military, Security and Surveillance	$5B-$10B	Gaza, West Bank
+126	YSB - Ya'acobi Brothers Group	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services	Construction, Waste Management	$50M-$100M	East Jerusalem, Syrian Golan, West Bank
+127	Lesico Group	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, The Wall and Checkpoints	Construction, Electricity, Gas and Water Supply, Transportation	$100M-$250M	East Jerusalem, Gaza, Syrian Golan, West Bank
+128	C. Mer Group	TASE	Israel	Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance, Telecommunication	$100M-$250M	East Jerusalem, Gaza, West Bank
+129	Smart Shooter	Private	Israel	Population Control, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$10M-$50M	Gaza, West Bank
+130	Siemens AG	FWB	Germany	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Industrial Manufacturing, Transportation	$50B-$100B	East Jerusalem, West Bank
+131	Zabar Solar	Private	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Enterprise, Settlement Production	Energy and Renewable Energy	$5M-$10M	West Bank
+132	Teralight	Public	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Enterprise, Settlement Production	Energy and Renewable Energy	$10M-$50M	Jordan Valley
+133	Enlight Renewable Energy	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Enterprise, Settlement Production	Energy and Renewable Energy	$100M-$250M	Naqab, Syrian Golan
+134	Energix Renewable Energies	TASE	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Settlement Enterprise, Settlement Production	Energy and Renewable Energy	$100M-$250M	Naqab, Syrian Golan, West Bank
+135	Baran Group	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction	$100M-$250M	East Jerusalem, Syrian Golan, West Bank
+136	Z.M.H. Hammerman	TASE	Israel	Israeli Construction on Occupied Land	Construction, Real Estate	$50M-$100M	East Jerusalem, West Bank
+137	Oron Group	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Settlement Production	Construction	$250M-$500M	East Jerusalem, West Bank
+138	Mey Eden (Eden Springs)	Private, Subsidiary of Public	Israel	Exploitation of Occupied Production and Resources, Settlement Production	Electricity, Gas and Water Supply, Food Industry		Syrian Golan
+139	Y.D. Barzani	Private	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements	Construction	$50M-$100M	East Jerusalem, Syrian Golan, West Bank
+140	Jerusalem Winery	Cooperative	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Food Industry		East Jerusalem
+141	Dan Public Transportation Company	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Transportation	$100M-$250M	East Jerusalem
+142	All Trade Group	Private	Israel, Occupied Palestinian Territory	Population Control, Settlement Enterprise, Settlement Production, Specialized Equipment and Services	Technology and Hi-tech, Waste Management	$50M-$100M	
+143	Shufersal	TASE	Israel	Services to the Settlements	Finance, Service Industry and Retail, Tourism	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+144	Galnor Building and Development Co.	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, The Wall and Checkpoints	Construction		East Jerusalem, West Bank
+145	Rami Levi Hashikma Marketing	TASE	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Food Industry, Service Industry and Retail, Telecommunication	$1B-$5B	East Jerusalem, Syrian Golan, West Bank
+146	Agrexco Carmel Agricultural Export Company	Private	Israel	Palestinian Captive Market, Settlement Production	Agriculture and Agrotechnology	$0M-$1M	Jordan Valley, Syrian Golan, West Bank
+147	Fox-Wizel Ltd.  (Fox Group)	Public	Israel	Services to the Settlements, Settlement Enterprise	Service Industry and Retail	$1B-$5B	East Jerusalem, West Bank
+148	Meshek Energy-Renewable Energies	Public	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources	Energy and Renewable Energy	$10M-$50M	Naqab, West Bank
+149	Y. Zamberg Metal Products	Private	Occupied Palestinian Territory	Population Control, Settlement Enterprise, Settlement Production, Specialized Equipment and Services	Industrial Manufacturing		West Bank
+150	Tnufa Transportation Solutions	Private	Israel	Services to the Settlements, Settlement Enterprise	Transportation		East Jerusalem, West Bank
+151	PreZero	Private	Germany	Services to the Settlements, Settlement Enterprise	Waste Management	$1B-$5B	West Bank
+152	Eastlink Lanker	Public Limited	UK	Services to the Settlements, Settlement Enterprise	Other		East Jerusalem, West Bank
+153	Doma Marketing for Building & Training ltd.	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Construction		West Bank
+154	Rivulis PTE	Private	Singapore	Services to the Settlements, Settlement Enterprise	Agriculture and Agrotechnology	$100M-$250M	Jordan Valley
+155	Mifalei Tuff- Agricultural Cooperative Society LTD		Occupied Syrian Golan	Economic Exploitation, Exploitation of Occupied Production and Resources, Settlement Enterprise, Settlement Production	Agriculture and Agrotechnology		Syrian Golan
+156	Geoda	Private, Subsidiary of Public	Israel	Population Control, Private Security and Surveillance Technology, Specialized Equipment and Services	Other	$1M-$5M	East Jerusalem
+157	Tshuva Research	Private	Israel	Population Control, Private Security and Surveillance Technology	Military, Security and Surveillance		East Jerusalem
+158	Human Safety Company for Accidents Investigation & Prevention (Bitihut Enosh)	Private	Israel	Population Control, Private Security and Surveillance Technology	Military, Security and Surveillance		East Jerusalem
+159	Telrad Networks	TASE, Public	Israel	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Technology and Hi-tech, Telecommunication	$100M-$250M	East Jerusalem, West Bank
+160	Salvat Logistica	Private	Spain	Services to the Settlements	Other		East Jerusalem
+161	Agrifood Marketing	Private	Israel	Settlement Production	Agriculture and Agrotechnology	$5M-$10M	West Bank
+162	Aqwise- Wise Water Technologies	Private	Israel	Settlement Production	Electricity, Gas and Water Supply, Waste Management		West Bank
+163	Polimil	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Other		
+164	Afcon Holdings	TASE	Israel	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$500M-$1B	East Jerusalem, Gaza, West Bank
+165	Sysnet Software	Private, Subsidiary of Public	Israel	Specialized Equipment and Services	Technology and Hi-tech		
+166	Steconfer	Private	Portugal	Israeli Construction on Occupied Land, Services to the Settlements	Construction, Transportation	$10M-$50M	East Jerusalem
+167	HOS Technology R&D	Private	Israel	Specialized Equipment and Services	Heavy Machinery, Military, Security and Surveillance	$10M-$50M	East Jerusalem, Gaza, West Bank
+168	Magalcom	Private	Israel	Private Security and Surveillance Technology	Military, Security and Surveillance	$100M-$250M	West Bank
+169	Swarovski	Private	Liechtenstein	Israeli Construction on Occupied Land, Services to the Settlements	Industrial Manufacturing, Service Industry and Retail	$1B-	West Bank
+170	Roche Bobois	Euronext	France	Israeli Construction on Occupied Land, Services to the Settlements	Industrial Manufacturing	$100M-$250M	West Bank
+171	Altoni Leather S.P.A	Private	Italy	Israeli Construction on Occupied Land, Services to the Settlements	Industrial Manufacturing		West Bank
+172	Natuzzi S.p.A	NYSE	Italy	Israeli Construction on Occupied Land, Services to the Settlements	Industrial Manufacturing	$1B-	West Bank
+173	N. Jan	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$10M-$50M	Gaza, West Bank
+174	Amir Marketing and Investments in Agriculture	TASE	Israel	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology	$100M-$250M	
+175	Zalman Barashi	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Construction	$50M-$100M	East Jerusalem, West Bank
+176	CTI- Computech International	Private	Israel, USA	Specialized Equipment and Services	Military, Security and Surveillance	$10M-$50M	
+177	Shoham Engineering and Development	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+178	Margolin Bros	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+179	Gadish Engineering – Yoram Gadish Group	Private	Israel, USA	Israeli Construction on Occupied Land	Construction		East Jerusalem, Naqab, West Bank
+180	Group 5 Security (Tzevet 5)	Private	Israel, Occupied Palestinian Territory	Private Security and Surveillance Technology	Military, Security and Surveillance		West Bank
+181	Top Sky Line Engineering Systems	Private	Israel	Private Security and Surveillance Technology	Military, Security and Surveillance	$10M-$50M	East Jerusalem, West Bank
+182	AnyVision Interactive Technologies (Oosto)	Private	Israel	Private Security and Surveillance Technology, The Wall and Checkpoints	Military, Security and Surveillance, Technology and Hi-tech		East Jerusalem, West Bank
+183	BriefCam	Private, Subsidiary of Public	Israel	Private Security and Surveillance Technology	Military, Security and Surveillance, Technology and Hi-tech		East Jerusalem
+184	Solvay	Euronext	Belgium	Exploitation of Occupied Production and Resources, Services to the Settlements	Electricity, Gas and Water Supply	$1B-	West Bank
+185	Hai Dolev Holdings Ltd.	Private	Israel	Exploitation of Occupied Production and Resources, Services to the Settlements, Specialized Equipment and Services	Electricity, Gas and Water Supply	$5M-$10M	East Jerusalem, West Bank
+186	CETCO Mineral Technology Group	NASDAQ	USA	Exploitation of Occupied Production and Resources, Services to the Settlements, Specialized Equipment and Services	Electricity, Gas and Water Supply	$500M-$1B	West Bank
+187	D. Hay Marketing of Agricultural Product	Private	Israel	Settlement Production	Agriculture and Agrotechnology	$5M-$10M	West Bank
+188	mPrest Systems	Private	Israel	Specialized Equipment and Services	Military, Security and Surveillance		
+189	Gat Fertilizers	Private	Israel	Services to the Settlements	Agriculture and Agrotechnology	$10M-$50M	West Bank
+190	Roots Sustainable Agricultural Technologies	ASX	Israel	Services to the Settlements	Agriculture and Agrotechnology	$100M-$250M	West Bank
+191	Deshen Hatzafon – Production and Marketing of Fertilizer	Cooperative	Israel	Services to the Settlements	Agriculture and Agrotechnology	$10M-$50M	Syrian Golan, West Bank
+192	Gadot Agro (Merhav Agro)	Private	Israel	Services to the Settlements	Agriculture and Agrotechnology	$10M-$50M	Syrian Golan, West Bank
+193	Rivulis Irrigation	Private	Israel	Services to the Settlements	Agriculture and Agrotechnology	$100M-$250M	Syrian Golan, West Bank
+194	Adama	SZSE	China	Services to the Settlements	Agriculture and Agrotechnology	$1B-	Syrian Golan, West Bank
+195	Haifa Chemicals (Haifa Group)	Private	Israel	Services to the Settlements	Agriculture and Agrotechnology, Industrial Manufacturing	$100M-$250M	Syrian Golan, West Bank
+196	Chim Nir	Private, Subsidiary of Public	Israel	Specialized Equipment and Services	Agriculture and Agrotechnology, Other		Gaza, Syrian Golan, West Bank
+197	Caliber 3	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land, Private Security and Surveillance Technology	Military, Security and Surveillance, Tourism		West Bank
+198	Nextcom Group	TASE	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services	Electricity, Gas and Water Supply, Energy and Renewable Energy, Military, Security and Surveillance	$50M-$100M	
+199	EffiSolar Enterprises Inc.		Canada	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements	Energy and Renewable Energy		Syrian Golan
+200	Orkal Industries and Mechanization	Private	Israel	Settlement Production, The Wall and Checkpoints	Electricity, Gas and Water Supply		West Bank
+201	Herrenknecht	Private	Germany	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land	Construction, Electricity, Gas and Water Supply, Heavy Machinery	$10B-$20B	West Bank
+202	Mitsubishi Motors Corporation	TYO	Japan	Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Industrial Manufacturing	$100B-$250B	
+203	Susya Dairy	Private	Occupied Palestinian Territory	Settlement Production	Food Industry	$10M-$50M	West Bank
+204	Hamashbir Agriculture	Private	Israel	Services to the Settlements	Agriculture and Agrotechnology	$100M-$250M	Syrian Golan, West Bank
+205	B.D.T.H Israel Solar Energy Ltd.	Private		Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, Settlement Production	Electricity, Gas and Water Supply, Energy and Renewable Energy	$1M-$5M	
+206	Recanati Winery	Private		Settlement Production	Agriculture and Agrotechnology, Food Industry		Syrian Golan
+207	Tanya Winery	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+208	Olizki Infrastructure Ltd	Private	Israel	Services to the Settlements, The Wall and Checkpoints	Construction	$50M-$100M	Gaza, West Bank
+209	Atlas Copco	OMX	Sweden	Israeli Construction on Occupied Land, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery, Industrial Manufacturing	$1B-	West Bank
+210	Jaguar Land Rover Automotive PLC	Public, Public Limited	UK	Population Control, Specialized Equipment and Services	Industrial Manufacturing	$25B-$50B	
+211	Yechezkel Morad	Private	Israel	Israeli Construction on Occupied Land, Specialized Equipment and Services, The Wall and Checkpoints	Construction	$10M-$50M	Syrian Golan, West Bank
+212	Maman Cargo Terminals and Handling	TASE	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market	Other	$1B-	West Bank
+213	Wirtgen Group	Private	Germany	Israeli Construction on Occupied Land	Construction, Heavy Machinery	$1B-	
+214	Kravitz	Private	Israel	Services to the Settlements	Service Industry and Retail	$50M-$100M	West Bank
+215	Videotec	Private	Italy	Private Security and Surveillance Technology	Military, Security and Surveillance, Technology and Hi-tech		East Jerusalem
+216	Naska Industries - SK Group	Private	Israel	Specialized Equipment and Services	Military, Security and Surveillance	$100M-$250M	Gaza
+217	Evron Systems Ltd.	Private	Occupied Palestinian Territory	Private Security and Surveillance Technology	Military, Security and Surveillance, Technology and Hi-tech	$1M-$5M	East Jerusalem
+218	Sony Corporation	NYSE	Japan	Private Security and Surveillance Technology	Military, Security and Surveillance, Technology and Hi-tech	$50B-$100B	East Jerusalem
+219	Carmel Wineries	Private	Israel	Settlement Production	Agriculture and Agrotechnology, Food Industry	$50M-$100M	Syrian Golan, West Bank
+220	Tandu Technologies and Security Systems Ltd	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, Gaza, Syrian Golan, West Bank
+221	Bardarian Brothers	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction	$50M-$100M	East Jerusalem, West Bank
+222	Africa Israel Investments	TASE	Israel	Israeli Construction on Occupied Land	Construction	$1B-	East Jerusalem, Gaza, West Bank
+223	A. Barkan and Co.	Private	Israel	Israeli Construction on Occupied Land	Construction	$5M-$10M	East Jerusalem, West Bank
+224	B. Gaon Holdings	TASE, Public	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Electricity, Gas and Water Supply	$100M-$250M	Naqab, Syrian Golan, West Bank
+225	Beton Atarot (formerly: Elad Imported Cement)	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$1M-$5M	West Bank
+226	Field Produce	Private, Subsidiary of Public	Israel	Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+227	Israel Salt Company	Private, Subsidiary of Public	Israel	Exploitation of Occupied Production and Resources, Settlement Production	Food Industry, Industrial Manufacturing	$50M-$100M	West Bank
+228	M.R. Hunter	Private	Israel	Specialized Equipment and Services	Industrial Manufacturing, Military, Security and Surveillance		
+229	Maoz Daniel	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	West Bank
+230	N. O. A. Management and Consulting	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction		East Jerusalem
+231	Peretz Sela Civil Engineering	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction	$0M-$1M	Gaza, West Bank
+232	Shikun Dayarim	Private, Subsidiary of Public	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+233	Shlomo Cohen Construction Company	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+234	Tyrec	Private	Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Settlement Enterprise	Waste Management		West Bank
+235	YuGan Engineering	Private	Israel	Israeli Construction on Occupied Land	Construction		West Bank
+236	Pelter Winery	Private	Israel, Occupied Syrian Golan	Settlement Production	Agriculture and Agrotechnology, Food Industry	$1M-$5M	Syrian Golan
+237	Binyamina Winery	Private	Israel	Settlement Production	Agriculture and Agrotechnology, Food Industry	$10M-$50M	Syrian Golan
+238	Assaf Winery	Private	Occupied Syrian Golan	Settlement Production	Agriculture and Agrotechnology, Food Industry, Tourism		Syrian Golan
+239	Bazelet Hagolan Winery	Private	Occupied Syrian Golan	Settlement Production	Agriculture and Agrotechnology, Food Industry		Syrian Golan
+240	Gat Shomron Winery	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+241	Arza Winery T.R.Z. (Hayotzer Winery)	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Food Industry	$5M-$10M	West Bank
+242	Eldad Spivak Engineering  Co.	Private	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land	Construction	$1M-$5M	West Bank
+243	Teva Naot	Private	Israel, Occupied Palestinian Territory	Services to the Settlements	Industrial Manufacturing, Service Industry and Retail	$10M-$50M	West Bank
+244	Taro Pharmaceutical Industries	NASDAQ	Israel	Palestinian Captive Market	Pharmaceutical	$500M-$1B	East Jerusalem, Gaza, West Bank
+245	Maavarim Civil Engineering	Private	Israel	Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$10M-$50M	
+246	Dexcel Pharma Technologies	Private	Israel	Palestinian Captive Market	Pharmaceutical	$100M-$250M	East Jerusalem, Gaza, West Bank
+247	Perrigo (Formerly Agis)	NASDAQ, TASE	Ireland	Palestinian Captive Market	Pharmaceutical	$1B-	
+248	Trima Israel Pharmaceutical Products - Maabarot	Private	Israel	Palestinian Captive Market	Pharmaceutical	$10M-$50M	East Jerusalem, Gaza, West Bank
+249	Salomon, Levin & Elstein (SLE)	Private, Subsidiary of Public	Israel	Palestinian Captive Market	Pharmaceutical		
+250	Tahal Group International	Private, Subsidiary of Public	Israel, Netherlands	Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply, Waste Management	$100M-$250M	East Jerusalem, Naqab, West Bank
+251	Kavim Public Transportation	Private	Israel	Services to the Settlements	Tourism, Transportation	$100M-$250M	East Jerusalem, Syrian Golan, West Bank
+252	Olenik Transportation Earth Work and Road Constructions	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction	$50M-$100M	East Jerusalem, West Bank
+253	Eltal Technologistics	Private, Subsidiary of Public	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance, Technology and Hi-tech	$10M-$50M	Gaza, West Bank
+254	Comodan Far East	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		Gaza, West Bank
+255	Habika Cooling (Nativ Hagdud)	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing		West Bank
+256	KalRam Yacobowitz	Private	Israel	Services to the Settlements, The Wall and Checkpoints	Industrial Manufacturing	$1M-$5M	East Jerusalem, West Bank
+257	Malam Team	TASE, Public	Israel	Population Control, Specialized Equipment and Services, The Wall and Checkpoints	Technology and Hi-tech	$500M-$1B	Gaza, West Bank
+258	NaanDan Jain Irrigation	Private, Subsidiary of Public	Israel	Services to the Settlements	Agriculture and Agrotechnology	$100M-$250M	Syrian Golan, West Bank
+259	Tedem Civil Engineering	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction		East Jerusalem, West Bank
+260	Teperberg 1870	Private	Israel	Exploitation of Occupied Production and Resources, Settlement Production	Agriculture and Agrotechnology, Food Industry	$10M-$50M	West Bank
+261	Chateau Golan Winery	Private	Occupied Syrian Golan	Settlement Production	Agriculture and Agrotechnology, Food Industry	$1M-$5M	Syrian Golan
+262	Rolbit Electronic Thermostats and Controllers	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$1M-$5M	West Bank
+263	Dalia Eliaspor Building Contracting Co. 1972	Private	Israel	Israeli Construction on Occupied Land	Construction	$5M-$10M	East Jerusalem, West Bank
+264	Lidor Real Estate Marketing	Private	Israel, Occupied Palestinian Territory	Israeli Construction on Occupied Land, Services to the Settlements	Real Estate		East Jerusalem, West Bank
+265	Union Motors	Private	Israel	Specialized Equipment and Services	Heavy Machinery, Military, Security and Surveillance, Service Industry and Retail		East Jerusalem, West Bank
+266	Phoenicia America-Israel (Flat Glass)	Private	Israel	Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Construction	$100M-$250M	East Jerusalem, West Bank
+267	B. Yair Building Corporation	TASE	Israel	Israeli Construction on Occupied Land	Construction	$1B-	East Jerusalem, West Bank
+268	Herzel Bibi - Nitsat HaDuvdevan	Private	Israel	Services to the Settlements	Food Industry, Service Industry and Retail	$50M-$100M	West Bank
+269	Mishab Building and Development	Private	Israel	Israeli Construction on Occupied Land	Construction	$50M-$100M	East Jerusalem, West Bank
+270	Super Pharm (Israel)	Private	Israel	Services to the Settlements	Service Industry and Retail	$1B-	East Jerusalem, West Bank
+271	Dekel Acher Construction and Investments	Private	Israel, Occupied Syrian Golan	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Settlement Production	Construction, Energy and Renewable Energy, Tourism	$100M-$250M	Syrian Golan
+272	Mayer Cars & Trucks Co.	Private	Israel	Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services	Heavy Machinery, Transportation	$1B-$9B	East Jerusalem, West Bank
+273	Yahav Oranit	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land, Private Security and Surveillance Technology, Services to the Settlements	Military, Security and Surveillance	$1M-$5M	Gaza, West Bank
+274	Neuman Steel Industries for Construction	Private	Israel	Israeli Construction on Occupied Land, Settlement Production	Construction, Heavy Machinery	$100M-$250M	West Bank
+275	English Cake	Private	Israel	Services to the Settlements	Food Industry	$5M-$10M	East Jerusalem, West Bank
+276	A.B. Plan	Private	Israel	Israeli Construction on Occupied Land	Construction, Transportation		West Bank
+277	Molitan Industries	Private	Israel, Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$10M-$50M	West Bank
+278	Cafe Cafe	Private	Israel	Services to the Settlements	Food Industry, Service Industry and Retail	$100M-$250M	East Jerusalem, West Bank
+279	Sonol Israel	Private	Israel	Services to the Settlements	Electricity, Gas and Water Supply	$500M-$1B	East Jerusalem, Syrian Golan, West Bank
+280	Ahuzat Adi Construction Company	Private	Israel	Israeli Construction on Occupied Land	Construction		West Bank
+281	HBI Haerter AG	Private	Switzerland	Israeli Construction on Occupied Land	Construction		
+282	Hagihon Company Ltd. – Jerusalem Area's Water and Wastewater Utility	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Settlement Enterprise	Electricity, Gas and Water Supply, Energy and Renewable Energy	$10M-$50M	East Jerusalem, West Bank
+283	Burger Ranch (Orgad HSN)	Private	Israel	Services to the Settlements	Food Industry, Service Industry and Retail	$10M-$50M	East Jerusalem, Syrian Golan, West Bank
+284	Lorenzetto Loris	Private	Italy	Israeli Construction on Occupied Land	Heavy Machinery, Industrial Manufacturing		West Bank
+285	ENI Advanced Security Solutions	Private	Israel	Services to the Settlements, Specialized Equipment and Services	Military, Security and Surveillance	$1M-$5M	East Jerusalem, West Bank
+286	JLG Industries	Private, Subsidiary of Public	USA	Israeli Construction on Occupied Land	Heavy Machinery		West Bank
+287	Tadmir Group Management & Operating (2006)	Private	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Settlement Production	Agriculture and Agrotechnology	$500M-$1B	West Bank
+288	AdaFresh	Private	Israel	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology	$10M-$50M	West Bank
+289	Mehadrin	TASE, Public	Israel	Economic Exploitation, Exploitation of Labor, Settlement Enterprise, Settlement Production	Agriculture and Agrotechnology	$100M-$250M	Syrian Golan, West Bank
+290	Tekoa Mushroom Farm	Private	Israel	Settlement Production	Agriculture and Agrotechnology	$5M-$10M	West Bank
+291	Arava Export Growers	Private	Israel	Settlement Enterprise, Settlement Production	Agriculture and Agrotechnology	$10M-$50M	Jordan Valley, West Bank
+292	Yehuda Welded Mesh (Yehuda Group)	Private	Israel	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, Specialized Equipment and Services, The Wall and Checkpoints	Industrial Manufacturing	$100M-$250M	East Jerusalem, Gaza, Syrian Golan, West Bank
+293	Anglo Saxon Real Estate Agency (Israel 1992)	Private	Israel	Services to the Settlements	Real Estate		East Jerusalem, West Bank
+294	Tempo Beverages	TASE	Israel	Exploitation of Occupied Production and Resources	Food Industry	$10M-$50M	
+295	Elyahu Zalman & Sons Metal Tubes Industries	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$1M-$5M	West Bank
+296	Stentofon Israel	Private	Israel	Specialized Equipment and Services	Telecommunication	$1M-$5M	West Bank
+297	Beit Alpha Technologies (B.A.T)	Private	Israel	Specialized Equipment and Services	Heavy Machinery, Industrial Manufacturing, Military, Security and Surveillance		West Bank
+298	Odortec	Private	Israel	Specialized Equipment and Services	Military, Security and Surveillance		East Jerusalem, West Bank
+299	Kardan NV	TASE, Euronext	Netherlands	Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply, Finance	$10M-$50M	East Jerusalem, Naqab, West Bank
+300	Yaaz Construction & Development	Private	Israel	Specialized Equipment and Services	Construction	$50M-$100M	East Jerusalem, Naqab, West Bank
+301	Benny & Tzvika	Private	Israel	Specialized Equipment and Services	Construction, Heavy Machinery, Waste Management	$10M-$50M	East Jerusalem, West Bank
+302	E.T. Legal Services	Private	Israel	Specialized Equipment and Services	Construction		West Bank
+303	El-Far Electronics Systems	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$5M-$10M	East Jerusalem, Gaza, West Bank
+304	Combined Systems (CSI)	Private	USA	Specialized Equipment and Services	Military, Security and Surveillance		East Jerusalem, Gaza, West Bank
+305	Elyakim Ben Ari	Private	Israel	Exploitation of Occupied Production and Resources, Settlement Production	Construction	$50M-$100M	West Bank
+306	Hidromek	Private	Turkey	Specialized Equipment and Services	Heavy Machinery	$100M-$250M	East Jerusalem, West Bank
+307	Meitarim Quarry	TASE	Israel	Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Production	Construction	$100M-$250M	West Bank
+308	Tabor Winery	Private	Israel	Settlement Production	Agriculture and Agrotechnology, Food Industry		Syrian Golan, West Bank
+309	Yatir Quarry	Private	Israel, Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Settlement Production	Construction, Industrial Manufacturing		West Bank
+310	CIM Lustigman	Private	Israel	Israeli Construction on Occupied Land	Construction, Real Estate	$10M-$50M	East Jerusalem, West Bank
+311	The Metrontario Group	Private	Canada	Israeli Construction on Occupied Land	Agriculture and Agrotechnology, Construction, Real Estate		East Jerusalem, West Bank
+312	Egged Israel Transport Cooperative Society	Cooperative	Israel	Services to the Settlements	Tourism, Transportation	$500M-$1B	East Jerusalem, Syrian Golan, West Bank
+313	Garrett Metal Detectors	Private	USA	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		West Bank
+314	Keter Plastic (Keter Group)	Private	Israel	Settlement Production	Industrial Manufacturing	$100M-$250M	West Bank
+315	BlueBird Aero Systems	Private	Israel	Specialized Equipment and Services	Military, Security and Surveillance	$10M-$50M	Gaza, West Bank
+316	Mifram Group	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Industrial Manufacturing, Military, Security and Surveillance	$10M-$50M	West Bank
+317	Nuctech	Private	China	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		
+318	Controp Precision Technologies	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$50M-$100M	East Jerusalem, Gaza, West Bank
+319	Bladeworx	Private	Israel	Specialized Equipment and Services	Military, Security and Surveillance		East Jerusalem
+320	RT LTA Systems	Private	Israel	Settlement Production, Specialized Equipment and Services	Military, Security and Surveillance		East Jerusalem, Gaza, Syrian Golan
+321	Afek Oil and Gaz	Private, Subsidiary of Public	Israel	Exploitation of Occupied Production and Resources	Electricity, Gas and Water Supply		Syrian Golan
+322	Manitou	MTU	France	The Wall and Checkpoints	Heavy Machinery	$1B-	East Jerusalem, West Bank
+323	Citybook Services	Private	Israel, Occupied Palestinian Territory	Settlement Production	Real Estate	$5M-$10M	West Bank
+324	Golan Heights Winery	Private	Occupied Syrian Golan	Settlement Production	Agriculture and Agrotechnology, Food Industry	$10M-$50M	Syrian Golan
+325	Yamit Filtration and Water Treatment (Formerly: Yamit E.L.I.)	Private	Israel, Occupied Palestinian Territory	Exploitation of Labor, Exploitation of Occupied Production and Resources, Settlement Production	Agriculture and Agrotechnology, Electricity, Gas and Water Supply	$10M-$50M	West Bank
+326	I.R.P.C. Rubber Products Co.	Private	Israel, Occupied Palestinian Territory	Settlement Production, Specialized Equipment and Services	Industrial Manufacturing	$50M-$100M	West Bank
+327	Falcon (WF) Technologies	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, West Bank
+328	E.P.R. Systems	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Production	Industrial Manufacturing, Technology and Hi-tech		Syrian Golan, West Bank
+329	Neetuv Management and Development Co.	Private	Occupied Palestinian Territory	Exploitation of Labor, Settlement Production	Construction		West Bank
+330	Amisragas, American Israeli Gas Crop.	Private	Israel	Services to the Settlements	Electricity, Gas and Water Supply	$100M-$250M	West Bank
+331	Magna B.S.P	Private	Israel	Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, West Bank
+332	OSI Systems	NASDAQ	USA	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance, Technology and Hi-tech	$1B-	East Jerusalem, Gaza, West Bank
+333	CEIA Costruzioni Elettroniche Industriali Automatismi	Private	Italy	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		Gaza, West Bank
+334	L-3 Communications	NYSE	USA	Specialized Equipment and Services, The Wall and Checkpoints	Industrial Manufacturing, Military, Security and Surveillance	$1B-	
+335	Adanim Tea Company (1991)	Private	Israel	Exploitation of Occupied Production and Resources	Agriculture and Agrotechnology, Food Industry	$1M-$5M	West Bank
+336	HaShomrim Guarding and Security Group Company (S.B. Shmira Ubitahon)	Private	Israel	Private Security and Surveillance Technology, The Wall and Checkpoints	Military, Security and Surveillance	$5M-$10M	West Bank
+337	Medan – Roads and Quarries (1964) LTD	Private	Israel	Economic Exploitation, Exploitation of Occupied Production and Resources, Settlement Enterprise, Settlement Production	Construction, Industrial Manufacturing	$10M-$50M	West Bank
+338	Edom UK	Private	Israel	Settlement Production	Agriculture and Agrotechnology	$10M-$50M	West Bank
+339	DefenSoft	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$1M-$5M	Gaza, West Bank
+340	El Go Team	Private	Israel	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem, West Bank
+341	Meytag High Tech Ventures	Private, Subsidiary of Public	Occupied Syrian Golan	Services to the Settlements, Settlement Production	Other, Pharmaceutical, Technology and Hi-tech	$1M-$5M	Syrian Golan
+342	Salit HaAdumim Quarry & Stone Processing Plant	Private	Occupied Palestinian Territory	Exploitation of Labor, Exploitation of Occupied Production and Resources, Settlement Production	Construction		West Bank
+343	Aeronautics	Private	Israel	Settlement Production, Specialized Equipment and Services	Military, Security and Surveillance, Technology and Hi-tech	$100M-$250M	East Jerusalem, Gaza, Syrian Golan, West Bank
+344	Afimilk Agricultural Cooperative	Cooperative	Israel	Services to the Settlements	Agriculture and Agrotechnology	$50M-$100M	West Bank
+345	P.L.H. Lighting Engineering	Private, Subsidiary of Public	Israel	Services to the Settlements, The Wall and Checkpoints	Industrial Manufacturing, Telecommunication	$10M-$50M	East Jerusalem, West Bank
+346	Taavura Holdings	Private	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements, Settlement Production, The Wall and Checkpoints	Construction, Transportation	$500M-$1B	East Jerusalem, West Bank
+347	Ackerstein Industries	Private	Israel	Israeli Construction on Occupied Land, Private Security and Surveillance Technology, Specialized Equipment and Services, The Wall and Checkpoints	Construction	$50M-$100M	East Jerusalem, Naqab, West Bank
+348	Ashdar Building Company	TASE	Israel	Israeli Construction on Occupied Land	Construction, Real Estate	$100M-$250M	East Jerusalem, West Bank
+349	Terex Corporation	NYSE	USA	Israeli Construction on Occupied Land, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$1B-	East Jerusalem, West Bank
+350	Ramat Hagolan Dairies (Golan Heights Dairies)	Private	Occupied Syrian Golan	Settlement Production	Food Industry	$10M-$50M	Syrian Golan
+351	Rotshtein Real Estate	TASE	Israel	Israeli Construction on Occupied Land	Construction	$100M-$250M	East Jerusalem, West Bank
+352	Peretz Bonei Hanegev	Private	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market	Construction, Real Estate	$100M-$250M	East Jerusalem, Gaza, West Bank
+353	Efgad Engineering and Construction Works	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+354	Tzifha International	Private	Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Settlement Production	Construction		East Jerusalem, West Bank
+355	Avisror Moshe & Sons	Private	Israel	Israeli Construction on Occupied Land	Construction, Real Estate	$100M-$250M	East Jerusalem
+356	Y. Tzarfati Car and Metal Services	Private	Occupied Palestinian Territory	Exploitation of Labor, Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Production	Service Industry and Retail	$5M-$10M	West Bank
+357	Euro Israel (I.S.)	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+358	SA.D.R. Construction Works Co.	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land, Settlement Production	Construction	$5M-$10M	East Jerusalem, West Bank
+359	B.G. Ilanit Gates and Urban Elements	Private	Occupied Palestinian Territory	Settlement Production, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$10M-$50M	East Jerusalem, West Bank
+360	Atid Packaging	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing		West Bank
+361	Eastern Lines	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Production	Transportation	$5M-$10M	West Bank
+362	Ofertex Industries	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing, Waste Management		West Bank
+363	Clal Industries	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, The Wall and Checkpoints	Finance		East Jerusalem, Gaza, West Bank
+364	Haim Zaken Construction and Investments	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction, Real Estate	$10M-$50M	
+365	Meprolight	Private	Israel, Occupied Palestinian Territory	Specialized Equipment and Services	Military, Security and Surveillance		
+366	Ben Security	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements	Military, Security and Surveillance	$50M-$100M	East Jerusalem, West Bank
+367	Moked Matara	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements	Industrial Manufacturing, Military, Security and Surveillance		
+368	Natoon Nof Yam Security	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements	Military, Security and Surveillance		West Bank
+369	T & M Protection Resources Holdings Israel	Private	Israel	Private Security and Surveillance Technology, Services to the Settlements, Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance		East Jerusalem
+370	Bickel Group	Private	Israel	Exploitation of Occupied Production and Resources, Services to the Settlements, Settlement Production	Agriculture and Agrotechnology		Gaza, West Bank
+371	Gvaot Olam Farm - Agriculture (Meshek Ran)	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Service Industry and Retail	$1M-$5M	West Bank
+372	Zorganika	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology	$5M-$10M	West Bank
+373	Agrofresh Pro	Private	Israel	Settlement Production	Agriculture and Agrotechnology	$1M-$5M	West Bank
+374	Avniv	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology		West Bank
+375	Genesis Land Dates/N.S Water and maintenance services	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology	$1M-$5M	West Bank
+376	Beresheet	Private	Occupied Syrian Golan	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology		Syrian Golan
+377	Vered Hatamar	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology		West Bank
+378	S.M Valley	Private	Occupied Palestinian Territory	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology	$5M-$10M	West Bank
+379	Mor Hasharon Fruit (Sharon Fruit)	Private	Israel, South Africa	Palestinian Captive Market, Services to the Settlements, Settlement Production	Agriculture and Agrotechnology	$10M-$50M	West Bank
+380	Cherriessa	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology		West Bank
+381	Tamar Hazahav	Private	Israel, Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology		West Bank
+382	Kedem Hadarim	Private	Israel	Settlement Production	Agriculture and Agrotechnology		
+383	Dan Pri Export and International Trade	Private	Israel	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology	$10M-$50M	West Bank
+384	Extal	Private	Occupied Palestinian Territory	Exploitation of Labor, Settlement Production	Construction	$50M-$100M	West Bank
+385	Tal El Collection and Recycling	Private	Occupied Palestinian Territory	Settlement Production	Waste Management	$10M-$50M	East Jerusalem, West Bank
+386	Ha'argaz Technopach Metal Industries	Private	Occupied Palestinian Territory	Settlement Production, Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery	$5M-$10M	
+387	Amos Hadar Properties and Investments (Hadar Group)	TASE	Israel	Israeli Construction on Occupied Land	Construction	$5M-$10M	East Jerusalem, West Bank
+388	Zakai Agricultural Know-how and Inputs	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology	$0M-$1M	West Bank
+389	Top Greenhouses	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology		West Bank
+390	Isra Marin Manufacture of Structures 3000	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction	$10M-$50M	West Bank
+391	Contact International (Kalia Israel Ammunition Co.)	Private	Occupied Palestinian Territory	Settlement Production, Specialized Equipment and Services	Military, Security and Surveillance	$1M-$5M	West Bank
+392	Barad Earth Development & Road Works	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction	$10M-$50M	East Jerusalem, West Bank
+393	Abadi Bakery	Private	Occupied Palestinian Territory	Settlement Production	Service Industry and Retail	$10M-$50M	East Jerusalem, West Bank
+394	Unikowsky Maoz	Private	Occupied Palestinian Territory	Settlement Production	Service Industry and Retail	$5M-$10M	West Bank
+395	Green is  us	Private	Israel	Economic Exploitation, Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply		West Bank
+396	Nesher Israel Cement Enterprises	Private	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, The Wall and Checkpoints	Industrial Manufacturing	$500M-$1B	East Jerusalem, Gaza, West Bank
+397	Yatz-Ar	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction	$1M-$5M	West Bank
+398	Enerpoint Israel	Private	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Settlement Production	Energy and Renewable Energy	$10M-$50M	Naqab, West Bank
+399	Mei-Tal Engineering and Services	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+400	Magen Constructional Engineering Works Ltd	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction	$10M-$50M	West Bank
+401	Hishtil	Private	Israel	Services to the Settlements, Settlement Production	Agriculture and Agrotechnology		West Bank
+402	Netafim	Private, Subsidiary of Public	Israel	Services to the Settlements	Agriculture and Agrotechnology	$1B-$5B	Syrian Golan, West Bank
+403	Almog C.D.A.Y	Private	Israel	Israeli Construction on Occupied Land	Construction	$100M-$250M	West Bank
+404	Mishkan Eliyahu Construction and Investment Company	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+405	Mery Building Works Contracting Company	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem
+406	Amy Metom Engineers and Consultants	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction		East Jerusalem, Syrian Golan, West Bank
+407	Mordechai Aviv Construction Industries	TASE	Israel	Israeli Construction on Occupied Land, Settlement Production	Construction	$100M-$250M	West Bank
+408	Cemex	Public, NYSE	Mexico	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, The Wall and Checkpoints	Construction	$10B-$20B	East Jerusalem, West Bank
+409	Covenant Group	Private	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land, Services to the Settlements	Construction	$100M-$250M	West Bank
+410	Kass Group (Kass – C)	Private	Israel, Occupied Palestinian Territory	Israeli Construction on Occupied Land, Settlement Production	Construction, Real Estate	$10M-$50M	East Jerusalem, West Bank
+411	Dona Engineering and Construction	Private	Israel	Israeli Construction on Occupied Land	Construction	$100M-$250M	East Jerusalem, West Bank
+412	Hasid Brothers Building Contracting Co. Ltd	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+413	Kotler Adika Building Company	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+414	Rapiscan Systems	Subsidiary of Public	USA	Specialized Equipment and Services, The Wall and Checkpoints	Military, Security and Surveillance	$500M-$1B	East Jerusalem, West Bank
+415	Readymix Industries Israel	Private, Subsidiary of Public	Israel	Israeli Construction on Occupied Land, Population Control, Services to the Settlements, Settlement Enterprise, The Wall and Checkpoints	Construction	$500M-$1B	East Jerusalem, West Bank
+416	Greennet Recycling and Waste Treatment	Private	Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Settlement Enterprise	Waste Management	$10M-$50M	
+417	Compost Or	Private	Israel, Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Settlement Enterprise	Waste Management	$10M-$50M	West Bank
+418	Green-Oil Energy	Private	Occupied Palestinian Territory	Settlement Production	Waste Management	$5M-$10M	West Bank
+419	Einav Ahets	Private	Israel	Israeli Construction on Occupied Land	Construction	$50M-$100M	Syrian Golan, West Bank
+420	Bomag	Private	Germany	Israeli Construction on Occupied Land, The Wall and Checkpoints	Heavy Machinery	$500M-$1B	West Bank
+421	Shilo Winery	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology, Food Industry		West Bank
+422	Liebherr International	Private	Germany, Switzerland	Israeli Construction on Occupied Land, The Wall and Checkpoints	Heavy Machinery	$1B-	
+423	Carmel Industries (I.L.)	Private	Israel, Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$10M-$50M	
+424	Oppenheimer Manufacturing and Marketing	Private	Occupied Palestinian Territory	Settlement Production	Food Industry	$1M-$5M	East Jerusalem
+425	Kvotzat Mifalei J.Brosh - Brosh Fibers (formerly Ayelet Barkan)	Private	Occupied Palestinian Territory	Settlement Production	Industrial Manufacturing	$10M-$50M	West Bank
+426	David Ackerstein Ltd.	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Construction, Transportation		East Jerusalem, West Bank
+427	Marom Tuval – Consulting, Management and Investments LTD	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements	Transportation		East Jerusalem
+428	Groisman Engineering Ltd.	Private	Israel	Services to the Settlements			
+429	Ineco	Public	Spain	Services to the Settlements	Transportation	$100M-$250M	East Jerusalem, West Bank
+430	Bnei Eli Etkes Surveying and Engineering Instruments Ltd	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services	Industrial Manufacturing, Technology and Hi-tech, Telecommunication	$5M-$10M	Syrian Golan, West Bank
+431	Sarfati Simon Ltd.	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem
+432	S.A.G. (Velvel) Building & Development Ltd.	Private	Israel, Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, Syrian Golan, West Bank
+433	Boneich Construction Development & Investments	Private	Israel, Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction	$5M-$10M	East Jerusalem, West Bank
+434	A. Hezi Building and Investment Co.	Private	Israel	Israeli Construction on Occupied Land	Construction	$0M-$1M	East Jerusalem
+435	Psagot Ziv Investment and Development (1993) Ltd.	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem
+436	Solaredge	NASDAQ	Israel	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land	Construction, Electricity, Gas and Water Supply	$100M-$250M	West Bank
+437	M.G.A. Energy Solutions	Private	Israel, Occupied Palestinian Territory	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land	Construction, Electricity, Gas and Water Supply		West Bank
+438	Refu Elektronik	Private	Germany	Exploitation of Occupied Production and Resources, Services to the Settlements	Electricity, Gas and Water Supply		West Bank
+439	T.M.M. Integrated Recycling Industries	Private	Israel	Exploitation of Occupied Production and Resources	Waste Management	$100M-$250M	West Bank
+440	Supergum Industries	Private	Israel	Settlement Production, Specialized Equipment and Services	Industrial Manufacturing		West Bank
+441	Kiryat Sefer (Diur Modi'in)	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction	$10M-$50M	West Bank
+442	D.N. Kol Gader	Private	Israel, Occupied Palestinian Territory	Services to the Settlements, The Wall and Checkpoints	Construction, Military, Security and Surveillance		East Jerusalem, West Bank
+443	Teltone Electronics	Private	Israel, Occupied Palestinian Territory	Settlement Production, Specialized Equipment and Services	Military, Security and Surveillance, Service Industry and Retail		West Bank
+444	AM General	Private	USA	Specialized Equipment and Services, The Wall and Checkpoints	Heavy Machinery		West Bank
+445	Kfar Giladi Quarries	Cooperative	Israel	Exploitation of Occupied Production and Resources, Settlement Production	Construction	$50M-$100M	West Bank
+446	Avi Cranes	Private	Israel	Israeli Construction on Occupied Land, Services to the Settlements, The Wall and Checkpoints	Construction, Heavy Machinery	$5M-$10M	West Bank
+447	Jordan River Herbs	Private	Occupied Palestinian Territory	Settlement Production	Agriculture and Agrotechnology	$1M-$5M	West Bank
+448	Itzkin Eyal  Architects	Private	Israel	Israeli Construction on Occupied Land	Construction		East Jerusalem, West Bank
+449	SMA Solar Technology	FWB, SDAX	Germany	Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply	$100M-$250M	West Bank
+450	JA Solar Holdings	NASDAQ	China	Israeli Construction on Occupied Land	Electricity, Gas and Water Supply	$1M-$5M	
+451	PGR Drive Technologies	Private	Turkey	Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply		West Bank
+452	Pelephone Communications	Private	Israel	Israeli Construction on Occupied Land, Palestinian Captive Market, Services to the Settlements	Telecommunication	$500M-$1B	East Jerusalem, Syrian Golan, West Bank
+453	Umm Brothers Construction Works Investment and Development Company	Private	Israel	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem
+454	Ral Electric Holdings (formerly: Adir Electric Boards)	Private	Israel	Services to the Settlements, The Wall and Checkpoints	Electricity, Gas and Water Supply		Gaza, Syrian Golan, West Bank
+455	First Solar	NASDAQ	USA	Economic Exploitation, Israeli Construction on Occupied Land, Services to the Settlements	Electricity, Gas and Water Supply	$1B-	Naqab, West Bank
+456	Suntech	Public	China	Exploitation of Occupied Production and Resources, Israeli Construction on Occupied Land	Electricity, Gas and Water Supply	$500M-$1B	Syrian Golan, West Bank
+457	Elrom Studios (2000) Ltd.	Private	Occupied Syrian Golan	Settlement Enterprise	Telecommunication	$1M-$5M	Syrian Golan
+458	Eli Yohanan Engineers	Private	Israel	Israeli Construction on Occupied Land, The Wall and Checkpoints	Construction		East Jerusalem, West Bank
+459	Joe Gourmet Coffee	Private	Israel	Services to the Settlements		$10M-$50M	East Jerusalem, West Bank
+460	Shachar and Co. Building and Engineering Company Ltd.	Private	Occupied Palestinian Territory	Israeli Construction on Occupied Land	Construction	$10M-$50M	East Jerusalem, West Bank
+461	Schwing	Private	Germany	Israeli Construction on Occupied Land, Services to the Settlements, Specialized Equipment and Services	Heavy Machinery	$1B-	East Jerusalem, West Bank
+462	Albar Mimunit Services	TASE	Israel	Services to the Settlements	Service Industry and Retail, Transportation	$500M-$1B	West Bank
+463	F.K. Generators and Equipment	Private	Israel	Services to the Settlements, The Wall and Checkpoints	Electricity, Gas and Water Supply, Industrial Manufacturing	$10M-$50M	Syrian Golan, West Bank
+464	Angel Bakeries (Salomon A. Angel)	TASE	Israel	Services to the Settlements, Settlement Production	Food Industry	$100M-$250M	East Jerusalem
+465	Aroma Espresso Bar	Private	Israel	Services to the Settlements	Food Industry, Service Industry and Retail	$100M-$250M	West Bank
+466	Afic Printing Products	Private	Israel, Occupied Syrian Golan	Settlement Production	Industrial Manufacturing	$5M-$10M	Syrian Golan
+467	Superbus	Private	Israel	Services to the Settlements	Transportation	$100M-$250M	West Bank
+468	CNA -Cable Neige Amenagement - Maitrise D’Oeuvre	Private	France	Israeli Construction on Occupied Land, Services to the Settlements	Transportation		East Jerusalem
+469	Max Bögl Stiftung & Co.	Private	Germany	Israeli Construction on Occupied Land	Construction		West Bank
+470	Impresa Pizzarotti & C	Private	Italy	Israeli Construction on Occupied Land	Construction	$500M-$1B	
