@@ -1,0 +1,44 @@
+---
+titel: Halal-Prüfzeile, frischer Prüfer, Portfolio-Plan (MC3b)
+stand: 2026-10-28
+sitzung: 3c520bcd-9ea8-493e-b265-73fadbf90bfe
+gegenstand: /Users/eliasel-gendy/Documents/dev/finanzmuslim-finish/docs/freebies/portfolio-plan.txt mit Begleitdatei portfolio-plan.belege.md
+gelesen:
+  - fundament/grundlage/HALAL_PRUEFZEILE.md (Vault, ganz)
+  - docs/freebies/portfolio-plan.txt (ganz, 159 Zeilen)
+  - docs/freebies/portfolio-plan.belege.md (ganz)
+  - Ausgabe halal_aussagen.py mit --belege (11 Treffer, 0 ohne gültigen Beleg, Ausgang 0)
+  - src/data/halalAnlagen.ts (Einträge ishares-msci-world-islamic, ishares-usd-sukuk-ucits-etf, invesco-physical-gold-etc, bitcoin)
+  - src/data/screenerVergleich.ts Z. 212-225
+  - src/data/vergleichAnzeige.ts über vite-node gezählt (girokontoAnzeige, depotAnzeige, Feld zinsfreiAbStart samt quellen)
+  - geöffnet am 28.10.2026: iShares-II-plc-Prospekt (blackrock.com, PDF), Invesco-SSB-Zertifikat 2025 (PDF), shariyah.net/cryptocurrencies/bitcoin, africanews.com (Artikel 02.01.2018), dok.dkb.de plv_pk_konten.pdf, konto.flatex.de 1300100.pdf, c24.de/preise, xtb.com/de/zinsen, tradersplace.de/konditionen, musaffa.com, musaffa.com/shariah-compliance
+  - nicht zu öffnen: hilfe.c24.de (HTTP 403)
+---
+
+# Halal-Prüfzeile: Portfolio-Plan (/dein-plan/invest-5rk8)
+
+Geprüft wird nur, ob der Beleg die Aussage trägt. Kein eigenes Urteil zu halal oder haram.
+
+| Kennung oder Zitat | direkt oder mittelbar | Beleg | trägt, trägt nicht oder fehlt | Grund |
+|---|---|---|---|---|
+| S-2a87ec30 „Dein Halal-Portfolio in vier Schritten“ (Z. 1) | direkt | halalAnlagen.ts, Einträge Islamic ETF, Sukuk, Gold, Bitcoin; Einzelaktien „nur mit eigener Prüfung“ | trägt nicht | Für die drei Bausteine des Standardplans (iShares MSCI World Islamic, iShares USD Sukuk, Invesco Physical Gold) liegt je Fatwa oder Jahreszertifikat vor, geöffnet. Der Titel deckt aber auch den Plan „5+ Jahre“ mit 5 % Krypto und 10 % Einzelaktien. Der einzige Beleg für Bitcoin sagt wörtlich „This is a preliminary Sharia research and is by no means a fatwa“, und der Text selbst nennt die Gegenposition des Großmufti. Für Einzelaktien gibt es per Definition keinen Beleg je Titel. Das Wort „Halal“ ohne Einschränkung über diesen Plan trägt der Beleg nicht. |
+| S-b3cfaf2d „Ich habe gerankt, welche Anbieter zinsfrei sind.“ (Z. 11) | direkt | brokerVergleich.ts, quellen.zinsfreiAbStart; Beispiel flatex 1300100.pdf | trägt | flatex-PDF geöffnet: „Guthabenzins 0,00 % p. a. (freibleibend)“. Je Angebot liegt ein Anbieter-Beleg im Feld. |
+| S-8316f5b2 „Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben.“ (Z. 21) | direkt | c24.de/preise, „0,75 % Zinsen p.a. auf das Girokonto“; Zählung der Begleitdatei | trägt | C24-Seite geöffnet, Zitat steht dort. Selbst gezählt in girokontoAnzeige: 7 von 54 nicht grün (1 gelb, 6 rot), also etwa jedes achte. Jeder dieser Einträge hat eine Quelle des Anbieters. |
+| „Bei den meisten davon kannst du das nicht abschalten.“ (Z. 21) | direkt (Zinsen), ohne Wort der Liste | keine Zeile in der Begleitdatei; Daten: zinsfreiAbStart „schlecht“ = „nicht abschaltbar“ | trägt nicht | Rot sind 6 von 7. Ausdrücklich vom Anbieter belegt ist „nicht abschaltbar“ nur bei BBVA („Es ist nicht möglich, die Rückerstattung der Zinsen auf Ihr Konto abzulehnen.“). Bei C24 (3 Konten) steht nur „wird automatisch verzinst“, bei norisbank „kein Verzicht erwähnt“, bei Santander nur der Zinssatz. „Automatisch“ und „kein Verzicht erwähnt“ ist nicht „kann man nicht abschalten“. Belegt wäre: „Bei den meisten davon läuft das automatisch.“ |
+| S-80e26077 „Girokonten ohne Zinsen ansehen“ (Z. 23) | direkt | dok.dkb.de plv_pk_konten.pdf, Abschnitt 2 | trägt | PDF geöffnet: „2 Einlagen auf Konten … Guthaben auf dem Girokonto … 0,00% p. a.“. Anbieter selbst. |
+| S-f7e966c3 „iShares USD Sukuk, mit eigenem Shariah-Gremium und Fatwa.“ (Z. 33) | direkt | iShares-II-plc-Prospekt, Sukuk Fund Panel | trägt | Prospekt geöffnet: „"Sukuk Fund", iShares $ Sukuk UCITS ETF.“ und „The Sukuk Fund Panel has issued a Fatwa in respect of the Sukuk Fund.“ Vorsitz Dr. Mohamed Ali Elgari (Amanie). |
+| „Invesco Physical Gold, mit jährlichem Shariah-Zertifikat.“ (Z. 39) | mittelbar, ohne Wort der Liste | Quellenblock Z. 117; halalAnlagen.ts zertifikatLink (Invesco-PDF) | trägt | PDF geöffnet: „ANNUAL SHARIAH COMPLIANCE CERTIFICATE FINANCIAL YEAR END 2025“, Amanie, 01.06.2026, „The Certificates audited include: Invesco Physical Gold ETC“. Keine Zeile in der Begleitdatei, Beleg trotzdem vorhanden. |
+| „Ein Shariah-Gremium prüft jedes Quartal und sortiert aus, was nicht passt.“ (Z. 43) | mittelbar, ohne Wort der Liste | Quellenblock Z. 116 (iShares-Prospekt) | trägt | Prospekt, Abschnitt MSCI SHARI'AH BOARD: „will be reviewed on a quarterly basis by the MSCI Shari'ah Board … the Investment Manager is responsible for ensuring the Fund undertakes the required changes“. Das Gremium ist das von MSCI, nicht das Fonds-Panel; der Satz sagt nur „ein Shariah-Gremium“. Keine Zeile in der Begleitdatei. |
+| S-a0ac41bb „iShares MSCI World Islamic, mit eigenem Shariah-Gremium und Fatwa.“ (Z. 45) | direkt | iShares-II-plc-Prospekt, Shari'ah Equity Funds Panel | trägt | „"Shari'ah Equity Funds", together, … iShares MSCI World Islamic UCITS ETF“ und „The Shari'ah Equity Funds Panel has issued a Fatwa in respect of the Shari'ah Equity Funds.“ |
+| „Jede braucht ihre eigene Prüfung. Geprüft wird jede Firma einzeln, nach Umsatz und Schulden.“ (Z. 49, 51) | mittelbar, ohne Wort der Liste | screenerVergleich.ts Z. 220, URL musaffa.com, Umschreibung „Geschäftstätigkeit und Finanzkennzahlen“ | trägt nicht | Die genannte Fundstelle ist eine eigene Umschreibung ohne Zitat; musaffa.com (geöffnet) sagt nur „based on Musaffa's proprietary methodology and AAOIFI standards“, nichts zu Umsatz oder Schulden. Die Aussage steht aber auf musaffa.com/shariah-compliance (geöffnet): „We check the proportion of a company's total revenue that is generated from non-permissible (haram) activities“ und „We check the proportion of a company's total debt that is interest-based“. Beleg auf diese Adresse mit Zitat umsetzen, dann trägt er. |
+| S-fa8d7710 „Gelehrte sind uneins: Das Shariyah Review Bureau fand bei Bitcoin nichts, was gegen die Scharia spricht.“ (Z. 57) | direkt | shariyah.net/cryptocurrencies/bitcoin; africanews | trägt | Seite geöffnet: „nothing has come to our attention that causes us to believe that Bitcoin is in breach of Sharia principles and rulings as adopted by the scholars conducting this research“. Wörtlich, mit Fundstelle. Der Satz behauptet weder Fatwa noch Zertifikat. Zwei Positionen belegt, „uneins“ trägt. |
+| „Der Großmufti von Ägypten verbot den Handel damit 2018.“ (Z. 57) | direkt, ohne Wort der Liste | africanews.com, Artikel 02.01.2018 | trägt | Geöffnet: „The Grand Mufti of Egypt has explicitly prohibited trading in Bitcoin, explaining that it is forbidden in Islamic Shari…“, Artikel vom 02.01.2018. |
+| S-8d6d3b1e „Etwa jedes fünfte Depot in meinem Vergleich verzinst dein Guthaben, oft automatisch.“ (Z. 95) | direkt | xtb.com/de/zinsen | trägt | Geöffnet: „Die Verzinsung wird automatisch aktiviert, es sind keine weiteren Schritte erforderlich.“ Selbst gezählt in depotAnzeige: 5 von 27 rot (1822direkt, HVB 2×, ING, XTB), je mit Anbieter-Quelle; bei 1822direkt, ING, XTB automatisch. |
+| S-b594ae6e „Damit Muslime es einfach haben, habe ich gerankt, welche Anbieter zinsfrei sind.“ (Z. 100) | direkt | brokerVergleich.ts; tradersplace.de „Guthabenzinssatz 0% p.a.“ | trägt | tradersplace-Seite geöffnet: „EUR-Verrechnungskonto Guthabenzinssatz 0% p.a.“. Anbieter selbst. |
+| S-a1ea1096 „Prüf, ob deins Zinsen zahlt“ (Z. 104) | direkt | xtb.com/de/zinsen | trägt | Aufforderung, keine Behauptung; Beispiel-Beleg geöffnet und stimmt. |
+| S-d4c52573 „Girokonto ohne Zinsen“ (Z. 126, Plan „In 1 Jahr“) | direkt | dok.dkb.de plv_pk_konten.pdf | trägt | Wie S-80e26077. |
+| „Islamic ETF“, „Islamic ETFs“ (Z. 41, 63, 73, 95, 143) | keine Aussage | entfällt | trägt | „Islamic“ im Namen ist keine Halal-Aussage (Prüfzeile, Die Regel). |
+
+Hinweise ohne Einfluss auf das Urteil: In der Begleitdatei stehen sieben Kennungen ohne Satz im Text (S-989def65, S-ee4a28cc, S-815273c0, S-6900231f, S-33daaf96, S-23a1061a, S-2fcde083), Reste früherer Fassungen. Die Gelbe beim Girokonto (Wise) zahlt laut Anbieter „cashback“ mit Opt-out; sie zählt im Text mit zu „Zinsen“, das ist die Einordnung der Seite, kein Beleg-Fehler.
+
+Urteil Halal-Prüfzeile: rot: drei Aussagen ohne tragenden Beleg: der Titel „Halal-Portfolio“ deckt den Plan mit Krypto und Einzelaktien, deren einziger Bitcoin-Beleg sich selbst „by no means a fatwa“ nennt; „Bei den meisten davon kannst du das nicht abschalten“ ist vom Anbieter nur bei 1 von 7 Konten belegt; die Fundstelle zu „nach Umsatz und Schulden“ zeigt es nicht (richtige Adresse musaffa.com/shariah-compliance).

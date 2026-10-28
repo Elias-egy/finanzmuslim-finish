@@ -146,7 +146,7 @@ const PortfolioPlan = () => {
   return (
     <main className="bg-background" data-freebie="portfolio-plan">
       <Seo
-        title="Dein Halal-Portfolio-Plan | finanzmuslim"
+        title="Dein Portfolio-Plan als Muslim | finanzmuslim"
         description="Sieh drei Beispiel-Pläne für 500 € im Monat: für in 1 Jahr, in 3 Jahren und in 5 Jahren und mehr."
         path={PLAN_PFAD}
         noindex
@@ -155,7 +155,7 @@ const PortfolioPlan = () => {
       <div className="container max-w-2xl py-8 md:py-12">
         <header className="rounded-3xl bg-hero p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
-            Dein Halal-Portfolio in vier Schritten
+            Dein Portfolio als Muslim in vier Schritten
           </h1>
           <p className="mt-3 text-[17px] leading-snug text-foreground/85">
             Ali ist 25 und hat jeden Monat {MONATLICH}&nbsp;€ übrig. So könnte er sie verteilen, je nachdem, wann er das Geld braucht.

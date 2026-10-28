@@ -144,7 +144,7 @@ export const euro = (prozent: number) => Math.round((MONATLICH * prozent) / 100)
 
 /** Die belegten Zahlen für den Schmerz (Stand der Vergleiche, siehe Begleitdatei). */
 export const SCHMERZ = {
-  girokonto: "Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon kannst du das nicht abschalten.",
+  girokonto: "Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon läuft das automatisch.",
   depot: "Etwa jedes fünfte Depot in meinem Vergleich verzinst dein Guthaben, oft automatisch. Und nicht jedes hat alle Islamic ETFs: Von zwölf geprüften führen nur zwei alle, ein bekanntes nur sechs.",
 };
 
