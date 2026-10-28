@@ -2,15 +2,16 @@
  * Der Gold-Plan, das neue Freebie zum Wort „Gold“ (Gesamtplan MC, Abschnitt 4, Sitzung MC4b).
  *
  * Gebaut im Stil von Fassung 5 des Portfolio-Plans (Elias, 28.10.2026: „in dem stil alle anderen
- * auch“): oben die Geld-Frage, ein roter Schmerz, kurze Karten mit Beispiel-Kasten, zuletzt die
- * bekannten Anbieter mit belegter Tatsache und der Aufruf zum Vergleich.
+ * auch“), seit MC4d nur um Gold beim Broker (Elias, 28.10.2026: „es dreht sich eigentlich alles nur um
+ * Broker-Gold“): online kaufen, zwei Regeln, warum Broker-Gold meist nur eine Wette ist, die Ausnahme
+ * Physical Gold ETC mit Zertifikat, nicht jeder Broker führt sie, Aufruf zum Vergleich.
  *
  * Liegt versteckt unter /dein-gold/<schluessel>: nicht in Navigation oder Sitemap, noindex. Wer den
  * Schlüssel ändert, macht alle verschickten Links ungültig. Jede Halal- und Zinsaussage hat ihren
- * Beleg in `docs/freebies/gold-plan.belege.md`; die Wege und ihre Ampel stammen aus
- * `edelmetallVergleich.ts` (EDELMETALL_WEGE) und dem Gold-Check (`goldCheck.ts`).
+ * Beleg in `docs/freebies/gold-plan.txt.belege.md`.
  */
 import nisab from "@/data/nisab.json";
+import { GOLD_ISINS, edelmetallVergleich } from "@/data/edelmetallVergleich";
 
 export const GOLD_SCHLUESSEL = "gold-4hq7";
 export const GOLD_PFAD = `/dein-gold/${GOLD_SCHLUESSEL}`;
@@ -28,9 +29,14 @@ export const PREIS_STAND = nisab.stand;
 export const grammText = (g: number) =>
   g < 10 ? g.toLocaleString("de-DE", { maximumFractionDigits: 1, minimumFractionDigits: 1 }) : String(Math.round(g));
 
+/** Die zwei Regeln, ganz kurz (Elias, 28.10.2026, MC4c: „Ganz schnell die Regeln“). Belege in der Begleitdatei. */
+export const REGELN = [
+  { wort: "Sofort", satz: "Geld und Gold wechseln direkt, von Hand zu Hand." },
+  { wort: "Deins", satz: "Das Gold muss wirklich dir gehören." },
+] as const;
+
 export const SCHMERZ = {
-  gold: "Ein Gold-CFD ist nur eine Wette auf den Preis. Ein Gramm Gold bekommst du nie.",
-  muslim: "Als Muslim kaufst du echtes Gold, das dir gehört.",
+  broker: "Gold beim Broker ist sehr oft nur ein Papier auf den Preis. Gold liegt keins dahinter.",
 };
 
 /**
@@ -45,43 +51,26 @@ export const CFD_ANBIETER = [
   { name: "Capital.com", domain: "capital.com" },
 ] as const;
 
-export type GoldWegId = "barren" | "sparplan" | "etc";
+/**
+ * Die Ausnahme: Physical Gold ETCs mit Zertifikat (Elias, 28.10.2026, MC4c). Ein Barren trägt nicht den
+ * Namen des Käufers; WisdomTree: „Jeder physische Barren wird getrennt gelagert, ist einzeln
+ * gekennzeichnet und zugewiesen“, Barrenliste auf der Produktseite.
+ */
+export const ETC_SATZ = "Bei einem Physical Gold ETC liegen echte Barren im Tresor. Die Barren sind nummeriert und stehen in einer öffentlichen Liste.";
+export const GELEHRTE_SATZ = "Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Frag im Zweifel einen Gelehrten.";
+export const ETC_BEISPIELE = [
+  { slug: "wisdomtree-physical-gold", titel: "WisdomTree Physical Gold", zertifikat: "Prüfbericht Al-Qalam" },
+  { slug: "invesco-physical-gold-etc", titel: "Invesco Physical Gold", zertifikat: "Zertifikat Amanie" },
+] as const;
 
-export type GoldWeg = {
-  id: GoldWegId;
-  name: string;
-  /** Wo das Gold liegt, als kleines Etikett. */
-  ort: string;
-  /** Höchstens zwei, drei Zeilen am Handy (Elias, 28.10.2026). */
-  satz: string;
-  /** Beispiel mit Logo, nicht anklickbar (Elias, 28.10.2026). */
-  beispiel: { slug?: string; domain?: string; titel: string };
-};
-
-/** Reihenfolge nach Sicherheit des Urteils: unstrittig, mit Zertifikat, umstritten (EDELMETALL_WEGE). */
-export const wege: GoldWeg[] = [
-  {
-    id: "barren",
-    name: "Barren und Münzen",
-    ort: "Bei dir",
-    satz: "Du zahlst und nimmst den Barren sofort mit.",
-    beispiel: { domain: "proaurum.de", titel: "pro aurum, ein Goldhändler" },
-  },
-  {
-    id: "sparplan",
-    name: "Sparplan mit Tresor",
-    ort: "Im Tresor",
-    satz: "Du kaufst jeden Monat, das Gold wird dir zugeteilt und liegt im Tresor.",
-    beispiel: { domain: "inaia.finance", titel: "INAIA, mit Shariah-Zertifikat" },
-  },
-  {
-    id: "etc",
-    name: "Gold-ETC im Depot",
-    ort: "Im Depot",
-    satz: "Die Barren liegen im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Frag im Zweifel einen Gelehrten.",
-    beispiel: { slug: "invesco-physical-gold-etc", titel: "Invesco Physical Gold" },
-  },
-];
+/**
+ * „Nicht jeder Broker führt sie“ (Elias, 28.10.2026): gezählt aus dem Edelmetall-Vergleich, in den nur
+ * zinsfreie Depots kommen (Aufnahmeregel 26.09.2026). Am 28.10.2026: 14 von 22 mit allen 4 Gold-ETCs.
+ */
+export const GOLD_ETC_ZAHL = GOLD_ISINS.length;
+export const DEPOTS_ZINSFREI = edelmetallVergleich.length;
+export const DEPOTS_MIT_ALLEN = edelmetallVergleich.filter((a) => a.werte.gold === `${GOLD_ETC_ZAHL} von ${GOLD_ETC_ZAHL}`).length;
+export const BROKER_SATZ = `In meiner Liste stehen ${GOLD_ETC_ZAHL} Gold-ETCs mit Zertifikat. Von ${DEPOTS_ZINSFREI} zinsfreien Depots haben nur ${DEPOTS_MIT_ALLEN} alle ${GOLD_ETC_ZAHL}.`;
 
 /**
  * Bekannte Apps, je mit einer belegten Tatsache, nie mit einem Urteil (Elias, 28.10.2026: „die
@@ -108,7 +97,7 @@ export const GOLD_DEPOT_LOGOS = [
 
 export const goldQuellen: { titel: string; url: string }[] = [
   { titel: "Invesco Physical Gold ETC, Shariah-Zertifikat 2025", url: "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf" },
-  { titel: "INAIA, Gold-Sparplan mit Shariah-Prüfung", url: "https://www.inaia.finance/en/gold-dinar/" },
   { titel: "WisdomTree Gold-ETCs, Shariah-Prüfbericht des Al-Qalam-Gremiums 2025", url: "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf" },
+  { titel: "WisdomTree Physical Gold, Produktseite mit Barrenliste", url: "https://www.wisdomtree.com/de/products/commodities/wisdomtree-physical-gold" },
   { titel: "Halal Gold kaufen, die Regel zur sofortigen Übergabe", url: "https://finanzmuslim.com/wissen/halal-gold-kaufen" },
 ];

@@ -1,6 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { BEKANNTE_GOLD, GOLD_BETRAEGE, GOLD_DEPOT_LOGOS, GOLD_MONATLICH, GOLD_PFAD, gramm, grammText, wege } from "./goldPlan";
+import {
+  BEKANNTE_GOLD,
+  BROKER_SATZ,
+  DEPOTS_MIT_ALLEN,
+  DEPOTS_ZINSFREI,
+  ETC_BEISPIELE,
+  GOLD_BETRAEGE,
+  GOLD_DEPOT_LOGOS,
+  GOLD_MONATLICH,
+  GOLD_PFAD,
+  gramm,
+  grammText,
+} from "./goldPlan";
 import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { GOLD_ISINS, edelmetallVergleich } from "./edelmetallVergleich";
 import { anlageBySlug } from "./halalAnlagen";
@@ -39,8 +51,20 @@ describe("Gold-Plan", () => {
     }
   });
 
-  it("jedes Beispiel mit Anlage zeigt auf eine Seite, die es gibt", () => {
-    for (const w of wege) if (w.beispiel.slug) expect(anlageBySlug(w.beispiel.slug)).toBeDefined();
+  it("jedes ETC-Beispiel gibt es in der Anlagen-Datenbank, mit Zertifikat und unter den Gold-ETCs des Vergleichs", () => {
+    for (const e of ETC_BEISPIELE) {
+      const a = anlageBySlug(e.slug);
+      expect(a).toBeDefined();
+      expect(GOLD_ISINS).toContain(a!.isin);
+    }
+  });
+
+  it("„nicht jeder Broker“: die Zahl kommt aus dem Edelmetall-Vergleich, alle Depots dort sind zinsfrei", () => {
+    expect(DEPOTS_ZINSFREI).toBe(edelmetallVergleich.length);
+    expect(DEPOTS_MIT_ALLEN).toBeGreaterThan(0);
+    expect(DEPOTS_MIT_ALLEN).toBeLessThan(DEPOTS_ZINSFREI);
+    for (const a of edelmetallVergleich) expect(a.werte.zinsfreiAbStart).not.toBe("schlecht");
+    expect(BROKER_SATZ).toContain(`nur ${DEPOTS_MIT_ALLEN} alle`);
   });
 
   it("die Seite ist versteckt, aber vorgerendert: noindex, nicht in der Sitemap, bewusst draußen", () => {
