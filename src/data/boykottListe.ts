@@ -41,7 +41,7 @@ export type BoykottFirma = {
 export const artVon = (f: BoykottFirma): BoykottArt => (f.gruppe === "druck" ? "meiden" : "boykott");
 
 /** Für die Gruppe „von unten“ nennt BDS keinen Grund je Firma, nur diesen gemeinsamen. */
-const VON_UNTEN = "Die Firma oder ihr Ableger in Israel hat Israels Armee offen unterstützt.";
+const VON_UNTEN = "Laut BDS hat die Firma oder ihr Partner in Israel den Staat offen unterstützt oder der Armee gespendet.";
 
 export type BoykottBereich = { id: string; titel: string; firmen: BoykottFirma[] };
 
@@ -50,13 +50,13 @@ export const bereiche: BoykottBereich[] = [
     id: "essen",
     titel: "Essen, Trinken, Einkaufen",
     firmen: [
-      { name: "McDonald's", domain: "mcdonalds.com", alltag: "Burger", grund: "Der Partner in Israel hat Soldaten Gratis-Essen geschenkt.", gruppe: "vonUnten" },
+      { name: "McDonald's", domain: "mcdonalds.com", alltag: "Burger", grund: "Der frühere Partner in Israel kündigte Gratis-Essen für Soldaten an, McDonald's kaufte ihm danach alle Filialen ab.", gruppe: "vonUnten" },
       { name: "Coca-Cola", domain: "cocacola.de", alltag: "auch Fanta, Sprite, Powerade", grund: VON_UNTEN, gruppe: "vonUnten" },
       { name: "Burger King", domain: "burgerking.de", alltag: "Burger", grund: VON_UNTEN, gruppe: "vonUnten" },
       { name: "Pizza Hut", domain: "pizzahut.com", alltag: "Pizza", grund: VON_UNTEN, gruppe: "vonUnten" },
       { name: "Domino's", domain: "dominos.de", alltag: "Pizza", grund: VON_UNTEN, gruppe: "vonUnten" },
       { name: "Papa John's", domain: "papajohns.com", alltag: "Pizza", grund: VON_UNTEN, gruppe: "vonUnten" },
-      { name: "SodaStream", domain: "sodastream.de", alltag: "Wassersprudler", grund: "Verdrängt Beduinen in der Naqab-Wüste und benachteiligt palästinensische Arbeiter.", gruppe: "ziel" },
+      { name: "SodaStream", domain: "sodastream.de", alltag: "Wassersprudler", grund: "Laut BDS beteiligt sich die Firma an der Vertreibung von Beduinen und benachteiligt palästinensische Arbeiter.", gruppe: "ziel" },
       { name: "Carrefour", domain: "carrefour.com", alltag: "Supermärkte", grund: "Der Partner in Israel hat Soldaten Pakete geschenkt, eine Filiale steht in einer Siedlung.", gruppe: "ziel" },
     ],
   },
@@ -70,7 +70,7 @@ export const bereiche: BoykottBereich[] = [
       { name: "Intel", domain: "intel.de", alltag: "Prozessoren in vielen Laptops", grund: "Größter ausländischer Investor in Israel, das Werk steht auf dem Land eines zerstörten Dorfes.", gruppe: "ziel" },
       { name: "Dell", domain: "dell.com", alltag: "Laptops, Bildschirme", grund: "Liefert Server an Israels Armee.", gruppe: "ziel" },
       { name: "HP", domain: "hp.com", alltag: "Drucker, Laptops", grund: "Liefert Technik an Israels Armee, Polizei und Gefängnisse.", gruppe: "ziel" },
-      { name: "Disney+", domain: "disneyplus.com", alltag: "Filme und Serien", grund: "Feiert laut BDS Israels Krieg in Disney- und Marvel-Filmen.", gruppe: "ziel" },
+      { name: "Disney+", domain: "disneyplus.com", alltag: "Filme und Serien", grund: "Wirbt laut BDS in Disney- und Marvel-Filmen für Israel.", gruppe: "ziel" },
       { name: "Wix", domain: "wix.com", alltag: "Webseiten-Baukasten", grund: VON_UNTEN, gruppe: "vonUnten" },
     ],
   },
@@ -78,9 +78,9 @@ export const bereiche: BoykottBereich[] = [
     id: "reisen",
     titel: "Reisen, Wohnen, Tanken",
     firmen: [
-      { name: "Booking.com", domain: "booking.com", alltag: "Hotels", grund: "Vermittelt Unterkünfte in Siedlungen, steht in der Datenbank der UN.", gruppe: "druck" },
-      { name: "Airbnb", domain: "airbnb.de", alltag: "Ferienwohnungen", grund: "Vermittelt Unterkünfte in Siedlungen, steht in der Datenbank der UN.", gruppe: "druck" },
-      { name: "Expedia", domain: "expedia.de", alltag: "Reisen und Hotels", grund: "Vermittelt Unterkünfte in Siedlungen, steht in der Datenbank der UN.", gruppe: "druck" },
+      { name: "Booking.com", domain: "booking.com", alltag: "Hotels", grund: "Vermittelt Unterkünfte in Siedlungen, steht auf der Liste der UN zu Firmen in Siedlungen.", gruppe: "druck" },
+      { name: "Airbnb", domain: "airbnb.de", alltag: "Ferienwohnungen", grund: "Vermittelt Unterkünfte in Siedlungen, steht auf der Liste der UN zu Firmen in Siedlungen.", gruppe: "druck" },
+      { name: "Expedia", domain: "expedia.de", alltag: "Reisen und Hotels", grund: "Vermittelt Unterkünfte in Siedlungen, steht auf der Liste der UN zu Firmen in Siedlungen.", gruppe: "druck" },
       { name: "RE/MAX", domain: "remax.de", alltag: "Immobilienmakler", grund: "Verkauft Häuser in Siedlungen im Westjordanland.", gruppe: "ziel" },
       { name: "Chevron", domain: "chevron.com", alltag: "Tankstellen Texaco und Caltex", grund: "Fördert das Gas, das Israel im Mittelmeer für sich beansprucht.", gruppe: "ziel" },
     ],
@@ -89,8 +89,8 @@ export const bereiche: BoykottBereich[] = [
     id: "haushalt",
     titel: "Haushalt, Gesundheit, Sport, Versicherung",
     firmen: [
-      { name: "Siemens", domain: "siemens.com", alltag: "Siemens-Hausgeräte", grund: "Baut das Stromkabel, das Siedlungen mit Europa verbinden soll.", gruppe: "ziel" },
-      { name: "Teva", domain: "teva.de", alltag: "Medikamente von ratiopharm", grund: "Israelische Firma, verdient seit Jahrzehnten am besetzten Markt.", gruppe: "ziel", hinweis: "Setz nie ein Medikament einfach ab. Frag in der Apotheke nach demselben Wirkstoff von einem anderen Hersteller." },
+      { name: "Siemens", domain: "siemens.com", alltag: "Geräte mit dem Namen Siemens", grund: "Baut das Stromkabel, das Siedlungen mit Europa verbinden soll.", gruppe: "ziel" },
+      { name: "Teva", domain: "teva.de", alltag: "Medikamente von ratiopharm", grund: "Israelische Firma, verdient laut BDS seit Jahrzehnten an der Besatzung.", gruppe: "ziel", hinweis: "Setz nie ein Medikament einfach ab. Frag in der Apotheke nach demselben Wirkstoff von einem anderen Hersteller." },
       { name: "Reebok", domain: "reebok.de", alltag: "Sportschuhe", grund: "Sponsert seit 2025 Israels Fußballverband, mit Vereinen aus Siedlungen.", gruppe: "ziel" },
       { name: "AXA", domain: "axa.de", alltag: "Versicherungen", grund: "Hält Anteile an Firmen, die Israel Waffen liefern.", gruppe: "ziel" },
     ],
@@ -103,7 +103,7 @@ export const alleFirmen = bereiche.flatMap((b) => b.firmen);
 export const WARE = {
   name: "Obst, Gemüse und Wein aus Israel",
   alltag: "„Israel“ auf dem Etikett",
-  grund: "Stammt oft auch aus Siedlungen, steht aber als Israel drauf.",
+  grund: "Laut BDS steckt in Ware aus Israel oft auch Ware aus Siedlungen.",
 };
 
 /** Ein roter Schmerz (Elias, 28.10.2026): Marken, bei denen man den Konzern nicht sieht. */
@@ -140,7 +140,7 @@ export const euroVon100 = (gewichte: Record<string, number>) =>
 export const AUCH_GENANNT = {
   name: "Starbucks",
   domain: "starbucks.de",
-  satz: "Steht nicht auf der BDS-Liste. Trotzdem boykottieren ihn viele: In Malaysia machte der Betreiber 2025 deshalb Rekordverlust.",
+  satz: "Steht nicht auf der BDS-Liste. Trotzdem boykottieren ihn viele: In Malaysia machte der Betreiber 2025 Rekordverlust, auch wegen des Boykotts.",
 };
 
 export const boykottQuellen: { titel: string; url: string }[] = [

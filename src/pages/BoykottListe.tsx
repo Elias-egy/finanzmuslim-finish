@@ -81,7 +81,7 @@ const Boerse = () => (
       Dein Geld an der Börse
     </h2>
     <p className="mt-2 text-[20px] font-extrabold leading-tight text-foreground">
-      Halal heißt nicht automatisch boykottfrei.
+      Auch ein Islamic ETF ist nicht automatisch boykottfrei.
     </p>
     <div className="mt-3 grid grid-cols-2 gap-2">
       {IM_INDEX.map((i) => (
@@ -90,25 +90,25 @@ const Boerse = () => (
           className={`rounded-2xl p-4 ring-1 ${i.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
         >
           <p className="text-[14px] font-bold leading-tight text-foreground">{i.name}</p>
-          <p className="mt-3 text-[14px] font-bold leading-none text-foreground">von 100&nbsp;€ gehen</p>
+          <p className="mt-3 text-[14px] font-bold leading-none text-foreground">von 100&nbsp;€ stecken</p>
           <p
             className={`mt-1 whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${i.ton === "rot" ? "text-loss" : "text-amber-700"}`}
           >
             {euroVon100(i.gewichte)}&nbsp;€
           </p>
           <p className="mt-1 text-[14px] leading-snug text-muted-foreground">
-            allein an {Object.keys(i.gewichte).map((n) => n.split(" (")[0]).join(", ").replace(/, ([^,]*)$/, " und $1")}
+            allein in {Object.keys(i.gewichte).map((n) => n.split(" (")[0]).join(", ").replace(/, ([^,]*)$/, " und $1")}
           </p>
         </div>
       ))}
     </div>
     <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
-      Gewichte der Indizes vom {INDEX_STAND}, gerundet.
+      In Aktien dieser Firmen, nach den Gewichten der Indizes vom {INDEX_STAND}, gerundet.
     </p>
     <FindeDeinAngebot
       className="mt-4"
       titel="So investierst du halal"
-      text="Ich habe die Depots gerankt: welche zinsfrei sind. Dort entscheidest du selbst, welche Firmen dein Geld bekommen."
+      text="Ich habe die Depots gerankt: welche zinsfrei sind. Dort entscheidest du selbst, in welche Firmen du investierst."
       knopf="Zum Depot-Vergleich"
       logos={[...DEPOT_LOGOS]}
       gesamt={logosFuer("Depot").gesamt}
@@ -215,7 +215,7 @@ const BoykottListe = () => {
         </section>
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Die Liste und jeder Grund geben die Seite der BDS-Bewegung wieder, kein eigenes Urteil.</p>
+          <p>Die Liste und die Gründe geben die Seite der BDS-Bewegung wieder, kein eigenes Urteil. Der Grund bei McDonald's stammt von Al Jazeera.</p>
           <p>Keine Anlageberatung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.</p>
           <p>Quellen:</p>
           <ul className="space-y-1">
