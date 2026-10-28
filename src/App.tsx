@@ -22,6 +22,7 @@ const UeberMich = lazy(() => import("./pages/UeberMich.tsx"));
 const Kooperationen = lazy(() => import("./pages/Kooperationen.tsx"));
 const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const PortfolioPlan = lazy(() => import("./pages/PortfolioPlan.tsx"));
+const BoykottListe = lazy(() => import("./pages/BoykottListe.tsx"));
 const GoldPlan = lazy(() => import("./pages/GoldPlan.tsx"));
 const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
@@ -156,6 +157,7 @@ const App = () => (
                 wird ueber Instagram und die bestehende Mailkette. */}
             <Route path="/dein-guide/:schluessel" element={<DeinGuide />} />
             <Route path="/dein-plan/:schluessel" element={<PortfolioPlan />} />
+            <Route path="/deine-boykottliste/:schluessel" element={<BoykottListe />} />
             <Route path="/dein-gold/:schluessel" element={<GoldPlan />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
