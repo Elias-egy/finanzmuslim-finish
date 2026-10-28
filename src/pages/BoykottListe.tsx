@@ -92,7 +92,7 @@ const Boerse = () => (
     </div>
     <FindeDeinAngebot
       className="mt-4"
-      titel="Du willst ganz ohne Aktien anlegen?"
+      titel="Du willst lieber in Edelmetalle statt in Aktien anlegen?"
       text="Ich habe gerankt, wo du in Deutschland Gold online kaufst und welche Anbieter zinsfrei sind."
       knopf="Zum Gold-Vergleich"
       logos={[...GOLD_DEPOT_LOGOS]}
