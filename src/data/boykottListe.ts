@@ -113,29 +113,6 @@ export const VERSTECKT = [
   { name: "Texaco", domain: "texaco.com", konzern: "Chevron" },
 ] as const;
 
-/**
- * Das gleiche bei Aktien (Elias, 28.10.2026). Gewichte aus den MSCI-Datenblättern vom 30.09.2026,
- * Wortlaut in `docs/freebies/quellen/`. Nur die Firmen aus den Top 10, die auf der Liste stehen.
- */
-export const INDEX_STAND = "30.09.2026";
-export const IM_INDEX = [
-  {
-    name: "MSCI World",
-    domain: "msci.com",
-    gewichte: { Microsoft: 4.0, Amazon: 2.67, "Google (Alphabet A und C)": 2.23 + 1.76 },
-    ton: "rot",
-  },
-  {
-    name: "MSCI World Islamic",
-    domain: "msci.com",
-    gewichte: { Microsoft: 13.66, Intel: 1.99 },
-    ton: "gelb",
-  },
-] as const;
-
-export const euroVon100 = (gewichte: Record<string, number>) =>
-  Math.round(Object.values(gewichte).reduce((s, g) => s + g, 0));
-
 /** Nicht auf der BDS-Liste, aber im Reel genannt: ehrlich getrennt. */
 export const AUCH_GENANNT = {
   name: "Starbucks",
@@ -146,8 +123,6 @@ export const AUCH_GENANNT = {
 export const boykottQuellen: { titel: string; url: string }[] = [
   { titel: "BDS-Bewegung, What to boycott (Stand 28.10.2026)", url: "https://bdsmovement.net/get-involved/what-to-boycott" },
   { titel: "Al Jazeera, McDonald's kauft alle 225 Filialen in Israel zurück (05.04.2024)", url: "https://www.aljazeera.com/news/2024/4/5/mcdonalds-buys-all-225-of-israeli-franchise-restaurants-after-boycotts" },
-  { titel: "MSCI World Index, Datenblatt 30.09.2026", url: "https://www.msci.com/documents/10199/178e6643-6ae6-47b9-82be-e1fc565ededb" },
-  { titel: "MSCI World Islamic Index, Datenblatt 30.09.2026", url: "https://www.msci.com/documents/10199/e5c16df6-55a5-4779-8620-45f9beb25ff9" },
   { titel: "ratiopharm ist Teil des Teva-Konzerns", url: "https://www.ratiopharm.de/" },
   { titel: "Coca-Cola Deutschland, Marken", url: "https://www.coca-cola.com/de/de/brands" },
   { titel: "Malay Mail, Rekordverlust von Starbucks Malaysia durch den Boykott (28.08.2025)", url: "https://www.malaymail.com/news/money/2025/08/28/berjaya-food-posts-record-rm292m-loss-as-starbucks-malaysia-hit-by-boycott-impact-downsizing/189163" },

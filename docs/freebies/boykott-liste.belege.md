@@ -22,3 +22,7 @@ Grundlage aller Firmen und Gründe: BDS-Seite „What to boycott“, https://bds
 | Starbucks: nicht auf der BDS-Liste, Rekordverlust in Malaysia 2025, auch wegen des Boykotts | Malay Mail 28.08.2025, Titel „Berjaya Food posts record RM292m loss as Starbucks Malaysia hit by boycott impact, downsizing“ |
 
 Prüfer Runde 1 (rot) und die Änderungen danach: `docs/freebies/pruef/fakten-boykott-liste-bk1.md`. Überschrift „So investierst du halal“ ist Elias' Wortlaut (raw/2026-10-28-elias-boykott-freebie.md), der Aufruf führt auf den Vergleich zinsfreier Depots.
+
+## Änderung nach Elias (28.10.2026, raw/2026-10-28-elias-bk1-haram-ist-nicht-boykott.md)
+
+MSCI-Kasten entfernt. Neu: „Haram ist nicht Boykott“, Sätze zur Trennung (Definition, kein Produkturteil), „Halal ETFs bleiben eine gute Lösung“ (Elias' Wortlaut), Aufruf zum Gold-Vergleich „welche Anbieter zinsfrei sind“ (wie GoldPlan, Spalte Zinsen im Edelmetall-Vergleich), Link zu /wissen/sukuk. Prüfer: gelb, beide Pflicht-Funde (halal-Satz, „so halal wie möglich“) umgesetzt.
