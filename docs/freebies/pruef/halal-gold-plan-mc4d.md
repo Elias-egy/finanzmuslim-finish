@@ -53,10 +53,11 @@ Ich urteile nie, ob etwas halal ist. Ich prüfe nur, ob der Beleg die Aussage tr
 | S-6bea05b8 „Halal Gold kaufen, die Regel zur sofortigen Übergabe“ | direkt (Linktitel, Wort „Halal“) | HalalGoldKaufen.tsx | trägt | Der eigene Beitrag besteht und behandelt die Übergabe (Qabd); Titel stimmt mit Inhalt |
 | „Wo du Gold zinsfrei kaufst“ und die Quellenzeilen am Seitenende („Prüfungen der Beispiele“) | direkt | s. o. | trägt | Die vier Quellen entsprechen den geprüften Dokumenten (Invesco-Zertifikat, Al-Qalam-Bericht, Produktseite, eigener Beitrag) |
 | Mittelbare Aussagen ohne Wort der Liste („dein Geld bleibt sauber“ und Ähnliches) | mittelbar | | trägt | Ich fand keine weitere. „Beispiel, keine Anlageberatung“ und der Hinweis zur Zulassung sind keine Halal-Aussagen |
+| Runde 3b: „Die Barren sind nummeriert und stehen in einer öffentlichen Liste.“ (nachgetragener Beleg) und Aufteilung beim roten Satz | mittelbar (Zuordnung von Barren; Urteil über Broker-Gold) | Barrenliste METSTOCKHOLD73_2026-10-27_22-26-05_ETFSSECH-XAU.pdf (88 Seiten, mit pdftotext gelesen); Begleitdatei Zeilen 17 und 19; goldCheck.ts; Folge 17 | trägt | Die Datei enthält wörtlich „Client Gold Stock Holdings“, „Client Account Name: LAW DEBENTURE TRUST RE MSL“, „Gold Allocated A/C Holdings As Of C.O.B: 27 October 2026“, „Total Allocated Bar Count: 4338“, die Spalten „BAR NUMBER REFINER LONG NAME ... VAULT NAME“ und als erste Zeile „054166 ASAHI REF INC USA 427.825 426.370 0.9966 2019 HSBC VAULT“. Ich zählte 2605 Zeilen mit sechsstelliger Barrennummer. Das trägt „nummeriert“ und „Liste“. Kein Käufername steht in der Liste, die Barren stehen auf dem Konto des Treuhänders; die Seite sagt das auch nicht (Zeile „aus dem ganzen Bestand im Tresor“). „Öffentlich“ stützt der Abruf über die Produktseite (Link „Bar List - PHAU“, in Chrome geladen); den Link selbst und die Zuordnung PHAU zu dieser Datei konnte ich nicht selbst öffnen, die Datei nennt nur „XAU“ und den Treuhänder von MSL. Aufteilung roter Satz: In der Begleitdatei hängen „sehr oft kein Gold dahinter“ an Hourani 01:39 und „beim Broker“ und „nur der Kurs“ an goldCheck.ts (wörtlich „kein Gramm Gold, sondern die Kursbewegung“) und Folge 17 00:18:13 bis 00:18:27 (im Transkript gefunden: „Spekulation in einer Wette“). Das stimmt mit meiner Prüfung überein. Audit-Befehl: 9 Treffer, 0 ohne Beleg. Der rote Fund von Runde 3 ist behoben |
 
 ## Funde, die nicht tragen oder fehlen
 
-1. „nummeriert“ und „öffentliche Liste“ im Satz unter „Die Ausnahme mit Zertifikat“: kein wörtlicher Anbieterbeleg in der Begleitdatei. Zitiert ist nur „einzeln gekennzeichnet“. Abhilfe: Zeile aus der Bar List PHAU mit Nummer zitieren oder zurück auf „einzeln gekennzeichnet“.
+1. (Runde 3, in Runde 3b behoben, siehe Tabelle) „nummeriert“ und „öffentliche Liste“ im Satz unter „Die Ausnahme mit Zertifikat“: kein wörtlicher Anbieterbeleg in der Begleitdatei. Zitiert ist nur „einzeln gekennzeichnet“. Abhilfe: Zeile aus der Bar List PHAU mit Nummer zitieren oder zurück auf „einzeln gekennzeichnet“.
 
 ## Hinweise ohne Befund
 
@@ -65,4 +66,4 @@ Ich urteile nie, ob etwas halal ist. Ich prüfe nur, ob der Beleg die Aussage tr
 - Gelehrten-Satz S-8c7a8ebc: die zwei Lesarten stehen im selben Bericht.
 - Plus500 und die Produktliste von finanzen.net zero: nicht geprüft (403 bzw. nicht lesbar).
 
-Urteil Halal-Prüfzeile: rot: Satz „Die Barren sind nummeriert und stehen in einer öffentlichen Liste“ hat keinen wörtlichen Anbieterbeleg für „nummeriert“ (zitiert ist nur „einzeln gekennzeichnet“, Barrenliste PHAU für mich nicht abrufbar); Beleg nachtragen oder Wortlaut zurücknehmen
+Urteil Halal-Prüfzeile: grün
