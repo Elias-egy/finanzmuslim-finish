@@ -10,6 +10,7 @@ import { edelmetallVergleich } from "@/data/edelmetallVergleich";
 import {
   BEKANNTE_GOLD,
   CFD_ANBIETER,
+  CFD_ZEILE,
   GOLD_BETRAEGE,
   GOLD_DEPOT_LOGOS,
   GOLD_MONATLICH,
@@ -137,24 +138,25 @@ const GoldPlan = () => {
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.gold}</p>
-              <div className="mt-1.5 flex items-center gap-2">
-                <span className="flex gap-1">
-                  {CFD_ANBIETER.map((a) => (
-                    <AnbieterLogo key={a.name} name={a.name} domain={a.domain} klein />
-                  ))}
-                </span>
-                <span className="text-[12px] text-muted-foreground">{CFD_ANBIETER.map((a) => a.name).join(", ")}</span>
-              </div>
-              <p className="mt-2 border-t border-loss/20 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
-              <Link
-                to={goldLink("/vergleich/edelmetalle", "cfd")}
-                className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
-              >
-                Echtes Gold im Vergleich
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
             </div>
           </div>
+          <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 px-1">
+            <span className="text-[12px] text-muted-foreground">{CFD_ZEILE}</span>
+            <span className="flex gap-1">
+              {CFD_ANBIETER.map((a) => (
+                <AnbieterLogo key={a.name} name={a.name} domain={a.domain} klein />
+              ))}
+            </span>
+            <span className="text-[12px] text-muted-foreground">{CFD_ANBIETER.map((a) => a.name).join(", ")}</span>
+          </div>
+          <p className="mt-4 text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.muslim}</p>
+          <Link
+            to={goldLink("/vergleich/edelmetalle", "cfd")}
+            className="mt-1 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
+          >
+            Echtes Gold im Vergleich
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-2">
@@ -222,8 +224,9 @@ const GoldPlan = () => {
                   <AnbieterLogo name={d.name} domain={d.domain} />
                   <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
                 </div>
+                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
                 <p
-                  className={`mt-3 whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
                 >
                   {d.gross}
                 </p>

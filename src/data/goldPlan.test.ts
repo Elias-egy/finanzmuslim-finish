@@ -20,12 +20,14 @@ describe("Gold-Plan", () => {
     expect(grammText(30.05)).toBe("30");
   });
 
-  it("die Zahl bei Bison stimmt mit den Kaufbar-Daten", () => {
-    const nicht = GOLD_ISINS.filter((i) => ANLAGEN_KAUFBAR[i]?.nichtImAngebot.includes("Bison"));
-    const ja = GOLD_ISINS.filter((i) => ANLAGEN_KAUFBAR[i]?.kaufbar.some((k) => k.anbieter === "Bison"));
-    const bison = BEKANNTE_GOLD.find((d) => d.name === "Bison")!;
-    expect(nicht).toHaveLength(GOLD_ISINS.length);
-    expect(bison.gross).toBe(`${ja.length} von ${GOLD_ISINS.length}`);
+  it("die Zahl bei finanzen.net zero stimmt mit den Kaufbar-Daten, jedes Stück mit Anbieter-Beleg", () => {
+    const ja = GOLD_ISINS.filter((i) =>
+      ANLAGEN_KAUFBAR[i]?.kaufbar.some((k) => k.anbieter === "finanzen.net zero" && k.beleg.quelle === "anbieter"),
+    );
+    const nicht = GOLD_ISINS.filter((i) => ANLAGEN_KAUFBAR[i]?.nichtImAngebot.includes("finanzen.net zero"));
+    const zero = BEKANNTE_GOLD.find((d) => d.name === "finanzen.net zero")!;
+    expect(ja.length + nicht.length).toBe(GOLD_ISINS.length);
+    expect(zero.gross).toBe(`${ja.length} von ${GOLD_ISINS.length}`);
   });
 
   it("die Depot-Logos im Aufruf sind empfehlbar und haben alle Gold-ETCs", () => {
