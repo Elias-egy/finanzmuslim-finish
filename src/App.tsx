@@ -24,6 +24,7 @@ const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const PortfolioPlan = lazy(() => import("./pages/PortfolioPlan.tsx"));
 const BoykottListe = lazy(() => import("./pages/BoykottListe.tsx"));
 const GoldPlan = lazy(() => import("./pages/GoldPlan.tsx"));
+const EtfPlan = lazy(() => import("./pages/EtfPlan.tsx"));
 const VergleichGirokonto = lazy(() => import("./pages/VergleichGirokonto.tsx"));
 const VergleichDepot = lazy(() => import("./pages/VergleichDepot.tsx"));
 const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
@@ -159,6 +160,7 @@ const App = () => (
             <Route path="/dein-plan/:schluessel" element={<PortfolioPlan />} />
             <Route path="/deine-boykottliste/:schluessel" element={<BoykottListe />} />
             <Route path="/dein-gold/:schluessel" element={<GoldPlan />} />
+            <Route path="/dein-etf/:schluessel" element={<EtfPlan />} />
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />
