@@ -1,7 +1,5 @@
 Dein Portfolio als Muslim in vier Schritten
 
-Ali ist 25 und hat jeden Monat 500 € übrig. So könnte er sie verteilen, je nachdem, wann er das Geld braucht.
-
 Wann brauchst du das Geld?
 
 In 1 Jahr
@@ -16,7 +14,7 @@ Schritt 1
 
 Erst das Girokonto
 
-Bevor Ali anlegt, liegt sein Geld auf dem Girokonto oder dem Sparbuch.
+Bevor du anlegst, liegt dein Geld auf dem Girokonto.
 
 Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon läuft das automatisch.
 
@@ -26,41 +24,41 @@ Schritt 2
 
 Deine fünf Bausteine
 
-Sukuk · Ruhe
+Sukuk
 
-Schwankt wenig. Passt für Geld, das du in ein bis drei Jahren brauchst.
+Schwankt wenig. Gut für Geld, das du bald brauchst.
 
-Beispiel: iShares USD Sukuk, mit eigenem Shariah-Gremium und Fatwa.
+Beispiel: iShares USD Sukuk
 
-Gold · Schutz
+Gold
 
-Hält seinen Wert, wenn das Geld an Wert verliert. Du musst es nicht zu Hause haben: Es liegt für dich im Tresor.
+Hält seinen Wert. Liegt für dich im Tresor, nicht zu Hause.
 
-Beispiel: Invesco Physical Gold, mit jährlichem Shariah-Zertifikat.
+Beispiel: Invesco Physical Gold
 
-Islamic ETF · Wachstum
+Islamic ETF
 
-Hunderte Firmen mit einem Kauf. Ein Shariah-Gremium prüft jedes Quartal und sortiert aus, was nicht passt.
+Hunderte Firmen mit einem Kauf, jedes Quartal geprüft.
 
-Beispiel: iShares MSCI World Islamic, mit eigenem Shariah-Gremium und Fatwa.
+Beispiel: iShares MSCI World Islamic
 
-Einzelaktien · Auswahl
+Einzelaktien
 
 Firmen, die du selbst auswählst. Jede braucht ihre eigene Prüfung.
 
-Geprüft wird jede Firma einzeln, nach Umsatz und Schulden.
+Beispiel: Apps zum Prüfen
 
-Krypto · Chance
+Krypto
 
-Schwankt am stärksten. Darum nur ein kleiner Teil, und nur wenn das Geld lange liegen bleibt.
+Schwankt am stärksten, deswegen freiwillig und mit Vorsicht.
 
-Gelehrte sind uneins: Das Shariyah Review Bureau fand bei Bitcoin nichts, was gegen die Scharia spricht. Der Großmufti von Ägypten verbot den Handel damit 2018.
+Beispiel: Bitcoin
 
 Schritt 3
 
 Wann brauchst du es?
 
-Je länger das Geld liegen bleibt, desto mehr Islamic ETF. Brauchst du es bald, mehr Girokonto und Sukuk.
+Hier ein Beispiel, wie dein Portfolio aussehen könnte.
 
 In 1 Jahr
 In 3 Jahren
@@ -73,10 +71,10 @@ im Monat
 Islamic ETF
 50 %
 250 €
-Sukuk
+Gold
 30 %
 150 €
-Gold
+Sukuk
 20 %
 100 €
 
@@ -84,15 +82,15 @@ Wächst ruhig, schwankt mittel.
 
 Weißt du nicht, wie lange? Nimm 3 Jahre.
 
-Weniger als 500 €? Nimm dieselben Prozente. Beispiele für eine Beispielperson, wie es früher lief, ist keine Garantie für später.
+Weniger als 500 €? Nimm dieselben Prozente. Ein Beispiel, keine Empfehlung. Wie es früher lief, ist keine Garantie für später.
 
 Schritt 4
 
-Dein Depot
+Wo du es kaufst
 
-Trag im Sparplan je Baustein den Euro-Betrag deines Plans ein. Danach läuft es jeden Monat von selbst.
+Nicht jedes Depot hat alle Islamic ETFs: Von zwölf geprüften führen nur zwei alle, ein bekanntes nur sechs.
 
-Etwa jedes fünfte Depot in meinem Vergleich verzinst dein Guthaben, oft automatisch. Und nicht jedes hat alle Islamic ETFs: Von zwölf geprüften führen nur zwei alle, ein bekanntes nur sechs.
+Im Depot trägst du je Baustein den Euro-Betrag ein. Danach läuft es jeden Monat von selbst.
 
 + 21
 Lesen ist nicht umsetzen
@@ -103,20 +101,13 @@ Passendes Depot finden
 
 Schon ein Depot? Prüf, ob deins Zinsen zahlt
 
-Als Nächstes: der Gold-Check
-
-Depot steht? Kommentiere „Gold“ unter einem meiner Reels. Ich schicke dir jeden Weg, Gold zu kaufen, mit Grund und Beispiel.
-
-Zu meinen Reels
-
-Die Pläne sind Beispiele für eine Beispielperson, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.
+Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.
 
 Prüfungen der Beispiele:
 
 iShares II plc, Verkaufsprospekt (Shari'ah Panels für Islamic- und Sukuk-Fonds)
 Invesco Physical Gold ETC, Shariah-Zertifikat 2025
 Shariyah Review Bureau, Analyse zu Bitcoin
-Africanews, Großmufti von Ägypten verbietet Bitcoin-Handel (02.01.2018)
 
 [Plan In 1 Jahr]
 Du hast bald etwas Großes vor: Auto, Hochzeit, Umzug. Dann muss das Geld da sein, wenn du es brauchst.
@@ -141,19 +132,14 @@ Das Geld bleibt mindestens fünf Jahre liegen. Du baust Vermögen für später a
 500 €
 im Monat
 Islamic ETF
-65 %
-325 €
+70 %
+350 €
 Gold
-10 %
-50 €
-Sukuk
-10 %
-50 €
-Einzelaktien
-10 %
-50 €
-Krypto
-5 %
-25 €
+30 %
+150 €
 
 Schwankt am meisten und brachte langfristig im Schnitt am meisten.
+
+Freiwillig: Einzelaktien und Krypto
+
+Tragen mehr Risiko. Wenn du willst, nimm zusammen höchstens 15 % davon.
