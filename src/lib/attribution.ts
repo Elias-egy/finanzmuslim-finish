@@ -52,8 +52,13 @@ export const VALID_SRC = [
   "dmgold",
   // Wort Boykott in ManyChat (BK1, 28.10.2026)
   "dmboykott",
-  "dmnachboykott",
+  "dmnachbk",
   "dmauto",
+  // Wort invest und Gold-Test-Link in ManyChat (MC3d, 28.10.2026), Lieferungs-Mails der Vorlagen (Knopf ?src=v0).
+  "dminvest",
+  "dmnachinvest",
+  "dmnachgold",
+  "v0",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
