@@ -94,7 +94,12 @@ export type Lage = {
   anteile: { baustein: BausteinId; prozent: number }[];
 };
 
-/** Was Ali jeden Monat übrig hat (Elias, 27.10.2026: „Sagen wir 500 Euro übrig“). */
+/**
+ * Was der Leser jeden Monat übrig hat, oben auf der Seite gewählt: Der Klick markiert nur, Ring und
+ * Euro-Beträge folgen dem Betrag (Elias, 28.10.2026, MC3c: „Wie viel Geld hast du übrig? Dann kommt
+ * 100, 300, 500“, Vault raw/2026-10-28-elias-mc3c-als-kunde-durchgegangen.md).
+ */
+export const BETRAEGE = [100, 300, 500] as const;
 export const MONATLICH = 500;
 
 export const lagen: Lage[] = [
@@ -141,11 +146,13 @@ export const lagen: Lage[] = [
  */
 export const SPIELRAUM = { bausteine: ["aktien", "krypto"] as BausteinId[], hoechstens: 15 };
 
-export const euro = (prozent: number) => Math.round((MONATLICH * prozent) / 100);
+export const euro = (prozent: number, betrag: number = MONATLICH) => Math.round((betrag * prozent) / 100);
 
 /** Die belegten Zahlen für den Schmerz (Stand der Vergleiche, siehe Begleitdatei). */
 export const SCHMERZ = {
-  girokonto: "Etwa jedes achte Girokonto in meinem Vergleich zahlt dir Zinsen auf dein Guthaben. Bei den meisten davon läuft das automatisch.",
+  girokonto: "Etwa jedes achte Girokonto zahlt dir Zinsen auf dein Geld.",
+  /** Zweite, abgesetzte Zeile (Elias, 28.10.2026, MC3c); Beleg Sure 2, Vers 275, 278 und 279. */
+  muslim: "Als Muslim meidest du Zinsen.",
 };
 
 /**
@@ -154,8 +161,9 @@ export const SCHMERZ = {
  * aus `anlagenKaufbar.ts` (der Test zählt nach); XTB: Anbieter-Beleg https://www.xtb.com/de/zinsen.
  */
 export const BEKANNTE = [
-  { name: "Trade Republic", domain: "traderepublic.com", gross: "6 von 12", klein: "Islamic ETFs" },
-  { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet" },
+  // Farbe nach Elias, 28.10.2026, MC3c: Trade Republic gelb, XTB mit leichtem Rot.
+  { name: "Trade Republic", domain: "traderepublic.com", gross: "6 von 12", klein: "Islamic ETFs", ton: "gelb" },
+  { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet", ton: "rot" },
 ] as const;
 
 export const quellen: { titel: string; url: string }[] = [

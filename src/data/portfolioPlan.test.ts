@@ -1,16 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { BEKANNTE, bausteine, euro, lagen, MONATLICH, PLAN_PFAD, SPIELRAUM } from "./portfolioPlan";
+import { BEKANNTE, BETRAEGE, bausteine, euro, lagen, MONATLICH, PLAN_PFAD, SPIELRAUM } from "./portfolioPlan";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { anlageBySlug } from "./halalAnlagen";
 import { alleRouten, bewusstDraussen, nichtIndexiert } from "./routen";
 
 describe("Halal-Portfolio-Plan", () => {
-  it("jede Lage ergibt 100 % und die ganzen 500 €", () => {
+  it("jede Lage ergibt 100 % und bei jedem Betrag die ganzen Euro", () => {
     for (const l of lagen) {
       expect(l.anteile.reduce((s, a) => s + a.prozent, 0)).toBe(100);
-      expect(l.anteile.reduce((s, a) => s + euro(a.prozent), 0)).toBe(MONATLICH);
+      for (const betrag of BETRAEGE) expect(l.anteile.reduce((s, a) => s + euro(a.prozent, betrag), 0)).toBe(betrag);
     }
+    expect(BETRAEGE).toContain(MONATLICH);
   });
 
   it("Krypto und Einzelaktien nur im langen Plan, als Beispiel, zusammen höchstens 15 % (Elias, 28.10.2026)", () => {
