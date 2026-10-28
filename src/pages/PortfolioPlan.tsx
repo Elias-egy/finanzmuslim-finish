@@ -5,10 +5,13 @@ import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, Trendin
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import AnbieterLogo from "@/components/AnbieterLogo";
+import { logosFuer } from "@/lib/anbieterLogos";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
   BEKANNTE,
+  DEPOT_LOGOS,
+  GIRO_MIT_ZINSEN,
   BETRAEGE,
   PLAN_PFAD,
   PLAN_SCHLUESSEL,
@@ -213,6 +216,14 @@ const PortfolioPlan = () => {
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.girokonto}</p>
+              <div className="mt-1.5 flex items-center gap-2">
+                <span className="flex gap-1">
+                  {GIRO_MIT_ZINSEN.map((g) => (
+                    <AnbieterLogo key={g.id} name={g.name} domain={g.domain} klein />
+                  ))}
+                </span>
+                <span className="text-[12px] text-muted-foreground">{GIRO_MIT_ZINSEN.map((g) => g.name).join(", ")}</span>
+              </div>
               <p className="mt-2 border-t border-loss/20 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
               <Link
                 to={planLink("/vergleich/girokonto", "giro")}
@@ -301,8 +312,9 @@ const PortfolioPlan = () => {
                   <AnbieterLogo name={d.name} domain={d.domain} />
                   <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
                 </div>
+                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
                 <p
-                  className={`mt-3 text-[28px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
                 >
                   {d.gross}
                 </p>
@@ -315,6 +327,8 @@ const PortfolioPlan = () => {
             titel="Du willst die besten finden?"
             text="Ich habe die Depots gerankt: welche zinsfrei sind und welche deine Islamic ETFs haben."
             knopf="Zum Depot-Vergleich"
+            logos={[...DEPOT_LOGOS]}
+            gesamt={logosFuer("Depot").gesamt}
             ziel={planLink("/vergleich/depot", "mitte")}
           />
           <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">

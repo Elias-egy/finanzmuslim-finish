@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { BEKANNTE, BETRAEGE, bausteine, euro, lagen, MONATLICH, PLAN_PFAD, SPIELRAUM } from "./portfolioPlan";
+import { BEKANNTE, BETRAEGE, DEPOT_LOGOS, GIRO_MIT_ZINSEN, bausteine, euro, lagen, MONATLICH, PLAN_PFAD, SPIELRAUM } from "./portfolioPlan";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { anlageBySlug } from "./halalAnlagen";
+import { depotAnzeige, girokontoAnzeige } from "./vergleichAnzeige";
+import { empfehlbar } from "./vergleichAssistent";
 import { alleRouten, bewusstDraussen, nichtIndexiert } from "./routen";
 
 describe("Halal-Portfolio-Plan", () => {
@@ -50,5 +52,18 @@ describe("Halal-Portfolio-Plan", () => {
     expect(bewusstDraussen.map((b) => b.pfad)).toContain("/dein-plan/:schluessel");
     expect(readFileSync("src/pages/PortfolioPlan.tsx", "utf8")).toContain("noindex");
     expect(PLAN_PFAD.startsWith("/dein-plan/")).toBe(true);
+  });
+
+  it("die Girokonto-Logos zahlen laut Vergleich Zinsen, die Depot-Logos sind empfehlbar", () => {
+    for (const g of GIRO_MIT_ZINSEN) {
+      const konto = girokontoAnzeige.find((a) => a.id === g.id);
+      expect(konto?.domain).toBe(g.domain);
+      expect(konto?.name).toBe(g.name);
+      expect(empfehlbar(g.id)).toBe(false);
+    }
+    for (const d of DEPOT_LOGOS) {
+      expect(depotAnzeige.find((a) => a.id === d.id)?.domain).toBe(d.domain);
+      expect(empfehlbar(d.id)).toBe(true);
+    }
   });
 });
