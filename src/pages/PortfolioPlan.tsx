@@ -9,6 +9,7 @@ import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
   BEKANNTE,
+  BETRAEGE,
   PLAN_PFAD,
   PLAN_SCHLUESSEL,
   bausteinById,
@@ -29,8 +30,9 @@ import {
 /**
  * /dein-plan/<schluessel>: der Portfolio-Plan, das Freebie zum Wort „Invest“ (MC3).
  *
- * Aufbau nach dem Bauplan des Gesamtplans (Abschnitt 5): oben die Frage, wann das Geld gebraucht
- * wird, mit einem leisen ersten Link; das Girokonto als einziger roter Schmerz; die Bausteine mit
+ * Aufbau nach dem Bauplan des Gesamtplans (Abschnitt 5): oben die Frage, wie viel im Monat übrig
+ * bleibt (der Klick markiert nur und springt nicht, damit niemand die Schritte überspringt; Elias,
+ * 28.10.2026, MC3c), mit einem leisen ersten Link; das Girokonto als einziger roter Schmerz; die Bausteine mit
  * je einem Beispiel (Logo, nicht anklickbar); ein Beispiel-Plan als Ring mit Umschalter nach Zeit;
  * zuletzt, wo man das alles kauft: zwei bekannte Depots mit ihrer belegten Schwäche, dann der
  * große Aufruf. Kein Hinweis auf ein anderes Freebie, der Leser
@@ -53,7 +55,7 @@ const Punkt = ({ farbe }: { farbe: string }) => (
   <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: farbe }} aria-hidden />
 );
 
-const PlanKarte = ({ lage }: { lage: Lage }) => (
+const PlanKarte = ({ lage, betrag }: { lage: Lage; betrag: number }) => (
   <article className="card-surface p-5 md:p-6">
     <p className="text-[16px] leading-snug text-foreground/85">{lage.seele}</p>
     <div className="relative mx-auto mt-4 h-[220px] w-[220px]">
@@ -80,7 +82,7 @@ const PlanKarte = ({ lage }: { lage: Lage }) => (
         </PieChart>
       </ResponsiveContainer>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-[28px] font-extrabold tabular-nums text-foreground">{MONATLICH}&nbsp;€</span>
+        <span className="text-[28px] font-extrabold tabular-nums text-foreground">{betrag}&nbsp;€</span>
         <span className="text-[14px] text-muted-foreground">im Monat</span>
       </div>
     </div>
@@ -92,7 +94,7 @@ const PlanKarte = ({ lage }: { lage: Lage }) => (
             <Punkt farbe={b.farbe} />
             <span className="flex-1 font-semibold text-foreground">{b.name}</span>
             <span className="w-12 text-right text-muted-foreground">{a.prozent}&nbsp;%</span>
-            <span className="w-16 text-right font-bold tabular-nums text-foreground">{euro(a.prozent)}&nbsp;€</span>
+            <span className="w-16 text-right font-bold tabular-nums text-foreground">{euro(a.prozent, betrag)}&nbsp;€</span>
           </li>
         );
       })}
@@ -140,6 +142,7 @@ const Schritt = ({ nr, id, titel }: { nr: number; id: string; titel: string }) =
 const PortfolioPlan = () => {
   const { schluessel } = useParams();
   const [lageId, setLageId] = useState<LageId>("mittel");
+  const [betrag, setBetrag] = useState<number>(MONATLICH);
   const lage = lagen.find((l) => l.id === lageId)!;
 
   // Sanftes Einblenden beim Scrollen wie auf der Startseite (memory einblenden-beim-scrollen-wie-apple).
@@ -162,16 +165,13 @@ const PortfolioPlan = () => {
 
   if (schluessel !== PLAN_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
 
-  const waehle = (id: LageId, springen: boolean) => {
-    setLageId(id);
-    if (springen) document.getElementById("plan")?.scrollIntoView({ behavior: wenigBewegung() ? "auto" : "smooth" });
-  };
+  const waehle = (id: LageId) => setLageId(id);
 
   return (
     <main className="bg-background" data-freebie="portfolio-plan">
       <Seo
         title="Dein Portfolio-Plan als Muslim | finanzmuslim"
-        description="Sieh ein Beispiel für 500 € im Monat: für in 1 Jahr, in 3 Jahren und in 5 Jahren und mehr."
+        description="Sieh ein Beispiel für 100, 300 oder 500 € im Monat: für in 1 Jahr, in 3 Jahren und in 5 Jahren und mehr."
         path={PLAN_PFAD}
         noindex
       />
@@ -181,21 +181,19 @@ const PortfolioPlan = () => {
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Dein Portfolio als Muslim in vier Schritten
           </h1>
-          <p className="mt-4 text-[16px] font-semibold text-foreground">Wann brauchst du das Geld?</p>
-          <div className="mt-2 grid grid-cols-3 gap-1.5">
-            {lagen.map((l) => (
+          <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel Geld hast du im Monat übrig?</p>
+          <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel Geld hast du im Monat übrig?">
+            {BETRAEGE.map((b) => (
               <button
-                key={l.id}
+                key={b}
                 type="button"
-                onClick={() => waehle(l.id, true)}
-                className="flex min-h-[44px] flex-col items-center justify-center gap-1 rounded-2xl bg-white px-1 py-2 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                aria-pressed={b === betrag}
+                onClick={() => setBetrag(b)}
+                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                  b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
+                }`}
               >
-                <span className="flex h-2.5 w-7 overflow-hidden rounded-full" aria-hidden>
-                  {l.anteile.map((a) => (
-                    <span key={a.baustein} style={{ width: `${a.prozent}%`, background: bausteinById(a.baustein).farbe }} />
-                  ))}
-                </span>
-                {l.wann}
+                {b}&nbsp;€
               </button>
             ))}
           </div>
@@ -214,7 +212,8 @@ const PortfolioPlan = () => {
           <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
-              <p className="text-[16px] leading-snug text-foreground">{SCHMERZ.girokonto}</p>
+              <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.girokonto}</p>
+              <p className="mt-2 border-t border-loss/20 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
               <Link
                 to={planLink("/vergleich/girokonto", "giro")}
                 className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
@@ -264,7 +263,7 @@ const PortfolioPlan = () => {
                 key={l.id}
                 type="button"
                 aria-pressed={l.id === lageId}
-                onClick={() => waehle(l.id, false)}
+                onClick={() => waehle(l.id)}
                 className={`min-h-[44px] rounded-xl px-1 text-[14px] font-bold transition-colors ${
                   l.id === lageId ? "bg-white text-primary shadow-sm" : "text-foreground/70"
                 }`}
@@ -274,35 +273,39 @@ const PortfolioPlan = () => {
             ))}
           </div>
           <div className="mt-4">
-            <PlanKarte lage={lage} />
+            <PlanKarte lage={lage} betrag={betrag} />
           </div>
           <p className="mt-3 px-1 text-[16px] leading-snug text-foreground/80">
             Weißt du nicht, wie lange?{" "}
-            <button type="button" onClick={() => waehle("mittel", false)} className="font-semibold text-primary hover:underline">
+            <button type="button" onClick={() => waehle("mittel")} className="font-semibold text-primary hover:underline">
               Nimm 3 Jahre.
             </button>
           </p>
           <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
-            Weniger als 500&nbsp;€? Nimm dieselben Prozente. Ein Beispiel, keine Empfehlung. Wie es früher lief, ist keine Garantie für später.
+            Ein Beispiel, keine Empfehlung. Wie es früher lief, ist keine Garantie für später.
           </p>
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-4">
           <Schritt nr={4} id="schritt-4" titel="Wo du es jetzt kaufst" />
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">
-            Im Depot trägst du je Baustein den Euro-Betrag ein. Danach läuft es jeden Monat von selbst.
-          </p>
-          <p className="mt-4 text-[20px] font-extrabold leading-tight text-foreground">
+          <p className="mt-2 text-[20px] font-extrabold leading-tight text-foreground">
             Die bekanntesten Depots sind nicht die besten für Muslime.
           </p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             {BEKANNTE.map((d) => (
-              <div key={d.name} className="card-surface p-4">
+              <div
+                key={d.name}
+                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
+              >
                 <div className="flex items-center gap-2">
                   <AnbieterLogo name={d.name} domain={d.domain} />
                   <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
                 </div>
-                <p className="mt-3 text-[28px] font-extrabold leading-none tabular-nums text-foreground">{d.gross}</p>
+                <p
+                  className={`mt-3 text-[28px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+                >
+                  {d.gross}
+                </p>
                 <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
               </div>
             ))}
@@ -310,9 +313,9 @@ const PortfolioPlan = () => {
           <FindeDeinAngebot
             className="mt-4"
             titel="Du willst die besten finden?"
-            text="Ich habe die Depots gerankt: welche zinsfrei sind und welche deine Islamic ETFs haben. Beantworte ein paar Fragen und sieh, welches zu dir passt."
-            knopf="Die besten finden"
-            ziel={planLink("/vergleich/start", "mitte")}
+            text="Ich habe die Depots gerankt: welche zinsfrei sind und welche deine Islamic ETFs haben."
+            knopf="Zum Depot-Vergleich"
+            ziel={planLink("/vergleich/depot", "mitte")}
           />
           <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
             Schon ein Depot?{" "}
@@ -323,6 +326,7 @@ const PortfolioPlan = () => {
         </section>
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
+          <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
             Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine
             Zulassung.
