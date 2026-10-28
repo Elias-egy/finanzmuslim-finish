@@ -1,0 +1,19 @@
+74-SEP 30, 2026                                                                                                                                                        Index Factsheet
+75-
+76:INDEX CHARACTERISTICS                                                              TOP 10 CONSTITUENTS
+77-                    MSCI World Islamic              MSCI World                                                              Country        Index       Parent                      Sector
+78- Number of                      385                       1,249                                                                           Wt. (%)       Index
+79-                                                                                                                                                       Wt. (%)
+80- Constituents                                                                        MICROSOFT CORP                           US          13.66          4.00              Info Tech
+81-                                        Weight (%)                                   MICRON TECHNOLOGY                        US           4.54          1.33              Info Tech
+82- Largest                       13.66                         5.81                    TESLA                                    US           3.83          1.12             Cons Discr
+83- Smallest                       0.01                         0.00                    ADVANCED MICRO DEVICES                   US           3.76          1.10              Info Tech
+84- Average                        0.26                         0.08                    ASML HLDG                                NL           2.66          0.78              Info Tech
+85- Median                         0.09                         0.03                    EXXONMOBIL HOLDINGS                      US           2.54          0.75                 Energy
+86-                                                                                     JOHNSON & JOHNSON                        US           2.40          0.70            Health Care
+87-                                                                                     INTEL CORP                               US           1.99          0.58              Info Tech
+88-                                                                                     CISCO SYSTEMS                            US           1.60          0.47              Info Tech
+89-                                                                                     LAM RESEARCH CORP                        US           1.55          0.45              Info Tech
+90-                                                                                     Total                                                38.54         11.30
+                                                                                                                                                                                 Index Factsheet
+
