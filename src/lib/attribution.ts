@@ -52,6 +52,7 @@ export const VALID_SRC = [
   "dmgold",
   // Wort Boykott in ManyChat (BK1, 28.10.2026)
   "dmboykott",
+  "dmnachboykott",
   "dmauto",
 ] as const;
 

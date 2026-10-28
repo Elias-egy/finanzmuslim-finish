@@ -140,7 +140,7 @@ export const euroVon100 = (gewichte: Record<string, number>) =>
 export const AUCH_GENANNT = {
   name: "Starbucks",
   domain: "starbucks.de",
-  satz: "Steht nicht auf der BDS-Liste. Trotzdem boykottieren ihn viele: In Malaysia machte der Betreiber 2025 Rekordverlust, auch wegen des Boykotts.",
+  satz: "Steht nicht auf der BDS-Liste. In Malaysia und Indonesien boykottieren ihn trotzdem viele: Der Betreiber in Malaysia machte 2025 Rekordverlust, auch wegen des Boykotts.",
 };
 
 export const boykottQuellen: { titel: string; url: string }[] = [

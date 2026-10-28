@@ -109,3 +109,39 @@ Ein Fund ist sachlich nicht von der Quelle gedeckt (Fund 1, Disney+). Vier weite
 6. McDonald's und Starbucks präzisieren, Fußzeile anpassen.
 7. Ware-Absatz auf "laut BDS" und Etikett-Teil streichen.
 8. Siemens-Hinweis, Microsoft/Reebok, Booking-Satz, Teva-Wortwahl, Kleinigkeiten.
+
+## Runde 2
+
+Geprüft am 28.10.2026 gegen `src/data/boykottListe.ts`, `src/pages/BoykottListe.tsx`, `docs/freebies/boykott-liste.belege.md`, die drei Quelldateien, dazu Malay Mail neu geöffnet (Starbucks). Die Überschrift "So investierst du halal" ist vom Inhaber vorgegeben und nicht beanstandet.
+
+### Urteil: GRÜN
+
+Der rote Fund und alle vier Pflicht-Funde sind behoben. Keine neue falsche oder unbelegte Aussage. Offen bleiben nur Kleinigkeiten (unten), kein sachlicher Fehler.
+
+### Alte Funde
+
+| Nr. | Fund | Behoben | Befund |
+|---|---|---|---|
+| 1 | Disney+ (rot) | ja | Neu: "Wirbt laut BDS in Disney- und Marvel-Filmen für Israel." Deckt sich mit der BDS ("glorifying", Darstellerinnen als "cultural ambassadors", "propaganda efforts"). Kein "Krieg feiern" mehr. |
+| 2 | Börsenkasten "gehen an" | ja | Jetzt "von 100 € stecken" und "allein in Microsoft, Amazon und Google" bzw. "Microsoft und Intel", Fußnote "In Aktien dieser Firmen, nach den Gewichten ... gerundet". Rechnung stimmt: 4,00 + 2,67 + 2,23 + 1,76 = 10,66, also 11; 13,66 + 1,99 = 15,65, also 16 (Spalte "Index Wt." der Islamic-Datei, nicht die Parent-Spalte). |
+| 3 | "Halal heißt nicht automatisch boykottfrei" | ja | Jetzt "Auch ein Islamic ETF ist nicht automatisch boykottfrei." Kein Halal-Urteil mehr, trägt die Datenlage (Microsoft 13,66 % im Islamic-Index). Belegzeile 20 deckt den Satz. |
+| 4 | VON_UNTEN | ja | Jetzt "Laut BDS hat die Firma oder ihr Partner in Israel den Staat offen unterstützt oder der Armee gespendet." "oder" und "laut BDS" stehen, "Ableger" ist weg (passt auch zu Wix). Die Legende sagt "So teilt es die BDS-Bewegung ein"; der Zusatz "Aufruf aus der Bevölkerung" aus dem Vorschlag fehlt, war aber nur Vorschlag. |
+| 5 | SodaStream | ja | Jetzt "Laut BDS beteiligt sich die Firma an der Vertreibung von Beduinen und benachteiligt palästinensische Arbeiter." Deckt sich mit "actively complicit in ... policy of displacing" und "long history of racial discrimination". |
+| 6 | McDonald's / Fußzeile | ja | Grund jetzt "Der frühere Partner in Israel kündigte Gratis-Essen für Soldaten an, McDonald's kaufte ihm danach alle Filialen ab." Fußzeile nennt Al Jazeera als Quelle für diesen Grund. Belegzeile 9 und Quellenliste passend. |
+| 7 | Starbucks | teilweise | "deshalb" ist weg, jetzt "auch wegen des Boykotts". Das trägt Titel und Text von Malay Mail (Titel "hit by boycott impact, downsizing"; im Text nennt der Betreiber als Grund "the prolonged impact of the ongoing sentiment related to the Middle East conflict", dazu Abschreibungen durch Filialabbau). Nicht übernommen: Eingrenzung auf Malaysia bei "boykottieren ihn viele" und die Nennung des Betreibergrunds. Kein sachlicher Fehler, "auch" hält es ab. |
+| 8 | Obst, Gemüse, Wein | ja | Jetzt "Laut BDS steckt in Ware aus Israel oft auch Ware aus Siedlungen." Der Etikett-Teil ist gestrichen. |
+| 9 | Siemens-Hausgeräte | ja | Alltag jetzt "Geräte mit dem Namen Siemens". Keine Herstellerbehauptung mehr. |
+| 10 | Microsoft und Reebok Pille | nein, unverändert | Beide bleiben rot "Boykott". Entspricht der BDS-Abschnittseinteilung (Abschnitt 1) und die Legende sagt "So teilt es die BDS-Bewegung ein". Kein sachlicher Fehler, Runde 1 hatte es als Vorschlag geführt. |
+| 11 | Booking, Airbnb, Expedia | ja | Jetzt "steht auf der Liste der UN zu Firmen in Siedlungen". Für Laien verständlich, deckt die BDS ("UN database of businesses implicated in ... settlement enterprise"). |
+| 12 | Teva | ja | "besetzter Markt" weg, jetzt "verdient laut BDS seit Jahrzehnten an der Besatzung". Gedeckt durch "benefited for decades from Israel's illegal occupation". |
+| 13 | Kleinere Punkte | überwiegend nein, unkritisch | Carrefour ("eine Filiale", BDS: "at least one"), Chevron (Texaco/Caltex für Deutschland ohne Beleg), Intel ("Größter ausländischer Investor" ohne "laut BDS"), Kopfzeile "offiziellen Liste", Alltagsangaben ohne Sammelzeile in der Belegdatei: unverändert. Behoben: Stichtag der World-Datei steht jetzt in Zeile 1 der Quelldatei. Alles kein Fehler in der Sache, die Fußzeile sagt, dass die Gründe die BDS-Seite wiedergeben. |
+| Aufruf | "So investierst du halal" | nicht zu beanstanden | Vorgabe des Inhabers. Aufruftext "welche zinsfrei sind" hat Belegzeile 21. |
+
+### Neue Funde
+
+Keine neue falsche oder unbelegte Aussage. Zähl- und Gruppenprüfung bestätigt: 8 + 8 + 5 + 4 = 25 Firmen; 13 Ziel, 7 von unten, 5 Druck, wie die BDS-Quelle. Alle Textänderungen stehen in der Belegdatei.
+
+Hinweise ohne Einfluss auf das Urteil (Stil oder Vorsicht):
+- Starbucks: "In Malaysia" vor "boykottieren ihn viele" setzen, weil Malay Mail den Boykott nur für Malaysia und Indonesien nennt.
+- Der gelbe Kasten des Islamic-Index trägt dieselbe Farbe wie "Meiden, wo es geht". Das kann wie eine Wertung wirken, ist aber ein Layout-Punkt, keine falsche Aussage.
+- Siemens: "Baut das Stromkabel" ohne "laut BDS"; die BDS sagt "main contractor" eines geplanten Kabels. Die Fußzeile deckt es ab.
