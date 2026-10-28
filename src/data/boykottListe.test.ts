@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { BOYKOTT_PFAD, IM_INDEX, alleFirmen, artVon, euroVon100 } from "./boykottListe";
-import { DEPOT_LOGOS } from "./portfolioPlan";
-import { depotAnzeige } from "./vergleichAnzeige";
-import { empfehlbar } from "./vergleichAssistent";
+import { BOYKOTT_PFAD, alleFirmen, artVon } from "./boykottListe";
 import { alleRouten, bewusstDraussen, nichtIndexiert } from "./routen";
 import { istGueltigeQuelle } from "@/lib/attribution";
 
@@ -37,17 +34,6 @@ describe("Boykott-Liste", () => {
 
   it("nur Druck-Ziele heißen „meiden“, alle anderen „Boykott“", () => {
     for (const f of alleFirmen) expect(artVon(f)).toBe(f.gruppe === "druck" ? "meiden" : "boykott");
-  });
-
-  it("die Euro je 100 € folgen aus den Gewichten der Datenblätter", () => {
-    expect(IM_INDEX.map((i) => euroVon100(i.gewichte))).toEqual([11, 16]);
-  });
-
-  it("die Depot-Logos im Aufruf sind empfehlbar", () => {
-    for (const d of DEPOT_LOGOS) {
-      expect(depotAnzeige.find((a) => a.id === d.id)?.domain).toBe(d.domain);
-      expect(empfehlbar(d.id)).toBe(true);
-    }
   });
 
   it("der Link aus dem Chat wird gezählt", () => {

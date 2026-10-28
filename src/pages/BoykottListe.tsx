@@ -4,15 +4,13 @@ import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { logosFuer } from "@/lib/anbieterLogos";
-import { DEPOT_LOGOS } from "@/data/portfolioPlan";
+import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
+import { edelmetallVergleich } from "@/data/edelmetallVergleich";
 import {
   AUCH_GENANNT,
   BOYKOTT_PFAD,
   BOYKOTT_SCHLUESSEL,
   BOYKOTT_STAND,
-  IM_INDEX,
-  INDEX_STAND,
   VERSTECKT,
   WARE,
   alleFirmen,
@@ -20,7 +18,6 @@ import {
   bereiche,
   boykottLink,
   boykottQuellen,
-  euroVon100,
   type BoykottFirma,
 } from "@/data/boykottListe";
 
@@ -74,46 +71,40 @@ const Bereich = ({ id, titel, firmen }: { id: string; titel: string; firmen: Boy
   </section>
 );
 
+/**
+ * Haram ist nicht Boykott (Elias, 28.10.2026, raw/2026-10-28-elias-bk1-haram-ist-nicht-boykott.md):
+ * keine Zahlen aus Indizes, nichts gegen Halal ETFs, Boykott als freiwilliges Gutes, Aufruf zu Gold
+ * und islamischen Anleihen für alle, die außerhalb vom Aktienmarkt anlegen wollen.
+ */
 const Boerse = () => (
   <section className="reveal mt-12" aria-labelledby="boerse">
     <p className="text-[14px] font-bold text-violet">Auch bei Aktien</p>
     <h2 id="boerse" className="mt-1 text-[24px] font-extrabold text-foreground">
-      Dein Geld an der Börse
+      Haram ist nicht Boykott
     </h2>
-    <p className="mt-2 text-[20px] font-extrabold leading-tight text-foreground">
-      Auch ein Islamic ETF ist nicht automatisch boykottfrei.
-    </p>
-    <div className="mt-3 grid grid-cols-2 gap-2">
-      {IM_INDEX.map((i) => (
-        <div
-          key={i.name}
-          className={`rounded-2xl p-4 ring-1 ${i.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-        >
-          <p className="text-[14px] font-bold leading-tight text-foreground">{i.name}</p>
-          <p className="mt-3 text-[14px] font-bold leading-none text-foreground">von 100&nbsp;€ stecken</p>
-          <p
-            className={`mt-1 whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${i.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-          >
-            {euroVon100(i.gewichte)}&nbsp;€
-          </p>
-          <p className="mt-1 text-[14px] leading-snug text-muted-foreground">
-            allein in {Object.keys(i.gewichte).map((n) => n.split(" (")[0]).join(", ").replace(/, ([^,]*)$/, " und $1")}
-          </p>
-        </div>
-      ))}
+    <div className="card-surface mt-4 space-y-3 p-5 text-[16px] leading-snug text-foreground/85">
+      <p>
+        <span className="font-bold text-foreground">Haram</span> heißt verboten.{" "}
+        <span className="font-bold text-foreground">Boykott</span> ist ein freiwilliger Schritt obendrauf.
+      </p>
+      <p>Steht eine Aktie auf der Boykott-Liste, heißt das nicht, dass sie haram ist. Halal ETFs bleiben eine gute Lösung.</p>
+      <p>Alternativen zu suchen, wo es geht, ist etwas sehr Gutes, inshallah. Jeder Schritt zählt.</p>
     </div>
-    <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
-      In Aktien dieser Firmen, nach den Gewichten der Indizes vom {INDEX_STAND}, gerundet.
-    </p>
     <FindeDeinAngebot
       className="mt-4"
-      titel="So investierst du halal"
-      text="Ich habe die Depots gerankt: welche zinsfrei sind. Dort entscheidest du selbst, in welche Firmen du investierst."
-      knopf="Zum Depot-Vergleich"
-      logos={[...DEPOT_LOGOS]}
-      gesamt={logosFuer("Depot").gesamt}
-      ziel={boykottLink("/vergleich/depot", "mitte")}
+      titel="Du willst ganz ohne Aktien anlegen?"
+      text="Ich habe gerankt, wo du in Deutschland Gold online kaufst und welche Anbieter zinsfrei sind."
+      knopf="Zum Gold-Vergleich"
+      logos={[...GOLD_DEPOT_LOGOS]}
+      gesamt={edelmetallVergleich.length}
+      ziel={boykottLink("/vergleich/edelmetalle", "mitte")}
     />
+    <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
+      Lieber islamische Anleihen (Sukuk)?{" "}
+      <Link to={boykottLink("/wissen/sukuk", "sukuk")} className="font-semibold text-primary hover:underline">
+        So funktionieren Sukuk
+      </Link>
+    </p>
   </section>
 );
 
@@ -144,7 +135,7 @@ const BoykottListe = () => {
     <main className="bg-background" data-freebie="boykott-liste">
       <Seo
         title="Die Boykott-Liste | finanzmuslim"
-        description={`Sieh, welche ${alleFirmen.length} Firmen aus deinem Alltag auf der Boykott-Liste stehen: mit Marken, Grund und dem Blick auf dein Depot.`}
+        description={`Sieh, welche ${alleFirmen.length} Firmen aus deinem Alltag auf der Boykott-Liste stehen: mit Marken, Grund und Alternativen beim Anlegen.`}
         path={BOYKOTT_PFAD}
         noindex
       />
