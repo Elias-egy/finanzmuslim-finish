@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { bausteine, euro, lagen, MONATLICH, PLAN_PFAD } from "./portfolioPlan";
+import { alleRouten, bewusstDraussen, nichtIndexiert } from "./routen";
 
 describe("Halal-Portfolio-Plan", () => {
   it("jede Lage ergibt 100 % und die ganzen 500 €", () => {
@@ -27,8 +28,11 @@ describe("Halal-Portfolio-Plan", () => {
     for (const l of lagen) for (const a of l.anteile) expect(ids.has(a.baustein)).toBe(true);
   });
 
-  it("die Seite ist versteckt: nicht in der Routenliste für Sitemap und Vorrendern", () => {
-    expect(readFileSync("src/data/routen.ts", "utf8")).not.toContain("dein-plan");
+  it("die Seite ist versteckt, aber vorgerendert: noindex, nicht in der Sitemap, bewusst draußen", () => {
+    // Ohne Vorrendern liefert der Hoster eine echte 404 (routen.ts, nichtIndexiert).
+    expect(nichtIndexiert).toContain(PLAN_PFAD);
+    expect(alleRouten().map((r) => r.pfad)).not.toContain(PLAN_PFAD);
+    expect(bewusstDraussen.map((b) => b.pfad)).toContain("/dein-plan/:schluessel");
     expect(readFileSync("src/pages/PortfolioPlan.tsx", "utf8")).toContain("noindex");
     expect(PLAN_PFAD.startsWith("/dein-plan/")).toBe(true);
   });
