@@ -52,7 +52,7 @@ export const FindeDeinAngebot = ({
               ))}
             </div>
             {rest > 0 && (
-              <span className="ml-3 rounded-full bg-white/80 px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
+              <span className="ml-3 whitespace-nowrap rounded-full bg-white/80 px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
                 + {rest}
               </span>
             )}

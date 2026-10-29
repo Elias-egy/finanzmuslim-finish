@@ -4,6 +4,10 @@ import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
+import { PLAN_PFAD } from "./portfolioPlan";
+import { BOYKOTT_PFAD } from "./boykottListe";
+import { GOLD_PFAD } from "./goldPlan";
+import { ETF_PFAD } from "./etfPlan";
 import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
 
 /**
@@ -183,6 +187,14 @@ export const nichtIndexiert: string[] = [
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
   ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+  // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
+  PLAN_PFAD,
+  // Boykott-Liste zum Wort „Boykott“ (BK1), ebenso nur über den Link aus dem Instagram-Chat
+  BOYKOTT_PFAD,
+  // Gold-Plan zum Wort „Gold“ (MC4b), ebenso nur über den Link aus dem Instagram-Chat
+  GOLD_PFAD,
+  // ETF-Plan zum Wort „ETF“ (MC4e), ebenso nur über den Link aus dem Instagram-Chat
+  ETF_PFAD,
   // Opt-in-Seite (DM), Danke-Seite und volle Fassung je gesperrtem Freebie, siehe src/data/optin.ts
   ...optinAdressen(),
   "/newsletter/archiv",
@@ -218,6 +230,10 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
+  { pfad: "/dein-plan/:schluessel", grund: "Portfolio-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-gold/:schluessel", grund: "Gold-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-etf/:schluessel", grund: "ETF-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/gratis/:freebie", grund: "Opt-in-Seite fuer die Instagram-DM, kein eigener Suchbegriff, setzt noindex" },
   { pfad: "/danke/:freebie", grund: "Danke-Seite nach der Anmeldung, setzt noindex" },
   { pfad: "/vorlagen/:slug/:schluessel", grund: "volle Fassung nur ueber den Link aus der Mail, setzt noindex" },

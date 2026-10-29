@@ -1,0 +1,487 @@
+URL: https://investigate.afsc.org/all-companies (Liste live) und https://afsc.org/sites/default/files/2025-07/investigate-dataset-july-2025.xlsx (Datensatz, Stand Juli 2025)
+Abrufdatum: 2026-10-28
+Titel: AFSC Investigate, Action/Research for Palestinian Rights, Datenbank der Firmen
+Hinweis: Die Startseite nennt 288 Firmen; die Liste /all-companies lieferte per Abruf 224 Firmen, der Juli-2025-Datensatz hat 255 Firmen (Spalten Divestment Shortlist, Prisons, Occupations, Borders: 1 = Firma gehört in die Kategorie). Für Israel/Palästina zählt die Spalte Occupations (187 Firmen) und die Divestment Shortlist (103).
+Spalten (Tab): Kurzname | Standardname | Land | Symbol | Branche | Shortlist | Prisons | Occupations | Borders | Zusammenfassung
+==========
+3M	3M Co	USA	MMM	Diversified Industrials		1			A US-based multinational conglomerate that supplies raw materials to prison labor programs. 3M used to provide prison health care services, operate electronic monitoring systems, and manufacture components for weapons systems.
+A. P. Moller Maersk	A. P. Moller Maersk A/S	Denmark	MAERSK B	Marine Shipping			1		One of the world's largest shipping companies, Maersk is one of the main shippers of weapons and military equipment to Israel. It also ships for export products made in Israel's illegal settlements in the occupied West Bank. 
+ABB	ABB Ltd	Switzerland	ABBN	Diversified Industrials			1		A Swedish-Swiss multinational corporation that manufactures robotics, electrification equipment, and automation technology. Its equipment has been used at solar energy fields in the occupied West Bank.
+Acadia Healthcare Co	Acadia Healthcare Co Inc	USA	ACHC	Medical Care		1			A US-based provider of behavioral healthcare services. It provides health services to people in prison and previously operated “shelters” for detaining unaccompanied immigrant children.
+Accenture	Accenture PLC	Ireland	ACN	Information Technology Services				1	An Irish multinational professional services firm that provides technical and planning support to CBP and ICE.
+Adama	Adama Ltd	China	553	Agricultural Inputs			1		A Chinese-owned Israeli chemical pesticide manufacturer that supports agriculture in illegal Israeli settlements in the occupied West Bank and Golan Heights. Its products have also been used by the Israeli military to maintain the blockade on the Gaza Strip.
+AeroVironment	AeroVironment Inc	USA	AVAV	Aerospace & Defense				1	A US-based military contractor whose drones are used to surveil the US–Mexico border.
+Afcon Holdings	Afcon Holdings Ltd	Israel	AFHL	Electronic Components			1		An Israeli company specializing in control and automation technologies for electromechanical systems and infrascuctures. Supplied metal detectors to military checkpoints in the West Bank and Involved in the Jerusalem light rail project, which connects Jerusalem with the illegal settlements around it.
+Air Transport Services Gr	Air Transport Services Group Inc	USA	ATSG	Integrated Freight & Logistics	1	1		1	A US air cargo transportation and aircraft leasing company that operates deportation flights for the US government.
+Airbnb	Airbnb Inc	USA	ABNB	Internet Content & Information			1		A US company that lists rental properties in illegal Israeli settlements in the occupied Palestinian and Syrian territories.
+Airbus	Airbus SE	Netherlands	AIR	Aerospace & Defense	1			1	A Dutch multinational military and aerospace company whose helicopters are used to monitor the US–Mexico border.
+Allison Transmission	Allison Transmission Holdings Inc	USA	ALSN	Auto Parts	1		1		A US manufacturer of transmissions for multiple Israeli military armored vehicles.
+Alony-Hetz Props & Inv	Alony-Hetz Properties & Investments Ltd	Israel	ALHE	Real Estate Services	1		1		An Israeli investment firm. Its subsidiary Energix Renewable Energy has projects in the occupied West Bank and Golan Heights. Its subsidiary Amot Investments owns an industrial building in the occupied West Bank.
+Alphabet	Alphabet Inc	USA	GOOGL	Internet Content & Information		1	1	1	Google’s parent company. It provides cloud computing services and other technologies to the Israeli and US militaries, US immigration authorities, and electronic monitoring companies. 
+Amanet Management	Amanet Management & Systems Ltd	Israel	AMAN	Conglomerates			1		An Israeli company that specializes in consultancy, management, logistics, and software. Its subsidiary Sysnet Software provides support for Israeli military systems that surveil the Palestinian civilian population.
+Amazon.com	Amazon.com Inc	USA	AMZN	Specialty Retail		1	1	1	The world’s largest online retailer and cloud storage provider. It’s the largest provider of cloud computing for US immigration authorities as well as the Israeli government and military, and also supports prison and police surveillance.
+Amir Marketing & Inv	Amir Marketing & Investments In Agriculture Ltd	Israel	AMRK	Agricultural Inputs	1		1		An Israeli agricultural company that operates branches in two illegal settlements in the occupied West Bank.
+Amot Investments	Amot Investments Ltd	Israel	AMOT	Real Estate Services			1		An Israeli real estate investment firm. Owns an industrial building in an illegal settlement industrial zone in the occupied West Bank.
+Apollo Global Management	Apollo Global Management Inc	USA	APO				1		A US asset management firm whose portfolio includes Atlas Air, a private, New York–based cargo and passenger charter airline that has transported weapons from the US to Israel during the Gaza genocide.
+Aramark	Aramark	USA	ARMK	Restaurants	1	1		1	A US-based provider of food, facility management, and uniform services. It provides food and other services to prisons and immigration jails and uses prison labor.
+Archer-Daniels Midland	Archer-Daniels Midland Co	USA	ADM	Farm Products		1			A US multinational company that manufactures food for humans, pets, and livestock. It purchases raw goods from prison farms.
+Ashot- Ashkelon Indus	Ashot- Ashkelon Industries Ltd	Israel	ASHO	Aerospace & Defense	1		1		An Israeli weapons manufacturer that makes munitions and components for Israel’s battle tanks.
+Ashtrom Group	Ashtrom Group Ltd	Israel	ASHG	Real Estate - General	1		1		One of Israel's largest construction and real estate companies. It has constructed housing units and large-scale infrastructure in illegal Israeli settlements, as well as parts of Israel's separation wall. It also operates a quarry and concrete plant in the occupied West Bank.
+Asseco Poland	Asseco Poland SA	Poland	ACP	Software - Application			1		A Polish multinational software company that owns Formula Systems and Matrix IT, both of which provide multiple services to illegal Israeli settlements, the Israeli military, and the Israeli Ministry of Defense.
+AT&T	AT&T Inc	USA	T	Telecom Services				1	A US-based telecommunications company that provides communications services to US immigration authorities.
+Atlas Copco	Atlas Copco AB	Sweden	ATCO A	Diversified Industrials			1		A Swedish multinational manufacturer of industrial tools and equipment. Some of its products were used in the construction of the Tel Aviv–Jerusalem railway, which cuts through the occupied West Bank.
+Aware	Aware Inc	USA	AWRE	Software-Application				1	A US-based software company that provides biometric systems to US immigration authorities for border monitoring and surveillance.
+Axon Enterprise	Axon Enterprise Inc	USA	AXON	Aerospace & Defense	1	1	1	1	A US manufacturer of less-lethal weapons and surveillance technology, which are used by the Israeli military and police against Palestinian civilians and by police, prison, immigration, and military agencies in the US and worldwide.
+B Communications	B Communications Ltd	Israel	BCOM	Telecom Services	1		1		An Israeli holding company with a controlling interest in Bezeq, Israel's largest telecommunications provider, which has infrastructure throughout the occupied West Bank and Golan Heights and provides telecommunication services to illegal Israeli settlements, military bases, and checkpoints.
+B Gaon Holdings	B Gaon Holdings Ltd	Israel	GAON-M	Conglomerates			1		An Israeli company operating in the agriculture, retail, financial services, and real estate sectors. Its subsidiaries provide services to and operate facilities in illegal Israeli settlements in the occupied Palestinian and Syrian territories.
+BAE Systems	BAE Systems PLC	UK	BA.	Aerospace & Defense	1		1		The world's seventh-largest military contractor, which manufactures multiple weapon systems routinely used in war crimes against Palestinians.
+Bank Hapoalim	Bank Hapoalim BM	Israel	POLI	Banks - Regional - Asia	1		1		One of Israel's largest banks. Financed the construction of housing projects and has branches in multiple illegal settlements in the occupied West Bank and Golan Heights.
+Bank Leumi Le-Israel	Bank Leumi Le-Israel BM	Israel	LUMI	Banks - Regional - Asia	1		1		One of Israel's largest banks. It is deeply involved in the expansion of Israel's illegal settlements in the occupied Palestinian and Syrian territories.
+Bank of Jerusalem	Bank of Jerusalem Ltd	Israel	JBNK	Banks - Regional - Asia	1		1		An Israeli bank that is deeply involved in the expansion of Israel's illegal settlements in the occupied West Bank.
+Baran Group	Baran Group Ltd	Israel	BRAN	Engineering & Construction			1		An Israeli engineering company that participated in the construction of the Tel Aviv–Jerusalem railway, which cuts through the occupied Palestinian territory. It is involved in the displacement of Palestinians and in construction projects for the Israeli military and police.
+Benchmark Electronics	Benchmark Electronics Inc	USA	BHE	Electronic Components				1	A US-based producer of high-end computing and industrial products that provides Mobile Video Surveillance Systems (MVSS) to US immigration authorities for monitoring the US–Mexico border.
+Berkshire Hathaway	Berkshire Hathaway Inc	USA	BRK.A	Insurance-Diversified		1			A US-based holding company and investment firm. Its subsidiary Shaw Industries uses prison labor. Other subsidiaries provide equipment, utilities, and uniforms to prison and jail authorities.
+Bezeq Israeli Telecom	Bezeq The Israeli Telecommunication Corp Ltd	Israel	BEZQ	Telecom Services	1		1		Israel's largest telecommunications provider. It has infrastructure throughout the occupied West Bank and Golan Heights and provides telecommunication services to illegal Israeli settlements, military bases, and checkpoints.
+Boeing	Boeing Co	USA	BA	Aerospace & Defense	1		1		The world's third-largest military company. It manufactures multiple weapon systems that are routinely used in war crimes against Palestinian civilians and previously designed the smart/virtual wall on the U.S.-Mexico border.
+Booking Holdings	Booking Holdings Inc	USA	BKNG	Leisure			1		A US travel technology company that owns and operates several travel fare search and booking engines. Its subsidiary Booking.com lists accommodations located in the occupied Palestinian territory and Golan Heights.
+Booz Allen Hamilton	Booz Allen Hamilton Holding Corp	USA	BAH	Consulting Services	1			1	A US government IT contractor that develops cloud analytics services used by US immigration authorities to track and target immigrants.
+Bright Dairy & Food Co	Bright Dairy & Food Co Ltd	China	600597	Packaged Foods			1		A Chinese-owned dairy company whose Israeli subsidiary, Tnuva, sources milk from illegal Israeli settlements in the occupied West Bank and Golan Heights.
+BRP	BRP Inc	Canada	DOO	Recreational Vehicles			1		A Canadian manufacturer of recreational vehicles that provides Can-Am all-terrain vehicles (ATVs) to the Israeli military.
+C Mer Industries	C Mer Industries Ltd	Israel	CMER	Communication Equipment	1		1		An Israeli outsourcing company for secure communications systems. Its systems are installed at military bases and checkpoints in the occupied West Bank and in weapons systems used by the Israeli military.
+CACI International	CACI International Inc	USA	CACI	Information Technology Services				1	A US-based government contractor that provides computer and IT services to US immigration authorities and other federal agencies.
+Cadre Hldgs	Cadre Holdings Inc	USA	CDRE	Aerospace & Defense	1	1	1	1	The owner of Safariland and Defense Technology, which manufacture tear gas and other crowd control weapons that are used by Israeli police and military authorities against Palestinians and by immigration, prison, and law enforcement agencies in the US and around the world.
+CAF	Construcciones y Auxiliar de Ferrocarriles SA	Spain	CAF	Diversified Industrials			1		A Spanish manufacturer of railway vehicles and buses. It is involved in the construction, expansion, operation, and maintenance of the Jerusalem Light Rail, which is part of Israel's illegal settlement enterprise in the occupied Palestinian territory.
+Cal-Maine Foods	Cal-Maine Foods Inc	USA	CALM	Farm Products		1			The largest egg producer in the US. It uses prison labor.
+Canon	Canon Inc	Japan	7751	Computer Hardware			1		A Japanese manufacturer of cameras and film equipment. Its subsidiary Briefcam provides video surveillance tools to the Israeli occupation authorities in East Jerusalem.
+Capgemini	Capgemini SE	France	CAP	Information Technology Services		1		1	A French IT and engineering firm that provides US immigration authorities with IT solutions used to support deportations.
+Capital Point	Capital Point Ltd	Israel	CPTP	Asset Management			1		A venture capital investment firm. One of its holdings, Meytag High Tech Ventures, is located at Katzrin, an illegal Israeli settlement in the occupied Golan Heights.
+Cardinal Health	Cardinal Health Inc	USA	CAH	Medical Distribution		1			A US-based medical supply company that provides pharmaceuticals to prisons, including drugs used in executions. Its former subsidiary Tradex provided materials for use in prison labor programs.
+Carlyle Group	The Carlyle Group Inc	USA	CG	Software-Application	1			1	A US-based global investment firm. Its subsidiary ManTech International provides IT and surveillance services to US immigration authorities.
+Carrefour	Carrefour	France	CA	Grocery Stores			1		A French multinational retailer with grocery stores located in illegal Israeli settlements in the occupied West Bank.
+Castro Model	Castro Model Ltd	Israel	CAST	Apparel Stores			1		Israel's largest fashion company. Operates stores in illegal settlements in the occupied West Bank.
+Caterpillar	Caterpillar Inc	USA	CAT	Farm & Construction Equipment	1		1		A US-based multinational manufacturer of construction machinery and equipment. Its products are weaponized for the Israeli military and are used in home demolitions; in the construction of illegal settlement infrastructure, border walls, and military checkpoints; and in military assaults against Palestinians.
+Cellcom Israel	Cellcom Israel Ltd	Israel	CEL	Telecom Services	1		1		Israel's largest provider of cellular phone services. Has hundreds of antennas and other communications facilities in the occupied Palestinian territory and Golan Heights. Provides telecommunication services to multiple illegal settlements and military bases.
+Cellebrite DI	Cellebrite DI Ltd	Israel	CLBT	Software-Infrastructure	1	1	1	1	An Israeli digital intelligence firm that supplies police, prison, and immigration authorities, as well as repressive regimes around the world, with hacking technologies.
+Cemex	Cemex SAB de CV	Mexico	CEMEXCPO	Building Materials	1		1		A Mexican construction materials manufacturer. Has factories in the occupied West Bank and Golan Heights and provides building materials to construction projects in illegal settlements in the occupied West Bank. Divested from its mining activities in occupied Palestinian territory.
+Cemtrex	Cemtrex Inc	USA	CETX	Software-Infrastructure		1		1	A US-based producer of surveillance tools that provides video management systems for monitoring prisons, jails, and the U.S.–Mexico border.
+Chevron	Chevron Corp	USA	CVX	Oil & Gas Integrated	1		1		One of the world's largest oil and gas companies. Its subsidiary Noble Energy extracts gas off the shores of the Gaza Strip, exacerbating the Gaza blockade and potentially involved in pillaging.
+Children's Place	Children's Place Inc	USA	PLCE	Apparel Retail			1		A US-based apparel and accessories retailer that has stores in Atarot and Ramot, two illegal Israeli settlements in East Jerusalem in the occupied West Bank. The stores are operated by its Israeli licensee, Fox-Wizel.
+Chocoladefabriken	Chocoladefabriken Lindt & Spruengli AG	Switzerland	LISN	Confectioners		1			A Swiss chocolate and confectionery company. Its American subsidiary Russell Stover uses prison labor.
+Cisco Systems	Cisco Systems Inc	USA	CSCO	Communication Equipment			1		A US-based digital communications company that provides technologies to the Israeli military, police, and prisons, and to illegal Israeli settlements in the occupied Palestinian territory.
+Citizens Financial Group	Citizens Financial Group Inc	USA	CFG	Banks-Regional	1	1		1	A US-based retail and commercial banking company. Its subsidiary Citizens Bank is one of the main financial backers of private prison company CoreCivic.
+Clal Insurance	Clal Insurance Enterprises Holdings Ltd	Israel	CLIS	Insurance-Diversified			1		One of Israel's largest insurance companies. It routinely finances and insures construction projects in Israel's illegal settlements throughout the occupied Palestinian territory.
+CNH Industrial	CNH Industrial NV	UK	CNHI	Farm & Construction Equipment			1		A multinational manufacturer of agricultural and construction equipment. Its construction equipment has been used in demolitions of Palestinians' homes and in construction on illegal Israeli settlements and the Separation Wall.
+Coca-Cola	Coca-Cola Co	USA	KO	Beverages-Non-Alcoholic			1		A US multinational beverage company. Its Israeli licensee has a logistics center in an illegal settlement in the occupied West Bank, and it makes wine from grapes that are grown in illegal settlements in the West Bank and Syrian Golan.
+Colt CZ Group	Colt CZ Group SE	Czech Republic	CZG	Aerospace & Defense	1	1	1	1	A manufacturer of firearms and ammunition for military, law enforcement, and commercial markets in Israel, the U.S., and around the world.
+CoreCivic	CoreCivic Inc	USA	CXW	REIT - Diversified	1	1		1	The world’s largest private prison company. It owns and operates prisons and jails, including immigration jails and “community corrections” centers, and uses forced prison labor. It also provides e-carceration technologies, transportation, and other services as part of the criminal punishment system.
+Costco Wholesale	Costco Wholesale Corp	USA	COST	Discount Stores		1			One of the largest retailers in the US. The company is actively working to eliminate prison labor from its supply chain.
+Danya Cebus	Danya Cebus Ltd	Israel	DNYA	Engineering & Construction	1		1		An Israeli construction company controlled by Africa Israel and its parent company, Lapidoth Capital. It is involved in several construction and infrastructure projects in illegal Israeli settlements in the occupied Palestinian territory.
+Delek Group	Delek Group Ltd	Israel	DLEKG	Insurance - Diversified	1		1		An Israeli multinational conglomerate of automotive, energy, insurance, and real estate companies. It owns and operates gas stations and convenience stores throughout the occupied West Bank and Golan Heights.
+Dell Technologies	Dell Technologies Inc	USA	DELL	Computer Hardware			1		A US multinational technology company that provides products and services to the Israeli military.
+Delta Galil Industries	Delta Galil Industries Ltd	Israel	DELG	Apparel Manufacturing	1		1		A leading Israeli textile manufacturer. Has several retail branches in Illegal settlements in the occupied West Bank.
+Delta Israel Brands	Delta Israel Brands Ltd	Israel	DLTI	Apparel Manufacturing	1		1		An Israeli textile manufacturer with branches in illegal Israeli settlements in the occupied West Bank.
+Doosan	Doosan Corp	South Korea	150	Conglomerates			1		The parent company of Doosan Enerbility and of Doosan Bobcat, which provides heavy machinery to the Israeli military.
+Doosan Bobcat	Doosan Bobcat Inc	South Korea	241560	Farm & Construction Equipment			1		Provides heavy machinery to the Israeli military, which uses it illegally in the occupied Palestinian territory.
+Doosan Enerbility	Doosan Enerbility Co Ltd	South Korea	34020	Specialty Industrial Machinery			1		The parent company of Doosan Bobcat, which provides heavy machinery to the Israeli military.
+Dor Alon Energy	Dor Alon Energy In Israel	Israel	DRAL	Oil & Gas Refining & Marketing	1		1		One of Israel's largest gas companies. Has gas stations and convenience stores in multiple illegal settlements in the occupied West Bank.
+DUKE Robotics	DUKE Robotics Corp	Israel	DUKR	Aerospace & Defense	1		1		An Israeli developer of killer drones for the Israeli military
+Edreams Odigeo	Edreams Odigeo SA	Spain	EDR	Travel Services			1		One of the world’s largest digital travel companies. Listed rental properties in illegal Israeli settlements. 
+Elbit Systems	Elbit Systems Ltd	Israel	ESLT	Aerospace & Defense	1		1	1	Israel’s largest weapons manufacturer. Its weapons are routinely used in war crimes against Palestinians and its surveillance systems are used in Palestine and along the U.S.–Mexico border.
+Elco	Elco Ltd	Israel	ELCO	Conglomerates	1		1		An Israeli holding company with multiple business operations in illegal Israeli settlements in the occupied West Bank and Golan Heights.
+Electra	Electra Ltd	Israel	ELTR	Engineering & Construction	1		1		An Israeli construction company that builds and maintains infrastructure projects in and around illegal Israeli settlements in the occupied West Bank and Golan Heights.
+Elevance Health	Elevance Health Inc	USA	ELV	Healthcare Plans		1			A US-based health insurance company, formerly named Anthem, that provides health services to youth jails and criminal legal programs.
+Energix-Renewable	Energix-Renewable Energies Ltd	Israel	ENRG	Utilities - Regulated Electric	1		1		An Israeli renewable energy company. Owns a solar farm in an illegal settlement industrial zone in the occupied West Bank. Developed a wind farm project in the occupied Golan Heights.
+Enlight Renewable Energy	Enlight Renewable Energy Ltd	Israel	ENLT	Utilities - Regulated Electric			1		An Israeli renewable energy company that builds and operates solar and wind power plants in the occupied West Bank and Golan Heights.
+Equifax	Equifax Inc	USA	EFX	Consulting Services				1	A US-based credit reporting agency and data broker that provides US immigration authorities with information that enables them to locate people targeted for deportation.
+Expedia Group	Expedia Group Inc	USA	EXPE	Leisure			1		A US digital tourism and travel company that owns and operates several search and booking websites. Its flagship websites Expedia.com and Hotels.com list locations in occupied Palestinian and Syrian lands.
+Export Investment	Export Investment Corp Ltd	Israel	EXPO	Banks - Regional - Asia	1		1		The parent company of Bank of Jerusalem, an Israeli bank that finances construction projects and operates branches in illegal settlements in the occupied West Bank.
+Exxon Mobil	Exxon Mobil Corp	USA	XOM	Oil & Gas Integrated			1		The world’s largest publicly-traded oil & gas company. Provides Israel with fuel for fighter jets used by the Israeli air force against Palestinian civilians.
+F I B I Holding	F I B I Holding Ltd	Israel	FIBIH	Banks - Regional - Asia	1		1		The parent company of First International Bank of Israel, which finances construction projects, operates branches in, and provides financial services to illegal Israeli settlements in the occupied Palestinian and Syrian territory.
+Fairfax Finl Hldgs	Fairfax Financial Holdings Ltd	Canada	FFH	Insurance - Property & Casualty		1			A Canadian financial holding company. Its subsidiary Crum & Forster is the largest bail insurance company in the US.
+First Horizon	First Horizon Corp	USA	FHN	Banks-Regional		1		1	A US-based banking company that has been one of the main financial backers of private prison company CoreCivic.
+First Intl Bank of Israel	First International Bank of Israel Ltd	Israel	FIBI	Banks-Regional	1		1		One of Israel's largest banks. It is deeply involved in the expansion of Israel's illegal settlements in the occupied Palestinian territory.
+First Solar	First Solar Inc	USA	FSLR	Solar			1		A US-based manufacturer of solar energy systems. Provides solar panels for a solar farm in an illegal Israeli settlement in the occupied West Bank.
+Foot Locker	Foot Locker Inc	USA	FL	Apparel Retail			1		A US-based apparel and accessories retailer that has a store in Ma’ale Adumim, an illegal Israeli settlement in the occupied West Bank. The store is operated by its Israeli licensee, Fox-Wizel.
+Ford Motor	Ford Motor Co	USA	F	Auto Manufacturers		1	1	1	A US-based vehicle manufacturer that provides commercial and specialized vehicles to Israeli occupation authorities and US police and immigration agencies.
+Formula Sys (1985)	Formula Systems (1985) Ltd	Israel	FORTY	Information Technology Services	1		1		A subsidiary of multinational software company Asseco and parent company of Matrix IT and other subsidiaries that provide security systems and IT services to illegal Israeli settlements, the Israeli military, and the Israeli Ministry of Defense.
+Fosun International	Fosun International Ltd	China	656	Insurance - Diversified			1		A Chinese multinational conglomerate that owns AHAVA, which has a production site and visitor center in an illegal Israeli settlement, despite moving its operations outside of the occupied Palestinian territory. 
+Fox-Wizel	Fox-Wizel Ltd	Israel	FOX	Apparel Manufacturing			1		An Israeli apparel and accessories retailer that has stores in multiple illegal settlements in the occupied West Bank under its brands Foot Locker, Fox, Laline, and The Children's Place.
+G1 Secure Solutions	G1 Secure Solutions Ltd	Israel	GOSS	Security & Protection Services	1		1		One of Israel's largest private security firms, formerly a subsidiary of G4S. Provides security services and equipment to several projects of the Israeli occupation of Palestine, including illegal settlements, military checkpoints, the Israeli police and prison system.
+GE Aero	GE Aerospace	USA	GE	Diversified Industrials	1		1		One of the world's largest weapons companies. It manufactures engines for multiple weapon systems that are routinely used in war crimes against Palestinian civilians and infrastructure for a power plant in the occupied Syrian Golan.
+Genasys	Genasys Inc	USA	GNSS	Scientific & Technical Instruments	1		1		Formerly LRAD, A US company specializing in hailing systems. Its weaponized Long Range Acoustic Device is used by the Israeli military in the occupied West Bank.
+General Dynamics	General Dynamics Corp	USA	GD	Aerospace & Defense	1		1	1	The fifth-largest military contractor in the world. It manufactures weapons that are used by the Israeli military against Palestinian civilians and surveillance technology that is used to monitor and surveil the U.S.–Mexico border and immigrant communities.
+General Motors	General Motors Co	USA	GM	Auto Manufacturers		1	1	1	A US automaker whose engines power vehicles used by the Israeli military and whose trucks have been used by Israeli military and police forces to surveil Palestinians and for other occupation-related purposes. It supplies vehicles to US police, prison, and immigration authorities.
+GEO Group	The GEO Group Inc	USA	GEO	REIT - Healthcare Facilities	1	1		1	The world’s second-largest private prison company. It owns and operates prisons and jails, including immigration jails and “community corrections” centers, and uses forced prison labor. It also provides e-carceration technologies, transportation, and other services as part of the criminal punishment system.
+Granite Construction	Granite Construction Inc	USA	GVA	Engineering & Construction	1			1	A US-based construction company that built parts of and performed maintenance on the US–Mexico border barrier.
+Hamat Group	Hamat Group Ltd	Israel	HAMAT	Home Improvement Stores			1		An Israeli company that manufactures products for bathrooms and kitchens. It operates a factory in an illegal Israeli settlement in the occupied West Bank.
+Hangzhou Hik-Vision	Hangzhou Hik-Vision Digital Technology Co Ltd	China	2415	Computer Hardware			1		A Chinese manufacturer of surveillance cameras and software, AI systems, access control technology, and other products. Its equipment is used to surveil Palestinians in the occupied West Bank and by prison and police agencies worldwide.
+Harel Insurance Inv	Harel Insurance Investments & Financial Services Ltd	Israel	HARL	Insurance-Diversified			1		One of Israel's largest insurance companies. It routinely finances and insures construction projects in Israel's illegal settlements throughout the occupied West Bank.
+HD Hyundai	HD Hyundai	South Korea	267250	Oil & Gas Refining & Marketing			1		The parent company of Korea Shipbuilding and its subsidiary Hyundai Heavy Industries, whose products are used to demolish homes and to construct illegal settlements in the occupied West Bank and Golan Heights.
+HD Hyundai Heavy	HD Hyundai Heavy Industries	South Korea	329180	Aerospace & Defense			1		The world's largest shipbuilding company and a major heavy equipment manufacturer. Its products are used to demolish homes and to construct illegal settlements in the occupied West Bank and Golan Heights.
+HD Korea Shipbuilding	HD Korea Shipbuilding & Offshore Engineering	South Korea	9540	Specialty Industrial Machinery			1		The parent company of HD Hyundai Heavy Industries, whose products are used to demolish homes and to construct illegal settlements in the occupied West Bank and Golan Heights.
+Heidelberg Materials	Heidelberg Materials AG	Germany	HEI	Building Materials	1		1		The world's largest cement producer and a leader in the production of aggregates. Operates quarries and manufacturing facilities in the occupied West Bank. Its products have been used to build and expand illegal settlements.
+Hewlett Packard	Hewlett Packard Enterprise Co	USA	HPE	Communication Equipment			1		A US multinational high tech company, previously part of HP. Provides equipment to the discriminatory Israeli population registry and prison system.
+Hilan	Hilan Ltd	Israel	HLAN	Information Technology Services			1		An Israeli IT company that operates multiple projects supporting the Israeli occupation of Palestine. It operates in illegal settlements and manages parts of Israel's discriminatory population registry system.
+Hitachi	Hitachi Ltd	Japan	6501	Information Technology Services			1		A Japanese multinational conglomerate in the communications, infrastructure, electronics, transportation, heavy machinery, and financial industries, among others. Provides equipment that Israel uses to demolish homes in the occupied Palestinian territory.
+Hitachi Construction	Hitachi Construction Machinery Co Ltd	Japan	6305	Farm & Construction Equipment			1		Subsidiary of Hitachi Construction
+Honda Motor Co	Honda Motor Co Ltd	Japan	7267	Auto Manufacturers				1	A Japanese vehicle manufacturer that provides vehicles to US Customs and Border Protection.
+Honeywell Intl	Honeywell International Inc	USA	HON	Conglomerates	1		1		A US manufacturer of components that are integrated into multiple weapons systems used to commit war crimes.
+HSBC Holdings	HSBC Holdings PLC	UK	HSBA	Banks-Diversified		1		1	A UK-based bank holding and financial services company. It has been one of the main financial backers of private prison companies CoreCivic and GEO Group.
+Hyundai Doosan Infracore	Hyundai Doosan Infracore Co Ltd	South Korea	42670	Farm & Construction Equipment			1		A subsidiary of Doosan and parent company of Bobcat, which makes construction equipment that has been used in the construction of the West Bank separation wall and infrastructure projects in illegal settlements in the occupied West Bank.
+IBM	International Business Machines Corp	USA	IBM	Information Technology Services	1		1		One of the largest IT companies in the world. It provides technologies to the Israeli military and operates Israel’s discriminatory population registry.
+ICL Group	ICL Group Ltd	Israel	ICL	Agricultural Inputs			1		One of Israel’s largest companies, which makes fertilizers and chemicals from minerals that it extracts from the Dead Sea. It has provided services to and conducted agricultural experiments in illegal Israeli settlements in the occupied West Bank and Golan Heights, and the products that it manufactures have been used in multiple illegal settlements.
+Internet Gold-Golden	Internet Gold-Golden Lines Ltd	Israel	IGLD-M	Telecom Services	1		1		The parent company of B Communications, which has a controlling interest in Bezeq, Israel's largest telecommunications provider. Been has infrastructure throughout the occupied West Bank and Golan Heights and provides telecommunication services to illegal Israeli settlements, military bases, and checkpoints.
+Israel Discount Bank	Israel Discount Bank Ltd	Israel	DSCT	Banks - Regional - Asia	1		1		One of Israel's largest banks. Financed the construction of housing projects in multiple illegal settlements in the occupied Palestinian territory. Has branches in illegal settlements.
+JA Solar Technology Co	JA Solar Technology Co Ltd	China	2459	Solar			1		A Chinese manufacturer of solar energy systems. Provides solar panels for a solar farm in an illegal Israeli settlement in the occupied West Bank.
+Jain Irrigation Systems	Jain Irrigation Systems Ltd	India	500219	Farm & Heavy Construction Machinery			1		An Indian multinational manufacturing company. Its subsidiary NaanDan Jain Irrigation carries out irrigation projects in and provides services to illegal Israeli settlements in the occupied West Bank and Golan Heights.
+Kardan	Kardan NV	Netherlands	KRNV-M	Real Estate - General	1		1		A Dutch investment company that develops and manages assets and projects in real estate and water infrastructure. Through its subsidiary TAHAL Group, the company has carried out multiple projects in illegal Israeli settlements in the occupied Palestinian territory.
+KBR	KBR Inc	USA	KBR	Engineering & Construction	1			1	A US-based construction and engineering firm that maintains and repairs the US–Mexico border fence in Arizona.
+Kongsberg Gruppen	Kongsberg Gruppen ASA	Norway	KOG		1		1		A Norwegian multinational company operating in the marine, weapons, aerospace, oil and gas, and utilities industries. Its subsidiary Kongsberg Defence & Aerospace owns 25% of Norwegian weapons manufacturer Nammo.
+Kroger	The Kroger Co	USA	KR	Grocery Stores		1			A US retail company that operates supermarkets across the country. It sells products that are produced using prison labor.
+L3Harris Technologies	L3Harris Technologies Inc	USA	LHX	Communication Equipment	1		1	1	A US weapons manufacturer that provides phone tracking devices and other equipment to the Israeli military and US immigration authorities. It used to provide surveillance technologies for use along the US–Mexico border and at Israeli military checkpoints.
+Lapidoth Capital	Lapidoth Capital Ltd	Israel	LAPD	Oil & Gas E&P	1		1		A large Israeli construction, infrastructure, and drilling company. Its subsidiaries Africa Israel and Danya Cebus are involved in several construction and infrastructure projects in illegal Israeli settlements in the occupied Palestinian territory.
+Leidos Holdings	Leidos Holdings Inc	USA	LDOS	Information Technology Services	1			1	A US-based military IT contractor that provides imaging technologies and biometric systems to US immigration authorities for border monitoring and surveillance.
+Leonardo	Leonardo SpA	Italy	LDO	Aerospace & Defense	1		1		An Italian weapon manufacturer that provides the Israeli Navy with warship guns
+Leonardo DRS	Leonardo DRS Inc	USA	DRS	Aerospace & Defense	1		1		A US subsidiary of Italy's largest weapons manufacturer. It supplies the Israeli military with naval guns and tank trailers.
+Lesico	Lesico Ltd	Israel	LSCO	Engineering & Construction	1		1		An Israeli construction and development company that has provided services and infrastructure to illegal Israeli settlements and military checkpoints in the occupied West Bank.
+Liberty TripAdvisor Hldgs	Liberty TripAdvisor Holdings Inc	USA	LTRPA	Internet Content & Information			1		The parent company of TripAdvisor, an American online travel and tourism company whose flagship website, TripAdvisor.com, lists accommodations and activities in illegal Israeli settlements on occupied Palestinian and Syrian land.
+Lockheed Martin	Lockheed Martin Corp	USA	LMT	Aerospace & Defense	1		1	1	The world’s largest military company. It manufactures weapons that are routinely used by the Israeli military against Palestinian civilians and reconnaissance aircraft that are used by US immigration authorities to monitor the US–Mexico border.
+Malam-Team	Malam-Team Ltd	Israel	MLTM	Information Technology Services			1		An Israeli IT company that operates in an illegal Israeli settlement in the occupied Palestinian territory and conducts projects for the Israeli military.
+Manitou BF	Manitou BF SA	France	MTU	Diversified Industrials			1		A French manufacturer of heavy machinery and construction equipment. Its cranes have been used in the construction and maintenance of the separation wall in the occupied West Bank.
+Matrix IT	Matrix IT Ltd	Israel	MTRX	Information Technology Services			1		An Israeli IT service management company and subsidiary of Formula Systems. It provides services and technology to illegal Israeli settlements, the Israeli military, and the Israel Police and Prison Services, and operates one branch in an illegal settlement in the occupied West Bank.
+McDonald's	McDonald's Corp	USA	MCD	Restaurants		1			The world's largest fast-food chain. It uses incarcerated labor at its restaurants and has prison labor in its supply chain.
+Mega Or Holdings	Mega Or Holdings Ltd	Israel	MGOR	Real Estate Services	1		1		An Israeli real estate firm. Develops shopping malls in illegal settlements in the occupied West Bank.
+Mehadrin	Mehadrin Ltd	Israel	MEDN	Farm Products			1		Israel's largest grower and exporter of various fruits and vegetables. It owns and operates dozens of orchards and facilities in the occupied West Bank and Golan Heights.
+Menora Mivtachim Holdings	Menora Mivtachim Holdings Ltd	Israel	MMHD	Insurance-Diversified			1		One of Israel's largest insurance companies. It routinely finances construction projects in Israel's illegal settlements throughout the occupied West Bank.
+Mercedes-Benz Group	Mercedes-Benz Group AG	Germany	MBG				1		A German multinational automotive company that supplies tank transporters to the Israeli military.
+Meta Platforms	Meta Platforms Inc	USA	META	Internet Content & Information			1		The parent company of Facebook, Instagram, WhatsApp, and other platforms. Its social media platforms discriminate against Palestinians and have been implicated in the surveillance of Palestinian civilians.
+Micro Systemation	Micro Systemation AB	Sweden	MSAB B	Software-Application		1		1	A Swedish data extraction firm that provides digital forensics tools to law enforcement and immigration authorities.
+Microsoft	Microsoft Corp	USA	MSFT	Software - Infrastructure		1	1	1	One of the world's largest companies. Its technologies are used by the Israeli military and police and by US government agencies to surveil immigrant communities and manage prisons.
+Migdal Insurance & Finl	Migdal Insurance & Financial Holdings Ltd	Israel	MGDL	Insurance-Life			1		One of Israel's largest insurance companies. It routinely finances and insures construction projects in Israel's illegal settlements throughout the occupied West Bank and provides financial services to illegal settlement councils.
+Minerals Technologies	Minerals Technologies Inc	USA	MTX	Chemicals			1		A US-based multinational minerals company. Its products are used in the construction of a water system for illegal settlements in the occupied West Bank.
+MITIE Gr	MITIE Group PLC	UK	MTO	Business Services	1	1			A British facility management, consultancy, and product management company that operates private prisons and immigration jails in the UK.
+Mitsubishi	Mitsubishi Corp	Japan	8058	Conglomerates			1		Subsidiary of Mitsubishi Motors
+Mitsubishi Motors	Mitsubishi Motors Corp	Japan	7211	Auto Manufacturers			1		A Japanese automotive manufacturer. Its vehicles have been used in the process of demolition and confiscation of Palestinian property in the occupied West Bank.
+Mivne Real Estate (K.D)	Mivne Real Estate (K.D) Ltd	Israel	MVNE	Real Estate Services	1		1		An Israeli real estate company, specializes in properties for industrial or commercial use, formed as the merger of Industrial Buildings Corporation and Jerusalem Economy. Owns multiple industrial spaces in the occupied West Bank and Golan Heights.
+Mizrahi Tefahot Bank	Mizrahi Tefahot Bank Ltd	Israel	MZTF	Banks - Regional - Asia	1		1		A major Israeli bank. Financed the construction of multiple illegal settlements in the occupied Palestinian territory. Has branches in illegal settlements. Discriminates against Palestinian citizens of Israel.
+ModivCare	ModivCare Inc	USA	MODV	Medical Care Facilities		1			A US-based healthcare company, formerly named the Providence Service Corporation, that provides medical transportation services to prisons.
+Mordechai Aviv Taasiot	Mordechai Aviv Taasiot Beniyah (1973) Ltd	Israel	AVIV	Engineering & Construction	1		1		An Israeli construction and real estate development company that constructs residential and commercial projects in illegal Israeli settlements in the occupied Palestinian territory.
+Motorola Solns	Motorola Solutions Inc	USA	MSI	Communication Equipment	1	1	1	1	A US-based communications and surveillance company. Its surveillance products are used in US prisons, along the US–Mexico border, and by US police departments. Its equipment is installed in illegal Israeli settlements and along the separation wall in the occupied West Bank and is used by the Israeli military, police, and prison service.
+Natuzzi	Natuzzi SPA	Italy	NTZ	Furnishings, Fixtures & Appliances			1		An Italian furniture manufacturer. Has a store in an illegal settlement in the occupied West Bank.
+NEC	NEC Corp	Japan	6701	Information Technology Services				1	A Japanese IT company that provides US immigration authorities with biometric technologies used to target immigrant communities.
+Nextcom	Nextcom Ltd	Israel	NXTM	Telecom Services			1		An Israeli infrastructure company that operates a wind energy project in the occupied Golan Heights and has provided communication infrastructure to the Israeli military.
+NICE	NICE Ltd	Israel	NICE	Software-Application	1	1			An Israeli surveillance technology company that sells voice recording, video, and other surveillance tools to US police departments and prisons.
+Northrop Grumman	Northrop Grumman Corp	USA	NOC	Aerospace & Defense	1		1	1	The world’s third-largest military company. It manufactures weapons that are used by the Israeli military against Palestinian civilians and surveillance technologies used by US immigration authorities to monitor the US–Mexico border.
+NVIDIA	NVIDIA Corp	USA	NVDA	Semiconductors			1		Provides products and services to the Israeli military and has a large presence in Israel.
+One Software Technologies	One Software Technologies Ltd	Israel	ONE	Software - Application			1		One of Israel's largest IT companies. Its subsidiary Tescom has facilities in an illegal settlement in the occupied West Bank.
+Orad	Orad Ltd	Israel	ORAD	Software - Infrastructure			1		An Israeli manufacturer of security and perimeter protection technology. Its equipment is installed in illegal Israeli settlements and the separation wall in the occupied West Bank.
+Orbia Advance Corp SAB	Orbia Advance Corp SAB de CV	Mexico	ORBIA	Chemicals			1		A Mexican company (formerly Mexichem) that operates in the materials, agriculture, and infrastructure industries. Its Israeli subsidiary Netafim, a world leader in precision irrigation technologies, provides products and services to several illegal settlements in the occupied Palestinian territory.
+Oron Group Invs & Hldgs	Oron Group Investments & Holdings Ltd	Israel	ORON	Engineering & Construction	1		1		An Israeli development and engineering firm. Operates a quarry and factory in the occupied West Bank and involved in illegal settlement construction.
+Oshkosh	Oshkosh Corp	USA	OSK	Farm & Heavy Construction Machinery	1		1		An American industrial company that designs and builds specialty trucks, military vehicles, and access equipment. Equipment made by its subsidiary JLG Industries has been used in multiple construction projects in illegal Israeli settlements the occupied Palestinian territory.
+OSI Systems	OSI Systems Inc	USA	OSIS	Electronic Components			1	1	A US-based manufacturer of security and inspection systems, which are used at US border checkpoints and Israeli military checkpoints in the occupied Palestinian territory.
+Palantir Technologies	Palantir Technologies Inc	USA	PLTR	Software-Infrastructure	1		1	1	A US-based high-tech surveillance company whose big data AI tools are used by Israeli security forces and U.S. law and immigration enforcement agencies. 
+Partner Communications Co	Partner Communications Co Ltd	Israel	PTNR	Telecom Services	1		1		One of the largest Israeli providers of cellular phone services. Has hundreds of antennas and other communications facilities in the occupied West Bank and Golan Heights. Services illegal settlements and military bases in the occupied West Bank.
+PayPal Holdings	PayPal Holdings Inc	USA	PYPL	Credit Services			1		The global leader in online payments. Discriminates against Palestinians in its services.
+Paz Retail And Energy	Paz Retail And Energy Ltd	Israel	PAZ	Oil & Gas Refining & Marketing	1		1		Israel's largest fuel and gas retailer, supplying Israel's illegal settlements, military, police, and prisons. 
+Perrigo	Perrigo Co PLC	USA	PRGO	Drug Manufacturers - Specialty & Generic			1		An American-Irish manufacturer of pharmaceuticals. It was perviously part of an oligopoly of pharmaceutical companies that benefited from selling to the captive Palestinian market.
+Phoenix Holdings	Phoenix Holdings Ltd	Israel	PHOE	Insurance-Diversified			1		One of Israel's largest insurance companies. It routinely finances and insures construction and infrastructure projects in Israel's illegal settlements throughout the occupied West Bank and Golan Heights and provides financial services to illegal settlement councils.
+Pinnacle Finl Partners	Pinnacle Financial Partners Inc	USA	PNFP	Banks-Regional		1		1	A US-based banking company. It has been a major financier of private prison company CoreCivic.
+Polaris	Polaris Inc	USA	PII	Recreational Vehicles			1	1	A US-based vehicle manufacturer that provides all-terrain vehicles, utility task vehicles, and snowmobiles to US immigration authorities.
+Primo Water	Primo Water Corp	Canada	PRMW	Beverages-Non-Alcoholic	1		1		A Canadian multinational beverage and food service company (formerly Cott Corp). Its Israeli subsidiary Eden Springs extracts water from the occupied Golan Heights and is headquartered in an illegal settlement there.
+Rami Levi Chain Stores	Rami Levi Chain Stores Hashikma Marketing 2006 Ltd	Israel	RMLI	Grocery Stores	1		1		Israel’s third largest grocery store chain. Owns real estate and operates stores in multiple illegal settlements in the occupied West Bank.
+RE/MAX Hldgs	RE/MAX Holdings Inc	USA	RMAX	Real Estate Services			1		One of the world’s largest real estate companies. Sells and rents real estate in multiple illegal settlements in the occupied West Bank. Has a franchised office in a settlement.
+Regions Finl	Regions Financial Corp	USA	RF	Banks-Regional	1	1		1	A US-based banking and financial services company and one of the main financiers of private prison companies CoreCivic and GEO Group.
+RELX	RELX PLC	UK	REL	Publishing		1		1	A UK-based data broker and information services provider. Its subsidiary LexisNexis provides US immigration authorities with systems used to track and target immigrant communities and sells legal databases to prisons and jails.
+RENK Group	RENK Group AG	Germany	R3NK	Specialty Industrial Machinery	1		1		A German company that makes engines and transmissions for Israel's Merkava battle tank and Namer armored personnel carrier. 
+Restaurant Brands Intl	Restaurant Brands International Inc	Canada	QSR	Restaurants		1			One of the world's largest fast-food restaurant companies. It uses prison labor at its restaurants and has prison labor in its supply chain.
+RLI	RLI Corp	USA	RLI	Insurance - Property & Casualty		1		1	A US specialty insurance company. Provides surety bonds to bail bond companies including Libre by Nexus.
+Roche Bobois	Roche Bobois SA	France	RBO	Furnishings, Fixtures & Appliances			1		A French furniture manufacturer that has a store in an illegal settlement in the occupied West Bank.
+Rolls-Royce Hldgs	Rolls-Royce Holdings PLC	UK	RR.	Aerospace & Defense	1		1		The UK's second largest weapons manufacturer. Its German subsidiary MTU makes the engines for Israel's main battle tanks and armored personnel carriers.
+Roots Sustainable	Roots Sustainable Agricultural Technologies Ltd	Israel	ROOO	Farm & Heavy Construction Machinery			1		An Israeli agricultural technology company that provides climate management technologies to illegal Israeli settlements in the occupied West Bank.
+Rotshtein Realestate	Rotshtein Realestate Ltd	Israel	ROTS	Residential Construction	1		1		An Israeli construction company that has built residential housing projects in illegal Israeli settlements in the occupied West Bank. It previously constructed facilities for the Israeli military.
+RTX	RTX Corp	USA	RTX	Aerospace & Defense	1		1	1	The world's second-largest military company, formerly known as Raytheon Technologies. It makes missiles, bombs, components for fighter jets, and other weapon systems used by the Israeli military against Palestinian civilians. Its surveillance technology is also used to monitor the U.S.–Mexico border.
+Salesforce	Salesforce Inc	USA	CRM	Software-Application				1	A US-based cloud computing and AI company whose systems power the Unified Immigration Portal, a database used by US immigration enforcement agencies to monitor and surveil immigrants.
+Salomon A. Angel	Salomon A. Angel Ltd	Israel	ANGL	Confectioners	1		1		Israel's largest bread company. It operates bakeries in at least seven illegal Israeli settlements in the occupied West Bank.
+Science Applications Intl	Science Applications International Corp	USA	SAIC	Information Technology Services	1			1	A US military and intelligence contractor that provides license plate readers and other surveillance technologies to US immigration authorities.
+Serco Group	Serco Group PLC	UK	SRP	Business Services	1	1			A British multinational outsourcing company that operates prisons and immigration jails in Australia, Germany, New Zealand, and the UK.
+Shapir Eng & Industry	Shapir Engineering and Industry Ltd	Israel	SPEN	Engineering & Construction			1		An Israeli construction and infrastructure firm. Operates a quarry and concrete plant in the occupied West Bank and involved in several development projects in illegal settlements there.
+Shikun & Binui	Shikun & Binui Ltd	Israel	SKBN	Engineering & Construction	1		1		An Israeli infrastructure and construction company. Builds infrastructure and residential projects in multiple illegal settlements in the occupied West Bank and has a factory a factory in a settlement. Involved in building military checkpoints and the Gaza wall.
+Shufersal	Shufersal Ltd	Israel	SAE	Grocery Stores	1		1		One of the largest grocery store chains in Israel. It operates branches and manufactures food products in illegal Israeli settlements in the occupied West Bank and Golan Heights.
+Shunfeng Intl Clean	Shunfeng International Clean Energy Ltd	China	1165	Solar	1		1		A Chinese solar energy company. Its solar panels are used in illegal Israeli settlements in the occupied West Bank and Golan Heights.
+Siemens	Siemens AG	Germany	SIE	Diversified Industrials			1		A German multinational conglomerate in the electronics and industrial engineering industries. Its equipment is installed in illegal settlement roads and a the railway tracks in the occupied West Bank.
+SMA Solar Tech	SMA Solar Technology AG	Germany	S92	Solar			1		A German-owned solar energy equipment supplier whose equipment has been used at a solar field in an illegal Israeli settllement the occupied West Bank.
+Smiths Group	Smiths Group PLC	UK	SMIN	Diversified Industrials				1	A British engineering company that provides X-ray and surveillance technologies to US immigration authorities for monitoring borders.
+Sodexo	Sodexo	France	SW	Business Services	1	1			A French multinational food services and facilities management company that operates prisons in Australia and the UK.
+SolarEdge Technologies	SolarEdge Technologies Inc	Israel	SEDG	Solar			1		An Israeli solar power company. Its systems are installed in illegal settlements in the occupied West Bank.
+Solvay	Solvay SA	Belgium	SOLB	Chemicals			1		A Belgian multinational chemical company whose products were used in the construction of a water system for illegal settlements in the occupied West Bank.
+Sony Group	Sony Group Corp	Japan	6758	Consumer Electronics			1		A Japanese multinational conglomerate that specializes in developing and manufacturing electronic equipment, gaming consoles, instruments, and software. Its cameras are used in surveillance systems in the occupied West Bank and Gaza Strip.
+Sturm Ruger & Co	Sturm Ruger & Co Inc	USA	RGR	Aerospace & Defense	1	1	1		A US-based manufacturer of firearms and tactical gear. It sells its products to law enforcement, the US military, and foreign militaries, including the Israeli military, which uses Ruger weapons to target Palestinians.
+Sun	Sun Corp	Japan	6736	Consumer Electronics	1	1		1	A majority owner of Cellebrite
+SuperCom	SuperCom Ltd	Israel	SPCB	Security & Protection Services	1	1			An Israeli provider of electronic monitoring, cybersecurity, and digital identity products. Its subsidiary Leaders in Community Alternatives sells e-carceration tools and operates “community corrections” programs in the US and internationally.
+Synovus Finl	Synovus Financial Corp	USA	SNV	Banks-Regional		1		1	A US-based bank holding and financial services company. Its subsidiary Synovus Bank has been one of the main financial backers of private prison company CoreCivic.
+Target	Target Corp	USA	TGT	Discount Stores		1			A US retail company that sells household items, apparel, home furnishings, and other merchandise. It sells products that are produced using prison labor.
+Target Hospitality	Target Hospitality Corp	USA	TH	Conglomerates	1	1		1	A US-based facility management services company that owns and partially operates two ICE immigration jails.
+Taro Pharmaceutical Indus	Taro Pharmaceutical Industries Ltd	Israel	TARO	Drug Manufacturers - Specialty & Generic			1		An Israeli pharmaceutical manufacturer that benefits from selling to the captive Palestinian market.
+Tata Motors	Tata Motors Ltd	India	TATAMOTORS	Auto Manufacturers			1		An Indian multinational automobile manufacturer that supplies Land Rover vehicles to the Israeli military for use in the occupied Palestinian territory.
+Teledyne Technologies	Teledyne Technologies Inc	USA	TDY	Scientific & Technical Instruments	1			1	A US engineering and IT government contractor that provides CBP with mobile surveillance systems used to monitor the US–Mexico border.
+Tempur Sealy Intl	Tempur Sealy International Inc	USA	TPX	Furnishings, Fixtures & Appliances			1		A US manufacturer of mattresses and other bedding products that has a store in an illegal settlement in the occupied West Bank.
+Tera Light	Tera Light Ltd	Israel	TRLT	Utilities-Renewable			1		An Israeli solar energy company with projects in the occupied West Bank.
+Terex	Terex Corp	USA	TEX	Farm & Construction Equipment			1		A US manufacturer of machinery and lift equipment for construction and infrastructure projects. Its equipment has been used in home demolitions and in the construction of Israel's separation wall, the Tel Aviv–Jerusalem railway, and military checkpoints. 
+Teva Pharmaceutical Indus	Teva Pharmaceutical Industries Ltd	Israel	TEVA	Drug Manufacturers - Specialty & Generic			1		An Israeli pharmaceutical company, the world's largest generic drug manufacturer. Part of an oligopoly of companies who benefit from selling to the Palestinian captive market.
+Textron	Textron Inc	USA	TXT	Aerospace & Defense	1		1	1	A US-based military contractor, known for its Beechcraft, Bell, Cessna, and Hawker aircraft, some of which are used to monitor the US–Mexico border and by the Israeli military.
+Thales	Thales	France	HO	Aerospace & Defense				1	A French IT and military company that designs biometric and identification management systems for US and European immigration authorities.
+Themis GREN	Themis GREN Ltd	Israel	TMIS	Real Estate Services	1		1		An Israeli real estate, construction, and development company that builds housing and commercial projects in the occupied Palestinian territory.
+Thermo Fisher Scientific	Thermo Fisher Scientific Inc	USA	TMO	Diagnostics & Research				1	A US-based pharmaceutical and biotech company that provides US immigration authorities with equipment for mass DNA testing of detained immigrants and Rapid DNA testing of migrant families at the US–Mexico border.
+Thomson Reuters	Thomson Reuters Corp	Canada	TRI	Capital Markets	1	1		1	A Canadian data broker and information services provider. It provides US immigration authorities with systems used to track and target immigrant communities and sells legal databases to prisons and jails.
+thyssenkrupp	thyssenkrupp AG	Germany	TKA	Metal Fabrication	1		1		A German engineering company that has provided the Israeli Navy with warships and submarines 
+Tigbur- Temporary	Tigbur- Temporary Professional Personnel Ltd	Israel	TIGBUR	Staffing & Outsourcing Services	1		1		An Israeli staffing agency for the private security industry. Its subsidiary Reshef Security provides security services to illegal Israeli settlements, infrastructure projects, and military checkpoints in the occupied West Bank and Golan Heights.
+TKH Group	TKH Group NV	Netherlands	TWEKA				1		A Dutch technology company whose surveillance cameras are used to surveil Palestinians in the occupied West Bank and by prison and police agencies worldwide.
+Toyota Motor	Toyota Motor Corp	Japan	7203	Auto Manufacturers			1		A Japanese multinational automotive manufacturer. Its vehicles are used by Israeli security forces to protect illegal settlements, carry out home demolitions, and suppress Palestinian demonstrations in the occupied West Bank.
+Track Group	Track Group Inc	USA	TRCK	Scientific & Technical Instruments		1			A US-based electronic monitoring company that provides prison and other law enforcement authorities with tracking and surveillance technologies.
+TransUnion	TransUnion	USA	TRU	Consulting Services				1	A US-based credit rating agency and data broker that provides risk mitigation services to immigration authorities and customized software to law enforcement agencies.
+Traton	Traton SE	Germany	8TRA	Farm & Heavy Construction Machinery			1		A German manufacturer of commercial vehicles and engineering equipment, majority-owned by Volkswagen. It provides Israel with MAN vehicles, which are converted there into The Skunk, a crowd control weapon designed specifically for the military occupation. In addition, MAN buses are used by Egged, a large Israeli bus company that serves many illegal settlements in the occupied West Bank.
+TripAdvisor	TripAdvisor Inc	USA	TRIP	Leisure			1		An American digital travel and tourism company that owns and operates several search and booking websites. Its flagship website, TripAdvisor.com, lists many accommodations in illegal settlements on occupied Palestinian and Syrian land.
+Tyson Foods	Tyson Foods Inc	USA	TSN	Farm Products		1			One of the largest food manufacturing companies in the world. It uses incarcerated labor at its factories and has prison labor in its supply chain.
+Valero Energy	Valero Energy Corp	USA	VLO	Oil & Gas Refining & Marketing	1		1		A US multinational oil and gas company. Provides Israel with fuel for aircraft used by the Israeli air force against Palestinian civilians.
+Villar International	Villar International Ltd	Israel	VILR	Real Estate Services			1		An Israeli company that operates in construction, real estate, and archive services fields. It owns and operates industrial offices, rental properties, and archival facilities in several illegal Israeli settlements in the occupied West Bank.
+Vinci	Vinci SA	France	DG	Engineering & Construction			1		VINCI's subsidiary SEMI led the project to electrify the Tel Aviv-Jerusalem railway, which crosses into the occupied West Bank.
+Virco Mfg	Virco Manufacturing Corp	USA	VIRC	Furnishings, Fixtures & Appliances		1			A US-based manufacturer and supplier of furniture and equipment for K-12 schools. It uses prison labor and sells its products to prisons.
+Volkswagen	Volkswagen AG	Germany	VOW3	Auto Manufacturers			1		A German manufacturer of commercial vehicles and engineering equipment. Its subsidiary Traton provides Israeli with MAN vehicles, which are converted there into The Skunk, a crowd control weapon designed specifically for the military occupation. In addition, MAN buses are used by Egged, a large Israeli bus company that serves many illegal settlements in the occupied West Bank.
+Volvo	Volvo AB	Sweden	VOLV A	Truck Manufacturing			1		A Swedish multinational manufacturer of trucks, buses, construction equipment, and industrial systems. Its vehicles and equipment have been used in demolitions of Palestinians' homes and in the construction of illegal Israeli settlements and settlement infrastructure in the occupied West Bank.
+Walmart	Walmart Inc	USA	WMT	Discount Stores		1			The world’s largest retailer. Uses prison labor in its supply chain.
+Wendy's	The Wendy's Co	USA	WEN	Restaurants		1			A US holding company that owns Wendy's, one of the world's largest fast-food chains. It uses incarcerated labor.
+Western Union	The Western Union Co	USA	WU	Credit Services		1			A US-based multinational financial services company that facilitates money transfers to people held in prisons and jails, including immigration jails, across the US.
+Woodward	Woodward Inc	USA	WWD	Aerospace & Defense	1		1		A US weapons manufacturer that makes components for multiple weapons systems used by Israel to target civilians.
+WSP Global	WSP Global Inc	Canada	WSP	Engineering & Construction			1		WSP planned and designed the Jerusalem Light Rail, which connects illegal Israeli settlements in occupied East Jerusalem with the western part of the city, according to Who Profits.
+Wyndham Hotels & Resorts	Wyndham Hotels & Resorts Inc	USA	WH	Lodging			1		A US-based owner and operator of hotels and resorts that has a hotel in an illegal settlement in the occupied West Bank.
+Ya'Acobi Brothers Group	Ya'Acobi Brothers Group(YSB) Ltd	Israel	YAAC	Engineering & Construction			1		An Israeli construction and infrastructure company that conducts projects in illegal Israeli settlements in the occupied Palestinian territory. Its subsidiary GreenNet operates a waste management facility in an illegal settlement in occupied East Jerusalem.
+Yamaha Motor	Yamaha Motor Co Ltd	Japan	7272	Auto Manufacturers				1	A Japanese vehicle manufacturer that provides all-terrain vehicles and watercraft to US Customs and Border Protection.
+Yum Brands	Yum Brands Inc	USA	YUM	Restaurants		1			One of the world's largest fast-food restaurant companies. It's subsidiary KFC uses prison labor.
+Z M H Hammerman	Z M H Hammerman Ltd	Israel	ZMH	Real Estate Services	1		1		An Israeli construction and real estate company that has built residential and commercial projects in illegal Israeli settlements in the occupied West Bank. Its subsidiary Giltek Infrastructure Works has performed construction work for the Israeli Ministry of Defense.
+ZIM Integrated Shipping	ZIM Integrated Shipping Services Ltd	Israel	ZIM	Marine Shipping			1		Israel's largest shipping company and one of the main shippers of weapons and military equipment to Israel. 
+
+========== Namensliste der live Seite /all-companies (224)
+A. P. Moller Maersk A/S
+ABB Ltd
+Adama Ltd
+Afcon Holdings Ltd
+Agilite
+Aimpoint AB
+Air Products & Chemicals Inc
+Airbnb Inc
+Allianz SE
+Allison Transmission Holdings Inc
+Alony-Hetz Properties & Investments Ltd
+Alphabet Inc
+Alstom SA
+Altice International Sà rl
+AM General
+Amanet Management & Systems Ltd
+Amazon.com Inc
+American International Group Inc
+Amir Marketing & Investments In Agriculture Ltd
+Amot Investments Ltd
+Apollo Asset Management Inc
+Atlas Air
+Ashot- Ashkelon Industries Ltd
+Ashtrom Group Ltd
+Asseco Poland SA
+Formula Systems
+Matrix IT
+Atlas Air Inc
+Atlas Copco AB
+Aviva plc
+AXA S.A.
+Axon Enterprise Inc
+Azrieli Group Ltd
+B Gaon Holdings Ltd
+BAE Systems PLC
+Bank Hapoalim BM
+Bank Leumi Le-Israel BM
+Bank of Jerusalem Ltd
+Baran Group Ltd
+Bezeq The Israeli Telecommunication Corp Ltd
+Boeing Co
+Booking Holdings Inc
+BP PLC
+Bright Dairy & Food Co Ltd
+BRP Inc
+C Mer Industries Ltd
+Cadre Holdings Inc
+Canon Inc
+Capital Point Ltd
+Carrefour
+Castro Model Ltd
+Caterpillar Inc
+Cellcom Israel Ltd
+Cellebrite DI Ltd
+Cemex SAB de CV
+Chevron Corp
+Children's Place Inc
+Fox-Wizel
+Chubb Ltd
+Cisco Systems Inc
+Clal Insurance Enterprises Holdings Ltd
+CNH Industrial NV
+Coca-Cola Co
+Colt CZ Group SE
+Combined Systems Inc
+Construcciones y Auxiliar de Ferrocarriles SA
+Corsight AI
+Dana Petroleum Ltd
+Danya Cebus Ltd
+Lapidoth Capital
+Day & Zimmermann
+Delek Group Ltd
+Dell Technologies Inc
+Delta Galil Industries Ltd
+Doosan Bobcat Inc
+Doosan Corp
+Doosan Enerbility
+Doosan Enerbility Co Ltd
+Doosan Bobcat
+Dor Alon Energy In Israel
+DUKE Robotics Corp
+Edreams Odigeo SA
+Elbit Systems Ltd
+Elco Ltd
+Electra Ltd
+Emtan Karmiel
+Energix-Renewable Energies Ltd
+Eni SpA
+Enlight Renewable Energy Ltd
+Expedia Group Inc
+Export Investment Corp Ltd
+Bank of Jerusalem
+Exxon Mobil Corp
+F I B I Holding Ltd
+First International Bank of Israel
+Fanuc Corp
+FedEx Corp
+First International Bank of Israel Ltd
+First Solar Inc
+Flyer Defense LLC
+General Dynamics
+FN Browning Group
+Foot Locker Inc
+Fox-Wizel
+Ford Motor Co
+Formula Systems (1985) Ltd
+Asseco
+Matrix IT
+Fosun International Ltd
+Fox-Wizel Ltd
+Foot Locker
+The Children's Place
+G1 Secure Solutions Ltd
+GE Aerospace
+Genasys Inc
+General Dynamics Corp
+General Motors Co
+Hamat Group Ltd
+Hangzhou Hik-Vision Digital Technology Co Ltd
+Harel Insurance Investments and Financial Services Ltd
+HD Hyundai
+Korea Shipbuilding
+Hyundai Heavy Industries
+HD Hyundai Heavy Industries
+HD Korea Shipbuilding & Offshore Engineering
+HD Hyundai Heavy Industries
+Heidelberg Materials AG
+Hewlett Packard Enterprise Co
+Hilan Ltd
+Hitachi Ltd
+Honeywell Aerospace Inc
+Hoplite Group LLC
+ICL Group Ltd
+Indorama Ventures PCL
+infiniDome
+Intact Financial Corp
+Intel Corp
+International Business Machines Corp
+Israel Aerospace Industries Ltd
+Israel Discount Bank Ltd
+JA Solar Technology Co Ltd
+Jain Irrigation Systems Ltd
+JC Bamford Excavators Limited
+Kalitta Air
+Kardan NV
+Kongsberg Gruppen ASA
+Nammo
+L3Harris Technologies Inc
+Lapidoth Capital Ltd
+Leonardo SpA
+Lesico Ltd
+Leupold & Stevens Inc
+Liberty Mutual Group
+Liberty TripAdvisor Holdings Inc
+TripAdvisor
+Libi Construction and Infrastructure Ltd
+LIG Nex1 Co Ltd
+Lockheed Martin Corp
+Logitech International SA
+Malam-Team Ltd
+Manitou BF SA
+Matrix IT Ltd
+Formula Systems
+MDT Armor
+Mega Or Holdings Ltd
+Mehadrin Ltd
+Mekorot Water Company Ltd
+Menora Mivtachim Holdings Ltd
+Mercedes-Benz Group AG
+Meshulam Levinstein Contracting & Engineering Ltd
+Meta Platforms Inc
+Microsoft Corp
+Migdal Insurance & Financial Holdings Ltd
+Minerals Technologies Inc
+Mitsubishi Corp
+Mivne Real Estate (K.D) Ltd
+Mizrahi Tefahot Bank Ltd
+Mordechai Aviv Taasiot Beniyah (1973) Ltd
+Motorola Solutions Inc
+National Airlines
+Natuzzi SPA
+NewMed Energy LP
+Nextcom Ltd
+NextVision
+Nordic Ammunition Company
+Northrop Grumman Corp
+NVIDIA Corp
+One Software Technologies Ltd
+Orad Ltd
+Orbia Advance Corp SAB de CV
+Oron Group Investments & Holdings Ltd
+Oshkosh Corp
+OSI Systems Inc
+OSSA Obras Subterráneas
+Oron
+Overseas Shipholding Group Inc
+Valero
+Palantir Technologies Inc
+Partner Communications Co Ltd
+PayPal Holdings Inc
+Paz Retail And Energy Ltd
+Perrigo Co PLC
+Phoenix Financial Ltd
+Plasan Sasa Ltd
+Polaris Inc
+QBE Insurance Group Ltd
+Rafael Advanced Defense Systems
+Rami Levi Chain Stores Hashikma Marketing 2006 Ltd
+Ratio Energies LP
+RE/MAX Holdings Inc
+RENK Group AG
+REPKON MAKİNA ve KALIP SANAYİ A.Ş.
+Reveal Technology
+Rheinmetall AG
+Roche Bobois SA
+Rolls-Royce Holdings plc
+Roots Sustainable Agricultural Technologies Ltd
+Rotshtein Realestate Ltd
+RTX Corp
+Saildrone Inc
+Salomon A. Angel Ltd
+Shapir Engineering and Industry Ltd
+Volkswagen
+Traton

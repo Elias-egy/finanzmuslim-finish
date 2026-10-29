@@ -18,13 +18,16 @@ export const AnbieterLogo = ({
   name,
   domain,
   gross = false,
+  klein = false,
 }: {
   name: string;
   domain?: string;
   gross?: boolean;
+  /** Kleines Logo als Beispiel neben einem Satz, kein Anbieter zum Anklicken. */
+  klein?: boolean;
 }) => {
   const [fehler, setFehler] = useState(false);
-  const mass = gross ? "h-12 w-12" : "h-10 w-10";
+  const mass = gross ? "h-12 w-12" : klein ? "h-6 w-6" : "h-10 w-10";
   const url =
     !fehler && logoToken && domain
       ? `https://img.logo.dev/${domain}?token=${logoToken}&size=96&format=png&retina=true`
