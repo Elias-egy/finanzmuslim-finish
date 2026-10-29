@@ -76,6 +76,7 @@ export const sichtbar = (a: Ausgabe, zeit: number = BAUZEIT) => !a.sichtbarAb ||
 import nr1 from "./newsletter/2026-10-09-launch.json";
 import nr2 from "./newsletter/2026-10-16-islamic.json";
 import nr3 from "./newsletter/2026-10-23-fonds-militaer.json";
+import nr4 from "./newsletter/2026-10-30-tech-rutsch.json";
 // archiv:importe:end
 
 export const eingetragen: Ausgabe[] = [
@@ -83,6 +84,7 @@ export const eingetragen: Ausgabe[] = [
   nr1,
   nr2,
   nr3,
+  nr4,
   // archiv:liste:end
 ];
 

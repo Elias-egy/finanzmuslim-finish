@@ -1,0 +1,131 @@
+{
+  "nr": 4,
+  "datum": "2026-10-30",
+  "thema": "tech-rutsch",
+  "titel": "Black Friday: Der Rabatt-Trick des Jahres",
+  "kurz": "Black Friday kommt: 38 % Rabatt auf dem Schild, gespart nur 20 €. Wie du den Trick erkennst. Dazu: Nvidia minus 12,8 % und warum dein Islamic-ETF stärker fiel, und was der Staat ab Januar fürs Alter drauflegt.",
+  "lesezeitMin": 4,
+  "titelbild": "https://storage.mlcdn.com/account_image/2353109/S8pYdaZL5g1OlHBN68h6ccrvIKaSCNvIM8oA3wqB.gif",
+  "titelbildAlt": "Der Black-Friday-Trick: Rabatt auf dem Schild minus 38 Prozent, gespart zum Marktpreis minus 6,7 Prozent, Beispiel der Verbraucherzentrale Niedersachsen",
+  "einleitung": [
+    "Black Friday steht vor der Tür, und Chip-Aktien sind abgerutscht. Das liest du heute:"
+  ],
+  "inhalt": [
+    {
+      "emoji": "🏷️",
+      "wort": "Black Friday",
+      "text": "38 % Rabatt, gespart nur 20 €, so erkennst du den Trick",
+      "anker": "blackfriday"
+    },
+    {
+      "emoji": "📉",
+      "wort": "Tech-Aktien",
+      "text": "Nvidia minus 12,8 %, und warum dein Islamic-ETF stärker fiel",
+      "anker": "tech"
+    },
+    {
+      "emoji": "💶",
+      "wort": "Altersvorsorge",
+      "text": "bis zu 540 € vom Staat, und geht das halal? (von euch gewählt)",
+      "anker": "altersvorsorge"
+    },
+    {
+      "emoji": "🗳️",
+      "wort": "Abstimmen",
+      "text": "dein Thema für nächsten Freitag",
+      "anker": "abstimmen"
+    }
+  ],
+  "rubriken": [
+    {
+      "titel": "38 % Rabatt, gespart nur 20 €: Der Rabatt-Trick des Jahres",
+      "absaetze": [
+        "Am 27. November ist Black Friday, am 30. November Cyber Monday. Überall stehen dann große Prozente. Die Verbraucherzentrale Niedersachsen zeigt, wie der Trick oft geht.",
+        "Ein Onlinehändler senkt einen Kühlschrank von 450 € auf 279 €. Das sind 38 % weniger. Nur: Die 450 € sind die Preisempfehlung des Herstellers, die kaum ein Händler verlangt. Der Marktpreis liegt laut Verbraucherzentrale wahrscheinlich bei 299 €. Gespart hast du also <strong>20 €</strong>, nicht 171 €.",
+        "## So gehst du vor",
+        "- <strong>Preisverlauf ansehen:</strong> Vergleich den Preis in einer Preissuchmaschine. Dort siehst du die Preise des ganzen letzten Jahres, nicht nur den durchgestrichenen.\n- <strong>Shop prüfen:</strong> Schau ins Impressum, in die AGB und in Erfahrungsberichte. Ob ein Shop seriös ist, prüft der Fakeshop-Finder der Verbraucherzentrale.\n- <strong>Nicht per Vorkasse zahlen:</strong> Lieber per Rechnung oder Lastschrift, auch wenn der Rabatt noch so gut aussieht.\n- <strong>Widerrufen per Knopf:</strong> Seit 19. Juni 2026 müssen Onlineshops einen Widerrufsbutton haben. Fehlt er, kann deine Frist auf bis zu 12 Monate und 14 Tage steigen. Normal sind 14 Tage, auch an Aktionstagen.",
+        "Und was du am Black Friday nicht ausgibst, kann in deinen Sparplan."
+      ],
+      "kicker": "Black Friday",
+      "emoji": "🏷️",
+      "anker": "blackfriday"
+    },
+    {
+      "titel": "Nvidia minus 12,8 %: Warum dein Islamic-ETF stärker fiel",
+      "absaetze": [
+        "Anfang Oktober stand Nvidia so hoch wie nie. Am 22. Oktober lag die Aktie <strong>12,80 % unter dem Rekordhoch</strong>. Andere Chip-Firmen traf es an diesem einen Tag noch härter: AMD minus 8,10 %, Intel minus 8,04 %, Micron minus 6,26 %. Als Grund nennen Marktberichte die Sorgen um die Milliarden, die Konzerne in KI stecken.",
+        "Nvidia selbst gehört nicht zu den zehn größten Werten im Islamic-Index. AMD, Micron und Intel schon, dazu Lam Research (MSCI, Stand 30. September).",
+        "![Vom Oktober-Hoch bis zum Tief: iShares MSCI World Islamic minus 4,40 Prozent, iShares Core MSCI World minus 1,82 Prozent, Xetra-Schlusskurse in Euro](https://storage.mlcdn.com/account_image/2353109/cQCKSyAYRN6ievCxaQnCLk2GGuljhiBKerS3TcaH.png)",
+        "Der iShares MSCI World Islamic verlor vom Oktober-Hoch bis zum Tief <strong>4,40 %</strong>, der normale iShares Core MSCI World nur 1,82 %.",
+        "## Was steckt dahinter?",
+        "Fast die Hälfte des Islamic-Index steckt in Technologie: <strong>45,85 %</strong>. Im normalen MSCI World sind es 31,78 % (MSCI, Stand 30. September). Bis Ende September brachte das dem Islamic-Index 21,51 % Plus seit Januar, dem normalen nur 10,66 % (in US-Dollar). Mit Tech geht es stärker hoch und eben auch stärker runter.",
+        "## Was heißt das für dich?",
+        "- <strong>Ruhig bleiben:</strong> Bis zum 28. Oktober lagen beide ETFs seit Ende September wieder im Plus, der Islamic mit 1,73 %, der normale mit 2,00 %.\n- <strong>Wissen, worauf du setzt:</strong> Mit einem Islamic-ETF setzt du fast zur Hälfte auf Technologie.\n- <strong>Nicht alles auf eine Branche:</strong> Wer verteilen will, nimmt Bausteine dazu, die keine Aktien sind, zum Beispiel Gold oder Sukuk, die islamische Alternative zu Anleihen.",
+        "<small>Das ist keine Anlageberatung. Wie sich ein ETF bisher entwickelt hat, sagt nichts über die Zukunft.</small>"
+      ],
+      "kicker": "Tech-Aktien",
+      "emoji": "📉",
+      "anker": "tech"
+    },
+    {
+      "titel": "Wo kaufst du Gold ohne Zinsen? 20 Depots im Vergleich",
+      "absaetze": [
+        "![Gold kaufen: 20 Depots im Vergleich, alle ohne Zinsen nutzbar, mit Gold- und Silber-ETCs mit Shariah-Zertifikat](https://storage.mlcdn.com/account_image/2353109/kP9QFtzsrKJMwSJnqhuHnvRkPmFYensBG0quwiDr.png)",
+        "In jedem dieser 20 Depots liegt dein Geld ohne Zinsen, oder du kannst sie abschalten. Sortiert ist danach, wie viele der 7 Gold- und Silber-ETCs mit Shariah-Zertifikat du dort kaufen kannst und was ein Kauf kostet."
+      ],
+      "emoji": "🪙",
+      "anzeige": true,
+      "link": {
+        "text": "Gold-Vergleich ansehen",
+        "to": "/vergleich/edelmetalle"
+      }
+    },
+    {
+      "titel": "Bis zu 540 € im Jahr vom Staat: Geht das Altersvorsorgedepot halal?",
+      "absaetze": [
+        "<small>Für dieses Thema habt ihr letzte Woche abgestimmt.</small> <small>Mitbestimmen kannst du ganz unten.</small>",
+        "Ab 1. Januar 2027 dürfen Banken und Broker das Altersvorsorgedepot anbieten. Du zahlst ein, der Staat legt drauf: auf die ersten 360 € im Jahr 50 %, auf den Teil bis 1.800 € noch 25 %. Das sind höchstens <strong>540 € im Jahr</strong>, für jedes Kind bis zu 300 € dazu.",
+        "![Was der Staat drauflegt: 25 Euro im Monat ergeben 150 Euro Zulage im Jahr, 100 Euro ergeben 390 Euro, 150 Euro ergeben 540 Euro, gerechnet nach dem Gesetz](https://storage.mlcdn.com/account_image/2353109/Vn7bDQ4StrdfAZ5rD7bBzTT7i1U23ekXt1tz2aCF.png)",
+        "## Und geht das halal?",
+        "Das Problem bei staatlicher Altersvorsorge war für mich bisher immer der Zins. Bei Riester zum Beispiel waren deine Beiträge zu 100 % garantiert.",
+        "![Garantie-Pflicht auf deine Beiträge: Riester 100 Prozent, Altersvorsorgedepot keine Pflicht](https://storage.mlcdn.com/account_image/2353109/TZVgGNRNNrJvhkO6UqxmKoLltbFsHoqdv2WpEbbb.png)",
+        "Beim Altersvorsorgedepot ist das anders: Eine Garantie musst du nicht nehmen. Und Trade Republic und Scalable haben angekündigt, dass du dort selbst aus einer Liste von ETFs wählst. Gut möglich also, dass es Neo-Broker geben wird, bei denen du ganz ohne Zinsen und Garantien fürs Alter anlegst.",
+        "Laut Verbraucherzentrale besteht das Standarddepot aus einem Aktienfonds und einem Rentenfonds, also Anleihen. Da lohnt sich ein genauer Blick.",
+        "Welche Anbieter einen Islamic-ETF zur Wahl stellen, sage ich dir, sobald die Listen da sind. Du siehst es dann in meinem [[Depot-Vergleich|/vergleich/depot]]."
+      ],
+      "kicker": "Altersvorsorge",
+      "emoji": "💶",
+      "anker": "altersvorsorge"
+    },
+    {
+      "titel": "Was diese Woche noch wichtig war",
+      "absaetze": [
+        "- <strong>Sukuk:</strong> Saudi-Arabien hat im Oktober Sukuk für 6,7 Milliarden Riyal ausgegeben. Weltweit erwartet die Ratingagentur Moody's für 2026 rund 280 Milliarden US-Dollar an neuen Sukuk (Stand September).\n- <strong>Fake-Trading:</strong> Die Verbraucherzentrale NRW warnt vor angeblichen KI-Handelsplattformen mit Traumrenditen. Oft findet dort gar kein Handel statt, und Auszahlungen scheitern an immer neuen Gebühren.\n- <strong>Gold:</strong> Ein Gramm kostet 115,90 € (29. Oktober), 2,39 % weniger als zu Jahresbeginn."
+      ],
+      "kicker": "Kurz notiert",
+      "emoji": "📰",
+      "anker": "kurz"
+    },
+    {
+      "titel": "Was soll nächsten Freitag drinstehen?",
+      "absaetze": [
+        "![Du entscheidest: BOYKOTT, KRYPTO, HAUS oder SUKUK](https://storage.mlcdn.com/account_image/2353109/3qlYj8wpVNrrvHmuZup7LMbVwoQMMIsecMWR5VWP.png)",
+        "<strong>Du entscheidest, was nächsten Freitag drinsteht.</strong> Tipp unten auf ein Wort und schick die Mail ab, das dauert zwei Sekunden.",
+        "- <strong>BOYKOTT:</strong> Was der Boykott die Konzerne kostet, in Zahlen.\n- <strong>KRYPTO:</strong> Bitcoin, halal oder nicht, und worauf du achten musst.\n- <strong>HAUS:</strong> Ein Haus ohne Kredit, welche Wege gibt es wirklich?\n- <strong>SUKUK:</strong> Wo bekommst du Sukuk, und was bringen sie?"
+      ],
+      "kicker": "Deine Stimme",
+      "emoji": "🗳️",
+      "anker": "abstimmen",
+      "abstimmung": {
+        "frage": "Welches Thema?",
+        "woerter": [
+          "BOYKOTT",
+          "KRYPTO",
+          "HAUS",
+          "SUKUK"
+        ]
+      }
+    }
+  ],
+  "sichtbarAb": "2026-10-30T06:00:00Z"
+}
