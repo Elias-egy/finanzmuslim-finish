@@ -30,7 +30,7 @@ const EINSTIEG: Sprosse = {
   vorschau: "wie du 100, 300 oder 500 € im Monat aufteilen könntest",
   schritt: "Mach",
   link: { text: "den Test", ziel: "/vergleich/start" },
-  zaehlt: ", es sind nur ein paar Fragen. Hast du schon ein Depot ohne Zinsen, reicht das.",
+  zaehlt: ", welches Depot zu dir passt. Es sind nur ein paar Fragen. Hast du schon ein Depot ohne Zinsen, reicht das.",
 };
 
 export const LEITER = {

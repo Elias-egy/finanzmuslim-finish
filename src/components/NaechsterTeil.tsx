@@ -26,13 +26,12 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
         {s.belohnung} liegt schon bereit.
       </h2>
-      <p className="mt-2 text-[16px] leading-snug text-foreground/80">Darin: {s.vorschau}.</p>
       <p className="mt-3 text-[16px] leading-snug text-foreground">
         Ich schicke ihn dir nicht sofort, und das hat einen Grund. Lesen fühlt sich an wie Fortschritt, ist es aber nicht.
       </p>
       <ol className="mt-4 space-y-3 text-[16px] leading-snug text-foreground">
         <li className="flex gap-3">
-          <span className="w-5 shrink-0 font-extrabold text-primary">1.</span>
+          <span className="w-5 shrink-0 font-extrabold text-violet">1.</span>
           <span>
             {s.schritt}{" "}
             <Link to={ziel} className="font-semibold text-primary underline underline-offset-2">
@@ -42,10 +41,10 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
           </span>
         </li>
         <li className="flex gap-3">
-          <span className="w-5 shrink-0 font-extrabold text-primary">2.</span>
+          <span className="w-5 shrink-0 font-extrabold text-violet">2.</span>
           <span>
-            Schreib mir <strong>FERTIG</strong> auf Instagram (@finanz.muslim) oder antworte mit <strong>FERTIG</strong> auf meine
-            Mail. Dann kommt er sofort.
+            Schreib mir <strong>FERTIG</strong>, per Mail oder auf Instagram (@finanz.muslim). Dann kommt er sofort:{" "}
+            {s.vorschau}.
           </span>
         </li>
       </ol>
