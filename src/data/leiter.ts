@@ -6,7 +6,8 @@
  * (Vault `raw/2026-10-29-elias-mc7d2-bedingung-im-freebie.md`).
  *
  * Der Wortlaut je Sprosse ist derselbe wie in den Mails M1 (`~/rebrand/mails/bauen.py` v31, `_M1`). Wer einen
- * Satz hier ändert, ändert ihn dort auch. Die Belohnung wird nie verlinkt, nur der Schritt (wie im alten Guide,
+ * Satz hier ändert, ändert ihn dort auch. Ausnahme etf: Der Kasten steht auf dem ETF-Plan selbst, darum führt sein
+ * Link auf den Depot-Vergleich, die Mail M1-zum-gold auf den ETF-Plan. Die Belohnung wird nie verlinkt, nur der Schritt (wie im alten Guide,
  * `src/guides/einsteiger.html` Seite 10: Der Kasten führt zur Tat).
  *
  * Gold fehlt mit Absicht: Seine Belohnung wäre Sukuk, und das Freebie gibt es noch nicht.
@@ -23,7 +24,14 @@ export type Sprosse = {
   link: { text: string; ziel: string };
   /** Satz nach dem Link. */
   zaehlt: string;
+  /** Werbezeile zum Ziel des Links, wortgleich aus bauen.py (WERBUNG_TEST_PREIS, WERBUNG_VERGLEICH_PREIS). */
+  werbung: string;
 };
+
+const WERBUNG_TEST =
+  "Werbung: Im Ergebnis stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich der Preis nicht.";
+const WERBUNG_VERGLEICH =
+  "Werbung: Im Vergleich stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich der Preis nicht.";
 
 const EINSTIEG: Sprosse = {
   belohnung: "Dein Portfolio-Plan",
@@ -31,6 +39,7 @@ const EINSTIEG: Sprosse = {
   schritt: "Mach",
   link: { text: "den Test", ziel: "/vergleich/start" },
   zaehlt: ", welches Depot zu dir passt. Es sind nur ein paar Fragen. Hast du schon ein Depot ohne Zinsen, reicht das.",
+  werbung: WERBUNG_TEST,
 };
 
 export const LEITER = {
@@ -44,7 +53,8 @@ export const LEITER = {
     vorschau: "wie ein Islamic ETF Banken aussortiert und welche es gibt",
     schritt: "Eröffne",
     link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/start" },
-    zaehlt: ", und leg 5 € in einen Islamic ETF. Hast du schon ein Depot ohne Zinsen, reicht das.",
+    zaehlt: ", und leg 5 € in einen Islamic ETF. Hast du schon ein Depot ohne Zinsen, nimm das.",
+    werbung: WERBUNG_TEST,
   },
   etf: {
     belohnung: "Dein Gold-Plan",
@@ -52,6 +62,7 @@ export const LEITER = {
     schritt: "Richte",
     link: { text: "einen Sparplan auf einen Islamic ETF", ziel: "/vergleich/depot" },
     zaehlt: " ein, egal wie klein. Hast du schon einen, reicht das.",
+    werbung: WERBUNG_VERGLEICH,
   },
 } satisfies Record<string, Sprosse>;
 

@@ -38,6 +38,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
               {s.link.text}
             </Link>
             {s.zaehlt}
+            <span className="mt-1 block text-[13px] leading-snug text-muted-foreground">{s.werbung}</span>
           </span>
         </li>
         <li className="flex gap-3">
