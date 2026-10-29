@@ -64,6 +64,7 @@ const RizqVoll = () => (
       quellen={RIZQ_QUELLEN}
       rechtshinweis={RIZQ_RECHTSHINWEIS}
       ctas={RIZQ_CTAS}
+      naechster="amin"
     >
       <RizqWarum />
 

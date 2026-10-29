@@ -62,6 +62,19 @@ export const VALID_SRC = [
   "dmetf",
   "dmnachetf",
   "v0",
+  // Leiter (MC7d3, 29.10.2026): Bedingungs-Mails M1 und Abbinder M2 (~/rebrand/mails/bauen.py v31), Kasten
+  // „Dein nächster Schritt“ am Ende der Freebies (src/components/NaechsterTeil.tsx, k plus Wort).
+  "m1plan",
+  "m1etf",
+  "m1gold",
+  "m2gold",
+  "kliste",
+  "kaktie",
+  "kvertrag",
+  "kamin",
+  "kboykott",
+  "kplan",
+  "ketf",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

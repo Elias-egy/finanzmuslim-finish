@@ -1,0 +1,1 @@
+S-41c37821: Beleg: ~/Documents/dev/finanzmuslim-finish/src/data/brokerVergleich.ts, Feld werte.zinsfreiAbStart je Depot mit Quelle des Anbieters auf main aaac252 (44 gut, 11 schlecht, 1 offen), im Test und im Depot-Vergleich die Zeile „Ohne Zinsen nutzbar“; der Satz bittet nur, das eigene Depot zu prüfen, kein Urteil über ein Depot, 29.10.2026

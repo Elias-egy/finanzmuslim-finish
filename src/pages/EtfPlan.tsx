@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
+import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { GrafikFilter } from "@/components/EtfGrafik";
@@ -203,6 +204,8 @@ const EtfPlan = () => {
             ziel={etfLink("/vergleich/depot", "mitte")}
           />
         </section>
+
+        <NaechsterTeil wort="etf" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Alle Zahlen stammen aus meinen Vergleichen und von MSCI.</p>

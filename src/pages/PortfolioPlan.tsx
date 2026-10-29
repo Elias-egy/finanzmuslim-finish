@@ -4,6 +4,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, TrendingUp, type LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
+import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { logosFuer } from "@/lib/anbieterLogos";
 import { AnlageLogo } from "@/components/AnlageZeile";
@@ -338,6 +339,8 @@ const PortfolioPlan = () => {
             </Link>
           </p>
         </section>
+
+        <NaechsterTeil wort="plan" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Alle Zahlen stammen aus meinen Vergleichen.</p>

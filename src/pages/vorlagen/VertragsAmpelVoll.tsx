@@ -45,6 +45,7 @@ const VertragsAmpelVoll = () => (
       quellen={AMPEL_QUELLEN}
       rechtshinweis={AMPEL_RECHTSHINWEIS}
       ctas={AMPEL_CTAS}
+      naechster="vertrag"
     >
       <Legende />
       <WarumGelb />
