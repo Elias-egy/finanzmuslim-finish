@@ -246,7 +246,8 @@ const Index = () => (
               className="absolute left-[29%] top-[-4%] h-[215%] w-auto max-w-none -translate-x-1/2"
               loading="eager"
             />
-            <div className="absolute bottom-3 right-2 rounded-lg border border-border bg-card px-3 py-1.5">
+            {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
+            <div className="absolute right-1 top-[38%]">
               <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
               <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
