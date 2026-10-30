@@ -28,20 +28,20 @@ import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import eliasKreis from "@/assets/elias-autor.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
 import rechnerRender from "@/assets/rechner.webp";
 
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
- *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). */
+ *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). Am Handy steht Edelmetalle an dritter
+ *  Stelle, damit Depot, Girokonto und Edelmetalle unter dem Foto zu sehen sind (Elias, 30.10.2026, FOTO1). */
 const categories = [
-  { label: "Depot", icon: LineChart, to: "/vergleich/depot" },
-  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto" },
-  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto" },
-  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps" },
-  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle" },
-  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware" },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
+  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "max-md:order-4" },
+  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps", handy: "max-md:order-5" },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-3" },
+  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware", handy: "max-md:order-6" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */
@@ -205,13 +205,13 @@ const Index = () => (
           unten, der Guide beginnt erst darunter (Elias, 14.10.2026: "die Hauptseite muss vollstaendig
           sein"); 154 ist Kopf plus Abstaende, am Laptop 190: die Kacheln stehen gut einen Zentimeter ueber
           der Fensterkante (Elias, 15.10.2026). Das Tablet fuellt die Flaeche mit grossen Kacheln, der
-          Laptop mit dem Foto. Am Handy: Ueberschrift, Unterzeile, ein kleiner Kreis mit Elias' Foto und
-          Namen, der Knopf, direkt darauf die Vergleiche. Das grosse Foto im ersten Schirm ist weg ("da sieht
-          man nur mein Gesicht gefuehlt ... die Vergleiche deutlich hoeher", Elias, 30.10.2026, FOTO1 Fassung B);
-          auf seinem iPhone beginnt Depot damit bei 418 statt 692 px. Die Reihenfolge stellt flex-order her, die
-          Huellen sind am Handy display:contents. */}
+          Laptop mit dem Foto. Am Handy wie bei Finanzfluss: Ueberschrift, Unterzeile, Foto, darunter
+          der Knopf mit Abstand zur Safari-Leiste; die Vergleiche beginnen erst im zweiten Bildschirm ("Finde, was zu
+          dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 226px kuerzer als das Fenster,
+          hoechstens 570px: das Foto bleibt, ist kleiner, und Depot und Girokonto stehen ganz im ersten Schirm
+          (Elias, 30.10.2026, FOTO1: "mindestens Depot, Girokonto ... noch halbwegs sehen"); die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-190px)]">
-        <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex min-h-[min(calc(100svh-226px),570px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
               <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -235,14 +235,21 @@ const Index = () => (
             </div>
           </div>
 
-          {/* Handy: Elias klein im Kreis zwischen Unterzeile und Knopf, damit die Platte nicht "gefuehlslos"
-              wirkt (Elias, 14.10.2026), ohne die Vergleiche nach unten zu schieben. Tablet ohne Foto. */}
-          <div className="max-md:order-3 mt-4 flex items-center gap-3 md:hidden">
-            <img src={eliasKreis} alt="" width={48} height={48} className="h-12 w-12 shrink-0 rounded-full" />
-            <p className="leading-tight">
-              <span className="block text-[15px] font-bold text-foreground">Elias El-Gendy</span>
-              <span className="block text-[13px] text-muted-foreground">Gründer von finanzmuslim</span>
-            </p>
+          {/* Handy: Foto zwischen Unterzeile und Knopf, wie bei Finanzfluss; es fuellt den Rest des ersten
+              Bildschirms. Ohne Gesicht wirkte die Platte "gefuehlslos" und
+              leer (Elias, 14.10.2026 abends); die Vergleiche stehen jetzt am Ende des ersten Bildschirms
+              und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
+          <div className="relative max-md:order-3 mt-3 min-h-[150px] flex-1 overflow-hidden md:hidden">
+            <img
+              src={eliasCutout}
+              alt=""
+              className="absolute left-[29%] top-[-4%] h-[215%] w-auto max-w-none -translate-x-1/2"
+              loading="eager"
+            />
+            <div className="absolute bottom-3 right-2 rounded-lg border border-border bg-card px-3 py-1.5">
+              <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
+              <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
+            </div>
           </div>
 
           {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. Es waechst mit der
@@ -276,11 +283,11 @@ const Index = () => (
             Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
             Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
         <div className="relative z-10 mx-auto -mt-11 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-1 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
-          {categories.filter((c) => c.to).map(({ label, icon: Icon, to }) => (
+          {categories.filter((c) => c.to).map(({ label, icon: Icon, to, handy }) => (
             <Link
               key={label}
               to={to}
-              className="group relative flex min-h-[60px] flex-row items-center justify-start gap-3 card-surface px-4 py-2.5 text-left transition-colors hover:border-primary md:min-h-[140px] md:flex-col md:justify-center md:gap-3 md:px-2 md:pb-2.5 md:pt-3 md:text-center lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left"
+              className={`${handy} group relative flex min-h-[60px] flex-row items-center justify-start gap-3 card-surface px-4 py-2.5 text-left transition-colors hover:border-primary md:min-h-[140px] md:flex-col md:justify-center md:gap-3 md:px-2 md:pb-2.5 md:pt-3 md:text-center lg:min-h-[76px] lg:flex-row lg:justify-start lg:gap-3 lg:px-4 lg:py-3 lg:text-left`}
             >
               {/* Am Handy und ab lg das Zeichen im hellblauen Kreis wie in einer Liste, am Tablet frei. */}
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 md:h-9 md:w-9 md:rounded-none md:bg-transparent lg:h-11 lg:w-11 lg:rounded-full lg:bg-primary/10">
