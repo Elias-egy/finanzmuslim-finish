@@ -79,6 +79,17 @@ export const VALID_SRC = [
   "kplan",
   "ketf",
   "kgold",
+  // XXL-Guide (MC7d7, 30.10.2026): leise Werbung je Thema, ~/rebrand/freebies/xxl.html (xxl plus Wort).
+  "xxlgiro",
+  "xxlgold",
+  "xxlnr1",
+  "xxlliste",
+  "xxlscreen",
+  "xxlprofis",
+  "xxlkrypto",
+  "xxlsteuer",
+  "xxlzakat",
+  "xxlende",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
