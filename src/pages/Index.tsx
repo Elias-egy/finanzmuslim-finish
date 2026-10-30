@@ -247,7 +247,7 @@ const Index = () => (
               loading="eager"
             />
             {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
-            <div className="absolute right-1 top-[38%]">
+            <div className="absolute right-2 top-[44%] whitespace-nowrap">
               <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
               <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
