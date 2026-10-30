@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Calculator,
@@ -28,7 +28,7 @@ import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import eliasKreis from "@/assets/elias-kreis.webp";
+import eliasKreis from "@/assets/elias-autor.webp";
 import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
 import rechnerRender from "@/assets/rechner.webp";
@@ -188,11 +188,7 @@ const Zeile = ({
 /** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen. */
 const aktuelleAusgabe = neuesteZuerst()[0];
 
-const Index = () => {
-  // FOTO1 Vorschau: ?handy=a (ohne Gesicht), b (Kreis unter der Unterzeile), c (Kreis neben dem Titel).
-  const handy = new URLSearchParams(useLocation().search).get("handy") ?? "jetzt";
-  const neu = handy !== "jetzt";
-  return (
+const Index = () => (
   <>
     <Seo
       title="Halal investieren in Deutschland | finanzmuslim"
@@ -209,15 +205,16 @@ const Index = () => {
           unten, der Guide beginnt erst darunter (Elias, 14.10.2026: "die Hauptseite muss vollstaendig
           sein"); 154 ist Kopf plus Abstaende, am Laptop 190: die Kacheln stehen gut einen Zentimeter ueber
           der Fensterkante (Elias, 15.10.2026). Das Tablet fuellt die Flaeche mit grossen Kacheln, der
-          Laptop mit dem Foto. Am Handy wie bei Finanzfluss: Ueberschrift, Unterzeile, Foto, darunter
-          der Knopf mit Abstand zur Safari-Leiste; die Vergleiche beginnen erst im zweiten Bildschirm ("Finde, was zu
-          dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 76px kuerzer als das Fenster,
-          hoechstens 720px; die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
+          Laptop mit dem Foto. Am Handy: Ueberschrift, Unterzeile, ein kleiner Kreis mit Elias' Foto und
+          Namen, der Knopf, direkt darauf die Vergleiche. Das grosse Foto im ersten Schirm ist weg ("da sieht
+          man nur mein Gesicht gefuehlt ... die Vergleiche deutlich hoeher", Elias, 30.10.2026, FOTO1 Fassung B);
+          auf seinem iPhone beginnt Depot damit bei 418 statt 692 px. Die Reihenfolge stellt flex-order her, die
+          Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-190px)]">
-        <div className={`relative flex ${neu ? "" : "min-h-[min(calc(100svh-76px),720px)]"} flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 ${neu ? "pt-6" : "pt-8 kurz:pt-6"} md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0`}>
+        <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
-              <h1 className={`max-md:order-1 ${handy === "c" ? "max-md:pr-[92px]" : ""} text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]`}>
+              <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
                 Investiere, ohne deinen
                 <br className="hidden sm:block" /> Glauben zu riskieren
               </h1>
@@ -238,39 +235,14 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Handy: Foto zwischen Unterzeile und Knopf, wie bei Finanzfluss; es fuellt den Rest des ersten
-              Bildschirms. Ohne Gesicht wirkte die Platte "gefuehlslos" und
-              leer (Elias, 14.10.2026 abends); die Vergleiche stehen jetzt am Ende des ersten Bildschirms
-              und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
-          {handy === "b" && (
-            <div className="max-md:order-3 mt-4 flex items-center gap-3 md:hidden">
-              <img src={eliasKreis} alt="" width={48} height={48} className="h-12 w-12 shrink-0 rounded-full" />
-              <p className="leading-tight">
-                <span className="block text-[15px] font-bold text-foreground">Elias El-Gendy</span>
-                <span className="block text-[13px] text-muted-foreground">Gründer von finanzmuslim</span>
-              </p>
-            </div>
-          )}
-          {handy === "c" && (
-            <img
-              src={eliasKreis}
-              alt=""
-              width={76}
-              height={76}
-              className="absolute right-4 top-6 h-[76px] w-[76px] rounded-full md:hidden"
-            />
-          )}
-          <div className={`relative max-md:order-3 mt-3 min-h-[190px] flex-1 overflow-hidden md:hidden ${neu ? "hidden" : ""}`}>
-            <img
-              src={eliasCutout}
-              alt=""
-              className="absolute left-1/2 top-0 h-[158%] w-auto max-w-none -translate-x-1/2"
-              loading="eager"
-            />
-            <div className="absolute bottom-3 right-2 rounded-lg border border-border bg-card px-3 py-1.5">
-              <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
-              <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
-            </div>
+          {/* Handy: Elias klein im Kreis zwischen Unterzeile und Knopf, damit die Platte nicht "gefuehlslos"
+              wirkt (Elias, 14.10.2026), ohne die Vergleiche nach unten zu schieben. Tablet ohne Foto. */}
+          <div className="max-md:order-3 mt-4 flex items-center gap-3 md:hidden">
+            <img src={eliasKreis} alt="" width={48} height={48} className="h-12 w-12 shrink-0 rounded-full" />
+            <p className="leading-tight">
+              <span className="block text-[15px] font-bold text-foreground">Elias El-Gendy</span>
+              <span className="block text-[13px] text-muted-foreground">Gründer von finanzmuslim</span>
+            </p>
           </div>
 
           {/* Desktop: freigestelltes Foto rechts, buendig auf der Unterkante. Es waechst mit der
@@ -504,7 +476,6 @@ const Index = () => {
       </section>
     </div>
   </>
-  );
-};
+);
 
 export default Index;

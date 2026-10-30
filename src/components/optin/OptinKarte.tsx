@@ -203,7 +203,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
 
       {variante === "seite" && (
         <div className="mb-5 flex items-center gap-3">
-          <span className="h-11 w-11 shrink-0 overflow-hidden rounded-full bg-[#EFE7DC]">
+          <span className="h-11 w-11 shrink-0 overflow-hidden rounded-full bg-primary">
             <img src={eliasPortrait} alt="" className="h-full w-full object-cover" />
           </span>
           <span className="leading-tight">

@@ -164,7 +164,7 @@ const HalalGuide = () => {
           <div className="container max-w-4xl">
             <div className="card-surface p-8 md:p-12">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <span className="h-32 w-32 shrink-0 overflow-hidden rounded-full bg-[#EFE7DC] md:h-40 md:w-40">
+                <span className="h-32 w-32 shrink-0 overflow-hidden rounded-full bg-primary md:h-40 md:w-40">
                   <img
                     src={eliasPortrait}
                     alt="Elias El-Gendy, Gründer von finanzmuslim"

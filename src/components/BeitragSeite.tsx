@@ -329,8 +329,8 @@ const BeitragSeite = ({
             )}
 
             <section className="mt-12 flex items-center gap-4 card-surface p-6">
-              {/* Eigener quadratischer Ausschnitt (Kopf und Schultern, 320 px). Vorher wurde das
-                  Halbkörperbild per scale() vergrößert, das Gesicht blieb klein und unscharf. */}
+              {/* Eigener quadratischer Ausschnitt (Kopf und Schultern, 480 px): T-Shirt-Foto freigestellt auf
+                  Markenblau, in allen Kreisen dasselbe (Elias, 30.10.2026, FOTO1). */}
               <img
                 src={eliasPortrait}
                 alt="Elias El-Gendy"
