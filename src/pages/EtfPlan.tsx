@@ -2,19 +2,16 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { GrafikFilter } from "@/components/EtfGrafik";
 import { anlageBySlug } from "@/data/halalAnlagen";
-import { logosFuer } from "@/lib/anbieterLogos";
 import {
   BEKANNTE_ETF,
   BROKER_SATZ,
   ETF_BEISPIELE,
   ETF_BETRAEGE,
-  ETF_DEPOT_LOGOS,
   ETF_MONATLICH,
   ETF_PFAD,
   ETF_SCHLUESSEL,
@@ -194,15 +191,8 @@ const EtfPlan = () => {
               </div>
             ))}
           </div>
-          <FindeDeinAngebot
-            className="mt-4"
-            titel="Du willst die besten finden?"
-            text="Blind zu suchen ist schwer. Hier siehst du, wer wie viele hat."
-            knopf="Zum Depot-Vergleich"
-            logos={[...ETF_DEPOT_LOGOS]}
-            gesamt={logosFuer("Depot").gesamt}
-            ziel={etfLink("/vergleich/depot", "mitte")}
-          />
+          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
+              das kann alles weg“). */}
         </section>
 
         <NaechsterTeil wort="etf" className="mt-12" />

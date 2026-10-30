@@ -75,6 +75,7 @@ export const VALID_SRC = [
   "kboykott",
   "kplan",
   "ketf",
+  "kgold",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

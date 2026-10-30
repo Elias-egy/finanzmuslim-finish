@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LEITER, type LeiterWort } from "@/data/leiter";
+import { KASTEN, type LeiterWort } from "@/data/leiter";
 
 type Props = {
   wort: LeiterWort;
@@ -8,14 +8,13 @@ type Props = {
 
 /**
  * Der Kasten „Dein nächster Schritt“ ganz am Ende jedes Freebies, gebaut wie der Abschluss des alten
- * Einsteiger-Guides (`src/guides/einsteiger.html` Seite 10): Der nächste Teil liegt bereit, kommt aber erst
+ * Einsteiger-Guides (`src/guides/einsteiger.html` Seite 10): Der Profi-Guide liegt bereit, kommt aber erst
  * nach einem kleinen Schritt und der Antwort FERTIG. Verlinkt ist nur der Schritt, nie die Belohnung
- * (Elias 28.10.2026: kein Verweis, der vom Freebie wegführt). Wortlaut je Sprosse in `src/data/leiter.ts`.
+ * (Elias 28.10.2026: kein Verweis, der vom Freebie wegführt). Wortlaut in `src/data/leiter.ts`.
  */
 const NaechsterTeil = ({ wort, className = "" }: Props) => {
-  const s = LEITER[wort];
   // Klickzählung: k plus Wort, eingetragen in src/lib/attribution.ts.
-  const ziel = `${s.link.ziel}?src=k${wort}`;
+  const ziel = `${KASTEN.link.ziel}?src=k${wort}`;
   return (
     <aside
       aria-labelledby="naechster-teil"
@@ -24,28 +23,24 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
     >
       <p className="text-[14px] font-bold text-violet">Dein nächster Schritt</p>
       <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
-        {s.belohnung} liegt schon bereit.
+        {KASTEN.titel}
       </h2>
-      <p className="mt-3 text-[16px] leading-snug text-foreground">
-        Ich schicke ihn dir nicht sofort, und das hat einen Grund. Lesen fühlt sich an wie Fortschritt, ist es aber nicht.
-      </p>
+      <p className="mt-3 text-[16px] leading-snug text-foreground">{KASTEN.grund}</p>
       <ol className="mt-4 space-y-3 text-[16px] leading-snug text-foreground">
         <li className="flex gap-3">
           <span className="w-5 shrink-0 font-extrabold text-violet">1.</span>
           <span>
-            {s.schritt}{" "}
+            {KASTEN.schritt}{" "}
             <Link to={ziel} className="font-semibold text-primary underline underline-offset-2">
-              {s.link.text}
+              {KASTEN.link.text}
             </Link>
-            {s.zaehlt}
-            <span className="mt-1 block text-[13px] leading-snug text-muted-foreground">{s.werbung}</span>
+            {KASTEN.zaehlt}
           </span>
         </li>
         <li className="flex gap-3">
           <span className="w-5 shrink-0 font-extrabold text-violet">2.</span>
           <span>
-            Schreib mir <strong>FERTIG</strong>, per Mail oder auf Instagram (@finanz.muslim). Dann kommt er sofort:{" "}
-            {s.vorschau}.
+            Schreib mir <strong>FERTIG</strong>, per Mail oder auf Instagram (@finanz.muslim). Dann schicke ich ihn dir.
           </span>
         </li>
       </ol>

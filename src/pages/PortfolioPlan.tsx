@@ -3,15 +3,12 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, TrendingUp, type LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { logosFuer } from "@/lib/anbieterLogos";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
   BEKANNTE,
-  DEPOT_LOGOS,
   GIRO_MIT_ZINSEN,
   BETRAEGE,
   PLAN_PFAD,
@@ -323,21 +320,8 @@ const PortfolioPlan = () => {
               </div>
             ))}
           </div>
-          <FindeDeinAngebot
-            className="mt-4"
-            titel="Du willst die besten finden?"
-            text="Ich habe die Depots gerankt: welche zinsfrei sind und welche deine Islamic ETFs haben."
-            knopf="Zum Depot-Vergleich"
-            logos={[...DEPOT_LOGOS]}
-            gesamt={logosFuer("Depot").gesamt}
-            ziel={planLink("/vergleich/depot", "mitte")}
-          />
-          <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
-            Schon ein Depot?{" "}
-            <Link to={planLink("/vergleich/depot", "ende")} className="font-semibold text-primary hover:underline">
-              Prüf, ob deins Zinsen zahlt
-            </Link>
-          </p>
+          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
+              das kann alles weg“). */}
         </section>
 
         <NaechsterTeil wort="plan" className="mt-12" />

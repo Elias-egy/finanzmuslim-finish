@@ -1,69 +1,30 @@
 /**
- * Die Leiter der Freebies (MC7b, Entwurf `~/Desktop/agentos/ops/leads/2026-10-29-mc7b-bindung-entwurf.md`
- * Abschnitt 3.2): Nach jedem Freebie liegt der nächste Teil bereit, kommt aber erst nach einem kleinen Schritt
- * und der Antwort FERTIG. Elias, 29.10.2026 nachts: „in den Guides, im Freebie, im Guide selber haben wir gesagt,
- * hey, du kriegst den fortgeschrittenen Guide, wenn du das machst … ich schicke dir den bewusst nicht“
- * (Vault `raw/2026-10-29-elias-mc7d2-bedingung-im-freebie.md`).
+ * Der Kasten „Dein nächster Schritt“ am Ende jedes Freebies (MC7b, Entwurf
+ * `~/Desktop/agentos/ops/leads/2026-10-29-mc7b-bindung-entwurf.md` Abschnitt 3.2): Der Profi-Guide liegt bereit,
+ * kommt aber erst nach einem kleinen Schritt und der Antwort FERTIG.
  *
- * Der Wortlaut je Sprosse ist derselbe wie in den Mails M1 (`~/rebrand/mails/bauen.py` v31, `_M1`). Wer einen
- * Satz hier ändert, ändert ihn dort auch. Ausnahme etf: Der Kasten steht auf dem ETF-Plan selbst, darum führt sein
- * Link auf den Depot-Vergleich, die Mail M1-zum-gold auf den ETF-Plan. Die Belohnung wird nie verlinkt, nur der Schritt (wie im alten Guide,
- * `src/guides/einsteiger.html` Seite 10: Der Kasten führt zur Tat).
+ * MC7d4 (Elias, 30.10.2026, Vault `raw/2026-10-30-elias-mc7d4-kasten-profi-guide.md`): „Generell soll es eher zum
+ * Profi-Guide für alles. Bisschen ruhiger sein. Mehr so sprechen, hey, ich könnte dir den jetzt auch schicken, aber es
+ * macht keinen Sinn.“ Der Schritt ist für alle derselbe: „öffne … das beste Depot für Muslime … investiere deine ersten
+ * 5 Euro“, „direkt zum Depotvergleich“. Wir sagen nicht, welches das beste ist, der Link führt zum Vergleich. Keine
+ * Werbezeile im Kasten: „Das steht doch, wenn du auf die Seite sowieso gehst.“ Damit hat auch Gold seinen Kasten.
  *
- * Gold fehlt mit Absicht: Seine Belohnung wäre Sukuk, und das Freebie gibt es noch nicht.
+ * Der Profi-Guide liegt als `public/guides/finanzmuslim-profi-guide.pdf` (15 Seiten, `src/guides/profi.html`). Er wird
+ * nie verlinkt, nur der Schritt (wie im alten Guide, `src/guides/einsteiger.html` Seite 10: Der Kasten führt zur Tat).
+ * Derselbe Wortlaut steht in den Mails M1 (`~/rebrand/mails/bauen.py` v32, `_M1`). Wer einen Satz hier ändert, ändert
+ * ihn dort auch.
  */
 
-export type Sprosse = {
-  /** Name der Belohnung, so wie sie im Kasten steht. */
-  belohnung: string;
-  /** Was drin ist, ein halber Satz. */
-  vorschau: string;
-  /** Der kleine Schritt, vor dem Link. */
-  schritt: string;
-  /** Linktext und Ziel des Schritts. */
-  link: { text: string; ziel: string };
-  /** Satz nach dem Link. */
-  zaehlt: string;
-  /** Werbezeile zum Ziel des Links, wortgleich aus bauen.py (WERBUNG_TEST_PREIS, WERBUNG_VERGLEICH_PREIS). */
-  werbung: string;
-};
+export const KASTEN = {
+  titel: "Der Profi-Guide liegt schon bereit.",
+  grund:
+    "Ich habe noch einen Guide für echte Profis vorbereitet, 15 Seiten. Ich könnte ihn dir jetzt schicken, aber das macht keinen Sinn. Lesen fühlt sich an wie Fortschritt, ist es aber nicht.",
+  schritt: "Öffne",
+  link: { text: "das beste Depot für Muslime", ziel: "/vergleich/depot" },
+  zaehlt: " und investiere deine ersten 5 €.",
+} as const;
 
-const WERBUNG_TEST =
-  "Werbung: Im Ergebnis stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich der Preis nicht.";
-const WERBUNG_VERGLEICH =
-  "Werbung: Im Vergleich stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich der Preis nicht.";
+/** Die Freebies mit Kasten. Das Wort steht in der Klickzählung (k plus Wort, `src/lib/attribution.ts`). */
+export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold"] as const;
 
-const EINSTIEG: Sprosse = {
-  belohnung: "Dein Portfolio-Plan",
-  vorschau: "wie du 100, 300 oder 500 € im Monat aufteilen könntest",
-  schritt: "Mach",
-  link: { text: "den Test", ziel: "/vergleich/start" },
-  zaehlt: ", welches Depot zu dir passt. Es sind nur ein paar Fragen. Hast du schon ein Depot ohne Zinsen, reicht das.",
-  werbung: WERBUNG_TEST,
-};
-
-export const LEITER = {
-  liste: EINSTIEG,
-  aktie: EINSTIEG,
-  vertrag: EINSTIEG,
-  amin: EINSTIEG,
-  boykott: EINSTIEG,
-  plan: {
-    belohnung: "Dein ETF-Plan",
-    vorschau: "wie ein Islamic ETF Banken aussortiert und welche es gibt",
-    schritt: "Eröffne",
-    link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/start" },
-    zaehlt: ", und leg 5 € in einen Islamic ETF. Hast du schon ein Depot ohne Zinsen, nimm das.",
-    werbung: WERBUNG_TEST,
-  },
-  etf: {
-    belohnung: "Dein Gold-Plan",
-    vorschau: "woran du beim Broker eine Wette auf den Preis erkennst",
-    schritt: "Richte",
-    link: { text: "einen Sparplan auf einen Islamic ETF", ziel: "/vergleich/depot" },
-    zaehlt: " ein, egal wie klein. Hast du schon einen, reicht das.",
-    werbung: WERBUNG_VERGLEICH,
-  },
-} satisfies Record<string, Sprosse>;
-
-export type LeiterWort = keyof typeof LEITER;
+export type LeiterWort = (typeof LEITER_WOERTER)[number];
