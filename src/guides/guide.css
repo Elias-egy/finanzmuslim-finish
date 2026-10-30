@@ -667,6 +667,10 @@
 .guide-leser .xs4.klein .xs p{ font-size:0.9135rem; }
 .guide-leser .xr-liste .xr.gut h3{ font-size:1.392rem; }
 .guide-leser .xn.rand.unten b{ font-size:3.306rem; }
+.guide-leser .xa .ad, .guide-leser .nr1a .ad, .guide-leser .nr1b .ad, .guide-leser .xw .ad{ font-size:0.6438rem; }
+.guide-leser .disclaimer p{ font-size:0.696rem; color:var(--body); }
+.guide-leser .xn2.krypto .xn .q{ font-size:1.3485rem; line-height:1.4; color:var(--tief); font-weight:600; border-top:1px solid rgba(11,43,107,.12); padding-top:0.345rem; }
+.guide-leser .xn2.krypto .xn .w{ font-size:2.262rem; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -779,6 +783,30 @@
   .guide-leser .xv{ grid-template-columns:2.75rem 1fr; }
   .guide-leser .xv a{ grid-column:2; justify-self:start; }
   .guide-leser .xs4{ grid-auto-rows:auto; }
+}
+
+/* MC7d9c (Seiten-Prüfer Runde 1): Einleitung ueber die volle Breite, feste Groessen fuer Symbole,
+   Logos und Haken (SVG ohne eigene Groesse fielen sonst auf wenige Pixel), Deckblatt-Level am Handy
+   als flache Zeilen. */
+.guide-leser .xi-lead{ max-width:none; }
+.guide-leser .x-stufe .ic, .guide-leser .xb .ic, .guide-leser .xs .ic, .guide-leser .xv .ic{ width:2.75rem; height:2.75rem; flex:none; }
+.guide-leser .x-stufe .ic img, .guide-leser .xb .ic img, .guide-leser .xs .ic img, .guide-leser .xv .ic img{ width:1.9rem; height:1.9rem; max-width:none; }
+.guide-leser .xapps img{ width:2.75rem; height:2.75rem; max-width:none; flex:none; }
+.guide-leser .nr1b li .ck{ flex:0 0 1.25rem; width:1.25rem; height:1.25rem; font-size:.7rem; line-height:1; }
+.guide-leser .nr1b .row .logo{ height:1.75rem; width:auto; }
+.guide-leser .nr1b .row .marke{ font-size:1.1rem; }
+.guide-leser .xa .zahl span{ font-size:.85rem; }
+@media (max-width:36rem){
+  .guide-leser .x-kicker{ font-size:.7rem; }
+  .guide-leser .x-stufen{ display:flex; flex-direction:column; height:auto; gap:.5rem; }
+  .guide-leser .x-stufe{ height:auto !important; display:grid; grid-template-columns:2.75rem auto 1fr; align-items:center; gap:.75rem; border-radius:.75rem; }
+  .guide-leser .x-stufe .n{ margin:0; }
+  .guide-leser .x-stufe .t{ font-size:1rem; }
+  .guide-leser .x-foot .bism2{ flex-direction:column; align-items:flex-start; }
+  .guide-leser .x-foot .bism2 img{ height:1.4rem; }
+}
+@media (max-width:24rem){
+  .guide-leser .ue-zahlen{ flex-direction:column; }
 }
 
 /* Bilder nie ueber den Rand. */

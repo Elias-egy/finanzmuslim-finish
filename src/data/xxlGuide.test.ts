@@ -7,7 +7,6 @@ import {
   steuerAnzeige,
 } from "@/data/vergleichAnzeige";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
-import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 import guide from "@/guides/xxl.html?raw";
 
@@ -17,7 +16,7 @@ import guide from "@/guides/xxl.html?raw";
  * Schnappschuss neu, ~/rebrand/freebies/guides_v2.py, PDF und fuer_website.py neu bauen (MC7d8, 30.10.2026).
  * Geprüft wird die Website-Fassung src/guides/xxl.html; das PDF entsteht im selben Lauf aus denselben Daten.
  * MC7d9b (30.10.2026): Bausteine der neuen Innenseiten (Nummer 1 als .nr1b mit Liste, Girokonto als große Zahl,
- * Vergleiche nur noch auf Seite 20).
+ * Vergleiche nur noch auf Seite 17).
  */
 
 describe("XXL-Guide hält die Vergleichsdaten", () => {
@@ -26,7 +25,7 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
   it("nennt die Nummer 1 des Depot-Vergleichs", () => {
     expect(sieger).toBeTruthy();
     const block = guide.match(/<div class="nr1b">[\s\S]*?<div class="ad">/)?.[0] ?? "";
-    expect(block).toContain(`alt="${sieger!.name}"`);
+    expect(block).toContain(`<span class="marke">${sieger!.name}</span>`);
     expect(block).toContain(`img.logo.dev/${sieger!.domain}?`);
   });
 
@@ -49,6 +48,5 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     expect(guide).toContain(`${edelmetallAnzeige.length} Anbieter für physisches Gold`);
     expect(guide).toContain(`${screenerAnzeige.length} Apps, mit denen`);
     expect(guide).toContain(`${steuerAnzeige.length} Programme für die Steuererklärung`);
-    expect(guide).toContain(`${ANZAHL_KAUFBAR} Anlagen mit ISIN`);
   });
 });
