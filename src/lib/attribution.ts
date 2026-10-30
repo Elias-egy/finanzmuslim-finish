@@ -42,6 +42,9 @@ export const VALID_SRC = [
   "g2n",
   "g3c",
   "g3n",
+  // Grüner Aufruf „Lass Profis dein Geld verwalten“ in den Guides, zum Depot-Vergleich (30.10.2026).
+  "g2p",
+  "g3p",
   // Instagram-DM auf die Opt-in-Karte (/gratis/<freebie>?src=dm<stichwort>), seit 27.09.2026.
   // Ohne Bindestrich: Scalable nimmt als SubID nur Kleinbuchstaben und Ziffern.
   "dmguide",

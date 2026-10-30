@@ -373,6 +373,12 @@
 .guide-leser .mt10{ margin-top:0.69rem; }
 .guide-leser .mt12{ margin-top:0.828rem; }
 .guide-leser .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:0.276rem; }
+.guide-leser .cover .intro p.ziel{ font-weight:700; color:var(--ink); }
+.guide-leser .cover-cta.nr1{ display:flex; gap:0.3105rem; align-items:flex-start; }
+.guide-leser .cover-cta .nr1-medaille{ flex:0 0 0.759rem; width:0.759rem; height:0.759rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(circle at 35% 30%, #F7D27A 0%, #E0A93B 60%, #B98118 100%);
+  color:#4A3205; font-weight:800; font-size:1.305rem; line-height:1; box-shadow:0 0 0 0.069rem rgba(224,169,59,.3); }
+.guide-leser .cover-cta .nr1-text{ flex:1; min-width:0; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -426,6 +432,11 @@
   .guide-leser .badge-row > *,
   .guide-leser .br-top > *{ margin-bottom:.5rem; }
 }
+
+/* Goldene 1 vor dem Weg zur Nummer 1 (30.10.2026). Die A4-Groesse waere
+   umgerechnet kleiner als ihre Ziffer, darum hier eigene Masse. */
+.guide-leser .cover-cta .nr1-medaille{ flex:0 0 2.75rem; width:2.75rem; height:2.75rem; font-size:1.375rem; box-shadow:0 0 0 .25rem rgba(224,169,59,.3); }
+.guide-leser .cover .learn{ margin-top:1rem; }
 
 /* Bilder nie ueber den Rand. */
 .guide-leser img{ max-width:100%; height:auto; }

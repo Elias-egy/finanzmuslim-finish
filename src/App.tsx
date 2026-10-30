@@ -10,6 +10,7 @@ import Index from "./pages/Index.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
 const InvestmentStart = lazy(() => import("./pages/InvestmentStart.tsx"));
+const DepotNummerEins = lazy(() => import("./pages/DepotNummerEins.tsx"));
 const HalalGuide = lazy(() => import("./pages/HalalGuide.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
@@ -148,6 +149,7 @@ const App = () => (
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/start" element={<VergleichAssistent />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
+            <Route path="/depot-nummer-1" element={<DepotNummerEins />} />
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
             <Route path="/vergleich/krypto" element={<VergleichKrypto />} />
             <Route path="/vergleich/screening-apps" element={<VergleichScreener />} />
