@@ -11,17 +11,23 @@
  *
  * Der Profi-Guide liegt als `public/guides/finanzmuslim-profi-guide.pdf` (15 Seiten, `src/guides/profi.html`). Er wird
  * nie verlinkt, nur der Schritt (wie im alten Guide, `src/guides/einsteiger.html` Seite 10: Der Kasten führt zur Tat).
- * Derselbe Wortlaut steht in den Mails M1 (`~/rebrand/mails/bauen.py` v32, `_M1`). Wer einen Satz hier ändert, ändert
- * ihn dort auch.
+ * Derselbe Schritt steht in den Mails M1 (`~/rebrand/mails/bauen.py` v33, `_M1`); die Mail hat dazu die Werbezeile.
+ * Wer einen Satz hier ändert, ändert ihn dort auch.
+ *
+ * Nach den Prüfern MC7d4: „das Depot, das zu dir passt“ (Elias' erste Fassung) statt „das beste Depot für Muslime“,
+ * weil der Vergleich „Unsere Nummer 1“ sagt und nicht „das beste“ (Halal-Prüfer, `~/rebrand/mails/halal-mc7d4-kasten-m1.md`);
+ * Inhalt des Guides genannt, Weg für FERTIG genannt, wer schon ein Depot ohne Zinsen hat, muss keins eröffnen
+ * (Seiten-Prüfer, `docs/freebies/abnahme-naechster-teil-2.md` S1 bis S3).
  */
 
 export const KASTEN = {
   titel: "Der Profi-Guide liegt schon bereit.",
   grund:
-    "Ich habe noch einen Guide für echte Profis vorbereitet, 15 Seiten. Ich könnte ihn dir jetzt schicken, aber das macht keinen Sinn. Lesen fühlt sich an wie Fortschritt, ist es aber nicht.",
+    "Ich habe noch einen Guide für echte Profis vorbereitet: Steuern, staatliche Förderung und Zakat. Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
   schritt: "Öffne",
-  link: { text: "das beste Depot für Muslime", ziel: "/vergleich/depot" },
-  zaehlt: " und investiere deine ersten 5 €.",
+  link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
+  zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
+  fertig: "Antworte auf meine Mail mit FERTIG oder schreib es mir auf Instagram (@finanz.muslim). Dann schicke ich ihn dir.",
 } as const;
 
 /** Die Freebies mit Kasten. Das Wort steht in der Klickzählung (k plus Wort, `src/lib/attribution.ts`). */

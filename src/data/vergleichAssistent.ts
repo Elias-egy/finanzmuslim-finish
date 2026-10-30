@@ -259,9 +259,10 @@ const will: Record<"anlegen" | "depot" | "krypto" | "aktien" | "konto" | "steuer
  * Fragen. „Ohne Zinsen“ statt „halal“: Der Test urteilt nicht über die ganzen Finanzen, er zeigt nur, was sich ohne
  * Zinsen nutzen lässt (Seo-Beschreibung dieser Seite, `imTestErlaubt` in `src/lib/vergleichAssistent.ts`); der
  * Halal-Befehl hielt „Halal aufgestellt“ ohne Beleg an. Die Frage selbst bleibt wortgleich mit der Opt-in-Karte
- * (`optinKarte.test.ts`).
+ * (`optinKarte.test.ts`). Mit Verb vorn (Seiten-Prüfer MC7d4 S5: sonst liest es sich, als sei das Konto in einer
+ * Minute fertig).
  */
-export const EINSTIEG_ZUSAGE = "Deine Konten ohne Zinsen in einer Minute";
+export const EINSTIEG_ZUSAGE = "Finde in einer Minute Konten ohne Zinsen";
 
 export const fragen: Frage[] = [
   {

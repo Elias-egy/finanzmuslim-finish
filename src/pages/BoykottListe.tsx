@@ -220,12 +220,6 @@ const BoykottListe = () => {
               {AUCH_GENANNT.satz}
             </p>
           </div>
-          <p className="mt-6 px-1 text-[16px] leading-snug text-foreground/80">
-            Schon ein Depot?{" "}
-            <Link to={boykottLink("/vergleich/depot", "ende")} className="font-semibold text-primary hover:underline">
-              Prüf, ob deins Zinsen zahlt
-            </Link>
-          </p>
         </section>
 
         <NaechsterTeil wort="boykott" className="mt-12" />

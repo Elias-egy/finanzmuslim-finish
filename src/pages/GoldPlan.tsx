@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import { anlageBySlug } from "@/data/halalAnlagen";
-import { edelmetallVergleich } from "@/data/edelmetallVergleich";
 import {
   BEKANNTE_GOLD,
   BROKER_SATZ,
@@ -18,7 +16,6 @@ import {
   ETC_SATZ,
   GELEHRTE_SATZ,
   GOLD_BETRAEGE,
-  GOLD_DEPOT_LOGOS,
   GOLD_MONATLICH,
   GOLD_PFAD,
   GOLD_SCHLUESSEL,
@@ -200,15 +197,8 @@ const GoldPlan = () => {
               </div>
             ))}
           </div>
-          <FindeDeinAngebot
-            className="mt-4"
-            titel="Du willst die besten finden?"
-            text="Blind zu suchen ist schwer. Hier siehst du, wo es alle gibt."
-            knopf="Zum Gold-Vergleich"
-            logos={[...GOLD_DEPOT_LOGOS]}
-            gesamt={edelmetallVergleich.length}
-            ziel={goldLink("/vergleich/edelmetalle", "mitte")}
-          />
+          {/* Der Aufruf steht im Kasten darunter, der Gold-Vergleich bleibt oben verlinkt (Elias, 30.10.2026: „Du willst die
+              besten finden … das kann alles weg“; Seiten-Prüfer MC7d4: gilt auch hier). */}
         </section>
 
         <NaechsterTeil wort="gold" className="mt-12" />

@@ -40,7 +40,9 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
         <li className="flex gap-3">
           <span className="w-5 shrink-0 font-extrabold text-violet">2.</span>
           <span>
-            Schreib mir <strong>FERTIG</strong>, per Mail oder auf Instagram (@finanz.muslim). Dann schicke ich ihn dir.
+            {KASTEN.fertig.split("FERTIG")[0]}
+            <strong>FERTIG</strong>
+            {KASTEN.fertig.split("FERTIG")[1]}
           </span>
         </li>
       </ol>
