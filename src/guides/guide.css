@@ -671,6 +671,104 @@
 .guide-leser .disclaimer p{ font-size:0.696rem; color:var(--body); }
 .guide-leser .xn2.krypto .xn .q{ font-size:1.3485rem; line-height:1.4; color:var(--tief); font-weight:600; border-top:1px solid rgba(11,43,107,.12); padding-top:0.345rem; }
 .guide-leser .xn2.krypto .xn .w{ font-size:2.262rem; }
+.guide-leser .xfrist{ background:#fff; border:1px solid var(--nebel); border-radius:0.276rem; padding:0.414rem 0.483rem; display:flex; flex-direction:column; justify-content:space-between; gap:0.276rem; }
+.guide-leser .xfrist .oben{ display:grid; grid-template-columns:auto 1fr; gap:0.483rem; align-items:center; }
+.guide-leser .xfrist .oben > b{ font-size:3.48rem; font-weight:800; color:var(--tief); letter-spacing:-.04em; line-height:1; white-space:nowrap; }
+.guide-leser .xfrist .oben p{ font-size:1.044rem; color:var(--body); line-height:1.45; border-left:1px solid rgba(11,43,107,.15); padding-left:0.483rem; }
+.guide-leser .xfrist .oben p b{ color:var(--halal); }
+.guide-leser .xfrist .leiste{ display:grid; grid-template-columns:repeat(12,1fr) 2.07rem; gap:0.0828rem; }
+.guide-leser .xfrist .leiste .m{ height:0.828rem; border-radius:0.138rem; background:var(--himmel); color:var(--tief); font-size:0.783rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xfrist .leiste .frei{ height:0.828rem; border-radius:0.138rem; background:var(--halal-bg); border:1px solid var(--halal-line); color:var(--halal); font-size:0.8265rem; font-weight:800; display:flex; align-items:center; justify-content:center; margin-left:0.1035rem; }
+.guide-leser .xfrist .leg{ display:flex; justify-content:space-between; font-size:0.8265rem; color:var(--muted); margin-top:1px; }
+.guide-leser .xfrist .klein{ font-size:0.8265rem; color:var(--muted); line-height:1.45; }
+.guide-leser .xvier{ display:flex; flex-wrap:wrap; align-items:center; gap:0.1725rem; }
+.guide-leser .xvier .k{ font-size:0.696rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--brand); margin-right:0.138rem; }
+.guide-leser .xvier span:not(.k){ background:var(--nebel-soft); color:var(--tief); font-size:0.9135rem; font-weight:800; padding:0.1518rem 0.3105rem; border-radius:1.38rem; }
+.guide-leser .xb3.frage .xb{ gap:0.207rem; }
+.guide-leser .xb3.frage .nr{ font-size:2.958rem; font-weight:800; color:var(--tief); opacity:.3; line-height:1; }
+.guide-leser .xb3.frage .n{ margin-top:0; }
+.guide-leser .xb3.frage .w{ font-size:1.566rem; line-height:1.12; }
+.guide-leser .xb3.frage p{ font-size:0.957rem; }
+.guide-leser .xb3.frage .fn{ margin-top:auto; border-top:1px solid rgba(11,43,107,.12); padding-top:0.276rem; }
+.guide-leser .xb3.frage .fn span{ display:block; font-size:0.783rem; color:var(--muted); }
+.guide-leser .xb3.frage .xb.mitte .fn span{ color:var(--tief); opacity:.75; }
+.guide-leser .xb3.frage .fn b{ display:block; font-size:1.218rem; color:var(--tief); letter-spacing:-.015em; line-height:1.15; margin-top:0.069rem; }
+.guide-leser .xn .faust{ font-size:0.957rem; font-weight:700; color:var(--tief); line-height:1.4; }
+.guide-leser .xrech3{ display:flex; flex-direction:column; gap:0.207rem; }
+.guide-leser .xrech3 .drei{ flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.276rem; }
+.guide-leser .xrech3 .xn.unten b{ font-size:2.61rem; padding-top:0.276rem; }
+.guide-leser .xrech3 .xn.unten > span{ font-size:0.9135rem; }
+.guide-leser .xapps.gross > div{ grid-template-columns:1.242rem 1fr; padding:0.414rem 0.4485rem; align-items:center; }
+.guide-leser .xapps.gross img{ width:1.242rem; height:1.242rem; }
+.guide-leser .xapps.gross h3{ font-size:1.392rem; }
+.guide-leser .xapps.gross p{ font-size:0.957rem; }
+.guide-leser .xs3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.276rem; }
+.guide-leser .xs3 .xs .nr{ font-size:3.48rem; opacity:.3; }
+.guide-leser .xs3 .xs h3{ margin-top:auto; font-size:1.479rem; }
+.guide-leser .xs3 .xs p{ font-size:0.957rem; }
+.guide-leser .xrat{ background:var(--himmel); border-radius:0.276rem; padding:0.483rem 0.552rem; display:flex; flex-direction:column; gap:0.276rem; }
+.guide-leser .xrat .kick{ color:var(--tief); }
+.guide-leser .xrat .h{ font-size:1.914rem; font-weight:800; color:var(--tief); letter-spacing:-.03em; line-height:1.1; margin-top:1px; }
+.guide-leser .xrat .vier{ flex:1; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:1fr; gap:0.276rem; }
+.guide-leser .xrat .vier > div{ background:#fff; border-radius:0.276rem; padding:0.414rem 0.4485rem; display:flex; flex-direction:column; gap:0.138rem; }
+.guide-leser .xrat .vier .nr{ width:0.759rem; height:0.759rem; border-radius:50%; background:var(--nebel-soft); color:var(--brand); font-weight:800; font-size:1.218rem; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xrat .vier h3{ margin-top:auto; font-size:1.479rem; color:var(--tief); letter-spacing:-.02em; line-height:1.15; }
+.guide-leser .xrat .vier p{ font-size:1.0005rem; color:var(--body); line-height:1.4; }
+.guide-leser .xrat .warn{ font-size:1.044rem; color:var(--tief); line-height:1.45; }
+.guide-leser .xs4.ablauf{ grid-auto-rows:auto; }
+.guide-leser .xs4.ablauf .xs h3{ font-size:1.479rem; }
+.guide-leser .xs4.ablauf .xs p{ font-size:0.957rem; }
+.guide-leser .xjahr{ border:1px solid var(--nebel); border-radius:0.276rem; padding:0.414rem 0.483rem; display:flex; flex-direction:column; justify-content:space-between; gap:0.276rem; }
+.guide-leser .xjahr .monate{ display:grid; grid-template-columns:repeat(12,1fr); gap:0.0828rem; }
+.guide-leser .xjahr .monate span{ height:0.897rem; border-radius:0.138rem; background:var(--nebel-soft); color:var(--muted); font-size:0.783rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xjahr .monate span.q{ background:var(--tief); color:#fff; }
+.guide-leser .xjahr .band{ background:var(--himmel); border-radius:0.138rem; padding:0.2415rem 0.345rem; font-size:1.0005rem; color:var(--tief); line-height:1.4; }
+.guide-leser .xjahr .band b{ color:var(--tief); }
+.guide-leser .xjahr .leg{ font-size:0.957rem; color:var(--body); display:flex; align-items:center; }
+.guide-leser .xjahr .leg b{ color:var(--tief); }
+.guide-leser .xjahr .dot{ width:0.276rem; height:0.276rem; border-radius:0.069rem; background:var(--tief); margin-right:0.207rem; flex:none; }
+.guide-leser .xhaken{ display:flex; flex-direction:column; }
+.guide-leser .xhaken > div{ flex:1; display:grid; grid-template-columns:0.69rem 1fr auto; gap:0.345rem; align-items:center; border-bottom:1px solid var(--nebel); padding:0.1725rem 0; }
+.guide-leser .xhaken > div:last-child{ border-bottom:0; }
+.guide-leser .xhaken .ck{ width:0.69rem; height:0.69rem; border-radius:50%; background:var(--halal-bg); border:1px solid var(--halal-line); color:var(--halal); font-weight:800; font-size:1.044rem; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xhaken h3{ font-size:1.218rem; color:var(--tief); letter-spacing:-.015em; line-height:1.2; }
+.guide-leser .xhaken .s{ font-size:0.696rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+.guide-leser .xi .ad-kopf{ color:var(--body); font-size:0.6438rem; }
+.guide-leser .xquellen .src-sec{ margin-bottom:0.3105rem; }
+.guide-leser .xquellen .src-sec .src-title{ font-size:0.9135rem; }
+.guide-leser .xquellen .src-entry{ margin-bottom:0.2208rem; }
+.guide-leser .xquellen .src-entry .se-label{ font-size:0.8265rem; }
+.guide-leser .xquellen .src-entry .se-desc{ font-size:0.7656rem; }
+.guide-leser .xquellen .src-entry .se-url{ font-size:0.7221rem; }
+.guide-leser .xquellen .disclaimer h4{ font-size:0.783rem; }
+.guide-leser .xquellen .disclaimer p{ font-size:0.7395rem; color:var(--body); }
+.guide-leser .xquellen .ayah p{ font-size:1.0005rem; }
+.guide-leser .xn2.krypto .xn .q{ margin-top:0; }
+.guide-leser .xn2.krypto .xn .w{ margin-bottom:0.069rem; }
+.guide-leser .xi-body > .xfrist.grow{ flex:1.5; }
+.guide-leser .xfrist .leiste .m, .guide-leser .xfrist .leiste .frei{ height:1.173rem; font-size:0.87rem; }
+.guide-leser .xfrist .oben > b{ font-size:4.002rem; }
+.guide-leser .xvier span:not(.k){ font-size:0.87rem; padding:0.138rem 0.2484rem; }
+.guide-leser .xvier .k{ margin-right:0; }
+.guide-leser .xb3.frage .nr{ font-size:3.828rem; }
+.guide-leser .xb3.frage .w{ font-size:1.74rem; }
+.guide-leser .xb3.frage p{ font-size:1.044rem; line-height:1.45; }
+.guide-leser .xb3.frage .fn b{ font-size:1.305rem; }
+.guide-leser .xn2.krypto .xn .w{ font-size:1.827rem; }
+.guide-leser .xn2.krypto .xn .q{ font-size:1.131rem; padding-top:0.276rem; }
+.guide-leser .xrat .vier{ min-height:0; }
+.guide-leser .xrat .vier > div{ padding:0.345rem 0.414rem; }
+.guide-leser .xn2.krypto{ grid-template-columns:1fr; }
+.guide-leser .xs3 .xs h3, .guide-leser .xrat .vier h3{ margin-top:0; }
+.guide-leser .xs3 .xs .nr, .guide-leser .xrat .vier .nr{ margin-bottom:auto; }
+.guide-leser .ue .footer, .guide-leser .xi .footer, .guide-leser .xquellen .footer{ font-size:0.6525rem; }
+.guide-leser .x-foot .legal{ font-size:0.6264rem; }
+.guide-leser .xn2.krypto .xn{ padding:0.345rem 0.4485rem; gap:0.1035rem; }
+.guide-leser .xn2.krypto .xn .w{ font-size:1.479rem; }
+.guide-leser .xn2.krypto .xn .q{ padding-top:0.207rem; }
+.guide-leser .xrat{ padding:0.414rem 0.483rem; gap:0.207rem; }
+.guide-leser .xrat .vier h3{ font-size:1.305rem; }
+.guide-leser .xrat .vier > div{ padding:0.3105rem 0.3795rem; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -807,6 +905,47 @@
 }
 @media (max-width:24rem){
   .guide-leser .ue-zahlen{ flex-direction:column; }
+}
+
+/* MC7d9d (Seiten-Prüfer Runde 2, Handy): Einleitung der Übersicht volle Breite, Logos neben statt auf
+   dem Text, Nummernkreise in fester Größe, Koranvers lesbar, weißes Band des Deckblatts ohne Schleier.
+   Dazu die neuen Bausteine der Seiten 8, 9, 10, 12, 14, 15, 16 und 18. */
+.guide-leser .ue .lead{ max-width:none; }
+.guide-leser .xapps > div{ grid-template-columns:2.75rem 1fr; gap:.85rem; }
+.guide-leser .xc .q{ width:2.25rem; height:2.25rem; flex:none; font-size:1.05rem; }
+.guide-leser .xc{ grid-template-columns:2.25rem 1fr; }
+.guide-leser .xq .arabic{ height:1.6rem; width:auto; }
+.guide-leser .x-foot{ position:relative; z-index:1; }
+.guide-leser .xn li{ padding-left:1.1rem; }
+.guide-leser .xn li::before{ width:.4rem; height:.4rem; top:calc(.05rem + .7em); }
+.guide-leser .xquellen .src-entry .se-label, .guide-leser .xquellen .src-entry .se-desc,
+.guide-leser .xquellen .src-entry .se-url, .guide-leser .xquellen .disclaimer p{ font-size:.8125rem; }
+.guide-leser .xquellen .ayah br{ display:none; }
+.guide-leser .xfrist .oben > b{ font-size:2.4rem; }
+.guide-leser .xrech3 .xn.unten b{ font-size:2rem; }
+.guide-leser .xapps.gross > div{ grid-template-columns:2.75rem 1fr; gap:.85rem; }
+.guide-leser .xapps.gross img{ width:2.75rem; height:2.75rem; }
+.guide-leser .xrat .vier .nr{ width:2rem; height:2rem; font-size:1rem; }
+.guide-leser .xjahr .leg{ display:block; }
+.guide-leser .xjahr .dot{ display:inline-block; width:.75rem; height:.75rem; margin-right:.4rem; vertical-align:-.05rem; }
+.guide-leser .xi .kick, .guide-leser .xb .n, .guide-leser .xb2 .n, .guide-leser .xa .ad, .guide-leser .nr1b .ad,
+.guide-leser .xi .ad-kopf, .guide-leser .x-foot .legal, .guide-leser .x-stufe .n{ font-size:.6875rem; }
+.guide-leser .xa .ad{ color:#fff; }
+@media (max-width:36rem){
+  .guide-leser .xfrist .oben{ grid-template-columns:1fr; gap:.5rem; }
+  .guide-leser .xfrist .oben p{ border-left:0; padding-left:0; }
+  .guide-leser .xfrist .leiste{ grid-template-columns:repeat(12,1fr); gap:.2rem; }
+  .guide-leser .xfrist .leiste .m{ height:2rem; font-size:.7rem; }
+  .guide-leser .xfrist .leiste .frei{ grid-column:1 / -1; margin:.3rem 0 0; height:2rem; }
+  .guide-leser .xrech3 .drei,
+  .guide-leser .xs3,
+  .guide-leser .xrat .vier{ grid-template-columns:1fr; grid-auto-rows:auto; }
+  .guide-leser .xjahr .monate{ grid-template-columns:repeat(6,1fr); }
+  .guide-leser .xjahr .monate span{ height:2.25rem; }
+  .guide-leser .xs3 .xs h3, .guide-leser .xrat .vier h3{ margin-top:.25rem; }
+  .guide-leser .xk{ grid-template-columns:1fr; position:relative; }
+  .guide-leser .xk .ar{ position:absolute; right:.75rem; top:50%; transform:translateY(-50%); width:4.5rem; opacity:.25; }
+  .guide-leser .xk > div{ position:relative; }
 }
 
 /* Bilder nie ueber den Rand. */
