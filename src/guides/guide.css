@@ -897,6 +897,11 @@
 .guide-leser .xb .bsp img{ width:0.414rem; height:0.414rem; object-fit:contain; flex:none; }
 .guide-leser .xb .bsp span{ font-size:0.7395rem; color:var(--tief); font-weight:600; line-height:1.3; }
 .guide-leser .xb.mitte .bsp{ background:rgba(255,255,255,.75); }
+.guide-leser .xg{ background:#fff; border:1px solid var(--nebel); }
+.guide-leser .xg .ad{ top:0.4692rem; }
+.guide-leser .xbek .gelb .k img{ background:var(--nebel-soft); padding:0.069rem; }
+.guide-leser .xd > div{ min-width:0; }
+.guide-leser .xd ul{ flex-wrap:wrap; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1110,6 +1115,30 @@
 .guide-leser .xbek .z i{ font-size:.9rem; }
 @media (max-width:36rem){
   .guide-leser .xbek .zwei{ grid-template-columns:1fr; }
+}
+
+/* MC7d9f (Seiten-Prüfer R4, Handy-Innenabstand): Die mm-Abstände des Drucks schrumpfen am Schirm auf 4 bis 8 px.
+   Unter 36 rem bekommt jede Karte 1 rem Innenabstand und .6 rem Luft zur nächsten, Beispiele und Logos etwas Luft. */
+@media (max-width:36rem){
+  .guide-leser :is(.x-stufe, .teil, .xk, .xq, .xr, .xg, .xc, .xbek, .xb, .xdep, .xfrist, .xs, .xeis, .xrat, .xjahr, .xv){ padding:1rem; }
+  .guide-leser .xbek .zwei > div{ padding:.85rem 1rem; }
+  .guide-leser .xn{ padding:.75rem .9rem; }
+  .guide-leser .xi-body :is(div):has(> :is(.x-stufe, .teil, .xk, .xq, .xr, .xc, .xb, .xs, .xn, .xv)){ gap:.6rem; }
+  .guide-leser .xi-body{ gap:.75rem; }
+  .guide-leser .xb .bsp{ padding:.4rem .6rem; gap:.5rem; }
+  .guide-leser .xg .logos{ gap:.4rem; }
+  .guide-leser .disclaimer{ padding:.6rem .85rem; }
+  /* Kästen, deren eigene Regel genauer ist als die Liste oben. */
+  .guide-leser .page :is(.xs, .ue-zahlen > div, .xb2 > div, .xapps > div){ padding:.9rem 1rem !important; }
+  .guide-leser .page .xn{ padding:.8rem .95rem !important; }
+  .guide-leser .page .band{ padding:.7rem .9rem !important; }
+  .guide-leser .page .src-entry{ padding-left:.75rem !important; }
+  /* Seiten-Prüfer R5: Krypto-Rat-Karten, Abstände zwischen Kartenpaaren, Übersichts-Kacheln untereinander statt gequetscht. */
+  .guide-leser .page .xrat .vier > div{ padding:.85rem 1rem !important; }
+  .guide-leser .page :is(.xrat .vier, .xbek .zwei, .xb2, .xapps){ gap:.6rem !important; }
+  .guide-leser .page .teil + .teil{ margin-top:.6rem; }
+  .guide-leser .page .disclaimer + .disclaimer{ margin-top:.6rem !important; }
+  .guide-leser .ue-zahlen{ flex-direction:column; gap:.6rem; }
 }
 
 /* Bilder nie ueber den Rand. */
