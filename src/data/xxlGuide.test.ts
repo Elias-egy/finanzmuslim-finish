@@ -22,18 +22,22 @@ import guide from "@/guides/xxl.html?raw";
 describe("XXL-Guide hält die Vergleichsdaten", () => {
   const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
 
-  it("nennt die Nummer 1 des Depot-Vergleichs", () => {
+  // MC7d9e (Elias 31.10.2026, wie Finanzfluss): die Nummer 1 steht als erste von drei Depot-Karten auf Seite 7.
+  const karten = guide.match(/<div class="xd">[\s\S]*?<\/a><\/div>/g) ?? [];
+
+  it("nennt die Nummer 1 des Depot-Vergleichs als erste der drei besten Depots", () => {
     expect(sieger).toBeTruthy();
-    const block = guide.match(/<div class="nr1b">[\s\S]*?<div class="ad">/)?.[0] ?? "";
-    expect(block).toContain(`<span class="marke">${sieger!.name}</span>`);
-    expect(block).toContain(`img.logo.dev/${sieger!.domain}?`);
+    expect(karten).toHaveLength(3);
+    expect(karten[0]).toContain(`${sieger!.name}<span class="nr1">Meine Nummer 1</span>`);
+    expect(karten[0]).toContain(`logos/${sieger!.domain}.png`);
+    expect(karten[0]).toContain("/depot-nummer-1?src=xxlnr1");
   });
 
   it("druckt die Fakten der Nummer 1 so, wie der Vergleich sie zeigt", () => {
     const w = sieger!.werte as Record<string, unknown>;
-    const fakten = (guide.match(/<div class="nr1b">[\s\S]*?<ul>([\s\S]*?)<\/ul>/)?.[1] ?? "").replace(/&nbsp;/g, " ");
+    const fakten = (karten[0] ?? "").replace(/&nbsp;/g, " ");
     expect(w.zinsfreiAbStart).toBe("gut");
-    expect(fakten).toContain("Ohne Zinsen ab dem ersten Tag");
+    expect(guide).toContain("Alle drei starten <b>ohne Zinsen</b>");
     expect(fakten).toContain(`${w.halalEtfsFonds} Islamic`);
     const rate = String(w.sparrate ?? "").match(/^([\d.,]+)\s*€/)?.[1];
     expect(fakten).toContain(`Sparplan ab ${rate} €`);
@@ -43,7 +47,7 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     expect(guide).toContain(`${depotAnzeige.length} Depots:`);
     expect(guide).toContain(`${girokontoAnzeige.length} Konten, sortiert`);
     expect(guide).toContain(
-      `<b>${girokontoAnzeige.filter((a) => a.werte.zinsfreiAbStart === "schlecht").length}&thinsp;/&thinsp;${girokontoAnzeige.length}</b><span>Girokonten`,
+      `<b>${girokontoAnzeige.filter((a) => a.werte.zinsfreiAbStart === "schlecht").length} von ${girokontoAnzeige.length}</b><span>Girokonten`,
     );
     expect(guide).toContain(`${edelmetallAnzeige.length} Anbieter für physisches Gold`);
     expect(guide).toContain(`${screenerAnzeige.length} Apps, mit denen`);

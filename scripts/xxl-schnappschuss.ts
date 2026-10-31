@@ -12,7 +12,7 @@ import {
   steuerAnzeige,
 } from "../src/data/vergleichAnzeige";
 import { DEPOT_FINANZ_MAX } from "../src/data/brokerVergleich";
-import { siegerDerSeite } from "../src/lib/vergleichAssistent";
+import { siegerDerSeite, werteAus } from "../src/lib/vergleichAssistent";
 import { ANZAHL_KAUFBAR } from "../src/data/halalAnlagenZahl";
 import nisab from "../src/data/nisab.json";
 
@@ -32,6 +32,28 @@ const quellen = (sieger.quellen ?? {}) as Record<string, { url?: string; stand?:
 // „1€ bis 7.500€“ → „1 €“: nur die kleinste Rate, so wie sie der Vergleich zeigt.
 const sparrateAb = String(werte.sparrate ?? "").match(/^([\d.,]+)\s*€/)?.[1];
 
+// MC7d9e (Elias 31.10.2026, wie Finanzfluss): die drei besten Depots ohne automatischen Kredit, in der Reihenfolge
+// des Vergleichs. Die Nummer 1 ist dieselbe wie oben (siegerDerSeite nimmt den ersten Treffer ohne Kredit).
+const top3 = werteAus(depotAnzeige, "depot", DEPOT_FINANZ_MAX, { wuensche: [], gewichte: [] })
+  .passt.filter((t) => !t.kredit)
+  .slice(0, 3)
+  .map((t) => {
+    const w = t.anbieter.werte as Record<string, unknown>;
+    return {
+      id: t.anbieter.id,
+      name: t.anbieter.name,
+      domain: t.anbieter.domain,
+      zinsfreiAbStart: w.zinsfreiAbStart === "gut",
+      halalEtfsFonds: w.halalEtfsFonds ?? null,
+      sparrateAb: String(w.sparrate ?? "").match(/^([\d.,]+)\s*€/)?.[1] ? `${String(w.sparrate).match(/^([\d.,]+)/)![1]} €` : null,
+      depotgebuehr: w.depotgebuehr ?? null,
+    };
+  });
+if (top3[0]?.id !== sieger.id) {
+  console.error(`Platz 1 der drei (${top3[0]?.id}) ist nicht die Nummer 1 (${sieger.id}).`);
+  process.exit(1);
+}
+
 const daten = {
   erzeugt: new Date().toISOString(),
   depot: {
@@ -46,6 +68,7 @@ const daten = {
       etfQuelle: quellen.halalEtfsFonds ?? null,
       sparrateAb: sparrateAb ? `${sparrateAb} €` : null,
     },
+    top3,
   },
   girokonto: {
     anzahl: girokontoAnzeige.length,
