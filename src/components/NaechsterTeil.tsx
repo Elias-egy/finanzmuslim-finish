@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { KASTEN, type LeiterWort } from "@/data/leiter";
+import { DECKBLATT, KASTEN, NAECHSTE_FRAGE, type LeiterWort } from "@/data/leiter";
 
 type Props = {
   wort: LeiterWort;
@@ -15,6 +15,7 @@ type Props = {
 const NaechsterTeil = ({ wort, className = "" }: Props) => {
   // Klickzählung: k plus Wort, eingetragen in src/lib/attribution.ts.
   const ziel = `${KASTEN.link.ziel}?src=k${wort}`;
+  const frage = NAECHSTE_FRAGE[wort];
   return (
     <aside
       aria-labelledby="naechster-teil"
@@ -25,7 +26,29 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
         {KASTEN.titel}
       </h2>
-      <p className="mt-3 text-[16px] leading-snug text-foreground">{KASTEN.grund}</p>
+      <p className="mt-3 text-[16px] leading-snug text-foreground">{KASTEN.vorher}</p>
+      <div className="mt-4 rounded-2xl bg-background p-4">
+        <div className="flex items-center gap-4">
+          <img
+            src={DECKBLATT}
+            alt="Deckblatt des XXL-Guides"
+            width={240}
+            height={339}
+            loading="lazy"
+            className="h-auto w-[56px] shrink-0 rounded-md border border-primary/15 shadow-sm"
+          />
+          <p className="min-w-0 text-[17px] font-bold leading-snug text-foreground">{frage.frage}</p>
+        </div>
+        <ul className="mt-3 space-y-2 border-t border-primary/10 pt-3">
+          {frage.seiten.map((s) => (
+            <li key={s.nr} className="flex gap-3 text-[16px] leading-snug text-foreground">
+              <span className="w-11 shrink-0 font-semibold tabular-nums text-violet">S. {s.nr}</span>
+              <span>{s.titel}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="mt-4 text-[16px] leading-snug text-foreground">{KASTEN.grund}</p>
       <ol className="mt-4 space-y-3 text-[16px] leading-snug text-foreground">
         <li className="flex gap-3">
           <span className="w-5 shrink-0 font-extrabold text-violet">1.</span>
