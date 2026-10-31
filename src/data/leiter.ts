@@ -23,10 +23,6 @@
  * der XXL-Guide (`/dein-guide/xxl-3j1ion`, `public/guides/finanzmuslim-xxl-guide-mt6puo.pdf`, 21 Seiten in drei Level
  * nach Elias, Vault `raw/2026-10-30-elias-mc7d7-level-statt-themen.md`), nicht mehr der Profi-Guide. Der Grund nennt die
  * Themen weiter beim Namen (Blindleser MC7d4: „kommt aus dem Nichts“), jetzt als Weg durch die drei Level.
- *
- * MC7d10 (31.10.2026): Der XXL-Guide ging live, der Kasten noch nicht. Er verspricht den Guide auf FERTIG, und das
- * beantwortet erst MC7c. Bis dahin binden die Freebie-Seiten ihn nicht ein; einschalten mit `git revert` des Commits
- * „hold the next-step box until MC7c“.
  */
 
 export const KASTEN = {
