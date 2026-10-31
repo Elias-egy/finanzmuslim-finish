@@ -912,29 +912,6 @@
 .guide-leser .x-lv .n{ display:block; font-size:0.6525rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--label); }
 .guide-leser .x-lv b{ display:block; font-size:1.218rem; font-weight:800; color:var(--tief); letter-spacing:-.02em; line-height:1.1; margin-top:0.069rem; }
 .guide-leser .x-lv .d{ display:block; font-size:0.87rem; color:var(--body); margin-top:0.0828rem; }
-.guide-leser .xsieb{ border:1px solid var(--nebel); border-radius:0.276rem; padding:0.414rem 0.483rem; }
-.guide-leser .xsieb .reihe{ display:grid; grid-template-columns:2.484rem 1fr; align-items:center; gap:0.276rem; }
-.guide-leser .xsieb .lab{ font-size:0.87rem; font-weight:800; color:var(--tief); letter-spacing:-.01em; }
-.guide-leser .xsieb .bar{ height:0.759rem; border-radius:0.1725rem; display:flex; align-items:baseline; padding:0 0.276rem; color:#fff; font-size:0.9135rem; white-space:nowrap; gap:0.1035rem; box-sizing:border-box; }
-.guide-leser .xsieb .bar b{ font-size:1.392rem; letter-spacing:-.02em; }
-.guide-leser .xsieb .bar.welt{ background:var(--tief); }
-.guide-leser .xsieb .bar.islamic{ background:var(--brand); min-width:2.76rem; }
-.guide-leser .xsieb .sieb{ margin:0.2415rem 0 0.2415rem 2.76rem; border:1.5px dashed var(--nebel); border-radius:0.207rem; padding:0.2415rem 0.3105rem; }
-.guide-leser .xsieb .zeile{ display:flex; align-items:flex-start; gap:0.207rem; margin-top:0.138rem; }
-.guide-leser .xsieb .zeile:first-child{ margin-top:0; }
-.guide-leser .xsieb .sk{ flex:0 0 2.484rem; font-size:0.7395rem; font-weight:700; color:var(--muted); line-height:1.3; padding-top:.0.621rem; }
-.guide-leser .xsieb .chips{ display:flex; flex-wrap:wrap; gap:0.1035rem; }
-.guide-leser .xsieb .chips span{ font-size:0.7395rem; color:var(--ink); background:var(--nebel-soft); border-radius:1.38rem; padding:0.0828rem 0.207rem; }
-.guide-leser .xsieb .raus{ margin-top:0.207rem; font-size:0.87rem; color:var(--body); }
-.guide-leser .xsieb .raus b{ font-size:1.131rem; color:var(--tief); letter-spacing:-.02em; }
-.guide-leser .xsieb .quelle{ margin-top:0.2415rem; font-size:0.6438rem; color:var(--muted); }
-.guide-leser .xr-liste.zwei{ flex:none; gap:0.2415rem; }
-.guide-leser .xr-liste.zwei .xr{ flex:none; grid-template-columns:1fr; }
-.guide-leser .xdc3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.2415rem; }
-.guide-leser .xdc3 > div{ display:grid; grid-template-columns:0.621rem 1fr; gap:0.207rem; align-items:start; border:1px solid var(--nebel); border-radius:0.276rem; padding:0.276rem 0.3105rem; }
-.guide-leser .xdc3 .q{ width:0.621rem; height:0.621rem; border-radius:50%; background:var(--nebel-soft); color:var(--brand); font-weight:800; font-size:0.957rem; display:flex; align-items:center; justify-content:center; }
-.guide-leser .xdc3 h3{ font-size:0.957rem; color:var(--tief); letter-spacing:-.015em; line-height:1.2; }
-.guide-leser .xdc3 p{ font-size:0.783rem; color:var(--body); margin-top:0.0828rem; line-height:1.4; }
 .guide-leser .xdep{ border:0; padding:0 0 0; }
 .guide-leser .xdep .ad{ right:0; top:0; }
 .guide-leser .xdep h2{ margin-top:0; font-size:1.305rem; }
@@ -948,7 +925,65 @@
 .guide-leser .xd .lg{ width:100%; height:0.828rem; border:1px solid var(--nebel); border-radius:0.138rem; background:#fff; display:flex; align-items:center; justify-content:center; padding:0.1035rem; box-sizing:border-box; object-fit:unset; }
 .guide-leser .xd .lg img{ width:auto; height:100%; max-width:60%; object-fit:contain; }
 .guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; background:var(--brand); color:#fff; font-size:0.87rem; padding:0.1794rem 0.207rem; border-radius:0.138rem; }
-.guide-leser .xsieb .bar b, .guide-leser .xsieb .bar{ color:#fff; }
+.guide-leser .xfilter{ margin:0; padding:0.483rem 0.552rem 0.345rem; border:1px solid var(--nebel); border-radius:0.276rem; background:#fff; }
+.guide-leser .xfilter svg{ display:block; width:100%; height:auto; }
+.guide-leser .xfilter figcaption{ display:flex; flex-wrap:wrap; align-items:center; gap:0.138rem 0.414rem; margin-top:0.276rem; font-size:0.8265rem; color:var(--body); }
+.guide-leser .xfilter figcaption span{ display:inline-flex; align-items:center; gap:0.138rem; }
+.guide-leser .xfilter .sw{ display:inline-block; width:0.2208rem; height:0.2208rem; border-radius:50%; flex:none; }
+.guide-leser .xfilter .sw.fin{ background:var(--haram); }
+.guide-leser .xfilter .sw.raus{ background:#CBD5E1; }
+.guide-leser .xfilter .sw.drin{ background:var(--brand); }
+.guide-leser .xfilter .note{ margin-left:auto; }
+.guide-leser .xfilter .quelle{ margin-top:0.207rem; font-size:0.6438rem; color:var(--muted); }
+
+@media (prefers-reduced-motion: no-preference){
+  .reveal.visible .xf-weg{ animation:xf-weg .7s .5s ease-in both; }
+.guide-leser .reveal.visible .xf-rein{ animation:xf-rein .5s ease-out both; }
+
+}
+.guide-leser @keyframes xf-weg{ from{ opacity:1; }
+.guide-leser to{ opacity:.35; }
+ }
+.guide-leser @keyframes xf-rein{ from{ opacity:0; transform:translateY(-6px); }
+.guide-leser to{ opacity:1; transform:none; }
+ }
+.guide-leser .xg2{ position:relative; display:grid; grid-template-columns:1fr auto; align-items:center; gap:0.552rem; background:#fff; border:1px solid var(--nebel); border-radius:0.276rem; padding:0.345rem 0.483rem; }
+.guide-leser .xg2 .ad{ position:absolute; right:0.414rem; top:0.2208rem; font-size:0.6438rem; color:var(--body); }
+.guide-leser .xg2 .kick{ color:var(--brand); }
+.guide-leser .xg2 .schmerz{ display:flex; align-items:baseline; gap:0.2415rem; margin-top:0.1035rem; }
+.guide-leser .xg2 .schmerz b{ font-size:1.914rem; font-weight:800; color:var(--haram); letter-spacing:-.03em; line-height:1; white-space:nowrap; }
+.guide-leser .xg2 .schmerz span{ font-size:0.957rem; font-weight:700; color:var(--ink); line-height:1.3; }
+.guide-leser .xg2 .logos{ display:flex; align-items:center; gap:0.138rem; margin-top:0.1725rem; }
+.guide-leser .xg2 .logos img{ width:0.4485rem; height:0.4485rem; border-radius:0.1035rem; object-fit:contain; background:#fff; border:1px solid var(--nebel-soft); }
+.guide-leser .xg2 .logos span{ font-size:0.7395rem; color:var(--body); margin-left:0.069rem; }
+.guide-leser .xg2 .knopf{ display:inline-block; margin-top:0.276rem; background:var(--brand); color:#fff; font-weight:800; font-size:0.87rem; padding:0.2346rem 0.3795rem; border-radius:0.138rem; text-decoration:none; white-space:nowrap; }
+.guide-leser .xi-body.mitte{ flex:1; justify-content:center; }
+.guide-leser .xbek2{ display:grid; grid-template-columns:auto 1fr 1fr; align-items:center; gap:0.345rem; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.414rem; }
+.guide-leser .xbek2 .h{ font-size:0.9135rem; font-weight:800; color:var(--tief); line-height:1.25; max-width:3.174rem; letter-spacing:-.01em; }
+.guide-leser .xbek2 .c{ display:grid; grid-template-columns:0.483rem 1fr; column-gap:0.207rem; align-items:center; background:#fff; border-radius:0.207rem; padding:0.1932rem 0.276rem; }
+.guide-leser .xbek2 .c img{ width:0.483rem; height:0.483rem; border-radius:0.1242rem; object-fit:contain; grid-row:1 / span 2; }
+.guide-leser .xbek2 .c.gelb img{ background:var(--nebel-soft); padding:0.069rem; box-sizing:border-box; }
+.guide-leser .xbek2 .c .n{ font-size:0.8265rem; font-weight:800; color:var(--tief); line-height:1.2; }
+.guide-leser .xbek2 .c .z{ font-size:0.783rem; color:var(--body); line-height:1.25; }
+.guide-leser .xbek2 .c .z i{ font-style:normal; }
+.guide-leser .xbek2 .c .z b{ font-size:0.957rem; letter-spacing:-.02em; color:var(--haram); }
+.guide-leser .xbek2 .c.gelb .z b{ color:#b45309; }
+.guide-leser .xdep{ position:relative; border:0; padding:0; }
+.guide-leser .xdep .ad{ position:absolute; right:0; top:0.069rem; font-size:0.6438rem; color:var(--body); }
+.guide-leser .xdep h2{ margin-top:0; font-size:1.392rem; color:var(--tief); letter-spacing:-.02em; }
+.guide-leser .xdep .unter{ font-size:0.957rem; color:var(--body); margin-top:0.069rem; }
+.guide-leser .xi-body:has(.xdep){ gap:0.345rem; }
+.guide-leser .xd-liste{ margin-top:0.3105rem; display:flex; flex-direction:column; gap:0.414rem; }
+.guide-leser .xd{ display:grid; grid-template-columns:2fr 1fr; gap:0.552rem; align-items:center; padding:0.414rem; border:1px solid var(--nebel); border-top:1px solid var(--nebel); border-radius:0.138rem; background:#fff; }
+.guide-leser .xd > div{ min-width:0; }
+.guide-leser .xd .t{ font-size:1.1484rem; font-weight:800; color:var(--tief); display:flex; align-items:center; gap:0.207rem; letter-spacing:-.01em; line-height:1.15; }
+.guide-leser .xd ul{ list-style:none; margin:0.1725rem 0 0; padding:0; display:flex; flex-direction:column; flex-wrap:nowrap; gap:0.138rem; }
+.guide-leser .xd li{ font-size:0.957rem; color:var(--ink); display:flex; align-items:center; gap:0.1725rem; white-space:normal; line-height:1.3; }
+.guide-leser .xd li .ck{ width:0.3174rem; height:0.3174rem; font-size:0.696rem; flex:none; }
+.guide-leser .xd .xd-r{ display:flex; flex-direction:column; gap:0.207rem; justify-content:center; }
+.guide-leser .xd .lg{ width:100%; height:1.104rem; border:1px solid var(--nebel); border-radius:0.138rem; background:#fff; display:flex; align-items:center; justify-content:center; padding:0.207rem 0.276rem; box-sizing:border-box; }
+.guide-leser .xd .lg img{ display:block; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; }
+.guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; background:var(--brand); color:#fff; font-weight:800; font-size:0.957rem; padding:0 0.207rem; height:0.621rem; line-height:0.621rem; border-radius:0.138rem; text-decoration:none; white-space:nowrap; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1199,18 +1234,6 @@
 .guide-leser .x-lv .n{ font-size:.65rem; }
 .guide-leser .x-lv b{ font-size:1rem; }
 .guide-leser .x-lv .d{ font-size:.85rem; }
-.guide-leser .xsieb{ padding:1rem; }
-.guide-leser .xsieb .bar{ height:2.6rem; font-size:.9rem; }
-.guide-leser .xsieb .bar b{ font-size:1.15rem; }
-.guide-leser .xsieb .lab{ font-size:.9rem; }
-.guide-leser .xsieb .chips span{ font-size:.75rem; padding:.2rem .55rem; }
-.guide-leser .xsieb .sk{ font-size:.75rem; }
-.guide-leser .xsieb .raus{ font-size:.9rem; } .guide-leser .xsieb .raus b{ font-size:1.1rem; }
-.guide-leser .xsieb .quelle{ font-size:.7rem; }
-.guide-leser .xdc3{ gap:.6rem; }
-.guide-leser .xdc3 > div{ padding:.85rem .9rem; gap:.6rem; }
-.guide-leser .xdc3 h3{ font-size:.95rem; } .guide-leser .xdc3 p{ font-size:.8rem; }
-.guide-leser .xdc3 .q{ width:1.75rem; height:1.75rem; font-size:.9rem; flex:none; }
 .guide-leser .xdep{ padding:0; }
 .guide-leser .xd-liste{ gap:.75rem; }
 .guide-leser .xd{ grid-template-columns:2fr 1fr; gap:.9rem; padding:.9rem 1rem; border:1px solid var(--nebel); border-radius:.75rem; }
@@ -1219,17 +1242,44 @@
 .guide-leser .xd .lg img{ width:auto; height:100%; max-width:60%; }
 .guide-leser .xd a{ display:block; text-align:center; grid-column:auto; }
 @media (max-width:36rem){
-  .guide-leser .xsieb .reihe{ grid-template-columns:1fr; gap:.3rem; }
-  .guide-leser .xsieb .sieb{ margin:.75rem 0; padding:.75rem; }
-  .guide-leser .xsieb .zeile{ flex-direction:column; gap:.35rem; }
-  .guide-leser .xsieb .sk{ flex:none; }
-  .guide-leser .xsieb .bar.islamic{ min-width:9.5rem; }
-  .guide-leser .xdc3{ grid-template-columns:1fr; }
   .guide-leser .xd{ grid-template-columns:1fr; }
   .guide-leser .xd .xd-r{ flex-direction:row; align-items:center; gap:.6rem; }
   .guide-leser .xd .lg{ width:4.5rem; height:2.75rem; flex:none; }
   .guide-leser .xd a{ flex:1; }
-  .guide-leser .xr.weg, .guide-leser .xr.gut{ grid-template-columns:1fr; }
+}
+
+/* MC7d9g3 (31.10.2026): Filter-Grafik, schmale Girokonto-Werbung, Depot-Seite mit kleinen Schmerz-Karten und
+   großen Finanzfluss-Karten am Handy. */
+.guide-leser .xfilter{ padding:1rem 1rem .85rem; }
+.guide-leser .xfilter figcaption{ font-size:.8rem; gap:.3rem 1rem; }
+.guide-leser .xfilter .note{ margin-left:0; flex-basis:100%; }
+.guide-leser .xfilter .quelle{ font-size:.7rem; }
+.guide-leser .xg2{ padding:1rem; gap:.75rem; }
+.guide-leser .xg2 .schmerz b{ font-size:1.5rem; }
+.guide-leser .xg2 .schmerz span{ font-size:.95rem; }
+.guide-leser .xg2 .knopf{ display:block; text-align:center; margin-top:0; }
+.guide-leser .xbek2{ padding:.85rem; gap:.5rem; }
+.guide-leser .xbek2 .h{ max-width:none; font-size:.95rem; }
+.guide-leser .xbek2 .c{ padding:.6rem .75rem; }
+.guide-leser .xdep{ padding:0; }
+.guide-leser .xd-liste{ gap:.75rem; }
+.guide-leser .xd{ grid-template-columns:2fr 1fr; gap:1rem; padding:1rem; border:1px solid var(--nebel); border-radius:.5rem; }
+.guide-leser .xd ul{ flex-direction:column; gap:.35rem; }
+.guide-leser .xd li{ font-size:.95rem; }
+.guide-leser .xd .lg{ width:100%; height:3.25rem; max-width:none; padding:.5rem .75rem; }
+.guide-leser .xd .lg img{ width:auto; height:auto; max-width:100%; max-height:100%; }
+.guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; grid-column:auto; height:2.75rem; line-height:2.75rem; padding:0 .5rem; font-size:.95rem; }
+.guide-leser .xfilter .sw{ width:.6rem; height:.6rem; }
+.guide-leser .xg2 .logos img{ width:1.5rem; height:1.5rem; }
+.guide-leser .xbek2 .c{ grid-template-columns:2rem 1fr; column-gap:.6rem; }
+.guide-leser .xbek2 .c img{ width:2rem; height:2rem; }
+@media (max-width:36rem){
+  .guide-leser .xg2{ grid-template-columns:1fr; }
+  .guide-leser .xbek2{ grid-template-columns:1fr; }
+  .guide-leser .xd{ grid-template-columns:1fr; }
+  .guide-leser .xd .xd-r{ flex-direction:row; align-items:center; gap:.6rem; }
+  .guide-leser .xd .lg{ width:7.5rem; height:3rem; flex:none; }
+  .guide-leser .xd a{ flex:1; }
 }
 
 /* Bilder nie ueber den Rand. */

@@ -76,34 +76,38 @@
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span>Seite 3</span></div>
 </section>
 
-<!-- 4 NORMALER ETF ODER ISLAMIC ETF (MC7d9g2, 31.10.2026: Sieb-Grafik statt roter Etiketten, Elias „Grafik, die erklärt den Unterschied zwischen ETF und Islamic ETF“; Zahlen aus msci-daten.json über guides_v2.py), Girokonto-Werbung bleibt (Plan 5) -->
+<!-- 4 WAS DER FILTER AUSSIEBT (MC7d9g3, 31.10.2026, Elias' Urteil zur Probe: „Punkte, dann so ein Filter, und dann gehen die da durch“;
+     Grafik 1:1 nach src/components/EtfGrafik.tsx (GrafikFilter) im Website-Repo, Punkte aus guides_v2.py, Zahlen aus msci-daten.json;
+     eine Grafik, ein Gedanke je Seite; Girokonto schmal: nur Zahl, Zinsen, drei Logos, Knopf) -->
 <section class="page xi">
   <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 1 · Du bist Halal-Investor</span></div><span class="wordmark sm">finanzmuslim</span></div>
-  <h1 class="xi-h1">Normaler ETF oder Islamic ETF?</h1>
-  <p class="xi-lead">Gleicher Markt, ein Sieb dazwischen. <b>Das ist der ganze Unterschied.</b></p>
-  <div class="xi-body">
-    <div class="xsieb">
-      <div class="reihe"><span class="lab">MSCI World</span><div class="bar welt" style="width:100%;"><b>1.249</b> Firmen</div></div>
-      <div class="sieb">
-        <div class="zeile"><span class="sk">Raus ab 5&nbsp;% Umsatz mit</span><div class="chips"><span>Banken und Versicherer</span><span>Alkohol</span><span>Tabak</span><span>Schweinefleisch</span><span>Waffen</span><span>Glücksspiel</span><span>Musik, Kino, Hotels</span><span>Erwachsenenunterhaltung</span></div></div>
-        <div class="zeile"><span class="sk">Raus über 33,33&nbsp;% der Bilanz</span><div class="chips"><span>Schulden</span><span>Zinsgeld</span></div></div>
-        <div class="raus"><b>864</b> Firmen fallen raus.</div>
-      </div>
-      <div class="reihe"><span class="lab">MSCI World Islamic</span><div class="bar islamic" style="width:31%;"><b>385</b> Firmen</div></div>
+  <h1 class="xi-h1">Aus 1.249 Firmen werden 385</h1>
+  <p class="xi-lead">Gleicher Markt, ein Filter dazwischen. Banken, Alkohol, Glücksspiel, Waffen und Firmen mit zu vielen Schulden fallen raus. Übrig bleibt der <b>MSCI World Islamic</b>.</p>
+  <div class="xi-body mitte">
+    <figure class="xfilter reveal">
+      <svg viewBox="0 0 500 228" role="img" aria-label="Der MSCI World hat 1.249 Firmen, darunter Banken. Nach dem Filter bleiben im MSCI World Islamic 385.">
+        <text x="98" y="28" text-anchor="middle" font-size="17" font-weight="800" fill="#0B1220">MSCI World</text>
+        <circle cx="38" cy="54" r="8" fill="#0057FA"/><circle cx="134" cy="54" r="8" fill="#0057FA"/><circle cx="62" cy="78" r="8" fill="#0057FA"/><circle cx="158" cy="78" r="8" fill="#0057FA"/><circle cx="110" cy="102" r="8" fill="#0057FA"/><circle cx="38" cy="126" r="8" fill="#0057FA"/><circle cx="134" cy="126" r="8" fill="#0057FA"/><circle cx="62" cy="150" r="8" fill="#0057FA"/><circle cx="158" cy="150" r="8" fill="#0057FA"/><circle cx="110" cy="174" r="8" fill="#0057FA"/><circle cx="158" cy="174" r="8" fill="#0057FA"/>
+        <g class="xf-weg"><circle cx="62" cy="54" r="8" fill="#CBD5E1"/><circle cx="86" cy="54" r="8" fill="#B91C1C"/><circle cx="110" cy="54" r="8" fill="#CBD5E1"/><circle cx="158" cy="54" r="8" fill="#CBD5E1"/><circle cx="38" cy="78" r="8" fill="#CBD5E1"/><circle cx="86" cy="78" r="8" fill="#CBD5E1"/><circle cx="110" cy="78" r="8" fill="#B91C1C"/><circle cx="134" cy="78" r="8" fill="#CBD5E1"/><circle cx="38" cy="102" r="8" fill="#CBD5E1"/><circle cx="62" cy="102" r="8" fill="#B91C1C"/><circle cx="86" cy="102" r="8" fill="#CBD5E1"/><circle cx="134" cy="102" r="8" fill="#CBD5E1"/><circle cx="158" cy="102" r="8" fill="#CBD5E1"/><circle cx="62" cy="126" r="8" fill="#CBD5E1"/><circle cx="86" cy="126" r="8" fill="#B91C1C"/><circle cx="110" cy="126" r="8" fill="#CBD5E1"/><circle cx="158" cy="126" r="8" fill="#CBD5E1"/><circle cx="38" cy="150" r="8" fill="#CBD5E1"/><circle cx="86" cy="150" r="8" fill="#CBD5E1"/><circle cx="110" cy="150" r="8" fill="#B91C1C"/><circle cx="134" cy="150" r="8" fill="#CBD5E1"/><circle cx="38" cy="174" r="8" fill="#CBD5E1"/><circle cx="62" cy="174" r="8" fill="#B91C1C"/><circle cx="86" cy="174" r="8" fill="#CBD5E1"/><circle cx="134" cy="174" r="8" fill="#CBD5E1"/></g>
+        <text x="98" y="212" text-anchor="middle" font-size="16" font-weight="700" fill="#0B2B6B">1.249 Firmen</text>
+        <path d="M212 70 h76 l-28 34 v30 l-20 10 v-40 z" fill="#94A3B8"/>
+        <path d="M232 164 h36 m-12 -12 l12 12 l-12 12" fill="none" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="250" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#3F4756">Filter</text>
+        <text x="402" y="28" text-anchor="middle" font-size="17" font-weight="800" fill="#0B1220">MSCI World Islamic</text>
+        <g class="xf-rein"><circle cx="342" cy="54" r="8" fill="#0057FA"/><circle cx="438" cy="54" r="8" fill="#0057FA"/><circle cx="366" cy="78" r="8" fill="#0057FA"/><circle cx="462" cy="78" r="8" fill="#0057FA"/><circle cx="414" cy="102" r="8" fill="#0057FA"/><circle cx="342" cy="126" r="8" fill="#0057FA"/><circle cx="438" cy="126" r="8" fill="#0057FA"/><circle cx="366" cy="150" r="8" fill="#0057FA"/><circle cx="462" cy="150" r="8" fill="#0057FA"/><circle cx="414" cy="174" r="8" fill="#0057FA"/><circle cx="462" cy="174" r="8" fill="#0057FA"/></g>
+        <text x="402" y="212" text-anchor="middle" font-size="16" font-weight="700" fill="#0B2B6B">385 Firmen</text>
+      </svg>
+      <figcaption><span><i class="sw fin"></i>Finanzfirmen</span><span><i class="sw raus"></i>andere raus</span><span><i class="sw drin"></i>bleibt drin</span><span class="note">1 Punkt steht für rund 35 Firmen</span></figcaption>
       <div class="quelle">MSCI, Stand 30.09.2026 · Methodik der MSCI Islamic Index Series, Dezember 2025</div>
-    </div>
-    <div class="xr-liste zwei">
-      <div class="xr weg"><div><h3>Auch Finger weg</h3><p>Tagesgeld, Sparkonto, Anleihen. Riba bleibt Riba, auch bei niedrigen Zinsen.</p></div></div>
-      <div class="xr gut"><div><h3>Danach suchst du</h3><p>Ein Shariah-Gremium oder Zertifikat beim Fonds. Der Name allein sagt es dir nicht.</p></div></div>
-    </div>
-    <!-- MC7d9e (Elias 31.10.2026): wie im Portfolio-Freebie, Zahl, Zinsen, drei Logos als Beispiel, nicht anklickbar -->
-    <div class="xg">
+    </figure>
+    <!-- MC7d9e (Elias 31.10.2026): wie im Portfolio-Freebie, Zahl, Zinsen, drei Logos als Beispiel, nicht anklickbar; MC7d9g3: halb so hoch -->
+    <div class="xg2">
       <div class="ad">Werbung</div>
-      <div class="kick">Dein Girokonto</div>
-      <p class="vor">Bevor du anlegst, liegt dein Geld auf dem Girokonto.</p>
-      <div class="schmerz"><b>6 von 54</b><span>Girokonten zahlen dir von selbst Zinsen auf dein Guthaben.</span></div>
-      <div class="logos"><img src="/guides/assets/logos/c24.de.png" alt=""><img src="/guides/assets/logos/bbva.de.png" alt=""><img src="/guides/assets/logos/openbank.de.png" alt=""><span>C24, BBVA, Openbank</span></div>
-      <p class="muslim">Als Muslim musst du Zinsen meiden.</p>
+      <div>
+        <div class="kick">Dein Girokonto</div>
+        <div class="schmerz"><b>6 von 54</b><span>Girokonten zahlen dir von selbst Zinsen auf dein Guthaben.</span></div>
+        <div class="logos"><img src="/guides/assets/logos/c24.de.png" alt=""><img src="/guides/assets/logos/bbva.de.png" alt=""><img src="/guides/assets/logos/openbank.de.png" alt=""><span>C24, BBVA, Openbank</span></div>
+      </div>
       <a class="knopf" href="/vergleich/girokonto?src=xxlgiro">Girokonten ohne Zinsen ansehen&nbsp;→</a>
     </div>
   </div>
@@ -111,35 +115,31 @@
 </section>
 
 
-<!-- 6 DEIN DEPOT-CHECK (MC7d9g2, 31.10.2026: Schmerz und Lösung an einer Stelle, die drei besten direkt unter Trade Republic und XTB wie Finanzfluss; Elias „das ist nicht gut, Trade Republic ist nicht gut, XTB ist nicht gut, das ist die Lösung“; kein Verweis auf eine spätere Seite) -->
+<!-- 6 WELCHES DEPOT (MC7d9g3, 31.10.2026, Elias „noch viel ändern“: ein Satz statt drei Fragen, Trade Republic und XTB klein,
+     die drei besten groß und ruhig wie Finanzfluss (PLAN.md Abschnitt 3), Wortmarke je Anbieter in assets/logos/*.wortmarke.svg;
+     Schmerz und Lösung an einer Stelle, kein Verweis auf eine spätere Seite) -->
 <section class="page xi">
   <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 1 · Du bist Halal-Investor</span></div><span class="wordmark sm">finanzmuslim</span></div>
-  <h1 class="xi-h1">Dein Depot-Check</h1>
-  <p class="xi-lead">Drei Fragen, in dieser Reihenfolge. Dann weißt du, ob alles <b>sauber aufgestellt</b> ist.</p>
+  <h1 class="xi-h1">Welches Depot für Islamic ETFs?</h1>
+  <p class="xi-lead">Zwei Dinge zählen: <b>keine Zinsen</b> auf deinem Geld, und die Islamic ETFs sind im Angebot.</p>
   <div class="xi-body">
-    <div class="xdc3">
-      <div><span class="q">1</span><div><h3>Liegt dein Geld ohne Zinsen bereit?</h3><p>Zinsertrag ist Riba, egal wie klein.</p></div></div>
-      <div><span class="q">2</span><div><h3>Gibt es dort die Anlagen, die du willst?</h3><p>Viele Broker führen nur wenige der geprüften ETFs.</p></div></div>
-      <div><span class="q">3</span><div><h3>Hat jeder ETF ein Shariah-Gremium oder Zertifikat?</h3><p>Schau beim Anbieter nach, nicht nur auf den Namen.</p></div></div>
-    </div>
     <!-- Beispiel aus dem Portfolio-Freebie, Werte aus src/data/portfolioPlan.ts BEKANNTE (dort getestet), nicht anklickbar -->
-    <div class="xbek">
+    <div class="xbek2">
       <div class="h">Die bekanntesten Depots sind nicht die besten für Muslime.</div>
-      <div class="zwei">
-        <div class="gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds</div></div>
-        <div class="rot"><div class="k"><img src="/guides/assets/logos/xtb.com.png" alt=""><span>XTB</span></div><div class="z">Zinsen</div><div class="s">automatisch eingeschaltet</div></div>
-      </div>
+      <div class="c gelb"><img src="/guides/assets/logos/traderepublic.com.png" alt=""><span class="n">Trade Republic</span><span class="z"><i>nur</i> <b>6 von 12</b> Islamic ETFs und Fonds</span></div>
+      <div class="c rot"><img src="/guides/assets/logos/xtb.com.png" alt=""><span class="n">XTB</span><span class="z"><b>Zinsen</b> automatisch eingeschaltet</span></div>
     </div>
-    <!-- Vorbild finanzfluss.de/etf-handbuch/passiv-investieren, Abschnitt „Depots für deinen Vermögensaufbau“: Karten untereinander, Name, Haken, rechts Logo über Knopf (PLAN.md Abschnitt 3) -->
+    <!-- Vorbild finanzfluss.de/etf-handbuch/passiv-investieren, Abschnitt „Depots für deinen Vermögensaufbau“: Karten untereinander, Name, Haken, rechts Wortmarke über Knopf (PLAN.md Abschnitt 3) -->
     <div class="xdep">
       <div class="ad">Werbung</div>
       <h2>Die drei besten Depots aus meinem Vergleich</h2>
       <p class="unter">Alle drei starten <b>ohne Zinsen</b>, Platz 1 bis 3 von 27.</p>
-      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place<span class="nr1">Meine Nummer 1</span></div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.png" alt=""></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.png" alt=""></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.png" alt=""></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div></div>
+      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place<span class="nr1">Meine Nummer 1</span></div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div></div>
     </div>
   </div>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span>Seite 5</span></div>
 </section>
+
 
 <!-- 7 FÜNF BAUSTEINE UND MISCHUNG (Einsteiger S. 5 und 6, Fortgeschritten S. 4, Profi S. 4) -->
 <section class="page xi">

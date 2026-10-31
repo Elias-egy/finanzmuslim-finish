@@ -55,6 +55,26 @@ const DeinGuide = () => {
     return () => el.removeEventListener("click", klick);
   }, [navigate]);
 
+  /* Sanftes Einblenden beim Scrollen wie im ETF-Plan (src/pages/EtfPlan.tsx), damit die Filter-Grafik des
+     XXL-Guides dieselbe Bewegung zeigt wie dort (MC7d9g3, 31.10.2026). Ohne Beobachter steht die fertige Grafik. */
+  useEffect(() => {
+    const el = behaelter.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    );
+    el.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, [guide]);
+
   if (!guide) return <Navigate to="/halal-guide" replace />;
 
   return (
