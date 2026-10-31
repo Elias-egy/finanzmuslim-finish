@@ -23,7 +23,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       className={`rounded-3xl border border-primary/15 bg-accent p-5 md:p-7 ${className}`}
     >
       <p className="text-[14px] font-bold text-violet">Dein nächster Schritt</p>
-      <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
+      <h2 id="naechster-teil" className="mt-1 scroll-mt-24 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
         {KASTEN.titel}
       </h2>
       <div className="mt-4 rounded-2xl bg-background p-4">

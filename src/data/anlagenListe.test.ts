@@ -56,10 +56,10 @@ describe("Liste (MC7d13)", () => {
     for (const z of kaufZeilen) expect(nachweis(z), z.anlage.slug).toBeDefined();
     for (const slug of Object.keys(NACHWEIS)) expect(halalAnlagen.some((a) => a.slug === slug), slug).toBe(true);
     expect(STUFEN_ZAHL.reduce((s, x) => s + x.zahl, 0)).toBe(kaufZeilen.length);
-    // Index-Stufe nur, wo die Datenbank selbst „index“ sagt; Zertifikat-Stufe nie bei „index“.
+    // Ein nur auf Indexebene belegter Fonds steht nie in der obersten Stufe; „aktuell“ nennt immer ein Jahr ab 2025.
     for (const z of kaufZeilen) {
-      if (nachweis(z).stufe === "index") expect(z.anlage.zertifikatArt).toBe("index");
-      if (z.anlage.zertifikatArt === "index") expect(nachweis(z).stufe).toBe("index");
+      if (z.anlage.zertifikatArt === "index") expect(nachweis(z).stufe).toBe("prospekt");
+      if (nachweis(z).stufe === "aktuell") expect(nachweis(z).text).toMatch(/202[5-9]/);
     }
     expect(listenGruppen.flatMap((g) => g.zeilen)).toHaveLength(kaufZeilen.length);
   });
@@ -79,6 +79,8 @@ describe("Liste (MC7d13)", () => {
 
   it("kein Satz ohne Beleg: keine persönliche Rangfolge der Prüfstellen, kein Terminkontrakt-Grund", () => {
     expect(seite).not.toMatch(/Meine Einordnung|stärker ein|Terminkontrakte|entscheide selbst/);
+    // Keine Zeile behauptet ein Fehlen, das sich nicht zeigen lässt (Halal-Prüfer r2).
+    for (const n of Object.values(NACHWEIS)) expect(n.text).not.toMatch(/^Nur |kein /i);
   });
 
   it("die Seite bleibt versteckt: noindex, nicht in der Sitemap", () => {

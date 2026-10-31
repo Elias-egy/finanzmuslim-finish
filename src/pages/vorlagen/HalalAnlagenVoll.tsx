@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, CircleDot } from "lucide-react";
+import { AlertCircle, AlertTriangle, ArrowDown, ArrowRight, CheckCircle2, ChevronDown, CircleDot } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import { NAECHSTE_FRAGE } from "@/data/leiter";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
@@ -13,6 +14,7 @@ import {
   ANZAHL_DEPOT,
   BEKANNTE_DEPOTS,
   SCHMERZ_SATZ,
+  SICHTBAR,
   STUFEN_ZAHL,
   UEBERBLICK,
   depotZahl,
@@ -39,11 +41,23 @@ const pfad = vollPfad(freebie);
 const staende = [...new Set(kaufZeilen.flatMap((z) => z.kaufbar.kaufbar.map((k) => k.beleg.stand)))].sort(
   (a, b) => Number(a.split(".").reverse().join("")) - Number(b.split(".").reverse().join("")),
 );
-/** Ein Zeichen je Stufe: was die Prüfstelle bestätigt hat, nie ein eigenes Urteil. */
+/** Ein Zeichen je Stufe: wie jung der gelesene Nachweis ist, nie ein eigenes Urteil. */
 const STUFE: Record<Stufe, { Icon: typeof CheckCircle2; farbe: string; wort: string }> = {
-  fonds: { Icon: CheckCircle2, farbe: "text-gain", wort: "mit Zertifikat für das Produkt" },
-  index: { Icon: CircleDot, farbe: "text-muted-foreground", wort: "nur mit geprüftem Index" },
-  ohne: { Icon: AlertCircle, farbe: "text-warning", wort: "ohne aktuelles Zertifikat" },
+  aktuell: {
+    Icon: CheckCircle2,
+    farbe: "text-gain",
+    wort: "mit Zertifikat oder Prüfbericht von 2025 oder 2026",
+  },
+  prospekt: {
+    Icon: CircleDot,
+    farbe: "text-primary",
+    wort: "mit Prüfstelle laut Prospekt oder geprüftem Index",
+  },
+  aelter: {
+    Icon: AlertCircle,
+    farbe: "text-warning",
+    wort: "mit letztem Nachweis vor 2024",
+  },
 };
 
 const Karte = ({ z }: { z: KaufZeile }) => {
@@ -68,10 +82,10 @@ const Karte = ({ z }: { z: KaufZeile }) => {
             <AnbieterLogo key={d.id} name={d.name} domain={d.domain} klein />
           ))}
         </span>
-        <span className="flex-1 text-[12px] text-muted-foreground">
-          in {depotZahl(z)} von {DEPOTS_GEPRUEFT.length} Depots
+        <span className="flex-1 whitespace-nowrap text-[12px] text-muted-foreground">
+          {depotZahl(z)} von {DEPOTS_GEPRUEFT.length} Depots
         </span>
-        <span className="text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel} im Jahr</span>
+        <span className="whitespace-nowrap text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel} im Jahr</span>
       </div>
     </li>
   );
@@ -99,7 +113,7 @@ const HalalAnlagenVoll = () => {
   return (
     <main className="bg-background" data-freebie="anlagen-liste" data-vorlage="halal-anlagen">
       <Seo
-        title="Was kann ich halal kaufen? Jede Anlage mit Prüfung und Depot | finanzmuslim"
+        title="Was kann ich halal kaufen? Jede Anlage mit dem Stand ihrer Prüfung | finanzmuslim"
         description={`${kaufZeilen.length} Anlagen im Depot: je Anlage, was die Prüfstelle bestätigt hat und in welchen Depots du sie kaufst.`}
         path={pfad}
         noindex
@@ -111,7 +125,7 @@ const HalalAnlagenVoll = () => {
             Was kann ich überhaupt halal kaufen?
           </h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">
-            {ANZAHL_DEPOT} Anlagen, die du im Depot kaufen kannst. Dazu {krypto.length} Coins.
+            {ANZAHL_DEPOT} Anlagen, die du im Depot kaufen kannst. Bei jeder steht, was belegt ist.
           </p>
           <nav aria-label="Was es gibt" className="mt-3 flex flex-wrap gap-1.5">
             {UEBERBLICK.map((u) => (
@@ -172,26 +186,56 @@ const HalalAnlagenVoll = () => {
               </Link>
             </div>
           </div>
+          <a
+            href="#naechster-teil"
+            className="mt-3 flex min-h-[44px] items-center gap-2 px-1 text-[16px] font-semibold text-primary hover:underline"
+          >
+            {NAECHSTE_FRAGE.liste.frage} Steht ganz unten.
+            <ArrowDown className="h-4 w-4 shrink-0" aria-hidden />
+          </a>
         </section>
 
         {listenGruppen.map((g) => (
-          <section key={g.kategorie} id={`gruppe-${g.kategorie}`} className="reveal mt-12 scroll-mt-20" aria-labelledby={`titel-${g.kategorie}`}>
-            <h2 id={`titel-${g.kategorie}`} className="flex items-center gap-2.5 text-[24px] font-extrabold leading-tight text-foreground">
+          <section
+            key={g.kategorie}
+            id={`gruppe-${g.kategorie}`}
+            className="reveal mt-12 scroll-mt-20"
+            aria-labelledby={`titel-${g.kategorie}`}
+          >
+            <h2
+              id={`titel-${g.kategorie}`}
+              className="flex items-center gap-2.5 text-[24px] font-extrabold leading-tight text-foreground"
+            >
               <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: artFarbe(g.kategorie) }} aria-hidden />
               {g.titel.split(",")[0]}
             </h2>
             {g.titel.includes(",") && (
-              <p className="mt-1 text-[16px] leading-snug text-foreground/80">{g.titel.split(", ")[1].replace(/^./, (c) => c.toUpperCase())}</p>
+              <p className="mt-1 text-[16px] leading-snug text-foreground/80">
+                {g.titel.split(", ")[1].replace(/^./, (c) => c.toUpperCase())}
+              </p>
             )}
             <ul className="mt-4 grid gap-2">
-              {g.zeilen.map((z) => (
+              {g.zeilen.slice(0, SICHTBAR).map((z) => (
                 <Karte key={z.anlage.slug} z={z} />
               ))}
             </ul>
+            {g.zeilen.length > SICHTBAR && (
+              <details className="group mt-2">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+                  {g.zeilen.length - SICHTBAR} weitere anzeigen
+                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
+                </summary>
+                <ul className="mt-2 grid gap-2">
+                  {g.zeilen.slice(SICHTBAR).map((z) => (
+                    <Karte key={z.anlage.slug} z={z} />
+                  ))}
+                </ul>
+              </details>
+            )}
             {g.kategorie === "gold" && (
               <p className="mt-3 px-1 text-[14px] leading-snug text-muted-foreground">
-                Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten stehen
-                nicht in der Liste.
+                Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten
+                stehen nicht in der Liste.
               </p>
             )}
           </section>
@@ -205,15 +249,16 @@ const HalalAnlagenVoll = () => {
           <div className="mt-4 card-surface p-4">
             <div className="flex flex-wrap items-center gap-2">
               {krypto.map((a) => (
-                <span key={a.slug} className="flex items-center gap-2 rounded-full bg-accent py-1 pl-1 pr-3 text-[14px] font-semibold text-foreground">
+                <span
+                  key={a.slug}
+                  className="flex items-center gap-2 rounded-full bg-accent py-1 pl-1 pr-3 text-[14px] font-semibold text-foreground"
+                >
                   <AnlageLogo a={a} />
                   {a.name}
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-[16px] leading-snug text-foreground/80">
-              Nicht im Depot, sondern an einer Krypto-Börse.
-            </p>
+            <p className="mt-3 text-[16px] leading-snug text-foreground/80">Nicht im Depot, sondern an einer Krypto-Börse.</p>
             <p className="mt-2 text-[12px] leading-snug text-muted-foreground">
               Vorläufige Einschätzung des {KRYPTO_PRUEFER}, nach eigener Aussage keine Fatwa.
             </p>
@@ -235,9 +280,13 @@ const HalalAnlagenVoll = () => {
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
-            {staende.length === 1 ? `Kaufbelege vom ${staende[0]}.` : `Kaufbelege vom ${staende[0]} bis ${staende[staende.length - 1]}.`}
+            {staende.length === 1
+              ? `Kaufbelege vom ${staende[0]}.`
+              : `Kaufbelege vom ${staende[0]} bis ${staende[staende.length - 1]}.`}
           </p>
-          {ohneBeleg.length > 0 && <p>Mit Prüfung, aber ohne Kaufbeleg und darum nicht in der Liste: {ohneBeleg.map((a) => a.name).join(", ")}.</p>}
+          {ohneBeleg.length > 0 && (
+            <p>Mit Prüfung, aber ohne Kaufbeleg und darum nicht in der Liste: {ohneBeleg.map((a) => a.name).join(", ")}.</p>
+          )}
           <p>{ANLAGEN_QUELLEN}</p>
           <p>{ANLAGEN_RECHTSHINWEIS}</p>
         </footer>

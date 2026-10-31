@@ -1,6 +1,6 @@
 Was kann ich überhaupt halal kaufen?
 
-22 Anlagen, die du im Depot kaufen kannst. Dazu 4 Coins.
+22 Anlagen, die du im Depot kaufen kannst. Bei jeder steht, was belegt ist.
 
 12
 Aktien-ETFs und Fonds
@@ -12,9 +12,9 @@ Gold
 Silber
 4
 Krypto
-13 mit Zertifikat für das Produkt
-5 nur mit geprüftem Index
-4 ohne aktuelles Zertifikat
+9 mit Zertifikat oder Prüfbericht von 2025 oder 2026
+11 mit Prüfstelle laut Prospekt oder geprüftem Index
+2 mit letztem Nachweis vor 2024
 
 Eine Übersicht, keine Anlageberatung.
 
@@ -29,114 +29,60 @@ nur 8 von 12
 flatex
 12 von 12
 Alle Depots im Vergleich
+Was davon passt zu mir, und wie viel? Steht ganz unten.
 Aktien-ETFs und Fonds
-
-iShares MSCI World Islamic
-
-Fatwa und Zertifikat, iShares
-
-in 15 von 18 Depots
-0,30 % im Jahr
-
-iShares MSCI Emerging Markets Islamic
-
-Fatwa und Zertifikat, iShares
-
-in 15 von 18 Depots
-0,35 % im Jahr
-
-iShares MSCI USA Islamic
-
-Fatwa und Zertifikat, iShares
-
-in 15 von 18 Depots
-0,30 % im Jahr
 
 HANetf Saturna Al-Kawthar Global Focused Equity
 
 Jahreszertifikat 2025, Amanie
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,75 % im Jahr
 
 Franklin Shariah Technology Fund A (acc) USD
 
 Jahresbericht 2025, Amanie
 
-in 5 von 18 Depots
+5 von 18 Depots
 1,81 % im Jahr
 
-Invesco MSCI ACWI Islamic M-Series
+iShares MSCI World Islamic
 
-Nur der Index geprüft, MSCI
+Fatwa laut Prospekt, iShares-Panel
 
-in 10 von 18 Depots
+15 von 18 Depots
+0,30 % im Jahr
+
+iShares MSCI Emerging Markets Islamic
+
+Fatwa laut Prospekt, iShares-Panel
+
+15 von 18 Depots
 0,35 % im Jahr
-
-HSBC MSCI World Islamic Screened
-
-Nur der Index geprüft, MSCI
-
-in 5 von 18 Depots
-0,30 % im Jahr
-
-HSBC MSCI USA Islamic Screened
-
-Nur der Index geprüft, MSCI
-
-in 4 von 18 Depots
-0,30 % im Jahr
-
-HSBC MSCI Europe Islamic Screened
-
-Nur der Index geprüft, MSCI
-
-in 4 von 18 Depots
-0,30 % im Jahr
-
-HSBC MSCI Emerging Markets Islamic Screened Capped
-
-Nur der Index geprüft, MSCI
-
-in 5 von 18 Depots
-0,35 % im Jahr
-
-Invesco Dow Jones Islamic Global Developed Markets
-
-Kein Zertifikat 2025 gefunden
-
-in 11 von 18 Depots
-0,40 % im Jahr
-
-Comgest Growth Europe S EUR Acc
-
-Nur Gremium im Prospekt
-
-in 10 von 18 Depots
-2,16 % im Jahr
+8 weitere anzeigen
 Sukuk
 
 Die islamische Alternative zu Anleihen
 
 iShares USD Sukuk UCITS ETF
 
-Fatwa und Zertifikat, Amanie
+Fatwa laut Prospekt, Amanie
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,40 % im Jahr
 
 Xtrackers II Salam USD Global Aggregate Sukuk
 
-Nur Berater, kein Zertifikat
+Berater laut Prospekt, ASB
 
-in 11 von 18 Depots
+11 von 18 Depots
 0,40 % im Jahr
 
 BNP Paribas Islamic Fund Hilal Income Classic C
 
-Eigenes Komitee, Bericht 2020
+Komitee im Bericht von 2020
 
-in 8 von 18 Depots
+8 von 18 Depots
 1,31 % im Jahr
 Gold
 
@@ -146,28 +92,28 @@ Invesco Physical Gold ETC
 
 Jahreszertifikat 2025, Amanie
 
-in 10 von 18 Depots
+10 von 18 Depots
 0,12 % im Jahr
 
 WisdomTree Physical Gold
 
 Prüfbericht 2026, Al-Qalam
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,39 % im Jahr
 
 WisdomTree Core Physical Gold
 
 Prüfbericht 2026, Al-Qalam
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,12 % im Jahr
 
 WisdomTree Physical Swiss Gold
 
 Prüfbericht 2026, Al-Qalam
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,15 % im Jahr
 
 Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten stehen nicht in der Liste.
@@ -180,21 +126,21 @@ Invesco Physical Silver
 
 Jahreszertifikat 2025, Amanie
 
-in 10 von 18 Depots
+10 von 18 Depots
 0,19 % im Jahr
 
 WisdomTree Physical Silver
 
 Prüfbericht 2026, Al-Qalam
 
-in 12 von 18 Depots
+12 von 18 Depots
 0,49 % im Jahr
 
 WisdomTree Core Physical Silver
 
 Prüfbericht 2026, Al-Qalam
 
-in 13 von 18 Depots
+13 von 18 Depots
 0,19 % im Jahr
 Krypto gibt es an Börsen
 Bitcoin
@@ -240,6 +186,6 @@ Kaufbelege vom 14.09.2026 bis 21.10.2026.
 
 Mit Prüfung, aber ohne Kaufbeleg und darum nicht in der Liste: The Royal Mint Responsibly Sourced Physical Gold, WisdomTree Physical Platinum, WisdomTree Physical Palladium, WisdomTree Physical Precious Metals.
 
-Prüfmaßstab: der der jeweils genannten Prüfstelle, nachzulesen in ihrem Zertifikat, Prüfbericht oder Verkaufsprospekt. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Eine Prüfung kann sich ändern, vor dem Kauf selbst nachsehen.
+Geprüft wird nach dem Maßstab der jeweils genannten Prüfstelle. Wo er schriftlich steht, steht er in ihrem Prüfbericht, im Prospekt oder in der Methodik des Index. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Eine Prüfung kann sich ändern, vor dem Kauf selbst nachsehen.
 
 Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines Finanzinstruments dar. Dieser Inhalt dient ausschließlich zu Bildungszwecken. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse.

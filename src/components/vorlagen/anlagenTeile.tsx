@@ -55,7 +55,7 @@ export const ANLAGEN_EINLEITUNG =
   "Finde die Halal-Anlagen mit Kaufbeleg: Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder die ISIN, die Prüfstelle und die Anbieter, bei denen du sie kaufen kannst.";
 
 export const ANLAGEN_QUELLEN =
-  "Prüfmaßstab: der der jeweils genannten Prüfstelle, nachzulesen in ihrem Zertifikat, Prüfbericht oder Verkaufsprospekt. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Eine Prüfung kann sich ändern, vor dem Kauf selbst nachsehen.";
+  "Geprüft wird nach dem Maßstab der jeweils genannten Prüfstelle. Wo er schriftlich steht, steht er in ihrem Prüfbericht, im Prospekt oder in der Methodik des Index. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Eine Prüfung kann sich ändern, vor dem Kauf selbst nachsehen.";
 
 export const ANLAGEN_RECHTSHINWEIS =
   "Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines Finanzinstruments dar. Dieser Inhalt dient ausschließlich zu Bildungszwecken. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse.";

@@ -54,49 +54,54 @@ export const SCHMERZ_SATZ = `Nicht jedes Depot hat sie. Von ${DEPOTS_GEPRUEFT.le
 } alle ${ETF_ZAHL} Aktien-ETFs und Fonds.`;
 
 /**
- * Was die Prüfstelle wirklich bestätigt hat, je Anlage in einer kurzen Zeile (Halal-Prüfer r1, 31.10.2026:
- * die Überschrift darf nicht alle 22 gleich hinstellen). Drei Stufen, nie ein eigenes Urteil:
- * „fonds“ = Zertifikat, Fatwa oder Prüfbericht für genau dieses Produkt; „index“ = nur die Methodik des
- * Index freigegeben; „ohne“ = kein aktuelles Zertifikat gefunden. Beleg je Zeile im zertifikatHinweis und
- * zertifikatLink der Anlage in `halalAnlagen.ts`; der Test prüft, dass jede Karte eine Zeile hat.
+ * Was zu jeder Anlage belegt vorliegt, in einer kurzen Zeile (Halal-Prüfer r1 und r2, 31.10.2026: die
+ * Überschrift darf nicht alle 22 gleich hinstellen, und keine Zeile behauptet ein Fehlen, das sich nicht
+ * zeigen lässt). Drei Stufen nach dem jüngsten gelesenen Dokument, nie ein eigenes Urteil:
+ * „aktuell“ = Zertifikat oder Prüfbericht für genau dieses Produkt aus 2025 oder 2026; „prospekt“ = Fatwa,
+ * Gremium oder Berater laut Prospekt, oder der Index ist geprüft; „aelter“ = jüngster gefundener Nachweis
+ * vor 2024. Beleg je Zeile in `halalAnlagen.ts` (zertifikatHinweis, zertifikatLink) und in
+ * `pruefung/halal-anlagen-liste-r2.md` im Vault; der Test prüft, dass jede Karte eine Zeile hat.
  */
-export type Stufe = "fonds" | "index" | "ohne";
+export type Stufe = "aktuell" | "prospekt" | "aelter";
 export const NACHWEIS: Record<string, { stufe: Stufe; text: string }> = {
-  "ishares-msci-world-islamic": { stufe: "fonds", text: "Fatwa und Zertifikat, iShares" },
-  "ishares-msci-emerging-markets-islamic": { stufe: "fonds", text: "Fatwa und Zertifikat, iShares" },
-  "ishares-msci-usa-islamic": { stufe: "fonds", text: "Fatwa und Zertifikat, iShares" },
-  "hanetf-saturna-al-kawthar-global-focused-equity": { stufe: "fonds", text: "Jahreszertifikat 2025, Amanie" },
-  "franklin-shariah-technology-fund-a-acc-usd": { stufe: "fonds", text: "Jahresbericht 2025, Amanie" },
-  "invesco-msci-acwi-islamic-m-series": { stufe: "index", text: "Nur der Index geprüft, MSCI" },
-  "hsbc-msci-world-islamic-screened": { stufe: "index", text: "Nur der Index geprüft, MSCI" },
-  "hsbc-msci-usa-islamic-screened": { stufe: "index", text: "Nur der Index geprüft, MSCI" },
-  "hsbc-msci-europe-islamic-screened": { stufe: "index", text: "Nur der Index geprüft, MSCI" },
-  "hsbc-msci-emerging-markets-islamic-screened-capped": { stufe: "index", text: "Nur der Index geprüft, MSCI" },
-  "invesco-dow-jones-islamic-global-developed-markets": { stufe: "ohne", text: "Kein Zertifikat 2025 gefunden" },
-  "comgest-growth-europe-s-eur-acc": { stufe: "ohne", text: "Nur Gremium im Prospekt" },
-  "ishares-usd-sukuk-ucits-etf": { stufe: "fonds", text: "Fatwa und Zertifikat, Amanie" },
-  "xtrackers-ii-salam-usd-global-aggregate-sukuk": { stufe: "ohne", text: "Nur Berater, kein Zertifikat" },
-  "bnp-paribas-islamic-fund-hilal-income-classic-c": { stufe: "ohne", text: "Eigenes Komitee, Bericht 2020" },
-  "invesco-physical-gold-etc": { stufe: "fonds", text: "Jahreszertifikat 2025, Amanie" },
-  "wisdomtree-physical-gold": { stufe: "fonds", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-core-physical-gold": { stufe: "fonds", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-physical-swiss-gold": { stufe: "fonds", text: "Prüfbericht 2026, Al-Qalam" },
-  "invesco-physical-silver": { stufe: "fonds", text: "Jahreszertifikat 2025, Amanie" },
-  "wisdomtree-physical-silver": { stufe: "fonds", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-core-physical-silver": { stufe: "fonds", text: "Prüfbericht 2026, Al-Qalam" },
-  "royal-mint-responsibly-sourced-physical-gold": { stufe: "fonds", text: "Jahreszertifikat 2025, Amanie" },
+  "ishares-msci-world-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "ishares-msci-emerging-markets-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "ishares-msci-usa-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "hanetf-saturna-al-kawthar-global-focused-equity": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "franklin-shariah-technology-fund-a-acc-usd": { stufe: "aktuell", text: "Jahresbericht 2025, Amanie" },
+  "invesco-msci-acwi-islamic-m-series": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-world-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-usa-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-europe-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-emerging-markets-islamic-screened-capped": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "invesco-dow-jones-islamic-global-developed-markets": { stufe: "aelter", text: "Zertifikat für 2023, Amanie" },
+  "comgest-growth-europe-s-eur-acc": { stufe: "prospekt", text: "Gremium laut Prospekt, Amanie" },
+  "ishares-usd-sukuk-ucits-etf": { stufe: "prospekt", text: "Fatwa laut Prospekt, Amanie" },
+  "xtrackers-ii-salam-usd-global-aggregate-sukuk": { stufe: "prospekt", text: "Berater laut Prospekt, ASB" },
+  "bnp-paribas-islamic-fund-hilal-income-classic-c": { stufe: "aelter", text: "Komitee im Bericht von 2020" },
+  "invesco-physical-gold-etc": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "wisdomtree-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-core-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-physical-swiss-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "invesco-physical-silver": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "wisdomtree-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-core-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "royal-mint-responsibly-sourced-physical-gold": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
 };
-const RANG: Record<Stufe, number> = { fonds: 0, index: 1, ohne: 2 };
+const RANG: Record<Stufe, number> = { aktuell: 0, prospekt: 1, aelter: 2 };
 export const nachweis = (z: KaufZeile) => NACHWEIS[z.anlage.slug];
 
-/** Die Gruppen der Liste, je Gruppe zuerst die Anlagen mit Zertifikat für das Produkt selbst. */
+/** Die Gruppen der Liste, je Gruppe zuerst die Anlagen mit dem jüngsten Nachweis. */
+/** Am Handy je Gruppe nur die ersten vier Karten, der Rest auf Tippen (Leser-Runde r2: ab Schirm 3 steigen alle aus). */
+export const SICHTBAR = 4;
+
 export const listenGruppen = kaufGruppen.map((g) => ({
   ...g,
   zeilen: [...g.zeilen].sort((a, b) => RANG[nachweis(a).stufe] - RANG[nachweis(b).stufe]),
 }));
 
 /** Wie viele der Karten auf welcher Stufe stehen, für die Zeile oben. */
-export const STUFEN_ZAHL = (["fonds", "index", "ohne"] as Stufe[]).map((stufe) => ({
+export const STUFEN_ZAHL = (["aktuell", "prospekt", "aelter"] as Stufe[]).map((stufe) => ({
   stufe,
   zahl: kaufZeilen.filter((z) => nachweis(z)?.stufe === stufe).length,
 }));
