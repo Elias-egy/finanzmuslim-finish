@@ -8,10 +8,12 @@ import {
   depotAnzeige,
   edelmetallAnzeige,
   girokontoAnzeige,
+  kryptoAnzeige,
   screenerAnzeige,
   steuerAnzeige,
 } from "../src/data/vergleichAnzeige";
 import { DEPOT_FINANZ_MAX } from "../src/data/brokerVergleich";
+import { KRYPTO_FINANZ_MAX } from "../src/data/kryptoVergleich";
 import { siegerDerSeite, werteAus } from "../src/lib/vergleichAssistent";
 import { ANZAHL_KAUFBAR } from "../src/data/halalAnlagenZahl";
 import { halalAnlagen, anbieterByName } from "../src/data/halalAnlagen";
@@ -89,6 +91,34 @@ const islamicAktien = halalAnlagen
     };
   });
 
+// MC7d9g6 (31.10.2026, PLAN-REIHENFOLGE.md): Krypto-Seite und Sukuk-Seite. Die drei besten Börsen in der Reihenfolge
+// des Krypto-Vergleichs, die geprüften Münzen und die Sukuk-Produkte des Halal-Anlagen-Vergleichs, je mit Prüfstelle.
+const kryptoTop3 = werteAus(kryptoAnzeige, "krypto", KRYPTO_FINANZ_MAX, { wuensche: [], gewichte: [] })
+  .passt.slice(0, 3)
+  .map((t) => {
+    const w = t.anbieter.werte as Record<string, unknown>;
+    // Die vier Halal-Kriterien aus VergleichKrypto.tsx; guides_v2.py druckt sie nur, wenn alle drei Börsen sie grün haben.
+    return {
+      id: t.anbieter.id,
+      name: t.anbieter.name,
+      domain: t.anbieter.domain,
+      zinsfreiAbStart: w.zinsfreiAbStart ?? null,
+      echteCoins: w.echteCoins ?? null,
+      eigeneWallet: w.eigeneWallet ?? null,
+      zinsfreiesModell: w.zinsfreiesModell ?? null,
+    };
+  });
+if (kryptoTop3.length !== 3) {
+  console.error(`Krypto-Vergleich: ${kryptoTop3.length} statt drei Börsen`);
+  process.exit(1);
+}
+const muenzen = halalAnlagen
+  .filter((a) => a.kategorie === "krypto")
+  .map((a) => ({ name: a.name, kuerzel: a.kuerzel ?? null, zeichen: a.zeichen ?? null, pruefstelle: a.zertifizierer, link: a.zertifikatLink ?? null, hinweis: a.hinweis ?? null }));
+const sukuk = halalAnlagen
+  .filter((a) => a.kategorie === "sukuk")
+  .map((a) => ({ name: a.name, anbieter: a.anbieter, domain: anbieterByName(a.anbieter)?.domain ?? null, kosten: a.kostenLabel, bauart: a.bauart ?? null, pruefstelle: a.zertifizierer.split(",")[0].trim() }));
+
 const daten = {
   erzeugt: new Date().toISOString(),
   islamicAktien,
@@ -112,6 +142,8 @@ const daten = {
     zinsenNichtAbschaltbar: girokontoAnzeige.filter((a) => a.werte.zinsfreiAbStart === "schlecht").length,
   },
   edelmetall: { anzahl: edelmetallAnzeige.length },
+  krypto: { anzahl: kryptoAnzeige.length, top3: kryptoTop3, muenzen },
+  sukuk,
   screener: { anzahl: screenerAnzeige.length },
   steuer: { anzahl: steuerAnzeige.length },
   anlagenKaufbar: ANZAHL_KAUFBAR,
