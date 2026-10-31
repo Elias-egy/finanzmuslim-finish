@@ -14,6 +14,7 @@ import {
 import { DEPOT_FINANZ_MAX } from "../src/data/brokerVergleich";
 import { siegerDerSeite, werteAus } from "../src/lib/vergleichAssistent";
 import { ANZAHL_KAUFBAR } from "../src/data/halalAnlagenZahl";
+import { halalAnlagen, anbieterByName } from "../src/data/halalAnlagen";
 import nisab from "../src/data/nisab.json";
 
 const [ziel] = process.argv.slice(2);
@@ -54,8 +55,43 @@ if (top3[0]?.id !== sieger.id) {
   process.exit(1);
 }
 
+// MC7d9g3b (31.10.2026, PLAN.md neue Seite 5): die Aktien-ETFs und Fonds des Halal-Anlagen-Vergleichs, je mit Region
+// (aus dem Namen, genau ein Treffer, sonst Abbruch), ETF oder Fonds (Feld replikation „kein ETF“) und Prüfstelle
+// (Feld zertifizierer bis zum ersten Komma). Nichts davon steht von Hand im Guide.
+const REGIONEN: [RegExp, string][] = [
+  [/Emerging Markets/, "Schwellenländer"],
+  [/\bUSA\b/, "USA"],
+  [/Europe/, "Europa"],
+  [/Technology/, "Technologie"],
+  [/World|Global|ACWI/, "Welt"],
+];
+const islamicAktien = halalAnlagen
+  .filter((a) => a.kategorie === "aktien")
+  .map((a) => {
+    const treffer = REGIONEN.filter(([re]) => re.test(a.name));
+    if (treffer.length !== 1) {
+      console.error(`Region unklar für ${a.name}: ${treffer.map(([, r]) => r).join(", ") || "kein Treffer"}`);
+      process.exit(1);
+    }
+    const domain = anbieterByName(a.anbieter)?.domain ?? null;
+    if (!domain) {
+      console.error(`Anbieter ohne Domain: ${a.anbieter}`);
+      process.exit(1);
+    }
+    return {
+      name: a.name,
+      anbieter: a.anbieter,
+      domain,
+      isin: a.isin ?? null,
+      region: treffer[0][1],
+      typ: /kein ETF/.test(a.replikation ?? "") ? "Fonds" : "ETF",
+      pruefstelle: a.zertifizierer.split(",")[0].trim(),
+    };
+  });
+
 const daten = {
   erzeugt: new Date().toISOString(),
+  islamicAktien,
   depot: {
     anzahl: depotAnzeige.length,
     nummer1: {

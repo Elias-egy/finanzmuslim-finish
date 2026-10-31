@@ -925,9 +925,9 @@
 .guide-leser .xd .lg{ width:100%; height:0.828rem; border:1px solid var(--nebel); border-radius:0.138rem; background:#fff; display:flex; align-items:center; justify-content:center; padding:0.1035rem; box-sizing:border-box; object-fit:unset; }
 .guide-leser .xd .lg img{ width:auto; height:100%; max-width:60%; object-fit:contain; }
 .guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; background:var(--brand); color:#fff; font-size:0.87rem; padding:0.1794rem 0.207rem; border-radius:0.138rem; }
-.guide-leser .xfilter{ margin:0; padding:0.483rem 0.552rem 0.345rem; border:1px solid var(--nebel); border-radius:0.276rem; background:#fff; }
+.guide-leser .xfilter{ margin:0; padding:0; border:0; background:transparent; }
 .guide-leser .xfilter svg{ display:block; width:100%; height:auto; }
-.guide-leser .xfilter figcaption{ display:flex; flex-wrap:wrap; align-items:center; gap:0.138rem 0.414rem; margin-top:0.276rem; font-size:0.8265rem; color:var(--body); }
+.guide-leser .xfilter figcaption{ display:flex; flex-wrap:wrap; align-items:center; gap:0.138rem 0.414rem; margin-top:0.345rem; font-size:0.8265rem; color:var(--body); }
 .guide-leser .xfilter figcaption span{ display:inline-flex; align-items:center; gap:0.138rem; }
 .guide-leser .xfilter .sw{ display:inline-block; width:0.2208rem; height:0.2208rem; border-radius:50%; flex:none; }
 .guide-leser .xfilter .sw.fin{ background:var(--haram); }
@@ -957,17 +957,18 @@
 .guide-leser .xg2 .logos img{ width:0.4485rem; height:0.4485rem; border-radius:0.1035rem; object-fit:contain; background:#fff; border:1px solid var(--nebel-soft); }
 .guide-leser .xg2 .logos span{ font-size:0.7395rem; color:var(--body); margin-left:0.069rem; }
 .guide-leser .xg2 .knopf{ display:inline-block; margin-top:0.276rem; background:var(--brand); color:#fff; font-weight:800; font-size:0.87rem; padding:0.2346rem 0.3795rem; border-radius:0.138rem; text-decoration:none; white-space:nowrap; }
-.guide-leser .xi-body.mitte{ flex:1; justify-content:center; }
-.guide-leser .xbek2{ display:grid; grid-template-columns:auto 1fr 1fr; align-items:center; gap:0.345rem; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.414rem; }
-.guide-leser .xbek2 .h{ font-size:0.9135rem; font-weight:800; color:var(--tief); line-height:1.25; max-width:3.174rem; letter-spacing:-.01em; }
-.guide-leser .xbek2 .c{ display:grid; grid-template-columns:0.483rem 1fr; column-gap:0.207rem; align-items:center; background:#fff; border-radius:0.207rem; padding:0.1932rem 0.276rem; }
-.guide-leser .xbek2 .c img{ width:0.483rem; height:0.483rem; border-radius:0.1242rem; object-fit:contain; grid-row:1 / span 2; }
-.guide-leser .xbek2 .c.gelb img{ background:var(--nebel-soft); padding:0.069rem; box-sizing:border-box; }
-.guide-leser .xbek2 .c .n{ font-size:0.8265rem; font-weight:800; color:var(--tief); line-height:1.2; }
-.guide-leser .xbek2 .c .z{ font-size:0.783rem; color:var(--body); line-height:1.25; }
-.guide-leser .xbek2 .c .z i{ font-style:normal; }
-.guide-leser .xbek2 .c .z b{ font-size:0.957rem; letter-spacing:-.02em; color:var(--haram); }
-.guide-leser .xbek2 .c.gelb .z b{ color:#b45309; }
+.guide-leser .xi-body.s4{ gap:0.621rem; margin-top:0.621rem; }
+.guide-leser .xbek2{ display:grid; grid-template-columns:1.1fr 1fr 1fr; align-items:center; gap:0.345rem; background:var(--himmel); border-radius:0.276rem; padding:0.3105rem 0.414rem; }
+.guide-leser .xbek2 .h{ font-size:1.044rem; font-weight:800; color:var(--tief); line-height:1.25; letter-spacing:-.01em; }
+.guide-leser .xbek2 .c{ background:#fff; border-radius:0.207rem; padding:0.2208rem 0.3105rem 0.2346rem; }
+.guide-leser .xbek2 .k{ display:flex; align-items:center; gap:0.1518rem; font-size:0.8265rem; font-weight:800; color:var(--tief); }
+.guide-leser .xbek2 .k img{ width:0.4485rem; height:0.4485rem; border-radius:0.1104rem; object-fit:contain; }
+.guide-leser .xbek2 .gelb .k img{ background:var(--nebel-soft); padding:.0.552rem; box-sizing:border-box; }
+.guide-leser .xbek2 .z{ font-size:1.479rem; font-weight:800; letter-spacing:-.03em; line-height:1; margin-top:0.1518rem; white-space:nowrap; }
+.guide-leser .xbek2 .z i{ font-style:normal; font-size:0.8265rem; color:var(--ink); margin-right:0.069rem; }
+.guide-leser .xbek2 .gelb .z{ color:#b45309; }
+.guide-leser .xbek2 .rot .z{ color:var(--haram); }
+.guide-leser .xbek2 .s{ font-size:0.7395rem; color:var(--body); margin-top:0.0828rem; }
 .guide-leser .xdep{ position:relative; border:0; padding:0; }
 .guide-leser .xdep .ad{ position:absolute; right:0; top:0.069rem; font-size:0.6438rem; color:var(--body); }
 .guide-leser .xdep h2{ margin-top:0; font-size:1.392rem; color:var(--tief); letter-spacing:-.02em; }
@@ -1250,7 +1251,7 @@
 
 /* MC7d9g3 (31.10.2026): Filter-Grafik, schmale Girokonto-Werbung, Depot-Seite mit kleinen Schmerz-Karten und
    großen Finanzfluss-Karten am Handy. */
-.guide-leser .xfilter{ padding:1rem 1rem .85rem; }
+.guide-leser .xfilter{ padding:0; }  /* MC7d9g3b: ohne Rahmen wie im PDF */
 .guide-leser .xfilter figcaption{ font-size:.8rem; gap:.3rem 1rem; }
 .guide-leser .xfilter .note{ margin-left:0; flex-basis:100%; }
 .guide-leser .xfilter .quelle{ font-size:.7rem; }
@@ -1258,9 +1259,11 @@
 .guide-leser .xg2 .schmerz b{ font-size:1.5rem; }
 .guide-leser .xg2 .schmerz span{ font-size:.95rem; }
 .guide-leser .xg2 .knopf{ display:block; text-align:center; margin-top:0; }
-.guide-leser .xbek2{ padding:.85rem; gap:.5rem; }
-.guide-leser .xbek2 .h{ max-width:none; font-size:.95rem; }
-.guide-leser .xbek2 .c{ padding:.6rem .75rem; }
+.guide-leser .xbek2{ padding:.85rem; gap:.6rem; }  /* MC7d9g3b: Band wieder farbig, Zahl groß */
+.guide-leser .xbek2 .h{ font-size:1rem; }
+.guide-leser .xbek2 .c{ padding:.65rem .8rem; }
+.guide-leser .xbek2 .z{ font-size:1.35rem; }
+.guide-leser .xbek2 .s{ font-size:.8rem; }
 .guide-leser .xdep{ padding:0; }
 .guide-leser .xd-liste{ gap:.75rem; }
 .guide-leser .xd{ grid-template-columns:2fr 1fr; gap:1rem; padding:1rem; border:1px solid var(--nebel); border-radius:.5rem; }
@@ -1271,11 +1274,11 @@
 .guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; grid-column:auto; height:2.75rem; line-height:2.75rem; padding:0 .5rem; font-size:.95rem; }
 .guide-leser .xfilter .sw{ width:.6rem; height:.6rem; }
 .guide-leser .xg2 .logos img{ width:1.5rem; height:1.5rem; }
-.guide-leser .xbek2 .c{ grid-template-columns:2rem 1fr; column-gap:.6rem; }
-.guide-leser .xbek2 .c img{ width:2rem; height:2rem; }
+.guide-leser .xbek2 .k img{ width:1.5rem; height:1.5rem; }
 @media (max-width:36rem){
   .guide-leser .xg2{ grid-template-columns:1fr; }
-  .guide-leser .xbek2{ grid-template-columns:1fr; }
+  .guide-leser .xbek2{ grid-template-columns:1fr 1fr; }
+  .guide-leser .xbek2 .h{ grid-column:1 / -1; }
   .guide-leser .xd{ grid-template-columns:1fr; }
   .guide-leser .xd .xd-r{ flex-direction:row; align-items:center; gap:.6rem; }
   .guide-leser .xd .lg{ width:7.5rem; height:3rem; flex:none; }
