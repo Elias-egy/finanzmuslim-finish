@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AlertCircle, AlertTriangle, ArrowDown, ArrowRight, CheckCircle2, ChevronDown, CircleDot } from "lucide-react";
+import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, ChevronDown, CircleDot } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import { NAECHSTE_FRAGE } from "@/data/leiter";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
@@ -11,7 +10,6 @@ import { optinFreebie, vollPfad } from "@/data/optin";
 import { kaufZeilen, type KaufZeile } from "@/data/halalAnlagenKauf";
 import { DEPOTS_GEPRUEFT, ETF_ZAHL } from "@/data/etfPlan";
 import {
-  ANZAHL_DEPOT,
   BEKANNTE_DEPOTS,
   SCHMERZ_SATZ,
   SICHTBAR,
@@ -30,7 +28,7 @@ import {
 
 /**
  * Die volle Liste „Halal-Anlagen“, das Freebie zum Wort „Liste“. Seit MC7d13 (31.10.2026) im Stil von
- * Fassung 5 des Portfolio-Plans: oben die Frage und was es gibt, ein roter Schmerz (nicht jedes Depot hat
+ * Fassung 5 des Portfolio-Plans: oben der Titel „Die Halal-Investment-Liste“ (Elias, 31.10.2026, MC7d13c) und was es gibt, ein roter Schmerz (nicht jedes Depot hat
  * sie), dann je Anlage eine kurze Karte mit kleinen Logos, nicht anklickbar. Wege raus sind nur die
  * Vergleiche und der Kasten; PDF-Knopf, „Alle Listen“, Spickzettel und Anmeldeformular sind weg (Plan
  * MC7D11, Baustein 3). Nur über die Danke-Seite und den Link aus der Mail (noindex, nicht in der Sitemap).
@@ -56,7 +54,7 @@ const STUFE: Record<Stufe, { Icon: typeof CheckCircle2; farbe: string; wort: str
   aelter: {
     Icon: AlertCircle,
     farbe: "text-warning",
-    wort: "mit letztem Nachweis vor 2024",
+    wort: "mit jüngstem gefundenem Nachweis für 2023 oder früher",
   },
 };
 
@@ -85,7 +83,9 @@ const Karte = ({ z }: { z: KaufZeile }) => {
         <span className="flex-1 whitespace-nowrap text-[12px] text-muted-foreground">
           {depotZahl(z)} von {DEPOTS_GEPRUEFT.length} Depots
         </span>
-        <span className="whitespace-nowrap text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel} im Jahr</span>
+        <span className="whitespace-nowrap text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel}
+          <span className="max-[340px]:hidden"> im Jahr</span>
+        </span>
       </div>
     </li>
   );
@@ -113,8 +113,8 @@ const HalalAnlagenVoll = () => {
   return (
     <main className="bg-background" data-freebie="anlagen-liste" data-vorlage="halal-anlagen">
       <Seo
-        title="Was kann ich halal kaufen? Jede Anlage mit dem Stand ihrer Prüfung | finanzmuslim"
-        description={`${kaufZeilen.length} Anlagen im Depot: je Anlage, was die Prüfstelle bestätigt hat und in welchen Depots du sie kaufst.`}
+        title="Die Halal-Investment-Liste: jede Anlage mit dem Stand ihrer Prüfung | finanzmuslim"
+        description={`${kaufZeilen.length} Anlagen im Depot: je Anlage, was zu ihrer Prüfung belegt ist, und in welchen Depots du sie kaufst.`}
         path={pfad}
         noindex
       />
@@ -122,12 +122,9 @@ const HalalAnlagenVoll = () => {
       <div className="container max-w-2xl py-8 md:py-12">
         <header className="rounded-3xl bg-hero p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
-            Was kann ich überhaupt halal kaufen?
+            Die Halal-<span className="whitespace-nowrap">Investment-Liste</span>
           </h1>
-          <p className="mt-4 text-[16px] font-semibold text-foreground">
-            {ANZAHL_DEPOT} Anlagen, die du im Depot kaufen kannst. Bei jeder steht, was belegt ist.
-          </p>
-          <nav aria-label="Was es gibt" className="mt-3 flex flex-wrap gap-1.5">
+          <nav aria-label="Was es gibt" className="mt-5 flex flex-wrap gap-1.5">
             {UEBERBLICK.map((u) => (
               <a
                 key={u.id}
@@ -186,13 +183,6 @@ const HalalAnlagenVoll = () => {
               </Link>
             </div>
           </div>
-          <a
-            href="#naechster-teil"
-            className="mt-3 flex min-h-[44px] items-center gap-2 px-1 text-[16px] font-semibold text-primary hover:underline"
-          >
-            {NAECHSTE_FRAGE.liste.frage} Steht ganz unten.
-            <ArrowDown className="h-4 w-4 shrink-0" aria-hidden />
-          </a>
         </section>
 
         {listenGruppen.map((g) => (
@@ -232,6 +222,7 @@ const HalalAnlagenVoll = () => {
                 </ul>
               </details>
             )}
+            {g.kategorie === "aktien" && <NaechsterTeil wort="liste" className="mt-10" />}
             {g.kategorie === "gold" && (
               <p className="mt-3 px-1 text-[14px] leading-snug text-muted-foreground">
                 Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten
@@ -274,8 +265,6 @@ const HalalAnlagenVoll = () => {
             Einzelaktien stehen nicht in der Liste: Jede muss einzeln und immer wieder geprüft werden.
           </p>
         </section>
-
-        <NaechsterTeil wort="liste" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Alle Zahlen stammen aus meinen Vergleichen.</p>

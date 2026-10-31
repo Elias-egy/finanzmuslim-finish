@@ -59,7 +59,7 @@ export const SCHMERZ_SATZ = `Nicht jedes Depot hat sie. Von ${DEPOTS_GEPRUEFT.le
  * zeigen lässt). Drei Stufen nach dem jüngsten gelesenen Dokument, nie ein eigenes Urteil:
  * „aktuell“ = Zertifikat oder Prüfbericht für genau dieses Produkt aus 2025 oder 2026; „prospekt“ = Fatwa,
  * Gremium oder Berater laut Prospekt, oder der Index ist geprüft; „aelter“ = jüngster gefundener Nachweis
- * vor 2024. Beleg je Zeile in `halalAnlagen.ts` (zertifikatHinweis, zertifikatLink) und in
+ * gilt für 2023 oder früher (Halal-Prüfer r3: „letzter“ behauptet ein Fehlen). Beleg je Zeile in `halalAnlagen.ts` (zertifikatHinweis, zertifikatLink) und in
  * `pruefung/halal-anlagen-liste-r2.md` im Vault; der Test prüft, dass jede Karte eine Zeile hat.
  */
 export type Stufe = "aktuell" | "prospekt" | "aelter";

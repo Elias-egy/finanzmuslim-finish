@@ -154,7 +154,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-dow-jones-islamic-global-developed-markets-ucits-etf_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
-      "Das jüngste gefundene Shariah-Zertifikat für genau diesen ETF stammt von Amanie Advisors, gilt für das Geschäftsjahr 2023 und ist am 15. Oktober 2024 ausgestellt. Ein Zertifikat für 2024 oder 2025 haben wir nicht gefunden. Dort liegt auch eine Tabelle, mit der du den zu spendenden Anteil deiner Dividende ausrechnest.",
+      "Das jüngste gefundene Shariah-Zertifikat für genau diesen ETF stammt von Amanie Advisors, gilt für das Geschäftsjahr 2023 und ist am 15. Oktober 2024 ausgestellt. Ein Zertifikat für 2024 oder 2025 haben wir nicht gefunden.",
     zweiterBeleg: {
       titel: "Methodik der Dow Jones Islamic Market Indizes",
       url: "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-dj-islamic-market-indices.pdf",
