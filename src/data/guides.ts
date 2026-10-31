@@ -13,7 +13,7 @@
  */
 export type GuideStufe = {
   schluessel: string;
-  stufe: "einsteiger" | "fortgeschritten" | "profi";
+  stufe: "einsteiger" | "fortgeschritten" | "profi" | "xxl";
   titel: string;
   /** Steht klein unter dem Titel, eine Zeile. */
   untertitel: string;
@@ -45,6 +45,16 @@ export const guides: GuideStufe[] = [
     untertitel: "Prüfen, reinigen, langfristig planen",
     pdf: "/guides/finanzmuslim-profi-guide.pdf",
     pdfName: "finanzmuslim-profi-guide.pdf",
+  },
+  {
+    // XXL-Guide (MC7d7, 30.10.2026): Belohnung nach FERTIG, alle drei Stufen ohne Doppel. Nur über die
+    // FERTIG-Antwort verschickt, nie verlinkt; PDF-Name mit Zufallscode wie bei /vorlagen.
+    schluessel: "xxl-3j1ion",
+    stufe: "xxl",
+    titel: "XXL-Guide",
+    untertitel: "Halal investieren, in jeder Situation",
+    pdf: "/guides/finanzmuslim-xxl-guide-mt6puo.pdf",
+    pdfName: "finanzmuslim-xxl-guide.pdf",
   },
 ];
 

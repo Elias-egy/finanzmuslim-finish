@@ -42,6 +42,9 @@ export const VALID_SRC = [
   "g2n",
   "g3c",
   "g3n",
+  // Grüner Aufruf „Lass Profis dein Geld verwalten“ in den Guides, zum Depot-Vergleich (30.10.2026).
+  "g2p",
+  "g3p",
   // Instagram-DM auf die Opt-in-Karte (/gratis/<freebie>?src=dm<stichwort>), seit 27.09.2026.
   // Ohne Bindestrich: Scalable nimmt als SubID nur Kleinbuchstaben und Ziffern.
   "dmguide",
@@ -62,6 +65,31 @@ export const VALID_SRC = [
   "dmetf",
   "dmnachetf",
   "v0",
+  // Leiter (MC7d3, 29.10.2026): Bedingungs-Mails M1 und Abbinder M2 (~/rebrand/mails/bauen.py v31), Kasten
+  // „Dein nächster Schritt“ am Ende der Freebies (src/components/NaechsterTeil.tsx, k plus Wort).
+  "m1plan",
+  "m1etf",
+  "m1gold",
+  "m2gold",
+  "kliste",
+  "kaktie",
+  "kvertrag",
+  "kamin",
+  "kboykott",
+  "kplan",
+  "ketf",
+  "kgold",
+  // XXL-Guide (MC7d7, 30.10.2026): leise Werbung je Thema, ~/rebrand/freebies/xxl.html (xxl plus Wort).
+  "xxlgiro",
+  "xxlgold",
+  "xxlnr1",
+  "xxlliste",
+  "xxlscreen",
+  "xxlprofis",
+  "xxlkrypto",
+  "xxlsteuer",
+  "xxlzakat",
+  "xxlende",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

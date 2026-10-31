@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, ChevronRight, Download } from "lucide-react";
 import NewsletterBox from "@/components/NewsletterBox";
+import NaechsterTeil from "@/components/NaechsterTeil";
+import type { LeiterWort } from "@/data/leiter";
 import { motive, type MotivName } from "@/components/motive";
 import type { OptinFreebie } from "@/data/optin";
 
@@ -26,6 +28,8 @@ type Props = {
    * Opt-in-Karte an der Schnittkante (`#holen`). Die Seite muss die `Schnittkante` rendern.
    */
   gesperrt?: OptinFreebie;
+  /** Volle Fassung eines Freebies der Leiter: der Kasten „Dein nächster Schritt“ unter den Aufrufen. */
+  naechster?: LeiterWort;
 };
 
 /**
@@ -53,6 +57,7 @@ const VorlagenSeite = ({
   ctas,
   motiv,
   gesperrt,
+  naechster,
 }: Props) => {
   const Motiv = motiv ? motive[motiv] : null;
   return (
@@ -117,6 +122,8 @@ const VorlagenSeite = ({
           </section>
         ))}
       </div>
+
+      {naechster && <NaechsterTeil wort={naechster} className="mx-auto mt-12 max-w-4xl" />}
 
       <section className="mt-14">
         <NewsletterBox />

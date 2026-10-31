@@ -1,0 +1,691 @@
+<!-- XXL-Guide (MC7d7, 30.10.2026), Plan ~/Desktop/agentos/ops/leads/2026-10-30-mc7d6-xxl-guide-plan.md.
+     Quelle mit Platzhaltern in doppelten geschweiften Klammern: guides_v2.py setzt Zahlen und Nummer 1 aus xxl-daten.json ein
+     (scripts/xxl-schnappschuss.ts im Website-Repo) und schreibt xxl-v2.html (PDF) und xxl-web.html (Website).
+     Nichts an Zahlen hier von Hand eintragen. -->
+
+<!-- 1 DECKBLATT (MC7d9g2, 31.10.2026: Level 1 bis 3 als Leiter direkt unter dem Titel, Elias „das soll man direkt auf der Frontpage sehen“; Lila markiert das Level) -->
+<section class="page x-cover">
+  <div class="x-top"><span class="wordmark">finanzmuslim</span><span class="x-pill">XXL-Guide</span></div>
+  <div class="x-body">
+    <div class="x-kicker">Halal Investment Guide · alle drei Level</div>
+    <h1 class="x-h1">Zu Ende <span class="g">gedacht.</span></h1>
+    <p class="x-zeile">Halal investieren, in jeder Situation.</p>
+  </div>
+  <div class="x-leiter">
+    <div class="x-lv l1"><span class="ic"><img src="/guides/assets/motive/kompass.svg" alt=""></span><div><span class="n">Level 1</span><b>Du verstehst die Basics</b><span class="d">Investieren ist nicht Zinsen. Aktie, ETF, Islamic ETF.</span></div></div>
+    <div class="x-lv l2"><span class="ic"><img src="/guides/assets/motive/etf.svg" alt=""></span><div><span class="n">Level 2</span><b>Dein eigenes Halal-Portfolio</b><span class="d">Jede Anlage erklärt, dann dein Portfolio.</span></div></div>
+    <div class="x-lv l3"><span class="ic"><img src="/guides/assets/motive/aktienPruefen.svg" alt=""></span><div><span class="n">Level 3</span><b>Du managst dein Portfolio selbst</b><span class="d">Prüfen, bereinigen, Zakat und Steuer.</span></div></div>
+  </div>
+  <div class="x-foot">
+    <div class="bism2"><img class="arabic" src="/guides/assets/arabic_bismillah.png" alt="Bismillah"><span>Im Namen Allahs, des Allerbarmers, des Barmherzigen</span></div>
+    <div class="legal">Bildungszwecke&nbsp;·&nbsp;Keine personalisierte Finanzberatung&nbsp;·&nbsp;Werbehinweis auf der letzten Seite</div>
+  </div>
+</section>
+
+<!-- 2 ÜBERSICHT -->
+<section class="page ue">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Übersicht</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1>Was dich erwartet</h1>
+  <p class="lead">Du hast schon angefangen. Drei Level, vom ersten Schritt bis zum eigenen Portfolio.</p>
+
+  <!-- MC7d9g3b (Elias 31.10.2026): Level 1 ist der weiche Einstieg, drei Seiten Basics; ETFs ab Level 2; MC7d9g3d: Nummern nach PLAN.md MC7D9G3C Abschnitt 2 -->
+  <div class="teil t1"><div class="kopf"><div class="nr">Level 1</div><div class="t">Du verstehst die Basics</div><div class="s">Drei Seiten, drei Bilder</div></div>
+    <ul><li><span>Investieren ist nicht gleich Zinsen</span><span>3</span></li>
+        <li><span>Wo Zinsen überall stecken</span><span>4</span></li>
+        <li><span>Aktie, ETF, Islamic ETF: drei Wörter in Bildern</span><span>5</span></li></ul></div>
+
+  <div class="teil t2"><div class="kopf"><div class="nr">Level 2</div><div class="t">Dein eigenes Halal-Portfolio</div><div class="s">Jede Anlage, dann dein Portfolio</div></div>
+    <!-- MC7d9g6 (PLAN-REIHENFOLGE.md): erst jede Anlage, dann das Portfolio -->
+    <ul><li><span>ETF: aus 1.249 Firmen werden 385</span><span>6</span></li>
+        <li><span>Welche Islamic ETFs es gibt: alle 12</span><span>7</span></li>
+        <li><span>Welches Depot für Islamic ETFs</span><span>8</span></li>
+        <li><span>Sukuk: ein Anteil, kein Kredit</span><span>9</span></li>
+        <li><span>Gold: worauf du achten musst</span><span>10</span></li>
+        <li><span>Einzelaktien, mit Zoya und Musaffa</span><span>11</span></li>
+        <li><span>Krypto: beide Seiten, ein Weg</span><span>12</span></li>
+        <li><span>Fünf Bausteine und wie du sie mischst</span><span>13</span></li>
+        <li><span>Ein Beispiel-Portfolio, 500 € im Monat</span><span>14</span></li></ul></div>
+
+  <div class="teil t3"><div class="kopf"><div class="nr">Level 3</div><div class="t">Du managst dein Portfolio selbst</div><div class="s">Prüfen, Zakat, Steuer</div></div>
+    <ul><li><span>AAOIFI: die drei Kennzahlen</span><span>15</span></li>
+        <li><span>Gewinne bereinigen (Purification)</span><span>16</span></li>
+        <li><span>Steuer und Förderung</span><span>17</span></li>
+        <li><span>Zakat auf Investments</span><span>18</span></li>
+        <li><span>Dein fester Ablauf</span><span>19</span></li></ul></div>
+
+  <p class="ue-tipp"><b>Level 1 kennst du schon?</b> Dann starte auf Seite 6.</p>
+
+  <!-- MC7d9g5 (Elias 31.10.2026, raw/2026-10-31-elias-mc7d9g5-review-xxl.md: „erstmal, das erwartet dich und das dann darunter,
+       die beiden“; Kasten „Alle Vergleiche“ raus, „Ein Nein: Seite 4/9“ raus, „ein paar Wörter weniger“, dafür größer).
+       Girokonto aus GirokontoOhneZinsen.tsx Z. 131 und 135, Depot aus brokerVergleich.ts Z. 11 und HalalEtfs.tsx Z. 125 bis 127. -->
+  <div class="ue-schritt"><div class="kick">Dein erster Schritt: zwei Minuten</div>
+  <div class="ue-check">
+    <div class="c"><div class="kick">Dein Girokonto</div>
+      <ol><li><b>Dispo aus?</b><span>Steht in den Kontoeinstellungen.</span></li>
+          <li><b>Keine Zinsen aufs Guthaben?</b><span>Sonst die Verzinsung abwählen.</span></li></ol></div>
+    <div class="c"><div class="kick">Dein Depot</div>
+      <ol><li><b>Keine Zinsen auf dein Geld?</b><span>Steht im Depot-Vergleich.</span></li>
+          <li><b>Islamic ETFs im Angebot?</b><span>Such die ISIN von Seite 7 im Depot.</span></li></ol></div>
+  </div></div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 3 RIBA UND DIE DREI REGELN (Einsteiger S. 3, Fortgeschritten S. 2 und 3, Profi S. 2 und 3); MC7d9b: drei große Begriffskarten -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 1 · Du verstehst die Basics</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Investieren ist nicht gleich Zinsen</h1>
+  <p class="xi-lead">Zinsen heißt: Geld verleihen und einen <b>festen Zuschlag</b> zurückbekommen. Investieren heißt: einen <b>Anteil halten</b> und Gewinn wie Verlust teilen.</p>
+  <div class="xi-body">
+    <!-- MC7d9g3b (Elias 31.10.2026, weicher Einstieg „investieren ist nicht gleich Zinsen“; PLAN.md Abschnitt 5: Vers 2:275 als Bild) -->
+    <div class="xriba">
+      <div class="pan rot"><div class="kick">Riba · verboten</div><h3>Leihen gegen Zuschlag</h3>
+        <svg viewBox="0 0 240 112" role="img" aria-label="Geld geht an die Bank und kommt mit einem festen Zuschlag zurück">
+          <circle cx="30" cy="46" r="18" fill="#0B2B6B"/><text x="30" y="52" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">€</text>
+          <path d="M54 36 H110" stroke="#94A3B8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 30 l8 6 l-8 6" stroke="#94A3B8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="118" y="18" width="106" height="56" rx="7" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+          <text x="171" y="42" text-anchor="middle" font-size="13" font-weight="800" fill="#0B2B6B">Bank</text>
+          <text x="171" y="60" text-anchor="middle" font-size="8.5" fill="#3F4756">Sparbuch · Festgeld · Anleihe</text>
+          <path d="M110 58 H54" stroke="#B91C1C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 52 l-8 6 l8 6" stroke="#B91C1C" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="124" y="100" text-anchor="middle" font-size="11.5" font-weight="800" fill="#B91C1C">zurück mit festem Zuschlag, egal wie es läuft</text>
+        </svg>
+        <p>Sparbuch, Festgeld und Anleihen zahlen genau diesen festen Zuschlag.</p></div>
+      <div class="pan blau"><div class="kick">Handel · erlaubt</div><h3>Anteil halten</h3>
+        <svg viewBox="0 0 240 112" role="img" aria-label="Geld geht in eine Firma, zurück kommt ein Anteil an Gewinn oder Verlust">
+          <circle cx="30" cy="46" r="18" fill="#0B2B6B"/><text x="30" y="52" text-anchor="middle" font-size="16" font-weight="800" fill="#fff">€</text>
+          <path d="M54 36 H110" stroke="#94A3B8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 30 l8 6 l-8 6" stroke="#94A3B8" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="118" y="18" width="106" height="56" rx="7" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+          <text x="171" y="42" text-anchor="middle" font-size="13" font-weight="800" fill="#0B2B6B">Firma</text>
+          <text x="171" y="60" text-anchor="middle" font-size="8.5" fill="#3F4756">Aktie · ETF</text>
+          <path d="M110 58 H54" stroke="#0057FA" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M60 52 l-8 6 l8 6" stroke="#0057FA" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="124" y="100" text-anchor="middle" font-size="11.5" font-weight="800" fill="#0057FA">zurück kommt dein Anteil: Gewinn oder Verlust</text>
+        </svg>
+        <p>Mit einer Aktie oder einem ETF gehört dir ein Stück der Firma, mit allem, was sie verdient oder verliert.</p></div>
+    </div>
+    <div class="xzwei">
+      <div><div class="kick">Unsicherheitsverbot</div><h3>Gharar</h3><p>Kein Geschäft, bei dem unklar ist, was du wirklich bekommst.</p><img class="ar" src="/guides/assets/arabic_gharar_ghost.png" alt=""></div>
+      <div><div class="kick">Verbotene Sektoren</div><h3>Haram-Branchen</h3><p>Alkohol, Tabak, Glücksspiel, Zinsbanken, Waffen, Pornografie, direkt oder indirekt als Beteiligung.</p><img class="ar" src="/guides/assets/arabic_haram_ghost.png" alt=""></div>
+    </div>
+    <div class="xq">
+      <img class="arabic" src="/guides/assets/arabic_quran275.png" alt="">
+      <p class="vers">»Allah hat den Handel erlaubt und Riba verboten.«<span>Quran 2:275</span></p>
+      <p class="warn">Wer Riba nicht aufgibt, dem kündigt Allah den Krieg an (Quran 2:279).</p>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 4 WO ZINSEN ÜBERALL STECKEN (MC7d9g3c, PLAN.md MC7D9G3C Abschnitt 2 Seite 4; Elias 31.10.2026: „Zinsen generell, bisschen nur …
+     und dann halt Girokonto unbedingt. Das ist das Erste, was jeder hat“). Zwei Spalten wie „Was betroffen ist und was nicht“ in
+     /wissen/zinsen-im-islam, Zeilen gekürzt aus girokonto-ohne-zinsen, dispo-und-schulden, kreditkarte-halal, ratenzahlung-haram;
+     Belege im Nachtrag MC7d9g3c. Die Girokonto-Werbung (.xg2) steht seit MC7d9g3c hier, als Lösung direkt unter dem Schmerz. -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 1 · Du verstehst die Basics</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Wo Zinsen überall stecken</h1>
+  <p class="xi-lead">Verboten ist Geld, das mehr wird, nur weil Zeit vergeht. Im Alltag steckt das in mehr Verträgen, als du denkst.</p>
+  <div class="xi-body s4">
+    <div class="xalltag">
+      <div class="sp rot"><div class="kick">Zins, also betroffen</div>
+        <div class="z"><span class="mk">✕</span><div><b>Dispo auf dem Girokonto</b><span>Jeder Tag im Minus wird verzinst.</span></div></div>
+        <div class="z"><span class="mk">✕</span><div><b>Tagesgeld, Festgeld, Sparbuch</b><span>Die Zinsen wegzugeben reicht nicht.</span></div></div>
+        <div class="z"><span class="mk">✕</span><div><b>Bausparvertrag</b><span>Geld wird verliehen und kommt größer zurück.</span></div></div>
+        <div class="z"><span class="mk">✕</span><div><b>Ratenkredit, auch 0&nbsp;%</b><span>Läuft es über eine Bank, ist es ein Darlehen.</span></div></div>
+        <div class="z"><span class="mk">✕</span><div><b>Kreditkarte mit Teilzahlung</b><span>Der Rest läuft verzinst weiter.</span></div></div>
+      </div>
+      <div class="sp blau"><div class="kick">Kein Zins</div>
+        <div class="z"><span class="mk">✓</span><div><b>Girokonto ohne Dispo</b><span>Das Konto ist nicht das Problem, Dispo und Guthabenzins schon.</span></div></div>
+        <div class="z"><span class="mk">✓</span><div><b>Debitkarte</b><span>Sie gibt dein eigenes Geld aus.</span></div></div>
+        <div class="z"><span class="mk">✓</span><div><b>Ratenkauf beim Händler</b><span>Mit festem Preis, vor der Unterschrift bekannt.</span></div></div>
+        <div class="z"><span class="mk">✓</span><div><b>Kontoführungsgebühr</b><span>Der Preis für eine Dienstleistung.</span></div></div>
+        <div class="z"><span class="mk">✓</span><div><b>Lohn, Miete, Handel</b><span>Wer arbeitet oder ein Risiko trägt, verdient den Ertrag.</span></div></div>
+      </div>
+    </div>
+    <!-- MC7d9e (Elias 31.10.2026): wie im Portfolio-Freebie, Zahl, Zinsen, drei Logos als Beispiel, nicht anklickbar; MC7d9g3: halb so hoch;
+         MC7d9g3c: von der Filterseite hierher, unter die Zeile „Girokonto ohne Dispo“ -->
+    <div class="xg2">
+      <div class="ad">Werbung</div>
+      <div>
+        <div class="kick">Dein Girokonto</div>
+        <div class="schmerz"><b>6 von 54</b><span>Girokonten zahlen dir von selbst Zinsen auf dein Guthaben.</span></div>
+        <div class="logos"><img src="/guides/assets/logos/c24.de.png" alt=""><img src="/guides/assets/logos/bbva.de.png" alt=""><img src="/guides/assets/logos/openbank.de.png" alt=""><span>C24, BBVA, Openbank</span></div>
+      </div>
+      <a class="knopf" href="/vergleich/girokonto?src=xxlgiro">Girokonten ohne Zinsen ansehen&nbsp;→</a>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 5 AKTIE, ETF, ISLAMIC ETF (MC7d9g3b, Elias 31.10.2026: „Viele Muslime wissen nicht mal, was ETFs ist“, weicher Einstieg;
+     drei Wörter als drei Bilder, dieselben Punkte wie auf der Filterseite danach) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 1 · Du verstehst die Basics</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Aktie, ETF, Islamic ETF</h1>
+  <p class="xi-lead">Drei Wörter, die auf jeder Seite danach vorkommen. Einmal in Bildern.</p>
+  <div class="xi-body">
+    <div class="xdrei">
+      <div class="pan">
+        <svg viewBox="0 0 160 110" role="img" aria-label="Eine Firma als Kreis, ein Stück davon ist dein Anteil">
+          <circle cx="72" cy="56" r="40" fill="#CBD5E1"/><path d="M72 56 L72 16 A40 40 0 0 1 106.6 36 Z" fill="#0057FA"/>
+          <text x="112" y="22" font-size="10" font-weight="800" fill="#0057FA">dein Anteil</text>
+          <text x="72" y="104" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3F4756">eine Firma</text>
+        </svg>
+        <div class="w">Aktie</div><p>Ein Anteil an einer Firma. Verdient die Firma, wächst dein Anteil mit. Verliert sie, schrumpft er.</p></div>
+      <div class="pan">
+        <svg viewBox="0 0 160 110" role="img" aria-label="Ein Topf mit vielen Firmen als Punkte">
+          <rect x="20" y="14" width="120" height="84" rx="10" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+          <circle cx="35" cy="30" r="6" fill="#0057FA"/><circle cx="53" cy="30" r="6" fill="#CBD5E1"/><circle cx="71" cy="30" r="6" fill="#B91C1C"/><circle cx="89" cy="30" r="6" fill="#CBD5E1"/><circle cx="107" cy="30" r="6" fill="#0057FA"/><circle cx="125" cy="30" r="6" fill="#CBD5E1"/><circle cx="35" cy="48" r="6" fill="#CBD5E1"/><circle cx="53" cy="48" r="6" fill="#0057FA"/><circle cx="71" cy="48" r="6" fill="#CBD5E1"/><circle cx="89" cy="48" r="6" fill="#B91C1C"/><circle cx="107" cy="48" r="6" fill="#CBD5E1"/><circle cx="125" cy="48" r="6" fill="#0057FA"/><circle cx="35" cy="66" r="6" fill="#CBD5E1"/><circle cx="53" cy="66" r="6" fill="#B91C1C"/><circle cx="71" cy="66" r="6" fill="#CBD5E1"/><circle cx="89" cy="66" r="6" fill="#0057FA"/><circle cx="107" cy="66" r="6" fill="#CBD5E1"/><circle cx="125" cy="66" r="6" fill="#CBD5E1"/><circle cx="35" cy="84" r="6" fill="#0057FA"/><circle cx="53" cy="84" r="6" fill="#CBD5E1"/><circle cx="71" cy="84" r="6" fill="#B91C1C"/><circle cx="89" cy="84" r="6" fill="#CBD5E1"/><circle cx="107" cy="84" r="6" fill="#0057FA"/><circle cx="125" cy="84" r="6" fill="#CBD5E1"/>
+        </svg>
+        <div class="w">ETF</div><p>Viele Aktien in einem Topf. Mit einem Kauf hältst du hunderte Firmen auf einmal, auch Banken.</p></div>
+      <div class="pan ziel">
+        <svg viewBox="0 0 160 110" role="img" aria-label="Ein Filter über dem Topf, nur ein Teil der Firmen kommt hinein">
+          <circle cx="62" cy="9" r="6" fill="#B91C1C"/><circle cx="80" cy="9" r="6" fill="#CBD5E1"/><circle cx="98" cy="9" r="6" fill="#0057FA"/>
+          <path d="M56 20 h48 l-17 18 v9 l-14 7 v-16 z" fill="#94A3B8"/>
+          <rect x="20" y="60" width="120" height="44" rx="10" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+          <circle cx="35" cy="74" r="6" fill="#0057FA"/><circle cx="71" cy="74" r="6" fill="#0057FA"/><circle cx="89" cy="74" r="6" fill="#0057FA"/><circle cx="125" cy="74" r="6" fill="#0057FA"/><circle cx="53" cy="92" r="6" fill="#0057FA"/><circle cx="71" cy="92" r="6" fill="#0057FA"/><circle cx="107" cy="92" r="6" fill="#0057FA"/><circle cx="125" cy="92" r="6" fill="#0057FA"/>
+        </svg>
+        <div class="w">Islamic ETF</div><p>Derselbe Topf mit einem Filter davor. Banken, Alkohol, Glücksspiel und Firmen mit zu vielen Schulden bleiben draußen.</p></div>
+    </div>
+    <!-- MC7d9g3d: Loch gefüllt mit IlluDepot (src/components/illu/index.tsx, Titel des Bildes) und der Bildzeile aus /wissen/girokonto-ohne-zinsen -->
+    <div class="xdepot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Vom Konto geht Geld ins Depot und liegt dort als Anteile" fill="none" stroke="#0B2B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" font-family="Figtree, system-ui, sans-serif"><rect width="320" height="180" rx="14" fill="#EBF2FF"></rect><g><rect x="20" y="60" width="90" height="58" rx="8" fill="#FFFFFF"></rect><rect x="20" y="60" width="90" height="14" rx="8" fill="#0057FA" stroke="none"></rect><rect x="20" y="66" width="90" height="8" fill="#0057FA" stroke="none"></rect><text x="65" y="104" text-anchor="middle" font-size="24" font-weight="700" fill="#0B2B6B" stroke="none">€</text></g><text x="65" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#0B2B6B" stroke="none">dein Konto</text><g stroke="#0057FA" stroke-width="3"><line x1="122" y1="89" x2="186" y2="89"></line><polyline points="177,82 186,89 177,96"></polyline></g><text x="154" y="74" text-anchor="middle" font-size="12" font-weight="600" fill="#0057FA" stroke="none">du kaufst</text><g><rect x="198" y="42" width="104" height="88" rx="8" fill="#FFFFFF"></rect><g fill="#EBF2FF" stroke="#0B2B6B" stroke-width="2"><rect x="210" y="58" width="26" height="56" rx="3"></rect><rect x="237" y="58" width="26" height="56" rx="3"></rect><rect x="264" y="58" width="26" height="56" rx="3"></rect></g><g stroke-width="2" stroke="#0057FA"><line x1="216" y1="72" x2="230" y2="72"></line><line x1="216" y1="82" x2="226" y2="82"></line><line x1="243" y1="72" x2="257" y2="72"></line><line x1="243" y1="82" x2="253" y2="82"></line><line x1="270" y1="72" x2="284" y2="72"></line><line x1="270" y1="82" x2="280" y2="82"></line></g><line x1="204" y1="118" x2="296" y2="118" stroke-width="3"></line></g><text x="250" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#0B2B6B" stroke="none">dein Depot</text></svg><div><h3>Konto und Depot</h3><p>Vom Konto geht Geld ins Depot und liegt dort als Anteile. Auf dem Konto liegt Geld. Im Depot liegen Anteile.</p></div></div>
+    <p class="xhin2">Wie viel der Filter aussiebt, siehst du auf Seite 6.</p>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 7 WAS DER FILTER AUSSIEBT (MC7d9g3, 31.10.2026, Elias' Urteil zur Probe: „Punkte, dann so ein Filter, und dann gehen die da durch“;
+     Grafik 1:1 nach src/components/EtfGrafik.tsx (GrafikFilter) im Website-Repo, Punkte aus guides_v2.py, Zahlen aus msci-daten.json;
+     eine Grafik, ein Gedanke je Seite; MC7d9g3d: Level 2 nach PLAN.md MC7D9G3C Abschnitt 2) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Aus 1.249 Firmen werden 385</h1>
+  <p class="xi-lead">Gleicher Markt, ein Filter dazwischen. Banken, Alkohol, Glücksspiel, Waffen und Firmen mit zu vielen Schulden fallen raus. Übrig bleibt der <b>MSCI World Islamic</b>.</p>
+  <div class="xi-body s4">
+    <!-- MC7d9g3b (31.10.2026, Elias: „kein Gefühl für Proportion … Titel, zwei graue Zeilen, langer Platz, Bild, Werbung“):
+         die Grafik ist der Held der Seite, ohne Rahmen, so breit wie die Spalte, Punkte 8 mm; kein Zentrieren im Leerraum -->
+    <figure class="xfilter reveal">
+      <svg viewBox="0 0 500 352" role="img" aria-label="Der MSCI World hat 1.249 Firmen, darunter Banken. Nach dem Filter bleiben im MSCI World Islamic 385.">
+        <text x="114" y="30" text-anchor="middle" font-size="20" font-weight="800" fill="#0B1220">MSCI World</text>
+        <circle cx="24" cy="78" r="12" fill="#0057FA"/><circle cx="168" cy="78" r="12" fill="#0057FA"/><circle cx="60" cy="114" r="12" fill="#0057FA"/><circle cx="204" cy="114" r="12" fill="#0057FA"/><circle cx="132" cy="150" r="12" fill="#0057FA"/><circle cx="24" cy="186" r="12" fill="#0057FA"/><circle cx="168" cy="186" r="12" fill="#0057FA"/><circle cx="60" cy="222" r="12" fill="#0057FA"/><circle cx="204" cy="222" r="12" fill="#0057FA"/><circle cx="132" cy="258" r="12" fill="#0057FA"/><circle cx="204" cy="258" r="12" fill="#0057FA"/>
+        <g class="xf-weg"><circle cx="60" cy="78" r="12" fill="#CBD5E1"/><circle cx="96" cy="78" r="12" fill="#B91C1C"/><circle cx="132" cy="78" r="12" fill="#CBD5E1"/><circle cx="204" cy="78" r="12" fill="#CBD5E1"/><circle cx="24" cy="114" r="12" fill="#CBD5E1"/><circle cx="96" cy="114" r="12" fill="#CBD5E1"/><circle cx="132" cy="114" r="12" fill="#B91C1C"/><circle cx="168" cy="114" r="12" fill="#CBD5E1"/><circle cx="24" cy="150" r="12" fill="#CBD5E1"/><circle cx="60" cy="150" r="12" fill="#B91C1C"/><circle cx="96" cy="150" r="12" fill="#CBD5E1"/><circle cx="168" cy="150" r="12" fill="#CBD5E1"/><circle cx="204" cy="150" r="12" fill="#CBD5E1"/><circle cx="60" cy="186" r="12" fill="#CBD5E1"/><circle cx="96" cy="186" r="12" fill="#B91C1C"/><circle cx="132" cy="186" r="12" fill="#CBD5E1"/><circle cx="204" cy="186" r="12" fill="#CBD5E1"/><circle cx="24" cy="222" r="12" fill="#CBD5E1"/><circle cx="96" cy="222" r="12" fill="#CBD5E1"/><circle cx="132" cy="222" r="12" fill="#B91C1C"/><circle cx="168" cy="222" r="12" fill="#CBD5E1"/><circle cx="24" cy="258" r="12" fill="#CBD5E1"/><circle cx="60" cy="258" r="12" fill="#B91C1C"/><circle cx="96" cy="258" r="12" fill="#CBD5E1"/><circle cx="168" cy="258" r="12" fill="#CBD5E1"/></g>
+        <text x="114" y="318" text-anchor="middle" font-size="24" font-weight="800" fill="#0B2B6B" letter-spacing="-0.5">1.249</text>
+        <text x="114" y="342" text-anchor="middle" font-size="14" font-weight="700" fill="#3F4756">Firmen</text>
+        <path d="M220 126 h60 l-21 40 v44 l-18 12 v-56 z" fill="#94A3B8"/>
+        <path d="M234 252 h32 m-11 -11 l11 11 l-11 11" fill="none" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="250" y="290" text-anchor="middle" font-size="16" font-weight="700" fill="#3F4756">Filter</text>
+        <text x="386" y="30" text-anchor="middle" font-size="20" font-weight="800" fill="#0B1220">MSCI World Islamic</text>
+        <g class="xf-rein"><circle cx="296" cy="78" r="12" fill="#0057FA"/><circle cx="440" cy="78" r="12" fill="#0057FA"/><circle cx="332" cy="114" r="12" fill="#0057FA"/><circle cx="476" cy="114" r="12" fill="#0057FA"/><circle cx="404" cy="150" r="12" fill="#0057FA"/><circle cx="296" cy="186" r="12" fill="#0057FA"/><circle cx="440" cy="186" r="12" fill="#0057FA"/><circle cx="332" cy="222" r="12" fill="#0057FA"/><circle cx="476" cy="222" r="12" fill="#0057FA"/><circle cx="404" cy="258" r="12" fill="#0057FA"/><circle cx="476" cy="258" r="12" fill="#0057FA"/></g>
+        <text x="386" y="318" text-anchor="middle" font-size="24" font-weight="800" fill="#0B2B6B" letter-spacing="-0.5">385</text>
+        <text x="386" y="342" text-anchor="middle" font-size="14" font-weight="700" fill="#3F4756">Firmen</text>
+      </svg>
+      <figcaption><span><i class="sw fin"></i>Finanzfirmen</span><span><i class="sw raus"></i>andere raus</span><span><i class="sw drin"></i>bleibt drin</span><span class="note">1 Punkt steht für rund 35 Firmen</span></figcaption>
+      <div class="quelle">MSCI, Stand 30.09.2026 · Methodik der MSCI Islamic Index Series, Dezember 2025</div>
+    </figure>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 6 WELCHE ISLAMIC ETFS GIBT ES (MC7d9g3b, PLAN.md Abschnitt 5 „neue Seite 5“: häufigste Frage im Netz, 12 von 43;
+     Elias 31.10.: ETFs eher in Stufe 2. Daten aus xxl-daten.json über scripts/xxl-schnappschuss.ts im Website-Repo, nie von Hand) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Welche Islamic ETFs gibt es?</h1>
+  <p class="xi-lead">Alle 12 aus meinem Halal-Anlagen-Vergleich, 10 ETFs und 2 Fonds, nach Region. Dahinter steht, wer die Shariah-Prüfung macht.</p>
+  <div class="xi-body">
+    <div class="xreg"><div class="rg"><div class="rl"><b>Welt</b><span>5 ETFs</span></div><div class="rc"><div class="ch"><img src="/guides/assets/logos/ishares.com.png" alt=""><div><div class="n">iShares MSCI World Islamic</div><div class="m"><i>ETF</i>Shari'ah Equity Funds Panel bei iShares</div></div></div><div class="ch"><img src="/guides/assets/logos/invesco.com.png" alt=""><div><div class="n">Invesco Dow Jones Islamic Global Developed Markets</div><div class="m"><i>ETF</i>S&P Dow Jones Shariah Supervisory Board</div></div></div><div class="ch"><img src="/guides/assets/logos/invesco.com.png" alt=""><div><div class="n">Invesco MSCI ACWI Islamic M-Series</div><div class="m"><i>ETF</i>MSCI Shariah Advisory Board</div></div></div><div class="ch"><img src="/guides/assets/logos/hsbc.com.png" alt=""><div><div class="n">HSBC MSCI World Islamic Screened</div><div class="m"><i>ETF</i>MSCI Shariah Advisory Board</div></div></div><div class="ch"><img src="/guides/assets/logos/hanetf.com.png" alt=""><div><div class="n">HANetf Saturna Al-Kawthar Global Focused Equity</div><div class="m"><i>ETF</i>Amanie Advisors</div></div></div></div></div><div class="rg"><div class="rl"><b>USA</b><span>2 ETFs</span></div><div class="rc"><div class="ch"><img src="/guides/assets/logos/ishares.com.png" alt=""><div><div class="n">iShares MSCI USA Islamic</div><div class="m"><i>ETF</i>Shari'ah Equity Funds Panel bei iShares</div></div></div><div class="ch"><img src="/guides/assets/logos/hsbc.com.png" alt=""><div><div class="n">HSBC MSCI USA Islamic Screened</div><div class="m"><i>ETF</i>MSCI Shariah Advisory Board</div></div></div></div></div><div class="rg"><div class="rl"><b>Europa</b><span>1 ETF, 1 Fonds</span></div><div class="rc"><div class="ch"><img src="/guides/assets/logos/hsbc.com.png" alt=""><div><div class="n">HSBC MSCI Europe Islamic Screened</div><div class="m"><i>ETF</i>MSCI Shariah Advisory Board</div></div></div><div class="ch"><img src="/guides/assets/logos/comgest.com.png" alt=""><div><div class="n">Comgest Growth Europe S EUR Acc</div><div class="m"><i>Fonds</i>Amanie Advisors</div></div></div></div></div><div class="rg"><div class="rl"><b>Schwellenländer</b><span>2 ETFs</span></div><div class="rc"><div class="ch"><img src="/guides/assets/logos/ishares.com.png" alt=""><div><div class="n">iShares MSCI Emerging Markets Islamic</div><div class="m"><i>ETF</i>Shari'ah Equity Funds Panel bei iShares</div></div></div><div class="ch"><img src="/guides/assets/logos/hsbc.com.png" alt=""><div><div class="n">HSBC MSCI Emerging Markets Islamic Screened Capped</div><div class="m"><i>ETF</i>MSCI Shariah Advisory Board</div></div></div></div></div><div class="rg"><div class="rl"><b>Technologie</b><span>1 Fonds</span></div><div class="rc"><div class="ch"><img src="/guides/assets/logos/franklintempleton.com.png" alt=""><div><div class="n">Franklin Shariah Technology Fund A (acc) USD</div><div class="m"><i>Fonds</i>Amanie Advisors</div></div></div></div></div></div>
+    <div class="quelle">Halal-Anlagen-Vergleich auf finanzmuslim.com, Stand 31.10.2026</div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 6 WELCHES DEPOT (MC7d9g3, 31.10.2026, Elias „noch viel ändern“: ein Satz statt drei Fragen, Trade Republic und XTB klein,
+     die drei besten groß und ruhig wie Finanzfluss (PLAN.md Abschnitt 3), Wortmarke je Anbieter in assets/logos/*.wortmarke.svg;
+     Schmerz und Lösung an einer Stelle, kein Verweis auf eine spätere Seite) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Welches Depot für Islamic ETFs?</h1>
+  <p class="xi-lead">Prüf zuerst dein eigenes. Zwei Dinge zählen: <b>keine Zinsen</b> auf deinem Geld, und die Islamic ETFs sind im Angebot. Zweimal ja? Dann bleib bei deinem Depot.</p>
+  <div class="xi-body">
+    <!-- Beispiel aus dem Portfolio-Freebie, Werte aus src/data/portfolioPlan.ts BEKANNTE (dort getestet), nicht anklickbar -->
+    <!-- MC7d9g3b (Elias 31.10.2026: „Das mit XTB und Trade Republic kann immer noch rot und gelb sein“): Band wie in der Probe
+         MC7d9g2 (Himmel, zwei weiße Karten, Zahl groß in Gelb und Rot), nur niedriger, damit die drei Karten Platz behalten -->
+    <!-- MC7d9g3e (Leser-Runde 1, Fund 1: 10 von 20 steigen hier aus, „riecht nach Verkauf“): erst der Check mit den zwei Fragen,
+         die zwei bekanntesten Depots als Beispiel je Frage, dann die drei als Lösung für ein Nein, Partnerhinweis direkt an der Werbung
+         (gekürzt aus dem Hinweis zu Partnerlinks der Quellenseite). -->
+    <div class="xbek2 check">
+      <div class="h"><span class="kick">Der Check</span><ol><li>Keine Zinsen auf deinem Geld?</li><li>Islamic ETFs im Angebot?</li></ol><span class="f">Zwei bekannte Beispiele:</span></div>
+      <div class="c gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.eng.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds, Frage 2</div></div>
+      <div class="c rot"><div class="k"><img src="/guides/assets/logos/xtb.com.png" alt=""><span>XTB</span></div><div class="z">Zinsen</div><div class="s">automatisch eingeschaltet, Frage 1</div></div>
+    </div>
+    <!-- Vorbild finanzfluss.de/etf-handbuch/passiv-investieren, Abschnitt „Depots für deinen Vermögensaufbau“: Karten untereinander, Name, Haken, rechts Wortmarke über Knopf (PLAN.md Abschnitt 3) -->
+    <!-- MC7d9g4 (Leser-Runde 2, K01, K02, K11; Kritiker Handwerk Mechanismen 2, 4, 5; Elias 31.10.2026 „das etikett darf raus“):
+         sachliche Überschrift, ohne das Etikett der Nummer 1, Partnerhinweis als Zeichen am Knopf statt Zeile darunter. -->
+    <div class="xdep">
+      <div class="ad">Werbung</div>
+      <!-- MC7d9g5 (Leser-Runde 3, r3b K09, K13, K14, K20; r3a K03: wer gerade ein Depot eröffnet hat, will kein zweites): die Werbung
+           spricht nur an, wer im Check ein Nein hat. Kennzeichnung: „Werbung“ oben rechts, Sternchen am Knopf, eine Fußnote
+           (Repo-Regel finanzmuslim-finish CLAUDE.md Z. 95; Satz gekürzt aus dem Hinweis zu Partnerlinks der Quellenseite). -->
+      <h2>Depots für Islamic ETFs</h2>
+      <p class="unter">Ein Nein? Diese drei aus meinem Vergleich von 27 Depots sind <b>ohne Zinsen</b> ab dem ersten&nbsp;Tag.</p>
+      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place</div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video*</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a href="/vergleich/depot?src=xxltop3">Zum Vergleich*</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a href="/vergleich/depot?src=xxltop3">Zum Vergleich*</a></div></div></div>
+      <p class="fn">* Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.</p>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- SUKUK (MC7d9g6, 31.10.2026, PLAN-REIHENFOLGE.md Seite 9; Elias: „Und Sukuk, stimmt, Sukuk. Kannst du auch noch erklären“).
+     Merksatz, Bild und Bildzeile wortgleich aus src/pages/wissen/Sukuk.tsx (Abschnitt „was-ist-sukuk“), drei Zeilen gekürzt aus der
+     Tabelle „Sukuk und Anleihe nebeneinander“, Hinweis wortgleich aus „Was du realistisch erwarten solltest“; Fonds aus xxl-daten.json
+     (sukuk, aus halalAnlagen.ts kategorie „sukuk“), nie von Hand. Ohne Werbung: Seite 8 und 10 tragen eine. -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Sukuk: ein Anteil, kein Kredit</h1>
+  <p class="xi-lead">Bei einer Anleihe leihst du Geld und bekommst Zinsen. Sukuk lösen dasselbe Bedürfnis anders: <b>Ein Sukuk ist ein Anteil an einer Sache, nicht ein Anspruch auf Geld.</b></p>
+  <div class="xi-body">
+    <div class="xdepot xsuk"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Anleger besitzen Anteile an einem Gebäude und bekommen dafür Miete" fill="none" stroke="#0B2B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" font-family="Figtree, system-ui, sans-serif"><rect width="320" height="180" rx="14" fill="#EBF2FF"></rect><g><rect x="30" y="52" width="86" height="82" rx="4" fill="#FFFFFF"></rect><g fill="#EBF2FF" stroke="#0B2B6B" stroke-width="2"><rect x="42" y="64" width="16" height="14" rx="2"></rect><rect x="65" y="64" width="16" height="14" rx="2"></rect><rect x="88" y="64" width="16" height="14" rx="2"></rect><rect x="42" y="86" width="16" height="14" rx="2"></rect><rect x="65" y="86" width="16" height="14" rx="2"></rect><rect x="88" y="86" width="16" height="14" rx="2"></rect></g><rect x="63" y="110" width="20" height="24" rx="2" fill="#0057FA" stroke="none"></rect></g><text x="73" y="156" text-anchor="middle" font-size="12" font-weight="600" fill="#0B2B6B" stroke="none">echtes Gebäude</text><g stroke="#0057FA" stroke-width="3"><line x1="126" y1="78" x2="186" y2="78"></line><polyline points="177,71 186,78 177,85"></polyline></g><text x="156" y="68" text-anchor="middle" font-size="11" font-weight="600" fill="#0057FA" stroke="none">Miete</text><g stroke="#0057FA" stroke-width="3"><line x1="186" y1="110" x2="126" y2="110"></line><polyline points="135,103 126,110 135,117"></polyline></g><text x="156" y="128" text-anchor="middle" font-size="11" font-weight="600" fill="#0057FA" stroke="none">Anteile</text><g fill="#FFFFFF"><circle cx="222" cy="72" r="10"></circle><path d="M206 104 a16 16 0 0 1 32 0"></path><circle cx="256" cy="72" r="10"></circle><path d="M240 104 a16 16 0 0 1 32 0"></path><circle cx="290" cy="72" r="10"></circle><path d="M274 104 a16 16 0 0 1 32 0"></path></g><text x="256" y="156" text-anchor="middle" font-size="12" font-weight="600" fill="#0B2B6B" stroke="none">die Anleger</text></svg><div><h3>Miete statt Zins</h3><p>Hinter dem Anteil steht ein Gebäude, das vermietet wird. Der Ertrag ist die Miete, nicht ein Zins.</p></div></div>
+    <div class="xvs3">
+      <div class="kopf"><span></span><span class="rot">Anleihe</span><span class="blau">Sukuk</span></div>
+      <div class="z"><b>Was besitzt du?</b><span class="rot">Eine Forderung. Du hast Geld verliehen.</span><span class="blau">Einen Anteil an einer Sache oder einem Projekt.</span></div>
+      <div class="z"><b>Woher kommt der Ertrag?</b><span class="rot">Zins.</span><span class="blau">Miete oder Gewinn aus der Nutzung der Sache.</span></div>
+      <div class="z"><b>Was kommt am Ende zurück?</b><span class="rot">Der Betrag plus die Zinsen.</span><span class="blau">Der eingesetzte Betrag, ohne Aufschlag.</span></div>
+    </div>
+    <div class="xsukf grow">
+      <div class="kick">Die Sukuk-Fonds aus meinem Halal-Anlagen-Vergleich</div>
+      <div class="liste"><div class="ch"><img src="/guides/assets/logos/ishares.com.png" alt=""><div><div class="n">iShares USD Sukuk UCITS ETF</div><div class="m"><i>0,40 % im Jahr</i>Sukuk Fund Panel bei iShares</div></div></div><div class="ch"><img src="/guides/assets/logos/xtrackers.com.png" alt=""><div><div class="n">Xtrackers II Salam USD Global Aggregate Sukuk</div><div class="m"><i>0,40 % im Jahr</i>ASB Capital</div></div></div><div class="ch"><img src="/guides/assets/logos/bnpparibas-am.com.png" alt=""><div><div class="n">BNP Paribas Islamic Fund Hilal Income Classic C</div><div class="m"><i>1,31 % im Jahr</i>eigenes Sharia-Komitee</div></div></div></div>
+      <p>Sukuk-Fonds schwanken weniger als Aktienfonds, dafür ist auch der Ertrag deutlich kleiner. Die meisten notieren in US-Dollar.</p>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 6 GOLD (MC7d9g3d, PLAN.md MC7D9G3C Abschnitt 2 Seite 6; Elias 31.10.2026: „Gold ja, soll Edelmetall bekommen“).
+     Jeder Satz wortgleich oder gekürzt aus src/pages/wissen/HalalGoldKaufen.tsx im Website-Repo (Zeilen im Nachtrag MC7d9g3d der Belege),
+     Bilder IlluQabd und IlluGold aus demselben Beitrag über scripts/illu-export.ts, inline, damit Figtree im Bild steht.
+     Die Edelmetall-Werbung steht als Lösung direkt unter dem Schmerz, gebaut wie die Girokonto-Werbung auf Seite 4. -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Gold: worauf du achten musst</h1>
+  <p class="xi-lead">Gold kaufen ist erlaubt. Die Bedingung: <b>Zahlung und Übergabe fallen zusammen.</b></p>
+  <!-- MC7d9g7 (Elias 31.10.2026, raw/2026-10-31-elias-mc7d9g6-review-gold-krypto-bausteine.md: „oben zwei Regeln, dass man es
+       wirklich checkt“, fünf Wege „too much“, „hier ist die Lösung, muss man irgendwie mehr hervorheben … jetzt merkt man eher das Rot“).
+       Check: HalalGoldKaufen.tsx Z. 31 (Merksatz), Z. 33 und Z. 46; „fällt weg“ aus Z. 43 f. Drei Wege aus Z. 96 ff. (Faelle).
+       Lösung: Weg „zertifizierter-etc“ aus edelmetallVergleich.ts wie bisher, Beispiel aus halalAnlagen.ts „Invesco Physical Gold ETC“
+       (kostenLabel „0,12 %“); Barren-Satz aus Weg „barren-beim-haendler“ (werte.kosten, werte.aufbewahrung). -->
+  <div class="xi-body">
+    <div class="xcheck">
+      <div class="kopf"><span class="kick">Der Check: zwei Regeln</span><span class="nein">Ein Nein? Dann fällt der Kauf weg.</span></div>
+      <div class="zwei">
+        <div class="pan"><div class="bild"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Online-Kauf ist in Ordnung, wenn der Barren mit Nummer schon da ist und die Zahlung sofort weg ist" fill="none" stroke="#0B2B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" font-family="Figtree, system-ui, sans-serif"><rect width="320" height="180" rx="14" fill="#EBF2FF"></rect><rect x="22" y="56" width="110" height="64" rx="8" fill="#FFFFFF"></rect><text x="77" y="80" text-anchor="middle" font-size="12" font-weight="600" fill="#0B2B6B" stroke="none">Zahlung</text><text x="77" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="#0057FA" stroke="none">sofort weg</text><text x="77" y="150" text-anchor="middle" font-size="12" font-weight="600" fill="#0B2B6B" stroke="none">dein Konto</text><g stroke="#0057FA" stroke-width="3"><line x1="140" y1="80" x2="180" y2="80"></line><polyline points="171,73 180,80 171,87"></polyline><line x1="180" y1="100" x2="140" y2="100"></line><polyline points="149,93 140,100 149,107"></polyline></g><text x="160" y="128" text-anchor="middle" font-size="11" font-weight="600" fill="#0057FA" stroke="none">im selben Moment</text><rect x="188" y="56" width="110" height="64" rx="8" fill="#FFFFFF" stroke="#0057FA"></rect><g fill="#DAA11B" stroke="#8C6510" stroke-width="2"><path d="M212 96 L219 80 L267 80 L274 96 Z"></path></g><text x="243" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#0B2B6B" stroke="none">Nr. 48213</text><text x="243" y="150" text-anchor="middle" font-size="12" font-weight="600" fill="#0B2B6B" stroke="none">Barren existiert</text></svg></div><div class="fr"><span class="nr">1</span><h3>Geld und Gold im selben Moment?</h3></div><p>Du zahlst, du bekommst das Gold. Nicht in vier Wochen, nicht auf Raten.</p></div>
+        <div class="pan"><div class="bild"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Hinter dem gekauften Anteil liegt ein echter Barren im Tresor" fill="none" stroke="#0B2B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" font-family="Figtree, system-ui, sans-serif"><rect width="320" height="180" rx="14" fill="#EBF2FF"></rect><g><rect x="26" y="50" width="76" height="74" rx="8" fill="#FFFFFF"></rect><line x1="42" y1="70" x2="86" y2="70" stroke-width="2"></line><line x1="42" y1="84" x2="86" y2="84" stroke-width="2"></line><text x="64" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#0057FA" stroke="none">1 Anteil</text></g><text x="64" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#0B2B6B" stroke="none">was du kaufst</text><g stroke="#0057FA" stroke-width="3"><line x1="116" y1="87" x2="186" y2="87"></line><polyline points="177,80 186,87 177,94"></polyline></g><g><rect x="196" y="42" width="76" height="90" rx="6" fill="#FFFFFF"></rect><rect x="204" y="52" width="60" height="70" rx="3" fill="#EBF2FF"></rect><path d="M272 52 L296 62 L296 122 L272 122 Z" fill="#FFFFFF"></path><circle cx="285" cy="90" r="7" fill="#EBF2FF"></circle><line x1="285" y1="81" x2="285" y2="99" stroke-width="2"></line><line x1="276" y1="90" x2="294" y2="90" stroke-width="2"></line><g fill="#DAA11B" stroke="#8C6510" stroke-width="2"><path d="M212 116 L219 102 L249 102 L256 116 Z"></path><path d="M221 98 L226 88 L242 88 L247 98 Z"></path></g></g><text x="248" y="158" text-anchor="middle" font-size="13" font-weight="600" fill="#0B2B6B" stroke="none">was dahinter liegt</text></svg></div><div class="fr"><span class="nr">2</span><h3>Echtes Metall dahinter?</h3></div><p>Sonst kaufst du eine Wette auf den Goldpreis, kein Gold.</p></div>
+      </div>
+    </div>
+    <div class="xwege3">
+      <div class="w g"><span class="p">unstrittig</span><b>Barren oder Münzen beim Händler</b><span>Du bezahlst und nimmst das Gold mit.</span></div>
+      <div class="w g"><span class="p">zertifiziert</span><b>Gold-ETC mit echtem Metall</b><span>Ein Wertpapier, dahinter liegen Barren im Tresor.</span></div>
+      <div class="w r"><span class="p">fällt weg</span><b>Gold-Zertifikate, CFDs, Hebel</b><span>Eine Wette auf den Preis.</span></div>
+    </div>
+    <div class="xloes">
+      <div class="ad">Werbung</div>
+      <div class="kick">Die Lösung: Gold ohne Tresor zu Hause</div>
+      <div class="inhalt">
+        <div class="links">
+          <div class="t">Zertifizierter Gold-ETC</div>
+          <ul>
+            <li><span class="ck">✓</span><span><b>ab 0,12&nbsp;%</b> im Jahr, dazu die Ordergebühr</span></li>
+            <li><span class="ck">✓</span><span>Nummerierte Barren im Tresor</span></li>
+            <li><span class="ck">✓</span><span>Ab einem Anteil, auch als Sparplan</span></li>
+            <li><span class="ck">✓</span><span>Jährliches Shariah-Zertifikat</span></li>
+          </ul>
+        </div>
+        <div class="rechts">
+          <div class="produkt"><img src="/guides/assets/logos/invesco.com.png" alt=""><div><span>zum Beispiel</span><b>Invesco Physical Gold ETC</b></div></div>
+          <div class="auch"><img src="/guides/assets/logos/wisdomtree.eu.png" alt=""><img src="/guides/assets/logos/hanetf.com.png" alt=""><span>auch WisdomTree, Royal Mint</span></div>
+          <a class="knopf" href="/halal-anlagen?src=xxlgold">Zertifizierte Gold-ETCs*</a>
+        </div>
+      </div>
+      <p class="statt">Zum Vergleich: Barren zu Hause kosten einen Aufschlag auf den Metallpreis, und lagern musst du sie selbst.</p>
+    </div>
+    <p class="xfn">* Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.</p>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 14 EINZELAKTIEN SCREENEN (Fortgeschritten S. 6, Profi S. 6); MC7d9b: ohne Screening-Werbung, ohne „Lass Profis" -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Einzelaktien: selbst prüfen</h1>
+  <p class="xi-lead">ETF oder Einzelaktien? Der Unterschied ist vor allem: <b>wer die laufende Prüfung übernimmt</b>, das Shariah-Board oder du.</p>
+  <div class="xi-body">
+    <div class="xn2">
+      <div class="xn mitte"><div class="kick">Für die meisten der einfachere Weg</div><div class="w">Halal-ETFs</div>
+        <ul><li>Ein Shariah-Board prüft regelmäßig</li><li>Keine eigene Einzelprüfung nötig</li><li>Die Mischung passt sich von selbst an</li></ul></div>
+      <div class="xn"><div class="kick">Mehr Aufwand, mehr Eigeninitiative</div><div class="w">Einzelaktien</div>
+        <ul><li>Du trägst die Verantwortung selbst</li><li>Fällt eine Aktie durch, handelst du sofort</li><li>Nimm nur so viele Aktien, wie du jedes Quartal prüfen kannst</li></ul></div>
+    </div>
+    <div class="kick">Zwei Apps zum Prüfen, als Beispiel</div>
+    <div class="xapps gross">
+      <div><img src="/guides/assets/logos/zoya.finance.png" alt=""><div><h3>Zoya</h3><p>App zum Prüfen einzelner Aktien: halal, fragwürdig oder nicht halal. Kostenlose Basis-Version.</p></div></div>
+      <div><img src="/guides/assets/logos/musaffa.com.png" alt=""><div><h3>Musaffa</h3><p>Umfangreichere Daten, ETF-Screening inklusive.</p></div></div>
+    </div>
+    <div class="xs3 grow">
+      <div class="xs"><div class="nr">1</div><h3>App öffnen</h3><p>Zoya oder Musaffa, auf dem Handy oder im Browser.</p></div>
+      <div class="xs"><div class="nr">2</div><h3>Aktie suchen</h3><p>Name oder Kürzel der Firma eingeben.</p></div>
+      <div class="xs mitte"><div class="nr">3</div><h3>Ergebnis lesen</h3><p>Die App rechnet die drei Kennzahlen von Seite 15 für dich.</p></div>
+    </div>
+    <!-- MC7d9g7 (Elias 31.10.2026: „den Link natürlich zu den Prüf-Apps machen“). Leiser Verweis statt Werbeblock, weil Seite 10 und 12
+         schon Werbung tragen; Kennzeichnung trotzdem, Zoya ist Partner (VergleichScreener.tsx Z. 136 quellenHinweis). Zahl aus
+         xxl-daten.json screener.anzahl, Satz aus dem Untertitel VergleichScreener.tsx Z. 108. -->
+    <div class="xlink">
+      <div><b>Alle 4 Prüf-Apps im Vergleich</b><span>Worin sie sich unterscheiden, auf einer Seite.</span></div>
+      <a class="knopf" href="/vergleich/screening-apps?src=xxlapps">Zum Vergleich*</a>
+    </div>
+    <p class="xfn">* Werbung: Startest du über meinen Link, bekomme ich eine Vergütung, ohne Mehrkosten für dich.</p>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- KRYPTO (MC7d9g6, 31.10.2026; Elias' Review raw/2026-10-31-elias-mc7d9g5-review-xxl.md: „Krypto … immer mit den Zertifizierungen
+     kommen … den Krypto-Link … immer darstellen als beste Lösung“; Festlegung 30.10.: beide Seiten, „Gelehrte sind sich uneins“).
+     Dafür und Dagegen wie bisher (Beleg S-c897831e). Münzen und Prüfstelle aus xxl-daten.json krypto.muenzen (halalAnlagen.ts
+     kategorie „krypto“); Satz unter den Münzen gekürzt aus deren zertifikatHinweis (Bitcoin: „Unbedenklichkeitserklärung zur Münze
+     selbst … kein Freibrief für jeden Handel damit“; Ether: „Beide Gutachten behandeln die Münze selbst, nicht das, was Nutzer damit
+     tun“). Werbung im Muster der Gold-Seite: links aus VergleichKrypto.tsx ArtenBlock „Zertifikate auf den Kurs statt echter Coins“,
+     rechts die vier Kriterien von VergleichKrypto.tsx; guides_v2.py bricht ab, wenn eine der drei Börsen ein Kriterium nicht grün hat. -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Krypto: beide Seiten, ein Weg</h1>
+  <p class="xi-lead"><b>Gelehrte sind sich bei Bitcoin uneins.</b> Hier sind beide Seiten, die Münzen mit einer Prüfung und der Weg, wie du echte Coins ohne Zinsen kaufst.</p>
+  <div class="xi-body">
+    <div class="xn2 krypto kurz">
+      <div class="xn"><div class="kick">Dafür</div><p class="q">Das Shariyah Review Bureau aus Bahrain hat Bitcoin untersucht und nichts gefunden, was dagegen spricht, nennt das aber ausdrücklich keine Fatwa.</p></div>
+      <div class="xn"><div class="kick">Dagegen</div><p class="q">Der Großmufti von Ägypten lehnte Bitcoin 2018 ab.</p></div>
+    </div>
+    <div class="xcoins">
+      <div class="kopf"><span class="kick">Geprüft vom Shariyah Review Bureau, Bahrain</span></div>
+      <div class="vier"><div class="c"><img src="/guides/assets/logos/bitcoin.org.png" alt=""><div><div class="n">Bitcoin</div><div class="m">BTC</div></div></div><div class="c"><img src="/guides/assets/logos/ethereum.org.png" alt=""><div><div class="n">Ether</div><div class="m">ETH</div></div></div><div class="c"><img src="/guides/assets/logos/ripple.com.png" alt=""><div><div class="n">XRP</div><div class="m">XRP</div></div></div><div class="c"><img src="/guides/assets/logos/chain.link.png" alt=""><div><div class="n">Chainlink</div><div class="m">LINK<span class="b">mit Bedingung</span></div></div></div></div>
+      <p>Die Prüfungen gelten der Münze selbst, nicht jedem Handel damit. <b>Im Zweifel fragst du einen Gelehrten, dem du folgst.</b></p>
+    </div>
+    <!-- MC7d9g7 (Elias 31.10.2026: „Ich erkenne noch nicht so, dass du die Lösung hast … hey, ich biete das Gute davon an … Wenn
+         Krypto dann nur so, das kann erstmal weg“). Lösung als Angebot im Muster der Depot-Seite 8: die drei Börsen aus
+         xxl-daten.json krypto.top3 (Reihenfolge des Krypto-Vergleichs, Zahl 27 aus krypto.anzahl), die vier Kriterien einmal für alle;
+         ETP-Satz aus VergleichKrypto.tsx ArtenBlock wie bisher. -->
+    <div class="xloes xkrypto">
+      <div class="ad">Werbung</div>
+      <div class="kick">Die Lösung: echte Coins, ohne Zinsen</div>
+      <div class="t">Die drei besten aus 27 Krypto-Börsen in meinem Vergleich</div>
+      <div class="boersen"><div class="b"><img src="/guides/assets/logos/finst.com.png" alt=""><span class="n">Finst</span></div><div class="b"><img src="/guides/assets/logos/kraken.com.png" alt=""><span class="n">Kraken</span></div><div class="b"><img src="/guides/assets/logos/bitvavo.com.png" alt=""><span class="n">Bitvavo</span></div></div>
+      <ul class="vier">
+        <li><span class="ck">✓</span><span>Ohne Zinsen nutzbar</span></li>
+        <li><span class="ck">✓</span><span>Echte Coins statt Zertifikat</span></li>
+        <li><span class="ck">✓</span><span>Auszahlung auf deine eigene Wallet</span></li>
+        <li><span class="ck">✓</span><span>Bezahlmodell ohne Zinsbindung</span></li>
+      </ul>
+      <div class="fuss">
+        <p class="statt">Zum Vergleich: Bei einem Krypto-Zertifikat (ETP) gehört dir der Coin nie.</p>
+        <div class="knoepfe"><a class="knopf hell" href="/halal-anlagen?src=xxlkrypto">Geprüfte Coins*</a><a class="knopf" href="/vergleich/krypto?src=xxlkrypto">Börsen im Vergleich*</a></div>
+      </div>
+    </div>
+    <p class="xfn">* Werbung: Eröffnest du über meinen Link ein Konto, bekomme ich eine Provision, ohne Mehrkosten für dich.</p>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 7 FÜNF BAUSTEINE UND MISCHUNG (Einsteiger S. 5 und 6, Fortgeschritten S. 4, Profi S. 4) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Fünf Bausteine, fünf Aufgaben</h1>
+  <p class="xi-lead">Drei bilden dein Fundament. Zwei sind freiwillig.</p>
+  <div class="xi-body">
+    <div class="xb3">
+      <div class="xb"><span class="ic"><img src="/guides/assets/motive/etf.svg" alt=""></span><div class="n">Halal-ETFs</div><div class="w">Wachstum</div><p>Hunderte geprüfte Aktien in einem Produkt.</p><div class="bsp"><img src="/guides/assets/logos/ishares.com.png" alt=""><span>z.&nbsp;B. iShares MSCI World Islamic</span></div></div>
+      <div class="xb mitte"><span class="ic"><img src="/guides/assets/motive/gold.svg" alt=""></span><div class="n">Gold und Silber</div><div class="w">Der ruhige Anker</div><p>Echter Sachwert, der dich vor Inflation schützt.</p><div class="bsp"><img src="/guides/assets/logos/invesco.com.png" alt=""><span>z.&nbsp;B. Invesco Physical Gold ETC</span></div></div>
+      <div class="xb"><span class="ic"><img src="/guides/assets/motive/sukuk.svg" alt=""></span><div class="n">Sukuk</div><div class="w">Ruhe für kurze Zeit</div><p>An einen Vermögenswert oder ein Projekt gebunden.</p><div class="bsp"><img src="/guides/assets/logos/ishares.com.png" alt=""><span>z.&nbsp;B. iShares $&nbsp;Sukuk</span></div></div>
+    </div>
+
+    <!-- MC7d9g3b (PLAN.md Abschnitt 5): der Horizont als eine Zeitlinie statt drei Zahlen in den Karten.
+         MC7d9g7 (Elias 31.10.2026: „sieht noch ein bisschen zu leer im Raum aus … eine andere Grafik … andere Farben“): Fläche in Nebel,
+         je Baustein eine Spur mit Balken und Beschriftung im Balken (als HTML, damit die Schrift am Handy lesbar bleibt), Gold in --asset-gold (src/index.css), Zweitzeile aus den Karten oben.
+         Werte unverändert (1 bis 3, ab 4, ab 5 Jahren). „Wenn Krypto, dann nur so“ von Seite 12 steckt jetzt kurz in der Krypto-Karte. -->
+    <div class="xzeit"><div class="kick">Dein Horizont</div><p>Wie lange kannst du das Geld liegen lassen?</p>
+      <div class="hz" role="img" aria-label="Sukuk ein bis drei Jahre, Gold und Silber ab vier Jahren, Halal-ETFs ab fünf Jahren">
+        <div class="r"><div class="l"><b>Sukuk</b><span>Ruhe für kurze Zeit</span></div><div class="spur"><span class="bar s">1 bis 3 Jahre</span></div></div>
+        <div class="r"><div class="l"><b>Gold und Silber</b><span>Der ruhige Anker</span></div><div class="spur"><span class="bar g pfeil">ab 4 Jahren</span></div></div>
+        <div class="r"><div class="l"><b>Halal-ETFs</b><span>Wachstum</span></div><div class="spur"><span class="bar e pfeil">ab 5 Jahren</span></div></div>
+        <div class="r achse"><div class="l"><span>Jahre</span></div><div class="spur"><i class="j1">1</i><i class="j2">2</i><i class="j3">3</i><i class="j4">4</i><i class="j5">5</i><i class="j6">6</i><i class="j7">7</i></div></div>
+      </div></div>
+    <div class="xb2">
+      <div><div class="n">Freiwillig</div><h3>Einzelaktien</h3><p>Nur mit eigener Prüfung, wie auf Seite 11.</p></div>
+      <div><div class="n">Freiwillig</div><h3>Krypto</h3><p>Gelehrte sind sich uneins. Wenn, dann ein kleiner Teil, nie mit Hebel. Mehr auf Seite 12.</p></div>
+    </div>
+    <div class="xfaust"><div class="kick">Die Faustregel</div><p>Je länger du das Geld liegen lassen kannst, desto mehr Halal-ETF. Brauchst du es bald, mehr Sukuk und Gold.</p></div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 8 BEISPIEL-PORTFOLIO 500 € (MC7d9e: kompakt; MC7d9g2: ohne Depot-Block; Fortgeschritten S. 9, Profi S. 10; ohne Person, ohne Bitcoin nach Plan 6.2, Riskantes freiwillig nach Memory freebie-seiten); MC7d9b: Aufteilung groß -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Ein Beispiel-Portfolio, 500 € im Monat</h1>
+  <p class="xi-lead">Ein Beispiel, wie es aussehen könnte: <b>langfristig und bewusst gewichtet.</b></p>
+  <div class="xi-body">
+    <!-- MC7d9g3d: Fluss Konto → Depot → zwei Töpfe, nur die Zahlen dieser Seite, keine Rendite -->
+    <figure class="xfluss">
+      <svg viewBox="0 0 500 170" role="img" aria-label="Jeden Monat gehen 500 Euro vom Girokonto ins Depot, 80 Prozent in Halal-ETFs, 20 Prozent in Gold und Silber">
+        <rect x="0" y="55" width="112" height="60" rx="10" fill="#fff" stroke="#C9D4E6" stroke-width="2"/>
+        <text x="56" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#3F4756">Girokonto</text>
+        <text x="56" y="102" text-anchor="middle" font-size="19" font-weight="800" fill="#0B2B6B">500 €</text>
+        <path d="M120 85 H184 m-10 -9 l10 9 l-10 9" fill="none" stroke="#0057FA" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="150" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#0057FA">jeden Monat</text>
+        <rect x="192" y="55" width="102" height="60" rx="10" fill="#EBF2FF" stroke="#BBD3FF" stroke-width="2"/>
+        <text x="243" y="91" text-anchor="middle" font-size="16" font-weight="800" fill="#0B2B6B">Depot</text>
+        <path d="M300 75 C330 75 330 30 362 30 m-10 -9 l10 9 l-10 9" fill="none" stroke="#0B2B6B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M300 95 C330 95 330 140 362 140 m-10 -9 l10 9 l-10 9" fill="none" stroke="#94A3B8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="322" y="44" text-anchor="middle" font-size="11" font-weight="800" fill="#0B2B6B">80 %</text>
+        <text x="322" y="134" text-anchor="middle" font-size="11" font-weight="800" fill="#3F4756">20 %</text>
+        <rect x="368" y="6" width="126" height="48" rx="10" fill="#0B2B6B"/>
+        <text x="431" y="36" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">Halal-ETFs</text>
+        <rect x="368" y="116" width="126" height="48" rx="10" fill="#fff" stroke="#C9D4E6" stroke-width="2"/>
+        <text x="431" y="146" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2B6B">Gold und Silber</text>
+      </svg>
+    </figure>
+    <div class="xn2 kompakt">
+      <div class="xn"><div class="kick"><span class="sw" style="background:var(--tief);"></span>Halal-ETFs · 80 %</div><b>400&nbsp;€</b><span>dein Wachstum, jeden Monat</span></div>
+      <div class="xn mitte"><div class="kick"><span class="sw" style="background:#fff;"></span>Gold und Silber · 20 %</div><b>100&nbsp;€</b><span>dein ruhiger Anker, jeden Monat</span></div>
+    </div>
+    <div class="xc-liste">
+      <div class="xc"><span class="q">✓</span><div><h3>Gold richtig kaufen</h3><p>Zahlung und Übergabe fallen zusammen. Worauf du sonst achtest, steht auf Seite 10.</p></div></div>
+      <div class="xc"><span class="q">✓</span><div><h3>Steuer und Zakat mitdenken</h3><p>Den Freibetrag nutzt du wie auf Seite 17, die Zakat rechnest du wie auf Seite 18.</p></div></div>
+    </div>
+    <!-- MC7d9g2 (31.10.2026): die drei Depots stehen jetzt auf der Depot-Seite, direkt unter Trade Republic und XTB -->
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 13 AAOIFI (Fortgeschritten S. 5, Profi S. 5); MC7d9b: drei Karten mit 5 %, 30 %, 30 % groß -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 3 · Du managst dein Portfolio selbst</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">AAOIFI: die drei Kennzahlen</h1>
+  <p class="xi-lead">Die <b>AAOIFI</b> (Bahrain) entwickelt Shariah-Standards, ihre Mitglieder kommen aus über 45 Ländern. Ihr Aktien-Screening prüft <b>drei Kennzahlen</b>, dein Werkzeug für Einzelaktien.</p>
+  <div class="xi-body">
+    <!-- MC7d9g5b (Elias 31.10.2026: „die drei Kennzahlen … ein bisschen runterschrauben … zu viel Weißraum … ein bisschen grün …
+         ein bisschen mehr erklären“): drei Karten mit schmaler Röhre (Füllstand grün wie die AAOIFI-Marke, Grenze rot), Bezeichnung und
+         Erklärsatz wortgleich aus src/pages/wissen/SindAktienHalal.tsx Z. 93 bis 107, Einleitungssatz Z. 89 f.; Nenner Marktkapitalisierung
+         wie bisher (Beleg S-602cb8eb). -->
+    <div class="xgauge2">
+      <p class="ob">Reißt eine Firma nur eine dieser drei Grenzen, fällt sie durch. Die Schulden und Geldanlagen rechnet AAOIFI gegen den Börsenwert der Firma.</p>
+      <div class="drei"><div class="k"><svg viewBox="0 0 60 140" aria-hidden="true"><rect x="14" y="10" width="32" height="120" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/><rect x="15" y="124.0" width="30" height="5.0" rx="0" fill="#15803D"/><path d="M6 124.0 H54" stroke="#B91C1C" stroke-width="3" stroke-linecap="round"/></svg><div><div class="g">≤ 5 %</div><b>Umsatz aus verbotenen Bereichen</b><p>Alkohol, Tabak, Glücksspiel, Zinsgeschäft, Waffen, Pornografie.</p></div></div><div class="k"><svg viewBox="0 0 60 140" aria-hidden="true"><rect x="14" y="10" width="32" height="120" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/><rect x="15" y="94.0" width="30" height="35.0" rx="0" fill="#15803D"/><path d="M6 94.0 H54" stroke="#B91C1C" stroke-width="3" stroke-linecap="round"/></svg><div><div class="g">≤ 30 %</div><b>Verzinsliche Schulden</b><p>Eine Firma, die überwiegend auf Zinskrediten läuft, wird über deinen Anteil zum Zinsgeschäft.</p></div></div><div class="k"><svg viewBox="0 0 60 140" aria-hidden="true"><rect x="14" y="10" width="32" height="120" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/><rect x="15" y="94.0" width="30" height="35.0" rx="0" fill="#15803D"/><path d="M6 94.0 H54" stroke="#B91C1C" stroke-width="3" stroke-linecap="round"/></svg><div><div class="g">≤ 30 %</div><b>Zinstragende Geldanlagen</b><p>Zinspapiere und verzinste Guthaben in der Bilanz. Auch eine saubere Firma kann hier durchfallen.</p></div></div></div>
+      <!-- Gekürzt aus SindAktienHalal.tsx Z. 110 bis 121 („Warum ausgerechnet fünf und dreißig Prozent?“) und Z. 160 bis 178
+           (Beispiel „Dieselbe Firma, zwei Ergebnisse“, Zahlen dort ausdrücklich erfunden, der Effekt nicht). -->
+      <div class="warum"><div class="kick">Warum gerade 5 und 30 Prozent?</div>
+        <p>Die Zahlen stehen nicht im Koran, die Gremien leiten sie ab und sagen das offen. <b>5 %:</b> Kleinigkeiten, die sich praktisch nicht vermeiden lassen, werden übersehen. <b>30 %:</b> Ein Drittel gilt als Obergrenze für einen Anteil, den man gerade noch hinnehmen kann.</p></div>
+      <div class="bsp"><div class="kick">Dieselbe Firma, zwei Apps, zwei Ergebnisse</div>
+        <div class="zz"><div><span>25 Mrd. Schulden ÷ 100 Mrd. Börsenwert</span><b class="ok">25 %, besteht</b></div><div><span>25 Mrd. Schulden ÷ 70 Mrd. Bilanzsumme</span><b class="nein">36 %, fällt durch</b></div></div>
+        <p>Beide rechnen richtig, sie messen nur gegen verschiedene Größen. Und weil der Börsenwert täglich schwankt, ist einmal geprüft nicht für immer geprüft.</p></div>
+    </div>
+    <div class="xq">
+      <div class="kick">Wer prüft und zertifiziert?</div>
+      <p class="warn">Die Kriterien sind klar, <b>Shariah Boards</b> (Gelehrte und Finanzexperten) stellen ihre Einhaltung sicher und zertifizieren. Achte darauf, wer geprüft hat und ob ein Zertifikat vorliegt.</p>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 15 PURIFICATION (Fortgeschritten S. 8, Profi S. 7); MC7d9b: Eiscafé-Balken und Rechnung groß -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 3 · Du managst dein Portfolio selbst</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Bereinigung (Purification)</h1>
+  <p class="xi-lead">Passt eine Firma zu den Grenzen von Seite 15, gilt sie nach AAOIFI als investierbar. Den Anteil deiner Gewinne aus <b>nicht erlaubten Einnahmen</b> behältst du aber nicht. Den bereinigst du.</p>
+  <div class="xi-body">
+    <div class="xeis">
+      <div class="kick">Beispiel: ein Eiscafé</div>
+      <h3>98 % Umsatz mit Eis, 2 % mit Tiramisu (enthält Alkohol)</h3>
+      <div class="bar"><span class="a" style="width:98%;"></span><span class="b" style="width:2%;"></span></div>
+      <div class="leg"><span>98 % Eis</span><span>2 % Tiramisu</span></div>
+      <p>Haram-Anteil 2 %, unter der Grenze von 5 %. Passen auch die Quoten von Seite 15, kannst du nach AAOIFI investieren.</p>
+    </div>
+    <div class="xn3">
+      <div class="xn"><div class="kick">Dein Gewinn</div><b>100&nbsp;€</b><span>100 € investiert, 200 € geworden</span></div>
+      <div class="xn mitte"><div class="kick">Du spendest</div><b>2&nbsp;€</b><span>100 € Gewinn × 2 %</span></div>
+      <div class="xn"><div class="kick">Bleibt bei dir</div><b>98&nbsp;€</b><span>dein Gewinn nach der Spende</span></div>
+    </div>
+    <div class="xs3 klein grow">
+      <div class="xs"><div class="nr">1</div><h3>Quote ermitteln</h3><p>Zoya und Musaffa zeigen dir die Quote.</p></div>
+      <div class="xs"><div class="nr">2</div><h3>Betrag berechnen</h3><p>Gewinn × Quote = Spendenbetrag.</p></div>
+      <div class="xs"><div class="nr">3</div><h3>Spenden und dokumentieren</h3><p>An wohltätige Zwecke, bei jedem realisierten Gewinn und jeder Dividende.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- STEUER UND FÖRDERUNG (MC7d9g6, 31.10.2026, PLAN-REIHENFOLGE.md Seite 17; Elias: Zusätze „ruhig“, „es soll nicht unvollständig
+     sein“): die alten Seiten 12 und 13 auf einer, jeder Satz aus den beiden alten Seiten, nur gekürzt; Belege wie dort. -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 3 · Du managst dein Portfolio selbst</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Steuer und Förderung</h1>
+  <p class="xi-lead">Bei der Steuer reichen zwei Zahlen und eine Frist. Bei einem geförderten Vertrag prüfst du <b>den Vertrag, nicht nur den Zuschuss.</b></p>
+  <div class="xi-body">
+    <div class="xst">
+      <div class="xn unten"><div class="kick">Single</div><span>Kapitalerträge pro Jahr steuerfrei</span><b>1.000&nbsp;€</b></div>
+      <div class="xn mitte unten"><div class="kick">Verheiratet</div><span>Kapitalerträge pro Jahr steuerfrei</span><b>2.000&nbsp;€</b></div>
+      <div class="xn rand"><div class="kick">Einmal einrichten</div><span>Freistellungsauftrag beim Broker, sonst wird automatisch Kapitalertragsteuer abgezogen.</span></div>
+    </div>
+    <div class="xfrist">
+      <div class="kick">Krypto, Gold und Silber</div>
+      <div class="oben"><b>12&nbsp;Monate</b><p>Hältst du sie so lange, ist dein Gewinn danach <b>steuerfrei</b> (§&nbsp;23 EStG). Bei Gold gilt das auch für ETCs auf physisches Gold.</p></div>
+      <div class="leiste">
+        <span class="m">1</span><span class="m">2</span><span class="m">3</span><span class="m">4</span><span class="m">5</span><span class="m">6</span><span class="m">7</span><span class="m">8</span><span class="m">9</span><span class="m">10</span><span class="m">11</span><span class="m">12</span><span class="frei">steuerfrei</span>
+      </div>
+      <p class="klein">Ein Reformentwurf von Juli 2026 will die Frist für Krypto abschaffen, ist aber noch kein Gesetz.</p>
+    </div>
+    <div class="xfoe grow">
+      <div class="xvier"><span class="k">Förderung: gilt für alle vier</span><span>Riester</span><span>Rürup</span><span>Betriebsrente</span><span>Vermögenswirksame Leistungen</span></div>
+      <div class="drei">
+        <div><span class="nr">1</span><b>Der Vertrag</b><p>Eine fondsgebundene Rentenversicherung ist ein Versicherungsvertrag mit Fonds darin. Prüf beides.</p></div>
+        <div><span class="nr">2</span><b>Die Fonds</b><p>Hat jeder Fonds eine Shariah-Prüfung? Die 12 mit Prüfstelle stehen auf Seite 7.</p></div>
+        <div><span class="nr">3</span><b>Die Ansparphase</b><p>Garantiezins oder verzinstes Guthaben? Dann gilt dafür dasselbe wie für jedes Sparkonto mit Zinsen.</p></div>
+      </div>
+      <p class="warn">Ein Urteil über alle diese Verträge auf einmal steht hier bewusst nicht. Jeder Vertrag ist anders gebaut. Im Zweifel legst du ihn einer islamischen Stelle vor, der du vertraust.</p>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 11 ZAKAT (Profi S. 9), Nisab aus nisab.json; MC7d9b: große Zahlen, ohne Zakat-Werbung -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 3 · Du managst dein Portfolio selbst</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Zakat auf Investments</h1>
+  <p class="xi-lead">Zakat ist erst ab dem Nisab verpflichtend. Die meisten Schulen messen ihn am Gold, die hanafitische am Silber, das liegt deutlich niedriger.</p>
+  <div class="xi-body">
+    <div class="xn hero">
+      <div><div class="kick">Der Nisab</div><b>9.913&nbsp;€</b></div>
+      <span>Der Gegenwert von 85 g Gold, Stand 29.10.2026. Den Wert von heute, auch nach Silber, zeigt dir der Zakat-Rechner auf finanzmuslim.com.</span>
+    </div>
+    <div class="xn2">
+      <div class="xn"><div class="kick">Direkt auf den vollen Betrag</div><b>2,5&nbsp;%</b>
+        <ul><li>Bargeld und Bankguthaben</li><li>Physisches Gold und Silber</li><li>Ausgezahlte ETF- und Aktiengewinne</li><li>Aktien zum schnellen Weiterverkauf</li></ul></div>
+      <div class="xn mitte"><div class="kick">Langfristig im Depot</div><b>0,625&nbsp;%</b>
+        <p class="faust">Faustregel: 25 % × 2,5 % = 0,625 % vom heutigen Depotwert</p>
+        <ul><li>ETFs und Aktien im Depot</li><li>Nicht realisierte Gewinne</li><li>Thesaurierende Fonds</li></ul></div>
+    </div>
+    <div class="xrech3 grow">
+      <div class="kick">Rechenbeispiel: dein Depot ist heute 10.000 € wert</div>
+      <div class="drei">
+        <div class="xn unten"><div class="kick">Dein Depot heute</div><span>was du auf dem Konto siehst</span><b>10.000&nbsp;€</b></div>
+        <div class="xn unten"><div class="kick">× 25 %</div><span>der Teil, auf den du rechnest</span><b>2.500&nbsp;€</b></div>
+        <div class="xn mitte unten"><div class="kick">× 2,5 %</div><span>deine Zakat für dieses Jahr</span><b>62,50&nbsp;€</b></div>
+      </div>
+    </div>
+    <p class="xnote">Die 25 %-Regel ist eine <b>Annäherung, kein Konsens.</b> Im Zweifel fragst du eine islamische Stelle, der du vertraust.</p>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 18 JAHRESRHYTHMUS (Fortgeschritten S. 11 und Profi S. 12 zusammen); MC7d9b: Kacheln 2 mal 2 -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 3 · Du managst dein Portfolio selbst</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Dein fester Ablauf</h1>
+  <p class="xi-lead">Du hast das ganze Wissen. Jetzt machst du es zur <b>Routine</b>, mit vier festen Terminen.</p>
+  <div class="xi-body">
+    <div class="xs4 ablauf">
+      <div class="xs"><span class="ic"><img src="/guides/assets/motive/aktienPruefen.svg" alt=""></span><div class="kick">Jedes Quartal</div><h3>Depot und Positionen prüfen</h3><p>Alle Positionen mit Zoya oder Musaffa prüfen. Eine Übernahme oder neue Finanzierung kann eine Firma schnell in die Grauzone bewegen.</p></div>
+      <div class="xs mitte"><span class="ic"><img src="/guides/assets/motive/reinigen.svg" alt=""></span><div class="kick">Jährlich</div><h3>Purification berechnen</h3><p>Dividenden und realisierte Gewinne × Quote = Spendenbetrag für dieses Jahr.</p></div>
+      <div class="xs mitte"><span class="ic"><img src="/guides/assets/motive/zakat.svg" alt=""></span><div class="kick">Jedes Mondjahr</div><h3>Zakat auf das Depot</h3><p>Nisab prüfen, dann 0,625 % vom heutigen Depotwert.</p></div>
+      <div class="xs"><span class="ic"><img src="/guides/assets/motive/rechner.svg" alt=""></span><div class="kick">Jährlich</div><h3>Aufteilung prüfen</h3><p>Passt die Aufteilung noch zu deinen Zielen? Sonst passt du sie an.</p></div>
+    </div>
+    <div class="xjahr grow">
+      <div class="kick">Dein Jahr auf einen Blick</div>
+      <div class="monate">
+        <span>Jan</span><span>Feb</span><span class="q">Mär</span><span>Apr</span><span>Mai</span><span class="q">Jun</span><span>Jul</span><span>Aug</span><span class="q">Sep</span><span>Okt</span><span>Nov</span><span class="q">Dez</span>
+      </div>
+      <div class="band"><b>Einmal im Jahr</b>, an deinem festen Tag: Purification und Aufteilung. Die Zakat einmal im Mondjahr, also alle 354 Tage.</div>
+      <div class="leg"><span class="dot"></span><b>Viermal im Jahr</b>&nbsp;Depot und Positionen prüfen</div>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 20 ALLE VERGLEICHE AUF EINER SEITE (Plan 5, Zeile 20); MC7d9b: die letzte Werbung, große Zeilen; MC7d9g3d: steht nach dem Ablauf, die Schlussseite ist gestrichen (wiederholte Seite 2) -->
+<section class="page xi">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Weiter geht's</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <h1 class="xi-h1">Alle Vergleiche auf einer Seite</h1>
+  <p class="xi-lead">Ein Guide bringt dich bis zur Entscheidung. Alles danach liegt kostenlos auf der Seite.</p>
+  <div class="ad-kopf">Werbung</div>
+  <div class="xi-body">
+    <div class="xv-liste">
+      <div class="xv eins"><span class="ic"><img src="/guides/assets/motive/datenbank.svg" alt=""></span><div><div class="t">Depot-Vergleich</div><div class="s">27 Depots: wer Islamic-ETFs, Sukuk und physisches Gold überhaupt im Angebot hat, und was er kostet.</div></div><a href="/vergleich/depot?src=xxlende">Öffnen&nbsp;→</a></div>
+      <div class="xv"><span class="ic"><img src="/guides/assets/motive/zins.svg" alt=""></span><div><div class="t">Girokonto-Vergleich</div><div class="s">54 Konten, sortiert danach, ob Zinsen und Dispo von Anfang an aus sind.</div></div><a href="/vergleich/girokonto?src=xxlende">Öffnen&nbsp;→</a></div>
+      <div class="xv"><span class="ic"><img src="/guides/assets/motive/gold.svg" alt=""></span><div><div class="t">Gold-Vergleich</div><div class="s">20 Anbieter für physisches Gold und Silber.</div></div><a href="/vergleich/edelmetalle?src=xxlende">Öffnen&nbsp;→</a></div>
+      <div class="xv"><span class="ic"><img src="/guides/assets/motive/krypto.svg" alt=""></span><div><div class="t">Krypto-Vergleich</div><div class="s">27 Börsen: wo du echte Coins ohne Zinsen kaufst.</div></div><a href="/vergleich/krypto?src=xxlende">Öffnen&nbsp;→</a></div>
+      <div class="xv"><span class="ic"><img src="/guides/assets/motive/aktienPruefen.svg" alt=""></span><div><div class="t">Screening-Vergleich</div><div class="s">4 Apps, mit denen du einzelne Aktien prüfst.</div></div><a href="/vergleich/screening-apps?src=xxlende">Öffnen&nbsp;→</a></div>
+      <div class="xv"><span class="ic"><img src="/guides/assets/motive/rechner.svg" alt=""></span><div><div class="t">Steuer-Vergleich</div><div class="s">10 Programme für die Steuererklärung mit Kapitalerträgen.</div></div><a href="/vergleich/steuersoftware?src=xxlende">Öffnen&nbsp;→</a></div>
+    </div>
+  </div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>
+
+<!-- 21 QUELLEN (alle drei Guides vereint), Partnerhinweis, rechtlicher Hinweis, Ayah -->
+<section class="page xquellen">
+  <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Quellen &amp; Nachweise</span></div><span class="wordmark sm">finanzmuslim</span></div>
+  <div class="page-head"><h1>Quellen &amp; Nachweise</h1><div class="head-rule"></div></div>
+  <div class="src-sec"><div class="src-title">Islamische Grundlagen &amp; Standards</div>
+    <div class="src-entry"><div class="se-label">Quran 2:275 &amp; 2:279 · 65:2–3</div><div class="se-desc">Riba-Verbot und Abschlussvers. Übersetzung sinngemäß, Wortlaut auf quran.com.</div></div>
+    <div class="src-entry"><div class="se-label">AAOIFI, Shariah Standard No. 21: Financial Paper (Shares and Bonds)</div><div class="se-desc">Grenzen fürs Screening ≤ 5 % / ≤ 30 % / ≤ 30 %.</div><div class="se-url">↗ aaoifi.com/ss-21-financial-paper-shares-and-bonds/</div></div>
+    <div class="src-entry"><div class="se-label">Sahih Muslim 1513 · Sunan Abi Dawud 1573</div><div class="se-desc">Verbot des Geschäfts mit Unsicherheit (Gharar); Nisab von 20 Dinar Gold, darauf ein halber Dinar (2,5 %).</div><div class="se-url">↗ sunnah.com/muslim:1513&nbsp;·&nbsp;sunnah.com/abudawud:1573</div></div>
+    <div class="src-entry"><div class="se-label">Sukuk, finanzmuslim.com</div><div class="se-desc">Sukuk gegen Anleihe auf Seite 9: Anteil an einer Sache, Miete statt Zins.</div><div class="se-url">↗ finanzmuslim.com/wissen/sukuk</div></div>
+    <div class="src-entry"><div class="se-label">Halal Gold kaufen, finanzmuslim.com</div><div class="se-desc">Die Regeln zu Gold auf Seite 10: Übergabe im selben Moment, die fünf Wege.</div><div class="se-url">↗ finanzmuslim.com/wissen/halal-gold-kaufen</div></div>
+  </div>
+  <div class="src-sec"><div class="src-title">Krypto, Zakat &amp; Steuern</div>
+    <div class="src-entry"><div class="se-label">Shariyah Review Bureau: Bitcoin, Ether, XRP, Chainlink</div><div class="se-desc">Prüfungen der Münzen selbst, für Bitcoin und XRP ausdrücklich keine Fatwa (shariyah.net/cryptocurrencies). Die ablehnende Seite und alle Argumente: finanzmuslim.com/wissen/ist-bitcoin-halal.</div></div>
+    <div class="src-entry"><div class="se-label">Islamic Relief Deutschland · Islamic Relief UK</div><div class="se-desc">Nisab von 85 g Gold und 2,5 %; 25 %-Regel für langfristig gehaltene Aktien.</div><div class="se-url">↗ islamicrelief.de/zakat&nbsp;·&nbsp;islamic-relief.org.uk/giving/islamic-giving/zakat/zakat-and-investment</div></div>
+    <div class="src-entry"><div class="se-label">Bundesfinanzhof (IX R 3/22, 2023) · § 23 EStG · BZSt · Reformentwurf 07/2026</div><div class="se-desc">Krypto/Gold nach 12 Monaten steuerfrei; Sparerpauschbetrag 1.000 € / 2.000 €.</div></div>
+  </div>
+  <div class="src-sec"><div class="src-title">Produkte &amp; Screening-Tools</div>
+    <div class="src-entry"><div class="se-label">iShares MSCI World Islamic (ISWD) / $ Sukuk (SKUK) · Invesco Physical Gold ETC · WisdomTree Gold &amp; Silber</div><div class="se-desc">Shariah-geprüfte ETFs und physisch hinterlegtes, zertifiziertes Edelmetall.</div></div>
+    <div class="src-entry"><div class="se-label">MSCI World Index · MSCI World Islamic Index · MSCI Islamic Index Series Methodology (Dez. 2025)</div><div class="se-desc">Number of constituents 1.249 und 385, Stand 30.09.2026; Methodik: Umsatzgrenze 5 %, Bilanzgrenzen 33,33 %.</div><div class="se-url">↗ msci.com, Indexseiten 990100 und 136123&nbsp;·&nbsp;msci.com/index/methodology/latest/Islamic</div></div>
+    <div class="src-entry"><div class="se-label">Halal-Anlagen-Vergleich, finanzmuslim.com</div><div class="se-desc">Die 12 Islamic ETFs und Fonds von Seite 7 mit Prüfstelle je Produkt, Stand 31.10.2026.</div></div>
+    <div class="src-entry"><div class="se-label">Zoya &amp; Musaffa, Halal Stock Screener</div><div class="se-desc">AAOIFI-basierte Screener inkl. Purification- und Zakat-Kalkulation. Die Grenzen von Seite 15 stehen so in der Hilfe von Zoya.</div><div class="se-url">↗ zoya.finance&nbsp;·&nbsp;musaffa.com</div></div>
+  </div>
+  <div class="xhinweise"><div class="disclaimer"><h4>Hinweis zu Partnerlinks</h4><p>Die Vergleichsseiten, auf die dieser Guide verweist, enthalten Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision, ohne Mehrkosten für dich. Eine Partnerschaft ändert keine Note. Haben mehrere Anbieter gleich viele Sterne, steht zuerst, was du über meinen Link eröffnen kannst.</p></div>
+  <div class="disclaimer"><h4>Rechtlicher Hinweis</h4><p>Dieser Guide dient ausschließlich zu Bildungszwecken und stellt keine personalisierte Anlageberatung dar. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse.</p></div></div>
+  <div class="ayah" style="margin-top:0.2415rem;"><p>»Und wer Allah fürchtet, Er macht für ihn einen Ausweg <br>und versorgt ihn, woher er nicht rechnet.«  (Quran 65:2–3)</p></div>
+  <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
+</section>

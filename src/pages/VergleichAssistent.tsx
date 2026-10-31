@@ -11,6 +11,7 @@ import {
   auswahlAus,
   bausteine,
   fragen,
+  EINSTIEG_ZUSAGE,
   type Antworten,
   type Baustein,
   type Frage,
@@ -642,8 +643,19 @@ const VergleichAssistent = () => {
 
               {frage && (
                 <div key={frage.id} className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-4 motion-safe:duration-300">
-                  <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">{frage.titel}</h1>
-                  {frage.hinweis && <p className="mt-2 text-center text-[14px] text-muted-foreground">{frage.hinweis}</p>}
+                  {amAnfang ? (
+                    <>
+                      <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">{EINSTIEG_ZUSAGE}</h1>
+                      <p className="mt-2 text-center text-[16px] leading-snug text-foreground">
+                        {frage.titel} {frage.hinweis && <span className="text-muted-foreground">{frage.hinweis}</span>}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h1 className="mt-6 text-center text-[24px] font-bold leading-tight text-foreground md:text-[30px]">{frage.titel}</h1>
+                      {frage.hinweis && <p className="mt-2 text-center text-[14px] text-muted-foreground">{frage.hinweis}</p>}
+                    </>
+                  )}
                   <div className="mt-5 grid grid-cols-2 gap-3">
                     {frage.antworten.map((a, i) => (
                       <Karte

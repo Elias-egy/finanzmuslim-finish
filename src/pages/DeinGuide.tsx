@@ -8,8 +8,16 @@ import "@/guides/guide.css";
 import einsteiger from "@/guides/einsteiger.html?raw";
 import fortgeschritten from "@/guides/fortgeschritten.html?raw";
 import profi from "@/guides/profi.html?raw";
+import xxlRoh from "@/guides/xxl.html?raw";
 
-const inhalte: Record<string, string> = { einsteiger, fortgeschritten, profi };
+/* Der XXL-Guide zeigt das Logo der Nummer 1 über logo.dev. Das Token steht nicht im Guide-Text, es kommt
+   hier aus der Umgebung; fehlt es, steht statt des Logos der Name (guides_v2.py schreibt ihn als alt). */
+const logoToken = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY;
+const xxl = logoToken
+  ? xxlRoh.split("__LOGO_TOKEN__").join(logoToken)
+  : xxlRoh.replace(/<img class="logo" src="https:\/\/img\.logo\.dev\/[^"]*" alt="([^"]*)">/g, '<span class="marke">$1</span>');
+
+const inhalte: Record<string, string> = { einsteiger, fortgeschritten, profi, xxl };
 
 /**
  * Der Guide als Seite statt als PDF im Postfach.
@@ -46,6 +54,26 @@ const DeinGuide = () => {
     el.addEventListener("click", klick);
     return () => el.removeEventListener("click", klick);
   }, [navigate]);
+
+  /* Sanftes Einblenden beim Scrollen wie im ETF-Plan (src/pages/EtfPlan.tsx), damit die Filter-Grafik des
+     XXL-Guides dieselbe Bewegung zeigt wie dort (MC7d9g3, 31.10.2026). Ohne Beobachter steht die fertige Grafik. */
+  useEffect(() => {
+    const el = behaelter.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    );
+    el.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, [guide]);
 
   if (!guide) return <Navigate to="/halal-guide" replace />;
 

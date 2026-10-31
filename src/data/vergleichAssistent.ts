@@ -252,6 +252,18 @@ const will: Record<"anlegen" | "depot" | "krypto" | "aktien" | "konto" | "steuer
   steuer: (a) => hat(a, "vorhaben", "steuer"),
 };
 
+/**
+ * Überschrift über der ersten Frage. Elias, 30.10.2026 (Vault `raw/2026-10-30-elias-mc7d4-kasten-profi-guide.md`):
+ * nicht „Wobei kann ich dir helfen“ zuerst, sondern etwas, das Besucher von außen sofort verstehen, „Halal
+ * aufgestellt … in 1 Minute“. Eine Minute statt „unter 60 Sekunden“: Wer alle drei Wünsche wählt, beantwortet elf
+ * Fragen. „Ohne Zinsen“ statt „halal“: Der Test urteilt nicht über die ganzen Finanzen, er zeigt nur, was sich ohne
+ * Zinsen nutzen lässt (Seo-Beschreibung dieser Seite, `imTestErlaubt` in `src/lib/vergleichAssistent.ts`); der
+ * Halal-Befehl hielt „Halal aufgestellt“ ohne Beleg an. Die Frage selbst bleibt wortgleich mit der Opt-in-Karte
+ * (`optinKarte.test.ts`). Mit Verb vorn (Seiten-Prüfer MC7d4 S5: sonst liest es sich, als sei das Konto in einer
+ * Minute fertig).
+ */
+export const EINSTIEG_ZUSAGE = "Finde in einer Minute Konten ohne Zinsen";
+
 export const fragen: Frage[] = [
   {
     id: "vorhaben",
