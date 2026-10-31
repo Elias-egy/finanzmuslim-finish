@@ -13,7 +13,8 @@ const seite = readFileSync("src/pages/vorlagen/HalalAnlagenVoll.tsx", "utf8");
 
 describe("Liste (MC7d13)", () => {
   it("die Kacheln oben zählen aus der Anlagen-Datenbank, nichts von Hand", () => {
-    expect(UEBERBLICK.reduce((s, u) => s + u.zahl, 0)).toBe(ANZAHL_DEPOT + krypto.length);
+    expect(UEBERBLICK.reduce((s, u) => s + u.zahl, 0)).toBe(ANZAHL_DEPOT);
+    expect(UEBERBLICK.some((u) => u.id === "krypto")).toBe(false);
     expect(ANZAHL_DEPOT).toBe(kaufZeilen.length);
     expect(krypto.length).toBe(halalAnlagen.filter((a) => a.kategorie === "krypto").length);
   });

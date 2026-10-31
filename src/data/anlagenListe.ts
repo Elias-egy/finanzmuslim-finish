@@ -14,11 +14,12 @@ import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN, ETF_ZAHL } from "@/data/etfPlan";
 /** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
 export const listeLink = (ziel: string, stelle: string) => `${ziel}?src=gliste-${stelle}`;
 
-/** Die Kacheln oben: was es gibt, je Art mit Zahl. Krypto zählt mit, kaufbar an Börsen. */
-export const UEBERBLICK = [
-  ...kaufGruppen.map((g) => ({ id: g.kategorie, zahl: g.zeilen.length, wort: g.titel.split(",")[0] })),
-  { id: "krypto" as const, zahl: krypto.length, wort: "Krypto" },
-];
+/**
+ * Die Kacheln oben: was es gibt, je Art mit Zahl, nur die Anlagen im Depot. Krypto steht nicht im Kopf unter dem
+ * Titel „Die Halal-Investment-Liste“, weil die Coins nur eine vorläufige Einschätzung haben, keine Fatwa (Halal-Prüfer
+ * r3b, 31.10.2026); sie stehen unten mit diesem Hinweis.
+ */
+export const UEBERBLICK = kaufGruppen.map((g) => ({ id: g.kategorie, zahl: g.zeilen.length, wort: g.titel.split(",")[0] }));
 export const ANZAHL_DEPOT = kaufZeilen.length;
 
 /**
