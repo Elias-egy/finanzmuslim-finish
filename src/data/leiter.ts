@@ -67,7 +67,7 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
     seiten: [
       { nr: 17, titel: "Steuer und Förderung" },
       { nr: 18, titel: "Zakat auf Investments" },
-      { nr: 19, titel: "Vier Termine im Jahr, mehr braucht es nicht" },
+      { nr: 19, titel: "Vier feste Termine für dein Portfolio" },
     ],
   },
   etf: {
@@ -99,7 +99,7 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
     seiten: [
       { nr: 13, titel: "Wie viel ETF, wie viel Gold?" },
       { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
-      { nr: 19, titel: "Vier Termine im Jahr, mehr braucht es nicht" },
+      { nr: 19, titel: "Vier feste Termine für dein Portfolio" },
     ],
   },
   aktie: {
