@@ -1108,6 +1108,20 @@
 .guide-leser .xdep .partner{ font-size:0.7221rem; color:var(--body); line-height:1.4; margin-top:0.1725rem; }
 .guide-leser .xi-body:has(.xalt){ gap:0.2346rem; margin-top:0.3795rem; }
 .guide-leser .xi-body:has(.xalt) .xg2{ padding:0.276rem 0.483rem; }
+.guide-leser .ue-check{ grid-template-columns:1fr 1fr .85fr; gap:0.2415rem; }
+.guide-leser .ue-check ol{ list-style:none; counter-reset:f; margin:0.1104rem 0 0; padding:0; display:flex; flex-direction:column; gap:0.1242rem; }
+.guide-leser .ue-check ol li{ counter-increment:f; position:relative; padding:0 0 0 0.4278rem; font-size:inherit; font-weight:400; }
+.guide-leser .ue-check ol li::before{ content:counter(f); position:absolute; left:0; top:.0.138rem; width:0.3036rem; height:0.3036rem; border:0; border-radius:50%; background:var(--brand); color:#fff; font-size:0.6612rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.guide-leser .ue-check ol li b{ display:block; font-size:0.8961rem; font-weight:800; color:var(--tief); line-height:1.25; }
+.guide-leser .ue-check ol li span{ display:block; font-size:0.7482rem; color:var(--body); line-height:1.35; margin-top:.0.345rem; }
+.guide-leser .ue-check .c.alle p{ font-size:0.8091rem; }
+.guide-leser .ue-check .c.alle p.pl{ font-size:0.6786rem; line-height:1.4; color:#fff; opacity:.92; margin-top:0.138rem; }
+.guide-leser .xbek2.check{ background:#fff; border:1px solid var(--nebel); }
+.guide-leser .xbek2.check .c{ background:var(--nebel-soft); }
+.guide-leser .xd .xd-r .pl{ display:block; text-align:center; font-size:0.6438rem; color:var(--muted); margin-top:1px; }
+.guide-leser .ue .teil{ margin-top:0.207rem; padding:0.2346rem 0.414rem; }
+.guide-leser .ue .teil li{ padding:.5.865rem 0; }
+.guide-leser .ue-check{ margin-top:0.276rem; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1439,6 +1453,28 @@
 .guide-leser .xbek2.check .f{ font-size:.85rem; }
 .guide-leser .xdep .partner{ font-size:.8rem; }
 @media (min-width:36rem){ .guide-leser .ue-check{ grid-template-columns:1fr 1fr 1fr; } }
+
+/* MC7d9g4 (Leser-Runde 2 und Kritiker): Seite 2 Nummern statt Kästchen, Seite 9 Check und Beispiele untereinander,
+   Trade-Republic-Logo größer, „Partnerlink“ unter dem Knopf; Seite 8 am Handy zweispaltig und knapper (Ausstiege K07, K14, K20). */
+.guide-leser .ue-check ol li{ padding:0 0 0 1.75rem; }
+.guide-leser .ue-check ol li::before{ content:counter(f); top:.1rem; width:1.25rem; height:1.25rem; border:0; border-radius:50%; font-size:.75rem; }
+.guide-leser .ue-check ol li b{ font-size:1rem; }
+.guide-leser .ue-check ol li span{ font-size:.875rem; }
+.guide-leser .ue-check .c.alle p.pl{ font-size:.8rem; }
+.guide-leser .xbek2 .k img{ width:2.25rem; height:2.25rem; }
+.guide-leser .xd .xd-r .pl{ font-size:.75rem; margin-top:0; }
+@media (max-width:36rem){
+  .guide-leser .xbek2, .guide-leser .xbek2.check{ grid-template-columns:1fr; }
+  .guide-leser .xd .xd-r{ flex-wrap:wrap; }
+  .guide-leser .xd .xd-r .pl{ flex-basis:100%; text-align:right; }
+  .guide-leser .xreg .rc{ grid-template-columns:1fr 1fr; gap:.5rem; }
+  .guide-leser .xreg .ch{ grid-template-columns:1fr; gap:.25rem; }
+  .guide-leser .xreg .ch img{ width:1.5rem; height:1.5rem; }
+  .guide-leser .xreg .ch .n{ font-size:.85rem; line-height:1.25; }
+  .guide-leser .xreg .ch .m{ font-size:.75rem; }
+  .guide-leser .xg2 .schmerz{ display:block; }
+  .guide-leser .xg2 .schmerz b{ display:block; margin-bottom:.25rem; }
+}
 
 /* Bilder nie ueber den Rand. */
 .guide-leser img{ max-width:100%; height:auto; }

@@ -23,12 +23,14 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
   const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
 
   // MC7d9e (Elias 31.10.2026, wie Finanzfluss): die Nummer 1 steht als erste von drei Depot-Karten auf Seite 7.
-  const karten = guide.match(/<div class="xd">[\s\S]*?<\/a><\/div>/g) ?? [];
+  // MC7d9g4 (Elias 31.10.2026, „das etikett darf raus“): kein Etikett „Meine Nummer 1“, unter jedem Knopf „Partnerlink“.
+  const karten = guide.match(/<div class="xd">[\s\S]*?<\/a><span class="pl">Partnerlink<\/span><\/div>/g) ?? [];
 
   it("nennt die Nummer 1 des Depot-Vergleichs als erste der drei besten Depots", () => {
     expect(sieger).toBeTruthy();
     expect(karten).toHaveLength(3);
-    expect(karten[0]).toContain(`${sieger!.name}<span class="nr1">Meine Nummer 1</span>`);
+    expect(karten[0]).toContain(`<div class="t">${sieger!.name}</div>`);
+    expect(guide).not.toContain("Meine Nummer 1");
     // MC7d9g3: Wortmarke (logos/<domain>.wortmarke.svg) statt des quadratischen PNG
     expect(karten[0]).toMatch(new RegExp(`logos/${sieger!.domain.replace(/\./g, "\\.")}\\.(wortmarke\\.svg|png)`));
     expect(karten[0]).toContain("/depot-nummer-1?src=xxlnr1");
@@ -38,7 +40,7 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     const w = sieger!.werte as Record<string, unknown>;
     const fakten = (karten[0] ?? "").replace(/&nbsp;/g, " ");
     expect(w.zinsfreiAbStart).toBe("gut");
-    expect(guide).toContain("Alle drei starten <b>ohne Zinsen</b>");
+    expect(guide).toContain("alle <b>ohne Zinsen</b> ab dem ersten Tag");
     expect(fakten).toContain(`${w.halalEtfsFonds} Islamic`);
     const rate = String(w.sparrate ?? "").match(/^([\d.,]+)\s*€/)?.[1];
     expect(fakten).toContain(`Sparplan ab ${rate} €`);

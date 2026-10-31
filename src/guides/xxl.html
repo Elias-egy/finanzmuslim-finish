@@ -30,10 +30,20 @@
 
   <!-- MC7d9g3e (Leser-Runde 1, Funde 2 und 4): oben ein erster Schritt und der Check fürs eigene Konto und Depot, dazu der Weg zu allen
        Vergleichen. Fragen aus Seite 4 („Das Konto ist nicht das Problem, Dispo und Guthabenzins schon“) und Seite 9 („Zwei Dinge zählen“). -->
+  <!-- MC7d9g4 (Leser-Runde 2, K05, K12, K18; Kritiker System Regel 10): Nummern statt Kästchen, je Frage, wo man nachsieht.
+       Girokonto aus GirokontoOhneZinsen.tsx Z. 131 und 135, Depot aus brokerVergleich.ts Z. 11 (Zeile „Ohne Zinsen nutzbar“) und
+       HalalEtfs.tsx Z. 125 bis 127 (ISIN im Suchfeld). Partnerhinweis vorne (K10), ein Satz aus dem Hinweis der Quellenseite. -->
   <div class="ue-check">
-    <div class="c"><div class="kick">Dein Girokonto</div><ul><li>Dispo aus?</li><li>Keine Zinsen auf dein Guthaben?</li></ul><div class="s">Ein Nein: Seite 4</div></div>
-    <div class="c"><div class="kick">Dein Depot</div><ul><li>Keine Zinsen auf dein Geld?</li><li>Islamic ETFs im Angebot?</li></ul><div class="s">Ein Nein: Seite 9</div></div>
-    <div class="c alle"><div class="kick">Alle 5 Vergleiche</div><p>Konto, Depot, Gold, Aktien-Apps, Steuer</p><div class="s">Seite 20</div></div>
+    <div class="c"><div class="kick">Dein Girokonto</div>
+      <ol><li><b>Dispo aus?</b><span>Im Online-Banking unter den Kontoeinstellungen, oft „Dispositionskredit“ oder „Überziehungsrahmen“.</span></li>
+          <li><b>Keine Zinsen auf dein Guthaben?</b><span>Bekommst du Zinsen gutgeschrieben, wähl die Verzinsung am Konto ab.</span></li></ol>
+      <div class="s">Ein Nein: Seite 4</div></div>
+    <div class="c"><div class="kick">Dein Depot</div>
+      <ol><li><b>Keine Zinsen auf dein Geld?</b><span>Steht im Depot-Vergleich in der Zeile „Ohne Zinsen nutzbar“.</span></li>
+          <li><b>Islamic ETFs im Angebot?</b><span>Such die Namen von Seite 8 in deinem Depot, am sichersten mit der ISIN.</span></li></ol>
+      <div class="s">Ein Nein: Seite 9</div></div>
+    <div class="c alle"><div class="kick">Alle 5 Vergleiche · Seite 20</div><p>Konto, Depot, Gold, Aktien-Apps, Steuer.</p>
+      <p class="pl">Die Vergleiche enthalten Partnerlinks: Eröffnest du darüber ein Konto, bekomme ich eine Provision, ohne Mehrkosten für dich, und keine Note ändert sich dadurch.</p></div>
   </div>
 
   <!-- MC7d9g3b (Elias 31.10.2026): Level 1 ist der weiche Einstieg, drei Seiten Basics; ETFs ab Level 2; MC7d9g3d: Nummern nach PLAN.md MC7D9G3C Abschnitt 2 -->
@@ -217,12 +227,15 @@
     </div>
     <div class="xg2">
       <div class="ad">Werbung</div>
+      <!-- MC7d9g4 (Kritiker Auftrag: Altgold und Werbung nicht verbunden): die Werbung greift den zweiten Schritt des Altgold-Falls auf
+           („Erst verkaufen, Geld nehmen, dann kaufen“). Satz aus edelmetallVergleich.ts Z. 184 (quellen.kosten), Knopf nach der
+           Zeile „Was es kostet“ (Z. 138), die der Vergleich je Weg zeigt. -->
       <div>
-        <div class="kick">Dein Gold</div>
-        <div class="schmerz"><b>Kein Händler</b><span>verkauft zum reinen Metallpreis. Der Abstand zum Ankauf ist dein Verlust.</span></div>
+        <div class="kick">Verkaufen, dann neu kaufen</div>
+        <div class="schmerz"><b>Kein Händler</b><span>verkauft zum reinen Metallpreis. Der Abstand zwischen Ankauf und Verkauf ist dein Verlust am ersten Tag.</span></div>
         <div class="logos"><img src="/guides/assets/logos/philoro.de.png" alt=""><img src="/guides/assets/logos/proaurum.de.png" alt=""><img src="/guides/assets/logos/ophirum.de.png" alt=""><span>philoro, pro aurum, Ophirum</span></div>
       </div>
-      <a class="knopf" href="/vergleich/edelmetalle?src=xxlgold">Gold-Vergleich ansehen&nbsp;→</a>
+      <a class="knopf" href="/vergleich/edelmetalle?src=xxlgold">Was jeder Weg kostet&nbsp;→</a>
     </div>
   </div>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
@@ -290,17 +303,18 @@
          die zwei bekanntesten Depots als Beispiel je Frage, dann die drei als Lösung für ein Nein, Partnerhinweis direkt an der Werbung
          (gekürzt aus dem Hinweis zu Partnerlinks der Quellenseite). -->
     <div class="xbek2 check">
-      <div class="h"><span class="kick">Der Check</span><ol><li>Keine Zinsen auf deinem Geld?</li><li>Islamic ETFs im Angebot?</li></ol><span class="f">Die bekanntesten Depots fallen durch:</span></div>
-      <div class="c gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds, Frage 2</div></div>
+      <div class="h"><span class="kick">Der Check</span><ol><li>Keine Zinsen auf deinem Geld?</li><li>Islamic ETFs im Angebot?</li></ol><span class="f">Zwei bekannte Beispiele:</span></div>
+      <div class="c gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.eng.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds, Frage 2</div></div>
       <div class="c rot"><div class="k"><img src="/guides/assets/logos/xtb.com.png" alt=""><span>XTB</span></div><div class="z">Zinsen</div><div class="s">automatisch eingeschaltet, Frage 1</div></div>
     </div>
     <!-- Vorbild finanzfluss.de/etf-handbuch/passiv-investieren, Abschnitt „Depots für deinen Vermögensaufbau“: Karten untereinander, Name, Haken, rechts Wortmarke über Knopf (PLAN.md Abschnitt 3) -->
+    <!-- MC7d9g4 (Leser-Runde 2, K01, K02, K11; Kritiker Handwerk Mechanismen 2, 4, 5; Elias 31.10.2026 „das etikett darf raus“):
+         sachliche Überschrift, ohne das Etikett der Nummer 1, Partnerhinweis als Zeichen am Knopf statt Zeile darunter. -->
     <div class="xdep">
       <div class="ad">Werbung</div>
-      <h2>Ein Nein? Die drei besten aus meinem Vergleich</h2>
-      <p class="unter">Alle drei starten <b>ohne Zinsen</b>, Platz 1 bis 3 von 27.</p>
-      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place<span class="nr1">Meine Nummer 1</span></div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div></div>
-      <p class="partner">Partnerlinks: Eröffnest du darüber ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Eine Partnerschaft ändert keine Note. Alle 5 Vergleiche stehen auf Seite 20.</p>
+      <h2>Depots für Islamic ETFs</h2>
+      <p class="unter">Die ersten drei aus meinem Vergleich von 27 Depots, alle <b>ohne Zinsen</b> ab dem ersten Tag.</p>
+      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place</div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a><span class="pl">Partnerlink</span></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a><span class="pl">Partnerlink</span></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a><span class="pl">Partnerlink</span></div></div></div>
     </div>
   </div>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
