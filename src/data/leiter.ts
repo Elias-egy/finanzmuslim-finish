@@ -23,6 +23,11 @@
  * der XXL-Guide (`/dein-guide/xxl-3j1ion`, `public/guides/finanzmuslim-xxl-guide-mt6puo.pdf`, 21 Seiten in drei Level
  * nach Elias, Vault `raw/2026-10-30-elias-mc7d7-level-statt-themen.md`), nicht mehr der Profi-Guide. Der Grund nennt die
  * Themen weiter beim Namen (Blindleser MC7d4: „kommt aus dem Nichts“), jetzt als Weg durch die drei Level.
+ *
+ * MC7c (31.10.2026): FERTIG läuft nur per Mail, wie beim Einsteiger-Guide (Elias, Vault
+ * `raw/2026-10-31-elias-mc7d11-fertig-nur-per-mail.md`: „schick mir eine Mail mit fertig“). Unten im Kasten steht der
+ * Link, der die Mail öffnet; `scripts/scheduler/zoho_antworten.py` (Repo agentos, Timer alle 15 Minuten) antwortet mit
+ * dem XXL-Guide. Kein Instagram mehr.
  */
 
 export const KASTEN = {
@@ -32,7 +37,8 @@ export const KASTEN = {
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
   zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
-  fertig: "Antworte auf meine Mail mit FERTIG oder schreib es mir auf Instagram (@finanz.muslim). Dann schicke ich ihn dir.",
+  fertig: "Antworte auf meine Mail mit FERTIG. Dann schicke ich ihn dir.",
+  mail: { text: "Schick mir eine Mail mit FERTIG", ziel: "mailto:elias@finanzmuslim.com?subject=FERTIG" },
 } as const;
 
 /** Die Freebies mit Kasten. Das Wort steht in der Klickzählung (k plus Wort, `src/lib/attribution.ts`). */

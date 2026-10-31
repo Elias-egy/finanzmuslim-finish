@@ -46,6 +46,11 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
           </span>
         </li>
       </ol>
+      <p className="mt-4 text-[16px] leading-snug text-foreground">
+        <a href={KASTEN.mail.ziel} className="font-semibold text-primary underline underline-offset-2">
+          {KASTEN.mail.text}
+        </a>
+      </p>
       <p className="mt-4 text-[16px] font-bold leading-snug text-foreground">Du wirst ihn mit anderen Augen lesen. Versprochen.</p>
     </aside>
   );
