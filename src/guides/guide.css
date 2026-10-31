@@ -1074,6 +1074,40 @@
 .guide-leser .xquellen .src-entry{ margin-bottom:0.1173rem; }
 .guide-leser .xquellen .src-entry .se-desc{ line-height:1.32; }
 .guide-leser .xquellen .ayah{ margin-top:0.138rem !important; }
+.guide-leser .ue-check{ display:grid; grid-template-columns:1fr 1fr .9fr; gap:0.276rem; margin-top:0.345rem; }
+.guide-leser .ue-check .c{ background:#fff; border:1.5px solid var(--brand); border-radius:0.2415rem; padding:0.2484rem 0.3105rem; display:flex; flex-direction:column; }
+.guide-leser .ue-check .kick{ color:var(--brand); }
+.guide-leser .ue-check ul{ list-style:none; margin:0.1242rem 0 0; padding:0; }
+.guide-leser .ue-check li{ font-size:0.9135rem; font-weight:700; color:var(--tief); line-height:1.3; padding:.0.483rem 0 .0.483rem 0.3795rem; position:relative; }
+.guide-leser .ue-check li::before{ content:""; position:absolute; left:0; top:0.1104rem; width:0.207rem; height:0.207rem; border:1.5px solid var(--tief); border-radius:.0.552rem; }
+.guide-leser .ue-check p{ font-size:0.8265rem; color:var(--body); line-height:1.35; margin-top:0.1242rem; }
+.guide-leser .ue-check .s{ margin-top:auto; padding-top:0.138rem; font-size:0.783rem; font-weight:800; color:var(--brand); }
+.guide-leser .ue-check .c.alle{ background:var(--brand); border-color:var(--brand); }
+.guide-leser .ue-check .c.alle .kick, .guide-leser .ue-check .c.alle .s{ color:var(--himmel); }
+.guide-leser .ue-check .c.alle p{ color:#fff; }
+.guide-leser .ue .teil{ margin-top:0.2484rem; padding:0.276rem 0.414rem; }
+.guide-leser .ue .teil li{ padding:0.0932rem 0; }
+.guide-leser .xgold svg{ height:2.07rem; }
+.guide-leser .xgold .pan{ padding:0.207rem 0.3105rem 0.2346rem; }
+.guide-leser .xwege{ gap:0; }
+.guide-leser .xwege .kick{ margin-bottom:0.0966rem; }
+.guide-leser .xwege .w{ border-radius:0; border-width:0 0 1px; padding:0.1035rem 0; }
+.guide-leser .xwege .w:nth-of-type(1){ border-top-width:1px; }
+.guide-leser .xalt{ background:var(--nebel-soft); border-radius:0.276rem; padding:0.2346rem 0.3105rem 0.2622rem; display:grid; grid-template-columns:1fr 1fr; gap:0.138rem 0.207rem; }
+.guide-leser .xalt .kick{ color:var(--tief); grid-column:1 / -1; }
+.guide-leser .xalt .r{ display:grid; grid-template-columns:0.4485rem 1fr; gap:0.207rem; align-items:start; background:#fff; border-radius:0.207rem; padding:0.1656rem 0.2415rem; }
+.guide-leser .xalt .mk{ width:0.4485rem; height:0.4485rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8265rem; font-weight:800; color:#fff; }
+.guide-leser .xalt .f .mk{ background:var(--haram); }
+.guide-leser .xalt .g .mk{ background:var(--brand); }
+.guide-leser .xalt b{ display:block; font-size:0.9396rem; font-weight:800; color:var(--tief); letter-spacing:-.01em; line-height:1.25; font-variant-numeric:tabular-nums; }
+.guide-leser .xalt .r span:not(.mk){ display:block; font-size:0.8091rem; color:var(--body); line-height:1.35; margin-top:.0.276rem; }
+.guide-leser .xbek2.check{ grid-template-columns:1.25fr 1fr 1fr; }
+.guide-leser .xbek2.check .h .kick{ display:block; color:var(--brand); font-size:0.6612rem; }
+.guide-leser .xbek2.check ol{ margin:0.0966rem 0 0; padding-left:0.3174rem; font-size:0.9135rem; line-height:1.35; }
+.guide-leser .xbek2.check .f{ display:block; font-size:0.783rem; font-weight:700; color:var(--body); margin-top:0.1104rem; }
+.guide-leser .xdep .partner{ font-size:0.7221rem; color:var(--body); line-height:1.4; margin-top:0.1725rem; }
+.guide-leser .xi-body:has(.xalt){ gap:0.2346rem; margin-top:0.3795rem; }
+.guide-leser .xi-body:has(.xalt) .xg2{ padding:0.276rem 0.483rem; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1386,6 +1420,25 @@
 .guide-leser .xschicht .s{ padding:.85rem; }
 .guide-leser .xdrei .w{ font-size:1.35rem; }
 .guide-leser .xalltag .mk{ width:1.6rem; height:1.6rem; }
+
+/* MC7d9g3e (Leser-Runde 1): Check auf Seite 2 untereinander mit Kästchen, Gold-Wege mit Etikett über dem Text,
+   Altgold-Fall einspaltig, Check auf Seite 9 mit lesbaren Fragen. */
+.guide-leser .ue-check{ grid-template-columns:1fr; gap:.6rem; }
+.guide-leser .ue-check .c{ padding:.8rem 1rem; }
+.guide-leser .ue-check li{ font-size:1rem; padding:.2rem 0 .2rem 1.6rem; position:relative; }
+.guide-leser .ue-check li::before{ content:""; position:absolute; left:0; top:.4rem; width:.9rem; height:.9rem; border:2px solid var(--tief); border-radius:.2rem; }
+.guide-leser .ue-check .s{ font-size:.9rem; padding-top:.4rem; }
+.guide-leser .xwege .w{ grid-template-columns:1fr; gap:.3rem; padding:.6rem 0; }
+.guide-leser .xalt{ grid-template-columns:1fr; gap:.6rem; padding:.9rem; }
+.guide-leser .xalt .r{ grid-template-columns:1.6rem 1fr; gap:.6rem; padding:.6rem .75rem; }
+.guide-leser .xalt .mk{ width:1.6rem; height:1.6rem; font-size:.9rem; }
+.guide-leser .xbek2.check ol{ font-size:1rem; padding-left:1.3rem; list-style:decimal; }
+.guide-leser .xbek2.check ol li{ display:list-item; }
+.guide-leser .xgold svg{ height:auto; width:100%; max-height:9rem; }
+@media (max-width:36rem){ .guide-leser .xgold{ grid-template-columns:1fr; } }
+.guide-leser .xbek2.check .f{ font-size:.85rem; }
+.guide-leser .xdep .partner{ font-size:.8rem; }
+@media (min-width:36rem){ .guide-leser .ue-check{ grid-template-columns:1fr 1fr 1fr; } }
 
 /* Bilder nie ueber den Rand. */
 .guide-leser img{ max-width:100%; height:auto; }

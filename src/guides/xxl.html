@@ -26,7 +26,15 @@
 <section class="page ue">
   <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Übersicht</span></div><span class="wordmark sm">finanzmuslim</span></div>
   <h1>Was dich erwartet</h1>
-  <p class="lead">Du hast schon angefangen. Hier steht alles, was danach kommt. Fang dort an, wo du gerade stehst.</p>
+  <p class="lead">Du hast schon angefangen. Dein erster Schritt dauert zwei Minuten: Prüf, ob dein Konto und dein Depot schon passen.</p>
+
+  <!-- MC7d9g3e (Leser-Runde 1, Funde 2 und 4): oben ein erster Schritt und der Check fürs eigene Konto und Depot, dazu der Weg zu allen
+       Vergleichen. Fragen aus Seite 4 („Das Konto ist nicht das Problem, Dispo und Guthabenzins schon“) und Seite 9 („Zwei Dinge zählen“). -->
+  <div class="ue-check">
+    <div class="c"><div class="kick">Dein Girokonto</div><ul><li>Dispo aus?</li><li>Keine Zinsen auf dein Guthaben?</li></ul><div class="s">Ein Nein: Seite 4</div></div>
+    <div class="c"><div class="kick">Dein Depot</div><ul><li>Keine Zinsen auf dein Geld?</li><li>Islamic ETFs im Angebot?</li></ul><div class="s">Ein Nein: Seite 9</div></div>
+    <div class="c alle"><div class="kick">Alle 5 Vergleiche</div><p>Konto, Depot, Gold, Aktien-Apps, Steuer</p><div class="s">Seite 20</div></div>
+  </div>
 
   <!-- MC7d9g3b (Elias 31.10.2026): Level 1 ist der weiche Einstieg, drei Seiten Basics; ETFs ab Level 2; MC7d9g3d: Nummern nach PLAN.md MC7D9G3C Abschnitt 2 -->
   <div class="teil t1"><div class="kopf"><div class="nr">Level 1</div><div class="t">Du verstehst die Basics</div><div class="s">Drei Seiten, drei Bilder</div></div>
@@ -52,11 +60,6 @@
         <li><span>Krypto: beide Seiten</span><span>18</span></li>
         <li><span>Dein fester Ablauf</span><span>19</span></li></ul></div>
 
-  <div class="ue-zahlen">
-    <div><b>21</b><span>Seiten</span></div>
-    <div><b>12</b><span>Islamic ETFs und Fonds, alle auf einer Seite</span></div>
-    <div><b>5</b><span>Vergleiche, auf die du springen kannst</span></div>
-  </div>
   <p class="ue-tipp"><b>Level 1 kennst du schon?</b> Dann starte auf Seite 6.</p>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
 </section>
@@ -204,12 +207,20 @@
       <div class="w r"><span class="p">fällt weg</span><div><b>Gold-Zertifikate, CFDs, Hebelprodukte</b><span>Eine Wette auf den Preis, ohne Metall dahinter.</span></div></div>
       <p class="test"><b>Der einfachste Test: die Lieferzeit.</b> Zwei oder drei Tage sind Logistik. Nennt dir ein Händler zwei oder drei Wochen, liegt der Barren nicht in seinem Tresor.</p>
     </div>
+    <!-- MC7d9g3e (Leser-Runde 1, Fund 3: „Gold habe ich von der Familie“): der nähere Schmerz aus HalalGoldKaufen.tsx Z. 209 bis 237
+         (Abschnitt „altgold“), Rechnung und Satz wortgleich oder gekürzt. Die Werbung darunter nimmt den Kosten-Hinweis des Gold-Vergleichs
+         (src/data/edelmetallVergleich.ts, Weg „Barren und Münzen beim Händler“, quellen.kosten und werte.anbieter). -->
+    <div class="xalt">
+      <div class="kick">Altgold beim Juwelier: der Fall in fast jeder Familie</div>
+      <div class="r f"><span class="mk">✕</span><div><b>40 g Altgold + 900 € → 60 g neuer Barren</b><span>Gold gegen Gold in ungleicher Menge, genau der verbotene Tausch.</span></div></div>
+      <div class="r g"><span class="mk">✓</span><div><b>40 g Altgold → 2.600 €, dann 2.600 € + 900 € → 60 g</b><span>Zwei getrennte Geschäfte. Erst verkaufen, Geld nehmen, dann kaufen.</span></div></div>
+    </div>
     <div class="xg2">
       <div class="ad">Werbung</div>
       <div>
         <div class="kick">Dein Gold</div>
-        <div class="schmerz"><b>Die meisten</b><span>Gold-Wertpapiere am Markt sind nicht voll mit Metall hinterlegt.</span></div>
-        <div class="logos"><img src="/guides/assets/logos/invesco.com.png" alt=""><img src="/guides/assets/logos/wisdomtree.eu.png" alt=""><img src="/guides/assets/logos/hanetf.com.png" alt=""><span>Invesco, WisdomTree, HANetf: Barren im Tresor</span></div>
+        <div class="schmerz"><b>Kein Händler</b><span>verkauft zum reinen Metallpreis. Der Abstand zum Ankauf ist dein Verlust.</span></div>
+        <div class="logos"><img src="/guides/assets/logos/philoro.de.png" alt=""><img src="/guides/assets/logos/proaurum.de.png" alt=""><img src="/guides/assets/logos/ophirum.de.png" alt=""><span>philoro, pro aurum, Ophirum</span></div>
       </div>
       <a class="knopf" href="/vergleich/edelmetalle?src=xxlgold">Gold-Vergleich ansehen&nbsp;→</a>
     </div>
@@ -270,22 +281,26 @@
 <section class="page xi">
   <div class="topbar"><div class="chapter-tag"><span class="gold-dash"></span><span class="label">Level 2 · Dein eigenes Halal-Portfolio</span></div><span class="wordmark sm">finanzmuslim</span></div>
   <h1 class="xi-h1">Welches Depot für Islamic ETFs?</h1>
-  <p class="xi-lead">Zwei Dinge zählen: <b>keine Zinsen</b> auf deinem Geld, und die Islamic ETFs sind im Angebot.</p>
+  <p class="xi-lead">Prüf zuerst dein eigenes. Zwei Dinge zählen: <b>keine Zinsen</b> auf deinem Geld, und die Islamic ETFs sind im Angebot. Zweimal ja? Dann bleib bei deinem Depot.</p>
   <div class="xi-body">
     <!-- Beispiel aus dem Portfolio-Freebie, Werte aus src/data/portfolioPlan.ts BEKANNTE (dort getestet), nicht anklickbar -->
     <!-- MC7d9g3b (Elias 31.10.2026: „Das mit XTB und Trade Republic kann immer noch rot und gelb sein“): Band wie in der Probe
          MC7d9g2 (Himmel, zwei weiße Karten, Zahl groß in Gelb und Rot), nur niedriger, damit die drei Karten Platz behalten -->
-    <div class="xbek2">
-      <div class="h">Die bekanntesten Depots sind nicht die besten für Muslime.</div>
-      <div class="c gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds</div></div>
-      <div class="c rot"><div class="k"><img src="/guides/assets/logos/xtb.com.png" alt=""><span>XTB</span></div><div class="z">Zinsen</div><div class="s">automatisch eingeschaltet</div></div>
+    <!-- MC7d9g3e (Leser-Runde 1, Fund 1: 10 von 20 steigen hier aus, „riecht nach Verkauf“): erst der Check mit den zwei Fragen,
+         die zwei bekanntesten Depots als Beispiel je Frage, dann die drei als Lösung für ein Nein, Partnerhinweis direkt an der Werbung
+         (gekürzt aus dem Hinweis zu Partnerlinks der Quellenseite). -->
+    <div class="xbek2 check">
+      <div class="h"><span class="kick">Der Check</span><ol><li>Keine Zinsen auf deinem Geld?</li><li>Islamic ETFs im Angebot?</li></ol><span class="f">Die bekanntesten Depots fallen durch:</span></div>
+      <div class="c gelb"><div class="k"><img src="/guides/assets/logos/traderepublic.com.png" alt=""><span>Trade Republic</span></div><div class="z"><i>nur</i> 6 von 12</div><div class="s">Islamic ETFs und Fonds, Frage 2</div></div>
+      <div class="c rot"><div class="k"><img src="/guides/assets/logos/xtb.com.png" alt=""><span>XTB</span></div><div class="z">Zinsen</div><div class="s">automatisch eingeschaltet, Frage 1</div></div>
     </div>
     <!-- Vorbild finanzfluss.de/etf-handbuch/passiv-investieren, Abschnitt „Depots für deinen Vermögensaufbau“: Karten untereinander, Name, Haken, rechts Wortmarke über Knopf (PLAN.md Abschnitt 3) -->
     <div class="xdep">
       <div class="ad">Werbung</div>
-      <h2>Die drei besten Depots aus meinem Vergleich</h2>
+      <h2>Ein Nein? Die drei besten aus meinem Vergleich</h2>
       <p class="unter">Alle drei starten <b>ohne Zinsen</b>, Platz 1 bis 3 von 27.</p>
       <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place<span class="nr1">Meine Nummer 1</span></div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a></div></div></div>
+      <p class="partner">Partnerlinks: Eröffnest du darüber ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Eine Partnerschaft ändert keine Note. Alle 5 Vergleiche stehen auf Seite 20.</p>
     </div>
   </div>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>
