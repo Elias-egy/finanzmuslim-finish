@@ -26,7 +26,6 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
         {KASTEN.titel}
       </h2>
-      <p className="mt-3 text-[16px] leading-snug text-foreground">{KASTEN.vorher}</p>
       <div className="mt-4 rounded-2xl bg-background p-4">
         <div className="flex items-center gap-4">
           <img

@@ -33,16 +33,17 @@
  * die drei Guide-Seiten zur nächsten Frage dieses Lesers und zeigt das Deckblatt klein. Seitenzahlen und Titel aus der
  * Übersicht in `src/guides/xxl.html` (Seite 2); ändert sich dort die Reihenfolge, ändern sie sich hier auch.
  * Der allgemeine Inhalt („drei Level, vom ersten Depot …“) fällt weg, die drei Seiten sagen es genauer.
+ * Elias zum Entwurf (Vault `raw/2026-10-31-elias-mc7d12-kasten-oben-raus-fertig-nach-eroeffnung.md`): der Satz
+ * „Guide vorbereitet, 21 Seiten“ kann raus; Schritt 2 sagt klar „nach der Eröffnung … Mail mit FERTIG … ich schicke dir den“.
  */
 
 export const KASTEN = {
   titel: "Der XXL-Guide liegt schon bereit.",
-  vorher: "Ich habe noch einen Guide vorbereitet, 21 Seiten. Darin steht, was du als Nächstes wissen willst:",
   grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
   zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
-  fertig: "Antworte auf meine Mail mit FERTIG. Dann schicke ich ihn dir.",
+  fertig: "Nach der Eröffnung schreibst du mir eine Mail mit FERTIG, und ich schicke ihn dir.",
   mail: { text: "Schick mir eine Mail mit FERTIG", ziel: "mailto:elias@finanzmuslim.com?subject=FERTIG" },
 } as const;
 
