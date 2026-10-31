@@ -8,7 +8,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { IlluDispo, IlluGold, IlluQabd, IlluZins } from "../src/components/illu";
+import { IlluDepot, IlluDispo, IlluGold, IlluQabd, IlluZins } from "../src/components/illu";
 
 const [ziel] = process.argv.slice(2);
 if (!ziel) {
@@ -16,7 +16,7 @@ if (!ziel) {
   process.exit(1);
 }
 
-const bilder = { IlluGold, IlluQabd, IlluDispo, IlluZins };
+const bilder = { IlluGold, IlluQabd, IlluDispo, IlluZins, IlluDepot };
 
 mkdirSync(ziel, { recursive: true });
 for (const [name, Bild] of Object.entries(bilder)) {

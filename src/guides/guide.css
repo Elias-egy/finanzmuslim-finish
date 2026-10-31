@@ -1046,6 +1046,34 @@
 .guide-leser .xalltag .blau .mk{ background:var(--brand); }
 .guide-leser .xalltag b{ display:block; font-size:1.0005rem; font-weight:800; color:var(--tief); letter-spacing:-.01em; line-height:1.2; }
 .guide-leser .xalltag .z span:not(.mk){ display:block; font-size:0.8265rem; color:var(--body); line-height:1.35; margin-top:.0.552rem; }
+.guide-leser .xgold{ display:grid; grid-template-columns:1fr 1fr; gap:0.345rem; }
+.guide-leser .xgold .pan{ background:var(--nebel-soft); border-radius:0.276rem; padding:0.2415rem 0.3105rem 0.276rem; }
+.guide-leser .xgold svg{ display:block; width:auto; height:2.76rem; max-width:100%; margin:0 auto; border-radius:0.207rem; }
+.guide-leser .xgold h3{ font-size:1.1745rem; color:var(--tief); letter-spacing:-.02em; margin-top:0.1725rem; line-height:1.1; }
+.guide-leser .xgold p{ font-size:0.87rem; color:var(--body); line-height:1.4; margin-top:0.0828rem; }
+.guide-leser .xwege{ display:flex; flex-direction:column; gap:0.1104rem; }
+.guide-leser .xwege .kick{ color:var(--brand); margin-bottom:.0.345rem; }
+.guide-leser .xwege .w{ display:grid; grid-template-columns:2.967rem 1fr; gap:0.276rem; align-items:center; background:#fff; border:1px solid var(--nebel); border-radius:0.207rem; padding:0.1242rem 0.276rem; }
+.guide-leser .xwege .p{ justify-self:start; white-space:nowrap; font-size:0.696rem; font-weight:800; padding:0.0759rem 0.1794rem; border-radius:99px; line-height:1.2; }
+.guide-leser .xwege .g .p{ color:var(--halal); background:var(--halal-bg); }
+.guide-leser .xwege .y .p{ color:#92400E; background:#FEF3C7; }
+.guide-leser .xwege .r .p{ color:var(--haram); background:var(--haram-bg); }
+.guide-leser .xwege b{ display:block; font-size:0.957rem; font-weight:800; color:var(--tief); letter-spacing:-.01em; line-height:1.2; }
+.guide-leser .xwege .w span:not(.p){ display:block; font-size:0.8091rem; color:var(--body); line-height:1.35; margin-top:.0.345rem; }
+.guide-leser .xwege .test{ font-size:0.8526rem; color:var(--ink); line-height:1.4; background:var(--himmel); border-radius:0.207rem; padding:0.1794rem 0.276rem; margin-top:.0.414rem; }
+.guide-leser .xwege .test b{ display:inline; font-size:inherit; color:var(--tief); }
+.guide-leser .xdepot{ display:grid; grid-template-columns:5.382rem 1fr; gap:0.414rem; align-items:center; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.414rem 0.276rem 0.276rem; }
+.guide-leser .xdepot svg{ display:block; width:100%; height:auto; border-radius:0.207rem; }
+.guide-leser .xdepot h3{ font-size:1.305rem; color:var(--tief); letter-spacing:-.02em; line-height:1.1; }
+.guide-leser .xdepot p{ font-size:0.9135rem; color:var(--body); line-height:1.45; margin-top:0.138rem; }
+.guide-leser .xfluss{ margin:0; }
+.guide-leser .xfluss svg{ display:block; width:100%; height:auto; }
+.guide-leser .xquellen .xhinweise{ display:grid; grid-template-columns:1fr 1fr; gap:0.207rem; margin-top:0.1725rem; }
+.guide-leser .xquellen .page-head .head-rule{ margin:0.276rem 0 0.3105rem; }
+.guide-leser .xquellen .src-sec{ margin-bottom:0.1518rem; }
+.guide-leser .xquellen .src-entry{ margin-bottom:0.1173rem; }
+.guide-leser .xquellen .src-entry .se-desc{ line-height:1.32; }
+.guide-leser .xquellen .ayah{ margin-top:0.138rem !important; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,

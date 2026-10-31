@@ -29,7 +29,8 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     expect(sieger).toBeTruthy();
     expect(karten).toHaveLength(3);
     expect(karten[0]).toContain(`${sieger!.name}<span class="nr1">Meine Nummer 1</span>`);
-    expect(karten[0]).toContain(`logos/${sieger!.domain}.png`);
+    // MC7d9g3: Wortmarke (logos/<domain>.wortmarke.svg) statt des quadratischen PNG
+    expect(karten[0]).toMatch(new RegExp(`logos/${sieger!.domain.replace(/\./g, "\\.")}\\.(wortmarke\\.svg|png)`));
     expect(karten[0]).toContain("/depot-nummer-1?src=xxlnr1");
   });
 
@@ -52,5 +53,11 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     expect(guide).toContain(`${edelmetallAnzeige.length} Anbieter für physisches Gold`);
     expect(guide).toContain(`${screenerAnzeige.length} Apps, mit denen`);
     expect(guide).toContain(`${steuerAnzeige.length} Programme für die Steuererklärung`);
+  });
+
+  // MC7d9g3d: je Werbung genau ein Knopf mit eigener Quelle (Girokonto Seite 4, Gold Seite 6)
+  it("führt Girokonto- und Gold-Werbung je einmal zum Vergleich", () => {
+    expect(guide.split("/vergleich/girokonto?src=xxlgiro").length - 1).toBe(1);
+    expect(guide.split("/vergleich/edelmetalle?src=xxlgold").length - 1).toBe(1);
   });
 });
