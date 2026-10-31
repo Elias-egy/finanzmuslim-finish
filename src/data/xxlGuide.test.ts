@@ -61,8 +61,9 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
   });
 
   // MC7d9g3d: je Werbung genau ein Knopf mit eigener Quelle (Girokonto Seite 4, Gold Seite 6)
-  it("führt Girokonto- und Gold-Werbung je einmal zum Vergleich", () => {
+  // MC7d9g5b (Elias 31.10.2026): die Gold-Werbung zeigt den zertifizierten ETC und führt zur Anlagen-Liste, die separat gepflegt wird.
+  it("führt Girokonto-Werbung zum Vergleich und Gold-Werbung zur Anlagen-Liste, je einmal", () => {
     expect(guide.split("/vergleich/girokonto?src=xxlgiro").length - 1).toBe(1);
-    expect(guide.split("/vergleich/edelmetalle?src=xxlgold").length - 1).toBe(1);
+    expect(guide.split("/halal-anlagen?src=xxlgold").length - 1).toBe(1);
   });
 });
