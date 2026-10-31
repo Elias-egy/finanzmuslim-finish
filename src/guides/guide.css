@@ -1122,6 +1122,11 @@
 .guide-leser .ue .teil{ margin-top:0.207rem; padding:0.2346rem 0.414rem; }
 .guide-leser .ue .teil li{ padding:.5.865rem 0; }
 .guide-leser .ue-check{ margin-top:0.276rem; }
+.guide-leser .xg2 .logos.wm{ gap:0.345rem; margin-top:0.207rem; }
+.guide-leser .xg2 .logos.wm img{ width:auto; height:0.2898rem; border:0; border-radius:0; background:none; }
+.guide-leser .xg2 .logos.wm img[alt="pro aurum"]{ height:0.3174rem; }
+.guide-leser .xg2 .logos.wm img[alt="Ophirum"]{ height:0.207rem; }
+.guide-leser .xdep .fn{ font-size:0.6612rem; color:var(--muted); line-height:1.4; margin:0.138rem 0 0; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1475,6 +1480,15 @@
   .guide-leser .xg2 .schmerz{ display:block; }
   .guide-leser .xg2 .schmerz b{ display:block; margin-bottom:.25rem; }
 }
+
+/* MC7d9g5: Seite 6 Wortmarken der Haendler in gleicher optischer Groesse, Seite 9 Fussnote statt „Partnerlink“ je Knopf. */
+.guide-leser .xg2 .logos.wm{ gap:1.1rem; flex-wrap:wrap; }
+.guide-leser .xg2 .logos.wm img{ width:auto; height:1rem; max-width:none; border:0; background:none; }
+.guide-leser .xg2 .logos.wm img[alt="pro aurum"]{ height:1.1rem; }
+.guide-leser .xg2 .logos.wm img[alt="Ophirum"]{ height:.72rem; }
+.guide-leser .xdep .fn{ font-size:.8rem; line-height:1.45; }
+/* MC7d9g5: „Wo Zinsen überall stecken“, die Zeichen (1.6rem) lagen über dem Text, weil die Spalte aus dem Druck nur 0.483rem breit war. */
+.guide-leser .xalltag .z{ grid-template-columns:1.6rem 1fr; gap:.6rem; padding:.55rem .7rem; }
 
 /* Bilder nie ueber den Rand. */
 .guide-leser img{ max-width:100%; height:auto; }

@@ -233,7 +233,10 @@
       <div>
         <div class="kick">Verkaufen, dann neu kaufen</div>
         <div class="schmerz"><b>Kein Händler</b><span>verkauft zum reinen Metallpreis. Der Abstand zwischen Ankauf und Verkauf ist dein Verlust am ersten Tag.</span></div>
-        <div class="logos"><img src="/guides/assets/logos/philoro.de.png" alt=""><img src="/guides/assets/logos/proaurum.de.png" alt=""><img src="/guides/assets/logos/ophirum.de.png" alt=""><span>philoro, pro aurum, Ophirum</span></div>
+        <!-- MC7d9g5 (Kritiker System Regel 4: philoro als leerer Platzhalter): Wortmarken von den Händlerseiten statt der
+             Bildzeichen (Herkunft in xxl-v2.html.belege.md). Kein „Partnerlink“ und kein Sternchen am Knopf: der Gold-Vergleich
+             (src/pages/VergleichEdelmetalle.tsx) enthält keinen Partnerlink, und src/data/partnerLinks.ts führt keinen Edelmetallhändler. -->
+        <div class="logos wm"><img src="/guides/assets/logos/philoro.de.wortmarke.svg" alt="philoro"><img src="/guides/assets/logos/proaurum.de.wortmarke.svg" alt="pro aurum"><img src="/guides/assets/logos/ophirum.de.wortmarke.png" alt="Ophirum"></div>
       </div>
       <a class="knopf" href="/vergleich/edelmetalle?src=xxlgold">Was jeder Weg kostet&nbsp;→</a>
     </div>
@@ -312,9 +315,13 @@
          sachliche Überschrift, ohne das Etikett der Nummer 1, Partnerhinweis als Zeichen am Knopf statt Zeile darunter. -->
     <div class="xdep">
       <div class="ad">Werbung</div>
+      <!-- MC7d9g5 (Leser-Runde 3, r3b K09, K13, K14, K20; r3a K03: wer gerade ein Depot eröffnet hat, will kein zweites): die Werbung
+           spricht nur an, wer im Check ein Nein hat. Kennzeichnung: „Werbung“ oben rechts, Sternchen am Knopf, eine Fußnote
+           (Repo-Regel finanzmuslim-finish CLAUDE.md Z. 95; Satz gekürzt aus dem Hinweis zu Partnerlinks der Quellenseite). -->
       <h2>Depots für Islamic ETFs</h2>
-      <p class="unter">Die ersten drei aus meinem Vergleich von 27 Depots, alle <b>ohne Zinsen</b> ab dem ersten Tag.</p>
-      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place</div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video&nbsp;»</a><span class="pl">Partnerlink</span></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a><span class="pl">Partnerlink</span></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a class="leise" href="/vergleich/depot?src=xxltop3">Im Vergleich&nbsp;→</a><span class="pl">Partnerlink</span></div></div></div>
+      <p class="unter">Ein Nein? Diese drei aus meinem Vergleich von 27 Depots sind <b>ohne Zinsen</b> ab dem ersten&nbsp;Tag.</p>
+      <div class="xd-liste"><div class="xd"><div class="xd-l"><div class="t">Traders Place</div><ul><li><span class="ck">✓</span>9 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/tradersplace.de.wortmarke.svg" alt="Traders Place"></span><a href="/depot-nummer-1?src=xxlnr1">Zum Video*</a></div></div><div class="xd"><div class="xd-l"><div class="t">Smartbroker+</div><ul><li><span class="ck">✓</span>mind. 8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/smartbrokerplus.de.wortmarke.svg" alt="Smartbroker+"></span><a href="/vergleich/depot?src=xxltop3">Zum Vergleich*</a></div></div><div class="xd"><div class="xd-l"><div class="t">Scalable Capital</div><ul><li><span class="ck">✓</span>8 von 12 Islamic&nbsp;ETFs und Fonds</li><li><span class="ck">✓</span>Sparplan ab 1 €</li><li><span class="ck">✓</span>Keine Depotgebühr</li></ul></div><div class="xd-r"><span class="lg"><img src="/guides/assets/logos/scalable.capital.wortmarke.svg" alt="Scalable Capital"></span><a href="/vergleich/depot?src=xxltop3">Zum Vergleich*</a></div></div></div>
+      <p class="fn">* Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.</p>
     </div>
   </div>
   <div class="footer"><span>finanzmuslim&nbsp;·&nbsp;XXL-Guide</span><span class="snr"></span></div>

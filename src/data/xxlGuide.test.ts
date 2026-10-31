@@ -23,8 +23,9 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
   const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
 
   // MC7d9e (Elias 31.10.2026, wie Finanzfluss): die Nummer 1 steht als erste von drei Depot-Karten auf Seite 7.
-  // MC7d9g4 (Elias 31.10.2026, „das etikett darf raus“): kein Etikett „Meine Nummer 1“, unter jedem Knopf „Partnerlink“.
-  const karten = guide.match(/<div class="xd">[\s\S]*?<\/a><span class="pl">Partnerlink<\/span><\/div>/g) ?? [];
+  // MC7d9g4 (Elias 31.10.2026, „das etikett darf raus“): kein Etikett „Meine Nummer 1“.
+  // MC7d9g5: drei gleiche Knöpfe mit Sternchen, eine Fußnote unter den Karten (CLAUDE.md „Sternchen mit Fußnote“).
+  const karten = guide.match(/<div class="xd">[\s\S]*?\*<\/a><\/div><\/div>/g) ?? [];
 
   it("nennt die Nummer 1 des Depot-Vergleichs als erste der drei besten Depots", () => {
     expect(sieger).toBeTruthy();
@@ -40,7 +41,9 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
     const w = sieger!.werte as Record<string, unknown>;
     const fakten = (karten[0] ?? "").replace(/&nbsp;/g, " ");
     expect(w.zinsfreiAbStart).toBe("gut");
-    expect(guide).toContain("alle <b>ohne Zinsen</b> ab dem ersten Tag");
+    expect(guide).toContain("Depots sind <b>ohne Zinsen</b> ab dem ersten&nbsp;Tag");
+    expect(guide).toContain("* Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.");
+    expect(guide).not.toContain('<span class="pl">Partnerlink</span>');
     expect(fakten).toContain(`${w.halalEtfsFonds} Islamic`);
     const rate = String(w.sparrate ?? "").match(/^([\d.,]+)\s*€/)?.[1];
     expect(fakten).toContain(`Sparplan ab ${rate} €`);
