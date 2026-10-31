@@ -3,7 +3,6 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
-import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
 import { edelmetallVergleich } from "@/data/edelmetallVergleich";
@@ -220,9 +219,13 @@ const BoykottListe = () => {
               {AUCH_GENANNT.satz}
             </p>
           </div>
+          <p className="mt-6 px-1 text-[16px] leading-snug text-foreground/80">
+            Schon ein Depot?{" "}
+            <Link to={boykottLink("/vergleich/depot", "ende")} className="font-semibold text-primary hover:underline">
+              Prüf, ob deins Zinsen zahlt
+            </Link>
+          </p>
         </section>
-
-        <NaechsterTeil wort="boykott" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Die Liste und die Gründe geben die Seite der BDS-Bewegung wieder, kein eigenes Urteil. Der Grund bei McDonald's stammt von Al Jazeera.</p>

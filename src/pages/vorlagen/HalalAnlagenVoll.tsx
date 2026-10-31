@@ -47,7 +47,6 @@ const HalalAnlagenVoll = () => (
       quellen={ANLAGEN_QUELLEN}
       rechtshinweis={ANLAGEN_RECHTSHINWEIS}
       ctas={ANLAGEN_CTAS}
-      naechster="liste"
     >
       <WasNicht />
 
