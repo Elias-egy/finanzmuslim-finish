@@ -28,12 +28,17 @@
  * `raw/2026-10-31-elias-mc7d11-fertig-nur-per-mail.md`: „schick mir eine Mail mit fertig“). Unten im Kasten steht der
  * Link, der die Mail öffnet; `scripts/scheduler/zoho_antworten.py` (Repo agentos, Timer alle 15 Minuten) antwortet mit
  * dem XXL-Guide. Kein Instagram mehr.
+ *
+ * MC7d12 (31.10.2026, Plan Vault `fundament/upgrade/MC7D11_2026-10-31/plan.html`, Baustein 2): Der Kasten nennt je Wort
+ * die drei Guide-Seiten zur nächsten Frage dieses Lesers und zeigt das Deckblatt klein. Seitenzahlen und Titel aus der
+ * Übersicht in `src/guides/xxl.html` (Seite 2); ändert sich dort die Reihenfolge, ändern sie sich hier auch.
+ * Der allgemeine Inhalt („drei Level, vom ersten Depot …“) fällt weg, die drei Seiten sagen es genauer.
  */
 
 export const KASTEN = {
   titel: "Der XXL-Guide liegt schon bereit.",
-  grund:
-    "Ich habe noch einen Guide vorbereitet, der alles zusammenbringt: drei Level, vom ersten Depot über Steuern und Zakat bis zur eigenen Aktienprüfung. Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
+  vorher: "Ich habe noch einen Guide vorbereitet, 21 Seiten. Darin steht, was du als Nächstes wissen willst:",
+  grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
   zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
@@ -45,3 +50,76 @@ export const KASTEN = {
 export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold"] as const;
 
 export type LeiterWort = (typeof LEITER_WOERTER)[number];
+
+type GuideSeite = { nr: number; titel: string };
+
+/** Je Wort die nächste Frage des Lesers und die drei Guide-Seiten, die sie beantworten (MC7d12). */
+export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonly GuideSeite[] }> = {
+  plan: {
+    frage: "Was ist mit Steuer und Zakat?",
+    seiten: [
+      { nr: 17, titel: "Steuer und Förderung" },
+      { nr: 18, titel: "Zakat auf Investments" },
+      { nr: 19, titel: "Dein fester Ablauf" },
+    ],
+  },
+  etf: {
+    frage: "Welcher ETF, und was kommt dazu?",
+    seiten: [
+      { nr: 7, titel: "Welche Islamic ETFs es gibt: alle 12" },
+      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
+    ],
+  },
+  gold: {
+    frage: "Wie viel Gold, und was ist mit Steuer und Zakat?",
+    seiten: [
+      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 17, titel: "Steuer und Förderung" },
+      { nr: 18, titel: "Zakat auf Investments" },
+    ],
+  },
+  boykott: {
+    frage: "Und wohin mit meinem Geld?",
+    seiten: [
+      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
+      { nr: 4, titel: "Wo Zinsen überall stecken" },
+      { nr: 5, titel: "Aktie, ETF, Islamic ETF in Bildern" },
+    ],
+  },
+  liste: {
+    frage: "Was davon passt zu mir, und wie viel?",
+    seiten: [
+      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
+      { nr: 19, titel: "Dein fester Ablauf" },
+    ],
+  },
+  aktie: {
+    frage: "Wie prüfe ich eine Aktie selbst?",
+    seiten: [
+      { nr: 11, titel: "Einzelaktien, mit Zoya und Musaffa" },
+      { nr: 15, titel: "AAOIFI: die drei Kennzahlen" },
+      { nr: 16, titel: "Gewinne bereinigen (Purification)" },
+    ],
+  },
+  vertrag: {
+    frage: "Wo stecken sonst noch Zinsen?",
+    seiten: [
+      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
+      { nr: 4, titel: "Wo Zinsen überall stecken" },
+      { nr: 17, titel: "Steuer und Förderung" },
+    ],
+  },
+  amin: {
+    frage: "Wie wächst mein Rizq ohne Zinsen?",
+    seiten: [
+      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
+      { nr: 4, titel: "Wo Zinsen überall stecken" },
+      { nr: 18, titel: "Zakat auf Investments" },
+    ],
+  },
+};
+
+/** Deckblatt des XXL-Guides, klein im Kasten. Nicht verlinkt: die Belohnung kommt erst nach FERTIG. */
+export const DECKBLATT = "/guides/assets/xxl/deckblatt-klein.webp";
