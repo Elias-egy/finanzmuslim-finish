@@ -17,6 +17,7 @@ import { KRYPTO_FINANZ_MAX } from "../src/data/kryptoVergleich";
 import { siegerDerSeite, werteAus } from "../src/lib/vergleichAssistent";
 import { ANZAHL_KAUFBAR } from "../src/data/halalAnlagenZahl";
 import { halalAnlagen, anbieterByName } from "../src/data/halalAnlagen";
+import { NACHWEIS } from "../src/data/anlagenNachweis";
 import nisab from "../src/data/nisab.json";
 
 const [ziel] = process.argv.slice(2);
@@ -87,7 +88,8 @@ const islamicAktien = halalAnlagen
       isin: a.isin ?? null,
       region: treffer[0][1],
       typ: /kein ETF/.test(a.replikation ?? "") ? "Fonds" : "ETF",
-      pruefstelle: a.zertifizierer.split(",")[0].trim(),
+      // MC7d13d: dieselbe geprüfte Zeile wie die Liste und die Anlage-Seite (Halal-Prüfer r3), sonst die Prüfstelle.
+      pruefstelle: NACHWEIS[a.slug]?.text ?? a.zertifizierer.split(",")[0].trim(),
     };
   });
 

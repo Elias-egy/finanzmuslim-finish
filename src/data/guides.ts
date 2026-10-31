@@ -18,6 +18,8 @@ export type GuideStufe = {
   /** Steht klein unter dem Titel, eine Zeile. */
   untertitel: string;
   pdf: string;
+  /** Nur als PDF verschickt, keine Seite (Elias, 31.10.2026, MC7d13c: „Das ist eine PDF. Sonst gar nicht.“). */
+  nurPdf?: boolean;
   pdfName: string;
 };
 
@@ -49,12 +51,15 @@ export const guides: GuideStufe[] = [
   {
     // XXL-Guide (MC7d7, 30.10.2026): Belohnung nach FERTIG, alle drei Stufen ohne Doppel. Nur über die
     // FERTIG-Antwort verschickt, nie verlinkt; PDF-Name mit Zufallscode wie bei /vorlagen.
+    // Seit MC7d13d nur noch das PDF: die Seite /dein-guide/xxl-3j1ion leitet um (zurückholen: nurPdf entfernen und
+    // den Import in DeinGuide.tsx aus Commit bab9e4c wiederherstellen).
     schluessel: "xxl-3j1ion",
     stufe: "xxl",
     titel: "XXL-Guide",
     untertitel: "Halal investieren, in jeder Situation",
     pdf: "/guides/finanzmuslim-xxl-guide-mt6puo.pdf",
     pdfName: "finanzmuslim-xxl-guide.pdf",
+    nurPdf: true,
   },
 ];
 
