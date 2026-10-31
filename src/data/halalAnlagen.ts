@@ -195,7 +195,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, Sampling",
     domizil: "Irland",
     auflage: "10.02.2026",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Index von MSCIs Sharia-Gelehrtenausschuss freigegeben, vierteljährlich zertifiziert",
   },
   {
     slug: "hsbc-msci-world-islamic-screened",
@@ -217,7 +217,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "30.11.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Index von MSCIs Sharia-Gelehrtenausschuss freigegeben, vierteljährlich zertifiziert",
   },
   {
     slug: "hsbc-msci-usa-islamic-screened",
@@ -239,7 +239,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "17.11.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Index von MSCIs Sharia-Gelehrtenausschuss freigegeben, vierteljährlich zertifiziert",
   },
   {
     slug: "hsbc-msci-europe-islamic-screened",
@@ -261,7 +261,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "05.12.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Index von MSCIs Sharia-Gelehrtenausschuss freigegeben, vierteljährlich zertifiziert",
   },
   {
     slug: "hsbc-msci-emerging-markets-islamic-screened-capped",
@@ -283,7 +283,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "12.01.2023",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Index von MSCIs Sharia-Gelehrtenausschuss freigegeben, vierteljährlich zertifiziert",
   },
   {
     slug: "hanetf-saturna-al-kawthar-global-focused-equity",
@@ -371,7 +371,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Luxemburg",
     auflage: "04.09.2015",
-    zertifizierer: "eigenes Sharia-Komitee, vierteljährliche Prüfung",
+    zertifizierer: "eigenes Sharia-Komitee, letzter Bericht von 2020",
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://fondsdocs.edisoft.de/getDoc.php?d=99-65740-12",

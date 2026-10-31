@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AlertTriangle, ArrowRight } from "lucide-react";
+import { AlertCircle, AlertTriangle, ArrowRight, CheckCircle2, CircleDot } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
@@ -8,17 +8,22 @@ import { AnlageLogo } from "@/components/AnlageZeile";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { kaufZeilen, type KaufZeile } from "@/data/halalAnlagenKauf";
-import { DEPOTS_MIT_ALLEN } from "@/data/etfPlan";
+import { DEPOTS_GEPRUEFT, ETF_ZAHL } from "@/data/etfPlan";
 import {
   ANZAHL_DEPOT,
+  BEKANNTE_DEPOTS,
   SCHMERZ_SATZ,
+  STUFEN_ZAHL,
   UEBERBLICK,
+  depotZahl,
   kartenLogos,
-  kaufGruppen,
   krypto,
   listeLink,
+  listenGruppen,
+  nachweis,
   ohneBeleg,
   KRYPTO_PRUEFER,
+  type Stufe,
 } from "@/data/anlagenListe";
 
 /**
@@ -34,17 +39,27 @@ const pfad = vollPfad(freebie);
 const staende = [...new Set(kaufZeilen.flatMap((z) => z.kaufbar.kaufbar.map((k) => k.beleg.stand)))].sort(
   (a, b) => Number(a.split(".").reverse().join("")) - Number(b.split(".").reverse().join("")),
 );
-const aktien = UEBERBLICK.find((u) => u.id === "aktien");
+/** Ein Zeichen je Stufe: was die Prüfstelle bestätigt hat, nie ein eigenes Urteil. */
+const STUFE: Record<Stufe, { Icon: typeof CheckCircle2; farbe: string; wort: string }> = {
+  fonds: { Icon: CheckCircle2, farbe: "text-gain", wort: "mit Zertifikat für das Produkt" },
+  index: { Icon: CircleDot, farbe: "text-muted-foreground", wort: "nur mit geprüftem Index" },
+  ohne: { Icon: AlertCircle, farbe: "text-warning", wort: "ohne aktuelles Zertifikat" },
+};
 
 const Karte = ({ z }: { z: KaufZeile }) => {
   const logos = kartenLogos(z);
+  const n = nachweis(z);
+  const { Icon, farbe } = STUFE[n.stufe];
   return (
     <li className="card-surface p-4">
-      <div className="flex items-center gap-3">
+      <div className="flex items-start gap-3">
         <AnlageLogo a={z.anlage} />
         <div className="min-w-0">
           <p className="text-[16px] font-bold leading-snug text-foreground">{z.anlage.name}</p>
-          <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{z.anlage.zertifizierer}</p>
+          <p className="mt-1 flex items-center gap-1.5 text-[13px] leading-snug text-foreground/80">
+            <Icon className={`h-4 w-4 shrink-0 ${farbe}`} aria-hidden />
+            {n.text}
+          </p>
         </div>
       </div>
       <div className="mt-3 flex items-center gap-2">
@@ -53,7 +68,9 @@ const Karte = ({ z }: { z: KaufZeile }) => {
             <AnbieterLogo key={d.id} name={d.name} domain={d.domain} klein />
           ))}
         </span>
-        <span className="flex-1 text-[12px] text-muted-foreground">bei {z.kaufbar.kaufbar.length} Anbietern</span>
+        <span className="flex-1 text-[12px] text-muted-foreground">
+          in {depotZahl(z)} von {DEPOTS_GEPRUEFT.length} Depots
+        </span>
         <span className="text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel} im Jahr</span>
       </div>
     </li>
@@ -82,8 +99,8 @@ const HalalAnlagenVoll = () => {
   return (
     <main className="bg-background" data-freebie="anlagen-liste" data-vorlage="halal-anlagen">
       <Seo
-        title="Halal-Anlagen: wo du jede kaufen kannst | finanzmuslim"
-        description={`Finde alle ${kaufZeilen.length} Halal-Anlagen mit Kaufbeleg und die Anbieter, bei denen du sie kaufen kannst.`}
+        title="Was kann ich halal kaufen? Jede Anlage mit Prüfung und Depot | finanzmuslim"
+        description={`${kaufZeilen.length} Anlagen im Depot: je Anlage, was die Prüfstelle bestätigt hat und in welchen Depots du sie kaufst.`}
         path={pfad}
         noindex
       />
@@ -108,12 +125,19 @@ const HalalAnlagenVoll = () => {
               </a>
             ))}
           </nav>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, wo du sie zinsfrei kaufst.{" "}
-            <Link to={listeLink("/vergleich/depot", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Depot-Vergleich
-            </Link>
-          </p>
+          <ul aria-label="Was geprüft ist" className="mt-5 space-y-1.5">
+            {STUFEN_ZAHL.map(({ stufe, zahl }) => {
+              const { Icon, farbe, wort } = STUFE[stufe];
+              return (
+                <li key={stufe} className="flex items-center gap-2 text-[14px] leading-snug text-foreground">
+                  <Icon className={`h-4 w-4 shrink-0 ${farbe}`} aria-hidden />
+                  <span>
+                    <span className="font-extrabold tabular-nums">{zahl}</span> {wort}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Eine Übersicht, keine Anlageberatung.</p>
 
@@ -125,18 +149,32 @@ const HalalAnlagenVoll = () => {
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ_SATZ}</p>
+              <ul className="mt-3 space-y-1.5">
+                {BEKANNTE_DEPOTS.map((d) => (
+                  <li key={d.id} className="flex items-center gap-2 text-[14px] text-foreground">
+                    <AnbieterLogo name={d.name} domain={d.domain} klein />
+                    <span className="flex-1">{d.name}</span>
+                    <span className="tabular-nums">
+                      {d.zahl < ETF_ZAHL && <span className="text-[12px] font-semibold">nur </span>}
+                      <span className="font-bold">
+                        {d.zahl} von {ETF_ZAHL}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
               <Link
                 to={listeLink("/vergleich/depot", "schmerz")}
                 className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
               >
-                {DEPOTS_MIT_ALLEN.length === 1 ? "Depot" : "Depots"} mit allen {aktien?.zahl} ansehen
+                Alle Depots im Vergleich
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </div>
           </div>
         </section>
 
-        {kaufGruppen.map((g) => (
+        {listenGruppen.map((g) => (
           <section key={g.kategorie} id={`gruppe-${g.kategorie}`} className="reveal mt-12 scroll-mt-20" aria-labelledby={`titel-${g.kategorie}`}>
             <h2 id={`titel-${g.kategorie}`} className="flex items-center gap-2.5 text-[24px] font-extrabold leading-tight text-foreground">
               <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: artFarbe(g.kategorie) }} aria-hidden />
@@ -151,24 +189,13 @@ const HalalAnlagenVoll = () => {
               ))}
             </ul>
             {g.kategorie === "gold" && (
-              <div className="mt-3 rounded-2xl bg-accent p-4">
-                <p className="text-[14px] font-bold text-violet">Meine Einordnung</p>
-                <p className="mt-1 text-[14px] leading-snug text-foreground/90">
-                  Beim Gold sind Invesco und WisdomTree offiziell shariah-zertifiziert. Die Amanie-Zertifizierung von Invesco ordne
-                  ich persönlich stärker ein als das Al-Qalam-Panel von WisdomTree. Lies beide Zertifikate und entscheide selbst.
-                  Bewusst nicht in der Liste: währungsgesicherte Varianten, Hedged, denn die Absicherung läuft über Terminkontrakte.
-                </p>
-              </div>
+              <p className="mt-3 px-1 text-[14px] leading-snug text-muted-foreground">
+                Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten stehen
+                nicht in der Liste.
+              </p>
             )}
           </section>
         ))}
-
-        {ohneBeleg.length > 0 && (
-          <p className="mt-3 px-1 text-[12px] leading-snug text-muted-foreground">
-            Auch geprüft, aber ohne Kaufbeleg: {ohneBeleg.map((a) => a.name).join(", ")}. Prüfe in der Suche deines Depots, ob es
-            sie führt.
-          </p>
-        )}
 
         <section id="gruppe-krypto" className="reveal mt-12 scroll-mt-20" aria-labelledby="titel-krypto">
           <h2 id="titel-krypto" className="flex items-center gap-2.5 text-[24px] font-extrabold leading-tight text-foreground">
@@ -185,8 +212,7 @@ const HalalAnlagenVoll = () => {
               ))}
             </div>
             <p className="mt-3 text-[16px] leading-snug text-foreground/80">
-              Die {krypto.length} Coins aus der Anlagen-Datenbank gibt es nicht im Depot, sondern an einer Krypto-Börse. Welche Börse
-              echte Coins ohne Zins und Lending führt, steht im Vergleich.
+              Nicht im Depot, sondern an einer Krypto-Börse.
             </p>
             <p className="mt-2 text-[12px] leading-snug text-muted-foreground">
               Vorläufige Einschätzung des {KRYPTO_PRUEFER}, nach eigener Aussage keine Fatwa.
@@ -200,8 +226,7 @@ const HalalAnlagenVoll = () => {
             </Link>
           </div>
           <p className="mt-4 px-1 text-[14px] leading-snug text-muted-foreground">
-            Einzelaktien stehen bewusst nicht in dieser Liste. Sie müssen einzeln geprüft werden und danach regelmäßig erneut, denn
-            niemand garantiert, dass ein Unternehmen dauerhaft halal bleibt.
+            Einzelaktien stehen nicht in der Liste: Jede muss einzeln und immer wieder geprüft werden.
           </p>
         </section>
 
@@ -212,6 +237,7 @@ const HalalAnlagenVoll = () => {
           <p>
             {staende.length === 1 ? `Kaufbelege vom ${staende[0]}.` : `Kaufbelege vom ${staende[0]} bis ${staende[staende.length - 1]}.`}
           </p>
+          {ohneBeleg.length > 0 && <p>Mit Prüfung, aber ohne Kaufbeleg und darum nicht in der Liste: {ohneBeleg.map((a) => a.name).join(", ")}.</p>}
           <p>{ANLAGEN_QUELLEN}</p>
           <p>{ANLAGEN_RECHTSHINWEIS}</p>
         </footer>

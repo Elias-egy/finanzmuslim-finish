@@ -55,7 +55,7 @@ export const ANLAGEN_EINLEITUNG =
   "Finde die Halal-Anlagen mit Kaufbeleg: Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder die ISIN, die Prüfstelle und die Anbieter, bei denen du sie kaufen kannst.";
 
 export const ANLAGEN_QUELLEN =
-  "Screening-Kriterien: AAOIFI, Shariah Standard No. 21, Financial Paper, Shares and Bonds. Gold und Silber: AAOIFI Standard No. 1, jeweils bestätigt durch das Zertifikat des genannten Panels. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Zertifizierungen werden jährlich erneuert, vor dem Kauf selbst prüfen.";
+  "Prüfmaßstab: der der jeweils genannten Prüfstelle, nachzulesen in ihrem Zertifikat, Prüfbericht oder Verkaufsprospekt. Kaufbarkeit: Einzelbeleg je Anbieter mit Datum, aus dessen Wertpapiersuche oder Produktliste, aus einem vom Anbieter verlinkten Verzeichnis oder aus meiner eigenen Prüfung in der App. Eine Prüfung kann sich ändern, vor dem Kauf selbst nachsehen.";
 
 export const ANLAGEN_RECHTSHINWEIS =
   "Die auf dieser Seite genannten Anlagen sind auch dann, wenn einzelne Emittenten oder Finanzinstrumente genannt werden, nicht als Anlageberatung zu verstehen und stellen weder direkt noch indirekt eine Empfehlung oder Aufforderung zum Kaufen, Halten oder Verkaufen eines Finanzinstruments dar. Dieser Inhalt dient ausschließlich zu Bildungszwecken. Alle Investitionsentscheidungen triffst du eigenverantwortlich. Vergangene Renditen sind keine Garantie für zukünftige Ergebnisse.";
