@@ -1,0 +1,127 @@
+/**
+ * Die Liste, das Freebie zum Wort „Liste“ (MC7d13, 31.10.2026): neu im Stil von Fassung 5 des
+ * Portfolio-Plans (Elias, 28.10.2026: „in dem stil alle anderen auch“). Die Frage des Lesers ist „Was kann
+ * ich überhaupt halal kaufen?“ (Plan MC7D11, Karte LISTE); die echten Fragen dazu stehen im Vault unter
+ * `raw/2026-10-31-mc7d13-echte-fragen-liste.md` („quite hard to find halal investments“, „difficult to find
+ * brokers“).
+ *
+ * Alles hier ist aus `halalAnlagen.ts` und `anlagenKaufbar.ts` gezählt, nichts von Hand. Jede Halal- und
+ * Zinsaussage hat ihren Beleg in `docs/freebies/anlagen-liste.txt.belege.md`.
+ */
+import { kaufGruppen, kaufZeilen, krypto, ohneBeleg, type KaufZeile } from "@/data/halalAnlagenKauf";
+import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN, ETF_ZAHL } from "@/data/etfPlan";
+
+/** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
+export const listeLink = (ziel: string, stelle: string) => `${ziel}?src=gliste-${stelle}`;
+
+/**
+ * Die Kacheln oben: was es gibt, je Art mit Zahl, nur die Anlagen im Depot. Krypto steht nicht im Kopf unter dem
+ * Titel „Die Halal-Investment-Liste“, weil die Coins nur eine vorläufige Einschätzung haben, keine Fatwa (Halal-Prüfer
+ * r3b, 31.10.2026); sie stehen unten mit diesem Hinweis.
+ */
+export const UEBERBLICK = kaufGruppen.map((g) => ({ id: g.kategorie, zahl: g.zeilen.length, wort: g.titel.split(",")[0] }));
+export const ANZAHL_DEPOT = kaufZeilen.length;
+
+/**
+ * Die Coins hat nur eine Stelle geprüft; sie nennt jede Analyse „preliminary Sharia research and … by no means
+ * a fatwa“ (shariyah.net, je Coin-Seite, 31.10.2026). Der Test hält fest, dass es eine Stelle bleibt.
+ */
+export const KRYPTO_PRUEFER = [...new Set(krypto.map((a) => a.zertifizierer.replace(", Bahrain", " in Bahrain")))].join(", ");
+
+/**
+ * Kleine Logos je Karte, nicht anklickbar (Elias, 28.10.2026, MC3b). Nur bekannte, empfehlbare Depots, die
+ * ich ganz geprüft habe (der Test prüft beides); gezeigt werden die ersten drei, die die Anlage führen.
+ */
+export const KARTEN_DEPOTS = [
+  { id: "scalable-capital-free-broker", name: "Scalable Capital", domain: "scalable.capital" },
+  { id: "trade-republic-depot", name: "Trade Republic", domain: "traderepublic.com" },
+  { id: "trading-212-depot", name: "Trading 212", domain: "trading212.com" },
+  { id: "traders-place-depot", name: "Traders Place", domain: "tradersplace.de" },
+  { id: "comdirect-depot", name: "comdirect", domain: "comdirect.de" },
+  { id: "consorsbank-depot", name: "Consorsbank", domain: "consorsbank.de" },
+  { id: "flatex-depot", name: "flatex", domain: "flatex.de" },
+  { id: "finanzen-net-zero-depot", name: "finanzen.net zero", domain: "finanzen.net" },
+] as const;
+
+export const kartenLogos = (z: KaufZeile) =>
+  KARTEN_DEPOTS.filter((d) => z.kaufbar.kaufbar.some((k) => k.anbieter === d.name)).slice(0, 3);
+
+/**
+ * Der eine rote Schmerz (Elias, 28.10.2026: „ein roter Schmerz reicht“), aus den echten Fragen: Nicht jedes
+ * Depot führt sie. Gezählt wie im ETF-Plan, nur zinsfreie, ganz geprüfte Depots ohne Abraten.
+ */
+export const SCHMERZ_SATZ = `Nicht jedes Depot hat sie. Von ${DEPOTS_GEPRUEFT.length} zinsfreien Depots, die ich ganz geprüft habe, ${
+  DEPOTS_MIT_ALLEN.length === 1 ? "hat nur eins" : `haben nur ${DEPOTS_MIT_ALLEN.length}`
+} alle ${ETF_ZAHL} Aktien-ETFs und Fonds.`;
+
+/**
+ * Was zu jeder Anlage belegt vorliegt, in einer kurzen Zeile (Halal-Prüfer r1 und r2, 31.10.2026: die
+ * Überschrift darf nicht alle 22 gleich hinstellen, und keine Zeile behauptet ein Fehlen, das sich nicht
+ * zeigen lässt). Drei Stufen nach dem jüngsten gelesenen Dokument, nie ein eigenes Urteil:
+ * „aktuell“ = Zertifikat oder Prüfbericht für genau dieses Produkt aus 2025 oder 2026; „prospekt“ = Fatwa,
+ * Gremium oder Berater laut Prospekt, oder der Index ist geprüft; „aelter“ = jüngster gefundener Nachweis
+ * gilt für 2023 oder früher (Halal-Prüfer r3: „letzter“ behauptet ein Fehlen). Beleg je Zeile in `halalAnlagen.ts` (zertifikatHinweis, zertifikatLink) und in
+ * `pruefung/halal-anlagen-liste-r2.md` im Vault; der Test prüft, dass jede Karte eine Zeile hat.
+ */
+export type Stufe = "aktuell" | "prospekt" | "aelter";
+export const NACHWEIS: Record<string, { stufe: Stufe; text: string }> = {
+  "ishares-msci-world-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "ishares-msci-emerging-markets-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "ishares-msci-usa-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
+  "hanetf-saturna-al-kawthar-global-focused-equity": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "franklin-shariah-technology-fund-a-acc-usd": { stufe: "aktuell", text: "Jahresbericht 2025, Amanie" },
+  "invesco-msci-acwi-islamic-m-series": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-world-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-usa-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-europe-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "hsbc-msci-emerging-markets-islamic-screened-capped": { stufe: "prospekt", text: "Index geprüft, MSCI" },
+  "invesco-dow-jones-islamic-global-developed-markets": { stufe: "aelter", text: "Zertifikat für 2023, Amanie" },
+  "comgest-growth-europe-s-eur-acc": { stufe: "prospekt", text: "Gremium laut Prospekt, Amanie" },
+  "ishares-usd-sukuk-ucits-etf": { stufe: "prospekt", text: "Fatwa laut Prospekt, Amanie" },
+  "xtrackers-ii-salam-usd-global-aggregate-sukuk": { stufe: "prospekt", text: "Berater laut Prospekt, ASB" },
+  "bnp-paribas-islamic-fund-hilal-income-classic-c": { stufe: "aelter", text: "Komitee im Bericht von 2020" },
+  "invesco-physical-gold-etc": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "wisdomtree-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-core-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-physical-swiss-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "invesco-physical-silver": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+  "wisdomtree-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "wisdomtree-core-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
+  "royal-mint-responsibly-sourced-physical-gold": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
+};
+const RANG: Record<Stufe, number> = { aktuell: 0, prospekt: 1, aelter: 2 };
+export const nachweis = (z: KaufZeile) => NACHWEIS[z.anlage.slug];
+
+/** Die Gruppen der Liste, je Gruppe zuerst die Anlagen mit dem jüngsten Nachweis. */
+/** Am Handy je Gruppe nur die ersten vier Karten, der Rest auf Tippen (Leser-Runde r2: ab Schirm 3 steigen alle aus). */
+export const SICHTBAR = 4;
+
+export const listenGruppen = kaufGruppen.map((g) => ({
+  ...g,
+  zeilen: [...g.zeilen].sort((a, b) => RANG[nachweis(a).stufe] - RANG[nachweis(b).stufe]),
+}));
+
+/** Wie viele der Karten auf welcher Stufe stehen, für die Zeile oben. */
+export const STUFEN_ZAHL = (["aktuell", "prospekt", "aelter"] as Stufe[]).map((stufe) => ({
+  stufe,
+  zahl: kaufZeilen.filter((z) => nachweis(z)?.stufe === stufe).length,
+}));
+
+/**
+ * Eine Zählweise für die ganze Seite (Seiten-Prüfer r1: „bei 28 Anbietern“ gegen „18 Depots“): je Karte, in
+ * wie vielen der zinsfreien, ganz geprüften Depots des Schmerz-Satzes die Anlage belegt kaufbar ist. Sukuk
+ * und Edelmetalle sind in diesen Depots ebenfalls ganz ausgezählt (der Test prüft das).
+ */
+export const depotZahl = (z: KaufZeile) =>
+  DEPOTS_GEPRUEFT.filter((d) => z.kaufbar.kaufbar.some((k) => k.haus === d.haus || k.haeuser?.includes(d.haus))).length;
+
+/**
+ * Oben im roten Kasten die Frage fast aller Leser (Leser-Runde r1): „Führt mein Broker das?“ Die bekannten
+ * Depots mit ihrer Zahl aus dem Depot-Vergleich (Zeile halalEtfsFonds), nie ein Urteil über den Anbieter.
+ */
+export const BEKANNTE_DEPOTS = (["trade-republic-depot", "scalable-capital-free-broker", "flatex-depot"] as const).map((id) => {
+  const d = DEPOTS_GEPRUEFT.find((a) => a.id === id)!;
+  return { id, name: d.name, domain: d.domain, zahl: Number(String(d.werte.halalEtfsFonds).split(" ")[0]) };
+});
+
+export { kaufGruppen, krypto, ohneBeleg };

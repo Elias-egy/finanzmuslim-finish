@@ -23,7 +23,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       className={`rounded-3xl border border-primary/15 bg-accent p-5 md:p-7 ${className}`}
     >
       <p className="text-[14px] font-bold text-violet">Dein nächster Schritt</p>
-      <h2 id="naechster-teil" className="mt-1 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
+      <h2 id="naechster-teil" className="mt-1 scroll-mt-32 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
         {KASTEN.titel}
       </h2>
       <div className="mt-4 rounded-2xl bg-background p-4">
@@ -68,8 +68,8 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
           </span>
         </li>
       </ol>
-      <p className="mt-4 text-[16px] leading-snug text-foreground">
-        <a href={KASTEN.mail.ziel} className="font-semibold text-primary underline underline-offset-2">
+      <p className="mt-2 text-[16px] leading-snug text-foreground">
+        <a href={KASTEN.mail.ziel} className="inline-flex min-h-[44px] items-center font-semibold text-primary underline underline-offset-2">
           {KASTEN.mail.text}
         </a>
       </p>

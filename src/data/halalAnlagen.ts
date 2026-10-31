@@ -152,9 +152,9 @@ export const halalAnlagen: Anlage[] = [
     slug: "invesco-dow-jones-islamic-global-developed-markets",
     zertifikatArt: "produkt",
     zertifikatLink:
-      "https://etf.invesco.com/de/private/de/product/invesco-dow-jones-islamic-global-developed-markets-ucits-etf-acc/documents",
+      "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-dow-jones-islamic-global-developed-markets-ucits-etf_ssb-certficate_en_2023.pdf",
     zertifikatHinweis:
-      "Invesco veröffentlicht für genau diesen ETF jährliche Shariah-Zertifikate, zuletzt für das Jahr 2024. Sie stehen auf der Dokumentenseite unter dem Namen Annual Shariah Compliance Certificate. Dort liegt auch eine Tabelle, mit der du den zu spendenden Anteil deiner Dividende ausrechnest.",
+      "Das jüngste gefundene Shariah-Zertifikat für genau diesen ETF stammt von Amanie Advisors, gilt für das Geschäftsjahr 2023 und ist am 15. Oktober 2024 ausgestellt. Ein Zertifikat für 2024 oder 2025 haben wir nicht gefunden.",
     zweiterBeleg: {
       titel: "Methodik der Dow Jones Islamic Market Indizes",
       url: "https://www.spglobal.com/spdji/en/documents/methodologies/methodology-dj-islamic-market-indices.pdf",
@@ -173,7 +173,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "07.01.2022",
-    zertifizierer: "S&P Dow Jones Shariah Supervisory Board",
+    zertifizierer: "Amanie Advisors, Zertifikat für das Geschäftsjahr 2023",
   },
   {
     slug: "invesco-msci-acwi-islamic-m-series",
@@ -195,7 +195,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, Sampling",
     domizil: "Irland",
     auflage: "10.02.2026",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Methodik von MSCIs Sharia-Gelehrtenausschuss freigegeben, Indexwerte vierteljährlich bescheinigt",
   },
   {
     slug: "hsbc-msci-world-islamic-screened",
@@ -217,7 +217,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "30.11.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Methodik von MSCIs Sharia-Gelehrtenausschuss freigegeben, Indexwerte vierteljährlich bescheinigt",
   },
   {
     slug: "hsbc-msci-usa-islamic-screened",
@@ -239,7 +239,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "17.11.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Methodik von MSCIs Sharia-Gelehrtenausschuss freigegeben, Indexwerte vierteljährlich bescheinigt",
   },
   {
     slug: "hsbc-msci-europe-islamic-screened",
@@ -261,7 +261,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "05.12.2022",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Methodik von MSCIs Sharia-Gelehrtenausschuss freigegeben, Indexwerte vierteljährlich bescheinigt",
   },
   {
     slug: "hsbc-msci-emerging-markets-islamic-screened-capped",
@@ -283,7 +283,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "physisch, vollständig",
     domizil: "Irland",
     auflage: "12.01.2023",
-    zertifizierer: "MSCI Shariah Advisory Board, Fatwa seit 2007",
+    zertifizierer: "Methodik von MSCIs Sharia-Gelehrtenausschuss freigegeben, Indexwerte vierteljährlich bescheinigt",
   },
   {
     slug: "hanetf-saturna-al-kawthar-global-focused-equity",
@@ -371,7 +371,7 @@ export const halalAnlagen: Anlage[] = [
     replikation: "aktiver Fonds, kein ETF",
     domizil: "Luxemburg",
     auflage: "04.09.2015",
-    zertifizierer: "eigenes Sharia-Komitee, vierteljährliche Prüfung",
+    zertifizierer: "eigenes Sharia-Komitee, genannt im Halbjahresbericht 2020",
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://fondsdocs.edisoft.de/getDoc.php?d=99-65740-12",
