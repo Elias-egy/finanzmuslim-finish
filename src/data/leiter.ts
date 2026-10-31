@@ -37,8 +37,14 @@
  * „Guide vorbereitet, 21 Seiten“ kann raus; Schritt 2 sagt klar „nach der Eröffnung … Mail mit FERTIG … ich schicke dir den“.
  */
 
+/**
+ * MC7d13d (Elias, 31.10.2026, Vault `raw/2026-10-31-elias-mc7d13d-werbung-plan-kasten-anleitung.md`): der Titel sagt, was
+ * der Leser will, „die 1:1-Anleitung“, ein Guide, „der dich Schritt für Schritt durch alle Investment führt“; vorher
+ * „Der XXL-Guide liegt schon bereit.“
+ */
 export const KASTEN = {
-  titel: "Der XXL-Guide liegt schon bereit.",
+  titel: "Deine 1:1-Anleitung liegt schon bereit.",
+  unter: "Der XXL-Guide führt dich Schritt für Schritt durch alle Anlagen, bis dein Portfolio steht.",
   grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
@@ -61,21 +67,21 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
     seiten: [
       { nr: 17, titel: "Steuer und Förderung" },
       { nr: 18, titel: "Zakat auf Investments" },
-      { nr: 19, titel: "Dein fester Ablauf" },
+      { nr: 19, titel: "Vier Termine im Jahr, mehr braucht es nicht" },
     ],
   },
   etf: {
     frage: "Welcher ETF, und was kommt dazu?",
     seiten: [
       { nr: 7, titel: "Welche Islamic ETFs es gibt: alle 12" },
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 13, titel: "Wie viel ETF, wie viel Gold?" },
       { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
     ],
   },
   gold: {
     frage: "Wie viel Gold, und was ist mit Steuer und Zakat?",
     seiten: [
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 13, titel: "Wie viel ETF, wie viel Gold?" },
       { nr: 17, titel: "Steuer und Förderung" },
       { nr: 18, titel: "Zakat auf Investments" },
     ],
@@ -91,9 +97,9 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
   liste: {
     frage: "Was davon passt zu mir, und wie viel?",
     seiten: [
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
+      { nr: 13, titel: "Wie viel ETF, wie viel Gold?" },
       { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
-      { nr: 19, titel: "Dein fester Ablauf" },
+      { nr: 19, titel: "Vier Termine im Jahr, mehr braucht es nicht" },
     ],
   },
   aktie: {

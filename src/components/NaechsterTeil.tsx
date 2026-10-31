@@ -33,10 +33,12 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
             alt="Deckblatt des XXL-Guides"
             width={240}
             height={339}
-            loading="lazy"
-            className="h-auto w-[56px] shrink-0 rounded-md border border-primary/15 shadow-sm"
+            className="h-auto w-[92px] shrink-0 -rotate-3 rounded-md border border-primary/15 shadow-md"
           />
-          <p className="min-w-0 text-[17px] font-bold leading-snug text-foreground">{frage.frage}</p>
+          <div className="min-w-0">
+            <p className="text-[16px] leading-snug text-foreground/80">{KASTEN.unter}</p>
+            <p className="mt-2 text-[17px] font-bold leading-snug text-foreground">{frage.frage}</p>
+          </div>
         </div>
         <ul className="mt-3 space-y-2 border-t border-primary/10 pt-3">
           {frage.seiten.map((s) => (

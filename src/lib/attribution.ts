@@ -93,6 +93,15 @@ export const VALID_SRC = [
   // MC7d10: Top-3-Depots auf Seite 7 und Prüf-Apps auf Seite 11 (Klicks fielen bis dahin aus der Zählung).
   "xxltop3",
   "xxlapps",
+  // MC7d13d: die Liste (Wort LISTE), Top 3, Nummer 1, alle Depots, Karte zur Anlage-Seite (src/data/anlagenListe.ts listeLink).
+  "gltop3",
+  "glnr1",
+  "glalle",
+  "glkarte",
+  // MC7d13d: Depot-Aufruf im Portfolio-Plan (Wort PLAN), src/components/vorlagen/DepotAufruf.tsx.
+  "pltop3",
+  "plnr1",
+  "plalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

@@ -5,10 +5,10 @@ import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, Trendin
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
+import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
-  BEKANNTE,
   GIRO_MIT_ZINSEN,
   BETRAEGE,
   PLAN_PFAD,
@@ -210,8 +210,9 @@ const PortfolioPlan = () => {
         <section className="reveal mt-10" aria-labelledby="schritt-1">
           <Schritt nr={1} id="schritt-1" titel="Erst das Girokonto" />
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">Bevor du anlegst, liegt dein Geld auf dem Girokonto.</p>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
+          {/* Kein roter Kasten mehr (Elias, 31.10.2026, MC7d13c und MC7d13d: „nicht so rot“), blau umrandet wie der Depot-Aufruf. */}
+          <div className="mt-4 flex gap-3 rounded-2xl border border-primary/20 p-4">
+            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.girokonto}</p>
               <div className="mt-1.5 flex items-center gap-2">
@@ -222,7 +223,7 @@ const PortfolioPlan = () => {
                 </span>
                 <span className="text-[12px] text-muted-foreground">{GIRO_MIT_ZINSEN.map((g) => g.name).join(", ")}</span>
               </div>
-              <p className="mt-2 border-t border-loss/20 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
+              <p className="mt-2 border-t border-primary/10 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
               <Link
                 to={planLink("/vergleich/girokonto", "giro")}
                 className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
@@ -297,31 +298,14 @@ const PortfolioPlan = () => {
 
         <section className="reveal mt-12" aria-labelledby="schritt-4">
           <Schritt nr={4} id="schritt-4" titel="Wo du es jetzt kaufst" />
-          <p className="mt-2 text-[20px] font-extrabold leading-tight text-foreground">
-            Die bekanntesten Depots sind nicht die besten für Muslime.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {BEKANNTE.map((d) => (
-              <div
-                key={d.name}
-                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <AnbieterLogo name={d.name} domain={d.domain} />
-                  <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-                </div>
-                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
-                <p
-                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-                >
-                  {d.gross}
-                </p>
-                <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
-              </div>
-            ))}
+          {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
+              dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
+          <div className="mt-3">
+            <DepotAufruf
+              einleitung="Die bekanntesten Depots sind nicht die besten für Muslime. Zwei Beispiele:"
+              link={(ziel, stelle) => `${ziel}?src=pl${stelle}`}
+            />
           </div>
-          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
-              das kann alles weg“). */}
         </section>
 
         <NaechsterTeil wort="plan" className="mt-12" />

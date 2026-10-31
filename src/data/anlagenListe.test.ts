@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { ANZAHL_DEPOT, BEKANNTE_DEPOTS, KARTEN_DEPOTS, NACHWEIS, SCHMERZ_SATZ, STUFEN_ZAHL, UEBERBLICK, kartenLogos, kaufGruppen, krypto, KRYPTO_PRUEFER, listenGruppen, nachweis } from "./anlagenListe";
+import { ANZAHL_DEPOT, KARTEN_DEPOTS, NACHWEIS, STUFEN_ZAHL, UEBERBLICK, kartenLogos, kaufGruppen, krypto, KRYPTO_PRUEFER, listenGruppen, nachweis } from "./anlagenListe";
 import { kaufZeilen } from "./halalAnlagenKauf";
 import { halalAnlagen } from "./halalAnlagen";
-import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN } from "./etfPlan";
+import { DEPOTS_GEPRUEFT, ETF_ZAHL } from "./etfPlan";
+import { CHECK, TOP3 } from "./depotTop3";
+import { existsSync } from "node:fs";
+import { istGueltigeQuelle } from "@/lib/attribution";
 import { depotAnzeige } from "./vergleichAnzeige";
 import { empfehlbar } from "./vergleichAssistent";
 import { nichtIndexiert } from "./routen";
@@ -41,16 +44,36 @@ describe("Liste (MC7d13)", () => {
     expect(KRYPTO_PRUEFER).toBe("Shariyah Review Bureau in Bahrain");
   });
 
-  it("der eine Schmerz zählt wie der ETF-Plan", () => {
-    expect(SCHMERZ_SATZ).toContain(`Von ${DEPOTS_GEPRUEFT.length} zinsfreien Depots`);
-    expect(DEPOTS_MIT_ALLEN.length).toBeGreaterThan(0);
-    expect(seite.match(/bg-loss-soft/g)).toHaveLength(1);
+  it("Top 3 statt Rot (MC7d13d): drei Depots ohne Kredit, alle ab dem ersten Tag ohne Zinsen, mit Wortmarke", () => {
+    expect(TOP3).toHaveLength(3);
+    expect(TOP3.filter((d) => d.nr1)).toHaveLength(1);
+    for (const d of TOP3) {
+      expect(d.zinsfreiAbStart, d.id).toBe(true);
+      expect(empfehlbar(d.id), d.id).toBe(true);
+      expect(d.haken[0]).toMatch(new RegExp(`^(mind\\. )?\\d+ von ${ETF_ZAHL} Islamic ETFs und Fonds$`));
+      expect(existsSync(`public/guides/assets/logos/${d.domain}.wortmarke.svg`), d.domain).toBe(true);
+    }
+    expect(CHECK.map((d) => d.gross)).toEqual([`6 von ${ETF_ZAHL}`, "Zinsen"]);
+    expect(seite).not.toMatch(/bg-loss-soft|AlertTriangle/);
   });
 
-  it("nur ein Weg raus: kein PDF, keine anderen Listen, kein Spickzettel, kein Formular, Kasten bleibt", () => {
-    expect(seite).not.toMatch(/download|VorlagenSeite|"\/vorlagen|aktien-check|NewsletterBox|"\/halal-anlagen/);
-    expect(seite).toContain('<NaechsterTeil wort="liste"');
-    for (const ziel of seite.match(/listeLink\("([^"]+)"/g) ?? []) expect(ziel).toMatch(/listeLink\("\/vergleich\//);
+  it("die Logos auf den Karten zeigen die Top 3 zuerst", () => {
+    const top = TOP3.map((d) => d.id).filter((id) => KARTEN_DEPOTS.some((k) => k.id === id));
+    expect(KARTEN_DEPOTS.slice(0, top.length).map((k) => k.id)).toEqual(top);
+  });
+
+  it("Reihenfolge: Top 3 nach den Aktien-ETFs, Kasten ganz unten, kein Krypto-Aufruf", () => {
+    expect(seite).toContain('g.kategorie === "aktien" && <TopDrei />');
+    expect(seite.indexOf('<NaechsterTeil wort="liste"')).toBeGreaterThan(seite.indexOf('id="gruppe-krypto"'));
+    expect(seite.indexOf('<NaechsterTeil wort="liste"')).toBeLessThan(seite.indexOf("<footer"));
+    expect(seite).not.toMatch(/vergleich\/krypto/);
+  });
+
+  it("Wege raus: Depots, Nummer 1 und die Anlage-Seite; kein PDF, keine anderen Listen, kein Formular", () => {
+    expect(seite).not.toMatch(/download|VorlagenSeite|"\/vorlagen|aktien-check|NewsletterBox/);
+    for (const ziel of seite.match(/listeLink\([`"]([^`"]+)[`"]/g) ?? [])
+      expect(ziel).toMatch(/listeLink\([`"](\/vergleich\/depot|\/depot-nummer-1|\/halal-anlagen\/\$\{z\.anlage\.slug\})[`"]/);
+    for (const stelle of ["top3", "nr1", "alle", "karte"]) expect(istGueltigeQuelle(`gl${stelle}`), stelle).toBe(true);
   });
 
   it("jede Karte sagt, was geprüft ist; die Zeile oben zählt alle Karten", () => {
@@ -71,11 +94,6 @@ describe("Liste (MC7d13)", () => {
       expect(String(d.werte.halalEdelmetalle)).toMatch(/^\d+ von 7$/);
     }
     expect(seite).not.toMatch(/Anbietern/);
-  });
-
-  it("oben die bekannten Depots mit ihrer Zahl aus dem Depot-Vergleich", () => {
-    expect(BEKANNTE_DEPOTS.map((d) => d.name)).toEqual(["Trade Republic", "Scalable Capital", "flatex"]);
-    for (const d of BEKANNTE_DEPOTS) expect(DEPOTS_GEPRUEFT.find((a) => a.id === d.id)?.werte.halalEtfsFonds).toBe(`${d.zahl} von 12`);
   });
 
   it("kein Satz ohne Beleg: keine persönliche Rangfolge der Prüfstellen, kein Terminkontrakt-Grund", () => {

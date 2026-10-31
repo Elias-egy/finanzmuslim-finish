@@ -16,6 +16,7 @@ import { anlageBySlug } from "@/data/halalAnlagen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
+import { NACHWEIS } from "@/data/anlagenNachweis";
 import { kursFuerAnlage, kursQuelle, kursStand } from "@/lib/kurse";
 
 const erklaerung: Record<string, string> = {
@@ -237,11 +238,13 @@ const AnlageDetail = () => {
               <div className="rounded-lg bg-card px-4 py-3">
                 <dt className="text-[13px] text-muted-foreground">Nachweis</dt>
                 <dd className="mt-0.5 text-[15px] font-semibold text-foreground">
-                  {anlage.zertifikatLink
-                    ? anlage.zertifikatArt === "index"
-                      ? "liegt vor, gilt dem Index"
-                      : "liegt vor"
-                    : "–"}
+                  {/* Dieselbe belegte Zeile wie in der Liste, nicht pauschal „liegt vor“ (Halal-Prüfer r2, Fund 9, MC7d13d). */}
+                  {NACHWEIS[anlage.slug]?.text ??
+                    (anlage.zertifikatLink
+                      ? anlage.zertifikatArt === "index"
+                        ? "liegt vor, gilt dem Index"
+                        : "liegt vor"
+                      : "–")}
                 </dd>
               </div>
             </dl>
@@ -264,8 +267,8 @@ const AnlageDetail = () => {
               )}
               {anlage.zertifikatArt === "index" && (
                 <p>
-                  Für das Produkt selbst gibt der Anbieter kein eigenes Zertifikat heraus. Der
-                  Nachweis bezieht sich auf den Index, den es nachbildet.
+                  Der Nachweis hier bezieht sich auf den Index, den es nachbildet, nicht auf das
+                  Produkt selbst.
                 </p>
               )}
               {istKrypto ? (
