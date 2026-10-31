@@ -1270,6 +1270,106 @@
 .guide-leser .xfoe .drei b{ font-size:1.131rem; }
 .guide-leser .xfoe .drei p{ font-size:0.8961rem; }
 .guide-leser .xfoe .warn{ font-size:0.9396rem; }
+.guide-leser .xcheck{ border:1px solid var(--nebel); border-radius:0.276rem; padding:0.276rem 0.345rem 0.3105rem; }
+.guide-leser .xcheck .kopf{ display:flex; justify-content:space-between; align-items:baseline; gap:0.276rem; }
+.guide-leser .xcheck .nein{ font-size:0.783rem; font-weight:700; color:var(--tief); }
+.guide-leser .xcheck .zwei{ display:grid; grid-template-columns:1fr 1fr; gap:0.276rem; margin-top:0.207rem; }
+.guide-leser .xcheck .pan{ background:var(--nebel-soft); border-radius:0.2415rem; padding:0.207rem 0.276rem 0.2484rem; }
+.guide-leser .xcheck .bild svg{ display:block; width:auto; height:1.863rem; max-width:100%; margin:0 auto; border-radius:0.207rem; }
+.guide-leser .xcheck .fr{ display:flex; align-items:center; gap:0.1725rem; margin-top:0.1725rem; }
+.guide-leser .xcheck .nr{ flex:none; width:0.4485rem; height:0.4485rem; border-radius:50%; background:var(--tief); color:#fff; font-weight:800; font-size:0.783rem; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xcheck h3{ font-size:1.0875rem; color:var(--tief); letter-spacing:-.015em; line-height:1.15; }
+.guide-leser .xcheck p{ font-size:0.8526rem; color:var(--body); line-height:1.4; margin-top:0.0828rem; }
+.guide-leser .xwege3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.207rem; }
+.guide-leser .xwege3 .w{ border:1px solid var(--nebel); border-radius:0.2415rem; padding:0.207rem 0.2622rem 0.2346rem; display:flex; flex-direction:column; gap:0.0828rem; }
+.guide-leser .xwege3 .p{ align-self:flex-start; font-size:0.6612rem; font-weight:800; padding:.0.621rem 0.1656rem; border-radius:99px; line-height:1.2; }
+.guide-leser .xwege3 .g .p{ color:var(--halal); background:var(--halal-bg); }
+.guide-leser .xwege3 .r .p{ color:var(--haram); background:var(--haram-bg); }
+.guide-leser .xwege3 b{ font-size:0.9135rem; color:var(--tief); line-height:1.2; letter-spacing:-.01em; margin-top:.0.414rem; }
+.guide-leser .xwege3 .w > span:not(.p){ font-size:0.783rem; color:var(--body); line-height:1.35; }
+.guide-leser .xloes{ position:relative; background:var(--brand); color:#fff; border-radius:0.276rem; padding:0.345rem 0.414rem 0.3105rem; }
+.guide-leser .xloes .ad{ position:absolute; right:0.414rem; top:0.3174rem; font-size:0.6438rem; color:var(--himmel); }
+.guide-leser .xloes .kick{ color:var(--himmel); }
+.guide-leser .xloes .inhalt{ display:grid; grid-template-columns:1fr 4.692rem; gap:0.345rem; margin-top:0.1725rem; }
+.guide-leser .xloes .t{ font-size:1.479rem; font-weight:800; letter-spacing:-.025em; line-height:1.12; color:#fff; }
+.guide-leser .xloes ul{ list-style:none; margin:0.207rem 0 0; padding:0; display:flex; flex-direction:column; gap:0.1311rem; }
+.guide-leser .xloes li{ display:flex; align-items:center; gap:0.1725rem; font-size:0.87rem; line-height:1.3; color:#fff; }
+.guide-leser .xloes li b{ color:#fff; font-weight:800; }
+.guide-leser .xloes .ck{ flex:none; width:0.345rem; height:0.345rem; border-radius:50%; background:#fff; color:var(--brand); font-size:0.6525rem; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.guide-leser .xloes .rechts{ background:#fff; border-radius:0.2415rem; padding:0.276rem; display:flex; flex-direction:column; gap:0.207rem; justify-content:center; }
+.guide-leser .xloes .produkt{ display:grid; grid-template-columns:0.759rem 1fr; gap:0.207rem; align-items:center; }
+.guide-leser .xloes .produkt img{ width:0.759rem; height:0.759rem; border-radius:0.1725rem; object-fit:contain; }
+.guide-leser .xloes .produkt span{ display:block; font-size:0.6438rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.guide-leser .xloes .produkt b{ display:block; font-size:1.0005rem; color:var(--tief); line-height:1.2; letter-spacing:-.01em; margin-top:.0.276rem; }
+.guide-leser .xloes .auch{ display:flex; align-items:center; gap:0.1104rem; }
+.guide-leser .xloes .auch img{ width:0.414rem; height:0.414rem; border-radius:0.0897rem; object-fit:contain; border:1px solid var(--nebel-soft); }
+.guide-leser .xloes .auch span{ font-size:0.7395rem; color:var(--body); margin-left:0.069rem; }
+.guide-leser .xloes .knopf{ display:block; text-align:center; background:var(--brand); color:#fff; font-weight:800; font-size:0.9135rem; padding:0.2208rem 0.276rem; border-radius:0.1518rem; text-decoration:none; white-space:nowrap; }
+.guide-leser .xloes .statt{ font-size:0.7656rem; color:var(--himmel); margin-top:0.2415rem; line-height:1.4; }
+.guide-leser .xfn{ font-size:0.6612rem; color:var(--muted); line-height:1.4; margin-top:1px; }
+.guide-leser .xloes.xkrypto .t{ margin-top:0.1035rem; font-size:1.392rem; max-width:10.35rem; }
+.guide-leser .xloes .boersen{ display:grid; grid-template-columns:repeat(3,1fr); gap:0.207rem; margin-top:0.2415rem; }
+.guide-leser .xloes .boersen .b{ background:#fff; border-radius:0.2415rem; padding:0.2415rem 0.276rem; display:flex; align-items:center; gap:0.207rem; }
+.guide-leser .xloes .boersen img{ width:0.759rem; height:0.759rem; border-radius:0.1725rem; object-fit:contain; }
+.guide-leser .xloes .boersen .n{ font-size:1.131rem; font-weight:800; color:var(--tief); letter-spacing:-.015em; }
+.guide-leser .xloes ul.vier{ display:grid; grid-template-columns:1fr 1fr; gap:0.138rem 0.345rem; margin-top:0.2622rem; }
+.guide-leser .xloes.xkrypto .fuss{ display:flex; align-items:center; justify-content:space-between; gap:0.276rem; margin-top:0.2898rem; }
+.guide-leser .xloes.xkrypto .statt{ margin-top:0; max-width:4.968rem; }
+.guide-leser .xloes .knoepfe{ display:flex; gap:0.1725rem; flex:none; }
+.guide-leser .xloes .knoepfe .knopf{ display:inline-block; background:#fff; color:var(--brand); padding:0.207rem 0.345rem; border:1.5px solid #fff; }
+.guide-leser .xloes .knoepfe .knopf.hell{ background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.75); }
+.guide-leser .xi-body:has(.xloes.xkrypto){ gap:0.345rem; margin-top:0.414rem; }
+.guide-leser .xi-body:has(.xcheck){ gap:0.276rem; }
+.guide-leser .xlink{ display:flex; align-items:center; justify-content:space-between; gap:0.345rem; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.3795rem; }
+.guide-leser .xlink b{ display:block; font-size:1.0875rem; color:var(--tief); letter-spacing:-.015em; }
+.guide-leser .xlink span{ display:block; font-size:0.8265rem; color:var(--body); margin-top:.0.552rem; }
+.guide-leser .xlink .knopf{ flex:none; background:var(--brand); color:#fff; font-weight:800; font-size:0.87rem; padding:0.207rem 0.3795rem; border-radius:0.138rem; text-decoration:none; white-space:nowrap; }
+.guide-leser .xzeit{ background:var(--nebel-soft); border-radius:0.276rem; padding:0.3105rem 0.414rem 0.276rem; }
+.guide-leser .xzeit svg{ margin-top:0.207rem; }
+.guide-leser .xi-body:has(.xcheck){ gap:0.3795rem; margin-top:0.552rem; }
+.guide-leser .xcheck{ padding:0.345rem 0.414rem 0.3795rem; }
+.guide-leser .xcheck .zwei{ margin-top:0.2415rem; }
+.guide-leser .xcheck .pan{ padding:0.276rem 0.3105rem 0.3105rem; }
+.guide-leser .xcheck .bild svg{ height:2.346rem; }
+.guide-leser .xwege3 .w{ padding:0.276rem 0.3105rem 0.3036rem; }
+.guide-leser .xi-body:has(.xcheck) .xloes{ padding:0.414rem 0.483rem 0.3795rem; }
+.guide-leser .xi-body:has(.xcheck) .xloes .ad{ top:0.3864rem; right:0.483rem; }
+.guide-leser .xi-body:has(.xloes.xkrypto){ gap:0.483rem; margin-top:0.552rem; }
+.guide-leser .xi-body:has(.xloes.xkrypto) .xn{ padding:0.4485rem 0.483rem; }
+.guide-leser .xi-body:has(.xloes.xkrypto) .xcoins{ padding:0.345rem 0.414rem; }
+.guide-leser .xi-body:has(.xloes.xkrypto) .xcoins .c{ padding:0.2415rem 0.2415rem; }
+.guide-leser .xloes.xkrypto{ padding:0.4485rem 0.483rem 0.414rem; }
+.guide-leser .xloes.xkrypto .ad{ top:0.4278rem; right:0.483rem; }
+.guide-leser .xloes.xkrypto .boersen{ margin-top:0.3105rem; gap:0.2415rem; }
+.guide-leser .xloes.xkrypto .boersen .b{ padding:0.345rem 0.345rem; }
+.guide-leser .xloes.xkrypto .boersen img{ width:0.897rem; height:0.897rem; }
+.guide-leser .xloes.xkrypto .boersen .n{ font-size:1.305rem; }
+.guide-leser .xloes.xkrypto ul.vier{ margin-top:0.3105rem; gap:0.1794rem 0.345rem; }
+.guide-leser .xloes.xkrypto li{ font-size:0.9135rem; }
+.guide-leser .xloes.xkrypto .fuss{ margin-top:0.345rem; }
+.guide-leser .xzeit .hz{ margin-top:0.2415rem; display:flex; flex-direction:column; gap:0.3795rem; }
+.guide-leser .xzeit .r{ display:grid; grid-template-columns:2.829rem 1fr; align-items:center; }
+.guide-leser .xzeit .l b{ display:block; font-size:1.044rem; font-weight:800; color:var(--tief); line-height:1.15; letter-spacing:-.01em; }
+.guide-leser .xzeit .l span{ display:block; font-size:0.783rem; color:var(--body); margin-top:.0.276rem; }
+.guide-leser .xzeit .spur{ position:relative; height:0.6624rem; border-radius:99px; background-color:#fff;
+  background-image:repeating-linear-gradient(to right, transparent 0, transparent calc(13.333% - 1px), var(--nebel) calc(13.333% - 1px), var(--nebel) 13.333%); }
+.guide-leser .xzeit .bar{ position:absolute; top:0; bottom:0; display:flex; align-items:center; justify-content:center; border-radius:99px; font-size:0.9135rem; font-weight:800; white-space:nowrap; color:var(--tief); }
+.guide-leser .xzeit .bar.s{ left:13.333%; width:26.667%; background:var(--himmel); }
+.guide-leser .xzeit .bar.g{ left:53.333%; right:0; background:#DAA11B; }
+.guide-leser .xzeit .bar.e{ left:66.667%; right:0; background:var(--tief); color:#fff; }
+.guide-leser .xzeit .bar.pfeil{ border-radius:99px 0 0 99px; padding-right:0.207rem; clip-path:polygon(0 0, calc(100% - 0.345rem) 0, 100% 50%, calc(100% - 0.345rem) 100%, 0 100%); }
+.guide-leser .xzeit .achse{ margin-top:1px; }
+.guide-leser .xzeit .achse .spur{ height:0.4485rem; background:none; border-radius:0; border-top:2px solid var(--nebel); }
+.guide-leser .xzeit .achse i{ position:absolute; top:0.1104rem; transform:translateX(-50%); font-style:normal; font-size:0.783rem; font-weight:700; color:var(--body); }
+.guide-leser .xzeit .achse .l span{ margin-top:0.0966rem; }
+.guide-leser .xzeit .j1{ left:13.333%; }
+.guide-leser .xzeit .j2{ left:26.667%; }
+.guide-leser .xzeit .j3{ left:40%; }
+.guide-leser .xzeit .j4{ left:53.333%; }
+.guide-leser .xzeit .j5{ left:66.667%; }
+.guide-leser .xzeit .j6{ left:80%; }
+.guide-leser .xzeit .j7{ left:93.333%; }
+.guide-leser .xcoins > p b{ color:var(--tief); font-weight:700; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1687,6 +1787,84 @@
   .guide-leser .xvs3 .z .blau::before{ content:"Sukuk: "; font-weight:800; color:var(--brand); }
   .guide-leser .xcoins .vier, .guide-leser .xrat2 .vier{ grid-template-columns:1fr 1fr; }
   .guide-leser .xkrypto .knoepfe{ width:100%; flex-direction:column; }
+}
+/* MC7d9g7: Gold-Check, drei Wege, Lösungsblock (Gold, Krypto), Prüf-Apps-Verweis, Horizont; am Handy untereinander. */
+.guide-leser .xcheck{ padding:1rem; }
+.guide-leser .xcheck .kopf{ flex-wrap:wrap; gap:.3rem .8rem; }
+.guide-leser .xcheck .nein{ font-size:.85rem; }
+.guide-leser .xcheck .bild svg{ height:auto; width:100%; max-height:9rem; }
+.guide-leser .xcheck .nr{ width:1.6rem; height:1.6rem; font-size:.85rem; }
+.guide-leser .xcheck h3{ font-size:1.1rem; }
+.guide-leser .xcheck p{ font-size:.95rem; }
+.guide-leser .xwege3 .p{ font-size:.75rem; }
+.guide-leser .xwege3 b{ font-size:1rem; }
+.guide-leser .xwege3 .w > span:not(.p){ font-size:.9rem; }
+.guide-leser .xloes{ padding:1.1rem; }
+.guide-leser .xloes .ad{ font-size:.6875rem; top:1.1rem; right:1.1rem; }
+.guide-leser .xloes .kick{ padding-right:4rem; }
+.guide-leser .xloes .t{ font-size:1.35rem; }
+.guide-leser .xloes li{ font-size:.95rem; }
+.guide-leser .xloes .ck{ width:1.3rem; height:1.3rem; font-size:.75rem; }
+.guide-leser .xloes .produkt{ grid-template-columns:2.6rem 1fr; }
+.guide-leser .xloes .produkt img, .guide-leser .xloes .boersen img{ width:2.6rem; height:2.6rem; max-width:none; }
+.guide-leser .xloes .produkt span{ font-size:.75rem; }
+.guide-leser .xloes .produkt b{ font-size:1.05rem; }
+.guide-leser .xloes .auch img{ width:1.5rem; height:1.5rem; max-width:none; }
+.guide-leser .xloes .auch span{ font-size:.85rem; }
+.guide-leser .xloes .knopf{ font-size:.95rem; padding:.75rem 1rem; }
+.guide-leser .xloes .statt{ font-size:.85rem; }
+.guide-leser .xloes .boersen .n{ font-size:1.15rem; }
+.guide-leser .xloes.xkrypto .fuss{ flex-wrap:wrap; }
+.guide-leser .xloes.xkrypto .statt{ max-width:none; }
+.guide-leser .xfn{ font-size:.8rem; margin-top:0; }
+.guide-leser .xlink b{ font-size:1.05rem; } .guide-leser .xlink span{ font-size:.9rem; }
+.guide-leser .xlink .knopf{ font-size:.95rem; padding:.7rem 1.1rem; }
+.guide-leser .xzeit{ padding:1rem; }
+/* „mit Bedingung“ bei Chainlink war am Handy 9,7 px (Messung MC7d9g7). */
+.guide-leser .xcoins .c .m .b{ font-size:.75rem; }
+/* MC7d9g7 Handy-Messung: Innenabstände der neuen Kacheln (aus mm wurden 0,2 rem), Krypto-Titel ohne Druckbreite, Horizont lesbar. */
+.guide-leser .xcheck .pan{ padding:.8rem .9rem .9rem; }
+.guide-leser .xwege3{ gap:.6rem; }
+.guide-leser .xwege3 .w{ padding:.75rem .9rem .85rem; gap:.3rem; }
+.guide-leser .xloes .inhalt{ gap:.9rem; margin-top:.5rem; }
+.guide-leser .xloes ul{ gap:.45rem; margin-top:.7rem; }
+.guide-leser .xloes li{ gap:.6rem; }
+.guide-leser .xloes .rechts{ padding:.9rem; gap:.7rem; }
+.guide-leser .xloes .produkt{ gap:.7rem; }
+.guide-leser .xloes.xkrypto .t{ max-width:none; font-size:1.3rem; }
+.guide-leser .xloes.xkrypto .boersen{ gap:.6rem; margin-top:.8rem; }
+.guide-leser .xloes.xkrypto .boersen .b{ padding:.8rem .9rem; gap:.75rem; }
+.guide-leser .xloes.xkrypto .boersen img{ width:2.4rem; height:2.4rem; max-width:none; }
+.guide-leser .xloes.xkrypto .boersen .n{ font-size:1.15rem; }
+.guide-leser .xloes.xkrypto ul.vier{ gap:.45rem 1rem; margin-top:.9rem; }
+.guide-leser .xloes.xkrypto .fuss{ gap:.8rem; margin-top:1rem; }
+.guide-leser .xlink{ padding:1rem 1.1rem; gap:.8rem; }
+/* Seite 17 Förderung (Rest aus MC7d9g6): Nummernkreise waren 0,48 rem, Innenrand 0,38 rem. */
+.guide-leser .xfoe{ padding:1rem; gap:.8rem; }
+.guide-leser .xfoe .drei > div{ padding:.85rem .95rem; gap:.3rem; }
+.guide-leser .xfoe .nr{ width:1.6rem; height:1.6rem; font-size:.85rem; }
+.guide-leser .xi-body:has(.xcheck) .xloes, .guide-leser .xloes.xkrypto{ padding:1.1rem 1.1rem 1rem; }
+.guide-leser .xi-body:has(.xcheck) .xloes .ad, .guide-leser .xloes.xkrypto .ad{ top:1.1rem; right:1.1rem; }
+.guide-leser .xzeit .hz{ gap:.9rem; margin-top:.8rem; }
+.guide-leser .xzeit .r{ grid-template-columns:8rem 1fr; }
+.guide-leser .xzeit .l b{ font-size:1rem; } .guide-leser .xzeit .l span{ font-size:.85rem; }
+.guide-leser .xzeit .spur{ height:2rem; }
+.guide-leser .xzeit .bar{ font-size:.8rem; }
+.guide-leser .xzeit .bar.pfeil{ padding-right:.6rem; clip-path:polygon(0 0, calc(100% - .8rem) 0, 100% 50%, calc(100% - .8rem) 100%, 0 100%); }
+.guide-leser .xzeit .achse{ margin-top:-.3rem; }
+.guide-leser .xzeit .achse .spur{ height:1.4rem; }
+.guide-leser .xzeit .achse i{ font-size:.8rem; top:.3rem; }
+@media (max-width:36rem){
+  .guide-leser .xzeit .r{ grid-template-columns:1fr; gap:.35rem; }
+  .guide-leser .xzeit .achse .l{ display:none; }
+  .guide-leser .xzeit .bar{ font-size:.75rem; }
+}
+@media (max-width:36rem){
+  .guide-leser .xcheck .zwei, .guide-leser .xwege3, .guide-leser .xloes .inhalt, .guide-leser .xloes .boersen, .guide-leser .xloes ul.vier{ grid-template-columns:1fr; }
+  .guide-leser .xloes .knoepfe{ width:100%; flex-direction:column; }
+  .guide-leser .xloes .knoepfe .knopf{ display:block; text-align:center; }
+  .guide-leser .xlink{ flex-direction:column; align-items:stretch; }
+  .guide-leser .xlink .knopf{ text-align:center; }
 }
 
 /* Bilder nie ueber den Rand. */
