@@ -985,6 +985,67 @@
 .guide-leser .xd .lg{ width:100%; height:1.104rem; border:1px solid var(--nebel); border-radius:0.138rem; background:#fff; display:flex; align-items:center; justify-content:center; padding:0.207rem 0.276rem; box-sizing:border-box; }
 .guide-leser .xd .lg img{ display:block; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; }
 .guide-leser .xd a, .guide-leser .xd a.leise{ display:block; text-align:center; background:var(--brand); color:#fff; font-weight:800; font-size:0.957rem; padding:0 0.207rem; height:0.621rem; line-height:0.621rem; border-radius:0.138rem; text-decoration:none; white-space:nowrap; }
+.guide-leser{ counter-reset:seite; }
+.guide-leser .page{ counter-increment:seite; }
+.guide-leser .footer .snr::before{ content:"Seite " counter(seite); }
+.guide-leser .xi-body > .quelle{ font-size:0.6438rem; color:var(--muted); }
+.guide-leser .xriba{ display:grid; grid-template-columns:1fr 1fr; gap:0.345rem; }
+.guide-leser .xriba .pan{ background:var(--nebel-soft); border-radius:0.276rem; padding:0.345rem 0.414rem 0.3795rem; }
+.guide-leser .xriba .pan.rot .kick{ color:var(--haram); }
+.guide-leser .xriba .pan.blau .kick{ color:var(--brand); }
+.guide-leser .xriba h3{ font-size:1.479rem; color:var(--tief); letter-spacing:-.02em; margin-top:0.069rem; line-height:1.1; }
+.guide-leser .xriba svg{ display:block; width:100%; height:auto; margin-top:0.2415rem; }
+.guide-leser .xriba p{ font-size:0.9135rem; color:var(--body); line-height:1.45; margin-top:0.1725rem; }
+.guide-leser .xzwei{ display:grid; grid-template-columns:1fr 1fr; gap:0.345rem; }
+.guide-leser .xzwei > div{ position:relative; background:var(--nebel-soft); border-radius:0.276rem; padding:0.3105rem 1.656rem 0.3105rem 0.414rem; }
+.guide-leser .xzwei h3{ font-size:1.218rem; color:var(--tief); letter-spacing:-.02em; margin-top:.0.345rem; }
+.guide-leser .xzwei p{ font-size:0.87rem; color:var(--body); line-height:1.4; margin-top:0.1035rem; }
+.guide-leser .xzwei .ar{ position:absolute; right:0.345rem; top:50%; transform:translateY(-50%); width:1.173rem; max-height:1.104rem; object-fit:contain; opacity:.5; }
+.guide-leser .xdrei{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.3105rem; }
+.guide-leser .xdrei .pan{ background:var(--nebel-soft); border-radius:0.276rem; padding:0.345rem 0.345rem 0.3795rem; }
+.guide-leser .xdrei .pan.ziel{ background:var(--himmel); }
+.guide-leser .xdrei svg{ display:block; width:100%; height:auto; }
+.guide-leser .xdrei .w{ font-size:1.653rem; font-weight:800; color:var(--tief); letter-spacing:-.03em; line-height:1.05; margin-top:0.2415rem; }
+.guide-leser .xdrei p{ font-size:0.9135rem; color:var(--body); line-height:1.45; margin-top:0.138rem; }
+.guide-leser .xhin2{ font-size:0.957rem; color:var(--tief); font-weight:700; }
+.guide-leser .xreg{ display:flex; flex-direction:column; gap:0.2415rem; }
+.guide-leser .xreg .rg{ display:grid; grid-template-columns:2.346rem 1fr; gap:0.345rem; align-items:start; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.345rem; }
+.guide-leser .xreg .rl b{ display:block; font-size:1.392rem; font-weight:800; color:var(--tief); letter-spacing:-.03em; line-height:1; }
+.guide-leser .xreg .rl span{ display:block; font-size:0.7395rem; color:var(--body); margin-top:0.1035rem; }
+.guide-leser .xreg .rc{ display:grid; grid-template-columns:1fr 1fr; gap:0.1725rem; }
+.guide-leser .xreg .ch{ display:grid; grid-template-columns:0.483rem 1fr; column-gap:0.207rem; align-items:center; background:#fff; border-radius:0.207rem; padding:0.1725rem 0.2415rem; }
+.guide-leser .xreg .ch img{ width:0.483rem; height:0.483rem; border-radius:0.1104rem; object-fit:contain; }
+.guide-leser .xreg .ch .n{ font-size:0.8265rem; font-weight:800; color:var(--tief); line-height:1.2; }
+.guide-leser .xreg .ch .m{ font-size:0.6786rem; color:var(--body); margin-top:.0.552rem; line-height:1.3; }
+.guide-leser .xreg .ch .m i{ font-style:normal; font-weight:800; color:var(--brand); margin-right:0.1035rem; }
+.guide-leser .xreg .ch .m i::after{ content:" ·"; color:var(--body); font-weight:400; }
+.guide-leser .xzeit .kick{ color:var(--brand); }
+.guide-leser .xzeit p{ font-size:1.044rem; color:var(--tief); font-weight:700; margin-top:0.069rem; }
+.guide-leser .xzeit svg{ display:block; width:100%; height:auto; margin-top:0.1725rem; }
+.guide-leser .xschicht .s{ border:1px solid var(--nebel); border-radius:0.276rem; padding:0.276rem 0.345rem 0.3105rem; }
+.guide-leser .xschicht .s1{ background:var(--nebel-soft); }
+.guide-leser .xschicht .s2{ background:#fff; margin-top:0.2415rem; }
+.guide-leser .xschicht .s3{ background:var(--nebel-soft); margin-top:0.2415rem; }
+.guide-leser .xschicht .et{ display:flex; align-items:center; gap:0.207rem; }
+.guide-leser .xschicht .et .nr{ width:0.5175rem; height:0.5175rem; border-radius:50%; background:var(--tief); color:#fff; font-weight:800; font-size:0.8265rem; display:flex; align-items:center; justify-content:center; flex:none; }
+.guide-leser .xschicht .et b{ display:block; font-size:1.1745rem; color:var(--tief); letter-spacing:-.02em; line-height:1.1; }
+.guide-leser .xschicht .et span{ display:block; font-size:0.8265rem; color:var(--body); }
+.guide-leser .xschicht p{ font-size:0.9135rem; color:var(--body); line-height:1.45; margin-top:0.138rem; }
+.guide-leser .xschicht .fn{ font-weight:800; color:var(--tief); }
+.guide-leser .xgauge .ob{ font-size:1.044rem; color:var(--tief); font-weight:700; }
+.guide-leser .xgauge svg{ display:block; width:100%; height:auto; margin-top:0.207rem; }
+.guide-leser .xalltag{ display:grid; grid-template-columns:1fr 1fr; gap:0.345rem; }
+.guide-leser .xalltag .sp{ border-radius:0.276rem; padding:0.345rem 0.414rem 0.3795rem; display:flex; flex-direction:column; gap:0.2208rem; }
+.guide-leser .xalltag .sp.rot{ background:var(--haram-bg); }
+.guide-leser .xalltag .sp.blau{ background:var(--nebel-soft); }
+.guide-leser .xalltag .sp.rot .kick{ color:var(--haram); }
+.guide-leser .xalltag .sp.blau .kick{ color:var(--brand); }
+.guide-leser .xalltag .z{ display:grid; grid-template-columns:0.483rem 1fr; gap:0.207rem; align-items:start; background:#fff; border-radius:0.207rem; padding:0.207rem 0.2415rem; }
+.guide-leser .xalltag .mk{ width:0.483rem; height:0.483rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.87rem; font-weight:800; color:#fff; }
+.guide-leser .xalltag .rot .mk{ background:var(--haram); }
+.guide-leser .xalltag .blau .mk{ background:var(--brand); }
+.guide-leser .xalltag b{ display:block; font-size:1.0005rem; font-weight:800; color:var(--tief); letter-spacing:-.01em; line-height:1.2; }
+.guide-leser .xalltag .z span:not(.mk){ display:block; font-size:0.8265rem; color:var(--body); line-height:1.35; margin-top:.0.552rem; }
 /* ============================================================
    BILDSCHIRMFASSUNG
    Das Original ist eine A4-Seite. Hier wird daraus eine Spalte,
@@ -1284,6 +1345,19 @@
   .guide-leser .xd .lg{ width:7.5rem; height:3rem; flex:none; }
   .guide-leser .xd a{ flex:1; }
 }
+
+/* MC7d9g3c (PLAN.md MC7D9G3C Abschnitt 5c): Trichter-Seiten am Handy einspaltig. */
+.guide-leser .xriba, .guide-leser .xzwei, .guide-leser .xdrei, .guide-leser .xalltag{ grid-template-columns:1fr; gap:.75rem; }
+.guide-leser .xzwei > div{ padding-right:4.5rem; }
+.guide-leser .xzwei .ar{ width:3rem; right:1rem; }
+.guide-leser .xreg .rg, .guide-leser .xreg .rc{ grid-template-columns:1fr; }
+.guide-leser .xreg .ch{ grid-template-columns:2rem 1fr; }
+.guide-leser .xreg .ch img{ width:2rem; height:2rem; }
+.guide-leser .xreg .ch .n{ font-size:.95rem; }
+.guide-leser .xreg .ch .m{ font-size:.8rem; }
+.guide-leser .xschicht .s{ padding:.85rem; }
+.guide-leser .xdrei .w{ font-size:1.35rem; }
+.guide-leser .xalltag .mk{ width:1.6rem; height:1.6rem; }
 
 /* Bilder nie ueber den Rand. */
 .guide-leser img{ max-width:100%; height:auto; }
