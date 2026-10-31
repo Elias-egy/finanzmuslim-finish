@@ -90,6 +90,9 @@ export const VALID_SRC = [
   "xxlsteuer",
   "xxlzakat",
   "xxlende",
+  // MC7d10: Top-3-Depots auf Seite 7 und Prüf-Apps auf Seite 11 (Klicks fielen bis dahin aus der Zählung).
+  "xxltop3",
+  "xxlapps",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

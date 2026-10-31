@@ -8,6 +8,7 @@ import {
 } from "@/data/vergleichAnzeige";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
+import { istGueltigeQuelle } from "@/lib/attribution";
 import guide from "@/guides/xxl.html?raw";
 
 /**
@@ -65,5 +66,15 @@ describe("XXL-Guide hält die Vergleichsdaten", () => {
   it("führt Girokonto-Werbung zum Vergleich und Gold-Werbung zur Anlagen-Liste, je einmal", () => {
     expect(guide.split("/vergleich/girokonto?src=xxlgiro").length - 1).toBe(1);
     expect(guide.split("/halal-anlagen?src=xxlgold").length - 1).toBe(1);
+  });
+});
+
+// MC7d10: Ein ?src, das nicht in VALID_SRC steht, verwirft captureSrc still; der Klick zählt dann nicht.
+describe("XXL-Guide zählt jeden Klick", () => {
+  const quellen = [...new Set([...guide.matchAll(/[?&]src=([a-z0-9]+)/g)].map((m) => m[1]))];
+
+  it("nutzt nur Klickquellen aus VALID_SRC", () => {
+    expect(quellen.length).toBeGreaterThan(0);
+    expect(quellen.filter((q) => !istGueltigeQuelle(q))).toEqual([]);
   });
 });
