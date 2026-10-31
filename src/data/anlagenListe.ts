@@ -9,7 +9,6 @@
  * Zinsaussage hat ihren Beleg in `docs/freebies/anlagen-liste.txt.belege.md`.
  */
 import { kaufGruppen, kaufZeilen, krypto, ohneBeleg, type KaufZeile } from "@/data/halalAnlagenKauf";
-import type { Anlage } from "@/data/halalAnlagen";
 import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN, ETF_ZAHL } from "@/data/etfPlan";
 
 /** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
@@ -22,8 +21,11 @@ export const UEBERBLICK = [
 ];
 export const ANZAHL_DEPOT = kaufZeilen.length;
 
-/** Prüfstelle kurz: der Teil vor dem ersten Komma, wie in der Anlagen-Datenbank geschrieben. */
-export const pruefstelle = (a: Anlage) => a.zertifizierer.split(",")[0];
+/**
+ * Die Coins hat nur eine Stelle geprüft; sie nennt jede Analyse „preliminary Sharia research and … by no means
+ * a fatwa“ (shariyah.net, je Coin-Seite, 31.10.2026). Der Test hält fest, dass es eine Stelle bleibt.
+ */
+export const KRYPTO_PRUEFER = [...new Set(krypto.map((a) => a.zertifizierer.replace(", Bahrain", " in Bahrain")))].join(", ");
 
 /**
  * Kleine Logos je Karte, nicht anklickbar (Elias, 28.10.2026, MC3b). Nur bekannte, empfehlbare Depots, die

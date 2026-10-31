@@ -18,7 +18,7 @@ import {
   krypto,
   listeLink,
   ohneBeleg,
-  pruefstelle,
+  KRYPTO_PRUEFER,
 } from "@/data/anlagenListe";
 
 /**
@@ -44,7 +44,7 @@ const Karte = ({ z }: { z: KaufZeile }) => {
         <AnlageLogo a={z.anlage} />
         <div className="min-w-0">
           <p className="text-[16px] font-bold leading-snug text-foreground">{z.anlage.name}</p>
-          <p className="text-[14px] leading-snug text-muted-foreground">Prüfung: {pruefstelle(z.anlage)}</p>
+          <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{z.anlage.zertifizierer}</p>
         </div>
       </div>
       <div className="mt-3 flex items-center gap-2">
@@ -94,7 +94,7 @@ const HalalAnlagenVoll = () => {
             Was kann ich überhaupt halal kaufen?
           </h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">
-            {ANZAHL_DEPOT} Anlagen mit Prüfstelle, alle im Depot. Dazu {krypto.length} Coins.
+            {ANZAHL_DEPOT} Anlagen, die du im Depot kaufen kannst. Dazu {krypto.length} Coins.
           </p>
           <nav aria-label="Was es gibt" className="mt-3 flex flex-wrap gap-1.5">
             {UEBERBLICK.map((u) => (
@@ -187,6 +187,9 @@ const HalalAnlagenVoll = () => {
             <p className="mt-3 text-[16px] leading-snug text-foreground/80">
               Die {krypto.length} Coins aus der Anlagen-Datenbank gibt es nicht im Depot, sondern an einer Krypto-Börse. Welche Börse
               echte Coins ohne Zins und Lending führt, steht im Vergleich.
+            </p>
+            <p className="mt-2 text-[12px] leading-snug text-muted-foreground">
+              Vorläufige Einschätzung des {KRYPTO_PRUEFER}, nach eigener Aussage keine Fatwa.
             </p>
             <Link
               to={listeLink("/vergleich/krypto", "krypto")}

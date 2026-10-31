@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { ANZAHL_DEPOT, KARTEN_DEPOTS, SCHMERZ_SATZ, UEBERBLICK, kartenLogos, kaufGruppen, krypto, pruefstelle } from "./anlagenListe";
+import { ANZAHL_DEPOT, KARTEN_DEPOTS, SCHMERZ_SATZ, UEBERBLICK, kartenLogos, kaufGruppen, krypto, KRYPTO_PRUEFER } from "./anlagenListe";
 import { kaufZeilen } from "./halalAnlagenKauf";
 import { halalAnlagen } from "./halalAnlagen";
 import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN } from "./etfPlan";
@@ -21,7 +21,7 @@ describe("Liste (MC7d13)", () => {
   it("jede Karte hat eine Prüfstelle aus der Datenbank und Logos nur von Depots, die die Anlage führen", () => {
     for (const g of kaufGruppen)
       for (const z of g.zeilen) {
-        expect(pruefstelle(z.anlage).length).toBeGreaterThan(3);
+        expect(z.anlage.zertifizierer.length).toBeGreaterThan(3);
         const logos = kartenLogos(z);
         expect(logos.length).toBeLessThanOrEqual(3);
         for (const d of logos) expect(z.kaufbar.kaufbar.map((k) => k.anbieter)).toContain(d.name);
@@ -34,6 +34,10 @@ describe("Liste (MC7d13)", () => {
       expect(empfehlbar(d.id)).toBe(true);
       expect(DEPOTS_GEPRUEFT.some((a) => a.id === d.id)).toBe(true);
     }
+  });
+
+  it("die Coins hat genau eine Stelle geprüft", () => {
+    expect(KRYPTO_PRUEFER).toBe("Shariyah Review Bureau in Bahrain");
   });
 
   it("der eine Schmerz zählt wie der ETF-Plan", () => {
