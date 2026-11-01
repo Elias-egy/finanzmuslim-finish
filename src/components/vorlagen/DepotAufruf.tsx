@@ -17,7 +17,8 @@ type Props = {
  * der Check mit zwei bekannten Depots und darunter die drei besten, blau umrandet. Kennzeichnung wie im Guide:
  * „Werbung“ oben rechts, Sternchen am Knopf, eine Fußnote. Die Nummer 1 führt zum Video, die beiden anderen zum Vergleich.
  */
-const DepotAufruf = ({ titel, einleitung, link }: Props) => (
+// Elias, 01.11.2026, MC7d13d: über den beiden Karten „die bekanntesten sind nicht gleich die besten“.
+const DepotAufruf = ({ titel, einleitung = "Die bekanntesten sind nicht gleich die besten.", link }: Props) => (
   <div className="relative rounded-3xl border border-primary/20 p-4 md:p-6" data-depot-aufruf>
     <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
     {titel && (
