@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
@@ -7,10 +7,10 @@ import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
 import {
-  BROKER_SATZ,
   ETF_BETRAEGE,
   ETF_MONATLICH,
   ETF_PFAD,
@@ -22,7 +22,6 @@ import {
   REST_SATZ,
   WORLD_ANBIETER,
   WORLD_ZEILE,
-  etfLink,
   etfQuellen,
   schmerzSatz,
   zahl,
@@ -34,11 +33,17 @@ import {
  * Stil wie die Gold-Seite (src/pages/GoldPlan.tsx) und Fassung 5 des Portfolio-Plans (Elias, 28.10.2026:
  * „in dem stil alle anderen auch“): oben die Geld-Frage (der Klick markiert nur), der eine rote Schmerz
  * (im normalen MSCI World stecken Finanzfirmen), wie ein Islamic ETF filtert (Grafik mit dem Betrag),
- * Beispiele mit Shariah-Prüfung, „Wo kann ich sie kaufen?“ ohne Rot, die bekanntesten Apps, der Aufruf
- * zum Depot-Vergleich. Kein Hinweis auf ein anderes Freebie.
+ * alle Islamic ETFs als Karten, zuletzt der Depot-Aufruf „Die besten Broker für Muslime“. Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
 const ETF_ZEILEN = listenGruppen.find((g) => g.kategorie === "aktien")!.zeilen;
+
+/** Die Farben im Balken oben: Marke, Violett, Grün, wie die Bausteine im Plan. */
+const BALKEN_FARBEN = [
+  { farbe: "#0057FA", anteil: 3 },
+  { farbe: "#705FF1", anteil: 2 },
+  { farbe: "#0E9F8A", anteil: 1 },
+] as const;
 
 const Titel = ({ id, children }: { id: string; children: string }) => (
   <h2 id={id} className="text-[24px] font-extrabold leading-tight text-foreground">
@@ -98,12 +103,15 @@ const EtfPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, wo du Islamic ETFs zinsfrei kaufst.{" "}
-            <Link to={etfLink("/vergleich/depot", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Depot-Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...ETF_BETRAEGE)}
+            teile={BALKEN_FARBEN}
+            links={`In einem Jahr in ${zahl(ISLAMIC_FIRMEN)} geprüften Firmen`}
+            wert={betrag * 12}
+            format={(n) => `${Math.round(n).toLocaleString("de-DE")} €`}
+          />
           <PdfKnopf wort="etf" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
@@ -177,14 +185,10 @@ const EtfPlan = () => {
           )}
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="kaufen">
-          <Titel id="kaufen">Wo kann ich sie kaufen?</Titel>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">{BROKER_SATZ}</p>
-          {/* Darunter derselbe Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten
-              Broker für Muslime in der ganzen Liste“). */}
-          <div className="mt-8">
-            <DepotAufruf titel="Die besten Broker für Muslime" link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
-          </div>
+        {/* Nur der Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten Broker für
+            Muslime in der ganzen Liste“); „Wo kann ich sie kaufen?“ und der Broker-Satz sind raus (Runde 2: „zu viel Text“). */}
+        <section className="reveal mt-12" aria-label="Die besten Broker für Muslime">
+          <DepotAufruf titel="Die besten Broker für Muslime" link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
         </section>
 
         <NaechsterTeil wort="etf" className="mt-12" />

@@ -55,7 +55,7 @@ export const guides: GuideStufe[] = [
     // den Import in DeinGuide.tsx aus Commit bab9e4c wiederherstellen).
     schluessel: "xxl-3j1ion",
     stufe: "xxl",
-    titel: "XXL-Guide",
+    titel: "Halal Investment Blueprint",
     untertitel: "Halal investieren, in jeder Situation",
     pdf: "/guides/finanzmuslim-xxl-guide-mt6puo.pdf",
     pdfName: "finanzmuslim-xxl-guide.pdf",

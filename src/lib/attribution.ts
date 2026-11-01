@@ -124,6 +124,10 @@ export const VALID_SRC = [
   "gdnr1",
   "gdalle",
   "gdkarte",
+  // MC7d16: Depot-Aufruf in „Dua für jede Situation“ (Wort AMIN), src/pages/vorlagen/RizqVoll.tsx.
+  "amtop3",
+  "amnr1",
+  "amalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

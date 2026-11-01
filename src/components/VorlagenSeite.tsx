@@ -68,10 +68,6 @@ const VorlagenSeite = ({
           Start
         </Link>
         <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-        <Link to="/vorlagen" className="hover:text-primary">
-          Kostenlose Listen
-        </Link>
-        <ChevronRight className="h-3.5 w-3.5" aria-hidden />
         <span className="text-foreground">{titel}</span>
       </nav>
 

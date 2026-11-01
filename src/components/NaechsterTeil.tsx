@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DECKBLATT, KASTEN, NAECHSTE_FRAGE, type LeiterWort } from "@/data/leiter";
+import { DECKBLATT, GUIDE_NAME, KASTEN, NAECHSTE_FRAGE, type LeiterWort } from "@/data/leiter";
 
 type Props = {
   wort: LeiterWort;
@@ -34,7 +34,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
           <span className="glanz-bild w-[92px] shrink-0 -rotate-3 rounded-md">
             <img
               src={DECKBLATT}
-              alt="Deckblatt des fortgeschrittenen Guides"
+              alt={`Deckblatt des ${GUIDE_NAME}`}
               width={240}
               height={339}
               className="block h-auto w-full rounded-md border border-primary/15 shadow-md"
@@ -48,7 +48,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
         <ul className="mt-3 space-y-2 border-t border-primary/10 pt-3">
           {frage.seiten.map((s) => (
             <li key={s.nr} className="flex gap-3 text-[16px] leading-snug text-foreground">
-              <span className="w-11 shrink-0 font-semibold tabular-nums text-violet">S. {s.nr}</span>
+              <span className="w-16 shrink-0 whitespace-nowrap font-semibold tabular-nums text-violet">S. {s.nr}</span>
               <span>{s.titel}</span>
             </li>
           ))}

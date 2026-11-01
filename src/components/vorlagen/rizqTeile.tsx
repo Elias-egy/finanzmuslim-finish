@@ -1,5 +1,3 @@
-import { BookOpen, Clock, Coins, HeartPulse, Users } from "lucide-react";
-
 /**
  * Texte und Blöcke, die die offene Seite „Dua für jede Situation“ (bis MC7d15 „Dua für was?“) und ihre volle Fassung teilen.
  * Enthält kein Bittgebet, deshalb darf die offene Seite es laden.
@@ -28,35 +26,42 @@ export const RIZQ_CTAS = [
   },
 ];
 
+/**
+ * „Warum Rizq mehr ist als Geld“ mit der kleinen Grafik (Elias, 01.11.2026, MC7d15: „Da kannst du eine kleine Grafik
+ * machen“). Seit MC7d16 ohne Icons und kürzer (Elias: „da sind die Zeichen auch nicht richtig eingebaut … zu viel
+ * Vorgerede“): ein Balken in fünf Farben, Geld ist ein Teil davon.
+ */
 export const RizqWarum = () => (
-  <section className="rounded-2xl bg-hero p-6 md:p-8">
-    <h2 className="text-xl font-bold text-foreground">Warum Rizq mehr ist als Geld</h2>
-    <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
-      Rizq heißt Versorgung. Geld gehört dazu, aber auch Gesundheit, Zeit, Wissen und Menschen, die dir etwas beibringen.
-      Wer nur um Geld bittet, bittet um den kleinsten Teil. Deshalb steht in mehreren dieser Duas das Wort <em>tayyib</em>,
-      gut und rein, direkt neben dem Wort Rizq.
-    </p>
-    {/* Kleine Grafik zum Satz (Elias, 01.11.2026, MC7d15: „Da kannst du eine kleine Grafik machen“): Geld ist ein Teil von fünf. */}
-    <ul className="mt-5 grid grid-cols-5 gap-1.5" aria-label="Was zu Rizq gehört">
-      {RIZQ_TEILE.map(({ wort, Icon, geld }) => (
-        <li
-          key={wort}
-          className={`flex flex-col items-center gap-1.5 rounded-xl px-1 py-3 text-center ${geld ? "bg-white/50 ring-1 ring-black/5" : "bg-white ring-1 ring-primary/20"}`}
-        >
-          <Icon className={`h-5 w-5 ${geld ? "text-muted-foreground" : "text-primary"}`} aria-hidden />
-          <span className={`text-[12px] font-semibold leading-tight ${geld ? "text-muted-foreground" : "text-foreground"}`}>{wort}</span>
+  <section className="rounded-3xl bg-accent p-5 md:p-6" aria-labelledby="rizq-warum">
+    <h2 id="rizq-warum" className="text-[22px] font-extrabold leading-tight text-foreground">
+      Warum Rizq mehr ist als Geld
+    </h2>
+    <p className="mt-2 text-[16px] leading-snug text-foreground/80">Rizq heißt Versorgung. Geld ist nur ein Teil davon.</p>
+    <div className="mt-4 flex h-3 gap-[3px]" aria-hidden>
+      {RIZQ_TEILE.map((t) => (
+        <span key={t.wort} className="h-full flex-1 first:rounded-l-full last:rounded-r-full" style={{ background: t.farbe }} />
+      ))}
+    </div>
+    <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5" aria-label="Was zu Rizq gehört">
+      {RIZQ_TEILE.map((t) => (
+        <li key={t.wort} className="flex items-center gap-1.5 text-[14px] font-semibold text-foreground">
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: t.farbe }} aria-hidden />
+          {t.wort}
         </li>
       ))}
     </ul>
+    <p className="mt-4 text-[16px] leading-snug text-foreground/80">
+      Darum steht in mehreren dieser Duas <em>tayyib</em>, gut und rein, direkt neben dem Wort Rizq.
+    </p>
   </section>
 );
 
 const RIZQ_TEILE = [
-  { wort: "Geld", Icon: Coins, geld: true },
-  { wort: "Gesundheit", Icon: HeartPulse, geld: false },
-  { wort: "Zeit", Icon: Clock, geld: false },
-  { wort: "Wissen", Icon: BookOpen, geld: false },
-  { wort: "Menschen", Icon: Users, geld: false },
+  { wort: "Geld", farbe: "#E0A21A" },
+  { wort: "Gesundheit", farbe: "#0E9F8A" },
+  { wort: "Zeit", farbe: "#0057FA" },
+  { wort: "Wissen", farbe: "#705FF1" },
+  { wort: "Menschen", farbe: "#F26B1D" },
 ];
 
 export const RizqHinweis = () => (

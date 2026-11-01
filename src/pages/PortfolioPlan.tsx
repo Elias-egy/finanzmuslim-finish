@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
   ArrowRight,
@@ -16,6 +16,7 @@ import NaechsterTeil from "@/components/NaechsterTeil";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
 import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
@@ -29,7 +30,6 @@ import {
   euro,
   lagen,
   MONATLICH,
-  planLink,
   quellen,
   SCHMERZ,
   SPIELRAUM,
@@ -223,15 +223,15 @@ const PortfolioPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, welche Anbieter zinsfrei sind.{" "}
-            <Link
-              to={planLink("/vergleich/start", "oben")}
-              className="font-semibold text-primary underline-offset-2 hover:underline"
-            >
-              Zum Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...BETRAEGE)}
+            teile={lage.anteile.map((a) => ({ farbe: bausteinById(a.baustein).farbe, anteil: a.prozent }))}
+            links="In einem Jahr im Halal-Portfolio"
+            wert={betrag * 12}
+            format={(n) => `${Math.round(n).toLocaleString("de-DE")} €`}
+          />
           <PdfKnopf wort="plan" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
@@ -318,17 +318,7 @@ const PortfolioPlan = () => {
           <div className="mt-4">
             <PlanKarte lage={lage} betrag={betrag} />
           </div>
-          <p className="mt-3 px-1 text-[16px] leading-snug text-foreground/80">
-            Weißt du nicht, wie lange?{" "}
-            <button
-              type="button"
-              onClick={() => waehle("mittel")}
-              className="font-semibold text-primary hover:underline"
-            >
-              Nimm 3 Jahre.
-            </button>
-          </p>
-          <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
+          <p className="mt-3 px-1 text-[12px] leading-snug text-muted-foreground">
             Ein Beispiel, keine Empfehlung. Wie es früher lief, ist keine Garantie für später.
           </p>
         </section>

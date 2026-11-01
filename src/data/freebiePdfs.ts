@@ -48,6 +48,11 @@ export const FREEBIE_PDFS = {
     datei: "/downloads/v/gold-4hq7/gold-plan.pdf",
     name: "finanzmuslim-gold-plan.pdf",
   },
+  amin: {
+    seite: "/vorlagen/rizq/voll-9pw5",
+    datei: "/downloads/v/voll-9pw5/duas-fuer-rizq.pdf",
+    name: "finanzmuslim-dua-fuer-jede-situation.pdf",
+  },
   boykott: {
     seite: "/deine-boykottliste/bk-7m4q",
     datei: "/downloads/v/bk-7m4q/boykott-liste.pdf",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
@@ -7,11 +7,11 @@ import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import {
   GOLD_CHECK,
-  BROKER_SATZ,
   CFD_ANBIETER,
   CFD_ZEILE,
   ETC_SATZ,
@@ -23,7 +23,6 @@ import {
   PREIS_STAND,
   REGELN,
   SCHMERZ,
-  goldLink,
   goldQuellen,
   gramm,
   grammText,
@@ -41,6 +40,13 @@ import {
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
 const GOLD_ZEILEN = listenGruppen.find((g) => g.kategorie === "gold")!.zeilen;
+
+/** Die Goldtöne im Balken oben. */
+const BALKEN_GOLD = [
+  { farbe: "#B7791F", anteil: 1 },
+  { farbe: "#E0A21A", anteil: 2 },
+  { farbe: "#F2C94C", anteil: 1 },
+] as const;
 
 const Titel = ({ id, children }: { id: string; children: string }) => (
   <h2 id={id} className="text-[24px] font-extrabold leading-tight text-foreground">
@@ -102,12 +108,15 @@ const GoldPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, wo du Gold zinsfrei kaufst.{" "}
-            <Link to={goldLink("/vergleich/edelmetalle", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Gold-Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...GOLD_BETRAEGE)}
+            teile={BALKEN_GOLD}
+            links="In einem Jahr in Gold"
+            wert={imMonat * 12}
+            format={(n) => `rund ${grammText(n)} g`}
+          />
           <PdfKnopf wort="gold" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
@@ -167,13 +176,13 @@ const GoldPlan = () => {
           <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{GELEHRTE_SATZ}</p>
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="broker">
-          <Titel id="broker">Nicht jeder Broker hat sie</Titel>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">{BROKER_SATZ}</p>
-          {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Check und dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann
-              vielleicht die zwei, drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). */}
-          <div className="mt-5">
+        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Check und dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann
+            vielleicht die zwei, drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts).
+            Runde 2: Titel „Die besten Broker für Gold“, „Nicht jeder Broker hat sie“ und der Broker-Satz sind raus. */}
+        <section className="reveal mt-12" aria-label="Die besten Broker für Gold">
+          <div>
             <DepotAufruf
+              titel="Die besten Broker für Gold"
               check={GOLD_CHECK}
               link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
               alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
