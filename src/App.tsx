@@ -49,7 +49,7 @@ const HausKaufenOhneZinsen = lazy(() => import("./pages/wissen/HausKaufenOhneZin
 const HalalKreditOhneZinsen = lazy(() => import("./pages/wissen/HalalKreditOhneZinsen.tsx"));
 const Nisab = lazy(() => import("./pages/wissen/Nisab.tsx"));
 const Sukuk = lazy(() => import("./pages/wissen/Sukuk.tsx"));
-const HalalEtfs = lazy(() => import("./pages/wissen/HalalEtfs.tsx"));
+const HalalEtf = lazy(() => import("./pages/blog/HalalEtf.tsx"));
 const Gharar = lazy(() => import("./pages/wissen/Gharar.tsx"));
 const HaeufigeFehler = lazy(() => import("./pages/wissen/HaeufigeFehler.tsx"));
 const ErtraegeReinigen = lazy(() => import("./pages/wissen/ErtraegeReinigen.tsx"));
@@ -145,6 +145,7 @@ const App = () => (
             <Route path="/ueber-mich" element={<UeberMich />} />
             <Route path="/kooperationen" element={<Kooperationen />} />
             {/* Blog aufgeloest: alles liegt jetzt im Wissensbereich. */}
+            <Route path="/blog/halal-etf" element={<HalalEtf />} />
             <Route path="/blog" element={<Navigate to="/wissen" replace />} />
             <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/start" element={<VergleichAssistent />} />
@@ -181,7 +182,7 @@ const App = () => (
             <Route path="/wissen/halal-kredit-ohne-zinsen" element={<HalalKreditOhneZinsen />} />
             <Route path="/wissen/nisab" element={<Nisab />} />
             <Route path="/wissen/sukuk" element={<Sukuk />} />
-            <Route path="/wissen/halal-etfs" element={<HalalEtfs />} />
+            <Route path="/wissen/halal-etfs" element={<Navigate to="/blog/halal-etf" replace />} />
             <Route path="/wissen/gharar" element={<Gharar />} />
             <Route path="/wissen/haeufige-fehler" element={<HaeufigeFehler />} />
             <Route path="/wissen/ertraege-reinigen" element={<ErtraegeReinigen />} />

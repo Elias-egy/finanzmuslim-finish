@@ -6,7 +6,7 @@ import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
 import { vorlagen } from "@/data/vorlagen";
-import { themen, wissenBeitraege } from "@/data/wissenBeitraege";
+import { beitragPfad, themen, wissenBeitraege } from "@/data/wissenBeitraege";
 
 type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to?: string; neu?: boolean };
 
@@ -17,7 +17,7 @@ const artikel: Artikel[] = [
     desc: b.desc,
     thema: b.thema,
     motiv: b.motiv,
-    to: b.bald ? undefined : `/wissen/${b.slug}`,
+    to: b.bald ? undefined : beitragPfad(b),
     neu: b.neu && !b.bald,
   })),
   { name: "Halal investieren für Anfänger", motiv: "kompass", desc: "Der Einstieg Schritt für Schritt erklärt.", thema: "Grundlagen", to: "/halal-guide" },

@@ -21,7 +21,12 @@ export type WissenBeitrag = {
   bald?: boolean;
   /** Frisch veröffentlicht: violettes Etikett auf der Übersicht. */
   neu?: boolean;
+  /** Eigene Adresse außerhalb von /wissen, etwa nach dem Umzug in den Blog. */
+  pfad?: string;
 };
+
+/** Adresse eines Beitrags: eigene oder /wissen/<slug>. */
+export const beitragPfad = (b: WissenBeitrag) => b.pfad ?? `/wissen/${b.slug}`;
 
 export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "zinsen-im-islam", name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen" },
@@ -30,7 +35,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "haeufige-fehler", name: "12 Fehler beim halal Investieren", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen" },
   { slug: "trading-forex-cfd", name: "Trading, Forex und CFDs", motiv: "trading", desc: "Sieh, warum Hebel, Swap und Short kein Handel sind.", thema: "Grundlagen", neu: true },
 
-  { slug: "halal-etfs", name: "Halal ETFs", motiv: "etf", desc: "Prüf einen Fonds an vier Fragen.", thema: "Investieren" },
+  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Vergleich acht Halal ETFs nach Kosten, Prüfung und Sparplan.", thema: "Investieren", pfad: "/blog/halal-etf" },
   { slug: "sind-aktien-halal", name: "Sind Aktien halal?", motiv: "aktienPruefen", desc: "Lerne die zwei Ebenen und drei Grenzwerte kennen.", thema: "Investieren" },
   { slug: "ertraege-reinigen", name: "Dividenden reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst, und wer es für dich macht.", thema: "Investieren" },
   { slug: "sukuk", name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren" },

@@ -297,7 +297,7 @@ const HaeufigeFehler = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/halal-etfs", name: "Halal ETFs", text: "zeigt die vier Fragen, mit denen du einen Fonds prüfst." },
+          { to: "/blog/halal-etf", name: "Halal ETFs", text: "zeigt die vier Fragen, mit denen du einen Fonds prüfst." },
           { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "erklärt die Handgriffe, die du am Konto erledigst." },
           { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "der Schritt einmal im Jahr, den fast jeder vergisst." },
           { to: "/wissen/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat auf dein Vermögen fällig wird." },

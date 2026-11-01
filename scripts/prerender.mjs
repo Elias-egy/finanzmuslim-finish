@@ -83,12 +83,11 @@ const adressenLesen = async () => {
  * Abfrageparameter. Ohne das ginge bei /out/name das ?src= verloren, und dann
  * weiss niemand mehr, aus welchem Guide der Klick kam.
  */
-const weiterleitungsSeite = (nach) => `<!DOCTYPE html>
+const weiterleitungsSeite = (nach, seo = false) => `<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="robots" content="noindex, nofollow">
-<link rel="canonical" href="https://finanzmuslim.com${nach}">
+${seo ? "" : '<meta name="robots" content="noindex, nofollow">\n'}<link rel="canonical" href="https://finanzmuslim.com${nach}">
 <meta http-equiv="refresh" content="0; url=${nach}">
 <title>Weiterleitung</title>
 <script>
@@ -304,10 +303,10 @@ const main = async () => {
   /* Weiterleitungen. Ohne eigene Datei laeuft jede davon auf einem
      statischen Hoster in den 404, und /out/name ist der Weg, ueber den die
      Provision hereinkommt. */
-  for (const { von, nach } of weiterleitungen) {
+  for (const { von, nach, seo } of weiterleitungen) {
     const ziel = dateiFuer(von);
     await mkdir(dirname(ziel), { recursive: true });
-    await writeFile(ziel, weiterleitungsSeite(nach), "utf8");
+    await writeFile(ziel, weiterleitungsSeite(nach, seo), "utf8");
     process.stdout.write(`ok   ${von}  leitet auf ${nach}\n`);
   }
 

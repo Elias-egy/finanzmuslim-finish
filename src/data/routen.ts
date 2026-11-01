@@ -94,9 +94,9 @@ export const festeRouten: Route[] = [
   rechner("/sparzielrechner", "Sparzielrechner.tsx"),
 
   { pfad: "/wissen", quelle: ["src/pages/Wissen.tsx"], changefreq: "weekly", prioritaet: "0.8" },
+  { pfad: "/blog/halal-etf", quelle: ["src/pages/blog/HalalEtf.tsx", "src/data/halalEtfListe.ts"], changefreq: "monthly", prioritaet: "0.8" },
   wissenBeitrag("zinsen-im-islam", "ZinsenImIslam.tsx"),
   wissenBeitrag("sind-aktien-halal", "SindAktienHalal.tsx"),
-  wissenBeitrag("halal-etfs", "HalalEtfs.tsx"),
   wissenBeitrag("halal-gold-kaufen", "HalalGoldKaufen.tsx"),
   wissenBeitrag("sukuk", "Sukuk.tsx"),
   wissenBeitrag("ist-bitcoin-halal", "IstBitcoinHalal.tsx"),
@@ -210,7 +210,7 @@ export const nichtIndexiert: string[] = [
  * damit im 404 statt in der Weiterleitung. Welche das waren, weiß niemand mehr;
  * sobald die Search Console welche meldet, gehören sie hier hinein.
  */
-export const weiterleitungen: { von: string; nach: string }[] = [
+export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/zakatrechner", nach: "/zakat-rechner" },
   { von: "/tools", nach: "/rechner" },
   { von: "/dein-investment-start", nach: "/dein-investmentstart" },
@@ -220,6 +220,9 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
+  /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
+     Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
+  { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
@@ -243,6 +246,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
   { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /wissen/zinsen-im-islam" },
+  { pfad: "/wissen/halal-etfs", grund: "Weiterleitung auf /blog/halal-etf (SEO24), ohne noindex" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },

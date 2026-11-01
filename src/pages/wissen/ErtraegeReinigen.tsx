@@ -366,7 +366,7 @@ const ErtraegeReinigen = () => (
       <PasstDazu
         punkte={[
           { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "zeigt die zwei Ebenen und die drei Grenzwerte, aus denen der unreine Rest entsteht." },
-          { to: "/wissen/halal-etfs", name: "Halal ETFs", text: "erklärt, worauf du beim Fonds selbst achtest." },
+          { to: "/blog/halal-etf", name: "Halal ETFs", text: "erklärt, worauf du beim Fonds selbst achtest." },
           { to: "/wissen/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat fällig wird, der zweite Termin im selben Jahr." },
         ]}
       />

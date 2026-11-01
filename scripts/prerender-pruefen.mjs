@@ -79,7 +79,10 @@ const pruefeSeite = (pfad, html) => {
         const liste = Array.isArray(daten) ? daten : [daten];
         for (const d of liste) {
           if (!d["@context"]) maengel.push("JSON-LD ohne @context");
-          if (!d["@type"]) maengel.push("JSON-LD ohne @type");
+          /* Ein @graph (Vorlage 1, SEO24) trägt @type je Knoten statt oben. */
+          if (Array.isArray(d["@graph"])) {
+            if (d["@graph"].some((k) => !k["@type"])) maengel.push("JSON-LD-Graph mit Knoten ohne @type");
+          } else if (!d["@type"]) maengel.push("JSON-LD ohne @type");
           ldTypen.push(d["@type"]);
         }
       } catch (e) {

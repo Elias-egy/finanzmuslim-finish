@@ -276,7 +276,7 @@ const abschnitte: BeitragAbschnitt[] = [
           paar Zehntel Prozent im Jahr und nimmt dir die Arbeit für hunderte Firmen gleichzeitig ab.
         </p>
         <p>
-          Worauf du beim Fonds selbst achtest, steht in <L to="/wissen/halal-etfs">Halal ETFs</L>. Welche es
+          Worauf du beim Fonds selbst achtest, steht in <L to="/blog/halal-etf">Halal ETFs</L>. Welche es
           konkret gibt, mit Kosten und Prüfstelle, steht in der{" "}
           <L to="/halal-anlagen">Anlagen-Datenbank</L>.
         </p>
@@ -363,7 +363,7 @@ const SindAktienHalal = () => (
       <PasstDazu
         punkte={[
           { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "die drei Grenzwerte auf einer Seite zum Ausdrucken." },
-          { to: "/wissen/halal-etfs", name: "Halal ETFs", text: "der Weg, bei dem ein Gremium die Prüfung dauerhaft übernimmt." },
+          { to: "/blog/halal-etf", name: "Halal ETFs", text: "der Weg, bei dem ein Gremium die Prüfung dauerhaft übernimmt." },
           { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "was mit dem kleinen unreinen Rest passiert, den die Toleranz zulässt." },
           { to: "/halal-anlagen", name: "Halal-Datenbank", text: "geprüfte Fonds und ETFs mit Kosten, Größe und Prüfstelle." },
         ]}

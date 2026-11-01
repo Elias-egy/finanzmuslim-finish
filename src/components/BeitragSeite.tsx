@@ -10,7 +10,7 @@ import {
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
 import MotivBild from "@/components/MotivBild";
 import { werbungFuer } from "@/data/werbung";
-import { beitragBySlug, nachbarn } from "@/data/wissenBeitraege";
+import { beitragBySlug, beitragPfad, nachbarn } from "@/data/wissenBeitraege";
 import eliasPortrait from "@/assets/elias-autor.webp";
 
 export type BeitragAbschnitt = { id: string; titel: string; inhalt: ReactNode };
@@ -301,7 +301,7 @@ const BeitragSeite = ({
               <nav aria-label="Weiterlesen" className="mt-12 grid gap-3 sm:grid-cols-2">
                 {vorher ? (
                   <Link
-                    to={`/wissen/${vorher.slug}`}
+                    to={beitragPfad(vorher)}
                     className="group flex items-center gap-4 card-surface p-4 transition-colors hover:border-primary"
                   >
                     <ArrowLeft className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
@@ -315,7 +315,7 @@ const BeitragSeite = ({
                 )}
                 {nachher && (
                   <Link
-                    to={`/wissen/${nachher.slug}`}
+                    to={beitragPfad(nachher)}
                     className="group flex items-center justify-end gap-4 card-surface p-4 text-right transition-colors hover:border-primary"
                   >
                     <span className="min-w-0">
