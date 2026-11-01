@@ -16,6 +16,7 @@ import {
   kaufbarBei,
   kaufbarStand,
   sparplanAnzahl,
+  sparplanDepots,
   type EtfEintrag,
 } from "@/data/halalEtfListe";
 
@@ -84,19 +85,19 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     text: "Zuerst wirft der Index Firmen raus, die Grenzwerte reißen, nach dem AAOIFI-Standard etwa über 5 % Umsatz aus Verbotenem. Danach zählt, was der Fonds selbst tut.",
   },
   {
-    lead: "Ein Gremium am Produkt zählt mehr als eins am Index.",
+    lead: "Ein Gremium am Produkt zählt mehr als eines am Index.",
     text: "Sechs der acht ETFs haben ein eigenes Gremium mit Zertifikat. Bei zweien betrifft der Beleg nur den Index.",
   },
   {
     lead: "Die Kosten liegen bei 0,30 bis 0,75 % im Jahr.",
-    text: "Bei 10.000 € sind das 30 bis 75 € im Jahr. Die passiven ETFs kosten höchstens 0,40 %.",
+    text: "Bei 10.000 € sind das 30 bis 75 € im Jahr.",
   },
   {
-    lead: "Die Reinigung bleibt bei dir.",
+    lead: "Die Reinigung ist je Fonds anders.",
     text: (
       <>
-        Auch geprüfte Firmen haben kleine Zinserträge. Den unreinen Anteil rechnest du aus und gibst ihn weiter,
-        siehe <TL to="/wissen/ertraege-reinigen">Aktienbereinigung</TL>.
+        Platz 1 (seit 2026) und Platz 5 geben den kleinen unreinen Anteil selbst weiter, beim Sukuk entfällt er. Bei den
+        anderen rechnest du ihn aus und gibst ihn weiter, siehe <TL to="/wissen/ertraege-reinigen">Aktienbereinigung</TL>.
       </>
     ),
   },
@@ -139,7 +140,7 @@ const PASST: { wenn: string; achte: string; platz: number }[] = [
   { wenn: "Wenn du mit einem Sparplan anfängst", achte: "Sparplan bei deinem Depot belegt", platz: 1 },
   { wenn: "Wenn Gewinne im Fonds bleiben sollen", achte: "thesaurierend, also ohne Ausschüttung", platz: 2 },
   { wenn: "Wenn du Schwellenländer dazu willst", achte: "nur als kleiner Teil neben Platz 1", platz: 4 },
-  { wenn: "Wenn ein Teil ruhiger liegen soll", achte: "der Kurs des Dollars wirkt mit", platz: 8 },
+  { wenn: "Wenn ein Teil nicht in Aktien liegen soll", achte: "der Kurs des Dollars wirkt mit", platz: 8 },
 ];
 
 type Frage = { frage: string; antwort: string; link?: { to: string; text: string } };
@@ -151,12 +152,12 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist ein ETF halal oder haram?",
     antwort:
-      "Das hängt am Inhalt, nicht an der Hülle. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF folgt einem geprüften Index, bei sechs der acht ETFs hier hat ein Gremium auch den Fonds geprüft.",
+      "Das hängt am Inhalt, nicht an der Hülle. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sechs der acht ETFs hier hat ein Gremium auch den Fonds geprüft.",
   },
   {
     frage: "Sind ETFs haram?",
     antwort:
-      "Nicht von sich aus. Die Gremien dieser Fonds haben für den ETF als Form eine Fatwa erteilt. Haram kann der Inhalt sein, etwa Banken mit Zinsgeschäft im normalen MSCI World.",
+      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Für sechs der acht ETFs hier hat ein Gremium genau diesen Fonds geprüft, für vier davon mit einer Fatwa.",
   },
   {
     frage: "Welche Halal ETFs gibt es bei Trade Republic?",
@@ -168,13 +169,13 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist der MSCI World halal?",
     antwort:
-      "Der normale MSCI World filtert nichts nach islamischen Regeln, Banken und Versicherungen sind darin, und kein Gremium hat ihn geprüft. Den geprüften Weg geht der MSCI World Islamic, den du mit Platz 1 kaufst.",
+      "Der normale MSCI World filtert nicht nach islamischen Regeln, enthält Banken und Versicherungen und hat kein Gremium. Geprüft ist der MSCI World Islamic, den du mit Platz 1 kaufst.",
     link: { to: "/halal-anlagen/ishares-msci-world-islamic", text: "iShares MSCI World Islamic ansehen" },
   },
   {
     frage: "Welche ETFs sind scharia-konform?",
     antwort:
-      "Scharia-konform nennen sich ETFs mit Islamic oder Shariah im Namen. Ob ein Gremium sie geprüft hat, zeigt erst der Beleg. Alle acht hier haben einen, die Halal ETF Liste im Vergleich zeigt, ob er für den Fonds oder nur den Index gilt.",
+      "So nennen sich ETFs mit Islamic oder Shariah im Namen. Ob ein Gremium sie geprüft hat, zeigt erst der Beleg. Alle acht hier haben einen, für den Fonds oder nur für den Index.",
   },
   {
     frage: "Wie prüfe ich, ob ein ETF halal ist?",
@@ -190,7 +191,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
     antwort:
-      "Ja, den kleinen unreinen Anteil, denn auch geprüfte Firmen haben etwas Zinserträge. Diesen Anteil deiner Ausschüttung oder deines Gewinns gibst du als Spende weiter.",
+      "Nach verbreiteter Auffassung ja, wenn der Fonds es nicht selbst tut. Der iShares MSCI World Islamic (seit 2026) und der HSBC MSCI World Islamic Screened reinigen im Fonds, beim iShares USD Sukuk entfällt es. Bei den anderen gibst du den unreinen Anteil deiner Erträge weiter.",
     link: { to: "/wissen/ertraege-reinigen", text: "So rechnest du die Reinigung" },
   },
 ];
@@ -200,6 +201,14 @@ const DREIER: { anbieter: string; kaufbarName: string; domain: string; out: stri
   { anbieter: "Smartbroker+", kaufbarName: "Smartbroker+", domain: "smartbrokerplus.de", out: "/out/smartbroker" },
   { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", domain: "scalable.capital", out: "/out/scalable" },
 ];
+
+// Sparplan je Depot nur aus den Belegen der Liste (sparplanBei), Scalable mit und ohne PRIME+.
+function sparplanZeile(anbieter: string): string {
+  const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
+  if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99\u00a0€ im Monat) auf ${zahl("Scalable PRIME+")}`;
+  const n = zahl(anbieter);
+  return n === 0 ? "Sparplan auf diese ETFs noch nicht geprüft" : `Sparplan auf ${n} von 8 belegt`;
+}
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
   {
@@ -225,7 +234,7 @@ function TL({ to, children }: { to: string; children: ReactNode }) {
 }
 
 const H2 = ({ id, children }: { id: string; children: ReactNode }) => (
-  <h2 id={id} className="scroll-mt-28 text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">
+  <h2 id={id} className="scroll-mt-[136px] text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">
     {children}
   </h2>
 );
@@ -354,7 +363,7 @@ const SchwebendB = () => {
     <>
       <div
         aria-hidden={!zeigen}
-        className={`fixed inset-x-0 top-[60px] z-30 border-b border-border bg-background/95 backdrop-blur transition-opacity md:top-[68px] xl:hidden ${sichtbar}`}
+        className={`fixed inset-x-0 top-[60px] z-30 border-b border-border bg-background/95 backdrop-blur transition-opacity md:top-[68px] min-[1536px]:hidden ${sichtbar}`}
       >
         <div className="container flex h-12 items-center justify-between gap-3">
           <p className="truncate text-[14px] font-medium text-foreground/80">Beste Halal ETFs 2026</p>
@@ -372,7 +381,7 @@ const SchwebendB = () => {
         to="/vergleich/depot"
         aria-hidden={!zeigen}
         tabIndex={zeigen ? 0 : -1}
-        className={`fixed right-6 top-[88px] z-30 hidden items-center gap-1 rounded-lg bg-primary px-4 py-2.5 text-[15px] font-semibold text-primary-foreground shadow-lg transition-opacity xl:inline-flex ${sichtbar}`}
+        className={`fixed right-6 top-[88px] z-30 hidden items-center gap-1 rounded-lg bg-primary px-4 py-2.5 text-[15px] font-semibold text-primary-foreground shadow-lg transition-opacity min-[1536px]:inline-flex ${sichtbar}`}
       >
         Depot-Vergleich
         <ChevronRight className="h-4 w-4" aria-hidden />
@@ -566,17 +575,18 @@ const AufEinenBlick = () => {
 
 /** „Sparplan belegt bei …“ mit höchstens drei Namen. */
 const sparplanSatz = (e: EtfEintrag, sp: number) => {
+  const d = sparplanDepots(e);
   if (sp === 0) return "Einen Sparplan hat uns kein Anbieter belegt.";
-  if (sp === 1) return `Sparplan belegt bei ${e.sparplanBei[0]}.`;
-  if (sp <= 3) return `Sparplan belegt bei ${e.sparplanBei.slice(0, -1).join(", ")} und ${e.sparplanBei[sp - 1]}.`;
-  return `Sparplan belegt bei ${sp} Anbietern, etwa ${e.sparplanBei.slice(0, 2).join(", ")} und ${e.sparplanBei[2]}.`;
+  if (sp === 1) return `Sparplan belegt bei ${d[0]}.`;
+  if (sp <= 3) return `Sparplan belegt bei ${d.slice(0, -1).join(", ")} und ${d[sp - 1]}.`;
+  return `Sparplan belegt bei ${sp} Depots, etwa ${d.slice(0, 2).join(", ")} und ${d[2]}.`;
 };
 
 const Eintrag = ({ e }: { e: EtfEintrag }) => {
   const a = anlageVon(e.isin);
   const sp = sparplanAnzahl(e);
   return (
-    <article id={anker(e)} className="scroll-mt-28 border-t border-border pt-10 first:border-t-0 first:pt-0">
+    <article id={anker(e)} className="scroll-mt-[136px] border-t border-border pt-10 first:border-t-0 first:pt-0">
       <h3 className="text-[22px] font-bold leading-snug text-foreground md:text-[26px]">
         {e.platz}. {e.name}, am besten für {e.amBestenFuer}
       </h3>
@@ -700,7 +710,7 @@ const HalalEtf = () => {
         <div className="mx-auto max-w-[760px] xl:grid xl:max-w-[1088px] xl:grid-cols-[280px_minmax(0,760px)] xl:gap-12">
           {/* 5 Inhaltsverzeichnis links ab den Brotkrumen wie frontal, darunter C */}
           <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24">
+            <div className="sticky top-24 xl:top-[132px] min-[1536px]:top-24">
               <p className="border-t border-border pt-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                 Auf dieser Seite
               </p>
@@ -757,13 +767,17 @@ const HalalEtf = () => {
             <AufEinenBlick />
 
             {/* 4b Titelbild */}
-            <img
-              src={TITELBILD}
-              alt="Beste Halal ETFs 2026: acht Islamic ETFs mit Platz, Kosten im Jahr und Art der Halal-Prüfung"
-              width={1600}
-              height={900}
-              className="mt-5 h-auto w-full rounded-2xl border border-border"
-            />
+            {/* Am Handy nur Titel und Unterzeile, die Liste im Bild wäre dort zu klein zum Lesen */}
+            <picture>
+              <source media="(max-width: 639px)" srcSet="/bilder/blog/halal-etf/beste-halal-etfs-2026-handy.jpg" width={720} height={420} />
+              <img
+                src={TITELBILD}
+                alt="Beste Halal ETFs 2026: acht Islamic ETFs im Vergleich nach Halal-Prüfung, Kosten und Sparplan"
+                width={1600}
+                height={900}
+                className="mt-5 h-auto w-full rounded-2xl border border-border"
+              />
+            </picture>
 
             {/* 5 Inhaltsverzeichnis (Handy und Tablet) */}
             <nav aria-label="Auf dieser Seite" className="mt-5 xl:hidden">
@@ -784,7 +798,7 @@ const HalalEtf = () => {
               <Text>
                 <p>
                   Der beste Halal ETF ist 2026 für die meisten der <strong>iShares MSCI World Islamic</strong>: größter
-                  Islamic ETF für die ganze Welt, seit 2007 am Markt, mit eigenem Gelehrtengremium. Ich habe 12 Halal ETFs
+                  Fonds der Liste, seit 2007 am Markt, mit eigenem Gelehrtengremium. Ich habe 12 Halal ETFs
                   nach fünf Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie kaufst. Hier sind die acht,
                   die du als Muslim in Deutschland kennen solltest.
                 </p>
@@ -816,8 +830,8 @@ const HalalEtf = () => {
                 <BildAufruf
                   bild={studioBild}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
-                  titel="Welches Depot hat deine Halal ETFs ohne Zinsen?"
-                  satz="Im Depot-Vergleich siehst du je Depot die Halal ETFs, den Sparplan und den Umgang mit Zinsen."
+                  titel="Wo du diese ETFs ohne Zinsen kaufst"
+                  satz="Je Depot siehst du Halal ETFs, Sparplan und Zinsen."
                   knopf="Zum Depot-Vergleich"
                 />
               </div>
@@ -827,9 +841,9 @@ const HalalEtf = () => {
                 <H2 id="was-ist-ein-halal-etf">Was ist ein Halal ETF, und was nicht?</H2>
                 <Text>
                   <p>
-                    Ein Halal ETF ist ein Fonds, der nur Firmen kauft, die eine Shariah-Prüfung bestehen. Man nennt sie auch
-                    islamische ETFs, auf Englisch Islamic ETF. Der Fonds folgt einem Index, aus dem alles fliegt, was nicht
-                    passt.
+                    Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-Prüfung bestehen. Andere Namen dafür
+                    sind islamische ETFs, auf Englisch Islamic ETF. Meist folgt der Fonds einem Index, aus dem alles fliegt, was
+                    nicht passt.
                   </p>
                   <p>
                     Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
@@ -852,7 +866,7 @@ const HalalEtf = () => {
                   <p>
                     Und ein Zertifikat bestätigt in aller Regel die Methode, nicht jede einzelne Firma. Wer einen Islamic ETF
                     kauft, folgt der Auffassung, dass kleine, unvermeidbare Zinsberührungen unter den Grenzwerten hinnehmbar
-                    sind, wenn der unreine Teil gereinigt wird. Es gibt Gelehrte, die strenger sind.
+                    sind, wenn der unreine Teil gereinigt wird.
                   </p>
                 </Text>
               </section>
@@ -872,7 +886,7 @@ const HalalEtf = () => {
                 </ul>
                 <Text>
                   <p>
-                    Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleich/methodik">Methodik</TL>.
+                    Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
                   </p>
                 </Text>
               </section>
@@ -890,15 +904,19 @@ const HalalEtf = () => {
                         <AnbieterLogo name={d.anbieter} domain={d.domain} />
                         <p className="text-[17px] font-bold text-foreground">{d.anbieter}</p>
                       </div>
-                      <ul className="mt-3 space-y-1.5 text-[15px] text-foreground/85">
+                      <ul className="mb-4 mt-3 space-y-1.5 text-[15px] text-foreground/85">
                         {[
                           `${etfsBei(d.kaufbarName)} von 8 ETFs dieser Liste`,
-                          "Sparplan ab 1 €",
+                          sparplanZeile(d.anbieter),
                           "Keine Depotgebühr",
                           "Ohne Zinsen ab dem ersten Tag",
                         ].map((z) => (
                           <li key={z} className="flex gap-2">
-                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
+                            {z.includes("noch nicht geprüft") ? (
+                              <span className="mx-[5px] mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" aria-hidden />
+                            ) : (
+                              <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
+                            )}
                             <span>{z}</span>
                           </li>
                         ))}
@@ -906,7 +924,7 @@ const HalalEtf = () => {
                       <a
                         href={d.out}
                         rel="sponsored nofollow"
-                        className="mt-4 inline-flex items-center justify-center gap-1 rounded-xl bg-primary px-4 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90"
+                        className="mt-auto inline-flex items-center justify-center gap-1 rounded-xl bg-primary px-4 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90"
                       >
                         Zum Angebot*
                       </a>
@@ -956,16 +974,16 @@ const HalalEtf = () => {
                 <H2 id="halal-etf-liste">Halal ETF Liste im Vergleich: welche Halal ETFs gibt es in Deutschland?</H2>
                 <Text>
                   <p>
-                    Alle acht ETFs nach den fünf Kriterien. Renditen in Euro mit Ausschüttungen, justETF, Stand{" "}
-                    {RENDITE_STAND}.
+                    Alle acht ETFs nach den fünf Kriterien. Renditen in Euro mit Ausschüttungen und Größe: justETF, Stand{" "}
+                    {RENDITE_STAND}; Größe von Platz 7 und 8 aus unserer Datenbank, Stand 14.08.2026.
                   </p>
                 </Text>
                 <div className="mt-5 overflow-hidden rounded-2xl border border-border">
-                  <table className="block w-full border-collapse text-[15px] lg:table">
+                  <table className="block w-full border-collapse text-[15px] lg:table lg:text-[14px]">
                     <thead className="hidden lg:table-header-group">
                       <tr className="bg-muted text-left">
-                        {["ETF", "Am besten für", "Kosten", "Größe", "1 Jahr", "2025", "2024", "Halal-Beleg", "Sparplan"].map((k) => (
-                          <th key={k} className="px-3 py-3 font-semibold text-foreground">
+                        {["ETF", "Kosten", "Größe", "1 Jahr", "2025", "2024", "Halal-Beleg", "Sparplan"].map((k) => (
+                          <th key={k} className={`px-2.5 py-3 align-bottom font-semibold text-foreground ${k === "ETF" ? "w-[34%]" : ""}`}>
                             {k}
                           </th>
                         ))}
@@ -974,29 +992,49 @@ const HalalEtf = () => {
                     <tbody className="block lg:table-row-group">
                       {etfListe.map((e) => {
                         const a = anlageVon(e.isin);
-                        const zellen: [string, string][] = [
-                          ["Am besten für", e.amBestenFuer],
-                          ["Kosten", a.kostenLabel],
-                          ["Größe", `${e.groesseMio.toLocaleString("de-DE")} Mio. €`],
-                          ["1 Jahr", e.rendite1J ?? `seit Auflage ${e.seitAuflage}`],
-                          ["2025", e.rendite2025 ?? "–"],
-                          ["2024", e.rendite2024 ?? "–"],
-                          ["Halal-Beleg", a.zertifikatArt === "produkt" ? "Gremium am Fonds" : "nur Index"],
-                          ["Sparplan", sparplanAnzahl(e) === 0 ? "nicht belegt" : `bei ${sparplanAnzahl(e)}`],
+                        const zellen: [string, ReactNode, boolean][] = [
+                          ["Kosten", a.kostenLabel, true],
+                          [
+                            "Größe",
+                            <>
+                              {`${e.groesseMio.toLocaleString("de-DE")} Mio. €`}
+                              {a.auflage && (
+                                <span className="block text-[12px] text-muted-foreground">seit {a.auflage.slice(-4)}</span>
+                              )}
+                            </>,
+                            true,
+                          ],
+                          [
+                            "1 Jahr",
+                            e.rendite1J ?? (
+                              <>
+                                <span className="whitespace-nowrap">{e.seitAuflage}</span>
+                                <span className="block text-[12px] text-muted-foreground">seit Auflage</span>
+                              </>
+                            ),
+                            true,
+                          ],
+                          ["2025", e.rendite2025 ?? "–", true],
+                          ["2024", e.rendite2024 ?? "–", true],
+                          ["Halal-Beleg", a.zertifikatArt === "produkt" ? "Gremium am\u00a0Fonds" : "nur Index", false],
+                          ["Sparplan", sparplanAnzahl(e) === 0 ? "nicht belegt" : `bei ${sparplanAnzahl(e)} ${sparplanAnzahl(e) === 1 ? "Depot" : "Depots"}`, false],
                         ];
                         return (
                           <tr key={e.isin} className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border bg-card px-4 py-3.5 first:border-t-0 lg:table-row lg:p-0 lg:first:border-t">
-                            <td className="col-span-2 text-[16px] font-semibold text-foreground lg:table-cell lg:px-3 lg:py-3 lg:text-[15px]">
-                              <a href={`#${anker(e)}`} className="hover:text-primary">
+                            <td className="col-span-2 align-top lg:table-cell lg:px-2.5 lg:py-3">
+                              <a href={`#${anker(e)}`} className="text-[16px] font-semibold leading-snug text-foreground hover:text-primary lg:text-[14px]">
                                 {e.platz}. {e.name}
                               </a>
+                              <span className="mt-0.5 block text-[14px] leading-snug text-muted-foreground lg:text-[13px]">
+                                Am besten für: {e.amBestenFuer}
+                              </span>
                             </td>
-                            {zellen.map(([k, v]) => (
+                            {zellen.map(([k, v, zahl]) => (
                               <td
                                 key={k}
                                 data-label={k}
-                                className={`align-top text-[15px] text-foreground before:block before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.1em] before:text-muted-foreground before:content-[attr(data-label)] lg:table-cell lg:px-3 lg:py-3 lg:text-muted-foreground lg:before:hidden ${
-                                  k === "Am besten für" ? "col-span-2" : ""
+                                className={`align-top text-[15px] text-foreground before:block before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.1em] before:text-muted-foreground before:content-[attr(data-label)] lg:table-cell lg:px-2.5 lg:py-3 lg:text-[14px] lg:text-muted-foreground lg:before:hidden ${
+                                  zahl ? "lg:whitespace-nowrap" : ""
                                 }`}
                               >
                                 {v}
@@ -1026,7 +1064,7 @@ const HalalEtf = () => {
               <section className="mt-12">
                 <H2 id="welcher-passt">Welcher Halal ETF passt zu dir?</H2>
                 <Text>
-                  <p>Für die meisten reicht Platz 1. Diese vier Fälle sind die Ausnahme.</p>
+                  <p>Für die meisten reicht Platz 1. Hier siehst du, welcher Platz zu welchem Wunsch passt.</p>
                 </Text>
                 <div className="mt-5 overflow-hidden rounded-2xl border border-border">
                   <table className="block w-full border-collapse text-[15px] sm:table">
@@ -1066,8 +1104,7 @@ const HalalEtf = () => {
                 <H2 id="halal-etf-oder-fonds">Halal ETF oder Halal Fonds: was ist der Unterschied?</H2>
                 <Text>
                   <p>
-                    Ein Halal ETF folgt einem Index und wird an der Börse gehandelt. Auf dieser Liste kostet er 0,30 bis 0,75 %
-                    im Jahr, einen Ausgabeaufschlag gibt es nicht.
+                    Ein Halal ETF folgt meist einem Index und wird an der Börse gehandelt. Einen Ausgabeaufschlag zahlst du nicht, nur die Ordergebühr deines Depots.
                   </p>
                   <p>
                     Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Viele dieser Fonds verlangen beim
@@ -1082,7 +1119,7 @@ const HalalEtf = () => {
                 <H2 id="pruefung-in-zahlen">Unsere Prüfung in Zahlen</H2>
                 <Text>
                   <p>
-                    Für jeden der acht ETFs habe ich bei {depots} Depots nachgesehen, ob du ihn kaufen kannst. Gezählt wird nur,
+                    Für die acht ETFs habe ich bei {depots} Depots nachgesehen, ob du sie kaufen kannst. Gezählt wird nur,
                     was der Anbieter selbst zeigt, Stand {stand}.
                   </p>
                   <p>
@@ -1101,7 +1138,7 @@ const HalalEtf = () => {
                       return (
                         <li key={e.isin} className="text-[14px]">
                           <div className="flex justify-between gap-3 text-foreground/85">
-                            <span className="truncate">
+                            <span>
                               {e.platz}. {e.name}
                             </span>
                             <span className="font-semibold tabular-nums text-foreground">{n}</span>
@@ -1119,8 +1156,8 @@ const HalalEtf = () => {
                 </figure>
                 <Text>
                   <p>
-                    Zu jedem Eintrag oben gibt es ein Bildschirmfoto aus unserer Datenbank. Wie wir prüfen, steht in der{" "}
-                    <TL to="/vergleich/methodik">Methodik</TL>.
+                    Wie ich prüfe, steht in der{" "}
+                    <TL to="/vergleiche/methodik">Methodik</TL>.
                   </p>
                 </Text>
               </section>

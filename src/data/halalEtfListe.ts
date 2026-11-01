@@ -6,7 +6,7 @@ import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
  *
  * Rangfolge, Renditen, Größe und Sparplan stammen aus
  * fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/BESTE-HALAL-ETFS-INHALT.md im Vault:
- * Größe und Renditen von justETF je ISIN (EUR, mit Ausschüttungen) per 30.10.2026,
+ * Größe und Renditen von justETF je ISIN (EUR, mit Ausschüttungen) per 30.10.2026 (Größe von Platz 7 und 8 aus halalAnlagen.ts, Stand 14.08.2026),
  * Sparplan nur mit Eigenbeleg des Anbieters (~/rebrand/data/vergleiche/recherche/anlagen.json).
  * Kosten, Auflage, Gremium und Beleg-Link kommen aus `halalAnlagen`, damit eine
  * Änderung dort auch hier ankommt. Kaufbar-Zahlen rechnet die Seite aus `ANLAGEN_KAUFBAR`.
@@ -49,7 +49,7 @@ const PANEL_WIE_PLATZ_1 =
   "Laut Verkaufsprospekt von iShares II plc prüft ihn dasselbe Gremium wie Platz 1, das Shari'ah Equity Funds Panel. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.";
 
 const NUR_INDEX_MSCI =
-  "Für den Fonds selbst gibt es kein eigenes Zertifikat. Der Beleg ist die Methodik des MSCI World Islamic, laut MSCI freigegeben von einem Ausschuss islamischer Gelehrter.";
+  "Für den Fonds selbst gibt es kein eigenes Zertifikat. Der Beleg betrifft nur den Index: MSCI lässt die Methodik seiner Islamic-Indizes von einem Ausschuss islamischer Gelehrter freigeben.";
 
 export const etfListe: EtfEintrag[] = [
   {
@@ -65,10 +65,10 @@ export const etfListe: EtfEintrag[] = [
     rendite2024: "+11,95 %",
     sparplanBei: ["Smartbroker+", "Scalable PRIME+", "flatex", "comdirect", "Consorsbank", "ING", "finanzen.net zero", "1822direkt", "und 6 weitere"],
     text: [
-      "Wenn du nur einen Halal ETF kaufen willst, dann diesen. Er bildet den MSCI World Islamic nach, also den bekannten MSCI World ohne Banken, Versicherungen und alle Firmen, die bei der Shariah-Prüfung durchfallen. Im letzten Jahr lag er bei plus 24,50 Prozent. Er schüttet zweimal im Jahr aus, davon rechnest du die Reinigung direkt.",
+      "Wenn du nur einen Halal ETF kaufen willst, dann diesen. Er bildet den MSCI World Islamic nach, also den bekannten MSCI World ohne Banken, Versicherungen und alle Firmen, die bei der Shariah-Prüfung durchfallen. Im letzten Jahr lag er bei plus 24,50 Prozent. Er schüttet zweimal im Jahr aus und reinigt die Ausschüttungen seit 2026 selbst im Fonds.",
     ],
-    dafuer: ["Eigenes Gremium mit Fatwa und Zertifikat jedes Jahr.", "Sparplan bei 14 Anbietern, so oft wie bei keinem hier."],
-    dagegen: ["Ausschüttungen legst du selbst wieder an.", "Nicht günstiger als der HSBC auf denselben Index."],
+    dafuer: ["Eigenes Gremium mit Fatwa und Zertifikat jedes Jahr.", "Sparplan bei 14 Depots, so oft wie bei keinem hier.", "Reinigt seit 2026 selbst im Fonds."],
+    dagegen: ["Ausschüttungen legst du selbst wieder an.", "Nicht günstiger als der HSBC World auf Platz 5."],
     schluss:
       "Am besten geeignet für dich, wenn du mit einem einzigen ETF anfangen willst. Der Nachteil: Ausschüttungen legst du selbst wieder an.",
     geprueftText: PANEL_ISHARES,
@@ -77,8 +77,8 @@ export const etfListe: EtfEintrag[] = [
     platz: 2,
     isin: "IE000UOXRAM8",
     name: "Invesco Dow Jones Islamic Global Developed Markets",
-    amBestenFuer: "Welt, Erträge bleiben im Fonds",
-    satz: "Gewinne bleiben im Fonds, ohne dein Zutun.",
+    amBestenFuer: "Gewinne, die im Fonds bleiben",
+    satz: "Index von Dow Jones statt MSCI, seit 2022.",
     geprueftKurz: "Amanie Advisors, für 2023",
     groesseMio: 1046,
     rendite1J: "+17,32 %",
@@ -86,9 +86,9 @@ export const etfListe: EtfEintrag[] = [
     rendite2024: "+25,68 %",
     sparplanBei: ["Smartbroker+", "flatex", "Consorsbank", "tradegate.direct", "Scalable PRIME+"],
     text: [
-      "Er folgt dem Islamic-Index von Dow Jones statt MSCI, darum stecken teils andere Firmen drin als bei Platz 1. Gewinne bleiben im Fonds und arbeiten weiter. Mit 1.046 Mio. € ist er der zweitgrößte Fonds der Liste.",
+      "Er folgt dem Islamic-Index von Dow Jones statt MSCI, darum stecken teils andere Firmen drin als bei Platz 1. Mit 1.046 Mio. € ist er der zweitgrößte Fonds der Liste.",
     ],
-    dafuer: ["Gewinne bleiben im Fonds.", "Eigenes Zertifikat für genau diesen ETF."],
+    dafuer: ["Keine Ausschüttung, die du selbst anlegen musst.", "Eigenes Zertifikat für genau diesen ETF."],
     dagegen: ["Teuerster passiver Welt-ETF der Liste.", "Jüngstes gefundenes Zertifikat gilt für 2023."],
     schluss:
       "Am besten geeignet für dich, wenn Gewinne im Fonds bleiben sollen. Der Nachteil: Ein Zertifikat nach 2023 fehlt uns.",
@@ -99,7 +99,7 @@ export const etfListe: EtfEintrag[] = [
     platz: 3,
     isin: "IE00B296QM64",
     name: "iShares MSCI USA Islamic",
-    amBestenFuer: "nur die USA",
+    amBestenFuer: "einen Fokus auf die USA",
     satz: "Nur US-Firmen, Gremium wie Platz 1.",
     geprueftKurz: "Gremium bei iShares",
     groesseMio: 609,
@@ -110,7 +110,7 @@ export const etfListe: EtfEintrag[] = [
     text: [
       "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Im letzten Jahr lag er bei plus 28,90 Prozent. Ein Land ist aber ein Klumpen. Läuft es in den USA schlecht, trifft es den ganzen Fonds.",
     ],
-    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 8 Anbietern belegt."],
+    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 8 Depots belegt."],
     dagegen: ["Nur ein Land.", "Er schüttet aus."],
     schluss:
       "Am besten geeignet für dich, wenn du gezielt auf die USA setzt. Der Nachteil: Alles hängt an einem Land.",
@@ -131,7 +131,7 @@ export const etfListe: EtfEintrag[] = [
     text: [
       "Er kauft Firmen aus Schwellenländern wie China und Indien, die Platz 1 nicht drin hat. Die Schwankung ist groß, 2024 lag er bei minus 2,06 Prozent, 2025 bei plus 32,08 Prozent. Darum nimmst du ihn nur als kleinen Teil dazu.",
     ],
-    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 9 Anbietern belegt."],
+    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 9 Depots belegt."],
     dagegen: ["Starke Schwankung, 2024 im Minus.", "Etwas teurer als Platz 1."],
     schluss:
       "Am besten geeignet für dich, wenn du neben Platz 1 Schwellenländer willst. Der Nachteil: Er schwankt stark.",
@@ -141,8 +141,8 @@ export const etfListe: EtfEintrag[] = [
     platz: 5,
     isin: "IE000X9FTI22",
     name: "HSBC MSCI World Islamic Screened",
-    amBestenFuer: "World günstig, ohne Ausschüttung",
-    satz: "Index wie Platz 1, Gewinne bleiben drin.",
+    amBestenFuer: "eine Einmalanlage ohne Ausschüttung",
+    satz: "Kosten wie Platz 1, Gewinne bleiben drin.",
     geprueftKurz: "MSCI, nur der Index",
     groesseMio: 182,
     rendite1J: "+24,51 %",
@@ -150,9 +150,9 @@ export const etfListe: EtfEintrag[] = [
     rendite2024: "+12,66 %",
     sparplanBei: [],
     text: [
-      "Er bildet denselben Index nach wie Platz 1, zu denselben Kosten, schüttet aber nicht aus. Im letzten Jahr lag er bei plus 24,51 Prozent, praktisch gleichauf. Zwei Haken hat er. Einen Sparplan hat uns kein Anbieter belegt, und der Halal-Beleg betrifft nur den Index.",
+      "Er kostet so viel wie Platz 1, schüttet aber nicht aus und gibt den unreinen Anteil selbst als Spende weiter. Im letzten Jahr lag er bei plus 24,51 Prozent, praktisch gleichauf. Zwei Haken hat er. Einen Sparplan hat uns kein Anbieter belegt, und der Halal-Beleg betrifft nur den Index.",
     ],
-    dafuer: ["Gewinne bleiben im Fonds.", "Gleicher Index wie Platz 1."],
+    dafuer: ["Gewinne bleiben im Fonds.", "Reinigt den unreinen Anteil selbst."],
     dagegen: ["Kein Sparplan belegt.", "Halal-Beleg nur für den Index."],
     schluss:
       "Am besten geeignet für dich, wenn du einmal anlegst und nichts ausgeschüttet haben willst. Der Nachteil: Ein Sparplan ist nicht belegt.",
@@ -162,8 +162,8 @@ export const etfListe: EtfEintrag[] = [
     platz: 6,
     isin: "IE000LFC57H7",
     name: "Invesco MSCI ACWI Islamic",
-    amBestenFuer: "Welt und Schwellenländer in einem",
-    satz: "Alle Länder in einem ETF, seit 2026.",
+    amBestenFuer: "Welt und Schwellenländer in einem ETF",
+    satz: "Ein ETF statt zwei, seit Februar 2026.",
     geprueftKurz: "MSCI, nur der Index",
     groesseMio: 129,
     rendite1J: null,
@@ -172,9 +172,9 @@ export const etfListe: EtfEintrag[] = [
     seitAuflage: "+17,62 %",
     sparplanBei: ["Scalable PRIME+"],
     text: [
-      "ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF. Er ist erst im Februar 2026 aufgelegt und steht seit Auflage bei plus 17,62 Prozent.",
+      "ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF. Er wurde erst im Februar 2026 aufgelegt und steht seit Auflage bei plus 17,62 Prozent.",
     ],
-    dafuer: ["Alle Länder in einem ETF.", "Gewinne bleiben im Fonds."],
+    dafuer: ["Industrie- und Schwellenländer in einem ETF.", "Gewinne bleiben im Fonds."],
     dagegen: ["Sehr jung, kaum Zahlen.", "Halal-Beleg nur für den Index."],
     schluss:
       "Am besten geeignet für dich, wenn du alles in einem ETF willst. Der Nachteil: Er ist erst seit Februar 2026 am Markt.",
@@ -195,7 +195,7 @@ export const etfListe: EtfEintrag[] = [
     text: [
       "Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen. Das kostet mehr als doppelt so viel wie Platz 1, und mit 19 Mio. € ist er der kleinste Fonds der Liste.",
     ],
-    dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei 8 Anbietern belegt."],
+    dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei 8 Depots belegt."],
     dagegen: ["Höchste Kosten der Liste.", "Kleinster Fonds der Liste."],
     schluss:
       "Am besten geeignet für dich, wenn du einem Fondsmanagement mehr traust als einem Index. Der Nachteil: die Kosten.",
@@ -206,8 +206,8 @@ export const etfListe: EtfEintrag[] = [
     platz: 8,
     isin: "IE000929U2U9",
     name: "iShares USD Sukuk",
-    amBestenFuer: "den ruhigen Teil, statt Anleihen",
-    satz: "Sukuk statt Anleihen, für ruhigeres Geld.",
+    amBestenFuer: "einen Teil ohne Aktien",
+    satz: "Sukuk statt Anleihen, ganz ohne Aktien.",
     geprueftKurz: "Sukuk-Gremium bei iShares",
     groesseMio: 160,
     rendite1J: "+2,52 %",
@@ -215,12 +215,12 @@ export const etfListe: EtfEintrag[] = [
     rendite2024: null,
     sparplanBei: ["Scalable", "finanzen.net zero", "tradegate.direct", "Scalable PRIME+"],
     text: [
-      "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten. Der ETF kauft in US-Dollar, darum schwankt der Dollar-Kurs mit. 2025 lag er bei minus 5,04 Prozent.",
+      "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten. Der ETF kauft in US-Dollar, darum schwankt sein Wert in Euro mit dem Dollar-Kurs. 2025 lag er bei minus 5,04 Prozent.",
     ],
     dafuer: ["Eigenes Sukuk-Gremium mit Fatwa.", "Ausschüttung jedes Quartal."],
     dagegen: ["Der Dollar-Kurs schwankt mit.", "Teurer als Platz 1."],
     schluss:
-      "Am besten geeignet für dich, wenn ein Teil ruhiger liegen soll als in Aktien. Der Nachteil: Der Dollar schwankt mit.",
+      "Am besten geeignet für dich, wenn ein Teil deines Geldes nicht in Aktien liegen soll. Der Nachteil: Der Dollar schwankt mit.",
     geprueftText:
       "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Sukuk Fund Panel, besetzt mit dem Shariah-Board von Amanie Advisors. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.",
   },
@@ -233,9 +233,13 @@ export const anlageVon = (isin: string) => {
   return a;
 };
 
+/** Sparplan-Depots ohne Doppelzählung: Scalable PRIME+ ist ein Tarif von Scalable und zählt nur, wenn Scalable selbst fehlt. */
+export const sparplanDepots = (e: EtfEintrag) =>
+  e.sparplanBei.includes("Scalable") ? e.sparplanBei.filter((s) => s !== "Scalable PRIME+") : e.sparplanBei;
+
 /** Sparplan-Zahl: Liste plus „und n weitere“. */
 export const sparplanAnzahl = (e: EtfEintrag) =>
-  e.sparplanBei.reduce((n, s) => {
+  sparplanDepots(e).reduce((n, s) => {
     const weitere = /^und (\d+) weitere$/.exec(s);
     return n + (weitere ? Number(weitere[1]) : 1);
   }, 0);
