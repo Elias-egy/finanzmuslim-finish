@@ -908,7 +908,7 @@ const HalalEtf = () => {
                         {[
                           `${etfsBei(d.kaufbarName)} von 8 ETFs dieser Liste`,
                           sparplanZeile(d.anbieter),
-                          d.anbieter === "Scalable Capital" ? "Keine Depotgebühr ohne PRIME+" : "Keine Depotgebühr",
+                          d.anbieter === "Scalable Capital" ? "Ohne PRIME+ keine Depotgebühr" : "Keine Depotgebühr",
                           "Ohne Zinsen ab dem ersten Tag",
                         ].map((z) => (
                           <li key={z} className="flex gap-2">
@@ -1124,7 +1124,7 @@ const HalalEtf = () => {
                   </p>
                   <p>
                     {alleAcht.length > 0
-                      ? `Alle acht führen ${alleAcht.length} Depots: ${alleAcht.join(", ")}.`
+                      ? `Alle acht ETFs gibt es bei ${alleAcht.length} Depots: ${alleAcht.slice(0, -1).join(", ")} und ${alleAcht.at(-1)}.`
                       : "Kein Depot führt alle acht."}{" "}
                     Trade Republic führt {tradeRepublicZahl} von 8, es fehlt der {ohneTradeRepublic.join(", ")}. Am seltensten
                     zu haben ist der {seltenster.name} mit {kaufbarBei(seltenster.isin).length} Depots.
