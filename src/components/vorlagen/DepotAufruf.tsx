@@ -28,7 +28,11 @@ const DepotAufruf = ({ titel, einleitung, link }: Props) => (
     <p className={`${titel ? "mt-1" : "pr-16"} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>
     <div className="mt-3 grid grid-cols-2 gap-2">
       {CHECK.map((d) => (
-        <div key={d.id} className="rounded-2xl bg-hero p-3">
+        // Gelb und leicht Rot mit Rand wie im Portfolio-Plan (Elias, 01.11.2026, MC7d13d: „Ich fand das andere irgendwie besser“).
+        <div
+          key={d.id}
+          className={`rounded-2xl p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
+        >
           <div className="flex items-center gap-2">
             <AnbieterLogo name={d.name} domain={d.domain} klein rand />
             <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
