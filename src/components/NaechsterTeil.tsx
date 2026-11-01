@@ -30,7 +30,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
         <div className="flex items-center gap-4">
           <img
             src={DECKBLATT}
-            alt="Deckblatt des XXL-Guides"
+            alt="Deckblatt des fortgeschrittenen Guides"
             width={240}
             height={339}
             className="h-auto w-[92px] shrink-0 -rotate-3 rounded-md border border-primary/15 shadow-md"

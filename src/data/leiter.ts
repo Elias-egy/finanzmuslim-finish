@@ -41,10 +41,14 @@
  * MC7d13d (Elias, 31.10.2026, Vault `raw/2026-10-31-elias-mc7d13d-werbung-plan-kasten-anleitung.md`): der Titel sagt, was
  * der Leser will, „die 1:1-Anleitung“, ein Guide, „der dich Schritt für Schritt durch alle Investment führt“; vorher
  * „Der XXL-Guide liegt schon bereit.“
+ *
+ * MC7d14 (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d14-manychat-alle-woerter-fertig.md`): nach außen heißt er
+ * „der fortgeschrittene Guide“, nicht „XXL-Guide“ („der fortgeschrittene Guide liegt bereit … rückwirkend“); er folgt
+ * damit auf den Einsteiger-Guide, der auf Seite 11 genauso endet.
  */
 export const KASTEN = {
-  titel: "Deine 1:1-Anleitung liegt schon bereit.",
-  unter: "Der XXL-Guide führt dich Schritt für Schritt durch alle Anlagen, bis dein Portfolio steht.",
+  titel: "Der fortgeschrittene Guide liegt bereit.",
+  unter: "Er führt dich Schritt für Schritt durch alle Anlagen, bis dein Portfolio steht.",
   grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },

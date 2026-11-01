@@ -387,7 +387,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei Traders Place genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei Traders Place genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Ist Traders Place halal nutzbar?",
@@ -490,7 +490,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei der DKB genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei der DKB genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Welche Halal-ETFs gibt es bei der DKB?",
@@ -538,7 +538,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei finvesto genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei finvesto genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Für wen passt finvesto?",
@@ -743,7 +743,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei JOE genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei JOE genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Welche Halal-ETFs gibt es bei JOE?",
@@ -1121,7 +1121,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Pure Depot oder comdirect Depot?",
@@ -1169,7 +1169,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei comdirect genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1216,7 +1216,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei ZERO genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei ZERO genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1315,7 +1315,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen beim S Broker genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen beim S Broker genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1359,7 +1359,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei der Consorsbank genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei der Consorsbank genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Die Consorsbank wirbt mit Tagesgeld-Zinsen. Was heißt das für mich?",
@@ -1517,7 +1517,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei maxblue genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei maxblue genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1562,7 +1562,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei justTRADE genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei justTRADE genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1714,7 +1714,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei Smartbroker+ genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei Smartbroker+ genauso ab, nur die Menüs heißen anders.",
       },
       boerseFaq,
     ],
@@ -1923,7 +1923,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Warum zeigt das Video Scalable Capital?",
-        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Zinsangebote ablehnen und erste Anlage wählen laufen bei flatex genauso ab, nur die Menüs heißen anders.",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei flatex genauso ab, nur die Menüs heißen anders.",
       },
       {
         q: "Wie werde ich den flex-Kredit los?",

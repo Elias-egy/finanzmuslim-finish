@@ -125,7 +125,7 @@ const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
       <PopoverContent className="w-80 text-left text-[14px] leading-relaxed">
         <p className="font-semibold text-foreground">Warum ein Beispielvideo?</p>
         <p className="mt-2 text-muted-foreground">
-          Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Zinsangebote ablehnen und die
+          Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Geld einzahlen und die
           erste Anlage wählen. Bei {anbieter} heißen nur die Menüs anders. Welche Halal-Anlagen es dort gibt, siehst du
           im{" "}
           <Link to="/vergleich/depot" className="text-primary underline underline-offset-2">
