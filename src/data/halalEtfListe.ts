@@ -245,7 +245,12 @@ export const sparplanAnzahl = (e: EtfEintrag) =>
   }, 0);
 
 /** Bei wie vielen Depots die Anlage laut Eigenbeleg kaufbar ist. */
-export const kaufbarBei = (isin: string) => ANLAGEN_KAUFBAR[isin]?.kaufbar.map((k) => k.anbieter) ?? [];
+/** Tarife einer App zählen als ein Depot (Bux Basic, Plus, Prime gehören zu Bux; Beleg gilt für BUX insgesamt). */
+const depotName = (anbieter: string) => (anbieter.startsWith("Bux") ? "Bux" : anbieter);
+
+export const kaufbarBei = (isin: string) => [
+  ...new Set((ANLAGEN_KAUFBAR[isin]?.kaufbar ?? []).map((k) => depotName(k.anbieter))),
+];
 
 /** Wie viele ETFs der Liste ein Anbieter führt (Name wie in ANLAGEN_KAUFBAR). */
 export const etfsBei = (anbieter: string) => etfListe.filter((e) => kaufbarBei(e.isin).includes(anbieter)).length;
@@ -255,8 +260,8 @@ export const gepruefteDepots = () => {
   const alle = new Set<string>();
   for (const e of etfListe) {
     const k = ANLAGEN_KAUFBAR[e.isin];
-    k?.kaufbar.forEach((x) => alle.add(x.anbieter));
-    k?.nichtImAngebot.forEach((x) => alle.add(x));
+    k?.kaufbar.forEach((x) => alle.add(depotName(x.anbieter)));
+    k?.nichtImAngebot.forEach((x) => alle.add(depotName(x)));
   }
   return alle.size;
 };

@@ -180,7 +180,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Wie prüfe ich, ob ein ETF halal ist?",
     antwort:
-      "Such die ISIN, nicht den Namen. Dann zwei Fragen: Gilt das Shariah-Zertifikat für das Produkt oder nur den Index, und wann wurde es zuletzt erneuert? Beides steht bei jeder Anlage in unserer Datenbank.",
+      "Such die ISIN, nicht den Namen. Dann zwei Fragen: Gilt das Shariah-Zertifikat für das Produkt oder nur für den Index, und wann wurde es zuletzt erneuert? Beides steht bei jeder Anlage in unserer Datenbank.",
     link: { to: "/halal-anlagen", text: "Zur Datenbank der Halal-Anlagen" },
   },
   {
@@ -908,7 +908,7 @@ const HalalEtf = () => {
                         {[
                           `${etfsBei(d.kaufbarName)} von 8 ETFs dieser Liste`,
                           sparplanZeile(d.anbieter),
-                          "Keine Depotgebühr",
+                          d.anbieter === "Scalable Capital" ? "Keine Depotgebühr ohne PRIME+" : "Keine Depotgebühr",
                           "Ohne Zinsen ab dem ersten Tag",
                         ].map((z) => (
                           <li key={z} className="flex gap-2">
@@ -1055,7 +1055,7 @@ const HalalEtf = () => {
                       HSBC MSCI Emerging Markets Islamic Screened
                     </TL>
                     , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
-                    <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>.
+                    <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>: Sparplan belegt, aber ein veröffentlichtes Shariah-Zertifikat haben wir nicht gefunden.
                   </p>
                 </Text>
               </section>
