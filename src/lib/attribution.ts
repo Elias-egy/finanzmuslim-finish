@@ -124,10 +124,13 @@ export const VALID_SRC = [
   "gdnr1",
   "gdalle",
   "gdkarte",
-  // MC7d16: Depot-Aufruf in „Dua für jede Situation“ (Wort AMIN), src/pages/vorlagen/RizqVoll.tsx.
-  "amtop3",
-  "amnr1",
-  "amalle",
+  // MC7d17: zwei kleine Aufrufe in „Dua für jede Situation“ (Wort AMIN), src/pages/vorlagen/RizqVoll.tsx; ersetzen
+  // amtop3, amnr1, amalle aus MC7d16 (nie live).
+  "amgiro",
+  "amdepot",
+  // MC7d17: Sukuk-Aufruf auf der Gold-Seite (Wort GOLD), src/pages/GoldPlan.tsx.
+  "gdsktop3",
+  "gdskalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

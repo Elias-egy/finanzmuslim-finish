@@ -171,14 +171,11 @@ export const BEKANNTE = [
 ] as const;
 
 /**
- * Worauf man beim Girokonto achtet, vor dem Aufruf (Elias, 01.11.2026, MC7d15: „sagen, worauf man achten muss“). Die drei
- * Halal-Zeilen des Girokonto-Vergleichs, Wortlaut nach ihren Hinweisen in GIRO_ZEILEN.
+ * Worauf man beim Girokonto achtet, vor dem Aufruf (Elias, 01.11.2026, MC7d15: „sagen, worauf man achten muss“): die drei
+ * Halal-Zeilen des Girokonto-Vergleichs (GIRO_ZEILEN). Seit MC7d17 nur die Stichworte (Elias, 02.11.2026, MC7d16: „Das kannst
+ * du ohne diesen Text wieder machen. Dann haben wir deutlich weniger Text“).
  */
-export const GIRO_ACHTEN = [
-  { titel: "Keine Zinsen:", text: "kein Zins auf dein Guthaben und kein verzinstes Unterkonto ab der Eröffnung." },
-  { titel: "Kein Dispo:", text: "die Bank räumt dir nach der Eröffnung keinen Kredit auf dem Konto ein." },
-  { titel: "Karte ohne Kredit:", text: "eine Girocard oder Debitkarte ohne Kreditrahmen." },
-] as const;
+export const GIRO_ACHTEN = ["Keine Zinsen", "Kein Dispo", "Karte ohne Kredit"] as const;
 
 /** Girokonten, die Zinsen zahlen, klein als Beispiel unter dem Satz (Elias, 28.10.2026, MC3c). Ids aus girokontoAnzeige. */
 export const GIRO_MIT_ZINSEN = [

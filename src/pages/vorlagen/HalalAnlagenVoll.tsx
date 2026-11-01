@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
@@ -52,7 +52,7 @@ const merken = (slug: string, el: HTMLElement) => {
 /** Der Depot-Aufruf nach den Aktien-ETFs: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */
 const TopDrei = () => (
   <section className="reveal mt-10" aria-labelledby="wo">
-    <DepotAufruf titel="Die besten Broker für Muslime" link={listeLink} />
+    <DepotAufruf titel={DEPOT_TITEL} link={listeLink} />
   </section>
 );
 

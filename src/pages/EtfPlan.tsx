@@ -6,7 +6,7 @@ import NaechsterTeil from "@/components/NaechsterTeil";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
@@ -33,7 +33,7 @@ import {
  * Stil wie die Gold-Seite (src/pages/GoldPlan.tsx) und Fassung 5 des Portfolio-Plans (Elias, 28.10.2026:
  * „in dem stil alle anderen auch“): oben die Geld-Frage (der Klick markiert nur), der eine rote Schmerz
  * (im normalen MSCI World stecken Finanzfirmen), wie ein Islamic ETF filtert (Grafik mit dem Betrag),
- * alle Islamic ETFs als Karten, zuletzt der Depot-Aufruf „Die besten Broker für Muslime“. Kein Hinweis auf ein anderes Freebie.
+ * alle Islamic ETFs als Karten, zuletzt der Depot-Aufruf (Titel DEPOT_TITEL). Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
 const ETF_ZEILEN = listenGruppen.find((g) => g.kategorie === "aktien")!.zeilen;
@@ -187,8 +187,8 @@ const EtfPlan = () => {
 
         {/* Nur der Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten Broker für
             Muslime in der ganzen Liste“); „Wo kann ich sie kaufen?“ und der Broker-Satz sind raus (Runde 2: „zu viel Text“). */}
-        <section className="reveal mt-12" aria-label="Die besten Broker für Muslime">
-          <DepotAufruf titel="Die besten Broker für Muslime" link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
+        <section className="reveal mt-12" aria-label={DEPOT_TITEL}>
+          <DepotAufruf titel={DEPOT_TITEL} link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
         </section>
 
         <NaechsterTeil wort="etf" className="mt-12" />

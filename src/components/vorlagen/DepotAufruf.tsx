@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
@@ -15,7 +16,19 @@ type Props = {
   check?: readonly CheckKarte[];
   /** Der Link unter den drei Karten; ohne Angabe der Depot-Vergleich. */
   alle?: { ziel: string; text: string };
+  /** Die drei Karten im Kasten; ohne Angabe die drei besten Depots (Sukuk auf der Gold-Seite: SUKUK_TOP3). */
+  top?: readonly DepotKarte[];
 };
+
+type DepotKarte = (typeof TOP3)[number];
+
+/**
+ * Der Titel über dem Aufruf in allen Freebies (Elias, 02.11.2026, MC7d16: „die besten Broker für Muslime ist noch ein
+ * bisschen irreführend … dass du die auf minus 100 setzt und dann wieder auf plus 100“; Vault
+ * `raw/2026-11-02-elias-mc7d16-feedback-runde-3.md`). Erst die Hürde mit den Suchwörtern „halal investieren“ und
+ * „Broker“, darunter die zwei bekannten mit ihrem Haken, dann der Kasten „Die besten Alternativen“.
+ */
+export const DEPOT_TITEL = "Halal investieren: Nicht jeder Broker passt";
 
 export type CheckKarte = {
   id: string;
@@ -37,19 +50,23 @@ export type CheckKarte = {
  */
 /** Die zwei bekannten Anbieter in Gelb und leichtem Rot, über dem Kasten; auch im Girokonto-Aufruf. */
 export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKarte[]; className?: string }) => (
-  <div className={`${className} grid grid-cols-2 gap-2`}>
+  // Eine Karte allein steht über die ganze Breite (Gold und Sukuk: eine Zahl über alle Depots).
+  <div className={`${className} grid ${check.length === 1 ? "grid-cols-1" : "grid-cols-2"} gap-2`}>
     {check.map((d) => (
       // Gelb und leicht Rot mit Rand wie im Portfolio-Plan (Elias, 01.11.2026, MC7d13d: „Ich fand das andere irgendwie besser“).
       <div
         key={d.id}
         className={`rounded-2xl p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
       >
-        <div className="flex items-center gap-2">
-          <AnbieterLogo name={d.name} domain={d.domain} klein rand />
-          <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-        </div>
+        {/* Ohne Namen ist es eine Zahl über alle Depots (Gold, Sukuk), dann ohne Logo-Zeile. */}
+        {d.name && (
+          <div className="flex items-center gap-2">
+            <AnbieterLogo name={d.name} domain={d.domain} klein rand />
+            <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
+          </div>
+        )}
         <p
-          className={`mt-2 whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+          className={`${d.name ? "mt-2" : ""} whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
         >
           {d.vor && <span className="mr-1 text-[13px] font-bold text-foreground">{d.vor}</span>}
           {d.gross}
@@ -59,6 +76,22 @@ export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKa
     ))}
   </div>
 );
+
+/** Die Wortmarke aus public/guides/assets/logos; fehlt sie (etwa Consorsbank in den Sukuk-Karten), das runde Logo. */
+const Wortmarke = ({ name, domain }: { name: string; domain: string }) => {
+  const [fehlt, setFehlt] = useState(false);
+  return fehlt ? (
+    <AnbieterLogo name={name} domain={domain} gross />
+  ) : (
+    <img
+      src={`/guides/assets/logos/${domain}.wortmarke.svg`}
+      alt={name}
+      loading="lazy"
+      onError={() => setFehlt(true)}
+      className="max-h-9 w-auto max-w-full object-contain"
+    />
+  );
+};
 
 // Die Startseite der Nummer 1 (/out/<kurzname> → /dein-investmentstart/<kurzname>) sagt, ob ihr Video ein Beispiel ist.
 const nr1Start = findStartPartner(TOP3.find((d) => d.nr1)?.link.replace(/^\/out\//, ""));
@@ -71,6 +104,7 @@ const DepotAufruf = ({
   link,
   check = CHECK,
   alle = { ziel: "/vergleich/depot", text: "Alle Depots im Vergleich" },
+  top = TOP3,
 }: Props) => (
   <div data-depot-aufruf>
     {titel && (
@@ -84,11 +118,12 @@ const DepotAufruf = ({
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
       {/* „Halal-Alternativen“ trägt bei Depots keinen Beleg (Anbieter-Belege in brokerVergleich.ts belegen „ohne Zinsen“);
           Elias' Wort seit MC7d15 ist „die besten Alternativen aus meinem Vergleich“. */}
-      <p className="pr-16 text-[18px] font-extrabold leading-snug text-foreground">
+      {/* Das „plus 100“ nach der Hürde im Titel (MC7d17): größer als vorher (18 px). */}
+      <p className="pr-16 text-[22px] font-extrabold leading-tight text-foreground">
         Die besten Alternativen aus meinem Vergleich
       </p>
       <ul className="mt-3 grid gap-4">
-        {TOP3.map((d) => (
+        {top.map((d) => (
           <li
             key={d.id}
             className="rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)] md:grid md:grid-cols-[1fr_200px] md:gap-x-6 md:p-6"
@@ -97,12 +132,7 @@ const DepotAufruf = ({
             {/* Handy: Wortmarke oben mittig; Laptop: rechts im Rahmen, darunter der Knopf. */}
             <div className="md:col-start-2 md:row-start-1">
               <div className="mx-auto flex h-[72px] w-[176px] items-center justify-center rounded-xl border border-border bg-white px-4 md:w-full">
-                <img
-                  src={`/guides/assets/logos/${d.domain}.wortmarke.svg`}
-                  alt={d.name}
-                  loading="lazy"
-                  className="max-h-9 w-auto max-w-full object-contain"
-                />
+                <Wortmarke name={d.name} domain={d.domain} />
               </div>
             </div>
             <div className="md:col-start-1 md:row-span-2 md:row-start-1">
@@ -124,8 +154,9 @@ const DepotAufruf = ({
                     <span>
                       <span className="sr-only">{p.ok ? "Ja: " : "Nein: "}</span>
                       {p.text}
-                      {/* Der Wert bricht nicht in sich um („9 von 12“ nicht als „9 von“ und „12“). */}
-                      {p.wert && <span className="whitespace-nowrap"> {p.wert}</span>}
+                      {/* Ein kurzer Wert bricht nicht in sich um („9 von 12“ nicht als „9 von“ und „12“); ein langer
+                          (Consorsbank-Order „4,95 € + 0,25% (min. …)“) darf umbrechen. */}
+                      {p.wert && <span className={p.wert.length <= 16 ? "whitespace-nowrap" : ""}> {p.wert}</span>}
                     </span>
                   </li>
                 ))}

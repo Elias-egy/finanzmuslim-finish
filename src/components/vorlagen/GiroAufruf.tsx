@@ -7,6 +7,8 @@ import { GIRO_CHECK, GIRO_TOP2 } from "@/data/giroTop2";
 type Props = {
   /** Überschrift des Blocks; ohne sie steht der Block unter der Überschrift der Seite. */
   titel?: string;
+  /** Ein Satz groß vor der Einleitung (Plan: „Etwa jedes achte Girokonto …“). */
+  gross?: string;
   einleitung?: string;
   /** Ein Satz zwischen den zwei bekannten und dem Kasten. */
   zwischen?: string;
@@ -19,15 +21,20 @@ type Props = {
  * (Elias, 01.11.2026, MC7d15: „genau wie bei dem anderen“): frei die zwei bekannten Konten mit Zinsen, darunter der
  * hellblaue Kasten mit den zwei besten ohne Zinsen aus dem Girokonto-Vergleich. Kennzeichnung wie dort.
  */
-const GiroAufruf = ({ titel, einleitung = "Diese zwei bekannten zahlen dir Zinsen.", zwischen, link }: Props) => (
+const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen dir Zinsen.", zwischen, link }: Props) => (
   <div data-depot-aufruf>
     {titel && <h3 className="text-[20px] font-extrabold leading-tight text-foreground">{titel}</h3>}
-    {einleitung && <p className={`${titel ? "mt-1" : ""} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>}
+    {gross && (
+      <p className={`${titel ? "mt-2" : ""} text-[24px] font-extrabold leading-tight text-foreground`}>{gross}</p>
+    )}
+    {einleitung && (
+      <p className={`${titel || gross ? "mt-2" : ""} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>
+    )}
     <CheckRaster check={GIRO_CHECK} className="mt-3" />
     {zwischen && <p className="mt-3 text-[16px] font-semibold leading-snug text-foreground">{zwischen}</p>}
     <div className="relative mt-5 rounded-3xl bg-accent p-4 ring-1 ring-primary/20 md:p-6" data-depot-kasten>
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
-      <p className="pr-16 text-[18px] font-extrabold leading-snug text-foreground">Die besten Alternativen aus meinem Vergleich</p>
+      <p className="pr-16 text-[22px] font-extrabold leading-tight text-foreground">Die besten Alternativen aus meinem Vergleich</p>
       <ul className="mt-3 grid gap-4">
         {GIRO_TOP2.map((d) => (
           <li

@@ -2,12 +2,13 @@ import { useEffect, type ReactNode } from "react";
 import { BadgeCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import DuaKarte from "@/components/vorlagen/DuaKarte";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqWarum } from "@/components/vorlagen/rizqTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { anliegen, duas, nummerVon } from "@/data/duas";
+import { logosFuer } from "@/lib/anbieterLogos";
 
 /**
  * Die volle Fassung von „Dua für jede Situation“, das Freebie zum Wort „Amin“, nur über den Link aus der Mail
@@ -17,8 +18,8 @@ import { anliegen, duas, nummerVon } from "@/data/duas";
  * Seit MC7d16 im Stil der anderen Freebies (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d16-antworten-dua-kompakt.md`:
  * „soll ja wie das andere sein, also bisschen übersichtlicher … die Duas sollen relativ schnell kommen … zu viel
  * Vorgerede … vor allem für Handy“): kein Motivbild, keine Brotkrumen, oben Titel und Anliegen, die ersten Duas auf dem
- * ersten Bildschirm, nach dem ersten Anliegen „Warum Rizq mehr ist als Geld“, der Depot-Aufruf nach der gebenden Hand
- * (vorher ein Knopf „Anbieter im Vergleich“), der Kasten ganz unten, Hinweise klein im Fuß.
+ * ersten Bildschirm, nach dem ersten Anliegen „Warum Rizq mehr ist als Geld“, nach der gebenden Hand seit MC7d17 zwei
+ * kleine Aufrufe (Girokonto, Depot), der Kasten ganz unten, Hinweise klein im Fuß.
  */
 const freebie = optinFreebie("rizq")!;
 const pfad = vollPfad(freebie);
@@ -27,29 +28,67 @@ const nachNummer = new Map(duas.map((d) => [nummerVon(d), d]));
 /** Kurze Namen für die Knöpfe oben, damit sie am Handy in zwei Reihen passen. */
 const KURZ = ["Jeden Tag", "Arbeit", "Schulden", "Entscheidungen"];
 
-const amLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${ziel}?src=am${stelle}`;
+const amLink = (ziel: string, stelle: "giro" | "depot") => `${ziel}?src=am${stelle}`;
 
+/** Die Girokonten für die Logos: wie im Girokonto-Aufruf ohne die Norisbank, bis ihr Anbieter-Beleg vorliegt (giroTop2.ts). */
+const GIRO_LOGOS = logosFuer("Girokonto");
+const giroLogos = GIRO_LOGOS.logos.filter((l) => !/norisbank/i.test(l.domain ?? ""));
+
+/**
+ * Die gebende Hand klein wie eine Dua-Karte, direkt nach den Duas zur Arbeit (Elias, 02.11.2026, MC7d16: „Die gebende
+ * Hand ist besser als die nehmende Hand. Verbinden und viel kleiner“; Vault `raw/2026-11-02-elias-mc7d16-feedback-runde-3.md`).
+ */
 const GebendeHand = () => (
-  <aside className="card-surface p-4 md:p-6">
+  <aside className="card-surface p-4">
     <p
       dir="rtl"
       lang="ar"
       style={{ fontFamily: '"Geeza Pro","Al Bayan",Tahoma,serif' }}
-      className="text-right text-[22px] leading-loose text-foreground"
+      className="text-right text-[20px] leading-loose text-foreground"
     >
       الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى
     </p>
-    <p className="mt-2 text-[16px] font-semibold leading-snug text-foreground">
-      „Die gebende Hand ist besser als die nehmende Hand.“
-    </p>
-    <p className="mt-1 text-[12px] text-muted-foreground">
+    <p className="mt-1 text-[15px] leading-snug text-foreground/90">„Die gebende Hand ist besser als die nehmende Hand.“</p>
+    <p className="mt-2 border-t border-border pt-2 text-[12px] text-muted-foreground">
       Ṣaḥīḥ al-Buchari 1427, Ṣaḥīḥ Muslim 1033, überliefert von ʿAbdullāh ibn ʿUmar.
     </p>
-    <p className="mt-3 text-[16px] leading-snug text-foreground/80">
-      Geben setzt voraus, dass zuerst etwas da ist. Vermögen aus halal Quellen aufzubauen ist deshalb kein Widerspruch zum
-      Bittgebet, sondern seine Fortsetzung.
-    </p>
   </aside>
+);
+
+/**
+ * Statt des Top-3-Depot-Aufrufs zwei kleine Aufrufe mit Logos (Elias, ebenda: „nicht diese drei Gewinner, sondern diese
+ * kleineren Call to Actions … die mit den Logos“), davor ein Satz in seiner Richtung („Gebe deine Halal Geld für Halal
+ * aus und erwerbe es Halal … schaffe es in Deutschland auch deine Finanzen Halal zu regeln“). Beleg für Erwerb und
+ * Ausgabe: at-Tirmidhi 2417 (Abū Barzah al-Aslamī, bei at-Tirmidhi ḥasan ṣaḥīḥ). Zwei FindeDeinAngebot auf einer Seite
+ * weichen hier Elias' Wort.
+ */
+const HalalRegeln = () => (
+  <div className="pt-6">
+    <h3 className="text-[22px] font-extrabold leading-tight text-foreground">Erwirb dein Geld halal und gib es halal aus.</h3>
+    <p className="mt-2 text-[16px] leading-snug text-foreground/80">
+      Nach deinem Geld wirst du gefragt: woher es kam und wofür du es ausgegeben hast.
+    </p>
+    <p className="mt-1 text-[12px] text-muted-foreground">At-Tirmidhi 2417, überliefert von Abū Barzah al-Aslamī.</p>
+    <p className="mt-4 text-[16px] font-semibold leading-snug text-foreground">
+      So regelst du deine Finanzen auch in Deutschland halal:
+    </p>
+    <div className="mt-3 grid gap-3">
+      <FindeDeinAngebot
+        titel="Ein Girokonto ohne Zinsen"
+        text="Ich habe gerankt, welche Girokonten dir in Deutschland keine Zinsen zahlen."
+        knopf="Zum Girokonto-Vergleich"
+        logos={giroLogos}
+        gesamt={GIRO_LOGOS.gesamt}
+        ziel={amLink("/vergleich/girokonto", "giro")}
+      />
+      <FindeDeinAngebot
+        titel="Ein Depot ohne Zinsen"
+        text="Ich habe gerankt, bei welchen Depots dein Guthaben ohne Zinsen bleibt und du Islamic ETFs kaufst."
+        knopf="Zum Depot-Vergleich"
+        ziel={amLink("/vergleich/depot", "depot")}
+      />
+    </div>
+  </div>
 );
 
 const Anliegen = ({ i, nach }: { i: number; nach?: ReactNode }) => {
@@ -131,11 +170,7 @@ const RizqVoll = () => {
           nach={
             <>
               <GebendeHand />
-              {/* Statt des alten Knopfs „Anbieter im Vergleich“ der Depot-Aufruf aller Freebies (Vault
-                  `memory/freebie-top3-statt-rot-guide-unten.md`). */}
-              <div className="pt-6">
-                <DepotAufruf titel="Die besten Broker für Muslime" link={amLink} />
-              </div>
+              <HalalRegeln />
             </>
           }
         />

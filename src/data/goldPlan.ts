@@ -12,6 +12,7 @@
  */
 import nisab from "@/data/nisab.json";
 import { GOLD_ISINS, edelmetallVergleich } from "@/data/edelmetallVergleich";
+import { SUKUK_DEPOTS_MIT_ALLEN, SUKUK_DEPOTS_ZINSFREI, SUKUK_ZAHL } from "@/data/depotTop3";
 
 export const GOLD_SCHLUESSEL = "gold-4hq7";
 export const GOLD_PFAD = `/dein-gold/${GOLD_SCHLUESSEL}`;
@@ -85,16 +86,35 @@ export const BEKANNTE_GOLD = [
   { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet", ton: "rot" },
 ] as const;
 
-/** Dieselben zwei für den Depot-Aufruf (src/components/vorlagen/DepotAufruf.tsx). */
-export const GOLD_CHECK = BEKANNTE_GOLD.map((d) => ({
-  id: d.name,
-  name: d.name,
-  domain: d.domain,
-  vor: "vor" in d ? d.vor : "",
-  gross: d.gross,
-  klein: d.klein,
-  ton: d.ton,
-}));
+/**
+ * Statt der zwei bekannten eine Zahl über alle Depots (Elias, 02.11.2026, MC7d16: „dieses 3 von 4 kannst du dann zu dem
+ * Ganzen machen. Und dann kannst du die besten zeigen“; Vault `raw/2026-11-02-elias-mc7d16-feedback-runde-3.md`).
+ * Dieselbe Zählung wie BROKER_SATZ, gelb wie die „3 von 4“ vorher.
+ */
+export const GOLD_GESAMT_CHECK = [
+  {
+    id: "gold-gesamt",
+    name: "",
+    domain: "",
+    vor: "nur",
+    gross: `${DEPOTS_MIT_ALLEN} von ${DEPOTS_ZINSFREI}`,
+    klein: `zinsfreien Depots haben alle ${GOLD_ETC_ZAHL} Gold-ETCs mit Zertifikat`,
+    ton: "gelb" as const,
+  },
+];
+
+/** Dasselbe für Sukuk (Elias, ebenda: „Und einmal noch das gleiche als Sukuk“), gezählt im Depot-Vergleich (depotTop3.ts). */
+export const SUKUK_GESAMT_CHECK = [
+  {
+    id: "sukuk-gesamt",
+    name: "",
+    domain: "",
+    vor: "nur",
+    gross: `${SUKUK_DEPOTS_MIT_ALLEN} von ${SUKUK_DEPOTS_ZINSFREI}`,
+    klein: `zinsfreien Depots haben alle ${SUKUK_ZAHL} Sukuk-ETFs und Fonds aus meiner Liste`,
+    ton: "gelb" as const,
+  },
+];
 
 /** Bekannte Depots für den Aufruf, alle empfehlbar und mit allen 4 Gold-ETCs (der Test prüft beides). */
 export const GOLD_DEPOT_LOGOS = [

@@ -15,7 +15,7 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
@@ -241,23 +241,22 @@ const PortfolioPlan = () => {
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">
             Bevor du anlegst, liegt dein Geld auf dem Girokonto.
           </p>
-          {/* Mehr Kontext vor dem Aufruf (Elias, 01.11.2026, MC7d15: „nicht dass du die direkt mit einer Werbung übertriffst“):
-              worauf man achtet, dann Beispiele mit Zinsen, dann die zwei besten ohne. Die drei Punkte sind die drei
-              Halal-Zeilen des Girokonto-Vergleichs (GIRO_ZEILEN). */}
+          {/* Mehr Kontext vor dem Aufruf (Elias, 01.11.2026, MC7d15: „nicht dass du die direkt mit einer Werbung übertriffst“).
+              Seit MC7d17 (Elias, 02.11.2026, MC7d16: „Etwa jedes achte Konto … musst du ein bisschen größer machen … ohne diesen
+              Text“): die drei Stichworte, dann der Satz groß, „Zum Beispiel“, „Als Muslim musst du Zinsen meiden“, die zwei besten. */}
           <p className="mt-4 text-[16px] font-bold text-foreground">Darauf achtest du:</p>
-          <ul className="mt-2 grid gap-2">
+          <ul className="mt-2 grid grid-cols-3 gap-2">
             {GIRO_ACHTEN.map((a) => (
-              <li key={a.titel} className="card-surface flex items-start gap-3 p-3">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-                <span className="text-[16px] leading-snug text-foreground">
-                  <span className="font-bold">{a.titel}</span> {a.text}
-                </span>
+              <li key={a} className="card-surface flex flex-col items-center gap-1.5 p-3 text-center">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-gain" aria-hidden />
+                <span className="text-[15px] font-bold leading-tight text-foreground">{a}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-6">
+          <div className="mt-8">
             <GiroAufruf
-              einleitung={`${SCHMERZ.girokonto} Zum Beispiel:`}
+              gross={SCHMERZ.girokonto}
+              einleitung="Zum Beispiel:"
               zwischen={SCHMERZ.muslim}
               link={(ziel, stelle) => `${ziel}?src=plg${stelle}`}
             />
@@ -324,7 +323,7 @@ const PortfolioPlan = () => {
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-4">
-          <Schritt nr={4} id="schritt-4" titel="Die besten Broker für Muslime" />
+          <Schritt nr={4} id="schritt-4" titel={DEPOT_TITEL} />
           {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
               dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
           <div className="mt-3">

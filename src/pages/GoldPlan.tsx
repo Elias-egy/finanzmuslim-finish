@@ -7,11 +7,13 @@ import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import { SUKUK_TOP3 } from "@/data/depotTop3";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import {
-  GOLD_CHECK,
+  GOLD_GESAMT_CHECK,
+  SUKUK_GESAMT_CHECK,
   CFD_ANBIETER,
   CFD_ZEILE,
   ETC_SATZ,
@@ -176,18 +178,28 @@ const GoldPlan = () => {
           <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{GELEHRTE_SATZ}</p>
         </section>
 
-        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Check und dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann
-            vielleicht die zwei, drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts).
-            Runde 2: Titel „Die besten Broker für Gold“, „Nicht jeder Broker hat sie“ und der Broker-Satz sind raus. */}
-        <section className="reveal mt-12" aria-label="Die besten Broker für Gold">
-          <div>
-            <DepotAufruf
-              titel="Die besten Broker für Gold"
-              check={GOLD_CHECK}
-              link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
-              alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
-            />
-          </div>
+        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann vielleicht die zwei,
+            drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). Runde 3 (Elias,
+            02.11.2026, MC7d16): Titel „Die besten Broker für Edelmetalle“, statt der zwei bekannten die Zahl über alle Depots,
+            darunter dasselbe für Sukuk. */}
+        <section className="reveal mt-12" aria-label="Die besten Broker für Edelmetalle">
+          <DepotAufruf
+            titel="Die besten Broker für Edelmetalle"
+            einleitung=""
+            check={GOLD_GESAMT_CHECK}
+            link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
+            alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
+          />
+        </section>
+
+        <section className="reveal mt-12" aria-label="Die besten Broker für Sukuk">
+          <DepotAufruf
+            titel="Die besten Broker für Sukuk"
+            einleitung="Ein Sukuk ist ein Anteil an einer Sache, nicht ein Anspruch auf Geld."
+            check={SUKUK_GESAMT_CHECK}
+            top={SUKUK_TOP3}
+            link={(ziel, stelle) => `${ziel}?src=gdsk${stelle}`}
+          />
         </section>
 
         <NaechsterTeil wort="gold" className="mt-12" />

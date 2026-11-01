@@ -3,7 +3,7 @@ import { BadgeCheck, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
@@ -118,7 +118,7 @@ const Top100Voll = () => {
 
         {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */}
         <section className="reveal mt-10" aria-labelledby="wo">
-          <DepotAufruf titel="Die besten Broker für Muslime" link={aktieLink} />
+          <DepotAufruf titel={DEPOT_TITEL} link={aktieLink} />
         </section>
 
         {themen.slice(1).map((t, i) => (
