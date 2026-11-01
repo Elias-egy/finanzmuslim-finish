@@ -60,11 +60,15 @@ const STUFE: Record<Stufe, { Icon: typeof CheckCircle2; farbe: string; wort: str
   },
 };
 
-/** Wo der Leser stand, als er auf eine Karte tippte; beim Zurück springt die Seite dorthin statt nach oben. */
+/**
+ * Wo der Leser stand, als er auf eine Karte tippte: welche Karte und wie weit sie von der Oberkante entfernt war.
+ * Beim Zurück öffnet die Seite die Gruppe der Karte wieder („8 weitere anzeigen“) und stellt die Karte an dieselbe
+ * Stelle (Seiten-Prüfer r4, Muss: vorher war die Gruppe zu und nur scrollY gemerkt).
+ */
 const STELLE = "liste-stelle";
-const merken = () => {
+const merken = (slug: string, el: HTMLElement) => {
   try {
-    sessionStorage.setItem(STELLE, String(window.scrollY));
+    sessionStorage.setItem(STELLE, JSON.stringify({ slug, abstand: el.getBoundingClientRect().top }));
   } catch {
     /* ohne sessionStorage beginnt die Liste oben */
   }
@@ -78,7 +82,8 @@ const Karte = ({ z }: { z: KaufZeile }) => {
     <li>
       <Link
         to={listeLink(`/halal-anlagen/${z.anlage.slug}`, "karte")}
-        onClick={merken}
+        onClick={(e) => merken(z.anlage.slug, e.currentTarget)}
+        data-karte={z.anlage.slug}
         className="card-surface block p-4 transition-shadow hover:ring-1 hover:ring-primary/30"
       >
         <div className="flex items-start gap-3">
@@ -121,18 +126,27 @@ const HalalAnlagenVoll = () => {
   const navigation = useNavigationType();
   // Zurück von einer Anlage-Seite: an die Stelle der Karte, nicht nach oben (Elias, 31.10.2026: „nicht hin und her“).
   useEffect(() => {
-    let y: number | null = null;
+    let stelle: { slug: string; abstand: number } | null = null;
     try {
       const wert = sessionStorage.getItem(STELLE);
       sessionStorage.removeItem(STELLE);
-      if (navigation === "POP" && wert) y = Number(wert);
+      if (navigation === "POP" && wert) stelle = JSON.parse(wert);
     } catch {
       /* ohne sessionStorage beginnt die Liste oben */
     }
-    if (y === null) return;
+    if (!stelle) return;
     document.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
-    const t = window.setTimeout(() => window.scrollTo(0, y!), 60);
-    return () => window.clearTimeout(t);
+    const karte = document.querySelector<HTMLElement>(`[data-karte="${CSS.escape(stelle.slug)}"]`);
+    const gruppe = karte?.closest("details");
+    if (gruppe) gruppe.open = true;
+    const hin = () => karte && window.scrollTo(0, karte.getBoundingClientRect().top + window.scrollY - stelle!.abstand);
+    // Erst nach dem Aufklappen und noch einmal, wenn Logos und Schrift die Höhen verschoben haben.
+    let f = requestAnimationFrame(() => (f = requestAnimationFrame(hin)));
+    const t = window.setTimeout(hin, 300);
+    return () => {
+      cancelAnimationFrame(f);
+      window.clearTimeout(t);
+    };
   }, [navigation]);
 
   // Sanftes Einblenden beim Scrollen wie im Portfolio-Plan.

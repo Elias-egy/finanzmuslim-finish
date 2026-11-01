@@ -77,6 +77,10 @@ const AnlageDetail = () => {
   const zus = anlage.isin ? zusammensetzungFuer(anlage.isin) : undefined;
   const region = anlage.isin ? regionFuer(anlage.isin) : undefined;
   const istKrypto = anlage.kategorie === "krypto";
+  // Fonds auf einem MSCI-Islamic-Index: Nachweis oder zweiter Beleg ist die MSCI-Methodik.
+  const msciIndex = [anlage.zertifikatLink, anlage.zweiterBeleg?.url].some((u) =>
+    u?.includes("msci.com/index/methodology"),
+  );
   const kaufbar = anlage.isin ? ANLAGEN_KAUFBAR[anlage.isin] : undefined;
   const hatZusammensetzung =
     !!zus && ((zus.positionen?.length ?? 0) > 0 || (zus.laender?.length ?? 0) > 0 || (zus.branchen?.length ?? 0) > 0);
@@ -286,15 +290,21 @@ const AnlageDetail = () => {
                 </>
               ) : (
                 <>
+                  {/* Nur wo ein Dokument das Verfahren trägt: die MSCI-Methodik für Fonds auf einem MSCI-Islamic-Index
+                      (Abschnitt 2, 2.1, 2.2, 3.1 und Einleitung). Für Gold, Silber, Sukuk und Fonds ohne gefundenen
+                      Prüfbericht gibt es keinen solchen Satz (Halal-Prüfer r4, Muss 2, MC7d13e). */}
+                  {msciIndex && (
+                    <p>
+                      <span className="font-semibold text-foreground">Wie geprüft wird: </span>
+                      MSCI sortiert für den Index jedes Vierteljahr Firmen aus, die mehr als 5 % ihrer
+                      Einnahmen aus Verbotenem wie Alkohol oder Zinsen ziehen oder zu hohe Schulden haben.
+                      Diese Regeln hat MSCIs Ausschuss aus Sharia-Gelehrten freigegeben.
+                    </p>
+                  )}
                   <p>
-                    <span className="font-semibold text-foreground">Wie geprüft wird: </span>
-                    Eine unabhängige Gelehrtenstelle schaut sich an, womit die Firmen im Fonds ihr
-                    Geld verdienen und wie hoch ihre Schulden und Zinserträge sind. Was durchfällt,
-                    fliegt raus.
-                  </p>
-                  <p>
-                    Solche Zertifizierungen werden meist jedes Jahr neu erteilt. Prüf vor dem Kauf
-                    selbst, ob der Nachweis noch aktuell ist.
+                    {NACHWEIS[anlage.slug]?.stufe === "aktuell" &&
+                      "Solche Zertifikate werden meist jedes Jahr neu erteilt. "}
+                    Prüf vor dem Kauf selbst, ob der Nachweis noch aktuell ist.
                   </p>
                 </>
               )}

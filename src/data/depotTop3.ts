@@ -19,17 +19,32 @@ export const TOP3 = werteAus(depotAnzeige, "depot", DEPOT_FINANZ_MAX, { wuensche
   .slice(0, 3)
   .map((t, i) => {
     const w = t.anbieter.werte as Record<string, unknown>;
+    const text = (k: string) => String(w[k] ?? "").replace(/(\d)€/g, "$1 €");
+    const sparrate = text("sparrate").match(/^([\d.,]+) €/)?.[1];
+    // Bis zum ersten Zusatz („, darunter …“ oder „. ETF-Kauf …“), wie die Zeile im Depot-Vergleich beginnt.
+    const order = text("orderkosten").split(/, darunter|\. /)[0].replace(/ je Order$/, "");
     return {
       id: t.anbieter.id,
       name: t.anbieter.name,
       domain: t.anbieter.domain ?? "",
+      /** Partnerweg aus dem Depot-Vergleich (/out/…), sonst der Vergleich selbst. */
+      link: t.anbieter.link ?? "/vergleich/depot",
       nr1: i === 0,
       zinsfreiAbStart: w.zinsfreiAbStart === "gut",
-      haken: [
-        w.halalEtfsFonds ? `${w.halalEtfsFonds} Islamic ETFs und Fonds` : null,
-        String(w.sparrate ?? "").match(/^([\d.,]+)\s*€/) ? `Sparplan ab ${String(w.sparrate).match(/^([\d.,]+)/)![1]} €` : null,
-        /^0\s*€$/.test(String(w.depotgebuehr ?? "")) ? "Keine Depotgebühr" : null,
-      ].filter((h): h is string => h !== null),
+      /**
+       * Sechs Zeilen wie die Depot-Karten von Finanzfluss (Elias, 01.11.2026, MC7d13e: „genauso viele Punkte
+       * vielleicht, aber natürlich andere Punkte“; Vault raw/2026-11-01-elias-mc7d13d-top3-wie-finanzfluss.md).
+       * Jede Zeile aus dem Depot-Vergleich; ok = false zeigt ein Kreuz. „Guthaben ohne Zinsen“ steht nur auf
+       * zinsfreiAbStart mit Anbieter-Beleg (Halal-Prüfer r4: belegt sind Guthabenzinsen, nicht Zinsen allgemein).
+       */
+      punkte: [
+        { text: "Guthaben ohne Zinsen", wert: "", ok: w.zinsfreiAbStart === "gut" },
+        { text: "Islamic ETFs und Fonds:", wert: text("halalEtfsFonds"), ok: !/^0 von/.test(text("halalEtfsFonds")) },
+        { text: "Gold und Edelmetalle:", wert: text("halalEdelmetalle"), ok: !/^0 von/.test(text("halalEdelmetalle")) },
+        { text: "Depotgebühr:", wert: text("depotgebuehr"), ok: /^0 €$/.test(text("depotgebuehr")) },
+        { text: "Kosten pro Order:", wert: order, ok: true },
+        { text: "Sparplan ab", wert: sparrate ? `${sparrate} €` : "", ok: Boolean(sparrate) },
+      ].filter((p) => !p.text.endsWith(":") || p.wert !== ""),
     };
   });
 

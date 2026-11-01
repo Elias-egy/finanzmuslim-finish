@@ -50,7 +50,10 @@ describe("Liste (MC7d13)", () => {
     for (const d of TOP3) {
       expect(d.zinsfreiAbStart, d.id).toBe(true);
       expect(empfehlbar(d.id), d.id).toBe(true);
-      expect(d.haken[0]).toMatch(new RegExp(`^(mind\\. )?\\d+ von ${ETF_ZAHL} Islamic ETFs und Fonds$`));
+      expect(d.punkte).toHaveLength(6);
+      expect(d.punkte[0]).toEqual({ text: "Guthaben ohne Zinsen", wert: "", ok: true });
+      expect(`${d.punkte[1].text} ${d.punkte[1].wert}`).toMatch(new RegExp(`^Islamic ETFs und Fonds: (mind\\. )?\\d+ von ${ETF_ZAHL}$`));
+      expect(d.link).toMatch(/^\/out\//);
       expect(existsSync(`public/guides/assets/logos/${d.domain}.wortmarke.svg`), d.domain).toBe(true);
     }
     expect(CHECK.map((d) => d.gross)).toEqual([`6 von ${ETF_ZAHL}`, "Zinsen"]);

@@ -5,7 +5,7 @@ import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { findStartPartner, type StartPartner } from "@/data/investmentStart";
+import { findStartPartner, STARTVIDEO, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
 import { HinweisText } from "@/components/vergleich/HinweisKasten";
 import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
@@ -24,8 +24,8 @@ import { istGueltigeQuelle } from "@/lib/attribution";
  * finanzmuslim-Seite auf dem Handy-Bild am Anfang und ohne die Stelle zu
  * Zinsen bei Scalable PRIME (Schnitt: ~/rebrand/video/schnitt-2026-10-09.sh).
  */
-const VIDEO_SRC = "/videos/investmentstart.mp4";
-const VIDEO_POSTER = "/videos/investmentstart-poster.jpg";
+const VIDEO_SRC = STARTVIDEO.src;
+const VIDEO_POSTER = STARTVIDEO.poster;
 
 
 const useSubId = (): string => {
