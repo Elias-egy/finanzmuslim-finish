@@ -26,12 +26,13 @@ const Rizq = () => (
       title="Dua für Rizq: 14 Bittgebete mit Quelle und Übersetzung | finanzmuslim"
       description="Finde das Dua für dein Anliegen: Arbeit, Schulden oder eine Entscheidung. Drei Bittgebete offen, alle 14 mit Arabisch und Fundstelle gegen deine E-Mail."
       path="/vorlagen/rizq"
-      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Dua für was?", path: "/vorlagen/rizq" }]}
+      brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Dua für jede Situation", path: "/vorlagen/rizq" }]}
     />
     <VorlagenSeite
       kicker={v.kicker}
       motiv={v.motiv}
-      titel="Dua für was?"
+      // Elias, 01.11.2026, MC7d15: „Dua für was? Das ist irgendwie nicht so gut. Dua für jede Situation“.
+      titel="Dua für jede Situation"
       einleitung={RIZQ_EINLEITUNG}
       pdfPfad={v.pdfPfad}
       slug={v.slug}

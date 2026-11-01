@@ -20,21 +20,26 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
     <aside
       aria-labelledby="naechster-teil"
       data-naechster-teil={wort}
-      className={`rounded-3xl border border-primary/15 bg-accent p-5 md:p-7 ${className}`}
+      className={`guide-glanz rounded-3xl bg-accent p-5 md:p-7 ${className}`}
     >
       <p className="text-[14px] font-bold text-violet">Dein nächster Schritt</p>
-      <h2 id="naechster-teil" className="mt-1 scroll-mt-32 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">
+      <h2
+        id="naechster-teil"
+        className="mt-1 scroll-mt-32 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]"
+      >
         {KASTEN.titel}
       </h2>
       <div className="mt-4 rounded-2xl bg-background p-4">
         <div className="flex items-center gap-4">
-          <img
-            src={DECKBLATT}
-            alt="Deckblatt des fortgeschrittenen Guides"
-            width={240}
-            height={339}
-            className="h-auto w-[92px] shrink-0 -rotate-3 rounded-md border border-primary/15 shadow-md"
-          />
+          <span className="glanz-bild w-[92px] shrink-0 -rotate-3 rounded-md">
+            <img
+              src={DECKBLATT}
+              alt="Deckblatt des fortgeschrittenen Guides"
+              width={240}
+              height={339}
+              className="block h-auto w-full rounded-md border border-primary/15 shadow-md"
+            />
+          </span>
           <div className="min-w-0">
             <p className="text-[16px] leading-snug text-foreground/80">{KASTEN.unter}</p>
             <p className="mt-2 text-[17px] font-bold leading-snug text-foreground">{frage.frage}</p>
@@ -71,11 +76,16 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
         </li>
       </ol>
       <p className="mt-2 text-[16px] leading-snug text-foreground">
-        <a href={KASTEN.mail.ziel} className="inline-flex min-h-[44px] items-center font-semibold text-primary underline underline-offset-2">
+        <a
+          href={KASTEN.mail.ziel}
+          className="inline-flex min-h-[44px] items-center font-semibold text-primary underline underline-offset-2"
+        >
           {KASTEN.mail.text}
         </a>
       </p>
-      <p className="mt-4 text-[16px] font-bold leading-snug text-foreground">Du wirst ihn mit anderen Augen lesen. Versprochen.</p>
+      <p className="mt-4 text-[16px] font-bold leading-snug text-foreground">
+        Du wirst ihn mit anderen Augen lesen. Versprochen.
+      </p>
     </aside>
   );
 };

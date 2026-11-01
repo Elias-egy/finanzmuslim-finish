@@ -30,7 +30,7 @@ export type Baustein = {
    * Ein Beispiel mit Logo, nicht anklickbar (Elias, 28.10.2026: „das führt die Leute direkt
    * irgendwo anders hin“). Logo aus der Anlage (`slug`) oder über die Domain des Anbieters.
    */
-  beispiel?: { slug?: string; domain?: string; titel: string };
+  beispiel?: { slug?: string; domain?: string; domains?: string[]; titel: string };
   farbe: string;
 };
 
@@ -60,7 +60,10 @@ export const bausteine: Baustein[] = [
     id: "aktien",
     name: "Einzelaktien",
     satz: "Firmen, die du selbst auswählst. Jede braucht ihre eigene Prüfung.",
-    beispiel: { domain: "zoya.finance", titel: "Zoya, eine App zum Prüfen" },
+    // Zwei bekannte, die Musaffa als halal führt und die auf keiner der sechs gesicherten Boykott-Listen stehen
+    // (Elias, 01.11.2026, MC7d15: „Zwei, die sehr bekannt sind, aber jetzt keine Probleme mit Israel und so haben“;
+    // Musaffa Vault raw/2026-11-01-musaffa-top100-nachpruefung.md, Listen docs/freebies/quellen/, Test in portfolioPlan.test.ts).
+    beispiel: { domains: ["adobe.com", "novonordisk.com"], titel: "Adobe, Novo Nordisk" },
     farbe: "#705FF1",
   },
   {
@@ -165,6 +168,16 @@ export const BEKANNTE = [
   // „nur“ klein und schwarz davor (Elias, 28.10.2026, MC3c).
   { name: "Trade Republic", domain: "traderepublic.com", vor: "nur", gross: "6 von 12", klein: "Islamic ETFs", ton: "gelb" },
   { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet", ton: "rot" },
+] as const;
+
+/**
+ * Worauf man beim Girokonto achtet, vor dem Aufruf (Elias, 01.11.2026, MC7d15: „sagen, worauf man achten muss“). Die drei
+ * Halal-Zeilen des Girokonto-Vergleichs, Wortlaut nach ihren Hinweisen in GIRO_ZEILEN.
+ */
+export const GIRO_ACHTEN = [
+  { titel: "Keine Zinsen:", text: "kein Zins auf dein Guthaben und kein verzinstes Unterkonto ab der Eröffnung." },
+  { titel: "Kein Dispo:", text: "die Bank räumt dir nach der Eröffnung keinen Kredit auf dem Konto ein." },
+  { titel: "Karte ohne Kredit:", text: "eine Girocard oder Debitkarte ohne Kreditrahmen." },
 ] as const;
 
 /** Girokonten, die Zinsen zahlen, klein als Beispiel unter dem Satz (Elias, 28.10.2026, MC3c). Ids aus girokontoAnzeige. */

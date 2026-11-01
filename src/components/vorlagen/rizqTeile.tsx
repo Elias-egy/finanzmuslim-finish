@@ -1,5 +1,7 @@
+import { BookOpen, Clock, Coins, HeartPulse, Users } from "lucide-react";
+
 /**
- * Texte und Blöcke, die die offene Seite „Dua für was?“ und ihre volle Fassung teilen.
+ * Texte und Blöcke, die die offene Seite „Dua für jede Situation“ (bis MC7d15 „Dua für was?“) und ihre volle Fassung teilen.
  * Enthält kein Bittgebet, deshalb darf die offene Seite es laden.
  */
 export const RIZQ_QUELLEN =
@@ -34,8 +36,28 @@ export const RizqWarum = () => (
       Wer nur um Geld bittet, bittet um den kleinsten Teil. Deshalb steht in mehreren dieser Duas das Wort <em>tayyib</em>,
       gut und rein, direkt neben dem Wort Rizq.
     </p>
+    {/* Kleine Grafik zum Satz (Elias, 01.11.2026, MC7d15: „Da kannst du eine kleine Grafik machen“): Geld ist ein Teil von fünf. */}
+    <ul className="mt-5 grid grid-cols-5 gap-1.5" aria-label="Was zu Rizq gehört">
+      {RIZQ_TEILE.map(({ wort, Icon, geld }) => (
+        <li
+          key={wort}
+          className={`flex flex-col items-center gap-1.5 rounded-xl px-1 py-3 text-center ${geld ? "bg-white/50 ring-1 ring-black/5" : "bg-white ring-1 ring-primary/20"}`}
+        >
+          <Icon className={`h-5 w-5 ${geld ? "text-muted-foreground" : "text-primary"}`} aria-hidden />
+          <span className={`text-[12px] font-semibold leading-tight ${geld ? "text-muted-foreground" : "text-foreground"}`}>{wort}</span>
+        </li>
+      ))}
+    </ul>
   </section>
 );
+
+const RIZQ_TEILE = [
+  { wort: "Geld", Icon: Coins, geld: true },
+  { wort: "Gesundheit", Icon: HeartPulse, geld: false },
+  { wort: "Zeit", Icon: Clock, geld: false },
+  { wort: "Wissen", Icon: BookOpen, geld: false },
+  { wort: "Menschen", Icon: Users, geld: false },
+];
 
 export const RizqHinweis = () => (
   <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">

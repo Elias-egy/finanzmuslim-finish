@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import {
   AMPEL_QUELLEN,
@@ -13,7 +13,7 @@ import {
 } from "@/components/vorlagen/ampelTeile";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
-import { fragen, zeilen } from "@/data/vertragsAmpel";
+import { zeilen } from "@/data/vertragsAmpel";
 
 /**
  * Der volle Halal Vertrags-Check, das Freebie zum Wort „Vertrag“, nur über die Danke-Seite und den Link aus der Mail
@@ -23,14 +23,16 @@ import { fragen, zeilen } from "@/data/vertragsAmpel";
  * die drei Farben, dann je Farbe die Verträge als Karten, nach Grün (dort steht das Depot) die Top 3 Depots, der Kasten
  * „Dein nächster Schritt“ ganz unten, kein Krypto-Aufruf, PDF-Knopf im Kopf. Brotkrumen, die beiden Vergleichs-Kästen,
  * die Newsletter-Anmeldung und die Tabelle für den Laptop sind weg, damit der Leser beim Thema bleibt. Die Texte der
- * Verträge sind unverändert (`src/data/vertragsAmpel.ts`).
+ * Verträge sind unverändert (`src/data/vertragsAmpel.ts`). Seit dem Feedback am selben Abend (Vault
+ * `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`) ohne Gelb-Erklärung und drei Fragen, und nach Grün steht der
+ * Girokonto-Aufruf statt der Top 3 Depots.
  */
 const v = vorlageBySlug("vertrags-ampel")!;
 const freebie = optinFreebie("vertrags-ampel")!;
 const pfad = vollPfad(freebie);
 const farben: Farbe[] = ["gruen", "gelb", "rot"];
 // Klickzählung je Stelle, Kennungen in src/lib/attribution.ts.
-const vertragLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${ziel}?src=vt${stelle}`;
+const vertragLink = (ziel: string, stelle: "top2" | "alle") => `${ziel}?src=vtg${stelle}`;
 
 const Gruppe = ({ farbe }: { farbe: Farbe }) => {
   const gruppe = zeilen.filter((z) => z.farbe === farbe);
@@ -47,12 +49,6 @@ const Gruppe = ({ farbe }: { farbe: Farbe }) => {
           <AmpelKarte key={z.vertrag} z={z} />
         ))}
       </div>
-      {farbe === "gelb" && (
-        <p className="mt-3 px-1 text-[14px] leading-snug text-muted-foreground">
-          Vieles ist nicht per se erlaubt oder verboten, sondern hängt an der Bedingung. Eine Versicherung, die du freiwillig
-          abschließt, ist etwas anderes als eine, die der Gesetzgeber vorschreibt. Gelb heißt: prüfen, nicht raten.
-        </p>
-      )}
     </section>
   );
 };
@@ -109,32 +105,19 @@ const VertragsAmpelVoll = () => {
 
         <Gruppe farbe="gruen" />
 
-        {/* Der Depot-Aufruf nach dem ersten Stück Inhalt: Grün nennt das Depot (Elias, 31.10.2026, MC7d13c). */}
-        <section className="reveal mt-10" aria-labelledby="wo">
-          <DepotAufruf titel="Die besten Broker für Muslime" link={vertragLink} />
+        {/* Unter dem Girokonto, dem letzten grünen Vertrag, der Girokonto-Aufruf statt des Depot-Aufrufs (Elias, 01.11.2026,
+            MC7d15: „Dann unter Girokonto machst du dann die Werbung rein. Girokonto ohne Zinsen“). */}
+        <section className="reveal mt-10" aria-labelledby="giro">
+          <h2 id="giro" className="text-[24px] font-extrabold leading-tight text-foreground">
+            Girokonto ohne Zinsen
+          </h2>
+          <div className="mt-1">
+            <GiroAufruf link={vertragLink} />
+          </div>
         </section>
 
         <Gruppe farbe="gelb" />
         <Gruppe farbe="rot" />
-
-        <section className="reveal mt-12" aria-labelledby="titel-fragen">
-          <h2 id="titel-fragen" className="text-[24px] font-extrabold leading-tight text-foreground">
-            Wenn ein Vertrag gelb ist, drei Fragen
-          </h2>
-          <ol className="mt-4 grid gap-2">
-            {fragen.map((f, i) => (
-              <li key={f.titel} className="card-surface flex gap-3 p-4">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-[14px] font-extrabold text-primary">
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="text-[16px] font-bold leading-snug text-foreground">{f.titel}</h3>
-                  <p className="mt-1 text-[15px] leading-snug text-foreground/80">{f.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
 
         <NaechsterTeil wort="vertrag" className="mt-12" />
 

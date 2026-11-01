@@ -110,6 +110,20 @@ export const VALID_SRC = [
   "vttop3",
   "vtnr1",
   "vtalle",
+  // MC7d15: Girokonto-Aufruf im Plan (Schritt 1) und im Vertrag, src/components/vorlagen/GiroAufruf.tsx.
+  "plgtop2",
+  "plgalle",
+  "vtgtop2",
+  "vtgalle",
+  // MC7d15: Depot-Aufruf in der ETF-Liste (Wort ETF) und im Gold-Plan (Wort GOLD).
+  "eftop3",
+  "efnr1",
+  "efalle",
+  "efkarte",
+  "gdtop3",
+  "gdnr1",
+  "gdalle",
+  "gdkarte",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

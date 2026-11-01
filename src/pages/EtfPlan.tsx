@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { AnlageLogo } from "@/components/AnlageZeile";
+import AnlageKarte from "@/components/vorlagen/AnlageKarte";
+import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
-import { anlageBySlug } from "@/data/halalAnlagen";
 import {
-  BEKANNTE_ETF,
   BROKER_SATZ,
-  ETF_BEISPIELE,
   ETF_BETRAEGE,
   ETF_MONATLICH,
   ETF_PFAD,
   ETF_SCHLUESSEL,
   GREMIUM_SATZ,
   ISLAMIC_FIRMEN,
-  MSCI_STAND,
   MUSLIM_SATZ,
   REGELN,
   REST_SATZ,
@@ -40,6 +38,8 @@ import {
  * zum Depot-Vergleich. Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
+const ETF_ZEILEN = listenGruppen.find((g) => g.kategorie === "aktien")!.zeilen;
+
 const Titel = ({ id, children }: { id: string; children: string }) => (
   <h2 id={id} className="text-[24px] font-extrabold leading-tight text-foreground">
     {children}
@@ -81,7 +81,7 @@ const EtfPlan = () => {
 
       <div className="container max-w-2xl py-8 md:py-12">
         <header className="rounded-3xl bg-hero p-6 md:p-8">
-          <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">So kaufst du Islamic ETFs</h1>
+          <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Deine Halal-ETF-Liste</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat anlegen?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat anlegen?">
             {ETF_BETRAEGE.map((b) => (
@@ -149,52 +149,42 @@ const EtfPlan = () => {
           <div className="mt-4">
             <GrafikFilter zeile={`Für ${betrag} € im Monat`} unter={`steckt dein Geld in ${zahl(ISLAMIC_FIRMEN)} Firmen`} />
           </div>
-          <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">Punkte als Bild, nicht gezählt. Zahlen von MSCI, Stand {MSCI_STAND}.</p>
-          <p className="mt-4 text-[16px] font-semibold text-foreground">Mit Shariah-Prüfung, zum Beispiel:</p>
-          <div className="mt-2 grid gap-2">
-            {ETF_BEISPIELE.map((e) => {
-              const anlage = anlageBySlug(e.slug);
-              return (
-                <div key={e.slug} className="flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
-                  {anlage && <AnlageLogo a={anlage} />}
-                  <span className="flex-1">
-                    {e.titel}
-                    <span className="block text-[12px] font-normal text-muted-foreground">{e.pruefung}</span>
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+        </section>
+
+        {/* Alle ETFs als Liste wie in der Liste (Elias, 01.11.2026, MC7d15: „Das sind alle, die es gibt … dann machst du
+            irgendwie drei, vier und dann machst du weitere Anzeigen“). Punkte-Hinweis und Beispielnamen sind weg. */}
+        <section id="alle-etfs" className="reveal mt-12 scroll-mt-20" aria-labelledby="alle">
+          <h2 id="alle" className="text-[28px] font-extrabold leading-tight text-foreground">
+            Alle {ETF_ZEILEN.length} Islamic ETFs und Fonds
+          </h2>
+          <ul className="mt-4 grid gap-2">
+            {ETF_ZEILEN.slice(0, SICHTBAR).map((z) => (
+              <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=efkarte`} />
+            ))}
+          </ul>
+          {ETF_ZEILEN.length > SICHTBAR && (
+            <details className="group mt-2">
+              <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+                {ETF_ZEILEN.length - SICHTBAR} weitere anzeigen
+                <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
+              </summary>
+              <ul className="mt-2 grid gap-2">
+                {ETF_ZEILEN.slice(SICHTBAR).map((z) => (
+                  <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=efkarte`} />
+                ))}
+              </ul>
+            </details>
+          )}
         </section>
 
         <section className="reveal mt-12" aria-labelledby="kaufen">
           <Titel id="kaufen">Wo kann ich sie kaufen?</Titel>
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">{BROKER_SATZ}</p>
-          <p className="mt-5 text-[20px] font-extrabold leading-tight text-foreground">
-            Die bekanntesten Apps sind nicht die besten für Muslime.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {BEKANNTE_ETF.map((d) => (
-              <div
-                key={d.name}
-                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <AnbieterLogo name={d.name} domain={d.domain} />
-                  <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-                </div>
-                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
-                <p
-                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-                >
-                  {d.gross}
-                </p>
-                <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
-              </div>
-            ))}
+          {/* Darunter derselbe Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten
+              Broker für Muslime in der ganzen Liste“). */}
+          <div className="mt-8">
+            <DepotAufruf titel="Die besten Broker für Muslime" link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
           </div>
-          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
-              das kann alles weg“). */}
         </section>
 
         <NaechsterTeil wort="etf" className="mt-12" />

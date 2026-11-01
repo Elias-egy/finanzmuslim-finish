@@ -85,6 +85,17 @@ export const BEKANNTE_GOLD = [
   { name: "XTB", domain: "xtb.com", gross: "Zinsen", klein: "automatisch eingeschaltet", ton: "rot" },
 ] as const;
 
+/** Dieselben zwei für den Depot-Aufruf (src/components/vorlagen/DepotAufruf.tsx). */
+export const GOLD_CHECK = BEKANNTE_GOLD.map((d) => ({
+  id: d.name,
+  name: d.name,
+  domain: d.domain,
+  vor: "vor" in d ? d.vor : "",
+  gross: d.gross,
+  klein: d.klein,
+  ton: d.ton,
+}));
+
 /** Bekannte Depots für den Aufruf, alle empfehlbar und mit allen 4 Gold-ETCs (der Test prüft beides). */
 export const GOLD_DEPOT_LOGOS = [
   { id: "scalable-capital-free-broker", name: "Scalable Capital", domain: "scalable.capital" },

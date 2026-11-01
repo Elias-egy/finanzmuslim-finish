@@ -344,6 +344,58 @@
   .btn-leuchte::after { animation: none; }
 }
 
+/* Glanz um den Kasten „Dein nächster Schritt“ (Elias, 01.11.2026, MC7d15: „alle Werbung für diesen fortgeschrittenen
+   Guide … so wie so ein Glänzeffekt drumherum“): ein Lichtbogen läuft langsam um den Rand, über das Deckblatt zieht
+   ab und zu ein Streif. Steht still bei reduzierter Bewegung und im PDF. */
+@property --glanz-winkel {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.guide-glanz { position: relative; isolation: isolate; }
+.guide-glanz::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--glanz-winkel),
+    hsl(var(--primary) / 0.15) 0deg,
+    hsl(var(--primary) / 0.15) 200deg,
+    hsl(var(--primary)) 260deg,
+    #ffffff 290deg,
+    hsl(var(--violet)) 320deg,
+    hsl(var(--primary) / 0.15) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: glanz-rund 5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes glanz-rund { to { --glanz-winkel: 360deg; } }
+.glanz-bild { position: relative; overflow: hidden; }
+.glanz-bild::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: translateX(-160%) skewX(-18deg);
+  animation: leuchte-streif 4.5s 1s ease-in-out infinite;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-glanz::before, .glanz-bild::after { animation: none; }
+  .glanz-bild::after { display: none; }
+}
+html[data-druck] .guide-glanz::before { display: none; }
+html[data-druck] .guide-glanz { box-shadow: inset 0 0 0 2px hsl(var(--primary) / 0.35); }
+html[data-druck] .glanz-bild::after { display: none; }
+
 /* Druckfassung der Freebies (MC7d15): scripts/freebie-pdf.ts setzt data-druck an <html> und druckt die Seite im
    Handy-Maß. Alles aufgeklappt und sichtbar, Seitenkopf und Fuß der Website weg, Karten nicht über zwei Seiten,
    die Aufrufe (Depot-Aufruf, „Dein nächster Schritt“) je auf einer eigenen Seite (Vault
@@ -375,4 +427,4 @@ html[data-druck] p:has(+ h2),
 html[data-druck] p:has(+ h3) { break-after: avoid; }
 html[data-druck] .rounded-xl,
 html[data-druck] .rounded-2xl,
-html[data-druck] .rounded-3xl:not([data-depot-aufruf]) { break-inside: avoid; }
+html[data-druck] .rounded-3xl:not([data-depot-aufruf]):not([data-depot-kasten]) { break-inside: avoid; }

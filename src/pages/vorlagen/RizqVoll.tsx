@@ -49,7 +49,7 @@ const GebendeHand = () => (
 const RizqVoll = () => (
   <>
     <Seo
-      title="Dua für was? Alle 14 Bittgebete nach Anliegen | finanzmuslim"
+      title="Dua für jede Situation: alle 14 Bittgebete nach Anliegen | finanzmuslim"
       description="Lies alle 14 Duas für Rizq nach Anliegen: mit Arabisch, Übersetzung und Fundstelle."
       path={pfad}
       noindex
@@ -57,7 +57,7 @@ const RizqVoll = () => (
     <VorlagenSeite
       kicker={v.kicker}
       motiv={v.motiv}
-      titel="Dua für was?"
+      titel="Dua für jede Situation"
       einleitung={RIZQ_EINLEITUNG}
       pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
       slug={v.slug}
