@@ -10,9 +10,17 @@ import type { CheckKarte } from "@/components/vorlagen/DepotAufruf";
 
 const werteVon = (id: string) => (girokontoAnzeige.find((a) => a.id === id)?.werte ?? {}) as Record<string, unknown>;
 
+/**
+ * Nicht im Aufruf, bis ein Anbieter-Beleg vorliegt: Die Norisbank schreibt auf norisbank.de/produkte/girokonto.html
+ * „Neukunden schließen mit dem Top-Girokonto in einem Schritt ebenfalls ein kostenloses Top-Zinskonto (Tagesgeldkonto)
+ * ab.“ (Halal-Prüfer MC7d15, 01.11.2026). Der Vergleich führt sie über vergleichKorrekturenDaten.ts weiter als zinsfrei;
+ * das ist eine offene Lücke im Vergleich.
+ */
+const OHNE_BELEG = new Set(["norisbank-top-girokonto"]);
+
 /** Die zwei besten Girokonten ohne Kredit, in der Reihenfolge des Girokonto-Vergleichs. Der Test hält fest, dass beide ohne Zinsen sind. */
 export const GIRO_TOP2 = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche: [], gewichte: [] })
-  .passt.filter((t) => !t.kredit)
+  .passt.filter((t) => !t.kredit && !OHNE_BELEG.has(t.anbieter.id))
   .slice(0, 2)
   .map((t) => {
     const w = t.anbieter.werte as Record<string, unknown>;

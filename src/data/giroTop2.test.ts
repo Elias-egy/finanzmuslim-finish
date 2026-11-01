@@ -14,6 +14,9 @@ describe("Girokonto-Aufruf (MC7d15)", () => {
       expect(g.link).toMatch(/^\/out\//);
     }
   });
+  it("zeigt die Norisbank nicht, solange ihr Zinskonto bei Eröffnung mitkommt", () => {
+    expect(GIRO_TOP2.some((g) => g.id === "norisbank-top-girokonto")).toBe(false);
+  });
   it("nennt nur Konten mit Zinsen laut Vergleich als Beispiel", () => {
     for (const c of GIRO_CHECK) expect(c.gross).toBe("Zinsen");
   });
