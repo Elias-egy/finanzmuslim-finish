@@ -102,6 +102,10 @@ export const VALID_SRC = [
   "pltop3",
   "plnr1",
   "plalle",
+  // MC7d14: Depot-Aufruf in den 100 Halal-Aktien (Wort AKTIE), src/data/top100Aktien.ts aktieLink.
+  "aktop3",
+  "aknr1",
+  "akalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
