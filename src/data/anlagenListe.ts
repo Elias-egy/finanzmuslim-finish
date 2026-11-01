@@ -9,10 +9,15 @@
  * Zinsaussage hat ihren Beleg in `docs/freebies/anlagen-liste.txt.belege.md`.
  */
 import { kaufGruppen, kaufZeilen, krypto, ohneBeleg, type KaufZeile } from "@/data/halalAnlagenKauf";
-import { DEPOTS_GEPRUEFT, DEPOTS_MIT_ALLEN, ETF_ZAHL } from "@/data/etfPlan";
+import { DEPOTS_GEPRUEFT } from "@/data/etfPlan";
+import { TOP3 } from "@/data/depotTop3";
+import { NACHWEIS, type Stufe } from "@/data/anlagenNachweis";
 
-/** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
-export const listeLink = (ziel: string, stelle: string) => `${ziel}?src=gliste-${stelle}`;
+/**
+ * Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann: gl plus Stelle, eingetragen in
+ * `src/lib/attribution.ts` (bis MC7d13d stand dort „gliste-…“, das die Zählung nicht annahm).
+ */
+export const listeLink = (ziel: string, stelle: "top3" | "nr1" | "alle" | "karte") => `${ziel}?src=gl${stelle}`;
 
 /**
  * Die Kacheln oben: was es gibt, je Art mit Zahl, nur die Anlagen im Depot. Krypto steht nicht im Kopf unter dem
@@ -30,9 +35,10 @@ export const KRYPTO_PRUEFER = [...new Set(krypto.map((a) => a.zertifizierer.repl
 
 /**
  * Kleine Logos je Karte, nicht anklickbar (Elias, 28.10.2026, MC3b). Nur bekannte, empfehlbare Depots, die
- * ich ganz geprüft habe (der Test prüft beides); gezeigt werden die ersten drei, die die Anlage führen.
+ * ich ganz geprüft habe (der Test prüft beides); gezeigt werden die ersten drei, die die Anlage führen. Die Top 3
+ * stehen vorn, damit sich die Empfehlung von oben festsetzt (Elias, 31.10.2026: „Traders Place und so immer wieder zeigen“).
  */
-export const KARTEN_DEPOTS = [
+const BEKANNT = [
   { id: "scalable-capital-free-broker", name: "Scalable Capital", domain: "scalable.capital" },
   { id: "trade-republic-depot", name: "Trade Republic", domain: "traderepublic.com" },
   { id: "trading-212-depot", name: "Trading 212", domain: "trading212.com" },
@@ -41,54 +47,16 @@ export const KARTEN_DEPOTS = [
   { id: "consorsbank-depot", name: "Consorsbank", domain: "consorsbank.de" },
   { id: "flatex-depot", name: "flatex", domain: "flatex.de" },
   { id: "finanzen-net-zero-depot", name: "finanzen.net zero", domain: "finanzen.net" },
-] as const;
+];
+const topRang = (id: string) => {
+  const i = TOP3.findIndex((t) => t.id === id);
+  return i === -1 ? TOP3.length : i;
+};
+export const KARTEN_DEPOTS = [...BEKANNT].sort((a, b) => topRang(a.id) - topRang(b.id));
 
 export const kartenLogos = (z: KaufZeile) =>
   KARTEN_DEPOTS.filter((d) => z.kaufbar.kaufbar.some((k) => k.anbieter === d.name)).slice(0, 3);
 
-/**
- * Der eine rote Schmerz (Elias, 28.10.2026: „ein roter Schmerz reicht“), aus den echten Fragen: Nicht jedes
- * Depot führt sie. Gezählt wie im ETF-Plan, nur zinsfreie, ganz geprüfte Depots ohne Abraten.
- */
-export const SCHMERZ_SATZ = `Nicht jedes Depot hat sie. Von ${DEPOTS_GEPRUEFT.length} zinsfreien Depots, die ich ganz geprüft habe, ${
-  DEPOTS_MIT_ALLEN.length === 1 ? "hat nur eins" : `haben nur ${DEPOTS_MIT_ALLEN.length}`
-} alle ${ETF_ZAHL} Aktien-ETFs und Fonds.`;
-
-/**
- * Was zu jeder Anlage belegt vorliegt, in einer kurzen Zeile (Halal-Prüfer r1 und r2, 31.10.2026: die
- * Überschrift darf nicht alle 22 gleich hinstellen, und keine Zeile behauptet ein Fehlen, das sich nicht
- * zeigen lässt). Drei Stufen nach dem jüngsten gelesenen Dokument, nie ein eigenes Urteil:
- * „aktuell“ = Zertifikat oder Prüfbericht für genau dieses Produkt aus 2025 oder 2026; „prospekt“ = Fatwa,
- * Gremium oder Berater laut Prospekt, oder der Index ist geprüft; „aelter“ = jüngster gefundener Nachweis
- * gilt für 2023 oder früher (Halal-Prüfer r3: „letzter“ behauptet ein Fehlen). Beleg je Zeile in `halalAnlagen.ts` (zertifikatHinweis, zertifikatLink) und in
- * `pruefung/halal-anlagen-liste-r2.md` im Vault; der Test prüft, dass jede Karte eine Zeile hat.
- */
-export type Stufe = "aktuell" | "prospekt" | "aelter";
-export const NACHWEIS: Record<string, { stufe: Stufe; text: string }> = {
-  "ishares-msci-world-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
-  "ishares-msci-emerging-markets-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
-  "ishares-msci-usa-islamic": { stufe: "prospekt", text: "Fatwa laut Prospekt, iShares-Panel" },
-  "hanetf-saturna-al-kawthar-global-focused-equity": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
-  "franklin-shariah-technology-fund-a-acc-usd": { stufe: "aktuell", text: "Jahresbericht 2025, Amanie" },
-  "invesco-msci-acwi-islamic-m-series": { stufe: "prospekt", text: "Index geprüft, MSCI" },
-  "hsbc-msci-world-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
-  "hsbc-msci-usa-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
-  "hsbc-msci-europe-islamic-screened": { stufe: "prospekt", text: "Index geprüft, MSCI" },
-  "hsbc-msci-emerging-markets-islamic-screened-capped": { stufe: "prospekt", text: "Index geprüft, MSCI" },
-  "invesco-dow-jones-islamic-global-developed-markets": { stufe: "aelter", text: "Zertifikat für 2023, Amanie" },
-  "comgest-growth-europe-s-eur-acc": { stufe: "prospekt", text: "Gremium laut Prospekt, Amanie" },
-  "ishares-usd-sukuk-ucits-etf": { stufe: "prospekt", text: "Fatwa laut Prospekt, Amanie" },
-  "xtrackers-ii-salam-usd-global-aggregate-sukuk": { stufe: "prospekt", text: "Berater laut Prospekt, ASB" },
-  "bnp-paribas-islamic-fund-hilal-income-classic-c": { stufe: "aelter", text: "Komitee im Bericht von 2020" },
-  "invesco-physical-gold-etc": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
-  "wisdomtree-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-core-physical-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-physical-swiss-gold": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
-  "invesco-physical-silver": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
-  "wisdomtree-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
-  "wisdomtree-core-physical-silver": { stufe: "aktuell", text: "Prüfbericht 2026, Al-Qalam" },
-  "royal-mint-responsibly-sourced-physical-gold": { stufe: "aktuell", text: "Jahreszertifikat 2025, Amanie" },
-};
 const RANG: Record<Stufe, number> = { aktuell: 0, prospekt: 1, aelter: 2 };
 export const nachweis = (z: KaufZeile) => NACHWEIS[z.anlage.slug];
 
@@ -115,13 +83,4 @@ export const STUFEN_ZAHL = (["aktuell", "prospekt", "aelter"] as Stufe[]).map((s
 export const depotZahl = (z: KaufZeile) =>
   DEPOTS_GEPRUEFT.filter((d) => z.kaufbar.kaufbar.some((k) => k.haus === d.haus || k.haeuser?.includes(d.haus))).length;
 
-/**
- * Oben im roten Kasten die Frage fast aller Leser (Leser-Runde r1): „Führt mein Broker das?“ Die bekannten
- * Depots mit ihrer Zahl aus dem Depot-Vergleich (Zeile halalEtfsFonds), nie ein Urteil über den Anbieter.
- */
-export const BEKANNTE_DEPOTS = (["trade-republic-depot", "scalable-capital-free-broker", "flatex-depot"] as const).map((id) => {
-  const d = DEPOTS_GEPRUEFT.find((a) => a.id === id)!;
-  return { id, name: d.name, domain: d.domain, zahl: Number(String(d.werte.halalEtfsFonds).split(" ")[0]) };
-});
-
-export { kaufGruppen, krypto, ohneBeleg };
+export { kaufGruppen, krypto, ohneBeleg, NACHWEIS, type Stufe };

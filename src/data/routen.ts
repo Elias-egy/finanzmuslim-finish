@@ -186,7 +186,7 @@ export const nichtIndexiert: string[] = [
   ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
-  ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+  ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
   // Boykott-Liste zum Wort „Boykott“ (BK1), ebenso nur über den Link aus dem Instagram-Chat
