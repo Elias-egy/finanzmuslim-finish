@@ -139,7 +139,10 @@ const HalalAnlagenVoll = () => {
     const karte = document.querySelector<HTMLElement>(`[data-karte="${CSS.escape(stelle.slug)}"]`);
     const gruppe = karte?.closest("details");
     if (gruppe) gruppe.open = true;
-    const hin = () => karte && window.scrollTo(0, karte.getBoundingClientRect().top + window.scrollY - stelle!.abstand);
+    // „instant“, weil html auf scroll-behavior: smooth steht und die Liste sonst sichtbar von oben durchläuft (Seiten-Prüfer r5).
+    const hin = () =>
+      karte &&
+      window.scrollTo({ top: karte.getBoundingClientRect().top + window.scrollY - stelle!.abstand, behavior: "instant" });
     // Erst nach dem Aufklappen und noch einmal, wenn Logos und Schrift die Höhen verschoben haben.
     let f = requestAnimationFrame(() => (f = requestAnimationFrame(hin)));
     const t = window.setTimeout(hin, 300);
