@@ -106,6 +106,10 @@ export const VALID_SRC = [
   "aktop3",
   "aknr1",
   "akalle",
+  // MC7d15: Depot-Aufruf im Vertrags-Check (Wort VERTRAG), src/pages/vorlagen/VertragsAmpelVoll.tsx.
+  "vttop3",
+  "vtnr1",
+  "vtalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

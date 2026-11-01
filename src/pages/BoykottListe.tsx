@@ -4,6 +4,7 @@ import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
 import { edelmetallVergleich } from "@/data/edelmetallVergleich";
@@ -189,6 +190,7 @@ const BoykottListe = () => {
               </div>
             </div>
           </div>
+          <PdfKnopf wort="boykott" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Rot heißt Boykott, gelb heißt meiden, wo es eine Alternative gibt. So teilt es die BDS-Bewegung ein.

@@ -4,6 +4,7 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { aktien, aktieLink, fraglich, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
@@ -15,8 +16,8 @@ import { aktien, aktieLink, fraglich, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from
  * Seit MC7d14 (01.11.2026) im Stil der Liste und des Portfolio-Plans (Vault `memory/freebie-top3-statt-rot-guide-unten.md`,
  * Plan `fundament/upgrade/MC7D11_2026-10-31/plan.html`, Baustein „Aktie neu“): oben der Titel und die fünf Themen, je
  * Thema die ersten Aktien und der Rest zum Aufklappen, nach dem ersten Thema die Top 3 Depots, der Kasten „Dein nächster
- * Schritt“ ganz unten, kein Krypto-Aufruf. PDF-Knopf, Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg,
- * damit der Leser beim Thema bleibt.
+ * Schritt“ ganz unten, kein Krypto-Aufruf. Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg, damit der
+ * Leser beim Thema bleibt. Seit MC7d15 wieder mit PDF-Knopf; das PDF ist diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`).
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
 const freebie = optinFreebie("top-100-halal-aktien")!;
@@ -108,6 +109,7 @@ const Top100Voll = () => {
               </a>
             ))}
           </nav>
+          <PdfKnopf wort="aktie" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Nach Bekanntheit sortiert, keine Kauf-Rangliste und keine Anlageberatung.

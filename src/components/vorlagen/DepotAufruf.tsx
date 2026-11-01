@@ -101,8 +101,15 @@ const DepotAufruf = ({ titel, einleitung = "Die bekanntesten sind nicht gleich d
           </div>
           {d.nr1 && nr1Start?.art === "depot" && (
             <div className="mt-4 md:col-span-2 md:row-start-3">
+              {/* Im PDF läuft kein Video: dort steht der Link auf die Startseite mit dem Video (MC7d13d, Schritt 232). */}
+              <a
+                href={`https://finanzmuslim.com/dein-investmentstart/${nr1Start.kurzname}`}
+                className="nur-druck rounded-xl bg-accent p-3 text-[16px] font-semibold leading-snug text-primary underline underline-offset-2"
+              >
+                Video ansehen: {d.name} eröffnen, Schritt für Schritt
+              </a>
               <video
-                className="aspect-video w-full rounded-xl bg-black"
+                className="kein-druck aspect-video w-full rounded-xl bg-black"
                 src={STARTVIDEO.src}
                 poster={STARTVIDEO.poster}
                 controls
@@ -111,7 +118,7 @@ const DepotAufruf = ({ titel, einleitung = "Die bekanntesten sind nicht gleich d
                 title={`${d.name} eröffnen, Schritt für Schritt`}
               />
               {nr1Start.videoHinweis && (
-                <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">
+                <p className="kein-druck mt-1.5 text-[13px] leading-snug text-muted-foreground">
                   Das Video zeigt die Einrichtung am Beispiel von Scalable Capital. Bei {d.name} läuft sie genauso, nur
                   die Menüs heißen anders.
                 </p>

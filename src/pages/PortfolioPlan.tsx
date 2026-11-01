@@ -4,6 +4,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, TrendingUp, type LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
@@ -204,6 +205,7 @@ const PortfolioPlan = () => {
               Zum Vergleich
             </Link>
           </p>
+          <PdfKnopf wort="plan" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 

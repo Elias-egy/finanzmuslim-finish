@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { GrafikFilter } from "@/components/EtfGrafik";
@@ -103,6 +104,7 @@ const EtfPlan = () => {
               Zum Depot-Vergleich
             </Link>
           </p>
+          <PdfKnopf wort="etf" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 

@@ -3,6 +3,7 @@ import { Link, useNavigationType } from "react-router-dom";
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, CircleDot } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
@@ -31,9 +32,10 @@ import {
  * dann je Anlage eine kurze Karte mit kleinen Logos. Seit MC7d13d (Elias nach dem Livegang, Vault
  * `raw/2026-10-31-elias-mc7d13c-liste-live-feedback-top3-unten.md`): kein roter Kasten mehr, nach den Aktien-ETFs die
  * Top 3 Depots wie im XXL-Guide, der Kasten „Dein nächster Schritt“ ganz unten, kein Krypto-Aufruf. Die Karte führt
- * auf die Anlage-Seite, dort stehen die Depots mit Knopf; zurück landet der Leser an seiner Stelle. PDF-Knopf,
- * „Alle Listen“, Spickzettel und Anmeldeformular sind weg (Plan MC7D11, Baustein 3). Nur über die Danke-Seite und
- * den Link aus der Mail (noindex, nicht in der Sitemap).
+ * auf die Anlage-Seite, dort stehen die Depots mit Knopf; zurück landet der Leser an seiner Stelle. „Alle Listen“,
+ * Spickzettel und Anmeldeformular sind weg (Plan MC7D11, Baustein 3); der PDF-Knopf ist seit MC7d15 zurück, das PDF ist
+ * diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`). Nur über die Danke-Seite und den Link aus der Mail (noindex,
+ * nicht in der Sitemap).
  */
 const freebie = optinFreebie("halal-anlagen")!;
 const pfad = vollPfad(freebie);
@@ -209,6 +211,7 @@ const HalalAnlagenVoll = () => {
               );
             })}
           </ul>
+          <PdfKnopf wort="liste" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Eine Übersicht, keine Anlageberatung.</p>
 

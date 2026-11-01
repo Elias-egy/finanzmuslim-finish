@@ -343,3 +343,36 @@
 @media (prefers-reduced-motion: reduce) {
   .btn-leuchte::after { animation: none; }
 }
+
+/* Druckfassung der Freebies (MC7d15): scripts/freebie-pdf.ts setzt data-druck an <html> und druckt die Seite im
+   Handy-Maß. Alles aufgeklappt und sichtbar, Seitenkopf und Fuß der Website weg, Karten nicht über zwei Seiten,
+   die Aufrufe (Depot-Aufruf, „Dein nächster Schritt“) je auf einer eigenen Seite (Vault
+   memory/freebie-pdf-handy-gross-und-auffaellig.md). Der normale Druck aus dem Browser bleibt unberührt. */
+.nur-druck { display: none; }
+html[data-druck] { scroll-behavior: auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html[data-druck] .nur-druck { display: block; }
+html[data-druck] .kein-druck,
+html[data-druck] summary,
+html[data-druck] header:not(main header),
+html[data-druck] footer:not(main footer) { display: none !important; }
+html[data-druck] .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+html[data-druck] [data-depot-aufruf],
+html[data-druck] [data-naechster-teil] { break-before: page; }
+html[data-druck] [data-depot-aufruf] + *,
+html[data-druck] section:has(> [data-depot-aufruf]) + * { break-before: page; }
+html[data-druck] li,
+html[data-druck] tr,
+html[data-druck] [data-depot-karte],
+html[data-druck] .card-surface > *,
+html[data-druck] [data-druck-ganz] { break-inside: avoid; }
+html[data-druck] h2,
+html[data-druck] h3 { break-after: avoid; }
+html[data-druck] main footer { break-inside: avoid; }
+/* Steht der Depot-Aufruf unter einer eigenen Überschrift (Portfolio-Plan Schritt 4), beginnt die ganze Stelle die neue Seite. */
+html[data-druck] section:has(> div > [data-depot-aufruf]) { break-before: page; }
+html[data-druck] div > [data-depot-aufruf] { break-before: auto; }
+html[data-druck] p:has(+ h2),
+html[data-druck] p:has(+ h3) { break-after: avoid; }
+html[data-druck] .rounded-xl,
+html[data-druck] .rounded-2xl,
+html[data-druck] .rounded-3xl:not([data-depot-aufruf]) { break-inside: avoid; }
