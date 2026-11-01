@@ -297,14 +297,11 @@ const PortfolioPlan = () => {
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-4">
-          <Schritt nr={4} id="schritt-4" titel="Wo du es jetzt kaufst" />
+          <Schritt nr={4} id="schritt-4" titel="Die besten Broker für Muslime" />
           {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
               dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
           <div className="mt-3">
-            <DepotAufruf
-              einleitung="Die bekanntesten Depots sind nicht die besten für Muslime. Zwei Beispiele:"
-              link={(ziel, stelle) => `${ziel}?src=pl${stelle}`}
-            />
+            <DepotAufruf link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
           </div>
         </section>
 

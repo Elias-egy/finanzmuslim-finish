@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { CHECK, DEPOT_ANZAHL, TOP3 } from "@/data/depotTop3";
+import { CHECK, TOP3 } from "@/data/depotTop3";
 
 type Props = {
   /** Überschrift des Blocks; ohne sie steht der Block unter der Überschrift der Seite. */
   titel?: string;
-  /** Ein Satz vor dem Check. */
-  einleitung: string;
+  /** Ein Satz vor dem Check; seit MC7d13d meist ohne (Elias, 01.11.2026: „Viel simpler. Klarer.“). */
+  einleitung?: string;
   /** Link mit der Klickzählung der Seite, je Stelle (Kennungen in `src/lib/attribution.ts`). */
   link: (ziel: string, stelle: "top3" | "nr1" | "alle") => string;
 };
@@ -25,8 +25,8 @@ const DepotAufruf = ({ titel, einleitung, link }: Props) => (
         {titel}
       </h2>
     )}
-    <p className={`${titel ? "mt-1" : "pr-16"} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>
-    <div className="mt-3 grid grid-cols-2 gap-2">
+    {einleitung && <p className={`${titel ? "mt-1" : "pr-16"} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>}
+    <div className={`${titel || einleitung ? "mt-3" : "mt-8"} grid grid-cols-2 gap-2`}>
       {CHECK.map((d) => (
         // Gelb und leicht Rot mit Rand wie im Portfolio-Plan (Elias, 01.11.2026, MC7d13d: „Ich fand das andere irgendwie besser“).
         <div
@@ -47,9 +47,10 @@ const DepotAufruf = ({ titel, einleitung, link }: Props) => (
         </div>
       ))}
     </div>
-    <p className="mt-4 text-[16px] leading-snug text-foreground/80">
-      Diese drei aus meinem Vergleich von {DEPOT_ANZAHL} Depots sind <strong className="text-foreground">ohne Zinsen</strong> ab
-      dem ersten Tag.
+    {/* „Halal-Alternativen“ (Elias' Wort) trägt bei Depots keinen Beleg, belegt ist nur „ohne Zinsen“ (Anbieter-Belege
+        in brokerVergleich.ts, zinsfreiAbStart); darum diese Fassung. */}
+    <p className="mt-4 text-[18px] font-extrabold leading-snug text-foreground">
+      Die besten Alternativen ohne Zinsen aus meinem Vergleich
     </p>
     <ul className="mt-3 grid gap-3">
       {TOP3.map((d) => (

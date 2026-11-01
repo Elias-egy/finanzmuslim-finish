@@ -113,7 +113,7 @@ const Karte = ({ z }: { z: KaufZeile }) => {
 /** Der Depot-Aufruf nach den Aktien-ETFs: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */
 const TopDrei = () => (
   <section className="reveal mt-10" aria-labelledby="wo">
-    <DepotAufruf titel="Wo bekomme ich sie?" einleitung="Nicht jedes Depot hat sie. Zwei bekannte Beispiele:" link={listeLink} />
+    <DepotAufruf titel="Die besten Broker für Muslime" link={listeLink} />
   </section>
 );
 
