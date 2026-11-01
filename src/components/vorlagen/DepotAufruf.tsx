@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { CHECK, TOP3 } from "@/data/depotTop3";
-import { findStartPartner, STARTVIDEO } from "@/data/investmentStart";
 
 type Props = {
   /** Überschrift des Blocks; ohne sie steht der Block unter der Überschrift der Seite. */
@@ -18,11 +17,9 @@ type Props = {
  * der Check mit zwei bekannten Depots und darunter die drei besten, blau umrandet. Kennzeichnung wie im Guide:
  * „Werbung“ oben rechts, Sternchen am Knopf, eine Fußnote. Die drei Depot-Karten seit MC7d13e wie die Depot-Karten von
  * Finanzfluss (Elias, 01.11.2026: „Mach das lieber schon so“): Handy Wortmarke oben mittig, Name, sechs Haken, Knopf
- * über die ganze Breite; Laptop links Name und Haken, rechts Wortmarke im Rahmen und Knopf. Das Video der Nummer 1
- * steht direkt in ihrer Karte statt hinter einem Klick (Elias, 31.10.2026, MC7d13d).
+ * über die ganze Breite; Laptop links Name und Haken, rechts Wortmarke im Rahmen und Knopf.
  */
-// Die Startseite der Nummer 1 (/out/<kurzname> → /dein-investmentstart/<kurzname>) sagt, ob ihr Video ein Beispiel ist.
-const nr1Start = findStartPartner(TOP3.find((d) => d.nr1)?.link.replace(/^\/out\//, ""));
+
 // Elias, 01.11.2026, MC7d13d: über den beiden Karten „die bekanntesten sind nicht gleich die besten“.
 const DepotAufruf = ({ titel, einleitung = "Die bekanntesten sind nicht gleich die besten.", link }: Props) => (
   <div className="relative rounded-3xl border border-primary/20 p-4 md:p-6" data-depot-aufruf>
@@ -99,25 +96,9 @@ const DepotAufruf = ({ titel, einleitung = "Die bekanntesten sind nicht gleich d
               ))}
             </ul>
           </div>
-          {d.nr1 && nr1Start?.art === "depot" && (
-            <div className="mt-4 md:col-span-2 md:row-start-3">
-              <video
-                className="aspect-video w-full rounded-xl bg-black"
-                src={STARTVIDEO.src}
-                poster={STARTVIDEO.poster}
-                controls
-                playsInline
-                preload="none"
-                title={`${d.name} eröffnen, Schritt für Schritt`}
-              />
-              {nr1Start.videoHinweis && (
-                <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">
-                  Das Video zeigt die Einrichtung am Beispiel von Scalable Capital. Bei {d.name} läuft sie genauso, nur
-                  die Menüs heißen anders.
-                </p>
-              )}
-            </div>
-          )}
+          {/* Das Video der Nummer 1 stand hier kurz (MC7d13e) und ist wieder raus: Halal-Prüfer r5 fand darin gesprochene
+              Halal-Aussagen ohne Beleg (Krypto „zertifiziert“, „ihr müsst nichts prüfen“). Erst nach Schnitt oder neuer
+              Aufnahme mit belegter Abschrift wieder einbauen (pruefung/halal-liste-top3-r5.md im Vault). */}
           <div className="md:col-start-2 md:row-start-2">
             <Link
               to={link(d.link, d.nr1 ? "nr1" : "top3")}

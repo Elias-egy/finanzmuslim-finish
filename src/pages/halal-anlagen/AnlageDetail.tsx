@@ -279,9 +279,10 @@ const AnlageDetail = () => {
                 <>
                   <p>
                     <span className="font-semibold text-foreground">Wie geprüft wird: </span>
-                    Eine Gelehrtenstelle schaut sich an, wie die Münze entsteht, wofür sie genutzt
-                    wird und ob dabei Zins oder reine Wette im Spiel ist. Ein Gutachten gilt der
-                    Münze selbst, nicht deinem Handel damit.
+                    {/* Halal-Prüfer r5: Zins und Wette nennt die Shariyah-Seite nicht; sie nennt sich selbst
+                        „preliminary Sharia research and is by no means a fatwa“. */}
+                    Das Shariyah Review Bureau in Bahrain hat sich die Münze angesehen. Nach eigenen
+                    Worten ist das eine vorläufige Einschätzung, keine Fatwa.
                   </p>
                   <p>
                     Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt

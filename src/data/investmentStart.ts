@@ -14,11 +14,7 @@
 
 export type StartArt = "depot" | "girokonto" | "krypto" | "steuer" | "app";
 
-/**
- * Das Depot-Video der Startseiten, selbst gehostet (Elias, 15.09.2026: direkt eingebettet konvertiert deutlich besser
- * als YouTube). Auch im Depot-Aufruf der Freebies unter der Nummer 1 (Elias, 31.10.2026, MC7d13d: „wenn es direkt
- * eingebaut ist“).
- */
+/** Das Depot-Video der Startseiten, selbst gehostet (Elias, 15.09.2026: direkt eingebettet konvertiert deutlich besser als YouTube). */
 export const STARTVIDEO = { src: "/videos/investmentstart.mp4", poster: "/videos/investmentstart-poster.jpg" };
 
 export type StartPartner = {
