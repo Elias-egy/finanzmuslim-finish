@@ -50,11 +50,7 @@ export const vergleich = (betrag: number) =>
 export const ERWARTUNG =
   "Sukuk-Fonds schwanken weniger als Aktienfonds, dafür ist auch der Ertrag deutlich kleiner. Die meisten notieren in US-Dollar, damit läuft der Wechselkurs mit.";
 
-/** Aus „Wie man in Sukuk investiert“: einzelne Sukuk sind zu groß gestückelt, der Weg sind Fonds. */
-export const FONDS_SATZ = "Einzelne Sukuk sind für dich praktisch nicht erreichbar. Du kaufst sie über einen Fonds.";
-
-/** Aus „Die Kritik, die man kennen sollte“: wer Sukuk hält, sollte wissen, wer sie geprüft hat. */
-export const PRUEF_SATZ = "Sukuk sind nicht unumstritten. Darum steht bei jedem Fonds, wer ihn geprüft hat. Frag im Zweifel einen Gelehrten.";
+// Die Nebensätze zu Fonds und Kritik sind raus (Elias, 02.11.2026, MC7f: „diese Kleinigkeiten, das will keiner lesen“).
 
 /**
  * „Nur 6 von 22 zinsfreien Depots haben alle 3“ (Elias, 02.11.2026, MC7d16: „Und einmal noch das gleiche als Sukuk“),

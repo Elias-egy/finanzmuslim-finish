@@ -4,7 +4,6 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
 import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
-import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { aktien, aktieLink, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
@@ -108,7 +107,7 @@ const Top100Voll = () => {
               </a>
             ))}
           </nav>
-          <PdfKnopf wort="aktie" className="mt-4" />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Nach Bekanntheit sortiert, keine Kauf-Rangliste und keine Anlageberatung.

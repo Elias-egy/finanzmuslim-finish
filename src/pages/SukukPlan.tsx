@@ -3,7 +3,6 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
@@ -12,10 +11,8 @@ import { SUKUK_TOP3 } from "@/data/depotTop3";
 import {
   BILD_SATZ,
   ERWARTUNG,
-  FONDS_SATZ,
   MERKSATZ,
   MUSLIM_SATZ,
-  PRUEF_SATZ,
   SCHMERZ,
   SUKUK_BETRAEGE,
   SUKUK_GESAMT_CHECK,
@@ -112,7 +109,7 @@ const SukukPlan = () => {
             wert={betrag * 12}
             format={euro}
           />
-          <PdfKnopf wort="sukuk" className="mt-4" />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 
@@ -165,13 +162,11 @@ const SukukPlan = () => {
           <h2 id="alle" className="text-[28px] font-extrabold leading-tight text-foreground">
             Alle {SUKUK_ZEILEN.length} Sukuk-ETFs und Fonds
           </h2>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">{FONDS_SATZ}</p>
           <ul className="mt-4 grid gap-2">
             {SUKUK_ZEILEN.map((z) => (
               <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=skkarte`} />
             ))}
           </ul>
-          <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{PRUEF_SATZ}</p>
         </section>
 
         {/* Wie beim Gold: die Zahl über alle Depots, dann die drei besten mit allen Sukuk (Elias, 02.11.2026, MC7d16:

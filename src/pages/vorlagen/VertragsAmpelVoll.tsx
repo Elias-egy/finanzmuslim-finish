@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import GiroAufruf from "@/components/vorlagen/GiroAufruf";
-import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import {
   AMPEL_QUELLEN,
   AMPEL_RECHTSHINWEIS,
@@ -99,7 +98,7 @@ const VertragsAmpelVoll = () => {
               </a>
             ))}
           </nav>
-          <PdfKnopf wort="vertrag" className="mt-4" />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Bekannte Positionen, keine Fatwa.</p>
 

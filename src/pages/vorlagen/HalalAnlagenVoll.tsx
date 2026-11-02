@@ -3,7 +3,6 @@ import { useNavigationType } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
@@ -130,7 +129,7 @@ const HalalAnlagenVoll = () => {
               </a>
             ))}
           </nav>
-          <PdfKnopf wort="liste" className="mt-4" />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Eine Übersicht, keine Anlageberatung.</p>
 
