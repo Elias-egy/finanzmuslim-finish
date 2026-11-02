@@ -35,6 +35,14 @@ const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "02.11.2026", iso: "2026-11-02T09:00:00+01:00" };
 const INSTAGRAM = "https://www.instagram.com/finanz.muslim/";
+
+/** Stand der Kursreihe ist der Abruftag; fällt er aufs Wochenende, gilt der Freitag davor. */
+function letzterHandelstag(stand: string): string {
+  const [t, m, j] = stand.split(".").map(Number);
+  const d = new Date(Date.UTC(j, m - 1, t));
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate() - 1);
+  return `${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${d.getUTCFullYear()}`;
+}
 const YOUTUBE = "https://www.youtube.com/@finanz.muslim";
 /** LinkedIn-Profil von Elias (SOP About Page Z. 93, 145). */
 const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy-370616363/";
@@ -43,7 +51,7 @@ const VIDEO_ID = "uO0ZnlaFolw";
 /** Google „bevorzugte Quelle“: dorthin leitet auch Finanzfluss (link.finanzfluss.de, ?q=finanzfluss.de). */
 const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.com";
 const BIO =
-  "Elias El-Gendy hat die Sachkundeprüfungen nach § 34d und § 34f GewO abgeschlossen. Er berät Muslime zum islamkonformen Investieren und klärt auf Instagram (@finanz.muslim) über 15.000 Abonnenten über Halal Finance auf.";
+  "Elias El-Gendy hat die Sachkundeprüfungen nach §\u00a034d und §\u00a034f GewO abgeschlossen. Er berät Muslime zum islamkonformen Investieren. Auf Instagram (@finanz.muslim) erklärt er über 15.000 Abonnenten, wie Halal Finance funktioniert.";
 const RECHTSHINWEIS =
   "Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Rangfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Zu Wertpapierleihe, synthetischer Nachbildung und zur Reinigung von Erträgen bestehen zwischen den Rechtsschulen und einzelnen Gremien unterschiedliche Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
@@ -65,7 +73,7 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
   { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen", leiste: true },
   { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026", leiste: true },
-  { id: "halal-etf-liste", titel: "Halal ETF Liste im Vergleich: welche Halal ETFs gibt es in Deutschland?", leiste: true, kurz: "Halal ETF Liste im Vergleich" },
+  { id: "halal-etf-liste", titel: "Halal ETF Liste im Vergleich: Welche Halal ETFs gibt es in Deutschland?", leiste: true, kurz: "Halal ETF Liste im Vergleich" },
   { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt" },
   { id: "halal-etf-oder-fonds", titel: "Halal ETF oder Halal Fonds: wo der Unterschied Geld kostet" },
   { id: "wo-kaufen", titel: "Wo du die acht ETFs kaufen kannst" },
@@ -118,7 +126,7 @@ const KRITERIEN: { name: string; text: string }[] = [
   },
   {
     name: "Reinigung",
-    text: "Ob der Fonds den kleinen unreinen Anteil selbst weitergibt oder ob du ihn ausrechnen musst. Bei Platz 1 (seit 2026) und Platz 5 macht es der Fonds, beim Sukuk entfällt er.",
+    text: "Ob der Fonds den kleinen unreinen Anteil selbst weitergibt oder ob du ihn ausrechnen musst. Bei Platz 1 (seit 2026) und Platz 5 macht es der Fonds, beim Sukuk ist es in der Regel nicht nötig.",
   },
   {
     name: "Verfügbarkeit",
@@ -185,7 +193,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
     antwort:
-      "Nach verbreiteter Auffassung ja, wenn der Fonds es nicht selbst tut. Der iShares MSCI World Islamic (seit 2026) und der HSBC MSCI World Islamic Screened reinigen im Fonds, beim iShares USD Sukuk entfällt es. Bei den anderen gibst du den unreinen Anteil deiner Erträge weiter.",
+      "Nach dem AAOIFI-Standard ja, wenn der Fonds es nicht selbst tut. Der iShares MSCI World Islamic (seit 2026) und der HSBC MSCI World Islamic Screened reinigen im Fonds. Beim iShares USD Sukuk ist es in der Regel nicht nötig, weil er keine Aktien hält. Bei den anderen gibst du den unreinen Anteil deiner Erträge weiter.",
     link: { to: "/wissen/ertraege-reinigen", text: "So rechnest du die Reinigung" },
   },
 ];
@@ -215,7 +223,7 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   },
   { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "Die Grenzwerte, nach denen ein Index prüft." },
   { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
-  { to: "/wissen/sukuk", name: "Sukuk", text: "Versteh das Gegenstück zu Anleihen." },
+  { to: "/wissen/sukuk", name: "Sukuk", text: "Das islamische Gegenstück zu Anleihen, einfach erklärt." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -242,7 +250,7 @@ const Text = ({ children }: { children: ReactNode }) => (
 
 /** Kleines Etikett in Großbuchstaben mit Abstand, wie frontal „QUICK COMPARE“, „BEST FOR“. */
 const Etikett = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
-  <p className={`font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground ${className}`}>{children}</p>
+  <p className={`font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground ${className}`}>{children}</p>
 );
 
 const Werbung = () => <Etikett>Werbung</Etikett>;
@@ -411,7 +419,7 @@ const RASTER = {
 
 const Klappzeile = ({ titel, zahl, children }: { titel: string; zahl?: number; children: ReactNode }) => (
   <details className="group border-t border-border">
-    <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground [&::-webkit-details-marker]:hidden">
+    <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-mono text-[12px] uppercase tracking-[0.14em] text-foreground [&::-webkit-details-marker]:hidden">
       {titel}
       <span className="flex items-center gap-2 text-muted-foreground">
         {zahl}
@@ -452,7 +460,7 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
         }`}
         style={RASTER}
       >
-        <span className="absolute left-3 top-3 border border-border bg-background px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-foreground">
+        <span className="absolute left-3 top-3 border border-border bg-background px-1.5 py-0.5 font-mono text-[12px] tabular-nums text-foreground">
           {String(e.platz).padStart(2, "0")}
         </span>
         <img src={logoPfad(e.logo)} alt="" aria-hidden="true" width={40} height={40} className="h-10 w-10 object-contain" />
@@ -503,7 +511,7 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
             <dl className="grid grid-cols-3 gap-2">
               {renditen.map(([zeit, wert]) => (
                 <div key={zeit}>
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{zeit}</dt>
+                  <dt className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">{zeit}</dt>
                   <dd className={`mt-0.5 whitespace-nowrap font-semibold tabular-nums ${wert ? "text-gain" : "text-muted-foreground"}`}>
                     {wert ?? "–"}
                   </dd>
@@ -622,7 +630,7 @@ const GoogleKasten = () => (
       <span className="block text-[18px] font-semibold leading-snug text-foreground md:text-[19px]">
         finanzmuslim als bevorzugte Quelle bei Google hinzufügen
       </span>
-      <span className="mt-1 block text-[15px] leading-snug text-muted-foreground">Unsere Vergleiche direkt in deiner Suche.</span>
+      <span className="mt-1 block text-[15px] leading-snug text-muted-foreground">Dann zeigt dir Google unsere Vergleiche öfter.</span>
     </span>
     <span className="inline-flex w-full items-center justify-center gap-1.5 bg-primary px-5 py-3 text-[15px] font-semibold text-primary-foreground transition-colors group-hover:bg-primary-hover md:w-auto">
       Hinzufügen
@@ -835,7 +843,7 @@ const Rechner = () => {
               >
                 <img src={logoPfad(x.logo)} alt="" aria-hidden="true" width={24} height={24} className="h-6 w-6 shrink-0 object-contain" />
                 <span className="min-w-0 text-[13px] leading-tight text-foreground">
-                  <span className="font-mono text-[11px] text-muted-foreground">{String(x.platz).padStart(2, "0")}</span> {kurz}
+                  <span className="font-mono text-[12px] text-muted-foreground">{String(x.platz).padStart(2, "0")}</span> {kurz}
                 </span>
               </button>
             );
@@ -858,7 +866,7 @@ const Rechner = () => {
               >
                 {/* Am Handy eine flache Zeile (links Zeitraum und Eingezahlt, rechts der Wert), damit die Kurve nah bleibt */}
                 <span className="block min-w-0">
-                  <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <span className="block font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground">
                     Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`} angefangen
                   </span>
                   <span className="mt-1 block text-[14px] text-muted-foreground sm:mt-2">
@@ -889,10 +897,11 @@ const Rechner = () => {
         {aktiv?.erg && <Kurve erg={aktiv.erg} art={art} />}
 
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
+          Tippst du auf eine Kachel, zeigt die Kurve ihren Zeitraum.{" "}
           {art === "einmal"
-            ? `Einmalig: Rendite von justETF in Euro mit Ausschüttungen, Stand ${RENDITE_STAND}. Die Kurve verbindet die Werte, die justETF für 5, 3 und 1 Jahr nennt.`
-            : `Jeden Monat: eine Rate je Monat zum Monatskurs, Wert zum Kurs vom ${kursStand} (Yahoo Finance, ohne Ausschüttungen). Bei Platz 1, 3, 4 und 8 liegt der echte Wert darum etwas höher.`}{" "}
-          Tipp auf eine Kachel für ihren Zeitraum. Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
+            ? `Gerechnet mit den Renditen von justETF bis ${RENDITE_STAND}, mit Ausschüttungen. Die Kurve verbindet die Werte vor 5, 3 und 1 Jahr mit heute.`
+            : `Gerechnet mit den Monatskursen bis ${letzterHandelstag(kursStand)} (Yahoo Finance), ohne Ausschüttungen. Bei Platz 1, 3, 4 und 8 wäre es darum etwas mehr.`}{" "}
+          Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
         </p>
       </div>
     </section>
@@ -965,7 +974,7 @@ const Eintrag = ({ e }: { e: EtfEintrag }) => {
       <Link to={`/halal-anlagen/${a.slug}`} className="mt-5 block overflow-hidden rounded-md border border-border">
         <picture>
           {/* Am Handy wäre die Laptop-Aufnahme unlesbar klein, darum dort der Handy-Ausschnitt derselben Seite */}
-          <source media="(min-width: 768px)" srcSet={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`} width={1440} height={510} />
+          <source media="(min-width: 768px)" srcSet={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`} width={1440} height={434} />
           <img
           src={`/bilder/blog/halal-etf/${a.slug}.webp`}
           alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr, Fondsgröße und Auflage`}
@@ -1006,7 +1015,7 @@ const KleineTabelle = ({
       <thead className="hidden sm:table-header-group">
         <tr className="border-b border-border bg-muted/60 text-left">
           {kopf.map((k) => (
-            <th key={k} className="px-4 py-3 font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-muted-foreground">
+            <th key={k} className="px-4 py-3 font-mono text-[12px] font-normal uppercase tracking-[0.14em] text-muted-foreground">
               {k}
             </th>
           ))}
@@ -1023,7 +1032,7 @@ const KleineTabelle = ({
               <td
                 key={kopf[i + 1]}
                 data-label={kopf[i + 1]}
-                className={`align-top text-foreground/80 before:block before:font-mono before:text-[10px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] sm:table-cell sm:px-4 sm:py-3 sm:before:hidden ${
+                className={`align-top text-foreground/80 before:block before:font-mono before:text-[12px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] sm:table-cell sm:px-4 sm:py-3 sm:before:hidden ${
                   breit.includes(i) ? "col-span-2" : ""
                 }`}
               >
@@ -1087,7 +1096,7 @@ const HalalEtf = () => {
               <div className="mt-3">{inhalt}</div>
               <div className="mt-6 border border-border bg-card p-5">
                 <Etikett className="text-primary">Dein Vermögensaufbau</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Riba?</p>
+                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Zinsen vom Depot?</p>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
                   In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt.
                 </p>
@@ -1111,7 +1120,6 @@ const HalalEtf = () => {
             </nav>
 
             <article className="mt-8">
-              <Etikett className="text-primary">Halal ETFs</Etikett>
               <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
                 <span className="block">Beste Halal ETFs 2026:</span> <span className="block">8 im Vergleich</span>
               </h1>
@@ -1177,7 +1185,6 @@ const HalalEtf = () => {
                 {/* 5 Das Wichtigste wie frontal „Key Takeaways“ */}
                 <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
                   <H2 id="das-wichtigste" />
-                  <p className="mt-1.5 text-[15px] text-muted-foreground">Die kurze Fassung, bevor es ins Detail geht.</p>
                   <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/75">
                     {WICHTIGSTES.map((w) => (
                       <li key={w.lead} className="flex gap-3">
@@ -1190,7 +1197,7 @@ const HalalEtf = () => {
                   </ul>
                   <p className="mt-5 text-[14px] text-muted-foreground">
                     Neu beim Thema? Im kostenlosen <TL to="/halal-guide">Halal Investment Guide</TL> erkläre ich die
-                    Grundlagen in deiner Stufe.
+                    Grundlagen Schritt für Schritt.
                   </p>
                 </section>
 
@@ -1208,8 +1215,8 @@ const HalalEtf = () => {
                     </p>
                     <p>
                       Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
-                      Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Die
-                      Grenzwerte stehen in <TL to="/wissen/sind-aktien-halal">Sind Aktien halal?</TL>
+                      Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Welche
+                      Grenzwerte gelten, steht im Beitrag <TL to="/wissen/sind-aktien-halal">Sind Aktien halal?</TL>
                     </p>
                     <p>
                       Danach der Fonds selbst. Er kann einen sauberen Index nachbilden und trotzdem Aktien verleihen. Oder er
@@ -1257,7 +1264,7 @@ const HalalEtf = () => {
                   <Text>
                     <p>
                       Die Reihenfolge folgt den vier Kriterien oben, nicht der Rendite. Platz 1 hat
-                      den Beleg am Fonds, reinigt selbst und läuft bei den meisten Depots als Sparplan. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
+                      den Beleg am Fonds, reinigt selbst und läuft bei mehr Depots als Sparplan als jeder andere ETF hier. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
                       Aktien, sondern Sukuk.
                     </p>
                     <p>
@@ -1273,7 +1280,7 @@ const HalalEtf = () => {
                           <div className="mt-8">
                             <Text>
                               <p>
-                                Lieber hören als lesen? Im Video erkläre ich, worauf du achten musst, damit ein ETF halal ist.
+                                Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.
                               </p>
                             </Text>
                             <Video />
@@ -1287,6 +1294,12 @@ const HalalEtf = () => {
                 {/* 11 Tabellen wie frontal: wenige Spalten, kurze Wörter */}
                 <section className="mt-14">
                   <H2 id="halal-etf-liste" />
+                  <Text>
+                    <p>
+                      Ich habe 12 Halal ETFs gefunden, die du in Deutschland kaufen kannst. Acht stehen in dieser Liste, die
+                      übrigen vier unter der Renditetabelle.
+                    </p>
+                  </Text>
                   <KleineTabelle
                     kopf={["ETF", "Kosten", "Halal-Beleg", "Passt zu"]}
                     breit={[2]}
@@ -1304,8 +1317,8 @@ const HalalEtf = () => {
                     })}
                   />
                   <p className="font-titel mt-7 max-w-[664px] border-l-2 border-primary pl-5 text-[20px] leading-[1.4] text-foreground">
-                    Platz 1 verbindet ein Gremium am Fonds mit 0,30 % Kosten und dem Sparplan bei 14 Depots, mehr als bei
-                    jedem anderen ETF hier.
+                    Platz 1 hat ein Gremium am Fonds, kostet 0,30 % und läuft bei 14 Depots als Sparplan, bei keinem anderen
+                    ETF hier so oft.
                   </p>
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
                   <KleineTabelle
@@ -1327,14 +1340,16 @@ const HalalEtf = () => {
                   </p>
                   <Text>
                     <p>
-                      Außerdem in Deutschland zu haben, ohne belegten Sparplan:{" "}
+                      Außerdem in Deutschland zu haben:{" "}
                       <TL to="/halal-anlagen/hsbc-msci-usa-islamic-screened">HSBC MSCI USA Islamic Screened</TL>,{" "}
                       <TL to="/halal-anlagen/hsbc-msci-europe-islamic-screened">HSBC MSCI Europe Islamic Screened</TL> und{" "}
                       <TL to="/halal-anlagen/hsbc-msci-emerging-markets-islamic-screened-capped">
                         HSBC MSCI Emerging Markets Islamic Screened
                       </TL>
-                      , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
-                      <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>: Sparplan belegt, aber ein veröffentlichtes Shariah-Zertifikat haben wir nicht gefunden.
+                      , je 0,30 bis 0,35 % im Jahr, einen Sparplan hat uns dafür kein Depot belegt. Dazu der{" "}
+                      <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL> mit belegtem Sparplan.
+                      Laut Verkaufsprospekt berät ihn ASB Capital in Shariah-Fragen, ein veröffentlichtes Zertifikat haben wir nicht
+                      gefunden.
                     </p>
                   </Text>
                 </section>
@@ -1369,9 +1384,11 @@ const HalalEtf = () => {
                       Ein Halal ETF folgt meist einem Index und wird an der Börse gehandelt. Einen Ausgabeaufschlag zahlst du nicht, nur die Ordergebühr deines Depots.
                     </p>
                     <p>
-                      Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Viele dieser Fonds verlangen beim
-                      Kauf einen Ausgabeaufschlag, etwa die Shariah-Fonds von Comgest, Franklin und BNP. Für einen Sparplan über
-                      viele Jahre ist der ETF darum meist günstiger. Platz 7 liegt dazwischen: ein aktiver Fonds im ETF-Mantel.
+                      Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Ein aktiver Shariah-Fonds aus
+                      unserer Datenbank kostet 1,81&nbsp;% im Jahr, Platz 1 kostet 0,30&nbsp;%. Bei 10.000&nbsp;€ sind das 181&nbsp;€
+                      gegen 30&nbsp;€, jedes Jahr. Kaufst du direkt bei der Fondsgesellschaft, kommt dort ein Ausgabeaufschlag von
+                      5,54&nbsp;% dazu. Für einen Sparplan über viele Jahre ist der ETF darum meist günstiger. Platz 7 liegt
+                      dazwischen: ein aktiver Fonds im ETF-Mantel.
                     </p>
                   </Text>
                 </section>
