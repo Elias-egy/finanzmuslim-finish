@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursFuerIsin, kursStand } from "@/lib/kurse";
@@ -52,8 +53,11 @@ const LESEZEIT = 19;
 /* Inhalt                                                              */
 /* ------------------------------------------------------------------ */
 
-/** `leiste`: steht im Inhaltsverzeichnis. Nur sechs, damit der Aufruf darunter im ersten Bildschirm steht (Elias SEO31). */
-type Abschnitt = { id: string; titel: string; leiste?: boolean };
+/**
+ * `leiste`: steht im Inhaltsverzeichnis. Nur sechs, damit der Aufruf darunter im ersten Bildschirm steht (Elias SEO31).
+ * `kurz`: Fassung für die Leiste, wo die H2 den Nebenbegriff trägt und dafür zu lang wäre (THEMENKARTE.md, SEO32-03).
+ */
+type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
@@ -61,9 +65,9 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
   { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen", leiste: true },
   { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026", leiste: true },
-  { id: "halal-etf-liste", titel: "Halal ETF Liste: alle acht nebeneinander", leiste: true },
+  { id: "halal-etf-liste", titel: "Halal ETF Liste im Vergleich: welche Halal ETFs gibt es in Deutschland?", leiste: true, kurz: "Halal ETF Liste im Vergleich" },
   { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt" },
-  { id: "halal-etf-oder-fonds", titel: "ETF oder Fonds: wo der Unterschied Geld kostet" },
+  { id: "halal-etf-oder-fonds", titel: "Halal ETF oder Halal Fonds: wo der Unterschied Geld kostet" },
   { id: "wo-kaufen", titel: "Wo du die acht ETFs kaufen kannst" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
@@ -463,12 +467,12 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
             <Etikett>Kaufbar bei</Etikett>
             <div className="mt-1 flex items-center gap-2.5">
               <p className="text-[15px] font-semibold tabular-nums text-foreground">{kaufbarBei(e.isin).length}&nbsp;Depots</p>
-              <span className="flex items-center" aria-hidden="true">
+              <span className="flex items-center">
                 {logos.map(([name, datei]) => (
                   <img
                     key={name}
                     src={`/guides/assets/logos/${datei}`}
-                    alt=""
+                    alt={name}
                     title={name}
                     width={22}
                     height={22}
@@ -476,9 +480,8 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
                     className="-ml-1 h-[22px] w-[22px] rounded-full border-2 border-card bg-background object-contain first:ml-0"
                   />
                 ))}
-                <span className="ml-1 text-[14px] text-muted-foreground">…</span>
+                <span className="ml-1 text-[14px] text-muted-foreground" aria-hidden="true">…</span>
               </span>
-              <span className="sr-only">, unter anderem {logos.map(([name]) => name).join(", ")}</span>
             </div>
           </div>
           <div>
@@ -594,8 +597,8 @@ const KurzerVergleich = () => {
 /* Google-Kasten, Rechner, Depots                                       */
 /* ------------------------------------------------------------------ */
 
-const GoogleG = () => (
-  <svg viewBox="0 0 48 48" className="h-7 w-7 shrink-0" aria-hidden>
+const GoogleG = ({ className = "h-7 w-7" }: { className?: string }) => (
+  <svg viewBox="0 0 48 48" className={`${className} shrink-0`} aria-hidden>
     <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
     <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
     <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z" />
@@ -603,22 +606,28 @@ const GoogleG = () => (
   </svg>
 );
 
+/** Google-Kasten (Elias SEO32-02: „größer, damit der auch wirklich auffällt“): hellblau wie ein Aufruf, großes G, Knopf. */
 const GoogleKasten = () => (
   <a
     href={GOOGLE_QUELLE}
     target="_blank"
     rel="noopener noreferrer"
     data-vorlage="google-quelle"
-    className="mt-7 flex max-w-[664px] items-center gap-4 border border-border bg-card px-5 py-4 transition-colors hover:border-foreground/40"
+    className="group mt-8 flex flex-wrap items-center gap-x-5 gap-y-4 border border-primary/25 bg-accent px-5 py-5 transition-colors hover:border-primary/60 md:flex-nowrap md:px-6 md:py-6"
   >
-    <GoogleG />
-    <span className="min-w-0 flex-1">
-      <span className="block text-[16px] font-semibold leading-snug text-foreground">
+    <span className="flex h-14 w-14 shrink-0 items-center justify-center border border-border bg-background">
+      <GoogleG className="h-8 w-8" />
+    </span>
+    <span className="min-w-0 flex-1 basis-[200px]">
+      <span className="block text-[18px] font-semibold leading-snug text-foreground md:text-[19px]">
         finanzmuslim als bevorzugte Quelle bei Google hinzufügen
       </span>
-      <span className="mt-0.5 block text-[14px] text-muted-foreground">Unsere Vergleiche direkt in deiner Suche.</span>
+      <span className="mt-1 block text-[15px] leading-snug text-muted-foreground">Unsere Vergleiche direkt in deiner Suche.</span>
     </span>
-    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+    <span className="inline-flex w-full items-center justify-center gap-1.5 bg-primary px-5 py-3 text-[15px] font-semibold text-primary-foreground transition-colors group-hover:bg-primary-hover md:w-auto">
+      Hinzufügen
+      <ChevronRight className="h-4 w-4" aria-hidden />
+    </span>
   </a>
 );
 
@@ -631,34 +640,146 @@ const ZEITRAEUME = [
   { jahre: 5, feld: "rendite5J" },
 ] as const;
 
-type Ergebnis = { eingezahlt: number; wert: number } | null;
+type Punkt = { x: string; t: number; eingezahlt: number; wert: number };
+type Ergebnis = { eingezahlt: number; wert: number; kurve: Punkt[] } | null;
+type Feld = (typeof ZEITRAEUME)[number]["feld"];
+
+const MONATE = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+const monatKurz = (ym: string) => {
+  const [j, m] = ym.split("-").map(Number);
+  return `${MONATE[m - 1]} ${String(j).slice(2)}`;
+};
+const vorJahren = (j: number) => (j === 0 ? "heute" : `vor ${j} J.`);
 
 /**
- * Rechner (Elias SEO31): Betrag monatlich oder einmalig, Ergebnis nach 1, 3 und 5 Jahren, ETF über Logos wie im
- * Renditerechner, aber schlank. Eingezahlt ist je Zeitraum bei allen ETFs gleich.
- * Einmalig: Rendite von justETF mit Ausschüttungen (dieselben Werte wie in den Karten und der Tabelle).
+ * Rechner (Elias SEO31, Kurve zurück SEO32-01): Betrag monatlich oder einmalig, Ergebnis nach 1, 3 und 5 Jahren,
+ * ETF über Logos. Eingezahlt ist je Zeitraum bei allen ETFs gleich. Die Kachel wählt den Zeitraum der Kurve,
+ * der letzte Punkt der Kurve ist immer die Zahl der Kachel.
+ * Einmalig: Rendite von justETF mit Ausschüttungen (dieselben Werte wie in den Karten und der Tabelle). Die Kurve
+ * nimmt nur diese Werte: Wert vor k Jahren = Endwert geteilt durch das Wachstum der letzten k Jahre. Die Kursreihe
+ * weicht von justETF ab (Börsenplatz, Ausschüttungen), darum nicht für Einmalig.
  * Monatlich: je Monatskurs eine Rate, die letzten 12, 36 oder 60 Einträge der Reihe; der letzte Eintrag ist der Kurs
  * vom Stand der Kursdatei. Ist die Reihe kürzer, gibt es den ETF noch nicht so lange: Strich.
  */
-const rechnen = (e: EtfEintrag, betrag: number, art: "monat" | "einmal", jahre: number, feld: (typeof ZEITRAEUME)[number]["feld"]): Ergebnis => {
+const rechnen = (e: EtfEintrag, betrag: number, art: "monat" | "einmal", jahre: number, feld: Feld): Ergebnis => {
   if (art === "einmal") {
     const r = e[feld];
-    return r ? { eingezahlt: betrag, wert: betrag * (1 + prozent(r)) } : null;
+    if (!r) return null;
+    const ende = betrag * (1 + prozent(r));
+    const stuetzen = ZEITRAEUME.filter((z) => z.jahre < jahre && e[z.feld]).map((z) => ({
+      jahre: z.jahre,
+      wert: ende / (1 + prozent(e[z.feld]!)),
+    }));
+    const kurve: Punkt[] = [
+      { x: vorJahren(jahre), t: -jahre, eingezahlt: betrag, wert: betrag },
+      ...stuetzen.sort((a, b) => b.jahre - a.jahre).map((p) => ({ x: vorJahren(p.jahre), t: -p.jahre, eingezahlt: betrag, wert: p.wert })),
+      { x: vorJahren(0), t: 0, eingezahlt: betrag, wert: ende },
+    ];
+    return { eingezahlt: betrag, wert: ende, kurve };
   }
   const reihe = kursFuerIsin(e.isin)?.reihe ?? [];
   const n = jahre * 12;
   if (reihe.length < n) return null;
+  let anteile = 0;
+  const kurve = reihe.slice(-n).map(([monat, kurs], i) => {
+    anteile += betrag / kurs;
+    return { x: monat, t: i, eingezahlt: (i + 1) * betrag, wert: anteile * kurs };
+  });
   const letzter = reihe[reihe.length - 1][1];
-  const anteile = reihe.slice(-n).reduce((summe, [, kurs]) => summe + betrag / kurs, 0);
-  return { eingezahlt: n * betrag, wert: anteile * letzter };
+  return { eingezahlt: n * betrag, wert: anteile * letzter, kurve };
+};
+
+const achseEuro = (v: number) =>
+  v >= 10_000 ? `${(v / 1000).toLocaleString("de-DE", { maximumFractionDigits: 0 })} Tsd.` : Math.round(v).toLocaleString("de-DE");
+
+const Kurve = ({ erg, art }: { erg: NonNullable<Ergebnis>; art: "monat" | "einmal" }) => {
+  const daten = erg.kurve.map((p) => ({ ...p, wert: Math.round(p.wert) }));
+  const monatlich = art === "monat";
+  // Monatlich: eine Kategorie je Monat. Einmalig: Zeitachse in Jahren, damit „vor 1 J.“ bis „heute“ halb so breit ist wie „vor 3 J.“ bis „vor 1 J.“.
+  const ticks = monatlich
+    ? daten.filter((d, i) => (daten.length <= 12 ? i % 3 === 0 : d.x.endsWith("-01"))).map((d) => d.x)
+    : daten.map((d) => d.t);
+  const farbe = erg.wert >= erg.eingezahlt ? "gain" : "loss";
+  return (
+    <div className="mt-5 border border-border bg-background px-2 pb-2 pt-3 sm:px-3">
+      <div className="flex flex-wrap gap-x-5 gap-y-1 px-1 text-[13px] text-muted-foreground" aria-hidden>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/70" /> Eingezahlt
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className={`h-2.5 w-2.5 rounded-full ${farbe === "gain" ? "bg-gain" : "bg-loss"}`} /> Wert
+        </span>
+      </div>
+      <div
+        className="mt-2 h-[220px]"
+        role="img"
+        aria-label={`Verlauf über ${daten.length > 1 ? "den gewählten Zeitraum" : "den Zeitraum"}: eingezahlt ${euro(erg.eingezahlt)}, heute wert ${euro(erg.wert)}`}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={daten} margin={{ top: 6, right: monatlich ? 8 : 22, bottom: 0, left: 0 }}>
+            <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
+            <XAxis
+              dataKey={monatlich ? "x" : "t"}
+              type={monatlich ? "category" : "number"}
+              domain={monatlich ? undefined : ["dataMin", "dataMax"]}
+              ticks={ticks}
+              interval={0}
+              tickFormatter={(x: string | number) =>
+                monatlich ? (daten.length <= 12 ? monatKurz(String(x)) : String(x).slice(0, 4)) : vorJahren(-Number(x))
+              }
+              tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              width={50}
+              tickFormatter={achseEuro}
+              tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+              axisLine={false}
+              tickLine={false}
+              domain={[0, "auto"]}
+            />
+            <Tooltip
+              formatter={(v: number, n: string) => [euro(v), n === "wert" ? "Wert" : "Eingezahlt"]}
+              labelFormatter={(x: string | number) => (monatlich ? monatKurz(String(x)) : vorJahren(-Number(x)))}
+              contentStyle={{ fontSize: 13, borderRadius: 4 }}
+            />
+            <Area
+              type={monatlich ? "monotone" : "linear"}
+              dataKey="eingezahlt"
+              stroke="hsl(var(--muted-foreground))"
+              fill="hsl(var(--muted))"
+              strokeWidth={1.5}
+              isAnimationActive={false}
+            />
+            <Area
+              type={monatlich ? "monotone" : "linear"}
+              dataKey="wert"
+              stroke={`hsl(var(--${farbe}))`}
+              fill={`hsl(var(--${farbe}-soft))`}
+              fillOpacity={0.7}
+              strokeWidth={2}
+              dot={monatlich ? false : { r: 3, fill: `hsl(var(--${farbe}))`, strokeWidth: 0 }}
+              isAnimationActive={false}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
 };
 
 const Rechner = () => {
   const [isin, setIsin] = useState(etfListe[0].isin);
   const [eingabe, setEingabe] = useState("100");
   const [art, setArt] = useState<"monat" | "einmal">("monat");
+  const [gewaehlt, setGewaehlt] = useState(5);
   const e = etfListe.find((x) => x.isin === isin)!;
   const betrag = Math.min(Math.max(Number(eingabe.replace(/\D/g, "")) || 0, 0), 1_000_000);
+  const ergebnisse = ZEITRAEUME.map(({ jahre, feld }) => ({ jahre, erg: rechnen(e, betrag, art, jahre, feld) }));
+  // Gibt es den gewählten Zeitraum für diesen ETF nicht, zeigt die Kurve den längsten, den es gibt.
+  const aktiv =
+    ergebnisse.find((x) => x.jahre === gewaehlt && x.erg) ?? [...ergebnisse].reverse().find((x) => x.erg) ?? null;
   const schalter = (an: boolean) =>
     `flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
   return (
@@ -722,36 +843,56 @@ const Rechner = () => {
         </div>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3" aria-live="polite">
-          {ZEITRAEUME.map(({ jahre, feld }) => {
-            const erg = rechnen(e, betrag, art, jahre, feld);
+          {ergebnisse.map(({ jahre, erg }) => {
+            const an = aktiv?.jahre === jahre;
             return (
-              <div key={jahre} className="border border-border bg-background px-4 py-3.5">
-                <Etikett>Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`} angefangen</Etikett>
+              <button
+                key={jahre}
+                type="button"
+                disabled={!erg}
+                aria-pressed={an}
+                onClick={() => setGewaehlt(jahre)}
+                className={`flex items-center justify-between gap-3 border px-4 py-3 text-left transition-colors disabled:cursor-default sm:block sm:py-3.5 ${
+                  an ? "border-foreground bg-background shadow-[inset_0_0_0_1px_hsl(var(--foreground))]" : "border-border bg-background enabled:hover:border-foreground/50"
+                }`}
+              >
+                {/* Am Handy eine flache Zeile (links Zeitraum und Eingezahlt, rechts der Wert), damit die Kurve nah bleibt */}
+                <span className="block min-w-0">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                    Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`} angefangen
+                  </span>
+                  <span className="mt-1 block text-[14px] text-muted-foreground sm:mt-2">
+                    {erg ? (
+                      <>
+                        Eingezahlt <span className="tabular-nums text-foreground">{euro(erg.eingezahlt)}</span>
+                      </>
+                    ) : (
+                      "Den ETF gibt es noch nicht so lange."
+                    )}
+                  </span>
+                </span>
                 {erg ? (
-                  <>
-                    <p className="mt-2 text-[14px] text-muted-foreground">
-                      Eingezahlt <span className="tabular-nums text-foreground">{euro(erg.eingezahlt)}</span>
-                    </p>
-                    <p className={`mt-0.5 text-[24px] font-semibold tabular-nums ${erg.wert >= erg.eingezahlt ? "text-gain" : "text-loss"}`}>
+                  <span className="shrink-0 text-right sm:text-left">
+                    <span className={`block text-[22px] font-semibold tabular-nums sm:mt-0.5 sm:text-[24px] ${erg.wert >= erg.eingezahlt ? "text-gain" : "text-loss"}`}>
                       {euro(erg.wert)}
-                    </p>
-                    <p className="text-[13px] text-muted-foreground">heute wert</p>
-                  </>
+                    </span>
+                    <span className="block text-[13px] text-muted-foreground">heute wert</span>
+                  </span>
                 ) : (
-                  <>
-                    <p className="mt-2 text-[24px] font-semibold text-muted-foreground">–</p>
-                    <p className="text-[13px] text-muted-foreground">Den ETF gibt es noch nicht so lange.</p>
-                  </>
+                  <span className="shrink-0 text-[22px] font-semibold text-muted-foreground sm:mt-0.5 sm:block sm:text-[24px]">–</span>
                 )}
-              </div>
+              </button>
             );
           })}
         </div>
+
+        {aktiv?.erg && <Kurve erg={aktiv.erg} art={art} />}
+
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
           {art === "einmal"
-            ? `Einmalig: Rendite von justETF in Euro mit Ausschüttungen, Stand ${RENDITE_STAND}.`
+            ? `Einmalig: Rendite von justETF in Euro mit Ausschüttungen, Stand ${RENDITE_STAND}. Die Kurve verbindet die Werte, die justETF für 5, 3 und 1 Jahr nennt.`
             : `Jeden Monat: eine Rate je Monat zum Monatskurs, Wert zum Kurs vom ${kursStand} (Yahoo Finance, ohne Ausschüttungen). Bei Platz 1, 3, 4 und 8 liegt der echte Wert darum etwas höher.`}{" "}
-          Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
+          Tipp auf eine Kachel für ihren Zeitraum. Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
         </p>
       </div>
     </section>
@@ -921,7 +1062,7 @@ const HalalEtf = () => {
               aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}
           >
-            {a.titel}
+            {a.kurz ?? a.titel}
           </a>
         </li>
       ))}

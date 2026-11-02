@@ -41,7 +41,8 @@ export const SiteHeader = () => {
   const [eng, setEng] = useState(false);
   useEffect(() => {
     if (!beitragsKopf) return setEng(false);
-    const messen = () => setEng(window.scrollY > 40);
+    // Rein ab 40 px, raus erst unter 16 px: sonst flackert die Leiste, wenn man um die Schwelle herum scrollt.
+    const messen = () => setEng((war) => (war ? window.scrollY > 16 : window.scrollY > 40));
     messen();
     window.addEventListener("scroll", messen, { passive: true });
     return () => window.removeEventListener("scroll", messen);
@@ -88,12 +89,13 @@ export const SiteHeader = () => {
 
         <div
           className={cn(
-            "container flex h-[60px] items-center gap-6 md:h-[68px]",
-            beitragsKopf && "beitragskopf-innen",
+            "container flex h-[60px] items-center md:h-[68px]",
+            // Am Handy enger (SEO33 gemessen: bei 390 brauchten Logo, Knopf und Menü 405 px, die Seite lief seitlich)
+            beitragsKopf ? "beitragskopf-innen gap-3 sm:gap-6" : "gap-6",
           )}
         >
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
-            <Wordmark inverted className={cn("text-[23px] md:text-2xl", beitragsKopf && "beitragskopf-marke")} />
+            <Wordmark inverted className={cn(beitragsKopf ? "beitragskopf-marke text-[20px] sm:text-[23px] md:text-2xl" : "text-[23px] md:text-2xl")} />
           </Link>
 
           <nav
@@ -122,9 +124,9 @@ export const SiteHeader = () => {
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             {beitragsKopf ? (
-              <Link to="/vergleich/depot" className="leuchtlinie leuchtlinie-hell mr-1 inline-block min-[900px]:mr-0">
+              <Link to="/vergleich/depot" className="leuchtlinie leuchtlinie-hell inline-block">
                 <span className="flex h-9 items-center whitespace-nowrap bg-white px-3 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground min-[900px]:h-10 min-[900px]:px-4 min-[900px]:text-[12px]">
-                  <span className="hidden min-[380px]:inline">Zum&nbsp;</span>Depot-Vergleich
+                  <span className="hidden min-[420px]:inline">Zum&nbsp;</span>Depot-Vergleich
                 </span>
               </Link>
             ) : (
