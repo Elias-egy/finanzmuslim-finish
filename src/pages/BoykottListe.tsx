@@ -1,9 +1,10 @@
 import { Fragment, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Heart, Info } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
 import { edelmetallVergleich } from "@/data/edelmetallVergleich";
@@ -105,14 +106,32 @@ const Boerse = () => (
     <h2 id="boerse" className="mt-1 text-[24px] font-extrabold text-foreground">
       Haram ist nicht Boykott
     </h2>
-    <div className="card-surface mt-4 space-y-3 p-5 text-[16px] leading-snug text-foreground/85">
-      <p>
-        <span className="font-bold text-foreground">Haram</span> heißt verboten.{" "}
-        <span className="font-bold text-foreground">Boykott</span> ist ein freiwilliger Schritt obendrauf.
-      </p>
-      <p>Steht eine Aktie auf der Boykott-Liste, heißt das nicht, dass sie haram ist. Halal ETFs bleiben eine gute Lösung.</p>
-      <p>Alternativen zu suchen, wo es geht, ist etwas sehr Gutes, inshallah. Jeder Schritt zählt.</p>
+    {/* Lesbarer als acht Zeilen Text (Elias, 01.11.2026, MC7d15): zwei Kacheln, dann zwei kurze Sätze. Wortlaut wie vorher. */}
+    <div className="mt-4 grid grid-cols-2 gap-2">
+      <div className="rounded-2xl bg-loss-soft p-4 ring-1 ring-loss/20">
+        <p className="text-[20px] font-extrabold leading-none text-loss">Haram</p>
+        <p className="mt-2 text-[15px] leading-snug text-foreground">heißt verboten.</p>
+      </div>
+      <div className="rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200">
+        <p className="text-[20px] font-extrabold leading-none text-amber-700">Boykott</p>
+        <p className="mt-2 text-[15px] leading-snug text-foreground">ist ein freiwilliger Schritt obendrauf.</p>
+      </div>
     </div>
+    <ul className="mt-3 grid gap-2">
+      <li className="card-surface flex items-start gap-3 p-4">
+        <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+        <p className="text-[16px] leading-snug text-foreground">
+          Steht eine Aktie auf der Boykott-Liste, heißt das nicht, dass sie haram ist.{" "}
+          <span className="font-bold">Halal ETFs bleiben eine gute Lösung.</span>
+        </p>
+      </li>
+      <li className="card-surface flex items-start gap-3 p-4">
+        <Heart className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
+        <p className="text-[16px] leading-snug text-foreground">
+          Alternativen zu suchen, wo es geht, ist etwas sehr Gutes, inshallah. <span className="font-bold">Jeder Schritt zählt.</span>
+        </p>
+      </li>
+    </ul>
     <FindeDeinAngebot
       className="mt-4"
       titel="Du willst lieber in Edelmetalle statt in Aktien anlegen?"
@@ -189,6 +208,7 @@ const BoykottListe = () => {
               </div>
             </div>
           </div>
+          <PdfKnopf wort="boykott" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Rot heißt Boykott, gelb heißt meiden, wo es eine Alternative gibt. So teilt es die BDS-Bewegung ein.

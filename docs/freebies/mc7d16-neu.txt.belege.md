@@ -1,0 +1,15 @@
+# Belege zu docs/freebies/mc7d16-neu.txt (MC7d16, Runde 2 und Dua-Seite, 01.11.2026)
+
+Neue oder umgestellte Sätze: Grafik oben in Plan, ETF, Gold; Guide-Kasten aller Freebies; Name „Halal Investment Blueprint“; Dua-Seite. Wortlaut: Vault raw/2026-11-01-elias-mc7d15-feedback-runde-2.md und raw/2026-11-01-elias-mc7d16-antworten-dua-kompakt.md.
+
+S-749218c0: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Übersicht Seite 2, Level 2 „Dein eigenes Halal-Portfolio“ (Bausteine aus src/data/portfolioPlan.ts, jeder mit Shariah-Prüfung belegt in docs/freebies/portfolio-plan.belege.md); die Zahl ist nur Betrag mal 12, keine Rendite, 01.11.2026
+S-fad21e10: Beleg: ~/Desktop/0_ABLAGE/AgenticOS/AgenticOS/raw/2026-11-01-elias-mc7d16-antworten-dua-kompakt.md, Wortlaut Elias „der Halal Investment Blueprint ist gut“; Name des Guides, kein Urteil über ein Produkt; Inhalt des Guides belegt in ~/rebrand/freebies/xxl-v2.html.belege.md, 01.11.2026
+S-fb6a6f9d: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Übersicht Seite 2, Level 2 „Dein eigenes Halal-Portfolio“, Seiten 6 bis 14; Wortlaut Elias Vault raw/2026-11-01-elias-mc7d15-feedback-runde-2.md „dein eigenes Halal-Portfolio“, 01.11.2026
+S-3981426e: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Übersicht Seite 2, Level-2-Titel „Dein eigenes Halal-Portfolio“ wortgleich, 01.11.2026
+S-9dec36c6: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Seite 3, Überschrift „Investieren ist nicht gleich Zinsen“ wortgleich, dort belegt mit https://quran.com/2/275 („Allah has permitted trade and has forbidden interest“), 01.11.2026
+S-5d353861: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Seite 11 „Einzelaktien: selbst prüfen“ (Prüfung mit Zoya und Musaffa, belegt in ~/rebrand/freebies/xxl-v2.html.belege.md); die Frage urteilt über keine Aktie, 01.11.2026
+S-db4eead1: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Seite 4, Überschrift „Wo Zinsen überall stecken“; Frage stand seit MC7d12 (31.10.2026) unverändert im Kasten des Vertrags, 01.11.2026
+S-84459684: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Seite 4, Überschrift „Wo Zinsen überall stecken“ wortgleich, 01.11.2026
+S-394a5bac: Beleg: ~/Documents/dev/finanzmuslim-finish/src/guides/xxl.html, Seite 3 „Investieren ist nicht gleich Zinsen“ (Quran 2:275, https://quran.com/2/275); Frage stand seit MC7d12 (31.10.2026) als „Wie wächst mein Rizq ohne Zinsen?“ im Kasten, nur „mein“ zu „dein“, 01.11.2026
+S-0ce41530: Beleg: https://sunnah.com/bukhari:1427, Hadith „Die gebende Hand ist besser als die nehmende“ (Ṣaḥīḥ al-Buchari 1427, Ṣaḥīḥ Muslim 1033); Satz aus RizqVoll.tsx (GebendeHand, Stand c96ef94) wortgleich bis auf „Als Muslim“ gestrichen, seit 27.09.2026 live, 01.11.2026
+S-a7f9cd30: Beleg: ~/Desktop/0_ABLAGE/AgenticOS/AgenticOS/raw/2026-11-01-elias-mc7d16-antworten-dua-kompakt.md, Wortlaut Elias „der Halal Investment Blueprint ist gut“; Deckblatt des Guides, vorher „Halal Investment Guide · alle drei Level“, 01.11.2026

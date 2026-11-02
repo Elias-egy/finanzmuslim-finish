@@ -845,7 +845,7 @@ export const themen = [
   { titel: "Konsum & Alltag", spanne: "21–40", intro: "Marken aus Sport, Kosmetik, Getränken, Elektronik und Handel." },
   { titel: "Gesundheit & Mobilität", spanne: "41–60", intro: "Pharma, Medizintechnik, Autos, Lieferdienste und Fluggesellschaften." },
   { titel: "Industrie & Energie", spanne: "61–80", intro: "Globale Konzerne hinter Energie, Automation, Chemie, Bau und Rohstoffen." },
-  { titel: "Global & überraschend", spanne: "81–100", intro: "Fünfzehn globale Namen plus fünf überraschende Highlights ab Platz 96." },
+  { titel: "Global", spanne: "81–100", intro: "Bekannte Konzerne aus der ganzen Welt." },
 ];
 
 /** Je Thema sichtbar, der Rest zum Aufklappen (wie die Liste, `SICHTBAR` in `anlagenListe.ts`). */

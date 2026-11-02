@@ -1,28 +1,20 @@
 import { useEffect } from "react";
-import { Link, useNavigationType } from "react-router-dom";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, CircleDot } from "lucide-react";
+import { useNavigationType } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import AnbieterLogo from "@/components/AnbieterLogo";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
-import { AnlageLogo } from "@/components/AnlageZeile";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
+import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
-import { kaufZeilen, type KaufZeile } from "@/data/halalAnlagenKauf";
-import { DEPOTS_GEPRUEFT } from "@/data/etfPlan";
+import { kaufZeilen } from "@/data/halalAnlagenKauf";
 import {
   SICHTBAR,
-  STUFEN_ZAHL,
   UEBERBLICK,
-  depotZahl,
-  kartenLogos,
-  krypto,
   listeLink,
   listenGruppen,
-  nachweis,
   ohneBeleg,
-  KRYPTO_PRUEFER,
-  type Stufe,
 } from "@/data/anlagenListe";
 
 /**
@@ -31,9 +23,11 @@ import {
  * dann je Anlage eine kurze Karte mit kleinen Logos. Seit MC7d13d (Elias nach dem Livegang, Vault
  * `raw/2026-10-31-elias-mc7d13c-liste-live-feedback-top3-unten.md`): kein roter Kasten mehr, nach den Aktien-ETFs die
  * Top 3 Depots wie im XXL-Guide, der Kasten „Dein nächster Schritt“ ganz unten, kein Krypto-Aufruf. Die Karte führt
- * auf die Anlage-Seite, dort stehen die Depots mit Knopf; zurück landet der Leser an seiner Stelle. PDF-Knopf,
- * „Alle Listen“, Spickzettel und Anmeldeformular sind weg (Plan MC7D11, Baustein 3). Nur über die Danke-Seite und
- * den Link aus der Mail (noindex, nicht in der Sitemap).
+ * auf die Anlage-Seite, dort stehen die Depots mit Knopf; zurück landet der Leser an seiner Stelle. „Alle Listen“,
+ * Spickzettel und Anmeldeformular sind weg (Plan MC7D11, Baustein 3); der PDF-Knopf ist seit MC7d15 zurück, das PDF ist
+ * diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`). Seit MC7d15 ohne Stufen-Zähler, Depot-Zahl, Kosten, Gold-Hinweis, Krypto und
+ * Einzelaktien-Satz: nach den Anlagen gleich der Kasten (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`). Nur über die Danke-Seite und den Link aus der Mail (noindex,
+ * nicht in der Sitemap).
  */
 const freebie = optinFreebie("halal-anlagen")!;
 const pfad = vollPfad(freebie);
@@ -41,25 +35,6 @@ const pfad = vollPfad(freebie);
 const staende = [...new Set(kaufZeilen.flatMap((z) => z.kaufbar.kaufbar.map((k) => k.beleg.stand)))].sort(
   (a, b) => Number(a.split(".").reverse().join("")) - Number(b.split(".").reverse().join("")),
 );
-/** Ein Zeichen je Stufe: wie jung der gelesene Nachweis ist, nie ein eigenes Urteil. */
-const STUFE: Record<Stufe, { Icon: typeof CheckCircle2; farbe: string; wort: string }> = {
-  aktuell: {
-    Icon: CheckCircle2,
-    farbe: "text-gain",
-    wort: "mit Zertifikat oder Prüfbericht von 2025 oder 2026",
-  },
-  prospekt: {
-    Icon: CircleDot,
-    farbe: "text-primary",
-    wort: "mit Prüfstelle laut Prospekt oder geprüftem Index",
-  },
-  aelter: {
-    Icon: AlertCircle,
-    farbe: "text-warning",
-    wort: "mit jüngstem gefundenem Nachweis für 2023 oder früher",
-  },
-};
-
 /**
  * Wo der Leser stand, als er auf eine Karte tippte: welche Karte und wie weit sie von der Oberkante entfernt war.
  * Beim Zurück öffnet die Seite die Gruppe der Karte wieder („8 weitere anzeigen“) und stellt die Karte an dieselbe
@@ -74,51 +49,10 @@ const merken = (slug: string, el: HTMLElement) => {
   }
 };
 
-const Karte = ({ z }: { z: KaufZeile }) => {
-  const logos = kartenLogos(z);
-  const n = nachweis(z);
-  const { Icon, farbe } = STUFE[n.stufe];
-  return (
-    <li>
-      <Link
-        to={listeLink(`/halal-anlagen/${z.anlage.slug}`, "karte")}
-        onClick={(e) => merken(z.anlage.slug, e.currentTarget)}
-        data-karte={z.anlage.slug}
-        className="card-surface block p-4 transition-shadow hover:ring-1 hover:ring-primary/30"
-      >
-        <div className="flex items-start gap-3">
-          <AnlageLogo a={z.anlage} />
-          <div className="min-w-0 flex-1">
-            <p className="text-[16px] font-bold leading-snug text-foreground">{z.anlage.name}</p>
-            <p className="mt-1 flex items-center gap-1.5 text-[13px] leading-snug text-foreground/80">
-              <Icon className={`h-4 w-4 shrink-0 ${farbe}`} aria-hidden />
-              {n.text}
-            </p>
-          </div>
-          <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-        </div>
-        <div className="mt-3 flex items-center gap-2">
-          <span className="flex gap-1">
-            {logos.map((d) => (
-              <AnbieterLogo key={d.id} name={d.name} domain={d.domain} klein rand />
-            ))}
-          </span>
-          <span className="flex-1 whitespace-nowrap text-[12px] text-muted-foreground">
-            {depotZahl(z)} von {DEPOTS_GEPRUEFT.length} Depots
-          </span>
-          <span className="whitespace-nowrap text-[12px] tabular-nums text-muted-foreground">{z.anlage.kostenLabel}
-            <span className="max-[340px]:hidden"> im Jahr</span>
-          </span>
-        </div>
-      </Link>
-    </li>
-  );
-};
-
 /** Der Depot-Aufruf nach den Aktien-ETFs: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */
 const TopDrei = () => (
   <section className="reveal mt-10" aria-labelledby="wo">
-    <DepotAufruf titel="Die besten Broker für Muslime" link={listeLink} />
+    <DepotAufruf titel={DEPOT_TITEL} link={listeLink} />
   </section>
 );
 
@@ -196,19 +130,7 @@ const HalalAnlagenVoll = () => {
               </a>
             ))}
           </nav>
-          <ul aria-label="Was geprüft ist" className="mt-5 space-y-1.5">
-            {STUFEN_ZAHL.map(({ stufe, zahl }) => {
-              const { Icon, farbe, wort } = STUFE[stufe];
-              return (
-                <li key={stufe} className="flex items-center gap-2 text-[14px] leading-snug text-foreground">
-                  <Icon className={`h-4 w-4 shrink-0 ${farbe}`} aria-hidden />
-                  <span>
-                    <span className="font-extrabold tabular-nums">{zahl}</span> {wort}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+          <PdfKnopf wort="liste" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Eine Übersicht, keine Anlageberatung.</p>
 
@@ -233,7 +155,7 @@ const HalalAnlagenVoll = () => {
             )}
             <ul className="mt-4 grid gap-2">
               {g.zeilen.slice(0, SICHTBAR).map((z) => (
-                <Karte key={z.anlage.slug} z={z} />
+                <AnlageKarte key={z.anlage.slug} z={z} href={listeLink(`/halal-anlagen/${z.anlage.slug}`, "karte")} onTippen={(el) => merken(z.anlage.slug, el)} />
               ))}
             </ul>
             {g.zeilen.length > SICHTBAR && (
@@ -244,47 +166,14 @@ const HalalAnlagenVoll = () => {
                 </summary>
                 <ul className="mt-2 grid gap-2">
                   {g.zeilen.slice(SICHTBAR).map((z) => (
-                    <Karte key={z.anlage.slug} z={z} />
+                    <AnlageKarte key={z.anlage.slug} z={z} href={listeLink(`/halal-anlagen/${z.anlage.slug}`, "karte")} onTippen={(el) => merken(z.anlage.slug, el)} />
                   ))}
                 </ul>
               </details>
             )}
             {g.kategorie === "aktien" && <TopDrei />}
-            {g.kategorie === "gold" && (
-              <p className="mt-3 px-1 text-[14px] leading-snug text-muted-foreground">
-                Beim Gold haben Invesco und WisdomTree ein Shariah-Zertifikat für das Produkt selbst. Währungsgesicherte Varianten
-                stehen nicht in der Liste.
-              </p>
-            )}
           </section>
         ))}
-
-        <section id="gruppe-krypto" className="reveal mt-12 scroll-mt-20" aria-labelledby="titel-krypto">
-          <h2 id="titel-krypto" className="flex items-center gap-2.5 text-[24px] font-extrabold leading-tight text-foreground">
-            <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: artFarbe("krypto") }} aria-hidden />
-            Krypto gibt es an Börsen
-          </h2>
-          <div className="mt-4 card-surface p-4">
-            <div className="flex flex-wrap items-center gap-2">
-              {krypto.map((a) => (
-                <span
-                  key={a.slug}
-                  className="flex items-center gap-2 rounded-full bg-accent py-1 pl-1 pr-3 text-[14px] font-semibold text-foreground"
-                >
-                  <AnlageLogo a={a} />
-                  {a.name}
-                </span>
-              ))}
-            </div>
-            <p className="mt-3 text-[16px] leading-snug text-foreground/80">Nicht im Depot, sondern an einer Krypto-Börse.</p>
-            <p className="mt-2 text-[12px] leading-snug text-muted-foreground">
-              Vorläufige Einschätzung des {KRYPTO_PRUEFER}, nach eigener Aussage keine Fatwa.
-            </p>
-          </div>
-          <p className="mt-4 px-1 text-[14px] leading-snug text-muted-foreground">
-            Einzelaktien stehen nicht in der Liste: Jede muss einzeln und immer wieder geprüft werden.
-          </p>
-        </section>
 
         <NaechsterTeil wort="liste" className="mt-12" />
 

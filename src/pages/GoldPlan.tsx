@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { AnlageLogo } from "@/components/AnlageZeile";
+import AnlageKarte from "@/components/vorlagen/AnlageKarte";
+import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
+import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
-import { anlageBySlug } from "@/data/halalAnlagen";
 import {
-  BEKANNTE_GOLD,
-  BROKER_SATZ,
+  GOLD_GESAMT_CHECK,
   CFD_ANBIETER,
   CFD_ZEILE,
-  ETC_BEISPIELE,
   ETC_SATZ,
   GELEHRTE_SATZ,
   GOLD_BETRAEGE,
@@ -22,10 +23,10 @@ import {
   PREIS_STAND,
   REGELN,
   SCHMERZ,
-  goldLink,
   goldQuellen,
   gramm,
   grammText,
+  GOLD_STEUER,
 } from "@/data/goldPlan";
 
 /**
@@ -39,6 +40,15 @@ import {
  * führt sie, der Aufruf zum Edelmetall-Vergleich. Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
+const GOLD_ZEILEN = listenGruppen.find((g) => g.kategorie === "gold")!.zeilen;
+
+/** Die Goldtöne im Balken oben. */
+const BALKEN_GOLD = [
+  { farbe: "#B7791F", anteil: 1 },
+  { farbe: "#E0A21A", anteil: 2 },
+  { farbe: "#F2C94C", anteil: 1 },
+] as const;
+
 const Titel = ({ id, children }: { id: string; children: string }) => (
   <h2 id={id} className="text-[24px] font-extrabold leading-tight text-foreground">
     {children}
@@ -99,12 +109,16 @@ const GoldPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, wo du Gold zinsfrei kaufst.{" "}
-            <Link to={goldLink("/vergleich/edelmetalle", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Gold-Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...GOLD_BETRAEGE)}
+            teile={BALKEN_GOLD}
+            links="In einem Jahr in Gold"
+            wert={imMonat * 12}
+            format={(n) => `rund ${grammText(n)} g`}
+          />
+          <PdfKnopf wort="gold" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 
@@ -153,52 +167,34 @@ const GoldPlan = () => {
           <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
             Nach einem Jahr rund {grammText(imMonat * 12)}&nbsp;g. Gerechnet mit dem Goldpreis vom {PREIS_STAND}, ohne Aufschlag.
           </p>
-          <p className="mt-4 text-[16px] font-semibold text-foreground">Mit Shariah-Zertifikat, zum Beispiel:</p>
-          <div className="mt-2 grid gap-2">
-            {ETC_BEISPIELE.map((e) => {
-              const anlage = anlageBySlug(e.slug);
-              return (
-                <div key={e.slug} className="flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
-                  {anlage && <AnlageLogo a={anlage} />}
-                  <span className="flex-1">
-                    {e.titel}
-                    <span className="block text-[12px] font-normal text-muted-foreground">{e.zertifikat}</span>
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          {/* Steuer klar dazu (Elias, 02.11.2026, MC7d17: „man muss natürlich auch sagen, ganz klar, dass wegen Steuern … nicht,
+              dass wir die Leute verarschen“). Beleg: src/pages/wissen/HalalGoldKaufen.tsx, Hinweis „Steuer, damit es
+              vollständig ist“. */}
+          <p className="mt-3 rounded-xl bg-accent p-3 text-[15px] leading-snug text-foreground">
+            <strong>Wichtig zur Steuer:</strong> {GOLD_STEUER}
+          </p>
+          {/* Alle Gold-ETCs statt zwei Beispielen (Elias, 01.11.2026, MC7d15: „Dann machst du einfach alle“). */}
+          <p className="mt-4 text-[16px] font-semibold text-foreground">Alle {GOLD_ZEILEN.length} mit Shariah-Zertifikat:</p>
+          <ul className="mt-2 grid gap-2">
+            {GOLD_ZEILEN.map((z) => (
+              <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=gdkarte`} />
+            ))}
+          </ul>
           <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{GELEHRTE_SATZ}</p>
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="broker">
-          <Titel id="broker">Nicht jeder Broker hat sie</Titel>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">{BROKER_SATZ}</p>
-          <p className="mt-5 text-[20px] font-extrabold leading-tight text-foreground">
-            Die bekanntesten Apps sind nicht die besten für Muslime.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {BEKANNTE_GOLD.map((d) => (
-              <div
-                key={d.name}
-                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <AnbieterLogo name={d.name} domain={d.domain} />
-                  <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-                </div>
-                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
-                <p
-                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-                >
-                  {d.gross}
-                </p>
-                <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
-              </div>
-            ))}
-          </div>
-          {/* Der Aufruf steht im Kasten darunter, der Gold-Vergleich bleibt oben verlinkt (Elias, 30.10.2026: „Du willst die
-              besten finden … das kann alles weg“; Seiten-Prüfer MC7d4: gilt auch hier). */}
+        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann vielleicht die zwei,
+            drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). Runde 3 (Elias,
+            02.11.2026, MC7d16): Titel „Die besten Broker für Edelmetalle“, statt der zwei bekannten die Zahl über alle Depots,
+            darunter dasselbe für Sukuk. Runde 4 (Elias, 02.11.2026, MC7d17): Sukuk raus, bekommt ein eigenes Wort. */}
+        <section className="reveal mt-12" aria-label="Die besten Broker für Edelmetalle">
+          <DepotAufruf
+            titel="Die besten Broker für Edelmetalle"
+            einleitung=""
+            check={GOLD_GESAMT_CHECK}
+            link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
+            alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
+          />
         </section>
 
         <NaechsterTeil wort="gold" className="mt-12" />

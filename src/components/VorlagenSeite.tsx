@@ -68,10 +68,6 @@ const VorlagenSeite = ({
           Start
         </Link>
         <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-        <Link to="/vorlagen" className="hover:text-primary">
-          Kostenlose Listen
-        </Link>
-        <ChevronRight className="h-3.5 w-3.5" aria-hidden />
         <span className="text-foreground">{titel}</span>
       </nav>
 
@@ -96,9 +92,8 @@ const VorlagenSeite = ({
               PDF laden
             </a>
           )}
-          <Link to="/vorlagen" className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-primary hover:underline">
-            Alle Listen ansehen
-          </Link>
+          {/* Kein „Alle Listen ansehen“ mehr (Elias, 01.11.2026, MC7d15: „Die Leute sollen nicht sehen, dass sie über die
+              Webseite alle anderen Sachen direkt auch sich angucken können“). */}
         </div>
       </header>
 

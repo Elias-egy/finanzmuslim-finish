@@ -3,10 +3,11 @@ import { BadgeCheck, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
+import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
-import { aktien, aktieLink, fraglich, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
+import { aktien, aktieLink, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
 
 /**
  * Die volle Fassung der 100 Halal-Aktien, das Freebie zum Wort „Aktie“, nur über den Link aus der Mail nach der
@@ -15,8 +16,9 @@ import { aktien, aktieLink, fraglich, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from
  * Seit MC7d14 (01.11.2026) im Stil der Liste und des Portfolio-Plans (Vault `memory/freebie-top3-statt-rot-guide-unten.md`,
  * Plan `fundament/upgrade/MC7D11_2026-10-31/plan.html`, Baustein „Aktie neu“): oben der Titel und die fünf Themen, je
  * Thema die ersten Aktien und der Rest zum Aufklappen, nach dem ersten Thema die Top 3 Depots, der Kasten „Dein nächster
- * Schritt“ ganz unten, kein Krypto-Aufruf. PDF-Knopf, Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg,
- * damit der Leser beim Thema bleibt.
+ * Schritt“ ganz unten, kein Krypto-Aufruf. Seit MC7d15 ohne Themen-Einleitung, Highlight und die sechs fraglichen
+ * Namen, damit nach den 100 gleich der Kasten kommt (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`). Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg, damit der
+ * Leser beim Thema bleibt. Seit MC7d15 wieder mit PDF-Knopf; das PDF ist diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`).
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
 const freebie = optinFreebie("top-100-halal-aktien")!;
@@ -33,7 +35,6 @@ const Gruppe = ({ i }: { i: number }) => {
       ticker={a.ticker}
       bekanntFuer={a.bekanntFuer}
       status={a.status}
-      highlight={a.rang >= 96}
     />
   );
   return (
@@ -44,7 +45,6 @@ const Gruppe = ({ i }: { i: number }) => {
         </h2>
         <span className="shrink-0 text-[13px] font-semibold tabular-nums text-muted-foreground">{t.spanne}</span>
       </div>
-      <p className="mt-1 text-[16px] leading-snug text-foreground/80">{t.intro}</p>
       <div className="card-surface mt-4 overflow-hidden p-0">{zeilen.slice(0, SICHTBAR_AKTIEN).map(zeile)}</div>
       <details className="group mt-2">
         <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
@@ -108,6 +108,7 @@ const Top100Voll = () => {
               </a>
             ))}
           </nav>
+          <PdfKnopf wort="aktie" className="mt-4" />
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Nach Bekanntheit sortiert, keine Kauf-Rangliste und keine Anlageberatung.
@@ -117,30 +118,12 @@ const Top100Voll = () => {
 
         {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */}
         <section className="reveal mt-10" aria-labelledby="wo">
-          <DepotAufruf titel="Die besten Broker für Muslime" link={aktieLink} />
+          <DepotAufruf titel={DEPOT_TITEL} link={aktieLink} />
         </section>
 
         {themen.slice(1).map((t, i) => (
           <Gruppe key={t.titel} i={i + 1} />
         ))}
-
-        <section className="reveal mt-12" aria-labelledby="titel-fraglich">
-          <h2 id="titel-fraglich" className="text-[24px] font-extrabold leading-tight text-foreground">
-            Sechs bekannte Namen, fraglich
-          </h2>
-          <p className="mt-1 text-[16px] leading-snug text-foreground/80">
-            Musaffa führt sie als „Doubtful“. Deshalb stehen sie nicht in der Liste.
-          </p>
-          <div className="card-surface mt-4 overflow-hidden p-0">
-            {fraglich.map((a) => (
-              <AktienZeile key={a.ticker} name={a.name} ticker={a.ticker} bekanntFuer={`${a.bekanntFuer} · ${a.grund}`} status="Doubtful" />
-            ))}
-          </div>
-          <p className="mt-4 px-1 text-[14px] leading-snug text-muted-foreground">
-            Eine Einstufung kann sich ändern. Prüf Name und Ticker am Tag deiner Entscheidung noch einmal, und ob dein Depot
-            genau diese Aktie anbietet. Einen Boykott prüfst du getrennt, diese Liste zeigt nur das Halal-Screening.
-          </p>
-        </section>
 
         <NaechsterTeil wort="aktie" className="mt-12" />
 

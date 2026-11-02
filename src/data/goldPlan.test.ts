@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
+import { SUKUK_DEPOTS_MIT_ALLEN, SUKUK_DEPOTS_ZINSFREI, SUKUK_TOP3, SUKUK_ZAHL } from "./depotTop3";
 import {
   BEKANNTE_GOLD,
+  GOLD_GESAMT_CHECK,
+  SUKUK_GESAMT_CHECK,
   BROKER_SATZ,
   DEPOTS_MIT_ALLEN,
   DEPOTS_ZINSFREI,
@@ -72,5 +75,20 @@ describe("Gold-Plan", () => {
     expect(alleRouten().map((r) => r.pfad)).not.toContain(GOLD_PFAD);
     expect(bewusstDraussen.map((b) => b.pfad)).toContain("/dein-gold/:schluessel");
     expect(readFileSync("src/pages/GoldPlan.tsx", "utf8")).toContain("noindex");
+  });
+});
+
+describe("Sukuk-Aufruf auf der Gold-Seite (MC7d17)", () => {
+  it("zeigt drei Depots ohne Zinsen mit allen Sukuk und zählt sie im Depot-Vergleich", () => {
+    expect(SUKUK_TOP3).toHaveLength(3);
+    for (const d of SUKUK_TOP3) {
+      expect(d.zinsfreiAbStart).toBe(true);
+      expect(d.nr1).toBe(false);
+      expect(d.punkte.find((p) => p.text.startsWith("Sukuk"))?.wert).toBe(`${SUKUK_ZAHL} von ${SUKUK_ZAHL}`);
+    }
+    expect(SUKUK_DEPOTS_MIT_ALLEN).toBeGreaterThanOrEqual(3);
+    expect(SUKUK_DEPOTS_MIT_ALLEN).toBeLessThan(SUKUK_DEPOTS_ZINSFREI);
+    expect(SUKUK_GESAMT_CHECK[0].gross).toBe(`${SUKUK_DEPOTS_MIT_ALLEN} von ${SUKUK_DEPOTS_ZINSFREI}`);
+    expect(GOLD_GESAMT_CHECK[0].gross).toBe(`${DEPOTS_MIT_ALLEN} von ${DEPOTS_ZINSFREI}`);
   });
 });

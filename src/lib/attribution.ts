@@ -106,6 +106,31 @@ export const VALID_SRC = [
   "aktop3",
   "aknr1",
   "akalle",
+  // MC7d15: Depot-Aufruf im Vertrags-Check (Wort VERTRAG), src/pages/vorlagen/VertragsAmpelVoll.tsx.
+  "vttop3",
+  "vtnr1",
+  "vtalle",
+  // MC7d15: Girokonto-Aufruf im Plan (Schritt 1) und im Vertrag, src/components/vorlagen/GiroAufruf.tsx.
+  "plgtop2",
+  "plgalle",
+  "vtgtop2",
+  "vtgalle",
+  // MC7d15: Depot-Aufruf in der ETF-Liste (Wort ETF) und im Gold-Plan (Wort GOLD).
+  "eftop3",
+  "efnr1",
+  "efalle",
+  "efkarte",
+  "gdtop3",
+  "gdnr1",
+  "gdalle",
+  "gdkarte",
+  // MC7d17: zwei kleine Aufrufe in „Dua für jede Situation“ (Wort AMIN), src/pages/vorlagen/RizqVoll.tsx; ersetzen
+  // amtop3, amnr1, amalle aus MC7d16 (nie live).
+  "amgiro",
+  "amdepot",
+  // MC7d17: Sukuk-Aufruf auf der Gold-Seite (Wort GOLD), src/pages/GoldPlan.tsx.
+  "gdsktop3",
+  "gdskalle",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

@@ -1010,7 +1010,7 @@
 .guide-leser .xhin2{ font-size:0.957rem; color:var(--tief); font-weight:700; }
 .guide-leser .xreg{ display:flex; flex-direction:column; gap:0.2415rem; }
 .guide-leser .xreg .rg{ display:grid; grid-template-columns:2.346rem 1fr; gap:0.345rem; align-items:start; background:var(--nebel-soft); border-radius:0.276rem; padding:0.276rem 0.345rem; }
-.guide-leser .xreg .rl b{ display:block; font-size:1.392rem; font-weight:800; color:var(--tief); letter-spacing:-.03em; line-height:1; }
+.guide-leser .xreg .rl b{ display:block; font-size:1.1745rem; font-weight:800; color:var(--tief); letter-spacing:-.03em; line-height:1; }
 .guide-leser .xreg .rl span{ display:block; font-size:0.7395rem; color:var(--body); margin-top:0.1035rem; }
 .guide-leser .xreg .rc{ display:grid; grid-template-columns:1fr 1fr; gap:0.1725rem; }
 .guide-leser .xreg .ch{ display:grid; grid-template-columns:0.483rem 1fr; column-gap:0.207rem; align-items:center; background:#fff; border-radius:0.207rem; padding:0.1725rem 0.2415rem; }
