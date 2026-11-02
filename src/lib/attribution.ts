@@ -38,6 +38,9 @@ export const VALID_SRC = [
   "rzqc",
   "g1c",
   "g1n",
+  // Top 3 im Anfänger-Guide (MC7g, 02.11.2026), gleicher Block wie im Blueprint (xxlnr1, xxltop3).
+  "g1nr1",
+  "g1top3",
   "g2c",
   "g2n",
   "g3c",

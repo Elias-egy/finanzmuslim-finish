@@ -223,6 +223,9 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
+  // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
+  // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
+  { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
