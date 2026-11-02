@@ -27,6 +27,13 @@ export const GOLD_MONATLICH = 100;
 /** Gramm reines Gold für einen Betrag, ohne Aufschlag, zum Preis aus nisab.json. */
 export const gramm = (betrag: number) => betrag / nisab.goldPreisJeGramm;
 export const PREIS_STAND = nisab.stand;
+/**
+ * Steuer zum Gold-ETC, damit niemand denkt, der Gewinn sei wie bei Barren nach einem Jahr steuerfrei (Elias, 02.11.2026,
+ * MC7d17). Inhalt wie `src/pages/wissen/HalalGoldKaufen.tsx`, Hinweis „Steuer, damit es vollständig ist“.
+ */
+export const GOLD_STEUER =
+  "Bei den meisten Gold-ETCs zahlst du auf den Gewinn Abgeltungsteuer. Steuerfrei nach einem Jahr ist der Gewinn nur bei physischem Gold oder wenn du dir das Gold ausliefern lassen kannst. Das ist keine Steuerberatung.";
+
 export const grammText = (g: number) =>
   g < 10 ? g.toLocaleString("de-DE", { maximumFractionDigits: 1, minimumFractionDigits: 1 }) : String(Math.round(g));
 

@@ -60,16 +60,13 @@ const GebendeHand = () => (
  * kleineren Call to Actions … die mit den Logos“), davor ein Satz in seiner Richtung („Gebe deine Halal Geld für Halal
  * aus und erwerbe es Halal … schaffe es in Deutschland auch deine Finanzen Halal zu regeln“). Beleg für Erwerb und
  * Ausgabe: at-Tirmidhi 2417 (Abū Barzah al-Aslamī, bei at-Tirmidhi ḥasan ṣaḥīḥ). Zwei FindeDeinAngebot auf einer Seite
- * weichen hier Elias' Wort.
+ * weichen hier Elias' Wort. Runde 4 (Elias, 02.11.2026, MC7d17): Satz „Nach deinem Geld wirst du gefragt …“ mit Fundstelle
+ * raus („damit man ein bisschen weniger zu lesen hat“), Rest hochgezogen.
  */
 const HalalRegeln = () => (
-  <div className="pt-6">
+  <div className="pt-4">
     <h3 className="text-[22px] font-extrabold leading-tight text-foreground">Erwirb dein Geld halal und gib es halal aus.</h3>
-    <p className="mt-2 text-[16px] leading-snug text-foreground/80">
-      Nach deinem Geld wirst du gefragt: woher es kam und wofür du es ausgegeben hast.
-    </p>
-    <p className="mt-1 text-[12px] text-muted-foreground">At-Tirmidhi 2417, überliefert von Abū Barzah al-Aslamī.</p>
-    <p className="mt-4 text-[16px] font-semibold leading-snug text-foreground">
+    <p className="mt-2 text-[16px] font-semibold leading-snug text-foreground">
       So regelst du deine Finanzen auch in Deutschland halal:
     </p>
     <div className="mt-3 grid gap-3">

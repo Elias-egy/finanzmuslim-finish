@@ -410,6 +410,9 @@ html[data-druck] footer:not(main footer) { display: none !important; }
 html[data-druck] .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 html[data-druck] [data-depot-aufruf],
 html[data-druck] [data-naechster-teil] { break-before: page; }
+/* Im PDF passt der Kasten mit dem Guide-Bild (MC7d17) sonst nicht auf eine Seite. */
+html[data-druck] [data-kasten-bild] { zoom: 0.55; }
+html[data-druck] [data-naechster-teil] li img { display: none; }
 html[data-druck] [data-depot-aufruf] + *,
 html[data-druck] section:has(> [data-depot-aufruf]) + * { break-before: page; }
 html[data-druck] li,

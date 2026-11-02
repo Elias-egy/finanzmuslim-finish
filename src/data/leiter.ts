@@ -51,13 +51,17 @@
  */
 export const GUIDE_NAME = "Halal Investment Blueprint";
 
+/**
+ * MC7d17 (Elias, 02.11.2026, Vault `raw/2026-11-02-elias-mc7d17-feedback-runde-4.md`): „Hast du schon eins ohne Zinsen,
+ * reicht das?“ raus; der graue Satz über dem Fetten und „Ich könnte ihn dir schicken …“ raus („würde ich mir nicht
+ * durchlesen … alles ein bisschen zu viel Text“). Statt dessen ein kurzer Übergang zu den zwei Schritten.
+ */
 export const KASTEN = {
   titel: `Der ${GUIDE_NAME} liegt bereit.`,
-  unter: "Er führt dich Schritt für Schritt durch alle Anlagen, bis dein Portfolio steht.",
-  grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
+  grund: "Du bekommst ihn, sobald du angefangen hast:",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
-  zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
+  zaehlt: ", und investiere deine ersten 5 €.",
   fertig: "Nach der Eröffnung schreibst du mir eine Mail mit FERTIG, und ich schicke ihn dir.",
   mail: { text: "Schick mir eine Mail mit FERTIG", ziel: "mailto:elias@finanzmuslim.com?subject=FERTIG" },
 } as const;
@@ -152,3 +156,11 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
 
 /** Deckblatt des XXL-Guides, klein im Kasten. Nicht verlinkt: die Belohnung kommt erst nach FERTIG. */
 export const DECKBLATT = "/guides/assets/xxl/deckblatt-klein.webp";
+
+/**
+ * Seitenbilder aus dem Guide-PDF (`public/guides/finanzmuslim-xxl-guide-mt6puo.pdf`, pdftoppm 360 px breit), damit der
+ * Kasten „ein richtiges Bild vom Guide“ zeigt (Elias, MC7d17). Bei einem Bereich wie „6–14“ die erste Seite.
+ * Ändert sich der Guide, die Bilder neu ziehen.
+ */
+export const seitenBild = (nr: string) => `/guides/assets/xxl/seite-${nr.split("–")[0]}.webp`;
+export const DECKBLATT_GROSS = seitenBild("1");

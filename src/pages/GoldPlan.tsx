@@ -7,13 +7,11 @@ import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
-import { SUKUK_TOP3 } from "@/data/depotTop3";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import {
   GOLD_GESAMT_CHECK,
-  SUKUK_GESAMT_CHECK,
   CFD_ANBIETER,
   CFD_ZEILE,
   ETC_SATZ,
@@ -28,6 +26,7 @@ import {
   goldQuellen,
   gramm,
   grammText,
+  GOLD_STEUER,
 } from "@/data/goldPlan";
 
 /**
@@ -168,6 +167,12 @@ const GoldPlan = () => {
           <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
             Nach einem Jahr rund {grammText(imMonat * 12)}&nbsp;g. Gerechnet mit dem Goldpreis vom {PREIS_STAND}, ohne Aufschlag.
           </p>
+          {/* Steuer klar dazu (Elias, 02.11.2026, MC7d17: „man muss natürlich auch sagen, ganz klar, dass wegen Steuern … nicht,
+              dass wir die Leute verarschen“). Beleg: src/pages/wissen/HalalGoldKaufen.tsx, Hinweis „Steuer, damit es
+              vollständig ist“. */}
+          <p className="mt-3 rounded-xl bg-accent p-3 text-[15px] leading-snug text-foreground">
+            <strong>Wichtig zur Steuer:</strong> {GOLD_STEUER}
+          </p>
           {/* Alle Gold-ETCs statt zwei Beispielen (Elias, 01.11.2026, MC7d15: „Dann machst du einfach alle“). */}
           <p className="mt-4 text-[16px] font-semibold text-foreground">Alle {GOLD_ZEILEN.length} mit Shariah-Zertifikat:</p>
           <ul className="mt-2 grid gap-2">
@@ -181,7 +186,7 @@ const GoldPlan = () => {
         {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann vielleicht die zwei,
             drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). Runde 3 (Elias,
             02.11.2026, MC7d16): Titel „Die besten Broker für Edelmetalle“, statt der zwei bekannten die Zahl über alle Depots,
-            darunter dasselbe für Sukuk. */}
+            darunter dasselbe für Sukuk. Runde 4 (Elias, 02.11.2026, MC7d17): Sukuk raus, bekommt ein eigenes Wort. */}
         <section className="reveal mt-12" aria-label="Die besten Broker für Edelmetalle">
           <DepotAufruf
             titel="Die besten Broker für Edelmetalle"
@@ -189,16 +194,6 @@ const GoldPlan = () => {
             check={GOLD_GESAMT_CHECK}
             link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
             alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
-          />
-        </section>
-
-        <section className="reveal mt-12" aria-label="Die besten Broker für Sukuk">
-          <DepotAufruf
-            titel="Die besten Broker für Sukuk"
-            einleitung="Ein Sukuk ist ein Anteil an einer Sache, nicht ein Anspruch auf Geld."
-            check={SUKUK_GESAMT_CHECK}
-            top={SUKUK_TOP3}
-            link={(ziel, stelle) => `${ziel}?src=gdsk${stelle}`}
           />
         </section>
 
