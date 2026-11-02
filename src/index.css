@@ -42,14 +42,33 @@
     position: relative;
     isolation: isolate;
   }
+  /* Feiner blauer Rand ringsum, darüber läuft das Licht; Eckklammern wie bei frontal (Prüfer SEO31) */
   .leuchtlinie::before {
     content: "";
     position: absolute;
-    inset: -2px;
+    inset: -3px;
     z-index: -1;
     border-radius: inherit;
-    background: conic-gradient(from var(--winkel), transparent 0deg, transparent 220deg, #0057fa 300deg, #7aa7ff 340deg, transparent 360deg);
+    background:
+      conic-gradient(from var(--winkel), transparent 0deg, transparent 200deg, #0057fa 290deg, #9cbcff 340deg, transparent 360deg),
+      linear-gradient(rgb(0 87 250 / 0.35), rgb(0 87 250 / 0.35));
     animation: leuchtlinie-lauf 4s linear infinite;
+  }
+  .leuchtlinie::after {
+    content: "";
+    position: absolute;
+    inset: -9px;
+    pointer-events: none;
+    --ecke: hsl(var(--foreground));
+    background:
+      linear-gradient(var(--ecke), var(--ecke)) top left / 10px 1.5px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) top left / 1.5px 10px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) top right / 10px 1.5px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) top right / 1.5px 10px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) bottom left / 10px 1.5px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) bottom left / 1.5px 10px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) bottom right / 10px 1.5px no-repeat,
+      linear-gradient(var(--ecke), var(--ecke)) bottom right / 1.5px 10px no-repeat;
   }
   @keyframes leuchtlinie-lauf {
     to {

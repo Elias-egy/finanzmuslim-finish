@@ -57,7 +57,7 @@ type Abschnitt = { id: string; titel: string };
 
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste" },
-  { id: "100-euro-im-monat", titel: "Was aus 100 € im Monat geworden wäre" },
+  { id: "100-euro-im-monat", titel: "Was aus 100 € im Monat geworden wäre" },
   { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
   { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen" },
   { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026" },
@@ -73,7 +73,7 @@ const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
     lead: "Der Index allein macht keinen ETF halal.",
-    text: "Zuerst wirft der Index Firmen raus, die Grenzwerte reißen, nach dem AAOIFI-Standard etwa über 5 % Umsatz aus Verbotenem. Danach zählt, was der Fonds selbst tut.",
+    text: "Zuerst wirft der Index Firmen raus, die Grenzwerte reißen, nach dem AAOIFI-Standard etwa über 5 % Umsatz aus Verbotenem. Danach zählt, was der Fonds selbst tut.",
   },
   {
     lead: "Ein Gremium am Fonds schlägt eins am Index.",
@@ -81,7 +81,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   },
   {
     lead: "Kosten fressen still mit.",
-    text: "Die acht liegen bei 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 € jedes Jahr.",
+    text: "Die acht liegen bei 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 € jedes Jahr.",
   },
   {
     lead: "Rein heißt auch reinigen.",
@@ -97,7 +97,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     text: (
       <>
         Zahlt dein Depot Zinsen aufs Guthaben, hilft der sauberste ETF wenig. Scalable, Smartbroker+ und
-        Traders Place zahlen 0 % aufs Verrechnungskonto, alle weiteren stehen im{" "}
+        Traders Place zahlen 0 % aufs Verrechnungskonto, alle weiteren stehen im{" "}
         <TL to="/vergleich/depot">Depot-Vergleich</TL>.
       </>
     ),
@@ -111,7 +111,7 @@ const KRITERIEN: { name: string; text: string }[] = [
   },
   {
     name: "Kosten",
-    text: "Die laufenden Kosten im Jahr. Bei 10.000 € macht jedes Zehntelprozent 10 € im Jahr aus.",
+    text: "Die laufenden Kosten im Jahr. Bei 10.000 € macht jedes Zehntelprozent 10 € im Jahr aus.",
   },
   {
     name: "Sparplan",
@@ -119,7 +119,7 @@ const KRITERIEN: { name: string; text: string }[] = [
   },
   {
     name: "Größe und Alter",
-    text: "Fondsvermögen in Mio. € und Jahr der Auflage. Ein alter Fonds hat echte Zahlen statt einer Rückrechnung des Index.",
+    text: "Fondsvermögen in Mio. € und Jahr der Auflage. Ein alter Fonds hat echte Zahlen statt einer Rückrechnung des Index.",
   },
   {
     name: "Rendite",
@@ -143,7 +143,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist ein ETF halal oder haram?",
     antwort:
-      "Das hängt am Inhalt, nicht an der Hülle. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sechs der acht ETFs hier hat ein Gremium auch den Fonds geprüft.",
+      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sechs der acht ETFs hier hat ein Gremium auch den Fonds geprüft.",
   },
   {
     frage: "Sind ETFs haram?",
@@ -177,7 +177,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Was kostet ein Halal ETF im Jahr?",
     antwort:
-      "Auf dieser Liste 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 €. Dazu kommen die Gebühren deines Depots, bei vielen ab 0 €.",
+      "Auf dieser Liste 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 €. Dazu kommen die Gebühren deines Depots, bei vielen ab 0 €.",
   },
   {
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
@@ -187,8 +187,9 @@ const FRAGEN: Frage[] = [
   },
 ];
 
+// Traders Place: Wortmarke statt App-Zeichen, sonst ist die Marke nicht zu erkennen (Prüfer SEO31)
 const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string }[] = [
-  { anbieter: "Traders Place", kaufbarName: "Traders Place", logo: "traders-place", out: "/out/traders-place" },
+  { anbieter: "Traders Place", kaufbarName: "Traders Place", logo: "traders-place-wortmarke.svg", out: "/out/traders-place" },
   { anbieter: "Smartbroker+", kaufbarName: "Smartbroker+", logo: "smartbroker", out: "/out/smartbroker" },
   { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", logo: "scalable", out: "/out/scalable" },
 ];
@@ -242,7 +243,7 @@ const Etikett = ({ children, className = "" }: { children: ReactNode; className?
 const Werbung = () => <Etikett>Werbung</Etikett>;
 
 const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-const logoPfad = (datei: string) => `/bilder/blog/halal-etf/logos/${datei}.webp`;
+const logoPfad = (datei: string) => `/bilder/blog/halal-etf/logos/${datei.includes(".") ? datei : `${datei}.webp`}`;
 
 /** YouTube erst nach dem Klick laden: vorher kein Kontakt zu Google. */
 const Video = () => {
@@ -430,11 +431,11 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
         <span className="absolute left-3 top-3 border border-border bg-background px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-foreground">
           {String(e.platz).padStart(2, "0")}
         </span>
-        <img src={logoPfad(e.logo)} alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+        <img src={logoPfad(e.logo)} alt="" aria-hidden="true" width={40} height={40} className="h-10 w-10 object-contain" />
         <span className="text-[16px] font-semibold text-foreground">{e.anbieter}</span>
       </div>
       <div className="flex flex-1 flex-col px-4 pt-4">
-        <p className="text-[14px] font-semibold leading-snug text-foreground">{kurzname}</p>
+        <p className="min-h-[2.75em] text-[14px] font-semibold leading-snug text-foreground">{kurzname}</p>
         <Etikett className="mt-4">Am besten für</Etikett>
         <p className="font-titel mt-1.5 text-[20px] leading-[1.2] text-foreground">{gross(e.amBestenFuer)}</p>
         <p className="mt-2 text-[14px] leading-snug text-foreground/70">{e.satz}</p>
@@ -555,6 +556,7 @@ const GoogleKasten = () => (
     href={GOOGLE_QUELLE}
     target="_blank"
     rel="noopener noreferrer"
+    data-vorlage="google-quelle"
     className="mt-7 flex max-w-[664px] items-center gap-4 border border-border bg-card px-5 py-4 transition-colors hover:border-foreground/40"
   >
     <GoogleG />
@@ -575,7 +577,7 @@ const monatName = (ym: string) => {
 };
 
 /**
- * „Was aus 100 € im Monat geworden wäre“: je Monatskurs eine Rate von 100 €, Wert = Anteile mal Kurs.
+ * „Was aus 100 € im Monat geworden wäre“: je Monatskurs eine Rate von 100 €, Wert = Anteile mal Kurs.
  * Eintrag „2021-12“ ist der Kurs zum Monatsanfang, der letzte der Kurs vom Stand der Kursdatei (31.10.2026).
  */
 const Rechner = () => {
@@ -598,7 +600,7 @@ const Rechner = () => {
     <section className="mt-12">
       <H2 id="100-euro-im-monat" />
       <Text>
-        <p>Wähl einen der acht ETFs und sieh, was aus einem Sparplan von 100 € im Monat geworden wäre.</p>
+        <p>Wähl einen der acht ETFs und sieh, was aus einem Sparplan von 100 € im Monat geworden wäre.</p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
         <label htmlFor="rechner-etf" className="block">
@@ -665,10 +667,10 @@ const Rechner = () => {
           </div>
           <div className="mt-4 grid grid-cols-3 gap-2 md:mt-0 md:grid-cols-1">
             {kacheln.map(([zeit, wert]) => (
-              <div key={zeit} className="border border-border bg-background px-3 py-2.5">
+              <div key={zeit} className="border border-border bg-background px-2.5 py-2.5 sm:px-3">
                 <Etikett>{zeit}</Etikett>
                 {wert ? (
-                  <p className="mt-1 text-[17px] font-semibold tabular-nums text-gain">{wert}</p>
+                  <p className="mt-1 whitespace-nowrap text-[15px] font-semibold sm:text-[17px] tabular-nums text-gain">{wert}</p>
                 ) : (
                   <p className="mt-1 text-[14px] text-muted-foreground">noch zu jung</p>
                 )}
@@ -750,14 +752,18 @@ const Eintrag = ({ e }: { e: EtfEintrag }) => {
       </h3>
       {/* Kopf der Seite in unserer Datenbank am Laptop (1280 × 720, Faktor 1,5), bis über „Verfügbar bei“ */}
       <Link to={`/halal-anlagen/${a.slug}`} className="mt-5 block overflow-hidden rounded-md border border-border">
-        <img
-          src={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`}
+        <picture>
+          {/* Am Handy wäre die Laptop-Aufnahme unlesbar klein, darum dort der Handy-Ausschnitt derselben Seite */}
+          <source media="(min-width: 768px)" srcSet={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`} width={1440} height={510} />
+          <img
+          src={`/bilder/blog/halal-etf/${a.slug}.webp`}
           alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr, Fondsgröße und Auflage`}
-          width={1440}
-          height={510}
+          width={716}
+          height={852}
           loading="lazy"
           className="h-auto w-full"
         />
+        </picture>
       </Link>
       <Text>
         {e.absaetze.map((t) => (
@@ -898,7 +904,7 @@ const HalalEtf = () => {
               <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
                 <span className="block">Beste Halal ETFs 2026:</span> <span className="block">8 im Vergleich</span>
               </h1>
-              <div className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
+              <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
                   <div className="leading-snug">
@@ -1086,7 +1092,7 @@ const HalalEtf = () => {
                     })}
                   />
                   <p className="font-titel mt-7 max-w-[664px] border-l-2 border-primary pl-5 text-[20px] leading-[1.4] text-foreground">
-                    Platz 1 verbindet ein Gremium am Fonds mit 0,30 % Kosten und dem Sparplan bei 14 Depots, mehr als bei
+                    Platz 1 verbindet ein Gremium am Fonds mit 0,30 % Kosten und dem Sparplan bei 14 Depots, mehr als bei
                     jedem anderen ETF hier.
                   </p>
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
@@ -1104,7 +1110,7 @@ const HalalEtf = () => {
                   />
                   <p className="mt-3 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">
                     Quelle: justETF, in Euro mit Ausschüttungen, Stand {RENDITE_STAND}. Ein Strich heißt: Der Fonds ist für
-                    diesen Zeitraum noch zu jung. Platz 6 steht seit Auflage im Februar 2026 bei +17,62 %. Vergangene
+                    diesen Zeitraum noch zu jung. Platz 6 steht seit Auflage im Februar 2026 bei +17,62 %. Vergangene
                     Renditen sind kein Versprechen für die Zukunft.
                   </p>
                   <Text>
@@ -1115,7 +1121,7 @@ const HalalEtf = () => {
                       <TL to="/halal-anlagen/hsbc-msci-emerging-markets-islamic-screened-capped">
                         HSBC MSCI Emerging Markets Islamic Screened
                       </TL>
-                      , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
+                      , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
                       <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>: Sparplan belegt, aber ein veröffentlichtes Shariah-Zertifikat haben wir nicht gefunden.
                     </p>
                   </Text>
@@ -1124,9 +1130,6 @@ const HalalEtf = () => {
                 {/* 12 Welcher passt */}
                 <section className="mt-12">
                   <H2 id="welcher-passt" />
-                  <Text>
-                    <p>Hier siehst du, welcher Platz zu welchem Wunsch passt.</p>
-                  </Text>
                   <KleineTabelle
                     kopf={["Wenn du …", "Achte auf", "Passt"]}
                     breit={[0, 1]}
@@ -1234,7 +1237,7 @@ const HalalEtf = () => {
                   <H2 id="naechster-schritt" />
                   <Text>
                     <p>
-                      Der ETF ist die halbe Entscheidung. Die andere Hälfte ist das Depot. Es sollte deinen ETF als Sparplan
+                      Neben dem ETF zählt das Depot. Es sollte deinen ETF als Sparplan
                       führen und dir keine Zinsen aufs Guthaben zahlen. Ein Depot eröffnest du online in rund 10 Minuten mit
                       Foto-Ident. Danach legst du den Sparplan auf deinen ETF an. Im{" "}
                       <TL to="/vergleich/depot">Depot-Vergleich</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
