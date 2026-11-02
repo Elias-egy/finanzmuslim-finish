@@ -79,6 +79,7 @@ export const VALID_SRC = [
   "kplan",
   "ketf",
   "kgold",
+  "ksukuk",
   // XXL-Guide (MC7d7, 30.10.2026): leise Werbung je Thema, ~/rebrand/freebies/xxl.html (xxl plus Wort).
   "xxlgiro",
   "xxlgold",
@@ -128,9 +129,10 @@ export const VALID_SRC = [
   // amtop3, amnr1, amalle aus MC7d16 (nie live).
   "amgiro",
   "amdepot",
-  // MC7d17: Sukuk-Aufruf auf der Gold-Seite (Wort GOLD), src/pages/GoldPlan.tsx.
-  "gdsktop3",
-  "gdskalle",
+  // MC7f: Sukuk-Plan (Wort SUKUK), src/pages/SukukPlan.tsx; ersetzen gdsktop3 und gdskalle aus MC7d16 (nie live).
+  "sktop3",
+  "skalle",
+  "skkarte",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

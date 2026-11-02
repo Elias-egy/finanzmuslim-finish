@@ -12,7 +12,6 @@
  */
 import nisab from "@/data/nisab.json";
 import { GOLD_ISINS, edelmetallVergleich } from "@/data/edelmetallVergleich";
-import { SUKUK_DEPOTS_MIT_ALLEN, SUKUK_DEPOTS_ZINSFREI, SUKUK_ZAHL } from "@/data/depotTop3";
 
 export const GOLD_SCHLUESSEL = "gold-4hq7";
 export const GOLD_PFAD = `/dein-gold/${GOLD_SCHLUESSEL}`;
@@ -106,19 +105,6 @@ export const GOLD_GESAMT_CHECK = [
     vor: "nur",
     gross: `${DEPOTS_MIT_ALLEN} von ${DEPOTS_ZINSFREI}`,
     klein: `zinsfreien Depots haben alle ${GOLD_ETC_ZAHL} Gold-ETCs mit Zertifikat`,
-    ton: "gelb" as const,
-  },
-];
-
-/** Dasselbe für Sukuk (Elias, ebenda: „Und einmal noch das gleiche als Sukuk“), gezählt im Depot-Vergleich (depotTop3.ts). */
-export const SUKUK_GESAMT_CHECK = [
-  {
-    id: "sukuk-gesamt",
-    name: "",
-    domain: "",
-    vor: "nur",
-    gross: `${SUKUK_DEPOTS_MIT_ALLEN} von ${SUKUK_DEPOTS_ZINSFREI}`,
-    klein: `zinsfreien Depots haben alle ${SUKUK_ZAHL} Sukuk-ETFs und Fonds aus meiner Liste`,
     ton: "gelb" as const,
   },
 ];

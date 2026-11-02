@@ -8,6 +8,7 @@ import { PLAN_PFAD } from "./portfolioPlan";
 import { BOYKOTT_PFAD } from "./boykottListe";
 import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
+import { SUKUK_PFAD } from "./sukukPlan";
 import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
 
 /**
@@ -195,6 +196,8 @@ export const nichtIndexiert: string[] = [
   GOLD_PFAD,
   // ETF-Plan zum Wort „ETF“ (MC4e), ebenso nur über den Link aus dem Instagram-Chat
   ETF_PFAD,
+  // Sukuk-Plan zum Wort „Sukuk“ (MC7f), ebenso nur über den Link aus dem Instagram-Chat
+  SUKUK_PFAD,
   // Opt-in-Seite (DM), Danke-Seite und volle Fassung je gesperrtem Freebie, siehe src/data/optin.ts
   ...optinAdressen(),
   "/newsletter/archiv",
@@ -234,6 +237,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-gold/:schluessel", grund: "Gold-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-etf/:schluessel", grund: "ETF-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-sukuk/:schluessel", grund: "Sukuk-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/gratis/:freebie", grund: "Opt-in-Seite fuer die Instagram-DM, kein eigener Suchbegriff, setzt noindex" },
   { pfad: "/danke/:freebie", grund: "Danke-Seite nach der Anmeldung, setzt noindex" },
   { pfad: "/vorlagen/:slug/:schluessel", grund: "volle Fassung nur ueber den Link aus der Mail, setzt noindex" },

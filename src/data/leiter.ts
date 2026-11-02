@@ -67,7 +67,7 @@ export const KASTEN = {
 } as const;
 
 /** Die Freebies mit Kasten. Das Wort steht in der Klickzählung (k plus Wort, `src/lib/attribution.ts`). */
-export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold"] as const;
+export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold", "sukuk"] as const;
 
 export type LeiterWort = (typeof LEITER_WOERTER)[number];
 
@@ -110,6 +110,15 @@ export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonl
       PORTFOLIO,
       { nr: "13", titel: "Wie viel ETF, wie viel Gold?" },
       { nr: "7", titel: "Welche Islamic ETFs gibt es?" },
+    ],
+  },
+  // MC7f: Seite 13 nennt Sukuk „Ruhe für kurze Zeit“ und die Faustregel „Brauchst du es bald, mehr Sukuk und Gold.“
+  sukuk: {
+    frage: "Wie viel Sukuk gehört in dein Portfolio?",
+    seiten: [
+      PORTFOLIO,
+      { nr: "13", titel: "Fünf Bausteine, fünf Aufgaben" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
   boykott: {
