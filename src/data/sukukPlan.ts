@@ -41,8 +41,9 @@ export const vergleich = (betrag: number) =>
   [
     { frage: "Was besitzt du?", anleihe: `Eine Forderung. Du hast ${euro(betrag)} verliehen.`, sukuk: "Einen Anteil an einer Sache." },
     { frage: "Woher kommt der Ertrag?", anleihe: "Zins.", sukuk: "Miete oder Gewinn aus der Sache." },
-    // Ohne Betrag, damit es nicht wie eine Garantie klingt: ein Fonds schwankt (ERWARTUNG).
-    { frage: "Was kommt am Ende zurück?", anleihe: "Der Betrag plus Zinsen.", sukuk: "Der eingesetzte Betrag, ohne Aufschlag." },
+    // Statt „Was kommt am Ende zurück?“ die Risiko-Zeile: am Fonds liest sich der Rückkauf ohne Aufschlag wie eine
+    // Zusage, dass das Geld zurückkommt (frischer Halal-Prüfer MC7f r1, docs/freebies/pruef/halal-sukuk-plan-r1.md).
+    { frage: "Wer trägt das Risiko?", anleihe: "Der Schuldner zahlt, solange er zahlungsfähig ist.", sukuk: "Grundsätzlich trägst du das Risiko der Sache mit." },
   ] as const;
 
 /** Wortgleich aus dem Hinweis „Was du realistisch erwarten solltest“, ehrlich wie der Steuerhinweis beim Gold. */
