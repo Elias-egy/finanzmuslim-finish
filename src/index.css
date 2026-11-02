@@ -9,9 +9,60 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Newsreader für dünne Überschriften im Stil von Frontal (Blog, SEO30). Variabel mit Gewicht und
+   optischer Größe, SIL OFL 1.1, Production Type, über fontsource 5.1.0. Liegt im Repo wie Figtree. */
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/newsreader-latin-opsz.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Leuchtlinie um den Knopf zum Depot-Vergleich: läuft ruhig herum, steht bei reduzierter Bewegung. */
+@property --winkel {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .font-titel {
+    font-family: "Newsreader", Georgia, "Times New Roman", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .leuchtlinie {
+    position: relative;
+    isolation: isolate;
+  }
+  .leuchtlinie::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from var(--winkel), transparent 0deg, transparent 220deg, #0057fa 300deg, #7aa7ff 340deg, transparent 360deg);
+    animation: leuchtlinie-lauf 4s linear infinite;
+  }
+  @keyframes leuchtlinie-lauf {
+    to {
+      --winkel: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .leuchtlinie::before {
+      animation: none;
+      background: #0057fa;
+    }
+  }
+}
 
 @layer base {
   :root {

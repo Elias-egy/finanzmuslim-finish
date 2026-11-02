@@ -2,17 +2,20 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 
 /**
- * Die Liste „Beste Halal ETFs 2026“ (/blog/halal-etf, SEO24, 01.11.2026).
+ * Die Liste „Beste Halal ETFs 2026“ (/blog/halal-etf, SEO24 am 01.11.2026, Umbau SEO30 am 02.11.2026).
  *
- * Rangfolge, Renditen, Größe und Sparplan stammen aus
- * fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/BESTE-HALAL-ETFS-INHALT.md im Vault:
- * Größe und Renditen von justETF je ISIN (EUR, mit Ausschüttungen) per 30.10.2026 (Größe von Platz 7 und 8 aus halalAnlagen.ts, Stand 14.08.2026),
+ * Rangfolge und Sparplan stammen aus
+ * fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/BESTE-HALAL-ETFS-INHALT.md im Vault,
  * Sparplan nur mit Eigenbeleg des Anbieters (~/rebrand/data/vergleiche/recherche/anlagen.json).
+ * Renditen 1, 3 und 5 Jahre: justETF je ISIN, EUR mit Ausschüttungen, per 30.10.2026
+ * (raw/2026-11-02-seo29-justetf-rendite-1-3-5-jahre.md). Alle 3-Jahres-Werte liegen ganz nach der
+ * Auflage des Fonds, sind also echte Fondszahlen; 5 Jahre nur bei Fonds, die vor Ende Oktober 2021 aufgelegt wurden.
+ * Größe wie in `halalAnlagen` (die Laptop-Bilder der Einträge zeigen genau diese Zahl), nicht die neueren justETF-Werte.
  * Kosten, Auflage, Gremium und Beleg-Link kommen aus `halalAnlagen`, damit eine
  * Änderung dort auch hier ankommt. Kaufbar-Zahlen rechnet die Seite aus `ANLAGEN_KAUFBAR`.
+ * Die Texte der Einträge stehen wortgleich im Baublatt UMBAU-HALAL-ETF-SEO29-BAUBLATT.md.
  *
  * Halal-Aussagen nur mit Beleg des Anbieters, nie ein eigenes Urteil (~/.claude/CLAUDE.md §5).
- * „3 Jahre“ wird nicht gezeigt: bei jungen Fonds rechnet justETF mit Indexwerten vor der Auflage.
  */
 
 export const RENDITE_STAND = "30.10.2026";
@@ -20,25 +23,27 @@ export const RENDITE_STAND = "30.10.2026";
 export type EtfEintrag = {
   platz: number;
   isin: string;
-  /** Anzeigename, gleich in Quick Compare, Liste und Tabelle. */
+  /** Anzeigename, gleich in Karte, Eintrag und Tabellen. */
   name: string;
-  /** Höchstens sechs Wörter, wortgleich in Karte, H3 und Tabelle. */
+  /** Fondsanbieter und Logo-Datei in /bilder/blog/halal-etf/logos/. */
+  anbieter: string;
+  logo: string;
+  /** Höchstens sechs Wörter, klein geschrieben; wortgleich in Karte, H3 und Tabelle. */
   amBestenFuer: string;
   /** Ein Satz für die Karte oben. */
   satz: string;
-  /** Kurzform für „Geprüft von“. */
-  geprueftKurz: string;
   groesseMio: number;
   rendite1J: string | null;
-  rendite2025: string | null;
-  rendite2024: string | null;
-  /** Nur junge Fonds: Rendite seit Auflage statt 1 Jahr. */
+  rendite3J: string | null;
+  rendite5J: string | null;
+  /** Nur junge Fonds: Rendite seit Auflage. */
   seitAuflage?: string;
   sparplanBei: string[];
-  text: string[];
+  /** Absätze des Eintrags, danach der fette Satz „Passt zu dir, wenn …“. */
+  absaetze: string[];
+  passt: string;
   dafuer: string[];
   dagegen: string[];
-  schluss: string;
   geprueftText: string;
 };
 
@@ -56,42 +61,50 @@ export const etfListe: EtfEintrag[] = [
     platz: 1,
     isin: "IE00B27YCN58",
     name: "iShares MSCI World Islamic",
+    anbieter: "iShares",
+    logo: "ishares",
     amBestenFuer: "den Einstieg mit einem ETF",
     satz: "Größter Fonds der Liste, seit 2007.",
-    geprueftKurz: "Gremium bei iShares",
     groesseMio: 1577,
-    rendite1J: "+24,50 %",
-    rendite2025: "+5,69 %",
-    rendite2024: "+11,95 %",
+    rendite1J: "+24,42 %",
+    rendite3J: "+62,30 %",
+    rendite5J: "+75,47 %",
     sparplanBei: ["Smartbroker+", "Scalable PRIME+", "flatex", "comdirect", "Consorsbank", "ING", "finanzen.net zero", "1822direkt", "und 6 weitere"],
-    text: [
-      "Wenn du nur einen Halal ETF kaufen willst, dann diesen. Er bildet den MSCI World Islamic nach, also den bekannten MSCI World ohne Banken, Versicherungen und alle Firmen, die bei der Shariah-Prüfung durchfallen. Im letzten Jahr lag er bei plus 24,50 Prozent. Er schüttet zweimal im Jahr aus und reinigt die Ausschüttungen seit 2026 selbst im Fonds.",
+    absaetze: [
+      "Der iShares MSCI World Islamic ist der bekannteste Halal ETF in Deutschland. Er bildet den MSCI World Islamic nach: die großen Firmen aus Industrieländern, ohne Banken, Versicherungen und alles, was bei der Shariah-Prüfung durchfällt.",
+      "Er ist seit Dezember 2007 am Markt und mit 1.577 Mio. € der größte Fonds dieser Liste. Ein so alter Fonds hat echte Zahlen aus fast zwei Jahrzehnten, auch aus schlechten Jahren.",
+      "Was ihn von den anderen trennt, ist der Beleg. Laut Verkaufsprospekt prüft ihn ein eigenes Gremium bei iShares, das eine Fatwa erteilt hat und jedes Jahr ein Zertifikat ausstellt. Seit 2026 reinigt er die Ausschüttungen selbst im Fonds.",
+      "Er kostet 0,30 % im Jahr, bei 10.000 € also 30 €. Einen Sparplan darauf haben uns 14 Depots belegt, so viele wie bei keinem anderen ETF hier. Kaufen kannst du ihn bei 27 Depots.",
+      "Wo er aufhört: Er schüttet zweimal im Jahr aus, das Geld legst du selbst wieder an. Schwellenländer wie China oder Indien sind nicht drin.",
     ],
+    passt: "du mit einem einzigen ETF anfangen willst",
     dafuer: ["Eigenes Gremium mit Fatwa und Zertifikat jedes Jahr.", "Sparplan bei 14 Depots, so oft wie bei keinem hier.", "Reinigt seit 2026 selbst im Fonds."],
     dagegen: ["Ausschüttungen legst du selbst wieder an.", "Nicht günstiger als der HSBC World auf Platz 5."],
-    schluss:
-      "Am besten geeignet für dich, wenn du mit einem einzigen ETF anfangen willst. Der Nachteil: Ausschüttungen legst du selbst wieder an.",
     geprueftText: PANEL_ISHARES,
   },
   {
     platz: 2,
     isin: "IE000UOXRAM8",
     name: "Invesco Dow Jones Islamic Global Developed Markets",
+    anbieter: "Invesco",
+    logo: "invesco",
     amBestenFuer: "Gewinne, die im Fonds bleiben",
     satz: "Index von Dow Jones statt MSCI, seit 2022.",
-    geprueftKurz: "Amanie Advisors, für 2023",
     groesseMio: 1046,
-    rendite1J: "+17,32 %",
-    rendite2025: "+5,07 %",
-    rendite2024: "+25,68 %",
+    rendite1J: "+16,98 %",
+    rendite3J: "+74,34 %",
+    rendite5J: null,
     sparplanBei: ["Smartbroker+", "flatex", "Consorsbank", "tradegate.direct", "Scalable PRIME+"],
-    text: [
-      "Er folgt dem Islamic-Index von Dow Jones statt MSCI, darum stecken teils andere Firmen drin als bei Platz 1. Mit 1.046 Mio. € ist er der zweitgrößte Fonds der Liste.",
+    absaetze: [
+      "Er folgt dem Islamic-Index von Dow Jones statt MSCI. Darum stecken teils andere Firmen drin als bei Platz 1, die Idee ist dieselbe: Industrieländer, geprüft nach islamischen Regeln.",
+      "Er schüttet nicht aus. Gewinne bleiben im Fonds und arbeiten weiter, du musst nichts selbst neu anlegen.",
+      "Mit 1.046 Mio. € ist er der zweitgrößte Fonds der Liste, am Markt seit Januar 2022. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €, mehr als jeder andere passive Welt-ETF hier.",
+      "Den Beleg hat Amanie Advisors ausgestellt, ein Shariah-Zertifikat für genau diesen ETF. Es ist vom 15. Oktober 2024 und gilt für das Geschäftsjahr 2023. Ein neueres haben wir nicht gefunden.",
+      "Einen Sparplan haben uns 5 Depots belegt, kaufen kannst du ihn bei 17.",
     ],
+    passt: "Gewinne im Fonds bleiben sollen",
     dafuer: ["Keine Ausschüttung, die du selbst anlegen musst.", "Eigenes Zertifikat für genau diesen ETF."],
     dagegen: ["Teuerster passiver Welt-ETF der Liste.", "Jüngstes gefundenes Zertifikat gilt für 2023."],
-    schluss:
-      "Am besten geeignet für dich, wenn Gewinne im Fonds bleiben sollen. Der Nachteil: Ein Zertifikat nach 2023 fehlt uns.",
     geprueftText:
       "Amanie Advisors hat ein Shariah-Zertifikat für genau diesen ETF ausgestellt, am 15. Oktober 2024 für das Geschäftsjahr 2023. Ein neueres haben wir nicht gefunden.",
   },
@@ -99,106 +112,121 @@ export const etfListe: EtfEintrag[] = [
     platz: 3,
     isin: "IE00B296QM64",
     name: "iShares MSCI USA Islamic",
+    anbieter: "iShares",
+    logo: "ishares",
     amBestenFuer: "einen Fokus auf die USA",
     satz: "Nur US-Firmen, Gremium wie Platz 1.",
-    geprueftKurz: "Gremium bei iShares",
     groesseMio: 609,
-    rendite1J: "+28,90 %",
-    rendite2025: "+2,89 %",
-    rendite2024: "+15,82 %",
+    rendite1J: "+28,67 %",
+    rendite3J: "+69,45 %",
+    rendite5J: "+89,56 %",
     sparplanBei: ["Smartbroker+", "flatex", "1822direkt", "finanzen.net zero", "finvesto", "tradegate.direct", "Scalable PRIME+", "GLS Bank"],
-    text: [
-      "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Im letzten Jahr lag er bei plus 28,90 Prozent. Ein Land ist aber ein Klumpen. Läuft es in den USA schlecht, trifft es den ganzen Fonds.",
+    absaetze: [
+      "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Dasselbe Gremium bei iShares hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.",
+      "Seit Dezember 2007 am Markt, 609 Mio. € groß, 0,30 % Kosten im Jahr.",
+      "Einen Sparplan haben uns 8 Depots belegt, kaufen kannst du ihn bei 24. Er schüttet aus, das Geld legst du selbst wieder an.",
+      "Wo er aufhört: Ein Land ist ein Klumpen. Läuft es in den USA schlecht, trifft es den ganzen Fonds, und kein anderes Land fängt das auf.",
     ],
+    passt: "du gezielt auf die USA setzen willst",
     dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 8 Depots belegt."],
     dagegen: ["Nur ein Land.", "Er schüttet aus."],
-    schluss:
-      "Am besten geeignet für dich, wenn du gezielt auf die USA setzt. Der Nachteil: Alles hängt an einem Land.",
     geprueftText: PANEL_WIE_PLATZ_1,
   },
   {
     platz: 4,
     isin: "IE00B27YCP72",
     name: "iShares MSCI Emerging Markets Islamic",
+    anbieter: "iShares",
+    logo: "ishares",
     amBestenFuer: "Schwellenländer als Beimischung",
     satz: "China und Indien als kleiner Teil dazu.",
-    geprueftKurz: "Gremium bei iShares",
     groesseMio: 700,
-    rendite1J: "+39,23 %",
-    rendite2025: "+32,08 %",
-    rendite2024: "−2,06 %",
+    rendite1J: "+40,88 %",
+    rendite3J: "+94,87 %",
+    rendite5J: "+68,76 %",
     sparplanBei: ["Smartbroker+", "flatex", "1822direkt", "Consorsbank", "finanzen.net zero", "finvesto", "tradegate.direct", "Scalable PRIME+", "GLS Bank"],
-    text: [
-      "Er kauft Firmen aus Schwellenländern wie China und Indien, die Platz 1 nicht drin hat. Die Schwankung ist groß, 2024 lag er bei minus 2,06 Prozent, 2025 bei plus 32,08 Prozent. Darum nimmst du ihn nur als kleinen Teil dazu.",
+    absaetze: [
+      "Er kauft Firmen aus Schwellenländern wie China und Indien, die in Platz 1 fehlen. Geprüft wird er vom selben Gremium bei iShares wie Platz 1.",
+      "Die Schwankung ist groß. 2024 lag er bei minus 2,06 Prozent, 2025 bei plus 32,08 Prozent. Darum steht er hier als Beimischung neben einem Welt-ETF, nicht als einziger ETF.",
+      "Seit Dezember 2007 am Markt, 700 Mio. € groß, 0,35 % Kosten im Jahr. Einen Sparplan haben uns 9 Depots belegt, kaufen kannst du ihn bei 23.",
+      "Wo er aufhört: Er schüttet aus, und allein deckt er nur einen Teil der Welt ab.",
     ],
+    passt: "du neben Platz 1 einen kleinen Teil Schwellenländer willst",
     dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 9 Depots belegt."],
     dagegen: ["Starke Schwankung, 2024 im Minus.", "Etwas teurer als Platz 1."],
-    schluss:
-      "Am besten geeignet für dich, wenn du neben Platz 1 Schwellenländer willst. Der Nachteil: Er schwankt stark.",
     geprueftText: PANEL_WIE_PLATZ_1,
   },
   {
     platz: 5,
     isin: "IE000X9FTI22",
     name: "HSBC MSCI World Islamic Screened",
+    anbieter: "HSBC",
+    logo: "hsbc",
     amBestenFuer: "eine Einmalanlage ohne Ausschüttung",
     satz: "Kosten wie Platz 1, Gewinne bleiben drin.",
-    geprueftKurz: "MSCI, nur der Index",
     groesseMio: 182,
     rendite1J: "+24,51 %",
-    rendite2025: "+7,01 %",
-    rendite2024: "+12,66 %",
+    rendite3J: "+69,04 %",
+    rendite5J: null,
     sparplanBei: [],
-    text: [
-      "Er kostet so viel wie Platz 1, schüttet aber nicht aus und gibt den unreinen Anteil selbst als Spende weiter. Im letzten Jahr lag er bei plus 24,51 Prozent, praktisch gleichauf. Zwei Haken hat er. Einen Sparplan hat uns kein Anbieter belegt, und der Halal-Beleg betrifft nur den Index.",
+    absaetze: [
+      "Er folgt dem MSCI World Islamic Screened, also ebenfalls Firmen aus Industrieländern nach islamischen Regeln, und kostet wie Platz 1 0,30 % im Jahr.",
+      "Anders als Platz 1 schüttet er nicht aus. Den kleinen unreinen Anteil gibt er selbst als Spende weiter.",
+      "Zwei Haken hat er. Einen Sparplan hat uns kein Anbieter belegt. Und der Halal-Beleg betrifft nur den Index: MSCI lässt die Methodik von einem Ausschuss islamischer Gelehrter freigeben, für den Fonds selbst gibt es kein eigenes Zertifikat.",
+      "Seit November 2022 am Markt, 182 Mio. € groß, kaufbar bei 9 Depots.",
     ],
+    passt: "du einmal anlegst und nichts ausgeschüttet haben willst",
     dafuer: ["Gewinne bleiben im Fonds.", "Reinigt den unreinen Anteil selbst."],
     dagegen: ["Kein Sparplan belegt.", "Halal-Beleg nur für den Index."],
-    schluss:
-      "Am besten geeignet für dich, wenn du einmal anlegst und nichts ausgeschüttet haben willst. Der Nachteil: Ein Sparplan ist nicht belegt.",
     geprueftText: NUR_INDEX_MSCI,
   },
   {
     platz: 6,
     isin: "IE000LFC57H7",
     name: "Invesco MSCI ACWI Islamic",
+    anbieter: "Invesco",
+    logo: "invesco",
     amBestenFuer: "Welt und Schwellenländer in einem ETF",
     satz: "Ein ETF statt zwei, seit Februar 2026.",
-    geprueftKurz: "MSCI, nur der Index",
     groesseMio: 129,
     rendite1J: null,
-    rendite2025: null,
-    rendite2024: null,
+    rendite3J: null,
+    rendite5J: null,
     seitAuflage: "+17,62 %",
     sparplanBei: ["Scalable PRIME+"],
-    text: [
-      "ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF. Er wurde erst im Februar 2026 aufgelegt und steht seit Auflage bei plus 17,62 Prozent.",
+    absaetze: [
+      "ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF dafür.",
+      "Er ist der jüngste der Liste, aufgelegt im Februar 2026. Seitdem steht er bei plus 17,62 Prozent, für 1, 3 oder 5 Jahre gibt es noch keine Zahlen.",
+      "Er kostet 0,35 % im Jahr und schüttet nicht aus. Der Halal-Beleg betrifft nur den Index, wie bei Platz 5.",
+      "Einen Sparplan hat uns bisher nur Scalable mit PRIME+ belegt, kaufen kannst du ihn bei 11 Depots.",
     ],
+    passt: "du die ganze Welt in einem ETF willst und mit wenig Geschichte leben kannst",
     dafuer: ["Industrie- und Schwellenländer in einem ETF.", "Gewinne bleiben im Fonds."],
     dagegen: ["Sehr jung, kaum Zahlen.", "Halal-Beleg nur für den Index."],
-    schluss:
-      "Am besten geeignet für dich, wenn du alles in einem ETF willst. Der Nachteil: Er ist erst seit Februar 2026 am Markt.",
     geprueftText: NUR_INDEX_MSCI,
   },
   {
     platz: 7,
     isin: "IE00BMYMHS24",
     name: "HANetf Saturna Al-Kawthar Global Focused Equity",
+    anbieter: "HANetf",
+    logo: "hanetf",
     amBestenFuer: "aktive Auswahl statt Index",
     satz: "Ein Fondsmanagement wählt aus, kein Index.",
-    geprueftKurz: "Amanie Advisors, für 2025",
     groesseMio: 19,
-    rendite1J: "+8,65 %",
-    rendite2025: "+4,55 %",
-    rendite2024: "+19,73 %",
+    rendite1J: "+8,13 %",
+    rendite3J: "+57,27 %",
+    rendite5J: "+39,89 %",
     sparplanBei: ["flatex", "1822direkt", "comdirect", "finanzen.net zero", "tradegate.direct", "Scalable PRIME+", "comdirect Pure", "Targobank"],
-    text: [
-      "Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen. Das kostet mehr als doppelt so viel wie Platz 1, und mit 19 Mio. € ist er der kleinste Fonds der Liste.",
+    absaetze: [
+      "Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen.",
+      "Das hat seinen Preis: 0,75 % im Jahr, mehr als doppelt so viel wie Platz 1. Mit 19 Mio. € ist er außerdem der kleinste Fonds der Liste.",
+      "Sein Zertifikat ist frisch. Das Shariah Supervisory Board von Amanie Advisors prüft ihn jedes Jahr, das Zertifikat für 2025 ist vom 22.05.2026.",
+      "Am Markt seit September 2020. Einen Sparplan haben uns 8 Depots belegt, kaufen kannst du ihn bei 18.",
     ],
+    passt: "du einem Fondsmanagement mehr vertraust als einem Index",
     dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei 8 Depots belegt."],
     dagegen: ["Höchste Kosten der Liste.", "Kleinster Fonds der Liste."],
-    schluss:
-      "Am besten geeignet für dich, wenn du einem Fondsmanagement mehr traust als einem Index. Der Nachteil: die Kosten.",
     geprueftText:
       "Das Shariah Supervisory Board von Amanie Advisors prüft den Fonds jedes Jahr. Das unterschriebene Zertifikat für das Geschäftsjahr 2025 ist vom 22.05.2026.",
   },
@@ -206,21 +234,24 @@ export const etfListe: EtfEintrag[] = [
     platz: 8,
     isin: "IE000929U2U9",
     name: "iShares USD Sukuk",
+    anbieter: "iShares",
+    logo: "ishares",
     amBestenFuer: "einen Teil ohne Aktien",
     satz: "Sukuk statt Anleihen, ganz ohne Aktien.",
-    geprueftKurz: "Sukuk-Gremium bei iShares",
     groesseMio: 160,
-    rendite1J: "+2,52 %",
-    rendite2025: "−5,04 %",
-    rendite2024: null,
+    rendite1J: "+1,62 %",
+    rendite3J: null,
+    rendite5J: null,
     sparplanBei: ["Scalable", "finanzen.net zero", "tradegate.direct", "Scalable PRIME+"],
-    text: [
-      "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten. Der ETF kauft in US-Dollar, darum schwankt sein Wert in Euro mit dem Dollar-Kurs. 2025 lag er bei minus 5,04 Prozent.",
+    absaetze: [
+      "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten.",
+      "Der ETF kauft in US-Dollar. Darum schwankt sein Wert in Euro mit dem Dollarkurs, 2025 lag er bei minus 5,04 Prozent.",
+      "Laut Verkaufsprospekt hat er ein eigenes Sukuk-Gremium, besetzt mit dem Shariah-Board von Amanie Advisors, mit Fatwa und Zertifikat jedes Jahr. Er schüttet jedes Quartal aus.",
+      "Seit Januar 2024 am Markt, 160 Mio. € groß, 0,40 % Kosten im Jahr. Einen Sparplan haben uns 3 Depots belegt, kaufen kannst du ihn bei 19.",
     ],
+    passt: "ein Teil deines Geldes nicht in Aktien liegen soll",
     dafuer: ["Eigenes Sukuk-Gremium mit Fatwa.", "Ausschüttung jedes Quartal."],
-    dagegen: ["Der Dollar-Kurs schwankt mit.", "Teurer als Platz 1."],
-    schluss:
-      "Am besten geeignet für dich, wenn ein Teil deines Geldes nicht in Aktien liegen soll. Der Nachteil: Der Dollar schwankt mit.",
+    dagegen: ["Der Dollarkurs schwankt mit.", "Teurer als Platz 1."],
     geprueftText:
       "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Sukuk Fund Panel, besetzt mit dem Shariah-Board von Amanie Advisors. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.",
   },

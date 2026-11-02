@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
-import { AnbieterLogo } from "@/components/AnbieterLogo";
 import eliasPortrait from "@/assets/elias-autor.webp";
-import studioBild from "@/assets/investmentstart-elias-studio.webp";
-import vortragBild from "@/assets/guide-elias-vortrag.webp";
+import { kursFuerIsin, kursStand } from "@/lib/kurse";
 import {
   RENDITE_STAND,
   anker,
@@ -16,15 +15,15 @@ import {
   kaufbarBei,
   kaufbarStand,
   sparplanAnzahl,
-  sparplanDepots,
   type EtfEintrag,
 } from "@/data/halalEtfListe";
 
 /**
- * „Beste Halal ETFs 2026“ nach Vorlage 1 „das Beste“ (VORLAGEN.md 1.1 im Vault, SEO21/SEO22,
- * gebaut SEO24 am 01.11.2026). Eigene Seite statt BeitragSeite: Vorlage 1 verlangt die Form eines
- * richtigen Blogs ohne blaue Flächen und Nummern-Kreise (Elias SEO22). Kästen nur für Aufrufe.
- * Reihenfolge der Abschnitte ist fest, die Nummern im Kommentar sind die der Vorlage.
+ * „Beste Halal ETFs 2026“, Umbau SEO30 am 02.11.2026 nach dem Baublatt
+ * fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/UMBAU-HALAL-ETF-SEO29-BAUBLATT.md im Vault.
+ * Vorbild ist nur frontal.so/blog/best-gtm-agencies; von Finanzfluss nur die drei Depots,
+ * die Kapitelübersicht und der Google-Kasten (Elias SEO28). Überschriften in Newsreader, dünn;
+ * kleine Etiketten in Großbuchstaben mit Abstand. Reihenfolge der Abschnitte steht im Baublatt.
  */
 
 const SITE = "https://finanzmuslim.com";
@@ -34,30 +33,21 @@ const META =
   "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich nach Halal-Prüfung, Kosten und Sparplan. Mit Renditen, Gremium und den Depots, bei denen du sie kaufst.";
 const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
-const AKTUALISIERT = { text: "01.11.2026", iso: "2026-11-01T09:00:00+01:00" };
+const AKTUALISIERT = { text: "02.11.2026", iso: "2026-11-02T09:00:00+01:00" };
 const INSTAGRAM = "https://www.instagram.com/finanz.muslim/";
 const YOUTUBE = "https://www.youtube.com/@finanz.muslim";
-/** LinkedIn-Profil von Elias. Leer, bis es steht: dann erscheinen Link und sameAs (SOP About Page Z. 93, 145). */
+/** LinkedIn-Profil von Elias (SOP About Page Z. 93, 145). */
 const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy-370616363/";
-const PROFILE = [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, ...(LINKEDIN ? [LINKEDIN] : [])];
+const PROFILE = [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN];
 const VIDEO_ID = "uO0ZnlaFolw";
+/** Google „bevorzugte Quelle“: dorthin leitet auch Finanzfluss (link.finanzfluss.de, ?q=finanzfluss.de). */
+const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.com";
 const BIO =
   "Elias El-Gendy hat die Sachkundeprüfungen nach § 34d und § 34f GewO abgeschlossen. Er berät Muslime zum islamkonformen Investieren und klärt auf Instagram (@finanz.muslim) über 15.000 Abonnenten über Halal Finance auf.";
 const RECHTSHINWEIS =
   "Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Rangfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Zu Wertpapierleihe, synthetischer Nachbildung und zur Reinigung von Erträgen bestehen zwischen den Rechtsschulen und einzelnen Gremien unterschiedliche Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
-/** Höhe der Bildschirmfotos je Eintrag in Pixeln (Breite 716, aufgenommen bei 390 mit Faktor 2). */
-const BILD_HOEHE: Record<string, number> = {
-  "ishares-msci-world-islamic": 852,
-  "invesco-dow-jones-islamic-global-developed-markets": 912,
-  "ishares-msci-usa-islamic": 852,
-  "ishares-msci-emerging-markets-islamic": 924,
-  "hsbc-msci-world-islamic-screened": 852,
-  "invesco-msci-acwi-islamic-m-series": 808,
-  "hanetf-saturna-al-kawthar-global-focused-equity": 868,
-  "ishares-usd-sukuk-ucits-etf": 852,
-};
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
-const LESEZEIT = 20;
+const LESEZEIT = 19;
 
 /* ------------------------------------------------------------------ */
 /* Inhalt                                                              */
@@ -67,32 +57,34 @@ type Abschnitt = { id: string; titel: string };
 
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste" },
-  { id: "was-ist-ein-halal-etf", titel: "Was ist ein Halal ETF, und was nicht?" },
-  { id: "so-haben-wir-geprueft", titel: "So haben wir geprüft" },
+  { id: "100-euro-im-monat", titel: "Was aus 100 € im Monat geworden wäre" },
+  { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
+  { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen" },
   { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026" },
-  { id: "halal-etf-liste", titel: "Halal ETF Liste im Vergleich: welche Halal ETFs gibt es in Deutschland?" },
-  { id: "welcher-passt", titel: "Welcher Halal ETF passt zu dir?" },
-  { id: "halal-etf-oder-fonds", titel: "Halal ETF oder Halal Fonds: was ist der Unterschied?" },
-  { id: "pruefung-in-zahlen", titel: "Unsere Prüfung in Zahlen" },
+  { id: "halal-etf-liste", titel: "Halal ETF Liste: alle acht nebeneinander" },
+  { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt" },
+  { id: "halal-etf-oder-fonds", titel: "ETF oder Fonds: wo der Unterschied Geld kostet" },
+  { id: "wo-kaufen", titel: "Wo du die acht ETFs kaufen kannst" },
   { id: "haeufige-fragen", titel: "Häufige Fragen" },
-  { id: "naechster-schritt", titel: "Nächster Schritt: Finde dein Depot für Halal ETFs" },
+  { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
 ];
+const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
-    lead: "Geprüft wird auf zwei Ebenen.",
+    lead: "Der Index allein macht keinen ETF halal.",
     text: "Zuerst wirft der Index Firmen raus, die Grenzwerte reißen, nach dem AAOIFI-Standard etwa über 5 % Umsatz aus Verbotenem. Danach zählt, was der Fonds selbst tut.",
   },
   {
-    lead: "Ein Gremium am Produkt zählt mehr als eines am Index.",
+    lead: "Ein Gremium am Fonds schlägt eins am Index.",
     text: "Sechs der acht ETFs haben ein eigenes Gremium mit Zertifikat. Bei zweien betrifft der Beleg nur den Index.",
   },
   {
-    lead: "Die Kosten liegen bei 0,30 bis 0,75 % im Jahr.",
-    text: "Bei 10.000 € sind das 30 bis 75 € im Jahr.",
+    lead: "Kosten fressen still mit.",
+    text: "Die acht liegen bei 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 € jedes Jahr.",
   },
   {
-    lead: "Die Reinigung ist je Fonds anders.",
+    lead: "Rein heißt auch reinigen.",
     text: (
       <>
         Platz 1 (seit 2026) und Platz 5 geben den kleinen unreinen Anteil selbst weiter, beim Sukuk entfällt er. Bei den
@@ -101,7 +93,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     ),
   },
   {
-    lead: "Das Depot zählt mit.",
+    lead: "Das Depot entscheidet über Riba.",
     text: (
       <>
         Zahlt dein Depot Zinsen aufs Guthaben, hilft der sauberste ETF wenig. Scalable, Smartbroker+ und
@@ -131,7 +123,7 @@ const KRITERIEN: { name: string; text: string }[] = [
   },
   {
     name: "Rendite",
-    text: `Ein Jahr sowie 2024 und 2025, in Euro mit Ausschüttungen, von justETF, Stand ${RENDITE_STAND}. Ein Kriterium unter fünf, nie das einzige.`,
+    text: `1, 3 und 5 Jahre in Euro mit Ausschüttungen, von justETF, Stand ${RENDITE_STAND}. Ein Kriterium unter fünf, nie das einzige.`,
   },
 ];
 
@@ -195,16 +187,16 @@ const FRAGEN: Frage[] = [
   },
 ];
 
-const DREIER: { anbieter: string; kaufbarName: string; domain: string; out: string }[] = [
-  { anbieter: "Traders Place", kaufbarName: "Traders Place", domain: "tradersplace.de", out: "/out/traders-place" },
-  { anbieter: "Smartbroker+", kaufbarName: "Smartbroker+", domain: "smartbrokerplus.de", out: "/out/smartbroker" },
-  { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", domain: "scalable.capital", out: "/out/scalable" },
+const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string }[] = [
+  { anbieter: "Traders Place", kaufbarName: "Traders Place", logo: "traders-place", out: "/out/traders-place" },
+  { anbieter: "Smartbroker+", kaufbarName: "Smartbroker+", logo: "smartbroker", out: "/out/smartbroker" },
+  { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", logo: "scalable", out: "/out/scalable" },
 ];
 
 // Sparplan je Depot nur aus den Belegen der Liste (sparplanBei), Scalable mit und ohne PRIME+.
 function sparplanZeile(anbieter: string): string {
   const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
-  if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99\u00a0€ im Monat) auf ${zahl("Scalable PRIME+")}`;
+  if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99 € im Monat) auf ${zahl("Scalable PRIME+")}`;
   const n = zahl(anbieter);
   return n === 0 ? "Sparplan auf diese ETFs noch nicht geprüft" : `Sparplan auf ${n} von 8 belegt`;
 }
@@ -232,58 +224,32 @@ function TL({ to, children }: { to: string; children: ReactNode }) {
   );
 }
 
-const H2 = ({ id, children }: { id: string; children: ReactNode }) => (
-  <h2 id={id} className="scroll-mt-[136px] text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">
-    {children}
+const H2 = ({ id }: { id: string }) => (
+  <h2 id={id} className="font-titel scroll-mt-24 text-[25px] leading-[1.2] text-foreground md:text-[28px]">
+    {titelVon(id)}
   </h2>
 );
 
 const Text = ({ children }: { children: ReactNode }) => (
-  <div className="mt-4 space-y-4 text-[17px] leading-[1.6] text-foreground/85 md:text-[18px]">{children}</div>
+  <div className="mt-4 max-w-[664px] space-y-4 text-[17px] leading-[1.65] text-foreground/75">{children}</div>
 );
 
-const Werbung = () => (
-  <span className="text-[12px] font-medium uppercase tracking-[0.08em] text-muted-foreground">Werbung</span>
+/** Kleines Etikett in Großbuchstaben mit Abstand, wie frontal „QUICK COMPARE“, „BEST FOR“. */
+const Etikett = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <p className={`font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground ${className}`}>{children}</p>
 );
 
-/** Bild mit Knopf zum Depot-Vergleich (Aufruf bei rund 15 % und ganz unten). */
-const BildAufruf = ({ bild, alt, titel, satz, knopf, hoch = false }: {
-  bild: string;
-  alt: string;
-  titel: string;
-  satz: string;
-  knopf: string;
-  hoch?: boolean;
-}) => (
-  <aside className="overflow-hidden rounded-2xl border border-border bg-card sm:grid sm:grid-cols-[2fr_3fr]">
-    <img
-      src={bild}
-      alt={alt}
-      width={hoch ? 948 : 1760}
-      height={hoch ? 1659 : 982}
-      loading="lazy"
-      className={`h-44 w-full object-cover sm:h-full ${hoch ? "object-[50%_25%]" : "object-[80%_30%]"}`}
-    />
-    <div className="p-5 md:p-6">
-      <p className="text-[19px] font-bold leading-snug text-foreground">{titel}</p>
-      <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">{satz}</p>
-      <Link
-        to="/vergleich/depot"
-        className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90"
-      >
-        {knopf}
-        <ChevronRight className="h-4 w-4" aria-hidden />
-      </Link>
-    </div>
-  </aside>
-);
+const Werbung = () => <Etikett>Werbung</Etikett>;
+
+const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const logoPfad = (datei: string) => `/bilder/blog/halal-etf/logos/${datei}.webp`;
 
 /** YouTube erst nach dem Klick laden: vorher kein Kontakt zu Google. */
 const Video = () => {
   const [an, setAn] = useState(false);
   return (
-    <figure className="mt-6">
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-black">
+    <figure className="mt-5">
+      <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
         {an ? (
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0`}
@@ -342,51 +308,6 @@ const useAktiv = (ids: string[]) => {
     return () => b.disconnect();
   }, [ids]);
   return aktiv;
-};
-
-/**
- * Schwebend B (VORLAGEN.md 0.2): erscheint, sobald „Auf einen Blick“ aus dem Bild ist. Unter 1280 px als schmale
- * Leiste unter dem Kopf, damit der Knopf keinen Text verdeckt (neben dem Logo ist am Handy kein Platz); ab 1280 px
- * als Knopf im freien rechten Rand.
- */
-const SchwebendB = () => {
-  const [zeigen, setZeigen] = useState(false);
-  useEffect(() => {
-    const pruefen = () => setZeigen(window.scrollY > 900);
-    pruefen();
-    window.addEventListener("scroll", pruefen, { passive: true });
-    return () => window.removeEventListener("scroll", pruefen);
-  }, []);
-  const sichtbar = zeigen ? "opacity-100" : "pointer-events-none opacity-0";
-  return (
-    <>
-      <div
-        aria-hidden={!zeigen}
-        className={`fixed inset-x-0 top-[60px] z-30 border-b border-border bg-background/95 backdrop-blur transition-opacity md:top-[68px] min-[1536px]:hidden ${sichtbar}`}
-      >
-        <div className="container flex h-12 items-center justify-between gap-3">
-          <p className="truncate text-[14px] font-medium text-foreground/80">Beste Halal ETFs 2026</p>
-          <Link
-            to="/vergleich/depot"
-            tabIndex={zeigen ? 0 : -1}
-            className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-primary px-3.5 py-2 text-[14px] font-semibold text-primary-foreground"
-          >
-            Depot-Vergleich
-            <ChevronRight className="h-4 w-4" aria-hidden />
-          </Link>
-        </div>
-      </div>
-      <Link
-        to="/vergleich/depot"
-        aria-hidden={!zeigen}
-        tabIndex={zeigen ? 0 : -1}
-        className={`fixed right-6 top-[88px] z-30 hidden items-center gap-1 rounded-lg bg-primary px-4 py-2.5 text-[15px] font-semibold text-primary-foreground shadow-lg transition-opacity min-[1536px]:inline-flex ${sichtbar}`}
-      >
-        Depot-Vergleich
-        <ChevronRight className="h-4 w-4" aria-hidden />
-      </Link>
-    </>
-  );
 };
 
 /* ------------------------------------------------------------------ */
@@ -473,54 +394,98 @@ const graph = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Seite                                                               */
+/* Kurzer Vergleich: acht Karten wie frontal „Quick compare“           */
 /* ------------------------------------------------------------------ */
 
-const Etikett = ({ children }: { children: ReactNode }) => (
-  <p className="mt-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{children}</p>
+const RASTER = {
+  backgroundImage:
+    "linear-gradient(hsl(var(--border) / 0.7) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border) / 0.7) 1px, transparent 1px)",
+  backgroundSize: "14px 14px",
+};
+
+const Klappzeile = ({ titel, zahl, children }: { titel: string; zahl?: number; children: ReactNode }) => (
+  <details className="group border-t border-border">
+    <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground [&::-webkit-details-marker]:hidden">
+      {titel}
+      <span className="flex items-center gap-2 text-muted-foreground">
+        {zahl}
+        <ChevronDown className="h-3.5 w-3.5 text-foreground transition-transform group-open:rotate-180" aria-hidden />
+      </span>
+    </summary>
+    <div className="pb-3 text-[14px] leading-relaxed text-foreground/75">{children}</div>
+  </details>
 );
 
-/** Karte in „Auf einen Blick“ nach der Handy-Skizze (VORLAGEN.md 1.4) und frontal „Quick compare“. */
 const Karte = ({ e }: { e: EtfEintrag }) => {
   const a = anlageVon(e.isin);
+  const kurzname = e.name.startsWith(`${e.anbieter} `) ? e.name.slice(e.anbieter.length + 1) : e.name;
   return (
-    <li className="flex w-[82%] shrink-0 snap-start flex-col rounded-xl border border-border bg-card p-[18px] sm:w-[calc((100%-24px)/3)]">
-      <p className="self-start rounded border border-border px-1.5 py-0.5 font-mono text-[12px] tabular-nums text-foreground">
-        {String(e.platz).padStart(2, "0")}
-      </p>
-      <p className="mt-2 text-[19px] font-bold leading-snug text-foreground">{e.name}</p>
-      <Etikett>Am besten für</Etikett>
-      <p className="mt-0.5 text-[16px] font-semibold leading-snug text-foreground">{e.amBestenFuer}</p>
-      <Etikett>Kosten im Jahr</Etikett>
-      <p className="mt-0.5 text-[16px] font-semibold tabular-nums text-foreground">{a.kostenLabel}</p>
-      <Etikett>Geprüft von</Etikett>
-      <p className="mt-0.5 text-[16px] font-semibold leading-snug text-foreground">
-        <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-2 hover:decoration-foreground">
-          {e.geprueftKurz}
+    <li className="flex w-[220px] shrink-0 snap-start flex-col border border-border bg-card">
+      <div
+        className={`relative flex h-[104px] items-center justify-center gap-2.5 border-b border-border bg-background ${
+          e.platz === 1 ? "shadow-[inset_0_2px_0_hsl(var(--primary))]" : ""
+        }`}
+        style={RASTER}
+      >
+        <span className="absolute left-3 top-3 border border-border bg-background px-1.5 py-0.5 font-mono text-[11px] tabular-nums text-foreground">
+          {String(e.platz).padStart(2, "0")}
+        </span>
+        <img src={logoPfad(e.logo)} alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+        <span className="text-[16px] font-semibold text-foreground">{e.anbieter}</span>
+      </div>
+      <div className="flex flex-1 flex-col px-4 pt-4">
+        <p className="text-[14px] font-semibold leading-snug text-foreground">{kurzname}</p>
+        <Etikett className="mt-4">Am besten für</Etikett>
+        <p className="font-titel mt-1.5 text-[20px] leading-[1.2] text-foreground">{gross(e.amBestenFuer)}</p>
+        <p className="mt-2 text-[14px] leading-snug text-foreground/70">{e.satz}</p>
+        <div className="mt-4 space-y-3">
+          <div>
+            <Etikett>Kaufbar bei</Etikett>
+            <p className="mt-1 text-[15px] font-semibold tabular-nums text-foreground">{kaufbarBei(e.isin).length} Depots</p>
+          </div>
+          <div>
+            <Etikett>Kosten</Etikett>
+            <p className="mt-1 text-[15px] font-semibold tabular-nums text-foreground">
+              {a.kostenLabel} <span className="font-normal text-muted-foreground">im Jahr</span>
+            </p>
+          </div>
+        </div>
+        <a
+          href={`#${anker(e)}`}
+          className="mb-4 mt-5 flex items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+        >
+          Zum Eintrag
+          <ArrowDown className="h-3.5 w-3.5" aria-hidden />
         </a>
-      </p>
-      <p className="mt-2 text-[14px] leading-snug text-muted-foreground">{e.satz}</p>
-      <details className="mt-2 text-[14px]">
-        <summary className="cursor-pointer text-foreground/80">Dafür und dagegen</summary>
-        <ul className="mt-2 space-y-1 text-muted-foreground">
-          {e.dafuer.map((d) => (
-            <li key={d}>+ {d}</li>
-          ))}
-          {e.dagegen.map((d) => (
-            <li key={d}>− {d}</li>
-          ))}
-        </ul>
-      </details>
-      <a href={`#${anker(e)}`} className="mt-3 inline-flex items-center gap-1 text-[15px] font-semibold text-foreground hover:text-primary sm:mt-auto sm:pt-3">
-        Zum Eintrag
-        <ArrowDown className="h-4 w-4" aria-hidden />
-      </a>
+        <div className="sm:mt-0">
+          <Klappzeile titel="Halal-Beleg">
+            {e.geprueftText}{" "}
+            <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
+              Beleg ansehen
+            </a>
+          </Klappzeile>
+          <Klappzeile titel="Dafür" zahl={e.dafuer.length}>
+            <ul className="space-y-1">
+              {e.dafuer.map((d) => (
+                <li key={d}>+ {d}</li>
+              ))}
+            </ul>
+          </Klappzeile>
+          <Klappzeile titel="Dagegen" zahl={e.dagegen.length}>
+            <ul className="space-y-1">
+              {e.dagegen.map((d) => (
+                <li key={d}>− {d}</li>
+              ))}
+            </ul>
+          </Klappzeile>
+        </div>
+      </div>
     </li>
   );
 };
 
-/** „Auf einen Blick“: am Handy wischen, am Laptop zwei Pfeile wie frontal. */
-const AufEinenBlick = () => {
+/** Am Handy wischen, am Laptop zwei Pfeile wie frontal; drei Karten ganz, die vierte lugt. */
+const KurzerVergleich = () => {
   const reihe = useRef<HTMLUListElement>(null);
   const [rand, setRand] = useState({ links: true, rechts: false });
   useEffect(() => {
@@ -538,16 +503,16 @@ const AufEinenBlick = () => {
   }, []);
   const blaettern = (richtung: number) => {
     const el = reihe.current;
-    const karte = el?.querySelector("li");
-    if (el && karte) el.scrollBy({ left: richtung * (karte.getBoundingClientRect().width + 12), behavior: "smooth" });
+    if (el) el.scrollBy({ left: richtung * (220 + 12), behavior: "smooth" });
   };
-  const pfeil = "flex h-9 w-9 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:border-foreground disabled:opacity-35 disabled:hover:border-border";
+  const pfeil =
+    "flex h-9 w-9 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground disabled:opacity-35 disabled:hover:border-border";
   return (
-    <section aria-labelledby="auf-einen-blick" data-vorlage="quick-compare" className="mt-5 border-t border-border pt-4">
+    <section aria-labelledby="kurzer-vergleich" data-vorlage="quick-compare" className="mt-7">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Auf einen Blick</p>
-          <p id="auf-einen-blick" className="mt-1 text-[20px] font-bold leading-tight text-foreground md:text-[22px]">
+          <Etikett>Kurzer Vergleich</Etikett>
+          <p id="kurzer-vergleich" className="font-titel mt-2 text-[22px] leading-tight text-foreground md:text-[24px]">
             {etfListe.length} Halal ETFs auf einen Blick
           </p>
         </div>
@@ -562,7 +527,7 @@ const AufEinenBlick = () => {
       </div>
       <ul
         ref={reihe}
-        className="-mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 items-start gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:scroll-px-0 sm:items-stretch sm:px-0 [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 mt-5 flex snap-x snap-mandatory scroll-px-4 items-stretch gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:scroll-px-0 sm:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {etfListe.map((e) => (
           <Karte key={e.isin} e={e} />
@@ -572,105 +537,292 @@ const AufEinenBlick = () => {
   );
 };
 
-/** „Sparplan belegt bei …“ mit höchstens drei Namen. */
-const sparplanSatz = (e: EtfEintrag, sp: number) => {
-  const d = sparplanDepots(e);
-  if (sp === 0) return "Einen Sparplan hat uns kein Anbieter belegt.";
-  if (sp === 1) return `Sparplan belegt bei ${d[0]}.`;
-  if (sp <= 3) return `Sparplan belegt bei ${d.slice(0, -1).join(", ")} und ${d[sp - 1]}.`;
-  return `Sparplan belegt bei ${sp} Depots, etwa ${d.slice(0, 2).join(", ")} und ${d[2]}.`;
+/* ------------------------------------------------------------------ */
+/* Google-Kasten, Rechner, Depots                                       */
+/* ------------------------------------------------------------------ */
+
+const GoogleG = () => (
+  <svg viewBox="0 0 48 48" className="h-7 w-7 shrink-0" aria-hidden>
+    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+  </svg>
+);
+
+const GoogleKasten = () => (
+  <a
+    href={GOOGLE_QUELLE}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-7 flex max-w-[664px] items-center gap-4 border border-border bg-card px-5 py-4 transition-colors hover:border-foreground/40"
+  >
+    <GoogleG />
+    <span className="min-w-0 flex-1">
+      <span className="block text-[16px] font-semibold leading-snug text-foreground">
+        finanzmuslim als bevorzugte Quelle bei Google hinzufügen
+      </span>
+      <span className="mt-0.5 block text-[14px] text-muted-foreground">Unsere Vergleiche direkt in deiner Suche.</span>
+    </span>
+    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+  </a>
+);
+
+const euro = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
+const monatName = (ym: string) => {
+  const [j, m] = ym.split("-").map(Number);
+  return new Date(j, m - 1, 1).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 };
+
+/**
+ * „Was aus 100 € im Monat geworden wäre“: je Monatskurs eine Rate von 100 €, Wert = Anteile mal Kurs.
+ * Eintrag „2021-12“ ist der Kurs zum Monatsanfang, der letzte der Kurs vom Stand der Kursdatei (31.10.2026).
+ */
+const Rechner = () => {
+  const [isin, setIsin] = useState(etfListe[0].isin);
+  const e = etfListe.find((x) => x.isin === isin)!;
+  const daten = useMemo(() => {
+    let anteile = 0;
+    return (kursFuerIsin(isin)?.reihe ?? []).map(([monat, kurs], i) => {
+      anteile += 100 / kurs;
+      return { monat, eingezahlt: (i + 1) * 100, wert: Math.round(anteile * kurs) };
+    });
+  }, [isin]);
+  const letzte = daten[daten.length - 1];
+  const kacheln: [string, string | null][] = [
+    ["1 Jahr", e.rendite1J],
+    ["3 Jahre", e.rendite3J],
+    ["5 Jahre", e.rendite5J],
+  ];
+  return (
+    <section className="mt-12">
+      <H2 id="100-euro-im-monat" />
+      <Text>
+        <p>Wähl einen der acht ETFs und sieh, was aus einem Sparplan von 100 € im Monat geworden wäre.</p>
+      </Text>
+      <div className="mt-5 border border-border bg-card p-4 md:p-5">
+        <label htmlFor="rechner-etf" className="block">
+          <Etikett>ETF</Etikett>
+        </label>
+        <select
+          id="rechner-etf"
+          value={isin}
+          onChange={(x) => setIsin(x.target.value)}
+          className="mt-1.5 w-full border border-border bg-background px-3 py-2.5 text-[16px] text-foreground"
+        >
+          {etfListe.map((x) => (
+            <option key={x.isin} value={x.isin}>
+              {x.platz}. {x.name}
+            </option>
+          ))}
+        </select>
+        {letzte && (
+          <div className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
+            <div>
+              <Etikett>Eingezahlt</Etikett>
+              <p className="mt-1 text-[22px] font-semibold tabular-nums text-foreground">{euro(letzte.eingezahlt)}</p>
+            </div>
+            <div>
+              <Etikett>Wert am {kursStand}</Etikett>
+              <p className={`mt-1 text-[22px] font-semibold tabular-nums ${letzte.wert >= letzte.eingezahlt ? "text-gain" : "text-loss"}`}>
+                {euro(letzte.wert)}
+              </p>
+            </div>
+            <p className="self-end pb-1 text-[14px] text-muted-foreground">
+              seit {monatName(daten[0].monat)}, {daten.length} Raten
+            </p>
+          </div>
+        )}
+        <div className="mt-4 md:grid md:grid-cols-[minmax(0,1fr)_150px] md:gap-5">
+          <div className="h-[220px]" role="img" aria-label={`Verlauf: eingezahlt ${letzte ? euro(letzte.eingezahlt) : ""}, Wert ${letzte ? euro(letzte.wert) : ""}`}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={daten} margin={{ top: 6, right: 4, bottom: 0, left: 0 }}>
+                <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
+                <XAxis
+                  dataKey="monat"
+                  ticks={daten.filter((d) => d.monat.endsWith("-01")).map((d) => d.monat)}
+                  tickFormatter={(m: string) => m.slice(0, 4)}
+                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  width={52}
+                  tickFormatter={(v: number) => `${(v / 1000).toLocaleString("de-DE")} T€`}
+                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip
+                  formatter={(v: number, n: string) => [euro(v), n === "wert" ? "Wert" : "Eingezahlt"]}
+                  labelFormatter={(m: string) => monatName(m)}
+                  contentStyle={{ fontSize: 13, borderRadius: 4 }}
+                />
+                <Area type="monotone" dataKey="eingezahlt" stroke="hsl(var(--muted-foreground))" fill="hsl(var(--muted))" strokeWidth={1.5} />
+                <Area type="monotone" dataKey="wert" stroke="hsl(var(--gain))" fill="hsl(var(--gain-soft))" fillOpacity={0.7} strokeWidth={2} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-2 md:mt-0 md:grid-cols-1">
+            {kacheln.map(([zeit, wert]) => (
+              <div key={zeit} className="border border-border bg-background px-3 py-2.5">
+                <Etikett>{zeit}</Etikett>
+                {wert ? (
+                  <p className="mt-1 text-[17px] font-semibold tabular-nums text-gain">{wert}</p>
+                ) : (
+                  <p className="mt-1 text-[14px] text-muted-foreground">noch zu jung</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
+          Verlauf aus Monatskursen ohne Ausschüttungen (Yahoo Finance, Stand {kursStand}). Bei Platz 1, 3, 4 und 8 liegt
+          der echte Wert darum etwas höher. Renditen 1, 3 und 5 Jahre: justETF mit Ausschüttungen, Stand {RENDITE_STAND}.
+          Vergangene Renditen sind kein Versprechen für die Zukunft.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+/** „Depots für deinen Halal-Vermögensaufbau“ wie Finanzfluss: drei Karten untereinander, rechts Logo und Knopf. */
+const DepotKasten = () => (
+  <aside aria-label="Depots für deinen Halal-Vermögensaufbau" className="mt-12">
+    <div className="flex items-start justify-between gap-3">
+      <p className="font-titel text-[23px] leading-tight text-foreground md:text-[25px]">Depots für deinen Halal-Vermögensaufbau</p>
+      <Werbung />
+    </div>
+    <div className="mt-4 space-y-3">
+      {DREIER.map((d) => {
+        const zeilen = [
+          `Halal ETFs dieser Liste: ${etfsBei(d.kaufbarName)} von 8`,
+          sparplanZeile(d.anbieter),
+          d.anbieter === "Scalable Capital" ? "Depotgebühr: 0 € ohne PRIME+" : "Depotgebühr: 0 €",
+          "Zinsen aufs Guthaben: 0 %",
+        ];
+        return (
+          <div key={d.anbieter} className="border border-border bg-card p-5 sm:grid sm:grid-cols-[minmax(0,1fr)_180px] sm:gap-6">
+            <div>
+              <p className="text-[19px] font-bold text-foreground">{d.anbieter}</p>
+              <ul className="mt-3 space-y-2 text-[15px] text-foreground/80">
+                {zeilen.map((z) => (
+                  <li key={z} className="flex gap-2.5">
+                    {z.includes("noch nicht geprüft") ? (
+                      <span className="mx-[5px] mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" aria-hidden />
+                    ) : (
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
+                    )}
+                    <span>{z}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-4 flex items-center gap-4 sm:mt-0 sm:flex-col sm:items-stretch sm:gap-3">
+              <div className="flex h-[64px] w-[120px] shrink-0 items-center justify-center border border-border bg-background sm:h-[76px] sm:w-full">
+                <img src={logoPfad(d.logo)} alt={`Logo ${d.anbieter}`} width={128} height={128} loading="lazy" className="h-12 w-auto max-w-[80%] object-contain" />
+              </div>
+              <a
+                href={d.out}
+                rel="sponsored nofollow"
+                className="inline-flex flex-1 items-center justify-center bg-primary px-4 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90 sm:flex-none"
+              >
+                Zum Angebot*
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </aside>
+);
+
+/* ------------------------------------------------------------------ */
+/* Einträge und Tabellen                                               */
+/* ------------------------------------------------------------------ */
 
 const Eintrag = ({ e }: { e: EtfEintrag }) => {
   const a = anlageVon(e.isin);
-  const sp = sparplanAnzahl(e);
   return (
-    <article id={anker(e)} className="scroll-mt-[136px] border-t border-border pt-10 first:border-t-0 first:pt-0">
-      <h3 className="text-[22px] font-bold leading-snug text-foreground md:text-[26px]">
+    <article id={anker(e)} className="scroll-mt-24">
+      <h3 className="text-[20px] font-semibold leading-snug text-foreground">
         {e.platz}. {e.name}, am besten für {e.amBestenFuer}
       </h3>
-      {/* Bildschirmfoto je Eintrag (Vorlage 1.1 Nr. 12): Kopf der Seite in unserer Datenbank, bei 390 aufgenommen */}
-      <figure className="mt-5 sm:rounded-2xl sm:bg-muted sm:px-6 sm:py-6">
-        <Link to={`/halal-anlagen/${a.slug}`} className="mx-auto block max-w-[358px]">
-          <img
-            src={`/bilder/blog/halal-etf/${a.slug}.webp`}
-            alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr, Fondsgröße und Auflage`}
-            width={716}
-            height={BILD_HOEHE[a.slug] ?? 760}
-            loading="lazy"
-            className="h-auto w-full rounded-xl border border-border shadow-sm"
-          />
-        </Link>
-      </figure>
-      <dl className="mt-5 space-y-1.5 text-[16px]">
-        <div>
-          <dt className="inline font-semibold text-foreground">Am besten für: </dt>
-          <dd className="inline text-foreground/85">{e.amBestenFuer}</dd>
-        </div>
-        <div>
-          <dt className="inline font-semibold text-foreground">Kosten: </dt>
-          <dd className="inline text-foreground/85">{a.kostenLabel} im Jahr</dd>
-        </div>
-        <div>
-          <dt className="inline font-semibold text-foreground">Warum er auf der Liste ist: </dt>
-          <dd className="inline text-foreground/85">{e.satz}</dd>
-        </div>
-      </dl>
+      {/* Kopf der Seite in unserer Datenbank am Laptop (1280 × 720, Faktor 1,5), bis über „Verfügbar bei“ */}
+      <Link to={`/halal-anlagen/${a.slug}`} className="mt-5 block overflow-hidden rounded-md border border-border">
+        <img
+          src={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`}
+          alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr, Fondsgröße und Auflage`}
+          width={1440}
+          height={510}
+          loading="lazy"
+          className="h-auto w-full"
+        />
+      </Link>
       <Text>
-        {e.text.map((t) => (
+        {e.absaetze.map((t) => (
           <p key={t}>{t}</p>
         ))}
+        <p className="font-semibold text-foreground">Passt zu dir, wenn {e.passt}.</p>
       </Text>
-      <div className="mt-5 grid gap-5 sm:grid-cols-2">
-        <div>
-          <p className="text-[16px] font-semibold text-foreground">Das spricht dafür</p>
-          <ul className="mt-2 space-y-1.5 text-[16px] leading-relaxed text-foreground/85">
-            {e.dafuer.map((d) => (
-              <li key={d} className="flex gap-2">
-                <Check className="mt-1 h-4 w-4 shrink-0 text-gain" aria-hidden />
-                <span>{d}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="text-[16px] font-semibold text-foreground">Das spricht dagegen</p>
-          <ul className="mt-2 space-y-1.5 text-[16px] leading-relaxed text-foreground/85">
-            {e.dagegen.map((d) => (
-              <li key={d} className="flex gap-2">
-                <span className="w-4 shrink-0 text-center font-bold text-loss" aria-hidden>
-                  −
-                </span>
-                <span>{d}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <Text>
-        <p>{e.schluss}</p>
-      </Text>
-      <h4 className="mt-6 text-[18px] font-bold text-foreground">{e.name} Kosten</h4>
-      <Text>
-        <p>
-          Bei 10.000 € sind das {Math.round(a.kosten * 100)} € im Jahr plus Depotgebühren. {sparplanSatz(e, sp)}
-        </p>
-      </Text>
-      <h4 className="mt-6 text-[18px] font-bold text-foreground">Wer hat {e.name} geprüft?</h4>
-      <Text>
-        <p>
-          {e.geprueftText}{" "}
-          <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-            Beleg ansehen
-          </a>
-        </p>
-        <p>
-          <TL to={`/halal-anlagen/${a.slug}`}>Alle Daten zu {e.name}</TL>
-        </p>
-      </Text>
+      <p className="mt-3 text-[16px]">
+        <Link to={`/halal-anlagen/${a.slug}`} className="font-medium text-primary hover:underline">
+          Alle Daten zu {e.name} →
+        </Link>
+      </p>
     </article>
   );
 };
+
+/** Kleine Tabelle wie frontal: am Laptop eine Tabelle, am Handy je Zeile ein Block. */
+const KleineTabelle = ({
+  kopf,
+  zeilen,
+  breit = [],
+}: {
+  kopf: string[];
+  zeilen: { schluessel: string; erste: ReactNode; zellen: ReactNode[] }[];
+  breit?: number[];
+}) => (
+  <div className="mt-5 max-w-[720px] border border-border">
+    <table className="block w-full border-collapse text-[15px] sm:table">
+      <thead className="hidden sm:table-header-group">
+        <tr className="border-b border-border bg-muted/60 text-left">
+          {kopf.map((k) => (
+            <th key={k} className="px-4 py-3 font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-muted-foreground">
+              {k}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="block sm:table-row-group">
+        {zeilen.map((z) => (
+          <tr
+            key={z.schluessel}
+            className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border px-4 py-3.5 first:border-t-0 sm:table-row sm:p-0"
+          >
+            <td className="col-span-2 align-top font-semibold leading-snug text-foreground sm:table-cell sm:px-4 sm:py-3">{z.erste}</td>
+            {z.zellen.map((c, i) => (
+              <td
+                key={kopf[i + 1]}
+                data-label={kopf[i + 1]}
+                className={`align-top text-foreground/80 before:block before:font-mono before:text-[10px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] sm:table-cell sm:px-4 sm:py-3 sm:before:hidden ${
+                  breit.includes(i) ? "col-span-2" : ""
+                }`}
+              >
+                {c}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+/* ------------------------------------------------------------------ */
+/* Seite                                                               */
+/* ------------------------------------------------------------------ */
 
 const HalalEtf = () => {
   const [offen, setOffen] = useState(false);
@@ -682,16 +834,15 @@ const HalalEtf = () => {
   const alleAnbieter = [...new Set(etfListe.flatMap((e) => kaufbarBei(e.isin)))];
   const alleAcht = alleAnbieter.filter((d) => etfsBei(d) === etfListe.length).sort((x, y) => x.localeCompare(y, "de"));
   const seltenster = [...etfListe].sort((x, y) => kaufbarBei(x.isin).length - kaufbarBei(y.isin).length)[0];
-  const lesezeit = LESEZEIT;
 
   const inhalt = (
-    <ol className="border-l border-border">
+    <ol>
       {ABSCHNITTE.map((a) => (
         <li key={a.id}>
           <a
             href={`#${a.id}`}
-            className={`-ml-px block border-l-2 py-1.5 pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
-              aktiv === a.id ? "border-primary font-medium text-primary" : "border-transparent text-foreground/75"
+            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}
           >
             {a.titel}
@@ -701,569 +852,454 @@ const HalalEtf = () => {
     </ol>
   );
 
+  const etfZelle = (e: EtfEintrag) => (
+    <a href={`#${anker(e)}`} className="hover:text-primary">
+      {e.platz}. {e.name}
+    </a>
+  );
+
   return (
     <main className="bg-background">
       <Seo title={`${TITEL} | finanzmuslim`} description={META} path={PFAD} image={`${SITE}${TITELBILD}`} jsonLd={graph()} />
-      <SchwebendB />
       <div className="container py-8 md:py-12">
-        <div className="mx-auto max-w-[760px] xl:grid xl:max-w-[1088px] xl:grid-cols-[280px_minmax(0,760px)] xl:gap-12">
-          {/* 5 Inhaltsverzeichnis links ab den Brotkrumen wie frontal, darunter C */}
+        <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
+          {/* Seitenleiste ab xl: Kapitel wie die Kapitelübersicht bei Finanzfluss, darunter der Kasten wie frontal */}
           <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24 xl:top-[132px] min-[1536px]:top-24">
-              <p className="border-t border-border pt-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                Auf dieser Seite
-              </p>
-              <div className="mt-4">{inhalt}</div>
-              <div className="mt-8 rounded-xl border border-border bg-card p-5">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-primary">Depot-Vergleich</p>
-                <p className="mt-2 text-[19px] font-bold leading-snug text-foreground">Welches Depot hat deine Halal ETFs ohne Zinsen?</p>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                  Sieh je Depot die Halal ETFs, den Sparplan und den Umgang mit Zinsen.
+            <div className="sticky top-24">
+              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
+              <div className="mt-3">{inhalt}</div>
+              <div className="mt-8 border border-border bg-card p-6">
+                <Etikett className="text-primary">Dein Vermögensaufbau</Etikett>
+                <p className="font-titel mt-3 text-[25px] leading-[1.15] text-foreground">Langfristig investieren, ohne einen Cent Riba?</p>
+                <p className="mt-3 text-[15px] leading-relaxed text-foreground/75">
+                  In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt.
                 </p>
-                <Link
-                  to="/vergleich/depot"
-                  className="mt-4 inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2.5 text-[15px] font-semibold text-primary-foreground hover:bg-primary/90"
-                >
-                  Zum Depot-Vergleich
-                  <ChevronRight className="h-4 w-4" aria-hidden />
+                <Link to="/vergleich/depot" className="leuchtlinie mt-6 inline-block">
+                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">
+                    Zum Depot-Vergleich
+                  </span>
                 </Link>
               </div>
             </div>
           </aside>
 
           <div className="min-w-0">
-          {/* 1 Brotkrumen */}
-          <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
-            <Link to="/" className="hover:text-primary">
-              Home
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <Link to="/wissen" className="hover:text-primary">
-              Blog
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <span className="text-foreground">{TITEL}</span>
-          </nav>
-
-          <article className="mt-5">
-            {/* 2 Titel, 3 Autorzeile wie die Skizze: Name · Veröffentlicht · Aktualisiert · Lesedauer */}
-            <h1 className="text-[32px] font-bold leading-[1.12] text-foreground md:text-[44px]">{TITEL}</h1>
-            <div className="mt-4 flex items-center gap-3 text-[14px] text-muted-foreground">
-              <img src={eliasPortrait} alt="Elias El-Gendy" width={40} height={40} className="h-10 w-10 shrink-0 rounded-full object-cover" />
-              <p className="leading-snug">
-                <a href={LINKEDIN || INSTAGRAM} rel="author noopener noreferrer" target="_blank" className="font-semibold text-foreground hover:text-primary hover:underline">
-                  Elias El-Gendy
-                </a>
-                {" · "}Veröffentlicht am <time dateTime={VEROEFFENTLICHT.iso}>{VEROEFFENTLICHT.text}</time>
-                {" · "}Aktualisiert am <time dateTime={AKTUALISIERT.iso}>{AKTUALISIERT.text}</time>
-                {" · "}
-                {lesezeit} Min.
-              </p>
-            </div>
-            <p className="mt-2 text-[13px] text-muted-foreground">Neu am {AKTUALISIERT.text}: acht ETFs, Renditen per {RENDITE_STAND}.</p>
-
-            {/* 4 Auf einen Blick */}
-            <AufEinenBlick />
-
-            {/* 4b Titelbild */}
-            {/* Am Handy nur Titel und Unterzeile, die Liste im Bild wäre dort zu klein zum Lesen */}
-            <picture>
-              <source media="(max-width: 639px)" srcSet="/bilder/blog/halal-etf/beste-halal-etfs-2026-handy.jpg" width={720} height={420} />
-              <img
-                src={TITELBILD}
-                alt="Beste Halal ETFs 2026: acht Islamic ETFs im Vergleich nach Halal-Prüfung, Kosten und Sparplan"
-                width={1600}
-                height={900}
-                className="mt-5 h-auto w-full rounded-2xl border border-border"
-              />
-            </picture>
-
-            {/* 5 Inhaltsverzeichnis (Handy und Tablet) */}
-            <nav aria-label="Auf dieser Seite" className="mt-5 xl:hidden">
-              <button
-                type="button"
-                onClick={() => setOffen((v) => !v)}
-                aria-expanded={offen}
-                className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.12em] text-muted-foreground"
-              >
-                <ChevronRight className={`h-3.5 w-3.5 transition-transform ${offen ? "rotate-90" : ""}`} aria-hidden />
-                Auf dieser Seite
-              </button>
-              {offen && <div className="mt-3">{inhalt}</div>}
+            {/* 1 Kopf wie frontal */}
+            <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
+              <Link to="/wissen" className="text-primary hover:underline">
+                Blog
+              </Link>
+              <span aria-hidden>/</span>
+              <span>Beste Halal ETFs 2026</span>
             </nav>
 
-            <div className="mt-6">
-              {/* 6 Einstieg */}
-              <Text>
-                <p>
-                  Der beste Halal ETF ist 2026 für die meisten der <strong>iShares MSCI World Islamic</strong>: größter
-                  Fonds der Liste, seit 2007 am Markt, mit eigenem Gelehrtengremium. Ich habe 12 Halal ETFs
-                  nach fünf Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie kaufst. Hier sind die acht,
-                  die du als Muslim in Deutschland kennen solltest.
-                </p>
-              </Text>
+            <article className="mt-8">
+              <Etikett className="text-primary">Halal ETFs</Etikett>
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
+                <span className="block">Beste Halal ETFs 2026:</span> <span className="block">8 im Vergleich</span>
+              </h1>
+              <div className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
+                <div className="flex gap-3">
+                  <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
+                  <div className="leading-snug">
+                    <a
+                      href={LINKEDIN}
+                      rel="author noopener noreferrer"
+                      target="_blank"
+                      className="text-[15px] font-semibold text-foreground underline underline-offset-[3px] hover:text-primary"
+                    >
+                      Elias El-Gendy
+                    </a>
+                    <p className="mt-0.5 font-mono text-[12px] text-muted-foreground">{LESEZEIT} Min. Lesezeit</p>
+                    <p className="mt-2 text-[14px] text-foreground/75">Gründer von finanzmuslim</p>
+                  </div>
+                </div>
+                <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
+                  <p className="uppercase tracking-[0.12em]">Aktualisiert</p>
+                  <time dateTime={AKTUALISIERT.iso}>{AKTUALISIERT.text}</time>
+                </div>
+              </div>
 
-              {/* 7 Das Wichtigste, 8 Guide-Link */}
-              <section className="mt-10">
-                <H2 id="das-wichtigste">Das Wichtigste</H2>
-                <ul className="mt-4 space-y-3 text-[17px] leading-[1.6] text-foreground/85 md:text-[18px]">
-                  {WICHTIGSTES.map((w) => (
-                    <li key={w.lead} className="flex gap-3">
-                      <span className="mt-[11px] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/60" aria-hidden />
-                      <span>
-                        <strong className="text-foreground">{w.lead}</strong> {w.text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+              {/* 2 Kurzer Vergleich */}
+              <KurzerVergleich />
+
+              {/* Kapitel am Handy und Tablet */}
+              <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border py-3 xl:hidden">
+                <button
+                  type="button"
+                  onClick={() => setOffen((v) => !v)}
+                  aria-expanded={offen}
+                  className="flex w-full items-center justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-foreground"
+                >
+                  Auf dieser Seite
+                  <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                {offen && <div className="mt-3">{inhalt}</div>}
+              </nav>
+
+              {/* 3 Einstieg */}
+              <div className="mt-8">
                 <Text>
                   <p>
+                    Du willst als Muslim in einen ETF sparen und stehst vor derselben Frage wie fast jeder: Welcher ist
+                    wirklich halal, und welcher trägt das Wort nur im Namen?
+                  </p>
+                  <p>
+                    Ich habe 12 Halal ETFs nach fünf Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie
+                    kaufen kannst. Acht sind geblieben.
+                  </p>
+                  <p>
+                    Der bekannteste ist der iShares MSCI World Islamic, der größte der Liste und seit 2007 am Markt. Er steht
+                    auf Platz 1 nach unseren fünf Kriterien. Das ist ein Vergleich, keine Empfehlung für deine Lage.
+                  </p>
+                </Text>
+
+                {/* 4 Google-Kasten */}
+                <GoogleKasten />
+
+                {/* 5 Das Wichtigste wie frontal „Key Takeaways“ */}
+                <section className="mt-10 border-l-2 border-primary bg-muted/60 px-5 py-6 md:px-8 md:py-7">
+                  <H2 id="das-wichtigste" />
+                  <p className="mt-1.5 text-[15px] text-muted-foreground">Die kurze Fassung, bevor es ins Detail geht.</p>
+                  <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/75">
+                    {WICHTIGSTES.map((w) => (
+                      <li key={w.lead} className="flex gap-3">
+                        <span className="mt-[10px] h-1.5 w-1.5 shrink-0 bg-primary" aria-hidden />
+                        <span>
+                          <strong className="font-semibold text-foreground">{w.lead}</strong> {w.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-5 text-[14px] text-muted-foreground">
                     Neu beim Thema? Im kostenlosen <TL to="/halal-guide">Halal Investment Guide</TL> erkläre ich die
                     Grundlagen in deiner Stufe.
                   </p>
-                </Text>
-              </section>
+                </section>
 
-              {/* Bild-Aufruf bei rund 15 % */}
-              <div className="mt-8">
-                <BildAufruf
-                  bild={studioBild}
-                  alt="Elias El-Gendy, Gründer von finanzmuslim"
-                  titel="Wo du diese ETFs ohne Zinsen kaufst"
-                  satz="Je Depot siehst du Halal ETFs, Sparplan und Zinsen."
-                  knopf="Zum Depot-Vergleich"
-                />
-              </div>
+                {/* 6 Rechner */}
+                <Rechner />
 
-              {/* 9 Begriff erklärt */}
-              <section className="mt-12">
-                <H2 id="was-ist-ein-halal-etf">Was ist ein Halal ETF, und was nicht?</H2>
-                <Text>
-                  <p>
-                    Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-Prüfung bestehen. Andere Namen dafür
-                    sind islamische ETFs, auf Englisch Islamic ETF. Meist folgt der Fonds einem Index, aus dem alles fliegt, was
-                    nicht passt.
-                  </p>
-                  <p>
-                    Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
-                    Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Die
-                    Grenzwerte stehen in <TL to="/wissen/sind-aktien-halal">Sind Aktien halal?</TL>
-                  </p>
-                  <p>
-                    Danach der Fonds selbst. Er kann einen sauberen Index nachbilden und trotzdem Aktien verleihen. Oder er
-                    bildet den Index nur über ein Tauschgeschäft mit einer Bank nach. Deshalb zählt, ob ein Gremium den Fonds
-                    geprüft hat oder nur den Index.
-                  </p>
-                  <p>
-                    Ein Halal ETF ist kein Nachhaltigkeitsfonds. ESG- und SRI-Fonds schließen oft Waffen und Tabak aus. Banken
-                    und Versicherungen sind dort aber häufig unter den größten Positionen, Zinsgrenzen prüfen sie nicht.
-                  </p>
-                  <p>
-                    Ein Halal ETF ist auch nicht sicher. Halal heißt erlaubt. Er schwankt wie jeder Aktienfonds, ein Verlust
-                    ist jederzeit möglich.
-                  </p>
-                  <p>
-                    Und ein Zertifikat bestätigt in aller Regel die Methode, nicht jede einzelne Firma. Wer einen Islamic ETF
-                    kauft, folgt der Auffassung, dass kleine, unvermeidbare Zinsberührungen unter den Grenzwerten hinnehmbar
-                    sind, wenn der unreine Teil gereinigt wird.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 10 So haben wir geprüft */}
-              <section className="mt-12">
-                <H2 id="so-haben-wir-geprueft">So haben wir geprüft</H2>
-                <ul className="mt-4 space-y-3 text-[17px] leading-[1.6] text-foreground/85 md:text-[18px]">
-                  {KRITERIEN.map((k) => (
-                    <li key={k.name} className="flex gap-3">
-                      <span className="mt-[11px] h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/60" aria-hidden />
-                      <span>
-                        <strong className="text-foreground">{k.name}.</strong> {k.text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <Text>
-                  <p>
-                    Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 11 Dreier-Kombi */}
-              <section aria-label="Drei Depots für Halal ETFs" className="mt-10 rounded-2xl border border-border p-5 md:p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <p className="text-[19px] font-bold text-foreground">Drei Depots für diese Halal ETFs</p>
-                  <Werbung />
-                </div>
-                <div className="mt-4 grid gap-3 md:grid-cols-3">
-                  {DREIER.map((d) => (
-                    <div key={d.anbieter} className="flex flex-col rounded-xl border border-border p-4">
-                      <div className="flex items-center gap-3">
-                        <AnbieterLogo name={d.anbieter} domain={d.domain} />
-                        <p className="text-[17px] font-bold text-foreground">{d.anbieter}</p>
-                      </div>
-                      <ul className="mb-4 mt-3 space-y-1.5 text-[15px] text-foreground/85">
-                        {[
-                          `${etfsBei(d.kaufbarName)} von 8 ETFs dieser Liste`,
-                          sparplanZeile(d.anbieter),
-                          d.anbieter === "Scalable Capital" ? "Ohne PRIME+ keine Depotgebühr" : "Keine Depotgebühr",
-                          "Ohne Zinsen ab dem ersten Tag",
-                        ].map((z) => (
-                          <li key={z} className="flex gap-2">
-                            {z.includes("noch nicht geprüft") ? (
-                              <span className="mx-[5px] mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" aria-hidden />
-                            ) : (
-                              <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
-                            )}
-                            <span>{z}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <a
-                        href={d.out}
-                        rel="sponsored nofollow"
-                        className="mt-auto inline-flex items-center justify-center gap-1 rounded-xl bg-primary px-4 py-3 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90"
-                      >
-                        Zum Angebot*
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* 12 Die Liste, 13 Video nach Platz 1 */}
-              <section className="mt-12">
-                <H2 id="die-besten-halal-etfs">Die besten Halal ETFs 2026</H2>
-                <Text>
-                  <p>
-                    Die Reihenfolge folgt den fünf Kriterien oben. Platz 1 passt für die meisten als einziger ETF. Die Plätze
-                    2 bis 7 sind Alternativen für einen bestimmten Wunsch. Platz 8 kauft keine Aktien, sondern Sukuk.
-                  </p>
-                </Text>
-                <ol className="mt-4 space-y-1 text-[16px]">
-                  {etfListe.map((e) => (
-                    <li key={e.isin}>
-                      <a href={`#${anker(e)}`} className="text-primary hover:underline">
-                        {e.platz}. {e.name}
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-                <div className="mt-10 space-y-12">
-                  {etfListe.map((e) => (
-                    <div key={e.isin}>
-                      <Eintrag e={e} />
-                      {e.platz === 1 && (
-                        <div className="mt-8">
-                          <Text>
-                            <p>In diesem Video erkläre ich, worauf du achten musst, damit ein ETF halal ist.</p>
-                          </Text>
-                          <Video />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* 14 Vergleichstabelle */}
-              <section className="mt-14">
-                <H2 id="halal-etf-liste">Halal ETF Liste im Vergleich: welche Halal ETFs gibt es in Deutschland?</H2>
-                <Text>
-                  <p>
-                    Alle acht ETFs nach den fünf Kriterien. Renditen in Euro mit Ausschüttungen und Größe: justETF, Stand{" "}
-                    {RENDITE_STAND}; Größe von Platz 7 und 8 aus unserer Datenbank, Stand 14.08.2026.
-                  </p>
-                </Text>
-                <div className="mt-5 overflow-hidden rounded-2xl border border-border">
-                  <table className="block w-full border-collapse text-[15px] lg:table lg:text-[14px]">
-                    <thead className="hidden lg:table-header-group">
-                      <tr className="bg-muted text-left">
-                        {["ETF", "Kosten", "Größe", "1 Jahr", "2025", "2024", "Halal-Beleg", "Sparplan"].map((k) => (
-                          <th key={k} className={`px-2.5 py-3 align-bottom font-semibold text-foreground ${k === "ETF" ? "w-[34%]" : ""}`}>
-                            {k}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="block lg:table-row-group">
-                      {etfListe.map((e) => {
-                        const a = anlageVon(e.isin);
-                        const zellen: [string, ReactNode, boolean][] = [
-                          ["Kosten", a.kostenLabel, true],
-                          [
-                            "Größe",
-                            <>
-                              {`${e.groesseMio.toLocaleString("de-DE")} Mio. €`}
-                              {a.auflage && (
-                                <span className="block text-[12px] text-muted-foreground">seit {a.auflage.slice(-4)}</span>
-                              )}
-                            </>,
-                            true,
-                          ],
-                          [
-                            "1 Jahr",
-                            e.rendite1J ?? (
-                              <>
-                                <span className="whitespace-nowrap">{e.seitAuflage}</span>
-                                <span className="block text-[12px] text-muted-foreground">seit Auflage</span>
-                              </>
-                            ),
-                            true,
-                          ],
-                          ["2025", e.rendite2025 ?? "–", true],
-                          ["2024", e.rendite2024 ?? "–", true],
-                          ["Halal-Beleg", a.zertifikatArt === "produkt" ? "Gremium am\u00a0Fonds" : "nur Index", false],
-                          ["Sparplan", sparplanAnzahl(e) === 0 ? "nicht belegt" : `bei ${sparplanAnzahl(e)} ${sparplanAnzahl(e) === 1 ? "Depot" : "Depots"}`, false],
-                        ];
-                        return (
-                          <tr key={e.isin} className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border bg-card px-4 py-3.5 first:border-t-0 lg:table-row lg:p-0 lg:first:border-t">
-                            <td className="col-span-2 align-top lg:table-cell lg:px-2.5 lg:py-3">
-                              <a href={`#${anker(e)}`} className="text-[16px] font-semibold leading-snug text-foreground hover:text-primary lg:text-[14px]">
-                                {e.platz}. {e.name}
-                              </a>
-                              <span className="mt-0.5 block text-[14px] leading-snug text-muted-foreground lg:text-[13px]">
-                                Am besten für: {e.amBestenFuer}
-                              </span>
-                            </td>
-                            {zellen.map(([k, v, zahl]) => (
-                              <td
-                                key={k}
-                                data-label={k}
-                                className={`align-top text-[15px] text-foreground before:block before:text-[11px] before:font-semibold before:uppercase before:tracking-[0.1em] before:text-muted-foreground before:content-[attr(data-label)] lg:table-cell lg:px-2.5 lg:py-3 lg:text-[14px] lg:text-muted-foreground lg:before:hidden ${
-                                  zahl ? "lg:whitespace-nowrap" : ""
-                                }`}
-                              >
-                                {v}
-                              </td>
-                            ))}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-                <Text>
-                  <p>
-                    Außerdem in Deutschland zu haben, ohne belegten Sparplan:{" "}
-                    <TL to="/halal-anlagen/hsbc-msci-usa-islamic-screened">HSBC MSCI USA Islamic Screened</TL>,{" "}
-                    <TL to="/halal-anlagen/hsbc-msci-europe-islamic-screened">HSBC MSCI Europe Islamic Screened</TL> und{" "}
-                    <TL to="/halal-anlagen/hsbc-msci-emerging-markets-islamic-screened-capped">
-                      HSBC MSCI Emerging Markets Islamic Screened
-                    </TL>
-                    , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
-                    <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>: Sparplan belegt, aber ein veröffentlichtes Shariah-Zertifikat haben wir nicht gefunden.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 15 Was passt zu wem */}
-              <section className="mt-12">
-                <H2 id="welcher-passt">Welcher Halal ETF passt zu dir?</H2>
-                <Text>
-                  <p>Für die meisten reicht Platz 1. Hier siehst du, welcher Platz zu welchem Wunsch passt.</p>
-                </Text>
-                <div className="mt-5 overflow-hidden rounded-2xl border border-border">
-                  <table className="block w-full border-collapse text-[15px] sm:table">
-                    <thead className="hidden sm:table-header-group">
-                      <tr className="bg-muted text-left">
-                        {["Wenn du …", "Achte auf", "Passt"].map((k) => (
-                          <th key={k} className="px-4 py-3 font-semibold text-foreground">
-                            {k}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="block sm:table-row-group">
-                      {PASST.map((p) => {
-                        const e = etfListe.find((x) => x.platz === p.platz)!;
-                        return (
-                          <tr key={p.wenn} className="block border-t border-border bg-card py-2 first:border-t-0 sm:table-row sm:py-0 sm:first:border-t">
-                            <td className="block px-4 py-1.5 text-[16px] font-semibold text-foreground sm:table-cell sm:py-3 sm:text-[15px]">
-                              {p.wenn}
-                            </td>
-                            <td className="block px-4 py-1 text-muted-foreground sm:table-cell sm:py-3">{p.achte}</td>
-                            <td className="block px-4 py-1 sm:table-cell sm:py-3">
-                              <a href={`#${anker(e)}`} className="font-medium text-primary hover:underline">
-                                Platz {e.platz}: {e.name}
-                              </a>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              {/* 16 Unterschied */}
-              <section className="mt-12">
-                <H2 id="halal-etf-oder-fonds">Halal ETF oder Halal Fonds: was ist der Unterschied?</H2>
-                <Text>
-                  <p>
-                    Ein Halal ETF folgt meist einem Index und wird an der Börse gehandelt. Einen Ausgabeaufschlag zahlst du nicht, nur die Ordergebühr deines Depots.
-                  </p>
-                  <p>
-                    Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Viele dieser Fonds verlangen beim
-                    Kauf einen Ausgabeaufschlag, etwa die Shariah-Fonds von Comgest, Franklin und BNP. Für einen Sparplan über
-                    viele Jahre ist der ETF darum meist günstiger. Platz 7 liegt dazwischen: ein aktiver Fonds im ETF-Mantel.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 17 Unsere Prüfung in Zahlen */}
-              <section className="mt-12">
-                <H2 id="pruefung-in-zahlen">Unsere Prüfung in Zahlen</H2>
-                <Text>
-                  <p>
-                    Für die acht ETFs habe ich bei {depots} Depots nachgesehen, ob du sie kaufen kannst. Gezählt wird nur,
-                    was der Anbieter selbst zeigt, Stand {stand}.
-                  </p>
-                  <p>
-                    {alleAcht.length > 0
-                      ? `Alle acht ETFs gibt es bei ${alleAcht.length} Depots: ${alleAcht.slice(0, -1).join(", ")} und ${alleAcht.at(-1)}.`
-                      : "Kein Depot führt alle acht."}{" "}
-                    Trade Republic führt {tradeRepublicZahl} von 8, es fehlt der {ohneTradeRepublic.join(", ")}. Am seltensten
-                    zu haben ist der {seltenster.name} mit {kaufbarBei(seltenster.isin).length} Depots.
-                  </p>
-                </Text>
-                <figure className="mt-5 rounded-2xl border border-border p-5">
-                  <figcaption className="text-[16px] font-bold text-foreground">Bei wie vielen Depots du jeden ETF kaufen kannst</figcaption>
-                  <ul className="mt-4 space-y-2.5" role="img" aria-label={etfListe.map((e) => `${e.name}: ${kaufbarBei(e.isin).length} Depots`).join(", ")}>
-                    {etfListe.map((e) => {
-                      const n = kaufbarBei(e.isin).length;
-                      return (
-                        <li key={e.isin} className="text-[14px]">
-                          <div className="flex justify-between gap-3 text-foreground/85">
-                            <span>
-                              {e.platz}. {e.name}
-                            </span>
-                            <span className="font-semibold tabular-nums text-foreground">{n}</span>
-                          </div>
-                          <div className="mt-1 h-2 rounded-full bg-muted">
-                            <div className="h-2 rounded-full bg-primary" style={{ width: `${(n / maxKaufbar) * 100}%` }} />
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <p className="mt-4 text-[13px] text-muted-foreground">
-                    Quelle: eigene Prüfung finanzmuslim, Wertpapiersuche je Depot, Stand {stand}.
-                  </p>
-                </figure>
-                <Text>
-                  <p>
-                    Wie ich prüfe, steht in der{" "}
-                    <TL to="/vergleiche/methodik">Methodik</TL>.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 18 Häufige Fragen */}
-              <section className="mt-12">
-                <H2 id="haeufige-fragen">Häufige Fragen</H2>
-                <div className="mt-4 divide-y divide-border">
-                  {FRAGEN.map((f) => (
-                    <div key={f.frage} className="py-5 first:pt-0">
-                      <h3 className="text-[19px] font-bold leading-snug text-foreground">{f.frage}</h3>
-                      <p className="mt-2 text-[17px] leading-[1.6] text-foreground/85">
-                        {f.antwort}
-                        {f.link && (
-                          <>
-                            {" "}
-                            <TL to={f.link.to}>{f.link.text}</TL>
-                          </>
-                        )}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* 19 Nächster Schritt */}
-              <section className="mt-12">
-                <H2 id="naechster-schritt">Nächster Schritt: Finde dein Depot für Halal ETFs</H2>
-                <Text>
-                  <p>
-                    Der ETF ist die halbe Entscheidung. Die andere Hälfte ist das Depot. Es sollte deinen ETF als Sparplan
-                    führen und dir keine Zinsen aufs Guthaben zahlen. Ein Depot eröffnest du online in rund 10 Minuten mit
-                    Foto-Ident. Danach legst du den Sparplan auf deinen ETF an. Im{" "}
-                    <TL to="/vergleich/depot">Depot-Vergleich</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
-                    Zinsen umgeht.
-                  </p>
-                </Text>
-              </section>
-
-              {/* 20 Autorbox mit „Über den Autor“ wie frontal „About the author“ */}
-              <aside className="mt-12 rounded-2xl border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
-                <p id="ueber-den-autor" className="text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                  Über den Autor
-                </p>
-                <div className="mt-3 flex gap-4">
-                  <img src={eliasPortrait} alt="Elias El-Gendy" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] shrink-0 rounded-full object-cover" />
-                  <div>
-                    <p className="text-[17px] font-bold text-foreground">
-                      <Link to="/ueber-mich" className="hover:text-primary">
-                        Elias El-Gendy
-                      </Link>
+                {/* 7 Begriff erklärt */}
+                <section className="mt-12">
+                  <H2 id="was-ist-ein-halal-etf" />
+                  <Text>
+                    <p>
+                      Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-Prüfung bestehen. Andere Namen dafür
+                      sind islamische ETFs, auf Englisch Islamic ETF. Meist folgt der Fonds einem Index, aus dem alles fliegt, was
+                      nicht passt.
                     </p>
-                    <p className="mt-1 text-[15px] leading-relaxed text-foreground/80">{BIO}</p>
-                    <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[14px]">
-                      {LINKEDIN && (
+                    <p>
+                      Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
+                      Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Die
+                      Grenzwerte stehen in <TL to="/wissen/sind-aktien-halal">Sind Aktien halal?</TL>
+                    </p>
+                    <p>
+                      Danach der Fonds selbst. Er kann einen sauberen Index nachbilden und trotzdem Aktien verleihen. Oder er
+                      bildet den Index nur über ein Tauschgeschäft mit einer Bank nach. Deshalb zählt, ob ein Gremium den Fonds
+                      geprüft hat oder nur den Index.
+                    </p>
+                    <p>
+                      Ein Halal ETF ist kein Nachhaltigkeitsfonds. ESG- und SRI-Fonds schließen oft Waffen und Tabak aus. Banken
+                      und Versicherungen sind dort aber häufig unter den größten Positionen, Zinsgrenzen prüfen sie nicht.
+                    </p>
+                    <p>
+                      Ein Halal ETF ist auch nicht sicher. Halal heißt erlaubt. Er schwankt wie jeder Aktienfonds, ein Verlust
+                      ist jederzeit möglich.
+                    </p>
+                    <p>
+                      Und ein Zertifikat bestätigt in aller Regel die Methode, nicht jede einzelne Firma. Wer einen Islamic ETF
+                      kauft, folgt der Auffassung, dass kleine, unvermeidbare Zinsberührungen unter den Grenzwerten hinnehmbar
+                      sind, wenn der unreine Teil gereinigt wird.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 8 So haben wir verglichen */}
+                <section className="mt-12">
+                  <H2 id="so-haben-wir-verglichen" />
+                  <Text>
+                    {KRITERIEN.map((k) => (
+                      <p key={k.name}>
+                        <strong className="font-semibold text-foreground">{k.name}.</strong> {k.text}
+                      </p>
+                    ))}
+                    <p>
+                      Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 9 Depots, erstes Mal */}
+                <DepotKasten />
+
+                {/* 10 Die acht Plätze, Video am Ende von Platz 1 */}
+                <section className="mt-14">
+                  <H2 id="die-besten-halal-etfs" />
+                  <Text>
+                    <p>
+                      Die Reihenfolge folgt den fünf Kriterien oben. Platz 1 ist der bekannteste und hat den Sparplan bei
+                      den meisten Depots. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
+                      Aktien, sondern Sukuk.
+                    </p>
+                    <p>
+                      Jedes Bild zeigt die Seite des ETFs in unserer Datenbank. Ein Klick darauf öffnet alle Daten mit ISIN
+                      und Beleg.
+                    </p>
+                  </Text>
+                  <div className="mt-10 space-y-14">
+                    {etfListe.map((e) => (
+                      <div key={e.isin}>
+                        <Eintrag e={e} />
+                        {e.platz === 1 && (
+                          <div className="mt-8">
+                            <Text>
+                              <p>
+                                Lieber hören als lesen? Im Video erkläre ich, worauf du achten musst, damit ein ETF halal ist.
+                              </p>
+                            </Text>
+                            <Video />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* 11 Tabellen wie frontal: wenige Spalten, kurze Wörter */}
+                <section className="mt-14">
+                  <H2 id="halal-etf-liste" />
+                  <KleineTabelle
+                    kopf={["ETF", "Kosten", "Halal-Beleg", "Passt zu"]}
+                    breit={[2]}
+                    zeilen={etfListe.map((e) => {
+                      const a = anlageVon(e.isin);
+                      return {
+                        schluessel: e.isin,
+                        erste: etfZelle(e),
+                        zellen: [
+                          <span className="whitespace-nowrap tabular-nums">{a.kostenLabel}</span>,
+                          a.zertifikatArt === "produkt" ? "Gremium am Fonds" : "nur Index",
+                          gross(e.amBestenFuer),
+                        ],
+                      };
+                    })}
+                  />
+                  <p className="font-titel mt-7 max-w-[664px] border-l-2 border-primary pl-5 text-[20px] leading-[1.4] text-foreground">
+                    Platz 1 verbindet ein Gremium am Fonds mit 0,30 % Kosten und dem Sparplan bei 14 Depots, mehr als bei
+                    jedem anderen ETF hier.
+                  </p>
+                  <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
+                  <KleineTabelle
+                    kopf={["ETF", "1 Jahr", "3 Jahre", "5 Jahre"]}
+                    zeilen={etfListe.map((e) => ({
+                      schluessel: e.isin,
+                      erste: etfZelle(e),
+                      zellen: [e.rendite1J, e.rendite3J, e.rendite5J].map((r, i) => (
+                        <span key={i} className={`whitespace-nowrap tabular-nums ${r ? "" : "text-muted-foreground"}`}>
+                          {r ?? "–"}
+                        </span>
+                      )),
+                    }))}
+                  />
+                  <p className="mt-3 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">
+                    Quelle: justETF, in Euro mit Ausschüttungen, Stand {RENDITE_STAND}. Ein Strich heißt: Der Fonds ist für
+                    diesen Zeitraum noch zu jung. Platz 6 steht seit Auflage im Februar 2026 bei +17,62 %. Vergangene
+                    Renditen sind kein Versprechen für die Zukunft.
+                  </p>
+                  <Text>
+                    <p>
+                      Außerdem in Deutschland zu haben, ohne belegten Sparplan:{" "}
+                      <TL to="/halal-anlagen/hsbc-msci-usa-islamic-screened">HSBC MSCI USA Islamic Screened</TL>,{" "}
+                      <TL to="/halal-anlagen/hsbc-msci-europe-islamic-screened">HSBC MSCI Europe Islamic Screened</TL> und{" "}
+                      <TL to="/halal-anlagen/hsbc-msci-emerging-markets-islamic-screened-capped">
+                        HSBC MSCI Emerging Markets Islamic Screened
+                      </TL>
+                      , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
+                      <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>: Sparplan belegt, aber ein veröffentlichtes Shariah-Zertifikat haben wir nicht gefunden.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 12 Welcher passt */}
+                <section className="mt-12">
+                  <H2 id="welcher-passt" />
+                  <Text>
+                    <p>Hier siehst du, welcher Platz zu welchem Wunsch passt.</p>
+                  </Text>
+                  <KleineTabelle
+                    kopf={["Wenn du …", "Achte auf", "Passt"]}
+                    breit={[0, 1]}
+                    zeilen={PASST.map((p) => {
+                      const e = etfListe.find((x) => x.platz === p.platz)!;
+                      return {
+                        schluessel: p.wenn,
+                        erste: p.wenn,
+                        zellen: [
+                          p.achte,
+                          <a href={`#${anker(e)}`} className="font-medium text-primary hover:underline">
+                            Platz {e.platz}: {e.name}
+                          </a>,
+                        ],
+                      };
+                    })}
+                  />
+                </section>
+
+                {/* 13 ETF oder Fonds */}
+                <section className="mt-12">
+                  <H2 id="halal-etf-oder-fonds" />
+                  <Text>
+                    <p>
+                      Ein Halal ETF folgt meist einem Index und wird an der Börse gehandelt. Einen Ausgabeaufschlag zahlst du nicht, nur die Ordergebühr deines Depots.
+                    </p>
+                    <p>
+                      Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Viele dieser Fonds verlangen beim
+                      Kauf einen Ausgabeaufschlag, etwa die Shariah-Fonds von Comgest, Franklin und BNP. Für einen Sparplan über
+                      viele Jahre ist der ETF darum meist günstiger. Platz 7 liegt dazwischen: ein aktiver Fonds im ETF-Mantel.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 14 Wo du die acht kaufen kannst */}
+                <section className="mt-12">
+                  <H2 id="wo-kaufen" />
+                  <Text>
+                    <p>
+                      Für die acht ETFs habe ich bei {depots} Depots nachgesehen, ob du sie kaufen kannst. Gezählt wird nur,
+                      was der Anbieter selbst zeigt, Stand {stand}.
+                    </p>
+                    <p>
+                      {alleAcht.length > 0
+                        ? `Alle acht ETFs gibt es bei ${alleAcht.length} Depots: ${alleAcht.slice(0, -1).join(", ")} und ${alleAcht.at(-1)}.`
+                        : "Kein Depot führt alle acht."}{" "}
+                      Trade Republic führt {tradeRepublicZahl} von 8, es fehlt der {ohneTradeRepublic.join(", ")}. Am seltensten
+                      zu haben ist der {seltenster.name} mit {kaufbarBei(seltenster.isin).length} Depots.
+                    </p>
+                  </Text>
+                  <figure className="mt-5 max-w-[720px] border border-border p-5">
+                    <figcaption className="text-[15px] font-semibold text-foreground">Bei wie vielen Depots du jeden ETF kaufen kannst</figcaption>
+                    <ul className="mt-4 space-y-2.5" role="img" aria-label={etfListe.map((e) => `${e.name}: ${kaufbarBei(e.isin).length} Depots`).join(", ")}>
+                      {etfListe.map((e) => {
+                        const n = kaufbarBei(e.isin).length;
+                        return (
+                          <li key={e.isin} className="text-[14px]">
+                            <div className="flex justify-between gap-3 text-foreground/80">
+                              <span>
+                                {e.platz}. {e.name}
+                              </span>
+                              <span className="font-semibold tabular-nums text-foreground">{n}</span>
+                            </div>
+                            <div className="mt-1 h-2 bg-muted">
+                              <div className="h-2 bg-primary" style={{ width: `${(n / maxKaufbar) * 100}%` }} />
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <p className="mt-4 text-[13px] text-muted-foreground">
+                      Quelle: eigene Prüfung finanzmuslim, Wertpapiersuche je Depot, Stand {stand}.
+                    </p>
+                  </figure>
+                  <Text>
+                    <p>
+                      Wie ich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 15 Häufige Fragen, Fragen wortgleich (THEMENKARTE.md Z. 107-114) */}
+                <section className="mt-12">
+                  <H2 id="haeufige-fragen" />
+                  <div className="mt-4 max-w-[664px] divide-y divide-border">
+                    {FRAGEN.map((f) => (
+                      <div key={f.frage} className="py-5 first:pt-1">
+                        <h3 className="text-[18px] font-semibold leading-snug text-foreground">{f.frage}</h3>
+                        <p className="mt-2 text-[17px] leading-[1.65] text-foreground/75">
+                          {f.antwort}
+                          {f.link && (
+                            <>
+                              {" "}
+                              <TL to={f.link.to}>{f.link.text}</TL>
+                            </>
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* 16 Nächster Schritt, Depots zweites Mal */}
+                <section className="mt-12">
+                  <H2 id="naechster-schritt" />
+                  <Text>
+                    <p>
+                      Der ETF ist die halbe Entscheidung. Die andere Hälfte ist das Depot. Es sollte deinen ETF als Sparplan
+                      führen und dir keine Zinsen aufs Guthaben zahlen. Ein Depot eröffnest du online in rund 10 Minuten mit
+                      Foto-Ident. Danach legst du den Sparplan auf deinen ETF an. Im{" "}
+                      <TL to="/vergleich/depot">Depot-Vergleich</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
+                      Zinsen umgeht.
+                    </p>
+                  </Text>
+                </section>
+
+                <DepotKasten />
+
+                {/* Autorbox wie frontal „About the author“ */}
+                <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
+                  <Etikett>
+                    <span id="ueber-den-autor">Über den Autor</span>
+                  </Etikett>
+                  <div className="mt-3 flex gap-4">
+                    <img src={eliasPortrait} alt="Elias El-Gendy" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] shrink-0 object-cover" />
+                    <div>
+                      <p className="text-[17px] font-semibold text-foreground">
+                        <Link to="/ueber-mich" className="hover:text-primary">
+                          Elias El-Gendy
+                        </Link>
+                      </p>
+                      <p className="mt-1 text-[15px] leading-relaxed text-foreground/75">{BIO}</p>
+                      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[14px]">
                         <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
                           LinkedIn
                         </a>
-                      )}
-                      <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
-                        Instagram
-                      </a>
-                      <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
-                        YouTube
-                      </a>
-                    </p>
+                        <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          Instagram
+                        </a>
+                        <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          YouTube
+                        </a>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </aside>
+                </aside>
 
-              {/* 21 Passt dazu */}
-              <aside className="mt-10" aria-labelledby="passt-dazu">
-                <p id="passt-dazu" className="text-[19px] font-bold text-foreground">
-                  Passt dazu
-                </p>
-                <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-                  {PASST_DAZU.map((p) => (
-                    <li key={p.to}>
-                      <Link to={p.to} className="block h-full rounded-2xl border border-border p-4 transition-colors hover:border-primary">
-                        <span className="block text-[16px] font-bold text-foreground">{p.name}</span>
-                        <span className="mt-1 block text-[14px] text-muted-foreground">{p.text}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </aside>
+                {/* Passt dazu */}
+                <aside className="mt-10" aria-labelledby="passt-dazu">
+                  <p id="passt-dazu" className="font-titel text-[22px] text-foreground">
+                    Passt dazu
+                  </p>
+                  <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {PASST_DAZU.map((p) => (
+                      <li key={p.to}>
+                        <Link to={p.to} className="block h-full border border-border p-4 transition-colors hover:border-primary">
+                          <span className="block text-[16px] font-semibold text-foreground">{p.name}</span>
+                          <span className="mt-1 block text-[14px] text-muted-foreground">{p.text}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
 
-              {/* 22 Bild-Aufruf unten */}
-              <div className="mt-10">
-                <BildAufruf
-                  bild={vortragBild}
-                  alt="Elias El-Gendy bei einem Vortrag über halal Investieren"
-                  titel="Dein Depot für Halal ETFs"
-                  satz="Vergleiche die Depots nach Halal ETFs, Sparplan und Zinsen."
-                  knopf="Depots vergleichen"
-                  hoch
-                />
+                {/* Fußnote und Rechtshinweis */}
+                <footer className="mt-8">
+                  <p className="text-[13px] leading-relaxed text-muted-foreground">
+                    * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
+                  </p>
+                  <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
+                </footer>
               </div>
-
-              {/* 23 Fußnote und Rechtshinweis */}
-              <footer className="mt-8">
-                <p className="text-[13px] leading-relaxed text-muted-foreground">
-                  * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
-                </p>
-                <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
-              </footer>
-            </div>
-          </article>
+            </article>
           </div>
         </div>
       </div>
