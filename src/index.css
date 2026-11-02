@@ -42,7 +42,8 @@
     position: relative;
     isolation: isolate;
   }
-  /* Feiner blauer Rand ringsum, darüber läuft das Licht; Eckklammern wie bei frontal (Prüfer SEO31) */
+  /* Feiner blauer Rand ringsum, darüber läuft das Licht; Eckklammern wie bei frontal (Prüfer SEO31).
+     SEO32 (Elias: „Animation ein bisschen stärker“): Licht breiter und heller, schneller, mit Schein. */
   .leuchtlinie::before {
     content: "";
     position: absolute;
@@ -50,9 +51,10 @@
     z-index: -1;
     border-radius: inherit;
     background:
-      conic-gradient(from var(--winkel), transparent 0deg, transparent 200deg, #0057fa 290deg, #9cbcff 340deg, transparent 360deg),
-      linear-gradient(rgb(0 87 250 / 0.35), rgb(0 87 250 / 0.35));
-    animation: leuchtlinie-lauf 4s linear infinite;
+      conic-gradient(from var(--winkel), transparent 0deg, transparent 150deg, #0057fa 250deg, #9cbcff 320deg, #ffffff 345deg, transparent 360deg),
+      linear-gradient(rgb(0 87 250 / 0.45), rgb(0 87 250 / 0.45));
+    filter: drop-shadow(0 0 5px rgb(0 87 250 / 0.75));
+    animation: leuchtlinie-lauf 2.6s linear infinite;
   }
   .leuchtlinie::after {
     content: "";
@@ -70,6 +72,17 @@
       linear-gradient(var(--ecke), var(--ecke)) bottom right / 10px 1.5px no-repeat,
       linear-gradient(var(--ecke), var(--ecke)) bottom right / 1.5px 10px no-repeat;
   }
+  /* Auf blauem Grund (Kopfleiste): Licht weiß, Ecken weiß, enger an den Knopf */
+  .leuchtlinie-hell::before {
+    background:
+      conic-gradient(from var(--winkel), transparent 0deg, transparent 150deg, #9cbcff 250deg, #ffffff 330deg, transparent 360deg),
+      linear-gradient(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.35));
+    filter: drop-shadow(0 0 5px rgb(255 255 255 / 0.8));
+  }
+  .leuchtlinie-hell::after {
+    inset: -6px;
+    --ecke: #ffffff;
+  }
   @keyframes leuchtlinie-lauf {
     to {
       --winkel: 360deg;
@@ -79,6 +92,58 @@
     .leuchtlinie::before {
       animation: none;
       background: #0057fa;
+      filter: none;
+    }
+    .leuchtlinie-hell::before {
+      background: #ffffff;
+    }
+  }
+
+  /* Kopfleiste nur auf /blog/halal-etf (Elias SEO32 „nur hier“): oben voll, beim Scrollen zieht sie sich
+     wie bei frontal zu einer schwebenden Leiste in der Mitte zusammen (gemessen: Übergang rund 0,42 s). */
+  .beitragskopf {
+    background-color: hsl(var(--primary));
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .beitragskopf.ist-eng {
+    background-color: transparent;
+  }
+  .beitragskopf .beitragskopf-innen {
+    max-width: 1600px;
+    padding-inline: 1rem;
+    background-color: hsl(var(--primary));
+    transition:
+      max-width 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+      border-radius 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (min-width: 768px) {
+    .beitragskopf .beitragskopf-innen {
+      padding-inline: 1.5rem;
+    }
+  }
+  .beitragskopf.ist-eng .beitragskopf-innen {
+    max-width: min(900px, calc(100% - 16px));
+    height: 52px;
+    margin-top: 8px;
+    border-radius: 12px;
+    box-shadow:
+      0 12px 30px -14px rgb(0 0 0 / 0.5),
+      inset 0 0 0 1px rgb(255 255 255 / 0.18);
+  }
+  .beitragskopf .beitragskopf-marke {
+    transition: font-size 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .beitragskopf.ist-eng .beitragskopf-marke {
+    font-size: 20px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .beitragskopf,
+    .beitragskopf .beitragskopf-innen,
+    .beitragskopf .beitragskopf-marke {
+      transition: none;
     }
   }
 }

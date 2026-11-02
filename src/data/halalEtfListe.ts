@@ -30,8 +30,6 @@ export type EtfEintrag = {
   logo: string;
   /** Höchstens sechs Wörter, klein geschrieben; wortgleich in Karte, H3 und Tabelle. */
   amBestenFuer: string;
-  /** Ein Satz für die Karte oben. */
-  satz: string;
   groesseMio: number;
   rendite1J: string | null;
   rendite3J: string | null;
@@ -64,7 +62,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "iShares",
     logo: "ishares",
     amBestenFuer: "den Einstieg mit einem ETF",
-    satz: "Größter Fonds der Liste, seit 2007.",
     groesseMio: 1577,
     rendite1J: "+24,42 %",
     rendite3J: "+62,30 %",
@@ -89,7 +86,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "Invesco",
     logo: "invesco",
     amBestenFuer: "Gewinne, die im Fonds bleiben",
-    satz: "Index von Dow Jones statt MSCI, seit 2022.",
     groesseMio: 1046,
     rendite1J: "+16,98 %",
     rendite3J: "+74,34 %",
@@ -115,7 +111,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "iShares",
     logo: "ishares",
     amBestenFuer: "einen Fokus auf die USA",
-    satz: "Nur US-Firmen, Gremium wie Platz 1.",
     groesseMio: 609,
     rendite1J: "+28,67 %",
     rendite3J: "+69,45 %",
@@ -139,7 +134,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "iShares",
     logo: "ishares",
     amBestenFuer: "Schwellenländer als Beimischung",
-    satz: "China und Indien als kleiner Teil dazu.",
     groesseMio: 700,
     rendite1J: "+40,88 %",
     rendite3J: "+94,87 %",
@@ -163,7 +157,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "HSBC",
     logo: "hsbc",
     amBestenFuer: "eine Einmalanlage ohne Ausschüttung",
-    satz: "Kosten wie Platz 1, Gewinne bleiben drin.",
     groesseMio: 182,
     rendite1J: "+24,51 %",
     rendite3J: "+69,04 %",
@@ -187,7 +180,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "Invesco",
     logo: "invesco",
     amBestenFuer: "Welt und Schwellenländer in einem ETF",
-    satz: "Ein ETF statt zwei, seit Februar 2026.",
     groesseMio: 129,
     rendite1J: null,
     rendite3J: null,
@@ -212,7 +204,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "HANetf",
     logo: "hanetf",
     amBestenFuer: "aktive Auswahl statt Index",
-    satz: "Ein Fondsmanagement wählt die Firmen selbst aus.",
     groesseMio: 19,
     rendite1J: "+8,13 %",
     rendite3J: "+57,27 %",
@@ -237,7 +228,6 @@ export const etfListe: EtfEintrag[] = [
     anbieter: "iShares",
     logo: "ishares",
     amBestenFuer: "einen Teil ohne Aktien",
-    satz: "Sukuk sind das islamische Gegenstück zu Anleihen.",
     groesseMio: 160,
     rendite1J: "+1,62 %",
     rendite3J: null,

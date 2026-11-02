@@ -32,8 +32,20 @@ export const SiteHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [sucheOffen, setSucheOffen] = useState(false);
+  const { pathname } = useLocation();
   // Der Hinweisstreifen gehoert auf die Startseite, nicht auf jede Unterseite.
-  const aufStartseite = useLocation().pathname === "/";
+  const aufStartseite = pathname === "/";
+  // Nur auf diesem Beitrag (Elias SEO32, 02.11.2026: „nur hier“): Knopf zum Depot-Vergleich statt Suche
+  // und „Finde, was zu dir passt“; beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
+  const beitragsKopf = pathname === "/blog/halal-etf";
+  const [eng, setEng] = useState(false);
+  useEffect(() => {
+    if (!beitragsKopf) return setEng(false);
+    const messen = () => setEng(window.scrollY > 40);
+    messen();
+    window.addEventListener("scroll", messen, { passive: true });
+    return () => window.removeEventListener("scroll", messen);
+  }, [beitragsKopf]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -66,13 +78,22 @@ export const SiteHeader = () => {
       )}
 
       <header
-        className="sticky top-0 z-50 bg-primary"
+        className={cn(
+          "sticky top-0 z-50",
+          beitragsKopf ? "beitragskopf h-[60px] md:h-[68px]" : "bg-primary",
+          eng && "ist-eng",
+        )}
         onMouseLeave={() => setOpenGroup(null)}
       >
 
-        <div className="container flex h-[60px] items-center gap-6 md:h-[68px]">
+        <div
+          className={cn(
+            "container flex h-[60px] items-center gap-6 md:h-[68px]",
+            beitragsKopf && "beitragskopf-innen",
+          )}
+        >
           <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
-            <Wordmark inverted className="text-[23px] md:text-2xl" />
+            <Wordmark inverted className={cn("text-[23px] md:text-2xl", beitragsKopf && "beitragskopf-marke")} />
           </Link>
 
           <nav
@@ -100,20 +121,30 @@ export const SiteHeader = () => {
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
-            <button
-              type="button"
-              aria-label="Suche"
-              onClick={() => setSucheOffen(true)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/10 hover:text-white"
-            >
-              <Search className="h-[22px] w-[22px]" aria-hidden />
-            </button>
-            <Link
-              to="/vergleich/start"
-              className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
-            >
-              Finde, was zu dir passt
-            </Link>
+            {beitragsKopf ? (
+              <Link to="/vergleich/depot" className="leuchtlinie leuchtlinie-hell mr-1 inline-block min-[900px]:mr-0">
+                <span className="flex h-9 items-center whitespace-nowrap bg-white px-3 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground min-[900px]:h-10 min-[900px]:px-4 min-[900px]:text-[12px]">
+                  <span className="hidden min-[380px]:inline">Zum&nbsp;</span>Depot-Vergleich
+                </span>
+              </Link>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  aria-label="Suche"
+                  onClick={() => setSucheOffen(true)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  <Search className="h-[22px] w-[22px]" aria-hidden />
+                </button>
+                <Link
+                  to="/vergleich/start"
+                  className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
+                >
+                  Finde, was zu dir passt
+                </Link>
+              </>
+            )}
             <button
               type="button"
               aria-label="Menü öffnen"

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursFuerIsin, kursStand } from "@/lib/kurse";
@@ -53,77 +52,77 @@ const LESEZEIT = 19;
 /* Inhalt                                                              */
 /* ------------------------------------------------------------------ */
 
-type Abschnitt = { id: string; titel: string };
+/** `leiste`: steht im Inhaltsverzeichnis. Nur sechs, damit der Aufruf darunter im ersten Bildschirm steht (Elias SEO31). */
+type Abschnitt = { id: string; titel: string; leiste?: boolean };
 
 const ABSCHNITTE: Abschnitt[] = [
-  { id: "das-wichtigste", titel: "Das Wichtigste" },
-  { id: "100-euro-im-monat", titel: "Was aus 100 € im Monat geworden wäre" },
+  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  { id: "rechner", titel: "Was aus deinem Geld geworden wäre", leiste: true },
   { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
-  { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen" },
-  { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026" },
-  { id: "halal-etf-liste", titel: "Halal ETF Liste: alle acht nebeneinander" },
+  { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen", leiste: true },
+  { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026", leiste: true },
+  { id: "halal-etf-liste", titel: "Halal ETF Liste: alle acht nebeneinander", leiste: true },
   { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt" },
   { id: "halal-etf-oder-fonds", titel: "ETF oder Fonds: wo der Unterschied Geld kostet" },
   { id: "wo-kaufen", titel: "Wo du die acht ETFs kaufen kannst" },
-  { id: "haeufige-fragen", titel: "Häufige Fragen" },
+  { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
 ];
 const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
+const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
 
+/** Neu in SEO32 (Elias: „sehr generisch“, „viele wissen nicht mal, was Index ist“): was einen Muslim beim Kauf wirklich angeht. */
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
-    lead: "Der Index allein macht keinen ETF halal.",
-    text: "Zuerst wirft der Index Firmen raus, die Grenzwerte reißen, nach dem AAOIFI-Standard etwa über 5 % Umsatz aus Verbotenem. Danach zählt, was der Fonds selbst tut.",
+    lead: "„Islamic“ im Namen ist noch kein Beleg.",
+    text: "Es zählt, ob Gelehrte den ETF geprüft haben. Bei sechs der acht haben sie genau diesen ETF geprüft, bei zweien nur die Regeln, nach denen er seine Firmen auswählt. Den Beleg öffnest du oben bei jeder Karte.",
   },
   {
-    lead: "Ein Gremium am Fonds schlägt eins am Index.",
-    text: "Sechs der acht ETFs haben ein eigenes Gremium mit Zertifikat. Bei zweien betrifft der Beleg nur den Index.",
+    lead: "Banken und Versicherungen fliegen raus.",
+    text: "Ein normaler ETF wie der MSCI World kauft sie mit. Ein Halal ETF lässt sie weg, ebenso Firmen mit zu vielen Schulden auf Zinsen.",
   },
   {
-    lead: "Kosten fressen still mit.",
-    text: "Die acht liegen bei 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 € jedes Jahr.",
-  },
-  {
-    lead: "Rein heißt auch reinigen.",
+    lead: "Ein kleiner Rest wird gespendet.",
     text: (
       <>
-        Platz 1 (seit 2026) und Platz 5 geben den kleinen unreinen Anteil selbst weiter, beim Sukuk entfällt er. Bei den
-        anderen rechnest du ihn aus und gibst ihn weiter, siehe <TL to="/wissen/ertraege-reinigen">Aktienbereinigung</TL>.
+        Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter. Bei Platz 1
+        (seit 2026) und Platz 5 macht das schon der Fonds für dich. So rechnest du es:{" "}
+        <TL to="/wissen/ertraege-reinigen">Aktienbereinigung</TL>.
       </>
     ),
   },
   {
-    lead: "Das Depot entscheidet über Riba.",
+    lead: "Nicht jeder ETF geht als Sparplan.",
+    text: "Platz 1 kannst du bei 14 Depots monatlich besparen, für Platz 5 hat uns kein Depot einen Sparplan belegt.",
+  },
+  {
+    lead: "Auch dein Depot muss zinsfrei sein.",
     text: (
       <>
-        Zahlt dein Depot Zinsen aufs Guthaben, hilft der sauberste ETF wenig. Scalable, Smartbroker+ und
-        Traders Place zahlen 0 % aufs Verrechnungskonto, alle weiteren stehen im{" "}
-        <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+        Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place, Smartbroker+ und Scalable zahlen 0 %, alle
+        weiteren stehen im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
       </>
     ),
   },
 ];
 
+// Rendite ist kein Kriterium, nur Information (Elias SEO31: „Wir gehen nicht nach Rendite“).
 const KRITERIEN: { name: string; text: string }[] = [
   {
     name: "Halal-Beleg",
     text: "Ein eigenes Gremium am Fonds mit Fatwa und jährlichem Zertifikat zählt mehr als ein Beleg nur zum Index. Ich urteile nie selbst, ich zeige den Beleg des Anbieters.",
   },
   {
+    name: "Reinigung",
+    text: "Ob der Fonds den kleinen unreinen Anteil selbst weitergibt oder ob du ihn ausrechnen musst. Bei Platz 1 (seit 2026) und Platz 5 macht es der Fonds, beim Sukuk entfällt er.",
+  },
+  {
+    name: "Verfügbarkeit",
+    text: "Bei wie vielen Depots du den ETF kaufen kannst und wo er als Sparplan läuft, nur mit Beleg vom Anbieter. Ohne Beleg steht „nicht belegt“, nicht „nein“.",
+  },
+  {
     name: "Kosten",
     text: "Die laufenden Kosten im Jahr. Bei 10.000 € macht jedes Zehntelprozent 10 € im Jahr aus.",
-  },
-  {
-    name: "Sparplan",
-    text: "Bei wie vielen Depots der ETF als Sparplan läuft, nur mit Beleg vom Anbieter. Ohne Beleg steht „nicht belegt“, nicht „nein“.",
-  },
-  {
-    name: "Größe und Alter",
-    text: "Fondsvermögen in Mio. € und Jahr der Auflage. Ein alter Fonds hat echte Zahlen statt einer Rückrechnung des Index.",
-  },
-  {
-    name: "Rendite",
-    text: `1, 3 und 5 Jahre in Euro mit Ausschüttungen, von justETF, Stand ${RENDITE_STAND}. Ein Kriterium unter fünf, nie das einzige.`,
   },
 ];
 
@@ -198,6 +197,8 @@ const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string
 function sparplanZeile(anbieter: string): string {
   const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
   if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99 € im Monat) auf ${zahl("Scalable PRIME+")}`;
+  // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026), ohne Zahl je ETF
+  if (anbieter === "Traders Place") return "Sparplan möglich, im eigenen Depot nachgesehen";
   const n = zahl(anbieter);
   return n === 0 ? "Sparplan auf diese ETFs noch nicht geprüft" : `Sparplan auf ${n} von 8 belegt`;
 }
@@ -417,8 +418,27 @@ const Klappzeile = ({ titel, zahl, children }: { titel: string; zahl?: number; c
   </details>
 );
 
+/** Depot-Logos neben „Kaufbar bei“ (Elias SEO31): diese zuerst, wenn der ETF dort kaufbar ist. */
+const DEPOT_LOGOS: [string, string][] = [
+  ["Traders Place", "tradersplace.de.png"],
+  ["Smartbroker+", "smartbrokerplus.de.png"],
+  ["Scalable Capital", "scalable.capital.png"],
+  ["Trade Republic", "traderepublic.com.png"],
+  ["XTB", "xtb.com.png"],
+];
+const depotLogos = (isin: string) => {
+  const bei = kaufbarBei(isin);
+  return DEPOT_LOGOS.filter(([name]) => bei.includes(name)).slice(0, 3);
+};
+
 const Karte = ({ e }: { e: EtfEintrag }) => {
   const a = anlageVon(e.isin);
+  const logos = depotLogos(e.isin);
+  const renditen: [string, string | null][] = [
+    ["1 Jahr", e.rendite1J],
+    ["3 Jahre", e.rendite3J],
+    ["5 Jahre", e.rendite5J],
+  ];
   const kurzname = e.name.startsWith(`${e.anbieter} `) ? e.name.slice(e.anbieter.length + 1) : e.name;
   return (
     <li className="flex w-[220px] shrink-0 snap-start flex-col border border-border bg-card">
@@ -438,11 +458,28 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
         <p className="min-h-[2.75em] text-[14px] font-semibold leading-snug text-foreground">{kurzname}</p>
         <Etikett className="mt-4">Am besten für</Etikett>
         <p className="font-titel mt-1.5 text-[20px] leading-[1.2] text-foreground">{gross(e.amBestenFuer)}</p>
-        <p className="mt-2 text-[14px] leading-snug text-foreground/70">{e.satz}</p>
         <div className="mt-4 space-y-3">
           <div>
             <Etikett>Kaufbar bei</Etikett>
-            <p className="mt-1 text-[15px] font-semibold tabular-nums text-foreground">{kaufbarBei(e.isin).length} Depots</p>
+            <div className="mt-1 flex items-center gap-2.5">
+              <p className="text-[15px] font-semibold tabular-nums text-foreground">{kaufbarBei(e.isin).length}&nbsp;Depots</p>
+              <span className="flex items-center" aria-hidden="true">
+                {logos.map(([name, datei]) => (
+                  <img
+                    key={name}
+                    src={`/guides/assets/logos/${datei}`}
+                    alt=""
+                    title={name}
+                    width={22}
+                    height={22}
+                    loading="lazy"
+                    className="-ml-1 h-[22px] w-[22px] rounded-full border-2 border-card bg-background object-contain first:ml-0"
+                  />
+                ))}
+                <span className="ml-1 text-[14px] text-muted-foreground">…</span>
+              </span>
+              <span className="sr-only">, unter anderem {logos.map(([name]) => name).join(", ")}</span>
+            </div>
           </div>
           <div>
             <Etikett>Kosten</Etikett>
@@ -459,11 +496,20 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
           <ArrowDown className="h-3.5 w-3.5" aria-hidden />
         </a>
         <div className="sm:mt-0">
-          <Klappzeile titel="Halal-Beleg">
-            {e.geprueftText}{" "}
-            <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-              Beleg ansehen
-            </a>
+          <Klappzeile titel="Rendite">
+            <dl className="grid grid-cols-3 gap-2">
+              {renditen.map(([zeit, wert]) => (
+                <div key={zeit}>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{zeit}</dt>
+                  <dd className={`mt-0.5 whitespace-nowrap font-semibold tabular-nums ${wert ? "text-gain" : "text-muted-foreground"}`}>
+                    {wert ?? "–"}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-2 text-[12px] leading-snug text-muted-foreground">
+              {e.seitAuflage ? `Seit Auflage ${e.seitAuflage}. ` : ""}justETF, Stand {RENDITE_STAND}. Zählt nicht für den Platz.
+            </p>
           </Klappzeile>
           <Klappzeile titel="Dafür" zahl={e.dafuer.length}>
             <ul className="space-y-1">
@@ -478,6 +524,12 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
                 <li key={d}>− {d}</li>
               ))}
             </ul>
+          </Klappzeile>
+          <Klappzeile titel="Halal-Beleg">
+            {e.geprueftText}{" "}
+            <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
+              Beleg ansehen
+            </a>
           </Klappzeile>
         </div>
       </div>
@@ -570,118 +622,136 @@ const GoogleKasten = () => (
   </a>
 );
 
-const euro = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
-const monatName = (ym: string) => {
-  const [j, m] = ym.split("-").map(Number);
-  return new Date(j, m - 1, 1).toLocaleDateString("de-DE", { month: "long", year: "numeric" });
-};
+const euro = (n: number) => `${Math.round(n).toLocaleString("de-DE")}\u00a0€`;
+const prozent = (r: string) => Number(r.replace(/[^\d,-]/g, "").replace(",", ".")) / 100;
+
+const ZEITRAEUME = [
+  { jahre: 1, feld: "rendite1J" },
+  { jahre: 3, feld: "rendite3J" },
+  { jahre: 5, feld: "rendite5J" },
+] as const;
+
+type Ergebnis = { eingezahlt: number; wert: number } | null;
 
 /**
- * „Was aus 100 € im Monat geworden wäre“: je Monatskurs eine Rate von 100 €, Wert = Anteile mal Kurs.
- * Eintrag „2021-12“ ist der Kurs zum Monatsanfang, der letzte der Kurs vom Stand der Kursdatei (31.10.2026).
+ * Rechner (Elias SEO31): Betrag monatlich oder einmalig, Ergebnis nach 1, 3 und 5 Jahren, ETF über Logos wie im
+ * Renditerechner, aber schlank. Eingezahlt ist je Zeitraum bei allen ETFs gleich.
+ * Einmalig: Rendite von justETF mit Ausschüttungen (dieselben Werte wie in den Karten und der Tabelle).
+ * Monatlich: je Monatskurs eine Rate, die letzten 12, 36 oder 60 Einträge der Reihe; der letzte Eintrag ist der Kurs
+ * vom Stand der Kursdatei. Ist die Reihe kürzer, gibt es den ETF noch nicht so lange: Strich.
  */
+const rechnen = (e: EtfEintrag, betrag: number, art: "monat" | "einmal", jahre: number, feld: (typeof ZEITRAEUME)[number]["feld"]): Ergebnis => {
+  if (art === "einmal") {
+    const r = e[feld];
+    return r ? { eingezahlt: betrag, wert: betrag * (1 + prozent(r)) } : null;
+  }
+  const reihe = kursFuerIsin(e.isin)?.reihe ?? [];
+  const n = jahre * 12;
+  if (reihe.length < n) return null;
+  const letzter = reihe[reihe.length - 1][1];
+  const anteile = reihe.slice(-n).reduce((summe, [, kurs]) => summe + betrag / kurs, 0);
+  return { eingezahlt: n * betrag, wert: anteile * letzter };
+};
+
 const Rechner = () => {
   const [isin, setIsin] = useState(etfListe[0].isin);
+  const [eingabe, setEingabe] = useState("100");
+  const [art, setArt] = useState<"monat" | "einmal">("monat");
   const e = etfListe.find((x) => x.isin === isin)!;
-  const daten = useMemo(() => {
-    let anteile = 0;
-    return (kursFuerIsin(isin)?.reihe ?? []).map(([monat, kurs], i) => {
-      anteile += 100 / kurs;
-      return { monat, eingezahlt: (i + 1) * 100, wert: Math.round(anteile * kurs) };
-    });
-  }, [isin]);
-  const letzte = daten[daten.length - 1];
-  const kacheln: [string, string | null][] = [
-    ["1 Jahr", e.rendite1J],
-    ["3 Jahre", e.rendite3J],
-    ["5 Jahre", e.rendite5J],
-  ];
+  const betrag = Math.min(Math.max(Number(eingabe.replace(/\D/g, "")) || 0, 0), 1_000_000);
+  const schalter = (an: boolean) =>
+    `flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
   return (
     <section className="mt-12">
-      <H2 id="100-euro-im-monat" />
+      <H2 id="rechner" />
       <Text>
-        <p>Wähl einen der acht ETFs und sieh, was aus einem Sparplan von 100 € im Monat geworden wäre.</p>
+        <p>Gib einen Betrag ein und wähl einen ETF. Du siehst, was daraus geworden wäre, wenn du vor 1, 3 oder 5 Jahren angefangen hättest.</p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
-        <label htmlFor="rechner-etf" className="block">
-          <Etikett>ETF</Etikett>
-        </label>
-        <select
-          id="rechner-etf"
-          value={isin}
-          onChange={(x) => setIsin(x.target.value)}
-          className="mt-1.5 w-full border border-border bg-background px-3 py-2.5 text-[16px] text-foreground"
-        >
-          {etfListe.map((x) => (
-            <option key={x.isin} value={x.isin}>
-              {x.platz}. {x.name}
-            </option>
-          ))}
-        </select>
-        {letzte && (
-          <div className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
-            <div>
-              <Etikett>Eingezahlt</Etikett>
-              <p className="mt-1 text-[22px] font-semibold tabular-nums text-foreground">{euro(letzte.eingezahlt)}</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="rechner-betrag" className="block">
+              <Etikett>Betrag</Etikett>
+            </label>
+            <div className="mt-1.5 flex items-center border border-border bg-background focus-within:border-foreground">
+              <input
+                id="rechner-betrag"
+                inputMode="numeric"
+                value={eingabe}
+                onChange={(x) => setEingabe(x.target.value.replace(/[^\d.]/g, ""))}
+                className="w-full bg-transparent px-3 py-2.5 text-[16px] tabular-nums text-foreground outline-none"
+              />
+              <span className="pr-3 text-[16px] text-muted-foreground">€</span>
             </div>
-            <div>
-              <Etikett>Wert am {kursStand}</Etikett>
-              <p className={`mt-1 text-[22px] font-semibold tabular-nums ${letzte.wert >= letzte.eingezahlt ? "text-gain" : "text-loss"}`}>
-                {euro(letzte.wert)}
-              </p>
+          </div>
+          <div>
+            <Etikett>Wie oft</Etikett>
+            <div className="mt-1.5 flex border border-border" role="group" aria-label="Wie oft du einzahlst">
+              <button type="button" aria-pressed={art === "monat"} onClick={() => setArt("monat")} className={schalter(art === "monat")}>
+                Jeden Monat
+              </button>
+              <button type="button" aria-pressed={art === "einmal"} onClick={() => setArt("einmal")} className={`border-l border-border ${schalter(art === "einmal")}`}>
+                Einmalig
+              </button>
             </div>
-            <p className="self-end pb-1 text-[14px] text-muted-foreground">
-              seit {monatName(daten[0].monat)}, {daten.length} Raten
-            </p>
-          </div>
-        )}
-        <div className="mt-4 md:grid md:grid-cols-[minmax(0,1fr)_150px] md:gap-5">
-          <div className="h-[220px]" role="img" aria-label={`Verlauf: eingezahlt ${letzte ? euro(letzte.eingezahlt) : ""}, Wert ${letzte ? euro(letzte.wert) : ""}`}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={daten} margin={{ top: 6, right: 4, bottom: 0, left: 0 }}>
-                <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
-                <XAxis
-                  dataKey="monat"
-                  ticks={daten.filter((d) => d.monat.endsWith("-01")).map((d) => d.monat)}
-                  tickFormatter={(m: string) => m.slice(0, 4)}
-                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  width={52}
-                  tickFormatter={(v: number) => `${(v / 1000).toLocaleString("de-DE")} T€`}
-                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip
-                  formatter={(v: number, n: string) => [euro(v), n === "wert" ? "Wert" : "Eingezahlt"]}
-                  labelFormatter={(m: string) => monatName(m)}
-                  contentStyle={{ fontSize: 13, borderRadius: 4 }}
-                />
-                <Area type="monotone" dataKey="eingezahlt" stroke="hsl(var(--muted-foreground))" fill="hsl(var(--muted))" strokeWidth={1.5} />
-                <Area type="monotone" dataKey="wert" stroke="hsl(var(--gain))" fill="hsl(var(--gain-soft))" fillOpacity={0.7} strokeWidth={2} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="mt-4 grid grid-cols-3 gap-2 md:mt-0 md:grid-cols-1">
-            {kacheln.map(([zeit, wert]) => (
-              <div key={zeit} className="border border-border bg-background px-2.5 py-2.5 sm:px-3">
-                <Etikett>{zeit}</Etikett>
-                {wert ? (
-                  <p className="mt-1 whitespace-nowrap text-[15px] font-semibold sm:text-[17px] tabular-nums text-gain">{wert}</p>
-                ) : (
-                  <p className="mt-1 text-[14px] text-muted-foreground">noch zu jung</p>
-                )}
-              </div>
-            ))}
           </div>
         </div>
+
+        <Etikett className="mt-5">ETF</Etikett>
+        <div className="mt-1.5 grid grid-cols-2 gap-2 md:grid-cols-4" role="group" aria-label="ETF wählen">
+          {etfListe.map((x) => {
+            const an = x.isin === isin;
+            const kurz = x.name.startsWith(`${x.anbieter} `) ? x.name.slice(x.anbieter.length + 1) : x.name;
+            return (
+              <button
+                key={x.isin}
+                type="button"
+                aria-pressed={an}
+                onClick={() => setIsin(x.isin)}
+                className={`flex min-h-[52px] items-center gap-2 border px-2.5 py-2 text-left transition-colors ${
+                  an ? "border-foreground bg-background shadow-[inset_0_0_0_1px_hsl(var(--foreground))]" : "border-border bg-background hover:border-foreground/50"
+                }`}
+              >
+                <img src={logoPfad(x.logo)} alt="" aria-hidden="true" width={24} height={24} className="h-6 w-6 shrink-0 object-contain" />
+                <span className="min-w-0 text-[13px] leading-tight text-foreground">
+                  <span className="font-mono text-[11px] text-muted-foreground">{String(x.platz).padStart(2, "0")}</span> {kurz}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 grid gap-2 sm:grid-cols-3" aria-live="polite">
+          {ZEITRAEUME.map(({ jahre, feld }) => {
+            const erg = rechnen(e, betrag, art, jahre, feld);
+            return (
+              <div key={jahre} className="border border-border bg-background px-4 py-3.5">
+                <Etikett>Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`} angefangen</Etikett>
+                {erg ? (
+                  <>
+                    <p className="mt-2 text-[14px] text-muted-foreground">
+                      Eingezahlt <span className="tabular-nums text-foreground">{euro(erg.eingezahlt)}</span>
+                    </p>
+                    <p className={`mt-0.5 text-[24px] font-semibold tabular-nums ${erg.wert >= erg.eingezahlt ? "text-gain" : "text-loss"}`}>
+                      {euro(erg.wert)}
+                    </p>
+                    <p className="text-[13px] text-muted-foreground">heute wert</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="mt-2 text-[24px] font-semibold text-muted-foreground">–</p>
+                    <p className="text-[13px] text-muted-foreground">Den ETF gibt es noch nicht so lange.</p>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-          Verlauf aus Monatskursen ohne Ausschüttungen (Yahoo Finance, Stand {kursStand}). Bei Platz 1, 3, 4 und 8 liegt
-          der echte Wert darum etwas höher. Renditen 1, 3 und 5 Jahre: justETF mit Ausschüttungen, Stand {RENDITE_STAND}.
-          Vergangene Renditen sind kein Versprechen für die Zukunft.
+          {art === "einmal"
+            ? `Einmalig: Rendite von justETF in Euro mit Ausschüttungen, Stand ${RENDITE_STAND}.`
+            : `Jeden Monat: eine Rate je Monat zum Monatskurs, Wert zum Kurs vom ${kursStand} (Yahoo Finance, ohne Ausschüttungen). Bei Platz 1, 3, 4 und 8 liegt der echte Wert darum etwas höher.`}{" "}
+          Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
         </p>
       </div>
     </section>
@@ -832,7 +902,7 @@ const KleineTabelle = ({
 
 const HalalEtf = () => {
   const [offen, setOffen] = useState(false);
-  const ids = useMemo(() => ABSCHNITTE.map((a) => a.id), []);
+  const ids = useMemo(() => LEISTE.map((a) => a.id), []);
   const aktiv = useAktiv(ids);
   const depots = gepruefteDepots();
   const stand = kaufbarStand();
@@ -843,7 +913,7 @@ const HalalEtf = () => {
 
   const inhalt = (
     <ol>
-      {ABSCHNITTE.map((a) => (
+      {LEISTE.map((a) => (
         <li key={a.id}>
           <a
             href={`#${a.id}`}
@@ -874,13 +944,13 @@ const HalalEtf = () => {
             <div className="sticky top-24">
               <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
               <div className="mt-3">{inhalt}</div>
-              <div className="mt-8 border border-border bg-card p-6">
+              <div className="mt-6 border border-border bg-card p-5">
                 <Etikett className="text-primary">Dein Vermögensaufbau</Etikett>
-                <p className="font-titel mt-3 text-[25px] leading-[1.15] text-foreground">Langfristig investieren, ohne einen Cent Riba?</p>
-                <p className="mt-3 text-[15px] leading-relaxed text-foreground/75">
+                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Riba?</p>
+                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
                   In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt.
                 </p>
-                <Link to="/vergleich/depot" className="leuchtlinie mt-6 inline-block">
+                <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
                   <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">
                     Zum Depot-Vergleich
                   </span>
@@ -951,12 +1021,12 @@ const HalalEtf = () => {
                     wirklich halal, und welcher trägt das Wort nur im Namen?
                   </p>
                   <p>
-                    Ich habe 12 Halal ETFs nach fünf Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie
+                    Ich habe 12 Halal ETFs nach vier Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie
                     kaufen kannst. Acht sind geblieben.
                   </p>
                   <p>
-                    Der bekannteste ist der iShares MSCI World Islamic, der größte der Liste und seit 2007 am Markt. Er steht
-                    auf Platz 1 nach unseren fünf Kriterien. Das ist ein Vergleich, keine Empfehlung für deine Lage.
+                    Der bekannteste ist der iShares MSCI World Islamic, der größte der Liste und seit 2007 am Markt. Die Reihenfolge folgt zuerst
+                    islamischen Kriterien und der Verfügbarkeit, nicht der Rendite. Das ist keine Anlageberatung.
                   </p>
                 </Text>
 
@@ -964,7 +1034,7 @@ const HalalEtf = () => {
                 <GoogleKasten />
 
                 {/* 5 Das Wichtigste wie frontal „Key Takeaways“ */}
-                <section className="mt-10 border-l-2 border-primary bg-muted/60 px-5 py-6 md:px-8 md:py-7">
+                <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
                   <H2 id="das-wichtigste" />
                   <p className="mt-1.5 text-[15px] text-muted-foreground">Die kurze Fassung, bevor es ins Detail geht.</p>
                   <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/75">
@@ -1031,6 +1101,7 @@ const HalalEtf = () => {
                       </p>
                     ))}
                     <p>
+                      Größe, Alter und Rendite zeigen wir bei jedem ETF zur Information. Für die Reihenfolge zählen sie nicht.
                       Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
                     </p>
                   </Text>
@@ -1044,8 +1115,8 @@ const HalalEtf = () => {
                   <H2 id="die-besten-halal-etfs" />
                   <Text>
                     <p>
-                      Die Reihenfolge folgt den fünf Kriterien oben. Platz 1 ist der bekannteste und hat den Sparplan bei
-                      den meisten Depots. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
+                      Die Reihenfolge folgt den vier Kriterien oben, nicht der Rendite. Platz 1 hat
+                      den Beleg am Fonds, reinigt selbst und läuft bei den meisten Depots als Sparplan. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
                       Aktien, sondern Sukuk.
                     </p>
                     <p>
