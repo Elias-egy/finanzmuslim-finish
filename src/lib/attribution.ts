@@ -64,6 +64,8 @@ export const VALID_SRC = [
   // Wort etf in ManyChat (MC4e, 28.10.2026)
   "dmetf",
   "dmnachetf",
+  // Wort sukuk in ManyChat (MC7g, 02.11.2026), Ablauf baut MC8.
+  "dmsukuk",
   "v0",
   // Leiter (MC7d3, 29.10.2026): Bedingungs-Mails M1 und Abbinder M2 (~/rebrand/mails/bauen.py v31), Kasten
   // „Dein nächster Schritt“ am Ende der Freebies (src/components/NaechsterTeil.tsx, k plus Wort).

@@ -52,7 +52,7 @@ describe("Sukuk-Plan (MC7f)", () => {
   });
 
   it("jede Klickkennung der Seite zählt", () => {
-    for (const k of ["sktop3", "skalle", "skkarte", "ksukuk"]) expect(istGueltigeQuelle(k)).toBe(true);
+    for (const k of ["sktop3", "skalle", "skkarte", "ksukuk", "dmsukuk"]) expect(istGueltigeQuelle(k)).toBe(true);
   });
 
   it("ist versteckt: noindex, nicht in der Sitemap, mit PDF", () => {
