@@ -38,7 +38,7 @@ const AKTUALISIERT = { text: "01.11.2026", iso: "2026-11-01T09:00:00+01:00" };
 const INSTAGRAM = "https://www.instagram.com/finanz.muslim/";
 const YOUTUBE = "https://www.youtube.com/@finanz.muslim";
 /** LinkedIn-Profil von Elias. Leer, bis es steht: dann erscheinen Link und sameAs (SOP About Page Z. 93, 145). */
-const LINKEDIN = "";
+const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy-370616363/";
 const PROFILE = [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, ...(LINKEDIN ? [LINKEDIN] : [])];
 const VIDEO_ID = "uO0ZnlaFolw";
 const BIO =
@@ -58,7 +58,6 @@ const BILD_HOEHE: Record<string, number> = {
 };
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
 const LESEZEIT = 20;
-const RIBA_ZEILE = "Riba-frei bleiben: Zinsen aufs Guthaben abwählen, nie auf Kredit kaufen.";
 
 /* ------------------------------------------------------------------ */
 /* Inhalt                                                              */
@@ -931,7 +930,6 @@ const HalalEtf = () => {
                     </div>
                   ))}
                 </div>
-                <p className="mt-4 text-[14px] text-foreground/80">{RIBA_ZEILE}</p>
               </section>
 
               {/* 12 Die Liste, 13 Video nach Platz 1 */}
