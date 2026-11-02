@@ -431,3 +431,26 @@ html[data-druck] p:has(+ h3) { break-after: avoid; }
 html[data-druck] .rounded-xl,
 html[data-druck] .rounded-2xl,
 html[data-druck] .rounded-3xl:not([data-depot-aufruf]):not([data-depot-kasten]) { break-inside: avoid; }
+
+/* Dua-PDF (MC7g, Elias 02.11.2026: „die Duas müssen eine anständige PDF sein“, Vault
+   raw/2026-11-02-elias-mc7f-pdf-nur-duas-keine-kleinigkeiten.md). Nur die Druckfassung: Deckblatt allein, jedes
+   Anliegen beginnt eine neue Seite, jede Dua steht ganz auf einer eigenen Seite, Schrift groß wie in einem Duabuch. */
+html[data-druck] [data-vorlage="rizq"] > div > header { padding: 40px 24px; min-height: 760px; display: flex; flex-direction: column; justify-content: center; }
+html[data-druck] [data-vorlage="rizq"] > div > header h1 { font-size: 40px; }
+html[data-druck] [data-vorlage="rizq"] section[id^="anliegen-"],
+html[data-druck] [data-vorlage="rizq"] section[aria-labelledby="daneben"],
+html[data-druck] [data-vorlage="rizq"] .reveal:has(> #rizq-warum),
+html[data-druck] [data-vorlage="rizq"] .reveal:has(> section > #rizq-warum),
+html[data-druck] [data-vorlage="rizq"] main footer,
+html[data-druck] [data-vorlage="rizq"] > div > footer { break-before: page; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] { break-inside: avoid; padding: 20px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte]:not(:first-child),
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] + * { break-before: page; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] > div span { font-size: 14px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p[lang="ar"] { font-size: 30px; line-height: 2; margin-top: 20px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte="lang"] { padding: 16px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte="lang"] p[lang="ar"] { font-size: 26px; line-height: 1.85; margin-top: 12px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p[lang="ar"] + p { font-size: 17px; margin-top: 16px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p[lang="ar"] + p + p { font-size: 19px; line-height: 1.55; margin-top: 12px; }
+html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p:last-child { font-size: 14px; margin-top: 18px; padding-top: 10px; }
+html[data-druck] [data-vorlage="rizq"] > div > footer p { font-size: 14px; }

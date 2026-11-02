@@ -2,7 +2,7 @@ import type { Dua } from "@/data/duas";
 
 /** Ein Bittgebet mit Arabisch, Umschrift, Übersetzung und Fundstelle. Enthält keine Daten. */
 const DuaKarte = ({ d }: { d: Dua }) => (
-  <article className="card-surface p-4 md:p-6">
+  <article className="card-surface p-4 md:p-6" data-dua-karte={d.ar.length > 140 ? "lang" : ""}>
     <div className="flex flex-wrap items-baseline justify-between gap-3">
       <span className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">{d.nr}</span>
       <span className="text-[12px] text-muted-foreground">{d.when}</span>
