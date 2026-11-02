@@ -67,6 +67,11 @@ const DeinGuide = () => {
     return () => io.disconnect();
   }, [guide]);
 
+  // Einsteiger und Fortgeschritten gibt es nur als PDF (MC7d17): auch ein Klick innerhalb der Seite öffnet die Datei.
+  if (guide?.weiterleitung) {
+    window.location.replace(guide.weiterleitung);
+    return null;
+  }
   if (!guide || guide.nurPdf) return <Navigate to="/halal-guide" replace />;
 
   return (

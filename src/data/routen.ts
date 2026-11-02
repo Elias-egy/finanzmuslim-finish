@@ -226,6 +226,8 @@ export const weiterleitungen: { von: string; nach: string }[] = [
   // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
   // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
+  // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
+  ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
