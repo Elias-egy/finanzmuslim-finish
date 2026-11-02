@@ -1096,7 +1096,7 @@ const HalalEtf = () => {
               <div className="mt-3">{inhalt}</div>
               <div className="mt-6 border border-border bg-card p-5">
                 <Etikett className="text-primary">Dein Vermögensaufbau</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Zinsen vom Depot?</p>
+                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Riba?</p>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
                   In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt.
                 </p>
