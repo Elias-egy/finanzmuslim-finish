@@ -25,6 +25,8 @@ export type EtfEintrag = {
   isin: string;
   /** Anzeigename, gleich in Karte, Eintrag und Tabellen. */
   name: string;
+  /** Kurzname nur für die H3 des Eintrags, wenn der Name zu lang ist (Elias SEO35: „oben die Abkürzung“); der volle Name steht im Bild und im Link darunter. */
+  kurz?: string;
   /** Fondsanbieter und Logo-Datei in /bilder/blog/halal-etf/logos/. */
   anbieter: string;
   logo: string;
@@ -83,6 +85,7 @@ export const etfListe: EtfEintrag[] = [
     platz: 2,
     isin: "IE000UOXRAM8",
     name: "Invesco Dow Jones Islamic Global Developed Markets",
+    kurz: "Invesco Dow Jones Islamic",
     anbieter: "Invesco",
     logo: "invesco",
     amBestenFuer: "Gewinne, die im Fonds bleiben",
@@ -201,6 +204,7 @@ export const etfListe: EtfEintrag[] = [
     platz: 7,
     isin: "IE00BMYMHS24",
     name: "HANetf Saturna Al-Kawthar Global Focused Equity",
+    kurz: "Saturna Al-Kawthar",
     anbieter: "HANetf",
     logo: "hanetf",
     amBestenFuer: "aktive Auswahl statt Index",

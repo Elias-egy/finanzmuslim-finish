@@ -827,22 +827,23 @@ const Rechner = () => {
         </div>
 
         <Etikett className="mt-5">ETF</Etikett>
-        {/* Am Handy eine Reihe zum Wischen statt vier Zeilen Kacheln (Elias SEO35), ab sm das Raster */}
+        {/* Am Handy eine Reihe zum Wischen statt vier Zeilen Kacheln, bündig mit Betrag und Ergebnis (Elias SEO35), ab sm das Raster */}
         <div
-          className="-mx-4 mt-1.5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+          className="mt-1.5 flex snap-x gap-2 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 md:grid-cols-4 [&::-webkit-scrollbar]:hidden"
           role="group"
           aria-label="ETF wählen"
         >
           {etfListe.map((x) => {
             const an = x.isin === isin;
-            const kurz = x.name.startsWith(`${x.anbieter} `) ? x.name.slice(x.anbieter.length + 1) : x.name;
+            const voll = x.kurz ?? x.name;
+            const kurz = voll.startsWith(`${x.anbieter} `) ? voll.slice(x.anbieter.length + 1) : voll;
             return (
               <button
                 key={x.isin}
                 type="button"
                 aria-pressed={an}
                 onClick={() => setIsin(x.isin)}
-                className={`flex min-h-[52px] w-[150px] shrink-0 snap-start items-center gap-2 border px-2.5 py-2 text-left transition-colors sm:w-auto ${
+                className={`flex min-h-[52px] w-[140px] shrink-0 snap-start items-center gap-2 border px-2.5 py-2 text-left transition-colors sm:w-auto ${
                   an ? "border-foreground bg-background shadow-[inset_0_0_0_1px_hsl(var(--foreground))]" : "border-border bg-background hover:border-foreground/50"
                 }`}
               >
@@ -972,12 +973,26 @@ const DepotKasten = () => (
 /* Einträge und Tabellen                                               */
 /* ------------------------------------------------------------------ */
 
+/** Handy-Bild bis unter Kosten und Fondsgröße (Elias SEO35 „kürzen passt“), gemessen je Bild: Ende der Kachelzeile plus 20 px. */
+const HANDY_SCHNITT: Record<string, number> = {
+  "ishares-msci-world-islamic": 513,
+  "invesco-dow-jones-islamic-global-developed-markets": 576,
+  "ishares-msci-usa-islamic": 513,
+  "ishares-msci-emerging-markets-islamic": 585,
+  "hsbc-msci-world-islamic-screened": 516,
+  "invesco-msci-acwi-islamic-m-series": 516,
+  "hanetf-saturna-al-kawthar-global-focused-equity": 576,
+  "ishares-usd-sukuk-ucits-etf": 513,
+};
+
 const Eintrag = ({ e }: { e: EtfEintrag }) => {
   const a = anlageVon(e.isin);
   return (
     <article id={anker(e)} className="scroll-mt-24">
+      {/* Muster der Anleitung „1. Name, am besten für …“ wie frontal; der Name trägt, der Rest ist leiser (Elias SEO35) */}
       <h3 className="text-[20px] font-semibold leading-snug text-foreground">
-        {e.platz}. {e.name}, am besten für {e.amBestenFuer}
+        {e.platz}. {e.kurz ?? e.name}
+        <span className="font-normal text-foreground/70">, am besten für {e.amBestenFuer}</span>
       </h3>
       {/* Kopf der Seite in unserer Datenbank am Laptop (1280 × 720, Faktor 1,5), bis über „Verfügbar bei“ */}
       <Link to={`/halal-anlagen/${a.slug}`} className="mt-5 block overflow-hidden rounded-md border border-border">
@@ -986,11 +1001,12 @@ const Eintrag = ({ e }: { e: EtfEintrag }) => {
           <source media="(min-width: 768px)" srcSet={`/bilder/blog/halal-etf/laptop/${a.slug}.webp`} width={1440} height={434} />
           <img
           src={`/bilder/blog/halal-etf/${a.slug}.webp`}
-          alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr, Fondsgröße und Auflage`}
+          style={{ aspectRatio: `716 / ${HANDY_SCHNITT[a.slug] ?? 852}` }}
+          alt={`${e.name} in der finanzmuslim Datenbank: ISIN ${e.isin}, Kosten ${a.kostenLabel} im Jahr und Fondsgröße`}
           width={716}
           height={852}
           loading="lazy"
-          className="h-auto w-full"
+          className="h-auto w-full object-cover object-top md:![aspect-ratio:1440/434]"
         />
         </picture>
       </Link>
