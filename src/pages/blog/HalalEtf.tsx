@@ -57,7 +57,7 @@ const BIO =
 const RECHTSHINWEIS =
   "Dieser Beitrag dient zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Reihenfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
-const LESEZEIT = 17;
+const LESEZEIT = 18;
 
 /* ------------------------------------------------------------------ */
 /* Inhalt                                                              */
@@ -92,7 +92,7 @@ const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
  */
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
-    lead: "Acht Halal ETFs kannst du in Deutschland kaufen.",
+    lead: "Acht Halal ETFs im Vergleich, alle in Deutschland zu kaufen.",
     text: "Bei bis zu 27 Depots, Platz 1 bei 14 davon auch als Sparplan. Der bekannteste ist der iShares MSCI World Islamic, seit 2007 am Markt.",
   },
   {
@@ -107,8 +107,8 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     lead: "Ein kleiner Rest wird gespendet.",
     text: (
       <>
-        Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter, bei Platz 1
-        (seit 2026) und Platz 5 macht das schon der Fonds für dich. So rechnest du es:{" "}
+        Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter, bei den vier
+        iShares-ETFs dieser Liste macht das laut Verkaufsprospekt schon der Fonds für dich. So rechnest du es:{" "}
         <TL to="/blog/ertraege-reinigen">Aktienbereinigung</TL>.
       </>
     ),
@@ -140,12 +140,12 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist ein ETF halal oder haram?",
     antwort:
-      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Sechs der acht ETFs hier haben ein eigenes Zertifikat für den Fonds.",
+      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sieben der acht ETFs hier prüft ein Gremium den Fonds selbst, nicht nur den Index.",
   },
   {
     frage: "Sind ETFs haram?",
     antwort:
-      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht, sechs davon mit eigenem Zertifikat für den Fonds.",
+      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht, bei sieben prüft ein Gremium den Fonds selbst.",
   },
   {
     frage: "Welche Halal ETFs gibt es bei Trade Republic?",
@@ -163,7 +163,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Welche ETFs sind scharia-konform?",
     antwort:
-      "So nennen sich ETFs mit Islamic oder Shariah im Namen. Alle acht in dieser Liste sind zertifiziert, sechs für den Fonds selbst, zwei für den Index, dem sie folgen.",
+      "So nennen sich ETFs mit Islamic oder Shariah im Namen. Alle acht in dieser Liste sind geprüft, sieben als Fonds selbst, einer über den Index, dem er folgt.",
   },
   {
     frage: "Wie prüfe ich, ob ein ETF halal ist?",
@@ -179,7 +179,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
     antwort:
-      "Nach dem AAOIFI-Standard ja, wenn der Fonds es nicht selbst tut. Der iShares MSCI World Islamic (seit 2026) und der HSBC MSCI World Islamic Screened reinigen im Fonds. Beim iShares USD Sukuk ist es in der Regel nicht nötig, weil er keine Aktien hält. Bei den anderen gibst du den unreinen Anteil deiner Erträge weiter.",
+      "Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut. Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds. Bei den anderen gibst du ihn selbst weiter.",
     link: { to: "/blog/ertraege-reinigen", text: "So rechnest du die Reinigung" },
   },
 ];
@@ -207,7 +207,7 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   {
     to: "/halal-anlagen/ishares-msci-world-islamic",
     name: "iShares MSCI World Islamic",
-    text: "Alle Daten zu Platz 1, mit ISIN und Zertifikat.",
+    text: "Alle Daten zu Platz 1, mit ISIN und Verkaufsprospekt.",
   },
   { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "Die Grenzwerte, nach denen ein Index prüft." },
   { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
@@ -248,6 +248,9 @@ const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** Fondsgröße kurz wie halalwallet „$3.39B“: ab 1.000 Mio. in Mrd. mit einer Stelle (Elias SEO45: Tabellen wie halalwallet). */
 const groesseKurz = (mio: number) =>
   mio >= 1000 ? `${(mio / 1000).toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}\u00a0Mrd.\u00a0€` : `${mio.toLocaleString("de-DE")}\u00a0Mio.\u00a0€`;
+/** Linktext nach Art der Quelle: ein Prospekt oder eine Methodik ist kein Zertifikat (Halal-Tor SEO45). */
+const quelleWort = (url: string) =>
+  url.includes("prospectus") ? "Verkaufsprospekt ansehen" : url.includes("msci.com") ? "Methodik ansehen" : url.includes("factsheet") ? "Factsheet ansehen" : "Zertifikat ansehen";
 /** Was die Positionen sind: beim Sukuk-ETF Sukuk, sonst Aktien. */
 const positionenWort = (e: EtfEintrag) => (anlageVon(e.isin).kategorie === "sukuk" ? "Sukuk" : "Aktien");
 const logoPfad = (datei: string) => `/bilder/blog/halal-etf/logos/${datei.includes(".") ? datei : `${datei}.webp`}`;
@@ -540,10 +543,10 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
               ))}
             </ul>
           </Klappzeile>
-          <Klappzeile titel="Zertifikat">
+          <Klappzeile titel="Geprüft von">
             {e.geprueftText}{" "}
-            <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-              Zertifikat ansehen
+            <a href={e.pruefLink ?? a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
+              {quelleWort(e.pruefLink ?? a.zertifikatLink)}
             </a>
           </Klappzeile>
         </div>
@@ -1337,12 +1340,12 @@ const HalalEtf = () => {
                   <H2 id="die-besten-halal-etfs" />
                   <Text>
                     <p>
-                      Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite: ein eigenes Zertifikat für
-                      den Fonds zählt mehr als eines nur für den Index, dann ob der Fonds selbst reinigt, dann bei wie vielen Depots
+                      Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite: ein Gremium, das den
+                      Fonds selbst prüft, zählt mehr als eine Prüfung nur des Index, dann ob der Fonds selbst reinigt, dann bei wie vielen Depots
                       du ihn kaufst. Wie ich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
                     </p>
                     <p>
-                      Platz 1 hat ein eigenes Zertifikat, reinigt selbst und läuft bei 14 Depots als Sparplan. Die Plätze 2 bis 7 decken
+                      Platz 1 hat ein eigenes Gremium mit Fatwa, spendet den unreinen Anteil selbst und läuft bei 14 Depots als Sparplan. Die Plätze 2 bis 7 decken
                       je einen bestimmten Wunsch ab, Platz 8 kauft keine Aktien, sondern Sukuk. Jedes Bild zeigt die Seite des ETFs in
                       unserer Datenbank, ein Klick darauf öffnet alle Daten mit ISIN.
                     </p>

@@ -48,16 +48,21 @@ export type EtfEintrag = {
   dafuer: string[];
   dagegen: string[];
   geprueftText: string;
+  /** Quelle für „Geprüft von“, wenn sie nicht `zertifikatLink` in `halalAnlagen` ist (HSBC: Factsheet, SEO45). */
+  pruefLink?: string;
 };
 
 const PANEL_ISHARES =
-  "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Gremium, das Shari'ah Equity Funds Panel mit Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.";
+  "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Gremium, das Shari'ah Equity Funds Panel mit Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar. Es hat eine Fatwa erteilt und soll jedes Jahr ein Zertifikat ausstellen.";
 
 const PANEL_WIE_PLATZ_1 =
-  "Laut Verkaufsprospekt von iShares II plc prüft ihn dasselbe Gremium wie Platz 1, das Shari'ah Equity Funds Panel. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.";
+  "Laut Verkaufsprospekt von iShares II plc prüft ihn dasselbe Gremium wie Platz 1, das Shari'ah Equity Funds Panel. Es hat eine Fatwa erteilt und soll jedes Jahr ein Zertifikat ausstellen.";
+
+const AUSSCHUSS_HSBC =
+  "Laut Factsheet von HSBC (30.09.2026) überwacht ein Shariah-Ausschuss den Fonds regelmäßig und stellt jedes Jahr ein Shariah-Zertifikat für den Fonds aus. Die Methodik des Index hat MSCI von einem Ausschuss islamischer Gelehrter freigeben lassen.";
 
 const NUR_INDEX_MSCI =
-  "Das Zertifikat gilt für den Index, nicht für den Fonds selbst: MSCI lässt die Methodik seiner Islamic-Indizes von einem Ausschuss islamischer Gelehrter freigeben.";
+  "Das Zertifikat gilt für den Index, dem der Fonds folgt: MSCI lässt die Methodik seiner Islamic-Indizes von einem Ausschuss islamischer Gelehrter freigeben.";
 
 export const etfListe: EtfEintrag[] = [
   {
@@ -76,12 +81,12 @@ export const etfListe: EtfEintrag[] = [
     absaetze: [
       "Der iShares MSCI World Islamic ist der bekannteste Halal ETF in Deutschland. Er bildet den MSCI World Islamic nach: die großen Firmen aus Industrieländern, ohne Banken, Versicherungen und alles, was bei der Shariah-Prüfung durchfällt.",
       "Er ist seit Dezember 2007 am Markt und mit 1.577 Mio. € der größte Fonds dieser Liste. Ein so alter Fonds hat echte Zahlen aus fast zwei Jahrzehnten, auch aus schlechten Jahren.",
-      "Laut Verkaufsprospekt prüft ihn ein eigenes Gremium bei iShares, mit Fatwa und Zertifikat jedes Jahr. Seit 2026 reinigt er die Ausschüttungen selbst im Fonds.",
+      "Laut Verkaufsprospekt prüft ihn ein eigenes Gremium bei iShares, das eine Fatwa erteilt hat. Den kleinen unreinen Anteil der Erträge spendet der Fonds selbst.",
       "Er kostet 0,30 % im Jahr, bei 10.000 € also 30 €. Einen Sparplan darauf bieten 14 Depots, so viele wie bei keinem anderen ETF hier. Kaufen kannst du ihn bei 27 Depots.",
       "Er schüttet zweimal im Jahr aus, das Geld legst du selbst wieder an. Schwellenländer wie China oder Indien sind nicht drin.",
     ],
     passt: "du mit einem einzigen ETF anfangen willst",
-    dafuer: ["Eigenes Gremium mit Fatwa und Zertifikat jedes Jahr.", "Sparplan bei 14 Depots, so oft wie bei keinem hier.", "Reinigt seit 2026 selbst im Fonds."],
+    dafuer: ["Eigenes Gremium mit Fatwa.", "Sparplan bei 14 Depots, so oft wie bei keinem hier.", "Spendet den unreinen Anteil selbst."],
     dagegen: ["Ausschüttungen legst du selbst wieder an.", "Keine Schwellenländer drin."],
     geprueftText: PANEL_ISHARES,
   },
@@ -110,7 +115,7 @@ export const etfListe: EtfEintrag[] = [
     dafuer: ["Keine Ausschüttung, die du selbst anlegen musst.", "Eigenes Zertifikat für genau diesen ETF."],
     dagegen: ["Teuerster passiver Aktien-ETF der Liste.", "Letztes Zertifikat gilt für 2023."],
     geprueftText:
-      "Amanie Advisors hat ein Shariah-Zertifikat für genau diesen ETF ausgestellt, am 15. Oktober 2024 für das Geschäftsjahr 2023. Ein neueres haben wir nicht gefunden.",
+      "Amanie Advisors hat ein Shariah-Zertifikat für genau diesen ETF ausgestellt, am 15. Oktober 2024 für das Geschäftsjahr 2023.",
   },
   {
     platz: 3,
@@ -126,7 +131,7 @@ export const etfListe: EtfEintrag[] = [
     rendite5J: "+89,56 %",
     sparplanBei: ["Smartbroker+", "flatex", "1822direkt", "finanzen.net zero", "finvesto", "tradegate.direct", "Scalable PRIME+", "GLS Bank"],
     absaetze: [
-      "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Dasselbe Gremium bei iShares hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.",
+      "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Dasselbe Gremium bei iShares hat laut Verkaufsprospekt eine Fatwa erteilt.",
       "Seit Dezember 2007 am Markt, 609 Mio. € groß, 0,30 % Kosten im Jahr.",
       "Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 24. Er schüttet aus, das Geld legst du selbst wieder an.",
       "Alles steckt in einem Land. Läuft es in den USA schlecht, trifft es den ganzen Fonds, und kein anderes Land fängt das auf.",
@@ -175,14 +180,15 @@ export const etfListe: EtfEintrag[] = [
     sparplanBei: [],
     absaetze: [
       "Er folgt dem MSCI World Islamic Screened, also ebenfalls Firmen aus Industrieländern nach islamischen Regeln, und kostet 0,30 % im Jahr, so viel wie Platz 1.",
-      "Anders als Platz 1 schüttet er nicht aus. Den kleinen unreinen Anteil gibt er selbst als Spende weiter.",
-      "Sein Zertifikat gilt für den Index, nicht für den Fonds selbst: MSCI lässt die Methodik von einem Ausschuss islamischer Gelehrter freigeben.",
+      "Anders als Platz 1 schüttet er nicht aus, Gewinne bleiben im Fonds.",
+      "Laut Factsheet von HSBC prüft ein Shariah-Ausschuss den Fonds regelmäßig und stellt jedes Jahr ein Zertifikat aus.",
       "Seit November 2022 am Markt, 182 Mio. € groß, kaufbar bei 9 Depots.",
     ],
     passt: "du einmal anlegst und nichts ausgeschüttet haben willst",
-    dafuer: ["Gewinne bleiben im Fonds.", "Reinigt den unreinen Anteil selbst."],
-    dagegen: ["Nur als Einmalkauf, nicht als Sparplan.", "Zertifikat nur für den Index."],
-    geprueftText: NUR_INDEX_MSCI,
+    dafuer: ["Gewinne bleiben im Fonds.", "Shariah-Ausschuss prüft den Fonds selbst."],
+    dagegen: ["Nur als Einmalkauf, nicht als Sparplan."],
+    geprueftText: AUSSCHUSS_HSBC,
+    pruefLink: "https://www.assetmanagement.hsbc.co.uk/api/v1/download/document/ie000x9fti22/gb/en/factsheet",
   },
   {
     platz: 6,
@@ -201,12 +207,12 @@ export const etfListe: EtfEintrag[] = [
     absaetze: [
       "ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF dafür.",
       "Er ist der jüngste der Liste, aufgelegt im Februar 2026. Seitdem steht er bei plus 17,62 %, für 1, 3 oder 5 Jahre gibt es noch keine Zahlen.",
-      "Er kostet 0,35 % im Jahr und schüttet nicht aus. Sein Zertifikat gilt wie bei Platz 5 für den Index, nicht für den Fonds.",
+      "Er kostet 0,35 % im Jahr und schüttet nicht aus. Sein Zertifikat gilt für den Index, dem er folgt.",
       "Kaufen kannst du ihn bei 11 Depots.",
     ],
     passt: "du die ganze Welt in einem ETF willst und mit wenig Geschichte leben kannst",
     dafuer: ["Industrie- und Schwellenländer in einem ETF.", "Gewinne bleiben im Fonds."],
-    dagegen: ["Sehr jung, kaum Zahlen.", "Zertifikat nur für den Index."],
+    dagegen: ["Sehr jung, kaum Zahlen."],
     geprueftText: NUR_INDEX_MSCI,
   },
   {
@@ -251,14 +257,14 @@ export const etfListe: EtfEintrag[] = [
     absaetze: [
       "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten.",
       "Der ETF kauft in US-Dollar. Darum schwankt sein Wert in Euro mit dem Dollarkurs, 2025 lag er bei minus 5,04 %.",
-      "Laut Verkaufsprospekt hat er ein eigenes Sukuk-Gremium, besetzt mit dem Shariah-Board von Amanie Advisors, mit Fatwa und Zertifikat jedes Jahr. Er schüttet jedes Quartal aus.",
+      "Laut Verkaufsprospekt hat er ein eigenes Sukuk-Gremium, besetzt mit dem Shariah-Board von Amanie Advisors, das eine Fatwa erteilt hat. Er schüttet jedes Quartal aus.",
       "Seit Januar 2024 am Markt, 160 Mio. € groß, 0,40 % Kosten im Jahr. Einen Sparplan bieten 3 Depots, kaufen kannst du ihn bei 19.",
     ],
     passt: "ein Teil deines Geldes nicht in Aktien liegen soll",
     dafuer: ["Eigenes Sukuk-Gremium mit Fatwa.", "Zahlt dir jedes Quartal Erträge aus."],
     dagegen: ["Der Dollarkurs schwankt mit.", "Teurer als Platz 1."],
     geprueftText:
-      "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Sukuk Fund Panel, besetzt mit dem Shariah-Board von Amanie Advisors. Es hat eine Fatwa erteilt und stellt jedes Jahr ein Zertifikat aus.",
+      "Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Sukuk Fund Panel, besetzt mit dem Shariah-Board von Amanie Advisors. Es hat eine Fatwa erteilt und soll jedes Jahr ein Zertifikat ausstellen.",
   },
 ];
 
