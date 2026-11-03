@@ -37,90 +37,139 @@
  * „Guide vorbereitet, 21 Seiten“ kann raus; Schritt 2 sagt klar „nach der Eröffnung … Mail mit FERTIG … ich schicke dir den“.
  */
 
+/**
+ * MC7d13d (Elias, 31.10.2026, Vault `raw/2026-10-31-elias-mc7d13d-werbung-plan-kasten-anleitung.md`): der Titel sagt, was
+ * der Leser will, „die 1:1-Anleitung“, ein Guide, „der dich Schritt für Schritt durch alle Investment führt“; vorher
+ * „Der XXL-Guide liegt schon bereit.“
+ *
+ * MC7d14 (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d14-manychat-alle-woerter-fertig.md`): nach außen heißt er
+ * „der fortgeschrittene Guide“, nicht „XXL-Guide“ („der fortgeschrittene Guide liegt bereit … rückwirkend“); er folgt
+ * damit auf den Einsteiger-Guide, der auf Seite 11 genauso endet.
+ *
+ * MC7d16 (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d16-antworten-dua-kompakt.md`: „der Halal Investment Blueprint
+ * ist gut“): ein Name, den es nur über die Freebies gibt, statt „der fortgeschrittene Guide“.
+ */
+export const GUIDE_NAME = "Halal Investment Blueprint";
+
+/**
+ * MC7d17 (Elias, 02.11.2026, Vault `raw/2026-11-02-elias-mc7d17-feedback-runde-4.md`): „Hast du schon eins ohne Zinsen,
+ * reicht das?“ raus; der graue Satz über dem Fetten und „Ich könnte ihn dir schicken …“ raus („würde ich mir nicht
+ * durchlesen … alles ein bisschen zu viel Text“). Statt dessen ein kurzer Übergang zu den zwei Schritten.
+ */
 export const KASTEN = {
-  titel: "Der XXL-Guide liegt schon bereit.",
-  grund: "Ich könnte ihn dir jetzt schicken, aber er macht erst Sinn, wenn du angefangen hast.",
+  titel: `Der ${GUIDE_NAME} liegt bereit.`,
+  grund: "Du bekommst ihn, sobald du angefangen hast:",
   schritt: "Öffne",
   link: { text: "das Depot, das zu dir passt", ziel: "/vergleich/depot" },
-  zaehlt: ", und investiere deine ersten 5 €. Hast du schon eins ohne Zinsen, reicht das.",
+  zaehlt: ", und investiere deine ersten 5 €.",
   fertig: "Nach der Eröffnung schreibst du mir eine Mail mit FERTIG, und ich schicke ihn dir.",
   mail: { text: "Schick mir eine Mail mit FERTIG", ziel: "mailto:elias@finanzmuslim.com?subject=FERTIG" },
 } as const;
 
 /** Die Freebies mit Kasten. Das Wort steht in der Klickzählung (k plus Wort, `src/lib/attribution.ts`). */
-export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold"] as const;
+export const LEITER_WOERTER = ["liste", "aktie", "vertrag", "amin", "boykott", "plan", "etf", "gold", "sukuk"] as const;
 
 export type LeiterWort = (typeof LEITER_WOERTER)[number];
 
-type GuideSeite = { nr: number; titel: string };
+type GuideSeite = { nr: string; titel: string };
 
-/** Je Wort die nächste Frage des Lesers und die drei Guide-Seiten, die sie beantworten (MC7d12). */
+/**
+ * Level 2 des Guides heißt „Dein eigenes Halal-Portfolio“ und geht von Seite 6 bis 14 (Übersicht in `src/guides/xxl.html`).
+ * Es steht in jedem Kasten zuerst (Elias, 01.11.2026, MC7d15 Runde 2: „dein eigenes Halal-Portfolio und dann irgendwie
+ * Seite das bis das … ich würde bei jedem sowas wie Halal-Portfolio reinpacken“).
+ */
+const PORTFOLIO: GuideSeite = { nr: "6–14", titel: "Dein eigenes Halal-Portfolio" };
+
+/**
+ * Je Wort die nächste Frage des Lesers und die Guide-Seiten dazu (MC7d12). Seit MC7d16 (Elias, 01.11.2026, Runde 2:
+ * „wenn du Sachen teasst, dann schon die, die so sich wie Geldvermehrung anhören … Du musst nicht die gleichen drei Seiten
+ * immer nehmen“): nur Seiten, die nach Geldvermehrung klingen, kein Zakat, keine Steuer, kein AAOIFI, kein Bereinigen.
+ * Titel wie im Guide; „Wie viel ETF, wie viel Gold?“ ist die Faustregel von Seite 13 („Fünf Bausteine und wie du sie
+ * mischst“), Elias nannte genau diese Zeile „geile Sachen“.
+ */
 export const NAECHSTE_FRAGE: Record<LeiterWort, { frage: string; seiten: readonly GuideSeite[] }> = {
   plan: {
-    frage: "Was ist mit Steuer und Zakat?",
+    frage: "Wie baust du dein Halal-Portfolio auf?",
     seiten: [
-      { nr: 17, titel: "Steuer und Förderung" },
-      { nr: 18, titel: "Zakat auf Investments" },
-      { nr: 19, titel: "Dein fester Ablauf" },
+      PORTFOLIO,
+      { nr: "7", titel: "Welche Islamic ETFs gibt es?" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
   etf: {
     frage: "Welcher ETF, und was kommt dazu?",
     seiten: [
-      { nr: 7, titel: "Welche Islamic ETFs es gibt: alle 12" },
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
-      { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
+      PORTFOLIO,
+      { nr: "13", titel: "Wie viel ETF, wie viel Gold?" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
   gold: {
-    frage: "Wie viel Gold, und was ist mit Steuer und Zakat?",
+    frage: "Wie viel Gold gehört in dein Portfolio?",
     seiten: [
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
-      { nr: 17, titel: "Steuer und Förderung" },
-      { nr: 18, titel: "Zakat auf Investments" },
+      PORTFOLIO,
+      { nr: "13", titel: "Wie viel ETF, wie viel Gold?" },
+      { nr: "7", titel: "Welche Islamic ETFs gibt es?" },
+    ],
+  },
+  // MC7f: Seite 13 nennt Sukuk „Ruhe für kurze Zeit“ und die Faustregel „Brauchst du es bald, mehr Sukuk und Gold.“
+  sukuk: {
+    frage: "Wie viel Sukuk gehört in dein Portfolio?",
+    seiten: [
+      PORTFOLIO,
+      { nr: "13", titel: "Fünf Bausteine, fünf Aufgaben" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
   boykott: {
-    frage: "Und wohin mit meinem Geld?",
+    frage: "Und wohin mit deinem Geld?",
     seiten: [
-      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
-      { nr: 4, titel: "Wo Zinsen überall stecken" },
-      { nr: 5, titel: "Aktie, ETF, Islamic ETF in Bildern" },
+      PORTFOLIO,
+      { nr: "7", titel: "Welche Islamic ETFs gibt es?" },
+      { nr: "3", titel: "Investieren ist nicht gleich Zinsen" },
     ],
   },
   liste: {
-    frage: "Was davon passt zu mir, und wie viel?",
+    frage: "Was davon passt zu dir, und wie viel?",
     seiten: [
-      { nr: 13, titel: "Fünf Bausteine und wie du sie mischst" },
-      { nr: 14, titel: "Ein Beispiel-Portfolio, 500 € im Monat" },
-      { nr: 19, titel: "Dein fester Ablauf" },
+      PORTFOLIO,
+      { nr: "13", titel: "Wie viel ETF, wie viel Gold?" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
   aktie: {
-    frage: "Wie prüfe ich eine Aktie selbst?",
+    frage: "Wie kaufst du Halal-Aktien richtig?",
     seiten: [
-      { nr: 11, titel: "Einzelaktien, mit Zoya und Musaffa" },
-      { nr: 15, titel: "AAOIFI: die drei Kennzahlen" },
-      { nr: 16, titel: "Gewinne bereinigen (Purification)" },
+      PORTFOLIO,
+      { nr: "11", titel: "Einzelaktien: selbst prüfen" },
+      { nr: "7", titel: "Welche Islamic ETFs gibt es?" },
     ],
   },
   vertrag: {
     frage: "Wo stecken sonst noch Zinsen?",
     seiten: [
-      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
-      { nr: 4, titel: "Wo Zinsen überall stecken" },
-      { nr: 17, titel: "Steuer und Förderung" },
+      PORTFOLIO,
+      { nr: "3", titel: "Investieren ist nicht gleich Zinsen" },
+      { nr: "4", titel: "Wo Zinsen überall stecken" },
     ],
   },
   amin: {
-    frage: "Wie wächst mein Rizq ohne Zinsen?",
+    frage: "Wie wächst dein Rizq ohne Zinsen?",
     seiten: [
-      { nr: 3, titel: "Investieren ist nicht gleich Zinsen" },
-      { nr: 4, titel: "Wo Zinsen überall stecken" },
-      { nr: 18, titel: "Zakat auf Investments" },
+      PORTFOLIO,
+      { nr: "3", titel: "Investieren ist nicht gleich Zinsen" },
+      { nr: "14", titel: "Ein Beispiel-Portfolio, 500\u00a0€ im Monat" },
     ],
   },
 };
 
 /** Deckblatt des XXL-Guides, klein im Kasten. Nicht verlinkt: die Belohnung kommt erst nach FERTIG. */
 export const DECKBLATT = "/guides/assets/xxl/deckblatt-klein.webp";
+
+/**
+ * Seitenbilder aus dem Guide-PDF (`public/guides/finanzmuslim-xxl-guide-mt6puo.pdf`, pdftoppm 360 px breit), damit der
+ * Kasten „ein richtiges Bild vom Guide“ zeigt (Elias, MC7d17). Bei einem Bereich wie „6–14“ die erste Seite.
+ * Ändert sich der Guide, die Bilder neu ziehen.
+ */
+export const seitenBild = (nr: string) => `/guides/assets/xxl/seite-${nr.split("–")[0]}.webp`;
+export const DECKBLATT_GROSS = seitenBild("1");

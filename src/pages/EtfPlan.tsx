@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { AlertTriangle } from "lucide-react";
+import { Navigate, useParams } from "react-router-dom";
+import { AlertTriangle, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { AnlageLogo } from "@/components/AnlageZeile";
+import AnlageKarte from "@/components/vorlagen/AnlageKarte";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
+import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
-import { anlageBySlug } from "@/data/halalAnlagen";
 import {
-  BEKANNTE_ETF,
-  BROKER_SATZ,
-  ETF_BEISPIELE,
   ETF_BETRAEGE,
   ETF_MONATLICH,
   ETF_PFAD,
   ETF_SCHLUESSEL,
   GREMIUM_SATZ,
   ISLAMIC_FIRMEN,
-  MSCI_STAND,
   MUSLIM_SATZ,
   REGELN,
   REST_SATZ,
   WORLD_ANBIETER,
   WORLD_ZEILE,
-  etfLink,
   etfQuellen,
   schmerzSatz,
   zahl,
@@ -35,10 +32,18 @@ import {
  * Stil wie die Gold-Seite (src/pages/GoldPlan.tsx) und Fassung 5 des Portfolio-Plans (Elias, 28.10.2026:
  * „in dem stil alle anderen auch“): oben die Geld-Frage (der Klick markiert nur), der eine rote Schmerz
  * (im normalen MSCI World stecken Finanzfirmen), wie ein Islamic ETF filtert (Grafik mit dem Betrag),
- * Beispiele mit Shariah-Prüfung, „Wo kann ich sie kaufen?“ ohne Rot, die bekanntesten Apps, der Aufruf
- * zum Depot-Vergleich. Kein Hinweis auf ein anderes Freebie.
+ * alle Islamic ETFs als Karten, zuletzt der Depot-Aufruf (Titel DEPOT_TITEL). Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
+const ETF_ZEILEN = listenGruppen.find((g) => g.kategorie === "aktien")!.zeilen;
+
+/** Die Farben im Balken oben: Marke, Violett, Grün, wie die Bausteine im Plan. */
+const BALKEN_FARBEN = [
+  { farbe: "#0057FA", anteil: 3 },
+  { farbe: "#705FF1", anteil: 2 },
+  { farbe: "#0E9F8A", anteil: 1 },
+] as const;
+
 const Titel = ({ id, children }: { id: string; children: string }) => (
   <h2 id={id} className="text-[24px] font-extrabold leading-tight text-foreground">
     {children}
@@ -80,7 +85,7 @@ const EtfPlan = () => {
 
       <div className="container max-w-2xl py-8 md:py-12">
         <header className="rounded-3xl bg-hero p-6 md:p-8">
-          <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">So kaufst du Islamic ETFs</h1>
+          <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Deine Halal-ETF-Liste</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat anlegen?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat anlegen?">
             {ETF_BETRAEGE.map((b) => (
@@ -97,12 +102,16 @@ const EtfPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, wo du Islamic ETFs zinsfrei kaufst.{" "}
-            <Link to={etfLink("/vergleich/depot", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Depot-Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...ETF_BETRAEGE)}
+            teile={BALKEN_FARBEN}
+            links={`In einem Jahr in ${zahl(ISLAMIC_FIRMEN)} geprüften Firmen`}
+            wert={betrag * 12}
+            format={(n) => `${Math.round(n).toLocaleString("de-DE")} €`}
+          />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 
@@ -147,52 +156,38 @@ const EtfPlan = () => {
           <div className="mt-4">
             <GrafikFilter zeile={`Für ${betrag} € im Monat`} unter={`steckt dein Geld in ${zahl(ISLAMIC_FIRMEN)} Firmen`} />
           </div>
-          <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">Punkte als Bild, nicht gezählt. Zahlen von MSCI, Stand {MSCI_STAND}.</p>
-          <p className="mt-4 text-[16px] font-semibold text-foreground">Mit Shariah-Prüfung, zum Beispiel:</p>
-          <div className="mt-2 grid gap-2">
-            {ETF_BEISPIELE.map((e) => {
-              const anlage = anlageBySlug(e.slug);
-              return (
-                <div key={e.slug} className="flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
-                  {anlage && <AnlageLogo a={anlage} />}
-                  <span className="flex-1">
-                    {e.titel}
-                    <span className="block text-[12px] font-normal text-muted-foreground">{e.pruefung}</span>
-                  </span>
-                </div>
-              );
-            })}
-          </div>
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="kaufen">
-          <Titel id="kaufen">Wo kann ich sie kaufen?</Titel>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">{BROKER_SATZ}</p>
-          <p className="mt-5 text-[20px] font-extrabold leading-tight text-foreground">
-            Die bekanntesten Apps sind nicht die besten für Muslime.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {BEKANNTE_ETF.map((d) => (
-              <div
-                key={d.name}
-                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <AnbieterLogo name={d.name} domain={d.domain} />
-                  <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-                </div>
-                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
-                <p
-                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-                >
-                  {d.gross}
-                </p>
-                <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
-              </div>
+        {/* Alle ETFs als Liste wie in der Liste (Elias, 01.11.2026, MC7d15: „Das sind alle, die es gibt … dann machst du
+            irgendwie drei, vier und dann machst du weitere Anzeigen“). Punkte-Hinweis und Beispielnamen sind weg. */}
+        <section id="alle-etfs" className="reveal mt-12 scroll-mt-20" aria-labelledby="alle">
+          <h2 id="alle" className="text-[28px] font-extrabold leading-tight text-foreground">
+            Alle {ETF_ZEILEN.length} Islamic ETFs und Fonds
+          </h2>
+          <ul className="mt-4 grid gap-2">
+            {ETF_ZEILEN.slice(0, SICHTBAR).map((z) => (
+              <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=efkarte`} />
             ))}
-          </div>
-          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
-              das kann alles weg“). */}
+          </ul>
+          {ETF_ZEILEN.length > SICHTBAR && (
+            <details className="group mt-2">
+              <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+                {ETF_ZEILEN.length - SICHTBAR} weitere anzeigen
+                <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
+              </summary>
+              <ul className="mt-2 grid gap-2">
+                {ETF_ZEILEN.slice(SICHTBAR).map((z) => (
+                  <AnlageKarte key={z.anlage.slug} z={z} href={`/halal-anlagen/${z.anlage.slug}?src=efkarte`} />
+                ))}
+              </ul>
+            </details>
+          )}
+        </section>
+
+        {/* Nur der Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten Broker für
+            Muslime in der ganzen Liste“); „Wo kann ich sie kaufen?“ und der Broker-Satz sind raus (Runde 2: „zu viel Text“). */}
+        <section className="reveal mt-12" aria-label={DEPOT_TITEL}>
+          <DepotAufruf titel={DEPOT_TITEL} link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
         </section>
 
         <NaechsterTeil wort="etf" className="mt-12" />

@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
-import { AlertTriangle, ArrowRight, Bitcoin, Building2, Coins, Landmark, TrendingUp, type LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Bitcoin,
+  Building2,
+  Coins,
+  Landmark,
+  TrendingUp,
+  type LucideIcon,
+} from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
+import BetragBalken from "@/components/vorlagen/BetragBalken";
+import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
-  BEKANNTE,
-  GIRO_MIT_ZINSEN,
+  GIRO_ACHTEN,
   BETRAEGE,
   PLAN_PFAD,
   PLAN_SCHLUESSEL,
@@ -18,7 +29,6 @@ import {
   euro,
   lagen,
   MONATLICH,
-  planLink,
   quellen,
   SCHMERZ,
   SPIELRAUM,
@@ -95,7 +105,9 @@ const PlanKarte = ({ lage, betrag }: { lage: Lage; betrag: number }) => (
             <Punkt farbe={b.farbe} />
             <span className="flex-1 font-semibold text-foreground">{b.name}</span>
             <span className="w-12 text-right text-muted-foreground">{a.prozent}&nbsp;%</span>
-            <span className="w-16 text-right font-bold tabular-nums text-foreground">{euro(a.prozent, betrag)}&nbsp;€</span>
+            <span className="w-16 text-right font-bold tabular-nums text-foreground">
+              {euro(a.prozent, betrag)}&nbsp;€
+            </span>
           </li>
         );
       })}
@@ -122,7 +134,15 @@ const BeispielKasten = ({ b }: { b: Baustein }) => {
   const anlage = b.beispiel.slug ? anlageBySlug(b.beispiel.slug) : undefined;
   return (
     <div className="mt-3 flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
-      {anlage ? <AnlageLogo a={anlage} /> : <AnbieterLogo name={b.beispiel.titel} domain={b.beispiel.domain} />}
+      {anlage ? (
+        <AnlageLogo a={anlage} />
+      ) : (
+        <span className="flex gap-1">
+          {(b.beispiel.domains ?? [b.beispiel.domain]).map((d) => (
+            <AnbieterLogo key={d} name={b.beispiel!.titel} domain={d} />
+          ))}
+        </span>
+      )}
       <span className="flex-1">
         <span className="font-normal text-muted-foreground">Beispiel: </span>
         {b.beispiel.titel}
@@ -183,7 +203,11 @@ const PortfolioPlan = () => {
             Dein Portfolio als Muslim in vier Schritten
           </h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel Geld hast du im Monat übrig?</p>
-          <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel Geld hast du im Monat übrig?">
+          <div
+            className="mt-2 grid grid-cols-3 gap-1.5"
+            role="group"
+            aria-label="Wie viel Geld hast du im Monat übrig?"
+          >
             {BETRAEGE.map((b) => (
               <button
                 key={b}
@@ -198,39 +222,43 @@ const PortfolioPlan = () => {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-[14px] leading-snug text-foreground/75">
-            Schon mal vorab: Ich habe gerankt, welche Anbieter zinsfrei sind.{" "}
-            <Link to={planLink("/vergleich/start", "oben")} className="font-semibold text-primary underline-offset-2 hover:underline">
-              Zum Vergleich
-            </Link>
-          </p>
+          <BetragBalken
+            className="mt-5"
+            betrag={betrag}
+            max={Math.max(...BETRAEGE)}
+            teile={lage.anteile.map((a) => ({ farbe: bausteinById(a.baustein).farbe, anteil: a.prozent }))}
+            links="In einem Jahr im Halal-Portfolio"
+            wert={betrag * 12}
+            format={(n) => `${Math.round(n).toLocaleString("de-DE")} €`}
+          />
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">Beispiel, keine Anlageberatung.</p>
 
         <section className="reveal mt-10" aria-labelledby="schritt-1">
           <Schritt nr={1} id="schritt-1" titel="Erst das Girokonto" />
-          <p className="mt-2 text-[16px] leading-snug text-foreground/80">Bevor du anlegst, liegt dein Geld auf dem Girokonto.</p>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
-            <div>
-              <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.girokonto}</p>
-              <div className="mt-1.5 flex items-center gap-2">
-                <span className="flex gap-1">
-                  {GIRO_MIT_ZINSEN.map((g) => (
-                    <AnbieterLogo key={g.id} name={g.name} domain={g.domain} klein />
-                  ))}
-                </span>
-                <span className="text-[12px] text-muted-foreground">{GIRO_MIT_ZINSEN.map((g) => g.name).join(", ")}</span>
-              </div>
-              <p className="mt-2 border-t border-loss/20 pt-2 text-[16px] leading-snug text-foreground">{SCHMERZ.muslim}</p>
-              <Link
-                to={planLink("/vergleich/girokonto", "giro")}
-                className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
-              >
-                Girokonten ohne Zinsen ansehen
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            </div>
+          <p className="mt-2 text-[16px] leading-snug text-foreground/80">
+            Bevor du anlegst, liegt dein Geld auf dem Girokonto.
+          </p>
+          {/* Mehr Kontext vor dem Aufruf (Elias, 01.11.2026, MC7d15: „nicht dass du die direkt mit einer Werbung übertriffst“).
+              Seit MC7d17 (Elias, 02.11.2026, MC7d16: „Etwa jedes achte Konto … musst du ein bisschen größer machen … ohne diesen
+              Text“): die drei Stichworte, dann der Satz groß, „Zum Beispiel“, „Als Muslim musst du Zinsen meiden“, die zwei besten. */}
+          <p className="mt-4 text-[16px] font-bold text-foreground">Darauf achtest du:</p>
+          <ul className="mt-2 grid grid-cols-3 gap-2">
+            {GIRO_ACHTEN.map((a) => (
+              <li key={a} className="card-surface flex flex-col items-center gap-1.5 p-3 text-center">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-gain" aria-hidden />
+                <span className="text-[15px] font-bold leading-tight text-foreground">{a}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <GiroAufruf
+              gross={SCHMERZ.girokonto}
+              einleitung="Zum Beispiel:"
+              zwischen={SCHMERZ.muslim}
+              link={(ziel, stelle) => `${ziel}?src=plg${stelle}`}
+            />
           </div>
         </section>
 
@@ -266,7 +294,11 @@ const PortfolioPlan = () => {
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">
             Hier ein Beispiel, wie dein Portfolio aussehen könnte.
           </p>
-          <div className="mt-5 grid grid-cols-3 gap-1 rounded-2xl bg-muted p-1" role="group" aria-label="Wann brauchst du das Geld?">
+          <div
+            className="mt-5 grid grid-cols-3 gap-1 rounded-2xl bg-muted p-1"
+            role="group"
+            aria-label="Wann brauchst du das Geld?"
+          >
             {lagen.map((l) => (
               <button
                 key={l.id}
@@ -284,44 +316,18 @@ const PortfolioPlan = () => {
           <div className="mt-4">
             <PlanKarte lage={lage} betrag={betrag} />
           </div>
-          <p className="mt-3 px-1 text-[16px] leading-snug text-foreground/80">
-            Weißt du nicht, wie lange?{" "}
-            <button type="button" onClick={() => waehle("mittel")} className="font-semibold text-primary hover:underline">
-              Nimm 3 Jahre.
-            </button>
-          </p>
-          <p className="mt-2 px-1 text-[12px] leading-snug text-muted-foreground">
+          <p className="mt-3 px-1 text-[12px] leading-snug text-muted-foreground">
             Ein Beispiel, keine Empfehlung. Wie es früher lief, ist keine Garantie für später.
           </p>
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-4">
-          <Schritt nr={4} id="schritt-4" titel="Wo du es jetzt kaufst" />
-          <p className="mt-2 text-[20px] font-extrabold leading-tight text-foreground">
-            Die bekanntesten Depots sind nicht die besten für Muslime.
-          </p>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {BEKANNTE.map((d) => (
-              <div
-                key={d.name}
-                className={`rounded-2xl p-4 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <AnbieterLogo name={d.name} domain={d.domain} />
-                  <p className="min-w-0 text-[14px] font-bold leading-tight text-foreground">{d.name}</p>
-                </div>
-                {"vor" in d && <p className="mt-3 text-[14px] font-bold leading-none text-foreground">{d.vor}</p>}
-                <p
-                  className={`${"vor" in d ? "mt-1" : "mt-3"} whitespace-nowrap text-[26px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
-                >
-                  {d.gross}
-                </p>
-                <p className="mt-1 text-[14px] leading-snug text-muted-foreground">{d.klein}</p>
-              </div>
-            ))}
+          <Schritt nr={4} id="schritt-4" titel={DEPOT_TITEL} />
+          {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
+              dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
+          <div className="mt-3">
+            <DepotAufruf link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
           </div>
-          {/* Der Aufruf zum Depot-Vergleich steht im Kasten darunter (Elias, 30.10.2026: „Du willst die besten finden …
-              das kann alles weg“). */}
         </section>
 
         <NaechsterTeil wort="plan" className="mt-12" />
@@ -329,14 +335,19 @@ const PortfolioPlan = () => {
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
-            Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine
-            Zulassung.
+            Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland
+            eine Zulassung.
           </p>
           <p>Prüfungen der Beispiele:</p>
           <ul className="space-y-1">
             {quellen.map((q) => (
               <li key={q.url}>
-                <a href={q.url} className="underline underline-offset-2 hover:text-primary" rel="noopener noreferrer" target="_blank">
+                <a
+                  href={q.url}
+                  className="underline underline-offset-2 hover:text-primary"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   {q.titel}
                 </a>
               </li>

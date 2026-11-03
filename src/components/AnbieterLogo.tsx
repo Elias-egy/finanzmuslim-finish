@@ -19,12 +19,15 @@ export const AnbieterLogo = ({
   domain,
   gross = false,
   klein = false,
+  rand = false,
 }: {
   name: string;
   domain?: string;
   gross?: boolean;
   /** Kleines Logo als Beispiel neben einem Satz, kein Anbieter zum Anklicken. */
   klein?: boolean;
+  /** Feiner Kreis um das Logo, damit weiße Logos wie Trade Republic auf weißen Karten nicht verschwimmen. */
+  rand?: boolean;
 }) => {
   const [fehler, setFehler] = useState(false);
   const mass = gross ? "h-12 w-12" : klein ? "h-6 w-6" : "h-10 w-10";
@@ -35,7 +38,7 @@ export const AnbieterLogo = ({
 
   return (
     <span
-      className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero`}
+      className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero${rand ? " ring-1 ring-black/15" : ""}`}
       title={name}
     >
       {url ? (

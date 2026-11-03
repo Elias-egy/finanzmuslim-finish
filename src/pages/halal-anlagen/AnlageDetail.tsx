@@ -16,6 +16,7 @@ import { anlageBySlug } from "@/data/halalAnlagen";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
+import { NACHWEIS } from "@/data/anlagenNachweis";
 import { kursFuerAnlage, kursQuelle, kursStand } from "@/lib/kurse";
 
 const erklaerung: Record<string, string> = {
@@ -76,6 +77,10 @@ const AnlageDetail = () => {
   const zus = anlage.isin ? zusammensetzungFuer(anlage.isin) : undefined;
   const region = anlage.isin ? regionFuer(anlage.isin) : undefined;
   const istKrypto = anlage.kategorie === "krypto";
+  // Fonds auf einem MSCI-Islamic-Index: Nachweis oder zweiter Beleg ist die MSCI-Methodik.
+  const msciIndex = [anlage.zertifikatLink, anlage.zweiterBeleg?.url].some((u) =>
+    u?.includes("msci.com/index/methodology"),
+  );
   const kaufbar = anlage.isin ? ANLAGEN_KAUFBAR[anlage.isin] : undefined;
   const hatZusammensetzung =
     !!zus && ((zus.positionen?.length ?? 0) > 0 || (zus.laender?.length ?? 0) > 0 || (zus.branchen?.length ?? 0) > 0);
@@ -237,11 +242,13 @@ const AnlageDetail = () => {
               <div className="rounded-lg bg-card px-4 py-3">
                 <dt className="text-[13px] text-muted-foreground">Nachweis</dt>
                 <dd className="mt-0.5 text-[15px] font-semibold text-foreground">
-                  {anlage.zertifikatLink
-                    ? anlage.zertifikatArt === "index"
-                      ? "liegt vor, gilt dem Index"
-                      : "liegt vor"
-                    : "–"}
+                  {/* Dieselbe belegte Zeile wie in der Liste, nicht pauschal „liegt vor“ (Halal-Prüfer r2, Fund 9, MC7d13d). */}
+                  {NACHWEIS[anlage.slug]?.text ??
+                    (anlage.zertifikatLink
+                      ? anlage.zertifikatArt === "index"
+                        ? "liegt vor, gilt dem Index"
+                        : "liegt vor"
+                      : "–")}
                 </dd>
               </div>
             </dl>
@@ -264,17 +271,18 @@ const AnlageDetail = () => {
               )}
               {anlage.zertifikatArt === "index" && (
                 <p>
-                  Für das Produkt selbst gibt der Anbieter kein eigenes Zertifikat heraus. Der
-                  Nachweis bezieht sich auf den Index, den es nachbildet.
+                  Der Nachweis hier bezieht sich auf den Index, den es nachbildet, nicht auf das
+                  Produkt selbst.
                 </p>
               )}
               {istKrypto ? (
                 <>
                   <p>
                     <span className="font-semibold text-foreground">Wie geprüft wird: </span>
-                    Eine Gelehrtenstelle schaut sich an, wie die Münze entsteht, wofür sie genutzt
-                    wird und ob dabei Zins oder reine Wette im Spiel ist. Ein Gutachten gilt der
-                    Münze selbst, nicht deinem Handel damit.
+                    {/* Halal-Prüfer r5: Zins und Wette nennt die Shariyah-Seite nicht; sie nennt sich selbst
+                        „preliminary Sharia research and is by no means a fatwa“. */}
+                    Das Shariyah Review Bureau in Bahrain hat sich die Münze angesehen. Nach eigenen
+                    Worten ist das eine vorläufige Einschätzung, keine Fatwa.
                   </p>
                   <p>
                     Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt
@@ -283,15 +291,21 @@ const AnlageDetail = () => {
                 </>
               ) : (
                 <>
+                  {/* Nur wo ein Dokument das Verfahren trägt: die MSCI-Methodik für Fonds auf einem MSCI-Islamic-Index
+                      (Abschnitt 2, 2.1, 2.2, 3.1 und Einleitung). Für Gold, Silber, Sukuk und Fonds ohne gefundenen
+                      Prüfbericht gibt es keinen solchen Satz (Halal-Prüfer r4, Muss 2, MC7d13e). */}
+                  {msciIndex && (
+                    <p>
+                      <span className="font-semibold text-foreground">Wie geprüft wird: </span>
+                      MSCI sortiert für den Index jedes Vierteljahr Firmen aus, die mehr als 5 % ihrer
+                      Einnahmen aus Verbotenem wie Alkohol oder Zinsen ziehen oder zu hohe Schulden haben.
+                      Diese Regeln hat MSCIs Ausschuss aus Sharia-Gelehrten freigegeben.
+                    </p>
+                  )}
                   <p>
-                    <span className="font-semibold text-foreground">Wie geprüft wird: </span>
-                    Eine unabhängige Gelehrtenstelle schaut sich an, womit die Firmen im Fonds ihr
-                    Geld verdienen und wie hoch ihre Schulden und Zinserträge sind. Was durchfällt,
-                    fliegt raus.
-                  </p>
-                  <p>
-                    Solche Zertifizierungen werden meist jedes Jahr neu erteilt. Prüf vor dem Kauf
-                    selbst, ob der Nachweis noch aktuell ist.
+                    {NACHWEIS[anlage.slug]?.stufe === "aktuell" &&
+                      "Solche Zertifikate werden meist jedes Jahr neu erteilt. "}
+                    Prüf vor dem Kauf selbst, ob der Nachweis noch aktuell ist.
                   </p>
                 </>
               )}

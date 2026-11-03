@@ -5,7 +5,7 @@ import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { findStartPartner, type StartPartner } from "@/data/investmentStart";
+import { findStartPartner, STARTVIDEO, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
 import { HinweisText } from "@/components/vergleich/HinweisKasten";
 import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
@@ -24,8 +24,8 @@ import { istGueltigeQuelle } from "@/lib/attribution";
  * finanzmuslim-Seite auf dem Handy-Bild am Anfang und ohne die Stelle zu
  * Zinsen bei Scalable PRIME (Schnitt: ~/rebrand/video/schnitt-2026-10-09.sh).
  */
-const VIDEO_SRC = "/videos/investmentstart.mp4";
-const VIDEO_POSTER = "/videos/investmentstart-poster.jpg";
+const VIDEO_SRC = STARTVIDEO.src;
+const VIDEO_POSTER = STARTVIDEO.poster;
 
 
 const useSubId = (): string => {
@@ -125,7 +125,7 @@ const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
       <PopoverContent className="w-80 text-left text-[14px] leading-relaxed">
         <p className="font-semibold text-foreground">Warum ein Beispielvideo?</p>
         <p className="mt-2 text-muted-foreground">
-          Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Zinsangebote ablehnen und die
+          Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Geld einzahlen und die
           erste Anlage wählen. Bei {anbieter} heißen nur die Menüs anders. Welche Halal-Anlagen es dort gibt, siehst du
           im{" "}
           <Link to="/vergleich/depot" className="text-primary underline underline-offset-2">

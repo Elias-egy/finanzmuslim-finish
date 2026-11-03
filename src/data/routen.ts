@@ -8,6 +8,7 @@ import { PLAN_PFAD } from "./portfolioPlan";
 import { BOYKOTT_PFAD } from "./boykottListe";
 import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
+import { SUKUK_PFAD } from "./sukukPlan";
 import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
 
 /**
@@ -186,7 +187,7 @@ export const nichtIndexiert: string[] = [
   ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
-  ...guides.map((g) => `/dein-guide/${g.schluessel}`),
+  ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
   // Boykott-Liste zum Wort „Boykott“ (BK1), ebenso nur über den Link aus dem Instagram-Chat
@@ -195,6 +196,8 @@ export const nichtIndexiert: string[] = [
   GOLD_PFAD,
   // ETF-Plan zum Wort „ETF“ (MC4e), ebenso nur über den Link aus dem Instagram-Chat
   ETF_PFAD,
+  // Sukuk-Plan zum Wort „Sukuk“ (MC7f), ebenso nur über den Link aus dem Instagram-Chat
+  SUKUK_PFAD,
   // Opt-in-Seite (DM), Danke-Seite und volle Fassung je gesperrtem Freebie, siehe src/data/optin.ts
   ...optinAdressen(),
   "/newsletter/archiv",
@@ -223,6 +226,11 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
      Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
+  // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
+  // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
+  { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
+  // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
+  ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
 ];
 
@@ -237,6 +245,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-gold/:schluessel", grund: "Gold-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-etf/:schluessel", grund: "ETF-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-sukuk/:schluessel", grund: "Sukuk-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/gratis/:freebie", grund: "Opt-in-Seite fuer die Instagram-DM, kein eigener Suchbegriff, setzt noindex" },
   { pfad: "/danke/:freebie", grund: "Danke-Seite nach der Anmeldung, setzt noindex" },
   { pfad: "/vorlagen/:slug/:schluessel", grund: "volle Fassung nur ueber den Link aus der Mail, setzt noindex" },

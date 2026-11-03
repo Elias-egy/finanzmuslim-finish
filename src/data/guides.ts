@@ -18,6 +18,10 @@ export type GuideStufe = {
   /** Steht klein unter dem Titel, eine Zeile. */
   untertitel: string;
   pdf: string;
+  /** Nur als PDF verschickt, keine Seite (Elias, 31.10.2026, MC7d13c: „Das ist eine PDF. Sonst gar nicht.“). */
+  nurPdf?: boolean;
+  /** Alte Adresse /dein-guide/<schluessel> öffnet sofort diese Datei (routen.ts, weiterleitungen). */
+  weiterleitung?: string;
   pdfName: string;
 };
 
@@ -28,6 +32,10 @@ export const guides: GuideStufe[] = [
     titel: "Halal Investment Guide, Einsteiger",
     untertitel: "Die Grundlagen und der erste Schritt",
     pdf: "/guides/finanzmuslim-einsteiger-guide.pdf",
+    // Guides nie als Seite, immer das PDF (Elias, 02.11.2026, MC7d17, Vault raw/2026-11-02-elias-mc7d17-guides-nie-auf-webseite.md;
+    // gebaut in MC7h). Alte Links aus Mails und ManyChat landen über die kurze Adresse im PDF.
+    nurPdf: true,
+    weiterleitung: "/anfaengerguide.pdf",
     pdfName: "finanzmuslim-einsteiger-guide.pdf",
   },
   {
@@ -36,6 +44,9 @@ export const guides: GuideStufe[] = [
     titel: "Halal Investment Guide, Fortgeschritten",
     untertitel: "Depot aufbauen und sauber halten",
     pdf: "/guides/finanzmuslim-fortgeschritten-guide.pdf",
+    // Wie beim Einsteiger: nur noch das PDF (MC7d17, gebaut in MC7h).
+    nurPdf: true,
+    weiterleitung: "/guides/finanzmuslim-fortgeschritten-guide.pdf",
     pdfName: "finanzmuslim-fortgeschritten-guide.pdf",
   },
   {
@@ -49,12 +60,15 @@ export const guides: GuideStufe[] = [
   {
     // XXL-Guide (MC7d7, 30.10.2026): Belohnung nach FERTIG, alle drei Stufen ohne Doppel. Nur über die
     // FERTIG-Antwort verschickt, nie verlinkt; PDF-Name mit Zufallscode wie bei /vorlagen.
+    // Seit MC7d13d nur noch das PDF: die Seite /dein-guide/xxl-3j1ion leitet um (zurückholen: nurPdf entfernen und
+    // den Import in DeinGuide.tsx aus Commit bab9e4c wiederherstellen).
     schluessel: "xxl-3j1ion",
     stufe: "xxl",
-    titel: "XXL-Guide",
+    titel: "Halal Investment Blueprint",
     untertitel: "Halal investieren, in jeder Situation",
     pdf: "/guides/finanzmuslim-xxl-guide-mt6puo.pdf",
     pdfName: "finanzmuslim-xxl-guide.pdf",
+    nurPdf: true,
   },
 ];
 

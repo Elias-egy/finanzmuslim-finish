@@ -5,7 +5,7 @@ export type Aktie = {
   bekanntFuer: string;
   status: "Halal";
   quelle: string;
-  /** Nur bei den sechs Ersatztiteln: Tag der Musaffa-Einzelprüfung. Sonst gilt der 20.08.2026. */
+  /** Nur bei Ersatztiteln: Tag der ersten Musaffa-Einzelprüfung. Alle 100 sind am 01.11.2026 nachgeprüft. */
   geprueft?: string;
 };
 
@@ -14,6 +14,10 @@ export type Aktie = {
  * 2026-09-26-doomscroll-web/09): Die sechs Titel, die Musaffa am 20.08.2026 als „Doubtful“ führte,
  * sind durch sechs neu geprüfte ersetzt, Wortlaut in Vault raw 2026-09-27-musaffa-top100-ersatz.md.
  * Die sechs stehen jetzt unter `fraglich` und in der vollen Fassung als eigener Abschnitt.
+ *
+ * MC7d14 (01.11.2026): alle 100 und die sechs fraglichen bei Musaffa nachgeprüft, Wortlaut je Titel in Vault
+ * `raw/2026-11-01-musaffa-top100-nachpruefung.md`. 99 weiter halal, Michelin „not halal“, auf Platz 37 durch Zalando
+ * ersetzt (halal); die sechs fraglichen weiter „doubtful“.
  */
 export const aktien: Aktie[] = [
   {
@@ -310,11 +314,12 @@ export const aktien: Aktie[] = [
   },
   {
     rang: 37,
-    name: "Michelin",
-    ticker: "ML",
-    bekanntFuer: "Reifen",
+    name: "Zalando",
+    ticker: "ZAL",
+    bekanntFuer: "Mode online",
     status: "Halal",
     quelle: "M",
+    geprueft: "01.11.2026",
   },
   {
     rang: 38,
@@ -833,3 +838,21 @@ export const fraglich: { name: string; ticker: string; bekanntFuer: string; grun
   { name: "Ryanair", ticker: "RYA", bekanntFuer: "Fluggesellschaft", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
   { name: "Axon Enterprise", ticker: "AXON", bekanntFuer: "Taser & Bodycams", grund: "besteht die Geschäfts- und Finanzprüfung nicht vollständig" },
 ];
+
+/** Die fünf Themen der vollen Fassung, je 20 Aktien in der Reihenfolge von `aktien`. */
+export const themen = [
+  { titel: "Digital & Chips", spanne: "1–20", intro: "Technik, Software und Halbleiter, die viele aus dem Alltag oder Berufsleben kennen." },
+  { titel: "Konsum & Alltag", spanne: "21–40", intro: "Marken aus Sport, Kosmetik, Getränken, Elektronik und Handel." },
+  { titel: "Gesundheit & Mobilität", spanne: "41–60", intro: "Pharma, Medizintechnik, Autos, Lieferdienste und Fluggesellschaften." },
+  { titel: "Industrie & Energie", spanne: "61–80", intro: "Globale Konzerne hinter Energie, Automation, Chemie, Bau und Rohstoffen." },
+  { titel: "Global", spanne: "81–100", intro: "Bekannte Konzerne aus der ganzen Welt." },
+];
+
+/** Je Thema sichtbar, der Rest zum Aufklappen (wie die Liste, `SICHTBAR` in `anlagenListe.ts`). */
+export const SICHTBAR_AKTIEN = 5;
+
+/** Stand der Musaffa-Einzelprüfung, den die volle Fassung oben und unten nennt. */
+export const PRUEFSTAND = "01.11.2026";
+
+/** Klickzählung der vollen Fassung (MC7d14): ak plus Stelle, Kennungen in `src/lib/attribution.ts`. */
+export const aktieLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${ziel}?src=ak${stelle}`;

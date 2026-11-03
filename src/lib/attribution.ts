@@ -38,6 +38,9 @@ export const VALID_SRC = [
   "rzqc",
   "g1c",
   "g1n",
+  // Top 3 im Anfänger-Guide (MC7g, 02.11.2026), gleicher Block wie im Blueprint (xxlnr1, xxltop3).
+  "g1nr1",
+  "g1top3",
   "g2c",
   "g2n",
   "g3c",
@@ -64,6 +67,10 @@ export const VALID_SRC = [
   // Wort etf in ManyChat (MC4e, 28.10.2026)
   "dmetf",
   "dmnachetf",
+  // Wort sukuk in ManyChat (MC7g, 02.11.2026), Ablauf baut MC8b; dmnachsukuk ist der Teste-dich-Link im Nachfass.
+  // Kein dmguide plus Wort: ?src an einem PDF-Link zählt die Seite nicht, beim Öffnen eines PDFs läuft kein Code von ihr.
+  "dmsukuk",
+  "dmnachsukuk",
   "v0",
   // Leiter (MC7d3, 29.10.2026): Bedingungs-Mails M1 und Abbinder M2 (~/rebrand/mails/bauen.py v31), Kasten
   // „Dein nächster Schritt“ am Ende der Freebies (src/components/NaechsterTeil.tsx, k plus Wort).
@@ -79,6 +86,7 @@ export const VALID_SRC = [
   "kplan",
   "ketf",
   "kgold",
+  "ksukuk",
   // XXL-Guide (MC7d7, 30.10.2026): leise Werbung je Thema, ~/rebrand/freebies/xxl.html (xxl plus Wort).
   "xxlgiro",
   "xxlgold",
@@ -93,6 +101,45 @@ export const VALID_SRC = [
   // MC7d10: Top-3-Depots auf Seite 7 und Prüf-Apps auf Seite 11 (Klicks fielen bis dahin aus der Zählung).
   "xxltop3",
   "xxlapps",
+  // MC7d13d: die Liste (Wort LISTE), Top 3, Nummer 1, alle Depots, Karte zur Anlage-Seite (src/data/anlagenListe.ts listeLink).
+  "gltop3",
+  "glnr1",
+  "glalle",
+  "glkarte",
+  // MC7d13d: Depot-Aufruf im Portfolio-Plan (Wort PLAN), src/components/vorlagen/DepotAufruf.tsx.
+  "pltop3",
+  "plnr1",
+  "plalle",
+  // MC7d14: Depot-Aufruf in den 100 Halal-Aktien (Wort AKTIE), src/data/top100Aktien.ts aktieLink.
+  "aktop3",
+  "aknr1",
+  "akalle",
+  // MC7d15: Depot-Aufruf im Vertrags-Check (Wort VERTRAG), src/pages/vorlagen/VertragsAmpelVoll.tsx.
+  "vttop3",
+  "vtnr1",
+  "vtalle",
+  // MC7d15: Girokonto-Aufruf im Plan (Schritt 1) und im Vertrag, src/components/vorlagen/GiroAufruf.tsx.
+  "plgtop2",
+  "plgalle",
+  "vtgtop2",
+  "vtgalle",
+  // MC7d15: Depot-Aufruf in der ETF-Liste (Wort ETF) und im Gold-Plan (Wort GOLD).
+  "eftop3",
+  "efnr1",
+  "efalle",
+  "efkarte",
+  "gdtop3",
+  "gdnr1",
+  "gdalle",
+  "gdkarte",
+  // MC7d17: zwei kleine Aufrufe in „Dua für jede Situation“ (Wort AMIN), src/pages/vorlagen/RizqVoll.tsx; ersetzen
+  // amtop3, amnr1, amalle aus MC7d16 (nie live).
+  "amgiro",
+  "amdepot",
+  // MC7f: Sukuk-Plan (Wort SUKUK), src/pages/SukukPlan.tsx; ersetzen gdsktop3 und gdskalle aus MC7d16 (nie live).
+  "sktop3",
+  "skalle",
+  "skkarte",
 ] as const;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>

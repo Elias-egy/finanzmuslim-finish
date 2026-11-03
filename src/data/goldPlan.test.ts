@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import {
   BEKANNTE_GOLD,
+  GOLD_GESAMT_CHECK,
   BROKER_SATZ,
   DEPOTS_MIT_ALLEN,
   DEPOTS_ZINSFREI,

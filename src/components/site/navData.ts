@@ -11,7 +11,6 @@ export const navGroups: NavGroup[] = [
         title: "Grundlagen",
         items: [
           { label: "Alle Themen", to: "/wissen" },
-          { label: "Kostenlose Listen", to: "/vorlagen" },
           { label: "Newsletter", to: "/newsletter" },
           { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
           { label: "Was ist Gharar", to: "/wissen/gharar" },
@@ -67,7 +66,6 @@ export const navGroups: NavGroup[] = [
           { label: "Ist diese Aktie halal?", to: "/vorlagen/aktien-check" },
           { label: "Haram oder halal: 12 Verträge", to: "/vorlagen/vertrags-ampel" },
           { label: "Geprüfte Anlagen", to: "/halal-anlagen" },
-          { label: "Alle kostenlosen Listen", to: "/vorlagen" },
         ],
       },
       {

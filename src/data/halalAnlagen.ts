@@ -75,7 +75,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt. Laut Prospekt wird es jedes Jahr ein Shariah-Zertifikat ausstellen, wenn die Fonds die Vorgaben einhalten; ein ausgestelltes Zertifikat haben wir nicht gefunden. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
     zweiterBeleg: {
       titel: "Methodik der MSCI Islamic Index Series",
       url: "https://www.msci.com/index/methodology/latest/Islamic",
@@ -103,7 +103,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt. Laut Prospekt wird es jedes Jahr ein Shariah-Zertifikat ausstellen, wenn die Fonds die Vorgaben einhalten; ein ausgestelltes Zertifikat haben wir nicht gefunden. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
     zweiterBeleg: {
       titel: "Methodik der MSCI Islamic Index Series",
       url: "https://www.msci.com/index/methodology/latest/Islamic",
@@ -131,7 +131,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
+      "Der Verkaufsprospekt von iShares II plc nennt ein eigenes Gremium für die Islamic-Aktienfonds, das Shari'ah Equity Funds Panel. Ihm gehören Dr. Mohamed Elgari, Scheich Nizam Yaquby und Dr. Mohd Daud Bakar an. Das Panel hat eine Fatwa für diese Fonds erteilt. Laut Prospekt wird es jedes Jahr ein Shariah-Zertifikat ausstellen, wenn die Fonds die Vorgaben einhalten; ein ausgestelltes Zertifikat haben wir nicht gefunden. Welche Aktien überhaupt in Frage kommen, entscheidet davon getrennt der MSCI Shari'ah Board.",
     zweiterBeleg: {
       titel: "Methodik der MSCI Islamic Index Series",
       url: "https://www.msci.com/index/methodology/latest/Islamic",
@@ -337,7 +337,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf",
     zertifikatHinweis:
-      "Der Verkaufsprospekt von iShares II plc führt für diesen Fonds ein eigenes Sukuk Fund Panel. Es ist mit dem Shariah Supervisory Board von Amanie Advisors besetzt: Dr. Mohamed Ali Elgari als Vorsitzender, Dr. Mohd Daud Bakar, Dr. Muhammad Amin Ali Qattan und Dr. Osama Al Dereai. Das Panel hat eine Fatwa für den Fonds erteilt und stellt jedes Jahr ein Shariah-Zertifikat aus.",
+      "Der Verkaufsprospekt von iShares II plc führt für diesen Fonds ein eigenes Sukuk Fund Panel. Es ist mit dem Shariah Supervisory Board von Amanie Advisors besetzt: Dr. Mohamed Ali Elgari als Vorsitzender, Dr. Mohd Daud Bakar, Dr. Muhammad Amin Ali Qattan und Dr. Osama Al Dereai. Das Panel hat eine Fatwa für den Fonds erteilt. Laut Prospekt wird es jedes Jahr ein Shariah-Zertifikat ausstellen, wenn der Fonds die Vorgaben einhält; ein ausgestelltes Zertifikat haben wir nicht gefunden.",
   },
   {
     slug: "xtrackers-ii-salam-usd-global-aggregate-sukuk",
@@ -653,7 +653,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatLink:
       "https://www.comgest.com/-/media/feature/data/fund-documentation/2026/05/05/13/02/fd88b7eb-ea4e-41b8-b02f-31393bf06ccf.pdf",
     zertifikatHinweis:
-      "Verkaufsprospekt von Comgest Growth plc vom 21. Mai 2025: „Currently there is only one Shariah Fund, Comgest Growth Europe S.“ Das Shariah Supervisory Board stellt Amanie Advisors. Die ISIN IE00B4ZJ4634 steht dort als EUR-Acc-Klasse dieses Fonds. Ein eigenes jährliches Zertifikat veröffentlicht Comgest nicht.",
+      "Verkaufsprospekt von Comgest Growth plc vom 21. Mai 2025: „Currently there is only one Shariah Fund, Comgest Growth Europe S.“ Das Shariah Supervisory Board stellt Amanie Advisors. Die ISIN IE00B4ZJ4634 steht dort als EUR-Acc-Klasse dieses Fonds. Ein eigenes Zertifikat haben wir nicht gefunden.",
     name: "Comgest Growth Europe S EUR Acc",
     isin: "IE00B4ZJ4634",
     anbieter: "Comgest",

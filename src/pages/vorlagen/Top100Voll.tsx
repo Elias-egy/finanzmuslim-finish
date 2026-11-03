@@ -1,135 +1,145 @@
-import { BadgeCheck } from "lucide-react";
+import { useEffect } from "react";
+import { BadgeCheck, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
-import VorlagenSeite from "@/components/VorlagenSeite";
+import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
+import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import { vorlageBySlug } from "@/data/vorlagen";
-import { optinFreebie, vollPdfPfad, vollPfad } from "@/data/optin";
-import { aktien, fraglich } from "@/data/top100Aktien";
+import { optinFreebie, vollPfad } from "@/data/optin";
+import { aktien, aktieLink, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
 
 /**
- * Die volle Fassung der 100 Halal-Aktien, nur über den Link aus der Mail nach der
- * Bestätigung (noindex, nicht in der Sitemap). Die offene Seite mit dem Ausschnitt ist
- * `Top100HalalAktien.tsx`; nur diese Datei hier lädt die ganze Liste.
+ * Die volle Fassung der 100 Halal-Aktien, das Freebie zum Wort „Aktie“, nur über den Link aus der Mail nach der
+ * Bestätigung (noindex, nicht in der Sitemap). Die offene Seite mit dem Ausschnitt ist `Top100HalalAktien.tsx`.
+ *
+ * Seit MC7d14 (01.11.2026) im Stil der Liste und des Portfolio-Plans (Vault `memory/freebie-top3-statt-rot-guide-unten.md`,
+ * Plan `fundament/upgrade/MC7D11_2026-10-31/plan.html`, Baustein „Aktie neu“): oben der Titel und die fünf Themen, je
+ * Thema die ersten Aktien und der Rest zum Aufklappen, nach dem ersten Thema die Top 3 Depots, der Kasten „Dein nächster
+ * Schritt“ ganz unten, kein Krypto-Aufruf. Seit MC7d15 ohne Themen-Einleitung, Highlight und die sechs fraglichen
+ * Namen, damit nach den 100 gleich der Kasten kommt (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`). Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg, damit der
+ * Leser beim Thema bleibt. Seit MC7d15 wieder mit PDF-Knopf; das PDF ist diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`).
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
 const freebie = optinFreebie("top-100-halal-aktien")!;
 const pfad = vollPfad(freebie);
 
-const themen = [
-  { titel: "Digital & Chips", spanne: "1–20", intro: "Technik, Software und Halbleiter, die viele aus dem Alltag oder Berufsleben kennen." },
-  { titel: "Konsum & Alltag", spanne: "21–40", intro: "Marken aus Sport, Kosmetik, Getränken, Elektronik und Handel." },
-  { titel: "Gesundheit & Mobilität", spanne: "41–60", intro: "Pharma, Medizintechnik, Autos, Lieferdienste und Fluggesellschaften." },
-  { titel: "Industrie & Energie", spanne: "61–80", intro: "Globale Konzerne hinter Energie, Automation, Chemie, Bau und Rohstoffen." },
-  { titel: "Global & überraschend", spanne: "81–100", intro: "Fünfzehn globale Namen plus fünf überraschende Highlights ab Platz 96." },
-];
-
-const Top100Voll = () => (
-  <>
-    <Seo
-      title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-      description="Sieh alle 100 bekannten Aktien mit Musaffa-Einzelprüfung, von Apple bis Nike. Jede ist halal, jede mit Fundstelle."
-      path={pfad}
-      noindex
+const Gruppe = ({ i }: { i: number }) => {
+  const t = themen[i];
+  const zeilen = aktien.slice(i * 20, i * 20 + 20);
+  const zeile = (a: (typeof aktien)[number]) => (
+    <AktienZeile
+      key={a.ticker}
+      rang={a.rang}
+      name={a.name}
+      ticker={a.ticker}
+      bekanntFuer={a.bekanntFuer}
+      status={a.status}
     />
-    <VorlagenSeite
-      kicker={v.kicker}
-      motiv={v.motiv}
-      titel={v.titel}
-      einleitung="Von Apple, Tesla und Nike bis Roblox: bekannte Marken, alltagstauglich sortiert und mit dem zeitgebundenen Screening-Beleg direkt in der Tabelle."
-      pdfPfad={vollPdfPfad(freebie, v.pdfPfad)}
-      slug={v.slug}
-      quellen="Halal-Screening: Musaffa-Einzelprüfung, Abruf 20.08.2026, sechs Ersatztitel 27.09.2026, Methodik auf Basis der AAOIFI-Kriterien. Gegencheck: Zoya. Boykott-Nachschlagewerke zur eigenen Prüfung: offizieller BDS-Leitfaden, Boycat, Is-Boycott, Brands2Boycott. Halal-Screening und Boykottprüfung sind zwei getrennte Prüfungen, dieses Blatt bildet nur die erste ab."
-      rechtshinweis="Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer eigenen Entscheidung erneut geprüft werden. Zu den genannten Werkzeugen bestehen keine Partnerschaften."
-      naechster="aktie"
-      ctas={[
-        {
-          titel: "Anbieter im Vergleich",
-          text: "Nicht jeder Broker führt jede dieser Aktien. Wer welche Einzeltitel handelbar macht, steht im Depot-Vergleich.",
-          buttonLabel: "Depot-Vergleich",
-          to: "/vergleich/depot",
-        },
-        {
-          titel: "Eine eigene Aktie prüfen, in 60 Sekunden",
-          text: "Steht deine Aktie nicht auf der Liste? Der Spickzettel zeigt dir die drei Grenzwerte, nach denen jeder Screener entscheidet.",
-          buttonLabel: "Zum Spickzettel",
-          to: "/vorlagen/aktien-check",
-        },
-      ]}
-    >
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
-        <p className="flex items-start gap-3 text-[22px] font-bold leading-tight text-foreground md:text-[28px]">
-          <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-primary md:h-8 md:w-8" aria-hidden />
-          Alle 100 Aktien einzeln mit Musaffa geprüft
-        </p>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div>
-            <div className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Stand & Status
-            </div>
-            <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">
-              <b>Musaffa-Einzelprüfung, 20.08. und 27.09.2026.</b> Alle 100 Titel einzeln geprüft und
-              halal. Halal- und Boykottstatus können sich jederzeit ändern und sollten vor einer
-              Entscheidung erneut geprüft werden.
-            </p>
-          </div>
-          <div>
-            <div className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Was „100 bekannte" bedeutet
-            </div>
-            <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">
-              Redaktionelle Auswahl nach Bekanntheit, Alltag und Themenvielfalt, nicht nach Größe,
-              Rendite oder Qualität. Die Nummern sind eine Lesehilfe, keine Kauf-Rangliste.
-            </p>
-          </div>
-        </div>
-      </section>
+  );
+  return (
+    <section id={`thema-${i}`} className="reveal mt-12 scroll-mt-20" aria-labelledby={`titel-thema-${i}`}>
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 id={`titel-thema-${i}`} className="text-[24px] font-extrabold leading-tight text-foreground">
+          {t.titel}
+        </h2>
+        <span className="shrink-0 text-[13px] font-semibold tabular-nums text-muted-foreground">{t.spanne}</span>
+      </div>
+      <div className="card-surface mt-4 overflow-hidden p-0">{zeilen.slice(0, SICHTBAR_AKTIEN).map(zeile)}</div>
+      <details className="group mt-2">
+        <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+          {zeilen.length - SICHTBAR_AKTIEN} weitere anzeigen
+          <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
+        </summary>
+        <div className="card-surface mt-2 overflow-hidden p-0">{zeilen.slice(SICHTBAR_AKTIEN).map(zeile)}</div>
+      </details>
+    </section>
+  );
+};
 
-      {themen.map((t, i) => (
-        <section key={t.titel}>
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-2xl font-bold text-foreground">{t.titel}</h2>
-            <span className="text-[13px] font-semibold text-muted-foreground">{t.spanne}</span>
-          </div>
-          <p className="mt-2 text-[15px] text-muted-foreground">{t.intro}</p>
-          <div className="card-surface mt-4 overflow-hidden p-0">
-            {aktien.slice(i * 20, i * 20 + 20).map((a) => (
-              <AktienZeile
-                key={a.ticker}
-                rang={a.rang}
-                name={a.name}
-                ticker={a.ticker}
-                bekanntFuer={a.geprueft ? `${a.bekanntFuer} · geprüft ${a.geprueft}` : a.bekanntFuer}
-                status={a.status}
-                highlight={a.rang >= 96}
-              />
+const Top100Voll = () => {
+  // Sanftes Einblenden beim Scrollen wie in der Liste und im Portfolio-Plan.
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <main className="bg-background" data-freebie="top-100-aktien" data-vorlage="top-100-halal-aktien">
+      <Seo
+        title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
+        description="Sieh alle 100 bekannten Aktien mit Musaffa-Einzelprüfung, von Apple bis Nike, nach Themen sortiert."
+        path={pfad}
+        noindex
+      />
+
+      <div className="container max-w-2xl py-8 md:py-12">
+        <header className="rounded-3xl bg-hero p-6 md:p-8">
+          <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
+            {/* „Halal-Aktien“ bricht nicht am Bindestrich um. */}
+            {v.titel.replace(/ Halal-Aktien$/, "")} <span className="whitespace-nowrap">Halal-Aktien</span>
+          </h1>
+          <p className="mt-3 flex items-start gap-2 text-[16px] font-semibold leading-snug text-foreground">
+            <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
+            <span>
+              Alle 100 einzeln mit Musaffa geprüft, Stand {PRUEFSTAND}.
+            </span>
+          </p>
+          <nav aria-label="Themen" className="mt-5 flex flex-wrap gap-1.5">
+            {themen.map((t, i) => (
+              <a
+                key={t.titel}
+                href={`#thema-${i}`}
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+              >
+                {t.titel}
+              </a>
             ))}
-          </div>
+          </nav>
+          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
+        </header>
+        <p className="mt-2 px-2 text-[12px] text-muted-foreground">
+          Nach Bekanntheit sortiert, keine Kauf-Rangliste und keine Anlageberatung.
+        </p>
+
+        <Gruppe i={0} />
+
+        {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */}
+        <section className="reveal mt-10" aria-labelledby="wo">
+          <DepotAufruf titel={DEPOT_TITEL} link={aktieLink} />
         </section>
-      ))}
 
-      <section>
-        <h2 className="text-2xl font-bold text-foreground">Sechs bekannte Namen, fraglich</h2>
-        <p className="mt-2 text-[15px] text-muted-foreground">
-          Musaffa führt sie als „Doubtful“, Stand September 2026. Deshalb stehen sie nicht in der Liste.
-        </p>
-        <div className="card-surface mt-4 overflow-hidden p-0">
-          {fraglich.map((a) => (
-            <AktienZeile key={a.ticker} name={a.name} ticker={a.ticker} bekanntFuer={`${a.bekanntFuer} · ${a.grund}`} status="Doubtful" />
-          ))}
-        </div>
-      </section>
+        {themen.slice(1).map((t, i) => (
+          <Gruppe key={t.titel} i={i + 1} />
+        ))}
 
-      <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
-        <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
-          Die Einstufung basiert auf dem Stand vom 20.08.2026, bei den sechs Ersatztiteln vom 27.09.2026. Prüfe Name und Ticker am Tag deiner
-          Entscheidung erneut, idealerweise in mehr als einem Screener, und ob dein Broker genau
-          diese Aktie und Börsenlinie anbietet. Boykottstatus und aktuelle Unternehmensverbindungen
-          bitte separat prüfen, das ist eine eigene Prüfung, keine Halal-Frage.
-        </p>
-      </section>
-    </VorlagenSeite>
-  </>
-);
+        <NaechsterTeil wort="aktie" className="mt-12" />
+
+        <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
+          <p>
+            Halal-Screening: Musaffa-Einzelprüfung, Stand {PRUEFSTAND}, Methodik auf Basis der AAOIFI-Kriterien. Halal-Screening
+            und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab.
+          </p>
+          <p>
+            Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine
+            Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität.
+            Zu Musaffa besteht keine Partnerschaft.
+          </p>
+        </footer>
+      </div>
+    </main>
+  );
+};
 
 export default Top100Voll;

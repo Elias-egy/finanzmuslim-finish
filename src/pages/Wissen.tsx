@@ -5,7 +5,6 @@ import { type MotivName } from "@/components/motive";
 import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
-import { vorlagen } from "@/data/vorlagen";
 import { beitragPfad, themen, wissenBeitraege } from "@/data/wissenBeitraege";
 
 type Artikel = { name: string; desc: string; thema: string; motiv: MotivName; to?: string; neu?: boolean };
@@ -95,35 +94,9 @@ const Wissen = () => (
         </p>
       </header>
 
-      <section className="mx-auto mt-6 max-w-3xl overflow-hidden rounded-2xl bg-hero p-6 md:mt-8 md:p-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-[17px] font-bold text-foreground">Kostenlose Vorlagen</h2>
-          <Link to="/vorlagen" className="text-[14px] font-semibold text-primary hover:underline">
-            Alle Vorlagen
-          </Link>
-        </div>
-        {/* Handy: eine Reihe zum Wischen. Sechs Karten untereinander schoben das erste
-            Wissensthema auf den dritten Bildschirm. */}
-        <div className="-mx-6 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
-          {vorlagen.map((v) => (
-            <Link
-              key={v.slug}
-              to={`/vorlagen/${v.slug}`}
-              className="card-surface flex w-[230px] shrink-0 snap-start flex-col overflow-hidden transition-colors hover:border-primary md:w-auto"
-            >
-              <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
-              <span className="flex flex-1 flex-col p-4">
-              <span className="flex flex-wrap items-center gap-2">
-                <span className="badge-new">{v.kicker}</span>
-                {v.gegenEmail && <span className="text-[12px] font-semibold text-primary">Gegen E-Mail</span>}
-              </span>
-              <span className="mt-2 block text-[15px] font-bold leading-snug text-foreground">{v.titel}</span>
-              <span className="mt-1 block text-[13px] text-muted-foreground">{v.nutzenZeile}</span>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Der Block „Kostenlose Vorlagen“ ist raus (Elias, 01.11.2026, MC7d16: „kostenlose Listen aus dem Menü raus“; MC7d15:
+          „die Leute sollen nicht sehen, dass sie über die Webseite alle anderen Sachen direkt auch sich angucken können“).
+          Die offenen Seiten unter /vorlagen bleiben für Google erreichbar. */}
 
       <nav aria-label="Themen" className="mx-auto mt-8 flex max-w-3xl flex-wrap gap-2">
         {kategorien.map((k) => (
