@@ -719,7 +719,7 @@ const Kurve = ({ erg, art }: { erg: NonNullable<Ergebnis>; art: "monat" | "einma
         </span>
       </div>
       <div
-        className="mt-2 h-[220px]"
+        className="mt-2 h-[180px] sm:h-[220px]"
         role="img"
         aria-label={`Verlauf über ${daten.length > 1 ? "den gewählten Zeitraum" : "den Zeitraum"}: eingezahlt ${euro(erg.eingezahlt)}, heute wert ${euro(erg.wert)}`}
       >
@@ -827,7 +827,12 @@ const Rechner = () => {
         </div>
 
         <Etikett className="mt-5">ETF</Etikett>
-        <div className="mt-1.5 grid grid-cols-2 gap-2 md:grid-cols-4" role="group" aria-label="ETF wählen">
+        {/* Am Handy eine Reihe zum Wischen statt vier Zeilen Kacheln (Elias SEO35), ab sm das Raster */}
+        <div
+          className="-mx-4 mt-1.5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-4 [&::-webkit-scrollbar]:hidden"
+          role="group"
+          aria-label="ETF wählen"
+        >
           {etfListe.map((x) => {
             const an = x.isin === isin;
             const kurz = x.name.startsWith(`${x.anbieter} `) ? x.name.slice(x.anbieter.length + 1) : x.name;
@@ -837,7 +842,7 @@ const Rechner = () => {
                 type="button"
                 aria-pressed={an}
                 onClick={() => setIsin(x.isin)}
-                className={`flex min-h-[52px] items-center gap-2 border px-2.5 py-2 text-left transition-colors ${
+                className={`flex min-h-[52px] w-[150px] shrink-0 snap-start items-center gap-2 border px-2.5 py-2 text-left transition-colors sm:w-auto ${
                   an ? "border-foreground bg-background shadow-[inset_0_0_0_1px_hsl(var(--foreground))]" : "border-border bg-background hover:border-foreground/50"
                 }`}
               >
@@ -850,7 +855,7 @@ const Rechner = () => {
           })}
         </div>
 
-        <div className="mt-5 grid gap-2 sm:grid-cols-3" aria-live="polite">
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:mt-5" aria-live="polite">
           {ergebnisse.map(({ jahre, erg }) => {
             const an = aktiv?.jahre === jahre;
             return (
@@ -860,19 +865,23 @@ const Rechner = () => {
                 disabled={!erg}
                 aria-pressed={an}
                 onClick={() => setGewaehlt(jahre)}
-                className={`flex items-center justify-between gap-3 border px-4 py-3 text-left transition-colors disabled:cursor-default sm:block sm:py-3.5 ${
+                className={`flex min-w-0 flex-col justify-start border px-2.5 py-2.5 text-left transition-colors disabled:cursor-default sm:block sm:px-4 sm:py-3.5 ${
                   an ? "border-foreground bg-background shadow-[inset_0_0_0_1px_hsl(var(--foreground))]" : "border-border bg-background enabled:hover:border-foreground/50"
                 }`}
               >
-                {/* Am Handy eine flache Zeile (links Zeitraum und Eingezahlt, rechts der Wert), damit die Kurve nah bleibt */}
-                <span className="block min-w-0">
-                  <span className="block font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground">
-                    Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`} angefangen
+                {/* Am Handy drei Kacheln in einer Reihe (Elias SEO35): Zeitraum, Wert, eingezahlt untereinander über `order`;
+                    ab sm wie bisher Zeitraum, Eingezahlt, Wert */}
+                <span className="contents sm:block sm:min-w-0">
+                  <span className="order-1 block font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground sm:text-[12px] sm:tracking-[0.14em]">
+                    Vor {jahre === 1 ? "1 Jahr" : `${jahre} Jahren`}
+                    <span className="hidden sm:inline"> angefangen</span>
                   </span>
-                  <span className="mt-1 block text-[14px] text-muted-foreground sm:mt-2">
+                  <span className="order-3 mt-0.5 block text-[12px] leading-snug text-muted-foreground sm:mt-2 sm:text-[14px]">
                     {erg ? (
                       <>
-                        Eingezahlt <span className="tabular-nums text-foreground">{euro(erg.eingezahlt)}</span>
+                        <span className="sm:hidden">von </span>
+                        <span className="hidden sm:inline">Eingezahlt </span>
+                        <span className="tabular-nums text-foreground">{euro(erg.eingezahlt)}</span>
                       </>
                     ) : (
                       "Den ETF gibt es noch nicht so lange."
@@ -880,14 +889,14 @@ const Rechner = () => {
                   </span>
                 </span>
                 {erg ? (
-                  <span className="shrink-0 text-right sm:text-left">
-                    <span className={`block text-[22px] font-semibold tabular-nums sm:mt-0.5 sm:text-[24px] ${erg.wert >= erg.eingezahlt ? "text-gain" : "text-loss"}`}>
+                  <span className="order-2 mt-1 block sm:mt-0">
+                    <span className={`block text-[17px] font-semibold tabular-nums [overflow-wrap:anywhere] sm:mt-0.5 sm:text-[24px] ${erg.wert >= erg.eingezahlt ? "text-gain" : "text-loss"}`}>
                       {euro(erg.wert)}
                     </span>
-                    <span className="block text-[13px] text-muted-foreground">heute wert</span>
+                    <span className="hidden text-[13px] text-muted-foreground sm:block">heute wert</span>
                   </span>
                 ) : (
-                  <span className="shrink-0 text-[22px] font-semibold text-muted-foreground sm:mt-0.5 sm:block sm:text-[24px]">–</span>
+                  <span className="order-2 mt-1 block text-[17px] font-semibold text-muted-foreground sm:mt-0.5 sm:text-[24px]">–</span>
                 )}
               </button>
             );
@@ -1000,22 +1009,36 @@ const Eintrag = ({ e }: { e: EtfEintrag }) => {
   );
 };
 
-/** Kleine Tabelle wie frontal: am Laptop eine Tabelle, am Handy je Zeile ein Block. */
+/**
+ * Kleine Tabelle wie frontal: am Laptop eine Tabelle, am Handy je Zeile ein Block.
+ * Mit `zeile` (Raster der Handy-Zeile) bleibt sie am Handy eine echte Zeile mit Kopf (Elias SEO35: kurze Zahlen
+ * in eine Reihe); Spalten in `breit` laufen dann klein unter der Zeile.
+ */
 const KleineTabelle = ({
   kopf,
   zeilen,
   breit = [],
+  zeile,
+  nameOben = false,
 }: {
   kopf: string[];
   zeilen: { schluessel: string; erste: ReactNode; zellen: ReactNode[] }[];
   breit?: number[];
+  zeile?: string;
+  /** Am Handy steht die erste Zelle als eigene Zeile über den Zahlen (lange Namen bei 360 px). */
+  nameOben?: boolean;
 }) => (
   <div className="mt-5 max-w-[720px] border border-border">
     <table className="block w-full border-collapse text-[15px] sm:table">
-      <thead className="hidden sm:table-header-group">
-        <tr className="border-b border-border bg-muted/60 text-left">
-          {kopf.map((k) => (
-            <th key={k} className="px-4 py-3 font-mono text-[12px] font-normal uppercase tracking-[0.14em] text-muted-foreground">
+      <thead className={zeile ? "block sm:table-header-group" : "hidden sm:table-header-group"}>
+        <tr className={`border-b border-border bg-muted/60 text-left ${zeile ? `grid ${zeile} gap-x-2 px-3 py-2 sm:table-row sm:p-0` : ""}`}>
+          {kopf.map((k, i) => (
+            <th
+              key={k}
+              className={`font-mono text-[11px] font-normal uppercase tracking-[0.08em] text-muted-foreground sm:px-4 sm:py-3 sm:text-[12px] sm:tracking-[0.14em] ${
+                (zeile && breit.includes(i - 1)) || (nameOben && i === 0) ? "hidden sm:table-cell" : ""
+              } ${zeile && !nameOben && i > 0 && !breit.includes(i - 1) ? "text-right sm:text-left" : ""}`}
+            >
               {k}
             </th>
           ))}
@@ -1025,15 +1048,27 @@ const KleineTabelle = ({
         {zeilen.map((z) => (
           <tr
             key={z.schluessel}
-            className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border px-4 py-3.5 first:border-t-0 sm:table-row sm:p-0"
+            className={`grid border-t border-border first:border-t-0 sm:table-row sm:p-0 ${
+              zeile ? `${zeile} gap-x-2 gap-y-1 px-3 py-2.5 text-[14px]` : "grid-cols-2 gap-x-4 gap-y-2 px-4 py-3.5"
+            }`}
           >
-            <td className="col-span-2 align-top font-semibold leading-snug text-foreground sm:table-cell sm:px-4 sm:py-3">{z.erste}</td>
+            <td className={`align-top font-semibold leading-snug text-foreground sm:table-cell sm:px-4 sm:py-3 ${zeile ? (nameOben ? "col-span-full" : "") : "col-span-2"}`}>
+              {z.erste}
+            </td>
             {z.zellen.map((c, i) => (
               <td
                 key={kopf[i + 1]}
                 data-label={kopf[i + 1]}
-                className={`align-top text-foreground/80 before:block before:font-mono before:text-[12px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] sm:table-cell sm:px-4 sm:py-3 sm:before:hidden ${
-                  breit.includes(i) ? "col-span-2" : ""
+                className={`align-top text-foreground/80 sm:table-cell sm:px-4 sm:py-3 sm:text-left sm:text-[15px] sm:before:hidden ${
+                  zeile
+                    ? breit.includes(i)
+                      ? "col-span-full text-[13px] text-muted-foreground before:mr-1.5 before:font-mono before:text-[11px] before:uppercase before:tracking-[0.08em] before:content-[attr(data-label)] sm:text-foreground/80"
+                      : nameOben
+                        ? ""
+                        : "text-right"
+                    : `before:block before:font-mono before:text-[12px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] ${
+                        breit.includes(i) ? "col-span-2" : ""
+                      }`
                 }`}
               >
                 {c}
@@ -1303,6 +1338,7 @@ const HalalEtf = () => {
                   <KleineTabelle
                     kopf={["ETF", "Kosten", "Halal-Beleg", "Passt zu"]}
                     breit={[2]}
+                    zeile="grid-cols-[minmax(0,1fr)_52px_88px]"
                     zeilen={etfListe.map((e) => {
                       const a = anlageVon(e.isin);
                       return {
@@ -1323,6 +1359,8 @@ const HalalEtf = () => {
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
                   <KleineTabelle
                     kopf={["ETF", "1 Jahr", "3 Jahre", "5 Jahre"]}
+                    zeile="grid-cols-3"
+                    nameOben
                     zeilen={etfListe.map((e) => ({
                       schluessel: e.isin,
                       erste: etfZelle(e),
