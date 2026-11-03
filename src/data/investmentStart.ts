@@ -363,8 +363,10 @@ export const startPartner: StartPartner[] = [
     chips: ["Aktien", "ETFs", "Gold", "Sukuk"],
     fakten: [
       {
-        titel: "Alle Halal-Anlagen aus unserer Liste",
-        text: "Laut der Wertpapiersuche von Traders Place sind alle 12 Halal-ETFs und Fonds, alle 3 Sukuk und alle 7 Gold- und Silber-ETCs aus unserem Vergleich handelbar.",
+        titel: "18 von 22 Halal-Anlagen aus unserer Liste",
+        // Zahlen wie im Depot-Vergleich (brokerVergleich.ts, Wertpapiersuche Traders Place, Stand 16.10.2026).
+        // Die Seite sagte bis 03.11.2026 „alle 12“ und „alle 3“, der Vergleich daneben „9 von 12“ und „2 von 3“ (Fund CV1).
+        text: "Laut der Wertpapiersuche von Traders Place sind 9 von 12 Halal-ETFs und Fonds, 2 von 3 Sukuk und alle 7 Gold- und Silber-ETCs aus unserem Vergleich handelbar.",
       },
       {
         titel: "Guthaben ohne Zinsen",
