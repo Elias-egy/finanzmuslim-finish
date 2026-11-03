@@ -6,6 +6,7 @@ import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursFuerIsin, kursStand } from "@/lib/kurse";
 import {
+  POSITIONEN_STAND,
   RENDITE_STAND,
   anker,
   anlageVon,
@@ -243,6 +244,12 @@ const Etikett = ({ children, className = "" }: { children: ReactNode; className?
 const Werbung = () => <Etikett>Werbung</Etikett>;
 
 const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Fondsgröße kurz wie halalwallet „$3.39B“: ab 1.000 Mio. in Mrd. mit einer Stelle (Elias SEO45: Tabellen wie halalwallet). */
+const groesseKurz = (mio: number) =>
+  mio >= 1000 ? `${(mio / 1000).toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}\u00a0Mrd.\u00a0€` : `${mio.toLocaleString("de-DE")}\u00a0Mio.\u00a0€`;
+/** Was die Positionen sind: beim Sukuk-ETF Sukuk, sonst Aktien. */
+const positionenWort = (e: EtfEintrag) => (anlageVon(e.isin).kategorie === "sukuk" ? "Sukuk" : "Aktien");
 const logoPfad = (datei: string) => `/bilder/blog/halal-etf/logos/${datei.includes(".") ? datei : `${datei}.webp`}`;
 
 /** YouTube erst nach dem Klick laden: vorher kein Kontakt zu Google. */
@@ -479,12 +486,22 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
               </span>
             </div>
           </div>
-          <div>
-            <Etikett>Kosten</Etikett>
-            <p className="mt-1 text-[15px] font-semibold tabular-nums text-foreground">
-              {a.kostenLabel} <span className="font-normal text-muted-foreground">im Jahr</span>
-            </p>
-          </div>
+          {/* Vier Kacheln wie die Fondskarten bei halalwallet (Fee, AUM, Holdings), Elias SEO45 */}
+          <dl className="grid grid-cols-2 gap-x-3 gap-y-3">
+            {[
+              ["Kosten", `${a.kostenLabel}`],
+              ["Größe", groesseKurz(e.groesseMio)],
+              [positionenWort(e), e.positionen.toLocaleString("de-DE")],
+              ["Seit", a.auflage?.slice(-4) ?? "–"],
+            ].map(([k, w]) => (
+              <div key={k}>
+                <dt>
+                  <Etikett>{k}</Etikett>
+                </dt>
+                <dd className="mt-1 whitespace-nowrap text-[15px] font-semibold tabular-nums text-foreground">{w}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
         <a
           href={`#${anker(e)}`}
@@ -1118,7 +1135,7 @@ const HalalEtf = () => {
 
   const etfZelle = (e: EtfEintrag) => (
     <a href={`#${anker(e)}`} className="hover:text-primary">
-      {e.platz}. {e.name}
+      {e.platz}. {e.kurz ?? e.name}
     </a>
   );
 
@@ -1241,21 +1258,29 @@ const HalalEtf = () => {
                   <Text>
                     <p>
                       Ich habe 12 Halal ETFs gefunden, die du in Deutschland kaufen kannst. Acht stehen in dieser Liste, die
-                      übrigen vier unter der Renditetabelle. Kosten im Jahr, einmal in Prozent und einmal in Euro bei 10.000 €.
+                      übrigen vier unter der Renditetabelle. Kosten im Jahr in Prozent und in Euro bei 10.000 €, dazu wie groß
+                      der Fonds ist und wie viele Aktien drin sind.
                     </p>
                   </Text>
                   <KleineTabelle
-                    kopf={["ETF", "Kosten", "bei 10.000\u00a0€", "Passt zu"]}
-                    breit={[2]}
-                    zeile="grid-cols-[minmax(0,1fr)_52px_92px]"
+                    kopf={["ETF", "Kosten", "Größe", "Aktien", "Passt zu"]}
+                    breit={[3]}
+                    zeile="grid-cols-[minmax(0,1fr)_54px_80px_44px]"
                     zeilen={etfListe.map((e) => {
                       const a = anlageVon(e.isin);
                       return {
                         schluessel: e.isin,
                         erste: etfZelle(e),
                         zellen: [
-                          <span className="whitespace-nowrap tabular-nums">{a.kostenLabel}</span>,
-                          <span className="whitespace-nowrap tabular-nums">{euro(a.kosten * 100)} im Jahr</span>,
+                          <span className="block whitespace-nowrap tabular-nums">
+                            {a.kostenLabel}
+                            <span className="block text-foreground/60">{euro(a.kosten * 100)}</span>
+                          </span>,
+                          <span className="whitespace-nowrap tabular-nums">{groesseKurz(e.groesseMio)}</span>,
+                          <span className="whitespace-nowrap tabular-nums">
+                            {e.positionen.toLocaleString("de-DE")}
+                            {positionenWort(e) === "Sukuk" ? <span className="block text-foreground/60">Sukuk</span> : null}
+                          </span>,
                           gross(e.amBestenFuer),
                         ],
                       };
@@ -1281,7 +1306,8 @@ const HalalEtf = () => {
                     }))}
                   />
                   <p className="mt-3 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">
-                    Quelle: justETF, in Euro mit Ausschüttungen, Stand {RENDITE_STAND}. Ein Strich heißt: Der Fonds ist für
+                    Quelle: justETF, Rendite in Euro mit Ausschüttungen und Größe vom {RENDITE_STAND}, Zahl der Aktien vom{" "}
+                    {POSITIONEN_STAND}. Ein Strich heißt: Der Fonds ist für
                     diesen Zeitraum noch zu jung. Platz 6 steht seit Auflage im Februar 2026 bei +17,62 %. Vergangene
                     Renditen sind kein Versprechen für die Zukunft.
                   </p>

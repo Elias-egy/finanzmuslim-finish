@@ -19,6 +19,7 @@ import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
  */
 
 export const RENDITE_STAND = "30.10.2026";
+export const POSITIONEN_STAND = "03.11.2026";
 
 export type EtfEintrag = {
   platz: number;
@@ -33,6 +34,8 @@ export type EtfEintrag = {
   /** Höchstens sechs Wörter, klein geschrieben; wortgleich in Karte, H3 und Tabelle. */
   amBestenFuer: string;
   groesseMio: number;
+  /** Zahl der Positionen im Fonds (Aktien, beim Sukuk-ETF Sukuk), justETF am 03.11.2026 (raw/2026-11-03-seo45-justetf-positionen-acht-halal-etfs.md); halalwallet zeigt sie als „Holdings“ (Elias SEO45). */
+  positionen: number;
   rendite1J: string | null;
   rendite3J: string | null;
   rendite5J: string | null;
@@ -65,6 +68,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "ishares",
     amBestenFuer: "den Einstieg mit einem ETF",
     groesseMio: 1577,
+    positionen: 386,
     rendite1J: "+24,42 %",
     rendite3J: "+62,30 %",
     rendite5J: "+75,47 %",
@@ -90,6 +94,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "invesco",
     amBestenFuer: "Gewinne, die im Fonds bleiben",
     groesseMio: 1046,
+    positionen: 1186,
     rendite1J: "+16,98 %",
     rendite3J: "+74,34 %",
     rendite5J: null,
@@ -115,6 +120,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "ishares",
     amBestenFuer: "einen Fokus auf die USA",
     groesseMio: 609,
+    positionen: 140,
     rendite1J: "+28,67 %",
     rendite3J: "+69,45 %",
     rendite5J: "+89,56 %",
@@ -138,6 +144,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "ishares",
     amBestenFuer: "Schwellenländer als Beimischung",
     groesseMio: 700,
+    positionen: 398,
     rendite1J: "+40,88 %",
     rendite3J: "+94,87 %",
     rendite5J: "+68,76 %",
@@ -161,6 +168,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "hsbc",
     amBestenFuer: "eine Einmalanlage ohne Ausschüttung",
     groesseMio: 182,
+    positionen: 324,
     rendite1J: "+24,51 %",
     rendite3J: "+69,04 %",
     rendite5J: null,
@@ -184,6 +192,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "invesco",
     amBestenFuer: "Welt und Schwellenländer in einem ETF",
     groesseMio: 129,
+    positionen: 463,
     rendite1J: null,
     rendite3J: null,
     rendite5J: null,
@@ -209,6 +218,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "hanetf",
     amBestenFuer: "aktive Auswahl statt Index",
     groesseMio: 19,
+    positionen: 39,
     rendite1J: "+8,13 %",
     rendite3J: "+57,27 %",
     rendite5J: "+39,89 %",
@@ -233,6 +243,7 @@ export const etfListe: EtfEintrag[] = [
     logo: "ishares",
     amBestenFuer: "einen Teil ohne Aktien",
     groesseMio: 160,
+    positionen: 223,
     rendite1J: "+1,62 %",
     rendite3J: null,
     rendite5J: null,
