@@ -30,10 +30,10 @@ const SITE = "https://finanzmuslim.com";
 const PFAD = "/blog/halal-etf";
 const TITEL = "Beste Halal ETFs 2026: 8 im Vergleich";
 const META =
-  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich nach Halal-Prüfung, Kosten und Sparplan. Mit Renditen, Gremium und den Depots, bei denen du sie kaufst.";
+  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Was sie in 1, 3 und 5 Jahren gebracht haben, was sie bei 10.000 € kosten und bei welchen Depots du sie kaufst.";
 const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
-const AKTUALISIERT = { text: "02.11.2026", iso: "2026-11-02T09:00:00+01:00" };
+const AKTUALISIERT = { text: "03.11.2026", iso: "2026-11-03T09:00:00+01:00" };
 const INSTAGRAM = "https://www.instagram.com/finanz.muslim/";
 
 /** Stand der Kursreihe ist der Abruftag; fällt er aufs Wochenende, gilt der Freitag davor. */
@@ -54,9 +54,9 @@ const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.
 const BIO =
   "Elias El-Gendy hat die Sachkundeprüfungen nach §\u00a034d und §\u00a034f GewO abgeschlossen. Bei TauRes in Hamburg hat er Kunden zu islamkonformen Investments beraten. Auf Instagram (@finanz.muslim) erklärt er über 15.000 Abonnenten, wie Halal Finance funktioniert.";
 const RECHTSHINWEIS =
-  "Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Rangfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Zu Wertpapierleihe, synthetischer Nachbildung und zur Reinigung von Erträgen bestehen zwischen den Rechtsschulen und einzelnen Gremien unterschiedliche Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
+  "Dieser Beitrag dient zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Reihenfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
-const LESEZEIT = 19;
+const LESEZEIT = 17;
 
 /* ------------------------------------------------------------------ */
 /* Inhalt                                                              */
@@ -68,14 +68,15 @@ const LESEZEIT = 19;
  */
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 
+// Reihenfolge seit SEO44 (03.11.2026) nach dem Vorbild halalwallet.us (Elias SEO42: Titel, Punkte, dann gleich die Tabelle):
+// Liste mit Kosten in Euro und Rendite direkt nach dem Wichtigsten, der Erklärteil weiter hinten.
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
-  { id: "rechner", titel: "Was aus deinem Geld geworden wäre", leiste: true },
-  { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
-  { id: "so-haben-wir-verglichen", titel: "So haben wir verglichen", leiste: true },
-  { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026", leiste: true },
   { id: "halal-etf-liste", titel: "Halal ETF Liste im Vergleich: Welche Halal ETFs gibt es in Deutschland?", leiste: true, kurz: "Halal ETF Liste im Vergleich" },
-  { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt" },
+  { id: "rechner", titel: "Was aus deinem Geld geworden wäre", leiste: true },
+  { id: "die-besten-halal-etfs", titel: "Die besten Halal ETFs 2026", leiste: true },
+  { id: "welcher-passt", titel: "Welcher Halal ETF zu dir passt", leiste: true },
+  { id: "was-ist-ein-halal-etf", titel: "Was ein Halal ETF ist (und was nicht)" },
   { id: "halal-etf-oder-fonds", titel: "Halal ETF oder Halal Fonds: wo der Unterschied Geld kostet" },
   { id: "wo-kaufen", titel: "Wo du die acht ETFs kaufen kannst" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
@@ -84,63 +85,46 @@ const ABSCHNITTE: Abschnitt[] = [
 const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
 const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
 
-/** Neu in SEO32 (Elias: „sehr generisch“, „viele wissen nicht mal, was Index ist“): was einen Muslim beim Kauf wirklich angeht. */
+/**
+ * Neu in SEO32 (Elias: „sehr generisch“, „viele wissen nicht mal, was Index ist“), gekürzt in SEO44 nach dem Skill
+ * leser-finanzmuslim: kein Prüf-Jargon, keine Lücke als Tatsache, Zahlen in Euro (raw/2026-11-03-elias-seo42-nur-index-gremium-interessiert-niemanden.md).
+ */
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
-    lead: "„Islamic“ im Namen ist noch kein Beleg.",
-    text: "Es zählt, ob Gelehrte den ETF geprüft haben. Bei sechs der acht haben sie genau diesen ETF geprüft, bei zweien nur die Regeln, nach denen er seine Firmen auswählt. Den Beleg öffnest du oben bei jeder Karte.",
+    lead: "Acht Halal ETFs kannst du in Deutschland kaufen.",
+    text: "Bei bis zu 27 Depots, Platz 1 bei 14 davon auch als Sparplan. Der bekannteste ist der iShares MSCI World Islamic, seit 2007 am Markt.",
   },
   {
     lead: "Banken und Versicherungen fliegen raus.",
     text: "Ein normaler ETF wie der MSCI World kauft sie mit. Ein Halal ETF lässt sie weg, ebenso Firmen mit zu vielen Schulden auf Zinsen.",
   },
   {
+    lead: "Sie kosten 30 bis 75 € im Jahr bei 10.000 €.",
+    text: "Platz 1 liegt mit 0,30 % am unteren Ende. Dazu kommen nur die Gebühren deines Depots, bei vielen 0 €.",
+  },
+  {
     lead: "Ein kleiner Rest wird gespendet.",
     text: (
       <>
-        Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter. Bei Platz 1
+        Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter, bei Platz 1
         (seit 2026) und Platz 5 macht das schon der Fonds für dich. So rechnest du es:{" "}
         <TL to="/blog/ertraege-reinigen">Aktienbereinigung</TL>.
       </>
     ),
   },
   {
-    lead: "Nicht jeder ETF geht als Sparplan.",
-    text: "Platz 1 kannst du bei 14 Depots monatlich besparen, für Platz 5 hat uns kein Depot einen Sparplan belegt.",
-  },
-  {
     lead: "Auch dein Depot muss zinsfrei sein.",
     text: (
       <>
-        Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place, Smartbroker+ und Scalable zahlen 0 %, alle
+        Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place, Smartbroker+ und Scalable zahlen 0 %, alle
         weiteren stehen im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
       </>
     ),
   },
 ];
 
-// Rendite ist kein Kriterium, nur Information (Elias SEO31: „Wir gehen nicht nach Rendite“).
-const KRITERIEN: { name: string; text: string }[] = [
-  {
-    name: "Halal-Beleg",
-    text: "Ein eigenes Gremium am Fonds mit Fatwa und jährlichem Zertifikat zählt mehr als ein Beleg nur zum Index. Ich urteile nie selbst, ich zeige den Beleg des Anbieters.",
-  },
-  {
-    name: "Reinigung",
-    text: "Ob der Fonds den kleinen unreinen Anteil selbst weitergibt oder ob du ihn ausrechnen musst. Bei Platz 1 (seit 2026) und Platz 5 macht es der Fonds, beim Sukuk ist es in der Regel nicht nötig.",
-  },
-  {
-    name: "Verfügbarkeit",
-    text: "Bei wie vielen Depots du den ETF kaufen kannst und wo er als Sparplan läuft, nur mit Beleg vom Anbieter. Ohne Beleg steht „nicht belegt“, nicht „nein“.",
-  },
-  {
-    name: "Kosten",
-    text: "Die laufenden Kosten im Jahr. Bei 10.000 € macht jedes Zehntelprozent 10 € im Jahr aus.",
-  },
-];
-
 const PASST: { wenn: string; achte: string; platz: number }[] = [
-  { wenn: "Wenn du mit einem Sparplan anfängst", achte: "Sparplan bei deinem Depot belegt", platz: 1 },
+  { wenn: "Wenn du mit einem Sparplan anfängst", achte: "Sparplan bei deinem Depot", platz: 1 },
   { wenn: "Wenn Gewinne im Fonds bleiben sollen", achte: "thesaurierend, also ohne Ausschüttung", platz: 2 },
   { wenn: "Wenn du Schwellenländer dazu willst", achte: "nur als kleiner Teil neben Platz 1", platz: 4 },
   { wenn: "Wenn ein Teil nicht in Aktien liegen soll", achte: "der Kurs des Dollars wirkt mit", platz: 8 },
@@ -155,35 +139,35 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist ein ETF halal oder haram?",
     antwort:
-      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sechs der acht ETFs hier hat ein Gremium auch den Fonds geprüft.",
+      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Sechs der acht ETFs hier haben ein eigenes Zertifikat für den Fonds.",
   },
   {
     frage: "Sind ETFs haram?",
     antwort:
-      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Für sechs der acht ETFs hier hat ein Gremium genau diesen Fonds geprüft, für vier davon mit einer Fatwa.",
+      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht, sechs davon mit eigenem Zertifikat für den Fonds.",
   },
   {
     frage: "Welche Halal ETFs gibt es bei Trade Republic?",
     antwort: `Laut Wertpapiersuche von Trade Republic kannst du ${tradeRepublicZahl} der 8 ETFs dieser Liste kaufen, alle außer ${ohneTradeRepublic.join(
       ", ",
-    )}. Einen Sparplan darauf hat uns Trade Republic nicht belegt.`,
+    )}.`,
     link: { to: "/vergleich/depot", text: "Zum Depot-Vergleich" },
   },
   {
     frage: "Ist der MSCI World halal?",
     antwort:
-      "Der normale MSCI World filtert nicht nach islamischen Regeln, enthält Banken und Versicherungen und hat kein Gremium. Geprüft ist der MSCI World Islamic, den du mit Platz 1 kaufst.",
+      "Der normale MSCI World filtert nicht nach islamischen Regeln und enthält Banken und Versicherungen. Die geprüfte Fassung ist der MSCI World Islamic, den du mit Platz 1 kaufst.",
     link: { to: "/halal-anlagen/ishares-msci-world-islamic", text: "iShares MSCI World Islamic ansehen" },
   },
   {
     frage: "Welche ETFs sind scharia-konform?",
     antwort:
-      "So nennen sich ETFs mit Islamic oder Shariah im Namen. Ob ein Gremium sie geprüft hat, zeigt erst der Beleg. Alle acht hier haben einen, für den Fonds oder nur für den Index.",
+      "So nennen sich ETFs mit Islamic oder Shariah im Namen. Alle acht in dieser Liste sind zertifiziert, sechs für den Fonds selbst, zwei für den Index, dem sie folgen.",
   },
   {
     frage: "Wie prüfe ich, ob ein ETF halal ist?",
     antwort:
-      "Such die ISIN, nicht den Namen. Dann zwei Fragen: Gilt das Shariah-Zertifikat für das Produkt oder nur für den Index, und wann wurde es zuletzt erneuert? Beides steht bei jeder Anlage in unserer Datenbank.",
+      "Such die ISIN, nicht den Namen. Dann sieh nach, ob es ein Shariah-Zertifikat gibt und wie alt es ist. Beides steht bei jeder Anlage in unserer Datenbank.",
     link: { to: "/halal-anlagen", text: "Zur Datenbank der Halal-Anlagen" },
   },
   {
@@ -206,22 +190,23 @@ const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string
   { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", logo: "scalable", out: "/out/scalable" },
 ];
 
-// Sparplan je Depot nur aus den Belegen der Liste (sparplanBei), Scalable mit und ohne PRIME+.
+// Sparplan je Depot nur aus den Belegen der Liste (sparplanBei). Scalable ohne die PRIME+-Hälfte (Elias SEO42: „Nur Scalable Prime
+// und sowas. Das macht alles gar keinen Sinn“, raw/2026-11-03-elias-seo42-leser-profil-skill-tabelle-langweilig.md); PRIME+ zählt als Scalable.
 function sparplanZeile(anbieter: string): string {
   const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
-  if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99 € im Monat) auf ${zahl("Scalable PRIME+")}`;
+  if (anbieter === "Scalable Capital") return `Sparplan auf ${etfListe.filter((e) => e.sparplanBei.some((x) => x.startsWith("Scalable"))).length} von 8`;
   // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026),
   // für Platz 5 und 6 nicht (SEO35, raw/2026-11-03-elias-seo35-antworten-linkedin-fragebogen.md)
-  if (anbieter === "Traders Place") return "Sparplan möglich, außer für Platz 5 und 6, im eigenen Depot nachgesehen";
+  if (anbieter === "Traders Place") return "Sparplan auf 6 von 8";
   const n = zahl(anbieter);
-  return n === 0 ? "Sparplan auf diese ETFs noch nicht geprüft" : `Sparplan auf ${n} von 8 belegt`;
+  return n === 0 ? "Sparplan auf diese ETFs noch nicht nachgesehen" : `Sparplan auf ${n} von 8`;
 }
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
   {
     to: "/halal-anlagen/ishares-msci-world-islamic",
     name: "iShares MSCI World Islamic",
-    text: "Alle Daten zu Platz 1, mit ISIN und Beleg.",
+    text: "Alle Daten zu Platz 1, mit ISIN und Zertifikat.",
   },
   { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "Die Grenzwerte, nach denen ein Index prüft." },
   { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
@@ -538,10 +523,10 @@ const Karte = ({ e }: { e: EtfEintrag }) => {
               ))}
             </ul>
           </Klappzeile>
-          <Klappzeile titel="Halal-Beleg">
+          <Klappzeile titel="Zertifikat">
             {e.geprueftText}{" "}
             <a href={a.zertifikatLink} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-              Beleg ansehen
+              Zertifikat ansehen
             </a>
           </Klappzeile>
         </div>
@@ -932,7 +917,7 @@ const DepotKasten = () => (
         const zeilen = [
           `Halal ETFs dieser Liste: ${etfsBei(d.kaufbarName)} von 8`,
           sparplanZeile(d.anbieter),
-          d.anbieter === "Scalable Capital" ? "Depotgebühr: 0 € ohne PRIME+" : "Depotgebühr: 0 €",
+          "Depotgebühr: 0 €",
           "Zinsen aufs Guthaben: 0 %",
         ];
         return (
@@ -942,7 +927,7 @@ const DepotKasten = () => (
               <ul className="mt-3 space-y-2 text-[15px] text-foreground/80">
                 {zeilen.map((z) => (
                   <li key={z} className="flex gap-2.5">
-                    {z.includes("noch nicht geprüft") ? (
+                    {z.includes("noch nicht nachgesehen") ? (
                       <span className="mx-[5px] mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" aria-hidden />
                     ) : (
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
@@ -1219,16 +1204,12 @@ const HalalEtf = () => {
               <div className="mt-8">
                 <Text>
                   <p>
-                    Du willst als Muslim in einen ETF sparen und stehst vor derselben Frage wie fast jeder: Welcher ist
-                    wirklich halal, und welcher trägt das Wort nur im Namen?
+                    Du willst als Muslim in einen ETF sparen und fragst dich wie fast jeder: Welchen nehme ich, wo kaufe
+                    ich ihn, und was hat er bisher gebracht?
                   </p>
                   <p>
-                    Ich habe 12 Halal ETFs nach vier Kriterien verglichen und bei {depots} Depots nachgesehen, wo du sie
-                    kaufen kannst. Acht sind geblieben.
-                  </p>
-                  <p>
-                    Der bekannteste ist der iShares MSCI World Islamic, der größte der Liste und seit 2007 am Markt. Die Reihenfolge folgt zuerst
-                    islamischen Kriterien und der Verfügbarkeit, nicht der Rendite. Das ist keine Anlageberatung.
+                    Ich habe 12 Halal ETFs verglichen und bei {depots} Depots nachgesehen, wo du sie kaufen kannst. Acht
+                    sind geblieben. Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite.
                   </p>
                 </Text>
 
@@ -1254,109 +1235,19 @@ const HalalEtf = () => {
                   </p>
                 </section>
 
-                {/* 6 Rechner */}
-                <Rechner />
-
-                {/* 7 Begriff erklärt */}
-                <section className="mt-12">
-                  <H2 id="was-ist-ein-halal-etf" />
-                  <Text>
-                    <p>
-                      Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-Prüfung bestehen. Andere Namen dafür
-                      sind islamische ETFs, auf Englisch Islamic ETF. Meist folgt der Fonds einem Index, aus dem alles fliegt, was
-                      nicht passt.
-                    </p>
-                    <p>
-                      Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
-                      Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Welche
-                      Grenzwerte gelten, steht im Beitrag <TL to="/blog/sind-aktien-haram">Sind Aktien halal?</TL>
-                    </p>
-                    <p>
-                      Danach der Fonds selbst. Er kann einen sauberen Index nachbilden und trotzdem Aktien verleihen. Oder er
-                      bildet den Index nur über ein Tauschgeschäft mit einer Bank nach. Deshalb zählt, ob ein Gremium den Fonds
-                      geprüft hat oder nur den Index.
-                    </p>
-                    <p>
-                      Ein Halal ETF ist kein Nachhaltigkeitsfonds. ESG- und SRI-Fonds schließen oft Waffen und Tabak aus. Banken
-                      und Versicherungen sind dort aber häufig unter den größten Positionen, Zinsgrenzen prüfen sie nicht.
-                    </p>
-                    <p>
-                      Ein Halal ETF ist auch nicht sicher. Halal heißt erlaubt. Er schwankt wie jeder Aktienfonds, ein Verlust
-                      ist jederzeit möglich.
-                    </p>
-                    <p>
-                      Und ein Zertifikat bestätigt in aller Regel die Methode, nicht jede einzelne Firma. Wer einen Islamic ETF
-                      kauft, folgt der Auffassung, dass kleine, unvermeidbare Zinsberührungen unter den Grenzwerten hinnehmbar
-                      sind, wenn der unreine Teil gereinigt wird.
-                    </p>
-                  </Text>
-                </section>
-
-                {/* 8 So haben wir verglichen */}
-                <section className="mt-12">
-                  <H2 id="so-haben-wir-verglichen" />
-                  <Text>
-                    {KRITERIEN.map((k) => (
-                      <p key={k.name}>
-                        <strong className="font-semibold text-foreground">{k.name}.</strong> {k.text}
-                      </p>
-                    ))}
-                    <p>
-                      Größe, Alter und Rendite zeigen wir bei jedem ETF zur Information. Für die Reihenfolge zählen sie nicht.
-                      Wie ich Depots und Anbieter grundsätzlich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
-                    </p>
-                  </Text>
-                </section>
-
-                {/* 9 Depots, erstes Mal */}
-                <DepotKasten />
-
-                {/* 10 Die acht Plätze, Video am Ende von Platz 1 */}
-                <section className="mt-14">
-                  <H2 id="die-besten-halal-etfs" />
-                  <Text>
-                    <p>
-                      Die Reihenfolge folgt den vier Kriterien oben, nicht der Rendite. Platz 1 hat
-                      den Beleg am Fonds, reinigt selbst und läuft bei mehr Depots als Sparplan als jeder andere ETF hier. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine
-                      Aktien, sondern Sukuk.
-                    </p>
-                    <p>
-                      Jedes Bild zeigt die Seite des ETFs in unserer Datenbank. Ein Klick darauf öffnet alle Daten mit ISIN
-                      und Beleg.
-                    </p>
-                  </Text>
-                  <div className="mt-10 space-y-14">
-                    {etfListe.map((e) => (
-                      <div key={e.isin}>
-                        <Eintrag e={e} />
-                        {e.platz === 1 && (
-                          <div className="mt-8">
-                            <Text>
-                              <p>
-                                Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.
-                              </p>
-                            </Text>
-                            <Video />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* 11 Tabellen wie frontal: wenige Spalten, kurze Wörter */}
+                {/* 6 Tabellen wie frontal: wenige Spalten, kurze Wörter; seit SEO44 direkt nach dem Wichtigsten wie die Quick Comparison bei halalwallet */}
                 <section className="mt-14">
                   <H2 id="halal-etf-liste" />
                   <Text>
                     <p>
                       Ich habe 12 Halal ETFs gefunden, die du in Deutschland kaufen kannst. Acht stehen in dieser Liste, die
-                      übrigen vier unter der Renditetabelle.
+                      übrigen vier unter der Renditetabelle. Kosten im Jahr, einmal in Prozent und einmal in Euro bei 10.000 €.
                     </p>
                   </Text>
                   <KleineTabelle
-                    kopf={["ETF", "Kosten", "Halal-Beleg", "Passt zu"]}
+                    kopf={["ETF", "Kosten", "bei 10.000\u00a0€", "Passt zu"]}
                     breit={[2]}
-                    zeile="grid-cols-[minmax(0,1fr)_52px_88px]"
+                    zeile="grid-cols-[minmax(0,1fr)_52px_92px]"
                     zeilen={etfListe.map((e) => {
                       const a = anlageVon(e.isin);
                       return {
@@ -1364,15 +1255,15 @@ const HalalEtf = () => {
                         erste: etfZelle(e),
                         zellen: [
                           <span className="whitespace-nowrap tabular-nums">{a.kostenLabel}</span>,
-                          a.zertifikatArt === "produkt" ? "Gremium am Fonds" : "nur Index",
+                          <span className="whitespace-nowrap tabular-nums">{euro(a.kosten * 100)} im Jahr</span>,
                           gross(e.amBestenFuer),
                         ],
                       };
                     })}
                   />
                   <p className="font-titel mt-7 max-w-[664px] border-l-2 border-primary pl-5 text-[20px] leading-[1.4] text-foreground">
-                    Platz 1 hat ein Gremium am Fonds, kostet 0,30 % und läuft bei 14 Depots als Sparplan, bei keinem anderen
-                    ETF hier so oft.
+                    Platz 1 kostet 30 € im Jahr bei 10.000 € und läuft bei 14 Depots als Sparplan, bei keinem anderen ETF hier
+                    so oft.
                   </p>
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
                   <KleineTabelle
@@ -1402,15 +1293,54 @@ const HalalEtf = () => {
                       <TL to="/halal-anlagen/hsbc-msci-emerging-markets-islamic-screened-capped">
                         HSBC MSCI Emerging Markets Islamic Screened
                       </TL>
-                      , je 0,30 bis 0,35 % im Jahr, einen Sparplan hat uns dafür kein Depot belegt. Dazu der{" "}
-                      <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL> mit belegtem Sparplan.
-                      Laut Verkaufsprospekt berät ihn ASB Capital in Shariah-Fragen, ein veröffentlichtes Zertifikat haben wir nicht
-                      gefunden.
+                      , je 0,30 bis 0,35 % im Jahr. Dazu der{" "}
+                      <TL to="/halal-anlagen/xtrackers-ii-salam-usd-global-aggregate-sukuk">Xtrackers Salam Sukuk</TL>, Shariah-Berater
+                      laut Verkaufsprospekt ist ASB Capital.
                     </p>
                   </Text>
                 </section>
 
-                {/* 12 Welcher passt */}
+                {/* 7 Rechner */}
+                <Rechner />
+
+                {/* 8 Depots, erstes Mal */}
+                <DepotKasten />
+
+                {/* 9 Die acht Plätze, Video am Ende von Platz 1 */}
+                <section className="mt-14">
+                  <H2 id="die-besten-halal-etfs" />
+                  <Text>
+                    <p>
+                      Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite: ein eigenes Zertifikat für
+                      den Fonds zählt mehr als eines nur für den Index, dann ob der Fonds selbst reinigt, dann bei wie vielen Depots
+                      du ihn kaufst. Wie ich prüfe, steht in der <TL to="/vergleiche/methodik">Methodik</TL>.
+                    </p>
+                    <p>
+                      Platz 1 hat ein eigenes Zertifikat, reinigt selbst und läuft bei 14 Depots als Sparplan. Die Plätze 2 bis 7 decken
+                      je einen bestimmten Wunsch ab, Platz 8 kauft keine Aktien, sondern Sukuk. Jedes Bild zeigt die Seite des ETFs in
+                      unserer Datenbank, ein Klick darauf öffnet alle Daten mit ISIN.
+                    </p>
+                  </Text>
+                  <div className="mt-10 space-y-14">
+                    {etfListe.map((e) => (
+                      <div key={e.isin}>
+                        <Eintrag e={e} />
+                        {e.platz === 1 && (
+                          <div className="mt-8">
+                            <Text>
+                              <p>
+                                Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.
+                              </p>
+                            </Text>
+                            <Video />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* 10 Welcher passt */}
                 <section className="mt-12">
                   <H2 id="welcher-passt" />
                   <KleineTabelle
@@ -1432,7 +1362,31 @@ const HalalEtf = () => {
                   />
                 </section>
 
-                {/* 13 ETF oder Fonds */}
+                {/* 11 Begriff erklärt, seit SEO44 hinten und kurz (Leser-Skill: Index und Gremium höchstens als Halbsatz) */}
+                <section className="mt-12">
+                  <H2 id="was-ist-ein-halal-etf" />
+                  <Text>
+                    <p>
+                      Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-Prüfung bestehen. Andere Namen dafür
+                      sind islamische ETFs, auf Englisch Islamic ETF.
+                    </p>
+                    <p>
+                      Raus fliegt, womit eine Firma ihr Geld nicht verdienen darf: Banken, Versicherungen, Alkohol, Glücksspiel. Raus fliegt
+                      auch, wer zu viele Schulden auf Zinsen hat. Welche Grenzen gelten, steht im Beitrag{" "}
+                      <TL to="/blog/sind-aktien-haram">Sind Aktien halal?</TL>
+                    </p>
+                    <p>
+                      Ein Halal ETF ist kein Nachhaltigkeitsfonds. ESG- und SRI-Fonds schließen oft Waffen und Tabak aus, Banken und
+                      Versicherungen sind dort aber häufig unter den größten Positionen.
+                    </p>
+                    <p>
+                      Und ein Halal ETF ist nicht sicher. Halal heißt erlaubt. Er schwankt wie jeder Aktienfonds, ein Verlust ist
+                      jederzeit möglich.
+                    </p>
+                  </Text>
+                </section>
+
+                {/* 12 ETF oder Fonds */}
                 <section className="mt-12">
                   <H2 id="halal-etf-oder-fonds" />
                   <Text>
@@ -1449,13 +1403,13 @@ const HalalEtf = () => {
                   </Text>
                 </section>
 
-                {/* 14 Wo du die acht kaufen kannst */}
+                {/* 13 Wo du die acht kaufen kannst */}
                 <section className="mt-12">
                   <H2 id="wo-kaufen" />
                   <Text>
                     <p>
                       Für die acht ETFs habe ich bei {depots} Depots nachgesehen, ob du sie kaufen kannst. Gezählt wird nur,
-                      was der Anbieter selbst zeigt, Stand {stand}.
+                      was das Depot selbst in seiner Wertpapiersuche zeigt.
                     </p>
                     <p>
                       {alleAcht.length > 0
@@ -1496,7 +1450,7 @@ const HalalEtf = () => {
                   </Text>
                 </section>
 
-                {/* 15 Häufige Fragen, Fragen wortgleich (THEMENKARTE.md Z. 107-114) */}
+                {/* 14 Häufige Fragen, Fragen wortgleich (THEMENKARTE.md Z. 107-114) */}
                 <section className="mt-12">
                   <H2 id="haeufige-fragen" />
                   <div className="mt-4 max-w-[664px] divide-y divide-border">
@@ -1517,7 +1471,7 @@ const HalalEtf = () => {
                   </div>
                 </section>
 
-                {/* 16 Nächster Schritt, Depots zweites Mal */}
+                {/* 15 Nächster Schritt, Depots zweites Mal */}
                 <section className="mt-12">
                   <H2 id="naechster-schritt" />
                   <Text>

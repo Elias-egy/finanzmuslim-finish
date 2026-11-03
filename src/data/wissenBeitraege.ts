@@ -33,7 +33,7 @@ export const beitragPfad = (b: WissenBeitrag) => b.pfad ?? `/blog/${b.slug}`;
 /* Reihenfolge nach dem Leser (SEO43, Vault-Skill leser-finanzmuslim): zuerst Geld anlegen, dann das Girokonto,
    Grundbegriffe und Pflichten danach; Bereinigung und Krypto nie oben („Krypto, wird eh nicht so oft gesucht“). */
 export const wissenBeitraege: WissenBeitrag[] = [
-  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Sieh, was in acht Halal ETFs steckt, was sie gebracht haben und was sie in Euro kosten.", thema: "Investieren", pfad: "/blog/halal-etf", datum: "2. November 2026" },
+  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Sieh, was in acht Halal ETFs steckt, was sie gebracht haben und was sie in Euro kosten.", thema: "Investieren", pfad: "/blog/halal-etf", datum: "3. November 2026" },
   { slug: "sind-aktien-halal", name: "Sind Aktien halal?", motiv: "aktienPruefen", desc: "Lerne die zwei Ebenen und drei Grenzwerte kennen.", thema: "Investieren", pfad: "/blog/sind-aktien-haram", datum: "5. September 2026" },
   { slug: "halal-gold-kaufen", name: "Halal Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Händler, online oder Sparplan.", thema: "Investieren", datum: "16. September 2026" },
   { slug: "sukuk", name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", datum: "5. September 2026" },
