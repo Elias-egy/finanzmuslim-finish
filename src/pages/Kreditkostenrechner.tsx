@@ -103,7 +103,7 @@ const Kreditkostenrechner = () => (
               Geld heute gegen Geld später. Der Zins ist der Aufschlag auf diesen Tausch, und er
               ist im Koran ausdrücklich verboten. Wie das im Alltag aussieht und was ausdrücklich
               nicht darunter fällt, steht in{" "}
-              <Link to="/wissen/zinsen-im-islam" className="text-primary hover:underline">
+              <Link to="/blog/zinsen-im-islam" className="text-primary hover:underline">
                 Zinsen im Islam
               </Link>
               .
@@ -117,15 +117,15 @@ const Kreditkostenrechner = () => (
               legst du stattdessen für dich zurück. Beim Auto bist du damit oft in vier Jahren am
               Ziel statt in sechs, und die Zinsen bleiben bei dir. Beim Haus dauert es länger, als
               die meisten warten können, und dafür gibt es andere Wege:{" "}
-              <Link to="/wissen/haus-kaufen-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/haus-kaufen-ohne-zinsen" className="text-primary hover:underline">
                 Haus kaufen ohne Zinsen
               </Link>{" "}
               und{" "}
-              <Link to="/wissen/halal-kredit-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/halal-kredit-ohne-zinsen" className="text-primary hover:underline">
                 Kredit ohne Zinsen
               </Link>
               . Für alles, was kein Haus ist, ist der Rechner die Antwort:{" "}
-              <Link to="/wissen/auto-kaufen-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/auto-kaufen-ohne-zinsen" className="text-primary hover:underline">
                 Auto kaufen ohne Zinsen
               </Link>
               .

@@ -142,7 +142,7 @@ const Boerse = () => (
     />
     <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
       Lieber islamische Anleihen (Sukuk)?{" "}
-      <Link to={boykottLink("/wissen/sukuk", "sukuk")} className="font-semibold text-primary hover:underline">
+      <Link to={boykottLink("/blog/sukuk", "sukuk")} className="font-semibold text-primary hover:underline">
         So funktionieren Sukuk
       </Link>
     </p>

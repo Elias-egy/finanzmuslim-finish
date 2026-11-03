@@ -97,7 +97,7 @@ const Bereinigungsrechner = () => (
             </p>
             <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
               Welcher Fonds welchen Satz nennt und welcher seit 2026 selbst im Fonds reinigt, steht in{" "}
-              <Link to="/wissen/ertraege-reinigen" className="text-primary hover:underline">
+              <Link to="/blog/ertraege-reinigen" className="text-primary hover:underline">
                 Aktienbereinigung
               </Link>
               .

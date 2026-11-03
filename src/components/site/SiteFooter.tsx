@@ -23,9 +23,10 @@ const Item = ({ item }: { item: NavEntry }) =>
     <Soon label={item.label} />
   );
 
-const wissen: NavEntry[] = [
-  { label: "Alle Themen", to: "/wissen" },
-  { label: "Zinsen im Islam", to: "/wissen/zinsen-im-islam" },
+const blog: NavEntry[] = [
+  { label: "Alle Beiträge", to: "/blog" },
+  { label: "Beste Halal ETFs 2026", to: "/blog/halal-etf" },
+  { label: "Zinsen im Islam", to: "/blog/zinsen-im-islam" },
   { label: "Halal investieren für Anfänger", to: "/halal-guide" },
   { label: "Halal-Anlagen", to: "/halal-anlagen" },
   { label: "Zakat berechnen", to: "/zakat-rechner" },
@@ -99,7 +100,7 @@ export const SiteFooter = () => (
             Finanzen, Investieren, islamkonform.
           </p>
         </div>
-        <Column title="Wissen" items={wissen} />
+        <Column title="Blog" items={blog} />
         <Column title="Werkzeuge" items={werkzeuge} />
         <Column title="Über" items={ueber} />
       </div>

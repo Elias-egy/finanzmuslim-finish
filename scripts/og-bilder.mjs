@@ -46,7 +46,7 @@ const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, 
 /** Etikett oben rechts aus dem Pfad, damit die Karte die Seitenart zeigt. */
 const etikett = (pfad) => {
   if (pfad === "/") return "Halal investieren lernen";
-  if (pfad.startsWith("/wissen/")) return "Wissen";
+  if (pfad.startsWith("/blog/")) return "Blog";
   if (pfad.startsWith("/vergleich")) return "Vergleich";
   if (pfad.startsWith("/vorlagen/")) return "Kostenlose Vorlage";
   if (pfad.startsWith("/halal-anlagen/")) return "Halal-Anlage";

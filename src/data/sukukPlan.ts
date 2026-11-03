@@ -73,7 +73,7 @@ export const SUKUK_ZEILEN = listenGruppen.find((g) => g.kategorie === "sukuk")!.
 
 /** Der Prüfnachweis je Fonds aus der Anlagen-Datenbank, dazu der eigene Beitrag. */
 export const sukukQuellen: { titel: string; url: string }[] = [
-  { titel: "Sukuk statt Anleihe, mein Beitrag", url: "https://finanzmuslim.com/wissen/sukuk" },
+  { titel: "Sukuk statt Anleihe, mein Beitrag", url: "https://finanzmuslim.com/blog/sukuk" },
   ...SUKUK_ZEILEN.flatMap(({ anlage: a }) =>
     a.zertifikatLink ? [{ titel: `${a.name}, Nachweis der Prüfstelle`, url: a.zertifikatLink }] : [],
   ),

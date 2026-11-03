@@ -100,7 +100,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
       <>
         Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter. Bei Platz 1
         (seit 2026) und Platz 5 macht das schon der Fonds für dich. So rechnest du es:{" "}
-        <TL to="/wissen/ertraege-reinigen">Aktienbereinigung</TL>.
+        <TL to="/blog/ertraege-reinigen">Aktienbereinigung</TL>.
       </>
     ),
   },
@@ -195,7 +195,7 @@ const FRAGEN: Frage[] = [
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
     antwort:
       "Nach dem AAOIFI-Standard ja, wenn der Fonds es nicht selbst tut. Der iShares MSCI World Islamic (seit 2026) und der HSBC MSCI World Islamic Screened reinigen im Fonds. Beim iShares USD Sukuk ist es in der Regel nicht nötig, weil er keine Aktien hält. Bei den anderen gibst du den unreinen Anteil deiner Erträge weiter.",
-    link: { to: "/wissen/ertraege-reinigen", text: "So rechnest du die Reinigung" },
+    link: { to: "/blog/ertraege-reinigen", text: "So rechnest du die Reinigung" },
   },
 ];
 
@@ -223,9 +223,9 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
     name: "iShares MSCI World Islamic",
     text: "Alle Daten zu Platz 1, mit ISIN und Beleg.",
   },
-  { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "Die Grenzwerte, nach denen ein Index prüft." },
-  { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
-  { to: "/wissen/sukuk", name: "Sukuk", text: "Das islamische Gegenstück zu Anleihen, einfach erklärt." },
+  { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "Die Grenzwerte, nach denen ein Index prüft." },
+  { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
+  { to: "/blog/sukuk", name: "Sukuk", text: "Das islamische Gegenstück zu Anleihen, einfach erklärt." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -345,7 +345,7 @@ const graph = () => {
         url,
         author: { "@id": `${SITE}/ueber-mich#elias` },
         publisher: { "@id": `${SITE}/#organization` },
-        isPartOf: { "@type": "Blog", "@id": `${SITE}/wissen#blog`, name: "finanzmuslim Blog", url: `${SITE}/wissen` },
+        isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, name: "finanzmuslim Blog", url: `${SITE}/blog` },
         datePublished: VEROEFFENTLICHT.iso,
         dateModified: AKTUALISIERT.iso,
         inLanguage: "de-DE",
@@ -376,7 +376,7 @@ const graph = () => {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: SITE },
-          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/wissen` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
           { "@type": "ListItem", position: 3, name: TITEL, item: url },
         ],
       },
@@ -1165,7 +1165,7 @@ const HalalEtf = () => {
           <div className="min-w-0">
             {/* 1 Kopf wie frontal */}
             <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
-              <Link to="/wissen" className="text-primary hover:underline">
+              <Link to="/blog" className="text-primary hover:underline">
                 Blog
               </Link>
               <span aria-hidden>/</span>
@@ -1269,7 +1269,7 @@ const HalalEtf = () => {
                     <p>
                       Geprüft wird zweimal. Zuerst der Index: Womit verdient die Firma ihr Geld? Wie hoch sind ihre verzinsten
                       Schulden? Wie viel liegt zinsbringend in der Bilanz? Wer über einem Grenzwert liegt, ist raus. Welche
-                      Grenzwerte gelten, steht im Beitrag <TL to="/wissen/sind-aktien-halal">Sind Aktien halal?</TL>
+                      Grenzwerte gelten, steht im Beitrag <TL to="/blog/sind-aktien-haram">Sind Aktien halal?</TL>
                     </p>
                     <p>
                       Danach der Fonds selbst. Er kann einen sauberen Index nachbilden und trotzdem Aktien verleihen. Oder er

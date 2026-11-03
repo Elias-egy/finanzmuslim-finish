@@ -163,7 +163,7 @@ const Auswanderungsrechner = () => (
                 Halal-Datenbank
               </Link>
               , und wie die Zakat auf ein Depot gerechnet wird, in{" "}
-              <Link to="/wissen/zakat-auf-aktien-etf-krypto" className="text-primary hover:underline">
+              <Link to="/blog/zakat-auf-aktien-etf-krypto" className="text-primary hover:underline">
                 Zakat auf Aktien, ETFs und Krypto
               </Link>
               .

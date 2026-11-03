@@ -106,7 +106,7 @@ const RohstoffeBlock = () => (
     </ul>
     <p className="mt-5 text-[15px] leading-[24px] text-muted-foreground">
       Ausführlich mit Begründung, dazu Altgold beim Juwelier und Zakat auf Gold:{" "}
-      <Link to="/wissen/halal-gold-kaufen" className="font-semibold text-primary hover:underline">
+      <Link to="/blog/halal-gold-kaufen" className="font-semibold text-primary hover:underline">
         Halal Gold kaufen
       </Link>
       .

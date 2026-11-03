@@ -291,11 +291,11 @@ const Erbe = () => (
     <Seo
       title="Erbe nach islamischem Recht: was in Deutschland zählt | finanzmuslim"
       description={beschreibung}
-      path="/wissen/erbe"
+      path="/blog/erbe"
       jsonLd={beitragJsonLd({
         titel: "Erbe nach islamischem Recht",
         beschreibung,
-        path: "/wissen/erbe",
+        path: "/blog/erbe",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -336,9 +336,9 @@ const Erbe = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat überhaupt fällig wird." },
-          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "gehört zu den Dingen, die man zu Lebzeiten erledigt." },
-          { to: "/wissen/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "behandelt die Frage nach der Absicherung der Familie." },
+          { to: "/blog/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat überhaupt fällig wird." },
+          { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "gehört zu den Dingen, die man zu Lebzeiten erledigt." },
+          { to: "/blog/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "behandelt die Frage nach der Absicherung der Familie." },
         ]}
       />
     </BeitragSeite>

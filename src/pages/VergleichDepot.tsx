@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { depotAnzeige } from "@/data/vergleichAnzeige";
@@ -20,6 +21,13 @@ const VergleichDepot = () => (
         <p>
           Für Muslime entscheiden zwei Punkte, die in normalen Vergleichen fehlen: Liegt dein Geld
           dort ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort kaufen?
+        </p>
+        <p>
+          Welche Halal ETFs es gibt und was sie gebracht haben, siehst du im Beitrag{" "}
+          <Link to="/blog/halal-etf" className="font-semibold text-primary hover:underline">
+            Beste Halal ETFs 2026
+          </Link>
+          .
         </p>
       </>
     }

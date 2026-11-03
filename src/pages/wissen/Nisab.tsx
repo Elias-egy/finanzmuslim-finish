@@ -225,7 +225,7 @@ const abschnitte: BeitragAbschnitt[] = [
           <p>
             Wenn du Aktien oder ETFs hast, kommt neben der Zakat ein zweiter Betrag auf dich zu, der
             unerlaubte Ertragsanteil. Der zählt <B>nicht</B> als Zakat und wird getrennt gerechnet. Wie das
-            geht, steht in <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+            geht, steht in <L to="/blog/ertraege-reinigen">Aktienbereinigung</L>.
           </p>
         </Hinweis>
       </>
@@ -284,11 +284,11 @@ const Nisab = () => (
     <Seo
       title="Nisab: ab welchem Vermögen Zakat fällig wird | finanzmuslim"
       description={beschreibung}
-      path="/wissen/nisab"
+      path="/blog/nisab"
       jsonLd={beitragJsonLd({
         titel: "Nisab: ab wann du Zakat zahlst",
         beschreibung,
-        path: "/wissen/nisab",
+        path: "/blog/nisab",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -330,9 +330,9 @@ const Nisab = () => (
       <PasstDazu
         punkte={[
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "rechnet mit beiden Grenzen und zeigt dir den Unterschied." },
-          { to: "/wissen/halal-gold-kaufen", name: "Gold richtig kaufen", text: "erklärt, welches Gold in die Zakat-Rechnung gehört." },
-          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "der zweite Betrag im Jahr, der nichts mit der Zakat zu tun hat." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "klärt den Begriff, um den sich alles andere dreht." },
+          { to: "/blog/halal-gold-kaufen", name: "Gold richtig kaufen", text: "erklärt, welches Gold in die Zakat-Rechnung gehört." },
+          { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "der zweite Betrag im Jahr, der nichts mit der Zakat zu tun hat." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "klärt den Begriff, um den sich alles andere dreht." },
         ]}
       />
     </BeitragSeite>

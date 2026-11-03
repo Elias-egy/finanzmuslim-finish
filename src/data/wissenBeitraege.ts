@@ -2,7 +2,7 @@ import type { MotivName } from "@/components/motive";
 
 /**
  * Das eine Register aller Wissensbeiträge. Reihenfolge = Anzeigereihenfolge
- * auf /wissen und Reihenfolge für "Weiterlesen" am Ende jedes Beitrags.
+ * auf /blog und Reihenfolge für "Weiterlesen" am Ende jedes Beitrags.
  *
  * Wer einen Beitrag anlegt, trägt ihn hier ein. Die Übersicht, die
  * Vor/Zurück-Navigation und die Suche lesen alle aus dieser Liste.
@@ -21,40 +21,44 @@ export type WissenBeitrag = {
   bald?: boolean;
   /** Frisch veröffentlicht: violettes Etikett auf der Übersicht. */
   neu?: boolean;
-  /** Eigene Adresse außerhalb von /wissen, etwa nach dem Umzug in den Blog. */
+  /** Eigene Adresse, wenn sie nicht /blog/<slug> ist (halal-etf, sind-aktien-haram). */
   pfad?: string;
+  /** Sichtbares Datum auf der Blog-Übersicht: dateModified der Seite, sonst datePublished (Test hält beides gleich). */
+  datum: string;
 };
 
-/** Adresse eines Beitrags: eigene oder /wissen/<slug>. */
-export const beitragPfad = (b: WissenBeitrag) => b.pfad ?? `/wissen/${b.slug}`;
+/** Adresse eines Beitrags: eigene oder /blog/<slug>. */
+export const beitragPfad = (b: WissenBeitrag) => b.pfad ?? `/blog/${b.slug}`;
 
+/* Reihenfolge nach dem Leser (SEO43, Vault-Skill leser-finanzmuslim): zuerst Geld anlegen, dann das Girokonto,
+   Grundbegriffe und Pflichten danach; Bereinigung und Krypto nie oben („Krypto, wird eh nicht so oft gesucht“). */
 export const wissenBeitraege: WissenBeitrag[] = [
-  { slug: "zinsen-im-islam", name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen" },
-  { slug: "gharar", name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an vier Fragen.", thema: "Grundlagen" },
-  { slug: "maysir", name: "Glücksspiel (Maysir)", motiv: "maysir", desc: "Sieh, wo Investieren zur Wette wird.", thema: "Grundlagen" },
-  { slug: "haeufige-fehler", name: "12 Fehler beim halal Investieren", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen" },
-  { slug: "trading-forex-cfd", name: "Trading, Forex und CFDs", motiv: "trading", desc: "Sieh, warum Hebel, Swap und Short kein Handel sind.", thema: "Grundlagen", neu: true },
+  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Sieh, was in acht Halal ETFs steckt, was sie gebracht haben und was sie in Euro kosten.", thema: "Investieren", pfad: "/blog/halal-etf", datum: "2. November 2026" },
+  { slug: "sind-aktien-halal", name: "Sind Aktien halal?", motiv: "aktienPruefen", desc: "Lerne die zwei Ebenen und drei Grenzwerte kennen.", thema: "Investieren", pfad: "/blog/sind-aktien-haram", datum: "5. September 2026" },
+  { slug: "halal-gold-kaufen", name: "Halal Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Händler, online oder Sparplan.", thema: "Investieren", datum: "16. September 2026" },
+  { slug: "sukuk", name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", datum: "5. September 2026" },
+  { slug: "ist-bitcoin-halal", name: "Ist Bitcoin halal?", motiv: "krypto", desc: "Verstehe die drei Kategorien und den echten Streitpunkt.", thema: "Investieren", datum: "5. September 2026" },
+  { slug: "ertraege-reinigen", name: "Dividenden reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst, und wer es für dich macht.", thema: "Investieren", datum: "5. September 2026" },
 
-  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Vergleich acht Halal ETFs nach Kosten, Prüfung und Sparplan.", thema: "Investieren", pfad: "/blog/halal-etf" },
-  { slug: "sind-aktien-halal", name: "Sind Aktien halal?", motiv: "aktienPruefen", desc: "Lerne die zwei Ebenen und drei Grenzwerte kennen.", thema: "Investieren" },
-  { slug: "ertraege-reinigen", name: "Dividenden reinigen", motiv: "reinigen", desc: "Rechne aus, welchen Anteil du weitergibst, und wer es für dich macht.", thema: "Investieren" },
-  { slug: "sukuk", name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren" },
-  { slug: "halal-gold-kaufen", name: "Halal Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Händler, online oder Sparplan.", thema: "Investieren" },
-  { slug: "ist-bitcoin-halal", name: "Ist Bitcoin halal?", motiv: "krypto", desc: "Verstehe die drei Kategorien und den echten Streitpunkt.", thema: "Investieren" },
+  { slug: "girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "kreditkarte-halal", name: "Ist die Kreditkarte haram?", motiv: "karteSicher", desc: "Erkenne, welche Karte du unterschreibst.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "ratenzahlung-haram", name: "Ist Ratenzahlung haram?", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "ist-versicherung-haram", name: "Ist Versicherung haram?", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht.", thema: "Alltag", datum: "5. September 2026" },
 
-  { slug: "girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag" },
-  { slug: "kreditkarte-halal", name: "Ist die Kreditkarte haram?", motiv: "karteSicher", desc: "Erkenne, welche Karte du unterschreibst.", thema: "Alltag", neu: true },
-  { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", neu: true },
-  { slug: "halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag" },
-  { slug: "ratenzahlung-haram", name: "Ist Ratenzahlung haram?", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag" },
-  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", neu: true },
-  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag" },
-  { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag" },
-  { slug: "ist-versicherung-haram", name: "Ist Versicherung haram?", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht.", thema: "Alltag" },
+  { slug: "zinsen-im-islam", name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", datum: "5. September 2026" },
+  { slug: "haeufige-fehler", name: "12 Fehler beim halal Investieren", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen", datum: "5. September 2026" },
+  { slug: "gharar", name: "Was ist Gharar", motiv: "gharar", desc: "Prüf jeden Vertrag an vier Fragen.", thema: "Grundlagen", datum: "5. September 2026" },
+  { slug: "maysir", name: "Glücksspiel (Maysir)", motiv: "maysir", desc: "Sieh, wo Investieren zur Wette wird.", thema: "Grundlagen", datum: "5. September 2026" },
+  { slug: "trading-forex-cfd", name: "Trading, Forex und CFDs", motiv: "trading", desc: "Sieh, warum Hebel, Swap und Short kein Handel sind.", thema: "Grundlagen", datum: "5. September 2026" },
 
-  { slug: "nisab", name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten" },
-  { slug: "zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", motiv: "zakat", desc: "Rechne aus, was dein Depot an Zakat kostet.", thema: "Pflichten", neu: true },
-  { slug: "erbe", name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Regel dein Erbe, bevor deutsches Recht es tut.", thema: "Pflichten" },
+  { slug: "zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", motiv: "zakat", desc: "Rechne aus, was dein Depot an Zakat kostet.", thema: "Pflichten", datum: "5. September 2026" },
+  { slug: "nisab", name: "Nisab verstehen", motiv: "nisab", desc: "Sieh, ab welchem Vermögen Zakat fällig wird.", thema: "Pflichten", datum: "5. September 2026" },
+  { slug: "erbe", name: "Erbe nach islamischem Recht", motiv: "erbe", desc: "Regel dein Erbe, bevor deutsches Recht es tut.", thema: "Pflichten", datum: "5. September 2026" },
 ];
 
 export const beitragBySlug = (slug: string) => wissenBeitraege.find((b) => b.slug === slug);
@@ -71,8 +75,8 @@ export const nachbarn = (slug: string) => {
 };
 
 export const themen: { thema: WissenThema; id: string; satz: string }[] = [
-  { thema: "Grundlagen", id: "grundlagen", satz: "Die Begriffe, ohne die alles andere schwer zu verstehen ist." },
   { thema: "Investieren", id: "investieren", satz: "Wie du dein Geld anlegst, ohne gegen deine Überzeugung zu handeln." },
   { thema: "Alltag", id: "alltag", satz: "Verträge, die dir im normalen Leben begegnen, vom Konto bis zum Auto." },
+  { thema: "Grundlagen", id: "grundlagen", satz: "Die Begriffe, ohne die alles andere schwer zu verstehen ist." },
   { thema: "Pflichten", id: "pflichten", satz: "Was der Islam an Abgaben und Regeln vorsieht, und wie du es ausrechnest." },
 ];

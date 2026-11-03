@@ -65,7 +65,7 @@ const ArtenBlock = () => (
       nur Münzen, zu denen ein Gutachten einer Prüfstelle vorliegt, das wir selbst gelesen haben.
       Die Datenbank ist keine Liste aller zulässigen Münzen. Die Begründungen im Einzelnen stehen
       in{" "}
-      <Link to="/wissen/ist-bitcoin-halal" className="font-semibold text-primary hover:underline">
+      <Link to="/blog/ist-bitcoin-halal" className="font-semibold text-primary hover:underline">
         Ist Bitcoin halal?
       </Link>
       .

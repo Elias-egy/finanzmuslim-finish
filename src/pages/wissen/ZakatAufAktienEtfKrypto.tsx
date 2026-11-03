@@ -83,7 +83,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Die Grenze ist in Gewicht festgelegt, nicht in Euro. Der Tag, an dem du sie überschreitest,
                   ist dein Stichtag. Welche Grenze gilt und warum es zwei gibt, steht in{" "}
-                  <L to="/wissen/nisab">Nisab verstehen</L>.
+                  <L to="/blog/nisab">Nisab verstehen</L>.
                 </>
               ),
             },
@@ -210,7 +210,7 @@ const abschnitte: BeitragAbschnitt[] = [
                   Unter Gelehrten wird diskutiert, ob Krypto eine Währung oder eine Handelsware ist. Für die
                   Zakat spielt das keine Rolle: Beides ist zakatpflichtig, beides mit 2,5 Prozent vom Wert am
                   Stichtag. Ob du eine bestimmte Münze überhaupt halten solltest, ist eine andere Frage, sie
-                  steht in <L to="/wissen/ist-bitcoin-halal">Krypto</L>.
+                  steht in <L to="/blog/ist-bitcoin-halal">Krypto</L>.
                 </>
               ),
             },
@@ -222,7 +222,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Sukuk verbriefen einen Anteil an einem realen Vermögenswert. Sie zählen mit ihrem Wert am
                   Stichtag zum zakatpflichtigen Vermögen. Was ein Sukuk genau ist, steht in{" "}
-                  <L to="/wissen/sukuk">Sukuk</L>.
+                  <L to="/blog/sukuk">Sukuk</L>.
                 </>
               ),
             },
@@ -270,7 +270,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <Hinweis titel="Wer im Minus lebt, hat eine andere Baustelle">
           <p>
             Ein dauerhafter Dispo ist eine Zinsschuld, und die gehört vor die Zakat-Rechnung, nicht in sie.
-            Wie du herauskommst, steht in <L to="/wissen/dispo-und-schulden">Dispo und Schulden</L>.
+            Wie du herauskommst, steht in <L to="/blog/dispo-und-schulden">Dispo und Schulden</L>.
           </p>
         </Hinweis>
       </>
@@ -308,7 +308,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Der Unterschied zur Bereinigung ist wichtig genug, um ihn einmal auszuschreiben: Zakat ist eine
           Pflicht auf dein Vermögen, für die du Lohn erwartest. Die Bereinigung gibt einen Anteil zurück, der
           dir nie zustand. Beides wird getrennt gerechnet, siehe{" "}
-          <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+          <L to="/blog/ertraege-reinigen">Aktienbereinigung</L>.
         </p>
       </>
     ),
@@ -396,11 +396,11 @@ const ZakatAufAktienEtfKrypto = () => (
     <Seo
       title="Zakat auf Aktien, ETFs und Krypto berechnen | finanzmuslim"
       description={beschreibung}
-      path="/wissen/zakat-auf-aktien-etf-krypto"
+      path="/blog/zakat-auf-aktien-etf-krypto"
       jsonLd={beitragJsonLd({
         titel: "Zakat auf Aktien, ETFs und Krypto",
         beschreibung,
-        path: "/wissen/zakat-auf-aktien-etf-krypto",
+        path: "/blog/zakat-auf-aktien-etf-krypto",
         datePublished: "5. September 2026",
         dateModified: "5. September 2026",
         faq,
@@ -440,10 +440,10 @@ const ZakatAufAktienEtfKrypto = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/nisab", name: "Nisab verstehen", text: "sagt dir, ab welchem Vermögen überhaupt Zakat fällig wird." },
-          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "erklärt den zweiten Termin im Jahr, der nicht dasselbe ist." },
-          { to: "/wissen/sind-aktien-halal", name: "Aktien richtig prüfen", text: "zeigt, ob die Anteile überhaupt in Ordnung sind." },
-          { to: "/wissen/ist-bitcoin-halal", name: "Krypto", text: "ordnet ein, welche Coins in Frage kommen." },
+          { to: "/blog/nisab", name: "Nisab verstehen", text: "sagt dir, ab welchem Vermögen überhaupt Zakat fällig wird." },
+          { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "erklärt den zweiten Termin im Jahr, der nicht dasselbe ist." },
+          { to: "/blog/sind-aktien-haram", name: "Aktien richtig prüfen", text: "zeigt, ob die Anteile überhaupt in Ordnung sind." },
+          { to: "/blog/ist-bitcoin-halal", name: "Krypto", text: "ordnet ein, welche Coins in Frage kommen." },
         ]}
       />
     </BeitragSeite>

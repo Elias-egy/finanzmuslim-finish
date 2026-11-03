@@ -41,7 +41,7 @@ const abschnitte: BeitragAbschnitt[] = [
           </p>
         </Hinweis>
         <p>
-          Maysir und <L to="/wissen/gharar">Gharar</L> treten oft zusammen auf, sind aber nicht dasselbe.
+          Maysir und <L to="/blog/gharar">Gharar</L> treten oft zusammen auf, sind aber nicht dasselbe.
           Gharar ist Unklarheit im Vertrag, Maysir ist der Wettcharakter. Glücksspiel gilt dabei als die
           schärfste Form der Unklarheit: Man weiß nicht einmal, ob man überhaupt etwas bekommt.
         </p>
@@ -215,11 +215,11 @@ const Maysir = () => (
     <Seo
       title="Maysir: was als Glücksspiel gilt | finanzmuslim"
       description={beschreibung}
-      path="/wissen/maysir"
+      path="/blog/maysir"
       jsonLd={beitragJsonLd({
         titel: "Maysir: was als Glücksspiel gilt",
         beschreibung,
-        path: "/wissen/maysir",
+        path: "/blog/maysir",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -258,9 +258,9 @@ const Maysir = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/gharar", name: "Gharar", text: "behandelt den Begriff, der fast immer zusammen mit Maysir fällt." },
-          { to: "/wissen/ist-bitcoin-halal", name: "Ist Bitcoin halal?", text: "geht der Spekulationsfrage bei Krypto nach." },
-          { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "erklärt, warum eine Beteiligung etwas anderes ist als eine Wette." },
+          { to: "/blog/gharar", name: "Gharar", text: "behandelt den Begriff, der fast immer zusammen mit Maysir fällt." },
+          { to: "/blog/ist-bitcoin-halal", name: "Ist Bitcoin halal?", text: "geht der Spekulationsfrage bei Krypto nach." },
+          { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "erklärt, warum eine Beteiligung etwas anderes ist als eine Wette." },
         ]}
       />
     </BeitragSeite>

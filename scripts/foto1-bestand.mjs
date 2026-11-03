@@ -12,7 +12,7 @@ const seiten = [
   ["ueber-mich", "/ueber-mich"],
   ["investmentstart", "/dein-investmentstart"],
   ["halal-guide", "/halal-guide"],
-  ["beitrag", "/wissen/ist-leasing-haram"],
+  ["beitrag", "/blog/ist-leasing-haram"],
   ["gratis", "/gratis/halal-anlagen"],
   ["danke", "/danke/halal-anlagen"],
 ];

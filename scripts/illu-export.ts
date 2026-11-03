@@ -16,7 +16,7 @@ if (!ziel) {
   process.exit(1);
 }
 
-// MC7d9g6 (31.10.2026, PLAN-REIHENFOLGE.md): IlluSukuk für die neue Sukuk-Seite, Bild aus /wissen/sukuk.
+// MC7d9g6 (31.10.2026, PLAN-REIHENFOLGE.md): IlluSukuk für die neue Sukuk-Seite, Bild aus /blog/sukuk.
 const bilder = { IlluGold, IlluQabd, IlluDispo, IlluZins, IlluDepot, IlluSukuk };
 
 mkdirSync(ziel, { recursive: true });

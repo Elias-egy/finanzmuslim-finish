@@ -144,7 +144,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   <B>Hebel und Futures.</B> Wer mit geliehenem Geld auf Kursrichtungen wettet, verlässt jede
                   Diskussion über Bitcoin. Das ist ein verzinstes Darlehen plus Wette in einem. Mehr dazu in{" "}
-                  <L to="/wissen/maysir">Glücksspiel (Maysir)</L>.
+                  <L to="/blog/maysir">Glücksspiel (Maysir)</L>.
                 </>
               ),
             },
@@ -299,11 +299,11 @@ const IstBitcoinHalal = () => (
     <Seo
       title="Ist Bitcoin halal oder haram? Der ehrliche Stand | finanzmuslim"
       description={beschreibung}
-      path="/wissen/ist-bitcoin-halal"
+      path="/blog/ist-bitcoin-halal"
       jsonLd={beitragJsonLd({
         titel: "Ist Bitcoin halal oder haram?",
         beschreibung,
-        path: "/wissen/ist-bitcoin-halal",
+        path: "/blog/ist-bitcoin-halal",
         datePublished: "15. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -341,8 +341,8 @@ const IstBitcoinHalal = () => (
       <PasstDazu
         punkte={[
           { to: "/halal-anlagen", name: "Die Anlagen-Datenbank", text: "zeigt Bitcoin und Ether mit Kursverlauf, getrennt von der Haupttabelle." },
-          { to: "/wissen/maysir", name: "Glücksspiel (Maysir)", text: "erklärt, warum Hebel und Wetten eine eigene Kategorie sind." },
-          { to: "/wissen/halal-gold-kaufen", name: "Gold kaufen", text: "der Vergleich, der in dieser Diskussion ständig gezogen wird." },
+          { to: "/blog/maysir", name: "Glücksspiel (Maysir)", text: "erklärt, warum Hebel und Wetten eine eigene Kategorie sind." },
+          { to: "/blog/halal-gold-kaufen", name: "Gold kaufen", text: "der Vergleich, der in dieser Diskussion ständig gezogen wird." },
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "hat ein eigenes Feld für Krypto." },
         ]}
       />

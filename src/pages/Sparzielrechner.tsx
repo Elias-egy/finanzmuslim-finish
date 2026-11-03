@@ -103,7 +103,7 @@ const Sparzielrechner = () => (
                 Halal-Datenbank
               </Link>
               , wie ein Konto ohne Zinsen geht, in{" "}
-              <Link to="/wissen/girokonto-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/girokonto-ohne-zinsen" className="text-primary hover:underline">
                 Girokonto ohne Zinsen
               </Link>
               .

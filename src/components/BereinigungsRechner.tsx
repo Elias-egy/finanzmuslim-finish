@@ -206,7 +206,7 @@ const BereinigungsRechner = () => {
           </div>
 
           <Link
-            to="/wissen/ertraege-reinigen"
+            to="/blog/ertraege-reinigen"
             className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
           >
             <span className="text-[14px] font-semibold text-foreground">

@@ -72,7 +72,7 @@ const abschnitte: BeitragAbschnitt[] = [
           <p>
             Wenn dein Girokonto Habenzinsen zahlt oder einen Dispo hat, ist das eine Frage an das Konto,
             nicht an die Karte. Wie du dein Konto sauber aufstellst, steht in{" "}
-            <L to="/wissen/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>. Nicht jedes Girokonto bietet
+            <L to="/blog/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>. Nicht jedes Girokonto bietet
             überhaupt eine Debitkarte an, manche haben nur die reine Girocard.
           </p>
         </Hinweis>
@@ -220,7 +220,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Wer sich für die zweite Meinung entscheidet und eine Karte führt, sollte deshalb so mit ihr
           umgehen, als leihe er sich bei jedem Einkauf Geld bei der Bank. Denn genau das tut er. Wie du
           aus dem Minus wieder herauskommst, steht in{" "}
-          <L to="/wissen/dispo-und-schulden">Dispo und Schulden</L>.
+          <L to="/blog/dispo-und-schulden">Dispo und Schulden</L>.
         </p>
       </>
     ),
@@ -302,11 +302,11 @@ const KreditkarteHalal = () => (
     <Seo
       title="Kreditkarte oder Debitkarte: was gilt islamisch? | finanzmuslim"
       description={beschreibung}
-      path="/wissen/kreditkarte-halal"
+      path="/blog/kreditkarte-halal"
       jsonLd={beitragJsonLd({
         titel: "Kreditkarte und Debitkarte",
         beschreibung,
-        path: "/wissen/kreditkarte-halal",
+        path: "/blog/kreditkarte-halal",
         datePublished: "5. September 2026",
         dateModified: "5. September 2026",
         faq,
@@ -346,10 +346,10 @@ const KreditkarteHalal = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "stellt das Konto um, an dem deine Karte hängt." },
-          { to: "/wissen/dispo-und-schulden", name: "Dispo und Schulden", text: "zeigt den Weg heraus, wenn schon etwas offen ist." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum ein Zinsvertrag auch ohne gezahlte Zinsen ein Problem ist." },
-          { to: "/wissen/ratenzahlung-haram", name: "Ratenkauf", text: "beantwortet dieselbe Frage für Käufe an der Kasse." },
+          { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "stellt das Konto um, an dem deine Karte hängt." },
+          { to: "/blog/dispo-und-schulden", name: "Dispo und Schulden", text: "zeigt den Weg heraus, wenn schon etwas offen ist." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum ein Zinsvertrag auch ohne gezahlte Zinsen ein Problem ist." },
+          { to: "/blog/ratenzahlung-haram", name: "Ratenkauf", text: "beantwortet dieselbe Frage für Käufe an der Kasse." },
         ]}
       />
     </BeitragSeite>

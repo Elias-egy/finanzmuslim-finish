@@ -392,7 +392,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           Welche der beiden Grenzen man anlegt, wird unterschiedlich gehandhabt: Drei der vier großen
           Rechtsschulen nehmen Gold, eine nimmt Silber, und viele Hilfsorganisationen rechnen mit Silber, weil
-          die Grenze niedriger liegt. Beides ist vertretbar, mehr dazu in <L to="/wissen/nisab">Nisab</L>.
+          die Grenze niedriger liegt. Beides ist vertretbar, mehr dazu in <L to="/blog/nisab">Nisab</L>.
         </p>
         <p>
           Der Satz beträgt <B>2,5 Prozent</B> auf den Wert, nicht auf den Gewinn. Umstritten ist der Schmuck,
@@ -460,11 +460,11 @@ const HalalGoldKaufen = () => (
     <Seo
       title="Halal Gold kaufen: Die eine Bedingung, die zählt | finanzmuslim"
       description={beschreibung}
-      path="/wissen/halal-gold-kaufen"
+      path="/blog/halal-gold-kaufen"
       jsonLd={beitragJsonLd({
         titel: "Halal Gold kaufen",
         beschreibung,
-        path: "/wissen/halal-gold-kaufen",
+        path: "/blog/halal-gold-kaufen",
         datePublished: "16. August 2026",
         dateModified: "16. September 2026",
         faq,
@@ -505,8 +505,8 @@ const HalalGoldKaufen = () => (
         punkte={[
           { to: "/vergleich/edelmetalle", name: "Der Edelmetall-Vergleich", text: "zeigt die Depots für Gold und Silber nach Rang, dazu die drei Wege zu echtem Metall." },
           { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "rechnet Gold, Silber und Ersparnisse zusammen und zeigt dir den Nisab." },
-          { to: "/wissen/nisab", name: "Nisab verstehen", text: "erklärt, welche der beiden Grenzen für dich gilt." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
+          { to: "/blog/nisab", name: "Nisab verstehen", text: "erklärt, welche der beiden Grenzen für dich gilt." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Verträge ein, die fast jeder hat." },
         ]}
       />

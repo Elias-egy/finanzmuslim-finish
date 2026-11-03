@@ -168,9 +168,9 @@ const aufNoindex = (html) =>
 /**
  * Dateiname je Adresse. Seit 16.09.2026 <pfad>.html statt <pfad>/index.html.
  *
- * Warum: GitHub Pages liefert /wissen/sukuk aus wissen/sukuk.html direkt mit
- * 200 aus. Lag die Seite unter wissen/sukuk/index.html, antwortete Pages auf
- * /wissen/sukuk mit 301 auf /wissen/sukuk/, waehrend Canonical und Sitemap
+ * Warum: GitHub Pages liefert /blog/sukuk aus blog/sukuk.html direkt mit
+ * 200 aus. Lag die Seite unter blog/sukuk/index.html, antwortete Pages auf
+ * /blog/sukuk mit 301 auf /blog/sukuk/, waehrend Canonical und Sitemap
  * ohne Schraegstrich zeigten. Live geprueft am 16.09.2026: alle 80
  * Sitemap-Adressen gaben 301. Google sah damit fuer jede Seite einen Umweg
  * und einen Canonical, der zurueck auf die Weiterleitung zeigte.
@@ -179,10 +179,10 @@ export const dateiFuer = (pfad) =>
   pfad === "/" ? join(DIST, "index.html") : join(DIST, `${pfad}.html`);
 
 /**
- * Knotenseiten wie /wissen haben Unterseiten (/wissen/sukuk) und damit auf der
- * Platte einen Ordner wissen/. Damit /wissen sicher ausgeliefert wird, egal ob
- * der Hoster zuerst die Datei wissen.html oder den Ordner ansieht, liegt die
- * Seite dort zusaetzlich als wissen/index.html. Beide Fassungen sind gleich
+ * Knotenseiten wie /blog haben Unterseiten (/blog/sukuk) und damit auf der
+ * Platte einen Ordner blog/. Damit /blog sicher ausgeliefert wird, egal ob
+ * der Hoster zuerst die Datei blog.html oder den Ordner ansieht, liegt die
+ * Seite dort zusaetzlich als blog/index.html. Beide Fassungen sind gleich
  * und tragen denselben Canonical ohne Schraegstrich.
  */
 let knoten = new Set();
@@ -307,6 +307,12 @@ const main = async () => {
     const ziel = dateiFuer(von);
     await mkdir(dirname(ziel), { recursive: true });
     await writeFile(ziel, weiterleitungsSeite(nach, seo), "utf8");
+    /* Knoten wie /wissen: der Ordner wissen/ existiert wegen der Unterseiten,
+       darum fragt Pages bei /wissen/ nach wissen/index.html. Ohne diese Datei
+       gaebe es dort eine 404 (SEO43, wie /blog/ vor dem Umbau). */
+    if (weiterleitungen.some((w) => w.von.startsWith(`${von}/`))) {
+      await writeFile(join(DIST, von, "index.html"), weiterleitungsSeite(nach, seo), "utf8");
+    }
     process.stdout.write(`ok   ${von}  leitet auf ${nach}\n`);
   }
 

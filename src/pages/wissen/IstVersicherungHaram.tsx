@@ -45,12 +45,12 @@ const abschnitte: BeitragAbschnitt[] = [
         </p>
         <Begriff wort="Unsicherheit im Vertrag" arabisch="Gharar">
           Du zahlst sicher jeden Monat, bekommst aber vielleicht nie etwas zurück. Beim Abschluss weiß niemand,
-          wer am Ende wie viel gibt und wer wie viel bekommt. Mehr dazu in <L to="/wissen/gharar">Gharar</L>.
+          wer am Ende wie viel gibt und wer wie viel bekommt. Mehr dazu in <L to="/blog/gharar">Gharar</L>.
         </Begriff>
         <Begriff wort="Zins" arabisch="Riba">
           Wer 300 Euro einzahlt und 5.000 ausgezahlt bekommt, tauscht Geld gegen mehr Geld über Zeit. Dazu
           legen Versicherer die Beiträge verzinst an. Mehr dazu in{" "}
-          <L to="/wissen/zinsen-im-islam">Zinsen im Islam</L>.
+          <L to="/blog/zinsen-im-islam">Zinsen im Islam</L>.
         </Begriff>
         <p>
           Warum das praktisch wird: Für die beiden Begründungen gelten <B>verschiedene Ausnahmen</B>. Ein
@@ -331,11 +331,11 @@ const IstVersicherungHaram = () => (
     <Seo
       title="Versicherung im Islam: halal oder haram? | finanzmuslim"
       description={beschreibung}
-      path="/wissen/ist-versicherung-haram"
+      path="/blog/ist-versicherung-haram"
       jsonLd={beitragJsonLd({
         titel: "Ist eine Versicherung haram?",
         beschreibung,
-        path: "/wissen/ist-versicherung-haram",
+        path: "/blog/ist-versicherung-haram",
         datePublished: "15. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -369,9 +369,9 @@ const IstVersicherungHaram = () => (
       <PasstDazu
         punkte={[
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet elf weitere Verträge aus dem Alltag ein." },
-          { to: "/wissen/gharar", name: "Was ist Gharar", text: "erklärt die erste der beiden Begründungen im Detail." },
-          { to: "/wissen/ist-leasing-haram", name: "Ist Leasing haram?", text: "warum beim Leasing plötzlich eine Vollkasko verlangt wird." },
-          { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Abwägung in größerem Maßstab." },
+          { to: "/blog/gharar", name: "Was ist Gharar", text: "erklärt die erste der beiden Begründungen im Detail." },
+          { to: "/blog/ist-leasing-haram", name: "Ist Leasing haram?", text: "warum beim Leasing plötzlich eine Vollkasko verlangt wird." },
+          { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Abwägung in größerem Maßstab." },
         ]}
       />
     </BeitragSeite>

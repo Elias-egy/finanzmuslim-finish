@@ -110,7 +110,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           <B>Versicherungen.</B> Der häufigste Fall. Du zahlst sicher, die Leistung kommt vielleicht nie. Wie
           das beurteilt wird und was es an Alternativen gibt, steht in{" "}
-          <L to="/wissen/ist-versicherung-haram">Ist eine Versicherung haram?</L>
+          <L to="/blog/ist-versicherung-haram">Ist eine Versicherung haram?</L>
         </p>
         <p>
           <B>Optionen, Futures und CFDs.</B> Hier wird über etwas gehandelt, das der Verkäufer nicht besitzt,
@@ -251,11 +251,11 @@ const Gharar = () => (
     <Seo
       title="Gharar: Unsicherheit im Vertrag | finanzmuslim"
       description={beschreibung}
-      path="/wissen/gharar"
+      path="/blog/gharar"
       jsonLd={beitragJsonLd({
         titel: "Gharar: Unsicherheit im Vertrag",
         beschreibung,
-        path: "/wissen/gharar",
+        path: "/blog/gharar",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -294,9 +294,9 @@ const Gharar = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "behandelt den ersten Grundbegriff, ohne den nichts zu verstehen ist." },
-          { to: "/wissen/maysir", name: "Glücksspiel (Maysir)", text: "die schärfste Form der Unklarheit, mit eigenen Regeln." },
-          { to: "/wissen/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "geht den meistdiskutierten Fall im Einzelnen durch." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "behandelt den ersten Grundbegriff, ohne den nichts zu verstehen ist." },
+          { to: "/blog/maysir", name: "Glücksspiel (Maysir)", text: "die schärfste Form der Unklarheit, mit eigenen Regeln." },
+          { to: "/blog/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "geht den meistdiskutierten Fall im Einzelnen durch." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Alltagsverträge ein." },
         ]}
       />

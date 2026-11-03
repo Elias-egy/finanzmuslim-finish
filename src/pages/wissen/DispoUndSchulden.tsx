@@ -249,7 +249,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Aus dem Nachlass werden zuerst die Bestattungskosten gedeckt, danach die Schulden, und erst
           danach kommt ein Vermächtnis oder die Verteilung an die Erben. Das ist die Reihenfolge, die im
           islamischen Erbrecht steht, und sie ist ein Grund mehr, die eigenen Schulden aufzuschreiben.
-          Mehr dazu in <L to="/wissen/erbe">Erbe nach islamischem Recht</L>.
+          Mehr dazu in <L to="/blog/erbe">Erbe nach islamischem Recht</L>.
         </p>
       </>
     ),
@@ -275,7 +275,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           Ein Konto ohne Dispo aufzusetzen ist der Schritt, der die meiste Wirkung hat und am wenigsten
           Arbeit macht. Welche Punkte dabei zählen, steht in{" "}
-          <L to="/wissen/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
+          <L to="/blog/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
         </p>
         <Merksatz>
           Wer den Rahmen kündigt, muss nicht jeden Monat neu diszipliniert sein. Er hat die Entscheidung
@@ -337,11 +337,11 @@ const DispoUndSchulden = () => (
     <Seo
       title="Dispo und Schulden: die zwei Wege heraus | finanzmuslim"
       description={beschreibung}
-      path="/wissen/dispo-und-schulden"
+      path="/blog/dispo-und-schulden"
       jsonLd={beitragJsonLd({
         titel: "Dispo und Schulden",
         beschreibung,
-        path: "/wissen/dispo-und-schulden",
+        path: "/blog/dispo-und-schulden",
         datePublished: "5. September 2026",
         dateModified: "5. September 2026",
         faq,
@@ -381,10 +381,10 @@ const DispoUndSchulden = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "zeigt, wie du ein Konto ohne Dispo aufsetzt." },
-          { to: "/wissen/kreditkarte-halal", name: "Kreditkarte", text: "erklärt die Teilzahlung, den zweiten Weg in dieselbe Falle." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was am Zins genau das Problem ist." },
-          { to: "/wissen/erbe", name: "Erbe nach islamischem Recht", text: "erklärt, warum Schulden vor dem Erbe kommen." },
+          { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "zeigt, wie du ein Konto ohne Dispo aufsetzt." },
+          { to: "/blog/kreditkarte-halal", name: "Kreditkarte", text: "erklärt die Teilzahlung, den zweiten Weg in dieselbe Falle." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was am Zins genau das Problem ist." },
+          { to: "/blog/erbe", name: "Erbe nach islamischem Recht", text: "erklärt, warum Schulden vor dem Erbe kommen." },
         ]}
       />
     </BeitragSeite>

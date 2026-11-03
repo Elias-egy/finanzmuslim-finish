@@ -186,7 +186,7 @@ const abschnitte: BeitragAbschnitt[] = [
         </Hinweis>
         <p>
           Ein Nebeneffekt, der praktisch ist: Bei Sukuk stellt sich die Frage nach der{" "}
-          <L to="/wissen/ertraege-reinigen">Bereinigung</L> in der Regel nicht, weil es keine Firmengewinne
+          <L to="/blog/ertraege-reinigen">Bereinigung</L> in der Regel nicht, weil es keine Firmengewinne
           gibt, in denen ein unreiner Rest stecken könnte.
         </p>
         <p>
@@ -249,11 +249,11 @@ const Sukuk = () => (
     <Seo
       title="Sukuk statt Anleihe: Anteil an einer Sache | finanzmuslim"
       description={beschreibung}
-      path="/wissen/sukuk"
+      path="/blog/sukuk"
       jsonLd={beitragJsonLd({
         titel: "Sukuk statt Anleihe",
         beschreibung,
-        path: "/wissen/sukuk",
+        path: "/blog/sukuk",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -293,8 +293,8 @@ const Sukuk = () => (
       <PasstDazu
         punkte={[
           { to: "/halal-anlagen", name: "Die Halal-Datenbank", text: "zeigt jede geprüfte Anlage mit Kosten, Größe und Prüfstelle." },
-          { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "erklärt die Prüfung, die hinter Aktienfonds steckt." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "klärt, warum die Anleihe überhaupt ein Problem ist." },
+          { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "erklärt die Prüfung, die hinter Aktienfonds steckt." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "klärt, warum die Anleihe überhaupt ein Problem ist." },
         ]}
       />
     </BeitragSeite>

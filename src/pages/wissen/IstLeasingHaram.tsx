@@ -211,7 +211,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   <B>Ratenkauf direkt beim Händler.</B> Wenn der Preis vorher feststeht und keine Bank
                   dazwischen ist, ist das Handel. Mehr dazu in{" "}
-                  <L to="/wissen/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
+                  <L to="/blog/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
                 </>
               ),
             },
@@ -283,11 +283,11 @@ const IstLeasingHaram = () => (
     <Seo
       title="Ist Leasing haram? Die fünf Punkte im Vertrag | finanzmuslim"
       description={beschreibung}
-      path="/wissen/ist-leasing-haram"
+      path="/blog/ist-leasing-haram"
       jsonLd={beitragJsonLd({
         titel: "Ist Leasing haram?",
         beschreibung,
-        path: "/wissen/ist-leasing-haram",
+        path: "/blog/ist-leasing-haram",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -326,9 +326,9 @@ const IstLeasingHaram = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der saubere Weg, ein Auto in Raten zu kaufen, ohne Bank dazwischen." },
-          { to: "/wissen/ist-versicherung-haram", name: "Ist Versicherung haram?", text: "warum gerade die Vollkasko kritisch gesehen wird." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
+          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der saubere Weg, ein Auto in Raten zu kaufen, ohne Bank dazwischen." },
+          { to: "/blog/ist-versicherung-haram", name: "Ist Versicherung haram?", text: "warum gerade die Vollkasko kritisch gesehen wird." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, warum die Zeit der entscheidende Punkt ist." },
         ]}
       />
     </BeitragSeite>

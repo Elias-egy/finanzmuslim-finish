@@ -32,12 +32,12 @@ const server = createServer(async (anfrage, antwort) => {
   const pfad = decodeURIComponent(new URL(anfrage.url, "http://x").pathname);
   let datei = join(DIST, pfad);
   try {
-    // Wie GitHub Pages: /wissen/sukuk kommt aus wissen/sukuk.html, ein Ordner
+    // Wie GitHub Pages: /blog/sukuk kommt aus blog/sukuk.html, ein Ordner
     // aus seiner index.html. Kein 301 auf die Schraegstrich-Variante.
     let info = await stat(datei).catch(() => null);
     if (!extname(pfad) && !pfad.endsWith("/")) {
-      // Datei vor Ordner: /wissen kommt aus wissen.html, auch wenn es den
-      // Ordner wissen/ fuer die Unterseiten gibt.
+      // Datei vor Ordner: /blog kommt aus blog.html, auch wenn es den
+      // Ordner blog/ fuer die Unterseiten gibt.
       const alsDatei = join(DIST, `${pfad}.html`);
       const dateiInfo = await stat(alsDatei).catch(() => null);
       if (dateiInfo?.isFile()) {
@@ -86,9 +86,13 @@ const pruefen = [
   ["/robots.txt", 200],
   // Schraegstrich-Varianten duerfen nicht die Seite sein: Canonical und
   // Sitemap fuehren ohne Schraegstrich, und genau so liefert Pages jetzt aus.
-  ["/wissen/sukuk/", 404],
+  ["/blog/sukuk/", 404],
   ["/gibt-es-nicht", 404],
+  ["/blog/gibt-es-nicht", 404],
   ["/wissen/gibt-es-nicht", 404],
+  // Knoten mit Schraegstrich: /blog/ ist die Uebersicht, /wissen/ die Weiterleitung dorthin (SEO43; /blog/ gab vorher 404).
+  ["/blog/", 200],
+  ["/wissen/", 200],
   ["/halal-anlagen/gibt-es-nicht", 404],
   ["/vergleich/gibt-es-nicht", 404],
   ["/dein-guide/falscher-schluessel", 404],

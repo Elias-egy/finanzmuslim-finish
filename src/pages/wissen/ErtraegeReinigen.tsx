@@ -60,7 +60,7 @@ const abschnitte: BeitragAbschnitt[] = [
           sagt: Eine Firma darf höchstens <B>fünf Prozent ihrer gesamten Einnahmen</B> aus unerlaubten
           Quellen haben. Dazu kommen zwei Grenzen für Schulden und für zinsbringende Geldanlagen, beide
           bei dreißig Prozent. Die drei Zahlen stehen in{" "}
-          <L to="/wissen/sind-aktien-halal">Sind Aktien halal?</L>
+          <L to="/blog/sind-aktien-haram">Sind Aktien halal?</L>
         </p>
         <Frage>Heißt das, fünf Prozent Zinsgeld sind erlaubt?</Frage>
         <p>
@@ -321,11 +321,11 @@ const ErtraegeReinigen = () => (
     <Seo
       title="Aktienbereinigung: Erträge reinigen, Schritt für Schritt | finanzmuslim"
       description={beschreibung}
-      path="/wissen/ertraege-reinigen"
+      path="/blog/ertraege-reinigen"
       jsonLd={beitragJsonLd({
         titel: "Aktienbereinigung: Erträge reinigen",
         beschreibung,
-        path: "/wissen/ertraege-reinigen",
+        path: "/blog/ertraege-reinigen",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -365,9 +365,9 @@ const ErtraegeReinigen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/sind-aktien-halal", name: "Sind Aktien halal?", text: "zeigt die zwei Ebenen und die drei Grenzwerte, aus denen der unreine Rest entsteht." },
+          { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "zeigt die zwei Ebenen und die drei Grenzwerte, aus denen der unreine Rest entsteht." },
           { to: "/blog/halal-etf", name: "Halal ETFs", text: "erklärt, worauf du beim Fonds selbst achtest." },
-          { to: "/wissen/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat fällig wird, der zweite Termin im selben Jahr." },
+          { to: "/blog/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat fällig wird, der zweite Termin im selben Jahr." },
         ]}
       />
     </BeitragSeite>

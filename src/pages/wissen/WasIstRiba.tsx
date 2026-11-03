@@ -118,7 +118,7 @@ const WasIstRiba = () => (
     <Seo
       title="Was ist Riba? Zins im Islam einfach erklärt | finanzmuslim"
       description="Riba einfach erklärt: Bedeutung, die zwei Grundformen, wo Zins im deutschen Alltag auftaucht, warum er verboten ist und welche Alternativen es gibt."
-      path="/wissen/was-ist-riba"
+      path="/blog/zinsen-im-islam"
     />
     <ArtikelSeite
       title="Was ist Riba"

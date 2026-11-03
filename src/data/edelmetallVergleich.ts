@@ -93,7 +93,7 @@ export const EDELMETALL_FILTER = [
  * Die drei Wege zu Gold und Silber, bei denen echtes Metall übergeben wird. Sie stehen als
  * Abschnitt unter dem Depot-Ranking und werden nicht gerankt.
  *
- * Die Regel dahinter steht in /wissen/halal-gold-kaufen: Bei Gold und Silber müssen Zahlung und
+ * Die Regel dahinter steht in /blog/halal-gold-kaufen: Bei Gold und Silber müssen Zahlung und
  * Übergabe zusammenfallen. Schuldverschreibungen und Wetten auf den Preis sind seit 26.09.2026
  * draußen (Elias, raw/2026-09-26-finanzmuslim-online-prio-3.md im Vault).
  */
@@ -143,7 +143,7 @@ export const WEGE_ZEILEN: VergleichsZeile[] = [
 ];
 
 const stand = "16.09.2026";
-const artikel = { url: "/wissen/halal-gold-kaufen", stand, hinweis: "Hergeleitet aus der Regel zur sofortigen Übergabe, siehe unser Beitrag Halal Gold kaufen." };
+const artikel = { url: "/blog/halal-gold-kaufen", stand, hinweis: "Hergeleitet aus der Regel zur sofortigen Übergabe, siehe unser Beitrag Halal Gold kaufen." };
 
 export const EDELMETALL_WEGE: RohAnbieter[] = [
   {

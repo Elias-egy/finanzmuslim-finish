@@ -180,8 +180,8 @@ const abschnitte: BeitragAbschnitt[] = [
         </Merksatz>
         <p>
           Mehr zu den zwei Bestandteilen, an denen Gelehrte Glücksspiel festmachen, steht in{" "}
-          <L to="/wissen/maysir">Glücksspiel (Maysir)</L>. Der Test, ob ein Vertrag zu viel Ungewissheit
-          enthält, steht in <L to="/wissen/gharar">Was ist Gharar</L>.
+          <L to="/blog/maysir">Glücksspiel (Maysir)</L>. Der Test, ob ein Vertrag zu viel Ungewissheit
+          enthält, steht in <L to="/blog/gharar">Was ist Gharar</L>.
         </p>
       </>
     ),
@@ -266,7 +266,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Ein Aktienkauf bekommt nicht das Urteil des Glücksspiels. Du wirst Miteigentümer an
                   einem echten Geschäft. Ob die einzelne Firma in Ordnung ist, ist eine andere Prüfung,
-                  sie steht in <L to="/wissen/sind-aktien-halal">Aktien richtig prüfen</L>.
+                  sie steht in <L to="/blog/sind-aktien-haram">Aktien richtig prüfen</L>.
                 </>
               ),
             },
@@ -295,7 +295,7 @@ const abschnitte: BeitragAbschnitt[] = [
               text: (
                 <>
                   Das ist eine andere Debatte als das Trading damit. Sie steht in{" "}
-                  <L to="/wissen/ist-bitcoin-halal">Krypto</L>. Gehandelt mit Hebel gilt hier dasselbe wie
+                  <L to="/blog/ist-bitcoin-halal">Krypto</L>. Gehandelt mit Hebel gilt hier dasselbe wie
                   bei Forex.
                 </>
               ),
@@ -387,11 +387,11 @@ const TradingForexCfd = () => (
     <Seo
       title="Trading, Forex und CFDs: warum es kein Handel ist | finanzmuslim"
       description={beschreibung}
-      path="/wissen/trading-forex-cfd"
+      path="/blog/trading-forex-cfd"
       jsonLd={beitragJsonLd({
         titel: "Trading, Forex und CFDs",
         beschreibung,
-        path: "/wissen/trading-forex-cfd",
+        path: "/blog/trading-forex-cfd",
         datePublished: "5. September 2026",
         dateModified: "5. September 2026",
         faq,
@@ -431,10 +431,10 @@ const TradingForexCfd = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/maysir", name: "Glücksspiel (Maysir)", text: "erklärt die zwei Bestandteile, an denen eine Wette erkennbar wird." },
-          { to: "/wissen/gharar", name: "Was ist Gharar", text: "gibt dir vier Fragen, mit denen du jeden Vertrag prüfst." },
-          { to: "/wissen/sind-aktien-halal", name: "Aktien richtig prüfen", text: "zeigt den Weg, bei dem du Miteigentümer wirst statt Wettpartner." },
-          { to: "/wissen/ist-bitcoin-halal", name: "Krypto", text: "trennt das Halten von Coins vom Handel mit ihnen." },
+          { to: "/blog/maysir", name: "Glücksspiel (Maysir)", text: "erklärt die zwei Bestandteile, an denen eine Wette erkennbar wird." },
+          { to: "/blog/gharar", name: "Was ist Gharar", text: "gibt dir vier Fragen, mit denen du jeden Vertrag prüfst." },
+          { to: "/blog/sind-aktien-haram", name: "Aktien richtig prüfen", text: "zeigt den Weg, bei dem du Miteigentümer wirst statt Wettpartner." },
+          { to: "/blog/ist-bitcoin-halal", name: "Krypto", text: "trennt das Halten von Coins vom Handel mit ihnen." },
         ]}
       />
     </BeitragSeite>

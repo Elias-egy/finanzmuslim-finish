@@ -39,7 +39,8 @@ const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
 const HalalAnlagen = lazy(() => import("./pages/HalalAnlagen.tsx"));
 const AnlageDetail = lazy(() => import("./pages/halal-anlagen/AnlageDetail.tsx"));
-const Wissen = lazy(() => import("./pages/Wissen.tsx"));
+const Blog = lazy(() => import("./pages/Blog.tsx"));
+const AlteAdresse = lazy(() => import("./pages/AlteAdresse.tsx"));
 const ZinsenImIslam = lazy(() => import("./pages/wissen/ZinsenImIslam.tsx"));
 const HalalGoldKaufen = lazy(() => import("./pages/wissen/HalalGoldKaufen.tsx"));
 const IstLeasingHaram = lazy(() => import("./pages/wissen/IstLeasingHaram.tsx"));
@@ -145,10 +146,9 @@ const App = () => (
             <Route path="/wie-ich-geld-verdiene" element={<WieIchGeldVerdiene />} />
             <Route path="/ueber-mich" element={<UeberMich />} />
             <Route path="/kooperationen" element={<Kooperationen />} />
-            {/* Blog aufgeloest: alles liegt jetzt im Wissensbereich. */}
+            {/* Alle Beiträge liegen unter /blog (SEO43, 03.11.2026; vorher /wissen). Eine unbekannte
+                /blog/…-Adresse fällt in die Fehlerseite, nicht auf die Übersicht. */}
             <Route path="/blog/halal-etf" element={<HalalEtf />} />
-            <Route path="/blog" element={<Navigate to="/wissen" replace />} />
-            <Route path="/blog/*" element={<Navigate to="/wissen" replace />} />
             <Route path="/vergleich/start" element={<VergleichAssistent />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/depot-nummer-1" element={<DepotNummerEins />} />
@@ -169,34 +169,33 @@ const App = () => (
             <Route path="/vergleiche" element={<Vergleiche />} />
             <Route path="/halal-anlagen" element={<HalalAnlagen />} />
             <Route path="/halal-anlagen/:slug" element={<AnlageDetail />} />
-            <Route path="/wissen" element={<Wissen />} />
-            {/* "riba" ist als Suchbegriff wertlos, gesucht wird "zinsen islam".
-                Die alte Adresse leitet deshalb dauerhaft auf den neuen Beitrag. */}
-            <Route path="/wissen/was-ist-riba" element={<Navigate to="/wissen/zinsen-im-islam" replace />} />
+            <Route path="/blog" element={<Blog />} />
+            {/* Alte Adressen /wissen und /wissen/… leiten direkt aufs Ziel aus der Liste `weiterleitungen`. */}
+            <Route path="/wissen" element={<AlteAdresse />} />
+            <Route path="/wissen/*" element={<AlteAdresse />} />
             <Route path="/reinigungsrechner" element={<Navigate to="/bereinigungsrechner" replace />} />
-            <Route path="/wissen/zinsen-im-islam" element={<ZinsenImIslam />} />
-            <Route path="/wissen/halal-gold-kaufen" element={<HalalGoldKaufen />} />
-            <Route path="/wissen/ist-leasing-haram" element={<IstLeasingHaram />} />
-            <Route path="/wissen/girokonto-ohne-zinsen" element={<GirokontoOhneZinsen />} />
-            <Route path="/wissen/ist-versicherung-haram" element={<IstVersicherungHaram />} />
-            <Route path="/wissen/sind-aktien-halal" element={<SindAktienHalal />} />
-            <Route path="/wissen/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />
-            <Route path="/wissen/halal-kredit-ohne-zinsen" element={<HalalKreditOhneZinsen />} />
-            <Route path="/wissen/nisab" element={<Nisab />} />
-            <Route path="/wissen/sukuk" element={<Sukuk />} />
-            <Route path="/wissen/halal-etfs" element={<Navigate to="/blog/halal-etf" replace />} />
-            <Route path="/wissen/gharar" element={<Gharar />} />
-            <Route path="/wissen/haeufige-fehler" element={<HaeufigeFehler />} />
-            <Route path="/wissen/ertraege-reinigen" element={<ErtraegeReinigen />} />
-            <Route path="/wissen/maysir" element={<Maysir />} />
-            <Route path="/wissen/erbe" element={<Erbe />} />
-            <Route path="/wissen/ratenzahlung-haram" element={<RatenzahlungHaram />} />
-            <Route path="/wissen/ist-bitcoin-halal" element={<IstBitcoinHalal />} />
-            <Route path="/wissen/auto-kaufen-ohne-zinsen" element={<AutoKaufenOhneZinsen />} />
-            <Route path="/wissen/kreditkarte-halal" element={<KreditkarteHalal />} />
-            <Route path="/wissen/dispo-und-schulden" element={<DispoUndSchulden />} />
-            <Route path="/wissen/trading-forex-cfd" element={<TradingForexCfd />} />
-            <Route path="/wissen/zakat-auf-aktien-etf-krypto" element={<ZakatAufAktienEtfKrypto />} />
+            <Route path="/blog/zinsen-im-islam" element={<ZinsenImIslam />} />
+            <Route path="/blog/halal-gold-kaufen" element={<HalalGoldKaufen />} />
+            <Route path="/blog/ist-leasing-haram" element={<IstLeasingHaram />} />
+            <Route path="/blog/girokonto-ohne-zinsen" element={<GirokontoOhneZinsen />} />
+            <Route path="/blog/ist-versicherung-haram" element={<IstVersicherungHaram />} />
+            <Route path="/blog/sind-aktien-haram" element={<SindAktienHalal />} />
+            <Route path="/blog/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />
+            <Route path="/blog/halal-kredit-ohne-zinsen" element={<HalalKreditOhneZinsen />} />
+            <Route path="/blog/nisab" element={<Nisab />} />
+            <Route path="/blog/sukuk" element={<Sukuk />} />
+            <Route path="/blog/gharar" element={<Gharar />} />
+            <Route path="/blog/haeufige-fehler" element={<HaeufigeFehler />} />
+            <Route path="/blog/ertraege-reinigen" element={<ErtraegeReinigen />} />
+            <Route path="/blog/maysir" element={<Maysir />} />
+            <Route path="/blog/erbe" element={<Erbe />} />
+            <Route path="/blog/ratenzahlung-haram" element={<RatenzahlungHaram />} />
+            <Route path="/blog/ist-bitcoin-halal" element={<IstBitcoinHalal />} />
+            <Route path="/blog/auto-kaufen-ohne-zinsen" element={<AutoKaufenOhneZinsen />} />
+            <Route path="/blog/kreditkarte-halal" element={<KreditkarteHalal />} />
+            <Route path="/blog/dispo-und-schulden" element={<DispoUndSchulden />} />
+            <Route path="/blog/trading-forex-cfd" element={<TradingForexCfd />} />
+            <Route path="/blog/zakat-auf-aktien-etf-krypto" element={<ZakatAufAktienEtfKrypto />} />
             <Route path="/vorlagen" element={<Vorlagen />} />
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />

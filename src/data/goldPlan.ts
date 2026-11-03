@@ -123,5 +123,5 @@ export const goldQuellen: { titel: string; url: string }[] = [
   { titel: "Invesco Physical Gold ETC, Shariah-Zertifikat 2025", url: "https://www.invesco.com/content/dam/invesco/emea/en/product-documents/etf/fund/ssb-certificate/invesco-physical-gold-and-silver-etc_ssb-certficate_en_2025.pdf" },
   { titel: "WisdomTree Gold-ETCs, Shariah-Prüfbericht des Al-Qalam-Gremiums 2025", url: "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf" },
   { titel: "WisdomTree Physical Gold, Produktseite mit Barrenliste", url: "https://www.wisdomtree.com/de/products/commodities/wisdomtree-physical-gold" },
-  { titel: "Halal Gold kaufen, die Regel zur sofortigen Übergabe", url: "https://finanzmuslim.com/wissen/halal-gold-kaufen" },
+  { titel: "Halal Gold kaufen, die Regel zur sofortigen Übergabe", url: "https://finanzmuslim.com/blog/halal-gold-kaufen" },
 ];

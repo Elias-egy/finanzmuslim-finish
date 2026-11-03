@@ -26,7 +26,7 @@ import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
  * - Zweitschreibweisen derselben Seite. `/zakatrechner` und `/zakat-rechner`
  *   zeigen dasselbe, in die Sitemap gehört nur die kanonische Adresse, die
  *   auch im Canonical steht.
- * - Weiterleitungen wie `/blog` oder `/wissen/was-ist-riba`. Sie haben keinen
+ * - Weiterleitungen wie `/wissen` oder `/wissen/was-ist-riba`. Sie haben keinen
  *   eigenen Inhalt.
  * - `/out/name`. Das sind Partner-Weiterleitungen, sie dürfen nicht in den
  *   Index und stehen deshalb auch nicht in der Sitemap.
@@ -47,8 +47,9 @@ export type Route = {
   prioritaet: string;
 };
 
+/** Ein Beitrag im Blog. `slug` ist die Adresse, nicht immer der Schlüssel im Register (sind-aktien-haram). */
 const wissenBeitrag = (slug: string, datei: string): Route => ({
-  pfad: `/wissen/${slug}`,
+  pfad: `/blog/${slug}`,
   quelle: [`src/pages/wissen/${datei}`, "src/components/BeitragSeite.tsx"],
   changefreq: "monthly",
   prioritaet: "0.7",
@@ -94,10 +95,10 @@ export const festeRouten: Route[] = [
   rechner("/budgetrechner", "Budgetrechner.tsx"),
   rechner("/sparzielrechner", "Sparzielrechner.tsx"),
 
-  { pfad: "/wissen", quelle: ["src/pages/Wissen.tsx"], changefreq: "weekly", prioritaet: "0.8" },
+  { pfad: "/blog", quelle: ["src/pages/Blog.tsx", "src/data/wissenBeitraege.ts"], changefreq: "weekly", prioritaet: "0.8" },
   { pfad: "/blog/halal-etf", quelle: ["src/pages/blog/HalalEtf.tsx", "src/data/halalEtfListe.ts"], changefreq: "monthly", prioritaet: "0.8" },
   wissenBeitrag("zinsen-im-islam", "ZinsenImIslam.tsx"),
-  wissenBeitrag("sind-aktien-halal", "SindAktienHalal.tsx"),
+  wissenBeitrag("sind-aktien-haram", "SindAktienHalal.tsx"),
   wissenBeitrag("halal-gold-kaufen", "HalalGoldKaufen.tsx"),
   wissenBeitrag("sukuk", "Sukuk.tsx"),
   wissenBeitrag("ist-bitcoin-halal", "IstBitcoinHalal.tsx"),
@@ -209,23 +210,37 @@ export const nichtIndexiert: string[] = [
  * 301, deshalb bekommt jede eine winzige eigene Datei, die sofort weiterschickt
  * und per Canonical auf das Ziel zeigt.
  *
- * `/blog/*` lässt sich nicht aufzählen. Alte Unteradressen des Blogs landen
- * damit im 404 statt in der Weiterleitung. Welche das waren, weiß niemand mehr;
- * sobald die Search Console welche meldet, gehören sie hier hinein.
+ * Seit SEO43 (03.11.2026) ist /blog der Ordner aller Beiträge und /wissen die
+ * alte Adresse (Vault ADRESSEN.md, Elias SEO19). Jede alte Adresse zeigt direkt
+ * aufs Endziel, nie auf eine zweite Weiterleitung.
  */
+/** Alte Adresse unter /wissen und neue unter /blog (SEO43). */
+export const wissenUmzug: [string, string][] = [
+  ["/wissen", "/blog"],
+  ...[
+    "zinsen-im-islam", "halal-gold-kaufen", "sukuk", "ist-bitcoin-halal", "nisab", "ertraege-reinigen", "gharar",
+    "maysir", "haeufige-fehler", "erbe", "halal-kredit-ohne-zinsen", "haus-kaufen-ohne-zinsen", "girokonto-ohne-zinsen",
+    "ist-versicherung-haram", "ist-leasing-haram", "ratenzahlung-haram", "auto-kaufen-ohne-zinsen", "kreditkarte-halal",
+    "dispo-und-schulden", "trading-forex-cfd", "zakat-auf-aktien-etf-krypto",
+  ].map((s): [string, string] => [`/wissen/${s}`, `/blog/${s}`]),
+  // Adresse wortgleich mit dem Hauptbegriff „sind aktien haram“ (ADRESSEN.md, D49)
+  ["/wissen/sind-aktien-halal", "/blog/sind-aktien-haram"],
+];
+
 export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/zakatrechner", nach: "/zakat-rechner" },
   { von: "/tools", nach: "/rechner" },
   { von: "/dein-investment-start", nach: "/dein-investmentstart" },
-  { von: "/blog", nach: "/wissen" },
   // Invesco Physical Gold II hat noch kein Shariah-Zertifikat (aufgelegt 16.06.2026, das Zertifikat vom 01.06.2026
   // nennt nur Gold ETC und Silver ETC). Raus aus der Datenbank am 21.09.2026, die alte Adresse zeigt auf Gold ETC.
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
-  { von: "/wissen/was-ist-riba", nach: "/wissen/zinsen-im-islam" },
+  { von: "/wissen/was-ist-riba", nach: "/blog/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
   /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
      Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
+  // /wissen wird /blog (SEO43): Übersicht und alle Beiträge, ohne noindex wie /wissen/halal-etfs.
+  ...wissenUmzug.map(([von, nach]) => ({ von, nach, seo: true })),
   // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
   // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
@@ -252,9 +267,9 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investment-start", grund: "Zweitschreibweise, setzt noindex" },
   { pfad: "/newsletter/archiv", grund: "Liste der Ausgaben, setzt noindex" },
   { pfad: "/newsletter/:slug", grund: "eine Ausgabe der Halal-News, setzt noindex" },
-  { pfad: "/blog", grund: "Weiterleitung auf /wissen" },
-  { pfad: "/blog/*", grund: "Weiterleitung auf /wissen" },
-  { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /wissen/zinsen-im-islam" },
+  { pfad: "/wissen", grund: "Weiterleitung auf /blog (SEO43), ohne noindex" },
+  { pfad: "/wissen/*", grund: "Weiterleitungen auf /blog/… (SEO43), ohne noindex" },
+  { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /blog/zinsen-im-islam" },
   { pfad: "/wissen/halal-etfs", grund: "Weiterleitung auf /blog/halal-etf (SEO24), ohne noindex" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },

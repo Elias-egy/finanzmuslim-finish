@@ -175,8 +175,8 @@ const BeitragSeite = ({
               Start
             </Link>
             <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <Link to="/wissen" className="hover:text-primary">
-              Wissen
+            <Link to="/blog" className="hover:text-primary">
+              Blog
             </Link>
             {eintrag && (
               <>

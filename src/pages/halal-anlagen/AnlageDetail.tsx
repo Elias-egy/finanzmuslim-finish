@@ -13,6 +13,7 @@ import VerfuegbarBei from "@/components/anlage/VerfuegbarBei";
 import { AufteilungsBalken } from "@/components/anlage/Zusammensetzung";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
+import { etfListe } from "@/data/halalEtfListe";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { zusammensetzungFuer } from "@/data/zusammensetzung";
 import { regionFuer } from "@/data/anlageRegion";
@@ -185,6 +186,15 @@ const AnlageDetail = () => {
               <MonetarisierungsPlatz platz="anlage_kopf" anlageName={anlage.name} isin={anlage.isin} />
             )}
           </div>
+
+          {/* Interner Link auf den Blogbeitrag für jeden ETF, der dort verglichen wird (SEO43). */}
+          {etfListe.some((e) => e.isin === anlage.isin) && (
+            <p className="mt-4 text-[15px]">
+              <Link to="/blog/halal-etf" className="font-semibold text-primary hover:underline">
+                Im Vergleich mit {etfListe.length - 1} anderen: Beste Halal ETFs 2026 ›
+              </Link>
+            </p>
+          )}
         </div>
       </section>
 

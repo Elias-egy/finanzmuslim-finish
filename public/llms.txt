@@ -34,36 +34,36 @@ geprüft".
 
 ## Wissen, Grundlagen
 
-- [Zinsen im Islam](/wissen/zinsen-im-islam): Was Riba ist und was ausdrücklich nicht.
-- [Gharar](/wissen/gharar): Übermäßige Unsicherheit im Vertrag, abgegrenzt vom Risiko.
-- [Maysir](/wissen/maysir): Was als Glücksspiel gilt, sechs Fälle eingeordnet.
-- [Die häufigsten Fehler](/wissen/haeufige-fehler): Zehn Fehler von Einsteigern.
+- [Zinsen im Islam](/blog/zinsen-im-islam): Was Riba ist und was ausdrücklich nicht.
+- [Gharar](/blog/gharar): Übermäßige Unsicherheit im Vertrag, abgegrenzt vom Risiko.
+- [Maysir](/blog/maysir): Was als Glücksspiel gilt, sechs Fälle eingeordnet.
+- [Die häufigsten Fehler](/blog/haeufige-fehler): Zehn Fehler von Einsteigern.
 - [Halal Investment Guide](/halal-guide): Kostenloser Einstieg als PDF.
 
 ## Wissen, Investieren
 
-- [Sind Aktien halal?](/wissen/sind-aktien-halal): Die drei Grenzwerte des Screenings.
+- [Sind Aktien halal?](/blog/sind-aktien-haram): Die drei Grenzwerte des Screenings.
 - [Beste Halal ETFs 2026](/blog/halal-etf): Acht Halal ETFs im Vergleich, mit Kosten, Halal-Prüfung und Sparplan.
-- [Sukuk](/wissen/sukuk): Anteil an einer Sache statt Geldforderung, vier Bauformen.
-- [Gold kaufen](/wissen/halal-gold-kaufen): Barren, Münze oder Wertpapier.
-- [Ist Bitcoin halal?](/wissen/ist-bitcoin-halal): Die Diskussion um Krypto.
+- [Sukuk](/blog/sukuk): Anteil an einer Sache statt Geldforderung, vier Bauformen.
+- [Gold kaufen](/blog/halal-gold-kaufen): Barren, Münze oder Wertpapier.
+- [Ist Bitcoin halal?](/blog/ist-bitcoin-halal): Die Diskussion um Krypto.
 
 ## Wissen, Alltag
 
-- [Girokonto ohne Zinsen](/wissen/girokonto-ohne-zinsen): Vier Funktionen abstellen.
-- [Halal Kredit ohne Zinsen](/wissen/halal-kredit-ohne-zinsen): Murabaha, Idschara,
+- [Girokonto ohne Zinsen](/blog/girokonto-ohne-zinsen): Vier Funktionen abstellen.
+- [Halal Kredit ohne Zinsen](/blog/halal-kredit-ohne-zinsen): Murabaha, Idschara,
   Muscharaka, Qard hasan.
-- [Haus kaufen ohne Zinsen](/wissen/haus-kaufen-ohne-zinsen): Die Wege zur
+- [Haus kaufen ohne Zinsen](/blog/haus-kaufen-ohne-zinsen): Die Wege zur
   islamkonformen Immobilienfinanzierung.
-- [Ist Ratenzahlung haram?](/wissen/ratenzahlung-haram): Wann Raten zur Zinsfalle werden.
-- [Ist Leasing haram?](/wissen/ist-leasing-haram): Fünf Punkte im Vertrag.
-- [Ist eine Versicherung haram?](/wissen/ist-versicherung-haram): Konventionell und Takaful.
+- [Ist Ratenzahlung haram?](/blog/ratenzahlung-haram): Wann Raten zur Zinsfalle werden.
+- [Ist Leasing haram?](/blog/ist-leasing-haram): Fünf Punkte im Vertrag.
+- [Ist eine Versicherung haram?](/blog/ist-versicherung-haram): Konventionell und Takaful.
 
 ## Wissen, Pflichten
 
-- [Nisab](/wissen/nisab): Ab welchem Vermögen Zakat fällig wird, beide Grenzen tagesaktuell.
-- [Erträge reinigen](/wissen/ertraege-reinigen): Welchen Anteil du weitergibst und wohin.
-- [Erbe nach islamischem Recht](/wissen/erbe): Vier Stufen, die Anteile und warum
+- [Nisab](/blog/nisab): Ab welchem Vermögen Zakat fällig wird, beide Grenzen tagesaktuell.
+- [Erträge reinigen](/blog/ertraege-reinigen): Welchen Anteil du weitergibst und wohin.
+- [Erbe nach islamischem Recht](/blog/erbe): Vier Stufen, die Anteile und warum
   in Deutschland ohne Testament deutsches Erbrecht gilt.
 
 ## Vorlagen

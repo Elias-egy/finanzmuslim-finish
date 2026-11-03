@@ -136,7 +136,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Achte außerdem darauf, wer die Lasten trägt: Solange die Bank Eigentümerin ist, gehören größere
           Reparaturen und die Gebäudeversicherung zu ihr. Manche Verträge schieben dir das trotzdem zu. Dann
           hast du die Pflichten eines Eigentümers, aber nicht seine Rechte, und genau das kritisieren Gelehrte,
-          wie beim <L to="/wissen/ist-leasing-haram">Leasing</L> auch.
+          wie beim <L to="/blog/ist-leasing-haram">Leasing</L> auch.
         </p>
       </>
     ),
@@ -397,11 +397,11 @@ const HausKaufenOhneZinsen = () => (
     <Seo
       title="Islamische Baufinanzierung ohne Zinsen | finanzmuslim"
       description={beschreibung}
-      path="/wissen/haus-kaufen-ohne-zinsen"
+      path="/blog/haus-kaufen-ohne-zinsen"
       jsonLd={beitragJsonLd({
         titel: "Islamische Baufinanzierung ohne Zinsen",
         beschreibung,
-        path: "/wissen/haus-kaufen-ohne-zinsen",
+        path: "/blog/haus-kaufen-ohne-zinsen",
         datePublished: "15. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -440,10 +440,10 @@ const HausKaufenOhneZinsen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "erklärt die vier Vertragsformen, die einen Kredit ersetzen." },
-          { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "warum ein Ratenkauf vom Eigentümer Handel ist und kein Kredit." },
+          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "erklärt die vier Vertragsformen, die einen Kredit ersetzen." },
+          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "warum ein Ratenkauf vom Eigentümer Handel ist und kein Kredit." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Alltagsverträge ein, darunter Kredit, Bausparen und Leasing." },
-          { to: "/wissen/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "die Gebäudeversicherung ist beim Hauskauf die nächste Frage." },
+          { to: "/blog/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "die Gebäudeversicherung ist beim Hauskauf die nächste Frage." },
         ]}
       />
     </BeitragSeite>

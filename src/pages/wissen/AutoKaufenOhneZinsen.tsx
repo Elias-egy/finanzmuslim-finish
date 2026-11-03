@@ -122,7 +122,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Der Preisaufschlag selbst ist übrigens nicht das Problem. Er ist es nur, weil eine Bank
           dahintersteht. Genau derselbe Aufschlag ist erlaubt, wenn der Händler ihn nimmt. Warum, steht im
           nächsten Abschnitt und ausführlich in{" "}
-          <L to="/wissen/ratenzahlung-haram">Ratenkauf</L>.
+          <L to="/blog/ratenzahlung-haram">Ratenkauf</L>.
         </p>
       </>
     ),
@@ -351,7 +351,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Leasing ist kein Kredit, sondern Miete, und wird deshalb anders beurteilt. Der
                   Knackpunkt ist, wer bei einem Schaden haftet, den niemand verschuldet hat. Das steht
-                  in <L to="/wissen/ist-leasing-haram">Leasing</L>.
+                  in <L to="/blog/ist-leasing-haram">Leasing</L>.
                 </>
               ),
             },
@@ -455,11 +455,11 @@ const AutoKaufenOhneZinsen = () => (
     <Seo
       title="Auto kaufen ohne Zinsen: die Wege im Vergleich | finanzmuslim"
       description={beschreibung}
-      path="/wissen/auto-kaufen-ohne-zinsen"
+      path="/blog/auto-kaufen-ohne-zinsen"
       jsonLd={beitragJsonLd({
         titel: "Auto kaufen ohne Zinsen",
         beschreibung,
-        path: "/wissen/auto-kaufen-ohne-zinsen",
+        path: "/blog/auto-kaufen-ohne-zinsen",
         datePublished: "5. September 2026",
         dateModified: "5. September 2026",
         faq,
@@ -499,10 +499,10 @@ const AutoKaufenOhneZinsen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/ratenzahlung-haram", name: "Ratenkauf", text: "erklärt, warum ein höherer Preis in Raten erlaubt ist und wann er kippt." },
-          { to: "/wissen/ist-leasing-haram", name: "Leasing", text: "prüft die Alternative zum Kauf an fünf Punkten im Vertrag." },
-          { to: "/wissen/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "zeigt, welche Verträge einen Kredit ersetzen können." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was genau verboten ist und was ausdrücklich nicht." },
+          { to: "/blog/ratenzahlung-haram", name: "Ratenkauf", text: "erklärt, warum ein höherer Preis in Raten erlaubt ist und wann er kippt." },
+          { to: "/blog/ist-leasing-haram", name: "Leasing", text: "prüft die Alternative zum Kauf an fünf Punkten im Vertrag." },
+          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "zeigt, welche Verträge einen Kredit ersetzen können." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was genau verboten ist und was ausdrücklich nicht." },
         ]}
       />
     </BeitragSeite>

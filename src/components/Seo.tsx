@@ -224,7 +224,7 @@ export const beitragJsonLd = (opts: {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Start", item: SITE },
-      { "@type": "ListItem", position: 2, name: "Wissen", item: `${SITE}/wissen` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
       { "@type": "ListItem", position: 3, name: opts.titel, item: `${SITE}${opts.path}` },
     ],
   },

@@ -139,7 +139,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Ein seriöser Anbieter lässt seine Verträge von einem Gelehrtengremium prüfen und zeigt dir das
           Dokument. Wer nur damit wirbt, islamisch zu arbeiten, ohne einen Nachweis zu nennen, sollte das
           erklären können. Der saubere Weg ohne Bank ist der Ratenkauf direkt beim Händler, mehr dazu in{" "}
-          <L to="/wissen/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
+          <L to="/blog/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
         </p>
       </>
     ),
@@ -163,7 +163,7 @@ const abschnitte: BeitragAbschnitt[] = [
                   <B>Eine Bank mit Vollbanklizenz.</B> Die KT Bank AG in Frankfurt arbeitet seit 2015 nach
                   islamischen Grundsätzen und bietet Finanzierungen nach dem Handelsmodell an. Wir haben sie
                   nicht selbst geprüft und empfehlen sie nicht. Was du vor einem Wechsel wissen solltest, steht
-                  im Beitrag zum <L to="/wissen/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
+                  im Beitrag zum <L to="/blog/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
                 </>
               ),
             },
@@ -328,11 +328,11 @@ const HalalKreditOhneZinsen = () => (
     <Seo
       title="Halal Kredit ohne Zinsen: Welche Verträge es wirklich gibt | finanzmuslim"
       description={beschreibung}
-      path="/wissen/halal-kredit-ohne-zinsen"
+      path="/blog/halal-kredit-ohne-zinsen"
       jsonLd={beitragJsonLd({
         titel: "Halal Kredit ohne Zinsen",
         beschreibung,
-        path: "/wissen/halal-kredit-ohne-zinsen",
+        path: "/blog/halal-kredit-ohne-zinsen",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -371,10 +371,10 @@ const HalalKreditOhneZinsen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "geht denselben Weg für den größten Posten im Leben durch." },
-          { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Ratenkauf beim Händler, ohne Bank dazwischen." },
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
-          { to: "/wissen/ist-leasing-haram", name: "Ist Leasing haram?", text: "prüft den Vertrag, der Idschara am nächsten kommt." },
+          { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "geht denselben Weg für den größten Posten im Leben durch." },
+          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Ratenkauf beim Händler, ohne Bank dazwischen." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
+          { to: "/blog/ist-leasing-haram", name: "Ist Leasing haram?", text: "prüft den Vertrag, der Idschara am nächsten kommt." },
         ]}
       />
     </BeitragSeite>

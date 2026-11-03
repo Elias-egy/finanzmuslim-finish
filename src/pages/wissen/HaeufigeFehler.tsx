@@ -161,7 +161,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Solche Aktionen liegen lassen. Eine Weiterempfehlungsprämie ist etwas anderes, dort wird eine
                   Leistung vergütet. Mehr dazu in{" "}
-                  <L to="/wissen/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
+                  <L to="/blog/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
                 </>,
               ),
             },
@@ -173,7 +173,7 @@ const abschnitte: BeitragAbschnitt[] = [
                   Einen festen Stichtag wählen, im islamischen Kalender notiert, und den Betrag vorher
                   ausrechnen, damit er bereitliegt. Wie viel es wird, zeigt der{" "}
                   <L to="/zakat-rechner">Zakat-Rechner</L>, die Grenze erklärt{" "}
-                  <L to="/wissen/nisab">Nisab</L>.
+                  <L to="/blog/nisab">Nisab</L>.
                 </>,
               ),
             },
@@ -254,11 +254,11 @@ const HaeufigeFehler = () => (
     <Seo
       title="Die häufigsten Fehler beim halal investieren | finanzmuslim"
       description={beschreibung}
-      path="/wissen/haeufige-fehler"
+      path="/blog/haeufige-fehler"
       jsonLd={beitragJsonLd({
         titel: "Die häufigsten Fehler",
         beschreibung,
-        path: "/wissen/haeufige-fehler",
+        path: "/blog/haeufige-fehler",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -298,9 +298,9 @@ const HaeufigeFehler = () => (
       <PasstDazu
         punkte={[
           { to: "/blog/halal-etf", name: "Halal ETFs", text: "zeigt die vier Fragen, mit denen du einen Fonds prüfst." },
-          { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "erklärt die Handgriffe, die du am Konto erledigst." },
-          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "der Schritt einmal im Jahr, den fast jeder vergisst." },
-          { to: "/wissen/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat auf dein Vermögen fällig wird." },
+          { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "erklärt die Handgriffe, die du am Konto erledigst." },
+          { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "der Schritt einmal im Jahr, den fast jeder vergisst." },
+          { to: "/blog/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat auf dein Vermögen fällig wird." },
         ]}
       />
     </BeitragSeite>

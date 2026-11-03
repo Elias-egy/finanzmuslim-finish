@@ -58,6 +58,7 @@ const calculators = [
 
 /** Erste vier sind die beliebtesten. Danach die uebrigen Themen. */
 const wissenKarten: WissenKarte[] = [
+  { thema: "Investieren", titel: "Beste Halal ETFs 2026", to: "/blog/halal-etf", motiv: "etf", neu: true },
   {
     thema: "Liste",
     titel: "Haram oder halal: 12 Verträge aus dem Alltag",
@@ -89,43 +90,43 @@ const wissenKarten: WissenKarte[] = [
   {
     thema: "Investieren",
     titel: "Ist Bitcoin halal?",
-    to: "/wissen/ist-bitcoin-halal",
+    to: "/blog/ist-bitcoin-halal",
     motiv: "krypto",
     neu: true,
   },
   {
     thema: "Alltag",
     titel: "Haus kaufen ohne Zinsen",
-    to: "/wissen/haus-kaufen-ohne-zinsen",
+    to: "/blog/haus-kaufen-ohne-zinsen",
     motiv: "haus",
     neu: true,
   },
   {
     thema: "Alltag",
     titel: "Ist Ratenzahlung haram?",
-    to: "/wissen/ratenzahlung-haram",
+    to: "/blog/ratenzahlung-haram",
     motiv: "raten",
   },
   {
     thema: "Alltag",
     titel: "Ist eine Versicherung haram?",
-    to: "/wissen/ist-versicherung-haram",
+    to: "/blog/ist-versicherung-haram",
     motiv: "versicherung",
   },
   {
     thema: "Alltag",
     titel: "Halal Kredit ohne Zinsen",
-    to: "/wissen/halal-kredit-ohne-zinsen",
+    to: "/blog/halal-kredit-ohne-zinsen",
     motiv: "kredit",
     neu: true,
   },
-  { thema: "Grundlagen", titel: "Zinsen im Islam", to: "/wissen/zinsen-im-islam", motiv: "zins" },
-  { thema: "Investieren", titel: "Halal Gold kaufen", to: "/wissen/halal-gold-kaufen", motiv: "gold", neu: true },
-  { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/wissen/girokonto-ohne-zinsen", motiv: "karte", neu: true },
-  { thema: "Alltag", titel: "Ist Leasing haram?", to: "/wissen/ist-leasing-haram", motiv: "auto", neu: true },
-  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", to: "/wissen/gharar", motiv: "gharar", neu: true },
-  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", to: "/wissen/maysir", motiv: "maysir", neu: true },
-  { titel: "Alle Beiträge ansehen", to: "/wissen", schlicht: true },
+  { thema: "Grundlagen", titel: "Zinsen im Islam", to: "/blog/zinsen-im-islam", motiv: "zins" },
+  { thema: "Investieren", titel: "Halal Gold kaufen", to: "/blog/halal-gold-kaufen", motiv: "gold", neu: true },
+  { thema: "Alltag", titel: "Girokonto ohne Zinsen", to: "/blog/girokonto-ohne-zinsen", motiv: "karte", neu: true },
+  { thema: "Alltag", titel: "Ist Leasing haram?", to: "/blog/ist-leasing-haram", motiv: "auto", neu: true },
+  { thema: "Grundlagen", titel: "Unsicherheit im Vertrag (Gharar)", to: "/blog/gharar", motiv: "gharar", neu: true },
+  { thema: "Grundlagen", titel: "Glücksspiel (Maysir)", to: "/blog/maysir", motiv: "maysir", neu: true },
+  { titel: "Alle Beiträge ansehen", to: "/blog", schlicht: true },
 ];
 
 const kanaele = [
@@ -431,7 +432,7 @@ const Index = () => (
       {/* 6 — Wissen */}
       <section className="section-card">
         <div className="section-inner">
-          <p className="eyebrow">Wissen</p>
+          <p className="eyebrow">Blog</p>
           <h2 className="section-title mt-2">Verstehen, bevor du anlegst</h2>
           <p className="section-text mt-3 max-w-[640px]">
             Von Zinsen über Ratenkauf bis Gold: die Themen, die im Alltag wirklich vorkommen.
@@ -442,8 +443,8 @@ const Index = () => (
           </div>
 
           <div className="mt-6 flex justify-center lg:mt-8">
-            <Link to="/wissen" className="btn-primary">
-              Zum Wissensbereich
+            <Link to="/blog" className="btn-primary">
+              Alle Beiträge
             </Link>
           </div>
         </div>

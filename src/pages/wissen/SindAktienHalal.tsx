@@ -124,7 +124,7 @@ const abschnitte: BeitragAbschnitt[] = [
           <p>
             Derselbe Standard, der die fünf Prozent zulässt, verlangt, dass du den unreinen Anteil deiner
             Erträge später wieder weggibst. Wie das geht, steht in{" "}
-            <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+            <L to="/blog/ertraege-reinigen">Aktienbereinigung</L>.
           </p>
         </Hinweis>
       </>
@@ -239,7 +239,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           Wer sich bei Aktien auf den AAOIFI-Standard beruft, muss diesen Teil mitübernehmen. Man kann nicht
           die Toleranz nehmen und das Verbot weglassen. Mehr dazu in{" "}
-          <L to="/wissen/maysir">Glücksspiel (Maysir)</L>.
+          <L to="/blog/maysir">Glücksspiel (Maysir)</L>.
         </p>
       </>
     ),
@@ -259,7 +259,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Der übliche Weg: Der Fondsanbieter oder die App nennt dir einen Satz, du rechnest ihn auf deine
           Ausschüttung. Fehlt die Angabe, wird vorsichtig mit fünf Prozent gerechnet. Der{" "}
           <L to="/bereinigungsrechner">Bereinigungsrechner</L> macht das in dreißig Sekunden, die ausführliche
-          Anleitung steht in <L to="/wissen/ertraege-reinigen">Aktienbereinigung</L>.
+          Anleitung steht in <L to="/blog/ertraege-reinigen">Aktienbereinigung</L>.
         </p>
       </>
     ),
@@ -326,11 +326,11 @@ const SindAktienHalal = () => (
     <Seo
       title="Sind Aktien halal oder haram? Die drei Grenzwerte | finanzmuslim"
       description={beschreibung}
-      path="/wissen/sind-aktien-halal"
+      path="/blog/sind-aktien-haram"
       jsonLd={beitragJsonLd({
         titel: "Sind Aktien halal oder haram?",
         beschreibung,
-        path: "/wissen/sind-aktien-halal",
+        path: "/blog/sind-aktien-haram",
         datePublished: "15. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -364,7 +364,7 @@ const SindAktienHalal = () => (
         punkte={[
           { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "die drei Grenzwerte auf einer Seite zum Ausdrucken." },
           { to: "/blog/halal-etf", name: "Halal ETFs", text: "der Weg, bei dem ein Gremium die Prüfung dauerhaft übernimmt." },
-          { to: "/wissen/ertraege-reinigen", name: "Aktienbereinigung", text: "was mit dem kleinen unreinen Rest passiert, den die Toleranz zulässt." },
+          { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "was mit dem kleinen unreinen Rest passiert, den die Toleranz zulässt." },
           { to: "/halal-anlagen", name: "Halal-Datenbank", text: "geprüfte Fonds und ETFs mit Kosten, Größe und Prüfstelle." },
         ]}
       />

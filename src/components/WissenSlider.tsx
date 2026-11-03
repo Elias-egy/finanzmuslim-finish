@@ -62,7 +62,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
             return (
               <Link
                 key={k.titel}
-                to={k.to ?? "/wissen"}
+                to={k.to ?? "/blog"}
                 className={`group ${basis} flex items-center justify-center gap-2 p-6 text-[18px] font-bold text-foreground transition-colors hover:border-primary hover:text-primary`}
               >
                 {k.titel}

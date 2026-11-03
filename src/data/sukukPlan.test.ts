@@ -23,7 +23,7 @@ describe("Sukuk-Plan (MC7f)", () => {
     expect(SUKUK_BETRAEGE).toContain(SUKUK_MONATLICH);
   });
 
-  it("die Erklärung steht so im Beitrag /wissen/sukuk, nie „islamische Anleihe“", () => {
+  it("die Erklärung steht so im Beitrag /blog/sukuk, nie „islamische Anleihe“", () => {
     const beitrag = readFileSync("src/pages/wissen/Sukuk.tsx", "utf8");
     expect(beitrag).toContain(MERKSATZ);
     // Was der Leser sieht: jede Textzeile aus sukukPlan.ts; der gedruckte Text der Seite steht in docs/freebies/sukuk-plan.txt.

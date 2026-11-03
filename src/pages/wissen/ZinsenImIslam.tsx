@@ -64,7 +64,7 @@ const abschnitte: BeitragAbschnitt[] = [
         >
           <p>
             Beim Ratenkauf muss der Preis vor Vertragsschluss feststehen und darf danach nicht mehr steigen.
-            Ausführlich in <L to="/wissen/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
+            Ausführlich in <L to="/blog/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
           </p>
         </Beispiel>
         <Merksatz>Nicht die Zeit ist verboten, sondern der Aufschlag auf geliehenes Geld.</Merksatz>
@@ -119,7 +119,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <Begriff wort="Ungleicher Tausch" arabisch="Riba al-Fadl">
           Betrifft bestimmte Waren, vor allem Gold, Silber und einige Grundnahrungsmittel. Tauscht man
           Gleiches gegen Gleiches, muss die Menge gleich sein und die Übergabe sofort erfolgen. Deshalb gelten
-          beim <L to="/wissen/halal-gold-kaufen">Goldkauf</L> besondere Regeln.
+          beim <L to="/blog/halal-gold-kaufen">Goldkauf</L> besondere Regeln.
         </Begriff>
         <p>
           Für den Alltag in Deutschland ist die erste Form die wichtigere. Sie steckt in fast jedem
@@ -354,11 +354,11 @@ const ZinsenImIslam = () => (
     <Seo
       title="Zinsen im Islam: Was verboten ist und was nicht | finanzmuslim"
       description={beschreibung}
-      path="/wissen/zinsen-im-islam"
+      path="/blog/zinsen-im-islam"
       jsonLd={beitragJsonLd({
         titel: "Zinsen im Islam",
         beschreibung,
-        path: "/wissen/zinsen-im-islam",
+        path: "/blog/zinsen-im-islam",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -397,10 +397,10 @@ const ZinsenImIslam = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Fall, der im Alltag am häufigsten vorkommt." },
-          { to: "/wissen/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "was du an deinem Konto in zehn Minuten umstellen kannst." },
-          { to: "/wissen/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "wie das bei der größten Anschaffung des Lebens aussieht." },
-          { to: "/wissen/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "welche Verträge einen Kredit ersetzen können." },
+          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Fall, der im Alltag am häufigsten vorkommt." },
+          { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "was du an deinem Konto in zehn Minuten umstellen kannst." },
+          { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "wie das bei der größten Anschaffung des Lebens aussieht." },
+          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "welche Verträge einen Kredit ersetzen können." },
         ]}
       />
     </BeitragSeite>

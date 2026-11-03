@@ -30,7 +30,7 @@ import {
  *
  * Stil wie der ETF-Plan (src/pages/EtfPlan.tsx) und der Gold-Plan (src/pages/GoldPlan.tsx): oben die Geld-Frage (der
  * Klick markiert nur), der eine rote Schmerz (eine Anleihe ist ein Kredit), was ein Sukuk ist (Merksatz und Bild aus
- * /wissen/sukuk), Anleihe und Sukuk nebeneinander mit dem Betrag, was du erwarten kannst, alle Sukuk-Fonds als Karten,
+ * /blog/sukuk), Anleihe und Sukuk nebeneinander mit dem Betrag, was du erwarten kannst, alle Sukuk-Fonds als Karten,
  * zuletzt „Die besten Broker für Sukuk“. Kein Hinweis auf ein anderes Freebie.
  * Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */

@@ -342,11 +342,11 @@ const GirokontoOhneZinsen = () => (
     <Seo
       title="Girokonto ohne Zinsen: Was du in zehn Minuten umstellst | finanzmuslim"
       description={beschreibung}
-      path="/wissen/girokonto-ohne-zinsen"
+      path="/blog/girokonto-ohne-zinsen"
       jsonLd={beitragJsonLd({
         titel: "Girokonto ohne Zinsen",
         beschreibung,
-        path: "/wissen/girokonto-ohne-zinsen",
+        path: "/blog/girokonto-ohne-zinsen",
         datePublished: "16. August 2026",
         dateModified: "5. September 2026",
         faq,
@@ -385,9 +385,9 @@ const GirokontoOhneZinsen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/wissen/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
+          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet Girokonto, Kreditkarte, Dispo und neun weitere Verträge ein." },
-          { to: "/wissen/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "zeigt, worauf du an der Kasse achten musst." },
+          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "zeigt, worauf du an der Kasse achten musst." },
           { to: "/inflationsrechner", name: "Der Inflationsrechner", text: "rechnet aus, was Liegenlassen dich über die Jahre kostet." },
         ]}
       />

@@ -17,7 +17,7 @@ const NotFound = () => {
           noindex, weil es diese Adresse nicht gibt. */}
       <Seo
         title="Diese Seite gibt es nicht | finanzmuslim"
-        description="Die aufgerufene Adresse führt ins Leere. Zurück zur Startseite oder in den Wissensbereich."
+        description="Die aufgerufene Adresse führt ins Leere. Zurück zur Startseite oder in den Blog."
         path={location.pathname}
         noindex
       />
@@ -33,10 +33,10 @@ const NotFound = () => {
             Zur Startseite
           </Link>
           <Link
-            to="/wissen"
+            to="/blog"
             className="pill-btn bg-transparent text-primary border border-border hover:border-primary"
           >
-            Zum Wissensbereich
+            Zum Blog
           </Link>
         </div>
       </div>

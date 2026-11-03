@@ -4,7 +4,7 @@
  * Jede verschickte Ausgabe bekommt eine Seite unter `/newsletter/<datum>-<thema>`,
  * dazu die Liste unter `/newsletter/archiv`. Beide stehen auf noindex und nicht in der
  * Sitemap (`src/data/routen.ts`), damit viele kurze, ähnliche Seiten den Beiträgen
- * unter /wissen nicht schaden (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
+ * unter /blog nicht schaden (~/rebrand/NEWSLETTER_SYSTEM.md, Abschnitt 4).
  *
  * Was in der Mail steht, steht auch auf der Seite, Werbeplätze eingeschlossen
  * (`anzeige: true`). Eine Ausgabe wird beim Einplanen eingetragen und trägt `sichtbarAb`, die Versandzeit:
