@@ -1,0 +1,22 @@
+import puppeteer from "/Users/eliasel-gendy/Documents/dev/fm-seo23/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js";
+import fs from "fs";
+const [,, ziel] = process.argv;
+const browser = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, args: ["--no-sandbox"] });
+const page = await browser.newPage();
+await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
+await page.goto("http://localhost:4179/blog/halal-etf", { waitUntil: "networkidle0", timeout: 60000 });
+await new Promise(r => setTimeout(r, 1200));
+const zu = await page.evaluate(() => document.querySelector("main article").innerText.split(/\s+/).filter(Boolean).length);
+await page.evaluate(() => document.querySelectorAll("details").forEach(d => d.open = true));
+await new Promise(r => setTimeout(r, 400));
+const text = await page.evaluate(() => {
+  const m = document.querySelector("main");
+  const t = m.innerText;
+  const meta = [document.title, document.querySelector('meta[name="description"]')?.content ?? ""].join("\n");
+  const ld = [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => s.textContent).join("\n");
+  return { t, meta, ld };
+});
+fs.writeFileSync(ziel, `${text.meta}\n\n${text.t}\n`);
+fs.writeFileSync(ziel.replace(/\.txt$/, ".jsonld.json"), text.ld);
+console.log("Wörter innerText zu:", zu, "Lesezeit:", Math.ceil(zu / 200), "Zeilen:", text.t.split("\n").length);
+await browser.close(); process.exit(0);

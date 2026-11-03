@@ -114,11 +114,11 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     ),
   },
   {
-    lead: "Auch dein Depot muss zinsfrei sein.",
+    lead: "Auch beim Depot zählen die Zinsen.",
     text: (
       <>
-        Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place, Smartbroker+ und Scalable zahlen 0 %, alle
-        weiteren stehen im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+        Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place und Scalable zahlen 0 %, Smartbroker+ zahlt
+        Zinsen nur auf ein eigenes Zinskonto. Alle weiteren stehen im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
       </>
     ),
   },
@@ -179,7 +179,7 @@ const FRAGEN: Frage[] = [
   {
     frage: "Muss ich die Erträge eines Halal ETFs reinigen?",
     antwort:
-      "Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut. Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds. Bei den anderen gibst du ihn selbst weiter.",
+      "Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut. Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds. Bei den anderen sieh im Verkaufsprospekt nach, ob der Fonds spendet. Wenn nicht, gibst du den Anteil selbst weiter.",
     link: { to: "/blog/ertraege-reinigen", text: "So rechnest du die Reinigung" },
   },
 ];
@@ -938,7 +938,7 @@ const DepotKasten = () => (
           `Halal ETFs dieser Liste: ${etfsBei(d.kaufbarName)} von 8`,
           sparplanZeile(d.anbieter),
           "Depotgebühr: 0 €",
-          "Zinsen aufs Guthaben: 0 %",
+          d.anbieter === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
         ];
         return (
           <div key={d.anbieter} className="border border-border bg-card p-5 sm:grid sm:grid-cols-[minmax(0,1fr)_180px] sm:gap-6">
@@ -1506,7 +1506,7 @@ const HalalEtf = () => {
                   <Text>
                     <p>
                       Neben dem ETF zählt das Depot. Es sollte deinen ETF als Sparplan
-                      führen und dir keine Zinsen aufs Guthaben zahlen. Ein Depot eröffnest du online in rund 10 Minuten mit
+                      führen. Schau auch, ob es dir Zinsen aufs Guthaben zahlt. Ein Depot eröffnest du online in rund 10 Minuten mit
                       Foto-Ident. Danach legst du den Sparplan auf deinen ETF an. Im{" "}
                       <TL to="/vergleich/depot">Depot-Vergleich</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
                       Zinsen umgeht.

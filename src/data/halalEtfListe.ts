@@ -232,14 +232,14 @@ export const etfListe: EtfEintrag[] = [
     absaetze: [
       "Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen.",
       "Das hat seinen Preis: 0,75 % im Jahr, mehr als doppelt so viel wie Platz 1. Mit 19 Mio. € ist er außerdem der kleinste Fonds der Liste.",
-      "Sein Zertifikat ist frisch. Das Shariah Supervisory Board von Amanie Advisors prüft ihn jedes Jahr, das Zertifikat für 2025 ist vom 22.05.2026.",
+      "Sein Zertifikat ist frisch. Das Shariah Supervisory Board von Amanie Advisors hat ihn für 2025 geprüft, das Zertifikat ist vom 22.05.2026.",
       "Am Markt seit September 2020. Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 18.",
     ],
     passt: "du einem Fondsmanagement mehr vertraust als einem Index",
     dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei 8 Depots."],
     dagegen: ["Höchste Kosten der Liste.", "Kleinster Fonds der Liste."],
     geprueftText:
-      "Das Shariah Supervisory Board von Amanie Advisors prüft den Fonds jedes Jahr. Das unterschriebene Zertifikat für das Geschäftsjahr 2025 ist vom 22.05.2026.",
+      "Das Shariah Supervisory Board von Amanie Advisors hat den Fonds für das Geschäftsjahr 2025 geprüft. Das unterschriebene Zertifikat ist vom 22.05.2026.",
   },
   {
     platz: 8,
