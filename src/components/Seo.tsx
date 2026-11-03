@@ -244,11 +244,13 @@ export const organizationJsonLd = {
     name: "Elias El-Gendy",
     jobTitle: "Gruender",
     knowsAbout: ["Halal Investieren", "Islamic Finance", "ETF", "Sukuk", "Riba"],
+    sameAs: ["https://www.linkedin.com/in/elias-el-gendy"],
   },
   sameAs: [
     "https://www.instagram.com/finanz.muslim/",
     "https://www.tiktok.com/@finanz.muslim",
     "https://www.youtube.com/@finanz.muslim",
+    "https://www.linkedin.com/company/finanzmuslim",
   ],
 };
 

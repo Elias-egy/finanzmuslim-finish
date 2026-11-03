@@ -44,14 +44,15 @@ function letzterHandelstag(stand: string): string {
   return `${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${d.getUTCFullYear()}`;
 }
 const YOUTUBE = "https://www.youtube.com/@finanz.muslim";
-/** LinkedIn-Profil von Elias (SOP About Page Z. 93, 145). */
-const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy-370616363/";
+/** LinkedIn-Profil von Elias (SOP About Page Z. 93, 145) und Firmenseite (SEO37). */
+const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy";
+const LINKEDIN_FIRMA = "https://www.linkedin.com/company/finanzmuslim";
 const PROFILE = [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN];
 const VIDEO_ID = "uO0ZnlaFolw";
 /** Google „bevorzugte Quelle“: dorthin leitet auch Finanzfluss (link.finanzfluss.de, ?q=finanzfluss.de). */
 const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.com";
 const BIO =
-  "Elias El-Gendy hat die Sachkundeprüfungen nach §\u00a034d und §\u00a034f GewO abgeschlossen. Er berät Muslime zum islamkonformen Investieren. Auf Instagram (@finanz.muslim) erklärt er über 15.000 Abonnenten, wie Halal Finance funktioniert.";
+  "Elias El-Gendy hat die Sachkundeprüfungen nach §\u00a034d und §\u00a034f GewO abgeschlossen. Bei TauRes in Hamburg hat er Kunden zu islamkonformen Investments beraten. Auf Instagram (@finanz.muslim) erklärt er über 15.000 Abonnenten, wie Halal Finance funktioniert.";
 const RECHTSHINWEIS =
   "Dieser Beitrag dient ausschließlich zu Bildungszwecken, ist keine Fatwa und keine Anlageberatung. Die Rangfolge folgt den genannten Kriterien und ersetzt keine Prüfung deiner eigenen Lage. Zu Wertpapierleihe, synthetischer Nachbildung und zur Reinigung von Erträgen bestehen zwischen den Rechtsschulen und einzelnen Gremien unterschiedliche Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Vergangene Renditen sind kein Versprechen für die Zukunft.";
 /** Lesedauer in Minuten: Wörter im Beitrag (innerText von main article bei 390) durch 200, aufgerundet. */
@@ -402,7 +403,7 @@ const graph = () => {
           "Bildung für islamkonformes (halal) Investieren: Guides, Rechner und Kriterien-Checks für Muslime in Deutschland.",
         founder: { "@id": `${SITE}/ueber-mich#elias` },
         contactPoint: { "@type": "ContactPoint", email: "elias@finanzmuslim.com", contactType: "customer support" },
-        sameAs: [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE],
+        sameAs: [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN_FIRMA],
       },
     ],
   };

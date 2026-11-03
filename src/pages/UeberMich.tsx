@@ -27,6 +27,7 @@ const person = {
       "https://instagram.com/finanz.muslim",
       "https://tiktok.com/@finanz.muslim",
       "https://youtube.com/@finanz.muslim",
+      "https://www.linkedin.com/in/elias-el-gendy",
     ],
   },
 };
@@ -110,6 +111,14 @@ const UeberMich = () => (
         <Link to="/wie-ich-geld-verdiene" className="text-primary hover:underline">
           So verdiene ich Geld
         </Link>
+        <a
+          href="https://www.linkedin.com/in/elias-el-gendy"
+          className="text-primary hover:underline"
+          target="_blank"
+          rel="me noopener noreferrer"
+        >
+          Mein LinkedIn-Profil
+        </a>
       </div>
     </section>
 
