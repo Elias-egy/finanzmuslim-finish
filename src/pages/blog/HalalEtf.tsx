@@ -209,8 +209,9 @@ const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string
 function sparplanZeile(anbieter: string): string {
   const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
   if (anbieter === "Scalable Capital") return `Sparplan auf ${zahl("Scalable")} von 8 belegt, mit PRIME+ (4,99 € im Monat) auf ${zahl("Scalable PRIME+")}`;
-  // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026), ohne Zahl je ETF
-  if (anbieter === "Traders Place") return "Sparplan möglich, im eigenen Depot nachgesehen";
+  // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026),
+  // für Platz 5 und 6 nicht (SEO35, raw/2026-11-03-elias-seo35-antworten-linkedin-fragebogen.md)
+  if (anbieter === "Traders Place") return "Sparplan möglich, außer für Platz 5 und 6, im eigenen Depot nachgesehen";
   const n = zahl(anbieter);
   return n === 0 ? "Sparplan auf diese ETFs noch nicht geprüft" : `Sparplan auf ${n} von 8 belegt`;
 }
