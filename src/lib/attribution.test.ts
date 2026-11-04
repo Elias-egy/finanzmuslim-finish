@@ -46,3 +46,16 @@ describe("Herkunftskennungen", () => {
     expect(unbekannt).toEqual([]);
   });
 });
+
+describe("Kennungs-Familien (CV4)", () => {
+  it("nehmen ManyChat-, Facebook- und Mail-Kennungen ohne eigenen Eintrag an", () => {
+    for (const s of ["dmgoldnach", "fbaktie", "mlbrief7", "v2", "g0", "fb0", "m2", "g3fertig", "mail"]) {
+      expect(istGueltigeQuelle(s)).toBe(true);
+    }
+  });
+  it("lehnen Fremdes, Großbuchstaben und zu Langes ab", () => {
+    for (const s of ["", "x", "DMgold", "dm-gold", "facebook", "dm" + "a".repeat(19), "xyz123"]) {
+      expect(istGueltigeQuelle(s)).toBe(false);
+    }
+  });
+});

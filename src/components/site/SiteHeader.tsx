@@ -44,7 +44,7 @@ export const SiteHeader = () => {
   // Der Hinweisstreifen gehoert auf die Startseite, nicht auf jede Unterseite.
   const aufStartseite = pathname === "/";
   // Nur auf diesem Beitrag (Elias SEO32, 02.11.2026: „nur hier“): Knopf zum Depot-Vergleich statt Suche
-  // und „Finde, was zu dir passt“; beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
+  // und „Dein Geld halal vermehren“ (vorher „Finde, was zu dir passt“; Elias CV4 04.11.2026: „das klickt glaube ich keiner“); beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
   // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
   const beitragsKopf = pathname.startsWith("/blog/");
   const kopfZiel = KOPF_ZIEL[pathname] ?? { ziel: "/vergleich/depot", text: "Depot-Vergleich" };
@@ -154,7 +154,7 @@ export const SiteHeader = () => {
                   to="/vergleich/start"
                   className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
                 >
-                  Finde, was zu dir passt
+                  Dein Geld halal vermehren
                 </Link>
               </>
             )}
@@ -258,7 +258,7 @@ export const SiteHeader = () => {
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
               >
-                Finde, was zu dir passt
+                Dein Geld halal vermehren
               </Link>
             </div>
           </div>

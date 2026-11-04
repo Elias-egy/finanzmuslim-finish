@@ -257,6 +257,7 @@ const PortfolioPlan = () => {
               gross={SCHMERZ.girokonto}
               einleitung="Zum Beispiel:"
               zwischen={SCHMERZ.muslim}
+              klein
               link={(ziel, stelle) => `${ziel}?src=plg${stelle}`}
             />
           </div>
@@ -326,7 +327,7 @@ const PortfolioPlan = () => {
           {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
               dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
           <div className="mt-3">
-            <DepotAufruf link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
+            <DepotAufruf ohneVideo link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
           </div>
         </section>
 

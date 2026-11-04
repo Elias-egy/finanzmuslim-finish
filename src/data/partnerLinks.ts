@@ -9,6 +9,9 @@
 // Netzwerk FinanceQuality (neqty), Partner-ID 8507, Projekt finanz.muslim 51087.
 // Links am 15.09.2026 aus dem Portal (Werbemittel, Textlink) geholt und per
 // Weiterleitung gegen die Zielseite geprüft.
+// Seit CV4 (04.11.2026) tragen alle FinanceQuality-Links ?subid={SUBID} (Quelle plus
+// Knopf), erlaubt sind a-zA-Z0-9-_ (github.com/FinanceQuality/Vergleichsrechner);
+// die Export-API liefert die subid je Abschluss zurück.
 //
 // Netzwerk financeAds, Partner 64685, Werbeflaeche 87591 (finanzmuslim.com).
 // Teilnahmebedingungen: keine Sub-IDs zur Verknuepfung von Besucherdaten, keine

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { findPartnerLink } from "@/data/partnerLinks";
+import { ereignis, vorigeSeite } from "@/lib/messung";
 
 /** Zentrale Weiterleitung fuer Partnerlinks: /out/:kurzname */
 const Out = () => {
@@ -13,6 +14,8 @@ const Out = () => {
 
   useEffect(() => {
     if (!eintrag || !eintrag.aktiv) return;
+    // Klick zum Partner: welcher Anbieter, von welcher Seite (die Seite davor, über den Router).
+    ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", von: vorigeSeite() });
     const extern = /^https?:\/\//i.test(eintrag.ziel);
     // Vorhandene Abfrageparameter unveraendert anhaengen (z. B. ?src=...)
     const params = search.startsWith("?") ? search.slice(1) : search;
@@ -24,7 +27,7 @@ const Out = () => {
     } else {
       navigate(ziel, { replace: true });
     }
-  }, [eintrag, search, navigate]);
+  }, [eintrag, kurzname, search, navigate]);
 
   if (aktiv) {
     return <div className="min-h-[50vh] bg-background" aria-hidden />;
