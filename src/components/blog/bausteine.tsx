@@ -76,7 +76,8 @@ export const Marke = ({ children, ton = "blau" }: { children: ReactNode; ton?: "
  */
 export type Spalte = { titel: string; zusatz?: string; rechts?: boolean; text?: boolean };
 export type Zeile = { schluessel: string; name: ReactNode; unter?: ReactNode; zellen: ReactNode[] };
-export const Tabelle = ({ kopf, zeilen, quelle }: { kopf: Spalte[]; zeilen: Zeile[]; quelle?: ReactNode }) => (
+/** `wischen` zeigt den Wischhinweis am Handy auch bei drei Spalten, wenn eine Satzspalte rechts aus dem Rahmen läuft. */
+export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zeilen: Zeile[]; quelle?: ReactNode; wischen?: boolean }) => (
   <div className="mt-5 max-w-[720px]">
     <div className="overflow-x-auto border border-border">
       <table className="w-max min-w-full border-collapse text-[15px]">
@@ -121,7 +122,7 @@ export const Tabelle = ({ kopf, zeilen, quelle }: { kopf: Spalte[]; zeilen: Zeil
         </tbody>
       </table>
     </div>
-    {kopf.length > 3 && <p className="mt-2 text-[13px] text-muted-foreground sm:hidden">Seitlich wischen für alle Spalten</p>}
+    {(kopf.length > 3 || wischen) && <p className="mt-2 text-[13px] text-muted-foreground sm:hidden">Seitlich wischen für alle Spalten</p>}
     {quelle && <p className="mt-2 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">{quelle}</p>}
   </div>
 );
@@ -372,7 +373,7 @@ export const WerkzeugKasten = ({ etikett, titel, text, ziel, knopf }: { etikett:
     <p className="font-titel mt-2.5 text-[22px] leading-[1.2] text-foreground">{titel}</p>
     <p className="mt-2.5 max-w-[560px] text-[15px] leading-relaxed text-foreground/75">{text}</p>
     <Link to={ziel} className="leuchtlinie mt-5 inline-block">
-      <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
+      <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
     </Link>
   </aside>
 );
@@ -457,7 +458,7 @@ export const AutorAufruf = ({ bild, etikett, titel, text, ziel, knopf }: { bild:
     <p className="font-titel mt-2 text-[24px] leading-[1.2] text-foreground">{titel}</p>
     <p className="mt-2.5 max-w-[560px] text-[15px] leading-relaxed text-foreground/75">{text}</p>
     <Link to={ziel} className="leuchtlinie mt-5 inline-block">
-      <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
+      <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
     </Link>
   </aside>
 );

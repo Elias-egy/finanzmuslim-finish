@@ -51,7 +51,7 @@ const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" }
 const AKTUALISIERT = { text: "04.11.2026", iso: "2026-11-04T09:00:00+01:00" };
 const LESEZEIT = 8;
 const RECHTSHINWEIS =
-  "Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Leasingverträge unterscheiden sich stark, maßgeblich ist immer dein eigener Vertrag. Zu einzelnen Punkten gibt es abweichende Auffassungen, besonders bei Pflichtversicherungen und bei beruflicher Notwendigkeit. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
+  "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, maßgeblich ist dein eigener Vertrag. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
 /** Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
 const KNOPF = "Rate halal anlegen";
@@ -59,10 +59,13 @@ const KNOPF = "Rate halal anlegen";
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
+  { id: "kurzer-vergleich", titel: "5 Wege zum Auto auf einen Blick", leiste: true, kurz: "5 Wege zum Auto" },
   { id: "fuenf-punkte", titel: "Woran erkennst du, ob ein Leasingvertrag halal ist?", leiste: true, kurz: "Die 5 Punkte im Vertrag" },
   { id: "rechner", titel: "Leasingrate oder Depot: Was wäre aus deiner Rate geworden?", leiste: true, kurz: "Rechner: Rate oder Depot" },
   { id: "warum", titel: "Warum ist Leasing in Deutschland fast immer haram?", leiste: true, kurz: "Warum fast immer haram" },
   { id: "auto-abo", titel: "Ist ein Auto-Abo halal?", leiste: true, kurz: "Auto-Abo" },
+  { id: "kosten", titel: "Was kostet ein Auto-Abo im Vergleich zu Leasing?", leiste: true, kurz: "Kosten: Abo oder Leasing" },
   { id: "restwert", titel: "Was ist mit Restwert, Kauf am Ende und Ballonfinanzierung?", leiste: true, kurz: "Restwert und Ballonrate" },
   { id: "ohne-leasing", titel: "Wie kommst du ohne Leasing an ein Auto?", leiste: true, kurz: "Ohne Leasing zum Auto" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
@@ -79,13 +82,15 @@ const Ueber = ({ id }: { id: string }) => <H2 id={id}>{titelVon(id)}</H2>;
 type Ton = "gruen" | "gelb" | "rot";
 
 /** Fünf Wege zum Auto, Etiketten nach STATION-BEITRAG.md (SEO48-04). Einordnung wie in den Abschnitten unten. */
-const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: string; ende: string; ziel: string }[] = [
+const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: string; haken: string; passt: string; ende: string; ziel: string }[] = [
   {
     weg: "Auto-Abo",
     marke: "geht mit Prüfung",
     ton: "gruen",
     besonders: "Die halal Form des Leasings",
     zahlst: "eine Rate, Versicherung, Steuer und Wartung sind drin",
+    haken: "Die Rate ist höher als beim Leasing",
+    passt: "Wer neu fahren und nichts selbst regeln will",
     ende: "Das Auto geht zurück",
     ziel: "auto-abo",
   },
@@ -95,6 +100,8 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: s
     ton: "gruen",
     besonders: "Keine Rate, kein Vertrag mit Haken",
     zahlst: "einmal den Kaufpreis",
+    haken: "Du brauchst den ganzen Preis auf einmal",
+    passt: "Wer gespart hat und lange fährt",
     ende: "Das Auto gehört dir",
     ziel: "ohne-leasing",
   },
@@ -104,6 +111,8 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: s
     ton: "gruen",
     besonders: "Fester Preis, keine Bank dazwischen",
     zahlst: "feste Raten, der Preis steht vorher fest",
+    haken: "Der Preis ist höher als bar",
+    passt: "Wer nicht alles auf einmal zahlen kann",
     ende: "Das Auto gehört dir",
     ziel: "ohne-leasing",
   },
@@ -111,8 +120,10 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: s
     weg: "Leasing vom Autohaus",
     marke: "fällt weg",
     ton: "rot",
-    besonders: "Du haftest für ein fremdes Auto",
+    besonders: "Kleine Rate, neues Auto",
     zahlst: "Rate, dazu Versicherung, Steuer und Wartung",
+    haken: "Du haftest für ein fremdes Auto",
+    passt: "Gewerbe, nur nach Rücksprache mit einem Gelehrten",
     ende: "Das Auto geht zurück",
     ziel: "warum",
   },
@@ -120,8 +131,10 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: s
     weg: "Autokredit oder Ballonrate",
     marke: "fällt weg",
     ton: "rot",
-    besonders: "Ein Kredit einer Bank",
-    zahlst: "Raten mit Zins, oft eine große Schlussrate",
+    besonders: "Kleine Raten, das Auto wird deins",
+    zahlst: "Raten an die Bank, oft eine große Schlussrate",
+    haken: "Ein Kredit mit Zins bei einer Bank",
+    passt: "Keinen, der halal bleiben will",
     ende: "Das Auto gehört dir",
     ziel: "restwert",
   },
@@ -157,13 +170,13 @@ const PUNKTE: { punkt: string; gut: string; schlecht: string }[] = [
 ];
 
 /**
- * Ein Jahr mit demselben Auto, Hyundai IONIQ 5 (63 kWh), aus dem Auto-Abo-Check (src/data/autoAboCheck.ts, `rechnung`, abgerufen
- * 27.09.2026). Hier nur die Summen, damit die Klauseln des Checks nicht im JavaScript dieser offenen Seite stehen
+ * Ein Jahr mit demselben Auto, Hyundai IONIQ 5 (63 kWh), aus dem Auto-Abo-Check (src/data/autoAboCheck.ts, `rechnung`; Abo und
+ * Leasing abgerufen 05.11.2026, ADAC 27.09.2026). Hier nur die Summen, damit die Klauseln des Checks nicht im JavaScript dieser offenen Seite stehen
  * (autoAboCheckAusschnitt.ts). Ändert sich `rechnung`, hier nachziehen; Test in src/test/istLeasingHaram.test.ts.
  */
 export const IONIQ_JAHR = {
   abo: 12 * 602,
-  leasing: 12 * 329 + 4000 / 4 + 12 * 199 + 12 * 54,
+  leasing: 12 * 399 + 4000 / 4 + 12 * 199 + 12 * 54,
   bar: 12 * 560 + 12 * 199 + 12 * 54,
 };
 
@@ -189,7 +202,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   { lead: "Leasing ist Miete.", text: "Miete ist im Islam erlaubt, es kommt auf den Vertrag an." },
   { lead: "Die übliche Form fällt fast immer weg.", text: "In deutschen Verträgen haftest du für ein Auto, das dir nicht gehört." },
   { lead: "Kein Zins heißt noch nicht halal.", text: "Es zählt, wer haftet und wer Versicherung, Steuer und Wartung zahlt." },
-  { lead: "Das Auto-Abo ist im Aufbau die halal Form.", text: "Der Anbieter zahlt die Nebenkosten. Rechne mit 50 bis 100 € mehr Rate im Monat." },
+  { lead: "Das Auto-Abo ist vom Aufbau her die halal Form.", text: "Der Anbieter zahlt die Nebenkosten. Unterm Strich zahlst du vielleicht 50 bis 100 € mehr im Monat, im Beispiel unten sogar weniger." },
   { lead: "Jede Rate, die du nicht zahlst, kann wachsen.", text: "Der Rechner weiter unten zeigt, wie viel im Depot daraus geworden wäre." },
 ];
 
@@ -197,42 +210,42 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Ist Auto-Leasing haram?",
     antwort:
-      "In der Form, wie Autohäuser in Deutschland es anbieten, fast immer ja. Leasing ist Miete, und Miete ist erlaubt. Die Verträge übertragen aber die Haftung für das Auto auf dich. Wer die Haftung abgibt, hat kein Recht mehr auf die Rate, und der Vertrag wird ungültig.",
+      "Fast immer ja, so wie Autohäuser in Deutschland es anbieten. Leasing ist Miete und damit erlaubt, aber die Verträge schieben die Haftung für das Auto auf dich. Damit wird der Vertrag ungültig.",
   },
   {
     frage: "Ist Leasing ohne Zinsen halal?",
     antwort:
-      "Nicht automatisch. Beim reinen Leasing ist der Zins gar nicht das große Problem. Entscheidend ist, wer für das Auto haftet und wer Versicherung, Steuer und Wartung zahlt. Liegt das bei dir, hilft auch null Prozent Zins nicht.",
+      "Nicht automatisch. Beim reinen Leasing ist der Zins gar nicht das große Problem. Es zählt, wer für das Auto haftet und wer Versicherung, Steuer und Wartung zahlt.",
   },
   {
     frage: "Ist ein Auto-Abo halal?",
     antwort:
-      "Das Grundmodell ist die halal Form des Leasings: Der Anbieter zahlt Versicherung, Steuer und Wartung, das Auto läuft auf ihn, du zahlst die Rate und den Sprit. Nicht jedes Auto-Abo ist automatisch halal. Lies im Vertrag nach, wer bei einem Schaden zahlt und was bei Verzug passiert.",
+      "Vom Aufbau her ja: Der Anbieter zahlt Versicherung, Steuer und Wartung, du die Rate und den Sprit. Nicht jedes Auto-Abo ist automatisch halal, lies nach, wer bei einem Schaden zahlt.",
   },
   {
     frage: "Wie viel teurer ist ein Auto-Abo als Leasing?",
     antwort:
-      "Die Rate ist höher, dafür zahlst du keine Versicherung, Steuer und Wartung dazu. Rechnet man das gegen, bleiben oft 50 bis 100 € im Monat. In unserem Beispiel mit dem Hyundai IONIQ 5 war das Abo über ein Jahr sogar günstiger als Leasing.",
+      "Die Rate ist höher, dafür sind Versicherung, Steuer und Wartung drin. Rechnet man das gegen, bleiben vielleicht 50 bis 100 € mehr im Monat. Im Beispiel mit dem IONIQ 5 war das Abo sogar günstiger.",
   },
   {
     frage: "Ist Leasing für Selbstständige und Firmen erlaubt?",
     antwort:
-      "Es kann je nach Lage eine Möglichkeit geben, gerade für Gewerbetreibende. Das klärst du aber nur mit einem qualifizierten Gelehrten, der deine Situation und deinen Vertrag kennt.",
+      "Für Gewerbetreibende kann es je nach Lage eine Möglichkeit geben. Das klärst du aber nur mit einem qualifizierten Gelehrten, der deine Situation und deinen Vertrag kennt.",
   },
   {
     frage: "Darf der Leasinggeber am Ende eine Nachzahlung verlangen?",
     antwort:
-      "Nein. Nach dem Ende des Vertrags darf er keine Summe mehr für Wertverlust oder Restwert verlangen. Das Auto ist sein Eigentum, also trägt er auch den Wertverlust.",
+      "Nein. Nach dem Ende des Vertrags darf er keine Summe mehr für Wertverlust oder Restwert verlangen, denn das Auto ist sein Eigentum.",
   },
   {
     frage: "Die Leasingfirma hat das Auto auf Kredit gekauft. Ist das mein Problem?",
     antwort:
-      "Beim reinen Leasing nicht. Wie der Leasinggeber sein Auto finanziert, ist sein Vertrag, nicht deiner. Das gilt für reines Leasing, nicht für Leasing mit Kauf am Ende.",
+      "Beim reinen Leasing nicht. Wie der Leasinggeber sein Auto finanziert, ist sein Vertrag, nicht deiner. Das gilt nicht für Leasing mit Kauf am Ende.",
   },
   {
     frage: "Ich habe schon einen Leasingvertrag. Was jetzt?",
     antwort:
-      "Geh die fünf Punkte in deinem Vertrag durch. Frag beim Anbieter, ob eine vorzeitige Rückgabe oder eine Übernahme durch jemand anderen geht und was das kostet. Was das für dich heißt, klärst du mit einem Gelehrten, dem du vertraust, mit dem Vertrag auf dem Tisch.",
+      "Geh die fünf Punkte in deinem Vertrag durch und frag nach einer vorzeitigen Rückgabe. Was das für dich heißt, klärst du mit einem Gelehrten, dem du vertraust.",
   },
 ];
 
@@ -267,6 +280,7 @@ const graph = () => {
         datePublished: VEROEFFENTLICHT.iso,
         dateModified: AKTUALISIERT.iso,
         inLanguage: "de-DE",
+        image: `${SITE}/og/blog--ist-leasing-haram.jpg`,
         video: { "@id": `${url}#video` },
       },
       {
@@ -375,7 +389,7 @@ const Rechner = () => {
   const erg = polster(rate, monate, sonder);
   const gezahlt = sonder + rate * monate;
   const schalter = (an: boolean) =>
-    `flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
+    `min-h-[44px] flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
   const farbe = erg && erg.wert < erg.eingezahlt ? "loss" : "gain";
   return (
     <section className="mt-12">
@@ -383,7 +397,11 @@ const Rechner = () => {
       <Text>
         <p>
           Gib deine Leasingrate ein. Links steht, was dir beim Leasing am Ende gehört. Rechts, was dieselbe Rate als Sparplan in {PLATZ1.name} gebracht
-          hätte, Platz 1 unserer Halal-ETF-Liste.
+          hätte.
+        </p>
+        <p>
+          Das ist ein Halal ETF, also ein Fonds, der viele geprüfte Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach
+          Zertifikat, Kosten und Sparplan.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -468,7 +486,7 @@ const Rechner = () => {
         )}
 
         <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
-          Monatskurse bis {kursStand}, ohne Depotkosten. Vergangene Kursentwicklung ist kein Versprechen.
+          Monatskurse bis {kursStand}, ohne Depotkosten.
         </p>
       </div>
     </section>
@@ -518,7 +536,7 @@ const IstLeasingHaram = () => {
                   aufs Guthaben zahlt.
                 </p>
                 <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
-                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{KNOPF}</span>
+                  <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{KNOPF}</span>
                 </Link>
               </div>
             </div>
@@ -539,11 +557,11 @@ const IstLeasingHaram = () => {
               </h1>
               <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
                 {beispielWert()
-                  ? `300 € Leasingrate, drei Jahre lang: Am Ende gehört dir nichts. Als Sparplan im Depot wären es heute rund ${beispielWert()}.`
+                  ? `300 € Leasingrate, drei Jahre lang: Am Ende gehört dir nichts. Als Sparplan im Depot wären es heute rund ${beispielWert()}. Das übliche Leasing fällt fast immer durch.`
                   : "Woran du es im Vertrag erkennst, was stattdessen geht und was deine Rate im Depot gebracht hätte."}
               </p>
               <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["Rechner: Leasingrate oder Depot", "5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich", "Stand November 2026"].map((h) => (
+                {["Rechner: Leasingrate oder Depot", "5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich"].map((h) => (
                   <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
                     <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     {h}
@@ -562,7 +580,9 @@ const IstLeasingHaram = () => {
                   </div>
                 </div>
                 <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
-                  <p className="uppercase tracking-[0.12em]">Aktualisiert</p>
+                  <p className="uppercase tracking-[0.12em]">Veröffentlicht</p>
+                  <time dateTime={VEROEFFENTLICHT.iso}>{VEROEFFENTLICHT.text}</time>
+                  <p className="mt-1.5 uppercase tracking-[0.12em]">Aktualisiert</p>
                   <time dateTime={AKTUALISIERT.iso}>{AKTUALISIERT.text}</time>
                 </div>
               </div>
@@ -590,8 +610,10 @@ const IstLeasingHaram = () => {
                   </p>
                   <p>
                     Kurz gesagt: Leasing ist Miete, und Miete ist erlaubt. Deutsche Leasingverträge fallen aber fast immer durch, weil du darin für ein
-                    Auto haftest, das dir nicht gehört. Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Und wer ohne Rate auskommt,
-                    lässt das Geld im Depot wachsen.
+                    Auto haftest, das dir nicht gehört.
+                  </p>
+                  <p>
+                    Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Und wer ohne Rate auskommt, lässt das Geld im Depot wachsen.
                   </p>
                 </Text>
 
@@ -621,6 +643,10 @@ const IstLeasingHaram = () => {
                       <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
                       <Etikett className="mt-4">Du zahlst</Etikett>
                       <p className="mt-1 text-[15px] leading-snug text-foreground">{w.zahlst}</p>
+                      <Etikett className="mt-3">Haken</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.haken}</p>
+                      <Etikett className="mt-3">Passt für</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.passt}</p>
                       <Etikett className="mt-3">Am Ende</Etikett>
                       <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.ende}</p>
                       <a
@@ -638,16 +664,11 @@ const IstLeasingHaram = () => {
                 <section className="mt-14">
                   <Ueber id="fuenf-punkte" />
                   <Text>
-                    <p>Nimm deinen Vertrag und geh diese fünf Punkte durch. Steht bei einem Punkt die rechte Spalte drin, fällt der Vertrag durch.</p>
+                    <p>Nimm deinen Vertrag und geh diese fünf Punkte durch. Steht bei einem Punkt das Problem in deinem Vertrag, fällt der Vertrag durch.</p>
                   </Text>
-                  <Tabelle
-                    kopf={[{ titel: "Punkt" }, { titel: "In Ordnung", text: true }, { titel: "Problem", text: true }]}
-                    zeilen={PUNKTE.map((p) => ({
-                      schluessel: p.punkt,
-                      name: <span className="block max-w-[130px] whitespace-normal sm:max-w-[200px]">{p.punkt}</span>,
-                      zellen: [p.gut, p.schlecht],
-                    }))}
-                    quelle="Einordnung nach den Positionen weiter unten im Beitrag. Maßgeblich ist der Wortlaut deines Vertrags."
+                  <KartenTabelle
+                    kopf={["Punkt", "In Ordnung", "Problem"]}
+                    zeilen={PUNKTE.map((p) => ({ schluessel: p.punkt, werte: [p.punkt, p.gut, p.schlecht] }))}
                   />
                   <Kernsatz>Wem das Auto gehört, der trägt sein Risiko. Schiebt der Vertrag es dir zu, ist es keine Miete mehr.</Kernsatz>
                 </section>
@@ -661,14 +682,15 @@ const IstLeasingHaram = () => {
                   <Text>
                     <p>
                       Leasing heißt Miete: Jemandem gehört das Auto, du zahlst dafür, es zu nutzen. Weil das Auto ihm gehört, haftet der Vermieter dafür
-                      und darf die Haftung nicht auf dich schieben. Nur einen Schaden, den du mit Absicht oder grob fahrlässig verursachst, zahlst du selbst.
+                      und darf die Haftung nicht auf dich schieben.
                     </p>
                     <p>
-                      Genau hier fallen die deutschen Verträge durch. Ein Gelehrter, der Leasingverträge von Mercedes, BMW, Audi, VW und Sixt gelesen hat,
-                      fand keinen ohne die Klausel, dass du für das Auto haftest. Wer die Haftung abgibt, verliert sein Recht auf die Rate.
+                      Genau hier fallen die deutschen Verträge durch. Ein Gelehrter hat Verträge von Mercedes, BMW, Audi, VW und Sixt gelesen und
+                      keinen ohne die Klausel gefunden, dass du für das Auto haftest.
                     </p>
                     <p>
-                      Dazu kommt: Du meldest das Auto selbst an, zahlst Steuer, Vollkasko und Wartung. Das alles wäre Sache des Vermieters.
+                      Wer die Haftung abgibt, verliert sein Recht auf die Rate. Dazu kommt: Du meldest das Auto selbst an, zahlst Steuer, Vollkasko und
+                      Wartung. Das alles wäre Sache des Vermieters.
                     </p>
                   </Text>
                   <KartenTabelle
@@ -709,11 +731,14 @@ const IstLeasingHaram = () => {
                   />
                   <Text>
                     <p>
-                      Nicht jedes Auto-Abo ist automatisch halal. Lies vor der Unterschrift Punkt 1 und Punkt 3 aus der Tabelle oben nach: Wer zahlt bei
-                      einem Schaden, den du nicht verursacht hast, und was kostet es, wenn du zu spät zahlst?
+                      Nicht jedes Auto-Abo ist automatisch halal. Geh vor der Unterschrift die fünf Punkte von oben durch, vor allem: Wer zahlt bei einem
+                      Schaden, den du nicht verursacht hast, und was kostet es, wenn du zu spät zahlst?
                     </p>
                   </Text>
-                  <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Ein echtes Beispiel: ein Jahr mit demselben Auto</p>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="kosten" />
                   <Text>
                     <p>
                       Die Abo-Rate ist höher als die Leasingrate. Rechnet man Versicherung, Steuer und Werkstatt dazu, dreht sich das Bild. Wir haben es für
@@ -722,17 +747,18 @@ const IstLeasingHaram = () => {
                   </Text>
                   <Tabelle
                     kopf={[{ titel: "Weg" }, { titel: "Ein Jahr", rechts: true }, { titel: "Drin", text: true }]}
+                    wischen
                     zeilen={[
                       { schluessel: "abo", name: "Auto-Abo", unter: <Marke ton="gruen">geht mit Prüfung</Marke>, zellen: [euro(IONIQ_JAHR.abo), "12 Raten zu 602 €, alles drin außer Strom"] },
                       {
                         schluessel: "leasing",
                         name: "Leasing",
                         unter: <Marke ton="rot">fällt weg</Marke>,
-                        zellen: [euro(IONIQ_JAHR.leasing), "12 Raten zu 329 €, ein Viertel der Sonderzahlung, Versicherung, Steuer, Werkstatt"],
+                        zellen: [euro(IONIQ_JAHR.leasing), "12 Raten zu 399 €, ein Viertel der Anzahlung von 4.000 €, Versicherung, Steuer, Werkstatt"],
                       },
                       { schluessel: "bar", name: "Bar kaufen", unter: <Marke ton="gruen">klar erlaubt</Marke>, zellen: [euro(IONIQ_JAHR.bar), "Wertverlust, Versicherung, Steuer, Werkstatt"] },
                     ]}
-                    quelle="Abo: MOCEAN, 12 Monate, 1.000 km im Monat. Leasing: Beispiel der Hyundai Finance, 48 Monate. Laufende Kosten und Wertverlust: ADAC Autokosten, 10.000 km im Jahr. Abgerufen am 27.09.2026. Strom ist bei allen drei gleich und fehlt."
+                    quelle="Abo: MOCEAN, 12 Monate, 1.000 km im Monat. Leasing: Beispiel der Hyundai Finance, 48 Monate. Beide abgerufen am 05.11.2026. Laufende Kosten und Wertverlust: ADAC Autokosten, 10.000 km im Jahr, abgerufen am 27.09.2026. Strom ist bei allen drei gleich und fehlt."
                   />
                   <Text>
                     <p>
@@ -763,7 +789,7 @@ const IstLeasingHaram = () => {
                             <Marke ton="rot">fällt weg</Marke>
                             <span className="mt-1.5 block">Nachzahlung für den Restwert</span>
                           </>,
-                          "Ist das Auto am Ende weniger wert als geplant, sollst du die Differenz zahlen. Nach dem Ende des Vertrags darf der Leasinggeber aber keine Summe mehr verlangen: Das Auto ist sein Eigentum, den Wertverlust trägt er.",
+                          "Ist das Auto am Ende weniger wert als geplant, sollst du die Differenz zahlen. Den Wertverlust trägt aber der Eigentümer.",
                         ],
                       },
                       {
@@ -798,9 +824,8 @@ const IstLeasingHaram = () => {
                       bezahltes Auto gehört dir, es gibt keine Rate und keine Klausel, die dich an eine fremde Haftung bindet.
                     </p>
                     <p>
-                      <strong className="font-semibold text-foreground">Ratenkauf direkt beim Händler.</strong> Der Händler darf für Raten einen höheren
-                      Preis verlangen als bar, wenn dieser Preis vor der Unterschrift feststeht. Zum Beispiel 10.000 € bar oder 12.000 € in Raten. Danach
-                      ändert sich nichts mehr.
+                      <strong className="font-semibold text-foreground">Ratenkauf direkt beim Händler.</strong> Für Raten darf der Händler mehr verlangen als bar,
+                      wenn der Preis vor der Unterschrift feststeht. Zum Beispiel 10.000&nbsp;€ bar oder 12.000&nbsp;€ in Raten, und dabei bleibt es.
                     </p>
                     <p>
                       <strong className="font-semibold text-foreground">Erst sparen, dann kaufen.</strong> Wer die Rate ein paar Jahre zur Seite legt, hat
@@ -811,12 +836,15 @@ const IstLeasingHaram = () => {
 
                 <section className="mt-12">
                   <Ueber id="haeufige-fragen" />
-                  <div className="mt-4 max-w-[664px] divide-y divide-border">
-                    {FRAGEN.map((f) => (
-                      <div key={f.frage} className="py-5 first:pt-1">
-                        <h3 className="text-[18px] font-semibold leading-snug text-foreground">{f.frage}</h3>
-                        <p className="mt-2 text-[17px] leading-[1.65] text-foreground/75">{f.antwort}</p>
-                      </div>
+                  <div className="mt-4 max-w-[664px] border-b border-border">
+                    {FRAGEN.map((f, i) => (
+                      <details key={f.frage} open={i === 0} className="group border-t border-border">
+                        <summary className="flex min-h-[48px] cursor-pointer list-none items-start justify-between gap-4 py-4 [&::-webkit-details-marker]:hidden">
+                          <h3 className="text-[18px] font-semibold leading-snug text-foreground">{f.frage}</h3>
+                          <ChevronDown className="mt-1 h-4 w-4 shrink-0 text-foreground transition-transform group-open:rotate-180" aria-hidden />
+                        </summary>
+                        <p className="pb-5 text-[17px] leading-[1.65] text-foreground/75">{f.antwort}</p>
+                      </details>
                     ))}
                   </div>
                 </section>
@@ -825,8 +853,8 @@ const IstLeasingHaram = () => {
                   <Ueber id="naechster-schritt" />
                   <Text>
                     <p>
-                      Brauchst du nicht sofort ein neues Auto, arbeitet die Rate für dich. Leg sie als Sparplan auf einen Halal ETF an. Welches Depot das kann
-                      und keine Zinsen aufs Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+                      Brauchst du nicht sofort ein neues Auto, leg die Rate als Sparplan auf einen Halal ETF an. Welches Depot das kann und keine Zinsen aufs
+                      Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>

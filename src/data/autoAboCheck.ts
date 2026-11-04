@@ -676,7 +676,7 @@ export const firmen =
  * Rechenbeispiel Hyundai IONIQ 5 (63 kWh, 125 kW, Heckantrieb), die einzige Version, die im Abo, im
  * Leasingbeispiel, in der Preisliste und beim ADAC gleich ist. Nur Beträge je Jahr, keine Zinsrechnung
  * (Elias, 26.09.2026: nichts, was mit Zinsen rechnet). Strom fällt bei allen drei Wegen gleich an und
- * fehlt deshalb. Belege: Vault `raw/2026-09-27-auto-abo-agb/` und `rechnung-quellen` im Scratchpad der
+ * fehlt deshalb. Abo-Rate und Leasingbeispiel neu abgerufen am 05.11.2026 (Vault `raw/2026-11-05-seo56-ioniq5-preise-mocean-hyundai.md`). Belege: Vault `raw/2026-09-27-auto-abo-agb/` und `rechnung-quellen` im Scratchpad der
  * Session, übernommen in `~/rebrand/P3_GOLD_AUTO_PRUEFUNG.md`.
  */
 const ADAC_FIX = 199; // Kfz-Steuer mit Befreiung, Haftpflicht und Vollkasko je 50 Prozent Beitragssatz, pro Monat
@@ -691,7 +691,7 @@ const abo = [
   { was: "Versicherung, Steuer, Wartung", betrag: 0 },
 ];
 const leasing = [
-  { was: "12 Raten zu 329 Euro", betrag: 12 * 329 },
+  { was: "12 Raten zu 399 Euro", betrag: 12 * 399 },
   { was: "Ein Viertel der Sonderzahlung von 4.000 Euro", betrag: 4000 / 4 },
   { was: "Versicherung und Steuer (ADAC)", betrag: 12 * ADAC_FIX },
   { was: "Werkstatt (ADAC)", betrag: 12 * ADAC_WERKSTATT },
@@ -728,5 +728,5 @@ export const rechnung: Rechnung = {
     summe(barkauf) - summe(abo),
   )} Euro weniger als der Barkauf, vor allem weil Versicherung und Wartung in der Rate stecken. Wer ein Auto viele Jahre fährt, günstiger versichert ist oder gefördert wird, kann mit dem Barkauf vorne liegen: Rechne mit deinen eigenen Zahlen.`,
   quellen:
-    "Abo: MOCEAN, IONIQ 5 63 kWh, 12 Monate, 1.000 km im Monat. Leasing: Leasingbeispiel der HYUNDAI Finance auf hyundai.com, 48 Monate, 40.000 km, gültig bis 30.09.2026. Kaufpreis: Preisliste Hyundai, Stand Juli 2026. Laufende Kosten: ADAC Autokosten für den IONIQ 5 (63 kWh) 2WD, 4 Jahre, 10.000 km im Jahr, Versicherung mit 50 Prozent Beitragssatz. Alles abgerufen am 27.09.2026.",
+    "Abo: MOCEAN, IONIQ 5 63 kWh, 12 Monate, 1.000 km im Monat. Leasing: Leasingbeispiel der HYUNDAI Finance auf hyundai.com, 48 Monate, 40.000 km, gültig bis 31.12.2026. Abo und Leasing abgerufen am 05.11.2026. Kaufpreis: Preisliste Hyundai, Stand Juli 2026. Laufende Kosten: ADAC Autokosten für den IONIQ 5 (63 kWh) 2WD, 4 Jahre, 10.000 km im Jahr, Versicherung mit 50 Prozent Beitragssatz, abgerufen am 27.09.2026.",
 };
