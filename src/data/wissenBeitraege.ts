@@ -46,7 +46,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", motiv: "kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "ratenzahlung-haram", name: "Ist Ratenzahlung haram?", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten. Rechne, was deine Rate im Depot gebracht hätte.", thema: "Alltag", datum: "4. November 2026" },
   { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "ist-versicherung-haram", name: "Ist Versicherung haram?", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht.", thema: "Alltag", datum: "5. September 2026" },
 

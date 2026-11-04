@@ -43,13 +43,15 @@ import {
 
 const PFAD = "/blog/ist-leasing-haram";
 const TITEL = "Ist Leasing haram? Wann Leasing halal ist: 5 Punkte";
+/** Title-Tag unter 65 Zeichen mit „| finanzmuslim“, damit Google ihn nicht abschneidet; H1 bleibt TITEL. */
+const SEO_TITEL = "Ist Leasing haram? Wann es halal ist: 5 Punkte";
 const META =
-  "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Die 5 Punkte zum Prüfen, das Auto-Abo als halal Weg und ein Rechner: Rate oder Polster.";
+  "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Die 5 Punkte zum Prüfen, das Auto-Abo als halal Weg und ein Rechner: Leasingrate oder Depot.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "04.11.2026", iso: "2026-11-04T09:00:00+01:00" };
-const LESEZEIT = 10;
+const LESEZEIT = 8;
 const RECHTSHINWEIS =
-  "Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Leasingverträge unterscheiden sich stark, maßgeblich ist immer dein eigener Vertrag. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders bei Pflichtversicherungen und bei beruflicher Notwendigkeit. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
+  "Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Leasingverträge unterscheiden sich stark, maßgeblich ist immer dein eigener Vertrag. Zu einzelnen Punkten gibt es abweichende Auffassungen, besonders bei Pflichtversicherungen und bei beruflicher Notwendigkeit. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
 /** Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
 const KNOPF = "Rate halal anlegen";
@@ -58,12 +60,11 @@ type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
   { id: "fuenf-punkte", titel: "Woran erkennst du, ob ein Leasingvertrag halal ist?", leiste: true, kurz: "Die 5 Punkte im Vertrag" },
+  { id: "rechner", titel: "Leasingrate oder Depot: Was wäre aus deiner Rate geworden?", leiste: true, kurz: "Rechner: Rate oder Depot" },
   { id: "warum", titel: "Warum ist Leasing in Deutschland fast immer haram?", leiste: true, kurz: "Warum fast immer haram" },
-  { id: "rechner", titel: "Rate oder Polster: Was wäre aus deiner Leasingrate geworden?", leiste: true, kurz: "Rechner: Rate oder Polster" },
   { id: "auto-abo", titel: "Ist ein Auto-Abo halal?", leiste: true, kurz: "Auto-Abo" },
   { id: "restwert", titel: "Was ist mit Restwert, Kauf am Ende und Ballonfinanzierung?", leiste: true, kurz: "Restwert und Ballonrate" },
   { id: "ohne-leasing", titel: "Wie kommst du ohne Leasing an ein Auto?", leiste: true, kurz: "Ohne Leasing zum Auto" },
-  { id: "schon-geleast", titel: "Ich lease schon. Was jetzt?", leiste: true },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
 ];
@@ -185,23 +186,11 @@ const ANBIETER = DREIER.map((d) => ({
 }));
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
-  { lead: "Leasing ist Miete.", text: "Und Miete ist im Islam erlaubt. Es kommt darauf an, was im Vertrag steht." },
-  {
-    lead: "Die übliche Form fällt fast immer weg.",
-    text: "In deutschen Leasingverträgen haftest du für ein Auto, das dir nicht gehört. Damit ist es keine gültige Miete mehr.",
-  },
-  {
-    lead: "Der Zins der Leasingfirma ist beim reinen Leasing nicht dein Problem.",
-    text: "Kein Zins heißt aber noch nicht halal. Es zählt, wer haftet und wer die Kosten trägt.",
-  },
-  {
-    lead: "Das Auto-Abo ist die halal Form.",
-    text: "Der Anbieter zahlt Versicherung, Steuer und Wartung, du zahlst Rate und Sprit. Rechne mit 50 bis 100 € mehr Rate im Monat.",
-  },
-  {
-    lead: "Keine Rate ist das stärkste Polster.",
-    text: "Was du nicht fürs Leasing zahlst, kannst du halal im Depot sparen. Der Rechner zeigt, was daraus geworden wäre.",
-  },
+  { lead: "Leasing ist Miete.", text: "Miete ist im Islam erlaubt, es kommt auf den Vertrag an." },
+  { lead: "Die übliche Form fällt fast immer weg.", text: "In deutschen Verträgen haftest du für ein Auto, das dir nicht gehört." },
+  { lead: "Kein Zins heißt noch nicht halal.", text: "Es zählt, wer haftet und wer Versicherung, Steuer und Wartung zahlt." },
+  { lead: "Das Auto-Abo ist im Aufbau die halal Form.", text: "Der Anbieter zahlt die Nebenkosten. Rechne mit 50 bis 100 € mehr Rate im Monat." },
+  { lead: "Jede Rate, die du nicht zahlst, kann wachsen.", text: "Der Rechner weiter unten zeigt, wie viel im Depot daraus geworden wäre." },
 ];
 
 const FRAGEN: { frage: string; antwort: string }[] = [
@@ -248,10 +237,10 @@ const FRAGEN: { frage: string; antwort: string }[] = [
 ];
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
+  { to: "/vorlagen/auto-abo-check", name: "Auto-Abo-Check", text: `Was ${ANZAHL_ANBIETER} Abo-Anbieter zu Haftung und Verzug schreiben.` },
   { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Wann ein Ratenkauf beim Händler geht." },
   { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Alle Wege zum eigenen Auto." },
   { to: "/blog/ist-versicherung-haram", name: "Ist Versicherung haram?", text: "Warum die Vollkasko kritisch gesehen wird." },
-  { to: "/blog/halal-etf", name: "Beste Halal ETFs", text: "Acht Halal ETFs im Vergleich." },
 ];
 
 const VIDEO = { id: "ukcCjjf7FIY", titel: "So geht Leasing als Muslim (in unter 10 Minuten)", hochgeladen: "2026-04-19" };
@@ -327,7 +316,7 @@ const graph = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Rechner „Rate oder Polster“ (Karte Station 8a)                      */
+/* Rechner „Leasingrate oder Depot“ (Karte Station 8a)                      */
 /* ------------------------------------------------------------------ */
 
 const LAUFZEITEN = [24, 36, 48];
@@ -348,6 +337,13 @@ export const polster = (rate: number, monate: number, sonder: number) => {
   });
   const ende = kurve[kurve.length - 1];
   return { eingezahlt: ende.eingezahlt, wert: ende.wert, kurve };
+};
+
+/** Die Zahl im Einstieg: 300 € Rate, 36 Monate, keine Anzahlung (Elias SEO54: „oben … zum Depotvergleich“). */
+const BEISPIEL = { rate: 300, monate: 36 };
+const beispielWert = () => {
+  const erg = polster(BEISPIEL.rate, BEISPIEL.monate, 0);
+  return erg ? euro(Math.round(erg.wert / 100) * 100) : null;
 };
 
 const zahlAus = (s: string) => Math.min(Math.max(Number(s.replace(/\D/g, "")) || 0, 0), 100_000);
@@ -386,9 +382,8 @@ const Rechner = () => {
       <Ueber id="rechner" />
       <Text>
         <p>
-          Gib deine Leasingrate ein. Links siehst du, was du beim Leasing zahlst und was dir am Ende gehört. Rechts, was aus derselben Rate geworden
-          wäre, wenn du sie jeden Monat in einen Halal ETF gespart hättest, hier in {PLATZ1.name}, Platz 1 unserer{" "}
-          <TL to="/blog/halal-etf">Liste der besten Halal ETFs</TL>.
+          Gib deine Leasingrate ein. Links steht, was dir beim Leasing am Ende gehört. Rechts, was dieselbe Rate als Sparplan in {PLATZ1.name} gebracht
+          hätte, Platz 1 unserer Halal-ETF-Liste.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -472,10 +467,8 @@ const Rechner = () => {
           </div>
         )}
 
-        <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-          Monatskurse von {PLATZ1.name} bis {kursStand} (Yahoo Finance), ohne Depotkosten. Ein Beispiel, keine Empfehlung: Das Auto brauchst du
-          trotzdem. Der Rechner zeigt, was eine Rate wert ist, die du nicht fürs Leasing ausgibst, etwa weil du einen bezahlten Gebrauchten fährst.
-          Vergangene Kursentwicklung ist kein Versprechen.
+        <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
+          Monatskurse bis {kursStand}, ohne Depotkosten. Vergangene Kursentwicklung ist kein Versprechen.
         </p>
       </div>
     </section>
@@ -510,7 +503,7 @@ const IstLeasingHaram = () => {
 
   return (
     <main className="bg-background">
-      <Seo title={`${TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
+      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
@@ -518,7 +511,7 @@ const IstLeasingHaram = () => {
               <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
               <div className="mt-3">{inhalt}</div>
               <div className="mt-6 border border-border bg-card p-5">
-                <Etikett className="text-primary">Polster statt Rate</Etikett>
+                <Etikett className="text-primary">Rate statt Leasing</Etikett>
                 <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Deine Rate halal anlegen?</p>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
                   Ein Sparplan auf einen Halal ETF ist eine Rate, die dir am Ende gehört. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen
@@ -542,13 +535,15 @@ const IstLeasingHaram = () => {
 
             <article className="mt-8">
               <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
-                <span className="block">Ist Leasing haram?</span> <span className="block">Wann Leasing halal ist: 5 Punkte</span>
+                <span className="block">Ist Leasing haram?</span> <span className="block">Wann Leasing halal ist: 5 Punkte</span>
               </h1>
               <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
-                Woran du es im Vertrag erkennst, was stattdessen geht und was deine Rate im Depot gebracht hätte.
+                {beispielWert()
+                  ? `300 € Leasingrate, drei Jahre lang: Am Ende gehört dir nichts. Als Sparplan im Depot wären es heute rund ${beispielWert()}.`
+                  : "Woran du es im Vertrag erkennst, was stattdessen geht und was deine Rate im Depot gebracht hätte."}
               </p>
               <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich", "Rechner: Rate oder Polster", "Stand November 2026"].map((h) => (
+                {["Rechner: Leasingrate oder Depot", "5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich", "Stand November 2026"].map((h) => (
                   <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
                     <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     {h}
@@ -572,27 +567,6 @@ const IstLeasingHaram = () => {
                 </div>
               </div>
 
-              {/* Kurzer Vergleich wie /blog/halal-gold-kaufen: die fünf Wege zum Auto als Karten */}
-              <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
-                {WEGE.map((w, i) => (
-                  <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
-                    <Marke ton={w.ton}>{w.marke}</Marke>
-                    <Etikett className="mt-4">Besonders</Etikett>
-                    <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
-                    <Etikett className="mt-4">Du zahlst</Etikett>
-                    <p className="mt-1 text-[15px] leading-snug text-foreground">{w.zahlst}</p>
-                    <Etikett className="mt-3">Am Ende</Etikett>
-                    <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.ende}</p>
-                    <a
-                      href={`#${w.ziel}`}
-                      className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
-                    >
-                      Zum Abschnitt
-                      <ArrowDown className="h-3.5 w-3.5" aria-hidden />
-                    </a>
-                  </Karte>
-                ))}
-              </KartenReihe>
 
               <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
                 <button
@@ -611,13 +585,13 @@ const IstLeasingHaram = () => {
               <div className="mt-8">
                 <Text>
                   <p>
-                    Das Autohaus legt dir ein Angebot hin: neues Auto, 299 € im Monat, keine Anzahlung. Klingt fair. Aber darfst du das als Muslim
+                    Das Autohaus legt dir ein Angebot hin: neues Auto, 300 € im Monat, keine Anzahlung. Klingt fair. Aber darfst du das als Muslim
                     unterschreiben?
                   </p>
                   <p>
-                    Kurz gesagt: Leasing ist Miete, und Miete ist erlaubt. Die Verträge deutscher Autohäuser fallen aber fast immer durch, weil du darin
-                    für ein Auto haftest, das dir nicht gehört. Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Dieser Beitrag ist für
-                    dich, wenn du gerade ein Auto suchst oder schon least.
+                    Kurz gesagt: Leasing ist Miete, und Miete ist erlaubt. Deutsche Leasingverträge fallen aber fast immer durch, weil du darin für ein
+                    Auto haftest, das dir nicht gehört. Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Und wer ohne Rate auskommt,
+                    lässt das Geld im Depot wachsen.
                   </p>
                 </Text>
 
@@ -635,6 +609,32 @@ const IstLeasingHaram = () => {
                   </ul>
                 </section>
 
+                {/* Kurzer Vergleich wie /blog/halal-gold-kaufen; Rechner und erste Werbung erst nach den 5 Punkten, bei etwa einem Drittel (Elias SEO55) */}
+                <GoogleKasten />
+
+                <div className="mt-7">
+                <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
+                  {WEGE.map((w, i) => (
+                    <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
+                      <Marke ton={w.ton}>{w.marke}</Marke>
+                      <Etikett className="mt-4">Besonders</Etikett>
+                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
+                      <Etikett className="mt-4">Du zahlst</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.zahlst}</p>
+                      <Etikett className="mt-3">Am Ende</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.ende}</p>
+                      <a
+                        href={`#${w.ziel}`}
+                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                      >
+                        Zum Abschnitt
+                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                      </a>
+                    </Karte>
+                  ))}
+                </KartenReihe>
+                </div>
+
                 <section className="mt-14">
                   <Ueber id="fuenf-punkte" />
                   <Text>
@@ -650,28 +650,25 @@ const IstLeasingHaram = () => {
                     quelle="Einordnung nach den Positionen weiter unten im Beitrag. Maßgeblich ist der Wortlaut deines Vertrags."
                   />
                   <Kernsatz>Wem das Auto gehört, der trägt sein Risiko. Schiebt der Vertrag es dir zu, ist es keine Miete mehr.</Kernsatz>
-                  <GoogleKasten />
                 </section>
+
+                <Rechner />
+
+                <AnbieterKasten titel="Depots für deine Rate" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="warum" />
                   <Text>
                     <p>
-                      Leasing ist das englische Wort für Miete. Im Deutschen steht es für die Miete eines Autos: Jemandem gehört das Auto, du zahlst dafür,
-                      es zu nutzen.
-                    </p>
-                    <p>
-                      Bei einer Miete im Islam kaufst du die Nutzung, das Auto bleibt Eigentum des Vermieters. Darum haftet er dafür. Die Haftung darf er
-                      nicht auf dich übertragen. Nur wenn du einen Schaden mit Absicht oder grob fahrlässig verursachst, zahlst du selbst.
+                      Leasing heißt Miete: Jemandem gehört das Auto, du zahlst dafür, es zu nutzen. Weil das Auto ihm gehört, haftet der Vermieter dafür
+                      und darf die Haftung nicht auf dich schieben. Nur einen Schaden, den du mit Absicht oder grob fahrlässig verursachst, zahlst du selbst.
                     </p>
                     <p>
                       Genau hier fallen die deutschen Verträge durch. Ein Gelehrter, der Leasingverträge von Mercedes, BMW, Audi, VW und Sixt gelesen hat,
-                      fand keinen einzigen ohne die Klausel, dass du für das Auto haftest. Wer die Haftung abgibt, verliert sein Recht auf die Rate. Der
-                      Vertrag wird ungültig.
+                      fand keinen ohne die Klausel, dass du für das Auto haftest. Wer die Haftung abgibt, verliert sein Recht auf die Rate.
                     </p>
                     <p>
-                      Dazu kommt ein zweiter Punkt: Du bekommst das Auto nicht fahrbereit. Du meldest es an, zahlst Steuer und Versicherung, musst eine
-                      Vollkasko abschließen und die Wartung bezahlen. Das alles wäre Sache des Vermieters.
+                      Dazu kommt: Du meldest das Auto selbst an, zahlst Steuer, Vollkasko und Wartung. Das alles wäre Sache des Vermieters.
                     </p>
                   </Text>
                   <KartenTabelle
@@ -693,10 +690,6 @@ const IstLeasingHaram = () => {
                   />
                   <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" />
                 </section>
-
-                <Rechner />
-
-                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="auto-abo" />
@@ -744,8 +737,7 @@ const IstLeasingHaram = () => {
                   <Text>
                     <p>
                       In diesem Beispiel ist das Abo im Jahr {euro(IONIQ_JAHR.leasing - IONIQ_JAHR.abo)} günstiger als Leasing. Wer ein Auto viele Jahre
-                      fährt, kann mit dem Barkauf vorne liegen. Was {ANZAHL_ANBIETER} Abo-Anbieter in ihren Bedingungen zu Haftung und Verzug schreiben,
-                      haben wir im <TL to="/vorlagen/auto-abo-check">Auto-Abo-Check</TL> gesammelt.
+                      fährt, kann mit dem Barkauf vorne liegen.
                     </p>
                   </Text>
                 </section>
@@ -791,7 +783,7 @@ const IstLeasingHaram = () => {
                             <Marke ton="gelb">je nach Vertrag</Marke>
                             <span className="mt-1.5 block">Leasing mit Kauf am Ende</span>
                           </>,
-                          "Hier wirst du am Ende Eigentümer. Läuft der Kauf über eine Bank, ist es eine Finanzierung mit Zins. Verkauft dir der Händler selbst auf Raten zu einem festen Preis, gilt der Ratenkauf unten.",
+                          "Hier wirst du am Ende Eigentümer. Läuft der Kauf über eine Bank, ist es eine Finanzierung mit Zins.",
                         ],
                       },
                     ]}
@@ -808,26 +800,11 @@ const IstLeasingHaram = () => {
                     <p>
                       <strong className="font-semibold text-foreground">Ratenkauf direkt beim Händler.</strong> Der Händler darf für Raten einen höheren
                       Preis verlangen als bar, wenn dieser Preis vor der Unterschrift feststeht. Zum Beispiel 10.000 € bar oder 12.000 € in Raten. Danach
-                      ändert sich nichts mehr. Mehr dazu in <TL to="/blog/ratenzahlung-haram">Ist Ratenzahlung haram?</TL>
+                      ändert sich nichts mehr.
                     </p>
                     <p>
                       <strong className="font-semibold text-foreground">Erst sparen, dann kaufen.</strong> Wer die Rate ein paar Jahre zur Seite legt, hat
                       den Preis eines guten Gebrauchten zusammen. Was das im Depot bringt, zeigt der <a href="#rechner" className="font-medium text-primary underline underline-offset-2 hover:no-underline">Rechner oben</a>.
-                    </p>
-                  </Text>
-                </section>
-
-                <section className="mt-14">
-                  <Ueber id="schon-geleast" />
-                  <Text>
-                    <p>
-                      Geh die fünf Punkte in deinem Vertrag durch. Frag beim Anbieter, ob eine vorzeitige Rückgabe oder eine Übernahme durch jemand anderen
-                      geht und was das kostet.
-                    </p>
-                    <p>
-                      Was das für dich heißt, klärst du mit einem Gelehrten, dem du vertraust, mit dem Vertrag auf dem Tisch. Das gilt auch, wenn du
-                      selbstständig bist: Für Gewerbetreibende kann es je nach Lage eine Möglichkeit geben, aber nur nach Rücksprache mit einem
-                      qualifizierten Gelehrten.
                     </p>
                   </Text>
                 </section>
@@ -848,13 +825,13 @@ const IstLeasingHaram = () => {
                   <Ueber id="naechster-schritt" />
                   <Text>
                     <p>
-                      Brauchst du nicht sofort ein neues Auto, ist die Rate dein Polster. Leg sie als Sparplan auf einen Halal ETF an. Welches Depot das kann
+                      Brauchst du nicht sofort ein neues Auto, arbeitet die Rate für dich. Leg sie als Sparplan auf einen Halal ETF an. Welches Depot das kann
                       und keine Zinsen aufs Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>
 
-                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+                <AnbieterKasten titel="Depots für deine Rate" anbieter={ANBIETER} />
 
                 <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
                   <Etikett>
