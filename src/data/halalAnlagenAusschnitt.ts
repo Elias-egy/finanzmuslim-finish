@@ -13,7 +13,7 @@ export { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 export const gruppen: { kategorie: Kategorie; titel: string; anzahl: number }[] = [
   { kategorie: "aktien", titel: "Aktien-ETFs und Fonds", anzahl: 12 },
   { kategorie: "sukuk", titel: "Sukuk, die islamische Alternative zu Anleihen", anzahl: 3 },
-  { kategorie: "gold", titel: "Gold, physisch hinterlegt", anzahl: 4 },
+  { kategorie: "gold", titel: "Gold, physisch hinterlegt", anzahl: 5 },
   { kategorie: "silber", titel: "Silber, physisch hinterlegt", anzahl: 3 },
 ];
 

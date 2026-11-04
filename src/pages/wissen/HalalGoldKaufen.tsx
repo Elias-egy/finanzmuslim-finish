@@ -8,6 +8,7 @@ import { kursFuerIsin, kursStand } from "@/lib/kurse";
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { kaufbarBei } from "@/data/halalEtfListe";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
+import { ROYAL_MINT, ROYAL_MINT_SPARPLAN } from "@/data/royalMint";
 import nisab from "@/data/nisab.json";
 import {
   AnbieterKasten,
@@ -88,7 +89,6 @@ const LOGO: Record<string, string> = {
   WisdomTree: "/guides/assets/logos/wisdomtree.eu.png",
   HANetf: "/guides/assets/logos/hanetf.com.png",
 };
-const ROYAL_MINT = "XS2115336336";
 const BESONDERS: Record<string, string> = {
   IE00B579F325: "Größter Gold-ETC hier",
   JE00BN2CJ301: "Günstig bei WisdomTree",
@@ -152,7 +152,7 @@ const goldBei = (name: string) => MIT_DEPOT.filter((a) => kaufbarBei(a.isin).inc
 const ANBIETER = DREIER.map((d) => ({
   ...d,
   zeilen: [
-    `Royal Mint Gold-ETC: ${kaufbarBei(ROYAL_MINT).includes(d.name) ? "kaufbar" : "noch nicht geprüft"}`,
+    `Royal Mint Gold-ETC: ${kaufbarBei(ROYAL_MINT).includes(d.name) ? (ROYAL_MINT_SPARPLAN.includes(d.name) ? "kaufbar, auch als Sparplan" : "kaufbar") : "noch nicht geprüft"}`,
     `Gold-ETCs mit Zertifikat: ${goldBei(d.name)} von ${MIT_DEPOT.length}`,
     d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
   ],
@@ -177,7 +177,7 @@ const FRAGEN: { frage: string; antwort: string; link?: { to: string; text: strin
   {
     frage: "Ist ein Gold-ETF oder Gold-ETC halal?",
     antwort:
-      "Ja, wenn echtes Gold dahinter liegt, das dir zugeordnet ist, und ein Gelehrtengremium das Produkt zertifiziert. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall dahinter.",
+      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall dahinter.",
   },
   {
     frage: "Ist Gold im Depot steuerfrei?",

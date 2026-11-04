@@ -6,10 +6,11 @@ import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { ANLAGE_ZEILE, ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
 import { kaufstatus } from "./kaufstatus";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
-import { edelmetallVergleich, EDELMETALL_FINANZ_MAX, EDELMETALL_WEGE, EDELMETALL_ZEILEN, GOLD_ISINS, SILBER_ISINS, WEGE_ZEILEN } from "./edelmetallVergleich";
+import { edelmetallVergleich, EDELMETALL_FINANZ_MAX, EDELMETALL_WEGE, EDELMETALL_ZEILEN, GOLD_ISINS, ROYAL_MINT, SILBER_ISINS, WEGE_ZEILEN } from "./edelmetallVergleich";
 import { steuersoftwareVergleich } from "./steuersoftwareVergleich";
 import { FINANZ_MAX_SUMME } from "@/lib/bewertung";
 import { AMPEL_GEWICHTE, ANTEIL_N, rangfolge } from "@/lib/rangfolge";
+import { luecken } from "@/lib/vollstaendig";
 import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
@@ -170,9 +171,25 @@ describe("Vergleichsdaten edelmetalle", () => {
     }
   });
 
+  it("zeigt Royal Mint nur mit Kaufbeleg und stellt diese Depots vor alle anderen (Elias, 04.11.2026)", () => {
+    const belegtBei = new Set(ANLAGEN_KAUFBAR[ROYAL_MINT].kaufbar.flatMap((k) => [k.haus, ...(k.haeuser ?? [])]));
+    expect(GOLD_ISINS).not.toContain(ROYAL_MINT);
+    // Eine ungeprüfte Zelle ist nicht leer, sonst fiele das Depot aus der Anzeige (SEO49 zeigte nur noch 5).
+    for (const a of edelmetallVergleich) expect(luecken(a, "edelmetall", EDELMETALL_ZEILEN, { finanzMax: EDELMETALL_FINANZ_MAX }), a.id).not.toContain("royalMint");
+    for (const a of edelmetallVergleich) {
+      expect(["noch nicht geprüft", "ja", "ja, auch als Sparplan"], a.id).toContain(a.werte.royalMint);
+      if (String(a.werte.royalMint).startsWith("ja")) expect([a.haus, a.finanzfluss?.produkt].some((h) => h && belegtBei.has(h)), a.id).toBe(true);
+    }
+    const gerankt = rangfolge(edelmetallVergleich, "edelmetall", { finanzMax: EDELMETALL_FINANZ_MAX }).gerankt;
+    const mit = gerankt.filter((b) => String(b.anbieter.werte.royalMint).startsWith("ja")).length;
+    expect(mit).toBeGreaterThan(0);
+    expect(gerankt.slice(0, mit).every((b) => String(b.anbieter.werte.royalMint).startsWith("ja"))).toBe(true);
+    expect(gerankt.slice(0, 3).map((b) => b.anbieter.name)).toEqual(["Traders Place", "Smartbroker+", "Scalable Capital"]);
+  });
+
   it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {
     const depotKeys = DEPOT_ZEILEN.map((z) => z.key);
-    for (const z of EDELMETALL_ZEILEN) expect([...depotKeys, "gold", "silber"], z.key).toContain(z.key);
+    for (const z of EDELMETALL_ZEILEN) expect([...depotKeys, "royalMint", "gold", "silber"], z.key).toContain(z.key);
     const summe = Object.values(EDELMETALL_FINANZ_MAX).reduce((x, y) => x + y, 0);
     expect(summe).toBe(FINANZ_MAX_SUMME.edelmetall);
   });

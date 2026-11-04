@@ -28,8 +28,9 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    Depot, Girokonto und Krypto kennt den eigenen Link (Elias, 06.10.2026: "Die Eins muss
  *    immer von uns kaufbar sein"): Bei gleicher Sternzahl (`sterne`, halbe Schritte) steht
  *    zuerst, was über unseren Link eröffnet werden kann, danach entscheidet die Note. Ein
- *    Link hebt nie über eine höhere Sternzahl. Steuer, Screener und Edelmetall ordnen
- *    allein nach der Note (`LINK_VORRANG`).
+ *    Link hebt nie über eine höhere Sternzahl. Steuer und Screener ordnen allein nach der
+ *    Note (`LINK_VORRANG`). Edelmetall stellt seit 04.11.2026 die Depots mit belegtem Royal
+ *    Mint Gold-ETC vor alle anderen, danach die Note (`royalMintKaufbar`).
  * 3. Jede Eingabe landet in genau einer Gruppe. Vorrang: abgeraten vor nicht
  *    bewertet vor gerankt.
  * 4. Reihenfolge: zuerst Regel 2 (`vorrang`), dann Note, Kosten, Halal, jeweils auf zwei
@@ -128,7 +129,16 @@ type MitNote = { note: number; anbieter: RohAnbieter };
 export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
   LINK_VORRANG.has(kategorie)
     ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
-    : 0;
+    : kategorie === "edelmetall"
+      ? royalMintKaufbar(q.anbieter) - royalMintKaufbar(p.anbieter)
+      : 0;
+
+/**
+ * Edelmetall: Depots, bei denen der Royal Mint Gold-ETC belegt kaufbar ist, stehen vor allen anderen, danach
+ * entscheidet die Note (Elias, 04.11.2026: „Depots, wo man den Gold kaufen kann, sollten definitiv nach vorne
+ * rücken“, raw/2026-11-04-elias-seo50-depots-mit-royal-mint-nach-vorne-sparplan.md im Vault).
+ */
+const royalMintKaufbar = (a: RohAnbieter): number => Number(String(a.werte.royalMint ?? "").startsWith("ja"));
 
 /**
  * Kleinigkeiten, die nur bei sonst gleichem Stand entscheiden (Elias, 14.10.2026: "alles einbeziehen, aber nur

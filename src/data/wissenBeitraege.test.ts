@@ -36,8 +36,9 @@ describe("Blog-Register", () => {
   it("das Datum auf der Übersicht ist das Datum der Seite", () => {
     for (const b of wissenBeitraege) {
       const quelltext = readFileSync(datei(b.slug), "utf8");
-      if (b.slug === "halal-etfs") {
-        const iso = quelltext.match(/AKTUALISIERT = \{ text: "[^"]*", iso: "(\d{4})-(\d{2})-(\d{2})/)!;
+      // Beiträge im neuen Aufbau (halal-etfs, halal-gold-kaufen) tragen das Datum in AKTUALISIERT.
+      const iso = quelltext.match(/AKTUALISIERT = \{ text: "[^"]*", iso: "(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) {
         const monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
         expect(b.datum).toBe(`${Number(iso[3])}. ${monate[Number(iso[2]) - 1]} ${iso[1]}`);
       } else {

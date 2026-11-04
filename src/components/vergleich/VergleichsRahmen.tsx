@@ -97,7 +97,8 @@ export const NummerEins = ({
     .map((z): Punkt | null => {
       const w = anbieter.werte[z.key];
       if (z.art === "ampel") return w === "gut" ? { key: z.key, text: z.label } : null;
-      return typeof w === "string" && /\d+ von \d+/.test(w) ? { key: z.key, text: `${z.label}: ${w}` } : null;
+      // Zählungen „x von y“ und ein belegtes „ja“ (Royal Mint im Edelmetall-Vergleich, 04.11.2026).
+      return typeof w === "string" && (/\d+ von \d+/.test(w) || /^ja\b/.test(w)) ? { key: z.key, text: `${z.label}: ${w}` } : null;
     })
     .filter((x): x is Punkt => !!x)
     .slice(0, 4);

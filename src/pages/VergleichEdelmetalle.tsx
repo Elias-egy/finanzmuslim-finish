@@ -11,10 +11,12 @@ import {
   GOLD_ISINS,
   SILBER_ISINS,
   ROYAL_MINT,
+  ROYAL_MINT_SPARPLAN,
 } from "@/data/edelmetallVergleich";
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
 import { juengsterStand } from "@/lib/juengsterStand";
+import { rangfolge } from "@/lib/rangfolge";
 
 /**
  * Edelmetalle im Vergleich (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch
@@ -30,7 +32,14 @@ const METALLE = GOLD_ISINS.length + SILBER_ISINS.length;
  * Kauf beim Anbieter belegt ist (anlagenKaufbar.ts). Steuer: BFH, Urteil VIII R 7/17 vom 16.06.2020.
  */
 const RM = halalAnlagen.find((a) => a.isin === ROYAL_MINT)!;
-const RM_DEPOTS = [...new Map(edelmetallAnzeige.filter((a) => a.werte.royalMint === "ja").map((a) => [a.name, a])).values()];
+const RM_DEPOTS = [
+  ...new Map(
+    rangfolge(edelmetallAnzeige, "edelmetall", { finanzMax: EDELMETALL_FINANZ_MAX })
+      .gerankt.map((b) => b.anbieter)
+      .filter((a) => String(a.werte.royalMint).startsWith("ja"))
+      .map((a) => [a.name, a]),
+  ).values(),
+];
 const RM_GRUENDE = ["Barren und Münzen lieferbar", "Shariah-zertifiziert", "Gewinn nach 1 Jahr steuerfrei"];
 
 const NummerEinsGold = () => (
@@ -40,28 +49,35 @@ const NummerEinsGold = () => (
       Royal Mint Gold-ETC
     </h2>
     <p className="mt-1 text-[14px] text-muted-foreground">
-      {RM.anbieter} · ISIN {RM.isin} · {RM.kostenLabel} im Jahr
+      {RM.anbieter} · <span className="hidden md:inline">ISIN {RM.isin} · </span>
+      {RM.kostenLabel} im Jahr
     </p>
-    <ul className="mt-3 space-y-1.5">
+    <ul className="mt-2 space-y-1 md:mt-3 md:space-y-1.5">
       {RM_GRUENDE.map((g) => (
-        <li key={g} className="flex items-center gap-2 text-[16px] text-foreground">
+        <li key={g} className="flex items-center gap-2 text-[15px] text-foreground md:text-[16px]">
           <Check className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
           {g}
         </li>
       ))}
     </ul>
-    <p className="mt-4 text-[14px] font-semibold text-foreground">Kaufbar bei</p>
-    <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-      {RM_DEPOTS.map((a) => (
-        <li key={a.name} className="flex items-center gap-2 text-[15px] text-foreground">
-          <AnbieterLogo name={a.name} domain={a.domain} klein />
-          {a.name}
-        </li>
-      ))}
-    </ul>
+    {/* Am Handy nur die Logos, damit die erste Anbieterkarte im ersten Schirm bleibt; Sparplan steht dort in der Karte. */}
+    <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 md:mt-4 md:block">
+      <p className="text-[14px] font-semibold text-foreground">Kaufbar bei</p>
+      <ul className="flex flex-wrap items-center gap-x-2 gap-y-2 md:mt-2 md:gap-x-4">
+        {RM_DEPOTS.map((a) => (
+          <li key={a.name} className="flex items-center gap-2 text-[15px] text-foreground">
+            <AnbieterLogo name={a.name} domain={a.domain} klein />
+            <span className="sr-only md:not-sr-only">{a.name}</span>
+            {ROYAL_MINT_SPARPLAN.includes(a.name) && (
+              <span className="hidden rounded bg-white px-1.5 py-0.5 text-[13px] font-semibold text-primary md:inline">Sparplan</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
     <Link
       to={`/halal-anlagen/${RM.slug}`}
-      className="mt-4 inline-block text-[15px] font-semibold text-primary hover:underline"
+      className="mt-3 inline-block md:mt-4 text-[15px] font-semibold text-primary hover:underline"
     >
       Kosten, Kurs und Zertifikat ansehen
     </Link>
@@ -190,7 +206,7 @@ const VergleichEdelmetalle = () => (
     }
     zeilen={EDELMETALL_ZEILEN}
     anbieter={edelmetallAnzeige}
-    sortiertNach="Sortiert nach unserer Note: kaufbare Gold- und Silber-ETCs und die Kosten pro Kauf zählen je zur Hälfte."
+    sortiertNach="Depots mit Royal Mint stehen vorn. Danach zählen kaufbare Gold- und Silber-ETCs und die Kosten pro Kauf je zur Hälfte."
     kategorie="edelmetall"
     finanzMax={EDELMETALL_FINANZ_MAX}
     filter={EDELMETALL_FILTER}
@@ -203,8 +219,12 @@ const VergleichEdelmetalle = () => (
         text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur solche Depots stehen in diesem Vergleich.",
       },
       {
+        titel: "Royal Mint kaufbar",
+        text: "Kannst du dort unsere Nummer 1 bei Gold kaufen? Diese Depots stehen in der Liste vorne.",
+      },
+      {
         titel: "Gold und Silber kaufbar",
-        text: `Wie viele der ${METALLE} Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen? Jedes hat ein Shariah-Zertifikat und Barren im Tresor.`,
+        text: `Wie viele der ${METALLE} weiteren Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen? Jedes hat ein Shariah-Zertifikat und Barren im Tresor.`,
       },
       {
         titel: "Kosten pro Kauf",
@@ -237,7 +257,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Ist ein Gold-ETC halal?",
         antwort:
-          "Ja, wenn echtes Gold dahinter liegt, das dir zugeordnet ist, und ein Gelehrtengremium das Produkt jedes Jahr zertifiziert. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall.",
+          "Die Gold-ETCs in diesem Vergleich haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall.",
       },
       {
         frage: "Was ist mit Xetra-Gold und EUWAX Gold II?",

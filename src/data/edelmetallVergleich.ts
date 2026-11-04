@@ -6,6 +6,7 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { ANLAGEN_KAUFBAR, ANLAGE_ZEILE } from "./anlagenKaufbar";
 import { halalAnlagen } from "./halalAnlagen";
+import { ROYAL_MINT, ROYAL_MINT_SPARPLAN } from "./royalMint";
 
 /**
  * Edelmetalle im Depot (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch einmal
@@ -25,8 +26,12 @@ const kategorieVon = (isin: string) => halalAnlagen.find((a) => a.isin === isin)
  * Einlösung in Barren und Münzen (hanetf.com, Produktseite RMAU), jährliches Shariah-Zertifikat
  * (halalAnlagen.ts), steuerfrei nach einem Jahr (BFH, Urteil VIII R 7/17 vom 16.06.2020).
  */
-export const ROYAL_MINT = "XS2115336336";
-export const GOLD_ISINS = [ROYAL_MINT, ...METALL_ISINS.filter((isin) => kategorieVon(isin) === "gold")];
+export { ROYAL_MINT, ROYAL_MINT_SPARPLAN } from "./royalMint";
+/**
+ * Die übrigen Gold-ETCs, ohne Royal Mint: Er hat seine eigene Zeile. Gekauft belegt ist er erst bei wenigen Häusern;
+ * in der Zählung „x von 5“ stünde bei jedem ungeprüften Depot eine Lücke wie eine Tatsache (SEO50, 04.11.2026).
+ */
+export const GOLD_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "gold");
 export const SILBER_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "silber");
 
 /** Kaufbeleg je ISIN. Ein Eintrag unter dem Tarif geht vor dem Hauseintrag, wie in anlagen_matrix.py. */
@@ -61,7 +66,7 @@ export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
     art: "text",
     gruppe: "halal",
     imRaster: true,
-    hinweis: `Wie viele der ${GOLD_ISINS.length} Gold-ETCs aus unserem Halal-Anlagen-Vergleich dort kaufbar sind. Hinter jedem liegen Barren im Tresor.`,
+    hinweis: `Wie viele der ${GOLD_ISINS.length} weiteren Gold-ETCs aus unserem Halal-Anlagen-Vergleich dort kaufbar sind. Hinter jedem liegen Barren im Tresor.`,
   },
   {
     key: "silber",
@@ -94,13 +99,13 @@ export const edelmetallVergleich: RohAnbieter[] = brokerVergleich
   .filter((a) => !a.abgeraten && a.werte.zinsfreiAbStart !== "schlecht" && (a.halalAnlagenPunkte?.halalEdelmetalle ?? 0) > 0)
   .map((a) => ({
     ...a,
-    werte: { ...a.werte, royalMint: belegt(a, ROYAL_MINT) ? "ja" : null, gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
+    werte: { ...a.werte, royalMint: belegt(a, ROYAL_MINT) ? (ROYAL_MINT_SPARPLAN.includes(a.name) ? "ja, auch als Sparplan" : "ja") : "noch nicht geprüft", gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
     quellen: { ...a.quellen, gold: a.quellen?.halalEdelmetalle, silber: a.quellen?.halalEdelmetalle } as RohAnbieter["quellen"],
   }));
 
 export const EDELMETALL_FILTER = [
-  { key: "royalMint", label: "Royal Mint kaufbar", erlaubt: ["ja"] },
-  { key: "gold", label: "Alle Gold-ETCs kaufbar", erlaubt: [`${GOLD_ISINS.length} von ${GOLD_ISINS.length}`] },
+  { key: "royalMint", label: "Royal Mint kaufbar", erlaubt: ["ja", "ja, auch als Sparplan"] },
+  { key: "gold", label: "Alle weiteren Gold-ETCs kaufbar", erlaubt: [`${GOLD_ISINS.length} von ${GOLD_ISINS.length}`] },
   { key: "silber", label: "Alle Silber-ETCs kaufbar", erlaubt: [`${SILBER_ISINS.length} von ${SILBER_ISINS.length}`] },
 ];
 
