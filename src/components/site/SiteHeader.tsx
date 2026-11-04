@@ -27,6 +27,11 @@ const Entry = ({ item, onClick }: { item: NavEntry; onClick?: () => void }) =>
     <SoonItem label={item.label} />
   );
 
+/** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Depot-Vergleich. */
+const KOPF_ZIEL: Record<string, { ziel: string; text: string }> = {
+  "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold-Vergleich" },
+};
+
 export const SiteHeader = () => {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,7 +42,9 @@ export const SiteHeader = () => {
   const aufStartseite = pathname === "/";
   // Nur auf diesem Beitrag (Elias SEO32, 02.11.2026: „nur hier“): Knopf zum Depot-Vergleich statt Suche
   // und „Finde, was zu dir passt“; beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
-  const beitragsKopf = pathname === "/blog/halal-etf";
+  // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
+  const beitragsKopf = pathname.startsWith("/blog/");
+  const kopfZiel = KOPF_ZIEL[pathname] ?? { ziel: "/vergleich/depot", text: "Depot-Vergleich" };
   const [eng, setEng] = useState(false);
   useEffect(() => {
     if (!beitragsKopf) return setEng(false);
@@ -124,9 +131,9 @@ export const SiteHeader = () => {
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             {beitragsKopf ? (
-              <Link to="/vergleich/depot" className="leuchtlinie leuchtlinie-hell inline-block">
+              <Link to={kopfZiel.ziel} className="leuchtlinie leuchtlinie-hell inline-block">
                 <span className="flex h-11 items-center whitespace-nowrap bg-white px-3 font-mono text-[12px] uppercase tracking-[0.1em] text-foreground min-[900px]:px-4">
-                  <span className="hidden min-[420px]:inline">Zum&nbsp;</span>Depot-Vergleich
+                  <span className="hidden min-[420px]:inline">Zum&nbsp;</span>{kopfZiel.text}
                 </span>
               </Link>
             ) : (
