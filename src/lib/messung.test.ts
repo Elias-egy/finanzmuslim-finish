@@ -1,5 +1,10 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { EINWILLIGUNG_FASSUNG, leseWahl, setzeWahl } from "./messung";
+
+// Mit echtem Schlüssel lädt „Akzeptieren“ PostHog; im Test ohne Netz und ohne Zeitgeber nach dem Testende.
+vi.mock("posthog-js", () => ({
+  default: { init: vi.fn(), register: vi.fn(), capture: vi.fn(), opt_out_capturing: vi.fn(), reset: vi.fn() },
+}));
 
 describe("Einwilligung", () => {
   beforeEach(() => localStorage.clear());
