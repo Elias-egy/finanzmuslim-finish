@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
+import FindeDeinAngebot from "@/components/FindeDeinAngebot";
+import { logosFuer } from "@/lib/anbieterLogos";
 import { CheckRaster } from "@/components/vorlagen/DepotAufruf";
 import { GIRO_CHECK, GIRO_TOP2 } from "@/data/giroTop2";
 
@@ -12,6 +14,12 @@ type Props = {
   einleitung?: string;
   /** Ein Satz zwischen den zwei bekannten und dem Kasten. */
   zwischen?: string;
+  /**
+   * Nur der kleine Aufruf zum Girokonto-Vergleich statt der zwei Anbieter-Karten (Elias, 04.11.2026, Freebie Plan:
+   * „nur dieses kleine … bei Girokonto. Anstatt jetzt Babybank und Consorbank Werbung direkt zu machen, weil das ist zu
+   * früh“; Vault `raw/2026-11-04-elias-plan-freebie-kleiner-aufruf-video-raus.md`). Gleicher Baustein wie im Boykott-Freebie.
+   */
+  klein?: boolean;
   /** Link mit der Klickzählung der Seite, je Stelle (Kennungen in `src/lib/attribution.ts`). */
   link: (ziel: string, stelle: "top2" | "alle") => string;
 };
@@ -21,7 +29,7 @@ type Props = {
  * (Elias, 01.11.2026, MC7d15: „genau wie bei dem anderen“): frei die zwei bekannten Konten mit Zinsen, darunter der
  * hellblaue Kasten mit den zwei besten ohne Zinsen aus dem Girokonto-Vergleich. Kennzeichnung wie dort.
  */
-const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen dir Zinsen.", zwischen, link }: Props) => (
+const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen dir Zinsen.", zwischen, klein, link }: Props) => (
   <div data-depot-aufruf>
     {titel && <h3 className="text-[20px] font-extrabold leading-tight text-foreground">{titel}</h3>}
     {gross && (
@@ -32,6 +40,17 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
     )}
     <CheckRaster check={GIRO_CHECK} className="mt-3" />
     {zwischen && <p className="mt-3 text-[16px] font-semibold leading-snug text-foreground">{zwischen}</p>}
+    {klein ? (
+      <FindeDeinAngebot
+        className="mt-5"
+        titel="Du willst ein Girokonto ohne Zinsen?"
+        text="Ich habe gerankt, welche Girokonten ohne Zinsen sind."
+        knopf="Zum Vergleich"
+        logos={logosFuer("Girokonto").logos}
+        gesamt={logosFuer("Girokonto").gesamt}
+        ziel={link("/vergleich/girokonto", "alle")}
+      />
+    ) : (
     <div className="relative mt-5 rounded-3xl bg-accent p-4 ring-1 ring-primary/20 md:p-6" data-depot-kasten>
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
       <p className="pr-16 text-[22px] font-extrabold leading-tight text-foreground">Die besten Alternativen aus meinem Vergleich</p>
@@ -82,6 +101,7 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
         * Werbung: Eröffnest du über meinen Link ein Konto, bekomme ich eine Provision, ohne Mehrkosten für dich.
       </p>
     </div>
+    )}
   </div>
 );
 
