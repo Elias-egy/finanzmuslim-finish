@@ -43,7 +43,7 @@ Die meisten Besucher kommen übers Handy (Elias, 19.09.2026). Jede neue oder ge�
 | überall | kein seitlicher Überlauf, `scrollWidth` gleich Fensterbreite |
 
 - Eingabefelder haben immer 16 px Schrift. Darunter zoomt das iPhone beim Antippen in die Seite.
-- Tabellen in Beiträgen nie mit `min-w`. Der Baustein `Tabelle` macht unter 640 px aus jeder Zeile einen Block.
+- Tabellen in Beiträgen sind auch am Handy echte Tabellen wie bei halalwallet: Name links fest, jede Zahl in einer Zeile, breite Tabellen wischt man seitlich in ihrem eigenen Rahmen, die Seite selbst läuft nie quer (Elias 04.11.2026: „auf dem Handy ist es einfach scrollbar gemacht worden und muss nicht reinpassen“). Baustein `Tabelle` in `src/components/beitrag`.
 - Kein Knopf, den man nicht drücken kann.
 - Was auf dem Handy vom Nutzen abhält, rutscht per Flex-`order` unter den Inhalt oder steht erst ab `md`.
   Text nie doppelt rendern.

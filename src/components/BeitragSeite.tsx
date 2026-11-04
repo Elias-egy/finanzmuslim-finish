@@ -1,6 +1,6 @@
 import { isValidElement, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -8,7 +8,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
-import MotivBild from "@/components/MotivBild";
 import { werbungFuer } from "@/data/werbung";
 import { beitragBySlug, beitragPfad, nachbarn } from "@/data/wissenBeitraege";
 import eliasPortrait from "@/assets/elias-autor.webp";
@@ -137,31 +136,19 @@ const BeitragSeite = ({
   const mitteNach = boxMitteNach ?? Math.max(1, Math.floor(abschnitte.length / 2) - 1);
 
   const sprungmarken = (
-    <ol className="space-y-2">
-      {abschnitte.map((a, i) => (
+    <ol>
+      {[...abschnitte.map((a) => ({ id: a.id, titel: a.titel })), { id: "faq", titel: "Häufige Fragen" }].map((a) => (
         <li key={a.id}>
           <a
             href={`#${a.id}`}
-            className={`flex gap-2.5 text-[15px] leading-snug transition-colors hover:text-primary ${
-              aktiv === a.id ? "font-semibold text-primary" : "text-foreground/80"
+            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}
           >
-            <span className="w-5 shrink-0 tabular-nums text-muted-foreground">{i + 1}</span>
-            <span>{a.titel}</span>
+            {a.titel}
           </a>
         </li>
       ))}
-      <li>
-        <a
-          href="#faq"
-          className={`flex gap-2.5 text-[15px] leading-snug transition-colors hover:text-primary ${
-            aktiv === "faq" ? "font-semibold text-primary" : "text-foreground/80"
-          }`}
-        >
-          <span className="w-5 shrink-0 tabular-nums text-muted-foreground">{abschnitte.length + 1}</span>
-          <span>Häufige Fragen</span>
-        </a>
-      </li>
     </ol>
   );
 
@@ -170,60 +157,53 @@ const BeitragSeite = ({
       <Lesefortschritt />
       <div className="container py-8 md:py-12">
         <div className="relative lg:mx-auto lg:max-w-[900px] xl:max-w-[1160px] xl:pl-[260px]">
-          <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
-            <Link to="/" className="hover:text-primary">
-              Start
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <Link to="/blog" className="hover:text-primary">
+          <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
+            <Link to="/blog" className="text-primary hover:underline">
               Blog
             </Link>
             {eintrag && (
               <>
-                <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-                <span className="text-foreground">{eintrag.thema}</span>
+                <span aria-hidden>/</span>
+                <span>{eintrag.thema}</span>
               </>
             )}
           </nav>
 
           <article className="mt-5">
-            <header className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0">
-                {eintrag && <p className="eyebrow">{eintrag.thema}</p>}
-                <h1 className="mt-2 text-[32px] font-bold leading-[1.12] text-foreground md:text-[44px]">{titel}</h1>
-                {untertitel && (
-                  <p className="mt-3 text-[18px] leading-relaxed text-muted-foreground md:text-[19px]">{untertitel}</p>
-                )}
-                <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[14px] text-muted-foreground">
-                  <Link to="/ueber-mich" rel="author" className="font-medium text-foreground hover:text-primary hover:underline">
-                    Von Elias El-Gendy
-                  </Link>
-                  <span aria-hidden>·</span>
-                  <span>{dateModified ? `Aktualisiert am ${dateModified}` : `Veröffentlicht am ${datePublished}`}</span>
-                  <span aria-hidden>·</span>
-                  <span>{lesezeit} Min. Lesezeit</span>
-                </p>
-              </div>
-              {eintrag && (
-                <div className="w-[132px] shrink-0 overflow-hidden rounded-2xl sm:w-[150px]">
-                  <MotivBild name={eintrag.motiv} className="aspect-square" />
+            {/* Kopf wie /blog/halal-etf (Elias SEO47: „Halte alles wie Halal ETF“): Serifen, ein Satz, Autorzeile, kein Motivbild */}
+            <header>
+              <h1 className="font-titel text-[32px] leading-[1.1] text-foreground md:text-[42px]">{titel}</h1>
+              {untertitel && <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">{untertitel}</p>}
+              <div className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
+                <div className="flex gap-3">
+                  <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
+                  <div className="leading-snug">
+                    <Link
+                      to="/ueber-mich"
+                      rel="author"
+                      className="text-[15px] font-semibold text-foreground underline underline-offset-[3px] hover:text-primary"
+                    >
+                      Elias El-Gendy
+                    </Link>
+                    <p className="mt-0.5 font-mono text-[12px] text-muted-foreground">{lesezeit} Min. Lesezeit</p>
+                    <p className="mt-2 text-[14px] text-foreground/75">Gründer von finanzmuslim</p>
+                  </div>
                 </div>
-              )}
+                <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
+                  <p className="uppercase tracking-[0.12em]">{dateModified ? "Aktualisiert" : "Veröffentlicht"}</p>
+                  <p>{dateModified ?? datePublished}</p>
+                </div>
+              </div>
             </header>
 
-            <section className="mt-8 rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="kurz-gesagt">
-              <h2 id="kurz-gesagt" className="text-[15px] font-semibold uppercase tracking-[0.12em] text-primary">
-                Kurz gesagt
+            <section className="mt-8 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7" aria-labelledby="kurz-gesagt">
+              <h2 id="kurz-gesagt" className="font-titel text-[25px] leading-[1.2] text-foreground md:text-[28px]">
+                Das Wichtigste
               </h2>
-              <ul className="mt-4 space-y-3">
-                {kurzGesagt.map((p, i) => (
-                  <li key={p} className="flex gap-3 text-[17px] leading-relaxed text-foreground md:text-[18px]">
-                    <span
-                      className="mt-[3px] flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[12px] font-bold text-primary-foreground"
-                      aria-hidden
-                    >
-                      {i + 1}
-                    </span>
+              <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/80">
+                {kurzGesagt.map((p) => (
+                  <li key={p} className="flex gap-3">
+                    <span className="mt-[10px] h-1.5 w-1.5 shrink-0 bg-primary" aria-hidden />
                     <span>{p}</span>
                   </li>
                 ))}
@@ -234,20 +214,17 @@ const BeitragSeite = ({
               <EmpfehlungsBox {...boxOben} />
             </div>
 
-            <nav aria-label="Inhaltsübersicht" className="mt-8 card-surface p-5 xl:hidden">
+            <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
               <button
                 type="button"
                 onClick={() => setOffen((v) => !v)}
                 aria-expanded={offen}
-                className="flex w-full items-center justify-between text-left text-[17px] font-bold text-foreground md:pointer-events-none"
+                className="flex min-h-[48px] w-full items-center justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-foreground"
               >
-                Inhalt
-                <ChevronDown
-                  className={`h-5 w-5 text-muted-foreground transition-transform md:hidden ${offen ? "rotate-180" : ""}`}
-                  aria-hidden
-                />
+                Auf dieser Seite
+                <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
               </button>
-              <div className={`mt-3 ${offen ? "block" : "hidden"} md:block`}>{sprungmarken}</div>
+              {offen && <div className="pb-3">{sprungmarken}</div>}
             </nav>
 
             <div className="relative mt-10 space-y-12">
@@ -255,18 +232,15 @@ const BeitragSeite = ({
                   beim Scrollen stehen und hebt den aktuellen Abschnitt hervor. */}
               <aside className="absolute right-full top-0 hidden h-full w-[220px] pr-10 xl:block" aria-label="Sprungmarken">
                 <div className="sticky top-28">
-                  <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Inhalt</p>
+                  <p className="border-t border-border pt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Auf dieser Seite</p>
                   <div className="mt-3">{sprungmarken}</div>
                 </div>
               </aside>
               {abschnitte.map((a, i) => (
                 <div key={a.id} className="space-y-12">
                   <section id={a.id} className="scroll-mt-28">
-                    <p className="text-[13px] font-semibold tabular-nums text-muted-foreground">
-                      {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="mt-1 text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">{a.titel}</h2>
-                    <div className="beitrag-text mt-4 space-y-4 text-[18px] leading-[1.7] text-foreground/85 md:text-[19px]">
+                    <h2 className="font-titel text-[25px] leading-[1.2] text-foreground md:text-[28px]">{a.titel}</h2>
+                    <div className="beitrag-text mt-4 max-w-[664px] space-y-4 text-[17px] leading-[1.65] text-foreground/75">
                       {a.inhalt}
                     </div>
                   </section>
@@ -277,17 +251,14 @@ const BeitragSeite = ({
             </div>
 
             <section id="faq" className="mt-14 scroll-mt-28">
-              <p className="text-[13px] font-semibold tabular-nums text-muted-foreground">
-                {String(abschnitte.length + 1).padStart(2, "0")}
-              </p>
-              <h2 className="mt-1 text-[26px] font-bold leading-[1.2] text-foreground md:text-[32px]">Häufig gestellte Fragen</h2>
+              <h2 className="font-titel text-[25px] leading-[1.2] text-foreground md:text-[28px]">Häufige Fragen</h2>
               <Accordion type="single" collapsible className="mt-4">
                 {faq.map((f, i) => (
                   <AccordionItem key={f.frage} value={`f${i}`}>
-                    <AccordionTrigger className="text-left text-[17px] font-semibold hover:no-underline">
+                    <AccordionTrigger className="min-h-[48px] text-left text-[17px] font-semibold hover:no-underline">
                       {f.frage}
                     </AccordionTrigger>
-                    <AccordionContent className="text-[16px] leading-relaxed text-muted-foreground">
+                    <AccordionContent className="text-[16px] leading-relaxed text-foreground/75">
                       {f.antwort}
                     </AccordionContent>
                   </AccordionItem>
@@ -302,12 +273,12 @@ const BeitragSeite = ({
                 {vorher ? (
                   <Link
                     to={beitragPfad(vorher)}
-                    className="group flex items-center gap-4 card-surface p-4 transition-colors hover:border-primary"
+                    className="group flex min-h-[64px] items-center gap-4 border border-border p-4 transition-colors hover:border-foreground"
                   >
                     <ArrowLeft className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
                     <span className="min-w-0">
-                      <span className="block text-[12px] uppercase tracking-[0.12em] text-muted-foreground">Vorher</span>
-                      <span className="block truncate text-[16px] font-bold text-foreground">{vorher.name}</span>
+                      <span className="block font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">Vorher</span>
+                      <span className="block truncate text-[16px] font-semibold text-foreground">{vorher.name}</span>
                     </span>
                   </Link>
                 ) : (
@@ -316,11 +287,11 @@ const BeitragSeite = ({
                 {nachher && (
                   <Link
                     to={beitragPfad(nachher)}
-                    className="group flex items-center justify-end gap-4 card-surface p-4 text-right transition-colors hover:border-primary"
+                    className="group flex min-h-[64px] items-center justify-end gap-4 border border-border p-4 text-right transition-colors hover:border-foreground"
                   >
                     <span className="min-w-0">
-                      <span className="block text-[12px] uppercase tracking-[0.12em] text-muted-foreground">Als Nächstes</span>
-                      <span className="block truncate text-[16px] font-bold text-foreground">{nachher.name}</span>
+                      <span className="block font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">Als Nächstes</span>
+                      <span className="block truncate text-[16px] font-semibold text-foreground">{nachher.name}</span>
                     </span>
                     <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
                   </Link>
@@ -328,7 +299,7 @@ const BeitragSeite = ({
               </nav>
             )}
 
-            <section className="mt-12 flex items-center gap-4 card-surface p-6">
+            <section className="mt-12 flex flex-col gap-4 border border-border p-6 sm:flex-row sm:items-center">
               {/* Eigener quadratischer Ausschnitt (Kopf und Schultern, 480 px): T-Shirt-Foto freigestellt auf
                   Markenblau, in allen Kreisen dasselbe (Elias, 30.10.2026, FOTO1). */}
               <img
@@ -336,11 +307,11 @@ const BeitragSeite = ({
                 alt="Elias El-Gendy"
                 width={80}
                 height={80}
-                className="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-primary/20"
+                className="h-20 w-20 shrink-0 object-cover"
                 loading="lazy"
               />
               <div>
-                <p className="text-[17px] font-bold text-foreground">Elias El-Gendy</p>
+                <p className="font-titel text-[21px] leading-tight text-foreground">Elias El-Gendy</p>
                 <p className="mt-1 text-[15px] text-muted-foreground">
                   Gründer von finanzmuslim, erklärt islamkonforme Finanzen für Einsteiger.
                 </p>

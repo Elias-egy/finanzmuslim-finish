@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import MotivBild from "@/components/MotivBild";
+import BlogKachel from "@/components/BlogKachel";
 import { type MotivName } from "@/components/motive";
 
 export type WissenKarte = {
@@ -36,7 +36,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
           type="button"
           aria-label="Zurück"
           onClick={() => scrollen(-1)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:border-primary hover:text-primary"
+          className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground"
         >
           <ChevronLeft className="h-5 w-5" aria-hidden />
         </button>
@@ -44,7 +44,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
           type="button"
           aria-label="Weiter"
           onClick={() => scrollen(1)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:border-primary hover:text-primary"
+          className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground"
         >
           <ChevronRight className="h-5 w-5" aria-hidden />
         </button>
@@ -56,7 +56,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
       >
         {karten.filter((k) => k.to).map((k) => {
           const basis =
-            "relative w-[260px] shrink-0 snap-start overflow-hidden card-surface sm:w-[300px]";
+            "relative w-[260px] shrink-0 snap-start overflow-hidden border border-border bg-background sm:w-[300px]";
 
           if (k.schlicht) {
             return (
@@ -73,21 +73,22 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
 
           const inhalt = (
             <>
-              <div className="relative w-full bg-hero">
-                {k.motiv ? <MotivBild name={k.motiv} /> : <div className="aspect-[16/9] w-full" />}
-                {k.beliebt && <span className="badge-new absolute left-3 top-3 z-10">Beliebt</span>}
+              {/* Kachel wie frontal.so/blog statt Motivbild (Elias SEO47) */}
+              <div className="relative w-full p-4 pb-0">
+                <BlogKachel thema={k.thema ?? "Blog"} />
+                {k.beliebt && <span className="badge-new absolute left-7 top-7 z-10">Beliebt</span>}
                 {!k.beliebt && k.neu && (
-                  <span className="badge-new absolute left-3 top-3 z-10">Neu</span>
+                  <span className="badge-new absolute left-7 top-7 z-10">Neu</span>
                 )}
               </div>
               <div className="p-5">
                 {k.thema && (
-                  <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-primary">
                     {k.thema}
                   </p>
                 )}
                 <h3
-                  className={`mt-2 text-[18px] font-bold leading-snug ${
+                  className={`mt-2 text-[18px] font-semibold leading-snug ${
                     k.to ? "text-foreground group-hover:text-primary" : "text-muted-foreground"
                   }`}
                 >
@@ -102,7 +103,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
               key={k.titel}
               to={k.to}
               className={`group ${basis} transition-colors hover:border-primary ${
-                k.beliebt ? "border-2 border-primary" : ""
+                k.beliebt ? "hover:border-foreground" : ""
               }`}
             >
               {inhalt}

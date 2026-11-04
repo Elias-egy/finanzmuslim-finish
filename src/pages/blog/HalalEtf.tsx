@@ -138,12 +138,12 @@ const FRAGEN: Frage[] = [
   {
     frage: "Ist ein ETF halal oder haram?",
     antwort:
-      "Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen.",
+      "Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen.",
   },
   {
     frage: "Sind ETFs haram?",
     antwort:
-      "Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht.",
+      "Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht.",
   },
   {
     frage: "Welche Halal ETFs gibt es bei Trade Republic?",
@@ -1042,79 +1042,74 @@ const Eintrag = ({ e }: { e: EtfEintrag }) => {
 };
 
 /**
- * Kleine Tabelle wie frontal: am Laptop eine Tabelle, am Handy je Zeile ein Block.
- * Mit `zeile` (Raster der Handy-Zeile) bleibt sie am Handy eine echte Zeile mit Kopf (Elias SEO35: kurze Zahlen
- * in eine Reihe); Spalten in `breit` laufen dann klein unter der Zeile.
+ * Tabelle wie halalwallet (Elias SEO47: „richtige Tabellen … nichts geht in die andere Zeile … auf dem Handy ist es
+ * einfach scrollbar“): auch am Handy eine echte Tabelle, Name links fest, jede Zahl in einer Zeile, breite Tabellen
+ * wischt man seitlich. Spalten in `text` sind Sätze und dürfen umbrechen.
  */
-const KleineTabelle = ({
+type Spalte = { titel: string; zusatz?: string; rechts?: boolean; text?: boolean };
+const Tabelle = ({
   kopf,
-  kopfZusatz = {},
   zeilen,
-  breit = [],
-  zeile,
-  nameOben = false,
 }: {
-  kopf: string[];
-  /** Zweite Zeile im Kopf, klein und nicht in Versalien (Kosten „im Jahr bei 10.000 €“, Seiten-Prüfer SEO46). */
-  kopfZusatz?: Record<number, string>;
-  zeilen: { schluessel: string; erste: ReactNode; zellen: ReactNode[] }[];
-  breit?: number[];
-  zeile?: string;
-  /** Am Handy steht die erste Zelle als eigene Zeile über den Zahlen (lange Namen bei 360 px). */
-  nameOben?: boolean;
+  kopf: Spalte[];
+  zeilen: { schluessel: string; name: ReactNode; unter?: ReactNode; zellen: ReactNode[] }[];
 }) => (
-  <div className="mt-5 max-w-[720px] border border-border">
-    <table className="block w-full border-collapse text-[15px] sm:table">
-      <thead className={zeile ? "block sm:table-header-group" : "hidden sm:table-header-group"}>
-        <tr className={`border-b border-border bg-muted/60 text-left ${zeile ? `grid ${zeile} gap-x-2 px-3 py-2 sm:table-row sm:p-0` : ""}`}>
-          {kopf.map((k, i) => (
-            <th
-              key={k}
-              className={`align-top font-mono text-[12px] font-normal uppercase tracking-[0.06em] text-muted-foreground sm:px-4 sm:py-3 sm:text-[12px] sm:tracking-[0.14em] ${
-                (zeile && breit.includes(i - 1)) || (nameOben && i === 0) ? "hidden sm:table-cell" : ""
-              } ${zeile && !nameOben && i > 0 && !breit.includes(i - 1) ? "text-right sm:text-left" : ""}`}
-            >
-              {k}
-              {kopfZusatz[i] && <span className="block font-sans text-[12px] normal-case tracking-normal">{kopfZusatz[i]}</span>}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="block sm:table-row-group">
-        {zeilen.map((z) => (
-          <tr
-            key={z.schluessel}
-            className={`grid border-t border-border first:border-t-0 sm:table-row sm:p-0 ${
-              zeile ? `${zeile} gap-x-2 gap-y-1 px-3 py-2.5 text-[14px]` : "grid-cols-2 gap-x-4 gap-y-2 px-4 py-3.5"
-            }`}
-          >
-            <td className={`align-top font-semibold leading-snug text-foreground sm:table-cell sm:px-4 sm:py-3 ${zeile ? (nameOben ? "col-span-full" : "") : "col-span-2"}`}>
-              {z.erste}
-            </td>
-            {z.zellen.map((c, i) => (
-              <td
-                key={kopf[i + 1]}
-                data-label={kopf[i + 1]}
-                className={`align-top text-foreground/80 sm:table-cell sm:px-4 sm:py-3 sm:text-left sm:text-[15px] sm:before:hidden ${
-                  zeile
-                    ? breit.includes(i)
-                      ? "col-span-full text-[13px] text-muted-foreground before:mr-1.5 before:font-mono before:text-[12px] before:uppercase before:tracking-[0.06em] before:content-[attr(data-label)] sm:text-foreground/80"
-                      : nameOben
-                        ? ""
-                        : "text-right"
-                    : `before:block before:font-mono before:text-[12px] before:uppercase before:tracking-[0.14em] before:text-muted-foreground before:content-[attr(data-label)] ${
-                        breit.includes(i) ? "col-span-2" : ""
-                      }`
-                }`}
+  <div className="mt-5 max-w-[720px]">
+    <div className="overflow-x-auto border border-border">
+      <table className="w-max min-w-full border-collapse text-[15px]">
+        <thead>
+          <tr className="bg-muted text-left">
+            {kopf.map((k, i) => (
+              <th
+                key={k.titel}
+                scope="col"
+                className={`whitespace-nowrap px-3 py-3 align-bottom font-mono sm:px-4 text-[12px] font-normal uppercase tracking-[0.08em] text-muted-foreground ${
+                  i === 0 ? "sticky left-0 z-10 bg-muted shadow-[inset_-1px_0_0_hsl(var(--border))]" : ""
+                } ${k.rechts ? "text-right" : ""}`}
               >
-                {c}
-              </td>
+                {k.titel}
+                {k.zusatz && <span className="block font-sans text-[12px] normal-case tracking-normal">{k.zusatz}</span>}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {zeilen.map((z) => (
+            <tr key={z.schluessel} className="border-t border-border">
+              <th
+                scope="row"
+                className="sticky left-0 z-10 w-[148px] min-w-[148px] bg-background px-3 py-3 text-left align-middle font-normal shadow-[inset_-1px_0_0_hsl(var(--border))] sm:w-auto sm:whitespace-nowrap sm:px-4"
+              >
+                <span className="block font-semibold leading-snug text-foreground">{z.name}</span>
+                {z.unter && <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">{z.unter}</span>}
+              </th>
+              {z.zellen.map((c, i) => (
+                <td
+                  key={kopf[i + 1]?.titel ?? i}
+                  className={`px-3 py-3 align-middle text-foreground/85 sm:px-4 ${
+                    kopf[i + 1]?.text ? "min-w-[200px] max-w-[260px] leading-snug" : "whitespace-nowrap tabular-nums"
+                  } ${kopf[i + 1]?.rechts ? "text-right" : ""}`}
+                >
+                  {c}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p className="mt-2 text-[13px] text-muted-foreground sm:hidden">Seitlich wischen für alle Spalten</p>
   </div>
+);
+
+/** Name ohne Anbieter, der Anbieter steht klein darunter wie bei halalwallet. */
+const ohneAnbieter = (e: EtfEintrag) => (e.kurz ?? e.name).replace(new RegExp(`^${e.anbieter} `), "");
+
+/** Kleines Etikett hinter dem Namen, nur aus den Daten (Elias SEO47: „so kleine Blöcke“). */
+const Marke = ({ children }: { children: ReactNode }) => (
+  <span className="mt-1 block w-fit border border-primary/25 bg-accent px-1.5 py-px align-[2px] font-mono text-[12px] font-normal uppercase tracking-[0.06em] text-primary">
+    {children}
+  </span>
 );
 
 /* ------------------------------------------------------------------ */
@@ -1131,6 +1126,14 @@ const HalalEtf = () => {
   const alleAnbieter = [...new Set(etfListe.flatMap((e) => kaufbarBei(e.isin)))];
   const alleAcht = alleAnbieter.filter((d) => etfsBei(d) === etfListe.length).sort((x, y) => x.localeCompare(y, "de"));
   const seltenster = [...etfListe].sort((x, y) => kaufbarBei(x.isin).length - kaufbarBei(y.isin).length)[0];
+  const marken: Record<string, string> = {};
+  const meisteDepots = etfListe.filter((e) => kaufbarBei(e.isin).length === maxKaufbar);
+  if (meisteDepots.length === 1) marken[meisteDepots[0].isin] = "Meiste Depots";
+  const groesster = [...etfListe].sort((x, y) => y.groesseMio - x.groesseMio)[0];
+  if (!marken[groesster.isin]) marken[groesster.isin] = "Größter";
+  const kostenMin = Math.min(...etfListe.map((e) => anlageVon(e.isin).kosten));
+  const guenstigste = etfListe.filter((e) => anlageVon(e.isin).kosten === kostenMin);
+  if (guenstigste.length === 1 && !marken[guenstigste[0].isin]) marken[guenstigste[0].isin] = "Günstigster";
 
   const inhalt = (
     <ol>
@@ -1147,12 +1150,6 @@ const HalalEtf = () => {
         </li>
       ))}
     </ol>
-  );
-
-  const etfZelle = (e: EtfEintrag) => (
-    <a href={`#${anker(e)}`} className="-my-3 block py-3 hover:text-primary sm:my-0 sm:inline sm:py-0">
-      {e.platz}. {e.kurz ?? e.name}
-    </a>
   );
 
   return (
@@ -1194,6 +1191,23 @@ const HalalEtf = () => {
               <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
                 <span className="block">Beste Halal ETFs 2026:</span> <span className="block">8 im Vergleich</span>
               </h1>
+              {/* Einstieg wie halalwallet (Elias SEO47): ein Satz, dann vier Häkchen, was die Seite abdeckt */}
+              <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
+                Was die acht ETFs kosten, was sie gebracht haben und bei welchem Depot du sie bekommst.
+              </p>
+              <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
+                {[
+                  `${etfListe.length} ETFs im Vergleich`,
+                  `Kosten ab ${kostenMin.toLocaleString("de-DE", { minimumFractionDigits: 2 })}\u00a0% im Jahr`,
+                  `Bei ${depots} Depots nachgesehen`,
+                  "Stand November 2026",
+                ].map((h) => (
+                  <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
+                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    {h}
+                  </li>
+                ))}
+              </ul>
               <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
@@ -1242,7 +1256,7 @@ const HalalEtf = () => {
                   </p>
                   <p>
                     Ich habe 12 Halal ETFs verglichen und bei {depots} Depots nachgesehen, wo du sie kaufen kannst. Acht
-                    sind geblieben. Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite.
+                    sind geblieben. Die Rendite entscheidet nicht über den Platz.
                   </p>
                 </Text>
 
@@ -1275,27 +1289,37 @@ const HalalEtf = () => {
                       der Fonds ist und wie viele Aktien drin sind.
                     </p>
                   </Text>
-                  <KleineTabelle
-                    kopf={["ETF", "Kosten", "Größe", "Aktien", "Passt zu"]}
-                    kopfZusatz={{ 1: "im Jahr bei 10.000 €" }}
-                    breit={[3]}
-                    zeile="grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)_minmax(0,0.6fr)]"
-                    nameOben
+                  <Tabelle
+                    kopf={[
+                      { titel: "ETF" },
+                      { titel: "Kosten", zusatz: "im Jahr", rechts: true },
+                      { titel: "Bei 10.000 €", zusatz: "im Jahr", rechts: true },
+                      { titel: "Größe", rechts: true },
+                      { titel: "Aktien", rechts: true },
+                      { titel: "Depots", rechts: true },
+                      { titel: "Passt zu", text: true },
+                    ]}
                     zeilen={etfListe.map((e) => {
                       const a = anlageVon(e.isin);
                       return {
                         schluessel: e.isin,
-                        erste: etfZelle(e),
+                        name: (
+                          <a href={`#${anker(e)}`} className="hover:text-primary">
+                            {ohneAnbieter(e)}
+                          </a>
+                        ),
+                        unter: (
+                          <>
+                            Platz {e.platz} · {e.anbieter}
+                            {marken[e.isin] && <Marke>{marken[e.isin]}</Marke>}
+                          </>
+                        ),
                         zellen: [
-                          <span className="block whitespace-nowrap tabular-nums">
-                            {a.kostenLabel}
-                            <span className="text-foreground/60"> · {euro(a.kosten * 100)}</span>
-                          </span>,
-                          <span className="whitespace-nowrap tabular-nums">{groesseKurz(e.groesseMio)}</span>,
-                          <span className="whitespace-nowrap tabular-nums">
-                            {e.positionen.toLocaleString("de-DE")}
-                            {positionenWort(e) === "Sukuk" ? <span className="block text-foreground/60">Sukuk</span> : null}
-                          </span>,
+                          a.kostenLabel,
+                          euro(a.kosten * 100),
+                          groesseKurz(e.groesseMio),
+                          positionenWort(e) === "Sukuk" ? `${e.positionen.toLocaleString("de-DE")} Sukuk` : e.positionen.toLocaleString("de-DE"),
+                          kaufbarBei(e.isin).length,
                           gross(e.amBestenFuer),
                         ],
                       };
@@ -1306,15 +1330,14 @@ const HalalEtf = () => {
                     so oft.
                   </p>
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
-                  <KleineTabelle
-                    kopf={["ETF", "1 Jahr", "3 Jahre", "5 Jahre"]}
-                    zeile="grid-cols-3"
-                    nameOben
+                  <Tabelle
+                    kopf={[{ titel: "ETF" }, { titel: "1 Jahr", rechts: true }, { titel: "3 Jahre", rechts: true }, { titel: "5 Jahre", rechts: true }]}
                     zeilen={etfListe.map((e) => ({
                       schluessel: e.isin,
-                      erste: etfZelle(e),
+                      name: ohneAnbieter(e),
+                      unter: `Platz ${e.platz} · ${e.anbieter}`,
                       zellen: [e.rendite1J, e.rendite3J, e.rendite5J].map((r, i) => (
-                        <span key={i} className={`whitespace-nowrap tabular-nums ${r ? "" : "text-muted-foreground"}`}>
+                        <span key={i} className={r ? (r.startsWith("-") ? "text-loss" : "text-gain") : "text-muted-foreground"}>
                           {r ?? "–"}
                         </span>
                       )),
@@ -1351,7 +1374,7 @@ const HalalEtf = () => {
                   <H2 id="die-besten-halal-etfs" />
                   <Text>
                     <p>
-                      Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite. Wie ich prüfe, steht
+                      Die Rendite entscheidet nicht über den Platz. Wie ich prüfe, steht
                       in der <TL to="/vergleiche/methodik">Methodik</TL>. Ein Klick aufs Bild öffnet alle Daten zum ETF.
                     </p>
                   </Text>
@@ -1377,18 +1400,17 @@ const HalalEtf = () => {
                 {/* 10 Welcher passt */}
                 <section className="mt-12">
                   <H2 id="welcher-passt" />
-                  <KleineTabelle
-                    kopf={["Wenn du …", "Achte auf", "Passt"]}
-                    breit={[0, 1]}
+                  <Tabelle
+                    kopf={[{ titel: "Wenn du …" }, { titel: "Achte auf", text: true }, { titel: "Passt" }]}
                     zeilen={PASST.map((p) => {
                       const e = etfListe.find((x) => x.platz === p.platz)!;
                       return {
                         schluessel: p.wenn,
-                        erste: p.wenn,
+                        name: <span className="block max-w-[150px] whitespace-normal sm:max-w-[220px]">{p.wenn}</span>,
                         zellen: [
                           p.achte,
                           <a href={`#${anker(e)}`} className="font-medium text-primary hover:underline">
-                            Platz {e.platz}: {e.kurz ?? e.name}
+                            Platz {e.platz}: {ohneAnbieter(e)}
                           </a>,
                         ],
                       };

@@ -57,12 +57,12 @@ const EmpfehlungsBox = ({
 
   if (modus === "empfehlung" && anbieter) {
     return (
-      <aside className="rounded-2xl bg-hero p-6 md:p-8">
-        <span className="badge-new">Unsere Nummer 1 im Vergleich</span>
-        <p className="mt-3 text-[20px] font-bold text-foreground">{anbieter}</p>
+      <aside className="border border-border bg-background p-6 md:p-8">
+        <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-primary">Unsere Nummer 1 im Vergleich</p>
+        <p className="font-titel mt-2.5 text-[23px] leading-[1.2] text-foreground">{anbieter}</p>
         {vorteil && <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{vorteil}</p>}
         {angebot && (
-          <p className="mt-3 rounded-lg bg-card px-4 py-3 text-[16px] font-semibold text-foreground">{angebot}</p>
+          <p className="mt-3 border-l-2 border-primary pl-4 text-[16px] font-semibold text-foreground">{angebot}</p>
         )}
         <p className="mt-5 text-[13px] text-muted-foreground">
           Werbung. Für dich entstehen keine Mehrkosten.
@@ -88,34 +88,28 @@ const EmpfehlungsBox = ({
   const rest = logoDaten ? logoDaten.gesamt - sichtbar.length : 0;
 
   return (
-    <aside
-      className={`rounded-2xl p-6 md:p-8 ${
-        sichtbar.length > 0
-          ? "border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)]"
-          : "bg-hero"
-      }`}
-    >
+    <aside className="border border-border bg-background p-6 md:p-8">
       {sichtbar.length > 0 && (
         <div className="mb-4 flex items-center">
           <div className="flex -space-x-2.5">
             {sichtbar.map((a) => (
-              <span key={a.name} className="rounded-full bg-white p-[3px] shadow-sm ring-1 ring-black/5">
+              <span key={a.name} className="rounded-full bg-white p-[3px] ring-1 ring-border">
                 <AnbieterLogo name={a.name} domain={a.domain} />
               </span>
             ))}
           </div>
           {rest > 0 && (
-            <span className="ml-3 rounded-full bg-white/80 px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
+            <span className="ml-3 font-mono text-[13px] text-muted-foreground">
               + {rest}
             </span>
           )}
         </div>
       )}
-      <span className="badge-new">{istVergleich ? "Unser Vergleich" : kategorie}</span>
-      <p className="mt-3 text-[20px] font-bold text-foreground">
+      <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-primary">{istVergleich ? "Unser Vergleich" : kategorie}</p>
+      <p className="font-titel mt-2.5 text-[23px] leading-[1.2] text-foreground">
         {ueberschrift ?? `${kategorie} vergleichen`}
       </p>
-      <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
+      <p className="mt-2.5 text-[16px] leading-relaxed text-foreground/75">
         {text ??
           (vergleichsSeite
             ? `Im ${kategorie}-Vergleich siehst du, bei wem du ohne Zinsen startest und was es kostet.`
@@ -123,9 +117,12 @@ const EmpfehlungsBox = ({
               ? "Depot, Girokonto, Krypto und Edelmetalle: alle Vergleiche mit denselben Halal-Kriterien."
               : "")}
       </p>
-      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className={`mt-5 ${sichtbar.length > 0 ? "btn-spark" : "btn-primary"}`}>
-        {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
-        {sichtbar.length > 0 && <ArrowRight className="h-5 w-5" aria-hidden />}
+      {/* Knopf wie der Depot-Kasten auf /blog/halal-etf (SEO47) */}
+      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="leuchtlinie mt-6 inline-block">
+        <span className="flex min-h-[48px] items-center gap-2 bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">
+          {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
+          <ArrowRight className="h-4 w-4" aria-hidden />
+        </span>
       </Link>
     </aside>
   );
