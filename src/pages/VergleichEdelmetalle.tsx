@@ -257,7 +257,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Ist ein Gold-ETC halal?",
         antwort:
-          "Die Gold-ETCs in diesem Vergleich haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall.",
+          "Die Gold-ETCs in diesem Vergleich haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Beim Royal-Mint-ETC kannst du dir das Gold auch ausliefern lassen.",
       },
       {
         frage: "Was ist mit Xetra-Gold und EUWAX Gold II?",

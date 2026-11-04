@@ -177,7 +177,7 @@ const FRAGEN: { frage: string; antwort: string; link?: { to: string; text: strin
   {
     frage: "Ist ein Gold-ETF oder Gold-ETC halal?",
     antwort:
-      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall dahinter.",
+      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Beim Royal-Mint-ETC kannst du dir das Gold auch ausliefern lassen.",
   },
   {
     frage: "Ist Gold im Depot steuerfrei?",
