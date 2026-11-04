@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ereignis } from "@/lib/messung";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import Seo from "@/components/Seo";
@@ -596,8 +597,17 @@ const VergleichAssistent = () => {
   const { anzahl, bonus } = useMemo(() => lage(antworten), [antworten]);
   const gewaehltesVorhaben = (antworten.vorhaben ?? []).length > 0;
 
+  /* Jede gezeigte Frage und das Ergebnis zählen, so sehen wir, an welcher Frage die Leute aufhören. */
+  useEffect(() => {
+    if (ort === "laden") return;
+    if (ort === "ergebnis") ereignis("quiz_ergebnis", { vorhaben: (antworten.vorhaben ?? []).join(",") });
+    else ereignis("quiz_frage", { frage: ort, stelle: stelle + 1 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ort]);
+
   const weiter = (neu: Antworten = antworten) => setStand((s) => ({ ...s, antworten: neu, ort: nach(s, neu) }));
   const neu = () => {
+    ereignis("quiz_neu");
     setFeier(false);
     setStand(START);
   };
