@@ -3,7 +3,7 @@
 // dann erscheint auch kein Banner. Gezählt werden Seiten, jeder Klick (autocapture), Herkunft,
 // Aufnahmen mit verdeckten Eingabefeldern und die festen Ereignisse unten.
 import type { PostHog } from "posthog-js";
-import { gemerkteQuelle } from "@/lib/attribution";
+import { gemerkteKampagne, gemerkteQuelle } from "@/lib/attribution";
 
 /** Projekt-Schlüssel aus eu.posthog.com (öffentlich, beginnt mit phc_). Leer: keine Messung, kein Banner. */
 export const POSTHOG_SCHLUESSEL = "phc_mczwwWCDJH2pb8x7o9vpKhgCTzt694E3NHEZieQvELPY";
@@ -24,7 +24,10 @@ export type Ereignis =
   | "ton_an"
   | "quiz_frage"
   | "quiz_ergebnis"
-  | "quiz_neu";
+  | "quiz_neu"
+  // CV4 (04.11.2026): Kasten „Dein nächster Schritt“ am Ende eines Freebies kam ins Bild; Wechsel auf einen Vergleich.
+  | "freebie_ende"
+  | "vergleich_klick";
 
 const speicher = (): Storage | null => {
   try {
@@ -49,6 +52,15 @@ export const leseWahl = (): Wahl | null => {
 };
 
 let ph: PostHog | null = null;
+const warteschlange: [Ereignis, Record<string, string | number | boolean>][] = [];
+
+/** Quelle (?src) und Mail-Kampagne (utm_campaign) an jedes Ereignis hängen; auch nach einem späteren ?src. */
+export const merkeHerkunft = (): void => {
+  if (!ph) return;
+  const quelle = gemerkteQuelle();
+  const mail_kampagne = gemerkteKampagne();
+  ph.register({ ...(quelle ? { quelle } : {}), ...(mail_kampagne ? { mail_kampagne } : {}) });
+};
 let laedt: Promise<void> | null = null;
 
 /** Lädt PostHog, wenn eingewilligt wurde. Mehrfacher Aufruf ist harmlos. */
@@ -67,9 +79,10 @@ export const starteMessung = (): Promise<void> => {
       persistence: "localStorage+cookie",
       session_recording: { maskAllInputs: true },
     });
-    const quelle = gemerkteQuelle();
-    if (quelle) posthog.register({ quelle });
     ph = posthog;
+    merkeHerkunft();
+    // Was vor dem Laden geschah (Seitenwechsel, Kasten im Bild), geht jetzt raus.
+    for (const [name, eigenschaften] of warteschlange.splice(0)) ereignis(name, eigenschaften);
   });
   return laedt;
 };
@@ -91,7 +104,8 @@ export const setzeWahl = (wahl: Wahl): void => {
 
 /** Ein festes Ereignis senden; ohne Einwilligung passiert nichts. Per Beacon, damit es auch beim Verlassen ankommt. */
 export const ereignis = (name: Ereignis, eigenschaften: Record<string, string | number | boolean> = {}): void => {
-  ph?.capture(name, eigenschaften, { transport: "sendBeacon" });
+  if (ph) ph.capture(name, eigenschaften, { transport: "sendBeacon" });
+  else if (messungAktiv() && leseWahl() === "ja" && warteschlange.length < 20) warteschlange.push([name, eigenschaften]);
 };
 
 let seiteJetzt = "";
@@ -101,6 +115,19 @@ export const merkeSeite = (pfad: string): void => {
   if (pfad === seiteJetzt) return;
   seiteDavor = seiteJetzt;
   seiteJetzt = pfad;
+  if (!seiteDavor && typeof document !== "undefined") {
+    // Voller Seitenaufruf (Link mit neuem Laden): die Seite davor steht nur im Referrer.
+    try {
+      const r = new URL(document.referrer);
+      if (r.host === window.location.host) seiteDavor = r.pathname;
+    } catch {
+      /* kein oder fremder Referrer */
+    }
+  }
+  // Klick in einen Vergleich: von welcher Seite (Freebie, Blog, Startseite) kam der Wechsel.
+  if (pfad.startsWith("/vergleich") && seiteDavor && !seiteDavor.startsWith("/vergleich")) {
+    ereignis("vergleich_klick", { von: seiteDavor, ziel: pfad });
+  }
 };
 export const vorigeSeite = (): string => seiteDavor;
 

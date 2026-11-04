@@ -23,6 +23,8 @@ export const VALID_SRC = [
   "yt",
   "qr",
   "start",
+  // Knopf in Mails ohne eigene Kennung (~/rebrand/mails/bauen.py)
+  "mail",
   // Freebie-PDFs, v1 und v2 (~/rebrand/freebies, public/downloads)
   "pdf",
   "top100",
@@ -142,10 +144,21 @@ export const VALID_SRC = [
   "skkarte",
 ] as const;
 
+/**
+ * Familien, die ohne Eintrag oben gelten (CV4, 04.11.2026): dm plus Wort (Instagram-DM), fb plus Wort (Facebook),
+ * ml plus Wort (je Mail), m, g, v plus Ziffer und Wort (Mails, Guides, Vorlagen). Vorher fielen v2, g0, fb0, m2
+ * und g3fertig aus ~/rebrand/mails/bauen.py still auf „start“, und jedes neue ManyChat-Wort brauchte einen Eintrag.
+ * Nur Kleinbuchstaben und Ziffern, höchstens 20 Zeichen: Scalable nimmt als SubID nichts anderes, und die
+ * Endung h, f oder s für den Knopf kommt noch dazu.
+ */
+export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|[mgv][0-9])[a-z0-9]{0,18}$/;
+
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
-  !!src && (VALID_SRC as readonly string[]).includes(src);
+  !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src));
 
 export const SRC_STORAGE_KEY = "amanah_src";
+/** utm_campaign aus Mail-Links (MailerLite), als Eigenschaft „mail_kampagne“ in der Messung. */
+export const KAMPAGNE_STORAGE_KEY = "fm_kampagne";
 
 /** Liest ?src aus der aktuellen URL und speichert es (nur Whitelist-Werte). */
 export const captureSrc = (): void => {
@@ -154,8 +167,19 @@ export const captureSrc = (): void => {
     if (istGueltigeQuelle(param)) {
       sessionStorage.setItem(SRC_STORAGE_KEY, param);
     }
+    const kampagne = new URLSearchParams(window.location.search).get("utm_campaign");
+    if (kampagne) sessionStorage.setItem(KAMPAGNE_STORAGE_KEY, kampagne.slice(0, 80));
   } catch {
     /* sessionStorage kann in strengen Browsern blockiert sein — dann greift der Fallback "start". */
+  }
+};
+
+/** Die gemerkte Mail-Kampagne dieser Sitzung, oder null. */
+export const gemerkteKampagne = (): string | null => {
+  try {
+    return sessionStorage.getItem(KAMPAGNE_STORAGE_KEY);
+  } catch {
+    return null;
   }
 };
 

@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { ereignis } from "@/lib/messung";
 import { DECKBLATT_GROSS, GUIDE_NAME, KASTEN, NAECHSTE_FRAGE, seitenBild, type LeiterWort } from "@/data/leiter";
 
 type Props = {
@@ -16,8 +18,22 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
   // Klickzählung: k plus Wort, eingetragen in src/lib/attribution.ts.
   const ziel = `${KASTEN.link.ziel}?src=k${wort}`;
   const frage = NAECHSTE_FRAGE[wort];
+  // Messung (CV4): Kommt der Kasten ins Bild, hat der Besucher das Freebie bis zum Ende gelesen. Einmal je Aufruf.
+  const kasten = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = kasten.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const beobachter = new IntersectionObserver((eintraege) => {
+      if (!eintraege.some((e) => e.isIntersecting)) return;
+      ereignis("freebie_ende", { wort, seite: window.location.pathname });
+      beobachter.disconnect();
+    }, { threshold: 0.3 });
+    beobachter.observe(el);
+    return () => beobachter.disconnect();
+  }, [wort]);
   return (
     <aside
+      ref={kasten}
       aria-labelledby="naechster-teil"
       data-naechster-teil={wort}
       className={`guide-glanz rounded-3xl bg-accent p-5 md:p-7 ${className}`}

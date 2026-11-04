@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
-import { merkeSeite } from "@/lib/messung";
+import { merkeHerkunft, merkeSeite } from "@/lib/messung";
 import Index from "./pages/Index.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
@@ -100,6 +100,7 @@ const SrcCapture = () => {
   const { search, pathname } = useLocation();
   useEffect(() => {
     captureSrc();
+    merkeHerkunft();
   }, [search]);
   useEffect(() => {
     merkeSeite(pathname);
