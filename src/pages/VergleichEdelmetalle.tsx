@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { Check } from "lucide-react";
+import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { Tabelle } from "@/components/beitrag";
 import {
@@ -8,7 +10,9 @@ import {
   EDELMETALL_WEGE,
   GOLD_ISINS,
   SILBER_ISINS,
+  ROYAL_MINT,
 } from "@/data/edelmetallVergleich";
+import { halalAnlagen } from "@/data/halalAnlagen";
 import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
 import { juengsterStand } from "@/lib/juengsterStand";
 
@@ -20,6 +24,49 @@ import { juengsterStand } from "@/lib/juengsterStand";
  */
 
 const METALLE = GOLD_ISINS.length + SILBER_ISINS.length;
+
+/**
+ * Unsere Nummer 1 bei Gold (Elias, 04.11.2026). Die Depots kommen aus der Liste unten: nur, wo der
+ * Kauf beim Anbieter belegt ist (anlagenKaufbar.ts). Steuer: BFH, Urteil VIII R 7/17 vom 16.06.2020.
+ */
+const RM = halalAnlagen.find((a) => a.isin === ROYAL_MINT)!;
+const RM_DEPOTS = [...new Map(edelmetallAnzeige.filter((a) => a.werte.royalMint === "ja").map((a) => [a.name, a])).values()];
+const RM_GRUENDE = ["Barren und Münzen lieferbar", "Shariah-zertifiziert", "Gewinn nach 1 Jahr steuerfrei"];
+
+const NummerEinsGold = () => (
+  <section aria-labelledby="nummer-eins-gold" className="rounded-xl border border-primary/30 bg-accent p-4 md:p-5">
+    <p className="text-[13px] font-semibold uppercase tracking-wide text-violet">Unsere Nummer 1 bei Gold</p>
+    <h2 id="nummer-eins-gold" className="mt-1 text-[20px] font-bold leading-snug text-foreground md:text-[22px]">
+      Royal Mint Gold-ETC
+    </h2>
+    <p className="mt-1 text-[14px] text-muted-foreground">
+      {RM.anbieter} · ISIN {RM.isin} · {RM.kostenLabel} im Jahr
+    </p>
+    <ul className="mt-3 space-y-1.5">
+      {RM_GRUENDE.map((g) => (
+        <li key={g} className="flex items-center gap-2 text-[16px] text-foreground">
+          <Check className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
+          {g}
+        </li>
+      ))}
+    </ul>
+    <p className="mt-4 text-[14px] font-semibold text-foreground">Kaufbar bei</p>
+    <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+      {RM_DEPOTS.map((a) => (
+        <li key={a.name} className="flex items-center gap-2 text-[15px] text-foreground">
+          <AnbieterLogo name={a.name} domain={a.domain} klein />
+          {a.name}
+        </li>
+      ))}
+    </ul>
+    <Link
+      to={`/halal-anlagen/${RM.slug}`}
+      className="mt-4 inline-block text-[15px] font-semibold text-primary hover:underline"
+    >
+      Kosten, Kurs und Zertifikat ansehen
+    </Link>
+  </section>
+);
 
 const WegeBlock = () => (
   <section className="mt-14">
@@ -127,7 +174,8 @@ const VergleichEdelmetalle = () => (
       <>
         <p>
           Gold und Silber kaufst du im Depot als Wertpapier, das physisch hinterlegt ist: Hinter
-          jedem Anteil liegen Barren im Tresor.
+          jedem Anteil liegen Barren im Tresor. Beim Royal-Mint-ETC kannst du dir das Gold sogar als
+          Barren oder Münze ausliefern lassen.
         </p>
         <p>
           Für Muslime entscheiden zwei Punkte: Liegt dein Geld dort ohne Zinsen, und welche Gold-
@@ -163,6 +211,7 @@ const VergleichEdelmetalle = () => (
         text: "Was kostet dich ein Kauf? Es zählen Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service und App.",
       },
     ]}
+    vorneweg={<NummerEinsGold />}
     zusatz={
       <>
         <WegeBlock />
@@ -181,9 +230,14 @@ const VergleichEdelmetalle = () => (
           "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Im Halal-Teil zählt, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, Partnerschaften zählen nicht.",
       },
       {
+        frage: "Welcher Gold-ETC ist eure Nummer 1?",
+        antwort:
+          "Der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Das Gold liegt im Tresor der Royal Mint in Wales, du kannst es dir als Barren oder Münzen ausliefern lassen, und jedes Jahr gibt es ein Shariah-Zertifikat. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
+      },
+      {
         frage: "Ist ein Gold-ETC halal?",
         antwort:
-          "Darüber gehen die Meinungen auseinander. Produkte mit nummerierten Barren im Tresor und einem jährlichen Zertifikat eines Gelehrtengremiums werden verbreitet akzeptiert. Ein Teil der Gelehrten sagt, ohne Gold in der Hand sei die Übergabe nicht erfüllt. Unstrittig ausgeschlossen sind Produkte ohne echtes Metall.",
+          "Ja, wenn echtes Gold dahinter liegt, das dir zugeordnet ist, und ein Gelehrtengremium das Produkt jedes Jahr zertifiziert. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall.",
       },
       {
         frage: "Was ist mit Xetra-Gold und EUWAX Gold II?",
@@ -198,7 +252,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Welcher Gold-ETC lässt sich ausliefern?",
         antwort:
-          "Von den zertifizierten kennen wir einen: den ETC der Royal Mint. Das Gold liegt im Tresor der Royal Mint in Wales statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Das ist auch steuerlich der Unterschied, weil der Gewinn nach einem Jahr dann wie bei physischem Gold behandelt wird.",
+          "Von den zertifizierten kennen wir einen: den ETC der Royal Mint. Das Gold liegt im Tresor der Royal Mint in Wales statt bei einer Bank, und Privatanleger können sich Barren und Münzen ausliefern lassen. Das ist auch steuerlich der Unterschied: Gibt ein Papier Anspruch auf Lieferung von Gold, ist der Gewinn nach einem Jahr steuerfrei wie bei einem Barren (Bundesfinanzhof, Urteil VIII R 7/17 vom 16.06.2020). Keine Steuerberatung.",
       },
       {
         frage: "Ist Platin halal?",

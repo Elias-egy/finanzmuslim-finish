@@ -117,6 +117,8 @@ export type VergleichsSeiteProps = {
   reihenfolge?: ReactNode;
   /** Freier Abschnitt unter der Tabelle. Für Erklärungen, die nur einen Vergleich betreffen. */
   zusatz?: ReactNode;
+  /** Direkt unter dem Titel, auch am Handy vor der Liste: ein Produkt, das der Vergleich vorn nennt (Gold: Royal Mint). */
+  vorneweg?: ReactNode;
   faq: Array<{ frage: string; antwort: string }>;
   schluss: string;
 };
@@ -145,6 +147,7 @@ export const VergleichsSeite = ({
   kennzahlen,
   reihenfolge,
   zusatz,
+  vorneweg,
   faq,
   schluss,
 }: VergleichsSeiteProps) => {
@@ -247,6 +250,8 @@ export const VergleichsSeite = ({
               Stand: {stand}
             </p>
           </header>
+
+          {vorneweg && <div className="mt-5 max-w-3xl">{vorneweg}</div>}
 
           <div
             className={`${NACH_LISTE} mt-10 max-w-3xl space-y-3 text-[17px] leading-[26px] text-foreground/90 lg:order-none lg:mt-4 lg:text-[16px] lg:leading-[25px]`}

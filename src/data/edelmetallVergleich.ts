@@ -18,7 +18,15 @@ import { halalAnlagen } from "./halalAnlagen";
  */
 const METALL_ISINS = Object.keys(ANLAGE_ZEILE).filter((isin) => ANLAGE_ZEILE[isin] === "halalEdelmetalle");
 const kategorieVon = (isin: string) => halalAnlagen.find((a) => a.isin === isin)?.kategorie;
-export const GOLD_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "gold");
+
+/**
+ * Royal Mint Gold-ETC von HANetf (Elias, 04.11.2026: „mit großem Abstand die Nummer 1“). Er steht nicht
+ * unter den 22 Anlagen des Depot-Vergleichs, darum zählt er hier eigens mit. Gründe mit Quelle:
+ * Einlösung in Barren und Münzen (hanetf.com, Produktseite RMAU), jährliches Shariah-Zertifikat
+ * (halalAnlagen.ts), steuerfrei nach einem Jahr (BFH, Urteil VIII R 7/17 vom 16.06.2020).
+ */
+export const ROYAL_MINT = "XS2115336336";
+export const GOLD_ISINS = [ROYAL_MINT, ...METALL_ISINS.filter((isin) => kategorieVon(isin) === "gold")];
 export const SILBER_ISINS = METALL_ISINS.filter((isin) => kategorieVon(isin) === "silber");
 
 /** Kaufbeleg je ISIN. Ein Eintrag unter dem Tarif geht vor dem Hauseintrag, wie in anlagen_matrix.py. */
@@ -38,6 +46,14 @@ export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
   {
     ...depotZeile("zinsfreiAbStart"),
     hinweis: "Grün: das Guthaben liegt ab Eröffnung ohne Zins. Gelb: Zinsen laufen, lassen sich aber abschalten.",
+  },
+  {
+    key: "royalMint",
+    label: "Royal Mint Gold-ETC",
+    art: "text",
+    gruppe: "halal",
+    imRaster: true,
+    hinweis: "Unsere Nummer 1 bei Gold: Barren und Münzen lassen sich ausliefern, ein jährliches Shariah-Zertifikat liegt vor, und der Gewinn ist nach einem Jahr steuerfrei.",
   },
   {
     key: "gold",
@@ -78,11 +94,12 @@ export const edelmetallVergleich: RohAnbieter[] = brokerVergleich
   .filter((a) => !a.abgeraten && a.werte.zinsfreiAbStart !== "schlecht" && (a.halalAnlagenPunkte?.halalEdelmetalle ?? 0) > 0)
   .map((a) => ({
     ...a,
-    werte: { ...a.werte, gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
+    werte: { ...a.werte, royalMint: belegt(a, ROYAL_MINT) ? "ja" : null, gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
     quellen: { ...a.quellen, gold: a.quellen?.halalEdelmetalle, silber: a.quellen?.halalEdelmetalle } as RohAnbieter["quellen"],
   }));
 
 export const EDELMETALL_FILTER = [
+  { key: "royalMint", label: "Royal Mint kaufbar", erlaubt: ["ja"] },
   { key: "gold", label: "Alle Gold-ETCs kaufbar", erlaubt: [`${GOLD_ISINS.length} von ${GOLD_ISINS.length}`] },
   { key: "silber", label: "Alle Silber-ETCs kaufbar", erlaubt: [`${SILBER_ISINS.length} von ${SILBER_ISINS.length}`] },
 ];
@@ -166,7 +183,7 @@ export const EDELMETALL_WEGE: RohAnbieter[] = [
       uebergabe: {
         stand,
         hinweis:
-          "Der unstrittige Fall: Du zahlst und nimmst das Metall mit. Beim Versand gilt dasselbe, solange der Händler den Barren schon hat und die Lieferzeit kurz ist.",
+          "Der klare Fall: Du zahlst und nimmst das Metall mit. Beim Versand gilt dasselbe, solange der Händler den Barren schon hat und die Lieferzeit kurz ist.",
       },
       echtesMetall: { stand, hinweis: "Du hältst den Barren in der Hand, mit Prägung, Gewicht und meist Nummer." },
       nachweis: {
@@ -243,12 +260,12 @@ export const EDELMETALL_WEGE: RohAnbieter[] = [
       echtesMetall: "gut",
       nachweis: "gut",
       ausliefern: "teils",
-      anbieter: "Royal Mint, Invesco, WisdomTree, alle mit jährlichem Zertifikat",
+      anbieter: "Royal Mint (lieferbar), Invesco, WisdomTree, alle mit jährlichem Zertifikat",
       kosten: "0,12 bis 0,49 Prozent im Jahr, dazu die Ordergebühr",
       einstieg: "ein Anteil, oft unter 100 Euro",
       aufbewahrung: "Tresor der Verwahrstelle, bei RMAU die Royal Mint in Wales",
       sparplan: true,
-      steuer: "meist Abgeltungsteuer",
+      steuer: "Royal Mint steuerfrei, sonst meist Abgeltungsteuer",
     },
     quellen: {
       uebergabe: {
@@ -273,9 +290,10 @@ export const EDELMETALL_WEGE: RohAnbieter[] = [
       kosten: { url: "/halal-anlagen", stand, hinweis: "Laufende Kosten zwischen 0,12 und 0,49 Prozent im Jahr, je Produkt in der Datenbank ausgewiesen." },
       aufbewahrung: { url: "https://hanetf.com/de/fund/rmau-the-royal-mint-responsibly-sourced-physical-gold-etc/", stand, hinweis: "Beim Royal-Mint-ETC im eigenen Tresor der Royal Mint in Llantrisant, Wales, und nicht bei einer Bank." },
       steuer: {
-        stand,
+        url: "https://www.bundesfinanzhof.de/de/entscheidung/entscheidungen-online/detail/STRE202010206/",
+        stand: "04.11.2026",
         hinweis:
-          "Steuerfrei nach einem Jahr ist der Gewinn nur, wenn du dir das Metall ausliefern lassen kannst. Bei den meisten ETCs geht das nicht, dann greift die Abgeltungsteuer. Keine Steuerberatung.",
+          "Gibt das Papier einen Anspruch auf Lieferung von Gold und ist es voll mit Gold gedeckt, ist der Gewinn nach einem Jahr steuerfrei (Bundesfinanzhof, Urteil VIII R 7/17 vom 16.06.2020). Der Royal-Mint-ETC gibt diesen Anspruch. Bei den meisten anderen ETCs geht das nicht, dann greift die Abgeltungsteuer. Keine Steuerberatung.",
       },
     },
   },

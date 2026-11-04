@@ -4780,9 +4780,63 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "stand": "21.10.2026"
   },
   "XS2115336336": {
-    "kaufbar": [],
+    "kaufbar": [
+      {
+        "anbieter": "Scalable Capital",
+        "haus": "scalable",
+        "haeuser": [
+          "scalable",
+          "scalable-prime"
+        ],
+        "beleg": {
+          "url": "https://www.justetf.com/de/etf-profile.html?isin=XS2115336336",
+          "stand": "04.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "scalable.capital"
+          ],
+          "herkunft": "https://de.scalable.capital/trading"
+        }
+      },
+      {
+        "anbieter": "Smartbroker+",
+        "haus": "smartbroker",
+        "beleg": {
+          "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=XS2115336336",
+          "stand": "04.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "smartbrokerplus.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Trade Republic",
+        "haus": "trade-republic",
+        "beleg": {
+          "url": "https://assets.traderepublic.com/assets/files/DE/Instrument_Universe_DE_de.pdf",
+          "stand": "04.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "traderepublic.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Traders Place",
+        "haus": "traders-place",
+        "beleg": {
+          "url": "https://www.tradersplace.de/wertpapiersuche",
+          "stand": "04.11.2026",
+          "quelle": "elias",
+          "domains": [
+            "tradersplace.de"
+          ]
+        }
+      }
+    ],
     "nichtImAngebot": [],
-    "stand": "21.09.2026"
+    "stand": "04.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [

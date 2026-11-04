@@ -94,11 +94,12 @@ const BESONDERS: Record<string, string> = {
   JE00BN2CJ301: "Günstig bei WisdomTree",
   JE00B1VS3770: "Am Markt seit 2007",
   JE00B588CD74: "Schweizer Barren im Namen",
-  [ROYAL_MINT]: "Barren und Münzen lieferbar",
+  [ROYAL_MINT]: "Unsere Nummer 1: Barren und Münzen lieferbar",
 };
 const GOLD = halalAnlagen
   .filter((a) => a.kategorie === "gold" && a.zertifikatLink && ANLAGEN_KAUFBAR[a.isin]?.kaufbar.length)
-  .sort((x, y) => (y.groesseSortierwert ?? 0) - (x.groesseSortierwert ?? 0));
+  .sort((x, y) => Number(y.isin === ROYAL_MINT) - Number(x.isin === ROYAL_MINT) || (y.groesseSortierwert ?? 0) - (x.groesseSortierwert ?? 0));
+const GROESSTER = [...GOLD].sort((x, y) => (y.groesseSortierwert ?? 0) - (x.groesseSortierwert ?? 0))[0]?.isin;
 const kurzName = (name: string, anbieter: string) => name.replace(new RegExp(`^${anbieter} `), "").replace(/^The Royal Mint Responsibly Sourced /, "Royal Mint ");
 const groesseKurz = (a: (typeof GOLD)[number]) => {
   const mio = a.groesseSortierwert ?? 0;
@@ -118,8 +119,8 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     text: "Der Händler hat den Barren schon, der Barren ist bestimmbar, deine Zahlung ist nicht widerrufbar. Lange Lieferzeit ist das Warnsignal.",
   },
   {
-    lead: `${GOLD.length} Gold-ETCs mit Shariah-Zertifikat liegen in deutschen Depots.`,
-    text: "Hinter ihnen liegen echte Barren im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
+    lead: "Unsere Nummer 1 ist der Gold-ETC der Royal Mint.",
+    text: "Du lässt dir Barren und Münzen ausliefern, er ist zertifiziert, und der Gewinn ist nach einem Jahr steuerfrei. Kaufbar bei Traders Place, Scalable und Smartbroker+.",
   },
   { lead: "Gold auf Raten fällt weg.", text: "Ebenso Gold-CFDs, Hebelprodukte und Altgold plus Zuzahlung gegen neues Gold." },
   {
@@ -136,7 +137,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
 const WEGE: { weg: string; marke: string; ton: "gruen" | "gelb" | "rot"; wann: string; steuer: string }[] = [
   { weg: "Barren oder Münzen beim Händler", marke: "klar erlaubt", ton: "gruen", wann: "sofort, in deiner Hand", steuer: "steuerfrei nach 1 Jahr" },
   { weg: "Online beim Händler mit eigenem Bestand", marke: "geht mit Prüfung", ton: "gruen", wann: "bei Zahlung zugeordnet", steuer: "steuerfrei nach 1 Jahr" },
-  { weg: "Gold-ETC mit echtem Metall", marke: "zertifiziert", ton: "gruen", wann: "Barren im Tresor, über das Wertpapier", steuer: "meist Abgeltungsteuer" },
+  { weg: "Gold-ETC mit echtem Metall", marke: "zertifiziert", ton: "gruen", wann: "Barren im Tresor, bei Royal Mint auch lieferbar", steuer: "Royal Mint steuerfrei nach 1 Jahr, sonst meist Abgeltungsteuer" },
   { weg: "Goldsparplan", marke: "je nach Vertrag", ton: "gelb", wann: "hängt am Vertrag", steuer: "hängt am Vertrag" },
   { weg: "Gold-Zertifikat, CFD, Hebel", marke: "fällt weg", ton: "rot", wann: "nie, kein Metall dahinter", steuer: "Abgeltungsteuer" },
 ];
@@ -151,8 +152,8 @@ const goldBei = (name: string) => MIT_DEPOT.filter((a) => kaufbarBei(a.isin).inc
 const ANBIETER = DREIER.map((d) => ({
   ...d,
   zeilen: [
+    `Royal Mint Gold-ETC: ${kaufbarBei(ROYAL_MINT).includes(d.name) ? "kaufbar" : "noch nicht geprüft"}`,
     `Gold-ETCs mit Zertifikat: ${goldBei(d.name)} von ${MIT_DEPOT.length}`,
-    "Depotgebühr: 0 €",
     d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
   ],
 }));
@@ -169,9 +170,19 @@ const FRAGEN: { frage: string; antwort: string; link?: { to: string; text: strin
       "Ja, wenn drei Dinge stimmen: Der Händler besitzt den Barren schon, der Barren ist bestimmbar (Nummer, Gewicht), und deine Zahlung ist nicht mehr widerrufbar. Ein guter Praxistest ist die Lieferzeit. Zwei bis drei Tage sind Logistik, zwei bis drei Wochen heißen meist, dass der Barren erst nach deiner Zahlung eingekauft wird.",
   },
   {
+    frage: "Welcher Gold-ETC ist der beste für Muslime?",
+    antwort:
+      "Unsere Nummer 1 ist der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Du kannst dir das Gold als Barren oder Münzen ausliefern lassen, ein Gelehrtengremium zertifiziert ihn jedes Jahr, und der Gewinn ist nach einem Jahr steuerfrei. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
+  },
+  {
     frage: "Ist ein Gold-ETF oder Gold-ETC halal?",
     antwort:
-      "Darüber gehen die Meinungen auseinander. Produkte, hinter denen nummerierte Barren im Tresor liegen und die ein Zertifikat eines Gelehrtengremiums haben, werden verbreitet akzeptiert. Ein Teil der Gelehrten sagt, ohne Gold in der Hand sei die Bedingung der Übergabe nicht erfüllt. Unstrittig ausgeschlossen sind Produkte ohne echtes Metall dahinter.",
+      "Ja, wenn echtes Gold dahinter liegt, das dir zugeordnet ist, und ein Gelehrtengremium das Produkt zertifiziert. Ein Teil der Gelehrten verlangt das Gold in der Hand. Beim Royal-Mint-ETC geht auch das: Du lässt es dir ausliefern. Klar ausgeschlossen sind Produkte ohne echtes Metall dahinter.",
+  },
+  {
+    frage: "Ist Gold im Depot steuerfrei?",
+    antwort:
+      "Ja, wenn das Wertpapier dir einen Anspruch auf Lieferung von Gold gibt und voll mit Gold gedeckt ist. Dann ist der Gewinn nach einem Jahr steuerfrei wie bei einem Barren (Bundesfinanzhof, Urteil VIII R 7/17 vom 16.06.2020). Der Royal-Mint-ETC gibt diesen Anspruch. Bei den meisten anderen Gold-ETCs greift die Abgeltungsteuer. Das ist keine Steuerberatung.",
   },
   {
     frage: "Darf ich Gold auf Raten kaufen?",
@@ -651,16 +662,16 @@ const HalalGoldKaufen = () => {
                       unter: (
                         <>
                           {a.anbieter}
-                          {a.isin === GOLD[0].isin && (
-                            <>
-                              {" "}
-                              <Marke>Größter</Marke>
-                            </>
-                          )}
                           {a.isin === ROYAL_MINT && (
                             <>
                               {" "}
-                              <Marke>Lieferbar</Marke>
+                              <Marke>Nummer 1</Marke>
+                            </>
+                          )}
+                          {a.isin === GROESSTER && (
+                            <>
+                              {" "}
+                              <Marke>Größter</Marke>
                             </>
                           )}
                         </>
@@ -825,7 +836,7 @@ const HalalGoldKaufen = () => {
                           <p>
                             {a.kostenLabel} im Jahr, also {euro(a.kosten * 100)} bei 10.000 €. {depots(a.isin) ? `Bei ${depots(a.isin)} Depots zu haben.` : ""}{" "}
                             {a.isin === ROYAL_MINT
-                              ? "Das Gold liegt im Tresor der Royal Mint in Wales und nicht bei einer Bank, Privatanleger können sich Barren und Münzen ausliefern lassen. Wer dem Einwand zur Übergabe Gewicht gibt, findet hier den kürzesten Weg vom Papier zum Barren."
+                              ? "Das Gold liegt im Tresor der Royal Mint in Wales und nicht bei einer Bank, Privatanleger können sich Barren und Münzen ausliefern lassen. Darum ist der Gewinn nach einem Jahr steuerfrei, und wer das Gold in der Hand will, bekommt es."
                               : `Geprüft von ${pruefer(a.zertifizierer)}.`}
                           </p>
                         </Text>
@@ -922,8 +933,9 @@ const HalalGoldKaufen = () => {
                   <Text>
                     <p>
                       Anlagegold ist beim Kauf von der Umsatzsteuer befreit. Verkaufst du physisches Gold nach mehr als einem Jahr, ist der Gewinn
-                      nach derzeitiger Rechtslage steuerfrei. Bei Wertpapieren gilt das nur, wenn du dir das Gold ausliefern lassen kannst. Bei den
-                      meisten Gold-ETCs geht das nicht, dort greift die Abgeltungsteuer. Das ist keine Steuerberatung.
+                      nach derzeitiger Rechtslage steuerfrei. Bei Wertpapieren gilt das, wenn sie dir einen Anspruch auf Lieferung von Gold geben
+                      und voll mit Gold gedeckt sind (Bundesfinanzhof, Urteil VIII R 7/17 vom 16.06.2020). Der Royal-Mint-ETC gibt diesen
+                      Anspruch. Bei den meisten anderen Gold-ETCs geht das nicht, dort greift die Abgeltungsteuer. Das ist keine Steuerberatung.
                     </p>
                     <p>
                       Zakat wird fällig, sobald du über dem Nisab liegst und das Gold ein Mondjahr besitzt. Der Nisab liegt bei 85 Gramm Gold oder
