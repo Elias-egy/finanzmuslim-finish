@@ -6,7 +6,7 @@ import type { PostHog } from "posthog-js";
 import { gemerkteQuelle } from "@/lib/attribution";
 
 /** Projekt-Schlüssel aus eu.posthog.com (öffentlich, beginnt mit phc_). Leer: keine Messung, kein Banner. */
-export const POSTHOG_SCHLUESSEL = "";
+export const POSTHOG_SCHLUESSEL = "phc_mczwwWCDJH2pb8x7o9vpKhgCTzt694E3NHEZieQvELPY";
 const POSTHOG_HOST = "https://eu.i.posthog.com";
 
 const SPEICHER = "fm-einwilligung";
