@@ -140,7 +140,7 @@ export const DEPOT_WERTE: Werte = {
   "scalable-capital-prime-plus-broker": {
     zinsfreiAbStart: "gut",
     depotgebuehr: "59,88€ (4,99€ im Monat)",
-    orderkosten: "0€ ab 250€ je Order, darunter 0,99€",
+    orderkosten: "0,99€ je Order unter 250€, ab 250€: 0€",
   },
   "trading-212-depot": { zinsfreiAbStart: "gut" },
   "vivid-standard": {
@@ -229,12 +229,12 @@ export const DEPOT_WERTE: Werte = {
   },
   "bbbank-depot": { zinsfreiAbStart: "gut" },
   "targobank-direkt-depot": { zinsfreiAbStart: "gut" },
-  "smartbroker-plus-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
+  "smartbroker-plus-depot": { orderkosten: "1€ je Order unter 500€, ab 500€: 0€" },
   "traders-place-depot": {
-    orderkosten: "0€ ab 500€ je Order, darunter 0,95€",
+    orderkosten: "0,95€ je Order unter 500€, ab 500€: 0€",
     etfSparplanKosten: "0€ bei Amundi, DWS, DJE, Xtrackers, iShares und Vanguard, sonst 0,50€",
   },
-  "finanzen-net-zero-depot": { orderkosten: "0€ ab 500€ je Order, darunter 1€" },
+  "finanzen-net-zero-depot": { orderkosten: "1€ je Order unter 500€, ab 500€: 0€" },
   "flatex-depot": { orderkosten: "5,90€ + 2€ Fremdkostenpauschale", kreditAbStart: "teils" },
   "degiro-depot": { orderkosten: "2€ + 1€ Bearbeitungsgebühr. ETFs der Kernauswahl: 1€" },
   "gls-bank-depot": {

@@ -11,7 +11,6 @@ import {
   GOLD_ISINS,
   SILBER_ISINS,
   ROYAL_MINT,
-  ROYAL_MINT_SPARPLAN,
 } from "@/data/edelmetallVergleich";
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
@@ -60,7 +59,7 @@ const NummerEinsGold = () => (
         </li>
       ))}
     </ul>
-    {/* Am Handy nur die Logos, damit die erste Anbieterkarte im ersten Schirm bleibt; Sparplan steht dort in der Karte. */}
+    {/* Am Handy nur die Logos, damit die erste Anbieterkarte im ersten Schirm bleibt. Ohne Sparplan-Marke (Elias, 04.11.2026, SEO51: „erstmal egal, mach erstmal nur, dass sie da angeboten werden“). */}
     <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 md:mt-4 md:block">
       <p className="text-[14px] font-semibold text-foreground">Kaufbar bei</p>
       <ul className="flex flex-wrap items-center gap-x-2 gap-y-2 md:mt-2 md:gap-x-4">
@@ -68,9 +67,6 @@ const NummerEinsGold = () => (
           <li key={a.name} className="flex items-center gap-2 text-[15px] text-foreground">
             <AnbieterLogo name={a.name} domain={a.domain} klein />
             <span className="sr-only md:not-sr-only">{a.name}</span>
-            {ROYAL_MINT_SPARPLAN.includes(a.name) && (
-              <span className="hidden rounded bg-white px-1.5 py-0.5 text-[13px] font-semibold text-primary md:inline">Sparplan</span>
-            )}
           </li>
         ))}
       </ul>

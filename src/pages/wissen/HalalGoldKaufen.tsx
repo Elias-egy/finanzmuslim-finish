@@ -8,7 +8,7 @@ import { kursFuerIsin, kursStand } from "@/lib/kurse";
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { kaufbarBei } from "@/data/halalEtfListe";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
-import { ROYAL_MINT, ROYAL_MINT_SPARPLAN } from "@/data/royalMint";
+import { ROYAL_MINT } from "@/data/royalMint";
 import nisab from "@/data/nisab.json";
 import {
   AnbieterKasten,
@@ -152,7 +152,7 @@ const goldBei = (name: string) => MIT_DEPOT.filter((a) => kaufbarBei(a.isin).inc
 const ANBIETER = DREIER.map((d) => ({
   ...d,
   zeilen: [
-    `Royal Mint Gold-ETC: ${kaufbarBei(ROYAL_MINT).includes(d.name) ? (ROYAL_MINT_SPARPLAN.includes(d.name) ? "kaufbar, auch als Sparplan" : "kaufbar") : "noch nicht geprüft"}`,
+    `Royal Mint Gold-ETC: ${kaufbarBei(ROYAL_MINT).includes(d.name) ? "kaufbar" : "noch nicht geprüft"}`,
     `Gold-ETCs mit Zertifikat: ${goldBei(d.name)} von ${MIT_DEPOT.length}`,
     d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
   ],

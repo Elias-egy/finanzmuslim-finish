@@ -177,7 +177,7 @@ describe("Vergleichsdaten edelmetalle", () => {
     // Eine ungeprüfte Zelle ist nicht leer, sonst fiele das Depot aus der Anzeige (SEO49 zeigte nur noch 5).
     for (const a of edelmetallVergleich) expect(luecken(a, "edelmetall", EDELMETALL_ZEILEN, { finanzMax: EDELMETALL_FINANZ_MAX }), a.id).not.toContain("royalMint");
     for (const a of edelmetallVergleich) {
-      expect(["noch nicht geprüft", "ja", "ja, auch als Sparplan"], a.id).toContain(a.werte.royalMint);
+      expect(["noch nicht geprüft", "ja"], a.id).toContain(a.werte.royalMint);
       if (String(a.werte.royalMint).startsWith("ja")) expect([a.haus, a.finanzfluss?.produkt].some((h) => h && belegtBei.has(h)), a.id).toBe(true);
     }
     const gerankt = rangfolge(edelmetallVergleich, "edelmetall", { finanzMax: EDELMETALL_FINANZ_MAX }).gerankt;

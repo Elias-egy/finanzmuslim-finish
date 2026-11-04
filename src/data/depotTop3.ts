@@ -7,6 +7,7 @@
 import { depotAnzeige } from "@/data/vergleichAnzeige";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { werteAus } from "@/lib/vergleichAssistent";
+import { kostenKurz } from "@/data/kostenKurz";
 
 const werteVon = (id: string) => (depotAnzeige.find((a) => a.id === id)?.werte ?? {}) as Record<string, unknown>;
 
@@ -20,8 +21,13 @@ const karte = (t: (typeof GEREIHT)[number], i: number, nr1Erlaubt = true) => {
   const w = t.anbieter.werte as Record<string, unknown>;
   const text = (k: string) => String(w[k] ?? "").replace(/(\d)€/g, "$1 €");
   const sparrate = text("sparrate").match(/^([\d.,]+) €/)?.[1];
-  // Bis zum ersten Zusatz („, darunter …“ oder „. ETF-Kauf …“, nicht bei „min. 9,95 €“), wie die Zeile im Depot-Vergleich beginnt.
-  const order = text("orderkosten").split(/, darunter|, dazu|\. (?=[A-ZÄÖÜ])/)[0].replace(/ je Order$/, "");
+  // Die Kurzform wie in der Zeile des Depot-Vergleichs, mit dem Preis unter der Mindestsumme (Elias, 04.11.2026, SEO51);
+  // ohne Kurzform bis zum ersten Zusatz („, darunter …“ oder „. ETF-Kauf …“, nicht bei „min. 9,95 €“).
+  const order =
+    kostenKurz(t.anbieter.id, "orderkosten")
+      ?.replace(/(\d)€/g, "$1\u00a0€")
+      .replace(/, ab (.*)$/, (_, rest: string) => `, ab\u00a0${rest.replace(/ /g, "\u00a0")}`) ??
+    text("orderkosten").split(/, darunter|, dazu|\. (?=[A-ZÄÖÜ])/)[0].replace(/ je Order$/, "");
   return {
     id: t.anbieter.id,
     name: t.anbieter.name,

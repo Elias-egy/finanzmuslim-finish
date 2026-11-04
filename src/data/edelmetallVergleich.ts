@@ -6,7 +6,7 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
 import { ANLAGEN_KAUFBAR, ANLAGE_ZEILE } from "./anlagenKaufbar";
 import { halalAnlagen } from "./halalAnlagen";
-import { ROYAL_MINT, ROYAL_MINT_SPARPLAN } from "./royalMint";
+import { ROYAL_MINT } from "./royalMint";
 
 /**
  * Edelmetalle im Depot (Elias, 06.10.2026): dieselben Depots wie im Depot-Vergleich, noch einmal
@@ -99,12 +99,12 @@ export const edelmetallVergleich: RohAnbieter[] = brokerVergleich
   .filter((a) => !a.abgeraten && a.werte.zinsfreiAbStart !== "schlecht" && (a.halalAnlagenPunkte?.halalEdelmetalle ?? 0) > 0)
   .map((a) => ({
     ...a,
-    werte: { ...a.werte, royalMint: belegt(a, ROYAL_MINT) ? (ROYAL_MINT_SPARPLAN.includes(a.name) ? "ja, auch als Sparplan" : "ja") : "noch nicht geprüft", gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
+    werte: { ...a.werte, royalMint: belegt(a, ROYAL_MINT) ? "ja" : "noch nicht geprüft", gold: anzahl(a, GOLD_ISINS), silber: anzahl(a, SILBER_ISINS) },
     quellen: { ...a.quellen, gold: a.quellen?.halalEdelmetalle, silber: a.quellen?.halalEdelmetalle } as RohAnbieter["quellen"],
   }));
 
 export const EDELMETALL_FILTER = [
-  { key: "royalMint", label: "Royal Mint kaufbar", erlaubt: ["ja", "ja, auch als Sparplan"] },
+  { key: "royalMint", label: "Royal Mint kaufbar", erlaubt: ["ja"] },
   { key: "gold", label: "Alle weiteren Gold-ETCs kaufbar", erlaubt: [`${GOLD_ISINS.length} von ${GOLD_ISINS.length}`] },
   { key: "silber", label: "Alle Silber-ETCs kaufbar", erlaubt: [`${SILBER_ISINS.length} von ${SILBER_ISINS.length}`] },
 ];
