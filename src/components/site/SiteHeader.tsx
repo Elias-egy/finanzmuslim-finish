@@ -33,6 +33,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   // to Action muss halt sitzen“); belegt: Händler verkaufen nie zum reinen Metallpreis, der ETC kostet Ordergebühr und
   // laufende Kosten, aber keinen Händleraufschlag (edelmetallVergleich.ts, EDELMETALL_WEGE).
   "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold ohne Aufschlag", ohneZum: true },
+  // Leasing (SEO54): die Rate, die dir gehört, statt einer Rate, die am Ende weg ist (Karte ist-leasing-haram.md, Station 8a).
+  "/blog/ist-leasing-haram": { ziel: "/vergleich/depot", text: "Rate halal anlegen", ohneZum: true },
 };
 
 export const SiteHeader = () => {
