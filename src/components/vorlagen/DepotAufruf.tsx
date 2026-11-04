@@ -18,6 +18,8 @@ type Props = {
   alle?: { ziel: string; text: string };
   /** Die drei Karten im Kasten; ohne Angabe die drei besten Depots (Sukuk auf der Gold-Seite: SUKUK_TOP3). */
   top?: readonly DepotKarte[];
+  /** Ohne das Video in der Karte der Nummer 1 (Plan, Elias, 04.11.2026: „bei den drei vergleichen das Video auch rausnehmen“). */
+  ohneVideo?: boolean;
 };
 
 type DepotKarte = (typeof TOP3)[number];
@@ -105,6 +107,7 @@ const DepotAufruf = ({
   check = CHECK,
   alle = { ziel: "/vergleich/depot", text: "Alle Depots im Vergleich" },
   top = TOP3,
+  ohneVideo = false,
 }: Props) => (
   <div data-depot-aufruf>
     {titel && (
@@ -162,7 +165,7 @@ const DepotAufruf = ({
                 ))}
               </ul>
             </div>
-            {d.nr1 && nr1Start?.art === "depot" && (
+            {d.nr1 && !ohneVideo && nr1Start?.art === "depot" && (
               <div className="mt-4 md:col-span-2 md:row-start-3">
                 {/* Im PDF läuft kein Video: dort steht der Link auf die Startseite mit dem Video (MC7d13d, Schritt 232). */}
                 <a
