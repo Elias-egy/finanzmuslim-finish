@@ -28,8 +28,11 @@ const Entry = ({ item, onClick }: { item: NavEntry; onClick?: () => void }) =>
   );
 
 /** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Depot-Vergleich. */
-const KOPF_ZIEL: Record<string, { ziel: string; text: string }> = {
-  "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold-Vergleich" },
+const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean }> = {
+  // Der Knopf nennt den Schmerz statt des Seitennamens (Elias, 04.11.2026, SEO51: „Gold ohne Preisaufschläge … Der Call
+  // to Action muss halt sitzen“); belegt: Händler verkaufen nie zum reinen Metallpreis, der ETC kostet Ordergebühr und
+  // laufende Kosten, aber keinen Händleraufschlag (edelmetallVergleich.ts, EDELMETALL_WEGE).
+  "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold ohne Aufschlag", ohneZum: true },
 };
 
 export const SiteHeader = () => {
@@ -132,8 +135,9 @@ export const SiteHeader = () => {
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             {beitragsKopf ? (
               <Link to={kopfZiel.ziel} className="leuchtlinie leuchtlinie-hell inline-block">
-                <span className="flex h-11 items-center whitespace-nowrap bg-white px-3 font-mono text-[12px] uppercase tracking-[0.1em] text-foreground min-[900px]:px-4">
-                  <span className="hidden min-[420px]:inline">Zum&nbsp;</span>{kopfZiel.text}
+                <span className="flex h-11 items-center whitespace-nowrap bg-white px-2.5 font-mono text-[12px] uppercase tracking-[0.02em] text-foreground min-[390px]:px-3 min-[390px]:tracking-[0.1em] min-[900px]:px-4">
+                  {!kopfZiel.ohneZum && <span className="hidden min-[420px]:inline">Zum&nbsp;</span>}
+                  {kopfZiel.text}
                 </span>
               </Link>
             ) : (

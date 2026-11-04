@@ -487,12 +487,12 @@ const HalalGoldKaufen = () => {
               <div className="mt-3">{inhalt}</div>
               <div className="mt-6 border border-border bg-card p-5">
                 <Etikett className="text-primary">Gold im Depot</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Gold kaufen, ohne einen Cent Zinsen?</p>
+                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Gold kaufen ohne Aufschlag?</p>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
-                  Im Gold-Vergleich siehst du, welches Depot alle Gold-ETCs mit Zertifikat führt und dir keine Zinsen zahlt.
+                  Im Depot kaufst du Gold zum Börsenpreis, ohne Aufschlag eines Händlers und ohne Tresor zu Hause. Im Vergleich siehst du, welches Depot unsere Nummer 1 führt.
                 </p>
                 <Link to="/vergleich/edelmetalle" className="leuchtlinie mt-5 inline-block">
-                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">Zum Gold-Vergleich</span>
+                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">Gold ohne Aufschlag</span>
                 </Link>
               </div>
             </div>
@@ -853,10 +853,10 @@ const HalalGoldKaufen = () => {
                 <AutorAufruf
                   bild={eliasPortrait}
                   etikett="In die Praxis"
-                  titel="Welches Depot passt zu dir?"
-                  text="Nicht jedes Depot führt alle Gold-ETCs mit Zertifikat, und viele zahlen Zinsen aufs Guthaben. Im Gold-Vergleich siehst du beides auf einen Blick."
+                  titel="Gold kaufen ohne Aufschlag"
+                  text="Beim Händler zahlst du immer mehr als den Goldpreis. Im Depot kaufst du zum Börsenpreis, dafür kostet jeder Kauf eine kleine Gebühr. Im Vergleich siehst du, welches Depot unsere Nummer 1 führt und was ein Kauf dort kostet."
                   ziel="/vergleich/edelmetalle"
-                  knopf="Zum Gold-Vergleich"
+                  knopf="Gold ohne Aufschlag"
                 />
 
                 <section className="mt-14">
