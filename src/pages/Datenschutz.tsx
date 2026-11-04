@@ -1,4 +1,5 @@
 import Seo from "@/components/Seo";
+import { messungAktiv } from "@/lib/messung";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background text-foreground">
@@ -30,9 +31,11 @@ const Datenschutz = () => (
         <p className="text-muted-foreground leading-relaxed">
           Der Schutz deiner persönlichen Daten ist uns wichtig. Wir verarbeiten deine Daten
           ausschließlich auf Grundlage der Datenschutz-Grundverordnung (DSGVO) und des
-          Bundesdatenschutzgesetzes. Diese Seite setzt keine Analyse- oder Werbe-Tools ein und
-          setzt keine Cookies, die eine Einwilligung brauchen. Schriften liegen auf unserem
-          eigenen Server, es wird keine Schrift von Google geladen.
+          Bundesdatenschutzgesetzes.{" "}
+          {messungAktiv()
+            ? "Analyse-Cookies setzen wir nur, wenn du im Banner zustimmst (Abschnitt Messung). Werbe-Tools setzen wir nicht ein."
+            : "Diese Seite setzt keine Analyse- oder Werbe-Tools ein und setzt keine Cookies, die eine Einwilligung brauchen."}{" "}
+          Schriften liegen auf unserem eigenen Server, es wird keine Schrift von Google geladen.
         </p>
       </section>
 
@@ -180,6 +183,36 @@ const Datenschutz = () => (
         </p>
       </section>
 
+      {messungAktiv() && (
+        <section id="messung" className="mb-10 scroll-mt-24">
+          <h2 className="text-xl font-semibold mb-4">Messung mit deiner Einwilligung</h2>
+          <div className="space-y-3 text-muted-foreground leading-relaxed">
+            <p>
+              Wenn du im Banner auf „Akzeptieren“ tippst, nutzen wir PostHog, um zu sehen, welche Seiten
+              gelesen werden, worauf geklickt wird, woher Besucher kommen und an welcher Stelle sie aufhören.
+              Dazu gehören aufgezeichnete Abläufe der Seite und Klickkarten. Eingaben in Formularfeldern werden
+              dabei verdeckt und nicht übertragen.
+            </p>
+            <p>
+              PostHog setzt dafür Cookies und Einträge im Speicher deines Browsers mit einer zufälligen Kennung.
+              Verarbeitet werden die aufgerufene Adresse, die Seite davor, Gerät, Browser, Bildschirmgröße, ungefährer
+              Ort aus der IP-Adresse und deine Klicks. Wir verbinden das nicht mit deinem Namen oder deiner
+              E-Mail-Adresse.
+            </p>
+            <p>
+              Anbieter ist PostHog Inc., 2261 Market St., San Francisco, USA. Die Daten liegen auf Servern in
+              Frankfurt am Main (EU). Mit PostHog besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.
+              Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG).
+            </p>
+            <p>
+              Ohne Einwilligung lädt PostHog nicht. Du kannst deine Wahl jederzeit über „Cookie-Einstellungen“ unten
+              auf jeder Seite ändern; ein Widerruf gilt ab dann. Aufzeichnungen werden nach 30 Tagen gelöscht,
+              übrige Messdaten nach spätestens zwölf Monaten.
+            </p>
+          </div>
+        </section>
+      )}
+
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">7. Partnerlinks</h2>
         <p className="text-muted-foreground leading-relaxed">
@@ -195,8 +228,8 @@ const Datenschutz = () => (
         <h2 className="text-xl font-semibold mb-4">8. Weitergabe an Dritte</h2>
         <p className="text-muted-foreground leading-relaxed">
           Wir geben deine Daten nicht an unbefugte Dritte weiter. Außer den oben genannten
-          Dienstleistern (GitHub, MailerLite, Make, ManyChat, Tally, logo.dev) setzen wir keine weiteren
-          Auftragsverarbeiter ein.
+          Dienstleistern (GitHub, MailerLite, Make, ManyChat, Tally, logo.dev{messungAktiv() ? ", PostHog" : ""}) setzen
+          wir keine weiteren Auftragsverarbeiter ein.
         </p>
       </section>
 

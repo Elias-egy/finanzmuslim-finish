@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ereignis } from "@/lib/messung";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { Award, CheckCircle2, ChevronDown, Download, HelpCircle, Plus, ShieldCheck, Volume2 } from "lucide-react";
 import AnbieterCheck from "@/components/AnbieterCheck";
@@ -165,8 +166,46 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     v.volume = 1;
     void v.play();
     setVideoMuted(false);
+    ereignis("ton_an", { anbieter: partner.kurzname, sekunde: Math.round(v.currentTime) });
   };
   const pauseVideo = () => videoRef.current?.pause();
+  /* Klick auf den Knopf zum Anbieter: welcher Knopf (h oben, f unten, s Leiste) und wie weit das Video lief. */
+  const zumAnbieter = (knopf: "h" | "f" | "s") => () => {
+    const v = videoRef.current;
+    ereignis("partner_klick", {
+      anbieter: partner.kurzname,
+      weg: "start",
+      knopf,
+      video_sekunde: v ? Math.round(v.currentTime) : -1,
+    });
+    pauseVideo();
+  };
+  /* Video: Start, jedes Viertel, Ende. So sehen wir, wo die Leute im Übergang aussteigen. */
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    let gestartet = false;
+    let viertel = 0;
+    const lauf = () => {
+      if (!v.duration) return;
+      if (!gestartet && v.currentTime > 0.5) {
+        gestartet = true;
+        ereignis("video_start", { anbieter: partner.kurzname, ton: !v.muted });
+      }
+      const jetzt = Math.floor((v.currentTime / v.duration) * 4);
+      if (jetzt > viertel && jetzt < 4) {
+        viertel = jetzt;
+        ereignis("video_viertel", { anbieter: partner.kurzname, viertel: jetzt * 25, ton: !v.muted });
+      }
+    };
+    const ende = () => ereignis("video_ende", { anbieter: partner.kurzname, ton: !v.muted });
+    v.addEventListener("timeupdate", lauf);
+    v.addEventListener("ended", ende);
+    return () => {
+      v.removeEventListener("timeupdate", lauf);
+      v.removeEventListener("ended", ende);
+    };
+  }, [partner.kurzname]);
   const hinweise = startHinweise(partner.kurzname, partner.art);
   /* Elias, 13.10.2026: Das Zeichen steht nur bei einer Ausnahme, und der Text erscheint erst nach dem Druck darauf. */
   const ausnahmen = hinweise.filter(hatZeichen);
@@ -316,7 +355,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           )}
 
           <div id="start" ref={heroCtaRef} className="mt-5 md:mt-7 scroll-mt-24">
-            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={pauseVideo} />
+            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={zumAnbieter("h")} />
           </div>
 
           {/* Ausnahmen des Angebots unter dem Knopf beim Video, erst nach dem Druck auf das Zeichen (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
@@ -593,7 +632,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                   : "Ein paar Minuten, und dein zinsfreies Konto ist beantragt."}
           </p>
           <div className="reveal mt-8">
-            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}f`)} onCtaClick={pauseVideo} />
+            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}f`)} onCtaClick={zumAnbieter("f")} />
           </div>
         </div>
       </section>
@@ -657,7 +696,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               rel="sponsored noopener"
               target="_blank"
               tabIndex={showSticky ? 0 : -1}
-              onClick={pauseVideo}
+              onClick={zumAnbieter("s")}
               className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-hover text-[15px] font-bold md:flex-none md:px-8"
             >
               {partner.knopf}

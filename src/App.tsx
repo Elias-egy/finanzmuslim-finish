@@ -6,6 +6,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
+import Einwilligung from "@/components/site/Einwilligung";
+import { merkeSeite } from "@/lib/messung";
 import Index from "./pages/Index.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
@@ -95,10 +97,13 @@ const routeFallback = <div className="min-h-screen bg-background" aria-hidden />
 // F3: captured ?src auf jeder Route (nicht nur InvestmentStart), damit die
 // Attributionskette Bio/DM -> Guide -> Investmentstart nicht reißt.
 const SrcCapture = () => {
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
   useEffect(() => {
     captureSrc();
   }, [search]);
+  useEffect(() => {
+    merkeSeite(pathname);
+  }, [pathname]);
   return null;
 };
 
@@ -120,6 +125,7 @@ const App = () => (
       <BrowserRouter>
         <SrcCapture />
         <ScrollToTop />
+        <Einwilligung />
         <Layout>
         <Suspense fallback={routeFallback}>
           <Routes>

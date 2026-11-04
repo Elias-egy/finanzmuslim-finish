@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { messungAktiv, oeffneBanner } from "@/lib/messung";
 import { Wordmark } from "@/components/Wordmark";
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import type { NavEntry } from "@/components/site/navData";
@@ -105,7 +106,17 @@ export const SiteFooter = () => (
       </div>
 
       <div className="mt-10 border-t border-border pt-6 space-y-2 lg:mt-12">
-        <p className="text-[13px] text-muted-foreground">© 2026 finanzmuslim</p>
+        <p className="text-[13px] text-muted-foreground">
+          © 2026 finanzmuslim
+          {messungAktiv() && (
+            <>
+              {" · "}
+              <button type="button" onClick={oeffneBanner} className="min-h-[36px] underline underline-offset-2 hover:text-foreground">
+                Cookie-Einstellungen
+              </button>
+            </>
+          )}
+        </p>
         <p className="text-[13px] text-muted-foreground">
           Mit * markierte Links sind Werbe- oder Affiliate-Links. Wenn du darüber ein Produkt abschließt,
           erhalte ich eine Provision. Für dich entstehen dadurch keine Mehrkosten.
