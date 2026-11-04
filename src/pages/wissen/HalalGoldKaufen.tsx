@@ -32,7 +32,6 @@ import {
   TL,
   Tabelle,
   Text,
-  WerkzeugKasten,
   YOUTUBE,
   euro,
   useAktiv,
@@ -98,7 +97,7 @@ const BESONDERS: Record<string, string> = {
   [ROYAL_MINT]: "Barren und Münzen lieferbar",
 };
 const GOLD = halalAnlagen
-  .filter((a) => a.kategorie === "gold" && a.zertifikatLink)
+  .filter((a) => a.kategorie === "gold" && a.zertifikatLink && ANLAGEN_KAUFBAR[a.isin]?.kaufbar.length)
   .sort((x, y) => (y.groesseSortierwert ?? 0) - (x.groesseSortierwert ?? 0));
 const kurzName = (name: string, anbieter: string) => name.replace(new RegExp(`^${anbieter} `), "").replace(/^The Royal Mint Responsibly Sourced /, "Royal Mint ");
 const groesseKurz = (a: (typeof GOLD)[number]) => {
@@ -119,7 +118,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     text: "Der Händler hat den Barren schon, der Barren ist bestimmbar, deine Zahlung ist nicht widerrufbar. Lange Lieferzeit ist das Warnsignal.",
   },
   {
-    lead: `${GOLD.length} Gold-ETCs haben ein Shariah-Zertifikat.`,
+    lead: `${GOLD.length} Gold-ETCs mit Shariah-Zertifikat liegen in deutschen Depots.`,
     text: "Hinter ihnen liegen echte Barren im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
   },
   { lead: "Gold auf Raten fällt weg.", text: "Ebenso Gold-CFDs, Hebelprodukte und Altgold plus Zuzahlung gegen neues Gold." },
@@ -135,9 +134,9 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
 ];
 
 const WEGE: { weg: string; marke: string; ton: "gruen" | "gelb" | "rot"; wann: string; steuer: string }[] = [
-  { weg: "Barren oder Münzen beim Händler", marke: "unstrittig", ton: "gruen", wann: "sofort, in deiner Hand", steuer: "steuerfrei nach 1 Jahr" },
-  { weg: "Online beim Händler mit eigenem Bestand", marke: "geht, mit Prüfung", ton: "gruen", wann: "bei Zahlung zugeordnet", steuer: "steuerfrei nach 1 Jahr" },
-  { weg: "Gold-ETC mit echtem Metall", marke: "umstritten", ton: "gelb", wann: "Barren im Tresor, über das Wertpapier", steuer: "meist Abgeltungsteuer" },
+  { weg: "Barren oder Münzen beim Händler", marke: "klar erlaubt", ton: "gruen", wann: "sofort, in deiner Hand", steuer: "steuerfrei nach 1 Jahr" },
+  { weg: "Online beim Händler mit eigenem Bestand", marke: "geht mit Prüfung", ton: "gruen", wann: "bei Zahlung zugeordnet", steuer: "steuerfrei nach 1 Jahr" },
+  { weg: "Gold-ETC mit echtem Metall", marke: "zertifiziert", ton: "gruen", wann: "Barren im Tresor, über das Wertpapier", steuer: "meist Abgeltungsteuer" },
   { weg: "Goldsparplan", marke: "je nach Vertrag", ton: "gelb", wann: "hängt am Vertrag", steuer: "hängt am Vertrag" },
   { weg: "Gold-Zertifikat, CFD, Hebel", marke: "fällt weg", ton: "rot", wann: "nie, kein Metall dahinter", steuer: "Abgeltungsteuer" },
 ];
@@ -606,9 +605,6 @@ const HalalGoldKaufen = () => {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-5 text-[14px] text-muted-foreground">
-                    Neu beim Thema? Im kostenlosen <TL to="/halal-guide">Halal Investment Guide</TL> erkläre ich die Grundlagen Schritt für Schritt.
-                  </p>
                 </section>
 
                 <section className="mt-14">
@@ -754,13 +750,6 @@ const HalalGoldKaufen = () => {
                         werte: ["2 bis 3 Wochen", "Der Händler kauft den Barren erst ein, nachdem er dein Geld hat. Genau den Fall soll die Regel verhindern."],
                       },
                     ]}
-                  />
-                  <WerkzeugKasten
-                    etikett="Test in 2 Minuten"
-                    titel="Ist dein Weg zum Gold halal?"
-                    text="Der Gold-Check ordnet zehn Wege ein, vom Barren bis zum Sparplan. Du siehst sofort, wo du stehst."
-                    ziel="/vorlagen/gold-check"
-                    knopf="Zum Gold-Check"
                   />
                 </section>
 
@@ -944,13 +933,6 @@ const HalalGoldKaufen = () => {
                       mit.
                     </p>
                   </Text>
-                  <WerkzeugKasten
-                    etikett="Rechner"
-                    titel="Wie viel Zakat zahlst du auf dein Gold?"
-                    text="Der Zakat-Rechner rechnet Gold, Silber, Depot und Ersparnisse zusammen und zeigt dir den Nisab von heute."
-                    ziel="/zakat-rechner"
-                    knopf="Zum Zakat-Rechner"
-                  />
                   <Kernsatz>Gold ist Sparen, kein Investieren. Es zahlt keine Miete und keinen Gewinn. Es hält Kaufkraft.</Kernsatz>
                 </section>
 
