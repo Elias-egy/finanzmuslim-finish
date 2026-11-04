@@ -125,7 +125,7 @@ export const SiteHeader = () => {
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             {beitragsKopf ? (
               <Link to="/vergleich/depot" className="leuchtlinie leuchtlinie-hell inline-block">
-                <span className="flex h-9 items-center whitespace-nowrap bg-white px-3 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground min-[900px]:h-10 min-[900px]:px-4 min-[900px]:text-[12px]">
+                <span className="flex h-11 items-center whitespace-nowrap bg-white px-3 font-mono text-[12px] uppercase tracking-[0.1em] text-foreground min-[900px]:px-4">
                   <span className="hidden min-[420px]:inline">Zum&nbsp;</span>Depot-Vergleich
                 </span>
               </Link>

@@ -380,7 +380,7 @@
   }
   /* "Neu"-Etikett: violetter Pill, nie klickbar, nie fuer Bewertungen. */
   .badge-new {
-    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-violet px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-foreground;
+    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-violet px-2 py-0.5 text-[12px] font-bold uppercase tracking-wide text-violet-foreground;
   }
   /* Invertierte Variante fuer den violetten Hinweisstreifen. */
   .badge-new-inverted {

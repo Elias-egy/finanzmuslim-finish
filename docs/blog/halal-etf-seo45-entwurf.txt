@@ -38,6 +38,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,30 %
+30 € im Jahr
 
 GRÖSSE
 
@@ -75,7 +76,7 @@ Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Gremium, d
 02
 Invesco
 
-Dow Jones Islamic Global Developed Markets
+Dow Jones Islamic
 
 AM BESTEN FÜR
 
@@ -90,6 +91,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,40 %
+40 € im Jahr
 
 GRÖSSE
 
@@ -141,6 +143,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,30 %
+30 € im Jahr
 
 GRÖSSE
 
@@ -192,6 +195,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,35 %
+35 € im Jahr
 
 GRÖSSE
 
@@ -243,6 +247,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,30 %
+30 € im Jahr
 
 GRÖSSE
 
@@ -293,6 +298,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,35 %
+35 € im Jahr
 
 GRÖSSE
 
@@ -328,7 +334,7 @@ Das Zertifikat gilt für den Index, dem der Fonds folgt: MSCI lässt die Methodi
 07
 HANetf
 
-Saturna Al-Kawthar Global Focused Equity
+Saturna Al-Kawthar
 
 AM BESTEN FÜR
 
@@ -343,6 +349,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,75 %
+75 € im Jahr
 
 GRÖSSE
 
@@ -375,7 +382,7 @@ DAGEGEN
 − Höchste Kosten der Liste.
 − Kleinster Fonds der Liste.
 GEPRÜFT VON
-Das Shariah Supervisory Board von Amanie Advisors prüft den Fonds jedes Jahr. Das unterschriebene Zertifikat für das Geschäftsjahr 2025 ist vom 22.05.2026. Zertifikat ansehen
+Das Shariah Supervisory Board von Amanie Advisors hat den Fonds für das Geschäftsjahr 2025 geprüft. Das unterschriebene Zertifikat ist vom 22.05.2026. Zertifikat ansehen
 08
 iShares
 
@@ -394,6 +401,7 @@ KAUFBAR BEI
 KOSTEN
 
 0,40 %
+40 € im Jahr
 
 GRÖSSE
 
@@ -427,21 +435,19 @@ DAGEGEN
 − Teurer als Platz 1.
 GEPRÜFT VON
 Laut Verkaufsprospekt von iShares II plc hat dieser Fonds ein eigenes Sukuk Fund Panel, besetzt mit dem Shariah-Board von Amanie Advisors. Es hat eine Fatwa erteilt und soll jedes Jahr ein Zertifikat ausstellen. Verkaufsprospekt ansehen
+1 von 8, wischen
 AUF DIESER SEITE
 
 Du willst als Muslim in einen ETF sparen und fragst dich wie fast jeder: Welchen nehme ich, wo kaufe ich ihn, und was hat er bisher gebracht?
 
 Ich habe 12 Halal ETFs verglichen und bei 29 Depots nachgesehen, wo du sie kaufen kannst. Acht sind geblieben. Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite.
 
-finanzmuslim als bevorzugte Quelle bei Google hinzufügen
-Dann zeigt dir Google unsere Vergleiche öfter.
-Hinzufügen
 Das Wichtigste
-Acht Halal ETFs im Vergleich, alle in Deutschland zu kaufen. Bei bis zu 27 Depots, Platz 1 bei 14 davon auch als Sparplan. Der bekannteste ist der iShares MSCI World Islamic, seit 2007 am Markt.
+Acht Halal ETFs im Vergleich, alle in Deutschland zu kaufen. Der bekannteste ist der iShares MSCI World Islamic, seit 2007 am Markt und bei 27 Depots zu haben.
 Banken und Versicherungen fliegen raus. Ein normaler ETF wie der MSCI World kauft sie mit. Ein Halal ETF lässt sie weg, ebenso Firmen mit zu vielen Schulden auf Zinsen.
-Sie kosten 30 bis 75 € im Jahr bei 10.000 €. Platz 1 liegt mit 0,30 % am unteren Ende. Dazu kommen nur die Gebühren deines Depots, bei vielen 0 €.
-Ein kleiner Rest wird gespendet. Auch geprüfte Firmen verdienen nebenbei etwas an Zinsen. Diesen Anteil deiner Erträge gibst du weiter, bei den vier iShares-ETFs dieser Liste macht das laut Verkaufsprospekt schon der Fonds für dich. So rechnest du es: Aktienbereinigung.
-Auch dein Depot muss zinsfrei sein. Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place, Smartbroker+ und Scalable zahlen 0 %, alle weiteren stehen im Depot-Vergleich.
+Sie kosten 30 bis 75 € im Jahr bei 10.000 €. Platz 1 liegt mit 0,30 % am unteren Ende. Dazu kommen nur die Gebühren deines Depots, bei vielen 0 €.
+Auch beim Depot zählen die Zinsen. Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place und Scalable zahlen 0 %, Smartbroker+ zahlt Zinsen nur auf ein eigenes Zinskonto. Alle weiteren stehen im Depot-Vergleich.
+Ein kleiner Rest wird gespendet. Bei den vier iShares-ETFs macht das der Fonds für dich. So rechnest du es selbst: Aktienbereinigung.
 
 Neu beim Thema? Im kostenlosen Halal Investment Guide erkläre ich die Grundlagen Schritt für Schritt.
 
@@ -449,55 +455,47 @@ Halal ETF Liste im Vergleich: Welche Halal ETFs gibt es in Deutschland?
 
 Ich habe 12 Halal ETFs gefunden, die du in Deutschland kaufen kannst. Acht stehen in dieser Liste, die übrigen vier unter der Renditetabelle. Kosten im Jahr in Prozent und in Euro bei 10.000 €, dazu wie groß der Fonds ist und wie viele Aktien drin sind.
 
-ETF
 KOSTEN
+im Jahr bei 10.000 €
 GRÖSSE
 AKTIEN
 1. iShares MSCI World Islamic
-0,30 %
-30 €
+0,30 % · 30 €
 1,6 Mrd. €
 386
 Den Einstieg mit einem ETF
 2. Invesco Dow Jones Islamic
-0,40 %
-40 €
+0,40 % · 40 €
 1,0 Mrd. €
 1.186
 Gewinne, die im Fonds bleiben
 3. iShares MSCI USA Islamic
-0,30 %
-30 €
+0,30 % · 30 €
 609 Mio. €
 140
 Einen Fokus auf die USA
 4. iShares MSCI Emerging Markets Islamic
-0,35 %
-35 €
+0,35 % · 35 €
 700 Mio. €
 398
 Schwellenländer als Beimischung
 5. HSBC MSCI World Islamic Screened
-0,30 %
-30 €
+0,30 % · 30 €
 182 Mio. €
 324
 Eine Einmalanlage ohne Ausschüttung
 6. Invesco MSCI ACWI Islamic
-0,35 %
-35 €
+0,35 % · 35 €
 129 Mio. €
 463
 Welt und Schwellenländer in einem ETF
 7. Saturna Al-Kawthar
-0,75 %
-75 €
+0,75 % · 75 €
 19 Mio. €
 39
 Aktive Auswahl statt Index
 8. iShares USD Sukuk
-0,40 %
-40 €
+0,40 % · 40 €
 160 Mio. €
 223
 Sukuk
@@ -543,10 +541,13 @@ Rendite im Vergleich
 –
 –
 
-Quelle: justETF, Rendite in Euro mit Ausschüttungen und Größe vom 30.10.2026, Zahl der Aktien vom 03.11.2026. Ein Strich heißt: Der Fonds ist für diesen Zeitraum noch zu jung. Platz 6 steht seit Auflage im Februar 2026 bei +17,62 %. Vergangene Renditen sind kein Versprechen für die Zukunft.
+Quelle: justETF, in Euro mit Ausschüttungen, 30.10.2026. Ein Strich heißt: So lange gibt es den Fonds noch nicht. Platz 6 steht seit Februar 2026 bei +17,62 %.
 
-Außerdem in Deutschland zu haben: HSBC MSCI USA Islamic Screened, HSBC MSCI Europe Islamic Screened und HSBC MSCI Emerging Markets Islamic Screened, je 0,30 bis 0,35 % im Jahr. Dazu der Xtrackers Salam Sukuk, Shariah-Berater laut Verkaufsprospekt ist ASB Capital.
+Außerdem in Deutschland zu haben: HSBC MSCI USA Islamic Screened, HSBC MSCI Europe Islamic Screened und HSBC MSCI Emerging Markets Islamic Screened, je 0,30 bis 0,35 % im Jahr, und der Xtrackers Salam Sukuk.
 
+finanzmuslim als bevorzugte Quelle bei Google hinzufügen
+Dann zeigt dir Google unsere Vergleiche öfter.
+Hinzufügen
 Was aus deinem Geld geworden wäre
 
 Gib einen Betrag ein und wähl einen ETF. Du siehst, was daraus geworden wäre, wenn du vor 1, 3 oder 5 Jahren angefangen hättest.
@@ -592,9 +593,9 @@ Wert
 7.500
 10 Tsd.
 
-Tippst du auf eine Kachel, zeigt die Kurve ihren Zeitraum. Gerechnet mit den Monatskursen bis 03.11.2026 (Yahoo Finance), ohne Ausschüttungen. Bei Platz 1, 3, 4 und 8 wäre es darum etwas mehr. Ohne Kosten des Depots. Vergangene Renditen sind kein Versprechen für die Zukunft.
+Monatskurse bis 03.11.2026 (Yahoo Finance), ohne Ausschüttungen und Depotkosten. Vergangene Rendite ist kein Versprechen.
 
-Depots für deinen Halal-Vermögensaufbau
+Depots für deine Halal ETFs
 
 WERBUNG
 
@@ -611,7 +612,7 @@ Smartbroker+
 Halal ETFs dieser Liste: 7 von 8
 Sparplan auf 4 von 8
 Depotgebühr: 0 €
-Zinsen aufs Guthaben: 0 %
+Zinsen nur auf eigenem Zinskonto
 Zum Angebot*
 
 Scalable Capital
@@ -623,21 +624,17 @@ Zinsen aufs Guthaben: 0 %
 Zum Angebot*
 Die besten Halal ETFs 2026
 
-Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite: ein Gremium, das den Fonds selbst prüft, zählt mehr als eine Prüfung nur des Index, dann ob der Fonds selbst reinigt, dann bei wie vielen Depots du ihn kaufst. Wie ich prüfe, steht in der Methodik.
-
-Platz 1 hat ein eigenes Gremium mit Fatwa, spendet den unreinen Anteil selbst und läuft bei 14 Depots als Sparplan. Die Plätze 2 bis 7 decken je einen bestimmten Wunsch ab, Platz 8 kauft keine Aktien, sondern Sukuk. Jedes Bild zeigt die Seite des ETFs in unserer Datenbank, ein Klick darauf öffnet alle Daten mit ISIN.
+Die Reihenfolge folgt islamischen Kriterien und der Verfügbarkeit, nicht der Rendite. Wie ich prüfe, steht in der Methodik. Ein Klick aufs Bild öffnet alle Daten zum ETF.
 
 1. iShares MSCI World Islamic, am besten für den Einstieg mit einem ETF
 
-Der iShares MSCI World Islamic ist der bekannteste Halal ETF in Deutschland. Er bildet den MSCI World Islamic nach: die großen Firmen aus Industrieländern, ohne Banken, Versicherungen und alles, was bei der Shariah-Prüfung durchfällt.
+Der iShares MSCI World Islamic ist der bekannteste Halal ETF in Deutschland. Er kauft die großen Firmen aus Industrieländern, ohne Banken, Versicherungen und alles, was bei der Shariah-Prüfung durchfällt.
 
-Er ist seit Dezember 2007 am Markt und mit 1.577 Mio. € der größte Fonds dieser Liste. Ein so alter Fonds hat echte Zahlen aus fast zwei Jahrzehnten, auch aus schlechten Jahren.
-
-Laut Verkaufsprospekt prüft ihn ein eigenes Gremium bei iShares, das eine Fatwa erteilt hat. Den kleinen unreinen Anteil der Erträge spendet der Fonds selbst.
+Er ist seit Dezember 2007 am Markt und mit 1,6 Mrd. € der größte Fonds dieser Liste. So gibt es echte Zahlen aus fast zwei Jahrzehnten, auch aus schlechten Jahren.
 
 Er kostet 0,30 % im Jahr, bei 10.000 € also 30 €. Einen Sparplan darauf bieten 14 Depots, so viele wie bei keinem anderen ETF hier. Kaufen kannst du ihn bei 27 Depots.
 
-Er schüttet zweimal im Jahr aus, das Geld legst du selbst wieder an. Schwellenländer wie China oder Indien sind nicht drin.
+Er schüttet zweimal im Jahr aus, das Geld legst du selbst wieder an. Ein eigenes Gremium bei iShares prüft ihn, den kleinen unreinen Anteil spendet der Fonds selbst.
 
 Passt zu dir, wenn du mit einem einzigen ETF anfangen willst.
 
@@ -648,15 +645,13 @@ Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF ha
 Erst beim Abspielen lädt YouTube. Auf YouTube: Sind ETFs Halal oder Haram?
 2. Invesco Dow Jones Islamic, am besten für Gewinne, die im Fonds bleiben
 
-Er folgt dem Islamic-Index von Dow Jones statt MSCI. Darum stecken teils andere Firmen drin als bei Platz 1, die Idee ist dieselbe: Industrieländer, geprüft nach islamischen Regeln.
+Er nimmt die Firmenliste von Dow Jones statt der von MSCI. Darum stecken teils andere Firmen drin als bei Platz 1, die Idee ist dieselbe: Industrieländer, geprüft nach islamischen Regeln.
 
 Er schüttet nicht aus. Gewinne bleiben im Fonds und arbeiten weiter, du musst nichts selbst neu anlegen.
 
-Mit 1.046 Mio. € ist er der zweitgrößte Fonds der Liste, am Markt seit Januar 2022. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €, mehr als jeder andere passive Aktien-ETF hier.
+Mit 1,0 Mrd. € ist er der zweitgrößte Fonds der Liste, am Markt seit Januar 2022. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €.
 
-Sein Shariah-Zertifikat kommt von Amanie Advisors und gilt für genau diesen ETF, zuletzt für das Geschäftsjahr 2023.
-
-Einen Sparplan bieten 5 Depots, kaufen kannst du ihn bei 17.
+Einen Sparplan bieten 5 Depots, kaufen kannst du ihn bei 17. Sein Shariah-Zertifikat gilt für genau diesen ETF.
 
 Passt zu dir, wenn Gewinne im Fonds bleiben sollen.
 
@@ -664,13 +659,13 @@ Alle Daten zu Invesco Dow Jones Islamic Global Developed Markets →
 
 3. iShares MSCI USA Islamic, am besten für einen Fokus auf die USA
 
-Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln wie Platz 1. Dasselbe Gremium bei iShares hat laut Verkaufsprospekt eine Fatwa erteilt.
+Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln und vom selben Gremium bei iShares wie Platz 1.
 
-Seit Dezember 2007 am Markt, 609 Mio. € groß, 0,30 % Kosten im Jahr.
+Seit Dezember 2007 am Markt, 609 Mio. € groß. Er kostet 0,30 % im Jahr, also 30 € bei 10.000 €.
 
 Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 24. Er schüttet aus, das Geld legst du selbst wieder an.
 
-Alles steckt in einem Land. Läuft es in den USA schlecht, trifft es den ganzen Fonds, und kein anderes Land fängt das auf.
+Alles steckt in einem Land. Läuft es in den USA schlecht, trifft es den ganzen Fonds.
 
 Passt zu dir, wenn du gezielt auf die USA setzen willst.
 
@@ -678,11 +673,11 @@ Alle Daten zu iShares MSCI USA Islamic →
 
 4. iShares MSCI Emerging Markets Islamic, am besten für Schwellenländer als Beimischung
 
-Er kauft Firmen aus Schwellenländern wie China und Indien, die in Platz 1 fehlen. Geprüft wird er vom selben Gremium bei iShares wie Platz 1.
+Er kauft Firmen aus Schwellenländern wie China und Indien, die in Platz 1 fehlen, geprüft vom selben Gremium bei iShares wie Platz 1.
 
 Die Schwankung ist groß. 2024 lag er bei minus 2,06 %, 2025 bei plus 32,08 %. Darum steht er hier als Beimischung neben einem Welt-ETF, nicht als einziger ETF.
 
-Seit Dezember 2007 am Markt, 700 Mio. € groß, 0,35 % Kosten im Jahr. Einen Sparplan bieten 9 Depots, kaufen kannst du ihn bei 23.
+Seit Dezember 2007 am Markt, 700 Mio. € groß. Er kostet 0,35 % im Jahr, also 35 € bei 10.000 €. Einen Sparplan bieten 9 Depots, kaufen kannst du ihn bei 23.
 
 Er schüttet aus, und allein deckt er nur einen Teil der Welt ab.
 
@@ -692,11 +687,9 @@ Alle Daten zu iShares MSCI Emerging Markets Islamic →
 
 5. HSBC MSCI World Islamic Screened, am besten für eine Einmalanlage ohne Ausschüttung
 
-Er folgt dem MSCI World Islamic Screened, also ebenfalls Firmen aus Industrieländern nach islamischen Regeln, und kostet 0,30 % im Jahr, so viel wie Platz 1.
+Er kauft wie Platz 1 Firmen aus Industrieländern nach islamischen Regeln und kostet genauso 0,30 % im Jahr, also 30 € bei 10.000 €.
 
-Anders als Platz 1 schüttet er nicht aus, Gewinne bleiben im Fonds.
-
-Laut Factsheet von HSBC prüft ein Shariah-Ausschuss den Fonds regelmäßig und stellt jedes Jahr ein Zertifikat aus.
+Anders als Platz 1 schüttet er nicht aus, Gewinne bleiben im Fonds. Ein Shariah-Ausschuss bei HSBC prüft den Fonds selbst.
 
 Seit November 2022 am Markt, 182 Mio. € groß, kaufbar bei 9 Depots.
 
@@ -706,11 +699,11 @@ Alle Daten zu HSBC MSCI World Islamic Screened →
 
 6. Invesco MSCI ACWI Islamic, am besten für Welt und Schwellenländer in einem ETF
 
-ACWI heißt All Country World. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst also keinen zweiten ETF dafür.
+ACWI heißt All Country World, also die ganze Welt. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst keinen zweiten ETF dafür.
 
 Er ist der jüngste der Liste, aufgelegt im Februar 2026. Seitdem steht er bei plus 17,62 %, für 1, 3 oder 5 Jahre gibt es noch keine Zahlen.
 
-Er kostet 0,35 % im Jahr und schüttet nicht aus. Sein Zertifikat gilt für den Index, dem er folgt.
+Er kostet 0,35 % im Jahr, also 35 € bei 10.000 €, und schüttet nicht aus. Zertifiziert ist die Firmenliste, der er folgt, nicht der Fonds selbst.
 
 Kaufen kannst du ihn bei 11 Depots.
 
@@ -722,11 +715,9 @@ Alle Daten zu Invesco MSCI ACWI Islamic →
 
 Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen.
 
-Das hat seinen Preis: 0,75 % im Jahr, mehr als doppelt so viel wie Platz 1. Mit 19 Mio. € ist er außerdem der kleinste Fonds der Liste.
+Das hat seinen Preis: 0,75 % im Jahr, also 75 € bei 10.000 €. Mit 19 Mio. € ist er außerdem der kleinste Fonds der Liste.
 
-Sein Zertifikat ist frisch. Das Shariah Supervisory Board von Amanie Advisors prüft ihn jedes Jahr, das Zertifikat für 2025 ist vom 22.05.2026.
-
-Am Markt seit September 2020. Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 18.
+Am Markt seit September 2020, sein Shariah-Zertifikat gilt für 2025. Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 18.
 
 Passt zu dir, wenn du einem Fondsmanagement mehr vertraust als einem Index.
 
@@ -738,9 +729,9 @@ Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du eine
 
 Der ETF kauft in US-Dollar. Darum schwankt sein Wert in Euro mit dem Dollarkurs, 2025 lag er bei minus 5,04 %.
 
-Laut Verkaufsprospekt hat er ein eigenes Sukuk-Gremium, besetzt mit dem Shariah-Board von Amanie Advisors, das eine Fatwa erteilt hat. Er schüttet jedes Quartal aus.
+Ein eigenes Sukuk-Gremium bei iShares prüft ihn. Er schüttet jedes Quartal aus.
 
-Seit Januar 2024 am Markt, 160 Mio. € groß, 0,40 % Kosten im Jahr. Einen Sparplan bieten 3 Depots, kaufen kannst du ihn bei 19.
+Seit Januar 2024 am Markt, 160 Mio. € groß. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €. Einen Sparplan bieten 3 Depots, kaufen kannst du ihn bei 19.
 
 Passt zu dir, wenn ein Teil deines Geldes nicht in Aktien liegen soll.
 
@@ -752,7 +743,7 @@ Sparplan bei deinem Depot
 Platz 1: iShares MSCI World Islamic
 Wenn Gewinne im Fonds bleiben sollen
 thesaurierend, also ohne Ausschüttung
-Platz 2: Invesco Dow Jones Islamic Global Developed Markets
+Platz 2: Invesco Dow Jones Islamic
 Wenn du Schwellenländer dazu willst
 nur als kleiner Teil neben Platz 1
 Platz 4: iShares MSCI Emerging Markets Islamic
@@ -765,26 +756,28 @@ Ein Halal ETF ist ein Fonds, der nur Aktien oder Sukuk kauft, die eine Shariah-P
 
 Raus fliegt, womit eine Firma ihr Geld nicht verdienen darf: Banken, Versicherungen, Alkohol, Glücksspiel. Raus fliegt auch, wer zu viele Schulden auf Zinsen hat. Welche Grenzen gelten, steht im Beitrag Sind Aktien halal?
 
-Ein Halal ETF ist kein Nachhaltigkeitsfonds. ESG- und SRI-Fonds schließen oft Waffen und Tabak aus, Banken und Versicherungen sind dort aber häufig unter den größten Positionen.
+Ein Halal ETF ist kein Nachhaltigkeitsfonds. Nachhaltige Fonds (ESG) lassen oft Waffen und Tabak weg, Banken und Versicherungen haben sie aber häufig drin.
 
 Und ein Halal ETF ist nicht sicher. Halal heißt erlaubt. Er schwankt wie jeder Aktienfonds, ein Verlust ist jederzeit möglich.
 
 Halal ETF oder Halal Fonds: wo der Unterschied Geld kostet
 
-Ein Halal ETF folgt meist einem Index und wird an der Börse gehandelt. Einen Ausgabeaufschlag zahlst du nicht, nur die Ordergebühr deines Depots.
+Ein Halal ETF folgt meist einem Index, also einer festen Firmenliste, und wird an der Börse gehandelt. Du zahlst beim Kauf nur die Ordergebühr deines Depots.
 
-Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Ein aktiver Shariah-Fonds aus unserer Datenbank kostet 1,81 % im Jahr, Platz 1 kostet 0,30 %. Bei 10.000 € sind das 181 € gegen 30 €, jedes Jahr. Kaufst du direkt bei der Fondsgesellschaft, kommt dort ein Ausgabeaufschlag von 5,54 % dazu. Für einen Sparplan über viele Jahre ist der ETF darum meist günstiger. Platz 7 liegt dazwischen: ein aktiver Fonds im ETF-Mantel.
+Ein Halal Fonds wird meist aktiv gemanagt, ein Team wählt die Firmen aus. Ein aktiver Shariah-Fonds aus unserer Datenbank kostet 1,81 % im Jahr, bei 10.000 € also 181 €. Platz 1 kostet 30 €.
+
+Kaufst du so einen Fonds direkt bei der Fondsgesellschaft, zahlst du beim Kauf einmal 5,54 % dazu. Platz 7 liegt dazwischen: aktiv ausgewählt, aber an der Börse gehandelt wie ein ETF.
 
 Wo du die acht ETFs kaufen kannst
 
-Für die acht ETFs habe ich bei 29 Depots nachgesehen, ob du sie kaufen kannst. Gezählt wird nur, was das Depot selbst in seiner Wertpapiersuche zeigt.
+Für die acht ETFs habe ich bei 29 Depots nachgesehen, ob du sie kaufen kannst.
 
 Alle acht ETFs gibt es bei 5 Depots: Consorsbank, flatex, HypoVereinsbank, Traders Place und Trading 212. Trade Republic führt 7 von 8, es fehlt der HSBC MSCI World Islamic Screened. Am seltensten zu haben ist der HSBC MSCI World Islamic Screened mit 9 Depots.
 
 Bei wie vielen Depots du jeden ETF kaufen kannst
 1. iShares MSCI World Islamic
 27
-2. Invesco Dow Jones Islamic Global Developed Markets
+2. Invesco Dow Jones Islamic
 17
 3. iShares MSCI USA Islamic
 24
@@ -794,23 +787,21 @@ Bei wie vielen Depots du jeden ETF kaufen kannst
 9
 6. Invesco MSCI ACWI Islamic
 11
-7. HANetf Saturna Al-Kawthar Global Focused Equity
+7. Saturna Al-Kawthar
 18
 8. iShares USD Sukuk
 19
 
 Quelle: eigene Prüfung finanzmuslim, Wertpapiersuche je Depot, Stand 21.10.2026.
 
-Wie ich prüfe, steht in der Methodik.
-
 Häufige Fragen
 Ist ein ETF halal oder haram?
 
-Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen. Bei sieben der acht ETFs hier prüft ein Gremium den Fonds selbst, nicht nur den Index.
+Entscheidend ist, was der ETF kauft. Ein normaler ETF kauft auch Banken und Versicherungen. Ein Islamic ETF kauft nur Aktien oder Sukuk, die eine Shariah-Prüfung bestehen.
 
 Sind ETFs haram?
 
-Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht, bei sieben prüft ein Gremium den Fonds selbst.
+Das hängt an dem, was ein ETF kauft. Der normale MSCI World enthält Banken und Versicherungen. Die acht ETFs hier kaufen nur, was eine Shariah-Prüfung besteht.
 
 Welche Halal ETFs gibt es bei Trade Republic?
 
@@ -822,11 +813,11 @@ Der normale MSCI World filtert nicht nach islamischen Regeln und enthält Banken
 
 Welche ETFs sind scharia-konform?
 
-So nennen sich ETFs mit Islamic oder Shariah im Namen. Alle acht in dieser Liste sind geprüft, sieben als Fonds selbst, einer über den Index, dem er folgt.
+So nennen sich ETFs mit Islamic oder Shariah im Namen. Alle acht in dieser Liste kaufen nur, was eine Shariah-Prüfung besteht.
 
 Wie prüfe ich, ob ein ETF halal ist?
 
-Such die ISIN, nicht den Namen. Dann sieh nach, ob es ein Shariah-Zertifikat gibt und wie alt es ist. Beides steht bei jeder Anlage in unserer Datenbank. Zur Datenbank der Halal-Anlagen
+Such die ISIN, nicht den Namen, in unserer Datenbank. Dort steht bei jeder Anlage, wer sie prüft. Zur Datenbank der Halal-Anlagen
 
 Was kostet ein Halal ETF im Jahr?
 
@@ -834,13 +825,13 @@ Auf dieser Liste 0,30 bis 0,75 % im Jahr, bei 10.000 € also 30 bis 75 €. 
 
 Muss ich die Erträge eines Halal ETFs reinigen?
 
-Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut. Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds. Bei den anderen gibst du ihn selbst weiter. So rechnest du die Reinigung
+Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut. Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds. Bei den anderen sieh im Verkaufsprospekt nach, ob der Fonds spendet. Wenn nicht, gibst du den Anteil selbst weiter. So rechnest du die Reinigung
 
 Dein nächster Schritt: das passende Depot
 
-Neben dem ETF zählt das Depot. Es sollte deinen ETF als Sparplan führen und dir keine Zinsen aufs Guthaben zahlen. Ein Depot eröffnest du online in rund 10 Minuten mit Foto-Ident. Danach legst du den Sparplan auf deinen ETF an. Im Depot-Vergleich siehst du je Depot, welche Halal ETFs es hat und wie es mit Zinsen umgeht.
+Neben dem ETF zählt das Depot. Es sollte deinen ETF als Sparplan führen. Schau auch, ob es dir Zinsen aufs Guthaben zahlt. Im Depot-Vergleich siehst du je Depot, welche Halal ETFs es hat und wie es mit Zinsen umgeht.
 
-Depots für deinen Halal-Vermögensaufbau
+Depots für deine Halal ETFs
 
 WERBUNG
 
@@ -857,7 +848,7 @@ Smartbroker+
 Halal ETFs dieser Liste: 7 von 8
 Sparplan auf 4 von 8
 Depotgebühr: 0 €
-Zinsen aufs Guthaben: 0 %
+Zinsen nur auf eigenem Zinskonto
 Zum Angebot*
 
 Scalable Capital
@@ -880,14 +871,14 @@ YouTube
 
 Passt dazu
 
-iShares MSCI World Islamic
-Alle Daten zu Platz 1, mit ISIN und Verkaufsprospekt.
+Girokonto ohne Zinsen
+Dein Konto zinsfrei in sechs Handgriffen.
+Halal Gold kaufen
+Wo du Gold kaufst und worauf du achtest.
 Sind Aktien halal?
-Die Grenzwerte, nach denen ein Index prüft.
+Welche Firmen ein Halal ETF weglässt.
 Aktienbereinigung
 Rechne aus, welchen Anteil du weitergibst.
-Sukuk
-Das islamische Gegenstück zu Anleihen, einfach erklärt.
 
 * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
 

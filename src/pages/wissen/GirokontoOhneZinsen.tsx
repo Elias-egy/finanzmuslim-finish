@@ -104,10 +104,8 @@ const abschnitte: BeitragAbschnitt[] = [
           <p>Zahlen als Beispiel, Dispozinssätze liegen je nach Bank zwischen etwa 9 und 14 Prozent.</p>
         </Beispiel>
         <p>
-          Und noch etwas, das ungemütlich, aber wichtig ist: Wer Rücklagen hat, Gold im Schrank oder Geld auf
-          einem anderen Konto, ist gehalten, damit das Minus auszugleichen, statt es laufen zu lassen. Und wer
-          es einmal ausgeglichen hat und danach wieder hineinrutscht, obwohl er es hätte vermeiden können,
-          fängt nicht bei null an. Jeder neue Gang ins Minus ist ein eigener Vorgang.
+          Hast du Rücklagen, Gold oder Geld auf einem anderen Konto, bist du gehalten, das Minus damit
+          auszugleichen. Jeder neue Gang ins Minus zählt für sich.
         </p>
         <Hinweis titel="Kündigen, nicht nur vermeiden">
           <p>
@@ -128,15 +126,15 @@ const abschnitte: BeitragAbschnitt[] = [
           schritte={[
             {
               titel: "Dispo auf null setzen",
-              text: "Im Online-Banking unter den Kontoeinstellungen, oft heißt es Dispositionskredit oder Überziehungsrahmen. Auf null. Damit kannst du gar nicht mehr ins Minus rutschen, und die Frage stellt sich nie wieder.",
+              text: "Im Online-Banking unter Dispositionskredit oder Überziehungsrahmen, auf null. Dann rutschst du nie mehr ins Minus.",
             },
             {
               titel: "Verzinste Konten auflösen",
-              text: "Tagesgeld, Festgeld, Sparbuch kündigen und die Verzinsung am Girokonto abwählen. Bekommst du trotzdem noch Zinsen gutgeschrieben, rechne sie zusammen und gib sie weg, ohne dafür eine Belohnung zu erwarten.",
+              text: "Tagesgeld, Festgeld, Sparbuch kündigen, Verzinsung am Girokonto abwählen. Kommen trotzdem Zinsen, gib sie weg, ohne Belohnung zu erwarten.",
             },
             {
               titel: "Kreditkarte auf volle Abrechnung stellen",
-              text: "Die Teilzahlung, oft Revolving genannt, ausschalten. Dann wird jeden Monat der gesamte Betrag abgebucht und es fallen keine Zinsen an. Eine Debitkarte, die sofort vom Konto abbucht, ist die einfachere Lösung.",
+              text: "Die Teilzahlung ausschalten, dann wird jeden Monat alles abgebucht, ohne Zinsen. Einfacher ist eine Debitkarte, die sofort vom Konto abbucht.",
             },
             {
               titel: "Keine Bonusaktionen mitnehmen",
@@ -144,7 +142,7 @@ const abschnitte: BeitragAbschnitt[] = [
             },
             {
               titel: "Freistellungsauftrag prüfen",
-              text: "Er kostet nichts und ist nicht verboten. Er sorgt nur dafür, dass auf Erträge bis zum Freibetrag keine Steuer abgeht. Wichtig wird er, sobald du ein Depot hast.",
+              text: "Kostet nichts, ist nicht verboten: Auf Erträge bis zu einem Freibetrag geht dann keine Steuer ab. Wichtig, sobald du ein Depot hast.",
             },
             {
               titel: "Angehängte Verträge durchsehen",
@@ -162,10 +160,8 @@ const abschnitte: BeitragAbschnitt[] = [
       <>
         <Frage>100 Euro fürs Kontoeröffnen. Geschenkt ist doch geschenkt, oder?</Frage>
         <p>
-          Kommt darauf an, wofür. Wenn die Bank dir Geld dafür zahlt, dass du <B>Geld einzahlst</B> oder eine
-          bestimmte Summe liegen lässt, dann bekommst du einen Zuschlag auf dein eingezahltes Geld. Genau das
-          ist die Sache, um die es beim Zins geht, nur unter einem anderen Namen. Dasselbe gilt für Prämien,
-          die daran hängen, wie oft du die Karte benutzt.
+          Kommt darauf an, wofür. Zahlt die Bank dir Geld dafür, dass du <B>Geld einzahlst</B>, eine Summe
+          liegen lässt oder die Karte oft benutzt, ist das ein Zuschlag auf dein Guthaben: Zins unter anderem Namen.
         </p>
         <Hinweis titel="Was dagegen in Ordnung ist">
           <p>
@@ -182,12 +178,9 @@ const abschnitte: BeitragAbschnitt[] = [
     inhalt: (
       <>
         <p>
-          Diese Frage steht hinter allen anderen. Und die Antwort ist genauer, als man denkt. Nach der
-          Auffassung der Mehrheit ist dein Girokonto rechtlich <B>ein Darlehen an die Bank</B>. Sie darf mit
-          deinem Geld arbeiten und schuldet dir denselben Betrag zurück. Du bist also nicht bloß ein Kunde,
-          der etwas verwahren lässt, du bist derjenige, der der Bank Geld gibt.
+          Nach der Auffassung der Mehrheit ist dein Girokonto rechtlich <B>ein Darlehen an die Bank</B>: Sie
+          arbeitet mit deinem Geld und schuldet dir denselben Betrag zurück. Daraus folgt eine Abstufung:
         </p>
-        <p>Daraus folgt eine Abstufung, die vielen hilft:</p>
         <Checkliste
           punkte={[
             {
@@ -204,13 +197,12 @@ const abschnitte: BeitragAbschnitt[] = [
             },
           ]}
         />
-        <p>
-          Was für die Bankwahl folgt: Schau nicht auf das Wort islamisch im Namen, sondern auf drei Dinge.
-          Verlangt sie Kontoführungsgebühren, vergibt sie selbst Kredite gegen Zinsen, und kann sie das, was du
-          im Alltag wirklich brauchst? Wer ein Gewerbe hat, braucht vielleicht Bargeldeinzahlungen und eine
-          Filiale. Für den ist eine reine Onlinebank keine Alternative, auch wenn sie sonst besser passen
-          würde.
-        </p>
+        <p>Bei der Bankwahl zählt nicht das Wort islamisch im Namen, sondern:</p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>Verlangt sie Kontoführungsgebühren?</li>
+          <li>Vergibt sie selbst Kredite gegen Zinsen?</li>
+          <li>Kann sie, was du brauchst, etwa Bargeld einzahlen für dein Gewerbe?</li>
+        </ul>
         <Merksatz>
           Beide Seiten sind sich in einem Punkt einig: Was du selbst unterschreibst, verantwortest du. Da hört
           jede Notwendigkeit auf.
@@ -230,10 +222,8 @@ const abschnitte: BeitragAbschnitt[] = [
         </p>
         <Frage>Reicht es nicht, wenn ich die Zinsen einfach weggebe?</Frage>
         <p>
-          Nein, und das ist der Punkt, an dem sich die Sache vom Girokonto unterscheidet. Beim Girokonto
-          fallen Zinsen an, ohne dass du sie wolltest. Ein Tagesgeldkonto eröffnest du <B>dafür</B>. Die
-          Zinsen wegzugeben heilt nicht den Vertrag, den du dafür unterschrieben hast. Ehrlich gefragt: Wenn
-          du das Geld ohnehin weitergibst, warum hast du das Konto dann?
+          Nein. Beim Girokonto fallen Zinsen an, ohne dass du sie wolltest. Ein Tagesgeldkonto eröffnest du
+          <B> dafür</B>, und die Zinsen wegzugeben heilt nicht den Vertrag, den du unterschrieben hast.
         </p>
       </>
     ),
@@ -244,22 +234,17 @@ const abschnitte: BeitragAbschnitt[] = [
     inhalt: (
       <>
         <p>
-          Ja, eine. Die <B>KT Bank AG</B> mit Sitz in Frankfurt, eine Tochter der türkischen Kuveyt Türk, hat
-          2015 die deutsche Vollbanklizenz erhalten und war damit die erste Bank dieser Art im Euroraum. Sie
-          arbeitet nach dem Handelsmodell: Statt Geld zu verleihen, kauft sie Waren und verkauft sie mit einem
-          Aufschlag weiter. Einlagen sind dort bis 100.000 Euro über die deutsche Einlagensicherung gedeckt,
-          wie bei jeder anderen deutschen Bank auch.
+          Ja, eine: die <B>KT Bank AG</B> in Frankfurt, eine Tochter der türkischen Kuveyt Türk, seit 2015 mit
+          deutscher Vollbanklizenz. Statt Geld zu verleihen, kauft sie Waren und verkauft sie mit Aufschlag
+          weiter. Einlagen sind bis 100.000 Euro gesichert wie bei jeder deutschen Bank.
         </p>
         <p>
-          <B>Was du wissen solltest, bevor du wechselst:</B> Die BaFin hat im Juli 2026 Auflagen und Maßnahmen
-          gegen die Bank verhängt, wegen Mängeln in der Geldwäscheprävention. Das steht in mehreren
-          Presseberichten und betrifft nicht das islamische Geschäftsmodell, sondern die internen Kontrollen.
-          Die Bank ist außerdem sehr klein, das Filialnetz ist dünn, und beim Bedienkomfort liegt sie hinter
-          den großen Anbietern.
+          <B>Vor dem Wechsel:</B> Die BaFin hat im Juli 2026 Auflagen gegen die Bank verhängt, wegen Mängeln in
+          der Geldwäscheprävention, nicht wegen des islamischen Geschäftsmodells. Die Bank ist zudem klein und
+          hat wenige Filialen.
         </p>
         <p>
-          <B>Unser Stand:</B> Wir haben die KT Bank nicht selbst geprüft und empfehlen sie deshalb nicht. Wenn
-          du dich dafür interessierst, sieh dir die Bedingungen und den aktuellen Stand selbst an.
+          Wir empfehlen sie nicht, weil wir sie nicht selbst getestet haben.
         </p>
       </>
     ),
@@ -369,7 +354,7 @@ const GirokontoOhneZinsen = () => (
       datePublished="16. August 2026"
       dateModified="5. September 2026"
       boxMitteNach={4}
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts- oder Anlageberatung. Angaben zur KT Bank AG beruhen auf öffentlich zugänglichen Quellen, Stand August 2026, und sind keine Empfehlung. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen, besonders zur Frage der Kontoführung bei konventionellen Banken. Die Zahlen in den Beispielen sind erfunden."
+      rechtshinweis="Dieser Beitrag dient zu Bildungszwecken, ist keine Fatwa und keine Rechts- oder Anlageberatung. Zu einzelnen Punkten, besonders zum Konto bei normalen Banken, gibt es unter Gelehrten abweichende Auffassungen."
       boxOben={{
         kategorie: "Girokonto",
         ueberschrift: "Welches Konto passt zu dir?",
@@ -387,7 +372,7 @@ const GirokontoOhneZinsen = () => (
         punkte={[
           { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet Girokonto, Kreditkarte, Dispo und neun weitere Verträge ein." },
-          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "zeigt, worauf du an der Kasse achten musst." },
+          { to: "/blog/halal-etf", name: "Beste Halal ETFs 2026", text: "zeigt, wohin dein Geld statt aufs Konto kann." },
           { to: "/inflationsrechner", name: "Der Inflationsrechner", text: "rechnet aus, was Liegenlassen dich über die Jahre kostet." },
         ]}
       />

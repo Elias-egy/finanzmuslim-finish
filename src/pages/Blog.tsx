@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import MotivBild from "@/components/MotivBild";
+import { motive } from "@/components/motive";
 import Seo from "@/components/Seo";
 import AdSlot from "@/components/AdSlot";
 import NewsletterBox from "@/components/NewsletterBox";
@@ -15,12 +15,21 @@ const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy";
  * H1 mit Unterzeile, Filterknöpfe je Thema, Zähler, eine Karte je Beitrag mit Thema, Datum, Titel, Satz
  * und Autor mit LinkedIn. Alle Karten stehen im HTML; der Filter blendet nur aus, Google sieht alle.
  */
-const fertig = wissenBeitraege.filter((b) => !b.bald);
+/* Reihenfolge nach dem Leser (Seiten-Prüfer SEO46, Skill leser-finanzmuslim): ETF, Girokonto, Gold, Aktien vorn, Krypto und Kredit ans Ende. */
+const VORNE = ["halal-etfs", "girokonto-ohne-zinsen", "halal-gold-kaufen", "sind-aktien-halal"];
+const HINTEN = ["ist-bitcoin-halal", "halal-kredit-ohne-zinsen"];
+const rang = (slug: string) => (VORNE.includes(slug) ? VORNE.indexOf(slug) - 100 : HINTEN.includes(slug) ? 100 + HINTEN.indexOf(slug) : 0);
+const fertig = wissenBeitraege.filter((b) => !b.bald).sort((x, y) => rang(x.slug) - rang(y.slug));
+/** Leasing hatte dasselbe Auto wie „Auto kaufen“ direkt darüber. */
+const motivVon = (b: WissenBeitrag) => (b.slug === "ist-leasing-haram" ? "schluessel" : b.motiv);
 
-const Karte = ({ b }: { b: WissenBeitrag }) => (
+const Karte = ({ b }: { b: WissenBeitrag }) => {
+  const Motiv = motive[motivVon(b)];
+  return (
   <article className="relative flex items-start gap-4 card-surface p-4 transition-colors hover:border-primary">
-    <span className="w-24 shrink-0 overflow-hidden rounded-lg sm:w-36">
-      <MotivBild name={b.motiv} />
+    {/* Ganzes Motiv, quadratisch: in 16:9 waren die Bilder oben und unten abgeschnitten (Seiten-Prüfer SEO46) */}
+    <span className="block aspect-square w-20 shrink-0 overflow-hidden rounded-lg sm:w-28">
+      <Motiv />
     </span>
     <div className="min-w-0 flex-1">
       <p className="text-[13px] text-muted-foreground">
@@ -41,7 +50,8 @@ const Karte = ({ b }: { b: WissenBeitrag }) => (
       </p>
     </div>
   </article>
-);
+  );
+};
 
 const Blog = () => {
   const [filter, setFilter] = useState<WissenThema | "alle">("alle");
@@ -83,7 +93,7 @@ const Blog = () => {
                 type="button"
                 aria-pressed={filter === k.wert}
                 onClick={() => setFilter(k.wert)}
-                className={`rounded-full border px-4 py-2 text-[15px] font-semibold transition-colors ${
+                className={`min-h-[44px] rounded-full border px-4 py-2 text-[15px] font-semibold transition-colors ${
                   filter === k.wert
                     ? "border-primary bg-primary text-white"
                     : "border-border bg-card text-primary hover:border-primary"
@@ -103,11 +113,8 @@ const Blog = () => {
             <div key={b.slug}>
               <Karte b={b} />
               {/* Werbefläche wie vorher nach dem ersten Themenblock, hier nach der sechsten Karte. */}
-              {filter === "alle" && i === 5 && (
-                <div className="mt-8 mb-4">
-                  <AdSlot id="blog-mitte" />
-                </div>
-              )}
+              {/* Werbefläche ohne eigenen Abstand: leer stellt sie nichts dar, sonst stand hier eine doppelte Lücke */}
+              {filter === "alle" && i === 5 && <AdSlot id="blog-mitte" />}
             </div>
           ))}
         </div>

@@ -128,7 +128,7 @@ const FreitagsbriefFormular = ({ id, variante }: Props) => {
       {/* Überall nur das Kästchen, kein Satz über Freitag und Abmelden ("Mehr nicht", Elias, 15.10.2026,
           wie auf der Seite der letzten Ausgabe). */}
       <label
-        className={`mt-4 flex items-start gap-3 text-[14px] leading-snug ${dunkel ? "text-white/80" : "text-muted-foreground"}`}
+        className={`mt-4 flex min-h-[44px] cursor-pointer items-start gap-3 py-1 text-[14px] leading-snug ${dunkel ? "text-white/80" : "text-muted-foreground"}`}
       >
         <input
           type="checkbox"

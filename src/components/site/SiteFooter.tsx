@@ -5,7 +5,7 @@ import type { NavEntry } from "@/components/site/navData";
 
 
 const Soon = ({ label }: { label: string }) => (
-  <span className="flex min-h-[36px] items-center gap-2 text-[14px] text-muted-foreground/60">
+  <span className="flex min-h-[44px] items-center gap-2 text-[14px] text-muted-foreground/60">
     {label}
     <span className="badge-soon">bald</span>
   </span>
@@ -15,7 +15,7 @@ const Item = ({ item }: { item: NavEntry }) =>
   item.to ? (
     <Link
       to={item.to}
-      className="flex min-h-[36px] items-center text-[14px] text-foreground hover:text-primary transition-colors"
+      className="flex min-h-[44px] items-center text-[14px] text-foreground hover:text-primary transition-colors"
     >
       {item.label}
     </Link>
@@ -97,7 +97,7 @@ export const SiteFooter = () => (
         <div>
           <Wordmark className="text-xl" />
           <p className="mt-2 text-[14px] text-muted-foreground">
-            Finanzen, Investieren, islamkonform.
+            Geld halal anlegen.
           </p>
         </div>
         <Column title="Blog" items={blog} />

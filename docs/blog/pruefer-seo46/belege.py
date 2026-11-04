@@ -57,6 +57,14 @@ regeln = [
 
 EXTRA = [
  (r"Islamic-Index von Dow Jones|Darum stecken teils andere Firmen drin", "INV.rsplit(', ',1)[0] + '; Fondsname „Invesco Dow Jones Islamic Global Developed Markets“ (Industrieländer), ' + D"),
+ (r"Ein eigenes Gremium bei iShares prüft ihn, den kleinen unreinen", "EQ.rsplit(', ',1)[0] + '; Spende des unreinen Anteils: ' + PUR"),
+ (r"Er kauft wie Platz 1 Firmen aus Industrieländern", "HSBC.rsplit(', ',1)[0] + '; Abschnitt Investment strategy: „made up of large and mid-cap companies … that comply with Shariah investment principles, as defined by the Index Provider“; Kosten 0,30 % wie in src/data/halalAnlagen.ts kostenLabel, ' + D"),
+ (r"Sein Shariah-Zertifikat gilt für genau diesen ETF", "INV"),
+ (r"sein Shariah-Zertifikat gilt für 2025", "SAT"),
+ (r"Zertifiziert ist die Firmenliste, der er folgt", "M_INTRO"),
+ (r"(Die acht ETFs hier|Alle acht in dieser Liste) kaufen nur, was eine Shariah-Prüfung besteht", "ACHT"),
+ (r"^(Girokonto ohne Zinsen|Dein Konto zinsfrei in sechs Handgriffen\.|Halal Gold kaufen|Welche Firmen ein Halal ETF weglässt\.)$", "f'{W}/src/pages/blog/HalalEtf.tsx, PASST_DAZU: Name und Satz einer Karte, die auf einen eigenen Beitrag führt (/blog/girokonto-ohne-zinsen, /blog/halal-gold-kaufen, /blog/sind-aktien-haram), keine Aussage über ein Produkt, {D}'"),
+ (r"^Depots für deine Halal ETFs$", "f'{W}/src/pages/blog/HalalEtf.tsx, Überschrift des Depot-Kastens; Halal-Status der acht ETFs wie bei „Beste Halal ETFs 2026“, die Depots werden nicht als halal gelobt, {D}'"),
  (r"Er folgt dem MSCI World Islamic Screened", "HSBC.rsplit(', ',1)[0] + '; Abschnitt Investment strategy: „made up of large and mid-cap companies … that comply with Shariah investment principles, as defined by the Index Provider“, ' + D"),
  (r"Smartbroker\+ zahlt|Zinsen nur auf eigenem Zinskonto", "SBZ"),
  (r"^\+ Eigenes Gremium mit Fatwa\.$", "EQ"),
@@ -67,7 +75,7 @@ EXTRA = [
  (r"Andere Namen dafür sind islamische|So nennen sich ETFs mit Islamic", "f'{W}/src/data/halalEtfListe.ts, Namen der acht ETFs (iShares MSCI World Islamic, Invesco Dow Jones Islamic …); der Satz beschreibt Namen, nach ~/.claude/CLAUDE.md §5 ist „Islamic“ im Namen kein Halal-Urteil, {D}'"),
  (r"kein Nachhaltigkeitsfonds", "M_21.rsplit(', ',1)[0] + '; die Ausschlüsse folgen Sharia-Grundsätzen (Abschnitte 2.1 und 2.2), nicht ESG-Kriterien, ' + D"),
  (r"nicht sicher", "HSBC.rsplit(', ',1)[0] + '; Abschnitt Main risks: „The value of investible securities can change over time due to a wide variety of factors“, ' + D"),
- (r"folgt meist einem Index und wird an der Börse", "f'{W}/src/data/halalAnlagen.ts, Feld bauart „passiv“ bei sieben der acht ETFs der Liste (Ausnahme Saturna, „aktiv“), alle als UCITS ETF börsengehandelt, {D}'"),
+ (r"folgt meist einem Index", "f'{W}/src/data/halalAnlagen.ts, Feld bauart „passiv“ bei sieben der acht ETFs der Liste (Ausnahme Saturna, „aktiv“), alle als UCITS ETF börsengehandelt, {D}'"),
  (r"Halal Fonds wird meist aktiv|aktiver Shariah-Fonds aus unserer Datenbank kostet 1,81", "f'{W}/src/data/halalAnlagen.ts, Franklin Shariah Technology Fund A (acc) USD, ISIN LU2458330086, kosten 1.81, kostenLabel „1,81 %“, Shariah-Nachweis zertifikatLink https://www.franklintempleton.ch/download/en-ch/ANNUAL-REPORT/b5b23ffc-daa4-49c1-9b03-8a28a3c4c53e/FTSF-annual-report-en-ch.pdf; Platz 1 kosten 0.3, {D}'"),
  (r"ob es ein Shariah-Zertifikat gibt und wie alt", "f'{W}/src/data/halalAnlagen.ts, Felder zertifikatArt, zertifikatLink, zertifikatHinweis je Anlage; Handlungsrat ohne Urteil über ein Produkt, {D}'"),
  (r"keine Fatwa und keine Anlageberatung", "f'{W}/src/pages/blog/HalalEtf.tsx, Rechtshinweis; der Satz verneint eine Fatwa, er urteilt nicht, {D}'"),
@@ -108,6 +116,8 @@ Vor den Belegen im Text richtiggestellt (SEO45): iShares-Gremien „hat eine Fat
 
 Nach dem frischen Halal-Prüfer r1 (SEO46, `fundament/grundlage/playbooks/finanzmuslim/pruefung/halal-blog-halal-etf-seo45.md`): Invesco- und HSBC-Satz auf den Beleg des eigenen Fonds; FAQ Reinigung „Bei den anderen gibst du ihn selbst weiter“ ersetzt durch einen Rat ohne Aussage über die vier Fonds; „Auch dein Depot muss zinsfrei sein“ und „sollte dir keine Zinsen zahlen“ ohne Pflicht gefasst; Smartbroker+ ohne „0 %“ (nur Zinskonto laut Anbieter); Saturna „hat für 2025 geprüft“ statt „prüft jedes Jahr“.
 
+Nach dem Seiten-Prüfer r1 (SEO47, 04.11.2026, `fundament/grundlage/playbooks/finanzmuslim/pruefung/seiten-blog-halal-etf-seo45.md`): Gremium-, Fatwa- und Zertifikatssätze in den acht Einträgen auf einen Halbsatz je ETF gekürzt, ohne neue Aussage (Platz 1 „Ein eigenes Gremium bei iShares prüft ihn, den kleinen unreinen Anteil spendet der Fonds selbst“; Platz 2 „Sein Shariah-Zertifikat gilt für genau diesen ETF“; Platz 3 und 4 „vom selben Gremium bei iShares wie Platz 1“; Platz 5 „Ein Shariah-Ausschuss bei HSBC prüft den Fonds selbst“; Platz 6 „Zertifiziert ist die Firmenliste, der er folgt, nicht der Fonds selbst“; Platz 7 „sein Shariah-Zertifikat gilt für 2025“; Platz 8 „Ein eigenes Sukuk-Gremium bei iShares prüft ihn“). Die ausführliche Fassung mit Quelle steht weiter in der Klappzeile „Geprüft von“ jeder Karte. Abschnitt „Die besten Halal ETFs 2026“ auf einen Satz, Fragen ohne Gremium-Halbsatz, Shariah-Berater beim Xtrackers gestrichen.
+
 """
 fuss = f"""
 
@@ -115,7 +125,7 @@ Ohne Wort der Liste, trotzdem belegt (SEO45, 03.11.2026):
 - „Ja, den kleinen unreinen Anteil gibst du als Spende weiter, wenn der Fonds es nicht selbst tut.“ Beleg: {M_23}
 - „Bei den vier iShares-ETFs dieser Liste spendet ihn laut Verkaufsprospekt der Fonds.“ Beleg: {PUR}
 - „Bei den anderen sieh im Verkaufsprospekt nach, ob der Fonds spendet. Wenn nicht, gibst du den Anteil selbst weiter.“ Beleg: Handlungsrat ohne Aussage über einen Fonds (für HSBC, Invesco Dow Jones, Invesco MSCI ACWI und Saturna liegt vom Anbieter nichts zur Spende vor); die Pflicht selbst: {M_23}
-- „Diesen Anteil deiner Erträge gibst du weiter, bei den vier iShares-ETFs dieser Liste macht das laut Verkaufsprospekt schon der Fonds für dich.“ Beleg: {PUR}
+- „Bei den vier iShares-ETFs macht das der Fonds für dich.“ (Das Wichtigste, Punkt „Ein kleiner Rest wird gespendet“) Beleg: {PUR}
 - JSON-LD Organization „Bildung für islamkonformes (halal) Investieren: Guides, Rechner und Kriterien-Checks für Muslime in Deutschland.“ Beleg: {W}/src/pages/blog/HalalEtf.tsx (JSON-LD Organization), beschreibt finanzmuslim selbst, kein Urteil über ein Produkt, {D}
 - „Banken und Versicherungen fliegen raus.“ und „Ein normaler ETF wie der MSCI World kauft sie mit.“ Beleg: {M_21}
 - „Ein kleiner Rest wird gespendet.“ Beleg: {M_23}
