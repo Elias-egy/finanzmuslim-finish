@@ -778,7 +778,7 @@ const HalalGoldKaufen = () => {
                       { schluessel: "dafuer", werte: ["Was spricht dafür?", "Dir ist echtes Gold zugeordnet, getrennt vom Vermögen des Anbieters, und es gibt ein Zertifikat, das du selbst lesen kannst."] },
                       {
                         schluessel: "dagegen",
-                        werte: ["Was spricht dagegen?", "Du hältst das Gold nicht in der Hand. Ein Teil der Gelehrten sagt deshalb: Das erfüllt die Bedingung der Übergabe nicht wirklich."],
+                        werte: ["Was spricht dagegen?", "Du hältst das Gold nicht in der Hand. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich."],
                       },
                       {
                         schluessel: "halten",

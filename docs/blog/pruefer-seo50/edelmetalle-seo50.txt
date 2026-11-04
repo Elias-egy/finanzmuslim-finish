@@ -45,11 +45,11 @@ Ohne Zinsen nutzbar
 Royal Mint Gold-ETC: ja
 Gold: 4 von 4
 Silber: 3 von 3
-Kosten pro Order: 0€ ab 500€
+Kosten pro Order: 0,95€, ab 500€: 0€
 Zum Angebot*
 Produktdetails
 Kosten pro Order, genau
-0€ ab 500€ je Order, darunter 0,95€
+0,95€ je Order unter 500€, ab 500€: 0€
 Depotgebühr im Jahr
 0€
 Handelsplätze
@@ -102,7 +102,7 @@ Silber: 3 von 3
 Zum Angebot*
 Produktdetails
 Kosten pro Order, genau
-0€ ab 500€ je Order, darunter 1€
+1€ je Order unter 500€, ab 500€: 0€
 Depotgebühr im Jahr
 0€
 Handelsplätze
@@ -125,7 +125,7 @@ Scalable Capital Free Broker
 
 Platz 3
 Ohne Zinsen nutzbar
-Royal Mint Gold-ETC: ja, auch als Sparplan
+Royal Mint Gold-ETC: ja
 Gold: 4 von 4
 Silber: 3 von 3
 Zum Angebot*
@@ -154,7 +154,7 @@ Trade Republic Depot
 
 Platz 4
 Ohne Zinsen nutzbar
-Royal Mint Gold-ETC: ja, auch als Sparplan
+Royal Mint Gold-ETC: ja
 Gold: 4 von 4
 Silber: 3 von 3
 
@@ -183,7 +183,7 @@ Premium-Tarif
 Für 4,99 € im Monat: Flatrate für Orders ab 250 €, beliebig viele Preisalarme, Portfolioanalyse Insights.
 
 Ohne Zinsen nutzbar
-Royal Mint Gold-ETC: ja, auch als Sparplan
+Royal Mint Gold-ETC: ja
 Gold: 4 von 4
 Silber: 3 von 3
 Zum Angebot*
@@ -192,7 +192,7 @@ Produktdetails
 ?Premium-Tarif: Für 4,99 € im Monat: Flatrate für Orders ab 250 €, beliebig viele Preisalarme, Portfolioanalyse Insights. Hilfreich, wenn du das Ganze etwas ernster nehmen möchtest.
 
 Kosten pro Order, genau
-0€ ab 250€ je Order, darunter 0,99€
+0,99€ je Order unter 250€, ab 250€: 0€
 Depotgebühr im Jahr
 59,88€ (4,99€ im Monat)
 Handelsplätze
@@ -412,7 +412,7 @@ Silber: 2 von 3
 Zum Angebot*
 Produktdetails
 Kosten pro Order, genau
-0€ ab 500€ je Order, darunter 1€
+1€ je Order unter 500€, ab 500€: 0€
 Depotgebühr im Jahr
 0€
 Handelsplätze
