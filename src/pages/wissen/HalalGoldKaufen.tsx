@@ -170,14 +170,14 @@ const FRAGEN: { frage: string; antwort: string; link?: { to: string; text: strin
       "Ja, wenn drei Dinge stimmen: Der Händler besitzt den Barren schon, der Barren ist bestimmbar (Nummer, Gewicht), und deine Zahlung ist nicht mehr widerrufbar. Ein guter Praxistest ist die Lieferzeit. Zwei bis drei Tage sind Logistik, zwei bis drei Wochen heißen meist, dass der Barren erst nach deiner Zahlung eingekauft wird.",
   },
   {
-    frage: "Welcher Gold-ETC ist der beste für Muslime?",
+    frage: "Welcher Gold-ETC ist eure Nummer 1?",
     antwort:
-      "Unsere Nummer 1 ist der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Du kannst dir das Gold als Barren oder Münzen ausliefern lassen, ein Gelehrtengremium zertifiziert ihn jedes Jahr, und der Gewinn ist nach einem Jahr steuerfrei. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
+      "Unsere Nummer 1 ist der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Ein Shariah-Zertifikat haben alle fünf Gold-ETCs in diesem Beitrag. Vorn steht er, weil du dir das Gold als Barren oder Münzen ausliefern lassen kannst. Der Gewinn ist nach einem Jahr steuerfrei. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
   },
   {
     frage: "Ist ein Gold-ETF oder Gold-ETC halal?",
     antwort:
-      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Beim Royal-Mint-ETC kannst du dir das Gold auch ausliefern lassen.",
+      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
   },
   {
     frage: "Ist Gold im Depot steuerfrei?",
@@ -778,7 +778,7 @@ const HalalGoldKaufen = () => {
                       { schluessel: "dafuer", werte: ["Was spricht dafür?", "Dir ist echtes Gold zugeordnet, getrennt vom Vermögen des Anbieters, und es gibt ein Zertifikat, das du selbst lesen kannst."] },
                       {
                         schluessel: "dagegen",
-                        werte: ["Was spricht dagegen?", "Du hältst das Gold nicht in der Hand. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich."],
+                        werte: ["Was spricht dagegen?", "Du hältst das Gold nicht in der Hand. Ob der Kauf im Depot als Übergabe reicht, sehen Gelehrte unterschiedlich."],
                       },
                       {
                         schluessel: "halten",
@@ -836,7 +836,7 @@ const HalalGoldKaufen = () => {
                           <p>
                             {a.kostenLabel} im Jahr, also {euro(a.kosten * 100)} bei 10.000 €. {depots(a.isin) ? `Bei ${depots(a.isin)} Depots zu haben.` : ""}{" "}
                             {a.isin === ROYAL_MINT
-                              ? "Das Gold liegt im Tresor der Royal Mint in Wales und nicht bei einer Bank, Privatanleger können sich Barren und Münzen ausliefern lassen. Darum ist der Gewinn nach einem Jahr steuerfrei, und wer das Gold in der Hand will, bekommt es."
+                              ? "Das Gold liegt im Tresor der Royal Mint in Wales und nicht bei einer Bank, Privatanleger können sich Barren und Münzen ausliefern lassen. Darum ist der Gewinn nach einem Jahr steuerfrei."
                               : `Geprüft von ${pruefer(a.zertifizierer)}.`}
                           </p>
                         </Text>

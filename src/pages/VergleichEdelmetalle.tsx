@@ -227,6 +227,7 @@ const VergleichEdelmetalle = () => (
         text: "Was kostet dich ein Kauf? Es zählen Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service und App.",
       },
     ]}
+    kriterienTitel="Worauf wir achten"
     vorneweg={<NummerEinsGold />}
     zusatz={
       <>
@@ -243,7 +244,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Wie entsteht die Reihenfolge?",
         antwort:
-          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Im Halal-Teil zählt, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, Partnerschaften zählen nicht.",
+          "Depots, bei denen du unsere Nummer 1 bei Gold kaufen kannst, stehen vorn. Danach zählen Halal-Merkmale und Kosten je zur Hälfte zur Note. Im Halal-Teil zählt, wie viele der Gold- und Silber-ETCs wir beim Anbieter einzeln belegt haben, Partnerschaften zählen nicht.",
       },
       {
         frage: "Welcher Gold-ETC ist eure Nummer 1?",
@@ -253,7 +254,7 @@ const VergleichEdelmetalle = () => (
       {
         frage: "Ist ein Gold-ETC halal?",
         antwort:
-          "Die Gold-ETCs in diesem Vergleich haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich. Beim Royal-Mint-ETC kannst du dir das Gold auch ausliefern lassen.",
+          "Die Gold-ETCs in diesem Vergleich haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
       },
       {
         frage: "Was ist mit Xetra-Gold und EUWAX Gold II?",
