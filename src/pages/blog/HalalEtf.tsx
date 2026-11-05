@@ -563,7 +563,7 @@ const KurzerVergleich = () => {
     if (!el) return;
     const messen = () => {
       setRand({ links: el.scrollLeft <= 2, rechts: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
-      setKarte(Math.min(etfListe.length - 1, Math.round(el.scrollLeft / (220 + 12))));
+      setKarte(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 ? etfListe.length - 1 : Math.min(etfListe.length - 1, Math.round(el.scrollLeft / (220 + 12))));
     };
     messen();
     el.addEventListener("scroll", messen, { passive: true });
