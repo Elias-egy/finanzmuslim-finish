@@ -1,8 +1,9 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Check, ChevronDown, X } from "lucide-react";
+import { ArrowDown, Check, ChevronDown } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
+import { AnbieterLogo } from "@/components/AnbieterLogo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursStand } from "@/lib/kurse";
 import { PLATZ1, polster, zahlAus } from "@/lib/polster";
@@ -15,8 +16,8 @@ import {
   euro,
   GoogleKasten,
   H2,
+  H3,
   INSTAGRAM,
-  Kacheln,
   Karte,
   KartenReihe,
   Kernsatz,
@@ -29,30 +30,33 @@ import {
   Text,
   TL,
   useAktiv,
+  Werbung,
   YOUTUBE,
 } from "@/components/blog/bausteine";
 
 /**
- * „Sind Aktien haram?“, neu gebaut in SEO61 (05.11.2026) im Stil von /blog/ist-leasing-haram (Elias SEO57: „Wenn im dem Stil
- * jetzt alle anderen auch machst, extrem gut.“, Vault raw/2026-11-05-elias-seo57-leasing-gut-alle-in-dem-stil.md). Jede
- * Halal-Aussage aus ~/hourani/positionen/aktien.md und forex-trading.md (ilmCast Ep. 18 und 17), auf der Seite ohne Namen;
- * Begleitdatei docs/blog/pruefer-seo61/sind-aktien-haram-seo61.txt.belege.md. Karte im Vault:
- * fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/beitraege/sind-aktien-haram.md. Zertifizierte Halal ETFs bleiben nach Elias'
- * Linie „zertifiziert“ (raw/2026-10-31-elias-mc7d9g5-review-xxl.md: „nach unserer Meinung ist das ja okay“), die strengere Sicht
- * steht als ein Satz im Abschnitt zu den Zinsen.
+ * „Sind Aktien haram?“, neu gebaut in SEO61 im Stil von /blog/ist-leasing-haram, umgebaut in SEO62 (05.11.2026) nach Elias'
+ * Rückmeldung (Vault raw/2026-11-05-elias-seo61-aktien-rueckmeldung-guide-logos-eisdiele-zoya.md, Lesart 1 bis 8): ein Titel
+ * „Der komplette Guide 2026“, grauer Satz „Aktien sind halal“, Kollege mit Nvidia, Apple, Tesla, Logos in Karten und Bildern,
+ * Bild Anteil gegen Wette, Filter mit Logos, Ausschlussbranchen als Ausschnitt aus einem Fondsprospekt (Comgest Growth Europe S,
+ * Verkaufsprospekt DE 31.03.2026 S. 105, mit Klonen), Zinsregeln als Bild mit Logo und Eisdielen-Beispiel, Prüf-Apps mit Zoya
+ * (/out/zoya) und Musaffa, Rechner nennt die Rendite (Elias SEO62: echte Kurse, Prozent dazu).
+ * Jede Halal-Aussage aus ~/hourani/positionen/aktien.md und forex-trading.md (ilmCast Ep. 18 und 17), auf der Seite ohne
+ * Gelehrtennamen; AAOIFI und Zoya stehen nur hier, auf Elias' Wort für diesen Beitrag. Begleitdatei
+ * docs/blog/pruefer-seo62/sind-aktien-haram-seo62.txt.belege.md. Firmenlogos sind Beispiele, kein Urteil über die Firma.
  */
 
 const PFAD = "/blog/sind-aktien-haram";
-const TITEL = "Sind Aktien haram? Wann eine Aktie halal ist: 2 Prüfungen";
-/** Title-Tag unter 60 Zeichen mit „| finanzmuslim“; H1 bleibt TITEL. */
-const SEO_TITEL = "Sind Aktien haram? Wann eine Aktie halal ist";
+const TITEL = "Sind Aktien haram? Der komplette Guide 2026";
+/** Title-Tag mit „| finanzmuslim“ 58 Zeichen; H1 ist derselbe Titel. */
+const SEO_TITEL = TITEL;
 const META =
-  "Sind Aktien haram? Nein, nicht an sich. Die 2 Prüfungen für jede Aktie, welche Branchen wegfallen, ob Trading geht und was 100 € im Monat gebracht hätten.";
+  "Sind Aktien haram? Nein, Aktien sind halal, wenn Geschäft und Zinsen der Firma passen. Welche Branchen wegfallen, die Zinsregeln, Trading und ein Rechner.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
 const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
-const LESEZEIT = 7;
+const LESEZEIT = 9;
 const RECHTSHINWEIS =
-  "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu den Grenzen bei Zinsen gibt es abweichende Auffassungen. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
+  "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu den Grenzen bei Zinsen gibt es abweichende Auffassungen. Firmenlogos sind Beispiele, kein Urteil über diese Firmen. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
 /** Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
 const KNOPF = "Halal anlegen";
@@ -62,12 +66,12 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
   /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
   { id: "kurzer-vergleich", titel: "5 Wege an der Börse auf einen Blick", leiste: true, kurz: "5 Wege an der Börse" },
-  { id: "zwei-pruefungen", titel: "Wann ist eine Aktie halal? Die 2 Prüfungen", leiste: true, kurz: "Die 2 Prüfungen" },
-  { id: "rechner", titel: "Konto oder Halal ETF: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Konto oder Halal ETF" },
-  { id: "branchen", titel: "Welche Aktien sind haram?", leiste: true, kurz: "Welche Aktien haram sind" },
-  { id: "zinsen", titel: "Wie viel Zinsen darf eine Firma haben?", leiste: true, kurz: "Zinsen in der Firma" },
+  { id: "aktien-halal", titel: "Sind Aktien generell halal?", leiste: true, kurz: "Sind Aktien halal?" },
+  { id: "welche-aktien", titel: "Welche Aktien sind halal und welche haram?", leiste: true, kurz: "Welche Aktien haram sind" },
+  { id: "rechner", titel: "Konto oder Halal ETF: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner mit echten Kursen" },
+  { id: "zinsen", titel: "Wie viel Zinsen darf eine Firma haben?", leiste: true, kurz: "Die Regeln für Zinsen" },
+  { id: "nicht-selbst-pruefen", titel: "Musst du das alles selbst prüfen?", leiste: true, kurz: "Halal ETF oder Prüf-App" },
   { id: "trading", titel: "Ist Trading haram?", leiste: true, kurz: "Ist Trading haram?" },
-  { id: "einfacher-weg", titel: "Der einfache Weg: ein Halal ETF" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
 ];
@@ -79,29 +83,58 @@ const Ueber = ({ id }: { id: string }) => <H2 id={id}>{titelVon(id)}</H2>;
 /* Daten                                                               */
 /* ------------------------------------------------------------------ */
 
+/** Bekannte Firmen als Beispiel (Elias SEO61: „dein Kollege empfiehlt dir … Nvidia, Apple und Tesla“), kein Halal-Urteil. */
+const FIRMEN = [
+  { name: "Nvidia", domain: "nvidia.com" },
+  { name: "Apple", domain: "apple.com" },
+  { name: "Tesla", domain: "tesla.com" },
+];
+const ETF_LOGOS = [
+  { name: "iShares", logo: "/bilder/blog/halal-etf/logos/ishares.webp" },
+  { name: "HSBC", logo: "/bilder/blog/halal-etf/logos/hsbc.webp" },
+  { name: "Invesco", logo: "/bilder/blog/halal-etf/logos/invesco.webp" },
+];
+
+const FirmenLogos = ({ klein = false }: { klein?: boolean }) => (
+  <span className="flex items-center gap-1.5">
+    {FIRMEN.map((f) => (
+      <AnbieterLogo key={f.name} name={f.name} domain={f.domain} klein={klein} rand />
+    ))}
+  </span>
+);
+const EtfLogos = () => (
+  <span className="flex items-center gap-2">
+    {ETF_LOGOS.map((l) => (
+      <img key={l.name} src={l.logo} alt={`Logo ${l.name}`} width={32} height={32} loading="lazy" className="h-8 w-8 rounded-full object-contain ring-1 ring-black/10" />
+    ))}
+  </span>
+);
+
 type Ton = "gruen" | "gelb" | "rot";
 
 /** Fünf Wege an der Börse, Etiketten nach STATION-BEITRAG.md (SEO48-04). Einordnung wie in den Abschnitten unten. */
-const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; kaufst: string; haken: string; passt: string; ziel: string }[] = [
+const WEGE: { weg: string; marke: string; ton: Ton; logos?: ReactNode; besonders: string; kaufst: string; haken: string; passt: string; ziel: string }[] = [
   {
     weg: "Halal ETF",
     marke: "zertifiziert",
     ton: "gruen",
-    besonders: "Viele geprüfte Firmen auf einmal",
+    logos: <EtfLogos />,
+    besonders: "Viele Firmen auf einmal",
     kaufst: "einen Anteil an einem Fonds mit vielen Firmen",
     haken: "Du suchst die Firmen nicht selbst aus",
     passt: "Wer mit 100 € im Monat anfangen will",
-    ziel: "einfacher-weg",
+    ziel: "nicht-selbst-pruefen",
   },
   {
     weg: "Einzelne Aktie",
     marke: "geht mit Prüfung",
     ton: "gruen",
+    logos: <FirmenLogos />,
     besonders: "Du wählst die Firma selbst",
     kaufst: "ein Stück einer Firma",
-    haken: "Du prüfst selbst, und das immer wieder",
-    passt: "Wer Zahlen von Firmen lesen will",
-    ziel: "zwei-pruefungen",
+    haken: "Jede Aktie musst du prüfen, am besten mit einer App",
+    passt: "Wer eine Lieblingsfirma hat",
+    ziel: "welche-aktien",
   },
   {
     weg: "Bank, Brauerei, Rüstung",
@@ -111,7 +144,7 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; kaufst: s
     kaufst: "ein Stück an einem verbotenen Geschäft",
     haken: "Darüber sind sich alle Gelehrten einig",
     passt: "Keinen, der halal bleiben will",
-    ziel: "branchen",
+    ziel: "welche-aktien",
   },
   {
     weg: "Trading mit Hebel oder CFDs",
@@ -135,14 +168,11 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; kaufst: s
   },
 ];
 
-/** Verbotene Geschäfte, aufgezählt als Beispiele, nicht vollständig (Beleg 00:19:56). */
-const BRANCHEN = ["Alkohol", "Banken", "Versicherungen", "Tabak", "Erotik", "Fleisch, das nicht halal ist", "Waffen und Rüstung"];
-
-/** Grenzen des Standards, dem zertifizierte Halal ETFs folgen (Belege 00:42:39, 00:43:09, 00:44:50). */
-const GRENZEN: [string, ReactNode, ReactNode?][] = [
-  ["Zinsschulden", "höchstens rund ⅓", "gemessen am Börsenwert"],
-  ["Geld auf Zinskonten", "höchstens rund ⅓", "gemessen am Börsenwert"],
-  ["Verbotene Einnahmen", "höchstens 5 %", "von allen Einnahmen"],
+/** Regeln des Standards für Aktien (Belege 00:42:39, 00:43:09, 00:44:50; Verkaufsprospekt Comgest S. 106 für 5 %). */
+const REGELN: { zahl: string; was: string; wovon: string }[] = [
+  { zahl: "30 %", was: "Schulden mit Zinsen", wovon: "vom Börsenwert der Firma" },
+  { zahl: "30 %", was: "Geld auf Zinskonten", wovon: "vom Börsenwert der Firma" },
+  { zahl: "5 %", was: "Verbotene Einnahmen", wovon: "von allen Einnahmen" },
 ];
 
 const DREIER = [
@@ -162,28 +192,33 @@ const ANBIETER = DREIER.map((d) => ({
 }));
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
-  { lead: "Aktien sind nicht haram an sich.", text: "Mit einer Aktie gehört dir ein kleines Stück der Firma, an allem, was sie hat." },
-  { lead: "Prüfung 1 ist das Geschäft.", text: "Verdient die Firma mit Alkohol, Zinsen oder Waffen, fällt die Aktie weg." },
-  { lead: "Prüfung 2 sind die Zinsen der Firma.", text: "Zertifizierte Halal ETFs folgen hier einem Standard mit festen Grenzen." },
-  { lead: "Trading mit Hebel, CFDs und Optionen fällt weg.", text: "Da kaufst du keine Firma, sondern wettest auf einen Kurs." },
-  { lead: "Der einfache Weg ist ein Halal ETF.", text: "Der Rechner weiter unten zeigt, was 100 € im Monat darin gebracht hätten." },
+  { lead: "Aktien sind halal.", text: "Mit einer Aktie gehört dir ein Stück einer echten Firma, mit Gewinn und Verlust." },
+  { lead: "Haram ist die Wette auf den Kurs.", text: "Bei CFDs, Hebel und Optionen besitzt du nichts, darum fallen sie weg." },
+  { lead: "Das Geschäft muss halal sein.", text: "Alkohol, Banken, Glücksspiel und Waffen fallen weg." },
+  { lead: "Für Zinsen gibt es feste Regeln.", text: "Höchstens 30 % Schulden mit Zinsen und höchstens 5 % verbotene Einnahmen." },
+  { lead: "Selbst prüfen musst du nicht.", text: "Ein zertifizierter Halal ETF macht das für dich, bei einzelnen Aktien hilft eine App." },
 ];
 
 const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind Aktien haram?",
     antwort:
-      "Nein, nicht an sich. Eine Aktie ist ein Anteil an einer Firma. Haram wird sie, wenn die Firma mit Verbotenem Geld verdient oder bei den Zinsen durchfällt.",
+      "Nein, Aktien sind halal. Eine Aktie ist ein Anteil an einer Firma. Haram wird sie, wenn die Firma mit Verbotenem Geld verdient oder zu viel mit Zinsen macht.",
   },
   {
     frage: "Ist es haram, in Aktien zu investieren?",
     antwort:
-      "Nein, wenn beide Prüfungen passen: Das Geschäft der Firma ist halal, und ihr Umgang mit Zinsen auch. Am einfachsten geht das mit einem zertifizierten Halal ETF.",
+      "Nein, wenn das Geschäft der Firma halal ist und sie unter den Grenzen für Zinsen bleibt. Am einfachsten geht das mit einem zertifizierten Halal ETF.",
   },
   {
     frage: "Ist Trading haram?",
     antwort:
-      "Hebel, CFDs, Optionen, Futures, Leerverkäufe und Forex sind haram. Kaufst du echte Aktien, gelten die zwei Prüfungen wie bei jeder Aktie.",
+      "Hebel, CFDs, Optionen, Futures, Leerverkäufe und Forex sind haram. Kaufst du echte Aktien, gelten dieselben Regeln wie bei jeder Aktie.",
+  },
+  {
+    frage: "Wie finde ich heraus, ob eine Aktie halal ist?",
+    antwort:
+      "Mit einer Prüf-App wie Zoya oder Musaffa. Du gibst den Namen der Aktie ein und siehst, ob sie die Regeln erfüllt. Ein Halal ETF nimmt dir das ganz ab.",
   },
   {
     frage: "Sind Dividenden halal?",
@@ -193,7 +228,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind normale ETFs halal?",
     antwort:
-      "Meist nicht. Ein normaler ETF kauft alle Firmen eines Index, also auch Banken und Versicherungen. Ein Halal ETF lässt sie weg.",
+      "Meist nicht. Ein normaler ETF kauft alle großen Firmen, also auch Banken und Versicherungen. Ein Halal ETF lässt sie weg.",
   },
   {
     frage: "Sind Aktien von Rüstungsfirmen halal?",
@@ -209,7 +244,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/halal-etf", name: "Die besten Halal ETFs", text: "Welche es gibt, was sie kosten und wo du sie kaufst." },
-  { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "Die zwei Prüfungen auf einer Seite zum Ausdrucken." },
+  { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "Die Regeln für Aktien auf einer Seite zum Ausdrucken." },
   { to: "/blog/trading-forex-cfd", name: "Trading, Forex und CFDs", text: "Warum Hebel und Wetten auf Kurse wegfallen." },
   { to: "/bereinigungsrechner", name: "Bereinigungsrechner", text: "Wie viel von deiner Dividende du weitergibst." },
 ];
@@ -275,55 +310,173 @@ const graph = () => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Erklärbild: zwei Prüfungen, frei und gestrichelt (Elias SEO57)      */
+/* Erklärbilder, frei und gestrichelt (Elias SEO57), mit Logos (SEO61) */
 /* ------------------------------------------------------------------ */
 
-const Siebbild = () => {
-  const rot = "hsl(var(--loss))";
-  const Runter = ({ y1, y2 }: { y1: number; y2: number }) => (
-    <g stroke="currentColor" strokeWidth={1.4} fill="none">
-      <line x1={106} y1={y1} x2={106} y2={y2 - 2} strokeDasharray="4 3" />
-      <path d={`M101.5 ${y2 - 7} L106 ${y2} L110.5 ${y2 - 7}`} />
-    </g>
-  );
-  const Raus = ({ y }: { y: number }) => (
-    <g stroke={rot} strokeWidth={1.4} fill="none">
-      <line x1={206} y1={y} x2={232} y2={y} strokeDasharray="4 3" />
-      <path d={`M227 ${y - 4.5} L234 ${y} L227 ${y + 4.5}`} />
-    </g>
-  );
-  return (
-    <figure className="mt-7 max-w-[460px]">
-      <svg
-        viewBox="0 0 360 250"
-        className="h-auto w-full text-foreground"
-        role="img"
-        aria-label="Zwei Prüfungen für jede Aktie: Erst das Geschäft der Firma, Alkohol, Banken und Waffen fallen weg. Dann die Zinsen der Firma, zu viele Zinsen fallen weg. Was beide Prüfungen besteht, geht."
-      >
-        <text x={106} y={16} textAnchor="middle" className="fill-muted-foreground text-[14px]">Jede Aktie</text>
-        <Runter y1={24} y2={46} />
-        <rect x={6} y={48} width={200} height={58} rx={6} fill="none" stroke="currentColor" strokeWidth={1.4} strokeDasharray="5 4" />
-        <text x={20} y={72} className="fill-foreground text-[14px] font-semibold">1. Das Geschäft</text>
-        <text x={20} y={92} className="fill-foreground text-[14px]">Womit verdient die Firma?</text>
-        <Raus y={77} />
-        <text x={240} y={70} className="text-[14px]" fill={rot}>Alkohol, Banken,</text>
-        <text x={240} y={88} className="text-[14px]" fill={rot}>Waffen</text>
-        <text x={240} y={106} className="text-[14px] font-semibold" fill={rot}>fällt weg</text>
+const Kasten = ({ rot, children }: { rot?: boolean; children: ReactNode }) => (
+  <div className={`border border-dashed px-4 py-3.5 ${rot ? "border-loss/60" : "border-foreground/50"}`}>{children}</div>
+);
+const Runter = () => (
+  <div className="flex justify-center py-1.5 text-foreground/60" aria-hidden>
+    <ArrowDown className="h-4 w-4" />
+  </div>
+);
 
-        <Runter y1={106} y2={130} />
-        <rect x={6} y={132} width={200} height={58} rx={6} fill="none" stroke="currentColor" strokeWidth={1.4} strokeDasharray="5 4" />
-        <text x={20} y={156} className="fill-foreground text-[14px] font-semibold">2. Die Zinsen</text>
-        <text x={20} y={176} className="fill-foreground text-[14px]">Kredite, Zinskonten</text>
-        <Raus y={161} />
-        <text x={240} y={156} className="text-[14px]" fill={rot}>Zu viele Zinsen</text>
-        <text x={240} y={174} className="text-[14px] font-semibold" fill={rot}>fällt weg</text>
+/** Kollege im Einstieg: drei bekannte Logos (Elias SEO61: „das ist nahbar“). */
+const KollegeBild = () => (
+  <figure className="mt-6 max-w-[460px] border border-border bg-card px-4 py-4">
+    <Etikett>Dein Kollege sagt</Etikett>
+    <p className="font-titel mt-2 text-[21px] leading-[1.25] text-foreground">„Kauf Nvidia, Apple und Tesla, die laufen.“</p>
+    <div className="mt-3 flex flex-wrap items-center gap-3">
+      {FIRMEN.map((f) => (
+        <span key={f.name} className="inline-flex items-center gap-2 text-[15px] font-semibold text-foreground">
+          <AnbieterLogo name={f.name} domain={f.domain} rand />
+          {f.name}
+        </span>
+      ))}
+    </div>
+  </figure>
+);
 
-        <Runter y1={190} y2={214} />
-        <text x={106} y={238} textAnchor="middle" className="text-[15px] font-semibold" fill="hsl(var(--gain))">Die Aktie geht</text>
-      </svg>
-    </figure>
-  );
-};
+/** Anteil gegen Wette (Elias SEO61: „Du kaufst, gewinnt das Unternehmen, gewinnst du … haram ist es, wenn du nichts besitzt“). */
+const AnteilBild = () => (
+  <figure
+    className="mt-7 grid max-w-[600px] grid-cols-2 gap-3"
+    role="img"
+    aria-label="Links die Aktie: Du besitzt ein Stück der Firma, gewinnt sie, gewinnst du, verliert sie, verlierst du, das ist halal. Rechts CFD, Hebel und Optionen: Du besitzt nichts und wettest nur auf den Kurs, das ist haram."
+  >
+    <div className="flex flex-col border border-dashed border-foreground/50 p-3.5 sm:p-4">
+      <p className="text-[16px] font-semibold text-foreground">Aktie</p>
+      <div className="mt-3 flex items-center gap-2">
+        <span className="flex h-12 flex-1 overflow-hidden border border-foreground/60">
+          <span className="w-1/4 bg-gain/25" />
+          <span className="flex-1" />
+        </span>
+      </div>
+      <p className="mt-1.5 text-[14px] leading-snug text-foreground">Dir gehört ein Stück der Firma</p>
+      <p className="mt-3 text-[14px] leading-snug text-gain">Firma gewinnt: du gewinnst</p>
+      <p className="mt-1 text-[14px] leading-snug text-loss">Firma verliert: du verlierst</p>
+      <p className="mt-auto pt-3 text-[16px] font-semibold text-gain">halal</p>
+    </div>
+    <div className="flex flex-col border border-dashed border-loss/60 p-3.5 sm:p-4">
+      <p className="text-[16px] font-semibold text-foreground">CFD, Hebel, Optionen</p>
+      <div className="mt-3 flex h-12 items-center justify-center border border-dashed border-loss/60 text-[13px] text-loss">nichts</div>
+      <p className="mt-1.5 text-[14px] leading-snug text-foreground">Dir gehört nichts</p>
+      <p className="mt-3 text-[14px] leading-snug text-foreground">Du wettest nur auf den Kurs</p>
+      <p className="mt-1 text-[14px] leading-snug text-foreground">Dein Gewinn ist der Verlust eines anderen</p>
+      <p className="mt-auto pt-3 text-[16px] font-semibold text-loss">haram</p>
+    </div>
+  </figure>
+);
+
+/** Filter mit Logos (Elias SEO61: „Alkohol, Waffen fällt weg, zu viele Zinsen fällt weg, die Aktie geht … Logos, Nvidia, Apple“). */
+const FilterBild = () => (
+  <figure
+    className="mt-7 max-w-[520px]"
+    role="img"
+    aria-label="So wird gefiltert: Jede Aktie, zum Beispiel Nvidia, Apple oder Tesla, geht durch zwei Filter. Erst das Geschäft: Alkohol, Banken, Glücksspiel und Waffen fallen weg. Dann die Zinsen: zu viele Schulden mit Zinsen fallen weg. Was durchkommt, ist halal."
+  >
+    <Kasten>
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[15px] font-semibold text-foreground">Jede Aktie, zum Beispiel</span>
+        <FirmenLogos />
+      </div>
+    </Kasten>
+    <Runter />
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] gap-2.5">
+      <Kasten>
+        <p className="text-[15px] font-semibold text-foreground">1. Das Geschäft</p>
+        <p className="mt-0.5 text-[14px] leading-snug text-foreground/80">Womit verdient die Firma?</p>
+      </Kasten>
+      <Kasten rot>
+        <p className="text-[14px] leading-snug text-loss">Alkohol, Banken, Glücksspiel, Waffen</p>
+        <p className="mt-0.5 text-[14px] font-semibold text-loss">fällt weg</p>
+      </Kasten>
+    </div>
+    <Runter />
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] gap-2.5">
+      <Kasten>
+        <p className="text-[15px] font-semibold text-foreground">2. Die Zinsen</p>
+        <p className="mt-0.5 text-[14px] leading-snug text-foreground/80">Schulden und Zinskonten</p>
+      </Kasten>
+      <Kasten rot>
+        <p className="text-[14px] leading-snug text-loss">Zu viele Zinsen</p>
+        <p className="mt-0.5 text-[14px] font-semibold text-loss">fällt weg</p>
+      </Kasten>
+    </div>
+    <Runter />
+    <div className="border border-gain/60 px-4 py-3 text-center text-[16px] font-semibold text-gain">Was durchkommt, ist halal</div>
+    <figcaption className="mt-2.5 text-[14px] text-foreground/70">Die Logos sind Beispiele, kein Urteil über diese Firmen.</figcaption>
+  </figure>
+);
+
+/** Ausschnitt aus einem Fondsprospekt (Elias SEO61: „Screenshot … welche Branchen nicht drin sind … auch sowas wie Klon“). */
+const ProspektBild = () => (
+  <figure className="mt-6 max-w-[420px]">
+    <div className="border border-border bg-white">
+      <img
+        src="/bilder/blog/sind-aktien-haram/comgest-ausschluesse.webp"
+        alt="Ausschnitt aus dem Verkaufsprospekt, ausgeschlossene Branchen: Alkohol, Klonen, Finanzwesen, Glücksspiel, Schweinefleisch, Pornografie, Tabakwaren."
+        width={600}
+        height={280}
+        loading="lazy"
+        className="h-auto w-full"
+      />
+    </div>
+    <figcaption className="mt-2.5 text-[14px] leading-snug text-foreground/70">
+      Ausgeschlossene Branchen im Verkaufsprospekt des zertifizierten Fonds Comgest Growth Europe S, Stand 31.03.2026, Seite 105.
+    </figcaption>
+  </figure>
+);
+
+/** Zinsregeln als Bild mit Logo (Elias SEO61: „die IOFI-Regeln … dann ein Logo“). */
+const RegelnBild = () => (
+  <figure className="mt-6 max-w-[600px] border border-border bg-card px-4 py-5 sm:px-5">
+    <div className="flex items-center gap-3">
+      <AnbieterLogo name="AAOIFI" domain="aaoifi.com" gross rand />
+      <div>
+        <p className="text-[17px] font-semibold leading-tight text-foreground">AAOIFI</p>
+        <p className="text-[14px] leading-snug text-foreground/75">Regeln für Aktien, höchstens</p>
+      </div>
+    </div>
+    <dl className="mt-4 grid grid-cols-3 gap-2">
+      {REGELN.map((r) => (
+        <div key={r.was} className="border border-dashed border-foreground/40 px-2.5 py-3">
+          <dt className="sr-only">{r.was}</dt>
+          <dd className="font-titel text-[30px] leading-none tabular-nums text-foreground sm:text-[36px]">{r.zahl}</dd>
+          <dd className="mt-2 text-[14px] font-semibold leading-snug text-foreground">{r.was}</dd>
+          <dd className="mt-0.5 text-[13px] leading-snug text-foreground/70">{r.wovon}</dd>
+        </div>
+      ))}
+    </dl>
+  </figure>
+);
+
+/** Eisdiele mit 2 % aus Tiramisu (Elias SEO61, sein Beispiel). */
+const EisdieleBild = () => (
+  <figure
+    className="mt-6 max-w-[600px] border border-dashed border-foreground/50 px-4 py-5 sm:px-5"
+    role="img"
+    aria-label="Eisdiele: 98 Prozent der Einnahmen aus Eis, 2 Prozent aus Tiramisu mit Alkohol. Das ist unter 5 Prozent, du darfst dich beteiligen. Von 100 Euro Gewinn behältst du 98 Euro und gibst 2 Euro weiter."
+  >
+    <p className="text-[16px] font-semibold text-foreground">Einnahmen der Eisdiele</p>
+    <div className="mt-3 flex h-10 overflow-hidden border border-foreground/60 text-[13px] font-semibold">
+      <span className="flex w-[98%] items-center bg-gain/15 pl-3 text-foreground">98 % Eis</span>
+      <span className="w-[2%] bg-loss" />
+    </div>
+    <p className="mt-1.5 text-right text-[14px] text-loss">2 % Tiramisu mit Alkohol</p>
+    <div className="mt-4 grid grid-cols-2 gap-2.5">
+      <div className="border border-border px-3 py-3">
+        <Etikett>Unter 5 %?</Etikett>
+        <p className="mt-1 text-[16px] font-semibold text-gain">Ja, du darfst dich beteiligen</p>
+      </div>
+      <div className="border border-border px-3 py-3">
+        <Etikett>Von 100 € Gewinn</Etikett>
+        <p className="mt-1 text-[16px] font-semibold text-foreground">98 € behalten, 2 € weitergeben</p>
+      </div>
+    </div>
+  </figure>
+);
 
 /* ------------------------------------------------------------------ */
 /* Rechner „Konto oder Halal ETF“ (Karte Station 8)                    */
@@ -331,11 +484,33 @@ const Siebbild = () => {
 
 const LAUFZEITEN = [12, 36, 60];
 
+/** Rendite im Jahr, die ein Sparplan mit gleicher Rate bräuchte, um auf denselben Wert zu kommen (Elias SEO62: „Prozent dazu“). */
+const jahresRendite = (rate: number, monate: number, wert: number) => {
+  if (rate <= 0 || monate <= 0) return null;
+  const end = (r: number) => {
+    const m = Math.pow(1 + r, 1 / 12) - 1;
+    let v = 0;
+    for (let k = 0; k < monate; k++) v = (v + rate) * (1 + m);
+    return v;
+  };
+  let lo = -0.9;
+  let hi = 2;
+  for (let i = 0; i < 80; i++) {
+    const r = (lo + hi) / 2;
+    if (end(r) > wert) hi = r;
+    else lo = r;
+  }
+  return lo;
+};
+const prozent = (r: number) => `${Math.round(r * 100).toLocaleString("de-DE")} %`;
+
 /** Die Zahl im Einstieg: 100 € im Monat, fünf Jahre, auf Platz 1 der Halal-ETF-Liste. */
 const BEISPIEL = { rate: 100, monate: 60 };
-const beispielWert = () => {
+const beispiel = () => {
   const erg = polster(BEISPIEL.rate, BEISPIEL.monate, 0);
-  return erg ? euro(Math.round(erg.wert / 100) * 100) : null;
+  if (!erg) return null;
+  const r = jahresRendite(BEISPIEL.rate, BEISPIEL.monate, erg.wert);
+  return { wert: euro(Math.round(erg.wert / 100) * 100), rendite: r === null ? null : prozent(r) };
 };
 
 const Rechner = () => {
@@ -344,18 +519,19 @@ const Rechner = () => {
   const rate = zahlAus(rateText);
   const erg = polster(rate, monate, 0);
   const gezahlt = rate * monate;
+  const rendite = erg ? jahresRendite(rate, monate, erg.wert) : null;
   const schalter = (an: boolean) =>
     `min-h-[44px] flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
   const farbe = erg && erg.wert < erg.eingezahlt ? "loss" : "gain";
   return (
-    <section className="mt-12">
+    <section className="mt-14">
       <Ueber id="rechner" />
       <Text>
         <p>
           Gib ein, wie viel du im Monat übrig hast. Links steht, was auf dem Konto ohne Zinsen daraus wird. Rechts, was derselbe Betrag als Sparplan in{" "}
-          {PLATZ1.name} gebracht hätte.
+          {PLATZ1.name} gebracht hätte, mit den echten Kursen.
         </p>
-        <p>Das ist ein Halal ETF, in unserer Liste auf Platz 1, geordnet nach Zertifikat, Kosten und Sparplan.</p>
+        <p>Das ist ein zertifizierter Halal ETF, in unserer Liste auf Platz 1.</p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
         <label htmlFor="aktien-rate" className="block">
@@ -393,7 +569,7 @@ const Rechner = () => {
             <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
             <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute da</p>
             <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
-            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Ohne Zinsen bleibt es bei dem, was du einzahlst.</p>
+            <p className="mt-2 text-[14px] font-semibold text-foreground">0 % im Jahr</p>
           </div>
           <div className="min-w-0 border border-foreground bg-background px-3 py-3 shadow-[inset_0_0_0_1px_hsl(var(--foreground))] sm:px-4 sm:py-4">
             <Etikett>Im Halal ETF</Etikett>
@@ -401,7 +577,9 @@ const Rechner = () => {
             <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
             <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute wert</p>
             <p className={`text-[18px] font-semibold tabular-nums sm:text-[24px] ${farbe === "loss" ? "text-loss" : "text-gain"}`}>{erg ? euro(erg.wert) : "–"}</p>
-            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Jeden Monat derselbe Betrag, das Geld gehört dir.</p>
+            <p className={`mt-2 text-[14px] font-semibold ${farbe === "loss" ? "text-loss" : "text-gain"}`}>
+              {rendite === null ? "" : `rund ${prozent(rendite)} im Jahr`}
+            </p>
           </div>
         </div>
 
@@ -445,7 +623,7 @@ const Rechner = () => {
           </div>
         )}
 
-        <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">Monatskurse bis {kursStand}, ohne Depotkosten.</p>
+        <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">Echte Monatskurse bis {kursStand}, ohne Depotkosten.</p>
       </div>
     </section>
   );
@@ -459,7 +637,7 @@ const SindAktienHalal = () => {
   const [offen, setOffen] = useState(false);
   const ids = useMemo(() => LEISTE.map((a) => a.id), []);
   const aktiv = useAktiv(ids);
-  const wert = beispielWert();
+  const bsp = beispiel();
 
   const inhalt = (
     <ol>
@@ -487,7 +665,7 @@ const SindAktienHalal = () => {
             inhalt={inhalt}
             etikett="Aktien halal kaufen"
             titel="Deine Ersparnisse halal anlegen?"
-            text="Ein Halal ETF kauft viele zertifizierte Firmen auf einmal. Im Vergleich siehst du, welches Depot ihn als Sparplan hat und keine Zinsen aufs Guthaben zahlt."
+            text="Ein Halal ETF kauft viele Firmen auf einmal und ist zertifiziert. Im Vergleich siehst du, welches Depot ihn als Sparplan hat und keine Zinsen aufs Guthaben zahlt."
             ziel="/vergleich/depot"
             knopf={KNOPF}
           />
@@ -502,14 +680,12 @@ const SindAktienHalal = () => {
             </nav>
 
             <article className="mt-8">
-              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
-                <span className="block">Sind Aktien haram?</span> <span className="block">Wann eine Aktie halal ist: 2 Prüfungen</span>
-              </h1>
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">{TITEL}</h1>
               <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
-                Nein, Aktien sind nicht haram. Eine Aktie ist erlaubt, wenn die Firma halal Geld verdient und bei den Zinsen nicht durchfällt.
+                Nein, Aktien sind halal. Haram wird eine Aktie erst durch das, was die Firma macht, oder wenn du nur auf den Kurs wettest.
               </p>
               <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["2 Prüfungen für jede Aktie", "Welche Aktien haram sind", "Ist Trading haram?", "Rechner: Konto oder Halal ETF"].map((h) => (
+                {["Sind Aktien halal?", "Welche Aktien haram sind", "Die Regeln für Zinsen", "Rechner mit echten Kursen"].map((h) => (
                   <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
                     <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     {h}
@@ -548,16 +724,17 @@ const SindAktienHalal = () => {
                 {offen && <div className="pb-3">{inhalt}</div>}
               </nav>
 
-              {/* Einstieg als kleine Szene wie frontal („Imagine …“), die Antwort in den ersten 100 Wörtern, die Zahl aus dem Rechner */}
+              {/* Einstieg als kleine Szene mit dem Kollegen (Elias SEO61), die Antwort in den ersten 100 Wörtern, die Zahl aus dem Rechner */}
               <div className="mt-8">
                 <Text>
+                  <p>Dein Kollege schwärmt von seinen Aktien. Du hast jeden Monat 100 € übrig und fragst dich: Darf ich das als Muslim überhaupt?</p>
+                </Text>
+                <KollegeBild />
+                <Text>
                   <p>
-                    Dein Kollege erzählt von seinen Aktien. Du hast jeden Monat 100 € übrig und fragst dich: Darf ich das als Muslim überhaupt?
-                  </p>
-                  <p>
-                    {wert
-                      ? `Ja, mit zwei Prüfungen. 100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund ${wert} wert, eingezahlt hast du 6.000 €.`
-                      : "Ja, mit zwei Prüfungen. Der Rechner weiter unten zeigt, was 100 € im Monat in einem Halal ETF gebracht hätten."}
+                    {bsp
+                      ? `Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat und wenig mit Zinsen macht. 100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund ${bsp.wert} wert, eingezahlt hast du 6.000 €${bsp.rendite ? `. Das sind rund ${bsp.rendite} im Jahr` : ""}.`
+                      : "Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat und wenig mit Zinsen macht. Der Rechner weiter unten zeigt, was 100 € im Monat in einem Halal ETF gebracht hätten."}
                   </p>
                 </Text>
 
@@ -575,7 +752,7 @@ const SindAktienHalal = () => {
                   </ul>
                 </section>
 
-                {/* Kurzer Vergleich wie /blog/ist-leasing-haram; Rechner und erste Werbung erst nach den 2 Prüfungen, bei etwa einem Drittel (Elias SEO55) */}
+                {/* Kurzer Vergleich wie /blog/ist-leasing-haram; Rechner und erste Werbung erst nach den Kernfragen, bei etwa einem Drittel (Elias SEO55) */}
                 <GoogleKasten />
 
                 <div className="mt-7">
@@ -583,6 +760,7 @@ const SindAktienHalal = () => {
                     {WEGE.map((w, i) => (
                       <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
                         <Marke ton={w.ton}>{w.marke}</Marke>
+                        <div className="mt-3 flex h-10 items-center">{w.logos}</div>
                         <Etikett className="mt-4">Besonders</Etikett>
                         <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
                         <Etikett className="mt-4">Du kaufst</Etikett>
@@ -604,25 +782,47 @@ const SindAktienHalal = () => {
                 </div>
 
                 <section className="mt-14">
-                  <Ueber id="zwei-pruefungen" />
+                  <Ueber id="aktien-halal" />
                   <Text>
                     <p>
-                      Mit einer Aktie gehört dir ein kleines Stück der Firma, und zwar an allem: an ihrem Geschäft und an ihrem Geld. Darum schaust du dir
-                      beides an.
+                      Ja. Eine Aktie ist ein Anteil an einer Firma, und das ist ein ganz normales Geschäft. Gewinnt die Firma, gewinnst du mit. Verliert sie,
+                      verlierst du mit. Dir gehört ein Stück von allem, was sie hat, darum ist das halal.
                     </p>
                   </Text>
-                  <Siebbild />
+                  <AnteilBild />
                   <Text>
                     <p>
-                      <strong className="font-semibold text-foreground">Prüfung 1, das Geschäft.</strong> Verdient die Firma mit etwas Verbotenem, ist die
-                      Aktie haram. Darüber sind sich die Gelehrten einig.
-                    </p>
-                    <p>
-                      <strong className="font-semibold text-foreground">Prüfung 2, die Zinsen.</strong> Auch eine Firma mit halal Geschäft kann Kredite mit
-                      Zins haben oder Geld auf Zinskonten parken. Wie viel davon geht, steht weiter unten bei den Zinsen.
+                      Haram wird es, wenn du nichts besitzt und nur auf den Preis wettest. Genau das passiert beim Trading mit CFDs, Hebel und Optionen. Mehr dazu
+                      steht weiter unten bei{" "}
+                      <a href="#trading" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Trading
+                      </a>
+                      .
                     </p>
                   </Text>
                   <Kernsatz>Nicht die Aktie ist das Problem, sondern was die Firma macht.</Kernsatz>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="welche-aktien" />
+                  <Text>
+                    <p>Aktien sind also halal. Aber nicht jede. Jede Aktie geht durch zwei Filter: erst das Geschäft der Firma, dann ihre Zinsen.</p>
+                  </Text>
+                  <FilterBild />
+                  <H3>Welche Branchen fallen weg?</H3>
+                  <Text>
+                    <p>
+                      Haram ist jede Aktie einer Firma, die mit Verbotenem Geld verdient. Darüber sind sich die Gelehrten einig. Zertifizierte Halal-Fonds
+                      schreiben ihre Liste sogar in den Prospekt. So sieht das bei einem echten Fonds aus:
+                    </p>
+                  </Text>
+                  <ProspektBild />
+                  <Text>
+                    <p>
+                      Auffällig: Auch Klonen steht drauf. „Finanzwesen“ heißt, dass Banken und Versicherungen ganz wegfallen, dazu kommen Teile von Werbung und Medien. Waffen und Rüstung fallen
+                      ebenfalls weg, auch wenn diese Aktien in den letzten Jahren gut liefen.
+                    </p>
+                  </Text>
                 </section>
 
                 <Rechner />
@@ -630,56 +830,87 @@ const SindAktienHalal = () => {
                 <AnbieterKasten titel="Depots für deinen Halal ETF" anbieter={ANBIETER} />
 
                 <section className="mt-14">
-                  <Ueber id="branchen" />
-                  <Text>
-                    <p>Haram ist jede Aktie einer Firma, die mit Verbotenem Geld verdient. Dazu gehören zum Beispiel:</p>
-                  </Text>
-                  <ul className="mt-4 flex max-w-[664px] flex-wrap gap-2">
-                    {BRANCHEN.map((b) => (
-                      <li key={b} className="inline-flex min-h-[34px] items-center gap-1.5 border border-loss/40 px-3 text-[15px] text-foreground">
-                        <X className="h-4 w-4 shrink-0 text-loss" aria-hidden />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
+                  <Ueber id="zinsen" />
                   <Text>
                     <p>
-                      Die Liste ist nicht vollständig, es zählt alles, was haram ist. Auch eine Firma, die mit Zinsen ihr Geld verdient, fällt weg.
+                      Fast jede große Firma hat Kredite bei Banken oder Geld auf Zinskonten. Viele Gelehrte sind hier streng: Macht die Firma irgendetwas mit
+                      Zinsen, fällt die Aktie weg.
                     </p>
                     <p>
-                      Gerade Rüstungsaktien liefen in den letzten Jahren gut, und manche sind mitgesprungen. Für Muslime fallen sie weg, egal wie gut der Kurs
-                      steht.
+                      Die AAOIFI, eine Organisation für Regeln im islamischen Finanzwesen, setzt dagegen feste Grenzen. Mit solchen Grenzen arbeiten
+                      zertifizierte Halal ETFs:
+                    </p>
+                  </Text>
+                  <RegelnBild />
+                  <H3>Ein Beispiel: die Eisdiele</H3>
+                  <Text>
+                    <p>
+                      Stell dir vor, du beteiligst dich an einer Eisdiele. Sie verkauft halal Eis, aber auch Tiramisu mit Alkohol. Das sind 2 % ihrer
+                      Einnahmen.
+                    </p>
+                  </Text>
+                  <EisdieleBild />
+                  <Text>
+                    <p>
+                      2 % liegt unter der Grenze von 5 %, du darfst dich also beteiligen. Von deinem Gewinn gibst du aber 2 % weiter, ohne dafür eine
+                      Belohnung zu erwarten. Den Betrag rechnet dir der <TL to="/bereinigungsrechner">Bereinigungsrechner</TL> aus.
                     </p>
                   </Text>
                 </section>
 
                 <section className="mt-14">
-                  <Ueber id="zinsen" />
+                  <Ueber id="nicht-selbst-pruefen" />
                   <Text>
                     <p>
-                      Fast jede große Firma hat Kredite bei Banken oder Geld auf Zinskonten. Wie viel davon gehen darf, sehen Gelehrte unterschiedlich.
-                    </p>
-                    <p>
-                      Viele Gelehrte sind streng: Macht die Firma irgendetwas mit Zinsen, fällt die Aktie weg. Ein Standard für Aktien setzt dagegen feste
-                      Grenzen, und diesem Standard folgen zertifizierte Halal ETFs:
+                      Nein. Die Regeln sind klar, und meist prüft sie schon jemand für dich. Du musst nur wissen, wo.
                     </p>
                   </Text>
-                  <div className="max-w-[460px]">
-                    <Kacheln werte={GRENZEN} />
+                  <div className="mt-6 grid max-w-[664px] gap-3 sm:grid-cols-2">
+                    <div className="flex flex-col border border-border bg-card p-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-[18px] font-semibold text-foreground">Halal ETF</p>
+                        <EtfLogos />
+                      </div>
+                      <p className="mt-2 text-[15px] leading-relaxed text-foreground/80">
+                        Zertifiziert, viele Firmen auf einmal, schon ab 100 € im Monat. Du musst gar nichts selbst prüfen.
+                      </p>
+                      <Link
+                        to="/blog/halal-etf"
+                        className="mt-5 inline-flex min-h-[48px] items-center justify-center bg-primary px-4 text-[16px] font-semibold text-primary-foreground hover:bg-primary/90 sm:mt-auto"
+                      >
+                        Zu den Halal ETFs
+                      </Link>
+                    </div>
+                    <div className="flex flex-col border border-border bg-card p-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-[18px] font-semibold text-foreground">Prüf-App</p>
+                        <span className="flex items-center gap-1.5">
+                          <AnbieterLogo name="Zoya" domain="zoya.finance" rand />
+                          <AnbieterLogo name="Musaffa" domain="musaffa.com" rand />
+                        </span>
+                      </div>
+                      <p className="mt-2 text-[15px] leading-relaxed text-foreground/80">
+                        Für einzelne Aktien: Du gibst den Namen ein, zum Beispiel Apple, und Zoya oder Musaffa zeigt dir, ob sie die Regeln erfüllt.
+                      </p>
+                      <div className="mt-5 flex items-center justify-between gap-3">
+                        <Werbung />
+                      </div>
+                      <a
+                        href="/out/zoya"
+                        rel="sponsored nofollow"
+                        className="mt-2 inline-flex min-h-[48px] items-center justify-center border border-foreground px-4 text-[16px] font-semibold text-foreground hover:bg-muted"
+                      >
+                        Zoya ansehen*
+                      </a>
+                    </div>
                   </div>
-                  <Text>
-                    <p>
-                      Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil deiner Dividende weiter, wenn die Firma es nicht selbst tut. Wie viel das
-                      ist, rechnet der <TL to="/bereinigungsrechner">Bereinigungsrechner</TL> aus.
-                    </p>
-                  </Text>
                 </section>
 
                 <AutorAufruf
                   bild={eliasPortrait}
                   etikett="In die Praxis"
                   titel="Aktien halal, ohne selbst zu prüfen"
-                  text="Ein Halal ETF kauft viele zertifizierte Firmen auf einmal, schon ab einem kleinen Sparplan. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
+                  text="Ein Halal ETF kauft viele Firmen auf einmal und ist zertifiziert, schon ab einem kleinen Sparplan. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
                   ziel="/vergleich/depot"
                   knopf={KNOPF}
                 />
@@ -688,8 +919,8 @@ const SindAktienHalal = () => {
                   <Ueber id="trading" />
                   <Text>
                     <p>
-                      Es kommt darauf an, was du handelst. Kaufst du echte Aktien, gelten die zwei Prüfungen von oben. Beim Trading wird aber meist etwas
-                      anderes gehandelt, und das fällt weg:
+                      Es kommt darauf an, was du handelst. Kaufst du echte Aktien, gelten dieselben Regeln wie oben. Beim Trading wird aber meist etwas anderes
+                      gehandelt, und das fällt weg:
                     </p>
                   </Text>
                   <ul className="mt-4 max-w-[664px] space-y-3 text-[17px] leading-[1.6] text-foreground/75">
@@ -699,29 +930,13 @@ const SindAktienHalal = () => {
                       ["Leerverkäufe.", "Du verkaufst Aktien, die du dir nur geliehen hast."],
                       ["Forex.", "Du tauschst Währungen hin und her, dein Gewinn ist der Verlust eines anderen."],
                     ].map(([lead, text]) => (
-                      <li key={lead} className="flex gap-3">
-                        <X className="mt-1.5 h-4 w-4 shrink-0 text-loss" aria-hidden />
-                        <span>
-                          <strong className="font-semibold text-foreground">{lead}</strong> {text}
-                        </span>
+                      <li key={lead} className="border-l-2 border-loss/60 pl-3">
+                        <strong className="font-semibold text-foreground">{lead}</strong> {text}
                       </li>
                     ))}
                   </ul>
                   <Text>
                     <p>Bei Derivaten und beim Hebel sind sich die Gelehrten einig: Das ist haram.</p>
-                  </Text>
-                </section>
-
-                <section className="mt-14">
-                  <Ueber id="einfacher-weg" />
-                  <Text>
-                    <p>
-                      Einzelne Aktien selbst zu prüfen, schafft als Privatanleger kaum jemand. Du müsstest die Zahlen jeder Firma lesen, und zwar immer wieder.
-                    </p>
-                    <p>
-                      Ein zertifizierter Halal ETF nimmt dir das ab. Er kauft viele Firmen auf einmal, und schon 100 € im Monat reichen für einen Sparplan.
-                      Welche es gibt und was sie kosten, steht bei den <TL to="/blog/halal-etf">besten Halal ETFs</TL>.
-                    </p>
                   </Text>
                 </section>
 
@@ -798,7 +1013,7 @@ const SindAktienHalal = () => {
 
                 <footer className="mt-8">
                   <p className="text-[13px] leading-relaxed text-muted-foreground">
-                    * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
+                    * Werbung: Eröffnest du über meinen Link ein Depot oder holst du Zoya, bekomme ich eine Provision, ohne Mehrkosten für dich.
                   </p>
                   <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
                 </footer>

@@ -54,8 +54,9 @@ const LESEZEIT = 9;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
-/** Elias SEO60: „Polster“ sagt zu wenig, „deine Ersparnisse halal anlegen“. Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
+/** Elias SEO60: „Polster“ sagt zu wenig, „deine Ersparnisse halal anlegen“. Der Knopf in der Seitenleiste und im Aufruf mit Foto; der Kopf trägt kurz „Halal vorsorgen“ (SiteHeader.tsx, KOPF_ZIEL). */
 const KNOPF = "Ersparnisse halal anlegen";
+/** Elias SEO62: in der Laptop-Leiste kurz „Halal anlegen“, einzeilig wie die anderen Beiträge. */
 
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
@@ -64,7 +65,7 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "kurzer-vergleich", titel: "10 Versicherungen auf einen Blick", leiste: true, kurz: "10 Versicherungen" },
   { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
   { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit ausgenommen?", leiste: true, kurz: "Pflichtversicherungen" },
-  { id: "rechner", titel: "Beitrag oder Halal Investment: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Halal Investment" },
+  { id: "rechner", titel: "Beitrag oder Halal Investments: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Halal Investments" },
   { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notlage" },
   { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
   { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
@@ -194,15 +195,21 @@ const ANBIETER = DREIER.map((d) => ({
   ],
 }));
 
+const kontoKurz = (w: string) =>
+  /^0 €/.test(w) ? `0 € mit Geldeingang oder unter ${w.match(/unter (\d+)/)?.[1] ?? "30"} Jahren` : w;
+
 /** Elias SEO60: „Girokonten ohne Zinsfalle … und dann halt meine Top zwei Girokonten gleich dazu“; Reihenfolge und Zeilen aus dem Girokonto-Vergleich. */
 const GIROS = GIRO_TOP2.map((g) => ({
   name: g.name,
   domain: g.domain,
   out: g.link,
   // Halal-Prüfer SEO61 r6 MUSS 1: Zum BBBank BetterSmart Konto gehört ein Tagesgeldkonto (investmentStart.ts „Lass es leer“).
+  // Seiten-Prüfer SEO61 r6 SOLLTE 1: Kontoführung kurz und mit „Jahren“, die Bedingungen stehen im Vergleich.
+  // Halal-Prüfer SEO61 r6 SOLLTE 1: Dispo und geduldetes Minus kosten Zinsen (investmentStart.ts Z. 1080, Z. 1419).
   zeilen: [
-    ...g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${p.wert}` : p.text)),
+    ...g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${kontoKurz(p.wert)}` : p.text)),
     ...(g.id.includes("bbbank") ? ["Tagesgeld dabei: leer lassen"] : []),
+    "Nie ins Minus: das kostet Zinsen",
   ],
 }));
 
@@ -221,7 +228,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind alle Versicherungen haram?",
     antwort:
-      "Nein. Pflicht ist vom Urteil ausgenommen, und eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
+      "Nein. Pflicht ist vom Urteil ausgenommen, eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit als haram, außer in einer Notlage.",
   },
   {
     frage: "Warum ist eine Versicherung haram?",
@@ -433,8 +440,7 @@ const Rechner = () => {
           derselbe Betrag als Sparplan in {PLATZ1.name} gebracht hätte.
         </p>
         <p>
-          Das ist ein Halal ETF, also ein Fonds, der viele geprüfte Firmen auf
-          einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach Zertifikat, Kosten und Sparplan.
+          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -478,7 +484,7 @@ const Rechner = () => {
             <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Der Beitrag gehört der Versicherung.</p>
           </div>
           <div className="min-w-0 border border-foreground bg-background px-3 py-3 shadow-[inset_0_0_0_1px_hsl(var(--foreground))] sm:px-4 sm:py-4">
-            <Etikett>Halal Investment</Etikett>
+            <Etikett>Halal Investments</Etikett>
             <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst ein</p>
             <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
             <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute wert</p>
@@ -574,7 +580,7 @@ const IstVersicherungHaram = () => {
             titel="Deine Ersparnisse halal anlegen?"
             text="Ein Sparplan auf einen Halal ETF gehört dir, auch ohne Schaden. Im Vergleich siehst du, welches Depot passt."
             ziel="/vergleich/depot"
-            knopf={KNOPF}
+            knopf="Halal anlegen"
           />
 
           <div className="min-w-0">
@@ -843,7 +849,7 @@ const IstVersicherungHaram = () => {
                     </p>
                     <p>
                       <Fett>Freiwillige durchgehen.</Fett> Frag dich bei jedem Vertrag: Ist ein Schaden absehbar, den du selbst nicht tragen könntest? Dann
-                      schildere das einem Gelehrten. Wenn nicht, sprich mit einem Gelehrten, wie und wann du am besten rauskommst.
+                      frag einen Gelehrten. Wenn nicht, klär mit ihm, wie du am besten rauskommst.
                     </p>
                     <p>
                       <Fett>Ersparnisse aufbauen.</Fett> Was du sonst als Beitrag zahlst, legst du als Sparplan an. Was das bringt, zeigt der{" "}
