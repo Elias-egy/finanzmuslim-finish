@@ -130,21 +130,21 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
     ziel: "notfall",
   },
   {
-    art: "Private Haftpflicht",
-    marke: "nur in Notlage",
-    ton: "rot",
-    besonders: "Freiwillig, der Schaden kann groß sein",
-    warum: "Eine Notlage nur, wenn ein Schaden absehbar ist, den du nicht tragen könntest",
-    tun: "Mit einem Gelehrten klären",
-    ziel: "notfall",
-  },
-  {
     art: "Vollkasko",
     marke: "fällt weg",
     ton: "rot",
     besonders: "Schäden am eigenen Auto",
     warum: "Nie durch eine Notlage gedeckt",
     tun: "Polster für Reparaturen anlegen",
+    ziel: "notfall",
+  },
+  {
+    art: "Private Haftpflicht",
+    marke: "nur in Notlage",
+    ton: "rot",
+    besonders: "Freiwillig, der Schaden kann groß sein",
+    warum: "Eine Notlage nur, wenn ein Schaden absehbar ist, den du nicht tragen könntest",
+    tun: "Mit einem Gelehrten klären",
     ziel: "notfall",
   },
   {
@@ -207,7 +207,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind alle Versicherungen haram?",
     antwort:
-      "Nein. Pflicht ist ausgenommen, und eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
+      "Nein. Pflicht ist vom Urteil ausgenommen, und eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
   },
   {
     frage: "Warum ist eine Versicherung haram?",
