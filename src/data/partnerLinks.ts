@@ -2,9 +2,10 @@
 // Neue Partner nur hier eintragen, niemals direkt auf einer Inhaltsseite verlinken.
 //
 // Jeder Partner hat eine eigene Startseite unter /dein-investmentstart/<kurzname>
-// (Scalable: /dein-investmentstart). /out/<kurzname> leitet dorthin weiter, der
-// eigentliche Affiliate-Link steht nur auf der Startseite ("Mitnahme statt
-// Direktlink"). Inhalte der Startseiten: src/data/investmentStart.ts.
+// (Scalable: /dein-investmentstart). /out/<kurzname> leitet bei Depots dorthin weiter
+// (Startseite mit Video), bei allen anderen Arten direkt auf den Affiliate-Link
+// (Elias, 05.11.2026, H16: „Die Zwischenseite generell raus bei überall, wo kein
+// Video ist“, src/lib/direktLink.ts). Affiliate-Links: src/data/investmentStart.ts.
 //
 // Netzwerk FinanceQuality (neqty), Partner-ID 8507, Projekt finanz.muslim 51087.
 // Links am 15.09.2026 aus dem Portal (Werbemittel, Textlink) geholt und per

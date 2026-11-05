@@ -109,7 +109,14 @@ const GirokontoBonus = () => (
             <Haken>Dispo nur auf Antrag</Haken>
             <Haken>Karte ohne Kredit</Haken>
           </ul>
-          <p className="mt-3 text-[16px] leading-snug text-foreground/80">Das gilt bei allen dreien. Der Unterschied liegt hier:</p>
+          <div className="mt-4 rounded-2xl border-2 border-primary bg-accent p-4" data-bonus-tagesgeld>
+            <p className="text-[18px] font-extrabold leading-tight text-foreground">Oft kommt ein Tagesgeldkonto dazu</p>
+            <p className="mt-1.5 text-[17px] leading-snug text-foreground">
+              Bei BBBank und norisbank wird es automatisch mit eröffnet. Ignorier es einfach: Legst du dort kein Geld hin, gibt es
+              auch keine Zinsen.
+            </p>
+          </div>
+          <p className="mt-4 text-[16px] leading-snug text-foreground/80">Das gilt bei allen dreien. Der Unterschied liegt hier:</p>
           <div className="mt-4 overflow-x-auto rounded-2xl border border-border" data-bonus-tabelle>
             <table className="w-full min-w-[340px] border-collapse">
               <thead>
@@ -178,7 +185,8 @@ const GirokontoBonus = () => (
               <strong>50 € Startprämie.</strong> Als Voraussetzung nennt die BBBank nur: Du bist Neukunde.
             </Haken>
             <Haken>
-              <strong>Keine Zinsen.</strong> Im Preisverzeichnis der BBBank steht beim BetterSmart Konto kein Guthabenzins.
+              <strong>Keine Zinsen.</strong> Im Preisverzeichnis der BBBank steht beim BetterSmart Konto kein Guthabenzins. Das
+              Tagesgeld, das dazukommt, lässt du leer.
             </Haken>
             <Haken>
               <strong>Karte gratis.</strong> Visa Debitkarte und digitale girocard kosten nichts.
@@ -264,8 +272,8 @@ const GirokontoBonus = () => (
           <h2 className="text-[22px] font-extrabold leading-tight text-foreground">Zwei Regeln halten dein Konto ohne Zinsen</h2>
           <ul className="mt-4 space-y-3">
             <Haken>
-              <strong>Kein Geld aufs Tagesgeld legen.</strong> BBBank und norisbank legen eins mit an. Es ist ein eigenes Konto und
-              bleibt leer, wenn du nichts einzahlst.
+              <strong>Tagesgeld ignorieren.</strong> BBBank und norisbank legen eins mit an. Es ist ein eigenes Konto und bleibt
+              leer, wenn du nichts einzahlst.
             </Haken>
             <Haken>
               <strong>Keinen Dispo beantragen.</strong> Ein Dispo kostet Zinsen, sobald du ihn nutzt. Das Konto läuft auch ohne.

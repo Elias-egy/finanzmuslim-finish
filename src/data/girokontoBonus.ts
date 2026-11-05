@@ -97,10 +97,10 @@ export const BONUS_KONTEN: BonusKonto[] = [
           "„Das Top-Girokonto ist kostenlos, wenn Sie unter 30 Jahre sind oder ab 500 Euro Geldeingang pro Monat. Wenn der Geldeingang in einem Monat weniger als 500 Euro beträgt, berechnen wir dann nur für diesen Monat zum Ende des Quartals ein Kontoführungsentgelt von 3,90 Euro.“",
       },
       zinsen: {
-        url: "https://www.norisbank.de/produkte/girokonto.html",
-        stand: "20.09.2026",
+        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/Preis_und_Leistungsverzeichnis.pdf",
+        stand: GIRO_BONUS_STAND,
         wortlaut:
-          "„Neukunden schließen mit dem Top-Girokonto in einem Schritt ebenfalls ein kostenloses Top-Zinskonto (Tagesgeldkonto) ab.“ Im Vergleich als eigenes Konto geführt, das ohne Einzahlung leer bleibt (Elias, 14.10.2026: „Grün bei Norris Bank“).",
+          "Preis- und Leistungsverzeichnis, „Zins auf Guthaben“: beim Top-Girokonto kein Eintrag. Produktseite: „Neukunden schließen mit dem Top-Girokonto in einem Schritt ebenfalls ein kostenloses Top-Zinskonto (Tagesgeldkonto) ab.“ Bleibt es leer, fallen keine Zinsen an (Elias, 05.11.2026: „Leeres Tagesgeld ist okay“).",
       },
       dispo: {
         url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/150_Informationen_und_Bedingungen.pdf",
