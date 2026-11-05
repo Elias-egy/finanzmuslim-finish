@@ -1,381 +1,934 @@
-import Seo, { beitragJsonLd } from "@/components/Seo";
-import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
-import { IlluVersicherung, IlluVersicherungPflicht } from "@/components/illu";
+import { useMemo, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { ArrowDown, Check, ChevronDown } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import Seo from "@/components/Seo";
+import eliasPortrait from "@/assets/elias-autor.webp";
+import { kursStand } from "@/lib/kurse";
+import { PLATZ1, polster } from "@/lib/polster";
+import { etfListe, etfsBei } from "@/data/halalEtfListe";
 import {
-  B,
-  Begriff,
-  Bild,
-  Faelle,
-  Frage,
-  Hinweis,
-  L,
-  Merksatz,
-  PasstDazu,
-  Schritte,
-} from "@/components/beitrag";
+  AnbieterKasten,
+  AutorAufruf,
+  BIO,
+  Etikett,
+  GoogleKasten,
+  H2,
+  INSTAGRAM,
+  Karte,
+  KartenReihe,
+  Kernsatz,
+  LINKEDIN,
+  LINKEDIN_FIRMA,
+  Marke,
+  PROFILE,
+  Person,
+  Pfeil,
+  SITE,
+  TL,
+  Text,
+  Video,
+  YOUTUBE,
+  euro,
+  useAktiv,
+} from "@/components/blog/bausteine";
 
-const abschnitte: BeitragAbschnitt[] = [
+/**
+ * „Sind Versicherungen haram?“, neu gebaut in SEO57 (05.11.2026) im Aufbau von /blog/ist-leasing-haram (Station je Beitrag,
+ * Vault fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/beitraege/ist-versicherung-haram.md). Jede Halal-Aussage aus
+ * ~/hourani/positionen/versicherungen.md, auf der Seite ohne Namen; Begleitdatei docs/blog/pruefer-seo57/ist-versicherung-haram-seo57.txt.belege.md.
+ * Title und H1 beginnen mit der meistgesuchten Frage „sind versicherungen haram“ (Ahrefs 05.11.2026), die Adresse bleibt.
+ */
+
+const PFAD = "/blog/ist-versicherung-haram";
+const TITEL = "Sind Versicherungen haram? Welche erlaubt sind: 10 im Überblick";
+/** Title-Tag unter 65 Zeichen mit „| finanzmuslim“, damit Google ihn nicht abschneidet; H1 bleibt TITEL. */
+const SEO_TITEL = "Sind Versicherungen haram? Welche erlaubt sind";
+const META =
+  "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. 10 Versicherungen eingeordnet, dazu Takaful und ein Rechner.";
+const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
+const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
+const LESEZEIT = 9;
+const RECHTSHINWEIS =
+  "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir ein Notfall vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
+
+/** Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
+const KNOPF = "Polster halal anlegen";
+
+type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
+const ABSCHNITTE: Abschnitt[] = [
+  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
+  { id: "kurzer-vergleich", titel: "10 Versicherungen auf einen Blick", leiste: true, kurz: "10 Versicherungen" },
+  { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
+  { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit erlaubt?", leiste: true, kurz: "Pflichtversicherungen" },
+  { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notfall" },
+  { id: "rechner", titel: "Beitrag oder Polster: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Polster" },
+  { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
+  { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
+  { id: "beigabe", titel: "Ist eine Versicherung im Mitgliedsbeitrag erlaubt?", leiste: true, kurz: "Versicherung als Beigabe" },
+  { id: "takaful", titel: "Was ist Takaful, und gibt es das in Deutschland?", leiste: true, kurz: "Takaful" },
+  { id: "schon-versichert", titel: "Ich habe schon Versicherungen. Was jetzt?", leiste: true, kurz: "Schon versichert" },
+  { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
+  { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
+];
+const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
+const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
+const Ueber = ({ id }: { id: string }) => <H2 id={id}>{titelVon(id)}</H2>;
+
+/* ------------------------------------------------------------------ */
+/* Daten                                                               */
+/* ------------------------------------------------------------------ */
+
+type Ton = "gruen" | "gelb" | "rot";
+
+/** Zehn Versicherungen, Etiketten nach STATION-BEITRAG.md (SEO48-04). Einordnung wie in den Abschnitten unten. */
+const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: string; tun: string; ziel: string }[] = [
   {
-    id: "kurze-antwort",
-    titel: "Die kurze Antwort zuerst",
-    inhalt: (
-      <>
-        <p>
-          Die Gelehrtenräte, die heutige Finanzfragen prüfen, stufen die klassische Versicherung nahezu
-          einhellig als problematisch ein. Der erste, der das ausführlich begründet hat, war ein Gelehrter vor
-          rund vierhundert Jahren, als die europäischen Versicherer nach Damaskus kamen. Seitdem ist die Frage
-          nicht mehr wirklich strittig.
-        </p>
-        <p>
-          Der Grund ist nicht die Vorsorge selbst. Vorsorge ist im Islam ausdrücklich erwünscht. Du darfst und
-          sollst dich absichern. Das Problem liegt in der Bauweise des Vertrags.
-        </p>
-        <Merksatz>Nicht die Absicherung ist das Problem, sondern der Vertrag, mit dem sie verkauft wird.</Merksatz>
-      </>
-    ),
+    art: "Kranken- und Pflegeversicherung",
+    marke: "Pflicht, geht",
+    ton: "gruen",
+    besonders: "Gesetzlich vorgeschrieben",
+    warum: "Du hast keine Wahl, der Zwang hebt das Urteil auf",
+    tun: "Tarif mit fairem Preis wählen, nicht das teuerste Paket",
+    ziel: "pflicht",
   },
   {
-    id: "warum-problem",
-    titel: "Zwei Begründungen, und der Unterschied ist wichtig",
-    inhalt: (
-      <>
-        <p>
-          Gelehrte kommen zum selben Ergebnis, aber auf zwei verschiedenen Wegen. Das klingt nach Haarspalterei,
-          ist aber der Grund, warum manche Versicherungen anders beurteilt werden als andere.
-        </p>
-        <Begriff wort="Unsicherheit im Vertrag" arabisch="Gharar">
-          Du zahlst sicher jeden Monat, bekommst aber vielleicht nie etwas zurück. Beim Abschluss weiß niemand,
-          wer am Ende wie viel gibt und wer wie viel bekommt. Mehr dazu in <L to="/blog/gharar">Gharar</L>.
-        </Begriff>
-        <Begriff wort="Zins" arabisch="Riba">
-          Wer 300 Euro einzahlt und 5.000 ausgezahlt bekommt, tauscht Geld gegen mehr Geld über Zeit. Dazu
-          legen Versicherer die Beiträge verzinst an. Mehr dazu in{" "}
-          <L to="/blog/zinsen-im-islam">Zinsen im Islam</L>.
-        </Begriff>
-        <p>
-          Warum das praktisch wird: Für die beiden Begründungen gelten <B>verschiedene Ausnahmen</B>. Ein
-          Vertrag, der wegen der Unsicherheit beanstandet wird, kann bei einer <B>Dringlichkeit</B> erlaubt
-          werden. Ein Vertrag, der wegen des Zinses beanstandet wird, erst bei einer echten <B>Notwendigkeit</B>,
-          also einer erheblich höheren Hürde.
-        </p>
-        <Hinweis titel="Der Unterschied in einem Satz">
-          <p>
-            Dringlichkeit heißt: Es wäre eine erhebliche Härte ohne. Notwendigkeit heißt: Es geht wirklich
-            nicht anders. Deshalb wird die Versicherung insgesamt milder beurteilt als der Kredit.
-          </p>
-        </Hinweis>
-      </>
-    ),
+    art: "Kfz-Haftpflicht",
+    marke: "Pflicht, geht",
+    ton: "gruen",
+    besonders: "Ohne sie fährst du nicht",
+    warum: "Für jedes Auto vorgeschrieben",
+    tun: "Nur die Pflicht abschließen, Extras weglassen",
+    ziel: "pflicht",
   },
   {
-    id: "vorsorge-versicherung",
-    titel: "Der Unterschied zwischen Vorsorge und Versicherung",
-    inhalt: (
-      <>
-        <Frage>Soll ich mich also gar nicht absichern und einfach auf Gott vertrauen?</Frage>
-        <p>
-          Nein, und das wäre auch ein Missverständnis davon, was Vertrauen heißt. Der Prophet hat einem Mann,
-          der sein Kamel ungesichert stehen ließ, gesagt: Bind es an und vertrau dann auf Gott. Rücklagen
-          bilden, sich absichern, an morgen denken, all das ist ausdrücklich erwünscht.
-        </p>
-        <p>
-          Das Problem ist nicht die Absicht, sondern die <B>Bauweise des Vertrags</B>. Wer Geld für den
-          Notfall zurücklegt, tut genau dasselbe wie ein Versicherter, nur ohne den Vertrag, an dem die
-          Bedenken hängen. Deshalb ist eine Rücklage für viele Gelehrte der saubere Weg, wo immer sie
-          ausreicht.
-        </p>
-        <Merksatz>Die erste Frage ist nicht, welche Versicherung. Sondern ob eine Rücklage reicht.</Merksatz>
-      </>
-    ),
+    art: "Berufshaftpflicht",
+    marke: "Pflicht, geht",
+    ton: "gruen",
+    besonders: "Wo dein Beruf sie verlangt",
+    warum: "Etwa für Ärzte oder Finanzanlagenvermittler vorgeschrieben",
+    tun: "Nur, was der Beruf verlangt",
+    ziel: "pflicht",
   },
   {
-    id: "ausnahmen",
-    titel: "Wann eine Versicherung trotzdem erlaubt sein kann",
-    inhalt: (
-      <>
-        <Schritte
-          schritte={[
-            {
-              titel: "Gesetzliche Pflicht",
-              text: "Kfz-Haftpflicht, Krankenversicherung, Pflegeversicherung, die Beiträge zur Sozialversicherung. Wo dir der Staat keine Wahl lässt, ist das Urteil aufgehoben. Wichtig: Der Zwang macht die Sache nicht gut, er nimmt dir nur die Verantwortung dafür.",
-            },
-            {
-              titel: "Berufliche Pflicht",
-              text: "Eine Berufshaftpflicht, ohne die du deinen Beruf gar nicht ausüben darfst. Derselbe Gedanke wie bei der gesetzlichen Pflicht.",
-            },
-            {
-              titel: "Echte Dringlichkeit",
-              text: "Ein Schaden, mit dem ernsthaft zu rechnen ist und den du selbst nicht tragen könntest. Beides muss zusammenkommen. Ob das in deinem Fall vorliegt, beurteilt kein Ratgeber im Internet, sondern ein Gelehrter, der deine Lage kennt.",
-            },
-          ]}
-        />
-        <Bild text="Wo dir der Staat keine Wahl lässt, ist das Urteil aufgehoben. Wo du wählen kannst, beginnt die Prüfung.">
-          <IlluVersicherungPflicht />
-        </Bild>
-        <Hinweis titel="Auch bei Pflicht: vergleichen">
-          <p>
-            Dass eine Versicherung Pflicht ist, heißt nicht, dass jeder Tarif in Ordnung ist. Nimm den
-            günstigsten, der die Pflicht erfüllt, und nicht das Paket mit allen Zusatzleistungen. Was über die
-            Pflicht hinausgeht, ist wieder freiwillig.
-          </p>
-        </Hinweis>
-      </>
-    ),
+    art: "Versicherung im Vereinsbeitrag",
+    marke: "geht",
+    ton: "gruen",
+    besonders: "Mieterbund, Gewerkschaft, Paket",
+    warum: "Du trittst wegen der Sache bei, nicht wegen der Versicherung",
+    tun: "Nicht nur für die Versicherung beitreten",
+    ziel: "beigabe",
   },
   {
-    id: "einordnung",
-    titel: "Welche Versicherung wie einzuordnen ist",
-    inhalt: (
-      <>
-        <p>
-          Die Einordnung ist keine Fatwa für deinen Fall, sondern zeigt, wo die Frage überhaupt entsteht. Grün
-          heißt hier: Die Pflicht nimmt dir die Entscheidung ab.
-        </p>
-        <Faelle
-          faelle={[
-            {
-              titel: "Kfz-Haftpflicht",
-              ton: "gruen",
-              wort: "Pflicht",
-              text: "Ohne sie darfst du in Deutschland kein Auto fahren. Fällt unter die Ausnahme.",
-            },
-            {
-              titel: "Kranken- und Pflegeversicherung",
-              ton: "gruen",
-              wort: "Pflicht",
-              text: "In Deutschland besteht Versicherungspflicht. Dieselbe Ausnahme.",
-            },
-            {
-              titel: "Berufshaftpflicht, wo vorgeschrieben",
-              ton: "gruen",
-              wort: "Pflicht",
-              text: "Wo du den Beruf ohne sie nicht ausüben darfst, ist es kein freiwilliger Vertrag.",
-            },
-            {
-              titel: "Private Haftpflicht",
-              ton: "gelb",
-              wort: "kommt auf den Fall an",
-              text: "Freiwillig, aber ein Schaden kann existenzvernichtend sein. Wer selbst nicht dafür aufkommen könnte, hat ein starkes Argument. Das ist ein Fall für einen Gelehrten, nicht für eine Faustregel.",
-            },
-            {
-              titel: "Teilkasko",
-              ton: "gelb",
-              wort: "kommt auf den Fall an",
-              text: "Diebstahl, Hagel, Wildunfall. Wer beruflich auf das Auto angewiesen ist und es nicht ersetzen könnte, kann sich darauf berufen.",
-            },
-            {
-              titel: "Vollkasko",
-              ton: "rot",
-              wort: "kein Dringlichkeitsfall",
-              text: "Sie deckt selbst verschuldete Schäden am eigenen Auto ab. Das ist Bequemlichkeit, keine Härte, und wird von Gelehrten nicht als Dringlichkeit anerkannt. Beim Leasing wird sie oft verlangt, das ist dann ein Problem des Leasingvertrags.",
-            },
-            {
-              titel: "Hausrat",
-              ton: "rot",
-              wort: "meist keine Not",
-              text: "Möbel und Elektrogeräte lassen sich in aller Regel ersetzen oder ansparen.",
-            },
-            {
-              titel: "Rechtsschutz, Zahnzusatz, Handyversicherung",
-              ton: "rot",
-              wort: "freiwillig",
-              text: "Kein Fall, in dem dich der Schaden ruiniert. Hier trägt kein Argument.",
-            },
-            {
-              titel: "Berufsunfähigkeit",
-              ton: "rot",
-              wort: "besonders kritisch",
-              text: "Wird gern als unverzichtbar verkauft. Sie läuft nur bis zu einem bestimmten Alter, Streit um die Leistung ist bei ihr besonders häufig, und die Provision für den Vermittler ist hoch. Wer sein Einkommen absichern will, kommt mit einer eigenen Rücklage oft weiter.",
-            },
-            {
-              titel: "Klassische Lebens- und Rentenversicherung",
-              ton: "rot",
-              wort: "der klarste Fall",
-              text: "Der Zins steht direkt im Vertrag. Wer fürs Alter vorsorgen will, kann dieselbe Funktion über ein Depot mit Auszahlplan abbilden.",
-            },
-          ]}
-        />
-      </>
-    ),
+    art: "Teilkasko",
+    marke: "je nach Lage",
+    ton: "gelb",
+    besonders: "Diebstahl, Hagel, Vandalismus",
+    warum: "Kann ein Notfall sein, wenn du den Schaden nicht tragen kannst",
+    tun: "Mit einem Gelehrten klären",
+    ziel: "notfall",
   },
   {
-    id: "beigabe",
-    titel: "Der Fall, den fast niemand kennt: die Beigabe",
-    inhalt: (
-      <>
-        <Frage>Im Mitgliedsbeitrag meiner Gewerkschaft steckt eine Rechtsschutzversicherung. Muss ich austreten?</Frage>
-        <p>
-          Nein. Wenn du einer Organisation aus einem anderen Grund beitrittst und eine Versicherung als Zugabe
-          dabei ist, hast du keinen Versicherungsvertrag geschlossen. Du hast eine Mitgliedschaft. Dasselbe
-          gilt für den Mieterbund, für Vereine und für die Transportversicherung, die beim Paketversand
-          automatisch mitläuft.
-        </p>
-        <Merksatz>
-          Entscheidend ist, warum du beigetreten bist. Wegen der Sache: in Ordnung. Wegen der Versicherung:
-          dann ist es doch wieder ein Versicherungsabschluss.
-        </Merksatz>
-      </>
-    ),
+    art: "Private Haftpflicht",
+    marke: "je nach Lage",
+    ton: "gelb",
+    besonders: "Freiwillig, der Schaden kann groß sein",
+    warum: "Ein Notfall nur, wenn du einen Schaden selbst nicht tragen könntest",
+    tun: "Mit einem Gelehrten klären",
+    ziel: "notfall",
   },
   {
-    id: "schon-versichert",
-    titel: "Was ist, wenn ich schon eine Versicherung habe?",
-    inhalt: (
-      <>
-        <p>
-          Wer einen Vertrag bereits laufen hat, muss <B>nicht in Panik verfallen</B>. Die verbreitete
-          Empfehlung lautet, den Vertrag zu prüfen, bei freiwilligen Verträgen das Ende zu planen und bei
-          Pflichtverträgen nichts zu überstürzen.
-        </p>
-        <p>
-          Zu einem ausgezahlten Betrag gibt es unterschiedliche Auffassungen. Manche Gelehrte sagen, man dürfe
-          nur die eingezahlten Beiträge behalten und müsse den Überschuss weitergeben. Das ist genau der Fall,
-          in dem du jemanden fragen solltest, statt selbst zu entscheiden.
-        </p>
-      </>
-    ),
+    art: "Vollkasko",
+    marke: "fällt weg",
+    ton: "rot",
+    besonders: "Schäden am eigenen Auto",
+    warum: "Nie durch einen Notfall gedeckt",
+    tun: "Polster für Reparaturen anlegen",
+    ziel: "notfall",
   },
   {
-    id: "takaful",
-    titel: "Takaful, die islamische Alternative",
-    inhalt: (
-      <>
-        <p>
-          Takaful funktioniert wie eine Gemeinschaft. Alle zahlen in einen gemeinsamen Topf ein, und aus diesem
-          Topf werden Schäden der Mitglieder bezahlt. Es gibt keinen Gewinn für das Unternehmen aus deinem
-          Beitrag und kein Zinsgeschäft dahinter. Der Unterschied ist die Absicht: Beim Takaful spendest du in
-          einen gemeinsamen Topf, du kaufst kein Versprechen.
-        </p>
-        <Bild text="Beim Takaful zahlen viele in einen gemeinsamen Topf. Wer einen Schaden hat, bekommt daraus ersetzt.">
-          <IlluVersicherung />
-        </Bild>
-        <p>
-          <B>Die ehrliche Einordnung:</B> In Deutschland gibt es Takaful praktisch nicht. Es gab einen Anlauf
-          mit einer kapitalbildenden Lebensversicherung, der 2018 mangels Nachfrage wieder eingestellt wurde.
-          Für dich ist es derzeit also keine echte Option.
-        </p>
-      </>
-    ),
+    art: "Berufsunfähigkeit",
+    marke: "fällt weg",
+    ton: "rot",
+    besonders: "Wird gern teuer verkauft",
+    warum: "Freiwillig, und um die Leistung wird oft gestritten",
+    tun: "Eigenes Polster aufbauen",
+    ziel: "berufsunfaehigkeit",
   },
   {
-    id: "was-tun",
-    titel: "Was du konkret tun kannst",
-    inhalt: (
-      <Schritte
-        schritte={[
-          {
-            titel: "Sortiere nach Pflicht und freiwillig",
-            text: "Alles, was der Staat oder dein Beruf vorschreibt, kommt auf einen Stapel und ist erledigt. Nimm dort den günstigsten Tarif, der die Pflicht erfüllt.",
-          },
-          {
-            titel: "Frag bei jedem freiwilligen Vertrag: Was, wenn ich ihn nicht hätte?",
-            text: "Könntest du den Schaden aus einer Rücklage tragen, brauchst du keine Versicherung, sondern eine Rücklage. Könntest du es nicht, ist das ein Argument, aber noch keine Entscheidung.",
-          },
-          {
-            titel: "Bau die Rücklage auf, bevor du kündigst",
-            text: "Erst der Ersatz, dann die Kündigung. Ohne Rücklage dazustehen ist keine Verbesserung.",
-          },
-          {
-            titel: "Leg die schwierigen Fälle einem Gelehrten vor",
-            text: "Mit dem konkreten Vertrag und deiner konkreten Lage. Private Haftpflicht, Teilkasko und Berufsunfähigkeit sind genau solche Fälle.",
-          },
-        ]}
-      />
-    ),
+    art: "Lebensversicherung",
+    marke: "fällt weg",
+    ton: "rot",
+    besonders: "Geld gegen mehr Geld",
+    warum: "Beiträge werden verzinst angelegt, zurück kommt mehr Geld",
+    tun: "Sparplan auf einen Halal ETF",
+    ziel: "lebensversicherung",
+  },
+  {
+    art: "Zahnzusatz, Handy, Rechtsschutz",
+    marke: "fällt weg",
+    ton: "rot",
+    besonders: "Alles, was du freiwillig dazukaufst",
+    warum: "Freiwillige Versicherungen folgen demselben System",
+    tun: "Polster statt Police",
+    ziel: "warum",
   },
 ];
 
-const faq: BeitragFrage[] = [
+const DREIER = [
+  { name: "Traders Place", logo: "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg", out: "/out/traders-place" },
+  { name: "Smartbroker+", logo: "/bilder/blog/halal-etf/logos/smartbroker.webp", out: "/out/smartbroker" },
+  { name: "Scalable Capital", logo: "/bilder/blog/halal-etf/logos/scalable.webp", out: "/out/scalable" },
+];
+// Sparplan auf Platz 1 wie im Leasing-Beitrag: Smartbroker+ und Scalable aus sparplanBei der Liste, Traders Place nach Elias' eigenem Depot.
+const sparplanPlatz1 = (name: string) => name === "Traders Place" || PLATZ1.sparplanBei.some((s) => s.startsWith(name.split(" ")[0]));
+const ANBIETER = DREIER.map((d) => ({
+  ...d,
+  zeilen: [
+    sparplanPlatz1(d.name) ? `Sparplan auf ${PLATZ1.name}` : `Sparplan auf ${PLATZ1.name} noch nicht nachgesehen`,
+    `Halal ETFs aus unserer Liste: ${etfsBei(d.name)} von ${etfListe.length}`,
+    d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
+  ],
+}));
+
+const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
+  { lead: "Vorsorge ist erlaubt.", text: "Sich gemeinsam gegen Schäden abzusichern, kennt der Islam seit der Zeit des Propheten." },
+  {
+    lead: "Die übliche Versicherung ist ein Kauf.",
+    text: "Du zahlst Geld für ein Versprechen, das vielleicht nie eingelöst wird. Darum sieht die große Mehrheit der Gelehrten sie als haram.",
+  },
+  { lead: "Pflicht ist ausgenommen.", text: "Krankenkasse, Kfz-Haftpflicht und vorgeschriebene Berufsversicherungen schließt du ab, weil du keine Wahl hast." },
+  { lead: "Freiwillig nur im echten Notfall.", text: "Die Vollkasko ist nie einer, bei der Teilkasko kann es einer sein. Das klärst du mit einem Gelehrten." },
+  { lead: "Ein Polster gehört dir.", text: "Was du sonst als Beitrag zahlst, kann im Depot wachsen. Der Rechner weiter unten zeigt, wie viel." },
+];
+
+const FRAGEN: { frage: string; antwort: string }[] = [
+  {
+    frage: "Sind alle Versicherungen haram?",
+    antwort:
+      "Nein. Pflichtversicherungen wie Krankenkasse und Kfz-Haftpflicht sind ausgenommen, weil du keine Wahl hast. Freiwillige Versicherungen sieht die große Mehrheit der Gelehrten als haram, außer in einem echten Notfall.",
+  },
+  {
+    frage: "Warum ist eine Versicherung haram?",
+    antwort:
+      "Du zahlst sicher und weißt nicht, ob, wann und wie viel zurückkommt. Die einen Gelehrten sehen darin Geld gegen mehr Geld, die anderen einen Vertrag voller Unbekannter. Beide kommen zum Ergebnis haram.",
+  },
   {
     frage: "Ist die Kfz-Versicherung haram?",
     antwort:
-      "Die Kfz-Haftpflicht ist in Deutschland gesetzlich vorgeschrieben und fällt damit unter die anerkannte Ausnahme. Bei der Teilkasko kommt es auf deine Lage an, etwa ob du beruflich auf das Auto angewiesen bist und es nicht ersetzen könntest. Die Vollkasko deckt selbst verschuldete Schäden am eigenen Auto ab und wird von Gelehrten nicht als Dringlichkeitsfall anerkannt.",
+      "Die Kfz-Haftpflicht ist Pflicht und darum ausgenommen. Die Teilkasko kann in einem Notfall erlaubt sein, das klärst du mit einem Gelehrten. Die Vollkasko ist nie durch einen Notfall gedeckt.",
   },
   {
-    frage: "Ist eine private Haftpflichtversicherung erlaubt?",
+    frage: "Ist eine private Haftpflichtversicherung haram?",
     antwort:
-      "Sie ist freiwillig, deshalb greift keine Pflichtausnahme. Wer einen existenzvernichtenden Schaden nicht selbst tragen könnte, hat ein ernstzunehmendes Argument. Ob es in deinem Fall trägt, beurteilt ein Gelehrter, der deine Lage kennt, und keine allgemeine Faustregel.",
+      "Sie ist freiwillig. Könntest du einen großen Schaden selbst nicht tragen, kann es ein Notfall sein. Ob das bei dir so ist, klärst du mit einem Gelehrten, der deine Lage kennt.",
   },
   {
     frage: "Ist eine Lebensversicherung haram?",
     antwort:
-      "Die klassische Variante mit Garantiezins gilt als der klarste Fall, weil der Zins direkt im Vertrag steht. Wer für das Alter vorsorgen will, kann dieselbe Funktion über ein Depot mit Auszahlplan abbilden, ohne Zinsvertrag.",
+      "Die kapitalbildende Lebensversicherung ja, denn sie ist Geld gegen mehr Geld. Für dich oder deine Familie vorsorgen kannst du stattdessen mit einem Sparplan auf einen Halal ETF.",
   },
   {
-    frage: "Was ist mit der Berufsunfähigkeitsversicherung?",
+    frage: "Darf ich als Muslim Versicherungen verkaufen?",
     antwort:
-      "Sie wird gern als unverzichtbar verkauft, verdient aber einen genauen Blick: Sie läuft nur bis zu einem bestimmten Alter, Streit um die Leistung ist bei ihr besonders häufig, und die Provision für den Vermittler ist hoch. Eine eigene Rücklage bringt in vielen Fällen mehr.",
+      "Nein. Wer Versicherungen verkauft, wirkt an dem Vertrag mit. Steckst du in dem Beruf, plan den Wechsel mit einem Gelehrten, statt von heute auf morgen ohne Einkommen dazustehen.",
   },
   {
-    frage: "Was ist mit der Krankenversicherung?",
+    frage: "Was ist Takaful?",
     antwort:
-      "In Deutschland besteht Versicherungspflicht. Damit greift dieselbe Ausnahme wie bei der Kfz-Haftpflicht. Das gilt auch für die Pflegeversicherung und die übrigen Beiträge zur Sozialversicherung.",
+      "Eine Versicherung auf Gegenseitigkeit: Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. In Deutschland gibt es sie zurzeit nicht.",
   },
   {
-    frage: "In meinem Vereinsbeitrag ist eine Versicherung enthalten. Ist das ein Problem?",
-    antwort:
-      "Nein, solange du wegen der Sache beigetreten bist und nicht wegen der Versicherung. Eine Versicherung als Beigabe zu einer Mitgliedschaft ist kein Versicherungsvertrag, den du geschlossen hast. Dasselbe gilt für die Transportversicherung beim Paketversand.",
-  },
-  {
-    frage: "Darf ich als Versicherungsvermittler arbeiten?",
-    antwort:
-      "Nach verbreiteter Auffassung nicht. Wer den Vertrag vermittelt, wirkt an ihm mit, und die Vergütung stammt genau daraus. Wer in diesem Beruf steckt, sollte das mit einem Gelehrten besprechen und einen Übergang planen, statt von heute auf morgen ohne Einkommen dazustehen.",
+    frage: "In meinem Vereinsbeitrag steckt eine Versicherung. Ist das ein Problem?",
+    antwort: "Nein, solange du wegen des Vereins beigetreten bist und nicht wegen der Versicherung.",
   },
 ];
 
-const beschreibung =
-  "Wann eine Versicherung im Islam problematisch ist und wann sie erlaubt sein kann. Mit den anerkannten Ausnahmen, einer Einordnung von zehn Versicherungen und dem Sonderfall der Versicherung als Beigabe.";
+const PASST_DAZU: { to: string; name: string; text: string }[] = [
+  { to: "/vorlagen/vertrags-ampel", name: "Halal Vertrags-Check", text: "Weitere Verträge aus dem Alltag auf einen Blick." },
+  { to: "/blog/ist-leasing-haram", name: "Ist Leasing haram?", text: "Warum beim Leasing eine Vollkasko verlangt wird." },
+  { to: "/blog/gharar", name: "Was ist Gharar?", text: "Der unsichere Vertrag einfach erklärt." },
+  { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
+];
 
-const IstVersicherungHaram = () => (
-  <>
-    <Seo
-      title="Versicherung im Islam: halal oder haram? | finanzmuslim"
-      description={beschreibung}
-      path="/blog/ist-versicherung-haram"
-      jsonLd={beitragJsonLd({
-        titel: "Ist eine Versicherung haram?",
-        beschreibung,
-        path: "/blog/ist-versicherung-haram",
-        datePublished: "15. August 2026",
-        dateModified: "5. September 2026",
-        faq,
-      })}
-    />
-    <BeitragSeite
-      slug="ist-versicherung-haram"
-      titel="Ist eine Versicherung haram?"
-      untertitel="Nicht die Absicherung ist das Problem, sondern der Vertrag. Und der wird nicht bei jeder Versicherung gleich beurteilt."
-      kurzGesagt={[
-        "Eine Versicherung, die du freiwillig abschließt, gilt bei den meisten Gelehrten als problematisch.",
-        "Zwei Begründungen: die Unsicherheit im Vertrag und der Zins dahinter. Für beide gelten verschiedene Ausnahmen.",
-        "Anerkannte Ausnahmen sind gesetzliche Pflicht, berufliche Pflicht und echte Dringlichkeit.",
-        "Kfz-Haftpflicht, Kranken- und Pflegeversicherung sind Pflicht und fallen darunter.",
-        "Vollkasko ist kein Dringlichkeitsfall, Teilkasko kann einer sein.",
-        "Eine Versicherung als Beigabe zu einer Mitgliedschaft ist kein Vertrag, den du geschlossen hast.",
-      ]}
-      abschnitte={abschnitte}
-      faq={faq}
-      datePublished="15. August 2026"
-      dateModified="5. September 2026"
-      boxMitteNach={4}
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Versicherungsberatung. Die Einordnung einzelner Versicherungen zeigt, wo die Frage entsteht, und ist keine Entscheidung für deinen Fall. Ob eine Dringlichkeit vorliegt, beurteilt ein Gelehrter, der deine Lage kennt. Innerhalb der Rechtsschulen gibt es zu einzelnen Punkten abweichende Auffassungen."
-      boxOben={{ kategorie: "Depot", variante: "vergleich", linkZiel: "/vergleich/depot", ueberschrift: "Vorsorge ohne Zinsvertrag" }}
-      boxMitte={{
-        kategorie: "Girokonto",
-        ueberschrift: "Welches Konto kommt ohne Zinsen aus?",
-        linkZiel: "/vergleich/girokonto",
-      }}
+const VIDEO = { id: "6omtkXGP9tk", titel: "Sind Versicherungen als Muslim erlaubt? (Die einzige Erklärung, die du brauchst)", hochgeladen: "2026-04-13" };
+
+/* ------------------------------------------------------------------ */
+/* Schema                                                              */
+/* ------------------------------------------------------------------ */
+
+const graph = () => {
+  const url = `${SITE}${PFAD}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#beitrag`,
+        headline: TITEL,
+        description: META,
+        mainEntityOfPage: url,
+        url,
+        author: { "@id": `${SITE}/ueber-mich#elias` },
+        publisher: { "@id": `${SITE}/#organization` },
+        isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, name: "finanzmuslim Blog", url: `${SITE}/blog` },
+        datePublished: VEROEFFENTLICHT.iso,
+        dateModified: AKTUALISIERT.iso,
+        inLanguage: "de-DE",
+        image: `${SITE}/og/blog--ist-versicherung-haram.jpg`,
+        video: { "@id": `${url}#video` },
+      },
+      {
+        "@type": "VideoObject",
+        "@id": `${url}#video`,
+        name: VIDEO.titel,
+        description: "Elias erklärt, warum die übliche Versicherung als Kauf gilt, welche Ausnahmen es gibt und was Takaful ist.",
+        thumbnailUrl: `${SITE}/bilder/blog/ist-versicherung-haram/video-versicherung.webp`,
+        uploadDate: VIDEO.hochgeladen,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
+        contentUrl: `https://www.youtube.com/watch?v=${VIDEO.id}`,
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#fragen`,
+        mainEntity: FRAGEN.map((f) => ({ "@type": "Question", name: f.frage, acceptedAnswer: { "@type": "Answer", text: f.antwort } })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
+          { "@type": "ListItem", position: 3, name: TITEL, item: url },
+        ],
+      },
+      {
+        "@type": "Person",
+        "@id": `${SITE}/ueber-mich#elias`,
+        name: "Elias El-Gendy",
+        jobTitle: "Gründer von finanzmuslim",
+        description: BIO,
+        url: `${SITE}/ueber-mich`,
+        image: `${SITE}/elias-el-gendy.webp`,
+        worksFor: { "@id": `${SITE}/#organization` },
+        sameAs: PROFILE,
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE}/#organization`,
+        name: "finanzmuslim",
+        url: SITE,
+        logo: `${SITE}/apple-touch-icon.png`,
+        sameAs: [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN_FIRMA],
+      },
+    ],
+  };
+};
+
+/* ------------------------------------------------------------------ */
+/* Grafiken im Stil der Tausch-Bilder aus dem Leasing-Beitrag (Elias SEO57: schwarz-weiß, gestrichelt, frei stehend) */
+/* ------------------------------------------------------------------ */
+
+const ROT = "hsl(var(--loss))";
+
+/** Du zahlst sicher, zurück kommt vielleicht nichts, vielleicht viel: die Unsicherheit und das Mehr an Geld, rot markiert. */
+const Wettbild = () => (
+  <figure className="mt-7 max-w-[460px]">
+    <svg
+      viewBox="0 0 360 170"
+      className="h-auto w-full text-foreground"
+      role="img"
+      aria-label="Versicherung: Du zahlst jeden Monat sicher. Zurück kommt vielleicht nichts, vielleicht viel mehr. Was zurückkommt, weiß beim Abschluss keiner."
     >
-      <PasstDazu
-        punkte={[
-          { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet elf weitere Verträge aus dem Alltag ein." },
-          { to: "/blog/gharar", name: "Was ist Gharar", text: "erklärt die erste der beiden Begründungen im Detail." },
-          { to: "/blog/ist-leasing-haram", name: "Ist Leasing haram?", text: "warum beim Leasing plötzlich eine Vollkasko verlangt wird." },
-          { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "dieselbe Abwägung in größerem Maßstab." },
-        ]}
-      />
-    </BeitragSeite>
-  </>
+      <Person x={44} />
+      <Person x={316} />
+      <text x={44} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">Du</text>
+      <text x={316} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">Versicherung</text>
+      <text x={180} y={21} textAnchor="middle" className="fill-muted-foreground text-[12px]">40 € jeden Monat, sicher</text>
+      <Pfeil von={72} bis={288} y={30} />
+      <circle cx={180} cy={57} r={15} fill="none" stroke={ROT} strokeWidth={1.4} strokeDasharray="3 3" />
+      <text x={180} y={63} textAnchor="middle" className="text-[17px] font-semibold" fill={ROT}>?</text>
+      <g stroke={ROT} strokeWidth={1.4} fill="none">
+        <line x1={272} y1={84} x2={72} y2={84} strokeDasharray="4 3" />
+        <path d="M79 79.5 L72 84 L79 88.5" />
+      </g>
+      <text x={172} y={100} textAnchor="middle" className="text-[12px]" fill={ROT}>zurück: 0 € oder 5.000 €?</text>
+      <text x={6} y={136} className="text-[12.5px] font-semibold" fill={ROT}>Was zurückkommt, weiß beim Abschluss keiner</text>
+      <text x={6} y={156} className="fill-muted-foreground text-[12.5px]">und oft ist es mehr Geld, als du gezahlt hast</text>
+    </svg>
+  </figure>
 );
+
+/** Takaful: viele zahlen in einen gemeinsamen Topf, wer einen Schaden hat, bekommt daraus. */
+const Topfbild = () => {
+  const oben = [40, 100, 160, 220];
+  return (
+    <figure className="mt-7 max-w-[460px]">
+      <svg
+        viewBox="0 0 360 200"
+        className="h-auto w-full text-foreground"
+        role="img"
+        aria-label="Takaful: Alle zahlen in einen gemeinsamen Topf. Wer einen Schaden hat, bekommt daraus etwas. Der Topf dient allen, nicht dem Gewinn einer Firma."
+      >
+        {oben.map((x) => (
+          <g key={x} fill="none" stroke="currentColor" strokeWidth={1.4}>
+            <circle cx={x} cy={18} r={7} />
+            <path d={`M${x - 12} 42 Q${x - 12} 29 ${x} 29 Q${x + 12} 29 ${x + 12} 42`} />
+            <line x1={x} y1={50} x2={x} y2={78} strokeDasharray="3 3" />
+            <path d={`M${x - 4} 72 L${x} 78 L${x + 4} 72`} />
+          </g>
+        ))}
+        <rect x={16} y={86} width={228} height={52} rx={8} fill="none" stroke="currentColor" strokeWidth={1.4} strokeDasharray="5 4" />
+        <text x={130} y={117} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">Gemeinsamer Topf</text>
+        <Pfeil von={252} bis={292} y={112} />
+        <g fill="none" stroke="currentColor" strokeWidth={1.4}>
+          <circle cx={320} cy={98} r={8} />
+          <path d="M306 126 Q306 111 320 111 Q334 111 334 126" />
+        </g>
+        <text x={320} y={146} textAnchor="middle" className="fill-foreground text-[12px]">hat einen</text>
+        <text x={320} y={161} textAnchor="middle" className="fill-foreground text-[12px]">Schaden</text>
+        <text x={6} y={190} className="text-[12.5px] font-semibold" fill="hsl(var(--gain))">Der Topf dient allen, nicht dem Gewinn einer Firma</text>
+      </svg>
+    </figure>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* Rechner „Beitrag oder Polster“ (Karte Station 8)                    */
+/* ------------------------------------------------------------------ */
+
+const LAUFZEITEN = [12, 36, 60];
+
+/** Die Zahl im Einstieg: 40 € im Monat, fünf Jahre. */
+const BEISPIEL = { beitrag: 40, monate: 60 };
+const beispielWert = () => {
+  const erg = polster(BEISPIEL.beitrag, BEISPIEL.monate);
+  return erg ? euro(Math.round(erg.wert / 100) * 100) : null;
+};
+
+const zahlAus = (s: string) => Math.min(Math.max(Number(s.replace(/\D/g, "")) || 0, 0), 100_000);
+
+const Rechner = () => {
+  const [beitragText, setBeitragText] = useState("40");
+  const [monate, setMonate] = useState(60);
+  const beitrag = zahlAus(beitragText);
+  const erg = polster(beitrag, monate);
+  const gezahlt = beitrag * monate;
+  const schalter = (an: boolean) =>
+    `min-h-[44px] flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
+  const farbe = erg && erg.wert < erg.eingezahlt ? "loss" : "gain";
+  return (
+    <section className="mt-12">
+      <Ueber id="rechner" />
+      <Text>
+        <p>
+          Gib ein, was du im Monat für freiwillige Versicherungen zahlst. Links steht, was davon übrig ist, wenn kein Schaden kommt. Rechts, was
+          derselbe Betrag als Sparplan in {PLATZ1.name} gebracht hätte, einem Halal ETF auf Platz 1 unserer Liste.
+        </p>
+      </Text>
+      <div className="mt-5 border border-border bg-card p-4 md:p-5">
+        <div className="sm:max-w-[50%]">
+          <label htmlFor="versicherung-beitrag" className="block">
+            <Etikett>Beitrag im Monat</Etikett>
+          </label>
+          <div className="mt-1.5 flex items-center border border-border bg-background focus-within:border-foreground">
+            <input
+              id="versicherung-beitrag"
+              inputMode="numeric"
+              value={beitragText}
+              onChange={(x) => setBeitragText(x.target.value.replace(/[^\d.]/g, ""))}
+              className="w-full bg-transparent px-3 py-2.5 text-[16px] tabular-nums text-foreground outline-none"
+            />
+            <span className="pr-3 text-[16px] text-muted-foreground">€</span>
+          </div>
+        </div>
+        <Etikett className="mt-4">Zeitraum</Etikett>
+        <div className="mt-1.5 flex border border-border" role="group" aria-label="Zeitraum in Jahren">
+          {LAUFZEITEN.map((m, i) => (
+            <button
+              key={m}
+              type="button"
+              aria-pressed={monate === m}
+              onClick={() => setMonate(m)}
+              className={`${i ? "border-l border-border " : ""}${schalter(monate === m)}`}
+            >
+              {m / 12} {m === 12 ? "Jahr" : "Jahre"}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 gap-2" aria-live="polite">
+          <div className="min-w-0 border border-border bg-background px-3 py-3 sm:px-4 sm:py-4">
+            <Etikett>Versicherung</Etikett>
+            <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst</p>
+            <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Ohne Schaden zurück</p>
+            <p className="text-[18px] font-semibold tabular-nums text-loss sm:text-[24px]">0 €</p>
+            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Der Beitrag gehört der Versicherung.</p>
+          </div>
+          <div className="min-w-0 border border-foreground bg-background px-3 py-3 shadow-[inset_0_0_0_1px_hsl(var(--foreground))] sm:px-4 sm:py-4">
+            <Etikett>Eigenes Polster</Etikett>
+            <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst ein</p>
+            <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute wert</p>
+            <p className={`text-[18px] font-semibold tabular-nums sm:text-[24px] ${farbe === "loss" ? "text-loss" : "text-gain"}`}>{erg ? euro(erg.wert) : "–"}</p>
+            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Gehört dir, auch für den Schaden, der kommt.</p>
+          </div>
+        </div>
+
+        {erg && (
+          <div className="mt-5 border border-border bg-background px-2 pb-2 pt-3 sm:px-3">
+            <div className="flex flex-wrap gap-x-5 gap-y-1 px-1 text-[13px] text-muted-foreground" aria-hidden>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/70" /> Eingezahlt
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className={`h-2.5 w-2.5 rounded-full ${farbe === "gain" ? "bg-gain" : "bg-loss"}`} /> Wert im Depot
+              </span>
+            </div>
+            <div className="mt-2 h-[180px] sm:h-[220px]" role="img" aria-label={`Eingezahlt ${euro(erg.eingezahlt)}, heute wert ${euro(erg.wert)}`}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={erg.kurve.map((p) => ({ ...p, wert: Math.round(p.wert) }))} margin={{ top: 6, right: 8, bottom: 0, left: 0 }}>
+                  <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
+                  <XAxis
+                    dataKey="x"
+                    ticks={erg.kurve.filter((d) => d.x.endsWith("-01")).map((d) => d.x)}
+                    interval={0}
+                    tickFormatter={(x: string) => x.slice(0, 4)}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    width={50}
+                    tickFormatter={(v: number) => Math.round(v).toLocaleString("de-DE")}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                    domain={[0, "auto"]}
+                  />
+                  <Tooltip formatter={(v: number, n: string) => [euro(v), n === "wert" ? "Wert im Depot" : "Eingezahlt"]} contentStyle={{ fontSize: 13, borderRadius: 4 }} />
+                  <Area type="monotone" dataKey="eingezahlt" stroke="hsl(var(--muted-foreground))" fill="hsl(var(--muted))" strokeWidth={1.5} isAnimationActive={false} />
+                  <Area type="monotone" dataKey="wert" stroke={`hsl(var(--${farbe}))`} fill={`hsl(var(--${farbe}-soft))`} fillOpacity={0.7} strokeWidth={2} isAnimationActive={false} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">Monatskurse bis {kursStand}, ohne Depotkosten.</p>
+      </div>
+    </section>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* Seite                                                               */
+/* ------------------------------------------------------------------ */
+
+const Fett = ({ children }: { children: ReactNode }) => <strong className="font-semibold text-foreground">{children}</strong>;
+
+const IstVersicherungHaram = () => {
+  const [offen, setOffen] = useState(false);
+  const ids = useMemo(() => LEISTE.map((a) => a.id), []);
+  const aktiv = useAktiv(ids);
+  const wert = beispielWert();
+
+  const inhalt = (
+    <ol>
+      {LEISTE.map((a) => (
+        <li key={a.id}>
+          <a
+            href={`#${a.id}`}
+            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
+            }`}
+          >
+            {a.kurz ?? a.titel}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
+
+  return (
+    <main className="bg-background">
+      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
+      <div className="container py-8 md:py-12">
+        <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
+          <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
+            <div className="sticky top-24">
+              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
+              <div className="mt-3">{inhalt}</div>
+              <div className="mt-6 border border-border bg-card p-5">
+                <Etikett className="text-primary">Polster statt Police</Etikett>
+                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Dein Polster halal anlegen?</p>
+                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
+                  Ein Sparplan auf einen Halal ETF ist ein Polster, das dir gehört. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs
+                  Guthaben zahlt.
+                </p>
+                <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
+                  <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{KNOPF}</span>
+                </Link>
+              </div>
+            </div>
+          </aside>
+
+          <div className="min-w-0">
+            <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
+              <Link to="/blog" className="text-primary hover:underline">
+                Blog
+              </Link>
+              <span aria-hidden>/</span>
+              <span>Sind Versicherungen haram?</span>
+            </nav>
+
+            <article className="mt-8">
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
+                <span className="block">Sind Versicherungen haram?</span> <span className="block">Welche erlaubt sind: 10 im Überblick</span>
+              </h1>
+              <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
+                {wert
+                  ? `40 € im Monat für freiwillige Versicherungen, fünf Jahre lang: Kommt kein Schaden, ist das Geld weg. Als Sparplan im Depot wären es heute rund ${wert}. Pflichtversicherungen sind ausgenommen.`
+                  : "Welche Versicherung Pflicht ist, welche du freiwillig abschließt und was du stattdessen tun kannst."}
+              </p>
+              <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
+                {["10 Versicherungen eingeordnet", "Pflicht oder freiwillig", "Rechner: Beitrag oder Polster"].map((h) => (
+                  <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
+                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+              <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
+                <div className="flex gap-3">
+                  <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
+                  <div className="leading-snug">
+                    <a href={LINKEDIN} rel="author noopener noreferrer" target="_blank" className="text-[15px] font-semibold text-foreground underline underline-offset-[3px] hover:text-primary">
+                      Elias El-Gendy
+                    </a>
+                    <p className="mt-0.5 font-mono text-[12px] text-muted-foreground">{LESEZEIT} Min. Lesezeit</p>
+                    <p className="mt-2 text-[14px] text-foreground/75">Gründer von finanzmuslim</p>
+                  </div>
+                </div>
+                <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
+                  <p className="uppercase tracking-[0.12em]">Veröffentlicht</p>
+                  <time dateTime={VEROEFFENTLICHT.iso}>{VEROEFFENTLICHT.text}</time>
+                  <p className="mt-1.5 uppercase tracking-[0.12em]">Aktualisiert</p>
+                  <time dateTime={AKTUALISIERT.iso}>{AKTUALISIERT.text}</time>
+                </div>
+              </div>
+
+              <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
+                <button
+                  type="button"
+                  onClick={() => setOffen((v) => !v)}
+                  aria-expanded={offen}
+                  className="flex min-h-[48px] w-full items-center justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-foreground"
+                >
+                  Auf dieser Seite
+                  <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                {offen && <div className="pb-3">{inhalt}</div>}
+              </nav>
+
+              {/* Einstieg als kleine Szene wie frontal, die Antwort in den ersten 100 Wörtern */}
+              <div className="mt-8">
+                <Text>
+                  <p>
+                    Der Versicherungsberater sitzt bei dir am Küchentisch: Haftpflicht, Zahnzusatz, Handy, Berufsunfähigkeit. Klingt vernünftig. Aber darfst
+                    du das als Muslim unterschreiben?
+                  </p>
+                  <p>
+                    Kurz gesagt: Eine Versicherung, die du freiwillig abschließt, sieht die große Mehrheit der Gelehrten als haram. Was dir der Staat oder dein
+                    Beruf vorschreibt, ist ausgenommen.
+                  </p>
+                </Text>
+
+                <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
+                  <Ueber id="das-wichtigste" />
+                  <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/75">
+                    {WICHTIGSTES.map((w) => (
+                      <li key={w.lead} className="flex gap-3">
+                        <span className="mt-[10px] h-1.5 w-1.5 shrink-0 bg-primary" aria-hidden />
+                        <span>
+                          <strong className="font-semibold text-foreground">{w.lead}</strong> {w.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                {/* Rechner und erste Werbung erst nach den Kernfragen, bei etwa einem Drittel (Elias SEO55) */}
+                <GoogleKasten />
+
+                <div className="mt-7">
+                  <KartenReihe etikett="Kurzer Vergleich" titel="10 Versicherungen auf einen Blick" anzahl={ARTEN.length}>
+                    {ARTEN.map((a, i) => (
+                      <Karte key={a.art} nummer={i + 1} kopf={a.art} erste={i === 0}>
+                        <Marke ton={a.ton}>{a.marke}</Marke>
+                        <Etikett className="mt-4">Besonders</Etikett>
+                        <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{a.besonders}</p>
+                        <Etikett className="mt-4">Warum</Etikett>
+                        <p className="mt-1 text-[15px] leading-snug text-foreground">{a.warum}</p>
+                        <Etikett className="mt-3">Was tun</Etikett>
+                        <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{a.tun}</p>
+                        <a
+                          href={`#${a.ziel}`}
+                          className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                        >
+                          Zum Abschnitt
+                          <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                        </a>
+                      </Karte>
+                    ))}
+                  </KartenReihe>
+                </div>
+
+                <section className="mt-14">
+                  <Ueber id="warum" />
+                  <Text>
+                    <p>
+                      Eine Versicherung, wie du sie in Deutschland abschließt, ist ein Kauf. Du zahlst Geld und bekommst das Versprechen, dass sie bei
+                      einem Schaden zahlt. Dein Beitrag gehört ab dann der Versicherung.
+                    </p>
+                  </Text>
+                  <Wettbild />
+                  <Text>
+                    <p>
+                      Die Gelehrten nennen dafür zwei Gründe. Für die einen ist es Geld gegen mehr Geld, also Zins: Du zahlst 40 € und hoffst, später
+                      5.000 € zu bekommen. Für die anderen ist es ein Vertrag voller Unbekannter, ähnlich wie eine Wette: Ob, wann und wie viel
+                      zurückkommt, weiß keiner.
+                    </p>
+                    <p>
+                      Beide kommen zum selben Ergebnis, haram. Gelehrtenräte sagen das seit fast 400 Jahren. Wichtig wird der Unterschied erst bei den
+                      Ausnahmen weiter unten.
+                    </p>
+                  </Text>
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung.webp" />
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="pflicht" />
+                  <Text>
+                    <p>
+                      Zu manchen Versicherungen zwingt dich der Staat oder dein Beruf. Dann hast du keine Wahl, und der Zwang hebt das Urteil auf.
+                    </p>
+                    <p>
+                      <Fett>Kranken- und Pflegeversicherung.</Fett> In Deutschland für jeden Pflicht, genau wie die übrige Sozialversicherung.
+                    </p>
+                    <p>
+                      <Fett>Kfz-Haftpflicht.</Fett> Hast du ein Auto, musst du sie abschließen.
+                    </p>
+                    <p>
+                      <Fett>Berufshaftpflicht, wo vorgeschrieben.</Fett> Ärzte oder Finanzanlagenvermittler zum Beispiel brauchen sie für ihren Beruf.
+                    </p>
+                  </Text>
+                  <Kernsatz>Der Zwang macht eine Versicherung nicht halal. Er nimmt dir nur die Entscheidung ab.</Kernsatz>
+                  <Text>
+                    <p>
+                      Auch bei einer Pflicht wählst du klug: Nimm den Tarif mit dem besten Preis für das, was du brauchst, nicht das Paket mit der
+                      höchsten Leistung.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="notfall" />
+                  <Text>
+                    <p>
+                      Nur in einem echten Notfall. Dafür müssen zwei Dinge zusammenkommen: Ein Schaden ist absehbar, und du könntest ihn selbst nicht
+                      tragen.
+                    </p>
+                    <p>
+                      Hier zählt der Unterschied von oben. Sieht man die Versicherung als Zinsvertrag, ist sie nur in echter Not erlaubt. Sieht man sie als
+                      unsicheren Vertrag, kann schon eine Dringlichkeit reichen, die Hürde ist also niedriger.
+                    </p>
+                    <p>
+                      Ob das bei dir so ist, kann nur ein Gelehrter einschätzen, der deine Lage kennt. Zwei Beispiele: Die Vollkasko ist nie durch einen
+                      Notfall gedeckt. Die Teilkasko kann es sein, weil sie Diebstahl, Vandalismus und Hagel abdeckt.
+                    </p>
+                  </Text>
+                </section>
+
+                <Rechner />
+
+                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+
+                <section className="mt-14">
+                  <Ueber id="lebensversicherung" />
+                  <Text>
+                    <p>
+                      Die kapitalbildende Lebensversicherung ist der klarste Fall. Du zahlst über Jahre ein, die Versicherung legt das Geld verzinst an, und
+                      am Ende bekommst du oder deine Familie mehr Geld zurück. Das ist Geld gegen mehr Geld.
+                    </p>
+                    <p>
+                      Für dich oder deine Familie vorsorgen kannst du stattdessen mit einem Sparplan auf einen Halal ETF. Das Geld bleibt deins, und du
+                      siehst jederzeit, was es wert ist.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="berufsunfaehigkeit" />
+                  <Text>
+                    <p>
+                      Sie ist freiwillig und folgt demselben System wie jede andere Versicherung. Makler verkaufen sie besonders gern, gerade an Leute mit
+                      gutem Einkommen.
+                    </p>
+                    <p>
+                      Dazu kommt: In Berufen, die den Körper verschleißen, lehnt die Versicherung die Leistung oft ab, obwohl der Grund da ist. Ein eigenes
+                      Polster gehört dir dagegen in jedem Fall.
+                    </p>
+                  </Text>
+                </section>
+
+                <AutorAufruf
+                  bild={eliasPortrait}
+                  etikett="Polster statt Police"
+                  titel="Ein Schutz, der dir gehört"
+                  text="Ich habe früher selbst Versicherungen verkauft. Ein Sparplan auf einen Halal ETF schützt dich anders: Das Geld bleibt deins, auch wenn nichts passiert. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
+                  ziel="/vergleich/depot"
+                  knopf={KNOPF}
+                />
+
+                <section className="mt-14">
+                  <Ueber id="beigabe" />
+                  <Text>
+                    <p>
+                      Ja, wenn du wegen der Sache beitrittst. Im Mieterbund steckt oft ein Rechtsschutz, in der Gewerkschaft auch, und beim Paket kannst du
+                      eine Versicherung dazunehmen. Du hast dann keine Versicherung gesucht, sondern eine Mitgliedschaft oder einen Versand.
+                    </p>
+                    <p>Trittst du nur bei, um an die Versicherung zu kommen, ist es wieder dasselbe wie ein Abschluss.</p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="takaful" />
+                  <Text>
+                    <p>
+                      Takaful ist die islamische Form der Versicherung. Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus
+                      etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
+                    </p>
+                  </Text>
+                  <Topfbild />
+                  <Text>
+                    <p>
+                      In Deutschland gibt es Takaful zurzeit nicht. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018
+                      aufgehört, weil kaum jemand sie wollte. Große Versicherer bieten Takaful nur im Ausland an.
+                    </p>
+                    <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst ein Polster hat, braucht sie für vieles gar nicht.</p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="schon-versichert" />
+                  <Text>
+                    <p>
+                      <Fett>Pflicht behalten.</Fett> Krankenkasse, Pflegeversicherung und Kfz-Haftpflicht bleiben, wie sie sind.
+                    </p>
+                    <p>
+                      <Fett>Freiwillige durchgehen.</Fett> Frag dich bei jedem Vertrag: Wäre es ein Notfall, ihn nicht zu haben? Wenn nicht, sprich mit
+                      einem Gelehrten, wie du am besten rauskommst.
+                    </p>
+                    <p>
+                      <Fett>Erst das Polster, dann kündigen.</Fett> So stehst du nie ohne Schutz da. Was das Polster bringt, zeigt der{" "}
+                      <a href="#rechner" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Rechner oben
+                      </a>
+                      .
+                    </p>
+                    <p>
+                      <Fett>Bei einer Auszahlung.</Fett> Bekommst du aus einer Pflichtversicherung mehr zurück, als du eingezahlt hast, sagen manche
+                      Gelehrte: Behalte nur, was du eingezahlt hast, den Rest gibst du weiter. Frag einen Gelehrten, bevor du entscheidest.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-12">
+                  <Ueber id="haeufige-fragen" />
+                  <div className="mt-4 max-w-[664px] border-b border-border">
+                    {FRAGEN.map((f, i) => (
+                      <details key={f.frage} open={i === 0} className="group border-t border-border">
+                        <summary className="flex min-h-[48px] cursor-pointer list-none items-start justify-between gap-4 py-4 [&::-webkit-details-marker]:hidden">
+                          <h3 className="text-[18px] font-semibold leading-snug text-foreground">{f.frage}</h3>
+                          <ChevronDown className="mt-1 h-4 w-4 shrink-0 text-foreground transition-transform group-open:rotate-180" aria-hidden />
+                        </summary>
+                        <p className="pb-5 text-[17px] leading-[1.65] text-foreground/75">{f.antwort}</p>
+                      </details>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="mt-12">
+                  <Ueber id="naechster-schritt" />
+                  <Text>
+                    <p>
+                      Leg das Geld, das du sonst für freiwillige Versicherungen zahlst, als Sparplan auf einen Halal ETF an. Welches Depot das kann und
+                      keine Zinsen aufs Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+                    </p>
+                  </Text>
+                </section>
+
+                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+
+                <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
+                  <Etikett>
+                    <span id="ueber-den-autor">Über den Autor</span>
+                  </Etikett>
+                  <div className="mt-3 flex flex-col gap-4 sm:flex-row">
+                    <img src={eliasPortrait} alt="Elias El-Gendy" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] shrink-0 object-cover" />
+                    <div>
+                      <p className="text-[17px] font-semibold text-foreground">
+                        <Link to="/ueber-mich" className="hover:text-primary">
+                          Elias El-Gendy
+                        </Link>
+                      </p>
+                      <p className="mt-1 text-[15px] leading-relaxed text-foreground/75">{BIO}</p>
+                      <p className="mt-1 flex flex-wrap gap-x-5 text-[15px] [&>a]:inline-flex [&>a]:min-h-[44px] [&>a]:items-center">
+                        <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          LinkedIn
+                        </a>
+                        <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          Instagram
+                        </a>
+                        <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          YouTube
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </aside>
+
+                <aside className="mt-10" aria-labelledby="passt-dazu">
+                  <p id="passt-dazu" className="font-titel text-[22px] text-foreground">
+                    Passt dazu
+                  </p>
+                  <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {PASST_DAZU.map((p) => (
+                      <li key={p.to}>
+                        <Link to={p.to} className="block h-full border border-border p-4 transition-colors hover:border-primary">
+                          <span className="block text-[16px] font-semibold text-foreground">{p.name}</span>
+                          <span className="mt-1 block text-[14px] text-muted-foreground">{p.text}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
+
+                <footer className="mt-8">
+                  <p className="text-[13px] leading-relaxed text-muted-foreground">
+                    * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
+                  </p>
+                  <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
+                </footer>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+};
 
 export default IstVersicherungHaram;

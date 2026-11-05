@@ -4,7 +4,8 @@ import { ArrowDown, Check, ChevronDown, X } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
-import { kursFuerIsin, kursStand } from "@/lib/kurse";
+import { kursStand } from "@/lib/kurse";
+import { PLATZ1, polster } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
 import { ANZAHL_ANBIETER } from "@/data/autoAboCheckAusschnitt";
 import {
@@ -172,7 +173,6 @@ const PUNKTE: { punkt: string; gut: string; schlecht: string }[] = [
 /** Raten des Hyundai IONIQ 5 (63 kWh) wie im Auto-Abo-Check (src/data/autoAboCheck.ts), abgerufen 05.11.2026. */
 export const IONIQ = { abo: 602, leasing: 399, anzahlung: 4000 };
 
-const PLATZ1 = etfListe[0];
 const DREIER = [
   { name: "Traders Place", logo: "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg", out: "/out/traders-place" },
   { name: "Smartbroker+", logo: "/bilder/blog/halal-etf/logos/smartbroker.webp", out: "/out/smartbroker" },
@@ -245,7 +245,7 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/vorlagen/auto-abo-check", name: "Auto-Abo-Check", text: `Was ${ANZAHL_ANBIETER} Abo-Anbieter zu Haftung und Verzug schreiben.` },
   { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Wann ein Ratenkauf beim Händler geht." },
   { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Alle Wege zum eigenen Auto." },
-  { to: "/blog/ist-versicherung-haram", name: "Ist Versicherung haram?", text: "Warum die Vollkasko kritisch gesehen wird." },
+  { to: "/blog/ist-versicherung-haram", name: "Sind Versicherungen haram?", text: "Warum die Vollkasko nie ein Notfall ist." },
 ];
 
 const VIDEO = { id: "ukcCjjf7FIY", titel: "So geht Leasing als Muslim (in unter 10 Minuten)", hochgeladen: "2026-04-19" };
@@ -326,24 +326,7 @@ const graph = () => {
 /* ------------------------------------------------------------------ */
 
 const LAUFZEITEN = [24, 36, 48];
-type Punkt = { x: string; eingezahlt: number; wert: number };
-
-/**
- * Dieselbe Rate jeden Monat als Sparplan auf Platz 1 der Halal-ETF-Liste, die Sonderzahlung einmal am Anfang. Monatskurse wie im
- * Rechner von /blog/halal-etf (letzter Eintrag ist der Kurs vom Stand der Kursdatei), ohne Depotkosten.
- */
-export const polster = (rate: number, monate: number, sonder: number) => {
-  const reihe = kursFuerIsin(PLATZ1.isin)?.reihe ?? [];
-  if (reihe.length < monate || (!rate && !sonder)) return null;
-  const teil = reihe.slice(-monate);
-  let anteile = sonder / teil[0][1];
-  const kurve: Punkt[] = teil.map(([monat, kurs], i) => {
-    anteile += rate / kurs;
-    return { x: monat, eingezahlt: sonder + (i + 1) * rate, wert: anteile * kurs };
-  });
-  const ende = kurve[kurve.length - 1];
-  return { eingezahlt: ende.eingezahlt, wert: ende.wert, kurve };
-};
+export { polster };
 
 /** Die Zahl im Einstieg: 300 € Rate, 36 Monate, keine Anzahlung (Elias SEO54: „oben … zum Depotvergleich“). */
 const BEISPIEL = { rate: 300, monate: 36 };

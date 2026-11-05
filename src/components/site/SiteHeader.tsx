@@ -35,6 +35,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/halal-gold-kaufen": { ziel: "/vergleich/edelmetalle", text: "Gold ohne Aufschlag", ohneZum: true },
   // Leasing (SEO54): die Rate, die dir gehört, statt einer Rate, die am Ende weg ist (Karte ist-leasing-haram.md, Station 8a).
   "/blog/ist-leasing-haram": { ziel: "/vergleich/depot", text: "Rate halal anlegen", ohneZum: true },
+  // Versicherung (SEO57): Polster statt Police, das Geld für freiwillige Beiträge als Sparplan (REIHE-BEITRAEGE.md, Aufruf).
+  "/blog/ist-versicherung-haram": { ziel: "/vergleich/depot", text: "Polster halal anlegen", ohneZum: true },
 };
 
 export const SiteHeader = () => {

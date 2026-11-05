@@ -464,7 +464,7 @@ export const AutorAufruf = ({ bild, etikett, titel, text, ziel, knopf }: { bild:
 );
 
 /** Gestricheltes Auto, nur Umriss (Elias SEO57: „nicht mal ausgefüllt, wie so gestrichelte, ein gestricheltes Auto“). */
-const AutoUmriss = ({ x, y }: { x: number; y: number }) => (
+export const AutoUmriss = ({ x, y }: { x: number; y: number }) => (
   <g transform={`translate(${x} ${y})`} fill="none" stroke="currentColor" strokeWidth={1.4} strokeDasharray="3 3" strokeLinejoin="round">
     <path d="M2 24 L6 14 Q8 11 12 11 L20 11 L29 3 Q31 1 35 1 L52 1 Q56 1 58 4 L64 11 L70 12 Q74 13 74 17 L74 24 L65 24 M51 24 L23 24 M9 24 L2 24" />
     <circle cx={16} cy={25} r={6.5} />
@@ -472,14 +472,14 @@ const AutoUmriss = ({ x, y }: { x: number; y: number }) => (
   </g>
 );
 
-const Person = ({ x }: { x: number }) => (
+export const Person = ({ x }: { x: number }) => (
   <g fill="none" stroke="currentColor" strokeWidth={1.4}>
     <circle cx={x} cy={40} r={9} />
     <path d={`M${x - 16} 72 Q${x - 16} 54 ${x} 54 Q${x + 16} 54 ${x + 16} 72`} />
   </g>
 );
 
-const Pfeil = ({ von, bis, y }: { von: number; bis: number; y: number }) => {
+export const Pfeil = ({ von, bis, y }: { von: number; bis: number; y: number }) => {
   const r = bis > von ? 1 : -1;
   return (
     <g stroke="currentColor" strokeWidth={1.4} fill="none">
