@@ -5,7 +5,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursStand } from "@/lib/kurse";
-import { PLATZ1, polster } from "@/lib/polster";
+import { PLATZ1, polster, zahlAus } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
 import { ANZAHL_ANBIETER } from "@/data/autoAboCheckAusschnitt";
 import {
@@ -335,7 +335,6 @@ const beispielWert = () => {
   return erg ? euro(Math.round(erg.wert / 100) * 100) : null;
 };
 
-const zahlAus = (s: string) => Math.min(Math.max(Number(s.replace(/\D/g, "")) || 0, 0), 100_000);
 
 const Feld = ({ id, titel, wert, setzen }: { id: string; titel: string; wert: string; setzen: (s: string) => void }) => (
   <div>
@@ -345,9 +344,9 @@ const Feld = ({ id, titel, wert, setzen }: { id: string; titel: string; wert: st
     <div className="mt-1.5 flex items-center border border-border bg-background focus-within:border-foreground">
       <input
         id={id}
-        inputMode="numeric"
+        inputMode="decimal"
         value={wert}
-        onChange={(x) => setzen(x.target.value.replace(/[^\d.]/g, ""))}
+        onChange={(x) => setzen(x.target.value.replace(/[^\d.,]/g, ""))}
         className="w-full bg-transparent px-3 py-2.5 text-[16px] tabular-nums text-foreground outline-none"
       />
       <span className="pr-3 text-[16px] text-muted-foreground">€</span>
