@@ -7,11 +7,13 @@ import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursStand } from "@/lib/kurse";
 import { PLATZ1, polster, zahlAus } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
+import { GIRO_TOP2 } from "@/data/giroTop2";
 import {
   AnbieterKasten,
   AutorAufruf,
   BIO,
   Etikett,
+  euro,
   GoogleKasten,
   H2,
   INSTAGRAM,
@@ -21,16 +23,16 @@ import {
   LINKEDIN,
   LINKEDIN_FIRMA,
   Marke,
-  PROFILE,
   Person,
   Pfeil,
+  PROFILE,
+  Seitenleiste,
   SITE,
-  TL,
   Text,
+  TL,
+  useAktiv,
   Video,
   YOUTUBE,
-  euro,
-  useAktiv,
 } from "@/components/blog/bausteine";
 
 /**
@@ -52,8 +54,8 @@ const LESEZEIT = 9;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
-/** Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
-const KNOPF = "Polster halal anlegen";
+/** Elias SEO60: „Polster“ sagt zu wenig, „deine Ersparnisse halal anlegen“. Der Knopf aller Aufrufe, gleich im Kopf (SiteHeader.tsx, KOPF_ZIEL), in der Seitenleiste und im Aufruf mit Foto. */
+const KNOPF = "Ersparnisse halal anlegen";
 
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
@@ -62,7 +64,7 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "kurzer-vergleich", titel: "10 Versicherungen auf einen Blick", leiste: true, kurz: "10 Versicherungen" },
   { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
   { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit ausgenommen?", leiste: true, kurz: "Pflichtversicherungen" },
-  { id: "rechner", titel: "Beitrag oder Polster: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Polster" },
+  { id: "rechner", titel: "Beitrag oder Halal Investment: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Halal Investment" },
   { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notlage" },
   { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
   { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
@@ -135,7 +137,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
     ton: "rot",
     besonders: "Schäden am eigenen Auto",
     warum: "Nie durch eine Notlage gedeckt",
-    tun: "Polster für Reparaturen anlegen",
+    tun: "Ersparnisse für Reparaturen anlegen",
     ziel: "notfall",
   },
   {
@@ -153,7 +155,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
     ton: "rot",
     besonders: "Bringt Maklern die höchste Provision",
     warum: "Freiwillig, und um die Leistung wird oft gestritten",
-    tun: "Eigenes Polster aufbauen, Notlage mit einem Gelehrten klären",
+    tun: "Eigene Ersparnisse aufbauen, Notlage mit einem Gelehrten klären",
     ziel: "berufsunfaehigkeit",
   },
   {
@@ -171,7 +173,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
     ton: "rot",
     besonders: "Alles, was du freiwillig dazukaufst",
     warum: "Freiwillig, folgt demselben System, nur in einer Notlage über einen Gelehrten",
-    tun: "Polster statt Police",
+    tun: "Ersparnisse statt Police",
     ziel: "warum",
   },
 ];
@@ -192,15 +194,23 @@ const ANBIETER = DREIER.map((d) => ({
   ],
 }));
 
+/** Elias SEO60: „Girokonten ohne Zinsfalle … und dann halt meine Top zwei Girokonten gleich dazu“; Reihenfolge und Zeilen aus dem Girokonto-Vergleich. */
+const GIROS = GIRO_TOP2.map((g) => ({
+  name: g.name,
+  domain: g.domain,
+  out: g.link,
+  zeilen: g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${p.wert}` : p.text)),
+}));
+
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
-  { lead: "Zusammenhalt unterstützt der Islam.", text: "Gegenseitige Hilfe bei Schäden kannten die Menschen schon zur Zeit des Propheten." },
+  { lead: "Zusammenhalt unterstützt der Islam.", text: "Gegenseitige Hilfe bei Schäden kannten die Menschen schon zur Zeit des Propheten ﷺ." },
   {
     lead: "Die übliche Versicherung ist ein Kauf.",
     text: "Du zahlst Geld für ein Versprechen, das vielleicht nie eingelöst wird. Darum sieht die große Mehrheit der Gelehrten sie als haram.",
   },
   { lead: "Pflicht ist ausgenommen.", text: "Krankenkasse, Kfz-Haftpflicht und vorgeschriebene Berufsversicherungen schließt du ab, weil du keine Wahl hast." },
   { lead: "Freiwillig nur in einer Notlage.", text: "Die Vollkasko ist nie eine, bei der Teilkasko kann es eine sein. Das klärst du mit einem Gelehrten." },
-  { lead: "Ein Polster gehört dir.", text: "Was du sonst als Beitrag zahlst, kann im Depot wachsen. Der Rechner weiter unten zeigt, wie viel." },
+  { lead: "Ersparnisse gehören dir.", text: "Was du sonst als Beitrag zahlst, legst du halal an. Der Rechner weiter unten zeigt, was daraus wird." },
 ];
 
 const FRAGEN: { frage: string; antwort: string }[] = [
@@ -284,7 +294,7 @@ const graph = () => {
         "@id": `${url}#video`,
         name: VIDEO.titel,
         description: "Elias erklärt, warum die übliche Versicherung als Kauf gilt, welche Ausnahmen es gibt und was Takaful ist.",
-        thumbnailUrl: `${SITE}/bilder/blog/ist-versicherung-haram/video-versicherung.webp`,
+        thumbnailUrl: `${SITE}/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp`,
         uploadDate: VIDEO.hochgeladen,
         embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
         contentUrl: `https://www.youtube.com/watch?v=${VIDEO.id}`,
@@ -401,14 +411,6 @@ const Topfbild = () => {
 
 const LAUFZEITEN = [12, 36, 60];
 
-/** Die Zahl im Einstieg: 40 € im Monat, fünf Jahre. */
-const BEISPIEL = { beitrag: 40, monate: 60 };
-const beispielWert = () => {
-  const erg = polster(BEISPIEL.beitrag, BEISPIEL.monate);
-  return erg ? euro(Math.round(erg.wert / 100) * 100) : null;
-};
-
-
 const Rechner = () => {
   const [beitragText, setBeitragText] = useState("40");
   const [monate, setMonate] = useState(60);
@@ -472,7 +474,7 @@ const Rechner = () => {
             <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Der Beitrag gehört der Versicherung.</p>
           </div>
           <div className="min-w-0 border border-foreground bg-background px-3 py-3 shadow-[inset_0_0_0_1px_hsl(var(--foreground))] sm:px-4 sm:py-4">
-            <Etikett>Eigenes Polster</Etikett>
+            <Etikett>Halal Investment</Etikett>
             <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst ein</p>
             <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(gezahlt)}</p>
             <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute wert</p>
@@ -539,7 +541,6 @@ const IstVersicherungHaram = () => {
   const [offen, setOffen] = useState(false);
   const ids = useMemo(() => LEISTE.map((a) => a.id), []);
   const aktiv = useAktiv(ids);
-  const wert = beispielWert();
 
   const inhalt = (
     <ol>
@@ -563,23 +564,14 @@ const IstVersicherungHaram = () => {
       <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
-          <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24">
-              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
-              <div className="mt-3">{inhalt}</div>
-              <div className="mt-6 border border-border bg-card p-5">
-                <Etikett className="text-primary">Polster statt Police</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Dein Polster halal anlegen?</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
-                  Ein Sparplan auf einen Halal ETF ist ein Polster, das dir gehört. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs
-                  Guthaben zahlt.
-                </p>
-                <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
-                  <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{KNOPF}</span>
-                </Link>
-              </div>
-            </div>
-          </aside>
+          <Seitenleiste
+            inhalt={inhalt}
+            etikett="Ersparnisse statt Police"
+            titel="Deine Ersparnisse halal anlegen?"
+            text="Ein Sparplan auf einen Halal ETF gehört dir, auch ohne Schaden. Im Vergleich siehst du, welches Depot passt."
+            ziel="/vergleich/depot"
+            knopf={KNOPF}
+          />
 
           <div className="min-w-0">
             <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
@@ -595,12 +587,11 @@ const IstVersicherungHaram = () => {
                 <span className="block">Sind Versicherungen haram?</span> <span className="block">10 Versicherungen eingeordnet</span>
               </h1>
               <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
-                {wert
-                  ? `40 € im Monat für freiwillige Versicherungen, fünf Jahre lang: Kommt kein Schaden, ist das Geld weg. Als Sparplan im Depot wären es heute rund ${wert}. Pflichtversicherungen sind ausgenommen.`
-                  : "Welche Versicherung Pflicht ist, welche du freiwillig abschließt und was du stattdessen tun kannst."}
+                Für die große Mehrheit der Gelehrten sind freiwillige Versicherungen haram, auch wenn sie finanziell Sinn machen können. Pflicht ist
+                ausgenommen.
               </p>
               <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["10 Versicherungen eingeordnet", "Pflicht oder freiwillig", "Rechner: Beitrag oder Polster"].map((h) => (
+                {["10 Versicherungen eingeordnet", "Pflicht oder freiwillig", "Rechner: Beitrag oder Halal Investments"].map((h) => (
                   <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
                     <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     {h}
@@ -715,7 +706,7 @@ const IstVersicherungHaram = () => {
                       Ausnahmen weiter unten.
                     </p>
                   </Text>
-                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung.webp" />
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp" />
                 </section>
 
                 <section className="mt-14">
@@ -745,7 +736,9 @@ const IstVersicherungHaram = () => {
 
                 <Rechner />
 
-                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+                <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
+
+                <AnbieterKasten titel="Girokonten ohne Zinsfalle" anbieter={GIROS} />
 
                 <section className="mt-14">
                   <Ueber id="notfall" />
@@ -788,15 +781,15 @@ const IstVersicherungHaram = () => {
                       Provision.
                     </p>
                     <p>
-                      Gerade in Berufen, die den Körper verschleißen, lehnt die Versicherung die Leistung oft ab, obwohl ein Grund da ist. Ein eigenes
-                      Polster gehört dir dagegen in jedem Fall.
+                      Gerade in Berufen, die den Körper verschleißen, lehnt die Versicherung die Leistung oft ab, obwohl ein Grund da ist. Eigene
+                      Ersparnisse gehören dir dagegen in jedem Fall.
                     </p>
                   </Text>
                 </section>
 
                 <AutorAufruf
                   bild={eliasPortrait}
-                  etikett="Polster statt Police"
+                  etikett="Ersparnisse statt Police"
                   titel="Ein Schutz, der dir gehört"
                   text="Ich habe die Sachkundeprüfung für Versicherungen abgelegt und kenne die Verträge. Ein Sparplan auf einen Halal ETF schützt dich anders: Das Geld bleibt deins, auch wenn nichts passiert. Im Vergleich siehst du, welches Depot passt."
                   ziel="/vergleich/depot"
@@ -834,7 +827,7 @@ const IstVersicherungHaram = () => {
                       Große Versicherer bieten Takaful nur im Ausland an. Eine Versicherung auf Gegenseitigkeit gibt es hier nur sehr vereinzelt, etwa als Sterbekasse in einem Verein. Ob der Aufbau stimmt,
                       klärst du mit einem Gelehrten.
                     </p>
-                    <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst ein Polster hat, braucht sie für vieles gar nicht.</p>
+                    <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst Ersparnisse hat, braucht sie für vieles gar nicht.</p>
                   </Text>
                 </section>
 
@@ -849,7 +842,7 @@ const IstVersicherungHaram = () => {
                       schildere das einem Gelehrten. Wenn nicht, sprich mit einem Gelehrten, wie und wann du am besten rauskommst.
                     </p>
                     <p>
-                      <Fett>Polster aufbauen.</Fett> Was du sonst als Beitrag zahlst, legst du als Sparplan an. Was das bringt, zeigt der{" "}
+                      <Fett>Ersparnisse aufbauen.</Fett> Was du sonst als Beitrag zahlst, legst du als Sparplan an. Was das bringt, zeigt der{" "}
                       <a href="#rechner" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
                         Rechner oben
                       </a>
@@ -887,7 +880,7 @@ const IstVersicherungHaram = () => {
                   </Text>
                 </section>
 
-                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+                <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
 
                 <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
                   <Etikett>

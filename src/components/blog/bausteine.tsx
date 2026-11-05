@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { AnbieterLogo } from "@/components/AnbieterLogo";
 
 /**
  * Bausteine aller Blogbeiträge im Aufbau von /blog/halal-etf (Elias SEO48, 04.11.2026: „beste Halal ETFs kannst du alles
@@ -327,7 +328,8 @@ export const Video = ({ id, titel, bild }: { id: string; titel: string; bild?: s
 };
 
 /** Drei Anbieter untereinander wie „Depots für deine Halal ETFs“: links Häkchen-Zeilen, rechts Logo und Knopf. */
-export type Anbieter = { name: string; logo: string; out: string; zeilen: string[] };
+/** Ohne `logo` lädt das runde Logo über die Domain wie in den Vergleichen (AnbieterLogo). */
+export type Anbieter = { name: string; logo?: string; domain?: string; out: string; zeilen: string[] };
 export const AnbieterKasten = ({ titel, anbieter }: { titel: string; anbieter: Anbieter[] }) => (
   <aside aria-label={titel} className="mt-12">
     <div className="flex items-start justify-between gap-3">
@@ -350,7 +352,11 @@ export const AnbieterKasten = ({ titel, anbieter }: { titel: string; anbieter: A
           </div>
           <div className="mt-4 flex items-center gap-4 sm:mt-0 sm:flex-col sm:items-stretch sm:gap-3">
             <div className="flex h-[64px] w-[104px] shrink-0 items-center justify-center border border-border bg-background sm:h-[76px] sm:w-full">
-              <img src={d.logo} alt={`Logo ${d.name}`} width={128} height={128} loading="lazy" className="h-12 w-auto max-w-[80%] object-contain" />
+              {d.logo ? (
+                <img src={d.logo} alt={`Logo ${d.name}`} width={128} height={128} loading="lazy" className="h-12 w-auto max-w-[80%] object-contain" />
+              ) : (
+                <AnbieterLogo name={d.name} domain={d.domain} gross rand />
+              )}
             </div>
             <a
               href={d.out}
@@ -375,6 +381,42 @@ export const WerkzeugKasten = ({ etikett, titel, text, ziel, knopf }: { etikett:
     <Link to={ziel} className="leuchtlinie mt-5 inline-block">
       <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
     </Link>
+  </aside>
+);
+
+/**
+ * Seitenleiste am Laptop: Inhaltsverzeichnis, darunter der Kasten mit dem Aufruf. Der Kasten steht immer ganz im Bild,
+ * bei wenig Höhe scrollt das Verzeichnis in sich (Elias SEO31 und SEO60, „der sitzt wieder so ganz unten“, Vault
+ * raw/2026-11-05-elias-seo60-versicherung-ersparnisse-haram-nicht-dumm-girokonten.md). Gemessen mit leiste.mjs.
+ */
+export const Seitenleiste = ({
+  inhalt,
+  etikett,
+  titel,
+  text,
+  ziel,
+  knopf,
+}: {
+  inhalt: ReactNode;
+  etikett: string;
+  titel: string;
+  text: string;
+  ziel: string;
+  knopf: string;
+}) => (
+  <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
+    <div className="sticky top-24 flex max-h-[calc(100vh-8.5rem)] flex-col">
+      <Etikett className="shrink-0 border-t border-border pt-4">Auf dieser Seite</Etikett>
+      <div className="mt-3 max-h-[17.5rem] min-h-0 overflow-y-auto [scrollbar-width:thin]">{inhalt}</div>
+      <div className="mt-5 shrink-0 border border-border bg-card p-5">
+        <Etikett className="text-primary">{etikett}</Etikett>
+        <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">{titel}</p>
+        <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">{text}</p>
+        <Link to={ziel} className="leuchtlinie mt-4 inline-block">
+          <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
+        </Link>
+      </div>
+    </div>
   </aside>
 );
 

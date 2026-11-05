@@ -13,6 +13,7 @@ import {
   AutorAufruf,
   BIO,
   Etikett,
+  euro,
   GoogleKasten,
   H2,
   INSTAGRAM,
@@ -24,14 +25,14 @@ import {
   LINKEDIN_FIRMA,
   Marke,
   PROFILE,
+  Seitenleiste,
   SITE,
-  TL,
   Tauschbild,
   Text,
+  TL,
+  useAktiv,
   Video,
   YOUTUBE,
-  euro,
-  useAktiv,
 } from "@/components/blog/bausteine";
 
 /**
@@ -498,23 +499,14 @@ const IstLeasingHaram = () => {
       <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
-          <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24">
-              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
-              <div className="mt-3">{inhalt}</div>
-              <div className="mt-6 border border-border bg-card p-5">
-                <Etikett className="text-primary">Rate statt Leasing</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Deine Rate halal anlegen?</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
-                  Ein Sparplan auf einen Halal ETF ist eine Rate, die dir am Ende gehört. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen
-                  aufs Guthaben zahlt.
-                </p>
-                <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
-                  <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{KNOPF}</span>
-                </Link>
-              </div>
-            </div>
-          </aside>
+          <Seitenleiste
+            inhalt={inhalt}
+            etikett="Rate statt Leasing"
+            titel="Deine Rate halal anlegen?"
+            text="Ein Sparplan auf einen Halal ETF ist eine Rate, die dir am Ende gehört. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
+            ziel="/vergleich/depot"
+            knopf={KNOPF}
+          />
 
           <div className="min-w-0">
             <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">

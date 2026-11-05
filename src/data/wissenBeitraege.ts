@@ -48,7 +48,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten. Rechne, was deine Rate im Depot gebracht hätte.", thema: "Alltag", datum: "5. November 2026" },
   { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "ist-versicherung-haram", name: "Sind Versicherungen haram?", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht. Rechne, was dein Beitrag als Polster gebracht hätte.", thema: "Alltag", datum: "5. November 2026" },
+  { slug: "ist-versicherung-haram", name: "Sind Versicherungen haram?", motiv: "versicherung", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht. Rechne, was dein Beitrag halal angelegt gebracht hätte.", thema: "Alltag", datum: "5. November 2026" },
 
   { slug: "zinsen-im-islam", name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", datum: "5. September 2026" },
   { slug: "haeufige-fehler", name: "12 Fehler beim halal Investieren", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen", datum: "5. September 2026" },

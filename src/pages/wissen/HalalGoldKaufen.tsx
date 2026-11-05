@@ -15,6 +15,7 @@ import {
   AutorAufruf,
   BIO,
   Etikett,
+  euro,
   GoogleKasten,
   H2,
   H3,
@@ -29,13 +30,13 @@ import {
   LINKEDIN_FIRMA,
   Marke,
   PROFILE,
+  Seitenleiste,
   SITE,
-  TL,
   Tabelle,
   Text,
-  YOUTUBE,
-  euro,
+  TL,
   useAktiv,
+  YOUTUBE,
 } from "@/components/blog/bausteine";
 
 /**
@@ -481,22 +482,14 @@ const HalalGoldKaufen = () => {
       <Seo title={`${TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
-          <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24">
-              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
-              <div className="mt-3">{inhalt}</div>
-              <div className="mt-6 border border-border bg-card p-5">
-                <Etikett className="text-primary">Gold im Depot</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Gold kaufen ohne Aufschlag?</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
-                  Im Depot kaufst du Gold zum Börsenpreis, ohne Aufschlag eines Händlers und ohne Tresor zu Hause. Im Vergleich siehst du, welches Depot unsere Nummer 1 führt.
-                </p>
-                <Link to="/vergleich/edelmetalle" className="leuchtlinie mt-5 inline-block">
-                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">Gold ohne Aufschlag</span>
-                </Link>
-              </div>
-            </div>
-          </aside>
+          <Seitenleiste
+            inhalt={inhalt}
+            etikett="Gold im Depot"
+            titel="Gold kaufen ohne Aufschlag?"
+            text="Im Depot kaufst du Gold zum Börsenpreis, ohne Aufschlag eines Händlers und ohne Tresor zu Hause. Im Vergleich siehst du, welches Depot unsere Nummer 1 führt."
+            ziel="/vergleich/edelmetalle"
+            knopf="Gold ohne Aufschlag"
+          />
 
           <div className="min-w-0">
             <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">

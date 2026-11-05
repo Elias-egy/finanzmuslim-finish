@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
+import { Seitenleiste } from "@/components/blog/bausteine";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursFuerIsin, kursStand } from "@/lib/kurse";
 import {
@@ -1158,24 +1159,14 @@ const HalalEtf = () => {
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           {/* Seitenleiste ab xl: Kapitel wie die Kapitelübersicht bei Finanzfluss, darunter der Kasten wie frontal */}
-          <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-            <div className="sticky top-24">
-              <Etikett className="border-t border-border pt-4">Auf dieser Seite</Etikett>
-              <div className="mt-3">{inhalt}</div>
-              <div className="mt-6 border border-border bg-card p-5">
-                <Etikett className="text-primary">Dein Vermögensaufbau</Etikett>
-                <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">Langfristig investieren, ohne einen Cent Zinsen?</p>
-                <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">
-                  In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt.
-                </p>
-                <Link to="/vergleich/depot" className="leuchtlinie mt-5 inline-block">
-                  <span className="block bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">
-                    Zum Depot-Vergleich
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </aside>
+          <Seitenleiste
+            inhalt={inhalt}
+            etikett="Dein Vermögensaufbau"
+            titel="Langfristig investieren, ohne einen Cent Zinsen?"
+            text="In 2 Minuten siehst du, welches Depot deine Halal ETFs als Sparplan führt und dir keine Zinsen zahlt."
+            ziel="/vergleich/depot"
+            knopf="Zum Depot-Vergleich"
+          />
 
           <div className="min-w-0">
             {/* 1 Kopf wie frontal */}
