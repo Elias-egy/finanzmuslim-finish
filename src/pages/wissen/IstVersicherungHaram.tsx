@@ -43,7 +43,7 @@ import {
 const PFAD = "/blog/ist-versicherung-haram";
 const TITEL = "Sind Versicherungen haram? 10 Versicherungen eingeordnet";
 /** Title-Tag unter 65 Zeichen mit „| finanzmuslim“, damit Google ihn nicht abschneidet; H1 bleibt TITEL. */
-const SEO_TITEL = "Sind Versicherungen haram? 10 Versicherungen eingeordnet";
+const SEO_TITEL = "Sind Versicherungen haram? 10 Arten eingeordnet";
 const META =
   "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. 10 Versicherungen eingeordnet, dazu Takaful und ein Rechner.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
@@ -131,8 +131,8 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Private Haftpflicht",
-    marke: "je nach Lage",
-    ton: "gelb",
+    marke: "nur in Notlage",
+    ton: "rot",
     besonders: "Freiwillig, der Schaden kann groß sein",
     warum: "Eine Notlage nur, wenn ein Schaden absehbar ist, den du nicht tragen könntest",
     tun: "Mit einem Gelehrten klären",
@@ -207,7 +207,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind alle Versicherungen haram?",
     antwort:
-      "Nein. Erlaubt ist eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau. In Deutschland gibt es sie nur sehr vereinzelt, etwa als Sterbekasse in einem Verein; ob der Aufbau stimmt, klärst du mit einem Gelehrten. Pflicht ist ausgenommen. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
+      "Nein. Pflicht ist ausgenommen, und eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
   },
   {
     frage: "Warum ist eine Versicherung haram?",
@@ -749,11 +749,9 @@ const IstVersicherungHaram = () => {
 
                 <section className="mt-14">
                   <Ueber id="notfall" />
+                  <Kernsatz>Nur in einer Notlage, und ob eine vorliegt, sagt dir ein Gelehrter.</Kernsatz>
                   <Text>
-                    <p>
-                      <Fett>Nur in einer Notlage, und ob eine vorliegt, sagt dir ein Gelehrter.</Fett> Fragen solltest du ihn, wenn ein Schaden absehbar ist, den du
-                      selbst nicht tragen könntest.
-                    </p>
+                    <p>Fragen solltest du ihn, wenn ein Schaden absehbar ist, den du selbst nicht tragen könntest.</p>
                     <p>
                       <Fett>Vollkasko.</Fett> Nie durch eine Notlage gedeckt.
                     </p>
@@ -820,15 +818,21 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      Takaful ist die Versicherung auf Gegenseitigkeit, wie sie das islamische Recht kennt. Mit richtigem Aufbau ist sie islamkonform. Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus
-                      etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
+                      Takaful ist die Versicherung auf Gegenseitigkeit, wie sie das islamische Recht kennt. Mit richtigem Aufbau ist sie islamkonform.
+                    </p>
+                    <p>
+                      Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
                     </p>
                   </Text>
                   <Topfbild />
                   <Text>
                     <p>
-                      Anfang 2026 gab es in Deutschland kein Takaful. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018
-                      aufgehört, weil kaum jemand sie wollte. Große Versicherer bieten Takaful nur im Ausland an.
+                      Anfang 2026 gab es in Deutschland kein Takaful-Angebot. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um
+                      2018 aufgehört, weil kaum jemand sie wollte.
+                    </p>
+                    <p>
+                      Große Versicherer bieten Takaful nur im Ausland an. Eine Versicherung auf Gegenseitigkeit gibt es hier nur sehr vereinzelt, etwa als Sterbekasse in einem Verein. Ob der Aufbau stimmt,
+                      klärst du mit einem Gelehrten.
                     </p>
                     <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst ein Polster hat, braucht sie für vieles gar nicht.</p>
                   </Text>
