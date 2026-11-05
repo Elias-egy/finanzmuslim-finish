@@ -77,6 +77,7 @@ import nr1 from "./newsletter/2026-10-09-launch.json";
 import nr2 from "./newsletter/2026-10-16-islamic.json";
 import nr3 from "./newsletter/2026-10-23-fonds-militaer.json";
 import nr4 from "./newsletter/2026-10-30-tech-rutsch.json";
+import nr5 from "./newsletter/2026-11-06-el-sayed.json";
 // archiv:importe:end
 
 export const eingetragen: Ausgabe[] = [
@@ -85,6 +86,7 @@ export const eingetragen: Ausgabe[] = [
   nr2,
   nr3,
   nr4,
+  nr5,
   // archiv:liste:end
 ];
 

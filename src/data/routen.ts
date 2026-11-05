@@ -129,6 +129,8 @@ export const festeRouten: Route[] = [
   vorlage("top-100-halal-aktien", "Top100HalalAktien.tsx"),
   vorlage("gold-check", "GoldCheck.tsx"),
   vorlage("auto-abo-check", "AutoAboCheck.tsx"),
+  // Girokonto-Freebie als offene Unterseite (H15 5c, 05.11.2026): Ziel der Halal-News und des Videos mit den 50 Euro.
+  vorlage("girokonto-bonus", "GirokontoBonus.tsx"),
 
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   ...(deals.length > 0 ? [{ pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly" as const, prioritaet: "0.6" }] : []),
