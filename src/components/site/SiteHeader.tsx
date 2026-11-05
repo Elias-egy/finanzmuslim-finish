@@ -37,6 +37,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/ist-leasing-haram": { ziel: "/vergleich/depot", text: "Rate halal anlegen", ohneZum: true },
   // Versicherung (SEO57): Polster statt Police, das Geld für freiwillige Beiträge als Sparplan (REIHE-BEITRAEGE.md, Aufruf).
   "/blog/ist-versicherung-haram": { ziel: "/vergleich/depot", text: "Halal vorsorgen", ohneZum: true },
+  // Aktien (SEO61): der einfache Weg ist ein Halal ETF im Depot (Karte sind-aktien-haram.md, Station 1 Kopfknopf).
+  "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Halal anlegen", ohneZum: true },
 };
 
 export const SiteHeader = () => {

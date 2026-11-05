@@ -199,7 +199,11 @@ const GIROS = GIRO_TOP2.map((g) => ({
   name: g.name,
   domain: g.domain,
   out: g.link,
-  zeilen: g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${p.wert}` : p.text)),
+  // Halal-Prüfer SEO61 r6 MUSS 1: Zum BBBank BetterSmart Konto gehört ein Tagesgeldkonto (investmentStart.ts „Lass es leer“).
+  zeilen: [
+    ...g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${p.wert}` : p.text)),
+    ...(g.id.includes("bbbank") ? ["Tagesgeld dabei: leer lassen"] : []),
+  ],
 }));
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
