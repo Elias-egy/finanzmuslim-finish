@@ -403,11 +403,23 @@ export const Seitenleiste = ({
   text: string;
   ziel: string;
   knopf: string;
-}) => (
+}) => {
+  // Der aktive Eintrag (aria-current) bleibt im Blick, auch wenn das Verzeichnis in sich scrollt (SEO63 Seiten-Prüfer, 1366 × 650).
+  const liste = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const box = liste.current;
+    const a = box?.querySelector<HTMLElement>("[aria-current]");
+    if (!box || !a) return;
+    const b = box.getBoundingClientRect();
+    const r = a.getBoundingClientRect();
+    if (r.top < b.top) box.scrollTop += r.top - b.top;
+    else if (r.bottom > b.bottom) box.scrollTop += r.bottom - b.bottom;
+  });
+  return (
   <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
     <div className="sticky top-24 flex max-h-[calc(100vh-8.5rem)] flex-col">
       <Etikett className="shrink-0 border-t border-border pt-4">Auf dieser Seite</Etikett>
-      <div className="mt-3 max-h-[17.5rem] min-h-0 overflow-y-auto [scrollbar-width:thin]">{inhalt}</div>
+      <div ref={liste} className="mt-3 max-h-[17.5rem] min-h-0 overflow-y-auto [scrollbar-width:thin]">{inhalt}</div>
       <div className="mt-5 shrink-0 border border-border bg-card p-5">
         <Etikett className="text-primary">{etikett}</Etikett>
         <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">{titel}</p>
@@ -418,7 +430,8 @@ export const Seitenleiste = ({
       </div>
     </div>
   </aside>
-);
+  );
+};
 
 /** Welcher Abschnitt gerade im Blick ist, für das Inhaltsverzeichnis links. */
 export const useAktiv = (ids: string[]) => {

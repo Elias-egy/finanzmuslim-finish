@@ -1142,6 +1142,7 @@ const HalalEtf = () => {
         <li key={a.id}>
           <a
             href={`#${a.id}`}
+            aria-current={aktiv === a.id ? "location" : undefined}
             className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
               aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}

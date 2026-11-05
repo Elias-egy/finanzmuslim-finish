@@ -195,8 +195,14 @@ const ANBIETER = DREIER.map((d) => ({
   ],
 }));
 
-const kontoKurz = (w: string) =>
-  /^0 €/.test(w) ? `0 € mit Geldeingang oder unter ${w.match(/unter (\d+)/)?.[1] ?? "30"} Jahren` : w;
+/** Kontoführung kurz, aber mit den Bedingungen der Quelle (SEO63 Seiten-Prüfer: ohne Betrag stand das Konto besser da als die Quelle). */
+const kontoKurz = (w: string) => {
+  if (!/^0 €/.test(w)) return w;
+  const ein = w.match(/ab ([\d.]+ €) Geldeingang/)?.[1];
+  const alter = w.match(/unter (\d+)/)?.[1];
+  const sonst = w.match(/sonst ([\d,]+ €)/)?.[1];
+  return `0 €${ein ? ` ab ${ein} Geldeingang` : ""}${alter ? ` oder unter ${alter} Jahren` : ""}${sonst ? `, sonst ${sonst}` : ""}`;
+};
 
 /** Elias SEO60: „Girokonten ohne Zinsfalle … und dann halt meine Top zwei Girokonten gleich dazu“; Reihenfolge und Zeilen aus dem Girokonto-Vergleich. */
 const GIROS = GIRO_TOP2.map((g) => ({
@@ -228,7 +234,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind alle Versicherungen haram?",
     antwort:
-      "Nein. Pflicht ist vom Urteil ausgenommen, eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit als haram, außer in einer Notlage.",
+      "Nein. Pflicht ist vom Urteil ausgenommen, eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau ist erlaubt. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
   },
   {
     frage: "Warum ist eine Versicherung haram?",
@@ -440,7 +446,7 @@ const Rechner = () => {
           derselbe Betrag als Sparplan in {PLATZ1.name} gebracht hätte.
         </p>
         <p>
-          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
+          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -558,6 +564,7 @@ const IstVersicherungHaram = () => {
         <li key={a.id}>
           <a
             href={`#${a.id}`}
+            aria-current={aktiv === a.id ? "location" : undefined}
             className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
               aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}

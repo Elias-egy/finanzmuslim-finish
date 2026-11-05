@@ -375,7 +375,7 @@ const Rechner = () => {
           hätte.
         </p>
         <p>
-          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
+          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -482,6 +482,7 @@ const IstLeasingHaram = () => {
         <li key={a.id}>
           <a
             href={`#${a.id}`}
+            aria-current={aktiv === a.id ? "location" : undefined}
             className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
               aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
             }`}
