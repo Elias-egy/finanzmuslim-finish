@@ -725,7 +725,10 @@ const InvestmentStart = () => {
   const { partner: kurzname } = useParams();
   const partner = findStartPartner(kurzname);
   if (!partner || (kurzname && kurzname === "scalable")) return <Navigate to="/dein-investmentstart" replace />;
-  if (ohneZwischenseite(partner)) return <DirektZumAnbieter partner={partner} />;
+  // Beim Vorrendern (Puppeteer, navigator.webdriver) nicht weiterleiten, sonst bricht der Bau ab; im Browser springt die
+  // Seite sofort zum Anbieter. Auf dem statischen Hoster läuft /out/<kurzname> über diese Seite.
+  const vorrendern = typeof navigator !== "undefined" && navigator.webdriver;
+  if (ohneZwischenseite(partner) && !vorrendern) return <DirektZumAnbieter partner={partner} />;
   return <InvestmentStartSeite key={partner.kurzname} partner={partner} />;
 };
 
