@@ -1,0 +1,147 @@
+{
+  "nr": 5,
+  "datum": "2026-11-06",
+  "thema": "el-sayed",
+  "titel": "Der erste Muslim im US-Senat",
+  "kurz": "Abdul El-Sayed ist der erste Muslim im US-Senat. Sein Programm strich die Arztschulden von 83.291 Menschen, und der Koran sagt dazu etwas. Dazu: mein neuer Blog, die Frage, ob du als Muslim ein Haus kaufen darfst, und warum dein Broker im Januar Steuer abzieht.",
+  "lesezeitMin": 4,
+  "titelbild": "https://storage.mlcdn.com/account_image/2353109/yQtQDyXHIbcOKSU1CUsW76uL2qVjnizh3vCkvhTx.gif",
+  "titelbildAlt": "Erster Muslim im US-Senat: Abdul El-Sayed 52,5 Prozent, Mike Rogers 45,5 Prozent, Michigan, AP, 98 Prozent ausgezählt",
+  "einleitung": [
+    "In Michigan hat ein Muslim Geschichte geschrieben, und ihr habt euch das Haus gewünscht. Das liest du heute:"
+  ],
+  "inhalt": [
+    {
+      "emoji": "🇺🇸",
+      "wort": "US-Senat",
+      "text": "der erste Muslim, und sein Programm gegen Arztschulden",
+      "anker": "elsayed"
+    },
+    {
+      "emoji": "📚",
+      "wort": "Mein neuer Blog",
+      "text": "zwei Beiträge für dein halal Vermögen",
+      "anker": "blog"
+    },
+    {
+      "emoji": "🏠",
+      "wort": "Haus",
+      "text": "darf ich als Muslim eins kaufen? (von euch gewählt)",
+      "anker": "haus"
+    },
+    {
+      "emoji": "📋",
+      "wort": "Kleine Aufgabe",
+      "text": "warum dein Broker im Januar Steuer abzieht",
+      "anker": "januar"
+    },
+    {
+      "emoji": "🗳️",
+      "wort": "Abstimmen",
+      "text": "dein Thema für nächsten Freitag",
+      "anker": "abstimmen"
+    }
+  ],
+  "rubriken": [
+    {
+      "titel": "Arztschulden von 83.291 Menschen gestrichen: Wer ist Abdul El-Sayed?",
+      "absaetze": [
+        "Am Dienstag hat Michigan gewählt. Gewonnen hat Abdul El-Sayed, mit <strong>52,5 %</strong> gegen 45,5 % für Mike Rogers. Er wird der erste Muslim im US-Senat.",
+        "Leicht war das nicht. Laut der Zeitung Haaretz gab eine Lobbygruppe rund 40 Millionen Dollar gegen ihn aus. Und Donald Trump nannte ihn laut AP einen „Dschihadisten“.",
+        "![Abdul El-Sayed am Pult bei seiner Siegesrede in Detroit, lächelnd mit beiden Händen erhoben](https://storage.mlcdn.com/account_image/2353109/Ol4ouBudfpkdUoc5Cc15GMVfQAqIXNtYInw2fYoW.jpg)",
+        "<small>Siegesrede in Detroit, 4. November 2026</small>",
+        "In seiner Siegesrede sagte er: Wenn es um den Ausgang der Wahl ging, habe er bisher immer „<strong>inshallah</strong>“ gesagt. „Aber heute Abend können wir aus diesem <strong>inshallah</strong> ein <strong>alhamdulillah</strong> machen.“",
+        "## Schulden kaufen, um sie zu streichen",
+        "In den USA haben über 100 Millionen Menschen Schulden durch Gesundheitskosten (Umfrage von KFF Health News, 2022). Als Gesundheitschef im Wayne County rund um Detroit brachte El-Sayed 2024 ein Programm dagegen an den Start.",
+        "Das Programm kauft diese Schulden für wenige Cent auf und streicht sie dann einfach. Mit 1 Dollar verschwinden so rund 100 Dollar Schulden. Das Geld dafür, 5 Millionen Dollar, gab der Landkreis.",
+        "![Schulden kaufen, um sie zu streichen: 1 Dollar streicht 100 Dollar Arztschulden, Arztschulden von 83.291 Menschen gestrichen, zusammen 57,4 Millionen Dollar](https://storage.mlcdn.com/account_image/2353109/eDk3Bs3Ln847kjsMhiqTrrA8vIk3osfaoa0ayrSd.png)",
+        "Bis Juni 2026 hat das Programm so die Arztschulden von <strong>83.291 Menschen</strong> gestrichen, zusammen 57,4 Millionen Dollar (Bridge Michigan). El-Sayed selbst ging im April 2025, das Programm lief weiter.",
+        "## Und was sagt der Koran über Schulden?",
+        "In Sure 2, Vers 280 heißt es: „Und wenn er (der Schuldner) in Schwierigkeiten ist, dann sei (ihm) Aufschub (gewährt,) bis eine Erleichterung (eintritt). Und daß ihr (es) als Almosen erlaßt, ist besser für euch, wenn ihr (es) nur wißt.“ (Übersetzung von islam.de)",
+        "Was ich daraus mitnehme: Sich anpassen heißt nicht, seine Religion zu vernachlässigen. Er steht mitten in der Politik und sagt trotzdem alhamdulillah. Genauso können wir halal leben und unser Geld halal aufbauen."
+      ],
+      "kicker": "Erster Muslim im US-Senat",
+      "emoji": "🇺🇸",
+      "anker": "elsayed"
+    },
+    {
+      "titel": "Jetzt 50 Euro Bonus zum Halal-Girokonto sichern",
+      "absaetze": [
+        "![Das BetterSmart Konto der BBBank: 50 Euro Startprämie für Neukunden. Illustration mit dem BBBank-Logo auf einer weißen Karte, ein Mann mit Laptop, eine Frau mit Kaffeebecher, Münzen und ein Sparschwein](https://storage.mlcdn.com/account_image/2353109/S4yYCNNAEPHUD5tgZ9Ce5KB223qdxii9v5Y3gH3T.gif)",
+        "Das BetterSmart Konto der BBBank erfüllt in unserem Girokonto-Vergleich alle drei Punkte:"
+      ],
+      "emoji": "💶",
+      "anzeige": true,
+      "link": {
+        "text": "Konto eröffnen",
+        "to": "/vorlagen/girokonto-bonus"
+      }
+    },
+    {
+      "titel": "Halal Vermögen aufbauen: Hier gehst du in die Tiefe",
+      "absaetze": [
+        "Die Halal-News bringt dir jeden Freitag das Neueste aus der islamischen Welt und der Finanzwelt. Wenn du wirklich halal Vermögen aufbauen willst, reichen Nachrichten nicht. Dafür gibt es meinen neuen Blog. Zwei Beiträge sind ganz neu:",
+        "![Mein neuer Blog: Halal Gold kaufen und Beste Halal ETFs 2026, zwei Bildschirmfotos der Beiträge](https://storage.mlcdn.com/account_image/2353109/pQ46RgY3q3hdpIrmrNla97vaS8fAA2D0BR3Sa709.png)",
+        "- <strong>[[Halal Gold kaufen|/blog/halal-gold-kaufen]]:</strong> 5 Wege im Vergleich. Unsere Nummer 1 ist der Gold-ETC der Royal Mint, bei ihm kannst du dir das Gold als Barren oder Münzen ausliefern lassen.\n- <strong>[[Beste Halal ETFs 2026|/blog/halal-etf]]:</strong> 8 ETFs im Vergleich, was sie kosten und bei welchem Depot du sie bekommst.",
+        "Die ETFs und Gold-ETCs aus beiden Beiträgen bekommst du bei meinen Top 3, einen ETF davon nur bei Traders Place. Hier vergleichst du sie direkt:"
+      ],
+      "kicker": "Mein neuer Blog",
+      "emoji": "📚",
+      "anker": "blog",
+      "werbung": "Werbung: Auf der Seite stehen Partnerlinks. Eröffnest du darüber ein Konto, bekomme ich eine Provision. Für dich ändert sich nichts.",
+      "link": {
+        "text": "Zum Depot-Vergleich",
+        "to": "/vergleich/depot"
+      }
+    },
+    {
+      "titel": "Darf ich als Muslim ein Haus kaufen?",
+      "absaetze": [
+        "Der Islam zeigt uns, wie wir kaufen können und sollten. Für ein Haus gibt es drei Modelle:",
+        "![Ein Haus kaufen: die 3 islamischen Modelle Murabaha, Ijara und Musharaka](https://storage.mlcdn.com/account_image/2353109/5wXiKTC2KxIHARz0t1YRwQn7lErtzSndlOrUANcA.png)",
+        "- <strong>Murabaha:</strong> Die Bank kauft das Haus und verkauft es dir mit einem festen Aufschlag weiter. Den Preis zahlst du in Raten.\n- <strong>Ijara:</strong> Die Bank kauft das Haus und vermietet es dir. Am Ende kaufst du es mit einem eigenen, neuen Vertrag.\n- <strong>Musharaka:</strong> Ihr kauft das Haus gemeinsam. Für ihren Anteil zahlst du der Bank Miete und kaufst ihn ihr Stück für Stück ab.",
+        "Und in Deutschland? Am ehesten möglich ist nach deutschem Recht der Mietkauf, aber nur mit ausdrücklicher Absprache, denn übliche Mietkäufe enthalten fast immer Zinsen. Einen zertifizierten Anbieter gibt es hier bis jetzt nicht. Genau dafür wollen wir als finanzmuslim und als Community Aufmerksamkeit schaffen, damit langfristig Nachfrage entsteht.",
+        "Alle Modelle stehen in meinem Beitrag [[Haus kaufen ohne Zinsen|/blog/haus-kaufen-ohne-zinsen]]."
+      ],
+      "kicker": "Haus",
+      "emoji": "🏠",
+      "anker": "haus"
+    },
+    {
+      "titel": "Im Januar zieht dein Broker Steuer ab, auch wenn du nichts verkaufst",
+      "absaetze": [
+        "Hast du einen ETF, der seine Gewinne nicht ausschüttet, holt sich der Staat jedes Jahr im Januar vorab einen Teil der Steuer. Das heißt Vorabpauschale. Für 2026 wird sie mit einem Basiszins von 3,2 % gerechnet, fällig im Januar 2027 (Stiftung Warentest).",
+        "![Steuer im Januar ohne Verkauf: bei 10.000 Euro in einem ETF, der nicht ausschüttet, ohne Freistellungsauftrag 41,36 Euro, mit Freistellungsauftrag 0 Euro](https://storage.mlcdn.com/account_image/2353109/ylPsFkC4MhmiTTW5tey1joE40NJDHwuQoYMVtyMJ.png)",
+        "Ein Beispiel: Lagen Anfang 2026 <strong>10.000 €</strong> in so einem Aktien-ETF und ist er dieses Jahr gut gelaufen, gehen im Januar <strong>41,36 €</strong> ans Finanzamt. Mit Freistellungsauftrag sind es 0 €, solange dein Freibetrag reicht.",
+        "## So gehst du vor",
+        "- <strong>Freistellungsauftrag prüfen:</strong> Bis 1.000 € Kapitalerträge im Jahr bleiben steuerfrei, für Ehepaare 2.000 €. Damit dein Broker nichts abzieht, brauchst du dort einen Freistellungsauftrag. Hast du mehrere Depots, teil den Betrag auf.\n- <strong>Geld aufs Verrechnungskonto:</strong> Fehlt im Januar Geld für die Steuer, kann die Bank laut Stiftung Warentest dein Konto ins Minus ziehen. Leg also vorher ein paar Euro aufs Verrechnungskonto.",
+        "Schau heute kurz in deine App, ob dein Freistellungsauftrag steht.",
+        "<small>Das ist keine Steuerberatung. Gerechnet nach Stiftung Warentest mit 30 % Teilfreistellung und 26,375 % Steuer.</small>"
+      ],
+      "kicker": "Kleine Aufgabe",
+      "emoji": "📋",
+      "anker": "januar"
+    },
+    {
+      "titel": "Was soll nächsten Freitag drinstehen?",
+      "absaetze": [
+        "![Du entscheidest: GOLD, BOYKOTT, SUKUK oder TRADING](https://storage.mlcdn.com/account_image/2353109/qUI6xxPQgoYaTbaTqFgP1SWqEWIawNvDZQ27LHxv.png)",
+        "<strong>Du entscheidest, was nächsten Freitag drinsteht.</strong> Tipp unten auf ein Wort und schick die Mail ab, das dauert zwei Sekunden.",
+        "- <strong>GOLD:</strong> Was Gold dieses Jahr gebracht hat, und wo du es ohne Zinsen kaufst.\n- <strong>BOYKOTT:</strong> Was der Boykott die Konzerne kostet, in Zahlen.\n- <strong>SUKUK:</strong> Wo bekommst du Sukuk, und was bringen sie?\n- <strong>TRADING:</strong> Millionen mit Trading, ist das halal?"
+      ],
+      "kicker": "Deine Stimme",
+      "emoji": "🗳️",
+      "anker": "abstimmen",
+      "abstimmung": {
+        "frage": "Welches Thema?",
+        "woerter": [
+          "GOLD",
+          "BOYKOTT",
+          "SUKUK",
+          "TRADING"
+        ]
+      }
+    }
+  ],
+  "sichtbarAb": "2026-11-06T06:00:00Z"
+}
