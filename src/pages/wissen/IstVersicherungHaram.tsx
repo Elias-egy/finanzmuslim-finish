@@ -62,8 +62,8 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "kurzer-vergleich", titel: "10 Versicherungen auf einen Blick", leiste: true, kurz: "10 Versicherungen" },
   { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
   { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit erlaubt?", leiste: true, kurz: "Pflichtversicherungen" },
-  { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notfall" },
   { id: "rechner", titel: "Beitrag oder Polster: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Polster" },
+  { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notfall" },
   { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
   { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
   { id: "beigabe", titel: "Ist eine Versicherung im Mitgliedsbeitrag erlaubt?", leiste: true, kurz: "Versicherung als Beigabe" },
@@ -151,7 +151,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
     art: "Berufsunfähigkeit",
     marke: "fällt weg",
     ton: "rot",
-    besonders: "Wird gern teuer verkauft",
+    besonders: "Bringt Maklern die höchste Provision",
     warum: "Freiwillig, und um die Leistung wird oft gestritten",
     tun: "Eigenes Polster aufbauen",
     ziel: "berufsunfaehigkeit",
@@ -232,7 +232,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Darf ich als Muslim Versicherungen verkaufen?",
     antwort:
-      "Nein. Wer Versicherungen verkauft, wirkt an dem Vertrag mit. Steckst du in dem Beruf, plan den Wechsel mit einem Gelehrten, statt von heute auf morgen ohne Einkommen dazustehen.",
+      "Nein. Wer Versicherungen verkauft, hilft der Versicherung bei dem Vertrag, das gilt auch für Pflichtversicherungen. Steckst du in dem Beruf, sprich mit einem Gelehrten über deinen Weg raus.",
   },
   {
     frage: "Was ist Takaful?",
@@ -697,7 +697,7 @@ const IstVersicherungHaram = () => {
                   <Text>
                     <p>
                       Die Gelehrten nennen dafür zwei Gründe. Für die einen ist es Geld gegen mehr Geld, also Zins: Du zahlst 40 € und hoffst, später
-                      5.000 € zu bekommen. Für die anderen ist es ein Vertrag voller Unbekannter, ähnlich wie eine Wette: Ob, wann und wie viel
+                      5.000 € zu bekommen. Für die anderen ist es ein Vertrag voller Unbekannter, ähnlich wie eine Wette: Ob, wann und wie viel
                       zurückkommt, weiß keiner.
                     </p>
                     <p>
@@ -733,12 +733,16 @@ const IstVersicherungHaram = () => {
                   </Text>
                 </section>
 
+                <Rechner />
+
+                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
+
                 <section className="mt-14">
                   <Ueber id="notfall" />
                   <Text>
                     <p>
-                      Nur in einem echten Notfall. Dafür müssen zwei Dinge zusammenkommen: Ein Schaden ist absehbar, und du könntest ihn selbst nicht
-                      tragen.
+                      Nur in einem echten Notfall, und ob einer vorliegt, sagt dir ein Gelehrter. Fragen solltest du ihn, wenn zwei Dinge zusammenkommen: Ein
+                      Schaden ist absehbar, und du könntest ihn selbst nicht tragen.
                     </p>
                     <p>
                       Hier zählt der Unterschied von oben. Sieht man die Versicherung als Zinsvertrag, ist sie nur in echter Not erlaubt. Sieht man sie als
@@ -750,10 +754,6 @@ const IstVersicherungHaram = () => {
                     </p>
                   </Text>
                 </section>
-
-                <Rechner />
-
-                <AnbieterKasten titel="Depots für dein Polster" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="lebensversicherung" />
@@ -787,7 +787,7 @@ const IstVersicherungHaram = () => {
                   bild={eliasPortrait}
                   etikett="Polster statt Police"
                   titel="Ein Schutz, der dir gehört"
-                  text="Ich habe früher selbst Versicherungen verkauft. Ein Sparplan auf einen Halal ETF schützt dich anders: Das Geld bleibt deins, auch wenn nichts passiert. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
+                  text="Ich habe die Sachkundeprüfung für Versicherungen abgelegt und kenne die Verträge. Ein Sparplan auf einen Halal ETF schützt dich anders: Das Geld bleibt deins, auch wenn nichts passiert. Im Vergleich siehst du, welches Depot dafür passt und keine Zinsen aufs Guthaben zahlt."
                   ziel="/vergleich/depot"
                   knopf={KNOPF}
                 />
@@ -829,10 +829,10 @@ const IstVersicherungHaram = () => {
                     </p>
                     <p>
                       <Fett>Freiwillige durchgehen.</Fett> Frag dich bei jedem Vertrag: Wäre es ein Notfall, ihn nicht zu haben? Wenn nicht, sprich mit
-                      einem Gelehrten, wie du am besten rauskommst.
+                      einem Gelehrten, wie und wann du am besten rauskommst.
                     </p>
                     <p>
-                      <Fett>Erst das Polster, dann kündigen.</Fett> So stehst du nie ohne Schutz da. Was das Polster bringt, zeigt der{" "}
+                      <Fett>Polster aufbauen.</Fett> Was du sonst als Beitrag zahlst, legst du als Sparplan an. Was das bringt, zeigt der{" "}
                       <a href="#rechner" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
                         Rechner oben
                       </a>
