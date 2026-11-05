@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Check, ChevronDown } from "lucide-react";
+import { ArrowDown, Check, ChevronDown, X } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
@@ -48,7 +48,7 @@ const SEO_TITEL = "Ist Leasing haram? Wann es halal ist: 5 Punkte";
 const META =
   "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Die 5 Punkte zum Prüfen, das Auto-Abo als halal Weg und ein Rechner: Leasingrate oder Depot.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
-const AKTUALISIERT = { text: "04.11.2026", iso: "2026-11-04T09:00:00+01:00" };
+const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
 const LESEZEIT = 8;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, maßgeblich ist dein eigener Vertrag. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
@@ -123,7 +123,7 @@ const WEGE: { weg: string; marke: string; ton: Ton; besonders: string; zahlst: s
     besonders: "Kleine Rate, neues Auto",
     zahlst: "Rate, dazu Versicherung, Steuer und Wartung",
     haken: "Du haftest für ein fremdes Auto",
-    passt: "Gewerbe, nur nach Rücksprache mit einem Gelehrten",
+    passt: "Nur im Einzelfall, mit einem Gelehrten klären",
     ende: "Das Auto geht zurück",
     ziel: "warum",
   },
@@ -210,7 +210,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Ist Auto-Leasing haram?",
     antwort:
-      "Fast immer ja, so wie Autohäuser in Deutschland es anbieten. Leasing ist Miete und damit erlaubt, aber die Verträge schieben die Haftung für das Auto auf dich. Damit wird der Vertrag ungültig.",
+      "Fast immer ja, so wie Autohäuser in Deutschland es anbieten. Leasing ist Miete und damit erlaubt, aber die Verträge schieben die Haftung auf dich. Damit wird der Vertrag ungültig.",
   },
   {
     frage: "Ist Leasing ohne Zinsen halal?",
@@ -225,7 +225,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Wie viel teurer ist ein Auto-Abo als Leasing?",
     antwort:
-      "Die Rate ist höher, dafür sind Versicherung, Steuer und Wartung drin. Rechnet man das gegen, bleiben vielleicht 50 bis 100 € mehr im Monat. Im Beispiel mit dem IONIQ 5 war das Abo sogar günstiger.",
+      "Die Rate ist höher, dafür sind Versicherung, Steuer und Wartung drin. Unterm Strich bleiben vielleicht 50 bis 100 € mehr im Monat, im IONIQ-Beispiel sogar weniger.",
   },
   {
     frage: "Ist Leasing für Selbstständige und Firmen erlaubt?",
@@ -609,10 +609,6 @@ const IstLeasingHaram = () => {
                     unterschreiben?
                   </p>
                   <p>
-                    Kurz gesagt: Leasing ist Miete, und Miete ist erlaubt. Deutsche Leasingverträge fallen aber fast immer durch, weil du darin für ein
-                    Auto haftest, das dir nicht gehört.
-                  </p>
-                  <p>
                     Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Und wer ohne Rate auskommt, lässt das Geld im Depot wachsen.
                   </p>
                 </Text>
@@ -668,7 +664,20 @@ const IstLeasingHaram = () => {
                   </Text>
                   <KartenTabelle
                     kopf={["Punkt", "In Ordnung", "Problem"]}
-                    zeilen={PUNKTE.map((p) => ({ schluessel: p.punkt, werte: [p.punkt, p.gut, p.schlecht] }))}
+                    zeilen={PUNKTE.map((p) => ({
+                      schluessel: p.punkt,
+                      werte: [
+                        p.punkt,
+                        <span className="flex gap-2">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-gain" aria-hidden />
+                          {p.gut}
+                        </span>,
+                        <span className="flex gap-2">
+                          <X className="mt-0.5 h-4 w-4 shrink-0 text-loss" aria-hidden />
+                          {p.schlecht}
+                        </span>,
+                      ],
+                    }))}
                   />
                   <Kernsatz>Wem das Auto gehört, der trägt sein Risiko. Schiebt der Vertrag es dir zu, ist es keine Miete mehr.</Kernsatz>
                 </section>
@@ -789,7 +798,7 @@ const IstLeasingHaram = () => {
                             <Marke ton="rot">fällt weg</Marke>
                             <span className="mt-1.5 block">Nachzahlung für den Restwert</span>
                           </>,
-                          "Ist das Auto am Ende weniger wert als geplant, sollst du die Differenz zahlen. Den Wertverlust trägt aber der Eigentümer.",
+                          "Steht so eine Klausel drin, fällt der Vertrag durch, siehe Punkt 5 oben.",
                         ],
                       },
                       {
