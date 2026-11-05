@@ -512,14 +512,14 @@ export const Tauschbild = ({
       <svg viewBox="0 0 360 250" className="h-auto w-full text-foreground" role="img" aria-label={`${anbieter}: Du zahlst die Rate und bekommst das Auto. ${notiz}`}>
         <Person x={44} />
         <Person x={316} />
-        <text x={44} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">Du</text>
-        <text x={316} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">{anbieter}</text>
+        <text x={44} y={96} textAnchor="middle" className="fill-foreground text-[14px] font-semibold">Du</text>
+        <text x={312} y={96} textAnchor="middle" className="fill-foreground text-[14px] font-semibold">{anbieter}</text>
 
-        <text x={180} y={21} textAnchor="middle" className="fill-muted-foreground text-[12px]">Rate in €</text>
+        <text x={180} y={21} textAnchor="middle" className="fill-muted-foreground text-[14px]">Rate in €</text>
         <Pfeil von={72} bis={288} y={30} />
         <g transform="translate(137 40) scale(1.16)"><AutoUmriss x={0} y={0} /></g>
         <Pfeil von={272} bis={72} y={84} />
-        <text x={172} y={100} textAnchor="middle" className="fill-muted-foreground text-[12px]">Auto zum Fahren</text>
+        <text x={172} y={100} textAnchor="middle" className="fill-muted-foreground text-[14px]">Auto zum Fahren</text>
 
         {beiDir ? (
           <g stroke={rot} strokeWidth={1.4} fill="none" strokeDasharray="4 3">
@@ -540,15 +540,15 @@ export const Tauschbild = ({
           strokeWidth={1.4}
           strokeDasharray="5 4"
         />
-        <text x={boxX + 14} y={143} className="font-mono text-[11.5px] uppercase tracking-[0.12em]" fill={beiDir ? rot : "hsl(var(--muted-foreground))"}>
+        <text x={boxX + 14} y={143} className="font-mono text-[14px] uppercase tracking-[0.12em]" fill={beiDir ? rot : "hsl(var(--muted-foreground))"}>
           {beiDir ? "Landet bei dir" : "Beim Anbieter"}
         </text>
         {pflichten.map((p, i) => (
-          <text key={p} x={boxX + 14} y={166 + i * 18} className="fill-foreground text-[13px]">
+          <text key={p} x={boxX + 14} y={166 + i * 18} className="fill-foreground text-[14px]">
             {p}
           </text>
         ))}
-        <text x={beiDir ? 6 : 354} y={238} textAnchor={beiDir ? "start" : "end"} className="text-[12.5px] font-semibold" fill={beiDir ? rot : "hsl(var(--gain))"}>
+        <text x={beiDir ? 6 : 354} y={238} textAnchor={beiDir ? "start" : "end"} className="text-[14px] font-semibold" fill={beiDir ? rot : "hsl(var(--gain))"}>
           {notiz}
         </text>
       </svg>
