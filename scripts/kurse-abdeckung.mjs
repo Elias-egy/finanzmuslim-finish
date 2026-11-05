@@ -58,11 +58,17 @@ const jungerAlsEinJahr = (auflage, fristTage = 0) => {
    auffaellt. */
 const BOERSENSTART_FRIST_TAGE = 90;
 
+/* Die Jahresrendite rechnet scripts/kurse_holen.py aus Monatswerten (rendite(p, 12) braucht 13). Eine Reihe, die genau ein Jahr
+   alt ist, hat erst zwölf; darum gilt sie bis einen Monat danach als zu jung (Fund SEO56, 05.11.2026: Xtrackers Salam Sukuk,
+   Reihe ab 05.11.2025, hielt jede Auslieferung an). */
+const MONATSWERT_FRIST_TAGE = 31;
+
 const reiheJuengerAlsEinJahr = (k) => {
   const erster = Array.isArray(k?.reihe_t) ? k.reihe_t[0]?.[0] : undefined;
   if (!erster) return false;
   const einJahrHer = new Date();
   einJahrHer.setFullYear(einJahrHer.getFullYear() - 1);
+  einJahrHer.setDate(einJahrHer.getDate() - MONATSWERT_FRIST_TAGE);
   return new Date(erster) > einJahrHer;
 };
 
