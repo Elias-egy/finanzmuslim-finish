@@ -137,6 +137,14 @@ const GirokontoBonus = () => (
               <tbody className="[&>tr]:border-b [&>tr]:border-border last:[&>tr]:border-0">
                 <tr>
                   <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
+                    Immer gratis
+                  </th>
+                  {BONUS_KONTEN.map((k) => (
+                    <Zelle key={k.id}>unter {k.gratisUnter}</Zelle>
+                  ))}
+                </tr>
+                <tr>
+                  <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
                     Gratis ab Geldeingang
                   </th>
                   {BONUS_KONTEN.map((k) => (
@@ -151,14 +159,6 @@ const GirokontoBonus = () => (
                   </th>
                   {BONUS_KONTEN.map((k) => (
                     <Zelle key={k.id}>{euro(k.sonst)}</Zelle>
-                  ))}
-                </tr>
-                <tr>
-                  <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
-                    Immer gratis
-                  </th>
-                  {BONUS_KONTEN.map((k) => (
-                    <Zelle key={k.id}>unter {k.gratisUnter}</Zelle>
                   ))}
                 </tr>
                 <tr>
