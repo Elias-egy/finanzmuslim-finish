@@ -462,3 +462,96 @@ export const AutorAufruf = ({ bild, etikett, titel, text, ziel, knopf }: { bild:
     </Link>
   </aside>
 );
+
+/** Gestricheltes Auto, nur Umriss (Elias SEO57: „nicht mal ausgefüllt, wie so gestrichelte, ein gestricheltes Auto“). */
+const AutoUmriss = ({ x, y }: { x: number; y: number }) => (
+  <g transform={`translate(${x} ${y})`} fill="none" stroke="currentColor" strokeWidth={1.4} strokeDasharray="3 3" strokeLinejoin="round">
+    <path d="M2 24 L6 14 Q8 11 12 11 L20 11 L29 3 Q31 1 35 1 L52 1 Q56 1 58 4 L64 11 L70 12 Q74 13 74 17 L74 24 L65 24 M51 24 L23 24 M9 24 L2 24" />
+    <circle cx={16} cy={25} r={6.5} />
+    <circle cx={58} cy={25} r={6.5} />
+  </g>
+);
+
+const Person = ({ x }: { x: number }) => (
+  <g fill="none" stroke="currentColor" strokeWidth={1.4}>
+    <circle cx={x} cy={40} r={9} />
+    <path d={`M${x - 16} 72 Q${x - 16} 54 ${x} 54 Q${x + 16} 54 ${x + 16} 72`} />
+  </g>
+);
+
+const Pfeil = ({ von, bis, y }: { von: number; bis: number; y: number }) => {
+  const r = bis > von ? 1 : -1;
+  return (
+    <g stroke="currentColor" strokeWidth={1.4} fill="none">
+      <line x1={von} y1={y} x2={bis} y2={y} />
+      <path d={`M${bis - r * 7} ${y - 4.5} L${bis} ${y} L${bis - r * 7} ${y + 4.5}`} />
+    </g>
+  );
+};
+
+/**
+ * Kleine, frei stehende Tausch-Grafik (Elias SEO57, Vault raw/2026-11-05-elias-seo57-leasing-grafik-gestrichelt-ehrlich-kosten.md):
+ * schwarz-weiß, nur gestrichelte Linien. Du zahlst, du bekommst das Auto, und die Pflichten am Auto liegen entweder bei dir
+ * (rot markiert, daran scheitert der Vertrag) oder beim Eigentümer, in der Rate drin.
+ */
+export const Tauschbild = ({
+  anbieter,
+  pflichten,
+  beiDir,
+  notiz,
+}: {
+  anbieter: string;
+  pflichten: string[];
+  beiDir: boolean;
+  notiz: string;
+}) => {
+  const boxX = beiDir ? 6 : 186;
+  const rot = "hsl(var(--loss))";
+  return (
+    <figure className="mt-7 max-w-[460px]">
+      <svg viewBox="0 0 360 250" className="h-auto w-full text-foreground" role="img" aria-label={`${anbieter}: Du zahlst die Rate und bekommst das Auto. ${notiz}`}>
+        <Person x={44} />
+        <Person x={316} />
+        <text x={44} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">Du</text>
+        <text x={316} y={96} textAnchor="middle" className="fill-foreground text-[13px] font-semibold">{anbieter}</text>
+
+        <text x={180} y={21} textAnchor="middle" className="fill-muted-foreground text-[12px]">Rate in €</text>
+        <Pfeil von={72} bis={288} y={30} />
+        <g transform="translate(137 40) scale(1.16)"><AutoUmriss x={0} y={0} /></g>
+        <Pfeil von={272} bis={72} y={84} />
+        <text x={172} y={100} textAnchor="middle" className="fill-muted-foreground text-[12px]">Auto zum Fahren</text>
+
+        {beiDir ? (
+          <g stroke={rot} strokeWidth={1.4} fill="none" strokeDasharray="4 3">
+            <path d={`M316 104 C316 140 262 152 ${boxX + 176} 152`} />
+            <path d={`M${boxX + 183} 147.5 L${boxX + 176} 152 L${boxX + 183} 156.5`} strokeDasharray="none" />
+          </g>
+        ) : (
+          <line x1={316} y1={104} x2={316} y2={122} stroke="currentColor" strokeWidth={1.4} strokeDasharray="4 3" />
+        )}
+        <rect
+          x={boxX}
+          y={122}
+          width={168}
+          height={92}
+          rx={6}
+          fill="none"
+          stroke={beiDir ? rot : "currentColor"}
+          strokeWidth={1.4}
+          strokeDasharray="5 4"
+        />
+        <text x={boxX + 14} y={143} className="font-mono text-[11.5px] uppercase tracking-[0.12em]" fill={beiDir ? rot : "hsl(var(--muted-foreground))"}>
+          {beiDir ? "Landet bei dir" : "Beim Anbieter"}
+        </text>
+        {pflichten.map((p, i) => (
+          <text key={p} x={boxX + 14} y={166 + i * 18} className="fill-foreground text-[13px]">
+            {p}
+          </text>
+        ))}
+        <text x={beiDir ? 6 : 354} y={238} textAnchor={beiDir ? "start" : "end"} className="text-[12.5px] font-semibold" fill={beiDir ? rot : "hsl(var(--gain))"}>
+          {notiz}
+        </text>
+      </svg>
+    </figure>
+  );
+};

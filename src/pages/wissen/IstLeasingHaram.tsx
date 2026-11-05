@@ -25,7 +25,7 @@ import {
   PROFILE,
   SITE,
   TL,
-  Tabelle,
+  Tauschbild,
   Text,
   Video,
   YOUTUBE,
@@ -169,16 +169,8 @@ const PUNKTE: { punkt: string; gut: string; schlecht: string }[] = [
   },
 ];
 
-/**
- * Ein Jahr mit demselben Auto, Hyundai IONIQ 5 (63 kWh), aus dem Auto-Abo-Check (src/data/autoAboCheck.ts, `rechnung`; Abo und
- * Leasing abgerufen 05.11.2026, ADAC 27.09.2026). Hier nur die Summen, damit die Klauseln des Checks nicht im JavaScript dieser offenen Seite stehen
- * (autoAboCheckAusschnitt.ts). Ändert sich `rechnung`, hier nachziehen; Test in src/test/istLeasingHaram.test.ts.
- */
-export const IONIQ_JAHR = {
-  abo: 12 * 602,
-  leasing: 12 * 399 + 4000 / 4 + 12 * 199 + 12 * 54,
-  bar: 12 * 560 + 12 * 199 + 12 * 54,
-};
+/** Raten des Hyundai IONIQ 5 (63 kWh) wie im Auto-Abo-Check (src/data/autoAboCheck.ts), abgerufen 05.11.2026. */
+export const IONIQ = { abo: 602, leasing: 399, anzahlung: 4000 };
 
 const PLATZ1 = etfListe[0];
 const DREIER = [
@@ -202,7 +194,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   { lead: "Leasing ist Miete.", text: "Miete ist im Islam erlaubt, es kommt auf den Vertrag an." },
   { lead: "Die übliche Form fällt fast immer weg.", text: "In deutschen Verträgen haftest du für ein Auto, das dir nicht gehört." },
   { lead: "Kein Zins heißt noch nicht halal.", text: "Es zählt, wer haftet und wer Versicherung, Steuer und Wartung zahlt." },
-  { lead: "Das Auto-Abo ist vom Aufbau her die halal Form.", text: "Der Anbieter zahlt die Nebenkosten. Unterm Strich zahlst du vielleicht 50 bis 100 € mehr im Monat, im Beispiel unten sogar weniger." },
+  { lead: "Das Auto-Abo ist vom Aufbau her die halal Form.", text: "Der Anbieter zahlt die Nebenkosten. Dafür zahlst du unterm Strich etwa 50 bis 100 € mehr im Monat." },
   { lead: "Jede Rate, die du nicht zahlst, kann wachsen.", text: "Der Rechner weiter unten zeigt, wie viel im Depot daraus geworden wäre." },
 ];
 
@@ -225,7 +217,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Wie viel teurer ist ein Auto-Abo als Leasing?",
     antwort:
-      "Die Rate ist höher, dafür sind Versicherung, Steuer und Wartung drin. Unterm Strich bleiben vielleicht 50 bis 100 € mehr im Monat, im IONIQ-Beispiel sogar weniger.",
+      "Die Rate ist deutlich höher, weil Versicherung, Steuer und Wartung schon drin sind. Rechnest du diese Kosten beim Leasing dazu, zahlst du für das Abo etwa 50 bis 100 € mehr im Monat.",
   },
   {
     frage: "Ist Leasing für Selbstständige und Firmen erlaubt?",
@@ -693,32 +685,24 @@ const IstLeasingHaram = () => {
                       Leasing heißt Miete: Jemandem gehört das Auto, du zahlst dafür, es zu nutzen. Weil das Auto ihm gehört, haftet der Vermieter dafür
                       und darf die Haftung nicht auf dich schieben.
                     </p>
+                  </Text>
+                  <Tauschbild
+                    anbieter="Leasingfirma"
+                    beiDir
+                    pflichten={["Haftung bei Schaden", "Versicherung, Vollkasko", "Steuer und Wartung"]}
+                    notiz="Daran scheitert der Vertrag"
+                  />
+                  <Text>
                     <p>
                       Genau hier fallen die deutschen Verträge durch. Ein Gelehrter hat Verträge von Mercedes, BMW, Audi, VW und Sixt gelesen und
-                      keinen ohne die Klausel gefunden, dass du für das Auto haftest.
+                      keinen ohne die Klausel gefunden, dass du für das Auto haftest. Wer die Haftung abgibt, verliert sein Recht auf die Rate.
                     </p>
                     <p>
-                      Wer die Haftung abgibt, verliert sein Recht auf die Rate. Dazu kommt: Du meldest das Auto selbst an, zahlst Steuer, Vollkasko und
-                      Wartung. Das alles wäre Sache des Vermieters.
+                      Der Zins ist dabei nicht der Kern. Hat die Leasingfirma das Auto auf Kredit gekauft, ist das ihr Vertrag, nicht deiner. Darum
+                      macht auch ein Leasing ohne Zins den Vertrag nicht halal, es zählen Haftung und Kosten. Die Verträge der Hersteller sind oft fairer
+                      als die der Leasingfirmen, die Klausel zur Haftung steht trotzdem drin.
                     </p>
                   </Text>
-                  <KartenTabelle
-                    kopf={["Frage", "Antwort"]}
-                    zeilen={[
-                      {
-                        schluessel: "zins",
-                        werte: ["Und der Zins der Leasingfirma?", "Beim reinen Leasing nicht dein Problem. Hat die Firma das Auto auf Kredit gekauft, ist das ihr Vertrag, nicht deiner."],
-                      },
-                      {
-                        schluessel: "ohne-zins",
-                        werte: ["Also ist Leasing ohne Zins halal?", "Nein. Kein Zins heißt nicht halal. Es zählen Haftung und Kosten."],
-                      },
-                      {
-                        schluessel: "hersteller",
-                        werte: ["Sind Hersteller besser als Leasingfirmen?", "Die Verträge der Hersteller sind oft fairer. Die Klausel zur Haftung steht trotzdem drin."],
-                      },
-                    ]}
-                  />
                   <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" />
                 </section>
 
@@ -726,19 +710,21 @@ const IstLeasingHaram = () => {
                   <Ueber id="auto-abo" />
                   <Text>
                     <p>
-                      Ja, vom Aufbau her ist das Auto-Abo die halal Form des Leasings. Das Auto ist auf den Anbieter angemeldet. Er zahlt Versicherung, Steuer,
-                      Wartung und Reparaturen. Du zahlst die Rate und den Sprit oder Strom.
+                      Ja, vom Aufbau her ist das Auto-Abo die halal Form des Leasings. Du zahlst die Rate und bekommst das Auto. Versicherung, Steuer,
+                      Wartung und Reparaturen bleiben beim Anbieter, er rechnet sie in deine Rate ein.
                     </p>
                   </Text>
-                  <KartenTabelle
-                    kopf={["Kosten", "Wer zahlt im Auto-Abo"]}
-                    zeilen={[
-                      { schluessel: "fix", werte: ["Versicherung, Steuer, Wartung, Reparaturen", "Der Anbieter, eingerechnet in deine Rate"] },
-                      { schluessel: "sprit", werte: ["Sprit oder Strom", "Du, das ist deine Nutzung"] },
-                      { schluessel: "schaden", werte: ["Schaden mit Absicht oder grob fahrlässig", "Du, weil du ihn verursacht hast"] },
-                    ]}
+                  <Tauschbild
+                    anbieter="Abo-Anbieter"
+                    beiDir={false}
+                    pflichten={["Haftung bei Schaden", "Versicherung", "Steuer und Wartung"]}
+                    notiz="In deiner Rate schon drin"
                   />
                   <Text>
+                    <p>
+                      Du zahlst nur, was du selbst verbrauchst oder verursachst: Sprit oder Strom und einen Schaden, den du mit Absicht oder grob
+                      fahrlässig baust.
+                    </p>
                     <p>
                       Nicht jedes Auto-Abo ist automatisch halal. Geh vor der Unterschrift die fünf Punkte von oben durch, vor allem: Wer zahlt bei einem
                       Schaden, den du nicht verursacht hast, und was kostet es, wenn du zu spät zahlst?
@@ -750,31 +736,16 @@ const IstLeasingHaram = () => {
                   <Ueber id="kosten" />
                   <Text>
                     <p>
-                      Die Abo-Rate ist höher als die Leasingrate. Rechnet man Versicherung, Steuer und Werkstatt dazu, dreht sich das Bild. Wir haben es für
-                      den Hyundai IONIQ 5 nachgerechnet.
+                      Das Auto-Abo kostet dich mehr. Beim Hyundai IONIQ 5 sind es {euro(IONIQ.abo)} im Monat im Abo gegen {euro(IONIQ.leasing)} Leasingrate.
+                      Beim Leasing kommen aber noch {euro(IONIQ.anzahlung)} Anzahlung, Versicherung, Steuer und Werkstatt dazu, im Abo ist das schon drin.
                     </p>
-                  </Text>
-                  <Tabelle
-                    kopf={[{ titel: "Weg" }, { titel: "Ein Jahr", rechts: true }, { titel: "Drin", text: true }]}
-                    wischen
-                    zeilen={[
-                      { schluessel: "abo", name: "Auto-Abo", unter: <Marke ton="gruen">geht mit Prüfung</Marke>, zellen: [euro(IONIQ_JAHR.abo), "12 Raten zu 602 €, alles drin außer Strom"] },
-                      {
-                        schluessel: "leasing",
-                        name: "Leasing",
-                        unter: <Marke ton="rot">fällt weg</Marke>,
-                        zellen: [euro(IONIQ_JAHR.leasing), "12 Raten zu 399 €, ein Viertel der Anzahlung von 4.000 €, Versicherung, Steuer, Werkstatt"],
-                      },
-                      { schluessel: "bar", name: "Bar kaufen", unter: <Marke ton="gruen">klar erlaubt</Marke>, zellen: [euro(IONIQ_JAHR.bar), "Wertverlust, Versicherung, Steuer, Werkstatt"] },
-                    ]}
-                    quelle="Abo: MOCEAN, 12 Monate, 1.000 km im Monat. Leasing: Beispiel der Hyundai Finance, 48 Monate. Beide abgerufen am 05.11.2026. Laufende Kosten und Wertverlust: ADAC Autokosten, 10.000 km im Jahr, abgerufen am 27.09.2026. Strom ist bei allen drei gleich und fehlt."
-                  />
-                  <Text>
                     <p>
-                      In diesem Beispiel ist das Abo im Jahr {euro(IONIQ_JAHR.leasing - IONIQ_JAHR.abo)} günstiger als Leasing. Wer ein Auto viele Jahre
-                      fährt, kann mit dem Barkauf vorne liegen.
+                      Unterm Strich zahlst du für das Abo etwa 50 bis 100&nbsp;€ mehr im Monat. Dafür trägst du kein Risiko für ein Auto, das dir nicht gehört.
                     </p>
                   </Text>
+                  <p className="mt-3 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">
+                    Abo: MOCEAN, 12 Monate, 1.000 km im Monat. Leasing: Beispiel der Hyundai Finance, 48 Monate. Beide abgerufen am 05.11.2026.
+                  </p>
                 </section>
 
                 <AutorAufruf
@@ -788,41 +759,21 @@ const IstLeasingHaram = () => {
 
                 <section className="mt-14">
                   <Ueber id="restwert" />
-                  <KartenTabelle
-                    kopf={["Was", "Wie es aussieht"]}
-                    zeilen={[
-                      {
-                        schluessel: "restwert",
-                        werte: [
-                          <>
-                            <Marke ton="rot">fällt weg</Marke>
-                            <span className="mt-1.5 block">Nachzahlung für den Restwert</span>
-                          </>,
-                          "Steht so eine Klausel drin, fällt der Vertrag durch, siehe Punkt 5 oben.",
-                        ],
-                      },
-                      {
-                        schluessel: "ballon",
-                        werte: [
-                          <>
-                            <Marke ton="rot">fällt weg</Marke>
-                            <span className="mt-1.5 block">Ballonfinanzierung</span>
-                          </>,
-                          "Anzahlung, kleine Raten, am Ende eine große Ablösesumme. Das ist kein Leasing, sondern ein Kredit. Ein Auto über eine Bank zu finanzieren, ob über deine Bank oder die Bank des Herstellers, ist haram.",
-                        ],
-                      },
-                      {
-                        schluessel: "kauf",
-                        werte: [
-                          <>
-                            <Marke ton="gelb">je nach Vertrag</Marke>
-                            <span className="mt-1.5 block">Leasing mit Kauf am Ende</span>
-                          </>,
-                          "Hier wirst du am Ende Eigentümer. Läuft der Kauf über eine Bank, ist es eine Finanzierung mit Zins.",
-                        ],
-                      },
-                    ]}
-                  />
+                  <Text>
+                    <p>
+                      <strong className="font-semibold text-foreground">Nachzahlung für den Restwert.</strong> Steht so eine Klausel drin, fällt der Vertrag
+                      durch, siehe Punkt 5 oben.
+                    </p>
+                    <p>
+                      <strong className="font-semibold text-foreground">Ballonfinanzierung.</strong> Anzahlung, kleine Raten, am Ende eine große
+                      Ablösesumme. Das ist kein Leasing, sondern ein Kredit. Ein Auto über eine Bank zu finanzieren, ob über deine Bank oder die Bank des
+                      Herstellers, ist haram.
+                    </p>
+                    <p>
+                      <strong className="font-semibold text-foreground">Leasing mit Kauf am Ende.</strong> Hier wirst du am Ende Eigentümer. Läuft der Kauf
+                      über eine Bank, ist es eine Finanzierung mit Zins.
+                    </p>
+                  </Text>
                 </section>
 
                 <section className="mt-14">
