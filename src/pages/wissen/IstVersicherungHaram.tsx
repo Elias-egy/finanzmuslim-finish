@@ -193,7 +193,7 @@ const ANBIETER = DREIER.map((d) => ({
 }));
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
-  { lead: "Gemeinsam absichern unterstützt der Islam.", text: "Den Gedanken gab es schon zur Zeit des Propheten." },
+  { lead: "Zusammenhalt unterstützt der Islam.", text: "Gegenseitige Hilfe bei Schäden kannten die Menschen schon zur Zeit des Propheten." },
   {
     lead: "Die übliche Versicherung ist ein Kauf.",
     text: "Du zahlst Geld für ein Versprechen, das vielleicht nie eingelöst wird. Darum sieht die große Mehrheit der Gelehrten sie als haram.",
@@ -207,7 +207,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind alle Versicherungen haram?",
     antwort:
-      "Nein. Erlaubt ist eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau, in Deutschland gibt es sie 2026 nicht. Pflicht ist ausgenommen. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
+      "Nein. Erlaubt ist eine Versicherung auf Gegenseitigkeit mit richtigem Aufbau. In Deutschland gibt es sie nur sehr vereinzelt, etwa als Sterbekasse in einem Verein; ob der Aufbau stimmt, klärst du mit einem Gelehrten. Pflicht ist ausgenommen. Freiwillige sieht die große Mehrheit der Gelehrten als haram, außer in einer Notlage.",
   },
   {
     frage: "Warum ist eine Versicherung haram?",
@@ -237,7 +237,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Was ist Takaful?",
     antwort:
-      "Eine Versicherung auf Gegenseitigkeit: Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. In Deutschland gibt es sie 2026 nicht.",
+      "Eine Versicherung auf Gegenseitigkeit: Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Ein Takaful-Angebot gab es Anfang 2026 in Deutschland nicht.",
   },
   {
     frage: "In meinem Vereinsbeitrag steckt eine Versicherung. Ist das ein Problem?",
@@ -711,7 +711,7 @@ const IstVersicherungHaram = () => {
                       zurückkommt, weiß keiner.
                     </p>
                     <p>
-                      Beide kommen zum selben Ergebnis, haram. Gelehrte sagen das seit fast 400 Jahren, und Gelehrtenräte sind zum selben Ergebnis gekommen. Wichtig wird der Unterschied erst bei den
+                      Beide kommen zum selben Ergebnis, haram. Gelehrte sagen das seit fast 400 Jahren, und auch Gelehrtenräte kamen darauf. Wichtig wird der Unterschied erst bei den
                       Ausnahmen weiter unten.
                     </p>
                   </Text>
@@ -751,18 +751,19 @@ const IstVersicherungHaram = () => {
                   <Ueber id="notfall" />
                   <Text>
                     <p>
-                      Nur in einer Notlage, und ob eine vorliegt, sagt dir ein Gelehrter. Fragen solltest du ihn, wenn ein Schaden absehbar ist, den du
+                      <Fett>Nur in einer Notlage, und ob eine vorliegt, sagt dir ein Gelehrter.</Fett> Fragen solltest du ihn, wenn ein Schaden absehbar ist, den du
                       selbst nicht tragen könntest.
                     </p>
                     <p>
                       <Fett>Vollkasko.</Fett> Nie durch eine Notlage gedeckt.
                     </p>
                     <p>
-                      <Fett>Teilkasko.</Fett> Kann eine Notlage sein, weil sie Diebstahl, Vandalismus und Hagel abdeckt.
+                      <Fett>Teilkasko.</Fett> Kann eine Notlage sein, weil sie Diebstahl, Vandalismus und Hagel abdeckt. Etwa wenn du ein gestohlenes
+                      Auto nicht einfach ersetzen könntest und dann keins mehr hättest.
                     </p>
                     <p>
                       Gelehrte, die darin Geld gegen mehr Geld sehen, erlauben sie nur in echter Not. Wer sie als Vertrag voller Unbekannter sieht, lässt
-                      schon eine Dringlichkeit gelten.
+                      schon eine Dringlichkeit gelten, also eine Lage wie bei der Teilkasko oben.
                     </p>
                   </Text>
                 </section>
@@ -808,8 +809,8 @@ const IstVersicherungHaram = () => {
                   <Ueber id="beigabe" />
                   <Text>
                     <p>
-                      Ja, wenn du wegen der Sache beitrittst. Im Mieterbund steckt oft ein Rechtsschutz, in der Gewerkschaft auch, und beim Paket kannst du
-                      eine Versicherung dazunehmen.
+                      Ja, wenn du wegen der Sache beitrittst. Im Mieterbund steckt oft ein Rechtsschutz, in der Gewerkschaft auch. Beim Paket gilt dasselbe,
+                      solange dein Ziel nicht die Versicherung ist.
                     </p>
                     <p>Trittst du bei, um an die Versicherung zu kommen, ist es dieselbe Sünde wie ein Abschluss.</p>
                   </Text>
@@ -819,14 +820,14 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      Takaful ist die islamkonforme Form der Versicherung. Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus
+                      Takaful ist die Versicherung auf Gegenseitigkeit, wie sie das islamische Recht kennt. Mit richtigem Aufbau ist sie islamkonform. Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus
                       etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
                     </p>
                   </Text>
                   <Topfbild />
                   <Text>
                     <p>
-                      In Deutschland gibt es 2026 kein Takaful. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018
+                      Anfang 2026 gab es in Deutschland kein Takaful. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018
                       aufgehört, weil kaum jemand sie wollte. Große Versicherer bieten Takaful nur im Ausland an.
                     </p>
                     <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst ein Polster hat, braucht sie für vieles gar nicht.</p>
