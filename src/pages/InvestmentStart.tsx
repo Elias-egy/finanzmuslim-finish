@@ -14,7 +14,6 @@ import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
 import { istGueltigeQuelle } from "@/lib/attribution";
-import { direktLink, ohneZwischenseite } from "@/lib/direktLink";
 
 /**
  * Startseite je Partner: /dein-investmentstart (Scalable) und
@@ -712,23 +711,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   );
 };
 
-/** Alte Links auf eine Startseite ohne Video (ManyChat, Mails) gehen ebenfalls direkt zum Anbieter. */
-const DirektZumAnbieter = ({ partner }: { partner: StartPartner }) => {
-  useEffect(() => {
-    ereignis("partner_klick", { anbieter: partner.kurzname, weg: "direkt" });
-    window.location.replace(direktLink(partner, window.location.search));
-  }, [partner]);
-  return <div className="min-h-[50vh] bg-background" aria-hidden />;
-};
-
 const InvestmentStart = () => {
   const { partner: kurzname } = useParams();
   const partner = findStartPartner(kurzname);
   if (!partner || (kurzname && kurzname === "scalable")) return <Navigate to="/dein-investmentstart" replace />;
-  // Beim Vorrendern (Puppeteer, navigator.webdriver) nicht weiterleiten, sonst bricht der Bau ab; im Browser springt die
-  // Seite sofort zum Anbieter. Auf dem statischen Hoster läuft /out/<kurzname> über diese Seite.
-  const vorrendern = typeof navigator !== "undefined" && navigator.webdriver;
-  if (ohneZwischenseite(partner) && !vorrendern) return <DirektZumAnbieter partner={partner} />;
   return <InvestmentStartSeite key={partner.kurzname} partner={partner} />;
 };
 

@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { findPartnerLink } from "@/data/partnerLinks";
-import { findStartPartner } from "@/data/investmentStart";
-import { direktLink, ohneZwischenseite } from "@/lib/direktLink";
 import { ereignis, vorigeSeite } from "@/lib/messung";
 
 /** Zentrale Weiterleitung fuer Partnerlinks: /out/:kurzname */
@@ -16,13 +14,6 @@ const Out = () => {
 
   useEffect(() => {
     if (!eintrag || !eintrag.aktiv) return;
-    // Ohne Video keine Zwischenseite: direkt zum Anbieter (src/lib/direktLink.ts).
-    const start = findStartPartner(kurzname);
-    if (start && ohneZwischenseite(start)) {
-      ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "direkt", von: vorigeSeite() });
-      window.location.replace(direktLink(start, search));
-      return;
-    }
     // Klick zum Partner: welcher Anbieter, von welcher Seite (die Seite davor, über den Router).
     ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", von: vorigeSeite() });
     const extern = /^https?:\/\//i.test(eintrag.ziel);

@@ -3,8 +3,8 @@ import { SRC_STORAGE_KEY, istGueltigeQuelle } from "@/lib/attribution";
 
 /**
  * Zwischenseite nur, wo ein Video ist (Elias, 05.11.2026, H16: „Die Zwischenseite generell raus bei überall, wo kein
- * Video ist … Bei Depot gucken wir noch“). Depots behalten ihre Startseite mit Video, alle anderen Arten (Girokonto,
- * Krypto, Steuer, App) gehen von /out/<kurzname> direkt auf den Affiliate-Link.
+ * Video ist … Bei Depot gucken wir noch“). Seit 06.11.2026 („Lass das erstmal weg, dass du das bei jeder Webseite
+ * entfernst“) nutzt nur /vorlagen/girokonto-bonus den Direktlink; /out/<kurzname> bleibt wie vorher.
  */
 export const ohneZwischenseite = (partner: StartPartner): boolean => partner.art !== "depot";
 

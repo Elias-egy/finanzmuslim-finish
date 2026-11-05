@@ -5,6 +5,9 @@ import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { BBBANK_PRAEMIE, BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } from "@/data/girokontoBonus";
+import { findStartPartner } from "@/data/investmentStart";
+import { direktLink } from "@/lib/direktLink";
+import { ereignis } from "@/lib/messung";
 
 /**
  * /vorlagen/girokonto-bonus: das Girokonto-Freebie als offene Unterseite (Elias, 05.11.2026, H15 5c). Leser kommen über
@@ -15,7 +18,15 @@ import { BBBANK_PRAEMIE, BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } 
  */
 const [bbbank, norisbank, consorsbank] = BONUS_KONTEN;
 
-const link = (out: string, stelle: string) => `/out/${out}?src=${stelle}`;
+/**
+ * Knöpfe direkt auf den Affiliate-Link, ohne Zwischenseite (Elias, 05.11.2026: „direkt auf den Affiliate-Link …
+ * Genauso auch hier“; 06.11.2026: „von da aus kommst du auf alle drei Girokonten wenn du auf den Knopf drückst“).
+ * Link und SubID wie auf der Startseite (`src/lib/direktLink.ts`), Fallback /out/<kurzname>.
+ */
+const link = (out: string, stelle: string) => {
+  const start = findStartPartner(out);
+  return start ? direktLink(start, `?src=${stelle}`) : `/out/${out}?src=${stelle}`;
+};
 
 const Werbung = () => <span className="text-[12px] text-muted-foreground">Werbung</span>;
 
@@ -35,11 +46,21 @@ const Pille = ({ children }: { children: ReactNode }) => (
   </li>
 );
 
-const Knopf = ({ to, children }: { to: string; children: ReactNode }) => (
-  <Link to={to} className="btn-spark w-full sm:w-auto">
-    {children}
-  </Link>
-);
+const Knopf = ({ to, children }: { to: string; children: ReactNode }) =>
+  to.startsWith("http") ? (
+    <a
+      href={to}
+      rel="sponsored noopener"
+      className="btn-spark w-full sm:w-auto"
+      onClick={() => ereignis("partner_klick", { anbieter: new URL(to).hostname, weg: "direkt", von: "girokonto-bonus" })}
+    >
+      {children}
+    </a>
+  ) : (
+    <Link to={to} className="btn-spark w-full sm:w-auto">
+      {children}
+    </Link>
+  );
 
 const Zelle = ({ children, fett }: { children: ReactNode; fett?: boolean }) => (
   <td className={`px-2 py-3 text-center align-middle text-[16px] leading-tight ${fett ? "font-extrabold text-foreground" : "text-foreground"}`}>
