@@ -1,16 +1,16 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Check, ChevronDown } from "lucide-react";
+import { ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursStand } from "@/lib/kurse";
 import { PLATZ1, polster, zahlAus } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
-import { GIRO_TOP2 } from "@/data/giroTop2";
+import { BBBANK_PRAEMIE, BONUS_KONTEN } from "@/data/girokontoBonus";
+import { girokontoAnzeige } from "@/data/vergleichAnzeige";
 import {
   AnbieterKasten,
-  AutorAufruf,
   BIO,
   Etikett,
   euro,
@@ -28,6 +28,7 @@ import {
   PROFILE,
   Seitenleiste,
   SITE,
+  Tabelle,
   Text,
   TL,
   useAktiv,
@@ -43,26 +44,26 @@ import {
  */
 
 const PFAD = "/blog/ist-versicherung-haram";
-const TITEL = "Sind Versicherungen haram? 10 Versicherungen eingeordnet";
-/** Title-Tag unter 65 Zeichen mit „| finanzmuslim“, damit Google ihn nicht abschneidet; H1 bleibt TITEL. */
-const SEO_TITEL = "Sind Versicherungen haram? 10 Arten eingeordnet";
+/** Elias SEO63: ein Titel mit Hauptbegriff, Jahr und Versprechen wie frontal „Best GTM Agency in 2026: The Buyer's Shortlist“, kein zählender Satz. */
+const TITEL = "Sind Versicherungen haram? Der komplette Guide 2026";
+/** Title-Tag ohne „| finanzmuslim“: mit Zusatz 66 Zeichen, so 51 und unter 60 (Prüfzeile S052-A07-04). */
+const SEO_TITEL = TITEL;
 const META =
-  "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. 10 Versicherungen eingeordnet, dazu Takaful und ein Rechner.";
+  "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. Was bei Kfz, Leben und Berufsunfähigkeit gilt, mit Rechner.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
-const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
+const AKTUALISIERT = { text: "06.11.2026", iso: "2026-11-06T09:00:00+01:00" };
 const LESEZEIT = 9;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
-/** Elias SEO60: „Polster“ sagt zu wenig, „deine Ersparnisse halal anlegen“. Der Knopf in der Seitenleiste und im Aufruf mit Foto; der Kopf trägt kurz „Halal vorsorgen“ (SiteHeader.tsx, KOPF_ZIEL). */
-const KNOPF = "Ersparnisse halal anlegen";
 /** Elias SEO62: in der Laptop-Leiste kurz „Halal anlegen“, einzeilig wie die anderen Beiträge. */
 
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
-  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
-  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
+  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. Elias SEO63: wie frontal „Quick Compare“ gleich unter dem Kopf. */
   { id: "kurzer-vergleich", titel: "10 Versicherungen auf einen Blick", leiste: true, kurz: "10 Versicherungen" },
+  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  { id: "uebersicht", titel: "Pflicht oder freiwillig? Die Übersicht", leiste: true, kurz: "Pflicht oder freiwillig" },
   { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
   { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit ausgenommen?", leiste: true, kurz: "Pflichtversicherungen" },
   { id: "rechner", titel: "Beitrag oder Halal Investments: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Halal Investments" },
@@ -86,9 +87,11 @@ const Ueber = ({ id }: { id: string }) => <H2 id={id}>{titelVon(id)}</H2>;
 type Ton = "gruen" | "gelb" | "rot";
 
 /** Zehn Versicherungen, Etiketten nach STATION-BEITRAG.md (SEO48-04). Einordnung wie in den Abschnitten unten. */
-const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: string; tun: string; ziel: string }[] = [
+/** `pflicht` ist die Spalte der Tabelle unter Das Wichtigste (STATION-BEITRAG Station 8), Wortlaut aus dem Abschnitt „pflicht“. */
+const ARTEN: { art: string; pflicht: string; marke: string; ton: Ton; besonders: string; warum: string; tun: string; ziel: string }[] = [
   {
     art: "Kranken- und Pflegeversicherung",
+    pflicht: "Pflicht für jeden",
     marke: "Pflicht, ausgenommen",
     ton: "gruen",
     besonders: "Gesetzlich vorgeschrieben",
@@ -98,6 +101,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Kfz-Haftpflicht",
+    pflicht: "Pflicht mit Auto",
     marke: "Pflicht, ausgenommen",
     ton: "gruen",
     besonders: "Ohne sie fährst du nicht",
@@ -107,6 +111,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Berufshaftpflicht",
+    pflicht: "Pflicht je nach Beruf",
     marke: "Pflicht, ausgenommen",
     ton: "gruen",
     besonders: "Wo dein Beruf sie verlangt",
@@ -116,6 +121,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Versicherung im Vereinsbeitrag",
+    pflicht: "freiwillig",
     marke: "geht",
     ton: "gruen",
     besonders: "Mieterbund, Gewerkschaft, Paket",
@@ -125,6 +131,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Teilkasko",
+    pflicht: "freiwillig",
     marke: "je nach Lage",
     ton: "gelb",
     besonders: "Diebstahl, Hagel, Vandalismus",
@@ -134,6 +141,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Vollkasko",
+    pflicht: "freiwillig",
     marke: "fällt weg",
     ton: "rot",
     besonders: "Schäden am eigenen Auto",
@@ -143,6 +151,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Private Haftpflicht",
+    pflicht: "freiwillig",
     marke: "nur in Notlage",
     ton: "rot",
     besonders: "Freiwillig, der Schaden kann groß sein",
@@ -152,6 +161,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Berufsunfähigkeit",
+    pflicht: "freiwillig",
     marke: "nur in Notlage",
     ton: "rot",
     besonders: "Bringt Maklern die höchste Provision",
@@ -161,6 +171,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Lebensversicherung",
+    pflicht: "freiwillig",
     marke: "nur in Notlage",
     ton: "rot",
     besonders: "Geld gegen mehr Geld",
@@ -170,6 +181,7 @@ const ARTEN: { art: string; marke: string; ton: Ton; besonders: string; warum: s
   },
   {
     art: "Zahnzusatz, Handy, Rechtsschutz",
+    pflicht: "freiwillig",
     marke: "nur in Notlage",
     ton: "rot",
     besonders: "Alles, was du freiwillig dazukaufst",
@@ -195,23 +207,30 @@ const ANBIETER = DREIER.map((d) => ({
   ],
 }));
 
-const kontoKurz = (w: string) =>
-  /^0 €/.test(w) ? `0 € mit Geldeingang oder unter ${w.match(/unter (\d+)/)?.[1] ?? "30"} Jahren` : w;
-
-/** Elias SEO60: „Girokonten ohne Zinsfalle … und dann halt meine Top zwei Girokonten gleich dazu“; Reihenfolge und Zeilen aus dem Girokonto-Vergleich. */
-const GIROS = GIRO_TOP2.map((g) => ({
-  name: g.name,
-  domain: g.domain,
-  out: g.link,
-  // Halal-Prüfer SEO61 r6 MUSS 1: Zum BBBank BetterSmart Konto gehört ein Tagesgeldkonto (investmentStart.ts „Lass es leer“).
-  // Seiten-Prüfer SEO61 r6 SOLLTE 1: Kontoführung kurz und mit „Jahren“, die Bedingungen stehen im Vergleich.
-  // Halal-Prüfer SEO61 r6 SOLLTE 1: Dispo und geduldetes Minus kosten Zinsen (investmentStart.ts Z. 1080, Z. 1419).
-  zeilen: [
-    ...g.punkte.filter((p) => p.ok).map((p) => (p.wert ? `${p.text} ${kontoKurz(p.wert)}` : p.text)),
-    ...(g.id.includes("bbbank") ? ["Tagesgeld dabei: leer lassen"] : []),
-    "Nie ins Minus: das kostet Zinsen",
-  ],
-}));
+/**
+ * Elias SEO63: die Girokonten an die Stelle des Aufrufs „Ein Schutz, der dir gehört“, mit „Starte mit 50 € bei der BBBank“,
+ * klein grün die Startprämie, norisbank statt Consorsbank (Vault raw/2026-11-06-elias-seo63-versicherung-wie-frontal-girokonten-50-euro.md).
+ * Konten und Prämie aus girokontoBonus.ts, die Halal-Zeilen aus dem Girokonto-Vergleich. Kein Kleingedrucktes (Elias SEO63).
+ */
+const GIROS = BONUS_KONTEN.filter((k) => k.id !== "consorsbank-girokonto").map((k) => {
+  const w = (girokontoAnzeige.find((a) => a.id === k.id)?.werte ?? {}) as Record<string, unknown>;
+  return {
+    name: k.name,
+    domain: k.domain,
+    out: `/out/${k.out}`,
+    hinweis: k.id === "bbbank-bettersmart" ? `${BBBANK_PRAEMIE.betrag}\u00a0€ Startprämie` : undefined,
+    zeilen: [
+      ...(w.zinsfreiAbStart === "gut" ? ["Guthaben ohne Zinsen"] : []),
+      ...(w.keinDispoAbStart === "gut" ? ["Kein Dispo ab Start"] : []),
+      ...(w.karteOhneKredit === "gut" ? ["Karte ohne Kredit"] : []),
+      `Kontoführung 0\u00a0€ mit Geldeingang oder unter ${k.gratisUnter} Jahren`,
+      // Halal-Prüfer SEO61 r6 MUSS 1: zu beiden Konten gehört ein Tagesgeldkonto (girokontoBonus.ts Beleg zinsen; Elias 05.11.: „Leeres Tagesgeld ist okay“).
+      "Tagesgeld dabei: leer lassen",
+      // Halal-Prüfer SEO61 r6 SOLLTE 1: Dispo und geduldetes Minus kosten Zinsen.
+      "Nie ins Minus: das kostet Zinsen",
+    ],
+  };
+});
 
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   { lead: "Zusammenhalt unterstützt der Islam.", text: "Gegenseitige Hilfe bei Schäden kannten die Menschen schon zur Zeit des Propheten ﷺ." },
@@ -572,7 +591,7 @@ const IstVersicherungHaram = () => {
 
   return (
     <main className="bg-background">
-      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
+      <Seo title={SEO_TITEL} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           <Seitenleiste
@@ -594,21 +613,9 @@ const IstVersicherungHaram = () => {
             </nav>
 
             <article className="mt-8">
-              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">
-                <span className="block">Sind Versicherungen haram?</span> <span className="block">10 Versicherungen eingeordnet</span>
-              </h1>
-              <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
-                Für die große Mehrheit der Gelehrten sind freiwillige Versicherungen haram, auch wenn sie finanziell Sinn machen können. Pflicht ist
-                ausgenommen.
-              </p>
-              <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["10 Versicherungen eingeordnet", "Pflicht oder freiwillig", "Rechner: Beitrag oder Halal Investments"].map((h) => (
-                  <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
-                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    {h}
-                  </li>
-                ))}
-              </ul>
+              {/* Elias SEO63 „Halte dich immer wieder an dem Vergleich“: Kopf wie frontal.so/blog/best-gtm-agencies, gemessen 06.11.
+                  bei 390 und 1440 (32,8 und 42 px, Zeilenhöhe 1,07, Laufweite −0,03 em): ein Titel, Autorzeile, gleich der Kurzvergleich. */}
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.07] tracking-[-0.03em] text-foreground [text-wrap:balance] md:text-[42px]">{TITEL}</h1>
               <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
@@ -628,7 +635,30 @@ const IstVersicherungHaram = () => {
                 </div>
               </div>
 
-              <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
+              <div className="mt-8">
+                <KartenReihe etikett="Kurzer Vergleich" titel="10 Versicherungen auf einen Blick" anzahl={ARTEN.length}>
+                  {ARTEN.map((a, i) => (
+                    <Karte key={a.art} nummer={i + 1} kopf={a.art} erste={i === 0}>
+                      <Marke ton={a.ton}>{a.marke}</Marke>
+                      <Etikett className="mt-4">Besonders</Etikett>
+                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{a.besonders}</p>
+                      <Etikett className="mt-4">Warum</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{a.warum}</p>
+                      <Etikett className="mt-3">Was tun</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{a.tun}</p>
+                      <a
+                        href={`#${a.ziel}`}
+                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                      >
+                        Zum Abschnitt
+                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                      </a>
+                    </Karte>
+                  ))}
+                </KartenReihe>
+              </div>
+
+              <nav aria-label="Auf dieser Seite" className="mt-10 border-y border-border xl:hidden">
                 <button
                   type="button"
                   onClick={() => setOffen((v) => !v)}
@@ -668,31 +698,24 @@ const IstVersicherungHaram = () => {
                   </ul>
                 </section>
 
+                <section className="mt-14">
+                  <Ueber id="uebersicht" />
+                  <Text>
+                    <p>Pflicht sind nur die Kranken- und Pflegeversicherung, mit Auto die Kfz-Haftpflicht und in manchen Berufen die Berufshaftpflicht. Alles andere schließt du freiwillig ab.</p>
+                  </Text>
+                  <Tabelle
+                    kopf={[{ titel: "Versicherung" }, { titel: "Einordnung", eng: true }]}
+                    zeilen={ARTEN.map((a) => ({
+                      schluessel: a.art,
+                      name: <a href={`#${a.ziel}`} className="underline decoration-border underline-offset-[3px] hover:text-primary">{a.art}</a>,
+                      unter: a.pflicht,
+                      zellen: [<Marke key="m" ton={a.ton}>{a.marke}</Marke>],
+                    }))}
+                  />
+                </section>
+
                 {/* Rechner und erste Werbung erst nach den Kernfragen, bei etwa einem Drittel (Elias SEO55) */}
                 <GoogleKasten />
-
-                <div className="mt-7">
-                  <KartenReihe etikett="Kurzer Vergleich" titel="10 Versicherungen auf einen Blick" anzahl={ARTEN.length}>
-                    {ARTEN.map((a, i) => (
-                      <Karte key={a.art} nummer={i + 1} kopf={a.art} erste={i === 0}>
-                        <Marke ton={a.ton}>{a.marke}</Marke>
-                        <Etikett className="mt-4">Besonders</Etikett>
-                        <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{a.besonders}</p>
-                        <Etikett className="mt-4">Warum</Etikett>
-                        <p className="mt-1 text-[15px] leading-snug text-foreground">{a.warum}</p>
-                        <Etikett className="mt-3">Was tun</Etikett>
-                        <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{a.tun}</p>
-                        <a
-                          href={`#${a.ziel}`}
-                          className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
-                        >
-                          Zum Abschnitt
-                          <ArrowDown className="h-3.5 w-3.5" aria-hidden />
-                        </a>
-                      </Karte>
-                    ))}
-                  </KartenReihe>
-                </div>
 
                 <section className="mt-14">
                   <Ueber id="warum" />
@@ -749,8 +772,6 @@ const IstVersicherungHaram = () => {
 
                 <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
 
-                <AnbieterKasten titel="Girokonten ohne Zinsfalle" anbieter={GIROS} />
-
                 <section className="mt-14">
                   <Ueber id="notfall" />
                   <Kernsatz>Nur in einer Notlage, und ob eine vorliegt, sagt dir ein Gelehrter.</Kernsatz>
@@ -798,14 +819,8 @@ const IstVersicherungHaram = () => {
                   </Text>
                 </section>
 
-                <AutorAufruf
-                  bild={eliasPortrait}
-                  etikett="Ersparnisse statt Police"
-                  titel="Ein Schutz, der dir gehört"
-                  text="Ich habe die Sachkundeprüfung für Versicherungen abgelegt und kenne die Verträge. Ein Sparplan auf einen Halal ETF schützt dich anders: Das Geld bleibt deins, auch wenn nichts passiert. Im Vergleich siehst du, welches Depot passt."
-                  ziel="/vergleich/depot"
-                  knopf={KNOPF}
-                />
+                {/* Elias SEO63: an dieser Stelle die Girokonten statt „Ein Schutz, der dir gehört“ */}
+                <AnbieterKasten titel={`Starte mit ${BBBANK_PRAEMIE.betrag}\u00a0€ bei der BBBank`} anbieter={GIROS} />
 
                 <section className="mt-14">
                   <Ueber id="beigabe" />
@@ -939,7 +954,7 @@ const IstVersicherungHaram = () => {
 
                 <footer className="mt-8">
                   <p className="text-[13px] leading-relaxed text-muted-foreground">
-                    * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
+                    * Werbung: Eröffnest du über meinen Link ein Depot oder Konto, bekomme ich eine Provision, ohne Mehrkosten für dich.
                   </p>
                   <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
                 </footer>

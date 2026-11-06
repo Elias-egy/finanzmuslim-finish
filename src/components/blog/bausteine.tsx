@@ -75,7 +75,8 @@ export const Marke = ({ children, ton = "blau" }: { children: ReactNode; ton?: "
  * Tabelle wie halalwallet (Elias SEO47): auch am Handy eine echte Tabelle, Name links fest, jede Zahl in einer Zeile,
  * breite Tabellen wischt man seitlich. Spalten mit `text` sind Sätze und dürfen umbrechen.
  */
-export type Spalte = { titel: string; zusatz?: string; rechts?: boolean; text?: boolean };
+/** `eng`: Inhalt bricht am Handy bei 120 px um (Etiketten wie Marke), damit zwei Spalten ab 360 ohne Wischen passen; die Tabelle ist w-max. */
+export type Spalte = { titel: string; zusatz?: string; rechts?: boolean; text?: boolean; eng?: boolean };
 export type Zeile = { schluessel: string; name: ReactNode; unter?: ReactNode; zellen: ReactNode[] };
 /** `wischen` zeigt den Wischhinweis am Handy auch bei drei Spalten, wenn eine Satzspalte rechts aus dem Rahmen läuft. */
 export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zeilen: Zeile[]; quelle?: ReactNode; wischen?: boolean }) => (
@@ -112,10 +113,10 @@ export const Tabelle = ({ kopf, zeilen, quelle, wischen }: { kopf: Spalte[]; zei
                 <td
                   key={kopf[i + 1]?.titel ?? i}
                   className={`px-3 py-3 align-middle text-foreground/85 sm:px-4 ${
-                    kopf[i + 1]?.text ? "min-w-[200px] max-w-[260px] leading-snug" : "whitespace-nowrap tabular-nums"
+                    kopf[i + 1]?.text ? "min-w-[200px] max-w-[260px] leading-snug" : kopf[i + 1]?.eng ? "leading-snug" : "whitespace-nowrap tabular-nums"
                   } ${kopf[i + 1]?.rechts ? "text-right" : ""}`}
                 >
-                  {c}
+                  {kopf[i + 1]?.eng ? <div className="max-w-[120px] sm:max-w-none">{c}</div> : c}
                 </td>
               ))}
             </tr>
@@ -329,7 +330,8 @@ export const Video = ({ id, titel, bild }: { id: string; titel: string; bild?: s
 
 /** Drei Anbieter untereinander wie „Depots für deine Halal ETFs“: links Häkchen-Zeilen, rechts Logo und Knopf. */
 /** Ohne `logo` lädt das runde Logo über die Domain wie in den Vergleichen (AnbieterLogo). */
-export type Anbieter = { name: string; logo?: string; domain?: string; out: string; zeilen: string[] };
+/** `hinweis` ist ein kleiner grüner Zusatz neben dem Namen, der zieht (Elias SEO63: BBBank „50 € Startprämie“, nicht „Angebot“). */
+export type Anbieter = { name: string; logo?: string; domain?: string; out: string; zeilen: string[]; hinweis?: string };
 export const AnbieterKasten = ({ titel, anbieter }: { titel: string; anbieter: Anbieter[] }) => (
   <aside aria-label={titel} className="mt-12">
     <div className="flex items-start justify-between gap-3">
@@ -340,7 +342,10 @@ export const AnbieterKasten = ({ titel, anbieter }: { titel: string; anbieter: A
       {anbieter.map((d) => (
         <div key={d.name} className="border border-border bg-card p-5 sm:grid sm:grid-cols-[minmax(0,1fr)_180px] sm:gap-6">
           <div>
-            <p className="text-[19px] font-bold text-foreground">{d.name}</p>
+            <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[19px] font-bold text-foreground">
+              {d.name}
+              {d.hinweis && <span className="border border-gain/30 bg-gain-soft px-1.5 py-px text-[13px] font-semibold text-gain">{d.hinweis}</span>}
+            </p>
             <ul className="mt-3 space-y-2 text-[15px] text-foreground/80">
               {d.zeilen.map((z) => (
                 <li key={z} className="flex gap-2.5">

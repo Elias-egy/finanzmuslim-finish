@@ -63,7 +63,7 @@ in den Details: Zahlen, Diagramme, Logos, der Haupt-Aufruf.
 | Gewinne, Wachstum, steigende Kurse | `gain` (grün), Fläche `gain-soft` |
 | Verlust, Kaufkraftverlust, Zinskosten, fallende Kurse | `loss`, Fläche `loss-soft` |
 | Haupt-Aufruf zur Geldquelle | Block `FindeDeinAngebot`: leiser Verlauf, Logos, Knopf `.btn-spark` im Signalblau. Gold (`spark`) nur als kleines Detail, nie als Fläche oder Knopf |
-| Grün, Gelb, Rot als Bewertung | Ampel bleibt sachlich. Ein Partner wird nie grün hervorgehoben, dafür gibt es `spark` |
+| Grün, Gelb, Rot als Bewertung | Ampel bleibt sachlich. Ein Partner wird nie grün hervorgehoben, dafür gibt es `spark`. Ausnahme auf Elias' Wort (SEO63, 06.11.2026): die Startprämie als kleiner grüner Zusatz am Namen im Blog-Kasten (`AnbieterKasten` Feld `hinweis`, BBBank „50 € Startprämie“) |
 
 **Kontrast (23.09.2026):** Alle Akzentfarben erreichen 4,5:1, auch auf ihrer eigenen 10-Prozent-Tönung,
 weil die Ampel-Pillen genau so gebaut sind. Deshalb `violet` 66 % statt 69 %, `gain` und `success` 29 %
