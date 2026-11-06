@@ -6,7 +6,7 @@ import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import Seo from "@/components/Seo";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { findStartPartner, STARTVIDEO, type StartPartner } from "@/data/investmentStart";
+import { findStartPartner, istLeerQuelle, LEER_FASSUNG, leerSchritte, STARTVIDEO, type StartPartner } from "@/data/investmentStart";
 import { startHinweise } from "@/data/startHinweise";
 import { HinweisText } from "@/components/vergleich/HinweisKasten";
 import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
@@ -147,6 +147,13 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
   const [heroCtaVisible, setHeroCtaVisible] = useState(true);
   const [finalCtaVisible, setFinalCtaVisible] = useState(false);
   const istDepot = partner.art === "depot";
+  /* Fassung „Depot da, noch leer“ (CV-LEER): nur mit ?src=dmleer… oder fbleer… in der Adresse, nicht aus dem Speicher. */
+  const [leer, setLeer] = useState(false);
+  useEffect(() => {
+    setLeer(istDepot && istLeerQuelle(new URLSearchParams(window.location.search).get("src")));
+  }, [istDepot]);
+  const titel = leer ? LEER_FASSUNG.titel : partner.titel;
+  const schritte = leer ? leerSchritte(partner) : (partner.schritte ?? []);
   const istKrypto = partner.art === "krypto";
   const istSteuer = partner.art === "steuer";
   const istApp = partner.art === "app";
@@ -252,7 +259,8 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     };
   }, []);
 
-  const showSticky = !heroCtaVisible && !finalCtaVisible;
+  // Leer-Fassung: keine Leiste zum Eröffnen, die Leute haben schon ein Depot.
+  const showSticky = !leer && !heroCtaVisible && !finalCtaVisible;
 
   return (
     <div className="min-h-screen bg-background">
@@ -285,8 +293,8 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
         <div className="container relative pt-8 pb-8 md:pt-12 md:pb-12">
           <div className="text-center max-w-[820px] mx-auto">
             <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
-              {partner.titel[0]} <br className="hidden sm:block" />
-              <span className="text-hero">{partner.titel[1]}</span>
+              {titel[0]} <br className="hidden sm:block" />
+              <span className="text-hero">{titel[1]}</span>
             </h1>
             <div className="mt-4 flex items-center justify-center gap-2">
             <p
@@ -316,7 +324,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
 
           {/* Laptop: Das Video gibt Höhe ab, bis der Knopf darunter ohne Scrollen im Bild steht.
               475 px sind Kopfleiste, Titel, Hinweis zum Video und Knopf zusammen. */}
-          {istDepot ? (
+          {istDepot && !leer ? (
             <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px] md:[max-width:clamp(320px,calc((100svh_-_475px)_*_1.7778),760px)]">
               <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
                 <video
@@ -343,11 +351,18 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               {partner.videoHinweis && <VideoHinweis anbieter={partner.anbieter} />}
             </div>
           ) : (
-            <div className="mt-6 md:mt-8 mx-auto grid max-w-[760px] gap-3 sm:grid-cols-3">
-              {(partner.schritte ?? []).map((s, i) => (
-                <div key={s.titel} className="rounded-2xl border border-white/15 bg-white/10 p-5 text-left">
-                  <span className="text-[13px] font-semibold text-white/70">Schritt {i + 1}</span>
-                  <p className="mt-1 text-[16px] font-bold text-white">{s.titel}</p>
+            <div className={`mx-auto grid max-w-[760px] sm:grid-cols-3 ${leer ? "mt-5 gap-2 md:mt-8 sm:gap-3" : "mt-6 gap-3 md:mt-8"}`}>
+              {schritte.map((s, i) => (
+                /* Leer-Fassung am Handy enger, damit der Knopf im ersten Bildschirm steht. */
+                <div key={s.titel} className={`rounded-2xl border border-white/15 bg-white/10 text-left ${leer ? "px-4 py-3 sm:p-5" : "p-5"}`}>
+                  {leer ? (
+                    <p className="text-[16px] font-bold text-white">{i + 1}. {s.titel}</p>
+                  ) : (
+                    <>
+                      <span className="text-[13px] font-semibold text-white/70">Schritt {i + 1}</span>
+                      <p className="mt-1 text-[16px] font-bold text-white">{s.titel}</p>
+                    </>
+                  )}
                   <p className="mt-1.5 text-[14px] leading-relaxed text-white/75">{s.text}</p>
                 </div>
               ))}
@@ -355,7 +370,19 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           )}
 
           <div id="start" ref={heroCtaRef} className="mt-5 md:mt-7 scroll-mt-24">
-            <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={zumAnbieter("h")} />
+            {leer ? (
+              <div className="flex flex-col items-center">
+                <Link
+                  to={LEER_FASSUNG.ziel}
+                  onClick={() => ereignis("leer_klick", { anbieter: partner.kurzname, quelle: subId })}
+                  className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+                >
+                  {LEER_FASSUNG.knopf}
+                </Link>
+              </div>
+            ) : (
+              <CtaBlock partner={partner} href={partnerLink(partner, `${subId}h`)} onCtaClick={zumAnbieter("h")} />
+            )}
           </div>
 
           {/* Ausnahmen des Angebots unter dem Knopf beim Video, erst nach dem Druck auf das Zeichen (Elias, 13.10.2026): Warnung gelb mit „!“, Vorteil violett mit „?“. */}
@@ -368,7 +395,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           )}
 
           {/* Was die Produkte eines Hauses unterscheidet: ohne Zeichen und zugeklappt, nur für den, der es wissen will. */}
-          {unterschiede.length > 0 && (
+          {unterschiede.length > 0 && !leer && (
             <div className="mx-auto mt-3 max-w-[760px] text-center">
               <button
                 type="button"

@@ -2050,3 +2050,40 @@ export const startPartner: StartPartner[] = [
 
 export const findStartPartner = (kurzname?: string): StartPartner | undefined =>
   startPartner.find((p) => p.kurzname === (kurzname ?? "scalable"));
+
+/**
+ * Fassung „Depot da, noch leer“ (Hebel CV-LEER, 06.11.2026). ManyChat schickt nach der Treppe
+ * („Halal investieren heißt: mindestens 1 € steckt in einer Halal-Anlage“) mit ?src=dmleer<wort>
+ * oder fbleer<wort> hierher. Diese Leute haben ein Depot, ihnen fehlt die erste Einzahlung; bei
+ * Scalable zählt erst die Einzahlung ab 1 € (belege/scalable/99-cv3-…-fanny-antwort-lead-sale.txt),
+ * und 50 von 76 Anmeldungen kamen nie so weit. Darum hier kein Eröffnungsvideo, sondern drei Schritte.
+ * Belege: data/conversion/2026-11-04-ein-euro-je-depot.md im Vault (Sparplan ab 1 € bei Scalable,
+ * Traders Place, Smartbroker+; Überweisung ab 1 € schaltet nur bei Scalable belegt das Depot frei).
+ */
+export const LEER_QUELLE = /^(?:dm|fb)leer[a-z0-9]*$/;
+
+export const istLeerQuelle = (src: string | null | undefined): boolean => !!src && LEER_QUELLE.test(src);
+
+export const LEER_FASSUNG = {
+  titel: ["Dein Depot ist da?", "Zahl den ersten Euro ein."] as [string, string],
+  knopf: "Halal-ETFs ansehen →",
+  ziel: "/blog/halal-etf",
+};
+
+/** Sparplan ab 1 € ist nur bei diesen Depots belegt (ein-euro-je-depot.md, Top 3). */
+const SPARPLAN_AB_1 = ["scalable", "traders-place", "smartbroker"];
+
+export const leerSchritte = (partner: StartPartner): { titel: string; text: string }[] => [
+  {
+    titel: "1 € überweisen",
+    text:
+      partner.kurzname === "scalable"
+        ? "Vom Girokonto, das du bei Scalable angegeben hast. Erst dann ist dein Depot frei."
+        : "Vom Girokonto auf das Konto in deinem Depot.",
+  },
+  { titel: "Halal-ETF aussuchen", text: "Welche halal sind und was sie kosten, steht in meiner Liste." },
+  {
+    titel: SPARPLAN_AB_1.includes(partner.kurzname) ? "Sparplan ab 1 € anlegen" : "Sparplan anlegen",
+    text: "Einmal einrichten, dann kauft dein Depot jeden Monat.",
+  },
+];
