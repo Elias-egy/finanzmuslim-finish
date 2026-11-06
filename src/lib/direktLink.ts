@@ -28,3 +28,29 @@ export const direktLink = (partner: StartPartner, search: string): string => {
   }
   return partner.link.replace("{SUBID}", `${quelle}d`);
 };
+
+/**
+ * Werbeblocker verstecken auf jeder Seite jeden Link, der mit https://www.financeads.net/tc.php? beginnt (EasyList,
+ * Standard in uBlock Origin, Adblock Plus, Brave und Opera: `##a[href^="https://www.financeads.net/tc.php?"]`). Am
+ * Laptop fehlte darum der Knopf zum Eröffnen ganz (Elias, 06.11.2026, Smartbroker+). Gesperrt ist nur das Aussehen
+ * des Links, nicht der Aufruf: Der Knopf zeigt auf /weiter/<kurzname> und öffnet beim Klick den echten Link.
+ */
+export const imBlocker = (href: string): boolean => /^https?:\/\/(www\.)?financeads\.net\/tc\.php\?/i.test(href);
+
+export const blockerFest = (
+  kurzname: string,
+  ziel: string,
+  neuerTab: boolean,
+): { href: string; oeffnen?: (e: { preventDefault: () => void; button: number; metaKey: boolean; ctrlKey: boolean; shiftKey: boolean; altKey: boolean }) => void } => {
+  if (!imBlocker(ziel)) return { href: ziel };
+  return {
+    href: `/weiter/${kurzname}`,
+    oeffnen: (e) => {
+      // Mittelklick und Tasten mit Klick öffnen /weiter/<kurzname>, das selbst weiterleitet.
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      if (neuerTab) window.open(ziel, "_blank", "noopener");
+      else window.location.assign(ziel);
+    },
+  };
+};

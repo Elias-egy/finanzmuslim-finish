@@ -27,7 +27,9 @@ export type Ereignis =
   | "quiz_neu"
   // CV4 (04.11.2026): Kasten „Dein nächster Schritt“ am Ende eines Freebies kam ins Bild; Wechsel auf einen Vergleich.
   | "freebie_ende"
-  | "vergleich_klick";
+  | "vergleich_klick"
+  // CV-LEER (06.11.2026): Fassung „Depot da, noch leer“ der Startseite, Klick auf „Halal-ETFs ansehen“.
+  | "leer_klick";
 
 const speicher = (): Storage | null => {
   try {
