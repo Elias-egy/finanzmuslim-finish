@@ -252,7 +252,7 @@ Beitrag oder Halal Investments: Was wäre aus deinem Geld geworden?
 
 Gib ein, was du im Monat für freiwillige Versicherungen zahlst. Links steht, was davon übrig ist, wenn kein Schaden kommt. Rechts, was derselbe Betrag als Sparplan in iShares MSCI World Islamic gebracht hätte.
 
-Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.
+Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
 
 BEITRAG IM MONAT
 
@@ -284,7 +284,7 @@ Du zahlst ein
 
 Heute wert
 
-3.327 €
+3.297 €
 
 Gehört dir, auch für den Schaden, der kommt.
 
@@ -301,7 +301,7 @@ Wert im Depot
 2.550
 3.400
 
-Ein ETF schwankt: Fällt der Kurs, wenn der Schaden kommt, ist weniger da. Monatskurse bis 04.11.2026, ohne Depotkosten.
+Ein ETF schwankt: Fällt der Kurs, wenn der Schaden kommt, ist weniger da. Monatskurse bis 05.11.2026, ohne Depotkosten.
 
 Depots für deine Ersparnisse
 
@@ -337,7 +337,7 @@ BBBank
 Guthaben ohne Zinsen
 Kein Dispo ab Start
 Karte ohne Kredit
-Kontoführung: 0 € ab 1.000 € Geldeingang oder unter 30 Jahren, sonst 4,95 €
+Kontoführung: 0 € mit Geldeingang oder unter 30 Jahren
 Tagesgeld dabei: leer lassen
 Nie ins Minus: das kostet Zinsen
 Zum Angebot*
@@ -347,7 +347,7 @@ Consorsbank
 Guthaben ohne Zinsen
 Kein Dispo ab Start
 Karte ohne Kredit
-Kontoführung: 0 € ab 700 € Geldeingang oder unter 31 Jahren, sonst 4 €
+Kontoführung: 0 € mit Geldeingang oder unter 31 Jahren
 Nie ins Minus: das kostet Zinsen
 Zum Angebot*
 Wann ist eine freiwillige Versicherung erlaubt?
@@ -501,7 +501,7 @@ Warum Geld gegen mehr Geld verboten ist.
 
 Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.
 Versicherung: Du zahlst jeden Monat sicher. Zurück kommt vielleicht nichts, vielleicht viel mehr. Was zurückkommt, weiß beim Abschluss keiner.
-Eingezahlt 2.400 €, heute wert 3.327 €
+Eingezahlt 2.400 €, heute wert 3.297 €
 Takaful: Alle zahlen in einen gemeinsamen Topf. Wer einen Schaden hat, bekommt daraus etwas. Der Topf dient allen, nicht dem Gewinn einer Firma.
 Auf dieser Seite
 Ersparnisse statt Police

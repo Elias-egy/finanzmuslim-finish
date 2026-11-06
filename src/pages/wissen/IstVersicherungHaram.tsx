@@ -195,14 +195,8 @@ const ANBIETER = DREIER.map((d) => ({
   ],
 }));
 
-/** Kontoführung kurz, aber mit den Bedingungen der Quelle (SEO63 Seiten-Prüfer: ohne Betrag stand das Konto besser da als die Quelle). */
-const kontoKurz = (w: string) => {
-  if (!/^0 €/.test(w)) return w;
-  const ein = w.match(/ab ([\d.]+ €) Geldeingang/)?.[1];
-  const alter = w.match(/unter (\d+)/)?.[1];
-  const sonst = w.match(/sonst ([\d,]+ €)/)?.[1];
-  return `0 €${ein ? ` ab ${ein} Geldeingang` : ""}${alter ? ` oder unter ${alter} Jahren` : ""}${sonst ? `, sonst ${sonst}` : ""}`;
-};
+const kontoKurz = (w: string) =>
+  /^0 €/.test(w) ? `0 € mit Geldeingang oder unter ${w.match(/unter (\d+)/)?.[1] ?? "30"} Jahren` : w;
 
 /** Elias SEO60: „Girokonten ohne Zinsfalle … und dann halt meine Top zwei Girokonten gleich dazu“; Reihenfolge und Zeilen aus dem Girokonto-Vergleich. */
 const GIROS = GIRO_TOP2.map((g) => ({
@@ -446,7 +440,7 @@ const Rechner = () => {
           derselbe Betrag als Sparplan in {PLATZ1.name} gebracht hätte.
         </p>
         <p>
-          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.
+          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
