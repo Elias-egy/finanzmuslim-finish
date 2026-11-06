@@ -540,7 +540,7 @@ const Rechner = () => {
           Gib ein, wie viel du im Monat übrig hast. Links steht, was auf dem Konto ohne Zinsen daraus wird. Rechts, was derselbe Betrag als Sparplan in{" "}
           {PLATZ1.name} gebracht hätte, mit den echten Kursen.
         </p>
-        <p>Das ist ein zertifizierter Halal ETF, in unserer Liste auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.</p>
+        <p>Das ist ein zertifizierter Halal ETF.</p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
         <label htmlFor="aktien-rate" className="block">
@@ -895,7 +895,7 @@ const SindAktienHalal = () => {
                         <EtfLogos />
                       </div>
                       <p className="mt-2 text-[15px] leading-relaxed text-foreground/80">
-                        Zertifiziert, viele Firmen auf einmal, schon ab 100 € im Monat. Du musst gar nichts selbst prüfen.
+                        Zertifiziert, viele Firmen auf einmal, auch mit 100 € im Monat. Du musst gar nichts selbst prüfen.
                       </p>
                       <Link
                         to="/blog/halal-etf"
