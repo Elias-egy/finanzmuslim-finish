@@ -159,7 +159,8 @@ export const VALID_SRC = [
  * Nur Kleinbuchstaben und Ziffern, höchstens 20 Zeichen: Scalable nimmt als SubID nichts anderes, und die
  * Endung h, f oder s für den Knopf kommt noch dazu.
  */
-export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|[mgv][0-9])[a-z0-9]{0,18}$/;
+// nl plus Datum ohne Bindestriche: Halal-News (~/rebrand/mails/brief.py mit_src), seit 06.11.2026 (CV15F).
+export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|nl|[mgv][0-9])[a-z0-9]{0,18}$/;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
   !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src));
