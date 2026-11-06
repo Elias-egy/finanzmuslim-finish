@@ -73,6 +73,7 @@ const DispoUndSchulden = lazy(() => import("./pages/wissen/DispoUndSchulden.tsx"
 const TradingForexCfd = lazy(() => import("./pages/wissen/TradingForexCfd.tsx"));
 const ZakatAufAktienEtfKrypto = lazy(() => import("./pages/wissen/ZakatAufAktienEtfKrypto.tsx"));
 const Out = lazy(() => import("./pages/Out.tsx"));
+const Weiter = lazy(() => import("./pages/Weiter.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
 const VorlageHalalAnlagen = lazy(() => import("./pages/vorlagen/HalalAnlagen.tsx"));
@@ -222,6 +223,7 @@ const App = () => (
             <Route path="/newsletter/archiv" element={<NewsletterArchiv />} />
             <Route path="/newsletter/:slug" element={<NewsletterAusgabe />} />
             <Route path="/out/:kurzname" element={<Out />} />
+            <Route path="/weiter/:kurzname" element={<Weiter />} />
             <Route path="/deals" element={<Deals />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

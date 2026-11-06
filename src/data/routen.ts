@@ -275,6 +275,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/wissen/halal-etfs", grund: "Weiterleitung auf /blog/halal-etf (SEO24), ohne noindex" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
+  { pfad: "/weiter/:kurzname", grund: "Partner-Weiterleitung für Knöpfe, die Werbeblocker sonst verstecken" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];

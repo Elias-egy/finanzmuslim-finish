@@ -14,6 +14,7 @@ import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
 import { istGueltigeQuelle } from "@/lib/attribution";
+import { blockerFest } from "@/lib/direktLink";
 
 /**
  * Startseite je Partner: /dein-investmentstart (Scalable) und
@@ -67,10 +68,13 @@ const CtaBlock = ({
       {partner.art === "app" ? "Werbung/Affiliate-Link." : "Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten."}
     </p>
     <a
-      href={href}
+      href={blockerFest(partner.kurzname, href, true).href}
       rel="sponsored noopener"
       target="_blank"
-      onClick={onCtaClick}
+      onClick={(e) => {
+        onCtaClick?.();
+        blockerFest(partner.kurzname, href, true).oeffnen?.(e);
+      }}
       className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
     >
       {partner.knopf}
@@ -323,10 +327,12 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </div>
 
           {/* Laptop: Das Video gibt Höhe ab, bis der Knopf darunter ohne Scrollen im Bild steht.
-              475 px sind Kopfleiste, Titel, Hinweis zum Video und Knopf zusammen. */}
+              475 px sind Kopfleiste, Titel, Hinweis zum Video und Knopf zusammen. Mindestens 200 px breit statt 320 px:
+              Bei 320 px stand der Knopf in Fenstern unter 655 px Höhe (1366 × 768 mit Leisten) unter der Kante (06.11.2026).
+              Die Grenze sitzt am Video allein, damit der Hinweis darunter nicht schmaler wird und umbricht. */}
           {istDepot && !leer ? (
-            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px] md:[max-width:clamp(320px,calc((100svh_-_475px)_*_1.7778),760px)]">
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
+              <div className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] md:[max-width:clamp(200px,calc((100svh_-_475px)_*_1.7778),760px)]">
                 <video
                   ref={videoRef}
                   className="absolute inset-0 h-full w-full object-cover"
@@ -719,11 +725,14 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             </div>
             <span className="text-[10px] tracking-wide text-muted-foreground shrink-0 md:hidden">Werbung</span>
             <a
-              href={partnerLink(partner, `${subId}s`)}
+              href={blockerFest(partner.kurzname, partnerLink(partner, `${subId}s`), true).href}
               rel="sponsored noopener"
               target="_blank"
               tabIndex={showSticky ? 0 : -1}
-              onClick={zumAnbieter("s")}
+              onClick={(e) => {
+                zumAnbieter("s")();
+                blockerFest(partner.kurzname, partnerLink(partner, `${subId}s`), true).oeffnen?.(e);
+              }}
               className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-hover text-[15px] font-bold md:flex-none md:px-8"
             >
               {partner.knopf}

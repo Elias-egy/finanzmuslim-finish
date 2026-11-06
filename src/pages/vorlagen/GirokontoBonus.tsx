@@ -6,7 +6,7 @@ import NewsletterBox from "@/components/NewsletterBox";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { BBBANK_PRAEMIE, BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } from "@/data/girokontoBonus";
 import { findStartPartner } from "@/data/investmentStart";
-import { direktLink } from "@/lib/direktLink";
+import { blockerFest, direktLink } from "@/lib/direktLink";
 import { ereignis } from "@/lib/messung";
 
 /**
@@ -51,10 +51,13 @@ const Pille = ({ children }: { children: ReactNode }) => (
 const Knopf = ({ to, anbieter, stelle, children }: { to: string; anbieter: string; stelle: string; children: ReactNode }) =>
   to.startsWith("http") ? (
     <a
-      href={to}
+      href={blockerFest(anbieter, to, false).href}
       rel="sponsored noopener"
       className="btn-spark w-full sm:w-auto"
-      onClick={() => ereignis("partner_klick", { anbieter, knopf: stelle, weg: "direkt", von: "girokonto-bonus" })}
+      onClick={(e) => {
+        ereignis("partner_klick", { anbieter, knopf: stelle, weg: "direkt", von: "girokonto-bonus" });
+        blockerFest(anbieter, to, false).oeffnen?.(e);
+      }}
     >
       {children}
     </a>
