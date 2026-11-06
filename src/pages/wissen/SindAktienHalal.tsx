@@ -216,7 +216,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Ist Investieren haram?",
     antwort:
-      "Nein. Wer investiert, beteiligt sich an einem Geschäft mit Gewinn und Verlust, und das ist halal. Haram sind Zinsen, ein verbotenes Geschäft und die Wette auf den Kurs.",
+      "Nein, nicht an sich. Kaufst du einen Anteil an einer Firma, trägst du Gewinn und Verlust mit, und das ist halal, wenn ihr Geschäft halal ist. Haram sind Zinsen, ein verbotenes Geschäft und die Wette auf den Kurs.",
   },
   {
     frage: "Ist Trading haram?",
@@ -231,7 +231,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind Dividenden haram?",
     antwort:
-      "Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.",
+      "Nein. Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.",
   },
   {
     frage: "Sind normale ETFs halal?",
@@ -759,10 +759,11 @@ const SindAktienHalal = () => {
                 </Text>
                 <KollegeBild />
                 <Text>
+                  <p>Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat. Bei Zinsen gelten feste Grenzen, mit denen Halal ETFs arbeiten.</p>
                   <p>
                     {bsp
-                      ? `Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat. Bei Zinsen gelten feste Grenzen, mit denen Halal ETFs arbeiten. 100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund ${bsp.wert} wert, eingezahlt hast du 6.000 €${bsp.rendite ? `. Das waren rund ${bsp.rendite} im Jahr` : ""}.`
-                      : "Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat. Bei Zinsen gelten feste Grenzen, mit denen Halal ETFs arbeiten. Der Rechner weiter unten zeigt, was 100 € im Monat in einem Halal ETF gebracht hätten."}
+                      ? `100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund ${bsp.wert} wert, eingezahlt hast du 6.000 €${bsp.rendite ? `. Das waren rund ${bsp.rendite} im Jahr` : ""}.`
+                      : "Der Rechner weiter unten zeigt, was 100 € im Monat in einem Halal ETF gebracht hätten."}
                   </p>
                 </Text>
 
@@ -783,7 +784,7 @@ const SindAktienHalal = () => {
                 <section className="mt-14">
                   <Ueber id="uebersicht" />
                   <Text>
-                    <p>An der Börse kaufst du einen von fünf Wegen. Halal sind Anteile an Firmen mit halal Geschäft, haram sind Zins und Wette.</p>
+                    <p>An der Börse kaufst du einen von fünf Wegen. Halal sind Anteile an Firmen, deren Geschäft und Finanzen halal sind. Haram sind Zins und Wette.</p>
                   </Text>
                   <Tabelle
                     kopf={[{ titel: "Weg an der Börse" }, { titel: "Einordnung", eng: true }]}
@@ -834,8 +835,10 @@ const SindAktienHalal = () => {
                   <H3>Welche Branchen fallen weg?</H3>
                   <Text>
                     <p>
-                      Haram ist jede Aktie einer Firma, deren Geschäft verboten ist, etwa Alkohol, Glücksspiel oder Zinsgeschäft. Darüber sind sich die Gelehrten einig. Zertifizierte Halal-Fonds
-                      schreiben ihre Liste sogar in den Prospekt. So sieht das bei einem echten Fonds aus:
+                      Haram ist jede Aktie einer Firma, deren Geschäft verboten ist, etwa Alkohol, Glücksspiel oder Zinsgeschäft. Darüber sind sich die Gelehrten einig.
+                    </p>
+                    <p>
+                      Zertifizierte Halal-Fonds schreiben ihre Liste sogar in den Prospekt. So sieht das bei einem echten Fonds aus:
                     </p>
                   </Text>
                   <ProspektBild />

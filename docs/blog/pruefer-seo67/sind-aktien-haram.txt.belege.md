@@ -150,4 +150,15 @@ S-42506c82: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 00:21:11 verb
 S-9f078090: Beleg: ~/Documents/dev/fm-seo23/src/pages/wissen/SindAktienHalal.tsx, FAQ-Frage (vorher „Sind Dividenden halal?“); Antwort wie S-3d56992c (~/hourani/positionen/aktien.md, ilmCast Ep. 18, 00:44:50, 00:45:45), 2026-11-06
 S-6e8bd50c: Beleg: ~/Documents/dev/fm-seo23/src/data/brokerVergleich.ts, quellen.zinsfreiAbStart je Depot wie S-89be0b03; Satz endet mit Link „Depot-Vergleich“, 2026-11-06
 S-f42b3741: Beleg: ~/Documents/dev/fm-seo23/src/pages/wissen/SindAktienHalal.tsx, PASST_DAZU, Link auf /blog/halal-etf; „die besten“ ist der Seitenname der Liste, kein Urteil über einen ETF, 2026-11-06
-S-63977a9e: Beleg: ~/Documents/dev/fm-seo23/src/data/halalEtfListe.ts, etfListe[0] iShares MSCI World Islamic, Halal-Status wie S-9eb29da9 (gekürzt SEO67, ohne Rangfolge-Erklärung), 2026-11-06
+S-63977a9e: Beleg: ~/Documents/dev/fm-seo23/src/data/halalEtfListe.ts, etfListe[0] iShares MSCI World Islamic; https://www.blackrock.com/ch/individual/en/literature/prospectus/ishares-ii-plc-prospectus-en.pdf, Verkaufsprospekt iShares II plc: „The Shari'ah Equity Funds Panel has issued a Fatwa in respect of the Shari'ah Equity Funds.“, 2026-11-06
+
+## SEO68 (06.11.2026): Halal-Prüfer SEO67 eingearbeitet (engere Fassungen wortgleich), Seiten-Prüfer MUSS (Absätze geteilt), Prüftext neu aus dist
+
+S-53afc242: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57: „Gut, ich meine, Aktien sind ja nicht haram an sich.“ „die einen Halal-Geschäftszweck hat“ „und Halal-Finanzmanagement hat,“ „dann ist es inshallah halal,“ „auch in diese Aktie zu investieren.“; 00:15:58: „der besitzt einen untrennbaren Anteil an unserer Firma.“; 00:21:11: „Wann ist eine Aktie Haram? Erstens, wenn der Geschäftszweck dieser AG Haram ist“; Fassung des Halal-Prüfers SEO67 Nr. 3, 2026-11-06
+S-9a3db62f: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57: „die einen Halal-Geschäftszweck hat“ „und Halal-Finanzmanagement hat,“ „dann ist es inshallah halal,“ (beide Bedingungen zusammen); Fassung des Halal-Prüfers SEO67 Nr. 4, 2026-11-06
+S-b4c3c1f1: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:22:20 Anleihen haram (Zins); 01:18:56 Margin als Zinsdarlehen; 01:15:04 Derivate „In Einstimmigkeit“ haram; ~/hourani/positionen/versicherungen.md, ilmCast Ep. 19, 00:35:40: „Form von Radar ist Glücksspiel.“ (Gharar, für „Casino“ in der Tabelle); ~/hourani/positionen/forex-trading.md, ilmCast Ep. 17, 00:14:45 (CFDs Wette); Fassung des Halal-Prüfers SEO67 Nr. 4, 2026-11-06
+
+Neue Sätze ohne eigene Kennung, Beleg für den Gegenprüfer:
+- „Nein, nicht an sich.“ vor S-53afc242: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57 „Aktien sind ja nicht haram an sich.“
+- „Nein.“ vor der Dividenden-Antwort (Seiten-Prüfer SOLLTE): ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57 „dann ist es inshallah halal, auch in diese Aktie zu investieren.“; Bereinigung 00:45:45 wie S-3d56992c („wenn die Firma es nicht macht, dann muss der Aktionär dieses Haram-Geld abführen“).
+- Einstieg und Branchen-Absatz je in zwei Absätze geteilt, kein Wort geändert (Seiten-Prüfer MUSS).

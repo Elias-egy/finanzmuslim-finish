@@ -83,7 +83,8 @@ Dein Kollege sagt
 „Kauf Nvidia, Apple und Tesla, die laufen.“
 NV Nvidia AP Apple TE Tesla
 Die Logos sind Beispiele, kein Urteil über diese Firmen.
-Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat. Bei Zinsen gelten feste Grenzen, mit denen Halal ETFs arbeiten. 100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund 8.200 € wert, eingezahlt hast du 6.000 €. Das waren rund 13 % im Jahr.
+Ja, Aktien sind halal, wenn die Firma ein halal Geschäft hat. Bei Zinsen gelten feste Grenzen, mit denen Halal ETFs arbeiten.
+100 € im Monat in einem Halal ETF wären nach fünf Jahren heute rund 8.200 € wert, eingezahlt hast du 6.000 €. Das waren rund 13 % im Jahr.
 Das Wichtigste
 Aktien sind halal. Mit einer Aktie gehört dir ein Stück einer echten Firma, mit Gewinn und Verlust.
 Haram ist die Wette auf den Kurs. Bei CFDs und Optionen besitzt du nichts. Beim Hebel leiht dir der Broker Geld gegen Zins. Darum fällt beides weg.
@@ -91,7 +92,7 @@ Das Geschäft muss halal sein. Alkohol, Banken, Glücksspiel und Waffen fallen w
 Für Zinsen gibt es feste Grenzen. Die AAOIFI erlaubt höchstens 30 % Schulden mit Zinsen und 5 % verbotene Einnahmen. Die meisten Gelehrten sind strenger.
 Selbst prüfen musst du nicht. Ein zertifizierter Halal ETF macht das für dich, bei einzelnen Aktien hilft eine App.
 Aktien halal oder haram? Die Übersicht
-An der Börse kaufst du einen von fünf Wegen. Halal sind Anteile an Firmen mit halal Geschäft, haram sind Zins und Wette.
+An der Börse kaufst du einen von fünf Wegen. Halal sind Anteile an Firmen, deren Geschäft und Finanzen halal sind. Haram sind Zins und Wette.
 Weg an der Börse
 Einordnung
 Halal ETF Du kaufst einen Anteil an einem Fonds mit vielen Firmen
@@ -150,7 +151,8 @@ fällt weg
 Was durchkommt, ist halal
 Die Logos sind Beispiele, kein Urteil über diese Firmen.
 Welche Branchen fallen weg?
-Haram ist jede Aktie einer Firma, deren Geschäft verboten ist, etwa Alkohol, Glücksspiel oder Zinsgeschäft. Darüber sind sich die Gelehrten einig. Zertifizierte Halal-Fonds schreiben ihre Liste sogar in den Prospekt. So sieht das bei einem echten Fonds aus:
+Haram ist jede Aktie einer Firma, deren Geschäft verboten ist, etwa Alkohol, Glücksspiel oder Zinsgeschäft. Darüber sind sich die Gelehrten einig.
+Zertifizierte Halal-Fonds schreiben ihre Liste sogar in den Prospekt. So sieht das bei einem echten Fonds aus:
 Ausschnitt der ausgeschlossenen Branchen im Verkaufsprospekt des Scharia-Fonds Comgest Growth Europe S, Fassung vom 31.03.2026, Seite 105.
 Auffällig: Auch Klonen steht drauf. Unter „Finanzwesen“ fallen Banken und Versicherungen.
 Viele Gelehrte zählen auch Waffen und Rüstung dazu, auch wenn diese Aktien in den letzten Jahren gut liefen. Auf der Liste dieses Fonds stehen sie nicht.
@@ -219,13 +221,13 @@ Nein, Aktien sind halal. Eine Aktie ist ein Anteil an einer Firma. Haram wird si
 Ist es haram, in Aktien zu investieren?
 Nein, wenn das Geschäft der Firma halal ist und sie nach den Grenzen der AAOIFI wenig mit Zinsen macht. Die meisten Gelehrten sind bei Zinsen strenger. Am einfachsten geht das mit einem zertifizierten Halal ETF.
 Ist Investieren haram?
-Nein. Wer investiert, beteiligt sich an einem Geschäft mit Gewinn und Verlust, und das ist halal. Haram sind Zinsen, ein verbotenes Geschäft und die Wette auf den Kurs.
+Nein, nicht an sich. Kaufst du einen Anteil an einer Firma, trägst du Gewinn und Verlust mit, und das ist halal, wenn ihr Geschäft halal ist. Haram sind Zinsen, ein verbotenes Geschäft und die Wette auf den Kurs.
 Ist Trading haram?
 Hebel, CFDs, Optionen, Futures, Leerverkäufe und Forex sind haram. Kaufst du echte Aktien, gelten dieselben Regeln wie bei jeder Aktie.
 Wie finde ich heraus, ob eine Aktie halal ist?
 Mit einer Prüf-App wie Zoya oder Musaffa. Du gibst den Namen der Aktie ein und siehst, ob sie die Regeln erfüllt. Ein Halal ETF nimmt dir das ganz ab.
 Sind Dividenden haram?
-Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.
+Nein. Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.
 Sind normale ETFs halal?
 Meist nicht. Ein normaler ETF kauft alle großen Firmen, also auch Banken und Versicherungen. Ein Halal ETF lässt sie weg.
 Sind Aktien von Rüstungsfirmen halal?

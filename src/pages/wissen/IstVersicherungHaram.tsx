@@ -267,7 +267,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Ist Vollkasko haram?",
     antwort:
-      "Die Vollkasko ist freiwillig und nie durch eine Notlage gedeckt. Darum gilt für sie das Urteil über freiwillige Versicherungen ohne Ausnahme.",
+      "Die Vollkasko ist freiwillig und nie durch eine Notlage gedeckt. Darum zählt bei ihr auch die Ausnahme für Notlagen nicht.",
   },
   {
     frage: "Ist eine private Haftpflichtversicherung haram?",
@@ -277,7 +277,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Ist eine Zahnzusatzversicherung haram?",
     antwort:
-      "Sie ist freiwillig und folgt demselben System wie jede freiwillige Versicherung, genau wie Hausrat und Rechtsschutz. Schließt du sie ab, weil eine teure Behandlung schon ansteht, ist es noch problematischer: Du weißt dann, dass du wenig zahlst und viel mehr zurückbekommst.",
+      "Sie ist freiwillig und folgt dem System jeder freiwilligen Versicherung. Steht eine teure Behandlung schon an, ist der Abschluss noch problematischer: Du zahlst wenig und bekommst viel mehr zurück.",
   },
   {
     frage: "Ist eine Lebensversicherung haram?",
@@ -474,7 +474,7 @@ const Rechner = () => {
           derselbe Betrag als Sparplan in {PLATZ1.name} gebracht hätte.
         </p>
         <p>
-          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft. In unserer Liste steht er auf Platz 1.
+          Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft.
         </p>
       </Text>
       <div className="mt-5 border border-border bg-card p-4 md:p-5">
@@ -854,7 +854,7 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      Takaful ist die islamische Versicherung auf Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung.
+                      Takaful ist die islamische Versicherung auf Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung. Erlaubt heißt hier: Du darfst sie nehmen, wenn ein Schaden droht, den du selbst nicht tragen kannst.
                     </p>
                     <p>
                       Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
