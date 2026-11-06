@@ -231,7 +231,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Sind Dividenden haram?",
     antwort:
-      "Nein. Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.",
+      "Nicht, wenn die Aktie halal ist. Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.",
   },
   {
     frage: "Sind normale ETFs halal?",

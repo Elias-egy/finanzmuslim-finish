@@ -160,5 +160,6 @@ S-b4c3c1f1: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:22:20 Anle
 
 Neue Sätze ohne eigene Kennung, Beleg für den Gegenprüfer:
 - „Nein, nicht an sich.“ vor S-53afc242: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57 „Aktien sind ja nicht haram an sich.“
-- „Nein.“ vor der Dividenden-Antwort (Seiten-Prüfer SOLLTE): ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57 „dann ist es inshallah halal, auch in diese Aktie zu investieren.“; Bereinigung 00:45:45 wie S-3d56992c („wenn die Firma es nicht macht, dann muss der Aktionär dieses Haram-Geld abführen“).
+- Dividenden-Antwort beginnt mit „Nicht, wenn die Aktie halal ist.“ (Seiten-Prüfer SOLLTE; Fassung des Halal-Gegenprüfers SEO68, das nackte „Nein.“ war rot): ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57 „dann ist es inshallah halal, auch in diese Aktie zu investieren.“; Bereinigung 00:45:45 wie S-3d56992c („wenn die Firma es nicht macht, dann muss der Aktionär dieses Haram-Geld abführen“).
 - Einstieg und Branchen-Absatz je in zwei Absätze geteilt, kein Wort geändert (Seiten-Prüfer MUSS).
+S-fb79b37a: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 01:23:57: „die einen Halal-Geschäftszweck hat“ „und Halal-Finanzmanagement hat,“ „dann ist es inshallah halal,“ „auch in diese Aktie zu investieren.“; Bereinigung 00:45:45 wie S-3d56992c; Fassung des Halal-Gegenprüfers SEO68 (fundament/grundlage/playbooks/finanzmuslim/pruefung/halal-blog-versicherung-aktien-seo68.md), 2026-11-06
