@@ -729,7 +729,7 @@ const IstVersicherungHaram = () => {
                   />
                 </section>
 
-                {/* Rechner und erste Werbung erst nach den Kernfragen, bei etwa einem Drittel (Elias SEO55) */}
+                {/* Google-Kasten nach der Übersicht, die erste Werbung folgt nach dem nächsten Abschnitt (Elias SEO55, SEO67) */}
                 <GoogleKasten />
 
                 <section className="mt-14">
@@ -758,6 +758,9 @@ const IstVersicherungHaram = () => {
                   <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp" />
                 </section>
 
+                {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel wie bei Frontal (Elias SEO67) */}
+                <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
+
                 <section className="mt-14">
                   <Ueber id="pflicht" />
                   <Text>
@@ -785,7 +788,6 @@ const IstVersicherungHaram = () => {
 
                 <Rechner />
 
-                <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="notfall" />

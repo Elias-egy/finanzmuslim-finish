@@ -796,7 +796,7 @@ const SindAktienHalal = () => {
                   />
                 </section>
 
-                {/* Rechner und erste Werbung erst nach den Kernfragen, zwischen einem Viertel und einem Drittel (Elias SEO55, SEO67) */}
+                {/* Google-Kasten nach der Übersicht, die erste Werbung folgt nach dem nächsten Abschnitt (Elias SEO55, SEO67) */}
                 <GoogleKasten />
 
 
@@ -821,6 +821,9 @@ const SindAktienHalal = () => {
                   </Text>
                   <Kernsatz>Nicht die Aktie ist das Problem, sondern was die Firma macht.</Kernsatz>
                 </section>
+
+                {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel wie bei Frontal (Elias SEO67) */}
+                <AnbieterKasten titel="Depots für deinen Halal ETF" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="welche-aktien" />
@@ -877,7 +880,6 @@ const SindAktienHalal = () => {
 
                 <Rechner />
 
-                <AnbieterKasten titel="Depots für deinen Halal ETF" anbieter={ANBIETER} />
 
                 <section className="mt-14">
                   <Ueber id="nicht-selbst-pruefen" />
