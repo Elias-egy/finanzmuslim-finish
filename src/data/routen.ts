@@ -10,6 +10,7 @@ import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
 import { SUKUK_PFAD } from "./sukukPlan";
 import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
+import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -249,6 +250,9 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
   ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
   ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+  // Kurze Adresse der Nummer 1 aus den Guide-PDFs: ohne eigene Datei antwortete der Hoster mit 404, nur das Skript der
+  // Fehlerseite leitete weiter (Hermes ASSETS-URTEIL, CV15F 06.11.2026). Ziel beim Bau aus der Rangfolge.
+  { von: "/depot-nummer-1", nach: depotNummerEinsZiel() },
 ];
 
 export const bewusstDraussen: { pfad: string; grund: string }[] = [
