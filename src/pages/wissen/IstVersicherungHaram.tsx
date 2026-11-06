@@ -255,14 +255,29 @@ const FRAGEN: { frage: string; antwort: string }[] = [
       "Du zahlst sicher und weißt nicht, ob, wann und wie viel zurückkommt. Für die einen Gelehrten ist das Geld gegen mehr Geld, für die anderen ein Vertrag voller Unbekannter, und beide sagen haram.",
   },
   {
+    frage: "Ist die Krankenversicherung haram?",
+    antwort:
+      "Nein. Die Kranken- und Pflegeversicherung ist Pflicht und darum vom Urteil ausgenommen. Zusatztarife wie Zahnzusatz schließt du dagegen freiwillig ab.",
+  },
+  {
     frage: "Ist die Kfz-Versicherung haram?",
     antwort:
-      "Die Kfz-Haftpflicht ist Pflicht und darum ausgenommen. Die Teilkasko kann in einer Notlage erlaubt sein, das klärst du mit einem Gelehrten. Die Vollkasko ist nie durch eine Notlage gedeckt.",
+      "Die Kfz-Haftpflicht ist Pflicht und darum ausgenommen. Die Teilkasko kann in einer Notlage erlaubt sein, das klärst du mit einem Gelehrten.",
+  },
+  {
+    frage: "Ist Vollkasko haram?",
+    antwort:
+      "Die Vollkasko ist freiwillig und nie durch eine Notlage gedeckt. Darum gilt für sie das Urteil über freiwillige Versicherungen ohne Ausnahme.",
   },
   {
     frage: "Ist eine private Haftpflichtversicherung haram?",
     antwort:
       "Sie ist freiwillig. Ist ein Schaden absehbar und könntest du ihn selbst nicht tragen, schildere das einem Gelehrten. Ob es bei dir eine Notlage ist, kann nur er einschätzen.",
+  },
+  {
+    frage: "Ist eine Zahnzusatzversicherung haram?",
+    antwort:
+      "Sie ist freiwillig und folgt demselben System wie jede freiwillige Versicherung, genau wie Hausrat und Rechtsschutz. Schließt du sie ab, weil eine teure Behandlung schon ansteht, ist es noch problematischer: Du weißt dann, dass du wenig zahlst und viel mehr zurückbekommst.",
   },
   {
     frage: "Ist eine Lebensversicherung haram?",
@@ -837,7 +852,7 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      Takaful ist die Versicherung auf Gegenseitigkeit, wie sie das islamische Recht kennt. Mit richtigem Aufbau ist sie islamkonform.
+                      Takaful ist die islamische Versicherung auf Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung.
                     </p>
                     <p>
                       Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
@@ -846,7 +861,7 @@ const IstVersicherungHaram = () => {
                   <Topfbild />
                   <Text>
                     <p>
-                      Anfang 2026 gab es in Deutschland kein Takaful-Angebot. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um
+                      Anfang 2026 gab es in Deutschland keine Takaful-Versicherung zu kaufen. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um
                       2018 aufgehört, weil kaum jemand sie wollte.
                     </p>
                     <p>

@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Check, ChevronDown } from "lucide-react";
+import { ArrowDown, ChevronDown } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
@@ -27,6 +27,7 @@ import {
   PROFILE,
   Seitenleiste,
   SITE,
+  Tabelle,
   Text,
   TL,
   useAktiv,
@@ -53,7 +54,7 @@ const SEO_TITEL = TITEL;
 const META =
   "Sind Aktien haram? Nein, Aktien sind halal, wenn Geschäft und Zinsen der Firma passen. Welche Branchen wegfallen, die Zinsregeln, Trading und ein Rechner.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
-const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
+const AKTUALISIERT = { text: "06.11.2026", iso: "2026-11-06T09:00:00+01:00" };
 const LESEZEIT = 9;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu den Grenzen bei Zinsen gibt es abweichende Auffassungen. Firmenlogos sind Beispiele, kein Urteil über diese Firmen. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
@@ -63,10 +64,11 @@ const KNOPF = "Halal anlegen";
 
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
-  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
-  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
+  /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. Elias SEO63: wie frontal „Quick Compare“ gleich unter dem Kopf. */
   { id: "kurzer-vergleich", titel: "5 Wege an der Börse auf einen Blick", leiste: true, kurz: "5 Wege an der Börse" },
-  { id: "aktien-halal", titel: "Sind Aktien generell halal?", leiste: true, kurz: "Sind Aktien halal?" },
+  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  { id: "uebersicht", titel: "Aktien halal oder haram? Die Übersicht", leiste: true, kurz: "Halal oder haram" },
+  { id: "aktien-halal", titel: "Sind Aktien halal?", leiste: true, kurz: "Sind Aktien halal?" },
   { id: "welche-aktien", titel: "Welche Aktien sind halal und welche haram?", leiste: true, kurz: "Welche Aktien haram sind" },
   { id: "zinsen", titel: "Wie viel Zinsen darf eine Firma haben?", leiste: true, kurz: "Die Regeln für Zinsen" },
   { id: "rechner", titel: "Konto oder Halal ETF: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner mit echten Kursen" },
@@ -202,7 +204,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
 
 const FRAGEN: { frage: string; antwort: string }[] = [
   {
-    frage: "Sind Aktien haram?",
+    frage: "Ist Aktien kaufen haram?",
     antwort:
       "Nein, Aktien sind halal. Eine Aktie ist ein Anteil an einer Firma. Haram wird sie, wenn die Firma mit Verbotenem Geld verdient oder zu viel mit Zinsen macht.",
   },
@@ -210,6 +212,11 @@ const FRAGEN: { frage: string; antwort: string }[] = [
     frage: "Ist es haram, in Aktien zu investieren?",
     antwort:
       "Nein, wenn das Geschäft der Firma halal ist und sie nach den Grenzen der AAOIFI wenig mit Zinsen macht. Die meisten Gelehrten sind bei Zinsen strenger. Am einfachsten geht das mit einem zertifizierten Halal ETF.",
+  },
+  {
+    frage: "Ist Investieren haram?",
+    antwort:
+      "Nein. Wer investiert, beteiligt sich an einem Geschäft mit Gewinn und Verlust, und das ist halal. Haram sind Zinsen, ein verbotenes Geschäft und die Wette auf den Kurs.",
   },
   {
     frage: "Ist Trading haram?",
@@ -222,7 +229,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
       "Mit einer Prüf-App wie Zoya oder Musaffa. Du gibst den Namen der Aktie ein und siehst, ob sie die Regeln erfüllt. Ein Halal ETF nimmt dir das ganz ab.",
   },
   {
-    frage: "Sind Dividenden halal?",
+    frage: "Sind Dividenden haram?",
     antwort:
       "Die Dividende ist dein Anteil am Gewinn. Hatte die Firma kleine verbotene Einnahmen, gibst du diesen Teil weiter, wenn dein Fonds das nicht schon für dich tut. Den Betrag rechnet dir der Bereinigungsrechner aus.",
   },
@@ -683,18 +690,9 @@ const SindAktienHalal = () => {
             </nav>
 
             <article className="mt-8">
-              <h1 className="font-titel mt-3 text-[32px] leading-[1.1] text-foreground md:text-[42px]">{TITEL}</h1>
-              <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">
-                Nein, Aktien sind halal. Haram wird eine Aktie erst durch das, was die Firma macht, oder wenn du nur auf den Kurs wettest.
-              </p>
-              <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
-                {["Sind Aktien halal?", "Welche Aktien haram sind", "Die Regeln für Zinsen", "Rechner mit echten Kursen"].map((h) => (
-                  <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
-                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    {h}
-                  </li>
-                ))}
-              </ul>
+              {/* Elias SEO63 „Halte dich immer wieder an dem Vergleich“: Kopf wie frontal.so/blog/best-gtm-agencies und /blog/ist-versicherung-haram:
+                  ein Titel, Autorzeile, gleich der Kurzvergleich, keine Häkchen. */}
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.07] tracking-[-0.03em] text-foreground [text-wrap:balance] md:text-[42px]">{TITEL}</h1>
               <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
@@ -714,7 +712,34 @@ const SindAktienHalal = () => {
                 </div>
               </div>
 
-              <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
+              <div className="mt-8">
+                <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege an der Börse auf einen Blick" anzahl={WEGE.length}>
+                  {WEGE.map((w, i) => (
+                    <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
+                      <Marke ton={w.ton}>{w.marke}</Marke>
+                      <div className="mt-3 flex h-10 items-center">{w.logos}</div>
+                      {w.logos && <p className="mt-1 min-h-[1.375em] text-[14px] leading-snug text-foreground/70">{w.hinweis ?? ""}</p>}
+                      <Etikett className="mt-4">Besonders</Etikett>
+                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
+                      <Etikett className="mt-4">Du kaufst</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.kaufst}</p>
+                      <Etikett className="mt-3">Haken</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{w.haken}</p>
+                      <Etikett className="mt-3">Passt für</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.passt}</p>
+                      <a
+                        href={`#${w.ziel}`}
+                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                      >
+                        Zum Abschnitt
+                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                      </a>
+                    </Karte>
+                  ))}
+                </KartenReihe>
+              </div>
+
+              <nav aria-label="Auf dieser Seite" className="mt-10 border-y border-border xl:hidden">
                 <button
                   type="button"
                   onClick={() => setOffen((v) => !v)}
@@ -755,35 +780,25 @@ const SindAktienHalal = () => {
                   </ul>
                 </section>
 
-                {/* Kurzer Vergleich wie /blog/ist-leasing-haram; Rechner und erste Werbung erst nach den Kernfragen, bei etwa einem Drittel (Elias SEO55) */}
+                <section className="mt-14">
+                  <Ueber id="uebersicht" />
+                  <Text>
+                    <p>An der Börse kaufst du einen von fünf Wegen. Halal sind Anteile an Firmen mit halal Geschäft, haram sind Zins und Wette.</p>
+                  </Text>
+                  <Tabelle
+                    kopf={[{ titel: "Weg an der Börse" }, { titel: "Einordnung", eng: true }]}
+                    zeilen={WEGE.map((w) => ({
+                      schluessel: w.weg,
+                      name: <a href={`#${w.ziel}`} className="underline decoration-border underline-offset-[3px] hover:text-primary">{w.weg}</a>,
+                      unter: `Du kaufst ${w.kaufst}`,
+                      zellen: [<Marke key="m" ton={w.ton}>{w.marke}</Marke>],
+                    }))}
+                  />
+                </section>
+
+                {/* Rechner und erste Werbung erst nach den Kernfragen, zwischen einem Viertel und einem Drittel (Elias SEO55, SEO67) */}
                 <GoogleKasten />
 
-                <div className="mt-7">
-                  <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege an der Börse auf einen Blick" anzahl={WEGE.length}>
-                    {WEGE.map((w, i) => (
-                      <Karte key={w.weg} nummer={i + 1} kopf={w.weg} erste={i === 0}>
-                        <Marke ton={w.ton}>{w.marke}</Marke>
-                        <div className="mt-3 flex h-10 items-center">{w.logos}</div>
-                        {w.logos && <p className="mt-1 min-h-[1.375em] text-[14px] leading-snug text-foreground/70">{w.hinweis ?? ""}</p>}
-                        <Etikett className="mt-4">Besonders</Etikett>
-                        <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{w.besonders}</p>
-                        <Etikett className="mt-4">Du kaufst</Etikett>
-                        <p className="mt-1 text-[15px] leading-snug text-foreground">{w.kaufst}</p>
-                        <Etikett className="mt-3">Haken</Etikett>
-                        <p className="mt-1 text-[15px] leading-snug text-foreground">{w.haken}</p>
-                        <Etikett className="mt-3">Passt für</Etikett>
-                        <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{w.passt}</p>
-                        <a
-                          href={`#${w.ziel}`}
-                          className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
-                        >
-                          Zum Abschnitt
-                          <ArrowDown className="h-3.5 w-3.5" aria-hidden />
-                        </a>
-                      </Karte>
-                    ))}
-                  </KartenReihe>
-                </div>
 
                 <section className="mt-14">
                   <Ueber id="aktien-halal" />
