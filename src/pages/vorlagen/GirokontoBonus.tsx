@@ -161,7 +161,9 @@ const GirokontoBonus = () => (
                     Immer gratis
                   </th>
                   {BONUS_KONTEN.map((k) => (
-                    <Zelle key={k.id}>unter {k.gratisUnter}</Zelle>
+                    <Zelle key={k.id} fett>
+                      unter {k.gratisUnter}
+                    </Zelle>
                   ))}
                 </tr>
                 <tr>
@@ -169,9 +171,7 @@ const GirokontoBonus = () => (
                     Gratis ab Geldeingang
                   </th>
                   {BONUS_KONTEN.map((k) => (
-                    <Zelle key={k.id} fett>
-                      {euro(k.gratisAb)}
-                    </Zelle>
+                    <Zelle key={k.id}>{euro(k.gratisAb)}</Zelle>
                   ))}
                 </tr>
                 <tr>
