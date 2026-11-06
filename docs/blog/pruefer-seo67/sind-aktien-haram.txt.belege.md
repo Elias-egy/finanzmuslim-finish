@@ -150,3 +150,4 @@ S-42506c82: Beleg: ~/hourani/positionen/aktien.md, ilmCast Ep. 18, 00:21:11 verb
 S-9f078090: Beleg: ~/Documents/dev/fm-seo23/src/pages/wissen/SindAktienHalal.tsx, FAQ-Frage (vorher „Sind Dividenden halal?“); Antwort wie S-3d56992c (~/hourani/positionen/aktien.md, ilmCast Ep. 18, 00:44:50, 00:45:45), 2026-11-06
 S-6e8bd50c: Beleg: ~/Documents/dev/fm-seo23/src/data/brokerVergleich.ts, quellen.zinsfreiAbStart je Depot wie S-89be0b03; Satz endet mit Link „Depot-Vergleich“, 2026-11-06
 S-f42b3741: Beleg: ~/Documents/dev/fm-seo23/src/pages/wissen/SindAktienHalal.tsx, PASST_DAZU, Link auf /blog/halal-etf; „die besten“ ist der Seitenname der Liste, kein Urteil über einen ETF, 2026-11-06
+S-63977a9e: Beleg: ~/Documents/dev/fm-seo23/src/data/halalEtfListe.ts, etfListe[0] iShares MSCI World Islamic, Halal-Status wie S-9eb29da9 (gekürzt SEO67, ohne Rangfolge-Erklärung), 2026-11-06

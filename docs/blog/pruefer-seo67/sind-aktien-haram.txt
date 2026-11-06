@@ -174,7 +174,7 @@ Von 100 € Dividende
 2 % liegt unter der Grenze von 5 %, nach diesen Grenzen darfst du dich also beteiligen. Von deiner Dividende gibst du aber 2 % weiter. Den Betrag rechnet dir der Bereinigungsrechner aus.
 Konto oder Halal ETF: Was wäre aus deinem Geld geworden?
 Gib ein, wie viel du im Monat übrig hast. Links steht, was auf dem Konto ohne Zinsen daraus wird. Rechts, was derselbe Betrag als Sparplan in iShares MSCI World Islamic gebracht hätte, mit den echten Kursen.
-Das ist ein zertifizierter Halal ETF, in unserer Liste auf Platz 1, geordnet nach Kosten und Sparplan, nicht nach Rendite.
+Das ist ein zertifizierter Halal ETF.
 Betrag im Monat
 €
 Seit
@@ -197,7 +197,7 @@ Echte Monatskurse bis 05.11.2026, ohne Depotkosten.
 Musst du das alles selbst prüfen?
 Nein. Die Regeln sind klar, und meist prüft sie schon jemand für dich. Du musst nur wissen, wo.
 Halal ETF
-Zertifiziert, viele Firmen auf einmal, schon ab 100 € im Monat. Du musst gar nichts selbst prüfen.
+Zertifiziert, viele Firmen auf einmal, auch mit 100 € im Monat. Du musst gar nichts selbst prüfen.
 Zu den Halal ETFs
 Prüf-App
 Für einzelne Aktien: Du gibst den Namen ein, zum Beispiel Apple, und Zoya oder Musaffa zeigt dir, ob sie die Regeln erfüllt.
