@@ -6,7 +6,6 @@ import {
   AnbieterName,
   AngebotsKnopf,
   BonusSchild,
-  HinweisPunkt,
   NotenBlock,
   ZellInhalt,
   auszeichnungFarbe,
@@ -66,6 +65,7 @@ export const VergleichsTabelle = ({
   const [von, setVon] = useState(1);
   const [bis, setBis] = useState(1);
   const [offen, setOffen] = useState<string | null>(null);
+  const [erklaert, setErklaert] = useState<string | null>(null);
   /* Die Leiste unten erscheint erst, wenn die obere Angebotszeile aus dem Bild ist: sonst stünden
      dieselben Knöpfe zweimal im ersten Bildschirm. */
   const [leisteZeigen, setLeisteZeigen] = useState(false);
@@ -276,10 +276,26 @@ export const VergleichsTabelle = ({
                     </>
                   )}
                   <div ref={z.key === "__angebot" ? obenAngebot : undefined} className={kriterium}>
-                    <span>
-                      {z.label}
-                      <HinweisPunkt text={z.hinweis} />
-                    </span>
+                    {z.hinweis ? (
+                      /* Wie Finanzfluss: ein Kriterium mit Erklärung ist blau gepunktet unterstrichen, ein Klick
+                         zeigt die Erklärung (Elias SEO74: „wie bei Finanzfluss sollten die teilweise auch blau sein“). */
+                      <span>
+                        <button
+                          type="button"
+                          onClick={() => setErklaert((alt) => (alt === z.key ? null : z.key))}
+                          aria-expanded={erklaert === z.key}
+                          title={z.hinweis}
+                          className="text-left font-medium text-primary underline decoration-dotted underline-offset-4 hover:text-primary-hover"
+                        >
+                          {z.label}
+                        </button>
+                        {erklaert === z.key && (
+                          <span className="mt-1 block text-[12px] leading-snug text-muted-foreground">{z.hinweis}</span>
+                        )}
+                      </span>
+                    ) : (
+                      <span>{z.label}</span>
+                    )}
                   </div>
                   {spalten.map((s) => (
                     <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0 ${grund(s)}`}>
