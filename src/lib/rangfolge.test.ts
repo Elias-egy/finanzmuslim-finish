@@ -271,12 +271,13 @@ describe("rangfolge: Kosten wie finanzNote", () => {
 /* ---------------------------------------------------------- Giro und Krypto */
 
 describe("rangfolge: Girokonto", () => {
-  it("zieht für einen abschaltbaren Dispo („teils“) ein Zehntel vom Halal-Teil ab (Elias, 14.10.2026)", () => {
-    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 0,9 = 4,5, bisher 3,75 mit einem Viertel Abzug
+  it("zieht für einen abschaltbaren Dispo („teils“) nichts mehr ab, Abstellbares zählt nicht gegen die Note (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 1 = 5; bis 07.11.2026 ein Zehntel Abzug (4,5)
     const b = einzig(rGiro([giro("haspa", { keinDispoAbStart: "teils" })]));
-    expect(FAKTOR_DISPO).toBe(0.9);
-    expect(b.halal).toBe(4.5);
+    expect(FAKTOR_DISPO).toBe(1);
+    expect(b.halal).toBe(5);
     expect(b.halalVorKredit).toBe(5);
+    expect(b.uneingeschraenkt).toBe(false);
   });
 
   it("macht ein Konto mit abschaltbarem Dispo nie zur Nummer 1, auch mit Link und bester Note", () => {
@@ -610,11 +611,19 @@ describe("rangfolge: Nummer 1 nur ohne Einschränkung (Spec 10.7)", () => {
     expect(Object.fromEntries(r.gerankt.map((x) => [x.anbieter.id, x.uneingeschraenkt]))).toEqual({ frei: true, gelb: false, dispo: false });
   });
 
-  it("nimmt für die Nummer 1 den besten Eintrag ohne Einschränkung", () => {
-    // dispo: Halal 2,5, Kosten 5, Note 3,75. frei: Halal 5, Kosten 1, Note 3.
+  it("nimmt für die Nummer 1 den besten Eintrag ohne Einschränkung, und die Liste stellt ihn auf Platz 1 (Regel 6, Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+    // dispo: Halal 2,5, Kosten 5, Note 3,75. frei: Halal 5, Kosten 1, Note 3. Ohne Regel 6 stünde dispo vorn.
     const r = rGiro([giro("dispo", { keinDispoAbStart: "schlecht" }), giro("frei", {}, { finanzPunkte: { kontofuehrung: 2 } })]);
-    expect(ids(r.gerankt)).toEqual(["dispo", "frei"]);
+    expect(ids(r.gerankt)).toEqual(["frei", "dispo"]);
+    expect(r.gerankt.map((b) => b.platz)).toEqual([1, 2]);
     expect(ids(nummerEins(r))).toEqual(["frei"]);
+  });
+
+  it("lässt die Liste unverändert, wenn vorn schon ein Eintrag ohne Einschränkung steht, und ohne Kandidaten auch", () => {
+    const vorn = rGiro([giro("frei"), giro("dispo", { keinDispoAbStart: "schlecht" }, { finanzPunkte: { kontofuehrung: 1 } })]);
+    expect(ids(vorn.gerankt)).toEqual(["frei", "dispo"]);
+    const keiner = rKrypto([krypto("gelb", { zinsfreiAbStart: "teils" })]);
+    expect(ids(keiner.gerankt)).toEqual(["gelb"]);
   });
 
   it("liefert bei Gleichstand alle Gleichauf und ohne Kandidaten nichts", () => {
@@ -735,24 +744,29 @@ describe("rangfolge: echte Daten", () => {
   });
 });
 
-describe("automatischer Kredit im Depot (Elias, 12.10.2026)", () => {
+describe("automatischer Kredit im Depot (Elias, 12.10.2026; ohne Abzug seit 07.11.2026)", () => {
   const flatex = () => brokerVergleich.find((a) => a.id === "flatex-depot")!;
 
-  it("zieht den Kredit-Abzug vom Halal-Teil ab und macht das Depot nie zur Nummer 1", () => {
-    const mit = rangfolge(brokerVergleich, "depot").gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
+  it("zieht keinen Abzug mehr vom Halal-Teil ab, macht das Depot aber nie zur Nummer 1 (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    const mit = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
     expect(flatex().werte.kreditAbStart).toBe("teils");
+    expect(FAKTOR_KREDIT).toBe(1);
     expect(mit.kredit).toBe(true);
     expect(mit.uneingeschraenkt).toBe(false);
-    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * FAKTOR_KREDIT, 1);
-    expect(mit.halal).toBeLessThan(mit.halalVorKredit);
-    expect(nummerEins(rangfolge(brokerVergleich, "depot")).map((b) => b.anbieter.id)).not.toContain("flatex-depot");
+    expect(mit.halal).toBe(mit.halalVorKredit);
+    expect(nummerEins(r).map((b) => b.anbieter.id)).not.toContain("flatex-depot");
+    expect(r.gerankt[0].anbieter.id).not.toBe("flatex-depot");
   });
 
-  it("bleibt auch mit eigenem Link hinter den Häusern mit höherer Sternzahl", () => {
+  it("steht direkt hinter Platz 1, obwohl seine Note höher ist: Platz 1 nur ohne Abstellen (Regel 6, Elias, 07.11.2026)", () => {
     const r = rangfolge(brokerVergleich, "depot");
-    const platz = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!.platz;
+    const f = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
     expect(flatex().link).toBeTruthy();
-    expect(platz).toBeGreaterThan(3);
+    expect(f.platz).toBe(2);
+    expect(f.note).toBeGreaterThan(r.gerankt[0].note);
+    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+    expect(ids(nummerEins(r))).toContain(r.gerankt[0].anbieter.id);
   });
 
   it("trägt ohne Kredit-Merkmal keinen Abzug", () => {

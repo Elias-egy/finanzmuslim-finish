@@ -220,7 +220,7 @@ export const werteAus = (
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
       sortWert: note
-        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert ohne den Abzug für den Kredit (Elias, 12.10.2026).
+        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert nach dem Halal-Teil (Elias, 12.10.2026; den Kredit-Abzug gibt es seit 07.11.2026 nicht mehr).
           ? runde((eigen?.halalVorKredit ?? bewertet!.halalVorKredit) + note.gesamt / 100)
           : eigen
             ? runde(ANTEIL_NOTE * note.gesamt + (1 - ANTEIL_NOTE) * (0.5 * eigen.halal + 0.5 * (kosten ?? note.finanz ?? 0)))
@@ -239,6 +239,10 @@ export const werteAus = (
     q.sortWert - p.sortWert ||
     position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);
+  // Regel 6 der Rangfolge: Platz 1 nur ohne Abstellen (Elias, 07.11.2026, CV20F). Ausnahme: Wer ausdrücklich
+  // die größte Auswahl will, bekommt das Depot mit Kredit weiter vorn (Elias, 12.10.2026).
+  const ersterFrei = auswahl.prioritaet?.nachHalal ? 0 : passt.findIndex((t) => !t.kredit);
+  if (ersterFrei > 0) passt.unshift(...passt.splice(ersterFrei, 1));
   ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!);
 
   return { passt, ungeprueft, raus };

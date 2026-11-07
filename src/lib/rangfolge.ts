@@ -40,6 +40,10 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    ohne Einschränkung: Zins-Tor grün und keine rote Grundlage (`BASIS`).
  *    So gilt "gelb halbiert" (Elias, 14.09.2026) für die Liste und "kein Mensch
  *    will Zinsen" (19.09.2026) für die Empfehlung.
+ * 6. Platz 1 der Liste ist derselbe Eintrag: der erste ohne Einschränkung rückt nach vorn, alle anderen
+ *    behalten ihre Reihenfolge (Elias, 07.11.2026, CV20F: "1 muss immer etwas für die Mehrheit kostengünstig
+ *    sein", Regel "Platz 1 nur ohne Abstellen"). So steht ein Depot mit Kredit ab Start (flatex) nie vor
+ *    der Empfehlung, auch wenn seine Note höher ist.
  */
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall";
@@ -81,19 +85,22 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
  * natürlich werten" (kein Urteil eines Gelehrten). Deshalb ein Abzug und kein Tor. Erst ein Viertel (wie ein Dispo auf "gelb"), das ergab Platz 8. Elias am selben Abend:
  * "Platz 8 ist schon echt weit unten", er dachte an Platz 5. Platz 5 gibt es rechnerisch nicht (mit
  * Link steht flatex bei 4,5 Sternen auf 4, bei 4 Sternen auf 6). Ein Zehntel Abzug ergibt Platz 4.
- * Nie Nummer 1: Dafür sorgen `uneingeschraenkt` in `nummerEins` und `siegerDerSeite` in
- * `src/lib/vergleichAssistent.ts` (der Kasten der Vergleichsseite), nicht dieser Faktor.
+ * Seit 07.11.2026 kein Abzug mehr: "fair ranken heißt ohne Abzug ... das ist ja easy abstellbar"
+ * (raw/2026-11-07-elias-cv19f-rangfolge-traders-place-flatex-smartbroker.md im Vault, Ja in CV20F). Platz 1
+ * bleibt trotzdem einem Eintrag ohne Abstellen vorbehalten (Regel 6), dazu `nummerEins` und `siegerDerSeite`
+ * in `src/lib/vergleichAssistent.ts`.
  */
-export const FAKTOR_KREDIT = 0.9;
+export const FAKTOR_KREDIT = 1;
 
 /**
  * Faktor auf den Halal-Teil im Girokonto, wenn der Dispo ab Start eingeräumt wird, sich aber abschalten lässt
  * (`keinDispoAbStart` "teils"). Vorbild `FAKTOR_KREDIT`. Elias, 13.10.2026: eine abschaltbare Ausnahme soll
  * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
  * werten". Bisher zählte "teils" nur halb (ein Viertel Abzug vom Halal-Teil, ein ganzer Stern). Nie Nummer 1,
- * wie flatex: Ob ein belegtes Abschalten den Abzug ganz aufhebt, entscheidet Elias.
+ * wie flatex. Seit 07.11.2026 kein Abzug mehr, dieselbe Regel wie beim Kredit: Abstellbares zählt nicht gegen
+ * die Note (CV20F), Platz 1 bleibt ihm verwehrt (Regel 6).
  */
-export const FAKTOR_DISPO = 0.9;
+export const FAKTOR_DISPO = 1;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
@@ -404,11 +411,15 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
     vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
+  // Regel 6: Platz 1 nur ohne Einschränkung.
+  const ersterFrei = bewertet.findIndex((b) => b.uneingeschraenkt);
+  if (ersterFrei > 0) bewertet.unshift(...bewertet.splice(ersterFrei, 1));
+  const vorgezogen = ersterFrei > 0;
 
   const gerankt: Bewertet[] = [];
   bewertet.forEach((b, i) => {
     const vorher = gerankt[i - 1];
-    const platz = vorher && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
+    const platz = vorher && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
     gerankt.push({ ...b, platz });
   });
 
