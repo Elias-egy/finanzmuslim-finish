@@ -112,7 +112,7 @@ export const festeRouten: Route[] = [
   wissenBeitrag("halal-kredit-ohne-zinsen", "HalalKreditOhneZinsen.tsx"),
   wissenBeitrag("haus-kaufen-ohne-zinsen", "HausKaufenOhneZinsen.tsx"),
   wissenBeitrag("girokonto-ohne-zinsen", "GirokontoOhneZinsen.tsx"),
-  wissenBeitrag("ist-versicherung-haram", "IstVersicherungHaram.tsx"),
+  wissenBeitrag("sind-versicherungen-haram", "IstVersicherungHaram.tsx"),
   wissenBeitrag("ist-leasing-haram", "IstLeasingHaram.tsx"),
   wissenBeitrag("ratenzahlung-haram", "RatenzahlungHaram.tsx"),
   wissenBeitrag("auto-kaufen-ohne-zinsen", "AutoKaufenOhneZinsen.tsx"),
@@ -223,11 +223,14 @@ export const wissenUmzug: [string, string][] = [
   ...[
     "zinsen-im-islam", "halal-gold-kaufen", "sukuk", "ist-bitcoin-halal", "nisab", "ertraege-reinigen", "gharar",
     "maysir", "haeufige-fehler", "erbe", "halal-kredit-ohne-zinsen", "haus-kaufen-ohne-zinsen", "girokonto-ohne-zinsen",
-    "ist-versicherung-haram", "ist-leasing-haram", "ratenzahlung-haram", "auto-kaufen-ohne-zinsen", "kreditkarte-halal",
+    "ist-leasing-haram", "ratenzahlung-haram", "auto-kaufen-ohne-zinsen", "kreditkarte-halal",
     "dispo-und-schulden", "trading-forex-cfd", "zakat-auf-aktien-etf-krypto",
   ].map((s): [string, string] => [`/wissen/${s}`, `/blog/${s}`]),
   // Adresse wortgleich mit dem Hauptbegriff „sind aktien haram“ (ADRESSEN.md, D49)
   ["/wissen/sind-aktien-halal", "/blog/sind-aktien-haram"],
+  // Titel und Adresse tragen die meistgesuchte Schreibweise „sind versicherungen haram“ (Elias SEO69, 07.11.2026)
+  ["/wissen/ist-versicherung-haram", "/blog/sind-versicherungen-haram"],
+  ["/blog/ist-versicherung-haram", "/blog/sind-versicherungen-haram"],
 ];
 
 export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [

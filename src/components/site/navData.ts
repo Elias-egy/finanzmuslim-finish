@@ -42,7 +42,7 @@ export const navGroups: NavGroup[] = [
           { label: "Haus kaufen ohne Zinsen", to: "/blog/haus-kaufen-ohne-zinsen" },
           { label: "Auto kaufen ohne Zinsen", to: "/blog/auto-kaufen-ohne-zinsen" },
           { label: "Ist Leasing haram?", to: "/blog/ist-leasing-haram" },
-          { label: "Sind Versicherungen haram?", to: "/blog/ist-versicherung-haram" },
+          { label: "Sind Versicherungen haram?", to: "/blog/sind-versicherungen-haram" },
         ],
       },
       {

@@ -110,7 +110,7 @@ const wissenKarten: WissenKarte[] = [
   {
     thema: "Alltag",
     titel: "Ist eine Versicherung haram?",
-    to: "/blog/ist-versicherung-haram",
+    to: "/blog/sind-versicherungen-haram",
     motiv: "versicherung",
   },
   {

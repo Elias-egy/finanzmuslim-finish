@@ -40,10 +40,11 @@ import {
  * „Sind Versicherungen haram?“, neu gebaut in SEO57 (05.11.2026) im Aufbau von /blog/ist-leasing-haram (Station je Beitrag,
  * Vault fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/beitraege/ist-versicherung-haram.md). Jede Halal-Aussage aus
  * ~/hourani/positionen/versicherungen.md, auf der Seite ohne Namen; Begleitdatei docs/blog/pruefer-seo57/ist-versicherung-haram-seo57.txt.belege.md.
- * Title und H1 beginnen mit der meistgesuchten Frage „sind versicherungen haram“ (Ahrefs 05.11.2026), die Adresse bleibt.
+ * Title, H1 und Adresse tragen die meistgesuchte Frage „sind versicherungen haram“ (Ahrefs 05.11.2026); Elias SEO69: „der Titel
+ * und Link sollen nach dem meistgesuchtesten gehen“. Die alte Adresse /blog/ist-versicherung-haram leitet hierher.
  */
 
-const PFAD = "/blog/ist-versicherung-haram";
+const PFAD = "/blog/sind-versicherungen-haram";
 /** Elias SEO63: ein Titel mit Hauptbegriff, Jahr und Versprechen wie frontal „Best GTM Agency in 2026: The Buyer's Shortlist“, kein zählender Satz. */
 const TITEL = "Sind Versicherungen haram? Der komplette Guide 2026";
 /** Title-Tag ohne „| finanzmuslim“: mit Zusatz 66 Zeichen, so 51 und unter 60 (Prüfzeile S052-A07-04). */
@@ -331,7 +332,7 @@ const graph = () => {
         datePublished: VEROEFFENTLICHT.iso,
         dateModified: AKTUALISIERT.iso,
         inLanguage: "de-DE",
-        image: `${SITE}/og/blog--ist-versicherung-haram.jpg`,
+        image: `${SITE}/og/blog--sind-versicherungen-haram.jpg`,
         video: { "@id": `${url}#video` },
       },
       {

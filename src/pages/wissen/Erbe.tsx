@@ -338,7 +338,7 @@ const Erbe = () => (
         punkte={[
           { to: "/blog/nisab", name: "Nisab", text: "sagt dir, ab wann Zakat überhaupt fällig wird." },
           { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "gehört zu den Dingen, die man zu Lebzeiten erledigt." },
-          { to: "/blog/ist-versicherung-haram", name: "Ist eine Versicherung haram?", text: "behandelt die Frage nach der Absicherung der Familie." },
+          { to: "/blog/sind-versicherungen-haram", name: "Ist eine Versicherung haram?", text: "behandelt die Frage nach der Absicherung der Familie." },
         ]}
       />
     </BeitragSeite>
