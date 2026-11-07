@@ -29,8 +29,8 @@ import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./
  * zweimal, oben und ganz unten, damit der Weg zum Anbieter nie weit ist.
  *
  * Seit SEO74 wie Finanzfluss: Der Kopf je Spalte trägt einen eckigen Reiter mit der Platzzahl und
- * die Auszeichnung als Text, darunter das Logo; Name (blau mit Stern) und Note mit Sternen stehen
- * in eigenen Zeilen. Eine Spalte mit Auszeichnung ist leicht getönt. Die untere Angebotszeile läuft
+ * die Auszeichnung als Text, darunter Logo und Name (blau mit Stern); Note mit Sternen und
+ * Produktdetails stehen in der ersten Zeile. Eine Spalte mit Auszeichnung ist leicht getönt. Die untere Angebotszeile läuft
  * als Leiste am unteren Rand mit, sobald die obere aus dem Bild ist, und endet an ihrem Platz unter
  * der Tabelle (Elias CV17F „Pop-up“, CV18F „Nur Laptop“).
  *
@@ -211,8 +211,12 @@ export const VergleichsTabelle = ({
                           )}
                         </div>
                       )}
-                      <div className="flex flex-1 items-center justify-center px-3 pb-3 pt-1.5">
+                      <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-3 pb-2.5 pt-1.5">
                         <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
+                        {/* Der Name klebt mit: nach zehn Zeilen sagt ein Symbol allein nicht mehr, wessen Zahl man liest. */}
+                        <p className="w-full truncate text-center text-[13px] leading-snug" title={`${s.anbieter} ${s.produkt}`}>
+                          <AnbieterName spalte={s} />
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -224,15 +228,13 @@ export const VergleichsTabelle = ({
 
         <div ref={schieber} onScroll={merkeStelle} className="overflow-x-auto" style={maske}>
           <div className="grid" style={raster}>
-            {/* Produkt: Name blau mit Stern, Tarif, Produktdetails. Bewertung: Note mit Sternen. */}
-            <div className={kriterium}>Produkt</div>
+            {/* Bewertung: Note mit Sternen, darunter Tarif und Produktdetails. Ohne Noten heißt die Zeile „Produkt“. */}
+            <div className={kriterium}>{mitNote ? "Bewertung" : "Produkt"}</div>
             {spalten.map((s) => {
               const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
               return (
-                <div key={`produkt-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
-                  <p className="line-clamp-2 w-full text-[14px] leading-snug">
-                    <AnbieterName spalte={s} />
-                  </p>
+                <div key={`note-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
+                  {mitNote && (s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>)}
                   {s.tarif && (
                     /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Zeile aller Spalten mit. */
                     <span className="rounded bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
@@ -253,16 +255,6 @@ export const VergleichsTabelle = ({
                 </div>
               );
             })}
-            {mitNote && (
-              <>
-                <div className={kriterium}>Bewertung</div>
-                {spalten.map((s) => (
-                  <div key={`note-${s.id}`} className={`${zelle} border-r last:border-r-0 ${grund(s)}`}>
-                    {s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>}
-                  </div>
-                ))}
-              </>
-            )}
 
             {/* Datenzeilen */}
             {zeilen.map((z) => {

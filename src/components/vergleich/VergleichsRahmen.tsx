@@ -119,13 +119,14 @@ export const NummerEins = ({
        Kleinschrift zur Rangfolge steht nicht mehr am Kasten (Elias 06.11.: kein Kleingedrucktes),
        „So bewerten wir“ steht unter der Tabelle. */
     <section className="overflow-hidden rounded-lg border border-primary bg-card" aria-label={auszeichnung}>
-      <p className="border-b border-primary bg-primary px-4 py-1.5 text-center text-[14px] font-semibold text-primary-foreground">
-        {auszeichnung}
+      {/* Streifen mit Platzzahl im Reiter wie die anderen Karten (Finanzfluss: „1 … Bestes Depot“). */}
+      <p className="flex items-stretch border-b border-primary bg-primary text-[14px] font-semibold text-primary-foreground">
+        <span className="flex min-w-[36px] items-center justify-center border-r border-primary-foreground/30 px-2">1</span>
+        <span className="flex-1 px-4 py-1.5 text-center">{auszeichnung}</span>
       </p>
       <div className="p-4 xl:p-5">
-        <div className="flex items-center gap-3">
-          <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
-          <div className="min-w-0 flex-1">
+        <div>
+          <div>
             <p className="text-[18px] leading-snug text-foreground">
               {anbieter.link ? (
                 <Link to={anbieter.link} rel="sponsored nofollow" className="text-primary underline underline-offset-2 hover:text-primary-hover">
@@ -137,7 +138,17 @@ export const NummerEins = ({
                 </>
               )}
             </p>
-            {note != null && <NotenBlock note={note} klein />}
+          </div>
+          {/* Logo und Note in zwei Kästchen wie jede Karte darunter. Ohne Note nur das Logo. */}
+          <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"}`}>
+            <div className="flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2">
+              <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
+            </div>
+            {note != null && (
+              <div className="flex items-center justify-center rounded-lg border border-border p-2">
+                <NotenBlock note={note} mittig />
+              </div>
+            )}
           </div>
         </div>
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
