@@ -24,6 +24,7 @@ const BELEGART: Record<string, string> = {
   ausschluss: "vom Anbieter ausgeschlossen",
   vollstaendige_liste: "fehlt in seiner vollständigen Liste",
   portal: "Sparplan laut Finanzfluss",
+  suche_anbieter_leer: "in seiner Suche nicht gefunden",
 };
 
 const belegSatz = (liste: Beleg[]) => {
