@@ -230,7 +230,6 @@ export const wissenUmzug: [string, string][] = [
   ["/wissen/sind-aktien-halal", "/blog/sind-aktien-haram"],
   // Titel und Adresse tragen die meistgesuchte Schreibweise „sind versicherungen haram“ (Elias SEO69, 07.11.2026)
   ["/wissen/ist-versicherung-haram", "/blog/sind-versicherungen-haram"],
-  ["/blog/ist-versicherung-haram", "/blog/sind-versicherungen-haram"],
 ];
 
 export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
@@ -247,6 +246,8 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
   // /wissen wird /blog (SEO43): Übersicht und alle Beiträge, ohne noindex wie /wissen/halal-etfs.
   ...wissenUmzug.map(([von, nach]) => ({ von, nach, seo: true })),
+  // Alte Blog-Adresse der Versicherung (SEO69, Titel und Adresse nach „sind versicherungen haram“), ohne noindex wie oben.
+  { von: "/blog/ist-versicherung-haram", nach: "/blog/sind-versicherungen-haram", seo: true },
   // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
   // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
