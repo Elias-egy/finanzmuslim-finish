@@ -15,7 +15,7 @@ import {
   NummerEins,
   ReihenfolgeHinweis,
 } from "./VergleichsRahmen";
-import { VergleichsTabelle } from "./VergleichsTabelle";
+import { VergleichsTabelle, platzTon } from "./VergleichsTabelle";
 import { VergleichsKarten } from "./VergleichsKarten";
 import type { VergleichsZeile } from "./vergleichTypen";
 import {
@@ -25,6 +25,7 @@ import {
 } from "@/data/vergleichHelfer";
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
+import { ANSICHT_A3, ansichtA3, platzZeilen, type AnsichtEintrag } from "@/lib/platzAnsicht";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
 const MIT_ASSISTENT = [
@@ -121,6 +122,57 @@ export type VergleichsSeiteProps = {
   vorneweg?: ReactNode;
   faq: Array<{ frage: string; antwort: string }>;
   schluss: string;
+  /** Nur Ansicht A3 (lokal): die ganze Datendatei, damit versteckte Angebote grau einsortiert stehen. */
+  ansichtAlle?: RohAnbieter[];
+};
+
+/** Ansicht A3: Elias' Frage, warum flatex trotz fast aller Anlagen hinter der teureren Consorsbank steht. */
+const FlatexGegenConsors = ({ ansicht }: { ansicht: AnsichtEintrag[] }) => {
+  const paar = ["flatex-depot", "consorsbank-depot"].map((id) => ansicht.find((e) => e.anbieter.id === id));
+  if (paar.some((e) => !e)) return null;
+  const reihen: Array<[string, string]> = [
+    ["Platz", "__platz_platz"],
+    ["Halal-Anlagen belegt", "__platz_anlagen"],
+    ["Halal-Teil vor Abzug", "__platz_halalVor"],
+    ["Abzug", "__platz_abzug"],
+    ["Halal-Teil", "__platz_halal"],
+    ["Order pauschal", "__platz_k_orderPauschal"],
+    ["Kostenpunkte", "__platz_kostenSumme"],
+    ["Kosten-Teil", "__platz_kosten"],
+    ["Note", "__platz_note"],
+  ];
+  return (
+    <section className={`${BREIT} order-1 mt-5 rounded-xl border border-primary/30 bg-accent p-4 md:p-5 lg:order-none`}>
+      <h2 className="text-[18px] font-bold text-foreground">Warum flatex hinter Consorsbank steht</h2>
+      <p className="mt-1 text-[14px] text-foreground">
+        flatex ist günstiger und hat mehr Anlagen. Der Abzug von 10 % für den Kredit ab Start kostet ihn den Platz: ohne ihn
+        hätte flatex die Note {paar[0]!.ohneAbzug?.toFixed(2).replace(".", ",")} und stünde vor Consorsbank.
+      </p>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[340px] text-[14px]">
+          <thead>
+            <tr className="text-left">
+              <th className="py-1 pr-3 font-semibold text-muted-foreground" />
+              <th className="py-1 pr-3 font-bold">flatex</th>
+              <th className="py-1 font-bold">Consorsbank</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reihen.map(([label, key]) => (
+              <tr key={key} className="border-t border-border">
+                <td className="py-1.5 pr-3 text-foreground">{label}</td>
+                {paar.map((e) => (
+                  <td key={e!.anbieter.id} className={`py-1.5 pr-3 ${platzTon[e!.platz[key]?.ton ?? ""] ?? "text-foreground"}`}>
+                    {e!.platz[key]?.text}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
 };
 
 export const VergleichsSeite = ({
@@ -150,6 +202,7 @@ export const VergleichsSeite = ({
   vorneweg,
   faq,
   schluss,
+  ansichtAlle,
 }: VergleichsSeiteProps) => {
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
@@ -195,7 +248,7 @@ export const VergleichsSeite = ({
         ...nachRang.filter((a) => a.id !== sieger.id),
       ]
     : nachRang;
-  const spalten = baueSpalten(
+  const spaltenLive = baueSpalten(
     sortiert.map((a) =>
       a.id === sieger?.id
         ? {
@@ -212,6 +265,31 @@ export const VergleichsSeite = ({
     zeilen,
     kategorie,
   );
+
+  /* Ansicht A3: alle Angebote der Datendatei, versteckte grau an ihrer Stelle, oben die Zerlegung der Note. */
+  const ansicht =
+    ANSICHT_A3 && ansichtAlle && kategorie && finanzMax
+      ? ansichtA3(anbieter, ansichtAlle, kategorie, finanzMax, zeilen)
+      : null;
+  const ansichtZeilen = ansicht && kategorie && finanzMax ? platzZeilen(kategorie, finanzMax) : [];
+  const tabellenZeilen = ansicht
+    ? [...zeilen.filter((z) => z.key === "__angebot"), ...ansichtZeilen, ...zeilen.filter((z) => z.key !== "__angebot")]
+    : zeilen;
+  const spalten = ansicht
+    ? (() => {
+        const live = new Map(spaltenLive.map((sp) => [sp.id, sp]));
+        const passt = (a: RohAnbieter) =>
+          aktiv.every((k) => (filter.find((f) => f.key === k)?.erlaubt ?? ["gut"]).includes(String(a.werte[k])));
+        const reihe = ansicht.filter((e) => passt(e.anbieter));
+        const vorn = sieger ? reihe.filter((e) => e.anbieter.id === sieger.id) : [];
+        return [...vorn, ...reihe.filter((e) => e.anbieter.id !== sieger?.id)].map((e) => {
+          const basis =
+            live.get(e.anbieter.id) ??
+            baueSpalten([{ ...e.anbieter, etikett: { text: "Nicht auf der Seite", ton: "platz" as const } }], zeilen, kategorie)[0];
+          return { ...basis, grau: e.grau, platz: e.platz };
+        });
+      })()
+    : spaltenLive;
 
   return (
     <main className="bg-background">
@@ -416,14 +494,22 @@ export const VergleichsSeite = ({
                 {sortiertNach}
               </p>
             )}
+            {ansicht && kategorie === "depot" && <FlatexGegenConsors ansicht={ansicht} />}
+            {ansicht && (
+              <p className={`${BREIT} mt-4 rounded-lg border border-warning/50 bg-warning/10 px-4 py-2 text-[14px] text-foreground`}>
+                Lokale Ansicht, nicht live: {ansicht.filter((e) => e.grau).length} graue Angebote stehen heute nicht auf der Seite, gelb
+                markiert sind Zellen mit „mind.“. Rot abgeratene, die nicht auf der Seite stehen, fehlen hier.
+              </p>
+            )}
             {/* Laptop: gedrehte Tabelle. Handy: Karten. */}
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
-              <VergleichsTabelle zeilen={zeilen} spalten={spalten} />
+              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} />
             </div>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. */}
               <VergleichsKarten
                 zeilen={zeilen}
+                platzZeilen={ansichtZeilen}
                 spalten={sieger ? spalten.filter((sp) => sp.id !== sieger.id) : spalten}
               />
             </div>

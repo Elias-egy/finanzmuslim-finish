@@ -11,6 +11,7 @@ import {
   GOLD_ISINS,
   SILBER_ISINS,
   ROYAL_MINT,
+  edelmetallVergleich,
 } from "@/data/edelmetallVergleich";
 import { halalAnlagen } from "@/data/halalAnlagen";
 import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
@@ -202,6 +203,7 @@ const VergleichEdelmetalle = () => (
     }
     zeilen={EDELMETALL_ZEILEN}
     anbieter={edelmetallAnzeige}
+    ansichtAlle={edelmetallVergleich}
     sortiertNach="Depots mit Royal Mint stehen vorn. Danach zählen kaufbare Gold- und Silber-ETCs und die Kosten pro Kauf je zur Hälfte."
     kategorie="edelmetall"
     finanzMax={EDELMETALL_FINANZ_MAX}

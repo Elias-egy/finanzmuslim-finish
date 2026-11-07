@@ -12,6 +12,8 @@ import {
   type VergleichsZeile,
   type Zellwert,
 } from "./vergleichTypen";
+import { istMindestens } from "@/lib/platzAnsicht";
+import { platzTon } from "./VergleichsTabelle";
 
 /**
  * Dieselben Daten wie in der Tabelle, nur als Karten fuer Handy und Tablet. Auf dem Handy ist die
@@ -86,18 +88,22 @@ const Punkt = ({
 const Karte = ({
   spalte,
   zeilen,
+  platzZeilen = [],
 }: {
   spalte: VergleichsSpalte;
   zeilen: VergleichsZeile[];
+  platzZeilen?: VergleichsZeile[];
 }) => {
   const [offen, setOffen] = useState(false);
+  const [platzOffen, setPlatzOffen] = useState(false);
+  const mindestens = zeilen.filter((z) => istMindestens(spalte.werte[z.key]?.text));
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
 
   const hervor = spalte.etikett?.ton === "empfehlung";
 
   return (
     <li
-      className={`flex flex-col overflow-hidden rounded-xl border bg-card ${
+      className={`flex flex-col overflow-hidden rounded-xl border ${spalte.grau ? "bg-zinc-200" : "bg-card"} ${
         spalte.abgeraten
           ? "border-destructive/40"
           : hervor
@@ -137,11 +143,53 @@ const Karte = ({
           </p>
         )}
 
+        {spalte.grau && spalte.platz?.__platz_fehlt && (
+          <p className="mt-2 text-[13px] font-semibold leading-snug text-destructive">
+            fehlt: {spalte.platz.__platz_fehlt.text}
+          </p>
+        )}
+
         <ul className="mt-3 space-y-1.5">
           {raster.map((z) => (
             <Punkt key={z.key} zeile={z} wert={spalte.werte[z.key]} />
           ))}
         </ul>
+
+        {mindestens.length > 0 && (
+          <p className="mt-2 rounded-md bg-warning/15 px-2 py-1 text-[13px] leading-snug text-foreground ring-1 ring-inset ring-warning/50">
+            „mind.“: {mindestens.map((z) => `${z.label} ${spalte.werte[z.key]?.text}`).join(", ")}
+          </p>
+        )}
+
+        {platzZeilen.length > 0 && spalte.platz && (
+          <div className="mt-3 rounded-lg bg-accent/60 px-3 py-2">
+            <button
+              type="button"
+              onClick={() => setPlatzOffen((v) => !v)}
+              aria-expanded={platzOffen}
+              className="flex min-h-[40px] w-full items-center justify-between text-left text-[14px] font-semibold text-foreground"
+            >
+              <span>
+                So entsteht der Platz: Note {spalte.platz.__platz_note?.text.split(" ")[0]}
+              </span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${platzOffen ? "rotate-180" : ""}`} aria-hidden />
+            </button>
+            {platzOffen && (
+              <dl className="mt-1 space-y-1 pb-1 text-[13px] leading-snug">
+                {platzZeilen
+                  .filter((z) => z.key !== "__platz_fehlt" || spalte.grau)
+                  .map((z) => (
+                    <div key={z.key} className="flex justify-between gap-3">
+                      <dt className="text-foreground">{z.label}</dt>
+                      <dd className={`text-right ${platzTon[spalte.platz?.[z.key]?.ton ?? ""] ?? "text-foreground"}`}>
+                        {spalte.platz?.[z.key]?.text ?? "–"}
+                      </dd>
+                    </div>
+                  ))}
+              </dl>
+            )}
+          </div>
+        )}
 
         {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
             kostet auf dem Handy über viele Karten mehrere Bildschirme. */}
@@ -186,9 +234,11 @@ const SEITE = 15;
 export const VergleichsKarten = ({
   zeilen,
   spalten,
+  platzZeilen,
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
+  platzZeilen?: VergleichsZeile[];
 }) => {
   const [sichtbar, setSichtbar] = useState(SEITE);
   const zeigen = spalten.slice(0, sichtbar);
@@ -198,7 +248,7 @@ export const VergleichsKarten = ({
       {/* Tablet: zwei Karten nebeneinander, sonst laufen Liste und Knopf über die ganze Breite. */}
       <ul className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
         {zeigen.map((s) => (
-          <Karte key={s.id} spalte={s} zeilen={zeilen} />
+          <Karte key={s.id} spalte={s} zeilen={zeilen} platzZeilen={platzZeilen} />
         ))}
       </ul>
 

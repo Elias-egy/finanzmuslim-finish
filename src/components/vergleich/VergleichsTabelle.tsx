@@ -4,6 +4,15 @@ import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { AngebotsDialog } from "./AngebotsDialog";
 import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
+import { istMindestens } from "@/lib/platzAnsicht";
+
+/** Ansicht A3: Farbe einer Zelle „So entsteht der Platz“. */
+export const platzTon: Record<string, string> = {
+  verlust: "font-semibold text-destructive",
+  abzug: "font-semibold text-warning",
+  voll: "text-success",
+  leer: "text-muted-foreground",
+};
 
 /**
  * Die gedrehte Tabelle fuer den Laptop: links stehen die Kriterien, rechts je
@@ -30,6 +39,7 @@ const gruppenTitel: Record<string, string> = {
   angebot: "Anbieter und Angebot",
   halal: "Halal-Merkmale",
   kosten: "Kosten und Konditionen",
+  platz: "So entsteht der Platz",
 };
 
 const etikettTon: Record<string, string> = {
@@ -199,7 +209,7 @@ export const VergleichsTabelle = ({
             return (
               <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
                 {/* `h-full`: Bricht ein Produktname um, wächst die Kopfzeile für alle gleich. */}
-                <div className="flex h-full flex-col bg-card" style={{ position: "sticky", top: KOPF }}>
+                <div className={`flex h-full flex-col ${s.grau ? "bg-zinc-200 grayscale" : "bg-card"}`} style={{ position: "sticky", top: KOPF }}>
                   {s.abgeraten ? (
                     <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
                       <span className="block truncate text-center text-[11px] font-semibold text-destructive">
@@ -262,8 +272,15 @@ export const VergleichsTabelle = ({
                   </span>
                 </div>
                 {spalten.map((s) => (
-                  <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
-                    {z.key === "__angebot" || z.key === "__angebot_unten" ? (
+                  <div
+                    key={`${z.key}-${s.id}`}
+                    className={`${zelle} border-r last:border-r-0 ${s.grau ? "bg-zinc-200 text-zinc-600" : z.gruppe === "platz" ? "bg-accent/40" : ""} ${
+                      z.gruppe === "platz" ? "text-[12px]" : ""
+                    } ${istMindestens(s.werte[z.key]?.text) ? "bg-warning/15 ring-1 ring-inset ring-warning/50" : ""}`}
+                  >
+                    {z.key.startsWith("__platz_") ? (
+                      <span className={platzTon[s.platz?.[z.key]?.ton ?? ""] ?? "text-foreground"}>{s.platz?.[z.key]?.text ?? "–"}</span>
+                    ) : z.key === "__angebot" || z.key === "__angebot_unten" ? (
                       <div className="w-full">
                         <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
                         {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
