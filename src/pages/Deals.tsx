@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { laufendeDeals, schildText, type Deal, type DealBereich } from "@/data/deals";
+import { laufendeDeals, type Deal, type DealBereich } from "@/data/deals";
 import { empfehlbar } from "@/data/vergleichAssistent";
 import { brokerVergleich } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
@@ -11,6 +11,7 @@ import { Check, Copy, Gift, TicketPercent } from "lucide-react";
 
 /** Beworben wird nur, wer ab Start zinsfrei ist. Boni von anderen stehen nur neben ihrem Eintrag im Vergleich. */
 const deals = laufendeDeals().filter((d) => !d.anbieterIds || d.anbieterIds.every(empfehlbar));
+const hoechster = deals.reduce((max, d) => Math.max(max, d.betrag ?? 0), 0);
 
 /** Domain fürs Logo: aus dem Vergleichseintrag, an dem der Bonus hängt. */
 const domainFuer = (deal: Deal) => {
@@ -50,21 +51,14 @@ const DealCard = ({ deal }: { deal: Deal }) => {
         <div className="flex min-w-0 items-center gap-3">
           <AnbieterLogo name={deal.anbieter} domain={domainFuer(deal)} gross />
           <div className="min-w-0">
-            <p className="text-[13px] font-semibold text-muted-foreground uppercase tracking-wide">
-              {deal.anbieter}
-            </p>
+            <p className="text-[15px] font-semibold text-foreground">{deal.anbieter}</p>
             <h2 className="headline text-xl md:text-2xl mt-0.5">{deal.titel}</h2>
           </div>
         </div>
-        {/* Der Betrag ist das Detail, das leuchten darf: Gold statt Hellblau. */}
-        {deal.betrag && (
-          <span className="shrink-0 whitespace-nowrap rounded-full bg-spark-soft px-3 py-1 text-[14px] font-bold text-spark-foreground ring-1 ring-spark/60">
-            {schildText(deal)}
-          </span>
-        )}
+        {/* Kein zweites Betragsschild: Der Titel beginnt schon mit dem Geld (Finanzfluss-Deals, CV17F H1). */}
       </div>
 
-      <p className="text-muted-foreground leading-relaxed">{deal.vorteil}</p>
+      {/* Kein Satz, der Name und Betrag wiederholt: Titel, dann Knopf (frischer Prüfer CV17F). */}
 
       {deal.gutscheincode && (
         <div className="rounded-lg border border-dashed border-border bg-muted/50 p-4">
@@ -97,11 +91,7 @@ const DealCard = ({ deal }: { deal: Deal }) => {
         </div>
       )}
 
-      <p className="text-[13px] text-muted-foreground">
-        {deal.bedingungen}
-        {deal.quelle && ` Geprüft beim Anbieter am ${deal.quelle.stand}.`}
-      </p>
-
+      {/* Bedingungen stehen beim Anbieter, nicht hier als graue Kleinschrift (Elias 06.11.2026, SEO63). */}
       {ctaUrl ? (
         <Link
           to={ctaUrl}
@@ -154,14 +144,13 @@ const Deals = () => {
       brotkrumen={[{ name: "Deals", path: "/deals" }]}
     />
     <main>
-      <section className="container max-w-3xl pt-14 md:pt-20">
-        <span className="badge-note">Community</span>
-        <h1 className="headline text-4xl md:text-[52px] leading-[1.05] mt-5">
-          Aktuelle Angebote
+      <section className="container max-w-4xl pt-14 md:pt-20">
+        {/* Die Überschrift beginnt mit dem Geld wie bei Finanzfluss (CV17F H1). */}
+        <h1 className="headline text-4xl md:text-[52px] leading-[1.05]">
+          {hoechster > 0 ? `Bis zu ${hoechster.toLocaleString("de-DE")} € Prämie` : "Aktuelle Angebote"}
         </h1>
         <p className="mt-5 text-muted-foreground leading-relaxed text-base md:text-[17px]">
-          Hier sammle ich Boni und Aktionen, die sich für meine Community lohnen.
-          Jedes Angebot wird vorher geprüft.
+          Sieh, welche Boni gerade bei Depot und Girokonto laufen.
         </p>
       </section>
 
