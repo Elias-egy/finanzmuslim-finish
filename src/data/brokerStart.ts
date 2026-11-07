@@ -23,6 +23,10 @@ export type BrokerStart = {
   video?: { src: string; poster?: string };
   /** Nur flatex: Verzicht auf den flex-Kredit in Textform. */
   kreditVerzicht?: boolean;
+  /** Pflichttext aus den Vorgaben des Partners, steht unter dem Knopf in Textgröße. */
+  pflicht?: string;
+  /** Kostenhinweis des Partners zu einer 0-€-Angabe, klein unter den zwei Zeilen. */
+  kostenHinweis?: string;
 };
 
 export const BROKER_START: Record<string, BrokerStart> = {
@@ -42,6 +46,11 @@ export const BROKER_START: Record<string, BrokerStart> = {
     wechselUrl:
       "https://www.flatex.de/service/faqs/detail/depotuebertrag/allgemein-zum-depotuebertrag/wie-kann-ich-ein-konto-zu-flatex-uebertragen/",
     kreditVerzicht: true,
+    // flatex-Vorgaben für Partner (~/rebrand/data/vergleiche/belege/flatex/2026-10-12-info-flatex-disclaimers.txt):
+    // Risikohinweis „deutlich sichtbar und in der gleichen Schriftgröße wie der Text“, bei 0 € Orderentgelt für ETFs
+    // (Sparplan) der Kostenhinweis „zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten“.
+    pflicht: "Investieren birgt Verlustrisiken.",
+    kostenHinweis: "ETF-Sparplan zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten.",
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",

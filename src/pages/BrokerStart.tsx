@@ -135,12 +135,12 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
       >
         <div className="container relative pt-7 pb-10 md:pt-12 md:pb-16">
           <div className="mx-auto max-w-[760px]">
-            <h1 className="headline text-center text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
-              {partner.titel[0]} <br className="hidden sm:block" />
-              <span className="text-hero">{partner.titel[1]}</span>
+            {/* Elias, CV21F 08.11.: weniger Dinge, die um den Blick kämpfen. Titel klein in einer Zeile, der Kasten führt. */}
+            <h1 className="headline text-center text-white text-[24px] sm:text-[30px] md:text-[36px] leading-[1.1]">
+              Dein Halal-Depot in 10 Minuten
             </h1>
 
-            <div className="mx-auto mt-5 max-w-[560px] rounded-2xl bg-white p-4 text-foreground shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] md:mt-7 md:p-5">
+            <div className="mx-auto mt-4 max-w-[560px] rounded-2xl bg-white p-4 text-foreground shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] md:mt-7 md:p-5">
               <div className="flex items-center gap-3">
                 <AnbieterLogo name={partner.anbieter} domain={partner.domain} />
                 <div className="min-w-0 flex-1">
@@ -164,10 +164,11 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                   </li>
                 ))}
               </ul>
+              {start.kostenHinweis && <p className="mt-1.5 pl-[26px] text-[12px] leading-snug text-muted-foreground">{start.kostenHinweis}</p>}
             </div>
 
-            <div className="mt-5 flex flex-col items-center gap-2 md:mt-6">
-              <p className="text-[13px] leading-tight text-white/70">Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten.</p>
+            {/* Werbekennzeichnung wie Finanzfluss: Sternchen am Knopf, Erklärung in der Fußnote unten. */}
+            <div className="mt-4 flex flex-col items-center gap-2 md:mt-5">
               <a
                 href={knopf.href}
                 rel="sponsored noopener"
@@ -175,21 +176,12 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                 onClick={zumAnbieter}
                 className="pill-btn w-full max-w-[560px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
               >
-                Depot bei {partner.anbieter} eröffnen
+                Depot bei {partner.anbieter} eröffnen*
               </a>
-              <p className="text-[13px] leading-tight text-white/70">
-                {partner.risikoUrl ? (
-                  <a href={partner.risikoUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
-                    Kapitalanlagen bergen Risiken.
-                  </a>
-                ) : (
-                  "Kapitalanlagen bergen Risiken."
-                )}
-              </p>
+              {start.pflicht && <p className="max-w-[560px] text-center text-[15px] leading-snug text-white/90">{start.pflicht}</p>}
             </div>
 
-            <div className="mt-9 md:mt-12">
-              <p className="mb-3 text-center text-[17px] font-bold text-white md:text-[19px]">Wir richten es zusammen ein</p>
+            <div className="mt-8 md:mt-10">
               <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
                 {start.video ? (
                   <>
@@ -304,8 +296,15 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           </div>
 
           <p className="mt-16 text-[12px] leading-relaxed text-muted-foreground">
-            Keine Anlageberatung. Kapitalanlagen bergen Risiken. Diese Seite enthält Werbung/Affiliate-Links zu{" "}
-            {partner.anbieter}.{" "}
+            *Das ist ein Werbe- oder Affiliate-Link: Eröffnest du darüber ein Depot, bekomme ich eine Provision, für dich
+            ohne Mehrkosten. Keine Anlageberatung.{" "}
+            {partner.risikoUrl ? (
+              <a href={partner.risikoUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                Kapitalanlagen bergen Risiken.
+              </a>
+            ) : (
+              "Kapitalanlagen bergen Risiken."
+            )}{" "}
             <Link to="/wie-ich-geld-verdiene" className="underline underline-offset-2">
               Wie ich Geld verdiene
             </Link>
