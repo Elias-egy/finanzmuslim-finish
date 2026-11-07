@@ -23,6 +23,7 @@ const BELEGART: Record<string, string> = {
   app_elias: "von dir in der App",
   ausschluss: "vom Anbieter ausgeschlossen",
   vollstaendige_liste: "fehlt in seiner vollständigen Liste",
+  portal: "Sparplan laut Finanzfluss",
 };
 
 const belegSatz = (liste: Beleg[]) => {
