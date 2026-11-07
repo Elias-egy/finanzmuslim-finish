@@ -8,9 +8,10 @@ const VergleichDepot = () => (
   <VergleichsSeite
     pfad="/vergleich/depot"
     brotkrumen="Depot-Vergleich"
-    titel="Depot-Vergleich für Muslime"
-    untertitel="Welcher Broker passt, wenn du islamkonform investieren willst"
-    seoTitel="Halal Depot eröffnen: Broker im Vergleich | finanzmuslim"
+    titel="Depot-Vergleich 2026"
+    untertitel="Die besten Depots für Muslime"
+    seoTitel="Depot-Vergleich 2026: Die besten Halal-Depots"
+    auszeichnungen={{ nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste Halal-Anlagen" }}
     seoText={`Welches Depot ist halal? ${depotAnzeige.length} Depots im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind.`}
     einheit="Depots"
     einleitung={

@@ -55,11 +55,23 @@ export const NotenBlock = ({
   note,
   stand,
   mittig = false,
+  klein = false,
 }: {
   note: number | null;
   stand?: string;
   mittig?: boolean;
-}) => (
+  /** Eine Zeile unter dem Namen: Wort, Zahl, Sterne (Kasten der Nummer 1). */
+  klein?: boolean;
+}) =>
+  klein ? (
+    <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[14px] font-semibold text-foreground">
+      <span>
+        {noteWort(note)}
+        {note !== null && <span className="font-normal text-muted-foreground"> ({noteZahl(note)})</span>}
+      </span>
+      <Sterne note={note} />
+    </p>
+  ) : (
   <div className={mittig ? "text-center" : ""}>
     <p className="text-[15px] font-bold text-foreground">
       {noteWort(note)}
@@ -74,7 +86,7 @@ export const NotenBlock = ({
       {note === null ? "" : stand}
     </p>
   </div>
-);
+  );
 
 /* --------------------------------------------------------------- Etikett */
 
@@ -124,7 +136,7 @@ export const BonusSchild = ({ anbieterId, className = "" }: { anbieterId: string
   if (!deal) return null;
   return (
     <p
-      className={`mx-auto mt-2 w-fit rounded-md border border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-bold text-success ${className}`}
+      className={`mx-auto w-fit rounded-b-md border border-t-0 border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-semibold text-success ${className}`}
       title={`${deal.bedingungen}${deal.gueltigBis ? ` Gültig bis ${deal.gueltigBis.split("-").reverse().join(".")}.` : ""}`}
     >
       {schildText(deal)}
