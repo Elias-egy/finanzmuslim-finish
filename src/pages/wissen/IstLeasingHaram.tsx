@@ -246,7 +246,7 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/vorlagen/auto-abo-check", name: "Auto-Abo-Check", text: `Was ${ANZAHL_ANBIETER} Abo-Anbieter zu Haftung und Verzug schreiben.` },
   { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Wann ein Ratenkauf beim Händler geht." },
   { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Alle Wege zum eigenen Auto." },
-  { to: "/blog/ist-versicherung-haram", name: "Sind Versicherungen haram?", text: "Warum die Vollkasko nie ein Notfall ist." },
+  { to: "/blog/ist-versicherung-haram", name: "Ist Versicherung haram?", text: "Warum die Vollkasko nie ein Notfall ist." },
 ];
 
 const VIDEO = { id: "ukcCjjf7FIY", titel: "So geht Leasing als Muslim (in unter 10 Minuten)", hochgeladen: "2026-04-19" };

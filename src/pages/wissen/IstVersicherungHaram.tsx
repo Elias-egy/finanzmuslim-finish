@@ -40,18 +40,19 @@ import {
  * „Sind Versicherungen haram?“, neu gebaut in SEO57 (05.11.2026) im Aufbau von /blog/ist-leasing-haram (Station je Beitrag,
  * Vault fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/beitraege/ist-versicherung-haram.md). Jede Halal-Aussage aus
  * ~/hourani/positionen/versicherungen.md, auf der Seite ohne Namen; Begleitdatei docs/blog/pruefer-seo57/ist-versicherung-haram-seo57.txt.belege.md.
- * Title und H1 beginnen mit der meistgesuchten Frage „sind versicherungen haram“ (Ahrefs 05.11.2026), die Adresse bleibt.
+ * Title und H1 heißen wie die Adresse „ist versicherung haram“ (Elias SEO69: „der Titel des Versicherungsbeitrages und der Link haben
+ * nicht den gleichen Namen. Großer Fehler.“); die Mehrzahl „sind versicherungen haram“ steht in der H2 „Warum sind Versicherungen haram?“.
  */
 
 const PFAD = "/blog/ist-versicherung-haram";
 /** Elias SEO63: ein Titel mit Hauptbegriff, Jahr und Versprechen wie frontal „Best GTM Agency in 2026: The Buyer's Shortlist“, kein zählender Satz. */
-const TITEL = "Sind Versicherungen haram? Der komplette Guide 2026";
-/** Title-Tag ohne „| finanzmuslim“: mit Zusatz 66 Zeichen, so 51 und unter 60 (Prüfzeile S052-A07-04). */
+const TITEL = "Ist Versicherung haram? Der komplette Guide 2026";
+/** Title-Tag ohne „| finanzmuslim“: mit Zusatz 63 Zeichen, so 48 und unter 60 (Prüfzeile S052-A07-04). */
 const SEO_TITEL = TITEL;
 const META =
-  "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. Was bei Kfz, Leben und Berufsunfähigkeit gilt, mit Rechner.";
+  "Ist Versicherung haram? Für die große Mehrheit der Gelehrten ja, nur Pflicht ist ausgenommen. Was bei Kfz, Leben und Berufsunfähigkeit gilt, mit Rechner.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
-const AKTUALISIERT = { text: "06.11.2026", iso: "2026-11-06T09:00:00+01:00" };
+const AKTUALISIERT = { text: "07.11.2026", iso: "2026-11-07T09:00:00+01:00" };
 const LESEZEIT = 9;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
@@ -624,7 +625,7 @@ const IstVersicherungHaram = () => {
                 Blog
               </Link>
               <span aria-hidden>/</span>
-              <span>Sind Versicherungen haram?</span>
+              <span>Ist Versicherung haram?</span>
             </nav>
 
             <article className="mt-8">
