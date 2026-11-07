@@ -39,6 +39,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/sind-versicherungen-haram": { ziel: "/vergleich/depot", text: "Halal vorsorgen", ohneZum: true },
   // Aktien (SEO61): der einfache Weg ist ein Halal ETF im Depot (Karte sind-aktien-haram.md, Station 1 Kopfknopf).
   "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Halal anlegen", ohneZum: true },
+  // Kredit (SEO71): Sparen statt Kredit fängt beim Konto ohne Dispo an (Seiten-Prüfer SEO70 S1, Karte halal-kredit Money Page Girokonto).
+  "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
 };
 
 export const SiteHeader = () => {

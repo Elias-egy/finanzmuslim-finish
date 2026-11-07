@@ -31,5 +31,7 @@ export const polster = (rate: number, monate: number, sonder = 0) => {
     return { x: monat, eingezahlt: sonder + (i + 1) * rate, wert: anteile * kurs };
   });
   const ende = kurve[kurve.length - 1];
-  return { eingezahlt: ende.eingezahlt, wert: ende.wert, kurve };
+  // Rendite im Jahr des Fonds über genau diesen Zeitraum (Station SEO61: jeder Rechner nennt die Rendite, mit der er rechnet).
+  const renditeJahr = teil.length > 1 ? Math.pow(teil[teil.length - 1][1] / teil[0][1], 12 / (teil.length - 1)) - 1 : 0;
+  return { eingezahlt: ende.eingezahlt, wert: ende.wert, kurve, renditeJahr };
 };
