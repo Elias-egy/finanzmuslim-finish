@@ -4,6 +4,7 @@ import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { CHECK, TOP3 } from "@/data/depotTop3";
 import { findStartPartner, STARTVIDEO } from "@/data/investmentStart";
+import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
 
 type Props = {
   /** Überschrift des Blocks; ohne sie steht der Block unter der Überschrift der Seite. */
@@ -97,6 +98,11 @@ const Wortmarke = ({ name, domain }: { name: string; domain: string }) => {
 
 // Die Startseite der Nummer 1 (/out/<kurzname> → /dein-investmentstart/<kurzname>) sagt, ob ihr Video ein Beispiel ist.
 const nr1Start = findStartPartner(TOP3.find((d) => d.nr1)?.link.replace(/^\/out\//, ""));
+/* Der Knopf der Nummer 1 führt auf /depot-nummer-1, das eine Ziel aller Geld-Knöpfe (Elias, CV15F-02/-03, 06.11.2026:
+   „ein Ziel mit einem Knopf“). So folgt er der Rangfolge von selbst, ein PDF aus dieser Seite veraltet nicht. Nur für die
+   drei besten Depots und nur, wenn die Karte wirklich die Nummer 1 des Depot-Vergleichs ist (nicht bei Sukuk-Karten). */
+const NR1_ZIEL = depotNummerEinsZiel();
+const kartenZiel = (d: DepotKarte, top: readonly DepotKarte[]) => (top === TOP3 && d.nr1 && d.link === NR1_ZIEL ? "/depot-nummer-1" : d.link);
 // Elias, 01.11.2026, MC7d13d: über den beiden Karten „die bekanntesten sind nicht gleich die besten“.
 // Seit MC7d15 getrennt (Elias, 01.11.2026: „Das steht einzeln, nicht in dem Kasten“): Titel, Satz und die zwei bekannten
 // frei, darunter der hellblaue Kasten, der mit „Die besten Alternativen aus meinem Vergleich“ beginnt.
@@ -193,7 +199,7 @@ const DepotAufruf = ({
             )}
             <div className="md:col-start-2 md:row-start-2">
               <Link
-                to={link(d.link, d.nr1 ? "nr1" : "top3")}
+                to={link(kartenZiel(d, top), d.nr1 ? "nr1" : "top3")}
                 className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-xl bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90"
               >
                 Zum Angebot*

@@ -318,37 +318,8 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             </div>
           </div>
 
-          {/* Laptop: Das Video gibt Höhe ab, bis der Knopf darunter ohne Scrollen im Bild steht.
-              475 px sind Kopfleiste, Titel, Hinweis zum Video und Knopf zusammen. Mindestens 200 px breit statt 320 px:
-              Bei 320 px stand der Knopf in Fenstern unter 655 px Höhe (1366 × 768 mit Leisten) unter der Kante (06.11.2026).
-              Die Grenze sitzt am Video allein, damit der Hinweis darunter nicht schmaler wird und umbricht. */}
-          {istDepot && !leer ? (
-            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
-              <div className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] md:[max-width:clamp(200px,calc((100svh_-_475px)_*_1.7778),760px)]">
-                <video
-                  ref={videoRef}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  src={VIDEO_SRC}
-                  poster={VIDEO_POSTER}
-                  autoPlay
-                  muted
-                  playsInline
-                  controls
-                  preload="metadata"
-                  title="Depot-Eröffnung Schritt für Schritt"
-                />
-                {videoMuted && (
-                  <button
-                    onClick={unmuteVideo}
-                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
-                  >
-                    <Volume2 className="h-4 w-4" /> Ton an
-                  </button>
-                )}
-              </div>
-              {partner.videoHinweis && <VideoHinweis anbieter={partner.anbieter} />}
-            </div>
-          ) : (
+          {/* Schritte der anderen Seiten (kein Depot oder Leer-Fassung) stehen wie bisher über dem Knopf. */}
+          {!(istDepot && !leer) && (
             <div className={`mx-auto grid max-w-[760px] sm:grid-cols-3 ${leer ? "mt-5 gap-2 md:mt-8 sm:gap-3" : "mt-6 gap-3 md:mt-8"}`}>
               {schritte.map((s, i) => (
                 /* Leer-Fassung am Handy enger, damit der Knopf im ersten Bildschirm steht. */
@@ -389,6 +360,37 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               {ausnahmen.map((h) => (
                 <HinweisText key={h.titel} hinweis={h} />
               ))}
+            </div>
+          )}
+
+          {/* Depot: Knopf oben, das Video darunter (Elias, CV15F-02/-03, 06.11.2026: „ein Ziel mit einem Knopf, Knopf oben,
+              Video darunter“). Der Knopf steht im ersten Handy-Schirm; die Höhenbegrenzung des Videos für den Laptop entfällt,
+              weil darunter kein Knopf mehr Platz braucht. */}
+          {istDepot && !leer && (
+            <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
+              <div className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src={VIDEO_SRC}
+                  poster={VIDEO_POSTER}
+                  autoPlay
+                  muted
+                  playsInline
+                  controls
+                  preload="metadata"
+                  title="Depot-Eröffnung Schritt für Schritt"
+                />
+                {videoMuted && (
+                  <button
+                    onClick={unmuteVideo}
+                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
+                  >
+                    <Volume2 className="h-4 w-4" /> Ton an
+                  </button>
+                )}
+              </div>
+              {partner.videoHinweis && <VideoHinweis anbieter={partner.anbieter} />}
             </div>
           )}
 
