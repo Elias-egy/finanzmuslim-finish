@@ -43,7 +43,7 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", motiv: "karte", desc: "Stell dein Konto in zehn Minuten um.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "kreditkarte-halal", name: "Ist die Kreditkarte haram?", motiv: "karteSicher", desc: "Erkenne, welche Karte du unterschreibst.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "halal-kredit-ohne-zinsen", name: "Halal Kredit", motiv: "kredit", pfad: "/blog/halal-kredit", desc: "Sieh, welche Verträge einen Kredit ersetzen.", thema: "Alltag", datum: "5. September 2026" },
+  { slug: "halal-kredit-ohne-zinsen", name: "Halal Kredit", motiv: "kredit", pfad: "/blog/halal-kredit", desc: "Sieh, was statt Kredit erlaubt ist, und rechne, was Sparen bringt.", thema: "Alltag", datum: "7. November 2026" },
   { slug: "ratenzahlung-haram", name: "Ist Ratenzahlung haram?", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten. Rechne, was deine Rate im Depot gebracht hätte.", thema: "Alltag", datum: "5. November 2026" },

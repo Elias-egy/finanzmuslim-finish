@@ -1,384 +1,935 @@
-import Seo, { beitragJsonLd } from "@/components/Seo";
-import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
-import { IlluMurabaha, IlluZins } from "@/components/illu";
+import { useMemo, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { ArrowDown, ChevronDown } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import Seo from "@/components/Seo";
+import eliasPortrait from "@/assets/elias-autor.webp";
+import { kursStand } from "@/lib/kurse";
+import { PLATZ1, polster, zahlAus } from "@/lib/polster";
+import { etfListe, etfsBei } from "@/data/halalEtfListe";
+import { BBBANK_PRAEMIE, BONUS_KONTEN } from "@/data/girokontoBonus";
+import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { konsumzins } from "@/data/rechnerQuellen";
 import {
-  B,
-  Begriff,
-  Beispiel,
-  Bild,
-  Checkliste,
-  Frage,
-  Hinweis,
-  L,
-  Merksatz,
-  PasstDazu,
-  Schritte,
-} from "@/components/beitrag";
+  AnbieterKasten,
+  BIO,
+  Etikett,
+  euro,
+  GoogleKasten,
+  H2,
+  INSTAGRAM,
+  Karte,
+  KartenReihe,
+  Kernsatz,
+  LINKEDIN,
+  LINKEDIN_FIRMA,
+  Marke,
+  Person,
+  Pfeil,
+  PROFILE,
+  Seitenleiste,
+  SITE,
+  Tabelle,
+  Text,
+  TL,
+  useAktiv,
+  Video,
+  YOUTUBE,
+} from "@/components/blog/bausteine";
 
-const abschnitte: BeitragAbschnitt[] = [
+/**
+ * „Halal Kredit ohne Zinsen“, neu gebaut in SEO70 (07.11.2026) im Aufbau von /blog/sind-versicherungen-haram über den Skill
+ * seo-beitrag (Karte im Vault fundament/research/quellen/SEO-GUIDE-Z2aCQ5YKaTU/beitraege/halal-kredit.seo.json). Jede Halal-Aussage aus
+ * ~/hourani/positionen/ (riba, autofinanzierung, immobilienfinanzierung, kreditkarte-debitkarte), auf der Seite ohne Namen; Fundstellen in
+ * beitraege/halal-kredit-hourani-belege.md, Begleitdatei docs/blog/pruefer-seo70/halal-kredit.txt.belege.md.
+ * Title, H1 und Adresse tragen die meistgesuchte Schreibweise „halal kredit“ (Ahrefs 07.11.2026, J7); /blog/halal-kredit-ohne-zinsen leitet hierher.
+ * Elias' Leserregel „Wir brauchen doch gar keine Kredite“: der Beitrag führt vom Kredit zum Sparen und zum Girokonto ohne Zinsen.
+ */
+
+const PFAD = "/blog/halal-kredit";
+const TITEL = "Halal Kredit ohne Zinsen: Der komplette Guide 2026";
+const SEO_TITEL = TITEL;
+const META =
+  "Halal Kredit ohne Zinsen: Ein Bankkredit ist haram, auch mit 0 %. Was erlaubt ist, was es in Deutschland gibt und was Sparen statt Kredit bringt, mit Rechner.";
+const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
+const AKTUALISIERT = { text: "07.11.2026", iso: "2026-11-07T09:00:00+01:00" };
+const LESEZEIT = 9;
+const RECHTSHINWEIS =
+  "Dieser Beitrag ist keine Fatwa und keine Kredit- oder Anlageberatung. Ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
+
+type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
+const ABSCHNITTE: Abschnitt[] = [
+  { id: "kurzer-vergleich", titel: "7 Wege auf einen Blick", leiste: true, kurz: "7 Wege" },
+  { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  { id: "uebersicht", titel: "Kredit, 0 % oder Raten: Die Übersicht", leiste: true, kurz: "Die Übersicht" },
+  { id: "warum", titel: "Warum ist Kredit haram?", leiste: true, kurz: "Warum haram" },
+  { id: "null-prozent", titel: "Ist eine 0-Prozent-Finanzierung halal?", leiste: true, kurz: "0-Prozent-Finanzierung" },
+  { id: "kredit-ohne-zinsen", titel: "Ist ein Kredit ohne Zinsen halal?", leiste: true, kurz: "Kredit ohne Zinsen" },
+  { id: "ratenkauf", titel: "Ratenkauf: Der erlaubte Weg", leiste: true, kurz: "Ratenkauf" },
+  { id: "rechner", titel: "Kredit oder Sparplan: Was kostet dich das?", leiste: true, kurz: "Rechner: Kredit oder Sparplan" },
+  { id: "sparen", titel: "Erst sparen, dann kaufen", leiste: true, kurz: "Erst sparen" },
+  { id: "murabaha", titel: "Was ist Murabaha?", leiste: true, kurz: "Murabaha" },
+  { id: "islamische-bank", titel: "Islamische Bank: Kredit oder Kauf?", leiste: true, kurz: "Islamische Bank" },
+  { id: "deutschland", titel: "Halal Kredit Deutschland: Was gibt es hier?", leiste: true, kurz: "Was es in Deutschland gibt" },
+  { id: "notlage", titel: "Darf ich in einer Notlage einen Kredit nehmen?", leiste: true, kurz: "Ausnahme Notlage" },
+  { id: "schon-kredit", titel: "Ich habe schon einen Kredit. Was jetzt?", leiste: true, kurz: "Schon einen Kredit" },
+  { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
+  { id: "naechster-schritt", titel: "Dein nächster Schritt: ein Konto ohne Zinsen" },
+];
+const titelVon = (id: string) => ABSCHNITTE.find((a) => a.id === id)!.titel;
+const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
+const Ueber = ({ id }: { id: string }) => <H2 id={id}>{titelVon(id)}</H2>;
+
+/* ------------------------------------------------------------------ */
+/* Daten                                                               */
+/* ------------------------------------------------------------------ */
+
+type Ton = "gruen" | "gelb" | "rot";
+
+/** Sieben Wege zu Auto, Möbeln oder Wohnung; `unter` ist die zweite Zeile der Tabelle unter Das Wichtigste. */
+const WEGE: { weg: string; unter: string; marke: string; ton: Ton; besonders: string; warum: string; tun: string; ziel: string }[] = [
   {
-    id: "die-antwort",
-    titel: "Einen halal Kredit gibt es nicht",
-    inhalt: (
-      <>
-        <p>
-          Ein Kredit ist Geld gegen Geld. Du bekommst 10.000 Euro und gibst 11.000 Euro zurück. Der Aufschlag
-          ist der Preis für Zeit, und genau der ist das Verbotene. Daran ändert kein Name etwas.
-        </p>
-        <Merksatz>Es gibt keinen zinsfreien Kredit. Es gibt einen anderen Vertrag, der dasselbe Problem löst.</Merksatz>
-        <p>
-          Der Unterschied ist nicht kosmetisch. Beim Kredit verleiht die Bank Geld und trägt kein Risiko: Ob
-          dein Auto fährt oder dein Laden läuft, ist ihr gleich, die Rate kommt so oder so. Beim erlaubten Weg
-          kauft, besitzt oder beteiligt sie sich. Sie hat etwas in der Hand, das kaputtgehen kann, und darf
-          deshalb daran verdienen.
-        </p>
-        <p>
-          Wer nach „halal Kredit“ oder „faizsiz kredi“ sucht, sucht in Wahrheit nach diesem zweiten Weg. Vier
-          Verträge decken fast alle Fälle ab.
-        </p>
-        <Bild text="Beim Handelsvertrag wechselt eine Sache den Besitzer, und der Aufschlag ist der Preis dafür. Beim Kredit fließt nur Geld.">
-          <IlluMurabaha />
-        </Bild>
-      </>
-    ),
+    weg: "Kredit von der Bank",
+    unter: "über die Bank",
+    marke: "haram",
+    ton: "rot",
+    besonders: "Geld heute, mehr Geld später",
+    warum: "Die Bank bekommt mehr zurück, als sie dir gegeben hat",
+    tun: "Nicht unterschreiben, erst sparen",
+    ziel: "warum",
   },
   {
-    id: "die-vier-vertraege",
-    titel: "Die vier Verträge, die einen Kredit ersetzen",
-    inhalt: (
-      <>
-        <p>
-          Die Namen sind arabisch, die Sache ist einfach. Wer sie einmal kennt, erkennt sofort, was ihm ein
-          Anbieter da vorlegt.
-        </p>
-        <Begriff wort="Kaufen und mit Aufschlag weiterverkaufen" arabisch="Murabaha">
-          Die Bank kauft die Sache selbst, wird kurz Eigentümerin und verkauft sie dir zu einem festen
-          Gesamtpreis. Du zahlst in Raten. Der Aufschlag steht von Anfang an fest und wächst nicht, wenn du dir
-          Zeit lässt. Der häufigste Weg bei Auto und Ware.
-        </Begriff>
-        <Begriff wort="Mieten, am Ende übernehmen" arabisch="Idschara">
-          Die Bank kauft die Sache und vermietet sie dir. Du zahlst Miete, nicht Zins. Am Ende folgt ein
-          eigener Kaufvertrag. Der Unterschied zum normalen Leasing steckt im Kleingedruckten, vor allem bei
-          Verzugsgebühren, Versicherung und der Frage, wer den Untergang der Sache trägt.
-        </Begriff>
-        <Begriff wort="Gemeinsam kaufen, Anteil für Anteil übernehmen" arabisch="Muscharaka mutanaqisa">
-          Ihr kauft zusammen, etwa eine Wohnung. Du wohnst darin und zahlst für den Teil, der noch nicht dir
-          gehört, Miete. Parallel kaufst du Anteile nach, bis alles dir gehört. Der übliche Weg bei
-          Immobilien.
-        </Begriff>
-        <Begriff wort="Das zinsfreie Darlehen unter Menschen" arabisch="Qard hasan">
-          Geliehen wird genau der Betrag, zurück kommt genau der Betrag. Kein Aufschlag, keine Gebühr, die
-          verdeckt einer wäre. Banken bieten das nicht an, es rechnet sich für sie nicht. In Familien und
-          Gemeinden ist es der Normalfall.
-        </Begriff>
-        <Merksatz>
-          Der Prüfstein für alle vier: Wächst die Schuld, wenn du später zahlst? Dann ist es Zins mit anderem
-          Namen.
-        </Merksatz>
-      </>
-    ),
+    weg: "0-Prozent-Finanzierung",
+    unter: "über die Bank",
+    marke: "haram",
+    ton: "rot",
+    besonders: "Beim Autohaus, mit Bank im Hintergrund",
+    warum: "Sobald eine Bank dazwischen ist, bleibt es Zins",
+    tun: "Nach dem Ratenpreis ohne Bank fragen",
+    ziel: "null-prozent",
   },
   {
-    id: "murabaha-genau",
-    titel: "Woran du eine echte Murabaha erkennst",
-    inhalt: (
-      <>
-        <p>
-          Weil dieser Vertrag der häufigste ist, wird er auch am häufigsten nachgeahmt. Vier Punkte
-          unterscheiden das Original von der Kopie.
-        </p>
-        <Schritte
-          schritte={[
-            {
-              titel: "Es sind zwei getrennte Kaufverträge",
-              text: "Erst kauft die Bank vom Händler, dann verkaufst du ihr das nicht wieder ab, sondern sie verkauft es dir. Zwei Verträge, zwei Zeitpunkte. Wird nur einmal unterschrieben, ist es keine Murabaha.",
-            },
-            {
-              titel: "Du kennst den Einkaufspreis",
-              text: "Nicht nur den Endpreis. Der Verkäufer legt offen, was er selbst gezahlt hat, und nennt seinen Aufschlag getrennt. Genau das macht diesen Vertrag aus. Wer dir nur eine Gesamtsumme nennt, verkauft dir etwas anderes.",
-            },
-            {
-              titel: "Die Bank besitzt die Sache wirklich, wenn auch nur kurz",
-              text: "Sie muss zwischenzeitlich Eigentümerin sein, mit allem, was daran hängt. Fragt sich: Wer haftet, wenn die Ware auf dem Transport kaputtgeht? Wenn du das bist, obwohl du sie noch nicht gekauft hast, stimmt etwas nicht.",
-            },
-            {
-              titel: "Du wirst nicht zum Kauf gezwungen",
-              text: "Du kannst der Bank vorher versprechen, ihr die Sache abzukaufen. Dieses Versprechen bindet dich religiös, es ist aber kein Vertrag, den sie vor Gericht durchsetzen darf. Steht eine Kaufverpflichtung im Papier, war es von Anfang an eine Finanzierung.",
-            },
-          ]}
-        />
-        <Hinweis titel="Die Gewährleistung ist der beste Test">
-          <p>
-            Frag: Wenn das Auto einen versteckten Mangel hat, an wen wende ich mich? Bei einer echten Murabaha
-            ist die Bank deine Verkäuferin und schuldet dir die Gewährleistung. Verweist sie dich stattdessen
-            an den Händler, war sie nie Eigentümerin. Dann hat sie nur bezahlt, und das ist ein Kredit.
-          </p>
-        </Hinweis>
-      </>
-    ),
+    weg: "Kreditkarte in Raten",
+    unter: "über die Bank",
+    marke: "haram",
+    ton: "rot",
+    besonders: "Teilzahlung statt voller Abrechnung",
+    warum: "Fürs Aufschieben verlangt die Bank Zinsen",
+    tun: "Debitkarte nutzen",
+    ziel: "haeufige-fragen",
   },
   {
-    id: "null-prozent",
-    titel: "Null Prozent ist kein Ausweg",
-    inhalt: (
-      <>
-        <Frage>Wenn ich nichts obendrauf zahle, kann doch nichts falsch sein?</Frage>
-        <p>
-          Doch, und dieser Punkt kostet viele Leute die ganze Mühe. Sobald eine Bank dir Geld gibt und du es
-          zurückzahlst, hast du ein Darlehen aufgenommen. Ob der Zinssatz bei null steht, ändert die Art des
-          Vertrags nicht. Der Betrag ist dabei ohnehin nicht verschwunden, er ist im Preis eingerechnet, den
-          der Händler kalkuliert hat.
-        </p>
-        <p>
-          Genauso wenig hilft es, wenn im Vertrag statt „Zins“ das Wort „Gewinn“ oder „Profitrate“ steht, sich
-          aber sonst nichts ändert. Es kommt darauf an, was passiert, nicht wie es heißt: Wer gibt was, wem
-          gehört die Sache wann, und wächst die Schuld bei Verzug?
-        </p>
-        <Merksatz>Frag nach dem Zertifikat. Wer keines hat, hat auch keine Prüfung.</Merksatz>
-        <p>
-          Ein seriöser Anbieter lässt seine Verträge von einem Gelehrtengremium prüfen und zeigt dir das
-          Dokument. Wer nur damit wirbt, islamisch zu arbeiten, ohne einen Nachweis zu nennen, sollte das
-          erklären können. Der saubere Weg ohne Bank ist der Ratenkauf direkt beim Händler, mehr dazu in{" "}
-          <L to="/blog/ratenzahlung-haram">Ist Ratenzahlung haram?</L>
-        </p>
-      </>
-    ),
+    weg: "Ratenkauf beim Händler",
+    unter: "ohne Bank",
+    marke: "erlaubt",
+    ton: "gruen",
+    besonders: "Fester Preis vor der Unterschrift",
+    warum: "Ein Kauf zwischen zwei Personen, kein Darlehen",
+    tun: "Preis vorher festmachen",
+    ziel: "ratenkauf",
   },
   {
-    id: "in-deutschland",
-    titel: "Was es in Deutschland wirklich gibt",
-    inhalt: (
-      <>
-        <p>
-          Hier wird es dünn. Der Markt ist klein, und es hilft niemandem, ihn größer zu reden, als er ist.
-          Gelehrte, die den deutschen Markt beobachten, sagen offen, dass sie Stand Ende 2025 weder eine
-          geprüfte Autofinanzierung noch eine geprüfte Immobilienfinanzierung in Deutschland kennen.
-        </p>
-        <Checkliste
-          punkte={[
-            {
-              art: "neutral",
-              text: (
-                <>
-                  <B>Eine Bank mit Vollbanklizenz.</B> Die KT Bank AG in Frankfurt arbeitet seit 2015 nach
-                  islamischen Grundsätzen und bietet Finanzierungen nach dem Handelsmodell an. Wir haben sie
-                  nicht selbst geprüft und empfehlen sie nicht. Was du vor einem Wechsel wissen solltest, steht
-                  im Beitrag zum <L to="/blog/girokonto-ohne-zinsen">Girokonto ohne Zinsen</L>.
-                </>
-              ),
-            },
-            {
-              art: "ja",
-              text: (
-                <>
-                  <B>Der eigene Kreis.</B> Familie, Freunde, die Gemeinde. Für kleinere Beträge der schnellste
-                  und sauberste Weg. Schreib den Betrag und die Rückzahlung trotzdem auf. Das ist kein
-                  Misstrauen, es ist ausdrücklich empfohlen und erspart später jeden Streit.
-                </>
-              ),
-            },
-            {
-              art: "ja",
-              text: (
-                <>
-                  <B>Der Arbeitgeber.</B> Viele Betriebe geben einen Gehaltsvorschuss oder ein zinsloses
-                  Arbeitgeberdarlehen. Beides ist ein zinsfreies Darlehen, auch wenn es niemand so nennt. Es
-                  steht selten im Intranet, es lohnt sich zu fragen.
-                </>
-              ),
-            },
-            {
-              art: "ja",
-              text: (
-                <>
-                  <B>Ratenkauf direkt beim Händler.</B> Ohne Bank dazwischen ist es Handel, kein Kredit. Der
-                  Preis muss vor der Unterschrift feststehen.
-                </>
-              ),
-            },
-          ]}
-        />
-        <p>
-          Was es <B>nicht</B> gibt: einen breiten Markt islamischer Baufinanzierer, eine islamische Autobank
-          mit Filialnetz, oder eine App, die dir in fünf Minuten einen konformen Kredit gibt. Wer damit wirbt,
-          sollte den Vertrag zeigen, nicht das Etikett.
-        </p>
-      </>
-    ),
+    weg: "Kauf über die Bank (Murabaha)",
+    unter: "Bank als Verkäuferin",
+    marke: "je nach Vertrag",
+    ton: "gelb",
+    besonders: "Bank kauft und verkauft dir weiter",
+    warum: "Nur erlaubt, wenn die Bank wirklich Eigentümerin ist",
+    tun: "Nach dem Zertifikat fragen",
+    ziel: "murabaha",
   },
   {
-    id: "schulden",
-    titel: "Auch ohne Zins sind Schulden nichts Leichtes",
-    inhalt: (
-      <>
-        <p>
-          Ein Punkt, der in der ganzen Diskussion untergeht. Selbst ein völlig sauberes, zinsfreies Darlehen
-          ist nichts, was man ohne Grund aufnimmt. Schulden gelten als etwas, das man meidet, solange es geht.
-          Nicht verboten, aber ungern gesehen.
-        </p>
-        <p>
-          Überliefert ist der Gedanke, dass es auf die Absicht ankommt: Wer sich etwas leiht und fest vorhat,
-          es zurückzugeben, dem wird dabei geholfen. Wer es sich leiht, ohne wirklich vorzuhaben zurückzuzahlen,
-          dem geht es am Ende schlechter, nicht besser. Und Schulden sind eine der wenigen Sachen, die auch
-          nach dem Tod bestehen bleiben, bis sie beglichen oder erlassen werden.
-        </p>
-        <Merksatz>Erst die Frage, ob du es leihen darfst. Dann die Frage, ob du es leihen solltest.</Merksatz>
-      </>
-    ),
+    weg: "Geld von Familie oder Freunden",
+    unter: "ohne Bank",
+    marke: "ohne Aufschlag erlaubt",
+    ton: "gruen",
+    besonders: "Zurück kommt genau der Betrag",
+    warum: "So wie gegeben, so bekommen",
+    tun: "Kein Geschenk, bis alles zurück ist",
+    ziel: "kredit-ohne-zinsen",
   },
   {
-    id: "notlage",
-    titel: "Die Notlage und wo sie endet",
-    inhalt: (
-      <>
-        <p>
-          Es gibt die Regel, dass eine echte Notlage Verbotenes im nötigen Maß erlaubt. Sie ist keine
-          Hintertür, sie ist ein Notausgang, und die beiden werden oft verwechselt.
-        </p>
-        <Checkliste
-          punkte={[
-            { art: "ja", text: "Es geht um Leben, Gesundheit, ein Dach über dem Kopf. Eine Operation, die sonst nicht stattfindet. Eine Miete, ohne die die Familie auf der Straße steht." },
-            { art: "nein", text: "Ein größeres Auto, eine schönere Küche, eine Hochzeit, die dem Vergleich standhalten soll, ein Geschäft, das man auch später aufmachen kann." },
-            { art: "neutral", text: "Und selbst wo die Regel greift, greift sie nur so weit wie nötig und nur so lange wie nötig. Das ist der Teil, der gern überlesen wird." },
-          ]}
-        />
-        <p>
-          Wunsch und Not sind nicht dasselbe, auch wenn sich beides gleich dringend anfühlt. Wer wirklich in
-          dieser Lage ist, sollte nicht im Internet nach einer Erlaubnis suchen, sondern seinen Fall einem
-          Gelehrten schildern, dem er vertraut.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "ohne-vertrag",
-    titel: "Der Weg, der ganz ohne Vertrag auskommt",
-    inhalt: (
-      <>
-        <p>
-          Die unbeliebteste Antwort ist meistens die richtige: erst sparen, dann kaufen. Sie ist langsam, sie
-          kostet nichts, und sie führt zu keinem Vertrag, den irgendjemand prüfen muss.
-        </p>
-        <Beispiel
-          titel="Ein Auto für 12.000 Euro"
-          rechnung={["Finanzierung: 6 % auf 4 Jahre → rund 1.500 € obendrauf", "Sparen: 24 × 500 € → dasselbe Auto, 1.500 € bleiben bei dir"]}
-          ergebnis="Der Unterschied ist Wartezeit, nicht Geld."
-        />
-        <p>
-          Was in dieser Wartezeit mit dem Ersparten passiert, ist die zweite Frage. Auf dem Konto verliert es
-          jedes Jahr an Kaufkraft. Deshalb gehört zu einem Sparziel ein Ort, an dem das Geld nicht schrumpft,
-          ohne dass irgendwo ein Zins mitläuft.
-        </p>
-        <Bild text="Ohne Kredit gibt es keinen Zins, den man prüfen müsste. Der Preis dafür ist Wartezeit.">
-          <IlluZins />
-        </Bild>
-      </>
-    ),
+    weg: "Erst sparen, dann kaufen",
+    unter: "ohne Vertrag",
+    marke: "klar erlaubt",
+    ton: "gruen",
+    besonders: "Dauert länger, kostet keine Zinsen",
+    warum: "Kein Zins, und alles gehört dir",
+    tun: "Sparplan und Girokonto ohne Zinsen",
+    ziel: "rechner",
   },
 ];
 
-const faq: BeitragFrage[] = [
+const DREIER = [
+  { name: "Traders Place", logo: "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg", out: "/out/traders-place" },
+  { name: "Smartbroker+", logo: "/bilder/blog/halal-etf/logos/smartbroker.webp", out: "/out/smartbroker" },
+  { name: "Scalable Capital", logo: "/bilder/blog/halal-etf/logos/scalable.webp", out: "/out/scalable" },
+];
+// Sparplan auf Platz 1 wie im Versicherungs-Beitrag: Smartbroker+ und Scalable aus sparplanBei der Liste, Traders Place nach Elias' eigenem Depot.
+const sparplanPlatz1 = (name: string) => name === "Traders Place" || PLATZ1.sparplanBei.some((s) => s.startsWith(name.split(" ")[0]));
+const ANBIETER = DREIER.map((d) => ({
+  ...d,
+  zeilen: [
+    sparplanPlatz1(d.name) ? `Sparplan auf ${PLATZ1.name}` : `Sparplan auf ${PLATZ1.name} noch nicht nachgesehen`,
+    `Halal ETFs aus unserer Liste: ${etfsBei(d.name)} von ${etfListe.length}`,
+    d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
+  ],
+}));
+
+/** Girokonten wie im Versicherungs-Beitrag (Elias SEO63): BBBank mit Startprämie, norisbank, Halal-Zeilen aus dem Girokonto-Vergleich. */
+const GIROS = BONUS_KONTEN.filter((k) => k.id !== "consorsbank-girokonto").map((k) => {
+  const w = (girokontoAnzeige.find((a) => a.id === k.id)?.werte ?? {}) as Record<string, unknown>;
+  return {
+    name: k.name,
+    domain: k.domain,
+    out: `/out/${k.out}`,
+    hinweis: k.id === "bbbank-bettersmart" ? `${BBBANK_PRAEMIE.betrag} € Startprämie` : undefined,
+    zeilen: [
+      ...(w.zinsfreiAbStart === "gut" ? ["Guthaben ohne Zinsen"] : []),
+      ...(w.keinDispoAbStart === "gut" ? ["Kein Dispo ab Start"] : []),
+      ...(w.karteOhneKredit === "gut" ? ["Karte ohne Kredit"] : []),
+      `Kontoführung 0 € mit Geldeingang oder unter ${k.gratisUnter} Jahren`,
+      "Tagesgeld dabei: leer lassen",
+      "Nie ins Minus: das kostet Zinsen",
+    ],
+  };
+});
+
+const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
+  {
+    lead: "Zinsen sind haram, darüber sind sich die Gelehrten einig.",
+    text: "Jedes Darlehen, das dem Geldgeber mehr zurückbringt, ist Zins, auch wenn es nur ein Cent ist.",
+  },
+  { lead: "0 % ändert nichts.", text: "Sobald eine Bank dazwischen ist, bleibt es haram, egal was auf dem Schild steht." },
+  { lead: "Erlaubt ist der Ratenkauf ohne Bank.", text: "Du kaufst direkt beim Verkäufer, und der Preis steht vor der Unterschrift fest." },
+  { lead: "Ein geprüftes Angebot fehlt in Deutschland.", text: "Ende 2025 kannten Gelehrte weder für das Auto noch für das Haus eins." },
+  { lead: "Sparen schlägt jeden Kredit.", text: "Was du sonst an Zinsen zahlst, bleibt bei dir. Der Rechner weiter unten zeigt, was daraus wird." },
+];
+
+const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Gibt es einen halal Kredit?",
     antwort:
-      "Nein, nicht im Wortsinn. Ein Kredit ist Geld gegen mehr Geld, und der Aufschlag ist das Verbotene. Was es gibt, sind andere Verträge, die dasselbe Ziel erreichen: Die Bank kauft die Sache und verkauft oder vermietet sie dir mit einem festen Aufschlag, oder ihr kauft gemeinsam und du übernimmst Anteil für Anteil.",
+      "Nicht von einer Bank, die mit Zinsen arbeitet. Erlaubt sind der Ratenkauf direkt beim Verkäufer und ein Kauf über die Bank, wenn sie wirklich Eigentümerin wird. Am einfachsten ist es, erst zu sparen und dann bar zu kaufen.",
   },
   {
-    frage: "Ist eine Null-Prozent-Finanzierung erlaubt?",
+    frage: "Wann ist ein Kredit halal?",
     antwort:
-      "Läuft sie über eine Bank, nach verbreiteter Auffassung nicht. Du unterschreibst einen Darlehensvertrag, auch wenn der Zins bei null steht, und der Betrag ist ohnehin im Preis eingerechnet. Ein Ratenkauf direkt beim Händler ohne Bank ist der saubere Weg.",
+      "Wenn du genau den Betrag zurückzahlst, den du bekommen hast. Bringt das Darlehen dem Geldgeber einen Vorteil, ist es Zins. So ein Darlehen bekommst du unter Menschen, nicht bei einer Bank.",
+  },
+  {
+    frage: "Welche Bank gibt Kredit ohne Zinsen?",
+    antwort:
+      "Ende 2025 kannten Gelehrte in Deutschland keine Bank, die ein Auto oder ein Haus halal finanziert. Eine 0-Prozent-Finanzierung über eine Bank bleibt haram.",
+  },
+  {
+    frage: "Halal Kredit Auto: Wie kaufe ich ein Auto ohne Zinsen?",
+    antwort:
+      "Spar die Rate vorher an und kauf bar, oder kauf direkt beim Händler in Raten zu einem festen Preis. Ein Autokredit über die Bank des Herstellers oder eine andere Bank ist haram.",
+  },
+  {
+    frage: "Halal Kredit Haus: Gibt es eine halal Baufinanzierung?",
+    antwort:
+      "Bei Banken in Deutschland gab es im September 2025 keine. Möglich sind ein Ratenkauf direkt vom Eigentümer oder ein gemeinsamer Kauf mit einem Partner, bei dem du Anteil für Anteil übernimmst. Zur Miete zu wohnen ist keine Schande.",
+  },
+  {
+    frage: "Ist Ratenzahlung haram?",
+    antwort:
+      "Nicht, wenn du direkt beim Verkäufer kaufst und der Preis vor der Unterschrift feststeht. Steckt eine Bank dahinter, ist es ein Kredit und haram.",
+  },
+  {
+    frage: "Ist die Kreditkarte haram?",
+    antwort:
+      "Zahlst du in Raten, verlangt die Bank Zinsen, und das ist haram. Unter Gelehrten gibt es zwei Meinungen zur Karte selbst: Die strengere rät ganz ab, weil der Vertrag Zinsen vorsieht. Die Debitkarte reicht fast immer.",
+  },
+  {
+    frage: "Darf ich Geld von meiner Familie leihen?",
+    antwort:
+      "Ja, wenn du genau den Betrag zurückgibst. Bis alles zurückgezahlt ist, nimmt der Geldgeber kein Geschenk von dir an, denn das wäre ein Vorteil aus dem Darlehen.",
   },
   {
     frage: "Was ist Murabaha?",
     antwort:
-      "Ein Kaufvertrag mit offengelegtem Aufschlag. Die Bank kauft die Ware selbst, wird Eigentümerin und verkauft sie dir zu einem festen Gesamtpreis in Raten weiter. Du musst dabei den Einkaufspreis und den Aufschlag getrennt kennen. Der Preis steht von Anfang an fest und steigt nicht, wenn die Rückzahlung länger dauert.",
-  },
-  {
-    frage: "Woran erkenne ich, ob die Bank die Sache wirklich gekauft hat?",
-    antwort:
-      "Frag nach der Gewährleistung. Wenn das Auto einen versteckten Mangel hat, muss die Bank als deine Verkäuferin dafür einstehen. Verweist sie dich an den Händler, war sie nie Eigentümerin, und dann hat sie nur bezahlt. Das ist ein Kredit.",
-  },
-  {
-    frage: "Gibt es eine islamische Bank für Kredite in Deutschland?",
-    antwort:
-      "Die KT Bank AG in Frankfurt hat seit 2015 eine deutsche Vollbanklizenz und arbeitet nach dem Handelsmodell. Wir haben sie nicht geprüft und empfehlen sie nicht. Gelehrte, die den deutschen Markt beobachten, kennen Stand Ende 2025 kein geprüftes Angebot für Auto- oder Immobilienfinanzierung.",
-  },
-  {
-    frage: "Ist ein zinsloses Darlehen von der Familie erlaubt?",
-    antwort:
-      "Ja, das ist der klassische Fall und gilt als verdienstvoll. Zurückgegeben wird genau der geliehene Betrag, ohne Aufschlag und ohne Gebühr. Halte Betrag und Rückzahlung schriftlich fest, das ist ausdrücklich empfohlen.",
-  },
-  {
-    frage: "Darf ich einen Kredit aufnehmen, wenn ich in Not bin?",
-    antwort:
-      "Die Regel zur Notlage erlaubt Verbotenes im nötigen Maß, wenn Leben, Gesundheit oder Obdach auf dem Spiel stehen. Sie gilt nur so weit und so lange wie nötig. Ein größeres Auto oder eine teurere Hochzeit fallen nicht darunter. Schilder deinen konkreten Fall einem Gelehrten deines Vertrauens.",
-  },
-  {
-    frage: "Woran erkenne ich einen umetikettierten Kredit?",
-    antwort:
-      "Daran, dass die Schuld wächst, wenn du später zahlst. Bei einem echten Handels- oder Mietvertrag steht der Gesamtpreis fest. Eine Verzugsgebühr, die den Betrag erhöht und beim Anbieter bleibt, ist Zins unter anderem Namen. Ein Vertrag, in dem nur das Wort Zins durch Gewinn ersetzt wurde, ändert nichts.",
+      "Die Bank kauft die Sache selbst und verkauft sie dir mit einem offenen Aufschlag in Raten weiter. Erlaubt ist das nur, wenn sie wirklich Eigentümerin wird und für Mängel haftet.",
   },
 ];
 
-const beschreibung =
-  "Einen zinsfreien Kredit gibt es nicht. Es gibt vier andere Verträge: Murabaha, Idschara, Muscharaka und Qard hasan. Was davon in Deutschland verfügbar ist, warum null Prozent kein Ausweg ist und woran du einen umetikettierten Kredit erkennst.";
+const PASST_DAZU: { to: string; name: string; text: string }[] = [
+  { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "Der größte Kauf im Leben, ohne Zinskredit." },
+  { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "Der Ratenkauf beim Händler im Einzelnen." },
+  { to: "/blog/auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", text: "Vom Ansparen bis zum Kaufvertrag." },
+  { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
+];
 
-const HalalKreditOhneZinsen = () => (
-  <>
-    <Seo
-      title="Halal Kredit ohne Zinsen: Welche Verträge es wirklich gibt | finanzmuslim"
-      description={beschreibung}
-      path="/blog/halal-kredit-ohne-zinsen"
-      jsonLd={beitragJsonLd({
-        titel: "Halal Kredit ohne Zinsen",
-        beschreibung,
-        path: "/blog/halal-kredit-ohne-zinsen",
-        datePublished: "16. August 2026",
-        dateModified: "5. September 2026",
-        faq,
-      })}
-    />
-    <BeitragSeite
-      slug="halal-kredit-ohne-zinsen"
-      titel="Halal Kredit ohne Zinsen"
-      untertitel="Vier Verträge statt einem Kredit, und der eine Test, der alle vier prüft."
-      kurzGesagt={[
-        "Einen zinsfreien Kredit gibt es nicht. Es gibt einen anderen Vertrag.",
-        "Vier Formen decken fast alles ab: Murabaha, Idschara, Muscharaka, Qard hasan.",
-        "Der Prüfstein: Wächst die Schuld, wenn du später zahlst, ist es Zins.",
-        "Null Prozent über eine Bank bleibt ein Darlehen. Das Wort Gewinn statt Zins ändert nichts.",
-        "In Deutschland ist der Markt klein. Eine Bank, der eigene Kreis, der Arbeitgeber, der Händler.",
-        "Auch ohne Zins sind Schulden nichts, was man ohne Grund aufnimmt.",
-      ]}
-      abschnitte={abschnitte}
-      faq={faq}
-      datePublished="16. August 2026"
-      dateModified="5. September 2026"
-      boxMitteNach={4}
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Zur Ausgestaltung einzelner Vertragsformen und zur Reichweite der Notlagenregel bestehen innerhalb der Rechtsschulen unterschiedliche Auffassungen. Angaben zur KT Bank AG beruhen auf öffentlich zugänglichen Quellen, Stand August 2026, und sind keine Empfehlung. Die Zahlen in den Beispielen sind erfunden."
-      boxOben={{
-        kategorie: "Vorlage",
-        ueberschrift: "Zwölf Verträge, grün, gelb oder rot einsortiert",
-        linkZiel: "/vorlagen/vertrags-ampel",
-        text: "Grün, gelb oder rot für zwölf Verträge aus dem Alltag.",
-        knopf: "Zum Halal Vertrags-Check",
-      }}
-      boxMitte={{
-        kategorie: "Depot",
-        ueberschrift: "Damit dein Erspartes nicht jedes Jahr weniger wert wird",
-        linkZiel: "/vergleich/depot",
-      }}
+const VIDEO = { id: "rtiipeOk5zw", titel: "Der Schnellste Weg als Muslim raus aus Schulden zu Kommen", hochgeladen: "2026-05-11" };
+const VIDEO_BILD = "/bilder/blog/halal-kredit/video-schulden-vorschau.jpg";
+
+/* ------------------------------------------------------------------ */
+/* Rechnung                                                            */
+/* ------------------------------------------------------------------ */
+
+/** Monatsrate eines Kredits zum Effektivzins: Monatszins aus (1 + Jahreszins)^(1/12), Annuität wie im Kreditkostenrechner. */
+const kreditRate = (betrag: number, zinsProzent: number, monate: number) => {
+  const i = Math.pow(1 + zinsProzent / 100, 1 / 12) - 1;
+  return i === 0 ? betrag / monate : (betrag * i) / (1 - Math.pow(1 + i, -monate));
+};
+
+/** Beispiel im Bild: 10.000 € über 5 Jahre zum Durchschnittszins der Bundesbank, dieselbe Rechnung wie im Rechner. */
+const BEISPIEL = { betrag: 10_000, monate: 60 };
+const BEISPIEL_ZURUECK = kreditRate(BEISPIEL.betrag, konsumzins.prozent, BEISPIEL.monate) * BEISPIEL.monate;
+
+/* ------------------------------------------------------------------ */
+/* Schema                                                              */
+/* ------------------------------------------------------------------ */
+
+const graph = () => {
+  const url = `${SITE}${PFAD}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#beitrag`,
+        headline: TITEL,
+        description: META,
+        mainEntityOfPage: url,
+        url,
+        author: { "@id": `${SITE}/ueber-mich#elias` },
+        publisher: { "@id": `${SITE}/#organization` },
+        isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, name: "finanzmuslim Blog", url: `${SITE}/blog` },
+        datePublished: VEROEFFENTLICHT.iso,
+        dateModified: AKTUALISIERT.iso,
+        inLanguage: "de-DE",
+        image: `${SITE}/og/blog--halal-kredit.jpg`,
+        video: { "@id": `${url}#video` },
+      },
+      {
+        "@type": "VideoObject",
+        "@id": `${url}#video`,
+        name: VIDEO.titel,
+        description: "Elias zeigt, wie du als Muslim aus Schulden herauskommst.",
+        thumbnailUrl: `${SITE}${VIDEO_BILD}`,
+        uploadDate: VIDEO.hochgeladen,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
+        contentUrl: `https://www.youtube.com/watch?v=${VIDEO.id}`,
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#fragen`,
+        mainEntity: FRAGEN.map((f) => ({ "@type": "Question", name: f.frage, acceptedAnswer: { "@type": "Answer", text: f.antwort } })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
+          { "@type": "ListItem", position: 3, name: TITEL, item: url },
+        ],
+      },
+      {
+        "@type": "Person",
+        "@id": `${SITE}/ueber-mich#elias`,
+        name: "Elias El-Gendy",
+        jobTitle: "Gründer von finanzmuslim",
+        description: BIO,
+        url: `${SITE}/ueber-mich`,
+        image: `${SITE}/elias-el-gendy.webp`,
+        worksFor: { "@id": `${SITE}/#organization` },
+        sameAs: PROFILE,
+      },
+      {
+        "@type": "Organization",
+        "@id": `${SITE}/#organization`,
+        name: "finanzmuslim",
+        url: SITE,
+        logo: `${SITE}/apple-touch-icon.png`,
+        sameAs: [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN_FIRMA],
+      },
+    ],
+  };
+};
+
+/* ------------------------------------------------------------------ */
+/* Grafik im Stil des Versicherungs-Beitrags (Elias SEO57: schwarz-weiß, gestrichelt, frei stehend) */
+/* ------------------------------------------------------------------ */
+
+const ROT = "hsl(var(--loss))";
+
+/** Die Bank gibt 10.000 €, zurück gehen mehr: das Mehr ist der Zins, rot markiert. */
+const Geldbild = () => (
+  <figure className="mt-7 max-w-[460px]">
+    <svg
+      viewBox="0 0 360 114"
+      className="h-auto w-full text-foreground"
+      role="img"
+      aria-label={`Kredit: Die Bank gibt dir heute ${euro(BEISPIEL.betrag)}. Zurück zahlst du in fünf Jahren ${euro(BEISPIEL_ZURUECK)}. Das Mehr ist der Zins.`}
     >
-      <PasstDazu
-        punkte={[
-          { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "geht denselben Weg für den größten Posten im Leben durch." },
-          { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Ratenkauf beim Händler, ohne Bank dazwischen." },
-          { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "erklärt, was genau verboten ist und was ausdrücklich nicht." },
-          { to: "/blog/ist-leasing-haram", name: "Ist Leasing haram?", text: "prüft den Vertrag, der Idschara am nächsten kommt." },
-        ]}
-      />
-    </BeitragSeite>
-  </>
+      <Person x={44} />
+      <Person x={316} />
+      <text x={44} y={98} textAnchor="middle" className="fill-foreground text-[14px] font-semibold">Bank</text>
+      <text x={316} y={98} textAnchor="middle" className="fill-foreground text-[14px] font-semibold">Du</text>
+      <text x={180} y={21} textAnchor="middle" className="fill-muted-foreground text-[14px]">{euro(BEISPIEL.betrag)} heute</text>
+      <Pfeil von={72} bis={288} y={30} />
+      <g stroke={ROT} strokeWidth={1.4} fill="none">
+        <line x1={288} y1={60} x2={72} y2={60} strokeDasharray="4 3" />
+        <path d="M79 55.5 L72 60 L79 64.5" />
+      </g>
+      <text x={180} y={80} textAnchor="middle" className="text-[14px]" fill={ROT}>{euro(BEISPIEL_ZURUECK)} in 5 Jahren</text>
+    </svg>
+    <figcaption className="mt-2 text-[14px] leading-snug">
+      <span className="block font-semibold text-loss">{euro(BEISPIEL_ZURUECK - BEISPIEL.betrag)} mehr: das ist der Zins</span>
+      <span className="block text-muted-foreground">bei {konsumzins.prozent.toLocaleString("de-DE")} % im Jahr, dem Durchschnitt für Konsumentenkredite</span>
+    </figcaption>
+  </figure>
 );
+
+/* ------------------------------------------------------------------ */
+/* Rechner „Kredit oder Sparplan“ (Karte, Kopfkarte eigenes_stueck)    */
+/* ------------------------------------------------------------------ */
+
+const LAUFZEITEN = [12, 36, 60];
+
+const Rechner = () => {
+  const [betragText, setBetragText] = useState("10000");
+  const [zinsText, setZinsText] = useState(konsumzins.prozent.toLocaleString("de-DE"));
+  const [monate, setMonate] = useState(60);
+  const betrag = zahlAus(betragText);
+  const zins = Math.min(zahlAus(zinsText), 30);
+  const rate = betrag ? kreditRate(betrag, zins, monate) : 0;
+  const zurueck = rate * monate;
+  const erg = polster(rate, monate);
+  const schalter = (an: boolean) =>
+    `min-h-[44px] flex-1 px-3 py-2.5 text-[15px] font-semibold transition-colors ${an ? "bg-foreground text-background" : "bg-background text-foreground hover:bg-muted"}`;
+  const farbe = erg && erg.wert < erg.eingezahlt ? "loss" : "gain";
+  const feld = "mt-1.5 flex items-center border border-border bg-background focus-within:border-foreground";
+  const eingabe = "w-full bg-transparent px-3 py-2.5 text-[16px] tabular-nums text-foreground outline-none";
+  return (
+    <section className="mt-12">
+      <Ueber id="rechner" />
+      <Text>
+        <p>
+          Gib den Preis ein. Links steht, was ein Kredit zum Durchschnittszins kostet. Rechts, was dieselbe Rate als Sparplan in {PLATZ1.name} gebracht
+          hätte.
+        </p>
+        <p>Das ist ein zertifizierter Halal ETF, also ein Fonds, der viele Firmen auf einmal kauft.</p>
+      </Text>
+      <div className="mt-5 border border-border bg-card p-4 md:p-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="kredit-betrag" className="block">
+              <Etikett>Preis</Etikett>
+            </label>
+            <div className={feld}>
+              <input id="kredit-betrag" inputMode="decimal" value={betragText} onChange={(x) => setBetragText(x.target.value.replace(/[^\d.,]/g, ""))} className={eingabe} />
+              <span className="pr-3 text-[16px] text-muted-foreground">€</span>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="kredit-zins" className="block">
+              <Etikett>Zins im Jahr</Etikett>
+            </label>
+            <div className={feld}>
+              <input id="kredit-zins" inputMode="decimal" value={zinsText} onChange={(x) => setZinsText(x.target.value.replace(/[^\d.,]/g, ""))} className={eingabe} />
+              <span className="pr-3 text-[16px] text-muted-foreground">%</span>
+            </div>
+          </div>
+        </div>
+        <Etikett className="mt-4">Laufzeit</Etikett>
+        <div className="mt-1.5 flex border border-border" role="group" aria-label="Laufzeit in Jahren">
+          {LAUFZEITEN.map((m, i) => (
+            <button
+              key={m}
+              type="button"
+              aria-pressed={monate === m}
+              onClick={() => setMonate(m)}
+              className={`${i ? "border-l border-border " : ""}${schalter(monate === m)}`}
+            >
+              {m / 12} {m === 12 ? "Jahr" : "Jahre"}
+            </button>
+          ))}
+        </div>
+
+        <p className="mt-5 text-[15px] text-foreground">
+          Rate im Monat: <span className="font-semibold tabular-nums">{euro(rate)}</span>
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-2" aria-live="polite">
+          <div className="min-w-0 border border-border bg-background px-3 py-3 sm:px-4 sm:py-4">
+            <Etikett>Kredit</Etikett>
+            <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst zurück</p>
+            <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(zurueck)}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Davon Zinsen</p>
+            <p className="text-[18px] font-semibold tabular-nums text-loss sm:text-[24px]">{euro(zurueck - betrag)}</p>
+            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Die Zinsen gehören der Bank.</p>
+          </div>
+          <div className="min-w-0 border border-foreground bg-background px-3 py-3 shadow-[inset_0_0_0_1px_hsl(var(--foreground))] sm:px-4 sm:py-4">
+            <Etikett>Sparplan</Etikett>
+            <p className="mt-1.5 text-[13px] text-muted-foreground sm:text-[14px]">Du zahlst ein</p>
+            <p className="text-[18px] font-semibold tabular-nums text-foreground sm:text-[24px]">{euro(zurueck)}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground sm:text-[14px]">Heute wert</p>
+            <p className={`text-[18px] font-semibold tabular-nums sm:text-[24px] ${farbe === "loss" ? "text-loss" : "text-gain"}`}>{erg ? euro(erg.wert) : "–"}</p>
+            <p className="mt-2 text-[13px] leading-snug text-muted-foreground">Gehört dir, danach kaufst du bar.</p>
+          </div>
+        </div>
+
+        {erg && (
+          <div className="mt-5 border border-border bg-background px-2 pb-2 pt-3 sm:px-3">
+            <div className="flex flex-wrap gap-x-5 gap-y-1 px-1 text-[13px] text-muted-foreground" aria-hidden>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/70" /> Eingezahlt
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className={`h-2.5 w-2.5 rounded-full ${farbe === "gain" ? "bg-gain" : "bg-loss"}`} /> Wert im Depot
+              </span>
+            </div>
+            <div className="mt-2 h-[180px] sm:h-[220px]" role="img" aria-label={`Eingezahlt ${euro(erg.eingezahlt)}, heute wert ${euro(erg.wert)}`}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={erg.kurve.map((p) => ({ ...p, wert: Math.round(p.wert) }))} margin={{ top: 6, right: 8, bottom: 0, left: 0 }}>
+                  <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
+                  <XAxis
+                    dataKey="x"
+                    ticks={erg.kurve.filter((d) => d.x.endsWith("-01")).map((d) => d.x)}
+                    interval={0}
+                    tickFormatter={(x: string) => x.slice(0, 4)}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    width={56}
+                    tickFormatter={(v: number) => Math.round(v).toLocaleString("de-DE")}
+                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                    axisLine={false}
+                    tickLine={false}
+                    domain={[0, "auto"]}
+                  />
+                  <Tooltip formatter={(v: number, n: string) => [euro(v), n === "wert" ? "Wert im Depot" : "Eingezahlt"]} contentStyle={{ fontSize: 13, borderRadius: 4 }} />
+                  <Area type="monotone" dataKey="eingezahlt" stroke="hsl(var(--muted-foreground))" fill="hsl(var(--muted))" strokeWidth={1.5} isAnimationActive={false} />
+                  <Area type="monotone" dataKey="wert" stroke={`hsl(var(--${farbe}))`} fill={`hsl(var(--${farbe}-soft))`} fillOpacity={0.7} strokeWidth={2} isAnimationActive={false} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
+          Zins vorab: Durchschnitt der Bundesbank für Konsumentenkredite im {konsumzins.monat}. Ein ETF schwankt, Monatskurse bis {kursStand}, ohne Depotkosten.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/* Seite                                                               */
+/* ------------------------------------------------------------------ */
+
+const Fett = ({ children }: { children: ReactNode }) => <strong className="font-semibold text-foreground">{children}</strong>;
+
+const HalalKreditOhneZinsen = () => {
+  const [offen, setOffen] = useState(false);
+  const ids = useMemo(() => LEISTE.map((a) => a.id), []);
+  const aktiv = useAktiv(ids);
+
+  const inhalt = (
+    <ol>
+      {LEISTE.map((a) => (
+        <li key={a.id}>
+          <a
+            href={`#${a.id}`}
+            aria-current={aktiv === a.id ? "location" : undefined}
+            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
+            }`}
+          >
+            {a.kurz ?? a.titel}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
+
+  return (
+    <main className="bg-background">
+      <Seo title={SEO_TITEL} description={META} path={PFAD} jsonLd={graph()} />
+      <div className="container py-8 md:py-12">
+        <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
+          <Seitenleiste
+            inhalt={inhalt}
+            etikett="Sparen statt Kredit"
+            titel="Ein Konto ohne Dispo und Zinsen?"
+            text="Ein Girokonto ohne Zinsen ist der erste Schritt zum Sparen. Im Vergleich siehst du, welches passt."
+            ziel="/vergleich/girokonto"
+            knopf="Girokonto finden"
+          />
+
+          <div className="min-w-0">
+            <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
+              <Link to="/blog" className="text-primary hover:underline">
+                Blog
+              </Link>
+              <span aria-hidden>/</span>
+              <span>Halal Kredit</span>
+            </nav>
+
+            <article className="mt-8">
+              {/* Kopf wie frontal.so/blog/best-gtm-agencies (Elias SEO63), gleich gebaut wie /blog/sind-versicherungen-haram */}
+              <h1 className="font-titel mt-3 text-[32px] leading-[1.07] tracking-[-0.03em] text-foreground [text-wrap:balance] md:text-[42px]">{TITEL}</h1>
+              <div data-vorlage="autorzeile" className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
+                <div className="flex gap-3">
+                  <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
+                  <div className="leading-snug">
+                    <a href={LINKEDIN} rel="author noopener noreferrer" target="_blank" className="text-[15px] font-semibold text-foreground underline underline-offset-[3px] hover:text-primary">
+                      Elias El-Gendy
+                    </a>
+                    <p className="mt-0.5 font-mono text-[12px] text-muted-foreground">{LESEZEIT} Min. Lesezeit</p>
+                    <p className="mt-2 text-[14px] text-foreground/75">Gründer von finanzmuslim</p>
+                  </div>
+                </div>
+                <div className="text-right font-mono text-[12px] leading-relaxed text-muted-foreground">
+                  <p className="uppercase tracking-[0.12em]">Veröffentlicht</p>
+                  <time dateTime={VEROEFFENTLICHT.iso}>{VEROEFFENTLICHT.text}</time>
+                  <p className="mt-1.5 uppercase tracking-[0.12em]">Aktualisiert</p>
+                  <time dateTime={AKTUALISIERT.iso}>{AKTUALISIERT.text}</time>
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <KartenReihe etikett="Kurzer Vergleich" titel="7 Wege auf einen Blick" anzahl={WEGE.length}>
+                  {WEGE.map((a, i) => (
+                    <Karte key={a.weg} nummer={i + 1} kopf={a.weg} erste={i === 0}>
+                      <Marke ton={a.ton}>{a.marke}</Marke>
+                      <Etikett className="mt-4">Besonders</Etikett>
+                      <p className="font-titel mt-1.5 min-h-[2.4em] text-[19px] leading-[1.2] text-foreground">{a.besonders}</p>
+                      <Etikett className="mt-4">Warum</Etikett>
+                      <p className="mt-1 text-[15px] leading-snug text-foreground">{a.warum}</p>
+                      <Etikett className="mt-3">Was tun</Etikett>
+                      <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{a.tun}</p>
+                      <a
+                        href={`#${a.ziel}`}
+                        className="mb-4 mt-5 flex min-h-[44px] items-center justify-center gap-1.5 border border-border bg-muted/60 py-2.5 font-mono text-[12px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground sm:mt-auto"
+                      >
+                        Zum Abschnitt
+                        <ArrowDown className="h-3.5 w-3.5" aria-hidden />
+                      </a>
+                    </Karte>
+                  ))}
+                </KartenReihe>
+              </div>
+
+              <nav aria-label="Auf dieser Seite" className="mt-10 border-y border-border xl:hidden">
+                <button
+                  type="button"
+                  onClick={() => setOffen((v) => !v)}
+                  aria-expanded={offen}
+                  className="flex min-h-[48px] w-full items-center justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-foreground"
+                >
+                  Auf dieser Seite
+                  <ChevronDown className={`h-4 w-4 transition-transform ${offen ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                {offen && <div className="pb-3">{inhalt}</div>}
+              </nav>
+
+              {/* Einstieg als kleine Szene wie frontal, die Antwort in den ersten 100 Wörtern */}
+              <div className="mt-8">
+                <Text>
+                  <p>
+                    Das Auto ist kaputt, die Hochzeit steht an, oder die Familie braucht eine größere Wohnung. Die Bank bietet dir einen Kredit an, das
+                    Autohaus sogar 0 %. Du suchst einen halal Kredit ohne Zinsen, den du als Muslim unterschreiben darfst.
+                  </p>
+                  <p>
+                    Kurz gesagt: Einen Kredit von der Bank gibt es nicht halal, auch nicht mit 0 %. Erlaubt ist der Kauf in Raten direkt beim Verkäufer.
+                    Und am meisten bleibt dir, wenn du erst sparst und dann kaufst.
+                  </p>
+                </Text>
+
+                <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
+                  <Ueber id="das-wichtigste" />
+                  <ul className="mt-5 space-y-3.5 text-[16px] leading-[1.6] text-foreground/75">
+                    {WICHTIGSTES.map((w) => (
+                      <li key={w.lead} className="flex gap-3">
+                        <span className="mt-[10px] h-1.5 w-1.5 shrink-0 bg-primary" aria-hidden />
+                        <span>
+                          <strong className="font-semibold text-foreground">{w.lead}</strong> {w.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="uebersicht" />
+                  <Text>
+                    <p>Entscheidend ist eine Frage: Bekommt jemand mehr Geld zurück, als er dir gegeben hat? Dann ist es Zins.</p>
+                  </Text>
+                  <Tabelle
+                    kopf={[{ titel: "Weg" }, { titel: "Einordnung", eng: true }]}
+                    zeilen={WEGE.map((a) => ({
+                      schluessel: a.weg,
+                      name: <a href={`#${a.ziel}`} className="underline decoration-border underline-offset-[3px] hover:text-primary">{a.weg}</a>,
+                      unter: a.unter,
+                      zellen: [<Marke key="m" ton={a.ton}>{a.marke}</Marke>],
+                    }))}
+                  />
+                </section>
+
+                {/* Google-Kasten nach der Übersicht, die erste Werbung folgt nach dem nächsten Abschnitt (Elias SEO55, SEO67) */}
+                <GoogleKasten />
+
+                <section className="mt-14">
+                  <Ueber id="warum" />
+                  <Text>
+                    <p>Bei einem Kredit gibt dir die Bank Geld und bekommt mehr Geld zurück. Dieses Mehr ist Zins, auf Arabisch Riba.</p>
+                  </Text>
+                  <Geldbild />
+                  <Text>
+                    <p>Jedes Darlehen, das dem Geldgeber einen Vorteil bringt, ist Zins. Darüber sind sich die Gelehrten einig.</p>
+                    <p>
+                      Eine Grenze nach unten gibt es nicht, auch ein Cent ist haram. Und Zinsen sind die einzige Sünde, für die Allah im Koran einen Krieg
+                      erklärt.
+                    </p>
+                  </Text>
+                  <Kernsatz>Ein Kredit ist Geld gegen mehr Geld. Daran ändert kein Name etwas.</Kernsatz>
+                </section>
+
+                {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel wie bei Frontal (Elias SEO67); Money Page Girokonto */}
+                <AnbieterKasten titel={`Starte mit ${BBBANK_PRAEMIE.betrag} € bei der BBBank`} anbieter={GIROS} />
+
+                <section className="mt-14">
+                  <Ueber id="null-prozent" />
+                  <Text>
+                    <p>
+                      Nein. Das Autohaus schreibt 0 % drauf, bezahlt wird aber über eine Bank: Sie überweist dem Händler den Preis, und du zahlst ihr in
+                      Raten zurück. Sobald eine Bank dazwischen ist, bleibt es haram.
+                    </p>
+                    <p>Oft bekommt der Händler dafür von der Bank eine Provision. Ob der Aufschlag als Prozent oder als fester Betrag kommt, ist gleich.</p>
+                    <p>
+                      Auch „Halal Finanzierung“ auf dem Schild sagt allein nichts. Das Wort halal ist in Deutschland nicht geschützt, und ein Händler
+                      kann es draufschreiben, obwohl es Zins bleibt.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="kredit-ohne-zinsen" />
+                  <Text>
+                    <p>
+                      Von einer Bank nicht, siehe oben. Unter Menschen ja, wenn genau der Betrag zurückkommt, den du geliehen hast. So wie gegeben, so
+                      bekommen.
+                    </p>
+                    <p>
+                      Leihst du dir Geld bei Familie oder Freunden, nimmt der Geldgeber bis zur Rückzahlung kein Geschenk von dir an. Sonst wird aus der
+                      Hilfe ein Vorteil für ihn.
+                    </p>
+                    <p>Ein islamischer Kredit von einer Bank kann darum nur ein Kauf sein, kein Darlehen. Wie das geht, steht weiter unten bei Murabaha.</p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="ratenkauf" />
+                  <Text>
+                    <p>
+                      Kaufst du direkt beim Verkäufer in Raten, ist das ein Kauf zwischen zwei Personen. Er darf dafür einen höheren Preis verlangen als
+                      bei Barzahlung.
+                    </p>
+                    <p>
+                      <Fett>Ein Beispiel.</Fett> Das Auto kostet bar 10.000 €, in Raten 12.000 €. Du wählst vor der Unterschrift, danach steht der
+                      Preis fest.
+                    </p>
+                    <p>
+                      <Fett>Kein Aufschlag bei Verspätung.</Fett> Zahlst du später, kommt nichts dazu. Eine Gebühr fürs Zuspätkommen wäre Zins.
+                    </p>
+                    <p>Viele Händler machen das nicht, weil ihnen dann das Geld fehlt. Fragen lohnt sich trotzdem.</p>
+                  </Text>
+                  <Kernsatz>Ohne Bank ist es Handel. Mit Bank dazwischen wird es haram.</Kernsatz>
+                </section>
+
+                <Rechner />
+
+                <section className="mt-14">
+                  <Ueber id="sparen" />
+                  <Text>
+                    <p>
+                      Dieser Weg macht am wenigsten Spaß und bringt am meisten. Du brauchst keinen Vertrag, den jemand prüfen muss, und die Zinsen bleiben
+                      bei dir.
+                    </p>
+                    <p>
+                      Gibt es keine halale Möglichkeit, verzichten wir lieber, als Zinsen zu nehmen. Das fällt schwer, wenn alle um dich herum finanzieren.
+                    </p>
+                    <p>
+                      Leg jeden Monat die Rate, die du sonst der Bank zahlen würdest, auf ein Girokonto ohne Zinsen oder in einen Sparplan. So kaufst du
+                      später bar.
+                    </p>
+                  </Text>
+                </section>
+
+                <AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />
+
+                <section className="mt-14">
+                  <Ueber id="murabaha" />
+                  <Text>
+                    <p>
+                      Bei Murabaha leiht dir die Bank kein Geld, sie kauft die Sache selbst. Danach verkauft sie dir das Auto mit einem Aufschlag, den du
+                      kennst, und du zahlst in Raten.
+                    </p>
+                    <p>
+                      <Fett>Die Bank wird Eigentümerin.</Fett> Sie kauft das Auto ganz, bevor sie es dir verkauft.
+                    </p>
+                    <p>
+                      <Fett>Die Bank haftet für Mängel.</Fett> Ist etwas mit dem Auto, gehst du zur Bank und nicht zum Händler.
+                    </p>
+                    <p>
+                      <Fett>Die Schuld wächst nicht.</Fett> Zahlst du zu spät, kommt nichts dazu.
+                    </p>
+                  </Text>
+                  <Kernsatz>Der einfachste Test: Wer haftet für einen Mangel? Ist es nicht die Bank, war sie nur Geldgeber.</Kernsatz>
+                  <Text>
+                    <p>Ende 2025 kannten Gelehrte keine Bank, die selbst Eigentümerin der Autos ist, die sie finanziert.</p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="islamische-bank" />
+                  <Text>
+                    <p>
+                      Auch eine Bank, die sich islamisch nennt, darf dir kein Geld gegen mehr Geld leihen. Erlaubt ist bei ihr nur der Kauf mit offenem
+                      Aufschlag wie bei Murabaha.
+                    </p>
+                    <p>
+                      In Deutschland gibt es eine Bank, die sich islamisch nennt. Ihre Baufinanzierung sahen Gelehrte, die den deutschen Markt prüfen, im
+                      September 2025 trotzdem nicht als halale Lösung.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="deutschland" />
+                  <Text>
+                    <p>
+                      <Fett>Auto.</Fett> Ende 2025 kannten Gelehrte kein Unternehmen, das Autos halal finanziert. Einen fertigen Halal-Bank-Kredit gab es
+                      also nicht. Manche Anbieter behaupten es: Frag nach dem Zertifikat eines Gelehrtenrats, und fehlt es, lass die Finger davon.
+                    </p>
+                    <p>
+                      <Fett>Haus.</Fett> Eine halale Baufinanzierung bei einer Bank gab es im September 2025 nicht. Ein Weg ist ein gemeinsamer Kauf mit
+                      einem Partner, bei dem du Anteil für Anteil übernimmst. Mehr dazu in <TL to="/blog/haus-kaufen-ohne-zinsen">Haus kaufen ohne Zinsen</TL>.
+                    </p>
+                    <p>
+                      <Fett>Miete ist keine Schande.</Fett> Wohnst du dein Leben lang zur Miete, bist du als Muslim deshalb nicht arm dran. Mieter haben in
+                      Deutschland viele Rechte.
+                    </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="notlage" />
+                  <Text>
+                    <p>
+                      Der Kredit bleibt haram. Beim Haus kennen Gelehrte aber eine Ausnahme für echte Not, etwa für eine Familie, der die Wohnung gekündigt
+                      wurde und die keine neue findet.
+                    </p>
+                    <p>
+                      Ob deine Lage dazu zählt, entscheidest nicht du selbst. Du gehst zu einem Gelehrten, der sich damit auskennt, und schilderst ihm
+                      alles.
+                    </p>
+                    <p>Ein Wunsch reicht nicht: „Ich hätte gern ein Haus“ ist keine Notlage. Und wer die Ausnahme bekommt, zahlt so schnell wie möglich ab.</p>
+                  </Text>
+                  <Kernsatz>Die Ausnahme macht den Zins nicht halal. Sie ist ein Notausgang für den Einzelfall.</Kernsatz>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="schon-kredit" />
+                  <Text>
+                    <p>
+                      Nimm keinen neuen dazu, und sprich mit einem Gelehrten über deinen Weg raus. Jeder Euro, den du früher tilgst, spart dir Zinsen.
+                    </p>
+                    <p>Wie du aus Schulden rauskommst, zeige ich dir im Video.</p>
+                  </Text>
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild={VIDEO_BILD} />
+                </section>
+
+                <section className="mt-12">
+                  <Ueber id="haeufige-fragen" />
+                  <div className="mt-4 max-w-[664px] border-b border-border">
+                    {FRAGEN.map((f, i) => (
+                      <details key={f.frage} open={i === 0} className="group border-t border-border">
+                        <summary className="flex min-h-[48px] cursor-pointer list-none items-start justify-between gap-4 py-4 [&::-webkit-details-marker]:hidden">
+                          <h3 className="text-[18px] font-semibold leading-snug text-foreground">{f.frage}</h3>
+                          <ChevronDown className="mt-1 h-4 w-4 shrink-0 text-foreground transition-transform group-open:rotate-180" aria-hidden />
+                        </summary>
+                        <p className="pb-5 text-[17px] leading-[1.65] text-foreground/75">{f.antwort}</p>
+                      </details>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="mt-12">
+                  <Ueber id="naechster-schritt" />
+                  <Text>
+                    <p>
+                      Fang mit dem Konto an, das jeder hat: ein Girokonto ohne Dispo und ohne Zinsen. Welches zu dir passt, siehst du im{" "}
+                      <TL to="/vergleich/girokonto">Girokonto-Vergleich</TL>.
+                    </p>
+                  </Text>
+                </section>
+
+                <AnbieterKasten titel="Girokonten ohne Zinsen" anbieter={GIROS} />
+
+                <aside className="mt-12 border border-border p-5 md:p-6" aria-labelledby="ueber-den-autor">
+                  <Etikett>
+                    <span id="ueber-den-autor">Über den Autor</span>
+                  </Etikett>
+                  <div className="mt-3 flex flex-col gap-4 sm:flex-row">
+                    <img src={eliasPortrait} alt="Elias El-Gendy" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] shrink-0 object-cover" />
+                    <div>
+                      <p className="text-[17px] font-semibold text-foreground">
+                        <Link to="/ueber-mich" className="hover:text-primary">
+                          Elias El-Gendy
+                        </Link>
+                      </p>
+                      <p className="mt-1 text-[15px] leading-relaxed text-foreground/75">{BIO}</p>
+                      <p className="mt-1 flex flex-wrap gap-x-5 text-[15px] [&>a]:inline-flex [&>a]:min-h-[44px] [&>a]:items-center">
+                        <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          LinkedIn
+                        </a>
+                        <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          Instagram
+                        </a>
+                        <a href={YOUTUBE} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                          YouTube
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </aside>
+
+                <aside className="mt-10" aria-labelledby="passt-dazu">
+                  <p id="passt-dazu" className="font-titel text-[22px] text-foreground">
+                    Passt dazu
+                  </p>
+                  <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {PASST_DAZU.map((p) => (
+                      <li key={p.to}>
+                        <Link to={p.to} className="block h-full border border-border p-4 transition-colors hover:border-primary">
+                          <span className="block text-[16px] font-semibold text-foreground">{p.name}</span>
+                          <span className="mt-1 block text-[14px] text-muted-foreground">{p.text}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
+
+                <footer className="mt-8">
+                  <p className="text-[13px] leading-relaxed text-muted-foreground">
+                    * Werbung: Eröffnest du über meinen Link ein Depot oder Konto, bekomme ich eine Provision, ohne Mehrkosten für dich.
+                  </p>
+                  <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{RECHTSHINWEIS}</p>
+                </footer>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+};
 
 export default HalalKreditOhneZinsen;

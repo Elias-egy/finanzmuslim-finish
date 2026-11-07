@@ -20,6 +20,18 @@ export const bauzins = {
   } satisfies Quelle,
 };
 
+/** Effektivzinssatz Konsumentenkredite an private Haushalte, Neugeschäft, ohne Dispo.
+ *  Reihe BBIM1.M.DE.B.A2B.A.R.A.2250.EUR.N (Rechner im Beitrag /blog/halal-kredit). */
+export const konsumzins = {
+  prozent: 8.7,
+  monat: "August 2026",
+  quelle: {
+    name: "Deutsche Bundesbank, Zinsstatistik, Konsumentenkredite an private Haushalte insgesamt",
+    url: "https://api.statistiken.bundesbank.de/rest/data/BBIM1/M.DE.B.A2B.A.R.A.2250.EUR.N",
+    stand: "August 2026, abgerufen 07.11.2026 (September 8,64 Prozent noch vorläufig)",
+  } satisfies Quelle,
+};
+
 /** Sparquote der privaten Haushalte, saisonbereinigt. */
 export const sparquote = {
   prozent: 10.3,
