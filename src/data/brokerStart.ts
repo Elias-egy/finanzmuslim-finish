@@ -13,8 +13,8 @@ import { rangfolge } from "@/lib/rangfolge";
 export type BrokerStart = {
   /** id in brokerVergleich, daraus Note und Anlagenliste. */
   vergleichId: string;
-  /** Satz unter dem Namen im Anbieter-Kasten. */
-  bestaetigung: string;
+  /** Satz mit Note unter dem Titel; fehlt, wo die erste Zeile schon bestätigt (flatex, Elias 08.11.2026). */
+  bestaetigung?: string;
   /** Genau zwei Zeilen mit Haken; Zahl und € mit geschütztem Leerzeichen, sonst steht das € am Handy allein. */
   zeilen: [string, string];
   /** Offizielle Seite des Anbieters zum Depotübertrag (Beleg). */
@@ -25,7 +25,7 @@ export type BrokerStart = {
   kreditVerzicht?: boolean;
   /** Pflichttext aus den Vorgaben des Partners, steht unter dem Knopf in Textgröße. */
   pflicht?: string;
-  /** Kostenhinweis des Partners zu einer 0-€-Angabe, klein unter den zwei Zeilen. */
+  /** Kostenhinweis des Partners zu einer 0-€-Angabe, steht in der Fußnote unten. */
   kostenHinweis?: string;
 };
 
@@ -39,18 +39,19 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   flatex: {
     vergleichId: "flatex-depot",
-    bestaetigung: "Größte Halal-Auswahl im Vergleich",
-    // Elias: „Gold 7 von 7“. Die sieben sind Gold und Silber (brokerVergleich halalEdelmetalle), darum beide genannt.
-    zeilen: ["Halal-ETFs 12 von 12, Sukuk 3 von 3, Gold und Silber 7 von 7", "Depot 0\u00a0€, ETF-Sparplan 0\u00a0€"],
+    // Elias, CV21F 08.11.2026: Bestätigungssatz und ETF-Sparplan weg, je Haken eine Zeile, „weltweite Islamic-Anlagen
+    // … ohne jetzt dieses 12 von 12“. „Größte Halal-Börse in Deutschland“ ist nicht belegbar; weltweit sind die
+    // kaufbaren Islamic-ETFs (MSCI World Islamic, ACWI Islamic, Emerging Markets Islamic) und Sukuk.
+    zeilen: ["Weltweite Halal-Anlagen", "Depot 0\u00a0€, ETF-Sparplan 0\u00a0€"],
     // „Unsererseits werden für die Übertragung keine Gebühren erhoben“ (flatex FAQ Depotübertrag).
     wechselUrl:
       "https://www.flatex.de/service/faqs/detail/depotuebertrag/allgemein-zum-depotuebertrag/wie-kann-ich-ein-konto-zu-flatex-uebertragen/",
     kreditVerzicht: true,
     // flatex-Vorgaben für Partner (~/rebrand/data/vergleiche/belege/flatex/2026-10-12-info-flatex-disclaimers.txt):
-    // Risikohinweis „deutlich sichtbar und in der gleichen Schriftgröße wie der Text“, bei 0 € Orderentgelt für ETFs
-    // (Sparplan) der Kostenhinweis „zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten“.
+    // Risikohinweis „deutlich sichtbar und in der gleichen Schriftgröße wie der Text“; bei 0 € Orderentgelt für ETFs der
+    // Kostenhinweis (ohne Vorgabe zur Größe). Elias 08.11.2026: keine grauen Kleinzeilen oben, darum in der Fußnote.
     pflicht: "Investieren birgt Verlustrisiken.",
-    kostenHinweis: "ETF-Sparplan zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten.",
+    kostenHinweis: "ETF-Sparplan bei flatex zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten.",
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",

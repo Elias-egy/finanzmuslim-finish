@@ -124,17 +124,20 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
         noindex
       />
 
-      {/* Kopf (Elias, CV21F 08.11.2026): ganz weiß, Finanzfluss-Stil, eckig. Der Knopf zum Anbieter ist der Star und die
-          einzige kräftige Farbe; kein Logo, keine Sterne, kein Kasten, nichts anderes zum Antippen. Darunter das Video. */}
+      {/* Kopf (Elias, CV21F 08.11.2026): weiß unter dem normalen blauen Seitenkopf, Finanzfluss-Stil, eckig. Der Knopf
+          zum Anbieter ist der Star und die einzige kräftige Farbe; kein Logo, keine Sterne, kein Kasten. Das Video mit
+          Abstand darunter. */}
       <section className="bg-white">
-        <div className="container max-w-[600px] pt-4 pb-10 md:pt-10 md:pb-16">
+        <div className="container max-w-[600px] pt-6 pb-10 md:pt-12 md:pb-16">
           <h1 className="headline text-[26px] leading-[1.15] text-foreground md:text-[34px]">
             Dein Halal-Depot bei <span className="text-primary">{partner.anbieter}</span>
           </h1>
-          <p className="mt-1.5 text-[15px] leading-snug text-muted-foreground">
-            {start.bestaetigung}
-            {note !== null && <> ({noteZahl(note)} von 5)</>}
-          </p>
+          {start.bestaetigung && (
+            <p className="mt-1.5 text-[15px] leading-snug text-muted-foreground">
+              {start.bestaetigung}
+              {note !== null && <> ({noteZahl(note)} von 5)</>}
+            </p>
+          )}
           <ul className="mt-4 space-y-1.5">
             {start.zeilen.map((z) => (
               <li key={z} className="flex items-start gap-2 text-[16px] leading-snug text-foreground">
@@ -143,7 +146,6 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
               </li>
             ))}
           </ul>
-          {start.kostenHinweis && <p className="mt-1.5 pl-[26px] text-[12px] leading-snug text-muted-foreground">{start.kostenHinweis}</p>}
 
           {/* Werbekennzeichnung wie Finanzfluss: Sternchen am Knopf, Erklärung in der Fußnote unten. */}
           <a
@@ -157,7 +159,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           </a>
           {start.pflicht && <p className="mt-2 text-center text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
 
-          <p className="mt-8 text-[15px] font-semibold text-foreground md:mt-10">In 5 Minuten mit mir eröffnen</p>
+          <p className="mt-14 text-[15px] font-semibold text-foreground md:mt-16">In 5 Minuten mit mir eröffnen</p>
           <div className="relative mt-2 w-full aspect-video overflow-hidden rounded-[6px] bg-black">
             {start.video ? (
               <>
@@ -260,6 +262,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           <p className="mt-16 text-[12px] leading-relaxed text-muted-foreground">
             *Das ist ein Werbe- oder Affiliate-Link: Eröffnest du darüber ein Depot, bekomme ich eine Provision, für dich
             ohne Mehrkosten. Keine Anlageberatung.{" "}
+            {start.kostenHinweis && <>{start.kostenHinweis} </>}
             {partner.risikoUrl ? (
               <a href={partner.risikoUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                 Kapitalanlagen bergen Risiken.

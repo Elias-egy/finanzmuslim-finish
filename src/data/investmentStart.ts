@@ -2060,7 +2060,9 @@ export const findStartPartner = (kurzname?: string): StartPartner | undefined =>
  * Belege: data/conversion/2026-11-04-ein-euro-je-depot.md im Vault (Sparplan ab 1 € bei Scalable,
  * Traders Place, Smartbroker+; Überweisung ab 1 € schaltet nur bei Scalable belegt das Depot frei).
  */
-export { LEER_QUELLE, istLeerQuelle } from "@/lib/brokerStartPfad";
+export const LEER_QUELLE = /^(?:dm|fb)leer[a-z0-9]*$/;
+
+export const istLeerQuelle = (src: string | null | undefined): boolean => !!src && LEER_QUELLE.test(src);
 
 export const LEER_FASSUNG = {
   titel: ["Dein Depot ist da?", "Zahl den ersten Euro ein."] as [string, string],
