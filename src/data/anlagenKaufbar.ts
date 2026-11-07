@@ -884,10 +884,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "S Broker",
       "tradegate.direct",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -1012,6 +1013,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -1111,7 +1124,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -2770,6 +2783,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -2838,7 +2863,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trading 212",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -3311,6 +3336,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -3410,7 +3447,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -4899,13 +4936,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "S Broker",
       "Trade Republic",
       "tradegate.direct",
       "Traders Place",
       "Trading 212",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -5123,6 +5161,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.sbroker.de/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -5213,7 +5263,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Trade Republic",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "XS2115336336": {
     "kaufbar": [
