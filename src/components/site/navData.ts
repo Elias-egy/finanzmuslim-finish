@@ -37,7 +37,7 @@ export const navGroups: NavGroup[] = [
           { label: "Girokonto ohne Zinsen", to: "/blog/girokonto-ohne-zinsen" },
           { label: "Ist die Kreditkarte haram?", to: "/blog/kreditkarte-halal" },
           { label: "Dispo und Schulden", to: "/blog/dispo-und-schulden" },
-          { label: "Kredit ohne Zinsen", to: "/blog/halal-kredit-ohne-zinsen" },
+          { label: "Halal Kredit", to: "/blog/halal-kredit" },
           { label: "Ist Ratenzahlung haram?", to: "/blog/ratenzahlung-haram" },
           { label: "Haus kaufen ohne Zinsen", to: "/blog/haus-kaufen-ohne-zinsen" },
           { label: "Auto kaufen ohne Zinsen", to: "/blog/auto-kaufen-ohne-zinsen" },

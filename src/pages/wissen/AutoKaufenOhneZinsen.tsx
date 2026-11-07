@@ -501,7 +501,7 @@ const AutoKaufenOhneZinsen = () => (
         punkte={[
           { to: "/blog/ratenzahlung-haram", name: "Ratenkauf", text: "erklärt, warum ein höherer Preis in Raten erlaubt ist und wann er kippt." },
           { to: "/blog/ist-leasing-haram", name: "Leasing", text: "prüft die Alternative zum Kauf an fünf Punkten im Vertrag." },
-          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "zeigt, welche Verträge einen Kredit ersetzen können." },
+          { to: "/blog/halal-kredit", name: "Kredit ohne Zinsen", text: "zeigt, welche Verträge einen Kredit ersetzen können." },
           { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was genau verboten ist und was ausdrücklich nicht." },
         ]}
       />

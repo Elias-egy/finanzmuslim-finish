@@ -116,7 +116,7 @@ const wissenKarten: WissenKarte[] = [
   {
     thema: "Alltag",
     titel: "Halal Kredit ohne Zinsen",
-    to: "/blog/halal-kredit-ohne-zinsen",
+    to: "/blog/halal-kredit",
     motiv: "kredit",
     neu: true,
   },

@@ -440,7 +440,7 @@ const HausKaufenOhneZinsen = () => (
     >
       <PasstDazu
         punkte={[
-          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "erklärt die vier Vertragsformen, die einen Kredit ersetzen." },
+          { to: "/blog/halal-kredit", name: "Kredit ohne Zinsen", text: "erklärt die vier Vertragsformen, die einen Kredit ersetzen." },
           { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "warum ein Ratenkauf vom Eigentümer Handel ist und kein Kredit." },
           { to: "/vorlagen/vertrags-ampel", name: "Der Halal Vertrags-Check", text: "ordnet zwölf Alltagsverträge ein, darunter Kredit, Bausparen und Leasing." },
           { to: "/blog/sind-versicherungen-haram", name: "Ist eine Versicherung haram?", text: "die Gebäudeversicherung ist beim Hauskauf die nächste Frage." },

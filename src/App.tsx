@@ -191,7 +191,8 @@ const App = () => (
             <Route path="/blog/ist-versicherung-haram" element={<AlteAdresse />} />
             <Route path="/blog/sind-aktien-haram" element={<SindAktienHalal />} />
             <Route path="/blog/haus-kaufen-ohne-zinsen" element={<HausKaufenOhneZinsen />} />
-            <Route path="/blog/halal-kredit-ohne-zinsen" element={<HalalKreditOhneZinsen />} />
+            <Route path="/blog/halal-kredit" element={<HalalKreditOhneZinsen />} />
+            <Route path="/blog/halal-kredit-ohne-zinsen" element={<AlteAdresse />} />
             <Route path="/blog/nisab" element={<Nisab />} />
             <Route path="/blog/sukuk" element={<Sukuk />} />
             <Route path="/blog/gharar" element={<Gharar />} />

@@ -400,7 +400,7 @@ const ZinsenImIslam = () => (
           { to: "/blog/ratenzahlung-haram", name: "Ist Ratenzahlung haram?", text: "der Fall, der im Alltag am häufigsten vorkommt." },
           { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "was du an deinem Konto in zehn Minuten umstellen kannst." },
           { to: "/blog/haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", text: "wie das bei der größten Anschaffung des Lebens aussieht." },
-          { to: "/blog/halal-kredit-ohne-zinsen", name: "Kredit ohne Zinsen", text: "welche Verträge einen Kredit ersetzen können." },
+          { to: "/blog/halal-kredit", name: "Kredit ohne Zinsen", text: "welche Verträge einen Kredit ersetzen können." },
         ]}
       />
     </BeitragSeite>

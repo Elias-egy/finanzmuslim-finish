@@ -109,7 +109,7 @@ export const festeRouten: Route[] = [
   wissenBeitrag("maysir", "Maysir.tsx"),
   wissenBeitrag("haeufige-fehler", "HaeufigeFehler.tsx"),
   wissenBeitrag("erbe", "Erbe.tsx"),
-  wissenBeitrag("halal-kredit-ohne-zinsen", "HalalKreditOhneZinsen.tsx"),
+  wissenBeitrag("halal-kredit", "HalalKreditOhneZinsen.tsx"),
   wissenBeitrag("haus-kaufen-ohne-zinsen", "HausKaufenOhneZinsen.tsx"),
   wissenBeitrag("girokonto-ohne-zinsen", "GirokontoOhneZinsen.tsx"),
   wissenBeitrag("sind-versicherungen-haram", "IstVersicherungHaram.tsx"),
@@ -222,7 +222,7 @@ export const wissenUmzug: [string, string][] = [
   ["/wissen", "/blog"],
   ...[
     "zinsen-im-islam", "halal-gold-kaufen", "sukuk", "ist-bitcoin-halal", "nisab", "ertraege-reinigen", "gharar",
-    "maysir", "haeufige-fehler", "erbe", "halal-kredit-ohne-zinsen", "haus-kaufen-ohne-zinsen", "girokonto-ohne-zinsen",
+    "maysir", "haeufige-fehler", "erbe", "haus-kaufen-ohne-zinsen", "girokonto-ohne-zinsen",
     "ist-leasing-haram", "ratenzahlung-haram", "auto-kaufen-ohne-zinsen", "kreditkarte-halal",
     "dispo-und-schulden", "trading-forex-cfd", "zakat-auf-aktien-etf-krypto",
   ].map((s): [string, string] => [`/wissen/${s}`, `/blog/${s}`]),
@@ -230,6 +230,8 @@ export const wissenUmzug: [string, string][] = [
   ["/wissen/sind-aktien-halal", "/blog/sind-aktien-haram"],
   // Titel und Adresse tragen die meistgesuchte Schreibweise „sind versicherungen haram“ (Elias SEO69, 07.11.2026)
   ["/wissen/ist-versicherung-haram", "/blog/sind-versicherungen-haram"],
+  // Titel und Adresse nach „halal kredit“ (250 Suchen vor „halal kredit ohne zinsen“ 40, Elias SEO69, SEITENKARTE Z. 45)
+  ["/wissen/halal-kredit-ohne-zinsen", "/blog/halal-kredit"],
 ];
 
 export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
@@ -248,6 +250,7 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   ...wissenUmzug.map(([von, nach]) => ({ von, nach, seo: true })),
   // Alte Blog-Adresse der Versicherung (SEO69, Titel und Adresse nach „sind versicherungen haram“), ohne noindex wie oben.
   { von: "/blog/ist-versicherung-haram", nach: "/blog/sind-versicherungen-haram", seo: true },
+  { von: "/blog/halal-kredit-ohne-zinsen", nach: "/blog/halal-kredit", seo: true },
   // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
   // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
@@ -281,6 +284,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/wissen/*", grund: "Weiterleitungen auf /blog/… (SEO43), ohne noindex" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /blog/zinsen-im-islam" },
   { pfad: "/blog/ist-versicherung-haram", grund: "Weiterleitung auf /blog/sind-versicherungen-haram (SEO69), ohne noindex" },
+  { pfad: "/blog/halal-kredit-ohne-zinsen", grund: "Weiterleitung auf /blog/halal-kredit (SEO69), ohne noindex" },
   { pfad: "/wissen/halal-etfs", grund: "Weiterleitung auf /blog/halal-etf (SEO24), ohne noindex" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },

@@ -121,7 +121,7 @@ const Kreditkostenrechner = () => (
                 Haus kaufen ohne Zinsen
               </Link>{" "}
               und{" "}
-              <Link to="/blog/halal-kredit-ohne-zinsen" className="text-primary hover:underline">
+              <Link to="/blog/halal-kredit" className="text-primary hover:underline">
                 Kredit ohne Zinsen
               </Link>
               . Für alles, was kein Haus ist, ist der Rechner die Antwort:{" "}
