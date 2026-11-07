@@ -123,6 +123,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -131,6 +144,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
           ]
         }
       },
@@ -191,6 +228,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "n26.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -291,11 +352,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
+      "JOE Broker Depot",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -411,6 +473,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
+      "Smartbroker+",
       "Trade Republic",
       "XTB"
     ],
@@ -439,6 +502,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
           ]
         }
       },
@@ -530,10 +606,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
+      "Smartbroker+",
       "Trade Republic",
       "Traders Place"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -558,6 +635,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "consorsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
           ]
         }
       },
@@ -637,11 +727,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
+      "Smartbroker+",
       "Trade Republic",
       "Traders Place",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -1049,6 +1140,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1057,6 +1161,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
           ]
         }
       },
@@ -1081,6 +1209,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "hypovereinsbank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -1144,14 +1296,16 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
+      "JOE Broker Depot",
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "Scalable Capital",
+      "Smartbroker+",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -1304,6 +1458,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1312,6 +1479,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
           ]
         }
       },
@@ -1384,6 +1575,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "n26.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -1502,9 +1717,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "JOE Broker Depot",
       "Libertex"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1619,6 +1835,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1627,6 +1856,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
           ]
         }
       },
@@ -1687,6 +1940,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "n26.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -1796,10 +2073,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "JOE Broker Depot",
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -1926,6 +2204,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "29.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -1934,6 +2225,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
           ]
         }
       },
@@ -1994,6 +2309,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "n26.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -2103,10 +2442,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "JOE Broker Depot",
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "21.10.2026"
+    "stand": "29.10.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
@@ -2614,6 +2954,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "GLS Bank",
         "haus": "gls",
         "beleg": {
@@ -2670,6 +3034,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "elias",
           "domains": [
             "n26.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
@@ -3161,6 +3549,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GENO Broker GENObasis Depot",
+        "haus": "GENObasis Depot",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GENO Broker GENOprofi",
+        "haus": "GENO Broker GENOprofi",
+        "beleg": {
+          "url": "https://www.genobroker.de/",
+          "stand": "15.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "genobroker.de"
+          ]
+        }
+      },
+      {
         "anbieter": "GLS Bank",
         "haus": "gls",
         "beleg": {
@@ -3217,6 +3629,30 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "maxblue.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Klassisches Depot",
+        "haus": "Pax-Bank Klassisches Depot",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "Pax-Bank Online-Brokerage",
+        "haus": "Pax-Bank Online-Brokerage",
+        "beleg": {
+          "url": "https://www.pax-bank.de/",
+          "stand": "21.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "pax-bank.de"
           ]
         }
       },
