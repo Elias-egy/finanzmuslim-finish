@@ -42,6 +42,8 @@ export type RohAnbieter = {
    */
   note?: number | null;
   noteStand?: string;
+  /** Platz in der Rangfolge, gesetzt von der Vergleichsseite. */
+  platz?: number;
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" | "platz" } | null;
   /**
    * Gesetzt von `bauen.py`, wenn ein Zins-Merkmal rot ist: Der Anbieter steht
@@ -124,6 +126,7 @@ export const baueSpalten = (
       link: a.link,
       note: a.note ?? null,
       noteStand: a.noteStand,
+      platz: a.platz,
       etikett: a.etikett ?? null,
       abgeraten: a.abgeraten ?? false,
       tarif: TARIF_MARKEN[a.id] ?? null,

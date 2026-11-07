@@ -2,9 +2,14 @@ import { useState } from "react";
 import { Check, ChevronDown, Minus, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import {
+  AnbieterName,
   AngebotsKnopf,
   BonusSchild,
+  NotenBlock,
   ProduktDetails,
+  auszeichnungFarbe,
+  auszeichnungGrund,
+  auszeichnungVon,
 } from "./VergleichsBausteine";
 import {
   KEINE_ANGABE,
@@ -18,6 +23,8 @@ import {
  * gedrehte Tabelle unbrauchbar: eine Spalte von 208 Pixeln neben einer Kriterienspalte laesst
  * nichts uebrig.
  *
+ * Kopf wie bei Finanzfluss (SEO74): eckiger Reiter mit der Platzzahl links oben, daneben der Name blau
+ * mit Stern, rechts die Auszeichnung als Text; darunter zwei Kästchen, Logo und Note mit Sternen.
  * Jede Karte ist der Kasten "Unsere Nummer 1" in klein: Logo, Name und Platz oben, dann die vier
  * Werte, nach denen zuerst gesucht wird, als Liste mit Haken, darunter der Knopf und die
  * Produktdetails (Elias, 14.10.2026: "eher wie Smart Broker in Mini", "zum Angebot eher unten").
@@ -25,13 +32,6 @@ import {
  * Ankreuzen "Produkt vergleichen" entfaellt hier, am Laptop vergleicht die Tabelle. Alles Weitere
  * liegt hinter "Produktdetails", auch der Satz zur Zins-Ampel und die Quellen.
  */
-
-const etikettTon: Record<string, string> = {
-  empfehlung: "bg-primary/10 text-primary",
-  bonus: "bg-success/10 text-success",
-  hinweis: "bg-accent/10 text-accent",
-  platz: "bg-muted text-foreground",
-};
 
 type Zeichen = "ja" | "teils" | "nein" | "offen";
 
@@ -93,16 +93,15 @@ const Karte = ({
   const [offen, setOffen] = useState(false);
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
 
-  const hervor = spalte.etikett?.ton === "empfehlung";
+  const auszeichnung = auszeichnungVon(spalte);
+  const hervor = auszeichnung?.ton === "empfehlung";
 
   return (
     <li
-      className={`flex flex-col overflow-hidden rounded-xl border bg-card ${
+      className={`flex flex-col overflow-hidden rounded-lg border ${
         spalte.abgeraten
-          ? "border-destructive/40"
-          : hervor
-            ? "border-primary ring-2 ring-primary/15"
-            : "border-border"
+          ? "border-destructive/40 bg-card"
+          : `${hervor ? "border-primary" : "border-border"} ${(auszeichnung && auszeichnungGrund[auszeichnung.ton]) || "bg-card"}`
       }`}
     >
       {spalte.abgeraten && (
@@ -111,26 +110,43 @@ const Karte = ({
         </p>
       )}
 
-      <div className="flex flex-1 flex-col px-4 pb-1 pt-4">
-        {/* Kopf: Logo, Produkt, Platz. Keine Nummer, solange nicht bewertet ist. */}
-        <div className="flex items-center gap-3">
-          <AnbieterLogo name={spalte.anbieter} domain={spalte.domain} />
-          <p className="min-w-0 flex-1 text-[16px] leading-snug text-foreground">
-            <span className="font-bold">{spalte.anbieter}</span>{" "}
-            {spalte.produkt}
-          </p>
-          {spalte.etikett && !spalte.abgeraten && (
-            <span
-              className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-semibold ${etikettTon[spalte.etikett.ton]}`}
-            >
-              {spalte.etikett.text}
-            </span>
+      {/* Kopf: Reiter mit Platz, Name, Auszeichnung. Ohne Platz (alphabetische Vergleiche) kein Reiter. */}
+      <div className="flex items-start gap-3 pr-4">
+        {spalte.platz != null && (
+          <span
+            className={`flex h-9 min-w-[36px] shrink-0 items-center justify-center rounded-br-lg border-b border-r px-2 text-[15px] font-semibold ${
+              hervor ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
+            }`}
+          >
+            {spalte.platz}
+          </span>
+        )}
+        <p className={`min-w-0 flex-1 py-2 text-[16px] leading-snug ${spalte.platz == null ? "pl-4" : ""}`}>
+          <AnbieterName spalte={spalte} />
+        </p>
+        {auszeichnung && (
+          <span className={`shrink-0 py-2.5 text-right text-[13px] font-semibold leading-tight ${auszeichnungFarbe[auszeichnung.ton]}`}>
+            {auszeichnung.text}
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col px-4 pb-1 pt-2">
+        {/* Logo und Note in zwei Kästchen nebeneinander wie Finanzfluss. Ohne Note nur das Logo. */}
+        <div className={`grid gap-2 ${spalte.note !== null ? "grid-cols-2" : "grid-cols-1"}`}>
+          <div className="flex min-h-[68px] items-center justify-center rounded-lg border border-border bg-card p-2">
+            <AnbieterLogo name={spalte.anbieter} domain={spalte.domain} gross />
+          </div>
+          {spalte.note !== null && (
+            <div className="flex items-center justify-center rounded-lg border border-border bg-card p-2">
+              <NotenBlock note={spalte.note} mittig />
+            </div>
           )}
         </div>
 
         {spalte.tarif && (
           <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-snug text-muted-foreground">
-            <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
+            <span className="rounded bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
               {spalte.tarif.marke}
             </span>
             {spalte.tarif.satz}

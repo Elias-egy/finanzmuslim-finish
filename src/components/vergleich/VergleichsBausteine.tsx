@@ -82,11 +82,53 @@ export const NotenBlock = ({
     <div className={`mt-1 flex ${mittig ? "justify-center" : ""}`}>
       <Sterne note={note} />
     </div>
-    <p className="mt-1 text-[12px] text-muted-foreground">
-      {note === null ? "" : stand}
-    </p>
+    {stand && note !== null && <p className="mt-1 text-[12px] text-muted-foreground">{stand}</p>}
   </div>
   );
+
+/* ------------------------------------------------------- Name und Reiter */
+
+/**
+ * Anbietername wie bei Finanzfluss: mit Partnerlink blau unterstrichen mit Stern, ohne Link
+ * schlichter Text (Elias CV17F: „blaue Namen“).
+ */
+export const AnbieterName = ({ spalte, className = "" }: { spalte: VergleichsSpalte; className?: string }) =>
+  spalte.link ? (
+    <Link
+      to={spalte.link}
+      rel="sponsored nofollow"
+      className={`text-primary underline underline-offset-2 hover:text-primary-hover ${className}`}
+    >
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}*
+    </Link>
+  ) : (
+    <span className={`text-foreground ${className}`}>
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}
+    </span>
+  );
+
+/**
+ * Eine Auszeichnung steht als farbiger Text neben dem Platz, keine runde Pille (Finanzfluss: „Beste
+ * Krypto-Börse“ im Reiter). Blau für die Nummer 1, Grün für eine Auszeichnung aus den Daten.
+ */
+export const auszeichnungFarbe: Record<string, string> = {
+  empfehlung: "text-primary",
+  bonus: "text-success",
+  hinweis: "text-accent",
+  platz: "text-foreground",
+};
+
+/** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss. */
+export const auszeichnungGrund: Record<string, string> = {
+  empfehlung: "bg-primary/[0.05]",
+  bonus: "bg-success/[0.05]",
+  hinweis: "",
+  platz: "",
+};
+
+/** Hat die Spalte eine Auszeichnung, die als Text im Reiter steht? „Platz n“ zählt nicht, die Zahl sagt es. */
+export const auszeichnungVon = (spalte: VergleichsSpalte) =>
+  spalte.etikett && spalte.etikett.ton !== "platz" && !spalte.abgeraten ? spalte.etikett : null;
 
 /* --------------------------------------------------------------- Etikett */
 

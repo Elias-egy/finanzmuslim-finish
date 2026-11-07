@@ -227,14 +227,17 @@ export const VergleichsSeite = ({
     : nachRang;
   const spalten = baueSpalten(
     sortiert.map((a) => {
-      const mitNote = { ...a, note: a.note ?? noteVon?.get(a.id) ?? null };
+      /* Der Platz steht als Zahl im Reiter, nicht mehr als Etikett „Platz n“ (Finanzfluss, Elias CV17F). */
+      const mitNote = {
+        ...a,
+        note: a.note ?? noteVon?.get(a.id) ?? null,
+        platz: platz?.get(a.id) ?? (a.id === sieger?.id ? 1 : undefined),
+      };
       return a.id === sieger?.id
         ? { ...mitNote, etikett: { text: nummerEinsText, ton: "empfehlung" as const } }
         : a.id === meisteHalalId
           ? { ...mitNote, etikett: { text: auszeichnungen!.meisteHalal!, ton: "bonus" as const } }
-          : platz?.has(a.id) && !a.etikett
-            ? { ...mitNote, etikett: { text: `Platz ${platz.get(a.id)}`, ton: "platz" as const } }
-            : mitNote;
+          : mitNote;
     }),
     zeilen,
     kategorie,
