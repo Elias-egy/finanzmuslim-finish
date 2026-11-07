@@ -202,7 +202,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   },
   { lead: "0 % ändert nichts.", text: "Sobald eine Bank dazwischen ist, bleibt es haram, egal was auf dem Schild steht." },
   { lead: "Erlaubt ist der Ratenkauf ohne Bank.", text: "Du kaufst direkt beim Verkäufer, und der Preis steht vor der Unterschrift fest." },
-  { lead: "Ein geprüftes Angebot fehlt in Deutschland.", text: "Ende 2025 kannten Gelehrte weder für das Auto noch für das Haus eins." },
+  { lead: "Ein geprüftes Angebot fehlt in Deutschland.", text: "2025 kannten Gelehrte weder für das Auto noch für das Haus eins." },
   { lead: "Sparen schlägt jeden Kredit.", text: "Was du sonst an Zinsen zahlst, bleibt bei dir. Der Rechner weiter unten zeigt, was daraus wird." },
 ];
 
@@ -220,7 +220,7 @@ const FRAGEN: { frage: string; antwort: string }[] = [
   {
     frage: "Welche Bank gibt Kredit ohne Zinsen?",
     antwort:
-      "Ende 2025 kannten Gelehrte in Deutschland keine Bank, die ein Auto oder ein Haus halal finanziert. Eine 0-Prozent-Finanzierung über eine Bank bleibt haram.",
+      "2025 kannten Gelehrte in Deutschland keine Bank, die ein Auto oder ein Haus halal finanziert. Eine 0-Prozent-Finanzierung über eine Bank bleibt haram.",
   },
   {
     frage: "Halal Kredit Auto: Wie kaufe ich ein Auto ohne Zinsen?",
