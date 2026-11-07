@@ -184,7 +184,8 @@ describe("Vergleichsdaten edelmetalle", () => {
     const mit = gerankt.filter((b) => String(b.anbieter.werte.royalMint).startsWith("ja")).length;
     expect(mit).toBeGreaterThan(0);
     expect(gerankt.slice(0, mit).every((b) => String(b.anbieter.werte.royalMint).startsWith("ja"))).toBe(true);
-    expect(gerankt.slice(0, 3).map((b) => b.anbieter.name)).toEqual(["Traders Place", "Smartbroker+", "Scalable Capital"]);
+    // A6 (07.11.2026): Royal Mint per Portal-Sparplan bei 10 weiteren Depots belegt, Platz 3 rückt nach Note nach.
+    expect(gerankt.slice(0, 3).map((b) => b.anbieter.name)).toEqual(["Traders Place", "Smartbroker+", "S Broker"]);
   });
 
   it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {
@@ -293,6 +294,8 @@ describe("Gegenprüfung 20.09.2026", () => {
  * Beleg aus der Wertpapiersuche oder Produktliste des Anbieters selbst. Ohne Beleg wird die
  * Zeile gar nicht gezeigt, statt sie als kaufbar auszugeben.
  */
+const PORTALE = ["finanzfluss.de", "justetf.com", "finanzen.net", "finanztip.de"];
+
 describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
   it("belegt jede kaufbare Anlage mit einer Seite des Anbieters", () => {
     for (const [isin, eintrag] of Object.entries(ANLAGEN_KAUFBAR)) {
@@ -307,7 +310,9 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
           const host = new URL(u).hostname.replace(/^www\./, "");
           return k.beleg.domains.some((d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`));
         };
-        const eigen = aufDomain(k.beleg.url) || (k.beleg.herkunft ? aufDomain(k.beleg.herkunft) : false);
+        // Seit 07.11.2026 (Elias, A5/A6): Vergleichsportale zählen als Sparplan-Beleg (beleg.belegart "portal").
+        const portal = k.beleg.belegart === "portal" && PORTALE.some((d) => new URL(k.beleg.url).hostname.replace(/^www\./, "").endsWith(d));
+        const eigen = portal || aufDomain(k.beleg.url) || (k.beleg.herkunft ? aufDomain(k.beleg.herkunft) : false);
         expect(eigen, `${ort}: belegt mit ${new URL(k.beleg.url).hostname}`).toBe(true);
       }
     }

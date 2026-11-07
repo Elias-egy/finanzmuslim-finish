@@ -183,7 +183,8 @@ describe("Ausschnitt der Halal-Anlagen", () => {
       expect(z.kaufbar.kaufbar.length).toBeGreaterThan(0);
       for (const k of z.kaufbar.kaufbar) {
         const b = k.beleg;
-        const ok = b.quelle === "elias" || aufDomain(b.url, b.domains) || (!!b.herkunft && aufDomain(b.herkunft, b.domains));
+        const portal = b.belegart === "portal" && aufDomain(b.url, ["finanzfluss.de", "justetf.com", "finanzen.net", "finanztip.de"]);
+        const ok = portal || b.quelle === "elias" || aufDomain(b.url, b.domains) || (!!b.herkunft && aufDomain(b.herkunft, b.domains));
         expect(ok, `${z.anlage.name} bei ${k.anbieter}: ${b.url}`).toBe(true);
       }
     }

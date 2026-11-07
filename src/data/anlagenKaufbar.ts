@@ -14,7 +14,8 @@ export type AnlageKaufbar = {
     /** Alle Haeuser mit diesem Anzeigenamen und Beleg (z. B. Scalable FREE und PRIME+), nur wenn mehr als eins. */
     haeuser?: string[];
     hinweis?: string;
-    beleg: { url: string; stand: string; quelle: string; domains: string[]; herkunft?: string };
+    /** belegart "portal": Finanzfluss, justETF, finanzen.net oder Finanztip nennen den Sparplan (seit 07.11.2026). */
+    beleg: { url: string; stand: string; quelle: string; domains: string[]; herkunft?: string; belegart?: "portal" };
   }[];
   nichtImAngebot: string[];
   stand: string;
@@ -785,6 +786,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie000lfc57h7/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie000lfc57h7/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -941,6 +968,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie000uoxram8/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -962,6 +1002,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie000uoxram8/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie000uoxram8/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -1433,6 +1499,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -1493,6 +1572,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -1628,6 +1733,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Santander",
+        "haus": "santander",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "santander.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -1733,7 +1851,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "JOE Broker Depot",
       "Libertex"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B27YCP72": {
     "kaufbar": [
@@ -1810,6 +1928,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycp72/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -1870,6 +2001,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycp72/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycp72/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -2090,7 +2247,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B296QM64": {
     "kaufbar": [
@@ -2179,6 +2336,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b296qm64/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -2239,6 +2409,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b296qm64/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b296qm64/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -2459,10 +2655,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B43VDT70": {
     "kaufbar": [
+      {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ],
+          "belegart": "portal"
+        }
+      },
       {
         "anbieter": "BBBank",
         "haus": "bbbank",
@@ -2512,6 +2721,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "finvesto Wertpapierdepot",
         "haus": "Finvesto Wertpapierdepot",
         "beleg": {
@@ -2534,6 +2756,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -2674,7 +2922,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
@@ -2868,6 +3116,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "IE00B579F325": {
     "kaufbar": [
       {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "BBBank",
         "haus": "bbbank",
         "beleg": {
@@ -2903,6 +3164,34 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "getbux.com",
             "bux.com"
           ]
+        }
+      },
+      {
+        "anbieter": "Bux Plus",
+        "haus": "Bux Plus",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Bux Prime",
+        "haus": "Bux Bux Prime",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -2976,6 +3265,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -3198,7 +3513,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00BMYMHS24": {
     "kaufbar": [
@@ -3251,6 +3566,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Fidelity",
         "haus": "fidelity",
         "beleg": {
@@ -3285,6 +3613,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -3345,6 +3699,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "sbroker.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Santander",
+        "haus": "santander",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "santander.de"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -3512,6 +3879,34 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "Bux Plus",
+        "haus": "Bux Plus",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Bux Prime",
+        "haus": "Bux Bux Prime",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -3545,6 +3940,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "degiro.de"
           ]
+        }
+      },
+      {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -3583,6 +3991,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -3792,7 +4226,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "JE00B1VS3770": {
     "kaufbar": [
@@ -3857,6 +4291,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3770/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -3892,6 +4339,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3770/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3770/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -4052,7 +4525,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "Libertex"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -4119,6 +4592,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "degiro.de"
           ]
+        }
+      },
+      {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00b588cd74/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -4306,7 +4792,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -4359,6 +4845,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bn2cj301/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "eToro",
         "haus": "etoro",
         "beleg": {
@@ -4406,6 +4905,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bn2cj301/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bn2cj301/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -4555,7 +5080,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -4608,6 +5133,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bqrfdy49/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "eToro",
         "haus": "etoro",
         "beleg": {
@@ -4655,6 +5193,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bqrfdy49/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/je00bqrfdy49/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
         }
       },
       {
@@ -4803,7 +5367,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Libertex",
       "maxblue Wertpapier-Sparplan"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "LU1150255971": {
     "kaufbar": [
@@ -5268,6 +5832,123 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
   "XS2115336336": {
     "kaufbar": [
       {
+        "anbieter": "1822direkt",
+        "haus": "1822direkt",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "1822direkt.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "comdirect",
+        "haus": "comdirect",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "comdirect.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Consorsbank",
+        "haus": "consorsbank",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "consorsbank.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "DKB",
+        "haus": "dkb",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "dkb.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "flatex",
+        "haus": "flatex",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "flatex.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 All inclusive",
+        "haus": "Freedom24 All inclusive",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "Freedom24 Smart",
+        "haus": "Freedom24 Smart",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "freedom24.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "N26",
+        "haus": "n26",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "n26.com"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Scalable Capital",
         "haus": "scalable",
         "haeuser": [
@@ -5319,10 +6000,23 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "tradersplace.de"
           ]
         }
+      },
+      {
+        "anbieter": "Trading 212",
+        "haus": "trading212",
+        "beleg": {
+          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+          "stand": "07.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "trading212.com"
+          ],
+          "belegart": "portal"
+        }
       }
     ],
     "nichtImAngebot": [],
-    "stand": "04.11.2026"
+    "stand": "07.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [
