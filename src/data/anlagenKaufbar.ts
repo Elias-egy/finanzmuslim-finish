@@ -352,13 +352,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "Fidelity",
       "finvesto",
       "JOE Broker Depot",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
       "XTB"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE0009BC6K22": {
     "kaufbar": [
@@ -467,18 +468,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "comdirect",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -600,18 +603,20 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "comdirect",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
       "Traders Place"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -721,19 +726,21 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "comdirect",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
       "Traders Place",
       "XTB"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
@@ -906,11 +913,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "ING",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "S Broker",
       "tradegate.direct",
       "XTB"
@@ -1372,6 +1381,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "comdirect",
       "comdirect Pure Depot",
+      "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "ING",
@@ -1379,12 +1389,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
       "XTB"
     ],
-    "stand": "29.10.2026"
+    "stand": "07.11.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -3106,6 +3117,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Trade Republic",
       "tradegate.direct",
       "Trading 212",
@@ -4224,6 +4236,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "Libertex",
+      "N26",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -4523,7 +4536,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex"
+      "Libertex",
+      "N26"
     ],
     "stand": "07.11.2026"
   },
@@ -4790,6 +4804,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "Libertex",
+      "N26",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -5078,7 +5093,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "Libertex",
-      "maxblue Wertpapier-Sparplan"
+      "maxblue Wertpapier-Sparplan",
+      "N26"
     ],
     "stand": "07.11.2026"
   },
@@ -5365,7 +5381,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "Libertex",
-      "maxblue Wertpapier-Sparplan"
+      "maxblue Wertpapier-Sparplan",
+      "N26"
     ],
     "stand": "07.11.2026"
   },
@@ -5500,6 +5517,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "S Broker",
       "Trade Republic",
       "tradegate.direct",
@@ -5617,13 +5635,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "justTRADE",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Trade Republic",
       "tradegate.direct",
       "Traders Place",
       "Trading 212",
       "XTB"
     ],
-    "stand": "21.10.2026"
+    "stand": "07.11.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -5820,10 +5839,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Basic",
       "Bux Plus",
       "Bux Prime",
+      "Fidelity",
       "finvesto",
       "ING",
       "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "N26",
       "Trade Republic",
       "XTB"
     ],
