@@ -3,7 +3,7 @@ import { BadgeCheck, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AktienZeile from "@/components/vorlagen/AktienZeile";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
+import AktienAufruf from "@/components/vorlagen/AktienAufruf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { aktien, aktieLink, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
@@ -115,9 +115,10 @@ const Top100Voll = () => {
 
         <Gruppe i={0} />
 
-        {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */}
+        {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). Seit FA
+            (07.11.2026) nur zwei kleine Angebote, Traders Place und flatex, ohne Video (`AktienAufruf.tsx`). */}
         <section className="reveal mt-10" aria-labelledby="wo">
-          <DepotAufruf titel={DEPOT_TITEL} link={aktieLink} />
+          <AktienAufruf link={aktieLink} />
         </section>
 
         {themen.slice(1).map((t, i) => (
