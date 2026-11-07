@@ -17,7 +17,8 @@ export const BOYKOTT_PFAD = `/deine-boykottliste/${BOYKOTT_SCHLUESSEL}`;
 export const BOYKOTT_STAND = "28.10.2026";
 
 /** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
-export const boykottLink = (ziel: string, stelle: string) => `${ziel}?src=gboykott-${stelle}`;
+// g0 plus Wort, damit die Kennung zur Familie in src/lib/attribution.ts passt; „gboykott-…“ fiel bis 06.11.2026 still auf „start“ (CV15F).
+export const boykottLink = (ziel: string, stelle: string) => `${ziel}?src=g0boykott${stelle}`;
 
 /**
  * boykott: BDS ruft zum Boykott auf (Boykott-Ziel oder unterstützter Boykott von unten).

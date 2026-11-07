@@ -64,6 +64,7 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
   const istDepot = partner.art === "depot";
   const istSteuer = partner.art === "steuer";
   const istApp = partner.art === "app";
+  const istKrypto = partner.art === "krypto";
   const { daten, zeilen, wort } = VERGLEICH[partner.art];
   const roh = daten.find((a) => a.link === `/out/${partner.kurzname}`);
   if (!roh) return null;
@@ -164,7 +165,9 @@ const AnbieterCheck = ({ partner }: { partner: StartPartner }) => {
                   ? "/vergleich/steuersoftware"
                   : istApp
                     ? "/vergleich/screening-apps"
-                    : "/vergleich/girokonto"
+                    : istKrypto
+                      ? "/vergleich/krypto"
+                      : "/vergleich/girokonto"
             }
             className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-primary hover:underline"
           >

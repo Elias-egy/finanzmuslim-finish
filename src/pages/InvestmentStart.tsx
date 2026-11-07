@@ -253,9 +253,12 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     const hero = heroCtaRef.current;
     const final = finalCtaRef.current;
     if (!hero || !final) return;
-    const heroIo = new IntersectionObserver(([e]) => setHeroCtaVisible(e.isIntersecting));
+    // Gezählt wird der Knopf selbst und nur ganz im Bild: Ragte nur die Zeile „Werbung“ darüber herein, fehlten am
+    // kleinen Handy Knopf und Leiste zugleich (DKB, comdirect bei 390 × 664, 06.11.2026).
+    const heroKnopf = hero.querySelector("a") ?? hero;
+    const heroIo = new IntersectionObserver(([e]) => setHeroCtaVisible(e.intersectionRatio >= 0.99), { threshold: [0, 0.99] });
     const finalIo = new IntersectionObserver(([e]) => setFinalCtaVisible(e.isIntersecting));
-    heroIo.observe(hero);
+    heroIo.observe(heroKnopf);
     finalIo.observe(final);
     return () => {
       heroIo.disconnect();
