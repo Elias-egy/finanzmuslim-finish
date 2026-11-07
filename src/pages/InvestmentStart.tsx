@@ -13,7 +13,7 @@ import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
 // Paneelen-Porträt = gleiche Holzwand wie im Tutorial-Video darüber —
 // Bild und Video wirken als EINE Szene (Wiedererkennung, Elias 16.7.)
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
-import { istGueltigeQuelle } from "@/lib/attribution";
+import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
 import { blockerFest } from "@/lib/direktLink";
 
 /**
@@ -33,20 +33,9 @@ const VIDEO_POSTER = STARTVIDEO.poster;
 const useSubId = (): string => {
   const [subId, setSubId] = useState("start");
   useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = sessionStorage.getItem("amanah_src");
-    } catch {
-      stored = null;
-    }
-    const param = new URLSearchParams(window.location.search).get("src");
-    const candidate = istGueltigeQuelle(param) ? param : istGueltigeQuelle(stored) ? stored : "start";
-    try {
-      sessionStorage.setItem("amanah_src", candidate);
-    } catch {
-      // Ohne Storage gilt die Quelle nur für diesen Aufruf.
-    }
-    setSubId(candidate);
+    // Herkunft bleibt, eine Stelle (Freebie-Knopf, Bonus-Karte) wird angehängt (CV16F, src/lib/attribution.ts).
+    herkunftAufnehmen(new URLSearchParams(window.location.search).get("src"));
+    setSubId(aktuelleSubId());
   }, []);
   return subId;
 };

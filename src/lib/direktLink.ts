@@ -1,5 +1,5 @@
 import type { StartPartner } from "@/data/investmentStart";
-import { SRC_STORAGE_KEY, istGueltigeQuelle } from "@/lib/attribution";
+import { gemerkteQuelle, gemerkteStelle, istGueltigeQuelle, istHerkunft, subIdAus } from "@/lib/attribution";
 
 /**
  * Zwischenseite nur, wo ein Video ist (Elias, 05.11.2026, H16: „Die Zwischenseite generell raus bei überall, wo kein
@@ -9,24 +9,21 @@ import { SRC_STORAGE_KEY, istGueltigeQuelle } from "@/lib/attribution";
 export const ohneZwischenseite = (partner: StartPartner): boolean => partner.art !== "depot";
 
 /**
- * Affiliate-Link mit SubID wie auf der Startseite: Quelle aus ?src, sonst die gemerkte Quelle der Sitzung, sonst
- * „start“. Angehängt wird „d“ für direkt, so wie die Startseite h, f und s für ihre Knöpfe anhängt.
+ * Affiliate-Link mit SubID wie auf der Startseite: Herkunft (aus der Adresse oder gemerkt) plus Stelle (das ?src im
+ * Aufruf, etwa gbkopf), angehängt „d“ für direkt, so wie die Startseite h, f und s anhängt. Schreibt nichts in den
+ * Speicher: Bis CV16F (07.11.2026) überschrieb jeder Knopf beim Zeichnen die Herkunft des ganzen Tabs.
  */
 export const direktLink = (partner: StartPartner, search: string): string => {
   const param = new URLSearchParams(search).get("src");
-  let gemerkt: string | null = null;
+  let ausAdresse: string | null = null;
   try {
-    gemerkt = sessionStorage.getItem(SRC_STORAGE_KEY);
+    ausAdresse = new URLSearchParams(window.location.search).get("src");
   } catch {
-    gemerkt = null;
+    ausAdresse = null;
   }
-  const quelle = istGueltigeQuelle(param) ? param : istGueltigeQuelle(gemerkt) ? gemerkt : "start";
-  try {
-    sessionStorage.setItem(SRC_STORAGE_KEY, quelle);
-  } catch {
-    // Ohne Storage gilt die Quelle nur für diesen Aufruf.
-  }
-  return partner.link.replace("{SUBID}", `${quelle}d`);
+  const quelle = istHerkunft(param) ? param : istHerkunft(ausAdresse) ? ausAdresse : gemerkteQuelle();
+  const stelle = istGueltigeQuelle(param) && !istHerkunft(param) ? param : gemerkteStelle();
+  return partner.link.replace("{SUBID}", `${subIdAus(quelle, stelle)}d`);
 };
 
 /**

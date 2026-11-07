@@ -255,6 +255,14 @@ const main = async () => {
   const selbstGesperrt = [];
   for (const pfad of adressen) {
     try {
+      // Speicher je Adresse leeren: sonst backt eine Seite die Kennung der vorigen ins HTML (Hermes, PRUEFUNG-2 Befund B).
+      await seite.evaluate(() => {
+        try {
+          sessionStorage.clear();
+        } catch {
+          /* about:blank vor der ersten Adresse */
+        }
+      });
       await seite.goto(`http://127.0.0.1:${port}${pfad}`, {
         waitUntil: "networkidle0",
         timeout: 30000,

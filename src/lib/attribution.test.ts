@@ -59,3 +59,31 @@ describe("Kennungs-Familien (CV4)", () => {
     }
   });
 });
+
+// CV16F (07.11.2026): Herkunft bleibt, Stelle wird angehängt (Hermes BERICHT R10, PRUEFUNG-2 Befund B).
+import { herkunftAufnehmen, aktuelleSubId, istHerkunft, subIdAus } from "./attribution";
+
+describe("Herkunft plus Stelle", () => {
+  it("trennt Herkunft und Stelle", () => {
+    for (const h of ["dmliste", "nl20261106", "g0boykottmitte", "d1", "mail", "bio", "fbliste"]) expect(istHerkunft(h), h).toBe(true);
+    for (const s of ["gbkopf", "gbconsors", "eftop3", "sktop3", "amdepot", "start"]) expect(istHerkunft(s), s).toBe(false);
+  });
+  it("hängt die Stelle an die Herkunft, höchstens 19 Zeichen", () => {
+    expect(subIdAus("dmliste", "gbkopf")).toBe("dmlistegbkopf");
+    expect(subIdAus(null, "gbkopf")).toBe("gbkopf");
+    expect(subIdAus("dmliste", null)).toBe("dmliste");
+    expect(subIdAus("start", null)).toBe("start");
+    expect(subIdAus(null, null)).toBe("start");
+    expect(subIdAus("dmleerinvest", "gbconsors")).toHaveLength(19);
+    expect(subIdAus("dmliste", "gbkopf")).toMatch(/^[a-z0-9]{1,19}$/);
+  });
+  it("eine Stelle überschreibt die Herkunft nicht mehr", () => {
+    sessionStorage.clear();
+    herkunftAufnehmen("dmliste");
+    herkunftAufnehmen("gbkopf");
+    herkunftAufnehmen("gbconsors");
+    expect(aktuelleSubId()).toBe("dmlistegbconsors");
+    herkunftAufnehmen("nl20261106");
+    expect(aktuelleSubId()).toBe("nl20261106");
+  });
+});

@@ -166,16 +166,60 @@ export const istGueltigeQuelle = (src: string | null | undefined): src is string
   !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src));
 
 export const SRC_STORAGE_KEY = "amanah_src";
+/** Die zuletzt geklickte Stelle auf unserer Seite (Freebie-Knopf, Bonus-Karte), getrennt von der Herkunft. */
+export const STELLE_STORAGE_KEY = "fm_stelle";
+
+/**
+ * Herkunft = woher die Person kam (DM, Mail, Newsletter, Bio, PDF); Stelle = welcher Knopf auf unserer Seite.
+ * Vorher schrieb jede Stelle ihre Kennung über die Herkunft: Wer aus der DM „liste“ kam und auf der Bonus-Seite
+ * klickte, stand beim Partner als „gbconsors“, nie als „dmliste“ (Hermes, PRUEFUNG-2 Befund B, BERICHT R10).
+ * Seit CV16F (07.11.2026) bleibt die Herkunft stehen, die Stelle wird angehängt: dmliste + gbkopf = dmlistegbkopf.
+ */
+const HERKUNFT = new Set<string>(["g1", "g2", "g3", "m1", "m2", "m3", "dm", "dmstart", "bio", "yt", "qr", "mail", "pdf", "d1"]);
+
+export const istHerkunft = (src: string | null | undefined): src is string =>
+  istGueltigeQuelle(src) && (HERKUNFT.has(src) || QUELLEN_FAMILIE.test(src));
+
+/** SubID aus Herkunft plus Stelle, höchstens 19 Zeichen, damit die Endung h, f, s oder d noch unter 20 bleibt. */
+export const subIdAus = (quelle: string | null | undefined, stelle: string | null | undefined): string => {
+  const q = istHerkunft(quelle) ? quelle : null;
+  const s = istGueltigeQuelle(stelle) && !istHerkunft(stelle) ? stelle : null;
+  return (q && s ? q + s : (q ?? s ?? "start")).slice(0, 19);
+};
+
+/** Nimmt ein ?src auf: Herkunft ersetzt die Herkunft und löscht die alte Stelle, eine Stelle lässt die Herkunft stehen. */
+export const herkunftAufnehmen = (src: string | null | undefined): void => {
+  if (!istGueltigeQuelle(src) || src === "start") return;
+  try {
+    if (istHerkunft(src)) {
+      sessionStorage.setItem(SRC_STORAGE_KEY, src);
+      sessionStorage.removeItem(STELLE_STORAGE_KEY);
+    } else {
+      sessionStorage.setItem(STELLE_STORAGE_KEY, src);
+    }
+  } catch {
+    /* ohne Storage gilt die Kennung nur für diesen Aufruf */
+  }
+};
+
+/** Die gemerkte Stelle dieser Sitzung, oder null. */
+export const gemerkteStelle = (): string | null => {
+  try {
+    return sessionStorage.getItem(STELLE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
+/** SubID aus dem, was diese Sitzung gemerkt hat (ohne Endung). */
+export const aktuelleSubId = (): string => subIdAus(gemerkteQuelle(), gemerkteStelle());
 /** utm_campaign aus Mail-Links (MailerLite), als Eigenschaft „mail_kampagne“ in der Messung. */
 export const KAMPAGNE_STORAGE_KEY = "fm_kampagne";
 
 /** Liest ?src aus der aktuellen URL und speichert es (nur Whitelist-Werte). */
 export const captureSrc = (): void => {
   try {
-    const param = new URLSearchParams(window.location.search).get("src");
-    if (istGueltigeQuelle(param)) {
-      sessionStorage.setItem(SRC_STORAGE_KEY, param);
-    }
+    herkunftAufnehmen(new URLSearchParams(window.location.search).get("src"));
     const kampagne = new URLSearchParams(window.location.search).get("utm_campaign");
     if (kampagne) sessionStorage.setItem(KAMPAGNE_STORAGE_KEY, kampagne.slice(0, 80));
   } catch {

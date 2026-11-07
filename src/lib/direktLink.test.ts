@@ -26,8 +26,13 @@ describe("Zwischenseite nur mit Video (Elias, 05.11.2026, H16)", () => {
   it("setzt die Quelle aus ?src mit d für direkt in die SubID", () => {
     const p = startPartner.find((x) => ohneZwischenseite(x) && x.link.includes("{SUBID}"));
     if (!p) return;
+    sessionStorage.clear();
     expect(direktLink(p, "?src=gbkopf")).toBe(p.link.replace("{SUBID}", "gbkopfd"));
-    expect(direktLink(p, "")).toBe(p.link.replace("{SUBID}", "gbkopfd"));
+    // CV16F: Zeichnen schreibt nichts mehr in den Speicher, die Stelle wird nicht zur Herkunft.
+    expect(direktLink(p, "")).toBe(p.link.replace("{SUBID}", "startd"));
+    sessionStorage.setItem("amanah_src", "dmliste");
+    expect(direktLink(p, "?src=gbkopf")).toBe(p.link.replace("{SUBID}", "dmlistegbkopfd"));
+    sessionStorage.clear();
   });
 
   it("nimmt start, wenn keine gültige Quelle da ist", () => {

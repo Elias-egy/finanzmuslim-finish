@@ -3,7 +3,7 @@
 // dann erscheint auch kein Banner. Gezählt werden Seiten, jeder Klick (autocapture), Herkunft,
 // Aufnahmen mit verdeckten Eingabefeldern und die festen Ereignisse unten.
 import type { PostHog } from "posthog-js";
-import { gemerkteKampagne, gemerkteQuelle } from "@/lib/attribution";
+import { gemerkteKampagne, gemerkteQuelle, gemerkteStelle } from "@/lib/attribution";
 
 /** Projekt-Schlüssel aus eu.posthog.com (öffentlich, beginnt mit phc_). Leer: keine Messung, kein Banner. */
 export const POSTHOG_SCHLUESSEL = "phc_mczwwWCDJH2pb8x7o9vpKhgCTzt694E3NHEZieQvELPY";
@@ -60,8 +60,9 @@ const warteschlange: [Ereignis, Record<string, string | number | boolean>][] = [
 export const merkeHerkunft = (): void => {
   if (!ph) return;
   const quelle = gemerkteQuelle();
+  const stelle = gemerkteStelle();
   const mail_kampagne = gemerkteKampagne();
-  ph.register({ ...(quelle ? { quelle } : {}), ...(mail_kampagne ? { mail_kampagne } : {}) });
+  ph.register({ ...(quelle ? { quelle } : {}), ...(stelle ? { stelle } : {}), ...(mail_kampagne ? { mail_kampagne } : {}) });
 };
 let laedt: Promise<void> | null = null;
 
