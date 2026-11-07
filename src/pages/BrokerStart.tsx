@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Copy, PictureInPicture2, Volume2 } from "lucide-react";
-import AnbieterLogo from "@/components/AnbieterLogo";
+import { Check, Copy, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
-import { Sterne } from "@/components/vergleich/VergleichsBausteine";
 import { noteZahl } from "@/components/vergleich/vergleichTypen";
 import { anlagenListe, FLATEX_VERZICHT, noteImVergleich, type BrokerStart } from "@/data/brokerStart";
 import type { StartPartner } from "@/data/investmentStart";
@@ -118,7 +116,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-white">
       <Seo
         title={`Dein Halal-Depot bei ${partner.anbieter} – finanzmuslim`}
         description={`Dein Halal-Depot bei ${partner.anbieter} in 10 Minuten, Schritt für Schritt im Video.`}
@@ -126,114 +124,78 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
         noindex
       />
 
-      {/* Kopf: Titel, Anbieter mit Note und zwei Zeilen, Knopf, Video. Hier endet, was man ohne Scrollen sieht. */}
-      <section
-        className="relative overflow-hidden bg-primary text-white"
-        style={{
-          backgroundImage: `radial-gradient(55% 45% at 50% 0%, ${partner.markenfarbe}59 0%, transparent 70%), radial-gradient(45% 40% at 100% 100%, hsl(var(--violet) / 0.45) 0%, transparent 70%)`,
-        }}
-      >
-        <div className="container relative pt-7 pb-10 md:pt-12 md:pb-16">
-          <div className="mx-auto max-w-[760px]">
-            {/* Elias, CV21F 08.11.: weniger Dinge, die um den Blick kämpfen. Titel klein in einer Zeile, der Kasten führt. */}
-            <h1 className="headline text-center text-white text-[24px] sm:text-[30px] md:text-[36px] leading-[1.1]">
-              Dein Halal-Depot in 10 Minuten
-            </h1>
+      {/* Kopf (Elias, CV21F 08.11.2026): ganz weiß, Finanzfluss-Stil, eckig. Der Knopf zum Anbieter ist der Star und die
+          einzige kräftige Farbe; kein Logo, keine Sterne, kein Kasten, nichts anderes zum Antippen. Darunter das Video. */}
+      <section className="bg-white">
+        <div className="container max-w-[600px] pt-4 pb-10 md:pt-10 md:pb-16">
+          <h1 className="headline text-[26px] leading-[1.15] text-foreground md:text-[34px]">
+            Dein Halal-Depot bei <span className="text-primary">{partner.anbieter}</span>
+          </h1>
+          <p className="mt-1.5 text-[15px] leading-snug text-muted-foreground">
+            {start.bestaetigung}
+            {note !== null && <> ({noteZahl(note)} von 5)</>}
+          </p>
+          <ul className="mt-4 space-y-1.5">
+            {start.zeilen.map((z) => (
+              <li key={z} className="flex items-start gap-2 text-[16px] leading-snug text-foreground">
+                <Check className="mt-[3px] h-[18px] w-[18px] shrink-0 text-primary" strokeWidth={3} aria-hidden />
+                {z}
+              </li>
+            ))}
+          </ul>
+          {start.kostenHinweis && <p className="mt-1.5 pl-[26px] text-[12px] leading-snug text-muted-foreground">{start.kostenHinweis}</p>}
 
-            <div className="mx-auto mt-4 max-w-[560px] rounded-2xl bg-white p-4 text-foreground shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] md:mt-7 md:p-5">
-              <div className="flex items-center gap-3">
-                <AnbieterLogo name={partner.anbieter} domain={partner.domain} />
-                <div className="min-w-0 flex-1">
-                  <p className="text-[17px] font-bold leading-tight">{partner.anbieter}</p>
-                  <p className="mt-0.5 text-[14px] leading-snug text-muted-foreground">{start.bestaetigung}</p>
-                </div>
-                {note !== null && (
-                  <div className="shrink-0 text-right">
-                    <p className="text-[20px] font-bold leading-none">{noteZahl(note)}</p>
-                    <div className="mt-1">
-                      <Sterne note={note} />
-                    </div>
-                  </div>
+          {/* Werbekennzeichnung wie Finanzfluss: Sternchen am Knopf, Erklärung in der Fußnote unten. */}
+          <a
+            href={knopf.href}
+            rel="sponsored noopener"
+            target="_blank"
+            onClick={zumAnbieter}
+            className="mt-6 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
+          >
+            Depot bei {partner.anbieter} eröffnen*
+          </a>
+          {start.pflicht && <p className="mt-2 text-center text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
+
+          <p className="mt-8 text-[15px] font-semibold text-foreground md:mt-10">In 5 Minuten mit mir eröffnen</p>
+          <div className="relative mt-2 w-full aspect-video overflow-hidden rounded-[6px] bg-black">
+            {start.video ? (
+              <>
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src={start.video.src}
+                  poster={start.video.poster}
+                  autoPlay
+                  muted
+                  playsInline
+                  controls
+                  preload="metadata"
+                  title={`Depot bei ${partner.anbieter} einrichten`}
+                />
+                {stumm && (
+                  <button
+                    type="button"
+                    onClick={tonAn}
+                    className="absolute bottom-14 left-3 inline-flex min-h-[40px] items-center gap-2 rounded-[4px] bg-white px-4 text-[14px] font-bold text-foreground shadow-[0_6px_20px_-6px_rgba(0,0,0,0.5)] md:bottom-16 md:left-4"
+                  >
+                    <Volume2 className="h-4 w-4" aria-hidden /> Ton an
+                  </button>
                 )}
+              </>
+            ) : (
+              <div data-platzhalter className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
+                <p className="text-[16px] font-bold text-white">Video folgt</p>
+                <p className="text-[14px] text-white/70">Einrichtung bei {partner.anbieter}, Querformat, startet ohne Ton</p>
               </div>
-              <ul className="mt-3.5 space-y-2 border-t border-border/70 pt-3.5">
-                {start.zeilen.map((z) => (
-                  <li key={z} className="flex items-start gap-2 text-[16px] leading-snug">
-                    <CheckCircle2 className="mt-[2px] h-[18px] w-[18px] shrink-0 text-gain" aria-hidden />
-                    {z}
-                  </li>
-                ))}
-              </ul>
-              {start.kostenHinweis && <p className="mt-1.5 pl-[26px] text-[12px] leading-snug text-muted-foreground">{start.kostenHinweis}</p>}
-            </div>
-
-            {/* Werbekennzeichnung wie Finanzfluss: Sternchen am Knopf, Erklärung in der Fußnote unten. */}
-            <div className="mt-4 flex flex-col items-center gap-2 md:mt-5">
-              <a
-                href={knopf.href}
-                rel="sponsored noopener"
-                target="_blank"
-                onClick={zumAnbieter}
-                className="pill-btn w-full max-w-[560px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
-              >
-                Depot bei {partner.anbieter} eröffnen*
-              </a>
-              {start.pflicht && <p className="max-w-[560px] text-center text-[15px] leading-snug text-white/90">{start.pflicht}</p>}
-            </div>
-
-            <div className="mt-8 md:mt-10">
-              <div className="relative w-full aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-                {start.video ? (
-                  <>
-                    <video
-                      ref={videoRef}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      src={start.video.src}
-                      poster={start.video.poster}
-                      autoPlay
-                      muted
-                      playsInline
-                      controls
-                      preload="metadata"
-                      title={`Depot bei ${partner.anbieter} einrichten`}
-                    />
-                    <div className="absolute bottom-14 left-3 flex gap-2 md:bottom-16 md:left-4">
-                      {stumm && (
-                        <button
-                          type="button"
-                          onClick={tonAn}
-                          className="inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-white/95 px-4 text-[13px] font-bold text-primary shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero md:text-[14px]"
-                        >
-                          <Volume2 className="h-4 w-4" aria-hidden /> Ton an
-                        </button>
-                      )}
-                      {pipMoeglich && (
-                        <button
-                          type="button"
-                          onClick={() => void bildImBild()}
-                          aria-label="Video als kleines Fenster weiterlaufen lassen"
-                          className="inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-white/95 px-3 text-[13px] font-bold text-primary shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero md:text-[14px]"
-                        >
-                          <PictureInPicture2 className="h-4 w-4" aria-hidden /> Bild im Bild
-                        </button>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div data-platzhalter className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-                    <p className="text-[16px] font-bold text-white">Video folgt</p>
-                    <p className="text-[14px] text-white/70">Einrichtung bei {partner.anbieter}, Querformat, startet ohne Ton</p>
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* Weit darunter, damit der Blick beim Video bleibt: Bestätigung und die zwei Wege für die, die es brauchen. */}
-      <section className="bg-background pb-12 pt-[70vh]">
-        <div className="container max-w-[560px]">
+      <section className="bg-white pb-12 pt-[70vh]">
+        <div className="container max-w-[600px]">
           {gruppen.length > 0 && (
             <div className="text-foreground/80">
               <p className="text-[15px] font-semibold text-foreground">Halal-Anlagen bei {partner.anbieter}</p>
@@ -266,13 +228,13 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                   Hier zur fertigen Mail
                 </button>
                 {mailOffen && (
-                  <div id="kredit-mail" className="mt-3 rounded-xl border border-border bg-accent/50 p-4 text-[15px] leading-relaxed">
+                  <div id="kredit-mail" className="mt-3 rounded-[6px] border border-border bg-accent/50 p-4 text-[15px] leading-relaxed">
                     <p className="font-semibold">Betreff: {FLATEX_VERZICHT.betreff}</p>
                     <p className="mt-2 whitespace-pre-line">{FLATEX_VERZICHT.text}</p>
                     <button
                       type="button"
                       onClick={() => void kopieren()}
-                      className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary-hover"
+                      className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-[6px] bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary-hover"
                     >
                       <Copy className="h-4 w-4" aria-hidden /> {kopiert ? "Kopiert" : "Text kopieren"}
                     </button>

@@ -15,7 +15,7 @@ export type BrokerStart = {
   vergleichId: string;
   /** Satz unter dem Namen im Anbieter-Kasten. */
   bestaetigung: string;
-  /** Genau zwei Zeilen mit Haken. */
+  /** Genau zwei Zeilen mit Haken; Zahl und € mit geschütztem Leerzeichen, sonst steht das € am Handy allein. */
   zeilen: [string, string];
   /** Offizielle Seite des Anbieters zum Depotübertrag (Beleg). */
   wechselUrl: string;
@@ -33,7 +33,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   "traders-place": {
     vergleichId: "traders-place-depot",
     bestaetigung: "Bestes Halal-Depot im Vergleich",
-    zeilen: ["Halal-ETFs, zertifiziertes Gold, Sparplan ab 1 €", "Depot 0 €, Order ab 0 €"],
+    zeilen: ["Halal-ETFs, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
     // „Für die Einbuchung deiner Wertpapiere berechnen wir keine Kosten“ (tradersplace.de, Service, Depotübertrag).
     wechselUrl: "https://www.tradersplace.de/service/depotuebertrag",
   },
@@ -41,7 +41,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
     vergleichId: "flatex-depot",
     bestaetigung: "Größte Halal-Auswahl im Vergleich",
     // Elias: „Gold 7 von 7“. Die sieben sind Gold und Silber (brokerVergleich halalEdelmetalle), darum beide genannt.
-    zeilen: ["Halal-ETFs 12 von 12, Sukuk 3 von 3, Gold und Silber 7 von 7", "Depot 0 €, ETF-Sparplan 0 €"],
+    zeilen: ["Halal-ETFs 12 von 12, Sukuk 3 von 3, Gold und Silber 7 von 7", "Depot 0\u00a0€, ETF-Sparplan 0\u00a0€"],
     // „Unsererseits werden für die Übertragung keine Gebühren erhoben“ (flatex FAQ Depotübertrag).
     wechselUrl:
       "https://www.flatex.de/service/faqs/detail/depotuebertrag/allgemein-zum-depotuebertrag/wie-kann-ich-ein-konto-zu-flatex-uebertragen/",
@@ -55,7 +55,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",
     bestaetigung: "Sehr gut im Vergleich, auch alle Sukuk",
-    zeilen: ["Halal-ETFs, Sukuk, zertifiziertes Gold, Sparplan ab 1 €", "Depot 0 €, Order ab 0 €"],
+    zeilen: ["Halal-ETFs, Sukuk, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
     // „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“ (smartbrokerplus.de/de-de/depotuebertrag).
     wechselUrl: "https://www.smartbrokerplus.de/de-de/depotuebertrag/",
   },
