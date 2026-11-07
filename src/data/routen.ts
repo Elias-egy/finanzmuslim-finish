@@ -279,6 +279,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/wissen", grund: "Weiterleitung auf /blog (SEO43), ohne noindex" },
   { pfad: "/wissen/*", grund: "Weiterleitungen auf /blog/… (SEO43), ohne noindex" },
   { pfad: "/wissen/was-ist-riba", grund: "Weiterleitung auf /blog/zinsen-im-islam" },
+  { pfad: "/blog/ist-versicherung-haram", grund: "Weiterleitung auf /blog/sind-versicherungen-haram (SEO69), ohne noindex" },
   { pfad: "/wissen/halal-etfs", grund: "Weiterleitung auf /blog/halal-etf (SEO24), ohne noindex" },
   { pfad: "/reinigungsrechner", grund: "Weiterleitung auf /bereinigungsrechner, seit 05.09.2026 umbenannt" },
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
