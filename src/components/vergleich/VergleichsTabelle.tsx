@@ -279,7 +279,12 @@ export const VergleichsTabelle = ({
                     } ${istMindestens(s.werte[z.key]?.text) ? "bg-warning/15 ring-1 ring-inset ring-warning/50" : ""}`}
                   >
                     {z.key.startsWith("__platz_") ? (
-                      <span className={platzTon[s.platz?.[z.key]?.ton ?? ""] ?? "text-foreground"}>{s.platz?.[z.key]?.text ?? "–"}</span>
+                      <span
+                        title={s.platz?.[z.key]?.text}
+                        className={`line-clamp-4 ${platzTon[s.platz?.[z.key]?.ton ?? ""] ?? "text-foreground"}`}
+                      >
+                        {s.platz?.[z.key]?.text ?? "–"}
+                      </span>
                     ) : z.key === "__angebot" || z.key === "__angebot_unten" ? (
                       <div className="w-full">
                         <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />

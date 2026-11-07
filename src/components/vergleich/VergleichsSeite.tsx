@@ -132,7 +132,10 @@ const FlatexGegenConsors = ({ ansicht }: { ansicht: AnsichtEintrag[] }) => {
   if (paar.some((e) => !e)) return null;
   const reihen: Array<[string, string]> = [
     ["Platz", "__platz_platz"],
-    ["Halal-Anlagen belegt", "__platz_anlagen"],
+    ["Alle 22 Anlagen geklärt?", "__platz_sicher"],
+    ["Kaufbar", "__platz_ja"],
+    ["Nicht im Angebot", "__platz_nein"],
+    ["Halal-Punkte", "__platz_anlagen"],
     ["Halal-Teil vor Abzug", "__platz_halalVor"],
     ["Abzug", "__platz_abzug"],
     ["Halal-Teil", "__platz_halal"],

@@ -10,6 +10,27 @@ import {
   type RangKategorie,
 } from "@/lib/rangfolge";
 import { luecken } from "@/lib/vollstaendig";
+import BELEGE from "@/data/a3Belege.json";
+
+/** Je Anlage: Name, Zeile, Status, Belegart, Stand, Quelle, Ausgabeaufschlag, Fonds. Erzeugt aus ~/rebrand recherche/anlagen.json (A4). */
+type Beleg = { n: string; z: string; s: "ja" | "nein" | "offen"; b: string | null; st: string | null; u: string | null; a: string | null; f: boolean };
+const BELEG = BELEGE as Record<string, Beleg[]>;
+
+const BELEGART: Record<string, string> = {
+  kaufmerkmal: "Kaufknopf beim Anbieter",
+  anbieterliste: "Liste des Anbieters",
+  schriftlich: "schriftlich vom Anbieter",
+  app_elias: "von dir in der App",
+  ausschluss: "vom Anbieter ausgeschlossen",
+  vollstaendige_liste: "fehlt in seiner vollständigen Liste",
+};
+
+const belegSatz = (liste: Beleg[]) => {
+  const zahl = new Map<string, number>();
+  for (const x of liste) zahl.set(BELEGART[x.b ?? ""] ?? "ohne Beleg", (zahl.get(BELEGART[x.b ?? ""] ?? "ohne Beleg") ?? 0) + 1);
+  if (zahl.size === 1) return `${liste.length}, ${[...zahl.keys()][0]}`;
+  return `${liste.length}: ${[...zahl].map(([art, n]) => `${n} ${art}`).join(", ")}`;
+};
 
 /**
  * Nur für die lokale Ansicht A3 (Worktree fm-a3-ansicht, nie gepusht). Elias, 07.11.2026: Depot- und
@@ -47,7 +68,7 @@ export const platzZeilen = (kategorie: RangKategorie, finanzMax: Record<string, 
     ({ key: `__platz_${key}`, label, art: "text", gruppe: PLATZ_GRUPPE, hinweis }) as unknown as VergleichsZeile;
   const n = kategorie === "edelmetall" ? ANTEIL_N.halalEdelmetalle : Object.values(ANTEIL_N).reduce((s, x) => s + x, 0);
   return [
-    z("fehlt", "Fehlt für die Seite", "Warum das Angebot heute nicht auf der echten Seite steht."),
+    z("fehlt", "Fehlt in der Tabelle", "Leere Zelle auf der Seite. Deshalb steht das Angebot heute nicht dort."),
     z("platz", "Platz"),
     z("note", "Note", "Halb Halal-Teil, halb Kosten-Teil."),
     z("sterne", "Sterne", "Note auf halbe Sterne gerundet."),
@@ -58,8 +79,12 @@ export const platzZeilen = (kategorie: RangKategorie, finanzMax: Record<string, 
         ? "Depots mit belegtem Royal Mint Gold-ETC stehen vor allen anderen, danach die Note."
         : "Bei gleichen Sternen steht zuerst, was über unseren Link eröffnet werden kann, danach die Note.",
     ),
-    z("anlagen", `Halal-Anlagen belegt (von ${n})`, "Nur Anlagen mit Kaufbeleg zählen. „mind.“ zählt nur die belegten."),
-    z("halalVor", "Halal-Teil vor Abzug", `5 mal belegte Anlagen durch ${n}.`),
+    z("sicher", `Alle ${n} Anlagen geklärt?`, "Geklärt heißt: für jede Anlage ein Ja oder Nein mit Beleg vom Anbieter oder aus deiner App-Suche."),
+    z("ja", "Kaufbar", "Mit Beleg, woher das Ja kommt."),
+    z("nein", "Nicht im Angebot", "Mit Beleg, woher das Nein kommt."),
+    z("offen", "Noch offen", "Weder Ja noch Nein belegt. Zählt 0 Punkte, auf der Seite steht dann „mind.“."),
+    z("anlagen", `Halal-Punkte (von ${n})`, "Jede kaufbare Anlage 1 Punkt. Fonds mit Ausgabeaufschlag zählen weniger: mit Rabatt 0,75, voller oder unbekannter Aufschlag 0,5 (Elias, 15.09.2026)."),
+    z("halalVor", "Halal-Teil vor Abzug", `5 mal Halal-Punkte durch ${n}.`),
     z(
       "abzug",
       "Abzug Halal-Teil",
@@ -91,6 +116,11 @@ const zerlege = (
   const h = depotHalal(a, zeilenN);
   const tuer = a.werte.zinsfreiAbStart;
   const labels = { ...ZEILEN_LABEL(zeilen), finanzPunkte: "Kostenpunkte" };
+  const belege = (BELEG[a.id] ?? []).filter((x) => x.z in zeilenN);
+  const ja = belege.filter((x) => x.s === "ja");
+  const nein = belege.filter((x) => x.s === "nein");
+  const offen = belege.filter((x) => x.s === "offen");
+  const weniger = ja.filter((x) => x.f && x.a !== "ohne");
 
   const abzug: PlatzZelle =
     tuer === "schlecht" || a.abgeraten
@@ -116,7 +146,21 @@ const zerlege = (
         : a.link
           ? { text: "ja, eigener Link", ton: "voll" }
           : { text: "nein, kein Link", ton: "leer" },
-    __platz_anlagen: { text: `${punkte(belegt)} von ${n}`, ton: belegt >= n ? "voll" : "verlust" },
+    __platz_anlagen: {
+      text: `${punkte(belegt)} von ${n}${
+        weniger.length ? `: ${weniger.map((x) => `${x.n.split(" ")[0]} ${x.a === "reduziert" ? "0,75" : "0,5"}`).join(", ")}` : ""
+      }`,
+    },
+    __platz_sicher: offen.length
+      ? { text: `nein, ${offen.length} offen`, ton: "verlust" }
+      : belege.length
+        ? { text: `ja, alle ${n}`, ton: "voll" }
+        : { text: "keine Belegdaten", ton: "verlust" },
+    __platz_ja: { text: ja.length ? belegSatz(ja) : "0" },
+    __platz_nein: { text: nein.length ? belegSatz(nein) : "0" },
+    __platz_offen: offen.length
+      ? { text: `${offen.length}: ${offen.map((x) => x.n).join(", ")}`, ton: "verlust" }
+      : { text: "0", ton: "voll" },
     __platz_halalVor: { text: zahl(h.halalVorKredit) },
     __platz_abzug: abzug,
     __platz_halal: b ? { text: `${zahl(b.halal)} von 5` } : { text: "–", ton: "leer" },
@@ -129,7 +173,7 @@ const zerlege = (
     max += m;
     summe += p ?? 0;
     zellen[`__platz_k_${k}`] =
-      typeof p !== "number" ? { text: `– von ${punkte(m)}`, ton: "verlust" } : { text: `${punkte(p)} von ${punkte(m)}`, ton: p >= m ? "voll" : "verlust" };
+      typeof p !== "number" ? { text: `– von ${punkte(m)}`, ton: "verlust" } : { text: `${punkte(p)} von ${punkte(m)}`, ton: p >= m ? "voll" : undefined };
   }
   const abzugKosten = Math.min(0, a.finanzPunkte?.abzug ?? 0);
   zellen.__platz_kostenSumme = {
