@@ -47,62 +47,74 @@ export type DealBereich = "depot" | "girokonto" | "krypto";
  * wandert erst hierher, wenn er beim Anbieter bestätigt ist.
  */
 export const deals: Deal[] = [
+  // CV16F H1, 07.11.2026: nur Boni, die über unseren eigenen Partnerlink gelten (Zielseite des Links
+  // gelesen), nie an ein Zinsprodukt gebunden. Weggelassen: norisbank (200 € nur mit Tagesgeld-Abschluss),
+  // Traders Place (Elias: „nur mit Zinsen“), Smartbroker+ (80 € nur über die Finanzfluss-Seite),
+  // Postbank (keine Prämie beim Anbieter), ING und Commerzbank (kein Partnerlink), 1822direkt (Konto nicht
+  // zinsfrei ab Start). Quelle: Vault hermes/funnel-pruefung/BENCHMARK-FINANZFLUSS.md H1, Belege im Laufzettel cv17.
+  {
+    anbieter: "comdirect Girokonto Aktiv",
+    titel: "250 € Prämie",
+    vorteil: "Eröffne das Girokonto Aktiv bei comdirect: Du bekommst 250 € Prämie.",
+    bedingungen:
+      "Laut comdirect: Einwilligung in Werbung per E-Mail und in den ersten 3 Monaten mindestens 5 Zahlungen über je 25 €. Aktion bis 23.11.2026.",
+    betrag: 250,
+    gueltigBis: "2026-11-23",
+    partnerKurzname: "comdirect-girokonto",
+    anbieterIds: ["comdirect-girokonto-aktiv"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.comdirect.de/cms/lp/giro_praemie_media_wm250-aff.html", stand: "07.11.2026" },
+  },
+  {
+    anbieter: "Consorsbank Girokonto",
+    titel: "200 € Prämie",
+    vorteil: "Eröffne das Girokonto bei der Consorsbank: Du bekommst 200 € Prämie.",
+    bedingungen:
+      "Laut Consorsbank: drei Monate je mindestens 1.500 € Geldeingang von einer anderen Bank und Einwilligung in E-Mail-Werbung. Antrag bis 31.01.2027.",
+    betrag: 200,
+    gueltigBis: "2027-01-31",
+    partnerKurzname: "consorsbank-girokonto",
+    anbieterIds: ["consorsbank-girokonto"],
+    bereich: "girokonto",
+    quelle: { url: "https://aktionen.consorsbank.de/girokonto", stand: "07.11.2026" },
+  },
   {
     anbieter: "comdirect Depot",
     titel: "Bis zu 150 € Prämie",
-    vorteil: "Eröffne ein Depot bei comdirect: Du bekommst bis zu 150 € Prämie.",
-    bedingungen: "Die Höhe hängt an Bedingungen, die comdirect auf der Depotseite nennt. Aktion bis 01.11.2026.",
+    vorteil: "Eröffne ein Depot bei comdirect: 100 € Prämie, dazu 50 €, wenn dein erster Sparplan läuft.",
+    bedingungen:
+      "Laut comdirect: 100 € mit Einwilligung in Werbung per E-Mail, 50 € für einen Sparplan in den ersten 3 Monaten. Aktion bis 28.02.2027.",
     betrag: 150,
     bisZu: true,
-    gueltigBis: "2026-11-01",
+    gueltigBis: "2027-02-28",
+    partnerKurzname: "comdirect-depot",
     anbieterIds: ["comdirect-depot"],
     bereich: "depot",
-    quelle: { url: "https://www.comdirect.de/depot/depot.html", stand: "13.10.2026" },
+    quelle: { url: "https://www.comdirect.de/cms/lp/depot_affiliate_lang.html", stand: "07.11.2026" },
+  },
+  {
+    anbieter: "UmweltBank UmweltGiro",
+    titel: "100 € Startguthaben",
+    vorteil: "Eröffne das Girokonto der UmweltBank: Du bekommst 100 €, dazu gehen 50 € an den NABU.",
+    bedingungen:
+      "Laut UmweltBank: in den ersten drei Monaten mindestens ein Gehalts- oder Renteneingang (auch BAföG, Kindergeld).",
+    betrag: 100,
+    partnerKurzname: "umweltbank",
+    anbieterIds: ["umweltbank-umweltgiro"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.umweltbank.de/konto-karte/praemie/", stand: "07.11.2026" },
   },
   {
     anbieter: "BBBank BetterSmart",
     titel: "50 € Startprämie",
     vorteil: "Eröffne das Konto BetterSmart: Als Neukunde bekommst du 50 € Startprämie.",
     bedingungen:
-      "Laut BBBank: „Neukunde, du hast in den letzten 24 Monaten kein Girokonto bei uns geführt.“ Auszahlung innerhalb von 8 Wochen, sobald die Voraussetzungen erfüllt sind.",
+      "Laut BBBank: Neukunde, in den letzten 24 Monaten kein Girokonto bei der BBBank.",
     betrag: 50,
-    partnerKurzname: "bbbank",
+    partnerKurzname: "bbbank-bettersmart",
     anbieterIds: ["bbbank-bettersmart"],
     bereich: "girokonto",
-    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "13.10.2026" },
-  },
-  {
-    anbieter: "ING Girokonto",
-    titel: "200 € Prämie",
-    vorteil: "Eröffne ein Girokonto bei der ING: Du bekommst 200 € Prämie.",
-    bedingungen:
-      "Laut ING: Konto bis 30.09.2026 eröffnen, zwei aufeinanderfolgende monatliche Geldeingänge, Login in die ING App und Einwilligung zu „Tipps für Sie persönlich“.",
-    betrag: 200,
-    gueltigBis: "2026-09-30",
-    anbieterIds: ["ing-girokonto", "ing-girokonto-future"],
-    bereich: "girokonto",
-    quelle: { url: "https://www.ing.de/girokonto/", stand: "21.09.2026" },
-  },
-  {
-    anbieter: "1822direkt GiroDirekt",
-    titel: "200 € Prämie",
-    vorteil: "Eröffne das GiroDirekt bei 1822direkt: Du bekommst 200 € Prämie.",
-    bedingungen: "Laut 1822direkt: „Girokonto mit monatl. Geldeingang eröffnen und 200 € sichern.“ Eine Frist nennt die Seite nicht.",
-    betrag: 200,
-    anbieterIds: ["1822direkt-girodirekt"],
-    bereich: "girokonto",
-    quelle: { url: "https://www.1822direkt.de/girokonto/", stand: "13.10.2026" },
-  },
-  {
-    anbieter: "Commerzbank GiroKonto",
-    titel: "50 € Startguthaben",
-    vorteil: "Eröffne das GiroKonto online: Du bekommst 50 € Startguthaben.",
-    bedingungen:
-      "Laut Commerzbank: kein Commerzbank Girokonto in den letzten 24 Monaten, Online-Eröffnung, drei Monate mindestens 5 Buchungen über je 25 € und Zustimmung zu Werbemitteilungen. Die beworbenen „bis zu 200 €“ enthalten Prämien fürs Weiterempfehlen.",
-    betrag: 50,
-    anbieterIds: ["commerzbank-girokonto"],
-    bereich: "girokonto",
-    quelle: { url: "https://www.commerzbank.de/privatkunden/girokonten/girokonto-eroeffnen/", stand: "13.10.2026" },
+    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "07.11.2026" },
   },
 ];
 

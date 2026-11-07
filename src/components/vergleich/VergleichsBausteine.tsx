@@ -124,7 +124,7 @@ export const BonusSchild = ({ anbieterId, className = "" }: { anbieterId: string
   if (!deal) return null;
   return (
     <p
-      className={`mx-auto mt-1.5 w-fit rounded-md border border-success/50 bg-success/10 px-2 py-0.5 text-center text-[12px] font-semibold text-success ${className}`}
+      className={`mx-auto mt-2 w-fit rounded-md border border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-bold text-success ${className}`}
       title={`${deal.bedingungen}${deal.gueltigBis ? ` Gültig bis ${deal.gueltigBis.split("-").reverse().join(".")}.` : ""}`}
     >
       {schildText(deal)}

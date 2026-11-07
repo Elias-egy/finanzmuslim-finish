@@ -43,7 +43,7 @@ describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
   });
 
   it("hält die Prämie der BBBank wie deals.ts und belegt sie am 05.11.2026", () => {
-    const d = deals.find((x) => x.partnerKurzname === "bbbank");
+    const d = deals.find((x) => x.partnerKurzname === "bbbank-bettersmart");
     expect(d?.betrag).toBe(BBBANK_PRAEMIE.betrag);
     expect(BBBANK_PRAEMIE.beleg.stand).toBe("05.11.2026");
     expect(BBBANK_PRAEMIE.beleg.wortlaut).toContain("50 € Startprämie");
