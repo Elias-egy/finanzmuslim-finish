@@ -59,7 +59,7 @@ const RECHTSHINWEIS =
 
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
-  { id: "kurzer-vergleich", titel: "7 Wege auf einen Blick", leiste: true, kurz: "7 Wege" },
+  { id: "kurzer-vergleich", titel: "Halal Kredit ohne Zinsen: 7 Wege", leiste: true, kurz: "7 Wege" },
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
   { id: "uebersicht", titel: "Kredit, 0 % oder Raten: Die Übersicht", leiste: true, kurz: "Die Übersicht" },
   { id: "warum", titel: "Warum ist Kredit haram?", leiste: true, kurz: "Warum haram" },
@@ -223,7 +223,7 @@ const FRAGEN: { frage: string; antwort: string; id?: string }[] = [
   {
     frage: "Ist ein Kredit halal, wenn er von einer islamischen Bank kommt?",
     antwort:
-      "Nicht, wenn sie dir Geld gegen mehr Geld leiht. Auch eine Bank, die sich islamisch nennt, darf das nicht. Möglich ist ein Kauf mit offenem Aufschlag wie bei Murabaha.",
+      "Nicht, wenn sie dir Geld gegen mehr Geld leiht. Auch eine Bank, die sich islamisch nennt, darf das nicht. Möglich ist ein Kauf mit offenem Aufschlag wie bei Murabaha, wenn die Bank wirklich Eigentümerin wird und für Mängel haftet.",
   },
   {
     frage: "Welche Bank gibt Kredit ohne Zinsen?",
@@ -249,7 +249,7 @@ const FRAGEN: { frage: string; antwort: string; id?: string }[] = [
     frage: "Ist die Kreditkarte haram?",
     id: "kreditkarte",
     antwort:
-      "Zahlst du mit der Kreditkarte in Raten, verlangt die Bank Zinsen, und das ist haram. Gelehrte sehen die Karte selbst unterschiedlich, die strengere Meinung rät ganz ab. Die Debitkarte bucht sofort von deinem Konto ab und reicht fast immer.",
+      "Zahlst du mit der Kreditkarte in Raten, verlangt die Bank Zinsen, und das ist haram. Gelehrte sehen die Karte selbst unterschiedlich: Nach der strengeren Meinung ist sie haram, die andere lässt sie nur bei echter Dringlichkeit zu. Die Debitkarte bucht sofort von deinem Konto ab und reicht fast immer.",
   },
   {
     frage: "Darf ich Geld von meiner Familie leihen?",
@@ -644,7 +644,7 @@ const HalalKreditOhneZinsen = () => {
               </div>
 
               <div className="mt-8">
-                <KartenReihe etikett="Kurzer Vergleich" titel="7 Wege auf einen Blick" anzahl={WEGE.length}>
+                <KartenReihe etikett="Kurzer Vergleich" titel={titelVon("kurzer-vergleich")} anzahl={WEGE.length}>
                   {WEGE.map((a, i) => (
                     <Karte key={a.weg} nummer={i + 1} kopf={a.weg} erste={i === 0}>
                       <Marke ton={a.ton}>{a.marke}</Marke>
@@ -882,8 +882,8 @@ const HalalKreditOhneZinsen = () => {
                   <Ueber id="notlage" />
                   <Text>
                     <p>
-                      Nur in echter Not, und ob du in einer bist, entscheidet ein Gelehrter. Beim Haus kennen Gelehrte eine Ausnahme, etwa für eine
-                      Familie, der die Wohnung gekündigt wurde und die keine neue findet. Darüber sind Gelehrte nicht einig.
+                      Der Kredit bleibt haram. Beim Haus kennen Gelehrte eine Ausnahme für echte Not, etwa für eine Familie, der die Wohnung gekündigt
+                      wurde und die keine neue findet. Ob du in einer bist, entscheidet ein Gelehrter. Darüber sind Gelehrte nicht einig.
                     </p>
                     <p>Du gehst zu einem Gelehrten, der sich damit auskennt, und schilderst ihm alles.</p>
                     <p>Ein Wunsch reicht nicht: „Ich hätte gern ein Haus“ ist keine Notlage. Im bekannten Fall war die Auflage: so schnell wie möglich abzahlen.</p>
