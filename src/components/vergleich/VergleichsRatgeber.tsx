@@ -374,25 +374,33 @@ export const VorNachteile = ({
 export const AppBilder = ({
   bilder,
   platzhalter,
+  quelle,
 }: {
   bilder: { src: string; alt: string; text: string }[];
   /** Nur in der Vorschau: Platz markieren, solange Elias' Bilder fehlen. Live steht dann nichts. */
   platzhalter?: string;
+  /** Woher die Bilder sind, eine Zeile darunter. */
+  quelle?: string;
 }) => {
   if (bilder.length > 0)
     return (
-      <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-9">
-        {bilder.slice(0, 2).map((b) => (
-          <img
-            key={b.src}
-            src={b.src}
-            alt={b.alt}
-            title={b.text}
-            loading="lazy"
-            className="mx-auto h-auto w-full max-w-[274px] rounded-lg border border-border"
-          />
-        ))}
-      </div>
+      <figure className="mt-10">
+        <div className="grid gap-10 md:grid-cols-2 md:gap-9">
+          {bilder.slice(0, 2).map((b) => (
+            <img
+              key={b.src}
+              src={b.src}
+              alt={b.alt}
+              title={b.text}
+              loading="lazy"
+              className="mx-auto h-auto w-full max-w-[274px] rounded-lg border border-border"
+            />
+          ))}
+        </div>
+        {quelle && (
+          <figcaption className="mt-4 text-center text-[15px] text-muted-foreground">{quelle}</figcaption>
+        )}
+      </figure>
     );
   if (!platzhalter || !import.meta.env.DEV) return null;
   return (
