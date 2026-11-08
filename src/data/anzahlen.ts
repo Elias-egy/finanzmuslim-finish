@@ -9,7 +9,7 @@
 export const ANZAHL_HALAL_ANLAGEN = 30;
 export const ANZAHL_DEPOTS = 38;
 export const ANZAHL_KONTEN = 54;
-export const ANZAHL_KRYPTO = 27;
+export const ANZAHL_KRYPTO = 26;
 export const ANZAHL_APPS = 4;
 export const ANZAHL_STEUERPROGRAMME = 10;
 

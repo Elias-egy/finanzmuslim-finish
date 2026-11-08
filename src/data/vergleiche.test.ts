@@ -18,7 +18,8 @@ const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[], Vergleichs
   // 51 statt 56: eToro, Freedom24 (2), Plus500, Libertex sind raus (Elias 07.11.2026, A8, bauen.py AUS_DEM_VERGLEICH).
   ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 51],
   ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
-  ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 27],
+  // 26 statt 27: eToro Krypto ist raus (Elias 08.11.2026, A9, „Alle raus. Also die vier.“).
+  ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 26],
 ];
 
 describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, anzahl) => {

@@ -170,6 +170,11 @@ const VergleichMethodik = () => (
           Die Reihenfolge folgt der Note. Der Halal-Teil und die Kosten zählen je zur Hälfte. Von
           Anbietern, bei denen sich die Zinsen nicht abschalten lassen, raten wir ab.
         </p>
+        <p>
+          Im Depot-Vergleich gibt es zwei Ausnahmen. Platz 1 bekommt nur ein Depot, das von Anfang an
+          ohne Kredit läuft. Und die ersten vier Depots haben alle Top-Noten. Darum ordnen wir sie
+          danach, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen.
+        </p>
       </section>
 
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
@@ -180,7 +185,8 @@ const VergleichMethodik = () => (
           und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft. Nur die
           Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto gleich
           viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet
-          die Note.{" "}
+          die Note. Auch die ersten vier im Depot-Vergleich hängen am Link: Wie oft Leser ein Depot
+          eröffnen, sehen wir nur bei Anbietern, mit denen ich zusammenarbeite.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

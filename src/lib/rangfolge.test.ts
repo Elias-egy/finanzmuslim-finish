@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, LESER_REIHENFOLGE, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
@@ -591,7 +591,8 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
 
   it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
-    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["traders-place-depot"]);
+    // Regel 7 (Elias 08.11.2026, A9): Smartbroker+ steht nach den Leser-Eröffnungen vorn.
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
     expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
@@ -802,5 +803,18 @@ describe("Feinwert: Kleinigkeiten entscheiden nur bei sonst gleichem Stand (Elia
     const schlechter = klein("d-schlechter", { appIos: "5 / 5", appAndroid: "5 / 5" });
     schlechter.finanzPunkte = { kontofuehrung: 5 };
     expect(ids(rGiro([schlechter, besser]).gerankt)).toEqual(["c-besser", "d-schlechter"]);
+  });
+});
+
+describe("Regel 7: erste Plätze im Depot nach Leser-Eröffnungen (Elias, 08.11.2026, A9)", () => {
+  it("stellt Smartbroker+, flatex, Traders Place, Scalable in dieser Reihenfolge vorn, Platz 1 ohne Kredit", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    expect(ids(r.gerankt.slice(0, 4))).toEqual(LESER_REIHENFOLGE.depot);
+    expect(r.gerankt.slice(0, 5).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5]);
+    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+  });
+  it("gilt nur im Depot", () => {
+    expect(LESER_REIHENFOLGE.edelmetall).toBeUndefined();
+    expect(LESER_REIHENFOLGE.krypto).toBeUndefined();
   });
 });

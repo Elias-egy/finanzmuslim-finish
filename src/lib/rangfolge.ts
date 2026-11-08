@@ -44,6 +44,8 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    behalten ihre Reihenfolge (Elias, 07.11.2026, CV20F: "1 muss immer etwas für die Mehrheit kostengünstig
  *    sein", Regel "Platz 1 nur ohne Abstellen"). So steht ein Depot mit Kredit ab Start (flatex) nie vor
  *    der Empfehlung, auch wenn seine Note höher ist.
+ * 7. Im Depot stehen die ersten Plätze in der Reihenfolge `LESER_REIHENFOLGE`: alle mit Top-Note, geordnet danach,
+ *    wo unsere Leser ihr Depot am häufigsten wirklich eröffnen (Elias, 08.11.2026, A9). Danach entscheidet Regel 4.
  */
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall";
@@ -123,6 +125,26 @@ const TOR = "zinsfreiAbStart";
 
 /** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
 export const sterne = (note: number): number => Math.round(note * 2) / 2;
+
+/**
+ * Regel 7: die ersten Plätze je Vergleich, in dieser Reihenfolge. Elias, 08.11.2026 (A9, raw/2026-11-08-elias-a9-
+ * alle-vier-raus-reihenfolge-nach-abschlussquote.md im Vault): „die sind alle auf dem Top-Niveau“, die Leser sollen
+ * zuerst klicken, „womit sie im Durchschnitt … deutlich zufriedener sind“. Gemessen in der Zentrale (Partnerportale,
+ * 01.07. bis 08.11.2026): Smartbroker+ 40 Klicks, 3 Abschlüsse; flatex 29 Klicks, 2; Traders Place 47 Klicks, 0;
+ * Scalable 488 Klicks, 27. Ein Eintrag, der fehlt oder abgeraten ist, wird übersprungen.
+ */
+export const LESER_REIHENFOLGE: Partial<Record<RangKategorie, readonly string[]>> = {
+  depot: ["smartbroker-plus-depot", "flatex-depot", "traders-place-depot", "scalable-capital-free-broker"],
+};
+
+/** Stellt die Einträge aus `LESER_REIHENFOLGE` in deren Reihenfolge nach vorn, der Rest bleibt, wie er ist. */
+export const leserZuerst = <T>(liste: T[], kategorie: RangKategorie, id: (t: T) => string): number => {
+  const vorne = (LESER_REIHENFOLGE[kategorie] ?? []).map((v) => liste.find((t) => id(t) === v)).filter((t): t is T => t !== undefined);
+  if (vorne.length === 0) return 0;
+  const rest = liste.filter((t) => !vorne.includes(t));
+  liste.splice(0, liste.length, ...vorne, ...rest);
+  return vorne.length;
+};
 
 /** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
 export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
@@ -411,6 +433,8 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
     vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
+  // Regel 7: die ersten Plätze nach Leser-Eröffnungen.
+  const fest = leserZuerst(bewertet, kategorie, (b) => b.anbieter.id);
   // Regel 6: Platz 1 nur ohne Einschränkung.
   const ersterFrei = bewertet.findIndex((b) => b.uneingeschraenkt);
   if (ersterFrei > 0) bewertet.unshift(...bewertet.splice(ersterFrei, 1));
@@ -419,7 +443,7 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gerankt: Bewertet[] = [];
   bewertet.forEach((b, i) => {
     const vorher = gerankt[i - 1];
-    const platz = vorher && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
+    const platz = vorher && i > fest && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
     gerankt.push({ ...b, platz });
   });
 
