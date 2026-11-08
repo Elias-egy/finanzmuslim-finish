@@ -1335,6 +1335,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "JOE Broker Depot",
       "justTRADE",
+      "maxblue",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Scalable Capital",
@@ -1343,7 +1344,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "08.11.2026"
   },
   "IE00B27YCN58": {
     "kaufbar": [
@@ -1699,7 +1700,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "stand": "07.11.2026",
           "quelle": "anbieter",
           "domains": [
-            "santander.de"
+            "santander.de",
+            "openbank.de"
           ],
           "belegart": "portal"
         }
@@ -3533,7 +3535,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "stand": "07.11.2026",
           "quelle": "anbieter",
           "domains": [
-            "santander.de"
+            "santander.de",
+            "openbank.de"
           ],
           "belegart": "portal"
         }
