@@ -40,7 +40,7 @@ const Haken = ({ children }: { children: ReactNode }) => (
 );
 
 const Pille = ({ children }: { children: ReactNode }) => (
-  <li className="flex min-h-[40px] items-center gap-1.5 rounded border border-border bg-background px-3 text-[14px] font-semibold text-foreground">
+  <li className="flex min-h-[40px] items-center gap-1.5 rounded border border-border bg-background px-2.5 text-[14px] font-semibold text-foreground">
     <Check className="h-4 w-4 text-gain" strokeWidth={3} aria-hidden />
     {children}
   </li>
