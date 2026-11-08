@@ -71,46 +71,11 @@ const Kopfband = () => {
   const logos = netzLogos();
   return (
     <section aria-hidden className="relative h-[230px] overflow-hidden md:h-[320px]">
-      {/* Flache Fläche in Signalblau (Stil 1: kein Verlauf, kein Schein). Sie endet zwei Pixel über der Unterkante,
-          sonst blitzt an der Schnittkante des Bogens eine graue Linie durch. */}
-      <span className="absolute inset-x-0 bottom-0.5 top-0 bg-primary" />
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {knoten.slice(0, logos.length).map((k, i) => (
-          <line
-            key={i}
-            x1={MITTE.x}
-            y1={MITTE.y}
-            x2={k.x}
-            y2={k.y}
-            stroke="white"
-            strokeOpacity="0.24"
-            strokeWidth="0.25"
-            vectorEffect="non-scaling-stroke"
-            className={k.md ? "hidden md:block" : undefined}
-          />
-        ))}
-        {knoten.slice(0, logos.length - 1).map((k, i) => {
-          const n = knoten[i + 1];
-          if (i === 3) return null;
-          return (
-            <line
-              key={`n${i}`}
-              x1={k.x}
-              y1={k.y}
-              x2={n.x}
-              y2={n.y}
-              stroke="white"
-              strokeOpacity="0.12"
-              strokeWidth="0.25"
-              vectorEffect="non-scaling-stroke"
-              className={k.md || n.md ? "hidden md:block" : undefined}
-            />
-          );
-        })}
-      </svg>
+      {/* Flache Fläche in Signalblau mit gerader Unterkante (SEO80, Prüfer F1: kein Bogen, kein Linien-Netz). */}
+      <span className="absolute inset-0 bg-primary" />
 
       <span
-        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border border-white/25 bg-white/15 text-[26px] font-extrabold leading-none text-white md:h-14 md:w-14"
+        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-md border border-border bg-white text-[26px] font-extrabold leading-none text-primary md:h-14 md:w-14"
         style={{ left: `${MITTE.x}%`, top: `${MITTE.y}%` }}
       >
         F
@@ -119,7 +84,7 @@ const Kopfband = () => {
       {logos.map((a, i) => (
         <span
           key={a.domain ?? a.name}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/25 bg-white/15 p-1.5 ${
+          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-white p-1.5 ${
             knoten[PLATZ[i]].md ? "hidden md:block" : ""
           }`}
           style={{ left: `${knoten[PLATZ[i]].x}%`, top: `${knoten[PLATZ[i]].y}%` }}
@@ -134,7 +99,6 @@ const Kopfband = () => {
         fetchPriority="high"
         className="absolute bottom-0 left-1/2 z-10 h-[190px] w-auto max-w-none -translate-x-1/2 translate-y-6 md:h-[290px] md:translate-y-10"
       />
-      <span className="absolute -bottom-12 left-1/2 z-20 h-24 w-[180%] -translate-x-1/2 rounded-[50%] bg-background md:-bottom-16 md:h-32 md:w-[140%]" />
     </section>
   );
 };

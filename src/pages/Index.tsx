@@ -226,7 +226,7 @@ const Index = () => (
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
               <div className="max-md:order-4 mt-4 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
-                <Aufruf to="/vergleich/start" className="block whitespace-nowrap sm:inline-block">
+                <Aufruf to="/vergleich/start" gross className="block whitespace-nowrap sm:inline-block">
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
                 </Aufruf>

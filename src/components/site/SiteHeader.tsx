@@ -158,11 +158,11 @@ export const SiteHeader = () => {
                 >
                   <Search className="h-[22px] w-[22px]" aria-hidden />
                 </button>
-                <Link
-                  to="/vergleich/start"
-                  className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
-                >
-                  Dein Geld halal vermehren
+                {/* Derselbe Knopf wie im Blog-Kopf (SEO80, Prüfer F9: auf allen Seiten einer). */}
+                <Link to="/vergleich/start" className="leuchtlinie leuchtlinie-hell hidden min-[900px]:inline-block">
+                  <span className="flex h-11 items-center whitespace-nowrap bg-white px-2.5 font-mono text-[12px] uppercase tracking-[0.02em] text-foreground lg:px-4 lg:tracking-[0.1em]">
+                    Dein Geld halal vermehren
+                  </span>
                 </Link>
               </>
             )}
