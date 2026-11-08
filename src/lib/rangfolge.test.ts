@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, LESER_REIHENFOLGE, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { depotAnzeige } from "@/data/vergleichAnzeige";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
 import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
@@ -812,6 +813,14 @@ describe("Regel 7: erste Plätze im Depot nach Leser-Eröffnungen (Elias, 08.11.
     expect(ids(r.gerankt.slice(0, 4))).toEqual(LESER_REIHENFOLGE.depot);
     expect(r.gerankt.slice(0, 5).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5]);
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+  });
+  // A10: Methodik und Depot-FAQ nennen „zwischen 4,4 und 4,6“. Bewegt sich eine Note heraus, beide Sätze anpassen.
+  it("hält die Noten der ersten vier zwischen 4,4 und 4,6, wie Methodik und FAQ sagen", () => {
+    const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
+    for (const b of r.gerankt.slice(0, 4)) {
+      expect(b.note).toBeGreaterThanOrEqual(4.35);
+      expect(b.note).toBeLessThan(4.65);
+    }
   });
   it("gilt nur im Depot", () => {
     expect(LESER_REIHENFOLGE.edelmetall).toBeUndefined();

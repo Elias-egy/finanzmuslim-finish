@@ -39,7 +39,7 @@ const FAQ = [
   {
     frage: "Wie entsteht die Reihenfolge?",
     antwort:
-      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Platz 1 bekommt nur ein Depot, das von Anfang an ohne Kredit läuft. Die ersten vier Depots haben alle Top-Noten, darum ordnen wir sie danach, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen. Bei den übrigen steht bei gleich vielen Sternen zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
+      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Platz 1 bekommt nur ein Depot, das von Anfang an ohne Kredit läuft. Die ersten vier Depots liegen in der Note nah beieinander, zwischen 4,4 und 4,6. Darum ordnen wir sie danach, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen. Bei den übrigen steht bei gleich vielen Sternen zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
   },
   {
     frage: "Kann ich mehrere Depots haben?",

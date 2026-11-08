@@ -172,8 +172,9 @@ const VergleichMethodik = () => (
         </p>
         <p>
           Im Depot-Vergleich gibt es zwei Ausnahmen. Platz 1 bekommt nur ein Depot, das von Anfang an
-          ohne Kredit läuft. Und die ersten vier Depots haben alle Top-Noten. Darum ordnen wir sie
-          danach, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen.
+          ohne Kredit läuft. Und die ersten vier Depots liegen in der Note nah beieinander, zwischen
+          4,4 und 4,6. Darum ordnen wir sie danach, wo unsere Leser ihr Depot am häufigsten wirklich
+          eröffnen.
         </p>
       </section>
 
