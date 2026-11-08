@@ -1,3 +1,4 @@
+import { anzeigeNote } from "@/lib/anzeigeNote";
 /**
  * Gemeinsame Form fuer alle Vergleiche.
  *
@@ -94,9 +95,10 @@ export type VergleichsSpalte = {
 /** Zelle ohne Angabe: ein Strich, nie ein Wort über den Stand der Prüfung (Elias, 05.10.2026). */
 export const KEINE_ANGABE = "–";
 
-/** Wort zur Note, wie man es aus Vergleichen kennt. */
-export const noteWort = (note: number | null) => {
-  if (note === null) return "–";
+/** Wort zur Note, wie man es aus Vergleichen kennt. Liest die angezeigte Note, damit Wort und Zahl zusammenpassen. */
+export const noteWort = (roh: number | null) => {
+  if (roh === null) return "–";
+  const note = anzeigeNote(roh);
   if (note >= 4.5) return "Sehr gut";
   if (note >= 3.5) return "Gut";
   if (note >= 2.5) return "Befriedigend";
@@ -104,9 +106,9 @@ export const noteWort = (note: number | null) => {
   return "Mangelhaft";
 };
 
-/** Note mit Komma, wie im Deutschen ueblich. */
+/** Note mit Komma, wie im Deutschen ueblich, abgerundet (`anzeigeNote`). */
 export const noteZahl = (note: number | null) =>
-  note === null ? null : note.toFixed(1).replace(".", ",");
+  note === null ? null : anzeigeNote(note).toFixed(1).replace(".", ",");
 
 /** Quelle und Stand, wie sie beim aufgeklappten Angebot stehen. */
 export const quellenText = (q: Quelle) => `${q.anzeige}${q.stand ? `, Stand ${q.stand}` : ""}`;

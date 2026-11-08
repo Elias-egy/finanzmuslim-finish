@@ -4,6 +4,7 @@ import { EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
+import { anzeigeNote } from "@/lib/anzeigeNote";
 
 /**
  * Rechenkern der Rangfolge für alle sechs Vergleiche (P3, 26.09.2026).
@@ -44,8 +45,9 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    behalten ihre Reihenfolge (Elias, 07.11.2026, CV20F: "1 muss immer etwas für die Mehrheit kostengünstig
  *    sein", Regel "Platz 1 nur ohne Abstellen"). So steht ein Depot mit Kredit ab Start (flatex) nie vor
  *    der Empfehlung, auch wenn seine Note höher ist.
- * 7. Im Depot stehen die ersten Plätze in der Reihenfolge `LESER_REIHENFOLGE`: alle mit Top-Note, geordnet danach,
- *    wo unsere Leser ihr Depot am häufigsten wirklich eröffnen (Elias, 08.11.2026, A9). Danach entscheidet Regel 4.
+ * 7. Die Reihenfolge liest die angezeigte Note (`anzeigeNote`, eine Stelle, abgerundet), so stehen Zahl und Sterne
+ *    immer absteigend (Elias, 08.11.2026, A11). Bei gleicher angezeigter Note steht im Depot zuerst, wo unsere Leser ihr
+ *    Depot am häufigsten wirklich eröffnen (`LESER_REIHENFOLGE`, Elias A9), danach der eigene Link (Regel 2).
  */
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall";
@@ -123,8 +125,14 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
 
 const TOR = "zinsfreiAbStart";
 
-/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
-export const sterne = (note: number): number => Math.round(note * 2) / 2;
+/** Sterne auf der Seite: angezeigte Note auf halbe Sterne gerundet. */
+export const sterne = (note: number): number => Math.round(anzeigeNote(note) * 2) / 2;
+
+/** Platz eines Eintrags in `LESER_REIHENFOLGE`, sonst hinter allen. */
+const leserRang = (kategorie: RangKategorie, id: string): number => {
+  const i = (LESER_REIHENFOLGE[kategorie] ?? []).indexOf(id);
+  return i < 0 ? Number.MAX_SAFE_INTEGER : i;
+};
 
 /**
  * Regel 7: die ersten Plätze je Vergleich, in dieser Reihenfolge. Elias, 08.11.2026 (A9, raw/2026-11-08-elias-a9-
@@ -152,12 +160,14 @@ export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>([
 type MitNote = { note: number; anbieter: RohAnbieter };
 
 /**
- * Regel 2 als Vergleich: Sterne absteigend, bei gleicher Sternzahl der eigene Link zuerst.
- * 0 heißt, die Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
+ * Regel 2 und 7 als Vergleich: angezeigte Note absteigend, bei gleicher angezeigter Note zuerst die Leser-Eröffnungen,
+ * dann der eigene Link. 0 heißt, die genaue Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
  */
 export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
   LINK_VORRANG.has(kategorie)
-    ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
+    ? anzeigeNote(q.note) - anzeigeNote(p.note) ||
+      leserRang(kategorie, p.anbieter.id) - leserRang(kategorie, q.anbieter.id) ||
+      Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : kategorie === "edelmetall"
       ? royalMintKaufbar(q.anbieter) - royalMintKaufbar(p.anbieter)
       : 0;
@@ -433,17 +443,15 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
     vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
-  // Regel 7: die ersten Plätze nach Leser-Eröffnungen.
-  const fest = leserZuerst(bewertet, kategorie, (b) => b.anbieter.id);
-  // Regel 6: Platz 1 nur ohne Einschränkung.
-  const ersterFrei = bewertet.findIndex((b) => b.uneingeschraenkt);
+  // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“).
+  const ersterFrei = bewertet.findIndex((b) => b.uneingeschraenkt && (!LINK_VORRANG.has(kategorie) || Boolean(b.anbieter.link)));
   if (ersterFrei > 0) bewertet.unshift(...bewertet.splice(ersterFrei, 1));
   const vorgezogen = ersterFrei > 0;
 
   const gerankt: Bewertet[] = [];
   bewertet.forEach((b, i) => {
     const vorher = gerankt[i - 1];
-    const platz = vorher && i > fest && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
+    const platz = vorher && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
     gerankt.push({ ...b, platz });
   });
 

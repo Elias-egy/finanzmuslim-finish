@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, depotHalal, leserZuerst, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotHalal, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -239,9 +239,7 @@ export const werteAus = (
     q.sortWert - p.sortWert ||
     position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);
-  // Regel 7 der Rangfolge: Wer keine Anlage, kein Gewicht und keine Priorität wählt, sieht vorn dieselbe Reihenfolge
-  // wie die Liste (Elias, 08.11.2026, A9).
-  if (!gewichtet && !zeilen && !auswahl.prioritaet) leserZuerst(passt, kategorie, (t) => t.anbieter.id);
+  // Regel 7 der Rangfolge steckt in `vorrang`: bei gleicher angezeigter Note zuerst die Leser-Eröffnungen (A11).
   // Regel 6 der Rangfolge: Platz 1 nur ohne Abstellen (Elias, 07.11.2026, CV20F). Ausnahme: Wer ausdrücklich
   // die größte Auswahl will, bekommt das Depot mit Kredit weiter vorn (Elias, 12.10.2026).
   const ersterFrei = auswahl.prioritaet?.nachHalal ? 0 : passt.findIndex((t) => !t.kredit);

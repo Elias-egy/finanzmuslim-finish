@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
+import { anzeigeNote } from "@/lib/anzeigeNote";
 import { Link } from "react-router-dom";
 import {
   KEINE_ANGABE,
@@ -32,7 +33,7 @@ import {
 export const Sterne = ({ note }: { note: number | null }) => (
   <span className="inline-flex items-center gap-[2px]" aria-hidden>
     {[0, 1, 2, 3, 4].map((i) => {
-      const anteil = note === null ? 0 : Math.min(1, Math.max(0, note - i));
+      const anteil = note === null ? 0 : Math.min(1, Math.max(0, anzeigeNote(note) - i));
       return (
         <span key={i} className="relative inline-block h-4 w-4">
           <Star className="absolute inset-0 h-4 w-4 text-muted-foreground/35" />

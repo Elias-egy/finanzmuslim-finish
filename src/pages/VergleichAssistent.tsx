@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ereignis } from "@/lib/messung";
+import { anzeigeNote } from "@/lib/anzeigeNote";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import Seo from "@/components/Seo";
@@ -318,7 +319,7 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
           </p>
           {t.note && baustein.kategorie !== "steuer" && baustein.kategorie !== "screener" && (
             <p className="shrink-0 text-right">
-              <span className="block text-[22px] font-bold leading-none text-foreground">{t.note.gesamt.toFixed(1).replace(".", ",")}</span>
+              <span className="block text-[22px] font-bold leading-none text-foreground">{anzeigeNote(t.note.gesamt).toFixed(1).replace(".", ",")}</span>
               <span className="text-[11px] text-muted-foreground">von 5</span>
             </p>
           )}
