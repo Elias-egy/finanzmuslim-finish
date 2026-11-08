@@ -1,9 +1,10 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { PDFDocument } from "pdf-lib";
 import { FERTIG_MAIL } from "@/data/brokerStart";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { aufteilung, BROKER, hausVon, inEuro, produktFuer, type Antworten, type Wert } from "@/data/portfolioQuiz";
+import { ALLE_BAUSTEINE, anlegertyp, richtungAendern, risiko, sauberName } from "@/data/portfolioDashboard";
 import { planPdfBytes } from "@/lib/planPdf";
 
 const ALLE_WERTE: Wert[][] = [[], ["gold"], ["ruhig"], ["aktien"], ["krypto"], ["gold", "ruhig", "aktien", "krypto"]];
@@ -51,12 +52,33 @@ describe("Portfolioplan (CV26P)", () => {
     expect(body.toLowerCase()).not.toMatch(/nicht\s+(noch\s+)?fertig|noch\s+nicht/);
   });
 
-  it("PDF: vorne der Plan, dahinter vier Seiten aus dem Blueprint", async () => {
-    const xxl = readFileSync("public/guides/finanzmuslim-xxl-guide-mt6puo.pdf");
+  it("PDF: drei Seiten im Stil des Dashboards, ohne kopierte Blueprint-Seiten (CV27P)", async () => {
     const a: Antworten = { broker: "traders-place", gekauft: "nichts", weise: "monatlich", betrag: 50, lage: "mittel", werte: ["gold"] };
-    const bytes = await planPdfBytes(a, new Uint8Array(xxl));
+    const bytes = await planPdfBytes(a, { name: "Elias" });
     const doc = await PDFDocument.load(bytes);
-    expect(doc.getPageCount()).toBe(5);
+    expect(doc.getPageCount()).toBe(3);
+    expect(doc.getTitle()).toBe("Der Halal-Investmentplan von Elias");
     if (process.env.PLAN_PDF_AUS) writeFileSync(process.env.PLAN_PDF_AUS, bytes);
+  });
+
+  it("Richtung ändern: Summe bleibt 100, Einzelaktien und Krypto zusammen höchstens 15, Typ folgt der Richtung (CV27P)", () => {
+    for (const lage of ["bald", "mittel", "lang"] as const) {
+      let t = aufteilung({ lage, werte: [] });
+      for (const b of ALLE_BAUSTEINE) for (let i = 0; i < 6; i++) t = richtungAendern(t, b, true);
+      expect(t.reduce((s, x) => s + x.prozent, 0)).toBe(100);
+      expect(t.filter((x) => x.baustein === "aktien" || x.baustein === "krypto").reduce((s, x) => s + x.prozent, 0)).toBeLessThanOrEqual(15);
+      expect(risiko(t)).toBeGreaterThanOrEqual(5);
+      expect(risiko(t)).toBeLessThanOrEqual(95);
+    }
+    expect(anlegertyp(aufteilung({ lage: "bald", werte: [] })).id).toBe("planer");
+    expect(anlegertyp(aufteilung({ lage: "lang", werte: ["krypto"] })).id).toBe("pionier");
+    expect(anlegertyp(aufteilung({ lage: "mittel", werte: [] })).id).toBe("baumeister");
+  });
+
+  it("Vorname aus der Mail: nur Buchstaben, groß am Anfang", () => {
+    expect(sauberName("elias")).toBe("Elias");
+    expect(sauberName("<script>")).toBe("Script");
+    expect(sauberName("<>")).toBeUndefined();
+    expect(sauberName(null)).toBeUndefined();
   });
 });

@@ -1,0 +1,76 @@
+/* Bewegung des Portfolioplans (CV27P, 09.11.2026): Onboarding gleitet, das Dashboard baut sich von links nach rechts
+   auf, Ring und Tacho zeichnen sich. Alles weich (cubic-bezier .2,.8,.2,1), bei „weniger Bewegung“ still. */
+
+.pp-rise {
+  animation: pp-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.pp-slide {
+  animation: pp-slide 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.pp-frage {
+  animation: pp-frage 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.pp-zeile {
+  animation: pp-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.pp-seg {
+  transition:
+    stroke-dasharray 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-dashoffset 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pp-tacho {
+  transition: stroke-dasharray 1.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pp-balken {
+  transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pp-karte {
+  background: #fff;
+  border: 1px solid hsl(var(--border));
+  border-radius: 20px;
+}
+
+@keyframes pp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pp-slide {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pp-frage {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-rise,
+  .pp-slide,
+  .pp-frage,
+  .pp-zeile {
+    animation: none;
+  }
+  .pp-seg,
+  .pp-tacho,
+  .pp-balken {
+    transition: none;
+  }
+}

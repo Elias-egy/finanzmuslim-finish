@@ -35,6 +35,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
+  // Der Portfolioplan bringt sein eigenes Onboarding mit Wortmarke mit: edel, weiß, ohne das blaue Menü, aber
+  // erkennbar Teil der Seite (Elias, CV26P 09.11.2026: „nicht wirkt wie eine komplett andere Seite“).
+  if (pathname.startsWith("/dein-portfolioplan/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />
