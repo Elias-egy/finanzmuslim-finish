@@ -16,6 +16,7 @@ import {
   kaufbarBei,
   kaufbarStand,
   sparplanAnzahl,
+  sparplanAuf,
   type EtfEintrag,
 } from "@/data/halalEtfListe";
 
@@ -190,16 +191,10 @@ const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string
   { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", logo: "scalable", out: "/out/scalable" },
 ];
 
-// Sparplan je Depot nur aus den Belegen der Liste (sparplanBei). Scalable ohne die PRIME+-Hälfte (Elias SEO42: „Nur Scalable Prime
-// und sowas. Das macht alles gar keinen Sinn“, raw/2026-11-03-elias-seo42-leser-profil-skill-tabelle-langweilig.md); PRIME+ zählt als Scalable.
+// Sparplan je Depot nur aus den Belegen der Liste (`sparplanAuf`, gemeinsam mit dem Depot-Vergleich).
 function sparplanZeile(anbieter: string): string {
-  const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
-  if (anbieter === "Scalable Capital") return `Sparplan auf ${etfListe.filter((e) => e.sparplanBei.some((x) => x.startsWith("Scalable"))).length} von 8`;
-  // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026),
-  // für Platz 5 und 6 nicht (SEO35, raw/2026-11-03-elias-seo35-antworten-linkedin-fragebogen.md)
-  if (anbieter === "Traders Place") return "Sparplan auf 6 von 8";
-  const n = zahl(anbieter);
-  return n === 0 ? "Sparplan auf diese ETFs noch nicht nachgesehen" : `Sparplan auf ${n} von 8`;
+  const n = sparplanAuf(anbieter);
+  return n === null ? "Sparplan auf diese ETFs noch nicht nachgesehen" : `Sparplan auf ${n} von ${etfListe.length}`;
 }
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [

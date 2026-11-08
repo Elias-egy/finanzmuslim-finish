@@ -22,6 +22,7 @@ import type { VergleichsZeile } from "./vergleichTypen";
 import {
   baueSpalten,
   anzahlHalalGeprueft,
+  meisteHalalVon,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
@@ -132,6 +133,9 @@ export type VergleichsSeiteProps = {
       belegten Halal-Anlagen, wenn er allein vorn liegt und nicht schon Platz 1 ist. */
   auszeichnungen?: { nummerEins?: string; meisteHalal?: string };
   faq: Array<{ frage: string; antwort: string }>;
+  /** Blogteil unter der Tabelle wie bei Finanzfluss (`VergleichsRatgeber`). Ersetzt den Kriterien-Kasten und die
+      Fragen; `faq` speist weiter die strukturierten Daten und soll dieselben Fragen tragen. */
+  ratgeber?: ReactNode;
   schluss: string;
 };
 
@@ -162,6 +166,7 @@ export const VergleichsSeite = ({
   vorneweg,
   auszeichnungen,
   faq,
+  ratgeber,
   schluss,
 }: VergleichsSeiteProps) => {
   const [aktiv, setAktiv] = useState<string[]>([]);
@@ -196,21 +201,8 @@ export const VergleichsSeite = ({
       : null;
   const noteVon = rang ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.note])) : null;
   const nummerEinsText = auszeichnungen?.nummerEins ?? "Unsere Nummer 1";
-  /* „Meiste Halal-Anlagen“: Summe der belegten „x von y“ in den Halal-Zeilen, nur Gerankte. */
-  const halalZahl = (a: (typeof anbieter)[number]) =>
-    zeilen
-      .filter((z) => z.gruppe === "halal")
-      .reduce((n, z) => {
-        const m = /^(\d+) von \d+/.exec(String(a.werte[z.key] ?? ""));
-        return n + (m ? Number(m[1]) : 0);
-      }, 0);
-  const meisteHalalId = (() => {
-    if (!auszeichnungen?.meisteHalal || !platz) return null;
-    const kandidaten = anbieter.filter((a) => platz.has(a.id)).map((a) => ({ id: a.id, n: halalZahl(a) }));
-    const top = Math.max(0, ...kandidaten.map((k) => k.n));
-    const vorn = kandidaten.filter((k) => k.n === top);
-    return top > 0 && vorn.length === 1 && vorn[0].id !== sieger?.id ? vorn[0].id : null;
-  })();
+  const meisteHalalId =
+    auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
   const nachRang = platz
     ? [
         ...gefiltert
@@ -405,6 +397,7 @@ export const VergleichsSeite = ({
           </div>
         )}
 
+        {!ratgeber && (
         <section
           className={`${AM_ENDE} ${BREIT} mt-10 rounded-lg border border-border bg-card p-6 md:p-8`}
         >
@@ -432,7 +425,7 @@ export const VergleichsSeite = ({
             </Link>
           </p>
         </section>
-
+        )}
 
         {gefiltert.length === 0 ? (
           <p
@@ -477,6 +470,9 @@ export const VergleichsSeite = ({
 
         {zusatz && <div className={`${AM_ENDE} ${BREIT}`}>{zusatz}</div>}
 
+        {ratgeber ? (
+          <div className={`${AM_ENDE} ${BREIT}`}>{ratgeber}</div>
+        ) : (
         <section className={`${AM_ENDE} ${BREIT} mt-14 max-w-3xl`}>
           <h2 className="text-2xl font-bold text-foreground">Häufige Fragen</h2>
           <Accordion type="single" collapsible className="mt-4">
@@ -492,6 +488,7 @@ export const VergleichsSeite = ({
             ))}
           </Accordion>
         </section>
+        )}
 
         <p
           className={`${AM_ENDE} ${BREIT} mt-12 text-[13px] leading-relaxed text-muted-foreground`}

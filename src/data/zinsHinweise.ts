@@ -235,6 +235,11 @@ export const kreditKurz = (
 ): string | undefined =>
   kreditAchtung(kategorie, angebot) && angebot.haus ? KREDIT_KURZ[angebot.haus] : undefined;
 
+/** Nur die Sache, ohne Grund für den Platz: für Texte, die der Rangfolge folgen und keinen Platz nennen (Depot-Ratgeber). */
+export const kreditSache = (
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined => (kreditAchtung("depot", angebot) && angebot.haus ? KREDIT_SACHE[angebot.haus] : undefined);
+
 export const ALLE_ACHTUNG_SAETZE: string[] = [
   ...Object.values(ACHTUNG_KREDIT),
   ...Object.values(KREDIT_SACHE),

@@ -157,3 +157,27 @@ export const anzahlHalalGeprueft = (anbieter: RohAnbieter[], zeilen: VergleichsZ
 /** Die Halal-Zeilen einer Liste, für Filter und Zählungen. */
 export const halalZeilen = (zeilen: VergleichsZeile[]) =>
   zeilen.filter((z) => z.gruppe === "halal" && z.art === "ampel");
+
+/**
+ * „Meiste Halal-Anlagen“ (Elias CV18F): Summe der „x von y“ in den Halal-Zeilen, nur unter den Gerankten. Die Auszeichnung
+ * gibt es nur, wenn einer allein vorn liegt und nicht schon die Nummer 1 ist.
+ */
+export const halalSumme = (a: RohAnbieter, zeilen: VergleichsZeile[]) =>
+  zeilen
+    .filter((z) => z.gruppe === "halal")
+    .reduce((n, z) => {
+      const m = /^(\d+) von \d+/.exec(String(a.werte[z.key] ?? ""));
+      return n + (m ? Number(m[1]) : 0);
+    }, 0);
+
+export const meisteHalalVon = (
+  anbieter: readonly RohAnbieter[],
+  zeilen: VergleichsZeile[],
+  gerankt: ReadonlySet<string>,
+  siegerId?: string | null,
+): string | null => {
+  const kandidaten = anbieter.filter((a) => gerankt.has(a.id)).map((a) => ({ id: a.id, n: halalSumme(a, zeilen) }));
+  const top = Math.max(0, ...kandidaten.map((k) => k.n));
+  const vorn = kandidaten.filter((k) => k.n === top);
+  return top > 0 && vorn.length === 1 && vorn[0].id !== siegerId ? vorn[0].id : null;
+};
