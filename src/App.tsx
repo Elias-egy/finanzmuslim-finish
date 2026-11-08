@@ -8,9 +8,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
-import Index from "./pages/Index.tsx";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
+// A10 (08.11.2026): auch die Startseite, sonst laden die Kursreihen aus kurse.json (rund 350 KB) auf jeder Seite mit.
+const Index = lazy(() => import("./pages/Index.tsx"));
 const InvestmentStart = lazy(() => import("./pages/InvestmentStart.tsx"));
 const DepotNummerEins = lazy(() => import("./pages/DepotNummerEins.tsx"));
 const HalalGuide = lazy(() => import("./pages/HalalGuide.tsx"));
