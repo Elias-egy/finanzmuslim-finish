@@ -40,7 +40,7 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | postbank.de | public/logos/postbank.de.svg | Anbieter-Seite postbank.de, Kopf der Startseite, geladen 08.11.2026 |
 | relai.app | public/logos/relai.app.svg | Anbieter-Seite relai.app, Kopf der Startseite, geladen 08.11.2026 |
 | sbroker.de | public/logos/sbroker.de.png | Anbieter-Seite sbroker.de, Kopf der Startseite, geladen 08.11.2026 |
-| scalable.capital | public/logos/scalable.capital.svg | Wikimedia Commons File:Scalable_Capital_Logo_2024.svg, Public domain (reiner Schriftzug), geladen 08.11.2026 |
+| scalable.capital | public/logos/scalable.capital.svg | Wikimedia Commons File:Scalable_Capital_Logo_2024.svg, Public domain (reiner Schriftzug), geladen 08.11.2026; SEO80: schwarzer Hintergrund entfernt, Schrift und Zeichen schwarz (#101112) wie Scalables helle Form, viewBox auf das Logo geschnitten |
 | smartbrokerplus.de | public/logos/smartbrokerplus.de.svg | Anbieter-Seite smartbrokerplus.de, Kopf der Startseite, geladen 08.11.2026 |
 | steuer.check24.de | public/logos/steuer.check24.de.svg | Wikimedia Commons File:Check24_Logo_2020.svg, Public domain (reiner Schriftzug), geladen 08.11.2026 |
 | steuergo.de | public/logos/steuergo.de.png | Anbieter-Seite steuergo.de, Kopf der Startseite, geladen 08.11.2026 |

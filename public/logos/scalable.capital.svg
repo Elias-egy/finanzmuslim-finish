@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1360 640">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="150 150 1060 340">
   <defs>
     <style>
       .cls-1 {
@@ -11,17 +11,14 @@
       }
 
       .cls-2 {
-        fill: #28ebcf;
+        fill: #101112;
       }
 
       .cls-3 {
-        fill: #fff;
+        fill: #101112;
       }
     </style>
   </defs>
-  <g id="Background">
-    <rect id="background" class="cls-1" width="1360" height="640" rx="120" ry="120"/>
-  </g>
   <g id="Logo">
     <g id="Wordmark">
       <path class="cls-3" d="M746,420.2c-3.5,2.1-7.1,3.1-11,3.1-8.3,0-12.3-4.4-12.3-15v-67l24.7-3v-8.8l-24.7,3v-20.5l-31,3.9v20.4l-11.8,1.5v4.6h4.9c3.8,0,6.9,3.1,6.9,6.9v59.8c0,22.1,11.9,30.6,28.5,30.6s22.7-7.6,26.9-14.8l-1.1-4.7Z"/>
