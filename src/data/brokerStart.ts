@@ -1,6 +1,7 @@
 import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { ROYAL_MINT } from "@/data/royalMint";
+import { halalAnlagen } from "@/data/halalAnlagen";
 import { rangfolge } from "@/lib/rangfolge";
 
 /**
@@ -13,8 +14,12 @@ import { rangfolge } from "@/lib/rangfolge";
 export type BrokerStart = {
   /** id in brokerVergleich, daraus Note und Anlagenliste. */
   vergleichId: string;
-  /** Satz mit Note unter dem Titel; fehlt, wo die erste Zeile schon bestätigt (flatex, Elias 08.11.2026). */
-  bestaetigung?: string;
+  /** Echtes Logo mit Schrift im Titel (Elias, CV23S 08.11.2026); verhaeltnis = Breite durch Höhe der viewBox. */
+  logo: { src: string; verhaeltnis: number };
+  /** App des Anbieters, die Elias im Video öffnet (Beleg: Store-Seiten, geprüft 08.11.2026). */
+  app: { name: string; ios: string; android: string; zweck?: string };
+  /** Ident-App, die Elias im Video nennt; fehlt, wo er keine eigene App braucht. */
+  ident?: { name: string; ios: string; android: string };
   /** Genau zwei Zeilen mit Haken; Zahl und € mit geschütztem Leerzeichen, sonst steht das € am Handy allein. */
   zeilen: [string, string];
   /** Offizielle Seite des Anbieters zum Depotübertrag (Beleg). */
@@ -32,7 +37,16 @@ export type BrokerStart = {
 export const BROKER_START: Record<string, BrokerStart> = {
   "traders-place": {
     vergleichId: "traders-place-depot",
-    bestaetigung: "Bestes Halal-Depot im Vergleich",
+    logo: { src: "/bilder/logos/traders-place-wortmarke.svg", verhaeltnis: 200 / 52 },
+    // tradersplace.de/app verlinkt beide Stores. Ausweisen per eID läuft in dieser App, keine Postident-App:
+    // „Schritt 1: Traders Place App installieren … Du benötigst die App zum Scannen deines eID Online-Ausweises“
+    // (Elias' Bildschirmaufnahme ~/Desktop/tradersplace/1108(1).mp4 bei 3:12).
+    app: {
+      name: "Traders Place",
+      zweck: "auch zum Ausweisen",
+      ios: "https://apps.apple.com/de/app/traders-place/id6450201119",
+      android: "https://play.google.com/store/apps/details?id=de.tradersplace.tradingapp",
+    },
     zeilen: ["Halal-ETFs, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
     // Direkt ins Online-Formular (Elias, CV22F: „die machen das für euch“): alte Bank wählen, Bestände abrufen, am Handy
     // unterschreiben; „Wir schicken Deinen Antrag an die abgebende Bank.“ Verlinkt von tradersplace.de/service/depotuebertrag,
@@ -41,6 +55,13 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   flatex: {
     vergleichId: "flatex-depot",
+    // Logo aus dem Seitenkopf von flatex.de (Inline-SVG, Farben wie dort auf Weiß).
+    logo: { src: "/bilder/logos/flatex-wortmarke.svg", verhaeltnis: 244 / 54 },
+    app: {
+      name: "flatex next",
+      ios: "https://apps.apple.com/de/app/flatex-next-aktien-etf/id1084714808",
+      android: "https://play.google.com/store/apps/details?id=de.xcom.flatexde",
+    },
     // Elias, CV21F 08.11.2026: Bestätigungssatz und ETF-Sparplan weg, je Haken eine Zeile, „weltweite Islamic-Anlagen
     // … ohne jetzt dieses 12 von 12“. „Größte Halal-Börse in Deutschland“ ist nicht belegbar; weltweit sind die
     // kaufbaren Islamic-ETFs (MSCI World Islamic, ACWI Islamic, Emerging Markets Islamic) und Sukuk.
@@ -58,7 +79,12 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",
-    bestaetigung: "Sehr gut im Vergleich, auch alle Sukuk",
+    logo: { src: "/bilder/logos/smartbroker-plus-wortmarke.svg", verhaeltnis: 1051 / 125 },
+    app: {
+      name: "Smartbroker+",
+      ios: "https://apps.apple.com/de/app/smartbroker-aktien-etf/id1643142640",
+      android: "https://play.google.com/store/apps/details?id=de.smartbroker",
+    },
     zeilen: ["Halal-ETFs, Sukuk, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
     // Direkt ins Online-Formular wie bei Traders Place. „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“
     // (smartbrokerplus.de/de-de/depotuebertrag).
@@ -87,6 +113,19 @@ export const FLATEX_VERZICHT = {
   weg: "In der flatex-App: Benutzermenü, Support, Kontaktanfrage",
 };
 
+/**
+ * FERTIG mit Nachweis (Elias, CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem Screenshot von deinem
+ * Halal-ETF und du kriegst den Blueprint.“ Weg wie beim Einsteiger-Guide (src/data/leiter.ts, KASTEN.mail): neue Mail
+ * mit Betreff FERTIG an elias@finanzmuslim.com; der Zoho-Antworter am VPS (scripts/scheduler/zoho_antworten.py,
+ * ist_fertig) antwortet bei Betreff FERTIG und eigenem Text bis 220 Zeichen mit dem Blueprint. Der Text bleibt kurz.
+ */
+const FERTIG_TEXT = "Assalamu Aleykum Elias,\n\nfertig! Mein Screenshot vom Halal-ETF hängt an.\n";
+export const FERTIG_MAIL = {
+  link: "hier die Mail an mich",
+  satz: "Screenshot deines Halal-ETFs anhängen, dann bekommst du meinen Blueprint.",
+  href: `mailto:elias@finanzmuslim.com?subject=FERTIG&body=${encodeURIComponent(FERTIG_TEXT)}`,
+};
+
 export type AnlagenGruppe = { titel: string; namen: string[] };
 
 /** „Kaufbar: A, B, C. Nicht im Angebot: …“ → [A, B, C], ohne Klammerzusätze. */
@@ -109,6 +148,18 @@ export const anlagenListe = (vergleichId: string): AnlagenGruppe[] => {
     { titel: "Sukuk", namen: kaufbarAus(q.halalSukuk?.hinweis) },
     { titel: "Gold und Silber", namen: gold },
   ].filter((g) => g.namen.length > 0);
+};
+
+/**
+ * Alle Halal-Anlagen der Datenbank, die beim Anbieter mit Einzelbeleg kaufbar sind (ANLAGEN_KAUFBAR), mit Link auf
+ * /halal-anlagen/<slug> (Elias, CV23S 08.11.2026: „alle Anlagen … untereinander … als blauer Link … zur Datenbank“).
+ */
+export const anlagenMitLink = (vergleichId: string): { name: string; slug: string }[] => {
+  const haus = brokerVergleich.find((b) => b.id === vergleichId)?.haus;
+  if (!haus) return [];
+  return halalAnlagen
+    .filter((a) => a.isin && ANLAGEN_KAUFBAR[a.isin]?.kaufbar.some((k) => k.haus === haus))
+    .map((a) => ({ name: a.name, slug: a.slug }));
 };
 
 /** Note wie im Depot-Vergleich, dieselbe Rangfolge. */

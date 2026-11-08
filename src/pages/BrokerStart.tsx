@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, Copy, Volume2 } from "lucide-react";
+import { Copy, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
-import { noteZahl } from "@/components/vergleich/vergleichTypen";
-import { anlagenListe, FLATEX_VERZICHT, noteImVergleich, type BrokerStart } from "@/data/brokerStart";
+import { anlagenMitLink, FERTIG_MAIL, FLATEX_VERZICHT, type BrokerStart } from "@/data/brokerStart";
 import type { StartPartner } from "@/data/investmentStart";
 import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
 import { blockerFest } from "@/lib/direktLink";
@@ -22,6 +21,37 @@ const bildImBildMoeglich = (): boolean =>
   typeof document !== "undefined" &&
   (Boolean(document.pictureInPictureEnabled) || "webkitSetPresentationMode" in HTMLVideoElement.prototype);
 
+/** Eine Zeile der Beschreibung: fette Überschrift, darunter der Link. */
+const Zeile = ({ titel, children }: { titel: string; children: React.ReactNode }) => (
+  <li>
+    <span className="font-bold">{titel}:</span> {children}
+  </li>
+);
+
+const StoreLinks = ({ app, wo, kurzname }: { app: { ios: string; android: string }; wo: string; kurzname: string }) => (
+  <span className="font-semibold">
+    {(
+      [
+        ["App Store", app.ios],
+        ["Google Play", app.android],
+      ] as const
+    ).map(([name, url], i) => (
+      <span key={name}>
+        {i > 0 && <span className="px-1.5 text-foreground">·</span>}
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => ereignis("app_klick", { anbieter: kurzname, wo, store: name })}
+          className="whitespace-nowrap text-primary underline-offset-4 hover:underline"
+        >
+          {name}
+        </a>
+      </span>
+    ))}
+  </span>
+);
+
 const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: BrokerStart }) => {
   const [subId, setSubId] = useState("start");
   useEffect(() => {
@@ -30,8 +60,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
     window.scrollTo(0, 0);
   }, []);
 
-  const note = noteImVergleich(start.vergleichId);
-  const gruppen = anlagenListe(start.vergleichId);
+  const anlagen = anlagenMitLink(start.vergleichId);
   const href = partner.link.replace("{SUBID}", `${subId}h`);
   const knopf = blockerFest(partner.kurzname, href, true);
 
@@ -124,30 +153,27 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
         noindex
       />
 
-      {/* Kopf (Elias, CV21F 08.11.2026): weiß unter dem normalen blauen Seitenkopf, Finanzfluss-Stil, eckig. Der Knopf
-          zum Anbieter ist der Star und die einzige kräftige Farbe; kein Logo, keine Sterne, kein Kasten. Das Video mit
-          Abstand darunter. */}
+      {/* Kopf (Elias, CV23S 08.11.2026, nach dem Bild der alten blauen Seite): „in 10 Minuten steht … dein halal
+          investment bei Traders Place“, „diese Werbung weg, Kapitalanlagen weg, bei Traders Place eröffnen bleibt“,
+          „das Video auf dieser Höhe. Natürlich in weiß“. Der Knopf ist die einzige kräftige Farbe. */}
       <section className="bg-white">
         {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
-        <div className="container max-w-[600px] pb-10 pt-[clamp(36px,8svh,80px)] md:pb-16 md:pt-16">
-          <h1 className="headline text-[30px] leading-[1.12] text-foreground md:text-[38px]">
-            Dein Halal-Depot bei <span className="text-primary">{partner.anbieter}</span>
+        <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-14">
+          <h1 className="headline mx-auto max-w-[15ch] text-[30px] leading-[1.12] text-foreground md:text-[40px]">
+            In 10 Minuten steht dein Halal-Investment
           </h1>
-          {start.bestaetigung && (
-            <p className="mt-1.5 text-[15px] leading-snug text-muted-foreground">
-              {start.bestaetigung}
-              {note !== null && <> ({noteZahl(note)} von 5)</>}
-            </p>
-          )}
-          {/* Haken grün (Elias, CV22F): „dass die Leute sich so fühlen, als wären sie auf der richtigen Seite“. */}
-          <ul className="mt-5 space-y-2.5 md:mt-6">
-            {start.zeilen.map((z) => (
-              <li key={z} className="flex items-start gap-2.5 text-[17px] leading-snug text-foreground md:text-[18px]">
-                <Check className="mt-[2px] h-5 w-5 shrink-0 text-success" strokeWidth={3} aria-hidden />
-                {z}
-              </li>
-            ))}
-          </ul>
+          {/* Pille mit dem echten Logo (Elias: „das richtige logo mit schrift“). */}
+          <p className="mt-4 inline-flex items-center gap-3 rounded-full border-2 border-border bg-white px-5 py-2 text-[18px] font-semibold text-foreground md:text-[20px]">
+            bei
+            <img
+              src={start.logo.src}
+              alt={partner.anbieter}
+              width={Math.round(start.logo.verhaeltnis * 100)}
+              height={100}
+              className="w-auto"
+              style={{ height: `${Math.min(32, 150 / start.logo.verhaeltnis).toFixed(1)}px` }}
+            />
+          </p>
 
           {/* Werbekennzeichnung wie Finanzfluss: Sternchen am Knopf, Erklärung in der Fußnote unten. */}
           <a
@@ -155,14 +181,13 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
             rel="sponsored noopener"
             target="_blank"
             onClick={zumAnbieter}
-            className="mt-7 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
+            className="mt-6 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
           >
-            Depot bei {partner.anbieter} eröffnen*
+            Bei {partner.anbieter} eröffnen&nbsp;→<sup className="ml-0.5 text-[13px]">*</sup>
           </a>
-          {start.pflicht && <p className="mt-2 text-center text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
+          {start.pflicht && <p className="mt-2 text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
 
-          <p className="mt-12 text-[15px] font-semibold text-foreground md:mt-16">In 5 Minuten mit mir eröffnen</p>
-          <div className="relative mt-2 w-full aspect-video overflow-hidden rounded-[6px] bg-black">
+          <div className="relative mt-6 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-8">
             {start.video ? (
               <>
                 <video
@@ -197,39 +222,42 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
         </div>
       </section>
 
-      {/* Weit darunter, damit der Blick beim Video bleibt: Bestätigung und die zwei Wege für die, die es brauchen. */}
-      <section className="bg-white pb-12 pt-[70vh]">
-        <div className="container max-w-[600px]">
-          {gruppen.length > 0 && (
-            <div className="text-foreground/80">
-              <p className="text-[15px] font-semibold text-foreground">Halal-Anlagen bei {partner.anbieter}</p>
-              {gruppen.map((g) => (
-                <div key={g.titel} className="mt-4">
-                  <p className="text-[13px] font-semibold text-muted-foreground">
-                    {g.titel} ({g.namen.length})
-                  </p>
-                  <ul className="mt-1 space-y-0.5 text-[14px] leading-snug">
-                    {g.namen.map((n) => (
-                      <li key={n}>{n}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-14 space-y-6 text-[17px]">
+      {/* Nach dem Cut (Elias, CV23S): zuerst „Hier alle Links, die du brauchst“ als „Bezeichnung: blauer Link“, dann
+          alle Anlagen als unscheinbare blaue Links zur Datenbank, „dass man auf dem Video bleibt“. Beginnt am Handy
+          unter dem ersten Schirm, damit dort nur der Knopf antippbar ist (memory conversion-seite-ein-knopf-ganz-weiss). */}
+      <section className="bg-white pb-12 pt-[clamp(56px,40svh,340px)] md:pt-28">
+        <div className="container max-w-[600px] text-[17px] leading-snug text-foreground">
+          <h2 className="text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
+          <ul className="mt-4 space-y-3">
+            <Zeile titel={`${start.app.name}-App${start.app.zweck ? ` (${start.app.zweck})` : ""}`}>
+              <StoreLinks app={start.app} wo="app" kurzname={partner.kurzname} />
+            </Zeile>
+            {start.ident && (
+              <Zeile titel={`${start.ident.name}-App`}>
+                <StoreLinks app={start.ident} wo="ident" kurzname={partner.kurzname} />
+              </Zeile>
+            )}
+            <Zeile titel="Depotwechsel">
+              <a
+                href={start.wechselUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => ereignis("wechsel_klick", { anbieter: partner.kurzname })}
+                className="font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                hier das Formular
+              </a>
+            </Zeile>
             {start.kreditVerzicht && (
-              <div>
-                <p className="font-bold text-foreground">Kein Kreditrahmen gewünscht?</p>
+              <Zeile titel="Kein Kreditrahmen">
                 <button
                   type="button"
                   onClick={() => setMailOffen((o) => !o)}
                   aria-expanded={mailOffen}
                   aria-controls="kredit-mail"
-                  className="mt-0.5 font-semibold text-primary underline-offset-4 hover:underline"
+                  className="font-semibold text-primary underline-offset-4 hover:underline"
                 >
-                  Hier zur fertigen Mail
+                  hier die fertige Mail
                 </button>
                 {mailOffen && (
                   <div id="kredit-mail" className="mt-3 rounded-[6px] border border-border bg-accent/50 p-4 text-[15px] leading-relaxed">
@@ -242,24 +270,39 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                     >
                       <Copy className="h-4 w-4" aria-hidden /> {kopiert ? "Kopiert" : "Text kopieren"}
                     </button>
-                    <p className="mt-2 text-[14px] text-muted-foreground">Einfügen {FLATEX_VERZICHT.weg.replace(/^In/, "in")}.</p>
+                    <p className="mt-2 text-[15px] text-foreground">Einfügen {FLATEX_VERZICHT.weg.replace(/^In/, "in")}.</p>
                   </div>
                 )}
-              </div>
+              </Zeile>
             )}
-            <div>
-              <p className="font-bold text-foreground">Du hast schon ein Depot?</p>
+            {/* FERTIG mit Nachweis (Elias, CV20F 07.11. und CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem
+                Screenshot von deinem Halal-ETF und du kriegst den Blueprint.“ */}
+            <Zeile titel="FERTIG">
               <a
-                href={start.wechselUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => ereignis("wechsel_klick", { anbieter: partner.kurzname })}
-                className="mt-0.5 inline-block font-semibold text-primary underline-offset-4 hover:underline"
+                href={FERTIG_MAIL.href}
+                onClick={() => ereignis("fertig_klick", { anbieter: partner.kurzname })}
+                className="font-semibold text-primary underline-offset-4 hover:underline"
               >
-                Hier zum Depotwechsel
+                {FERTIG_MAIL.link}
               </a>
+              <span className="block">{FERTIG_MAIL.satz}</span>
+            </Zeile>
+          </ul>
+
+          {anlagen.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-[15px] font-semibold">Alle Halal-Anlagen bei {partner.anbieter}</h2>
+              <ul className="mt-2 space-y-1 text-[15px]">
+                {anlagen.map((a) => (
+                  <li key={a.slug}>
+                    <Link to={`/halal-anlagen/${a.slug}`} className="text-primary underline-offset-4 hover:underline">
+                      {a.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
 
           <p className="mt-16 text-[12px] leading-relaxed text-muted-foreground">
             *Das ist ein Werbe- oder Affiliate-Link: Eröffnest du darüber ein Depot, bekomme ich eine Provision, für dich
