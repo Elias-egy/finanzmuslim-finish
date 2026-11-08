@@ -19,7 +19,7 @@ import {
   type RatgeberEintrag,
 } from "./VergleichsRatgeber";
 import { kostenKurz } from "@/data/kostenKurz";
-import { APP_BILDER_ERWARTET, DEPOT_APP_BILDER } from "@/data/depotAppBilder";
+import { APP_BILD_QUELLE, APP_BILDER_ERWARTET, DEPOT_APP_BILDER } from "@/data/depotAppBilder";
 import {
   brokerText,
   depotAbgeraten,
@@ -40,6 +40,7 @@ const EINTRAEGE: RatgeberEintrag[] = [
   { id: "beste-halal-depots", titel: "Die besten Halal-Depots" },
   { id: "broker-vergleich", titel: "Welcher Broker passt?" },
   { id: "depot-kosten", titel: "Depot-Kosten im Vergleich" },
+  { id: "depot-sicher", titel: "Wie sicher ist dein Depot?" },
   { id: "nicht-empfohlen", titel: "Nicht empfohlen" },
   { id: "so-vergleichen-wir", titel: "So vergleichen wir" },
   { id: "haeufige-fragen", titel: "Häufige Fragen" },
@@ -117,6 +118,7 @@ export const DepotRatgeber = ({
             <VorNachteile anbieter={a} vorteile={vorteile(a)} nachteil={nachteil(a)} />
             <AppBilder
               bilder={bilder}
+              quelle={`Bilder: App von ${a.name} im ${APP_BILD_QUELLE}`}
               platzhalter={a.haus && APP_BILDER_ERWARTET.has(a.haus) ? `App-Bild ${a.name} (von Elias)` : undefined}
             />
           </section>
@@ -158,6 +160,18 @@ export const DepotRatgeber = ({
           String(a.werte.etfSparplanKosten ?? "–"),
         ])}
       />
+
+      {/* Wie Finanzfluss „Wie sicher ist ein Wertpapierdepot?“ (gelesen 06.11.2026, Vault
+          raw/2026-11-06-fa1-rohdaten/fa1b/ff_depot.txt Z. 2671 bis 2677), in einfachen Worten (SEO78). */}
+      <RH2 id="depot-sicher">Wie sicher ist dein Depot?</RH2>
+      <RText>
+        Deine ETFs und Aktien gehören dir, nicht dem Broker. Geht der Broker pleite, zählen sie nicht zu seinem Vermögen: Du
+        ziehst sie einfach in ein anderes Depot um.
+      </RText>
+      <RText>
+        Das Geld auf deinem Verrechnungskonto ist wie bei jeder Bank in der EU bis 100.000 € gesetzlich abgesichert. Fallen
+        die Kurse, schützt dich das nicht: Der Wert deiner Anlagen kann schwanken.
+      </RText>
 
       <RH2 id="nicht-empfohlen">Diese Depots empfehlen wir nicht</RH2>
       <RText>

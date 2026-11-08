@@ -17,7 +17,7 @@ import {
   ReihenfolgeHinweis,
 } from "./VergleichsRahmen";
 import { VergleichsTabelle } from "./VergleichsTabelle";
-import { VergleichsKarten } from "./VergleichsKarten";
+import { SEITE, VergleichsKarten } from "./VergleichsKarten";
 import type { VergleichsZeile } from "./vergleichTypen";
 import {
   baueSpalten,
@@ -450,6 +450,7 @@ export const VergleichsSeite = ({
               <VergleichsKarten
                 zeilen={zeilen}
                 spalten={sieger ? spalten.filter((sp) => sp.id !== sieger.id) : spalten}
+                zuerst={sieger ? SEITE - 1 : SEITE}
               />
             </div>
           </>

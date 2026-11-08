@@ -203,17 +203,20 @@ const Karte = ({
   );
 };
 
-/** So viele Karten stehen zuerst da. Finanzfluss zeigt 27, bei uns sind die Karten alphabetisch, also weniger. */
-const SEITE = 15;
+/** So viele Anbieter stehen zuerst da, wie bei Finanzfluss am Handy und am Laptop (15, gemessen 08.11.2026). */
+export const SEITE = 15;
 
 export const VergleichsKarten = ({
   zeilen,
   spalten,
+  zuerst = SEITE,
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
+  /** Steht die Nummer 1 als eigener Kasten darüber, zählt sie mit: dann eine Karte weniger. */
+  zuerst?: number;
 }) => {
-  const [sichtbar, setSichtbar] = useState(SEITE);
+  const [sichtbar, setSichtbar] = useState(zuerst);
   const zeigen = spalten.slice(0, sichtbar);
 
   return (

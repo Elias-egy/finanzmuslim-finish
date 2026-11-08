@@ -53,3 +53,14 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | vivid.money | public/logos/vivid.money.svg | Anbieter-Seite vivid.money, Kopf der Startseite, geladen 08.11.2026 |
 
 Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, Fidelity, GENO Broker, Pax-Bank, Trading 212, XTB, Bux, BforBank, bunq, Commerzbank, Deutsche Bank, Haspa, KT Bank, Monese, PSD Bank, Revolut, Targobank, Wise, C24, Bitpanda, Bitvavo, crypto.com, Robinhood, Finispia, Islamicly, Zoya, Lohnsteuer kompakt, SteuerSparErklärung, smartsteuer. Beim Anbieter-Kopf nur weiß auf dunkel oder nicht einzeln ladbar; nächste Sitzung von der Presseseite holen, zuerst Consorsbank und Trading 212.
+
+## App-Bilder im Blogteil des Depot-Vergleichs (SEO78, 08.11.2026)
+
+Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Schnittstelle `itunes.apple.com/lookup?id=<id>&country=de` (Feld screenshotUrls), auf 548 px Breite als webp in `public/vergleich/depot-app/`. Unter den Bildern steht die Quelle. Keine Bilder zu Krypto, Zinsen oder Kredit.
+
+| Datei | App-Store-Id | Bild Nr. |
+|---|---|---|
+| smartbroker-1.webp, smartbroker-2.webp | 1643142640 | 1, 10 |
+| flatex-1.webp, flatex-2.webp | 1084714808 | 2, 5 |
+| traders-place-1.webp, traders-place-2.webp | 6450201119 | 2, 4 |
+| scalable-1.webp, scalable-2.webp | 1075561513 | 5, 7 |
