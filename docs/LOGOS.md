@@ -56,7 +56,7 @@ Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, F
 
 ## App-Bilder im Blogteil des Depot-Vergleichs (SEO78, 08.11.2026)
 
-Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Schnittstelle `itunes.apple.com/lookup?id=<id>&country=de` (Feld screenshotUrls), auf 548 px Breite als webp in `public/vergleich/depot-app/`. Unter den Bildern steht die Quelle. Keine Bilder zu Krypto, Zinsen oder Kredit.
+Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Schnittstelle `itunes.apple.com/lookup?id=<id>&country=de` (Feld screenshotUrls, größte Fassung über `/2000x0w.png` statt der Vorschaugröße), seit SEO79 auf 1080 px Breite als webp (dreifach scharf bei 274 px Anzeige, Elias wollte „HD“) in `public/vergleich/depot-app/`. Unter den Bildern steht die Quelle. Keine Bilder zu Krypto, Zinsen oder Kredit.
 
 | Datei | App-Store-Id | Bild Nr. |
 |---|---|---|
@@ -64,3 +64,5 @@ Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Sch
 | flatex-1.webp, flatex-2.webp | 1084714808 | 2, 5 |
 | traders-place-1.webp, traders-place-2.webp | 6450201119 | 2, 4 |
 | scalable-1.webp, scalable-2.webp | 1075561513 | 5, 7 |
+
+Seit SEO79 (08.11.2026): traders-place-1/-2 und scalable-1/-2 sind In-App-Bilder von Elias (~/Downloads/apps IMG_4199, 4200, 4201, 4202), Statusleiste abgeschnitten, Kontostand bei Scalable unkenntlich; Quellenzeile dort „Bilder: meine App von …“ (EIGENE_APP_BILDER).
