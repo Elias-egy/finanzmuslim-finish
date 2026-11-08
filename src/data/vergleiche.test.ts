@@ -15,7 +15,8 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
 const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
-  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 56],
+  // 51 statt 56: eToro, Freedom24 (2), Plus500, Libertex sind raus (Elias 07.11.2026, A8, bauen.py AUS_DEM_VERGLEICH).
+  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 51],
   ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
   ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 27],
 ];
@@ -294,7 +295,8 @@ describe("Gegenprüfung 20.09.2026", () => {
  * Beleg aus der Wertpapiersuche oder Produktliste des Anbieters selbst. Ohne Beleg wird die
  * Zeile gar nicht gezeigt, statt sie als kaufbar auszugeben.
  */
-const PORTALE = ["finanzfluss.de", "justetf.com", "finanzen.net", "finanztip.de"];
+// onvista und extraETF seit A8 (Elias 07.11.2026: "ich gebe offiziell die anderen Quellen frei").
+const PORTALE = ["finanzfluss.de", "justetf.com", "finanzen.net", "finanztip.de", "onvista.de", "extraetf.com"];
 
 describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
   it("belegt jede kaufbare Anlage mit einer Seite des Anbieters", () => {
