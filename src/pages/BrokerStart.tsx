@@ -156,7 +156,9 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
       {/* Kopf (Elias, CV23S 08.11.2026, nach dem Bild der alten blauen Seite): „in 10 Minuten steht … dein halal
           investment bei Traders Place“, „diese Werbung weg, Kapitalanlagen weg, bei Traders Place eröffnen bleibt“,
           „das Video auf dieser Höhe. Natürlich in weiß“. Der Knopf ist die einzige kräftige Farbe. */}
-      <section className="bg-white">
+      {/* Füllt den ersten Schirm unter dem Seitenkopf (64 px), damit der Linkbereich genau beim ersten Scrollen
+          auftaucht (Elias, CV23S: „genau da sichtbar …, wenn ich ein bisschen nach unten scrolle“). */}
+      <section className="min-h-[calc(100svh-64px)] bg-white">
         {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
         <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-14">
           <h1 className="headline mx-auto max-w-[15ch] text-[30px] leading-[1.12] text-foreground md:text-[40px]">
@@ -227,7 +229,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
       {/* Nach dem Cut (Elias, CV23S): zuerst „Hier alle Links, die du brauchst“ als „Bezeichnung: blauer Link“, dann
           alle Anlagen als unscheinbare blaue Links zur Datenbank, „dass man auf dem Video bleibt“. Beginnt am Handy
           unter dem ersten Schirm, damit dort nur der Knopf antippbar ist (memory conversion-seite-ein-knopf-ganz-weiss). */}
-      <section className="bg-white pb-12 pt-[clamp(56px,40svh,340px)] md:pt-28">
+      <section className="bg-white pb-12 pt-6">
         <div className="container max-w-[600px] text-[17px] leading-snug text-foreground">
           <h2 className="text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
           <ul className="mt-4 space-y-3">
