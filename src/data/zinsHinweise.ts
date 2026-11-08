@@ -198,7 +198,7 @@ const ANGEBOT: Record<string, Eintrag> = {
 /** Der belegte Teil: was das Haus tut und was der Besucher tun kann. */
 const KREDIT_SACHE: Record<string, string> = {
   flatex:
-    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten.",
+    "flatex räumt dir mit dem Depot automatisch einen Kredit ein, Zinsen fallen nur an, wenn du ihn nutzt. Lehne ihn in Textform ab.",
 };
 
 /** Im Depot-Vergleich dazu der Grund für den Platz. */

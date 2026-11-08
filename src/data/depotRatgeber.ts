@@ -98,13 +98,14 @@ export const vorteile = (a: RohAnbieter): Punkt[] => {
   return p;
 };
 
-const halalSatz = (a: RohAnbieter, wer: string) => {
+/** „aus unserem Vergleich der Halal-Anlagen“ nur beim ersten Broker, sonst liest sich jeder Absatz wie aus einer Schablone (Prüfer SEO77). */
+const halalSatz = (a: RohAnbieter, wer: string, herkunft = false) => {
   const teile = (["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"] as const)
     .map((k) => anzahl(a, k)?.text)
     .filter((t): t is string => !!t);
   if (teile.length === 0) return "";
   const liste = teile.length > 1 ? `${teile.slice(0, -1).join(", ")} und ${teile[teile.length - 1]}` : teile[0];
-  return `${wer} kaufst du ${liste} aus unserem Vergleich der Halal-Anlagen.`;
+  return `${wer} kaufst du ${liste}${herkunft ? " aus unserem Vergleich der Halal-Anlagen" : ""}.`;
 };
 
 /** Der Text je Broker: was du dort kaufst, was du für null Zinsen tust, was es kostet. */
@@ -113,7 +114,7 @@ export const brokerText = (a: RohAnbieter): string[] => {
     a.werte.depotgebuehr === "0€"
       ? `Die Depotführung ist kostenlos, eine Order kostet ${orderKurz(a)}.`
       : `Das Depot kostet ${a.werte.depotgebuehr} im Jahr, eine Order ${orderKurz(a)}.`;
-  return [halalSatz(a, `Bei ${a.name}`), zinsHinweis("depot", a), kosten, kreditSache(a)].filter(
+  return [halalSatz(a, `Bei ${a.name}`, a.id === depotVorn[0]?.id), zinsHinweis("depot", a), kosten, kreditSache(a)].filter(
     (s): s is string => !!s,
   );
 };
@@ -178,7 +179,7 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
   f.push({
     frage: "Welche Trading-App ist halal?",
     antwort:
-      "Eine App ist nicht von sich aus halal. Es zählt, ob dein Guthaben ohne Zinsen liegt und ob du Halal-Anlagen kaufst. Trading mit Hebel und CFDs funktioniert dagegen wie eine Wette.",
+      "Eine App ist nicht von sich aus halal. Es zählt, ob dein Guthaben ohne Zinsen liegt und ob du Halal-Anlagen kaufst.",
   });
   const drei = depotVorn.slice(0, 3).map((a) => a.name);
   if (drei.length === 3) {
@@ -190,7 +191,7 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
   f.push({
     frage: "Gibt es beim Broker ein islamisches Konto?",
     antwort:
-      "Ein „islamisches Konto“ oder „swapfreies Konto“ bieten manche Broker für CFDs und Forex an. Darin fällt nur die Swap-Gebühr weg, sonst ändert sich nichts. Für ein Depot mit Halal ETFs brauchst du es nicht: Dort zählt, ob dein Guthaben ohne Zinsen liegt.",
+      "Ein „islamisches Konto“ oder „swapfreies Konto“ bieten manche Broker für CFDs und Forex an. Darin fällt die Swap-Gebühr weg. Für ein Depot mit Halal ETFs brauchst du es nicht: Dort zählt, ob dein Guthaben ohne Zinsen liegt.",
   });
   f.push({
     frage: "Wie eröffne ich ein Depot?",
