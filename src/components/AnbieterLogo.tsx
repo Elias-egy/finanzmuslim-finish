@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
 
 const logoToken = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY;
 
@@ -30,6 +31,28 @@ export const AnbieterLogo = ({
   rand?: boolean;
 }) => {
   const [fehler, setFehler] = useState(false);
+  const schriftzug = domain ? ANBIETER_LOGOS[domain] : undefined;
+
+  /* Schriftzug auf einem Rechteck wie bei Finanzfluss (Elias SEO74). Nur in den Vergleichen (gross), kleine Beispiel-
+     Logos neben einem Satz bleiben rund. */
+  if (schriftzug && gross && !fehler) {
+    return (
+      <span
+        className={`flex h-12 w-[136px] shrink-0 items-center justify-center rounded-md border px-2.5 py-1.5 ${
+          schriftzug.dunkel ? "border-transparent bg-[#111]" : "border-border bg-white"
+        }`}
+        title={name}
+      >
+        <img
+          src={schriftzug.datei}
+          alt={`${name} Logo`}
+          loading="lazy"
+          onError={() => setFehler(true)}
+          className="max-h-full max-w-full object-contain"
+        />
+      </span>
+    );
+  }
   const mass = gross ? "h-12 w-12" : klein ? "h-6 w-6" : "h-10 w-10";
   const url =
     !fehler && logoToken && domain

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Info, Minus, Star, X } from "lucide-react";
+import { Check, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
@@ -129,6 +129,20 @@ export const auszeichnungGrund: Record<string, string> = {
 /** Hat die Spalte eine Auszeichnung, die als Text im Reiter steht? „Platz n“ zählt nicht, die Zahl sagt es. */
 export const auszeichnungVon = (spalte: VergleichsSpalte) =>
   spalte.etikett && spalte.etikett.ton !== "platz" && !spalte.abgeraten ? spalte.etikett : null;
+
+/**
+ * Kredit ab Start, sichtbar an Karte und Spalte statt nur in den Produktdetails (Elias SEO74: „Wir müssen uns
+ * Flatex nochmal deutlicher angucken“). Ein Satz mit Handlung, volle Textfarbe, kein Kleingedrucktes.
+ */
+export const KreditHinweis = ({ text, mittig = false }: { text?: string; mittig?: boolean }) =>
+  text ? (
+    <p className={`flex items-start gap-1.5 text-[13px] leading-snug text-foreground ${mittig ? "justify-center text-center" : ""}`}>
+      <TriangleAlert className="mt-px h-4 w-4 shrink-0 text-warning" aria-hidden />
+      <span>
+        <span className="font-semibold">Achtung:</span> {text}
+      </span>
+    </p>
+  ) : null;
 
 /* --------------------------------------------------------------- Etikett */
 

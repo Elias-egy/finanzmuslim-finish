@@ -11,6 +11,7 @@ import {
   auszeichnungFarbe,
   auszeichnungGrund,
   auszeichnungVon,
+  KreditHinweis,
 } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 
@@ -235,6 +236,11 @@ export const VergleichsTabelle = ({
               return (
                 <div key={`note-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
                   {mitNote && (s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>)}
+                  {s.kreditKurz && (
+                    <div className="mt-0.5 px-1">
+                      <KreditHinweis text={s.kreditKurz} mittig />
+                    </div>
+                  )}
                   {s.tarif && (
                     /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Zeile aller Spalten mit. */
                     <span className="rounded bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">

@@ -10,6 +10,7 @@ import {
   auszeichnungFarbe,
   auszeichnungGrund,
   auszeichnungVon,
+  KreditHinweis,
 } from "./VergleichsBausteine";
 import {
   KEINE_ANGABE,
@@ -143,6 +144,12 @@ const Karte = ({
             </div>
           )}
         </div>
+
+        {spalte.kreditKurz && (
+          <div className="mt-2.5">
+            <KreditHinweis text={spalte.kreditKurz} />
+          </div>
+        )}
 
         {spalte.tarif && (
           <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-snug text-muted-foreground">
