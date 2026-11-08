@@ -273,7 +273,7 @@ const Danke = () => {
       />
 
       <header className="sticky top-0 z-40 border-b border-border bg-background">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-[72px] items-center justify-between">
           <Link to="/" aria-label="finanzmuslim Startseite" className="inline-flex min-h-[44px] items-center">
             <Wordmark className="text-xl" />
           </Link>
