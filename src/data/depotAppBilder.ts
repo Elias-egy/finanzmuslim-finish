@@ -11,6 +11,9 @@ export type AppBild = { src: string; alt: string; text: string };
 /** Quelle unter den Bildern (Zitat braucht die Quelle). */
 export const APP_BILD_QUELLE = "App Store";
 
+/** Seit SEO79: In-App-Bilder von Elias (Vault raw/2026-11-08-elias-seo79-ordner-apps-zeigen-tabs-schliessen.md), Statusleiste ab, Kontostand unkenntlich. */
+export const EIGENE_APP_BILDER = new Set(["traders-place", "scalable"]);
+
 export const DEPOT_APP_BILDER: Record<string, AppBild[]> = {
   smartbroker: [
     { src: "/vergleich/depot-app/smartbroker-1.webp", alt: "Smartbroker+ App: Depot-Übersicht", text: "Depot-Übersicht in der App" },
@@ -22,11 +25,11 @@ export const DEPOT_APP_BILDER: Record<string, AppBild[]> = {
   ],
   "traders-place": [
     { src: "/vergleich/depot-app/traders-place-1.webp", alt: "Traders Place App: Portfolio-Übersicht", text: "Portfolio-Übersicht in der App" },
-    { src: "/vergleich/depot-app/traders-place-2.webp", alt: "Traders Place App: Auswahl des Handelsplatzes", text: "Auswahl des Handelsplatzes" },
+    { src: "/vergleich/depot-app/traders-place-2.webp", alt: "Traders Place App: Suche nach einem Halal-ETF", text: "Suche nach einem Halal-ETF" },
   ],
   scalable: [
-    { src: "/vergleich/depot-app/scalable-1.webp", alt: "Scalable Capital App: Broker-Übersicht", text: "Broker-Übersicht in der App" },
-    { src: "/vergleich/depot-app/scalable-2.webp", alt: "Scalable Capital App: ETF-Seite mit Kaufen", text: "ETF-Seite mit Kaufen und Verkaufen" },
+    { src: "/vergleich/depot-app/scalable-1.webp", alt: "Scalable Capital App: Sukuk-ETF mit Kaufen und Sparplan", text: "ETF-Seite mit Kaufen und Sparplan" },
+    { src: "/vergleich/depot-app/scalable-2.webp", alt: "Scalable Capital App: Broker-Übersicht", text: "Broker-Übersicht in der App" },
   ],
 };
 

@@ -19,7 +19,7 @@ import {
   type RatgeberEintrag,
 } from "./VergleichsRatgeber";
 import { kostenKurz } from "@/data/kostenKurz";
-import { APP_BILD_QUELLE, APP_BILDER_ERWARTET, DEPOT_APP_BILDER } from "@/data/depotAppBilder";
+import { APP_BILD_QUELLE, APP_BILDER_ERWARTET, DEPOT_APP_BILDER, EIGENE_APP_BILDER } from "@/data/depotAppBilder";
 import {
   brokerText,
   depotAbgeraten,
@@ -118,7 +118,7 @@ export const DepotRatgeber = ({
             <VorNachteile anbieter={a} vorteile={vorteile(a)} nachteil={nachteil(a)} />
             <AppBilder
               bilder={bilder}
-              quelle={`Bilder: App von ${a.name} im ${APP_BILD_QUELLE}`}
+              quelle={a.haus && EIGENE_APP_BILDER.has(a.haus) ? `Bilder: meine App von ${a.name}` : `Bilder: App von ${a.name} im ${APP_BILD_QUELLE}`}
               platzhalter={a.haus && APP_BILDER_ERWARTET.has(a.haus) ? `App-Bild ${a.name} (von Elias)` : undefined}
             />
           </section>

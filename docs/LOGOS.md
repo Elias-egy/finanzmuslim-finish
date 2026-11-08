@@ -64,3 +64,5 @@ Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Sch
 | flatex-1.webp, flatex-2.webp | 1084714808 | 2, 5 |
 | traders-place-1.webp, traders-place-2.webp | 6450201119 | 2, 4 |
 | scalable-1.webp, scalable-2.webp | 1075561513 | 5, 7 |
+
+Seit SEO79 (08.11.2026): traders-place-1/-2 und scalable-1/-2 sind In-App-Bilder von Elias (~/Downloads/apps IMG_4199, 4200, 4201, 4202), Statusleiste abgeschnitten, Kontostand bei Scalable unkenntlich; Quellenzeile dort „Bilder: meine App von …“ (EIGENE_APP_BILDER).
