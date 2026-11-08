@@ -109,19 +109,20 @@ export const AnbieterName = ({ spalte, className = "" }: { spalte: VergleichsSpa
 
 /**
  * Eine Auszeichnung steht als farbiger Text neben dem Platz, keine runde Pille (Finanzfluss: „Beste
- * Krypto-Börse“ im Reiter). Blau für die Nummer 1, Grün für eine Auszeichnung aus den Daten.
+ * Krypto-Börse“ im Reiter). Blau für die Nummer 1, dunkles Gelb für eine Auszeichnung aus den Daten (flatex
+ * „Meiste Halal-Anlagen“; Elias A11: „Der Ton ist gut, dass es so blass ist, aber … in diesem Gelb“).
  */
 export const auszeichnungFarbe: Record<string, string> = {
   empfehlung: "text-primary",
-  bonus: "text-success",
+  bonus: "text-[#7A5A00]",
   hinweis: "text-accent",
   platz: "text-foreground",
 };
 
-/** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss. */
+/** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss; die Auszeichnung blass gelb. */
 export const auszeichnungGrund: Record<string, string> = {
   empfehlung: "bg-primary/[0.05]",
-  bonus: "bg-success/[0.05]",
+  bonus: "bg-[#FFF8D6]",
   hinweis: "",
   platz: "",
 };
