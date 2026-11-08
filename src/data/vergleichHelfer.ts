@@ -10,7 +10,7 @@ import {
 } from "@/components/vergleich/vergleichTypen";
 import { unterschiedFuer } from "./produktUnterschiede";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
-import { kreditAchtung, kreditKurz, zinsHinweis } from "./zinsHinweise";
+import { kreditAchtung, zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -130,7 +130,7 @@ export const baueSpalten = (
       etikett: a.etikett ?? null,
       abgeraten: a.abgeraten ?? false,
       tarif: TARIF_MARKEN[a.id] ?? null,
-      kreditKurz: kreditKurz(kategorie, a),
+      // A10 (Elias 08.11.2026): kein Kredit-Hinweis mehr an Karte und Spalte, er steht beim aufgeklappten Angebot.
       unterschied: unterschiedFuer(kategorie, a.id),
       werte,
     };
