@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ereignis } from "@/lib/messung";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { Award, CheckCircle2, ChevronDown, Download, HelpCircle, Plus, ShieldCheck, Volume2 } from "lucide-react";
 import AnbieterCheck from "@/components/AnbieterCheck";
 import AnbieterLogo from "@/components/AnbieterLogo";
@@ -15,6 +15,8 @@ import { hatZeichen, istVorteil } from "@/components/vergleich/vergleichTypen";
 import founderPortrait from "@/assets/story-elias-paneele.jpg";
 import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
 import { blockerFest } from "@/lib/direktLink";
+import { BROKER_START } from "@/data/brokerStart";
+import BrokerStartSeite from "@/pages/BrokerStart";
 
 /**
  * Startseite je Partner: /dein-investmentstart (Scalable) und
@@ -744,7 +746,12 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
 const InvestmentStart = () => {
   const { partner: kurzname } = useParams();
   const partner = findStartPartner(kurzname);
+  const { search } = useLocation();
   if (!partner || (kurzname && kurzname === "scalable")) return <Navigate to="/dein-investmentstart" replace />;
+  /* Schlanke Fassung mit eigenem Video (CV21F); die Fassung „Depot da, noch leer“ bleibt auf der alten Seite. */
+  const start = BROKER_START[partner.kurzname];
+  if (start && !istLeerQuelle(new URLSearchParams(search).get("src")))
+    return <BrokerStartSeite key={partner.kurzname} partner={partner} start={start} />;
   return <InvestmentStartSeite key={partner.kurzname} partner={partner} />;
 };
 

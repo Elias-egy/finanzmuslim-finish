@@ -191,8 +191,9 @@ const ANGEBOT: Record<string, Eintrag> = {
 
 /**
  * Achtung-Meldung für Depots, die Neukunden automatisch einen Kredit einräumen (`kreditAbStart` "teils").
- * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Sie zahlt ins Zins-Kriterium
- * ein (`FAKTOR_KREDIT` in `src/lib/rangfolge.ts`). Beleg: `quellen.kreditAbStart` des Angebots.
+ * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Seit 07.11.2026 kostet der Kredit
+ * keine Punkte mehr (`FAKTOR_KREDIT` 1), hält das Depot aber von Platz 1 fern (Regel 6 in `src/lib/rangfolge.ts`).
+ * Beleg: `quellen.kreditAbStart` des Angebots.
  */
 /** Der belegte Teil: was das Haus tut und was der Besucher tun kann. */
 const KREDIT_SACHE: Record<string, string> = {
@@ -207,7 +208,7 @@ const ACHTUNG_KREDIT: Record<string, string> = {
 
 /**
  * Die Achtung-Meldung zum Angebot, oder nichts: nur mit Beleg. Im Depot-Vergleich mit dem Grund für den
- * Platz. Im Edelmetall-Vergleich wirkt derselbe Abzug, dort steht nur die Sache: Die 22 Anlagen sind nicht
+ * Platz. Im Edelmetall-Vergleich gilt dieselbe Regel 6, dort steht nur die Sache: Die 22 Anlagen sind nicht
  * das Thema der Seite.
  */
 export const kreditAchtung = (
