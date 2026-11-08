@@ -42,7 +42,7 @@ const RM_DEPOTS = [
 const RM_GRUENDE = ["Barren und Münzen lieferbar", "Shariah-zertifiziert", "Gewinn nach 1 Jahr steuerfrei"];
 
 const NummerEinsGold = () => (
-  <section aria-labelledby="nummer-eins-gold" className="rounded-xl border border-primary/30 bg-accent p-4 md:p-5">
+  <section aria-labelledby="nummer-eins-gold" className="rounded-lg border border-border bg-card p-4 md:p-5">
     <p className="text-[13px] font-semibold uppercase tracking-wide text-violet">Unsere Nummer 1 bei Gold</p>
     <h2 id="nummer-eins-gold" className="mt-1 text-[20px] font-bold leading-snug text-foreground md:text-[22px]">
       Royal Mint Gold-ETC

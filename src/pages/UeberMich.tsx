@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import Seo from "@/components/Seo";
 import { BookOpen, Mail, Scale, ShieldCheck } from "lucide-react";
 import portrait from "@/assets/story-elias-paneele.jpg";
@@ -65,7 +66,7 @@ const UeberMich = () => (
         <img
           src={portrait}
           alt="Elias El-Gendy, Gründer von finanzmuslim"
-          className="mx-auto aspect-[4/5] w-full max-w-[240px] rounded-[2rem] object-cover md:max-w-none"
+          className="mx-auto aspect-[4/5] w-full max-w-[240px] rounded-lg object-cover md:max-w-none"
         />
         <div>
           <span className="badge-note">Über mich</span>
@@ -149,9 +150,9 @@ const UeberMich = () => (
             </p>
           </div>
         </div>
-        <Link to="/kooperationen" className="btn-primary shrink-0">
+        <Aufruf to="/kooperationen" className="block sm:inline-block shrink-0">
           Für Partner
-        </Link>
+        </Aufruf>
       </div>
     </section>
   </main>

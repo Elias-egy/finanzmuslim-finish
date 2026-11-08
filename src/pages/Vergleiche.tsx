@@ -106,7 +106,7 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[88px] items-start gap-3 rounded-xl border border-border bg-muted p-4 opacity-70"
+      className="relative flex min-h-[88px] items-start gap-3 rounded-lg border border-border bg-muted p-4 opacity-70"
     >
       <span className="badge-soon absolute right-2 top-2">bald</span>
       {inhalt}

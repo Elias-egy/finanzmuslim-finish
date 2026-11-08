@@ -35,9 +35,9 @@ export const AufteilungsBalken = ({
                 {p.anteil.toFixed(1).replace(".", ",")} %
               </span>
             </div>
-            <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-accent">
+            <div className="mt-1 h-2 w-full overflow-hidden rounded bg-accent">
               <div
-                className="h-full rounded-full bg-primary"
+                className="h-full rounded bg-primary"
                 style={{ width: `${Math.max(2, (p.anteil / groesster) * 100)}%` }}
               />
             </div>

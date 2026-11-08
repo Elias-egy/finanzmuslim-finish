@@ -165,7 +165,7 @@ const AnlageFilter = ({
       <SlidersHorizontal className="h-4 w-4" aria-hidden />
       Filter
       {anzahl > 0 && (
-        <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-1.5 text-[13px] font-bold text-primary-foreground">
+        <span className="flex h-6 min-w-6 items-center justify-center rounded bg-primary px-1.5 text-[13px] font-bold text-primary-foreground">
           {anzahl}
         </span>
       )}

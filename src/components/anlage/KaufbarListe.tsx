@@ -38,7 +38,7 @@ const KaufbarListe = ({ kaufbar, kompakt = false }: { kaufbar: KaufbarAnzeige; k
               <Link
                 to={`/out/${partner}`}
                 rel="sponsored nofollow"
-                className="inline-flex rounded-full border border-primary bg-primary/5 px-3 py-1 text-[14px] font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                className="inline-flex rounded border border-primary bg-primary/5 px-3 py-1 text-[14px] font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
               >
                 {k.anbieter}*
                 {k.hinweis && <span className="font-normal">, {k.hinweis}</span>}
@@ -47,7 +47,7 @@ const KaufbarListe = ({ kaufbar, kompakt = false }: { kaufbar: KaufbarAnzeige; k
           ) : (
             <li
               key={k.anbieter}
-              className="rounded-full border border-border bg-background px-3 py-1 text-[14px] text-foreground"
+              className="rounded border border-border bg-background px-3 py-1 text-[14px] text-foreground"
             >
               {k.anbieter}
               {k.hinweis && <span className="text-muted-foreground">, {k.hinweis}</span>}

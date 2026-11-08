@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ChevronRight, ExternalLink, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
@@ -216,7 +217,7 @@ const HalalAnlagen = () => {
       {/* Kopf. Bewusst flach: auf dem Handy stand hier vorher ein Bild, drei
           Kacheln und zwei Sätze, zusammen fast ein halber Bildschirm, bevor
           die erste Anlage kam. Die Anzahl steht jetzt einmal über der Liste. */}
-      <section className="bg-hero">
+      <section className="border-b border-border bg-background">
         <div className="container py-5 md:py-12">
           <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
             <Link to="/" className="hover:text-primary">
@@ -425,7 +426,7 @@ const HalalAnlagen = () => {
         )}
 
         {/* Woher die Renditen kommen */}
-        <section className="mt-8 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-8 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Woher die Renditen kommen</h2>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Kursdaten von Yahoo Finance, Stand {kursStand}. Alle Renditen sind in Euro umgerechnet, damit sie
@@ -442,13 +443,13 @@ const HalalAnlagen = () => {
             Nicht jeder Broker führt diese Anlagen. Welcher Islamic-ETFs, Sukuk und physisch hinterlegtes Gold
             im Angebot hat und was er kostet, steht im Depot-Vergleich.
           </p>
-          <Link to="/vergleich/depot" className="btn-primary mt-5">
+          <Aufruf to="/vergleich/depot" className="block sm:inline-block mt-5">
             Depot-Vergleich
-          </Link>
+          </Aufruf>
         </section>
 
         {/* Krypto */}
-        <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-10 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Krypto in dieser Liste</h2>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Vier Münzen stehen unter denselben Zeilen wie alles andere, sie haben nur keine ISIN und
@@ -467,13 +468,13 @@ const HalalAnlagen = () => {
           <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
             Dieselben Anlagen zum Ausdrucken und Weitergeben, mit ISIN und Zertifizierer.
           </p>
-          <Link to="/vorlagen/halal-anlagen" className="btn-primary mt-5">
+          <Aufruf to="/vorlagen/halal-anlagen" className="block sm:inline-block mt-5">
             Zur Vorlage
-          </Link>
+          </Aufruf>
         </section>
 
         {/* Hinweis */}
-        <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-10 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Was diese Übersicht nicht ist</h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
             Keine Empfehlung und keine Anlageberatung. Eine Übersicht dessen, was es gibt und wer es geprüft

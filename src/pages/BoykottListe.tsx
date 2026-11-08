@@ -36,9 +36,9 @@ import {
 
 const Pille = ({ f }: { f: BoykottFirma }) =>
   artVon(f) === "boykott" ? (
-    <span className="rounded-full bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
+    <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
   ) : (
-    <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200">
+    <span className="rounded bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200">
       Meiden, wo es geht
     </span>
   );
@@ -56,13 +56,13 @@ const Karte = ({ f }: { f: BoykottFirma }) => (
       </div>
     </div>
     <p className="mt-2 text-[16px] leading-snug text-foreground/80">{f.grund}</p>
-    {f.hinweis && <p className="mt-2 rounded-xl bg-accent px-3 py-2 text-[14px] leading-snug text-foreground">{f.hinweis}</p>}
+    {f.hinweis && <p className="mt-2 rounded-lg bg-accent px-3 py-2 text-[14px] leading-snug text-foreground">{f.hinweis}</p>}
   </div>
 );
 
 /** Alternativen wie die Beispiele in Fassung 5: heller Unterkasten mit Logo, nicht anklickbar. */
 const AlternativenKasten = ({ alternativen }: { alternativen: Alternative[] }) => (
-  <div className="mt-4 rounded-2xl bg-accent p-4" data-alternativen>
+  <div className="mt-4 rounded-lg border border-border bg-card p-4" data-alternativen>
     <p className="text-[16px] font-bold text-foreground">Das geht stattdessen</p>
     <p className="text-[12px] text-muted-foreground">Steht auf keiner der geprüften Listen.</p>
     <ul className="mt-3 grid gap-3">
@@ -107,11 +107,11 @@ const Boerse = () => (
     </h2>
     {/* Lesbarer als acht Zeilen Text (Elias, 01.11.2026, MC7d15): zwei Kacheln, dann zwei kurze Sätze. Wortlaut wie vorher. */}
     <div className="mt-4 grid grid-cols-2 gap-2">
-      <div className="rounded-2xl bg-loss-soft p-4 ring-1 ring-loss/20">
+      <div className="rounded-lg bg-loss-soft p-4 ring-1 ring-loss/20">
         <p className="text-[20px] font-extrabold leading-none text-loss">Haram</p>
         <p className="mt-2 text-[15px] leading-snug text-foreground">heißt verboten.</p>
       </div>
-      <div className="rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200">
+      <div className="rounded-lg bg-amber-50 p-4 ring-1 ring-amber-200">
         <p className="text-[20px] font-extrabold leading-none text-amber-700">Boykott</p>
         <p className="mt-2 text-[15px] leading-snug text-foreground">ist ein freiwilliger Schritt obendrauf.</p>
       </div>
@@ -182,14 +182,14 @@ const BoykottListe = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Die Boykott-Liste: {alleFirmen.length} Firmen aus deinem Alltag
           </h1>
           <p className="mt-3 text-[16px] leading-snug text-foreground/80">
             Von der offiziellen Liste der BDS-Bewegung, Stand {BOYKOTT_STAND}.
           </p>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
+          <div className="mt-4 flex gap-3 rounded-lg bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">
@@ -227,12 +227,12 @@ const BoykottListe = () => {
           <div className="card-surface mt-4 p-4">
             <p className="flex flex-wrap items-center gap-x-2 text-[16px] font-bold text-foreground">
               {WARE.name}
-              <span className="rounded-full bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
+              <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
             </p>
             <p className="mt-0.5 text-[14px] text-muted-foreground">{WARE.alltag}</p>
             <p className="mt-2 text-[16px] leading-snug text-foreground/80">{WARE.grund}</p>
           </div>
-          <div className="mt-3 flex items-center gap-3 rounded-2xl bg-muted/60 p-4">
+          <div className="mt-3 flex items-center gap-3 rounded-lg bg-muted/60 p-4">
             <AnbieterLogo name={AUCH_GENANNT.name} domain={AUCH_GENANNT.domain} />
             <p className="text-[14px] leading-snug text-foreground/80">
               <span className="font-bold text-foreground">{AUCH_GENANNT.name}: </span>
