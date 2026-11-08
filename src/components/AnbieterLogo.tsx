@@ -33,13 +33,15 @@ export const AnbieterLogo = ({
   const [fehler, setFehler] = useState(false);
   const schriftzug = domain ? ANBIETER_LOGOS[domain] : undefined;
 
-  /* Schriftzug auf einem Rechteck wie bei Finanzfluss (Elias SEO74). Nur in den Vergleichen (gross), kleine Beispiel-
-     Logos neben einem Satz bleiben rund. */
+  /* Schriftzug wie bei Finanzfluss (Elias SEO74), ohne Rahmen in einer festen Fläche von 134 × 36 px, so steht jedes
+     Logo gleich groß (SEO80 gemessen, Elias: „warum hast du immer so einen anderen Kasten darum?“). Nur ein Logo, das
+     beim Anbieter weiß auf Schwarz steht (`dunkel`), bekommt seine schwarze Fläche. Nur in den Vergleichen (gross),
+     kleine Beispiel-Logos neben einem Satz bleiben rund. */
   if (schriftzug && gross && !fehler) {
     return (
       <span
-        className={`flex h-12 w-[136px] shrink-0 items-center justify-center rounded-md border px-2.5 py-1.5 ${
-          schriftzug.dunkel ? "border-transparent bg-[#111]" : "border-border bg-white"
+        className={`flex h-9 w-[134px] max-w-full shrink-0 items-center justify-center ${
+          schriftzug.dunkel ? "rounded-md bg-[#111] px-2.5 py-1.5" : ""
         }`}
         title={name}
       >
