@@ -82,7 +82,7 @@ export const VergleichsRatgeber = ({
     <div className="mt-14 border-t border-border pt-10 xl:grid xl:grid-cols-[230px_minmax(0,1fr)_260px] xl:gap-x-10">
       <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
         <div className="sticky top-24">
-          <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Inhalt</p>
+          <p className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Inhaltsverzeichnis</p>
           <Verzeichnis eintraege={eintraege} aktiv={aktiv} />
         </div>
       </aside>
@@ -91,7 +91,7 @@ export const VergleichsRatgeber = ({
         {/* Unter 1280: das Verzeichnis zum Aufklappen, oben über dem Text. */}
         <details className="group mb-8 rounded-lg border border-border xl:hidden">
           <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between px-4 text-[16px] font-semibold text-foreground [&::-webkit-details-marker]:hidden">
-            Inhalt
+            Inhaltsverzeichnis
             <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
           </summary>
           <div className="border-t border-border px-4 py-3">
@@ -103,8 +103,8 @@ export const VergleichsRatgeber = ({
 
       {nummerEins && (
         <aside className="hidden xl:block" aria-label={auszeichnung ?? "Unsere Nummer 1"}>
-          <div className="sticky top-24 overflow-hidden rounded-lg border border-primary bg-card">
-            <p className="bg-primary px-4 py-1.5 text-center text-[14px] font-semibold text-primary-foreground">
+          <div className="sticky top-24 overflow-hidden rounded-lg border border-primary/40 bg-card">
+            <p className="bg-primary/10 px-4 py-2 text-center text-[15px] font-semibold text-primary">
               {auszeichnung ?? "Unsere Nummer 1"}
             </p>
             <div className="p-4">
@@ -154,22 +154,22 @@ export const VorNachteile = ({
   vorteile: { text: string }[];
   nachteil?: { text: string } | null;
 }) => (
-  <div className="mt-6 rounded-lg border border-border bg-card p-5 md:grid md:grid-cols-[minmax(0,1fr)_220px] md:gap-8 md:p-6">
+  <div className="mt-6 rounded-lg bg-muted p-5 md:grid md:grid-cols-[minmax(0,1fr)_220px] md:gap-8 md:p-6">
     <div>
-      <p className="text-[19px] font-semibold leading-snug text-foreground">
+      <p className="text-[21px] font-semibold leading-snug text-foreground md:text-[23px]">
         {anbieter.name} {anbieter.produkt}
       </p>
       <ul className="mt-4 space-y-2.5">
         {vorteile.map((v) => (
-          <li key={v.text} className="flex items-start gap-2.5 text-[16px] leading-snug text-foreground">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary">
-              <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={3} aria-hidden />
+          <li key={v.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success">
+              <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} aria-hidden />
             </span>
             <span>{v.text}</span>
           </li>
         ))}
         {nachteil && (
-          <li className="flex items-start gap-2.5 text-[16px] leading-snug text-foreground">
+          <li className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
             <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive">
               <X className="h-3.5 w-3.5 text-destructive-foreground" strokeWidth={3} aria-hidden />
             </span>
@@ -179,7 +179,7 @@ export const VorNachteile = ({
       </ul>
     </div>
     <div className="mt-5 flex flex-col gap-3 md:mt-0">
-      <div className="hidden min-h-[68px] items-center justify-center rounded-lg border border-border bg-background p-2 md:flex">
+      <div className="hidden min-h-[80px] items-center justify-center p-2 md:flex">
         <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
       </div>
       <div>
