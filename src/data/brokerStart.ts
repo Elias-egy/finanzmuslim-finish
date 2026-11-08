@@ -34,9 +34,18 @@ export type BrokerStart = {
   kostenHinweis?: string;
 };
 
+/** POSTIDENT-App der Deutschen Post (Elias, CV23S 08.11.2026: „pack nur noch die App rein … Post-Ident“). Store-Seiten
+ * geprüft 08.11.2026: apps.apple.com id999762739, Google Play de.deutschepost.postident. */
+const POSTIDENT = {
+  name: "POSTIDENT",
+  ios: "https://apps.apple.com/de/app/postident/id999762739",
+  android: "https://play.google.com/store/apps/details?id=de.deutschepost.postident",
+};
+
 export const BROKER_START: Record<string, BrokerStart> = {
   "traders-place": {
     vergleichId: "traders-place-depot",
+    ident: POSTIDENT,
     logo: { src: "/bilder/logos/traders-place-wortmarke.svg", verhaeltnis: 200 / 52 },
     // tradersplace.de/app verlinkt beide Stores. Ausweisen per eID läuft in dieser App, keine Postident-App:
     // „Schritt 1: Traders Place App installieren … Du benötigst die App zum Scannen deines eID Online-Ausweises“
@@ -55,6 +64,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   flatex: {
     vergleichId: "flatex-depot",
+    ident: POSTIDENT,
     // Logo aus dem Seitenkopf von flatex.de (Inline-SVG, Farben wie dort auf Weiß).
     logo: { src: "/bilder/logos/flatex-wortmarke.svg", verhaeltnis: 244 / 54 },
     app: {
@@ -79,6 +89,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",
+    ident: POSTIDENT,
     logo: { src: "/bilder/logos/smartbroker-plus-wortmarke.svg", verhaeltnis: 1051 / 125 },
     app: {
       name: "Smartbroker+",
