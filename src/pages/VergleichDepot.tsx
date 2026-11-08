@@ -78,7 +78,7 @@ const VergleichDepot = () => (
     }
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
-    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
+    sortiertNach="Die ersten vier danach, wo unsere Leser am häufigsten eröffnen, dann nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
