@@ -130,7 +130,7 @@ const Deals = () => {
   const vorhanden = BEREICHE.filter((b) => deals.some((d) => d.bereich === b.id));
   const sichtbar = bereich === "alle" ? deals : deals.filter((d) => d.bereich === bereich);
   const chip = (aktiv: boolean) =>
-    `min-h-[44px] rounded-full border px-4 text-[15px] font-semibold transition-colors ${
+    `min-h-[44px] rounded-lg border px-4 text-[15px] font-semibold transition-colors ${
       aktiv ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:border-primary"
     }`;
 

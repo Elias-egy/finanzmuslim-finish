@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import {
   Area,
   AreaChart,
@@ -66,7 +66,7 @@ const KreditkostenRechner = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Was willst du kaufen?</h2>
 
           <div className="mt-5">
@@ -229,7 +229,7 @@ const KreditkostenRechner = () => {
             </div>
           </Ergebnis>
 
-          <div className="rounded-2xl border border-border/70 bg-white p-5">
+          <div className="rounded-lg border border-border bg-white p-5">
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-[13px] font-semibold text-foreground">Rate im Monat</p>
               <p className="text-[22px] font-bold text-foreground">{eur(kosten.rate)}</p>
@@ -240,7 +240,7 @@ const KreditkostenRechner = () => {
           </div>
 
           {/* Sparen statt leihen */}
-          <div className="rounded-2xl border border-[hsl(var(--success))]/40 bg-[hsl(var(--success)/0.06)] p-5">
+          <div className="rounded-lg border border-[hsl(var(--success))]/40 bg-[hsl(var(--success)/0.06)] p-5">
             <p className="text-[13px] font-semibold text-foreground">Dieselbe Rate gespart statt gezahlt</p>
             {sparenOhne !== null ? (
               <>
@@ -263,9 +263,9 @@ const KreditkostenRechner = () => {
                     return (
                       <div key={z.label} className="grid grid-cols-[64px_1fr] items-center gap-3">
                         <span className="text-[12px] font-semibold text-foreground">{z.label}</span>
-                        <div className="relative h-7 rounded-full bg-white">
+                        <div className="relative h-7 rounded bg-white">
                           <div
-                            className={`absolute left-0 top-0 h-7 rounded-full ${z.farbe}`}
+                            className={`absolute left-0 top-0 h-7 rounded ${z.farbe}`}
                             style={{ width: `${Math.max(8, (z.monate / max) * 100)}%` }}
                           />
                           <span className="absolute top-1/2 -translate-y-1/2 pl-3 text-[12px] font-bold text-white">
@@ -295,15 +295,12 @@ const KreditkostenRechner = () => {
             )}
           </div>
 
-          <Link
-            to="/renditerechner"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
-          >
-            <span className="text-[14px] font-semibold text-foreground">
+          <Aufruf to="/renditerechner" className="block">
+            <span className="flex-1 text-left">
               Was aus {eur(kosten.rate)} im Monat in einem Depot wird
             </span>
-            <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5" aria-hidden />
-          </Link>
+            <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+          </Aufruf>
 
           <p className="px-1 text-[12px] text-muted-foreground">
             <QuelleZeile {...bauzins.quelle} />

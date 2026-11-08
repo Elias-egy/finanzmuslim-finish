@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import Seo, { anlageJsonLd } from "@/components/Seo";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
@@ -123,7 +124,7 @@ const AnlageDetail = () => {
       />
 
       {/* 1 — Kopf */}
-      <section className="bg-hero">
+      <section className="border-b border-border bg-background">
         <div className="container py-8 md:py-12">
           <nav
             aria-label="Brotkrumen"
@@ -148,16 +149,16 @@ const AnlageDetail = () => {
               </h1>
               <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]">
                 {anlage.ertrag && (
-                  <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
+                  <span className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground">
                     {anlage.ertrag === "thesaurierend" ? "Thesaurierend" : "Ausschüttend"}
                   </span>
                 )}
-                <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
+                <span className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground">
                   {istKrypto ? "Kryptowährung" : anlage.anbieter}
                 </span>
                 {region && (
                   <span
-                    className="rounded-full bg-card px-3 py-1 font-semibold text-foreground"
+                    className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground"
                     title={region.label}
                   >
                     <span aria-hidden>{region.zeichen}</span> {region.label}
@@ -224,7 +225,7 @@ const AnlageDetail = () => {
         </section>
 
         {/* 4 — Halal-Einordnung */}
-        <section id="halal" className="scroll-mt-32 rounded-2xl bg-hero p-6 md:p-10">
+        <section id="halal" className="scroll-mt-32 rounded-lg border border-border bg-card p-6 md:p-10">
           <div className="section-inner">
             <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">
               Ist diese Anlage halal?
@@ -455,15 +456,15 @@ const AnlageDetail = () => {
               <div className="mt-4">
                 <KaufbarListe kaufbar={kaufbar} />
               </div>
-              <div className="mt-6 rounded-lg bg-hero p-4 md:p-5">
+              <div className="mt-6 rounded-lg border border-border bg-card p-4 md:p-5">
                 <p className="text-[17px] font-bold text-foreground">Welches Depot passt zu dir</p>
                 <p className="mt-1 text-[15px] text-muted-foreground">
                   Beantworte ein paar Fragen: Du siehst, welches Depot zu dir passt.
                 </p>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Link to="/vergleich/start" className="btn-primary">
+                  <Aufruf to="/vergleich/start" className="block sm:inline-block">
                     Passendes Depot finden
-                  </Link>
+                  </Aufruf>
                   <Link to="/vergleich/depot" className="text-[15px] font-semibold text-primary hover:underline">
                     Alle Depots vergleichen
                   </Link>

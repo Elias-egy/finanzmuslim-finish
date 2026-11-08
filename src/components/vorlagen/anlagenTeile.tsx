@@ -76,7 +76,7 @@ export const ANLAGEN_CTAS = [
 ];
 
 export const WasNicht = () => (
-  <section className="rounded-2xl bg-hero p-6 md:p-8">
+  <section className="rounded-lg border border-border bg-card p-6 md:p-8">
     <h2 className="text-xl font-bold text-foreground">Was diese Liste nicht ist</h2>
     <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
       Keine Empfehlung und keine Anlageberatung. Eine Übersicht dessen, was es gibt und wer es geprüft hat. Du entscheidest,

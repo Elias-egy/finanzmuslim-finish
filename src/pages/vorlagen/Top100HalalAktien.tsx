@@ -51,7 +51,7 @@ const Top100HalalAktien = () => (
         },
       ]}
     >
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <p className="flex items-start gap-3 text-[22px] font-bold leading-tight text-foreground md:text-[28px]">
           <BadgeCheck className="mt-0.5 h-7 w-7 shrink-0 text-primary md:h-8 md:w-8" aria-hidden />
           Alle 100 Aktien einzeln mit Musaffa geprüft
@@ -92,7 +92,7 @@ const Top100HalalAktien = () => (
         ))}
       </Schnittkante>
 
-      <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
+      <section className="rounded-lg border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Eine zeitgebundene Momentaufnahme</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
           Die Einstufung basiert auf dem Stand vom 01.11.2026. Prüfe Name und Ticker am Tag deiner

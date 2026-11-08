@@ -18,7 +18,7 @@ const VerfuegbarBei = ({ kaufbar }: { kaufbar: AnlageKaufbar }) => {
   return (
     <a
       href="#kaufen"
-      className="group inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-border bg-card px-4 py-3 transition hover:border-primary"
+      className="group inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-border bg-card px-4 py-3 transition hover:border-primary"
     >
       <span className="text-[14px] font-bold text-foreground">Verfügbar bei</span>
       <span className="flex -space-x-2">

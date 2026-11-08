@@ -135,7 +135,7 @@ const RizqVoll = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Dua für jede Situation</h1>
           <p className="mt-3 flex items-start gap-2 text-[16px] font-semibold leading-snug text-foreground">
             <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
@@ -146,7 +146,7 @@ const RizqVoll = () => {
               <a
                 key={a.titel}
                 href={`#anliegen-${i + 1}`}
-                className="inline-flex min-h-[44px] items-center rounded-2xl bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 {KURZ[i] ?? a.titel}
               </a>

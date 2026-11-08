@@ -45,7 +45,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[52px] items-center gap-3 rounded-xl border border-border bg-muted px-3 py-2 pr-14 opacity-70"
+      className="relative flex min-h-[52px] items-center gap-3 rounded-lg border border-border bg-muted px-3 py-2 pr-14 opacity-70"
     >
       <span className="badge-soon absolute right-3 top-1/2 -translate-y-1/2">bald</span>
       {inhalt}

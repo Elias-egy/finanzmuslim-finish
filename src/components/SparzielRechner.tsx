@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowRight, Car, Heart, Landmark, MapPin, Moon, ShieldCheck } from "lucide-react";
 import { monatlichFuerZiel, sparMonate, sparVerlauf } from "@/lib/rechner";
@@ -69,7 +69,7 @@ const SparzielRechner = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Wofür sparst du?</h2>
           <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
             Wähl ein Ziel oder trag dein eigenes ein. Die Beträge sind Beispiele.
@@ -192,15 +192,15 @@ const SparzielRechner = () => {
                 <span>Heute {eur(start)}</span>
                 <span>Ziel {eur(zielBetrag)}</span>
               </div>
-              <div className="relative mt-1.5 h-3 rounded-full bg-white">
-                <div className="absolute left-0 top-0 h-3 rounded-full bg-gain" style={{ width: `${fortschritt}%` }} />
+              <div className="relative mt-1.5 h-3 rounded bg-white">
+                <div className="absolute left-0 top-0 h-3 rounded bg-gain" style={{ width: `${fortschritt}%` }} />
               </div>
               <p className="mt-1.5 text-[12px] text-muted-foreground">{Math.round(fortschritt)} Prozent geschafft</p>
             </div>
           </Ergebnis>
 
           {schneller.length > 0 && monate !== 0 && zielBetrag > 0 && (
-            <div className="rounded-2xl border border-border/70 bg-white p-5">
+            <div className="rounded-lg border border-border bg-white p-5">
               <p className="text-[13px] font-semibold text-foreground">Wenn es schneller gehen soll</p>
               <div className="mt-3 divide-y divide-border/70">
                 {schneller.map((s) => (
@@ -213,13 +213,10 @@ const SparzielRechner = () => {
             </div>
           )}
 
-          <Link
-            to="/budgetrechner"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
-          >
-            <span className="text-[14px] font-semibold text-foreground">Wie viel im Monat wirklich frei ist</span>
-            <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5" aria-hidden />
-          </Link>
+          <Aufruf to="/budgetrechner" className="block">
+            <span className="flex-1 text-left">Wie viel im Monat wirklich frei ist</span>
+            <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+          </Aufruf>
         </div>
       </div>
     </section>

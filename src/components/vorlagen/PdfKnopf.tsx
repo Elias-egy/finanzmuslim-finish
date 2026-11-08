@@ -14,7 +14,7 @@ const PdfKnopf = ({ wort, className = "" }: Props) => {
       <a
         href={pdf.datei}
         download={pdf.name}
-        className={`kein-druck inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary/90 ${className}`}
+        className={`kein-druck inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary/90 ${className}`}
       >
         <Download className="h-4 w-4 shrink-0" aria-hidden />
         Als PDF speichern

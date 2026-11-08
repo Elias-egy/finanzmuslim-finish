@@ -55,7 +55,7 @@ const WieIchGeldVerdiene = () => (
                   {partner.map((name) => (
                     <li
                       key={name}
-                      className="rounded-full border border-border bg-background px-3 py-1 text-[14px] font-medium text-foreground"
+                      className="rounded border border-border bg-background px-3 py-1 text-[14px] font-medium text-foreground"
                     >
                       {name}
                     </li>

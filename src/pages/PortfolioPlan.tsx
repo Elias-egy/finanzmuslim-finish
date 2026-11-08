@@ -114,7 +114,7 @@ const PlanKarte = ({ lage, betrag }: { lage: Lage; betrag: number }) => (
     </ul>
     <p className="mt-4 text-[14px] text-muted-foreground">{lage.verhalten}</p>
     {lage.anteile.some((a) => SPIELRAUM.bausteine.includes(a.baustein)) && (
-      <div className="mt-4 rounded-2xl bg-accent p-4">
+      <div className="mt-4 rounded-lg border border-border bg-card p-4">
         <p className="flex items-center gap-2 text-[16px] font-semibold text-foreground">
           {SPIELRAUM.bausteine.map((id) => (
             <Punkt key={id} farbe={bausteinById(id).farbe} />
@@ -133,7 +133,7 @@ const BeispielKasten = ({ b }: { b: Baustein }) => {
   if (!b.beispiel) return null;
   const anlage = b.beispiel.slug ? anlageBySlug(b.beispiel.slug) : undefined;
   return (
-    <div className="mt-3 flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
+    <div className="mt-3 flex min-h-[44px] items-center gap-3 rounded-lg border border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
       {anlage ? (
         <AnlageLogo a={anlage} />
       ) : (
@@ -198,7 +198,7 @@ const PortfolioPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Dein Portfolio als Muslim in vier Schritten
           </h1>
@@ -214,7 +214,7 @@ const PortfolioPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -272,7 +272,7 @@ const PortfolioPlan = () => {
                 <div key={b.id} className="card-surface p-4">
                   <div className="flex gap-3">
                     <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
                       style={{ background: `${b.farbe}1A`, color: b.farbe }}
                       aria-hidden
                     >
@@ -296,7 +296,7 @@ const PortfolioPlan = () => {
             Hier ein Beispiel, wie dein Portfolio aussehen könnte.
           </p>
           <div
-            className="mt-5 grid grid-cols-3 gap-1 rounded-2xl bg-muted p-1"
+            className="mt-5 grid grid-cols-3 gap-1 rounded-lg bg-muted p-1"
             role="group"
             aria-label="Wann brauchst du das Geld?"
           >
@@ -306,8 +306,8 @@ const PortfolioPlan = () => {
                 type="button"
                 aria-pressed={l.id === lageId}
                 onClick={() => waehle(l.id)}
-                className={`min-h-[44px] rounded-xl px-1 text-[14px] font-bold transition-colors ${
-                  l.id === lageId ? "bg-white text-primary shadow-sm" : "text-foreground/70"
+                className={`min-h-[44px] rounded-lg px-1 text-[14px] font-bold transition-colors ${
+                  l.id === lageId ? "bg-white text-primary" : "text-foreground/70"
                 }`}
               >
                 {l.wann}

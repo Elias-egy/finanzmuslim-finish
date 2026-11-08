@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, ChevronRight, Download } from "lucide-react";
+import Aufruf from "@/components/Aufruf";
 import NewsletterBox from "@/components/NewsletterBox";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import type { LeiterWort } from "@/data/leiter";
@@ -71,9 +72,9 @@ const VorlagenSeite = ({
         <span className="text-foreground">{titel}</span>
       </nav>
 
-      <header className="mt-6 rounded-2xl bg-hero p-6 md:p-10">
+      <header className="mt-6 rounded-lg border border-border bg-card p-6 md:p-10">
         {Motiv && (
-          <span className="mb-4 block h-16 w-16 overflow-hidden rounded-xl md:float-right md:mb-0 md:ml-6">
+          <span className="mb-4 block h-16 w-16 overflow-hidden rounded-lg md:float-right md:mb-0 md:ml-6">
             <Motiv />
           </span>
         )}
@@ -111,9 +112,9 @@ const VorlagenSeite = ({
           <section key={c.titel} className="card-surface p-6 md:p-8">
             <h2 className="text-xl font-bold text-foreground">{c.titel}</h2>
             <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">{c.text}</p>
-            <Link to={c.to} className="btn-primary mt-5">
+            <Aufruf to={c.to} className="mt-5">
               {c.buttonLabel}
-            </Link>
+            </Aufruf>
           </section>
         ))}
       </div>

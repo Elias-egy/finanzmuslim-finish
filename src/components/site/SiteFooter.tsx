@@ -76,7 +76,7 @@ export const SiteFooter = () => (
   <footer className="bg-card border-t border-border">
     <div className="container py-10 lg:py-14">
       {/* Social-Kasten oben, wie bei Finanzfluss: eine Flaeche, eine Reihe Symbole. */}
-      <div className="rounded-2xl bg-accent px-5 py-5">
+      <div className="rounded-lg border border-border bg-card px-5 py-5">
         <p className="text-[20px] font-bold text-primary">Hier findest du mich</p>
         <div className="mt-3 flex items-center gap-2">
           {kanaele.map(({ name, href, Logo }) => (

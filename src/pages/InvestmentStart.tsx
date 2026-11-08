@@ -55,7 +55,7 @@ const CtaBlock = ({
   onCtaClick?: () => void;
 }) => (
   <div className="flex flex-col items-center gap-3">
-    <p className="text-[14px] leading-tight text-white/60">
+    <p className="text-[14px] leading-tight text-muted-foreground">
       {partner.art === "app" ? "Werbung/Affiliate-Link." : "Werbung/Affiliate-Link. Gleiche Konditionen, keine Mehrkosten."}
     </p>
     <a
@@ -66,18 +66,18 @@ const CtaBlock = ({
         onCtaClick?.();
         blockerFest(partner.kurzname, href, true).oeffnen?.(e);
       }}
-      className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+      className="inline-flex min-h-[52px] items-center justify-center rounded-lg px-8 py-4 tracking-normal w-full sm:w-auto sm:min-w-[380px] bg-primary text-primary-foreground transition-colors hover:bg-primary-hover text-[17px] md:text-[18px] font-bold"
     >
       {partner.knopf}
     </a>
     {partner.art === "depot" && (
-      <p className="text-[14px] leading-tight text-white/60">
+      <p className="text-[14px] leading-tight text-muted-foreground">
         {partner.risikoUrl ? (
           <a
             href={partner.risikoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-2 transition-colors hover:text-white"
+            className="underline underline-offset-2 transition-colors hover:text-foreground"
           >
             Kapitalanlagen bergen Risiken.
           </a>
@@ -96,7 +96,7 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
       href={to}
       className={`text-[14px] font-semibold underline underline-offset-4 transition-colors ${
         light
-          ? "text-white/80 decoration-white/50 hover:text-white"
+          ? "text-primary decoration-primary/50 hover:text-primary-hover"
           : "text-foreground/75 decoration-primary/60 hover:text-primary"
       }`}
     >
@@ -106,7 +106,7 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
 );
 
 const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
-  <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[13px] leading-snug text-white/85">
+  <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[13px] leading-snug text-muted-foreground">
     <span>
       (Dieses Beispielvideo zeigt die App von Scalable Capital. Bei {anbieter} unterscheidet sich die Einrichtung nur
       minimal.)
@@ -114,7 +114,7 @@ const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
     <Popover>
       <PopoverTrigger
         aria-label="Warum ein Beispielvideo?"
-        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border bg-card text-primary transition-colors hover:bg-accent"
       >
         <HelpCircle className="h-4 w-4" />
       </PopoverTrigger>
@@ -282,22 +282,17 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
 
       {/* S1 — Hero */}
       <section
-        className="relative overflow-hidden bg-primary text-white"
-        style={{
-          // Kleines Detail je Partner: Schimmer in der Logofarbe oben, Lila unten rechts, damit die Fläche nicht nur blau ist.
-          backgroundImage: `radial-gradient(55% 45% at 50% 0%, ${partner.markenfarbe}59 0%, transparent 70%), radial-gradient(45% 40% at 100% 100%, hsl(var(--violet) / 0.45) 0%, transparent 70%)`,
-        }}
+        className="relative overflow-hidden bg-background text-foreground"
       >
         <div className="container relative pt-8 pb-8 md:pt-12 md:pb-12">
           <div className="text-center max-w-[820px] mx-auto">
-            <h1 className="headline text-white text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
+            <h1 className="headline text-foreground text-[30px] sm:text-[38px] md:text-[46px] leading-[1.06]">
               {titel[0]} <br className="hidden sm:block" />
-              <span className="text-hero">{titel[1]}</span>
+              <span className="text-primary">{titel[1]}</span>
             </h1>
             <div className="mt-4 flex items-center justify-center gap-2">
             <p
-              className="inline-flex items-center gap-2 rounded-full bg-white py-1 pl-1 pr-4 text-[14px] font-semibold text-foreground md:text-[15px]"
-              style={{ boxShadow: `0 0 0 3px ${partner.markenfarbe}` }}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card py-1 pl-1 pr-4 text-[14px] font-semibold text-foreground md:text-[15px]"
             >
               <span className="scale-[0.8] -m-1">
                 <AnbieterLogo name={partner.anbieter} domain={partner.domain} />
@@ -312,7 +307,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 aria-expanded={ausnahmenOffen}
                 aria-controls="start-hinweis"
                 aria-label={`Wichtiger Hinweis zu ${partner.anbieter}, Klick zeigt ihn`}
-                className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-[18px] font-bold leading-none text-white shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${ausnahmen.some((h) => !istVorteil(h)) ? "bg-amber-500" : "bg-violet"}`}
+                className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-[18px] font-bold leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${ausnahmen.some((h) => !istVorteil(h)) ? "border-amber-500 bg-amber-500 text-white" : "border-border bg-card text-primary"}`}
               >
                 <span aria-hidden>{ausnahmen.some((h) => !istVorteil(h)) ? "!" : "?"}</span>
               </button>
@@ -325,16 +320,16 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             <div className={`mx-auto grid max-w-[760px] sm:grid-cols-3 ${leer ? "mt-5 gap-2 md:mt-8 sm:gap-3" : "mt-6 gap-3 md:mt-8"}`}>
               {schritte.map((s, i) => (
                 /* Leer-Fassung am Handy enger, damit der Knopf im ersten Bildschirm steht. */
-                <div key={s.titel} className={`rounded-2xl border border-white/15 bg-white/10 text-left ${leer ? "px-4 py-3 sm:p-5" : "p-5"}`}>
+                <div key={s.titel} className={`rounded-lg border border-border bg-card text-left ${leer ? "px-4 py-3 sm:p-5" : "p-5"}`}>
                   {leer ? (
-                    <p className="text-[16px] font-bold text-white">{i + 1}. {s.titel}</p>
+                    <p className="text-[16px] font-bold text-foreground">{i + 1}. {s.titel}</p>
                   ) : (
                     <>
-                      <span className="text-[13px] font-semibold text-white/70">Schritt {i + 1}</span>
-                      <p className="mt-1 text-[16px] font-bold text-white">{s.titel}</p>
+                      <span className="text-[13px] font-semibold text-muted-foreground">Schritt {i + 1}</span>
+                      <p className="mt-1 text-[16px] font-bold text-foreground">{s.titel}</p>
                     </>
                   )}
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-white/75">{s.text}</p>
+                  <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">{s.text}</p>
                 </div>
               ))}
             </div>
@@ -346,7 +341,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 <Link
                   to={LEER_FASSUNG.ziel}
                   onClick={() => ereignis("leer_klick", { anbieter: partner.kurzname, quelle: subId })}
-                  className="pill-btn w-full sm:w-auto sm:min-w-[380px] bg-white text-primary hover:bg-hero text-base md:text-lg font-bold shadow-[0_20px_50px_-15px_rgba(0,0,0,0.5)]"
+                  className="inline-flex min-h-[52px] items-center justify-center rounded-lg px-8 py-4 tracking-normal w-full sm:w-auto sm:min-w-[380px] bg-primary text-primary-foreground transition-colors hover:bg-primary-hover text-[17px] md:text-[18px] font-bold"
                 >
                   {LEER_FASSUNG.knopf}
                 </Link>
@@ -370,7 +365,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               weil darunter kein Knopf mehr Platz braucht. */}
           {istDepot && !leer && (
             <div className="mt-5 md:mt-7 mx-auto w-full max-w-[760px]">
-              <div className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+              <div className="relative mx-auto w-full aspect-video rounded-lg overflow-hidden border border-border bg-black">
                 <video
                   ref={videoRef}
                   className="absolute inset-0 h-full w-full object-cover"
@@ -386,7 +381,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 {videoMuted && (
                   <button
                     onClick={unmuteVideo}
-                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 inline-flex items-center gap-2 rounded-lg bg-white/95 text-primary px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)] hover:bg-hero transition-colors"
+                    className="absolute bottom-14 left-3 md:bottom-16 md:left-4 inline-flex items-center gap-2 min-h-[44px] rounded-lg border border-border bg-card text-foreground px-4 py-2 md:px-5 md:py-2.5 text-[13px] md:text-[14px] font-bold hover:bg-secondary transition-colors"
                   >
                     <Volume2 className="h-4 w-4" /> Ton an
                   </button>
@@ -404,13 +399,13 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 onClick={() => setUnterschiedeOffen((o) => !o)}
                 aria-expanded={unterschiedeOffen}
                 aria-controls="start-unterschied"
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 text-[14px] font-semibold text-white/85 underline underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 text-[14px] font-semibold text-primary underline underline-offset-4 hover:text-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 {unterschiede.length > 1 ? `Was die ${unterschiede.length} Angebote von ${partner.anbieter} unterscheidet` : unterschiede[0].titel}
                 <ChevronDown className={`h-4 w-4 shrink-0 transition-transform motion-reduce:transition-none ${unterschiedeOffen ? "rotate-180" : ""}`} aria-hidden />
               </button>
               {unterschiedeOffen && (
-                <ul id="start-unterschied" className="mt-2 space-y-2 rounded-xl bg-white px-4 py-3 text-left text-[15px] leading-[23px] text-foreground">
+                <ul id="start-unterschied" className="mt-2 space-y-2 rounded-lg border border-border bg-card px-4 py-3 text-left text-[15px] leading-[23px] text-foreground">
                   {unterschiede.map((h) => (
                     <li key={h.titel}>
                       {unterschiede.length > 1 && <span className="font-semibold">{h.titel}: </span>}
@@ -427,10 +422,10 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               {partner.chips.map((label) => (
                 <div
                   key={label}
-                  className="flex items-center justify-center gap-1.5 md:gap-2 rounded-xl bg-white/10 border border-white/15 px-2 py-2.5"
+                  className="flex items-center justify-center gap-1.5 md:gap-2 rounded-lg bg-card border border-border px-2 py-2.5"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-hero shrink-0" aria-hidden />
-                  <span className="text-[12px] md:text-[13px] font-medium text-white/90 leading-tight">{label}</span>
+                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0" aria-hidden />
+                  <span className="text-[12px] md:text-[13px] font-medium text-foreground leading-tight">{label}</span>
                 </div>
               ))}
             </div>
@@ -480,7 +475,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               <a
                 href="/anleitung-halal-depot.pdf"
                 download
-                className="pill-btn bg-card text-foreground border border-border hover:border-primary gap-2"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-lg px-8 py-4 font-semibold tracking-normal text-sm md:text-base bg-card text-foreground border border-border hover:border-primary transition-colors gap-2"
               >
                 <Download className="h-4 w-4" />
                 Anleitung als PDF herunterladen
@@ -505,9 +500,9 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             {partner.fakten.map((f) => (
               <div
                 key={f.titel}
-                className="reveal rounded-[1.75rem] bg-card border border-border/70 p-7 md:p-8 text-center shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]"
+                className="reveal rounded-lg bg-card border border-border p-7 md:p-8 text-center"
               >
-                <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 mx-auto">
+                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 mx-auto">
                   <ShieldCheck className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="headline text-lg md:text-xl mb-3">{f.titel}</h3>
@@ -525,29 +520,29 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
       </section>
 
       {/* S6 — Riba-Checkliste */}
-      <section className="relative overflow-hidden bg-primary text-white py-14 md:py-20">
+      <section className="relative overflow-hidden border-t border-border bg-background text-foreground py-14 md:py-20">
         <div className="container relative max-w-3xl">
           <div className="reveal text-center">
-            <span className="inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-white">
-              <span className="h-1.5 w-1.5 rounded-full bg-hero" /> Ehrlichkeit zuerst
+            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-1.5 text-[11px] font-semibold tracking-wide text-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Ehrlichkeit zuerst
             </span>
-            <h2 className="headline text-white text-3xl md:text-4xl mt-4 leading-[1.1]">
-              {partner.checklisteTitel[0]} <span className="text-hero">{partner.checklisteTitel[1]}</span>
+            <h2 className="headline text-foreground text-3xl md:text-4xl mt-4 leading-[1.1]">
+              {partner.checklisteTitel[0]} <span className="text-primary">{partner.checklisteTitel[1]}</span>
             </h2>
           </div>
           <div className="mt-10 space-y-4">
             {partner.checkliste.map((item, i) => (
-              <div key={item.titel} className="reveal flex gap-5 rounded-2xl bg-white/10 border border-white/15 p-6 md:p-7">
-                <span className="headline text-2xl text-hero shrink-0">{String(i + 1).padStart(2, "0")}</span>
+              <div key={item.titel} className="reveal flex gap-5 rounded-lg bg-card border border-border p-6 md:p-7">
+                <span className="headline text-2xl text-primary shrink-0">{String(i + 1).padStart(2, "0")}</span>
                 <div>
-                  <h3 className="headline text-white text-base md:text-lg">{item.titel}</h3>
-                  <p className="mt-1.5 text-white/75 leading-relaxed text-[14px] md:text-[15px]">{item.text}</p>
+                  <h3 className="headline text-foreground text-base md:text-lg">{item.titel}</h3>
+                  <p className="mt-1.5 text-muted-foreground leading-relaxed text-[14px] md:text-[15px]">{item.text}</p>
                 </div>
               </div>
             ))}
           </div>
           {istDepot && (
-            <p className="reveal mt-8 text-center text-[14px] text-white/70 max-w-xl mx-auto">
+            <p className="reveal mt-8 text-center text-[14px] text-muted-foreground max-w-xl mx-auto">
               Genau diese Punkte zeige ich dir im Video live, damit dein Start nicht nur bequem, sondern sauber ist.
             </p>
           )}
@@ -562,11 +557,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
         <div className="container max-w-4xl">
           <div className="grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center">
             <div className="reveal relative mx-auto max-w-[240px] md:max-w-none">
-              <div
-                className="absolute -inset-5 bg-gradient-to-br from-primary/25 to-primary/5 rounded-[2.5rem] blur-2xl"
-                aria-hidden
-              />
-              <div className="relative overflow-hidden rounded-[2rem] bg-secondary shadow-[0_30px_70px_-30px_rgba(80,60,20,0.35)] border border-white/60">
+              <div className="relative overflow-hidden rounded-lg bg-secondary border border-border">
                 <img
                   src={founderPortrait}
                   alt="Elias El-Gendy, Gründer von finanzmuslim"
@@ -613,7 +604,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
               return (
                 <div
                   key={f.q}
-                  className="reveal rounded-2xl bg-white border border-border/50 shadow-[0_4px_20px_-12px_rgba(20,51,40,0.15)] transition-all hover:shadow-[0_8px_28px_-12px_rgba(20,51,40,0.2)]"
+                  className="reveal rounded-lg bg-card border border-border"
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : i)}
@@ -643,15 +634,15 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
       </section>
 
       {/* S9 — Abschluss-Aufruf */}
-      <section className="relative overflow-hidden bg-primary text-white py-16 md:py-24">
+      <section className="relative overflow-hidden border-t border-border bg-background text-foreground py-16 md:py-24">
         <div id="los" ref={finalCtaRef} className="container relative max-w-3xl text-center scroll-mt-24">
-          <span className="reveal inline-flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-wide text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-hero" /> Bereit?
+          <span className="reveal inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-1.5 text-[11px] font-semibold tracking-wide text-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Bereit?
           </span>
-          <h2 className="reveal headline text-white text-3xl md:text-5xl mt-5 leading-[1.05]">
-            Dann jetzt, <span className="text-hero">in einem Rutsch.</span>
+          <h2 className="reveal headline text-foreground text-3xl md:text-5xl mt-5 leading-[1.05]">
+            Dann jetzt, <span className="text-primary">in einem Rutsch.</span>
           </h2>
-          <p className="reveal mt-4 text-white/80 leading-relaxed text-[15px] md:text-base">
+          <p className="reveal mt-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
             {istDepot
               ? "Schritt für Schritt, und dein Halal-Depot steht."
               : istSteuer
@@ -703,7 +694,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           showSticky ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
         }`}
       >
-        <div className="mx-auto border-t border-border bg-background/95 px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_-12px_rgba(0,0,0,0.15)] backdrop-blur-md md:max-w-[720px] md:rounded-2xl md:border md:px-5 md:py-3 md:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto border-t border-border bg-background px-4 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] md:max-w-[720px] md:rounded-lg md:border md:px-5 md:py-3">
           <div className="flex items-center gap-3">
             <div className="hidden min-w-0 flex-1 md:block">
               <p className="truncate text-[15px] font-semibold text-foreground">
@@ -729,7 +720,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                 zumAnbieter("s")();
                 blockerFest(partner.kurzname, partnerLink(partner, `${subId}s`), true).oeffnen?.(e);
               }}
-              className="pill-btn flex-1 py-3 bg-primary text-primary-foreground hover:bg-primary-hover text-[15px] font-bold md:flex-none md:px-8"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-lg flex-1 px-8 py-3 bg-primary text-primary-foreground transition-colors hover:bg-primary-hover text-[15px] font-bold md:flex-none"
             >
               {partner.knopf}
             </a>

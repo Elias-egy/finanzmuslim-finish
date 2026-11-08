@@ -102,7 +102,7 @@ const AutoAboCheckVoll = () => (
         </ul>
       </section>
 
-      <section className="rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="firmen">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8" aria-labelledby="firmen">
         <h2 id="firmen" className="text-xl font-bold text-foreground">
           Abos für Firmen
         </h2>

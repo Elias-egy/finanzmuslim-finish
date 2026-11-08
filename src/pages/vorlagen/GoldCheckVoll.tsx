@@ -48,7 +48,7 @@ const GoldCheckVoll = () => (
         return (
           <section key={farbe} aria-labelledby={`farbe-${farbe}`}>
             <div className="flex items-center gap-3">
-              <span className={`h-6 w-6 shrink-0 rounded-full shadow-[inset_0_-2px_4px_rgba(0,0,0,0.15)] ${bewertung[farbe].punkt}`} aria-hidden />
+              <span className={`h-6 w-6 shrink-0 rounded-full ${bewertung[farbe].punkt}`} aria-hidden />
               <h2 id={`farbe-${farbe}`} className="text-2xl font-bold text-foreground">
                 {ueberschrift[farbe]}: {gruppe.length} {gruppe.length === 1 ? "Weg" : "Wege"}
               </h2>
@@ -75,7 +75,7 @@ const GoldCheckVoll = () => (
         </div>
       </section>
 
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Gut zu wissen</h2>
         <dl className="mt-3 space-y-3">
           {gutZuWissen.map((g) => (

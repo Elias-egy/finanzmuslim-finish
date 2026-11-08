@@ -97,7 +97,7 @@ const Suche = ({ offen, schliessen }: { offen: boolean; schliessen: () => void }
     <div className="fixed inset-0 z-[60]">
       <div className="absolute inset-0 bg-foreground/40" onClick={schliessen} />
 
-      <div className="absolute inset-x-0 top-0 bg-card shadow-[0_16px_40px_-24px_rgba(0,0,0,0.4)]">
+      <div className="absolute inset-x-0 top-0 bg-card shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
         <div className="container py-4">
           <div className="mx-auto flex w-full max-w-[720px] items-center gap-2">
             <div className="flex h-12 flex-1 items-center gap-2 rounded-lg border border-border px-3 focus-within:border-primary">

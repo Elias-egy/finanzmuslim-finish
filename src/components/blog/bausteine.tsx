@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Check, ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
+import Aufruf from "@/components/Aufruf";
 
 /**
  * Bausteine aller Blogbeiträge im Aufbau von /blog/halal-etf (Elias SEO48, 04.11.2026: „beste Halal ETFs kannst du alles
@@ -383,9 +384,7 @@ export const WerkzeugKasten = ({ etikett, titel, text, ziel, knopf }: { etikett:
     <Etikett className="text-primary">{etikett}</Etikett>
     <p className="font-titel mt-2.5 text-[22px] leading-[1.2] text-foreground">{titel}</p>
     <p className="mt-2.5 max-w-[560px] text-[15px] leading-relaxed text-foreground/75">{text}</p>
-    <Link to={ziel} className="leuchtlinie mt-5 inline-block">
-      <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
-    </Link>
+    <Aufruf to={ziel} className="mt-5">{knopf}</Aufruf>
   </aside>
 );
 
@@ -429,9 +428,7 @@ export const Seitenleiste = ({
         <Etikett className="text-primary">{etikett}</Etikett>
         <p className="font-titel mt-2.5 text-[21px] leading-[1.2] text-foreground">{titel}</p>
         <p className="mt-2.5 text-[14px] leading-relaxed text-foreground/75">{text}</p>
-        <Link to={ziel} className="leuchtlinie mt-4 inline-block">
-          <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
-        </Link>
+        <Aufruf to={ziel} className="mt-4">{knopf}</Aufruf>
       </div>
     </div>
   </aside>
@@ -517,9 +514,7 @@ export const AutorAufruf = ({ bild, etikett, titel, text, ziel, knopf }: { bild:
     <Etikett className="mt-4 text-primary">{etikett}</Etikett>
     <p className="font-titel mt-2 text-[24px] leading-[1.2] text-foreground">{titel}</p>
     <p className="mt-2.5 max-w-[560px] text-[15px] leading-relaxed text-foreground/75">{text}</p>
-    <Link to={ziel} className="leuchtlinie mt-5 inline-block">
-      <span className="flex min-h-[44px] items-center bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">{knopf}</span>
-    </Link>
+    <Aufruf to={ziel} className="mt-5">{knopf}</Aufruf>
   </aside>
 );
 

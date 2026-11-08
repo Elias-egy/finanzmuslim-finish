@@ -113,7 +113,7 @@ const HalalAnlagenVoll = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Die Halal-<span className="whitespace-nowrap">Investment-Liste</span>
           </h1>
@@ -122,7 +122,7 @@ const HalalAnlagenVoll = () => {
               <a
                 key={u.id}
                 href={`#gruppe-${u.id}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: artFarbe(u.id) }} aria-hidden />
                 <span className="font-extrabold tabular-nums">{u.zahl}</span> {u.wort}
@@ -159,7 +159,7 @@ const HalalAnlagenVoll = () => {
             </ul>
             {g.zeilen.length > SICHTBAR && (
               <details className="group mt-2">
-                <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-lg px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
                   {g.zeilen.length - SICHTBAR} weitere anzeigen
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
                 </summary>

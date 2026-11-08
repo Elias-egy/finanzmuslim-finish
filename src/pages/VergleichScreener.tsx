@@ -85,7 +85,7 @@ const WozuBlock = () => (
 );
 
 const Reihenfolge = () => (
-  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
+  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:px-6 lg:py-5">
     <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
       Sortiert nach Nachvollziehbarkeit und Nutzen, je zur Hälfte.
     </p>

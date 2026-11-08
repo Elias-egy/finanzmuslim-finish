@@ -14,7 +14,7 @@ const GesperrteZeile = ({ name, unterzeile, verborgen }: Props) => (
       <span className="block text-[15px] font-bold text-foreground">{name}</span>
       <span className="block text-[13px] text-muted-foreground">{unterzeile}</span>
     </div>
-    <span className="inline-flex h-7 items-center gap-1 rounded-full border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary">
+    <span className="inline-flex h-7 items-center gap-1 rounded border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary">
       <Lock className="h-3.5 w-3.5" aria-hidden />
       <span>?</span>
       <span className="sr-only">{verborgen}</span>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { ArrowRight, Check, Instagram, Pause, Play, Scale, ShieldCheck } from "lucide-react";
+import Aufruf from "@/components/Aufruf";
 import Seo from "@/components/Seo";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { Wordmark } from "@/components/Wordmark";
@@ -70,48 +71,11 @@ const Kopfband = () => {
   const logos = netzLogos();
   return (
     <section aria-hidden className="relative h-[230px] overflow-hidden md:h-[320px]">
-      {/* Der Verlauf endet zwei Pixel über der Unterkante, sonst blitzt an der Schnittkante
-          des Bogens eine graue Linie durch. */}
-      <span className="absolute inset-x-0 bottom-0.5 top-0 bg-[radial-gradient(120%_95%_at_50%_0%,#1D5FE0_0%,#0D43B4_36%,#07297A_72%,#052061_100%)]" />
-      {/* Licht von unten: Der Schein hinter dem Porträt läuft in den hellen Bogen aus (Elias, 08.10.2026: „leuchtender“). */}
-      <span className="absolute inset-x-0 bottom-0 h-[62%] bg-[radial-gradient(70%_100%_at_50%_100%,rgba(140,185,255,0.6)_0%,rgba(82,142,255,0.28)_45%,transparent_100%)]" />
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {knoten.slice(0, logos.length).map((k, i) => (
-          <line
-            key={i}
-            x1={MITTE.x}
-            y1={MITTE.y}
-            x2={k.x}
-            y2={k.y}
-            stroke="white"
-            strokeOpacity="0.24"
-            strokeWidth="0.25"
-            vectorEffect="non-scaling-stroke"
-            className={k.md ? "hidden md:block" : undefined}
-          />
-        ))}
-        {knoten.slice(0, logos.length - 1).map((k, i) => {
-          const n = knoten[i + 1];
-          if (i === 3) return null;
-          return (
-            <line
-              key={`n${i}`}
-              x1={k.x}
-              y1={k.y}
-              x2={n.x}
-              y2={n.y}
-              stroke="white"
-              strokeOpacity="0.12"
-              strokeWidth="0.25"
-              vectorEffect="non-scaling-stroke"
-              className={k.md || n.md ? "hidden md:block" : undefined}
-            />
-          );
-        })}
-      </svg>
+      {/* Flache Fläche in Signalblau mit gerader Unterkante (SEO80, Prüfer F1: kein Bogen, kein Linien-Netz). */}
+      <span className="absolute inset-0 bg-primary" />
 
       <span
-        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-primary text-[26px] font-extrabold leading-none text-white shadow-[0_0_0_6px_rgba(255,255,255,0.12),0_0_26px_6px_rgba(160,200,255,0.75),0_0_72px_22px_rgba(82,142,255,0.7)] md:h-14 md:w-14"
+        className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-md border border-border bg-white text-[26px] font-extrabold leading-none text-primary md:h-14 md:w-14"
         style={{ left: `${MITTE.x}%`, top: `${MITTE.y}%` }}
       >
         F
@@ -120,7 +84,7 @@ const Kopfband = () => {
       {logos.map((a, i) => (
         <span
           key={a.domain ?? a.name}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/25 bg-white/15 p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45),0_0_22px_0_rgba(120,170,255,0.35)] ${
+          className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-white p-1.5 ${
             knoten[PLATZ[i]].md ? "hidden md:block" : ""
           }`}
           style={{ left: `${knoten[PLATZ[i]].x}%`, top: `${knoten[PLATZ[i]].y}%` }}
@@ -129,24 +93,22 @@ const Kopfband = () => {
         </span>
       ))}
 
-      <span className="absolute bottom-0 left-1/2 h-[280px] w-[380px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(190,215,255,0.7)_0%,rgba(110,165,255,0.5)_42%,transparent_100%)] md:h-[380px] md:w-[540px]" />
       <img
         src={eliasFreigestellt}
         alt=""
         fetchPriority="high"
         className="absolute bottom-0 left-1/2 z-10 h-[190px] w-auto max-w-none -translate-x-1/2 translate-y-6 md:h-[290px] md:translate-y-10"
       />
-      <span className="absolute -bottom-12 left-1/2 z-20 h-24 w-[180%] -translate-x-1/2 rounded-[50%] bg-background md:-bottom-16 md:h-32 md:w-[140%]" />
     </section>
   );
 };
 
-/** Haupt-Knopf wie bei SKAILE: Verlauf, helle Oberkante, dunkle Unterkante, Schein darunter (`.btn-leuchte`). */
+/** Knopf zum Test (eigene Seite): der Baustein Aufruf. */
 const TestKnopf = ({ ziel, klein = false }: { ziel: string; klein?: boolean }) => (
-  <Link to={ziel} className={`btn-leuchte ${klein ? "h-11 px-4 text-[15px]" : "h-14 w-full px-10 text-[18px] sm:w-auto"}`}>
+  <Aufruf to={ziel} className={klein ? "" : "block sm:inline-block"}>
     Jetzt testen
-    {!klein && <ArrowRight className="h-5 w-5" aria-hidden />}
-  </Link>
+    {!klein && <ArrowRight className="h-4 w-4" aria-hidden />}
+  </Aufruf>
 );
 
 const Laufband = () => {
@@ -191,7 +153,7 @@ const Laufband = () => {
 };
 
 const Vorschau = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex h-44 items-center justify-center rounded-2xl border border-primary/20 bg-accent p-2">{children}</div>
+  <div className="flex h-44 items-center justify-center rounded-lg border border-border bg-card p-2">{children}</div>
 );
 
 const Danke = () => {
@@ -215,10 +177,10 @@ const Danke = () => {
       vorschau: (
         <div className="w-full max-w-[220px] space-y-1.5">
           {logos.map((a, i) => (
-            <div key={a.name} className="flex items-center gap-2 rounded-xl bg-card p-1 shadow-sm">
+            <div key={a.name} className="flex items-center gap-2 rounded-lg border border-border bg-card p-1">
               <AnbieterLogo name={a.name} domain={a.domain} />
-              <span className="h-2 flex-1 rounded-full bg-primary/15">
-                <span className="block h-2 rounded-full bg-primary/60" style={{ width: `${85 - i * 20}%` }} />
+              <span className="h-2 flex-1 rounded bg-primary/15">
+                <span className="block h-2 rounded bg-primary/60" style={{ width: `${85 - i * 20}%` }} />
               </span>
             </div>
           ))}
@@ -234,13 +196,13 @@ const Danke = () => {
       ),
       vorschau: (
         <div className="flex flex-col items-start gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-gain-soft px-3 py-1 text-[13px] font-semibold text-gain">
+          <span className="inline-flex items-center gap-1.5 rounded bg-gain-soft px-3 py-1 text-[13px] font-semibold text-gain">
             <Check className="h-3.5 w-3.5" aria-hidden /> Ohne Zinsen
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1 text-[13px] font-semibold text-primary">
+          <span className="inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1 text-[13px] font-semibold text-primary">
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> Halal-Merkmale
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1 text-[13px] font-semibold text-violet">
+          <span className="inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1 text-[13px] font-semibold text-violet">
             <Scale className="h-3.5 w-3.5" aria-hidden /> Kosten
           </span>
         </div>
@@ -254,7 +216,7 @@ const Danke = () => {
         </>
       ),
       vorschau: logos[0] ? (
-        <div className="flex w-full max-w-[220px] items-center gap-3 rounded-xl bg-card p-3 shadow-sm">
+        <div className="flex w-full max-w-[220px] items-center gap-3 rounded-lg border border-border bg-card p-3">
           <AnbieterLogo name={logos[0].name} domain={logos[0].domain} />
           <span className="flex-1 text-[14px] font-semibold text-foreground">{logos[0].name}</span>
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
@@ -274,8 +236,8 @@ const Danke = () => {
         noindex
       />
 
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-border bg-background">
+        <div className="container flex h-[72px] items-center justify-between">
           <Link to="/" aria-label="finanzmuslim Startseite" className="inline-flex min-h-[44px] items-center">
             <Wordmark className="text-xl" />
           </Link>
@@ -288,7 +250,7 @@ const Danke = () => {
       <section className="container relative z-30 -mt-2 text-center md:-mt-4">
         <div
           role="status"
-          className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0 rounded-2xl border border-gain/40 bg-card px-3 py-1 text-[14px] text-foreground sm:gap-x-2 sm:px-4 sm:text-[15px] shadow-[0_12px_32px_-14px_hsl(var(--primary)/0.55),0_0_0_4px_hsl(var(--primary)/0.06)]"
+          className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0 rounded-lg border border-gain/40 bg-card px-3 py-1 text-[14px] text-foreground sm:gap-x-2 sm:px-4 sm:text-[15px]"
         >
           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gain text-white">
             <Check className="h-3.5 w-3.5" aria-hidden />
@@ -362,7 +324,7 @@ const Danke = () => {
           ))}
         </div>
 
-        <div className="mt-10 rounded-3xl border border-primary/15 border-l-4 border-l-primary bg-accent p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8">
+        <div className="mt-10 rounded-lg border border-border bg-card p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8">
           <div>
             <p className="eyebrow">So prüfen wir</p>
             <h2 className="mt-2 text-[24px] font-bold text-foreground md:text-[30px]">Drei Regeln je Anbieter</h2>

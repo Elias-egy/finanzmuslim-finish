@@ -86,7 +86,7 @@ const HalalGuide = () => {
 
       <main>
         {/* 1. Hero */}
-        <section className="bg-hero">
+        <section className="border-b border-border bg-background">
           <div className="container py-12 md:py-20 lg:py-24">
             <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="max-w-xl lg:pl-12 xl:pl-20">

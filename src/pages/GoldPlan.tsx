@@ -90,7 +90,7 @@ const GoldPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Gold kannst du online kaufen</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat in Gold stecken?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat in Gold stecken?">
@@ -100,7 +100,7 @@ const GoldPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -142,7 +142,7 @@ const GoldPlan = () => {
           <div className="mt-4">
             <GrafikWette />
           </div>
-          <div className="mt-3 flex gap-3 rounded-2xl bg-loss-soft p-4">
+          <div className="mt-3 flex gap-3 rounded-lg bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.broker}</p>
           </div>
@@ -169,7 +169,7 @@ const GoldPlan = () => {
           {/* Steuer klar dazu (Elias, 02.11.2026, MC7d17: „man muss natürlich auch sagen, ganz klar, dass wegen Steuern … nicht,
               dass wir die Leute verarschen“). Beleg: src/pages/wissen/HalalGoldKaufen.tsx, Hinweis „Steuer, damit es
               vollständig ist“. */}
-          <p className="mt-3 rounded-xl bg-accent p-3 text-[15px] leading-snug text-foreground">
+          <p className="mt-3 rounded-lg border border-border bg-card p-3 text-[15px] leading-snug text-foreground">
             <strong>Wichtig zur Steuer:</strong> {GOLD_STEUER}
           </p>
           {/* Alle Gold-ETCs statt zwei Beispielen (Elias, 01.11.2026, MC7d15: „Dann machst du einfach alle“). */}

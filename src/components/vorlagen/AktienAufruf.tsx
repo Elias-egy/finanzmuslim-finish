@@ -86,7 +86,7 @@ const AktienAufruf = ({ link }: Props) => (
     </h2>
     <p className="mt-1 text-[16px] leading-snug text-foreground/80">Die bekanntesten sind nicht gleich die besten.</p>
     <CheckRaster check={CHECK} className="mt-3" />
-    <div className="relative mt-5 rounded-3xl bg-accent p-4 ring-1 ring-primary/20 md:p-6" data-depot-kasten>
+    <div className="relative mt-5 rounded-lg border border-border bg-card p-4 md:p-6" data-depot-kasten>
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
       <p className="pr-16 text-[22px] font-extrabold leading-tight text-foreground">
         Die besten Alternativen aus meinem Vergleich
@@ -95,14 +95,14 @@ const AktienAufruf = ({ link }: Props) => (
         {AKTIEN_ANGEBOTE.map((d) => (
           <li
             key={d.id}
-            className="flex flex-col rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)]"
+            className="flex flex-col rounded-lg border border-border bg-card p-4"
             data-depot-karte
           >
             <div className="flex items-center gap-3">
               <AnbieterLogo name={d.name} domain={d.domain} rand />
               <div className="min-w-0">
                 <p className="text-[20px] font-extrabold leading-tight text-foreground">{d.name}</p>
-                <span className="mt-1 inline-block rounded-full bg-violet/10 px-2.5 py-0.5 text-[13px] font-bold text-violet">
+                <span className="mt-1 inline-block rounded bg-violet/10 px-2.5 py-0.5 text-[13px] font-bold text-violet">
                   {d.etikett}
                 </span>
               </div>
@@ -123,7 +123,7 @@ const AktienAufruf = ({ link }: Props) => (
             </ul>
             <Link
               to={link(d.ziel, d.stelle)}
-              className="mt-4 flex min-h-[48px] w-full items-center justify-center rounded-xl bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90 md:mt-auto"
+              className="mt-4 flex min-h-[48px] w-full items-center justify-center rounded-lg bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90 md:mt-auto"
             >
               Zum Angebot*
             </Link>
