@@ -18,6 +18,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
+import Aufruf from "@/components/Aufruf";
 import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
@@ -167,7 +168,7 @@ const Zeile = ({
 }) =>
   to ? (
     <Link to={to} className={`group row-tile ${nurAbMd ? "max-md:hidden" : ""}`}>
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
         <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
       </span>
       <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2 text-[17px] font-bold text-foreground group-hover:text-primary">
@@ -178,7 +179,7 @@ const Zeile = ({
     </Link>
   ) : (
     <div aria-disabled="true" className="row-tile border-border bg-muted opacity-60">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-background">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-background">
         <Icon className="h-[22px] w-[22px] text-muted-foreground" aria-hidden />
       </span>
       <span className="min-w-0 flex-1 text-[17px] font-bold text-muted-foreground">{titel}</span>
@@ -212,7 +213,7 @@ const Index = () => (
           hoechstens 570px: das Foto bleibt, ist kleiner, und Depot und Girokonto stehen ganz im ersten Schirm
           (Elias, 30.10.2026, FOTO1: "mindestens Depot, Girokonto ... noch halbwegs sehen"); die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-190px)]">
-        <div className="relative flex min-h-[min(calc(100svh-226px),570px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex min-h-[min(calc(100svh-226px),570px)] flex-1 flex-col overflow-hidden rounded-lg border border-border bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
               <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -225,13 +226,10 @@ const Index = () => (
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
               <div className="max-md:order-4 mt-4 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
-                <Link
-                  to="/vergleich/start"
-                  className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-primary px-5 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:px-8 lg:min-h-[60px] lg:px-10 lg:text-[20px]"
-                >
+                <Aufruf to="/vergleich/start" className="block whitespace-nowrap sm:inline-block">
                   Finde, was zu dir passt
                   <ArrowRight className="h-5 w-5" aria-hidden />
-                </Link>
+                </Aufruf>
               </div>
             </div>
           </div>
@@ -271,7 +269,7 @@ const Index = () => (
                 loading="eager"
               />
             </div>
-            <div className="absolute bottom-[76px] right-0 rounded-xl border border-border bg-card px-4 py-3">
+            <div className="absolute bottom-[76px] right-0 rounded-lg border border-border bg-card px-4 py-3">
               <p className="text-[15px] font-bold text-foreground">Elias El-Gendy</p>
               <p className="text-[13px] text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
@@ -327,9 +325,9 @@ const Index = () => (
                 Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
               </span>
             </p>
-            <Link to="/halal-guide" className="btn-primary mt-6 lg:mt-8">
+            <Aufruf to="/halal-guide" className="block sm:inline-block mt-6 lg:mt-8">
               Guide kostenlos sichern
-            </Link>
+            </Aufruf>
           </div>
         </div>
       </section>
@@ -384,9 +382,9 @@ const Index = () => (
                 Such nach Name, Kürzel oder ISIN und sortier nach Kosten, Größe oder Rendite.
               </span>
             </p>
-            <Link to="/halal-anlagen" className="btn-primary mt-6">
+            <Aufruf to="/halal-anlagen" className="block sm:inline-block mt-6">
               Zu den Anlagen
-            </Link>
+            </Aufruf>
           </div>
         </div>
       </section>
@@ -408,9 +406,9 @@ const Index = () => (
                 Werkzeuge, die dir Klarheit über deine Zahlen geben, bevor du eine Entscheidung
                 triffst.
               </p>
-              <Link to="/rechner" className="btn-primary mt-6 lg:mt-8">
+              <Aufruf to="/rechner" className="block sm:inline-block mt-6 lg:mt-8">
                 Zu allen Rechnern
-              </Link>
+              </Aufruf>
             </div>
           </div>
 
@@ -443,9 +441,9 @@ const Index = () => (
           </div>
 
           <div className="mt-6 flex justify-center lg:mt-8">
-            <Link to="/blog" className="btn-primary">
+            <Aufruf to="/blog" className="block sm:inline-block">
               Alle Beiträge
-            </Link>
+            </Aufruf>
           </div>
         </div>
       </section>

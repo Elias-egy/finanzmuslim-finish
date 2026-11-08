@@ -36,7 +36,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       ref={kasten}
       aria-labelledby="naechster-teil"
       data-naechster-teil={wort}
-      className={`guide-glanz rounded-3xl bg-accent p-5 md:p-7 ${className}`}
+      className={`guide-glanz rounded-lg bg-card p-5 md:p-7 ${className}`}
     >
       <p className="text-[14px] font-bold text-violet">Dein nächster Schritt</p>
       <h2
@@ -47,21 +47,21 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       </h2>
       {/* MC7d17 (Elias 02.11.2026): ein richtiges Bild vom Guide, erst die Frage fett, dann die Seiten übersichtlich,
           kein grauer Satz davor. Das Bild zeigt Deckblatt und zwei der genannten Seiten aus dem PDF. */}
-      <div className="mt-4 rounded-2xl bg-background p-4 md:p-5">
+      <div className="mt-4 rounded-lg bg-background p-4 md:p-5">
         <div data-kasten-bild className="relative mx-auto h-[178px] w-[260px]" aria-hidden="true">
           <img
             src={seitenBild(frage.seiten[1].nr)}
             alt=""
             width={360}
             height={510}
-            className="absolute left-0 top-4 w-[108px] -rotate-[9deg] rounded-md border border-primary/15 shadow-md"
+            className="absolute left-0 top-4 w-[108px] -rotate-[9deg] rounded-md border border-primary/15"
           />
           <img
             src={seitenBild(frage.seiten[2].nr)}
             alt=""
             width={360}
             height={510}
-            className="absolute right-0 top-4 w-[108px] rotate-[9deg] rounded-md border border-primary/15 shadow-md"
+            className="absolute right-0 top-4 w-[108px] rotate-[9deg] rounded-md border border-primary/15"
           />
           {/* Eigene Hülle, weil .glanz-bild position: relative setzt und absolute sonst überschreibt. */}
           <div className="absolute left-1/2 top-0 w-[122px] -translate-x-1/2">
@@ -71,7 +71,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
                 alt=""
                 width={360}
                 height={510}
-                className="block h-auto w-full rounded-md border border-primary/20 shadow-xl"
+                className="block h-auto w-full rounded-md border border-primary/20"
               />
             </span>
           </div>
@@ -80,15 +80,15 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
         <p className="mt-4 text-[18px] font-extrabold leading-snug text-foreground">{frage.frage}</p>
         <ul className="mt-3 grid gap-2">
           {frage.seiten.map((s) => (
-            <li key={s.nr} className="flex items-center gap-3 rounded-xl bg-accent/70 p-2 pr-3">
+            <li key={s.nr} className="flex items-center gap-3 rounded-lg border border-border bg-card p-2 pr-3">
               <img
                 src={seitenBild(s.nr)}
                 alt=""
                 width={360}
                 height={510}
-                className="w-9 shrink-0 rounded-[3px] border border-primary/15 bg-white"
+                className="w-9 shrink-0 rounded border border-primary/15 bg-white"
               />
-              <span className="shrink-0 whitespace-nowrap rounded-full bg-violet/10 px-2 py-0.5 text-[13px] font-bold tabular-nums text-violet">
+              <span className="shrink-0 whitespace-nowrap rounded bg-violet/10 px-2 py-0.5 text-[13px] font-bold tabular-nums text-violet">
                 S. {s.nr}
               </span>
               <span className="text-[16px] font-semibold leading-snug text-foreground">{s.titel}</span>

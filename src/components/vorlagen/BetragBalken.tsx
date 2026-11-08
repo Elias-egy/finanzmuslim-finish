@@ -58,9 +58,9 @@ const BetragBalken = ({ betrag, max, teile, links, wert, format, className = "" 
   const voll = Math.max(8, Math.min(100, (betrag / max) * 100));
   return (
     <div className={className} data-betrag-balken>
-      <div className="h-3 w-full overflow-hidden rounded-full bg-white ring-1 ring-black/5" aria-hidden>
+      <div className="h-3 w-full overflow-hidden rounded bg-white ring-1 ring-black/5" aria-hidden>
         <div
-          className="flex h-full gap-[2px] rounded-full transition-[width] duration-700 ease-out motion-reduce:transition-none"
+          className="flex h-full gap-[2px] rounded transition-[width] duration-700 ease-out motion-reduce:transition-none"
           style={{ width: `${voll}%` }}
         >
           {teile.map((t, i) => (

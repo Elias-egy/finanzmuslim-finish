@@ -35,7 +35,7 @@ export const legende: { farbe: Farbe; text: string }[] = [
 export const Pille = ({ farbe }: { farbe: Farbe }) => {
   const b = bewertung[farbe];
   return (
-    <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-bold ${b.pille}`}>
+    <span className={`inline-flex items-center gap-2 rounded border px-3 py-1 text-[13px] font-bold ${b.pille}`}>
       <span className={`h-3 w-3 rounded-full ${b.punkt}`} aria-hidden />
       {b.wort}
     </span>
@@ -44,7 +44,7 @@ export const Pille = ({ farbe }: { farbe: Farbe }) => {
 
 /** Urteil als Pille: Farbpunkt und Wort, damit die Farbe nicht allein trägt. */
 export const UrteilPille = ({ farbe, urteil }: { farbe: Farbe; urteil: string }) => (
-  <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-bold ${bewertung[farbe].pille}`}>
+  <span className={`inline-flex items-center gap-2 rounded border px-3 py-1 text-[13px] font-bold ${bewertung[farbe].pille}`}>
     <span className={`h-3 w-3 shrink-0 rounded-full ${bewertung[farbe].punkt}`} aria-hidden />
     {urteil}
   </span>
@@ -56,7 +56,7 @@ export const Legende = () => (
       {legende.map((l) => (
         <div key={l.farbe} className="card-surface p-5">
           <div className="flex items-center gap-3">
-            <span className={`h-5 w-5 rounded-full shadow-[inset_0_-2px_4px_rgba(0,0,0,0.15)] ${bewertung[l.farbe].punkt}`} aria-hidden />
+            <span className={`h-5 w-5 rounded-full ${bewertung[l.farbe].punkt}`} aria-hidden />
             <span className="text-[17px] font-bold text-foreground">{bewertung[l.farbe].wort}</span>
           </div>
           <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{l.text}</p>
@@ -67,7 +67,7 @@ export const Legende = () => (
 );
 
 export const WarumGelb = () => (
-  <section className="rounded-2xl bg-hero p-6 md:p-8">
+  <section className="rounded-lg border border-border bg-card p-6 md:p-8">
     <h2 className="text-xl font-bold text-foreground">Warum es überhaupt Gelb gibt</h2>
     <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
       Vieles ist nicht per se erlaubt oder verboten, sondern hängt an der Bedingung. Eine Versicherung, die du freiwillig

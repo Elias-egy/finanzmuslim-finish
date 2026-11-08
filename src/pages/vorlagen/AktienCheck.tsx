@@ -119,7 +119,7 @@ const AktienCheck = () => (
         </div>
       </section>
 
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Warum zwei Apps sich widersprechen</h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
           Die Prozentgrenze ist das eine, der Nenner das andere. Manche Standards rechnen gegen die

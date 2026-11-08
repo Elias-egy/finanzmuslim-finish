@@ -129,10 +129,8 @@
     padding-inline: 0.625rem;
     height: 52px;
     translate: 0 8px;
-    border-radius: 12px;
-    box-shadow:
-      0 12px 30px -14px rgb(0 0 0 / 0.5),
-      inset 0 0 0 1px rgb(255 255 255 / 0.18);
+    border-radius: 6px;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
   }
   @media (min-width: 768px) {
     .beitragskopf.ist-eng .beitragskopf-innen {
@@ -162,7 +160,7 @@
     /* finanzmuslim — helles, sachliches Finanzportal.
        Flaechensystem: die Grundflaeche der Seite ist ein sehr helles Grau,
        Inhalte liegen darauf als weisse Karten mit feinem Rahmen. */
-    --background: 220 20% 98%;
+    --background: 0 0% 100%;
     --foreground: 222 30% 12%;
 
     --card: 0 0% 100%;
@@ -203,7 +201,7 @@
     --nav: 0 0% 100%;
     --nav-foreground: 222 30% 12%;
     /* Grundflaeche = Seitenhintergrund. Kein Wechsel mehr zwischen hell/dunkel. */
-    --surface: 220 20% 98%;
+    --surface: 0 0% 100%;
     /* Sehr blasse Toenung der Primaerfarbe, nur fuer die Hero-Flaeche. */
     --hero: 219 100% 96%;
 
@@ -227,7 +225,7 @@
     --asset-gold: 42 78% 48%;
     --asset-silber: 220 8% 62%;
 
-    --radius: 0.5rem;
+    --radius: 6px;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -275,12 +273,12 @@
   }
   /* Weisse Karte auf grauer Grundflaeche: feiner Rahmen, 12px Radius, kein Schatten. */
   .card-surface {
-    @apply rounded-2xl border border-border bg-card;
+    @apply rounded-lg border border-border bg-card;
   }
   /* Abschnittskarte der Startseite. Handy: 24px ringsum, wie bei Finanzfluss.
      Desktop: 64px oben/unten, Inhalt auf 1200px zentriert. */
   .section-card {
-    @apply rounded-2xl bg-card p-6 md:px-10 md:py-16;
+    @apply rounded-lg border border-border bg-card p-6 md:px-10 md:py-16;
   }
   .section-inner {
     @apply mx-auto w-full max-w-[1200px];
@@ -304,7 +302,7 @@
      Farbe sitzt nur in der grossen Zahl und in den Daten darunter. */
   .ergebnis-karte {
     --zahl: var(--primary);
-    @apply rounded-[1.5rem] border border-primary/15 bg-accent p-6 text-foreground md:p-7;
+    @apply rounded-lg border border-border bg-card p-6 text-foreground md:p-7;
   }
   .ergebnis-karte[data-ton="gewinn"] { --zahl: var(--gain); }
   .ergebnis-karte[data-ton="verlust"] { --zahl: var(--loss); }
@@ -317,80 +315,46 @@
   .ergebnis-satz strong, .ergebnis-karte strong { @apply font-bold text-foreground; }
 
   /* Haupt-Aufruf zur Geldquelle. Fassung 2: im Branding (Signalblau) statt Gold, Gold war zu laut.
-     Groesser und runder als .btn-primary, mit weichem Schatten. Hoechstens einer je Bildschirm. */
+     Wie .btn-primary, 6px Radius, ohne Schatten. Hoechstens einer je Bildschirm. */
   .btn-spark {
-    @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-[17px] font-bold text-primary-foreground shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.8)] transition hover:bg-primary-hover hover:-translate-y-px sm:w-auto;
+    @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 text-[17px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto;
   }
-  /* Leuchtender Haupt-Knopf der Opt-in-Strecke (Elias, 08.10.2026, Vorbild SKAILE-Danke-Seite):
-     Verlauf, helle Oberkante, dunkle Unterkante, weicher Schein darunter, dazu alle paar
-     Sekunden ein Lichtstreif. Der hellste Ton des Verlaufs hält Weiß bei 4,5:1. */
+  /* Haupt-Knopf der Opt-in-Strecke. Seit SEO78 flach: Signalblau, 6px Radius, kein Verlauf, kein Schein. */
   .btn-leuchte {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl font-bold text-primary-foreground transition;
-    background: linear-gradient(180deg, #1f6bff 0%, hsl(var(--primary)) 55%, hsl(219 100% 43%) 100%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.55),
-      inset 0 -1px 0 rgb(0 0 0 / 0.14),
-      0 5px 0 0 hsl(219 100% 34%),
-      0 18px 34px -10px hsl(var(--primary) / 0.75),
-      0 0 30px 0 hsl(219 100% 62% / 0.38);
-  }
-  .btn-leuchte:hover {
-    transform: translateY(-1px);
-  }
-  .btn-leuchte:active {
-    transform: translateY(3px);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.55),
-      0 2px 0 0 hsl(219 100% 34%),
-      0 8px 18px -10px hsl(var(--primary) / 0.7);
-  }
-  .btn-leuchte::after {
-    content: "";
-    position: absolute;
-    top: -30%;
-    bottom: -30%;
-    left: 0;
-    width: 34%;
-    pointer-events: none;
-    background: linear-gradient(100deg, transparent 0%, rgb(255 255 255 / 0.26) 50%, transparent 100%);
-    transform: translateX(-160%) skewX(-18deg);
-    animation: leuchte-streif 5s ease-in-out 1.2s infinite;
-  }
-  .btn-leuchte:disabled::after {
-    animation: none;
+    @apply relative inline-flex items-center justify-center gap-2 rounded-lg bg-primary font-bold text-primary-foreground transition-colors hover:bg-primary-hover;
   }
   .btn-primary {
     @apply inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-6 text-[18px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto;
   }
   /* Zeilenkachel: Symbol, Beschriftung, Chevron. Handy-Grundbaustein. */
   .row-tile {
-    @apply flex min-h-[76px] min-w-0 items-center gap-3 rounded-2xl border border-border bg-card px-4 transition-colors hover:border-primary;
+    @apply flex min-h-[76px] min-w-0 items-center gap-3 rounded-lg border border-border bg-card px-4 transition-colors hover:border-primary;
   }
   /* Platzhalter fuer noch fehlende Bilder: blasse Primaertoenung, 16px Radius. */
   .image-placeholder {
-    @apply flex items-center justify-center rounded-2xl bg-hero p-6 text-center text-[15px] text-muted-foreground;
+    @apply flex items-center justify-center rounded-lg border border-border bg-card p-6 text-center text-[15px] text-muted-foreground;
   }
   /* Hinweis-Etiketten (Neu, Anzeige, Kostenlos, In Arbeit): dunkle Flaeche, weisse Schrift. */
   .badge-note {
-    @apply inline-flex items-center rounded-md bg-foreground px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-background;
+    @apply inline-flex items-center rounded bg-foreground px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-background;
   }
   /* Einzige Ausnahme: "bald" bleibt grau und zurueckhaltend. */
   .badge-soon {
-    @apply inline-flex items-center rounded-md border border-border bg-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground;
+    @apply inline-flex items-center rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground;
   }
-  /* "Neu"-Etikett: violetter Pill, nie klickbar, nie fuer Bewertungen. */
+  /* "Neu"-Etikett: violetter Block mit 4px Radius, nie klickbar, nie fuer Bewertungen. */
   .badge-new {
-    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-violet px-2 py-0.5 text-[12px] font-bold uppercase tracking-wide text-violet-foreground;
+    @apply pointer-events-none inline-flex select-none items-center rounded bg-violet px-2 py-0.5 text-[12px] font-bold uppercase tracking-wide text-violet-foreground;
   }
   /* Invertierte Variante fuer den violetten Hinweisstreifen. */
   .badge-new-inverted {
-    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet;
+    @apply pointer-events-none inline-flex select-none items-center rounded bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet;
   }
 
   /* Hero-Flaeche der Startseite, volle Breite, unten abgerundet. */
   .hero-surface {
-    background-color: hsl(var(--hero));
-    @apply rounded-b-[2rem];
+    background-color: hsl(var(--card));
+    @apply rounded-b-lg;
   }
 }
 
@@ -423,22 +387,9 @@
   /* Gründer-Karussell: einmaliger Licht-Sweep über die aktive Karte.
      Bewusst KEIN Loop — läuft nur beim Aktivwerden (gemounteter Overlay-Div)
      und beim Hover-Eintritt (CSS-Regel unten). */
+  /* Kein Lichtstreif mehr (SEO78): Klasse bleibt, zeigt nichts. */
   .card-shine {
-    position: absolute;
-    top: -20%;
-    bottom: -20%;
-    left: 0;
-    width: 38%;
-    pointer-events: none;
-    background: linear-gradient(
-      100deg,
-      transparent 0%,
-      hsl(var(--primary) / 0.06) 40%,
-      hsl(var(--primary) / 0.14) 50%,
-      hsl(var(--primary) / 0.06) 60%,
-      transparent 100%
-    );
-    transform: translateX(-140%) skewX(-16deg);
+    display: none;
   }
   .card-shine-enter {
     animation: card-shine 1.15s 0.25s cubic-bezier(0.3, 0, 0.2, 1) forwards;
@@ -479,63 +430,19 @@
   .laufband { animation: none; }
 }
 
-/* Lichtstreif über dem leuchtenden Knopf: ein kurzer Durchlauf, dann vier Sekunden Ruhe. */
-@keyframes leuchte-streif {
-  0% { transform: translateX(-160%) skewX(-18deg); }
-  22%, 100% { transform: translateX(420%) skewX(-18deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .btn-leuchte::after { animation: none; }
-}
-
-/* Glanz um den Kasten „Dein nächster Schritt“ (Elias, 01.11.2026, MC7d15: „alle Werbung für diesen fortgeschrittenen
-   Guide … so wie so ein Glänzeffekt drumherum“): ein Lichtbogen läuft langsam um den Rand, über das Deckblatt zieht
-   ab und zu ein Streif. Steht still bei reduzierter Bewegung und im PDF. */
-@property --glanz-winkel {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
+/* Stil-Vereinheitlichung (SEO78): kein Lichtstreif, kein Glanz, kein Verlauf mehr. Die Klassennamen
+   bleiben, damit keine Seite bricht. */
 .guide-glanz { position: relative; isolation: isolate; }
 .guide-glanz::before {
   content: "";
   position: absolute;
-  inset: -2px;
+  inset: 0;
   border-radius: inherit;
-  padding: 2px;
-  background: conic-gradient(
-    from var(--glanz-winkel),
-    hsl(var(--primary) / 0.15) 0deg,
-    hsl(var(--primary) / 0.15) 200deg,
-    hsl(var(--primary)) 260deg,
-    #ffffff 290deg,
-    hsl(var(--violet)) 320deg,
-    hsl(var(--primary) / 0.15) 360deg
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  animation: glanz-rund 5s linear infinite;
+  border: 1px solid hsl(var(--primary) / 0.5);
   pointer-events: none;
   z-index: 1;
 }
-@keyframes glanz-rund { to { --glanz-winkel: 360deg; } }
 .glanz-bild { position: relative; overflow: hidden; }
-.glanz-bild::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 40%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.75), transparent);
-  transform: translateX(-160%) skewX(-18deg);
-  animation: leuchte-streif 4.5s 1s ease-in-out infinite;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .guide-glanz::before, .glanz-bild::after { animation: none; }
-  .glanz-bild::after { display: none; }
-}
 html[data-druck] .guide-glanz::before { display: none; }
 html[data-druck] .guide-glanz { box-shadow: inset 0 0 0 2px hsl(var(--primary) / 0.35); }
 html[data-druck] .glanz-bild::after { display: none; }
@@ -572,9 +479,11 @@ html[data-druck] section:has(> div > [data-depot-aufruf]) { break-before: page; 
 html[data-druck] div > [data-depot-aufruf] { break-before: auto; }
 html[data-druck] p:has(+ h2),
 html[data-druck] p:has(+ h3) { break-after: avoid; }
+/* Seit SEO78 gibt es nur noch eine Ecke (rounded-lg); die alten Größen stehen für Bestand mit. */
 html[data-druck] .rounded-xl,
 html[data-druck] .rounded-2xl,
-html[data-druck] .rounded-3xl:not([data-depot-aufruf]):not([data-depot-kasten]) { break-inside: avoid; }
+html[data-druck] .rounded-3xl:not([data-depot-aufruf]):not([data-depot-kasten]),
+html[data-druck] .rounded-lg:not([data-depot-aufruf]):not([data-depot-kasten]) { break-inside: avoid; }
 
 /* Dua-PDF (MC7g, Elias 02.11.2026: „die Duas müssen eine anständige PDF sein“, Vault
    raw/2026-11-02-elias-mc7f-pdf-nur-duas-keine-kleinigkeiten.md). Nur die Druckfassung: Deckblatt allein, jedes

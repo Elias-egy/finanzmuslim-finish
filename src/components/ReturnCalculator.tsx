@@ -457,7 +457,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   }
 
   const inputCls =
-    "w-full rounded-2xl border border-border/70 bg-white px-4 py-3 text-base font-semibold text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all";
+    "w-full rounded-lg border border-border bg-white px-4 py-3 text-base font-semibold text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all";
 
   const builderTotal = ASSETS.reduce((s, a) => s + customAlloc[a.key], 0);
   const builderPortfolio = useMemo(() => computePortfolio(customAlloc), [customAlloc]);
@@ -465,7 +465,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   return (
     <section
       id="rechner"
-      className="bg-gradient-to-b from-surface via-surface to-background md:-mt-7 pt-0 md:pt-0 pb-2 md:pb-3"
+      className="bg-background md:-mt-7 pt-0 md:pt-0 pb-2 md:pb-3"
     >
       <div className="container max-w-6xl px-0 md:px-6">
         {showHeader && (
@@ -483,7 +483,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
         )}
 
         {/* Compact input row */}
-        <div ref={inputCardRef} className="reveal rounded-[1.5rem] bg-card border border-border/70 p-4 md:p-5 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)] scroll-mt-20">
+        <div ref={inputCardRef} className="reveal rounded-lg bg-card border border-border p-4 md:p-5 scroll-mt-20">
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {/* Einmalige Einzahlung */}
@@ -581,12 +581,12 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </div>
           </div>
 
-          {/* Highlighted CTA: eigenes Portfolio bauen (4 Asset-Farben + einmaliger Gold-Shine) */}
+          {/* Highlighted CTA: eigenes Portfolio bauen (4 Asset-Farben) */}
           {!builderOpen && (
             <button
               type="button"
               onClick={openBuilder}
-              className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.55)] focus-visible:border-primary"
+              className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary focus-visible:border-primary"
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
                 {ASSETS.map((a) => (
@@ -606,9 +606,6 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 </span>
               </span>
               <ArrowRight className="h-4 w-4 text-primary shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
-              {mode !== "custom" && (
-                <span className="card-shine card-shine-enter" aria-hidden />
-              )}
             </button>
           )}
 
@@ -644,7 +641,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 />
               </button>
               {anlagenOffen && (
-                <div className="border-t border-border/70 px-3 pb-3 pt-3 md:px-4">
+                <div className="border-t border-border px-3 pb-3 pt-3 md:px-4">
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
                     {anlagenMitLogo.map(({ option, anlage }) => {
                       const aktiv = mode === "anlage" && anlageIsin === option.isin;
@@ -654,7 +651,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                           type="button"
                           onClick={() => selectAnlage(option.isin)}
                           aria-pressed={aktiv}
-                          className={`flex items-center gap-2.5 rounded-xl border bg-white p-2.5 text-left transition hover:border-primary ${
+                          className={`flex items-center gap-2.5 rounded-lg border bg-white p-2.5 text-left transition hover:border-primary ${
                             aktiv ? "border-primary ring-2 ring-primary/25" : "border-border"
                           }`}
                         >
@@ -698,14 +695,14 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
           {/* Custom portfolio builder */}
           {builderOpen && (
-            <div className="mt-4 rounded-2xl border border-border/70 bg-white p-4 md:p-5">
+            <div className="mt-4 rounded-lg border border-border bg-white p-4 md:p-5">
               <div className="flex items-baseline justify-between mb-3">
                 <h4 className="text-sm font-bold text-foreground">Eigenes Portfolio</h4>
                 <span className="text-[11px] text-muted-foreground">Summe: {builderTotal}%</span>
               </div>
 
               <div
-                className="h-6 w-full rounded-full overflow-hidden flex border border-border/60"
+                className="h-6 w-full rounded overflow-hidden flex border border-border"
                 role="img"
                 aria-label="Portfolio Aufteilung"
               >
@@ -749,7 +746,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                             const v = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
                             setCustomAlloc((prev) => ({ ...prev, [a.key]: v }));
                           }}
-                          className="w-16 rounded-lg border border-border/70 bg-white px-2 py-1 text-[16px] font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          className="w-16 rounded-lg border border-border bg-white px-2 py-1 text-[16px] font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                         <span className="text-xs text-muted-foreground">%</span>
                       </div>
@@ -773,19 +770,19 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               </div>
 
               <div className="mt-4 grid grid-cols-3 gap-3 text-[12px]">
-                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
+                <div className="rounded-lg bg-surface border border-border px-3 py-2">
                   <div className="text-muted-foreground">Portfoliorendite</div>
                   <div className="text-sm font-bold text-primary">≈ {fmtPct(builderPortfolio.ret * 100)}% p.a.</div>
                 </div>
-                <div className="rounded-xl bg-surface border border-border/50 px-3 py-2">
+                <div className="rounded-lg bg-surface border border-border px-3 py-2">
                   <div className="text-muted-foreground">Volatilität</div>
                   <div className="text-sm font-bold text-foreground">≈ {fmtPct(builderPortfolio.vol * 100)}% p.a.</div>
                 </div>
                 <div
-                  className={`rounded-xl border px-3 py-2 ${
+                  className={`rounded-lg border px-3 py-2 ${
                     builderTotal === 100
                       ? "bg-primary/5 border-primary/30"
-                      : "bg-surface border-border/50"
+                      : "bg-surface border-border"
                   }`}
                   aria-live="polite"
                 >
@@ -823,7 +820,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   onClick={applyCustom}
                   disabled={builderTotal !== 100}
                   aria-disabled={builderTotal !== 100}
-                  className="rounded-lg bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary-glow transition shadow-[0_10px_25px_-12px_hsl(var(--primary)/0.6)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary"
+                  className="rounded-lg bg-primary px-5 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary-glow transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary"
                 >
                   Übernehmen
                 </button>
@@ -834,7 +831,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
         {/* Chart + results */}
         <div className="mt-3 md:mt-4 grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-5">
-          <div ref={chartCardRef} className="reveal rounded-[1.5rem] bg-card border border-border/70 p-4 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)]">
+          <div ref={chartCardRef} className="reveal rounded-lg bg-card border border-border p-4 md:p-6">
             {/* Handy: Zeitraum unter die Ueberschrift, sonst stossen beide zusammen. */}
             <div className="mb-2 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
               <h2 className="headline text-lg md:text-xl">Portfolioentwicklung</h2>
@@ -904,7 +901,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </div>
           </div>
 
-          <div className="reveal rounded-[1.5rem] bg-card border border-border/70 p-5 md:p-6 shadow-[0_20px_50px_-30px_rgba(80,60,20,0.25)] flex flex-col">
+          <div className="reveal rounded-lg bg-card border border-border p-5 md:p-6 flex flex-col">
             <div>
               <div className="text-[11px] font-semibold tracking-wide text-muted-foreground">
                 Geschätzter Portfoliowert
@@ -915,22 +912,22 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             </div>
 
             <div className="mt-5 space-y-3 text-sm">
-              <div className="flex items-center justify-between border-t border-border/50 pt-3">
+              <div className="flex items-center justify-between border-t border-border pt-3">
                 <span className="text-muted-foreground">Gesamt eingezahlt</span>
                 <span className="font-bold text-foreground">{formatEuro(totalContributed)}</span>
               </div>
-              <div className="-mx-2 flex items-center justify-between rounded-xl bg-gain-soft px-2 py-2.5">
+              <div className="-mx-2 flex items-center justify-between rounded-lg bg-gain-soft px-2 py-2.5">
                 <span className="font-medium text-gain">Geschätzter Gewinn</span>
                 <span className="text-[17px] font-extrabold text-gain">+{formatEuro(estimatedProfit)}</span>
               </div>
-              <div className="flex items-center justify-between border-t border-border/50 pt-3">
+              <div className="flex items-center justify-between border-t border-border pt-3">
                 <span className="text-muted-foreground">Verwendete Rendite</span>
                 <span className="font-bold text-foreground">
                   {mode === "own" ? `${fmtPct(ownRate)}% p.a.` : `≈ ${fmtPct(annual * 100)}% p.a.`}
                 </span>
               </div>
               {portfolio && (
-                <div className="flex items-start justify-between gap-3 border-t border-border/50 pt-3">
+                <div className="flex items-start justify-between gap-3 border-t border-border pt-3">
                   <span className="text-muted-foreground">Geschätzte Volatilität</span>
                   <span className="font-bold text-foreground text-right">
                     {`≈ ${fmtPct((portfolio.vol ?? 0) * 100)}% p.a.`}
@@ -987,7 +984,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             maxWidth: "calc(100vw - 16px)",
             zIndex: 1000,
           }}
-          className="max-h-[min(70vh,560px)] overflow-y-auto rounded-2xl border border-border/70 bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)]"
+          className="max-h-[min(70vh,560px)] overflow-y-auto rounded-lg border border-border bg-white"
           role="listbox"
         >
           <button
@@ -1005,7 +1002,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 key={k}
                 type="button"
                 onClick={() => selectPreset(k)}
-                className={`w-full text-left px-4 py-3 text-sm border-t border-border/50 hover:bg-primary/5 transition ${mode === k ? "bg-primary/5" : ""}`}
+                className={`w-full text-left px-4 py-3 text-sm border-t border-border hover:bg-primary/5 transition ${mode === k ? "bg-primary/5" : ""}`}
               >
                 <div className="font-semibold text-foreground">{p.label}</div>
                 <div className="text-[11px] text-muted-foreground">Langfristige Renditeannahme</div>
@@ -1014,7 +1011,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
           })}
           {anlagenOptionen.length > 0 && (
             <>
-              <div className="border-t border-border/50 bg-surface px-4 py-2">
+              <div className="border-t border-border bg-surface px-4 py-2">
                 <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
                   Geprüfte Anlagen
                 </p>
@@ -1027,7 +1024,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   key={a.isin}
                   type="button"
                   onClick={() => selectAnlage(a.isin)}
-                  className={`w-full border-t border-border/50 px-4 py-3 text-left text-sm transition hover:bg-primary/5 ${
+                  className={`w-full border-t border-border px-4 py-3 text-left text-sm transition hover:bg-primary/5 ${
                     mode === "anlage" && anlageIsin === a.isin ? "bg-primary/5" : ""
                   }`}
                 >

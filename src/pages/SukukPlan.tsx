@@ -82,7 +82,7 @@ const SukukPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Sukuk statt Anleihe</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat anlegen?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat anlegen?">
@@ -92,7 +92,7 @@ const SukukPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -115,7 +115,7 @@ const SukukPlan = () => {
 
         <section className="reveal mt-10" aria-labelledby="anleihe">
           <Titel id="anleihe">Eine Anleihe ist ein Kredit</Titel>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
+          <div className="mt-4 flex gap-3 rounded-lg bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ}</p>
@@ -126,7 +126,7 @@ const SukukPlan = () => {
 
         <section className="reveal mt-12" aria-labelledby="anteil">
           <Titel id="anteil">Ein Sukuk ist ein Anteil</Titel>
-          <p className="mt-3 rounded-2xl bg-accent p-4 text-[19px] font-extrabold leading-snug text-foreground">{MERKSATZ}</p>
+          <p className="mt-3 rounded-lg border border-border bg-card p-4 text-[19px] font-extrabold leading-snug text-foreground">{MERKSATZ}</p>
           <figure className="card-surface mt-3 p-4">
             <IlluSukuk className="mx-auto w-full max-w-[420px]" />
             <figcaption className="mt-2 text-[14px] leading-snug text-foreground/80">{BILD_SATZ}</figcaption>
@@ -141,11 +141,11 @@ const SukukPlan = () => {
               <div key={z.frage} className="card-surface p-4">
                 <p className="text-[15px] font-bold text-foreground">{z.frage}</p>
                 <div className="mt-2 grid grid-cols-2 gap-2">
-                  <div className="rounded-xl bg-loss-soft p-3">
+                  <div className="rounded-lg bg-loss-soft p-3">
                     <p className="text-[12px] font-bold text-loss">Anleihe</p>
                     <p className="mt-1 text-[15px] leading-snug text-foreground">{z.anleihe}</p>
                   </div>
-                  <div className="rounded-xl bg-accent p-3">
+                  <div className="rounded-lg border border-border bg-card p-3">
                     <p className="text-[12px] font-bold text-primary">Sukuk</p>
                     <p className="mt-1 text-[15px] font-semibold leading-snug text-foreground">{z.sukuk}</p>
                   </div>
@@ -153,7 +153,7 @@ const SukukPlan = () => {
               </div>
             ))}
           </div>
-          <p className="mt-3 rounded-xl bg-accent p-3 text-[15px] leading-snug text-foreground">
+          <p className="mt-3 rounded-lg border border-border bg-card p-3 text-[15px] leading-snug text-foreground">
             <strong>Was du erwarten kannst:</strong> {ERWARTUNG}
           </p>
         </section>

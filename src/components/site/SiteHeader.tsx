@@ -179,7 +179,7 @@ export const SiteHeader = () => {
 
         {/* Mega-Menü */}
         {openGroup && (
-          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-card border-b border-border shadow-[0_12px_28px_-18px_rgba(0,0,0,0.35)]">
+          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-card border-b border-border shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
             <div className="container py-8">
               <div className="grid grid-cols-4 gap-8">
                 {navGroups

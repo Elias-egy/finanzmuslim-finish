@@ -29,7 +29,7 @@ const Tagesgewinner = () => {
   }, [suche]);
 
   return (
-    <div className="w-full min-w-0 rounded-2xl border border-border bg-card p-4 lg:w-[500px] lg:p-6">
+    <div className="w-full min-w-0 rounded-lg border border-border bg-card p-4 lg:w-[500px] lg:p-6">
       <div className="flex items-center justify-between gap-3">
         <h3 className="text-[15px] font-bold text-foreground">Tagesgewinner</h3>
       </div>

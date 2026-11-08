@@ -39,7 +39,7 @@ const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 const parseEuro = (text: string) => {
   const v = parseFloat(text.replace(/\./g, "").replace(",", "."));
@@ -86,7 +86,7 @@ const Kachel = ({
 }) => {
   const ton = fakt.ton ?? "grau";
   return (
-    <div className={`rounded-2xl border bg-white transition ${offen ? "border-primary/50" : "border-border"}`}>
+    <div className={`rounded-lg border bg-white transition ${offen ? "border-primary/50" : "border-border"}`}>
       <button
         type="button"
         onClick={onToggle}
@@ -109,7 +109,7 @@ const Kachel = ({
         />
       </button>
       {offen && (
-        <div className="border-t border-border/70 px-4 py-3.5">
+        <div className="border-t border-border px-4 py-3.5">
           <p className="text-[14px] leading-relaxed text-foreground/85">{fakt.detail}</p>
           <a
             href={fakt.quelle.url}
@@ -149,7 +149,7 @@ const Wahl = <T extends string>({
           type="button"
           onClick={() => setWert(o.wert)}
           aria-pressed={wert === o.wert}
-          className={`rounded-xl border px-3 py-2.5 text-left transition ${
+          className={`rounded-lg border px-3 py-2.5 text-left transition ${
             wert === o.wert ? "border-primary bg-white" : "border-border bg-white/60 hover:border-primary/40"
           }`}
         >
@@ -188,7 +188,7 @@ const JaNein = ({
           type="button"
           onClick={() => setWert(wert === v ? null : v)}
           aria-pressed={wert === v}
-          className={`rounded-xl border px-3 py-2.5 text-[13px] font-semibold transition ${
+          className={`rounded-lg border px-3 py-2.5 text-[13px] font-semibold transition ${
             wert === v ? "border-primary bg-white text-foreground" : "border-border bg-white/60 text-foreground hover:border-primary/40"
           }`}
         >
@@ -224,7 +224,7 @@ const Klappe = ({
   toene?: Ton[];
   children: ReactNode;
 }) => (
-  <details className="group mt-3 rounded-2xl border border-border bg-white open:border-primary/40">
+  <details className="group mt-3 rounded-lg border border-border bg-white open:border-primary/40">
     <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 md:px-5 [&::-webkit-details-marker]:hidden">
       <span
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-[20px] leading-none"
@@ -245,7 +245,7 @@ const Klappe = ({
       )}
       <ChevronDown className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-180" aria-hidden />
     </summary>
-    <div className="border-t border-border/70 px-4 pb-5 pt-4 md:px-5">{children}</div>
+    <div className="border-t border-border px-4 pb-5 pt-4 md:px-5">{children}</div>
   </details>
 );
 
@@ -433,7 +433,7 @@ const AuswanderungsRechner = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Wohin soll es gehen?</h2>
 
           <div className="mt-5 grid grid-cols-3 gap-2 md:gap-3">
@@ -445,7 +445,7 @@ const AuswanderungsRechner = () => {
                   type="button"
                   onClick={() => setLandId(l.id)}
                   aria-pressed={aktiv}
-                  className={`flex flex-col items-center rounded-2xl border px-2 py-4 transition ${
+                  className={`flex flex-col items-center rounded-lg border px-2 py-4 transition ${
                     aktiv ? "border-primary bg-accent" : "border-border bg-white/60 hover:border-primary/40"
                   }`}
                 >
@@ -501,7 +501,7 @@ const AuswanderungsRechner = () => {
               ]}
             />
 
-            <div className="rounded-xl border border-border/70 bg-white/60">
+            <div className="rounded-lg border border-border bg-white/60">
               <button
                 type="button"
                 onClick={() => setMehrOffen((o) => !o)}
@@ -515,7 +515,7 @@ const AuswanderungsRechner = () => {
                 />
               </button>
               {mehrOffen && (
-                <div className="space-y-5 border-t border-border/70 px-4 py-4">
+                <div className="space-y-5 border-t border-border px-4 py-4">
                   <div>
                     <label className="block text-[15px] font-semibold text-foreground" htmlFor="depot">
                       Was du für deine ETF- und Fondsanteile bezahlt hast
@@ -608,7 +608,7 @@ const AuswanderungsRechner = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border/70 bg-white p-5">
+          <div className="rounded-lg border border-border bg-white p-5">
             <p className="text-[13px] font-semibold text-foreground">Preisniveau, Deutschland = 100</p>
             <div className="mt-2 h-[132px] w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -655,7 +655,7 @@ const AuswanderungsRechner = () => {
       <div className="mt-10">
         <h2 className="headline text-xl md:text-2xl">Die drei Länder auf einen Blick</h2>
         <p className="mt-1 text-[14px] text-muted-foreground">Tipp auf ein Land, dann rechnet alles oben mit.</p>
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-border/70 bg-white">
+        <div className="mt-4 overflow-x-auto rounded-lg border border-border bg-white">
           <table className="w-full min-w-[560px] border-collapse text-[13px]">
             <thead>
               <tr>
@@ -666,7 +666,7 @@ const AuswanderungsRechner = () => {
                       type="button"
                       onClick={() => setLandId(l.id)}
                       aria-pressed={l.id === land.id}
-                      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[13px] font-bold transition ${
+                      className={`inline-flex items-center gap-2 rounded border px-3 py-1.5 text-[13px] font-bold transition ${
                         l.id === land.id ? "border-primary bg-accent text-foreground" : "border-border bg-white text-foreground hover:border-primary/40"
                       }`}
                     >
@@ -679,11 +679,11 @@ const AuswanderungsRechner = () => {
             </thead>
             <tbody>
               {blick.map((zeile) => (
-                <tr key={zeile.titel} className="border-t border-border/70">
+                <tr key={zeile.titel} className="border-t border-border">
                   <td className="px-4 py-3 font-semibold text-foreground">{zeile.titel}</td>
                   {zeile.zellen.map((z, i) => (
                     <td key={i} className={`px-3 py-3 text-center ${laender[i].id === land.id ? "bg-accent/50" : ""}`}>
-                      <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[12px] font-semibold ${tonFlaeche[z.ton]}`}>
+                      <span className={`inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-[12px] font-semibold ${tonFlaeche[z.ton]}`}>
                         <span className={`h-2 w-2 rounded-full ${tonPunkt[z.ton]}`} aria-hidden />
                         {z.text}
                       </span>
@@ -715,7 +715,7 @@ const AuswanderungsRechner = () => {
             return (
               <div
                 key={z.id}
-                className={`rounded-2xl border bg-white transition ${istOffen ? "border-primary/50" : "border-border"}`}
+                className={`rounded-lg border bg-white transition ${istOffen ? "border-primary/50" : "border-border"}`}
               >
                 <button
                   type="button"
@@ -726,7 +726,7 @@ const AuswanderungsRechner = () => {
                   <span className={`h-3 w-3 shrink-0 rounded-full ${tonPunkt[z.ton]}`} aria-hidden />
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] font-bold leading-snug text-foreground">{z.titel}</span>
-                    <span className={`mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-semibold ${tonFlaeche[z.ton]}`}>
+                    <span className={`mt-1 inline-flex items-center gap-1 rounded px-2 py-0.5 text-[12px] font-semibold ${tonFlaeche[z.ton]}`}>
                       <TonIcon ton={z.ton} />
                       {z.wort}
                     </span>
@@ -737,7 +737,7 @@ const AuswanderungsRechner = () => {
                   />
                 </button>
                 {istOffen && (
-                  <div className="border-t border-border/70 px-4 py-3.5">
+                  <div className="border-t border-border px-4 py-3.5">
                     <p className="text-[14px] leading-relaxed text-foreground/85">{z.detail}</p>
                     <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[12px]">
                       {z.quellen.map((q) => (
@@ -760,7 +760,7 @@ const AuswanderungsRechner = () => {
         </div>
 
       {/* ── Zeitstrahl ─────────────────────────────────────────────── */}
-      <div className="mt-5 rounded-2xl border border-border/70 bg-surface p-4 md:p-5">
+      <div className="mt-5 rounded-lg border border-border bg-surface p-4 md:p-5">
         <p className="text-[15px] font-bold text-foreground">Wie lange Deutschland noch mitredet</p>
         <p className="mt-1 text-[13px] text-muted-foreground">Jahre nach dem Wegzug. Grau heißt: gilt nach deinen Angaben nicht für dich.</p>
         <div className="mt-4 space-y-3">
@@ -769,9 +769,9 @@ const AuswanderungsRechner = () => {
               <span className={`text-[13px] font-semibold ${z.aktiv ? "text-foreground" : "text-muted-foreground"}`}>
                 {z.label}
               </span>
-              <div className="relative h-7 rounded-full bg-muted">
+              <div className="relative h-7 rounded bg-muted">
                 <div
-                  className={`absolute left-0 top-0 h-7 rounded-full ${z.aktiv ? tonPunkt[z.ton] : "bg-muted-foreground/25"}`}
+                  className={`absolute left-0 top-0 h-7 rounded ${z.aktiv ? tonPunkt[z.ton] : "bg-muted-foreground/25"}`}
                   style={{ width: `${(z.jahre / 10) * 100}%` }}
                 />
                 <span
@@ -808,7 +808,7 @@ const AuswanderungsRechner = () => {
         </div>
 
         {land.id === "tr" && (
-          <div className="mt-4 rounded-2xl border border-border/70 bg-white p-5">
+          <div className="mt-4 rounded-lg border border-border bg-white p-5">
             <p className="text-[13px] font-semibold text-foreground">Inflation in der Türkei, Prozent je Jahr</p>
             <div className="mt-2 h-[120px] w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -857,7 +857,7 @@ const AuswanderungsRechner = () => {
         </div>
       </Klappe>
 
-      <div className="mt-8 flex items-start gap-2.5 rounded-2xl border border-border/70 bg-surface p-5">
+      <div className="mt-8 flex items-start gap-2.5 rounded-lg border border-border bg-surface p-5">
         <Minus className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
         <p className="text-[13px] leading-relaxed text-muted-foreground">
           Das ist eine Einordnung, keine Steuerberatung und keine Fatwa. Wer wirklich geht, spricht vorher

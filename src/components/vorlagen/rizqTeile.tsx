@@ -32,7 +32,7 @@ export const RIZQ_CTAS = [
  * Vorgerede“): ein Balken in fünf Farben, Geld ist ein Teil davon.
  */
 export const RizqWarum = () => (
-  <section className="rounded-3xl bg-accent p-5 md:p-6" aria-labelledby="rizq-warum">
+  <section className="rounded-lg border border-border bg-card p-5 md:p-6" aria-labelledby="rizq-warum">
     <h2 id="rizq-warum" className="text-[22px] font-extrabold leading-tight text-foreground">
       Warum Rizq mehr ist als Geld
     </h2>
@@ -65,7 +65,7 @@ const RIZQ_TEILE = [
 ];
 
 export const RizqHinweis = () => (
-  <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
+  <section className="rounded-lg border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
     <h2 className="text-xl font-bold text-foreground">Ein Hinweis, der zu diesem Blatt gehört</h2>
     <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
       Der arabische Wortlaut ist nach den oben genannten Quellen wiedergegeben. Prüfe ihn vor dem Auswendiglernen an einem

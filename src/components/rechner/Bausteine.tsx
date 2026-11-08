@@ -32,7 +32,7 @@ export const dauerText = (monate: number, dativ = true) => {
 };
 
 export const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 export const EuroFeld = ({
   id,
@@ -106,7 +106,7 @@ export const Regler = ({
       step={schritt}
       value={wert}
       onChange={(e) => setWert(Number(e.target.value))}
-      className="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-accent accent-primary"
+      className="mt-3 h-2 w-full cursor-pointer appearance-none rounded bg-accent accent-primary"
     />
     {hinweis && <p className="mt-2 text-[13px] text-muted-foreground">{hinweis}</p>}
   </div>
@@ -140,7 +140,7 @@ export const Wahl = <T extends string>({
           type="button"
           onClick={() => setWert(o.wert)}
           aria-pressed={wert === o.wert}
-          className={`flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition ${
+          className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition ${
             wert === o.wert ? "border-primary bg-accent" : "border-border bg-white/60 hover:border-primary/40"
           }`}
         >

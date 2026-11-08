@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { ArrowRight } from "lucide-react";
 
@@ -19,7 +19,7 @@ const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Steht ausserhalb der Rechner-Komponente, sonst verliert das Feld bei jedem
  *  Tastendruck den Fokus. Derselbe Fehler wie im Zakat-Rechner. */
@@ -59,7 +59,7 @@ const Regler = ({
       step={schritt}
       value={wert}
       onChange={(e) => setWert(Number(e.target.value))}
-      className="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-accent accent-primary"
+      className="mt-3 h-2 w-full cursor-pointer appearance-none rounded bg-accent accent-primary"
     />
   </div>
 );
@@ -91,7 +91,7 @@ const InflationsRechner = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Dein Geld auf dem Konto</h2>
 
           <div className="mt-6 space-y-6">
@@ -200,18 +200,15 @@ const InflationsRechner = () => {
             </p>
           </div>
 
-          <Link
-            to="/renditerechner"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
-          >
-            <span className="text-[14px] font-semibold text-foreground">
+          <Aufruf to="/renditerechner" className="block">
+            <span className="flex-1 text-left">
               Sieh, wie dein Geld stattdessen wachsen kann
             </span>
             <ArrowRight
-              className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5"
+              className="h-4 w-4 shrink-0"
               aria-hidden
             />
-          </Link>
+          </Aufruf>
         </div>
       </div>
     </section>

@@ -37,7 +37,7 @@ const BarakaBlocker = () => (
         },
       ]}
     >
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Baraka ist nicht dasselbe wie Menge</h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
           Baraka heißt Segen im Sinne von: es reicht weiter, als es sollte. Zwei Menschen mit
@@ -72,7 +72,7 @@ const BarakaBlocker = () => (
         </div>
       </section>
 
-      <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
+      <section className="rounded-lg border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Was dieses Blatt nicht tut</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
           Es urteilt nicht über Personen und erklärt niemanden für schuldig. Mehrere der Punkte

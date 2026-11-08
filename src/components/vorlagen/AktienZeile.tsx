@@ -28,14 +28,14 @@ const AktienZeile = ({ rang, name, ticker, bekanntFuer, status, highlight }: Pro
       </span>
     </div>
     {status === "offen" ? (
-      <span className="inline-flex h-7 items-center gap-1 rounded-full border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary">
+      <span className="inline-flex h-7 items-center gap-1 rounded border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary">
         <Lock className="h-3.5 w-3.5" aria-hidden />
         <span>?</span>
         <span className="sr-only">Ergebnis nach der Anmeldung</span>
       </span>
     ) : (
       <span
-        className={`inline-flex h-7 items-center rounded-full border px-3 text-[12px] font-bold ${
+        className={`inline-flex h-7 items-center rounded border px-3 text-[12px] font-bold ${
           status === "Halal"
             ? "border-[hsl(var(--success)/0.35)] bg-[hsl(var(--success)/0.12)] text-[hsl(var(--success))]"
             : "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)]"

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ArrowRight, Info } from "lucide-react";
 
 /**
@@ -25,7 +25,7 @@ const eur = (n: number) =>
   });
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Deutsche Eingabe in eine Zahl. Punkt ist Tausender, Komma ist Dezimal. */
 const zahl = (text: string) => {
@@ -101,13 +101,13 @@ const BereinigungsRechner = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Was du im Jahr bekommen hast</h2>
           <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
             Wähl den Weg, für den du die Zahlen hast.
           </p>
 
-          <div className="mt-5 grid grid-cols-2 gap-2 rounded-xl bg-muted p-1">
+          <div className="mt-5 grid grid-cols-2 gap-2 rounded-lg bg-muted p-1">
             {WEGE.map((w) => (
               <button
                 key={w.id}
@@ -116,7 +116,7 @@ const BereinigungsRechner = () => {
                 onClick={() => setWeg(w.id)}
                 className={`rounded-lg px-3 py-2.5 text-[14px] font-semibold transition ${
                   weg === w.id
-                    ? "bg-card text-foreground shadow-sm"
+                    ? "bg-card text-foreground ring-1 ring-border"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -167,7 +167,7 @@ const BereinigungsRechner = () => {
             )}
           </div>
 
-          <div className="mt-6 rounded-2xl bg-accent p-5">
+          <div className="mt-6 rounded-lg border border-border bg-card p-5">
             <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-primary">Rechenweg</p>
             <p className="mt-2 text-[16px] font-semibold tabular-nums text-foreground">{rechenweg}</p>
           </div>
@@ -195,7 +195,7 @@ const BereinigungsRechner = () => {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-border/70 bg-surface p-5">
+          <div className="rounded-lg border border-border bg-surface p-5">
             <div className="flex items-start gap-2.5">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
               <p className="text-[13px] leading-relaxed text-muted-foreground">
@@ -205,18 +205,15 @@ const BereinigungsRechner = () => {
             </div>
           </div>
 
-          <Link
-            to="/blog/ertraege-reinigen"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
-          >
-            <span className="text-[14px] font-semibold text-foreground">
+          <Aufruf to="/blog/ertraege-reinigen" className="block">
+            <span className="flex-1 text-left">
               Welchen Satz dein Fonds nennt und wer selbst reinigt
             </span>
             <ArrowRight
-              className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5"
+              className="h-4 w-4 shrink-0"
               aria-hidden
             />
-          </Link>
+          </Aufruf>
         </div>
       </div>
     </section>

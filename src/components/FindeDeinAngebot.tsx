@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ArrowRight } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { logosFuer, type LogoAnbieter } from "@/lib/anbieterLogos";
@@ -39,20 +39,20 @@ export const FindeDeinAngebot = ({
   return (
     <aside
       id={id}
-      className={`relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)] p-5 md:p-7 ${className}`}
+      className={`relative overflow-hidden rounded-lg border border-border bg-card p-5 md:p-7 ${className}`}
     >
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-8">
         <div className="min-w-0">
           <div className="flex items-center">
             <div className="flex -space-x-2.5">
               {sichtbar.map((a) => (
-                <span key={a.name} className="rounded-full bg-white p-[3px] shadow-sm ring-1 ring-black/5">
+                <span key={a.name} className="rounded-full bg-white p-[3px] ring-1 ring-black/5">
                   <AnbieterLogo name={a.name} domain={a.domain} />
                 </span>
               ))}
             </div>
             {rest > 0 && (
-              <span className="ml-3 whitespace-nowrap rounded-full bg-white/80 px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
+              <span className="ml-3 whitespace-nowrap rounded bg-white px-2.5 py-1 text-[13px] font-bold text-foreground ring-1 ring-black/5">
                 + {rest}
               </span>
             )}
@@ -60,10 +60,10 @@ export const FindeDeinAngebot = ({
           <h3 className="mt-4 text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">{titel}</h3>
           <p className="mt-1.5 max-w-[520px] text-[15px] leading-relaxed text-foreground/75 md:text-[16px]">{text}</p>
         </div>
-        <Link to={ziel} className="btn-spark shrink-0 md:h-14 md:px-8 md:text-[18px]">
+        <Aufruf to={ziel} className="shrink-0">
           {knopf}
           <ArrowRight className="h-5 w-5" aria-hidden />
-        </Link>
+        </Aufruf>
       </div>
     </aside>
   );

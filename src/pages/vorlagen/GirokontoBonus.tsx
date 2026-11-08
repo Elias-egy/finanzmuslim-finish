@@ -40,7 +40,7 @@ const Haken = ({ children }: { children: ReactNode }) => (
 );
 
 const Pille = ({ children }: { children: ReactNode }) => (
-  <li className="flex min-h-[40px] items-center gap-1.5 rounded-full border border-border bg-background px-3 text-[14px] font-semibold text-foreground">
+  <li className="flex min-h-[40px] items-center gap-1.5 rounded border border-border bg-background px-3 text-[14px] font-semibold text-foreground">
     <Check className="h-4 w-4 text-gain" strokeWidth={3} aria-hidden />
     {children}
   </li>
@@ -115,7 +115,7 @@ const GirokontoBonus = () => {
             </p>
           </header>
 
-          <section className="mt-6 rounded-3xl bg-accent p-5 ring-1 ring-primary/20 md:p-6" data-bonus-kopf>
+          <section className="mt-6 rounded-lg border border-border bg-card p-5 md:p-6" data-bonus-kopf>
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
                 <AnbieterLogo name={bbbank.name} domain={bbbank.domain} rand />
@@ -157,7 +157,7 @@ const GirokontoBonus = () => {
               <Haken>Dispo nur auf Antrag</Haken>
               <Haken>Karte ohne Kredit</Haken>
             </ul>
-            <div className="mt-4 rounded-2xl border-2 border-primary bg-accent p-4" data-bonus-tagesgeld>
+            <div className="mt-4 rounded-lg border-2 border-primary bg-accent p-4" data-bonus-tagesgeld>
               <p className="text-[18px] font-extrabold leading-tight text-foreground">Oft kommt ein Tagesgeldkonto dazu</p>
               <p className="mt-1.5 text-[17px] leading-snug text-foreground">
                 Bei BBBank und norisbank wird es automatisch mit eröffnet. Ignorier es einfach: Legst du dort kein Geld hin, gibt es
@@ -165,7 +165,7 @@ const GirokontoBonus = () => {
               </p>
             </div>
             <p className="mt-4 text-[16px] leading-snug text-foreground/80">Das gilt bei allen dreien. Der Unterschied liegt hier:</p>
-            <div className="mt-4 overflow-x-auto rounded-2xl border border-border" data-bonus-tabelle>
+            <div className="mt-4 overflow-x-auto rounded-lg border border-border" data-bonus-tabelle>
               <table className="w-full min-w-[340px] border-collapse">
                 <thead>
                   <tr className="border-b border-border">
@@ -286,7 +286,7 @@ const GirokontoBonus = () => {
               ].map(({ k, stelle, zeilen }) => (
                 <li
                   key={k.id}
-                  className="rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)]"
+                  className="rounded-lg border border-border bg-card p-4"
                   data-bonus-karte
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -316,7 +316,7 @@ const GirokontoBonus = () => {
           </section>
 
           {/* So bleibt es ohne Zinsen */}
-          <section ref={ende} className="mt-12 rounded-3xl bg-accent p-5 md:p-6" data-bonus-regeln>
+          <section ref={ende} className="mt-12 rounded-lg border border-border bg-card p-5 md:p-6" data-bonus-regeln>
             <h2 className="text-[22px] font-extrabold leading-tight text-foreground">Zwei Regeln halten dein Konto ohne Zinsen</h2>
             <ul className="mt-4 space-y-3">
               <Haken>

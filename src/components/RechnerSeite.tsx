@@ -103,7 +103,7 @@ const RechnerSeite = ({
             <AdSlot id="rechner-top" />
             {/* Handy: kein Rahmen um den Rechner. Seine Teile haben eigene Rahmen, und der
                 doppelte Rand hat die Eingabefelder auf 250 von 390 Pixeln gedrückt. */}
-            <div className="overflow-hidden md:mt-4 md:rounded-2xl md:border md:border-border md:bg-card">{children}</div>
+            <div className="overflow-hidden md:mt-4 md:rounded-lg md:border md:border-border md:bg-card">{children}</div>
             {unterRechner && <div className="mt-6 space-y-4">{unterRechner}</div>}
           </section>
 

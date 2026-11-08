@@ -39,7 +39,7 @@ export const WarumNicht = () => (
 );
 
 export const WasAboAndersMacht = () => (
-  <section className="rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="abo-anders">
+  <section className="rounded-lg border border-border bg-card p-6 md:p-8" aria-labelledby="abo-anders">
     <span className="badge-new">Die Alternative</span>
     <h2 id="abo-anders" className="mt-3 text-2xl font-bold text-foreground">
       Was ein Abo anders macht
@@ -76,7 +76,7 @@ export const AboLegende = () => (
       {legende.map((l) => (
         <div key={l.farbe} className="card-surface p-5">
           <div className="flex items-center gap-3">
-            <span className={`h-5 w-5 rounded-full shadow-[inset_0_-2px_4px_rgba(0,0,0,0.15)] ${bewertung[l.farbe].punkt}`} aria-hidden />
+            <span className={`h-5 w-5 rounded-full ${bewertung[l.farbe].punkt}`} aria-hidden />
             <span className="text-[17px] font-bold text-foreground">{bewertung[l.farbe].wort}</span>
           </div>
           <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{l.text}</p>
@@ -106,7 +106,7 @@ export const AnbieterKarte = ({ a }: { a: AboAnbieter }) => (
     <h4 className="mt-5 text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
       Wortlaut des Anbieters
     </h4>
-    <dl className="mt-2 divide-y divide-border rounded-xl border border-border">
+    <dl className="mt-2 divide-y divide-border rounded-lg border border-border">
       {a.klauseln.map((k, i) => (
         <div key={`${k.thema}-${i}`} className="grid gap-1 p-3 md:grid-cols-[9rem_1fr] md:gap-4">
           <dt className="text-[13px] font-bold text-foreground">{k.thema}</dt>
@@ -143,7 +143,7 @@ export const Rechenbeispiel = ({ r }: { r: Rechnung }) => (
               </div>
             ))}
           </dl>
-          <div className="mt-4 rounded-xl bg-accent p-3">
+          <div className="mt-4 rounded-lg border border-border bg-card p-3">
             <div className="flex items-baseline justify-between gap-3">
               <span className="text-[14px] font-bold text-foreground">{r.summeWort}</span>
               <span className="text-[19px] font-bold tabular-nums text-primary">{euro(w.posten.reduce((s, p) => s + p.betrag, 0))}</span>
