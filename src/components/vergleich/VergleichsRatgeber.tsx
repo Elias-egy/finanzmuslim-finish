@@ -218,7 +218,7 @@ export const VergleichsRatgeber = ({
 export const RH2 = ({ id, gross = false, children }: { id: string; gross?: boolean; children: ReactNode }) => (
   <h2
     id={id}
-    className={`scroll-mt-24 font-semibold text-foreground ${
+    className={`scroll-mt-24 font-bold text-foreground ${
       gross ? "text-[32px] leading-[40px] md:text-[48px] md:leading-[56px]" : "mt-10 text-[26px] leading-[34px]"
     }`}
   >
@@ -227,7 +227,7 @@ export const RH2 = ({ id, gross = false, children }: { id: string; gross?: boole
 );
 
 export const RH3 = ({ id, children }: { id?: string; children: ReactNode }) => (
-  <h3 id={id} className="mt-8 scroll-mt-24 text-[22px] font-semibold leading-[30px] text-foreground">
+  <h3 id={id} className="mt-8 scroll-mt-24 text-[22px] font-bold leading-[30px] text-foreground">
     {children}
   </h3>
 );
@@ -265,7 +265,7 @@ export const RHinweis = ({
         art === "tipp" ? "border-primary/60 bg-accent" : "border-destructive/60 bg-destructive/5"
       }`}
     >
-      <p className="flex items-start gap-2 text-[22px] font-semibold leading-[30px] text-foreground">
+      <p className="flex items-start gap-2 text-[22px] font-bold leading-[30px] text-foreground">
         <Zeichen className={`mt-1 h-6 w-6 shrink-0 ${art === "tipp" ? "text-primary" : "text-destructive"}`} aria-hidden />
         {titel}
       </p>
@@ -274,7 +274,10 @@ export const RHinweis = ({
   );
 };
 
-/** Tabelle wie Finanzfluss: Kopf in Versalien ohne Fläche, Linien von 2 px, erste Spalte fett, Unterschrift klein. */
+/**
+ * Tabelle wie Finanzfluss: Kopf in Versalien ohne Fläche, Linien von 2 px, erste Spalte fett, Unterschrift klein. Am Handy
+ * wischt man sie seitlich, der Name links bleibt stehen (Regel im Repo, Elias 04.11.2026).
+ */
 export const RTabelle = ({ kopf, zeilen, unterschrift }: { kopf: string[]; zeilen: ReactNode[][]; unterschrift?: string }) => (
   <figure className="mt-6">
     <div className="overflow-x-auto">
@@ -285,7 +288,7 @@ export const RTabelle = ({ kopf, zeilen, unterschrift }: { kopf: string[]; zeile
               <th
                 key={k}
                 scope="col"
-                className="pb-2 pr-4 pt-4 align-bottom text-[14px] font-semibold uppercase leading-[22px] tracking-[1px] text-muted-foreground"
+                className="pb-2 pr-4 pt-4 first:sticky first:left-0 first:z-10 first:bg-background md:first:static align-bottom text-[14px] font-semibold uppercase leading-[22px] tracking-[1px] text-muted-foreground"
               >
                 {k}
               </th>
@@ -297,7 +300,11 @@ export const RTabelle = ({ kopf, zeilen, unterschrift }: { kopf: string[]; zeile
             <tr key={i} className="border-y-2 border-border">
               {z.map((c, j) =>
                 j === 0 ? (
-                  <th key={j} scope="row" className="pb-2 pr-4 pt-4 align-top text-[16px] font-semibold leading-6 text-foreground">
+                  <th
+                    key={j}
+                    scope="row"
+                    className="sticky left-0 z-10 bg-background pb-2 pr-4 pt-4 align-top text-[16px] font-semibold leading-6 text-foreground md:static"
+                  >
                     {c}
                   </th>
                 ) : (
@@ -335,7 +342,7 @@ export const VorNachteile = ({
       <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
     </div>
     <div className="md:col-start-1 md:row-span-2 md:row-start-1">
-      <p className="mt-4 text-center text-[22px] font-semibold leading-[30px] text-foreground md:mt-0 md:text-left">
+      <p className="mt-4 text-center text-[22px] font-bold leading-[30px] text-foreground md:mt-0 md:text-left">
         {anbieter.name} {anbieter.produkt}
       </p>
       <ul className="mt-4">
