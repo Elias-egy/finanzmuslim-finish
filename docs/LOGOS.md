@@ -56,7 +56,7 @@ Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, F
 
 ## App-Bilder im Blogteil des Depot-Vergleichs (SEO78, 08.11.2026)
 
-Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Schnittstelle `itunes.apple.com/lookup?id=<id>&country=de` (Feld screenshotUrls), auf 548 px Breite als webp in `public/vergleich/depot-app/`. Unter den Bildern steht die Quelle. Keine Bilder zu Krypto, Zinsen oder Kredit.
+Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Schnittstelle `itunes.apple.com/lookup?id=<id>&country=de` (Feld screenshotUrls, größte Fassung über `/2000x0w.png` statt der Vorschaugröße), seit SEO79 auf 1080 px Breite als webp (dreifach scharf bei 274 px Anzeige, Elias wollte „HD“) in `public/vergleich/depot-app/`. Unter den Bildern steht die Quelle. Keine Bilder zu Krypto, Zinsen oder Kredit.
 
 | Datei | App-Store-Id | Bild Nr. |
 |---|---|---|
