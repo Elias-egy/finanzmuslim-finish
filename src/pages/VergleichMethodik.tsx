@@ -171,10 +171,10 @@ const VergleichMethodik = () => (
           Anbietern, bei denen sich die Zinsen nicht abschalten lassen, raten wir ab.
         </p>
         <p>
-          Im Depot-Vergleich gibt es zwei Ausnahmen. Platz 1 bekommt nur ein Depot, das von Anfang an
-          ohne Kredit läuft. Und die ersten vier Depots liegen in der Note nah beieinander, zwischen
-          4,4 und 4,6. Darum ordnen wir sie danach, wo unsere Leser ihr Depot am häufigsten wirklich
-          eröffnen.
+          Im Depot-Vergleich gilt zweierlei. Platz 1 bekommt nur ein Depot, das von Anfang an ohne
+          Kredit läuft. Und bei gleicher Note steht zuerst, wo unsere Leser ihr Depot am häufigsten
+          wirklich eröffnen. Die ersten Depots liegen nah beieinander, zwischen 4,4 und 4,5. Oben
+          stehen deshalb zwei Nummer 1: Platz 1 und das Depot mit den meisten Halal-Anlagen.
         </p>
       </section>
 
@@ -184,10 +184,10 @@ const VergleichMethodik = () => (
           Mit manchen Anbietern arbeite ich zusammen und erhalte eine Provision, wenn du über einen
           mit Stern markierten Link ein Konto eröffnest. Das ändert nichts an der Bewertung: Kriterien
           und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft. Nur die
-          Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto gleich
-          viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet
-          die Note. Auch die ersten vier im Depot-Vergleich hängen am Link: Wie oft Leser ein Depot
-          eröffnen, sehen wir nur bei Anbietern, mit denen ich zusammenarbeite.{" "}
+          Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto dieselbe
+          Note, steht zuerst, was du über unseren Link eröffnen kannst. Wie viel ich an einem Anbieter
+          verdiene, zählt nie. Auch die Leser-Eröffnungen im Depot-Vergleich hängen am Link: Wie oft
+          Leser ein Depot eröffnen, sehen wir nur bei Anbietern, mit denen ich zusammenarbeite.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

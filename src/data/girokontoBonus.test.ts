@@ -13,8 +13,9 @@ const vergleich = (id: string) => girokontoAnzeige.find((a) => a.id === id)!;
 const rang = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche: [], gewichte: [] }).passt;
 
 describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
-  it("zeigt die ersten drei Girokonten des Vergleichs in dessen Reihenfolge", () => {
-    expect(rang.slice(0, 3).map((t) => t.anbieter.id)).toEqual(BONUS_KONTEN.map((k) => k.id));
+  it("zeigt die ersten drei Girokonten mit Partnerweg in der Reihenfolge des Vergleichs", () => {
+    // A12: Seit A11 steht meine Bank ohne Link auf Platz 2; die Seite führt nur über Partnerlinks.
+    expect(rang.filter((t) => t.anbieter.link).slice(0, 3).map((t) => t.anbieter.id)).toEqual(BONUS_KONTEN.map((k) => k.id));
   });
 
   it("führt jedes Konto über einen aktiven Partnerlink", () => {

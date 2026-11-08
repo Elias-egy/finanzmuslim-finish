@@ -6,7 +6,7 @@ import { juengsterStand } from "@/lib/juengsterStand";
 import { DepotRatgeber } from "@/components/vergleich/DepotRatgeber";
 import { depotFragen } from "@/data/depotRatgeber";
 
-const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste Halal-Anlagen" };
+const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste Halal-Anlagen", zweiNummerEins: "Unsere zwei Nummer 1" };
 
 const KRITERIEN = [
   {
@@ -39,7 +39,7 @@ const FAQ = [
   {
     frage: "Wie entsteht die Reihenfolge?",
     antwort:
-      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note. Platz 1 bekommt nur ein Depot, das von Anfang an ohne Kredit läuft. Die ersten vier Depots liegen in der Note nah beieinander, zwischen 4,4 und 4,6. Darum ordnen wir sie danach, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen. Bei den übrigen steht bei gleich vielen Sternen zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
+      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note, und was wir an einem Depot verdienen, zählt nie. Die Liste steht nach der Note, die du siehst. Bei gleicher Note steht zuerst, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen, danach, was du über unseren Link eröffnen kannst. Platz 1 bekommt nur ein Depot, das von Anfang an ohne Kredit läuft. Oben stehen zwei Nummer 1: Platz 1 und das Depot mit den meisten Halal-Anlagen.",
   },
   {
     frage: "Kann ich mehrere Depots haben?",
@@ -78,7 +78,7 @@ const VergleichDepot = () => (
     }
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
-    sortiertNach="Die ersten vier danach, wo unsere Leser am häufigsten eröffnen, dann nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
+    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte. Bei gleicher Note zuerst, wo unsere Leser am häufigsten eröffnen."
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}

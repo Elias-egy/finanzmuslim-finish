@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, depotHalal, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotHalal, LINK_VORRANG, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -241,8 +241,10 @@ export const werteAus = (
   passt.sort(ordnung);
   // Regel 7 der Rangfolge steckt in `vorrang`: bei gleicher angezeigter Note zuerst die Leser-Eröffnungen (A11).
   // Regel 6 der Rangfolge: Platz 1 nur ohne Abstellen (Elias, 07.11.2026, CV20F). Ausnahme: Wer ausdrücklich
-  // die größte Auswahl will, bekommt das Depot mit Kredit weiter vorn (Elias, 12.10.2026).
-  const ersterFrei = auswahl.prioritaet?.nachHalal ? 0 : passt.findIndex((t) => !t.kredit);
+  // die größte Auswahl will, bekommt das Depot mit Kredit weiter vorn (Elias, 12.10.2026). Wie in der Rangfolge
+  // nur mit eigenem Link, wo Regel 2 gilt (A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“).
+  const mitLink = passt.findIndex((t) => !t.kredit && (!LINK_VORRANG.has(kategorie) || Boolean(t.anbieter.link)));
+  const ersterFrei = auswahl.prioritaet?.nachHalal ? 0 : mitLink >= 0 ? mitLink : passt.findIndex((t) => !t.kredit);
   if (ersterFrei > 0) passt.unshift(...passt.splice(ersterFrei, 1));
   ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!);
 

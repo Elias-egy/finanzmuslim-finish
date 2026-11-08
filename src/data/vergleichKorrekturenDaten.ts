@@ -105,6 +105,10 @@ export const PUNKTE_KORREKTUREN: Record<string, Record<string, number>> = {
   "bbbank-bettersmart": { girocard: 5 },
   // Bargeldeinzahlung „Dienst nicht verfügbar“; Apple Pay und Google Pay beide belegt.
   "meine-bank-mein-girokonto": { einzahlen: 0, mobilesBezahlen: 8 },
+  // Factsheet 09/2026 (Quelle `orderkosten` unten): ETF-Kauf ab 250 € bei Amundi, iShares, Vanguard und Xtrackers 0 €,
+  // jeder Verkauf und alle anderen Käufe 0,99 €. Halb zwischen 0 € (6) und bis 1 € (4), weil die 0 € nur für Käufe
+  // dieser vier Anbieter gelten (A12, 08.11.2026: vorher 4 aus der ersten Zahl „0,99€“).
+  "scalable-capital-free-broker": { orderPauschal: 5 },
 };
 
 export const DEPOT_WERTE: Werte = {

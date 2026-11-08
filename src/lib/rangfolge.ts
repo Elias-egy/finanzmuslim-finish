@@ -443,8 +443,10 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
     vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
-  // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“).
-  const ersterFrei = bewertet.findIndex((b) => b.uneingeschraenkt && (!LINK_VORRANG.has(kategorie) || Boolean(b.anbieter.link)));
+  // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“,
+  // A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“). Hat keiner ohne Einschränkung einen Link, zählt nur die Einschränkung.
+  const mitLink = bewertet.findIndex((b) => b.uneingeschraenkt && (!LINK_VORRANG.has(kategorie) || Boolean(b.anbieter.link)));
+  const ersterFrei = mitLink >= 0 ? mitLink : bewertet.findIndex((b) => b.uneingeschraenkt);
   if (ersterFrei > 0) bewertet.unshift(...bewertet.splice(ersterFrei, 1));
   const vorgezogen = ersterFrei > 0;
 

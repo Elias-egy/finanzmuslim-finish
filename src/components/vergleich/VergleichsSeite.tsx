@@ -14,6 +14,7 @@ import {
   VergleichsBrotkrumen,
   Kennzahlen,
   NummerEins,
+  ZweiNummerEins,
   ReihenfolgeHinweis,
 } from "./VergleichsRahmen";
 import { VergleichsTabelle } from "./VergleichsTabelle";
@@ -130,8 +131,9 @@ export type VergleichsSeiteProps = {
   vorneweg?: ReactNode;
   /** Auszeichnungen wie bei Finanzfluss, nur mit Kriterium aus den Daten (Elias CV17F, CV18F):
       `nummerEins` steht im Kasten und am Platz 1, `meisteHalal` am gerankten Anbieter mit den meisten
-      belegten Halal-Anlagen, wenn er allein vorn liegt und nicht schon Platz 1 ist. */
-  auszeichnungen?: { nummerEins?: string; meisteHalal?: string };
+      belegten Halal-Anlagen, wenn er allein vorn liegt und nicht schon Platz 1 ist. Mit `zweiNummerEins` stehen
+      beide zusammen im Kasten oben (`ZweiNummerEins`, Depot, Elias A11). */
+  auszeichnungen?: { nummerEins?: string; meisteHalal?: string; zweiNummerEins?: string };
   faq: Array<{ frage: string; antwort: string }>;
   /** Blogteil unter der Tabelle wie bei Finanzfluss (`VergleichsRatgeber`). Ersetzt den Kriterien-Kasten und die
       Fragen; `faq` speist weiter die strukturierten Daten und soll dieselben Fragen tragen. */
@@ -203,6 +205,7 @@ export const VergleichsSeite = ({
   const nummerEinsText = auszeichnungen?.nummerEins ?? "Unsere Nummer 1";
   const meisteHalalId =
     auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
+  const zweiter = auszeichnungen?.zweiNummerEins && meisteHalalId ? (anbieter.find((a) => a.id === meisteHalalId) ?? null) : null;
   const nachRang = platz
     ? [
         ...gefiltert
@@ -362,7 +365,17 @@ export const VergleichsSeite = ({
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
         <aside className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF}`}>
-          {sieger && (
+          {sieger && zweiter && (
+            <ZweiNummerEins
+              titel={auszeichnungen!.zweiNummerEins!}
+              zeilen={zeilen}
+              eintraege={[
+                { anbieter: sieger, auszeichnung: nummerEinsText, ton: "empfehlung", note: noteVon?.get(sieger.id) ?? null, zeigt: "kosten", spalte: spalten.find((sp) => sp.id === sieger.id) },
+                { anbieter: zweiter, auszeichnung: auszeichnungen!.meisteHalal!, ton: "bonus", note: noteVon?.get(zweiter.id) ?? null, zeigt: "halal", spalte: spalten.find((sp) => sp.id === zweiter.id) },
+              ]}
+            />
+          )}
+          {sieger && !zweiter && (
             <NummerEins
               anbieter={sieger}
               zeilen={zeilen}
@@ -446,11 +459,11 @@ export const VergleichsSeite = ({
               <VergleichsTabelle zeilen={zeilen} spalten={spalten} />
             </div>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-4"} lg:hidden`}>
-              {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. */}
+              {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. Beim Doppel-Kasten beide. */}
               <VergleichsKarten
                 zeilen={zeilen}
-                spalten={sieger ? spalten.filter((sp) => sp.id !== sieger.id) : spalten}
-                zuerst={sieger ? SEITE - 1 : SEITE}
+                spalten={spalten.filter((sp) => sp.id !== sieger?.id && sp.id !== zweiter?.id)}
+                zuerst={SEITE - (sieger ? 1 : 0) - (zweiter && sieger ? 1 : 0)}
               />
             </div>
           </>
