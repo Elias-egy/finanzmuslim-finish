@@ -13,7 +13,7 @@ import { BANNER_OEFFNEN, leseWahl, messungAktiv, setzeWahl, starteMessung, type 
  * damit das Vorab-Rendern es nicht in jede Seite schreibt.
  */
 const KNOPF =
-  "min-h-[44px] w-full rounded-lg px-4 text-[15px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+  "min-h-[36px] w-full rounded-full px-4 py-1 text-[16px] font-bold leading-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 const VOLL = `${KNOPF} bg-primary text-primary-foreground hover:bg-primary-hover`;
 const RAND = `${KNOPF} border-[1.5px] border-primary bg-card text-primary hover:bg-primary/5`;
 
@@ -50,16 +50,16 @@ const Einwilligung = () => {
       aria-describedby="einwilligung-text"
       className="fixed inset-x-0 bottom-0 z-[60] sm:inset-0 sm:flex sm:items-center sm:justify-center sm:bg-black/55 sm:px-6"
     >
-      <div className="w-full rounded-t-2xl border border-border bg-card px-5 pb-[max(16px,env(safe-area-inset-bottom))] pt-6 shadow-[0_-12px_40px_-12px_rgba(0,20,60,0.3)] sm:max-w-[560px] sm:rounded-2xl sm:p-8">
-        <p id="einwilligung-titel" className="text-[20px] font-bold leading-tight text-foreground">
+      <div className="w-full rounded-t-[24px] bg-card px-4 pb-[max(44px,env(safe-area-inset-bottom))] pt-7 shadow-[0_-8px_40px_-8px_rgba(0,20,60,0.35)] sm:max-w-[560px] sm:rounded-[24px] sm:p-8">
+        <p id="einwilligung-titel" className="text-[21px] font-bold leading-tight text-foreground">
           Cookie-Einstellungen
         </p>
         {!einstellungen ? (
           <>
-            <p id="einwilligung-text" className="mt-3 text-[15px] font-semibold leading-[1.45] text-foreground">
+            <p id="einwilligung-text" className="mt-4 text-[16px] font-bold leading-[1.35] text-foreground">
               Wir nutzen Cookies, damit unsere Seite funktioniert und wir sehen, welche Inhalte helfen und wo es hakt.
             </p>
-            <p className="mt-2.5 text-[14px] leading-[1.45] text-muted-foreground">
+            <p className="mt-3 text-[16px] leading-[1.35] text-muted-foreground">
               In den Einstellungen kannst du wählen und deine Einwilligung jederzeit widerrufen. Mehr in{" "}
               <Link to="/datenschutz#messung" className="underline underline-offset-2">
                 Datenschutzerklärung
@@ -70,7 +70,7 @@ const Einwilligung = () => {
               </Link>
               .
             </p>
-            <div className="mt-5 grid gap-2.5">
+            <div className="mt-8 grid gap-3">
               <button type="button" onClick={() => waehle("ja")} className={VOLL}>
                 Alles erlauben
               </button>
