@@ -2,7 +2,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { AngebotsDialog } from "./AngebotsDialog";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import {
+  AnbieterName,
+  AngebotsKnopf,
+  BonusSchild,
+  NotenBlock,
+  ZellInhalt,
+  auszeichnungFarbe,
+  auszeichnungGrund,
+  auszeichnungVon,
+  KreditHinweis,
+} from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -18,6 +28,15 @@ import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./
  * verliert man beim Schieben die Frage. Drittens steht die Angebotszeile
  * zweimal, oben und ganz unten, damit der Weg zum Anbieter nie weit ist.
  *
+ * Seit SEO74 wie Finanzfluss: Der Kopf je Spalte trägt einen eckigen Reiter mit der Platzzahl und
+ * die Auszeichnung als Text, darunter Logo und Name (blau mit Stern); Note mit Sternen und
+ * Produktdetails stehen in der ersten Zeile. Eine Spalte mit Auszeichnung ist leicht getönt. Die untere Angebotszeile läuft
+ * als Leiste am unteren Rand mit, sobald die obere aus dem Bild ist, und endet an ihrem Platz unter
+ * der Tabelle (Elias CV17F „Pop-up“, CV18F „Nur Laptop“).
+ *
+ * Kopf und Leiste sitzen außerhalb des Schiebers: `overflow-x: auto` macht ihn zum eigenen
+ * Scroll-Bereich, ein `sticky top` darin klebt nie am Fenster. Beide folgen ihm über `scrollLeft`.
+ *
  * Die Zellen zeigen nur den Wert. Ein Klick auf die Kopfzeile eines Angebots öffnet
  * `AngebotsDialog` mit dem Satz zur Zins-Ampel und den Quellen (Elias, 07.10.2026).
  */
@@ -32,12 +51,6 @@ const gruppenTitel: Record<string, string> = {
   kosten: "Kosten und Konditionen",
 };
 
-const etikettTon: Record<string, string> = {
-  empfehlung: "bg-primary/10 text-primary",
-  bonus: "bg-success/10 text-success",
-  hinweis: "bg-accent/10 text-accent",
-  platz: "bg-muted text-foreground",
-};
 
 export const VergleichsTabelle = ({
   zeilen,
@@ -47,18 +60,29 @@ export const VergleichsTabelle = ({
   spalten: VergleichsSpalte[];
 }) => {
   const schieber = useRef<HTMLDivElement>(null);
+  const kopfLeiste = useRef<HTMLDivElement>(null);
+  const untenLeiste = useRef<HTMLDivElement>(null);
+  const obenAngebot = useRef<HTMLDivElement>(null);
   const [von, setVon] = useState(1);
   const [bis, setBis] = useState(1);
   const [offen, setOffen] = useState<string | null>(null);
+  const [erklaert, setErklaert] = useState<string | null>(null);
+  /* Die Leiste unten erscheint erst, wenn die obere Angebotszeile aus dem Bild ist: sonst stünden
+     dieselben Knöpfe zweimal im ersten Bildschirm. */
+  const [leisteZeigen, setLeisteZeigen] = useState(false);
 
   const merkeStelle = useCallback(() => {
     const el = schieber.current;
     if (!el) return;
+    if (kopfLeiste.current) kopfLeiste.current.scrollLeft = el.scrollLeft;
+    if (untenLeiste.current) untenLeiste.current.scrollLeft = el.scrollLeft;
     const sichtbar = Math.max(1, Math.floor((el.clientWidth - KRITERIEN) / SPALTE));
     /* Runden statt Abschneiden: sanftes Blättern endet oft einen Bruchteil vor der Spaltenkante. */
     const erste = Math.round(el.scrollLeft / SPALTE) + 1;
+    /* Ganz rechts angekommen zählt die letzte Spalte mit, auch wenn sie nicht voll in die Breite passt. */
+    const amEnde = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
     setVon(Math.min(erste, spalten.length));
-    setBis(Math.min(erste + sichtbar - 1, spalten.length));
+    setBis(amEnde ? spalten.length : Math.min(erste + sichtbar - 1, spalten.length));
   }, [spalten.length]);
 
   /* ResizeObserver statt window.resize: beim ersten Rendern ist die Breite
@@ -72,23 +96,53 @@ export const VergleichsTabelle = ({
     return () => beobachter.disconnect();
   }, [merkeStelle]);
 
+  useEffect(() => {
+    const ziel = obenAngebot.current;
+    if (!ziel) {
+      setLeisteZeigen(true);
+      return;
+    }
+    const beobachter = new IntersectionObserver(
+      ([e]) => setLeisteZeigen(!e.isIntersecting && e.boundingClientRect.top < KOPF),
+      { rootMargin: `-${KOPF}px 0px 0px 0px` },
+    );
+    beobachter.observe(ziel);
+    return () => beobachter.disconnect();
+  }, []);
+
   const schiebe = (richtung: 1 | -1) =>
     schieber.current?.scrollBy({ left: richtung * SPALTE * 2, behavior: "smooth" });
 
-  /* Die Angebotszeile steht bewusst zweimal in der Liste. */
-  const alleZeilen: VergleichsZeile[] = [
-    ...zeilen,
-    {
-      key: "__angebot_unten",
-      label: "Angebot",
-      art: "text",
-      gruppe: "kosten",
-    },
-  ];
+  const raster = {
+    gridTemplateColumns: `${KRITERIEN}px repeat(${spalten.length}, ${SPALTE}px)`,
+    width: KRITERIEN + spalten.length * SPALTE,
+  };
+  /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
+     Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
+     aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
+     die letzte Spalte wieder scharf. Kopf und Leiste blenden gleich aus. */
+  const maske =
+    bis < spalten.length
+      ? {
+          WebkitMaskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+          maskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+        }
+      : undefined;
+  const grund = (s: VergleichsSpalte) => {
+    const a = auszeichnungVon(s);
+    return a ? auszeichnungGrund[a.ton] : "";
+  };
+  const mitNote = spalten.some((s) => s.note !== null);
 
   const zelle = "flex min-h-[60px] items-center justify-center border-b border-border px-3 py-2 text-center text-[13px]";
   const kriterium =
     "sticky left-0 z-20 flex min-h-[60px] items-center border-b border-r border-border bg-card px-3 py-2 text-[13px] text-foreground";
+  const angebot = (s: VergleichsSpalte) => (
+    <div className="w-full">
+      <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
+      {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
+    </div>
+  );
 
   let letzteGruppe = "";
 
@@ -103,7 +157,7 @@ export const VergleichsTabelle = ({
             type="button"
             onClick={() => schiebe(-1)}
             aria-label="Anbieter nach links"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-colors hover:bg-surface"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden />
           </button>
@@ -111,171 +165,173 @@ export const VergleichsTabelle = ({
             type="button"
             onClick={() => schiebe(1)}
             aria-label="Anbieter nach rechts"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-colors hover:bg-surface"
           >
             <ChevronRight className="h-5 w-5" aria-hidden />
           </button>
         </div>
       </div>
 
-      <div
-        ref={schieber}
-        onScroll={merkeStelle}
-        className="overflow-x-auto rounded-lg border border-border bg-card"
-        /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
-           Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
-           aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
-           die letzte Spalte wieder scharf. */
-        style={
-          bis < spalten.length
-            ? {
-                WebkitMaskImage:
-                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
-                maskImage:
-                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
-              }
-            : undefined
-        }
-      >
-        <div
-          className="grid"
-          style={{
-            gridTemplateColumns: `${KRITERIEN}px repeat(${spalten.length}, ${SPALTE}px)`,
-            width: KRITERIEN + spalten.length * SPALTE,
-          }}
-        >
-          {/* Kopfzeile: klebt oben, damit beim Scrollen immer sichtbar bleibt,
-              wessen Zahl gerade gelesen wird.
-
-              Zwei verschachtelte Ebenen statt einer: ein `sticky top`-Wert
-              direkt auf einem Grid-Kind verschiebt in Chrome die Startposition
-              der naechsten Zeile um genau diesen Top-Wert nach oben, auch
-              wenn die Kopfzeile noch gar nicht klebt. Ergebnis war, dass die
-              Angebotszeile sichtbar unter der Kopfzeile verschwand. Das
-              aeussere Div bleibt darum ein normales (bzw. nur horizontal
-              klebendes) Grid-Kind und traegt nichts als Platzhalter bei, das
-              vertikale Kleben passiert ausschliesslich am inneren Div, das
-              fuer die Grid-Zeilenberechnung unsichtbar ist. */}
-          <div className="sticky left-0 z-30 border-b border-r border-border">
-            {/* `h-full`: Die Fläche deckt die ganze Zelle. Sonst scheint beim seitlichen Blättern die Spalte darunter durch. */}
-            <div className="flex h-full flex-col justify-end bg-card px-3 py-2" style={{ position: "sticky", top: KOPF }}>
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Kriterium
-              </p>
-              <p className="text-[12px] text-muted-foreground">
-                {von} bis {bis} von {spalten.length}
-              </p>
+      {/* `overflow: clip` rundet die Ecken, ohne ein Scroll-Bereich zu werden: Kopf und Leiste kleben am Fenster. */}
+      <div className="rounded-lg border border-border bg-card" style={{ overflow: "clip" }}>
+        {/* Kopf: Reiter mit Platz und Auszeichnung, darunter das Logo. Klebt unter der Kopfleiste der Website. */}
+        <div className="sticky z-30 border-b border-border bg-card" style={{ top: KOPF }}>
+          <div ref={kopfLeiste} className="overflow-hidden" style={maske}>
+            <div className="grid" style={raster}>
+              <div className="sticky left-0 z-10 flex flex-col justify-end border-r border-border bg-card px-3 py-2">
+                <p className="text-[14px] font-semibold text-foreground">Anbieter</p>
+                <p className="text-[12px] text-muted-foreground">
+                  {von} bis {bis} von {spalten.length}
+                </p>
+              </div>
+              {spalten.map((s) => {
+                const a = auszeichnungVon(s);
+                const hervor = a?.ton === "empfehlung";
+                return (
+                  <div key={s.id} className="flex flex-col border-r border-border bg-card last:border-r-0">
+                    <div className={`flex h-full flex-col ${grund(s)}`}>
+                      {s.abgeraten ? (
+                        <p className="flex h-7 items-center justify-center bg-destructive/10 px-2 text-[12px] font-semibold text-destructive">
+                          Davon raten wir ab
+                        </p>
+                      ) : (
+                        <div className="flex h-7 items-stretch">
+                          {s.platz != null && (
+                            <span
+                              className={`flex min-w-[28px] items-center justify-center rounded-br-lg border-b border-r px-1.5 text-[13px] font-semibold ${
+                                hervor ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
+                              }`}
+                            >
+                              {s.platz}
+                            </span>
+                          )}
+                          {a && (
+                            <span className={`min-w-0 flex-1 truncate px-2 text-center text-[13px] font-semibold leading-7 ${auszeichnungFarbe[a.ton]}`}>
+                              {a.text}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-3 pb-2.5 pt-1.5">
+                        <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
+                        {/* Der Name klebt mit: nach zehn Zeilen sagt ein Symbol allein nicht mehr, wessen Zahl man liest. */}
+                        <p className="w-full truncate text-center text-[13px] leading-snug" title={`${s.anbieter} ${s.produkt}`}>
+                          <AnbieterName spalte={s} />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          {spalten.map((s) => {
-            const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
-            const kopf = (
-              <>
-                <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
-                <span className="block w-full truncate text-center text-[13px] font-bold text-foreground">
-                  {s.anbieter}
-                </span>
-                {s.tarif ? (
-                  /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Kopfzeile aller Spalten mit. */
-                  <span className="flex w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px] font-normal text-muted-foreground">
-                    {s.produkt}
-                    <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
+        </div>
+
+        <div ref={schieber} onScroll={merkeStelle} className="overflow-x-auto" style={maske}>
+          <div className="grid" style={raster}>
+            {/* Bewertung: Note mit Sternen, darunter Tarif und Produktdetails. Ohne Noten heißt die Zeile „Produkt“. */}
+            <div className={kriterium}>{mitNote ? "Bewertung" : "Produkt"}</div>
+            {spalten.map((s) => {
+              const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
+              return (
+                <div key={`note-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
+                  {mitNote && (s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>)}
+                  {s.kreditKurz && (
+                    <div className="mt-0.5 px-1">
+                      <KreditHinweis text={s.kreditKurz} mittig />
+                    </div>
+                  )}
+                  {s.tarif && (
+                    /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Zeile aller Spalten mit. */
+                    <span className="rounded bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
                       {s.tarif.marke}
                     </span>
-                  </span>
-                ) : (
-                  <span className="block w-full truncate text-center text-[12px] font-normal text-muted-foreground">
-                    {s.produkt}
-                  </span>
-                )}
-                {klickbar && (
-                  <span className="mt-auto inline-flex items-center pt-1 text-[12px] font-medium text-primary">
-                    Produktdetails
-                    <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-                  </span>
-                )}
-              </>
-            );
-            return (
-              <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
-                {/* `h-full`: Bricht ein Produktname um, wächst die Kopfzeile für alle gleich. */}
-                <div className="flex h-full flex-col bg-card" style={{ position: "sticky", top: KOPF }}>
-                  {s.abgeraten ? (
-                    <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
-                      <span className="block truncate text-center text-[11px] font-semibold text-destructive">
-                        Davon raten wir ab
-                      </span>
-                    </div>
-                  ) : (
-                    s.etikett && (
-                      <div className="border-b border-border px-2 py-1.5">
-                        <span
-                          className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
-                        >
-                          {s.etikett.text}
-                        </span>
-                      </div>
-                    )
                   )}
-                  <div className="relative flex flex-1 flex-col">
-                    {klickbar ? (
-                      <button
-                        type="button"
-                        onClick={() => setOffen(s.id)}
-                        aria-haspopup="dialog"
-                        className="flex w-full flex-1 flex-col items-center gap-1 px-3 py-2 transition-colors hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
-                      >
-                        {kopf}
-                      </button>
-                    ) : (
-                      <div className="flex flex-1 flex-col items-center gap-1 px-3 py-2">{kopf}</div>
-                    )}
-                  </div>
+                  {klickbar && (
+                    <button
+                      type="button"
+                      onClick={() => setOffen(s.id)}
+                      aria-haspopup="dialog"
+                      className="inline-flex min-h-[28px] items-center text-[12px] font-medium text-primary hover:underline"
+                    >
+                      Produktdetails
+                      <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                    </button>
+                  )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
-          {/* Datenzeilen */}
-          {alleZeilen.map((z) => {
-            const neueGruppe = z.gruppe !== letzteGruppe && z.key !== "__angebot_unten";
-            letzteGruppe = z.gruppe;
-            return (
-              <div key={z.key} className="contents">
-                {neueGruppe && (
-                  <>
-                    <div className="sticky left-0 z-20 border-b border-r border-border bg-surface px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      {gruppenTitel[z.gruppe]}
-                    </div>
-                    {spalten.map((s) => (
-                      <div
-                        key={`${z.key}-g-${s.id}`}
-                        className="border-b border-r border-border bg-surface last:border-r-0"
-                      />
-                    ))}
-                  </>
-                )}
-                <div className={kriterium}>
-                  <span>
-                    {z.label}
-                    <HinweisPunkt text={z.hinweis} />
-                  </span>
-                </div>
-                {spalten.map((s) => (
-                  <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
-                    {z.key === "__angebot" || z.key === "__angebot_unten" ? (
-                      <div className="w-full">
-                        <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
-                        {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
+            {/* Datenzeilen */}
+            {zeilen.map((z) => {
+              const neueGruppe = z.gruppe !== letzteGruppe;
+              letzteGruppe = z.gruppe;
+              return (
+                <div key={z.key} className="contents">
+                  {neueGruppe && (
+                    <>
+                      <div className="sticky left-0 z-20 border-b border-r border-border bg-surface px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        {gruppenTitel[z.gruppe]}
                       </div>
+                      {spalten.map((s) => (
+                        <div
+                          key={`${z.key}-g-${s.id}`}
+                          className="border-b border-r border-border bg-surface last:border-r-0"
+                        />
+                      ))}
+                    </>
+                  )}
+                  <div ref={z.key === "__angebot" ? obenAngebot : undefined} className={kriterium}>
+                    {z.hinweis ? (
+                      /* Wie Finanzfluss: ein Kriterium mit Erklärung ist blau gepunktet unterstrichen, ein Klick
+                         zeigt die Erklärung (Elias SEO74: „wie bei Finanzfluss sollten die teilweise auch blau sein“). */
+                      <span>
+                        <button
+                          type="button"
+                          onClick={() => setErklaert((alt) => (alt === z.key ? null : z.key))}
+                          aria-expanded={erklaert === z.key}
+                          title={z.hinweis}
+                          className="text-left font-medium text-primary underline decoration-dotted underline-offset-4 hover:text-primary-hover"
+                        >
+                          {z.label}
+                        </button>
+                        {erklaert === z.key && (
+                          <span className="mt-1 block text-[12px] leading-snug text-muted-foreground">{z.hinweis}</span>
+                        )}
+                      </span>
                     ) : (
-                      <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />
+                      <span>{z.label}</span>
                     )}
                   </div>
-                ))}
+                  {spalten.map((s) => (
+                    <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0 ${grund(s)}`}>
+                      {z.key === "__angebot" ? angebot(s) : <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Angebotszeile unten, nur Laptop: läuft am unteren Rand mit und endet hier an ihrem Platz. */}
+        <div
+          className={`sticky bottom-0 z-30 border-t border-border bg-card transition-[opacity,visibility] duration-200 ${
+            leisteZeigen ? "visible opacity-100" : "invisible opacity-0"
+          }`}
+        >
+          <div ref={untenLeiste} className="overflow-hidden" style={maske}>
+            <div className="grid" style={raster}>
+              <div className="sticky left-0 z-10 flex items-center border-r border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
+                Angebot
               </div>
-            );
-          })}
+              {spalten.map((s) => (
+                <div key={`unten-${s.id}`} className="border-r border-border bg-card last:border-r-0">
+                  <div className={`flex h-full items-center px-3 py-2 ${grund(s)}`}>{angebot(s)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

@@ -72,6 +72,8 @@ export type VergleichsSpalte = {
   note: number | null;
   /** Monat und Jahr der Bewertung, z. B. "08/2026". */
   noteStand?: string;
+  /** Platz in unserer Rangfolge. Steht als Zahl im eckigen Reiter der Spalte und der Karte (wie Finanzfluss). */
+  platz?: number;
   /** Etikett ueber der Spalte, z. B. "Bester Broker" oder "60 € Bonus". */
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" | "platz" } | null;
   /**
@@ -82,6 +84,8 @@ export type VergleichsSpalte = {
   abgeraten?: boolean;
   /** Kostenpflichtiger Tarif: Marke am Produktnamen und ein Satz, was man für die Gebühr bekommt. */
   tarif?: { marke: string; satz: string } | null;
+  /** Ein Satz mit Handlung, sichtbar an Karte und Spalte: Das Haus räumt Neukunden automatisch einen Kredit ein. */
+  kreditKurz?: string;
   /** Führt das Haus mehrere Produkte: was dieses von den anderen unterscheidet, mit Beleg (`produktUnterschiede.ts`). */
   unterschied?: { titel: string; satz: string } | null;
   werte: Record<string, Zellwert>;

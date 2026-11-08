@@ -1,9 +1,9 @@
 import { kostenKurz } from "@/data/kostenKurz";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Award, Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BonusSchild, ProduktDetails } from "./VergleichsBausteine";
+import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
@@ -80,16 +80,21 @@ export const NummerEins = ({
   anbieter,
   zeilen,
   einheit,
-  linkVorrang = false,
   spalte,
+  auszeichnung = "Unsere Nummer 1",
+  note,
 }: {
   anbieter: RohAnbieter;
   zeilen: VergleichsZeile[];
   einheit: string;
-  /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat. Dann steht das hier. */
+  /** Der Vergleich stellt bei gleicher Sternzahl zuerst, was einen eigenen Link hat (bleibt für die Aufrufer, steht nicht mehr am Kasten). */
   linkVorrang?: boolean;
   /** Die Nummer 1 als Spalte des Vergleichs, für die „Produktdetails“ auf dem Handy. */
   spalte?: VergleichsSpalte;
+  /** Text im Kopfstreifen, im Depot-Vergleich „Bestes Halal-Depot“ (Elias CV17F, CV18F). */
+  auszeichnung?: string;
+  /** Unsere Note aus `rangfolge()`, als Wort, Zahl und Sterne wie bei Finanzfluss. */
+  note?: number | null;
 }) => {
   const [offen, setOffen] = useState(false);
   const halal = zeilen
@@ -109,22 +114,42 @@ export const NummerEins = ({
   const punkte = [...halal, ...kosten];
 
   return (
-    /* Rahmen im Verlauf Blau, Violett, Gold statt einer blauen Fläche (Elias, 21.09.2026: die
-       Nummer 1 darf auffallen, die Fläche bleibt ruhig). Gold nur als Detail: Rahmenende und Siegel. */
-    <section
-      className="overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#0057FA_0%,#7D6EF2_60%,#FFBE1F_100%)] p-[2px] shadow-[0_14px_34px_-22px_rgba(0,87,250,0.55)]"
-      aria-label="Unsere Nummer 1"
-    >
-      <p className="flex items-center justify-center gap-1.5 px-4 py-2 text-center text-[14px] font-bold text-white">
-        <Award className="h-4 w-4 text-spark" aria-hidden />
-        Unsere Nummer 1
+    /* Flach wie Finanzfluss (Elias CV17F: „viereckige Kästen … als hätte das wirklich jemand eine
+       Webseite gebaut“): ein Rahmen, eine Ecke von 8 px, kein Verlauf, kein Schatten. Die frühere
+       Kleinschrift zur Rangfolge steht nicht mehr am Kasten (Elias 06.11.: kein Kleingedrucktes),
+       „So bewerten wir“ steht unter der Tabelle. */
+    <section className="overflow-hidden rounded-lg border border-primary bg-card" aria-label={auszeichnung}>
+      {/* Streifen mit Platzzahl im Reiter wie die anderen Karten (Finanzfluss: „1 … Bestes Depot“). */}
+      <p className="flex items-stretch border-b border-primary bg-primary text-[14px] font-semibold text-primary-foreground">
+        <span className="flex min-w-[36px] items-center justify-center border-r border-primary-foreground/30 px-2">1</span>
+        <span className="flex-1 px-4 py-1.5 text-center">{auszeichnung}</span>
       </p>
-      <div className="rounded-[14px] bg-card p-4 xl:p-5">
-        <div className="flex items-center gap-3">
-          <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
-          <p className="min-w-0 flex-1 text-[18px] leading-snug text-foreground">
-            <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}
-          </p>
+      <div className="p-4 xl:p-5">
+        <div>
+          <div>
+            <p className="text-[18px] leading-snug text-foreground">
+              {anbieter.link ? (
+                <Link to={anbieter.link} rel="sponsored nofollow" className="text-primary underline underline-offset-2 hover:text-primary-hover">
+                  <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}*
+                </Link>
+              ) : (
+                <>
+                  <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}
+                </>
+              )}
+            </p>
+          </div>
+          {/* Logo und Note in zwei Kästchen wie jede Karte darunter. Ohne Note nur das Logo. */}
+          <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"}`}>
+            <div className="flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2">
+              <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
+            </div>
+            {note != null && (
+              <div className="flex items-center justify-center rounded-lg border border-border p-2">
+                <NotenBlock note={note} mittig />
+              </div>
+            )}
+          </div>
         </div>
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
         <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
@@ -140,7 +165,7 @@ export const NummerEins = ({
             <Link
               to={anbieter.link}
               rel="sponsored nofollow"
-              className="flex min-h-[48px] w-full items-center justify-center rounded-lg bg-primary px-4 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+              className="flex min-h-[44px] w-full items-center justify-center rounded-md bg-primary px-4 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
             >
               Zum Angebot*
             </Link>
@@ -161,15 +186,6 @@ export const NummerEins = ({
             {offen && <ProduktDetails spalte={spalte} zeilen={zeilen} ohne={punkte.map((x) => x.key)} />}
           </div>
         )}
-        <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
-          Aus dem, was wir beim Anbieter belegt haben. Eine Partnerschaft ändert keine Note.{" "}
-          {linkVorrang
-            ? `Bei gleich vielen Sternen steht zuerst, was du über unseren Link eröffnen kannst, danach folgen die ${einheit} nach unserer Note.`
-            : `Die übrigen ${einheit} folgen nach unserer Note.`}{" "}
-          <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
-            So bewerten wir
-          </Link>
-        </p>
       </div>
     </section>
   );

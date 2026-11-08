@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { ArrowRight, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
+import eliasAutor from "@/assets/elias-autor.webp";
 import Seo, { vergleichJsonLd } from "@/components/Seo";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -21,12 +22,20 @@ import type { VergleichsZeile } from "./vergleichTypen";
 import {
   baueSpalten,
   anzahlHalalGeprueft,
+  meisteHalalVon,
   type RohAnbieter,
 } from "@/data/vergleichHelfer";
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
+/** „29.10.2026“ wird „29. Oktober 2026“, wie bei Finanzfluss „Aktualisiert am: 7. November 2026“. */
+const MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+const datumLang = (d: string) => {
+  const m = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(d.trim());
+  return m ? `${Number(m[1])}. ${MONATE[Number(m[2]) - 1]} ${m[3]}` : d;
+};
+
 const MIT_ASSISTENT = [
   "/vergleich/depot",
   "/vergleich/girokonto",
@@ -119,7 +128,14 @@ export type VergleichsSeiteProps = {
   zusatz?: ReactNode;
   /** Direkt unter dem Titel, auch am Handy vor der Liste: ein Produkt, das der Vergleich vorn nennt (Gold: Royal Mint). */
   vorneweg?: ReactNode;
+  /** Auszeichnungen wie bei Finanzfluss, nur mit Kriterium aus den Daten (Elias CV17F, CV18F):
+      `nummerEins` steht im Kasten und am Platz 1, `meisteHalal` am gerankten Anbieter mit den meisten
+      belegten Halal-Anlagen, wenn er allein vorn liegt und nicht schon Platz 1 ist. */
+  auszeichnungen?: { nummerEins?: string; meisteHalal?: string };
   faq: Array<{ frage: string; antwort: string }>;
+  /** Blogteil unter der Tabelle wie bei Finanzfluss (`VergleichsRatgeber`). Ersetzt den Kriterien-Kasten und die
+      Fragen; `faq` speist weiter die strukturierten Daten und soll dieselben Fragen tragen. */
+  ratgeber?: ReactNode;
   schluss: string;
 };
 
@@ -148,7 +164,9 @@ export const VergleichsSeite = ({
   reihenfolge,
   zusatz,
   vorneweg,
+  auszeichnungen,
   faq,
+  ratgeber,
   schluss,
 }: VergleichsSeiteProps) => {
   const [aktiv, setAktiv] = useState<string[]>([]);
@@ -181,6 +199,10 @@ export const VergleichsSeite = ({
     rang && rang.nichtBewertet.length === 0
       ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.platz]))
       : null;
+  const noteVon = rang ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.note])) : null;
+  const nummerEinsText = auszeichnungen?.nummerEins ?? "Unsere Nummer 1";
+  const meisteHalalId =
+    auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
   const nachRang = platz
     ? [
         ...gefiltert
@@ -196,19 +218,19 @@ export const VergleichsSeite = ({
       ]
     : nachRang;
   const spalten = baueSpalten(
-    sortiert.map((a) =>
-      a.id === sieger?.id
-        ? {
-            ...a,
-            etikett: { text: "Unsere Nummer 1", ton: "empfehlung" as const },
-          }
-        : platz?.has(a.id) && !a.etikett
-          ? {
-              ...a,
-              etikett: { text: `Platz ${platz.get(a.id)}`, ton: "platz" as const },
-            }
-          : a,
-    ),
+    sortiert.map((a) => {
+      /* Der Platz steht als Zahl im Reiter, nicht mehr als Etikett „Platz n“ (Finanzfluss, Elias CV17F). */
+      const mitNote = {
+        ...a,
+        note: a.note ?? noteVon?.get(a.id) ?? null,
+        platz: platz?.get(a.id) ?? (a.id === sieger?.id ? 1 : undefined),
+      };
+      return a.id === sieger?.id
+        ? { ...mitNote, etikett: { text: nummerEinsText, ton: "empfehlung" as const } }
+        : a.id === meisteHalalId
+          ? { ...mitNote, etikett: { text: auszeichnungen!.meisteHalal!, ton: "bonus" as const } }
+          : mitNote;
+    }),
     zeilen,
     kategorie,
   );
@@ -240,15 +262,21 @@ export const VergleichsSeite = ({
             Laptop: ein Block links oben, neben der Nummer 1. */}
         <div className="contents lg:col-start-1 lg:row-start-2 lg:block">
           <header className="mt-4 max-w-3xl lg:mt-6">
-            <h1 className="text-[28px] font-bold leading-tight text-foreground md:text-4xl">
+            {/* Wie Finanzfluss: große H1 mit Jahr, Unterzeile in voller Farbe, dann Autor mit Foto
+                und Datum des letzten Datenstands (Elias CV17F: „immer aktualisiert am …“). */}
+            <h1 className="text-[34px] font-semibold leading-[1.1] tracking-tight text-foreground md:text-[48px]">
               {titel}
             </h1>
-            <p className="mt-2 text-[16px] text-muted-foreground lg:text-[17px]">
+            <p className="mt-3 text-[20px] leading-snug text-foreground md:text-[26px]">
               {untertitel}
             </p>
-            <p className="mt-1 text-[13px] text-muted-foreground lg:hidden">
-              Stand: {stand}
-            </p>
+            <div className="mt-4 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 lg:inline-flex lg:pr-6">
+              <img src={eliasAutor} alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
+              <p className="text-[15px] leading-snug">
+                <span className="block font-semibold text-foreground">Elias El-Gendy</span>
+                <span className="text-muted-foreground">Aktualisiert am: {datumLang(stand)}</span>
+              </p>
+            </div>
           </header>
 
           {vorneweg && <div className="mt-5 max-w-3xl">{vorneweg}</div>}
@@ -262,7 +290,7 @@ export const VergleichsSeite = ({
           {MIT_ASSISTENT.includes(pfad) && (
             <Link
               to="/vergleich/start"
-              className="mt-4 flex min-h-[56px] items-center justify-between gap-3 rounded-xl border border-primary/30 bg-hero px-4 py-2.5 text-[15px] text-foreground transition-colors hover:border-primary lg:mt-5 lg:max-w-3xl"
+              className="mt-4 flex min-h-[50px] items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-[15px] text-foreground transition-colors hover:border-primary lg:mt-5 lg:max-w-3xl"
             >
               <span>
                 <span className="font-bold">
@@ -341,13 +369,9 @@ export const VergleichsSeite = ({
               einheit={einheit}
               linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
               spalte={baueSpalten([sieger], zeilen, kategorie)[0]}
+              auszeichnung={nummerEinsText}
+              note={noteVon?.get(sieger.id) ?? null}
             />
-          )}
-          {sieger && (
-            <p className="mt-2 hidden text-[13px] text-muted-foreground lg:block">
-              Stand: {stand}
-              {standHinweis ? `. ${standHinweis}` : ""}
-            </p>
           )}
           {!sieger && (
           <Kennzahlen
@@ -373,8 +397,9 @@ export const VergleichsSeite = ({
           </div>
         )}
 
+        {!ratgeber && (
         <section
-          className={`${AM_ENDE} ${BREIT} card-surface mt-10 p-6 md:p-8`}
+          className={`${AM_ENDE} ${BREIT} mt-10 rounded-lg border border-border bg-card p-6 md:p-8`}
         >
           <h2 className="text-xl font-bold text-foreground">
             {kriterienTitel}
@@ -400,7 +425,7 @@ export const VergleichsSeite = ({
             </Link>
           </p>
         </section>
-
+        )}
 
         {gefiltert.length === 0 ? (
           <p
@@ -436,11 +461,18 @@ export const VergleichsSeite = ({
         <p className={`${BREIT} mt-2 text-[13px] text-muted-foreground`}>
           * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du
           darüber ein Produkt abschließt, erhalte ich eine Provision. Für dich
-          entstehen dadurch keine Mehrkosten.
+          entstehen dadurch keine Mehrkosten.{" "}
+          {standHinweis ? `Stand: ${stand}. ${standHinweis}.` : `Stand: ${stand}.`}{" "}
+          <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+            So bewerten wir
+          </Link>
         </p>
 
         {zusatz && <div className={`${AM_ENDE} ${BREIT}`}>{zusatz}</div>}
 
+        {ratgeber ? (
+          <div className={`${AM_ENDE} ${BREIT}`}>{ratgeber}</div>
+        ) : (
         <section className={`${AM_ENDE} ${BREIT} mt-14 max-w-3xl`}>
           <h2 className="text-2xl font-bold text-foreground">Häufige Fragen</h2>
           <Accordion type="single" collapsible className="mt-4">
@@ -456,6 +488,7 @@ export const VergleichsSeite = ({
             ))}
           </Accordion>
         </section>
+        )}
 
         <p
           className={`${AM_ENDE} ${BREIT} mt-12 text-[13px] leading-relaxed text-muted-foreground`}

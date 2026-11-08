@@ -220,7 +220,31 @@ export const kreditAchtung = (
   return undefined;
 };
 
-export const ALLE_ACHTUNG_SAETZE: string[] = [...Object.values(ACHTUNG_KREDIT), ...Object.values(KREDIT_SACHE)];
+/**
+ * Die Kurzfassung sichtbar an Karte und Tabellenspalte, nicht erst in den Produktdetails (Elias SEO74: „Wir müssen
+ * uns Flatex nochmal deutlicher angucken“). Ein Satz mit Handlung, Wortlaut aus demselben Beleg: „Ablehnung … in
+ * Textform mitteilen“.
+ */
+const KREDIT_KURZ: Record<string, string> = {
+  flatex: "Kredit ab Start dabei. Lehne ihn in Textform ab.",
+};
+
+export const kreditKurz = (
+  kategorie: string | undefined,
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined =>
+  kreditAchtung(kategorie, angebot) && angebot.haus ? KREDIT_KURZ[angebot.haus] : undefined;
+
+/** Nur die Sache, ohne Grund für den Platz: für Texte, die der Rangfolge folgen und keinen Platz nennen (Depot-Ratgeber). */
+export const kreditSache = (
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined => (kreditAchtung("depot", angebot) && angebot.haus ? KREDIT_SACHE[angebot.haus] : undefined);
+
+export const ALLE_ACHTUNG_SAETZE: string[] = [
+  ...Object.values(ACHTUNG_KREDIT),
+  ...Object.values(KREDIT_SACHE),
+  ...Object.values(KREDIT_KURZ),
+];
 
 const istHinweis = (e: Eintrag): e is Hinweis => "satz" in e;
 

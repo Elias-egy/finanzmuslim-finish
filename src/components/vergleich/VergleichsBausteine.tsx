@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Info, Minus, Star, X } from "lucide-react";
+import { Check, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 import { Link } from "react-router-dom";
 import {
@@ -55,11 +55,23 @@ export const NotenBlock = ({
   note,
   stand,
   mittig = false,
+  klein = false,
 }: {
   note: number | null;
   stand?: string;
   mittig?: boolean;
-}) => (
+  /** Eine Zeile unter dem Namen: Wort, Zahl, Sterne (Kasten der Nummer 1). */
+  klein?: boolean;
+}) =>
+  klein ? (
+    <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[14px] font-semibold text-foreground">
+      <span>
+        {noteWort(note)}
+        {note !== null && <span className="font-normal text-muted-foreground"> ({noteZahl(note)})</span>}
+      </span>
+      <Sterne note={note} />
+    </p>
+  ) : (
   <div className={mittig ? "text-center" : ""}>
     <p className="text-[15px] font-bold text-foreground">
       {noteWort(note)}
@@ -70,11 +82,67 @@ export const NotenBlock = ({
     <div className={`mt-1 flex ${mittig ? "justify-center" : ""}`}>
       <Sterne note={note} />
     </div>
-    <p className="mt-1 text-[12px] text-muted-foreground">
-      {note === null ? "" : stand}
-    </p>
+    {stand && note !== null && <p className="mt-1 text-[12px] text-muted-foreground">{stand}</p>}
   </div>
-);
+  );
+
+/* ------------------------------------------------------- Name und Reiter */
+
+/**
+ * Anbietername wie bei Finanzfluss: mit Partnerlink blau unterstrichen mit Stern, ohne Link
+ * schlichter Text (Elias CV17F: „blaue Namen“).
+ */
+export const AnbieterName = ({ spalte, className = "" }: { spalte: VergleichsSpalte; className?: string }) =>
+  spalte.link ? (
+    <Link
+      to={spalte.link}
+      rel="sponsored nofollow"
+      className={`text-primary underline underline-offset-2 hover:text-primary-hover ${className}`}
+    >
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}*
+    </Link>
+  ) : (
+    <span className={`text-foreground ${className}`}>
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}
+    </span>
+  );
+
+/**
+ * Eine Auszeichnung steht als farbiger Text neben dem Platz, keine runde Pille (Finanzfluss: „Beste
+ * Krypto-Börse“ im Reiter). Blau für die Nummer 1, Grün für eine Auszeichnung aus den Daten.
+ */
+export const auszeichnungFarbe: Record<string, string> = {
+  empfehlung: "text-primary",
+  bonus: "text-success",
+  hinweis: "text-accent",
+  platz: "text-foreground",
+};
+
+/** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss. */
+export const auszeichnungGrund: Record<string, string> = {
+  empfehlung: "bg-primary/[0.05]",
+  bonus: "bg-success/[0.05]",
+  hinweis: "",
+  platz: "",
+};
+
+/** Hat die Spalte eine Auszeichnung, die als Text im Reiter steht? „Platz n“ zählt nicht, die Zahl sagt es. */
+export const auszeichnungVon = (spalte: VergleichsSpalte) =>
+  spalte.etikett && spalte.etikett.ton !== "platz" && !spalte.abgeraten ? spalte.etikett : null;
+
+/**
+ * Kredit ab Start, sichtbar an Karte und Spalte statt nur in den Produktdetails (Elias SEO74: „Wir müssen uns
+ * Flatex nochmal deutlicher angucken“). Ein Satz mit Handlung, volle Textfarbe, kein Kleingedrucktes.
+ */
+export const KreditHinweis = ({ text, mittig = false }: { text?: string; mittig?: boolean }) =>
+  text ? (
+    <p className={`flex items-start gap-1.5 text-[13px] leading-snug text-foreground ${mittig ? "justify-center text-center" : ""}`}>
+      <TriangleAlert className="mt-px h-4 w-4 shrink-0 text-warning" aria-hidden />
+      <span>
+        <span className="font-semibold">Achtung:</span> {text}
+      </span>
+    </p>
+  ) : null;
 
 /* --------------------------------------------------------------- Etikett */
 
@@ -124,7 +192,7 @@ export const BonusSchild = ({ anbieterId, className = "" }: { anbieterId: string
   if (!deal) return null;
   return (
     <p
-      className={`mx-auto mt-2 w-fit rounded-md border border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-bold text-success ${className}`}
+      className={`mx-auto w-fit rounded-b-md border border-t-0 border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-semibold text-success ${className}`}
       title={`${deal.bedingungen}${deal.gueltigBis ? ` Gültig bis ${deal.gueltigBis.split("-").reverse().join(".")}.` : ""}`}
     >
       {schildText(deal)}

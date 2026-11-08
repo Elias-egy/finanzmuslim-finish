@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Switch } from "@/components/ui/switch";
 import { BANNER_OEFFNEN, leseWahl, messungAktiv, setzeWahl, starteMessung, type Wahl } from "@/lib/messung";
 
 /**
- * Einwilligung zur Messung (CV2, 04.11.2026). Vorbild ist das Banner von day-1.com, das Elias
- * geschickt hat: Karte unten, kurzer Text, zwei gleich große Knöpfe untereinander, Akzeptieren gefüllt,
- * Ablehnen mit Rand (raw/2026-11-04-elias-cv2-banner-wie-day-one.md). Gleich groß, weil ein
- * versteckter Ablehnen-Knopf vor deutschen Gerichten nicht hält. Die Karte deckt nie die ganze Seite.
- * Erst nach dem Laden sichtbar, damit das Vorab-Rendern sie nicht in jede Seite schreibt.
+ * Einwilligung zur Messung (CV2, 04.11.2026; umgebaut SEO75, 08.11.2026). Vorbild ist das Cookie-Fenster von
+ * finanztip.de, das Elias geschickt hat (raw/2026-11-08-elias-seo75-cookie-wie-finanztip.md, Bild
+ * raw/2026-11-08-elias-seo75-cookie-vorbild-finanztip.png): Blatt unten, fetter Titel, drei gleich breite Knöpfe
+ * untereinander, „Alles erlauben“ gefüllt, „Nicht erforderliche ablehnen“ und „Einstellungen verwalten“ mit Rand
+ * („Die klicken es einfach ganz schnell weg“). Ablehnen bleibt in der ersten Ebene mit einem Klick. Die
+ * Einstellungen haben einen Schalter, weil wir nur eine Art Cookie nutzen (Messung). Erst nach dem Laden sichtbar,
+ * damit das Vorab-Rendern es nicht in jede Seite schreibt.
  */
+const KNOPF =
+  "min-h-[36px] w-full rounded-full px-4 py-1 text-[16px] font-bold leading-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
+const VOLL = `${KNOPF} bg-primary text-primary-foreground hover:bg-primary-hover`;
+const RAND = `${KNOPF} border-[1.5px] border-primary bg-card text-primary hover:bg-primary/5`;
+
 const Einwilligung = () => {
   const [offen, setOffen] = useState(false);
+  const [einstellungen, setEinstellungen] = useState(false);
+  const [messen, setMessen] = useState(false);
 
   useEffect(() => {
     if (!messungAktiv()) return;
@@ -27,46 +37,82 @@ const Einwilligung = () => {
   const waehle = (wahl: Wahl) => {
     setzeWahl(wahl);
     setOffen(false);
+    setEinstellungen(false);
   };
 
-  // Handy: Karte unten wie day-1.com. Laptop (ab 640 px): Fenster mittig, Seite dahinter abgedunkelt, größere
-  // Schrift und Knöpfe über die ganze Breite (Elias CV4 04.11.2026: „Ein bisschen klein“, Vorbild-Bild
-  // raw/bilder/2026-11-04-elias-cv4-cookie-banner-vorbild-laptop.png). Ablehnen bleibt ein sichtbarer Knopf.
+  // Handy: Blatt unten über die ganze Breite mit runden oberen Ecken wie Finanztip. Laptop (ab 640 px): Fenster
+  // mittig, Seite dahinter abgedunkelt.
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="einwilligung-titel"
       aria-describedby="einwilligung-text"
-      className="fixed inset-x-0 bottom-0 z-[60] px-3 pb-[max(12px,env(safe-area-inset-bottom))] sm:inset-0 sm:flex sm:items-center sm:justify-center sm:bg-black/55 sm:px-6 sm:pb-0"
+      className="fixed inset-x-0 bottom-0 z-[60] sm:inset-0 sm:flex sm:items-center sm:justify-center sm:bg-black/55 sm:px-6"
     >
-      <div className="mx-auto w-full max-w-[420px] rounded-2xl border border-border bg-card p-5 shadow-[0_20px_60px_-15px_rgba(0,20,60,0.35)] sm:max-w-[620px] sm:p-9">
-        <p id="einwilligung-titel" className="text-[18px] font-bold text-foreground sm:text-[24px]">
-          Deine Privatsphäre zählt
+      <div className="w-full rounded-t-[24px] bg-card px-4 pb-[max(44px,env(safe-area-inset-bottom))] pt-7 shadow-[0_-8px_40px_-8px_rgba(0,20,60,0.35)] sm:max-w-[560px] sm:rounded-[24px] sm:p-8">
+        <p id="einwilligung-titel" className="text-[21px] font-bold leading-tight text-foreground">
+          Cookie-Einstellungen
         </p>
-        <p id="einwilligung-text" className="mt-2 text-[15px] leading-relaxed text-muted-foreground sm:mt-4 sm:text-[17px]">
-          Wir nutzen Cookies, um zu sehen, welche Seiten helfen und wo es hakt. Mehr in der{" "}
-          <Link to="/datenschutz#messung" className="text-primary underline underline-offset-2">
-            Datenschutzerklärung
-          </Link>
-          .
-        </p>
-        <div className="mt-4 grid gap-2.5 sm:mt-7 sm:gap-3">
-          <button
-            type="button"
-            onClick={() => waehle("ja")}
-            className="min-h-[48px] rounded-xl bg-primary px-5 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-[56px] sm:text-[17px]"
-          >
-            Akzeptieren
-          </button>
-          <button
-            type="button"
-            onClick={() => waehle("nein")}
-            className="min-h-[48px] rounded-xl border border-foreground/25 bg-card px-5 text-[16px] font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-[56px] sm:text-[17px]"
-          >
-            Ablehnen
-          </button>
-        </div>
+        {!einstellungen ? (
+          <>
+            <p id="einwilligung-text" className="mt-4 text-[16px] font-bold leading-[1.35] text-foreground">
+              Wir nutzen Cookies, damit unsere Seite funktioniert und wir sehen, welche Inhalte helfen und wo es hakt.
+            </p>
+            <p className="mt-3 text-[16px] leading-[1.35] text-muted-foreground">
+              In den Einstellungen kannst du wählen und deine Einwilligung jederzeit widerrufen. Mehr in{" "}
+              <Link to="/datenschutz#messung" className="underline underline-offset-2">
+                Datenschutzerklärung
+              </Link>{" "}
+              und{" "}
+              <Link to="/impressum" className="underline underline-offset-2">
+                Impressum
+              </Link>
+              .
+            </p>
+            <div className="mt-8 grid gap-3">
+              <button type="button" onClick={() => waehle("ja")} className={VOLL}>
+                Alles erlauben
+              </button>
+              <button type="button" onClick={() => waehle("nein")} className={RAND}>
+                Nicht erforderliche ablehnen
+              </button>
+              <button type="button" onClick={() => setEinstellungen(true)} className={RAND}>
+                Einstellungen verwalten
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p id="einwilligung-text" className="mt-3 text-[15px] leading-[1.45] text-foreground">
+              Wähle, was wir nutzen dürfen.
+            </p>
+            <ul className="mt-4 divide-y divide-border rounded-lg border border-border">
+              <li className="flex items-center justify-between gap-4 px-4 py-3">
+                <span className="text-[15px] text-foreground">
+                  <span className="block font-semibold">Erforderlich</span>
+                  Damit die Seite funktioniert
+                </span>
+                <span className="shrink-0 text-[14px] font-semibold text-muted-foreground">Immer an</span>
+              </li>
+              <li className="flex items-center justify-between gap-4 px-4 py-3">
+                <label htmlFor="einwilligung-messen" className="text-[15px] text-foreground">
+                  <span className="block font-semibold">Messung</span>
+                  Welche Seiten helfen und wo es hakt
+                </label>
+                <Switch id="einwilligung-messen" checked={messen} onCheckedChange={setMessen} />
+              </li>
+            </ul>
+            <div className="mt-5 grid gap-2.5">
+              <button type="button" onClick={() => waehle(messen ? "ja" : "nein")} className={VOLL}>
+                Auswahl speichern
+              </button>
+              <button type="button" onClick={() => waehle("ja")} className={RAND}>
+                Alles erlauben
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
