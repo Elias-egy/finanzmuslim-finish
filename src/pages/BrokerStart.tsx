@@ -158,12 +158,12 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           „das Video auf dieser Höhe. Natürlich in weiß“. Der Knopf ist die einzige kräftige Farbe. */}
       <section className="bg-white">
         {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
-        <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-14">
+        <div className="container max-w-[600px] pt-[clamp(48px,11svh,112px)] text-center md:pt-20">
           <h1 className="headline mx-auto max-w-[15ch] text-[30px] leading-[1.12] text-foreground md:text-[40px]">
             In 10 Minuten steht dein Halal-Investment
           </h1>
           {/* Pille mit dem echten Logo (Elias: „das richtige logo mit schrift“). */}
-          <p className="mt-4 inline-flex items-center gap-3 rounded-full border-2 border-border bg-white px-5 py-2 text-[18px] font-semibold text-foreground md:text-[20px]">
+          <p className="mt-6 inline-flex items-center gap-3 rounded-full border-2 border-border bg-white px-5 py-2 text-[18px] font-semibold text-foreground md:text-[20px]">
             bei
             <img
               src={start.logo.src}
@@ -181,13 +181,13 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
             rel="sponsored noopener"
             target="_blank"
             onClick={zumAnbieter}
-            className="mt-6 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
+            className="mt-10 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
           >
             Bei {partner.anbieter} eröffnen&nbsp;→<sup className="ml-0.5 text-[13px]">*</sup>
           </a>
           {start.pflicht && <p className="mt-2 text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
 
-          <div className="relative mt-6 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-8">
+          <div className="relative mt-12 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-16">
             {start.video ? (
               <>
                 <video
