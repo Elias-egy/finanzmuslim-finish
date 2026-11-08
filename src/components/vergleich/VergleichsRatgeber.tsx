@@ -1,14 +1,15 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { Check, ChevronDown, X } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { AlertTriangle, Check, ChevronRight, Lightbulb, ListTree, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { AngebotsKnopf, BonusSchild } from "./VergleichsBausteine";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 
 /**
- * Der Blogteil unter einer Vergleichstabelle wie bei Finanzfluss (Vault hermes/funnel-pruefung/BENCHMARK-VERGLEICHSSEITE.md
- * Abschnitt 5 V2, Bilder ff-depot-laptop-05 und -06): ab 1280 links das Inhaltsverzeichnis, in der Mitte der Text, rechts
- * mitlaufend die Nummer 1. Darunter nur ein Text. Stil der Vergleiche (serifenlos, Ecken 8 px, blauer Knopf), nicht der
- * Blog-Stil mit Serifen.
+ * Der Blogteil unter einer Vergleichstabelle wie bei Finanzfluss im hellen Modus (Vault hermes/funnel-pruefung/
+ * BENCHMARK-VERGLEICHSSEITE.md Abschnitt 5 V2; SEO77 am 08.11.2026 an finanzfluss.de/vergleich/depot gemessen): ab 1280
+ * links das Inhaltsverzeichnis, in der Mitte der Text (höchstens 720 px), rechts mitlaufend die Nummer 1. Am Handy ein
+ * runder Knopf unten rechts, der das Verzeichnis als schwebende Karte öffnet. Maße: Fließtext 18/28, H2 26/34, H3 22/30,
+ * Abstände H2 40, H3 32, Absatz 16, Kasten 24.
  */
 
 export type RatgeberEintrag = { id: string; titel: string };
@@ -46,25 +47,120 @@ const useAbschnitt = (ids: string[]) => {
   return aktiv;
 };
 
-const Verzeichnis = ({ eintraege, aktiv }: { eintraege: RatgeberEintrag[]; aktiv: string | null }) => (
-  <ol className="space-y-1">
-    {eintraege.map((e, i) => (
-      <li key={e.id}>
-        <a
-          href={`#${e.id}`}
-          aria-current={aktiv === e.id ? "location" : undefined}
-          className={`block border-l-2 py-1.5 pl-4 text-[15px] leading-snug transition-colors ${
-            aktiv === e.id
-              ? "border-primary font-semibold text-foreground"
-              : "border-border text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {i + 1}. {e.titel}
-        </a>
-      </li>
-    ))}
-  </ol>
+/** Wie bei Finanzfluss: eine durchgehende graue Linie von 4 px links, der aktive Abschnitt blau und fett. */
+const Verzeichnis = ({
+  eintraege,
+  aktiv,
+  onWahl,
+}: {
+  eintraege: RatgeberEintrag[];
+  aktiv: string | null;
+  onWahl?: () => void;
+}) => (
+  <>
+    <p className="mb-3 text-[14px] font-semibold uppercase leading-[22px] tracking-[1px] text-muted-foreground">
+      Inhaltsverzeichnis
+    </p>
+    <ol>
+      {eintraege.map((e, i) => (
+        <li key={e.id}>
+          <a
+            href={`#${e.id}`}
+            onClick={onWahl}
+            aria-current={aktiv === e.id ? "location" : undefined}
+            className={`block border-l-4 pb-6 pl-6 text-[16px] leading-6 transition-colors ${
+              aktiv === e.id
+                ? "border-primary font-semibold text-foreground"
+                : "border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {i + 1}. {e.titel}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </>
 );
+
+/**
+ * Am Handy: runder Knopf unten rechts, nur solange der Blogteil im Bild ist. Antippen holt das Verzeichnis
+ * als schwebende Karte unten rechts herein, ein Eintrag springt hin und schließt sie.
+ */
+const HandyVerzeichnis = ({
+  eintraege,
+  aktiv,
+  bereich,
+}: {
+  eintraege: RatgeberEintrag[];
+  aktiv: string | null;
+  bereich: React.RefObject<HTMLDivElement>;
+}) => {
+  const [sichtbar, setSichtbar] = useState(false);
+  const [offen, setOffen] = useState(false);
+  const knopf = useRef<HTMLButtonElement>(null);
+  const zu = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const el = bereich.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const beobachter = new IntersectionObserver(([e]) => setSichtbar(e.isIntersecting), { rootMargin: "-40% 0px -40% 0px" });
+    beobachter.observe(el);
+    return () => beobachter.disconnect();
+  }, [bereich]);
+
+  useEffect(() => {
+    if (!offen) return;
+    zu.current?.focus();
+    const taste = (e: KeyboardEvent) => e.key === "Escape" && schliessen();
+    addEventListener("keydown", taste);
+    return () => removeEventListener("keydown", taste);
+  }, [offen]);
+
+  const schliessen = () => {
+    setOffen(false);
+    knopf.current?.focus();
+  };
+
+  return (
+    <div className="xl:hidden">
+      <button
+        ref={knopf}
+        type="button"
+        onClick={() => setOffen(true)}
+        aria-label="Inhaltsverzeichnis öffnen"
+        aria-expanded={offen}
+        className={`fixed bottom-[calc(24px+env(safe-area-inset-bottom,0px))] right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary bg-card text-primary shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-opacity ${
+          sichtbar && !offen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        tabIndex={sichtbar ? 0 : -1}
+      >
+        <ListTree className="h-5 w-5" aria-hidden />
+      </button>
+      {offen && (
+        <>
+          <div className="fixed inset-0 z-50" onClick={schliessen} aria-hidden />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Inhaltsverzeichnis"
+            className="fixed bottom-[calc(24px+env(safe-area-inset-bottom,0px))] right-6 z-50 max-h-[calc(100dvh-140px)] w-[calc(100%-68px)] max-w-[340px] overflow-y-auto rounded-lg bg-card p-4 shadow-[0_4px_24px_rgba(0,0,0,0.16),0_0_2px_rgba(0,0,0,0.16)]"
+          >
+            <button
+              ref={zu}
+              type="button"
+              onClick={schliessen}
+              aria-label="Inhaltsverzeichnis schließen"
+              className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary text-primary"
+            >
+              <X className="h-5 w-5" aria-hidden />
+            </button>
+            <Verzeichnis eintraege={eintraege} aktiv={aktiv} onWahl={() => setOffen(false)} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export const VergleichsRatgeber = ({
   eintraege,
@@ -78,73 +174,153 @@ export const VergleichsRatgeber = ({
   children: ReactNode;
 }) => {
   const aktiv = useAbschnitt(eintraege.map((e) => e.id));
+  const bereich = useRef<HTMLDivElement>(null);
   return (
-    <div className="mt-14 border-t border-border pt-10 xl:grid xl:grid-cols-[230px_minmax(0,1fr)_260px] xl:gap-x-10">
+    <div className="mt-14 border-t border-border pt-10 xl:grid xl:grid-cols-[minmax(220px,290px)_minmax(0,720px)_minmax(240px,290px)] xl:justify-between xl:gap-x-4">
       <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
         <div className="sticky top-24">
-          <p className="mb-4 text-[14px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">Inhaltsverzeichnis</p>
           <Verzeichnis eintraege={eintraege} aktiv={aktiv} />
         </div>
       </aside>
 
-      <div className="min-w-0 max-w-3xl">
-        {/* Unter 1280: das Verzeichnis zum Aufklappen, oben über dem Text. */}
-        <details className="group mb-8 rounded-lg border border-border xl:hidden">
-          <summary className="flex min-h-[52px] cursor-pointer list-none items-center justify-between px-4 text-[16px] font-semibold text-foreground [&::-webkit-details-marker]:hidden">
-            Inhaltsverzeichnis
-            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform group-open:rotate-180" aria-hidden />
-          </summary>
-          <div className="border-t border-border px-4 py-3">
-            <Verzeichnis eintraege={eintraege} aktiv={aktiv} />
-          </div>
-        </details>
+      <div ref={bereich} className="min-w-0 max-w-[720px]">
         {children}
       </div>
 
       {nummerEins && (
         <aside className="hidden xl:block" aria-label={auszeichnung ?? "Unsere Nummer 1"}>
-          <div className="sticky top-24 overflow-hidden rounded-lg border border-primary/40 bg-card">
-            <p className="bg-primary/10 px-4 py-2 text-center text-[15px] font-semibold text-primary">
+          <div className="sticky top-24 overflow-hidden rounded-lg border border-primary/50 bg-accent">
+            <p className="bg-primary/10 px-2 py-px text-center text-[14px] font-semibold leading-[22px] text-primary">
               {auszeichnung ?? "Unsere Nummer 1"}
             </p>
-            <div className="p-4">
-              <div className="flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2">
-                <AnbieterLogo name={nummerEins.name} domain={nummerEins.domain} gross />
-              </div>
-              <p className="mt-3 text-center text-[16px] text-foreground">
-                <span className="font-semibold">{nummerEins.name}</span> {nummerEins.produkt}
-              </p>
-              <div className="mt-3">
-                <AngebotsKnopf link={nummerEins.link} klein />
-              </div>
+            <div className="flex justify-center pt-6">
+              <AnbieterLogo name={nummerEins.name} domain={nummerEins.domain} gross />
+            </div>
+            <p className="mt-6 px-3 text-center text-[16px] leading-6 text-foreground">
+              {nummerEins.name} {nummerEins.produkt}
+            </p>
+            <div className="p-3">
+              <AngebotsKnopf link={nummerEins.link} klein />
               <BonusSchild anbieterId={nummerEins.id} />
             </div>
           </div>
         </aside>
       )}
+
+      <HandyVerzeichnis eintraege={eintraege} aktiv={aktiv} bereich={bereich} />
     </div>
   );
 };
 
 /* ------------------------------------------------------------- Bausteine */
 
-export const RH2 = ({ id, children }: { id: string; children: ReactNode }) => (
-  <h2 id={id} className="mt-14 scroll-mt-24 text-[26px] font-semibold leading-tight tracking-tight text-foreground first:mt-0 md:text-[30px]">
+/** Die erste H2 des Blogteils steht groß wie bei Finanzfluss (32 am Handy, 48 am Laptop), alle weiteren 26. */
+export const RH2 = ({ id, gross = false, children }: { id: string; gross?: boolean; children: ReactNode }) => (
+  <h2
+    id={id}
+    className={`scroll-mt-24 font-semibold text-foreground ${
+      gross ? "text-[32px] leading-[40px] md:text-[48px] md:leading-[56px]" : "mt-10 text-[26px] leading-[34px]"
+    }`}
+  >
     {children}
   </h2>
 );
 
 export const RH3 = ({ id, children }: { id?: string; children: ReactNode }) => (
-  <h3 id={id} className="mt-10 scroll-mt-24 text-[21px] font-semibold leading-snug text-foreground md:text-[23px]">
+  <h3 id={id} className="mt-8 scroll-mt-24 text-[22px] font-semibold leading-[30px] text-foreground">
     {children}
   </h3>
 );
 
 export const RText = ({ children }: { children: ReactNode }) => (
-  <p className="mt-3 text-[17px] leading-[27px] text-foreground/90">{children}</p>
+  <p className="mt-4 text-[18px] leading-[28px] text-foreground [h2+&]:mt-3 [h3+&]:mt-2">{children}</p>
 );
 
-/** Kasten wie bei Finanzfluss: Name, Häkchen aus den Daten, höchstens ein Kreuz, rechts Logo und Knopf. */
+/** Liste mit blauem Pfeil und fettem Anfang wie Finanzfluss bei „Welche Kosten können entstehen?“. */
+export const RListe = ({ punkte }: { punkte: { titel: string; text: ReactNode }[] }) => (
+  <ul className="mt-6">
+    {punkte.map((p) => (
+      <li key={p.titel} className="relative pb-3 pl-7 text-[18px] leading-[28px] text-foreground">
+        <ChevronRight className="absolute left-0 top-1 h-5 w-5 text-primary" strokeWidth={3} aria-hidden />
+        <span className="font-semibold">{p.titel}:</span> {p.text}
+      </li>
+    ))}
+  </ul>
+);
+
+/** Hinweiskasten wie Finanzfluss: hell, gestrichelt, Titel 22 px. Statt Emoji ein Zeichen (keine Emojis bei uns). */
+export const RHinweis = ({
+  titel,
+  art = "tipp",
+  children,
+}: {
+  titel: string;
+  art?: "tipp" | "warnung";
+  children: ReactNode;
+}) => {
+  const Zeichen = art === "tipp" ? Lightbulb : AlertTriangle;
+  return (
+    <div
+      className={`mt-6 rounded-lg border border-dashed p-6 ${
+        art === "tipp" ? "border-primary/60 bg-accent" : "border-destructive/60 bg-destructive/5"
+      }`}
+    >
+      <p className="flex items-start gap-2 text-[22px] font-semibold leading-[30px] text-foreground">
+        <Zeichen className={`mt-1 h-6 w-6 shrink-0 ${art === "tipp" ? "text-primary" : "text-destructive"}`} aria-hidden />
+        {titel}
+      </p>
+      <p className="mt-2 text-[18px] leading-[28px] text-foreground">{children}</p>
+    </div>
+  );
+};
+
+/** Tabelle wie Finanzfluss: Kopf in Versalien ohne Fläche, Linien von 2 px, erste Spalte fett, Unterschrift klein. */
+export const RTabelle = ({ kopf, zeilen, unterschrift }: { kopf: string[]; zeilen: ReactNode[][]; unterschrift?: string }) => (
+  <figure className="mt-6">
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[600px] border-collapse text-left">
+        <thead>
+          <tr>
+            {kopf.map((k) => (
+              <th
+                key={k}
+                scope="col"
+                className="pb-2 pr-4 pt-4 align-bottom text-[14px] font-semibold uppercase leading-[22px] tracking-[1px] text-muted-foreground"
+              >
+                {k}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {zeilen.map((z, i) => (
+            <tr key={i} className="border-y-2 border-border">
+              {z.map((c, j) =>
+                j === 0 ? (
+                  <th key={j} scope="row" className="pb-2 pr-4 pt-4 align-top text-[16px] font-semibold leading-6 text-foreground">
+                    {c}
+                  </th>
+                ) : (
+                  <td key={j} className="pb-2 pr-4 pt-4 align-top text-[16px] leading-6 text-foreground">
+                    {c}
+                  </td>
+                ),
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {unterschrift && (
+      <figcaption className="mt-3 text-center text-[12px] leading-[18px] text-muted-foreground">{unterschrift}</figcaption>
+    )}
+  </figure>
+);
+
+/**
+ * Kasten wie bei Finanzfluss: weiß mit weichem Schatten. Laptop: links Name und Häkchen, rechts Logo und Knopf.
+ * Handy: Logo und Name mittig oben, Häkchen, Knopf über die volle Breite unten. Höchstens ein Kreuz.
+ */
 export const VorNachteile = ({
   anbieter,
   vorteile,
@@ -154,43 +330,40 @@ export const VorNachteile = ({
   vorteile: { text: string }[];
   nachteil?: { text: string } | null;
 }) => (
-  <div className="mt-6 rounded-lg bg-muted p-5 md:grid md:grid-cols-[minmax(0,1fr)_220px] md:gap-8 md:p-6">
-    <div>
-      <p className="text-[21px] font-semibold leading-snug text-foreground md:text-[23px]">
+  <div className="mt-6 flex flex-col rounded-lg bg-card px-4 pb-4 pt-8 shadow-[0_4px_24px_rgba(0,0,0,0.08),0_0_2px_rgba(0,0,0,0.16)] md:grid md:grid-cols-[minmax(0,392px)_240px] md:justify-between md:gap-x-6 md:p-6">
+    <div className="flex justify-center md:col-start-2 md:row-start-1 md:items-start">
+      <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
+    </div>
+    <div className="md:col-start-1 md:row-span-2 md:row-start-1">
+      <p className="mt-4 text-center text-[22px] font-semibold leading-[30px] text-foreground md:mt-0 md:text-left">
         {anbieter.name} {anbieter.produkt}
       </p>
-      <ul className="mt-4 space-y-2.5">
+      <ul className="mt-4">
         {vorteile.map((v) => (
-          <li key={v.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success">
+          <li key={v.text} className="relative pb-3 pl-7 text-[18px] leading-[28px] text-foreground">
+            <span className="absolute left-0 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-success">
               <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} aria-hidden />
             </span>
-            <span>{v.text}</span>
+            {v.text}
           </li>
         ))}
         {nachteil && (
-          <li className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive">
+          <li className="relative pb-3 pl-7 text-[18px] leading-[28px] text-foreground">
+            <span className="absolute left-0 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive">
               <X className="h-3.5 w-3.5 text-destructive-foreground" strokeWidth={3} aria-hidden />
             </span>
-            <span>{nachteil.text}</span>
+            {nachteil.text}
           </li>
         )}
       </ul>
     </div>
-    <div className="mt-5 flex flex-col gap-3 md:mt-0">
-      <div className="hidden min-h-[80px] items-center justify-center p-2 md:flex">
-        <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
-      </div>
-      <div>
-        <AngebotsKnopf link={anbieter.link} klein />
-        <BonusSchild anbieterId={anbieter.id} />
-      </div>
+    <div className="mt-3 md:col-start-2 md:row-start-2 md:mt-7 md:self-start">
+      <AngebotsKnopf link={anbieter.link} klein />
     </div>
   </div>
 );
 
-/** Zwei App-Bilder nebeneinander wie bei Finanzfluss, am Handy ebenfalls zu zweit. */
+/** Zwei App-Bilder wie bei Finanzfluss: am Laptop nebeneinander, am Handy untereinander, je höchstens 274 px breit. */
 export const AppBilder = ({
   bilder,
   platzhalter,
@@ -201,22 +374,26 @@ export const AppBilder = ({
 }) => {
   if (bilder.length > 0)
     return (
-      <div className="mt-6 grid grid-cols-2 gap-4 md:gap-8 md:px-8">
+      <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-9">
         {bilder.slice(0, 2).map((b) => (
-          <figure key={b.src}>
-            <img src={b.src} alt={b.alt} loading="lazy" className="h-auto w-full rounded-lg border border-border" />
-            <figcaption className="mt-2 text-center text-[14px] leading-snug text-muted-foreground">{b.text}</figcaption>
-          </figure>
+          <img
+            key={b.src}
+            src={b.src}
+            alt={b.alt}
+            title={b.text}
+            loading="lazy"
+            className="mx-auto h-auto w-full max-w-[274px] rounded-lg border border-border"
+          />
         ))}
       </div>
     );
   if (!platzhalter || !import.meta.env.DEV) return null;
   return (
-    <div className="mt-6 grid grid-cols-2 gap-4 md:gap-8 md:px-8" data-vorschau-platzhalter>
+    <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-9" data-vorschau-platzhalter>
       {[1, 2].map((n) => (
         <div
           key={n}
-          className="flex aspect-[9/16] max-h-[420px] items-center justify-center rounded-lg border-2 border-dashed border-border p-3 text-center text-[13px] text-muted-foreground"
+          className="mx-auto flex aspect-[274/542] w-full max-w-[274px] items-center justify-center rounded-lg border-2 border-dashed border-border p-3 text-center text-[13px] text-muted-foreground"
         >
           {platzhalter} {n} folgt
         </div>

@@ -1,13 +1,23 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, X } from "lucide-react";
-import { Tabelle } from "@/components/beitrag";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { AppBilder, RH2, RH3, RText, VergleichsRatgeber, VorNachteile, type RatgeberEintrag } from "./VergleichsRatgeber";
+import {
+  AppBilder,
+  RH2,
+  RH3,
+  RHinweis,
+  RListe,
+  RTabelle,
+  RText,
+  VergleichsRatgeber,
+  VorNachteile,
+  type RatgeberEintrag,
+} from "./VergleichsRatgeber";
 import { kostenKurz } from "@/data/kostenKurz";
 import { APP_BILDER_ERWARTET, DEPOT_APP_BILDER } from "@/data/depotAppBilder";
 import {
@@ -29,11 +39,9 @@ import type { RohAnbieter } from "@/data/vergleichHelfer";
 const EINTRAEGE: RatgeberEintrag[] = [
   { id: "beste-halal-depots", titel: "Die besten Halal-Depots" },
   { id: "broker-vergleich", titel: "Welcher Broker passt?" },
-  { id: "trade-republic-alternative", titel: "Trade Republic Alternative" },
   { id: "depot-kosten", titel: "Depot-Kosten im Vergleich" },
   { id: "nicht-empfohlen", titel: "Nicht empfohlen" },
   { id: "so-vergleichen-wir", titel: "So vergleichen wir" },
-  { id: "halal-sparplan", titel: "Halal-Sparplan" },
   { id: "haeufige-fragen", titel: "Häufige Fragen" },
   { id: "unsere-vergleiche", titel: "Unsere Vergleiche" },
 ];
@@ -70,7 +78,9 @@ export const DepotRatgeber = ({
   const sparplan = sparplanZeilen();
   return (
     <VergleichsRatgeber eintraege={EINTRAEGE} nummerEins={sieger} auszeichnung={auszeichnungen.nummerEins}>
-      <RH2 id="beste-halal-depots">Die besten Halal-Depots 2026</RH2>
+      <RH2 id="beste-halal-depots" gross>
+        Die besten Halal-Depots 2026
+      </RH2>
       <RText>
         Für diesen Depotvergleich haben wir {depotAnzahl} Depots angesehen. Zwei Fragen stehen vorn: Kannst du ein Depot ohne
         Zinsen führen, und wie viele Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
@@ -79,6 +89,10 @@ export const DepotRatgeber = ({
         {depotOhneZinsen} der {depotAnzahl} Depots kannst du ohne Zinsen nutzen. Bei den übrigen {depotAbgeraten.length} geht
         das nicht, sie stehen unten unter „Nicht empfohlen“.
       </RText>
+      <RHinweis titel="Depot und Broker meinen hier dasselbe">
+        Der Broker führt deine Käufe aus, im Depot liegen deine Anlagen. Fast jeder Broker bietet beides an, darum
+        vergleichen wir sie zusammen.
+      </RHinweis>
 
       <RH2 id="broker-vergleich">Broker-Vergleich: Welcher Broker passt zu Muslimen?</RH2>
       <RText>
@@ -125,12 +139,17 @@ export const DepotRatgeber = ({
               .
             </RText>
           )}
+          <RHinweis titel="Der Depotübertrag ist kostenlos">
+            Wechselst du innerhalb Deutschlands, ziehen deine Anlagen kostenlos ins neue Depot um. Du musst dafür nichts
+            verkaufen.
+          </RHinweis>
         </>
       )}
 
       <RH2 id="depot-kosten">Depot-Kosten im Vergleich</RH2>
       <RText>So viel zahlst du bei den {depotVorn.length} Depots vorn im Vergleich.</RText>
-      <Tabelle
+      <RTabelle
+        unterschrift="Kosten der Depots vorn im Vergleich"
         kopf={["Depot", "Depotgebühr", "Order", "ETF-Sparplan"]}
         zeilen={depotVorn.map((a) => [
           a.name,
@@ -145,18 +164,16 @@ export const DepotRatgeber = ({
         Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum bekommen diese Depots von uns keine
         Note.
       </RText>
-      <ul className="mt-5 divide-y divide-border rounded-lg border border-border">
+      <ul className="mt-6">
         {depotAbgeraten.map(({ anbieter, grund }) => (
-          <li key={anbieter.id} className="flex items-start gap-3 px-4 py-3.5">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive">
+          <li key={anbieter.id} className="relative pb-3 pl-7 text-[18px] leading-[28px] text-foreground">
+            <span className="absolute left-0 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive">
               <X className="h-3.5 w-3.5 text-destructive-foreground" strokeWidth={3} aria-hidden />
             </span>
-            <p className="text-[16px] leading-snug text-foreground">
-              <span className="font-semibold">
-                {anbieter.name} {anbieter.produkt}
-              </span>
-              : {grund}
-            </p>
+            <span className="font-semibold">
+              {anbieter.name} {anbieter.produkt}
+            </span>
+            : {grund}
           </li>
         ))}
       </ul>
@@ -166,25 +183,16 @@ export const DepotRatgeber = ({
         Ein ETF-Depot-Vergleich oder Aktien-Depot-Vergleich schaut meist nur auf die Kosten. Für Muslime kommen zwei Fragen
         dazu, und alle drei zählen bei uns:
       </RText>
-      <ol className="mt-5 space-y-4">
-        {[
+      <RListe
+        punkte={[
           ...kriterien,
           {
             titel: "Kosten",
             text: "Depotgebühr, Order und Sparplan, dazu Sparrate, Handelsplätze, Steuer, Service und App. Halal und Kosten zählen je zur Hälfte.",
           },
-        ].map((k, i) => (
-          <li key={k.titel} className="flex gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary text-[14px] font-semibold text-primary-foreground">
-              {i + 1}
-            </span>
-            <p className="text-[17px] leading-[27px] text-foreground/90">
-              <span className="font-semibold text-foreground">{k.titel}:</span> {k.text}
-            </p>
-          </li>
-        ))}
-      </ol>
-      <p className="mt-5 text-[16px]">
+        ]}
+      />
+      <p className="mt-3 text-[18px] leading-[28px]">
         <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
           So entsteht die Bewertung
         </Link>
@@ -199,17 +207,21 @@ export const DepotRatgeber = ({
         </Link>{" "}
         kannst du dort besparen:
       </RText>
-      <Tabelle
+      <RTabelle
+        unterschrift="Halal ETFs im Sparplan je Depot"
         kopf={["Depot", "Halal ETFs im Sparplan", "Sparplan ab"]}
         zeilen={sparplan.map((z) => [z.anbieter.name, `${z.auf} von ${sparplanVon}`, z.ab ?? "–"])}
       />
 
       <RH2 id="haeufige-fragen">Häufige Fragen</RH2>
-      <Accordion type="single" collapsible className="mt-4">
+      {/* Wie Finanzfluss: je Frage ein hellgrauer Kasten, 24 px Abstand, Frage 18 px fett, Pfeil rechts. */}
+      <Accordion type="single" collapsible className="mt-6 space-y-6">
         {faq.map((item) => (
-          <AccordionItem key={item.frage} value={item.frage}>
-            <AccordionTrigger className="text-left text-[17px] font-semibold">{item.frage}</AccordionTrigger>
-            <AccordionContent className="text-[16px] leading-relaxed text-foreground/85">{item.antwort}</AccordionContent>
+          <AccordionItem key={item.frage} value={item.frage} className="rounded-lg border-b-0 bg-muted">
+            <AccordionTrigger className="gap-4 px-4 py-3.5 text-left text-[18px] font-semibold leading-6 hover:no-underline [&>svg]:h-5 [&>svg]:w-5">
+              {item.frage}
+            </AccordionTrigger>
+            <AccordionContent className="px-4 text-[18px] leading-[28px] text-foreground">{item.antwort}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
