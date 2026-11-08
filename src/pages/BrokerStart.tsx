@@ -128,8 +128,9 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           zum Anbieter ist der Star und die einzige kräftige Farbe; kein Logo, keine Sterne, kein Kasten. Das Video mit
           Abstand darunter. */}
       <section className="bg-white">
-        <div className="container max-w-[600px] pt-6 pb-10 md:pt-12 md:pb-16">
-          <h1 className="headline text-[26px] leading-[1.15] text-foreground md:text-[34px]">
+        {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
+        <div className="container max-w-[600px] pb-10 pt-[clamp(36px,8svh,80px)] md:pb-16 md:pt-16">
+          <h1 className="headline text-[30px] leading-[1.12] text-foreground md:text-[38px]">
             Dein Halal-Depot bei <span className="text-primary">{partner.anbieter}</span>
           </h1>
           {start.bestaetigung && (
@@ -138,10 +139,11 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
               {note !== null && <> ({noteZahl(note)} von 5)</>}
             </p>
           )}
-          <ul className="mt-4 space-y-1.5">
+          {/* Haken grün (Elias, CV22F): „dass die Leute sich so fühlen, als wären sie auf der richtigen Seite“. */}
+          <ul className="mt-5 space-y-2.5 md:mt-6">
             {start.zeilen.map((z) => (
-              <li key={z} className="flex items-start gap-2 text-[16px] leading-snug text-foreground">
-                <Check className="mt-[3px] h-[18px] w-[18px] shrink-0 text-primary" strokeWidth={3} aria-hidden />
+              <li key={z} className="flex items-start gap-2.5 text-[17px] leading-snug text-foreground md:text-[18px]">
+                <Check className="mt-[2px] h-5 w-5 shrink-0 text-success" strokeWidth={3} aria-hidden />
                 {z}
               </li>
             ))}
@@ -153,13 +155,13 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
             rel="sponsored noopener"
             target="_blank"
             onClick={zumAnbieter}
-            className="mt-6 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
+            className="mt-7 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
           >
             Depot bei {partner.anbieter} eröffnen*
           </a>
           {start.pflicht && <p className="mt-2 text-center text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
 
-          <p className="mt-14 text-[15px] font-semibold text-foreground md:mt-16">In 5 Minuten mit mir eröffnen</p>
+          <p className="mt-12 text-[15px] font-semibold text-foreground md:mt-16">In 5 Minuten mit mir eröffnen</p>
           <div className="relative mt-2 w-full aspect-video overflow-hidden rounded-[6px] bg-black">
             {start.video ? (
               <>

@@ -34,8 +34,10 @@ export const BROKER_START: Record<string, BrokerStart> = {
     vergleichId: "traders-place-depot",
     bestaetigung: "Bestes Halal-Depot im Vergleich",
     zeilen: ["Halal-ETFs, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
-    // „Für die Einbuchung deiner Wertpapiere berechnen wir keine Kosten“ (tradersplace.de, Service, Depotübertrag).
-    wechselUrl: "https://www.tradersplace.de/service/depotuebertrag",
+    // Direkt ins Online-Formular (Elias, CV22F: „die machen das für euch“): alte Bank wählen, Bestände abrufen, am Handy
+    // unterschreiben; „Wir schicken Deinen Antrag an die abgebende Bank.“ Verlinkt von tradersplace.de/service/depotuebertrag,
+    // dort: „Für die Einbuchung deiner Wertpapiere berechnen wir keine Kosten“.
+    wechselUrl: "https://tradersplace.depotwechselservice24.de/",
   },
   flatex: {
     vergleichId: "flatex-depot",
@@ -43,9 +45,10 @@ export const BROKER_START: Record<string, BrokerStart> = {
     // … ohne jetzt dieses 12 von 12“. „Größte Halal-Börse in Deutschland“ ist nicht belegbar; weltweit sind die
     // kaufbaren Islamic-ETFs (MSCI World Islamic, ACWI Islamic, Emerging Markets Islamic) und Sukuk.
     zeilen: ["Weltweite Halal-Anlagen", "Depot 0\u00a0€, ETF-Sparplan 0\u00a0€"],
-    // „Unsererseits werden für die Übertragung keine Gebühren erhoben“ (flatex FAQ Depotübertrag).
-    wechselUrl:
-      "https://www.flatex.de/service/faqs/detail/depotuebertrag/allgemein-zum-depotuebertrag/wie-kann-ich-ein-konto-zu-flatex-uebertragen/",
+    // Direkt das Formular „Konto-/Depotübertrag an flatexDEGIRO Bank SE“ (flatex kennt kein Online-Verfahren für den
+    // Übertrag zu flatex): ausfüllen, unterschreiben, an die alte Bank. „Unsererseits werden für die Übertragung keine
+    // Gebühren erhoben“ (flatex FAQ Depotübertrag).
+    wechselUrl: "https://konto.flatex.de/formularcenter/public/1300002.pdf",
     kreditVerzicht: true,
     // flatex-Vorgaben für Partner (~/rebrand/data/vergleiche/belege/flatex/2026-10-12-info-flatex-disclaimers.txt):
     // Risikohinweis „deutlich sichtbar und in der gleichen Schriftgröße wie der Text“; bei 0 € Orderentgelt für ETFs der
@@ -57,8 +60,9 @@ export const BROKER_START: Record<string, BrokerStart> = {
     vergleichId: "smartbroker-plus-depot",
     bestaetigung: "Sehr gut im Vergleich, auch alle Sukuk",
     zeilen: ["Halal-ETFs, Sukuk, zertifiziertes Gold, Sparplan ab 1\u00a0€", "Depot 0\u00a0€, Order ab 0\u00a0€"],
-    // „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“ (smartbrokerplus.de/de-de/depotuebertrag).
-    wechselUrl: "https://www.smartbrokerplus.de/de-de/depotuebertrag/",
+    // Direkt ins Online-Formular wie bei Traders Place. „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“
+    // (smartbrokerplus.de/de-de/depotuebertrag).
+    wechselUrl: "https://smartbrokerplus.depotwechselservice24.de/",
   },
 };
 
