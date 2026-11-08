@@ -5,6 +5,7 @@ import { partnerLinks } from "@/data/partnerLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
+import { QUIZ_PFAD } from "./portfolioQuizPfad";
 import { BOYKOTT_PFAD } from "./boykottListe";
 import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
@@ -194,6 +195,8 @@ export const nichtIndexiert: string[] = [
   ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
+  // Persönlicher Portfolioplan, die Belohnung auf FERTIG (CV26P), nur über den Link aus der Antwort-Mail
+  QUIZ_PFAD,
   // Boykott-Liste zum Wort „Boykott“ (BK1), ebenso nur über den Link aus dem Instagram-Chat
   BOYKOTT_PFAD,
   // Gold-Plan zum Wort „Gold“ (MC4b), ebenso nur über den Link aus dem Instagram-Chat
@@ -270,6 +273,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
   { pfad: "/dein-plan/:schluessel", grund: "Portfolio-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-portfolioplan/:schluessel", grund: "Persoenlicher Portfolioplan nur ueber den Link aus der FERTIG-Antwort, setzt noindex" },
   { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-gold/:schluessel", grund: "Gold-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-etf/:schluessel", grund: "ETF-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
