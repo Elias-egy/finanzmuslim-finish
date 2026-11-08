@@ -355,8 +355,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "JOE Broker Depot",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -473,12 +473,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -608,13 +608,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
-      "Traders Place"
+      "Traders Place",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -731,13 +731,13 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finvesto",
       "ING",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
       "Traders Place",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -790,32 +790,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie000lfc57h7/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie000lfc57h7/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -917,11 +891,11 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "ING",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "S Broker",
       "tradegate.direct",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -1011,32 +985,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie000uoxram8/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie000uoxram8/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -1196,8 +1144,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "finanzen.net zero",
       "finvesto",
-      "Libertex",
-      "maxblue Wertpapier-Sparplan"
+      "maxblue Wertpapier-Sparplan",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -1387,12 +1335,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "ING",
       "JOE Broker Depot",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Scalable Capital",
       "Smartbroker+",
       "Trade Republic",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -1451,6 +1399,32 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       {
         "anbieter": "Bux Basic",
         "haus": "Bux Bux Basic",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Plus",
+        "haus": "Bux Plus",
+        "beleg": {
+          "url": "https://bux.com/de/wissenszentrum/produktliste/",
+          "stand": "07.10.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "getbux.com",
+            "bux.com"
+          ]
+        }
+      },
+      {
+        "anbieter": "Bux Prime",
+        "haus": "Bux Bux Prime",
         "beleg": {
           "url": "https://bux.com/de/wissenszentrum/produktliste/",
           "stand": "07.10.2026",
@@ -1583,32 +1557,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -1860,7 +1808,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bitpanda",
       "JOE Broker Depot",
-      "Libertex"
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -2012,32 +1960,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycp72/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycp72/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -2255,8 +2177,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "JOE Broker Depot",
-      "Libertex",
-      "maxblue Wertpapier-Sparplan"
+      "maxblue Wertpapier-Sparplan",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -2420,32 +2342,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b296qm64/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b296qm64/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -2663,8 +2559,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "JOE Broker Depot",
-      "Libertex",
-      "maxblue Wertpapier-Sparplan"
+      "maxblue Wertpapier-Sparplan",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -2767,32 +2663,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b43vdt70/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -2924,13 +2794,16 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Fidelity",
       "finanzen.net zero",
       "finvesto",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -3113,14 +2986,17 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Trade Republic",
       "tradegate.direct",
       "Trading 212",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -3243,18 +3119,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/3393",
-          "stand": "07.10.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "finvesto Wertpapierdepot",
         "haus": "Finvesto Wertpapierdepot",
         "beleg": {
@@ -3277,32 +3141,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00b579f325/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -3523,7 +3361,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "finanzen.net zero",
       "finvesto",
       "justTRADE",
-      "Libertex"
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -3625,32 +3463,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/ie00bmymhs24/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -3822,8 +3634,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "finvesto",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -4003,32 +3815,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3333/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -4235,8 +4021,8 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex",
       "N26",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -4352,32 +4138,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3770/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00b1vs3770/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -4533,11 +4293,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex",
-      "N26"
+      "N26",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -4800,11 +4563,14 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex",
       "N26",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -4873,18 +4639,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12218",
-          "stand": "07.10.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -4920,32 +4674,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00bn2cj301/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00bn2cj301/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -5089,12 +4817,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
-      "N26"
+      "N26",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -5162,18 +4893,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "eToro",
-        "haus": "etoro",
-        "beleg": {
-          "url": "https://www.etoro.com/sapi/instrumentsinfo/instruments/12206",
-          "stand": "07.10.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "etoro.com"
-          ]
-        }
-      },
-      {
         "anbieter": "finanzen.net zero",
         "haus": "finanzen-net-zero",
         "beleg": {
@@ -5209,32 +4928,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "domains": [
             "flatex.de"
           ]
-        }
-      },
-      {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00bqrfdy49/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/je00bqrfdy49/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
         }
       },
       {
@@ -5377,12 +5070,15 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     ],
     "nichtImAngebot": [
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Fidelity",
       "finvesto",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
-      "N26"
+      "N26",
+      "WillBe"
     ],
     "stand": "07.11.2026"
   },
@@ -5512,10 +5208,12 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "finanzen.net zero",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "S Broker",
@@ -5523,6 +5221,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "tradegate.direct",
       "Traders Place",
       "Trading 212",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -5627,19 +5326,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
     "nichtImAngebot": [
       "Bison",
       "Bitpanda",
+      "Bux Basic",
+      "Bux Plus",
+      "Bux Prime",
       "comdirect Pure Depot",
       "Consorsbank",
       "finanzen.net zero",
       "finvesto",
       "finvesto Wertpapierdepot",
       "justTRADE",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Trade Republic",
       "tradegate.direct",
       "Traders Place",
       "Trading 212",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -5842,10 +5544,10 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finvesto",
       "ING",
-      "Libertex",
       "maxblue Wertpapier-Sparplan",
       "N26",
       "Trade Republic",
+      "WillBe",
       "XTB"
     ],
     "stand": "07.11.2026"
@@ -5918,32 +5620,6 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
-        "anbieter": "Freedom24 All inclusive",
-        "haus": "Freedom24 All inclusive",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
-        "anbieter": "Freedom24 Smart",
-        "haus": "Freedom24 Smart",
-        "beleg": {
-          "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
-          "stand": "07.11.2026",
-          "quelle": "anbieter",
-          "domains": [
-            "freedom24.com"
-          ],
-          "belegart": "portal"
-        }
-      },
-      {
         "anbieter": "N26",
         "haus": "n26",
         "beleg": {
@@ -6011,6 +5687,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "tradegate.direct",
+        "haus": "tradegate-direct",
+        "beleg": {
+          "url": "https://extraetf.com/de/etf-profile/XS2115336336",
+          "stand": "08.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "tradegate.direct"
+          ],
+          "belegart": "portal"
+        }
+      },
+      {
         "anbieter": "Traders Place",
         "haus": "traders-place",
         "beleg": {
@@ -6037,7 +5726,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [],
-    "stand": "07.11.2026"
+    "stand": "08.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [
