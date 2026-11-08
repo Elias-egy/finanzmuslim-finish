@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ereignis } from "@/lib/messung";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, ChevronDown, ChevronRight, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
+import Aufruf from "@/components/Aufruf";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild } from "@/components/vergleich/VergleichsBausteine";
@@ -136,7 +137,7 @@ const Zaehler = ({ wert }: { wert: number }) => {
 const Bild = ({ name, klein }: { name: MotivName; klein?: boolean }) => {
   const Motiv = motive[name];
   return (
-    <span className={`block shrink-0 overflow-hidden rounded-2xl ${klein ? "h-14 w-14" : "h-[72px] w-[72px]"}`} aria-hidden>
+    <span className={`block shrink-0 overflow-hidden rounded-lg ${klein ? "h-14 w-14" : "h-[72px] w-[72px]"}`} aria-hidden>
       <Motiv />
     </span>
   );
@@ -163,9 +164,9 @@ const Karte = ({
     type="button"
     onClick={onClick}
     aria-pressed={aktiv}
-    className={`relative flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-2xl border px-3 py-4 text-center transition-colors ${
+    className={`relative flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-lg border px-3 py-4 text-center transition-colors ${
       breit ? "col-span-2" : ""
-    } ${aktiv ? "border-primary bg-hero ring-1 ring-primary" : "border-border bg-card hover:border-primary"}`}
+    } ${aktiv ? "border-primary bg-card ring-1 ring-primary" : "border-border bg-card hover:border-primary"}`}
   >
     {mehrfach && (
       <span
@@ -254,7 +255,7 @@ const Gruende = ({ t }: { t: Treffer }) => {
 };
 
 const Fakten = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; auswahl: Auswahl }) => (
-  <dl className="mt-3 space-y-1 rounded-xl bg-hero px-3 py-2.5 text-[14px]">
+  <dl className="mt-3 space-y-1 rounded-lg border border-border bg-card px-3 py-2.5 text-[14px]">
     {(auswahl.prioritaet?.fakten ?? baustein.fakten).map((k) => (
       <div key={k} className="flex justify-between gap-3">
         <dt className="shrink-0 text-muted-foreground">{baustein.zeilen.find((z) => z.key === k)?.label ?? k}</dt>
@@ -294,9 +295,15 @@ const Weiter = ({ t, baustein, gross }: { t: Treffer; baustein: Baustein; gross?
     </div>
   ) : (
     <div>
-      <Link to={baustein.vergleich} className={gross ? knopf : knopfLeise}>
-        Im Vergleich ansehen
-      </Link>
+      {gross ? (
+        <Aufruf to={baustein.vergleich} className="block">
+          Im Vergleich ansehen
+        </Aufruf>
+      ) : (
+        <Link to={baustein.vergleich} className={knopfLeise}>
+          Im Vergleich ansehen
+        </Link>
+      )}
       <BonusSchild anbieterId={t.anbieter.id} />
     </div>
   );
@@ -306,11 +313,11 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
   const [offen, setOffen] = useState(false);
   const a = t.anbieter;
   return (
-    <div className="mt-4 overflow-hidden rounded-2xl border-2 border-primary bg-primary shadow-[0_14px_40px_-18px_rgba(0,87,250,0.55)]">
+    <div className="mt-4 overflow-hidden rounded-lg border-2 border-primary bg-primary shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
       <p className="px-4 py-2.5 text-center text-[14px] font-semibold text-primary-foreground">
         Empfehlung für {baustein.titel.charAt(0).toLowerCase() + baustein.titel.slice(1)}
       </p>
-      <div className="rounded-t-2xl bg-card p-4">
+      <div className="rounded-t-lg bg-card p-4">
         <div className="flex items-center gap-3">
           <AnbieterLogo name={a.name} domain={a.domain} gross />
           <p className="min-w-0 flex-1 text-[19px] leading-snug text-foreground">
@@ -342,7 +349,7 @@ const Empfehlung = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; 
 };
 
 const TrefferKarte = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein; auswahl: Auswahl }) => (
-  <li className="rounded-2xl border border-border bg-card p-4">
+  <li className="rounded-lg border border-border bg-card p-4">
     <div className="flex items-center gap-3">
       <AnbieterLogo name={t.anbieter.name} domain={t.anbieter.domain} />
       <p className="min-w-0 flex-1 text-[16px] leading-snug text-foreground">
@@ -361,7 +368,7 @@ const TrefferKarte = ({ t, baustein, auswahl }: { t: Treffer; baustein: Baustein
 const Klappe = ({ titel, children }: { titel: string; children: React.ReactNode }) => {
   const [offen, setOffen] = useState(false);
   return (
-    <div className="mt-3 rounded-2xl border border-border bg-card">
+    <div className="mt-3 rounded-lg border border-border bg-card">
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
@@ -410,7 +417,7 @@ const BausteinAbschnitt = ({ baustein, antworten, nummer, mehrere }: { baustein:
       {erster ? (
         <Empfehlung t={erster} baustein={baustein} auswahl={auswahl} />
       ) : (
-        <p className="mt-4 rounded-2xl border border-border bg-card p-4 text-[15px] text-muted-foreground">
+        <p className="mt-4 rounded-lg border border-border bg-card p-4 text-[15px] text-muted-foreground">
           Noch erfüllt kein Anbieter alle deine Angaben nachweislich. Nimm eine Angabe zurück oder sieh in den ganzen Vergleich.
         </p>
       )}
@@ -495,10 +502,8 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
   return (
     <div>
       {feier && <Konfetti />}
-      <div className="relative overflow-hidden rounded-3xl border border-primary/15 bg-[linear-gradient(135deg,#EBF2FF_0%,#F4EFFF_52%,#FFF4D8_100%)] px-5 py-4 text-center shadow-[0_14px_40px_-28px_rgba(0,87,250,0.5)] md:px-8 md:py-5">
-        <span className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#F25FB3]/15 blur-2xl" aria-hidden />
-        <span className="absolute -bottom-10 -left-6 h-32 w-32 rounded-full bg-[#00A7A5]/15 blur-2xl" aria-hidden />
-        <p className="relative mx-auto inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[13px] font-bold text-[#6D4FD2] shadow-sm">
+      <div className="relative overflow-hidden rounded-lg border border-border bg-card px-5 py-4 text-center md:px-8 md:py-5">
+        <p className="relative mx-auto inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1 text-[13px] font-bold text-[#6D4FD2]">
           <Sparkles className="h-4 w-4" aria-hidden />
           Geschafft
         </p>
@@ -516,14 +521,14 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
         <Zusatz key={b.id} baustein={b} antworten={antworten} />
       ))}
 
-      <section className="mt-10 rounded-2xl bg-hero p-5">
+      <section className="mt-10 rounded-lg border border-border bg-card p-5">
         <h2 className="text-[18px] font-bold text-foreground">Und danach</h2>
         <div className="mt-3 space-y-2">
           {danach.map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className="flex min-h-[52px] items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 text-[15px] font-semibold text-foreground transition-colors hover:border-primary"
+              className="flex min-h-[52px] items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 text-[15px] font-semibold text-foreground transition-colors hover:border-primary"
             >
               {l.text}
               <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
@@ -636,7 +641,7 @@ const VergleichAssistent = () => {
         {imAblauf && (
           <>
             {/* Läuft mit jeder Antwort mit. Eine Euro-Zahl steht hier erst, wenn wir eine belegen können. */}
-            <div className="flex items-center justify-between gap-3 rounded-2xl border border-success/40 bg-card px-4 py-3 shadow-[0_8px_26px_-14px_rgba(22,140,80,0.55)]" aria-live="polite">
+            <div className="flex items-center justify-between gap-3 rounded-lg border border-success/40 bg-card px-4 py-3" aria-live="polite">
               <span className="text-[15px] font-medium leading-tight text-foreground">
                 {bonus > 0 ? "Bonus für dich bis zu" : gewaehltesVorhaben ? "Anbieter, die zu dir passen" : "Anbieter im Vergleich"}
               </span>
@@ -646,9 +651,9 @@ const VergleichAssistent = () => {
               </span>
             </div>
 
-            <div className="mt-4 rounded-2xl border border-border bg-card p-4 md:p-6">
-              <div className="h-2 overflow-hidden rounded-full bg-border" role="progressbar" aria-label="Fortschritt" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
-                <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${anteil * 100}%` }} />
+            <div className="mt-4 rounded-lg border border-border bg-card p-4 md:p-6">
+              <div className="h-2 overflow-hidden rounded bg-border" role="progressbar" aria-label="Fortschritt" aria-valuenow={Math.round(anteil * 100)} aria-valuemin={0} aria-valuemax={100}>
+                <div className="h-full rounded bg-primary transition-[width] duration-300" style={{ width: `${anteil * 100}%` }} />
               </div>
 
               {frage && (
@@ -731,7 +736,7 @@ const VergleichAssistent = () => {
             <div className="mx-auto mt-10 max-w-[280px] space-y-4" aria-hidden>
               {[0, 1].map((i) => (
                 <div key={i} className="flex animate-pulse items-center gap-3" style={{ animationDelay: `${i * 200}ms` }}>
-                  <span className="h-12 w-12 rounded-xl bg-border" />
+                  <span className="h-12 w-12 rounded-lg bg-border" />
                   <span className="flex-1 space-y-2">
                     <span className="block h-3 w-2/3 rounded bg-border" />
                     <span className="block h-3 w-full rounded bg-border" />

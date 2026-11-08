@@ -11,7 +11,7 @@ import { Wordmark } from "@/components/Wordmark";
  * Alles andere mit Kopf und Fuß.
  */
 const Schlicht = ({ children, eigenerKopf = false }: { children: ReactNode; eigenerKopf?: boolean }) => (
-  <div className={`flex min-h-screen flex-col ${eigenerKopf ? "bg-background" : "bg-hero"}`}>
+  <div className="flex min-h-screen flex-col bg-background">
     {!eigenerKopf && (
       <header className="container flex h-16 items-center">
         <Link to="/" aria-label="finanzmuslim Startseite">
