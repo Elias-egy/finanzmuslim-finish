@@ -4,14 +4,15 @@ import { AnlageLogo } from "@/components/AnlageZeile";
 import { Kurve } from "@/components/portfolioplan/Kurve";
 import { prozentText, type Produkt } from "@/data/portfolioQuiz";
 
-const Wert = ({ label, n }: { label: string; n: number }) => (
-  <span className="mr-3 inline-block whitespace-nowrap text-[13px] tabular-nums text-foreground/65 md:mr-0 md:block md:text-[14px]">
-    {label} <b className={n >= 0 ? "text-gain" : "text-loss"}>{prozentText(n)}</b>
+const Wert = ({ label, n, text }: { label: string; n?: number; text?: string }) => (
+  <span className="mr-3 inline-block whitespace-nowrap text-[13px] tabular-nums text-foreground/75 md:mr-0 md:block md:text-[14px]">
+    {label} <b className={n === undefined ? "text-foreground" : n >= 0 ? "text-gain" : "text-loss"}>{n === undefined ? text : prozentText(n)}</b>
   </span>
 );
 
 /**
- * Eine Anlage im Dashboard des Portfolioplans (CV28P, 09.11.2026): Logo, Name, kleine Flächen-Kurve, rechts 1 Jahr und
+ * Eine Anlage im Dashboard des Portfolioplans (CV28P, 09.11.2026): Logo, Name, kleine Flächen-Kurve, rechts zuerst die
+ * Kosten im Jahr (Leser-Regel „Kosten zuerst“, Prüfer CV29P Fund 2; aus `kosten` in halalAnlagen.ts), dann 1 Jahr und
  * 5 Jahre; die ganze Zeile führt in die Halal-Datenbank (Elias CV26P: „wenn du die anklickst, auf meine Datenbank“).
  * Nie eine Prozentzahl für den Anteil an einer Anlage (memory prozente-nur-je-baustein-gold-ausnahme-royal-mint).
  * Am Handy steht die Rendite unter dem Namen, am Laptop rechts; der Text steht nur einmal im Code.
@@ -37,7 +38,8 @@ export const PlanAnlageZeile = ({
 }) => {
   const { anlage, r1, r5, verlauf, seit } = produkt;
   const zeigeR5 = !nurEinJahr && r5 !== undefined;
-  const hatRendite = r1 !== undefined || zeigeR5 || Boolean(seit);
+  const hatRendite = true;
+  const kosten = anlage.kostenLabel === "keine" ? "keine" : `${anlage.kostenLabel} im Jahr`;
   return (
     <Link
       to={`/halal-anlagen/${anlage.slug}`}
@@ -67,10 +69,11 @@ export const PlanAnlageZeile = ({
       </span>
       {hatRendite && (
         <span className={`${mitLogo ? "col-start-2" : "col-start-1"} row-start-2 md:col-start-auto md:row-start-auto md:min-w-[124px] md:text-right`}>
+          {!nurEinJahr && <Wert label="Kosten" text={kosten} />}
           {r1 !== undefined && <Wert label="1 Jahr" n={r1} />}
           {zeigeR5 && <Wert label="5 Jahre" n={r5!} />}
           {r1 === undefined && !zeigeR5 && seit && (
-            <span className="inline-block whitespace-nowrap text-[13px] text-foreground/65 md:block md:text-[14px]">{seit}</span>
+            <span className="inline-block whitespace-nowrap text-[13px] text-foreground/75 md:block md:text-[14px]">{seit}</span>
           )}
         </span>
       )}

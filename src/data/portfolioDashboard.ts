@@ -70,14 +70,14 @@ export const TYPEN: Record<TypId, Typ> = {
   baumeister: {
     id: "baumeister",
     name: "Der Baumeister",
-    seele: "Du baust für später. Geduldig, breit, ohne Experimente. Ein Kauf im Monat, der Rest läuft.",
+    seele: "Du baust für später. Geduldig, breit, ohne Experimente. Was du anlegst, bleibt liegen.",
     tut: "Der Islamic ETF ist dein Fundament, Gold hält dagegen.",
   },
   entdecker: {
     id: "entdecker",
     name: "Der Entdecker",
     seele: "Du willst wissen, was dir gehört. Firmen, die du selbst aussuchst, mit eigener Handschrift.",
-    tut: "Breite Basis im ETF, dazu ein Teil für Aktien, die du selbst prüfst.",
+    tut: "Breite Basis im ETF, dazu ein Teil für Aktien, die du selbst aussuchst.",
   },
   pionier: {
     id: "pionier",
@@ -174,7 +174,7 @@ export const STILE: Partial<Record<BausteinId, Stil[]>> = {
   ],
   sukuk: [
     { id: "etf", titel: "Als ETF", isins: ["IE000929U2U9", "LU3123443510"] },
-    { id: "fonds", titel: "Aktiv verwaltet", isins: ["LU1150255971"] },
+    { id: "fonds", titel: "Als Fonds", isins: ["LU1150255971"] },
   ],
   gold: [
     { id: "auslieferbar", titel: "Auslieferbar", isins: [ROYAL_MINT] },
@@ -263,13 +263,24 @@ export const stilVorwahl = (
  * raw/2026-11-09-elias-cv27p-prozente-nur-grundbereiche-usa-gold-favorit-steuer.md; memory
  * royal-mint-gold-etc-nummer-eins-edelmetalle). Steuer: BFH VIII R 7/17 vom 16.06.2020 (Laufzettel cv28p, Gefühlsblatt
  * Punkt 4: Lieferanspruch ist keine Kapitalforderung nach § 20 EStG, Verkauf fällt unter § 23 EStG). Nie „der einzige“:
- * die Datenbank nennt die Auslieferung nur bei Royal Mint und sagt über die anderen nichts.
+ * die Datenbank nennt die Auslieferung nur bei Royal Mint und sagt über die anderen nichts. Seit CV30P sagt der Satz
+ * „auf den Gewinn“ und „liefern lassen“ statt „Lieferanspruch“ (Prüfer CV29P, Fund 1 und 8); dieselbe Aussage steht in
+ * der Steuer-Karte der Basics (portfolioBasics.ts), damit sich die Seite nicht widerspricht.
  */
 export const GOLD_FAVORIT_FAKTEN = [
   "Zertifiziert",
   "Du kannst dir das Gold liefern lassen, als Barren oder Münzen",
-  "Nach zwölf Monaten steuerfrei. Gold ohne Lieferanspruch zahlt 26,375 %",
+  "Nach zwölf Monaten ist der Gewinn steuerfrei. Gold, das du dir nicht liefern lassen kannst, zahlt 26,375 % Steuer auf den Gewinn",
 ] as const;
+
+/**
+ * Ein Alltagswort unter dem Baustein, wo der Name allein nichts sagt (Prüfer CV29P, Fund 8: Sukuk nie erklärt; Leser-Regel
+ * „Kein Fachwort ohne Alltagswort“). Wortlaut nach dem Halal Investment Blueprint (~/rebrand/freebies/xxl.html, Seite 9:
+ * „Sukuk: ein Anteil, kein Kredit … Anteil an einer Sache, Miete statt Zins“).
+ */
+export const ALLTAGSWORT: Partial<Record<BausteinId, string>> = {
+  sukuk: "Wie Anleihen, aber ohne Zins: du besitzt einen Anteil an einer Sache. Schwankt wenig.",
+};
 
 export type BausteinAnlagen = {
   anteil: Anteil;
@@ -357,6 +368,8 @@ export type Fakten = {
   krypto: number;
   /** Mit eigenem Shariah-Zertifikat des Anbieters, nicht nur Index. */
   zertifikat: number;
+  /** Die niedrigsten laufenden Kosten im Jahr unter den Anlagen mit Kosten, als Text („0,12 %“); Leser-Regel: Kosten zuerst. */
+  kostenAb: string;
   /** Beim gewählten Depot mit Einzelbeleg kaufbar; undefined, wenn kein Depot gewählt ist. */
   kaufbar?: number;
 };
@@ -370,6 +383,7 @@ export const datenbankFakten = (broker?: BrokerWahl): Fakten => {
     edelmetalle: halalAnlagen.filter((a) => a.kategorie === "gold" || a.kategorie === "silber" || a.kategorie === "rohstoffe").length,
     krypto: halalAnlagen.filter((a) => a.kategorie === "krypto").length,
     zertifikat: halalAnlagen.filter((a) => a.zertifikatArt === "produkt").length,
+    kostenAb: [...halalAnlagen].filter((a) => a.isin && a.kosten > 0).sort((x, y) => x.kosten - y.kosten)[0]?.kostenLabel ?? "",
     kaufbar: haus ? halalAnlagen.filter((a) => a.isin && ANLAGEN_KAUFBAR[a.isin]?.kaufbar.some((k) => k.haus === haus)).length : undefined,
   };
 };

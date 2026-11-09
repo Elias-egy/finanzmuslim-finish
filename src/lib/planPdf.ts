@@ -11,11 +11,19 @@
  * Prozente je Baustein neben dem Ring, nie an einer Anlage (memory prozente-nur-je-baustein-gold-ausnahme-royal-mint);
  * Seite 2 zeigt je Baustein alle kaufbaren Anlagen des Stils, den der Leser im Dashboard gewählt hat, mit „Du wolltest
  * USA.“ und bei Gold Royal Mint als Favorit mit den drei Fakten.
+ *
+ * CV30P (09.11.2026, Prüfer CV29P, Vault fundament/research/pruefung/2026-11-09-cv29p-pruefer-portfolioplan.md): je
+ * Anlage zuerst die Kosten im Jahr (Fund 2), „So machst du es“ fällt nie weg, bei vielen Anlagen wird die Liste je
+ * Baustein gekürzt (Fund 13), nichts unter 8,5 pt und Erklärungen schwarz (Fund 5), Links sind antippbar (Prüfzeile
+ * A11), Basics nur mit den Hinweisen, die den Plan betreffen (Fund 6). Der Abstand nach „€“ (Laufzettel cv29p Fund 6):
+ * Betrachter ohne eingebettete Helvetica zeichnen das Euro-Zeichen breiter, als die Schrift es rechnet, und das
+ * folgende Leerzeichen verschwindet darunter; darum steht nach „€“ ein zweites Leerzeichen.
  */
-import { PDFDocument, rgb, StandardFonts, type PDFFont, type PDFPage, type RGB } from "pdf-lib";
+import { PDFDocument, PDFName, PDFString, rgb, StandardFonts, type PDFFont, type PDFPage, type RGB } from "pdf-lib";
 import kurse from "@/data/kurse.json";
-import { BASICS } from "@/data/portfolioBasics";
+import { basicsFuer } from "@/data/portfolioBasics";
 import {
+  ALLTAGSWORT,
   anlagenJeBaustein,
   anlegertyp,
   datenbankFakten,
@@ -54,6 +62,7 @@ const BREITE = 594.96;
 const HOEHE = 841.92;
 const RAND = 44;
 const INNEN = BREITE - 2 * RAND;
+const SEITE = "https://finanzmuslim.com";
 
 const farbe = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
@@ -63,10 +72,11 @@ const farbe = (hex: string) => {
 /** Standardschriften kennen nur WinAnsi; was dort fehlt, wird ersetzt statt den Bau abzubrechen. */
 const sauber = (t: string) =>
   t
-    .replace(/ /g, " ")
+    .replace(/[  ]/g, " ")
     .replace(/[‐-―]/g, "-")
     .replace(/×/g, "x")
-    .replace(/[^\x20-\x7e -ÿ€‘’“”„…]/g, "");
+    .replace(/[^\x20-\x7e -ÿ€‘’“”„…]/g, "")
+    .replace(/€ /g, "€  ");
 
 const umbrechen = (text: string, font: PDFFont, groesse: number, breite: number): string[] => {
   const zeilen: string[] = [];
@@ -128,6 +138,26 @@ class Blatt {
     this.text(t.toUpperCase(), x, oben - 22, 8.5, { fett: true, farbe: GRAU });
   }
 
+  /** Antippbarer Bereich (Prüfzeile A11): `y` ist die Grundlinie des Textes, der Bereich reicht etwas darüber und darunter. */
+  link(url: string, x: number, y: number, w: number, groesse: number) {
+    const ctx = this.seite.doc.context;
+    const annot = ctx.obj({
+      Type: "Annot",
+      Subtype: "Link",
+      Rect: [x, y - groesse * 0.3, x + w, y + groesse],
+      Border: [0, 0, 0],
+      A: ctx.obj({ Type: "Action", S: "URI", URI: PDFString.of(url) }),
+    });
+    this.seite.node.addAnnot(ctx.register(annot));
+  }
+
+  /** Blauer Text, der als Link funktioniert. */
+  linkText(t: string, url: string, x: number, y: number, groesse: number, opt: { fett?: boolean; rechts?: boolean } = {}) {
+    const w = this.text(t, x, y, groesse, { ...opt, farbe: BLAU });
+    this.link(url, opt.rechts ? x - w : x, y, w, groesse);
+    return w;
+  }
+
   fuss(nr: number) {
     this.text("finanzmuslim  ·  Dein Halal-Investmentplan", RAND, 26, 8.5, { farbe: GRAU });
     this.text(`Seite ${nr} von 3`, BREITE - RAND, 26, 8.5, { farbe: GRAU, rechts: true });
@@ -182,7 +212,7 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
     let y = kOben - 90;
     y -= b.absatz(typ.seele, RAND + 18, y, 11, wL - 36);
     y -= 4;
-    b.absatz(typ.tut, RAND + 18, y, 10, wL - 36, { farbe: GRAU });
+    b.absatz(typ.tut, RAND + 18, y, 10.5, wL - 36);
 
     const xR = RAND + wL + 12;
     b.karte(xR, kOben, wR, kH);
@@ -195,7 +225,7 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
     b.seite.drawSvgPath(ringStueck(r, r - 12, -Math.PI / 2, -Math.PI / 2 + (Math.PI * risk) / 100), { x: cx, y: cy, color: BLAU, borderWidth: 0 });
     b.text(`${risk} %`, cx, cy - 6, 24, { fett: true, mitte: true });
     b.text(risikoWort(risk), cx, cy - 22, 10, { farbe: GRAU, mitte: true });
-    b.absatz("Je mehr Aktien und Krypto, desto höher. Je mehr Sukuk und Konto, desto ruhiger.", xR + 18, kOben - 160, 9, wR - 36, { farbe: GRAU });
+    b.absatz("Je mehr Aktien und Krypto, desto höher. Je mehr Sukuk und Konto, desto ruhiger.", xR + 14, kOben - 158, 9, wR - 28, { zeilenhoehe: 11.5 });
 
     // Richtung
     const rOben = kOben - kH - 14;
@@ -226,7 +256,7 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
       b.text(`z. B. ${euroText(euro[i])}`, BREITE - RAND - 18, ly, 11, { farbe: GRAU, rechts: true });
       ly -= zeilenH;
     }
-    b.absatz("Die Prozente gelten je Baustein, nicht für eine einzelne Anlage. Die Euro-Beträge sind ein Beispiel.", RAND + 18, rOben - rH + 30, 9, INNEN - 36, { farbe: GRAU });
+    b.absatz("Die Prozente gelten je Baustein, nicht für eine einzelne Anlage. Die Euro-Beträge sind ein Beispiel.", RAND + 18, rOben - rH + 30, 9.5, INNEN - 36);
 
     b.fuss(1);
   }
@@ -236,36 +266,79 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
     const b = new Blatt(doc.addPage([BREITE, HOEHE]), s);
     b.kopf(
       `Deine Anlagen bei ${depot ?? "deinem Depot"}`,
-      depot ? `Alles aus der Halal-Datenbank, kaufbar bei ${depot}.` : "Alles aus der Halal-Datenbank.",
+      depot ? `Alles aus der Halal-Datenbank (finanzmuslim.com/halal-anlagen), kaufbar bei ${depot}.` : "Alles aus der Halal-Datenbank (finanzmuslim.com/halal-anlagen).",
     );
 
-    const bloecke = anlagenJeBaustein(anteile, a, opt.stile ?? {});
-    // Höhen in Punkt: Kopfzeile je Baustein, Satz „Du wolltest …“, eine Zeile je Anlage, drei Fakten beim Favoriten.
+    const alleBloecke = anlagenJeBaustein(anteile, a, opt.stile ?? {});
+    const rechts = BREITE - RAND - 18;
+    const faktBreite = rechts - (RAND + 52);
+    // Höhen in Punkt: Kopfzeile je Baustein, Satz („Du wolltest …“ oder Alltagswort), zwei Zeilen je Anlage, die Fakten beim Favoriten.
     const KOPF_H = 18;
-    const SATZ_H = 16;
-    const ZEILE_H = 26;
-    const FAKT_H = 12;
+    const SATZ_H = 15;
+    const ZEILE_H = 27;
+    const FAKT_ZH = 12;
+    const MEHR_H = 13;
     const ABSTAND = 12;
-    const blockH = (blk: (typeof bloecke)[number]) => {
-      const satz = blk.anteil.baustein === "etf" && blk.stil ? SATZ_H : 0;
+    const faktZeilen = GOLD_FAVORIT_FAKTEN.map((f) => umbrechen(f, s.normal, 9.5, faktBreite).length);
+    const faktH = faktZeilen.reduce((sum, n) => sum + n * FAKT_ZH, 0) + 4;
+    type Block = (typeof alleBloecke)[number] & { mehr: number };
+    const blockH = (blk: Block) => {
+      const satz = (blk.anteil.baustein === "etf" && blk.stil) || ALLTAGSWORT[blk.anteil.baustein] ? SATZ_H : 0;
       const zeilen = blk.produkte.length * ZEILE_H;
-      const fav = blk.favorit ? ZEILE_H + GOLD_FAVORIT_FAKTEN.length * FAKT_H + 4 : 0;
+      const fav = blk.favorit ? ZEILE_H + faktH : 0;
       const leer = !blk.favorit && blk.produkte.length === 0 ? 16 : 0;
-      return KOPF_H + satz + zeilen + fav + leer;
+      return KOPF_H + satz + zeilen + fav + leer + (blk.mehr ? MEHR_H : 0);
     };
+    const kartenH = (bloecke: Block[]) => 26 + bloecke.reduce((sum, blk) => sum + blockH(blk), 0) + ABSTAND * Math.max(0, bloecke.length - 1) + 8;
+
+    // So machst du es: Text zuerst, damit die Höhe feststeht; die Karte fällt nie weg (Prüfer CV29P, Fund 13).
+    const konto = anteile.findIndex((x) => x.baustein === "konto");
+    const kauf = anteile
+      .map((x, i) => ({ x, e: euro[i] }))
+      .filter(({ x }) => x.baustein !== "konto")
+      .map(({ x, e }) => `${euroText(e)} ${bausteinById(x.baustein).name}`);
+    const kaufText = kauf.length < 2 ? (kauf[0] ?? "") : `${kauf.slice(0, -1).join(", ")} und ${kauf[kauf.length - 1]}`;
+    const favoritDa = alleBloecke.some((blk) => blk.favorit);
+    const schritte = [
+      `Öffne die App von ${depot ?? "deinem Depot"} und such die Anlage beim Namen.`,
+      `${monatlich ? "Kauf jeden Monat zum Beispiel" : "Kauf einmal zum Beispiel"} ${kaufText}. Je Baustein reicht eine Anlage, welche dazu passen, steht oben.${
+        favoritDa ? " Bei Gold ist Royal Mint unser Favorit." : ""
+      }${monatlich ? " Gibt es dafür einen Sparplan, läuft es von selbst." : ""}`,
+    ];
+    if (konto >= 0) schritte.push(`Etwa ${euroText(euro[konto])} bleiben auf deinem Girokonto. Achte darauf, dass es dir keine Zinsen zahlt.`);
+    const sZeilen = schritte.map((t) => umbrechen(t, s.normal, 11, INNEN - 70).length);
+    const sH = 48 + sZeilen.reduce((sum, n) => sum + n * 15 + 8, 0);
+    const dH = 118;
     const aOben = HOEHE - 150;
-    const aH = 26 + bloecke.reduce((sum, blk) => sum + blockH(blk), 0) + ABSTAND * Math.max(0, bloecke.length - 1) + 8;
+    const UNTEN = 46;
+
+    // Passt alles? Sonst je Baustein höchstens zwei Anlagen zeigen („und X weitere in der Datenbank“), dann die Datenbank-Karte weglassen.
+    let bloecke: Block[] = alleBloecke.map((blk) => ({ ...blk, mehr: 0 }));
+    let mitDatenbank = true;
+    const passt = () => aOben - kartenH(bloecke) - 14 - sH - (mitDatenbank ? 14 + dH : 0) > UNTEN;
+    if (!passt()) {
+      bloecke = alleBloecke.map((blk) => {
+        const hoechstens = blk.favorit ? 1 : 2;
+        return { ...blk, produkte: blk.produkte.slice(0, hoechstens), mehr: Math.max(0, blk.produkte.length - hoechstens) };
+      });
+    }
+    if (!passt()) mitDatenbank = false;
+    const aH = kartenH(bloecke);
     b.karte(RAND, aOben, INNEN, aH);
 
-    const rechts = BREITE - RAND - 18;
     const anlageZeile = (p: Produkt, y: number, marke?: string) => {
-      b.text(p.anlage.name, RAND + 36, y, 10.5, { fett: true });
-      // Die Marke („Unser Favorit“) steht hinter dem Link, damit lange Namen nie in die Rendite laufen.
-      const w = b.text(`finanzmuslim.com/halal-anlagen/${p.anlage.slug}`, RAND + 36, y - 11, 8, { farbe: BLAU });
-      if (marke) b.text(marke, RAND + 36 + w + 10, y - 11, 8, { fett: true, farbe: SCHWARZ });
+      const url = `${SEITE}/halal-anlagen/${p.anlage.slug}`;
+      const wName = b.text(p.anlage.name, RAND + 36, y, 10.5, { fett: true });
+      b.link(url, RAND + 36, y, wName, 10.5);
       let rx = rechts;
       if (p.r5 !== undefined) rx -= b.text(`5 Jahre ${prozentText(p.r5)}`, rx, y, 9.5, { fett: true, farbe: p.r5 >= 0 ? GRUEN : ROT, rechts: true }) + 14;
       if (p.r1 !== undefined) b.text(`1 Jahr ${prozentText(p.r1)}`, rx, y, 9.5, { fett: true, farbe: p.r1 >= 0 ? GRUEN : ROT, rechts: true });
+      else if (p.seit) b.text(p.seit, rx, y, 9.5, { farbe: GRAU, rechts: true });
+      // Zweite Zeile: zuerst die Kosten (Leser-Regel), dann die Marke, rechts der Weg in die Datenbank.
+      const kosten = p.anlage.kostenLabel === "keine" ? "Kosten: keine" : `Kosten ${p.anlage.kostenLabel} im Jahr`;
+      const wKosten = b.text(kosten, RAND + 36, y - 11, 8.5);
+      if (marke) b.text(marke, RAND + 36 + wKosten + 10, y - 11, 8.5, { fett: true });
+      b.linkText("In der Datenbank ansehen", url, rechts, y - 11, 8.5, { rechts: true });
     };
 
     let y = aOben - 30;
@@ -275,24 +348,29 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
       b.text(blk.stil && blk.stile.length > 1 ? `${bs.name}  ·  ${blk.stil.titel}` : bs.name, RAND + 36, y, 11, { fett: true });
       b.text(`z. B. ${euroText(euro[anteile.indexOf(blk.anteil)])}`, rechts, y, 11, { fett: true, rechts: true });
       y -= KOPF_H;
-      if (blk.anteil.baustein === "etf" && blk.stil) {
-        b.text(richtungsSatz(a, blk.stil, depot), RAND + 36, y, 10, { farbe: SCHWARZ });
+      const satz = blk.anteil.baustein === "etf" && blk.stil ? richtungsSatz(a, blk.stil, depot) : ALLTAGSWORT[blk.anteil.baustein];
+      if (satz) {
+        b.text(satz, RAND + 36, y, 10);
         y -= SATZ_H;
       }
       if (blk.favorit) {
         anlageZeile(blk.favorit, y, "Unser Favorit");
         y -= ZEILE_H;
-        for (const f of GOLD_FAVORIT_FAKTEN) {
+        for (const [j, f] of GOLD_FAVORIT_FAKTEN.entries()) {
           // Haken als Pfad: die Standardschrift kennt kein ✓.
           b.seite.drawSvgPath("M 0 4 L 3 7 L 8 0", { x: RAND + 38, y: y + 9.5, borderColor: GRUEN, borderWidth: 1.5 });
-          b.text(f, RAND + 52, y + 2, 9.5);
-          y -= FAKT_H;
+          b.absatz(f, RAND + 52, y + 2, 9.5, faktBreite, { zeilenhoehe: FAKT_ZH });
+          y -= faktZeilen[j] * FAKT_ZH;
         }
         y -= 4;
       }
       for (const p of blk.produkte) {
         anlageZeile(p, y);
         y -= ZEILE_H;
+      }
+      if (blk.mehr) {
+        b.linkText(`und ${blk.mehr} weitere in der Datenbank`, `${SEITE}/halal-anlagen`, RAND + 36, y, 9.5);
+        y -= MEHR_H;
       }
       if (!blk.favorit && blk.produkte.length === 0) {
         b.text(BEISPIEL[blk.anteil.baustein] ?? "", RAND + 36, y, 10.5);
@@ -306,52 +384,33 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
 
     // So machst du es
     const sOben = aOben - aH - 14;
-    const konto = anteile.findIndex((x) => x.baustein === "konto");
-    const kauf = anteile
-      .map((x, i) => ({ x, e: euro[i] }))
-      .filter(({ x }) => x.baustein !== "konto")
-      .map(({ x, e }) => `${euroText(e)} ${bausteinById(x.baustein).name}`);
-    const kaufText = kauf.length < 2 ? (kauf[0] ?? "") : `${kauf.slice(0, -1).join(", ")} und ${kauf[kauf.length - 1]}`;
-    const schritte = [
-      `Öffne die App von ${depot ?? "deinem Depot"} und such die Anlage beim Namen.`,
-      `${monatlich ? "Kauf jeden Monat zum Beispiel" : "Kauf einmal zum Beispiel"} ${kaufText}. Welche Anlage dazu passt, steht oben.${monatlich ? " Gibt es dafür einen Sparplan, läuft es von selbst." : ""}`,
-    ];
-    if (konto >= 0) schritte.push(`Etwa ${euroText(euro[konto])} bleiben auf deinem Girokonto. Achte darauf, dass es dir keine Zinsen zahlt.`);
-    if (anteile.some((x) => x.baustein === "aktien")) schritte.push("Einzelaktien prüfst du einzeln, zum Beispiel mit Zoya oder Musaffa.");
-    const sZeilen = schritte.map((t) => umbrechen(t, s.normal, 11, INNEN - 70).length);
-    const sH = 48 + sZeilen.reduce((sum, n) => sum + n * 15 + 8, 0);
-    // Passt die Karte nicht mehr auf die Seite (viele Anlagen), entfällt sie; die Schritte stehen auch im Dashboard.
-    const schritteDa = sOben - sH > 46;
-    if (schritteDa) {
-      b.karte(RAND, sOben, INNEN, sH);
-      b.label("So machst du es", RAND + 18, sOben);
-      y = sOben - 46;
-      schritte.forEach((t, i) => {
-        b.seite.drawCircle({ x: RAND + 27, y: y + 4, size: 8, color: SCHWARZ });
-        b.text(String(i + 1), RAND + 27, y + 0.5, 9.5, { fett: true, farbe: WEISS, mitte: true });
-        y -= b.absatz(t, RAND + 44, y, 11, INNEN - 70, { zeilenhoehe: 15 }) + 8;
-      });
-    }
+    b.karte(RAND, sOben, INNEN, sH);
+    b.label("So machst du es", RAND + 18, sOben);
+    y = sOben - 46;
+    schritte.forEach((t, i) => {
+      b.seite.drawCircle({ x: RAND + 27, y: y + 4, size: 8, color: SCHWARZ });
+      b.text(String(i + 1), RAND + 27, y + 0.5, 9.5, { fett: true, farbe: WEISS, mitte: true });
+      y -= b.absatz(t, RAND + 44, y, 11, INNEN - 70, { zeilenhoehe: 15 }) + 8;
+    });
 
     // Datenbank
-    const f = datenbankFakten(a.broker);
-    const dOben = sOben - sH - 14;
-    const dH = 118;
-    if (schritteDa && dOben - dH > 60) {
+    if (mitDatenbank) {
+      const f = datenbankFakten(a.broker);
+      const dOben = sOben - sH - 14;
       b.karte(RAND, dOben, INNEN, dH);
       b.label("Aus der Datenbank", RAND + 18, dOben);
       const spalten: [string, string][] = [
-        [String(f.gesamt), "Halal-Anlagen geprüft"],
+        [String(f.gesamt), "Halal-Anlagen in der Datenbank"],
         [String(f.kaufbar ?? f.etfs), f.kaufbar !== undefined ? `davon bei ${depot ?? "deinem Depot"}` : "Islamic ETFs und Fonds"],
-        [String(f.zertifikat), "mit eigenem Zertifikat"],
+        [`ab ${f.kostenAb}`, "Kosten im Jahr, die günstigste"],
       ];
       const sw = (INNEN - 36) / 3;
       spalten.forEach(([zahl, text], i) => {
         const x = RAND + 18 + i * sw;
         b.text(zahl, x, dOben - 62, 26, { fett: true });
-        b.text(text, x, dOben - 78, 9.5, { farbe: GRAU });
+        b.text(text, x, dOben - 78, 9.5);
       });
-      b.text("Alle Anlagen: finanzmuslim.com/halal-anlagen", RAND + 18, dOben - 102, 10, { fett: true, farbe: BLAU });
+      b.linkText("Alle Anlagen: finanzmuslim.com/halal-anlagen", `${SEITE}/halal-anlagen`, RAND + 18, dOben - 102, 10, { fett: true });
     }
 
     b.fuss(2);
@@ -360,44 +419,47 @@ export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}):
   // ---------------------------------------------------------------- Seite 3: Basics, Girokonto, Hinweis
   {
     const b = new Blatt(doc.addPage([BREITE, HOEHE]), s);
-    b.kopf("Die Basics dahinter", "Vier Dinge, die deinen Plan halal halten. Kurz, zum Nachsehen.");
+    b.kopf("Die Basics dahinter", "Steuer, Zakat und dein fester Ablauf. Kurz, zum Nachsehen.");
 
+    const basics = basicsFuer(anteile.map((x) => x.baustein));
     const kw = (INNEN - 12) / 2;
-    const kh = 236;
-    BASICS.forEach((basic, i) => {
+    const kh = 256;
+    basics.forEach((basic, i) => {
       const x = RAND + (i % 2) * (kw + 12);
       const oben = HOEHE - 150 - Math.floor(i / 2) * (kh + 12);
       b.karte(x, oben, kw, kh);
       b.text(basic.titel, x + 16, oben - 30, 14, { fett: true });
       let y = oben - 44;
-      y -= b.absatz(basic.kurz, x + 16, y, 9.5, kw - 32, { farbe: GRAU }) + 6;
+      y -= b.absatz(basic.kurz, x + 16, y, 9.5, kw - 32) + 6;
       const sw = (kw - 32) / 3;
+      // Die Etiketten unter den Zahlen brauchen je nach Länge zwei bis vier Zeilen; der Block darunter rückt entsprechend.
+      const etikettZeilen = Math.max(...basic.zahlen.map((z) => umbrechen(z.label, s.normal, 8.5, sw - 6).length));
       basic.zahlen.forEach((z, j) => {
         b.text(z.wert, x + 16 + j * sw, y - 10, z.wert.length > 7 ? 12 : 15, { fett: true });
-        b.absatz(z.label, x + 16 + j * sw, y - 23, 7.5, sw - 6, { farbe: GRAU, zeilenhoehe: 9 });
+        b.absatz(z.label, x + 16 + j * sw, y - 23, 8.5, sw - 6, { zeilenhoehe: 10 });
       });
-      y -= 52;
+      y -= 27 + etikettZeilen * 10;
       basic.schritte.forEach((t, j) => {
         b.seite.drawCircle({ x: x + 22, y: y + 3, size: 5.5, color: SCHWARZ });
         b.text(String(j + 1), x + 22, y + 0.5, 7, { fett: true, farbe: WEISS, mitte: true });
         y -= b.absatz(t, x + 34, y, 8.5, kw - 50, { zeilenhoehe: 11 }) + 4;
       });
-      if (basic.hinweis) b.absatz(basic.hinweis, x + 16, y - 2, 7.5, kw - 32, { farbe: GRAU, zeilenhoehe: 10 });
+      if (basic.hinweis) b.absatz(basic.hinweis, x + 16, y - 2, 8.5, kw - 32, { zeilenhoehe: 11 });
     });
 
     // Girokonto
     const gOben = HOEHE - 150 - 2 * (kh + 12);
-    const gH = 92;
+    const gH = 80;
     b.karte(RAND, gOben, INNEN, gH);
     b.label("Fehlt noch", RAND + 18, gOben);
-    b.text("Dein Girokonto ohne Zinsen", RAND + 18, gOben - 44, 14, { fett: true });
-    b.absatz(`${SCHMERZ.girokonto} ${SCHMERZ.muslim}`, RAND + 18, gOben - 60, 10, INNEN - 36);
-    b.text("Die besten ohne Zinsen: finanzmuslim.com/vergleich/girokonto", RAND + 18, gOben - 80, 10, { fett: true, farbe: BLAU });
+    b.text("Dein Girokonto ohne Zinsen", RAND + 18, gOben - 41, 14, { fett: true });
+    b.absatz(`${SCHMERZ.girokonto} ${SCHMERZ.muslim}`, RAND + 18, gOben - 55, 10, INNEN - 36);
+    b.linkText("Die besten ohne Zinsen: finanzmuslim.com/vergleich/girokonto", `${SEITE}/vergleich/girokonto`, RAND + 18, gOben - 70, 10, { fett: true });
 
     b.absatz(
       `Ein Beispiel aus deinen Antworten, keine Anlageberatung. Wie es früher lief, ist keine Garantie für später. Renditen in Euro, Stand ${(kurse as { stand: string }).stand}. Alle Anlagen aus der Halal-Datenbank auf finanzmuslim.com.`,
       RAND,
-      gOben - gH - 22,
+      gOben - gH - 18,
       8.5,
       INNEN,
       { farbe: GRAU, zeilenhoehe: 11 },

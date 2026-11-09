@@ -7,9 +7,10 @@ import { Wordmark } from "@/components/Wordmark";
 import { Geruest } from "@/components/portfolioplan/Geruest";
 import { PlanAnlageZeile } from "@/components/portfolioplan/AnlageZeile";
 import { useZaehler, wenigBewegung } from "@/components/portfolioplan/Zaehler";
-import { BASICS } from "@/data/portfolioBasics";
+import { basicsFuer } from "@/data/portfolioBasics";
 import {
   ALLE_BAUSTEINE,
+  ALLTAGSWORT,
   anlagenJeBaustein,
   anlegertyp,
   datenbankFakten,
@@ -572,7 +573,7 @@ const MeinPortfolioPlan = () => {
     >
       <Seo
         title="Dein Halal-Investmentplan | finanzmuslim"
-        description="Sieben Fragen, dann steht dein Halal-Investmentplan: Anlegertyp, Richtung, Anlagen bei deinem Depot, als Dashboard und PDF."
+        description="Ein paar kurze Fragen, dann steht dein Halal-Investmentplan: Anlegertyp, Richtung, Anlagen bei deinem Depot, als Dashboard und PDF."
         path={QUIZ_PFAD}
         noindex
       />
@@ -585,8 +586,8 @@ const MeinPortfolioPlan = () => {
             {name ? `Hallo ${name}.` : "Hallo."}
           </h1>
           <p className="pp-rise mt-5 text-[19px] leading-snug text-foreground/75 md:text-[22px]" style={{ animationDelay: "120ms" }}>
-            Sieben Fragen. Dann steht dein Halal-Investmentplan: dein Anlegertyp, deine Richtung und die Anlagen, die es
-            bei deinem Depot gibt.
+            Ein paar kurze Fragen. Dann steht dein Halal-Investmentplan: dein Anlegertyp, deine Richtung und die Anlagen,
+            die es bei deinem Depot gibt.
           </p>
           <div className="pp-rise mt-9" style={{ animationDelay: "240ms" }}>
             <Knopf onClick={() => setPhase("fragen")}>
@@ -647,7 +648,7 @@ const MeinPortfolioPlan = () => {
               {[
                 "Deine Antworten gelesen",
                 `${datenbankFakten().gesamt} Halal-Anlagen durchsucht`,
-                `Geprüft, was es bei ${depotTitel ?? "deinem Depot"} gibt`,
+                `Geschaut, was es bei ${depotTitel ?? "deinem Depot"} gibt`,
                 "Deine Richtung gerechnet",
                 "Dein Dashboard gebaut",
               ].map((t, i) => (
@@ -690,7 +691,7 @@ const MeinPortfolioPlan = () => {
       {pdfLaeuft && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 px-6 backdrop-blur-sm" role="status" aria-live="polite">
           <div className="w-full max-w-md">
-            <p className="font-titel text-[30px] leading-tight text-foreground md:text-[38px]">Dein Portfolioplan wird gerade festgehalten.</p>
+            <p className="font-titel text-[30px] leading-tight text-foreground md:text-[38px]">Dein Halal-Investmentplan wird gerade festgehalten.</p>
             <div className="mt-6 h-[3px] w-full overflow-hidden rounded-full bg-muted">
               <div className="pp-balken h-full bg-primary" style={{ width: `${Math.min(100, pdfZeile * 33.4)}%` }} />
             </div>
@@ -775,14 +776,14 @@ const Dashboard = ({
   const riskZahl = useZaehler(risk, bereit);
   const zGesamt = useZaehler(fakten.gesamt, bereit);
   const zMitte = useZaehler(fakten.kaufbar ?? fakten.etfs, bereit);
-  const zZertifikat = useZaehler(fakten.zertifikat, bereit);
+  const basics = basicsFuer(anteile.map((x) => x.baustein));
 
   const waehle = (b: BausteinId) => setAktiv((x) => (x === b ? undefined : b));
 
   const inhalt: { etikett: string; wert: string; ziel: string }[] = [
     { etikett: "Dein Typ", wert: typName, ziel: "pp-typ" },
     { etikett: "Risiko", wert: `${riskZahl} %`, ziel: "pp-risiko" },
-    { etikett: "Anlagen", wert: `${anzahl} bei ${depotBei}`, ziel: "pp-anlagen" },
+    { etikett: "Zur Auswahl", wert: `${anzahl} bei ${depotBei}`, ziel: "pp-anlagen" },
   ];
 
   const kauf = anteile
@@ -812,7 +813,7 @@ const Dashboard = ({
           )}
           <span aria-hidden>·</span>
           <span>
-            {anzahl} {anzahl === 1 ? "Anlage" : "Anlagen"}
+            {anzahl} {anzahl === 1 ? "Anlage" : "Anlagen"} zur Auswahl
           </span>
           <button type="button" onClick={() => onAntwortAendern("broker")} className="ml-1 font-semibold text-primary">
             Antworten ändern
@@ -844,7 +845,7 @@ const Dashboard = ({
             <div>
               <p className="font-titel text-[40px] leading-none text-foreground md:text-[52px]">{typName}</p>
               <p className="mt-4 text-[18px] leading-snug text-foreground">{typSeele}</p>
-              <p className="mt-2 text-[16px] leading-snug text-foreground/65">{typTut}</p>
+              <p className="mt-2 text-[17px] leading-snug text-foreground">{typTut}</p>
               {a.werte && a.werte.length > 0 && (
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {WERTE.filter((w) => a.werte!.includes(w.id)).map((w) => (
@@ -867,7 +868,7 @@ const Dashboard = ({
                   <span className="mt-1 text-[15px] font-semibold capitalize text-foreground/65">{risikoWort(risk)}</span>
                 </div>
               </div>
-              <p className="mt-4 max-w-[300px] text-center text-[15px] leading-snug text-foreground/65">
+              <p className="mt-4 max-w-[300px] text-center text-[15px] leading-snug text-foreground">
                 Je mehr Aktien und Krypto, desto höher. Je mehr Sukuk und Konto, desto ruhiger.
               </p>
             </div>
@@ -953,7 +954,7 @@ const Dashboard = ({
                   );
                 })}
               </ul>
-              <p className="mt-3 text-[14px] leading-snug text-foreground/65">
+              <p className="mt-3 text-[15px] leading-snug text-foreground/80">
                 Ein Schritt zieht die Richtung ein Stück. Einzelaktien und Krypto bleiben zusammen ein kleiner Teil.
                 {eigene && (
                   <>
@@ -987,6 +988,7 @@ const Dashboard = ({
                       z.&nbsp;B. {euroText(euro[anteile.indexOf(x)])}
                     </span>
                   </div>
+                  {ALLTAGSWORT[x.baustein] && <p className="mt-1.5 px-1 text-[15px] leading-snug text-foreground">{ALLTAGSWORT[x.baustein]}</p>}
                   {blk.stile.length > 1 && (
                     <div className="mt-3 flex flex-wrap gap-1.5 px-1" role="radiogroup" aria-label={`Stil für ${b.name}`}>
                       {blk.stile.map((s) => {
@@ -1054,17 +1056,20 @@ const Dashboard = ({
               <dl className="grid grid-cols-3 gap-3">
                 <div>
                   <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zGesamt}</dd>
-                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">Halal-Anlagen geprüft</dt>
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/80">Halal-Anlagen in der Datenbank</dt>
                 </div>
                 <div>
                   <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zMitte}</dd>
-                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/80">
                     {fakten.kaufbar !== undefined ? `davon bei ${depotBei}` : "Islamic ETFs und Fonds"}
                   </dt>
                 </div>
                 <div>
-                  <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zZertifikat}</dd>
-                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">mit eigenem Zertifikat</dt>
+                  <dd className="whitespace-nowrap text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">
+                    <span className="text-[20px] md:text-[26px]">ab </span>
+                    {fakten.kostenAb}
+                  </dd>
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/80">Kosten im Jahr, die günstigste</dt>
                 </div>
               </dl>
               <Link to="/halal-anlagen" className="mt-6 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-bold text-primary">
@@ -1085,7 +1090,7 @@ const Dashboard = ({
                   />
                 ))}
               </div>
-              <p className="mt-2 px-2 text-[15px] leading-snug text-foreground/65">Was es gebracht hat, nicht was du kaufen sollst.</p>
+              <p className="mt-2 px-2 text-[15px] leading-snug text-foreground/80">Was es gebracht hat, nicht was du kaufen sollst.</p>
             </div>
           </div>
         </Abschnitt>
@@ -1101,7 +1106,8 @@ const Dashboard = ({
               <Nummer n={2} />
               <span>
                 {monatlich ? "Kauf jeden Monat zum Beispiel " : "Kauf einmal zum Beispiel "}
-                {aufzaehlen(kauf)}. Welche Anlage dazu passt, steht oben.
+                {aufzaehlen(kauf)}. Je Baustein reicht eine Anlage, welche dazu passen, steht oben.
+                {bloecke.some((blk) => blk.favorit) && " Bei Gold ist Royal Mint unser Favorit."}
                 {monatlich && " Gibt es dafür einen Sparplan, läuft es von selbst."}
               </span>
             </li>
@@ -1126,17 +1132,17 @@ const Dashboard = ({
         {/* 06 Die Basics, vier Karten wie in CV27P */}
         <Abschnitt nr={6} id="pp-basics" label="Die Basics" verzoegerung={7}>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            {BASICS.map((b) => {
+            {basics.map((b) => {
               const auf = offen === b.id;
               return (
                 <div key={b.id} className="rounded-2xl border border-border p-4 md:p-5">
                   <h3 className="text-[20px] font-extrabold leading-tight text-foreground">{b.titel}</h3>
-                  <p className="mt-1 text-[15px] text-foreground/65">{b.kurz}</p>
+                  <p className="mt-1 text-[15px] text-foreground/80">{b.kurz}</p>
                   <dl className="mt-4 grid grid-cols-3 gap-2">
                     {b.zahlen.map((z) => (
                       <div key={z.label}>
                         <dd className="whitespace-nowrap text-[18px] font-extrabold leading-none tabular-nums text-foreground md:text-[22px]">{z.wert}</dd>
-                        <dt className="mt-1 text-[13px] leading-tight text-foreground/65">{z.label}</dt>
+                        <dt className="mt-1 text-[14px] leading-tight text-foreground/80">{z.label}</dt>
                       </div>
                     ))}
                   </dl>
@@ -1158,7 +1164,7 @@ const Dashboard = ({
                           <span>{s}</span>
                         </li>
                       ))}
-                      {b.hinweis && <li className="pl-[30px] text-[14px] text-foreground/65">{b.hinweis}</li>}
+                      {b.hinweis && <li className="pl-[30px] text-[15px] text-foreground">{b.hinweis}</li>}
                     </ol>
                   )}
                 </div>

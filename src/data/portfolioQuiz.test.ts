@@ -87,8 +87,10 @@ describe("Portfolioplan (CV26P)", () => {
   it("PDF: auch der längste Plan (alle Wünsche, Welt bei flatex) bleibt bei drei Seiten (CV28P)", async () => {
     for (const broker of ["flatex", "anderer", "smartbroker"] as const) {
       const a: Antworten = { broker, gekauft: "etf", weise: "einmal", betrag: 10000, lage: "lang", werte: ["gold", "ruhig", "aktien", "krypto"], region: "welt" };
-      const doc = await PDFDocument.load(await planPdfBytes(a, {}));
+      const bytes = await planPdfBytes(a, {});
+      const doc = await PDFDocument.load(bytes);
       expect(doc.getPageCount()).toBe(3);
+      if (process.env.PLAN_PDF_AUS_LANG && broker === "flatex") writeFileSync(process.env.PLAN_PDF_AUS_LANG, bytes);
     }
   });
 

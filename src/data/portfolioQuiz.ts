@@ -57,7 +57,7 @@ export const BROKER_VERGLEICH: Record<Exclude<BrokerWahl, "anderer">, string> = 
 };
 
 export const GEKAUFT: Wahl<Gekauft>[] = [
-  { id: "etf", titel: "Einen Islamic ETF", unter: "zum Beispiel MSCI World Islamic" },
+  { id: "etf", titel: "Einen Islamic ETF", unter: "zum Beispiel einen Welt-ETF" },
   { id: "anderes", titel: "Etwas anderes", unter: "Gold, Sukuk oder Aktien" },
   { id: "nichts", titel: "Noch nichts", unter: "das Depot ist frisch" },
 ];
