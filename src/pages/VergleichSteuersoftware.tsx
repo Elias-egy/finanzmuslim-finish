@@ -21,6 +21,10 @@ import { zahlwort } from "@/data/anzahlen";
 const ANZAHL = steuerAnzeige.length;
 const ERST_BEI_ABGABE = steuerAnzeige.filter((a) => a.werte.zahlung === "erst bei Abgabe").length;
 const KOSTENLOS = steuerAnzeige.filter((a) => a.preisEinzel === 0).length;
+const PARTNER_NAMEN = (() => {
+  const n = steuerAnzeige.filter((a) => a.link).map((a) => a.name);
+  return n.length > 1 ? `${n.slice(0, -1).join(", ")} und ${n[n.length - 1]}` : n.join("");
+})();
 const NUR_WINDOWS = steuerAnzeige.filter((a) => a.werte.plattform === "nur Windows").length;
 
 const Reihenfolge = () => (
@@ -131,7 +135,7 @@ const VergleichSteuersoftware = () => (
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
     standHinweis="Alle Preise beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei smartsteuer und WISO Steuer erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns."
+    quellenHinweis={`Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei ${PARTNER_NAMEN} erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns.`}
     kriterienTitel="Worauf wir hier achten"
     kriterien={[
       {

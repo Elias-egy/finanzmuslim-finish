@@ -326,6 +326,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "SteuerSparErklärung",
     produkt: "Download und Online",
     domain: "steuertipps.de",
+    link: "/out/steuersparerklaerung",
     preisEinzel: 34.95,
     werte: {
       plattform: "Windows, Mac, Online, App",
@@ -369,6 +370,7 @@ export const steuersoftwareVergleich: RohAnbieter[] = [
     name: "wundertax",
     produkt: "Web",
     domain: "wundertax.de",
+    link: "/out/wundertax",
     preisEinzel: 34.99,
     werte: {
       plattform: "Web, iOS, Android",

@@ -185,6 +185,116 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    kurzname: "steuersparerklaerung",
+    anbieter: "SteuerSparErklärung",
+    kurz: "SteuerSparErklärung",
+    domain: "steuertipps.de",
+    markenfarbe: "#0057FA",
+    art: "steuer",
+    pfad: "/dein-investmentstart/steuersparerklaerung",
+    link: "https://www.awin1.com/cread.php?awinmid=13746&awinaffid=3099915&clickref={SUBID}",
+    titel: ["Deine Steuererklärung,", "auch mit Kapitalerträgen."],
+    knopf: "Bei SteuerSparErklärung starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Daten vom Finanzamt", "Windows, Mac, Online", "Ab 34,95 €"],
+    schritte: [
+      { titel: "Fassung wählen", text: "Die Standardfassung kostet ab 34,95 €, die Fassung plus ab 45,95 € und die für Selbstständige ab 94,95 €." },
+      { titel: "Daten vom Finanzamt übernehmen", text: "Über ELSTER holst du die gemeldeten Daten, zum Beispiel Lohnsteuerbescheinigung und Rentenbezugsmitteilung." },
+      { titel: "Ausfüllen und abgeben", text: "Die Anlage KAP trägst du für deine Kapitalerträge selbst ein." },
+    ],
+    fakten: [
+      {
+        titel: "Kapitalerträge inklusive",
+        text: "Laut Anbieter fragt das Programm nach der Anlage KAP für Kapitalerträge. Dividenden und Gewinne aus Verkäufen trägst du dort ein.",
+      },
+      {
+        titel: "Daten vom Finanzamt",
+        text: "Die vom Arbeitgeber, Rententräger und Versicherungen gemeldeten Daten lassen sich über ELSTER in das Programm übernehmen.",
+      },
+      {
+        titel: "Auf jedem Gerät",
+        text: "Das Programm läuft laut Anbieter am PC, Mac, Tablet und Smartphone. Die Standardfassung erlaubt eine Abgabe je Lizenz, die Fassung plus bis zu fünf.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben der SteuerSparErklärung, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+      {
+        q: "Wann zahle ich bei der SteuerSparErklärung?",
+        a: "Laut unserem Vergleich vor dem Ausfüllen. Die Fassungen und Preise stehen in der Tabelle.",
+      },
+    ],
+  },
+  {
+    kurzname: "wundertax",
+    anbieter: "wundertax",
+    kurz: "wundertax",
+    domain: "wundertax.de",
+    markenfarbe: "#0057FA",
+    art: "steuer",
+    pfad: "/dein-investmentstart/wundertax",
+    link: "https://www.financeads.net/tc.php?t=87591C185241894T",
+    titel: ["Deine Steuererklärung,", "auch mit Kapitalerträgen."],
+    knopf: "Bei wundertax starten \u2192",
+    videoHinweis: false,
+    chips: ["Anlage KAP", "Zahlen erst bei Abgabe", "Web, iOS, Android", "Ab 34,99 €"],
+    schritte: [
+      { titel: "Im Browser oder in der App starten", text: "wundertax läuft im Browser und als App für iOS und Android." },
+      { titel: "Ausfüllen, ohne zu zahlen", text: "Die Gebühr fällt erst an, wenn du die ausgefüllte Erklärung ans Finanzamt schickst." },
+      { titel: "Abgeben", text: "Eine Erklärung kostet 34,99 €, zusammen veranlagt 49,99 €." },
+    ],
+    fakten: [
+      {
+        titel: "Kapitalerträge inklusive",
+        text: "Laut wundertax entfällt das Ausfüllen der Formulare, auch der Anlage KAP.",
+      },
+      {
+        titel: "Zahlen erst bei Abgabe",
+        text: "Die Gebühr fällt erst an, wenn du die ausgefüllte Erklärung ans Finanzamt schickst. Pakete für drei und vier Erklärungen sind günstiger.",
+      },
+      {
+        titel: "Auch für Selbstständige",
+        text: "Laut Anbieter erstellt wundertax Einkommensteuer, Einnahmenüberschussrechnung und Umsatzsteuer automatisch.",
+      },
+    ],
+    checklisteTitel: ["2 Punkte für deine Erträge", "in der Steuererklärung"],
+    checkliste: [
+      {
+        titel: "Auslandsdepot: Die Anlage KAP füllst du selbst aus.",
+        text: "Ausländische Broker führen keine deutsche Abgeltungsteuer ab. Zinsen, Dividenden und Verkaufsgewinne trägst du selbst ein.",
+      },
+      {
+        titel: "Krypto zählt anders als Aktien.",
+        text: "Gewinne aus Krypto sind private Veräußerungsgeschäfte, keine Kapitalerträge. Nach einem Jahr Haltedauer sind sie steuerfrei, davor nicht.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Gibt es kostenlose Alternativen?",
+        a: "Ja. Mein ELSTER und CHECK24 Steuer kosten nichts. Im Steuersoftware-Vergleich stehen beide neben anderen Programmen, mit Preis, Kapitalerträgen und Zahlungszeitpunkt.",
+      },
+      {
+        q: "Wann zahle ich bei wundertax?",
+        a: "Erst, wenn du die ausgefüllte Erklärung ans Finanzamt schickst. Vorher füllst du alles aus.",
+      },
+    ],
+  },
+  {
     kurzname: "kraken",
     anbieter: "Kraken",
     kurz: "Kraken",
@@ -1670,6 +1780,61 @@ export const startPartner: StartPartner[] = [
       {
         q: "Warum Top-Girokonto und nicht Girokonto plus?",
         a: "Das Girokonto plus verzinst Guthaben, deshalb raten wir davon ab. Der Link führt direkt auf das Top-Girokonto.",
+      },
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "commerzbank-girokonto",
+    anbieter: "Commerzbank",
+    kurz: "Commerzbank",
+    domain: "commerzbank.de",
+    markenfarbe: "#FFCC00",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/commerzbank-girokonto",
+    link: "https://www.financeads.net/tc.php?t=87591C304057824T",
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei Commerzbank eröffnen →",
+    videoHinweis: false,
+    chips: ["Filialen", "Debitkarte 0 €", "Apple Pay", "50 € Startguthaben"],
+    schritte: [
+      { titel: "Antrag ausfüllen", text: "Du beantragst das GiroKonto auf der Seite der Commerzbank." },
+      { titel: "Per Video- oder Post-Ident bestätigen", text: "Ausweis in die Kamera halten oder in der Postfiliale vorzeigen." },
+      { titel: "Loslegen", text: "Mit der Debitkarte richtest du danach Apple Pay ein." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Der Preisaushang der Commerzbank nennt für Guthaben auf Girokonten 0,00 % im Jahr.",
+      },
+      {
+        titel: "Kein Dispo ab Start",
+        text: "Einen Dispo richtet die Commerzbank auf Wunsch und bei ausreichender Bonität ein. Ohne Antrag gibt es keinen.",
+      },
+      {
+        titel: "Startguthaben 50 €",
+        text: "Die Commerzbank wirbt für das GiroKonto mit 50 € Startguthaben. Lies die Bedingungen der Bank vor dem Antrag.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Commerzbank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Dispo beantragen.",
+        text: "Ein Dispo kostet Zinsen. Das GiroKonto funktioniert ohne.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Behalte deinen Kontostand im Blick, bevor Lastschriften abgehen. Ein Minus kostet Zinsen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Was kostet das GiroKonto?",
+        a: "Die Kontoführung kostet laut Entgeltinformation der Commerzbank 4,90 € im Monat.",
       },
       {
         q: "Ist ein Girokonto überhaupt halal?",
