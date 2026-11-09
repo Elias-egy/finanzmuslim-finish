@@ -35,9 +35,9 @@ export const PlanAnlageZeile = ({
   nurEinJahr?: boolean;
   className?: string;
 }) => {
-  const { anlage, r1, r5, verlauf } = produkt;
+  const { anlage, r1, r5, verlauf, seit } = produkt;
   const zeigeR5 = !nurEinJahr && r5 !== undefined;
-  const hatRendite = r1 !== undefined || zeigeR5;
+  const hatRendite = r1 !== undefined || zeigeR5 || Boolean(seit);
   return (
     <Link
       to={`/halal-anlagen/${anlage.slug}`}
@@ -55,7 +55,7 @@ export const PlanAnlageZeile = ({
       <span className="min-w-0">
         <span className="block text-[15px] font-semibold leading-tight text-foreground">
           {anlage.name}
-          {marke && <> {marke}</>}
+          {marke && <span className="block md:inline"> {marke}</span>}
         </span>
         {unter && <span className="mt-0.5 block text-[13px] leading-tight text-foreground/60">{unter}</span>}
       </span>
@@ -69,6 +69,9 @@ export const PlanAnlageZeile = ({
         <span className={`${mitLogo ? "col-start-2" : "col-start-1"} row-start-2 md:col-start-auto md:row-start-auto md:min-w-[124px] md:text-right`}>
           {r1 !== undefined && <Wert label="1 Jahr" n={r1} />}
           {zeigeR5 && <Wert label="5 Jahre" n={r5!} />}
+          {r1 === undefined && !zeigeR5 && seit && (
+            <span className="inline-block whitespace-nowrap text-[13px] text-foreground/65 md:block md:text-[14px]">{seit}</span>
+          )}
         </span>
       )}
     </Link>

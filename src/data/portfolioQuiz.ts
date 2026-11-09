@@ -212,7 +212,7 @@ export const kaufbarBei = (isin: string, haus?: string): boolean =>
   !haus || Boolean(ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => k.haus === haus));
 
 /** `verlauf`: 60 Monatswerte 0 bis 100 aus kurse.json, für die Flächen-Kurve (CV28P); fehlt, wo kurse.json keine Reihe hat. */
-export type Produkt = { anlage: Anlage; r1?: number; r5?: number; verlauf?: number[] };
+export type Produkt = { anlage: Anlage; r1?: number; r5?: number; verlauf?: number[]; /** „seit Dez. 2025“, wenn es noch keinen 1-Jahres-Wert gibt (CV29P). */ seit?: string };
 
 type Kurs = { r1j?: number | null; r5j?: number | null };
 const KURSE = (kurse as unknown as { anlagen: Record<string, Kurs> }).anlagen;

@@ -187,14 +187,24 @@ export const STILE: Partial<Record<BausteinId, Stil[]>> = {
 };
 
 /** Kurse aus kurse.json (erzeugt von ~/rebrand/data/kurse_holen.py): r1j, r5j und `verlauf`, 60 Monatswerte 0 bis 100. */
-type Kurs = { r1j?: number | null; r5j?: number | null; verlauf?: number[] | null };
+type Kurs = { r1j?: number | null; r5j?: number | null; verlauf?: number[] | null; reihe?: [string, number][] | null };
+
+/** „Dez. 2025“ aus „2025-12“: der erste Monat der Kursreihe, wenn eine Anlage noch keinen 1-Jahres-Wert hat (CV29P). */
+export const seitText = (monat?: string): string | undefined => {
+  if (!monat) return undefined;
+  const [j, m] = monat.split("-").map(Number);
+  if (!j || !m) return undefined;
+  return `seit ${new Date(j, m - 1, 1).toLocaleDateString("de-DE", { month: "short", year: "numeric" })}`;
+};
 const KURSE = (kurse as unknown as { anlagen: Record<string, Kurs>; krypto?: Record<string, Kurs> }).anlagen;
 const KURSE_KRYPTO = (kurse as unknown as { krypto?: Record<string, Kurs> }).krypto ?? {};
 
 export const mitKurs = (anlage: Anlage): Produkt => {
   const k = anlage.isin ? KURSE[anlage.isin] : anlage.kursKey ? KURSE_KRYPTO[anlage.kursKey] : undefined;
   const verlauf = k?.verlauf && k.verlauf.length > 1 ? k.verlauf : undefined;
-  return { anlage, r1: k?.r1j ?? undefined, r5: k?.r5j ?? undefined, verlauf };
+  const r1 = k?.r1j ?? undefined;
+  const seit = r1 === undefined ? seitText(k?.reihe?.[0]?.[0]) : undefined;
+  return { anlage, r1, r5: k?.r5j ?? undefined, verlauf, seit };
 };
 
 /**

@@ -107,6 +107,12 @@ const liesThema = (): Thema => {
   }
 };
 
+/**
+ * Die Fragen, die dieser Leser sieht: Frage 7 „Wohin soll dein ETF-Geld?“ nur, wenn sein Plan einen ETF hat (bei Geld
+ * für in einem Jahr gibt es keinen; CV29P, Fund beim Durchklicken 09.11.2026).
+ */
+const fragenFuer = (a: Antworten) => FRAGEN.filter((f) => f.id !== "region" || aufteilung(a).some((x) => x.baustein === "etf"));
+
 const scrolleZu = (id: string) =>
   document.getElementById(id)?.scrollIntoView({ behavior: wenigBewegung() ? "auto" : "smooth", block: "start" });
 
@@ -360,7 +366,7 @@ const MeinPortfolioPlan = () => {
     if (Object.keys(alt).length) {
       setA(alt);
       setWerte(alt.werte ?? []);
-      const naechste = FRAGEN.findIndex((f) => !beantwortet(alt, f.id));
+      const naechste = fragenFuer(alt).findIndex((f) => !beantwortet(alt, f.id));
       if (naechste < 0) setPhase("dashboard");
       else setSchritt(naechste);
     }
@@ -380,7 +386,8 @@ const MeinPortfolioPlan = () => {
 
   if (schluessel !== QUIZ_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
 
-  const frage = FRAGEN[schritt];
+  const fragen = fragenFuer(a);
+  const frage = fragen[schritt];
   const depotTitel = a.broker && a.broker !== "anderer" ? BROKER.find((b) => b.id === a.broker)?.titel : undefined;
 
   const wechsleThema = () => {
@@ -401,7 +408,7 @@ const MeinPortfolioPlan = () => {
     setEigene(undefined);
     schreibe(SPEICHER_RICHTUNG, undefined);
     ereignis("quiz_frage", { quiz: "portfolioplan", frage: id });
-    const naechste = FRAGEN.findIndex((f) => !beantwortet(neu, f.id));
+    const naechste = fragenFuer(neu).findIndex((f) => !beantwortet(neu, f.id));
     window.setTimeout(() => {
       if (naechste >= 0) setSchritt(naechste);
       else rechne();
@@ -593,12 +600,12 @@ const MeinPortfolioPlan = () => {
           <section className="pp-karte pp-rise mx-auto w-full max-w-[560px] p-5 md:p-7" aria-labelledby="pp-frage-titel">
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-[14px] tabular-nums text-foreground/60">
-                Frage <b className="text-foreground">{schritt + 1}</b> von {FRAGEN.length}
+                Frage <b className="text-foreground">{schritt + 1}</b> von {fragen.length}
               </p>
               <p className="pp-etikett !text-[12px]">{frage.kurz}</p>
             </div>
             <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-muted" aria-hidden>
-              <div className="pp-balken h-full rounded-full bg-primary" style={{ width: `${((schritt + 1) / FRAGEN.length) * 100}%` }} />
+              <div className="pp-balken h-full rounded-full bg-primary" style={{ width: `${((schritt + 1) / fragen.length) * 100}%` }} />
             </div>
             <div key={frage.id} className="pp-frage">
               {schritt > 0 ? (
@@ -887,9 +894,12 @@ const Dashboard = ({
                       }`}
                     >
                       <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: b.farbe }} aria-hidden />
-                      <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground">{b.name}</span>
+                      <span className="min-w-0 flex-1 text-[16px] font-bold leading-tight text-foreground md:truncate">{b.name}</span>
                       <span className="text-[17px] font-extrabold tabular-nums text-foreground">{x.prozent}&nbsp;%</span>
-                      <span className="w-[72px] text-right text-[14px] tabular-nums text-foreground/65">z.&nbsp;B. {euroText(euro[i])}</span>
+                      <span className="w-[64px] text-right text-[14px] tabular-nums text-foreground/65 md:w-[96px]">
+                        <span className="hidden md:inline">z.&nbsp;B. </span>
+                        {euroText(euro[i])}
+                      </span>
                     </button>
                   </li>
                 );
@@ -1004,7 +1014,7 @@ const Dashboard = ({
                         produkt={blk.favorit}
                         farbe={b.farbe}
                         marke={
-                          <span className="ml-1 inline-flex translate-y-[-1px] items-center rounded-full border border-border px-2 py-0.5 align-middle text-[12px] font-bold text-foreground">
+                          <span className="mt-1 inline-flex w-fit items-center rounded-full border border-border px-2 py-0.5 align-middle text-[12px] font-bold text-foreground md:ml-1 md:mt-0 md:translate-y-[-1px]">
                             Unser Favorit
                           </span>
                         }
@@ -1123,7 +1133,7 @@ const Dashboard = ({
                   <dl className="mt-4 grid grid-cols-3 gap-2">
                     {b.zahlen.map((z) => (
                       <div key={z.label}>
-                        <dd className="text-[22px] font-extrabold leading-none tabular-nums text-foreground">{z.wert}</dd>
+                        <dd className="whitespace-nowrap text-[18px] font-extrabold leading-none tabular-nums text-foreground md:text-[22px]">{z.wert}</dd>
                         <dt className="mt-1 text-[13px] leading-tight text-foreground/65">{z.label}</dt>
                       </div>
                     ))}
