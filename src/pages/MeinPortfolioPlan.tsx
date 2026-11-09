@@ -99,7 +99,9 @@ const schreibe = (schluessel: string, wert: unknown) => {
   }
 };
 
-const liesThema = (): Thema => {
+/** Hell oder Dunkel: `?thema=dunkel` im Link geht vor (zum Zeigen und für Videos, CV29P), sonst die gespeicherte Wahl. */
+const liesThema = (ausLink?: string | null): Thema => {
+  if (ausLink === "dunkel" || ausLink === "hell") return ausLink;
   try {
     return window.localStorage.getItem(SPEICHER_THEMA) === "dunkel" ? "dunkel" : "hell";
   } catch {
@@ -352,7 +354,7 @@ const MeinPortfolioPlan = () => {
   const [bereit, setBereit] = useState(false);
   const [pdfLaeuft, setPdfLaeuft] = useState(false);
   const [pdfZeile, setPdfZeile] = useState(0);
-  const [thema, setThema] = useState<Thema>(() => (typeof window === "undefined" ? "hell" : liesThema()));
+  const [thema, setThema] = useState<Thema>(() => (typeof window === "undefined" ? "hell" : liesThema(params.get("thema"))));
 
   useEffect(() => {
     const ausUrl = sauberName(params.get("n"));
