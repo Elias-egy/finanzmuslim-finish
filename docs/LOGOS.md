@@ -42,6 +42,9 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | sbroker.de | public/logos/sbroker.de.png | Anbieter-Seite sbroker.de, Kopf der Startseite, geladen 08.11.2026 |
 | scalable.capital | public/logos/scalable.capital.svg | Wikimedia Commons File:Scalable_Capital_Logo_2024.svg, Public domain (reiner Schriftzug), geladen 08.11.2026; SEO80: schwarzer Hintergrund entfernt, Schrift und Zeichen schwarz (#101112) wie Scalables helle Form, viewBox auf das Logo geschnitten |
 | smartbrokerplus.de | public/logos/smartbrokerplus.de.svg | Anbieter-Seite smartbrokerplus.de, Kopf der Startseite, geladen 08.11.2026 |
+| commerzbank.de | public/logos/commerzbank.de.svg | Anbieter-Seite commerzbank.de, Fußzeile, Datei CB-2021-Logo_horizontal_RGB_Solid_white.svg (weiße Form), geladen 09.11.2026; A14: Schriftzug #002e3c, Zeichen #ffd700 gesetzt, damit er auf weißem Grund steht (wie bei Scalable) |
+| smartsteuer.de | public/logos/smartsteuer.de.svg | Anbieter-Seite smartsteuer.de, Kopf der Startseite, Datei smartsteuer-oncolor-compact.svg (weißer Schriftzug), geladen 09.11.2026; `dunkel` |
+| steuertipps.de | public/logos/steuertipps.de.png | Anbieter-Seite steuertipps.de, Meta-Bild steuertipps_logo_2024.png, geladen 09.11.2026; A14: auf den Schriftzug zugeschnitten (590 × 560) |
 | steuer.check24.de | public/logos/steuer.check24.de.svg | Wikimedia Commons File:Check24_Logo_2020.svg, Public domain (reiner Schriftzug), geladen 08.11.2026 |
 | steuergo.de | public/logos/steuergo.de.png | Anbieter-Seite steuergo.de, Kopf der Startseite, geladen 08.11.2026 |
 | taxfix.de | public/logos/taxfix.de.svg | Anbieter-Seite taxfix.de, Kopf der Startseite, geladen 08.11.2026 |
@@ -52,7 +55,7 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | umweltbank.de | public/logos/umweltbank.de.svg | Anbieter-Seite umweltbank.de, Kopf der Startseite, geladen 08.11.2026 |
 | vivid.money | public/logos/vivid.money.svg | Anbieter-Seite vivid.money, Kopf der Startseite, geladen 08.11.2026 |
 
-Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, Fidelity, GENO Broker, Pax-Bank, Trading 212, XTB, Bux, BforBank, bunq, Commerzbank, Deutsche Bank, Haspa, KT Bank, Monese, PSD Bank, Revolut, Targobank, Wise, C24, Bitpanda, Bitvavo, crypto.com, Robinhood, Finispia, Islamicly, Zoya, Lohnsteuer kompakt, SteuerSparErklärung, smartsteuer. Beim Anbieter-Kopf nur weiß auf dunkel oder nicht einzeln ladbar; nächste Sitzung von der Presseseite holen, zuerst Consorsbank und Trading 212.
+Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, Fidelity, GENO Broker, Pax-Bank, Trading 212, XTB, Bux, BforBank, bunq, Deutsche Bank, Haspa, KT Bank, Monese, PSD Bank, Revolut, Targobank, Wise, C24, Bitpanda, Bitvavo, crypto.com, Robinhood, Finispia, Islamicly, Zoya, Lohnsteuer kompakt, SteuerSparErklärung, wundertax (wundertax.de sperrt Abrufe, A14 09.11.2026: Datei von Elias oder Chrome-Freigabe nötig). Beim Anbieter-Kopf nur weiß auf dunkel oder nicht einzeln ladbar; nächste Sitzung von der Presseseite holen, zuerst Consorsbank und Trading 212.
 
 ## App-Bilder im Blogteil des Depot-Vergleichs (SEO78, 08.11.2026)
 
