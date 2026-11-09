@@ -6,23 +6,40 @@
  * werden dann auch ein bisschen neu designt, natürlich im neuen Stil.“ Darum drei Seiten im Stil des Dashboards
  * (weiß, Karten mit dünnem Rand, Farbe nur in den Daten): 1 Typ, Risiko, Richtung; 2 Anlagen, Schritte, Datenbank;
  * 3 die Basics, das Girokonto, der Hinweis. Die kopierten Blueprint-Seiten der ersten Fassung (CV26P) sind weg.
- * Nach außen keine Prozentzahlen, nur Richtung und Euro-Beispiele (Anlageberatung).
+ *
+ * CV28P (09.11.2026, Vault data/laufzettel/cv28p-portfolioplan-founder-os-nachbau.md Schritt 6): Seite 1 nennt die
+ * Prozente je Baustein neben dem Ring, nie an einer Anlage (memory prozente-nur-je-baustein-gold-ausnahme-royal-mint);
+ * Seite 2 zeigt je Baustein alle kaufbaren Anlagen des Stils, den der Leser im Dashboard gewählt hat, mit „Du wolltest
+ * USA.“ und bei Gold Royal Mint als Favorit mit den drei Fakten.
  */
 import { PDFDocument, rgb, StandardFonts, type PDFFont, type PDFPage, type RGB } from "pdf-lib";
 import kurse from "@/data/kurse.json";
 import { BASICS } from "@/data/portfolioBasics";
 import {
+  anlagenJeBaustein,
   anlegertyp,
   datenbankFakten,
-  gewichtWort,
+  GOLD_FAVORIT_FAKTEN,
   heute,
   planTitel,
+  richtungsSatz,
   risiko,
   risikoWort,
-  stileFuer,
 } from "@/data/portfolioDashboard";
-import { bausteinById, SCHMERZ } from "@/data/portfolioPlan";
-import { aufteilung, BEISPIEL, BROKER, euroText, inEuro, LAGEN, prozentText, type Anteil, type Antworten } from "@/data/portfolioQuiz";
+import { bausteinById, SCHMERZ, type BausteinId } from "@/data/portfolioPlan";
+import {
+  aufteilung,
+  BEISPIEL,
+  BROKER,
+  euroText,
+  inEuro,
+  prozentText,
+  regionTitel,
+  type Anteil,
+  type Antworten,
+  type Produkt,
+  type Region,
+} from "@/data/portfolioQuiz";
 
 const BLAU = rgb(0, 0x57 / 255, 0xfa / 255);
 const SCHWARZ = rgb(0.07, 0.09, 0.15);
@@ -124,9 +141,11 @@ class Blatt {
   }
 }
 
-export type PdfOptionen = { anteile?: Anteil[]; name?: string };
+/** `region` aus Frage 7 und `stile` je Baustein, wie der Leser sie im Dashboard angetippt hat (CV28P). */
+export type PdfOptionen = { anteile?: Anteil[]; name?: string; region?: Region; stile?: Partial<Record<BausteinId, string>> };
 
-export const planPdfBytes = async (a: Antworten, opt: PdfOptionen = {}): Promise<Uint8Array> => {
+export const planPdfBytes = async (antworten: Antworten, opt: PdfOptionen = {}): Promise<Uint8Array> => {
+  const a: Antworten = { ...antworten, region: opt.region ?? antworten.region };
   const doc = await PDFDocument.create();
   doc.setTitle(planTitel(opt.name));
   doc.setAuthor("finanzmuslim");
@@ -139,11 +158,13 @@ export const planPdfBytes = async (a: Antworten, opt: PdfOptionen = {}): Promise
   const betrag = a.betrag ?? 50;
   const euro = inEuro(anteile, betrag);
   const monatlich = a.weise !== "einmal";
-  const brokerName = !a.broker || a.broker === "anderer" ? "dein Depot" : (BROKER.find((b) => b.id === a.broker)?.titel ?? "");
-  const lage = LAGEN.find((l) => l.id === a.lage)?.titel.replace(/^In /, "in ") ?? "";
+  const depot = a.broker && a.broker !== "anderer" ? BROKER.find((b) => b.id === a.broker)?.titel : undefined;
   const typ = anlegertyp(anteile);
   const risk = risiko(anteile);
-  const meta = `${brokerName === "dein Depot" ? "Dein Depot" : brokerName}  ·  ${euroText(betrag)} ${monatlich ? "im Monat" : "einmal"}  ·  Geld gebraucht ${lage}`;
+  const region = anteile.some((x) => x.baustein === "etf") ? regionTitel(a.region) : undefined;
+  const meta = [depot ?? "Dein Depot", `${euroText(betrag)} ${monatlich ? "im Monat" : "einmal"}`, region ? `${region}-Schwerpunkt` : ""]
+    .filter(Boolean)
+    .join("  ·  ");
 
   // ---------------------------------------------------------------- Seite 1: Typ, Risiko, Richtung
   {
@@ -193,17 +214,19 @@ export const planPdfBytes = async (a: Antworten, opt: PdfOptionen = {}): Promise
     b.text(euroText(betrag), rcx, rcy - 4, 15, { fett: true, mitte: true });
     b.text(monatlich ? "im Monat" : "einmal", rcx, rcy - 18, 9, { farbe: GRAU, mitte: true });
 
-    let ly = rOben - 52;
+    // Prozent je Baustein neben dem Ring (Elias 09.11.2026: „Prozente … nur für grundlegende Bereiche“).
+    const zeilenH = Math.min(30, 170 / Math.max(1, anteile.length));
+    let ly = rOben - 56;
     const lx = RAND + 196;
     for (const [i, x] of anteile.entries()) {
       const bs = bausteinById(x.baustein);
       b.seite.drawCircle({ x: lx + 5, y: ly + 4, size: 4.5, color: farbe(bs.farbe) });
       b.text(bs.name, lx + 16, ly, 11.5, { fett: true });
-      b.text(gewichtWort(x.baustein, x.prozent), lx + 16, ly - 13, 9.5, { farbe: GRAU });
-      b.text(`z. B. ${euroText(euro[i])}`, BREITE - RAND - 18, ly, 11, { farbe: SCHWARZ, rechts: true });
-      ly -= 34;
+      b.text(`${x.prozent} %`, BREITE - RAND - 110, ly, 12, { fett: true, rechts: true });
+      b.text(`z. B. ${euroText(euro[i])}`, BREITE - RAND - 18, ly, 11, { farbe: GRAU, rechts: true });
+      ly -= zeilenH;
     }
-    b.absatz("Richtung statt fester Prozente: ein Wort je Baustein sagt, wie viel Gewicht er hat. Die Euro-Beträge sind ein Beispiel.", RAND + 18, rOben - rH + 30, 9, INNEN - 36, { farbe: GRAU });
+    b.absatz("Die Prozente gelten je Baustein, nicht für eine einzelne Anlage. Die Euro-Beträge sind ein Beispiel.", RAND + 18, rOben - rH + 30, 9, INNEN - 36, { farbe: GRAU });
 
     b.fuss(1);
   }
@@ -211,71 +234,115 @@ export const planPdfBytes = async (a: Antworten, opt: PdfOptionen = {}): Promise
   // ---------------------------------------------------------------- Seite 2: Anlagen, Schritte, Datenbank
   {
     const b = new Blatt(doc.addPage([BREITE, HOEHE]), s);
-    b.kopf(`Deine Anlagen bei ${brokerName === "dein Depot" ? "deinem Depot" : brokerName}`, "Aus der Halal-Datenbank, mit Einzelbeleg kaufbar, je mit dem Weg zur Anlage.");
+    b.kopf(
+      `Deine Anlagen bei ${depot ?? "deinem Depot"}`,
+      depot ? `Alles aus der Halal-Datenbank, kaufbar bei ${depot}.` : "Alles aus der Halal-Datenbank.",
+    );
 
-    const anlagen = anteile
-      .filter((x) => x.baustein !== "konto")
-      .map((x) => ({ x, p: stileFuer(x.baustein, a.broker)[0]?.produkt }));
-    const zeileH = 58;
+    const bloecke = anlagenJeBaustein(anteile, a, opt.stile ?? {});
+    // Höhen in Punkt: Kopfzeile je Baustein, Satz „Du wolltest …“, eine Zeile je Anlage, drei Fakten beim Favoriten.
+    const KOPF_H = 18;
+    const SATZ_H = 16;
+    const ZEILE_H = 26;
+    const FAKT_H = 12;
+    const ABSTAND = 12;
+    const blockH = (blk: (typeof bloecke)[number]) => {
+      const satz = blk.anteil.baustein === "etf" && blk.stil ? SATZ_H : 0;
+      const zeilen = blk.produkte.length * ZEILE_H;
+      const fav = blk.favorit ? ZEILE_H + GOLD_FAVORIT_FAKTEN.length * FAKT_H + 4 : 0;
+      const leer = !blk.favorit && blk.produkte.length === 0 ? 16 : 0;
+      return KOPF_H + satz + zeilen + fav + leer;
+    };
     const aOben = HOEHE - 150;
-    const aH = 30 + anlagen.length * zeileH;
+    const aH = 26 + bloecke.reduce((sum, blk) => sum + blockH(blk), 0) + ABSTAND * Math.max(0, bloecke.length - 1) + 8;
     b.karte(RAND, aOben, INNEN, aH);
-    let y = aOben - 40;
-    for (const [i, z] of anlagen.entries()) {
-      const bs = bausteinById(z.x.baustein);
+
+    const rechts = BREITE - RAND - 18;
+    const anlageZeile = (p: Produkt, y: number, marke?: string) => {
+      b.text(p.anlage.name, RAND + 36, y, 10.5, { fett: true });
+      // Die Marke („Unser Favorit“) steht hinter dem Link, damit lange Namen nie in die Rendite laufen.
+      const w = b.text(`finanzmuslim.com/halal-anlagen/${p.anlage.slug}`, RAND + 36, y - 11, 8, { farbe: BLAU });
+      if (marke) b.text(marke, RAND + 36 + w + 10, y - 11, 8, { fett: true, farbe: SCHWARZ });
+      let rx = rechts;
+      if (p.r5 !== undefined) rx -= b.text(`5 Jahre ${prozentText(p.r5)}`, rx, y, 9.5, { fett: true, farbe: p.r5 >= 0 ? GRUEN : ROT, rechts: true }) + 14;
+      if (p.r1 !== undefined) b.text(`1 Jahr ${prozentText(p.r1)}`, rx, y, 9.5, { fett: true, farbe: p.r1 >= 0 ? GRUEN : ROT, rechts: true });
+    };
+
+    let y = aOben - 30;
+    for (const [i, blk] of bloecke.entries()) {
+      const bs = bausteinById(blk.anteil.baustein);
       b.seite.drawCircle({ x: RAND + 24, y: y + 4, size: 4.5, color: farbe(bs.farbe) });
-      b.text(bs.name, RAND + 36, y, 10, { fett: true, farbe: GRAU });
-      b.text(`z. B. ${euroText(euro[anteile.indexOf(z.x)])}`, BREITE - RAND - 18, y, 11, { fett: true, rechts: true });
-      if (z.p) {
-        b.text(z.p.anlage.name, RAND + 36, y - 16, 12.5, { fett: true });
-        const rendite: string[] = [];
-        if (z.p.r1 !== undefined) rendite.push(`1 Jahr ${prozentText(z.p.r1)}`);
-        if (z.p.r5 !== undefined) rendite.push(`5 Jahre ${prozentText(z.p.r5)}`);
-        let rx = RAND + 36;
-        if (rendite.length) {
-          const t = rendite.join("   ");
-          const schlecht = (z.p.r1 ?? 0) < 0 && (z.p.r5 ?? 0) < 0;
-          rx += b.text(t, rx, y - 31, 9.5, { fett: true, farbe: schlecht ? ROT : GRUEN }) + 12;
-        }
-        b.text(`finanzmuslim.com/halal-anlagen/${z.p.anlage.slug}`, rx, y - 31, 8.5, { farbe: BLAU });
-      } else {
-        b.text(BEISPIEL[z.x.baustein] ?? "", RAND + 36, y - 16, 11, { farbe: SCHWARZ });
+      b.text(blk.stil && blk.stile.length > 1 ? `${bs.name}  ·  ${blk.stil.titel}` : bs.name, RAND + 36, y, 11, { fett: true });
+      b.text(`z. B. ${euroText(euro[anteile.indexOf(blk.anteil)])}`, rechts, y, 11, { fett: true, rechts: true });
+      y -= KOPF_H;
+      if (blk.anteil.baustein === "etf" && blk.stil) {
+        b.text(richtungsSatz(a, blk.stil, depot), RAND + 36, y, 10, { farbe: SCHWARZ });
+        y -= SATZ_H;
       }
-      if (i < anlagen.length - 1) b.seite.drawLine({ start: { x: RAND + 18, y: y - 44 }, end: { x: BREITE - RAND - 18, y: y - 44 }, thickness: 0.6, color: LINIE });
-      y -= zeileH;
+      if (blk.favorit) {
+        anlageZeile(blk.favorit, y, "Unser Favorit");
+        y -= ZEILE_H;
+        for (const f of GOLD_FAVORIT_FAKTEN) {
+          // Haken als Pfad: die Standardschrift kennt kein ✓.
+          b.seite.drawSvgPath("M 0 4 L 3 7 L 8 0", { x: RAND + 38, y: y + 9.5, borderColor: GRUEN, borderWidth: 1.5 });
+          b.text(f, RAND + 52, y + 2, 9.5);
+          y -= FAKT_H;
+        }
+        y -= 4;
+      }
+      for (const p of blk.produkte) {
+        anlageZeile(p, y);
+        y -= ZEILE_H;
+      }
+      if (!blk.favorit && blk.produkte.length === 0) {
+        b.text(BEISPIEL[blk.anteil.baustein] ?? "", RAND + 36, y, 10.5);
+        y -= 16;
+      }
+      if (i < bloecke.length - 1) {
+        b.seite.drawLine({ start: { x: RAND + 18, y: y + 6 }, end: { x: rechts, y: y + 6 }, thickness: 0.6, color: LINIE });
+        y -= ABSTAND;
+      }
     }
 
     // So machst du es
     const sOben = aOben - aH - 14;
     const konto = anteile.findIndex((x) => x.baustein === "konto");
-    const kauf = anlagen.filter((z) => z.p).map((z) => `${euroText(euro[anteile.indexOf(z.x)])} ${z.p!.anlage.name}`);
+    const kauf = anteile
+      .map((x, i) => ({ x, e: euro[i] }))
+      .filter(({ x }) => x.baustein !== "konto")
+      .map(({ x, e }) => `${euroText(e)} ${bausteinById(x.baustein).name}`);
+    const kaufText = kauf.length < 2 ? (kauf[0] ?? "") : `${kauf.slice(0, -1).join(", ")} und ${kauf[kauf.length - 1]}`;
     const schritte = [
-      `Öffne die App von ${brokerName === "dein Depot" ? "deinem Depot" : brokerName} und such die Anlage beim Namen.`,
-      `${monatlich ? "Kauf jeden Monat zum Beispiel" : "Kauf einmal zum Beispiel"} ${kauf.join(", ")}.${monatlich ? " Gibt es dafür einen Sparplan, läuft es von selbst." : ""}`,
+      `Öffne die App von ${depot ?? "deinem Depot"} und such die Anlage beim Namen.`,
+      `${monatlich ? "Kauf jeden Monat zum Beispiel" : "Kauf einmal zum Beispiel"} ${kaufText}. Welche Anlage dazu passt, steht oben.${monatlich ? " Gibt es dafür einen Sparplan, läuft es von selbst." : ""}`,
     ];
     if (konto >= 0) schritte.push(`Etwa ${euroText(euro[konto])} bleiben auf deinem Girokonto. Achte darauf, dass es dir keine Zinsen zahlt.`);
     if (anteile.some((x) => x.baustein === "aktien")) schritte.push("Einzelaktien prüfst du einzeln, zum Beispiel mit Zoya oder Musaffa.");
     const sZeilen = schritte.map((t) => umbrechen(t, s.normal, 11, INNEN - 70).length);
     const sH = 48 + sZeilen.reduce((sum, n) => sum + n * 15 + 8, 0);
-    b.karte(RAND, sOben, INNEN, sH);
-    b.label("So machst du es", RAND + 18, sOben);
-    y = sOben - 46;
-    schritte.forEach((t, i) => {
-      b.seite.drawCircle({ x: RAND + 27, y: y + 4, size: 8, color: SCHWARZ });
-      b.text(String(i + 1), RAND + 27, y + 0.5, 9.5, { fett: true, farbe: WEISS, mitte: true });
-      y -= b.absatz(t, RAND + 44, y, 11, INNEN - 70, { zeilenhoehe: 15 }) + 8;
-    });
+    // Passt die Karte nicht mehr auf die Seite (viele Anlagen), entfällt sie; die Schritte stehen auch im Dashboard.
+    const schritteDa = sOben - sH > 46;
+    if (schritteDa) {
+      b.karte(RAND, sOben, INNEN, sH);
+      b.label("So machst du es", RAND + 18, sOben);
+      y = sOben - 46;
+      schritte.forEach((t, i) => {
+        b.seite.drawCircle({ x: RAND + 27, y: y + 4, size: 8, color: SCHWARZ });
+        b.text(String(i + 1), RAND + 27, y + 0.5, 9.5, { fett: true, farbe: WEISS, mitte: true });
+        y -= b.absatz(t, RAND + 44, y, 11, INNEN - 70, { zeilenhoehe: 15 }) + 8;
+      });
+    }
 
     // Datenbank
     const f = datenbankFakten(a.broker);
     const dOben = sOben - sH - 14;
     const dH = 118;
-    if (dOben - dH > 60) {
+    if (schritteDa && dOben - dH > 60) {
       b.karte(RAND, dOben, INNEN, dH);
-      b.label("Aus meiner Datenbank", RAND + 18, dOben);
+      b.label("Aus der Datenbank", RAND + 18, dOben);
       const spalten: [string, string][] = [
         [String(f.gesamt), "Halal-Anlagen geprüft"],
-        [String(f.kaufbar ?? f.etfs), f.kaufbar !== undefined ? `davon bei ${brokerName === "dein Depot" ? "deinem Depot" : brokerName}` : "Islamic ETFs und Fonds"],
+        [String(f.kaufbar ?? f.etfs), f.kaufbar !== undefined ? `davon bei ${depot ?? "deinem Depot"}` : "Islamic ETFs und Fonds"],
         [String(f.zertifikat), "mit eigenem Zertifikat"],
       ];
       const sw = (INNEN - 36) / 3;

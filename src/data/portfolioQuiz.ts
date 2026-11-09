@@ -3,7 +3,7 @@
  *
  * Wer bei einem Depot eröffnet und FERTIG mit Screenshot schickt, bekommt den Link hierher statt des XXL-Guides
  * (Elias, CV25V: „dieses XXL-Guide … musst du auch alles wegmachen … der Portfolioplan wird ein ganz anderer“;
- * Vault raw/2026-11-08-elias-cv25v-tp-urteil-captions-link-sync-punkte.md). Sechs Fragen wie ein Onboarding, daneben
+ * Vault raw/2026-11-08-elias-cv25v-tp-urteil-captions-link-sync-punkte.md). Sieben Fragen wie ein Onboarding, daneben
  * füllt sich der Plan (Elias, CV26P: raw/2026-11-08-elias-cv26p-quiz-wie-onboarding-plan-fuellt-sich.md), danach der
  * Plan in Euro mit Anlagen, die bei seinem Broker mit Einzelbeleg kaufbar sind, eine PDF und zuletzt das Girokonto
  * (Elias, CV23S: raw/2026-11-08-elias-cv23s-blueprint-cross-selling-girokonto.md).
@@ -25,6 +25,8 @@ export type BrokerWahl = "traders-place" | "smartbroker" | "flatex" | "anderer";
 export type Gekauft = "etf" | "anderes" | "nichts";
 export type Weise = "monatlich" | "einmal";
 export type Wert = "gold" | "ruhig" | "aktien" | "krypto";
+/** Wohin das ETF-Geld soll; die Ids sind die Stil-Ids des ETF-Bausteins (STILE.etf in portfolioDashboard.ts). */
+export type Region = "welt" | "usa" | "europa" | "schwellen" | "tech";
 
 export type Antworten = {
   broker?: BrokerWahl;
@@ -33,6 +35,7 @@ export type Antworten = {
   betrag?: number;
   lage?: LageId;
   werte?: Wert[];
+  region?: Region;
 };
 
 export type FrageId = keyof Antworten;
@@ -82,16 +85,35 @@ export const WERTE: Wahl<Wert>[] = [
   { id: "krypto", titel: "Krypto", unter: "ein kleiner Teil, freiwillig" },
 ];
 
-export type Frage = { id: FrageId; titel: string; kurz: string; mehrere?: boolean };
+/**
+ * Frage 7 (CV28P, 09.11.2026; Elias, Vault raw/2026-11-09-elias-cv27p-prozente-nur-grundbereiche-usa-gold-favorit-steuer.md:
+ * „du wolltest USA, das geht“). Nur die Richtung, keine Anlage: welche Anlage dazu passt, zeigt das Dashboard.
+ */
+export const REGIONEN: Wahl<Region>[] = [
+  { id: "welt", titel: "Welt", unter: "alle großen Länder" },
+  { id: "usa", titel: "USA", unter: "die größten Firmen der Welt" },
+  { id: "europa", titel: "Europa" },
+  { id: "schwellen", titel: "Schwellenländer", unter: "Asien, Südamerika, Afrika" },
+  { id: "tech", titel: "Technologie" },
+];
 
-/** Die sechs Fragen (Elias, CV26P: „die Quizfragen kannst du 6 machen … Die Fragen passen“). */
+export const regionTitel = (r?: Region) => REGIONEN.find((x) => x.id === r)?.titel;
+
+/** `kurz` ist das Thema oben rechts in der Frage-Karte, `satz` der eine Satz unter dem Titel (Skilltree-Vorbild, CV28P). */
+export type Frage = { id: FrageId; titel: string; kurz: string; satz: string; mehrere?: boolean };
+
+/**
+ * Die sieben Fragen (Elias, CV26P: „die Quizfragen kannst du 6 machen … Die Fragen passen“; Frage 7 „Wohin soll dein
+ * ETF-Geld?“ seit CV28P, Laufzettel cv28p Gefühlsblatt Punkt 2).
+ */
 export const FRAGEN: Frage[] = [
-  { id: "broker", titel: "Wo hast du dein Depot?", kurz: "Depot" },
-  { id: "gekauft", titel: "Was hast du schon gekauft?", kurz: "Gekauft" },
-  { id: "weise", titel: "Wie willst du anlegen?", kurz: "Art" },
-  { id: "betrag", titel: "Mit wie viel?", kurz: "Betrag" },
-  { id: "lage", titel: "Wann brauchst du das Geld?", kurz: "Zeit" },
-  { id: "werte", titel: "Worauf legst du Wert?", kurz: "Wichtig", mehrere: true },
+  { id: "broker", titel: "Wo hast du dein Depot?", kurz: "Dein Depot", satz: "Dann zeigt dir der Plan nur, was es dort wirklich gibt." },
+  { id: "gekauft", titel: "Was hast du schon gekauft?", kurz: "Gekauft", satz: "Damit der Plan weiß, wo du gerade stehst." },
+  { id: "weise", titel: "Wie willst du anlegen?", kurz: "Art", satz: "Jeden Monat ein bisschen oder einmal ein größerer Betrag." },
+  { id: "betrag", titel: "Mit wie viel?", kurz: "Betrag", satz: "Damit du in Euro siehst, was wohin geht." },
+  { id: "lage", titel: "Wann brauchst du das Geld?", kurz: "Zeit", satz: "Je länger es liegen bleibt, desto mehr darf es schwanken." },
+  { id: "werte", titel: "Worauf legst du Wert?", kurz: "Wichtig", satz: "Wähle, was zu dir passt. Auch mehreres oder nichts geht.", mehrere: true },
+  { id: "region", titel: "Wohin soll dein ETF-Geld?", kurz: "Richtung", satz: "Nur die Richtung. Welche Anlage dazu passt, zeigt dir der Plan." },
 ];
 
 export const beantwortet = (a: Antworten, id: FrageId): boolean =>
@@ -116,6 +138,8 @@ export const antwortText = (a: Antworten, id: FrageId): string => {
       return LAGEN.find((l) => l.id === a.lage)?.titel ?? "";
     case "werte":
       return a.werte?.length ? WERTE.filter((w) => a.werte!.includes(w.id)).map((w) => w.titel).join(", ") : "Nichts davon";
+    case "region":
+      return regionTitel(a.region) ?? "";
   }
 };
 
@@ -187,7 +211,8 @@ export const hausVon = (broker?: BrokerWahl): string | undefined =>
 export const kaufbarBei = (isin: string, haus?: string): boolean =>
   !haus || Boolean(ANLAGEN_KAUFBAR[isin]?.kaufbar.some((k) => k.haus === haus));
 
-export type Produkt = { anlage: Anlage; r1?: number; r5?: number };
+/** `verlauf`: 60 Monatswerte 0 bis 100 aus kurse.json, für die Flächen-Kurve (CV28P); fehlt, wo kurse.json keine Reihe hat. */
+export type Produkt = { anlage: Anlage; r1?: number; r5?: number; verlauf?: number[] };
 
 type Kurs = { r1j?: number | null; r5j?: number | null };
 const KURSE = (kurse as unknown as { anlagen: Record<string, Kurs> }).anlagen;
@@ -209,4 +234,8 @@ export const BEISPIEL: Partial<Record<BausteinId, string>> = {
   konto: "bleibt griffbereit, ohne Zinsen",
 };
 
-export const prozentText = (n: number) => `${n > 0 ? "+" : ""}${n.toLocaleString("de-DE", { maximumFractionDigits: 1 })} %`;
+export const prozentText = (n: number) => {
+  // -0,04 würde sonst als „-0 %“ erscheinen (WisdomTree Physical Gold, kurse.json r1j -0.0).
+  const r = Math.round(n * 10) / 10 || 0;
+  return `${r > 0 ? "+" : ""}${r.toLocaleString("de-DE", { maximumFractionDigits: 1 })} %`;
+};

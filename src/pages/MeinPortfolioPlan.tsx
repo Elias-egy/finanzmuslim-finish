@@ -1,25 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowRight, Check, ChevronDown, ChevronLeft, Download, Minus, Plus } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, ChevronDown, ChevronLeft, Download, Minus, Moon, Plus, Sun } from "lucide-react";
 import Seo from "@/components/Seo";
 import GiroAufruf from "@/components/vorlagen/GiroAufruf";
-import { AnlageLogo } from "@/components/AnlageZeile";
 import { Wordmark } from "@/components/Wordmark";
+import { Geruest } from "@/components/portfolioplan/Geruest";
+import { PlanAnlageZeile } from "@/components/portfolioplan/AnlageZeile";
+import { useZaehler, wenigBewegung } from "@/components/portfolioplan/Zaehler";
 import { BASICS } from "@/data/portfolioBasics";
 import {
   ALLE_BAUSTEINE,
+  anlagenJeBaustein,
   anlegertyp,
   datenbankFakten,
-  gewichtWort,
+  GOLD_FAVORIT_FAKTEN,
   heute,
+  KATEGORIE_WORT,
+  kategorieFarbe,
   kannMehr,
   kannWeniger,
   planTitel,
   richtungAendern,
+  richtungsSatz,
   risiko,
   risikoWort,
   sauberName,
-  stileFuer,
+  topPerformer,
 } from "@/data/portfolioDashboard";
 import { bausteinById, SCHMERZ, type BausteinId } from "@/data/portfolioPlan";
 import {
@@ -34,15 +40,15 @@ import {
   GEKAUFT,
   inEuro,
   LAGEN,
-  prozentText,
   QUIZ_PFAD,
   QUIZ_SCHLUESSEL,
+  REGIONEN,
+  regionTitel,
   WEISE,
   WERTE,
   type Anteil,
   type Antworten,
   type FrageId,
-  type Produkt,
   type Wahl,
   type Wert,
 } from "@/data/portfolioQuiz";
@@ -52,7 +58,7 @@ import "@/styles/portfolioplan.css";
 
 /**
  * /dein-portfolioplan/<schluessel>: das Ultra-Freebie „Dein Halal-Investmentplan“, die Belohnung auf FERTIG
- * (CV26P, 08.11.2026; Umbau CV27P, 09.11.2026).
+ * (CV26P, 08.11.2026; Umbau CV27P, 09.11.2026; Founder-OS- und Skilltree-Nachbau CV28P, 09.11.2026).
  *
  * Elias, 09.11.2026 (Vault raw/2026-11-09-elias-cv26p-ultra-freebie-dashboard-onboarding-luxus.md): „ein Onboarding
  * … das sich so richtig edel anfühlt. So eher weiß, schwarz, sehr so beruhigende Töne, bisschen Blauakzente vielleicht,
@@ -60,15 +66,20 @@ import "@/styles/portfolioplan.css";
  * mit diesen ganzen Grafiken“. Und (raw/2026-11-09-elias-cv27p-dashboard-plan-nacht-onboarding-fakten-pdf-jarvis.md):
  * „Hallo @finanzmuslim … dieses Dashboard sich einfach so so langsam einblenden … dann kommen so die Graphen hoch“.
  *
- * Drei Zustände auf einer Seite, ohne Anmeldung und ohne Live-Daten: 1 Onboarding, eine Frage je Schirm, Begrüßung
- * mit dem Vornamen aus der FERTIG-Mail (?n=…). 2 „Dein Plan entsteht“, vier Zeilen mit Haken. 3 Das Dashboard, das
- * sich von links nach rechts aufbaut, dann die PDF als Ausdruck davon, danach das Girokonto. Nach außen keine
- * Prozentzahlen (Anlageberatung), nur Richtung und Euro-Beispiele.
+ * CV28P nach Vault data/laufzettel/cv28p-portfolioplan-founder-os-nachbau.md, Gefühlsblatt „Übersetzung auf den
+ * Portfolioplan“ Punkt 1 bis 6: Fragen in einer Karte wie bei Skilltree mit „Dein Plan bisher“ darunter und dem
+ * unscharfen Dashboard-Gerüst dahinter, Frage 7 zur Richtung, Dashboard in nummerierten Abschnitten 01 bis 06 mit
+ * Inhaltsverzeichnis, Flächen-Kurven aus kurse.json, Zahlen, die hochzählen, Hell und Dunkel. Prozente stehen nur je
+ * Baustein am Ring, nie an einer Anlage (memory prozente-nur-je-baustein-gold-ausnahme-royal-mint).
  */
 
 const SPEICHER = "fm-portfolioplan-antworten";
 const SPEICHER_RICHTUNG = "fm-portfolioplan-richtung";
 const SPEICHER_NAME = "fm-portfolioplan-name";
+/** Hell oder Dunkel, nur für diese Seite (Gefühlsblatt Punkt 5). */
+const SPEICHER_THEMA = "fm-portfolioplan-theme";
+
+type Thema = "hell" | "dunkel";
 
 const lies = <T,>(schluessel: string): T | undefined => {
   try {
@@ -88,25 +99,40 @@ const schreibe = (schluessel: string, wert: unknown) => {
   }
 };
 
-const wenigBewegung = () =>
-  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+const liesThema = (): Thema => {
+  try {
+    return window.localStorage.getItem(SPEICHER_THEMA) === "dunkel" ? "dunkel" : "hell";
+  } catch {
+    return "hell";
+  }
+};
+
+const scrolleZu = (id: string) =>
+  document.getElementById(id)?.scrollIntoView({ behavior: wenigBewegung() ? "auto" : "smooth", block: "start" });
 
 type Phase = "start" | "fragen" | "rechnet" | "dashboard";
 
 // --- Bausteine der Gestaltung ---------------------------------------------------------------------------------------
 
-/** Ring aus den Bausteinen des Plans, ohne Zahlen am Rand; zeichnet sich bis `gezeigt` (0 bis 1). */
+/**
+ * Ring aus den Bausteinen des Plans; zeichnet sich bis `gezeigt` (0 bis 1). Ein Tipp auf ein Stück hebt die Zeile der
+ * Legende hervor (`aktiv`), die anderen Stücke treten zurück.
+ */
 export const PlanRing = ({
   anteile,
   gezeigt,
   groesse,
   dicke,
+  aktiv,
+  onWahl,
   children,
 }: {
   anteile: Anteil[];
   gezeigt: number;
   groesse: number;
   dicke: number;
+  aktiv?: BausteinId;
+  onWahl?: (b: BausteinId) => void;
   children?: React.ReactNode;
 }) => {
   const r = (groesse - dicke) / 2;
@@ -116,7 +142,7 @@ export const PlanRing = ({
   let start = 0;
   return (
     <div className="relative shrink-0" style={{ width: groesse, height: groesse }}>
-      <svg width={groesse} height={groesse} viewBox={`0 0 ${groesse} ${groesse}`} className="-rotate-90" aria-hidden>
+      <svg width={groesse} height={groesse} viewBox={`0 0 ${groesse} ${groesse}`} className="pp-ring-svg -rotate-90" aria-hidden>
         <circle cx={groesse / 2} cy={groesse / 2} r={r} fill="none" stroke="hsl(var(--muted))" strokeWidth={dicke} />
         {anteile.map((x) => {
           const voll = (x.prozent / summe) * umfang;
@@ -134,13 +160,16 @@ export const PlanRing = ({
               strokeLinecap="butt"
               strokeDasharray={`${sichtbar} ${umfang}`}
               strokeDashoffset={-start}
+              opacity={aktiv && aktiv !== x.baustein ? 0.3 : 1}
+              style={{ cursor: onWahl ? "pointer" : undefined }}
+              onClick={onWahl ? () => onWahl(x.baustein) : undefined}
             />
           );
           start += voll;
           return el;
         })}
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">{children}</div>
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">{children}</div>
     </div>
   );
 };
@@ -166,19 +195,32 @@ const Tacho = ({ wert, gezeigt }: { wert: number; gezeigt: boolean }) => {
   );
 };
 
-const Karte = ({
+/** Ein Abschnitt des Dashboards: Karte mit Etikett „01 DEIN TYP“ (Founder-OS „› THE PIPELINE“, Skilltree „YOUR MAP“). */
+const Abschnitt = ({
   nr,
+  id,
   label,
+  verzoegerung,
   className = "",
   children,
 }: {
   nr: number;
-  label?: string;
+  id: string;
+  label: string;
+  verzoegerung: number;
   className?: string;
   children: React.ReactNode;
 }) => (
-  <section className={`pp-karte pp-slide p-5 md:p-6 ${className}`} style={{ animationDelay: `${nr * 120}ms` }}>
-    {label && <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-foreground/50">{label}</p>}
+  <section
+    id={id}
+    aria-labelledby={`${id}-titel`}
+    className={`pp-karte pp-slide scroll-mt-6 p-5 md:p-7 ${className}`}
+    style={{ animationDelay: `${verzoegerung * 90}ms` }}
+  >
+    <h2 id={`${id}-titel`} className="pp-etikett">
+      <span className="tabular-nums">{String(nr).padStart(2, "0")}</span>
+      <span className="ml-2.5">{label}</span>
+    </h2>
     {children}
   </section>
 );
@@ -204,13 +246,13 @@ const Auswahl = <T extends string | number>({
           role={mehrere ? "checkbox" : "radio"}
           aria-checked={an}
           onClick={() => onWahl(w.id)}
-          className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left transition-[border-color,box-shadow,transform] duration-200 active:scale-[0.99] ${
+          className={`flex min-h-[64px] w-full items-center gap-3 rounded-2xl border bg-card px-4 py-3 text-left transition-[border-color,box-shadow,transform] duration-200 active:scale-[0.99] ${
             an ? "border-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]" : "border-border hover:border-foreground/40"
           }`}
         >
           <span className="min-w-0 flex-1">
             {w.logo ? (
-              <img src={w.logo} alt={w.titel} className="h-[22px] w-auto max-w-[180px] object-contain object-left" />
+              <img src={w.logo} alt={w.titel} className="pp-logo h-[22px] w-auto max-w-[180px] object-contain object-left" />
             ) : (
               <span className="block text-[17px] font-semibold leading-tight text-foreground">{w.titel}</span>
             )}
@@ -219,7 +261,7 @@ const Auswahl = <T extends string | number>({
           <span
             className={`flex h-6 w-6 shrink-0 items-center justify-center border transition-colors ${
               mehrere ? "rounded-md" : "rounded-full"
-            } ${an ? "border-foreground bg-foreground text-white" : "border-foreground/25 bg-white"}`}
+            } ${an ? "border-foreground bg-foreground text-background" : "border-foreground/25 bg-card"}`}
             aria-hidden
           >
             {an && <Check className="h-4 w-4" strokeWidth={3} />}
@@ -245,13 +287,49 @@ const Knopf = ({
     type="button"
     onClick={onClick}
     disabled={disabled}
-    className={`flex min-h-[58px] w-full items-center justify-center gap-2 rounded-2xl px-6 text-[17px] font-bold transition-[transform,opacity] active:scale-[0.99] disabled:opacity-50 ${
-      leise ? "border border-border bg-white text-foreground" : "bg-foreground text-white"
+    className={`flex min-h-[58px] w-full items-center justify-center gap-2 rounded-2xl px-6 text-[17px] font-bold transition-[transform,opacity] active:scale-[0.99] disabled:opacity-40 ${
+      leise ? "border border-border bg-card text-foreground" : "bg-foreground text-background"
     }`}
   >
     {children}
   </button>
 );
+
+/** „Dein Plan bisher“ unter der Frage-Karte: Depot und Bausteine als Chips, die mit jeder Antwort dazukommen (Skilltree). */
+const PlanBisher = ({ a }: { a: Antworten }) => {
+  const chips: { id: string; text: string; farbe?: string }[] = [];
+  if (a.broker) {
+    chips.push({ id: "depot", text: BROKER.find((b) => b.id === a.broker)?.titel ?? "Dein Depot" });
+    for (const x of aufteilung(a)) {
+      const b = bausteinById(x.baustein);
+      const region = x.baustein === "etf" ? regionTitel(a.region) : undefined;
+      chips.push({ id: x.baustein, text: region ? `${b.name} · ${region}` : b.name, farbe: b.farbe });
+    }
+  }
+  const n = chips.filter((c) => c.farbe).length;
+  return (
+    <div className="pp-karte mx-auto mt-4 w-full max-w-[560px] px-5 py-4">
+      <p className="pp-etikett !text-[12px]">
+        Dein Plan bisher{n > 0 && ` · ${n} ${n === 1 ? "Baustein" : "Bausteine"}`}
+      </p>
+      {chips.length ? (
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {chips.map((c) => (
+            <li
+              key={c.id}
+              className="pp-rise inline-flex min-h-[32px] items-center gap-2 rounded-full border border-border px-3 text-[14px] font-semibold text-foreground"
+            >
+              {c.farbe && <span className="h-2.5 w-2.5 rounded-full" style={{ background: c.farbe }} aria-hidden />}
+              {c.text}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-[15px] text-foreground/60">Füllt sich mit jeder Antwort.</p>
+      )}
+    </div>
+  );
+};
 
 // --- Die Seite ----------------------------------------------------------------------------------------------------------
 
@@ -268,6 +346,7 @@ const MeinPortfolioPlan = () => {
   const [bereit, setBereit] = useState(false);
   const [pdfLaeuft, setPdfLaeuft] = useState(false);
   const [pdfZeile, setPdfZeile] = useState(0);
+  const [thema, setThema] = useState<Thema>(() => (typeof window === "undefined" ? "hell" : liesThema()));
 
   useEffect(() => {
     const ausUrl = sauberName(params.get("n"));
@@ -288,7 +367,7 @@ const MeinPortfolioPlan = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Das Dashboard zeichnet Ring und Tacho erst, wenn es steht: so sieht man, wie es sich aufbaut.
+  // Das Dashboard zeichnet Ring, Tacho und Zahlen erst, wenn es steht: so sieht man, wie es sich aufbaut.
   useEffect(() => {
     if (phase !== "dashboard") return setBereit(false);
     const t = window.setTimeout(() => setBereit(true), wenigBewegung() ? 0 : 250);
@@ -302,6 +381,17 @@ const MeinPortfolioPlan = () => {
   if (schluessel !== QUIZ_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
 
   const frage = FRAGEN[schritt];
+  const depotTitel = a.broker && a.broker !== "anderer" ? BROKER.find((b) => b.id === a.broker)?.titel : undefined;
+
+  const wechsleThema = () => {
+    const neu: Thema = thema === "dunkel" ? "hell" : "dunkel";
+    setThema(neu);
+    try {
+      window.localStorage.setItem(SPEICHER_THEMA, neu);
+    } catch {
+      /* privates Fenster: gilt nur bis zum Neuladen */
+    }
+  };
 
   const setze = (neu: Antworten, id: FrageId) => {
     if (id === "weise" && neu.weise !== a.weise) delete neu.betrag;
@@ -318,16 +408,24 @@ const MeinPortfolioPlan = () => {
     }, wenigBewegung() ? 0 : 240);
   };
 
+  /** Frage 7 merkt sich die Wahl nur; erst der Knopf „Meinen Plan erstellen“ rechnet (wie bei Skilltree). */
+  const merkeRegion = (region: Antworten["region"]) => {
+    const neu = { ...a, region };
+    setA(neu);
+    schreibe(SPEICHER, neu);
+    ereignis("quiz_frage", { quiz: "portfolioplan", frage: "region" });
+  };
+
   const rechne = () => {
     setPhase("rechnet");
     setZeilen(0);
     ereignis("quiz_ergebnis", { quiz: "portfolioplan" });
-    const takt = wenigBewegung() ? 0 : 520;
-    [1, 2, 3, 4].forEach((n) => window.setTimeout(() => setZeilen(n), takt * n));
+    const takt = wenigBewegung() ? 0 : 480;
+    [1, 2, 3, 4, 5].forEach((n) => window.setTimeout(() => setZeilen(n), takt * n));
     window.setTimeout(() => {
       setPhase("dashboard");
       window.scrollTo({ top: 0, behavior: "auto" });
-    }, takt * 5 + 200);
+    }, takt * 6 + 200);
   };
 
   const aendere = (b: BausteinId, mehr: boolean) => {
@@ -342,7 +440,7 @@ const MeinPortfolioPlan = () => {
     schreibe(SPEICHER_RICHTUNG, undefined);
   };
 
-  const ladePdf = async () => {
+  const ladePdf = async (stile: Partial<Record<BausteinId, string>>) => {
     setPdfLaeuft(true);
     setPdfZeile(0);
     const takt = wenigBewegung() ? 0 : 650;
@@ -352,7 +450,7 @@ const MeinPortfolioPlan = () => {
         import("@/lib/planPdf"),
         new Promise((r) => window.setTimeout(r, takt * 3 + 400)),
       ]);
-      await planPdf(a, { anteile, name });
+      await planPdf(a, { anteile, name, region: a.region, stile });
       ereignis("quiz_neu", { quiz: "portfolioplan", pdf: true });
     } finally {
       setPdfLaeuft(false);
@@ -388,8 +486,8 @@ const MeinPortfolioPlan = () => {
                 type="button"
                 aria-pressed={a.betrag === b}
                 onClick={() => setze({ ...a, betrag: b }, id)}
-                className={`min-h-[64px] rounded-2xl border bg-white px-2 text-[19px] font-bold tabular-nums transition-[border-color,box-shadow] ${
-                  a.betrag === b ? "border-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]" : "border-border text-foreground hover:border-foreground/40"
+                className={`min-h-[64px] rounded-2xl border bg-card px-2 text-[19px] font-bold tabular-nums text-foreground transition-[border-color,box-shadow] ${
+                  a.betrag === b ? "border-foreground shadow-[0_0_0_1px_hsl(var(--foreground))]" : "border-border hover:border-foreground/40"
                 }`}
               >
                 {euroText(b)}
@@ -412,114 +510,148 @@ const MeinPortfolioPlan = () => {
             />
             <div className="mt-5">
               <Knopf onClick={() => setze({ ...a, werte }, id)}>
+                Weiter <ArrowRight className="h-5 w-5" aria-hidden />
+              </Knopf>
+            </div>
+          </>
+        );
+      case "region":
+        return (
+          <>
+            <Auswahl wahl={REGIONEN} gewaehlt={(x) => a.region === x} onWahl={merkeRegion} />
+            <div className="mt-5">
+              <Knopf onClick={rechne} disabled={!a.region}>
                 Meinen Plan erstellen <ArrowRight className="h-5 w-5" aria-hidden />
               </Knopf>
-              <p className="mt-2 text-center text-[14px] text-foreground/55">Auch mehreres oder nichts ist eine Antwort.</p>
             </div>
           </>
         );
     }
   };
 
+  const dunkel = thema === "dunkel";
+
   const kopf = (
-    <header className="container flex h-16 max-w-5xl items-center justify-between">
+    <header className="container relative z-10 flex h-16 max-w-5xl items-center justify-between">
       <Link to="/" aria-label="finanzmuslim Startseite">
         <Wordmark className="text-[20px]" />
       </Link>
-      {phase === "fragen" && (
-        <span className="text-[14px] tabular-nums text-foreground/55">
-          {schritt + 1} von {FRAGEN.length}
-        </span>
-      )}
-      {phase === "dashboard" && <span className="text-[14px] text-foreground/55">{heute()}</span>}
+      <div className="flex items-center gap-3">
+        {phase === "dashboard" && <span className="hidden text-[14px] text-foreground/60 sm:inline">{heute()}</span>}
+        <button
+          type="button"
+          onClick={wechsleThema}
+          aria-label={dunkel ? "Helles Design" : "Dunkles Design"}
+          aria-pressed={dunkel}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:border-foreground/40"
+        >
+          {dunkel ? <Sun className="h-[18px] w-[18px]" aria-hidden /> : <Moon className="h-[18px] w-[18px]" aria-hidden />}
+        </button>
+      </div>
     </header>
   );
 
+  const geruestStufe = phase === "rechnet" ? zeilen + 1 : 6;
+  // Während der Fragen zählen die Werte schon, bevor „Weiter“ gedrückt ist: so wächst der Plan sichtbar mit.
+  const bisher: Antworten = frage?.id === "werte" ? { ...a, werte } : a;
+
   return (
-    <div className="min-h-[calc(100svh-80px)] bg-white" data-freebie="mein-portfolioplan">
+    <div
+      className="pp-seite relative min-h-[calc(100svh-80px)] overflow-x-hidden"
+      data-theme={thema}
+      data-freebie="mein-portfolioplan"
+    >
       <Seo
         title="Dein Halal-Investmentplan | finanzmuslim"
-        description="Sechs Fragen, dann steht dein Halal-Investmentplan: Anlegertyp, Richtung, Anlagen bei deinem Depot, als Dashboard und PDF."
+        description="Sieben Fragen, dann steht dein Halal-Investmentplan: Anlegertyp, Richtung, Anlagen bei deinem Depot, als Dashboard und PDF."
         path={QUIZ_PFAD}
         noindex
       />
+      {phase !== "dashboard" && <Geruest stufe={geruestStufe} />}
       {kopf}
 
-      {/* Dünne Linie mit sechs Stücken, füllt sich blau. */}
-      {phase === "fragen" && (
-        <div className="container max-w-5xl">
-          <div className="flex gap-1.5" aria-hidden>
-            {FRAGEN.map((f, i) => (
-              <span
-                key={f.id}
-                className={`h-[3px] flex-1 rounded-full transition-colors duration-500 ${i <= schritt ? "bg-primary" : "bg-muted"}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
       {phase === "start" && (
-        <section className="container flex min-h-[calc(100svh-160px)] max-w-xl flex-col justify-center py-10">
+        <section className="container relative z-10 flex min-h-[calc(100svh-160px)] max-w-xl flex-col justify-center py-10">
           <h1 className="pp-rise font-titel text-[44px] leading-[1.05] text-foreground md:text-[60px]">
             {name ? `Hallo ${name}.` : "Hallo."}
           </h1>
           <p className="pp-rise mt-5 text-[19px] leading-snug text-foreground/75 md:text-[22px]" style={{ animationDelay: "120ms" }}>
-            Sechs Fragen. Dann steht dein Halal-Investmentplan: dein Anlegertyp, deine Richtung und die Anlagen, die es
+            Sieben Fragen. Dann steht dein Halal-Investmentplan: dein Anlegertyp, deine Richtung und die Anlagen, die es
             bei deinem Depot gibt.
           </p>
           <div className="pp-rise mt-9" style={{ animationDelay: "240ms" }}>
             <Knopf onClick={() => setPhase("fragen")}>
               {Object.keys(a).length ? "Weitermachen" : "Los geht's"} <ArrowRight className="h-5 w-5" aria-hidden />
             </Knopf>
-            <p className="mt-3 text-center text-[14px] text-foreground/55">Zwei Minuten. Keine Anmeldung.</p>
+            <p className="mt-3 text-center text-[14px] text-foreground/60">Zwei Minuten. Keine Anmeldung.</p>
           </div>
         </section>
       )}
 
       {phase === "fragen" && frage && (
-        <section key={frage.id} className="pp-frage container max-w-xl py-8 md:py-14">
-          {schritt > 0 ? (
-            <button
-              type="button"
-              onClick={() => setSchritt(schritt - 1)}
-              className="-ml-2 inline-flex min-h-[44px] items-center gap-1 pr-3 text-[15px] font-semibold text-foreground/60"
-            >
-              <ChevronLeft className="h-5 w-5" aria-hidden /> Zurück
-            </button>
-          ) : (
-            <div className="h-[44px]" />
-          )}
-          <h1 className="font-titel mt-2 text-[34px] leading-[1.1] text-foreground md:text-[44px]">{frage.titel}</h1>
-          {frage.id === "werte" && (
-            <p className="mt-2 text-[16px] text-foreground/60">Wähle, was zu dir passt.</p>
-          )}
-          <div className="mt-7">{frageInhalt(frage.id)}</div>
-          {beantwortet(a, frage.id) && frage.id !== "werte" && (
-            <p className="mt-4 text-[14px] text-foreground/50">Bisher: {antwortText(a, frage.id)}</p>
-          )}
-        </section>
+        <div className="container relative z-10 max-w-5xl py-6 md:py-12">
+          <section className="pp-karte pp-rise mx-auto w-full max-w-[560px] p-5 md:p-7" aria-labelledby="pp-frage-titel">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="text-[14px] tabular-nums text-foreground/60">
+                Frage <b className="text-foreground">{schritt + 1}</b> von {FRAGEN.length}
+              </p>
+              <p className="pp-etikett !text-[12px]">{frage.kurz}</p>
+            </div>
+            <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-muted" aria-hidden>
+              <div className="pp-balken h-full rounded-full bg-primary" style={{ width: `${((schritt + 1) / FRAGEN.length) * 100}%` }} />
+            </div>
+            <div key={frage.id} className="pp-frage">
+              {schritt > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => setSchritt(schritt - 1)}
+                  className="-ml-2 mt-2 inline-flex min-h-[44px] items-center gap-1 pr-3 text-[15px] font-semibold text-foreground/60"
+                >
+                  <ChevronLeft className="h-5 w-5" aria-hidden /> Zurück
+                </button>
+              ) : (
+                <div className="mt-2 h-[44px]" />
+              )}
+              <h1 id="pp-frage-titel" className="font-titel mt-1 text-[32px] leading-[1.1] text-foreground md:text-[40px]">
+                {frage.titel}
+              </h1>
+              <p className="mt-2 text-[16px] leading-snug text-foreground/65">{frage.satz}</p>
+              <div className="mt-6">{frageInhalt(frage.id)}</div>
+              {beantwortet(a, frage.id) && frage.id !== "werte" && frage.id !== "region" && (
+                <p className="mt-4 text-[14px] text-foreground/60">Bisher: {antwortText(a, frage.id)}</p>
+              )}
+            </div>
+          </section>
+          <PlanBisher a={bisher} />
+        </div>
       )}
 
       {phase === "rechnet" && (
-        <section className="container flex min-h-[calc(100svh-160px)] max-w-xl flex-col justify-center py-10" aria-live="polite">
-          <h1 className="font-titel text-[36px] leading-[1.1] text-foreground md:text-[48px]">Dein Plan entsteht.</h1>
-          <ul className="mt-8 space-y-4">
-            {[
-              "Deine Antworten gelesen",
-              `${datenbankFakten().gesamt} Halal-Anlagen durchsucht`,
-              `Geprüft, was es bei ${a.broker === "anderer" || !a.broker ? "deinem Depot" : BROKER.find((b) => b.id === a.broker)?.titel} gibt`,
-              "Dein Dashboard gebaut",
-            ].map((t, i) => (
-              <li key={t} className={`flex items-center gap-3 text-[18px] ${zeilen > i ? "pp-zeile text-foreground" : "invisible"}`}>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-foreground text-white">
-                  <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
-                </span>
-                {t}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <div className="container relative z-10 flex min-h-[calc(100svh-160px)] max-w-5xl flex-col justify-center py-10">
+          <section className="pp-karte pp-rise mx-auto w-full max-w-[560px] p-5 md:p-7" aria-live="polite">
+            <p className="pp-etikett !text-[12px]">Fast fertig</p>
+            <h1 className="font-titel mt-2 text-[34px] leading-[1.1] text-foreground md:text-[42px]">Dein Plan entsteht.</h1>
+            <div className="mt-5 h-[3px] w-full overflow-hidden rounded-full bg-muted" aria-hidden>
+              <div className="pp-balken h-full rounded-full bg-primary" style={{ width: `${(zeilen / 5) * 100}%` }} />
+            </div>
+            <ul className="mt-6 space-y-3.5">
+              {[
+                "Deine Antworten gelesen",
+                `${datenbankFakten().gesamt} Halal-Anlagen durchsucht`,
+                `Geprüft, was es bei ${depotTitel ?? "deinem Depot"} gibt`,
+                "Deine Richtung gerechnet",
+                "Dein Dashboard gebaut",
+              ].map((t, i) => (
+                <li key={t} className={`flex items-center gap-3 text-[17px] ${zeilen > i ? "pp-zeile text-foreground" : "invisible"}`}>
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                    <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
       )}
 
       {phase === "dashboard" && (
@@ -547,7 +679,7 @@ const MeinPortfolioPlan = () => {
       )}
 
       {pdfLaeuft && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 px-6 backdrop-blur-sm" role="status" aria-live="polite">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 px-6 backdrop-blur-sm" role="status" aria-live="polite">
           <div className="w-full max-w-md">
             <p className="font-titel text-[30px] leading-tight text-foreground md:text-[38px]">Dein Portfolioplan wird gerade festgehalten.</p>
             <div className="mt-6 h-[3px] w-full overflow-hidden rounded-full bg-muted">
@@ -582,28 +714,19 @@ type DashboardProps = {
   name?: string;
   onAendern: (b: BausteinId, mehr: boolean) => void;
   onZuruecksetzen: () => void;
-  onPdf: () => void;
+  onPdf: (stile: Partial<Record<BausteinId, string>>) => void;
   pdfLaeuft: boolean;
   onNeu: () => void;
   onAntwortAendern: (id: FrageId) => void;
 };
 
-const Rendite = ({ p }: { p: Produkt }) =>
-  p.r1 === undefined && p.r5 === undefined ? null : (
-    <span className="block text-[14px] tabular-nums text-foreground/70">
-      {p.r1 !== undefined && (
-        <>
-          1 Jahr <b className={p.r1 >= 0 ? "text-gain" : "text-loss"}>{prozentText(p.r1)}</b>
-        </>
-      )}
-      {p.r1 !== undefined && p.r5 !== undefined && "  ·  "}
-      {p.r5 !== undefined && (
-        <>
-          5 Jahre <b className={p.r5 >= 0 ? "text-gain" : "text-loss"}>{prozentText(p.r5)}</b>
-        </>
-      )}
-    </span>
-  );
+/** „A, B und C“ */
+const aufzaehlen = (teile: string[]) =>
+  teile.length < 2 ? (teile[0] ?? "") : `${teile.slice(0, -1).join(", ")} und ${teile[teile.length - 1]}`;
+
+const Nummer = ({ n }: { n: number }) => (
+  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-[13px] font-bold text-background">{n}</span>
+);
 
 const Dashboard = ({
   a,
@@ -625,95 +748,149 @@ const Dashboard = ({
   const betrag = a.betrag ?? 50;
   const monatlich = a.weise !== "einmal";
   const euro = inEuro(anteile, betrag);
-  const broker = BROKER.find((b) => b.id === a.broker);
-  const brokerName = !a.broker || a.broker === "anderer" ? "deinem Depot" : broker!.titel;
+  const depot = a.broker && a.broker !== "anderer" ? BROKER.find((b) => b.id === a.broker)?.titel : undefined;
+  const depotBei = depot ?? "deinem Depot";
   const fakten = datenbankFakten(a.broker);
   const [stil, setStil] = useState<Partial<Record<BausteinId, string>>>({});
   const [offen, setOffen] = useState<string | undefined>();
   const [richtungOffen, setRichtungOffen] = useState(false);
+  const [aktiv, setAktiv] = useState<BausteinId | undefined>();
+  const top = useMemo(() => topPerformer(5), []);
 
-  const anlagen = anteile
-    .filter((x) => x.baustein !== "konto")
-    .map((x) => {
-      const stile = stileFuer(x.baustein, a.broker);
-      const gewaehlt = stile.find((s) => s.stil.id === stil[x.baustein]) ?? stile[0];
-      return { x, stile, gewaehlt };
-    });
+  const bloecke = anlagenJeBaustein(anteile, a, stil);
+  const anzahl = bloecke.reduce((s, b) => s + b.produkte.length + (b.favorit ? 1 : 0), 0);
   const konto = anteile.find((x) => x.baustein === "konto");
-  const kauf = anlagen.filter((z) => z.gewaehlt).map((z) => `${euroText(euro[anteile.indexOf(z.x)])} ${z.gewaehlt!.produkt.anlage.name}`);
+  const mitEtf = anteile.some((x) => x.baustein === "etf");
+  const region = mitEtf ? regionTitel(a.region) : undefined;
 
-  let nr = 0;
+  const riskZahl = useZaehler(risk, bereit);
+  const zGesamt = useZaehler(fakten.gesamt, bereit);
+  const zMitte = useZaehler(fakten.kaufbar ?? fakten.etfs, bereit);
+  const zZertifikat = useZaehler(fakten.zertifikat, bereit);
+
+  const waehle = (b: BausteinId) => setAktiv((x) => (x === b ? undefined : b));
+
+  const inhalt: { etikett: string; wert: string; ziel: string }[] = [
+    { etikett: "Dein Typ", wert: typName, ziel: "pp-typ" },
+    { etikett: "Risiko", wert: `${riskZahl} %`, ziel: "pp-risiko" },
+    { etikett: "Anlagen", wert: `${anzahl} bei ${depotBei}`, ziel: "pp-anlagen" },
+  ];
+
+  const kauf = anteile
+    .map((x, i) => ({ x, e: euro[i] }))
+    .filter(({ x }) => x.baustein !== "konto")
+    .map(({ x, e }) => `${euroText(e)} ${bausteinById(x.baustein).name}`);
 
   return (
-    <div className="container max-w-5xl pb-16 pt-4 md:pt-8">
+    <div className="container relative z-10 max-w-5xl pb-16 pt-4 md:pt-8">
+      {/* Kopf: Abzeichen, Titel, ein Satz, drei Kacheln als Inhaltsverzeichnis (Skilltree-Ergebnis). */}
       <div className="pp-rise">
-        <h1 className="font-titel text-[36px] leading-[1.05] text-foreground md:text-[52px]">{planTitel(name)}</h1>
-        <p className="mt-3 flex flex-wrap gap-x-2 text-[16px] text-foreground/65">
-          <span>{brokerName === "deinem Depot" ? "Dein Depot" : brokerName}</span>
+        <p className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[12px] font-bold uppercase tracking-[0.08em] text-foreground">
+          <Check className="h-3.5 w-3.5 text-primary" strokeWidth={3} aria-hidden /> Dein Plan steht
+        </p>
+        <h1 className="font-titel mt-4 text-[36px] leading-[1.05] text-foreground md:text-[52px]">{planTitel(name)}</h1>
+        <p className="mt-3 flex flex-wrap gap-x-2 text-[16px] leading-snug text-foreground/65">
+          <span>{depot ?? "Dein Depot"}</span>
           <span aria-hidden>·</span>
           <span>
             {euroText(betrag)} {monatlich ? "im Monat" : "einmal"}
           </span>
+          {region && (
+            <>
+              <span aria-hidden>·</span>
+              <span>{region}-Schwerpunkt</span>
+            </>
+          )}
           <span aria-hidden>·</span>
-          <span>Geld gebraucht {LAGEN.find((l) => l.id === a.lage)?.titel.replace(/^In /, "in ") ?? ""}</span>
+          <span>
+            {anzahl} {anzahl === 1 ? "Anlage" : "Anlagen"}
+          </span>
           <button type="button" onClick={() => onAntwortAendern("broker")} className="ml-1 font-semibold text-primary">
             Antworten ändern
           </button>
         </p>
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-12">
-        {/* Anlegertyp */}
-        <Karte nr={nr++} label="Dein Anlegertyp" className="md:col-span-7">
-          <p className="font-titel mt-2 text-[40px] leading-none text-foreground md:text-[48px]">{typName}</p>
-          <p className="mt-4 text-[18px] leading-snug text-foreground">{typSeele}</p>
-          <p className="mt-2 text-[16px] leading-snug text-foreground/65">{typTut}</p>
-          {a.werte && a.werte.length > 0 && (
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {WERTE.filter((w) => a.werte!.includes(w.id)).map((w) => (
-                <li key={w.id} className="rounded-full border border-border px-3 py-1 text-[14px] font-semibold text-foreground">
-                  {w.titel}
-                </li>
-              ))}
-            </ul>
-          )}
-        </Karte>
+      <nav aria-label="Inhalt" className="pp-slide mt-6 grid grid-cols-3 gap-2 md:gap-3" style={{ animationDelay: "90ms" }}>
+        {inhalt.map((k) => (
+          <button
+            key={k.etikett}
+            type="button"
+            onClick={() => scrolleZu(k.ziel)}
+            className="pp-karte flex min-h-[92px] flex-col justify-between p-3 text-left transition-colors hover:border-foreground/40 md:p-5"
+          >
+            <span className="pp-etikett !text-[11px] md:!text-[12px]">{k.etikett}</span>
+            <span className="mt-2 flex items-end justify-between gap-1">
+              <span className="text-[15px] font-extrabold leading-tight tabular-nums text-foreground md:text-[22px]">{k.wert}</span>
+              <ArrowDown className="mb-0.5 h-4 w-4 shrink-0 text-foreground/50" aria-hidden />
+            </span>
+          </button>
+        ))}
+      </nav>
 
-        {/* Risikobereitschaft */}
-        <Karte nr={nr++} label="Risikobereitschaft" className="md:col-span-5">
-          <div className="relative mt-3 flex flex-col items-center">
-            <Tacho wert={risk} gezeigt={bereit} />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center">
-              <span className="text-[40px] font-extrabold leading-none tabular-nums text-foreground">
-                {bereit ? risk : 0}
-                <span className="text-[22px]">&nbsp;%</span>
-              </span>
-              <span className="mt-1 text-[15px] font-semibold capitalize text-foreground/65">{risikoWort(risk)}</span>
+      <div className="mt-4 space-y-4">
+        {/* 01 Dein Typ */}
+        <Abschnitt nr={1} id="pp-typ" label="Dein Typ" verzoegerung={2}>
+          <div className="mt-3 grid gap-6 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-center">
+            <div>
+              <p className="font-titel text-[40px] leading-none text-foreground md:text-[52px]">{typName}</p>
+              <p className="mt-4 text-[18px] leading-snug text-foreground">{typSeele}</p>
+              <p className="mt-2 text-[16px] leading-snug text-foreground/65">{typTut}</p>
+              {a.werte && a.werte.length > 0 && (
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {WERTE.filter((w) => a.werte!.includes(w.id)).map((w) => (
+                    <li key={w.id} className="rounded-full border border-border px-3 py-1 text-[14px] font-semibold text-foreground">
+                      {w.titel}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div id="pp-risiko" className="scroll-mt-6 flex flex-col items-center">
+              <p className="pp-etikett !text-[12px]">Risiko</p>
+              <div className="relative mt-2 flex w-full flex-col items-center">
+                <Tacho wert={risk} gezeigt={bereit} />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center">
+                  <span className="text-[40px] font-extrabold leading-none tabular-nums text-foreground">
+                    {riskZahl}
+                    <span className="text-[22px]">&nbsp;%</span>
+                  </span>
+                  <span className="mt-1 text-[15px] font-semibold capitalize text-foreground/65">{risikoWort(risk)}</span>
+                </div>
+              </div>
+              <p className="mt-4 max-w-[300px] text-center text-[15px] leading-snug text-foreground/65">
+                Je mehr Aktien und Krypto, desto höher. Je mehr Sukuk und Konto, desto ruhiger.
+              </p>
             </div>
           </div>
-          <p className="mt-4 text-[15px] leading-snug text-foreground/65">
-            Aus deiner Zeit und deiner Richtung. Je mehr Aktien und Krypto, desto höher. Je mehr Sukuk und Konto, desto ruhiger.
-          </p>
-        </Karte>
+        </Abschnitt>
 
-        {/* Richtung */}
-        <Karte nr={nr++} label="Deine Richtung" className="md:col-span-6">
-          <div className="mt-3 flex items-center gap-5">
-            <PlanRing anteile={anteile} gezeigt={bereit ? 1 : 0} groesse={150} dicke={20}>
-              <span className="text-[24px] font-extrabold leading-none tabular-nums text-foreground">{euroText(betrag)}</span>
+        {/* 02 Deine Richtung: Prozent nur je Baustein (Elias 09.11.2026). */}
+        <Abschnitt nr={2} id="pp-richtung" label="Deine Richtung" verzoegerung={3}>
+          <div className="mt-4 flex flex-col items-center gap-6 md:flex-row md:items-center md:gap-10">
+            <PlanRing anteile={anteile} gezeigt={bereit ? 1 : 0} groesse={176} dicke={22} aktiv={aktiv} onWahl={waehle}>
+              <span className="text-[26px] font-extrabold leading-none tabular-nums text-foreground">{euroText(betrag)}</span>
               <span className="mt-1 text-[13px] text-foreground/60">{monatlich ? "im Monat" : "einmal"}</span>
             </PlanRing>
-            <ul className="min-w-0 flex-1 space-y-2.5">
+            <ul className="w-full min-w-0 flex-1 space-y-1">
               {anteile.map((x, i) => {
                 const b = bausteinById(x.baustein);
+                const an = aktiv === x.baustein;
                 return (
-                  <li key={x.baustein} className="flex items-center gap-2.5">
-                    <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: b.farbe }} aria-hidden />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[15px] font-bold leading-tight text-foreground">{b.name}</span>
-                      <span className="block text-[13px] leading-tight text-foreground/60">{gewichtWort(x.baustein, x.prozent)}</span>
-                    </span>
-                    <span className="text-[14px] tabular-nums text-foreground/70">z.&nbsp;B. {euroText(euro[i])}</span>
+                  <li key={x.baustein}>
+                    <button
+                      type="button"
+                      aria-pressed={an}
+                      onClick={() => waehle(x.baustein)}
+                      className={`flex min-h-[48px] w-full items-center gap-3 rounded-xl px-3 text-left transition-[background-color,opacity] ${
+                        an ? "bg-muted" : aktiv ? "opacity-50" : ""
+                      }`}
+                    >
+                      <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: b.farbe }} aria-hidden />
+                      <span className="min-w-0 flex-1 truncate text-[16px] font-bold text-foreground">{b.name}</span>
+                      <span className="text-[17px] font-extrabold tabular-nums text-foreground">{x.prozent}&nbsp;%</span>
+                      <span className="w-[72px] text-right text-[14px] tabular-nums text-foreground/65">z.&nbsp;B. {euroText(euro[i])}</span>
+                    </button>
                   </li>
                 );
               })}
@@ -739,8 +916,8 @@ const Dashboard = ({
                     <li key={bId} className="flex items-center gap-3 py-2.5">
                       <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: b.farbe, opacity: p ? 1 : 0.35 }} aria-hidden />
                       <span className="min-w-0 flex-1">
-                        <span className={`block text-[15px] font-semibold ${p ? "text-foreground" : "text-foreground/45"}`}>{b.name}</span>
-                        <span className="block text-[13px] text-foreground/55">{p ? gewichtWort(bId, p) : "nicht dabei"}</span>
+                        <span className={`block text-[15px] font-semibold ${p ? "text-foreground" : "text-foreground/50"}`}>{b.name}</span>
+                        <span className="block text-[13px] tabular-nums text-foreground/60">{p ? `${p} %` : "nicht dabei"}</span>
                       </span>
                       <button
                         type="button"
@@ -764,7 +941,7 @@ const Dashboard = ({
                   );
                 })}
               </ul>
-              <p className="mt-3 text-[13px] leading-snug text-foreground/55">
+              <p className="mt-3 text-[14px] leading-snug text-foreground/65">
                 Ein Schritt zieht die Richtung ein Stück. Einzelaktien und Krypto bleiben zusammen ein kleiner Teil.
                 {eigene && (
                   <>
@@ -777,25 +954,31 @@ const Dashboard = ({
               </p>
             </div>
           )}
-        </Karte>
+        </Abschnitt>
 
-        {/* Anlagen */}
-        <Karte nr={nr++} label={`Deine Anlagen bei ${brokerName === "deinem Depot" ? "deinem Depot" : brokerName}`} className="md:col-span-6">
-          <ul className="mt-2 divide-y divide-border">
-            {anlagen.map(({ x, stile, gewaehlt }) => {
+        {/* 03 Deine Anlagen: alle kaufbaren Anlagen des gewählten Stils, Gold mit Royal Mint als Favorit. */}
+        <Abschnitt nr={3} id="pp-anlagen" label={`Deine Anlagen bei ${depotBei}`} verzoegerung={4}>
+          <div className="mt-4 space-y-3">
+            {bloecke.map((blk) => {
+              const x = blk.anteil;
               const b = bausteinById(x.baustein);
               const schonDa = x.baustein === "etf" && a.gekauft === "etf";
+              const satz = x.baustein === "etf" ? richtungsSatz(a, blk.stil, depot) : "";
+              const leer = blk.produkte.length === 0 && !blk.favorit;
               return (
-                <li key={x.baustein} className="py-4 first:pt-2 last:pb-0">
-                  <div className="flex items-center gap-2.5">
-                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: b.farbe }} aria-hidden />
-                    <span className="text-[15px] font-bold text-foreground">{b.name}</span>
+                <div key={x.baustein} className="rounded-2xl border border-border p-3 md:p-4">
+                  <div className="flex items-center gap-2.5 px-1">
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: b.farbe }} aria-hidden />
+                    <span className="text-[16px] font-bold text-foreground">{b.name}</span>
                     {schonDa && <span className="rounded-full bg-gain-soft px-2 py-0.5 text-[12px] font-bold text-gain">hast du</span>}
+                    <span className="ml-auto text-[14px] tabular-nums text-foreground/65">
+                      z.&nbsp;B. {euroText(euro[anteile.indexOf(x)])}
+                    </span>
                   </div>
-                  {stile.length > 1 && (
-                    <div className="mt-2.5 flex flex-wrap gap-1.5" role="radiogroup" aria-label={`Stil für ${b.name}`}>
-                      {stile.map((s) => {
-                        const an = s.stil.id === gewaehlt!.stil.id;
+                  {blk.stile.length > 1 && (
+                    <div className="mt-3 flex flex-wrap gap-1.5 px-1" role="radiogroup" aria-label={`Stil für ${b.name}`}>
+                      {blk.stile.map((s) => {
+                        const an = s.stil.id === blk.stil?.id;
                         return (
                           <button
                             key={s.stil.id}
@@ -803,8 +986,8 @@ const Dashboard = ({
                             role="radio"
                             aria-checked={an}
                             onClick={() => setStil((v) => ({ ...v, [x.baustein]: s.stil.id }))}
-                            className={`min-h-[34px] rounded-full border px-3 text-[13px] font-semibold transition-colors ${
-                              an ? "border-foreground bg-foreground text-white" : "border-border text-foreground"
+                            className={`min-h-[36px] rounded-full border px-3 text-[14px] font-semibold transition-colors ${
+                              an ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:border-foreground/40"
                             }`}
                           >
                             {s.stil.titel}
@@ -813,70 +996,106 @@ const Dashboard = ({
                       })}
                     </div>
                   )}
-                  {gewaehlt ? (
-                    <Link
-                      to={`/halal-anlagen/${gewaehlt.produkt.anlage.slug}`}
-                      className="mt-3 flex items-center gap-3 rounded-2xl border border-border px-3 py-3 transition-colors hover:border-foreground/40"
-                    >
-                      <AnlageLogo a={gewaehlt.produkt.anlage} />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-[15px] font-semibold leading-tight text-foreground">{gewaehlt.produkt.anlage.name}</span>
-                        <Rendite p={gewaehlt.produkt} />
-                      </span>
-                      <ArrowRight className="h-4 w-4 shrink-0 text-foreground/50" aria-hidden />
-                    </Link>
-                  ) : (
-                    <p className="mt-2 text-[15px] text-foreground/65">{BEISPIEL[x.baustein] ?? ""}</p>
+                  {satz && <p className="mt-3 px-1 text-[16px] font-semibold leading-snug text-foreground">{satz}</p>}
+
+                  {blk.favorit && (
+                    <div className="mt-2">
+                      <PlanAnlageZeile
+                        produkt={blk.favorit}
+                        farbe={b.farbe}
+                        marke={
+                          <span className="ml-1 inline-flex translate-y-[-1px] items-center rounded-full border border-border px-2 py-0.5 align-middle text-[12px] font-bold text-foreground">
+                            Unser Favorit
+                          </span>
+                        }
+                      />
+                      <ul className="mb-1 ml-[60px] mt-1 space-y-1.5 pr-2">
+                        {GOLD_FAVORIT_FAKTEN.map((f) => (
+                          <li key={f} className="flex items-start gap-2 text-[15px] leading-snug text-foreground">
+                            <Check className="mt-[3px] h-4 w-4 shrink-0 text-gain" strokeWidth={3} aria-hidden />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
-                </li>
+
+                  {blk.produkte.length > 0 && (
+                    <div className={`mt-2 ${blk.favorit ? "border-t border-border pt-2" : ""}`}>
+                      {blk.produkte.map((p) => (
+                        <PlanAnlageZeile key={p.anlage.slug} produkt={p} farbe={b.farbe} />
+                      ))}
+                    </div>
+                  )}
+
+                  {leer && <p className="mt-2 px-1 text-[15px] text-foreground/65">{BEISPIEL[x.baustein] ?? ""}</p>}
+                </div>
               );
             })}
-          </ul>
-        </Karte>
+          </div>
+        </Abschnitt>
 
-        {/* Datenbank */}
-        <Karte nr={nr++} label="Aus meiner Datenbank" className="md:col-span-5">
-          <dl className="mt-3 grid grid-cols-3 gap-3">
+        {/* 04 Aus der Datenbank: Zahlen zählen hoch, daneben die Top-Performer des letzten Jahres. */}
+        <Abschnitt nr={4} id="pp-datenbank" label="Aus der Datenbank" verzoegerung={5}>
+          <div className="mt-4 grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
             <div>
-              <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground">{fakten.gesamt}</dd>
-              <dt className="mt-1.5 text-[13px] leading-tight text-foreground/60">Halal-Anlagen geprüft</dt>
+              <dl className="grid grid-cols-3 gap-3">
+                <div>
+                  <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zGesamt}</dd>
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">Halal-Anlagen geprüft</dt>
+                </div>
+                <div>
+                  <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zMitte}</dd>
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">
+                    {fakten.kaufbar !== undefined ? `davon bei ${depotBei}` : "Islamic ETFs und Fonds"}
+                  </dt>
+                </div>
+                <div>
+                  <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground md:text-[44px]">{zZertifikat}</dd>
+                  <dt className="mt-1.5 text-[14px] leading-tight text-foreground/65">mit eigenem Zertifikat</dt>
+                </div>
+              </dl>
+              <Link to="/halal-anlagen" className="mt-6 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-bold text-primary">
+                Alle Anlagen ansehen <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
             </div>
             <div>
-              <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground">{fakten.kaufbar ?? fakten.etfs}</dd>
-              <dt className="mt-1.5 text-[13px] leading-tight text-foreground/60">
-                {fakten.kaufbar !== undefined ? `davon bei ${brokerName}` : "Islamic ETFs und Fonds"}
-              </dt>
+              <h3 className="pp-etikett !text-[12px]">Top-Performer im letzten Jahr</h3>
+              <div className="mt-2">
+                {top.map((p) => (
+                  <PlanAnlageZeile
+                    key={p.anlage.slug}
+                    produkt={p}
+                    farbe={kategorieFarbe(p.anlage.kategorie)}
+                    unter={KATEGORIE_WORT[p.anlage.kategorie]}
+                    mitLogo={false}
+                    nurEinJahr
+                  />
+                ))}
+              </div>
+              <p className="mt-2 px-2 text-[15px] leading-snug text-foreground/65">Was es gebracht hat, nicht was du kaufen sollst.</p>
             </div>
-            <div>
-              <dd className="text-[34px] font-extrabold leading-none tabular-nums text-foreground">{fakten.zertifikat}</dd>
-              <dt className="mt-1.5 text-[13px] leading-tight text-foreground/60">mit eigenem Zertifikat</dt>
-            </div>
-          </dl>
-          <p className="mt-4 text-[15px] leading-snug text-foreground/65">
-            Jede Anlage mit Zertifikat, Kosten und wo du sie kaufst. Nichts davon ist ein Urteil, alles ein Beleg.
-          </p>
-          <Link to="/halal-anlagen" className="mt-4 inline-flex min-h-[44px] items-center gap-1.5 text-[15px] font-bold text-primary">
-            Alle Anlagen ansehen <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
-        </Karte>
+          </div>
+        </Abschnitt>
 
-        {/* So machst du es */}
-        <Karte nr={nr++} label="So machst du es" className="md:col-span-7">
-          <ol className="mt-3 space-y-3 text-[16px] leading-snug text-foreground">
+        {/* 05 So machst du es */}
+        <Abschnitt nr={5} id="pp-so" label="So machst du es" verzoegerung={6}>
+          <ol className="mt-4 space-y-3 text-[16px] leading-snug text-foreground">
             <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-[13px] font-bold text-white">1</span>
-              <span>Öffne die App von {brokerName} und such die Anlage beim Namen.</span>
+              <Nummer n={1} />
+              <span>Öffne die App von {depotBei} und such die Anlage beim Namen.</span>
             </li>
             <li className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-[13px] font-bold text-white">2</span>
+              <Nummer n={2} />
               <span>
                 {monatlich ? "Kauf jeden Monat zum Beispiel " : "Kauf einmal zum Beispiel "}
-                {kauf.join(", ")}.{monatlich && " Gibt es dafür einen Sparplan, läuft es von selbst."}
+                {aufzaehlen(kauf)}. Welche Anlage dazu passt, steht oben.
+                {monatlich && " Gibt es dafür einen Sparplan, läuft es von selbst."}
               </span>
             </li>
             {konto && (
               <li className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-[13px] font-bold text-white">3</span>
+                <Nummer n={3} />
                 <span>Etwa {euroText(euro[anteile.indexOf(konto)])} bleiben auf deinem Girokonto. Achte darauf, dass es dir keine Zinsen zahlt.</span>
               </li>
             )}
@@ -890,70 +1109,71 @@ const Dashboard = ({
               .
             </p>
           )}
-        </Karte>
-      </div>
+        </Abschnitt>
 
-      {/* Basics im neuen Stil */}
-      <h2 className="font-titel mt-14 text-[30px] leading-tight text-foreground md:text-[38px]">Die Basics dahinter</h2>
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
-        {BASICS.map((b, i) => {
-          const auf = offen === b.id;
-          return (
-            <section key={b.id} className="pp-karte pp-slide p-5 md:p-6" style={{ animationDelay: `${(nr + i) * 100}ms` }}>
-              <h3 className="text-[20px] font-extrabold leading-tight text-foreground">{b.titel}</h3>
-              <p className="mt-1 text-[15px] text-foreground/65">{b.kurz}</p>
-              <dl className="mt-4 grid grid-cols-3 gap-2">
-                {b.zahlen.map((z) => (
-                  <div key={z.label}>
-                    <dd className="text-[22px] font-extrabold leading-none tabular-nums text-foreground">{z.wert}</dd>
-                    <dt className="mt-1 text-[12px] leading-tight text-foreground/60">{z.label}</dt>
-                  </div>
-                ))}
-              </dl>
-              <button
-                type="button"
-                onClick={() => setOffen(auf ? undefined : b.id)}
-                aria-expanded={auf}
-                className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-[15px] font-bold text-primary"
-              >
-                {auf ? "Weniger" : "So geht es"} <ChevronDown className={`h-4 w-4 transition-transform ${auf ? "rotate-180" : ""}`} aria-hidden />
-              </button>
-              {auf && (
-                <ol className="pp-rise mt-2 space-y-2.5 text-[15px] leading-snug text-foreground">
-                  {b.schritte.map((s, j) => (
-                    <li key={j} className="flex gap-2.5">
-                      <span className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-[12px] font-bold text-white">
-                        {j + 1}
-                      </span>
-                      <span>{s}</span>
-                    </li>
-                  ))}
-                  {b.hinweis && <li className="pl-[30px] text-[14px] text-foreground/60">{b.hinweis}</li>}
-                </ol>
-              )}
-            </section>
-          );
-        })}
+        {/* 06 Die Basics, vier Karten wie in CV27P */}
+        <Abschnitt nr={6} id="pp-basics" label="Die Basics" verzoegerung={7}>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {BASICS.map((b) => {
+              const auf = offen === b.id;
+              return (
+                <div key={b.id} className="rounded-2xl border border-border p-4 md:p-5">
+                  <h3 className="text-[20px] font-extrabold leading-tight text-foreground">{b.titel}</h3>
+                  <p className="mt-1 text-[15px] text-foreground/65">{b.kurz}</p>
+                  <dl className="mt-4 grid grid-cols-3 gap-2">
+                    {b.zahlen.map((z) => (
+                      <div key={z.label}>
+                        <dd className="text-[22px] font-extrabold leading-none tabular-nums text-foreground">{z.wert}</dd>
+                        <dt className="mt-1 text-[13px] leading-tight text-foreground/65">{z.label}</dt>
+                      </div>
+                    ))}
+                  </dl>
+                  <button
+                    type="button"
+                    onClick={() => setOffen(auf ? undefined : b.id)}
+                    aria-expanded={auf}
+                    className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-[15px] font-bold text-primary"
+                  >
+                    {auf ? "Weniger" : "So geht es"} <ChevronDown className={`h-4 w-4 transition-transform ${auf ? "rotate-180" : ""}`} aria-hidden />
+                  </button>
+                  {auf && (
+                    <ol className="pp-rise mt-2 space-y-2.5 text-[15px] leading-snug text-foreground">
+                      {b.schritte.map((s, j) => (
+                        <li key={j} className="flex gap-2.5">
+                          <span className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-[12px] font-bold text-background">
+                            {j + 1}
+                          </span>
+                          <span>{s}</span>
+                        </li>
+                      ))}
+                      {b.hinweis && <li className="pl-[30px] text-[14px] text-foreground/65">{b.hinweis}</li>}
+                    </ol>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </Abschnitt>
       </div>
 
       {/* PDF */}
       <div className="mt-10">
-        <Knopf onClick={onPdf} disabled={pdfLaeuft}>
+        <Knopf onClick={() => onPdf(stil)} disabled={pdfLaeuft}>
           <Download className="h-5 w-5" aria-hidden /> Meinen Plan als PDF sichern
         </Knopf>
-        <p className="mt-2.5 text-center text-[15px] text-foreground/60">Dashboard, Anlagen und Basics auf drei Seiten.</p>
+        <p className="mt-2.5 text-center text-[15px] text-foreground/65">Dashboard, Anlagen und Basics auf drei Seiten.</p>
       </div>
 
       {/* Erst der Mehrwert, dann das Girokonto (Elias, CV23S: Cross-Selling nach dem Plan). */}
-      <section className="pp-karte mt-12 p-5 md:p-6">
-        <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-foreground/50">Fehlt noch</p>
+      <section className="pp-karte mt-12 p-5 md:p-7">
+        <p className="pp-etikett">Fehlt noch</p>
         <h3 className="mt-2 text-[24px] font-extrabold leading-tight text-foreground">Dein Girokonto ohne Zinsen</h3>
         <div className="mt-4">
           <GiroAufruf gross={SCHMERZ.girokonto} zwischen={SCHMERZ.muslim} link={(ziel, stelle) => `${ziel}?src=pp${stelle}`} />
         </div>
       </section>
 
-      <footer className="mt-10 border-t border-border pt-5 text-[13px] leading-relaxed text-foreground/60">
+      <footer className="mt-10 border-t border-border pt-5 text-[13px] leading-relaxed text-foreground/65">
         <p>Ein Beispiel aus deinen Antworten, keine Anlageberatung. Wie es früher lief, ist keine Garantie für später.</p>
         <p className="mt-1">Renditen in Euro, Stand {(kurse as { stand: string }).stand}. Alle Anlagen aus meiner Halal-Datenbank.</p>
         <button type="button" onClick={onNeu} className="mt-3 inline-flex min-h-[44px] items-center gap-1 font-semibold text-foreground/70">

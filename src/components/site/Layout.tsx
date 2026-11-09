@@ -10,8 +10,16 @@ import { Wordmark } from "@/components/Wordmark";
  * Baustein 30) bringen ihren eigenen Kopf mit Knopf mit, wie bei SKAILE (skaile-danke-02).
  * Alles andere mit Kopf und Fuß.
  */
-const Schlicht = ({ children, eigenerKopf = false }: { children: ReactNode; eigenerKopf?: boolean }) => (
-  <div className={`flex min-h-screen flex-col ${eigenerKopf ? "bg-background" : "bg-hero"}`}>
+const Schlicht = ({
+  children,
+  eigenerKopf = false,
+  className = "",
+}: {
+  children: ReactNode;
+  eigenerKopf?: boolean;
+  className?: string;
+}) => (
+  <div className={`flex min-h-screen flex-col ${eigenerKopf ? "bg-background" : "bg-hero"} ${className}`}>
     {!eigenerKopf && (
       <header className="container flex h-16 items-center">
         <Link to="/" aria-label="finanzmuslim Startseite">
@@ -37,7 +45,13 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
   // Der Portfolioplan bringt sein eigenes Onboarding mit Wortmarke mit: edel, weiß, ohne das blaue Menü, aber
   // erkennbar Teil der Seite (Elias, CV26P 09.11.2026: „nicht wirkt wie eine komplett andere Seite“).
-  if (pathname.startsWith("/dein-portfolioplan/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
+  // `pp-rahmen`: schaltet der Leser dort auf Dunkel, wird auch der Fuß dunkel (portfolioplan.css, CV28P).
+  if (pathname.startsWith("/dein-portfolioplan/"))
+    return (
+      <Schlicht eigenerKopf className="pp-rahmen">
+        {children}
+      </Schlicht>
+    );
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />

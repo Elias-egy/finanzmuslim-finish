@@ -12,12 +12,27 @@
  * Darum: Die Aufteilung bleibt intern in Prozent (so rechnet alles weiter), nach außen gibt es nur ein Wort je
  * Baustein (Schwerpunkt, Beimischung, kleiner Teil, griffbereit) und ein Euro-Beispiel. Halal-Aussagen kommen nur aus
  * der Datenbank (halalAnlagen.ts), Kaufbarkeit nur mit Einzelbeleg (anlagenKaufbar.ts).
+ *
+ * Seit CV28P (09.11.2026) stehen Prozente je Baustein am Ring, nie an einer Anlage (Elias, Vault
+ * raw/2026-11-09-elias-cv27p-prozente-nur-grundbereiche-usa-gold-favorit-steuer.md: „Prozente sind vielleicht okay, aber
+ * nur für grundlegende Bereiche … niemals eine einzige Anlage“; memory prozente-nur-je-baustein-gold-ausnahme-royal-mint).
+ * Je Baustein zeigt das Dashboard alle Anlagen des gewählten Stils, die beim Depot kaufbar sind („Du wolltest USA. Das
+ * geht bei Traders Place“), Gold mit Royal Mint als Favorit.
  */
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { halalAnlagen, type Anlage } from "@/data/halalAnlagen";
 import { bausteinById, SPIELRAUM, type BausteinId } from "@/data/portfolioPlan";
 import { ROYAL_MINT } from "@/data/royalMint";
-import { hausVon, kaufbarBei, type Anteil, type Antworten, type BrokerWahl, type Produkt } from "@/data/portfolioQuiz";
+import {
+  hausVon,
+  kaufbarBei,
+  regionTitel,
+  type Anteil,
+  type Antworten,
+  type BrokerWahl,
+  type Produkt,
+  type Region,
+} from "@/data/portfolioQuiz";
 import kurse from "@/data/kurse.json";
 
 // --- Anlegertyp ----------------------------------------------------------------------------------------------------
@@ -171,32 +186,156 @@ export const STILE: Partial<Record<BausteinId, Stil[]>> = {
   ],
 };
 
-type Kurs = { r1j?: number | null; r5j?: number | null };
+/** Kurse aus kurse.json (erzeugt von ~/rebrand/data/kurse_holen.py): r1j, r5j und `verlauf`, 60 Monatswerte 0 bis 100. */
+type Kurs = { r1j?: number | null; r5j?: number | null; verlauf?: number[] | null };
 const KURSE = (kurse as unknown as { anlagen: Record<string, Kurs>; krypto?: Record<string, Kurs> }).anlagen;
 const KURSE_KRYPTO = (kurse as unknown as { krypto?: Record<string, Kurs> }).krypto ?? {};
 
-const mitKurs = (anlage: Anlage): Produkt => {
+export const mitKurs = (anlage: Anlage): Produkt => {
   const k = anlage.isin ? KURSE[anlage.isin] : anlage.kursKey ? KURSE_KRYPTO[anlage.kursKey] : undefined;
-  return { anlage, r1: k?.r1j ?? undefined, r5: k?.r5j ?? undefined };
+  const verlauf = k?.verlauf && k.verlauf.length > 1 ? k.verlauf : undefined;
+  return { anlage, r1: k?.r1j ?? undefined, r5: k?.r5j ?? undefined, verlauf };
 };
 
-/** Das Produkt eines Stils, das beim Depot mit Einzelbeleg kaufbar ist; Krypto läuft über eine Börse, kein Depot-Test. */
-export const produktFuerStil = (stil: Stil, broker?: BrokerWahl): Produkt | undefined => {
+/**
+ * Alle Anlagen eines Stils, die beim Depot mit Einzelbeleg kaufbar sind, in der Reihenfolge des Stils (CV28P: „alle
+ * kaufbaren Anlagen des Stils, nicht nur die erste“). Dieselbe Prüfung wie produktFuerStil; Krypto läuft über eine
+ * Börse, kein Depot-Test.
+ */
+export const produkteFuerStil = (stil: Stil, broker?: BrokerWahl): Produkt[] => {
   if (stil.slugs) {
-    const a = stil.slugs.map((s) => halalAnlagen.find((x) => x.slug === s)).find(Boolean);
-    return a ? mitKurs(a) : undefined;
+    return stil.slugs
+      .map((s) => halalAnlagen.find((x) => x.slug === s))
+      .filter((a): a is Anlage => Boolean(a))
+      .map(mitKurs);
   }
   const haus = hausVon(broker);
-  const isin = (stil.isins ?? []).find((i) => halalAnlagen.some((x) => x.isin === i) && kaufbarBei(i, haus));
-  const a = isin ? halalAnlagen.find((x) => x.isin === isin) : undefined;
-  return a ? mitKurs(a) : undefined;
+  return (stil.isins ?? [])
+    .filter((i) => kaufbarBei(i, haus))
+    .map((i) => halalAnlagen.find((x) => x.isin === i))
+    .filter((a): a is Anlage => Boolean(a))
+    .map(mitKurs);
 };
 
-/** Die Stile eines Bausteins, die beim Depot ein Produkt haben. */
-export const stileFuer = (baustein: BausteinId, broker?: BrokerWahl): { stil: Stil; produkt: Produkt }[] =>
+/** Das erste Produkt eines Stils, das beim Depot mit Einzelbeleg kaufbar ist. */
+export const produktFuerStil = (stil: Stil, broker?: BrokerWahl): Produkt | undefined => produkteFuerStil(stil, broker)[0];
+
+export type StilMitProdukten = { stil: Stil; produkt: Produkt; produkte: Produkt[] };
+
+/** Die Stile eines Bausteins, die beim Depot mindestens ein Produkt haben; `produkt` ist das erste davon. */
+export const stileFuer = (baustein: BausteinId, broker?: BrokerWahl): StilMitProdukten[] =>
   (STILE[baustein] ?? [])
-    .map((stil) => ({ stil, produkt: produktFuerStil(stil, broker) }))
-    .filter((x): x is { stil: Stil; produkt: Produkt } => Boolean(x.produkt));
+    .map((stil) => {
+      const produkte = produkteFuerStil(stil, broker);
+      return { stil, produkt: produkte[0], produkte };
+    })
+    .filter((x): x is StilMitProdukten => Boolean(x.produkt));
+
+/**
+ * Der vorgewählte Stil je Baustein: beim ETF die Richtung aus Frage 7, wenn es sie beim Depot gibt, sonst der erste
+ * Stil, den es dort gibt. `wahl` ist, was der Leser im Dashboard angetippt hat; das geht vor.
+ */
+export const stilVorwahl = (
+  baustein: BausteinId,
+  a: Antworten,
+  wahl?: string,
+): StilMitProdukten | undefined => {
+  const stile = stileFuer(baustein, a.broker);
+  return (
+    stile.find((s) => s.stil.id === wahl) ??
+    (baustein === "etf" ? stile.find((s) => s.stil.id === a.region) : undefined) ??
+    stile[0]
+  );
+};
+
+/**
+ * Gold: Royal Mint als Favorit mit drei Fakten (Elias 09.11.2026, Vault
+ * raw/2026-11-09-elias-cv27p-prozente-nur-grundbereiche-usa-gold-favorit-steuer.md; memory
+ * royal-mint-gold-etc-nummer-eins-edelmetalle). Steuer: BFH VIII R 7/17 vom 16.06.2020 (Laufzettel cv28p, Gefühlsblatt
+ * Punkt 4: Lieferanspruch ist keine Kapitalforderung nach § 20 EStG, Verkauf fällt unter § 23 EStG). Nie „der einzige“:
+ * die Datenbank nennt die Auslieferung nur bei Royal Mint und sagt über die anderen nichts.
+ */
+export const GOLD_FAVORIT_FAKTEN = [
+  "Zertifiziert",
+  "Du kannst dir das Gold liefern lassen, als Barren oder Münzen",
+  "Nach zwölf Monaten steuerfrei. Gold ohne Lieferanspruch zahlt 26,375 %",
+] as const;
+
+export type BausteinAnlagen = {
+  anteil: Anteil;
+  /** Stile zum Umschalten (Chips); bei Gold leer, dort stehen Favorit und klassisches Gold zusammen. */
+  stile: StilMitProdukten[];
+  stil?: Stil;
+  /** Alle kaufbaren Anlagen des gewählten Stils; bei Gold die klassischen ohne den Favoriten. */
+  produkte: Produkt[];
+  /** Nur Gold: Royal Mint, wenn beim Depot kaufbar. */
+  favorit?: Produkt;
+};
+
+/** Je Baustein des Plans (ohne Girokonto) die Anlagen, die das Dashboard und die PDF zeigen. */
+export const anlagenJeBaustein = (
+  anteile: Anteil[],
+  a: Antworten,
+  wahl: Partial<Record<BausteinId, string>> = {},
+): BausteinAnlagen[] =>
+  anteile
+    .filter((x) => x.baustein !== "konto")
+    .map((anteil) => {
+      if (anteil.baustein === "gold") {
+        const stile = stileFuer("gold", a.broker);
+        const favorit = stile.find((s) => s.stil.id === "auslieferbar")?.produkt;
+        const klassisch = stile.find((s) => s.stil.id === "klassisch");
+        return { anteil, stile: [], stil: klassisch?.stil, produkte: klassisch?.produkte ?? [], favorit };
+      }
+      const stile = stileFuer(anteil.baustein, a.broker);
+      const g = stilVorwahl(anteil.baustein, a, wahl[anteil.baustein]);
+      return { anteil, stile, stil: g?.stil, produkte: g?.produkte ?? [] };
+    });
+
+/**
+ * Der Satz über den ETF-Anlagen: „Du wolltest USA. Das geht bei Traders Place:“. Gibt es die Richtung beim Depot nicht
+ * (anlagenKaufbar.ts: Traders Place und Smartbroker+ führen den Europa-ETF nicht, Traders Place den Technologie-Fonds
+ * nicht), sagt er „stattdessen“; hat der Leser selbst einen anderen Stil angetippt, nennt er den. `depot` fehlt bei
+ * „Ein anderes Depot“: dann ohne Kaufbarkeits-Aussage.
+ */
+export const richtungsSatz = (a: Antworten, stil: Stil | undefined, depot?: string): string => {
+  if (!stil) return "";
+  const gehtDort = depot ? `Das geht bei ${depot}:` : "Dafür gibt es:";
+  const region = regionTitel(a.region);
+  if (!a.region || !region) return `${stil.titel}. ${gehtDort}`;
+  if (stil.id === a.region) return `Du wolltest ${region}. ${gehtDort}`;
+  const regionDa = stileFuer("etf", a.broker).some((s) => s.stil.id === a.region);
+  if (!regionDa && depot) return `Du wolltest ${region}. Bei ${depot} geht stattdessen:`;
+  return `${stil.titel}. ${gehtDort}`;
+};
+
+// --- Top-Performer ----------------------------------------------------------------------------------------------------
+
+export const KATEGORIE_WORT: Record<Anlage["kategorie"], string> = {
+  aktien: "Islamic ETF",
+  sukuk: "Sukuk",
+  gold: "Gold",
+  silber: "Silber",
+  rohstoffe: "Edelmetall",
+  krypto: "Krypto",
+};
+
+/** Baustein-Farbe je Kategorie, damit die Mini-Kurven dieselben Farben tragen wie der Ring. */
+export const kategorieFarbe = (k: Anlage["kategorie"]): string =>
+  bausteinById(k === "aktien" ? "etf" : k === "sukuk" ? "sukuk" : k === "gold" ? "gold" : k === "krypto" ? "krypto" : "konto").farbe;
+
+/**
+ * Die Anlagen der Datenbank mit dem höchsten Plus im letzten Jahr (CV28P, Laufzettel cv28p Gefühlsblatt Punkt 4: nur
+ * Anlagen mit Zertifikat in der Datenbank, keine Einzelaktien, weil dafür keine Kurse im Bestand liegen). Information,
+ * nie Rangfolge für den Plan.
+ */
+export const topPerformer = (n = 5): Produkt[] =>
+  halalAnlagen
+    .filter((a) => a.isin && a.zertifikatArt)
+    .map(mitKurs)
+    .filter((p) => p.r1 !== undefined)
+    .sort((x, y) => y.r1! - x.r1!)
+    .slice(0, n);
 
 // --- Zahlen aus der Datenbank ---------------------------------------------------------------------------------------
 
