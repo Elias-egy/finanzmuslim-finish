@@ -45,6 +45,7 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | commerzbank.de | public/logos/commerzbank.de.svg | Anbieter-Seite commerzbank.de, Fußzeile, Datei CB-2021-Logo_horizontal_RGB_Solid_white.svg (weiße Form), geladen 09.11.2026; A14: Schriftzug #002e3c, Zeichen #ffd700 gesetzt, damit er auf weißem Grund steht (wie bei Scalable) |
 | smartsteuer.de | public/logos/smartsteuer.de.svg | Anbieter-Seite smartsteuer.de, Kopf der Startseite, Datei smartsteuer-oncolor-compact.svg (weißer Schriftzug), geladen 09.11.2026; `dunkel` |
 | steuertipps.de | public/logos/steuertipps.de.png | Anbieter-Seite steuertipps.de, Meta-Bild steuertipps_logo_2024.png, geladen 09.11.2026; A14: auf den Schriftzug zugeschnitten (590 × 560) |
+| wundertax.de | public/logos/wundertax.de.svg | Anbieter-Seite wundertax.de, Datei images/icons/logos/logo-de.svg (Schriftzug #001233, Akzent #00CB9D), im Chrome geladen 09.11.2026, Download von Elias erlaubt (Bot-Sperre 403 bei curl) |
 | steuer.check24.de | public/logos/steuer.check24.de.svg | Wikimedia Commons File:Check24_Logo_2020.svg, Public domain (reiner Schriftzug), geladen 08.11.2026 |
 | steuergo.de | public/logos/steuergo.de.png | Anbieter-Seite steuergo.de, Kopf der Startseite, geladen 08.11.2026 |
 | taxfix.de | public/logos/taxfix.de.svg | Anbieter-Seite taxfix.de, Kopf der Startseite, geladen 08.11.2026 |

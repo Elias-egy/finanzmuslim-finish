@@ -55,4 +55,5 @@ export const ANBIETER_LOGOS: Record<string, { datei: string; dunkel?: boolean }>
   "tradersplace.de": { datei: "/logos/tradersplace.de.svg" },
   "umweltbank.de": { datei: "/logos/umweltbank.de.svg" },
   "vivid.money": { datei: "/logos/vivid.money.svg" },
+  "wundertax.de": { datei: "/logos/wundertax.de.svg" },
 };
