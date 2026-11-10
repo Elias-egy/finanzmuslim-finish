@@ -18,6 +18,8 @@ import {
   type VergleichsZeile,
   type Zellwert,
 } from "./vergleichTypen";
+import { istMindestens } from "@/lib/platzAnsicht";
+import { platzTon } from "./VergleichsTabelle";
 
 /**
  * Dieselben Daten wie in der Tabelle, nur als Karten fuer Handy und Tablet. Auf dem Handy ist die
@@ -87,11 +89,15 @@ const Punkt = ({
 const Karte = ({
   spalte,
   zeilen,
+  platzZeilen = [],
 }: {
   spalte: VergleichsSpalte;
   zeilen: VergleichsZeile[];
+  platzZeilen?: VergleichsZeile[];
 }) => {
   const [offen, setOffen] = useState(false);
+  const [platzOffen, setPlatzOffen] = useState(false);
+  const mindestens = zeilen.filter((z) => istMindestens(spalte.werte[z.key]?.text));
   const raster = zeilen.filter((z) => z.imRaster).slice(0, 4);
 
   const auszeichnung = auszeichnungVon(spalte);
@@ -100,7 +106,9 @@ const Karte = ({
   return (
     <li
       className={`flex flex-col overflow-hidden rounded-lg border ${
-        spalte.abgeraten
+        spalte.grau
+          ? "border-border bg-zinc-200"
+          : spalte.abgeraten
           ? "border-destructive/40 bg-card"
           : `${hervor ? "border-primary" : "border-border"} ${(auszeichnung && auszeichnungGrund[auszeichnung.ton]) || "bg-card"}`
       }`}
@@ -160,11 +168,53 @@ const Karte = ({
           </p>
         )}
 
+        {spalte.grau && spalte.zerlegung?.__platz_fehlt && (
+          <p className="mt-2 text-[13px] font-semibold leading-snug text-destructive">
+            fehlt: {spalte.zerlegung.__platz_fehlt.text}
+          </p>
+        )}
+
         <ul className="mt-3 space-y-1.5">
           {raster.map((z) => (
             <Punkt key={z.key} zeile={z} wert={spalte.werte[z.key]} />
           ))}
         </ul>
+
+        {platzZeilen.length > 0 && mindestens.length > 0 && (
+          <p className="mt-2 rounded-md bg-warning/15 px-2 py-1 text-[13px] leading-snug text-foreground ring-1 ring-inset ring-warning/50">
+            „mind.“: {mindestens.map((z) => `${z.label} ${spalte.werte[z.key]?.text}`).join(", ")}
+          </p>
+        )}
+
+        {platzZeilen.length > 0 && spalte.zerlegung && (
+          <div className="mt-3 rounded-lg bg-accent/60 px-3 py-2">
+            <button
+              type="button"
+              onClick={() => setPlatzOffen((v) => !v)}
+              aria-expanded={platzOffen}
+              className="flex min-h-[40px] w-full items-center justify-between text-left text-[14px] font-semibold text-foreground"
+            >
+              <span>
+                So entsteht der Platz: Note {spalte.zerlegung.__platz_note?.text.split(" ")[0]}
+              </span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${platzOffen ? "rotate-180" : ""}`} aria-hidden />
+            </button>
+            {platzOffen && (
+              <dl className="mt-1 space-y-1 pb-1 text-[13px] leading-snug">
+                {platzZeilen
+                  .filter((z) => z.key !== "__platz_fehlt" || spalte.grau)
+                  .map((z) => (
+                    <div key={z.key} className="flex justify-between gap-3">
+                      <dt className="text-foreground">{z.label}</dt>
+                      <dd className={`text-right ${platzTon[spalte.zerlegung?.[z.key]?.ton ?? ""] ?? "text-foreground"}`}>
+                        {spalte.zerlegung?.[z.key]?.text ?? "–"}
+                      </dd>
+                    </div>
+                  ))}
+              </dl>
+            )}
+          </div>
+        )}
 
         {/* Ohne Partnerlink kein Knopf, nur eine Zeile: ein Knopf, den niemand drücken kann,
             kostet auf dem Handy über viele Karten mehrere Bildschirme. */}
@@ -210,11 +260,14 @@ export const VergleichsKarten = ({
   zeilen,
   spalten,
   zuerst = SEITE,
+  platzZeilen,
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
   /** Steht die Nummer 1 als eigener Kasten darüber, zählt sie mit: dann eine Karte weniger. */
   zuerst?: number;
+  /** Nur Ansicht A3 (Localhost, `?ansicht=a3`): Zeilen „So entsteht der Platz“. */
+  platzZeilen?: VergleichsZeile[];
 }) => {
   const [sichtbar, setSichtbar] = useState(zuerst);
   const zeigen = spalten.slice(0, sichtbar);
@@ -224,7 +277,7 @@ export const VergleichsKarten = ({
       {/* Tablet: zwei Karten nebeneinander, sonst laufen Liste und Knopf über die ganze Breite. */}
       <ul className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
         {zeigen.map((s) => (
-          <Karte key={s.id} spalte={s} zeilen={zeilen} />
+          <Karte key={s.id} spalte={s} zeilen={zeilen} platzZeilen={platzZeilen} />
         ))}
       </ul>
 

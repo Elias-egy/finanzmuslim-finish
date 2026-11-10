@@ -14,6 +14,15 @@ import {
   KreditHinweis,
 } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
+import { istMindestens } from "@/lib/platzAnsicht";
+
+/** Ansicht A3 (nur Localhost, `?ansicht=a3`): Farbe einer Zelle „So entsteht der Platz“. */
+export const platzTon: Record<string, string> = {
+  verlust: "font-semibold text-destructive",
+  abzug: "font-semibold text-warning",
+  voll: "text-success",
+  leer: "text-muted-foreground",
+};
 
 /**
  * Die gedrehte Tabelle fuer den Laptop: links stehen die Kriterien, rechts je
@@ -49,6 +58,7 @@ const gruppenTitel: Record<string, string> = {
   angebot: "Anbieter und Angebot",
   halal: "Halal-Merkmale",
   kosten: "Kosten und Konditionen",
+  platz: "So entsteht der Platz",
 };
 
 
@@ -129,6 +139,7 @@ export const VergleichsTabelle = ({
         }
       : undefined;
   const grund = (s: VergleichsSpalte) => {
+    if (s.grau) return "bg-zinc-200 text-zinc-600";
     const a = auszeichnungVon(s);
     return a ? auszeichnungGrund[a.ton] : "";
   };
@@ -304,8 +315,25 @@ export const VergleichsTabelle = ({
                     )}
                   </div>
                   {spalten.map((s) => (
-                    <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0 ${grund(s)}`}>
-                      {z.key === "__angebot" ? angebot(s) : <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />}
+                    <div
+                      key={`${z.key}-${s.id}`}
+                      className={`${zelle} border-r last:border-r-0 ${grund(s)} ${
+                        z.gruppe === "platz" ? `text-[12px] ${s.grau ? "" : "bg-accent/40"}` : ""
+                      } ${s.zerlegung && istMindestens(s.werte[z.key]?.text) ? "bg-warning/15 ring-1 ring-inset ring-warning/50" : ""}`}
+                    >
+                      {z.key.startsWith("__platz_") ? (
+                        /* Ansicht A3: Zeilen „So entsteht der Platz“. */
+                        <span
+                          title={s.zerlegung?.[z.key]?.text}
+                          className={`line-clamp-4 ${platzTon[s.zerlegung?.[z.key]?.ton ?? ""] ?? "text-foreground"}`}
+                        >
+                          {s.zerlegung?.[z.key]?.text ?? "–"}
+                        </span>
+                      ) : z.key === "__angebot" ? (
+                        angebot(s)
+                      ) : (
+                        <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />
+                      )}
                     </div>
                   ))}
                 </div>

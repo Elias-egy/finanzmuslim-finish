@@ -31,7 +31,7 @@ export type VergleichsZeile = {
   /** Steht in der Kartenansicht im Viererraster ganz oben. Genau vier. */
   imRaster?: boolean;
   /** Trennt die Halal-Merkmale von den Konditionen. */
-  gruppe: "halal" | "angebot" | "kosten";
+  gruppe: "halal" | "angebot" | "kosten" | "platz";
   /** Wort für eine gelbe Ampel. Ohne Angabe „abschaltbar“ (Zinsen, Dispo); der Reinigungsbetrag sagt „teils“. */
   teilsText?: string;
 };
@@ -90,6 +90,10 @@ export type VergleichsSpalte = {
   /** Führt das Haus mehrere Produkte: was dieses von den anderen unterscheidet, mit Beleg (`produktUnterschiede.ts`). */
   unterschied?: { titel: string; satz: string } | null;
   werte: Record<string, Zellwert>;
+  /** Nur Ansicht A3 (lokal): Angebot steht heute nicht auf der Seite. */
+  grau?: boolean;
+  /** Nur Ansicht A3 (lokal): Zellen der Zeilen „So entsteht der Platz“. */
+  zerlegung?: Record<string, { text: string; ton?: "verlust" | "voll" | "abzug" | "leer" }>;
 };
 
 /** Zelle ohne Angabe: ein Strich, nie ein Wort über den Stand der Prüfung (Elias, 05.10.2026). */

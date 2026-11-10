@@ -28,6 +28,7 @@ import {
 } from "@/data/vergleichHelfer";
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
+import { ANSICHT_A3, ansichtA3, platzZeilen, type AnsichtEintrag } from "@/lib/platzAnsicht";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
 /** „29.10.2026“ wird „29. Oktober 2026“, wie bei Finanzfluss „Aktualisiert am: 7. November 2026“. */
@@ -139,6 +140,8 @@ export type VergleichsSeiteProps = {
       Fragen; `faq` speist weiter die strukturierten Daten und soll dieselben Fragen tragen. */
   ratgeber?: ReactNode;
   schluss: string;
+  /** Nur Ansicht A3 (lokal): die ganze Datendatei, damit versteckte Angebote grau einsortiert stehen. */
+  ansichtAlle?: RohAnbieter[];
 };
 
 export const VergleichsSeite = ({
@@ -170,6 +173,7 @@ export const VergleichsSeite = ({
   faq,
   ratgeber,
   schluss,
+  ansichtAlle,
 }: VergleichsSeiteProps) => {
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
@@ -220,7 +224,7 @@ export const VergleichsSeite = ({
         ...nachRang.filter((a) => a.id !== sieger.id),
       ]
     : nachRang;
-  const spalten = baueSpalten(
+  const spaltenLive = baueSpalten(
     sortiert.map((a) => {
       /* Der Platz steht als Zahl im Reiter, nicht mehr als Etikett „Platz n“ (Finanzfluss, Elias CV17F). */
       const mitNote = {
@@ -237,6 +241,31 @@ export const VergleichsSeite = ({
     zeilen,
     kategorie,
   );
+
+  /* Ansicht A3: alle Angebote der Datendatei, versteckte grau an ihrer Stelle, oben die Zerlegung der Note. */
+  const ansicht =
+    ANSICHT_A3 && ansichtAlle && kategorie && finanzMax
+      ? ansichtA3(anbieter, ansichtAlle, kategorie, finanzMax, zeilen)
+      : null;
+  const ansichtZeilen = ansicht && kategorie && finanzMax ? platzZeilen(kategorie, finanzMax) : [];
+  const tabellenZeilen = ansicht
+    ? [...zeilen.filter((z) => z.key === "__angebot"), ...ansichtZeilen, ...zeilen.filter((z) => z.key !== "__angebot")]
+    : zeilen;
+  const spalten = ansicht
+    ? (() => {
+        const live = new Map(spaltenLive.map((sp) => [sp.id, sp]));
+        const passt = (a: RohAnbieter) =>
+          aktiv.every((k) => (filter.find((f) => f.key === k)?.erlaubt ?? ["gut"]).includes(String(a.werte[k])));
+        const reihe = ansicht.filter((e) => passt(e.anbieter));
+        const vorn = sieger ? reihe.filter((e) => e.anbieter.id === sieger.id) : [];
+        return [...vorn, ...reihe.filter((e) => e.anbieter.id !== sieger?.id)].map((e) => {
+          const basis =
+            live.get(e.anbieter.id) ??
+            baueSpalten([{ ...e.anbieter, etikett: { text: "Nicht auf der Seite", ton: "platz" as const } }], zeilen, kategorie)[0];
+          return { ...basis, grau: e.grau, zerlegung: e.platz };
+        });
+      })()
+    : spaltenLive;
 
   return (
     <main className="bg-background">
@@ -454,14 +483,21 @@ export const VergleichsSeite = ({
                 {sortiertNach}
               </p>
             )}
+            {ansicht && (
+              <p className={`${BREIT} mt-4 rounded-lg border border-warning/50 bg-warning/10 px-4 py-2 text-[14px] text-foreground`}>
+                Lokale Ansicht, nicht live: {ansicht.filter((e) => e.grau).length} graue Angebote stehen heute nicht auf der Seite, gelb
+                markiert sind Zellen mit „mind.“. Rot abgeratene, die nicht auf der Seite stehen, fehlen hier.
+              </p>
+            )}
             {/* Laptop: gedrehte Tabelle. Handy: Karten. */}
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
-              <VergleichsTabelle zeilen={zeilen} spalten={spalten} />
+              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} />
             </div>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. Beim Doppel-Kasten beide. */}
               <VergleichsKarten
                 zeilen={zeilen}
+                platzZeilen={ansichtZeilen}
                 spalten={spalten.filter((sp) => sp.id !== sieger?.id && sp.id !== zweiter?.id)}
                 zuerst={SEITE - (sieger ? 1 : 0) - (zweiter && sieger ? 1 : 0)}
               />

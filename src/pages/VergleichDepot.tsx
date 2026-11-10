@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX, brokerVergleich } from "@/data/brokerVergleich";
 import { depotAnzeige } from "@/data/vergleichAnzeige";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { DepotRatgeber } from "@/components/vergleich/DepotRatgeber";
@@ -78,6 +78,7 @@ const VergleichDepot = () => (
     }
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
+    ansichtAlle={brokerVergleich}
     sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte. Bei gleicher Note zuerst, wo unsere Leser am häufigsten eröffnen."
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
