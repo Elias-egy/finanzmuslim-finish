@@ -55,8 +55,14 @@ Seit SEO75, 08.11.2026. Schriftzug-Logos statt runder Symbole (Elias SEO74, raw/
 | tradersplace.de | public/logos/tradersplace.de.svg | Anbieter-Seite tradersplace.de, Kopf der Startseite, geladen 08.11.2026 |
 | umweltbank.de | public/logos/umweltbank.de.svg | Anbieter-Seite umweltbank.de, Kopf der Startseite, geladen 08.11.2026 |
 | vivid.money | public/logos/vivid.money.svg | Anbieter-Seite vivid.money, Kopf der Startseite, geladen 08.11.2026 |
+| bitpanda.com | public/logos/bitpanda.com.svg | Anbieter-Seite bitpanda.com/de, Kopf der Startseite, Datei website_header-logo-01.svg (weißer Schriftzug), geladen 10.11.2026 (A15, Elias 10.11.: „Du kannst die Logos von den Seiten laden“); Schriftzug #101820 gesetzt, damit er auf weißem Grund steht (wie bei Commerzbank) |
+| bitvavo.com | public/logos/bitvavo.com.svg | Anbieter-Seite bitvavo.com/de, Kopf der Startseite (eingebettetes SVG, schwarz), im Chrome per Download geladen 10.11.2026 (A15) |
+| crypto.com | public/logos/crypto.com.svg | Anbieter-Seite crypto.com/de, Kopf der Startseite, Datei assets/logo/crypto-com.svg (heller Schriftzug #F7F9FA), geladen 10.11.2026 (A15); Schriftzug #002D74 gesetzt |
+| robinhood.com | public/logos/robinhood.com.svg | Anbieter-Seite robinhood.com/eu/en, Wortmarke aus der Seite (eingebettetes SVG, currentColor), Farbe #101820 gesetzt, geladen 10.11.2026 (A15) |
+| finispia.com | public/logos/finispia.com.svg | Anbieter-Seite finispia.com, Datei wp-content/uploads/2022/07/logofinispia.svg, geladen 10.11.2026 (A15) |
+| islamicly.com | public/logos/islamicly.com.svg | Anbieter-Seite islamicly.com, Datei web/islamicly-logo-light.svg (weißer Schriftzug), geladen 10.11.2026 (A15); Schriftzug #222 gesetzt, damit er auf weißem Grund steht |
 
-Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, Fidelity, GENO Broker, Pax-Bank, Trading 212, XTB, Bux, BforBank, bunq, Deutsche Bank, Haspa, KT Bank, Monese, PSD Bank, Revolut, Targobank, Wise, C24, Bitpanda, Bitvavo, crypto.com, Robinhood, Finispia, Islamicly, Zoya, Lohnsteuer kompakt, SteuerSparErklärung, wundertax (wundertax.de sperrt Abrufe, A14 09.11.2026: Datei von Elias oder Chrome-Freigabe nötig). Beim Anbieter-Kopf nur weiß auf dunkel oder nicht einzeln ladbar; nächste Sitzung von der Presseseite holen, zuerst Consorsbank und Trading 212.
+Ohne Datei (Rückfall Logo.dev, dann Kürzel): Consorsbank, finanzen.net zero, Fidelity, GENO Broker, Pax-Bank, Trading 212, XTB, Bux, BforBank, bunq, Deutsche Bank, Haspa, KT Bank, Monese, PSD Bank, Revolut, Targobank, Wise, C24, Zoya, Lohnsteuer kompakt, SteuerSparErklärung, wundertax (wundertax.de sperrt Abrufe, A14 09.11.2026: Datei von Elias oder Chrome-Freigabe nötig). Beim Anbieter-Kopf nur weiß auf dunkel oder nicht einzeln ladbar; nächste Sitzung von der Presseseite holen, zuerst Consorsbank und Trading 212.
 
 ## App-Bilder im Blogteil des Depot-Vergleichs (SEO78, 08.11.2026)
 

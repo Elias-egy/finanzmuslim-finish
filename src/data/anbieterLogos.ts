@@ -13,6 +13,7 @@ export const ANBIETER_LOGOS: Record<string, { datei: string; dunkel?: boolean }>
   "binance.com": { datei: "/logos/binance.com.png" },
   "bisonapp.com": { datei: "/logos/bisonapp.com.svg" },
   "bitget.com": { datei: "/logos/bitget.com.png" },
+  "bitpanda.com": { datei: "/logos/bitpanda.com.svg" },
   "bsdex.de": { datei: "/logos/bsdex.de.svg" },
   "buhl.de": { datei: "/logos/buhl.de.svg" },
   "coinbase.com": { datei: "/logos/coinbase.com.svg" },
@@ -56,4 +57,9 @@ export const ANBIETER_LOGOS: Record<string, { datei: string; dunkel?: boolean }>
   "umweltbank.de": { datei: "/logos/umweltbank.de.svg" },
   "vivid.money": { datei: "/logos/vivid.money.svg" },
   "wundertax.de": { datei: "/logos/wundertax.de.svg" },
+  "bitvavo.com": { datei: "/logos/bitvavo.com.svg" },
+  "crypto.com": { datei: "/logos/crypto.com.svg" },
+  "robinhood.com": { datei: "/logos/robinhood.com.svg" },
+  "finispia.com": { datei: "/logos/finispia.com.svg" },
+  "islamicly.com": { datei: "/logos/islamicly.com.svg" },
 };
