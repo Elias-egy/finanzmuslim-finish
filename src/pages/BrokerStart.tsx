@@ -156,14 +156,16 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
       {/* Kopf (Elias, CV23S 08.11.2026, nach dem Bild der alten blauen Seite): „in 10 Minuten steht … dein halal
           investment bei Traders Place“, „diese Werbung weg, Kapitalanlagen weg, bei Traders Place eröffnen bleibt“,
           „das Video auf dieser Höhe. Natürlich in weiß“. Der Knopf ist die einzige kräftige Farbe. */}
-      <section className="bg-white">
+      {/* Füllt den ersten Schirm unter dem Seitenkopf (64 px), damit der Linkbereich genau beim ersten Scrollen
+          auftaucht (Elias, CV23S: „genau da sichtbar …, wenn ich ein bisschen nach unten scrolle“). */}
+      <section className="min-h-[calc(100svh-64px)] bg-white">
         {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
         <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-14">
           <h1 className="headline mx-auto max-w-[15ch] text-[30px] leading-[1.12] text-foreground md:text-[40px]">
             In 10 Minuten steht dein Halal-Investment
           </h1>
           {/* Pille mit dem echten Logo (Elias: „das richtige logo mit schrift“). */}
-          <p className="mt-4 inline-flex items-center gap-3 rounded-full border-2 border-border bg-white px-5 py-2 text-[18px] font-semibold text-foreground md:text-[20px]">
+          <p className="mt-6 inline-flex items-center gap-3 rounded-full border-2 border-border bg-white px-5 py-2 text-[18px] font-semibold text-foreground md:text-[20px]">
             bei
             <img
               src={start.logo.src}
@@ -181,13 +183,15 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
             rel="sponsored noopener"
             target="_blank"
             onClick={zumAnbieter}
-            className="mt-6 flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
+            className="mt-[clamp(48px,10svh,96px)] flex min-h-[64px] w-full items-center justify-center rounded-[6px] bg-primary px-4 text-center text-[19px] font-bold leading-tight text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:min-h-[72px] md:text-[22px]"
           >
             Bei {partner.anbieter} eröffnen&nbsp;→<sup className="ml-0.5 text-[13px]">*</sup>
           </a>
-          {start.pflicht && <p className="mt-2 text-[15px] leading-snug text-foreground">{start.pflicht}</p>}
+          {/* flatex verlangt den Satz sichtbar in Textgröße (belege/flatex/2026-10-12-info-flatex-disclaimers.txt Z. 4-7);
+              Elias, CV23S: „entscheidet, ob wir es überall machen oder gar nicht“, darum auf allen drei Seiten. */}
+          <p className="mt-2 text-[15px] leading-snug text-foreground">{start.pflicht ?? "Investieren birgt Verlustrisiken."}</p>
 
-          <div className="relative mt-6 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-8">
+          <div className="relative mt-12 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-16">
             {start.video ? (
               <>
                 <video
@@ -225,7 +229,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
       {/* Nach dem Cut (Elias, CV23S): zuerst „Hier alle Links, die du brauchst“ als „Bezeichnung: blauer Link“, dann
           alle Anlagen als unscheinbare blaue Links zur Datenbank, „dass man auf dem Video bleibt“. Beginnt am Handy
           unter dem ersten Schirm, damit dort nur der Knopf antippbar ist (memory conversion-seite-ein-knopf-ganz-weiss). */}
-      <section className="bg-white pb-12 pt-[clamp(56px,40svh,340px)] md:pt-28">
+      <section className="bg-white pb-12 pt-6">
         <div className="container max-w-[600px] text-[17px] leading-snug text-foreground">
           <h2 className="text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
           <ul className="mt-4 space-y-3">

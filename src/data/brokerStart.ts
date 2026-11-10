@@ -34,9 +34,18 @@ export type BrokerStart = {
   kostenHinweis?: string;
 };
 
+/** POSTIDENT-App der Deutschen Post (Elias, CV23S 08.11.2026: „pack nur noch die App rein … Post-Ident“). Store-Seiten
+ * geprüft 08.11.2026: apps.apple.com id999762739, Google Play de.deutschepost.postident. */
+const POSTIDENT = {
+  name: "POSTIDENT",
+  ios: "https://apps.apple.com/de/app/postident/id999762739",
+  android: "https://play.google.com/store/apps/details?id=de.deutschepost.postident",
+};
+
 export const BROKER_START: Record<string, BrokerStart> = {
   "traders-place": {
     vergleichId: "traders-place-depot",
+    ident: POSTIDENT,
     logo: { src: "/bilder/logos/traders-place-wortmarke.svg", verhaeltnis: 200 / 52 },
     // tradersplace.de/app verlinkt beide Stores. Ausweisen per eID läuft in dieser App, keine Postident-App:
     // „Schritt 1: Traders Place App installieren … Du benötigst die App zum Scannen deines eID Online-Ausweises“
@@ -55,6 +64,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   flatex: {
     vergleichId: "flatex-depot",
+    ident: POSTIDENT,
     // Logo aus dem Seitenkopf von flatex.de (Inline-SVG, Farben wie dort auf Weiß).
     logo: { src: "/bilder/logos/flatex-wortmarke.svg", verhaeltnis: 244 / 54 },
     app: {
@@ -79,6 +89,7 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",
+    ident: POSTIDENT,
     logo: { src: "/bilder/logos/smartbroker-plus-wortmarke.svg", verhaeltnis: 1051 / 125 },
     app: {
       name: "Smartbroker+",
@@ -115,14 +126,18 @@ export const FLATEX_VERZICHT = {
 
 /**
  * FERTIG mit Nachweis (Elias, CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem Screenshot von deinem
- * Halal-ETF und du kriegst den Blueprint.“ Weg wie beim Einsteiger-Guide (src/data/leiter.ts, KASTEN.mail): neue Mail
- * mit Betreff FERTIG an elias@finanzmuslim.com; der Zoho-Antworter am VPS (scripts/scheduler/zoho_antworten.py,
- * ist_fertig) antwortet bei Betreff FERTIG und eigenem Text bis 220 Zeichen mit dem Blueprint. Der Text bleibt kurz.
+ * Halal-ETF“. Seit CV26P steht in der Mail nur noch „Fertig“ und der Hinweis (Elias, CV25V: „im eigenen E-Mail-Provider
+ * direkt sozusagen nur stehen fertig … und dann halt irgendwie noch unten als Hinweis … Screenshot hinzufügen und
+ * abschicken … Das kann auch ruhig in den Text geschrieben werden“, Vault
+ * raw/2026-11-08-elias-cv25v-portfolioplan-zuerst-fertig-mail-video.md). Belohnung ist der persönliche Portfolioplan
+ * statt des XXL-Guides (Elias, CV25V: „dieses XXL-Guide … musst du auch alles wegmachen“). Der Zoho-Antworter am VPS
+ * (scripts/scheduler/zoho_antworten.py, ist_fertig) erkennt Betreff FERTIG bei eigenem Text bis 220 Zeichen; seine
+ * Antwort zeigt erst mit dem gemeinsamen Livegang auf den Plan.
  */
-const FERTIG_TEXT = "Assalamu Aleykum Elias,\n\nfertig! Mein Screenshot vom Halal-ETF hängt an.\n";
+const FERTIG_TEXT = "Fertig\n\n(Screenshot hinzufügen und abschicken)\n";
 export const FERTIG_MAIL = {
   link: "hier die Mail an mich",
-  satz: "Screenshot deines Halal-ETFs anhängen, dann bekommst du meinen Blueprint.",
+  satz: "Screenshot deines Halal-ETFs hinzufügen, dann bekommst du deinen persönlichen Portfolioplan.",
   href: `mailto:elias@finanzmuslim.com?subject=FERTIG&body=${encodeURIComponent(FERTIG_TEXT)}`,
 };
 
