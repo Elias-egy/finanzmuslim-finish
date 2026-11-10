@@ -26,7 +26,11 @@ import { girokontoVergleich, GIRO_FINANZ_MAX, GIRO_ZEILEN } from "./girokontoVer
 import { kryptoVergleich, KRYPTO_FINANZ_MAX, KRYPTO_ZEILEN } from "./kryptoVergleich";
 import { screenerVergleich, SCREENER_ZEILEN } from "./screenerVergleich";
 import { steuersoftwareVergleich, STEUER_ZEILEN } from "./steuersoftwareVergleich";
-import { depotAnzeige, girokontoAnzeige, kryptoAnzeige, screenerAnzeige, steuerAnzeige } from "./vergleichAnzeige";
+import { depotAnzeige } from "./anzeige/depot";
+import { girokontoAnzeige } from "./anzeige/girokonto";
+import { kryptoAnzeige } from "./anzeige/krypto";
+import { screenerAnzeige } from "./anzeige/screener";
+import { steuerAnzeige } from "./anzeige/steuer";
 
 export { kostenlosReicht };
 

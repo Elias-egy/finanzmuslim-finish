@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
-import { kryptoAnzeige } from "@/data/vergleichAnzeige";
+import { kryptoAnzeige } from "@/data/anzeige/krypto";
 import { juengsterStand } from "@/lib/juengsterStand";
 
 /**

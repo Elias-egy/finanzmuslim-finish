@@ -1,8 +1,5 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
-import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
-import { EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
-import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
-import { KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
+import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
 import { anzeigeNote } from "@/lib/anzeigeNote";
 

@@ -3,7 +3,7 @@ import { ArrowRight, Check } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { CheckRaster, DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import { CHECK } from "@/data/depotTop3";
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
 
 /**

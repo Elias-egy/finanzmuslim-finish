@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { SCREENER_ZEILEN, SCREENER_FILTER } from "@/data/screenerVergleich";
-import { screenerAnzeige } from "@/data/vergleichAnzeige";
+import { screenerAnzeige } from "@/data/anzeige/screener";
 import { zahlwort } from "@/data/anzahlen";
 
 /**

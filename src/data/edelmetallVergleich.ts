@@ -3,7 +3,7 @@
 // mit Prüfdatum.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "./vergleichHelfer";
-import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "./brokerVergleich";
+import { brokerVergleich, DEPOT_ZEILEN } from "./brokerVergleich";
 import { ANLAGEN_KAUFBAR, ANLAGE_ZEILE } from "./anlagenKaufbar";
 import { halalAnlagen } from "./halalAnlagen";
 import { ROYAL_MINT } from "./royalMint";
@@ -81,13 +81,8 @@ export const EDELMETALL_ZEILEN: VergleichsZeile[] = [
   ...["handelsplaetze", "kapest", "appIos", "appAndroid", "kundenservice", "bank"].map(depotZeile),
 ];
 
-/**
- * Kosten für den Kauf eines Papiers: die Kriterien des Depot-Vergleichs ohne die Sparplan-Zeilen.
- * Ob ein ETC sparplanfähig ist, steht in keinem Beleg, also zählt es hier nicht.
- */
-export const EDELMETALL_FINANZ_MAX: Record<string, number> = Object.fromEntries(
-  ["depotgebuehr", "orderProzent", "orderPauschal", "handelsplaetze", "kapest", "kundenservice", "app"].map((k) => [k, DEPOT_FINANZ_MAX[k]]),
-);
+/** Kosten für den Kauf eines Papiers; die Werte stehen in `finanzMax.ts`. */
+export { EDELMETALL_FINANZ_MAX } from "./finanzMax";
 
 const anzahl = (a: RohAnbieter, isins: string[]) => {
   const n = isins.filter((isin) => belegt(a, isin)).length;

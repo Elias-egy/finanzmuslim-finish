@@ -3,7 +3,7 @@
  * zahlen … und dann die zwei besten Bankkonten“; Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`).
  * Alles aus dem Girokonto-Vergleich gezählt, nichts von Hand; die Anbieter-Belege stehen dort im Feld quellen.
  */
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { werteAus } from "@/lib/vergleichAssistent";
 import type { CheckKarte } from "@/components/vorlagen/DepotAufruf";

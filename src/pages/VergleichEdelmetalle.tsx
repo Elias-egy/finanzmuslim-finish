@@ -14,7 +14,7 @@ import {
   edelmetallVergleich,
 } from "@/data/edelmetallVergleich";
 import { halalAnlagen } from "@/data/halalAnlagen";
-import { edelmetallAnzeige } from "@/data/vergleichAnzeige";
+import { edelmetallAnzeige } from "@/data/anzeige/edelmetall";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { rangfolge } from "@/lib/rangfolge";
 

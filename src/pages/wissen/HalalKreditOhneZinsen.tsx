@@ -8,7 +8,7 @@ import { kursStand } from "@/lib/kurse";
 import { PLATZ1, polster, zahlAus } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
 import { BBBANK_PRAEMIE, BONUS_KONTEN } from "@/data/girokontoBonus";
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { konsumzins } from "@/data/rechnerQuellen";
 import {
   AnbieterKasten,

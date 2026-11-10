@@ -1,4 +1,6 @@
-import { depotAnzeige, girokontoAnzeige, kryptoAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
+import { kryptoAnzeige } from "@/data/anzeige/krypto";
 import { empfehlbar } from "@/data/vergleichAssistent";
 
 export type LogoAnbieter = { name: string; domain?: string };

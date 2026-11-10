@@ -1,5 +1,5 @@
 import { DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "@/data/brokerVergleich";
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { kostenKurz } from "@/data/kostenKurz";
 import { meisteHalalVon, type RohAnbieter } from "@/data/vergleichHelfer";
 import { kreditKurz, kreditSache, zinsHinweis } from "@/data/zinsHinweise";

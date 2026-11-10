@@ -1,6 +1,6 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { juengsterStand } from "@/lib/juengsterStand";
 
 const VergleichGirokonto = () => (

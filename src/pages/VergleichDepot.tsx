@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { DEPOT_ZEILEN, DEPOT_FILTER, DEPOT_FINANZ_MAX, brokerVergleich } from "@/data/brokerVergleich";
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { DepotRatgeber } from "@/components/vergleich/DepotRatgeber";
 import { depotFragen } from "@/data/depotRatgeber";

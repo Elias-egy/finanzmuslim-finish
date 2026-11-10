@@ -4,7 +4,7 @@
  * `raw/2026-10-31-elias-mc7d13d-werbung-plan-kasten-anleitung.md`, Regel `memory/freebie-top3-statt-rot-guide-unten.md`).
  * Erst der Check mit zwei bekannten Depots, dann die drei besten. Alles aus dem Depot-Vergleich gezählt, nichts von Hand.
  */
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { werteAus } from "@/lib/vergleichAssistent";
 import { kostenKurz } from "@/data/kostenKurz";

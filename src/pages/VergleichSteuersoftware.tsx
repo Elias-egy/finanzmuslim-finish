@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { STEUER_ZEILEN, STEUER_FILTER } from "@/data/steuersoftwareVergleich";
-import { steuerAnzeige } from "@/data/vergleichAnzeige";
+import { steuerAnzeige } from "@/data/anzeige/steuer";
 import { zahlwort } from "@/data/anzahlen";
 
 /**
