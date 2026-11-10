@@ -388,6 +388,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -481,7 +494,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -781,6 +794,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -898,7 +924,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
@@ -972,6 +998,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "fidelity.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
           ]
         }
       },
@@ -1147,7 +1186,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "WillBe"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -2992,6 +3031,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Plus",
       "Bux Prime",
       "comdirect Pure Depot",
+      "finvesto Wertpapierdepot",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
       "N26",
@@ -3001,7 +3041,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -3456,6 +3496,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -3641,7 +3694,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -5216,6 +5269,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Bux Prime",
       "comdirect Pure Depot",
       "finanzen.net zero",
+      "finvesto Wertpapierdepot",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
       "N26",
@@ -5227,7 +5281,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "LU2458330086": {
     "kaufbar": [
@@ -5413,6 +5467,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
+        }
+      },
+      {
         "anbieter": "flatex",
         "haus": "flatex",
         "beleg": {
@@ -5553,7 +5620,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "10.11.2026"
   },
   "XS2115336336": {
     "kaufbar": [
@@ -5607,6 +5674,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "dkb.de"
           ],
           "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "finvesto Wertpapierdepot",
+        "haus": "Finvesto Wertpapierdepot",
+        "beleg": {
+          "url": "https://www.fnz.de/",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "finvesto.de",
+            "fnz.de"
+          ]
         }
       },
       {
@@ -5729,7 +5809,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [],
-    "stand": "08.11.2026"
+    "stand": "10.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [
