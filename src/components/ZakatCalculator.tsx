@@ -26,15 +26,16 @@ const NISAB_SILBER_GRAMM = 595;
 
 type Methode = "voll" | "anteil";
 
-/** Anteil des Unternehmenswerts, der bei langfristig gehaltenen Aktien als
- *  zakatpflichtig angesetzt wird. Verbreiteter Naeherungswert. */
-const ANTEIL_SATZ = 0.3;
+/** Anteil des Depotwerts, der bei langfristig gehaltenen (laufenden) Investments
+ *  zakatpflichtig angesetzt wird: ein Viertel, also 0,625 % vom Depotwert.
+ *  Elias, CV39P-16 und CV40P-02 (10.11.2026). Ausgezahltes zaehlt voll (2,5 %). */
+const ANTEIL_SATZ = 0.25;
 
 const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const prozent = (n: number) =>
-  n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 3 });
 
 const parseDeDatum = (s: string) => {
   const [tag, monat, jahr] = s.split(".").map(Number);
