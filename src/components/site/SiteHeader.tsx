@@ -5,7 +5,6 @@ import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
-import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
@@ -79,21 +78,22 @@ export const SiteHeader = () => {
           Einzige Änderung gegenüber früher: er klebt nicht mehr oben, sondern
           scrollt mit weg. Sonst frisst er auf dem Handy dauerhaft Platz. */}
       {aufStartseite && (
-        <Link
-          to="/halal-anlagen"
+        /* VS5-06: der Streifen wirbt für das Halal-Investment-OS, „Neu“ runder („oben in lila, auch werbung für dein halal investment“) */
+        <a
+          href="/os-entwurf/verkauf.html"
           className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
         >
-          <span className="badge-new-inverted shrink-0">Neu</span>
+          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
           {/* Am Handy eine Zeile, sonst schiebt der Streifen die zweite Reihe der Vergleiche
               aus dem ersten Bildschirm (Elias, 14.10.2026: "Am Handy einzeilig"). */}
           <span className="whitespace-nowrap sm:hidden">
-            <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
+            <span className="font-bold">Dein Halal-Investment-OS</span> →
           </span>
           <span className="hidden sm:inline">
-            <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
-            <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
+            <span className="font-bold">Dein Halal-Investment-OS:</span>{" "}
+            <span className="font-normal">kostenlos für jeden Muslim, der investiert →</span>
           </span>
-        </Link>
+        </a>
       )}
 
       <header

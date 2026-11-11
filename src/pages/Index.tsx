@@ -6,10 +6,12 @@ import {
   ChevronRight,
   Bitcoin,
   Coins,
+  FileText,
   Globe,
   LineChart,
   Percent,
   PiggyBank,
+  ScanSearch,
   Sparkles,
   Target,
   TrendingDown,
@@ -35,13 +37,15 @@ import rechnerRender from "@/assets/rechner.webp";
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
  *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). Am Handy steht Edelmetalle an dritter
  *  Stelle, damit Depot, Girokonto und Edelmetalle unter dem Foto zu sehen sind (Elias, 30.10.2026, FOTO1). */
-/* VS5-05 (Elias 11.11.2026): nur noch vier Vergleiche auf der Hauptseite, „Depot, Girokonto, Krypto, Edelmetalle.
-   Die vier hochziehen“; Halal-Aktien-Apps und Steuersoftware bleiben im Menü und auf /vergleiche. */
+/* VS5-06 (Elias 11.11.2026): am Laptop alle Vergleiche wie vorher, am Handy nur vier („Depot, Girokonto, Krypto,
+   Edelmetalle“) und darunter der Weg zu allen Vergleichen. */
 const categories = [
-  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "" },
-  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "" },
-  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "" },
-  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "" },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
+  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "max-md:order-3" },
+  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps", handy: "max-md:hidden" },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-4" },
+  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware", handy: "max-md:hidden" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */
@@ -286,7 +290,7 @@ const Index = () => {
             die Kacheln eingerueckt in die Platte, statt abgetrennt darunter zu stehen ("wie auf Laptop",
             Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
             Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto -mt-8 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-1 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-4 xl:w-full">
+        <div className="relative z-10 mx-auto -mt-8 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-1 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to, handy }) => (
             <Link
               key={label}
@@ -306,6 +310,13 @@ const Index = () => {
               />
             </Link>
           ))}
+          <Link
+            to="/vergleiche"
+            className="max-md:order-5 flex min-h-[48px] items-center justify-center gap-1 text-[16px] font-bold text-primary md:hidden"
+          >
+            Alle Vergleiche
+            <ArrowRight className="h-5 w-5" aria-hidden />
+          </Link>
         </div>
       </section>
 
