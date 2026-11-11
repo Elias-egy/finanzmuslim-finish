@@ -23,7 +23,7 @@ import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
-import OsWelt from "@/components/OsWelt";
+import OsWelt, { OS_GRUND } from "@/components/OsWelt";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
@@ -190,7 +190,10 @@ const Zeile = ({
 /** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen. */
 const aktuelleAusgabe = neuesteZuerst()[0];
 
-const Index = () => (
+const Index = () => {
+  // Zwei Fassungen des OS-Blocks zum Vergleich (VS5): dunkel ist der Standard, ?os=hell zeigt die helle.
+  const osHell = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("os") === "hell";
+  return (
   <>
     <Seo
       title="Halal investieren in Deutschland | finanzmuslim"
@@ -306,20 +309,29 @@ const Index = () => (
       </section>
 
       {/* 2 — Halal-Investment-OS, ersetzt den Guide (Elias 09.11.: "Das wird auch den Guide ersetzen auf der
-          Hauptseite"). VS4-02 (11.11.): eine dunkle Stelle auf der Seite; links das echte OS aus der App, das in
-          seiner Welt schwebt; rechts nur "Erstelle dein Halal-Investment-OS" in der Schrift wie Skilltree (dicke
-          Zeile, darunter kursive Serifenzeile, ZERLEGUNG.md Abschnitt 7), keine Unterzeile; Knopf "Jetzt holen".
-          Am Handy die Welt oben. Der Knopf fuehrt bis zum Einbau auf die Verkaufsseite der OS-Linie. */}
-      <section className="overflow-hidden rounded-lg bg-[#070B16]">
-        <div className="mx-auto grid max-w-[1280px] items-center lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
-          <OsWelt />
-          <div className="px-6 pb-10 pt-2 text-center lg:px-10 lg:py-16 lg:text-left">
-            <h2 className="os-titel text-white">
+          Hauptseite"). Links das echte OS aus der App, das in seiner Welt schwebt; rechts "Erstelle dein
+          Halal-Investment-OS" in der Schrift wie Skilltree, keine Unterzeile; blauer runder Knopf "Jetzt holen"
+          (VS4-02, VS5-02: "der blaue Runde. Der sah … richtig visuell gut aus").
+          VS5: keine Karte mehr, sondern ein Farbbruch ueber die ganze Breite (VS4-04 "eine ganze Seitenbreite",
+          VS5-02 "dass auch nach links und rechts, wenn du es dunkel machst, es dunkel ist, und bei hell einfach dass
+          es in der Webseite bleibt"). Am Laptop genau ein Bildschirm unter dem festen Kopf (68 px): steht der Block
+          oben am Kopf, schaut unten nichts vom naechsten Abschnitt heraus (VS4-04 "perfekter Umbruch").
+          Handy: Welt oben und groesser, ohne Bereichsnamen. Fassung hell zum Vergleich mit ?os=hell. */}
+      <section
+        className="relative ml-[calc(50%-50vw)] w-screen overflow-hidden lg:h-[calc(100svh-68px)] lg:min-h-[600px]"
+        style={{
+          background: osHell
+            ? OS_GRUND.hell
+            : `radial-gradient(circle, rgba(233,228,214,.07) .9px, transparent 1.3px) 0 0 / 20px 20px, ${OS_GRUND.dunkel}`,
+        }}
+      >
+        <div className="mx-auto grid h-full max-w-[1600px] items-center lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+          <OsWelt hell={osHell} className="h-[min(72svh,520px)] sm:h-[560px] lg:h-full" />
+          <div className="px-6 pb-12 pt-2 text-center lg:pb-0 lg:pl-4 lg:pr-[max(48px,calc((100vw-1200px)/2))] lg:pt-0 lg:text-left">
+            <h2 className={`os-titel ${osHell ? "text-foreground" : "text-white"}`}>
               Erstelle dein
               <span className="os-titel-serif whitespace-nowrap">Halal-Investment-OS</span>
             </h2>
-            {/* Blau statt schwarz (VS4-02: "diese schwarzen Knöpfe, das funktioniert alles nicht", "Die blauen
-                Knöpfe sind vielleicht schon besser"); die Form fuer die ganze Seite waehlt Elias in der Knopf-Probe. */}
             <a
               href="/os-entwurf/verkauf.html"
               className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-primary px-8 text-[17px] font-semibold text-white transition-colors hover:bg-[#1f6bff] max-sm:w-full lg:mt-10"
@@ -482,6 +494,7 @@ const Index = () => (
       </section>
     </div>
   </>
-);
+  );
+};
 
 export default Index;

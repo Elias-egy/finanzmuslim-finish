@@ -16,19 +16,32 @@ import { useEffect, useRef, useState } from "react";
 
 const QUELLE = "/os-entwurf/app/?demo=echt#portfolio";
 
-const SCHAUFENSTER_CSS = `
-  html, body { overflow: hidden !important; }
+/* Grundfarben der beiden Fassungen (VS5, Elias 11.11.: "nicht so als Karte …, sondern komplett, dass auch nach
+   links und rechts, wenn du es dunkel machst, es dunkel ist, und bei hell einfach dass es in der Webseite bleibt").
+   Die Welt im Rahmen ist durchsichtig; den Grund malt der Abschnitt selbst über die ganze Breite, darum gibt es
+   keine Kante zwischen Welt und Abschnitt. Dunkel ist weniger schwarz als VS4 (VS4-03: "vielleicht ein bisschen
+   zu schwarz"), ein Schieferblau nahe der dunklen OS-Welt (#20242D); hell ist reines Seitenweiß ohne Punktraster. */
+export const OS_GRUND = { dunkel: "#161B27", hell: "#FFFFFF" } as const;
+
+const schaufensterCss = (hell: boolean) => `
+  html, body { overflow: hidden !important; background: transparent !important; color-scheme: light !important; }
+  body * { visibility: hidden !important; }
+  .ka-welt.ka-voll, .ka-welt.ka-voll * { visibility: visible !important; }
   .ka-welt.ka-voll { position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
-    z-index: 2147483646 !important; background: var(--grund, #0B0C10) !important; touch-action: pan-y !important; }
+    z-index: 2147483646 !important; background: transparent !important; touch-action: pan-y !important;
+    --ka-grund: ${hell ? OS_GRUND.hell : OS_GRUND.dunkel} !important; }
   .ka-welt .ka-szene { cursor: default !important; touch-action: pan-y !important; }
   .ka-welt button { cursor: default !important; }
   .ka-unten, .ka-zurueck, .ka-nachbar, .ka-karte, .ka-mehr { display: none !important; }
   .sh-tour, .toast, .schleier { display: none !important; }
+  /* Handy (VS4-04): Bereichsnamen raus, damit die Welt groesser wird. Gesteuert ueber die Breite der Seite
+     (Klasse fm-schmal), nicht des Rahmens: der Rahmen ist am Handy breiter als der Bildschirm. */
+  .fm-schmal .ka-schilder, .fm-schmal .ka-schild { display: none !important; }
 `;
 
 type Fenster = Window & { eval: (code: string) => unknown };
 
-const OsWelt = () => {
+const OsWelt = ({ hell = false, className = "" }: { hell?: boolean; className?: string }) => {
   const huelle = useRef<HTMLDivElement>(null);
   const rahmen = useRef<HTMLIFrameElement>(null);
   const [laden, setLaden] = useState(false);
@@ -59,18 +72,31 @@ const OsWelt = () => {
       if (!win || !doc || !doc.querySelector(".ka-welt.ka-voll")) return false;
 
       const stil = doc.createElement("style");
-      stil.textContent = SCHAUFENSTER_CSS;
+      stil.textContent = schaufensterCss(hell);
       doc.head.appendChild(stil);
-      // Dunkel wie in der App (Elias: "Der Dark Mode sieht auf jeden Fall schon sehr gut aus").
-      doc.documentElement.dataset.theme = "dark";
+      // Dunkel wie in der App (Elias: "Der Dark Mode sieht auf jeden Fall schon sehr gut aus") oder hell (VS4-03).
+      doc.documentElement.dataset.theme = hell ? "light" : "dark";
+      // Ohne Namen braucht die Welt am Handy keinen Rand dafuer: sie wird um 45 % groesser eingestellt (VS4-04
+      // "Auf dem Handy sieht es noch zu klein aus"). Nach jeder Groessenaenderung stellt die App neu ein, darum hier wieder.
+      const schmal = () => {
+        const eng = window.innerWidth < 640;
+        doc.documentElement.classList.toggle("fm-schmal", eng);
+        if (eng) window.setTimeout(() => (win as unknown as { __fmSchau?: { gross: (f: number) => void } }).__fmSchau?.gross(1.45), 220);
+      };
+      schmal();
+      window.addEventListener("resize", schmal);
+      aufraeumen.push(() => window.removeEventListener("resize", schmal));
 
       // Zugriff auf die Welt der App, ohne ihre Dateien zu ändern.
       win.eval(`window.__fmSchau = {
         w: () => [...ka_welten].find((w) => w.el.isConnected && w.el.classList.contains("ka-voll")),
         hover: (id) => { const w = window.__fmSchau.w(); if (w && w.ansicht === "ring") ka_hoverSetzen(w, id); },
         dreh: (r) => { const w = window.__fmSchau.w(); if (w && w.ansicht === "ring" && !w.hover) ka_drehen(w, r); },
+        gross: (f) => { const w = window.__fmSchau.w(); if (w && w.cam && w.cam.s <= w.cam.fit * 1.01) ka_zoom(w, f); },
       };`);
-      const schau = (win as unknown as { __fmSchau: { hover: (id: string | null) => void; dreh: (r: number) => void } }).__fmSchau;
+      const schau = (win as unknown as {
+        __fmSchau: { hover: (id: string | null) => void; dreh: (r: number) => void; gross: (f: number) => void };
+      }).__fmSchau;
 
       // Alles außer Überfahren abfangen, bevor die App es sieht. Kein preventDefault: so scrollt die Seite weiter.
       const stopp = (e: Event) => {
@@ -134,16 +160,17 @@ const OsWelt = () => {
       io.disconnect();
       aufraeumen.forEach((a) => a());
     };
-  }, [laden]);
+  }, [laden, hell]);
 
   return (
-    <div ref={huelle} className="os-welt relative h-[380px] w-full overflow-hidden md:h-[520px] lg:h-[560px]">
+    <div ref={huelle} className={`os-welt relative w-full overflow-hidden ${className}`}>
       {laden && (
         <iframe
           ref={rahmen}
           src={QUELLE}
           title="Dein Halal-Investment-OS"
           tabIndex={-1}
+          style={{ colorScheme: "light", background: "transparent" }}
           className={`absolute inset-0 h-full w-full border-0 transition-opacity duration-700 ${bereit ? "opacity-100" : "opacity-0"}`}
         />
       )}
