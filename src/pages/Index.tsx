@@ -246,11 +246,13 @@ const Index = () => {
               Bildschirms. Ohne Gesicht wirkte die Platte "gefuehlslos" und
               leer (Elias, 14.10.2026 abends); die Vergleiche stehen jetzt am Ende des ersten Bildschirms
               und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
-          <div className="relative max-md:order-3 mt-3 min-h-[150px] flex-1 overflow-hidden md:hidden">
+          {/* VS7 (Elias VS5-06: „dieses elias el-gendy sieht komisch aus so abgehackt, das war nicht so“): das Foto läuft
+              wieder durch das Polster der Platte bis hinter die erste Kachel, statt über einem weißen Streifen hart zu enden. */}
+          <div className="relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden">
             <img
               src={eliasCutout}
               alt=""
-              className="absolute left-[29%] top-[-4%] h-[215%] w-auto max-w-none -translate-x-1/2"
+              className="absolute left-[29%] top-[-4%] h-[170%] w-auto max-w-none -translate-x-1/2"
               loading="eager"
             />
             {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
