@@ -23,7 +23,7 @@ import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
-import OsBaum from "@/components/OsBaum";
+import OsWelt from "@/components/OsWelt";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
@@ -305,25 +305,28 @@ const Index = () => (
         </div>
       </section>
 
-      {/* 2 — Halal-Investment-OS, ersetzt den Guide (Elias 09.11.: "Das wird auch den Guide ersetzen
-          auf der Hauptseite"; 11.11., VS4: Titel "Erstelle dein Halal Investment OS", Knopf "jetzt holen",
-          daneben das OS, das sich bewegt und nicht wie ein Bild aussieht). Links der Baum, rechts Text und
-          Knopf; am Handy der Baum oben. Der Knopf fuehrt bis zum Einbau auf die Verkaufsseite der OS-Linie. */}
-      <section className="section-card overflow-hidden">
-        <div className="section-inner grid items-center gap-4 lg:grid-cols-[1fr_440px] lg:gap-16">
-          <OsBaum />
-          <div>
-            <p className="eyebrow">Kostenlos</p>
-            <h2 className="section-title mt-2">
-              Erstelle dein <span className="whitespace-nowrap">Halal-Investment-OS</span>
+      {/* 2 — Halal-Investment-OS, ersetzt den Guide (Elias 09.11.: "Das wird auch den Guide ersetzen auf der
+          Hauptseite"). VS4-02 (11.11.): eine dunkle Stelle auf der Seite; links das echte OS aus der App, das in
+          seiner Welt schwebt; rechts nur "Erstelle dein Halal-Investment-OS" in der Schrift wie Skilltree (dicke
+          Zeile, darunter kursive Serifenzeile, ZERLEGUNG.md Abschnitt 7), keine Unterzeile; Knopf "Jetzt holen".
+          Am Handy die Welt oben. Der Knopf fuehrt bis zum Einbau auf die Verkaufsseite der OS-Linie. */}
+      <section className="overflow-hidden rounded-lg bg-[#070B16]">
+        <div className="mx-auto grid max-w-[1280px] items-center lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+          <OsWelt />
+          <div className="px-6 pb-10 pt-2 text-center lg:px-10 lg:py-16 lg:text-left">
+            <h2 className="os-titel text-white">
+              Erstelle dein
+              <span className="os-titel-serif whitespace-nowrap">Halal-Investment-OS</span>
             </h2>
-            <p className="section-text mt-3 max-w-[640px]">
-              Sieh dein ganzes Halal-Portfolio an einem Ort: jede Aktie, jedes Depot, deine Zakat.
-            </p>
-            <Aufruf to="/os-entwurf/verkauf.html" nativ className="block sm:inline-block mt-6 lg:mt-8">
+            {/* Blau statt schwarz (VS4-02: "diese schwarzen Knöpfe, das funktioniert alles nicht", "Die blauen
+                Knöpfe sind vielleicht schon besser"); die Form fuer die ganze Seite waehlt Elias in der Knopf-Probe. */}
+            <a
+              href="/os-entwurf/verkauf.html"
+              className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-primary px-8 text-[17px] font-semibold text-white transition-colors hover:bg-[#1f6bff] max-sm:w-full lg:mt-10"
+            >
               Jetzt holen
               <ArrowRight className="h-5 w-5" aria-hidden />
-            </Aufruf>
+            </a>
           </div>
         </div>
       </section>
