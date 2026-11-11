@@ -374,6 +374,11 @@
   .badge-new {
     @apply pointer-events-none inline-flex select-none items-center rounded bg-violet px-2 py-0.5 text-[12px] font-bold uppercase tracking-wide text-violet-foreground;
   }
+  /* Etikett in den Beitragskarten der Startseite: blau und rund statt lila (VS5-05: „Beliebt, dieses lila gefällt mir
+     auch noch nicht“). */
+  .etikett-rund {
+    @apply pointer-events-none inline-flex select-none items-center rounded-full bg-primary px-2.5 py-0.5 text-[12px] font-semibold text-white;
+  }
   /* Invertierte Variante fuer den violetten Hinweisstreifen. */
   .badge-new-inverted {
     @apply pointer-events-none inline-flex select-none items-center rounded bg-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet;

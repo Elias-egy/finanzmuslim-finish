@@ -37,6 +37,11 @@ const schaufensterCss = (hell: boolean) => `
   /* Handy (VS4-04): Bereichsnamen raus, damit die Welt groesser wird. Gesteuert ueber die Breite der Seite
      (Klasse fm-schmal), nicht des Rahmens: der Rahmen ist am Handy breiter als der Bildschirm. */
   .fm-schmal .ka-schilder, .fm-schmal .ka-schild { display: none !important; }
+  /* Scrollen geht ueberall durch (VS5-05: „das Scrollen soll überall möglich sein … wenn ich auf der linken Seite
+     vom Halal-Investment-OS bin, kann ich gar nicht scrollen“). Die App sperrt in ihrer Welt das Weiterreichen an die
+     Seite (overscroll-behavior none, touch-action none); hier gibt die Welt Mausrad und Wischen an die Startseite ab. */
+  html, body, .pf-welt, .pf-welt *, .ka-welt, .ka-welt * { overscroll-behavior: auto !important; }
+  .pf-welt, .pf-welt *, .ka-welt, .ka-welt * { touch-action: pan-y !important; }
 `;
 
 type Fenster = Window & { eval: (code: string) => unknown };
@@ -64,12 +69,29 @@ const OsWelt = ({ hell = false, className = "" }: { hell?: boolean; className?: 
     let dreher = 0;
     let darauf = false;
     let sichtbar = true;
+    let weltVersuch = 0;
     const aufraeumen: Array<() => void> = [];
 
     const einrichten = () => {
       const win = f.contentWindow as Fenster | null;
       const doc = f.contentDocument;
-      if (!win || !doc || !doc.querySelector(".ka-welt.ka-voll")) return false;
+      if (!win || !doc) return false;
+      if (!doc.querySelector(".ka-welt.ka-voll")) {
+        // Das OS oeffnet das Portfolio seit CV44P in der Hauptansicht, die Welt ist dort ein Knopf (pfWeltAuf). Der Block
+        // zeigt immer die Welt im Vollbild.
+        // Beim Start setzt die App ihre Ansicht noch selbst; darum alle gut eine Sekunde erneut, bis die Welt steht.
+        if (Date.now() - weltVersuch > 1200) {
+          weltVersuch = Date.now();
+          try {
+            win.eval(
+              "typeof pfWeltAuf === 'function' ? pfWeltAuf() : typeof pfVollbildAn === 'function' && pfVollbildAn()",
+            );
+          } catch {
+            /* App noch nicht bereit, beim naechsten Versuch wieder */
+          }
+        }
+        return false;
+      }
 
       const stil = doc.createElement("style");
       stil.textContent = schaufensterCss(hell);
@@ -153,6 +175,12 @@ const OsWelt = ({ hell = false, className = "" }: { hell?: boolean; className?: 
       }, 150);
     };
     f.addEventListener("load", beiLaden);
+    // Ist der Rahmen schon geladen, bevor dieser Teil läuft (schneller Zwischenspeicher), kommt kein load mehr: gleich einrichten.
+    try {
+      if (f.contentDocument?.readyState === "complete" && f.contentWindow?.location.href !== "about:blank") beiLaden();
+    } catch {
+      /* fremder Ursprung: nichts zu tun */
+    }
     return () => {
       f.removeEventListener("load", beiLaden);
       window.clearInterval(suche);

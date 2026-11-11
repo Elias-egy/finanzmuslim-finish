@@ -6,12 +6,10 @@ import {
   ChevronRight,
   Bitcoin,
   Coins,
-  FileText,
   Globe,
   LineChart,
   Percent,
   PiggyBank,
-  ScanSearch,
   Sparkles,
   Target,
   TrendingDown,
@@ -37,13 +35,13 @@ import rechnerRender from "@/assets/rechner.webp";
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
  *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). Am Handy steht Edelmetalle an dritter
  *  Stelle, damit Depot, Girokonto und Edelmetalle unter dem Foto zu sehen sind (Elias, 30.10.2026, FOTO1). */
+/* VS5-05 (Elias 11.11.2026): nur noch vier Vergleiche auf der Hauptseite, „Depot, Girokonto, Krypto, Edelmetalle.
+   Die vier hochziehen“; Halal-Aktien-Apps und Steuersoftware bleiben im Menü und auf /vergleiche. */
 const categories = [
-  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
-  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
-  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "max-md:order-4" },
-  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps", handy: "max-md:order-5" },
-  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-3" },
-  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware", handy: "max-md:order-6" },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "" },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "" },
+  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "" },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */
@@ -222,8 +220,8 @@ const Index = () => {
           dir passt unter mir", Elias, 14.10.2026, V13 Fassung B). Die Platte ist 226px kuerzer als das Fenster,
           hoechstens 570px: das Foto bleibt, ist kleiner, und Depot und Girokonto stehen ganz im ersten Schirm
           (Elias, 30.10.2026, FOTO1: "mindestens Depot, Girokonto ... noch halbwegs sehen"); die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
-      <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-190px)]">
-        <div className="relative flex min-h-[min(calc(100svh-226px),570px)] flex-1 flex-col overflow-hidden bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+      <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-154px)]">
+        <div className="relative flex min-h-[min(calc(100svh-300px),500px)] flex-1 flex-col overflow-hidden bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
               <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -235,12 +233,8 @@ const Index = () => {
                 {/* Am Handy sagt der Knopf direkt darunter dasselbe. */}
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
-              <div className="max-md:order-4 mt-4 md:mt-6 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10 lg:flex-col lg:items-start xl:flex-row xl:items-center">
-                <Aufruf to="/vergleich/start" gross className="block whitespace-nowrap sm:inline-block">
-                  Finde, was zu dir passt
-                  <ArrowRight className="h-5 w-5" aria-hidden />
-                </Aufruf>
-              </div>
+              {/* Kein Knopf mehr im ersten Schirm (VS5-05: „Finde, was zu dir passt komplett raus … das zählt zu viele
+                  Konkurrenzprioritäten“); die vier Vergleiche darunter rücken dafür hoch. */}
             </div>
           </div>
 
@@ -292,7 +286,7 @@ const Index = () => {
             die Kacheln eingerueckt in die Platte, statt abgetrennt darunter zu stehen ("wie auf Laptop",
             Elias, 14.10.2026); die Platte traegt dafuer unten den Ueberstand als Polster.
             Ab lg Zeilenkacheln; auf dem Desktop ueberlappen sie die Platte um 60px. */}
-        <div className="relative z-10 mx-auto -mt-8 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-1 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-3 xl:w-full">
+        <div className="relative z-10 mx-auto -mt-8 grid w-[calc(100%-32px)] max-w-[1200px] auto-rows-fr grid-cols-1 gap-2 md:-mt-14 md:w-[calc(100%-48px)] md:grid-cols-2 md:gap-3 lg:-mt-[60px] lg:grid-cols-4 xl:w-full">
           {categories.filter((c) => c.to).map(({ label, icon: Icon, to, handy }) => (
             <Link
               key={label}
@@ -326,14 +320,17 @@ const Index = () => {
           Handy: Welt oben und groesser, ohne Bereichsnamen. Fassung hell zum Vergleich mit ?os=hell. */}
       <section
         id="os"
-        className="relative ml-[calc(50%-50vw)] w-screen scroll-mt-[60px] overflow-hidden md:scroll-mt-[68px] lg:h-[calc(100svh-68px)] lg:min-h-[600px]"
+        className="relative ml-[calc(50%-50vw)] w-screen scroll-mt-[60px] overflow-hidden !mt-10 md:scroll-mt-[68px] lg:!mt-14 lg:h-[100svh] lg:min-h-[640px]"
         style={{
           background: osHell
             ? OS_GRUND.hell
             : `radial-gradient(circle, rgba(233,228,214,.07) .9px, transparent 1.3px) 0 0 / 20px 20px, ${OS_GRUND.dunkel}`,
         }}
       >
-        <div className="mx-auto grid h-full max-w-[1600px] items-center lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        {/* Am Laptop ist der Abschnitt einen ganzen Bildschirm hoch (VS5-05: „nicht mal ein ganzer schwarzer Vollbildschirm“),
+            Welt und Titel stehen aber im sichtbaren Teil unter dem Kopf: so kommt das OS nach wenig schwarzem Himmel
+            („das OS muss minimal früher kommen, ohne dass es an den Rand kratzt“); unten bleibt etwas Schwarz. */}
+        <div className="mx-auto grid h-full max-w-[1600px] items-center lg:h-[calc(100%-68px)] lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
           <OsWelt hell={osHell} className="h-[min(72svh,520px)] sm:h-[560px] lg:h-full" />
           <div className="px-6 pb-12 pt-2 text-center lg:pb-0 lg:pl-4 lg:pr-[max(48px,calc((100vw-1200px)/2))] lg:pt-0 lg:text-left">
             <h2 className={`os-titel ${osHell ? "text-foreground" : "text-white"}`}>
@@ -460,7 +457,7 @@ const Index = () => {
           </div>
 
           <div className="mt-6 flex justify-center lg:mt-8">
-            <Aufruf to="/blog" className="block sm:inline-block">
+            <Aufruf to="/blog" art="zweit" className="block sm:inline-block">
               Alle Beiträge
             </Aufruf>
           </div>

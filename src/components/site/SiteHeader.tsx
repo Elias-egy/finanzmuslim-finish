@@ -142,8 +142,8 @@ export const SiteHeader = () => {
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
             {beitragsKopf ? (
-              <Link to={kopfZiel.ziel} className="leuchtlinie leuchtlinie-hell inline-block">
-                <span className="flex h-11 items-center whitespace-nowrap bg-white px-2.5 font-mono text-[12px] uppercase tracking-[0.02em] text-foreground min-[390px]:px-3 min-[390px]:tracking-[0.1em] min-[900px]:px-4">
+              <Link to={kopfZiel.ziel} className="inline-block rounded-full">
+                <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-3.5 text-[14px] font-semibold text-primary min-[900px]:px-5 min-[900px]:text-[15px]">
                   {!kopfZiel.ohneZum && <span className="hidden min-[420px]:inline">Zum&nbsp;</span>}
                   {kopfZiel.text}
                 </span>
@@ -158,12 +158,15 @@ export const SiteHeader = () => {
                 >
                   <Search className="h-[22px] w-[22px]" aria-hidden />
                 </button>
-                {/* Derselbe Knopf wie im Blog-Kopf (SEO80, Prüfer F9: auf allen Seiten einer). */}
-                <Link to="/vergleich/start" className="leuchtlinie leuchtlinie-hell hidden min-[900px]:inline-block">
-                  <span className="flex h-11 items-center whitespace-nowrap bg-white px-2.5 font-mono text-[12px] uppercase tracking-[0.02em] text-foreground lg:px-4 lg:tracking-[0.1em]">
-                    Dein Geld halal vermehren
+                {/* Oben rechts nur am Laptop: weiß und rund wie „Zugang anfragen“ im Kopf der Verkaufsseite, führt zum
+                    Halal-Investment-OS (VS5-05: „nur in der Laptop-Ansicht oben rechts Halal-Investment-OS“; „die Knöpfe bei
+                    dem Tab … mit Zugriff anfragen rechts in rund. Das gefällt mir deutlich besser“). Vorher „Dein Geld halal
+                    vermehren“ zum geführten Vergleich. */}
+                <a href="/os-entwurf/verkauf.html" className="hidden rounded-full min-[900px]:inline-block">
+                  <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
+                    Halal-Investment-OS
                   </span>
-                </Link>
+                </a>
               </>
             )}
             <button
@@ -261,13 +264,13 @@ export const SiteHeader = () => {
                 </div>
               ))}
 
-              <Link
-                to="/vergleich/start"
+              <a
+                href="/os-entwurf/verkauf.html"
                 onClick={() => setMobileOpen(false)}
-                className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
+                className="mt-4 mb-6 flex min-h-[48px] items-center justify-center rounded-full bg-primary px-5 text-[16px] font-semibold text-primary-foreground"
               >
-                Dein Geld halal vermehren
-              </Link>
+                Dein Halal-Investment-OS
+              </a>
             </div>
           </div>
         </div>
