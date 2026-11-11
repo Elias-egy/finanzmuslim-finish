@@ -14,13 +14,16 @@ const Aufruf = ({
   children,
   className,
   gross = false,
+  nativ = false,
 }: {
   to: string;
   children: ReactNode;
   className?: string;
   gross?: boolean;
-}) => (
-  <Link to={to} className={cn("leuchtlinie inline-block", className)}>
+  /** Ziel liegt außerhalb der React-Seiten (z. B. der OS-Entwurf unter /os-entwurf): normaler Link. */
+  nativ?: boolean;
+}) => {
+  const innen = (
     <span
       className={cn(
         "flex min-h-[44px] items-center justify-center gap-2 bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background",
@@ -29,7 +32,16 @@ const Aufruf = ({
     >
       {children}
     </span>
-  </Link>
-);
+  );
+  return nativ ? (
+    <a href={to} className={cn("leuchtlinie inline-block", className)}>
+      {innen}
+    </a>
+  ) : (
+    <Link to={to} className={cn("leuchtlinie inline-block", className)}>
+      {innen}
+    </Link>
+  );
+};
 
 export default Aufruf;

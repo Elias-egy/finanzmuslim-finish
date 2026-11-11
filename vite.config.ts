@@ -11,6 +11,15 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    // Nur Entwicklung (VS4, 11.11.2026): Verkaufsseite und OS-Entwurf der OS-Linie liegen im Vault
+    // und laufen auf 127.0.0.1:5331. So sind sie auch unter diesem einen Localhost erreichbar
+    // (/os-entwurf/verkauf.html, /os-entwurf/app/). Beim Einbau ersetzt eine echte Seite den Umweg.
+    proxy: {
+      "/os-entwurf": {
+        target: "http://127.0.0.1:5331",
+        rewrite: (pfad: string) => pfad.replace(/^\/os-entwurf/, ""),
+      },
+    },
   },
   // Bauzeit für die Ausgaben der Halal-News (src/data/newsletterAusgaben.ts, sichtbarAb).
   define: { __BAUZEIT__: JSON.stringify(process.env.BAUZEIT || new Date().toISOString()) },

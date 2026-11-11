@@ -283,6 +283,20 @@
   .section-inner {
     @apply mx-auto w-full max-w-[1200px];
   }
+  /* Schwebende Teile des OS-Baums auf der Startseite (VS4): kleine weisse Karten, die fuer sich treiben. */
+  .os-teil {
+    @apply pointer-events-none absolute flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-[12px] font-semibold text-foreground md:text-[13px];
+    box-shadow: 0 6px 20px -8px rgb(17 24 39 / 0.18);
+    animation: os-schweben 6.5s ease-in-out infinite;
+  }
+  @keyframes os-schweben {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    35% { transform: translate3d(4px, -9px, 0); }
+    70% { transform: translate3d(-3px, 5px, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .os-teil { animation: none; }
+  }
   /* Kleine Themenzeile ueber einer Abschnittsueberschrift. */
   .eyebrow {
     @apply text-[13px] font-semibold uppercase tracking-[0.12em] text-primary;

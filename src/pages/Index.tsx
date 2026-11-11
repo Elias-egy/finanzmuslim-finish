@@ -23,13 +23,13 @@ import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
+import OsBaum from "@/components/OsBaum";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
 import rechnerRender from "@/assets/rechner.webp";
 
@@ -305,28 +305,24 @@ const Index = () => (
         </div>
       </section>
 
-      {/* 2 — Guide */}
-      <section className="section-card">
-        <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
-          <img
-            src={guideCover}
-            alt="Der Halal Investment Guide als Buch"
-            className="mx-auto max-h-[220px] w-auto object-contain lg:max-h-none lg:w-[380px]"
-            loading="lazy"
-          />
+      {/* 2 — Halal-Investment-OS, ersetzt den Guide (Elias 09.11.: "Das wird auch den Guide ersetzen
+          auf der Hauptseite"; 11.11., VS4: Titel "Erstelle dein Halal Investment OS", Knopf "jetzt holen",
+          daneben das OS, das sich bewegt und nicht wie ein Bild aussieht). Links der Baum, rechts Text und
+          Knopf; am Handy der Baum oben. Der Knopf fuehrt bis zum Einbau auf die Verkaufsseite der OS-Linie. */}
+      <section className="section-card overflow-hidden">
+        <div className="section-inner grid items-center gap-4 lg:grid-cols-[1fr_440px] lg:gap-16">
+          <OsBaum />
           <div>
-            <p className="eyebrow">Guide</p>
-            <h2 className="section-title mt-2">Der Halal Investment Guide</h2>
+            <p className="eyebrow">Kostenlos</p>
+            <h2 className="section-title mt-2">
+              Erstelle dein <span className="whitespace-nowrap">Halal-Investment-OS</span>
+            </h2>
             <p className="section-text mt-3 max-w-[640px]">
-              Der Guide erklärt dir die Grundprinzipien islamkonformer Geldanlage und welche
-              Anlageklassen infrage kommen.
-              <span className="hidden md:inline">
-                {" "}
-                Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
-              </span>
+              Sieh dein ganzes Halal-Portfolio an einem Ort: jede Aktie, jedes Depot, deine Zakat.
             </p>
-            <Aufruf to="/halal-guide" className="block sm:inline-block mt-6 lg:mt-8">
-              Guide kostenlos sichern
+            <Aufruf to="/os-entwurf/verkauf.html" nativ className="block sm:inline-block mt-6 lg:mt-8">
+              Jetzt holen
+              <ArrowRight className="h-5 w-5" aria-hidden />
             </Aufruf>
           </div>
         </div>
