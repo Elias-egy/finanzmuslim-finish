@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -193,6 +194,12 @@ const aktuelleAusgabe = neuesteZuerst()[0];
 const Index = () => {
   // Zwei Fassungen des OS-Blocks zum Vergleich (VS5): dunkel ist der Standard, ?os=hell zeigt die helle.
   const osHell = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("os") === "hell";
+  // Mit /#os direkt am OS-Block oeffnen (zum Zeigen an der Stelle); die Seite setzt sich beim Laden sonst nach oben.
+  useEffect(() => {
+    if (window.location.hash !== "#os") return;
+    const t = window.setTimeout(() => document.getElementById("os")?.scrollIntoView({ block: "start" }), 400);
+    return () => window.clearTimeout(t);
+  }, []);
   return (
   <>
     <Seo
@@ -318,7 +325,8 @@ const Index = () => {
           oben am Kopf, schaut unten nichts vom naechsten Abschnitt heraus (VS4-04 "perfekter Umbruch").
           Handy: Welt oben und groesser, ohne Bereichsnamen. Fassung hell zum Vergleich mit ?os=hell. */}
       <section
-        className="relative ml-[calc(50%-50vw)] w-screen overflow-hidden lg:h-[calc(100svh-68px)] lg:min-h-[600px]"
+        id="os"
+        className="relative ml-[calc(50%-50vw)] w-screen scroll-mt-[60px] overflow-hidden md:scroll-mt-[68px] lg:h-[calc(100svh-68px)] lg:min-h-[600px]"
         style={{
           background: osHell
             ? OS_GRUND.hell
