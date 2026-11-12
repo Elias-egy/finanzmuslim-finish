@@ -856,3 +856,22 @@ export const PRUEFSTAND = "01.11.2026";
 
 /** Klickzählung der vollen Fassung (MC7d14): ak plus Stelle, Kennungen in `src/lib/attribution.ts`. */
 export const aktieLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${ziel}?src=ak${stelle}`;
+
+/**
+ * Die 15 großen Namen, die das Freebie seit AF1 (12.11.2026) zuerst zeigt, gerahmt, danach der Depot-Aufruf und die
+ * übrigen 85 (Elias wortgleich, Vault `raw/2026-11-12-elias-af1-01-aktien-freebie-logos-wochenkurs-top15-cta.md`: „mach
+ * die ersten 15 sind große Namen, die komplett eingebrochen sind, die halal sind aus der Liste“). Ausgewählt nach Abstand
+ * zum Jahreshoch am 12.11.2026 (`top100Kurse.ts`) und Bekanntheit, mit den Chip-Firmen, die Elias nennt. Ohne die Titel
+ * mit starkem Boykott-Befund im Investment-OS (Nvidia, Intel, Cisco, ExxonMobil) und ohne Tesla: Regelbuch
+ * freebies-und-guides.md, Nie „Keine Highlights in der Aktien-Liste … weil ein Name wie Tesla Boykott-Streit auslöst“.
+ * Die Seite sortiert die 15 bei jedem Kurs-Lauf neu nach dem tiefsten Fall.
+ */
+export const TOP_GEFALLEN = [
+  "LULU", "RBLX", "MRVL", "LRCX", "AMAT", "EL", "IFX", "NKE", "MU", "NOVO B", "ADBE", "QCOM", "AVGO", "BEI", "ASML",
+] as const;
+
+/** Logos mit weißem Zeichen auf durchsichtigem Grund (im Browser gemessen, 12.11.2026): sie stehen auf dunkler Kachel. */
+export const LOGO_DUNKEL = new Set(["RBLX", "MRVL", "NKE", "ADSK", "BSX", "VRTX", "ALC", "WSM", "ANET"]);
+
+/** Logo je Ticker, dieselben Bilder wie im Investment-OS (`logos/aktien`), auf 96 px verkleinert. */
+export const aktienLogo = (ticker: string) => `/logos/aktien/${ticker.replace(/[^A-Za-z0-9]+/g, "-")}.png`;
