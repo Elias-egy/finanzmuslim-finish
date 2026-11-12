@@ -61,6 +61,8 @@ export const BROKER_START: Record<string, BrokerStart> = {
     // unterschreiben; „Wir schicken Deinen Antrag an die abgebende Bank.“ Verlinkt von tradersplace.de/service/depotuebertrag,
     // dort: „Für die Einbuchung deiner Wertpapiere berechnen wir keine Kosten“.
     wechselUrl: "https://tradersplace.depotwechselservice24.de/",
+    // Elias' Einrichtung vom 08.11.2026 mit OS-Ende vom 12.11., geschnitten in ~/rebrand/cv22f-videos/schnitt (plan_tp.json, plan_os.json, CV27V).
+    video: { src: "/videos/einrichtung-traders-place.mp4", poster: "/videos/einrichtung-traders-place-poster.jpg" },
   },
   flatex: {
     vergleichId: "flatex-depot",
@@ -86,6 +88,8 @@ export const BROKER_START: Record<string, BrokerStart> = {
     // Kostenhinweis (ohne Vorgabe zur Größe). Elias 08.11.2026: keine grauen Kleinzeilen oben, darum in der Fußnote.
     pflicht: "Investieren birgt Verlustrisiken.",
     kostenHinweis: "ETF-Sparplan bei flatex zzgl. marktüblicher Spreads, Zuwendungen, Produktkosten.",
+    // Elias' Einrichtung vom 08.11.2026 mit OS-Ende vom 12.11., geschnitten in ~/rebrand/cv22f-videos/schnitt (plan_fl.json, plan_os.json, CV27V).
+    video: { src: "/videos/einrichtung-flatex.mp4", poster: "/videos/einrichtung-flatex-poster.jpg" },
   },
   smartbroker: {
     vergleichId: "smartbroker-plus-depot",
@@ -100,6 +104,8 @@ export const BROKER_START: Record<string, BrokerStart> = {
     // Direkt ins Online-Formular wie bei Traders Place. „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“
     // (smartbrokerplus.de/de-de/depotuebertrag).
     wechselUrl: "https://smartbrokerplus.depotwechselservice24.de/",
+    // Elias' Einrichtung vom 08.11.2026 mit OS-Ende vom 12.11., geschnitten in ~/rebrand/cv22f-videos/schnitt (plan_sb.json, plan_os.json, CV27V).
+    video: { src: "/videos/einrichtung-smartbroker.mp4", poster: "/videos/einrichtung-smartbroker-poster.jpg" },
   },
 };
 
