@@ -80,7 +80,7 @@ export const SiteHeader = () => {
       {aufStartseite && (
         /* VS5-06: der Streifen wirbt für das Halal-Investment-OS, „Neu“ runder („oben in lila, auch werbung für dein halal investment“) */
         <a
-          href="/os-entwurf/verkauf.html"
+          href="/investment-os/"
           className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
         >
           <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
@@ -162,7 +162,7 @@ export const SiteHeader = () => {
                     Halal-Investment-OS (VS5-05: „nur in der Laptop-Ansicht oben rechts Halal-Investment-OS“; „die Knöpfe bei
                     dem Tab … mit Zugriff anfragen rechts in rund. Das gefällt mir deutlich besser“). Vorher „Dein Geld halal
                     vermehren“ zum geführten Vergleich. */}
-                <a href="/os-entwurf/verkauf.html" className="hidden rounded-full min-[900px]:inline-block">
+                <a href="/investment-os/" className="hidden rounded-full min-[900px]:inline-block">
                   <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
                     Halal-Investment-OS
                   </span>
@@ -265,7 +265,7 @@ export const SiteHeader = () => {
               ))}
 
               <a
-                href="/os-entwurf/verkauf.html"
+                href="/investment-os/"
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[48px] items-center justify-center rounded-full bg-primary px-5 text-[16px] font-semibold text-primary-foreground"
               >

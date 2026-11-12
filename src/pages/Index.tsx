@@ -351,7 +351,7 @@ const Index = () => {
               <span className="os-titel-serif whitespace-nowrap">Halal-Investment-OS</span>
             </h2>
             <a
-              href="/os-entwurf/verkauf.html"
+              href="/investment-os/"
               className="mt-8 inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-primary px-8 text-[17px] font-semibold text-white transition-colors hover:bg-[#1f6bff] max-sm:w-full lg:mt-10"
             >
               Jetzt holen
