@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { messungAktiv, oeffneBanner } from "@/lib/messung";
 import { Wordmark } from "@/components/Wordmark";
-import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
+import { FacebookLogo, InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import type { NavEntry } from "@/components/site/navData";
 
 
@@ -70,6 +70,8 @@ const kanaele = [
   { name: "Instagram", href: "https://instagram.com/finanz.muslim", Logo: InstagramLogo },
   { name: "TikTok", href: "https://tiktok.com/@finanz.muslim", Logo: TikTokLogo },
   { name: "YouTube", href: "https://youtube.com/@finanz.muslim", Logo: YouTubeLogo },
+  // Seite „Finanz Muslim“, dieselbe Adresse wie der Folgen-Knopf in den Facebook-Abläufen von ManyChat (MC11, 03.11.2026)
+  { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61590041086013", Logo: FacebookLogo },
 ];
 
 export const SiteFooter = () => (

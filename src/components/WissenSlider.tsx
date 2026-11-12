@@ -76,8 +76,8 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
               {/* Kachel wie frontal.so/blog statt Motivbild (Elias SEO47) */}
               <div className="relative w-full p-4 pb-0">
                 <BlogKachel thema={k.thema ?? "Blog"} />
-                {k.beliebt && <span className="etikett-rund absolute right-7 top-7 z-10">Beliebt</span>}
-                {!k.beliebt && k.neu && (
+                {/* RN1 (12.11.): Etikett „Beliebt“ raus (Elias: „dieses beliebt kann raus“), „Neu“ bleibt */}
+                {k.neu && (
                   <span className="etikett-rund absolute right-7 top-7 z-10">Neu</span>
                 )}
               </div>
@@ -102,9 +102,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
             <Link
               key={k.titel}
               to={k.to}
-              className={`group ${basis} transition-colors hover:border-primary ${
-                k.beliebt ? "hover:border-foreground" : ""
-              }`}
+              className={`group ${basis} transition-colors hover:border-primary`}
             >
               {inhalt}
             </Link>

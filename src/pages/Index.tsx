@@ -344,7 +344,7 @@ const Index = () => {
             Welt und Titel stehen aber im sichtbaren Teil unter dem Kopf: so kommt das OS nach wenig schwarzem Himmel
             („das OS muss minimal früher kommen, ohne dass es an den Rand kratzt“); unten bleibt etwas Schwarz. */}
         <div className="mx-auto grid h-full max-w-[1600px] items-center lg:h-[calc(100%-68px)] lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-          <OsWelt hell={osHell} className="h-[min(72svh,520px)] sm:h-[560px] lg:h-full" />
+          <OsWelt hell={osHell} className="h-[min(72svh,520px)] sm:h-[560px] lg:h-full lg:translate-y-[6vh]" />
           <div className="px-6 pb-12 pt-2 text-center lg:pb-0 lg:pl-4 lg:pr-[max(48px,calc((100vw-1200px)/2))] lg:pt-0 lg:text-left">
             <h2 className={`os-titel ${osHell ? "text-foreground" : "text-white"}`}>
               Erstelle dein

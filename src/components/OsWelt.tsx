@@ -14,7 +14,17 @@ import { useEffect, useRef, useState } from "react";
  * Beim Einbau ersetzt eine eigene Fassung der Welt diesen Umweg (die App gehört der OS-Linie).
  */
 
-const QUELLE = "/os-entwurf/app/?demo=echt#portfolio";
+/* RN1 (12.11.): eigener Speicher „startseite“ (store.js ?speicher=), damit der Besuch der Startseite nichts in das echte OS
+   des Lesers schreibt, und das Test-Depot dort zeigt alle Bereiche gefüllt. Elias: „Zu Cook [Sukuk] hinzufügen, macht keinen
+   Sinn … mache schon mal Gold, Silber, Einzelaktien, Islamic ETFs und zu Cook kann auch schon die 3 hinzufügen“
+   (raw/2026-11-12-elias-rn1-04-dark-mode-ueberall-girokonto-norisbank-os-block.md). */
+const QUELLE = "/os-entwurf/app/?demo=echt&speicher=startseite#portfolio";
+const SCHAUFENSTER_DAZU = [
+  ["anlage", "invesco-physical-silver"],
+  ["anlage", "ishares-usd-sukuk-ucits-etf"],
+  ["anlage", "xtrackers-ii-salam-usd-global-aggregate-sukuk"],
+  ["anlage", "bnp-paribas-islamic-fund-hilal-income-classic-c"],
+];
 
 /* Grundfarben der beiden Fassungen (VS5, Elias 11.11.: "nicht so als Karte …, sondern komplett, dass auch nach
    links und rechts, wenn du es dunkel machst, es dunkel ist, und bei hell einfach dass es in der Webseite bleibt").
@@ -83,6 +93,15 @@ const OsWelt = ({ hell = false, className = "" }: { hell?: boolean; className?: 
         if (Date.now() - weltVersuch > 1200) {
           weltVersuch = Date.now();
           try {
+            // Fehlende Bereiche ins Test-Depot dieses Speichers legen, bevor die Welt aufgeht (nur Daten, die App bleibt unverändert).
+            win.eval(`(() => {
+              if (typeof ST === "undefined" || typeof neueId !== "function" || typeof speichern !== "function") return;
+              const pf = ST.portfolios.find((p) => p.demo);
+              if (!pf) return;
+              const dazu = ${JSON.stringify(SCHAUFENSTER_DAZU)}.filter(([, key]) => !pf.positionen.some((p) => p.key === key));
+              dazu.forEach(([typ, key]) => pf.positionen.push({ id: neueId(), typ, key, monat: "2024-06", betrag: 1000 }));
+              if (dazu.length) speichern();
+            })()`);
             win.eval(
               "typeof pfWeltAuf === 'function' ? pfWeltAuf() : typeof pfVollbildAn === 'function' && pfVollbildAn()",
             );
