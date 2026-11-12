@@ -113,12 +113,14 @@ def main():
             continue
         letzter, kurs = reihe[-1]
         grenze = (datetime.date.fromisoformat(letzter) - datetime.timedelta(days=7)).isoformat()
-        basis = [v for d, v in reihe if d <= grenze][-1]
+        start = max(i for i, (d, _) in enumerate(reihe) if d <= grenze)
+        basis = reihe[start][1]
         hoch_d, hoch = max(reihe, key=lambda x: x[1])
         linie = [v for _, v in reihe][::-1][::5][::-1]
         werte[ticker] = {"hoch": round((kurs / hoch - 1) * 100, 1), "hochAm": hoch_d,
                          "woche": round((kurs / basis - 1) * 100, 1), "bis": letzter,
-                         "kurs": round(kurs, 2), "linie": [round(v, 2) for v in linie]}
+                         "kurs": round(kurs, 2), "linie": [round(v, 2) for v in linie],
+                         "wocheLinie": [round(v, 2) for _, v in reihe[start:]]}
         bis_max = max(bis_max, letzter)
         print(f"{ticker:9} Hoch {werte[ticker]['hoch']:+6.1f} %  Woche {werte[ticker]['woche']:+6.1f} %  bis {letzter}")
     stand = datetime.date.fromisoformat(bis_max).strftime("%d.%m.%Y")
@@ -126,10 +128,10 @@ def main():
         "/**\n * Kurse je Aktie im Freebie „Aktie“, erzeugt von `scripts/top100-kurse.py` (nicht von Hand ändern).\n"
         " * Quelle: Yahoo Finance, Tagesschlusskurse der letzten 12 Monate in Euro, umgerechnet mit Yahoo-Tageswechselkursen.\n"
         " * `hoch`: Abstand des letzten Schlusskurses (`bis`) zum höchsten Schlusskurs der 12 Monate (`hochAm`), in Prozent.\n"
-        " * `woche`: Veränderung zum Schlusskurs sieben Kalendertage vor `bis`. `linie`: jeder fünfte Schlusskurs.\n */\n"
+        " * `woche`: Veränderung zum Schlusskurs sieben Kalendertage vor `bis`. `linie`: jeder fünfte Schlusskurs; `wocheLinie`: die Schlusskurse der 7 Tage.\n */\n"
     )
     ts = (kopf
-          + "export type AktienKurs = { hoch: number; hochAm: string; woche: number; bis: string; kurs: number; linie: number[] };\n\n"
+          + "export type AktienKurs = { hoch: number; hochAm: string; woche: number; bis: string; kurs: number; linie: number[]; wocheLinie: number[] };\n\n"
           + f'export const KURS_STAND = "{stand}";\n\n'
           + "export const kurse: Record<string, AktienKurs> = "
           + json.dumps(werte, ensure_ascii=False, separators=(",", ":")) + ";\n")

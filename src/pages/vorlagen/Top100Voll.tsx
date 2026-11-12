@@ -10,6 +10,7 @@ import {
   aktien,
   aktieLink,
   PRUEFSTAND,
+  RAHMEN_MAX,
   TOP_ERSTER,
   TOP_GEFALLEN,
 } from "@/data/top100Aktien";
@@ -20,35 +21,34 @@ import { kurse, KURS_STAND } from "@/data/top100Kurse";
  * Bestätigung (noindex, nicht in der Sitemap). Die offene Seite mit dem Ausschnitt ist `Top100HalalAktien.tsx`.
  *
  * Seit AF1 (12.11.2026, Elias wortgleich in Vault `raw/2026-11-12-elias-af1-01-aktien-freebie-logos-wochenkurs-top15-cta.md`
- * und `-af1-02-top15-umrandung-fomo-pruefer-manychat.md`): jede Aktie mit Logo, Kurslinie und Abstand zum Jahreshoch wie
+ * und `-af1-02-top15-umrandung-fomo-pruefer-manychat.md`): jede Aktie mit Logo, Kurslinie und Kurs der letzten 7 Tage wie
  * in der Halal-Datenbank; alle 100 offen, kein „weitere anzeigen“; zuerst 15 große, tief gefallene Tech-Namen (Nvidia auf 1) in einem
  * grünen Rahmen, direkt danach der Aufruf „Werde Teil davon. In unter 10 Minuten.“, dann die übrigen 85 in der alten Reihenfolge.
  * Elias wollte die Woche zeigen; am 12.11. lagen aber nur 50 von 100 in der Woche im Minus und 93 unter dem Jahreshoch,
- * darum zeigt die Spalte den Abstand zum Jahreshoch (die Woche steht in `top100Kurse.ts` bereit). Kurse erneuern:
+ * darum zeigte die Spalte erst den Abstand zum Jahreshoch; seit AF1-04 („mach mal kurs 7 tage“) die 7 Tage. Kurse erneuern:
  * `python3 scripts/top100-kurse.py`.
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
 const freebie = optinFreebie("top-100-halal-aktien")!;
 const pfad = vollPfad(freebie);
 
-const oben = new Set<string>(TOP_GEFALLEN);
-const gefallen = aktien
-  .filter((a) => oben.has(a.ticker))
-  .sort((x, y) =>
-    x.ticker === TOP_ERSTER
-      ? -1
-      : y.ticker === TOP_ERSTER
-        ? 1
-        : (kurse[x.ticker]?.hoch ?? 0) - (kurse[y.ticker]?.hoch ?? 0),
-  );
+const vorrat = new Set<string>(TOP_GEFALLEN);
+const woche = (t: string) => kurse[t]?.woche ?? 0;
+const gefallen = [
+  ...aktien.filter((a) => a.ticker === TOP_ERSTER),
+  ...aktien
+    .filter((a) => vorrat.has(a.ticker) && a.ticker !== TOP_ERSTER && woche(a.ticker) < 0)
+    .sort((x, y) => woche(x.ticker) - woche(y.ticker)),
+].slice(0, RAHMEN_MAX);
+const oben = new Set(gefallen.map((a) => a.ticker));
 const rest = aktien.filter((a) => !oben.has(a.ticker));
-const unterHoch = aktien.filter((a) => (kurse[a.ticker]?.hoch ?? 0) < 0).length;
+const gefallenWoche = aktien.filter((a) => (kurse[a.ticker]?.woche ?? 0) < 0).length;
 
 /** Kopf über jeder Liste: was rechts steht (Elias: „ganz oben steht immer … Kurs“). */
 const ListenKopf = () => (
   <div className="flex items-center justify-between gap-3 border-b border-border px-2.5 py-2 text-[12px] font-semibold text-muted-foreground md:px-4">
     <span>Aktie</span>
-    <span>Kurs · seit Jahreshoch</span>
+    <span>Kurs · 7 Tage</span>
   </div>
 );
 
@@ -89,7 +89,7 @@ const Top100Voll = () => {
     >
       <Seo
         title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-        description="Sieh alle 100 bekannten Halal-Aktien mit Kurs und Abstand zum Jahreshoch, von Apple bis Nike."
+        description="Sieh alle 100 bekannten Halal-Aktien mit Kurs der letzten 7 Tage, von Apple bis Nike."
         path={pfad}
         noindex
       />
@@ -101,15 +101,15 @@ const Top100Voll = () => {
             {v.titel.replace(/ Halal-Aktien$/, "")}{" "}
             <span className="whitespace-nowrap">Halal-Aktien</span>
           </h1>
-          {/* AF1-Prüfer (vier gespielte Leser): die 93 zuerst, in Alltagssprache; Musaffa und Datum stehen in der Fußzeile. */}
+          {/* AF1-Prüfer (vier gespielte Leser): die Zahl zuerst, in Alltagssprache; Musaffa und Datum stehen in der Fußzeile. */}
           <p className="mt-3 flex items-start gap-2 text-[17px] font-semibold leading-snug text-foreground">
             <TrendingDown
               className="mt-0.5 h-5 w-5 shrink-0 text-loss"
               aria-hidden
             />
             <span>
-              <b className="text-loss">{unterHoch} von 100</b> sind gerade
-              günstiger als zu ihrem Jahreshoch.
+              <b className="text-loss">{gefallenWoche} von 100</b> sind in den
+              letzten 7 Tagen gefallen.
             </span>
           </p>
           <p className="mt-2 flex items-start gap-2 text-[16px] font-semibold leading-snug text-foreground">
@@ -135,11 +135,11 @@ const Top100Voll = () => {
                 id="titel-gefallen"
                 className="px-1 text-[24px] font-extrabold leading-tight text-foreground"
               >
-                Große Tech-Namen, tief gefallen
+                Große Tech-Namen, gefallen
               </h2>
               <p className="mt-1 px-1 text-[14px] text-muted-foreground">
-                {gefallen.length} bekannte Tech-Aktien, die gerade tief gefallen
-                sind. Stand {KURS_STAND}.
+                {gefallen.length} bekannte Tech-Aktien, Kurs der letzten 7 Tage.
+                Stand {KURS_STAND}.
               </p>
               <div className="mt-3 overflow-hidden rounded-lg border border-border">
                 <ListenKopf />
@@ -172,8 +172,8 @@ const Top100Voll = () => {
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>
             Kurse: Yahoo Finance, Schlusskurse in Euro, Stand {KURS_STAND}.
-            „Seit Jahreshoch“ ist der Abstand zum höchsten Schlusskurs der
-            letzten 12 Monate. Vergangene Kurse sagen nichts über künftige.
+            „7 Tage“ ist die Veränderung zum Schlusskurs sieben Tage
+            davor. Vergangene Kurse sagen nichts über künftige.
           </p>
           <p>
             Halal-Screening: Musaffa-Einzelprüfung, Stand {PRUEFSTAND}, Methodik

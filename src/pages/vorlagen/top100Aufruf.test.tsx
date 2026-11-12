@@ -38,7 +38,9 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     const { container } = zeige();
     const oben = container.querySelector("[data-top-gefallen]")!;
     const imRahmen = [...oben.querySelectorAll("[data-aktie]")].map((z) => z.getAttribute("data-aktie"));
-    expect(new Set(imRahmen)).toEqual(new Set(TOP_GEFALLEN));
+    expect(imRahmen.length).toBeGreaterThan(5);
+    expect(imRahmen.length).toBeLessThanOrEqual(15);
+    for (const t of imRahmen) expect(TOP_GEFALLEN as readonly string[]).toContain(t);
     const aufruf = container.querySelector("[data-depot-aufruf]")!;
     expect(oben.compareDocumentPosition(aufruf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(aufruf.textContent).toContain("In unter 10 Minuten");
@@ -51,7 +53,7 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(erste?.getAttribute("data-aktie")).toBe("NVDA");
   });
 
-  it("zeigt je Zeile Logo, Kurs und Abstand zum Jahreshoch", () => {
+  it("zeigt je Zeile Logo, Kurs und Veränderung in 7 Tagen", () => {
     const { container } = zeige();
     const z = container.querySelector("[data-aktie='NKE']")!;
     expect(z.querySelector("img")?.getAttribute("src")).toBe("/logos/aktien/NKE.png");

@@ -6,8 +6,8 @@ import type { AktienKurs } from "@/data/top100Kurse";
 
 /**
  * Eine Zeile der 100 Halal-Aktien seit AF1 (12.11.2026): links das Logo aus dem Investment-OS, in der Mitte Name und
- * wofür man die Firma kennt, rechts die Kurslinie vom Jahreshoch bis heute, der Kurs in Euro und der Abstand zum
- * Jahreshoch, gebaut wie die Zeile der Halal-Datenbank (`AnlageZeile.tsx`: Kurs oben, Veränderung mit Pfeil darunter).
+ * wofür man die Firma kennt, rechts die Kurslinie der letzten 7 Tage, der Kurs in Euro und die Veränderung
+ * in 7 Tagen, gebaut wie die Zeile der Halal-Datenbank (`AnlageZeile.tsx`: Kurs oben, Veränderung mit Pfeil darunter).
  * Nicht anklickbar (Elias: „nee, die können nicht draufklicken“). Rot und Grün stehen für die Messung.
  */
 const euro = (n: number) =>
@@ -30,12 +30,6 @@ export const KursLinie = ({ werte, minus, breit = 52 }: { werte: number[]; minus
       <circle cx={ex} cy={ey} r={2.5} fill={farbe} />
     </svg>
   );
-};
-
-/** Kurslinie ab dem höchsten Punkt; liegt der Hoch am Ende, bleibt die ganze Linie. */
-const seitHoch = (linie: number[]) => {
-  const i = linie.indexOf(Math.max(...linie));
-  return linie.length - i >= 3 ? linie.slice(i) : linie;
 };
 
 type Props = {
@@ -79,12 +73,12 @@ const KursZeile = ({ name, ticker, bekanntFuer, kurs }: Props) => {
       {kurs && (
         <>
           <span className="hidden min-[340px]:block">
-            {/* Die Linie zeigt denselben Zeitraum wie die Zahl: vom Jahreshoch bis heute. */}
-            <KursLinie werte={seitHoch(kurs.linie)} minus={kurs.hoch < 0} />
+            {/* Kurs der letzten 7 Tage (Elias, AF1-04: „mach mal kurs 7 tage“). */}
+            <KursLinie werte={kurs.wocheLinie} minus={kurs.woche < 0} />
           </span>
           <span className="flex w-[74px] shrink-0 flex-col items-end md:w-[84px]">
             <span className="whitespace-nowrap text-[14px] font-semibold text-foreground">{euro(kurs.kurs)}</span>
-            <RenditeWert wert={kurs.hoch} mittel />
+            <RenditeWert wert={kurs.woche} mittel />
           </span>
         </>
       )}

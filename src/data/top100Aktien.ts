@@ -867,7 +867,16 @@ export const aktieLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${z
  */
 export const TOP_GEFALLEN = [
   "NVDA", "INTC", "MRVL", "LRCX", "AMAT", "IFX", "MU", "ADBE", "QCOM", "AVGO", "PANW", "ASML", "CRWD", "CRM", "AMD",
+  "AAPL", "SAP", "TEAM", "DASH", "ADSK", "CSCO", "FTNT", "6762", "6701", "6702", "SNPS", "ANET", "STMPA", "GRMN", "RBLX",
 ] as const;
+
+/**
+ * Seit AF1-04 („mach mal kurs 7 tage“, Vault raw/2026-11-12-elias-af1-04-kurs-sieben-tage.md) ist `TOP_GEFALLEN` der
+ * Vorrat großer Tech-Namen: Der Rahmen zeigt Nvidia und danach die Namen aus dem Vorrat, die in den 7 Tagen gefallen
+ * sind, tiefster Fall zuerst, höchstens 15. Am 12.11. stiegen AMD, ASML und Infineon in der Woche um 10 bis 13 %; mit
+ * fester Liste stünde im roten Teil grün. Tesla bleibt draußen (Nie vom 01.11.: Boykott-Streit).
+ */
+export const RAHMEN_MAX = 15;
 
 /** Fest auf Platz 1 im Rahmen (Elias: „nvidia und co auf 1“). */
 export const TOP_ERSTER = "NVDA";
