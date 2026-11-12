@@ -45,8 +45,10 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(aufruf.textContent).not.toMatch(/reich/i);
   });
 
-  it("kein Name mit starkem Boykott-Befund oder Tesla im Rahmen", () => {
-    for (const t of ["NVDA", "INTC", "CSCO", "XOM", "TSLA"]) expect(TOP_GEFALLEN).not.toContain(t);
+  it("Nvidia steht im Rahmen auf Platz 1 (Elias, AF1-03: „nvidia und co auf 1“)", () => {
+    const { container } = zeige();
+    const erste = container.querySelector("[data-top-gefallen] [data-aktie]");
+    expect(erste?.getAttribute("data-aktie")).toBe("NVDA");
   });
 
   it("zeigt je Zeile Logo, Kurs und Abstand zum Jahreshoch", () => {

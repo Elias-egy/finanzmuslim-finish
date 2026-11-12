@@ -858,17 +858,19 @@ export const PRUEFSTAND = "01.11.2026";
 export const aktieLink = (ziel: string, stelle: "top3" | "nr1" | "alle") => `${ziel}?src=ak${stelle}`;
 
 /**
- * Die 15 großen Namen, die das Freebie seit AF1 (12.11.2026) zuerst zeigt, gerahmt, danach der Depot-Aufruf und die
- * übrigen 85 (Elias wortgleich, Vault `raw/2026-11-12-elias-af1-01-aktien-freebie-logos-wochenkurs-top15-cta.md`: „mach
- * die ersten 15 sind große Namen, die komplett eingebrochen sind, die halal sind aus der Liste“). Ausgewählt nach Abstand
- * zum Jahreshoch am 12.11.2026 (`top100Kurse.ts`) und Bekanntheit, mit den Chip-Firmen, die Elias nennt. Ohne die Titel
- * mit starkem Boykott-Befund im Investment-OS (Nvidia, Intel, Cisco, ExxonMobil) und ohne Tesla: Regelbuch
- * freebies-und-guides.md, Nie „Keine Highlights in der Aktien-Liste … weil ein Name wie Tesla Boykott-Streit auslöst“.
- * Die Seite sortiert die 15 bei jedem Kurs-Lauf neu nach dem tiefsten Fall.
+ * Die 15 großen Tech-Namen, die das Freebie seit AF1 (12.11.2026) zuerst zeigt, im grünen Rahmen, danach der Depot-Aufruf
+ * und die übrigen 85. Elias wortgleich (Vault `raw/2026-11-12-elias-af1-03-nvidia-auf-eins-tech-gruener-rahmen.md`):
+ * „nvidia und co auf 1, aslo gerade tech ist ja eingebrochen“, „mach erstmal die großen namen im aktien geschäft“.
+ * Nvidia steht fest auf Platz 1, die übrigen sortiert die Seite nach dem Abstand zum Jahreshoch (`top100Kurse.ts`).
+ * Damit stehen Nvidia und Intel trotz starkem Boykott-Befund im Investment-OS im Rahmen (Elias' neueres Wort ersetzt
+ * für diesen Rahmen die Nie-Zeile „Keine Highlights … Boykott-Streit“ vom 01.11.).
  */
 export const TOP_GEFALLEN = [
-  "LULU", "RBLX", "MRVL", "LRCX", "AMAT", "EL", "IFX", "NKE", "MU", "NOVO B", "ADBE", "QCOM", "AVGO", "BEI", "ASML",
+  "NVDA", "INTC", "MRVL", "LRCX", "AMAT", "IFX", "MU", "ADBE", "QCOM", "AVGO", "PANW", "ASML", "CRWD", "CRM", "AMD",
 ] as const;
+
+/** Fest auf Platz 1 im Rahmen (Elias: „nvidia und co auf 1“). */
+export const TOP_ERSTER = "NVDA";
 
 /** Logos mit weißem Zeichen auf durchsichtigem Grund (im Browser gemessen, 12.11.2026): sie stehen auf dunkler Kachel. */
 export const LOGO_DUNKEL = new Set(["RBLX", "MRVL", "NKE", "ADSK", "BSX", "VRTX", "ALC", "WSM", "ANET"]);
