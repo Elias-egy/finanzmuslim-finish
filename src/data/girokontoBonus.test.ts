@@ -13,9 +13,11 @@ const vergleich = (id: string) => girokontoAnzeige.find((a) => a.id === id)!;
 const rang = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche: [], gewichte: [] }).passt;
 
 describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
-  it("zeigt die ersten drei Girokonten mit Partnerweg in der Reihenfolge des Vergleichs", () => {
+  it("zeigt die ersten drei Girokonten mit Partnerweg des Vergleichs", () => {
     // A12: Seit A11 steht meine Bank ohne Link auf Platz 2; die Seite führt nur über Partnerlinks.
-    expect(rang.filter((t) => t.anbieter.link).slice(0, 3).map((t) => t.anbieter.id)).toEqual(BONUS_KONTEN.map((k) => k.id));
+    // RN1 (12.11.2026): Im Vergleich steht die norisbank auf Platz 1. Diese Seite zeigt die BBBank mit der Startprämie bewusst vorn
+    // (Elias H15 5c), darum gilt hier dieselbe Auswahl, nicht dieselbe Reihenfolge.
+    expect(rang.filter((t) => t.anbieter.link).slice(0, 3).map((t) => t.anbieter.id).sort()).toEqual(BONUS_KONTEN.map((k) => k.id).sort());
   });
 
   it("führt jedes Konto über einen aktiven Partnerlink", () => {

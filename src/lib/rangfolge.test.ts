@@ -601,7 +601,8 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
     // Regel 7 (Elias 08.11.2026, A9, A11): Smartbroker+ steht bei gleicher Note nach den Leser-Eröffnungen vorn.
     expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
-    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
+    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“, bei gleicher angezeigter Note vor BBBank BetterSmart.
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
       const r = rangfolge(liste, kategorie);
@@ -847,8 +848,16 @@ describe("Regel 7: angezeigte Note, bei Gleichstand Leser-Eröffnungen (Elias, 0
     expect(sieger?.id).toBe("smartbroker-plus-depot");
     expect(meisteHalalVon(depotAnzeige, DEPOT_ZEILEN, new Set(r.gerankt.map((b) => b.anbieter.id)), sieger?.id)).toBe("flatex-depot");
   });
-  it("gilt nur im Depot", () => {
+  it("gilt nur im Depot und im Girokonto", () => {
     expect(LESER_REIHENFOLGE.edelmetall).toBeUndefined();
     expect(LESER_REIHENFOLGE.krypto).toBeUndefined();
+  });
+  it("Girokonto: norisbank steht auf Platz 1 (Elias, 12.11.2026) und hat einen eigenen Link", () => {
+    const r = rangfolge(girokontoVergleich, "girokonto");
+    expect(r.gerankt[0].anbieter.id).toBe("norisbank-top-girokonto");
+    expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
+    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+    // Zweiter und dritter Platz bleiben die nächsten der Rangfolge, kein weiterer Eintrag wird bevorzugt.
+    expect(ids(r.gerankt.slice(1, 3))).toEqual(["meine-bank-mein-girokonto", "bbbank-bettersmart"]);
   });
 });

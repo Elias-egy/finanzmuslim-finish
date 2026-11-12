@@ -140,6 +140,9 @@ const leserRang = (kategorie: RangKategorie, id: string): number => {
  */
 export const LESER_REIHENFOLGE: Partial<Record<RangKategorie, readonly string[]>> = {
   depot: ["smartbroker-plus-depot", "flatex-depot", "traders-place-depot", "scalable-capital-free-broker"],
+  /* Girokonto: Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“. Wie im Depot entscheidet das nur bei gleicher angezeigter Note
+     (norisbank 4,8 wie BBBank BetterSmart) und nur mit eigenem Link (Regel 6): Eine höhere Note schlägt es nie. */
+  girokonto: ["norisbank-top-girokonto"],
 };
 
 /** Stellt die Einträge aus `LESER_REIHENFOLGE` in deren Reihenfolge nach vorn, der Rest bleibt, wie er ist. */

@@ -176,6 +176,11 @@ const VergleichMethodik = () => (
           wirklich eröffnen. Die ersten Depots liegen nah beieinander, zwischen 4,4 und 4,5. Oben
           stehen deshalb zwei Nummer 1: Platz 1 und das Depot mit den meisten Halal-Anlagen.
         </p>
+        <p>
+          Im Girokonto-Vergleich gilt Ähnliches. Platz 1 bekommt nur ein Konto, das ohne Zinsen, ohne
+          Dispo und ohne Kartenkredit startet und das du über unseren Link eröffnen kannst. Bei
+          gleicher Note steht zuerst meine Wahl, die Norisbank.
+        </p>
       </section>
 
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
