@@ -598,3 +598,26 @@ html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p[lang="ar"] + p { font-
 html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p[lang="ar"] + p + p { font-size: 19px; line-height: 1.55; margin-top: 12px; }
 html[data-druck] [data-vorlage="rizq"] [data-dua-karte] p:last-child { font-size: 14px; margin-top: 18px; padding-top: 10px; }
 html[data-druck] [data-vorlage="rizq"] > div > footer p { font-size: 14px; }
+
+/* AF1 (Elias, 12.11.2026): Rahmen der 15 gefallenen Tech-Namen im Aktien-Freebie. Grüner Rand, ein Licht wandert
+   langsam einmal herum, innen die Kartenfarbe (hell: weiß). Ohne Bewegung bei reduzierter Bewegung und im PDF. */
+@property --lauf-winkel { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.gruen-lauf {
+  position: relative;
+  border-radius: 1rem;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--lauf-winkel),
+    hsl(var(--gain)) 0deg,
+    hsl(var(--gain)) 270deg,
+    hsl(var(--gain) / 0.35) 315deg,
+    #ffffff 330deg,
+    hsl(var(--gain) / 0.35) 345deg,
+    hsl(var(--gain)) 360deg
+  );
+  animation: gruen-lauf 8s linear infinite;
+}
+.gruen-lauf > .gruen-lauf-innen { border-radius: calc(1rem - 2px); background: hsl(var(--card)); }
+@keyframes gruen-lauf { to { --lauf-winkel: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .gruen-lauf { animation: none; } }
+html[data-druck] .gruen-lauf { animation: none; }

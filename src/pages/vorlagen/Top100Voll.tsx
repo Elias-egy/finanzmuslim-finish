@@ -1,60 +1,66 @@
 import { useEffect } from "react";
-import { BadgeCheck, ChevronDown } from "lucide-react";
+import { BadgeCheck, TrendingDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import AktienZeile from "@/components/vorlagen/AktienZeile";
+import KursZeile from "@/components/vorlagen/KursZeile";
 import AktienAufruf from "@/components/vorlagen/AktienAufruf";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
-import { aktien, aktieLink, PRUEFSTAND, themen, SICHTBAR_AKTIEN } from "@/data/top100Aktien";
+import {
+  aktien,
+  aktieLink,
+  PRUEFSTAND,
+  RAHMEN_MAX,
+  TOP_ERSTER,
+  TOP_GEFALLEN,
+} from "@/data/top100Aktien";
+import { kurse, KURS_STAND } from "@/data/top100Kurse";
 
 /**
  * Die volle Fassung der 100 Halal-Aktien, das Freebie zum Wort „Aktie“, nur über den Link aus der Mail nach der
  * Bestätigung (noindex, nicht in der Sitemap). Die offene Seite mit dem Ausschnitt ist `Top100HalalAktien.tsx`.
  *
- * Seit MC7d14 (01.11.2026) im Stil der Liste und des Portfolio-Plans (Vault `memory/freebie-top3-statt-rot-guide-unten.md`,
- * Plan `fundament/upgrade/MC7D11_2026-10-31/plan.html`, Baustein „Aktie neu“): oben der Titel und die fünf Themen, je
- * Thema die ersten Aktien und der Rest zum Aufklappen, nach dem ersten Thema die Top 3 Depots, der Kasten „Dein nächster
- * Schritt“ ganz unten, kein Krypto-Aufruf. Seit MC7d15 ohne Themen-Einleitung, Highlight und die sechs fraglichen
- * Namen, damit nach den 100 gleich der Kasten kommt (Elias, 01.11.2026, Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`). Depot-Vergleich-Kasten, Spickzettel und Anmeldeformular sind weg, damit der
- * Leser beim Thema bleibt. Seit MC7d15 wieder mit PDF-Knopf; das PDF ist diese Seite im Handy-Maß (`src/data/freebiePdfs.ts`).
+ * Seit AF1 (12.11.2026, Elias wortgleich in Vault `raw/2026-11-12-elias-af1-01-aktien-freebie-logos-wochenkurs-top15-cta.md`
+ * und `-af1-02-top15-umrandung-fomo-pruefer-manychat.md`): jede Aktie mit Logo, Kurslinie und Kurs der letzten 7 Tage wie
+ * in der Halal-Datenbank; alle 100 offen, kein „weitere anzeigen“; zuerst 15 große, tief gefallene Tech-Namen (Nvidia auf 1) in einem
+ * grünen Rahmen, direkt danach der Aufruf „Werde Teil davon. In unter 10 Minuten.“, dann die übrigen 85 in der alten Reihenfolge.
+ * Elias wollte die Woche zeigen; am 12.11. lagen aber nur 50 von 100 in der Woche im Minus und 93 unter dem Jahreshoch,
+ * darum zeigte die Spalte erst den Abstand zum Jahreshoch; seit AF1-04 („mach mal kurs 7 tage“) die 7 Tage. Kurse erneuern:
+ * `python3 scripts/top100-kurse.py`.
  */
 const v = vorlageBySlug("top-100-halal-aktien")!;
 const freebie = optinFreebie("top-100-halal-aktien")!;
 const pfad = vollPfad(freebie);
 
-const Gruppe = ({ i }: { i: number }) => {
-  const t = themen[i];
-  const zeilen = aktien.slice(i * 20, i * 20 + 20);
-  const zeile = (a: (typeof aktien)[number]) => (
-    <AktienZeile
-      key={a.ticker}
-      rang={a.rang}
-      name={a.name}
-      ticker={a.ticker}
-      bekanntFuer={a.bekanntFuer}
-      status={a.status}
-    />
-  );
-  return (
-    <section id={`thema-${i}`} className="reveal mt-12 scroll-mt-20" aria-labelledby={`titel-thema-${i}`}>
-      <div className="flex items-baseline justify-between gap-3">
-        <h2 id={`titel-thema-${i}`} className="text-[24px] font-extrabold leading-tight text-foreground">
-          {t.titel}
-        </h2>
-        <span className="shrink-0 text-[13px] font-semibold tabular-nums text-muted-foreground">{t.spanne}</span>
-      </div>
-      <div className="card-surface mt-4 overflow-hidden p-0">{zeilen.slice(0, SICHTBAR_AKTIEN).map(zeile)}</div>
-      <details className="group mt-2">
-        <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
-          {zeilen.length - SICHTBAR_AKTIEN} weitere anzeigen
-          <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
-        </summary>
-        <div className="card-surface mt-2 overflow-hidden p-0">{zeilen.slice(SICHTBAR_AKTIEN).map(zeile)}</div>
-      </details>
-    </section>
-  );
-};
+const vorrat = new Set<string>(TOP_GEFALLEN);
+const woche = (t: string) => kurse[t]?.woche ?? 0;
+const gefallen = [
+  ...aktien.filter((a) => a.ticker === TOP_ERSTER),
+  ...aktien
+    .filter((a) => vorrat.has(a.ticker) && a.ticker !== TOP_ERSTER && woche(a.ticker) < 0)
+    .sort((x, y) => woche(x.ticker) - woche(y.ticker)),
+].slice(0, RAHMEN_MAX);
+const oben = new Set(gefallen.map((a) => a.ticker));
+const rest = aktien.filter((a) => !oben.has(a.ticker));
+const gefallenWoche = aktien.filter((a) => (kurse[a.ticker]?.woche ?? 0) < 0).length;
+
+/** Kopf über jeder Liste: was rechts steht (Elias: „ganz oben steht immer … Kurs“). */
+const ListenKopf = () => (
+  <div className="flex items-center justify-between gap-3 border-b border-border px-2.5 py-2 text-[12px] font-semibold text-muted-foreground md:px-4">
+    <span>Aktie</span>
+    <span>Kurs · 7 Tage</span>
+  </div>
+);
+
+const zeile = (a: (typeof aktien)[number]) => (
+  <KursZeile
+    key={a.ticker}
+    name={a.name}
+    ticker={a.ticker}
+    bekanntFuer={a.bekanntFuer}
+    kurs={kurse[a.ticker]}
+  />
+);
 
 const Top100Voll = () => {
   // Sanftes Einblenden beim Scrollen wie in der Liste und im Portfolio-Plan.
@@ -76,65 +82,107 @@ const Top100Voll = () => {
   }, []);
 
   return (
-    <main className="bg-background" data-freebie="top-100-aktien" data-vorlage="top-100-halal-aktien">
+    <main
+      className="bg-background"
+      data-freebie="top-100-aktien"
+      data-vorlage="top-100-halal-aktien"
+    >
       <Seo
         title="100 bekannte Halal-Aktien, Musaffa-Einzelprüfung | finanzmuslim"
-        description="Sieh alle 100 bekannten Aktien mit Musaffa-Einzelprüfung, von Apple bis Nike, nach Themen sortiert."
+        description="Sieh alle 100 bekannten Halal-Aktien mit Kurs der letzten 7 Tage, von Apple bis Nike."
         path={pfad}
         noindex
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             {/* „Halal-Aktien“ bricht nicht am Bindestrich um. */}
-            {v.titel.replace(/ Halal-Aktien$/, "")} <span className="whitespace-nowrap">Halal-Aktien</span>
+            {v.titel.replace(/ Halal-Aktien$/, "")}{" "}
+            <span className="whitespace-nowrap">Halal-Aktien</span>
           </h1>
-          <p className="mt-3 flex items-start gap-2 text-[16px] font-semibold leading-snug text-foreground">
-            <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
+          {/* AF1-Prüfer (vier gespielte Leser): die Zahl zuerst, in Alltagssprache; Musaffa und Datum stehen in der Fußzeile. */}
+          <p className="mt-3 flex items-start gap-2 text-[17px] font-semibold leading-snug text-foreground">
+            <TrendingDown
+              className="mt-0.5 h-5 w-5 shrink-0 text-loss"
+              aria-hidden
+            />
             <span>
-              Alle 100 einzeln mit Musaffa geprüft, Stand {PRUEFSTAND}.
+              <b className="text-loss">{gefallenWoche} von 100</b> sind in den
+              letzten 7 Tagen gefallen.
             </span>
           </p>
-          <nav aria-label="Themen" className="mt-5 flex flex-wrap gap-1.5">
-            {themen.map((t, i) => (
-              <a
-                key={t.titel}
-                href={`#thema-${i}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
-              >
-                {t.titel}
-              </a>
-            ))}
-          </nav>
-          {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
+          <p className="mt-2 flex items-start gap-2 text-[16px] font-semibold leading-snug text-foreground">
+            <BadgeCheck
+              className="mt-0.5 h-5 w-5 shrink-0 text-gain"
+              aria-hidden
+            />
+            <span>Alle 100 halal geprüft.</span>
+          </p>
         </header>
-        <p className="mt-2 px-2 text-[12px] text-muted-foreground">
-          Nach Bekanntheit sortiert, keine Kauf-Rangliste und keine Anlageberatung.
-        </p>
 
-        <Gruppe i={0} />
+        {/* Grüner Rand mit leicht wanderndem Licht, innen weiß (Elias, AF1-03: „der rund soll grün sein und das licht soll
+            sich ein wenig bewegen mehr nicht, innen weiß nicht rot“). Stil `.gruen-lauf` in src/index.css. */}
+        {/* .gruen-lauf sitzt innen, weil .reveal.visible die Animation auf none setzt. */}
+        <section
+          className="reveal mt-8"
+          aria-labelledby="titel-gefallen"
+          data-top-gefallen
+        >
+          <div className="gruen-lauf">
+            <div className="gruen-lauf-innen p-2 pt-3 md:p-4">
+              <h2
+                id="titel-gefallen"
+                className="px-1 text-[24px] font-extrabold leading-tight text-foreground"
+              >
+                Große Tech-Namen, gefallen
+              </h2>
+              <p className="mt-1 px-1 text-[14px] text-muted-foreground">
+                {gefallen.length} bekannte Tech-Aktien, Kurs der letzten 7 Tage.
+                Stand {KURS_STAND}.
+              </p>
+              <div className="mt-3 overflow-hidden rounded-lg border border-border">
+                <ListenKopf />
+                {gefallen.map(zeile)}
+              </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Der Depot-Aufruf nach dem ersten Thema: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). Seit FA
-            (07.11.2026) nur zwei kleine Angebote, Traders Place und flatex, ohne Video (`AktienAufruf.tsx`). */}
-        <section className="reveal mt-10" aria-labelledby="wo">
+        {/* Direkt nach dem Schmerz die Lösung (Elias, AF1-02: „Und dann danach direkt die Lösung“). */}
+        <section className="reveal mt-6" aria-labelledby="wo">
           <AktienAufruf link={aktieLink} />
         </section>
 
-        {themen.slice(1).map((t, i) => (
-          <Gruppe key={t.titel} i={i + 1} />
-        ))}
+        <section className="reveal mt-10" aria-labelledby="titel-rest">
+          <h2
+            id="titel-rest"
+            className="text-[24px] font-extrabold leading-tight text-foreground"
+          >
+            Die anderen {rest.length}
+          </h2>
+          <div className="card-surface mt-3 overflow-hidden p-0">
+            <ListenKopf />
+            {rest.map(zeile)}
+          </div>
+        </section>
 
         <NaechsterTeil wort="aktie" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>
-            Halal-Screening: Musaffa-Einzelprüfung, Stand {PRUEFSTAND}, Methodik auf Basis der AAOIFI-Kriterien. Halal-Screening
-            und Boykottprüfung sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab.
+            Kurse: Yahoo Finance, Schlusskurse in Euro, Stand {KURS_STAND}.
+            „7 Tage“ ist die Veränderung zum Schlusskurs sieben Tage
+            davor. Vergangene Kurse sagen nichts über künftige.
           </p>
           <p>
-            Die genannten Unternehmen und Aktien sind Beispiele, keine Empfehlung zum Kauf, Halten oder Verkauf und keine
-            Anlageberatung. Die Auswahl ist redaktionell nach Bekanntheit sortiert, nicht nach Größe, Rendite oder Qualität.
+            Halal-Screening: Musaffa-Einzelprüfung, Stand {PRUEFSTAND}, Methodik
+            auf Basis der AAOIFI-Kriterien. Halal-Screening und Boykottprüfung
+            sind zwei getrennte Prüfungen, diese Liste bildet nur die erste ab.
+          </p>
+          <p>
+            Die genannten Unternehmen und Aktien sind Beispiele, keine
+            Empfehlung zum Kauf, Halten oder Verkauf und keine Anlageberatung.
             Zu Musaffa besteht keine Partnerschaft.
           </p>
         </footer>
