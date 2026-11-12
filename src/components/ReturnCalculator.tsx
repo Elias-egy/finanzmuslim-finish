@@ -457,7 +457,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
   }
 
   const inputCls =
-    "w-full rounded-lg border border-border bg-white px-4 py-3 text-base font-semibold text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all";
+    "w-full rounded-lg border border-border bg-card px-4 py-3 text-base font-semibold text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all";
 
   const builderTotal = ASSETS.reduce((s, a) => s + customAlloc[a.key], 0);
   const builderPortfolio = useMemo(() => computePortfolio(customAlloc), [customAlloc]);
@@ -573,7 +573,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                   aria-label="Rendite-Optionen"
                   aria-expanded={dropdownOpen}
                   onClick={() => setDropdownOpen((v) => !v)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full border border-border bg-white text-foreground hover:border-primary/40 hover:text-primary transition flex items-center justify-center"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full border border-border bg-card text-foreground hover:border-primary/40 hover:text-primary transition flex items-center justify-center"
                 >
                   <ChevronDown className={`h-4 w-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} aria-hidden />
                 </button>
@@ -586,7 +586,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             <button
               type="button"
               onClick={openBuilder}
-              className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-white px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary focus-visible:border-primary"
+              className="group relative mt-3 w-full overflow-hidden rounded-lg border border-primary/60 bg-card px-5 py-3 flex items-center gap-3 text-left transition-all hover:border-primary focus-visible:border-primary"
             >
               <span className="flex items-center gap-1.5 shrink-0" aria-hidden>
                 {ASSETS.map((a) => (
@@ -613,7 +613,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
               ruhige Zeile wie "Eigenes Portfolio bauen", offen zeigt sie die Karten. Die Zahl heisst
               ausdruecklich "im Schnitt pro Jahr, letzte 5 Jahre": gewesen, nicht versprochen. */}
           {!builderOpen && anlagenMitLogo.length > 0 && (
-            <div className="mt-3 rounded-lg border border-border bg-white">
+            <div className="mt-3 rounded-lg border border-border bg-card">
               <button
                 type="button"
                 onClick={() => setAnlagenOffen((v) => !v)}
@@ -651,7 +651,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                           type="button"
                           onClick={() => selectAnlage(option.isin)}
                           aria-pressed={aktiv}
-                          className={`flex items-center gap-2.5 rounded-lg border bg-white p-2.5 text-left transition hover:border-primary ${
+                          className={`flex items-center gap-2.5 rounded-lg border bg-card p-2.5 text-left transition hover:border-primary ${
                             aktiv ? "border-primary ring-2 ring-primary/25" : "border-border"
                           }`}
                         >
@@ -695,7 +695,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
           {/* Custom portfolio builder */}
           {builderOpen && (
-            <div className="mt-4 rounded-lg border border-border bg-white p-4 md:p-5">
+            <div className="mt-4 rounded-lg border border-border bg-card p-4 md:p-5">
               <div className="flex items-baseline justify-between mb-3">
                 <h4 className="text-sm font-bold text-foreground">Eigenes Portfolio</h4>
                 <span className="text-[11px] text-muted-foreground">Summe: {builderTotal}%</span>
@@ -746,7 +746,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                             const v = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
                             setCustomAlloc((prev) => ({ ...prev, [a.key]: v }));
                           }}
-                          className="w-16 rounded-lg border border-border bg-white px-2 py-1 text-[16px] font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          className="w-16 rounded-lg border border-border bg-card px-2 py-1 text-[16px] font-semibold text-right focus:outline-none focus:ring-2 focus:ring-primary/20"
                         />
                         <span className="text-xs text-muted-foreground">%</span>
                       </div>
@@ -811,7 +811,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
                 <button
                   type="button"
                   onClick={cancelCustom}
-                  className="rounded-lg border border-border bg-white px-4 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary transition"
+                  className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground hover:border-primary/40 hover:text-primary transition"
                 >
                   Abbrechen
                 </button>
@@ -984,7 +984,7 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
             maxWidth: "calc(100vw - 16px)",
             zIndex: 1000,
           }}
-          className="max-h-[min(70vh,560px)] overflow-y-auto rounded-lg border border-border bg-white"
+          className="max-h-[min(70vh,560px)] overflow-y-auto rounded-lg border border-border bg-card"
           role="listbox"
         >
           <button

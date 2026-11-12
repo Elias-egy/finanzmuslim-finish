@@ -252,7 +252,7 @@ const Danke = () => {
           role="status"
           className="mx-auto inline-flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-0 rounded-lg border border-gain/40 bg-card px-3 py-1 text-[14px] text-foreground sm:gap-x-2 sm:px-4 sm:text-[15px]"
         >
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gain text-white">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gain text-white dark:text-[#0B0D12]">
             <Check className="h-3.5 w-3.5" aria-hidden />
           </span>
           <span className="py-2.5">Schau in dein Postfach: Dein Link kommt per Mail.</span>

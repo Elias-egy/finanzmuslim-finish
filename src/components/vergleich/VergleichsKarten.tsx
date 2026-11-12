@@ -107,7 +107,7 @@ const Karte = ({
     <li
       className={`flex flex-col overflow-hidden rounded-lg border ${
         spalte.grau
-          ? "border-border bg-zinc-200"
+          ? "border-border bg-zinc-200 dark:bg-muted"
           : spalte.abgeraten
           ? "border-destructive/40 bg-card"
           : `${hervor ? "border-primary" : "border-border"} ${(auszeichnung && auszeichnungGrund[auszeichnung.ton]) || "bg-card"}`

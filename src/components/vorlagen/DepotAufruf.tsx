@@ -59,7 +59,7 @@ export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKa
       // Gelb und leicht Rot mit Rand wie im Portfolio-Plan (Elias, 01.11.2026, MC7d13d: „Ich fand das andere irgendwie besser“).
       <div
         key={d.id}
-        className={`rounded-lg p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
+        className={`rounded-lg p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200 dark:bg-amber-950/40 dark:ring-amber-500/30"}`}
       >
         {/* Ohne Namen ist es eine Zahl über alle Depots (Gold, Sukuk), dann ohne Logo-Zeile. */}
         {d.name && (
@@ -69,7 +69,7 @@ export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKa
           </div>
         )}
         <p
-          className={`${d.name ? "mt-2" : ""} whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+          className={`${d.name ? "mt-2" : ""} whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700 dark:text-amber-300"}`}
         >
           {d.vor && <span className="mr-1 text-[13px] font-bold text-foreground">{d.vor}</span>}
           {d.gross}
@@ -152,7 +152,7 @@ const DepotAufruf = ({
                 {d.punkte.map((p) => (
                   <li key={p.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
                     <span
-                      className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white ${p.ok ? "bg-gain" : "bg-loss"}`}
+                      className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white dark:text-[#0B0D12] ${p.ok ? "bg-gain" : "bg-loss"}`}
                     >
                       {p.ok ? (
                         <Check className="h-4 w-4" strokeWidth={3} aria-hidden />

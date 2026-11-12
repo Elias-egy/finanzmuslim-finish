@@ -32,7 +32,7 @@ export const dauerText = (monate: number, dativ = true) => {
 };
 
 export const inputClass =
-  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-card px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 export const EuroFeld = ({
   id,
@@ -141,7 +141,7 @@ export const Wahl = <T extends string>({
           onClick={() => setWert(o.wert)}
           aria-pressed={wert === o.wert}
           className={`flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition ${
-            wert === o.wert ? "border-primary bg-accent" : "border-border bg-white/60 hover:border-primary/40"
+            wert === o.wert ? "border-primary bg-accent" : "border-border bg-card/60 hover:border-primary/40"
           }`}
         >
           {o.symbol && <span className="shrink-0 text-primary" aria-hidden>{o.symbol}</span>}

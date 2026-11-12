@@ -90,7 +90,7 @@ const VertragsAmpelVoll = () => {
               <a
                 key={f}
                 href={`#farbe-${f}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-card px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${bewertung[f].punkt}`} aria-hidden />
                 <span className="font-extrabold tabular-nums">{zeilen.filter((z) => z.farbe === f).length}</span>{" "}

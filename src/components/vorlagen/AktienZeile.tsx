@@ -38,7 +38,7 @@ const AktienZeile = ({ rang, name, ticker, bekanntFuer, status, highlight }: Pro
         className={`inline-flex h-7 items-center rounded border px-3 text-[12px] font-bold ${
           status === "Halal"
             ? "border-[hsl(var(--success)/0.35)] bg-[hsl(var(--success)/0.12)] text-[hsl(var(--success))]"
-            : "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)]"
+            : "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)] dark:text-[hsl(38_92%_70%)]"
         }`}
       >
         {status}

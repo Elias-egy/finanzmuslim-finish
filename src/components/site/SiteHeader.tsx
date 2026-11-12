@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
+import { useThema } from "@/lib/thema";
 
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
@@ -55,6 +56,7 @@ export const SiteHeader = () => {
   // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
   const beitragsKopf = pathname.startsWith("/blog/");
   const kopfZiel = KOPF_ZIEL[pathname] ?? { ziel: "/vergleich/depot", text: "Depot-Vergleich" };
+  const { dunkel, umschalten } = useThema();
   const [eng, setEng] = useState(false);
   useEffect(() => {
     if (!beitragsKopf) return setEng(false);
@@ -81,7 +83,7 @@ export const SiteHeader = () => {
         /* VS5-06: der Streifen wirbt für das Halal-Investment-OS, „Neu“ runder („oben in lila, auch werbung für dein halal investment“) */
         <a
           href="/investment-os/"
-          className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
+          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
         >
           <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
           {/* Am Handy eine Zeile, sonst schiebt der Streifen die zweite Reihe der Vergleiche
@@ -141,6 +143,20 @@ export const SiteHeader = () => {
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
+            {/* Hell/dunkel: Grundeinstellung nach Gerät, Wahl wird gemerkt (gleicher Schlüssel wie die Verkaufsseite) */}
+            <button
+              type="button"
+              aria-pressed={dunkel}
+              aria-label={dunkel ? "Hellen Modus einschalten" : "Dunklen Modus einschalten"}
+              onClick={umschalten}
+              // Auf den Beiträgen ist die Leiste am schmalen Handy schon voll (langer Knopftext): dort sitzt der Schalter im Menü.
+              className={cn(
+                "inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10",
+                beitragsKopf && "max-[419px]:hidden",
+              )}
+            >
+              {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
+            </button>
             {beitragsKopf ? (
               <Link to={kopfZiel.ziel} className="inline-block rounded-full">
                 <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-3.5 text-[14px] font-semibold text-primary min-[900px]:px-5 min-[900px]:text-[15px]">
@@ -211,10 +227,22 @@ export const SiteHeader = () => {
 
       {mobileOpen && (
         <div className="min-[900px]:hidden fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-foreground/40" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-foreground/40 dark:bg-black/60" onClick={() => setMobileOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-card overflow-y-auto">
             <div className="flex items-center justify-between h-[68px] px-4 border-b border-border">
               <Wordmark className="text-xl" />
+              <button
+                type="button"
+                aria-pressed={dunkel}
+                aria-label={dunkel ? "Hellen Modus einschalten" : "Dunklen Modus einschalten"}
+                onClick={umschalten}
+                className={cn(
+                  "ml-auto mr-1 inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground hover:bg-muted",
+                  beitragsKopf ? "min-[420px]:hidden" : "hidden",
+                )}
+              >
+                {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
+              </button>
               <button
                 type="button"
                 aria-label="Menü schließen"

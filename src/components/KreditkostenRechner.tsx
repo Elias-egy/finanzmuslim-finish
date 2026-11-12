@@ -229,7 +229,7 @@ const KreditkostenRechner = () => {
             </div>
           </Ergebnis>
 
-          <div className="rounded-lg border border-border bg-white p-5">
+          <div className="rounded-lg border border-border bg-card p-5">
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-[13px] font-semibold text-foreground">Rate im Monat</p>
               <p className="text-[22px] font-bold text-foreground">{eur(kosten.rate)}</p>
@@ -263,7 +263,7 @@ const KreditkostenRechner = () => {
                     return (
                       <div key={z.label} className="grid grid-cols-[64px_1fr] items-center gap-3">
                         <span className="text-[12px] font-semibold text-foreground">{z.label}</span>
-                        <div className="relative h-7 rounded bg-white">
+                        <div className="relative h-7 rounded bg-card">
                           <div
                             className={`absolute left-0 top-0 h-7 rounded ${z.farbe}`}
                             style={{ width: `${Math.max(8, (z.monate / max) * 100)}%` }}

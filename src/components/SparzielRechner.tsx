@@ -192,7 +192,7 @@ const SparzielRechner = () => {
                 <span>Heute {eur(start)}</span>
                 <span>Ziel {eur(zielBetrag)}</span>
               </div>
-              <div className="relative mt-1.5 h-3 rounded bg-white">
+              <div className="relative mt-1.5 h-3 rounded bg-card">
                 <div className="absolute left-0 top-0 h-3 rounded bg-gain" style={{ width: `${fortschritt}%` }} />
               </div>
               <p className="mt-1.5 text-[12px] text-muted-foreground">{Math.round(fortschritt)} Prozent geschafft</p>
@@ -200,7 +200,7 @@ const SparzielRechner = () => {
           </Ergebnis>
 
           {schneller.length > 0 && monate !== 0 && zielBetrag > 0 && (
-            <div className="rounded-lg border border-border bg-white p-5">
+            <div className="rounded-lg border border-border bg-card p-5">
               <p className="text-[13px] font-semibold text-foreground">Wenn es schneller gehen soll</p>
               <div className="mt-3 divide-y divide-border/70">
                 {schneller.map((s) => (

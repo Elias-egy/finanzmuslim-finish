@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Wordmark } from "@/components/Wordmark";
+import { useThema } from "@/lib/thema";
 
 /**
  * Opt-in-Seiten für die Instagram-DM (`/gratis/…`) laufen ohne Menü (Baustein 29):
@@ -40,6 +41,7 @@ const Schlicht = ({
 );
 
 export const Layout = ({ children }: { children: ReactNode }) => {
+  useThema(); // hält die Klasse `dark` an <html> aktuell, auch auf Seiten ohne Kopf
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;

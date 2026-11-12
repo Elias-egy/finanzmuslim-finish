@@ -69,7 +69,7 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
               {d.punkte.map((p) => (
                 <li key={p.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
                   <span
-                    className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white ${p.ok ? "bg-gain" : "bg-loss"}`}
+                    className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white dark:text-[#0B0D12] ${p.ok ? "bg-gain" : "bg-loss"}`}
                   >
                     {p.ok ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden /> : <X className="h-4 w-4" strokeWidth={3} aria-hidden />}
                   </span>

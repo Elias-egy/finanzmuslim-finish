@@ -32,7 +32,7 @@ const Werbung = () => <span className="text-[12px] text-muted-foreground">Werbun
 
 const Haken = ({ children }: { children: ReactNode }) => (
   <li className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
-    <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gain text-white">
+    <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gain text-white dark:text-[#0B0D12]">
       <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
     </span>
     <span>{children}</span>

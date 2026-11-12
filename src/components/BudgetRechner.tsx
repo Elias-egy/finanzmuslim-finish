@@ -116,7 +116,7 @@ const BudgetRechner = () => {
               setWert={setAlltagText}
             />
 
-            <div className="rounded-lg border border-border bg-white/60">
+            <div className="rounded-lg border border-border bg-card/60">
               <button
                 type="button"
                 onClick={() => setMehrOffen((o) => !o)}
@@ -202,7 +202,7 @@ const BudgetRechner = () => {
           </Ergebnis>
 
           {/* Faustregel */}
-          <div className="rounded-lg border border-border bg-white p-5">
+          <div className="rounded-lg border border-border bg-card p-5">
             <p className="text-[13px] font-semibold text-foreground">Du gegen die 50/30/20-Faustregel</p>
             <div className="mt-4 space-y-3">
               <Zeile name="Nötig" ist={b.noetig} soll={b.ziel.noetig} netto={netto} />
@@ -212,7 +212,7 @@ const BudgetRechner = () => {
             <QuelleZeile {...faustregel.quelle} />
           </div>
 
-          <div className="rounded-lg border border-border bg-white p-5">
+          <div className="rounded-lg border border-border bg-card p-5">
             <p className="text-[13px] font-semibold text-foreground">Und im Vergleich zu Deutschland</p>
             <p className="mt-1 text-[14px] leading-relaxed text-foreground/85">
               Du legst {prozent(sparQuoteIst)} zur Seite. Die Haushalte in Deutschland sparten im{" "}

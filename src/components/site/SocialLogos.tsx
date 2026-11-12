@@ -41,6 +41,7 @@ export const TikTokLogo = ({
     <path
       d="M15.8 4.2c.5 1.9 1.9 3.3 3.8 3.6v2.7c-1.4 0-2.8-.4-4-1.2v5.4a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.8a2.9 2.9 0 1 0 2 2.7V2.9h2.9c0 .4 0 .9 0 1.3z"
       fill={muted ? "#9AA1AD" : "#000000"}
+      className={muted ? undefined : "dark:fill-white"}
     />
   </svg>
 );

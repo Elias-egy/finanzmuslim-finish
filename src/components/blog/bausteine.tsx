@@ -62,7 +62,7 @@ export const Marke = ({ children, ton = "blau" }: { children: ReactNode; ton?: "
   const farbe = {
     blau: "border-primary/25 bg-accent text-primary",
     gruen: "border-gain/30 bg-gain-soft text-gain",
-    gelb: "border-amber-300 bg-amber-50 text-amber-800",
+    gelb: "border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-200",
     rot: "border-loss/30 bg-loss-soft text-loss",
   }[ton];
   return (

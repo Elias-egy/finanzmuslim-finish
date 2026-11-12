@@ -115,7 +115,7 @@ export const AnbieterName = ({ spalte, className = "" }: { spalte: VergleichsSpa
  */
 export const auszeichnungFarbe: Record<string, string> = {
   empfehlung: "text-primary",
-  bonus: "text-[#7A5A00]",
+  bonus: "text-[#7A5A00] dark:text-[#F3CE62]",
   hinweis: "text-accent",
   platz: "text-foreground",
 };
@@ -123,7 +123,7 @@ export const auszeichnungFarbe: Record<string, string> = {
 /** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss; die Auszeichnung blass gelb. */
 export const auszeichnungGrund: Record<string, string> = {
   empfehlung: "bg-primary/[0.05]",
-  bonus: "bg-[#FFF8D6]",
+  bonus: "bg-[#FFF8D6] dark:bg-[#2A230C]",
   hinweis: "",
   platz: "",
 };
@@ -394,7 +394,7 @@ const HinweisBlock = ({
             className={`rounded-md border-2 px-3 py-2 text-[14px] leading-[21px] text-foreground transition-colors duration-700 motion-reduce:transition-none lg:text-[15px] lg:leading-[23px] ${ton}`}
           >
             <span
-              className={`mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full align-text-bottom text-[12px] font-bold leading-none text-white ${vorteil ? "bg-violet" : "bg-amber-500"}`}
+              className={`mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full align-text-bottom text-[12px] font-bold leading-none text-white dark:text-[#0B0D12] ${vorteil ? "bg-violet" : "bg-amber-500"}`}
               aria-hidden
             >
               {vorteil ? "?" : "!"}

@@ -64,7 +64,7 @@ const BarakaBlocker = () => (
               <p className="mt-2 border-t border-border pt-2 text-[12px] leading-relaxed text-muted-foreground">
                 {b.quelle}
                 {b.umstritten && (
-                  <span className="ml-1 font-semibold text-[hsl(38_92%_32%)]">Umstritten.</span>
+                  <span className="ml-1 font-semibold text-[hsl(38_92%_32%)] dark:text-[hsl(38_92%_70%)]">Umstritten.</span>
                 )}
               </p>
             </article>

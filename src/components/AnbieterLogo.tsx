@@ -41,7 +41,7 @@ export const AnbieterLogo = ({
     return (
       <span
         className={`flex h-9 w-[134px] max-w-full shrink-0 items-center justify-center ${
-          schriftzug.dunkel ? "rounded-md bg-[#111] px-2.5 py-1.5" : ""
+          schriftzug.dunkel ? "rounded-md bg-[#111] px-2.5 py-1.5" : "dark:rounded-md dark:bg-white dark:px-2.5 dark:py-1"
         }`}
         title={name}
       >
@@ -49,6 +49,7 @@ export const AnbieterLogo = ({
           src={schriftzug.datei}
           alt={`${name} Logo`}
           loading="lazy"
+          data-ohne-platte
           onError={() => setFehler(true)}
           className="max-h-full max-w-full object-contain"
         />
@@ -63,7 +64,7 @@ export const AnbieterLogo = ({
 
   return (
     <span
-      className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero${rand ? " ring-1 ring-black/15" : ""}`}
+      className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero dark:bg-white${rand ? " ring-1 ring-black/15" : ""}`}
       title={name}
     >
       {url ? (

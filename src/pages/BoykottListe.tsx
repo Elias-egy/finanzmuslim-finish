@@ -38,7 +38,7 @@ const Pille = ({ f }: { f: BoykottFirma }) =>
   artVon(f) === "boykott" ? (
     <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
   ) : (
-    <span className="rounded bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200">
+    <span className="rounded bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-500/30">
       Meiden, wo es geht
     </span>
   );
@@ -111,8 +111,8 @@ const Boerse = () => (
         <p className="text-[20px] font-extrabold leading-none text-loss">Haram</p>
         <p className="mt-2 text-[15px] leading-snug text-foreground">heißt verboten.</p>
       </div>
-      <div className="rounded-lg bg-amber-50 p-4 ring-1 ring-amber-200">
-        <p className="text-[20px] font-extrabold leading-none text-amber-700">Boykott</p>
+      <div className="rounded-lg bg-amber-50 p-4 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:ring-amber-500/30">
+        <p className="text-[20px] font-extrabold leading-none text-amber-700 dark:text-amber-300">Boykott</p>
         <p className="mt-2 text-[15px] leading-snug text-foreground">ist ein freiwilliger Schritt obendrauf.</p>
       </div>
     </div>

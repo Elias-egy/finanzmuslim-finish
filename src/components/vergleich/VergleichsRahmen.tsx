@@ -229,7 +229,7 @@ export const ZweiNummerEins = ({
           <div key={anbieter.id} className="flex flex-col p-3 xl:p-4">
             <p
               className={`self-start rounded px-2 py-0.5 text-[12px] font-semibold xl:text-[13px] ${
-                ton === "bonus" ? "bg-[#FFF8D6] text-[#7A5A00]" : "bg-accent text-primary"
+                ton === "bonus" ? "bg-[#FFF8D6] text-[#7A5A00] dark:bg-[#33290B] dark:text-[#F3CE62]" : "bg-accent text-primary"
               }`}
             >
               {auszeichnung}

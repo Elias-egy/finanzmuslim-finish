@@ -122,7 +122,7 @@ const HalalAnlagenVoll = () => {
               <a
                 key={u.id}
                 href={`#gruppe-${u.id}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-card px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: artFarbe(u.id) }} aria-hidden />
                 <span className="font-extrabold tabular-nums">{u.zahl}</span> {u.wort}

@@ -39,7 +39,7 @@ const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const inputClass =
-  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-card px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 const parseEuro = (text: string) => {
   const v = parseFloat(text.replace(/\./g, "").replace(",", "."));
@@ -49,7 +49,7 @@ const parseEuro = (text: string) => {
 /* Ampelfarben. Farbe ist hier eine Bewertung, kein Schmuck. */
 const tonFlaeche: Record<Ton, string> = {
   gruen: "bg-[hsl(var(--success)/0.12)] text-[hsl(var(--success))]",
-  gelb: "bg-[hsl(var(--warning)/0.16)] text-[hsl(30_90%_30%)]",
+  gelb: "bg-[hsl(var(--warning)/0.16)] text-[hsl(30_90%_30%)] dark:text-[hsl(38_92%_72%)]",
   rot: "bg-[hsl(var(--destructive)/0.12)] text-[hsl(var(--destructive))]",
   grau: "bg-muted text-muted-foreground",
 };
@@ -86,7 +86,7 @@ const Kachel = ({
 }) => {
   const ton = fakt.ton ?? "grau";
   return (
-    <div className={`rounded-lg border bg-white transition ${offen ? "border-primary/50" : "border-border"}`}>
+    <div className={`rounded-lg border bg-card transition ${offen ? "border-primary/50" : "border-border"}`}>
       <button
         type="button"
         onClick={onToggle}
@@ -150,7 +150,7 @@ const Wahl = <T extends string>({
           onClick={() => setWert(o.wert)}
           aria-pressed={wert === o.wert}
           className={`rounded-lg border px-3 py-2.5 text-left transition ${
-            wert === o.wert ? "border-primary bg-white" : "border-border bg-white/60 hover:border-primary/40"
+            wert === o.wert ? "border-primary bg-card" : "border-border bg-card/60 hover:border-primary/40"
           }`}
         >
           <span className="block text-[13px] font-semibold text-foreground">{o.titel}</span>
@@ -189,7 +189,7 @@ const JaNein = ({
           onClick={() => setWert(wert === v ? null : v)}
           aria-pressed={wert === v}
           className={`rounded-lg border px-3 py-2.5 text-[13px] font-semibold transition ${
-            wert === v ? "border-primary bg-white text-foreground" : "border-border bg-white/60 text-foreground hover:border-primary/40"
+            wert === v ? "border-primary bg-card text-foreground" : "border-border bg-card/60 text-foreground hover:border-primary/40"
           }`}
         >
           {t}
@@ -224,7 +224,7 @@ const Klappe = ({
   toene?: Ton[];
   children: ReactNode;
 }) => (
-  <details className="group mt-3 rounded-lg border border-border bg-white open:border-primary/40">
+  <details className="group mt-3 rounded-lg border border-border bg-card open:border-primary/40">
     <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 md:px-5 [&::-webkit-details-marker]:hidden">
       <span
         className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-[20px] leading-none"
@@ -446,7 +446,7 @@ const AuswanderungsRechner = () => {
                   onClick={() => setLandId(l.id)}
                   aria-pressed={aktiv}
                   className={`flex flex-col items-center rounded-lg border px-2 py-4 transition ${
-                    aktiv ? "border-primary bg-accent" : "border-border bg-white/60 hover:border-primary/40"
+                    aktiv ? "border-primary bg-accent" : "border-border bg-card/60 hover:border-primary/40"
                   }`}
                 >
                   <span className="text-[40px] leading-none md:text-[48px]" aria-hidden>
@@ -501,7 +501,7 @@ const AuswanderungsRechner = () => {
               ]}
             />
 
-            <div className="rounded-lg border border-border bg-white/60">
+            <div className="rounded-lg border border-border bg-card/60">
               <button
                 type="button"
                 onClick={() => setMehrOffen((o) => !o)}
@@ -608,7 +608,7 @@ const AuswanderungsRechner = () => {
             </div>
           </div>
 
-          <div className="rounded-lg border border-border bg-white p-5">
+          <div className="rounded-lg border border-border bg-card p-5">
             <p className="text-[13px] font-semibold text-foreground">Preisniveau, Deutschland = 100</p>
             <div className="mt-2 h-[132px] w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -655,7 +655,7 @@ const AuswanderungsRechner = () => {
       <div className="mt-10">
         <h2 className="headline text-xl md:text-2xl">Die drei Länder auf einen Blick</h2>
         <p className="mt-1 text-[14px] text-muted-foreground">Tipp auf ein Land, dann rechnet alles oben mit.</p>
-        <div className="mt-4 overflow-x-auto rounded-lg border border-border bg-white">
+        <div className="mt-4 overflow-x-auto rounded-lg border border-border bg-card">
           <table className="w-full min-w-[560px] border-collapse text-[13px]">
             <thead>
               <tr>
@@ -667,7 +667,7 @@ const AuswanderungsRechner = () => {
                       onClick={() => setLandId(l.id)}
                       aria-pressed={l.id === land.id}
                       className={`inline-flex items-center gap-2 rounded border px-3 py-1.5 text-[13px] font-bold transition ${
-                        l.id === land.id ? "border-primary bg-accent text-foreground" : "border-border bg-white text-foreground hover:border-primary/40"
+                        l.id === land.id ? "border-primary bg-accent text-foreground" : "border-border bg-card text-foreground hover:border-primary/40"
                       }`}
                     >
                       <span aria-hidden>{l.flagge}</span>
@@ -715,7 +715,7 @@ const AuswanderungsRechner = () => {
             return (
               <div
                 key={z.id}
-                className={`rounded-lg border bg-white transition ${istOffen ? "border-primary/50" : "border-border"}`}
+                className={`rounded-lg border bg-card transition ${istOffen ? "border-primary/50" : "border-border"}`}
               >
                 <button
                   type="button"
@@ -808,7 +808,7 @@ const AuswanderungsRechner = () => {
         </div>
 
         {land.id === "tr" && (
-          <div className="mt-4 rounded-lg border border-border bg-white p-5">
+          <div className="mt-4 rounded-lg border border-border bg-card p-5">
             <p className="text-[13px] font-semibold text-foreground">Inflation in der Türkei, Prozent je Jahr</p>
             <div className="mt-2 h-[120px] w-full">
               <ResponsiveContainer width="100%" height="100%">

@@ -48,7 +48,7 @@ const istPreisVeraltet = (stand: string) => {
 };
 
 const inputClass =
-  "w-full rounded-lg border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-card px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Ein Geldfeld mit Beschriftung, Erklaersatz und Euro-Zeichen.
  *
@@ -216,8 +216,8 @@ const ZakatCalculator = () => {
                           aria-pressed={methode === wert}
                           className={`rounded-lg border px-3 py-2.5 text-left transition ${
                             methode === wert
-                              ? "border-primary bg-white"
-                              : "border-border bg-white/60 hover:border-primary/40"
+                              ? "border-primary bg-card"
+                              : "border-border bg-card/60 hover:border-primary/40"
                           }`}
                         >
                           <span className="block text-[13px] font-semibold text-foreground">{titel}</span>
@@ -312,8 +312,8 @@ const ZakatCalculator = () => {
                       aria-pressed={nisabBasis === b}
                       className={`rounded-lg border px-3 py-2 text-[13px] font-semibold transition ${
                         nisabBasis === b
-                          ? "border-primary bg-white text-foreground"
-                          : "border-border bg-white/60 text-muted-foreground hover:border-primary/40"
+                          ? "border-primary bg-card text-foreground"
+                          : "border-border bg-card/60 text-muted-foreground hover:border-primary/40"
                       }`}
                     >
                       {b === "silber" ? "Silber (595 g)" : "Gold (85 g)"}

@@ -139,7 +139,7 @@ export const VergleichsTabelle = ({
         }
       : undefined;
   const grund = (s: VergleichsSpalte) => {
-    if (s.grau) return "bg-zinc-200 text-zinc-600";
+    if (s.grau) return "bg-zinc-200 text-zinc-600 dark:bg-muted dark:text-muted-foreground";
     const a = auszeichnungVon(s);
     return a ? auszeichnungGrund[a.ton] : "";
   };

@@ -104,10 +104,13 @@ const schreibe = (schluessel: string, wert: unknown) => {
 const liesThema = (ausLink?: string | null): Thema => {
   if (ausLink === "dunkel" || ausLink === "hell") return ausLink;
   try {
-    return window.localStorage.getItem(SPEICHER_THEMA) === "dunkel" ? "dunkel" : "hell";
+    // Eigene Wahl auf dieser Seite geht vor, sonst gilt der Modus der ganzen Seite (Gerät oder Schalter oben).
+    const eigene = window.localStorage.getItem(SPEICHER_THEMA);
+    if (eigene === "dunkel" || eigene === "hell") return eigene;
   } catch {
-    return "hell";
+    /* privates Fenster: Modus der Seite */
   }
+  return document.documentElement.classList.contains("dark") ? "dunkel" : "hell";
 };
 
 /**

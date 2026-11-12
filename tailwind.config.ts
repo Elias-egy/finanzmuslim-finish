@@ -15,6 +15,14 @@ export default {
       },
     },
     extend: {
+      // Blau als Schrift folgt --primary-text (im dunklen Modus aufgehellt); Hintergründe und Ränder bleiben --primary.
+      textColor: {
+        primary: {
+          DEFAULT: "hsl(var(--primary-text))",
+          foreground: "hsl(var(--primary-foreground))",
+          hover: "hsl(var(--primary-text-hover))",
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

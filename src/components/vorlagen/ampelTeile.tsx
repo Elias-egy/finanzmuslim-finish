@@ -14,7 +14,7 @@ export const bewertung: Record<Farbe, { wort: string; punkt: string; pille: stri
   gelb: {
     wort: "Gelb",
     punkt: "bg-[hsl(var(--warning))]",
-    pille: "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)]",
+    pille: "border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.14)] text-[hsl(38_92%_32%)] dark:text-[hsl(38_92%_70%)]",
   },
   rot: {
     wort: "Rot",

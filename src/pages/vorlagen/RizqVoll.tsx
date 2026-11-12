@@ -146,7 +146,7 @@ const RizqVoll = () => {
               <a
                 key={a.titel}
                 href={`#anliegen-${i + 1}`}
-                className="inline-flex min-h-[44px] items-center rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center rounded-lg bg-card px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 {KURZ[i] ?? a.titel}
               </a>

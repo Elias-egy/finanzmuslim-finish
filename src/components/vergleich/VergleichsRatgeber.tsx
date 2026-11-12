@@ -349,7 +349,7 @@ export const VorNachteile = ({
         {vorteile.map((v) => (
           <li key={v.text} className="relative pb-3 pl-7 text-[18px] leading-[28px] text-foreground">
             <span className="absolute left-0 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-success">
-              <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} aria-hidden />
+              <Check className="h-3.5 w-3.5 text-white dark:text-[#0B0D12]" strokeWidth={3} aria-hidden />
             </span>
             {v.text}
           </li>

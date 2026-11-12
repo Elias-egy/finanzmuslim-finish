@@ -214,7 +214,7 @@ const PortfolioPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-lg bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-card px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -307,7 +307,7 @@ const PortfolioPlan = () => {
                 aria-pressed={l.id === lageId}
                 onClick={() => waehle(l.id)}
                 className={`min-h-[44px] rounded-lg px-1 text-[14px] font-bold transition-colors ${
-                  l.id === lageId ? "bg-white text-primary" : "text-foreground/70"
+                  l.id === lageId ? "bg-card text-primary" : "text-foreground/70"
                 }`}
               >
                 {l.wann}

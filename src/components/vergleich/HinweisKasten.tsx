@@ -4,7 +4,7 @@ import { istVorteil, type AngebotsHinweis } from "./vergleichTypen";
 
 const Zeichen = ({ vorteil, klein }: { vorteil: boolean; klein: boolean }) => (
   <span
-    className={`inline-flex shrink-0 items-center justify-center rounded-full font-bold leading-none text-white ${klein ? "h-[18px] w-[18px] text-[12px]" : "h-5 w-5 text-[13px]"} ${vorteil ? "bg-violet" : "bg-amber-500"}`}
+    className={`inline-flex shrink-0 items-center justify-center rounded-full font-bold leading-none text-white dark:text-[#0B0D12] ${klein ? "h-[18px] w-[18px] text-[12px]" : "h-5 w-5 text-[13px]"} ${vorteil ? "bg-violet" : "bg-amber-500"}`}
     aria-hidden
   >
     {vorteil ? "?" : "!"}
@@ -18,7 +18,7 @@ export const HinweisText = ({ hinweis, klein = false, id }: { hinweis: AngebotsH
     <p
       id={id}
       role="note"
-      className={`border-2 text-left text-foreground ${klein ? "rounded-lg px-3 py-2 text-[14px] leading-[21px]" : "rounded-xl px-4 py-3 text-[15px] leading-[23px]"} ${vorteil ? "border-violet bg-[#f1efff]" : "border-amber-500 bg-amber-50"}`}
+      className={`border-2 text-left text-foreground ${klein ? "rounded-lg px-3 py-2 text-[14px] leading-[21px]" : "rounded-xl px-4 py-3 text-[15px] leading-[23px]"} ${vorteil ? "border-violet bg-[#f1efff] dark:bg-violet/15" : "border-amber-500 bg-amber-50 dark:bg-amber-950/40"}`}
     >
       <span className="mr-2 inline-flex align-text-bottom">
         <Zeichen vorteil={vorteil} klein={klein} />
@@ -44,7 +44,7 @@ export const HinweisKasten = ({ hinweis, klein = false }: { hinweis: AngebotsHin
         onClick={() => setOffen((o) => !o)}
         aria-expanded={offen}
         aria-controls={id}
-        className={`inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full border-2 bg-white px-3 text-[14px] font-semibold text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${vorteil ? "border-violet/50" : "border-amber-500/70"}`}
+        className={`inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full border-2 bg-card px-3 text-[14px] font-semibold text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${vorteil ? "border-violet/50" : "border-amber-500/70"}`}
       >
         <Zeichen vorteil={vorteil} klein={klein} />
         <span className="min-w-0 truncate">{hinweis.titel}</span>

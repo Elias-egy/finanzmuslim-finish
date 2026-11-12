@@ -101,7 +101,7 @@ const Top100Voll = () => {
               <a
                 key={t.titel}
                 href={`#thema-${i}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-card px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 {t.titel}
               </a>

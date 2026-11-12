@@ -504,7 +504,7 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
     <div>
       {feier && <Konfetti />}
       <div className="relative overflow-hidden rounded-lg border border-border bg-card px-5 py-4 text-center md:px-8 md:py-5">
-        <p className="relative mx-auto inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1 text-[13px] font-bold text-[#6D4FD2]">
+        <p className="relative mx-auto inline-flex items-center gap-1.5 rounded border border-border bg-card px-3 py-1 text-[13px] font-bold text-[#6D4FD2] dark:text-violet">
           <Sparkles className="h-4 w-4" aria-hidden />
           Geschafft
         </p>
