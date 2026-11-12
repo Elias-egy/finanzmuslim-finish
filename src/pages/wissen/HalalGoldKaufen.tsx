@@ -261,7 +261,7 @@ const graph = () => {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+          { "@type": "ListItem", position: 1, name: "Start", item: SITE },
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
           { "@type": "ListItem", position: 3, name: TITEL, item: url },
         ],
@@ -785,7 +785,7 @@ const HalalGoldKaufen = () => {
                       href={GOLD.find((a) => a.anbieter === "WisdomTree")?.zertifikatLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block overflow-hidden border border-border bg-white"
+                      className="block overflow-hidden border border-border bg-card"
                     >
                       <img
                         src="/bilder/blog/halal-gold-kaufen/wisdomtree-pruefbericht-al-qalam.webp"

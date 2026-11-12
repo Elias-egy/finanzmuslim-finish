@@ -20,6 +20,7 @@ const person = {
   url: `${SITE}/ueber-mich`,
   mainEntity: {
     "@type": "Person",
+    "@id": `${SITE}/ueber-mich#elias`,
     name: "Elias El-Gendy",
     jobTitle: "Gründer von finanzmuslim",
     email: "elias@finanzmuslim.com",

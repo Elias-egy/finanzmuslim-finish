@@ -278,6 +278,8 @@ export const VergleichsSeite = ({
           beschreibung: seoText,
           path: pfad,
           faq,
+          stand,
+          anbieter: spalten.map((sp) => sp.anbieter),
         })}
         brotkrumen={[
           { name: "Vergleiche", path: "/vergleiche" },

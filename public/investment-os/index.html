@@ -4,6 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Dein Halal-Investment-OS | finanzmuslim</title>
+<meta name="description" content="Baue dein Halal-Portfolio mit dem Halal-Investment-OS: jede Aktie und jeder ETF getrackt, kostenlos mit deinem Depot über meinen Link.">
+<link rel="canonical" href="https://finanzmuslim.com/investment-os/">
+<!-- Kopf RN1-F1 (12.11.2026): Beschreibung, Adresse mit Schrägstrich, Vorschau-Karten, Icons und Schema wie die übrigen Seiten (src/components/Seo.tsx). Kein robots-Tag: ob die Seite indexiert wird, entscheidet Elias (RN1-F5). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="finanzmuslim">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://finanzmuslim.com/investment-os/">
+<meta property="og:title" content="Dein Halal-Investment-OS | finanzmuslim">
+<meta property="og:description" content="Baue dein Halal-Portfolio mit dem Halal-Investment-OS: jede Aktie und jeder ETF getrackt, kostenlos mit deinem Depot über meinen Link.">
+<meta property="og:image" content="https://finanzmuslim.com/og-default.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dein Halal-Investment-OS | finanzmuslim">
+<meta name="twitter:description" content="Baue dein Halal-Portfolio mit dem Halal-Investment-OS: jede Aktie und jeder ETF getrackt, kostenlos mit deinem Depot über meinen Link.">
+<meta name="twitter:image" content="https://finanzmuslim.com/og-default.jpg">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#0057FA">
+<meta name="apple-mobile-web-app-title" content="finanzmuslim">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://finanzmuslim.com/investment-os/#seite","url":"https://finanzmuslim.com/investment-os/","name":"Dein Halal-Investment-OS | finanzmuslim","description":"Baue dein Halal-Portfolio mit dem Halal-Investment-OS: jede Aktie und jeder ETF getrackt, kostenlos mit deinem Depot über meinen Link.","inLanguage":"de-DE","isPartOf":{"@type":"WebSite","name":"finanzmuslim","url":"https://finanzmuslim.com"},"publisher":{"@id":"https://finanzmuslim.com/#organization"},"breadcrumb":{"@id":"https://finanzmuslim.com/investment-os/#brotkrumen"}},{"@type":"BreadcrumbList","@id":"https://finanzmuslim.com/investment-os/#brotkrumen","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://finanzmuslim.com"},{"@type":"ListItem","position":2,"name":"Halal-Investment-OS","item":"https://finanzmuslim.com/investment-os/"}]},{"@type":"Organization","@id":"https://finanzmuslim.com/#organization","name":"finanzmuslim","url":"https://finanzmuslim.com","logo":"https://finanzmuslim.com/apple-touch-icon.png","description":"Bildung für islamkonformes (halal) Investieren: Guides, Rechner und Kriterien-Checks für Muslime in Deutschland.","sameAs":["https://www.instagram.com/finanz.muslim/","https://www.tiktok.com/@finanz.muslim","https://www.youtube.com/@finanz.muslim","https://www.linkedin.com/company/finanzmuslim"]}]}</script>
 <!-- VS8 (11.11.2026): getrennte Fassung nach der Codex-Gegenprobe (Documents/Codex/2026-11-11/http-127-0-0-1-5350/outputs/claude-auftrag.md, salespage-analyse.md;
      Elias raw/2026-11-11-elias-vs8-01-codex-gegenprobe-getrennte-fassung.md). Start war eine Kopie von verkauf.html (VS7), das Original bleibt unverändert.
      Geändert: eine Schrift (Plus Jakarta Sans) überall, Instrument Serif nur als Akzent; Handy-Titel bricht um statt zu schrumpfen; Hero am Handy so hoch wie sein Inhalt;
@@ -16,7 +40,7 @@
      Handy-Baum näher an ASML, Schrittnummer neben dem Titel (Laptop und Handy), Ausschnitt der OS-Einführung im Schritt 3. Sicherung: verkauf-gegenprobe.vor-runde2.html -->
 <script>
 /* Thema vor dem ersten Bild setzen: hell ist Grundstand, dunkel nur auf Wunsch (Schalter oben), gemerkt nur in diesem Browser */
-(function(){ try { if (localStorage.getItem("fm-verkauf-thema") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {} })();
+(function(){ try { var w = localStorage.getItem("fm-verkauf-thema"); if (w === "dark" || (w !== "light" && matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.dataset.theme = "dark"; } catch (e) {} })();
 </script>
 <style>
 @font-face{font-family:"Plus Jakarta Sans";src:url(fonts/plus-jakarta-sans-latin.woff2) format("woff2");font-weight:200 800;font-display:swap}
@@ -372,6 +396,8 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
 .schluss p{color:rgba(255,255,255,.92);font-size:19px;margin:18px auto 0;max-width:46ch;text-wrap:balance}
 .schluss-knoepfe{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px}
 .fuss{max-width:1120px;margin:80px auto 0;padding:26px 0 120px;border-top:1px solid var(--linie);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--ink2)}
+.fuss-links{flex-basis:100%;display:flex;gap:20px}
+.fuss-links a{text-decoration:underline;text-underline-offset:3px}
 
 /* feste Leiste unten (nur Laptop), kompakt */
 .fuss-leiste{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:16px;background:var(--leiste);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--linie);border-radius:999px;padding:6px 6px 6px 20px;box-shadow:0 12px 34px rgba(14,17,22,.12);width:max-content;max-width:calc(100% - 32px);transition:opacity .3s ease,transform .3s var(--weich)}
@@ -837,6 +863,7 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
 <footer class="fuss">
   <span>* Werbelink: Eröffnest du darüber ein Depot, bekomme ich eine Provision. Für dich ändert sich nichts.</span>
   <span>Keine Anlageempfehlung. Vergangene Entwicklung ist kein Versprechen.</span>
+  <nav class="fuss-links" aria-label="Rechtliches"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></nav>
 </footer>
 
 <div class="fuss-leiste" id="fuss-leiste">
@@ -855,6 +882,8 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
     try { localStorage.setItem("fm-verkauf-thema", d ? "dark" : "light"); } catch (e) {}
     stand();
   });
+  /* ohne gemerkte Wahl folgt der Schalter der Geräteeinstellung auch live */
+  try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e){ var w = null; try { w = localStorage.getItem("fm-verkauf-thema"); } catch (x) {} if (w) return; if (e.matches) root.dataset.theme = "dark"; else delete root.dataset.theme; stand(); }); } catch (e) {}
   stand();
 })();
 
