@@ -132,6 +132,8 @@ export const festeRouten: Route[] = [
   vorlage("auto-abo-check", "AutoAboCheck.tsx"),
   // Girokonto-Freebie als offene Unterseite (H15 5c, 05.11.2026): Ziel der Halal-News und des Videos mit den 50 Euro.
   vorlage("girokonto-bonus", "GirokontoBonus.tsx"),
+  // Broker-Freebie (BT1, 13.11.2026): Ziel des Kommentar-Worts BROKER, Aufbau wie die Girokonto-Unterseite.
+  vorlage("broker-vergleich", "BrokerVergleich.tsx"),
 
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   ...(deals.length > 0 ? [{ pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly" as const, prioritaet: "0.6" }] : []),
