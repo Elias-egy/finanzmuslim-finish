@@ -11,7 +11,7 @@
  * Bewusst nicht genannt: der Traders-Place-Bonus von 60 € (gilt nur mit Zinsen, Elias 07.11.2026: „Traders Place Boni
  * angeben, macht bei uns ja keinen Sinn, weil der nur mit Zinsen ist“), jede andere Prämie, jede Zahl ohne Beleg.
  */
-import { depotAnzeige } from "@/data/anzeige/depot";
+import { depotAnzeige } from "@/data/vergleichAnzeige";
 import { kostenKurz } from "@/data/kostenKurz";
 
 export type BrokerRolle = "start" | "profi" | "platz3" | "honorable";
