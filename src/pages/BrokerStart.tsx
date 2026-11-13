@@ -160,7 +160,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           auftaucht (Elias, CV23S: „genau da sichtbar …, wenn ich ein bisschen nach unten scrolle“). */}
       <section className="min-h-[calc(100svh-64px)] bg-background">
         {/* Elias, CV22F 08.11.2026: am Handy klebte der Titel unter dem Kopf. Luft oben wächst mit der Schirmhöhe. */}
-        <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-14">
+        <div className="container max-w-[600px] pt-[clamp(28px,6svh,64px)] text-center md:pt-8">
           <h1 className="headline mx-auto max-w-[15ch] text-[30px] leading-[1.12] text-foreground md:text-[40px]">
             In 10 Minuten steht dein Halal-Investment
           </h1>
@@ -191,7 +191,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
               Elias, CV23S: „entscheidet, ob wir es überall machen oder gar nicht“, darum auf allen drei Seiten. */}
           <p className="mt-2 text-[15px] leading-snug text-foreground">{start.pflicht ?? "Investieren birgt Verlustrisiken."}</p>
 
-          <div className="relative mt-12 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-16">
+          <div className="relative mt-12 w-full aspect-video overflow-hidden rounded-[6px] bg-black text-left md:mt-11">
             {start.video ? (
               <>
                 <video
