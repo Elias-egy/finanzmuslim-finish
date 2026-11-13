@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Copy, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
-import { anlagenMitLink, FERTIG_MAIL, FLATEX_VERZICHT, type BrokerStart } from "@/data/brokerStart";
+import OsAnfrage from "@/components/OsAnfrage";
+import { anlagenMitLink, FLATEX_VERZICHT, type BrokerStart } from "@/data/brokerStart";
 import type { StartPartner } from "@/data/investmentStart";
 import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
 import { blockerFest } from "@/lib/direktLink";
@@ -133,6 +134,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
   }, [partner.kurzname]);
 
   const [mailOffen, setMailOffen] = useState(false);
+  const [osOffen, setOsOffen] = useState(false);
   const [kopiert, setKopiert] = useState(false);
   const kopieren = async () => {
     try {
@@ -279,17 +281,21 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                 )}
               </Zeile>
             )}
-            {/* FERTIG mit Nachweis (Elias, CV20F 07.11. und CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem
-                Screenshot von deinem Halal-ETF und du kriegst den Blueprint.“ */}
+            {/* FERTIG als Mini-Formular statt Mail (Elias, CV28V 13.11.2026: „Mach mal so ein Mini-Formular. Anstatt
+                dieses fertig öffnet sich … Halal-Investment-OS anfragen“; Vault raw/2026-11-13-elias-cv28v-01-…). */}
             <Zeile titel="FERTIG">
-              <a
-                href={FERTIG_MAIL.href}
-                onClick={() => ereignis("fertig_klick", { anbieter: partner.kurzname })}
+              <button
+                type="button"
+                onClick={() => {
+                  if (!osOffen) ereignis("fertig_klick", { anbieter: partner.kurzname });
+                  setOsOffen((o) => !o);
+                }}
+                aria-expanded={osOffen}
                 className="font-semibold text-primary underline-offset-4 hover:underline"
               >
-                {FERTIG_MAIL.link}
-              </a>
-              <span className="block">{FERTIG_MAIL.satz}</span>
+                Halal-Investment-OS anfragen
+              </button>
+              {osOffen && <OsAnfrage anbieter={partner.kurzname} />}
             </Zeile>
           </ul>
 

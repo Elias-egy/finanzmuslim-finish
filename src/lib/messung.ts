@@ -35,7 +35,9 @@ export type Ereignis =
   | "leer_klick"
   // CV23S (08.11.2026): Unterseiten je Broker, Klick auf einen App-Store-Link und auf die FERTIG-Mail.
   | "app_klick"
-  | "fertig_klick";
+  | "fertig_klick"
+  // CV28V (13.11.2026): Mini-Formular „Halal-Investment-OS anfragen“ abgeschickt.
+  | "os_anfrage";
 
 const speicher = (): Storage | null => {
   try {
