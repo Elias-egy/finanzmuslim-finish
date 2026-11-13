@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Copy, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
-import OsAnfrage from "@/components/OsAnfrage";
+import { OsAnfrageKnopf } from "@/components/OsAnfrage";
 import { anlagenMitLink, FLATEX_VERZICHT, type BrokerStart } from "@/data/brokerStart";
 import type { StartPartner } from "@/data/investmentStart";
 import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
@@ -134,7 +134,6 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
   }, [partner.kurzname]);
 
   const [mailOffen, setMailOffen] = useState(false);
-  const [osOffen, setOsOffen] = useState(false);
   const [kopiert, setKopiert] = useState(false);
   const kopieren = async () => {
     try {
@@ -233,7 +232,10 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
           unter dem ersten Schirm, damit dort nur der Knopf antippbar ist (memory conversion-seite-ein-knopf-ganz-weiss). */}
       <section className="bg-background pb-12 pt-6">
         <div className="container max-w-[600px] text-[17px] leading-snug text-foreground">
-          <h2 className="text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
+          {/* Elias, CV28V-02 13.11.2026: unter dem Video als Erstes, auffällig, über den Links; FERTIG gehört nicht
+              mehr zu den Links. */}
+          <OsAnfrageKnopf anbieter={partner.kurzname} />
+          <h2 className="mt-10 text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
           <ul className="mt-4 space-y-3">
             <Zeile titel={`${start.app.name}-App${start.app.zweck ? ` (${start.app.zweck})` : ""}`}>
               <StoreLinks app={start.app} wo="app" kurzname={partner.kurzname} />
@@ -281,22 +283,6 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
                 )}
               </Zeile>
             )}
-            {/* FERTIG als Mini-Formular statt Mail (Elias, CV28V 13.11.2026: „Mach mal so ein Mini-Formular. Anstatt
-                dieses fertig öffnet sich … Halal-Investment-OS anfragen“; Vault raw/2026-11-13-elias-cv28v-01-…). */}
-            <Zeile titel="FERTIG">
-              <button
-                type="button"
-                onClick={() => {
-                  if (!osOffen) ereignis("fertig_klick", { anbieter: partner.kurzname });
-                  setOsOffen((o) => !o);
-                }}
-                aria-expanded={osOffen}
-                className="font-semibold text-primary underline-offset-4 hover:underline"
-              >
-                Halal-Investment-OS anfragen
-              </button>
-              {osOffen && <OsAnfrage anbieter={partner.kurzname} />}
-            </Zeile>
           </ul>
 
           {anlagen.length > 0 && (

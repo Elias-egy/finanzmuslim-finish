@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ImagePlus } from "lucide-react";
-import { EINWILLIGUNG_TEXT } from "@/components/optin/OptinKarte";
+import { ArrowRight, ImagePlus } from "lucide-react";
+import { Link } from "react-router-dom";
 import { ereignis } from "@/lib/messung";
 
 /**
@@ -81,10 +81,8 @@ export const OsAnfrage = ({ anbieter }: { anbieter: string }) => {
 
   return (
     <>
-      <form onSubmit={absenden} noValidate className="mt-3 rounded-[6px] border-2 border-border bg-card p-4 md:p-5">
-        <p className="text-[19px] font-bold leading-tight">Halal-Investment-OS anfragen</p>
-
-        <label htmlFor={`${id}-mail`} className="mt-4 block text-[15px] font-semibold">
+      <form onSubmit={absenden} noValidate className="mt-3 rounded-[6px] border-2 border-border bg-card p-4 text-left md:p-5">
+        <label htmlFor={`${id}-mail`} className="block text-[15px] font-semibold">
           Deine E-Mail
         </label>
         <input
@@ -135,14 +133,22 @@ export const OsAnfrage = ({ anbieter }: { anbieter: string }) => {
           className="hidden"
         />
 
+        {/* Nur das Häkchen wie bei der Newsletter-Anmeldung (FreitagsbriefFormular), weißes Kästchen (Elias, CV28V-03:
+            „ich habe die Datenschutzerklärung zur Kenntnis genommen … so weiß, nicht innen drin dunkel“). */}
         <label className="mt-4 flex min-h-[44px] cursor-pointer items-start gap-3 py-1 text-[15px] leading-snug text-foreground">
           <input
             type="checkbox"
             checked={gelesen}
             onChange={(e) => setGelesen(e.target.checked)}
-            className="mt-0.5 h-5 w-5 shrink-0 rounded accent-primary"
+            className="os-haken mt-0.5 shrink-0"
           />
-          <span>{EINWILLIGUNG_TEXT}</span>
+          <span>
+            Ich habe die{" "}
+            <Link to="/datenschutz" className="text-primary underline underline-offset-2">
+              Datenschutzerklärung
+            </Link>{" "}
+            zur Kenntnis genommen.
+          </span>
         </label>
 
         {hinweis && (
@@ -160,6 +166,34 @@ export const OsAnfrage = ({ anbieter }: { anbieter: string }) => {
       </form>
       {fertig && <DankeSchirm schliessen={() => setFertig(false)} />}
     </>
+  );
+};
+
+/**
+ * Der auffällige Knopf „Halal-Investment-OS anfragen“ mit Pfeil, der das Formular aufklappt (Elias, CV28V-02 13.11.2026:
+ * „unter dem Video das allererste, was kommt, ist Halal Investment OS anfragen und dann kommt ein Pfeil … ein bisschen
+ * offensichtlicher animiert … wie ein Button … wenn du draufklickst, dann öffnet sich halt dieses Formular“; „überall,
+ * wo du es anfragen kannst, dass die Anfrage genauso aussieht“). Die OS-Verkaufsseite im Vault baut denselben Knopf
+ * nach (verkauf-gegenprobe.html, Klasse os-anfrage-knopf).
+ */
+export const OsAnfrageKnopf = ({ anbieter }: { anbieter: string }) => {
+  const [offen, setOffen] = useState(false);
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => {
+          if (!offen) ereignis("fertig_klick", { anbieter });
+          setOffen((o) => !o);
+        }}
+        aria-expanded={offen}
+        className="os-anfrage-knopf"
+      >
+        Halal-Investment-OS anfragen
+        <ArrowRight className={`os-anfrage-pfeil h-6 w-6 shrink-0 ${offen ? "offen" : ""}`} aria-hidden />
+      </button>
+      {offen && <OsAnfrage anbieter={anbieter} />}
+    </div>
   );
 };
 
