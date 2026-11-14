@@ -15,18 +15,22 @@ const zeige = () =>
     </HelmetProvider>,
   );
 
-describe("Girokonto-Bonus: Kopf mit zwei gleich großen Karten (RK1-B, 14.11.2026)", () => {
-  it("zeigt oben zuerst norisbank, daneben die BBBank, je mit Bedingung und Knopf", () => {
+describe("Girokonto-Bonus: norisbank allein ganz oben (RK1-B, Elias 14.11.2026)", () => {
+  it("zeigt oben nur die norisbank über die ganze Breite, mit Bedingung und Knopf, ohne BBBank-Karte", () => {
     const { container } = zeige();
     const karten = Array.from(container.querySelectorAll("[data-bonus-kopfkarte]"));
-    expect(karten.map((k) => k.getAttribute("data-bonus-kopfkarte"))).toEqual(["norisbank", "bbbank-bettersmart"]);
+    expect(karten.map((k) => k.getAttribute("data-bonus-kopfkarte"))).toEqual(["norisbank"]);
     const noris = within(karten[0] as HTMLElement);
     expect(noris.getByText(/Kostenlos unter 30 oder ab 500\s€ Geldeingang, sonst 3,90\s€ im Monat/)).toBeTruthy();
     expect(noris.getByRole("link", { name: /Bei norisbank eröffnen/ })).toBeTruthy();
-    const bb = within(karten[1] as HTMLElement);
-    expect(bb.getByText(/Kostenlos unter 30 oder ab 1\.000\s€ Geldeingang/)).toBeTruthy();
-    expect(bb.getAllByText(/50\s€/).length).toBeGreaterThan(0);
-    expect(bb.getByRole("link", { name: /50 € bei der BBBank sichern/ })).toBeTruthy();
+    expect(container.querySelector("[data-bonus-kopf]")?.textContent).not.toMatch(/BBBank/);
+  });
+
+  it("lässt den BBBank-Knopf mit 50 € unten stehen", () => {
+    const { container } = zeige();
+    const warum = container.querySelector("[data-bonus-warum]") as HTMLElement;
+    expect(within(warum).getByRole("link", { name: /Konto bei der BBBank eröffnen/ })).toBeTruthy();
+    expect(warum.textContent).toMatch(/50\s€ Startprämie/);
   });
 
   it("nennt keine 200-€-Prämie der norisbank", () => {

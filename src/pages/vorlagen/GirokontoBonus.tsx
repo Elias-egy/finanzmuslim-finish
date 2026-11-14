@@ -4,7 +4,7 @@ import { ArrowDown, ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { BBBANK_PRAEMIE, BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } from "@/data/girokontoBonus";
+import { BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } from "@/data/girokontoBonus";
 import { findStartPartner } from "@/data/investmentStart";
 import { blockerFest, direktLink } from "@/lib/direktLink";
 import { ereignis } from "@/lib/messung";
@@ -127,55 +127,28 @@ const GirokontoBonus = () => {
             </p>
           </header>
 
-          {/* RK1-B (14.11.2026): zwei gleich große Karten über der ersten Handy-Kante, norisbank zuerst, Bedingung am Knopf */}
+          {/* RK1-B (14.11.2026, Elias): norisbank allein ganz oben über die ganze Breite, die BBBank mit 50 € steht weiter unten */}
           <section className="mt-6" data-bonus-kopf>
-            <ul className="grid grid-cols-2 items-stretch gap-3">
-              {[
-                {
-                  k: norisbank,
-                  stelle: GIRO_BONUS_SRC.norisbankKopf,
-                  gross: euro(0),
-                  zeile: "Kontoführung",
-                  bedingung: `Kostenlos unter ${norisbank.gratisUnter} oder ab ${euro(norisbank.gratisAb)} Geldeingang, sonst ${euro(norisbank.sonst)} im Monat.`,
-                  knopf: "Bei norisbank eröffnen*",
-                },
-                {
-                  k: bbbank,
-                  stelle: GIRO_BONUS_SRC.kopf,
-                  gross: euro(BBBANK_PRAEMIE.betrag),
-                  zeile: "Startprämie",
-                  bedingung: `Kostenlos unter ${bbbank.gratisUnter} oder ab ${euro(bbbank.gratisAb)} Geldeingang, sonst ${euro(bbbank.sonst)} im Monat.`,
-                  knopf: "50 € bei der BBBank sichern*",
-                },
-              ].map(({ k, stelle, gross, zeile, bedingung, knopf }) => (
-                <li
-                  key={k.id}
-                  className="flex flex-col rounded-2xl bg-accent p-3.5 ring-1 ring-primary/20 sm:p-5"
-                  data-bonus-kopfkarte={k.out}
-                >
-                  <div className="flex items-center gap-2">
-                    <AnbieterLogo name={k.name} domain={k.domain} rand />
-                    <p className="text-[17px] font-extrabold leading-tight text-foreground">{k.name}</p>
-                  </div>
-                  <p className="mt-1.5">
-                    <Werbung />
-                  </p>
-                  <p className="mt-2 text-[44px] font-extrabold leading-none tracking-tight text-primary tabular-nums sm:text-[56px]">{gross}</p>
-                  <p className="mt-1 text-[17px] font-bold leading-tight text-foreground">{zeile}</p>
-                  <p className="mt-3 text-[15px] leading-snug text-foreground">{bedingung}</p>
-                  <div className="mt-auto pt-3">
-                    <Knopf
-                      to={link(k.out, stelle)}
-                      anbieter={k.out}
-                      stelle={stelle}
-                      klasse="!h-auto min-h-[64px] !px-2 py-2 text-center !text-[15px] leading-tight sm:min-h-[60px] sm:!px-4 sm:!text-[16px] sm:w-full"
-                    >
-                      {knopf}
-                    </Knopf>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-col rounded-2xl bg-accent p-5 ring-1 ring-primary/20 md:p-6" data-bonus-kopfkarte={norisbank.out}>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <AnbieterLogo name={norisbank.name} domain={norisbank.domain} rand />
+                  <p className="text-[20px] font-extrabold leading-tight text-foreground">{norisbank.name}</p>
+                </div>
+                <Werbung />
+              </div>
+              <p className="mt-4 text-[64px] font-extrabold leading-none tracking-tight text-primary tabular-nums">{euro(0)}</p>
+              <p className="mt-1 text-[20px] font-bold leading-tight text-foreground">Kontoführung</p>
+              <p className="mt-3 text-[17px] leading-snug text-foreground">
+                Kostenlos unter {norisbank.gratisUnter} oder ab {euro(norisbank.gratisAb)} Geldeingang, sonst {euro(norisbank.sonst)} im Monat.
+              </p>
+              <div className="mt-4">
+                <Knopf to={link(norisbank.out, GIRO_BONUS_SRC.norisbankKopf)} anbieter={norisbank.out} stelle={GIRO_BONUS_SRC.norisbankKopf}>
+                  Bei norisbank eröffnen*
+                  <ArrowRight className="h-5 w-5" aria-hidden />
+                </Knopf>
+              </div>
+            </div>
             <ul className="mt-4 flex flex-wrap gap-2">
               <Pille>Keine Zinsen</Pille>
               <Pille>Dispo nur auf Antrag</Pille>
