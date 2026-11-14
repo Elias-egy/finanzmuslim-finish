@@ -147,7 +147,7 @@ h1 em.s{display:block;color:var(--ink-h);padding-bottom:.06em}
 .haken.g{background:var(--gruen-hauch);color:var(--gruen)}
 
 /* 2. Vorschau (fast quadratisch wie Skilltree, 1118 × 881). Bis Elias' Video da ist: das echte OS dunkel, ohne App-Pop-ups */
-.video{position:relative;max-width:1120px;margin:56px auto 0;aspect-ratio:1118/881;border-radius:16px;overflow:hidden;background:var(--nacht);
+.video{position:relative;max-width:1180px;margin:56px auto 0;aspect-ratio:1660/940;border-radius:16px;overflow:hidden;background:var(--nacht);
   border:1px solid var(--rand-k);box-shadow:0 -28px 80px -52px rgba(20,20,24,.4),0 40px 90px -40px rgba(0,40,140,.35)}
 .video iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;pointer-events:none;opacity:0;transition:opacity .6s ease}
 .video iframe.da{opacity:1}
@@ -159,6 +159,7 @@ h1 em.s{display:block;color:var(--ink-h);padding-bottom:.06em}
 .video-unter{display:none;justify-content:center;align-items:center;gap:8px;margin:12px 0 0;font-size:13px;font-weight:600;color:var(--ink2)}
 .video-unter i{width:7px;height:7px;border-radius:50%;background:var(--blau)}
 .video .lade{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.5);font-size:14px}
+.video .os-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 
 /* Abschnitte */
 .abschnitt{padding:96px 0 0}
@@ -186,6 +187,9 @@ h2 em.s{display:block;color:var(--blau-text)}
 /* Bild 1: Platz für Elias' Depot-Screenshot im Telefonrahmen */
 .handy{width:30%;aspect-ratio:9/18.5;border-radius:22px;background:#fff;border:5px solid #0E1116;box-shadow:0 18px 40px rgba(14,17,22,.18);position:relative;translate:0 22%;display:grid;place-items:center;padding:12px}
 .handy::before{content:"";position:absolute;top:6px;left:50%;width:34%;height:8px;border-radius:8px;background:#0E1116;translate:-50% 0}
+.handy.mit-bild{padding:0;overflow:hidden;background:#000;align-self:start;margin-top:18px;translate:none}
+.handy.mit-bild::before{z-index:1}
+.handy.mit-bild img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .handy .folgt{border:1.5px dashed rgba(0,87,250,.35);border-radius:10px;width:100%;height:70%;display:grid;place-items:center;text-align:center;padding:6px;font-size:11.5px;font-weight:650;color:#0057FA;line-height:1.3}
 /* Bild 2: Mail wie im Mailprogramm, mit angehängtem Screenshot */
 .mail{width:84%;max-width:420px;background:var(--karte);border-radius:14px;box-shadow:0 18px 40px var(--schatten-k);border:1px solid var(--linie);overflow:hidden;font-size:13px;color:var(--ink)}
@@ -211,6 +215,21 @@ h2 em.s{display:block;color:var(--blau-text)}
 .reihe-text h3{margin:0;font-size:clamp(30px,3.2vw,44px);line-height:1.05;letter-spacing:-.028em;font-weight:700;color:var(--ink-h)}
 .reihe-text h3 em.s{display:block;color:var(--blau-text)}
 .reihe-text p{margin:16px 0 0;font-size:17px;line-height:1.55;color:var(--ink2);max-width:36ch}
+.erfolge{width:100%;max-width:400px;display:grid;gap:12px}
+.meldung{display:flex;align-items:center;gap:12px;background:var(--karte);border:1px solid var(--linie);border-radius:16px;padding:14px 16px;box-shadow:0 14px 36px var(--schatten-k);color:var(--ink);opacity:0;translate:0 14px;transition:opacity .5s ease,translate .5s cubic-bezier(.2,.8,.2,1)}
+.os-teil.sichtbar .meldung{opacity:1;translate:0 0}
+.os-teil.sichtbar .meldung:nth-child(2){transition-delay:.35s}
+.os-teil.sichtbar .meldung:nth-child(3){transition-delay:.7s}
+.os-teil.sichtbar .meldung:nth-child(4){transition-delay:1.05s}
+.m-haken{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gruen-hauch);color:var(--gruen);display:grid;place-items:center}
+.m-haken.blau{background:var(--blau-hauch);color:var(--blau-text)}
+.m-haken svg{width:15px;height:15px}
+.m-text{flex:1;min-width:0}
+.m-text b{display:block;font-size:15px;font-weight:700;color:var(--ink-h)}
+.m-text small{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+.m-chip{flex:none;background:var(--gruen-hauch);color:var(--gruen);font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px}
+.m-pfeil{flex:none;font-size:22px;line-height:1;color:var(--ink2)}
+@media (prefers-reduced-motion: reduce){.meldung{opacity:1;translate:none;transition:none}}
 .teil3-folgt{border:1.5px dashed rgba(0,87,250,.35);border-radius:16px;width:100%;min-height:360px;display:grid;place-items:center;text-align:center;font-size:15px;font-weight:650;color:var(--blau-text);line-height:1.4}
 .os-teil{position:relative;background:var(--os-grund);border-radius:24px;padding:34px;min-height:440px;display:grid;place-items:center;overflow:hidden}
 .os-teil::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 1px 1px,var(--punkt) 1px,transparent 0) 0 0/18px 18px;-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
@@ -352,8 +371,9 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
 .werte li{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--linie);font-size:16px}
 .werte li b{font-size:19px;letter-spacing:-.02em;color:var(--blau-text);font-weight:700;white-space:nowrap}
 .werte li span{color:var(--ink2)}
-.anleitung{display:flex;align-items:center;gap:14px;margin-top:18px;border:1.5px dashed rgba(0,87,250,.28);border-radius:16px;padding:12px 14px}
-.anleitung .mini{flex:none;width:84px;aspect-ratio:16/10;border-radius:10px;background:linear-gradient(135deg,#EEF3FF,#DCE7FF);display:grid;place-items:center}
+.anleitung{display:flex;align-items:center;gap:14px;margin-top:18px;border:1px solid var(--linie);border-radius:16px;padding:12px 14px;color:inherit;text-decoration:none;transition:border-color .2s}
+.anleitung:hover{border-color:var(--blau)}
+.anleitung .mini{flex:none;width:84px;aspect-ratio:16/10;border-radius:10px;background:#0E1116 center/cover no-repeat;display:grid;place-items:center}
 .anleitung .mini i{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px rgba(14,17,22,.12)}
 .anleitung .mini svg{width:11px;height:11px;margin-left:2px;color:#0057FA}
 .anleitung b{display:block;font-size:15.5px}
@@ -462,8 +482,7 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
   .drin-titel{display:block;margin:0 0 11px;text-align:center;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--label);white-space:nowrap}
   .drin ul{grid-template-columns:auto}
   .video{aspect-ratio:4/5;margin-top:24px}
-  .video .bereiche,.video .vorschau{display:none}
-  .video-unter{display:flex!important}
+  .video .os-film{object-position:35% 50%}
   .abschnitt{padding-top:72px}
   .lead{font-size:16.5px;line-height:26px}
   .schritte{margin-top:28px}
@@ -476,6 +495,8 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
   .schritt:nth-child(2) .bild{height:224px}
   .schritt .handy{width:84px;translate:0 14%}
   .schritt .handy .folgt{font-size:10px}
+  .schritt .bild:has(.mit-bild){height:230px}
+  .schritt .handy.mit-bild{width:200px;margin-top:16px;border-radius:22px;translate:none}
   .schritt .mail{position:static;width:calc(100% - 32px);max-width:360px;transform:none;translate:none}
   .schritt .mail .leiste{padding:6px 12px}
   .schritt .mail .feld{padding:6px 12px}
@@ -590,14 +611,11 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
     <a class="textlink" href="#zugang">Depot steht schon? Zum Zugang →</a>
   </nav>
 
-  <!-- 2. Vorschau aus dem echten OS (Platzhalter bis Elias' Video), ohne App-Pop-ups -->
+  <!-- 2. Video: Elias' Rundgang durch das OS (~/Desktop/1113.mp4, RN2-02 14.11.: „das ist das einzige Video, was eingeblendet werden sollte“), ein Video für Laptop und Handy, am Handy nur anders zugeschnitten wie Skilltree; stumm, läuft nur, wenn zu sehen -->
   <section id="video" aria-label="So sieht dein OS aus">
     <div class="video rein" id="video-rahmen">
-      <div class="lade" id="video-lade">Dein OS lädt …</div>
-      <span class="vorschau"><i></i>Vorschau aus dem echten OS · Video folgt</span>
-      <div class="bereiche" aria-hidden="true"><span data-v="start">Start</span><span data-v="maerkte">Märkte</span><span data-v="portfolio">Portfolio</span></div>
+      <video class="os-film" src="videos/os-rundgang.mp4" poster="videos/os-rundgang.jpg" muted loop playsinline preload="metadata" aria-label="Rundgang durch das Halal-Investment-OS"></video>
     </div>
-    <p class="video-unter"><i></i>Vorschau aus dem echten OS · Video folgt</p>
   </section>
 
   <!-- 3. #prozess: kompakte Übersicht, Sprungziel aller Knöpfe „Investment-OS holen“ (keine Mail hier) -->
@@ -609,7 +627,7 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
       </div>
       <ol class="schritte">
         <li class="schritt rein">
-          <div class="bild" aria-hidden="true"><div class="handy"><div class="folgt">Bild folgt:<br>Depot mit Halal-Portfolio</div></div></div>
+          <div class="bild"><div class="handy mit-bild"><img src="bilder/depot-halal-portfolio.webp" alt="Elias' Depot mit Halal-Portfolio: Sukuk-ETF, Al-Kawthar-Fonds und Gold" width="524" height="1080" loading="lazy"></div></div>
           <div class="text">
             <span class="nr">1</span>
             <h3>Mach dein Finanzmuslim-Depot</h3>
@@ -726,10 +744,16 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
           </div>
         </div>
 
-        <!-- Teil 3: Titel nach Elias (VS7-01), Bild folgt. Der Satz beschreibt, was das OS heute meldet (shell.js sh_freude: Lob und Monatsrückblick aus echten Zahlen), kein Renditeversprechen -->
+        <!-- Teil 3: Titel nach Elias (VS7-01), Meldungen aus dem OS (RN2). Der Satz beschreibt, was das OS heute meldet (shell.js sh_freude: Lob und Monatsrückblick aus echten Zahlen), kein Renditeversprechen -->
         <div class="reihe">
           <div class="os-teil rein">
-            <div class="folgt teil3-folgt">Bild folgt:<br>Erfolgsmeldung aus deinem OS</div>
+            <!-- RN2: Meldungen wortgleich aus dem OS (shell.js sh_freude, sh_rueckblickAuf), keine Zahlen erfunden -->
+            <div class="erfolge" aria-label="Meldungen aus deinem OS">
+              <div class="meldung"><span class="m-haken" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="m-text"><b>Erste Anlage eingetragen</b><small>Dein Portfolio läuft.</small></span><span class="m-chip">Stark</span></div>
+              <div class="meldung"><span class="m-haken" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="m-text"><b>Zwei Bausteine im Portfolio</b><small>Dein Geld liegt jetzt breiter.</small></span><span class="m-chip">Stark</span></div>
+              <div class="meldung"><span class="m-haken" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="m-text"><b>Alles halal aufgestellt</b><small>Dein Halal-Check ist grün.</small></span><span class="m-chip">Halal</span></div>
+              <div class="meldung rueck"><span class="m-haken blau" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2.5 12.5 6 8.5l3 2.5 4.5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="m-text"><b>Dein Monatsrückblick</b><small>Was dein Portfolio im Monat gemacht hat.</small></span><span class="m-pfeil" aria-hidden="true">›</span></div>
+            </div>
             <div class="karte markt" id="markt" hidden>
               <div class="markt-kopf">
                 <div class="reiter" role="tablist" aria-label="Märkte">
@@ -790,7 +814,7 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
             <li><b>0 €</b><span>Depotgebühr</span></li>
             <li><b>0 €</b><span>ETF-Sparplan</span></li>
           </ul>
-          <div class="anleitung"><span class="mini"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg></i></span><span><b>Anleitung: flatex Schritt für Schritt</b><span>Video folgt</span></span></div>
+          <a class="anleitung" href="/dein-investmentstart/flatex"><span class="mini" style="background-image:url(/videos/einrichtung-flatex-poster.jpg)"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg></i></span><span><b>Anleitung: flatex Schritt für Schritt</b><span>Video, 6:42 Minuten</span></span></a>
           <div class="abstand"></div>
           <a class="knopf" href="/out/flatex" rel="sponsored">flatex-Depot eröffnen*</a>
         </article>
@@ -803,7 +827,7 @@ button.pos.ruft{box-shadow:inset 0 0 0 2px var(--blau);border-radius:12px}
             <li><b>0 €</b><span>Depotgebühr</span></li>
             <li><b>1 €</b><span>Sparplan ab, kostenlos</span></li>
           </ul>
-          <div class="anleitung"><span class="mini"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg></i></span><span><b>Anleitung: Smartbroker+ Schritt für Schritt</b><span>Video folgt</span></span></div>
+          <a class="anleitung" href="/dein-investmentstart/smartbroker"><span class="mini" style="background-image:url(/videos/einrichtung-smartbroker-poster.jpg)"><i><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg></i></span><span><b>Anleitung: Smartbroker+ Schritt für Schritt</b><span>Video, 6:32 Minuten</span></span></a>
           <div class="abstand"></div>
           <a class="knopf" href="/out/smartbroker" rel="sponsored">Smartbroker+-Depot eröffnen*</a>
         </article>
@@ -920,37 +944,17 @@ function osEinrichten(f, dann){
   }, 150);
 }
 
-/* Vorschau: das echte OS dunkel, läuft selbst durch Start, Märkte und Portfolio; steht still, wenn nicht zu sehen */
+/* Video: spielt nur, solange es zu sehen ist; bei „weniger Bewegung“ bleibt das Standbild */
 (function(){
-  var rahmen = document.getElementById("video-rahmen"), lade = document.getElementById("video-lade"), f = null, w = null, sichtbar = false, i = 0, uhr = 0;
-  var folge = [["start", 6000], ["maerkte", 5500], ["portfolio", 6500]];
-  var marken = rahmen.querySelectorAll(".bereiche span");
-  function passen(){
-    if (!f) return;
-    var cw = rahmen.clientWidth, ch = rahmen.clientHeight, W = cw >= 700 ? 1440 : Math.max(cw, 390), s = cw / W;
-    f.style.width = W + "px"; f.style.height = (ch / s) + "px"; f.style.transform = "scale(" + s + ")";
+  var rahmen = document.getElementById("video-rahmen"), filme = rahmen.querySelectorAll("video"), sichtbar = false;
+  function steuern(){
+    filme.forEach(function(v){
+      var an = sichtbar && v.offsetParent !== null && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (an) { var p = v.play(); if (p && p.catch) p.catch(function(){}); } else v.pause();
+    });
   }
-  function weiter(){
-    clearTimeout(uhr);
-    if (!w || !sichtbar || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var v = folge[i % folge.length];
-    var y = scrollY, a = document.activeElement;
-    try { w.zeige(v[0]); } catch (e) {}
-    if (scrollY !== y) scrollTo({top: y, behavior: "instant"});
-    if (a && a !== document.activeElement && a.focus) a.focus({preventScroll: true});
-    marken.forEach(function(m){ m.classList.toggle("an", m.dataset.v === v[0]); });
-    i++; uhr = setTimeout(weiter, v[1]);
-  }
-  function laden(){
-    if (f) return;
-    f = document.createElement("iframe");
-    f.src = "/os-entwurf/app/?demo=echt&modus=dunkel#start"; f.title = "Vorschau: das Halal-Investment-OS"; f.tabIndex = -1; f.setAttribute("aria-hidden", "true");
-    rahmen.prepend(f); passen();
-    f.addEventListener("load", function(){ osEinrichten(f, function(win){ w = win; f.classList.add("da"); lade.remove(); setTimeout(weiter, 1800); }); });
-  }
-  new IntersectionObserver(function(e){ if (e[0].isIntersecting) laden(); }, {rootMargin:"500px"}).observe(rahmen);
-  new IntersectionObserver(function(e){ sichtbar = e[0].isIntersecting; if (sichtbar && w) { clearTimeout(uhr); uhr = setTimeout(weiter, 800); } else clearTimeout(uhr); }).observe(rahmen);
-  addEventListener("resize", passen);
+  new IntersectionObserver(function(e){ sichtbar = e[0].isIntersecting; steuern(); }, {threshold:.25}).observe(rahmen);
+  addEventListener("resize", steuern);
 })();
 
 /* Teil 1: Ring der Bausteine */
