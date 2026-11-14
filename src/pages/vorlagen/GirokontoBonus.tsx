@@ -16,7 +16,7 @@ import { ereignis } from "@/lib/messung";
  * Nach dem Muster der Freebie-Seiten (Vault memory freebie-top3-statt-rot-guide-unten, freebie-seiten-simpel-beispiel-im-kontext):
  * weiß, große Zahl, Top-3-Karten mit Logo, Kennzeichnung Werbung, kein roter Kasten, kein Verweis auf andere Freebies.
  */
-const [bbbank, norisbank, consorsbank] = BONUS_KONTEN;
+const [norisbank, bbbank, consorsbank] = BONUS_KONTEN;
 
 /**
  * Knöpfe direkt auf den Affiliate-Link, ohne Zwischenseite (Elias, 05.11.2026: „direkt auf den Affiliate-Link …
@@ -48,12 +48,24 @@ const Pille = ({ children }: { children: ReactNode }) => (
 
 // Messung (S6, 06.11.2026): partner_klick nennt das Konto (out-Kurzname) und die Stelle (gbkopf, gbwarum …) statt des
 // Netzwerk-Servers, sonst stehen im Wochenbericht nur c.neqty.net und financeads.net.
-const Knopf = ({ to, anbieter, stelle, children }: { to: string; anbieter: string; stelle: string; children: ReactNode }) =>
+const Knopf = ({
+  to,
+  anbieter,
+  stelle,
+  children,
+  klasse = "",
+}: {
+  to: string;
+  anbieter: string;
+  stelle: string;
+  children: ReactNode;
+  klasse?: string;
+}) =>
   to.startsWith("http") ? (
     <a
       href={blockerFest(anbieter, to, false).href}
       rel="sponsored noopener"
-      className="btn-spark w-full sm:w-auto"
+      className={`btn-spark w-full sm:w-auto ${klasse}`}
       onClick={(e) => {
         ereignis("partner_klick", { anbieter, knopf: stelle, weg: "direkt", von: "girokonto-bonus" });
         blockerFest(anbieter, to, false).oeffnen?.(e);
@@ -62,7 +74,7 @@ const Knopf = ({ to, anbieter, stelle, children }: { to: string; anbieter: strin
       {children}
     </a>
   ) : (
-    <Link to={to} className="btn-spark w-full sm:w-auto">
+    <Link to={to} className={`btn-spark w-full sm:w-auto ${klasse}`}>
       {children}
     </Link>
   );
@@ -111,38 +123,67 @@ const GirokontoBonus = () => {
               Girokonto ohne Zinsen, 50 € Bonus obendrauf
             </h1>
             <p className="mt-3 text-[18px] leading-snug text-foreground/85">
-              Vergleiche drei Girokonten ohne Zinsen und hol dir mit dem ersten 50 € Startprämie.
+              Vergleiche drei Girokonten ohne Zinsen. Mit der BBBank gibt es 50 € Startprämie.
             </p>
           </header>
 
-          <section className="mt-6 rounded-3xl bg-accent p-5 ring-1 ring-primary/20 md:p-6" data-bonus-kopf>
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <AnbieterLogo name={bbbank.name} domain={bbbank.domain} rand />
-                <p className="text-[18px] font-extrabold leading-tight text-foreground">
-                  {bbbank.name} {bbbank.produkt}
-                </p>
-              </div>
-              <Werbung />
-            </div>
-            <p className="mt-4 text-[72px] font-extrabold leading-none tracking-tight text-primary tabular-nums">
-              {euro(BBBANK_PRAEMIE.betrag)}
-            </p>
-            <p className="mt-1 text-[20px] font-bold leading-tight text-foreground">Startprämie für Neukunden</p>
+          {/* RK1-B (14.11.2026): zwei gleich große Karten über der ersten Handy-Kante, norisbank zuerst, Bedingung am Knopf */}
+          <section className="mt-6" data-bonus-kopf>
+            <ul className="grid grid-cols-2 items-stretch gap-3">
+              {[
+                {
+                  k: norisbank,
+                  stelle: GIRO_BONUS_SRC.norisbankKopf,
+                  gross: euro(0),
+                  zeile: "Kontoführung",
+                  bedingung: `Kostenlos unter ${norisbank.gratisUnter} oder ab ${euro(norisbank.gratisAb)} Geldeingang, sonst ${euro(norisbank.sonst)} im Monat.`,
+                  knopf: "Bei norisbank eröffnen*",
+                },
+                {
+                  k: bbbank,
+                  stelle: GIRO_BONUS_SRC.kopf,
+                  gross: euro(BBBANK_PRAEMIE.betrag),
+                  zeile: "Startprämie",
+                  bedingung: `Kostenlos unter ${bbbank.gratisUnter} oder ab ${euro(bbbank.gratisAb)} Geldeingang, sonst ${euro(bbbank.sonst)} im Monat.`,
+                  knopf: "50 € bei der BBBank sichern*",
+                },
+              ].map(({ k, stelle, gross, zeile, bedingung, knopf }) => (
+                <li
+                  key={k.id}
+                  className="flex flex-col rounded-2xl bg-accent p-3.5 ring-1 ring-primary/20 sm:p-5"
+                  data-bonus-kopfkarte={k.out}
+                >
+                  <div className="flex items-center gap-2">
+                    <AnbieterLogo name={k.name} domain={k.domain} rand />
+                    <p className="text-[17px] font-extrabold leading-tight text-foreground">{k.name}</p>
+                  </div>
+                  <p className="mt-1.5">
+                    <Werbung />
+                  </p>
+                  <p className="mt-2 text-[44px] font-extrabold leading-none tracking-tight text-primary tabular-nums sm:text-[56px]">{gross}</p>
+                  <p className="mt-1 text-[17px] font-bold leading-tight text-foreground">{zeile}</p>
+                  <p className="mt-3 text-[15px] leading-snug text-foreground">{bedingung}</p>
+                  <div className="mt-auto pt-3">
+                    <Knopf
+                      to={link(k.out, stelle)}
+                      anbieter={k.out}
+                      stelle={stelle}
+                      klasse="!h-auto min-h-[64px] !px-2 py-2 text-center !text-[15px] leading-tight sm:min-h-[60px] sm:!px-4 sm:!text-[16px] sm:w-full"
+                    >
+                      {knopf}
+                    </Knopf>
+                  </div>
+                </li>
+              ))}
+            </ul>
             <ul className="mt-4 flex flex-wrap gap-2">
               <Pille>Keine Zinsen</Pille>
               <Pille>Dispo nur auf Antrag</Pille>
               <Pille>Karte ohne Kredit</Pille>
             </ul>
-            <div className="mt-5">
-              <Knopf to={link(bbbank.out, GIRO_BONUS_SRC.kopf)} anbieter={bbbank.out} stelle={GIRO_BONUS_SRC.kopf}>
-                50 € bei der BBBank sichern*
-                <ArrowRight className="h-5 w-5" aria-hidden />
-              </Knopf>
-            </div>
             <a
               href="#vergleich"
-              className="mt-3 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
+              className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
             >
               Erst die drei vergleichen
               <ArrowDown className="h-4 w-4" aria-hidden />
@@ -278,10 +319,9 @@ const GirokontoBonus = () => {
           {/* Die anderen zwei */}
           <section className="mt-12" data-bonus-andere>
             <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Lieber ein anderes Konto?</h2>
-            <p className="mt-2 text-[17px] leading-snug text-foreground/85">Diese zwei stehen in meinem Vergleich gleich dahinter.</p>
+            <p className="mt-2 text-[17px] leading-snug text-foreground/85">Dieses Konto steht in meinem Vergleich hinter den zwei oben.</p>
             <ul className="mt-4 grid gap-4">
               {[
-                { k: norisbank, stelle: GIRO_BONUS_SRC.norisbank, zeilen: [norisbank.karte, "Eröffnung per Video-Ident oder Post-Ident", "Bargeld einzahlen am Automaten der Deutschen Bank"] },
                 { k: consorsbank, stelle: GIRO_BONUS_SRC.consorsbank, zeilen: [consorsbank.karte, "Eröffnung per Video-, Post- oder E-Ident", "Bargeld einzahlen geht nicht"] },
               ].map(({ k, stelle, zeilen }) => (
                 <li

@@ -1,7 +1,8 @@
 /**
  * Daten der Seite /vorlagen/girokonto-bonus (Girokonto-Freebie als Unterseite, Elias 05.11.2026, H15 5c, Vault
  * `raw/2026-11-05-elias-h15-nr5c-bbbank-seite-haus-mietkauf.md`): die drei Girokonten aus dem Vergleich, BBBank mit der
- * Startprämie vorn. Jede Angabe trägt ihren Beleg mit Abrufdatum. Was auch im Vergleich steht (Zinsen, Dispo, Karte,
+ * Startprämie vorn. Seit RK1-B (14.11.2026, Elias: „Noris Bank alleine live stellen“) stehen oben zwei gleich große Karten,
+ * norisbank zuerst, BBBank daneben (Vault `hermes/renovierungskampagne/ergebnisse/03-vergleiche.md` 4c). Jede Angabe trägt ihren Beleg mit Abrufdatum. Was auch im Vergleich steht (Zinsen, Dispo, Karte,
  * Kontoführung), prüft `girokontoBonus.test.ts` gegen `girokontoVergleich.ts`; die Prämie gegen `deals.ts`.
  *
  * Bewusst keine Prämie bei der norisbank (200 € nur mit Tagesgeld, ein Zinsprodukt) und bei der Consorsbank (200 €
@@ -10,7 +11,7 @@
  */
 
 /** Tag, an dem jede Angabe unten gegen die Anbieterseite gelesen wurde. */
-export const GIRO_BONUS_STAND = "05.11.2026";
+export const GIRO_BONUS_STAND = "14.11.2026";
 
 export type Beleg = { url: string; stand: string; wortlaut: string };
 
@@ -41,6 +42,44 @@ export type BonusKonto = {
 };
 
 export const BONUS_KONTEN: BonusKonto[] = [
+  {
+    id: "norisbank-top-girokonto",
+    out: "norisbank",
+    name: "norisbank",
+    produkt: "Top-Girokonto",
+    domain: "norisbank.de",
+    gratisAb: 500,
+    sonst: 3.9,
+    gratisUnter: 30,
+    karte: "Mastercard Debitkarte, kostenlos",
+    bargeld: "Am Automaten",
+    ident: "Video-Ident oder Post-Ident",
+    belege: {
+      kontofuehrung: {
+        url: "https://www.norisbank.de/produkte/girokonto.html",
+        stand: GIRO_BONUS_STAND,
+        wortlaut:
+          "„Das Top-Girokonto ist kostenlos, wenn Sie unter 30 Jahre sind oder Sie mehr als 500 Euro Geldeingang pro Monat haben. Wenn der Geldeingang in einem Monat weniger als 500 Euro beträgt, berechnen wir dann nur für diesen Monat zum Ende des Quartals ein Kontoführungsentgelt von 3,90 Euro.“ In den häufigen Fragen derselben Seite: „für alle unter 30 Jahren oder ab einem monatlichen Geldeingang von 500 Euro“. Die Seite sagt „mehr als“ und „ab“; hier steht „ab“, wie Hermes' Prüfung am 14.11.2026.",
+      },
+      zinsen: {
+        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/Preis_und_Leistungsverzeichnis.pdf",
+        stand: GIRO_BONUS_STAND,
+        wortlaut:
+          "Preis- und Leistungsverzeichnis, „Zins auf Guthaben“: beim Top-Girokonto kein Eintrag. Produktseite: „Neukunden schließen mit dem Top-Girokonto in einem Schritt ebenfalls ein kostenloses Top-Zinskonto (Tagesgeldkonto) ab.“ Bleibt es leer, fallen keine Zinsen an (Elias, 05.11.2026: „Leeres Tagesgeld ist okay“).",
+      },
+      dispo: {
+        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/150_Informationen_und_Bedingungen.pdf",
+        stand: "14.10.2026",
+        wortlaut:
+          "„Auf Antrag und nach Prüfung der Bonität räumt die Bank dem Kunden auf einem Girokonto einen Dispositionskredit … ein.“ Die Werbeseite nennt zusätzlich einen Sofort-Dispo bis 500 €, auch der nur nach Prüfung.",
+      },
+      karte: {
+        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/entgeltinformation-top-girokonto.pdf",
+        stand: "27.09.2026",
+        wortlaut: "Entgeltinformation Top-Girokonto, 15.07.2026: „Ausgabe einer Debitkarte [norisbank Card]“. Mastercard und 0 € laut Girokonto-Vergleich.",
+      },
+    },
+  },
   {
     id: "bbbank-bettersmart",
     out: "bbbank-bettersmart",
@@ -74,44 +113,6 @@ export const BONUS_KONTEN: BonusKonto[] = [
         url: "https://www.bbbank.de/privatkunden/girokonto.html",
         stand: GIRO_BONUS_STAND,
         wortlaut: "„Visa Debitkarte (DirectCard) und digitale girocard kostenfrei dabei“.",
-      },
-    },
-  },
-  {
-    id: "norisbank-top-girokonto",
-    out: "norisbank",
-    name: "norisbank",
-    produkt: "Top-Girokonto",
-    domain: "norisbank.de",
-    gratisAb: 500,
-    sonst: 3.9,
-    gratisUnter: 30,
-    karte: "Mastercard Debitkarte, kostenlos",
-    bargeld: "Am Automaten",
-    ident: "Video-Ident oder Post-Ident",
-    belege: {
-      kontofuehrung: {
-        url: "https://www.norisbank.de/produkte/girokonto.html",
-        stand: GIRO_BONUS_STAND,
-        wortlaut:
-          "„Das Top-Girokonto ist kostenlos, wenn Sie unter 30 Jahre sind oder ab 500 Euro Geldeingang pro Monat. Wenn der Geldeingang in einem Monat weniger als 500 Euro beträgt, berechnen wir dann nur für diesen Monat zum Ende des Quartals ein Kontoführungsentgelt von 3,90 Euro.“",
-      },
-      zinsen: {
-        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/Preis_und_Leistungsverzeichnis.pdf",
-        stand: GIRO_BONUS_STAND,
-        wortlaut:
-          "Preis- und Leistungsverzeichnis, „Zins auf Guthaben“: beim Top-Girokonto kein Eintrag. Produktseite: „Neukunden schließen mit dem Top-Girokonto in einem Schritt ebenfalls ein kostenloses Top-Zinskonto (Tagesgeldkonto) ab.“ Bleibt es leer, fallen keine Zinsen an (Elias, 05.11.2026: „Leeres Tagesgeld ist okay“).",
-      },
-      dispo: {
-        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/150_Informationen_und_Bedingungen.pdf",
-        stand: "14.10.2026",
-        wortlaut:
-          "„Auf Antrag und nach Prüfung der Bonität räumt die Bank dem Kunden auf einem Girokonto einen Dispositionskredit … ein.“ Die Werbeseite nennt zusätzlich einen Sofort-Dispo bis 500 €, auch der nur nach Prüfung.",
-      },
-      karte: {
-        url: "https://www.norisbank.de/dam/norisbank/de/shared/pdf/entgeltinformation-top-girokonto.pdf",
-        stand: "27.09.2026",
-        wortlaut: "Entgeltinformation Top-Girokonto, 15.07.2026: „Ausgabe einer Debitkarte [norisbank Card]“. Mastercard und 0 € laut Girokonto-Vergleich.",
       },
     },
   },
@@ -176,7 +177,10 @@ export const BBBANK_PRAEMIE = {
  * die Begründung oder die Karte verkauft hat. Höchstens zwölf Zeichen, klein, wie Scalable es für die SubID verlangt.
  */
 export const GIRO_BONUS_SRC = {
+  /** Obere BBBank-Karte (Name seit H15 „kopf“, vorher der einzige große Knopf). */
   kopf: "gbkopf",
+  /** Obere norisbank-Karte (RK1-B, 14.11.2026). */
+  norisbankKopf: "gbnoriskopf",
   warum: "gbwarum",
   norisbank: "gbnoris",
   consorsbank: "gbconsors",

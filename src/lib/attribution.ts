@@ -144,6 +144,7 @@ export const VALID_SRC = [
   "skkarte",
   // H15 5c: Girokonto-Unterseite /vorlagen/girokonto-bonus, je Stelle (src/data/girokontoBonus.ts GIRO_BONUS_SRC).
   "gbkopf",
+  "gbnoriskopf",
   "gbwarum",
   "gbnoris",
   "gbconsors",
