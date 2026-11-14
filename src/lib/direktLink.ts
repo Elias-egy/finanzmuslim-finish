@@ -3,10 +3,12 @@ import { gemerkteQuelle, gemerkteStelle, istGueltigeQuelle, istHerkunft, subIdAu
 
 /**
  * Zwischenseite nur, wo ein Video ist (Elias, 05.11.2026, H16: „Die Zwischenseite generell raus bei überall, wo kein
- * Video ist … Bei Depot gucken wir noch“). Seit 06.11.2026 („Lass das erstmal weg, dass du das bei jeder Webseite
- * entfernst“) nutzt nur /vorlagen/girokonto-bonus den Direktlink; /out/<kurzname> bleibt wie vorher.
+ * Video ist … Bei Depot gucken wir noch“). Seit 06.11.2026 pausiert, seit 14.11.2026 (RK1) für alle Arten an, auch
+ * Depot: Auf der Video-Seite blieben zwei Drittel hängen, die schon „zum Anbieter“ getippt hatten (76 Leser, 24
+ * Weiterklicks; Vault data/conversion/rk1-video-zwischenseite.md). Elias: „wenn wir sagen, 2 Drittel bleiben hängen,
+ * ist das reine Schlussfolgerung, dass das raus soll“. Die Video-Seiten bleiben als Anleitung erreichbar.
  */
-export const ohneZwischenseite = (partner: StartPartner): boolean => partner.art !== "depot";
+export const ohneZwischenseite = (partner: StartPartner): boolean => Boolean(partner.link);
 
 /**
  * Affiliate-Link mit SubID wie auf der Startseite: Herkunft (aus der Adresse oder gemerkt) plus Stelle (das ?src im

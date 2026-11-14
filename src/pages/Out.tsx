@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { findPartnerLink } from "@/data/partnerLinks";
 import { ereignis, vorigeSeite } from "@/lib/messung";
+import { findStartPartner, istLeerQuelle } from "@/data/investmentStart";
+import { direktLink, ohneZwischenseite } from "@/lib/direktLink";
 
 /** Zentrale Weiterleitung fuer Partnerlinks: /out/:kurzname */
 const Out = () => {
@@ -15,6 +17,15 @@ const Out = () => {
   useEffect(() => {
     if (!eintrag || !eintrag.aktiv) return;
     // Klick zum Partner: welcher Anbieter, von welcher Seite (die Seite davor, über den Router).
+    // RK1 (14.11.2026): direkt zum Anbieter, ohne Video-Seite dazwischen. Nur „Depot da, noch leer“ (dmleer…) braucht
+    // weiter die Startseite mit den drei Schritten.
+    const start = findStartPartner(kurzname);
+    const src = new URLSearchParams(search).get("src");
+    if (start && ohneZwischenseite(start) && !istLeerQuelle(src)) {
+      ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", direkt: true, von: vorigeSeite() });
+      window.location.replace(direktLink(start, search));
+      return;
+    }
     ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", von: vorigeSeite() });
     const extern = /^https?:\/\//i.test(eintrag.ziel);
     // Vorhandene Abfrageparameter unveraendert anhaengen (z. B. ?src=...)
