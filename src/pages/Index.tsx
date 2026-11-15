@@ -244,7 +244,9 @@ const Index = () => {
                   RN5 Phase 1 (ohne OS): ein Knopf zum Halal-Finanz-Check, Zusage plus Zeitangabe unter 60 Sekunden
                   (startseite-und-navigation, Gilt 30.10.), nie „Finde, was zu dir passt“ (woerter-und-ton, Nie). */}
               {!MIT_OS && (
-                <div className="max-md:order-4 mt-4 flex flex-col items-start gap-2 md:mt-6 lg:mt-10">
+                // RN6: am Handy liegt der Knopf über dem unteren Rand des Fotos (das Foto läuft mit -mb-16 ins Polster);
+                // ohne z-10 malte das Foto über den Knopf („…tarten“, 390 px, 15.11.2026).
+                <div className="relative z-10 max-md:order-4 mt-4 flex flex-col items-start gap-2 md:mt-6 lg:mt-10">
                   <Aufruf to="/check?quelle=homepage" gross className="block w-full whitespace-nowrap sm:inline-block sm:w-auto">
                     Halal-Finanz-Check starten
                     <ArrowRight className="h-5 w-5" aria-hidden />
