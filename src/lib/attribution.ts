@@ -144,10 +144,17 @@ export const VALID_SRC = [
   "skkarte",
   // H15 5c: Girokonto-Unterseite /vorlagen/girokonto-bonus, je Stelle (src/data/girokontoBonus.ts GIRO_BONUS_SRC).
   "gbkopf",
+  "gbnoriskopf",
   "gbwarum",
   "gbnoris",
   "gbconsors",
   "gballe",
+  // BT1: Broker-Freebie /vorlagen/broker-vergleich, je Stelle (src/data/brokerFreebie.ts BROKER_SRC).
+  "bvsb",
+  "bvfx",
+  "bvtp",
+  "bvsc",
+  "bvalle",
   // Mail D1 der Duas-Kette (Knopf Girokonto-Vergleich, ~/rebrand/mails/bauen.py), live seit 06.11.2026 (CV15F)
   "d1",
 ] as const;

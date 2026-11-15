@@ -13,11 +13,11 @@ const vergleich = (id: string) => girokontoAnzeige.find((a) => a.id === id)!;
 const rang = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche: [], gewichte: [] }).passt;
 
 describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
-  it("zeigt die ersten drei Girokonten mit Partnerweg des Vergleichs", () => {
-    // A12: Seit A11 steht meine Bank ohne Link auf Platz 2; die Seite führt nur über Partnerlinks.
-    // RN1 (12.11.2026): Im Vergleich steht die norisbank auf Platz 1. Diese Seite zeigt die BBBank mit der Startprämie bewusst vorn
-    // (Elias H15 5c), darum gilt hier dieselbe Auswahl, nicht dieselbe Reihenfolge.
+  it("zeigt die ersten drei Girokonten des Vergleichs, norisbank zuerst (RK1-B, 14.11.2026)", () => {
+    // Sammelzweig: meine Bank steht ohne Partnerlink im Vergleich, die Seite zeigt nur Konten mit Partnerweg.
     expect(rang.filter((t) => t.anbieter.link).slice(0, 3).map((t) => t.anbieter.id).sort()).toEqual(BONUS_KONTEN.map((k) => k.id).sort());
+    expect(BONUS_KONTEN[0].id).toBe("norisbank-top-girokonto");
+    expect(BONUS_KONTEN[1].id).toBe("bbbank-bettersmart");
   });
 
   it("führt jedes Konto über einen aktiven Partnerlink", () => {
@@ -45,10 +45,10 @@ describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
     }
   });
 
-  it("hält die Prämie der BBBank wie deals.ts und belegt sie am 05.11.2026", () => {
+  it("hält die Prämie der BBBank wie deals.ts und belegt sie am 14.11.2026", () => {
     const d = deals.find((x) => x.partnerKurzname === "bbbank-bettersmart");
     expect(d?.betrag).toBe(BBBANK_PRAEMIE.betrag);
-    expect(BBBANK_PRAEMIE.beleg.stand).toBe("05.11.2026");
+    expect(BBBANK_PRAEMIE.beleg.stand).toBe("14.11.2026");
     expect(BBBANK_PRAEMIE.beleg.wortlaut).toContain("50 € Startprämie");
   });
 

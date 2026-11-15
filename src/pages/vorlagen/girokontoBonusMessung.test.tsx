@@ -44,12 +44,12 @@ describe("Girokonto-Bonus: Messung (S6)", () => {
 
   it("partner_klick nennt Konto und Stelle statt des Netzwerk-Servers", () => {
     zeige();
-    const knopf = screen.getByRole("link", { name: /50 € bei der BBBank sichern/ });
+    const knopf = screen.getByRole("link", { name: /Konto bei der BBBank eröffnen/ });
     knopf.addEventListener("click", (e) => e.preventDefault());
     fireEvent.click(knopf);
     const klick = ereignis.mock.calls.find(([n]) => n === "partner_klick");
     if (knopf.getAttribute("href")?.startsWith("http")) {
-      expect(klick?.[1]).toMatchObject({ anbieter: "bbbank-bettersmart", knopf: "gbkopf", weg: "direkt", von: "girokonto-bonus" });
+      expect(klick?.[1]).toMatchObject({ anbieter: "bbbank-bettersmart", knopf: "gbwarum", weg: "direkt", von: "girokonto-bonus" });
     } else {
       expect(knopf.getAttribute("href")).toContain("/out/bbbank-bettersmart");
     }
