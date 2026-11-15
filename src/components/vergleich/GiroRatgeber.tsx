@@ -18,16 +18,30 @@ import {
   type RatgeberEintrag,
 } from "./VergleichsRatgeber";
 import {
+  altersGrenze,
   giroAbgeraten,
   giroAnzahl,
+  giroBeideKarten,
+  giroIdents,
+  giroJung,
+  giroMitWechsel,
+  giroOhneDispo,
+  giroOhneMindesteingang,
+  giroOhneMindesteingangAnzahl,
   giroOhneZinsen,
   giroSiegerId,
   giroVorn,
   kontofuehrung,
   kontoText,
+  mindestEingang,
   nachteil,
+  sonstPreis,
   vorteile,
 } from "@/data/giroRatgeber";
+
+/** „A, B und C“ */
+const reihe = (namen: string[]) =>
+  namen.length < 2 ? (namen[0] ?? "") : `${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}`;
 
 /**
  * Blogteil unter dem Girokonto-Vergleich, Aufbau wie `DepotRatgeber`: Die besten Konten, Konten im Test mit Häkchen,
@@ -36,13 +50,17 @@ import {
  */
 
 const EINTRAEGE: RatgeberEintrag[] = [
-  { id: "beste-halal-girokonten", titel: "Die besten Halal-Girokonten" },
+  { id: "beste-halal-girokonten", titel: "Das beste Girokonto" },
   { id: "konten-im-test", titel: "Konten im Test" },
-  { id: "girokonto-kosten", titel: "Kosten im Vergleich" },
+  { id: "girokonto-kosten", titel: "Kostenloses Girokonto" },
   { id: "zinsen-und-dispo", titel: "Zinsen und Dispo" },
+  { id: "welche-karte", titel: "Welche Karte?" },
+  { id: "girokonto-eroeffnen", titel: "Konto eröffnen" },
+  { id: "girokonto-wechseln", titel: "Konto wechseln" },
   { id: "girokonto-sicher", titel: "Wie sicher ist dein Konto?" },
   { id: "nicht-empfohlen", titel: "Nicht empfohlen" },
   { id: "so-vergleichen-wir", titel: "So vergleichen wir" },
+  { id: "fazit", titel: "Fazit" },
   { id: "haeufige-fragen", titel: "Häufige Fragen" },
   { id: "unsere-vergleiche", titel: "Unsere Vergleiche" },
 ];
@@ -68,7 +86,7 @@ export const GiroRatgeber = ({
   return (
     <VergleichsRatgeber eintraege={EINTRAEGE} nummerEins={sieger} auszeichnung={auszeichnung}>
       <RH2 id="beste-halal-girokonten" gross>
-        Die besten Halal-Girokonten 2026
+        Das beste Girokonto 2026 für Muslime
       </RH2>
       <RText>
         Für diesen Girokonto-Vergleich haben wir {giroAnzahl} Konten angesehen. Drei Fragen stehen vorn: Liegt dein Geld ab
@@ -103,8 +121,11 @@ export const GiroRatgeber = ({
         );
       })}
 
-      <RH2 id="girokonto-kosten">Girokonto-Kosten im Vergleich</RH2>
-      <RText>So viel zahlst du bei den {giroVorn.length} Konten vorn im Vergleich.</RText>
+      <RH2 id="girokonto-kosten">Kostenloses Girokonto im Vergleich</RH2>
+      <RText>
+        Kostenlos heißt bei den meisten Banken: 0 € Kontoführung, wenn jeden Monat genug Geld eingeht oder du jung bist.
+        So viel zahlst du bei den {giroVorn.length} Konten vorn im Vergleich.
+      </RText>
       <RTabelle
         unterschrift="Kosten der Girokonten vorn im Vergleich"
         kopf={["Konto", "Kontoführung", "Girocard", "Debitkarte", "Bargeld abheben"]}
@@ -117,16 +138,94 @@ export const GiroRatgeber = ({
         ])}
       />
 
+      {giroOhneMindesteingang.length > 0 && (
+        <>
+          <RH3 id="ohne-mindesteingang">Kostenloses Girokonto ohne Mindesteingang</RH3>
+          <RText>
+            Bei {giroOhneMindesteingangAnzahl} Konten ohne Zinsen kostet die Kontoführung 0 €, egal wie viel Geld eingeht.
+            Das passt, wenn dein Gehalt auf ein anderes Konto kommt.
+          </RText>
+          <RListe
+            punkte={giroOhneMindesteingang.map((a) => ({
+              titel: `${a.name} ${a.produkt}`,
+              text: nachteil(a)?.text ? `0 € Kontoführung. ${nachteil(a)?.text}.` : "0 € Kontoführung.",
+            }))}
+          />
+        </>
+      )}
+
+      {giroJung.length > 0 && (
+        <>
+          <RH3 id="junge-leute">Girokonto für junge Leute</RH3>
+          <RText>
+            Bist du jung, zahlst du bei diesen Konten nichts, auch ohne Gehalt. Danach gilt der Mindesteingang.
+          </RText>
+          <RTabelle
+            unterschrift="Kostenlos für junge Leute"
+            kopf={["Konto", "Kostenlos unter", "Danach 0 € ab", "Sonst"]}
+            zeilen={giroJung.map((a) => [
+              a.name,
+              `${altersGrenze(a)} Jahren`,
+              mindestEingang(a) ? `${mindestEingang(a)} Eingang` : "–",
+              sonstPreis(a) ? `${sonstPreis(a)} im Monat` : "–",
+            ])}
+          />
+        </>
+      )}
+
       <RH2 id="zinsen-und-dispo">Zinsen und Dispo beim Girokonto</RH2>
       <RText>
-        Für Muslime zählen zwei Dinge, die in normalen Vergleichen fehlen. Erstens zahlen manche Banken Zinsen auf das
-        Guthaben, und Zinsen sind Riba. Zweitens räumen viele Banken beim Öffnen des Kontos automatisch einen Dispokredit ein,
-        der ebenfalls verzinst ist.
+        Für Muslime zählen zwei Dinge, die in normalen Vergleichen fehlen: Zinsen auf dein Guthaben und der Dispo. Beides
+        steht in unserer Tabelle in eigenen Zeilen.
       </RText>
+      <RH3 id="ohne-zinsen">Girokonto ohne Zinsen</RH3>
       <RText>
-        Beides lässt sich bei vielen Banken abschalten oder auf null setzen, es steht nur selten im Vergleich. Darum zeigt
-        unsere Tabelle beides in eigenen Zeilen.
+        Manche Banken zahlen Zinsen auf das Guthaben, und Zinsen sind Riba. {giroOhneZinsen} der {giroAnzahl} Konten kannst
+        du ohne Zinsen nutzen. Kommt ein Tagesgeld mit dem Konto, zahle dort nichts ein.
       </RText>
+      <RH3 id="ohne-dispo">Girokonto ohne Dispo</RH3>
+      <RText>
+        Der Dispo ist ein Kredit: Überziehst du dein Konto, zahlst du Zinsen. Bei {giroOhneDispo} der {giroAnzahl} Konten bekommst du ab Start keinen Dispo, bei den übrigen lässt er
+        sich abschalten.
+      </RText>
+
+      <RH2 id="welche-karte">Welche Karte brauchst du?</RH2>
+      <RText>
+        Mit der Girocard zahlst du in fast jedem Laden in Deutschland und hebst Geld ab. Die Debitkarte von Visa oder
+        Mastercard brauchst du online, im Ausland und für Apple Pay oder Google Pay.
+      </RText>
+      {giroBeideKarten.length > 0 && (
+        <RText>
+          Beide Karten kostenlos und ohne Kreditrahmen bekommst du zum Beispiel bei{" "}
+          {reihe(giroBeideKarten.slice(0, 3).map((a) => a.name))}.
+        </RText>
+      )}
+
+      <RH2 id="girokonto-eroeffnen">So eröffnest du dein Girokonto</RH2>
+      <RListe
+        punkte={[
+          { titel: "Schritt 1", text: "Wähle das Konto im Vergleich oben und tippe auf den Knopf zum Anbieter." },
+          { titel: "Schritt 2", text: "Fülle den Antrag mit Name, Adresse und Steuer-ID aus. Einen Dispo beantragst du nicht." },
+          {
+            titel: "Schritt 3",
+            text: `Bestätige deinen Ausweis${giroIdents.length ? `, je nach Bank per ${reihe(giroIdents).replace(/ und ([^ ]+)$/, " oder $1")}` : ""}.`,
+          },
+          { titel: "Schritt 4", text: "Nach ein paar Tagen kommen Karte und Zugang per Post. Ein Tagesgeld, das mitkommt, lässt du leer." },
+        ]}
+      />
+
+      <RH2 id="girokonto-wechseln">Girokonto wechseln</RH2>
+      <RText>
+        Bei {giroMitWechsel} der {giroAnzahl} Konten gibt es einen Kontowechsel-Service. Er meldet Arbeitgeber, Lastschriften
+        und Daueraufträge für dich um.
+      </RText>
+      <RListe
+        punkte={[
+          { titel: "Neues Konto zuerst", text: "Eröffne das neue Konto, bevor du das alte kündigst." },
+          { titel: "Wechsel-Service starten", text: "Starte ihn im Online-Banking des neuen Kontos und melde dort dein altes Konto an." },
+          { titel: "Altes Konto kündigen", text: "Kündige erst, wenn Gehalt und Lastschriften auf dem neuen Konto ankommen." },
+        ]}
+      />
 
       <RH2 id="girokonto-sicher">Wie sicher ist dein Girokonto?</RH2>
       <RText>
@@ -172,6 +271,25 @@ export const GiroRatgeber = ({
           So entsteht die Bewertung
         </Link>
       </p>
+
+      {sieger && (
+        <>
+          <RH2 id="fazit">Fazit</RH2>
+          <RText>
+            In unserem Girokonto-Vergleich liegt {sieger.name} vorn
+            {(() => {
+              const m = [
+                sieger.werte.zinsfreiAbStart === "gut" ? "ohne Zinsen nutzbar" : "",
+                sieger.werte.keinDispoAbStart === "gut" ? "kein Dispo ab Start" : "",
+                sieger.werte.karteOhneKredit === "gut" ? "die Karte ohne Kredit" : "",
+              ].filter(Boolean);
+              return m.length ? `: ${reihe(m)}` : "";
+            })()}
+            .
+            Prüfe vor dem Abschluss nur, ob du die Bedingung für 0 € Kontoführung erfüllst.
+          </RText>
+        </>
+      )}
 
       <RH2 id="haeufige-fragen">Häufige Fragen</RH2>
       {/* Wie Finanzfluss und der Depot-Vergleich: je Frage ein hellgrauer Kasten, 24 px Abstand, Frage 18 px fett, Pfeil rechts. */}

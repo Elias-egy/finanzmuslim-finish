@@ -79,6 +79,49 @@ export const kontoText = (a: RohAnbieter): string[] => {
 /** Konten mit Kontoführung ohne Bedingung kostenlos, in der Reihenfolge der Rangfolge. */
 const gratisKonten = giroReihe.filter(kontofuehrungGratis);
 
+/**
+ * PH1 (15.11.2026, Elias: „Girokonto … als SEO-Beitrag extrem gut“, Finanzfluss 1:1): Abschnitte, die Finanzfluss im
+ * Girokonto-Vergleich hat und die unsere Daten tragen. Nebenwörter aus Ahrefs (31.10. und 15.11.) und Google-Vorschlägen:
+ * kostenloses girokonto ohne mindesteingang, girokonto für junge leute (unter 30), girokonto ohne zinsen, ohne dispo,
+ * girokonto wechseln, girokonto eröffnen.
+ */
+
+/** Kostenlos ohne Bedingung, also ohne Mindesteingang und ohne Altersgrenze; höchstens fünf. */
+export const giroOhneMindesteingang = gratisKonten.slice(0, 5);
+export const giroOhneMindesteingangAnzahl = gratisKonten.length;
+
+/** Altersgrenze aus der Kontoführung, etwa „unter 30“ oder „unter 31“. */
+export const altersGrenze = (a: RohAnbieter): number | null => {
+  const m = /unter (\d{2})/.exec(text(a, "kontofuehrung"));
+  return m ? Number(m[1]) : null;
+};
+/** Mindesteingang in Euro aus der Kontoführung, etwa „ab 500 € Geldeingang“. */
+export const mindestEingang = (a: RohAnbieter): string | null => {
+  const m = /ab ([\d.]+) ?€ Geldeingang/.exec(text(a, "kontofuehrung"));
+  return m ? `${m[1]} €` : null;
+};
+/** Was die Kontoführung ohne Bedingung kostet, etwa „sonst 3,90 €“. */
+export const sonstPreis = (a: RohAnbieter): string | null => {
+  const m = /sonst ([\d,]+) ?€/.exec(text(a, "kontofuehrung"));
+  return m ? `${m[1]} €` : null;
+};
+
+/** Konten vorn im Vergleich, die für junge Leute ohne Geldeingang kostenlos sind. */
+export const giroJung = giroReihe.filter((a) => altersGrenze(a) !== null).slice(0, 5);
+
+/** Konten vorn im Vergleich mit Girocard und Debitkarte, beide 0 €. */
+export const giroBeideKarten = giroReihe.filter(
+  (a) => a.werte.karteOhneKredit === "gut" && gratis(text(a, "girocard")) && /,\s?0\s?€$/.test(text(a, "debitkarte")),
+);
+
+export const giroMitWechsel = girokontoAnzeige.filter((a) => a.werte.kontowechsel === true).length;
+export const giroOhneDispo = girokontoAnzeige.filter((a) => a.werte.keinDispoAbStart === "gut").length;
+
+/** Ident-Verfahren der Konten vorn, ohne Doppel, in der Folge ihres ersten Auftretens. */
+export const giroIdents = Array.from(
+  new Set(giroVorn.flatMap((a) => text(a, "ident").split(",").map((s) => s.trim()).filter(Boolean))),
+);
+
 const halalSatz = (a: RohAnbieter) =>
   [
     zinsHinweis("girokonto", a),
@@ -119,11 +162,28 @@ export const giroFragen = (): Array<{ frage: string; antwort: string }> => {
     antwort:
       "Nein. Oft legt die Bank mit dem Girokonto ein Tagesgeld an. Zinsen gibt es nur auf Geld, das du dort einzahlst: Ignoriere das Tagesgeld und zahle nichts ein.",
   });
-  const ohneDispo = girokontoAnzeige.filter((a) => a.werte.keinDispoAbStart === "gut").length;
   f.push({
     frage: "Gibt es Girokonten ohne Dispo?",
-    antwort: `Bei ${ohneDispo} der ${giroAnzahl} Konten in unserem Vergleich wird dir nach der Eröffnung kein Dispo eingeräumt. Bei den übrigen lässt er sich abschalten.`,
+    antwort: `Bei ${giroOhneDispo} der ${giroAnzahl} Konten in unserem Vergleich wird dir nach der Eröffnung kein Dispo eingeräumt. Bei den übrigen lässt er sich abschalten.`,
   });
+  f.push({
+    frage: "Ist ein Dispokredit haram?",
+    antwort:
+      "Der Dispo ist ein Kredit: Sobald du dein Konto überziehst, zahlst du Zinsen, und Zinsen meidest du als Muslim. Ob schon ein eingeräumter, aber ungenutzter Dispo ein Problem ist, sehen Gelehrte unterschiedlich. Die vorsichtige Linie ist ein Konto ohne Dispo ab Start.",
+  });
+  if (giroOhneMindesteingang.length >= 2) {
+    const namen = giroOhneMindesteingang.slice(0, 3).map((a) => a.name);
+    f.push({
+      frage: "Gibt es ein kostenloses Girokonto ohne Mindesteingang?",
+      antwort: `Ja. Bei ${giroOhneMindesteingangAnzahl} Konten ohne Zinsen kostet die Kontoführung 0 €, egal wie viel Geld eingeht, zum Beispiel bei ${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}.`,
+    });
+  }
+  if (eins) {
+    f.push({
+      frage: "Welches Girokonto lohnt sich im Vergleich?",
+      antwort: `Für Muslime lohnt sich ein Konto, das ohne Zinsen läuft und wenig kostet. In unserem Vergleich liegt ${eins.name} vorn. Wenn du kein Gehalt auf das Konto bekommst, schau auf die Konten ohne Mindesteingang.`,
+    });
+  }
   if (gratisKonten.length >= 2) {
     const namen = gratisKonten.slice(0, 3).map((a) => a.name);
     f.push({
