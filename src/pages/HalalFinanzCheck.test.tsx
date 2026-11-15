@@ -51,37 +51,50 @@ describe("Verkaufsseite", () => {
   it("zeigt bei jeder Quelle zuerst die Verkaufsseite, nicht die erste Frage", () => {
     for (const quelle of ["aktienliste", "halal-anlagen", "boykottliste", "homepage"]) {
       const { unmount } = zeige(`/check?quelle=${quelle}`);
-      expect(titel()).toBe("Welches Konto und Depot passt zu deinem Glauben und deinem Geld?");
+      expect(titel()).toBe("Welches Konto oder Depot passt wirklich zu dir?");
       expect(screen.queryByText("Was willst du als Erstes halal machen?")).toBeNull();
-      expect(screen.getAllByRole("button", { name: /Check starten/ }).length).toBeGreaterThanOrEqual(3);
+      expect(screen.getAllByRole("button", { name: /Match finden|Erste Frage starten/ }).length).toBeGreaterThanOrEqual(3);
       unmount();
     }
   });
 
-  it("die Zahlenzeile nennt „89 Angebote selbst getestet“, nie „eröffnet“", () => {
+  it("die Hero-Zeile nennt „89 Angebote selbst getestet“ mit drei Bank-Logos daneben, nie „eröffnet“", () => {
     const { container } = zeige("/check?quelle=homepage");
-    const fakten = container.querySelector(".hc-fakten")!.textContent ?? "";
-    expect(fakten).toContain("89");
-    expect(fakten).toContain("Angebote selbst getestet");
+    const zeile = container.querySelector(".hc-beweis")!;
+    expect(zeile.querySelector(".hc-eyebrow")!.textContent).toBe("89 Angebote selbst getestet");
+    expect([...zeile.querySelectorAll("img")].map((i) => i.getAttribute("src"))).toEqual([
+      "/logos/ing.de.svg",
+      "/logos/dkb.de.svg",
+      "/logos/commerzbank.de.svg",
+    ]);
     expect(container.textContent).not.toMatch(/selbst eröffnet/);
+    expect(container.textContent).not.toContain("35 Depots");
+    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Nur 2 bis 3 FragenUnter 2 MinutenKostenlosMit Werbehinweis");
   });
 
-  it("Reihenfolge der Verkaufsseite: Hero, Gründer-Satz, Kriterien, Bekommst, Fragen, Schluss", () => {
+  it("Reihenfolge der Verkaufsseite: Hero, Community, Schritte, Tabelle, Schluss, Werbehinweis", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     const text = container.textContent ?? "";
     const reihe = [
-      "HALAL-FINANZ-CHECK",
-      "Angebote selbst getestet",
-      "Ich wollte investieren, ohne einen Cent Riba.",
-      "Was der Check für dich prüft",
-      "Das bekommst du",
-      "Das lassen wir weg",
-      "Deine Frage fehlt? Schreib mir auf Instagram.",
-      "Noch unsicher, womit du startest?",
-      "Werbelink",
+      "89 Angebote selbst getestet",
+      "Aus der Community",
+      "So entsteht deine Empfehlung",
+      "Warum nicht einfach das erstbeste",
+      "kurze Fragen, dann weißt du, was zu dir passt",
+      "Werbehinweis & Transparenz",
     ].map((t) => text.indexOf(t));
     expect(reihe.every((i) => i >= 0)).toBe(true);
     expect([...reihe].sort((a, b) => a - b)).toEqual(reihe);
+  });
+
+  it("die Tabelle hat nur Häkchen, Kreuze und die 89 in unserer Spalte, keine Wertung über andere", () => {
+    const { container } = zeige("/check?quelle=aktienliste");
+    const tab = container.querySelector(".hc-tab")!;
+    expect(tab.querySelectorAll("thead th")).toHaveLength(4);
+    expect(tab.querySelectorAll("tbody tr")).toHaveLength(3);
+    expect(tab.querySelector("tbody tr td.hc-tab-wir")!.textContent).toBe("89");
+    expect([...tab.querySelectorAll("tbody tr:first-child td")].map((t) => t.textContent)).toEqual(["89", "–", "–"]);
+    expect(tab.textContent).not.toMatch(/keine|teils|Min\.|Stunden/);
   });
 
   it("Stimmen-Platzhalter stehen nur im Entwicklungsmodus an der Stelle (Test läuft im Entwicklungsmodus)", () => {
@@ -92,10 +105,22 @@ describe("Verkaufsseite", () => {
 
   it("mit ?art= trägt die Verkaufsseite das eine Thema", () => {
     const k = zeige("/check?art=konto");
-    expect(titel()).toBe("Welches Bankkonto passt zu deinem Glauben und deinem Geld?");
+    expect(titel()).toBe("Welches Bankkonto passt wirklich zu dir?");
     k.unmount();
     zeige("/check?art=depot");
-    expect(titel()).toBe("Welches Depot passt zu deinem Glauben und deinem Geld?");
+    expect(titel()).toBe("Welches Depot passt wirklich zu dir?");
+  });
+
+  it("der zweite Knopf führt je Art in den Vergleich", () => {
+    const alt = (adresse: string) => {
+      const r = zeige(adresse);
+      const pfad = [...r.container.querySelectorAll("a.hc-btn--rand")].map((a) => `${a.textContent}|${a.getAttribute("href")}`);
+      r.unmount();
+      return pfad;
+    };
+    expect(alt("/check?art=konto")).toEqual(["Erst Bankkonten vergleichen|/vergleich/girokonto"]);
+    expect(alt("/check?art=depot")).toEqual(["Erst Depots vergleichen|/vergleich/depot"]);
+    expect(alt("/check")).toEqual(["Erst Depots vergleichen|/vergleich/depot"]);
   });
 });
 
@@ -112,9 +137,9 @@ describe("Chat", () => {
     expect(screen.getByRole("button", { name: /Zurück/ })).toBeTruthy();
   });
 
-  it("„Check starten“ öffnet auf derselben Route die erste Frage mit „beliebt“ genau einmal", async () => {
+  it("„Match finden“ öffnet auf derselben Route die erste Frage mit „beliebt“ genau einmal", async () => {
     zeige("/check?quelle=aktienliste");
-    await tippe(/^Check starten/);
+    await tippe(/^Match finden/);
     expect(titel()).toBe("Was willst du als Erstes halal machen?");
     expect(screen.getAllByText("beliebt").length).toBe(1);
   });
@@ -254,7 +279,7 @@ describe("Ohne art und aus dem Freebie", () => {
   it("aus dem Freebie (start=2) keine Verkaufsseite, die erste Antwort ist da, der Chat geht bei Frage 2 weiter", () => {
     const k = zeige("/check?art=konto&quelle=boykottliste&start=2&a1=karte");
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
-    expect(screen.queryByText("HALAL-FINANZ-CHECK")).toBeNull();
+    expect(screen.queryByText("So entsteht deine Empfehlung")).toBeNull();
     k.unmount();
     const d = zeige("/check?art=depot&quelle=aktienliste&start=2&a1=erste");
     expect(titel()).toBe("Was ist dir wichtiger?");

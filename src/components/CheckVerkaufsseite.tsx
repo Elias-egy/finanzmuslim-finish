@@ -1,213 +1,263 @@
-import { ArrowRight, Check, ChevronDown, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import eliasCommunity from "@/assets/story-elias-warm.webp";
 import CheckStimme from "@/components/CheckStimme";
-import { ANGEBOTE_GETESTET, WERBEHINWEIS, type Art } from "@/data/halalFinanzCheck";
+import { ANGEBOTE_GETESTET, type Art } from "@/data/halalFinanzCheck";
+import { stimmenFuer } from "@/data/checkStimmen";
 
 /**
- * Verkaufsseite vor dem Halal-Finanz-Check, 1:1 nach Elias' Perspective-Funnel (Seite „Start“, V1). Bauplan: Vault
- * hermes/renovierungskampagne/perspective/eins-zu-eins/index.html, Learnings 23 bis 41. Reihenfolge: Kopf, Hero mit
- * Foto und Stimme, Gründer-Satz mit drei Pillen-Fotos und zweiter Stimme, vier Kriterien, Bekommst/Lassen weg, Fragen,
- * Schluss mit Porträt und Chat-Blase, Werbehinweis. Jeder Knopf startet die erste Frage. Bewegung und Look: halalFinanzCheck.css.
- * Bilder aus dem Perspective-Funnel (Unsplash), liegen unter public/bilder/check/. Texte ohne erfundene Namen, Zitate oder Sterne.
+ * Verkaufsseite vor dem Halal-Finanz-Check, nach der Startseite von Elias' NEUEM Perspective-Funnel (6afa2cd179f7bfa91bb900d0,
+ * Seite „Start“), nicht mehr nach der alten V1. Aufbau: Kopf mit rundem dunklem Knopf, Hero mit „89 Angebote selbst getestet“ und
+ * drei Bank-Logos daneben, Community (nur echte Stimmen), „So entsteht deine Empfehlung“ in vier Schritten mit Foto, Tabelle
+ * gegen Vergleichsportal und Selbst suchen, Schluss mit drei Schritten, Werbehinweis. Nicht übernommen: Avatare und „35 Depots
+ * und 54 Girokonten selbst eröffnet“ (nicht bestätigt). Jeder Knopf startet die erste Frage. Look und Bewegung: halalFinanzCheck.css.
+ * Bilder: nur eigenes Material aus dem Repo, wo es keines gibt (Konto-App, Konto-Eröffnung) bleibt das Foto aus /bilder/check/.
  */
-const KRITERIEN = [
-  { nr: "01", titel: "Halal-Auswahl", text: "Halal-ETF, Sharia-zertifiziertes Gold, Aktien.", bild: "krit1", alt: "Aktienchart auf einem Laptop", b: 400, h: 267 },
-  { nr: "02", titel: "Kosten", text: "Was dich das Konto oder Depot im Jahr kostet.", bild: "krit2", alt: "Hand mit Banking-App", b: 400, h: 225 },
-  { nr: "03", titel: "Zinsen", text: "Wo dein Geld ohne Zinsen liegt.", bild: "krit3", alt: "Hand mit Bankkarte", b: 400, h: 225 },
-  { nr: "04", titel: "Sparplan", text: "Ob kleine Beträge gehen.", bild: "krit4", alt: "Mann mit Smartphone", b: 400, h: 267 },
+
+type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
+
+/** Je Schritt ein Bild für Konto und eines für Depot (und ohne art). Eigenes Material zuerst, sonst das vorhandene Stockfoto. */
+const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: Bild }[] = [
+  {
+    nr: "01",
+    titel: "Kurze Fragen",
+    text: "Wenige Fragen zu deinem Alltag und dem, was dir wichtig ist. Dauert unter zwei Minuten.",
+    konto: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
+    depot: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
+  },
+  {
+    nr: "02",
+    titel: "Abgleich mit meinen Testdaten",
+    text: "Deine Antworten treffen auf meine Notizen zu Kosten, App und Halal-Blick.",
+    konto: { src: "/vergleich/depot-app/scalable-1.webp", alt: "Depot-App aus dem Vergleich", b: 1080, h: 2207, oben: true },
+    depot: { src: "/vergleich/depot-app/scalable-1.webp", alt: "Depot-App aus dem Vergleich", b: 1080, h: 2207, oben: true },
+  },
+  {
+    nr: "03",
+    titel: "Dein Match mit Begründung",
+    text: "Du siehst, welches Angebot passt, mit Kosten und dem Grund dafür.",
+    konto: { src: "/bilder/check/krit4.webp", alt: "Mann liest auf dem Smartphone", b: 400, h: 267 },
+    depot: { src: "/vergleich/depot-app/flatex-1.webp", alt: "Aktiensparplan in der flatex-App", b: 1080, h: 2341, oben: true },
+  },
+  {
+    nr: "04",
+    titel: "Eröffnen, wenn es passt",
+    text: "Ein Klick führt dich zum Anbieter. Ob du eröffnest, entscheidest allein du.",
+    konto: { src: "/bilder/check/krit3.webp", alt: "Hand mit Bankkarte", b: 400, h: 225 },
+    depot: { src: "/videos/einrichtung-flatex-poster.jpg", alt: "Elias zeigt die Eröffnung bei flatex", b: 1280, h: 720 },
+  },
+];
+
+const ZEILEN = [
+  ["Halal-Blick", true, false, false],
+  ["Begründung für dein Match", true, false, false],
 ] as const;
 
-const BEKOMMST = [
-  ["Eine klare Empfehlung", "Nach wenigen kurzen Fragen siehst du das Konto oder Depot, das zu dir passt."],
-  ["Der Grund dazu", "Du liest, warum genau dieses Konto oder Depot vorne liegt."],
-  ["Alle Kosten offen", "Kontoführung, Depotgebühr und Sparplan stehen vorher da."],
-] as const;
-
-const LASSEN_WEG = [
-  ["Keine Fatwa", "Ich ordne ein, das Urteil eines Gelehrten ersetze ich nicht."],
-  ["Keine Renditeversprechen", "Wie sich deine Anlage entwickelt, weiß niemand."],
-  ["Kein versteckter Verkauf", "Partnerlinks sind mit * gekennzeichnet."],
-] as const;
-
-const FAQ = [
-  ["Verdienst du daran?", "Ja, eine Provision. Dich kostet es nichts."],
-  ["Muss ich gleich ein Konto eröffnen?", "Nein, erst siehst du dein Ergebnis."],
-  ["Was kostet der Check?", "Nichts."],
-  ["Ich habe schon ein Depot. Lohnt sich das?", "Ja, du bekommst das Zweitdepot oder das Konto."],
+const FRAGEN_ZEILEN = [
+  ["01", "Du erzählst kurz von dir", "Ein Tipp pro Frage, ganz im Chat-Ton."],
+  ["02", "Wir gleichen ab", "Deine Antworten treffen auf meine Testdaten."],
+  ["03", "Du bekommst dein Match", "Eine Empfehlung mit Kosten und den Gründen, warum sie zu dir passt."],
 ] as const;
 
 const Pfeil = () => <ArrowRight className="hc-pfeil" aria-hidden />;
 
-/** Kopf der Verkaufsseite je Art (RN8): ohne art das Gesamtbild, mit art nur das eine Thema. */
-const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string }> = {
+const BANKEN = [
+  { src: "/logos/ing.de.svg", alt: "ING", cls: "hc-bank--ing" },
+  { src: "/logos/dkb.de.svg", alt: "DKB", cls: "hc-bank--dkb" },
+  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", cls: "hc-bank--cb" },
+];
+
+/** Kopf der Verkaufsseite je Art: Konto zwei Fragen (Elias' Wort Bankkonto), Depot drei, ohne art beides. */
+const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wort: string; vergleich: { text: string; pfad: string } }> = {
   alle: {
-    h1: "Welches Konto und Depot passt zu deinem Glauben und deinem Geld?",
-    lead: "Wenige kurze Fragen, dann siehst du, womit du halal startest.",
+    h1: "Welches Konto oder Depot passt wirklich zu dir?",
+    lead: "Wenige kurze Fragen, dann siehst du dein Match für Konto oder Depot, mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "2 bis 3",
+    wort: "Wenige",
+    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
   konto: {
-    h1: "Welches Bankkonto passt zu deinem Glauben und deinem Geld?",
-    lead: "2 kurze Fragen, dann siehst du, wie du dein Konto halal machst.",
+    h1: "Welches Bankkonto passt wirklich zu dir?",
+    lead: "Zwei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "2",
+    wort: "Zwei",
+    vergleich: { text: "Erst Bankkonten vergleichen", pfad: "/vergleich/girokonto" },
   },
   depot: {
-    h1: "Welches Depot passt zu deinem Glauben und deinem Geld?",
-    lead: "3 kurze Fragen, dann siehst du, wo du halal investierst.",
+    h1: "Welches Depot passt wirklich zu dir?",
+    lead: "Drei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "3",
+    wort: "Drei",
+    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
 };
 
 const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => void; art?: Art }) => {
   const kopf = KOPF[art ?? "alle"];
+  const bilder = art === "konto" ? "konto" : "depot";
+  // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
+  const zeigeCommunity = stimmenFuer(art).length > 0 || import.meta.env.DEV;
   return (
     <div className="hc-seite">
       <header className="hc-kopf">
         <div className="hc-wrap hc-kopf-innen">
           <img src="/apple-touch-icon.png" alt="finanzmuslim" width={40} height={40} className="hc-logo" />
-          <button type="button" className="hc-btn hc-btn--klein" onClick={() => onStart("kopf")}>
-            Check starten
+          <button type="button" className="hc-btn hc-btn--klein hc-btn--dunkel" onClick={() => onStart("kopf")}>
+            Match finden
           </button>
         </div>
       </header>
 
       <main>
         <section className="hc-hero hc-wrap">
-          <p className="hc-eyebrow" data-enter="0">HALAL-FINANZ-CHECK</p>
-          <h1 className="hc-h1" data-enter="1">{kopf.h1}</h1>
-          <p className="hc-lead" data-enter="2">{kopf.lead}</p>
-          <div className="hc-knoepfe" data-enter="3">
-            <button type="button" className="hc-btn" onClick={() => onStart("hero")}>
-              Check starten
-              <Pfeil />
-            </button>
-            <a href="#hc-pruefen" className="hc-btn hc-btn--rand">So läuft der Check</a>
-          </div>
-          <dl className="hc-fakten" data-enter="4">
-            <div><dd>{ANGEBOTE_GETESTET}</dd><dt>Angebote selbst getestet</dt></div>
-            <div><dd>{kopf.fragen} Fragen</dd><dt>Umfang</dt></div>
-            <div><dd>1 Min</dd><dt>Dauer</dt></div>
-            <div><dd>0 €</dd><dt>Kosten</dt></div>
-          </dl>
-          <div className="hc-foto" data-enter="5">
-            <div className="hc-foto-rahmen">
-              <img
-                src="/bilder/check/hero.webp"
-                alt="Mann prüft auf dem Smartphone sein Geld"
-                width={1600}
-                height={1067}
-                {...{ fetchpriority: "high" }}
-                className="hc-foto-bild"
-              />
-            </div>
-            <CheckStimme stelle={0} art={art} className="hc-stimme--ueber" />
-          </div>
-        </section>
-
-        <section className="hc-gruender hc-wrap" data-reveal>
-          <h2 className="hc-satz">
-            Ich wollte investieren, ohne einen Cent Riba.
-            <img src="/bilder/check/pille1.webp" alt="" width={300} height={407} loading="lazy" className="hc-pille hc-pille--1" />
-            Also habe ich Konten und Depots selbst verglichen,
-            <img src="/bilder/check/pille2.webp" alt="" width={300} height={450} loading="lazy" className="hc-pille hc-pille--2" />
-            und genau das teile ich hier mit dir.
-            <img src="/bilder/check/pille3.webp" alt="" width={300} height={200} loading="lazy" className="hc-pille hc-pille--3" />
-          </h2>
-          <CheckStimme stelle={1} art={art} className="hc-stimme--zwei" />
-        </section>
-
-        <section id="hc-pruefen" className="hc-pruefen hc-wrap" data-reveal>
-          <h2 className="hc-h2">Was der Check für dich prüft</h2>
-          <div className="hc-zeilen">
-            {KRITERIEN.map((k) => (
-              <button key={k.nr} type="button" className="hc-zeile" onClick={() => onStart(`kriterium${k.nr}`)}>
-                <span className="hc-zeile-bild">
-                  <img src={`/bilder/check/${k.bild}.webp`} alt={k.alt} width={k.b} height={k.h} loading="lazy" />
+          <div className="hc-hero-gitter">
+            <div>
+              <div className="hc-beweis" data-enter="0">
+                <p className="hc-eyebrow">{ANGEBOTE_GETESTET} Angebote selbst getestet</p>
+                <span className="hc-banken">
+                  {BANKEN.map((b) => (
+                    <img key={b.src} src={b.src} alt={b.alt} height={18} className={`hc-bank ${b.cls}`} />
+                  ))}
                 </span>
-                <span className="hc-zeile-text">
-                  <span className="hc-zeile-nr"><b>{k.nr}</b> Kriterium</span>
-                  <span className="hc-zeile-titel">{k.titel}</span>
-                  <span className="hc-zeile-beschr">{k.text}</span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="hc-vergleich hc-wrap" data-reveal aria-label="Was der Check leistet">
-          <div className="hc-karte-blau">
-            <p className="hc-karte-kopf">Das bekommst du</p>
-            <ul>
-              {BEKOMMST.map(([t, s]) => (
-                <li key={t}>
-                  <Check className="hc-haken" aria-hidden />
-                  <span><b>{t}</b>{s}</span>
-                </li>
-              ))}
-            </ul>
-            <button type="button" className="hc-btn hc-btn--weiss" onClick={() => onStart("bekommst")}>
-              Check starten
-              <Pfeil />
-            </button>
-          </div>
-          <div className="hc-karte-grau">
-            <p className="hc-karte-kopf">Das lassen wir weg</p>
-            <ul>
-              {LASSEN_WEG.map(([t, s]) => (
-                <li key={t}>
-                  <X className="hc-haken" aria-hidden />
-                  <span><b>{t}</b>{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="hc-faq hc-wrap" data-reveal>
-          <h2 className="hc-h2">Was du vor dem Check wissen willst</h2>
-          <p className="hc-hinweis">
-            Deine Frage fehlt? Schreib mir auf{" "}
-            <a href="https://www.instagram.com/finanz.muslim/" target="_blank" rel="noopener noreferrer">Instagram</a>.
-          </p>
-          <div className="hc-faq-liste">
-            {FAQ.map(([f, a], i) => (
-              <details key={f} open={i === 0}>
-                <summary>
-                  <h3>{f}</h3>
-                  <ChevronDown className="hc-chev" aria-hidden />
-                </summary>
-                <p className="hc-antwort">{a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        <section className="hc-schluss hc-wrap">
-          <div className="hc-schluss-innen">
-            <div className="hc-portraet">
-              <img src="/elias-el-gendy.webp" alt="Elias El-Gendy, Gründer von finanzmuslim" width={480} height={480} loading="lazy" />
+              </div>
+              <h1 className="hc-h1" data-enter="1">{kopf.h1}</h1>
             </div>
-            <div className="hc-blase">
-              <p className="hc-blase-wer"><b>Elias</b> · Gründer von Finanzmuslim</p>
-              <div className="hc-tipp">
-                <span className="hc-punkte" aria-hidden><i /><i /><i /></span>
-                <p className="hc-said">Beantworte ein paar kurze Fragen, und ich zeige dir, welches Konto oder Depot zu dir passt.</p>
+            <div className="hc-hero-rechts">
+              <p className="hc-lead" data-enter="2">{kopf.lead}</p>
+              <div className="hc-knoepfe" data-enter="3">
+                <button type="button" className="hc-btn hc-btn--gross" onClick={() => onStart("hero")}>
+                  Match finden
+                  <Pfeil />
+                </button>
+                <Link to={kopf.vergleich.pfad} className="hc-btn hc-btn--rand hc-btn--gross">
+                  {kopf.vergleich.text}
+                </Link>
               </div>
             </div>
-            <h2 className="hc-h2 hc-schluss-h2">Noch unsicher, womit du startest?</h2>
-            <button type="button" className="hc-btn hc-btn--breit" onClick={() => onStart("schluss")}>
-              Check starten
-              <Pfeil />
-            </button>
+          </div>
+          <ul className="hc-haken-zeile" data-enter="4">
+            {[`Nur ${kopf.fragen} Fragen`, "Unter 2 Minuten", "Kostenlos", "Mit Werbehinweis"].map((t) => (
+              <li key={t}>
+                <Check className="hc-haken-icon" aria-hidden />
+                {t}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {zeigeCommunity && (
+          <section className="hc-community hc-wrap" data-reveal>
+            <p className="hc-kicker">Aus der Community</p>
+            <h2 className="hc-h2">Sie haben gewechselt und bereuen es nicht</h2>
+            <div className="hc-community-gitter">
+              <figure className="hc-community-foto">
+                <img src={eliasCommunity} alt="Elias El-Gendy lächelt in die Kamera" width={928} height={1152} loading="lazy" />
+              </figure>
+              <div className="hc-community-stimmen">
+                <CheckStimme stelle={0} art={art} />
+                <CheckStimme stelle={1} art={art} />
+              </div>
+            </div>
+          </section>
+        )}
+
+        <section className="hc-schritte hc-wrap" data-reveal>
+          <div className="hc-schritte-kopf">
+            <h2 className="hc-h2">So entsteht deine Empfehlung</h2>
+            <p className="hc-grau-text">Kein Ranking nach Provision. Partnerlinks sind offen gekennzeichnet.</p>
+          </div>
+          <div className="hc-zeilen hc-zeilen--zwei">
+            {SCHRITTE.map((s) => {
+              const bild = s[bilder];
+              return (
+                <button key={s.nr} type="button" className="hc-zeile" onClick={() => onStart(`schritt${s.nr}`)}>
+                  <span className={`hc-zeile-bild${bild.oben ? " hc-zeile-bild--oben" : ""}`}>
+                    <img src={bild.src} alt={bild.alt} width={bild.b} height={bild.h} loading="lazy" />
+                  </span>
+                  <span className="hc-zeile-text">
+                    <span className="hc-zeile-nr"><b>{s.nr}</b> Schritt</span>
+                    <span className="hc-zeile-titel">{s.titel}</span>
+                    <span className="hc-zeile-beschr">{s.text}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="hc-tabelle-box hc-wrap" data-reveal>
+          <h2 className="hc-h2 hc-h2--schmal">Warum nicht einfach das erstbeste Vergleichsportal?</h2>
+          <table className="hc-tab">
+            <thead>
+              <tr>
+                <th className="hc-tab-ecke"><span className="hc-nur-sr">Vergleich der Möglichkeiten</span></th>
+                <th scope="col" className="hc-tab-wir">Finanz&shy;muslim</th>
+                <th scope="col">Vergleichs&shy;portal</th>
+                <th scope="col">Selbst suchen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Selbst getestete Angebote</th>
+                <td className="hc-tab-wir"><b>{ANGEBOTE_GETESTET}</b></td>
+                <td className="hc-tab-leer">–</td>
+                <td className="hc-tab-leer">–</td>
+              </tr>
+              {ZEILEN.map(([name, ...werte]) => (
+                <tr key={name}>
+                  <th scope="row">{name}</th>
+                  {werte.map((ja, i) => (
+                    <td key={i} className={i === 0 ? "hc-tab-wir" : undefined}>
+                      {ja ? <Check className="hc-tab-ja" aria-hidden /> : <X className="hc-tab-nein" aria-hidden />}
+                      <span className="hc-nur-sr">{ja ? "Enthalten" : "Nicht enthalten"}</span>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+        <section className="hc-schluss hc-wrap" data-reveal>
+          <div className="hc-schluss-gitter">
+            <h2 className="hc-h2">{kopf.wort} kurze Fragen, dann weißt du, was zu dir passt</h2>
+            <ol className="hc-nummern">
+              {FRAGEN_ZEILEN.map(([nr, t, s]) => (
+                <li key={nr}>
+                  <span aria-hidden>{nr}</span>
+                  <div>
+                    <h3>{t}</h3>
+                    <p>{s}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="hc-schluss-knopf">
+              <button type="button" className="hc-btn hc-btn--gross hc-btn--breit" onClick={() => onStart("schluss")}>
+                Erste Frage starten
+                <Pfeil />
+              </button>
+            </div>
           </div>
         </section>
       </main>
 
       <footer className="hc-fuss hc-wrap">
-        <p>{WERBEHINWEIS}</p>
-        <p className="hc-fuss-links">
-          <Link to="/impressum">Impressum</Link>
-          <Link to="/datenschutz">Datenschutz</Link>
-        </p>
+        <div className="hc-fuss-karte">
+          <img src="/apple-touch-icon.png" alt="finanzmuslim" width={40} height={40} className="hc-logo" />
+          <div className="hc-fuss-text">
+            <p className="hc-fuss-titel">Werbehinweis &amp; Transparenz</p>
+            <p>
+              Einige Links auf dieser Seite sind Partnerlinks. Eröffnest du darüber ein Konto oder Depot, erhält Finanzmuslim eine
+              Provision, für dich ändert sich am Preis nichts. Die Empfehlung beruht auf deinen Antworten und eigenen Tests, nicht auf
+              der Höhe der Provision. Sie ist keine Anlageberatung, und Investitionen bergen das Risiko von Verlusten.
+            </p>
+          </div>
+          <p className="hc-fuss-links">
+            <Link to="/impressum">Impressum</Link>
+            <Link to="/datenschutz">Datenschutz</Link>
+          </p>
+        </div>
       </footer>
     </div>
   );
