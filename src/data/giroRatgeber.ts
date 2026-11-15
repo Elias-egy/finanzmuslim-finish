@@ -3,6 +3,7 @@ import { GIRO_FINANZ_MAX } from "@/data/finanzMax";
 import { kostenKurz } from "@/data/kostenKurz";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { zinsHinweis } from "@/data/zinsHinweise";
+import { auslandWerte } from "@/data/girokontoAusland";
 import { rangfolge } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 
@@ -22,6 +23,8 @@ export const giroReihe: RohAnbieter[] = [
   ...rang.gerankt.map((b) => b.anbieter).filter((a) => a.id !== sieger?.id),
 ];
 export const giroVorn = giroReihe.slice(0, 5);
+/** „Konten im Test“: die drei vorn, aus der laufenden Rangfolge (PH2-01, 15.11.2026), nie von Hand eingetragen. */
+export const giroTop3 = giroReihe.slice(0, 3);
 export const giroSiegerId = sieger?.id ?? null;
 export const giroAbgeraten = rang.abgeraten;
 export const giroAnzahl = girokontoAnzeige.length;
@@ -75,6 +78,33 @@ export const kontoText = (a: RohAnbieter): string[] => {
   const kosten = keineAngabe(kf) ? "" : `Kontoführung im Monat: ${kf}.${karten.length ? ` ${karten.join(". ")}.` : ""}`;
   return [zinsHinweis("girokonto", a) ?? "", dispo, kosten].filter((s): s is string => s !== "");
 };
+
+/**
+ * Gebühren im Ausland eines Kontos als Satz, für die Porträts: Abheben im Euro-Ausland, Abheben in Fremdwährung, Bezahlen in
+ * Fremdwährung. Die Werte stammen aus dem Finanzfluss-Vergleich (Stand 19.09.2026), dieselben wie in der Tabelle und in der Note.
+ */
+export const auslandSatz = (a: RohAnbieter): string | null => {
+  const w = auslandWerte(a);
+  if (!w) return null;
+  if (w.every((x) => /^0\s*[€%]$/.test(x))) return "Im Ausland kosten Abheben und Bezahlen nichts, auch nicht in Fremdwährung.";
+  return `Im Ausland kostet Abheben im Euro-Raum ${w[0]}, Abheben in Fremdwährung ${w[1]} und Bezahlen in Fremdwährung ${w[2]}.`;
+};
+
+/** Konten der Tabelle „Geld abheben im Ausland“: die fünf vorn, dazu bis zu zwei weitere aus den ersten fünfzehn, die im Ausland etwas kosten. */
+export const giroAuslandListe: RohAnbieter[] = [
+  ...giroVorn,
+  ...giroReihe
+    .slice(5, 15)
+    .filter((a) => (auslandWerte(a) ?? []).some((x) => !/^0\s*[€%]$/.test(x)))
+    .slice(0, 2),
+];
+
+/** Zeilen der Tabelle „Geld abheben im Ausland“: Konto und die drei Gebühren. */
+export const auslandZeilen = (liste: RohAnbieter[]): string[][] =>
+  liste.flatMap((a) => {
+    const w = auslandWerte(a);
+    return w ? [[`${a.name} ${a.produkt}`, w[0], w[1], w[2]]] : [];
+  });
 
 /** Konten mit Kontoführung ohne Bedingung kostenlos, in der Reihenfolge der Rangfolge. */
 const gratisKonten = giroReihe.filter(kontofuehrungGratis);

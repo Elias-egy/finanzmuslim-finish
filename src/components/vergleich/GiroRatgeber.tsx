@@ -19,7 +19,10 @@ import {
 } from "./VergleichsRatgeber";
 import {
   altersGrenze,
+  auslandSatz,
+  auslandZeilen,
   giroAbgeraten,
+  giroAuslandListe,
   giroAnzahl,
   giroBeideKarten,
   giroIdents,
@@ -30,6 +33,7 @@ import {
   giroOhneMindesteingangAnzahl,
   giroOhneZinsen,
   giroSiegerId,
+  giroTop3,
   giroVorn,
   kontofuehrung,
   kontoText,
@@ -51,10 +55,12 @@ const reihe = (namen: string[]) =>
 
 const EINTRAEGE: RatgeberEintrag[] = [
   { id: "beste-halal-girokonten", titel: "Das beste Girokonto" },
+  { id: "was-ist-ein-girokonto", titel: "Was ist ein Girokonto?" },
   { id: "konten-im-test", titel: "Konten im Test" },
   { id: "girokonto-kosten", titel: "Kostenloses Girokonto" },
   { id: "zinsen-und-dispo", titel: "Zinsen und Dispo" },
   { id: "welche-karte", titel: "Welche Karte?" },
+  { id: "geld-abheben-im-ausland", titel: "Geld abheben im Ausland" },
   { id: "girokonto-eroeffnen", titel: "Konto eröffnen" },
   { id: "girokonto-wechseln", titel: "Konto wechseln" },
   { id: "girokonto-sicher", titel: "Wie sicher ist dein Konto?" },
@@ -101,14 +107,24 @@ export const GiroRatgeber = ({
         Geld, das du dort einzahlst. Zahle nichts ein, dann bleibt dein Konto ohne Zinsen.
       </RHinweis>
 
+      <RH2 id="was-ist-ein-girokonto">Was ist ein Girokonto?</RH2>
+      <RText>
+        Ein Girokonto ist das Konto für deinen Alltag. Dein Gehalt kommt dort an, Miete und Lastschriften gehen von dort ab,
+        und mit der Karte zahlst du im Laden und hebst Bargeld ab.
+      </RText>
+      <RText>
+        Für Muslime kommt eine Frage dazu: Liegt dein Geld ohne Zinsen, und wird dir kein Dispo eingeräumt? Genau das
+        prüfen wir bei jedem Konto.
+      </RText>
+
       <RH2 id="konten-im-test">Konten im Test: Welches Girokonto passt zu Muslimen?</RH2>
       <RText>
-        Hier stehen die {giroVorn.length} Konten, die in unserem Vergleich vorn liegen: was du für null Zinsen tust und was
-        das Konto kostet.
+        Hier stehen die {["", "ein", "zwei", "drei"][giroTop3.length] ?? giroTop3.length} Konten, die in unserem Vergleich vorn liegen: was du für null Zinsen tust, was das
+        Konto kostet und was im Ausland anfällt.
       </RText>
-      {giroVorn.map((a) => {
+      {giroTop3.map((a) => {
         const marke = a.id === giroSiegerId ? auszeichnung : null;
-        const saetze = kontoText(a);
+        const saetze = [...kontoText(a), auslandSatz(a) ?? ""].filter(Boolean);
         return (
           <section key={a.id} aria-labelledby={`konto-${a.id}`}>
             <RH3 id={`konto-${a.id}`}>
@@ -201,6 +217,21 @@ export const GiroRatgeber = ({
         </RText>
       )}
 
+      <RH2 id="geld-abheben-im-ausland">Geld abheben im Ausland</RH2>
+      <RText>
+        Auf Reisen, bei Umrah oder beim Besuch in der Heimat zählt, was Bargeld und Kartenzahlung im Ausland kosten. Die
+        Tabelle zeigt die Konten vorn im Vergleich und Konten weiter hinten, bei denen Gebühren anfallen.
+      </RText>
+      <RTabelle
+        unterschrift="Gebühren im Ausland, Finanzfluss-Vergleich, Stand 19.09.2026"
+        kopf={["Konto", "Abheben im Euro-Ausland", "Abheben in Fremdwährung", "Bezahlen in Fremdwährung"]}
+        zeilen={auslandZeilen(giroAuslandListe)}
+      />
+      <RText>
+        In unserer Note zählt jede dieser drei Gebühren ein Drittel des Kriteriums „Ausland“. Den vollen Punkt gibt es nur
+        bei 0 €.
+      </RText>
+
       <RH2 id="girokonto-eroeffnen">So eröffnest du dein Girokonto</RH2>
       <RListe
         punkte={[
@@ -262,7 +293,7 @@ export const GiroRatgeber = ({
           ...kriterien,
           {
             titel: "Kosten",
-            text: "Kontoführung, Girocard und Debitkarte, Bargeld abheben und einzahlen, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App und Ident-Verfahren.",
+            text: "Kontoführung, Girocard und Debitkarte, Bargeld abheben und einzahlen, Gebühren im Ausland, Apple Pay und Google Pay, Überweisung, Support, Kontowechsel, App und Ident-Verfahren.",
           },
         ]}
       />
