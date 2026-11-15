@@ -38,11 +38,9 @@ const datumLang = (d: string) => {
   return m ? `${Number(m[1])}. ${MONATE[Number(m[2]) - 1]} ${m[3]}` : d;
 };
 
-const MIT_ASSISTENT = [
-  "/vergleich/depot",
-  "/vergleich/girokonto",
-  "/vergleich/krypto",
-];
+/* PH1 (15.11.2026), Elias: „Vergleich kann dieses ein paar Fragen sehen, was zu dir passt, kann raus. Dann haben wir es
+   ein bisschen kompakter … das gleiche dann wahrscheinlich auch bei Depot.“ Girokonto und Depot ohne Kasten. */
+const MIT_ASSISTENT = ["/vergleich/krypto"];
 
 /**
  * Die gemeinsame Vorlage aller Vergleichsseiten.
