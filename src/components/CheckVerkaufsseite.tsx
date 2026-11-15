@@ -1,29 +1,37 @@
 import { ArrowRight, Check, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import eliasCommunity from "@/assets/story-elias-warm.webp";
+import eliasCutout from "@/assets/elias-freigestellt.webp";
 import CheckStimme from "@/components/CheckStimme";
-import { ANGEBOTE_GETESTET, type Art } from "@/data/halalFinanzCheck";
+import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
 import { stimmenFuer } from "@/data/checkStimmen";
+import "@/styles/checkVerkaufsseite.css";
 
 /**
- * Verkaufsseite vor dem Halal-Finanz-Check, nach der Startseite von Elias' NEUEM Perspective-Funnel (6afa2cd179f7bfa91bb900d0,
- * Seite „Start“), nicht mehr nach der alten V1. Aufbau: Kopf mit rundem dunklem Knopf, Hero mit „89 Angebote selbst getestet“ und
- * drei Bank-Logos daneben, Community (nur echte Stimmen), „So entsteht deine Empfehlung“ in vier Schritten mit Foto, Tabelle
- * gegen Vergleichsportal und Selbst suchen, Schluss mit drei Schritten, Werbehinweis. Nicht übernommen: Avatare und „35 Depots
- * und 54 Girokonten selbst eröffnet“ (nicht bestätigt). Jeder Knopf startet die erste Frage. Look und Bewegung: halalFinanzCheck.css.
- * Bilder: nur eigenes Material aus dem Repo, wo es keines gibt (Konto-App, Konto-Eröffnung) bleibt das Foto aus /bilder/check/.
+ * Verkaufsseite vor dem Halal-Finanz-Check (RN10-Neubau, Elias 16.11.2026: „noch nicht richtig nachgemacht“). Abschnitt für Abschnitt wie
+ * die Startseite von Elias' Perspective-Funnel (6afa2cd179f7bfa91bb900d0, Seite „Start“), die Größen des Kopfes aber wie die Startseite
+ * von finanzmuslim.com (Titel 30 px fett, grauer Satz, freigestelltes Foto mit Namensschild, Knopf darunter): Kopfleiste, Kopf mit Titel,
+ * direkt darunter „35 Depots und 54 Girokonten“ mit Bildern anderer Leute, Community mit einem echten Foto, „So entsteht deine
+ * Empfehlung“, Tabelle, Schluss, Werbehinweis im Fuß. Jede klickbare Fläche startet den Check (onStart), Impressum und Datenschutz
+ * ausgenommen. Ohne Bestätigung nichts Erfundenes: keine Stimmen, keine Avatare, kein Vortragsfoto, solange Elias sie nicht liefert
+ * (im Entwicklungsmodus ein gestrichelter Platzhalter, live nichts). Look und Bewegung: src/styles/checkVerkaufsseite.css, Farben aus .hc.
  */
 
 type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
 
-/** Je Schritt ein Bild für Konto und eines für Depot (und ohne art). Eigenes Material zuerst, sonst das vorhandene Stockfoto. */
+/** Das eine echte Foto der Community-Sektion (Elias' Vortrag an der Uni Hamburg). Elias schickt es, bis dahin Platzhalter im Entwicklungsmodus. */
+const COMMUNITY_FOTO: Bild | null = null;
+
+/** Die drei Bilder anderer Leute neben „35 Depots und 54 Girokonten“. Echte Leser oder Fotos, das entscheidet Elias; bis dahin Platzhalter nur im Entwicklungsmodus. */
+const AVATARE: string[] = [];
+
+/** Je Schritt ein Bild für Konto und eines für Depot (und ohne art). Eigenes Material zuerst, sonst das vorhandene Stockfoto im Repo. */
 const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: Bild }[] = [
   {
     nr: "01",
     titel: "Kurze Fragen",
-    text: "Wenige Fragen zu deinem Alltag und dem, was dir wichtig ist. Dauert unter zwei Minuten.",
-    konto: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
-    depot: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
+    text: "",
+    konto: { src: "/bilder/check/krit2.webp", alt: "Hände halten ein Smartphone", b: 400, h: 225 },
+    depot: { src: "/bilder/check/krit2.webp", alt: "Hände halten ein Smartphone", b: 400, h: 225 },
   },
   {
     nr: "02",
@@ -48,112 +56,143 @@ const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: B
   },
 ];
 
-const ZEILEN = [
-  ["Halal-Blick", true, false, false],
-  ["Begründung für dein Match", true, false, false],
-] as const;
-
-const FRAGEN_ZEILEN = [
-  ["01", "Du erzählst kurz von dir", "Ein Tipp pro Frage, ganz im Chat-Ton."],
-  ["02", "Wir gleichen ab", "Deine Antworten treffen auf meine Testdaten."],
-  ["03", "Du bekommst dein Match", "Eine Empfehlung mit Kosten und den Gründen, warum sie zu dir passt."],
-] as const;
-
-const Pfeil = () => <ArrowRight className="hc-pfeil" aria-hidden />;
-
-const BANKEN = [
-  { src: "/logos/ing.de.svg", alt: "ING", cls: "hc-banklogo--ing" },
-  { src: "/logos/dkb.de.svg", alt: "DKB", cls: "hc-banklogo--dkb" },
-  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", cls: "hc-banklogo--cb" },
+/** Tabelle: Wir gegen Vergleichsportal und Selbst suchen. Nur was belegt ist; über andere steht keine Zahl, nur ein Kreuz oder „–“. */
+type Zelle = boolean | string;
+const TABELLE: { name: string; werte: [Zelle, Zelle, Zelle] }[] = [
+  { name: "Selbst getestete Angebote", werte: [String(ANGEBOTE_GETESTET), "–", "–"] },
+  { name: "Halal-Blick", werte: [true, false, false] },
+  { name: "Begründung für dein Match", werte: [true, false, false] },
+  { name: "Zeitaufwand", werte: ["Unter 2 Min.", "–", "–"] },
+  { name: "Kosten für dich", werte: ["0 €", "0 €", "0 €"] },
 ];
 
-/** Kopf der Verkaufsseite je Art: Konto zwei Fragen (Elias' Wort Bankkonto), Depot drei, ohne art beides. */
-const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wort: string; vergleich: { text: string; pfad: string } }> = {
+const Pfeil = () => <ArrowRight className="hv-pfeil" aria-hidden />;
+
+/** Wörter und Texte je Art. Konto fragt wirklich drei Dinge (Was suchst du, Wie bezahlst du, Bank von heute), Depot vier bis sechs. */
+const KOPF: Record<
+  "alle" | Art,
+  { h1: string; lead: string; fragen: string; wort: string; schritt1: { titel: string; text: string }; schluss: [string, string, string] }
+> = {
   alle: {
     h1: "Welches Konto oder Depot passt wirklich zu dir?",
     lead: "Wenige kurze Fragen, dann siehst du dein Match für Konto oder Depot, mit allen Kosten und dem Grund, warum es zu dir passt.",
-    fragen: "2 bis 3",
+    fragen: "wenige",
     wort: "Wenige",
-    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
+    schritt1: { titel: "Wenige kurze Fragen", text: "Was du suchst, wie viel Erfahrung du hast und was dir wichtig ist. Dauert unter zwei Minuten." },
+    schluss: ["Ziel, Erfahrung und deine Bank oder dein Depot heute. Ein Tipp pro Frage, ganz im Chat-Ton.", "Deine Antworten treffen auf jedes Konto und Depot, das ich selbst getestet habe.", "Eine Empfehlung mit Kosten und den Gründen, warum sie zu dir passt."],
   },
   konto: {
-    h1: "Welches Bankkonto passt wirklich zu dir?",
-    lead: "Zwei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
-    fragen: "2",
-    wort: "Zwei",
-    vergleich: { text: "Erst Bankkonten vergleichen", pfad: "/vergleich/girokonto" },
-  },
-  depot: {
-    h1: "Welches Depot passt wirklich zu dir?",
+    h1: "Welches Girokonto passt wirklich zu dir?",
     lead: "Drei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "3",
     wort: "Drei",
-    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
+    schritt1: { titel: "Drei kurze Fragen", text: "Was du suchst, wie du bezahlst und bei welcher Bank du heute bist. Dauert unter zwei Minuten." },
+    schluss: ["Was du suchst, wie du bezahlst und deine Bank heute. Ein Tipp pro Frage, ganz im Chat-Ton.", "Deine Antworten treffen auf jedes Girokonto, das ich selbst getestet habe.", "Eine Empfehlung mit Kosten und den Gründen, warum sie zu dir passt."],
+  },
+  depot: {
+    h1: "Welches Depot passt wirklich zu dir?",
+    lead: "Wenige kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
+    fragen: "wenige",
+    wort: "Wenige",
+    schritt1: { titel: "Wenige kurze Fragen", text: "Deine Erfahrung, was dir wichtig ist und dein Depot heute. Dauert unter zwei Minuten." },
+    schluss: ["Erfahrung, Ziel und dein Depot heute. Ein Tipp pro Frage, ganz im Chat-Ton.", "Deine Antworten treffen auf jedes Depot, das ich selbst getestet habe.", "Eine Empfehlung mit Kosten und den Gründen, warum sie zu dir passt."],
   },
 };
+
+const FAKTEN = (fragen: string) => [fragen === "wenige" ? "Nur wenige Fragen" : `Nur ${fragen} Fragen`, "Unter 2 Minuten", "Kostenlos"];
 
 const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => void; art?: Art }) => {
   const kopf = KOPF[art ?? "alle"];
   const bilder = art === "konto" ? "konto" : "depot";
-  // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
-  const zeigeCommunity = stimmenFuer(art).length > 0 || import.meta.env.DEV;
+  const stimmen = stimmenFuer(art);
+  // Die Community-Sektion trägt die Aussage „Sie haben gewechselt und bereuen es nicht“: live nur mit echter Stimme, im Entwicklungsmodus mit Platzhaltern.
+  const zeigeCommunity = stimmen.length > 0 || import.meta.env.DEV;
+  const zeigeFoto = COMMUNITY_FOTO !== null || import.meta.env.DEV;
+  const avatare = AVATARE.length > 0 ? AVATARE.slice(0, 3) : import.meta.env.DEV ? [null, null, null] : [];
   return (
-    <div className="hc-seite">
-      <header className="hc-kopf">
-        <div className="hc-wrap hc-kopf-innen">
-          <img src="/apple-touch-icon.png" alt="finanzmuslim" width={40} height={40} className="hc-logo" />
-          <button type="button" className="hc-btn hc-btn--klein hc-btn--dunkel" onClick={() => onStart("kopf")}>
+    <div className="hv-seite">
+      <header className="hv-kopf">
+        <div className="hv-wrap hv-kopf-innen">
+          <img src="/apple-touch-icon.png" alt="finanzmuslim" width={32} height={32} className="hv-logo" />
+          <nav className="hv-kopf-links" aria-label="Abschnitte">
+            <button type="button" onClick={() => onStart("kopf-schritte")}>So geht&rsquo;s</button>
+            <button type="button" onClick={() => onStart("kopf-vergleich")}>Vergleich</button>
+          </nav>
+          <button type="button" className="hv-btn hv-btn--klein hv-btn--dunkel" onClick={() => onStart("kopf")}>
             Match finden
           </button>
         </div>
       </header>
 
       <main>
-        <section className="hc-hero hc-wrap">
-          <div className="hc-hero-gitter">
-            <div>
-              <div className="hc-beweis" data-enter="0">
-                <p className="hc-eyebrow">{ANGEBOTE_GETESTET} Angebote selbst getestet</p>
-                <span className="hc-banken">
-                  {BANKEN.map((b) => (
-                    <img key={b.src} src={b.src} alt={b.alt} height={18} className={`hc-banklogo ${b.cls}`} />
-                  ))}
-                </span>
+        <section className="hv-hero hv-wrap">
+          <div className="hv-hero-gitter">
+            <div className="hv-hero-text">
+              <p className="hv-eyebrow" data-enter="1">{ANGEBOTE_GETESTET} Angebote selbst getestet</p>
+              <h1 className="hv-h1" data-enter="2">{kopf.h1}</h1>
+              <div className="hv-beweis" data-enter="3">
+                {avatare.length > 0 && (
+                  <span className="hv-avatare">
+                    {avatare.map((src, i) =>
+                      src ? (
+                        <img key={src} src={src} alt="" width={32} height={32} className="hv-avatar" />
+                      ) : (
+                        <span key={i} className="hv-avatar hv-avatar--platz" data-avatar-platzhalter aria-hidden />
+                      ),
+                    )}
+                  </span>
+                )}
+                <p>{DEPOTS_GETESTET} Depots und {KONTEN_GETESTET} Girokonten selbst getestet</p>
               </div>
-              <h1 className="hc-h1" data-enter="1">{kopf.h1}</h1>
+              <p className="hv-lead" data-enter="4">{kopf.lead}</p>
             </div>
-            <div className="hc-hero-rechts">
-              <p className="hc-lead" data-enter="2">{kopf.lead}</p>
-              <div className="hc-knoepfe" data-enter="3">
-                <button type="button" className="hc-btn hc-btn--gross" onClick={() => onStart("hero")}>
-                  Match finden
-                  <Pfeil />
-                </button>
-                <Link to={kopf.vergleich.pfad} className="hc-btn hc-btn--rand hc-btn--gross">
-                  {kopf.vergleich.text}
-                </Link>
+
+            <div className="hv-foto" aria-hidden={false}>
+              <div className="hv-foto-bild">
+                <img src={eliasCutout} alt="" width={528} height={800} loading="eager" />
               </div>
+              <div className="hv-name">
+                <p>Elias El-Gendy</p>
+                <p>Gründer von finanzmuslim</p>
+              </div>
+            </div>
+
+            <div className="hv-hero-knopf" data-enter="5">
+              <button type="button" className="hv-btn hv-btn--gross" onClick={() => onStart("hero")}>
+                Match finden
+                <Pfeil />
+              </button>
+              <ul className="hv-fakten">
+                {FAKTEN(kopf.fragen).map((t) => (
+                  <li key={t}>
+                    <Check className="hv-haken" aria-hidden />
+                    {t}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <ul className="hc-haken-zeile" data-enter="4">
-            {[`Nur ${kopf.fragen} Fragen`, "Unter 2 Minuten", "Kostenlos", "Mit Werbehinweis"].map((t) => (
-              <li key={t}>
-                <Check className="hc-haken-icon" aria-hidden />
-                {t}
-              </li>
-            ))}
-          </ul>
         </section>
 
         {zeigeCommunity && (
-          <section className="hc-community hc-wrap" data-reveal>
-            <p className="hc-kicker">Aus der Community</p>
-            <h2 className="hc-h2">Sie haben gewechselt und bereuen es nicht</h2>
-            <div className="hc-community-gitter">
-              <figure className="hc-community-foto">
-                <img src={eliasCommunity} alt="Elias El-Gendy lächelt in die Kamera" width={928} height={1152} loading="lazy" />
-              </figure>
-              <div className="hc-community-stimmen">
+          <section className="hv-community hv-wrap" data-reveal>
+            <div className="hv-kopfblock">
+              <p className="hv-kicker">Aus der Community</p>
+              <h2 className="hv-h2">Sie haben gewechselt und bereuen es nicht</h2>
+            </div>
+            <div className={`hv-community-gitter${zeigeFoto ? "" : " hv-community-gitter--ohne"}`}>
+              {COMMUNITY_FOTO ? (
+                <figure className="hv-community-foto">
+                  <img src={COMMUNITY_FOTO.src} alt={COMMUNITY_FOTO.alt} width={COMMUNITY_FOTO.b} height={COMMUNITY_FOTO.h} loading="lazy" />
+                </figure>
+              ) : (
+                import.meta.env.DEV && (
+                  <div className="hv-community-foto hv-platz" data-foto-platzhalter>
+                    Hier kommt dein Foto vom Vortrag an der Uni Hamburg
+                  </div>
+                )
+              )}
+              <div className="hv-community-stimmen">
                 <CheckStimme stelle={0} art={art} />
                 <CheckStimme stelle={1} art={art} />
               </div>
@@ -161,23 +200,25 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
           </section>
         )}
 
-        <section className="hc-schritte hc-wrap" data-reveal>
-          <div className="hc-schritte-kopf">
-            <h2 className="hc-h2">So entsteht deine Empfehlung</h2>
-            <p className="hc-grau-text">Kein Ranking nach Provision. Partnerlinks sind offen gekennzeichnet.</p>
+        <section className="hv-schritte hv-wrap" data-reveal>
+          <div className="hv-schritte-kopf">
+            <h2 className="hv-h2 hv-h2--mittel">So entsteht deine Empfehlung</h2>
+            <p>Kein Ranking nach Provision. Partnerlinks sind offen gekennzeichnet.</p>
           </div>
-          <div className="hc-zeilen hc-zeilen--zwei">
-            {SCHRITTE.map((s) => {
+          <div className="hv-zeilen">
+            {SCHRITTE.map((s, i) => {
               const bild = s[bilder];
+              const titel = i === 0 ? kopf.schritt1.titel : s.titel;
+              const text = i === 0 ? kopf.schritt1.text : s.text;
               return (
-                <button key={s.nr} type="button" className="hc-zeile" onClick={() => onStart(`schritt${s.nr}`)}>
-                  <span className={`hc-zeile-bild${bild.oben ? " hc-zeile-bild--oben" : ""}`}>
+                <button key={s.nr} type="button" className="hv-zeile" onClick={() => onStart(`schritt${s.nr}`)}>
+                  <span className={`hv-zeile-bild${bild.oben ? " hv-zeile-bild--oben" : ""}`}>
                     <img src={bild.src} alt={bild.alt} width={bild.b} height={bild.h} loading="lazy" />
                   </span>
-                  <span className="hc-zeile-text">
-                    <span className="hc-zeile-nr"><b>{s.nr}</b> Schritt</span>
-                    <span className="hc-zeile-titel">{s.titel}</span>
-                    <span className="hc-zeile-beschr">{s.text}</span>
+                  <span className="hv-zeile-text">
+                    <span className="hv-zeile-nr"><b>{s.nr}</b> Schritt</span>
+                    <span className="hv-zeile-titel">{titel}</span>
+                    <span className="hv-zeile-beschr">{text}</span>
                   </span>
                 </button>
               );
@@ -185,55 +226,57 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
           </div>
         </section>
 
-        <section className="hc-tabelle-box hc-wrap" data-reveal>
-          <h2 className="hc-h2 hc-h2--schmal">Warum nicht einfach das erstbeste Vergleichsportal?</h2>
-          <table className="hc-tab">
-            <thead>
-              <tr>
-                <th className="hc-tab-ecke"><span className="hc-nur-sr">Vergleich der Möglichkeiten</span></th>
-                <th scope="col" className="hc-tab-wir">Finanz&shy;muslim</th>
-                <th scope="col">Vergleichs&shy;portal</th>
-                <th scope="col">Selbst suchen</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Selbst getestete Angebote</th>
-                <td className="hc-tab-wir"><b>{ANGEBOTE_GETESTET}</b></td>
-                <td className="hc-tab-leer">–</td>
-                <td className="hc-tab-leer">–</td>
-              </tr>
-              {ZEILEN.map(([name, ...werte]) => (
-                <tr key={name}>
-                  <th scope="row">{name}</th>
-                  {werte.map((ja, i) => (
-                    <td key={i} className={i === 0 ? "hc-tab-wir" : undefined}>
-                      {ja ? <Check className="hc-tab-ja" aria-hidden /> : <X className="hc-tab-nein" aria-hidden />}
-                      <span className="hc-nur-sr">{ja ? "Enthalten" : "Nicht enthalten"}</span>
-                    </td>
-                  ))}
+        <section className="hv-tabelle hv-wrap" data-reveal>
+          <h2 className="hv-h2 hv-h2--mittel">Warum nicht einfach das erstbeste Vergleichsportal?</h2>
+          <div className="hv-tab-rahmen">
+            <table className="hv-tab">
+              <thead>
+                <tr>
+                  <th className="hv-tab-ecke"><span className="hv-nur-sr">Vergleich der Möglichkeiten</span></th>
+                  <th scope="col" className="hv-tab-wir">Finanz&shy;muslim</th>
+                  <th scope="col">Vergleichs&shy;portal</th>
+                  <th scope="col">Selbst suchen</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {TABELLE.map(({ name, werte }) => (
+                  <tr key={name}>
+                    <th scope="row">{name}</th>
+                    {werte.map((w, i) => (
+                      <td key={i} className={i === 0 ? "hv-tab-wir" : undefined}>
+                        {typeof w === "string" ? (
+                          i === 0 ? <b>{w}</b> : <span className={w === "–" ? "hv-tab-leer" : undefined}>{w}</span>
+                        ) : (
+                          <>
+                            {w ? <Check className="hv-tab-ja" aria-hidden /> : <X className="hv-tab-nein" aria-hidden />}
+                            <span className="hv-nur-sr">{w ? "Enthalten" : "Nicht enthalten"}</span>
+                          </>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
-        <section className="hc-schluss hc-wrap" data-reveal>
-          <div className="hc-schluss-gitter">
-            <h2 className="hc-h2">{kopf.wort} kurze Fragen, dann weißt du, was zu dir passt</h2>
-            <ol className="hc-nummern">
-              {FRAGEN_ZEILEN.map(([nr, t, s]) => (
-                <li key={nr}>
-                  <span aria-hidden>{nr}</span>
+        <section className="hv-schluss hv-wrap" data-reveal>
+          <div className="hv-schluss-gitter">
+            <h2 className="hv-h2 hv-h2--mittel">{kopf.wort} kurze Fragen, dann weißt du, was zu dir passt</h2>
+            <ol className="hv-nummern">
+              {(["Du erzählst kurz von dir", "Wir gleichen ab", "Du bekommst dein Match"] as const).map((t, i) => (
+                <li key={t}>
+                  <span aria-hidden>{`0${i + 1}`}</span>
                   <div>
                     <h3>{t}</h3>
-                    <p>{s}</p>
+                    <p>{kopf.schluss[i]}</p>
                   </div>
                 </li>
               ))}
             </ol>
-            <div className="hc-schluss-knopf">
-              <button type="button" className="hc-btn hc-btn--gross hc-btn--breit" onClick={() => onStart("schluss")}>
+            <div className="hv-schluss-knopf">
+              <button type="button" className="hv-btn hv-btn--gross" onClick={() => onStart("schluss")}>
                 Erste Frage starten
                 <Pfeil />
               </button>
@@ -242,18 +285,18 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
         </section>
       </main>
 
-      <footer className="hc-fuss hc-wrap">
-        <div className="hc-fuss-karte">
-          <img src="/apple-touch-icon.png" alt="finanzmuslim" width={40} height={40} className="hc-logo" />
-          <div className="hc-fuss-text">
-            <p className="hc-fuss-titel">Werbehinweis &amp; Transparenz</p>
+      <footer className="hv-fuss hv-wrap">
+        <div className="hv-fuss-karte">
+          <img src="/apple-touch-icon.png" alt="finanzmuslim" width={32} height={32} className="hv-logo" />
+          <div className="hv-fuss-text">
+            <p className="hv-fuss-titel">Werbehinweis &amp; Transparenz</p>
             <p>
               Einige Links auf dieser Seite sind Partnerlinks. Eröffnest du darüber ein Konto oder Depot, erhält Finanzmuslim eine
               Provision, für dich ändert sich am Preis nichts. Die Empfehlung beruht auf deinen Antworten und eigenen Tests, nicht auf
               der Höhe der Provision. Sie ist keine Anlageberatung, und Investitionen bergen das Risiko von Verlusten.
             </p>
           </div>
-          <p className="hc-fuss-links">
+          <p className="hv-fuss-links">
             <Link to="/impressum">Impressum</Link>
             <Link to="/datenschutz">Datenschutz</Link>
           </p>

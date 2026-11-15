@@ -1,0 +1,860 @@
+/*
+ * Verkaufsseite des Halal-Finanz-Checks (RN10-Neubau, 16.11.2026). Abschnitte und Maße der Startseite von Elias' Perspective-Funnel
+ * (Seite „Start“, Blueprint p0s0 bis p0s6), die Größen des Kopfes wie die Startseite von finanzmuslim.com (Index.tsx Hero: Titel
+ * 30 px fett Zeilenhöhe 1,15, am Laptop 56/64 und 64/72, grauer Satz 17/26 und 22/32, freigestelltes Foto mit Namensschild).
+ * Alles unter .hv-, Farben und Dunkelmodus kommen aus den Werten von .hc (halalFinanzCheck.css: --text, --bg, --grau, --linie, --blau,
+ * --blau-text, --flaeche). Bewegung über data-enter und data-reveal, die dort schon geregelt sind.
+ */
+
+.hv-seite {
+  background: var(--bg);
+  color: var(--text);
+}
+.hv-seite :where(h1, h2, h3, p, ul, ol, figure) {
+  margin: 0;
+}
+.hv-seite :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+.hv-wrap {
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .hv-wrap {
+    padding-inline: 48px;
+  }
+}
+.hv-nur-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Knöpfe ganz rund */
+.hv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 0 32px;
+  border: 1px solid var(--blau);
+  border-radius: 9999px;
+  background: var(--blau);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: transform 0.2s ease;
+}
+.hv-btn--klein {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  box-shadow: none;
+}
+.hv-btn--dunkel {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.hv-pfeil {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+@media (hover: hover) {
+  .hv-btn--gross:hover {
+    transform: translateY(-2px);
+  }
+  .hv-btn--gross:hover .hv-pfeil {
+    transform: translateX(4px);
+  }
+}
+
+/* Kopfleiste: 68 px, Logo links, Knopf rechts; ab Tablet zwei Textlinks in der Mitte */
+.hv-kopf {
+  border-bottom: 1px solid var(--linie);
+}
+.hv-kopf-innen {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 24px;
+  height: 68px;
+}
+@media (min-width: 768px) {
+  .hv-kopf-innen {
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .hv-kopf-innen > .hv-btn {
+    justify-self: end;
+  }
+}
+.hv-logo {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+@media (min-width: 768px) {
+  .hv-logo {
+    width: 32px;
+    height: 32px;
+  }
+}
+.hv-kopf-links {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hv-kopf-links {
+    display: flex;
+    gap: 36px;
+  }
+}
+.hv-kopf-links button {
+  padding: 12px 0;
+  border: 0;
+  background: none;
+  color: var(--grau);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Hero: Handy eine Spalte (Text, Foto, Knopf), ab 900 px links Text und Knopf, rechts das Foto */
+.hv-hero {
+  padding-top: 32px;
+  padding-bottom: 8px;
+}
+.hv-hero-gitter {
+  display: flex;
+  flex-direction: column;
+}
+.hv-eyebrow {
+  margin-bottom: 12px;
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hv-h1 {
+  max-width: 14em;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.hv-beweis {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.hv-beweis p {
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.375;
+}
+.hv-avatare {
+  display: flex;
+  flex: none;
+}
+.hv-avatar {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--flaeche2);
+}
+.hv-avatar + .hv-avatar {
+  margin-left: -9px;
+}
+.hv-avatar--platz {
+  border: 1.5px dashed #c9a400;
+  background: #fff8d6;
+}
+.dark .hc .hv-avatar--platz {
+  background: #2a2410;
+}
+.hv-lead {
+  max-width: 28rem;
+  margin-top: 12px;
+  color: var(--grau);
+  font-size: 17px;
+  line-height: 26px;
+  text-wrap: balance;
+}
+
+/* Foto: Handy 256 px hoch, unten weich ausgeblendet, der Knopf liegt über dem Rand; Name rechts neben dem Kopf */
+.hv-foto {
+  position: relative;
+  height: 256px;
+  margin-top: 8px;
+  margin-bottom: -56px;
+  pointer-events: none;
+}
+.hv-foto-bild {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+.hv-foto-bild img {
+  position: absolute;
+  top: 0;
+  left: -12px;
+  display: block;
+  width: auto;
+  max-width: none;
+  height: 118%;
+}
+.hv-name {
+  position: absolute;
+  top: 22%;
+  right: 0;
+  white-space: nowrap;
+}
+.hv-name p:first-child {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+.hv-name p:last-child {
+  color: var(--grau);
+  font-size: 12px;
+  line-height: 16px;
+}
+.hv-hero-knopf {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+.hv-hero-knopf .hv-btn {
+  width: 100%;
+}
+.hv-fakten {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 8px;
+}
+.hv-fakten li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.375;
+  color: var(--grau);
+}
+.hv-haken {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--blau-text);
+}
+@media (min-width: 768px) {
+  .hv-hero {
+    padding-top: 56px;
+  }
+  .hv-h1 {
+    font-size: 56px;
+    line-height: 64px;
+  }
+  .hv-beweis {
+    margin-top: 24px;
+  }
+  .hv-beweis p {
+    font-size: 15px;
+  }
+  .hv-lead {
+    margin-top: 20px;
+    max-width: 30rem;
+    font-size: 22px;
+    line-height: 32px;
+  }
+  .hv-hero-knopf {
+    margin-top: 24px;
+    align-items: flex-start;
+  }
+  .hv-hero-knopf .hv-btn {
+    width: auto;
+  }
+  .hv-fakten {
+    justify-content: flex-start;
+    gap: 8px 24px;
+  }
+  .hv-fakten li {
+    gap: 8px;
+    font-size: 15px;
+  }
+  .hv-haken {
+    width: 16px;
+    height: 16px;
+  }
+}
+@media (min-width: 900px) {
+  .hv-hero {
+    padding-top: 64px;
+  }
+  .hv-hero-gitter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(440px, 40%);
+    grid-template-rows: auto 1fr;
+    column-gap: 48px;
+    align-items: start;
+  }
+  .hv-hero-text {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hv-hero-knopf {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .hv-foto {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+    height: 480px;
+    margin: 0;
+  }
+  .hv-foto-bild {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .hv-foto-bild img {
+    left: 0;
+    width: 100%;
+    height: calc((100% - 60px) * 1.53);
+    object-fit: cover;
+    object-position: top;
+  }
+  .hv-name {
+    top: auto;
+    right: 0;
+    bottom: 76px;
+    padding: 12px 16px;
+    border: 1px solid var(--linie);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  .hv-name p:first-child {
+    font-size: 15px;
+  }
+  .hv-name p:last-child {
+    font-size: 13px;
+  }
+}
+@media (min-width: 1280px) {
+  .hv-h1 {
+    font-size: 64px;
+    line-height: 72px;
+  }
+}
+
+/* Gemeinsame Überschriften */
+.hv-kicker {
+  color: var(--blau-text);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hv-h2 {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.hv-h2--mittel {
+  font-size: 30px;
+  line-height: 1.25;
+}
+@media (min-width: 768px) {
+  .hv-h2,
+  .hv-h2--mittel {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+
+/* Aus der Community: ein einziges großes Foto links, Stimmen rechts (nur echte) */
+.hv-community {
+  padding-block: 64px 0;
+}
+.hv-kopfblock {
+  max-width: 42rem;
+}
+.hv-kopfblock .hv-h2 {
+  margin-top: 12px;
+}
+.hv-community-gitter {
+  display: grid;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+@media (min-width: 768px) {
+  .hv-community {
+    padding-block-start: 96px;
+  }
+  .hv-community-gitter {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 64px;
+    margin-top: 56px;
+  }
+  .hv-community-gitter--ohne {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.hv-community-foto {
+  overflow: hidden;
+  border-radius: 20px;
+  aspect-ratio: 4 / 3;
+  background: var(--flaeche2);
+}
+@media (min-width: 768px) {
+  .hv-community-foto {
+    aspect-ratio: 4 / 5;
+  }
+}
+.hv-community-foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hv-platz {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border: 2px dashed #c9a400;
+  background: #fff8d6;
+  color: #5c4a00;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+.dark .hc .hv-platz {
+  background: #2a2410;
+  color: #f1dc7a;
+}
+.hv-community-stimmen {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* So entsteht deine Empfehlung: Kopf, dann zwei Spalten mit je Bild und Text */
+.hv-schritte {
+  padding-block: 64px 0;
+}
+.hv-schritte-kopf {
+  display: grid;
+  gap: 20px;
+}
+.hv-schritte-kopf p {
+  color: var(--grau);
+  font-size: 16px;
+  line-height: 1.625;
+}
+@media (min-width: 768px) {
+  .hv-schritte {
+    padding-block-start: 96px;
+  }
+  .hv-schritte-kopf {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: end;
+    gap: 64px;
+  }
+}
+.hv-zeilen {
+  display: grid;
+  gap: 0 56px;
+  margin-top: 40px;
+}
+@media (min-width: 768px) {
+  .hv-zeilen {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 64px;
+  }
+}
+.hv-zeile {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 20px;
+  padding: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--linie);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+@media (min-width: 640px) {
+  .hv-zeile {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 24px;
+  }
+}
+@media (min-width: 768px) {
+  .hv-zeile {
+    padding-block: 36px;
+  }
+}
+.hv-zeile-bild {
+  position: relative;
+  align-self: start;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+  background: var(--flaeche2);
+}
+.hv-zeile-bild img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hv-zeile-bild--oben img {
+  object-position: top;
+}
+@media (hover: hover) {
+  .hv-zeile:hover img {
+    transform: scale(1.03);
+  }
+}
+.hv-zeile-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.hv-zeile-nr {
+  display: flex;
+  gap: 8px;
+  color: var(--grau);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+}
+.hv-zeile-nr b {
+  color: var(--blau-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hv-zeile-titel {
+  margin-top: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
+  letter-spacing: -0.02em;
+}
+.hv-zeile-beschr {
+  margin-top: 8px;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.625;
+}
+@media (min-width: 640px) {
+  .hv-zeile-beschr {
+    margin-top: auto;
+    padding-top: 16px;
+  }
+}
+
+/* Tabelle: Finanzmuslim blau getönt, Vergleichsportal und Selbst suchen daneben. Bei 390 px kein seitlicher Überlauf. */
+.hv-tabelle {
+  padding-block: 64px 0;
+}
+.hv-tabelle .hv-h2 {
+  max-width: 42rem;
+}
+.hv-tab-rahmen {
+  margin-top: 40px;
+}
+@media (min-width: 768px) {
+  .hv-tabelle {
+    padding-block-start: 96px;
+  }
+  .hv-tab-rahmen {
+    margin-top: 56px;
+  }
+}
+.hv-tab {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+.hv-tab th,
+.hv-tab td {
+  min-width: 0;
+  padding: 14px 4px;
+  overflow-wrap: break-word;
+  hyphens: manual;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 13px;
+  line-height: 20px;
+}
+.hv-tab thead th {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-weight: 600;
+  vertical-align: bottom;
+}
+.hv-tab tbody th {
+  padding-left: 12px;
+  font-weight: 500;
+  text-align: left;
+}
+.hv-tab-ecke {
+  width: 28%;
+}
+.hv-tab tbody tr:nth-child(odd) > * {
+  background-color: color-mix(in srgb, var(--text) 4%, transparent);
+}
+.hv-tab tbody tr > :first-child {
+  border-radius: 14px 0 0 14px;
+}
+.hv-tab tbody tr > :last-child {
+  border-radius: 0 14px 14px 0;
+}
+.hv-tab .hv-tab-wir {
+  background-image: linear-gradient(color-mix(in srgb, var(--blau) 9%, transparent), color-mix(in srgb, var(--blau) 9%, transparent));
+  border-radius: 0;
+  color: var(--blau-text);
+}
+.hv-tab thead .hv-tab-wir {
+  border-radius: 14px 14px 0 0;
+}
+.hv-tab tbody tr:last-child .hv-tab-wir {
+  border-radius: 0 0 14px 14px;
+}
+.hv-tab td.hv-tab-wir b {
+  color: var(--text);
+  font-weight: 600;
+}
+.hv-tab-leer {
+  color: var(--grau);
+}
+.hv-tab-ja,
+.hv-tab-nein {
+  display: block;
+  margin-inline: auto;
+}
+.hv-tab-ja {
+  width: 20px;
+  height: 20px;
+  color: var(--blau-text);
+}
+.hv-tab-nein {
+  width: 16px;
+  height: 16px;
+  color: var(--grau);
+  opacity: 0.8;
+}
+@media (min-width: 640px) {
+  .hv-tab-ecke {
+    width: 34%;
+  }
+  .hv-tab th,
+  .hv-tab td {
+    padding: 16px 12px;
+    font-size: 15px;
+    line-height: 1.375;
+  }
+  .hv-tab tbody th {
+    padding-left: 20px;
+  }
+}
+@media (min-width: 768px) {
+  .hv-tab-ecke {
+    width: 40%;
+  }
+  .hv-tab th,
+  .hv-tab td {
+    padding-block: 18px;
+    font-size: 16px;
+  }
+  .hv-tab tbody th {
+    padding-left: 24px;
+  }
+}
+
+/* Schluss: Titel und Knopf links, drei Zeilen rechts */
+.hv-schluss {
+  padding-block: 64px 0;
+}
+.hv-schluss-gitter {
+  display: grid;
+  gap: 40px 48px;
+}
+.hv-schluss .hv-h2 {
+  max-width: 14em;
+}
+.hv-nummern {
+  border-top: 1px solid var(--linie);
+}
+.hv-nummern li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--linie);
+}
+.hv-nummern li > span {
+  color: var(--blau-text);
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hv-nummern h3 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hv-nummern p {
+  max-width: 28em;
+  margin-top: 8px;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.625;
+}
+.hv-schluss-knopf {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 640px) {
+  .hv-schluss-knopf {
+    flex-direction: row;
+  }
+}
+@media (max-width: 639px) {
+  .hv-schluss-knopf .hv-btn {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .hv-schluss {
+    padding-block-start: 96px;
+  }
+  .hv-schluss .hv-h2 {
+    font-size: 48px;
+    line-height: 1.1;
+  }
+  .hv-schluss-gitter {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: auto 1fr;
+  }
+  .hv-schluss .hv-h2 {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+  }
+  .hv-nummern {
+    grid-column: 7 / span 6;
+    grid-row: 1 / span 2;
+  }
+  .hv-nummern li {
+    grid-template-columns: 64px minmax(0, 1fr);
+    padding-block: 32px;
+  }
+  .hv-nummern li > span,
+  .hv-nummern h3 {
+    font-size: 20px;
+  }
+  .hv-nummern p {
+    font-size: 16px;
+  }
+  .hv-schluss-knopf {
+    grid-column: 1 / span 5;
+    grid-row: 2;
+    align-self: end;
+  }
+}
+
+/* Fuß: Kasten „Werbehinweis & Transparenz“ */
+.hv-fuss {
+  padding-block: 64px 48px;
+}
+.hv-fuss-karte {
+  display: grid;
+  gap: 28px 64px;
+  padding: 32px 24px;
+  border: 1px solid var(--linie);
+  border-radius: 24px;
+  background: var(--flaeche);
+}
+.hv-fuss-text .hv-fuss-titel {
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hv-fuss-text p + p {
+  margin-top: 12px;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.625;
+}
+.hv-fuss-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 20px;
+  color: var(--grau);
+  font-size: 14px;
+}
+.hv-fuss-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+@media (min-width: 800px) {
+  .hv-fuss-karte {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    padding: 48px;
+  }
+  .hv-fuss-karte .hv-logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hv-fuss-text {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .hv-fuss-links {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+  }
+}
