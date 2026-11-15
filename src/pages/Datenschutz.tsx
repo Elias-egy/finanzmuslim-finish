@@ -162,6 +162,34 @@ const Datenschutz = () => (
         </p>
       </section>
 
+      {/* RN4-01 (15.11.2026): Bewerbung für das Halal-Investment-OS statt Screenshot. Begründung und offene Punkte in der
+          Vault-Notiz hermes/renovierungskampagne/os-bewerbung-datenschutz.md. Offen vor dem Livegang: Empfänger (Make,
+          MailerLite oder eigener Server und Zoho) und die Löschfrist mit dem gebauten Versand abgleichen; Prüfung durch
+          einen Anwalt empfohlen (Art. 9 DSGVO). Das Formular schickt bis dahin nichts weg. */}
+      <section id="os-bewerbung" className="mb-10 scroll-mt-24">
+        <h2 className="text-xl font-semibold mb-4">5a. Bewerbung für das Halal-Investment-OS</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          Wenn du dich für das Halal-Investment-OS bewirbst, verarbeiten wir deine Angaben aus dem Formular: bei welchem
+          Anbieter dein Depot liegt, welche Anlagen du gekauft hast, falls du sie angibst die Bank deines zinsfreien
+          Girokontos, deinen Vornamen und deine E-Mail-Adresse. Beträge, Kontostände, Kontonummern oder einen Screenshot
+          fragen wir nicht ab. Wir nutzen die Angaben, um deine Bewerbung zu prüfen, dich freizuschalten und dir deinen
+          Zugang per E-Mail zu schicken.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Aus der Angabe, dass du halal anlegst, lässt sich auf deine religiöse Überzeugung schließen. Solche Daten sind
+          nach Art. 9 DSGVO besonders geschützt. Wir verarbeiten sie nur mit deiner ausdrücklichen Einwilligung, die du mit
+          dem Häkchen im Formular gibst (Art. 9 Abs. 2 lit. a und Art. 6 Abs. 1 lit. a DSGVO). Den Zugang selbst stellen
+          wir dir auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO bereit. Du kannst deine Einwilligung jederzeit per E-Mail an
+          elias@finanzmuslim.com widerrufen. Dann löschen wir deine Bewerbung, und dein Zugang endet.
+        </p>
+        <p className="mt-3 text-muted-foreground leading-relaxed">
+          Mit der Bewerbung trägst du dich nicht in den Newsletter ein. Wir speichern deine Angaben, solange du deinen
+          Zugang nutzt. Nehmen wir eine Bewerbung nicht an, löschen wir sie spätestens nach drei Monaten. Für Speicherung
+          und Versand nutzen wir Make und MailerLite, die in Abschnitt 4 genannt sind und in unserem Auftrag nach Art. 28
+          DSGVO arbeiten.
+        </p>
+      </section>
+
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">6. Videos und Anbieter-Logos</h2>
         <p className="text-muted-foreground leading-relaxed">
