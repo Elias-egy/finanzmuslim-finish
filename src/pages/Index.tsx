@@ -54,7 +54,7 @@ const categories = [
 const calculators = [
   { title: "Zakat-Rechner", to: "/zakat-rechner", icon: Calculator },
   { title: "Renditerechner", to: "/renditerechner", icon: TrendingUp },
-  { title: "Auswanderungsrechner", to: "/auswanderungsrechner", icon: Globe },
+  { title: "Auswanderungs\u00ADrechner", to: "/auswanderungsrechner", icon: Globe },
   { title: "Dividenden reinigen", to: "/bereinigungsrechner", icon: Sparkles },
   { title: "Budgetrechner", to: "/budgetrechner", icon: PiggyBank },
   { title: "Zinskosten-Rechner", to: "/kreditkostenrechner", icon: Percent },
@@ -177,7 +177,9 @@ const Zeile = ({
         <Icon className="h-[22px] w-[22px] text-primary" aria-hidden />
       </span>
       <span className="flex min-w-0 flex-1 flex-wrap items-center gap-2 text-[17px] font-bold text-foreground group-hover:text-primary">
-        {titel}
+        {/* RN8: am Handy bleiben neben Symbol und Pfeil nur gut 170 px; ein langes Wort darf an der
+            weichen Trennung brechen, statt unter den Pfeil zu laufen. */}
+        <span className="min-w-0 break-words hyphens-manual">{titel}</span>
         {etikett}
       </span>
       <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden />
