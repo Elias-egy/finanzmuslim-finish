@@ -109,26 +109,8 @@ export const BROKER_START: Record<string, BrokerStart> = {
   },
 };
 
-/**
- * Text für den Verzicht. flatex: „Für Neukunden mit Kontoeröffnung automatisch; eine Antragstellung ist nicht
- * notwendig“ und „teilen Sie uns dies bitte in Textform mit“ (flatex.de/produkte-handel/produkte/wertpapierkredite,
- * gelesen 07.11.2026). Kunden schreiben über „Kontaktanfrage in Ihrer Anwendung im Benutzermenü unter dem Menüpunkt
- * Support“ (flatex.de/service/kontakt).
- */
-export const FLATEX_VERZICHT = {
-  betreff: "Verzicht auf den flex-Kredit",
-  text: [
-    "Guten Tag,",
-    "",
-    "ich verzichte auf den Dispositionsrahmen (flex-Kredit) für mein Konto. Bitte richten Sie für mein Konto keine Kreditlinie ein und bestätigen Sie mir das kurz.",
-    "",
-    "Name:",
-    "Kontonummer:",
-    "",
-    "Vielen Dank",
-  ].join("\n"),
-  weg: "In der flatex-App: Benutzermenü, Support, Kontaktanfrage",
-};
+/** Text für den Verzicht auf den flex-Kredit; liegt seit PH1-04 bei den Wechsel-Links, die auch der Vergleich zeigt. */
+export { FLATEX_VERZICHT } from "@/data/wechselUnterlagen";
 
 /**
  * FERTIG mit Nachweis (Elias, CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem Screenshot von deinem

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
+import { Check, Copy, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
+import { FLATEX_VERZICHT, WECHSEL_UNTERLAGEN } from "@/data/wechselUnterlagen";
+import { ereignis } from "@/lib/messung";
 import { anzeigeNote } from "@/lib/anzeigeNote";
 import { Link } from "react-router-dom";
 import {
@@ -501,9 +503,89 @@ export const ProduktDetails = ({
           </div>
         ))}
       </dl>
+      <WechselUnterlagen spalte={spalte} />
       <div className="mt-1 border-t border-border pt-3 empty:hidden">
         <QuellenListe spalte={spalte} zeilen={zeilen} />
       </div>
+    </div>
+  );
+};
+
+/**
+ * Links für den Wechsel, die bisher nur auf der Video-Seite standen (PH1-04, Elias 15.11.2026): flatex mit dem
+ * Antrag für den Depotübertrag und dem fertigen Verzicht auf den Kreditrahmen, Smartbroker+ mit dem Depotübertrag.
+ * Daten und Belege in `src/data/wechselUnterlagen.ts`. Bei allen anderen Anbietern steht hier nichts.
+ */
+export const WechselUnterlagen = ({ spalte }: { spalte: VergleichsSpalte }) => {
+  const [mailOffen, setMailOffen] = useState(false);
+  const [kopiert, setKopiert] = useState(false);
+  const daten = WECHSEL_UNTERLAGEN[spalte.id];
+  if (!daten) return null;
+  const kopieren = async () => {
+    try {
+      await navigator.clipboard.writeText(`${FLATEX_VERZICHT.betreff}\n\n${FLATEX_VERZICHT.text}`);
+      setKopiert(true);
+      ereignis("kredit_mail_kopiert", { anbieter: daten.kurzname, wo: "vergleich" });
+    } catch {
+      setKopiert(false);
+    }
+  };
+  return (
+    <div className="mt-1 border-t border-border pt-3 text-[14px]">
+      <p className="font-semibold text-foreground">Wechsel und Unterlagen</p>
+      <dl className="mt-1">
+        {daten.links.map((l) => (
+          <div key={l.url} className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2">
+            <dt className="text-muted-foreground">{l.titel}</dt>
+            <dd className="text-right">
+              <a
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => ereignis("wechsel_klick", { anbieter: daten.kurzname, wo: "vergleich" })}
+                className="font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                {l.text}
+              </a>
+            </dd>
+          </div>
+        ))}
+        {daten.kreditVerzicht && (
+          <div className="border-b border-border py-2 last:border-b-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <dt className="text-muted-foreground">Kein Kreditrahmen</dt>
+              <dd className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setMailOffen((o) => !o)}
+                  aria-expanded={mailOffen}
+                  aria-controls={`verzicht-${spalte.id}`}
+                  className="font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  Verzicht, fertig zum Kopieren
+                </button>
+              </dd>
+            </div>
+            {mailOffen && (
+              <div
+                id={`verzicht-${spalte.id}`}
+                className="mt-2 rounded-[6px] border border-border bg-accent/50 p-3 text-[14px] leading-relaxed text-foreground"
+              >
+                <p className="font-semibold">Betreff: {FLATEX_VERZICHT.betreff}</p>
+                <p className="mt-2 whitespace-pre-line">{FLATEX_VERZICHT.text}</p>
+                <button
+                  type="button"
+                  onClick={() => void kopieren()}
+                  className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-[6px] bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary-hover"
+                >
+                  <Copy className="h-4 w-4" aria-hidden /> {kopiert ? "Kopiert" : "Text kopieren"}
+                </button>
+                <p className="mt-2">Einfügen {FLATEX_VERZICHT.weg.replace(/^In/, "in")}.</p>
+              </div>
+            )}
+          </div>
+        )}
+      </dl>
     </div>
   );
 };
