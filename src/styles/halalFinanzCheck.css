@@ -17,14 +17,20 @@
 .hc {
   --blau: #0057fa;
   --text: #151b28;
-  --grau: color-mix(in srgb, #151b28 62%, transparent);
-  --linie: color-mix(in srgb, #151b28 12%, transparent);
-  --linie-stark: color-mix(in srgb, #151b28 45%, transparent);
+  --grau: color-mix(in srgb, var(--text) 62%, transparent);
+  --linie: color-mix(in srgb, var(--text) 12%, transparent);
+  --linie-stark: color-mix(in srgb, var(--text) 45%, transparent);
   --gruen: #0f8a4f;
   --gruen-hell: #e8f7ef;
+  --bg: #fff;
+  --blase: #f1f2f5;
+  --flaeche: #f2f3f5;
+  --flaeche2: #eef1f6;
+  --blau-hell: #e8eeff;
+  --blau-text: var(--blau);
   --rund: 1.75rem;
   color-scheme: light;
-  background: #fff;
+  background: var(--bg);
   color: var(--text);
   font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 17px;
@@ -91,7 +97,7 @@
 }
 .hc-btn--rand {
   background: transparent;
-  border-color: color-mix(in srgb, #151b28 22%, transparent);
+  border-color: color-mix(in srgb, var(--text) 22%, transparent);
 }
 .hc .hc-btn--rand {
   color: var(--text);
@@ -143,7 +149,7 @@
 }
 .hc-eyebrow {
   margin: 0 0 16px;
-  color: var(--blau);
+  color: var(--blau-text);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -203,7 +209,7 @@
   overflow: hidden;
   border-radius: var(--rund);
   aspect-ratio: 4 / 3;
-  background: #eef1f6;
+  background: var(--flaeche2);
 }
 @media (min-width: 768px) {
   .hc-foto-rahmen {
@@ -225,7 +231,7 @@
   padding: 20px 22px;
   border: 1px solid var(--linie);
   border-radius: 1.25rem;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 6px 24px -12px rgba(21, 27, 40, 0.18);
 }
 .hc-stimme blockquote {
@@ -349,7 +355,7 @@
   overflow: hidden;
   border-radius: 1rem;
   aspect-ratio: 4 / 3;
-  background: #eef1f6;
+  background: var(--flaeche2);
 }
 .hc-zeile-bild img {
   display: block;
@@ -375,7 +381,7 @@
 }
 .hc-zeile-nr b {
   margin-right: 4px;
-  color: var(--blau);
+  color: var(--blau-text);
   font-weight: 600;
 }
 .hc-zeile-titel {
@@ -414,7 +420,7 @@
   color: #fff;
 }
 .hc-karte-grau {
-  background: #f2f3f5;
+  background: var(--flaeche);
 }
 .hc-karte-kopf {
   margin: 0 0 24px;
@@ -484,7 +490,7 @@
   color: var(--grau);
 }
 .hc-hinweis a {
-  color: var(--blau);
+  color: var(--blau-text);
   font-weight: 600;
 }
 .hc-faq-liste {
@@ -558,7 +564,7 @@
   margin: -64px 14px 0;
   padding: 18px 22px 20px;
   border-radius: 1.4rem 1.4rem 1.4rem 0.4rem;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 0 0 1px var(--linie), 0 10px 28px -10px rgba(21, 27, 40, 0.25);
 }
 .hc-blase-wer {
@@ -588,7 +594,7 @@
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background: color-mix(in srgb, #151b28 40%, transparent);
+  background: color-mix(in srgb, var(--text) 40%, transparent);
 }
 .hc-said {
   margin: 0;
@@ -643,85 +649,11 @@
   width: 36px;
   height: 6px;
   border-radius: 9999px;
-  background: color-mix(in srgb, #151b28 10%, transparent);
+  background: color-mix(in srgb, var(--text) 10%, transparent);
   transition: background-color 0.3s ease;
 }
 .hc-striche li[data-an] {
   background: var(--blau);
-}
-.hc-frage-titel {
-  margin: 36px 0 0;
-  font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.375rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-.hc-frage-unter {
-  margin: 12px 0 0;
-  color: var(--grau);
-  font-size: 18px;
-  line-height: 1.45;
-}
-.hc-optionen {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 28px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.hc-opt {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  width: 100%;
-  min-height: 64px;
-  padding: 22px 24px;
-  border: 1px solid var(--linie);
-  border-radius: 1.25rem;
-  background: #fff;
-  color: var(--text);
-  text-align: left;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-.hc-opt-icon {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 12px;
-}
-.hc-opt-titel {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-.hc-opt-unter {
-  color: var(--grau);
-  font-size: 16px;
-  line-height: 1.4;
-}
-@media (hover: hover) {
-  .hc-opt:hover {
-    border-color: var(--linie-stark);
-  }
-}
-.hc-opt--gruen {
-  border-color: var(--gruen);
-  background: var(--gruen-hell);
-}
-.hc-opt--gruen .hc-opt-icon {
-  color: var(--gruen);
-}
-@media (hover: hover) {
-  .hc-opt--gruen:hover {
-    border-color: #0a6c3c;
-    box-shadow: 0 0 0 1px #0a6c3c;
-  }
-}
-.hc-opt[data-gewaehlt] {
-  border-color: var(--blau);
-  box-shadow: 0 0 0 1px var(--blau);
 }
 .hc-tag {
   display: inline-block;
@@ -785,13 +717,13 @@
 .hc-antw svg {
   width: 18px;
   height: 18px;
-  color: var(--blau);
+  color: var(--blau-text);
 }
 .hc-nr1 {
   margin-top: 28px;
   padding: 24px;
   border-radius: var(--rund);
-  background: #e8eeff;
+  background: var(--blau-hell);
 }
 .hc-nr1-kopf {
   display: flex;
@@ -799,14 +731,14 @@
   gap: 16px;
 }
 .hc-nr1-zahl {
-  color: var(--blau);
+  color: var(--blau-text);
   font-size: 28px;
   font-weight: 700;
   line-height: 1;
 }
 .hc-nr1-label {
   margin: 0;
-  color: var(--blau);
+  color: var(--blau-text);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -855,7 +787,7 @@
   width: 20px;
   height: 20px;
   margin-top: 2px;
-  color: var(--blau);
+  color: var(--blau-text);
 }
 .hc-pflicht {
   margin: 16px 0 0;
@@ -866,61 +798,6 @@
 .hc-nr1 .hc-btn {
   width: 100%;
   margin-top: 22px;
-}
-.hc-kasten {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 16px;
-  padding: 18px 20px;
-  border: 1px solid var(--linie);
-  border-radius: 1.25rem;
-  background: #fff;
-  color: var(--text);
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.35;
-  text-decoration: none;
-}
-.hc-kasten--gruen {
-  border-color: var(--gruen);
-  background: var(--gruen-hell);
-}
-.hc-kasten-text {
-  min-width: 0;
-  flex: 1;
-}
-.hc-kasten-text .hc-tag {
-  display: block;
-  width: fit-content;
-  margin-bottom: 6px;
-}
-.hc-kasten svg {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  color: var(--blau);
-}
-@media (hover: hover) {
-  .hc-kasten:hover {
-    border-color: var(--linie-stark);
-  }
-  .hc-kasten--gruen:hover {
-    border-color: #0a6c3c;
-  }
-}
-.hc-alt {
-  margin: 18px 0 0;
-  color: var(--grau);
-  font-size: 16px;
-}
-.hc-alt a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-left: 6px;
-  color: var(--blau);
-  font-weight: 600;
 }
 .hc-folger {
   display: flex;
@@ -950,7 +827,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--blau);
+  color: var(--blau-text);
   font-size: 16px;
   font-weight: 600;
 }
@@ -1083,6 +960,456 @@
         opacity: 1;
         transform: none;
       }
+    }
+  }
+}
+
+/* Dunkler Modus (RN8): der Check folgt der Seite. Die Farben kommen aus den Dark-Mode-Werten der Seite (index.css .dark):
+   fast Schwarz #0B0D12, Karte #141821, Weiß #F4F6FA, Blau als Schrift #8FB5FF. Knöpfe und Rahmen bleiben das Marken-Blau,
+   Fotos bleiben unverändert. */
+.dark .hc {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --text: #f4f6fa;
+  --blase: #1c212c;
+  --flaeche: #141821;
+  --flaeche2: #1a1f2b;
+  --blau-hell: #14213f;
+  --blau-text: #8fb5ff;
+  --gruen-hell: #0f2a1d;
+}
+.dark .hc .hc-stimme--platz {
+  background: #2a2410;
+}
+.dark .hc .hc-blase,
+.dark .hc .hc-stimme {
+  box-shadow: 0 0 0 1px var(--linie);
+}
+
+/* Chat (RN8): Kopf mit Elias, zwei graue Sprechblasen, Antworten als runde blaue Rand-Knöpfe rechts.
+   Vorbild: Perspective-Funnel (Vault hermes/renovierungskampagne/perspective/rn8-bankkonto-funnel/02-frage-chat.png). */
+.hc-chat {
+  max-width: 560px;
+  margin-inline: auto;
+  padding: 0 20px 56px;
+}
+.hc-chat-kopf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0 14px;
+  border-bottom: 1px solid var(--linie);
+}
+.hc-chat-kopf img {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-chat-wer {
+  min-width: 0;
+}
+.hc-chat-wer b {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.hc-chat-wer span {
+  display: block;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.3;
+}
+.hc-chat-kopf .hc-striche {
+  flex: none;
+  margin-left: auto;
+  padding: 0;
+  gap: 4px;
+}
+.hc-chat-kopf .hc-striche li {
+  width: 16px;
+  height: 4px;
+}
+.hc-blasen {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+}
+.hc-sprech {
+  align-self: flex-start;
+  max-width: 88%;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 1.25rem 1.25rem 1.25rem 0.4rem;
+  background: var(--blase);
+  font-size: 17px;
+  line-height: 1.4;
+}
+.hc-sprech-reihe {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 100%;
+}
+.hc-sprech-reihe img {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-sprech h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+}
+.hc-wahlen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-wahlen li {
+  display: flex;
+  max-width: 100%;
+  justify-content: flex-end;
+}
+.hc-wahl {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--blau);
+  border-radius: 1.5rem;
+  background: transparent;
+  color: var(--blau-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.hc-wahl svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+.hc-wahl-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.hc-wahl small {
+  margin-top: 1px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hc-wahl .hc-tag {
+  margin: 0;
+  flex: none;
+}
+@media (hover: hover) {
+  .hc-wahl:hover {
+    background: var(--blau-hell);
+  }
+}
+.hc-wahl[data-gewaehlt] {
+  background: var(--blau);
+  color: #fff;
+}
+.hc-wahl[data-gewaehlt] small {
+  color: rgba(255, 255, 255, 0.85);
+}
+.hc-chat .hc-zurueck {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linie);
+  width: 100%;
+  color: var(--grau);
+}
+
+/* Suchleiste für die Bank von heute */
+.hc-suche {
+  margin-top: 20px;
+}
+.hc-suche-feld {
+  position: relative;
+}
+.hc-suche-feld svg {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  width: 20px;
+  height: 20px;
+  color: var(--grau);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.hc-suche-feld input {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 18px 0 50px;
+  border: 1.5px solid var(--linie-stark);
+  border-radius: 9999px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 17px;
+}
+.hc-suche-feld input::placeholder {
+  color: var(--grau);
+}
+.hc-suche-feld input:focus {
+  border-color: var(--blau);
+}
+.hc-schnell,
+.hc-vorschlaege {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-schnell {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.hc-schnell button,
+.hc-vorschlaege button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--linie);
+  border-radius: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+.hc-schnell button > span:last-child,
+.hc-vorschlaege button > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.hc-schnell .hc-schnell-keine {
+  grid-column: 1 / -1;
+  justify-content: center;
+  border-color: var(--blau);
+  color: var(--blau-text);
+}
+.hc-vorschlaege button[data-erster] {
+  border-color: var(--blau);
+  background: var(--blau-hell);
+}
+.hc-vorschlaege .hc-uebernehmen {
+  color: var(--blau-text);
+}
+@media (hover: hover) {
+  .hc-schnell button:hover,
+  .hc-vorschlaege button:hover {
+    border-color: var(--blau);
+  }
+}
+.hc-vorschlaege small {
+  display: block;
+  color: var(--grau);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Ergebnis Bankkonto: deine Bank neben der norisbank */
+.hc-vs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+  margin-top: 24px;
+}
+.hc-vs--eins {
+  grid-template-columns: minmax(0, 1fr);
+}
+.hc-vs-label {
+  grid-column: 1 / -1;
+  margin: 10px 0 -4px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 600;
+}
+.hc-bank {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--linie);
+  border-radius: 1.25rem;
+  background: var(--bg);
+}
+.hc-bank--ziel {
+  border: 2px solid var(--blau);
+  background: var(--blau-hell);
+}
+.hc-bank--kopf {
+  display: flex;
+  min-height: 112px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.hc-bank-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.hc-bank-name small {
+  display: block;
+  margin-top: 2px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hc-bank-wert {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.hc-bank-wert--text {
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.hc-bank-wert--leise {
+  color: var(--grau);
+  font-weight: 600;
+}
+.hc-bank-zusatz {
+  margin: 6px 0 0;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.hc-praemie {
+  margin: 12px 0 0;
+  color: var(--gruen);
+  font-size: 14px;
+  font-weight: 700;
+}
+.dark .hc .hc-praemie {
+  color: #3ecf8e;
+}
+.hc-konto-ende {
+  margin-top: 22px;
+}
+.hc-konto-ende .hc-btn {
+  width: 100%;
+}
+.hc-schonda {
+  margin: 24px 0 0;
+  padding: 22px;
+  border: 1px solid var(--gruen);
+  border-radius: 1.25rem;
+  background: var(--gruen-hell);
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+/* Ergebnis Depot: Passung als Ring */
+.hc-passung {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+.hc-ring {
+  position: relative;
+  flex: none;
+  width: 96px;
+  height: 96px;
+}
+.hc-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.hc-ring circle {
+  fill: none;
+  stroke-width: 7;
+}
+.hc-ring-spur {
+  stroke: var(--linie);
+}
+.hc-ring-fuell {
+  stroke: var(--blau);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+}
+.dark .hc .hc-ring-fuell {
+  stroke: #4d86ff;
+}
+.hc-ring-zahl {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.hc-ring-zahl small {
+  font-size: 15px;
+  font-weight: 700;
+}
+.hc-passung-text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.hc-passung-text b {
+  display: block;
+  font-size: 20px;
+  line-height: 1.25;
+}
+.hc-passung-text span {
+  display: block;
+  margin-top: 4px;
+  color: var(--grau);
+  font-size: 15px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hc-chat [data-d] {
+    animation: hc-chat-ein 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes hc-chat-ein {
+    from {
+      opacity: 0;
+      transform: translateY(var(--dy, 14px));
+    }
+  }
+  .hc-ring-fuell {
+    animation: hc-ring 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  }
+  @keyframes hc-ring {
+    from {
+      stroke-dashoffset: 100;
     }
   }
 }

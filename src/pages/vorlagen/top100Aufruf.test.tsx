@@ -92,9 +92,11 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     const check = aufruf.querySelector("[data-check-einstieg='aktienliste']")!;
     const ziele = [...check.querySelectorAll("a")].map((a) => a.getAttribute("href"));
     expect(ziele).toEqual([
-      "/check?quelle=aktienliste&ziel=konto",
-      "/check?quelle=aktienliste&ziel=invest",
-      "/check?quelle=aktienliste&ziel=beides",
+      "/check?art=depot&quelle=aktienliste&start=2&a1=keine",
+      "/check?art=depot&quelle=aktienliste&start=2&a1=erste",
+      "/check?art=depot&quelle=aktienliste&start=2&a1=depot",
     ]);
+    expect(check.getAttribute("data-art")).toBe("depot");
+    expect(check.textContent).toContain("Wie viel Erfahrung hast du mit dem Investieren?");
   });
 });

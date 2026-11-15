@@ -1,12 +1,14 @@
 import { Star } from "lucide-react";
-import { STIMMEN, stimmeAnzeige } from "@/data/checkStimmen";
+import { stimmeAnzeige, stimmenFuer } from "@/data/checkStimmen";
+import type { Art } from "@/data/halalFinanzCheck";
 
 /**
  * Stimmenkarte der Verkaufsseite (Stelle 0 unter dem Hero-Foto, Stelle 1 unter dem Gründer-Satz). Echte Stimmen kommen aus
  * src/data/checkStimmen.ts, solange leer zeigt nur der Entwicklungsmodus einen Platzhalter, die Produktion nichts.
  */
-const CheckStimme = ({ stelle, className = "" }: { stelle: 0 | 1; className?: string }) => {
-  const modus = stimmeAnzeige(stelle, import.meta.env.DEV);
+const CheckStimme = ({ stelle, art, className = "" }: { stelle: 0 | 1; art?: Art; className?: string }) => {
+  const liste = stimmenFuer(art);
+  const modus = stimmeAnzeige(stelle, import.meta.env.DEV, liste);
   if (modus === "keine") return null;
   if (modus === "platzhalter") {
     return (
@@ -15,7 +17,7 @@ const CheckStimme = ({ stelle, className = "" }: { stelle: 0 | 1; className?: st
       </div>
     );
   }
-  const s = STIMMEN[stelle];
+  const s = liste[stelle];
   return (
     <figure className={`hc-stimme ${className}`}>
       {s.sterne && (
