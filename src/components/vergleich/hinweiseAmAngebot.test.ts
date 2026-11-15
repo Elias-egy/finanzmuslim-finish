@@ -57,13 +57,13 @@ describe("Hinweis am Angebot (Zeichen „!“)", () => {
     expect(unterschiede).toBeGreaterThan(40);
     /* Mit Zeichen bleiben sechs Angebote von über hundert. */
     const mit = (l: typeof depot, z: typeof DEPOT_ZEILEN) => l.filter((s) => hinweiseAmAngebot(s, z).some(hatZeichen)).length;
-    expect(mit(depot, DEPOT_ZEILEN) + mit(giro, GIROKONTO_ZEILEN) + mit(krypto, KRYPTO_ZEILEN)).toBe(6);
+    expect(mit(depot, DEPOT_ZEILEN) + mit(giro, GIROKONTO_ZEILEN) + mit(krypto, KRYPTO_ZEILEN)).toBe(7); // PH3-02: norisbank Top-Girokonto dazu (Landeseite wirbt mit Zins)
   });
 
-  it("zählt die Warnungen und Tarife: Depot 2, Girokonto 1, Krypto 3 (Sichtung, damit das Zeichen „!“ selten bleibt)", () => {
+  it("zählt die Warnungen und Tarife: Depot 2, Girokonto 2, Krypto 3 (Sichtung, damit das Zeichen „!“ selten bleibt)", () => {
     const n = (l: typeof depot, z: typeof DEPOT_ZEILEN) =>
       l.filter((s) => hinweiseAmAngebot(s, z).some((h) => h.art !== "unterschied")).length;
-    expect([n(depot, DEPOT_ZEILEN), n(giro, GIROKONTO_ZEILEN), n(krypto, KRYPTO_ZEILEN)]).toEqual([2, 1, 3]);
+    expect([n(depot, DEPOT_ZEILEN), n(giro, GIROKONTO_ZEILEN), n(krypto, KRYPTO_ZEILEN)]).toEqual([2, 2, 3]);
   });
 });
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
+import { BonusSchild, KreditHinweis, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import { GiroInhalt } from "./GiroKarten";
 import { DepotInhalt } from "./DepotKarten";
 import { STIL_BLAU } from "./karteStil";
@@ -218,6 +218,12 @@ export const NummerEins = ({
             >
               Zum Angebot*
             </Link>
+          </div>
+        )}
+        {/* PH3-02: klein unter dem Knopf, was auf der Seite des Partners oben steht und nicht gemeint ist. */}
+        {spalte?.kreditKurz && (
+          <div className="mt-2">
+            <KreditHinweis text={spalte.kreditKurz} />
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} />

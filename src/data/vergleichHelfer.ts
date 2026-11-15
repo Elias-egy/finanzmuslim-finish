@@ -10,7 +10,7 @@ import {
 } from "@/components/vergleich/vergleichTypen";
 import { unterschiedFuer } from "./produktUnterschiede";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
-import { kreditAchtung, zinsHinweis } from "./zinsHinweise";
+import { kreditAchtung, landeseiteAchtung, landeseiteKurz, zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -118,6 +118,9 @@ export const baueSpalten = (
     if (zusatz && werte.zinsfreiAbStart) werte.zinsfreiAbStart.zusatz = zusatz;
     const achtung = kreditAchtung(kategorie, a);
     if (achtung && werte.zinsfreiAbStart) werte.zinsfreiAbStart.achtung = achtung;
+    // PH3-02: Landeseite des Partners wirbt oben mit Zins, die Meldung steht zuerst in den Produktdetails.
+    const landeseite = landeseiteAchtung(kategorie, a);
+    if (landeseite && werte.zinsfreiAbStart) werte.zinsfreiAbStart.achtung = landeseite;
     return {
       id: a.id,
       anbieter: a.name,
@@ -132,6 +135,8 @@ export const baueSpalten = (
       tarif: TARIF_MARKEN[a.id] ?? null,
       // A10 (Elias 08.11.2026): kein Kredit-Hinweis mehr an Karte und Spalte, er steht beim aufgeklappten Angebot.
       unterschied: unterschiedFuer(kategorie, a.id),
+      // Klein an Karte und Tabelle (PH3-02). Der Kredit-Hinweis steht seit A10 nicht mehr dort.
+      kreditKurz: landeseiteKurz(kategorie, a),
       werte,
     };
   });

@@ -243,10 +243,35 @@ export const kreditSache = (
   angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
 ): string | undefined => (kreditAchtung("depot", angebot) && angebot.haus ? KREDIT_SACHE[angebot.haus] : undefined);
 
+/**
+ * Girokonten, deren Landeseite beim Partner oben mit Zins wirbt (Elias PH3-02, 16.11.2026: „unser Flex, irgendwie
+ * diese 200 €, diese ganzen Sachen weglassen. Dass die Leute nicht dieses Zinskonto eröffnen“, „bei mehr
+ * Informationen das allererste“, „immer ganz klein irgendwo stehen“). Der lange Satz steht als erste Meldung in den
+ * Produktdetails, der kurze klein an Karte, Tabelle und Nummer-1-Kasten.
+ * Beleg norisbank (Abruf 15.11.2026, Vault raw/2026-11-15-anbieter-norisbank-landeseite-praemie-tagesgeld-beleg.md):
+ * oben „200 € Prämie und 2,5% p.a. aufs Tagesgeld“; Bedingung der Prämie „Abschluss eines Top-Zinskontos (Tagesgeld)
+ * bei gleichzeitigem Abschluss eines Top-Girokontos“; „Sie schließen das Tagesgeldkonto automatisch mit dem
+ * Top-Girokonto ab“.
+ */
+const LANDESEITE: Record<string, { lang: string; kurz: string }> = {
+  "norisbank-top-girokonto": {
+    lang: "Auf der norisbank-Seite stehen oben 200 € Prämie und 2,5 % aufs Tagesgeld. Beides hängt am Tagesgeldkonto, das automatisch mit eröffnet wird: Zahl dort nichts ein.",
+    kurz: "200 € Prämie und 2,5 % gelten fürs Tagesgeld. Zahl dort nichts ein.",
+  },
+};
+
+/** Je Angebot, nicht je Haus: Das Girokonto plus führt auf eine andere Seite. */
+export const landeseiteAchtung = (kategorie: string | undefined, angebot: { id: string }): string | undefined =>
+  kategorie === "girokonto" ? LANDESEITE[angebot.id]?.lang : undefined;
+
+export const landeseiteKurz = (kategorie: string | undefined, angebot: { id: string }): string | undefined =>
+  kategorie === "girokonto" ? LANDESEITE[angebot.id]?.kurz : undefined;
+
 export const ALLE_ACHTUNG_SAETZE: string[] = [
   ...Object.values(ACHTUNG_KREDIT),
   ...Object.values(KREDIT_SACHE),
   ...Object.values(KREDIT_KURZ),
+  ...Object.values(LANDESEITE).flatMap((l) => [l.lang, l.kurz]),
 ];
 
 const istHinweis = (e: Eintrag): e is Hinweis => "satz" in e;
