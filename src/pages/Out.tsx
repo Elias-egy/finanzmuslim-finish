@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import { findPartnerLink } from "@/data/partnerLinks";
 import { ereignis, vorigeSeite } from "@/lib/messung";
-import { findStartPartner, istLeerQuelle } from "@/data/investmentStart";
-import { direktLink, ohneZwischenseite } from "@/lib/direktLink";
+import { outZiel } from "@/lib/partnerSprung";
 
 /** Zentrale Weiterleitung fuer Partnerlinks: /out/:kurzname */
 const Out = () => {
@@ -16,32 +15,29 @@ const Out = () => {
 
   useEffect(() => {
     if (!eintrag || !eintrag.aktiv) return;
-    // Klick zum Partner: welcher Anbieter, von welcher Seite (die Seite davor, über den Router).
-    // RK1 (14.11.2026): direkt zum Anbieter, ohne Video-Seite dazwischen. Nur „Depot da, noch leer“ (dmleer…) braucht
-    // weiter die Startseite mit den drei Schritten.
-    const start = findStartPartner(kurzname);
-    const src = new URLSearchParams(search).get("src");
-    if (start && ohneZwischenseite(start) && !istLeerQuelle(src)) {
-      ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", direkt: true, von: vorigeSeite() });
-      window.location.replace(direktLink(start, search));
+    // Klick zum Partner: welcher Anbieter, von welcher Seite (die Seite davor, über den Router). Hierher kommt nur,
+    // wer im neuen Tab öffnet oder tippt, bevor die Tabelle für den Sofort-Sprung geladen ist (src/lib/partnerKlick.ts).
+    // PH4: Ziel aus src/lib/partnerSprung.ts, ohne die 98 KB von investmentStart.ts.
+    const ergebnis = outZiel(kurzname, search);
+    if (ergebnis) {
+      ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", ...(ergebnis.direkt ? { direkt: true } : {}), von: vorigeSeite() });
+      window.location.replace(ergebnis.ziel);
       return;
     }
+    // Ziel ist eine Seite bei uns (Startseite, „Depot da, noch leer“): Abfrageparameter unverändert mitnehmen.
     ereignis("partner_klick", { anbieter: kurzname ?? "", weg: "out", von: vorigeSeite() });
-    const extern = /^https?:\/\//i.test(eintrag.ziel);
-    // Vorhandene Abfrageparameter unveraendert anhaengen (z. B. ?src=...)
     const params = search.startsWith("?") ? search.slice(1) : search;
     const trenner = eintrag.ziel.includes("?") ? "&" : "?";
-    const ziel = params ? `${eintrag.ziel}${trenner}${params}` : eintrag.ziel;
-
-    if (extern) {
-      window.location.replace(ziel);
-    } else {
-      navigate(ziel, { replace: true });
-    }
+    navigate(params ? `${eintrag.ziel}${trenner}${params}` : eintrag.ziel, { replace: true });
   }, [eintrag, kurzname, search, navigate]);
 
   if (aktiv) {
-    return <div className="min-h-[50vh] bg-background" aria-hidden />;
+    // PH4: kurzer Text statt leerer Seite, falls der Sprung einen Augenblick braucht.
+    return (
+      <main className="flex min-h-[50vh] items-center justify-center bg-background px-4">
+        <p className="text-[16px] text-foreground">Weiter zu {eintrag?.anbieter} …</p>
+      </main>
+    );
   }
 
   return (

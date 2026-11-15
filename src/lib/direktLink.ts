@@ -15,7 +15,10 @@ export const ohneZwischenseite = (partner: StartPartner): boolean => Boolean(par
  * Aufruf, etwa gbkopf), angehängt „d“ für direkt, so wie die Startseite h, f und s anhängt. Schreibt nichts in den
  * Speicher: Bis CV16F (07.11.2026) überschrieb jeder Knopf beim Zeichnen die Herkunft des ganzen Tabs.
  */
-export const direktLink = (partner: StartPartner, search: string): string => {
+export const direktLink = (partner: StartPartner, search: string): string => direktLinkAus(partner.link, search);
+
+/** Wie direktLink, nur aus dem nackten Link (src/data/startLinks.ts), damit der Knopf ohne investmentStart.ts auskommt. */
+export const direktLinkAus = (link: string, search: string): string => {
   const param = new URLSearchParams(search).get("src");
   let ausAdresse: string | null = null;
   try {
@@ -25,7 +28,7 @@ export const direktLink = (partner: StartPartner, search: string): string => {
   }
   const quelle = istHerkunft(param) ? param : istHerkunft(ausAdresse) ? ausAdresse : gemerkteQuelle();
   const stelle = istGueltigeQuelle(param) && !istHerkunft(param) ? param : gemerkteStelle();
-  return partner.link.replace("{SUBID}", `${subIdAus(quelle, stelle)}d`);
+  return link.replace("{SUBID}", `${subIdAus(quelle, stelle)}d`);
 };
 
 /**

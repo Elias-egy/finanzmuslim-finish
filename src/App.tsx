@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
+import { ladePartnerSprung, partnerKlick } from "@/lib/partnerKlick";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
 // A10 (08.11.2026): auch die Startseite, sonst laden die Kursreihen aus kurse.json (rund 350 KB) auf jeder Seite mit.
@@ -120,6 +121,20 @@ const SrcCapture = () => {
   return null;
 };
 
+// PH4 (16.11.2026): Knöpfe zu /out/<kurzname> springen beim Tippen sofort zum Anbieter (src/lib/partnerKlick.ts).
+// Die kleine Tabelle dafür lädt, sobald der Browser Luft hat, und kostet den ersten Seitenaufbau nichts.
+const PartnerSprung = () => {
+  useEffect(() => {
+    document.addEventListener("click", partnerKlick, true);
+    const laden = () => void ladePartnerSprung();
+    const w = window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(laden, { timeout: 1500 });
+    else setTimeout(laden, 800);
+    return () => document.removeEventListener("click", partnerKlick, true);
+  }, []);
+  return null;
+};
+
 // Bei jedem Routenwechsel oben starten — außer wenn ein Anker (#…) angesprungen wird.
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -137,6 +152,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SrcCapture />
+        <PartnerSprung />
         <ScrollToTop />
         <Einwilligung />
         <Layout>

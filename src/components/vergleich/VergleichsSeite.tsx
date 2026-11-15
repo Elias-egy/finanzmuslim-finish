@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { ArrowRight, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import eliasAutor from "@/assets/elias-autor.webp";
@@ -187,14 +187,6 @@ export const VergleichsSeite = ({
   ansichtAlle,
 }: VergleichsSeiteProps) => {
   const sortiertUnten = Boolean(giro && sortiertNach);
-  // PH3-03 (Elias 16.11.2026: „Die Dazwischenschritt dauert extrem lange vom Knopf“): Die Weiterleitung /out lädt
-  // erst beim Klick nach, bis dahin steht eine leere Seite. Vorladen, sobald der Browser Luft hat.
-  useEffect(() => {
-    const laden = () => void import("@/pages/Out.tsx");
-    const w = window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number };
-    if (w.requestIdleCallback) w.requestIdleCallback(laden, { timeout: 2000 });
-    else setTimeout(laden, 1500);
-  }, []);
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
 

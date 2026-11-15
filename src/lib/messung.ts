@@ -147,6 +147,8 @@ export const merkeSeite = (pfad: string): void => {
   }
 };
 export const vorigeSeite = (): string => seiteDavor;
+/** Die Seite, auf der der Leser gerade ist (für den Sprung direkt vom Knopf, ohne /out dazwischen). */
+export const jetzigeSeite = (): string => seiteJetzt;
 
 /** Das Banner öffnet sich erneut (Link „Cookie-Einstellungen“ im Fuß). */
 export const BANNER_OEFFNEN = "fm-einwilligung-oeffnen";
