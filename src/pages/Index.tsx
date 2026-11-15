@@ -32,9 +32,9 @@ import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import guideCover from "@/assets/guide-cover-v4.webp";
-import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
-import rechnerRender from "@/assets/rechner.webp";
+import guideCover from "@/assets/guide-cover-v5.webp";
+import newsletterPhone from "@/assets/newsletter-handy-v4.webp";
+import rechnerRender from "@/assets/rechner-v2.webp";
 
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
  *  kein "bald" mehr (16.09.2026, Bewerbung bei Partnernetzwerken). Am Handy steht Edelmetalle an dritter
@@ -227,7 +227,7 @@ const Index = () => {
           hoechstens 570px: das Foto bleibt, ist kleiner, und Depot und Girokonto stehen ganz im ersten Schirm
           (Elias, 30.10.2026, FOTO1: "mindestens Depot, Girokonto ... noch halbwegs sehen"); die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-154px)]">
-        <div className="relative flex min-h-[min(calc(100svh-300px),500px)] flex-1 flex-col overflow-hidden bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex min-h-[min(calc(100svh-300px),500px)] flex-1 flex-col overflow-hidden rounded-lg bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
               <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -263,15 +263,28 @@ const Index = () => {
               und darunter. Ueberschrift und Knopf bleiben oben (SRC-025: kein Bild davor). Tablet ohne Foto. */}
           {/* VS7 (Elias VS5-06: „dieses elias el-gendy sieht komisch aus so abgehackt, das war nicht so“): das Foto läuft
               wieder durch das Polster der Platte bis hinter die erste Kachel, statt über einem weißen Streifen hart zu enden. */}
-          <div className="relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden">
+          {/* RN7 (15.11.2026, Elias: „sein Bild unter dem Knopf … sieht richtig komisch aus“): in Phase 1 liegt der Knopf
+              unter dem Foto. Das Foto wurde links hart abgeschnitten, unten eckig und lief unter den Knopf. Jetzt steht es
+              ganz im Bild, blendet unten weich aus und lässt den Knopf frei; mit OS bleibt der alte Ausschnitt. */}
+          <div
+            className={
+              MIT_OS
+                ? "relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden"
+                : "relative max-md:order-3 mt-2 h-[232px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_66%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_66%,transparent_100%)] md:hidden"
+            }
+          >
             <img
               src={eliasCutout}
               alt=""
-              className="absolute left-[29%] top-[-4%] h-[170%] w-auto max-w-none -translate-x-1/2"
+              className={
+                MIT_OS
+                  ? "absolute left-[29%] top-[-4%] h-[170%] w-auto max-w-none -translate-x-1/2"
+                  : "absolute -left-3 top-0 h-[118%] w-auto max-w-none"
+              }
               loading="eager"
             />
             {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
-            <div className="absolute right-2 top-[44%] whitespace-nowrap">
+            <div className={MIT_OS ? "absolute right-2 top-[44%] whitespace-nowrap" : "absolute right-0 top-[22%] whitespace-nowrap"}>
               <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
               <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
