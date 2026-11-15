@@ -6,6 +6,7 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import { korrigiereAnbieter } from "./vergleichKorrekturen";
 import { GIRO_WERTE, GIRO_QUELLEN } from "./vergleichKorrekturenDaten";
 import { girokontoNachtraege } from "./girokontoNachtraege";
+import { GIRO_AUSLAND_ZEILEN } from "./girokontoAusland";
 
 export const GIRO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
@@ -19,6 +20,8 @@ export const GIRO_ZEILEN: VergleichsZeile[] = [
   { key: "abhebungen", label: "Kostenlose Abhebungen im Monat", art: "text", gruppe: "kosten" },
   { key: "bargeldEinzahlen", label: "Bargeld einzahlen", art: "text", gruppe: "kosten" },
   { key: "geldautomaten", label: "Geldautomaten", art: "text", gruppe: "kosten" },
+  // Nachtrag PH3 (15.11.2026), nicht aus bauen.py: Auslandsgebühren, siehe girokontoAusland.ts.
+  ...GIRO_AUSLAND_ZEILEN,
   { key: "sepaKostenlos", label: "Überweisung kostenlos", art: "janein", gruppe: "kosten" },
   { key: "kundenservice", label: "Telefon- und Chat-Support", art: "text", gruppe: "kosten" },
   { key: "filialen", label: "Filialen", art: "janein", gruppe: "kosten" },
@@ -29,7 +32,7 @@ export const GIRO_ZEILEN: VergleichsZeile[] = [
 ];
 
 /** Höchstpunktzahl je Finanzkriterium, nach der Punktetabelle von Finanzfluss. */
-export const GIRO_FINANZ_MAX: Record<string, number> = {"kontofuehrung": 15, "bankkarte": 10, "girocard": 5, "debitkarte": 5, "abheben": 5, "einzahlen": 3, "mobilesBezahlen": 8, "sepa": 10, "support": 5, "kontowechsel": 2, "app": 2, "ident": 2, "ohneBedingung": 4};
+export const GIRO_FINANZ_MAX: Record<string, number> = {"kontofuehrung": 15, "bankkarte": 10, "girocard": 5, "debitkarte": 5, "abheben": 5, "einzahlen": 3, "mobilesBezahlen": 8, "sepa": 10, "support": 5, "kontowechsel": 2, "app": 2, "ident": 2, "ohneBedingung": 4, "ausland": 12};
 
 const girokontoVergleichRoh: RohAnbieter[] = [
   {"id": "bbbank-bettersmart", "name": "BBBank", "produkt": "BetterSmart", "domain": "bbbank.de", "link": "/out/bbbank-bettersmart", "haus": "bbbank", "finanzfluss": {"produkt": "BBBank BetterSmart", "partnerlink": "bbbank-smart-girokonto", "rang": 6}, "werte": {"zinsfreiAbStart": "gut", "keinDispoAbStart": "gut", "karteOhneKredit": "gut", "kontofuehrung": "0€", "girocard": "1,25€", "debitkarte": "VISA, 0€", "applePay": true, "abhebungen": "Unbegrenzt", "bargeldEinzahlen": "Kostenlose Bargeldeinzahlungen nur bei BBBank Filialen möglich.", "geldautomaten": "2.800 bis 49.750", "sepaKostenlos": true, "kundenservice": "E-Mail, Telefon, Chat", "filialen": true, "appIos": "4,7 / 5", "appAndroid": "4,6 / 5", "ident": "E-Ident, Video-Ident", "kontowechsel": true}, "quellen": {"karteOhneKredit": {"url": "https://www.finanzfluss.de/vergleich/girokonto/", "stand": "14.09.2026", "hinweis": "Girocard und Debitkarte (VISA) laut Finanzfluss-Vergleich"}, "keinDispoAbStart": {"url": "https://www.bbbank.de/privatkunden/girokonto/erste-schritte-girokonto.html", "stand": "14.09.2026", "hinweis": "„Benötigen Sie einen finanziellen Spielraum? Den Dispokredit können Sie bequem online oder direkt in Ihrer Filiale beantragen.“"}, "zinsfreiAbStart": {"url": "https://www.bbbank.de/services/preise-und-konditionen.html", "stand": "20.09.2026", "hinweis": "3.1.1 Privatkonten, Zeile 'Ab 0,01 Euro Anlagebetrag': BBBank-Girokonto ./. , Junges BBBank-Girokonto 0,01%, BetterSmart Konto ./. , BBBank-Zusatzkonto ./. , Basiskonto ./."}}, "finanzPunkte": {"kontofuehrung": 15, "bankkarte": 10, "girocard": 0, "debitkarte": 5, "abheben": 5, "einzahlen": 3, "mobilesBezahlen": 8, "sepa": 10, "support": 5, "kontowechsel": 2, "app": 2, "ident": 2, "abzug": 0}, "abgeraten": false},

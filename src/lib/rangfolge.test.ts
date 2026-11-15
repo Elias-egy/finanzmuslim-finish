@@ -843,10 +843,12 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.6, 4.5, 4.3, 4.3]);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
   });
-  it("Girokonto: norisbank 1, BBBank 2, meine Bank 3, Consorsbank 4, Sterne in Reihe", () => {
+  it("Girokonto: norisbank 1, BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
     const r = rangfolge(girokontoVergleich, "girokonto");
-    expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "meine-bank-mein-girokonto", "consorsbank-girokonto"]);
-    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.6, 4.6, 4.5]);
+    expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "consorsbank-girokonto", "trade-republic-girokonto"]);
+    // meine Bank (1 % im Ausland) steht hinter DKB und Revolut, nicht mehr auf Platz 3.
+    expect(ids(r.gerankt.slice(4, 7))).toEqual(["dkb-girokonto", "revolut-standard", "meine-bank-mein-girokonto"]);
+    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.7, 4.5, 4.5]);
     expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
   });

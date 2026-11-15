@@ -1,4 +1,5 @@
 import { mitKontopreisen } from "./kontopreise";
+import { mitAusland } from "./girokontoAusland";
 import type { RohAnbieter } from "./vergleichHelfer";
 
 /**
@@ -48,9 +49,9 @@ const mitIdent = (a: RohAnbieter): RohAnbieter => {
 
 /**
  * Aktuelle Produktnamen und neue Produkte bis zum nächsten geprüften Datenimport.
- * Danach die beim Anbieter geprüfte Kontoführung (`kontopreise.ts`).
+ * Danach die beim Anbieter geprüfte Kontoführung (`kontopreise.ts`) und die Auslandsgebühren (`girokontoAusland.ts`).
  */
-export const girokontoNachtraege = (anbieter: RohAnbieter[]): RohAnbieter[] => mitKontopreisen([
+export const girokontoNachtraege = (anbieter: RohAnbieter[]): RohAnbieter[] => mitAusland(mitKontopreisen([
   ...anbieter.map(mitIdent).map((a) => a.id === "bforbank-bforbasic-konto" ? {
     ...a,
     name: "BforBank",
@@ -117,4 +118,4 @@ export const girokontoNachtraege = (anbieter: RohAnbieter[]): RohAnbieter[] => m
     note: null,
     abgeraten: false,
   },
-]);
+]));
