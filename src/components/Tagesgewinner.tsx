@@ -34,13 +34,13 @@ const Tagesgewinner = () => {
         <h3 className="text-[15px] font-bold text-foreground">Tagesgewinner</h3>
       </div>
 
-      <div className="mt-3 flex h-12 items-center gap-3 rounded-md border border-border px-4 focus-within:border-primary">
-        <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
+      <div className="mt-3 flex h-12 items-center gap-2 rounded-md border border-border px-3 focus-within:border-primary sm:gap-3 sm:px-4">
+        <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
         <input
           type="search"
           value={suche}
           onChange={(e) => setSuche(e.target.value)}
-          placeholder="Anlage, Kürzel oder ISIN suchen"
+          placeholder="Name, Kürzel oder ISIN"
           aria-label="Halal-Anlagen durchsuchen"
           className="h-full w-full bg-transparent text-[16px] text-foreground outline-none placeholder:text-muted-foreground"
         />
