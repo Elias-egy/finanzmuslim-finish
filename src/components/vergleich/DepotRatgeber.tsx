@@ -41,8 +41,11 @@ const EINTRAEGE: RatgeberEintrag[] = [
   { id: "broker-vergleich", titel: "Welcher Broker passt?" },
   { id: "depot-kosten", titel: "Depot-Kosten im Vergleich" },
   { id: "depot-sicher", titel: "Wie sicher ist dein Depot?" },
+  { id: "depot-eroeffnen", titel: "Depot eröffnen" },
+  { id: "depot-wechseln", titel: "Depot wechseln" },
   { id: "nicht-empfohlen", titel: "Nicht empfohlen" },
   { id: "so-vergleichen-wir", titel: "So vergleichen wir" },
+  { id: "fazit", titel: "Fazit" },
   { id: "haeufige-fragen", titel: "Häufige Fragen" },
   { id: "unsere-vergleiche", titel: "Unsere Vergleiche" },
 ];
@@ -173,6 +176,32 @@ export const DepotRatgeber = ({
         die Kurse, schützt dich das nicht: Der Wert deiner Anlagen kann schwanken.
       </RText>
 
+      {/* PH1 (15.11.2026): wie Finanzfluss „Wie eröffnest du ein Depot?“ und „Wie kündigst und wechselst du deinen Broker?“. */}
+      <RH2 id="depot-eroeffnen">So eröffnest du dein Depot</RH2>
+      <RListe
+        punkte={[
+          { titel: "Schritt 1", text: "Wähle das Depot im Vergleich oben und tippe auf den Knopf zum Anbieter." },
+          { titel: "Schritt 2", text: "Fülle den Antrag aus und bestätige deinen Ausweis per Video oder online." },
+          {
+            titel: "Schritt 3",
+            text: "Lehne Zinsen und Kredit ab, wo der Broker sie anbietet. Was das bei deinem Depot heißt, steht oben beim Broker.",
+          },
+          { titel: "Schritt 4", text: "Überweise Geld auf dein Verrechnungskonto und richte deinen Sparplan ein." },
+        ]}
+      />
+
+      <RH2 id="depot-wechseln">Depot wechseln</RH2>
+      <RText>
+        Der Depotübertrag innerhalb Deutschlands kostet nichts. Deine Anlagen ziehen um, wie sie sind.
+      </RText>
+      <RListe
+        punkte={[
+          { titel: "Neues Depot zuerst", text: "Eröffne das neue Depot, bevor du das alte kündigst." },
+          { titel: "Übertrag beauftragen", text: "Fülle beim neuen Broker den Auftrag für den Depotübertrag aus." },
+          { titel: "Altes Depot kündigen", text: "Kündige erst, wenn alle Anlagen im neuen Depot angekommen sind." },
+        ]}
+      />
+
       <RH2 id="nicht-empfohlen">Diese Depots empfehlen wir nicht</RH2>
       <RText>
         Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum bekommen diese Depots von uns keine
@@ -226,6 +255,16 @@ export const DepotRatgeber = ({
         kopf={["Depot", "Halal ETFs im Sparplan", "Sparplan ab"]}
         zeilen={sparplan.map((z) => [z.anbieter.name, `${z.auf} von ${sparplanVon}`, z.ab ?? "–"])}
       />
+
+      {sieger && (
+        <>
+          <RH2 id="fazit">Fazit</RH2>
+          <RText>
+            In unserem Depot-Vergleich liegt {sieger.name} vorn. Schau vor dem Abschluss oben beim Broker, was du für null
+            Zinsen tun musst.
+          </RText>
+        </>
+      )}
 
       <RH2 id="haeufige-fragen">Häufige Fragen</RH2>
       {/* Wie Finanzfluss: je Frage ein hellgrauer Kasten, 24 px Abstand, Frage 18 px fett, Pfeil rechts. */}
