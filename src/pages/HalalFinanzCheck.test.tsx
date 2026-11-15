@@ -72,42 +72,35 @@ describe("Halal-Finanz-Check Seite", () => {
     expect(container.textContent).toContain("Hier kommt deine echte Stimme 2");
   });
 
-  it("„Check starten“ öffnet auf derselben Route die erste Frage, die Quelle bleibt", async () => {
-    zeige("/check?quelle=aktienliste");
-    await tippe(/^Check starten/);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Was willst du als Erstes halal machen?");
-    expect(screen.getByText("Wo kaufst du die Aktien aus der Liste?")).toBeTruthy();
-    expect(screen.getAllByText("beliebt").length).toBe(1);
+  it("„Check starten“ öffnet auf derselben Route die erste Frage, bei jeder Quelle ohne Freebie-Zeile", async () => {
+    for (const quelle of ["aktienliste", "halal-anlagen", "boykottliste", "homepage"]) {
+      const { unmount, container } = zeige(`/check?quelle=${quelle}`);
+      await tippe(/^Check starten/);
+      expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Was willst du als Erstes halal machen?");
+      expect(container.textContent).not.toMatch(/Aktien aus der Liste|ETFs und Gold aus deiner Liste|Du achtest beim Einkaufen/);
+      expect(screen.getAllByText("beliebt").length).toBe(1);
+      unmount();
+    }
   });
 
-  it("Konto-Weg: Verkaufsseite, Konto, Filiale, Ergebnis mit „beliebt“-Kasten nur beim Depot", async () => {
+  it("Konto-Weg: Verkaufsseite, Konto, Filiale, Ergebnis", async () => {
     zeige("/check?quelle=aktienliste");
     await tippe(/^Check starten/);
     await tippe(/Mein Konto zinsfrei machen/);
     await tippe(/Nein, alles per App/);
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: norisbank");
     expect(screen.getByText("Passt am besten")).toBeTruthy();
-    const knopf = screen.getByRole("link", { name: /Konto eröffnen\*/ });
-    expect(knopf.getAttribute("href")).toBe("/out/norisbank?src=fcaknoa");
+    expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcaknoa");
   });
 
-  it("Neue Startoption „Erst ein zinsfreies Konto, dann investieren“ führt zum Konto-Ergebnis mit Depot als zweitem Schritt", async () => {
-    zeige("/check?quelle=aktienliste");
+  it("Fassung a: Investieren, Erfahrung, „Was ist dir wichtiger?“ endet nach drei Fragen", async () => {
+    zeige("/check", "a");
     await tippe(/^Check starten/);
     await tippe(/Halal investieren/);
-    await tippe(/Nein, noch keins/);
-    expect(screen.getAllByText("beliebt").length).toBe(1);
-    await tippe(/Erst ein zinsfreies Konto, dann investieren/);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: norisbank");
-    expect(screen.getByText(/Schritt 2: dein Depot bei flatex/)).toBeTruthy();
-  });
-
-  it("Fassung a: Invest, kein Depot, Sparplan endet nach drei Fragen bei Smartbroker+ mit Alternative flatex", async () => {
-    zeige("/check?quelle=homepage", "a");
-    await tippe(/^Check starten/);
-    await tippe(/Halal investieren/);
-    await tippe(/Nein, noch keins/);
-    await tippe(/Sparplan mit kleinem Betrag/);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
+    await tippe(/Noch keine/);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Was ist dir wichtiger?");
+    await tippe(/Möglichst niedrige Kosten/);
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: Smartbroker+");
     expect(screen.getByText("Deine Antworten")).toBeTruthy();
     expect(screen.getByText("Lieber die Alternative?")).toBeTruthy();
@@ -115,40 +108,40 @@ describe("Halal-Finanz-Check Seite", () => {
     expect(screen.getByText(/Zinsfreies Girokonto bei der norisbank/)).toBeTruthy();
   });
 
-  it("Fassung b: nach dem Start kommt „Was ist dir wichtiger?“, Kosten führt zu Smartbroker+, Halal-Auswahl zu flatex", async () => {
-    const { unmount } = zeige("/check?quelle=homepage", "b");
+  it("Fassung b: nach „Was ist dir wichtiger?“ kommt der Monatsbetrag, das Ergebnis bleibt", async () => {
+    zeige("/check", "b");
     await tippe(/^Check starten/);
     await tippe(/Halal investieren/);
-    await tippe(/Nein, noch keins/);
-    await tippe(/ETFs und Gold breit streuen/);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Was ist dir wichtiger?");
-    await tippe(/Möglichst niedrige Kosten/);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: Smartbroker+");
-    expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsbb");
-    unmount();
-
-    zeige("/check?quelle=homepage", "b");
-    await tippe(/^Check starten/);
-    await tippe(/Halal investieren/);
-    await tippe(/Ja, aber nicht halal/);
-    await tippe(/Einmal einen Betrag anlegen/);
+    await tippe(/Erste Schritte/);
     await tippe(/Möglichst viele Halal-Anlagen/);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Wie viel möchtest du im Monat anlegen?");
+    await tippe(/50 bis 200 €/);
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: flatex");
-    expect(screen.getByRole("link", { name: /Zweitdepot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
+    expect(screen.getByText("50 bis 200 € im Monat")).toBeTruthy();
+    expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
+  });
+
+  it("„Ich habe schon ein Depot“ führt zum Zweitdepot bei Smartbroker+", async () => {
+    zeige("/check", "a");
+    await tippe(/^Check starten/);
+    await tippe(/Halal investieren/);
+    await tippe(/Ich habe schon ein Depot/);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: Smartbroker+");
+    expect(screen.getByRole("link", { name: /Zweitdepot eröffnen\*/ })).toBeTruthy();
   });
 
   it("Beides: Konto zuerst, Depot als kleiner zweiter Schritt", async () => {
     zeige("/check?quelle=quiz", "a");
     await tippe(/^Check starten/);
     await tippe(/^Beides/);
-    await tippe(/Ja, ich will in eine Filiale/);
-    await tippe(/ETFs und Gold breit streuen/);
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: BBBank");
+    await tippe(/Erste Schritte/);
+    await tippe(/Möglichst viele Halal-Anlagen/);
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Dein Match: norisbank");
     expect(screen.getByText(/Schritt 2: dein Depot bei flatex/)).toBeTruthy();
   });
 
   it("aus einem Freebie (?ziel=…) beginnt der Check bei Frage 2", () => {
     zeige("/check?quelle=aktienliste&ziel=invest");
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Hast du schon ein Depot?");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
   });
 });

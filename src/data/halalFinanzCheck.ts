@@ -13,15 +13,12 @@
  * „Beliebtester Start“ (ohne Zahl erfunden), Timer, Mail-Pflicht, ?email= in der Adresse,
  * „Der einfachste Boykott“ beim Boykott-Einstieg (zur Bank selbst gibt es keinen Boykott-Beleg).
  *
- * RN7 (15.11.2026): Look und Fragen 1:1 wie Elias' Perspective-Funnel (Vault hermes/renovierungskampagne/perspective/
- * eins-zu-eins/index.html). Etikett „beliebt“ (Elias RN6), Startfrage mit „Erst ein zinsfreies Konto, dann investieren“,
- * „Aktien aus der Liste kaufen“ entfällt. 50:50-Test mit einer Frage mehr auf dem Depot-Weg („Was ist dir wichtiger?“,
- * flatex gegen Smartbroker+), Elias' Wortlaut: Vault raw/2026-11-15-elias-rn7-02-quiz-bauen-frage-flatex-oder-smartbroker-test.md.
- * Fassung a = wie bisher (drei Fragen, Smartbroker+ nur beim kleinen Sparplan), Fassung b = mit der Frage mehr. Die
- * Fassung steht am Ende der Kennung am Partnerlink (a oder b), damit Abschlüsse je Fassung zählbar sind.
- *
- * Jede Zahl unten kommt aus den Vergleichsdaten: Girokonten aus girokontoBonus.ts (Belege mit Abrufdatum), Depots aus
- * brokerFreebie.ts (Depot-Vergleich plus flatex-Sparplan-Beleg).
+ * RN7 (15.11.2026): Look 1:1 wie Elias' Perspective-Funnel (Vault hermes/renovierungskampagne/perspective/eins-zu-eins/index.html).
+ * Fragen nach Elias' Rückmeldung (Vault raw/2026-11-15-elias-rn7-03-allgemeiner-check-fragen-noch-nicht-gut.md): ein allgemeiner
+ * Check, alle Quellen sehen dieselben Fragen, die Quelle steckt nur in der Kennung. Konto-Weg: Filiale. Depot-Weg: Erfahrung, dann
+ * „Was ist dir wichtiger?“ (flatex gegen Smartbroker+), „Ich habe schon ein Depot“ führt zum Zweitdepot bei Smartbroker+.
+ * 50:50-Test (Elias RN7-02/03): Fassung a drei Fragen, Fassung b auf dem Depot-Weg eine mehr („Wie viel möchtest du im Monat anlegen?“,
+ * ändert das Ergebnis nicht). Die Fassung steht am Ende der Kennung am Partnerlink (a oder b), damit Abschlüsse je Fassung zählbar sind.
  */
 import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/girokontoBonus";
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
@@ -41,10 +38,7 @@ export const quelleAus = (wert: string | null | undefined): CheckQuelle =>
     ? wert
     : "homepage";
 
-/** Nur diese Einstiege haben eine eigene Zeile unter der ersten Frage; die anderen zeigen UNTERZEILE. */
-export const EIGENE_UEBERSCHRIFT: readonly CheckQuelle[] = ["aktienliste", "halal-anlagen", "boykottliste"];
-
-/** Eine kurze Zeile je Einstieg: knüpft an das an, was die Person gerade gelesen hat (Perspective-Tipp 4 bis 8). Elias RN7: nicht länger als eine Zeile. */
+/** Eine kurze Zeile je Einstieg, nur im Freebie-Kasten (CheckEinstieg.tsx). Im Check selbst sehen alle Quellen dieselben Fragen (Elias RN7-03). Knüpft an das an, was die Person gerade gelesen hat (Perspective-Tipp 4 bis 8). Elias RN7: nicht länger als eine Zeile. */
 export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   aktienliste: "Wo kaufst du die Aktien aus der Liste?",
   "halal-anlagen": "Wo kaufst du ETFs und Gold aus deiner Liste?",
@@ -55,7 +49,7 @@ export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   quiz: "Konto, Depot oder beides?",
 };
 
-export const UNTERZEILE = "3 kurze Fragen. Danach weißt du, womit du halal startest.";
+export const UNTERZEILE = "Danach weißt du, womit du halal startest.";
 
 const konto = (id: string): BonusKonto => {
   const k = BONUS_KONTEN.find((x) => x.id === id);
@@ -74,15 +68,17 @@ const FLATEX = depot("flatex-depot");
 const SB = depot("smartbroker-plus-depot");
 
 export type Ziel = "konto" | "invest" | "beides";
-export type Depot = "nein" | "nicht-halal" | "halal";
-export type Start = "konto" | "sparplan" | "etf-gold" | "einmal";
+/** „Wie viel Erfahrung hast du mit dem Investieren?“ Nur „depot“ ändert das Ergebnis (Zweitdepot), die anderen zwei führen gleich weiter. */
+export type Erfahrung = "keine" | "erste" | "depot";
 export type Filiale = "nein" | "ja";
-/** „Was ist dir wichtiger?“ (nur Fassung b): viele Halal-Anlagen gleich flatex, niedrige Kosten gleich Smartbroker+. */
+/** „Was ist dir wichtiger?“: viele Halal-Anlagen gleich flatex, niedrige Kosten gleich Smartbroker+. */
 export type Praef = "halal" | "kosten";
+/** Nur Fassung b: „Wie viel möchtest du im Monat anlegen?“, nur zur Messung und für „Deine Antworten“, ändert das Ergebnis nicht. */
+export type Betrag = "unter50" | "50bis200" | "ueber200";
 
-export type Antworten = { ziel?: Ziel; depot?: Depot; start?: Start; filiale?: Filiale; praef?: Praef };
+export type Antworten = { ziel?: Ziel; erfahrung?: Erfahrung; filiale?: Filiale; praef?: Praef; betrag?: Betrag };
 
-export type FrageId = "ziel" | "depot" | "start" | "filiale" | "praef";
+export type FrageId = "ziel" | "erfahrung" | "praef" | "betrag" | "filiale";
 
 export type Option = { wert: string; titel: string; unter?: string; etikett?: string };
 
@@ -100,31 +96,13 @@ export const FRAGEN: Record<FrageId, Frage> = {
       { wert: "beides", titel: "Beides", unter: "Konto und Depot" },
     ],
   },
-  depot: {
-    id: "depot",
-    titel: "Hast du schon ein Depot?",
+  erfahrung: {
+    id: "erfahrung",
+    titel: "Wie viel Erfahrung hast du mit dem Investieren?",
     optionen: [
-      { wert: "nein", titel: "Nein, noch keins" },
-      { wert: "nicht-halal", titel: "Ja, aber nicht halal" },
-      { wert: "halal", titel: "Ja, schon halal" },
-    ],
-  },
-  start: {
-    id: "start",
-    titel: "Wie willst du starten?",
-    optionen: [
-      { wert: "konto", titel: "Erst ein zinsfreies Konto, dann investieren", etikett: ETIKETT },
-      { wert: "sparplan", titel: "Sparplan mit kleinem Betrag", unter: "Monatlich, schon ab 1 €" },
-      { wert: "etf-gold", titel: "ETFs und Gold breit streuen" },
-      { wert: "einmal", titel: "Einmal einen Betrag anlegen" },
-    ],
-  },
-  filiale: {
-    id: "filiale",
-    titel: "Brauchst du eine Filiale vor Ort?",
-    optionen: [
-      { wert: "nein", titel: "Nein, alles per App reicht mir" },
-      { wert: "ja", titel: "Ja, ich will in eine Filiale gehen können" },
+      { wert: "keine", titel: "Noch keine", unter: "Ich fange gerade an" },
+      { wert: "erste", titel: "Erste Schritte", unter: "Sparplan oder ein paar Aktien" },
+      { wert: "depot", titel: "Ich habe schon ein Depot", unter: "Ich kaufe selbst" },
     ],
   },
   praef: {
@@ -135,39 +113,49 @@ export const FRAGEN: Record<FrageId, Frage> = {
       { wert: "kosten", titel: "Möglichst niedrige Kosten", unter: `${SB.depotgebuehr} Depotgebühr, Sparplan ab ${SB.sparplanAb}` },
     ],
   },
+  betrag: {
+    id: "betrag",
+    titel: "Wie viel möchtest du im Monat anlegen?",
+    optionen: [
+      { wert: "unter50", titel: "Unter 50 €" },
+      { wert: "50bis200", titel: "50 bis 200 €" },
+      { wert: "ueber200", titel: "Über 200 €" },
+    ],
+  },
+  filiale: {
+    id: "filiale",
+    titel: "Brauchst du eine Filiale vor Ort?",
+    optionen: [
+      { wert: "nein", titel: "Nein, alles per App reicht mir" },
+      { wert: "ja", titel: "Ja, ich will in eine Filiale gehen können" },
+    ],
+  },
 };
 
-/** Beim Einstieg aus der Aktien-Liste darf die Unterzeile einer Antwort auf die Liste Bezug nehmen (Elias RN7). */
-export const unterFuer = (quelle: CheckQuelle, frage: FrageId, o: Option): string | undefined =>
-  quelle === "aktienliste" && frage === "start" && o.wert === "einmal" ? "Zum Beispiel für die Aktien aus der Liste" : o.unter;
+/** Fassung b fragt auf dem Depot-Weg zusätzlich nach dem Monatsbetrag (50:50-Test, Elias RN7-03: sinkt oder steigt der Abschluss mit einer Frage mehr?). */
+const mitBetrag = (fassung: Fassung) => fassung === "b";
 
-/** Die Frage „Was ist dir wichtiger?“ kommt nur in Fassung b, nach „Wie willst du starten?“. */
-const mitPraef = (fassung: Fassung) => fassung === "b";
-
-/** Welche Frage als Nächstes kommt; null, wenn das Ergebnis feststeht. Fassung a: höchstens drei Fragen, Fassung b auf dem Depot-Weg vier. */
+/**
+ * Welche Frage als Nächstes kommt; null, wenn das Ergebnis feststeht.
+ * Konto: Filiale. Investieren oder Beides: Erfahrung, dann (außer bei „schon ein Depot“) „Was ist dir wichtiger?“, in Fassung b zuletzt der Monatsbetrag.
+ * Beides fragt nicht nach der Filiale (norisbank als Konto, höchstens drei Fragen in Fassung a).
+ */
 export const naechsteFrage = (a: Antworten, fassung: Fassung = "a"): FrageId | null => {
-  const startUndPraef = (): FrageId | null => {
-    if (!a.start) return "start";
-    return mitPraef(fassung) && !a.praef ? "praef" : null;
-  };
   if (!a.ziel) return "ziel";
   if (a.ziel === "konto") return a.filiale ? null : "filiale";
-  if (a.ziel === "invest") {
-    if (!a.depot) return "depot";
-    // Depot schon halal: der nächste Schritt ist das Konto (V7 „Dein Depot ist halal. Dein Konto auch?“).
-    if (a.depot === "halal") return a.filiale ? null : "filiale";
-    return startUndPraef();
-  }
-  // Beides: erst das Konto (Filiale), dann wie der Depot-Start aussieht.
-  if (!a.filiale) return "filiale";
-  return startUndPraef();
+  if (!a.erfahrung) return "erfahrung";
+  if (a.erfahrung !== "depot" && !a.praef) return "praef";
+  return mitBetrag(fassung) && !a.betrag ? "betrag" : null;
 };
 
-/** Zahl der Fragen auf dem Weg, den die Antworten bisher nehmen (für „Frage 2 von 3“). */
-export const fragenGesamt = (a: Antworten, fassung: Fassung = "a"): number =>
-  a.ziel === "konto" || (a.ziel === "invest" && a.depot === "halal") ? (a.ziel === "konto" ? 2 : 3) : mitPraef(fassung) ? 4 : 3;
+/** Zahl der Fragen auf dem Weg, den die Antworten bisher nehmen (für den Fortschritt). */
+export const fragenGesamt = (a: Antworten, fassung: Fassung = "a"): number => {
+  if (a.ziel === "konto") return 2;
+  const haupt = a.erfahrung === "depot" ? 2 : 3;
+  return haupt + (mitBetrag(fassung) ? 1 : 0);
+};
 
-export type ErgebnisArt = "konto" | "depot-halal-konto" | "depot" | "zweitdepot" | "beides";
+export type ErgebnisArt = "konto" | "depot" | "zweitdepot" | "beides";
 
 export type Anbieter = { kurz: "fl" | "sb" | "no" | "bb"; out: string; name: string; domain: string; produkt: string };
 
@@ -217,29 +205,26 @@ const FLATEX_VORTEILE = [
 const FLATEX_PFLICHT = "Bei flatex lehnst du bei der Eröffnung den Kreditrahmen ab.";
 const SB_VORTEILE = [`Sparplan ab ${SB.sparplanAb}, ${SB.depotgebuehr} Depotgebühr`, `Order ${SB.order}`];
 
-const FLATEX_TEIL = { anbieter: A_FLATEX, vorteile: FLATEX_VORTEILE, pflicht: FLATEX_PFLICHT as string | undefined };
-const SB_TEIL = { anbieter: A_SB, vorteile: SB_VORTEILE, pflicht: undefined as string | undefined };
+/** Welches Depot und warum: „Was ist dir wichtiger?“ entscheidet, Halal-Auswahl gleich flatex, Kosten gleich Smartbroker+ (Elias RN7). */
+const depotTeil = (praef: Praef | undefined) =>
+  praef === "kosten"
+    ? { anbieter: A_SB, vorteile: SB_VORTEILE, pflicht: undefined as string | undefined, warum: "Du willst möglichst niedrige Kosten. Dafür passt Smartbroker+." }
+    : {
+        anbieter: A_FLATEX,
+        vorteile: FLATEX_VORTEILE,
+        pflicht: FLATEX_PFLICHT as string | undefined,
+        warum: "Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl.",
+      };
 
-/**
- * Welches Depot und warum. Fassung a (wie bisher): Smartbroker+ nur beim kleinen Sparplan, sonst flatex.
- * Fassung b: „Was ist dir wichtiger?“ entscheidet, Halal-Auswahl gleich flatex, Kosten gleich Smartbroker+.
- */
-const depotTeil = (start: Start | undefined, praef: Praef | undefined, fassung: Fassung) => {
-  if (mitPraef(fassung) && praef) {
-    return praef === "kosten"
-      ? { ...SB_TEIL, warum: "Du willst möglichst niedrige Kosten. Dafür passt Smartbroker+." }
-      : { ...FLATEX_TEIL, warum: "Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl." };
-  }
-  if (start === "sparplan")
-    return { ...SB_TEIL, warum: "Du willst klein anfangen und dranbleiben. Dafür brauchst du ein günstiges Depot mit Sparplan." };
-  if (start === "etf-gold")
-    return { ...FLATEX_TEIL, warum: "Du willst breit streuen. Bei flatex kaufst du Halal-ETFs und Gold an einem Ort." };
-  if (start === "einmal")
-    return { ...FLATEX_TEIL, warum: "Du willst einmal einen Betrag anlegen. flatex hat die meisten Halal-Anlagen aus meinem Vergleich." };
-  return { ...FLATEX_TEIL, warum: "flatex hat die meisten Halal-Anlagen aus meinem Vergleich." };
+/** Zweitdepot („Ich habe schon ein Depot“): Smartbroker+ nur für Halal-Anlagen (V7 „Dein Halal-Zweitdepot“). */
+const ZWEITDEPOT = {
+  anbieter: A_SB,
+  vorteile: SB_VORTEILE,
+  pflicht: undefined as string | undefined,
+  warum: `Du hast schon ein Depot. Ein zweites nur für Halal-Anlagen kostet dich ${SB.depotgebuehr} Depotgebühr und hält alles sauber getrennt.`,
 };
 
-/** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, „z“ für den kleinen zweiten Schritt, „x“ für die Alternative, am Ende die Fassung a oder b. */
+/** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, „z“ für den kleinen zweiten Schritt, „x“ für die Alternative, am Ende die Fassung a oder b. Die Quelle (?quelle=) steckt nur hier, die Fragen sind für alle gleich. */
 const QUELLE_KURZ: Record<CheckQuelle, string> = {
   aktienliste: "ak",
   "halal-anlagen": "ha",
@@ -267,16 +252,11 @@ export const ergebnisAus = (a: Antworten, quelle: CheckQuelle, fassung: Fassung 
     const k = kontoTeil(a.filiale);
     return { art: "konto", ...k, pflicht: KONTO_PFLICHT, knopf: "Konto eröffnen" };
   }
-  if (a.ziel === "invest" && a.depot === "halal") {
-    const k = kontoTeil(a.filiale);
-    return { art: "depot-halal-konto", ...k, warum: `Dein Depot ist halal. ${k.warum}`, pflicht: KONTO_PFLICHT, knopf: "Konto eröffnen" };
-  }
-  const kontoZuerst = a.ziel === "beides" || a.start === "konto";
-  if (kontoZuerst) {
-    // Beides oder „erst ein zinsfreies Konto, dann investieren“: Konto zuerst mit großem Knopf, darunter klein der Depot-Schritt.
-    const k = kontoTeil(a.filiale);
-    const d = depotTeil(a.start, a.praef, fassung);
-    const zweit = a.ziel === "invest" && a.depot === "nicht-halal";
+  const zweit = a.erfahrung === "depot";
+  const d = zweit ? ZWEITDEPOT : depotTeil(a.praef);
+  if (a.ziel === "beides") {
+    // Konto zuerst mit großem Knopf, darunter klein der Depot-Schritt (RN6-01).
+    const k = kontoTeil(undefined);
     return {
       art: "beides",
       ...k,
@@ -290,14 +270,10 @@ export const ergebnisAus = (a: Antworten, quelle: CheckQuelle, fassung: Fassung 
       },
     };
   }
-  const d = depotTeil(a.start, a.praef, fassung);
-  const zweit = a.depot === "nicht-halal";
   return {
     art: zweit ? "zweitdepot" : "depot",
     anbieter: d.anbieter,
-    warum: zweit
-      ? `Du hast schon ein Depot. Ein zweites nur für Halal-Anlagen kostet dich ${d.anbieter.kurz === "fl" ? FLATEX.depotgebuehr : SB.depotgebuehr} Depotgebühr und hält alles sauber getrennt.`
-      : d.warum,
+    warum: d.warum,
     vorteile: d.vorteile,
     pflicht: d.pflicht,
     knopf: zweit ? "Zweitdepot eröffnen" : "Depot eröffnen",
@@ -310,11 +286,10 @@ export const ergebnisAus = (a: Antworten, quelle: CheckQuelle, fassung: Fassung 
 export const antwortZeilen = (a: Antworten): string[] => {
   const z: string[] = [];
   if (a.ziel) z.push({ konto: "Konto zinsfrei machen", invest: "Halal investieren", beides: "Konto und Depot" }[a.ziel]);
-  if (a.depot) z.push({ nein: "Noch kein Depot", "nicht-halal": "Depot nicht halal", halal: "Depot schon halal" }[a.depot]);
+  if (a.erfahrung) z.push({ keine: "Noch keine Erfahrung", erste: "Erste Schritte", depot: "Schon ein Depot" }[a.erfahrung]);
   if (a.filiale) z.push(a.filiale === "ja" ? "Mit Filiale" : "Alles per App");
-  if (a.start)
-    z.push({ konto: "Erst ein Konto", sparplan: "Sparplan", "etf-gold": "ETFs und Gold", einmal: "Einmal anlegen" }[a.start]);
   if (a.praef) z.push(a.praef === "halal" ? "Viele Halal-Anlagen" : "Niedrige Kosten");
+  if (a.betrag) z.push({ unter50: "Unter 50 € im Monat", "50bis200": "50 bis 200 € im Monat", ueber200: "Über 200 € im Monat" }[a.betrag]);
   return z;
 };
 

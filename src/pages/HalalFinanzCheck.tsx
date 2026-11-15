@@ -4,19 +4,19 @@ import {
   ArrowLeft,
   ArrowRight,
   Banknote,
+  BriefcaseBusiness,
   Building2,
-  CalendarClock,
-  ChartPie,
   Check,
-  CirclePlus,
   Coins,
+  Footprints,
+  Gem,
   Layers,
   ListChecks,
-  ShieldCheck,
+  PiggyBank,
   Smartphone,
+  Sprout,
   TrendingUp,
   Wallet,
-  ArrowLeftRight,
   type LucideIcon,
 } from "lucide-react";
 import Seo from "@/components/Seo";
@@ -27,10 +27,8 @@ import { abFassung } from "@/lib/abTest";
 import { followerGesamt } from "@/data/beweise";
 import {
   AB_TEST,
-  EIGENE_UEBERSCHRIFT,
   ETIKETT,
   FRAGEN,
-  UEBERSCHRIFT,
   UNTERZEILE,
   WERBEHINWEIS,
   antwortZeilen,
@@ -39,7 +37,6 @@ import {
   naechsteFrage,
   outLink,
   quelleAus,
-  unterFuer,
   type Antworten,
   type FrageId,
 } from "@/data/halalFinanzCheck";
@@ -58,17 +55,16 @@ const ICONS: Record<string, LucideIcon> = {
   "ziel:konto": Wallet,
   "ziel:invest": TrendingUp,
   "ziel:beides": Layers,
-  "depot:nein": CirclePlus,
-  "depot:nicht-halal": ArrowLeftRight,
-  "depot:halal": ShieldCheck,
-  "start:konto": Wallet,
-  "start:sparplan": CalendarClock,
-  "start:etf-gold": ChartPie,
-  "start:einmal": Banknote,
-  "filiale:nein": Smartphone,
-  "filiale:ja": Building2,
+  "erfahrung:keine": Sprout,
+  "erfahrung:erste": Footprints,
+  "erfahrung:depot": BriefcaseBusiness,
   "praef:halal": ListChecks,
   "praef:kosten": Coins,
+  "betrag:unter50": PiggyBank,
+  "betrag:50bis200": Banknote,
+  "betrag:ueber200": Gem,
+  "filiale:nein": Smartphone,
+  "filiale:ja": Building2,
 };
 
 const HalalFinanzCheck = () => {
@@ -81,7 +77,7 @@ const HalalFinanzCheck = () => {
   const vorab: Antworten =
     zielAusFreebie === "konto" || zielAusFreebie === "invest" || zielAusFreebie === "beides" ? { ziel: zielAusFreebie } : {};
   const [antworten, setAntworten] = useState<Antworten>(vorab);
-  const [verlauf, setVerlauf] = useState<(FrageId)[]>(vorab.ziel ? ["ziel"] : []);
+  const [verlauf, setVerlauf] = useState<FrageId[]>(vorab.ziel ? ["ziel"] : []);
   const [gewaehlt, setGewaehlt] = useState<string | null>(null);
   const oben = useRef<HTMLDivElement>(null);
 
@@ -174,13 +170,10 @@ const HalalFinanzCheck = () => {
             ))}
           </ol>
           <h1 className="hc-frage-titel">{FRAGEN[frageId].titel}</h1>
-          {frageId === "ziel" && (
-            <p className="hc-frage-unter">{EIGENE_UEBERSCHRIFT.includes(quelle) ? UEBERSCHRIFT[quelle] : UNTERZEILE}</p>
-          )}
+          {frageId === "ziel" && <p className="hc-frage-unter">{UNTERZEILE}</p>}
           <ul className="hc-optionen">
             {FRAGEN[frageId].optionen.map((o) => {
               const Icon = ICONS[`${frageId}:${o.wert}`];
-              const unter = unterFuer(quelle, frageId, o);
               return (
                 <li key={o.wert}>
                   <button
@@ -192,7 +185,7 @@ const HalalFinanzCheck = () => {
                     {Icon && <Icon className="hc-opt-icon" aria-hidden />}
                     {o.etikett && <span className="hc-tag">{o.etikett}</span>}
                     <span className="hc-opt-titel">{o.titel}</span>
-                    {unter && <span className="hc-opt-unter">{unter}</span>}
+                    {o.unter && <span className="hc-opt-unter">{o.unter}</span>}
                   </button>
                 </li>
               );
