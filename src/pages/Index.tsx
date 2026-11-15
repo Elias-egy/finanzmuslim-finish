@@ -270,7 +270,9 @@ const Index = () => {
             className={
               MIT_OS
                 ? "relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden"
-                : "relative max-md:order-3 mt-2 h-[232px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_66%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_66%,transparent_100%)] md:hidden"
+                : // PH2 (15.11.2026, Elias: „unten der Schatten soll sozusagen in den Finanzcheck gehen. Jetzt ist weißer Raum
+                  // dazwischen“): das Foto läuft bis hinter den Knopf, die weiche Kante liegt unter ihm statt davor.
+                  "relative max-md:order-3 mt-2 -mb-14 h-[256px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_72%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_72%,transparent_100%)] md:hidden"
             }
           >
             <img
