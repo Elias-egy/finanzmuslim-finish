@@ -40,6 +40,8 @@ export type Ereignis =
   | "os_anfrage"
   // RN5 (15.11.2026): Halal-Finanz-Check /check, Start der ersten Frage.
   | "check_start"
+  // RN7 (15.11.2026): Klick auf „Check starten“ (oder eine Kriterien-Zeile) auf der Verkaufsseite vor den Fragen.
+  | "check_klick"
   // RN5: 50:50-Test, einmal je Besucher und Test (src/lib/abTest.ts).
   | "ab_zuteilung";
 

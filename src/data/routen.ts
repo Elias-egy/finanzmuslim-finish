@@ -297,5 +297,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "/weiter/:kurzname", grund: "Partner-Weiterleitung für Knöpfe, die Werbeblocker sonst verstecken" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },
+  { pfad: "/check", grund: "Halal-Finanz-Check mit Verkaufsseite vor den Fragen (RN5, RN7), setzt noindex" },
+  { pfad: "/vergleich/start", grund: "Weiterleitung auf /check?quelle=quiz (RN6), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];

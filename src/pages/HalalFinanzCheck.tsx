@@ -1,67 +1,130 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Banknote,
+  Building2,
+  CalendarClock,
+  ChartPie,
+  Check,
+  CirclePlus,
+  Coins,
+  Layers,
+  ListChecks,
+  ShieldCheck,
+  Smartphone,
+  TrendingUp,
+  Wallet,
+  ArrowLeftRight,
+  type LucideIcon,
+} from "lucide-react";
 import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
+import CheckVerkaufsseite from "@/components/CheckVerkaufsseite";
 import { ereignis } from "@/lib/messung";
+import { abFassung } from "@/lib/abTest";
 import { followerGesamt } from "@/data/beweise";
 import {
+  AB_TEST,
+  EIGENE_UEBERSCHRIFT,
+  ETIKETT,
   FRAGEN,
   UEBERSCHRIFT,
   UNTERZEILE,
   WERBEHINWEIS,
+  antwortZeilen,
   ergebnisAus,
   fragenGesamt,
   naechsteFrage,
   outLink,
   quelleAus,
+  unterFuer,
   type Antworten,
   type FrageId,
 } from "@/data/halalFinanzCheck";
+import "@/styles/halalFinanzCheck.css";
 
 /**
- * Halal-Finanz-Check, RN5 (15.11.2026). Vollbild ohne Menü (Layout.tsx), die erste Frage steht sofort da, ohne
- * „Jetzt starten“ (Perspective-Tipp 13). Nach dem Tipp springt die Seite zur nächsten Frage. Am Ende genau eine
- * Empfehlung mit einem Knopf direkt zum Anbieter über /out (Elias RN3-07: „direkt auf den Partnerlink. Ohne eine
- * Zwischenbrücke“). Die Mail ist freiwillig und kommt ganz am Ende. Logik und Texte: src/data/halalFinanzCheck.ts.
+ * Halal-Finanz-Check, RN7 (15.11.2026), 1:1 nach Elias' Perspective-Funnel (Vault hermes/renovierungskampagne/perspective/
+ * eins-zu-eins/index.html). Wer /check öffnet, sieht zuerst die Verkaufsseite (CheckVerkaufsseite), der Knopf „Check starten“
+ * führt auf derselben Route zur ersten Frage (?schritt=fragen, damit „Zurück“ im Browser zur Verkaufsseite führt). Kommt die
+ * Person aus einem Freebie schon mit der ersten Antwort (?ziel=…, CheckEinstieg.tsx), hat sie diese Seite dort gesehen und der
+ * Check beginnt bei Frage 2. Nach dem Tipp springt die Seite zur nächsten Frage. Am Ende genau eine Empfehlung mit einem Knopf
+ * direkt zum Anbieter über /out (Elias RN3-07: „Ohne eine Zwischenbrücke“). Keine Mail im Ablauf. 50:50-Test RN7: Fassung b hat
+ * auf dem Depot-Weg eine Frage mehr (halalFinanzCheck.ts), die Fassung steht in der Kennung am Knopf. Logik und Texte: src/data/halalFinanzCheck.ts.
  */
+const ICONS: Record<string, LucideIcon> = {
+  "ziel:konto": Wallet,
+  "ziel:invest": TrendingUp,
+  "ziel:beides": Layers,
+  "depot:nein": CirclePlus,
+  "depot:nicht-halal": ArrowLeftRight,
+  "depot:halal": ShieldCheck,
+  "start:konto": Wallet,
+  "start:sparplan": CalendarClock,
+  "start:etf-gold": ChartPie,
+  "start:einmal": Banknote,
+  "filiale:nein": Smartphone,
+  "filiale:ja": Building2,
+  "praef:halal": ListChecks,
+  "praef:kosten": Coins,
+};
+
 const HalalFinanzCheck = () => {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const quelle = quelleAus(params.get("quelle"));
+  // Zuteilung einmal je Besucher, ?ab=a oder ?ab=b erzwingt eine Fassung (src/lib/abTest.ts).
+  const [fassung] = useState(() => abFassung(AB_TEST));
   // Aus einem Freebie kommt die erste Antwort schon mit (?ziel=…, CheckEinstieg.tsx): dann beginnt der Check bei Frage 2.
   const zielAusFreebie = params.get("ziel");
   const vorab: Antworten =
     zielAusFreebie === "konto" || zielAusFreebie === "invest" || zielAusFreebie === "beides" ? { ziel: zielAusFreebie } : {};
   const [antworten, setAntworten] = useState<Antworten>(vorab);
-  const [verlauf, setVerlauf] = useState<FrageId[]>(vorab.ziel ? ["ziel"] : []);
+  const [verlauf, setVerlauf] = useState<(FrageId)[]>(vorab.ziel ? ["ziel"] : []);
   const [gewaehlt, setGewaehlt] = useState<string | null>(null);
   const oben = useRef<HTMLDivElement>(null);
 
-  const frageId = naechsteFrage(antworten);
-  const ergebnis = useMemo(() => ergebnisAus(antworten, quelle), [antworten, quelle]);
+  const gestartet = params.get("schritt") === "fragen" || Boolean(vorab.ziel);
+  const frageId = naechsteFrage(antworten, fassung);
+  const ergebnis = useMemo(() => ergebnisAus(antworten, quelle, fassung), [antworten, quelle, fassung]);
   const nummer = verlauf.length + 1;
-  const gesamt = fragenGesamt(antworten);
+  const gesamt = fragenGesamt(antworten, fassung);
 
   useEffect(() => {
-    ereignis("check_start", { quelle, ziel: zielAusFreebie ?? "" });
+    ereignis("check_start", { quelle, ziel: zielAusFreebie ?? "", fassung });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quelle]);
 
   useEffect(() => {
     if (!ergebnis) return;
-    ereignis("quiz_ergebnis", { check: true, quelle, ergebnis: ergebnis.art, anbieter: ergebnis.anbieter.out });
-  }, [ergebnis, quelle]);
+    ereignis("quiz_ergebnis", { check: true, quelle, fassung, ergebnis: ergebnis.art, anbieter: ergebnis.anbieter.out });
+  }, [ergebnis, quelle, fassung]);
 
-  // Beim Wechsel der Frage oben anfangen, ohne dass die Seite selbst wegscrollt (nur zurück an den Anfang).
+  // Beim Wechsel der Frage oder zur Verkaufsseite oben anfangen.
   useEffect(() => {
-    oben.current?.scrollIntoView({ block: "start" });
-  }, [frageId]);
+    if (gestartet) oben.current?.scrollIntoView({ block: "start" });
+  }, [frageId, gestartet]);
+
+  // Zurück bei der Verkaufsseite (Browser oder Knopf): die Antworten beginnen von vorn.
+  useEffect(() => {
+    if (gestartet) return;
+    setAntworten({});
+    setVerlauf([]);
+    setGewaehlt(null);
+  }, [gestartet]);
+
+  const starte = (stelle: string) => {
+    ereignis("check_klick", { quelle, stelle, fassung });
+    const neu = new URLSearchParams(params);
+    neu.set("schritt", "fragen");
+    setParams(neu);
+  };
 
   const waehle = (id: FrageId, wert: string) => {
     if (gewaehlt) return;
     setGewaehlt(wert);
-    ereignis("quiz_frage", { check: true, quelle, frage: id, antwort: wert, nummer });
+    ereignis("quiz_frage", { check: true, quelle, fassung, frage: id, antwort: wert, nummer });
     window.setTimeout(() => {
       setAntworten((a) => ({ ...a, [id]: wert }));
       setVerlauf((v) => [...v, id]);
@@ -71,7 +134,14 @@ const HalalFinanzCheck = () => {
 
   const zurueck = () => {
     const letzte = verlauf[verlauf.length - 1];
-    if (!letzte) return;
+    if (!letzte) {
+      // Erste Frage: zurück zur Verkaufsseite.
+      const neu = new URLSearchParams(params);
+      neu.delete("schritt");
+      neu.delete("ziel");
+      setParams(neu);
+      return;
+    }
     setVerlauf((v) => v.slice(0, -1));
     setAntworten((a) => {
       const neu = { ...a };
@@ -86,170 +156,134 @@ const HalalFinanzCheck = () => {
   };
 
   return (
-    <div ref={oben} className="scroll-mt-0 bg-background">
+    <div ref={oben} className="hc">
       <Seo
         title="Halal-Finanz-Check: Konto, Depot oder beides? | finanzmuslim"
         description="Beantworte 3 kurze Fragen und sieh, womit du halal startest: zinsfreies Girokonto, Halal-Depot oder beides."
         path="/check"
         noindex
       />
-      <div className="container max-w-[560px] pb-10 pt-2 md:pt-6">
-        {frageId && (
-          <section aria-live="polite">
-            {/* Fortschritt gleich oben, die Zahlen stimmen je Weg (Konto 2 Fragen, sonst 3). */}
-            <div className="flex items-center justify-between gap-3 text-[14px] font-semibold text-muted-foreground">
-              <span>
-                Frage {nummer} von {gesamt}
-                {nummer === 1 && " · 60 Sekunden"}
-              </span>
-              {verlauf.length > 0 && (
-                <button
-                  type="button"
-                  onClick={zurueck}
-                  className="inline-flex min-h-[44px] items-center gap-1 text-[15px] font-semibold text-primary"
-                >
-                  <ArrowLeft className="h-4 w-4" aria-hidden />
-                  Zurück
-                </button>
-              )}
-            </div>
-            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
-              <div
-                className="h-full rounded-full bg-primary transition-[width] duration-300"
-                style={{ width: `${(nummer / gesamt) * 100}%` }}
-              />
-            </div>
 
-            {nummer === 1 && (
-              <>
-                <p className="mt-6 text-[14px] font-bold uppercase tracking-wide text-violet">Halal-Finanz-Check</p>
-                <h1 className="mt-2 text-[28px] font-bold leading-[1.15] tracking-tight text-foreground [text-wrap:balance] md:text-[34px]">
-                  {UEBERSCHRIFT[quelle]}
-                </h1>
-                <p className="mt-2 text-[17px] leading-snug text-muted-foreground">{UNTERZEILE}</p>
-              </>
-            )}
+      {!gestartet && <CheckVerkaufsseite onStart={starte} />}
 
-            <h2 className={`${nummer === 1 ? "mt-7" : "mt-8"} text-[22px] font-bold leading-tight text-foreground md:text-[24px]`}>
-              {FRAGEN[frageId].titel}
-            </h2>
-            <ul className="mt-4 space-y-3">
-              {FRAGEN[frageId].optionen.map((o) => {
-                const aktiv = gewaehlt === o.wert;
-                const gruen = Boolean(o.etikett);
-                return (
-                  <li key={o.wert}>
-                    <button
-                      type="button"
-                      onClick={() => waehle(frageId, o.wert)}
-                      className={`flex min-h-[64px] w-full items-center gap-3 rounded-xl border-2 px-4 py-3 text-left transition-colors ${
-                        aktiv
-                          ? "border-primary bg-accent"
-                          : gruen
-                            ? "border-gain bg-gain-soft hover:border-gain"
-                            : "border-border bg-card hover:border-primary"
-                      }`}
-                    >
-                      <span className="min-w-0 flex-1">
-                        {o.etikett && (
-                          <span className="mb-1 inline-block rounded-full bg-gain px-2.5 py-0.5 text-[12px] font-bold text-white">
-                            {o.etikett}
-                          </span>
-                        )}
-                        <span className="block text-[17px] font-bold leading-tight text-foreground">{o.titel}</span>
-                        {o.unter && <span className="mt-0.5 block text-[15px] leading-snug text-muted-foreground">{o.unter}</span>}
-                      </span>
-                      <span
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${
-                          aktiv ? "border-primary bg-primary text-white" : "border-border"
-                        }`}
-                        aria-hidden
-                      >
-                        {aktiv && <Check className="h-4 w-4" />}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
+      {gestartet && frageId && (
+        <section className="hc-frage" key={frageId} aria-live="polite">
+          <ol className="hc-striche" aria-label={`Frage ${nummer} von ${gesamt}`}>
+            {Array.from({ length: gesamt }, (_, i) => (
+              <li key={i} data-an={i < nummer ? "" : undefined} />
+            ))}
+          </ol>
+          <h1 className="hc-frage-titel">{FRAGEN[frageId].titel}</h1>
+          {frageId === "ziel" && (
+            <p className="hc-frage-unter">{EIGENE_UEBERSCHRIFT.includes(quelle) ? UEBERSCHRIFT[quelle] : UNTERZEILE}</p>
+          )}
+          <ul className="hc-optionen">
+            {FRAGEN[frageId].optionen.map((o) => {
+              const Icon = ICONS[`${frageId}:${o.wert}`];
+              const unter = unterFuer(quelle, frageId, o);
+              return (
+                <li key={o.wert}>
+                  <button
+                    type="button"
+                    onClick={() => waehle(frageId, o.wert)}
+                    className={`hc-opt${o.etikett ? " hc-opt--gruen" : ""}`}
+                    data-gewaehlt={gewaehlt === o.wert ? "" : undefined}
+                  >
+                    {Icon && <Icon className="hc-opt-icon" aria-hidden />}
+                    {o.etikett && <span className="hc-tag">{o.etikett}</span>}
+                    <span className="hc-opt-titel">{o.titel}</span>
+                    {unter && <span className="hc-opt-unter">{unter}</span>}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <button type="button" onClick={zurueck} className="hc-zurueck">
+            <ArrowLeft aria-hidden />
+            Zurück
+          </button>
+        </section>
+      )}
+
+      {gestartet && ergebnis && (
+        <section className="hc-frage" aria-live="polite">
+          <h1 className="hc-ergebnis-h1">Dein Match: {ergebnis.anbieter.name}</h1>
+          <p className="hc-antw-kopf">Deine Antworten</p>
+          <ul className="hc-antw">
+            {antwortZeilen(antworten).map((z) => (
+              <li key={z}>
+                <Check aria-hidden />
+                {z}
+              </li>
+            ))}
+          </ul>
+
+          <div className="hc-nr1">
+            <div className="hc-nr1-kopf">
+              <span className="hc-nr1-zahl" aria-hidden>1</span>
+              <p className="hc-nr1-label">Passt am besten</p>
+            </div>
+            <div className="hc-nr1-logo">
+              <AnbieterLogo name={ergebnis.anbieter.name} domain={ergebnis.anbieter.domain} gross />
+            </div>
+            <p className="hc-nr1-name">
+              {ergebnis.anbieter.name}
+              <small>{ergebnis.anbieter.produkt}</small>
+            </p>
+            <p className="hc-nr1-warum">{ergebnis.warum}</p>
+            <ul className="hc-gruende">
+              {ergebnis.vorteile.map((v) => (
+                <li key={v}>
+                  <Check aria-hidden />
+                  {v}
+                </li>
+              ))}
             </ul>
+            {ergebnis.pflicht && <p className="hc-pflicht">{ergebnis.pflicht}</p>}
+            {/* Knopf direkt zum Anbieter über /out (Partnerlinks nur dort), Werbehinweis als Sternchen. */}
+            <a href={outLink(quelle, ergebnis.anbieter, fassung)} className="hc-btn">
+              {ergebnis.knopf}*
+              <ArrowRight className="hc-pfeil" aria-hidden />
+            </a>
+          </div>
 
-            {nummer === 1 && (
-              <p className="mt-5 text-[16px] leading-snug text-foreground">
-                <strong>Du musst nicht sofort investieren.</strong> Ein zinsfreies Girokonto ist der leichteste erste Schritt.
-              </p>
-            )}
-            <p className="mt-6 text-center text-[14px] font-medium text-muted-foreground">Kostenlos · ohne Anmeldung · keine Beträge nötig</p>
-          </section>
-        )}
-
-        {ergebnis && (
-          <section aria-live="polite" className="pt-4">
-            <p className="text-[14px] font-bold uppercase tracking-wide text-violet">Dein Ergebnis</p>
-            <div className="mt-3 rounded-2xl border-2 border-primary bg-card p-5 shadow-[0_4px_24px_rgba(0,0,0,0.06)] md:p-6">
-              <p className="text-[16px] font-semibold leading-snug text-muted-foreground">{ergebnis.vorspann}</p>
-              <div className="mt-3 flex items-center gap-3">
-                <AnbieterLogo name={ergebnis.anbieter.name} domain={ergebnis.anbieter.domain} gross />
-                <p className="min-w-0 text-[24px] font-bold leading-tight text-foreground">
-                  {ergebnis.anbieter.name}
-                  <span className="block text-[16px] font-semibold text-muted-foreground">{ergebnis.anbieter.produkt}</span>
-                </p>
-              </div>
-              <p className="mt-4 text-[17px] leading-snug text-foreground">{ergebnis.warum}</p>
-              <p className="mt-4 text-[15px] font-bold text-foreground">Warum das zu dir passt</p>
-              <ul className="mt-2 space-y-2">
-                {ergebnis.vorteile.map((v) => (
-                  <li key={v} className="flex items-start gap-2 text-[16px] leading-snug text-foreground">
-                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-                    {v}
-                  </li>
-                ))}
-              </ul>
-              {ergebnis.pflicht && <p className="mt-4 text-[16px] font-semibold leading-snug text-foreground">{ergebnis.pflicht}</p>}
-              {/* Echte Zahl bei der Empfehlung (Perspective-Frage 4, Elias RN6: „Followerzahl“). */}
-              <figure className="mt-4 flex items-center gap-3 border-t border-border pt-4">
-                <img src="/elias-el-gendy.webp" alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 shrink-0 rounded-full object-cover" />
-                <figcaption className="text-[15px] font-semibold leading-snug text-foreground">
-                  Über {followerGesamt} folgen mir auf Instagram und TikTok.
-                  <span className="block text-[14px] font-normal text-muted-foreground">Elias, finanzmuslim</span>
-                </figcaption>
-              </figure>
-              {/* Knopf direkt zum Anbieter über /out (Partnerlinks nur dort), Werbehinweis als Sternchen. */}
-              <a
-                href={outLink(quelle, ergebnis.anbieter)}
-                className="btn-spark mt-5 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-full px-6 text-[18px] font-bold"
-              >
-                {ergebnis.knopf}*
-                <ArrowRight className="h-5 w-5" aria-hidden />
-              </a>
-            </div>
-
-            {ergebnis.danach && (
-              <a
-                href={ergebnis.danach.link}
-                className="mt-4 flex min-h-[56px] items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-[16px] font-semibold text-foreground hover:border-primary"
-              >
+          {ergebnis.danach &&
+            (ergebnis.danach.konto ? (
+              <a href={ergebnis.danach.link} className="hc-kasten hc-kasten--gruen">
+                <span className="hc-kasten-text">
+                  <span className="hc-tag">{ETIKETT}</span>
+                  Und dein Konto? {ergebnis.danach.satz}*
+                </span>
                 <AnbieterLogo name={ergebnis.danach.anbieter.name} domain={ergebnis.danach.anbieter.domain} klein />
-                <span className="min-w-0 flex-1">{ergebnis.danach.satz}*</span>
-                <ArrowRight className="h-5 w-5 shrink-0 text-primary" aria-hidden />
+                <ArrowRight aria-hidden />
               </a>
-            )}
+            ) : (
+              <a href={ergebnis.danach.link} className="hc-kasten">
+                <span className="hc-kasten-text">{ergebnis.danach.satz}*</span>
+                <AnbieterLogo name={ergebnis.danach.anbieter.name} domain={ergebnis.danach.anbieter.domain} klein />
+                <ArrowRight aria-hidden />
+              </a>
+            ))}
 
-            <p className="mt-4 text-[14px] leading-snug text-muted-foreground">{WERBEHINWEIS}</p>
+          {ergebnis.alternative && (
+            <p className="hc-alt">
+              Lieber die Alternative?
+              <a href={ergebnis.alternative.link}>{ergebnis.alternative.anbieter.name}*</a>
+            </p>
+          )}
 
-            <div className="mt-10 border-t border-border pt-6">
-              <p className="text-[19px] font-bold text-foreground">Jeden Freitag ein Schritt näher</p>
-              <p className="mt-1 text-[16px] leading-snug text-muted-foreground">Freiwillig: das Wichtigste für dein Geld per Mail.</p>
-              <FreitagsbriefFormular id="check-newsletter-email" variante="startseite" />
-            </div>
+          {/* Echte Zahl bei der Empfehlung (Perspective-Frage 4, Elias RN6: „Followerzahl“, src/data/beweise.ts). */}
+          <figure className="hc-folger">
+            <img src="/elias-el-gendy.webp" alt="Elias El-Gendy" width={44} height={44} />
+            <figcaption>Über {followerGesamt} folgen mir auf Instagram und TikTok</figcaption>
+          </figure>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
-              <button type="button" onClick={neu} className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-primary">
-                Check neu starten
-              </button>
-            </div>
-          </section>
-        )}
-      </div>
+          <p className="hc-werbung">{WERBEHINWEIS}</p>
+          <button type="button" onClick={neu} className="hc-neu">
+            Check neu starten
+          </button>
+        </section>
+      )}
     </div>
   );
 };

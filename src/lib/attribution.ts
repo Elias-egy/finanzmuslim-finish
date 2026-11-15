@@ -170,9 +170,9 @@ export const VALID_SRC = [
 export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|nl|[mgv][0-9])[a-z0-9]{0,18}$/;
 
 // RN5 (15.11.2026): Knöpfe im Halal-Finanz-Check, fc plus Einstieg plus Anbieter, „z“ für den kleinen zweiten Schritt
-// (src/data/halalFinanzCheck.ts CHECK_SRC, gleiche Form). Eine Stelle, keine Herkunft.
+// (src/data/halalFinanzCheck.ts CHECK_SRC, gleiche Form), „x“ für die Alternative, am Ende die Test-Fassung a oder b (RN7). Eine Stelle, keine Herkunft.
 // RN6: qz = alle, die früher ins alte Quiz /vergleich/start kamen (Check ersetzt das Quiz).
-const CHECK_STELLE = /^fc(ak|ha|bo|hp|ko|me|qz)(fl|sb|no|bb)z?$/;
+const CHECK_STELLE = /^fc(ak|ha|bo|hp|ko|me|qz)(fl|sb|no|bb)[zx]?[ab]?$/;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
   !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src) || CHECK_STELLE.test(src));
