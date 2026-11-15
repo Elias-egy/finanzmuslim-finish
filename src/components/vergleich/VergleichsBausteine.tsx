@@ -425,12 +425,13 @@ export const ZinsSatz = ({
   if (!zins && hinweise.length === 0) return null;
   return (
     <>
+      {/* Die Warnung zuerst (Elias PH3-02: „bei mehr Informationen das allererste“), danach der Satz zur Ampel. */}
+      <HinweisBlock spalte={spalte} zeilen={zeilen} markieren={markieren} />
       {zins && !zinsAlsHinweis && (
         <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
           <span className="font-semibold">{zins.label}:</span> {zins.satz}
         </p>
       )}
-      <HinweisBlock spalte={spalte} zeilen={zeilen} markieren={markieren} />
     </>
   );
 };
