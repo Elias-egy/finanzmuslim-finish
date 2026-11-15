@@ -192,7 +192,8 @@ const ANGEBOT: Record<string, Eintrag> = {
 /**
  * Achtung-Meldung für Depots, die Neukunden automatisch einen Kredit einräumen (`kreditAbStart` "teils").
  * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Seit 07.11.2026 kostet der Kredit
- * keine Punkte mehr (`FAKTOR_KREDIT` 1), hält das Depot aber von Platz 1 fern (Regel 6 in `src/lib/rangfolge.ts`).
+ * keine Punkte mehr (`FAKTOR_KREDIT` 1), seit 15.11.2026 hält er das Depot auch nicht mehr von Platz 1 fern (Regel 6 in
+ * `src/lib/rangfolge.ts`, Elias RN3-07).
  * Beleg: `quellen.kreditAbStart` des Angebots.
  */
 /** Der belegte Teil: was das Haus tut und was der Besucher tun kann. */
@@ -202,8 +203,9 @@ const KREDIT_SACHE: Record<string, string> = {
 };
 
 /** Im Depot-Vergleich dazu der Grund für den Platz. */
+// Bis 15.11.2026 stand hier der Grund, warum flatex nicht ganz vorn steht. Seit RN3-07 ist flatex unsere Nummer 1, der Satz nennt nur die Sache.
 const ACHTUNG_KREDIT: Record<string, string> = {
-  flatex: `${KREDIT_SACHE.flatex} Deshalb steht flatex im Vergleich nicht ganz vorn, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.`,
+  flatex: KREDIT_SACHE.flatex,
 };
 
 /**

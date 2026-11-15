@@ -4,6 +4,7 @@ import Seo from "@/components/Seo";
 import { FINANZ_MAX_SUMME, GEWICHT_FINANZ, GEWICHT_HALAL } from "@/lib/bewertung";
 import { AMPEL_GEWICHTE } from "@/lib/rangfolge";
 import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
+import { ANTEIL_BELIEBT, ANTEIL_HALAL_KOSTEN, beliebtErklaerung } from "@/data/reihenfolgeText";
 
 /**
  * Offenlegung der Bewertung. Zwei Gründe: Partner wie Trading 212 fragen
@@ -12,6 +13,8 @@ import { KRYPTO_ZEILEN } from "@/data/kryptoVergleich";
  *
  * Zahlen kommen aus bewertung.ts. Ein Test prüft, dass sie zu den
  * Datendateien passen, damit Seite und Rechnung nicht auseinanderlaufen.
+ * Seit 15.11.2026 nennt die Seite das Zusatzkriterium „Bei meinen Lesern beliebt“ (5 %) für Depot und Girokonto
+ * mit Gewicht und Provision (UWG § 5b Abs. 2, Anhang Nr. 11a; Wortlaut in `src/data/reihenfolgeText.ts`).
  */
 
 const prozent = (x: number) => `${Math.round(x * 100)} %`;
@@ -95,7 +98,9 @@ const VergleichMethodik = () => (
         <p>
           <strong>Zweitens: Halal und Kosten zählen gleich.</strong> Die Note setzt sich zu{" "}
           {prozent(GEWICHT_HALAL)} aus den übrigen Halal-Merkmalen und zu {prozent(GEWICHT_FINANZ)} aus
-          Kosten und Konditionen zusammen.
+          Kosten und Konditionen zusammen. Im Depot- und im Girokonto-Vergleich kommt ein drittes Kriterium dazu:
+          Halal-Merkmale und Kosten zählen dort je {ANTEIL_HALAL_KOSTEN}, „Bei meinen Lesern beliebt“ zählt{" "}
+          {ANTEIL_BELIEBT}.
         </p>
         <p>
           <strong>Drittens: Haram-Angebote sind kein Minuspunkt.</strong> Fast jeder Anbieter hat auch
@@ -167,32 +172,34 @@ const VergleichMethodik = () => (
           liegt der Beleg vor.
         </p>
         <p>
-          Die Reihenfolge folgt der Note. Der Halal-Teil und die Kosten zählen je zur Hälfte. Von
-          Anbietern, bei denen sich die Zinsen nicht abschalten lassen, raten wir ab.
+          Die Reihenfolge folgt der Note, die du siehst. Von Anbietern, bei denen sich die Zinsen nicht
+          abschalten lassen, raten wir ab.
         </p>
+      </section>
+
+      <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
+        <h2 className="text-2xl font-bold text-foreground">Depot und Girokonto</h2>
+        <ul className="space-y-1 text-[16px] text-foreground">
+          <li>Halal-Merkmale: {ANTEIL_HALAL_KOSTEN}</li>
+          <li>Kosten und Konditionen: {ANTEIL_HALAL_KOSTEN}</li>
+          <li>Bei meinen Lesern beliebt: {ANTEIL_BELIEBT}</li>
+        </ul>
+        <p>{beliebtErklaerung("Depot oder Konto")}</p>
         <p>
-          Im Depot-Vergleich gilt zweierlei. Platz 1 bekommt nur ein Depot, das von Anfang an ohne
-          Kredit läuft. Und bei gleicher Note steht zuerst, wo unsere Leser ihr Depot am häufigsten
-          wirklich eröffnen. Die ersten Depots liegen nah beieinander, zwischen 4,4 und 4,5. Oben
-          stehen deshalb zwei Nummer 1: Platz 1 und das Depot mit den meisten Halal-Anlagen.
-        </p>
-        <p>
-          Im Girokonto-Vergleich gilt Ähnliches. Platz 1 bekommt nur ein Konto, das ohne Zinsen, ohne
-          Dispo und ohne Kartenkredit startet und das du über unseren Link eröffnen kannst. Bei
-          gleicher Note steht zuerst meine Wahl, die Norisbank.
+          Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. Platz 1 bekommt nur
+          ein Angebot ohne Zinsen ab Start, das du über unseren Link eröffnen kannst. Im Girokonto muss
+          es dazu ohne Dispo und ohne Kartenkredit starten.
         </p>
       </section>
 
       <section className="mt-10 space-y-4 text-[16px] leading-[26px] text-foreground/90">
         <h2 className="text-2xl font-bold text-foreground">Partnerschaften</h2>
         <p>
-          Mit manchen Anbietern arbeite ich zusammen und erhalte eine Provision, wenn du über einen
-          mit Stern markierten Link ein Konto eröffnest. Das ändert nichts an der Bewertung: Kriterien
-          und Gewichte gelten für alle gleich, auch für Anbieter ohne Partnerschaft. Nur die
-          Reihenfolge kennt den Link: Haben mehrere Angebote in Depot, Girokonto oder Krypto dieselbe
-          Note, steht zuerst, was du über unseren Link eröffnen kannst. Wie viel ich an einem Anbieter
-          verdiene, zählt nie. Auch die Leser-Eröffnungen im Depot-Vergleich hängen am Link: Wie oft
-          Leser ein Depot eröffnen, sehen wir nur bei Anbietern, mit denen ich zusammenarbeite.{" "}
+          Wir bekommen von einigen Anbietern eine Provision, wenn du über unseren Link eröffnest.
+          Kriterien und Gewichte gelten für alle gleich. Der Link wirkt an zwei Stellen, beide offen:
+          Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. Und im Depot und
+          Girokonto zählen in „Bei meinen Lesern beliebt“ nur Eröffnungen über unsere Links, Anbieter
+          ohne Partnerlink bekommen dort 0 Punkte. Wie viel ich an einem Anbieter verdiene, zählt nie.{" "}
           <Link to="/wie-ich-geld-verdiene" className="font-semibold text-primary hover:underline">
             Wie ich Geld verdiene
           </Link>

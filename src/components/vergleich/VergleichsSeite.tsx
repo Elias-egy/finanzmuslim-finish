@@ -108,8 +108,8 @@ export type VergleichsSeiteProps = {
    * Wahl am eigenen Fall hängt (Steuersoftware, Halal-Aktien-Apps).
    */
   ohneNummerEins?: boolean;
-  /** Ein Satz direkt über der Liste: wonach sie sortiert ist. */
-  sortiertNach?: string;
+  /** Ein Satz direkt über der Liste: wonach sie sortiert ist, gern mit Link zur Methodik. */
+  sortiertNach?: ReactNode;
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;

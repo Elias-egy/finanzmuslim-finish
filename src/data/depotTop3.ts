@@ -12,8 +12,9 @@ import { kostenKurz } from "@/data/kostenKurz";
 const werteVon = (id: string) => (depotAnzeige.find((a) => a.id === id)?.werte ?? {}) as Record<string, unknown>;
 
 /**
- * Gezählt wie `scripts/xxl-schnappschuss.ts`: die drei besten Depots ohne automatischen Kredit, in der Reihenfolge des
- * Depot-Vergleichs. Der Test hält fest, dass alle drei ab dem ersten Tag ohne Zinsen sind.
+ * Gezählt wie `scripts/xxl-schnappschuss.ts`: die drei besten Depots in der Reihenfolge des Depot-Vergleichs. Seit
+ * 15.11.2026 gehört flatex dazu (Elias, RN3-07: „Flatex als einzige Nummer 1“); `kredit` ist im Depot nie mehr gesetzt.
+ * Der Test hält fest, dass alle drei ab dem ersten Tag ohne Zinsen sind.
  */
 // Nur mit eigenem Partnerweg: Seit A11 steht Trading 212 ohne Link in der Liste weit vorn, der Aufruf führt aber zum Angebot.
 const GEREIHT = werteAus(depotAnzeige, "depot", DEPOT_FINANZ_MAX, { wuensche: [], gewichte: [] }).passt.filter((t) => !t.kredit && t.anbieter.link);

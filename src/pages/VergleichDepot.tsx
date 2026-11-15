@@ -5,8 +5,22 @@ import { depotAnzeige } from "@/data/anzeige/depot";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { DepotRatgeber } from "@/components/vergleich/DepotRatgeber";
 import { depotFragen } from "@/data/depotRatgeber";
+import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
 
-const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste Halal-Anlagen", zweiNummerEins: "Unsere zwei Nummer 1" };
+/* Seit 15.11.2026 eine Nummer 1 (Elias, RN3-07: „Flatex als einzige Nummer 1 benutzen ist gut. Smartbroker als Nummer 2.“).
+   Der Doppel-Kasten „Unsere zwei Nummer 1“ (A11) ist abgelöst; `meisteHalal` bleibt, greift aber nur, wenn ein anderer als
+   Platz 1 die meisten Halal-Anlagen hat. */
+const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste Halal-Anlagen" };
+
+const ReihenfolgeSatz = () => (
+  <>
+    {sortiertSatz()}{" "}
+    <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+      So bewerten wir
+    </Link>
+  </>
+);
+
 
 const KRITERIEN = [
   {
@@ -38,8 +52,7 @@ const FAQ = [
   },
   {
     frage: "Wie entsteht die Reihenfolge?",
-    antwort:
-      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir beim Anbieter, eine Partnerschaft ändert keine Note, und was wir an einem Depot verdienen, zählt nie. Die Liste steht nach der Note, die du siehst. Bei gleicher Note steht zuerst, wo unsere Leser ihr Depot am häufigsten wirklich eröffnen, danach, was du über unseren Link eröffnen kannst. Platz 1 bekommt nur ein Depot, das von Anfang an ohne Kredit läuft. Oben stehen zwei Nummer 1: Platz 1 und das Depot mit den meisten Halal-Anlagen.",
+    antwort: reihenfolgeAntwort("Depot"),
   },
   {
     frage: "Kann ich mehrere Depots haben?",
@@ -79,7 +92,7 @@ const VergleichDepot = () => (
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
     ansichtAlle={brokerVergleich}
-    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte. Bei gleicher Note zuerst, wo unsere Leser am häufigsten eröffnen."
+    sortiertNach={<ReihenfolgeSatz />}
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}

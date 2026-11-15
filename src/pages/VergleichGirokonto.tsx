@@ -4,8 +4,19 @@ import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { GiroRatgeber } from "@/components/vergleich/GiroRatgeber";
 import { giroFragen } from "@/data/giroRatgeber";
+import { Link } from "react-router-dom";
+import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
 
 const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Girokonto" };
+
+const ReihenfolgeSatz = () => (
+  <>
+    {sortiertSatz()}{" "}
+    <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+      So bewerten wir
+    </Link>
+  </>
+);
 
 /* Filter wie bei Finanzfluss („Eigenschaften“), nur mit Werten, die in den Daten belegt stehen (RN1, 12.11.2026). */
 const FILTER = [
@@ -50,7 +61,7 @@ const FAQ = [
   {
     frage: "Wie entsteht die Reihenfolge?",
     antwort:
-      "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir bei der Bank, eine Partnerschaft ändert keine Note, und was wir an einem Konto verdienen, zählt nie. Die Liste steht nach der Note, die du siehst. Bei gleicher Note steht zuerst meine Wahl, die Norisbank, danach, was du über unseren Link eröffnen kannst. Platz 1 bekommt nur ein Konto, das ohne Zinsen, ohne Dispo und ohne Kartenkredit startet und das du über unseren Link eröffnen kannst.",
+      reihenfolgeAntwort("Konto"),
   },
 ];
 
@@ -78,7 +89,7 @@ const VergleichGirokonto = () => (
     }
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoAnzeige}
-    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte. Bei gleicher Note zuerst meine Wahl, die Norisbank."
+    sortiertNach={<ReihenfolgeSatz />}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
     filter={FILTER}
