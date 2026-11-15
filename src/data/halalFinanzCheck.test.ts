@@ -36,13 +36,18 @@ const FL = BROKER_KARTEN.find((d) => d.id === "flatex-depot")!;
 const SB = BROKER_KARTEN.find((d) => d.id === "smartbroker-plus-depot")!;
 
 describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
-  it("ohne art kommt zuerst „Was willst du als Erstes halal machen?“, Konto und Beides führen in den Bankkonto-Weg, Investieren in den Depot-Weg", () => {
+  it("ohne art kommt zuerst „Was suchst du gerade?“ (Elias RN8-06), Bankkonto und Noch unsicher führen in den Bankkonto-Weg, Depot in den Depot-Weg", () => {
     expect(naechsteFrage({})).toBe("ziel");
-    expect(FRAGEN.ziel.titel).toBe("Was willst du als Erstes halal machen?");
+    expect(FRAGEN.ziel.titel).toBe("Was suchst du gerade?");
+    expect(FRAGEN.ziel.warum).toBe(
+      "Salam! Ich habe 35 Depots und 54 Girokonten selbst getestet, um Muslimen zu helfen, und will dir nur das zeigen, was wirklich zu dir passt.",
+    );
+    expect(FRAGEN.ziel.optionen.map((o) => o.titel)).toEqual(["Neues Bankkonto", "Depot zum Investieren", "Noch unsicher"]);
     expect(artVon({ ziel: "konto" })).toBe("konto");
+    expect(artVon({ ziel: "unsicher" })).toBe("konto");
     expect(artVon({ ziel: "beides" })).toBe("konto");
     expect(artVon({ ziel: "invest" })).toBe("depot");
-    expect(naechsteFrage({ ziel: "beides" })).toBe("zahlung");
+    expect(naechsteFrage({ ziel: "unsicher" })).toBe("zahlung");
     expect(naechsteFrage({ ziel: "invest" })).toBe("erfahrung");
   });
 
@@ -82,15 +87,17 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
   it("jede Frage hat eine erste Sprechblase mit einem Satz, warum Elias fragt", () => {
     for (const f of Object.values(FRAGEN)) {
       expect(f.warum.length, f.id).toBeGreaterThan(10);
-      expect(f.warum, f.id).not.toMatch(/–|—|!/);
+      expect(f.warum, f.id).not.toMatch(/–|—/);
+      // Ausrufezeichen nur im Gruß „Salam!“ der ersten Frage (Elias' Wortlaut RN8-06).
+      expect(f.warum.replace(/^Salam!/, ""), f.id).not.toMatch(/!/);
     }
     expect(ANGEBOTE_GETESTET).toBe(89);
   });
 
-  it("Etikett heißt „beliebt“, nur an der Konto-Antwort der ersten Frage", () => {
-    expect(ETIKETT).toBe("beliebt");
+  it("Etikett heißt „am beliebtesten“, nur an „Neues Bankkonto“ (Elias RN8-06)", () => {
+    expect(ETIKETT).toBe("am beliebtesten");
     const etiketten = Object.values(FRAGEN).flatMap((f) => f.optionen.map((o) => o.etikett).filter(Boolean));
-    expect(etiketten).toEqual(["beliebt"]);
+    expect(etiketten).toEqual(["am beliebtesten"]);
   });
 
   it("die Art hängt am Freebie: Boykott-Liste Bankkonto, Aktien-Liste und Halal-Anlagen-Liste Depot", () => {

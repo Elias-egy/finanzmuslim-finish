@@ -8,27 +8,28 @@ import {
   CreditCard,
   Footprints,
   Gem,
-  Layers,
   ListChecks,
+  MessageSquare,
   PiggyBank,
   Sprout,
   TrendingUp,
   Wallet,
   type LucideIcon,
 } from "lucide-react";
-import { ANGEBOTE_GETESTET, type Frage } from "@/data/halalFinanzCheck";
+import { DEPOTS_GETESTET, KONTEN_GETESTET, type Frage } from "@/data/halalFinanzCheck";
 
 /**
- * Eine Frage als Chat (RN8), für beide Arten: oben Kopf mit Elias' Foto, Name, „89 Angebote selbst getestet“ und rechts der
- * Fortschritt als kurze Striche. Dann zwei graue Sprechblasen links (ein Satz, warum er fragt, dann die Frage) und die
- * Antworten als runde blaue Rand-Knöpfe rechtsbündig untereinander (Vorbild: Perspective-Funnel, Bild 02-frage-chat.png).
- * Die Blasen kommen nacheinander weich von 14 und 6 px unten (Learnings 36 bis 40), ohne Bewegung bei „weniger Bewegung“
- * (CSS: halalFinanzCheck.css, data-d). Ein Tipp springt weiter, unten „← Zurück“.
+ * Eine Frage als Chat (RN8, RN9), für beide Arten. Aufbau und Maße 1:1 wie die Handyansicht von Elias' Perspective-Funnel
+ * 6afa2cd179f7bfa91bb900d0, Seite „Ziel“ (Elias RN8-06: „Es muss 1:1 gleich sein vom Design“), Werte aus dem Original-HTML:
+ * Fenster höchstens 34rem, mittig im Bildschirm; Kopf mit Foto 44 px, Name 16 px halbfett, Zeile 14 px, Fortschritt als
+ * Striche 14 × 5 px; Blasen 16 px normal, Zeile 1,45, Innenabstand 12/17 px, Rundung 18 px, Grau 9 %, die erste ohne Foto
+ * eingerückt, die zweite mit Foto 28 px und Schwänzchen; Antworten rechtsbündig, Rand 1 px Blau 45 %, 16 px mittelfett,
+ * Höhe 44 px, Rundung 18 px, Abstand 10 px; unten Linie und „Zurück“ 14 px. Bewegung wie dort (halalFinanzCheck.css, data-d).
  */
 const ICONS: Record<string, LucideIcon> = {
   "ziel:konto": Wallet,
   "ziel:invest": TrendingUp,
-  "ziel:beides": Layers,
+  "ziel:unsicher": MessageSquare,
   "zahlung:karte": CreditCard,
   "zahlung:karte-bar": Banknote,
   "zahlung:bar": Building2,
@@ -43,11 +44,15 @@ const ICONS: Record<string, LucideIcon> = {
 };
 
 export const CheckKopf = ({ nummer, gesamt }: { nummer: number; gesamt: number }) => (
-  <header className="hc-chat-kopf">
-    <img src="/elias-el-gendy.webp" alt="" width={44} height={44} />
+  <header className="hc-chat-kopf" data-d="ein">
     <div className="hc-chat-wer">
-      <b>Elias</b>
-      <span>{ANGEBOTE_GETESTET} Angebote selbst getestet</span>
+      <img src="/elias-el-gendy.webp" alt="" width={44} height={44} />
+      <div>
+        <b>Elias</b>
+        <span>
+          Hat {DEPOTS_GETESTET} Depots und {KONTEN_GETESTET} Konten getestet
+        </span>
+      </div>
     </div>
     <ol className="hc-striche" aria-label={`Frage ${nummer} von ${gesamt}`}>
       {Array.from({ length: gesamt }, (_, i) => (
@@ -57,7 +62,7 @@ export const CheckKopf = ({ nummer, gesamt }: { nummer: number; gesamt: number }
   </header>
 );
 
-const verzug = (ms: number, dy = 14): CSSProperties => ({ ["--d" as string]: `${ms}ms`, ["--dy" as string]: `${dy}px` });
+const verzug = (s: number): CSSProperties => ({ animationDelay: `${s}s` });
 
 type Props = {
   frage: Frage;
@@ -68,49 +73,67 @@ type Props = {
   onZurueck: () => void;
   /** Eigener Antwortbereich statt der Knöpfe (die Suchleiste bei „Bei welcher Bank bist du heute?“). */
   antwort?: ReactNode;
+  /** Erste Blase statt frage.warum (nach „Noch unsicher“). */
+  warum?: string;
 };
 
-const CheckChat = ({ frage, nummer, gesamt, gewaehlt, onWaehle, onZurueck, antwort }: Props) => (
+/** Das Schwänzchen an der letzten Blase, Pfad und Lage aus dem Original. */
+const Schwanz = () => (
+  <svg aria-hidden viewBox="-18 -20 24 21" className="hc-schwanz">
+    <path d="M-18-20H0C0-9 1.5-3.5 6 0 2 .6-2-.5-4.5-2-7.5-.4-12 0-18 0z" />
+  </svg>
+);
+
+const CheckChat = ({ frage, nummer, gesamt, gewaehlt, onWaehle, onZurueck, antwort, warum }: Props) => (
   <section className="hc-chat" key={frage.id} aria-live="polite">
-    <CheckKopf nummer={nummer} gesamt={gesamt} />
-    <div className="hc-blasen">
-      <p className="hc-sprech" data-d style={verzug(0)}>
-        {frage.warum}
-      </p>
-      <div className="hc-sprech-reihe" data-d style={verzug(380, 6)}>
-        <img src="/elias-el-gendy.webp" alt="" width={28} height={28} />
-        <div className="hc-sprech">
-          <h1>{frage.titel}</h1>
+    <div className="hc-fenster">
+      <CheckKopf nummer={nummer} gesamt={gesamt} />
+      <div className="hc-faden">
+        <div className="hc-reihe" data-d="blase" style={verzug(0.2)}>
+          <span className="hc-reihe-platz" />
+          <div className="hc-reihe-spalte">
+            <p className="hc-sprech">{warum ?? frage.warum}</p>
+          </div>
+        </div>
+        <div className="hc-reihe hc-reihe--zwei" data-d="blase" style={verzug(0.75)}>
+          <img src="/elias-el-gendy.webp" alt="" width={28} height={28} />
+          <div className="hc-reihe-spalte">
+            <div className="hc-sprech">
+              <h1>{frage.titel}</h1>
+              <Schwanz />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="hc-antwort">
+        {antwort ? (
+          <div data-d="antwort" style={verzug(1.25)}>
+            {antwort}
+          </div>
+        ) : (
+          <ul className="hc-wahlen">
+            {frage.optionen.map((o, i) => {
+              const Icon = ICONS[`${frage.id}:${o.wert}`];
+              return (
+                <li key={o.wert} data-d="antwort" style={verzug(1.25 + Math.min(i, 4) * 0.08)}>
+                  <button type="button" className="hc-wahl" onClick={() => onWaehle(o.wert)} data-gewaehlt={gewaehlt === o.wert ? "" : undefined}>
+                    {Icon && <Icon aria-hidden />}
+                    <span>{o.titel}</span>
+                    {o.etikett && <span className="hc-wahl-etikett">{o.etikett}</span>}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        <div className="hc-chat-fuss">
+          <button type="button" onClick={onZurueck} className="hc-zurueck">
+            <ArrowLeft aria-hidden />
+            Zurück
+          </button>
         </div>
       </div>
     </div>
-    {antwort ? (
-      <div data-d style={verzug(760, 6)}>
-        {antwort}
-      </div>
-    ) : (
-      <ul className="hc-wahlen">
-        {frage.optionen.map((o, i) => {
-          const Icon = ICONS[`${frage.id}:${o.wert}`];
-          return (
-            <li key={o.wert} data-d style={verzug(760 + i * 90, 6)}>
-              <button type="button" className="hc-wahl" onClick={() => onWaehle(o.wert)} data-gewaehlt={gewaehlt === o.wert ? "" : undefined}>
-                {Icon && <Icon aria-hidden />}
-                <span className="hc-wahl-text">
-                  <span>{o.titel}</span>
-                  {o.unter && <small>{o.unter}</small>}
-                </span>
-                {o.etikett && <span className="hc-tag">{o.etikett}</span>}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    )}
-    <button type="button" onClick={onZurueck} className="hc-zurueck">
-      <ArrowLeft aria-hidden />
-      Zurück
-    </button>
   </section>
 );
 

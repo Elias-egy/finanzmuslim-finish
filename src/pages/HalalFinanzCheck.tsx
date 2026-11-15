@@ -17,6 +17,7 @@ import {
   ersteFrage,
   fragenGesamt,
   naechsteFrage,
+  UNSICHER_SATZ,
   quelleAus,
   type Antworten,
   type Art,
@@ -49,7 +50,8 @@ const anfang = (params: URLSearchParams): { antworten: Antworten; verlauf: Frage
   }
   const legacy = ZIEL_ZU_ART[params.get("ziel") ?? ""];
   if (legacy) return { antworten: { art: legacy }, verlauf: [], gestartet: true };
-  return { antworten: art ? { art } : {}, verlauf: [], gestartet: params.get("schritt") === "fragen" };
+  // Direkter Einstieg (auch mit ?art=): zuerst „Was suchst du gerade?“ wie im Original (Elias RN8-06); ?art= wählt nur die Verkaufsseite.
+  return { antworten: {}, verlauf: [], gestartet: params.get("schritt") === "fragen" };
 };
 
 const HalalFinanzCheck = () => {
@@ -100,7 +102,7 @@ const HalalFinanzCheck = () => {
   // Zurück bei der Verkaufsseite (Browser oder Knopf): die Antworten beginnen von vorn.
   useEffect(() => {
     if (gestartet) return;
-    setAntworten(artAdresse ? { art: artAdresse } : {});
+    setAntworten({});
     setVerlauf([]);
     setGewaehlt(null);
   }, [gestartet, artAdresse]);
@@ -151,7 +153,7 @@ const HalalFinanzCheck = () => {
   };
 
   const neu = () => {
-    setAntworten(artAdresse ? { art: artAdresse } : {});
+    setAntworten({});
     setVerlauf([]);
   };
 
@@ -183,6 +185,7 @@ const HalalFinanzCheck = () => {
           onWaehle={(wert) => waehle(frageId, wert)}
           onZurueck={zurueck}
           antwort={frageId === "bank" ? <BankSuche onWahl={waehleBank} /> : undefined}
+          warum={frageId === "zahlung" && antworten.ziel === "unsicher" ? UNSICHER_SATZ : undefined}
         />
       )}
 

@@ -86,9 +86,13 @@ const SB = depot("smartbroker-plus-depot");
 export type Art = "konto" | "depot";
 export const artAus = (wert: string | null | undefined): Art | undefined => (wert === "konto" || wert === "depot" ? wert : undefined);
 
-/** Erste Frage ohne art: Konto und Beides führen in den Bankkonto-Weg, Investieren in den Depot-Weg. */
-export type Ziel = "konto" | "invest" | "beides";
-const ZIEL_ART: Record<Ziel, Art> = { konto: "konto", invest: "depot", beides: "konto" };
+/**
+ * Erste Frage jedes direkten Einstiegs (Elias RN8-06): „Was suchst du gerade?“. Neues Bankkonto und Noch unsicher führen in den
+ * Bankkonto-Weg (der leichteste Schritt, KONTO bringt 57 % der Leser-Einnahmen), Depot in den Depot-Weg. „beides“ bleibt nur für
+ * alte Adressen (?ziel=beides) und wird nicht mehr angeboten.
+ */
+export type Ziel = "konto" | "invest" | "unsicher" | "beides";
+const ZIEL_ART: Record<Ziel, Art> = { konto: "konto", invest: "depot", unsicher: "konto", beides: "konto" };
 /** „Wie bezahlst du meistens?“: nur „bar“ führt zur BBBank (Filiale), alle anderen zur norisbank. */
 export type Zahlung = "karte" | "karte-bar" | "bar";
 /** „Wie viel Erfahrung hast du mit dem Investieren?“ Nur „depot“ ändert das Ergebnis (Zweitdepot), die anderen zwei führen gleich weiter. */
@@ -116,20 +120,27 @@ export type Option = { wert: string; titel: string; unter?: string; etikett?: st
 /** `warum` ist die erste Sprechblase (ein Satz, warum Elias fragt), `titel` die zweite (die Frage selbst). */
 export type Frage = { id: FrageId; warum: string; titel: string; optionen: Option[] };
 
-export const ETIKETT = "beliebt";
+/** Grünes Etikett an „Neues Bankkonto“ (Elias RN8-06: „in grün am beliebtesten“). */
+export const ETIKETT = "am beliebtesten";
 
-/** „89 Angebote selbst getestet“ im Kopf des Chats und auf der Verkaufsseite (Elias RN8: „getestet, nie eröffnet“). */
+/** „89 Angebote selbst getestet“ auf der Verkaufsseite (Elias RN8: „getestet, nie eröffnet“). */
 export const ANGEBOTE_GETESTET = 89;
+/** Im Chat wie im Original aufgeteilt: 35 Depots und 54 Girokonten (Elias RN8-06 bestätigt, Wort „getestet“). */
+export const DEPOTS_GETESTET = 35;
+export const KONTEN_GETESTET = 54;
+
+/** Zweite Frage nach „Noch unsicher“: statt des Grundes ein Satz, der den Bankkonto-Weg erklärt. */
+export const UNSICHER_SATZ = "Kein Problem. Dann fang mit dem Konto an, das ist der leichteste Schritt.";
 
 export const FRAGEN: Record<FrageId, Frage> = {
   ziel: {
     id: "ziel",
-    warum: "Ich habe 89 Angebote selbst getestet. Du siehst nur das, was zu dir passt.",
-    titel: "Was willst du als Erstes halal machen?",
+    warum: `Salam! Ich habe ${DEPOTS_GETESTET} Depots und ${KONTEN_GETESTET} Girokonten selbst getestet, um Muslimen zu helfen, und will dir nur das zeigen, was wirklich zu dir passt.`,
+    titel: "Was suchst du gerade?",
     optionen: [
-      { wert: "konto", titel: "Mein Konto zinsfrei machen", unter: "Kostenlos, in 10 Minuten eröffnet", etikett: ETIKETT },
-      { wert: "invest", titel: "Halal investieren", unter: "Aktien, ETFs oder Gold" },
-      { wert: "beides", titel: "Beides", unter: "Konto und Depot" },
+      { wert: "konto", titel: "Neues Bankkonto", etikett: ETIKETT },
+      { wert: "invest", titel: "Depot zum Investieren" },
+      { wert: "unsicher", titel: "Noch unsicher" },
     ],
   },
   zahlung: {
@@ -191,7 +202,7 @@ export const ersteFrage = (art: Art): FrageId => (art === "konto" ? "zahlung" : 
 /**
  * Welche Frage als Nächstes kommt; null, wenn das Ergebnis feststeht.
  * Bankkonto: Wie bezahlst du, Bank von heute. Depot: Erfahrung, dann (außer bei „schon ein Depot“) „Was ist dir wichtiger?“,
- * in Fassung b zuletzt der Monatsbetrag. Ohne art zuerst „Was willst du als Erstes halal machen?“.
+ * in Fassung b zuletzt der Monatsbetrag. Ohne art zuerst „Was suchst du gerade?“.
  */
 export const naechsteFrage = (a: Antworten, fassung: Fassung = "a"): FrageId | null => {
   const art = artVon(a);
@@ -445,7 +456,7 @@ export const ergebnisAus = (a: Antworten, quelle: CheckQuelle, fassung: Fassung 
 /** „Deine Antworten“ im Depot-Ergebnis: je gegebene Antwort ein kurzes Häkchen. */
 export const antwortZeilen = (a: Antworten): string[] => {
   const z: string[] = [];
-  if (a.ziel) z.push({ konto: "Konto zinsfrei machen", invest: "Halal investieren", beides: "Konto und Depot" }[a.ziel]);
+  if (a.ziel) z.push({ konto: "Neues Bankkonto", invest: "Depot zum Investieren", unsicher: "Noch unsicher", beides: "Konto und Depot" }[a.ziel]);
   if (a.zahlung) z.push({ karte: "Fast nur mit Karte", "karte-bar": "Karte und Bargeld", bar: "Viel Bargeld" }[a.zahlung]);
   if (a.erfahrung) z.push({ keine: "Noch keine Erfahrung", erste: "Erste Schritte", depot: "Schon ein Depot" }[a.erfahrung]);
   if (a.praef) z.push(a.praef === "halal" ? "Viele Halal-Anlagen" : "Niedrige Kosten");

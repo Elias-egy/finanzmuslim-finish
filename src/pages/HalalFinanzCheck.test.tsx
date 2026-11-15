@@ -125,29 +125,48 @@ describe("Verkaufsseite", () => {
 });
 
 describe("Chat", () => {
-  it("jede Frage ist ein Chat: Kopf mit Elias und „89 Angebote selbst getestet“, Fortschritt, zwei Sprechblasen, Antworten, Zurück", async () => {
+  it("erste Frage wie im Original: Kopf mit Elias und „Hat 35 Depots und 54 Konten getestet“, Salam-Blase, „Was suchst du gerade?“, drei Antworten, Zurück", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
     expect(container.querySelector(".hc-chat-kopf")?.textContent).toContain("Elias");
-    expect(container.querySelector(".hc-chat-kopf")?.textContent).toContain("89 Angebote selbst getestet");
+    expect(container.querySelector(".hc-chat-kopf")?.textContent).toContain("Hat 35 Depots und 54 Konten getestet");
     expect(container.querySelector(".hc-chat-kopf img")?.getAttribute("src")).toBe("/elias-el-gendy.webp");
-    expect(container.querySelectorAll(".hc-striche li")).toHaveLength(2);
-    expect(container.querySelectorAll(".hc-chat .hc-sprech")).toHaveLength(2);
+    expect(container.querySelectorAll(".hc-striche li")).toHaveLength(3);
+    const blasen = container.querySelectorAll(".hc-chat .hc-sprech");
+    expect(blasen).toHaveLength(2);
+    expect(blasen[0].textContent).toBe(
+      "Salam! Ich habe 35 Depots und 54 Girokonten selbst getestet, um Muslimen zu helfen, und will dir nur das zeigen, was wirklich zu dir passt.",
+    );
+    expect(titel()).toBe("Was suchst du gerade?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual([
+      "Neues Bankkontoam beliebtesten",
+      "Depot zum Investieren",
+      "Noch unsicher",
+    ]);
+    expect(screen.getByRole("button", { name: /Zurück/ })).toBeTruthy();
+    await tippeText("Neues Bankkonto");
     expect(titel()).toBe("Wie bezahlst du meistens?");
     expect(container.querySelectorAll(".hc-wahlen .hc-wahl")).toHaveLength(3);
-    expect(screen.getByRole("button", { name: /Zurück/ })).toBeTruthy();
   });
 
-  it("„Match finden“ öffnet auf derselben Route die erste Frage mit „beliebt“ genau einmal", async () => {
+  it("„Noch unsicher“ führt in den Bankkonto-Weg mit einem Satz dazu", async () => {
+    const { container } = zeige("/check?schritt=fragen");
+    await tippeText("Noch unsicher");
+    expect(titel()).toBe("Wie bezahlst du meistens?");
+    expect(container.querySelector(".hc-chat .hc-sprech")?.textContent).toBe("Kein Problem. Dann fang mit dem Konto an, das ist der leichteste Schritt.");
+  });
+
+  it("„Match finden“ öffnet auf derselben Route die erste Frage mit „am beliebtesten“ genau einmal", async () => {
     zeige("/check?quelle=aktienliste");
     await tippe(/^Match finden/);
-    expect(titel()).toBe("Was willst du als Erstes halal machen?");
-    expect(screen.getAllByText("beliebt").length).toBe(1);
+    expect(titel()).toBe("Was suchst du gerade?");
+    expect(screen.getAllByText("am beliebtesten").length).toBe(1);
   });
 });
 
 describe("Bankkonto-Check", () => {
   it("Weg: Wie bezahlst du, Bank suchen, Ergebnis „Von der Sparkasse zur norisbank“ mit einem Knopf", async () => {
     const { container } = zeige("/check?art=konto&quelle=boykottliste&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
     // Schnellwahl: acht Banken und „Noch kein Konto“.
@@ -163,6 +182,7 @@ describe("Bankkonto-Check", () => {
 
   it("Tippen filtert sofort: „v“ zeigt als ersten Vorschlag Volksbank, Enter nimmt ihn", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     const feld = screen.getByRole("textbox") as HTMLInputElement;
     fireEvent.change(feld, { target: { value: "v" } });
@@ -176,6 +196,7 @@ describe("Bankkonto-Check", () => {
 
   it("Phantasiebank wird nie „nicht gefunden“: „übernehmen“ ist der Vorschlag, das Ergebnis läuft weiter", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Karte und ab und zu Bargeld");
     const feld = screen.getByRole("textbox");
     fireEvent.change(feld, { target: { value: "Phantasiebank" } });
@@ -192,6 +213,7 @@ describe("Bankkonto-Check", () => {
 
   it("nur „Viel Bargeld“ führt zur BBBank", async () => {
     zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Viel Bargeld, ich will in eine Filiale");
     await tippeText("Volksbank");
     expect(titel()).toBe("Von der Volksbank zur BBBank");
@@ -200,6 +222,7 @@ describe("Bankkonto-Check", () => {
 
   it("„Noch kein Konto“ zeigt „Dein Bankkonto: norisbank“ mit einer Spalte", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     await tippeText("Noch kein Konto");
     expect(titel()).toBe("Dein Bankkonto: norisbank");
@@ -208,6 +231,7 @@ describe("Bankkonto-Check", () => {
 
   it("norisbank als heutige Bank: freundlicher Satz ohne Knopf", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "norisbank" } });
     fireEvent.click(container.querySelector(".hc-vorschlaege button")!);
@@ -220,6 +244,7 @@ describe("Bankkonto-Check", () => {
 
   it("der Bankname kommt nie in die Adresse", async () => {
     zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     await tippeText("Sparkasse");
     expect(titel()).toBe("Von der Sparkasse zur norisbank");
@@ -230,6 +255,7 @@ describe("Bankkonto-Check", () => {
 describe("Depot-Check", () => {
   it("Fassung a: Erfahrung, „Was ist dir wichtiger?“, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
     expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
     await tippeText("Noch keine");
     expect(titel()).toBe("Was ist dir wichtiger?");
@@ -244,6 +270,7 @@ describe("Depot-Check", () => {
 
   it("Fassung b: nach „Was ist dir wichtiger?“ kommt der Monatsbetrag, das Depot bleibt", async () => {
     zeige("/check?art=depot&schritt=fragen", "b");
+    await tippeText("Depot zum Investieren");
     await tippeText("Erste Schritte");
     await tippeText("Möglichst viele Halal-Anlagen");
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
@@ -255,6 +282,7 @@ describe("Depot-Check", () => {
 
   it("„Ich habe schon ein Depot“ führt zum Zweitdepot bei Smartbroker+", async () => {
     zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
     await tippeText("Ich habe schon ein Depot");
     expect(titel()).toBe("Dein Match: Smartbroker+");
     expect(screen.getByRole("link", { name: /Zweitdepot eröffnen\*/ })).toBeTruthy();
@@ -262,17 +290,17 @@ describe("Depot-Check", () => {
 });
 
 describe("Ohne art und aus dem Freebie", () => {
-  it("ohne art: erste Frage, Konto führt in den Bankkonto-Weg, Investieren in den Depot-Weg, Beides in den Bankkonto-Weg", async () => {
+  it("ohne art: erste Frage, Neues Bankkonto und Noch unsicher führen in den Bankkonto-Weg, Depot in den Depot-Weg", async () => {
     const a = zeige("/check?schritt=fragen");
-    await tippeText("Mein Konto zinsfrei machen");
+    await tippeText("Neues Bankkonto");
     expect(titel()).toBe("Wie bezahlst du meistens?");
     a.unmount();
     const b = zeige("/check?schritt=fragen");
-    await tippeText("Halal investieren");
+    await tippeText("Depot zum Investieren");
     expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
     b.unmount();
     zeige("/check?schritt=fragen");
-    await tippeText("Beides");
+    await tippeText("Noch unsicher");
     expect(titel()).toBe("Wie bezahlst du meistens?");
   });
 
