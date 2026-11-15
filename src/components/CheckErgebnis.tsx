@@ -110,8 +110,15 @@ export const Passung = ({ prozent }: { prozent: number }) => (
 
 export const DepotAnsicht = ({ e, antworten, onNeu }: { e: DepotErgebnis; antworten: Antworten; onNeu: () => void }) => (
   <section className="hc-frage" aria-live="polite">
-    <h1 className="hc-ergebnis-h1">Dein Match: {e.anbieter.name}</h1>
+    <h1 className="hc-ergebnis-h1">{e.ueberschrift}</h1>
     <Passung prozent={e.passung} />
+    {/* RN10 (Elias RN9-03): nach „Ich habe schon ein Depot“ das heutige Depot gegen das Match als Liste. Endgültige Form in zwei Fassungen folgt (RN10-03/-04). */}
+    {e.rechts && (
+      <>
+        {e.vergleichTitel && <p className="hc-antw-kopf">{e.vergleichTitel}</p>}
+        <Vergleich links={e.links} rechts={e.rechts} />
+      </>
+    )}
     <p className="hc-antw-kopf">Deine Antworten</p>
     <ul className="hc-antw">
       {antwortZeilen(antworten).map((z) => (
@@ -136,7 +143,7 @@ export const DepotAnsicht = ({ e, antworten, onNeu }: { e: DepotErgebnis; antwor
         {e.anbieter.name}
         <small>{e.anbieter.produkt}</small>
       </p>
-      <p className="hc-nr1-warum">{e.warum}</p>
+      <p className="hc-nr1-warum">{e.satz}</p>
       <ul className="hc-gruende">
         {e.vorteile.map((v) => (
           <li key={v}>

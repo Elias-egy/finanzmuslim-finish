@@ -31,6 +31,7 @@ import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/giro
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
 import type { Fassung } from "@/lib/abTest";
 import { bankPreis, type BankWahl } from "@/data/bankSuche";
+import { depotWerte, type DepotWahl, type DepotWerte } from "@/data/depotSuche";
 
 export type { Fassung };
 
@@ -95,12 +96,18 @@ export type Ziel = "konto" | "invest" | "unsicher" | "beides";
 const ZIEL_ART: Record<Ziel, Art> = { konto: "konto", invest: "depot", unsicher: "konto", beides: "konto" };
 /** „Wie bezahlst du meistens?“: nur „bar“ führt zur BBBank (Filiale), alle anderen zur norisbank. */
 export type Zahlung = "karte" | "karte-bar" | "bar";
-/** „Wie viel Erfahrung hast du mit dem Investieren?“ Nur „depot“ ändert das Ergebnis (Zweitdepot), die anderen zwei führen gleich weiter. */
+/** „Wie viel Erfahrung hast du mit dem Investieren?“ „depot“ fragt danach „Wo hast du dein Depot?“ (RN10), die anderen zwei führen gleich zu „Was ist dir wichtiger?“. */
 export type Erfahrung = "keine" | "erste" | "depot";
 /** „Was ist dir wichtiger?“: viele Halal-Anlagen gleich flatex, niedrige Kosten gleich Smartbroker+. */
 export type Praef = "halal" | "kosten";
 /** Nur Fassung b: „Wie viel möchtest du im Monat anlegen?“. Ändert nicht das Depot, aber die Passung in Prozent. */
 export type Betrag = "unter50" | "50bis200" | "ueber200";
+/**
+ * „Welche dieser drei Eigenschaften ist dir am wichtigsten?“ (Elias RN9-04), die Frage in der Mitte nach „Was ist dir wichtiger?“.
+ * Drei Eigenschaften je Weg, jede steht belegt im Depot-Vergleich (brokerVergleich.ts) oder mit Beleg in brokerStart.ts (Übertrag ohne
+ * Gebühren); „wechsel“ nur nach „Ich habe schon ein Depot“. Die Antwort verschiebt die Gewichte in passungProzent, nie das Depot selbst.
+ */
+export type Eigenschaft = "gold-sukuk" | "sparplan" | "gebuehr" | "order" | "wechsel";
 
 export type Antworten = {
   art?: Art;
@@ -110,10 +117,13 @@ export type Antworten = {
   bank?: BankWahl;
   erfahrung?: Erfahrung;
   praef?: Praef;
+  /** Das Depot von heute, nur nach „Ich habe schon ein Depot“. Bleibt im Zustand der Seite, nie in der Adresse. */
+  depotHeute?: DepotWahl;
+  eigenschaft?: Eigenschaft;
   betrag?: Betrag;
 };
 
-export type FrageId = "ziel" | "zahlung" | "bank" | "erfahrung" | "praef" | "betrag";
+export type FrageId = "ziel" | "zahlung" | "bank" | "erfahrung" | "depotHeute" | "praef" | "eigenschaft" | "betrag";
 
 export type Option = { wert: string; titel: string; unter?: string; etikett?: string };
 
@@ -169,6 +179,12 @@ export const FRAGEN: Record<FrageId, Frage> = {
       { wert: "depot", titel: "Ich habe schon ein Depot", unter: "Ich kaufe selbst" },
     ],
   },
+  depotHeute: {
+    id: "depotHeute",
+    warum: "Dann stelle ich dein Depot neben das, was besser zu dir passt.",
+    titel: "Wo hast du dein Depot?",
+    optionen: [],
+  },
   praef: {
     id: "praef",
     warum: "Kein Depot ist bei allem vorn. Deshalb frage ich, was dir zählt.",
@@ -177,6 +193,13 @@ export const FRAGEN: Record<FrageId, Frage> = {
       { wert: "halal", titel: "Möglichst viele Halal-Anlagen", unter: `${FLATEX.etfs} Halal-ETFs und Fonds, ${FLATEX.gold} Edelmetalle` },
       { wert: "kosten", titel: "Möglichst niedrige Kosten", unter: `${SB.depotgebuehr} Depotgebühr, Sparplan ab ${SB.sparplanAb}` },
     ],
+  },
+  eigenschaft: {
+    id: "eigenschaft",
+    warum: "Noch eine Frage, dann rechne ich aus, wie gut es zu dir passt.",
+    titel: "Welche dieser drei Eigenschaften ist dir am wichtigsten?",
+    // Die Antworten hängen vom Weg ab (frageFuer, EIGENSCHAFTEN_JE_WEG).
+    optionen: [],
   },
   betrag: {
     id: "betrag",
@@ -190,6 +213,31 @@ export const FRAGEN: Record<FrageId, Frage> = {
   },
 };
 
+/** Die Eigenschaften mit ihrem Text, alle belegt im Depot-Vergleich oder in brokerStart.ts (wechselUrl mit Beleg). */
+export const EIGENSCHAFT_TEXT: Record<Eigenschaft, string> = {
+  "gold-sukuk": "Gold und Sukuk im selben Depot",
+  sparplan: "Sparplan schon ab 1 €",
+  gebuehr: "Keine Depotgebühr",
+  order: "Günstig einzelne Aktien kaufen",
+  wechsel: "Einfacher Wechsel von meinem Depot",
+};
+
+/**
+ * Drei Eigenschaften je Weg (Elias RN9-04: „Aber es muss halt auch passen“). Wer noch kein Depot hat, sieht nie „Wechsel“; wer schon
+ * eins hat, sieht ihn zuerst statt des Sparplans ab 1 €.
+ */
+export const eigenschaftenFuer = (a: Antworten): Eigenschaft[] => {
+  const wechsel = a.erfahrung === "depot";
+  if (a.praef === "kosten") return wechsel ? ["wechsel", "gebuehr", "order"] : ["gebuehr", "order", "sparplan"];
+  return wechsel ? ["wechsel", "gold-sukuk", "gebuehr"] : ["gold-sukuk", "sparplan", "gebuehr"];
+};
+
+/** Die Frage mit den Antworten, die zum Weg passen (nur „eigenschaft“ hängt vom Weg ab). */
+export const frageFuer = (id: FrageId, a: Antworten): Frage =>
+  id === "eigenschaft"
+    ? { ...FRAGEN.eigenschaft, optionen: eigenschaftenFuer(a).map((e) => ({ wert: e, titel: EIGENSCHAFT_TEXT[e] })) }
+    : FRAGEN[id];
+
 /** Fassung b fragt auf dem Depot-Weg zusätzlich nach dem Monatsbetrag (50:50-Test, Elias RN7-03: sinkt oder steigt der Abschluss mit einer Frage mehr?). */
 const mitBetrag = (fassung: Fassung) => fassung === "b";
 
@@ -201,8 +249,9 @@ export const ersteFrage = (art: Art): FrageId => (art === "konto" ? "zahlung" : 
 
 /**
  * Welche Frage als Nächstes kommt; null, wenn das Ergebnis feststeht.
- * Bankkonto: Wie bezahlst du, Bank von heute. Depot: Erfahrung, dann (außer bei „schon ein Depot“) „Was ist dir wichtiger?“,
- * in Fassung b zuletzt der Monatsbetrag. Ohne art zuerst „Was suchst du gerade?“.
+ * Bankkonto: Wie bezahlst du, Bank von heute. Depot (RN10): Erfahrung, bei „schon ein Depot“ „Wo hast du dein Depot?“, dann
+ * „Was ist dir wichtiger?“ und „Welche dieser drei Eigenschaften …“, in Fassung b zuletzt der Monatsbetrag. Ohne art zuerst
+ * „Was suchst du gerade?“.
  */
 export const naechsteFrage = (a: Antworten, fassung: Fassung = "a"): FrageId | null => {
   const art = artVon(a);
@@ -212,7 +261,9 @@ export const naechsteFrage = (a: Antworten, fassung: Fassung = "a"): FrageId | n
     return a.bank ? null : "bank";
   }
   if (!a.erfahrung) return "erfahrung";
-  if (a.erfahrung !== "depot" && !a.praef) return "praef";
+  if (a.erfahrung === "depot" && !a.depotHeute) return "depotHeute";
+  if (!a.praef) return "praef";
+  if (!a.eigenschaft) return "eigenschaft";
   return mitBetrag(fassung) && !a.betrag ? "betrag" : null;
 };
 
@@ -222,7 +273,8 @@ export const fragenGesamt = (a: Antworten, fassung: Fassung = "a"): number => {
   const vorn = a.ziel || !a.art ? 1 : 0;
   if (!art) return 3;
   if (art === "konto") return vorn + 2;
-  const haupt = a.erfahrung === "depot" ? 2 : 3;
+  // Erfahrung, Was ist dir wichtiger, Eigenschaft; bei „schon ein Depot“ dazu „Wo hast du dein Depot?“.
+  const haupt = a.erfahrung === "depot" ? 4 : 3;
   return vorn + haupt + (mitBetrag(fassung) ? 1 : 0);
 };
 
@@ -231,15 +283,31 @@ export type Anbieter = { kurz: "fl" | "sb" | "no" | "bb"; out: string; name: str
 export type Zeile = { label: string; wert: string; zusatz?: string[] };
 export type Spalte = { name: string; domain?: string; produkt?: string; zeilen: Zeile[] };
 
+/**
+ * Ergebnis wie die Ergebnisseite des Originals (RN10, Elias RN9-01 und -03, Bilder Vault hermes/renovierungskampagne/perspective/
+ * rn9-ergebnis/01 und 02): groß „Dein Match: …“, ein grauer Satz aus den eigenen Antworten, die Karte des Anbieters mit Logo,
+ * genauen Vorteilen (nur belegte Werte) und einem Knopf, darunter die heutige Bank oder das heutige Depot gegen das Match als Liste
+ * („nicht passt auch gut, sondern sozusagen eine Liste Sparkasse und Norris Bank im Vergleich“).
+ */
 export type KontoErgebnis = {
   art: "konto";
   anbieter: Anbieter;
+  /** „Dein Match: ein kostenloses Girokonto bei norisbank“ (Elias RN9-01 wortgleich). */
   ueberschrift: string;
+  /** Ein Satz aus den Antworten, grau unter der Überschrift wie im Original. */
+  satz: string;
+  /** Kartentitel und Preiszeile wie im Original („Girokonto ohne Kontoführungsgebühr“, „0 € im Monat“). */
+  kartenTitel: string;
+  preis: string;
+  /** Genaue Vorteile, nur aus girokontoBonus.ts (belegt). */
+  vorteile: string[];
   /** Die Bank von heute ist schon die empfohlene: freundlicher Satz, kein Knopf. */
   schonDa: boolean;
   /** Links die heutige Bank, fehlt bei „Noch kein Konto“. */
   links?: Spalte;
   rechts: Spalte;
+  /** „Sparkasse und norisbank im Vergleich“, fehlt ohne heutige Bank. */
+  vergleichTitel?: string;
   /** Ein Satz, wie bei jedem Konto aus Elias' Vergleich (KONTO_PFLICHT). */
   pflicht: string;
   knopf: string;
@@ -249,18 +317,27 @@ export type KontoErgebnis = {
 };
 
 export type DepotErgebnis = {
-  art: "depot" | "zweitdepot";
+  art: "depot";
   anbieter: Anbieter;
-  /** Ein Satz, warum es passt (V7). */
-  warum: string;
-  /** Ein bis zwei Vorteile, nur aus den Vergleichsdaten. */
+  ueberschrift: string;
+  /** Ein Satz, warum es passt, aus den Antworten. */
+  satz: string;
+  kartenTitel: string;
+  preis: string;
+  /** Genaue Vorteile, nur aus den Vergleichsdaten und brokerStart.ts. */
   vorteile: string[];
   /** Was der Leser selbst tun muss, damit es halal bleibt, ein Satz beim Produkt. */
   pflicht?: string;
   knopf: string;
   link: string;
-  /** „Passt zu N % zu dir“, berechnet in passungProzent, höchstens 98. */
+  /** „Übereinstimmung mit deinen Antworten“, berechnet in passungProzent, höchstens 98. */
   passung: number;
+  /** Nur nach „Ich habe schon ein Depot“: das heutige Depot ist schon das Match. */
+  schonDa: boolean;
+  /** Nur nach „Ich habe schon ein Depot“: heutiges Depot links, Match rechts. */
+  links?: Spalte;
+  rechts?: Spalte;
+  vergleichTitel?: string;
 };
 
 export type Ergebnis = KontoErgebnis | DepotErgebnis;
@@ -276,6 +353,8 @@ export const KONTO_PFLICHT = "Keine Zinsen auf dein Guthaben. Kommt ein Tagesgel
 const kontoBedingung = (k: BonusKonto) => `unter ${k.gratisUnter} oder ab ${euro(k.gratisAb)} Geldeingang im Monat, sonst ${euro(k.sonst)}`;
 
 export const KEIN_PREIS = "steht in deinem Kontoauszug";
+/** Für ein Depot ohne Werte im Vergleich (Sparkasse, Volksbank, freie Eingabe): nie eine geratene Zahl. */
+export const KEIN_WERT = "–";
 
 /** Spalte einer Empfehlung (rechts): nur Werte aus girokontoBonus.ts und kontopreise.ts. */
 const empfehlungSpalte = (k: BonusKonto, mitEroeffnung: boolean): Spalte => ({
@@ -301,6 +380,20 @@ const bankSpalte = (w: BankWahl): { spalte: Spalte; mitEroeffnung: boolean } => 
   return { spalte, mitEroeffnung: Boolean(p?.eroeffnung) };
 };
 
+/** Genaue Vorteile eines Kontos, nur Felder aus girokontoBonus.ts (jedes mit Beleg dort). */
+const kontoVorteile = (k: BonusKonto): string[] => [
+  `0 € Kontoführung ${kontoBedingung(k)}`,
+  k.karte,
+  `Bargeld: ${k.bargeld.charAt(0).toLowerCase()}${k.bargeld.slice(1)}`,
+  `Eröffnung per ${k.ident}`,
+];
+
+const ZAHLUNG_SATZ: Record<Zahlung, string> = {
+  karte: "Du zahlst fast nur mit Karte.",
+  "karte-bar": "Du zahlst mit Karte und ab und zu bar.",
+  bar: "Du zahlst viel bar und willst eine Filiale.",
+};
+
 const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): KontoErgebnis => {
   const k = a.zahlung === "bar" ? BB : NORIS;
   const anbieter = k === BB ? A_BB : A_NORIS;
@@ -308,35 +401,44 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
   const haus = k === BB ? "bbbank" : "norisbank";
   const schonDa = bank?.kind === "bank" && bank.id === haus;
   const praemie = k === BB ? `${euro(BBBANK_PRAEMIE.betrag)} Startprämie für Neukunden` : undefined;
+  const bei = k === BB ? "der BBBank" : "norisbank";
+  const basis = {
+    art: "konto" as const,
+    anbieter,
+    ueberschrift: `Dein Match: ein kostenloses Girokonto bei ${bei}`,
+    satz: `${a.zahlung ? ZAHLUNG_SATZ[a.zahlung] + " " : ""}Dafür passt ${k === BB ? "die BBBank mit Filialen" : "die norisbank"}: Konto ohne Zinsen auf dein Guthaben, Karte inklusive.`,
+    kartenTitel: "Girokonto ohne Zinsen auf dein Guthaben",
+    preis: "0 € im Monat",
+    vorteile: kontoVorteile(k),
+  };
 
   if (schonDa) {
     return {
-      art: "konto",
-      anbieter,
+      ...basis,
       ueberschrift: "Du hast schon ein Konto ohne Zinsen auf dein Guthaben",
+      satz: `Bei ${bei} bist du richtig.`,
       schonDa: true,
       rechts: empfehlungSpalte(k, true),
-      pflicht: `Bei der ${anbieter.name} bist du richtig. Kommt ein Tagesgeldkonto dazu, lässt du es einfach leer.`,
+      pflicht: `Bei ${bei} bist du richtig. Kommt ein Tagesgeldkonto dazu, lässt du es einfach leer.`,
       knopf: "",
     };
   }
 
   let links: Spalte | undefined;
   let mitEroeffnung = true;
-  let ueberschrift = `Dein Bankkonto: ${anbieter.name}`;
+  let vergleichTitel: string | undefined;
   if (bank && bank.kind !== "keine") {
     const b = bankSpalte(bank);
     links = b.spalte;
     mitEroeffnung = b.mitEroeffnung;
-    ueberschrift = bank.kind === "frei" ? `Von deiner Bank zur ${anbieter.name}` : `Von ${bank.dativ} zur ${anbieter.name}`;
+    vergleichTitel = `${bank.kind === "frei" ? "Deine Bank" : bank.name} und ${anbieter.name} im Vergleich`;
   }
   return {
-    art: "konto",
-    anbieter,
-    ueberschrift,
+    ...basis,
     schonDa: false,
     links,
     rechts: empfehlungSpalte(k, mitEroeffnung),
+    vergleichTitel,
     pflicht: KONTO_PFLICHT,
     knopf: "Konto eröffnen",
     link: outLink(quelle, anbieter, fassung),
@@ -344,33 +446,42 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
   };
 };
 
-const FLATEX_VORTEILE = [
-  `${FLATEX.etfs} Halal-ETFs und Fonds und ${FLATEX.gold} Edelmetalle aus meinem Vergleich`,
-  `Sparplan ab ${FLATEX.sparplanAb}, ${FLATEX.depotgebuehr} Depotgebühr`,
-];
 const FLATEX_PFLICHT = "Bei flatex lehnst du bei der Eröffnung den Kreditrahmen ab.";
-const SB_VORTEILE = [`Sparplan ab ${SB.sparplanAb}, ${SB.depotgebuehr} Depotgebühr`, `Order ${SB.order}`];
 
-/** Welches Depot und warum: „Was ist dir wichtiger?“ entscheidet, Halal-Auswahl gleich flatex, Kosten gleich Smartbroker+ (Elias RN7). */
+/** „Übertrag ohne Gebühren“: flatex FAQ Depotübertrag „Unsererseits werden für die Übertragung keine Gebühren erhoben“, Smartbroker+ „Der Übertrag innerhalb Deutschlands ist komplett kostenfrei“ (brokerStart.ts, wechselUrl). */
+const WECHSEL_VORTEIL: Record<"fl" | "sb", string> = {
+  fl: "Übertrag deines Depots: flatex nimmt keine Gebühren",
+  sb: "Übertrag deines Depots innerhalb Deutschlands kostenfrei",
+};
+
+/** Genaue Vorteile, nur Werte aus brokerFreebie.ts (Depot-Vergleich) und brokerStart.ts. Die gewählte Eigenschaft steht zuerst. */
+const depotVorteile = (d: BrokerKarte, kurz: "fl" | "sb", e: Eigenschaft | undefined): string[] => {
+  const zeilen: Partial<Record<Eigenschaft | "etfs", string>> = {
+    etfs: `${d.etfs} Halal-ETFs und Fonds aus meinem Vergleich`,
+    "gold-sukuk": `Gold und Silber ${d.gold}, Sukuk ${d.sukuk}`,
+    sparplan: `Sparplan ab ${d.sparplanAb}`,
+    gebuehr: `${d.depotgebuehr} Depotgebühr`,
+    order: `Order ${d.order}`,
+    wechsel: WECHSEL_VORTEIL[kurz],
+  };
+  const reihe: (Eigenschaft | "etfs")[] =
+    kurz === "fl" ? ["etfs", "gold-sukuk", "sparplan", "gebuehr"] : ["gebuehr", "order", "sparplan", "etfs", "gold-sukuk"];
+  if (e) reihe.unshift(e);
+  const gesehen = new Set<string>();
+  return reihe.filter((k) => !gesehen.has(k) && gesehen.add(k)).map((k) => zeilen[k] as string).slice(0, 4);
+};
+
+/** Welches Depot: „Was ist dir wichtiger?“ entscheidet, Halal-Auswahl gleich flatex, Kosten gleich Smartbroker+ (Elias RN7). */
 const depotTeil = (praef: Praef | undefined) =>
   praef === "kosten"
-    ? { anbieter: A_SB, karte: SB, vorteile: SB_VORTEILE, pflicht: undefined as string | undefined, warum: "Du willst möglichst niedrige Kosten. Dafür passt Smartbroker+." }
+    ? { anbieter: A_SB, karte: SB, kurz: "sb" as const, pflicht: undefined as string | undefined, satz: "Du willst möglichst niedrige Kosten. Dafür passt Smartbroker+." }
     : {
         anbieter: A_FLATEX,
         karte: FLATEX,
-        vorteile: FLATEX_VORTEILE,
+        kurz: "fl" as const,
         pflicht: FLATEX_PFLICHT as string | undefined,
-        warum: "Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl.",
+        satz: "Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl.",
       };
-
-/** Zweitdepot („Ich habe schon ein Depot“): Smartbroker+ nur für Halal-Anlagen (V7 „Dein Halal-Zweitdepot“). */
-const ZWEITDEPOT = {
-  anbieter: A_SB,
-  karte: SB,
-  vorteile: SB_VORTEILE,
-  pflicht: undefined as string | undefined,
-  warum: `Du hast schon ein Depot. Ein zweites nur für Halal-Anlagen kostet dich ${SB.depotgebuehr} Depotgebühr und hält alles sauber getrennt.`,
-};
 
 // ---------------------------------------------------------------------------
 // Passung in Prozent (Elias RN8-03: „zu so und so viel Prozent passt es zu dir“, Learning 33: nie eine feste Zahl)
@@ -378,48 +489,132 @@ const ZWEITDEPOT = {
 /**
  * Wie die Passung gerechnet wird. Jedes Depot bekommt je Merkmal einen Anteil von 0 bis 1 aus den Vergleichsdaten
  * (brokerFreebie.ts, Depot-Vergleich), jedes Merkmal hat ein Gewicht, das aus den Antworten folgt:
- *  - Halal-Anlagen: 60 % Halal-ETFs und Fonds (x von y), je 20 % Edelmetalle und Sukuk (x von y).
- *  - Kosten: 40 % Depotgebühr (0 € ist voll), 60 % Ordergebühr im Verhältnis zur Monatsrate (10 % und mehr ist null).
+ *  - Halal-Anlagen: 60 % Halal-ETFs und Fonds (x von y), je 20 % Edelmetalle und Sukuk (x von y);
+ *    bei der Eigenschaft „Gold und Sukuk“ 40/30/30.
+ *  - Kosten: 40 % Depotgebühr (0 € ist voll), 60 % Ordergebühr im Verhältnis zur Monatsrate (10 % und mehr ist null);
+ *    bei „Keine Depotgebühr“ 70/30, bei „Günstig einzelne Aktien kaufen“ 20/80.
  *    Die Monatsrate ist die Mitte der Antwort (unter 50 € gleich 25 €, 50 bis 200 € gleich 125 €, über 200 € gleich 300 €),
  *    ohne Antwort (Fassung a) 100 €.
- *  - Sparplan: ab 1 € ist voll, jeder Euro mehr kostet 1/24.
- *  - Ohne Zinsen: voll, wenn der Vergleich beim Depot kein Guthabenzins zeigt.
- * Gewichte: „Was ist dir wichtiger?“ Halal 45 und Kosten 20 (umgekehrt bei Kosten); ohne Antwort (Zweitdepot nur für
- * Halal-Anlagen) Halal 40 und Kosten 20. Sparplan 15 bei „Noch keine“ und „Erste Schritte“, sonst 5. Ohne Zinsen immer 10.
+ *  - Sparplan: ab 1 € ist voll, jeder Euro mehr kostet 1/24; kein Sparplan ist null.
+ *  - Ohne Zinsen: voll, wenn der Vergleich beim Depot kein Guthabenzins zeigt (gut), halb bei abschaltbar (teils).
+ * Gewichte: „Was ist dir wichtiger?“ Halal 45 und Kosten 20 (umgekehrt bei Kosten). Sparplan 15 bei „Noch keine“ und
+ * „Erste Schritte“, sonst 5. Ohne Zinsen 10. Die Eigenschaft (RN9-04) legt auf ihr Merkmal 10 dazu (Sparplan 15, Wechsel:
+ * Halal 10 und ohne Zinsen 5, damit alles, was du hast, mitziehen kann).
  * Passung = Summe der Gewicht mal Anteil, geteilt durch die Summe der Gewichte, gerundet, höchstens 98.
  */
 export const PASSUNG_MAX = 98;
 
-const anteilVon = (s: string): number => {
-  const m = s.match(/(\d+)\s+von\s+(\d+)/);
+const anteilVon = (s: string | null): number => {
+  const m = s?.match(/(\d+)\s+von\s+(\d+)/);
   return m ? Number(m[1]) / Number(m[2]) : 0;
 };
-const ersterEuro = (s: string): number => {
-  const m = s.match(/(\d+(?:[.,]\d+)?)\s?€/);
+const ersterEuro = (s: string | null): number => {
+  const m = s?.match(/(\d+(?:[.,]\d+)?)\s?€/);
   return m ? Number(m[1].replace(",", ".")) : 0;
 };
 const MONATSRATE: Record<Betrag, number> = { unter50: 25, "50bis200": 125, ueber200: 300 };
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
-export const passungProzent = (karte: BrokerKarte, a: Antworten): number => {
-  const halal = 0.6 * anteilVon(karte.etfs) + 0.2 * anteilVon(karte.gold) + 0.2 * anteilVon(karte.sukuk);
-  const rate = a.betrag ? MONATSRATE[a.betrag] : 100;
-  const order = 1 - clamp01(ersterEuro(karte.order) / rate / 0.1);
-  const gebuehr = 1 - clamp01(ersterEuro(karte.depotgebuehr) / 5);
-  const kosten = 0.4 * gebuehr + 0.6 * order;
-  const sparplan = clamp01(1 - (ersterEuro(karte.sparplanAb) - 1) / 24);
-  const zinsfrei = karte.zinsfrei ? 1 : 0;
+/** Werte einer Brokerkarte in der Form der Depotsuche, damit beide Depots gleich gerechnet werden. */
+const werteVonKarte = (k: BrokerKarte): DepotWerte => ({
+  etfs: k.etfs,
+  gold: k.gold,
+  sukuk: k.sukuk,
+  depotgebuehr: k.depotgebuehr,
+  order: k.order,
+  sparplanAb: k.sparplanAb,
+  zinsfrei: k.zinsfrei ? "gut" : "schlecht",
+});
 
-  const wHalal = a.praef === "halal" ? 45 : a.praef === "kosten" ? 20 : 40;
-  const wKosten = a.praef === "kosten" ? 45 : 20;
-  const wSparplan = a.erfahrung === "depot" ? 5 : 15;
-  const wZinsfrei = 10;
+/** Hat ein Depot alle Werte, die die Passung braucht? Sonst wird für es keine Zahl gezeigt. */
+export const passungRechenbar = (w: DepotWerte | null): w is DepotWerte =>
+  Boolean(w && w.etfs && w.gold && w.sukuk && w.depotgebuehr && w.order && w.sparplanAb && w.zinsfrei);
+
+export const passungAusWerten = (w: DepotWerte, a: Antworten): number => {
+  const e = a.eigenschaft;
+  const [pEtf, pGold, pSukuk] = e === "gold-sukuk" ? [0.4, 0.3, 0.3] : [0.6, 0.2, 0.2];
+  const halal = pEtf * anteilVon(w.etfs) + pGold * anteilVon(w.gold) + pSukuk * anteilVon(w.sukuk);
+  const rate = a.betrag ? MONATSRATE[a.betrag] : 100;
+  // Prozentuale Depotgebühr („0,2%“) zählt wie eine hohe Gebühr.
+  const gebuehrProzent = /%/.test(w.depotgebuehr ?? "") && !/^0\s?€/.test(w.depotgebuehr ?? "");
+  const order = 1 - clamp01(ersterEuro(w.order) / rate / 0.1);
+  const gebuehr = gebuehrProzent ? 0 : 1 - clamp01(ersterEuro(w.depotgebuehr) / 5);
+  const [pGeb, pOrder] = e === "gebuehr" ? [0.7, 0.3] : e === "order" ? [0.2, 0.8] : [0.4, 0.6];
+  const kosten = pGeb * gebuehr + pOrder * order;
+  const sparplan = w.sparplanAb === "kein Sparplan" ? 0 : clamp01(1 - (ersterEuro(w.sparplanAb) - 1) / 24);
+  const zinsfrei = w.zinsfrei === "gut" ? 1 : w.zinsfrei === "teils" ? 0.5 : 0;
+
+  let wHalal = a.praef === "halal" ? 45 : a.praef === "kosten" ? 20 : 40;
+  let wKosten = a.praef === "kosten" ? 45 : 20;
+  let wSparplan = a.erfahrung === "depot" ? 5 : 15;
+  let wZinsfrei = 10;
+  if (e === "gold-sukuk") wHalal += 10;
+  if (e === "gebuehr" || e === "order") wKosten += 10;
+  if (e === "sparplan") wSparplan += 15;
+  if (e === "wechsel") {
+    wHalal += 10;
+    wZinsfrei += 5;
+  }
   const summe = wHalal + wKosten + wSparplan + wZinsfrei;
   const punkte = wHalal * halal + wKosten * kosten + wSparplan * sparplan + wZinsfrei * zinsfrei;
   return Math.min(PASSUNG_MAX, Math.round((100 * punkte) / summe));
 };
 
+export const passungProzent = (karte: BrokerKarte, a: Antworten): number => passungAusWerten(werteVonKarte(karte), a);
+
+/** Zeilen der Depot-Liste „<heute> und <Match> im Vergleich“, alle aus dem Depot-Vergleich. */
+const ZINS_TEXT: Record<"gut" | "teils" | "schlecht", string> = {
+  gut: "ohne Zinsen",
+  teils: "Zinsen abschaltbar",
+  schlecht: "Zinsen nicht abschaltbar",
+};
+const depotZeilen = (w: DepotWerte | null, passung: number | null): Zeile[] => {
+  const v = (x: string | null | undefined) => x ?? KEIN_WERT;
+  return [
+    { label: "Passt zu deinen Antworten", wert: passung === null ? KEIN_WERT : `${passung} %` },
+    { label: "Halal-ETFs und Fonds", wert: v(w?.etfs) },
+    { label: "Gold und Silber", wert: v(w?.gold) },
+    { label: "Sukuk", wert: v(w?.sukuk) },
+    { label: "Depotgebühr", wert: v(w?.depotgebuehr) },
+    { label: "Order", wert: v(w?.order) },
+    { label: "Sparplan ab", wert: v(w?.sparplanAb) },
+    { label: "Guthaben", wert: w?.zinsfrei ? ZINS_TEXT[w.zinsfrei] : KEIN_WERT },
+  ];
+};
+
+const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): DepotErgebnis => {
+  const d = depotTeil(a.praef);
+  const passung = passungProzent(d.karte, a);
+  const heute = a.depotHeute;
+  const schonDa = heute?.kind === "depot" && heute.id === d.karte.id;
+  const basis = {
+    art: "depot" as const,
+    anbieter: d.anbieter,
+    ueberschrift: d.kurz === "fl" ? "Dein Match: ein Halal-Depot bei flatex" : "Dein Match: ein günstiges Halal-Depot bei Smartbroker+",
+    satz: d.satz,
+    kartenTitel: d.kurz === "fl" ? "Depot mit der größten Halal-Auswahl" : "Depot ohne Depotgebühr",
+    preis: `${d.karte.depotgebuehr} Depotgebühr`,
+    vorteile: depotVorteile(d.karte, d.kurz, a.eigenschaft),
+    pflicht: d.pflicht,
+    knopf: "Depot eröffnen",
+    link: outLink(quelle, d.anbieter, fassung),
+    passung,
+    schonDa,
+  };
+  if (!heute) return basis;
+  if (schonDa) {
+    return { ...basis, ueberschrift: `Dein Depot bei ${d.anbieter.name} passt schon`, satz: `Bei ${d.anbieter.name} bist du richtig.` };
+  }
+  const w = depotWerte(heute);
+  const heutePassung = passungRechenbar(w) ? passungAusWerten(w, a) : null;
+  return {
+    ...basis,
+    links: { name: heute.kind === "frei" ? heute.name || "Dein Depot" : heute.name, domain: heute.domain, zeilen: depotZeilen(w, heutePassung) },
+    rechts: { name: d.anbieter.name, domain: d.anbieter.domain, zeilen: depotZeilen(werteVonKarte(d.karte), passung) },
+    vergleichTitel: `${heute.kind === "frei" ? "Dein Depot" : heute.name} und ${d.anbieter.name} im Vergleich`,
+  };
+};
 /** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, am Ende die Fassung a oder b. Die Quelle (?quelle=) steckt nur hier, die Bank von heute nie. */
 const QUELLE_KURZ: Record<CheckQuelle, string> = {
   aktienliste: "ak",
@@ -438,28 +633,17 @@ export const outLink = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassun
 
 export const ergebnisAus = (a: Antworten, quelle: CheckQuelle, fassung: Fassung = "a"): Ergebnis | null => {
   if (naechsteFrage(a, fassung) !== null) return null;
-  if (artVon(a) === "konto") return kontoErgebnis(a, quelle, fassung);
-  const zweit = a.erfahrung === "depot";
-  const d = zweit ? ZWEITDEPOT : depotTeil(a.praef);
-  return {
-    art: zweit ? "zweitdepot" : "depot",
-    anbieter: d.anbieter,
-    warum: d.warum,
-    vorteile: d.vorteile,
-    pflicht: d.pflicht,
-    knopf: zweit ? "Zweitdepot eröffnen" : "Depot eröffnen",
-    link: outLink(quelle, d.anbieter, fassung),
-    passung: passungProzent(d.karte, a),
-  };
+  return artVon(a) === "konto" ? kontoErgebnis(a, quelle, fassung) : depotErgebnis(a, quelle, fassung);
 };
-
 /** „Deine Antworten“ im Depot-Ergebnis: je gegebene Antwort ein kurzes Häkchen. */
 export const antwortZeilen = (a: Antworten): string[] => {
   const z: string[] = [];
   if (a.ziel) z.push({ konto: "Neues Bankkonto", invest: "Depot zum Investieren", unsicher: "Noch unsicher", beides: "Konto und Depot" }[a.ziel]);
   if (a.zahlung) z.push({ karte: "Fast nur mit Karte", "karte-bar": "Karte und Bargeld", bar: "Viel Bargeld" }[a.zahlung]);
   if (a.erfahrung) z.push({ keine: "Noch keine Erfahrung", erste: "Erste Schritte", depot: "Schon ein Depot" }[a.erfahrung]);
+  if (a.depotHeute) z.push(`Depot bei ${a.depotHeute.name}`);
   if (a.praef) z.push(a.praef === "halal" ? "Viele Halal-Anlagen" : "Niedrige Kosten");
+  if (a.eigenschaft) z.push(EIGENSCHAFT_TEXT[a.eigenschaft]);
   if (a.betrag) z.push({ unter50: "Unter 50 € im Monat", "50bis200": "50 bis 200 € im Monat", ueber200: "Über 200 € im Monat" }[a.betrag]);
   return z;
 };

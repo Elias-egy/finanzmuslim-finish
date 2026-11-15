@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import CheckVerkaufsseite from "@/components/CheckVerkaufsseite";
 import CheckChat from "@/components/CheckChat";
-import BankSuche from "@/components/BankSuche";
+import BankSuche, { DepotSuche } from "@/components/BankSuche";
 import { DepotAnsicht, KontoAnsicht } from "@/components/CheckErgebnis";
 import { ereignis } from "@/lib/messung";
 import { abFassung } from "@/lib/abTest";
@@ -16,6 +16,7 @@ import {
   ersteAntwortAus,
   ersteFrage,
   fragenGesamt,
+  frageFuer,
   naechsteFrage,
   UNSICHER_SATZ,
   quelleAus,
@@ -24,6 +25,7 @@ import {
   type FrageId,
 } from "@/data/halalFinanzCheck";
 import type { BankWahl } from "@/data/bankSuche";
+import type { DepotWahl } from "@/data/depotSuche";
 import "@/styles/halalFinanzCheck.css";
 
 /**
@@ -130,6 +132,9 @@ const HalalFinanzCheck = () => {
   /** Die Bank von heute: im Zustand, nie in der Adresse. Die Messung bekommt nur die Gruppe. */
   const waehleBank = (b: BankWahl) => weiter("bank", b.id, { bank: b }, b.gruppe);
 
+  /** Das Depot von heute (RN10): im Zustand, nie in der Adresse; die Messung bekommt nur die Gruppe. */
+  const waehleDepot = (d: DepotWahl) => weiter("depotHeute", d.id, { depotHeute: d }, d.gruppe);
+
   const zurueck = () => {
     const letzte = verlauf[verlauf.length - 1];
     if (!letzte) {
@@ -178,13 +183,19 @@ const HalalFinanzCheck = () => {
       {gestartet && frageId && (
         <CheckChat
           key={frageId}
-          frage={FRAGEN[frageId]}
+          frage={frageFuer(frageId, antworten)}
           nummer={nummer}
           gesamt={gesamt}
           gewaehlt={gewaehlt}
           onWaehle={(wert) => waehle(frageId, wert)}
           onZurueck={zurueck}
-          antwort={frageId === "bank" ? <BankSuche onWahl={waehleBank} /> : undefined}
+          antwort={
+            frageId === "bank" ? (
+              <BankSuche onWahl={waehleBank} />
+            ) : frageId === "depotHeute" ? (
+              <DepotSuche onWahl={waehleDepot} />
+            ) : undefined
+          }
           warum={frageId === "zahlung" && antworten.ziel === "unsicher" ? UNSICHER_SATZ : undefined}
         />
       )}

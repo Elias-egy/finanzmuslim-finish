@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import {
   ArrowLeft,
+  ArrowLeftRight,
   Banknote,
   BriefcaseBusiness,
   Building2,
@@ -38,6 +39,11 @@ const ICONS: Record<string, LucideIcon> = {
   "erfahrung:depot": BriefcaseBusiness,
   "praef:halal": ListChecks,
   "praef:kosten": Coins,
+  "eigenschaft:gold-sukuk": Gem,
+  "eigenschaft:sparplan": PiggyBank,
+  "eigenschaft:gebuehr": Coins,
+  "eigenschaft:order": TrendingUp,
+  "eigenschaft:wechsel": ArrowLeftRight,
   "betrag:unter50": PiggyBank,
   "betrag:50bis200": Banknote,
   "betrag:ueber200": Gem,

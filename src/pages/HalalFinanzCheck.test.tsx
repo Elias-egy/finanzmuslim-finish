@@ -164,16 +164,25 @@ describe("Chat", () => {
 });
 
 describe("Bankkonto-Check", () => {
-  it("Weg: Wie bezahlst du, Bank suchen, Ergebnis „Von der Sparkasse zur norisbank“ mit einem Knopf", async () => {
+  it("Weg: Wie bezahlst du, Bank suchen, Ergebnis „Dein Match: ein kostenloses Girokonto bei norisbank“ mit einem Knopf", async () => {
     const { container } = zeige("/check?art=konto&quelle=boykottliste&schritt=fragen");
     await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
-    // Schnellwahl: acht Banken und „Noch kein Konto“.
-    const schnell = container.querySelector(".hc-schnell")!;
-    expect(within(schnell as HTMLElement).getAllByRole("button")).toHaveLength(9);
+    // Schnellwahl (Elias RN9-01: „scrollbar“): 16 Banken in einem Scroll-Rahmen, „Noch kein Konto“ steht fest darunter, außerhalb der Liste.
+    const rahmen = container.querySelector(".hc-schnell-rahmen") as HTMLElement;
+    expect(rahmen).toBeTruthy();
+    expect(within(rahmen).getAllByRole("button")).toHaveLength(16);
+    expect(rahmen.querySelector(".hc-schnell")).toBeTruthy();
+    expect(within(rahmen).queryByRole("button", { name: "Noch kein Konto" })).toBeNull();
+    const keine = container.querySelector(".hc-schnell-keine") as HTMLElement;
+    expect(keine.textContent).toBe("Noch kein Konto");
+    expect(rahmen.contains(keine)).toBe(false);
+    expect(rahmen.compareDocumentPosition(keine) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     await tippeText("Sparkasse");
-    expect(titel()).toBe("Von der Sparkasse zur norisbank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
+    // Die heutige Bank steht links neben der norisbank (der Titel „Sparkasse und norisbank im Vergleich“ ist in halalFinanzCheck.test.ts geprüft; KontoAnsicht zeigt ihn nicht).
+    expect(container.querySelector(".hc-vs")?.textContent).toMatch(/^Sparkasse.*norisbank/);
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(container.textContent).toContain("steht in deinem Kontoauszug");
@@ -191,7 +200,8 @@ describe("Bankkonto-Check", () => {
     await act(async () => {
       vi.advanceTimersByTime(300);
     });
-    expect(titel()).toBe("Von der Volksbank zur norisbank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
+    expect(container.querySelector(".hc-vs")?.textContent).toMatch(/^Volksbank.*norisbank/);
   });
 
   it("Phantasiebank wird nie „nicht gefunden“: „übernehmen“ ist der Vorschlag, das Ergebnis läuft weiter", async () => {
@@ -206,7 +216,7 @@ describe("Bankkonto-Check", () => {
     await act(async () => {
       vi.advanceTimersByTime(300);
     });
-    expect(titel()).toBe("Von deiner Bank zur norisbank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     expect(container.textContent).toContain("Phantasiebank");
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).not.toMatch(/phantasie/i);
   });
@@ -216,17 +226,18 @@ describe("Bankkonto-Check", () => {
     await tippeText("Neues Bankkonto");
     await tippeText("Viel Bargeld, ich will in eine Filiale");
     await tippeText("Volksbank");
-    expect(titel()).toBe("Von der Volksbank zur BBBank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei der BBBank");
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/bbbank-bettersmart?src=fchpbba");
   });
 
-  it("„Noch kein Konto“ zeigt „Dein Bankkonto: norisbank“ mit einer Spalte", async () => {
+  it("„Noch kein Konto“ zeigt das Match ohne heutige Bank: eine Spalte, kein Vergleichstitel", async () => {
     const { container } = zeige("/check?art=konto&schritt=fragen");
     await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     await tippeText("Noch kein Konto");
-    expect(titel()).toBe("Dein Bankkonto: norisbank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     expect(container.querySelector(".hc-vs--eins")).toBeTruthy();
+    expect(container.textContent).not.toMatch(/im Vergleich/);
   });
 
   it("norisbank als heutige Bank: freundlicher Satz ohne Knopf", async () => {
@@ -247,45 +258,112 @@ describe("Bankkonto-Check", () => {
     await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     await tippeText("Sparkasse");
-    expect(titel()).toBe("Von der Sparkasse zur norisbank");
+    expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     expect(screen.getByTestId("ort").textContent).not.toMatch(/sparkasse|bank/i);
   });
 });
 
 describe("Depot-Check", () => {
-  it("Fassung a: Erfahrung, „Was ist dir wichtiger?“, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
+  it("Fassung a: Erfahrung, „Was ist dir wichtiger?“, drei Eigenschaften, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
     await tippeText("Noch keine");
     expect(titel()).toBe("Was ist dir wichtiger?");
     await tippeText("Möglichst niedrige Kosten");
-    expect(titel()).toBe("Dein Match: Smartbroker+");
+    // Elias RN9-04: die Frage in der Mitte, drei Eigenschaften; ohne Depot nie „Wechsel“, Sparplan statt dessen.
+    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual([
+      "Keine Depotgebühr",
+      "Günstig einzelne Aktien kaufen",
+      "Sparplan schon ab 1 €",
+    ]);
+    expect(container.textContent).not.toContain("Einfacher Wechsel von meinem Depot");
+    await tippeText("Keine Depotgebühr");
+    expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.querySelector(".hc-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
     expect(container.textContent).toMatch(/Passt zu \d+\s%\szu dir/);
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
-    expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank/);
+    expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank|Zweitdepot/);
+    // Ohne heutiges Depot kein Vergleich der beiden.
+    expect(container.textContent).not.toMatch(/im Vergleich/);
   });
 
-  it("Fassung b: nach „Was ist dir wichtiger?“ kommt der Monatsbetrag, das Depot bleibt", async () => {
+  it("Fassung b: nach der Eigenschaft kommt der Monatsbetrag, das Depot bleibt", async () => {
     zeige("/check?art=depot&schritt=fragen", "b");
     await tippeText("Depot zum Investieren");
     await tippeText("Erste Schritte");
     await tippeText("Möglichst viele Halal-Anlagen");
+    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
+    await tippeText("Gold und Sukuk im selben Depot");
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
     await tippeText("50 bis 200 €");
-    expect(titel()).toBe("Dein Match: flatex");
+    expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
     expect(screen.getByText("50 bis 200 € im Monat")).toBeTruthy();
+    expect(screen.getByText("Gold und Sukuk im selben Depot")).toBeTruthy();
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
   });
 
-  it("„Ich habe schon ein Depot“ führt zum Zweitdepot bei Smartbroker+", async () => {
-    zeige("/check?art=depot&schritt=fragen", "a");
+  it("„Ich habe schon ein Depot“ fragt „Wo hast du dein Depot?“ (DepotSuche) und führt dann wie jeder Weg über „Was ist dir wichtiger?“ (Elias RN9-03, RN9-04)", async () => {
+    const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     await tippeText("Ich habe schon ein Depot");
-    expect(titel()).toBe("Dein Match: Smartbroker+");
-    expect(screen.getByRole("link", { name: /Zweitdepot eröffnen\*/ })).toBeTruthy();
+    expect(titel()).toBe("Wo hast du dein Depot?");
+    const rahmen = container.querySelector(".hc-schnell-rahmen") as HTMLElement;
+    expect(within(rahmen).getAllByRole("button")).toHaveLength(16);
+    // Depot-Suche ohne „Noch kein Konto“.
+    expect(container.querySelector(".hc-schnell-keine")).toBeNull();
+    expect(screen.getByRole("textbox").getAttribute("aria-label")).toBe("Wo hast du dein Depot?");
+    await tippeText("Trade Republic");
+    expect(titel()).toBe("Was ist dir wichtiger?");
+    await tippeText("Möglichst viele Halal-Anlagen");
+    // Mit Depot steht „Wechsel“ zuerst.
+    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual([
+      "Einfacher Wechsel von meinem Depot",
+      "Gold und Sukuk im selben Depot",
+      "Keine Depotgebühr",
+    ]);
+    await tippeText("Einfacher Wechsel von meinem Depot");
+    // Kein Zweitdepot mehr: das Match folgt „Was ist dir wichtiger?“.
+    expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
+    expect(container.textContent).toContain("Trade Republic und flatex im Vergleich");
+    expect(container.textContent).not.toMatch(/Zweitdepot/);
+    expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpfla");
+    expect(screen.getByTestId("ort").textContent).not.toMatch(/trade|republic/i);
+  });
+
+  it("Depot-Suche: unbekanntes Depot (Sparkasse) zeigt in den Spalten „–“ statt einer Zahl, freier Text läuft weiter", async () => {
+    const { container } = zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
+    await tippeText("Ich habe schon ein Depot");
+    const feld = screen.getByRole("textbox");
+    fireEvent.change(feld, { target: { value: "Phantasiedepot" } });
+    expect(container.querySelector(".hc-vorschlaege button")?.textContent).toBe("„Phantasiedepot“ übernehmen");
+    expect(container.textContent).not.toMatch(/nicht gefunden/i);
+    fireEvent.keyDown(feld, { key: "Enter" });
+    await act(async () => {
+      vi.advanceTimersByTime(300);
+    });
+    await tippeText("Möglichst niedrige Kosten");
+    await tippeText("Einfacher Wechsel von meinem Depot");
+    expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
+    expect(container.textContent).toContain("Dein Depot und Smartbroker+ im Vergleich");
+    expect(container.textContent).toContain("Phantasiedepot");
+    const vs = container.querySelector(".hc-vs") as HTMLElement;
+    expect(vs.textContent).toContain("–");
+  });
+
+  it("ist das heutige Depot schon das Match: „Dein Depot bei flatex passt schon“, kein Vergleich", async () => {
+    const { container } = zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
+    await tippeText("Ich habe schon ein Depot");
+    await tippeText("flatex");
+    await tippeText("Möglichst viele Halal-Anlagen");
+    await tippeText("Keine Depotgebühr");
+    expect(titel()).toBe("Dein Depot bei flatex passt schon");
+    expect(container.textContent).not.toMatch(/im Vergleich/);
   });
 });
 
@@ -312,6 +390,9 @@ describe("Ohne art und aus dem Freebie", () => {
     const d = zeige("/check?art=depot&quelle=aktienliste&start=2&a1=erste");
     expect(titel()).toBe("Was ist dir wichtiger?");
     d.unmount();
+    // Bei „Ich habe schon ein Depot“ geht der Chat mit „Wo hast du dein Depot?“ weiter (RN10).
+    zeige("/check?art=depot&quelle=aktienliste&start=2&a1=depot");
+    expect(titel()).toBe("Wo hast du dein Depot?");
   });
 
   it("alte Adressen mit ?ziel= laufen weiter", () => {
