@@ -1,100 +1,95 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Banknote,
-  BriefcaseBusiness,
-  Building2,
-  Check,
-  Coins,
-  Footprints,
-  Gem,
-  Layers,
-  ListChecks,
-  PiggyBank,
-  Smartphone,
-  Sprout,
-  TrendingUp,
-  Wallet,
-  type LucideIcon,
-} from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { AnbieterLogo } from "@/components/AnbieterLogo";
 import CheckVerkaufsseite from "@/components/CheckVerkaufsseite";
+import CheckChat from "@/components/CheckChat";
+import BankSuche from "@/components/BankSuche";
+import { DepotAnsicht, KontoAnsicht } from "@/components/CheckErgebnis";
 import { ereignis } from "@/lib/messung";
 import { abFassung } from "@/lib/abTest";
-import { followerGesamt } from "@/data/beweise";
 import {
   AB_TEST,
-  ETIKETT,
   FRAGEN,
-  UNTERZEILE,
-  WERBEHINWEIS,
-  antwortZeilen,
+  artAus,
+  artVon,
   ergebnisAus,
+  ersteAntwortAus,
+  ersteFrage,
   fragenGesamt,
   naechsteFrage,
-  outLink,
   quelleAus,
   type Antworten,
+  type Art,
   type FrageId,
 } from "@/data/halalFinanzCheck";
+import type { BankWahl } from "@/data/bankSuche";
 import "@/styles/halalFinanzCheck.css";
 
 /**
- * Halal-Finanz-Check, RN7 (15.11.2026), 1:1 nach Elias' Perspective-Funnel (Vault hermes/renovierungskampagne/perspective/
- * eins-zu-eins/index.html). Wer /check öffnet, sieht zuerst die Verkaufsseite (CheckVerkaufsseite), der Knopf „Check starten“
- * führt auf derselben Route zur ersten Frage (?schritt=fragen, damit „Zurück“ im Browser zur Verkaufsseite führt). Kommt die
- * Person aus einem Freebie schon mit der ersten Antwort (?ziel=…, CheckEinstieg.tsx), hat sie diese Seite dort gesehen und der
- * Check beginnt bei Frage 2. Nach dem Tipp springt die Seite zur nächsten Frage. Am Ende genau eine Empfehlung mit einem Knopf
- * direkt zum Anbieter über /out (Elias RN3-07: „Ohne eine Zwischenbrücke“). Keine Mail im Ablauf. 50:50-Test RN7: Fassung b hat
- * auf dem Depot-Weg eine Frage mehr (halalFinanzCheck.ts), die Fassung steht in der Kennung am Knopf. Logik und Texte: src/data/halalFinanzCheck.ts.
+ * Halal-Finanz-Check, RN8 (15.11.2026): zwei Arten auf einem Gerüst, gesteuert über die Adresse.
+ *  /check?art=konto   Bankkonto-Check: Wie bezahlst du, Bank von heute (Suchleiste), Ergebnis „Von der <Bank> zur norisbank“
+ *  /check?art=depot   Depot-Check: Erfahrung, Was ist dir wichtiger (Fassung b: Monatsbetrag), Ergebnis mit Passung in Prozent
+ *  /check             wie bisher mit der ersten Frage „Was willst du als Erstes halal machen?“
+ * Wer direkt kommt (Startseite, Instagram), sieht zuerst die Verkaufsseite (CheckVerkaufsseite), „Check starten“ führt auf derselben
+ * Route zur ersten Frage (?schritt=fragen). Wer aus einem Freebie kommt (CheckEinstieg.tsx: ?art=…&quelle=…&start=2&a1=<Antwort>),
+ * sieht keine Verkaufsseite, die Antwort ist schon da und der Chat geht bei Frage 2 weiter. Alte Adressen mit ?ziel=konto|invest|beides
+ * laufen weiter (Konto und Beides in den Bankkonto-Weg, Investieren in den Depot-Weg).
+ * Die Bank von heute bleibt im Zustand der Seite: nie in der Adresse, nie im /out-Link, in der Messung nur die Gruppe.
+ * 50:50-Test check-depotfrage (?ab=a|b) auf dem Depot-Weg bleibt, die Fassung steht am Ende der Kennung am Knopf.
+ * Logik und Texte: src/data/halalFinanzCheck.ts, Bank-Suche: src/data/bankSuche.ts.
  */
-const ICONS: Record<string, LucideIcon> = {
-  "ziel:konto": Wallet,
-  "ziel:invest": TrendingUp,
-  "ziel:beides": Layers,
-  "erfahrung:keine": Sprout,
-  "erfahrung:erste": Footprints,
-  "erfahrung:depot": BriefcaseBusiness,
-  "praef:halal": ListChecks,
-  "praef:kosten": Coins,
-  "betrag:unter50": PiggyBank,
-  "betrag:50bis200": Banknote,
-  "betrag:ueber200": Gem,
-  "filiale:nein": Smartphone,
-  "filiale:ja": Building2,
+const ZIEL_ZU_ART: Record<string, Art> = { konto: "konto", beides: "konto", invest: "depot" };
+
+const anfang = (params: URLSearchParams): { antworten: Antworten; verlauf: FrageId[]; gestartet: boolean } => {
+  const art = artAus(params.get("art"));
+  const start = params.get("start") === "2";
+  if (art && start) {
+    const a = ersteAntwortAus(art, params.get("a1"));
+    return { antworten: { art, ...a }, verlauf: a.art ? [ersteFrage(art)] : [], gestartet: true };
+  }
+  const legacy = ZIEL_ZU_ART[params.get("ziel") ?? ""];
+  if (legacy) return { antworten: { art: legacy }, verlauf: [], gestartet: true };
+  return { antworten: art ? { art } : {}, verlauf: [], gestartet: params.get("schritt") === "fragen" };
 };
 
 const HalalFinanzCheck = () => {
   const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
   const quelle = quelleAus(params.get("quelle"));
+  const artAdresse = artAus(params.get("art"));
   // Zuteilung einmal je Besucher, ?ab=a oder ?ab=b erzwingt eine Fassung (src/lib/abTest.ts).
   const [fassung] = useState(() => abFassung(AB_TEST));
-  // Aus einem Freebie kommt die erste Antwort schon mit (?ziel=…, CheckEinstieg.tsx): dann beginnt der Check bei Frage 2.
-  const zielAusFreebie = params.get("ziel");
-  const vorab: Antworten =
-    zielAusFreebie === "konto" || zielAusFreebie === "invest" || zielAusFreebie === "beides" ? { ziel: zielAusFreebie } : {};
-  const [antworten, setAntworten] = useState<Antworten>(vorab);
-  const [verlauf, setVerlauf] = useState<FrageId[]>(vorab.ziel ? ["ziel"] : []);
+  const start = useRef(anfang(params));
+  const [antworten, setAntworten] = useState<Antworten>(start.current.antworten);
+  const [verlauf, setVerlauf] = useState<FrageId[]>(start.current.verlauf);
   const [gewaehlt, setGewaehlt] = useState<string | null>(null);
   const oben = useRef<HTMLDivElement>(null);
 
-  const gestartet = params.get("schritt") === "fragen" || Boolean(vorab.ziel);
+  const gestartet = params.get("schritt") === "fragen" || params.get("start") === "2" || Boolean(ZIEL_ZU_ART[params.get("ziel") ?? ""]);
   const frageId = naechsteFrage(antworten, fassung);
   const ergebnis = useMemo(() => ergebnisAus(antworten, quelle, fassung), [antworten, quelle, fassung]);
+  const art = artVon(antworten);
   const nummer = verlauf.length + 1;
   const gesamt = fragenGesamt(antworten, fassung);
 
   useEffect(() => {
-    ereignis("check_start", { quelle, ziel: zielAusFreebie ?? "", fassung });
+    ereignis("check_start", { quelle, art: artAdresse ?? "", fassung });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quelle]);
 
   useEffect(() => {
     if (!ergebnis) return;
-    ereignis("quiz_ergebnis", { check: true, quelle, fassung, ergebnis: ergebnis.art, anbieter: ergebnis.anbieter.out });
+    ereignis("quiz_ergebnis", {
+      check: true,
+      quelle,
+      fassung,
+      art: ergebnis.art === "konto" ? "konto" : "depot",
+      ergebnis: ergebnis.art,
+      anbieter: ergebnis.anbieter.out,
+      // Nur die Gruppe der Bank von heute, nie der freie Text.
+      ...(ergebnis.art === "konto" ? { bank_gruppe: antworten.bank?.gruppe ?? "" } : { passung: ergebnis.passung }),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ergebnis, quelle, fassung]);
 
   // Beim Wechsel der Frage oder zur Verkaufsseite oben anfangen.
@@ -105,10 +100,10 @@ const HalalFinanzCheck = () => {
   // Zurück bei der Verkaufsseite (Browser oder Knopf): die Antworten beginnen von vorn.
   useEffect(() => {
     if (gestartet) return;
-    setAntworten({});
+    setAntworten(artAdresse ? { art: artAdresse } : {});
     setVerlauf([]);
     setGewaehlt(null);
-  }, [gestartet]);
+  }, [gestartet, artAdresse]);
 
   const starte = (stelle: string) => {
     ereignis("check_klick", { quelle, stelle, fassung });
@@ -117,21 +112,30 @@ const HalalFinanzCheck = () => {
     setParams(neu);
   };
 
-  const waehle = (id: FrageId, wert: string) => {
+  const weiter = (id: FrageId, wert: string, zusatz: Partial<Antworten>, messwert: string) => {
     if (gewaehlt) return;
     setGewaehlt(wert);
-    ereignis("quiz_frage", { check: true, quelle, fassung, frage: id, antwort: wert, nummer });
+    ereignis("quiz_frage", { check: true, quelle, fassung, art: art ?? "", frage: id, antwort: messwert, nummer });
     window.setTimeout(() => {
-      setAntworten((a) => ({ ...a, [id]: wert }));
+      setAntworten((a) => ({ ...a, ...zusatz }));
       setVerlauf((v) => [...v, id]);
       setGewaehlt(null);
     }, 260);
   };
 
+  const waehle = (id: FrageId, wert: string) => weiter(id, wert, { [id]: wert } as Partial<Antworten>, wert);
+
+  /** Die Bank von heute: im Zustand, nie in der Adresse. Die Messung bekommt nur die Gruppe. */
+  const waehleBank = (b: BankWahl) => weiter("bank", b.id, { bank: b }, b.gruppe);
+
   const zurueck = () => {
     const letzte = verlauf[verlauf.length - 1];
     if (!letzte) {
-      // Erste Frage: zurück zur Verkaufsseite.
+      // Erste Frage: aus einem Freebie zurück dorthin, sonst zur Verkaufsseite.
+      if (params.get("start") === "2") {
+        navigate(-1);
+        return;
+      }
       const neu = new URLSearchParams(params);
       neu.delete("schritt");
       neu.delete("ziel");
@@ -147,136 +151,46 @@ const HalalFinanzCheck = () => {
   };
 
   const neu = () => {
-    setAntworten({});
+    setAntworten(artAdresse ? { art: artAdresse } : {});
     setVerlauf([]);
   };
+
+  const titel =
+    artAdresse === "konto"
+      ? "Bankkonto-Check: Welches Konto passt zu dir? | finanzmuslim"
+      : artAdresse === "depot"
+        ? "Depot-Check: Welches Halal-Depot passt zu dir? | finanzmuslim"
+        : "Halal-Finanz-Check: Konto, Depot oder beides? | finanzmuslim";
 
   return (
     <div ref={oben} className="hc">
       <Seo
-        title="Halal-Finanz-Check: Konto, Depot oder beides? | finanzmuslim"
-        description="Beantworte 3 kurze Fragen und sieh, womit du halal startest: zinsfreies Girokonto, Halal-Depot oder beides."
+        title={titel}
+        description="Beantworte kurze Fragen und sieh, womit du halal startest: zinsfreies Bankkonto oder Halal-Depot."
         path="/check"
         noindex
       />
 
-      {!gestartet && <CheckVerkaufsseite onStart={starte} />}
+      {!gestartet && <CheckVerkaufsseite onStart={starte} art={artAdresse} />}
 
       {gestartet && frageId && (
-        <section className="hc-frage" key={frageId} aria-live="polite">
-          <ol className="hc-striche" aria-label={`Frage ${nummer} von ${gesamt}`}>
-            {Array.from({ length: gesamt }, (_, i) => (
-              <li key={i} data-an={i < nummer ? "" : undefined} />
-            ))}
-          </ol>
-          <h1 className="hc-frage-titel">{FRAGEN[frageId].titel}</h1>
-          {frageId === "ziel" && <p className="hc-frage-unter">{UNTERZEILE}</p>}
-          <ul className="hc-optionen">
-            {FRAGEN[frageId].optionen.map((o) => {
-              const Icon = ICONS[`${frageId}:${o.wert}`];
-              return (
-                <li key={o.wert}>
-                  <button
-                    type="button"
-                    onClick={() => waehle(frageId, o.wert)}
-                    className={`hc-opt${o.etikett ? " hc-opt--gruen" : ""}`}
-                    data-gewaehlt={gewaehlt === o.wert ? "" : undefined}
-                  >
-                    {Icon && <Icon className="hc-opt-icon" aria-hidden />}
-                    {o.etikett && <span className="hc-tag">{o.etikett}</span>}
-                    <span className="hc-opt-titel">{o.titel}</span>
-                    {o.unter && <span className="hc-opt-unter">{o.unter}</span>}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <button type="button" onClick={zurueck} className="hc-zurueck">
-            <ArrowLeft aria-hidden />
-            Zurück
-          </button>
-        </section>
+        <CheckChat
+          key={frageId}
+          frage={FRAGEN[frageId]}
+          nummer={nummer}
+          gesamt={gesamt}
+          gewaehlt={gewaehlt}
+          onWaehle={(wert) => waehle(frageId, wert)}
+          onZurueck={zurueck}
+          antwort={frageId === "bank" ? <BankSuche onWahl={waehleBank} /> : undefined}
+        />
       )}
 
-      {gestartet && ergebnis && (
-        <section className="hc-frage" aria-live="polite">
-          <h1 className="hc-ergebnis-h1">Dein Match: {ergebnis.anbieter.name}</h1>
-          <p className="hc-antw-kopf">Deine Antworten</p>
-          <ul className="hc-antw">
-            {antwortZeilen(antworten).map((z) => (
-              <li key={z}>
-                <Check aria-hidden />
-                {z}
-              </li>
-            ))}
-          </ul>
-
-          <div className="hc-nr1">
-            <div className="hc-nr1-kopf">
-              <span className="hc-nr1-zahl" aria-hidden>1</span>
-              <p className="hc-nr1-label">Passt am besten</p>
-            </div>
-            <div className="hc-nr1-logo">
-              <AnbieterLogo name={ergebnis.anbieter.name} domain={ergebnis.anbieter.domain} gross />
-            </div>
-            <p className="hc-nr1-name">
-              {ergebnis.anbieter.name}
-              <small>{ergebnis.anbieter.produkt}</small>
-            </p>
-            <p className="hc-nr1-warum">{ergebnis.warum}</p>
-            <ul className="hc-gruende">
-              {ergebnis.vorteile.map((v) => (
-                <li key={v}>
-                  <Check aria-hidden />
-                  {v}
-                </li>
-              ))}
-            </ul>
-            {ergebnis.pflicht && <p className="hc-pflicht">{ergebnis.pflicht}</p>}
-            {/* Knopf direkt zum Anbieter über /out (Partnerlinks nur dort), Werbehinweis als Sternchen. */}
-            <a href={outLink(quelle, ergebnis.anbieter, fassung)} className="hc-btn">
-              {ergebnis.knopf}*
-              <ArrowRight className="hc-pfeil" aria-hidden />
-            </a>
-          </div>
-
-          {ergebnis.danach &&
-            (ergebnis.danach.konto ? (
-              <a href={ergebnis.danach.link} className="hc-kasten hc-kasten--gruen">
-                <span className="hc-kasten-text">
-                  <span className="hc-tag">{ETIKETT}</span>
-                  Und dein Konto? {ergebnis.danach.satz}*
-                </span>
-                <AnbieterLogo name={ergebnis.danach.anbieter.name} domain={ergebnis.danach.anbieter.domain} klein />
-                <ArrowRight aria-hidden />
-              </a>
-            ) : (
-              <a href={ergebnis.danach.link} className="hc-kasten">
-                <span className="hc-kasten-text">{ergebnis.danach.satz}*</span>
-                <AnbieterLogo name={ergebnis.danach.anbieter.name} domain={ergebnis.danach.anbieter.domain} klein />
-                <ArrowRight aria-hidden />
-              </a>
-            ))}
-
-          {ergebnis.alternative && (
-            <p className="hc-alt">
-              Lieber die Alternative?
-              <a href={ergebnis.alternative.link}>{ergebnis.alternative.anbieter.name}*</a>
-            </p>
-          )}
-
-          {/* Echte Zahl bei der Empfehlung (Perspective-Frage 4, Elias RN6: „Followerzahl“, src/data/beweise.ts). */}
-          <figure className="hc-folger">
-            <img src="/elias-el-gendy.webp" alt="Elias El-Gendy" width={44} height={44} />
-            <figcaption>Über {followerGesamt} folgen mir auf Instagram und TikTok</figcaption>
-          </figure>
-
-          <p className="hc-werbung">{WERBEHINWEIS}</p>
-          <button type="button" onClick={neu} className="hc-neu">
-            Check neu starten
-          </button>
-        </section>
-      )}
+      {gestartet && ergebnis && (ergebnis.art === "konto" ? (
+        <KontoAnsicht e={ergebnis} onNeu={neu} />
+      ) : (
+        <DepotAnsicht e={ergebnis} antworten={antworten} onNeu={neu} />
+      ))}
     </div>
   );
 };
