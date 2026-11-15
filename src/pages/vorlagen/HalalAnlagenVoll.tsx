@@ -3,6 +3,7 @@ import { useNavigationType } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
@@ -173,6 +174,9 @@ const HalalAnlagenVoll = () => {
             {g.kategorie === "aktien" && <TopDrei />}
           </section>
         ))}
+
+        {/* RN5: Halal-Finanz-Check nach dem Hauptinhalt, eigener Einstieg ?quelle=halal-anlagen (Perspective-Tipp 43). */}
+        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
         <NaechsterTeil wort="liste" className="mt-12" />
 

@@ -3,6 +3,8 @@ import { ArrowRight, Check, Timer } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { depotAnzeige } from "@/data/anzeige/depot";
 import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
+import CheckEinstieg from "@/components/CheckEinstieg";
+import type { Fassung } from "@/lib/abTest";
 
 /**
  * Der Depot-Aufruf im Freebie „Aktie“ (100 Halal-Aktien), seit AF1 (12.11.2026) direkt nach den 15 gefallenen großen
@@ -46,20 +48,8 @@ const nr1 = depotNummerEinsZiel();
 const ziel = (link?: string) => (link && nr1 === link ? "/depot-nummer-1" : (link ?? "/vergleich/depot"));
 const stelle = (link?: string): Angebot["stelle"] => (link && nr1 === link ? "nr1" : "top3");
 
+// RN5 (15.11.2026): flatex steht zuerst, seit RN4 einzige Nummer 1 des Depot-Vergleichs, Smartbroker+ Nummer 2.
 const ANGEBOTE: readonly Angebot[] = [
-  {
-    id: sb.a.id,
-    name: sb.a.name,
-    domain: sb.a.domain ?? "smartbrokerplus.de",
-    etikett: "Top für den Start",
-    punkte: [
-      { text: "Depotgebühr:", wert: String(sb.w.depotgebuehr ?? "").replace("€", " €") },
-      ...(sb.w.zinsfreiAbStart === "gut" ? [{ text: "Guthaben ohne Zinsen" }] : []),
-      { text: "Sparplan ab", wert: "1 €" },
-    ],
-    ziel: ziel(sb.a.link),
-    stelle: stelle(sb.a.link),
-  },
   {
     id: fx.a.id,
     name: fx.a.name,
@@ -73,15 +63,30 @@ const ANGEBOTE: readonly Angebot[] = [
     ziel: ziel(fx.a.link),
     stelle: stelle(fx.a.link),
   },
+  {
+    id: sb.a.id,
+    name: sb.a.name,
+    domain: sb.a.domain ?? "smartbrokerplus.de",
+    etikett: "Top für den Start",
+    punkte: [
+      { text: "Depotgebühr:", wert: String(sb.w.depotgebuehr ?? "").replace("€", " €") },
+      ...(sb.w.zinsfreiAbStart === "gut" ? [{ text: "Guthaben ohne Zinsen" }] : []),
+      { text: "Sparplan ab", wert: "1 €" },
+    ],
+    ziel: ziel(sb.a.link),
+    stelle: stelle(sb.a.link),
+  },
 ];
 
 type Props = {
   /** Link mit der Klickzählung der Seite (Kennungen aknr1, aktop3, akalle in `src/lib/attribution.ts`). */
   link: (ziel: string, stelle: "top3" | "nr1" | "alle") => string;
+  /** 50:50-Test RN5: a = die zwei Depots, b = an derselben Stelle der Halal-Finanz-Check (src/lib/abTest.ts). */
+  fassung?: Fassung;
 };
 
-const AktienAufruf = ({ link }: Props) => (
-  <div data-depot-aufruf className="rounded-2xl border-2 border-primary bg-card p-4 md:p-7">
+const AktienAufruf = ({ link, fassung = "a" }: Props) => (
+  <div data-depot-aufruf data-fassung={fassung} className="rounded-2xl border-2 border-primary bg-card p-4 md:p-7">
     <h2 id="wo" className="text-[28px] font-extrabold leading-[1.1] text-foreground md:text-[34px]">
       Werde Teil davon.
       <br />
@@ -102,9 +107,12 @@ const AktienAufruf = ({ link }: Props) => (
       </p>
     </div>
 
+    {fassung === "b" ? (
+      <CheckEinstieg quelle="aktienliste" className="mt-5 !border !p-4 md:!p-5" />
+    ) : (
     <div className="relative mt-5">
       <p className="absolute right-0 top-0 text-[12px] text-muted-foreground">Werbung</p>
-      <p className="pr-16 text-[18px] font-extrabold leading-tight text-foreground">Meine zwei Nummer 1</p>
+      <p className="pr-16 text-[18px] font-extrabold leading-tight text-foreground">Nummer 1 und 2 aus meinem Vergleich</p>
       <ul className="mt-3 grid gap-3 md:grid-cols-2">
         {ANGEBOTE.map((d) => (
           <li key={d.id} className="flex flex-col rounded-xl border border-border bg-card p-4" data-depot-karte>
@@ -151,6 +159,7 @@ const AktienAufruf = ({ link }: Props) => (
         <ArrowRight className="h-4 w-4" aria-hidden />
       </Link>
     </div>
+    )}
 
     <figure className="mt-3 flex items-center gap-3 border-t border-border pt-4">
       <img
@@ -166,9 +175,11 @@ const AktienAufruf = ({ link }: Props) => (
         <span className="mt-0.5 block text-[13px] font-normal text-muted-foreground">Elias, finanzmuslim</span>
       </blockquote>
     </figure>
+    {fassung === "a" && (
     <p className="mt-3 text-[12px] leading-snug text-muted-foreground">
       * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich.
     </p>
+    )}
   </div>
 );
 

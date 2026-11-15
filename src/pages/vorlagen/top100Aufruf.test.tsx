@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter } from "react-router-dom";
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import Top100Voll from "./Top100Voll";
 import { TOP_GEFALLEN } from "@/data/top100Aktien";
 
@@ -12,6 +12,9 @@ beforeAll(() => {
     disconnect() {}
   } as unknown as typeof ResizeObserver;
 });
+
+// RN5: 50:50-Test (src/lib/abTest.ts). Die Tests der Depot-Karten laufen auf Fassung a, eigener Test für b unten.
+beforeEach(() => window.localStorage.setItem("fm_ab_aktien-check", "a"));
 
 const zeige = () =>
   render(
@@ -61,22 +64,37 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(z.textContent).toMatch(/[−+]?\d+,\d %/);
   });
 
-  it("zeigt genau zwei Karten, Smartbroker+ für den Start, flatex für Profis", () => {
+  it("zeigt genau zwei Karten, flatex als Nummer 1 zuerst, dann Smartbroker+ für den Start (RN4/RN5)", () => {
     const { container } = zeige();
     const karten = [...container.querySelectorAll("[data-depot-karte]")];
     expect(karten).toHaveLength(2);
-    expect(karten[0].textContent).toContain("Smartbroker+");
-    expect(karten[0].textContent).toContain("Top für den Start");
-    expect(karten[1].textContent).toContain("flatex");
-    expect(karten[1].textContent).toContain("12 von 12");
-    expect(karten[1].textContent).toContain("7 von 7");
+    expect(karten[0].textContent).toContain("flatex");
+    expect(karten[0].textContent).toContain("12 von 12");
+    expect(karten[0].textContent).toContain("7 von 7");
+    expect(karten[1].textContent).toContain("Smartbroker+");
+    expect(karten[1].textContent).toContain("Top für den Start");
     expect(container.querySelector("video")).toBeNull();
   });
 
   it("führt über die Partnerwege mit der Klickzählung der Seite", () => {
     const { container } = zeige();
     const ziele = [...container.querySelectorAll("[data-depot-karte] a")].map((a) => a.getAttribute("href"));
-    expect(ziele[0]).toMatch(/^\/(depot-nummer-1|out\/smartbroker)\?src=ak(nr1|top3)$/);
-    expect(ziele[1]).toMatch(/^\/(depot-nummer-1|out\/flatex)\?src=ak(nr1|top3)$/);
+    expect(ziele[0]).toMatch(/^\/(depot-nummer-1|out\/flatex)\?src=ak(nr1|top3)$/);
+    expect(ziele[1]).toMatch(/^\/(depot-nummer-1|out\/smartbroker)\?src=ak(nr1|top3)$/);
+  });
+
+  it("Fassung b zeigt an derselben Stelle den Halal-Finanz-Check statt der Karten", () => {
+    window.localStorage.setItem("fm_ab_aktien-check", "b");
+    const { container } = zeige();
+    const aufruf = container.querySelector("[data-depot-aufruf]")!;
+    expect(aufruf.getAttribute("data-fassung")).toBe("b");
+    expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
+    const check = aufruf.querySelector("[data-check-einstieg='aktienliste']")!;
+    const ziele = [...check.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    expect(ziele).toEqual([
+      "/check?quelle=aktienliste&ziel=konto",
+      "/check?quelle=aktienliste&ziel=invest",
+      "/check?quelle=aktienliste&ziel=beides",
+    ]);
   });
 });

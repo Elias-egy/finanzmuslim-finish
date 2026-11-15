@@ -169,8 +169,12 @@ export const VALID_SRC = [
 // nl plus Datum ohne Bindestriche: Halal-News (~/rebrand/mails/brief.py mit_src), seit 06.11.2026 (CV15F).
 export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|nl|[mgv][0-9])[a-z0-9]{0,18}$/;
 
+// RN5 (15.11.2026): Knöpfe im Halal-Finanz-Check, fc plus Einstieg plus Anbieter, „z“ für den kleinen zweiten Schritt
+// (src/data/halalFinanzCheck.ts CHECK_SRC, gleiche Form). Eine Stelle, keine Herkunft.
+const CHECK_STELLE = /^fc(ak|ha|bo|hp|ko|me)(fl|sb|no|bb)z?$/;
+
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
-  !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src));
+  !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src) || CHECK_STELLE.test(src));
 
 export const SRC_STORAGE_KEY = "amanah_src";
 /** Die zuletzt geklickte Stelle auf unserer Seite (Freebie-Knopf, Bonus-Karte), getrennt von der Herkunft. */

@@ -38,6 +38,7 @@ const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
 const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftware.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
 const VergleichAssistent = lazy(() => import("./pages/VergleichAssistent.tsx"));
+const HalalFinanzCheck = lazy(() => import("./pages/HalalFinanzCheck.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -162,6 +163,8 @@ const App = () => (
                 /blog/…-Adresse fällt in die Fehlerseite, nicht auf die Übersicht. */}
             <Route path="/blog/halal-etf" element={<HalalEtf />} />
             <Route path="/vergleich/start" element={<VergleichAssistent />} />
+            {/* RN5: Halal-Finanz-Check, Einstiege ?quelle=aktienliste|halal-anlagen|boykottliste|homepage */}
+            <Route path="/check" element={<HalalFinanzCheck />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/depot-nummer-1" element={<DepotNummerEins />} />
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />

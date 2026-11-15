@@ -637,6 +637,8 @@ html[data-druck] footer:not(main footer) { display: none !important; }
 html[data-druck] .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 html[data-druck] [data-depot-aufruf],
 html[data-druck] [data-naechster-teil] { break-before: page; }
+/* RN5: der Halal-Finanz-Check im Freebie steht im PDF auf eigener Seite, wie die anderen Aufrufe. */
+html[data-druck] [data-check-einstieg] { break-before: page; break-inside: avoid; }
 /* Im PDF passt der Kasten mit dem Guide-Bild (MC7d17) sonst nicht auf eine Seite. */
 html[data-druck] [data-kasten-bild] { zoom: 0.55; }
 html[data-druck] [data-naechster-teil] li img { display: none; }

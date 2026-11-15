@@ -4,6 +4,7 @@ import { AlertTriangle, Heart, Info } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
 import { edelmetallVergleich } from "@/data/edelmetallVergleich";
@@ -240,6 +241,9 @@ const BoykottListe = () => {
             </p>
           </div>
         </section>
+
+        {/* RN5: Halal-Finanz-Check nach dem Hauptinhalt, eigener Einstieg ?quelle=boykottliste (Perspective-Tipp 43). */}
+        <CheckEinstieg quelle="boykottliste" className="mt-12" />
 
         <NaechsterTeil wort="boykott" className="mt-12" />
 

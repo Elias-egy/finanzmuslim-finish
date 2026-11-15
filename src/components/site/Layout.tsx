@@ -45,6 +45,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
+  // RN5: der Halal-Finanz-Check läuft im Vollbild ohne Menü, kein Knopf führt aus dem Ablauf heraus.
+  if (pathname === "/check") return <Schlicht>{children}</Schlicht>;
   // Der Portfolioplan bringt sein eigenes Onboarding mit Wortmarke mit: edel, weiß, ohne das blaue Menü, aber
   // erkennbar Teil der Seite (Elias, CV26P 09.11.2026: „nicht wirkt wie eine komplett andere Seite“).
   // `pp-rahmen`: schaltet der Leser dort auf Dunkel, wird auch der Fuß dunkel (portfolioplan.css, CV28P).

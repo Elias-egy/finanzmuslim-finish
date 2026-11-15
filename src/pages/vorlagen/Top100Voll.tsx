@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BadgeCheck, TrendingDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import KursZeile from "@/components/vorlagen/KursZeile";
 import AktienAufruf from "@/components/vorlagen/AktienAufruf";
+import { abFassung } from "@/lib/abTest";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import {
@@ -63,6 +64,8 @@ const zeile = (a: (typeof aktien)[number]) => (
 );
 
 const Top100Voll = () => {
+  // RN5: 50:50 „Nummer 1 und 2“ (a) gegen den Halal-Finanz-Check (b), einmal je Besucher gelost.
+  const [fassung] = useState(() => abFassung("aktien-check"));
   // Sanftes Einblenden beim Scrollen wie in der Liste und im Portfolio-Plan.
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
@@ -151,7 +154,7 @@ const Top100Voll = () => {
 
         {/* Direkt nach dem Schmerz die Lösung (Elias, AF1-02: „Und dann danach direkt die Lösung“). */}
         <section className="reveal mt-6" aria-labelledby="wo">
-          <AktienAufruf link={aktieLink} />
+          <AktienAufruf link={aktieLink} fassung={fassung} />
         </section>
 
         <section className="reveal mt-10" aria-labelledby="titel-rest">

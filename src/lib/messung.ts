@@ -37,7 +37,11 @@ export type Ereignis =
   | "app_klick"
   | "fertig_klick"
   // CV28V (13.11.2026): Mini-Formular „Halal-Investment-OS anfragen“ abgeschickt.
-  | "os_anfrage";
+  | "os_anfrage"
+  // RN5 (15.11.2026): Halal-Finanz-Check /check, Start der ersten Frage.
+  | "check_start"
+  // RN5: 50:50-Test, einmal je Besucher und Test (src/lib/abTest.ts).
+  | "ab_zuteilung";
 
 const speicher = (): Storage | null => {
   try {
