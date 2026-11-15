@@ -78,7 +78,6 @@ export const festeRouten: Route[] = [
 
   { pfad: "/halal-anlagen", quelle: ["src/pages/HalalAnlagen.tsx", "src/data/halalAnlagen.ts"], changefreq: "weekly", prioritaet: "0.9" },
   { pfad: "/vergleiche", quelle: ["src/pages/Vergleiche.tsx"], changefreq: "monthly", prioritaet: "0.8" },
-  { pfad: "/vergleich/start", quelle: ["src/pages/VergleichAssistent.tsx", "src/data/vergleichAssistent.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/depot", quelle: ["src/pages/VergleichDepot.tsx", "src/data/brokerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/girokonto", quelle: ["src/pages/VergleichGirokonto.tsx", "src/data/girokontoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/krypto", quelle: ["src/pages/VergleichKrypto.tsx", "src/data/kryptoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
@@ -248,6 +247,8 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/blog/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
+  // RN6 (15.11.2026, Elias: „Check ersetzt Quiz“): das alte Quiz führt in den Halal-Finanz-Check.
+  { von: "/vergleich/start", nach: "/check?quelle=quiz" },
   /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
      Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },

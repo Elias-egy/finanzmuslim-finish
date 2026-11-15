@@ -20,10 +20,11 @@ import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/giro
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
 
 /** Einstiege mit eigener Überschrift. Unbekannte Werte laufen als „homepage“. */
-export type CheckQuelle = "aktienliste" | "halal-anlagen" | "boykottliste" | "homepage" | "kopf" | "menue";
+/** „quiz“ seit RN6 (15.11.2026): alle Wege, die früher ins alte Quiz /vergleich/start führten (Elias: „Check ersetzt Quiz“). */
+export type CheckQuelle = "aktienliste" | "halal-anlagen" | "boykottliste" | "homepage" | "kopf" | "menue" | "quiz";
 
 export const quelleAus = (wert: string | null | undefined): CheckQuelle =>
-  wert === "aktienliste" || wert === "halal-anlagen" || wert === "boykottliste" || wert === "kopf" || wert === "menue"
+  wert === "aktienliste" || wert === "halal-anlagen" || wert === "boykottliste" || wert === "kopf" || wert === "menue" || wert === "quiz"
     ? wert
     : "homepage";
 
@@ -35,6 +36,7 @@ export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   homepage: "Konto, Depot oder beides?",
   kopf: "Konto, Depot oder beides?",
   menue: "Konto, Depot oder beides?",
+  quiz: "Konto, Depot oder beides?",
 };
 
 export const UNTERZEILE = "3 kurze Fragen. Danach weißt du, womit du halal startest.";
@@ -192,8 +194,9 @@ const QUELLE_KURZ: Record<CheckQuelle, string> = {
   homepage: "hp",
   kopf: "ko",
   menue: "me",
+  quiz: "qz",
 };
-export const CHECK_SRC = /^fc(ak|ha|bo|hp|ko|me)(fl|sb|no|bb)z?$/;
+export const CHECK_SRC = /^fc(ak|ha|bo|hp|ko|me|qz)(fl|sb|no|bb)z?$/;
 export const checkSrc = (quelle: CheckQuelle, anbieter: Anbieter, zusatz = false): string =>
   `fc${QUELLE_KURZ[quelle]}${anbieter.kurz}${zusatz ? "z" : ""}`;
 export const outLink = (quelle: CheckQuelle, anbieter: Anbieter, zusatz = false): string =>

@@ -5,6 +5,7 @@ import Seo from "@/components/Seo";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { ereignis } from "@/lib/messung";
+import { followerGesamt } from "@/data/beweise";
 import {
   FRAGEN,
   UEBERSCHRIFT,
@@ -204,6 +205,14 @@ const HalalFinanzCheck = () => {
                 ))}
               </ul>
               {ergebnis.pflicht && <p className="mt-4 text-[16px] font-semibold leading-snug text-foreground">{ergebnis.pflicht}</p>}
+              {/* Echte Zahl bei der Empfehlung (Perspective-Frage 4, Elias RN6: „Followerzahl“). */}
+              <figure className="mt-4 flex items-center gap-3 border-t border-border pt-4">
+                <img src="/elias-el-gendy.webp" alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 shrink-0 rounded-full object-cover" />
+                <figcaption className="text-[15px] font-semibold leading-snug text-foreground">
+                  Über {followerGesamt} folgen mir auf Instagram und TikTok.
+                  <span className="block text-[14px] font-normal text-muted-foreground">Elias, finanzmuslim</span>
+                </figcaption>
+              </figure>
               {/* Knopf direkt zum Anbieter über /out (Partnerlinks nur dort), Werbehinweis als Sternchen. */}
               <a
                 href={outLink(quelle, ergebnis.anbieter)}

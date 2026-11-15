@@ -462,7 +462,7 @@ const AnlageDetail = () => {
                   Beantworte ein paar Fragen: Du siehst, welches Depot zu dir passt.
                 </p>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Aufruf to="/vergleich/start" className="block sm:inline-block">
+                  <Aufruf to="/check?quelle=quiz" className="block sm:inline-block">
                     Passendes Depot finden
                   </Aufruf>
                   <Link to="/vergleich/depot" className="text-[15px] font-semibold text-primary hover:underline">

@@ -138,7 +138,7 @@ const Vergleiche = () => (
           nur der Preis, sondern ob das Produkt zu deinem Glauben passt.
         </p>
         <Link
-          to="/vergleich/start"
+          to="/check?quelle=quiz"
           className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary px-8 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
         >
           Finde, was zu dir passt

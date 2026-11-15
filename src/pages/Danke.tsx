@@ -8,6 +8,7 @@ import { Wordmark } from "@/components/Wordmark";
 import eliasFreigestellt from "@/assets/elias-freigestellt.webp";
 import { logosFuer, type LogoAnbieter } from "@/lib/anbieterLogos";
 import { vorhabenListe } from "@/lib/optin";
+import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { anbieterZahl, instagramFollower, vergleichsSeiten } from "@/data/beweise";
 import { optinFreebie } from "@/data/optin";
 import type { DankeState } from "@/components/optin/OptinKarte";
@@ -162,8 +163,8 @@ const Danke = () => {
   const freebie = optinFreebie(id);
   if (!freebie) return <Navigate to="/vorlagen" replace />;
 
-  const vorhaben = state?.vorhaben?.length ? `?vorhaben=${vorhabenListe(state.vorhaben)}` : "";
-  const ziel = `/vergleich/start${vorhaben}`;
+  // RN6: Check ersetzt das alte Quiz; das Vorhaben aus dem Freebie wird die erste Antwort.
+  const ziel = checkZielAusVorhaben(state?.vorhaben?.length ? vorhabenListe(state.vorhaben) : "");
   const logos = bekannteZuerst(logosFuer("Depot").logos).slice(0, 3);
 
   const karten = [

@@ -25,7 +25,7 @@ export const FindeDeinAngebot = ({
   titel = "Finde, was zu dir passt",
   text = "Beantworte ein paar einfache Fragen. Du siehst, welches Depot ohne Zinsen zu dir passt.",
   knopf = "Jetzt herausfinden",
-  ziel = "/vergleich/start",
+  ziel = "/check?quelle=quiz",
   logos,
   gesamt,
   className = "",

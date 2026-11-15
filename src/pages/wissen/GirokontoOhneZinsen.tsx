@@ -360,7 +360,7 @@ const GirokontoOhneZinsen = () => (
         ueberschrift: "Welches Konto passt zu dir?",
         text: "Beantworte ein paar einfache Fragen. Du siehst, welche Konten ohne Zinsen und ohne Dispo auskommen.",
         knopf: "Jetzt herausfinden",
-        linkZiel: "/vergleich/start",
+        linkZiel: "/check?quelle=quiz",
       }}
       boxMitte={{
         kategorie: "Depot",

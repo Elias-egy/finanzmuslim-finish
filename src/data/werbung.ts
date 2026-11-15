@@ -44,7 +44,7 @@ const test: EmpfehlungsBoxProps = {
   ueberschrift: "Was passt zu dir?",
   text: "Beantworte ein paar einfache Fragen. Du siehst, welches Depot, welches Konto und welche App ohne Zinsen zu dir passen.",
   knopf: "Jetzt herausfinden",
-  linkZiel: "/vergleich/start",
+  linkZiel: "/check?quelle=quiz",
 };
 
 /** Hauptaufruf nach Kapitel 1, passend zum Thema. Alle anderen zeigen das Depot. */

@@ -4,7 +4,6 @@ import { ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import { ANLAGEN_QUELLEN, ANLAGEN_RECHTSHINWEIS, artFarbe } from "@/components/vorlagen/anlagenTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
@@ -49,12 +48,7 @@ const merken = (slug: string, el: HTMLElement) => {
   }
 };
 
-/** Der Depot-Aufruf nach den Aktien-ETFs: erst reinlesen, dann kaufen (Elias, 31.10.2026, MC7d13c). */
-const TopDrei = () => (
-  <section className="reveal mt-10" aria-labelledby="wo">
-    <DepotAufruf titel={DEPOT_TITEL} link={listeLink} />
-  </section>
-);
+/* RN6: Der Depot-Aufruf TopDrei (MC7d13c) ist durch den Halal-Finanz-Check ersetzt, alte Fassung in Git vor RN6. */
 
 const HalalAnlagenVoll = () => {
   const navigation = useNavigationType();
@@ -171,12 +165,11 @@ const HalalAnlagenVoll = () => {
                 </ul>
               </details>
             )}
-            {g.kategorie === "aktien" && <TopDrei />}
+            {/* RN6 (15.11.2026, Elias: „Statt Depot-Kasten“, Vault raw/2026-11-15-elias-rn6-01-entscheidungen-check-phase1.md
+                Nr. 4): der Halal-Finanz-Check steht an der Stelle der Top 3 Depots, nach den Aktien-ETFs. */}
+            {g.kategorie === "aktien" && <CheckEinstieg quelle="halal-anlagen" className="mt-8" />}
           </section>
         ))}
-
-        {/* RN5: Halal-Finanz-Check nach dem Hauptinhalt, eigener Einstieg ?quelle=halal-anlagen (Perspective-Tipp 43). */}
-        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
         <NaechsterTeil wort="liste" className="mt-12" />
 

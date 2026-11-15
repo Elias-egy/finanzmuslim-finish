@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { captureSrc } from "@/lib/attribution";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -37,7 +38,11 @@ const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
 const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftware.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
-const VergleichAssistent = lazy(() => import("./pages/VergleichAssistent.tsx"));
+// RN6 (15.11.2026): /vergleich/start leitet in den Halal-Finanz-Check; die alte Seite pages/VergleichAssistent.tsx bleibt im Code.
+const QuizZumCheck = () => {
+  const { search } = useLocation();
+  return <Navigate to={checkZielAusVorhaben(new URLSearchParams(search).get("vorhaben"))} replace />;
+};
 const HalalFinanzCheck = lazy(() => import("./pages/HalalFinanzCheck.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
@@ -162,7 +167,8 @@ const App = () => (
             {/* Alle Beiträge liegen unter /blog (SEO43, 03.11.2026; vorher /wissen). Eine unbekannte
                 /blog/…-Adresse fällt in die Fehlerseite, nicht auf die Übersicht. */}
             <Route path="/blog/halal-etf" element={<HalalEtf />} />
-            <Route path="/vergleich/start" element={<VergleichAssistent />} />
+            {/* RN6: Check ersetzt das alte Quiz (VergleichAssistent bleibt im Code, rückholbar). */}
+            <Route path="/vergleich/start" element={<QuizZumCheck />} />
             {/* RN5: Halal-Finanz-Check, Einstiege ?quelle=aktienliste|halal-anlagen|boykottliste|homepage */}
             <Route path="/check" element={<HalalFinanzCheck />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />

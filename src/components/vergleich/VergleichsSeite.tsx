@@ -323,7 +323,7 @@ export const VergleichsSeite = ({
 
           {MIT_ASSISTENT.includes(pfad) && (
             <Link
-              to="/vergleich/start"
+              to="/check?quelle=quiz"
               className="mt-4 flex min-h-[50px] items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-[15px] text-foreground transition-colors hover:border-primary lg:mt-5 lg:max-w-3xl"
             >
               <span>
