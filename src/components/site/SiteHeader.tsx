@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { MIT_OS } from "@/config/phase";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
@@ -79,7 +80,8 @@ export const SiteHeader = () => {
       {/* Hinweisstreifen: violett, eine Zeile, kompakt. Genau wie vorher.
           Einzige Änderung gegenüber früher: er klebt nicht mehr oben, sondern
           scrollt mit weg. Sonst frisst er auf dem Handy dauerhaft Platz. */}
-      {aufStartseite && (
+      {/* RN5: Phase 1 ohne OS, der Streifen kommt erst mit Phase 2 (src/config/phase.ts). */}
+      {MIT_OS && aufStartseite && (
         /* VS5-06: der Streifen wirbt für das Halal-Investment-OS, „Neu“ runder („oben in lila, auch werbung für dein halal investment“) */
         <a
           href="/investment-os/"
@@ -178,9 +180,11 @@ export const SiteHeader = () => {
                     Halal-Investment-OS (VS5-05: „nur in der Laptop-Ansicht oben rechts Halal-Investment-OS“; „die Knöpfe bei
                     dem Tab … mit Zugriff anfragen rechts in rund. Das gefällt mir deutlich besser“). Vorher „Dein Geld halal
                     vermehren“ zum geführten Vergleich. */}
-                <a href="/investment-os/" className="hidden rounded-full min-[900px]:inline-block">
+                {/* RN5 Phase 1: derselbe Knopf führt zum Halal-Finanz-Check, Text „Investiere halal“ (startseite-und-navigation,
+                    Gilt 04.11.: „lieber sowas wie investiere halal“). */}
+                <a href={MIT_OS ? "/investment-os/" : "/check?quelle=kopf"} className="hidden rounded-full min-[900px]:inline-block">
                   <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
-                    Halal-Investment-OS
+                    {MIT_OS ? "Halal-Investment-OS" : "Investiere halal"}
                   </span>
                 </a>
               </>
@@ -293,11 +297,11 @@ export const SiteHeader = () => {
               ))}
 
               <a
-                href="/investment-os/"
+                href={MIT_OS ? "/investment-os/" : "/check?quelle=menue"}
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[48px] items-center justify-center rounded-full bg-primary px-5 text-[16px] font-semibold text-primary-foreground"
               >
-                Dein Halal-Investment-OS
+                {MIT_OS ? "Dein Halal-Investment-OS" : "Investiere halal"}
               </a>
             </div>
           </div>

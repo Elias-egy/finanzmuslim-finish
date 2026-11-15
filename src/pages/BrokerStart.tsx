@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Copy, Volume2 } from "lucide-react";
 import Seo from "@/components/Seo";
 import { OsAnfrageKnopf } from "@/components/OsAnfrage";
+import { MIT_OS } from "@/config/phase";
 import { anlagenMitLink, FLATEX_VERZICHT, type BrokerStart } from "@/data/brokerStart";
 import type { StartPartner } from "@/data/investmentStart";
 import { aktuelleSubId, herkunftAufnehmen } from "@/lib/attribution";
@@ -234,8 +235,9 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
         <div className="container max-w-[600px] text-[17px] leading-snug text-foreground">
           {/* Elias, CV28V-02 13.11.2026: unter dem Video als Erstes, auffällig, über den Links; FERTIG gehört nicht
               mehr zu den Links. */}
-          <OsAnfrageKnopf anbieter={partner.kurzname} />
-          <h2 className="mt-10 text-[19px] font-bold">Hier alle Links, die du brauchst</h2>
+          {/* RN5: die OS-Bewerbung gibt es erst in Phase 2 (src/config/phase.ts). */}
+          {MIT_OS && <OsAnfrageKnopf anbieter={partner.kurzname} />}
+          <h2 className={MIT_OS ? "mt-10 text-[19px] font-bold" : "text-[19px] font-bold"}>Hier alle Links, die du brauchst</h2>
           <ul className="mt-4 space-y-3">
             <Zeile titel={`${start.app.name}-App${start.app.zweck ? ` (${start.app.zweck})` : ""}`}>
               <StoreLinks app={start.app} wo="app" kurzname={partner.kurzname} />

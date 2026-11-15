@@ -1,10 +1,16 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
+import { rmSync } from "fs";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }) => {
+  // RN5 (15.11.2026): Schalter Phase 1 / 2, Standard 1 ohne OS (src/config/phase.ts). In Phase 1 gibt es weder die
+  // Verkaufsseite /investment-os/ noch den Entwicklungs-Umweg /os-entwurf.
+  let ausgabe = path.resolve(__dirname, "dist");
+  const mitOs = (process.env.VITE_PHASE ?? loadEnv(mode, process.cwd(), "VITE_").VITE_PHASE) === "2";
+  return {
   server: {
     host: "::",
     port: process.env.PORT ? Number(process.env.PORT) : 8080,
@@ -14,12 +20,12 @@ export default defineConfig(({ mode }) => ({
     // Nur Entwicklung (VS4, 11.11.2026): Verkaufsseite und OS-Entwurf der OS-Linie liegen im Vault
     // und laufen auf 127.0.0.1:5331. So sind sie auch unter diesem einen Localhost erreichbar
     // (/os-entwurf/verkauf.html, /os-entwurf/app/). Beim Einbau ersetzt eine echte Seite den Umweg.
-    proxy: {
+    proxy: mitOs ? {
       "/os-entwurf": {
         target: "http://127.0.0.1:5331",
         rewrite: (pfad: string) => pfad.replace(/^\/os-entwurf/, ""),
       },
-    },
+    } : undefined,
   },
   // Bauzeit für die Ausgaben der Halal-News (src/data/newsletterAusgaben.ts, sichtbarAb).
   define: { __BAUZEIT__: JSON.stringify(process.env.BAUZEIT || new Date().toISOString()) },
@@ -29,8 +35,14 @@ export default defineConfig(({ mode }) => ({
     {
       name: "investment-os-seite",
       // Ohne Schrägstrich am Ende zeigen Bilder und Schriften (relative Pfade) ins Leere: erst umleiten wie der Host live.
-      configureServer(server: { middlewares: { use: (fn: (req: { url?: string }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: () => void }, next: () => void) => void) => void } }) {
+      configureServer(server: { middlewares: { use: (fn: (req: { url?: string }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: (text?: string) => void }, next: () => void) => void) => void } }) {
         server.middlewares.use((req, res, next) => {
+          if (!mitOs && req.url && /^\/(investment-os|os-entwurf)(\/|\?|$)/.test(req.url)) {
+            res.statusCode = 404;
+            res.setHeader("Content-Type", "text/plain; charset=utf-8");
+            res.end("Phase 1: ohne Halal-Investment-OS");
+            return;
+          }
           if (req.url && /^\/investment-os(\?.*)?$/.test(req.url)) {
             res.statusCode = 301;
             res.setHeader("Location", "/investment-os/" + (req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : ""));
@@ -43,6 +55,13 @@ export default defineConfig(({ mode }) => ({
           next();
         });
       },
+      // Beim Build in Phase 1 die Verkaufsseite aus dist nehmen, sonst läge sie live unter /investment-os/.
+      configResolved(c: { root: string; build: { outDir: string } }) {
+        ausgabe = path.resolve(c.root, c.build.outDir);
+      },
+      closeBundle() {
+        if (!mitOs) rmSync(path.join(ausgabe, "investment-os"), { recursive: true, force: true });
+      },
     },
     react(),
     mode === "development" && componentTagger(),
@@ -53,4 +72,5 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
   },
-}));
+};
+});

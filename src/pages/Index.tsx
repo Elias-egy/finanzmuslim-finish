@@ -26,11 +26,13 @@ import Tagesgewinner from "@/components/Tagesgewinner";
 import MotivBild from "@/components/MotivBild";
 import OsWelt, { OS_GRUND } from "@/components/OsWelt";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
+import { MIT_OS } from "@/config/phase";
 import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
+import guideCover from "@/assets/guide-cover-v4.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v3.webp";
 import rechnerRender from "@/assets/rechner.webp";
 
@@ -238,7 +240,18 @@ const Index = () => {
                 <span className="hidden md:inline"> Finde die passenden Produkte in wenigen Schritten.</span>
               </p>
               {/* Kein Knopf mehr im ersten Schirm (VS5-05: „Finde, was zu dir passt komplett raus … das zählt zu viele
-                  Konkurrenzprioritäten“); die vier Vergleiche darunter rücken dafür hoch. */}
+                  Konkurrenzprioritäten“); die vier Vergleiche darunter rücken dafür hoch.
+                  RN5 Phase 1 (ohne OS): ein Knopf zum Halal-Finanz-Check, Zusage plus Zeitangabe unter 60 Sekunden
+                  (startseite-und-navigation, Gilt 30.10.), nie „Finde, was zu dir passt“ (woerter-und-ton, Nie). */}
+              {!MIT_OS && (
+                <div className="max-md:order-4 mt-4 flex flex-col items-start gap-2 md:mt-6 lg:mt-10">
+                  <Aufruf to="/check?quelle=homepage" gross className="block w-full whitespace-nowrap sm:inline-block sm:w-auto">
+                    Halal-Finanz-Check starten
+                    <ArrowRight className="h-5 w-5" aria-hidden />
+                  </Aufruf>
+                  <p className="text-[15px] font-medium text-muted-foreground max-sm:w-full max-sm:text-center">3 Fragen, 60 Sekunden, kostenlos</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -322,6 +335,35 @@ const Index = () => {
         </div>
       </section>
 
+      {/* 2 — Phase 1 (RN5, ohne OS): der Guide-Block wie vor VS4 (Fassung aus d65af7e^), Elias RN2-03: „der Guide bleibt“. */}
+      {!MIT_OS && (
+      <section className="section-card">
+        <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
+          <img
+            src={guideCover}
+            alt="Der Halal Investment Guide als Buch"
+            className="mx-auto max-h-[220px] w-auto object-contain lg:max-h-none lg:w-[380px]"
+            loading="lazy"
+          />
+          <div>
+            <p className="eyebrow">Guide</p>
+            <h2 className="section-title mt-2">Der Halal Investment Guide</h2>
+            <p className="section-text mt-3 max-w-[640px]">
+              Der Guide erklärt dir die Grundprinzipien islamkonformer Geldanlage und welche
+              Anlageklassen infrage kommen.
+              <span className="hidden md:inline">
+                {" "}
+                Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
+              </span>
+            </p>
+            <Aufruf to="/halal-guide" className="block sm:inline-block mt-6 lg:mt-8">
+              Guide kostenlos sichern
+            </Aufruf>
+          </div>
+        </div>
+      </section>
+      )}
+
       {/* 2 — Halal-Investment-OS, ersetzt den Guide (Elias 09.11.: "Das wird auch den Guide ersetzen auf der
           Hauptseite"). Links das echte OS aus der App, das in seiner Welt schwebt; rechts "Erstelle dein
           Halal-Investment-OS" in der Schrift wie Skilltree, keine Unterzeile; blauer runder Knopf "Jetzt holen"
@@ -331,6 +373,7 @@ const Index = () => {
           es in der Webseite bleibt"). Am Laptop genau ein Bildschirm unter dem festen Kopf (68 px): steht der Block
           oben am Kopf, schaut unten nichts vom naechsten Abschnitt heraus (VS4-04 "perfekter Umbruch").
           Handy: Welt oben und groesser, ohne Bereichsnamen. Fassung hell zum Vergleich mit ?os=hell. */}
+      {MIT_OS && (
       <section
         id="os"
         className="relative ml-[calc(50%-50vw)] w-screen scroll-mt-[60px] overflow-hidden !mt-10 md:scroll-mt-[68px] lg:!mt-14 lg:h-[100svh] lg:min-h-[640px]"
@@ -360,6 +403,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* 3 — Newsletter */}
       <section className="section-card">

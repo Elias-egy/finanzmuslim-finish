@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { messungAktiv } from "@/lib/messung";
+import { MIT_OS } from "@/config/phase";
 
 const Datenschutz = () => (
   <div className="min-h-screen bg-background text-foreground">
@@ -166,6 +167,8 @@ const Datenschutz = () => (
           Vault-Notiz hermes/renovierungskampagne/os-bewerbung-datenschutz.md. Offen vor dem Livegang: Empfänger (Make,
           MailerLite oder eigener Server und Zoho) und die Löschfrist mit dem gebauten Versand abgleichen; Prüfung durch
           einen Anwalt empfohlen (Art. 9 DSGVO). Das Formular schickt bis dahin nichts weg. */}
+      {/* RN5: der Abschnitt gilt erst mit Phase 2, in Phase 1 gibt es das Formular nicht. */}
+      {MIT_OS && (
       <section id="os-bewerbung" className="mb-10 scroll-mt-24">
         <h2 className="text-xl font-semibold mb-4">5a. Bewerbung für das Halal-Investment-OS</h2>
         <p className="text-muted-foreground leading-relaxed">
@@ -189,6 +192,7 @@ const Datenschutz = () => (
           DSGVO arbeiten.
         </p>
       </section>
+      )}
 
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">6. Videos und Anbieter-Logos</h2>
