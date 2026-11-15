@@ -91,9 +91,10 @@
   color: #fff;
 }
 .hc-btn--klein {
-  min-height: 48px;
-  padding: 0 24px;
-  font-size: 17px;
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 700;
 }
 .hc-btn--rand {
   background: transparent;
@@ -128,9 +129,17 @@
 
 /* Knöpfe ganz rund (Verkaufsseite nach dem neuen Funnel: großer blauer Knopf, Knopf mit Rand, dunkler Kopf-Knopf) */
 .hc-btn--gross {
-  min-height: 60px;
-  padding: 0 34px;
-  font-size: 19px;
+  min-height: 56px;
+  gap: 8px;
+  padding: 0 32px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.hc-btn--rand.hc-btn--gross {
+  padding: 0 28px;
+  font-weight: 600;
+  box-shadow: none;
 }
 .hc-btn--dunkel {
   background: var(--text);
@@ -148,24 +157,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 68px;
 }
 .hc-logo {
   display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+@media (min-width: 768px) {
+  .hc-logo {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 /* Hero: Zeile „89 Angebote selbst getestet“ mit drei Bank-Logos direkt daneben, Überschrift, Unterzeile, zwei Knöpfe, Häkchenzeile */
-.hc-hero {
-  padding-top: 56px;
+.hc-hero.hc-wrap {
+  max-width: calc(72rem + 96px);
+  padding-top: 80px;
+  padding-inline: 24px;
+  container-type: inline-size;
+}
+@media (min-width: 768px) {
+  .hc-hero.hc-wrap {
+    padding-top: 112px;
+    padding-inline: 48px;
+  }
 }
 .hc-hero-gitter {
   display: grid;
-  gap: 28px;
+  gap: 32px;
 }
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .hc-hero-gitter {
     grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
     align-items: end;
@@ -184,9 +208,9 @@
   flex: none;
   margin: 0;
   color: var(--blau-text);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.375;
   white-space: nowrap;
 }
 .hc-banken {
@@ -196,7 +220,7 @@
   gap: 8px;
   min-width: 0;
 }
-.hc-bank {
+.hc-banklogo {
   display: block;
   flex: 0 1 var(--w);
   width: var(--w);
@@ -206,56 +230,63 @@
   object-position: left center;
   opacity: 0.92;
 }
-.hc-bank--ing {
+.hc-banklogo--ing {
   --w: 44px;
 }
-.hc-bank--dkb {
+.hc-banklogo--dkb {
   --w: 26px;
 }
-.hc-bank--cb {
+.hc-banklogo--cb {
   --w: 52px;
 }
 @media (min-width: 520px) {
-  .hc-eyebrow {
-    font-size: 16px;
-  }
   .hc-banken {
     gap: 14px;
   }
-  .hc-bank {
+  .hc-banklogo {
     height: 18px;
   }
-  .hc-bank--ing {
+  .hc-banklogo--ing {
     --w: 92px;
   }
-  .hc-bank--dkb {
+  .hc-banklogo--dkb {
     --w: 32px;
   }
-  .hc-bank--cb {
+  .hc-banklogo--cb {
     --w: 100px;
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .hc-eyebrow {
     font-size: 18px;
   }
 }
 .hc-h1 {
   margin: 0;
-  max-width: 14em;
-  font-size: clamp(2.25rem, 1.2rem + 4.2vw, 4rem);
-  font-weight: 700;
-  line-height: 1.04;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.02;
   letter-spacing: -0.03em;
   text-wrap: balance;
   overflow-wrap: break-word;
 }
+@media (min-width: 768px) {
+  .hc-h1 {
+    font-size: min(4.5rem, 9cqw);
+    line-height: 1;
+  }
+}
+@media (min-width: 1024px) {
+  .hc-h1 {
+    font-size: min(5.25rem, 9cqw);
+  }
+}
 .hc-lead {
   margin: 0;
-  max-width: 28em;
+  max-width: 28rem;
   color: var(--grau);
   font-size: 18px;
-  line-height: 1.55;
+  line-height: 1.625;
 }
 .hc-knoepfe {
   display: flex;
@@ -263,13 +294,7 @@
   gap: 12px;
   margin-top: 28px;
 }
-@media (max-width: 520px) {
-  .hc-knoepfe .hc-btn {
-    flex: 1 1 100%;
-    white-space: normal;
-    text-align: center;
-  }
-}
+
 .hc-haken-zeile {
   display: flex;
   flex-wrap: wrap;
@@ -288,15 +313,17 @@
 }
 .hc-haken-zeile li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
+  line-height: 1.375;
   font-size: 15px;
   font-weight: 500;
 }
 .hc-haken-icon {
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
   color: var(--blau-text);
 }
 
@@ -315,11 +342,27 @@
 .hc-h2 {
   margin: 0;
   max-width: 17em;
-  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
-  font-weight: 700;
-  line-height: 1.1;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.05;
   letter-spacing: -0.025em;
   text-wrap: balance;
+}
+@media (min-width: 768px) {
+  .hc-h2 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+.hc-schritte .hc-h2 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+}
+@media (min-width: 768px) {
+  .hc-schritte .hc-h2 {
+    font-size: 3rem;
+    line-height: 1;
+  }
 }
 .hc-community-gitter {
   display: grid;
@@ -452,9 +495,9 @@
   display: grid;
   grid-template-columns: clamp(104px, 28vw, 200px) minmax(0, 1fr);
   align-items: start;
-  gap: 20px clamp(16px, 3vw, 28px);
+  gap: 20px clamp(20px, 3vw, 24px);
   width: 100%;
-  padding: 26px 0;
+  padding: 28px 0;
   border: 0;
   border-top: 1px solid var(--linie);
   background: transparent;
@@ -501,18 +544,18 @@
   font-variant-numeric: tabular-nums;
 }
 .hc-zeile-titel {
-  margin-top: 2px;
-  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
-  font-weight: 700;
-  line-height: 1.2;
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
   letter-spacing: -0.02em;
   overflow-wrap: break-word;
 }
 .hc-zeile-beschr {
   margin-top: 4px;
   color: var(--grau);
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.625;
 }
 
 /* Tabelle: Finanzmuslim blau hinterlegt gegen Vergleichsportal und Selbst suchen. Feste Spaltenbreiten, Kopfzeilen brechen um,
@@ -1012,7 +1055,7 @@
 .dark .hc .hc-stimme {
   box-shadow: 0 0 0 1px var(--linie);
 }
-.dark .hc .hc-bank {
+.dark .hc .hc-banklogo {
   padding: 2px 4px;
   border-radius: 4px;
   background: #fff;

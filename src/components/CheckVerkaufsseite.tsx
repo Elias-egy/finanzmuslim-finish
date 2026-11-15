@@ -62,9 +62,9 @@ const FRAGEN_ZEILEN = [
 const Pfeil = () => <ArrowRight className="hc-pfeil" aria-hidden />;
 
 const BANKEN = [
-  { src: "/logos/ing.de.svg", alt: "ING", cls: "hc-bank--ing" },
-  { src: "/logos/dkb.de.svg", alt: "DKB", cls: "hc-bank--dkb" },
-  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", cls: "hc-bank--cb" },
+  { src: "/logos/ing.de.svg", alt: "ING", cls: "hc-banklogo--ing" },
+  { src: "/logos/dkb.de.svg", alt: "DKB", cls: "hc-banklogo--dkb" },
+  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", cls: "hc-banklogo--cb" },
 ];
 
 /** Kopf der Verkaufsseite je Art: Konto zwei Fragen (Elias' Wort Bankkonto), Depot drei, ohne art beides. */
@@ -116,7 +116,7 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                 <p className="hc-eyebrow">{ANGEBOTE_GETESTET} Angebote selbst getestet</p>
                 <span className="hc-banken">
                   {BANKEN.map((b) => (
-                    <img key={b.src} src={b.src} alt={b.alt} height={18} className={`hc-bank ${b.cls}`} />
+                    <img key={b.src} src={b.src} alt={b.alt} height={18} className={`hc-banklogo ${b.cls}`} />
                   ))}
                 </span>
               </div>
