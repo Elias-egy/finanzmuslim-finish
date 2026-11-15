@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
+import { GiroInhalt } from "./GiroKarten";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
@@ -105,6 +106,7 @@ export const NummerEins = ({
   spalte,
   auszeichnung = "Unsere Nummer 1",
   note,
+  giro,
 }: {
   anbieter: RohAnbieter;
   zeilen: VergleichsZeile[];
@@ -117,17 +119,20 @@ export const NummerEins = ({
   auszeichnung?: string;
   /** Unsere Note aus `rangfolge()`, als Wort, Zahl und Sterne wie bei Finanzfluss. */
   note?: number | null;
+  /** Nur Girokonto (Elias PH2-01): hellblauer Kasten mit Haken und vier Kacheln statt der Hakenliste; „Besonders“ je Anbieter-ID. */
+  giro?: { besonders: Record<string, string[]> };
 }) => {
   const [offen, setOffen] = useState(false);
   const { halal, kosten } = gruende(anbieter, zeilen);
-  const punkte = [...halal, ...kosten];
+  const punkte = giro ? [] : [...halal, ...kosten];
+  const wert = (k: string) => (typeof anbieter.werte[k] === "string" ? (anbieter.werte[k] as string) : null);
 
   return (
     /* Flach wie Finanzfluss (Elias CV17F: „viereckige Kästen … als hätte das wirklich jemand eine
        Webseite gebaut“): ein Rahmen, eine Ecke von 8 px, kein Verlauf, kein Schatten. Die frühere
        Kleinschrift zur Rangfolge steht nicht mehr am Kasten (Elias 06.11.: kein Kleingedrucktes),
        „So bewerten wir“ steht unter der Tabelle. */
-    <section className="overflow-hidden rounded-lg border border-primary bg-card" aria-label={auszeichnung}>
+    <section className={`overflow-hidden rounded-lg border border-primary ${giro ? "bg-accent" : "bg-card"}`} aria-label={auszeichnung}>
       {/* Streifen mit Platzzahl im Reiter wie die anderen Karten (Finanzfluss: „1 … Bestes Depot“). */}
       <p className="flex items-stretch border-b border-primary bg-primary text-[14px] font-semibold text-primary-foreground">
         <span className="flex min-w-[36px] items-center justify-center border-r border-primary-foreground/30 px-2">1</span>
@@ -150,16 +155,30 @@ export const NummerEins = ({
           </div>
           {/* Logo und Note in zwei Kästchen wie jede Karte darunter. Ohne Note nur das Logo. */}
           <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"}`}>
-            <div className="flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2">
+            <div className={`flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2 ${giro ? "bg-card" : ""}`}>
               <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
             </div>
             {note != null && (
-              <div className="flex items-center justify-center rounded-lg border border-border p-2">
+              <div className={`flex items-center justify-center rounded-lg border border-border p-2 ${giro ? "bg-card" : ""}`}>
                 <NotenBlock note={note} mittig />
               </div>
             )}
           </div>
         </div>
+        {giro && (
+          <GiroInhalt
+            w={{
+              zinsfrei: wert("zinsfreiAbStart") ?? undefined,
+              keinDispo: wert("keinDispoAbStart") ?? undefined,
+              kontofuehrung: wert("kontofuehrung"),
+              kontofuehrungKurz: kostenKurz(anbieter.id, "kontofuehrung") ?? null,
+              geldautomaten: wert("geldautomaten"),
+              girocard: wert("girocard"),
+              debitkarte: wert("debitkarte"),
+            }}
+            besonders={giro.besonders[anbieter.id]}
+          />
+        )}
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
         <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
           {punkte.map((punkt) => (

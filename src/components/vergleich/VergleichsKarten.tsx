@@ -20,6 +20,7 @@ import {
 } from "./vergleichTypen";
 import { istMindestens } from "@/lib/platzAnsicht";
 import { platzTon } from "./VergleichsTabelle";
+import { GIRO_BLAU, GIRO_ORANGE, GiroInhalt, bonusReiter, type GiroWerte } from "./GiroKarten";
 
 /**
  * Dieselben Daten wie in der Tabelle, nur als Karten fuer Handy und Tablet. Auf dem Handy ist die
@@ -86,14 +87,28 @@ const Punkt = ({
   );
 };
 
+/** Girokonto-Karte: die Werte aus den Zellen der Spalte, damit Kacheln und Tabelle dasselbe sagen. */
+export const giroWerteVon = (spalte: VergleichsSpalte): GiroWerte => ({
+  zinsfrei: spalte.werte.zinsfreiAbStart?.status,
+  keinDispo: spalte.werte.keinDispoAbStart?.status,
+  kontofuehrung: spalte.werte.kontofuehrung?.text,
+  kontofuehrungKurz: spalte.werte.kontofuehrung?.kurz,
+  geldautomaten: spalte.werte.geldautomaten?.text,
+  girocard: spalte.werte.girocard?.text,
+  debitkarte: spalte.werte.debitkarte?.text,
+});
+
 const Karte = ({
   spalte,
   zeilen,
   platzZeilen = [],
+  giro,
 }: {
   spalte: VergleichsSpalte;
   zeilen: VergleichsZeile[];
   platzZeilen?: VergleichsZeile[];
+  /** Nur Girokonto: Kacheln statt Hakenliste, blaue und orange Karten (Elias PH2-01). `besonders` je Anbieter-ID. */
+  giro?: { besonders: Record<string, string[]> };
 }) => {
   const [offen, setOffen] = useState(false);
   const [platzOffen, setPlatzOffen] = useState(false);
@@ -103,6 +118,11 @@ const Karte = ({
   const auszeichnung = auszeichnungVon(spalte);
   const hervor = auszeichnung?.ton === "empfehlung";
 
+  /* Girokonto: Platz 1 hellblau, eine Karte mit belegtem Bonus orange. Der Reiter trägt den Text. */
+  const bonus = giro && !spalte.abgeraten && !spalte.grau ? bonusReiter(spalte.id) : null;
+  const giroFarbe = !giro || spalte.abgeraten || spalte.grau ? null : hervor ? GIRO_BLAU : bonus ? GIRO_ORANGE : null;
+  const reiterText = giro ? (hervor ? auszeichnung!.text : bonus) : null;
+
   return (
     <li
       className={`flex flex-col overflow-hidden rounded-lg border ${
@@ -110,6 +130,8 @@ const Karte = ({
           ? "border-border bg-zinc-200 dark:bg-muted"
           : spalte.abgeraten
           ? "border-destructive/40 bg-card"
+          : giro
+          ? giroFarbe?.karte ?? "border-border bg-card"
           : `${hervor ? "border-primary" : "border-border"} ${(auszeichnung && auszeichnungGrund[auszeichnung.ton]) || "bg-card"}`
       }`}
     >
@@ -119,9 +141,19 @@ const Karte = ({
         </p>
       )}
 
+      {/* Girokonto mit Reiter (Platz 1, Bonus): ein Streifen mit Platzzahl und Text wie beim Kasten der Nummer 1. */}
+      {giro && giroFarbe && reiterText && (
+        <p className={`flex items-stretch border-b text-[14px] font-semibold ${giroFarbe.reiter}`}>
+          {spalte.platz != null && (
+            <span className={`flex min-w-[36px] items-center justify-center border-r ${giroFarbe.trenner} px-2`}>{spalte.platz}</span>
+          )}
+          <span className="flex-1 px-4 py-1.5 text-center">{reiterText}</span>
+        </p>
+      )}
+
       {/* Kopf: Reiter mit Platz, Name, Auszeichnung. Ohne Platz (alphabetische Vergleiche) kein Reiter. */}
       <div className="flex items-start gap-3 pr-4">
-        {spalte.platz != null && (
+        {spalte.platz != null && !(giro && giroFarbe && reiterText) && (
           <span
             className={`flex h-9 min-w-[36px] shrink-0 items-center justify-center rounded-br-lg border-b border-r px-2 text-[15px] font-semibold ${
               hervor ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
@@ -130,10 +162,10 @@ const Karte = ({
             {spalte.platz}
           </span>
         )}
-        <p className={`min-w-0 flex-1 py-2 text-[16px] leading-snug ${spalte.platz == null ? "pl-4" : ""}`}>
+        <p className={`min-w-0 flex-1 py-2 text-[16px] leading-snug ${spalte.platz == null || (giro && giroFarbe && reiterText) ? "pl-4" : ""}`}>
           <AnbieterName spalte={spalte} />
         </p>
-        {auszeichnung && (
+        {auszeichnung && !giro && (
           <span className={`shrink-0 py-2.5 text-right text-[13px] font-semibold leading-tight ${auszeichnungFarbe[auszeichnung.ton]}`}>
             {auszeichnung.text}
           </span>
@@ -174,11 +206,15 @@ const Karte = ({
           </p>
         )}
 
-        <ul className="mt-3 space-y-1.5">
-          {raster.map((z) => (
-            <Punkt key={z.key} zeile={z} wert={spalte.werte[z.key]} />
-          ))}
-        </ul>
+        {giro ? (
+          <GiroInhalt w={giroWerteVon(spalte)} besonders={giro.besonders[spalte.id]} />
+        ) : (
+          <ul className="mt-3 space-y-1.5">
+            {raster.map((z) => (
+              <Punkt key={z.key} zeile={z} wert={spalte.werte[z.key]} />
+            ))}
+          </ul>
+        )}
 
         {platzZeilen.length > 0 && mindestens.length > 0 && (
           <p className="mt-2 rounded-md bg-warning/15 px-2 py-1 text-[13px] leading-snug text-foreground ring-1 ring-inset ring-warning/50">
@@ -261,6 +297,7 @@ export const VergleichsKarten = ({
   spalten,
   zuerst = SEITE,
   platzZeilen,
+  giro,
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
@@ -268,6 +305,8 @@ export const VergleichsKarten = ({
   zuerst?: number;
   /** Nur Ansicht A3 (Localhost, `?ansicht=a3`): Zeilen „So entsteht der Platz“. */
   platzZeilen?: VergleichsZeile[];
+  /** Nur Girokonto, siehe `Karte`. */
+  giro?: { besonders: Record<string, string[]> };
 }) => {
   const [sichtbar, setSichtbar] = useState(zuerst);
   const zeigen = spalten.slice(0, sichtbar);
@@ -277,7 +316,7 @@ export const VergleichsKarten = ({
       {/* Tablet: zwei Karten nebeneinander, sonst laufen Liste und Knopf über die ganze Breite. */}
       <ul className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
         {zeigen.map((s) => (
-          <Karte key={s.id} spalte={s} zeilen={zeilen} platzZeilen={platzZeilen} />
+          <Karte key={s.id} spalte={s} zeilen={zeilen} platzZeilen={platzZeilen} giro={giro} />
         ))}
       </ul>
 

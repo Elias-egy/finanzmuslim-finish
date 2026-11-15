@@ -108,6 +108,12 @@ export type VergleichsSeiteProps = {
   ohneNummerEins?: boolean;
   /** Ein Satz direkt über der Liste: wonach sie sortiert ist, gern mit Link zur Methodik. */
   sortiertNach?: ReactNode;
+  /**
+   * Nur Girokonto (Elias PH2-01): Karten am Handy wie bei Finanzfluss mit vier Kacheln statt Hakenliste, Platz 1 hellblau,
+   * Karten mit Bonus orange, und der Satz „Sortiert nach unserer Note“ steht am Handy unter der Liste statt darüber.
+   * `besonders`: Zeile „Besonders“ je Anbieter-ID (Finanzfluss „Besondere Eigenschaften“).
+   */
+  giro?: { besonders: Record<string, string[]> };
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
@@ -160,6 +166,7 @@ export const VergleichsSeite = ({
   finanzMax,
   ohneNummerEins = false,
   sortiertNach,
+  giro,
   quellenHinweis,
   kriterien,
   kriterienTitel = "Worauf wir bei Halal achten",
@@ -173,6 +180,7 @@ export const VergleichsSeite = ({
   schluss,
   ansichtAlle,
 }: VergleichsSeiteProps) => {
+  const sortiertUnten = Boolean(giro && sortiertNach);
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
 
@@ -413,6 +421,7 @@ export const VergleichsSeite = ({
               spalte={baueSpalten([sieger], zeilen, kategorie)[0]}
               auszeichnung={nummerEinsText}
               note={noteVon?.get(sieger.id) ?? null}
+              giro={giro}
             />
           )}
           {!sieger && (
@@ -478,7 +487,7 @@ export const VergleichsSeite = ({
           </p>
         ) : (
           <>
-            {sortiertNach && (
+            {sortiertNach && !sortiertUnten && (
               <p className={`${BREIT} mt-5 text-[14px] leading-snug text-muted-foreground lg:mt-8`}>
                 {sortiertNach}
               </p>
@@ -489,18 +498,25 @@ export const VergleichsSeite = ({
                 markiert sind Zellen mit „mind.“. Rot abgeratene, die nicht auf der Seite stehen, fehlen hier.
               </p>
             )}
-            {/* Laptop: gedrehte Tabelle. Handy: Karten. */}
+            {/* Laptop: gedrehte Tabelle. Handy: Karten. Mit `giro` steht der Satz zur Reihenfolge am Handy unter den
+                Karten, am Laptop weiter über der Tabelle (`order`, ein Satz, kein Doppel). */}
+            <div className={sortiertUnten ? `${BREIT} flex flex-col` : "contents"}>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
               <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} />
             </div>
-            <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-4"} lg:hidden`}>
+            <div className={`${BREIT} ${sortiertNach && !sortiertUnten ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. Beim Doppel-Kasten beide. */}
               <VergleichsKarten
                 zeilen={zeilen}
                 platzZeilen={ansichtZeilen}
                 spalten={spalten.filter((sp) => sp.id !== sieger?.id && sp.id !== zweiter?.id)}
                 zuerst={SEITE - (sieger ? 1 : 0) - (zweiter && sieger ? 1 : 0)}
+                giro={giro}
               />
+            </div>
+            {sortiertUnten && (
+              <p className="mt-4 text-[14px] leading-snug text-muted-foreground lg:order-first lg:mb-0 lg:mt-8">{sortiertNach}</p>
+            )}
             </div>
           </>
         )}

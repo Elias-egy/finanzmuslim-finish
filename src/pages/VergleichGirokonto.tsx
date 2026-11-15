@@ -1,13 +1,28 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { GIRO_ZEILEN, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { girokontoAnzeige } from "@/data/anzeige/girokonto";
-import { juengsterStand } from "@/lib/juengsterStand";
+import { BESONDERS_JE_PRODUKT } from "@/data/girokontoBesondersDaten";
 import { GiroRatgeber } from "@/components/vergleich/GiroRatgeber";
 import { giroFragen } from "@/data/giroRatgeber";
 import { Link } from "react-router-dom";
 import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
 
 const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Girokonto" };
+
+/**
+ * Datum der Seite („Aktualisiert am“) und Monat der Unterzeile, eine Stelle. PH2-01, 15.11.2026: „Das beste Girokonto für
+ * Muslime 11/2026“ wie bei Finanzfluss. Wer die Seite neu prüft, setzt hier das Datum.
+ */
+const AKTUALISIERT = "15.11.2026";
+const MONAT_JAHR = AKTUALISIERT.slice(3).replace(".", "/");
+
+/** „Besonders“ je Konto: nur, was Finanzfluss unter „Besondere Eigenschaften“ nennt (`girokontoBesondersDaten.ts`). */
+const BESONDERS: Record<string, string[]> = Object.fromEntries(
+  girokontoAnzeige.flatMap((a) => {
+    const b = a.finanzfluss ? BESONDERS_JE_PRODUKT[a.finanzfluss.produkt] : undefined;
+    return b ? [[a.id, b]] : [];
+  }),
+);
 
 const ReihenfolgeSatz = () => (
   <>
@@ -70,7 +85,7 @@ const VergleichGirokonto = () => (
     pfad="/vergleich/girokonto"
     brotkrumen="Girokonto-Vergleich"
     titel="Girokonto-Vergleich 2026"
-    untertitel="Die besten Girokonten für Muslime"
+    untertitel={`Das beste Girokonto für Muslime ${MONAT_JAHR}`}
     seoTitel="Girokonto-Vergleich 2026: Die besten Halal-Girokonten"
     auszeichnungen={AUSZEICHNUNGEN}
     seoText={`Welches Girokonto ist halal? ${girokontoAnzeige.length} Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen.`}
@@ -90,12 +105,13 @@ const VergleichGirokonto = () => (
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoAnzeige}
     sortiertNach={<ReihenfolgeSatz />}
+    giro={{ besonders: BESONDERS }}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
     filter={FILTER}
-    stand={juengsterStand(girokontoAnzeige, "14.09.2026")}
-    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    stand={AKTUALISIERT}
+    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026, Gebühren im Ausland vom 19.09.2026"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, Gebühren im Ausland und „Besonders“ Stand 19.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
     kriterien={KRITERIEN}
     faq={FAQ}
     ratgeber={<GiroRatgeber auszeichnung={AUSZEICHNUNGEN.nummerEins} kriterien={KRITERIEN} faq={FAQ} />}
