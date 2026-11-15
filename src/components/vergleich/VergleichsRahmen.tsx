@@ -5,6 +5,8 @@ import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import { GiroInhalt } from "./GiroKarten";
+import { DepotInhalt } from "./DepotKarten";
+import { STIL_BLAU } from "./karteStil";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
@@ -107,6 +109,7 @@ export const NummerEins = ({
   auszeichnung = "Unsere Nummer 1",
   note,
   giro,
+  depot,
 }: {
   anbieter: RohAnbieter;
   zeilen: VergleichsZeile[];
@@ -121,10 +124,13 @@ export const NummerEins = ({
   note?: number | null;
   /** Nur Girokonto (Elias PH2-01): hellblauer Kasten mit Haken und vier Kacheln statt der Hakenliste; „Besonders“ je Anbieter-ID. */
   giro?: { besonders: Record<string, string[]> };
+  /** Nur Depot: derselbe Kasten mit Haken und vier Kacheln (Halal-ETFs, Sukuk, Depotgebühr, Kosten pro Order). */
+  depot?: boolean;
 }) => {
   const [offen, setOffen] = useState(false);
   const { halal, kosten } = gruende(anbieter, zeilen);
-  const punkte = giro ? [] : [...halal, ...kosten];
+  const stil = Boolean(giro || depot);
+  const punkte = stil ? [] : [...halal, ...kosten];
   const wert = (k: string) => (typeof anbieter.werte[k] === "string" ? (anbieter.werte[k] as string) : null);
 
   return (
@@ -132,10 +138,14 @@ export const NummerEins = ({
        Webseite gebaut“): ein Rahmen, eine Ecke von 8 px, kein Verlauf, kein Schatten. Die frühere
        Kleinschrift zur Rangfolge steht nicht mehr am Kasten (Elias 06.11.: kein Kleingedrucktes),
        „So bewerten wir“ steht unter der Tabelle. */
-    <section className={`overflow-hidden rounded-lg border border-primary ${giro ? "bg-accent" : "bg-card"}`} aria-label={auszeichnung}>
+    <section className={`overflow-hidden rounded-lg border ${stil ? STIL_BLAU.karte : "border-primary bg-card"}`} aria-label={auszeichnung}>
       {/* Streifen mit Platzzahl im Reiter wie die anderen Karten (Finanzfluss: „1 … Bestes Depot“). */}
-      <p className="flex items-stretch border-b border-primary bg-primary text-[14px] font-semibold text-primary-foreground">
-        <span className="flex min-w-[36px] items-center justify-center border-r border-primary-foreground/30 px-2">1</span>
+      <p
+        className={`flex items-stretch border-b text-[14px] font-semibold ${
+          stil ? STIL_BLAU.reiter : "border-primary bg-primary text-primary-foreground"
+        }`}
+      >
+        <span className={`flex min-w-[36px] items-center justify-center border-r px-2 ${stil ? STIL_BLAU.trenner : "border-primary-foreground/30"}`}>1</span>
         <span className="flex-1 px-4 py-1.5 text-center">{auszeichnung}</span>
       </p>
       <div className="p-4 xl:p-5">
@@ -155,11 +165,11 @@ export const NummerEins = ({
           </div>
           {/* Logo und Note in zwei Kästchen wie jede Karte darunter. Ohne Note nur das Logo. */}
           <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"}`}>
-            <div className={`flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2 ${giro ? "bg-card" : ""}`}>
+            <div className={`flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card" : ""}`}>
               <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
             </div>
             {note != null && (
-              <div className={`flex items-center justify-center rounded-lg border border-border p-2 ${giro ? "bg-card" : ""}`}>
+              <div className={`flex items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card" : ""}`}>
                 <NotenBlock note={note} mittig />
               </div>
             )}
@@ -177,6 +187,17 @@ export const NummerEins = ({
               debitkarte: wert("debitkarte"),
             }}
             besonders={giro.besonders[anbieter.id]}
+          />
+        )}
+        {depot && (
+          <DepotInhalt
+            w={{
+              zinsfrei: wert("zinsfreiAbStart") ?? undefined,
+              halalEtfsFonds: wert("halalEtfsFonds"),
+              halalSukuk: wert("halalSukuk"),
+              depotgebuehr: wert("depotgebuehr"),
+              orderkosten: kostenKurz(anbieter.id, "orderkosten") ?? wert("orderkosten"),
+            }}
           />
         )}
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}

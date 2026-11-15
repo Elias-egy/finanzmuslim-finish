@@ -89,6 +89,7 @@ const VergleichDepot = () => (
         </p>
       </>
     }
+    depot
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
     ansichtAlle={brokerVergleich}

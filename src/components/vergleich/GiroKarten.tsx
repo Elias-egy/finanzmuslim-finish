@@ -21,7 +21,7 @@ export type GiroWerte = {
   debitkarte: string | null | undefined;
 };
 
-const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").trim();
+export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").trim();
 
 /** „0 € ab 700 € Geldeingang“ wird Betrag „0 €“ und Zusatz „ab 700 € Geldeingang“. */
 const kontofuehrungTeile = (w: GiroWerte): { betrag: string; zusatz?: string } | null => {
@@ -83,14 +83,14 @@ export const MastercardBild = () => (
 
 /* ------------------------------------------------------------------ Kacheln */
 
-const Kachel = ({ label, children }: { label: string; children: ReactNode }) => (
+export const Kachel = ({ label, children }: { label: string; children: ReactNode }) => (
   <div className="flex min-h-[64px] flex-col justify-between rounded-lg border border-border bg-card px-2.5 py-2">
     <p className="text-[12px] leading-tight text-muted-foreground">{label}</p>
     <div className="mt-1 flex items-center justify-between gap-2">{children}</div>
   </div>
 );
 
-const Wert = ({ children, leise = false }: { children: ReactNode; leise?: boolean }) => (
+export const Wert = ({ children, leise = false }: { children: ReactNode; leise?: boolean }) => (
   <span className={`text-[16px] font-bold leading-tight ${leise ? "text-muted-foreground" : "text-foreground"}`}>{children}</span>
 );
 
@@ -168,12 +168,4 @@ export const GiroInhalt = ({ w, besonders }: { w: GiroWerte; besonders?: string[
 export const bonusReiter = (anbieterId: string): string | null => {
   const deal = dealFuer(anbieterId);
   return deal ? schildText(deal) : null;
-};
-
-/** Farben der Karte: blau für Platz 1, orange für eine Karte mit Bonus (Elias, PH2-01: „orange“). */
-export const GIRO_BLAU = { karte: "border-primary bg-accent", reiter: "border-primary bg-primary text-primary-foreground", trenner: "border-primary-foreground/30" };
-export const GIRO_ORANGE = {
-  karte: "border-orange-400 bg-orange-50 dark:border-orange-500 dark:bg-orange-950/40",
-  reiter: "border-orange-400 bg-orange-400 text-orange-950",
-  trenner: "border-orange-950/30",
 };

@@ -15,6 +15,7 @@ import {
 } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 import { istMindestens } from "@/lib/platzAnsicht";
+import { stilVon } from "./karteStil";
 
 /** Ansicht A3 (nur Localhost, `?ansicht=a3`): Farbe einer Zelle „So entsteht der Platz“. */
 export const platzTon: Record<string, string> = {
@@ -65,9 +66,12 @@ const gruppenTitel: Record<string, string> = {
 export const VergleichsTabelle = ({
   zeilen,
   spalten,
+  stil = false,
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
+  /** Girokonto und Depot (Elias 15.11.2026): Spaltenköpfe und Tönung in den hellen Tönen der Karten (`karteStil.ts`), Platz 1 blau, Bonus orange. */
+  stil?: boolean;
 }) => {
   const schieber = useRef<HTMLDivElement>(null);
   const kopfLeiste = useRef<HTMLDivElement>(null);
@@ -140,6 +144,7 @@ export const VergleichsTabelle = ({
       : undefined;
   const grund = (s: VergleichsSpalte) => {
     if (s.grau) return "bg-zinc-200 text-zinc-600 dark:bg-muted dark:text-muted-foreground";
+    if (stil) return stilVon(s)?.stil.spalte ?? "";
     const a = auszeichnungVon(s);
     return a ? auszeichnungGrund[a.ton] : "";
   };
@@ -198,6 +203,7 @@ export const VergleichsTabelle = ({
               {spalten.map((s) => {
                 const a = auszeichnungVon(s);
                 const hervor = a?.ton === "empfehlung";
+                const farbe = stil ? stilVon(s) : null;
                 return (
                   <div key={s.id} className="flex flex-col border-r border-border bg-card last:border-r-0">
                     <div className={`flex h-full flex-col ${grund(s)}`}>
@@ -205,6 +211,16 @@ export const VergleichsTabelle = ({
                         <p className="flex h-7 items-center justify-center bg-destructive/10 px-2 text-[12px] font-semibold text-destructive">
                           Davon raten wir ab
                         </p>
+                      ) : farbe ? (
+                        /* Heller Reiter wie auf der Karte: Platzzahl, Strich, Text („Bestes Girokonto“, „200 € Bonus“). */
+                        <div className={`flex h-7 items-stretch border-b text-[13px] font-semibold ${farbe.stil.reiter}`}>
+                          {s.platz != null && (
+                            <span className={`flex min-w-[28px] items-center justify-center border-r px-1.5 text-[13px] ${farbe.stil.trenner}`}>
+                              {s.platz}
+                            </span>
+                          )}
+                          <span className="min-w-0 flex-1 truncate px-2 text-center text-[13px] leading-7">{farbe.text}</span>
+                        </div>
                       ) : (
                         <div className="flex h-7 items-stretch">
                           {s.platz != null && (

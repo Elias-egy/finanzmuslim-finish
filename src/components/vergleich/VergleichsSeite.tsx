@@ -114,6 +114,11 @@ export type VergleichsSeiteProps = {
    * `besonders`: Zeile „Besonders“ je Anbieter-ID (Finanzfluss „Besondere Eigenschaften“).
    */
   giro?: { besonders: Record<string, string[]> };
+  /**
+   * Nur Depot (Elias, 15.11.2026: „Mach das auch beim Depot-Vergleich“): dieselben Karten wie beim Girokonto mit vier Kacheln
+   * (Halal-ETFs, Sukuk, Depotgebühr, Kosten pro Order), Platz 1 hellblau, Bonus hellorange, und am Laptop dieselben Spaltenköpfe.
+   */
+  depot?: boolean;
   /** Woher die Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string;
   kriterien: Array<{ titel: string; text: string }>;
@@ -167,6 +172,7 @@ export const VergleichsSeite = ({
   ohneNummerEins = false,
   sortiertNach,
   giro,
+  depot,
   quellenHinweis,
   kriterien,
   kriterienTitel = "Worauf wir bei Halal achten",
@@ -422,6 +428,7 @@ export const VergleichsSeite = ({
               auszeichnung={nummerEinsText}
               note={noteVon?.get(sieger.id) ?? null}
               giro={giro}
+              depot={depot}
             />
           )}
           {!sieger && (
@@ -502,7 +509,7 @@ export const VergleichsSeite = ({
                 Karten, am Laptop weiter über der Tabelle (`order`, ein Satz, kein Doppel). */}
             <div className={sortiertUnten ? `${BREIT} flex flex-col` : "contents"}>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
-              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} />
+              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} stil={Boolean(giro || depot)} />
             </div>
             <div className={`${BREIT} ${sortiertNach && !sortiertUnten ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. Beim Doppel-Kasten beide. */}
@@ -512,6 +519,7 @@ export const VergleichsSeite = ({
                 spalten={spalten.filter((sp) => sp.id !== sieger?.id && sp.id !== zweiter?.id)}
                 zuerst={SEITE - (sieger ? 1 : 0) - (zweiter && sieger ? 1 : 0)}
                 giro={giro}
+                depot={depot}
               />
             </div>
             {sortiertUnten && (
