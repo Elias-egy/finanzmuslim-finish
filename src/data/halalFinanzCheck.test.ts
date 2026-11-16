@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { girokontoVergleich } from "@/data/girokontoVergleich";
 import {
   ANGEBOTE_GETESTET,
   ART_JE_QUELLE,
@@ -16,6 +17,7 @@ import {
   PASSUNG_MAX,
   antwortZeilen,
   artVon,
+  vergleichBeideHalal,
   checkEinstiegLink,
   ergebnisAus,
   ersteAntwortAus,
@@ -384,12 +386,12 @@ describe("Ergebnis Bankkonto", () => {
     expect(zelle(ing[0].rechts)).toBe("✓ 500 €");
     expect(zelle(ing[1].links)).toBe("✗ 1,49 €");
     expect(zelle(ing[1].rechts)).toBe("✓ 0 €");
-    // DKB: Dispo an gegen kein Dispo ohne grauen Zusatz.
+    // DKB: Dispo an gegen kein Dispo ohne grauen Zusatz, seit RN16 (Elias RN15-03 „Dispo ist sozusagen zweite Priorität“) vor der Kontoführung.
     const dkb = zeilen("dkb");
-    expect(dkb.map((z) => z.label)).toEqual(["Kostenlos ab Geldeingang", "Dispo", "Girocard im Monat"]);
-    expect(zelle(dkb[0].links)).toBe("✗ 700 €");
-    expect(dkb[1].links).toEqual({ text: "Dispo an", nein: true });
-    expect(dkb[1].rechts).toEqual({ text: "kein Dispo", ja: true });
+    expect(dkb.map((z) => z.label)).toEqual(["Dispo", "Kostenlos ab Geldeingang", "Girocard im Monat"]);
+    expect(zelle(dkb[1].links)).toBe("✗ 700 €");
+    expect(dkb[0].links).toEqual({ text: "Dispo an", nein: true });
+    expect(dkb[0].rechts).toEqual({ text: "kein Dispo", ja: true });
     // Commerzbank kostet auch bei Geldeingang. Ihr Vorteil bei Filialen steht seit RN15-01 („Norris Bank muss immer besser dastehen“) nur noch,
     // wenn sonst keine drei Zeilen zusammenkommen; hier reichen die Zeilen, in denen die norisbank vorn oder gleich liegt.
     expect(zeilen("commerzbank")[0]).toMatchObject({ label: "Kontoführung", links: { nein: true }, rechts: { ja: true } });
@@ -400,9 +402,10 @@ describe("Ergebnis Bankkonto", () => {
     for (const b of ["ing", "commerzbank"]) expect(labels(b).some((l) => l === "Dispo" || l === "Zinsen auf Guthaben"), b).toBe(false);
     // C24 kostenlos ohne Bedingung: Haken links, Kreuz rechts. Diese Zeile liegt für die norisbank hinten und steht deshalb nach den Zeilen,
     // in denen sie vorn liegt (RN15-01), nicht mehr als erste.
+    // Seit RN16 (Elias RN15-03 „Erstmal C24, sagen wir mal Zinsen. Das ist das allererste“): Zinsen der heutigen Bank als erste Zeile, rot.
     const c24 = zeilen("c24");
     expect(c24.map((z) => z.rechts.nein)).not.toEqual([true, undefined, undefined]);
-    expect(c24[0].rechts.nein).toBeFalsy();
+    expect(c24[0]).toEqual({ label: "Zinsen auf Guthaben", links: { text: "Zinsen", nein: true }, rechts: { text: "keine Zinsen", ja: true } });
     // comdirect hat einen zweiten Weg (3 Zahlungen mit Apple Pay): kein Haken, kein Kreuz bei der Kontoführung.
     const cd = zeilen("comdirect").find((z) => z.label === "Kostenlos ab Geldeingang")!;
     expect(cd.links.ja || cd.links.nein || cd.rechts.ja || cd.rechts.nein).toBeFalsy();
@@ -415,6 +418,31 @@ describe("Ergebnis Bankkonto", () => {
       expect(zeilen(b), b).toHaveLength(3);
       expect(zeilen(b, "karte-bar"), b).toHaveLength(3);
       expect(zeilen(b).every((z) => !z.links.klein && !z.rechts.klein), b).toBe(true);
+    }
+  });
+
+  it("RN16 (Elias RN15-03): erst Zinsen, dann Dispo der heutigen Bank; sind beide sauber, der Satz „<Bank> und norisbank: beide halal nutzbar“ und drei Zeilen", () => {
+    const e = (b: string) => konto({ ...sparkasse, zahlung: "karte", bank: bank(b) });
+    // Santander: Zinsen (Beleg santander.de) zuerst; DKB: Dispo zuerst; beide ohne Satz.
+    expect(vergleichZeilen(e("santander"))[0].label).toBe("Zinsen auf Guthaben");
+    expect(vergleichBeideHalal(e("santander"))).toBeNull();
+    expect(vergleichBeideHalal(e("dkb"))).toBeNull();
+    // N26 und ING: im Vergleich ohne Zinsen und ohne Dispo, also der Satz und danach die drei Zeilen wie in RN15.
+    expect(vergleichBeideHalal(e("n26"))).toBe("N26 und norisbank: beide halal nutzbar");
+    expect(vergleichZeilen(e("n26"))).toHaveLength(3);
+    expect(vergleichZeilen(e("n26")).some((z) => z.label === "Dispo" || z.label === "Zinsen auf Guthaben")).toBe(false);
+    // Offene Werte (Volksbank) und freie Eingaben: kein Satz.
+    expect(vergleichBeideHalal(e("grp-volksbank"))).toBeNull();
+  });
+
+  it("Zinsen und Dispo im Check nur mit Anbieter-Beleg: jeder Wert im Girokonto-Vergleich hat eine Quelle beim Anbieter, nicht bei Finanzfluss", () => {
+    for (const a of girokontoVergleich as unknown as { id: string; werte?: Record<string, unknown>; quellen?: Record<string, { url?: string }> }[]) {
+      for (const key of ["zinsfreiAbStart", "keinDispoAbStart"]) {
+        if (a.werte?.[key] === undefined || a.werte?.[key] === null) continue;
+        const url = a.quellen?.[key]?.url ?? "";
+        expect(url, `${a.id} ${key}`).toMatch(/^https:\/\//);
+        expect(url, `${a.id} ${key}`).not.toMatch(/finanzfluss/);
+      }
     }
   });
 

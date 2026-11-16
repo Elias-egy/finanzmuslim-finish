@@ -1163,13 +1163,33 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
   // RN15 (Elias RN15-01: „Norris Bank muss immer besser dastehen natürlich“, „ja, ja … das ist ja voll schlecht“): erst die Zeilen, in denen
   // die Empfehlung klar vorn liegt, dann offene (heute „–“), dann gleiche als Füller, Zeilen mit Vorteil für die heutige Bank ganz zuletzt
   // (nur wenn sonst keine drei Zeilen zusammenkommen). Gleicher Rang behält die Reihenfolge von oben (Kontoführung zuerst).
+  // RN16 (Elias RN15-03: „immer wenn es einen Zinspunkt gibt, wird er direkt rot angestrichen … Erstmal C24, sagen wir mal Zinsen. Das ist
+  // das allererste … Wenn dann Dispo ist sozusagen zweite Priorität“): Zinsen der heutigen Bank zuerst, dann Dispo, beide nur aus dem
+  // Girokonto-Vergleich (jeder Wert dort mit Quelle beim Anbieter, Test „Zinsen und Dispo im Check nur mit Anbieter-Beleg“). Danach die
+  // übrigen Zeilen wie in RN15 sortiert, zusammen immer drei.
+  const zins = unterschied.filter((z) => z.label === LABEL_ZINSEN);
+  const dispo = unterschied.filter((z) => z.label === LABEL_DISPO);
+  const rest = unterschied.filter((z) => z.label !== LABEL_ZINSEN && z.label !== LABEL_DISPO);
   const alltag = alltagZeilen(e, k);
   const nachrangig = new Set(alltag.filter((a) => a.nachrangig).map((a) => a.zeile));
-  return [...zeilen, ...unterschied, ...alltag.map((a) => a.zeile), ...gemeinsam, ...offen]
+  const sortiert = [...zeilen, ...rest, ...alltag.map((a) => a.zeile), ...gemeinsam, ...offen]
     .map((z, n) => ({ z, n, r: vergleichRang(z) + (nachrangig.has(z) ? 0.5 : 0) }))
     .sort((x, y) => x.r - y.r || x.n - y.n)
-    .map((x) => x.z)
-    .slice(0, 3);
+    .map((x) => x.z);
+  return [...zins, ...dispo, ...sortiert].slice(0, 3);
+};
+
+/**
+ * RN16 (Elias RN15-03: „Und wenn beide halt gut sind da, dann muss man es irgendwie sagen, ey, N26 und Ding, beide halal nutzbar. Ne? Und
+ * dann die drei Punkte“): steht über den drei Zeilen, nur wenn die heutige Bank und die Empfehlung im Girokonto-Vergleich beide belegt
+ * ohne Zinsen und ohne Dispo sind. Ersetzt RN14-01 („kein Satz Beide“). Freie Eingaben und offene Werte: kein Satz.
+ */
+export const vergleichBeideHalal = (e: Ergebnis): string | null => {
+  if (e.art !== "konto" || !e.links || !e.heuteHalal || !e.heuteBank || e.heuteBank.kind !== "bank") return null;
+  const m = produktWerte(kontoZuAnbieter(e).id);
+  const h = e.heuteHalal;
+  if (h.zinsfrei !== "gut" || h.keinDispo !== "gut" || m.zinsfrei !== "gut" || m.keinDispo !== "gut") return null;
+  return `${e.heuteBank.name} und ${e.anbieter.name}: beide halal nutzbar`;
 };
 
 /** 0 Empfehlung klar vorn (Häkchen gegen Kreuz; +0,5 für Bargeld-Zeilen bei Kartenzahlern), 1 offen (links ohne Wert oder ohne Wertung), 2 gleich (beide Häkchen), 3 heutige Bank vorn. */
@@ -1190,9 +1210,11 @@ type KontoPunkt = {
 };
 const istGut = (v: BankAmpel | boolean | null | undefined) => v === "gut" || v === true;
 // RN13-02: „Dispo an, mehr musst du gar nicht wissen. Kein Dispo.“ Kein grauer Zusatz mehr.
+const LABEL_DISPO = "Dispo";
+const LABEL_ZINSEN = "Zinsen auf Guthaben";
 const KONTO_PUNKTE: KontoPunkt[] = [
-  { key: "keinDispo", label: "Dispo", gut: "kein Dispo", schlecht: () => "Dispo an", halal: true },
-  { key: "zinsfrei", label: "Zinsen auf Guthaben", gut: "keine Zinsen", schlecht: (v) => (v === "teils" ? "Zinsen, abschaltbar" : "Zinsen"), halal: true },
+  { key: "keinDispo", label: LABEL_DISPO, gut: "kein Dispo", schlecht: () => "Dispo an", halal: true },
+  { key: "zinsfrei", label: LABEL_ZINSEN, gut: "keine Zinsen", schlecht: (v) => (v === "teils" ? "Zinsen, abschaltbar" : "Zinsen"), halal: true },
   { key: "karteOhneKredit", label: "Karte ohne Kredit", gut: "ja", schlecht: (v) => (v === "teils" ? "nicht immer" : "nein") },
   { key: "applePay", label: "Apple Pay oder Google Pay", gut: "ja", schlecht: () => "nein" },
   { key: "kontowechsel", label: "Kontowechsel-Service", gut: "ja", schlecht: () => "nein" },

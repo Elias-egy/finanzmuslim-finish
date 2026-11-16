@@ -24,14 +24,20 @@ export type LadenText = {
   zaehlerMax: number;
 };
 
+/**
+ * RN16 (Elias RN15-03: „Ich würde die so 1,3 ungefähr von der Geschwindigkeit machen, dass es ein bisschen schneller geht“): alle Zeiten
+ * des Videobogens geteilt durch TEMPO; die Linie in checkErgebnis.css (.hc-laden-weg, vorher 6,5 s) läuft entsprechend in 5 s.
+ */
+const TEMPO = 1.3;
+const z = (ms: number) => Math.round(ms / TEMPO);
 const ZEITEN: [number, number][] = [
-  [500, 1000],
-  [2500, 3000],
-  [4000, 4500],
-  [5500, 6500],
+  [z(500), z(1000)],
+  [z(2500), z(3000)],
+  [z(4000), z(4500)],
+  [z(5500), z(6500)],
 ];
-const ENDE = 7070;
-const VORHANG = 700;
+const ENDE = z(7070);
+const VORHANG = z(700);
 const WEG = "M10 30 C20 30 22 36 30 36 S70 22 90 24 S130 38 150 36 S190 22 210 24 S226 30 232 30";
 const KNOTEN: [number, number][] = [
   [30, 36],
@@ -68,8 +74,8 @@ const CheckLaden = ({ text, onFertig, zu }: Props) => {
       nach(an, () => setStand((s) => s.map((x, j) => (j === i ? "laedt" : x))));
       nach(aus, () => setStand((s) => s.map((x, j) => (j === i ? "fertig" : x))));
     });
-    // Zähler in der dritten Zeile: läuft in 1,4 s hoch, langsam am Ende (wie ein Trommelwirbel, der ausläuft).
-    const [start, stopp] = [ZEITEN[2][0] - 1400, ZEITEN[2][1] - 100];
+    // Zähler in der dritten Zeile: läuft in 1,4 s (seit RN16 geteilt durch TEMPO) hoch, langsam am Ende (wie ein Trommelwirbel, der ausläuft).
+    const [start, stopp] = [ZEITEN[2][0] - z(1400), ZEITEN[2][1] - z(100)];
     const dauer = stopp - start;
     let zaehler = 0;
     const tick = () => {
@@ -79,7 +85,7 @@ const CheckLaden = ({ text, onFertig, zu }: Props) => {
     };
     const beginn = performance.now();
     nach(Math.max(0, start), () => (zaehler = requestAnimationFrame(tick)));
-    nach(ENDE - 450, () => setKnall(true));
+    nach(ENDE - z(450), () => setKnall(true));
     nach(ENDE, () => fertig.current());
     return () => {
       uhren.forEach(clearTimeout);

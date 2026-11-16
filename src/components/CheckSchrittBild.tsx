@@ -2,8 +2,8 @@ import { ArrowRight, Check, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { ANBIETER_LOGOS, logoMass } from "@/data/anbieterLogos";
 import { LOGO_MASSE } from "@/data/anbieterLogoMasse";
-import { bankPreis, bankWerte, produktWerte, schnellwahl, wahlVon, type BankAmpel } from "@/data/bankSuche";
-import { depotSchnellwahl, depotWahlVon, depotWerte } from "@/data/depotSuche";
+import { bankPreis, bankWerte, schnellwahl, wahlVon, type BankAmpel } from "@/data/bankSuche";
+import { depotNachId, depotSchnellwahl, depotWahlVon, depotWerte } from "@/data/depotSuche";
 import { ETIKETT, FRAGEN, type Art } from "@/data/halalFinanzCheck";
 
 /**
@@ -12,7 +12,7 @@ import { ETIKETT, FRAGEN, type Art } from "@/data/halalFinanzCheck";
  *  01 der Chat mit Elias' Foto, der ersten Frage und den Antwortknöpfen (Wortlaut aus FRAGEN.ziel),
  *  02 ein kleines Raster aus dem finanzmuslim-Vergleich (Logos, zwei Spalten; Werte gerechnet aus bankSuche und depotSuche, nichts von Hand),
  *  03 die Analyse mit Ring und drei Haken,
- *  04 der Eröffnen-Knopf mit dem Logo des Matches (norisbank orange wie im Ergebnis),
+ *  04 der Eröffnen-Knopf mit einem Beispiel-Logo (seit RN16 BBBank und Scalable, nicht das häufigste Match),
  *  05 neu das Erfolgserlebnis „Herzlichen Glückwunsch“ mit grünem Haken und Konfetti.
  * Alle Maße in cqw (Breite des Bildrahmens), damit die Szene bei 110 px am Handy und 200 px am Laptop gleich aussieht. Nur span, weil die
  * Szene in einem Knopf steht. Für Lesehilfen ist die Szene stumm (aria-hidden); der Schritt hat Titel und Text daneben.
@@ -54,34 +54,31 @@ const kostenlos = (wert: string | undefined): boolean | null => (wert === undefi
 type RasterZeile = { name: string; domain?: string; match?: boolean; a: React.ReactNode; b: React.ReactNode };
 
 const rasterKonto = (): { kopf: [string, string]; zeilen: RasterZeile[] } => {
-  const noris = produktWerte("norisbank-top-girokonto");
   const zeile = (id: string): RasterZeile | null => {
     const w = bank(id);
     if (!w) return null;
     return { name: w.name, domain: w.domain, a: <Mark ja={kostenlos(bankPreis(w)?.wert)} />, b: <Mark ja={ohneDispo(bankWerte(w).keinDispo)} /> };
   };
+  // RN16 (Elias RN15-03: „ich würde nicht Norris Bank nehmen … da in diesen Schritt 2, DKB, Commerzbank und Sparkasse als Beispiel“):
+  // ohne norisbank und ohne hervorgehobene Zeile, damit das Ergebnis später nicht abgesprochen wirkt.
   return {
     kopf: ["0 €", "Ohne Dispo"],
-    zeilen: [
-      // norisbank: 0 € Kontoführung unter 30 oder ab 500 € Geldeingang (kurzVorteile), kein Dispo aus dem Vergleich
-      { name: "norisbank", domain: "norisbank.de", match: true, a: <Mark ja />, b: <Mark ja={ohneDispo(noris.keinDispo)} /> },
-      zeile("dkb"),
-      zeile("commerzbank"),
-    ].filter((z): z is RasterZeile => Boolean(z)),
+    zeilen: [zeile("dkb"), zeile("commerzbank"), zeile("grp-sparkasse")].filter((z): z is RasterZeile => Boolean(z)),
   };
 };
 
 const rasterDepot = (): { kopf: [string, string]; zeilen: RasterZeile[] } => {
   const kurz = (t: string | null | undefined) => (t ? t.replace(/^mind\. /, "").replace(" von ", "/") : "–");
-  const zeile = (id: string, match?: boolean): RasterZeile | null => {
+  const zeile = (id: string): RasterZeile | null => {
     const d = depotSchnellwahl().find((x) => x.id === id);
     if (!d) return null;
     const w = depotWerte(depotWahlVon(d));
-    return { name: d.name, domain: d.domain, match, a: <b>{kurz(w?.etfs)}</b>, b: <b>{kurz(w?.sukuk)}</b> };
+    return { name: d.name, domain: d.domain, a: <b>{kurz(w?.etfs)}</b>, b: <b>{kurz(w?.sukuk)}</b> };
   };
   return {
     kopf: ["Halal-ETFs", "Sukuk"],
-    zeilen: [zeile("flatex-depot", true), zeile("smartbroker-plus-depot"), zeile("trade-republic-depot")].filter(
+    // RN16: wie beim Konto keine Depots, die der Check empfiehlt (flatex, Smartbroker+), sondern häufige Depots von heute.
+    zeilen: [zeile("trade-republic-depot"), zeile("ing-direkt-depot"), zeile("comdirect-depot")].filter(
       (z): z is RasterZeile => Boolean(z),
     ),
   };
@@ -134,9 +131,14 @@ export const SchrittSzene = ({ id, art }: { id: SzeneId; art?: Art }) => {
           {r.zeilen.map((z) => (
             <span key={z.name} className={`hc-sz-tzeile${z.match ? " hc-sz-tzeile--match" : ""}`}>
               <span className="hc-sz-tlogo">
-                <span className="hc-sz-logo" style={logoRahmen(z.domain, 34, 7)}>
-                  <AnbieterLogo name={z.name} domain={z.domain} gross />
-                </span>
+                {z.domain && ANBIETER_LOGOS[z.domain] ? (
+                  <span className="hc-sz-logo" style={logoRahmen(z.domain, 34, 7)}>
+                    <AnbieterLogo name={z.name} domain={z.domain} gross />
+                  </span>
+                ) : (
+                  // RN16: ohne Schriftzug-Datei (Sparkasse) der Name statt eines winzigen Rundbilds
+                  <span className="hc-sz-tname">{z.name}</span>
+                )}
               </span>
               <span className="hc-sz-twert">{z.a}</span>
               <span className="hc-sz-twert">{z.b}</span>
@@ -174,10 +176,13 @@ export const SchrittSzene = ({ id, art }: { id: SzeneId; art?: Art }) => {
     );
   }
   if (id === "oeffnen") {
-    const a = depot ? { name: "flatex", domain: "flatex.de" } : { name: "norisbank", domain: "norisbank.de" };
+    // RN16 (Elias RN15-03: „wenn ich sehe hier Schritt öffnen … Norris Bank und bei mir kommt Norris Bank raus, dann wirkt das so, ah, das
+    // kann kein Zufall sein … mach Babybank dahin bei Schritt 4“): Konto mit BBBank, Depot entsprechend mit Scalable statt flatex.
+    const sc = depotNachId("scalable-capital-free-broker");
+    const a = depot ? { name: sc?.name ?? "Scalable Capital", domain: sc?.domain ?? "scalable.capital" } : { name: "BBBank", domain: "bbbank.de" };
     return (
       <span className="hc-sz hc-sz--oeffnen" aria-hidden>
-        <span className={`hc-sz-platte${depot ? "" : " hc-sz-platte--noris"}`}>
+        <span className="hc-sz-platte">
           <span className="hc-sz-logo" style={logoRahmen(a.domain, 44, 10)}>
             <AnbieterLogo name={a.name} domain={a.domain} gross />
           </span>

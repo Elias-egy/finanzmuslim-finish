@@ -2021,3 +2021,34 @@
 .dark .hc .hc-sz-tab .hc-sz-logo > span {
   background: transparent;
 }
+
+/* RN16 (Elias RN15-03 „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): drei runde Bilder überlappend wie im Ergebnis (32 px, -9 px) */
+.hc-vertrauen .hc-leute-bilder {
+  display: flex;
+  flex: none;
+}
+.hc-vertrauen .hc-leute-bilder img {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: 50% 25%;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.hc-vertrauen .hc-leute-bilder img + img {
+  margin-left: -9px;
+}
+/* Mit den Bildern daneben bricht die Zeile bei 390 sonst dreizeilig */
+@media (max-width: 479px) {
+  .hc-vertrauen:has(.hc-leute-bilder) {
+    font-size: 15px;
+  }
+}
+/* RN16: Bankname im Raster, wenn es keinen Schriftzug gibt (Sparkasse) */
+.hc-sz-tname {
+  font-size: 5.6cqw;
+  font-weight: 800;
+  line-height: 1;
+  color: #151b28;
+  white-space: nowrap;
+}

@@ -9,6 +9,7 @@ import {
   WERBEHINWEIS,
   antwortZeilen,
   matchSatz,
+  vergleichBeideHalal,
   vergleichZeilen,
   type Antworten,
   type AuchGut,
@@ -85,13 +86,13 @@ const Antworten = ({ a }: { a: Antworten }) => (
   </ul>
 );
 
+// RN16 (Elias RN16-01: „ich würde die nicht mit dem Kreis machen, sondern einfach grüne Häkchen wie sonst auch … man sieht direkt das
+// Grün“): schlichter grüner Haken ohne Kreis, wie im Vergleich.
 const Haken = ({ zeilen }: { zeilen: string[] }) => (
   <ul className="hc-erg-haken">
     {zeilen.map((v) => (
       <li key={v}>
-        <span className="hc-erg-badge" aria-hidden>
-          <Check />
-        </span>
+        <Check className="hc-wb-ja hc-erg-haken-ja" aria-hidden />
         {v}
       </li>
     ))}
@@ -224,6 +225,8 @@ const GgZelle = ({ z }: { z: VergleichZelle }) => {
 const Gegenueber = ({ e }: { e: Ergebnis }) => {
   const { links, rechts } = e;
   const zeilen = vergleichZeilen(e);
+  // RN16 (Elias RN15-03): sind beide ohne Zinsen und ohne Dispo, steht das als ein Satz über den drei Zeilen.
+  const beide = vergleichBeideHalal(e);
   if (!links || !rechts || zeilen.length === 0) return null;
   return (
     <>
@@ -242,6 +245,16 @@ const Gegenueber = ({ e }: { e: Ergebnis }) => {
             ))}
           </tr>
         </thead>
+        {beide && (
+          <tbody>
+            <tr>
+              <td colSpan={2} className="hc-gg-beide">
+                <Ja />
+                <b>{beide}</b>
+              </td>
+            </tr>
+          </tbody>
+        )}
         {zeilen.map((z) => (
           <tbody key={z.label}>
             <tr>

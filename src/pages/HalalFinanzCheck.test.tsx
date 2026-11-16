@@ -118,7 +118,7 @@ describe("Verkaufsseite", () => {
     expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben das Vortragsfoto Uni Hamburg (RN13-01) statt des Platzhalters", () => {
+  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben das Vortragsfoto mit Mikrofon (RN16, Elias RN15-03) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(1);
     expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(1);
@@ -126,9 +126,11 @@ describe("Verkaufsseite", () => {
     expect(container.querySelector("[data-stimme-platzhalter]")!.textContent).not.toMatch(/Konto|Broker/);
     expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
     const foto = container.querySelector(".hc-community-foto img")!;
-    expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-allein-am-pult.webp");
-    expect(foto.getAttribute("alt")).toContain("Universität Hamburg");
-    expect(container.querySelector(".hc-community-foto figcaption")!.textContent).toBe("Elias bei einem Vortrag von Halal Invest an der Universität Hamburg");
+    expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-mikrofon.webp");
+    expect(foto.getAttribute("alt")).toContain("Mikrofon");
+    expect(container.querySelector(".hc-community-foto figcaption")!.textContent).toBe("Elias bei einem Vortrag");
+    // RN16 (Elias RN15-03 „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): lokal die drei Beispielbilder an der Zeile.
+    expect(container.querySelectorAll(".hc-vertrauen .hc-leute-bilder img")).toHaveLength(3);
   });
 
   it("mit ?art= trägt die Verkaufsseite das eine Thema", () => {
@@ -139,10 +141,11 @@ describe("Verkaufsseite", () => {
     expect(titel()).toBe("Welches Depot passt wirklich zu dir?");
   });
 
-  it("jeder Knopf startet den Check, auch der zweite (Elias RN10-01), kein Link aus dem Ablauf außer Impressum und Datenschutz", () => {
+  it("oben nur ein Knopf „Match finden“ (RN16, Elias RN15-03: Unterschied zu „Erst Bankkonten vergleichen“ unklar), er startet den Check, kein Link aus dem Ablauf", () => {
     const { container } = zeige("/check?art=konto");
     expect([...container.querySelectorAll("main a")]).toHaveLength(0);
-    fireEvent.click(screen.getByRole("button", { name: "Erst Bankkonten vergleichen" }));
+    expect(screen.queryByRole("button", { name: /vergleichen/ })).toBeNull();
+    fireEvent.click(container.querySelector(".hc-knoepfe button")!);
     expect(screen.getByTestId("ort").textContent).toContain("schritt=fragen");
     expect(titel()).toBe("Was suchst du gerade?");
   });
@@ -510,18 +513,23 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     return r;
   };
 
-  it("vor dem Ergebnis der Ladescreen „Passender Ersatz für Sparkasse wird gesucht“, das Ergebnis liegt inert darunter, nach 7,8 s ist der Ladescreen weg", async () => {
+  it("vor dem Ergebnis der Ladescreen „Passender Ersatz für Sparkasse wird gesucht“, das Ergebnis liegt inert darunter, nach 6 s ist der Ladescreen weg (RN16: 1,3-mal schneller)", async () => {
     const { container } = await kontoWeg("/check?art=konto&schritt=fragen");
     const laden = container.querySelector(".hc-laden")!;
     expect(laden.textContent).toContain("Passender Ersatz für Sparkasse wird gesucht");
     expect(laden.textContent).toContain("von 54 Girokonten verglichen");
     expect(container.querySelector("[inert]")).toBeTruthy();
+    // Vorher Ende bei 7,07 s; seit RN16 (Elias RN15-03 „so 1,3 ungefähr von der Geschwindigkeit“) 7070 / 1,3 = 5,44 s, Vorhang 0,54 s.
     await act(async () => {
-      vi.advanceTimersByTime(7100);
+      vi.advanceTimersByTime(5300);
+    });
+    expect(container.querySelector(".hc-laden--zu")).toBeNull();
+    await act(async () => {
+      vi.advanceTimersByTime(200);
     });
     expect(container.querySelector(".hc-laden--zu")).toBeTruthy();
     await act(async () => {
-      vi.advanceTimersByTime(800);
+      vi.advanceTimersByTime(600);
     });
     expect(container.querySelector(".hc-laden")).toBeNull();
     expect(container.querySelector("[inert]")).toBeNull();

@@ -4,7 +4,7 @@ import CheckStimme from "@/components/CheckStimme";
 import { SchrittSzene, type SzeneId } from "@/components/CheckSchrittBild";
 import { followerGesamt } from "@/data/beweise";
 import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
-import { stimmenFuer } from "@/data/checkStimmen";
+import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
 
 /**
  * Verkaufsseite vor dem Halal-Finanz-Check, nach der Startseite von Elias' NEUEM Perspective-Funnel (6afa2cd179f7bfa91bb900d0,
@@ -22,18 +22,17 @@ import { stimmenFuer } from "@/data/checkStimmen";
  */
 
 /**
- * Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“). RN15: Elias hat das neue
- * Bild gewählt („name vom bild ist allein-am-pult-fein-geschaerft“): Elias allein am Pult der Universität Hamburg, von Codex klassisch
- * farbkorrigiert und fein geschärft, ohne generative Änderung (~/Documents/Codex/2026-11-16/folgendes-ich/outputs/vortrag-neue-motive/
- * allein-am-pult-fein-geschaerft.png, 360 × 480, als webp). Ersetzt vortrag-uni-hamburg.webp aus RN14.
+ * Elias' Foto vom Vortrag. RN16 (Elias RN15-03: „Nicht mehr das von Ihnen in Hamburg, sondern das bei meinem Vortrag, wo ich Mikrofon habe.
+ * Du weißt, dieses andere Bild, was auch auf meiner Webseite war, davor“): das Vortragsbild mit Headset-Mikrofon, das seit der ersten
+ * Fassung der Seite oben stand (src/assets/hero-elias-talk.jpg, 1400 × 934), hochkant 3:4 um Elias zugeschnitten, ohne Bearbeitung
+ * (public/bilder/check/vortrag-mikrofon.webp, 720 × 960, gezeigt in 360 × 480). Ersetzt vortrag-allein-am-pult.webp aus RN15.
  */
 const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number; zeile: string } | null = {
-  src: "/bilder/check/vortrag-allein-am-pult.webp",
-  alt: "Elias am Pult der Universität Hamburg",
+  src: "/bilder/check/vortrag-mikrofon.webp",
+  alt: "Elias bei einem Vortrag mit Mikrofon",
   b: 360,
   h: 480,
-  // RN14-01 „irgendwie steht auch so klein Ilias bei … einen Vortrag … an der Universität Hamburg“.
-  zeile: "Elias bei einem Vortrag von Halal Invest an der Universität Hamburg",
+  zeile: "Elias bei einem Vortrag",
 };
 
 /**
@@ -126,32 +125,30 @@ const rundStil = (r: (typeof RUNDE_BANKEN)[number], s: number) => {
 };
 
 /** Kopf der Verkaufsseite je Art: Konto zwei Fragen (Elias' Wort Bankkonto), Depot drei, ohne art beides. */
-const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wort: string; vergleich: { text: string; pfad: string } }> = {
+const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wort: string }> = {
   alle: {
     h1: "Welches Konto oder Depot passt wirklich zu dir?",
     lead: "Wenige kurze Fragen, dann siehst du dein Match für Konto oder Depot, mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "wenige",
     wort: "Wenige",
-    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
   konto: {
     h1: "Welches Bankkonto passt wirklich zu dir?",
     lead: "Drei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "3",
     wort: "Drei",
-    vergleich: { text: "Erst Bankkonten vergleichen", pfad: "/vergleich/girokonto" },
   },
   depot: {
     h1: "Welches Depot passt wirklich zu dir?",
     lead: "Wenige kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
     fragen: "wenige",
     wort: "Wenige",
-    vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
 };
 
 const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => void; art?: Art }) => {
   const kopf = KOPF[art ?? "alle"];
+  const leute = leuteBilder(import.meta.env.DEV);
   // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
   const zeigeCommunity = stimmenFuer("alle").length > 0 || import.meta.env.DEV;
   return (
@@ -190,20 +187,28 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
             <div className="hc-hero-rechts">
               <p className="hc-lead" data-enter="2">{kopf.lead}</p>
               <div className="hc-knoepfe" data-enter="3">
+                {/* RN16 (Elias RN15-03: „was ist der Unterschied zwischen erst Bankkonten vergleichen und Match finden? Das verstehe ich auch
+                    nicht“): beide Knöpfe starteten seit RN10-01 denselben Check, darum bleibt nur einer. */}
                 <button type="button" className="hc-btn hc-btn--gross" onClick={() => onStart("hero")}>
                   Match finden
                   <Pfeil />
-                </button>
-                {/* Elias RN10-01: „egal, was ich klicke, es startet sofort der Vergleich“: auch der zweite Knopf startet den Check. */}
-                <button type="button" className="hc-btn hc-btn--rand hc-btn--gross" onClick={() => onStart("hero2")}>
-                  {kopf.vergleich.text}
                 </button>
               </div>
             </div>
           </div>
           {/* Elias RN14-02: statt „Nur drei Fragen, unter 2 Minuten, kostenlos“ lieber „22.000 Leute vertrauen …“; belegt wie im Ergebnis */}
+          {/* RN16 (Elias RN15-03: „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): die drei Bilder wie im Ergebnis (leuteBilder),
+              echte liefert Elias; bis dahin live das Zeichen, lokal die Beispiele. */}
           <p className="hc-haken-zeile hc-vertrauen" data-enter="4">
-            <Users className="hc-haken-icon" aria-hidden />
+            {leute.length > 0 ? (
+              <span className="hc-leute-bilder" aria-hidden>
+                {leute.map((b) => (
+                  <img key={b} src={b} alt="" width={32} height={32} />
+                ))}
+              </span>
+            ) : (
+              <Users className="hc-haken-icon" aria-hidden />
+            )}
             <span>Über {followerGesamt} Menschen informieren sich bei Finanzmuslim</span>
           </p>
         </section>
@@ -221,7 +226,7 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
               ) : (
                 import.meta.env.DEV && (
                   <figure className="hc-community-foto hc-community-foto--platz" data-foto-platzhalter>
-                    <span>Platz für dein Foto vom Vortrag an der Uni Hamburg</span>
+                    <span>Platz für dein Foto vom Vortrag</span>
                   </figure>
                 )
               )}
