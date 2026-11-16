@@ -56,39 +56,40 @@
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 30px;
+  gap: 27px;
   padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px calc(env(safe-area-inset-bottom, 0px) + 28px);
   overflow: hidden;
   color: #fff;
   text-align: center;
   background: linear-gradient(180deg, var(--obb-tief), var(--obb-ende));
 }
+/* RN13 (Elias RN12-03 „ich würde den Ladebildschirm minimal kleiner machen“): Titel, Linie, Zeilen und Abstände etwa 10 % kleiner */
 .hc-laden-innen {
   display: grid;
   justify-items: center;
-  gap: 30px;
-  width: min(340px, 100%);
+  gap: 26px;
+  width: min(310px, 100%);
 }
 .hc-laden-titel {
   margin: 0;
   display: grid;
-  gap: 6px;
-  font-size: 17px;
+  gap: 5px;
+  font-size: 15.5px;
   line-height: 1.35;
 }
 .hc-laden-titel span {
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 500;
   opacity: 0.85;
 }
 .hc-laden-titel b {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.015em;
   text-wrap: balance;
 }
 .hc-laden-linie {
-  width: min(300px, 76vw);
+  width: min(270px, 68vw);
   height: auto;
   overflow: visible;
 }
@@ -129,15 +130,15 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: 11px;
   text-align: left;
   justify-self: stretch;
 }
 .hc-laden-schritte li {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 15px;
+  gap: 11px;
+  font-size: 13.5px;
   font-weight: 500;
   line-height: 1.35;
   color: rgba(255, 255, 255, 0.32);
@@ -599,8 +600,9 @@
 }
 
 /* ---------- Fassung B: Kopfzeile, Wischkarten (weiß, wie die Bildschirme des Ergänzungsvergleichs im OS) ---------- */
+/* RN13 (Elias RN12-02 „Vielleicht als Dreizeiler … oder … ein bisschen runterziehen“): oben 48 wie das Original, Überschrift am Handy 30 px in drei Zeilen */
 .hc-erg--b {
-  padding-top: 28px;
+  padding-top: 48px;
 }
 @media (min-width: 768px) {
   .hc-erg--b {
@@ -610,9 +612,9 @@
 /* Kopf (Elias RN11-02): nur die Überschrift, groß wie im Original (36 px Handy, 48 px ab 768), darunter sofort die Wischkarten */
 .hc-wb-h1 {
   margin: 0;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 600;
-  line-height: 1.08;
+  line-height: 1.12;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
@@ -650,9 +652,10 @@
 .hc-wisch {
   margin-top: 24px;
 }
+/* RN13 (Elias RN12-01 „mach alles in der großen Karte … Nur der letzte kann in der kleinen Karte“): alle gleich hoch, die letzte nach Inhalt */
 .hc-wisch-fenster {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 12px;
   margin-inline: -20px;
   padding: 4px 20px 8px;
@@ -693,6 +696,16 @@
     padding: 28px 28px 24px;
   }
 }
+.hc-wk:last-child {
+  align-self: flex-start;
+}
+/* Kürzerer Inhalt sitzt mittig zwischen Kicker und unterem Rand, statt oben mit leerem Rest */
+.hc-wk:not(:last-child) > .hc-wk-ueber + * {
+  margin-top: auto;
+}
+.hc-wk:not(:last-child) > :last-child {
+  margin-bottom: auto;
+}
 .hc-wk::before {
   content: "";
   position: absolute;
@@ -725,7 +738,35 @@
   text-align: center;
 }
 .hc-wk--match .hc-wk-klein {
-  margin-top: -8px;
+  margin-top: -10px;
+  text-align: center;
+}
+/* Match-Karte (Elias RN12-01 „passt so zu so und so viel Prozent zu dir“): Logo und Ring nebeneinander, darunter die Zahl in Worten, blau wie „Übereinstimmung“ im Original */
+.hc-wk-matchkopf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.hc-wk-matchkopf .hc-wb-platte--gross {
+  align-self: center;
+}
+.hc-erg-ring--klein {
+  width: 84px;
+  height: 84px;
+}
+.hc-erg-ring--klein .hc-erg-ring-zahl {
+  font-size: 28px;
+}
+.hc-erg-ring--klein .hc-erg-ring-zahl small {
+  margin-top: 3px;
+  font-size: 13px;
+}
+.hc-wk-passt {
+  margin: -6px 0 0;
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 700;
   text-align: center;
 }
 /* Grüne Häkchen wie auf der Startseite (text-gain) und in der Vergleichstabelle der Verkaufsseite (.hc-tab-ja), ohne Kreis */

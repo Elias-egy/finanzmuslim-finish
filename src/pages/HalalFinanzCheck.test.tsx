@@ -194,7 +194,9 @@ describe("Bankkonto-Check", () => {
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(container.textContent).toContain("steht in deinem Kontoauszug");
-    expect(container.textContent).not.toMatch(/Depot|flatex|Alternative|Freitagsbrief|%/);
+    expect(container.textContent).not.toMatch(/Depot|flatex|Alternative|Freitagsbrief/);
+    // Seit RN13 (Elias RN12-01) auch beim Konto der Ring mit gerechneter Passung.
+    expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
   });
 
   it("Tippen filtert sofort: „v“ zeigt als ersten Vorschlag Volksbank, Enter nimmt ihn", async () => {
@@ -283,7 +285,7 @@ describe("Depot-Check", () => {
     expect(titel()).toBe("Was ist dir wichtiger?");
     await tippeText("Möglichst niedrige Kosten");
     expect(titel()).toBe("Worin willst du investieren?");
-    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber"]);
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber", "Weiß noch nicht"]);
     expect(container.textContent).not.toMatch(/Wechsel|Welche dieser drei Eigenschaften/);
     await tippeText("Einzelne Aktien");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
@@ -530,9 +532,11 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     // Kein „Weiter“, keine Problem-Karte.
     expect([...container.querySelectorAll("button, a")].some((b) => /^weiter/i.test(b.textContent ?? ""))).toBe(false);
     expect(container.querySelector(".hc-wk--problem")).toBeNull();
-    // Beim Konto gibt es keine gerechnete Prozentzahl in der Match-Karte, kein orangenes Etikett, höchstens drei Vorteile, grüne Häkchen.
+    // Match-Karte (Elias RN12-01): Ring und „Passt zu X % zu dir“ auch beim Konto, kein orangenes Etikett, höchstens drei Vorteile, grüne Häkchen.
     const match = container.querySelector(".hc-wk--match")!;
-    expect(match.textContent).not.toContain("%");
+    expect(match.querySelector(".hc-erg-ring--klein")).toBeTruthy();
+    expect(match.querySelector(".hc-wk-passt")!.textContent).toMatch(/^Passt zu \d+ % zu dir$/);
+    expect(container.querySelector(".hc-wb-kopf .hc-erg-ring")).toBeNull();
     expect(container.querySelector(".hc-wb-passung")).toBeNull();
     expect(container.querySelector(".hc-wk-ueber--match")).toBeNull();
     expect(match.querySelectorAll(".hc-wb-haken li").length).toBeLessThanOrEqual(3);
@@ -541,15 +545,15 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelector(".hc-erg-badge")).toBeNull();
     // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
     expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
-    // Vergleich (Elias RN11-04/-05): beide Logos, nur Unterschiede; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz), Zinsen sind gleich und fehlen.
+    // Vergleich (Elias RN11-04/-05, RN12-01): beide Logos, immer drei Punkte; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz), Zinsen gemeinsam (zwei Haken).
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.textContent).toContain("Sparkasse");
     expect(gg.textContent).toContain("norisbank");
     expect(gg.querySelectorAll(".hc-wb-platte")).toHaveLength(2);
-    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Dispo"]);
+    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
     expect(gg.textContent).toContain("Dispo an");
     expect(gg.textContent).toContain("kein Dispo");
-    expect(gg.textContent).not.toMatch(/Zinsen|Video-Ident/);
+    expect(gg.textContent).not.toMatch(/Video-Ident/);
     expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
     expect(gg.querySelectorAll(".lucide-x")).toHaveLength(1);
     expect(gg.parentElement!.textContent).toContain("Wechsel in 10 Minuten");

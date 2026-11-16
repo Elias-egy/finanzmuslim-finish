@@ -10,6 +10,7 @@ import {
   WECHSEL_ZEIT,
   WERBEHINWEIS,
   antwortZeilen,
+  einrichtungVon,
   kurzVorteile,
   vergleichZeilen,
   type Antworten,
@@ -26,11 +27,12 @@ import "@/styles/checkErgebnis.css";
 /**
  * Endbildschirm des Checks in zwei Fassungen (RN11), umschaltbar über ?ergebnis=a|b, nur damit Elias vergleicht (keine Messung ohne sein Wort).
  *  A (Elias RN10-06 „untereinander“): wie die Ergebnisseite des Perspective-Originals (Blueprint rn10 Abschnitt 5): Kopf mit Überschrift,
- *    Satz und Ring (Depot: Passung in Prozent; Konto: Logo im Ring, weil es für Konten keine gerechnete Zahl gibt), Karte mit Logo, Titel,
+ *    Satz und Ring mit der gerechneten Passung in Prozent (Depot passungProzent, Konto seit RN13 kontoPassung), Karte mit Logo, Titel,
  *    Preis, belegten Vorteilen und genau einem Knopf, darunter statt „Passt auch gut“ die Liste heute gegen Match (Elias RN9-01).
  *  B (Elias RN11-01, RN11-02): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: große Überschrift wie im Original, sofort
  *    Wischkarten ohne Weiter-Knopf (Match mit grünen Häkchen, Vergleich heute gegen Match mit beiden Logos, „Jetzt bei <Anbieter> eröffnen“),
  *    darunter Stimmen und ein zweiter Knopf ganz unten; beim Erscheinen Mini-Konfetti (CheckKonfetti).
+ * RN13 (Elias RN12-01, -03): in B der Ring in der Match-Karte, alle Wischkarten gleich hoch, nur die letzte klein, immer mindestens drei.
  * Depot in beiden (Elias RN11-03): Ring mit der gerechneten Übereinstimmung, darunter „Passt auch gut“ mit dem anderen Depot und
  *    dessen eigener Übereinstimmung, eigener Knopf (Kennung Zusatz z). Konto ohne „Passt auch gut“.
  * In beiden: „Über 22.000 Menschen informieren sich bei Finanzmuslim“ mit Bildern anderer (Elias RN9-03), Stimmen am Ende, Werbehinweis als
@@ -92,50 +94,36 @@ const Vergleich = ({ links, rechts }: { links?: Spalte; rechts: Spalte }) => (
   </div>
 );
 
-/** Ring wie im Original (r 46, Strich 5, füllt sich 1,2 s ab 0,3 s). Depot: die gerechnete Passung; Konto: das Logo, ganz geschlossen. */
-const Ring = ({ e }: { e: Ergebnis }) => {
-  const prozent = e.art === "depot" ? e.passung : 100;
+/** Ring wie im Original (r 46, Strich 5, füllt sich 1,2 s ab 0,3 s) mit der gerechneten Passung (Depot passungProzent, Konto kontoPassung, Elias RN12-01). `klein`: nur der Ring, für die Match-Karte in B. */
+const Ring = ({ e, klein }: { e: Ergebnis; klein?: boolean }) => {
+  const prozent = e.passung;
+  const ring = (
+    <div
+      className={`hc-erg-ring${klein ? " hc-erg-ring--klein" : ""}`}
+      role="img"
+      aria-label={`Passt zu ${prozent} Prozent zu dir`}
+    >
+      <svg viewBox="0 0 100 100" aria-hidden>
+        <circle className="hc-erg-ring-spur" cx="50" cy="50" r="46" />
+        <circle
+          className="hc-erg-ring-fuell"
+          cx="50"
+          cy="50"
+          r="46"
+          style={{ ["--rest" as string]: (289 * (100 - prozent)) / 100 }}
+        />
+      </svg>
+      <span className="hc-erg-ring-zahl" aria-hidden>
+        {prozent}
+        <small>%</small>
+      </span>
+    </div>
+  );
+  if (klein) return ring;
   return (
     <div className="hc-erg-ring-zeile">
-      <div
-        className={`hc-erg-ring${e.art === "konto" ? " hc-erg-ring--logo" : ""}`}
-        role="img"
-        aria-label={
-          e.art === "depot"
-            ? `Passt zu ${prozent} Prozent zu dir`
-            : `Dein Match: ${e.anbieter.name}`
-        }
-      >
-        <svg viewBox="0 0 100 100" aria-hidden>
-          <circle className="hc-erg-ring-spur" cx="50" cy="50" r="46" />
-          <circle
-            className="hc-erg-ring-fuell"
-            cx="50"
-            cy="50"
-            r="46"
-            style={{ ["--rest" as string]: (289 * (100 - prozent)) / 100 }}
-          />
-        </svg>
-        {e.art === "depot" ? (
-          <span className="hc-erg-ring-zahl" aria-hidden>
-            {prozent}
-            <small>%</small>
-          </span>
-        ) : (
-          <span className="hc-erg-ring-logo" aria-hidden>
-            <AnbieterLogo
-              name={e.anbieter.name}
-              domain={e.anbieter.domain}
-              gross
-            />
-          </span>
-        )}
-      </div>
-      <p className="hc-erg-ring-text">
-        {e.art === "depot"
-          ? "Übereinstimmung mit deinen Antworten"
-          : "Dein Match aus deinen Antworten"}
-      </p>
+      {ring}
+      <p className="hc-erg-ring-text">Übereinstimmung mit deinen Antworten</p>
     </div>
   );
 };
@@ -439,8 +427,12 @@ const karten = (e: Ergebnis): Karte[] => {
       match: true,
       inhalt: (
         <>
-          <Platte e={e} gross />
+          <div className="hc-wk-matchkopf">
+            <Platte e={e} gross />
+            <Ring e={e} klein />
+          </div>
           <h3>{e.anbieter.name}</h3>
+          <p className="hc-wk-passt">Passt zu {e.passung} % zu dir</p>
           <p className="hc-wk-klein">{e.kartenTitel}</p>
           <HakenB zeilen={kurzVorteile(e)} />
         </>
@@ -479,6 +471,20 @@ const karten = (e: Ergebnis): Karte[] => {
             <Ja />
             {WECHSEL_ZEIT}
           </p>
+        </>
+      ),
+    });
+  }
+  // Immer mindestens drei Karten (Elias RN12-03 „immer 3 Slides Minimum, 2 Slides ist zu kurz“): ohne Bank oder Depot von heute die Einrichtung.
+  const einrichtung = einrichtungVon(e);
+  if (einrichtung) {
+    liste.push({
+      id: "einrichtung",
+      ueber: "So geht's",
+      inhalt: (
+        <>
+          <h3>{einrichtung.titel}</h3>
+          <HakenB zeilen={einrichtung.zeilen} />
         </>
       ),
     });
@@ -608,11 +614,6 @@ const FassungB = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
     {bereit && <CheckKonfetti />}
     <header className="hc-wb-kopf" data-e="1">
       <h1 className="hc-wb-h1">{e.ueberschrift}</h1>
-      {e.art === "depot" && (
-        <div className="hc-wb-ring">
-          <Ring e={e} />
-        </div>
-      )}
     </header>
     <div data-e="2">
       <Wischen e={e} />

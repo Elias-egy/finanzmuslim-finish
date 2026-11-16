@@ -377,15 +377,47 @@ export type BankHalal = { zinsfrei: BankAmpel | null; keinDispo: BankAmpel | nul
  * musst ihn schriftlich oder sowas musst du es ausschalten, aber du hast ihn drin.“ Andere Gruppen und freie Eingaben: offen.
  */
 const GRUPPE_HAUS: Record<string, string> = { "grp-sparkasse": "haspa" };
-export const bankHalal = (w: BankWahl): BankHalal => {
-  const haus = w.kind === "bank" ? (GRUPPE_HAUS[w.id] ?? w.id) : undefined;
-  const konten = haus
-    ? (girokontoVergleich as unknown as { haus: string; werte?: Record<string, unknown> }[]).filter((a) => a.haus === haus)
-    : [];
-  const einig = (key: string): BankAmpel | null => {
+
+/**
+ * RN13 (Elias RN12-01 „Also du kannst sagen, was die gemeinsam haben. Also immer 3 Punkte.“): neben Zinsen und Dispo auch Karte ohne
+ * Kredit, Apple Pay oder Google Pay und Kontowechsel-Service, alles aus dem Girokonto-Vergleich. null heißt offen (nicht geprüft oder
+ * die Konten des Hauses sind sich nicht einig), dann steht im Check „–“.
+ */
+export type BankWerte = BankHalal & { karteOhneKredit: BankAmpel | null; applePay: boolean | null; kontowechsel: boolean | null };
+
+type VergleichsKonto = { id: string; haus: string; werte?: Record<string, unknown> };
+const VERGLEICH_KONTEN = girokontoVergleich as unknown as VergleichsKonto[];
+
+const ampel = (v: unknown): BankAmpel | null => (v === "gut" || v === "teils" || v === "schlecht" ? v : null);
+const janein = (v: unknown): boolean | null => (v === true || v === false ? v : null);
+
+const werteAus = (konten: VergleichsKonto[]): BankWerte => {
+  const einig = (key: string): unknown => {
     const werte = new Set(konten.map((a) => a.werte?.[key] ?? null));
-    const [v] = [...werte];
-    return werte.size === 1 && (v === "gut" || v === "teils" || v === "schlecht") ? v : null;
+    return werte.size === 1 ? [...werte][0] : null;
   };
-  return { zinsfrei: einig("zinsfreiAbStart"), keinDispo: einig("keinDispoAbStart") };
+  return {
+    zinsfrei: ampel(einig("zinsfreiAbStart")),
+    keinDispo: ampel(einig("keinDispoAbStart")),
+    karteOhneKredit: ampel(einig("karteOhneKredit")),
+    applePay: janein(einig("applePay")),
+    kontowechsel: janein(einig("kontowechsel")),
+  };
+};
+
+/** Werte der heutigen Bank: einig über alle Konten des Hauses (Gruppe Sparkasse über die Haspa), sonst offen. */
+export const bankWerte = (w: BankWahl): BankWerte => {
+  const haus = w.kind === "bank" ? (GRUPPE_HAUS[w.id] ?? w.id) : undefined;
+  return werteAus(haus ? VERGLEICH_KONTEN.filter((a) => a.haus === haus) : []);
+};
+
+/** Werte genau eines Kontos im Vergleich (das Match: norisbank-top-girokonto, bbbank-bettersmart). */
+export const produktWerte = (id: string): BankWerte => werteAus(VERGLEICH_KONTEN.filter((a) => a.id === id));
+
+/** Rohwerte genau eines Kontos im Vergleich (für die gerechnete Konto-Passung im Check). */
+export const produktRoh = (id: string): Record<string, unknown> => VERGLEICH_KONTEN.find((a) => a.id === id)?.werte ?? {};
+
+export const bankHalal = (w: BankWahl): BankHalal => {
+  const { zinsfrei, keinDispo } = bankWerte(w);
+  return { zinsfrei, keinDispo };
 };

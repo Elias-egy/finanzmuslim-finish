@@ -30,7 +30,8 @@
 import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/girokontoBonus";
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
 import type { Fassung } from "@/lib/abTest";
-import { bankHalal, bankPreis, type BankHalal, type BankWahl } from "@/data/bankSuche";
+import { bankPreis, bankWerte, produktRoh, produktWerte, type BankAmpel, type BankWahl, type BankWerte } from "@/data/bankSuche";
+import { brokerVergleich } from "@/data/brokerVergleich";
 import { depotWerte, type DepotWahl, type DepotWerte } from "@/data/depotSuche";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { ROYAL_MINT } from "@/data/royalMint";
@@ -155,8 +156,9 @@ export type Betrag = "unter50" | "50bis200" | "ueber200";
 /**
  * „Worin willst du investieren?“ (Elias RN10-07: „Aktienmarkt und dann irgendwie Einzelaktien, ETFs oder so, oder Edelmetalle“).
  * Die Antwort verschiebt die Gewichte in passungAusWerten und stellt das Thema in den Vorteilen nach vorn, nie das Depot selbst.
+ * „Weiß noch nicht“ (Elias RN12-03: „und dann Weiß noch nicht“) rechnet mit der Standard-Aufteilung und stellt nichts nach vorn.
  */
-export type Anlage = "etf" | "aktien" | "gold";
+export type Anlage = "etf" | "aktien" | "gold" | "offen";
 
 export type Antworten = {
   art?: Art;
@@ -252,6 +254,7 @@ export const FRAGEN: Record<FrageId, Frage> = {
       { wert: "etf", titel: "ETFs", unter: "Ein Papier, viele Firmen" },
       { wert: "aktien", titel: "Einzelne Aktien", unter: "Du suchst die Firmen selbst aus" },
       { wert: "gold", titel: "Gold und Silber", unter: "Zum Beispiel zertifiziertes, auslieferbares Gold" },
+      { wert: "offen", titel: "Weiß noch nicht", unter: "Dann zählt alles ein bisschen" },
     ],
   },
   betrag: {
@@ -267,8 +270,8 @@ export const FRAGEN: Record<FrageId, Frage> = {
 };
 
 /** Die Antworten der Anlage-Frage als Satzteil („Du willst … investieren“) und als Häkchen bei „Deine Antworten“. */
-export const ANLAGE_SATZ: Record<Anlage, string> = { etf: "in ETFs investieren", aktien: "einzelne Aktien kaufen", gold: "in Gold und Silber investieren" };
-export const ANLAGE_TEXT: Record<Anlage, string> = { etf: "ETFs", aktien: "Einzelne Aktien", gold: "Gold und Silber" };
+export const ANLAGE_SATZ: Record<Anlage, string> = { etf: "in ETFs investieren", aktien: "einzelne Aktien kaufen", gold: "in Gold und Silber investieren", offen: "" };
+export const ANLAGE_TEXT: Record<Anlage, string> = { etf: "ETFs", aktien: "Einzelne Aktien", gold: "Gold und Silber", offen: "Anlage noch offen" };
 
 /**
  * Das grüne Etikett der ersten Frage je Einstieg (Elias RN10-07: „das Quiz ist überall gleich, nur dieser eine Farbtouch sagt, was passt“).
@@ -378,8 +381,10 @@ export type KontoErgebnis = {
   link?: string;
   /** Nur BBBank: kleiner Zusatz zur Startprämie. */
   praemie?: string;
-  /** Zinsen und Dispo der heutigen Bank aus dem Girokonto-Vergleich (bankHalal), nur mit heutiger Bank. */
-  heuteHalal?: BankHalal;
+  /** Werte der heutigen Bank aus dem Girokonto-Vergleich (bankWerte), nur mit heutiger Bank. */
+  heuteHalal?: BankWerte;
+  /** „Passt zu X % zu dir“ (Elias RN12-01), gerechnet in kontoPassung, höchstens 98. */
+  passung: number;
 };
 
 export type DepotErgebnis = {
@@ -473,6 +478,57 @@ const ZAHLUNG_SATZ: Record<Zahlung, string> = {
   bar: "Du zahlst viel bar und willst eine Filiale.",
 };
 
+// ---------------------------------------------------------------------------
+// Konto-Passung in Prozent (Elias RN12-01: „Der Anfang ist irgendwie passt so zu so und so viel Prozent zu dir“), nie fest, wie beim
+// Depot (Regelbuch RN9-04: „das Endergebnis mit den Prozenten auch irgendwie glaubwürdiger“).
+
+/**
+ * Jedes Merkmal bekommt einen Anteil von 0 bis 1 aus dem Girokonto-Vergleich (girokontoVergleich.ts, Werte des Match-Kontos) und aus
+ * girokontoBonus.ts, jedes Merkmal ein Gewicht:
+ *  - Ohne Zinsen 25, Kein Dispo ab Start 20, Karte ohne Kredit 10 (gut 1, teils 0,5, schlecht 0).
+ *  - Kosten 20: 0 € Kontoführung ist voll, eine Bedingung kostet je 2.500 € Geldeingang die Hälfte (norisbank 500 € gleich 0,8,
+ *    BBBank 1.000 € gleich 0,6).
+ *  - Alltag 15, aus der Antwort „Wie bezahlst du meistens?“: Karte zählt Apple Pay oder Google Pay und Debitkarte 0 €; Karte und bar dazu
+ *    Abhebungen und Einzahlen; viel bar Filialen, Abhebungen und Einzahlen. Abhebungen „Unbegrenzt“ voll, sonst Zahl durch 5. Einzahlen
+ *    kostenlos ist voll, nur an bestimmten Automaten oder Schaltern 0,8, „nicht möglich“ null, sonst die Hälfte.
+ *  - Kontowechsel-Service 10, nur wenn es eine Bank von heute gibt.
+ * Passung = Summe der Gewicht mal Anteil, geteilt durch die Summe der Gewichte, gerundet, höchstens 98.
+ */
+const ampelAnteil = (v: unknown) => (v === "gut" ? 1 : v === "teils" ? 0.5 : 0);
+const abhebenAnteil = (v: unknown) => {
+  if (typeof v !== "string") return 0;
+  if (/unbegrenzt/i.test(v)) return 1;
+  const n = Number(v.match(/\d+/)?.[0] ?? 0);
+  return clamp01(n / 5);
+};
+const einzahlenAnteil = (v: unknown) => {
+  if (typeof v !== "string") return 0;
+  if (/nicht möglich/i.test(v)) return 0;
+  if (/kostenlos/i.test(v)) return /nur |automaten|schalter/i.test(v) ? 0.8 : 1;
+  return 0.5;
+};
+const nullEuro = (v: unknown) => (typeof v === "string" && /^\D*0\s?€/.test(v) ? 1 : 0);
+
+export const kontoPassung = (k: BonusKonto, a: Antworten): number => {
+  const w = produktRoh(k.id);
+  const kosten = 1 - Math.min(0.5, k.gratisAb / 2500);
+  const z = a.zahlung ?? "karte-bar";
+  const karte = [w.applePay === true ? 1 : 0, nullEuro(w.debitkarte)];
+  const alltag =
+    z === "karte" ? karte : z === "karte-bar" ? [...karte, abhebenAnteil(w.abhebungen), einzahlenAnteil(w.bargeldEinzahlen)] : [w.filialen === true ? 1 : 0, abhebenAnteil(w.abhebungen), einzahlenAnteil(w.bargeldEinzahlen)];
+  const teile: [number, number][] = [
+    [25, ampelAnteil(w.zinsfreiAbStart)],
+    [20, ampelAnteil(w.keinDispoAbStart)],
+    [10, ampelAnteil(w.karteOhneKredit)],
+    [20, kosten],
+    [15, alltag.reduce((x, y) => x + y, 0) / alltag.length],
+  ];
+  if (a.bank && a.bank.kind !== "keine") teile.push([10, w.kontowechsel === true ? 1 : 0]);
+  const summe = teile.reduce((x, [g]) => x + g, 0);
+  const punkte = teile.reduce((x, [g, t]) => x + g * t, 0);
+  return Math.min(PASSUNG_MAX, Math.round((100 * punkte) / summe));
+};
+
 const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): KontoErgebnis => {
   const k = a.zahlung === "bar" ? BB : NORIS;
   const anbieter = k === BB ? A_BB : A_NORIS;
@@ -489,6 +545,7 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
     kartenTitel: "Girokonto ohne Zinsen auf dein Guthaben",
     preis: "0 € im Monat",
     vorteile: kontoVorteile(k),
+    passung: kontoPassung(k, a),
   };
 
   if (schonDa) {
@@ -518,7 +575,7 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
     links,
     rechts: empfehlungSpalte(k, mitEroeffnung),
     vergleichTitel,
-    heuteHalal: links && bank ? bankHalal(bank) : undefined,
+    heuteHalal: links && bank ? bankWerte(bank) : undefined,
     pflicht: KONTO_PFLICHT,
     knopf: "Konto eröffnen",
     link: outLink(quelle, anbieter, fassung),
@@ -568,7 +625,7 @@ const depotVorteile = (d: BrokerKarte, kurz: "fl" | "sb", anlage: Anlage | undef
 
 /** Welches Depot: „Was ist dir wichtiger?“ entscheidet, Halal-Auswahl gleich flatex, Kosten gleich Smartbroker+ (Elias RN7). */
 const depotTeil = (praef: Praef | undefined, anlage: Anlage | undefined) => {
-  const und = anlage ? ` und ${ANLAGE_SATZ[anlage]}` : "";
+  const und = anlage && ANLAGE_SATZ[anlage] ? ` und ${ANLAGE_SATZ[anlage]}` : "";
   return praef === "kosten"
     ? { anbieter: A_SB, karte: SB, kurz: "sb" as const, pflicht: undefined as string | undefined, satz: `Du willst möglichst niedrige Kosten${und}. Dafür passt Smartbroker+.` }
     : {
@@ -810,6 +867,7 @@ const LADEN_ANLAGE: Record<Anlage, string> = {
   etf: "Halal-ETFs und Fonds je Depot zählen",
   aktien: "Ordergebühren für einzelne Aktien prüfen",
   gold: "Gold und Silber je Depot prüfen",
+  offen: "ETFs, Gold und Sukuk je Depot zählen",
 };
 
 /**
@@ -926,9 +984,10 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
       .filter((z) => z.label === "Passt zu deinen Antworten" || z.links.text !== z.rechts.text);
   }
 
-  // Konto (Elias RN11-04): nur, worin sich die Konten unterscheiden, als Vorteile des Matches. Kontoführung steht immer
-  // (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts). Dispo und Zinsen aus dem Girokonto-Vergleich
-  // (bankHalal, Elias RN11-05: nicht neu prüfen), nur wenn die heutige Bank belegt anders ist als das Match; nie „beide zinsfrei“.
+  // Konto: immer drei Punkte (Elias RN12-01 „Also du kannst sagen, was die gemeinsam haben. Also immer 3 Punkte.“). Kontoführung steht
+  // immer (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts). Dann zuerst, worin die heutige Bank belegt schlechter
+  // ist (Elias RN11-04 „immer die, wo die sich unterscheiden“), dann, was beide belegt gemeinsam haben, dann, was bei der heutigen Bank
+  // offen ist („–“). Alle Werte aus dem Girokonto-Vergleich (bankWerte, produktWerte; Elias RN11-05: nicht neu prüfen).
   const k = kontoZuAnbieter(e);
   const fuehrung = finde(links, "Kontoführung im Monat");
   const zeilen: VergleichZeile[] = [
@@ -939,22 +998,50 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
     },
   ];
   const h = e.heuteHalal;
-  if (h?.keinDispo === "teils" || h?.keinDispo === "schlecht") {
-    zeilen.push({
-      label: "Dispo",
-      links: { text: "Dispo an", nein: true, klein: h.keinDispo === "teils" ? "abschalten musst du selbst beantragen" : undefined },
-      rechts: { text: "kein Dispo", ja: true, klein: "ab Eröffnung" },
-    });
+  const m = produktWerte(k.id);
+  const unterschied: VergleichZeile[] = [];
+  const gemeinsam: VergleichZeile[] = [];
+  const offen: VergleichZeile[] = [];
+  for (const p of KONTO_PUNKTE) {
+    const mw = m[p.key];
+    if (!istGut(mw)) continue;
+    const hw = h ? h[p.key] : null;
+    if (hw === null || hw === undefined) offen.push({ label: p.label, links: { text: KEIN_WERT }, rechts: { text: p.gut, ja: true } });
+    else if (istGut(hw)) gemeinsam.push({ label: p.label, links: { text: p.gut, ja: true }, rechts: { text: p.gut, ja: true } });
+    else
+      unterschied.push({
+        label: p.label,
+        links: { text: p.schlecht(hw), nein: true, klein: p.kleinSchlecht?.(hw) },
+        rechts: { text: p.gut, ja: true, klein: p.kleinGut },
+      });
   }
-  if (h?.zinsfrei === "teils" || h?.zinsfrei === "schlecht") {
-    zeilen.push({
-      label: "Zinsen auf Guthaben",
-      links: { text: h.zinsfrei === "teils" ? "Zinsen, abschaltbar" : "Zinsen", nein: true },
-      rechts: { text: "keine Zinsen", ja: true },
-    });
-  }
-  return zeilen;
+  return [...zeilen, ...unterschied, ...gemeinsam, ...offen].slice(0, 3);
 };
+
+/** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). */
+type KontoPunkt = {
+  key: "keinDispo" | "zinsfrei" | "karteOhneKredit" | "applePay" | "kontowechsel";
+  label: string;
+  gut: string;
+  schlecht: (v: BankAmpel | boolean) => string;
+  kleinSchlecht?: (v: BankAmpel | boolean) => string | undefined;
+  kleinGut?: string;
+};
+const istGut = (v: BankAmpel | boolean | null | undefined) => v === "gut" || v === true;
+const KONTO_PUNKTE: KontoPunkt[] = [
+  {
+    key: "keinDispo",
+    label: "Dispo",
+    gut: "kein Dispo",
+    schlecht: () => "Dispo an",
+    kleinSchlecht: (v) => (v === "teils" ? "abschalten musst du selbst beantragen" : undefined),
+    kleinGut: "ab Eröffnung",
+  },
+  { key: "zinsfrei", label: "Zinsen auf Guthaben", gut: "keine Zinsen", schlecht: (v) => (v === "teils" ? "Zinsen, abschaltbar" : "Zinsen") },
+  { key: "karteOhneKredit", label: "Karte ohne Kredit", gut: "ja", schlecht: (v) => (v === "teils" ? "nicht immer" : "nein") },
+  { key: "applePay", label: "Apple Pay oder Google Pay", gut: "ja", schlecht: () => "nein" },
+  { key: "kontowechsel", label: "Kontowechsel-Service", gut: "ja", schlecht: () => "nein" },
+];
 
 /** Unter dem Konto-Vergleich (Elias RN11-04: „Also ich schreibe einfach in 10 Minuten.“). */
 export const WECHSEL_ZEIT = "Wechsel in 10 Minuten";
@@ -973,3 +1060,46 @@ export const UEBERZUG = {
   alt: "Formular Kontowechselhilfe der norisbank",
 };
 
+
+/**
+ * Karte „Einrichtung super easy“ (Elias RN12-03: „man könnte noch einen dritten Einrichtung super easy oder so und dann also immer
+ * 3 Slides Minimum“), nur ohne heutiges Konto oder Depot (sonst stehen dort der Vergleich und beim Konto das Rüberziehen). Nur belegte Werte: App und Ident-App aus
+ * brokerStart.ts (Store-Seiten geprüft 08.11.2026; hier abgeschrieben, damit der Check die schwere Datei nicht lädt, ein Test prüft
+ * die Gleichheit), Steuer aus dem Depot-Vergleich (brokerVergleich.ts, Feld kapest).
+ */
+export const EINRICHTUNG_APP: Record<"fl" | "sb", { app: string; ident: string }> = {
+  fl: { app: "flatex next", ident: "POSTIDENT" },
+  sb: { app: "Smartbroker+", ident: "POSTIDENT" },
+};
+const VERGLEICH_ID: Record<"fl" | "sb", string> = { fl: "flatex-depot", sb: "smartbroker-plus-depot" };
+
+export type Einrichtung = { titel: string; zeilen: string[] };
+export const EINRICHTUNG_TITEL = "Einrichtung super easy";
+
+export const einrichtungVon = (e: Ergebnis): Einrichtung | null => {
+  if (e.schonDa || e.links) return null;
+  if (e.art === "konto") {
+    // Konto ohne Bank von heute: Eröffnung aus girokontoBonus.ts, Apple Pay und Dispo aus dem Girokonto-Vergleich.
+    const k = kontoZuAnbieter(e);
+    const w = produktWerte(k.id);
+    return {
+      titel: EINRICHTUNG_TITEL,
+      zeilen: [
+        `Eröffnung per ${k.ident}`,
+        ...(w.applePay ? ["Bezahlen mit Apple Pay oder Google Pay"] : []),
+        ...(w.keinDispo === "gut" ? ["Kein Dispo ab Eröffnung"] : []),
+      ],
+    };
+  }
+  const kurz = e.anbieter.kurz === "sb" ? "sb" : "fl";
+  const { app, ident } = EINRICHTUNG_APP[kurz];
+  const kapest = (brokerVergleich.find((b) => b.id === VERGLEICH_ID[kurz])?.werte as Record<string, unknown> | undefined)?.kapest === true;
+  return {
+    titel: EINRICHTUNG_TITEL,
+    zeilen: [
+      `Ausweisen mit der ${ident}-App am Handy`,
+      `Alles in der App ${app}, für iPhone und Android`,
+      ...(kapest ? ["Steuern führt die Bank für dich ab"] : []),
+    ],
+  };
+};

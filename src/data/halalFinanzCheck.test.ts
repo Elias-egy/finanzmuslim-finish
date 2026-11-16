@@ -32,10 +32,16 @@ import {
   UEBERSCHRIFT,
   type Antworten,
   type DepotErgebnis,
+  EINRICHTUNG_APP,
+  einrichtungVon,
+  kontoPassung,
+  ladenTexte,
   type KontoErgebnis,
   vergleichZeilen,
 } from "@/data/halalFinanzCheck";
 import { BROKER_KARTEN } from "@/data/brokerFreebie";
+import { BROKER_START } from "@/data/brokerStart";
+import { BONUS_KONTEN } from "@/data/girokontoBonus";
 import { freieWahl, KEINE_BANK, suche, wahlVon, bankNachId } from "@/data/bankSuche";
 import { depotNachId, depotWahlVon, depotWerte, freieDepotWahl } from "@/data/depotSuche";
 import { istGueltigeQuelle, istHerkunft } from "@/lib/attribution";
@@ -124,13 +130,13 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(FRAGEN.anlage.titel).toBe("Worin willst du investieren?");
   });
 
-  it("„Worin willst du investieren?“ (Elias RN10-07): drei Antworten, ETFs, Einzelne Aktien, Gold und Silber, für jeden Weg gleich", () => {
-    expect(FRAGEN.anlage.optionen.map((o) => o.wert)).toEqual(["etf", "aktien", "gold"]);
-    expect(FRAGEN.anlage.optionen.map((o) => o.titel)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber"]);
+  it("„Worin willst du investieren?“ (Elias RN10-07, RN12-03): ETFs, Einzelne Aktien, Gold und Silber, Weiß noch nicht, für jeden Weg gleich", () => {
+    expect(FRAGEN.anlage.optionen.map((o) => o.wert)).toEqual(["etf", "aktien", "gold", "offen"]);
+    expect(FRAGEN.anlage.optionen.map((o) => o.titel)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber", "Weiß noch nicht"]);
     for (const a of [{ art: "depot", hatDepot: "nein", praef: "halal" }, { art: "depot", hatDepot: "ja", praef: "kosten" }] as Antworten[]) {
       expect(frageFuer("anlage", a)).toEqual(FRAGEN.anlage);
     }
-    expect(ANLAGE_TEXT).toEqual({ etf: "ETFs", aktien: "Einzelne Aktien", gold: "Gold und Silber" });
+    expect(ANLAGE_TEXT).toEqual({ etf: "ETFs", aktien: "Einzelne Aktien", gold: "Gold und Silber", offen: "Anlage noch offen" });
   });
 
   it("das grüne Etikett der ersten Frage hängt nur an der Quelle (Elias RN10-07): Standard Bankkonto „am beliebtesten“, bei den zwei Anlagen-Listen Depot „passt zu deiner Liste“", () => {
@@ -319,7 +325,7 @@ describe("Ergebnis Bankkonto", () => {
     expect(leer(r.zeilen[0].zusatz?.[0])).toBe("unter 30 oder ab 500 € Geldeingang im Monat, sonst 3,90 €");
   });
 
-  it("genau ein Knopf, der Satz aus KONTO_PFLICHT, kein Depot, keine Alternative, keine Prozente", () => {
+  it("genau ein Knopf, der Satz aus KONTO_PFLICHT, kein Depot, keine Alternative, Prozente nur als gerechnete Passung", () => {
     const e = konto(sparkasse);
     expect(e.knopf).toBe("Konto eröffnen");
     expect(e.link).toBe("/out/norisbank?src=fcaknoa");
@@ -327,7 +333,7 @@ describe("Ergebnis Bankkonto", () => {
     expect(e.pflicht).toMatch(/Tagesgeld/);
     const text = JSON.stringify(e);
     expect(text).not.toMatch(/flatex|Smartbroker|Depot|Alternative|Freitagsbrief|%|danach/i);
-    expect(Object.keys(e)).not.toContain("passung");
+    expect(e.passung).toBe(kontoPassung(BONUS_KONTEN.find((k) => k.id === "norisbank-top-girokonto")!, sparkasse));
     expect(Object.keys(e)).not.toContain("alternative");
     expect(Object.keys(e)).not.toContain("danach");
   });
@@ -366,17 +372,66 @@ describe("Ergebnis Bankkonto", () => {
       expect(e.link, eingabe).toBeTruthy();
     }
   });
-  it("Vergleichskarte nur mit Unterschieden (Elias RN11-04/-05): Dispo und Zinsen aus dem Girokonto-Vergleich, nie „beide zinsfrei“", () => {
-    const labels = (b: string) => vergleichZeilen(konto({ ...sparkasse, bank: bank(b) })).map((z) => z.label);
-    // Sparkasse: Dispo drin (Haspa im Vergleich), Zinsen gleich, also keine Zinszeile.
-    expect(labels("grp-sparkasse")).toEqual(["Kontoführung im Monat", "Dispo"]);
-    // C24: Zinsen auf Guthaben, kein Dispo ab Start, also nur die Zinszeile.
-    expect(labels("c24")).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben"]);
-    // Volksbank: nichts belegt, nur die Kosten.
-    expect(labels("grp-volksbank")).toEqual(["Kontoführung im Monat"]);
-    const c24 = vergleichZeilen(konto({ ...sparkasse, bank: bank("c24") }))[1];
+  it("Vergleichskarte immer drei Punkte (Elias RN12-01): Unterschiede zuerst, dann Gemeinsames, dann Offenes, alles aus dem Girokonto-Vergleich", () => {
+    const zeilen = (b: string) => vergleichZeilen(konto({ ...sparkasse, bank: bank(b) }));
+    const labels = (b: string) => zeilen(b).map((z) => z.label);
+    // Sparkasse: Dispo anders (Haspa im Vergleich), Zinsen gemeinsam.
+    expect(labels("grp-sparkasse")).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
+    // Commerzbank: nur die Kosten anders, dann zwei gemeinsame Haken.
+    expect(labels("commerzbank")).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
+    const cb = zeilen("commerzbank")[1];
+    expect(cb.links).toMatchObject({ text: "kein Dispo", ja: true });
+    expect(cb.rechts).toMatchObject({ text: "kein Dispo", ja: true });
+    // C24: Zinsen anders, kein Dispo gemeinsam.
+    expect(labels("c24")).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben", "Dispo"]);
+    const c24 = zeilen("c24")[1];
     expect(c24.links.nein).toBe(true);
     expect(c24.rechts.ja).toBe(true);
+    // Volksbank: nichts belegt, links „–“, rechts die belegten Werte der norisbank, nie ein Kreuz.
+    const vb = zeilen("grp-volksbank");
+    expect(vb.map((z) => z.label)).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
+    expect(vb.slice(1).every((z) => z.links.text === KEIN_WERT && !z.links.nein && z.rechts.ja)).toBe(true);
+    for (const b of ["grp-sparkasse", "commerzbank", "c24", "grp-volksbank", "ing", "dkb"]) expect(zeilen(b), b).toHaveLength(3);
+  });
+
+  it("Konto-Passung gerechnet, nie fest (Elias RN12-01): Karte gegen bar, Bedingung kostet, höchstens 98", () => {
+    const noris = BONUS_KONTEN.find((k) => k.id === "norisbank-top-girokonto")!;
+    const bb = BONUS_KONTEN.find((k) => k.id === "bbbank-bettersmart")!;
+    const mit = { art: "konto", bank: bank("commerzbank") } as Antworten;
+    expect(kontoPassung(noris, { ...mit, zahlung: "karte" })).toBe(96);
+    expect(kontoPassung(noris, { ...mit, zahlung: "karte-bar" })).toBe(95);
+    expect(kontoPassung(bb, { ...mit, zahlung: "bar" })).toBeLessThan(kontoPassung(noris, { ...mit, zahlung: "karte" }));
+    for (const z of ["karte", "karte-bar", "bar"] as const) {
+      const p = kontoPassung(noris, { ...mit, zahlung: z });
+      expect(p).toBeGreaterThan(50);
+      expect(p).toBeLessThanOrEqual(PASSUNG_MAX);
+    }
+    expect(konto({ ...sparkasse, zahlung: "bar" }).passung).toBe(kontoPassung(bb, { ...sparkasse, zahlung: "bar" }));
+  });
+
+  it("immer mindestens drei Wischkarten (Elias RN12-03): ohne Konto oder Depot von heute die Karte Einrichtung super easy aus belegten Werten", () => {
+    const k = konto({ art: "konto", zahlung: "karte", bank: KEINE_BANK });
+    expect(einrichtungVon(k)?.zeilen).toEqual(["Eröffnung per Video-Ident oder Post-Ident", "Bezahlen mit Apple Pay oder Google Pay", "Kein Dispo ab Eröffnung"]);
+    expect(einrichtungVon(konto(sparkasse))).toBeNull();
+    for (const kurz of ["fl", "sb"] as const) {
+      const start = BROKER_START[kurz === "fl" ? "flatex" : "smartbroker"];
+      expect(EINRICHTUNG_APP[kurz]).toEqual({ app: start.app.name, ident: start.ident!.name });
+    }
+    const e = ergebnisAus({ art: "depot", hatDepot: "nein", praef: "kosten", anlage: "offen" }, "homepage")!;
+    expect(einrichtungVon(e)).toEqual({
+      titel: "Einrichtung super easy",
+      zeilen: ["Ausweisen mit der POSTIDENT-App am Handy", "Alles in der App Smartbroker+, für iPhone und Android", "Steuern führt die Bank für dich ab"],
+    });
+  });
+
+  it("„Weiß noch nicht“ rechnet mit der Standard-Aufteilung, stellt nichts nach vorn und steht im Ladescreen", () => {
+    const a = { art: "depot", hatDepot: "nein", praef: "halal", anlage: "offen" } as Antworten;
+    const ohne = { ...a, anlage: undefined };
+    const e = ergebnisAus(a, "homepage") as DepotErgebnis;
+    expect(e.passung).toBe(passungProzent(BROKER_KARTEN.find((k) => k.id === "flatex-depot")!, ohne));
+    expect(e.satz).toBe("Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl.");
+    expect(ladenTexte(a).schritte[1]).toBe("ETFs, Gold und Sukuk je Depot zählen");
+    expect(antwortZeilen(a)).toContain("Anlage noch offen");
   });
 });
 
@@ -651,8 +706,11 @@ describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
     expect(antwortZeilen({ ...basis, hatDepot: "ja", depotHeute: heuteDepot("ing-direkt-depot") })).toEqual(["Schon ein Depot", "Depot bei ING", "Viele Halal-Anlagen", "Einzelne Aktien"]);
   });
 
-  it("Bankkonto-Ergebnisse tragen keine Prozentzahl", () => {
-    expect(JSON.stringify(konto({ art: "konto", zahlung: "karte", bank: bank("ing") }))).not.toMatch(/passung|%/);
+  it("Bankkonto-Ergebnisse tragen seit RN13 eine gerechnete Passung (Elias RN12-01), nie als Text mit Prozentzeichen in den Daten", () => {
+    const e = konto({ art: "konto", zahlung: "karte", bank: bank("ing") });
+    expect(e.passung).toBeGreaterThan(50);
+    expect(e.passung).toBeLessThanOrEqual(PASSUNG_MAX);
+    expect(JSON.stringify(e)).not.toMatch(/%/);
   });
 });
 
