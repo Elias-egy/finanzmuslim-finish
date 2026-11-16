@@ -369,12 +369,17 @@
   gap: 28px;
   margin-top: 32px;
 }
+/* RN15 (Elias RN14-02 „sie haben gewechselt …, dann einfach das neue Bild. Dann da drunter halt die Sternebewertungen“): auch am Laptop
+   Bild oben, Stimmen darunter (am Laptop die Stimmen nebeneinander). */
 @media (min-width: 800px) {
   .hc-community-gitter {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    align-items: center;
-    gap: 56px;
-    margin-top: 48px;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .hc-community-stimmen {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
   }
 }
 .hc-community-foto {
@@ -528,18 +533,18 @@
   aspect-ratio: 4 / 3;
   background: var(--flaeche2);
 }
-.hc-zeile-bild img {
+.hc-zeile-bild > img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s ease;
 }
-.hc-zeile-bild--oben img {
+.hc-zeile-bild--oben > img {
   object-position: 50% 12%;
 }
 @media (hover: hover) {
-  .hc-zeile:hover .hc-zeile-bild img {
+  .hc-zeile:hover .hc-zeile-bild > img {
     transform: scale(1.03);
   }
 }
@@ -1667,4 +1672,352 @@
   font-size: 16px;
   font-weight: 600;
   text-align: center;
+}
+
+/* RN15 (Elias RN14-02 „Bilder …, die nicht generisch wirken“): Schrittbilder als Szenen aus der echten Oberfläche (CheckSchrittBild.tsx).
+   Maße in cqw (Breite des Bildrahmens), damit die Szene bei 110 px am Handy und 200 px am Laptop gleich aussieht. */
+.hc-zeile-bild {
+  position: relative;
+  container-type: inline-size;
+}
+.hc-sz {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  background: var(--flaeche2);
+  color: var(--text);
+  line-height: 1.25;
+  transition: transform 0.6s ease;
+}
+@media (hover: hover) {
+  .hc-zeile:hover .hc-sz {
+    transform: scale(1.03);
+  }
+}
+.hc-sz svg {
+  flex: none;
+}
+.hc-sz-ja {
+  width: 6.5cqw;
+  height: 6.5cqw;
+  color: var(--ja, var(--gruen));
+  stroke-width: 3.2;
+}
+.hc-sz-nein {
+  width: 6cqw;
+  height: 6cqw;
+  color: #d83a3a;
+  stroke-width: 3.2;
+}
+.hc-sz-strich {
+  color: var(--grau);
+  font-size: 5.5cqw;
+  font-weight: 600;
+}
+/* 01 Chat */
+.hc-sz--chat {
+  flex-direction: column;
+  justify-content: center;
+  gap: 5cqw;
+  padding: 0 5cqw;
+}
+.hc-sz-reihe {
+  display: flex;
+  align-items: flex-end;
+  gap: 3cqw;
+}
+.hc-sz-reihe img {
+  width: 11cqw;
+  height: 11cqw;
+  flex: none;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-sz-blase {
+  padding: 2.8cqw 4.2cqw;
+  border-radius: 6cqw 6cqw 6cqw 1.5cqw;
+  background: var(--bg);
+  font-size: 6cqw;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.hc-sz-wahlen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2.5cqw;
+}
+.hc-sz-wahl {
+  display: inline-flex;
+  align-items: center;
+  gap: 2cqw;
+  padding: 2.4cqw 4.5cqw;
+  border: 1px solid color-mix(in srgb, var(--blau) 45%, transparent);
+  border-radius: 6cqw;
+  background: var(--bg);
+  color: var(--blau-text);
+  font-size: 5.8cqw;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.hc-sz-wahl--an {
+  border-color: var(--blau);
+  background: color-mix(in srgb, var(--blau) 10%, var(--bg));
+  box-shadow: 0 0 0 1px var(--blau);
+}
+.hc-sz-etikett {
+  padding: 0.6cqw 2.4cqw;
+  border-radius: 9999px;
+  background: var(--gruen-hell);
+  color: var(--gruen);
+  font-size: 4.4cqw;
+  font-weight: 600;
+}
+/* 02 Raster aus dem Vergleich */
+.hc-sz--raster {
+  align-items: center;
+  justify-content: center;
+  padding: 5cqw;
+}
+.hc-sz-tab {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2.5cqw 4cqw;
+  border-radius: 5cqw;
+  background: var(--bg);
+  box-shadow: 0 2cqw 5cqw -3cqw rgba(15, 23, 42, 0.35);
+}
+.hc-sz-tkopf,
+.hc-sz-tzeile {
+  display: grid;
+  grid-template-columns: 40cqw 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.hc-sz-tkopf {
+  padding-bottom: 1.5cqw;
+  color: var(--grau);
+  font-size: 4.4cqw;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hc-sz-tzeile {
+  height: 13cqw;
+  margin-inline: -2cqw;
+  padding-inline: 2cqw;
+  border-top: 1px solid var(--linie);
+}
+.hc-sz-tzeile--match {
+  border-top-color: transparent;
+  border-radius: 3cqw;
+  background: color-mix(in srgb, var(--orange, #ff8a3d) 16%, var(--bg));
+}
+.hc-sz-tzeile--match + .hc-sz-tzeile {
+  border-top-color: transparent;
+}
+.hc-sz-tlogo {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+}
+/* AnbieterLogo ist 134 × 36 px fest; in der Szene füllt es den Rahmen aus logoRahmen (Maße in cqw), der Ausschnitt bleibt */
+.hc-sz-logo {
+  display: block;
+  flex: none;
+}
+.hc-sz-logo > span,
+.hc-sz-logo > span > span {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  border-radius: 0;
+}
+.hc-sz-twert b {
+  font-size: 5.2cqw;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* 03 Analyse mit Ring (Strich 9 wie der dickere Ring im Ergebnis A) */
+.hc-sz--analyse {
+  align-items: center;
+  justify-content: center;
+  gap: 6cqw;
+  padding: 0 6cqw;
+}
+.hc-sz-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40cqw;
+  height: 40cqw;
+  flex: none;
+}
+.hc-sz-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.hc-sz-ring circle {
+  fill: none;
+  stroke-width: 9;
+}
+.hc-sz-ring-spur {
+  stroke: color-mix(in srgb, var(--text) 10%, transparent);
+}
+.hc-sz-ring-fuell {
+  stroke: var(--blau-text);
+  stroke-linecap: round;
+  stroke-dasharray: 276.5;
+}
+.hc-sz-ring-zahl {
+  display: flex;
+  align-items: flex-start;
+  font-size: 12cqw;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.hc-sz-ring-zahl small {
+  margin-top: 1cqw;
+  font-size: 5.5cqw;
+}
+.hc-sz-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  font-size: 5.6cqw;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hc-sz-liste > span {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+}
+/* 04 Eröffnen */
+.hc-sz--oeffnen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6cqw;
+}
+.hc-sz-platte {
+  display: grid;
+  place-items: center;
+  padding: 3.5cqw 6cqw;
+  border: 1px solid var(--linie);
+  border-radius: 5cqw;
+  background: #fff;
+  box-shadow: 0 2cqw 5cqw -3cqw rgba(15, 23, 42, 0.35);
+}
+.hc-sz-platte--noris {
+  border: 2px solid var(--orange, #ff8a3d);
+}
+.hc-sz-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5cqw;
+  padding: 3.6cqw 7cqw;
+  border-radius: 9999px;
+  background: var(--blau);
+  color: #fff;
+  font-size: 6cqw;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.hc-sz-knopf svg {
+  width: 6cqw;
+  height: 6cqw;
+}
+/* 05 Erfolgserlebnis */
+.hc-sz--erfolg {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqw;
+  background: linear-gradient(160deg, var(--gruen-hell), var(--flaeche2));
+}
+.hc-sz-erfolg-haken {
+  display: grid;
+  place-items: center;
+  width: 25cqw;
+  height: 25cqw;
+  border-radius: 9999px;
+  background: var(--gruen);
+  color: #fff;
+  box-shadow: 0 0 0 3cqw color-mix(in srgb, var(--gruen) 18%, transparent);
+}
+.hc-sz-erfolg-haken svg {
+  width: 14cqw;
+  height: 14cqw;
+  stroke-width: 3.2;
+}
+.hc-sz-erfolg-text {
+  font-size: 6.6cqw;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.hc-sz-konfetti {
+  position: absolute;
+  width: 3cqw;
+  height: 5.5cqw;
+  border-radius: 1px;
+}
+
+/* RN15: das Pult-Bild (360 × 480) nicht über seine Größe hinaus ziehen */
+.hc-community-foto--bild {
+  max-width: 360px;
+}
+/* RN15 (Elias RN14-02): runde Bank-Logos statt Bildern anderer Leute, überlappend wie die Bilder im Original (32 px, -9 px) */
+.hc-rund-banken {
+  display: flex;
+  flex: none;
+}
+.hc-rund-bank {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: -9px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--bg), inset 0 0 0 1px rgba(21, 27, 40, 0.12);
+}
+.hc-rund-bank:first-child {
+  margin-left: 0;
+}
+.hc-rund-bank > span {
+  display: block;
+}
+/* RN15 (Elias RN14-02 „Lieber vielleicht da 22.000 Leute vertrauen“): eine Zeile statt der drei Haken */
+.hc-vertrauen {
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hc-vertrauen .hc-haken-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+}
+/* Im Dunkeln bleibt das Raster eine weiße Karte: die Logos stehen auf Weiß, sonst sitzen sie als einzelne weiße Flecken darin */
+.dark .hc .hc-sz-tab {
+  --bg: #fff;
+  --text: #151b28;
+  --grau: color-mix(in srgb, #151b28 62%, transparent);
+  --linie: color-mix(in srgb, #151b28 12%, transparent);
+  --gruen: #0f8a4f;
+  --ja: #0f8a4f;
+  color: var(--text);
+}
+.dark .hc .hc-sz-tab .hc-sz-logo > span {
+  background: transparent;
 }

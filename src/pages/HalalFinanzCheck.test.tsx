@@ -58,21 +58,37 @@ describe("Verkaufsseite", () => {
     }
   });
 
-  it("die Hero-Zeile nennt „89 Angebote selbst getestet“ mit drei Bank-Logos daneben, unter dem Titel 35 Depots und 54 Girokonten (RN10-01), nie „eröffnet“, kein Gesicht von Elias", () => {
+  it("die Hero-Zeile nennt „89 Angebote selbst getestet“, darunter 35 Depots und 54 Girokonten mit runden Bank-Logos (RN14-02), nie „eröffnet“, kein großes Foto von Elias im Kopf, 22.000 statt drei Haken", () => {
     const { container } = zeige("/check?quelle=homepage");
     const zeile = container.querySelector(".hc-beweis")!;
     expect(zeile.querySelector(".hc-eyebrow")!.textContent).toBe("89 Angebote selbst getestet");
-    expect([...zeile.querySelectorAll("img")].map((i) => i.getAttribute("src"))).toEqual([
-      "/logos/ing.de.svg",
-      "/logos/dkb.de.svg",
-      "/logos/commerzbank.de.svg",
-    ]);
+    // RN15: die Logo-Leiste neben 89 fällt weg, die Logos stehen rund in der Zeile darunter (statt Bildern anderer Leute).
+    expect(zeile.querySelectorAll("img")).toHaveLength(0);
     expect(container.textContent).not.toMatch(/selbst eröffnet/);
-    expect(container.querySelector(".hc-leute-zeile")!.textContent).toBe("35 Depots und 54 Girokonten selbst getestet");
-    // Beispielbilder anderer nur im Entwicklungsmodus (Test läuft im Entwicklungsmodus), nie Elias' Gesicht (RN10-05).
-    expect(container.querySelectorAll(".hc-leute-zeile img")).toHaveLength(3);
-    expect([...container.querySelectorAll("img")].map((i) => i.getAttribute("src") ?? "").filter((s) => /elias|einrichtung-flatex-poster/i.test(s))).toEqual([]);
-    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Nur wenige FragenUnter 2 MinutenKostenlos");
+    const leute = container.querySelector(".hc-leute-zeile")!;
+    expect(leute.textContent).toBe("35 Depots und 54 Girokonten selbst getestet");
+    expect([...leute.querySelectorAll(".hc-rund-bank")].map((i) => i.getAttribute("aria-label"))).toEqual(["ING", "Commerzbank", "Deutsche Bank", "DKB"]);
+    // Kein Foto von Elias im Kopf (RN10-05); sein Bild steht nur in „Aus der Community“ (Elias RN15-00) und klein im Chat-Ausschnitt von Schritt 01.
+    const hero = container.querySelector(".hc-hero")!;
+    expect([...hero.querySelectorAll("img")].map((i) => i.getAttribute("src") ?? "").filter((s) => /elias|pult|einrichtung-flatex-poster/i.test(s))).toEqual([]);
+    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Über 22.000 Menschen informieren sich bei Finanzmuslim");
+    expect(container.textContent).not.toMatch(/Nur wenige Fragen|Unter 2 Minuten/);
+  });
+
+  it("So entsteht deine Empfehlung: fünf Schritte mit Szenen aus der echten Oberfläche statt Stockfotos, zuletzt das Erfolgserlebnis (RN14-02)", () => {
+    const { container } = zeige("/check?art=konto");
+    const schritte = [...container.querySelectorAll(".hc-schritte .hc-zeile")];
+    expect(schritte.map((z) => z.querySelector(".hc-zeile-titel")!.textContent)).toEqual([
+      "Kurze Fragen",
+      "Abgleich mit meinen Testdaten",
+      "Dein Match mit Begründung",
+      "Eröffnen, wenn es passt",
+      "Halal gestartet",
+    ]);
+    expect(container.querySelectorAll(".hc-schritte .hc-zeile-bild > img")).toHaveLength(0);
+    expect(schritte.map((z) => z.querySelector(".hc-sz")!.className.replace("hc-sz hc-sz--", ""))).toEqual(["chat", "raster", "analyse", "oeffnen", "erfolg"]);
+    expect(schritte[0].textContent).toContain("Was suchst du gerade?");
+    expect(schritte[4].textContent).toContain("Herzlichen Glückwunsch");
   });
 
   it("Reihenfolge der Verkaufsseite: Hero, Community, Schritte, Tabelle, Schluss, Werbehinweis", () => {
@@ -108,7 +124,7 @@ describe("Verkaufsseite", () => {
     expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(2);
     expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
     const foto = container.querySelector(".hc-community-foto img")!;
-    expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-uni-hamburg.webp");
+    expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-allein-am-pult.webp");
     expect(foto.getAttribute("alt")).toContain("Universität Hamburg");
     expect(container.querySelector(".hc-community-foto figcaption")!.textContent).toBe("Elias bei einem Vortrag von Halal Invest an der Universität Hamburg");
   });
@@ -194,7 +210,7 @@ describe("Bankkonto-Check", () => {
     await tippeText("Sparkasse");
     expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     // Die heutige Bank steht links neben der norisbank (der Titel „Sparkasse und norisbank im Vergleich“ ist in halalFinanzCheck.test.ts geprüft; KontoAnsicht zeigt ihn nicht).
-    expect(container.querySelector(".hc-vs")?.textContent).toMatch(/^Sparkasse.*norisbank/);
+    expect(container.querySelector(".hc-gg")?.textContent).toMatch(/^Sparkasse.*norisbank/);
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(container.textContent).toContain("steht in deinem Kontoauszug");
@@ -215,7 +231,7 @@ describe("Bankkonto-Check", () => {
       vi.advanceTimersByTime(300);
     });
     expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
-    expect(container.querySelector(".hc-vs")?.textContent).toMatch(/^Volksbank.*norisbank/);
+    expect(container.querySelector(".hc-gg")?.textContent).toMatch(/^Volksbank.*norisbank/);
   });
 
   it("Phantasiebank wird nie „nicht gefunden“: „übernehmen“ ist der Vorschlag, das Ergebnis läuft weiter", async () => {
@@ -250,7 +266,7 @@ describe("Bankkonto-Check", () => {
     await tippeText("Fast nur mit Karte");
     await tippeText("Noch kein Konto");
     expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
-    expect(container.querySelector(".hc-vs")).toBeNull();
+    expect(container.querySelector(".hc-gg")).toBeNull();
     expect(container.textContent).not.toMatch(/im Vergleich/);
   });
 
@@ -305,10 +321,10 @@ describe("Depot-Check", () => {
     expect(auch.textContent).toContain("Kreditrahmen ab");
     expect(screen.getByRole("link", { name: /Depot ansehen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflza");
     expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank|Zweitdepot/);
-    // Ohne heutiges Depot kein Vergleich der beiden; „Deine Antworten“ nennt die Wahl.
+    // Ohne heutiges Depot kein Vergleich der beiden; seit RN15 ohne Antwort-Pillen und ohne Satz im Kopf (Elias RN14-02 „Das kann weg“).
     expect(container.textContent).not.toMatch(/im Vergleich/);
-    expect(container.textContent).toContain("Einzelne Aktien");
-    expect(container.textContent).toContain("Noch kein Depot");
+    expect(container.querySelector(".hc-erg-antw")).toBeNull();
+    expect(container.querySelector(".hc-erg-satz")).toBeNull();
   });
 
   it("Fassung b: nach „Worin willst du investieren?“ kommt der Monatsbetrag, das Depot bleibt", async () => {
@@ -321,8 +337,8 @@ describe("Depot-Check", () => {
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
     await tippeText("50 bis 200 €");
     expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
-    expect(screen.getByText("50 bis 200 € im Monat")).toBeTruthy();
-    expect(screen.getAllByText("Gold und Silber").length).toBeGreaterThan(0);
+    // Die Anlage steht seit RN15 nicht mehr als Pille, aber in den Vorteilen vorn.
+    expect(document.querySelector(".hc-erg-haken")!.textContent).toMatch(/Gold und Silber/);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
   });
 
@@ -367,7 +383,7 @@ describe("Depot-Check", () => {
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.textContent).toContain("Dein Depot und Smartbroker+ im Vergleich");
     expect(container.textContent).toContain("Phantasiedepot");
-    const vs = container.querySelector(".hc-vs") as HTMLElement;
+    const vs = container.querySelector(".hc-gg") as HTMLElement;
     expect(vs.textContent).toContain("–");
   });
 

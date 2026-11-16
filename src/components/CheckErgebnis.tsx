@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import CheckKonfetti from "@/components/CheckKonfetti";
@@ -16,9 +16,7 @@ import {
   type Antworten,
   type AuchGut,
   type Ergebnis,
-  type Spalte,
   type VergleichZelle,
-  type Zeile,
 } from "@/data/halalFinanzCheck";
 import { followerGesamt } from "@/data/beweise";
 import { leuteBilder } from "@/data/checkStimmen";
@@ -50,51 +48,10 @@ type Props = {
   bereit: boolean;
 };
 
-const Kopf = ({ s, ziel }: { s: Spalte; ziel?: boolean }) => (
-  <div className={`hc-bank hc-bank--kopf${ziel ? " hc-bank--ziel" : ""}`}>
-    <AnbieterLogo name={s.name} domain={s.domain} gross />
-    <p className="hc-bank-name">
-      {s.name}
-      {s.produkt && <small>{s.produkt}</small>}
-    </p>
-  </div>
-);
+/** Ring wie im Original (seit RN15 r 44, Strich 9: Elias RN14-02 „die Übereinstimmung ist ein bisschen dicker bei ihm“; füllt sich 1,2 s ab 0,3 s) mit der gerechneten Passung (Depot passungProzent, Konto kontoPassung, Elias RN12-01). `klein`: nur der Ring, für die Match-Karte in B. */
+/** Umfang des Rings bei r 44: 2 · π · 44. */
+const RING_UMFANG = 276.5;
 
-const Zelle = ({ z, ziel }: { z: Zeile; ziel?: boolean }) => {
-  const lang = z.wert.length > 14;
-  const leise = z.wert === KEIN_PREIS;
-  return (
-    <div className={`hc-bank${ziel ? " hc-bank--ziel" : ""}`}>
-      <p
-        className={`hc-bank-wert${lang ? " hc-bank-wert--text" : ""}${leise ? " hc-bank-wert--leise" : ""}`}
-      >
-        {z.wert}
-      </p>
-      {z.zusatz?.map((t) => (
-        <p key={t} className="hc-bank-zusatz">
-          {t}
-        </p>
-      ))}
-    </div>
-  );
-};
-
-/** Beide nebeneinander: Kopf mit Logo, dann je Zeile die Beschriftung über zwei Zellen. */
-const Vergleich = ({ links, rechts }: { links?: Spalte; rechts: Spalte }) => (
-  <div className={`hc-vs${links ? "" : " hc-vs--eins"}`}>
-    {links && <Kopf s={links} />}
-    <Kopf s={rechts} ziel />
-    {rechts.zeilen.map((z, i) => (
-      <Fragment key={z.label}>
-        <p className="hc-vs-label">{z.label}</p>
-        {links && links.zeilen[i] && <Zelle z={links.zeilen[i]} />}
-        <Zelle z={z} ziel />
-      </Fragment>
-    ))}
-  </div>
-);
-
-/** Ring wie im Original (r 46, Strich 5, füllt sich 1,2 s ab 0,3 s) mit der gerechneten Passung (Depot passungProzent, Konto kontoPassung, Elias RN12-01). `klein`: nur der Ring, für die Match-Karte in B. */
 const Ring = ({ e, klein }: { e: Ergebnis; klein?: boolean }) => {
   const prozent = e.passung;
   const ring = (
@@ -104,13 +61,13 @@ const Ring = ({ e, klein }: { e: Ergebnis; klein?: boolean }) => {
       aria-label={`Passt zu ${prozent} Prozent zu dir`}
     >
       <svg viewBox="0 0 100 100" aria-hidden>
-        <circle className="hc-erg-ring-spur" cx="50" cy="50" r="46" />
+        <circle className="hc-erg-ring-spur" cx="50" cy="50" r="44" />
         <circle
           className="hc-erg-ring-fuell"
           cx="50"
           cy="50"
-          r="46"
-          style={{ ["--rest" as string]: (289 * (100 - prozent)) / 100 }}
+          r="44"
+          style={{ ["--rest" as string]: (RING_UMFANG * (100 - prozent)) / 100 }}
         />
       </svg>
       <span className="hc-erg-ring-zahl" aria-hidden>
@@ -256,9 +213,15 @@ const SchonDa = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
 // ---------------------------------------------------------------------------
 // Fassung A: untereinander wie das Original
 
-const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
+/**
+ * RN15 (Elias RN14-02, Vorbild hermes/renovierungskampagne/perspective/rn9-ergebnis/01 und 02): Kopf kleiner und tiefer wie das Original,
+ * ohne den Satz „Du zahlst fast nur mit Karte …“ und ohne die Antwort-Pillen („Das kann weg“), Ring dicker, norisbank-Platte orange wie in B;
+ * der Vergleich heute gegen Match ist dieselbe Haken-Tabelle wie in B (Gegenueber), hier mit mehr Platz links und rechts, nach der
+ * Match-Karte weiter unten („Dann scrollen die Leute einfach runter“); danach „Aus der Community“ mit 22.000 und Stimmen.
+ */
+const FassungA = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
   <section
-    className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`}
+    className={`hc-erg hc-erg--a${bereit ? " hc-erg--bereit" : ""}`}
     aria-live="polite"
     data-ergebnis="a"
   >
@@ -267,12 +230,6 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
         <h1 className="hc-erg-h1" data-e="1">
           {e.ueberschrift}
         </h1>
-        <p className="hc-erg-satz" data-e="2">
-          {e.satz}
-        </p>
-        <div data-e="2">
-          <Antworten a={antworten} />
-        </div>
       </div>
       <div data-e="3">
         <Ring e={e} />
@@ -281,7 +238,7 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
 
     <article className="hc-erg-karte" data-e="4">
       <div className="hc-erg-bild">
-        <span className="hc-erg-logo">
+        <span className={`hc-erg-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
           <AnbieterLogo
             name={e.anbieter.name}
             domain={e.anbieter.domain}
@@ -311,17 +268,22 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
       </div>
     )}
 
-    {e.links && e.rechts && (
-      <section className="hc-erg-vergleich" data-e="5">
+    {e.links && e.rechts && vergleichZeilen(e).length > 0 && (
+      <section className="hc-erg-vergleich hc-erg-vergleich--a" data-e="5">
         {e.vergleichTitel && <h2 className="hc-erg-h3">{e.vergleichTitel}</h2>}
-        <Vergleich links={e.links} rechts={e.rechts} />
+        <Gegenueber e={e} />
       </section>
     )}
 
-    <div data-e="6">
+    <section className="hc-erg-community" aria-label="Aus der Community" data-e="6">
+      <p className="hc-erg-kicker">Aus der Community</p>
       <Leute />
-    </div>
-    <Stimmen e={e} />
+      <div className="hc-erg-stimmen-gitter">
+        {[0, 1, 2].map((i) => (
+          <CheckStimme key={i} stelle={i} art={e.art} />
+        ))}
+      </div>
+    </section>
     <Fuss onNeu={onNeu} />
   </section>
 );

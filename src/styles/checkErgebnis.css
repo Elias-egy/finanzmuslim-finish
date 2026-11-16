@@ -342,9 +342,10 @@
   height: 100%;
   transform: rotate(-90deg);
 }
+/* RN15 (Elias RN14-02 „die Übereinstimmung ist ein bisschen dicker bei ihm“): Strich 9 bei r 44 statt 5 bei r 46 */
 .hc-erg-ring circle {
   fill: none;
-  stroke-width: 5;
+  stroke-width: 9;
 }
 .hc-erg-ring-spur {
   stroke: color-mix(in srgb, var(--text) 10%, transparent);
@@ -352,7 +353,7 @@
 .hc-erg-ring-fuell {
   stroke: var(--blau);
   stroke-linecap: round;
-  stroke-dasharray: 289;
+  stroke-dasharray: 276.5;
   stroke-dashoffset: calc(var(--rest, 0) * 1px);
 }
 .dark .hc .hc-erg-ring-fuell {
@@ -1190,7 +1191,7 @@
   }
   @keyframes hc-erg-fuellen {
     from {
-      stroke-dashoffset: 289px;
+      stroke-dashoffset: 276.5px;
     }
   }
   .hc-erg:not(.hc-erg--bereit) [data-e] {
@@ -1259,4 +1260,88 @@
       transform: translateX(2px);
     }
   }
+}
+
+/* ---------- RN15: Fassung A wie das Perspective-Original (Elias RN14-02) ---------- */
+/* Kopf kleiner und tiefer: oben mehr Luft wie im Original, Überschrift 30 px am Handy (drei Zeilen statt vier bei 36), 44 px ab 768 */
+.hc-erg--a {
+  padding-top: 76px;
+}
+@media (min-width: 768px) {
+  .hc-erg--a {
+    padding-top: 104px;
+  }
+}
+.hc-erg--a .hc-erg-h1 {
+  font-size: 30px;
+  line-height: 1.12;
+}
+@media (min-width: 768px) {
+  .hc-erg--a .hc-erg-h1 {
+    font-size: 44px;
+    line-height: 1.05;
+  }
+}
+.hc-erg--a .hc-erg-kopf {
+  gap: 24px;
+}
+/* norisbank-Platte orange wie in B (Elias RN14-02 „Norisbank ist hier nicht mehr orange“) */
+.hc-erg-logo.hc-wb-platte--noris {
+  border: 2px solid var(--orange);
+}
+/* Vergleich: dieselbe Haken-Tabelle wie in B, als eigene Karte mit mehr Platz links und rechts */
+.hc-erg-vergleich--a {
+  padding: 24px 20px 12px;
+  border: 1px solid var(--linie);
+  border-radius: 24px;
+  background: var(--bg);
+  box-shadow: 0 10px 28px -18px rgba(15, 23, 42, 0.35);
+}
+@media (min-width: 768px) {
+  .hc-erg-vergleich--a {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: 36px 40px 20px;
+  }
+}
+.hc-erg-vergleich--a .hc-erg-h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.hc-erg-vergleich--a .hc-gg-kopf .hc-wb-platte {
+  min-height: 60px;
+}
+.hc-erg-vergleich--a .hc-gg-kopf .hc-wb-platte > * {
+  zoom: 0.86;
+}
+.hc-erg-vergleich--a .hc-gg-name {
+  font-size: 15px;
+}
+.hc-erg-vergleich--a .hc-gg-label {
+  padding-top: 14px;
+  font-size: 14px;
+}
+.hc-erg-vergleich--a .hc-gg-zelle {
+  padding-bottom: 14px;
+}
+.hc-erg-vergleich--a .hc-gg-zelle + .hc-gg-zelle {
+  padding-left: 16px;
+}
+.hc-erg-vergleich--a .hc-gg-wert b {
+  font-size: 17px;
+}
+/* Danach „Aus der Community“: Kicker, 22.000, Stimmen */
+.hc-erg-community {
+  margin-top: 56px;
+}
+.hc-erg-community .hc-leute {
+  margin: 0 0 24px;
+  padding-top: 0;
+  border-top: 0;
+}
+.hc-erg-community .hc-leute figcaption {
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }

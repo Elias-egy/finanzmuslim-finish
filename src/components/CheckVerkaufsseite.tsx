@@ -1,8 +1,10 @@
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check, Users, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import CheckStimme from "@/components/CheckStimme";
+import { SchrittSzene, type SzeneId } from "@/components/CheckSchrittBild";
+import { followerGesamt } from "@/data/beweise";
 import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
-import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
+import { stimmenFuer } from "@/data/checkStimmen";
 
 /**
  * Verkaufsseite vor dem Halal-Finanz-Check, nach der Startseite von Elias' NEUEM Perspective-Funnel (6afa2cd179f7bfa91bb900d0,
@@ -20,52 +22,54 @@ import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
  */
 
 /**
- * Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“; RN13-01: „Das ist das
- * Bild von Uni Hamburg … Das kannst du einfügen.“). Quelle ~/Downloads/Halalinvest Bilder/ChatGPT-Bild 16. Nov. 2026, 14_34_50.png,
- * auf 900 px Breite als webp.
+ * Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“). RN15: Elias hat das neue
+ * Bild gewählt („name vom bild ist allein-am-pult-fein-geschaerft“): Elias allein am Pult der Universität Hamburg, von Codex klassisch
+ * farbkorrigiert und fein geschärft, ohne generative Änderung (~/Documents/Codex/2026-11-16/folgendes-ich/outputs/vortrag-neue-motive/
+ * allein-am-pult-fein-geschaerft.png, 360 × 480, als webp). Ersetzt vortrag-uni-hamburg.webp aus RN14.
  */
 const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number; zeile: string } | null = {
-  src: "/bilder/check/vortrag-uni-hamburg.webp",
-  alt: "Vortrag von Halal Invest an der Universität Hamburg",
-  // RN14-01: enger zugeschnitten wie Elias' Ausschnitt (raw/2026-11-16-elias-rn14-01-bildausschnitt-uni-hamburg.png), Elias größer,
-  // rechts das Pult der Universität Hamburg; im Original ab x 300 über die volle Höhe (1050 × 1080), auf 800 px Breite.
-  b: 800,
-  h: 823,
+  src: "/bilder/check/vortrag-allein-am-pult.webp",
+  alt: "Elias am Pult der Universität Hamburg",
+  b: 360,
+  h: 480,
   // RN14-01 „irgendwie steht auch so klein Ilias bei … einen Vortrag … an der Universität Hamburg“.
   zeile: "Elias bei einem Vortrag von Halal Invest an der Universität Hamburg",
 };
 
-type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
-
-/** Je Schritt ein Bild für Konto und eines für Depot (und ohne art). Eigenes Material zuerst, sonst das vorhandene Stockfoto. */
-const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: Bild }[] = [
+/**
+ * Je Schritt eine Szene aus der echten Oberfläche (RN15, Elias RN14-02, CheckSchrittBild.tsx) statt eines Stockfotos; Konto und Depot
+ * zeigen ihre eigenen Logos und Werte. Schritt 05 neu: das Erfolgserlebnis („irgendwas, was so wie ein Erfolgserlebnis wirkt“).
+ */
+const SCHRITTE: { nr: string; titel: string; text: string; szene: SzeneId }[] = [
   {
     nr: "01",
     titel: "Kurze Fragen",
     text: "Wenige Fragen zu deinem Alltag und dem, was dir wichtig ist. Dauert unter zwei Minuten.",
-    konto: { src: "/bilder/check/krit2.webp", alt: "Hände mit Smartphone", b: 400, h: 225 },
-    depot: { src: "/bilder/check/krit2.webp", alt: "Hände mit Smartphone", b: 400, h: 225 },
+    szene: "chat",
   },
   {
     nr: "02",
     titel: "Abgleich mit meinen Testdaten",
     text: "Deine Antworten treffen auf meine Notizen zu Kosten, App und Halal-Blick.",
-    konto: { src: "/vergleich/depot-app/scalable-1.webp", alt: "Depot-App aus dem Vergleich", b: 1080, h: 2207, oben: true },
-    depot: { src: "/vergleich/depot-app/scalable-1.webp", alt: "Depot-App aus dem Vergleich", b: 1080, h: 2207, oben: true },
+    szene: "raster",
   },
   {
     nr: "03",
     titel: "Dein Match mit Begründung",
     text: "Du siehst, welches Angebot passt, mit Kosten und dem Grund dafür.",
-    konto: { src: "/bilder/check/krit4.webp", alt: "Mann liest auf dem Smartphone", b: 400, h: 267 },
-    depot: { src: "/vergleich/depot-app/flatex-1.webp", alt: "Aktiensparplan in der flatex-App", b: 1080, h: 2341, oben: true },
+    szene: "analyse",
   },
   {
     nr: "04",
     titel: "Eröffnen, wenn es passt",
     text: "Ein Klick führt dich zum Anbieter. Ob du eröffnest, entscheidest allein du.",
-    konto: { src: "/bilder/check/krit3.webp", alt: "Hand mit Bankkarte", b: 400, h: 225 },
-    depot: { src: "/vergleich/depot-app/flatex-2.webp", alt: "Depot-App von flatex", b: 1080, h: 2341, oben: true },
+    szene: "oeffnen",
+  },
+  {
+    nr: "05",
+    titel: "Halal gestartet",
+    text: "Du startest mit einem Angebot, das zu dir passt, und weißt, warum es passt.",
+    szene: "erfolg",
   },
 ];
 
@@ -88,11 +92,38 @@ const FRAGEN_ZEILEN = [
 
 const Pfeil = () => <ArrowRight className="hc-pfeil" aria-hidden />;
 
-const BANKEN = [
-  { src: "/logos/ing.de.svg", alt: "ING", cls: "hc-banklogo--ing" },
-  { src: "/logos/dkb.de.svg", alt: "DKB", cls: "hc-banklogo--dkb" },
-  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", cls: "hc-banklogo--cb" },
+/**
+ * RN15 (Elias RN14-02 „anstatt 35 Depot sind Girokonto selbst getestet, dann machst du da die Logos in dem Runden hin“): in der Zeile unter
+ * dem Titel runde Logos getesteter Banken statt Bildern anderer Leute. Die Logo-Leiste neben „89 Angebote selbst getestet“ fällt dafür weg
+ * (bei 390 gemessen: zwei Logo-Reihen übereinander wirken unruhig, Regelbuch look-und-design Nie „Nicht zu viel auf einmal“).
+ * `w`: Breite des Schriftzugs im Kreis in Prozent, je nach Form der Datei.
+ */
+const RUNDE_BANKEN: { src: string; alt: string; b: number; h: number; aus: [number, number, number, number] }[] = [
+  // `aus`: Ausschnitt der Datei als Anteil (links, oben, rechts, unten), nur das Zeichen der Bank: ING der Löwe, Commerzbank das Band,
+  // Deutsche Bank das Quadrat, DKB der Schriftzug ohne „Das kann Bank“. Maße der Dateien in px (naturalWidth × naturalHeight).
+  { src: "/logos/ing.de.svg", alt: "ING", b: 2680, h: 500, aus: [0.42, 0.02, 0.66, 0.8] },
+  { src: "/logos/commerzbank.de.svg", alt: "Commerzbank", b: 300, h: 40, aus: [0.865, 0, 1, 1] },
+  { src: "/logos/deutsche-bank.de.svg", alt: "Deutsche Bank", b: 250, h: 52, aus: [0.785, 0, 1, 1] },
+  { src: "/logos/dkb.de.svg", alt: "DKB", b: 265, h: 150, aus: [0, 0.02, 1, 0.55] },
 ];
+
+/** Ausschnitt mittig in einem Quadrat von `s` px: Hintergrundbild so groß und so verschoben, dass genau der Ausschnitt hineinpasst. */
+const rundStil = (r: (typeof RUNDE_BANKEN)[number], s: number) => {
+  const [x0, y0, x1, y1] = r.aus;
+  const k = s / Math.max((x1 - x0) * r.b, (y1 - y0) * r.h);
+  const breite = r.b * k;
+  const hoehe = r.h * k;
+  const links = -x0 * breite + (s - (x1 - x0) * breite) / 2;
+  const oben = -y0 * hoehe + (s - (y1 - y0) * hoehe) / 2;
+  return {
+    width: `${s}px`,
+    height: `${s}px`,
+    backgroundImage: `url(${r.src})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: `${breite}px ${hoehe}px`,
+    backgroundPosition: `${links}px ${oben}px`,
+  };
+};
 
 /** Kopf der Verkaufsseite je Art: Konto zwei Fragen (Elias' Wort Bankkonto), Depot drei, ohne art beides. */
 const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wort: string; vergleich: { text: string; pfad: string } }> = {
@@ -121,10 +152,8 @@ const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wor
 
 const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => void; art?: Art }) => {
   const kopf = KOPF[art ?? "alle"];
-  const bilder = art === "konto" ? "konto" : "depot";
   // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
   const zeigeCommunity = stimmenFuer(art).length > 0 || import.meta.env.DEV;
-  const leute = leuteBilder(import.meta.env.DEV);
   return (
     <div className="hc-seite">
       <header className="hc-kopf">
@@ -142,22 +171,17 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
             <div>
               <div className="hc-beweis" data-enter="0">
                 <p className="hc-eyebrow">{ANGEBOTE_GETESTET} Angebote selbst getestet</p>
-                <span className="hc-banken">
-                  {BANKEN.map((b) => (
-                    <img key={b.src} src={b.src} alt={b.alt} height={18} className={`hc-banklogo ${b.cls}`} />
-                  ))}
-                </span>
               </div>
               <h1 className="hc-h1" data-enter="1">{kopf.h1}</h1>
-              {/* Elias RN10-01: „dieses 35 Depot … und dann direkt Bilder von anderen Leuten“ */}
+              {/* Elias RN14-02: statt Bildern anderer Leute runde Bank-Logos */}
               <p className="hc-leute-zeile" data-enter="2">
-                {leute.length > 0 && (
-                  <span className="hc-leute-bilder" aria-hidden>
-                    {leute.map((b) => (
-                      <img key={b} src={b} alt="" width={32} height={32} />
-                    ))}
-                  </span>
-                )}
+                <span className="hc-rund-banken">
+                  {RUNDE_BANKEN.map((b) => (
+                    <span key={b.src} className="hc-rund-bank" role="img" aria-label={b.alt}>
+                      <span style={rundStil(b, 20)} />
+                    </span>
+                  ))}
+                </span>
                 <span>
                   {DEPOTS_GETESTET} Depots und {KONTEN_GETESTET} Girokonten selbst getestet
                 </span>
@@ -177,14 +201,11 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
               </div>
             </div>
           </div>
-          <ul className="hc-haken-zeile" data-enter="4">
-            {[`Nur ${kopf.fragen} Fragen`, "Unter 2 Minuten", "Kostenlos"].map((t) => (
-              <li key={t}>
-                <Check className="hc-haken-icon" aria-hidden />
-                {t}
-              </li>
-            ))}
-          </ul>
+          {/* Elias RN14-02: statt „Nur drei Fragen, unter 2 Minuten, kostenlos“ lieber „22.000 Leute vertrauen …“; belegt wie im Ergebnis */}
+          <p className="hc-haken-zeile hc-vertrauen" data-enter="4">
+            <Users className="hc-haken-icon" aria-hidden />
+            <span>Über {followerGesamt} Menschen informieren sich bei Finanzmuslim</span>
+          </p>
         </section>
 
         {zeigeCommunity && (
@@ -219,11 +240,10 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
           </div>
           <div className="hc-zeilen hc-zeilen--zwei">
             {SCHRITTE.map((s) => {
-              const bild = s[bilder];
               return (
                 <button key={s.nr} type="button" className="hc-zeile" onClick={() => onStart(`schritt${s.nr}`)}>
-                  <span className={`hc-zeile-bild${bild.oben ? " hc-zeile-bild--oben" : ""}`}>
-                    <img src={bild.src} alt={bild.alt} width={bild.b} height={bild.h} loading="lazy" />
+                  <span className="hc-zeile-bild">
+                    <SchrittSzene id={s.szene} art={art} />
                   </span>
                   <span className="hc-zeile-text">
                     <span className="hc-zeile-nr"><b>{s.nr}</b> Schritt</span>
