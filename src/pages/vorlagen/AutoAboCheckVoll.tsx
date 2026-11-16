@@ -110,7 +110,7 @@ const AutoAboCheckVoll = () => (
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{firmen}</p>
       </section>
 
-      <CheckEinstieg quelle="homepage" />
+      <CheckEinstieg quelle="auto-abo" />
     </VorlagenSeite>
   </>
 );

@@ -192,7 +192,7 @@ const RizqVoll = () => {
           </ul>
         </section>
 
-        <CheckEinstieg quelle="homepage" className="mt-12" />
+        <CheckEinstieg quelle="rizq" className="mt-12" />
 
         <NaechsterTeil wort="amin" className="mt-12" />
 

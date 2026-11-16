@@ -1620,3 +1620,34 @@
     }
   }
 }
+
+/* RN11 (Elias RN10-01): unter dem Titel „35 Depots und 54 Girokonten selbst getestet“ mit Bildern anderer, wie im Original
+   (32 px, überlappend, Text 14 px in 62 %); Bilder nur echte oder im Entwicklungsmodus Beispiele (checkStimmen.ts leuteBilder). */
+.hc-leute-zeile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 0;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.375;
+}
+.hc-leute-zeile .hc-leute-bilder img {
+  width: 32px;
+  height: 32px;
+  margin-left: -9px;
+}
+.hc-leute-zeile .hc-leute-bilder img:first-child {
+  margin-left: 0;
+}
+/* Platz für Elias' Vortragsfoto, nur im Entwicklungsmodus */
+.hc-community-foto--platz {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  border: 2px dashed var(--linie-stark);
+  color: var(--grau);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}

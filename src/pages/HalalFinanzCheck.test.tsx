@@ -58,7 +58,7 @@ describe("Verkaufsseite", () => {
     }
   });
 
-  it("die Hero-Zeile nennt „89 Angebote selbst getestet“ mit drei Bank-Logos daneben, nie „eröffnet“", () => {
+  it("die Hero-Zeile nennt „89 Angebote selbst getestet“ mit drei Bank-Logos daneben, unter dem Titel 35 Depots und 54 Girokonten (RN10-01), nie „eröffnet“, kein Gesicht von Elias", () => {
     const { container } = zeige("/check?quelle=homepage");
     const zeile = container.querySelector(".hc-beweis")!;
     expect(zeile.querySelector(".hc-eyebrow")!.textContent).toBe("89 Angebote selbst getestet");
@@ -68,8 +68,11 @@ describe("Verkaufsseite", () => {
       "/logos/commerzbank.de.svg",
     ]);
     expect(container.textContent).not.toMatch(/selbst eröffnet/);
-    expect(container.textContent).not.toContain("35 Depots");
-    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Nur 2 bis 3 FragenUnter 2 MinutenKostenlosMit Werbehinweis");
+    expect(container.querySelector(".hc-leute-zeile")!.textContent).toBe("35 Depots und 54 Girokonten selbst getestet");
+    // Beispielbilder anderer nur im Entwicklungsmodus (Test läuft im Entwicklungsmodus), nie Elias' Gesicht (RN10-05).
+    expect(container.querySelectorAll(".hc-leute-zeile img")).toHaveLength(3);
+    expect([...container.querySelectorAll("img")].map((i) => i.getAttribute("src") ?? "").filter((s) => /elias|einrichtung-flatex-poster/i.test(s))).toEqual([]);
+    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Nur wenige FragenUnter 2 MinutenKostenlos");
   });
 
   it("Reihenfolge der Verkaufsseite: Hero, Community, Schritte, Tabelle, Schluss, Werbehinweis", () => {
@@ -87,20 +90,23 @@ describe("Verkaufsseite", () => {
     expect([...reihe].sort((a, b) => a - b)).toEqual(reihe);
   });
 
-  it("die Tabelle hat nur Häkchen, Kreuze und die 89 in unserer Spalte, keine Wertung über andere", () => {
+  it("die Tabelle wie im Original: 89, Häkchen und Kreuze, Zeitaufwand und Kosten, ohne „Werbelinks gekennzeichnet“", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     const tab = container.querySelector(".hc-tab")!;
     expect(tab.querySelectorAll("thead th")).toHaveLength(4);
-    expect(tab.querySelectorAll("tbody tr")).toHaveLength(3);
+    expect(tab.querySelectorAll("tbody tr")).toHaveLength(5);
     expect(tab.querySelector("tbody tr td.hc-tab-wir")!.textContent).toBe("89");
     expect([...tab.querySelectorAll("tbody tr:first-child td")].map((t) => t.textContent)).toEqual(["89", "–", "–"]);
-    expect(tab.textContent).not.toMatch(/keine|teils|Min\.|Stunden/);
+    expect([...tab.querySelectorAll("tbody tr:nth-child(4) td")].map((t) => t.textContent)).toEqual(["2 Min.", "20 Min.", "Stunden"]);
+    expect([...tab.querySelectorAll("tbody tr:nth-child(5) td")].map((t) => t.textContent)).toEqual(["0 €", "0 €", "0 €"]);
+    expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Stimmen-Platzhalter stehen nur im Entwicklungsmodus an der Stelle (Test läuft im Entwicklungsmodus)", () => {
+  it("Beispiel-Stimmen mit Sternen und der Platz fürs Vortragsfoto stehen nur im Entwicklungsmodus (Test läuft im Entwicklungsmodus)", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(2);
-    expect(container.textContent).toContain("Hier kommt deine echte Stimme 1");
+    expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(2);
+    expect(container.querySelector("[data-foto-platzhalter]")!.textContent).toContain("Uni Hamburg");
   });
 
   it("mit ?art= trägt die Verkaufsseite das eine Thema", () => {
@@ -111,16 +117,12 @@ describe("Verkaufsseite", () => {
     expect(titel()).toBe("Welches Depot passt wirklich zu dir?");
   });
 
-  it("der zweite Knopf führt je Art in den Vergleich", () => {
-    const alt = (adresse: string) => {
-      const r = zeige(adresse);
-      const pfad = [...r.container.querySelectorAll("a.hc-btn--rand")].map((a) => `${a.textContent}|${a.getAttribute("href")}`);
-      r.unmount();
-      return pfad;
-    };
-    expect(alt("/check?art=konto")).toEqual(["Erst Bankkonten vergleichen|/vergleich/girokonto"]);
-    expect(alt("/check?art=depot")).toEqual(["Erst Depots vergleichen|/vergleich/depot"]);
-    expect(alt("/check")).toEqual(["Erst Depots vergleichen|/vergleich/depot"]);
+  it("jeder Knopf startet den Check, auch der zweite (Elias RN10-01), kein Link aus dem Ablauf außer Impressum und Datenschutz", () => {
+    const { container } = zeige("/check?art=konto");
+    expect([...container.querySelectorAll("main a")]).toHaveLength(0);
+    fireEvent.click(screen.getByRole("button", { name: "Erst Bankkonten vergleichen" }));
+    expect(screen.getByTestId("ort").textContent).toContain("schritt=fragen");
+    expect(titel()).toBe("Was suchst du gerade?");
   });
 });
 
@@ -242,7 +244,7 @@ describe("Bankkonto-Check", () => {
     await tippeText("Fast nur mit Karte");
     await tippeText("Noch kein Konto");
     expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
-    expect(container.querySelector(".hc-vs--eins")).toBeTruthy();
+    expect(container.querySelector(".hc-vs")).toBeNull();
     expect(container.textContent).not.toMatch(/im Vergleich/);
   });
 
@@ -285,8 +287,8 @@ describe("Depot-Check", () => {
     expect(container.textContent).not.toMatch(/Wechsel|Welche dieser drei Eigenschaften/);
     await tippeText("Einzelne Aktien");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
-    expect(container.querySelector(".hc-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
-    expect(container.textContent).toMatch(/Passt zu \d+\s%\szu dir/);
+    expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
+    expect(container.textContent).toContain("Übereinstimmung mit deinen Antworten");
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
     expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank|Zweitdepot/);
@@ -460,5 +462,69 @@ describe("Ohne art und aus dem Freebie", () => {
     k.unmount();
     zeige("/check?quelle=aktienliste&ziel=invest");
     expect(titel()).toBe("Hast du schon ein Depot?");
+  });
+});
+
+describe("Ladescreen und Endbildschirm (RN11)", () => {
+  const kontoWeg = async (adresse: string) => {
+    const r = zeige(adresse);
+    await tippeText("Neues Bankkonto");
+    await tippeText("Fast nur mit Karte");
+    await tippeText("Sparkasse");
+    return r;
+  };
+
+  it("vor dem Ergebnis der Ladescreen „Passender Ersatz für Sparkasse wird gesucht“, das Ergebnis liegt inert darunter, nach 7,8 s ist der Ladescreen weg", async () => {
+    const { container } = await kontoWeg("/check?art=konto&schritt=fragen");
+    const laden = container.querySelector(".hc-laden")!;
+    expect(laden.textContent).toContain("Passender Ersatz für Sparkasse wird gesucht");
+    expect(laden.textContent).toContain("von 54 Girokonten verglichen");
+    expect(container.querySelector("[inert]")).toBeTruthy();
+    await act(async () => {
+      vi.advanceTimersByTime(7100);
+    });
+    expect(container.querySelector(".hc-laden--zu")).toBeTruthy();
+    await act(async () => {
+      vi.advanceTimersByTime(800);
+    });
+    expect(container.querySelector(".hc-laden")).toBeNull();
+    expect(container.querySelector("[inert]")).toBeNull();
+    expect(container.querySelector(".hc-erg--bereit")).toBeTruthy();
+  });
+
+  it("Depot-Ladescreen nennt die gewählte Anlage und zählt bis 35 Depots", async () => {
+    const { container } = zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
+    await tippeText("Nein, noch nicht");
+    await tippeText("Möglichst viele Halal-Anlagen");
+    await tippeText("Gold und Silber");
+    const laden = container.querySelector(".hc-laden")!;
+    expect(laden.textContent).toContain("Dein passendes Halal-Depot wird gesucht");
+    expect(laden.textContent).toContain("Gold und Silber je Depot prüfen");
+    expect(laden.textContent).toContain("von 35 Depots verglichen");
+  });
+
+  it("Fassung A (Standard): Ring, Karte mit Logo, Liste Sparkasse gegen norisbank, 22.000 informieren sich, genau ein Link", async () => {
+    const { container } = await kontoWeg("/check?art=konto&schritt=fragen");
+    expect(container.querySelector("[data-ergebnis='a']")).toBeTruthy();
+    expect(container.querySelector(".hc-erg-ring")).toBeTruthy();
+    expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
+    expect(container.textContent).toContain("Über 22.000 Menschen informieren sich bei Finanzmuslim");
+    expect(container.textContent).not.toMatch(/folgen mir/);
+    expect(container.querySelectorAll("a[href^='/out/']")).toHaveLength(1);
+  });
+
+  it("Fassung B (?ergebnis=b): Wischkarten Vergleich, altes Konto, neues Konto, Liste, „Jetzt bei norisbank eröffnen“ mit dem einen Link, darunter Stimmen", async () => {
+    const { container } = await kontoWeg("/check?art=konto&schritt=fragen&ergebnis=b");
+    expect(container.querySelector("[data-ergebnis='b']")).toBeTruthy();
+    const ueber = [...container.querySelectorAll(".hc-wk-ueber")].map((u) => u.textContent);
+    expect(ueber).toEqual(["Hier der Vergleich", "Dein altes Konto", "Dein neues Konto", "Gegeneinander", "Letzter Schritt"]);
+    // Sparkasse hat keinen belegten Preis: ehrlicher Satz statt einer Zahl.
+    expect(container.querySelector(".hc-wk--problem")!.textContent).toContain("steht in deinem Kontoauszug");
+    expect(container.textContent).toContain("Jetzt bei norisbank eröffnen");
+    const links = container.querySelectorAll("a[href^='/out/']");
+    expect(links).toHaveLength(1);
+    expect(links[0].closest(".hc-wk")).toBeTruthy();
+    expect(container.querySelector(".hc-erg-stimmen [data-stimme-platzhalter]")).toBeTruthy();
   });
 });

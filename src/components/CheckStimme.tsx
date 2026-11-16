@@ -1,25 +1,20 @@
 import { Star } from "lucide-react";
-import { stimmeAnzeige, stimmenFuer } from "@/data/checkStimmen";
+import { BEISPIEL_STIMMEN, stimmeAnzeige, stimmenFuer, type Stimme } from "@/data/checkStimmen";
 import type { Art } from "@/data/halalFinanzCheck";
 
 /**
- * Stimmenkarte der Verkaufsseite (Stelle 0 unter dem Hero-Foto, Stelle 1 unter dem Gründer-Satz). Echte Stimmen kommen aus
- * src/data/checkStimmen.ts, solange leer zeigt nur der Entwicklungsmodus einen Platzhalter, die Produktion nichts.
+ * Stimmenkarte (Verkaufsseite Stelle 0 und 1, Ergebnis Stelle 0 bis 2). Echte Stimmen kommen aus src/data/checkStimmen.ts. Solange eine
+ * fehlt, zeigt nur der Entwicklungsmodus an der Stelle eine Beispiel-Stimme mit Sternen (Elias RN10-08), die Produktion nichts.
  */
-const CheckStimme = ({ stelle, art, className = "" }: { stelle: 0 | 1; art?: Art; className?: string }) => {
+const CheckStimme = ({ stelle, art, className = "" }: { stelle: number; art?: Art; className?: string }) => {
   const liste = stimmenFuer(art);
   const modus = stimmeAnzeige(stelle, import.meta.env.DEV, liste);
   if (modus === "keine") return null;
-  if (modus === "platzhalter") {
-    return (
-      <div className={`hc-stimme hc-stimme--platz ${className}`} data-stimme-platzhalter>
-        Hier kommt deine echte Stimme {stelle + 1}
-      </div>
-    );
-  }
-  const s = liste[stelle];
+  const beispiel = stimmenFuer(art, BEISPIEL_STIMMEN);
+  const s: Stimme | undefined = modus === "echt" ? liste[stelle] : beispiel[stelle % beispiel.length];
+  if (!s) return null;
   return (
-    <figure className={`hc-stimme ${className}`}>
+    <figure className={`hc-stimme ${className}`} data-stimme-platzhalter={modus === "platzhalter" ? "" : undefined}>
       {s.sterne && (
         <div className="hc-sterne" role="img" aria-label={`${s.sterne} von 5`}>
           {[1, 2, 3, 4, 5].map((n) => (

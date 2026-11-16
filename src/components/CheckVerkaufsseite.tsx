@@ -1,9 +1,8 @@
 import { ArrowRight, Check, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import eliasCommunity from "@/assets/story-elias-warm.webp";
 import CheckStimme from "@/components/CheckStimme";
-import { ANGEBOTE_GETESTET, type Art } from "@/data/halalFinanzCheck";
-import { stimmenFuer } from "@/data/checkStimmen";
+import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
+import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
 
 /**
  * Verkaufsseite vor dem Halal-Finanz-Check, nach der Startseite von Elias' NEUEM Perspective-Funnel (6afa2cd179f7bfa91bb900d0,
@@ -12,7 +11,16 @@ import { stimmenFuer } from "@/data/checkStimmen";
  * gegen Vergleichsportal und Selbst suchen, Schluss mit drei Schritten, Werbehinweis. Nicht übernommen: Avatare und „35 Depots
  * und 54 Girokonten selbst eröffnet“ (nicht bestätigt). Jeder Knopf startet die erste Frage. Look und Bewegung: halalFinanzCheck.css.
  * Bilder: nur eigenes Material aus dem Repo, wo es keines gibt (Konto-App, Konto-Eröffnung) bleibt das Foto aus /bilder/check/.
+ *
+ * RN11 (Elias RN10-01 und RN10-05, kein Neubau, nur Anpassungen an dieser Seite): KEIN Gesicht von Elias (Schritt 01, Schritt 04 Depot
+ * und das Community-Foto ersetzt); direkt unter dem Titel die Zeile „35 Depots und 54 Girokonten selbst getestet“ mit Bildern anderer
+ * (Beispiel nur im Entwicklungsmodus, checkStimmen.ts leuteBilder); „Mit Werbehinweis“ oben raus (steht im Fuß); „Aus der Community“ mit
+ * Platz für Elias' Vortragsfoto (Uni Hamburg, COMMUNITY_FOTO); jeder Knopf startet den Check, auch der zweite; Tabelle mit Zeitaufwand
+ * und Kosten wie im Original; Bank-Logos oben bleiben.
  */
+
+/** Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“), Pfad unter /public, bis dahin null. */
+const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = null;
 
 type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
 
@@ -22,8 +30,8 @@ const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: B
     nr: "01",
     titel: "Kurze Fragen",
     text: "Wenige Fragen zu deinem Alltag und dem, was dir wichtig ist. Dauert unter zwei Minuten.",
-    konto: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
-    depot: { src: "/elias-el-gendy.webp", alt: "Elias El-Gendy, Gründer von Finanzmuslim", b: 480, h: 480, oben: true },
+    konto: { src: "/bilder/check/krit2.webp", alt: "Hände mit Smartphone", b: 400, h: 225 },
+    depot: { src: "/bilder/check/krit2.webp", alt: "Hände mit Smartphone", b: 400, h: 225 },
   },
   {
     nr: "02",
@@ -44,13 +52,19 @@ const SCHRITTE: { nr: string; titel: string; text: string; konto: Bild; depot: B
     titel: "Eröffnen, wenn es passt",
     text: "Ein Klick führt dich zum Anbieter. Ob du eröffnest, entscheidest allein du.",
     konto: { src: "/bilder/check/krit3.webp", alt: "Hand mit Bankkarte", b: 400, h: 225 },
-    depot: { src: "/videos/einrichtung-flatex-poster.jpg", alt: "Elias zeigt die Eröffnung bei flatex", b: 1280, h: 720 },
+    depot: { src: "/vergleich/depot-app/flatex-2.webp", alt: "Depot-App von flatex", b: 1080, h: 2341, oben: true },
   },
 ];
 
 const ZEILEN = [
   ["Halal-Blick", true, false, false],
   ["Begründung für dein Match", true, false, false],
+] as const;
+
+/** Wie im Original (Blueprint rn10 Abschnitt 2.5): Zeitaufwand und Kosten für dich; „Werbelinks gekennzeichnet“ bleibt weg (Elias RN10-01). */
+const TEXT_ZEILEN = [
+  ["Zeitaufwand", "2 Min.", "20 Min.", "Stunden"],
+  ["Kosten für dich", "0 €", "0 €", "0 €"],
 ] as const;
 
 const FRAGEN_ZEILEN = [
@@ -72,22 +86,22 @@ const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wor
   alle: {
     h1: "Welches Konto oder Depot passt wirklich zu dir?",
     lead: "Wenige kurze Fragen, dann siehst du dein Match für Konto oder Depot, mit allen Kosten und dem Grund, warum es zu dir passt.",
-    fragen: "2 bis 3",
+    fragen: "wenige",
     wort: "Wenige",
     vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
   konto: {
     h1: "Welches Bankkonto passt wirklich zu dir?",
-    lead: "Zwei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
-    fragen: "2",
-    wort: "Zwei",
+    lead: "Drei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
+    fragen: "3",
+    wort: "Drei",
     vergleich: { text: "Erst Bankkonten vergleichen", pfad: "/vergleich/girokonto" },
   },
   depot: {
     h1: "Welches Depot passt wirklich zu dir?",
-    lead: "Drei kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
-    fragen: "3",
-    wort: "Drei",
+    lead: "Wenige kurze Fragen, dann siehst du dein Match mit allen Kosten und dem Grund, warum es zu dir passt.",
+    fragen: "wenige",
+    wort: "Wenige",
     vergleich: { text: "Erst Depots vergleichen", pfad: "/vergleich/depot" },
   },
 };
@@ -97,6 +111,7 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
   const bilder = art === "konto" ? "konto" : "depot";
   // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
   const zeigeCommunity = stimmenFuer(art).length > 0 || import.meta.env.DEV;
+  const leute = leuteBilder(import.meta.env.DEV);
   return (
     <div className="hc-seite">
       <header className="hc-kopf">
@@ -121,6 +136,19 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                 </span>
               </div>
               <h1 className="hc-h1" data-enter="1">{kopf.h1}</h1>
+              {/* Elias RN10-01: „dieses 35 Depot … und dann direkt Bilder von anderen Leuten“ */}
+              <p className="hc-leute-zeile" data-enter="2">
+                {leute.length > 0 && (
+                  <span className="hc-leute-bilder" aria-hidden>
+                    {leute.map((b) => (
+                      <img key={b} src={b} alt="" width={32} height={32} />
+                    ))}
+                  </span>
+                )}
+                <span>
+                  {DEPOTS_GETESTET} Depots und {KONTEN_GETESTET} Girokonten selbst getestet
+                </span>
+              </p>
             </div>
             <div className="hc-hero-rechts">
               <p className="hc-lead" data-enter="2">{kopf.lead}</p>
@@ -129,14 +157,15 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                   Match finden
                   <Pfeil />
                 </button>
-                <Link to={kopf.vergleich.pfad} className="hc-btn hc-btn--rand hc-btn--gross">
+                {/* Elias RN10-01: „egal, was ich klicke, es startet sofort der Vergleich“: auch der zweite Knopf startet den Check. */}
+                <button type="button" className="hc-btn hc-btn--rand hc-btn--gross" onClick={() => onStart("hero2")}>
                   {kopf.vergleich.text}
-                </Link>
+                </button>
               </div>
             </div>
           </div>
           <ul className="hc-haken-zeile" data-enter="4">
-            {[`Nur ${kopf.fragen} Fragen`, "Unter 2 Minuten", "Kostenlos", "Mit Werbehinweis"].map((t) => (
+            {[`Nur ${kopf.fragen} Fragen`, "Unter 2 Minuten", "Kostenlos"].map((t) => (
               <li key={t}>
                 <Check className="hc-haken-icon" aria-hidden />
                 {t}
@@ -150,9 +179,17 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
             <p className="hc-kicker">Aus der Community</p>
             <h2 className="hc-h2">Sie haben gewechselt und bereuen es nicht</h2>
             <div className="hc-community-gitter">
-              <figure className="hc-community-foto">
-                <img src={eliasCommunity} alt="Elias El-Gendy lächelt in die Kamera" width={928} height={1152} loading="lazy" />
-              </figure>
+              {COMMUNITY_FOTO ? (
+                <figure className="hc-community-foto">
+                  <img src={COMMUNITY_FOTO.src} alt={COMMUNITY_FOTO.alt} width={COMMUNITY_FOTO.b} height={COMMUNITY_FOTO.h} loading="lazy" />
+                </figure>
+              ) : (
+                import.meta.env.DEV && (
+                  <figure className="hc-community-foto hc-community-foto--platz" data-foto-platzhalter>
+                    <span>Platz für dein Foto vom Vortrag an der Uni Hamburg</span>
+                  </figure>
+                )
+              )}
               <div className="hc-community-stimmen">
                 <CheckStimme stelle={0} art={art} />
                 <CheckStimme stelle={1} art={art} />
@@ -212,6 +249,14 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                       <span className="hc-nur-sr">{ja ? "Enthalten" : "Nicht enthalten"}</span>
                     </td>
                   ))}
+                </tr>
+              ))}
+              {TEXT_ZEILEN.map(([name, wir, portal, selbst]) => (
+                <tr key={name}>
+                  <th scope="row">{name}</th>
+                  <td className="hc-tab-wir"><b>{wir}</b></td>
+                  <td>{portal}</td>
+                  <td>{selbst}</td>
                 </tr>
               ))}
             </tbody>

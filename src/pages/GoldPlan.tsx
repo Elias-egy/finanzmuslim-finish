@@ -197,7 +197,7 @@ const GoldPlan = () => {
           />
         </section>
 
-        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
+        <CheckEinstieg quelle="gold-plan" className="mt-12" />
 
         <NaechsterTeil wort="gold" className="mt-12" />
 

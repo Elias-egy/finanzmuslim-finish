@@ -40,3 +40,47 @@ export const stimmeAnzeige = (index: number, dev: boolean, stimmen: readonly Sti
 /** Die Stimme im Freebie-Kasten (CheckEinstieg): die erste der passenden Art, ohne echte Stimme nichts (nie ein Platzhalter live). */
 export const stimmeFuerEinstieg = (art: "konto" | "depot", stimmen: readonly Stimme[] = STIMMEN): Stimme | undefined =>
   stimmenFuer(art, stimmen)[0];
+
+/**
+ * RN11 (Elias RN10-08: „Du kannst die Sternbewertung und so auch schon reinpacken. Dann weiß ich ungefähr, wie das aussieht.“):
+ * Beispiel-Stimmen mit Sternen, NUR im Entwicklungsmodus an der Stelle des Platzhalters (CheckStimme). Nie live: der Produktionsbuild
+ * zeigt ohne echte Stimme nichts (stimmeAnzeige). Wortlaut nach den Beispielen in Elias' Perspective-Funnel 6afa2cd179f7bfa91bb900d0.
+ */
+export const BEISPIEL_STIMMEN: Stimme[] = [
+  {
+    art: "konto",
+    zitat: "Ich habe jahrelang für mein Konto gezahlt, ohne es zu merken. Der Wechsel war einfacher als gedacht.",
+    name: "Meryem K.",
+    zeile: "Girokonto ohne Kontoführungsgebühr",
+    sterne: 5,
+  },
+  {
+    art: "depot",
+    zitat: "Ich wusste nicht, welcher Broker zu meinem Sparplan passt. Nach der Empfehlung habe ich in einer Woche angefangen.",
+    name: "Yusuf A.",
+    zeile: "Endlich ein Depot, das passt",
+    sterne: 5,
+  },
+  {
+    art: "alle",
+    zitat: "Ein paar Fragen, und die Antwort passte zu meiner Situation statt zu irgendeiner Bestenliste.",
+    name: "Samir B.",
+    zeile: "Ich habe mich verstanden gefühlt",
+    sterne: 5,
+  },
+];
+
+/**
+ * Bilder anderer Menschen neben „Über 22.000 Menschen informieren sich bei Finanzmuslim“ (Elias RN9-03: „nicht ein Bild von mir,
+ * sondern zwei, drei Bilder von anderen Leuten“). Echte Bilder kommen nach Elias' Antwort (echte Leser mit Erlaubnis oder Bilder wie im
+ * Original). Bis dahin zeigt nur der Entwicklungsmodus die drei Porträts des Originals, live nichts.
+ */
+export const LEUTE_BILDER: string[] = [];
+/** Nur Entwicklung: die drei Porträts aus Elias' Perspective-Original (Blueprint rn10 Abschnitt 2.2, Unsplash crop=faces), nie live. */
+export const LEUTE_BEISPIEL = [
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=faces&fit=crop&w=160&h=160&q=72",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=faces&fit=crop&w=160&h=160&q=72",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=faces&fit=crop&w=160&h=160&q=72",
+];
+export const leuteBilder = (dev: boolean, echt: readonly string[] = LEUTE_BILDER): string[] =>
+  echt.length > 0 ? [...echt] : dev ? [...LEUTE_BEISPIEL] : [];

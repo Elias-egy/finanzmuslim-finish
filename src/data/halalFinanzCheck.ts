@@ -763,3 +763,96 @@ export const ersteAntwortAus = (art: Art | undefined, wert: string | null): Antw
 
 /** Messgruppe der Bank von heute fürs Ereignis: nie der freie Text. */
 export const bankGruppeFuerMessung = (a: Antworten): string => a.bank?.gruppe ?? "";
+
+// ---------------------------------------------------------------------------
+// RN11: Ladescreen-Texte je Weg und das Problem des alten Kontos oder Depots (Wischkarte 2 der Fassung B)
+
+/** Texte des Ladescreens (CheckLaden.tsx). Genau vier Zeilen, die dritte zählt {n} von {max}. */
+export type LadenTexte = { oben: string; titel: string; schritte: [string, string, string, string]; zaehlerMax: number };
+
+const LADEN_ANLAGE: Record<Anlage, string> = {
+  etf: "Halal-ETFs und Fonds je Depot zählen",
+  aktien: "Ordergebühren für einzelne Aktien prüfen",
+  gold: "Gold und Silber je Depot prüfen",
+};
+
+/**
+ * Elias RN9-01: „passender Ersatz für Sparkasse wird gesucht“; RN9-02: personalisiert, Trommelwirbel, kostet sichtbar Zeit.
+ * Die Zeilen nennen nur, worauf die Empfehlung wirklich beruht (Zahlungsart, Halal oder Kosten, gewählte Anlage), der Zähler läuft
+ * bis zur Zahl der getesteten Konten (54) oder Depots (35).
+ */
+export const ladenTexte = (a: Antworten): LadenTexte => {
+  if (artVon(a) === "konto") {
+    const b = a.bank;
+    const titel = b && b.kind !== "keine" && b.name ? `Passender Ersatz für ${b.name} wird gesucht` : "Dein passendes Girokonto wird gesucht";
+    return {
+      oben: "Danke für deine Antworten!",
+      titel,
+      schritte: [
+        "Konten ohne Zinsen auf dein Guthaben filtern",
+        a.zahlung === "bar" ? "Banken mit Filiale prüfen" : "Kartenzahlung und Kosten prüfen",
+        "{n} von {max} Girokonten verglichen",
+        "Dein Match festlegen",
+      ],
+      zaehlerMax: KONTEN_GETESTET,
+    };
+  }
+  const h = a.depotHeute;
+  return {
+    oben: "Danke für deine Antworten!",
+    titel: h && h.name ? `Passender Ersatz für ${h.name} wird gesucht` : "Dein passendes Halal-Depot wird gesucht",
+    schritte: [
+      a.praef === "kosten" ? "Halal-Depots nach Kosten sortieren" : "Halal-Depots nach Halal-Anlagen sortieren",
+      a.anlage ? LADEN_ANLAGE[a.anlage] : "Sparpläne und Gebühren prüfen",
+      "{n} von {max} Depots verglichen",
+      "Dein Match festlegen",
+    ],
+    zaehlerMax: DEPOTS_GETESTET,
+  };
+};
+
+/** Wischkarte „Dein altes Konto hatte dieses Problem“: nur belegte Werte; ohne Wert eine ehrliche Zeile, ohne Problem keine Karte. */
+export type Problem = { titel: string; zeilen: string[]; satz?: string };
+
+const istNullEuro = (w: string) => /^(ab\s)?0(,00)?\s?€$/.test(w.replace(/ /g, " ").trim());
+
+export const problemVon = (e: Ergebnis, a: Antworten): Problem | null => {
+  if (e.schonDa || !e.links) return null;
+  if (e.art === "konto") {
+    const b = a.bank;
+    const bei = b?.kind === "bank" && b.dativ ? b.dativ : b?.kind === "frei" && b.name ? b.name : "deiner Bank";
+    const preis = e.links.zeilen[0];
+    if (!preis) return null;
+    if (preis.wert === KEIN_PREIS) {
+      return {
+        titel: `Was kostet dich dein Konto bei ${bei}?`,
+        zeilen: [],
+        satz: `Die Kontoführung bei ${bei} steht in deinem Kontoauszug. Bei ${e.anbieter.name} sind es 0 € im Monat.`,
+      };
+    }
+    if (istNullEuro(preis.wert)) return null;
+    return {
+      titel: `Dein Konto bei ${bei} hatte dieses Problem`,
+      zeilen: [`Kontoführung ${preis.wert} im Monat`, ...(preis.zusatz ?? [])],
+    };
+  }
+  // Depot: Zeilen in der Reihenfolge von depotZeilen; nur was beim alten Depot belegt schlechter ist als beim Match.
+  const alt = e.links.zeilen;
+  const neu = e.rechts?.zeilen ?? [];
+  const wert = (z: Zeile[], label: string) => z.find((x) => x.label === label)?.wert ?? KEIN_WERT;
+  const zeilen: string[] = [];
+  for (const label of ["Halal-ETFs und Fonds", "Gold und Silber", "Sukuk"]) {
+    const x = wert(alt, label);
+    const y = wert(neu, label);
+    if (x !== KEIN_WERT && y !== KEIN_WERT && anteilVon(x) < anteilVon(y)) zeilen.push(`${label}: nur ${x} (bei ${e.anbieter.name} ${y})`);
+  }
+  const zins = wert(alt, "Guthaben");
+  if (zins === ZINS_TEXT.schlecht) zeilen.push("Zinsen auf dein Guthaben nicht abschaltbar");
+  if (zins === ZINS_TEXT.teils) zeilen.push("Zinsen auf dein Guthaben musst du selbst abschalten");
+  const geb = wert(alt, "Depotgebühr");
+  if (geb !== KEIN_WERT && ersterEuro(geb) > ersterEuro(wert(neu, "Depotgebühr"))) zeilen.push(`Depotgebühr ${geb}`);
+  const ord = wert(alt, "Order");
+  if (ord !== KEIN_WERT && ersterEuro(ord) > ersterEuro(wert(neu, "Order"))) zeilen.push(`Order ${ord}`);
+  if (zeilen.length === 0) return null;
+  return { titel: `Dein Depot bei ${e.links.name} hatte dieses Problem`, zeilen: zeilen.slice(0, 4) };
+};

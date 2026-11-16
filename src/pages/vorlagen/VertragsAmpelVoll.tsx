@@ -119,7 +119,7 @@ const VertragsAmpelVoll = () => {
         <Gruppe farbe="gelb" />
         <Gruppe farbe="rot" />
 
-        <CheckEinstieg quelle="homepage" className="mt-12" />
+        <CheckEinstieg quelle="vertrags-ampel" className="mt-12" />
 
         <NaechsterTeil wort="vertrag" className="mt-12" />
 

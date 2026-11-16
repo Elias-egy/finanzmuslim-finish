@@ -240,7 +240,7 @@ const BrokerVergleich = () => {
             </Link>
           </section>
 
-          <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
+          <CheckEinstieg quelle="broker-vergleich" className="mt-12" />
 
           <p className="mt-8 text-[14px] leading-snug text-muted-foreground" data-werbehinweis>
             * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Preise und

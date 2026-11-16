@@ -332,7 +332,7 @@ const PortfolioPlan = () => {
           </div>
         </section>
 
-        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
+        <CheckEinstieg quelle="portfolio-plan" className="mt-12" />
 
         <NaechsterTeil wort="plan" className="mt-12" />
 

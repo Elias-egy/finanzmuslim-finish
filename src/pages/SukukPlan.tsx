@@ -182,7 +182,7 @@ const SukukPlan = () => {
           />
         </section>
 
-        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
+        <CheckEinstieg quelle="sukuk-plan" className="mt-12" />
 
         <NaechsterTeil wort="sukuk" className="mt-12" />
 

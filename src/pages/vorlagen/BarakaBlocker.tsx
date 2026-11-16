@@ -112,7 +112,7 @@ const BarakaBlocker = () => (
         </div>
       </section>
 
-      <CheckEinstieg quelle="homepage" />
+      <CheckEinstieg quelle="baraka-blocker" />
     </VorlagenSeite>
   </>
 );
