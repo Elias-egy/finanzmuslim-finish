@@ -2,7 +2,6 @@ import { useEffect, type ReactNode } from "react";
 import { BadgeCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import DuaKarte from "@/components/vorlagen/DuaKarte";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqWarum } from "@/components/vorlagen/rizqTeile";
@@ -133,6 +132,7 @@ const GebendeHand = () => (
  * weichen hier Elias' Wort. Runde 4 (Elias, 02.11.2026, MC7d17): Satz „Nach deinem Geld wirst du gefragt …“ mit Fundstelle
  * raus („damit man ein bisschen weniger zu lesen hat“), Rest hochgezogen.
  */
+// BR1-06 (Elias, 16.11.2026): „dieses Depot ohne Zinsen kann weg“, es bleibt nur das Girokonto.
 const HalalRegeln = () => (
   <div className="pt-4">
     <h3 className="text-[22px] font-extrabold leading-tight text-foreground">Erwirb dein Geld halal und gib es halal aus.</h3>
@@ -141,12 +141,6 @@ const HalalRegeln = () => (
     </p>
     <div className="mt-3 grid gap-3">
       <GirokontoAufruf />
-      <FindeDeinAngebot
-        titel="Ein Depot ohne Zinsen"
-        text="Ich habe gerankt, bei welchen Depots dein Guthaben ohne Zinsen bleibt und du Islamic ETFs kaufst."
-        knopf="Zum Depot-Vergleich"
-        ziel={amLink("/vergleich/depot", "depot")}
-      />
     </div>
   </div>
 );
