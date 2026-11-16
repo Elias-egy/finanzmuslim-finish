@@ -77,7 +77,7 @@ const GirokontoAufruf = () => (
     data-rizq-banken
     className="rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)] p-5 md:p-7"
   >
-    <h3 className="text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">Ein Girokonto ohne Zinsen</h3>
+    <h3 className="text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">Ein Bankkonto ohne Zinsen</h3>
     <p className="mt-1.5 text-[15px] leading-relaxed text-foreground/75 md:text-[16px]">Meine zwei Favoriten aus dem Girokonto-Vergleich:</p>
     <div className="mt-4 grid gap-3 sm:grid-cols-2">
       {BANKEN.map(({ konto, stelle, zeile }) => (
