@@ -1003,55 +1003,6 @@
   color: var(--nein);
   stroke-width: 3;
 }
-/* Kontoführung als farbige Mini-Punkte (RN14, Elias RN13-02 „Minipunkte … dass man anhand die Farben schon für sich sprechen“):
-   grün besser oder gleich, rot schlechter, ohne Farbe, wenn die andere Seite keinen belegten Preis hat. Klein, damit die Kosten die Karte nicht füllen. */
-.hc-gg-punkte {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.hc-gg-punkt {
-  padding: 2px 7px;
-  border: 1px solid var(--linie);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.35;
-  white-space: nowrap;
-}
-.hc-gg-punkt--gut {
-  border-color: transparent;
-  background: var(--gruen-hell);
-  color: var(--gruen);
-}
-.hc-gg-punkt--schlecht {
-  border-color: transparent;
-  background: #fdecea;
-  color: var(--nein);
-}
-.dark .hc-gg-punkt--gut {
-  color: #3ecf8e;
-}
-.dark .hc-gg-punkt--schlecht {
-  background: #3a1612;
-}
-/* „Beide: kein Dispo, keine Zinsen“ unter der Tabelle (Elias RN13-01 „dann sagst du einfach unten beide halal“) */
-.hc-gg-beide {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 4px 0 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--linie);
-  font-size: 16px;
-  font-weight: 700;
-}
-.hc-gg-wechsel.hc-gg-wechsel--dicht {
-  margin-top: 8px;
-  padding-top: 0;
-  border-top: 0;
-}
 /* „Wechsel in 10 Minuten“ unter dem Vergleich und in der Karte „Alles wird für dich rübergezogen“ (Elias RN11-04) */
 .hc-gg-wechsel {
   display: flex;

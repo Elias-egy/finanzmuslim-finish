@@ -396,6 +396,23 @@
   object-fit: cover;
   object-position: 50% 20%;
 }
+/* RN14-01: das Vortragsbild ganz zeigen, wie Elias es zugeschnitten hat (nicht noch einmal beschneiden), darunter eine kleine Zeile in Textfarbe */
+.hc-community-foto--bild {
+  aspect-ratio: auto !important;
+  overflow: visible;
+  border-radius: 0;
+  background: none;
+}
+.hc-community-foto--bild img {
+  height: auto;
+  border-radius: 1.25rem;
+}
+.hc-community-foto--bild figcaption {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
 .hc-community-stimmen {
   display: flex;
   flex-direction: column;

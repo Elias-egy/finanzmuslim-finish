@@ -110,6 +110,7 @@ describe("Verkaufsseite", () => {
     const foto = container.querySelector(".hc-community-foto img")!;
     expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-uni-hamburg.webp");
     expect(foto.getAttribute("alt")).toContain("Universität Hamburg");
+    expect(container.querySelector(".hc-community-foto figcaption")!.textContent).toBe("Elias bei einem Vortrag von Halal Invest an der Universität Hamburg");
   });
 
   it("mit ?art= trägt die Verkaufsseite das eine Thema", () => {
@@ -549,7 +550,7 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
     expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
     // Vergleich (Elias RN11-04/-05, RN12-01, RN13-01/-02): beide Logos, immer drei Punkte; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz),
-    // Zinsen gemeinsam stehen unten als Satz „Beide: keine Zinsen“; Kontoführung mit kleinen Punkten, ohne grauen Text.
+    // Zinsen gemeinsam stehen nirgends (RN14-01: kein Beide-Satz, kein „Wechsel in 10 Minuten“ unter dem Vergleich); nur Haken, ohne grauen Text.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.textContent).toContain("Sparkasse");
     expect(gg.textContent).toContain("norisbank");
@@ -560,12 +561,12 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(gg.textContent).toContain("kein Dispo");
     expect(gg.textContent).not.toContain("abschalten");
     expect(gg.querySelectorAll(".hc-gg-zelle small")).toHaveLength(0);
-    expect(gg.querySelectorAll(".hc-gg-punkt").length).toBeGreaterThanOrEqual(3);
-    expect(gg.parentElement!.querySelector(".hc-gg-beide")!.textContent).toBe("Beide: keine Zinsen");
+    expect(gg.parentElement!.textContent).not.toContain("Beide");
     expect(gg.textContent).not.toMatch(/Video-Ident/);
     expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
     expect(gg.querySelectorAll(".lucide-x")).toHaveLength(1);
-    expect(gg.parentElement!.textContent).toContain("Wechsel in 10 Minuten");
+    expect(gg.parentElement!.textContent).not.toContain("Wechsel in 10 Minuten");
+    expect(container.querySelectorAll(".hc-wk")[2].textContent).toContain("Wechsel in 10 Minuten");
     // Karte „Alles wird für dich rübergezogen“ mit dem Bild des norisbank-Formulars.
     const ueberzug = container.querySelectorAll(".hc-wk")[2];
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");

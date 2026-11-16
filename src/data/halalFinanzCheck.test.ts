@@ -37,7 +37,6 @@ import {
   kontoPassung,
   ladenTexte,
   type KontoErgebnis,
-  vergleichGemeinsam,
   vergleichZeilen,
 } from "@/data/halalFinanzCheck";
 import { BROKER_KARTEN } from "@/data/brokerFreebie";
@@ -373,48 +372,42 @@ describe("Ergebnis Bankkonto", () => {
       expect(e.link, eingabe).toBeTruthy();
     }
   });
-  it("Vergleichskarte immer drei Punkte (Elias RN12-01, RN13-01, RN13-02): Kontoführung mit Mini-Punkten, Unterschiede, Beide-Satz unten", () => {
-    const e = (b: string, zahlung: Antworten["zahlung"] = "karte") => konto({ ...sparkasse, zahlung, bank: bank(b) });
-    const zeilen = (b: string, zahlung?: Antworten["zahlung"]) => vergleichZeilen(e(b, zahlung));
+  it("Vergleichskarte immer drei Punkte nur mit Haken (Elias RN12-01, RN13-02, RN14-01): Kontoführung ein Wert je Seite, ehrlich in beide Richtungen", () => {
+    const zeilen = (b: string, zahlung: Antworten["zahlung"] = "karte") => vergleichZeilen(konto({ ...sparkasse, zahlung, bank: bank(b) }));
     const labels = (b: string, zahlung?: Antworten["zahlung"]) => zeilen(b, zahlung).map((z) => z.label);
-    const farben = (z: { punkte?: { text: string; gut: boolean | null }[] }) => (z.punkte ?? []).map((p) => `${p.gut === true ? "G" : p.gut === false ? "R" : "N"} ${leer(p.text)}`);
-    // ING (Belege: ab 1.000 € oder unter 28, sonst 4,90 €) gegen norisbank (ab 500 € oder unter 30, sonst 3,90 €): norisbank drei grün.
+    const zelle = (z: { text: string; ja?: boolean; nein?: boolean }) => `${z.ja ? "✓ " : ""}${z.nein ? "✗ " : ""}${leer(z.text)}`;
+    // ING (Belege: ab 1.000 € oder unter 28, sonst 4,90 €) gegen norisbank (ab 500 € oder unter 30, sonst 3,90 €).
     const ing = zeilen("ing", "karte-bar");
-    expect(ing.map((z) => z.label)).toEqual(["Kontoführung", "Girocard im Monat", "Bargeld einzahlen"]);
-    expect(farben(ing[0].links)).toEqual(["R ab 1.000 €", "R unter 28", "R sonst 4,90 €"]);
-    expect(farben(ing[0].rechts)).toEqual(["G ab 500 €", "G unter 30", "G sonst 3,90 €"]);
-    expect(leer(ing[0].links.text)).toBe("0 €");
-    expect(ing[1].links).toMatchObject({ nein: true });
-    expect(ing[1].rechts).toMatchObject({ ja: true });
-    expect(vergleichGemeinsam(e("ing"))).toBe("Beide: kein Dispo, keine Zinsen");
-    // DKB (ab 700 € oder unter 28, sonst 4,50 €): Dispo an gegen kein Dispo ohne grauen Zusatz, Beide nur keine Zinsen.
+    expect(ing.map((z) => z.label)).toEqual(["Kostenlos ab Geldeingang", "Girocard im Monat", "Bargeld einzahlen"]);
+    expect(zelle(ing[0].links)).toBe("✗ 1.000 €");
+    expect(zelle(ing[0].rechts)).toBe("✓ 500 €");
+    expect(zelle(ing[1].links)).toBe("✗ 1,49 €");
+    expect(zelle(ing[1].rechts)).toBe("✓ 0 €");
+    // DKB: Dispo an gegen kein Dispo ohne grauen Zusatz.
     const dkb = zeilen("dkb");
-    expect(dkb.map((z) => z.label)).toEqual(["Kontoführung", "Dispo", "Girocard im Monat"]);
-    expect(farben(dkb[0].links)).toEqual(["R ab 700 €", "R unter 28", "R sonst 4,50 €"]);
+    expect(dkb.map((z) => z.label)).toEqual(["Kostenlos ab Geldeingang", "Dispo", "Girocard im Monat"]);
+    expect(zelle(dkb[0].links)).toBe("✗ 700 €");
     expect(dkb[1].links).toEqual({ text: "Dispo an", nein: true });
     expect(dkb[1].rechts).toEqual({ text: "kein Dispo", ja: true });
-    expect(vergleichGemeinsam(e("dkb"))).toBe("Beide: keine Zinsen");
-    // Commerzbank kostet auch bei Geldeingang: links Kreuz ohne Punkte, rechts grün; bei Bargeld zählt die Filiale ehrlich gegen die norisbank.
-    const cb = zeilen("commerzbank");
-    expect(cb[0].links).toMatchObject({ nein: true });
-    expect(cb[0].links.punkte).toBeUndefined();
-    expect(farben(cb[0].rechts).every((f) => f.startsWith("G"))).toBe(true);
-    expect(labels("commerzbank", "karte-bar")).toContain("Filialen");
+    // Commerzbank kostet auch bei Geldeingang; bei Bargeld bekommt sie ehrlich den Haken für Filialen (RN14-01).
+    expect(zeilen("commerzbank")[0]).toMatchObject({ label: "Kontoführung", links: { nein: true }, rechts: { ja: true } });
+    expect(leer(zeilen("commerzbank")[0].rechts.text)).toBe("0 €");
     expect(zeilen("commerzbank", "karte-bar").find((z) => z.label === "Filialen")).toMatchObject({ links: { text: "ja", ja: true }, rechts: { text: "keine", nein: true } });
     expect(labels("commerzbank")).not.toContain("Filialen");
-    // Gemeinsames halal steht nie als Zeile, nur im Beide-Satz.
+    // Gemeinsames halal steht nie als Zeile (RN13-01) und es gibt keinen Satz mehr darunter (RN14-01).
     for (const b of ["ing", "commerzbank"]) expect(labels(b).some((l) => l === "Dispo" || l === "Zinsen auf Guthaben"), b).toBe(false);
-    // C24 kostenlos ohne Bedingung: links grün, rechts rot; Zinsen anders.
+    // C24 kostenlos ohne Bedingung: Haken links, Kreuz rechts.
     const c24 = zeilen("c24");
-    expect(farben(c24[0].links)).toEqual(["G ohne Bedingung"]);
-    expect(farben(c24[0].rechts).every((f) => f.startsWith("R"))).toBe(true);
-    expect(c24[1]).toMatchObject({ label: "Zinsen auf Guthaben", links: { nein: true }, rechts: { ja: true } });
-    // Volksbank: nichts belegt, links „–“, rechts Punkte ohne Farbe, nie ein Kreuz, kein Beide-Satz.
+    expect(zelle(c24[0].links)).toBe("✓ immer");
+    expect(c24[0].rechts.nein).toBe(true);
+    // comdirect hat einen zweiten Weg (3 Zahlungen mit Apple Pay): kein Haken, kein Kreuz bei der Kontoführung.
+    const cd = zeilen("comdirect")[0];
+    expect(cd.links.ja || cd.links.nein || cd.rechts.ja || cd.rechts.nein).toBeFalsy();
+    // Volksbank: nichts belegt, links „–“, nie ein Kreuz.
     const vb = zeilen("grp-volksbank");
     expect(vb.map((z) => z.label)).toEqual(["Kontoführung", "Dispo", "Zinsen auf Guthaben"]);
-    expect(farben(vb[0].rechts).every((f) => f.startsWith("N"))).toBe(true);
+    expect(vb[0].rechts.ja).toBeUndefined();
     expect(vb.slice(1).every((z) => z.links.text === KEIN_WERT && !z.links.nein && z.rechts.ja)).toBe(true);
-    expect(vergleichGemeinsam(e("grp-volksbank"))).toBeNull();
     for (const b of ["grp-sparkasse", "commerzbank", "c24", "grp-volksbank", "ing", "dkb"]) {
       expect(zeilen(b), b).toHaveLength(3);
       expect(zeilen(b, "karte-bar"), b).toHaveLength(3);

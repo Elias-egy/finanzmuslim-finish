@@ -24,11 +24,15 @@ import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
  * Bild von Uni Hamburg … Das kannst du einfügen.“). Quelle ~/Downloads/Halalinvest Bilder/ChatGPT-Bild 16. Nov. 2026, 14_34_50.png,
  * auf 900 px Breite als webp.
  */
-const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = {
+const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number; zeile: string } | null = {
   src: "/bilder/check/vortrag-uni-hamburg.webp",
   alt: "Vortrag von Halal Invest an der Universität Hamburg",
-  b: 900,
-  h: 720,
+  // RN14-01: enger zugeschnitten wie Elias' Ausschnitt (raw/2026-11-16-elias-rn14-01-bildausschnitt-uni-hamburg.png), Elias größer,
+  // rechts das Pult der Universität Hamburg; im Original ab x 300 über die volle Höhe (1050 × 1080), auf 800 px Breite.
+  b: 800,
+  h: 823,
+  // RN14-01 „irgendwie steht auch so klein Ilias bei … einen Vortrag … an der Universität Hamburg“.
+  zeile: "Elias bei einem Vortrag von Halal Invest an der Universität Hamburg",
 };
 
 type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
@@ -189,8 +193,9 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
             <h2 className="hc-h2">Sie haben gewechselt und bereuen es nicht</h2>
             <div className="hc-community-gitter">
               {COMMUNITY_FOTO ? (
-                <figure className="hc-community-foto">
+                <figure className="hc-community-foto hc-community-foto--bild">
                   <img src={COMMUNITY_FOTO.src} alt={COMMUNITY_FOTO.alt} width={COMMUNITY_FOTO.b} height={COMMUNITY_FOTO.h} loading="lazy" />
+                  <figcaption>{COMMUNITY_FOTO.zeile}</figcaption>
                 </figure>
               ) : (
                 import.meta.env.DEV && (

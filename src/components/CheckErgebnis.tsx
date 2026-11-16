@@ -12,7 +12,6 @@ import {
   antwortZeilen,
   einrichtungVon,
   kurzVorteile,
-  vergleichGemeinsam,
   vergleichZeilen,
   type Antworten,
   type AuchGut,
@@ -369,19 +368,6 @@ const GgZelle = ({ z }: { z: VergleichZelle }) => {
         )}
       </span>
       {z.klein && <small>{z.klein}</small>}
-      {z.punkte && z.punkte.length > 0 && (
-        <span className="hc-gg-punkte">
-          {z.punkte.map((p) => (
-            <span
-              key={p.text}
-              className={`hc-gg-punkt${p.gut === true ? " hc-gg-punkt--gut" : p.gut === false ? " hc-gg-punkt--schlecht" : ""}`}
-            >
-              {p.text}
-              {p.gut !== null && <span className="hc-nur-sr">{p.gut ? " (besser oder gleich)" : " (schlechter)"}</span>}
-            </span>
-          ))}
-        </span>
-      )}
     </td>
   );
 };
@@ -390,7 +376,6 @@ const GgZelle = ({ z }: { z: VergleichZelle }) => {
 const Gegenueber = ({ e }: { e: Ergebnis }) => {
   const { links, rechts } = e;
   const zeilen = vergleichZeilen(e);
-  const gemeinsam = vergleichGemeinsam(e);
   if (!links || !rechts || zeilen.length === 0) return null;
   return (
     <>
@@ -423,18 +408,6 @@ const Gegenueber = ({ e }: { e: Ergebnis }) => {
           </tbody>
         ))}
       </table>
-      {gemeinsam && (
-        <p className="hc-gg-beide">
-          <Ja />
-          {gemeinsam}
-        </p>
-      )}
-      {e.art === "konto" && (
-        <p className={`hc-gg-wechsel${gemeinsam ? " hc-gg-wechsel--dicht" : ""}`}>
-          <Ja />
-          {WECHSEL_ZEIT}
-        </p>
-      )}
     </>
   );
 };

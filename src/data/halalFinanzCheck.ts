@@ -978,19 +978,14 @@ export const kurzVorteile = (e: Ergebnis): string[] => {
   return [`0 € Kontoführung ${kontoBedingungKurz(k)}`, k.karte, `Bargeld ${k.bargeld.charAt(0).toLowerCase()}${k.bargeld.slice(1)}`];
 };
 
-/**
- * Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `nein` ein rotes Kreuz, KEIN_WERT und KEIN_PREIS stehen leise.
- * `punkte` sind die farbigen Mini-Punkte der Kontoführung (RN14, Elias RN13-02): `gut` true grün, false rot, null ohne Farbe.
- */
-export type MiniPunkt = { text: string; gut: boolean | null };
-export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string; punkte?: MiniPunkt[] };
+/** Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `nein` ein rotes Kreuz, KEIN_WERT und KEIN_PREIS stehen leise. */
+export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string };
 export type VergleichZeile = { label: string; links: VergleichZelle; rechts: VergleichZelle };
 
 // ---------------------------------------------------------------------------
-// Kontoführung als Mini-Punkte (RN14, Elias RN13-02: „dass du da vielleicht immer so 2, 3 Minipunkte klarer machst … Dass man anhand
-// die Farben schon für sich sprechen … du blinzelst nur eine Sekunde und du sollst direkt was erkennen. Ohne dass aber die Kosten alles
-// einnehmen.“ und RN13-01: „Norris Bank ist besser in den Kosten, wenn man beides nicht hat, ab dem Geldeingang, aber schlechter bei den
-// Alter“). Teile nur, wenn die Bedingung aus kontopreise.ts ganz lesbar ist (ab … € Geldeingang, unter …); sonst keine Punkte.
+// Kontoführung als ein Wert je Seite mit Haken (RN14, Elias RN14-01: „Dass man es aber irgendwie nicht alles grün macht, sondern halt nur
+// die Haken.“ „dieses ab 1000 Euro und so, das kann ein bisschen cleaner gemacht werden, einfach nur, dass es die Haken sind.“ Ersetzt die
+// farbigen Mini-Punkte aus RN13-02). Wer besser ist, wird aus kontopreise.ts gerechnet (Einzelheiten bei kontofuehrungZeile).
 
 type KostenTeile = { ab?: number; unter?: number; sonst: number; immer?: boolean };
 const AB_RE = /ab ([\d.]+)\s?€ (?:Geld|Gehalts)eingang/;
@@ -1007,70 +1002,34 @@ const kostenTeile = (p: Kontopreis): KostenTeile | null => {
   return { ab: ab ? Number(ab[1].replace(/\./g, "")) : undefined, unter: unter ? Number(unter[1]) : undefined, sonst: p.grundpreis };
 };
 
-/** Vergleicht einen Teil: kleiner oder größer ist besser; fehlt er auf einer Seite, gewinnt die Seite, die ihn hat. */
-const teilFarben = (l: number | undefined, r: number | undefined, kleinerBesser: boolean): [boolean | null, boolean | null] => {
-  if (l === undefined && r === undefined) return [null, null];
-  if (l === undefined) return [null, true];
-  if (r === undefined) return [true, null];
-  if (l === r) return [true, true];
-  const lBesser = kleinerBesser ? l < r : l > r;
-  return [lBesser, !lBesser];
-};
+/** Kleiner ist besser; Rückgabe -1 links besser, 1 rechts besser, 0 gleich. */
+const vergleiche = (l: number, r: number) => (l < r ? -1 : l > r ? 1 : 0);
 
+/**
+ * Eine Zeile, ein kurzer Wert je Seite, damit am Handy nichts umbricht (gemessen RN14 bei 390 px: „0 € ab 1.000 €“ brach in zwei Zeilen).
+ *  - Heute kostenlos ab Geldeingang (oder immer kostenlos): Zeile „Kostenlos ab Geldeingang“, „1.000 €“ gegen „500 €“, Haken beim kleineren
+ *    Betrag, bei gleichem Betrag beide; „immer“ schlägt jeden Betrag. Hat die heutige Bank einen zweiten Weg (comdirect „oder 3 Zahlungen mit
+ *    Apple Pay“), kein Haken und kein Kreuz.
+ *  - Heute kostet es auch bei 1.000 € Geldeingang (Regel „aktiv“ in kontopreise.ts): Zeile „Kontoführung“, „4,90 €“ mit Kreuz gegen „0 €“.
+ *  - Kein belegter Preis heute: „steht in deinem Kontoauszug“ gegen „0 €“, ohne Haken und Kreuz.
+ */
 const kontofuehrungZeile = (e: KontoErgebnis, k: BonusKonto, fuehrung: Zeile | undefined): VergleichZeile => {
-  const r: KostenTeile = { ab: k.gratisAb, unter: k.gratisUnter, sonst: k.sonst };
-  const rPunkte = (farben: { ab: boolean | null; unter: boolean | null; sonst: boolean | null }): MiniPunkt[] => [
-    { text: `ab ${euro(r.ab!)}`, gut: farben.ab },
-    { text: `unter ${r.unter}`, gut: farben.unter },
-    { text: `sonst ${euro(r.sonst)}`, gut: farben.sonst },
-  ];
-  let linksText = fuehrung?.wert ?? KEIN_PREIS;
+  const linksText = fuehrung?.wert ?? KEIN_PREIS;
   const p = e.heutePreis;
-  // Kein belegter Preis heute: rechts Punkte ohne Farbe, nie ein geratener Vergleich.
-  if (!p || linksText === KEIN_PREIS) {
-    return { label: "Kontoführung", links: { text: linksText }, rechts: { text: "0 €", punkte: rPunkte({ ab: null, unter: null, sonst: null }) } };
-  }
+  const zeile = (label: string, links: string, rechts: string, sieger: number | null): VergleichZeile => ({
+    label,
+    links: { text: links, ...(sieger === null ? {} : sieger <= 0 ? { ja: true } : { nein: true }) },
+    rechts: { text: rechts, ...(sieger === null ? {} : sieger >= 0 ? { ja: true } : { nein: true }) },
+  });
+  const AB_LABEL = "Kostenlos ab Geldeingang";
+  if (!p || linksText === KEIN_PREIS) return zeile("Kontoführung", linksText, euro(0), null);
+  if (p.aktiv > 0) return zeile("Kontoführung", linksText, euro(0), 1);
   const l = kostenTeile(p);
-  // Mehrere Konten im Haus: die Punkte gelten für das günstigste, dessen Preis ist genau 0 €, also ohne „ab“.
-  if (p.aktiv === 0) linksText = linksText.replace(/^ab /, "");
-  if (p.aktiv > 0) {
-    // Heute kostet es auch bei 1.000 € Geldeingang: links rotes Kreuz, rechts kostenlos unter Bedingung (grün), sonst gegen den Grundpreis.
-    const sonst = k.sonst <= p.grundpreis;
-    return {
-      label: "Kontoführung",
-      links: { text: linksText, nein: true },
-      rechts: { text: "0 €", ja: true, punkte: rPunkte({ ab: true, unter: true, sonst }) },
-    };
-  }
-  if (!l) {
-    // Heute 0 € unter einer Bedingung, die sich nicht sauber teilen lässt: nur der Sonst-Preis wird verglichen.
-    const [ls, rs] = teilFarben(p.grundpreis, r.sonst, true);
-    return {
-      label: "Kontoführung",
-      links: { text: linksText, punkte: [{ text: `sonst ${euro(p.grundpreis)}`, gut: ls }] },
-      rechts: { text: "0 €", punkte: rPunkte({ ab: null, unter: null, sonst: rs }) },
-    };
-  }
-  if (l.immer) {
-    return {
-      label: "Kontoführung",
-      links: { text: linksText, punkte: [{ text: "ohne Bedingung", gut: true }] },
-      rechts: { text: "0 €", punkte: rPunkte({ ab: false, unter: false, sonst: false }) },
-    };
-  }
-  const [lab, rab] = teilFarben(l.ab, r.ab, true);
-  const [lun, run] = teilFarben(l.unter, r.unter, false);
-  const [lso, rso] = teilFarben(l.sonst, r.sonst, true);
-  const lPunkte: MiniPunkt[] = [
-    ...(l.ab !== undefined ? [{ text: `ab ${euro(l.ab)}`, gut: lab }] : []),
-    ...(l.unter !== undefined ? [{ text: `unter ${l.unter}`, gut: lun }] : []),
-    { text: `sonst ${euro(l.sonst)}`, gut: lso },
-  ];
-  return {
-    label: "Kontoführung",
-    links: { text: linksText, punkte: lPunkte },
-    rechts: { text: "0 €", punkte: rPunkte({ ab: rab, unter: run, sonst: rso }) },
-  };
+  if (l?.immer) return zeile(AB_LABEL, "immer", euro(k.gratisAb), -1);
+  if (l?.ab !== undefined) return zeile(AB_LABEL, euro(l.ab), euro(k.gratisAb), vergleiche(l.ab, k.gratisAb));
+  const ab = p.bedingung?.match(AB_RE);
+  if (ab) return zeile(AB_LABEL, euro(Number(ab[1].replace(/\./g, ""))), euro(k.gratisAb), null);
+  return zeile("Kontoführung", linksText.replace(/^ab /, ""), euro(0), null);
 };
 
 // ---------------------------------------------------------------------------
@@ -1134,10 +1093,11 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
       .filter((z) => z.label === "Passt zu deinen Antworten" || z.links.text !== z.rechts.text);
   }
 
-  // Konto: immer drei Punkte (Elias RN12-01 „Also immer 3 Punkte.“). Kontoführung steht immer, als großer Wert mit farbigen Mini-Punkten
-  // (RN13-02). Dann, worin die heutige Bank bei Dispo und Zinsen belegt schlechter ist (RN11-04), dann Alltag-Unterschiede in beide
-  // Richtungen (RN13-01), dann was beide sonst gemeinsam haben, dann Offenes („–“). Was beide halal gemeinsam haben (kein Dispo, keine
-  // Zinsen), steht nicht als Zeile, sondern unten als Satz (vergleichGemeinsam, RN13-01 „dann sagst du einfach unten beide halal“).
+  // Konto: immer drei Punkte (Elias RN12-01 „Also immer 3 Punkte.“). Kontoführung steht immer, ein Wert je Seite mit Haken (RN14-01).
+  // Dann, worin die heutige Bank bei Dispo und Zinsen belegt schlechter ist (RN11-04), dann Alltag-Unterschiede in beide Richtungen
+  // (RN13-01, RN14-01 „es ist nicht schlimm, wenn auch mal ING einen besseren Punkt hat“), dann was beide sonst gemeinsam haben, dann
+  // Offenes („–“). Was beide halal gemeinsam haben (kein Dispo, keine Zinsen), steht nicht als Zeile (RN13-01) und seit RN14-01 auch nicht
+  // mehr als Satz darunter.
   const k = kontoZuAnbieter(e);
   const zeilen: VergleichZeile[] = [kontofuehrungZeile(e, k, finde(links, "Kontoführung im Monat"))];
   const h = e.heuteHalal;
@@ -1157,17 +1117,7 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
   return [...zeilen, ...unterschied, ...alltagZeilen(e, k), ...gemeinsam, ...offen].slice(0, 3);
 };
 
-/** „Beide: kein Dispo, keine Zinsen“ unter dem Vergleich (Elias RN13-01): nur, was beide belegt halal gemeinsam haben. */
-export const vergleichGemeinsam = (e: Ergebnis): string | null => {
-  if (e.art !== "konto" || !e.links || !e.heuteHalal) return null;
-  const k = kontoZuAnbieter(e);
-  const m = produktWerte(k.id);
-  const h = e.heuteHalal;
-  const teile = KONTO_PUNKTE.filter((p) => p.halal && istGut(m[p.key]) && istGut(h[p.key])).map((p) => p.gut);
-  return teile.length ? `Beide: ${teile.join(", ")}` : null;
-};
-
-/** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). `halal` zählt in den Beide-Satz. */
+/** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). `halal`: gemeinsam nie als Zeile. */
 type KontoPunkt = {
   key: "keinDispo" | "zinsfrei" | "karteOhneKredit" | "applePay" | "kontowechsel";
   label: string;
