@@ -30,7 +30,7 @@
 import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/girokontoBonus";
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
 import type { Fassung } from "@/lib/abTest";
-import { bankPreis, type BankWahl } from "@/data/bankSuche";
+import { bankHalal, bankPreis, type BankHalal, type BankWahl } from "@/data/bankSuche";
 import { depotWerte, type DepotWahl, type DepotWerte } from "@/data/depotSuche";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { ROYAL_MINT } from "@/data/royalMint";
@@ -378,6 +378,8 @@ export type KontoErgebnis = {
   link?: string;
   /** Nur BBBank: kleiner Zusatz zur Startprämie. */
   praemie?: string;
+  /** Zinsen und Dispo der heutigen Bank aus dem Girokonto-Vergleich (bankHalal), nur mit heutiger Bank. */
+  heuteHalal?: BankHalal;
 };
 
 export type DepotErgebnis = {
@@ -402,6 +404,19 @@ export type DepotErgebnis = {
   links?: Spalte;
   rechts?: Spalte;
   vergleichTitel?: string;
+  /** „Passt auch gut“ wie im Original (Elias RN11-03): das andere der beiden Depots mit eigener Passung und eigenem Knopf. */
+  auchGut?: AuchGut;
+};
+
+/** Das zweite Depot unter dem Match: eigene Passung aus passungProzent, Knopf über /out mit Kennung Zusatz z. */
+export type AuchGut = {
+  anbieter: Anbieter;
+  passung: number;
+  titel: string;
+  vorteile: string[];
+  preis: string;
+  pflicht?: string;
+  link: string;
 };
 
 export type Ergebnis = KontoErgebnis | DepotErgebnis;
@@ -503,6 +518,7 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
     links,
     rechts: empfehlungSpalte(k, mitEroeffnung),
     vergleichTitel,
+    heuteHalal: links && bank ? bankHalal(bank) : undefined,
     pflicht: KONTO_PFLICHT,
     knopf: "Konto eröffnen",
     link: outLink(quelle, anbieter, fassung),
@@ -659,6 +675,25 @@ const depotZeilen = (w: DepotWerte | null, passung: number | null): Zeile[] => {
   ];
 };
 
+/** Das andere der beiden Depots (flatex gegen Smartbroker+), gerechnet mit denselben Antworten. Fehlt, wenn es schon das heutige ist. */
+const auchGutVon = (d: ReturnType<typeof depotTeil>, a: Antworten, quelle: CheckQuelle, fassung: Fassung): AuchGut | undefined => {
+  const o = depotTeil(d.kurz === "fl" ? "kosten" : "halal", a.anlage);
+  const heute = a.depotHeute;
+  if (heute?.kind === "depot" && heute.id === o.karte.id) return undefined;
+  return {
+    anbieter: o.anbieter,
+    passung: passungProzent(o.karte, a),
+    titel: o.kurz === "fl" ? "Depot mit der größten Halal-Auswahl" : "Depot ohne Depotgebühr",
+    // Die Depotgebühr steht schon als Preis unten in der Karte, nicht noch einmal als Haken.
+    vorteile: depotVorteile(o.karte, o.kurz, a.anlage)
+      .filter((v) => v !== `${o.karte.depotgebuehr} Depotgebühr`)
+      .slice(0, 3),
+    preis: `${o.karte.depotgebuehr} Depotgebühr`,
+    pflicht: o.pflicht,
+    link: outLink(quelle, o.anbieter, fassung, "z"),
+  };
+};
+
 const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): DepotErgebnis => {
   const d = depotTeil(a.praef, a.anlage);
   const passung = passungProzent(d.karte, a);
@@ -677,6 +712,7 @@ const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Dep
     link: outLink(quelle, d.anbieter, fassung),
     passung,
     schonDa,
+    auchGut: schonDa ? undefined : auchGutVon(d, a, quelle, fassung),
   };
   if (!heute) return basis;
   if (schonDa) {
@@ -873,7 +909,7 @@ export const kurzVorteile = (e: Ergebnis): string[] => {
 };
 
 /** Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `klein` eine graue Zeile darunter, KEIN_WERT und KEIN_PREIS stehen leise. */
-export type VergleichZelle = { text: string; ja?: boolean; klein?: string };
+export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string };
 export type VergleichZeile = { label: string; links: VergleichZelle; rechts: VergleichZelle };
 
 /** Gibt es für eine Seite keinen belegten Wert, steht dort „–“, nie eine geratene Zahl oder ein Kreuz. */
@@ -884,25 +920,56 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
   const text = (z: Zeile | undefined): VergleichZelle => ({ text: z?.wert ?? KEIN_WERT });
 
   if (e.art === "depot") {
-    return ["Passt zu deinen Antworten", "Halal-ETFs und Fonds", "Depotgebühr", "Order"].map((label) => ({
-      label,
-      links: text(finde(links, label)),
-      rechts: text(finde(rechts, label)),
-    }));
+    // Nur Unterschiede (Elias RN11-04 „immer die, wo die sich unterscheiden“, gilt für jeden Vergleich): gleiche Werte fallen weg.
+    return ["Passt zu deinen Antworten", "Halal-ETFs und Fonds", "Depotgebühr", "Order"]
+      .map((label) => ({ label, links: text(finde(links, label)), rechts: text(finde(rechts, label)) }))
+      .filter((z) => z.label === "Passt zu deinen Antworten" || z.links.text !== z.rechts.text);
   }
 
-  // Konto: Kontoführung (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts), Zinsen (nur das Match ist belegt),
-  // Eröffnung (Feld ident, heute nur wenn belegt). Dispo und Wechselzeit haben keinen Beleg und fehlen.
+  // Konto (Elias RN11-04): nur, worin sich die Konten unterscheiden, als Vorteile des Matches. Kontoführung steht immer
+  // (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts). Dispo und Zinsen aus dem Girokonto-Vergleich
+  // (bankHalal, Elias RN11-05: nicht neu prüfen), nur wenn die heutige Bank belegt anders ist als das Match; nie „beide zinsfrei“.
   const k = kontoZuAnbieter(e);
   const fuehrung = finde(links, "Kontoführung im Monat");
-  const eroeffnung = finde(links, "Eröffnung");
-  return [
+  const zeilen: VergleichZeile[] = [
     {
       label: "Kontoführung im Monat",
       links: { ...text(fuehrung), klein: fuehrung && fuehrung.wert !== KEIN_PREIS ? fuehrung.zusatz?.[0] : undefined },
       rechts: { text: "0 €", ja: true, klein: kontoBedingungKurz(k) },
     },
-    { label: "Zinsen auf Guthaben", links: { text: KEIN_WERT }, rechts: { text: "keine", ja: true } },
-    { label: "Eröffnung", links: text(eroeffnung), rechts: { text: k.ident } },
   ];
+  const h = e.heuteHalal;
+  if (h?.keinDispo === "teils" || h?.keinDispo === "schlecht") {
+    zeilen.push({
+      label: "Dispo",
+      links: { text: "Dispo an", nein: true, klein: h.keinDispo === "teils" ? "abschalten musst du selbst beantragen" : undefined },
+      rechts: { text: "kein Dispo", ja: true, klein: "ab Eröffnung" },
+    });
+  }
+  if (h?.zinsfrei === "teils" || h?.zinsfrei === "schlecht") {
+    zeilen.push({
+      label: "Zinsen auf Guthaben",
+      links: { text: h.zinsfrei === "teils" ? "Zinsen, abschaltbar" : "Zinsen", nein: true },
+      rechts: { text: "keine Zinsen", ja: true },
+    });
+  }
+  return zeilen;
 };
+
+/** Unter dem Konto-Vergleich (Elias RN11-04: „Also ich schreibe einfach in 10 Minuten.“). */
+export const WECHSEL_ZEIT = "Wechsel in 10 Minuten";
+
+/**
+ * Karte „Alles wird für dich rübergezogen“ (Elias RN11-04), nur norisbank mit heutiger Bank. Beleg: norisbank Kontowechselhilfe,
+ * https://www.norisbank.de/dam/norisbank/de/shared/pdf/nb_Kontowechselhilfe.pdf (gelesen 16.11.2026): „Bitte füllen Sie einfach die
+ * beigefügte Ermächtigung aus“, die Bank veranlasst „die Übertragung von Daueraufträgen, Lastschrifteinzügen und regelmäßig
+ * wiederkehrenden Überweisungseingängen auf Ihr neues Konto“, „kostenlose norisbank Kontowechselhilfe“. Bild: Seite 1 der Ermächtigung,
+ * public/bilder/check/norisbank-kontowechsel.webp.
+ */
+export const UEBERZUG = {
+  titel: "Alles wird für dich rübergezogen",
+  satz: "Du füllst ein Formular aus. Die norisbank holt Daueraufträge, Lastschriften und dein Gehalt von deiner alten Bank, kostenlos.",
+  bild: "/bilder/check/norisbank-kontowechsel.webp",
+  alt: "Formular Kontowechselhilfe der norisbank",
+};
+

@@ -272,7 +272,7 @@ describe("Bankkonto-Check", () => {
 });
 
 describe("Depot-Check", () => {
-  it("Fassung a: Hast du schon ein Depot (Nein), „Was ist dir wichtiger?“, „Worin willst du investieren?“, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
+  it("Fassung a: Hast du schon ein Depot (Nein), „Was ist dir wichtiger?“, „Worin willst du investieren?“, Ergebnis mit Passung als Ring, Knopf und „Passt auch gut“ mit dem anderen Depot", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     expect(titel()).toBe("Hast du schon ein Depot?");
@@ -289,8 +289,15 @@ describe("Depot-Check", () => {
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
     expect(container.textContent).toContain("Übereinstimmung mit deinen Antworten");
-    expect(screen.getAllByRole("link")).toHaveLength(1);
+    expect(screen.getAllByRole("link")).toHaveLength(2);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
+    // „Passt auch gut“ (Elias RN11-03): flatex mit eigener gerechneter Übereinstimmung, eigener Knopf mit Kennung Zusatz z, Pflichtsatz.
+    const auch = container.querySelector(".hc-auch")!;
+    expect(auch.querySelector(".hc-auch-h")!.textContent).toBe("Passt auch gut");
+    expect(auch.querySelector(".hc-auch-fit")!.textContent).toMatch(/^\d+% Übereinstimmung$/);
+    expect(auch.textContent).toContain("flatex");
+    expect(auch.textContent).toContain("Kreditrahmen ab");
+    expect(screen.getByRole("link", { name: /Depot ansehen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflza");
     expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank|Zweitdepot/);
     // Ohne heutiges Depot kein Vergleich der beiden; „Deine Antworten“ nennt die Wahl.
     expect(container.textContent).not.toMatch(/im Vergleich/);
@@ -519,7 +526,7 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelector("[data-ergebnis='b']")).toBeTruthy();
     expect(container.querySelector(".hc-wb-kopf h1")!.textContent).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     const ueber = [...container.querySelectorAll(".hc-wk-ueber")].map((u) => u.textContent);
-    expect(ueber).toEqual(["Dein Match", "Im Vergleich", "Letzter Schritt"]);
+    expect(ueber).toEqual(["Dein Match", "Im Vergleich", "Alles in Butter", "Letzter Schritt"]);
     // Kein „Weiter“, keine Problem-Karte.
     expect([...container.querySelectorAll("button, a")].some((b) => /^weiter/i.test(b.textContent ?? ""))).toBe(false);
     expect(container.querySelector(".hc-wk--problem")).toBeNull();
@@ -534,21 +541,29 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelector(".hc-erg-badge")).toBeNull();
     // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
     expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
-    // Vergleich: beide Logos, Zeilen nur mit belegten Werten, sonst „–“, Beschriftungen ohne geratene Wechselzeit.
+    // Vergleich (Elias RN11-04/-05): beide Logos, nur Unterschiede; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz), Zinsen sind gleich und fehlen.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.textContent).toContain("Sparkasse");
     expect(gg.textContent).toContain("norisbank");
     expect(gg.querySelectorAll(".hc-wb-platte")).toHaveLength(2);
-    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben", "Eröffnung"]);
-    expect(gg.textContent).toContain("Video-Ident oder Post-Ident");
-    expect(gg.textContent).not.toMatch(/zehn Minuten|Dispo/);
+    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Dispo"]);
+    expect(gg.textContent).toContain("Dispo an");
+    expect(gg.textContent).toContain("kein Dispo");
+    expect(gg.textContent).not.toMatch(/Zinsen|Video-Ident/);
     expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
-    expect(gg.querySelector(".lucide-x")).toBeNull();
+    expect(gg.querySelectorAll(".lucide-x")).toHaveLength(1);
+    expect(gg.parentElement!.textContent).toContain("Wechsel in 10 Minuten");
+    // Karte „Alles wird für dich rübergezogen“ mit dem Bild des norisbank-Formulars.
+    const ueberzug = container.querySelectorAll(".hc-wk")[2];
+    expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");
+    expect(ueberzug.querySelector("img")!.getAttribute("src")).toBe("/bilder/check/norisbank-kontowechsel.webp");
+    // Konto ohne „Passt auch gut“.
+    expect(container.querySelector(".hc-auch")).toBeNull();
     expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
     // Kein Konfetti ohne prefers-reduced-motion: no-preference (jsdom hat kein matchMedia).
     expect(container.querySelector(".hc-konfetti")).toBeNull();
     // Letzte Karte: Satz, Knopf, Etikett „Werbung“.
-    const letzte = container.querySelectorAll(".hc-wk")[2];
+    const letzte = container.querySelectorAll(".hc-wk")[3];
     expect(letzte.textContent).toContain("Jetzt bei norisbank eröffnen");
     expect(letzte.textContent).toContain("Werbung");
     // Genau zwei Links zum Anbieter: einer in der letzten Karte, einer ganz unten.

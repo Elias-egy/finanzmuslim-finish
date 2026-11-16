@@ -364,3 +364,28 @@ export const bankPreis = (w: BankWahl): BankPreis | null => {
     produkt: guenstigste.produkt,
   };
 };
+
+/** Ampelwert aus dem Girokonto-Vergleich: gut, teils, schlecht; null heißt noch nicht geprüft. */
+export type BankAmpel = "gut" | "teils" | "schlecht";
+export type BankHalal = { zinsfrei: BankAmpel | null; keinDispo: BankAmpel | null };
+
+/**
+ * Zinsen und Dispo der heutigen Bank, nur aus dem Girokonto-Vergleich (girokontoVergleich.ts samt Korrekturen, jeder Wert mit
+ * Beleg dort), für die Vergleichskarte im Check (Elias RN11-04: „immer die, wo die sich unterscheiden“). Hat die Bank mehrere
+ * Konten mit verschiedenen Werten, gilt der Wert als offen. Die Gruppe Sparkasse nimmt die Hamburger Sparkasse aus dem Vergleich
+ * (schriftlich von der Haspa: Überziehungspuffer, Sperre muss man selbst verlangen); Elias RN11-05: „Bei Sparkasse schon. Und du
+ * musst ihn schriftlich oder sowas musst du es ausschalten, aber du hast ihn drin.“ Andere Gruppen und freie Eingaben: offen.
+ */
+const GRUPPE_HAUS: Record<string, string> = { "grp-sparkasse": "haspa" };
+export const bankHalal = (w: BankWahl): BankHalal => {
+  const haus = w.kind === "bank" ? (GRUPPE_HAUS[w.id] ?? w.id) : undefined;
+  const konten = haus
+    ? (girokontoVergleich as unknown as { haus: string; werte?: Record<string, unknown> }[]).filter((a) => a.haus === haus)
+    : [];
+  const einig = (key: string): BankAmpel | null => {
+    const werte = new Set(konten.map((a) => a.werte?.[key] ?? null));
+    const [v] = [...werte];
+    return werte.size === 1 && (v === "gut" || v === "teils" || v === "schlecht") ? v : null;
+  };
+  return { zinsfrei: einig("zinsfreiAbStart"), keinDispo: einig("keinDispoAbStart") };
+};

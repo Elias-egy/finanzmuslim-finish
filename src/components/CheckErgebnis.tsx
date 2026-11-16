@@ -1,16 +1,19 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import CheckKonfetti from "@/components/CheckKonfetti";
 import CheckStimme from "@/components/CheckStimme";
 import {
   KEIN_PREIS,
   KEIN_WERT,
+  UEBERZUG,
+  WECHSEL_ZEIT,
   WERBEHINWEIS,
   antwortZeilen,
   kurzVorteile,
   vergleichZeilen,
   type Antworten,
+  type AuchGut,
   type Ergebnis,
   type Spalte,
   type VergleichZelle,
@@ -28,13 +31,22 @@ import "@/styles/checkErgebnis.css";
  *  B (Elias RN11-01, RN11-02): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: große Überschrift wie im Original, sofort
  *    Wischkarten ohne Weiter-Knopf (Match mit grünen Häkchen, Vergleich heute gegen Match mit beiden Logos, „Jetzt bei <Anbieter> eröffnen“),
  *    darunter Stimmen und ein zweiter Knopf ganz unten; beim Erscheinen Mini-Konfetti (CheckKonfetti).
+ * Depot in beiden (Elias RN11-03): Ring mit der gerechneten Übereinstimmung, darunter „Passt auch gut“ mit dem anderen Depot und
+ *    dessen eigener Übereinstimmung, eigener Knopf (Kennung Zusatz z). Konto ohne „Passt auch gut“.
  * In beiden: „Über 22.000 Menschen informieren sich bei Finanzmuslim“ mit Bildern anderer (Elias RN9-03), Stimmen am Ende, Werbehinweis als
  * Sternchen; in A genau ein Link zum Anbieter (Elias RN8-02), in B zwei (Elias RN11-01). Beispiel-Bilder und -Stimmen nur im Entwicklungsmodus (checkStimmen.ts).
  */
 export type ErgebnisFassung = "a" | "b";
-export const ergebnisFassungAus = (wert: string | null): ErgebnisFassung => (wert === "b" ? "b" : "a");
+export const ergebnisFassungAus = (wert: string | null): ErgebnisFassung =>
+  wert === "b" ? "b" : "a";
 
-type Props = { e: Ergebnis; antworten: Antworten; onNeu: () => void; fassung: ErgebnisFassung; bereit: boolean };
+type Props = {
+  e: Ergebnis;
+  antworten: Antworten;
+  onNeu: () => void;
+  fassung: ErgebnisFassung;
+  bereit: boolean;
+};
 
 const Kopf = ({ s, ziel }: { s: Spalte; ziel?: boolean }) => (
   <div className={`hc-bank hc-bank--kopf${ziel ? " hc-bank--ziel" : ""}`}>
@@ -51,7 +63,11 @@ const Zelle = ({ z, ziel }: { z: Zeile; ziel?: boolean }) => {
   const leise = z.wert === KEIN_PREIS;
   return (
     <div className={`hc-bank${ziel ? " hc-bank--ziel" : ""}`}>
-      <p className={`hc-bank-wert${lang ? " hc-bank-wert--text" : ""}${leise ? " hc-bank-wert--leise" : ""}`}>{z.wert}</p>
+      <p
+        className={`hc-bank-wert${lang ? " hc-bank-wert--text" : ""}${leise ? " hc-bank-wert--leise" : ""}`}
+      >
+        {z.wert}
+      </p>
       {z.zusatz?.map((t) => (
         <p key={t} className="hc-bank-zusatz">
           {t}
@@ -84,11 +100,21 @@ const Ring = ({ e }: { e: Ergebnis }) => {
       <div
         className={`hc-erg-ring${e.art === "konto" ? " hc-erg-ring--logo" : ""}`}
         role="img"
-        aria-label={e.art === "depot" ? `Passt zu ${prozent} Prozent zu dir` : `Dein Match: ${e.anbieter.name}`}
+        aria-label={
+          e.art === "depot"
+            ? `Passt zu ${prozent} Prozent zu dir`
+            : `Dein Match: ${e.anbieter.name}`
+        }
       >
         <svg viewBox="0 0 100 100" aria-hidden>
           <circle className="hc-erg-ring-spur" cx="50" cy="50" r="46" />
-          <circle className="hc-erg-ring-fuell" cx="50" cy="50" r="46" style={{ ["--rest" as string]: (289 * (100 - prozent)) / 100 }} />
+          <circle
+            className="hc-erg-ring-fuell"
+            cx="50"
+            cy="50"
+            r="46"
+            style={{ ["--rest" as string]: (289 * (100 - prozent)) / 100 }}
+          />
         </svg>
         {e.art === "depot" ? (
           <span className="hc-erg-ring-zahl" aria-hidden>
@@ -97,11 +123,19 @@ const Ring = ({ e }: { e: Ergebnis }) => {
           </span>
         ) : (
           <span className="hc-erg-ring-logo" aria-hidden>
-            <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
+            <AnbieterLogo
+              name={e.anbieter.name}
+              domain={e.anbieter.domain}
+              gross
+            />
           </span>
         )}
       </div>
-      <p className="hc-erg-ring-text">{e.art === "depot" ? "Übereinstimmung mit deinen Antworten" : "Dein Match aus deinen Antworten"}</p>
+      <p className="hc-erg-ring-text">
+        {e.art === "depot"
+          ? "Übereinstimmung mit deinen Antworten"
+          : "Dein Match aus deinen Antworten"}
+      </p>
     </div>
   );
 };
@@ -147,7 +181,9 @@ const Leute = () => {
           ))}
         </span>
       )}
-      <figcaption>Über {followerGesamt} Menschen informieren sich bei Finanzmuslim</figcaption>
+      <figcaption>
+        Über {followerGesamt} Menschen informieren sich bei Finanzmuslim
+      </figcaption>
     </figure>
   );
 };
@@ -172,13 +208,52 @@ const Fuss = ({ onNeu }: { onNeu: () => void }) => (
   </>
 );
 
+/** „Passt auch gut“ wie im Original (Blueprint rn10 Abschnitt 5.3): Bild links, Übereinstimmung blau, Name, drei Haken, Preis, heller Knopf. Logo statt Foto. */
+const PasstAuchGut = ({ g }: { g: AuchGut }) => (
+  <section className="hc-auch" aria-label="Passt auch gut">
+    <h2 className="hc-auch-h">Passt auch gut</h2>
+    <article className="hc-auch-karte">
+      <span className="hc-auch-bild">
+        <AnbieterLogo name={g.anbieter.name} domain={g.anbieter.domain} gross />
+      </span>
+      <div className="hc-auch-text">
+        <p className="hc-auch-fit">{g.passung}% Übereinstimmung</p>
+        <h3>{g.anbieter.name}</h3>
+        <ul className="hc-auch-liste">
+          {g.vorteile.map((v) => (
+            <li key={v}>
+              <Check aria-hidden />
+              {v}
+            </li>
+          ))}
+        </ul>
+        {g.pflicht && <p className="hc-erg-pflicht">{g.pflicht}</p>}
+        <div className="hc-auch-fuss">
+          <b>{g.preis}</b>
+          <a href={g.link} className="hc-auch-btn">
+            Depot ansehen*
+            <ArrowRight className="hc-pfeil" aria-hidden />
+          </a>
+        </div>
+      </div>
+    </article>
+  </section>
+);
+
 /** Wenn das Match schon das eigene Konto oder Depot ist: freundlicher Satz, kein Knopf. */
 const SchonDa = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
-  <section className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`} aria-live="polite">
+  <section
+    className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`}
+    aria-live="polite"
+  >
     <div className="hc-erg-kopf">
       <div className="hc-erg-kopf-text">
-        <h1 className="hc-erg-h1" data-e="1">{e.ueberschrift}</h1>
-        <p className="hc-erg-satz" data-e="2">{e.art === "konto" ? e.pflicht : e.satz}</p>
+        <h1 className="hc-erg-h1" data-e="1">
+          {e.ueberschrift}
+        </h1>
+        <p className="hc-erg-satz" data-e="2">
+          {e.art === "konto" ? e.pflicht : e.satz}
+        </p>
         <Antworten a={antworten} />
       </div>
       <div data-e="3">
@@ -194,11 +269,19 @@ const SchonDa = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
 // Fassung A: untereinander wie das Original
 
 const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
-  <section className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`} aria-live="polite" data-ergebnis="a">
+  <section
+    className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`}
+    aria-live="polite"
+    data-ergebnis="a"
+  >
     <div className="hc-erg-kopf">
       <div className="hc-erg-kopf-text">
-        <h1 className="hc-erg-h1" data-e="1">{e.ueberschrift}</h1>
-        <p className="hc-erg-satz" data-e="2">{e.satz}</p>
+        <h1 className="hc-erg-h1" data-e="1">
+          {e.ueberschrift}
+        </h1>
+        <p className="hc-erg-satz" data-e="2">
+          {e.satz}
+        </p>
         <div data-e="2">
           <Antworten a={antworten} />
         </div>
@@ -211,7 +294,11 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
     <article className="hc-erg-karte" data-e="4">
       <div className="hc-erg-bild">
         <span className="hc-erg-logo">
-          <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
+          <AnbieterLogo
+            name={e.anbieter.name}
+            domain={e.anbieter.domain}
+            gross
+          />
         </span>
       </div>
       <div className="hc-erg-inhalt">
@@ -220,13 +307,21 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
           <p className="hc-erg-preis">{e.preis}</p>
         </div>
         <Haken zeilen={e.vorteile} />
-        {e.art === "konto" && e.praemie && <p className="hc-praemie">{e.praemie}</p>}
+        {e.art === "konto" && e.praemie && (
+          <p className="hc-praemie">{e.praemie}</p>
+        )}
         <div className="hc-erg-knopfzeile">
           <Knopf e={e} />
         </div>
         {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
       </div>
     </article>
+
+    {e.art === "depot" && e.auchGut && (
+      <div data-e="5">
+        <PasstAuchGut g={e.auchGut} />
+      </div>
+    )}
 
     {e.links && e.rechts && (
       <section className="hc-erg-vergleich" data-e="5">
@@ -251,7 +346,9 @@ type Karte = { id: string; ueber: string; match?: boolean; inhalt: ReactNode };
 
 /** Logo auf weißer Platte wie .eg-dlogo im OS; auch im Dunkeln bleibt die Platte weiß. Orange ist nur die Markenfarbe der norisbank (schwarz-weißes Logo, Elias RN11-02). */
 const Platte = ({ e, gross }: { e: Ergebnis; gross?: boolean }) => (
-  <span className={`hc-wb-platte${gross ? " hc-wb-platte--gross" : ""}${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
+  <span
+    className={`hc-wb-platte${gross ? " hc-wb-platte--gross" : ""}${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}
+  >
     <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
   </span>
 );
@@ -276,8 +373,11 @@ const GgZelle = ({ z }: { z: VergleichZelle }) => {
     <td className="hc-gg-zelle">
       <span className="hc-gg-wert">
         {z.ja && <Ja />}
+        {z.nein && <X className="hc-gg-nein" aria-hidden />}
         <b className={leise ? "hc-gg-leise" : undefined}>{z.text}</b>
-        {z.text === KEIN_WERT && <span className="hc-nur-sr">keine Angabe</span>}
+        {z.text === KEIN_WERT && (
+          <span className="hc-nur-sr">keine Angabe</span>
+        )}
       </span>
       {z.klein && <small>{z.klein}</small>}
     </td>
@@ -290,33 +390,43 @@ const Gegenueber = ({ e }: { e: Ergebnis }) => {
   const zeilen = vergleichZeilen(e);
   if (!links || !rechts || zeilen.length === 0) return null;
   return (
-    <table className="hc-gg">
-      <thead>
-        <tr>
-          {[links, rechts].map((s, n) => (
-            <th key={s.name} scope="col" className="hc-gg-kopf">
-              <span className={`hc-wb-platte hc-wb-platte--tab${n === 1 && e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
-                <AnbieterLogo name={s.name} domain={s.domain} gross />
-              </span>
-              <span className="hc-gg-name">{s.name}</span>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      {zeilen.map((z) => (
-        <tbody key={z.label}>
+    <>
+      <table className="hc-gg">
+        <thead>
           <tr>
-            <th scope="colgroup" colSpan={2} className="hc-gg-label">
-              {z.label}
-            </th>
+            {[links, rechts].map((s, n) => (
+              <th key={s.name} scope="col" className="hc-gg-kopf">
+                <span
+                  className={`hc-wb-platte hc-wb-platte--tab${n === 1 && e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}
+                >
+                  <AnbieterLogo name={s.name} domain={s.domain} gross />
+                </span>
+                <span className="hc-gg-name">{s.name}</span>
+              </th>
+            ))}
           </tr>
-          <tr>
-            <GgZelle z={z.links} />
-            <GgZelle z={z.rechts} />
-          </tr>
-        </tbody>
-      ))}
-    </table>
+        </thead>
+        {zeilen.map((z) => (
+          <tbody key={z.label}>
+            <tr>
+              <th scope="colgroup" colSpan={2} className="hc-gg-label">
+                {z.label}
+              </th>
+            </tr>
+            <tr>
+              <GgZelle z={z.links} />
+              <GgZelle z={z.rechts} />
+            </tr>
+          </tbody>
+        ))}
+      </table>
+      {e.art === "konto" && (
+        <p className="hc-gg-wechsel">
+          <Ja />
+          {WECHSEL_ZEIT}
+        </p>
+      )}
+    </>
   );
 };
 
@@ -332,12 +442,6 @@ const karten = (e: Ergebnis): Karte[] => {
           <Platte e={e} gross />
           <h3>{e.anbieter.name}</h3>
           <p className="hc-wk-klein">{e.kartenTitel}</p>
-          {e.art === "depot" && (
-            <p className="hc-wb-passung">
-              <b>{e.passung} %</b>
-              <span>Match</span>
-            </p>
-          )}
           <HakenB zeilen={kurzVorteile(e)} />
         </>
       ),
@@ -351,6 +455,30 @@ const karten = (e: Ergebnis): Karte[] => {
         <>
           {e.vergleichTitel && <h3>{e.vergleichTitel}</h3>}
           <Gegenueber e={e} />
+        </>
+      ),
+    });
+  }
+  if (e.art === "konto" && e.anbieter.kurz === "no" && e.links) {
+    liste.push({
+      id: "ueberzug",
+      ueber: "Alles in Butter",
+      inhalt: (
+        <>
+          <h3>{UEBERZUG.titel}</h3>
+          <p className="hc-wk-satz">{UEBERZUG.satz}</p>
+          <img
+            className="hc-ueberzug-bild"
+            src={UEBERZUG.bild}
+            alt={UEBERZUG.alt}
+            width={520}
+            height={553}
+            loading="lazy"
+          />
+          <p className="hc-gg-wechsel">
+            <Ja />
+            {WECHSEL_ZEIT}
+          </p>
         </>
       ),
     });
@@ -387,7 +515,12 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
     const lauscher = () => {
       const k = f.firstElementChild as HTMLElement | null;
       const breite = k ? k.offsetWidth + 12 : f.clientWidth;
-      setI(Math.max(0, Math.min(liste.length - 1, Math.round(f.scrollLeft / breite))));
+      setI(
+        Math.max(
+          0,
+          Math.min(liste.length - 1, Math.round(f.scrollLeft / breite)),
+        ),
+      );
     };
     f.addEventListener("scroll", lauscher, { passive: true });
     return () => f.removeEventListener("scroll", lauscher);
@@ -397,13 +530,23 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
     const f = fenster.current;
     const ziel = f?.children[n] as HTMLElement | undefined;
     if (!f || !ziel) return;
-    const ruhig = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    f.scrollTo?.({ left: ziel.offsetLeft - f.offsetLeft - (f.clientWidth - ziel.offsetWidth) / 2, behavior: ruhig ? "auto" : "smooth" });
+    const ruhig =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    f.scrollTo?.({
+      left:
+        ziel.offsetLeft - f.offsetLeft - (f.clientWidth - ziel.offsetWidth) / 2,
+      behavior: ruhig ? "auto" : "smooth",
+    });
     setI(n);
   };
 
   return (
-    <section className="hc-wisch" aria-roledescription="Karussell" aria-label="Dein Match im Überblick">
+    <section
+      className="hc-wisch"
+      aria-roledescription="Karussell"
+      aria-label="Dein Match im Überblick"
+    >
       <div className="hc-wisch-fenster" ref={fenster} tabIndex={0}>
         {liste.map((k, n) => (
           <article
@@ -419,12 +562,25 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
       </div>
       {liste.length > 1 && (
         <div className="hc-wisch-steuer">
-          <button type="button" className="hc-wisch-pfeil" onClick={() => geh(Math.max(0, i - 1))} disabled={i === 0} aria-label="Vorige Karte">
+          <button
+            type="button"
+            className="hc-wisch-pfeil"
+            onClick={() => geh(Math.max(0, i - 1))}
+            disabled={i === 0}
+            aria-label="Vorige Karte"
+          >
             <ChevronLeft aria-hidden />
           </button>
           <div className="hc-wisch-punkte">
             {liste.map((k, n) => (
-              <button key={k.id} type="button" className="hc-wisch-pt" aria-current={n === i} aria-label={`Karte ${n + 1}`} onClick={() => geh(n)} />
+              <button
+                key={k.id}
+                type="button"
+                className="hc-wisch-pt"
+                aria-current={n === i}
+                aria-label={`Karte ${n + 1}`}
+                onClick={() => geh(n)}
+              />
             ))}
           </div>
           <button
@@ -444,14 +600,28 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
 
 /** Zwei Links zum Anbieter gibt es nur in B (Elias RN11-01 ausdrücklich): einer in der letzten Karte, einer ganz unten. */
 const FassungB = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
-  <section className={`hc-erg hc-erg--b${bereit ? " hc-erg--bereit" : ""}`} aria-live="polite" data-ergebnis="b">
+  <section
+    className={`hc-erg hc-erg--b${bereit ? " hc-erg--bereit" : ""}`}
+    aria-live="polite"
+    data-ergebnis="b"
+  >
     {bereit && <CheckKonfetti />}
     <header className="hc-wb-kopf" data-e="1">
       <h1 className="hc-wb-h1">{e.ueberschrift}</h1>
+      {e.art === "depot" && (
+        <div className="hc-wb-ring">
+          <Ring e={e} />
+        </div>
+      )}
     </header>
     <div data-e="2">
       <Wischen e={e} />
     </div>
+    {e.art === "depot" && e.auchGut && (
+      <div data-e="3">
+        <PasstAuchGut g={e.auchGut} />
+      </div>
+    )}
     <div data-e="3">
       <Leute />
     </div>

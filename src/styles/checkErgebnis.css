@@ -728,25 +728,6 @@
   margin-top: -8px;
   text-align: center;
 }
-.hc-wb-passung {
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 8px;
-}
-.hc-wb-passung b {
-  color: var(--blau-text);
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.hc-wb-passung span {
-  font-size: 18px;
-  font-weight: 600;
-}
 /* Grüne Häkchen wie auf der Startseite (text-gain) und in der Vergleichstabelle der Verkaufsseite (.hc-tab-ja), ohne Kreis */
 .hc {
   --ja: var(--gruen);
@@ -960,6 +941,202 @@
 .hc-wisch-pt[aria-current="true"]::after {
   background: var(--blau);
   transform: scale(1.4);
+}
+
+/* Depot in B: Ring unter der Überschrift (Elias RN11-03) */
+.hc-wb-ring {
+  margin-top: 20px;
+}
+/* Kreuz im Vergleich (Elias RN11-02 „Häkchen und Kreuze“), nur bei belegtem Nachteil der heutigen Bank */
+.hc {
+  --nein: #c4321f;
+}
+.dark .hc {
+  --nein: #ff7a66;
+}
+.hc-gg-nein {
+  flex: none;
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  color: var(--nein);
+  stroke-width: 3;
+}
+/* „Wechsel in 10 Minuten“ unter dem Vergleich und in der Karte „Alles wird für dich rübergezogen“ (Elias RN11-04) */
+.hc-gg-wechsel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--linie);
+  font-size: 16px;
+  font-weight: 700;
+}
+.hc-wk-satz {
+  margin: -4px 0 0;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+.hc-ueberzug-bild {
+  display: block;
+  width: 100%;
+  max-width: 210px;
+  height: auto;
+  align-self: center;
+  border: 1px solid var(--linie);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 22px -14px rgba(15, 23, 42, 0.4);
+}
+
+/* „Passt auch gut“ wie im Original (Blueprint rn10 5.3): Handy Zeile mit Bild 96 links, ab 768 Bild oben 2:1. Logo statt Foto. */
+.hc-auch {
+  margin-top: 48px;
+}
+@media (min-width: 768px) {
+  .hc-auch {
+    margin-top: 64px;
+  }
+}
+.hc-auch-h {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
+  letter-spacing: -0.025em;
+}
+.hc-auch-karte {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px;
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: 20px;
+  background: var(--bg);
+}
+.hc-auch-bild {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fff;
+  color: #0b1220;
+  box-shadow: inset 0 0 0 1px var(--linie);
+}
+.hc-auch-bild > * {
+  zoom: 0.62;
+}
+.hc-auch-text {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.hc-auch-fit {
+  margin: 0 0 4px;
+  color: var(--blau-text);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-auch-text h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hc-auch-liste {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hc-auch-liste li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.375;
+}
+.hc-auch-liste svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: var(--blau-text);
+  stroke-width: 1.7;
+}
+.hc-auch-text .hc-erg-pflicht {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.hc-auch-fuss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 16px;
+}
+.hc-auch-fuss b {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-auch-btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 9999px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.hc-auch-btn .hc-pfeil {
+  width: 16px;
+  height: 16px;
+}
+@media (min-width: 768px) {
+  .hc-auch-karte {
+    max-width: 560px;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  .hc-auch-bild {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 var(--linie);
+  }
+  .hc-auch-bild > * {
+    zoom: 1;
+  }
+  .hc-auch-text {
+    padding: 24px;
+  }
+  .hc-auch-fuss {
+    padding-top: 24px;
+  }
+}
+@media (hover: hover) {
+  .hc-auch-btn:hover {
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
 }
 
 /* ---------- Bewegung: erst wenn der Ladescreen fällt (hc-erg--bereit), nur ohne „weniger Bewegung“ ---------- */

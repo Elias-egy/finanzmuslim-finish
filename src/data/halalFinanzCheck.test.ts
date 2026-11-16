@@ -33,6 +33,7 @@ import {
   type Antworten,
   type DepotErgebnis,
   type KontoErgebnis,
+  vergleichZeilen,
 } from "@/data/halalFinanzCheck";
 import { BROKER_KARTEN } from "@/data/brokerFreebie";
 import { freieWahl, KEINE_BANK, suche, wahlVon, bankNachId } from "@/data/bankSuche";
@@ -365,6 +366,18 @@ describe("Ergebnis Bankkonto", () => {
       expect(e.link, eingabe).toBeTruthy();
     }
   });
+  it("Vergleichskarte nur mit Unterschieden (Elias RN11-04/-05): Dispo und Zinsen aus dem Girokonto-Vergleich, nie „beide zinsfrei“", () => {
+    const labels = (b: string) => vergleichZeilen(konto({ ...sparkasse, bank: bank(b) })).map((z) => z.label);
+    // Sparkasse: Dispo drin (Haspa im Vergleich), Zinsen gleich, also keine Zinszeile.
+    expect(labels("grp-sparkasse")).toEqual(["Kontoführung im Monat", "Dispo"]);
+    // C24: Zinsen auf Guthaben, kein Dispo ab Start, also nur die Zinszeile.
+    expect(labels("c24")).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben"]);
+    // Volksbank: nichts belegt, nur die Kosten.
+    expect(labels("grp-volksbank")).toEqual(["Kontoführung im Monat"]);
+    const c24 = vergleichZeilen(konto({ ...sparkasse, bank: bank("c24") }))[1];
+    expect(c24.links.nein).toBe(true);
+    expect(c24.rechts.ja).toBe(true);
+  });
 });
 
 describe("Ergebnis Depot", () => {
@@ -520,6 +533,17 @@ describe("Ergebnis Depot", () => {
     const e = konto({ ziel: "beides", zahlung: "karte", bank: bank("ing") });
     expect(e.art).toBe("konto");
     expect(JSON.stringify(e)).not.toMatch(/flatex|Depot/i);
+  });
+  it("„Passt auch gut“ zeigt das andere Depot mit eigener Passung und Kennung Zusatz z, nicht wenn es schon das heutige ist (Elias RN11-03)", () => {
+    const a = { art: "depot", ziel: "invest", hatDepot: "nein", praef: "halal", anlage: "etf" } as unknown as Antworten;
+    const e = ergebnisAus(a, "homepage") as DepotErgebnis;
+    expect(e.anbieter.kurz).toBe("fl");
+    expect(e.auchGut!.anbieter.kurz).toBe("sb");
+    expect(e.auchGut!.passung).toBe(passungProzent(BROKER_KARTEN.find((k) => k.id === "smartbroker-plus-depot")!, a));
+    expect(e.auchGut!.link).toBe("/out/smartbroker?src=fchpsbza");
+    expect(CHECK_SRC.test("fchpsbza")).toBe(true);
+    const mitSb = { ...a, hatDepot: "ja", depotHeute: depotWahlVon(depotNachId("smartbroker-plus-depot")!) } as unknown as Antworten;
+    expect((ergebnisAus(mitSb, "homepage") as DepotErgebnis).auchGut).toBeUndefined();
   });
 });
 
