@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import type { Farbe } from "@/components/vorlagen/ampelTeile";
 import {
   AboLegende,
@@ -108,6 +109,8 @@ const AutoAboCheckVoll = () => (
         </h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{firmen}</p>
       </section>
+
+      <CheckEinstieg quelle="homepage" />
     </VorlagenSeite>
   </>
 );

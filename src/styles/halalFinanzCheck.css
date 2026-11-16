@@ -1371,11 +1371,34 @@
   min-width: 0;
   overflow-wrap: anywhere;
 }
-.hc-schnell .hc-schnell-keine {
-  grid-column: 1 / -1;
+/* RN10 (Elias RN9-01): die Schnellwahl scrollt in ihrem Rahmen; vier Reihen ganz, die fünfte schaut zur Hälfte hervor
+   (4 × 44 px + 4 × 10 px Abstand + 22 px). Ein paar Pixel innen, damit Rand und Fokus nicht abgeschnitten werden. */
+.hc-schnell-rahmen {
+  max-height: 242px;
+  margin: 12px -2px 0;
+  padding: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.hc-schnell-rahmen .hc-schnell {
+  margin: 0;
+}
+.hc-suche > .hc-schnell-keine {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  border-color: color-mix(in srgb, var(--blau) 45%, transparent);
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--blau) 45%, transparent);
+  border-radius: 18px;
+  background: var(--fenster);
   color: var(--blau-text);
+  font-size: 15px;
+  font-weight: 500;
 }
 .hc-vorschlaege button[data-erster] {
   border-color: var(--blau);

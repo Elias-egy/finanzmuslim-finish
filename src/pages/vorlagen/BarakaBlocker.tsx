@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { blocker } from "@/data/barakaBlocker";
 
@@ -110,6 +111,8 @@ const BarakaBlocker = () => (
           </div>
         </div>
       </section>
+
+      <CheckEinstieg quelle="homepage" />
     </VorlagenSeite>
   </>
 );

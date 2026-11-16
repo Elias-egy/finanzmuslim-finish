@@ -107,7 +107,7 @@ describe("Banksuche im Bankkonto-Check (RN8)", () => {
     }
   });
 
-  it("Schnellwahl: acht Banken mit Logo-Domain, in der Reihenfolge des Auftrags", () => {
+  it("Schnellwahl: sechzehn Banken mit Logo-Domain, die ersten acht in der Reihenfolge des Auftrags", () => {
     expect(schnellwahl().map((b) => b.name)).toEqual([
       "Sparkasse",
       "Volksbank",
@@ -117,6 +117,14 @@ describe("Banksuche im Bankkonto-Check (RN8)", () => {
       "ING",
       "DKB",
       "N26",
+      "comdirect",
+      "C24",
+      "Trade Republic",
+      "Consorsbank",
+      "HypoVereinsbank",
+      "Targobank",
+      "Revolut",
+      "Santander",
     ]);
     expect(schnellwahl().every((b) => b.domain)).toBe(true);
   });

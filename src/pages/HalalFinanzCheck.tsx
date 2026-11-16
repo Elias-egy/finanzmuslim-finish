@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Seo from "@/components/Seo";
 import CheckVerkaufsseite from "@/components/CheckVerkaufsseite";
 import CheckChat from "@/components/CheckChat";
-import BankSuche from "@/components/BankSuche";
+import BankSuche, { DepotSuche } from "@/components/BankSuche";
 import { DepotAnsicht, KontoAnsicht } from "@/components/CheckErgebnis";
 import { ereignis } from "@/lib/messung";
 import { abFassung } from "@/lib/abTest";
@@ -14,8 +14,8 @@ import {
   artVon,
   ergebnisAus,
   ersteAntwortAus,
-  ersteFrage,
   fragenGesamt,
+  frageFuer,
   naechsteFrage,
   UNSICHER_SATZ,
   quelleAus,
@@ -24,16 +24,18 @@ import {
   type FrageId,
 } from "@/data/halalFinanzCheck";
 import type { BankWahl } from "@/data/bankSuche";
+import type { DepotWahl } from "@/data/depotSuche";
 import "@/styles/halalFinanzCheck.css";
 
 /**
  * Halal-Finanz-Check, RN8 (15.11.2026): zwei Arten auf einem Gerüst, gesteuert über die Adresse.
  *  /check?art=konto   Bankkonto-Check: Wie bezahlst du, Bank von heute (Suchleiste), Ergebnis „Von der <Bank> zur norisbank“
- *  /check?art=depot   Depot-Check: Erfahrung, Was ist dir wichtiger (Fassung b: Monatsbetrag), Ergebnis mit Passung in Prozent
- *  /check             wie bisher mit der ersten Frage „Was willst du als Erstes halal machen?“
+ *  /check?art=depot   Depot-Check (RN10-07): Hast du schon ein Depot (bei Ja: Wo?), Was ist dir wichtiger, Worin willst du investieren
+ *                     (Fassung b: Monatsbetrag), Ergebnis mit Passung in Prozent
+ *  /check             überall dieselbe erste Frage „Was suchst du gerade?“; nur das grüne Etikett wandert je Quelle (hinweisJeQuelle)
  * Wer direkt kommt (Startseite, Instagram), sieht zuerst die Verkaufsseite (CheckVerkaufsseite), „Check starten“ führt auf derselben
- * Route zur ersten Frage (?schritt=fragen). Wer aus einem Freebie kommt (CheckEinstieg.tsx: ?art=…&quelle=…&start=2&a1=<Antwort>),
- * sieht keine Verkaufsseite, die Antwort ist schon da und der Chat geht bei Frage 2 weiter. Alte Adressen mit ?ziel=konto|invest|beides
+ * Route zur ersten Frage (?schritt=fragen). Wer aus einem Freebie kommt (CheckEinstieg.tsx: ?quelle=…&start=2&a1=konto|invest|unsicher),
+ * sieht keine Verkaufsseite, die Antwort auf „Was suchst du gerade?“ ist schon da und der Chat geht bei Frage 2 weiter. Alte Adressen mit ?ziel=konto|invest|beides
  * laufen weiter (Konto und Beides in den Bankkonto-Weg, Investieren in den Depot-Weg).
  * Die Bank von heute bleibt im Zustand der Seite: nie in der Adresse, nie im /out-Link, in der Messung nur die Gruppe.
  * 50:50-Test check-depotfrage (?ab=a|b) auf dem Depot-Weg bleibt, die Fassung steht am Ende der Kennung am Knopf.
@@ -44,9 +46,11 @@ const ZIEL_ZU_ART: Record<string, Art> = { konto: "konto", beides: "konto", inve
 const anfang = (params: URLSearchParams): { antworten: Antworten; verlauf: FrageId[]; gestartet: boolean } => {
   const art = artAus(params.get("art"));
   const start = params.get("start") === "2";
-  if (art && start) {
+  if (start) {
+    // Aus einem Freebie (RN10-07): ?a1= ist die Antwort auf „Was suchst du gerade?“ (alte Adressen mit Zahlung oder Erfahrung laufen weiter).
     const a = ersteAntwortAus(art, params.get("a1"));
-    return { antworten: { art, ...a }, verlauf: a.art ? [ersteFrage(art)] : [], gestartet: true };
+    const verlauf = (["ziel", "zahlung", "hatDepot"] as FrageId[]).filter((id) => a[id] !== undefined);
+    return { antworten: a, verlauf, gestartet: true };
   }
   const legacy = ZIEL_ZU_ART[params.get("ziel") ?? ""];
   if (legacy) return { antworten: { art: legacy }, verlauf: [], gestartet: true };
@@ -130,6 +134,9 @@ const HalalFinanzCheck = () => {
   /** Die Bank von heute: im Zustand, nie in der Adresse. Die Messung bekommt nur die Gruppe. */
   const waehleBank = (b: BankWahl) => weiter("bank", b.id, { bank: b }, b.gruppe);
 
+  /** Das Depot von heute (RN10): im Zustand, nie in der Adresse; die Messung bekommt nur die Gruppe. */
+  const waehleDepot = (d: DepotWahl) => weiter("depotHeute", d.id, { depotHeute: d }, d.gruppe);
+
   const zurueck = () => {
     const letzte = verlauf[verlauf.length - 1];
     if (!letzte) {
@@ -178,13 +185,19 @@ const HalalFinanzCheck = () => {
       {gestartet && frageId && (
         <CheckChat
           key={frageId}
-          frage={FRAGEN[frageId]}
+          frage={frageFuer(frageId, antworten, quelle)}
           nummer={nummer}
           gesamt={gesamt}
           gewaehlt={gewaehlt}
           onWaehle={(wert) => waehle(frageId, wert)}
           onZurueck={zurueck}
-          antwort={frageId === "bank" ? <BankSuche onWahl={waehleBank} /> : undefined}
+          antwort={
+            frageId === "bank" ? (
+              <BankSuche onWahl={waehleBank} />
+            ) : frageId === "depotHeute" ? (
+              <DepotSuche onWahl={waehleDepot} />
+            ) : undefined
+          }
           warum={frageId === "zahlung" && antworten.ziel === "unsicher" ? UNSICHER_SATZ : undefined}
         />
       )}

@@ -214,8 +214,29 @@ export const BANKEN: BankEintrag[] = baueListe();
 
 export const bankNachId = (id: string): BankEintrag | undefined => BANKEN.find((b) => b.id === id);
 
-/** Die acht Schnellwahl-Knöpfe mit Logo, in dieser Reihenfolge. */
-export const SCHNELLWAHL_IDS = ["grp-sparkasse", "grp-volksbank", "deutsche-bank", "commerzbank", "postbank", "ing", "dkb", "n26"] as const;
+/**
+ * Schnellwahl-Knöpfe mit Logo, in dieser Reihenfolge. Die ersten acht wie in RN8; seit RN10 (Elias RN9-01: „man sollte
+ * vielleicht leicht ein fünftes Konto, also eine fünfte Reihe unten hervorgehen sehen. Und die kann man, dann kann man da
+ * runter scrollen“) acht weitere, der Bereich scrollt und zeigt die fünfte Reihe angeschnitten.
+ */
+export const SCHNELLWAHL_IDS = [
+  "grp-sparkasse",
+  "grp-volksbank",
+  "deutsche-bank",
+  "commerzbank",
+  "postbank",
+  "ing",
+  "dkb",
+  "n26",
+  "comdirect",
+  "c24",
+  "trade-republic",
+  "consorsbank",
+  "hvb",
+  "targobank",
+  "revolut",
+  "santander",
+] as const;
 
 export const schnellwahl = (): BankEintrag[] =>
   SCHNELLWAHL_IDS.map((id) => bankNachId(id)).filter((b): b is BankEintrag => Boolean(b));

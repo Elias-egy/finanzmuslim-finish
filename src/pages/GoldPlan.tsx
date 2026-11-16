@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
@@ -195,6 +196,8 @@ const GoldPlan = () => {
             alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
           />
         </section>
+
+        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
         <NaechsterTeil wort="gold" className="mt-12" />
 
