@@ -8,7 +8,13 @@ import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqWarum } from "@/components/vorlagen/rizqTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { anliegen, duas, nummerVon } from "@/data/duas";
-import { logosFuer } from "@/lib/anbieterLogos";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import AnbieterLogo from "@/components/AnbieterLogo";
+import { BONUS_KONTEN, euro } from "@/data/girokontoBonus";
+import { findStartPartner } from "@/data/investmentStart";
+import { blockerFest, direktLink } from "@/lib/direktLink";
+import { ereignis } from "@/lib/messung";
 
 /**
  * Die volle Fassung von „Dua für jede Situation“, das Freebie zum Wort „Amin“, nur über den Link aus der Mail
@@ -30,9 +36,73 @@ const KURZ = ["Jeden Tag", "Arbeit", "Schulden", "Entscheidungen"];
 
 const amLink = (ziel: string, stelle: "giro" | "depot") => `${ziel}?src=am${stelle}`;
 
-/** Die Girokonten für die Logos: wie im Girokonto-Aufruf ohne die Norisbank, bis ihr Anbieter-Beleg vorliegt (giroTop2.ts). */
-const GIRO_LOGOS = logosFuer("Girokonto");
-const giroLogos = GIRO_LOGOS.logos.filter((l) => !/norisbank/i.test(l.domain ?? ""));
+/**
+ * BR1 (Elias, 16.11.2026, zur B-Roll 7-Tage-Reset mit „Kommentiere AMIN“: „Macht davor nochmal da ein Call to Action
+ * für NoResBank und bbbank in amin Freebie rein“, Vault `raw/2026-11-16-elias-br1-amin-cta-norisbank-bbbank.md`): statt
+ * des Logo-Kastens zum Girokonto-Vergleich je Bank ein Knopf direkt zum Partnerlink, wie auf der Girokonto-Bonus-Seite
+ * (Link, SubID und Blocker-Schutz von dort). Zahlen und Belege: `src/data/girokontoBonus.ts`.
+ */
+const [norisbank, bbbank] = BONUS_KONTEN;
+const bankLink = (out: string, stelle: string) => {
+  const start = findStartPartner(out);
+  return start ? direktLink(start, `?src=${stelle}`) : `/out/${out}?src=${stelle}`;
+};
+const BANKEN = [
+  { konto: norisbank, stelle: "amnoris", zeile: `0 € Kontoführung unter ${norisbank.gratisUnter} oder ab ${euro(norisbank.gratisAb)} Geldeingang` },
+  { konto: bbbank, stelle: "ambbbank", zeile: "50 € Startprämie für Neukunden" },
+];
+
+const BankKnopf = ({ out, stelle, children }: { out: string; stelle: string; children: ReactNode }) => {
+  const to = bankLink(out, stelle);
+  return to.startsWith("http") ? (
+    <a
+      href={blockerFest(out, to, false).href}
+      rel="sponsored noopener"
+      className="btn-spark w-full"
+      onClick={(e) => {
+        ereignis("partner_klick", { anbieter: out, knopf: stelle, weg: "direkt", von: "rizq" });
+        blockerFest(out, to, false).oeffnen?.(e);
+      }}
+    >
+      {children}
+    </a>
+  ) : (
+    <Link to={to} className="btn-spark w-full">
+      {children}
+    </Link>
+  );
+};
+
+const GirokontoAufruf = () => (
+  <aside
+    data-rizq-banken
+    className="rounded-3xl border border-primary/15 bg-[linear-gradient(120deg,#EEF4FF_0%,#F4F1FF_60%,#FFF9EC_100%)] p-5 md:p-7"
+  >
+    <h3 className="text-[22px] font-extrabold leading-tight text-foreground md:text-[26px]">Ein Girokonto ohne Zinsen</h3>
+    <p className="mt-1.5 text-[15px] leading-relaxed text-foreground/75 md:text-[16px]">Meine zwei Favoriten aus dem Girokonto-Vergleich:</p>
+    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      {BANKEN.map(({ konto, stelle, zeile }) => (
+        <div key={konto.out} className="flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-black/5">
+          <div className="flex items-center gap-3">
+            <AnbieterLogo name={konto.name} domain={konto.domain} rand />
+            <p className="text-[19px] font-extrabold leading-tight text-foreground">{konto.name}</p>
+          </div>
+          <p className="text-[15px] font-semibold leading-snug text-foreground">{zeile}</p>
+          <BankKnopf out={konto.out} stelle={stelle}>
+            Bei {konto.name} eröffnen*
+          </BankKnopf>
+        </div>
+      ))}
+    </div>
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+      <Link to={amLink("/vergleich/girokonto", "giro")} className="inline-flex min-h-[44px] items-center gap-1 text-[15px] font-semibold text-primary">
+        Alle Girokonten im Vergleich
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </Link>
+      <span className="text-[12px] text-muted-foreground">*Werbung</span>
+    </div>
+  </aside>
+);
 
 /**
  * Die gebende Hand klein wie eine Dua-Karte, direkt nach den Duas zur Arbeit (Elias, 02.11.2026, MC7d16: „Die gebende
@@ -70,14 +140,7 @@ const HalalRegeln = () => (
       So regelst du deine Finanzen auch in Deutschland halal:
     </p>
     <div className="mt-3 grid gap-3">
-      <FindeDeinAngebot
-        titel="Ein Girokonto ohne Zinsen"
-        text="Ich habe gerankt, welche Girokonten dir in Deutschland keine Zinsen zahlen."
-        knopf="Zum Girokonto-Vergleich"
-        logos={giroLogos}
-        gesamt={GIRO_LOGOS.gesamt}
-        ziel={amLink("/vergleich/girokonto", "giro")}
-      />
+      <GirokontoAufruf />
       <FindeDeinAngebot
         titel="Ein Depot ohne Zinsen"
         text="Ich habe gerankt, bei welchen Depots dein Guthaben ohne Zinsen bleibt und du Islamic ETFs kaufst."
