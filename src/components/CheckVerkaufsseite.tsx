@@ -23,15 +23,16 @@ import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
 
 /**
  * Elias' Foto vom Vortrag. RN16 (Elias RN15-03: „das bei meinem Vortrag, wo ich Mikrofon habe“), RN16-02 (Elias: „Nimm lieber das Bild,
- * das ist das Originalbild, anstatt das, was du genommen hast. Und dieses Elias beim Vortrag darunter kann weg.“): sein Originalfoto
- * quer und ungeschnitten (Vault raw/2026-11-16-elias-rn16-02-vortrag-mikrofon-original.jpg, 2048 × 1365), als
- * public/bilder/check/vortrag-mikrofon.webp in 1440 × 960, ohne Zeile darunter.
+ * das ist das Originalbild, anstatt das, was du genommen hast. Und dieses Elias beim Vortrag darunter kann weg.“), ohne Zeile darunter.
+ * Danach (Elias: „das Bild davor … war perfekt von der Höhe und der Größe und dem Aussehen … ein bisschen zu stark bearbeitet. Jetzt sieht es
+ * aber zu unscharf und weit weg aus“): sein Originalfoto (Vault raw/2026-11-16-elias-rn16-02-vortrag-mikrofon-original.jpg, 2048 × 1365)
+ * im Ausschnitt von vorher, hochkant 3:4 um Elias (x 307, 1024 × 1365), ohne Verkleinerung, Qualität 92, gezeigt in 360 × 480.
  */
 const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = {
   src: "/bilder/check/vortrag-mikrofon.webp",
   alt: "Elias bei einem Vortrag mit Mikrofon",
-  b: 1440,
-  h: 960,
+  b: 360,
+  h: 480,
 };
 
 /**

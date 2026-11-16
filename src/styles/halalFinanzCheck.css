@@ -1962,9 +1962,9 @@
   border-radius: 1px;
 }
 
-/* RN16-02: Elias' Originalfoto quer, volle Breite am Handy, am Laptop höchstens 720 px */
+/* RN16-02: Elias' Originalfoto im Ausschnitt von vorher (hochkant), so groß wie vorher: höchstens 360 px */
 .hc-community-foto--bild {
-  max-width: 720px;
+  max-width: 360px;
 }
 /* RN15 (Elias RN14-02): runde Bank-Logos statt Bildern anderer Leute, überlappend wie die Bilder im Original (32 px, -9 px) */
 .hc-rund-banken {
