@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { ArrowRight, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, ChevronDown, Search, ShieldCheck, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import eliasAutor from "@/assets/elias-autor.webp";
 import Seo, { vergleichJsonLd } from "@/components/Seo";
@@ -77,6 +77,13 @@ const BREIT = "lg:col-span-2";
 const KOPF_LINKS = "lg:col-start-1 lg:row-start-1";
 const KASTEN_OBEN = "lg:row-start-1 lg:row-span-2 lg:mt-0";
 const KASTEN_NEBEN_KOPF = "lg:row-start-2 lg:mt-6";
+/**
+ * Girokonto und Depot am Laptop wie Finanzfluss (Elias PH5-01, 16.11.2026): rechts neben dem Text zwei Kennzahlen, darunter
+ * der Autor, ganz rechts der schmale Kasten der Nummer 1, alles auf Höhe der Unterzeile. Gemessen bei Finanzfluss 1440 px:
+ * Kennzahlen je 170 px, Kasten 252 px, zusammen 628 px.
+ */
+const RASTER_KOPF_FF = "xl:grid-cols-[minmax(0,1fr)_628px]";
+const AUTOR_KASTEN = "flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3";
 export type VergleichsSeiteProps = {
   pfad: string;
   brotkrumen: string;
@@ -187,6 +194,7 @@ export const VergleichsSeite = ({
   ansichtAlle,
 }: VergleichsSeiteProps) => {
   const sortiertUnten = Boolean(giro && sortiertNach);
+  const stil = Boolean(giro || depot);
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
 
@@ -222,6 +230,8 @@ export const VergleichsSeite = ({
   const meisteHalalId =
     auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
   const zweiter = auszeichnungen?.zweiNummerEins && meisteHalalId ? (anbieter.find((a) => a.id === meisteHalalId) ?? null) : null;
+  /** Kopf wie Finanzfluss am breiten Laptop (ab `xl`): Kennzahlen, Autor und schmaler Kasten rechts. */
+  const kopfFF = stil && Boolean(sieger) && !zweiter;
   const nachRang = platz
     ? [
         ...gefiltert
@@ -299,7 +309,7 @@ export const VergleichsSeite = ({
         ]}
       />
 
-      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${sieger ? RASTER_KASTEN_BREIT : ""}`}>
+      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${kopfFF ? RASTER_KOPF_FF : sieger ? RASTER_KASTEN_BREIT : ""}`}>
         <div className={sieger ? KOPF_LINKS : BREIT}>
           <VergleichsBrotkrumen titel={brotkrumen} />
         </div>
@@ -316,7 +326,7 @@ export const VergleichsSeite = ({
             <p className="mt-3 text-[20px] leading-snug text-foreground md:text-[26px]">
               {untertitel}
             </p>
-            <div className="mt-4 flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-3 lg:inline-flex lg:pr-6">
+            <div className={`mt-4 ${AUTOR_KASTEN} lg:inline-flex lg:pr-6 ${kopfFF ? "xl:hidden" : ""}`}>
               <img src={eliasAutor} alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
               <p className="text-[15px] leading-snug">
                 <span className="block font-semibold text-foreground">Elias El-Gendy</span>
@@ -407,7 +417,36 @@ export const VergleichsSeite = ({
         </div>
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
-        <aside className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF}`}>
+        <aside
+          className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF} ${
+            kopfFF ? "xl:mt-[118px] xl:grid xl:grid-cols-[1fr_1fr_252px] xl:gap-3" : ""
+          }`}
+        >
+          {kopfFF && (
+            /* Nur ab `xl`: zwei Kennzahlen wie Finanzfluss („56 Überprüfte Produkte“), darunter der Autor (am Handy und
+               schmalen Laptop steht er unter der Unterzeile, hier ausgeblendet). */
+            <>
+              {[
+                { Icon: Search, zahl: anbieter.length, text: `Überprüfte ${einheit}` },
+                { Icon: ShieldCheck, zahl: anbieter.filter((a) => a.werte.zinsfreiAbStart === "gut").length, text: "Ohne Zinsen nutzbar" },
+              ].map(({ Icon, zahl, text }) => (
+                <div key={text} className="hidden flex-col items-center justify-start rounded-lg border border-border bg-card px-3 pb-4 pt-6 text-center xl:flex">
+                  <p className="flex items-center gap-2 text-[28px] font-semibold leading-none text-foreground">
+                    <Icon className="h-6 w-6" aria-hidden />
+                    {zahl}
+                  </p>
+                  <p className="mt-2 text-[16px] leading-snug text-foreground">{text}</p>
+                </div>
+              ))}
+              <div className={`hidden ${AUTOR_KASTEN} xl:col-span-2 xl:col-start-1 xl:row-start-2 xl:flex`}>
+                <img src={eliasAutor} alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover" />
+                <p className="text-[16px] leading-snug">
+                  <span className="block text-foreground">Elias El-Gendy</span>
+                  <span className="text-muted-foreground">Aktualisiert am: {datumLang(stand)}</span>
+                </p>
+              </div>
+            </>
+          )}
           {sieger && zweiter && (
             <ZweiNummerEins
               titel={auszeichnungen!.zweiNummerEins!}
@@ -419,6 +458,7 @@ export const VergleichsSeite = ({
             />
           )}
           {sieger && !zweiter && (
+            <div className={kopfFF ? "xl:col-start-3 xl:row-span-2 xl:row-start-1" : ""}>
             <NummerEins
               anbieter={sieger}
               zeilen={zeilen}
@@ -430,6 +470,7 @@ export const VergleichsSeite = ({
               giro={giro}
               depot={depot}
             />
+            </div>
           )}
           {!sieger && (
           <Kennzahlen
@@ -509,7 +550,7 @@ export const VergleichsSeite = ({
                 Karten, am Laptop weiter über der Tabelle (`order`, ein Satz, kein Doppel). */}
             <div className={sortiertUnten ? `${BREIT} flex flex-col` : "contents"}>
             <div className={`${BREIT} ${sortiertNach ? "mt-3" : "mt-6"} hidden lg:block`}>
-              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} stil={Boolean(giro || depot)} />
+              <VergleichsTabelle zeilen={tabellenZeilen} spalten={spalten} stil={stil} kontoLabel={depot ? "Depot" : "Konto"} />
             </div>
             <div className={`${BREIT} ${sortiertNach && !sortiertUnten ? "mt-3" : "mt-4"} lg:hidden`}>
               {/* Der Kasten "Unsere Nummer 1" steht auf dem Handy direkt darüber, die Karte wäre doppelt. Beim Doppel-Kasten beide. */}

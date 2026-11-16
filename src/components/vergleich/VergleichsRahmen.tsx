@@ -138,20 +138,23 @@ export const NummerEins = ({
        Webseite gebaut“): ein Rahmen, eine Ecke von 8 px, kein Verlauf, kein Schatten. Die frühere
        Kleinschrift zur Rangfolge steht nicht mehr am Kasten (Elias 06.11.: kein Kleingedrucktes),
        „So bewerten wir“ steht unter der Tabelle. */
-    <section className={`overflow-hidden rounded-lg border ${stil ? STIL_BLAU.karte : "border-primary bg-card"}`} aria-label={auszeichnung}>
+    /* PH5-01 (Elias 16.11.2026: „lass die Laptop-Ansicht auch, wie sie bei ihm ist“): Mit `giro` oder `depot` ist der Kasten
+       am Laptop schmal wie Finanzfluss „Bestes Girokonto“: Reiter ohne Zahl, Logo, Name, Knopf, Bonus. Kacheln, Besonders
+       und der Hinweis zu Prämie oder Kredit stehen nur am Handy; am Laptop steht der Hinweis in den Produktdetails der Tabelle. */
+    <section className={`overflow-hidden rounded-lg border ${stil ? `${STIL_BLAU.karte} lg:h-full` : "border-primary bg-card"}`} aria-label={auszeichnung}>
       {/* Streifen mit Platzzahl im Reiter wie die anderen Karten (Finanzfluss: „1 … Bestes Depot“). */}
       <p
         className={`flex items-stretch border-b text-[14px] font-semibold ${
           stil ? STIL_BLAU.reiter : "border-primary bg-primary text-primary-foreground"
         }`}
       >
-        <span className={`flex min-w-[36px] items-center justify-center border-r px-2 ${stil ? STIL_BLAU.trenner : "border-primary-foreground/30"}`}>1</span>
-        <span className="flex-1 px-4 py-1.5 text-center">{auszeichnung}</span>
+        <span className={`flex min-w-[36px] items-center justify-center border-r px-2 ${stil ? `${STIL_BLAU.trenner} lg:hidden` : "border-primary-foreground/30"}`}>1</span>
+        <span className={`flex-1 px-4 py-1.5 text-center ${stil ? "lg:px-2 lg:py-1 lg:text-[14px]" : ""}`}>{auszeichnung}</span>
       </p>
-      <div className="p-4 xl:p-5">
-        <div>
-          <div>
-            <p className="text-[18px] leading-snug text-foreground">
+      <div className={`p-4 xl:p-5 ${stil ? "lg:flex lg:flex-col lg:px-3 lg:py-4 xl:px-3 xl:py-4" : ""}`}>
+        <div className={stil ? "lg:contents" : ""}>
+          <div className={stil ? "lg:contents" : ""}>
+            <p className={`text-[18px] leading-snug text-foreground ${stil ? "lg:order-2 lg:mt-2 lg:text-center lg:text-[16px]" : ""}`}>
               {anbieter.link ? (
                 <Link to={anbieter.link} rel="sponsored nofollow" className="text-primary underline underline-offset-2 hover:text-primary-hover">
                   <span className="font-bold">{anbieter.name}</span> {anbieter.produkt}*
@@ -164,18 +167,19 @@ export const NummerEins = ({
             </p>
           </div>
           {/* Logo und Note in zwei Kästchen wie jede Karte darunter. Ohne Note nur das Logo. */}
-          <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"}`}>
-            <div className={`flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card" : ""}`}>
+          <div className={`mt-3 grid gap-2 ${note != null ? "grid-cols-2" : "grid-cols-1"} ${stil ? "lg:order-1 lg:mt-0 lg:grid-cols-1" : ""}`}>
+            <div className={`flex min-h-[68px] items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card lg:min-h-[48px] lg:border-0 lg:bg-transparent lg:p-0" : ""}`}>
               <AnbieterLogo name={anbieter.name} domain={anbieter.domain} gross />
             </div>
             {note != null && (
-              <div className={`flex items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card" : ""}`}>
+              <div className={`flex items-center justify-center rounded-lg border border-border p-2 ${stil ? "bg-card lg:hidden" : ""}`}>
                 <NotenBlock note={note} mittig />
               </div>
             )}
           </div>
         </div>
         {giro && (
+          <div className="lg:hidden">
           <GiroInhalt
             w={{
               zinsfrei: wert("zinsfreiAbStart") ?? undefined,
@@ -188,8 +192,10 @@ export const NummerEins = ({
             }}
             besonders={giro.besonders[anbieter.id]}
           />
+          </div>
         )}
         {depot && (
+          <div className="lg:hidden">
           <DepotInhalt
             w={{
               zinsfrei: wert("zinsfreiAbStart") ?? undefined,
@@ -199,9 +205,10 @@ export const NummerEins = ({
               orderkosten: kostenKurz(anbieter.id, "orderkosten") ?? wert("orderkosten"),
             }}
           />
+          </div>
         )}
         {/* Ab `xl` ist der Kasten breit: die Gründe laufen in zwei Spalten, der Kasten wird niedriger. */}
-        <ul className="mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8">
+        <ul className={`mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8 ${stil ? "lg:hidden" : ""}`}>
           {punkte.map((punkt) => (
             <li key={punkt.key} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
@@ -210,7 +217,7 @@ export const NummerEins = ({
           ))}
         </ul>
         {anbieter.link && (
-          <div className="mt-2.5 xl:mt-3">
+          <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-3" : ""}`}>
             <Link
               to={anbieter.link}
               rel="sponsored nofollow"
@@ -222,11 +229,11 @@ export const NummerEins = ({
         )}
         {/* PH3-02: klein unter dem Knopf, was auf der Seite des Partners oben steht und nicht gemeint ist. */}
         {spalte?.kreditKurz && (
-          <div className="mt-2">
+          <div className={`mt-2 ${stil ? "lg:hidden" : ""}`}>
             <KreditHinweis text={spalte.kreditKurz} />
           </div>
         )}
-        <BonusSchild anbieterId={anbieter.id} />
+        <BonusSchild anbieterId={anbieter.id} className={stil ? "lg:order-4" : ""} />
         {spalte && (
           <div className="lg:hidden">
             <button

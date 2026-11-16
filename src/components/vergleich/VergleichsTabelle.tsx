@@ -11,7 +11,6 @@ import {
   auszeichnungFarbe,
   auszeichnungGrund,
   auszeichnungVon,
-  KreditHinweis,
 } from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
 import { istMindestens } from "@/lib/platzAnsicht";
@@ -52,6 +51,15 @@ export const platzTon: Record<string, string> = {
  */
 const SPALTE = 208;
 const KRITERIEN = 224;
+/**
+ * Girokonto und Depot am Laptop wie Finanzfluss (Elias PH5-01, 16.11.2026: „lass die Laptop-Ansicht auch, wie sie bei
+ * ihm ist“): Kriterienspalte 200 px, genau sechs ganze Anbieter-Spalten in der Breite, keine angeschnittene Spalte,
+ * Pfeile als runde Knöpfe am Rand des Kopfs, Zeilen Anbieter, Konto, Angebot, Bewertung, dann die Kriterien ohne
+ * graue Gruppenzeilen. Gemessen bei Finanzfluss 1440 px: 198 px Kriterien, sechs Spalten zu je 198 px.
+ */
+const KRITERIEN_STIL = 200;
+const SPALTEN_STIL = 6;
+const SPALTE_STIL_MIN = 160;
 /** Hoehe der Kopfleiste der Website. Die Tabelle klebt darunter, nicht darauf. */
 const KOPF = 68;
 
@@ -67,9 +75,12 @@ export const VergleichsTabelle = ({
   zeilen,
   spalten,
   stil = false,
+  kontoLabel = "Konto",
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
+  /** Nur mit `stil`: Name der Zeile unter den Logos (Finanzfluss „Konto“, beim Depot „Depot“). */
+  kontoLabel?: string;
   /** Girokonto und Depot (Elias 15.11.2026): Spaltenköpfe und Tönung in den hellen Tönen der Karten (`karteStil.ts`), Platz 1 blau, Bonus orange. */
   stil?: boolean;
 }) => {
@@ -84,20 +95,26 @@ export const VergleichsTabelle = ({
   /* Die Leiste unten erscheint erst, wenn die obere Angebotszeile aus dem Bild ist: sonst stünden
      dieselben Knöpfe zweimal im ersten Bildschirm. */
   const [leisteZeigen, setLeisteZeigen] = useState(false);
+  const kriterienBreite = stil ? KRITERIEN_STIL : KRITERIEN;
+  const [spalteBreite, setSpalteBreite] = useState(SPALTE);
 
   const merkeStelle = useCallback(() => {
     const el = schieber.current;
     if (!el) return;
     if (kopfLeiste.current) kopfLeiste.current.scrollLeft = el.scrollLeft;
     if (untenLeiste.current) untenLeiste.current.scrollLeft = el.scrollLeft;
-    const sichtbar = Math.max(1, Math.floor((el.clientWidth - KRITERIEN) / SPALTE));
+    /* Mit `stil` immer ganze Spalten: sechs, auf schmalem Laptop so viele, wie mit mindestens 160 px passen. */
+    const anzahl = Math.max(1, Math.min(SPALTEN_STIL, Math.floor((el.clientWidth - KRITERIEN_STIL) / SPALTE_STIL_MIN)));
+    const breite = stil ? Math.floor((el.clientWidth - KRITERIEN_STIL) / anzahl) : SPALTE;
+    setSpalteBreite(breite);
+    const sichtbar = Math.max(1, Math.floor((el.clientWidth - kriterienBreite) / breite));
     /* Runden statt Abschneiden: sanftes Blättern endet oft einen Bruchteil vor der Spaltenkante. */
-    const erste = Math.round(el.scrollLeft / SPALTE) + 1;
+    const erste = Math.round(el.scrollLeft / breite) + 1;
     /* Ganz rechts angekommen zählt die letzte Spalte mit, auch wenn sie nicht voll in die Breite passt. */
     const amEnde = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
     setVon(Math.min(erste, spalten.length));
     setBis(amEnde ? spalten.length : Math.min(erste + sichtbar - 1, spalten.length));
-  }, [spalten.length]);
+  }, [spalten.length, stil, kriterienBreite]);
 
   /* ResizeObserver statt window.resize: beim ersten Rendern ist die Breite
      noch 0, ein einmaliger Aufruf misst dann ins Leere und der Zaehler steht
@@ -125,18 +142,18 @@ export const VergleichsTabelle = ({
   }, []);
 
   const schiebe = (richtung: 1 | -1) =>
-    schieber.current?.scrollBy({ left: richtung * SPALTE * 2, behavior: "smooth" });
+    schieber.current?.scrollBy({ left: richtung * spalteBreite * (stil ? Math.max(1, bis - von + 1) : 2), behavior: "smooth" });
 
   const raster = {
-    gridTemplateColumns: `${KRITERIEN}px repeat(${spalten.length}, ${SPALTE}px)`,
-    width: KRITERIEN + spalten.length * SPALTE,
+    gridTemplateColumns: `${kriterienBreite}px repeat(${spalten.length}, ${spalteBreite}px)`,
+    width: kriterienBreite + spalten.length * spalteBreite,
   };
   /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
      Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
      aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
      die letzte Spalte wieder scharf. Kopf und Leiste blenden gleich aus. */
   const maske =
-    bis < spalten.length
+    !stil && bis < spalten.length
       ? {
           WebkitMaskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
           maskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
@@ -161,10 +178,14 @@ export const VergleichsTabelle = ({
   );
 
   let letzteGruppe = "";
+  /* Reihenfolge der Zeilen: mit `stil` wie Finanzfluss erst Angebot, dann Bewertung, dann die Kriterien. */
+  const reihen: Array<VergleichsZeile | "bewertung"> = stil
+    ? [...zeilen.filter((z) => z.key === "__angebot"), "bewertung", ...zeilen.filter((z) => z.key !== "__angebot")]
+    : ["bewertung", ...zeilen];
 
   return (
     <div className="relative">
-      <div className="mb-2 flex items-center justify-between">
+      <div className={`mb-2 flex items-center justify-between ${stil ? "hidden" : ""}`}>
         <p className="text-[14px] text-muted-foreground">
           {von} bis {bis} von {spalten.length} Angeboten
         </p>
@@ -241,33 +262,78 @@ export const VergleichsTabelle = ({
                       )}
                       <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-3 pb-2.5 pt-1.5">
                         <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
-                        {/* Der Name klebt mit: nach zehn Zeilen sagt ein Symbol allein nicht mehr, wessen Zahl man liest. */}
-                        <p className="w-full truncate text-center text-[13px] leading-snug" title={`${s.anbieter} ${s.produkt}`}>
-                          <AnbieterName spalte={s} />
-                        </p>
+                        {/* Der Name klebt mit: nach zehn Zeilen sagt ein Symbol allein nicht mehr, wessen Zahl man liest.
+                            Mit `stil` steht er wie bei Finanzfluss in der eigenen Zeile „Konto“ darunter. */}
+                        {!stil && (
+                          <p className="w-full truncate text-center text-[13px] leading-snug" title={`${s.anbieter} ${s.produkt}`}>
+                            <AnbieterName spalte={s} />
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
                 );
               })}
+              {stil && (
+                /* Zeile „Konto“ wie bei Finanzfluss: der Produktname blau und klickbar, klebt mit dem Kopf. */
+                <>
+                  <div className="sticky left-0 z-10 flex items-center border-r border-t border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
+                    {kontoLabel}
+                  </div>
+                  {spalten.map((s) => (
+                    <div key={`konto-${s.id}`} className="border-r border-t border-border bg-card last:border-r-0">
+                      <p
+                        className={`flex h-full min-h-[52px] items-center justify-center px-3 py-2 text-center text-[14px] leading-snug ${grund(s)}`}
+                        title={`${s.anbieter} ${s.produkt}`}
+                      >
+                        <span className="line-clamp-2">
+                          <AnbieterName spalte={s} />
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </div>
+          {stil && (
+            /* Pfeile wie bei Finanzfluss: rund, halb durchsichtig, auf der Unterkante des Kopfs, links neben den Kriterien und am rechten Rand. */
+            <>
+              <button
+                type="button"
+                onClick={() => schiebe(-1)}
+                disabled={von <= 1}
+                aria-label="Anbieter nach links"
+                className="absolute bottom-0 z-40 inline-flex h-10 w-10 translate-y-1/2 items-center justify-center rounded-full bg-zinc-500/60 text-white transition-opacity hover:bg-zinc-600/80 disabled:opacity-0"
+                style={{ left: kriterienBreite + 6 }}
+              >
+                <ChevronLeft className="h-5 w-5" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={() => schiebe(1)}
+                disabled={bis >= spalten.length}
+                aria-label="Anbieter nach rechts"
+                className="absolute bottom-0 right-1.5 z-40 inline-flex h-10 w-10 translate-y-1/2 items-center justify-center rounded-full bg-zinc-500/60 text-white transition-opacity hover:bg-zinc-600/80 disabled:opacity-0"
+              >
+                <ChevronRight className="h-5 w-5" aria-hidden />
+              </button>
+            </>
+          )}
         </div>
 
         <div ref={schieber} onScroll={merkeStelle} className="overflow-x-auto" style={maske}>
           <div className="grid" style={raster}>
-            {/* Bewertung: Note mit Sternen, darunter Tarif und Produktdetails. Ohne Noten heißt die Zeile „Produkt“. */}
+            {reihen.map((r) => r === "bewertung" ? (
+            /* Bewertung: Note mit Sternen, darunter Tarif und Produktdetails. Ohne Noten heißt die Zeile „Produkt“. */
+            <div key="__bewertung" className="contents">
             <div className={kriterium}>{mitNote ? "Bewertung" : "Produkt"}</div>
             {spalten.map((s) => {
               const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
               return (
                 <div key={`note-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
                   {mitNote && (s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>)}
-                  {s.kreditKurz && (
-                    <div className="mt-0.5 px-1">
-                      <KreditHinweis text={s.kreditKurz} mittig />
-                    </div>
-                  )}
+                  {/* PH5-01: Der Hinweis zu Prämie und Kredit (norisbank, flatex) steht am Laptop nur in den Produktdetails. */}
                   {s.tarif && (
                     /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Zeile aller Spalten mit. */
                     <span className="rounded bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
@@ -288,10 +354,11 @@ export const VergleichsTabelle = ({
                 </div>
               );
             })}
-
-            {/* Datenzeilen */}
-            {zeilen.map((z) => {
-              const neueGruppe = z.gruppe !== letzteGruppe;
+            </div>
+            ) : (() => {
+              /* Datenzeilen. Mit `stil` ohne graue Gruppenzeilen wie bei Finanzfluss. */
+              const z = r;
+              const neueGruppe = !stil && z.gruppe !== letzteGruppe;
               letzteGruppe = z.gruppe;
               return (
                 <div key={z.key} className="contents">
@@ -333,7 +400,7 @@ export const VergleichsTabelle = ({
                   {spalten.map((s) => (
                     <div
                       key={`${z.key}-${s.id}`}
-                      className={`${zelle} border-r last:border-r-0 ${grund(s)} ${
+                      className={`${zelle} border-r last:border-r-0 ${grund(s)} ${stil && z.key === "__angebot" ? "!items-start pt-3" : ""} ${
                         z.gruppe === "platz" ? `text-[12px] ${s.grau ? "" : "bg-accent/40"}` : ""
                       } ${s.zerlegung && istMindestens(s.werte[z.key]?.text) ? "bg-warning/15 ring-1 ring-inset ring-warning/50" : ""}`}
                     >
@@ -354,7 +421,7 @@ export const VergleichsTabelle = ({
                   ))}
                 </div>
               );
-            })}
+            })())}
           </div>
         </div>
 
