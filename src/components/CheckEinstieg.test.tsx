@@ -99,6 +99,8 @@ describe("Stimmen je Art", () => {
     expect(stimmenFuer("konto", stimmen).map((s) => s.zitat)).toEqual(["K", "X", "O"]);
     expect(stimmenFuer("depot", stimmen).map((s) => s.zitat)).toEqual(["D", "X", "O"]);
     expect(stimmenFuer(undefined, stimmen)).toHaveLength(4);
+    // Die allgemeine Seite (Elias RN15-01: „einmal eine, die alle abdeckt“) sieht nur die, die alles abdecken.
+    expect(stimmenFuer("alle", stimmen).map((s) => s.zitat)).toEqual(["X", "O"]);
     expect(stimmeFuerEinstieg("konto", stimmen)?.zitat).toBe("K");
     expect(stimmeFuerEinstieg("depot", [stimmen[0]])).toBeUndefined();
   });

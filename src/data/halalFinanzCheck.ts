@@ -978,6 +978,35 @@ export const kurzVorteile = (e: Ergebnis): string[] => {
   return [`0 € Kontoführung ${kontoBedingungKurz(k)}`, k.karte, `Bargeld ${k.bargeld.charAt(0).toLowerCase()}${k.bargeld.slice(1)}`];
 };
 
+// ---------------------------------------------------------------------------
+// Ein, zwei Sätze unter „Dein Match: …“ (RN15, Elias RN15-01: „Du suchst ein Konto, welches flexibel und günstig ist. Du schreibst das, womit
+// sie wirklich sich identifizieren können … ein, zwei Sachen, die aber auch wirklich zu deren beantworteten Fragen passen“). Nur das, was der
+// Leser selbst angegeben hat (Bezahlweise, Bank von heute, beim Depot Anlage und Wichtigstes); „günstig“ deckt sich mit 0 € im Monat.
+
+const KONTO_ZAHLUNG: Record<Zahlung, { sie: string; wunsch: string }> = {
+  karte: { sie: "zahlst fast nur mit Karte", wunsch: "Du suchst ein Konto, das günstig und flexibel ist." },
+  "karte-bar": { sie: "zahlst mit Karte und ab und zu bar", wunsch: "Du suchst ein Konto, bei dem beides günstig bleibt." },
+  bar: { sie: "zahlst viel bar", wunsch: "Du suchst ein günstiges Konto mit Filiale." },
+};
+const PRAEF_WICHTIG: Record<Praef, string> = { halal: "viele Halal-Anlagen", kosten: "niedrige Kosten" };
+
+/** Höchstens zwei kurze Sätze, in denen sich der Leser wiedererkennt; leer, wenn das Match schon sein Konto oder Depot ist. */
+export const matchSatz = (e: Ergebnis, a: Antworten): string => {
+  if (e.schonDa) return "";
+  if (e.art === "konto") {
+    const z = a.zahlung ? KONTO_ZAHLUNG[a.zahlung] : undefined;
+    const bank = a.bank;
+    const heute = bank?.kind === "keine" ? "Du hast noch kein Konto" : bank ? `Du hast dein Konto bei ${bank.dativ || bank.name}` : "";
+    const erster = heute ? (z ? `${heute} und ${z.sie}.` : `${heute}.`) : z ? `Du ${z.sie}.` : "";
+    return [erster, z?.wunsch ?? "Du suchst ein Konto, das günstig und flexibel ist."].filter(Boolean).join(" ");
+  }
+  const depot = a.depotHeute ? `Du hast dein Depot bei ${a.depotHeute.dativ || a.depotHeute.name || "einer anderen Bank"}.` : a.hatDepot === "nein" ? "Du hast noch kein Depot." : "";
+  const wichtig = a.praef ? `legst Wert auf ${PRAEF_WICHTIG[a.praef]}` : "";
+  const anlage = a.anlage && ANLAGE_SATZ[a.anlage] ? `willst ${ANLAGE_SATZ[a.anlage]}` : "";
+  const wunsch = [anlage, wichtig].filter(Boolean).join(" und ");
+  return [depot, wunsch ? `Du ${wunsch}.` : ""].filter(Boolean).join(" ");
+};
+
 /** Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `nein` ein rotes Kreuz, KEIN_WERT und KEIN_PREIS stehen leise. */
 export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string };
 export type VergleichZeile = { label: string; links: VergleichZelle; rechts: VergleichZelle };
@@ -1048,32 +1077,49 @@ const einzahlenText = (v: unknown) => {
   return t === 0 ? "nicht möglich" : t >= 0.8 ? "kostenlos" : "mit Gebühr";
 };
 
+/** „keine Girocard“ und „keine Debitkarte“ stehen so im Girokonto-Vergleich (Trade Republic, N26 …): Wer die Karte gar nicht hat, liegt hinter jedem Preis (Elias RN15-01: „es hat eine Karte, die Trade Republic nicht hat, die Girokarte“). */
+const keineKarte = (v: unknown) => typeof v === "string" && /^keine/i.test(v);
+const kartePreisAnteil = (v: unknown): number | null => {
+  if (keineKarte(v)) return -1000;
+  const n = euroAus(v);
+  return n === null ? null : -n;
+};
+const karteText = (v: unknown) => (keineKarte(v) ? "keine" : euroText(euroAus(v) ?? 0));
+
 type AlltagPunkt = { label: string; key: string; nurMitBar?: boolean; anteil: (v: unknown) => number | null; text: (v: unknown) => string };
 const ALLTAG_PUNKTE: AlltagPunkt[] = [
-  { label: "Girocard im Monat", key: "girocard", anteil: (v) => { const n = euroAus(v); return n === null ? null : -n; }, text: (v) => euroText(euroAus(v) ?? 0) },
-  { label: "Debitkarte im Monat", key: "debitkarte", anteil: (v) => { const n = euroAus(v); return n === null ? null : -n; }, text: (v) => euroText(euroAus(v) ?? 0) },
+  { label: "Girocard im Monat", key: "girocard", anteil: kartePreisAnteil, text: karteText },
+  { label: "Debitkarte im Monat", key: "debitkarte", anteil: kartePreisAnteil, text: karteText },
   { label: "Kostenlos abheben", key: "abhebungen", anteil: (v) => (typeof v === "string" ? abhebenAnteil(v) : null), text: abhebenText },
   { label: "Bargeld einzahlen", key: "bargeldEinzahlen", nurMitBar: true, anteil: (v) => (typeof v === "string" ? einzahlenAnteil(v) : null), text: einzahlenText },
   { label: "Filialen", key: "filialen", nurMitBar: true, anteil: (v) => (v === true ? 1 : v === false ? 0 : null), text: (v) => (v ? "ja" : "keine") },
 ];
 
-const alltagZeilen = (e: KontoErgebnis, k: BonusKonto): VergleichZeile[] => {
+/**
+ * Alltag-Zeilen in beide Richtungen. Bargeld einzahlen und Filialen zählen für alle, die bar zahlen. Wer fast nur mit Karte zahlt, bekommt sie
+ * nur, wenn die Empfehlung dort vorn liegt, und nachrangig (RN15, Elias RN15-01: die norisbank soll immer besser dastehen, ohne Zeile „ja, ja“).
+ */
+const alltagZeilen = (e: KontoErgebnis, k: BonusKonto): { zeile: VergleichZeile; nachrangig: boolean }[] => {
   const heute = e.heuteBank ? bankRoh(e.heuteBank) : {};
   const match = produktRoh(k.id);
   const mitBar = e.zahlung !== "karte";
-  const zeilen: VergleichZeile[] = [];
+  const zeilen: { zeile: VergleichZeile; nachrangig: boolean }[] = [];
   for (const p of ALLTAG_PUNKTE) {
-    if (p.nurMitBar && !mitBar) continue;
     const lv = heute[p.key];
     const rv = match[p.key];
     const la = p.anteil(lv);
     const ra = p.anteil(rv);
     if (la === null || ra === null || la === ra) continue;
     const lBesser = la > ra;
+    const nachrangig = Boolean(p.nurMitBar) && !mitBar;
+    if (nachrangig && lBesser) continue;
     zeilen.push({
-      label: p.label,
-      links: { text: p.text(lv), ja: lBesser, nein: !lBesser },
-      rechts: { text: p.text(rv), ja: !lBesser, nein: lBesser },
+      zeile: {
+        label: p.label,
+        links: { text: p.text(lv), ja: lBesser, nein: !lBesser },
+        rechts: { text: p.text(rv), ja: !lBesser, nein: lBesser },
+      },
+      nachrangig,
     });
   }
   return zeilen;
@@ -1114,7 +1160,24 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
       if (!p.halal) gemeinsam.push({ label: p.label, links: { text: p.gut, ja: true }, rechts: { text: p.gut, ja: true } });
     } else unterschied.push({ label: p.label, links: { text: p.schlecht(hw), nein: true }, rechts: { text: p.gut, ja: true } });
   }
-  return [...zeilen, ...unterschied, ...alltagZeilen(e, k), ...gemeinsam, ...offen].slice(0, 3);
+  // RN15 (Elias RN15-01: „Norris Bank muss immer besser dastehen natürlich“, „ja, ja … das ist ja voll schlecht“): erst die Zeilen, in denen
+  // die Empfehlung klar vorn liegt, dann offene (heute „–“), dann gleiche als Füller, Zeilen mit Vorteil für die heutige Bank ganz zuletzt
+  // (nur wenn sonst keine drei Zeilen zusammenkommen). Gleicher Rang behält die Reihenfolge von oben (Kontoführung zuerst).
+  const alltag = alltagZeilen(e, k);
+  const nachrangig = new Set(alltag.filter((a) => a.nachrangig).map((a) => a.zeile));
+  return [...zeilen, ...unterschied, ...alltag.map((a) => a.zeile), ...gemeinsam, ...offen]
+    .map((z, n) => ({ z, n, r: vergleichRang(z) + (nachrangig.has(z) ? 0.5 : 0) }))
+    .sort((x, y) => x.r - y.r || x.n - y.n)
+    .map((x) => x.z)
+    .slice(0, 3);
+};
+
+/** 0 Empfehlung klar vorn (Häkchen gegen Kreuz; +0,5 für Bargeld-Zeilen bei Kartenzahlern), 1 offen (links ohne Wert oder ohne Wertung), 2 gleich (beide Häkchen), 3 heutige Bank vorn. */
+const vergleichRang = (z: VergleichZeile): number => {
+  if (z.rechts.nein || (z.links.ja && !z.rechts.ja)) return 3;
+  if (z.links.ja && z.rechts.ja) return 2;
+  if (z.rechts.ja && z.links.nein) return 0;
+  return 1;
 };
 
 /** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). `halal`: gemeinsam nie als Zeile. */

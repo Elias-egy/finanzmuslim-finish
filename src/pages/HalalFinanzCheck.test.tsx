@@ -118,10 +118,12 @@ describe("Verkaufsseite", () => {
     expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Beispiel-Stimmen mit Sternen nur im Entwicklungsmodus, daneben das Vortragsfoto Uni Hamburg (Elias RN13-01) statt des Platzhalters", () => {
+  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben das Vortragsfoto Uni Hamburg (RN13-01) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
-    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(2);
-    expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(2);
+    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(1);
+    expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(1);
+    // Keine Konto- oder Depot-Stimme auf der allgemeinen Seite.
+    expect(container.querySelector("[data-stimme-platzhalter]")!.textContent).not.toMatch(/Konto|Broker/);
     expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
     const foto = container.querySelector(".hc-community-foto img")!;
     expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-allein-am-pult.webp");
@@ -211,8 +213,10 @@ describe("Bankkonto-Check", () => {
     expect(titel()).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     // Die heutige Bank steht links neben der norisbank (der Titel „Sparkasse und norisbank im Vergleich“ ist in halalFinanzCheck.test.ts geprüft; KontoAnsicht zeigt ihn nicht).
     expect(container.querySelector(".hc-gg")?.textContent).toMatch(/^Sparkasse.*norisbank/);
-    expect(screen.getAllByRole("link")).toHaveLength(1);
+    // Zwei Links zum Anbieter sind gewollt (Elias RN15-01): der Knopf in der Karte und der Aufruf ganz unten, beide zur norisbank.
+    expect(screen.getAllByRole("link")).toHaveLength(2);
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
+    expect(screen.getByRole("link", { name: /Bei norisbank eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(container.textContent).toContain("steht in deinem Kontoauszug");
     expect(container.textContent).not.toMatch(/Depot|flatex|Alternative|Freitagsbrief/);
     // Seit RN13 (Elias RN12-01) auch beim Konto der Ring mit gerechneter Passung.
@@ -311,8 +315,11 @@ describe("Depot-Check", () => {
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
     expect(container.textContent).toContain("Übereinstimmung mit deinen Antworten");
-    expect(screen.getAllByRole("link")).toHaveLength(2);
+    // Karte, „Passt auch gut“ und der offene Aufruf unten (Elias RN15-01): drei Links.
+    expect(screen.getAllByRole("link")).toHaveLength(3);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
+    expect(screen.getByRole("link", { name: /Bei Smartbroker\+ eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
+    expect(container.querySelector(".hc-erg-match-satz")!.textContent).toBe("Du hast noch kein Depot. Du willst einzelne Aktien kaufen und legst Wert auf niedrige Kosten.");
     // „Passt auch gut“ (Elias RN11-03): flatex mit eigener gerechneter Übereinstimmung, eigener Knopf mit Kennung Zusatz z, Pflichtsatz.
     const auch = container.querySelector(".hc-auch")!;
     expect(auch.querySelector(".hc-auch-h")!.textContent).toBe("Passt auch gut");
@@ -533,76 +540,66 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(laden.textContent).toContain("von 35 Depots verglichen");
   });
 
-  it("Fassung A (Standard): Ring, Karte mit Logo, Liste Sparkasse gegen norisbank, 22.000 informieren sich, genau ein Link", async () => {
+  it("Ergebnis (nur Fassung A, Elias RN15-01): Ring, Sätze unter „Dein Match“, Karte mit Logo, Liste Sparkasse gegen norisbank, 22.000, zwei Konto-Stimmen, Überzug, offener Aufruf, zwei Links", async () => {
     const { container } = await kontoWeg("/check?art=konto&schritt=fragen");
     expect(container.querySelector("[data-ergebnis='a']")).toBeTruthy();
     expect(container.querySelector(".hc-erg-ring")).toBeTruthy();
+    // Unter der Überschrift ein, zwei Sätze aus den eigenen Antworten, normale Textfarbe, keine Pillen.
+    const satz = container.querySelector(".hc-erg-kopf-text .hc-erg-match-satz")!;
+    expect(satz.textContent).toBe("Du hast dein Konto bei der Sparkasse und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(container.querySelector("h1")!.nextElementSibling).toBe(satz);
+    expect(container.querySelector(".hc-erg-antw")).toBeNull();
     expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
+    // Vergleich: die norisbank liegt vorn, immer drei Zeilen.
+    const gg = container.querySelector(".hc-gg")!;
+    expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
+    // Community: 22.000, zwei Stimmen der Art Konto (Beispiele nur im Entwicklungsmodus).
     expect(container.textContent).toContain("Über 22.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/folgen mir/);
-    expect(container.querySelectorAll("a[href^='/out/']")).toHaveLength(1);
-  });
-
-  it("Fassung B (?ergebnis=b): große Überschrift, Wischkarten Match, Vergleich, Eröffnen ohne Weiter-Knopf, zwei Links, Leute und Stimmen", async () => {
-    const { container } = await kontoWeg("/check?art=konto&schritt=fragen&ergebnis=b");
-    expect(container.querySelector("[data-ergebnis='b']")).toBeTruthy();
-    expect(container.querySelector(".hc-wb-kopf h1")!.textContent).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
-    const ueber = [...container.querySelectorAll(".hc-wk-ueber")].map((u) => u.textContent);
-    expect(ueber).toEqual(["Dein Match", "Im Vergleich", "Alles in Butter", "Letzter Schritt"]);
-    // Kein „Weiter“, keine Problem-Karte.
-    expect([...container.querySelectorAll("button, a")].some((b) => /^weiter/i.test(b.textContent ?? ""))).toBe(false);
-    expect(container.querySelector(".hc-wk--problem")).toBeNull();
-    // Match-Karte (Elias RN12-01): Ring und „Passt zu X % zu dir“ auch beim Konto, kein orangenes Etikett, höchstens drei Vorteile, grüne Häkchen.
-    const match = container.querySelector(".hc-wk--match")!;
-    expect(match.querySelector(".hc-erg-ring--klein")).toBeTruthy();
-    expect(match.querySelector(".hc-wk-passt")!.textContent).toMatch(/^Passt zu \d+ % zu dir$/);
-    expect(container.querySelector(".hc-wb-kopf .hc-erg-ring")).toBeNull();
-    expect(container.querySelector(".hc-wb-passung")).toBeNull();
-    expect(container.querySelector(".hc-wk-ueber--match")).toBeNull();
-    expect(match.querySelectorAll(".hc-wb-haken li").length).toBeLessThanOrEqual(3);
-    expect(match.textContent!.replace(/\s/g, " ")).toContain("0 € Kontoführung unter 30 oder ab 500 € Geldeingang");
-    expect(match.textContent).not.toContain("sonst");
-    expect(container.querySelector(".hc-erg-badge")).toBeNull();
-    // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
-    expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
-    // Vergleich (Elias RN11-04/-05, RN12-01, RN13-01/-02): beide Logos, immer drei Punkte; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz),
-    // Zinsen gemeinsam stehen nirgends (RN14-01: kein Beide-Satz, kein „Wechsel in 10 Minuten“ unter dem Vergleich); nur Haken, ohne grauen Text.
-    const gg = container.querySelector(".hc-gg")!;
-    expect(gg.textContent).toContain("Sparkasse");
-    expect(gg.textContent).toContain("norisbank");
-    expect(gg.querySelectorAll(".hc-wb-platte")).toHaveLength(2);
-    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)[0]).toBe("Kontoführung");
-    expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
-    expect(gg.textContent).toContain("Dispo an");
-    expect(gg.textContent).toContain("kein Dispo");
-    expect(gg.textContent).not.toContain("abschalten");
-    expect(gg.querySelectorAll(".hc-gg-zelle small")).toHaveLength(0);
-    expect(gg.parentElement!.textContent).not.toContain("Beide");
-    expect(gg.textContent).not.toMatch(/Video-Ident/);
-    expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
-    expect(gg.querySelectorAll(".lucide-x")).toHaveLength(1);
-    expect(gg.parentElement!.textContent).not.toContain("Wechsel in 10 Minuten");
-    expect(container.querySelectorAll(".hc-wk")[2].textContent).toContain("Wechsel in 10 Minuten");
-    // Karte „Alles wird für dich rübergezogen“ mit dem Bild des norisbank-Formulars.
-    const ueberzug = container.querySelectorAll(".hc-wk")[2];
+    const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme-platzhalter]");
+    expect(stimmen).toHaveLength(2);
+    expect([...stimmen].every((st) => /Konto/.test(st.textContent ?? ""))).toBe(true);
+    // Danach die frühere B-Karte und der offene Aufruf, in dieser Reihenfolge.
+    const ueberzug = container.querySelector(".hc-erg-ueberzug")!;
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");
+    expect(ueberzug.textContent).toContain("Wechsel in 10 Minuten");
+    expect(ueberzug.querySelector(".hc-wb-ja")).toBeTruthy();
     expect(ueberzug.querySelector("img")!.getAttribute("src")).toBe("/bilder/check/norisbank-kontowechsel.webp");
-    // Konto ohne „Passt auch gut“.
-    expect(container.querySelector(".hc-auch")).toBeNull();
-    expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
-    // Kein Konfetti ohne prefers-reduced-motion: no-preference (jsdom hat kein matchMedia).
-    expect(container.querySelector(".hc-konfetti")).toBeNull();
-    // Letzte Karte: Satz, Knopf, Etikett „Werbung“.
-    const letzte = container.querySelectorAll(".hc-wk")[3];
-    expect(letzte.textContent).toContain("Jetzt bei norisbank eröffnen");
-    expect(letzte.textContent).toContain("Werbung");
-    // Genau zwei Links zum Anbieter: einer in der letzten Karte, einer ganz unten.
+    const auf = container.querySelector(".hc-erg-eroeffnen")!;
+    expect(auf.querySelector("h2")!.textContent).toBe("Jetzt bei norisbank eröffnen");
+    expect(auf.querySelector(".hc-wb-platte--noris")).toBeTruthy();
+    expect(auf.querySelector(".hc-wb-werbung")!.textContent).toBe("Werbung");
+    const community = container.querySelector(".hc-erg-community")!;
+    expect(community.compareDocumentPosition(ueberzug) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(ueberzug.compareDocumentPosition(auf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Zwei Links zum Anbieter: der in der Karte und der unten. „Check neu starten“ ist nur ein kleiner Text ganz am Ende.
     const links = container.querySelectorAll("a[href^='/out/']");
     expect(links).toHaveLength(2);
-    expect(links[0].closest(".hc-wk")).toBe(letzte);
-    expect(links[1].closest(".hc-wb-unten")!.textContent).toContain("Bei norisbank eröffnen");
-    // Darunter: Leute und Stimmen.
-    expect(container.textContent).toContain("Über 22.000 Menschen informieren sich bei Finanzmuslim");
-    expect(container.querySelector(".hc-erg-stimmen [data-stimme-platzhalter]")).toBeTruthy();
+    expect(links[1].closest(".hc-erg-eroeffnen")).toBe(auf);
+    expect(links[1].textContent).toContain("Bei norisbank eröffnen*");
+    const neu = [...container.querySelectorAll("button.hc-neu")];
+    expect(neu).toHaveLength(1);
+    expect(neu[0].textContent).toBe("Check neu starten");
+    expect(neu[0].classList.contains("hc-neu--klein")).toBe(true);
+    expect(auf.compareDocumentPosition(neu[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("die Wischkarten (Fassung B) und ?ergebnis=b gibt es nicht mehr: dieselbe Seite wie ohne", async () => {
+    const { container } = await kontoWeg("/check?art=konto&schritt=fragen&ergebnis=b");
+    expect(container.querySelector("[data-ergebnis='a']")).toBeTruthy();
+    expect(container.querySelector("[data-ergebnis='b']")).toBeNull();
+    expect(container.querySelector(".hc-wisch")).toBeNull();
+    expect(container.querySelector(".hc-wk")).toBeNull();
+  });
+
+  it("ohne Bank von heute: kein Überzug, aber Sätze, Stimmen und der offene Aufruf unten", async () => {
+    const r = zeige("/check?art=konto&schritt=fragen");
+    await tippeText("Neues Bankkonto");
+    await tippeText("Fast nur mit Karte");
+    await tippeText("Noch kein Konto");
+    expect(r.container.querySelector(".hc-erg-match-satz")!.textContent).toBe("Du hast noch kein Konto und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(r.container.querySelector(".hc-erg-ueberzug")).toBeNull();
+    expect(r.container.querySelector(".hc-erg-eroeffnen h2")!.textContent).toBe("Jetzt bei norisbank eröffnen");
+    expect(r.container.querySelectorAll("a[href^='/out/']")).toHaveLength(2);
   });
 });

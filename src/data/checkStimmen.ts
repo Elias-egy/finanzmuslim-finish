@@ -21,14 +21,17 @@ export type Stimme = {
 export const STIMMEN: Stimme[] = [];
 
 /**
- * Die Stimmen, die zur Art des Checks passen: mit art zuerst die der Art, dann die für „alle“; ohne art (die allgemeine Verkaufsseite)
- * alle Stimmen. Nie eine Stimme der falschen Art (eine Konto-Stimme steht nicht im Depot-Check).
+ * Die Stimmen, die zur Stelle passen (Elias RN15-01: „einmal eine, die alle abdeckt. Und dann immer, wenn was kommt, genau welche, die da passen“):
+ *  - „alle“ (Verkaufsseite vor dem Check): nur die allgemeinen, die alles abdecken,
+ *  - „konto“ oder „depot“ (Ergebnis): erst die der Art, dann die allgemeinen,
+ *  - ohne Angabe: alle Stimmen.
+ * Nie eine Stimme der falschen Art (eine Konto-Stimme steht nicht im Depot-Check und nicht auf der allgemeinen Seite).
  */
-export const stimmenFuer = (art?: "konto" | "depot", stimmen: readonly Stimme[] = STIMMEN): Stimme[] => {
+export const stimmenFuer = (art?: "konto" | "depot" | "alle", stimmen: readonly Stimme[] = STIMMEN): Stimme[] => {
   if (!art) return [...stimmen];
-  const eigene = stimmen.filter((s) => s.art === art);
-  const alle = stimmen.filter((s) => !s.art || s.art === "alle");
-  return [...eigene, ...alle];
+  const allgemein = stimmen.filter((s) => !s.art || s.art === "alle");
+  if (art === "alle") return allgemein;
+  return [...stimmen.filter((s) => s.art === art), ...allgemein];
 };
 
 export type StimmeAnzeige = "echt" | "platzhalter" | "keine";
@@ -43,10 +46,19 @@ export const stimmeFuerEinstieg = (art: "konto" | "depot", stimmen: readonly Sti
 
 /**
  * RN11 (Elias RN10-08: „Du kannst die Sternbewertung und so auch schon reinpacken. Dann weiß ich ungefähr, wie das aussieht.“):
+ * RN15 (Elias RN15-01): zwei Konto-Beispiele („Ich habe ein Konto bei norisbank eröffnet …“) für das Ergebnis, eine allgemeine für die
+ * Verkaufsseite; alle nur Platzhalter, echte Texte liefert Elias.
  * Beispiel-Stimmen mit Sternen, NUR im Entwicklungsmodus an der Stelle des Platzhalters (CheckStimme). Nie live: der Produktionsbuild
  * zeigt ohne echte Stimme nichts (stimmeAnzeige). Wortlaut nach den Beispielen in Elias' Perspective-Funnel 6afa2cd179f7bfa91bb900d0.
  */
 export const BEISPIEL_STIMMEN: Stimme[] = [
+  {
+    art: "konto",
+    zitat: "Ich habe ein Konto bei der norisbank eröffnet. Den Wechsel von meiner alten Bank hat sie mir abgenommen.",
+    name: "Hatice D.",
+    zeile: "Wechsel zur norisbank",
+    sterne: 5,
+  },
   {
     art: "konto",
     zitat: "Ich habe jahrelang für mein Konto gezahlt, ohne es zu merken. Der Wechsel war einfacher als gedacht.",

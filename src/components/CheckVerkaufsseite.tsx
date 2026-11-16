@@ -153,7 +153,7 @@ const KOPF: Record<"alle" | Art, { h1: string; lead: string; fragen: string; wor
 const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => void; art?: Art }) => {
   const kopf = KOPF[art ?? "alle"];
   // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
-  const zeigeCommunity = stimmenFuer(art).length > 0 || import.meta.env.DEV;
+  const zeigeCommunity = stimmenFuer("alle").length > 0 || import.meta.env.DEV;
   return (
     <div className="hc-seite">
       <header className="hc-kopf">
@@ -226,8 +226,7 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                 )
               )}
               <div className="hc-community-stimmen">
-                <CheckStimme stelle={0} art={art} />
-                <CheckStimme stelle={1} art={art} />
+                <CheckStimme stelle={0} art="alle" />
               </div>
             </div>
           </section>

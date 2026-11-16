@@ -4,7 +4,7 @@ import Seo from "@/components/Seo";
 import CheckVerkaufsseite from "@/components/CheckVerkaufsseite";
 import CheckChat from "@/components/CheckChat";
 import BankSuche, { DepotSuche } from "@/components/BankSuche";
-import CheckErgebnis, { ergebnisFassungAus } from "@/components/CheckErgebnis";
+import CheckErgebnis from "@/components/CheckErgebnis";
 import CheckLaden, { LADEN_VORHANG_MS } from "@/components/CheckLaden";
 import { ereignis } from "@/lib/messung";
 import { abFassung } from "@/lib/abTest";
@@ -79,8 +79,6 @@ const HalalFinanzCheck = () => {
   const art = artVon(antworten);
   const nummer = verlauf.length + 1;
   const gesamt = fragenGesamt(antworten, fassung);
-  // RN11: Endbildschirm A (wie das Original) oder B (Wischen wie im OS), nur zum Vergleichen für Elias über ?ergebnis=a|b.
-  const ergebnisFassung = ergebnisFassungAus(params.get("ergebnis"));
   // Ladescreen vor dem Ergebnis (Elias RN9-01, RN9-02): „an“ läuft, „zu“ zieht den Vorhang (700 ms), „aus“ ist weg.
   // Das Ergebnis liegt schon darunter (inert), damit es beim Vorhang da ist.
   const [laden, setLaden] = useState<"an" | "zu" | "aus">("aus");
@@ -220,7 +218,7 @@ const HalalFinanzCheck = () => {
 
       {gestartet && ergebnis && (
         <div {...({ inert: laden === "an" ? "" : undefined } as Record<string, string | undefined>)}>
-          <CheckErgebnis e={ergebnis} antworten={antworten} onNeu={neu} fassung={ergebnisFassung} bereit={laden !== "an"} />
+          <CheckErgebnis e={ergebnis} antworten={antworten} onNeu={neu} bereit={laden !== "an"} />
         </div>
       )}
       {gestartet && ergebnis && laden !== "aus" && (

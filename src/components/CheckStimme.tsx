@@ -1,12 +1,11 @@
 import { Star } from "lucide-react";
 import { BEISPIEL_STIMMEN, stimmeAnzeige, stimmenFuer, type Stimme } from "@/data/checkStimmen";
-import type { Art } from "@/data/halalFinanzCheck";
 
 /**
- * Stimmenkarte (Verkaufsseite Stelle 0 und 1, Ergebnis Stelle 0 bis 2). Echte Stimmen kommen aus src/data/checkStimmen.ts. Solange eine
+ * Stimmenkarte (Verkaufsseite: Stelle 0 mit art „alle“, Ergebnis: Stelle 0 und 1 mit der Art des Checks). Echte Stimmen kommen aus src/data/checkStimmen.ts. Solange eine
  * fehlt, zeigt nur der Entwicklungsmodus an der Stelle eine Beispiel-Stimme mit Sternen (Elias RN10-08), die Produktion nichts.
  */
-const CheckStimme = ({ stelle, art, className = "" }: { stelle: number; art?: Art; className?: string }) => {
+const CheckStimme = ({ stelle, art, className = "" }: { stelle: number; art?: "konto" | "depot" | "alle"; className?: string }) => {
   const liste = stimmenFuer(art);
   const modus = stimmeAnzeige(stelle, import.meta.env.DEV, liste);
   if (modus === "keine") return null;

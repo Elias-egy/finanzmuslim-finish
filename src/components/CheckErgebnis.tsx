@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import CheckKonfetti from "@/components/CheckKonfetti";
 import CheckStimme from "@/components/CheckStimme";
 import {
   KEIN_PREIS,
@@ -10,8 +8,7 @@ import {
   WECHSEL_ZEIT,
   WERBEHINWEIS,
   antwortZeilen,
-  einrichtungVon,
-  kurzVorteile,
+  matchSatz,
   vergleichZeilen,
   type Antworten,
   type AuchGut,
@@ -23,40 +20,36 @@ import { leuteBilder } from "@/data/checkStimmen";
 import "@/styles/checkErgebnis.css";
 
 /**
- * Endbildschirm des Checks in zwei Fassungen (RN11), umschaltbar über ?ergebnis=a|b, nur damit Elias vergleicht (keine Messung ohne sein Wort).
- *  A (Elias RN10-06 „untereinander“): wie die Ergebnisseite des Perspective-Originals (Blueprint rn10 Abschnitt 5): Kopf mit Überschrift,
- *    Satz und Ring mit der gerechneten Passung in Prozent (Depot passungProzent, Konto seit RN13 kontoPassung), Karte mit Logo, Titel,
- *    Preis, belegten Vorteilen und genau einem Knopf, darunter statt „Passt auch gut“ die Liste heute gegen Match (Elias RN9-01).
- *  B (Elias RN11-01, RN11-02): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: große Überschrift wie im Original, sofort
- *    Wischkarten ohne Weiter-Knopf (Match mit grünen Häkchen, Vergleich heute gegen Match mit beiden Logos, „Jetzt bei <Anbieter> eröffnen“),
- *    darunter Stimmen und ein zweiter Knopf ganz unten; beim Erscheinen Mini-Konfetti (CheckKonfetti).
- * RN13 (Elias RN12-01, -03): in B der Ring in der Match-Karte, alle Wischkarten gleich hoch, nur die letzte klein, immer mindestens drei.
- * Depot in beiden (Elias RN11-03): Ring mit der gerechneten Übereinstimmung, darunter „Passt auch gut“ mit dem anderen Depot und
- *    dessen eigener Übereinstimmung, eigener Knopf (Kennung Zusatz z). Konto ohne „Passt auch gut“.
- * In beiden: „Über 22.000 Menschen informieren sich bei Finanzmuslim“ mit Bildern anderer (Elias RN9-03), Stimmen am Ende, Werbehinweis als
- * Sternchen; in A genau ein Link zum Anbieter (Elias RN8-02), in B zwei (Elias RN11-01). Beispiel-Bilder und -Stimmen nur im Entwicklungsmodus (checkStimmen.ts).
+ * Endbildschirm des Checks. Seit RN15 gibt es nur noch Fassung A (Elias RN15-01: „Ich finde Version 1 besser“); die Wischkarten (B) und
+ * der Schalter ?ergebnis=a|b sind weg. Aufbau wie die Ergebnisseite des Perspective-Originals (Blueprint rn10 Abschnitt 5):
+ *  1. Kopf „Dein Match: …“, darunter ein, zwei Sätze, in denen sich der Leser aus seinen Antworten wiedererkennt (matchSatz), Ring mit der
+ *     gerechneten Passung (Depot passungProzent, Konto kontoPassung).
+ *  2. Karte mit Logo, Titel, Preis, belegten Vorteilen und dem Knopf zum Anbieter (Link 1).
+ *  3. Beim Depot „Passt auch gut“ mit dem anderen Depot (eigener Knopf, Kennung Zusatz z).
+ *  4. Vergleich heute gegen Match: die Empfehlung liegt vorn, gleiche Zeilen nur als Füller (vergleichZeilen).
+ *  5. „Aus der Community“: „Über 22.000 Menschen informieren sich bei Finanzmuslim“ und zwei Stimmen der Art (Konto oder Depot).
+ *  6. Beim Konto mit heutiger Bank die Karte „Alles wird für dich rübergezogen“ mit „Wechsel in 10 Minuten“ (Elias RN15-01: „die zwei letzten
+ *     Slides von der zweiten Version in die erste Version unten anständig sichtbar machen“).
+ *  7. Offener Block „Jetzt bei <Anbieter> eröffnen“ mit Logo und zweitem Knopf zum Anbieter (Link 2), nicht zurück zum Check.
+ *  8. Werbehinweis als Sternchen, ganz am Ende klein „Check neu starten“.
+ * Beispiel-Bilder und -Stimmen nur im Entwicklungsmodus (checkStimmen.ts).
  */
-export type ErgebnisFassung = "a" | "b";
-export const ergebnisFassungAus = (wert: string | null): ErgebnisFassung =>
-  wert === "b" ? "b" : "a";
-
 type Props = {
   e: Ergebnis;
   antworten: Antworten;
   onNeu: () => void;
-  fassung: ErgebnisFassung;
   bereit: boolean;
 };
 
-/** Ring wie im Original (seit RN15 r 44, Strich 9: Elias RN14-02 „die Übereinstimmung ist ein bisschen dicker bei ihm“; füllt sich 1,2 s ab 0,3 s) mit der gerechneten Passung (Depot passungProzent, Konto kontoPassung, Elias RN12-01). `klein`: nur der Ring, für die Match-Karte in B. */
+/** Ring wie im Original (seit RN15 r 44, Strich 9: Elias RN14-02 „die Übereinstimmung ist ein bisschen dicker bei ihm“; füllt sich 1,2 s ab 0,3 s) mit der gerechneten Passung (Depot passungProzent, Konto kontoPassung, Elias RN12-01).
 /** Umfang des Rings bei r 44: 2 · π · 44. */
 const RING_UMFANG = 276.5;
 
-const Ring = ({ e, klein }: { e: Ergebnis; klein?: boolean }) => {
+const Ring = ({ e }: { e: Ergebnis }) => {
   const prozent = e.passung;
   const ring = (
     <div
-      className={`hc-erg-ring${klein ? " hc-erg-ring--klein" : ""}`}
+      className="hc-erg-ring"
       role="img"
       aria-label={`Passt zu ${prozent} Prozent zu dir`}
     >
@@ -76,7 +69,6 @@ const Ring = ({ e, klein }: { e: Ergebnis; klein?: boolean }) => {
       </span>
     </div>
   );
-  if (klein) return ring;
   return (
     <div className="hc-erg-ring-zeile">
       {ring}
@@ -133,21 +125,10 @@ const Leute = () => {
   );
 };
 
-const Stimmen = ({ e }: { e: Ergebnis }) => (
-  <section className="hc-erg-stimmen" aria-label="Stimmen">
-    <p className="hc-erg-kicker">Aus der Community</p>
-    <div className="hc-erg-stimmen-gitter">
-      {[0, 1, 2].map((i) => (
-        <CheckStimme key={i} stelle={i} art={e.art} />
-      ))}
-    </div>
-  </section>
-);
-
 const Fuss = ({ onNeu }: { onNeu: () => void }) => (
   <>
     <p className="hc-werbung">{WERBEHINWEIS}</p>
-    <button type="button" onClick={onNeu} className="hc-neu">
+    <button type="button" onClick={onNeu} className="hc-neu hc-neu--klein">
       Check neu starten
     </button>
   </>
@@ -186,7 +167,7 @@ const PasstAuchGut = ({ g }: { g: AuchGut }) => (
 );
 
 /** Wenn das Match schon das eigene Konto oder Depot ist: freundlicher Satz, kein Knopf. */
-const SchonDa = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
+const SchonDa = ({ e, antworten, onNeu, bereit }: Props) => (
   <section
     className={`hc-erg${bereit ? " hc-erg--bereit" : ""}`}
     aria-live="polite"
@@ -210,90 +191,6 @@ const SchonDa = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
   </section>
 );
 
-// ---------------------------------------------------------------------------
-// Fassung A: untereinander wie das Original
-
-/**
- * RN15 (Elias RN14-02, Vorbild hermes/renovierungskampagne/perspective/rn9-ergebnis/01 und 02): Kopf kleiner und tiefer wie das Original,
- * ohne den Satz „Du zahlst fast nur mit Karte …“ und ohne die Antwort-Pillen („Das kann weg“), Ring dicker, norisbank-Platte orange wie in B;
- * der Vergleich heute gegen Match ist dieselbe Haken-Tabelle wie in B (Gegenueber), hier mit mehr Platz links und rechts, nach der
- * Match-Karte weiter unten („Dann scrollen die Leute einfach runter“); danach „Aus der Community“ mit 22.000 und Stimmen.
- */
-const FassungA = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
-  <section
-    className={`hc-erg hc-erg--a${bereit ? " hc-erg--bereit" : ""}`}
-    aria-live="polite"
-    data-ergebnis="a"
-  >
-    <div className="hc-erg-kopf">
-      <div className="hc-erg-kopf-text">
-        <h1 className="hc-erg-h1" data-e="1">
-          {e.ueberschrift}
-        </h1>
-      </div>
-      <div data-e="3">
-        <Ring e={e} />
-      </div>
-    </div>
-
-    <article className="hc-erg-karte" data-e="4">
-      <div className="hc-erg-bild">
-        <span className={`hc-erg-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
-          <AnbieterLogo
-            name={e.anbieter.name}
-            domain={e.anbieter.domain}
-            gross
-          />
-        </span>
-      </div>
-      <div className="hc-erg-inhalt">
-        <div className="hc-erg-titelzeile">
-          <h2>{e.kartenTitel}</h2>
-          <p className="hc-erg-preis">{e.preis}</p>
-        </div>
-        <Haken zeilen={e.vorteile} />
-        {e.art === "konto" && e.praemie && (
-          <p className="hc-praemie">{e.praemie}</p>
-        )}
-        <div className="hc-erg-knopfzeile">
-          <Knopf e={e} />
-        </div>
-        {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
-      </div>
-    </article>
-
-    {e.art === "depot" && e.auchGut && (
-      <div data-e="5">
-        <PasstAuchGut g={e.auchGut} />
-      </div>
-    )}
-
-    {e.links && e.rechts && vergleichZeilen(e).length > 0 && (
-      <section className="hc-erg-vergleich hc-erg-vergleich--a" data-e="5">
-        {e.vergleichTitel && <h2 className="hc-erg-h3">{e.vergleichTitel}</h2>}
-        <Gegenueber e={e} />
-      </section>
-    )}
-
-    <section className="hc-erg-community" aria-label="Aus der Community" data-e="6">
-      <p className="hc-erg-kicker">Aus der Community</p>
-      <Leute />
-      <div className="hc-erg-stimmen-gitter">
-        {[0, 1, 2].map((i) => (
-          <CheckStimme key={i} stelle={i} art={e.art} />
-        ))}
-      </div>
-    </section>
-    <Fuss onNeu={onNeu} />
-  </section>
-);
-
-// ---------------------------------------------------------------------------
-// Fassung B (Elias RN11-01 und RN11-02): große Überschrift wie im Original, darunter sofort die Wischkarten (kein Weiter-Knopf):
-// Match, Vergleich heute gegen Match (nur mit heutigem Konto oder Depot), Eröffnen. Darunter Leute und Stimmen, ganz unten noch einmal der Knopf.
-
-type Karte = { id: string; ueber: string; match?: boolean; inhalt: ReactNode };
-
 /** Logo auf weißer Platte wie .eg-dlogo im OS; auch im Dunkeln bleibt die Platte weiß. Orange ist nur die Markenfarbe der norisbank (schwarz-weißes Logo, Elias RN11-02). */
 const Platte = ({ e, gross }: { e: Ergebnis; gross?: boolean }) => (
   <span
@@ -305,17 +202,6 @@ const Platte = ({ e, gross }: { e: Ergebnis; gross?: boolean }) => (
 
 /** Häkchen wie auf der Startseite und in der Vergleichstabelle der Verkaufsseite: grün, ohne Kreis. */
 const Ja = () => <Check className="hc-wb-ja" aria-hidden />;
-
-const HakenB = ({ zeilen }: { zeilen: string[] }) => (
-  <ul className="hc-wb-haken">
-    {zeilen.map((v) => (
-      <li key={v}>
-        <Ja />
-        <span>{v}</span>
-      </li>
-    ))}
-  </ul>
-);
 
 const GgZelle = ({ z }: { z: VergleichZelle }) => {
   const leise = z.text === KEIN_WERT || z.text === KEIN_PREIS;
@@ -374,227 +260,113 @@ const Gegenueber = ({ e }: { e: Ergebnis }) => {
   );
 };
 
-/** Die Karten: Dein Match, Im Vergleich (nur mit heutigem Konto oder Depot, ersetzt „Deine Vorteile“ und Tabelle), Eröffnen. */
-const karten = (e: Ergebnis): Karte[] => {
-  const liste: Karte[] = [
-    {
-      id: "match",
-      ueber: "Dein Match",
-      match: true,
-      inhalt: (
-        <>
-          <div className="hc-wk-matchkopf">
-            <Platte e={e} gross />
-            <Ring e={e} klein />
-          </div>
-          <h3>{e.anbieter.name}</h3>
-          <p className="hc-wk-passt">Passt zu {e.passung} % zu dir</p>
-          <p className="hc-wk-klein">{e.kartenTitel}</p>
-          <HakenB zeilen={kurzVorteile(e)} />
-        </>
-      ),
-    },
-  ];
-  if (e.links && e.rechts) {
-    liste.push({
-      id: "vergleich",
-      ueber: "Im Vergleich",
-      inhalt: (
-        <>
-          {e.vergleichTitel && <h3>{e.vergleichTitel}</h3>}
-          <Gegenueber e={e} />
-        </>
-      ),
-    });
-  }
-  if (e.art === "konto" && e.anbieter.kurz === "no" && e.links) {
-    liste.push({
-      id: "ueberzug",
-      ueber: "Alles in Butter",
-      inhalt: (
-        <>
-          <h3>{UEBERZUG.titel}</h3>
-          <p className="hc-wk-satz">{UEBERZUG.satz}</p>
-          <img
-            className="hc-ueberzug-bild"
-            src={UEBERZUG.bild}
-            alt={UEBERZUG.alt}
-            width={520}
-            height={553}
-            loading="lazy"
-          />
-          <p className="hc-gg-wechsel">
-            <Ja />
-            {WECHSEL_ZEIT}
-          </p>
-        </>
-      ),
-    });
-  }
-  // Immer mindestens drei Karten (Elias RN12-03 „immer 3 Slides Minimum, 2 Slides ist zu kurz“): ohne Bank oder Depot von heute die Einrichtung.
-  const einrichtung = einrichtungVon(e);
-  if (einrichtung) {
-    liste.push({
-      id: "einrichtung",
-      ueber: "So geht's",
-      inhalt: (
-        <>
-          <h3>{einrichtung.titel}</h3>
-          <HakenB zeilen={einrichtung.zeilen} />
-        </>
-      ),
-    });
-  }
-  liste.push({
-    id: "eroeffnen",
-    ueber: "Letzter Schritt",
-    inhalt: (
-      <div className="hc-wk-oeffnen">
-        <Platte e={e} gross />
-        <h3>Jetzt bei {e.anbieter.name} eröffnen</h3>
-        {e.link && (
-          <div className="hc-wb-cta">
-            <Knopf e={e} />
-            <span className="hc-wb-werbung">Werbung</span>
-          </div>
-        )}
-        {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
+// ---------------------------------------------------------------------------
+// Der Endbildschirm
+
+/** Der offene Block ganz unten (Elias RN15-01: „unten dann nochmal ein Call to Action. Nicht Check, natürlich direkt“): Logo, Überschrift, Knopf, Werbung. */
+const Eroeffnen = ({ e }: { e: Ergebnis }) =>
+  e.link ? (
+    <section className="hc-erg-eroeffnen" aria-label={`Jetzt bei ${e.anbieter.name} eröffnen`} data-e="6">
+      <Platte e={e} gross />
+      <h2 className="hc-erg-h3">Jetzt bei {e.anbieter.name} eröffnen</h2>
+      <div className="hc-wb-cta">
+        <Knopf e={e} text={`Bei ${e.anbieter.name} eröffnen`} />
+        <span className="hc-wb-werbung">Werbung</span>
       </div>
-    ),
-  });
-  return liste;
-};
+      {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
+    </section>
+  ) : null;
 
-/** Wischkarten wie der Ergänzungsvergleich im OS: Spur mit Einrasten, Pfeile, Punkte; am Handy schaut die nächste Karte heraus. */
-const Wischen = ({ e }: { e: Ergebnis }) => {
-  const liste = karten(e);
-  const fenster = useRef<HTMLDivElement>(null);
-  const [i, setI] = useState(0);
+/** „Alles wird für dich rübergezogen“ mit „Wechsel in 10 Minuten“, nur norisbank mit heutiger Bank (Beleg bei UEBERZUG). */
+const Ueberzug = ({ e }: { e: Ergebnis }) =>
+  e.art === "konto" && e.anbieter.kurz === "no" && e.links ? (
+    <section className="hc-erg-ueberzug" aria-label={UEBERZUG.titel} data-e="6">
+      <h2 className="hc-erg-h3">{UEBERZUG.titel}</h2>
+      <p className="hc-erg-ueberzug-satz">{UEBERZUG.satz}</p>
+      <img className="hc-ueberzug-bild" src={UEBERZUG.bild} alt={UEBERZUG.alt} width={520} height={553} loading="lazy" />
+      <p className="hc-gg-wechsel">
+        <Ja />
+        {WECHSEL_ZEIT}
+      </p>
+    </section>
+  ) : null;
 
-  useEffect(() => {
-    const f = fenster.current;
-    if (!f) return;
-    const lauscher = () => {
-      const k = f.firstElementChild as HTMLElement | null;
-      const breite = k ? k.offsetWidth + 12 : f.clientWidth;
-      setI(
-        Math.max(
-          0,
-          Math.min(liste.length - 1, Math.round(f.scrollLeft / breite)),
-        ),
-      );
-    };
-    f.addEventListener("scroll", lauscher, { passive: true });
-    return () => f.removeEventListener("scroll", lauscher);
-  }, [liste.length]);
-
-  const geh = (n: number) => {
-    const f = fenster.current;
-    const ziel = f?.children[n] as HTMLElement | undefined;
-    if (!f || !ziel) return;
-    const ruhig =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    f.scrollTo?.({
-      left:
-        ziel.offsetLeft - f.offsetLeft - (f.clientWidth - ziel.offsetWidth) / 2,
-      behavior: ruhig ? "auto" : "smooth",
-    });
-    setI(n);
-  };
-
+/**
+ * RN15 (Elias RN14-02, RN15-01; Vorbild hermes/renovierungskampagne/perspective/rn9-ergebnis/01 und 02): Kopf kleiner und tiefer wie das
+ * Original, darunter die ein, zwei Sätze aus den Antworten, Ring dicker, norisbank-Platte orange; der Vergleich heute gegen Match ist die
+ * Haken-Tabelle (Gegenueber) nach der Match-Karte; danach „Aus der Community“ mit 22.000 und zwei Stimmen, dann Überzug und der offene
+ * Block „Jetzt bei … eröffnen“ mit zweitem Knopf.
+ */
+const FassungA = ({ e, antworten, onNeu, bereit }: Props) => {
+  const satz = matchSatz(e, antworten);
   return (
-    <section
-      className="hc-wisch"
-      aria-roledescription="Karussell"
-      aria-label="Dein Match im Überblick"
-    >
-      <div className="hc-wisch-fenster" ref={fenster} tabIndex={0}>
-        {liste.map((k, n) => (
-          <article
-            key={k.id}
-            className={`hc-wk${k.match ? " hc-wk--match" : ""}`}
-            aria-roledescription="Karte"
-            aria-label={`${n + 1} von ${liste.length}`}
-          >
-            <span className="hc-wk-ueber">{k.ueber}</span>
-            {k.inhalt}
-          </article>
-        ))}
+    <section className={`hc-erg hc-erg--a${bereit ? " hc-erg--bereit" : ""}`} aria-live="polite" data-ergebnis="a">
+      <div className="hc-erg-kopf">
+        <div className="hc-erg-kopf-text">
+          <h1 className="hc-erg-h1" data-e="1">
+            {e.ueberschrift}
+          </h1>
+          {satz && (
+            <p className="hc-erg-match-satz" data-e="2">
+              {satz}
+            </p>
+          )}
+        </div>
+        <div data-e="3">
+          <Ring e={e} />
+        </div>
       </div>
-      {liste.length > 1 && (
-        <div className="hc-wisch-steuer">
-          <button
-            type="button"
-            className="hc-wisch-pfeil"
-            onClick={() => geh(Math.max(0, i - 1))}
-            disabled={i === 0}
-            aria-label="Vorige Karte"
-          >
-            <ChevronLeft aria-hidden />
-          </button>
-          <div className="hc-wisch-punkte">
-            {liste.map((k, n) => (
-              <button
-                key={k.id}
-                type="button"
-                className="hc-wisch-pt"
-                aria-current={n === i}
-                aria-label={`Karte ${n + 1}`}
-                onClick={() => geh(n)}
-              />
-            ))}
+
+      <article className="hc-erg-karte" data-e="4">
+        <div className="hc-erg-bild">
+          <span className={`hc-erg-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
+            <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
+          </span>
+        </div>
+        <div className="hc-erg-inhalt">
+          <div className="hc-erg-titelzeile">
+            <h2>{e.kartenTitel}</h2>
+            <p className="hc-erg-preis">{e.preis}</p>
           </div>
-          <button
-            type="button"
-            className="hc-wisch-pfeil"
-            onClick={() => geh(Math.min(liste.length - 1, i + 1))}
-            disabled={i === liste.length - 1}
-            aria-label="Nächste Karte"
-          >
-            <ChevronRight aria-hidden />
-          </button>
+          <Haken zeilen={e.vorteile} />
+          {e.art === "konto" && e.praemie && <p className="hc-praemie">{e.praemie}</p>}
+          <div className="hc-erg-knopfzeile">
+            <Knopf e={e} />
+          </div>
+          {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
+        </div>
+      </article>
+
+      {e.art === "depot" && e.auchGut && (
+        <div data-e="5">
+          <PasstAuchGut g={e.auchGut} />
         </div>
       )}
+
+      {e.links && e.rechts && vergleichZeilen(e).length > 0 && (
+        <section className="hc-erg-vergleich hc-erg-vergleich--a" data-e="5">
+          {e.vergleichTitel && <h2 className="hc-erg-h3">{e.vergleichTitel}</h2>}
+          <Gegenueber e={e} />
+        </section>
+      )}
+
+      <section className="hc-erg-community" aria-label="Aus der Community" data-e="6">
+        <p className="hc-erg-kicker">Aus der Community</p>
+        <Leute />
+        <div className="hc-erg-stimmen-gitter">
+          {[0, 1].map((i) => (
+            <CheckStimme key={i} stelle={i} art={e.art} />
+          ))}
+        </div>
+      </section>
+
+      <Ueberzug e={e} />
+      <Eroeffnen e={e} />
+      <Fuss onNeu={onNeu} />
     </section>
   );
 };
 
-/** Zwei Links zum Anbieter gibt es nur in B (Elias RN11-01 ausdrücklich): einer in der letzten Karte, einer ganz unten. */
-const FassungB = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
-  <section
-    className={`hc-erg hc-erg--b${bereit ? " hc-erg--bereit" : ""}`}
-    aria-live="polite"
-    data-ergebnis="b"
-  >
-    {bereit && <CheckKonfetti />}
-    <header className="hc-wb-kopf" data-e="1">
-      <h1 className="hc-wb-h1">{e.ueberschrift}</h1>
-    </header>
-    <div data-e="2">
-      <Wischen e={e} />
-    </div>
-    {e.art === "depot" && e.auchGut && (
-      <div data-e="3">
-        <PasstAuchGut g={e.auchGut} />
-      </div>
-    )}
-    <div data-e="3">
-      <Leute />
-    </div>
-    <Stimmen e={e} />
-    {e.link && (
-      <div className="hc-wb-unten">
-        <Knopf e={e} text={`Bei ${e.anbieter.name} eröffnen`} />
-      </div>
-    )}
-    <Fuss onNeu={onNeu} />
-  </section>
-);
-
-const CheckErgebnis = (p: Props) => {
-  if (p.e.schonDa) return <SchonDa {...p} />;
-  return p.fassung === "b" ? <FassungB {...p} /> : <FassungA {...p} />;
-};
+const CheckErgebnis = (p: Props) => (p.e.schonDa ? <SchonDa {...p} /> : <FassungA {...p} />);
 
 export default CheckErgebnis;

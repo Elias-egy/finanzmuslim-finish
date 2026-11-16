@@ -36,6 +36,7 @@ import {
   einrichtungVon,
   kontoPassung,
   ladenTexte,
+  matchSatz,
   type KontoErgebnis,
   vergleichZeilen,
 } from "@/data/halalFinanzCheck";
@@ -389,19 +390,21 @@ describe("Ergebnis Bankkonto", () => {
     expect(zelle(dkb[0].links)).toBe("✗ 700 €");
     expect(dkb[1].links).toEqual({ text: "Dispo an", nein: true });
     expect(dkb[1].rechts).toEqual({ text: "kein Dispo", ja: true });
-    // Commerzbank kostet auch bei Geldeingang; bei Bargeld bekommt sie ehrlich den Haken für Filialen (RN14-01).
+    // Commerzbank kostet auch bei Geldeingang. Ihr Vorteil bei Filialen steht seit RN15-01 („Norris Bank muss immer besser dastehen“) nur noch,
+    // wenn sonst keine drei Zeilen zusammenkommen; hier reichen die Zeilen, in denen die norisbank vorn oder gleich liegt.
     expect(zeilen("commerzbank")[0]).toMatchObject({ label: "Kontoführung", links: { nein: true }, rechts: { ja: true } });
     expect(leer(zeilen("commerzbank")[0].rechts.text)).toBe("0 €");
-    expect(zeilen("commerzbank", "karte-bar").find((z) => z.label === "Filialen")).toMatchObject({ links: { text: "ja", ja: true }, rechts: { text: "keine", nein: true } });
+    expect(labels("commerzbank", "karte-bar")).not.toContain("Filialen");
     expect(labels("commerzbank")).not.toContain("Filialen");
     // Gemeinsames halal steht nie als Zeile (RN13-01) und es gibt keinen Satz mehr darunter (RN14-01).
     for (const b of ["ing", "commerzbank"]) expect(labels(b).some((l) => l === "Dispo" || l === "Zinsen auf Guthaben"), b).toBe(false);
-    // C24 kostenlos ohne Bedingung: Haken links, Kreuz rechts.
+    // C24 kostenlos ohne Bedingung: Haken links, Kreuz rechts. Diese Zeile liegt für die norisbank hinten und steht deshalb nach den Zeilen,
+    // in denen sie vorn liegt (RN15-01), nicht mehr als erste.
     const c24 = zeilen("c24");
-    expect(zelle(c24[0].links)).toBe("✓ immer");
-    expect(c24[0].rechts.nein).toBe(true);
+    expect(c24.map((z) => z.rechts.nein)).not.toEqual([true, undefined, undefined]);
+    expect(c24[0].rechts.nein).toBeFalsy();
     // comdirect hat einen zweiten Weg (3 Zahlungen mit Apple Pay): kein Haken, kein Kreuz bei der Kontoführung.
-    const cd = zeilen("comdirect")[0];
+    const cd = zeilen("comdirect").find((z) => z.label === "Kostenlos ab Geldeingang")!;
     expect(cd.links.ja || cd.links.nein || cd.rechts.ja || cd.rechts.nein).toBeFalsy();
     // Volksbank: nichts belegt, links „–“, nie ein Kreuz.
     const vb = zeilen("grp-volksbank");
@@ -412,6 +415,54 @@ describe("Ergebnis Bankkonto", () => {
       expect(zeilen(b), b).toHaveLength(3);
       expect(zeilen(b, "karte-bar"), b).toHaveLength(3);
       expect(zeilen(b).every((z) => !z.links.klein && !z.rechts.klein), b).toBe(true);
+    }
+  });
+
+  it("die Empfehlung steht im Vergleich immer klar besser da (Elias RN15-01): erst ihre Vorteile, gleiche Zeilen nur als Füller, nie vorn die heutige Bank", () => {
+    const rang = (z: { links: { ja?: boolean; nein?: boolean }; rechts: { ja?: boolean; nein?: boolean } }) =>
+      z.rechts.nein || (z.links.ja && !z.rechts.ja) ? 3 : z.links.ja && z.rechts.ja ? 2 : z.rechts.ja && z.links.nein ? 0 : 1;
+    for (const b of ["trade-republic", "ing", "grp-sparkasse", "dkb", "commerzbank", "grp-volksbank", "n26", "deutsche-bank", "postbank", "santander"]) {
+      for (const zahlung of ["karte", "karte-bar", "bar"] as const) {
+        const z = vergleichZeilen(konto({ ...sparkasse, zahlung, bank: bank(b) }));
+        const links = z.filter((x) => x.links.ja).length;
+        const rechts = z.filter((x) => x.rechts.ja).length;
+        expect(z, `${b} ${zahlung}`).toHaveLength(3);
+        expect(rechts, `${b} ${zahlung} Häkchen`).toBeGreaterThan(links);
+        // Reihenfolge: Rang steigt nie, keine Zeile mit Vorteil für die heutige Bank vor einer mit Vorteil für die Empfehlung.
+        expect(z.map(rang), `${b} ${zahlung} Reihenfolge`).toEqual([...z.map(rang)].sort((x, y) => x - y));
+        expect(rang(z[0]), `${b} ${zahlung} erste Zeile`).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
+  it("Trade Republic: die Girocard, die sie nicht hat, steht vorn, „immer kostenlos“ für Trade Republic steht nicht mehr da (Elias RN15-01)", () => {
+    const z = vergleichZeilen(konto({ ...sparkasse, bank: bank("trade-republic") }));
+    expect(z[0]).toMatchObject({ label: "Girocard im Monat", links: { text: "keine", nein: true }, rechts: { ja: true } });
+    expect(leer(z[0].rechts.text)).toBe("0 €");
+    expect(z.map((x) => x.label)).not.toContain("Kostenlos ab Geldeingang");
+    // Zwei „ja, ja“ nacheinander gibt es nicht mehr: höchstens eine gleiche Zeile als Füller.
+    expect(z.filter((x) => x.links.ja && x.rechts.ja).length).toBeLessThanOrEqual(1);
+  });
+
+  it("matchSatz: ein, zwei Sätze aus den eigenen Antworten (Elias RN15-01), nie ein Prozentzeichen, nie „Polster“", () => {
+    const satz = (a: Antworten) => matchSatz(ergebnisAus({ ziel: "konto", art: "konto", ...a }, "homepage")!, { ziel: "konto", art: "konto", ...a });
+    expect(satz({ zahlung: "karte", bank: bank("trade-republic") })).toBe("Du hast dein Konto bei Trade Republic und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte", bank: bank("ing") })).toBe("Du hast dein Konto bei der ING und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte-bar", bank: bank("grp-sparkasse") })).toBe("Du hast dein Konto bei der Sparkasse und zahlst mit Karte und ab und zu bar. Du suchst ein Konto, bei dem beides günstig bleibt.");
+    expect(satz({ zahlung: "bar", bank: bank("grp-volksbank") })).toBe("Du hast dein Konto bei der Volksbank und zahlst viel bar. Du suchst ein günstiges Konto mit Filiale.");
+    expect(satz({ zahlung: "karte", bank: KEINE_BANK })).toBe("Du hast noch kein Konto und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte", bank: freieWahl("Phantasiebank") })).toContain("bei Phantasiebank");
+    // Ist das Match schon das eigene Konto, bleibt der Satz leer (dort steht der freundliche Satz).
+    expect(satz({ zahlung: "karte", bank: bank("norisbank") })).toBe("");
+    // Depot: Depot von heute, Anlage und Wichtigstes aus den Antworten.
+    const d = (a: Antworten) => matchSatz(ergebnisAus({ art: "depot", ...a }, "homepage")!, { art: "depot", ...a });
+    expect(d({ hatDepot: "nein", praef: "halal", anlage: "etf" })).toBe("Du hast noch kein Depot. Du willst in ETFs investieren und legst Wert auf viele Halal-Anlagen.");
+    expect(d({ hatDepot: "nein", praef: "kosten", anlage: "offen" })).toBe("Du hast noch kein Depot. Du legst Wert auf niedrige Kosten.");
+    expect(d({ hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "halal", anlage: "gold" })).toBe(
+      "Du hast dein Depot bei Trade Republic. Du willst in Gold und Silber investieren und legst Wert auf viele Halal-Anlagen.",
+    );
+    for (const zahlung of ["karte", "karte-bar", "bar"] as const) {
+      expect(satz({ zahlung, bank: bank("ing") })).not.toMatch(/%|Polster|!|—|–/);
     }
   });
 
