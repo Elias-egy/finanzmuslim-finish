@@ -30,7 +30,8 @@
 import { BBBANK_PRAEMIE, BONUS_KONTEN, euro, type BonusKonto } from "@/data/girokontoBonus";
 import { BROKER_KARTEN, type BrokerKarte } from "@/data/brokerFreebie";
 import type { Fassung } from "@/lib/abTest";
-import { bankPreis, bankWerte, produktRoh, produktWerte, type BankAmpel, type BankWahl, type BankWerte } from "@/data/bankSuche";
+import { bankPreis, bankRoh, bankWerte, produktRoh, produktWerte, type BankAmpel, type BankWahl, type BankWerte } from "@/data/bankSuche";
+import type { Kontopreis } from "@/data/kontopreise";
 import { brokerVergleich } from "@/data/brokerVergleich";
 import { depotWerte, type DepotWahl, type DepotWerte } from "@/data/depotSuche";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
@@ -385,6 +386,11 @@ export type KontoErgebnis = {
   heuteHalal?: BankWerte;
   /** „Passt zu X % zu dir“ (Elias RN12-01), gerechnet in kontoPassung, höchstens 98. */
   passung: number;
+  /** RN14: belegter Preis (kontopreise.ts) für die Mini-Punkte; die heutige Bank für die Alltag-Zeilen (bankRoh, erst beim Zeichnen). */
+  heutePreis?: Kontopreis;
+  heuteBank?: BankWahl;
+  /** Antwort „Wie bezahlst du meistens?“, für Filialen und Einzahlen im Vergleich. */
+  zahlung?: Zahlung;
 };
 
 export type DepotErgebnis = {
@@ -488,9 +494,11 @@ const ZAHLUNG_SATZ: Record<Zahlung, string> = {
  *  - Ohne Zinsen 25, Kein Dispo ab Start 20, Karte ohne Kredit 10 (gut 1, teils 0,5, schlecht 0).
  *  - Kosten 20: 0 € Kontoführung ist voll, eine Bedingung kostet je 2.500 € Geldeingang die Hälfte (norisbank 500 € gleich 0,8,
  *    BBBank 1.000 € gleich 0,6).
- *  - Alltag 15, aus der Antwort „Wie bezahlst du meistens?“: Karte zählt Apple Pay oder Google Pay und Debitkarte 0 €; Karte und bar dazu
- *    Abhebungen und Einzahlen; viel bar Filialen, Abhebungen und Einzahlen. Abhebungen „Unbegrenzt“ voll, sonst Zahl durch 5. Einzahlen
- *    kostenlos ist voll, nur an bestimmten Automaten oder Schaltern 0,8, „nicht möglich“ null, sonst die Hälfte.
+ *  - Karte 15: Apple Pay oder Google Pay und Debitkarte 0 €.
+ *  - Bargeld (RN14, Elias RN13-01 „Norris Bank würde ich dann 89% oder so machen, weil es ja keine Bank hat“): Gewicht je Antwort
+ *    „Wie bezahlst du meistens?“, nur Karte 0, Karte und ab und zu bar 20, viel bar 30; Anteil aus Filialen, Abhebungen und Einzahlen.
+ *    Abhebungen „Unbegrenzt“ voll, sonst Zahl durch 5. Einzahlen kostenlos ist voll, nur an bestimmten Automaten oder Schaltern 0,8,
+ *    „nicht möglich“ null, sonst die Hälfte. Filiale ja 1, nein 0. So kommt die norisbank bei Karte und bar auf 89 bis 90.
  *  - Kontowechsel-Service 10, nur wenn es eine Bank von heute gibt.
  * Passung = Summe der Gewicht mal Anteil, geteilt durch die Summe der Gewichte, gerundet, höchstens 98.
  */
@@ -508,21 +516,22 @@ const einzahlenAnteil = (v: unknown) => {
   return 0.5;
 };
 const nullEuro = (v: unknown) => (typeof v === "string" && /^\D*0\s?€/.test(v) ? 1 : 0);
+const BARGELD_GEWICHT: Record<Zahlung, number> = { karte: 0, "karte-bar": 20, bar: 30 };
 
 export const kontoPassung = (k: BonusKonto, a: Antworten): number => {
   const w = produktRoh(k.id);
   const kosten = 1 - Math.min(0.5, k.gratisAb / 2500);
   const z = a.zahlung ?? "karte-bar";
-  const karte = [w.applePay === true ? 1 : 0, nullEuro(w.debitkarte)];
-  const alltag =
-    z === "karte" ? karte : z === "karte-bar" ? [...karte, abhebenAnteil(w.abhebungen), einzahlenAnteil(w.bargeldEinzahlen)] : [w.filialen === true ? 1 : 0, abhebenAnteil(w.abhebungen), einzahlenAnteil(w.bargeldEinzahlen)];
+  const karte = ((w.applePay === true ? 1 : 0) + nullEuro(w.debitkarte)) / 2;
+  const bargeld = ((w.filialen === true ? 1 : 0) + abhebenAnteil(w.abhebungen) + einzahlenAnteil(w.bargeldEinzahlen)) / 3;
   const teile: [number, number][] = [
     [25, ampelAnteil(w.zinsfreiAbStart)],
     [20, ampelAnteil(w.keinDispoAbStart)],
     [10, ampelAnteil(w.karteOhneKredit)],
     [20, kosten],
-    [15, alltag.reduce((x, y) => x + y, 0) / alltag.length],
+    [15, karte],
   ];
+  if (BARGELD_GEWICHT[z] > 0) teile.push([BARGELD_GEWICHT[z], bargeld]);
   if (a.bank && a.bank.kind !== "keine") teile.push([10, w.kontowechsel === true ? 1 : 0]);
   const summe = teile.reduce((x, [g]) => x + g, 0);
   const punkte = teile.reduce((x, [g, t]) => x + g * t, 0);
@@ -576,6 +585,9 @@ const kontoErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Kon
     rechts: empfehlungSpalte(k, mitEroeffnung),
     vergleichTitel,
     heuteHalal: links && bank ? bankWerte(bank) : undefined,
+    heutePreis: links && bank ? bankPreis(bank)?.preis : undefined,
+    heuteBank: links && bank ? bank : undefined,
+    zahlung: a.zahlung,
     pflicht: KONTO_PFLICHT,
     knopf: "Konto eröffnen",
     link: outLink(quelle, anbieter, fassung),
@@ -966,9 +978,147 @@ export const kurzVorteile = (e: Ergebnis): string[] => {
   return [`0 € Kontoführung ${kontoBedingungKurz(k)}`, k.karte, `Bargeld ${k.bargeld.charAt(0).toLowerCase()}${k.bargeld.slice(1)}`];
 };
 
-/** Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `klein` eine graue Zeile darunter, KEIN_WERT und KEIN_PREIS stehen leise. */
-export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string };
+/**
+ * Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `nein` ein rotes Kreuz, KEIN_WERT und KEIN_PREIS stehen leise.
+ * `punkte` sind die farbigen Mini-Punkte der Kontoführung (RN14, Elias RN13-02): `gut` true grün, false rot, null ohne Farbe.
+ */
+export type MiniPunkt = { text: string; gut: boolean | null };
+export type VergleichZelle = { text: string; ja?: boolean; nein?: boolean; klein?: string; punkte?: MiniPunkt[] };
 export type VergleichZeile = { label: string; links: VergleichZelle; rechts: VergleichZelle };
+
+// ---------------------------------------------------------------------------
+// Kontoführung als Mini-Punkte (RN14, Elias RN13-02: „dass du da vielleicht immer so 2, 3 Minipunkte klarer machst … Dass man anhand
+// die Farben schon für sich sprechen … du blinzelst nur eine Sekunde und du sollst direkt was erkennen. Ohne dass aber die Kosten alles
+// einnehmen.“ und RN13-01: „Norris Bank ist besser in den Kosten, wenn man beides nicht hat, ab dem Geldeingang, aber schlechter bei den
+// Alter“). Teile nur, wenn die Bedingung aus kontopreise.ts ganz lesbar ist (ab … € Geldeingang, unter …); sonst keine Punkte.
+
+type KostenTeile = { ab?: number; unter?: number; sonst: number; immer?: boolean };
+const AB_RE = /ab ([\d.]+)\s?€ (?:Geld|Gehalts)eingang/;
+const UNTER_RE = /unter (\d+)/;
+
+const kostenTeile = (p: Kontopreis): KostenTeile | null => {
+  if (p.aktiv > 0) return null;
+  if (p.grundpreis === 0) return { sonst: 0, immer: true };
+  if (!p.bedingung) return null;
+  const ab = p.bedingung.match(AB_RE);
+  const unter = p.bedingung.match(UNTER_RE);
+  const rest = p.bedingung.replace(AB_RE, "").replace(UNTER_RE, "").replace(/\boder\b/g, "").replace(/[\s,]/g, "");
+  if (rest !== "" || (!ab && !unter)) return null;
+  return { ab: ab ? Number(ab[1].replace(/\./g, "")) : undefined, unter: unter ? Number(unter[1]) : undefined, sonst: p.grundpreis };
+};
+
+/** Vergleicht einen Teil: kleiner oder größer ist besser; fehlt er auf einer Seite, gewinnt die Seite, die ihn hat. */
+const teilFarben = (l: number | undefined, r: number | undefined, kleinerBesser: boolean): [boolean | null, boolean | null] => {
+  if (l === undefined && r === undefined) return [null, null];
+  if (l === undefined) return [null, true];
+  if (r === undefined) return [true, null];
+  if (l === r) return [true, true];
+  const lBesser = kleinerBesser ? l < r : l > r;
+  return [lBesser, !lBesser];
+};
+
+const kontofuehrungZeile = (e: KontoErgebnis, k: BonusKonto, fuehrung: Zeile | undefined): VergleichZeile => {
+  const r: KostenTeile = { ab: k.gratisAb, unter: k.gratisUnter, sonst: k.sonst };
+  const rPunkte = (farben: { ab: boolean | null; unter: boolean | null; sonst: boolean | null }): MiniPunkt[] => [
+    { text: `ab ${euro(r.ab!)}`, gut: farben.ab },
+    { text: `unter ${r.unter}`, gut: farben.unter },
+    { text: `sonst ${euro(r.sonst)}`, gut: farben.sonst },
+  ];
+  let linksText = fuehrung?.wert ?? KEIN_PREIS;
+  const p = e.heutePreis;
+  // Kein belegter Preis heute: rechts Punkte ohne Farbe, nie ein geratener Vergleich.
+  if (!p || linksText === KEIN_PREIS) {
+    return { label: "Kontoführung", links: { text: linksText }, rechts: { text: "0 €", punkte: rPunkte({ ab: null, unter: null, sonst: null }) } };
+  }
+  const l = kostenTeile(p);
+  // Mehrere Konten im Haus: die Punkte gelten für das günstigste, dessen Preis ist genau 0 €, also ohne „ab“.
+  if (p.aktiv === 0) linksText = linksText.replace(/^ab /, "");
+  if (p.aktiv > 0) {
+    // Heute kostet es auch bei 1.000 € Geldeingang: links rotes Kreuz, rechts kostenlos unter Bedingung (grün), sonst gegen den Grundpreis.
+    const sonst = k.sonst <= p.grundpreis;
+    return {
+      label: "Kontoführung",
+      links: { text: linksText, nein: true },
+      rechts: { text: "0 €", ja: true, punkte: rPunkte({ ab: true, unter: true, sonst }) },
+    };
+  }
+  if (!l) {
+    // Heute 0 € unter einer Bedingung, die sich nicht sauber teilen lässt: nur der Sonst-Preis wird verglichen.
+    const [ls, rs] = teilFarben(p.grundpreis, r.sonst, true);
+    return {
+      label: "Kontoführung",
+      links: { text: linksText, punkte: [{ text: `sonst ${euro(p.grundpreis)}`, gut: ls }] },
+      rechts: { text: "0 €", punkte: rPunkte({ ab: null, unter: null, sonst: rs }) },
+    };
+  }
+  if (l.immer) {
+    return {
+      label: "Kontoführung",
+      links: { text: linksText, punkte: [{ text: "ohne Bedingung", gut: true }] },
+      rechts: { text: "0 €", punkte: rPunkte({ ab: false, unter: false, sonst: false }) },
+    };
+  }
+  const [lab, rab] = teilFarben(l.ab, r.ab, true);
+  const [lun, run] = teilFarben(l.unter, r.unter, false);
+  const [lso, rso] = teilFarben(l.sonst, r.sonst, true);
+  const lPunkte: MiniPunkt[] = [
+    ...(l.ab !== undefined ? [{ text: `ab ${euro(l.ab)}`, gut: lab }] : []),
+    ...(l.unter !== undefined ? [{ text: `unter ${l.unter}`, gut: lun }] : []),
+    { text: `sonst ${euro(l.sonst)}`, gut: lso },
+  ];
+  return {
+    label: "Kontoführung",
+    links: { text: linksText, punkte: lPunkte },
+    rechts: { text: "0 €", punkte: rPunkte({ ab: rab, unter: run, sonst: rso }) },
+  };
+};
+
+// ---------------------------------------------------------------------------
+// Alltag-Unterschiede (RN14, Elias RN13-01 „machst du eher den Vergleich davon“): nur Werte aus dem Girokonto-Vergleich, in beide
+// Richtungen ehrlich, auch rot bei der norisbank. Gleiche oder nicht lesbare Werte fallen weg.
+
+const euroAus = (v: unknown): number | null => {
+  if (typeof v !== "string") return null;
+  const m = v.match(/(\d+(?:,\d+)?)\s?€/);
+  return m ? Number(m[1].replace(",", ".")) : null;
+};
+const euroText = (n: number) => euro(n).replace(/\u00a0/g, " ");
+const abhebenText = (v: unknown) => (typeof v === "string" && /unbegrenzt/i.test(v) ? "unbegrenzt" : `${String(v)} im Monat`);
+const einzahlenText = (v: unknown) => {
+  const t = einzahlenAnteil(v);
+  return t === 0 ? "nicht möglich" : t >= 0.8 ? "kostenlos" : "mit Gebühr";
+};
+
+type AlltagPunkt = { label: string; key: string; nurMitBar?: boolean; anteil: (v: unknown) => number | null; text: (v: unknown) => string };
+const ALLTAG_PUNKTE: AlltagPunkt[] = [
+  { label: "Girocard im Monat", key: "girocard", anteil: (v) => { const n = euroAus(v); return n === null ? null : -n; }, text: (v) => euroText(euroAus(v) ?? 0) },
+  { label: "Debitkarte im Monat", key: "debitkarte", anteil: (v) => { const n = euroAus(v); return n === null ? null : -n; }, text: (v) => euroText(euroAus(v) ?? 0) },
+  { label: "Kostenlos abheben", key: "abhebungen", anteil: (v) => (typeof v === "string" ? abhebenAnteil(v) : null), text: abhebenText },
+  { label: "Bargeld einzahlen", key: "bargeldEinzahlen", nurMitBar: true, anteil: (v) => (typeof v === "string" ? einzahlenAnteil(v) : null), text: einzahlenText },
+  { label: "Filialen", key: "filialen", nurMitBar: true, anteil: (v) => (v === true ? 1 : v === false ? 0 : null), text: (v) => (v ? "ja" : "keine") },
+];
+
+const alltagZeilen = (e: KontoErgebnis, k: BonusKonto): VergleichZeile[] => {
+  const heute = e.heuteBank ? bankRoh(e.heuteBank) : {};
+  const match = produktRoh(k.id);
+  const mitBar = e.zahlung !== "karte";
+  const zeilen: VergleichZeile[] = [];
+  for (const p of ALLTAG_PUNKTE) {
+    if (p.nurMitBar && !mitBar) continue;
+    const lv = heute[p.key];
+    const rv = match[p.key];
+    const la = p.anteil(lv);
+    const ra = p.anteil(rv);
+    if (la === null || ra === null || la === ra) continue;
+    const lBesser = la > ra;
+    zeilen.push({
+      label: p.label,
+      links: { text: p.text(lv), ja: lBesser, nein: !lBesser },
+      rechts: { text: p.text(rv), ja: !lBesser, nein: lBesser },
+    });
+  }
+  return zeilen;
+};
 
 /** Gibt es für eine Seite keinen belegten Wert, steht dort „–“, nie eine geratene Zahl oder ein Kreuz. */
 export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
@@ -984,19 +1134,12 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
       .filter((z) => z.label === "Passt zu deinen Antworten" || z.links.text !== z.rechts.text);
   }
 
-  // Konto: immer drei Punkte (Elias RN12-01 „Also du kannst sagen, was die gemeinsam haben. Also immer 3 Punkte.“). Kontoführung steht
-  // immer (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts). Dann zuerst, worin die heutige Bank belegt schlechter
-  // ist (Elias RN11-04 „immer die, wo die sich unterscheiden“), dann, was beide belegt gemeinsam haben, dann, was bei der heutigen Bank
-  // offen ist („–“). Alle Werte aus dem Girokonto-Vergleich (bankWerte, produktWerte; Elias RN11-05: nicht neu prüfen).
+  // Konto: immer drei Punkte (Elias RN12-01 „Also immer 3 Punkte.“). Kontoführung steht immer, als großer Wert mit farbigen Mini-Punkten
+  // (RN13-02). Dann, worin die heutige Bank bei Dispo und Zinsen belegt schlechter ist (RN11-04), dann Alltag-Unterschiede in beide
+  // Richtungen (RN13-01), dann was beide sonst gemeinsam haben, dann Offenes („–“). Was beide halal gemeinsam haben (kein Dispo, keine
+  // Zinsen), steht nicht als Zeile, sondern unten als Satz (vergleichGemeinsam, RN13-01 „dann sagst du einfach unten beide halal“).
   const k = kontoZuAnbieter(e);
-  const fuehrung = finde(links, "Kontoführung im Monat");
-  const zeilen: VergleichZeile[] = [
-    {
-      label: "Kontoführung im Monat",
-      links: { ...text(fuehrung), klein: fuehrung && fuehrung.wert !== KEIN_PREIS ? fuehrung.zusatz?.[0] : undefined },
-      rechts: { text: "0 €", ja: true, klein: kontoBedingungKurz(k) },
-    },
-  ];
+  const zeilen: VergleichZeile[] = [kontofuehrungZeile(e, k, finde(links, "Kontoführung im Monat"))];
   const h = e.heuteHalal;
   const m = produktWerte(k.id);
   const unterschied: VergleichZeile[] = [];
@@ -1007,37 +1150,36 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
     if (!istGut(mw)) continue;
     const hw = h ? h[p.key] : null;
     if (hw === null || hw === undefined) offen.push({ label: p.label, links: { text: KEIN_WERT }, rechts: { text: p.gut, ja: true } });
-    else if (istGut(hw)) gemeinsam.push({ label: p.label, links: { text: p.gut, ja: true }, rechts: { text: p.gut, ja: true } });
-    else
-      unterschied.push({
-        label: p.label,
-        links: { text: p.schlecht(hw), nein: true, klein: p.kleinSchlecht?.(hw) },
-        rechts: { text: p.gut, ja: true, klein: p.kleinGut },
-      });
+    else if (istGut(hw)) {
+      if (!p.halal) gemeinsam.push({ label: p.label, links: { text: p.gut, ja: true }, rechts: { text: p.gut, ja: true } });
+    } else unterschied.push({ label: p.label, links: { text: p.schlecht(hw), nein: true }, rechts: { text: p.gut, ja: true } });
   }
-  return [...zeilen, ...unterschied, ...gemeinsam, ...offen].slice(0, 3);
+  return [...zeilen, ...unterschied, ...alltagZeilen(e, k), ...gemeinsam, ...offen].slice(0, 3);
 };
 
-/** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). */
+/** „Beide: kein Dispo, keine Zinsen“ unter dem Vergleich (Elias RN13-01): nur, was beide belegt halal gemeinsam haben. */
+export const vergleichGemeinsam = (e: Ergebnis): string | null => {
+  if (e.art !== "konto" || !e.links || !e.heuteHalal) return null;
+  const k = kontoZuAnbieter(e);
+  const m = produktWerte(k.id);
+  const h = e.heuteHalal;
+  const teile = KONTO_PUNKTE.filter((p) => p.halal && istGut(m[p.key]) && istGut(h[p.key])).map((p) => p.gut);
+  return teile.length ? `Beide: ${teile.join(", ")}` : null;
+};
+
+/** Die Punkte nach der Kontoführung, in dieser Reihenfolge (Spalten des Girokonto-Vergleichs). `halal` zählt in den Beide-Satz. */
 type KontoPunkt = {
   key: "keinDispo" | "zinsfrei" | "karteOhneKredit" | "applePay" | "kontowechsel";
   label: string;
   gut: string;
   schlecht: (v: BankAmpel | boolean) => string;
-  kleinSchlecht?: (v: BankAmpel | boolean) => string | undefined;
-  kleinGut?: string;
+  halal?: boolean;
 };
 const istGut = (v: BankAmpel | boolean | null | undefined) => v === "gut" || v === true;
+// RN13-02: „Dispo an, mehr musst du gar nicht wissen. Kein Dispo.“ Kein grauer Zusatz mehr.
 const KONTO_PUNKTE: KontoPunkt[] = [
-  {
-    key: "keinDispo",
-    label: "Dispo",
-    gut: "kein Dispo",
-    schlecht: () => "Dispo an",
-    kleinSchlecht: (v) => (v === "teils" ? "abschalten musst du selbst beantragen" : undefined),
-    kleinGut: "ab Eröffnung",
-  },
-  { key: "zinsfrei", label: "Zinsen auf Guthaben", gut: "keine Zinsen", schlecht: (v) => (v === "teils" ? "Zinsen, abschaltbar" : "Zinsen") },
+  { key: "keinDispo", label: "Dispo", gut: "kein Dispo", schlecht: () => "Dispo an", halal: true },
+  { key: "zinsfrei", label: "Zinsen auf Guthaben", gut: "keine Zinsen", schlecht: (v) => (v === "teils" ? "Zinsen, abschaltbar" : "Zinsen"), halal: true },
   { key: "karteOhneKredit", label: "Karte ohne Kredit", gut: "ja", schlecht: (v) => (v === "teils" ? "nicht immer" : "nein") },
   { key: "applePay", label: "Apple Pay oder Google Pay", gut: "ja", schlecht: () => "nein" },
   { key: "kontowechsel", label: "Kontowechsel-Service", gut: "ja", schlecht: () => "nein" },

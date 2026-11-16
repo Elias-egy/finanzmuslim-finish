@@ -338,6 +338,9 @@ export type BankPreis = {
   /** Wie das Konto eröffnet wird laut Vergleich (nur wenn belegt), sonst nicht gesetzt. */
   eroeffnung?: string;
   produkt: string;
+  /** RN14: der belegte Preis selbst und der Schlüssel des Kontos, für die Mini-Punkte der Kontoführung im Check. */
+  preis: Kontopreis;
+  id: string;
 };
 
 const betrag = (n: number) =>
@@ -362,6 +365,8 @@ export const bankPreis = (w: BankWahl): BankPreis | null => {
     zusatz,
     eroeffnung: guenstigste.ident,
     produkt: guenstigste.produkt,
+    preis: p,
+    id: guenstigste.id,
   };
 };
 
@@ -416,6 +421,22 @@ export const produktWerte = (id: string): BankWerte => werteAus(VERGLEICH_KONTEN
 
 /** Rohwerte genau eines Kontos im Vergleich (für die gerechnete Konto-Passung im Check). */
 export const produktRoh = (id: string): Record<string, unknown> => VERGLEICH_KONTEN.find((a) => a.id === id)?.werte ?? {};
+
+/**
+ * RN14 (Elias RN13-01): Rohwerte der heutigen Bank aus dem Girokonto-Vergleich (Girocard, Debitkarte, Abhebungen, Filialen,
+ * Einzahlen), nur was alle Konten des Hauses gleich haben (Gruppe Sparkasse über die Haspa); sonst fehlt der Schlüssel.
+ */
+export const bankRoh = (w: BankWahl): Record<string, unknown> => {
+  const haus = w.kind === "bank" ? (GRUPPE_HAUS[w.id] ?? w.id) : undefined;
+  const konten = haus ? VERGLEICH_KONTEN.filter((a) => a.haus === haus) : [];
+  const roh: Record<string, unknown> = {};
+  if (konten.length === 0) return roh;
+  for (const key of Object.keys(konten[0].werte ?? {})) {
+    const werte = new Set(konten.map((a) => JSON.stringify(a.werte?.[key] ?? null)));
+    if (werte.size === 1 && konten[0].werte?.[key] !== undefined && konten[0].werte?.[key] !== null) roh[key] = konten[0].werte?.[key];
+  }
+  return roh;
+};
 
 export const bankHalal = (w: BankWahl): BankHalal => {
   const { zinsfrei, keinDispo } = bankWerte(w);

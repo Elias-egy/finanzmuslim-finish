@@ -37,6 +37,7 @@ import {
   kontoPassung,
   ladenTexte,
   type KontoErgebnis,
+  vergleichGemeinsam,
   vergleichZeilen,
 } from "@/data/halalFinanzCheck";
 import { BROKER_KARTEN } from "@/data/brokerFreebie";
@@ -372,35 +373,65 @@ describe("Ergebnis Bankkonto", () => {
       expect(e.link, eingabe).toBeTruthy();
     }
   });
-  it("Vergleichskarte immer drei Punkte (Elias RN12-01): Unterschiede zuerst, dann Gemeinsames, dann Offenes, alles aus dem Girokonto-Vergleich", () => {
-    const zeilen = (b: string) => vergleichZeilen(konto({ ...sparkasse, bank: bank(b) }));
-    const labels = (b: string) => zeilen(b).map((z) => z.label);
-    // Sparkasse: Dispo anders (Haspa im Vergleich), Zinsen gemeinsam.
-    expect(labels("grp-sparkasse")).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
-    // Commerzbank: nur die Kosten anders, dann zwei gemeinsame Haken.
-    expect(labels("commerzbank")).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
-    const cb = zeilen("commerzbank")[1];
-    expect(cb.links).toMatchObject({ text: "kein Dispo", ja: true });
-    expect(cb.rechts).toMatchObject({ text: "kein Dispo", ja: true });
-    // C24: Zinsen anders, kein Dispo gemeinsam.
-    expect(labels("c24")).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben", "Dispo"]);
-    const c24 = zeilen("c24")[1];
-    expect(c24.links.nein).toBe(true);
-    expect(c24.rechts.ja).toBe(true);
-    // Volksbank: nichts belegt, links „–“, rechts die belegten Werte der norisbank, nie ein Kreuz.
+  it("Vergleichskarte immer drei Punkte (Elias RN12-01, RN13-01, RN13-02): Kontoführung mit Mini-Punkten, Unterschiede, Beide-Satz unten", () => {
+    const e = (b: string, zahlung: Antworten["zahlung"] = "karte") => konto({ ...sparkasse, zahlung, bank: bank(b) });
+    const zeilen = (b: string, zahlung?: Antworten["zahlung"]) => vergleichZeilen(e(b, zahlung));
+    const labels = (b: string, zahlung?: Antworten["zahlung"]) => zeilen(b, zahlung).map((z) => z.label);
+    const farben = (z: { punkte?: { text: string; gut: boolean | null }[] }) => (z.punkte ?? []).map((p) => `${p.gut === true ? "G" : p.gut === false ? "R" : "N"} ${leer(p.text)}`);
+    // ING (Belege: ab 1.000 € oder unter 28, sonst 4,90 €) gegen norisbank (ab 500 € oder unter 30, sonst 3,90 €): norisbank drei grün.
+    const ing = zeilen("ing", "karte-bar");
+    expect(ing.map((z) => z.label)).toEqual(["Kontoführung", "Girocard im Monat", "Bargeld einzahlen"]);
+    expect(farben(ing[0].links)).toEqual(["R ab 1.000 €", "R unter 28", "R sonst 4,90 €"]);
+    expect(farben(ing[0].rechts)).toEqual(["G ab 500 €", "G unter 30", "G sonst 3,90 €"]);
+    expect(leer(ing[0].links.text)).toBe("0 €");
+    expect(ing[1].links).toMatchObject({ nein: true });
+    expect(ing[1].rechts).toMatchObject({ ja: true });
+    expect(vergleichGemeinsam(e("ing"))).toBe("Beide: kein Dispo, keine Zinsen");
+    // DKB (ab 700 € oder unter 28, sonst 4,50 €): Dispo an gegen kein Dispo ohne grauen Zusatz, Beide nur keine Zinsen.
+    const dkb = zeilen("dkb");
+    expect(dkb.map((z) => z.label)).toEqual(["Kontoführung", "Dispo", "Girocard im Monat"]);
+    expect(farben(dkb[0].links)).toEqual(["R ab 700 €", "R unter 28", "R sonst 4,50 €"]);
+    expect(dkb[1].links).toEqual({ text: "Dispo an", nein: true });
+    expect(dkb[1].rechts).toEqual({ text: "kein Dispo", ja: true });
+    expect(vergleichGemeinsam(e("dkb"))).toBe("Beide: keine Zinsen");
+    // Commerzbank kostet auch bei Geldeingang: links Kreuz ohne Punkte, rechts grün; bei Bargeld zählt die Filiale ehrlich gegen die norisbank.
+    const cb = zeilen("commerzbank");
+    expect(cb[0].links).toMatchObject({ nein: true });
+    expect(cb[0].links.punkte).toBeUndefined();
+    expect(farben(cb[0].rechts).every((f) => f.startsWith("G"))).toBe(true);
+    expect(labels("commerzbank", "karte-bar")).toContain("Filialen");
+    expect(zeilen("commerzbank", "karte-bar").find((z) => z.label === "Filialen")).toMatchObject({ links: { text: "ja", ja: true }, rechts: { text: "keine", nein: true } });
+    expect(labels("commerzbank")).not.toContain("Filialen");
+    // Gemeinsames halal steht nie als Zeile, nur im Beide-Satz.
+    for (const b of ["ing", "commerzbank"]) expect(labels(b).some((l) => l === "Dispo" || l === "Zinsen auf Guthaben"), b).toBe(false);
+    // C24 kostenlos ohne Bedingung: links grün, rechts rot; Zinsen anders.
+    const c24 = zeilen("c24");
+    expect(farben(c24[0].links)).toEqual(["G ohne Bedingung"]);
+    expect(farben(c24[0].rechts).every((f) => f.startsWith("R"))).toBe(true);
+    expect(c24[1]).toMatchObject({ label: "Zinsen auf Guthaben", links: { nein: true }, rechts: { ja: true } });
+    // Volksbank: nichts belegt, links „–“, rechts Punkte ohne Farbe, nie ein Kreuz, kein Beide-Satz.
     const vb = zeilen("grp-volksbank");
-    expect(vb.map((z) => z.label)).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
+    expect(vb.map((z) => z.label)).toEqual(["Kontoführung", "Dispo", "Zinsen auf Guthaben"]);
+    expect(farben(vb[0].rechts).every((f) => f.startsWith("N"))).toBe(true);
     expect(vb.slice(1).every((z) => z.links.text === KEIN_WERT && !z.links.nein && z.rechts.ja)).toBe(true);
-    for (const b of ["grp-sparkasse", "commerzbank", "c24", "grp-volksbank", "ing", "dkb"]) expect(zeilen(b), b).toHaveLength(3);
+    expect(vergleichGemeinsam(e("grp-volksbank"))).toBeNull();
+    for (const b of ["grp-sparkasse", "commerzbank", "c24", "grp-volksbank", "ing", "dkb"]) {
+      expect(zeilen(b), b).toHaveLength(3);
+      expect(zeilen(b, "karte-bar"), b).toHaveLength(3);
+      expect(zeilen(b).every((z) => !z.links.klein && !z.rechts.klein), b).toBe(true);
+    }
   });
 
-  it("Konto-Passung gerechnet, nie fest (Elias RN12-01): Karte gegen bar, Bedingung kostet, höchstens 98", () => {
+  it("Konto-Passung gerechnet, nie fest (Elias RN12-01, RN13-01): Bargeld ohne Filiale kostet, Bedingung kostet, höchstens 98", () => {
     const noris = BONUS_KONTEN.find((k) => k.id === "norisbank-top-girokonto")!;
     const bb = BONUS_KONTEN.find((k) => k.id === "bbbank-bettersmart")!;
     const mit = { art: "konto", bank: bank("commerzbank") } as Antworten;
     expect(kontoPassung(noris, { ...mit, zahlung: "karte" })).toBe(96);
-    expect(kontoPassung(noris, { ...mit, zahlung: "karte-bar" })).toBe(95);
+    // RN13-01 „Norris Bank würde ich dann 89% oder so machen, weil es ja keine Bank hat“.
+    expect(kontoPassung(noris, { ...mit, zahlung: "karte-bar" })).toBe(90);
+    expect(kontoPassung(noris, { ...mit, bank: KEINE_BANK, zahlung: "karte-bar" })).toBe(89);
     expect(kontoPassung(bb, { ...mit, zahlung: "bar" })).toBeLessThan(kontoPassung(noris, { ...mit, zahlung: "karte" }));
+    expect(kontoPassung(bb, { ...mit, zahlung: "bar" })).toBeGreaterThan(kontoPassung(noris, { ...mit, zahlung: "bar" }));
     for (const z of ["karte", "karte-bar", "bar"] as const) {
       const p = kontoPassung(noris, { ...mit, zahlung: z });
       expect(p).toBeGreaterThan(50);

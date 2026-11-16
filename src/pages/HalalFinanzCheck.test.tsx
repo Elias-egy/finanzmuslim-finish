@@ -102,11 +102,14 @@ describe("Verkaufsseite", () => {
     expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Beispiel-Stimmen mit Sternen und der Platz fürs Vortragsfoto stehen nur im Entwicklungsmodus (Test läuft im Entwicklungsmodus)", () => {
+  it("Beispiel-Stimmen mit Sternen nur im Entwicklungsmodus, daneben das Vortragsfoto Uni Hamburg (Elias RN13-01) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(2);
     expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(2);
-    expect(container.querySelector("[data-foto-platzhalter]")!.textContent).toContain("Uni Hamburg");
+    expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
+    const foto = container.querySelector(".hc-community-foto img")!;
+    expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-uni-hamburg.webp");
+    expect(foto.getAttribute("alt")).toContain("Universität Hamburg");
   });
 
   it("mit ?art= trägt die Verkaufsseite das eine Thema", () => {
@@ -545,14 +548,20 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelector(".hc-erg-badge")).toBeNull();
     // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
     expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
-    // Vergleich (Elias RN11-04/-05, RN12-01): beide Logos, immer drei Punkte; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz), Zinsen gemeinsam (zwei Haken).
+    // Vergleich (Elias RN11-04/-05, RN12-01, RN13-01/-02): beide Logos, immer drei Punkte; Sparkasse hat laut Girokonto-Vergleich Dispo (Kreuz),
+    // Zinsen gemeinsam stehen unten als Satz „Beide: keine Zinsen“; Kontoführung mit kleinen Punkten, ohne grauen Text.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.textContent).toContain("Sparkasse");
     expect(gg.textContent).toContain("norisbank");
     expect(gg.querySelectorAll(".hc-wb-platte")).toHaveLength(2);
-    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Dispo", "Zinsen auf Guthaben"]);
+    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)[0]).toBe("Kontoführung");
+    expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
     expect(gg.textContent).toContain("Dispo an");
     expect(gg.textContent).toContain("kein Dispo");
+    expect(gg.textContent).not.toContain("abschalten");
+    expect(gg.querySelectorAll(".hc-gg-zelle small")).toHaveLength(0);
+    expect(gg.querySelectorAll(".hc-gg-punkt").length).toBeGreaterThanOrEqual(3);
+    expect(gg.parentElement!.querySelector(".hc-gg-beide")!.textContent).toBe("Beide: keine Zinsen");
     expect(gg.textContent).not.toMatch(/Video-Ident/);
     expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
     expect(gg.querySelectorAll(".lucide-x")).toHaveLength(1);

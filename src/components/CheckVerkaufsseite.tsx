@@ -19,8 +19,17 @@ import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
  * und Kosten wie im Original; Bank-Logos oben bleiben.
  */
 
-/** Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“), Pfad unter /public, bis dahin null. */
-const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = null;
+/**
+ * Elias' Foto vom Vortrag an der Uni Hamburg (RN10-01: „ein Bild von meinem Vortrag … Elias an der Uni Hamburg“; RN13-01: „Das ist das
+ * Bild von Uni Hamburg … Das kannst du einfügen.“). Quelle ~/Downloads/Halalinvest Bilder/ChatGPT-Bild 16. Nov. 2026, 14_34_50.png,
+ * auf 900 px Breite als webp.
+ */
+const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = {
+  src: "/bilder/check/vortrag-uni-hamburg.webp",
+  alt: "Vortrag von Halal Invest an der Universität Hamburg",
+  b: 900,
+  h: 720,
+};
 
 type Bild = { src: string; alt: string; b: number; h: number; oben?: boolean };
 
