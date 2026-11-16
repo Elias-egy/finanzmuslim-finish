@@ -239,7 +239,7 @@ export const FRAGEN: Record<FrageId, Frage> = {
   },
   praef: {
     id: "praef",
-    warum: "Kein Depot ist bei allem vorn. Deshalb frage ich, was dir zählt.",
+    warum: "Jedes Depot hat andere Stärken. Deshalb frage ich, was für dich zählt.",
     titel: "Was ist dir wichtiger?",
     optionen: [
       { wert: "halal", titel: "Möglichst viele Halal-Anlagen", unter: `${FLATEX.etfs} Halal-ETFs und Fonds, ${FLATEX.gold} Edelmetalle` },
