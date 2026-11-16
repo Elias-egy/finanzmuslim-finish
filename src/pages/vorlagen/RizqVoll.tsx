@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from "react";
 import { BadgeCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import DuaKarte from "@/components/vorlagen/DuaKarte";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
@@ -190,6 +191,8 @@ const RizqVoll = () => {
             ))}
           </ul>
         </section>
+
+        <CheckEinstieg quelle="homepage" className="mt-12" />
 
         <NaechsterTeil wort="amin" className="mt-12" />
 

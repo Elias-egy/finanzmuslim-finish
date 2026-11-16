@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
@@ -330,6 +331,8 @@ const PortfolioPlan = () => {
             <DepotAufruf ohneVideo link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
           </div>
         </section>
+
+        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
         <NaechsterTeil wort="plan" className="mt-12" />
 

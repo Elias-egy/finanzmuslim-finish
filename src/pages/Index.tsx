@@ -274,7 +274,7 @@ const Index = () => {
                 ? "relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden"
                 : // PH2 (15.11.2026, Elias: „unten der Schatten soll sozusagen in den Finanzcheck gehen. Jetzt ist weißer Raum
                   // dazwischen“): das Foto läuft bis hinter den Knopf, die weiche Kante liegt unter ihm statt davor.
-                  "relative max-md:order-3 mt-2 -mb-14 h-[256px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_72%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_72%,transparent_100%)] md:hidden"
+                  "relative max-md:order-3 mt-2 -mb-14 h-[296px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_80%,transparent_100%)] md:hidden"
             }
           >
             <img
@@ -283,12 +283,12 @@ const Index = () => {
               className={
                 MIT_OS
                   ? "absolute left-[29%] top-[-4%] h-[170%] w-auto max-w-none -translate-x-1/2"
-                  : "absolute -left-3 top-0 h-[118%] w-auto max-w-none"
+                  : "absolute left-[29%] top-[-34px] h-[550px] w-auto max-w-none -translate-x-1/2"
               }
               loading="eager"
             />
             {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
-            <div className={MIT_OS ? "absolute right-2 top-[44%] whitespace-nowrap" : "absolute right-0 top-[22%] whitespace-nowrap"}>
+            <div className={MIT_OS ? "absolute right-2 top-[44%] whitespace-nowrap" : "absolute right-2 top-[106px] whitespace-nowrap"}>
               <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
               <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
             </div>

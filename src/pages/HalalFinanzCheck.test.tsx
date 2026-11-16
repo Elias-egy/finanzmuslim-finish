@@ -155,11 +155,17 @@ describe("Chat", () => {
     expect(container.querySelector(".hc-chat .hc-sprech")?.textContent).toBe("Kein Problem. Dann fang mit dem Konto an, das ist der leichteste Schritt.");
   });
 
-  it("„Match finden“ öffnet auf derselben Route die erste Frage mit „am beliebtesten“ genau einmal", async () => {
-    zeige("/check?quelle=aktienliste");
+  it("„Match finden“ öffnet auf derselben Route die erste Frage mit genau einem grünen Etikett: bei der Aktien-Liste „passt zu deiner Liste“, sonst „am beliebtesten“", async () => {
+    const a = zeige("/check?quelle=aktienliste");
     await tippe(/^Match finden/);
     expect(titel()).toBe("Was suchst du gerade?");
+    expect(screen.getAllByText("passt zu deiner Liste").length).toBe(1);
+    expect(screen.queryByText("am beliebtesten")).toBeNull();
+    a.unmount();
+    zeige("/check?quelle=homepage");
+    await tippe(/^Match finden/);
     expect(screen.getAllByText("am beliebtesten").length).toBe(1);
+    expect(screen.queryByText("passt zu deiner Liste")).toBeNull();
   });
 });
 
@@ -264,51 +270,51 @@ describe("Bankkonto-Check", () => {
 });
 
 describe("Depot-Check", () => {
-  it("Fassung a: Erfahrung, „Was ist dir wichtiger?“, drei Eigenschaften, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
+  it("Fassung a: Hast du schon ein Depot (Nein), „Was ist dir wichtiger?“, „Worin willst du investieren?“, Ergebnis mit Passung als Ring und genau einem Knopf", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
-    expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
-    await tippeText("Noch keine");
+    expect(titel()).toBe("Hast du schon ein Depot?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual(["Ja", "Nein, noch nicht"]);
+    // Keine Erfahrungsfrage mehr (Elias RN10-07: keine unnötigen Fragen).
+    expect(container.textContent).not.toMatch(/Erfahrung|Erste Schritte/);
+    await tippeText("Nein, noch nicht");
     expect(titel()).toBe("Was ist dir wichtiger?");
     await tippeText("Möglichst niedrige Kosten");
-    // Elias RN9-04: die Frage in der Mitte, drei Eigenschaften; ohne Depot nie „Wechsel“, Sparplan statt dessen.
-    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
-    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual([
-      "Keine Depotgebühr",
-      "Günstig einzelne Aktien kaufen",
-      "Sparplan schon ab 1 €",
-    ]);
-    expect(container.textContent).not.toContain("Einfacher Wechsel von meinem Depot");
-    await tippeText("Keine Depotgebühr");
+    expect(titel()).toBe("Worin willst du investieren?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber"]);
+    expect(container.textContent).not.toMatch(/Wechsel|Welche dieser drei Eigenschaften/);
+    await tippeText("Einzelne Aktien");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.querySelector(".hc-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
     expect(container.textContent).toMatch(/Passt zu \d+\s%\szu dir/);
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsba");
     expect(container.textContent).not.toMatch(/Alternative|Girokonto|norisbank|Zweitdepot/);
-    // Ohne heutiges Depot kein Vergleich der beiden.
+    // Ohne heutiges Depot kein Vergleich der beiden; „Deine Antworten“ nennt die Wahl.
     expect(container.textContent).not.toMatch(/im Vergleich/);
+    expect(container.textContent).toContain("Einzelne Aktien");
+    expect(container.textContent).toContain("Noch kein Depot");
   });
 
-  it("Fassung b: nach der Eigenschaft kommt der Monatsbetrag, das Depot bleibt", async () => {
+  it("Fassung b: nach „Worin willst du investieren?“ kommt der Monatsbetrag, das Depot bleibt", async () => {
     zeige("/check?art=depot&schritt=fragen", "b");
     await tippeText("Depot zum Investieren");
-    await tippeText("Erste Schritte");
+    await tippeText("Nein, noch nicht");
     await tippeText("Möglichst viele Halal-Anlagen");
-    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
-    await tippeText("Gold und Sukuk im selben Depot");
+    expect(titel()).toBe("Worin willst du investieren?");
+    await tippeText("Gold und Silber");
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
     await tippeText("50 bis 200 €");
     expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
     expect(screen.getByText("50 bis 200 € im Monat")).toBeTruthy();
-    expect(screen.getByText("Gold und Sukuk im selben Depot")).toBeTruthy();
+    expect(screen.getAllByText("Gold und Silber").length).toBeGreaterThan(0);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
   });
 
-  it("„Ich habe schon ein Depot“ fragt „Wo hast du dein Depot?“ (DepotSuche) und führt dann wie jeder Weg über „Was ist dir wichtiger?“ (Elias RN9-03, RN9-04)", async () => {
+  it("Ja fragt „Wo hast du dein Depot?“ (DepotSuche) und führt dann über „Was ist dir wichtiger?“ und „Worin willst du investieren?“ (Elias RN9-03, RN10-07)", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
-    await tippeText("Ich habe schon ein Depot");
+    await tippeText("Ja");
     expect(titel()).toBe("Wo hast du dein Depot?");
     const rahmen = container.querySelector(".hc-schnell-rahmen") as HTMLElement;
     expect(within(rahmen).getAllByRole("button")).toHaveLength(16);
@@ -318,26 +324,21 @@ describe("Depot-Check", () => {
     await tippeText("Trade Republic");
     expect(titel()).toBe("Was ist dir wichtiger?");
     await tippeText("Möglichst viele Halal-Anlagen");
-    // Mit Depot steht „Wechsel“ zuerst.
-    expect(titel()).toBe("Welche dieser drei Eigenschaften ist dir am wichtigsten?");
-    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual([
-      "Einfacher Wechsel von meinem Depot",
-      "Gold und Sukuk im selben Depot",
-      "Keine Depotgebühr",
-    ]);
-    await tippeText("Einfacher Wechsel von meinem Depot");
-    // Kein Zweitdepot mehr: das Match folgt „Was ist dir wichtiger?“.
+    expect(titel()).toBe("Worin willst du investieren?");
+    await tippeText("ETFs");
+    // Kein Zweitdepot: das Match folgt „Was ist dir wichtiger?“, die gewählte Anlage steht in den Vorteilen vorn.
     expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
     expect(container.textContent).toContain("Trade Republic und flatex im Vergleich");
+    expect(container.textContent).toContain("12 von 12 Halal-ETFs und Fonds aus meinem Vergleich");
     expect(container.textContent).not.toMatch(/Zweitdepot/);
     expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpfla");
     expect(screen.getByTestId("ort").textContent).not.toMatch(/trade|republic/i);
   });
 
-  it("Depot-Suche: unbekanntes Depot (Sparkasse) zeigt in den Spalten „–“ statt einer Zahl, freier Text läuft weiter", async () => {
+  it("Depot-Suche: unbekanntes Depot (Phantasiedepot) zeigt in den Spalten „–“ statt einer Zahl, freier Text läuft weiter", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
-    await tippeText("Ich habe schon ein Depot");
+    await tippeText("Ja");
     const feld = screen.getByRole("textbox");
     fireEvent.change(feld, { target: { value: "Phantasiedepot" } });
     expect(container.querySelector(".hc-vorschlaege button")?.textContent).toBe("„Phantasiedepot“ übernehmen");
@@ -347,7 +348,7 @@ describe("Depot-Check", () => {
       vi.advanceTimersByTime(300);
     });
     await tippeText("Möglichst niedrige Kosten");
-    await tippeText("Einfacher Wechsel von meinem Depot");
+    await tippeText("Einzelne Aktien");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.textContent).toContain("Dein Depot und Smartbroker+ im Vergleich");
     expect(container.textContent).toContain("Phantasiedepot");
@@ -358,12 +359,32 @@ describe("Depot-Check", () => {
   it("ist das heutige Depot schon das Match: „Dein Depot bei flatex passt schon“, kein Vergleich", async () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
-    await tippeText("Ich habe schon ein Depot");
+    await tippeText("Ja");
     await tippeText("flatex");
     await tippeText("Möglichst viele Halal-Anlagen");
-    await tippeText("Keine Depotgebühr");
+    await tippeText("ETFs");
     expect(titel()).toBe("Dein Depot bei flatex passt schon");
     expect(container.textContent).not.toMatch(/im Vergleich/);
+  });
+
+  it("Gold: Royal Mint (zertifiziert, auslieferbar) steht als erster Vorteil, nur mit Beleg aus den Daten", async () => {
+    const { container } = zeige("/check?art=depot&schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
+    await tippeText("Nein, noch nicht");
+    await tippeText("Möglichst viele Halal-Anlagen");
+    await tippeText("Gold und Silber");
+    expect(container.textContent).toContain("Royal Mint Gold-ETC hier kaufbar, zertifiziert und auslieferbar");
+  });
+
+  it("Zurück geht Frage für Frage bis zur ersten, die Antworten verschwinden mit", async () => {
+    zeige("/check?schritt=fragen", "a");
+    await tippeText("Depot zum Investieren");
+    await tippeText("Nein, noch nicht");
+    expect(titel()).toBe("Was ist dir wichtiger?");
+    await tippe(/Zurück/);
+    expect(titel()).toBe("Hast du schon ein Depot?");
+    await tippe(/Zurück/);
+    expect(titel()).toBe("Was suchst du gerade?");
   });
 });
 
@@ -375,24 +396,62 @@ describe("Ohne art und aus dem Freebie", () => {
     a.unmount();
     const b = zeige("/check?schritt=fragen");
     await tippeText("Depot zum Investieren");
-    expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
+    expect(titel()).toBe("Hast du schon ein Depot?");
     b.unmount();
     zeige("/check?schritt=fragen");
     await tippeText("Noch unsicher");
     expect(titel()).toBe("Wie bezahlst du meistens?");
   });
 
-  it("aus dem Freebie (start=2) keine Verkaufsseite, die erste Antwort ist da, der Chat geht bei Frage 2 weiter", () => {
+  it("aus dem Freebie (start=2) keine Verkaufsseite, die Antwort auf „Was suchst du gerade?“ ist da, der Chat geht bei Frage 2 weiter", () => {
+    const k = zeige("/check?quelle=boykottliste&start=2&a1=konto");
+    expect(titel()).toBe("Wie bezahlst du meistens?");
+    expect(screen.queryByText("So entsteht deine Empfehlung")).toBeNull();
+    k.unmount();
+    const u = zeige("/check?quelle=boykottliste&start=2&a1=unsicher");
+    expect(titel()).toBe("Wie bezahlst du meistens?");
+    u.unmount();
+    const d = zeige("/check?quelle=aktienliste&start=2&a1=invest");
+    expect(titel()).toBe("Hast du schon ein Depot?");
+    d.unmount();
+    // Ungültige Antwort: der Chat beginnt bei der ersten Frage.
+    const x = zeige("/check?quelle=aktienliste&start=2&a1=unsinn");
+    expect(titel()).toBe("Was suchst du gerade?");
+    x.unmount();
+  });
+
+  it("alte Freebie-Adressen laufen weiter: Zahlungsart gleich Bank-Frage, Erfahrung gleich „Hast du schon ein Depot?“ oder „Wo hast du dein Depot?“", () => {
     const k = zeige("/check?art=konto&quelle=boykottliste&start=2&a1=karte");
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
-    expect(screen.queryByText("So entsteht deine Empfehlung")).toBeNull();
     k.unmount();
     const d = zeige("/check?art=depot&quelle=aktienliste&start=2&a1=erste");
     expect(titel()).toBe("Was ist dir wichtiger?");
     d.unmount();
-    // Bei „Ich habe schon ein Depot“ geht der Chat mit „Wo hast du dein Depot?“ weiter (RN10).
     zeige("/check?art=depot&quelle=aktienliste&start=2&a1=depot");
     expect(titel()).toBe("Wo hast du dein Depot?");
+  });
+
+  it("überall dieselbe erste Frage, nur das grüne Etikett wandert: Standard Bankkonto „am beliebtesten“, bei Aktien-Liste und Halal-Anlagen Depot „passt zu deiner Liste“", () => {
+    const etiketten = (adresse: string) => {
+      const r = zeige(adresse);
+      const e = [...r.container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent);
+      r.unmount();
+      return e;
+    };
+    for (const q of ["homepage", "boykottliste", "kopf"]) {
+      expect(etiketten(`/check?quelle=${q}&schritt=fragen`), q).toEqual(["Neues Bankkontoam beliebtesten", "Depot zum Investieren", "Noch unsicher"]);
+    }
+    for (const q of ["aktienliste", "halal-anlagen"]) {
+      expect(etiketten(`/check?quelle=${q}&schritt=fragen`), q).toEqual(["Neues Bankkonto", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
+    }
+  });
+
+  it("der Chat aus einem Freebie: „Zurück“ bei Frage 2 zeigt wieder „Was suchst du gerade?“ mit demselben Etikett", async () => {
+    const { container } = zeige("/check?quelle=aktienliste&start=2&a1=invest");
+    expect(titel()).toBe("Hast du schon ein Depot?");
+    await tippe(/Zurück/);
+    expect(titel()).toBe("Was suchst du gerade?");
+    expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toContain("Depot zum Investierenpasst zu deiner Liste");
   });
 
   it("alte Adressen mit ?ziel= laufen weiter", () => {
@@ -400,6 +459,6 @@ describe("Ohne art und aus dem Freebie", () => {
     expect(titel()).toBe("Wie bezahlst du meistens?");
     k.unmount();
     zeige("/check?quelle=aktienliste&ziel=invest");
-    expect(titel()).toBe("Wie viel Erfahrung hast du mit dem Investieren?");
+    expect(titel()).toBe("Hast du schon ein Depot?");
   });
 });

@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
@@ -180,6 +181,8 @@ const SukukPlan = () => {
             link={(ziel, stelle) => `${ziel}?src=sk${stelle}`}
           />
         </section>
+
+        <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
         <NaechsterTeil wort="sukuk" className="mt-12" />
 

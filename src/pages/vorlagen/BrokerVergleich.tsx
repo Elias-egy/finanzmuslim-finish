@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Trophy } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { BROKER_HONORABLE, BROKER_SRC, BROKER_TOP3, brokerLink, type BrokerKarte } from "@/data/brokerFreebie";
 import { ereignis } from "@/lib/messung";
@@ -238,6 +239,8 @@ const BrokerVergleich = () => {
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </section>
+
+          <CheckEinstieg quelle="halal-anlagen" className="mt-12" />
 
           <p className="mt-8 text-[14px] leading-snug text-muted-foreground" data-werbehinweis>
             * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Preise und

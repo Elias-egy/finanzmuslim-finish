@@ -91,12 +91,15 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
     const check = aufruf.querySelector("[data-check-einstieg='aktienliste']")!;
     const ziele = [...check.querySelectorAll("a")].map((a) => a.getAttribute("href"));
+    // Ein Quiz für alle Freebies (RN10-07): dieselbe erste Frage, „passt zu deiner Liste“ sitzt an „Depot zum Investieren“.
     expect(ziele).toEqual([
-      "/check?art=depot&quelle=aktienliste&start=2&a1=keine",
-      "/check?art=depot&quelle=aktienliste&start=2&a1=erste",
-      "/check?art=depot&quelle=aktienliste&start=2&a1=depot",
+      "/check?quelle=aktienliste&start=2&a1=konto",
+      "/check?quelle=aktienliste&start=2&a1=invest",
+      "/check?quelle=aktienliste&start=2&a1=unsicher",
     ]);
     expect(check.getAttribute("data-art")).toBe("depot");
-    expect(check.textContent).toContain("Wie viel Erfahrung hast du mit dem Investieren?");
+    expect(check.textContent).toContain("Was suchst du gerade?");
+    expect(check.querySelector("[data-etikett]")?.textContent).toBe("passt zu deiner Liste");
+    expect([...check.querySelectorAll("li")].map((li) => li.textContent)).toEqual(["Neues Bankkonto", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
   });
 });

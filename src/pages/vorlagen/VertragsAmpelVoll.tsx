@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import {
   AMPEL_QUELLEN,
@@ -117,6 +118,8 @@ const VertragsAmpelVoll = () => {
 
         <Gruppe farbe="gelb" />
         <Gruppe farbe="rot" />
+
+        <CheckEinstieg quelle="homepage" className="mt-12" />
 
         <NaechsterTeil wort="vertrag" className="mt-12" />
 
