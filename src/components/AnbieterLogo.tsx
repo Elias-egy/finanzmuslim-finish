@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
+import { ANBIETER_LOGOS, logoMass } from "@/data/anbieterLogos";
+import { LOGO_MASSE } from "@/data/anbieterLogoMasse";
 
 const logoToken = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY;
 
@@ -37,6 +38,40 @@ export const AnbieterLogo = ({
      Logo gleich groß (SEO80 gemessen, Elias: „warum hast du immer so einen anderen Kasten darum?“). Nur ein Logo, das
      beim Anbieter weiß auf Schwarz steht (`dunkel`), bekommt seine schwarze Fläche. Nur in den Vergleichen (gross),
      kleine Beispiel-Logos neben einem Satz bleiben rund. */
+  /* PH4: Schrift optisch gleich groß wie bei Finanzfluss (logoMass in src/data/anbieterLogos.ts). Ein Rahmen in der
+     Größe der Schrift zeigt nur den Ausschnitt der Datei, so fallen Ränder und Zusätze („Das kann Bank“) weg. */
+  const mass = schriftzug && gross ? logoMass(schriftzug, LOGO_MASSE[schriftzug.datei]) : undefined;
+  if (schriftzug && mass && !fehler) {
+    const [x0, y0, x1, y1] = mass.ausschnitt;
+    return (
+      <span
+        className={`flex h-9 w-[134px] max-w-full shrink-0 items-center justify-center rounded-[4px] ${
+          schriftzug.dunkel ? "bg-[#111]" : "dark:bg-white"
+        }`}
+        title={name}
+      >
+        <span
+          className="relative block max-w-full overflow-hidden"
+          style={{ width: `${mass.breite}px`, aspectRatio: `${mass.breite} / ${mass.hoehe}` }}
+        >
+          <img
+            src={schriftzug.datei}
+            alt={`${name} Logo`}
+            loading="lazy"
+            data-ohne-platte
+            onError={() => setFehler(true)}
+            className="absolute max-w-none"
+            style={{
+              width: `${100 / (x1 - x0)}%`,
+              height: `${100 / (y1 - y0)}%`,
+              left: `${(-x0 / (x1 - x0)) * 100}%`,
+              top: `${(-y0 / (y1 - y0)) * 100}%`,
+            }}
+          />
+        </span>
+      </span>
+    );
+  }
   if (schriftzug && gross && !fehler) {
     return (
       <span
@@ -56,7 +91,7 @@ export const AnbieterLogo = ({
       </span>
     );
   }
-  const mass = gross ? "h-12 w-12" : klein ? "h-6 w-6" : "h-10 w-10";
+  const rund = gross ? "h-12 w-12" : klein ? "h-6 w-6" : "h-10 w-10";
   const url =
     !fehler && logoToken && domain
       ? `https://img.logo.dev/${domain}?token=${logoToken}&size=96&format=png&retina=true`
@@ -64,7 +99,7 @@ export const AnbieterLogo = ({
 
   return (
     <span
-      className={`flex ${mass} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero dark:bg-white${rand ? " ring-1 ring-black/15" : ""}`}
+      className={`flex ${rund} shrink-0 items-center justify-center overflow-hidden rounded-full bg-hero dark:bg-white${rand ? " ring-1 ring-black/15" : ""}`}
       title={name}
     >
       {url ? (
