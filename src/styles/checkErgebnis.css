@@ -607,30 +607,21 @@
     padding-top: 56px;
   }
 }
-/* Kopfzeile wie OS-Bild 2 (.eg-kopfzeile): links die weiße Logo-Platte des Matches, rechts Kicker und Überschrift */
-.hc-wb-kopf {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.hc-wb-kopf-text {
-  min-width: 0;
-}
-.hc-wb-kopf-text .hc-erg-kicker {
-  margin: 0 0 4px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
+/* Kopf (Elias RN11-02): nur die Überschrift, groß wie im Original (36 px Handy, 48 px ab 768), darunter sofort die Wischkarten */
 .hc-wb-h1 {
   margin: 0;
-  font-size: clamp(20px, 5.2vw, 28px);
+  font-size: 36px;
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
-/* Logo auf weißer Platte wie .eg-dlogo, auch im Dunkeln weiß */
+@media (min-width: 768px) {
+  .hc-wb-h1 {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
 .hc-wb-platte {
   flex: none;
   display: inline-grid;
@@ -652,19 +643,9 @@
   border-radius: 10px;
   box-shadow: none;
 }
-@media (max-width: 520px) {
-  .hc-wb-kopf {
-    gap: 12px;
-  }
-  .hc-wb-kopf > .hc-wb-platte {
-    padding: 8px 10px;
-  }
-  .hc-wb-kopf-text .hc-erg-kicker {
-    font-size: 11px;
-  }
-  .hc-wb-h1 {
-    font-size: 19px;
-  }
+/* Orange nur als Markenfarbe der norisbank: ihr Logo ist schwarz-weiß und fällt sonst nicht auf (Elias RN11-02) */
+.hc-wb-platte--noris {
+  border: 2px solid var(--orange);
 }
 .hc-wisch {
   margin-top: 24px;
@@ -732,26 +713,13 @@
   color: var(--grau);
   font-size: 14px;
 }
-/* Karte „Dein Match“: orangener Akzent (Balken oben und Marke), beim Depot die gerechnete Passung groß */
-.hc-wk--match::before {
-  background: linear-gradient(90deg, var(--orange), var(--blau));
-}
+/* Karte „Dein Match“: Logo, Name und Vorteile mittig, beim Depot die gerechnete Passung groß */
 .hc-wk-ueber {
   color: var(--blau-text);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-.hc-wk-ueber--match {
-  align-self: flex-start;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--orange) 20%, transparent);
-  color: #b4490c;
-}
-.dark .hc .hc-wk-ueber--match {
-  color: var(--orange);
 }
 .hc-wk--match h3 {
   text-align: center;
@@ -779,40 +747,62 @@
   font-size: 18px;
   font-weight: 600;
 }
-.hc-wb-preis {
-  margin: 0;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+/* Grüne Häkchen wie auf der Startseite (text-gain) und in der Vergleichstabelle der Verkaufsseite (.hc-tab-ja), ohne Kreis */
+.hc {
+  --ja: var(--gruen);
 }
-.hc-wk .hc-erg-haken {
+.dark .hc {
+  --ja: #3ecf8e;
+}
+.hc-wb-ja {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--ja);
+  stroke-width: 3;
+}
+.hc-wb-haken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
-.hc-wk .hc-erg-haken li {
+.hc-wb-haken li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   font-size: 15.5px;
-  line-height: 1.5;
+  line-height: 1.45;
+}
+.hc-wb-haken .hc-wb-ja {
+  margin-top: 1.5px;
 }
 
-/* Tabelle heute links, Match rechts: für jeden Vergleich wiederverwendbar (Werte nur aus den Spalten) */
-.hc-wk-tab {
+/* Karte „Vergleich“: beide Logos oben, je Zeile Beschriftung, links heute, rechts Match, ruhig wie die Vergleichstabelle der Verkaufsseite */
+.hc-gg {
   table-layout: fixed;
-  border-collapse: separate;
-  border-spacing: 8px 6px;
-  margin: -6px -8px;
-  width: calc(100% + 16px);
+  width: 100%;
+  border-collapse: collapse;
 }
-.hc-wk-tab th,
-.hc-wk-tab td {
+.hc-gg th,
+.hc-gg td {
   text-align: left;
   vertical-align: top;
 }
-.hc-wk-tab-kopf {
-  padding: 0 0 6px;
+.hc-gg-kopf {
+  padding: 0 6px 12px;
   font-weight: 400;
+  text-align: center !important;
 }
-.hc-wk-tab-kopf .hc-wb-platte {
+.hc-gg-kopf:first-child {
+  padding-left: 0;
+}
+.hc-gg-kopf:last-child {
+  padding-right: 0;
+}
+.hc-gg-kopf .hc-wb-platte {
   display: grid;
   width: 100%;
   min-height: 52px;
@@ -820,65 +810,54 @@
   overflow: hidden;
 }
 /* Der Schriftzug ist 134 px breit und passt sonst nicht in eine halbe Karte am Handy */
-.hc-wk-tab-kopf .hc-wb-platte > * {
+.hc-gg-kopf .hc-wb-platte > * {
   zoom: 0.72;
 }
-.hc-wk-tab-name {
+.hc-gg-name {
   display: block;
   margin-top: 8px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
-.hc-wk-tab-kopf small {
-  display: block;
-  margin-top: 2px;
-  color: var(--grau);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.3;
-}
-.hc-wk-tab-kopf--ziel .hc-wk-tab-name {
-  color: var(--blau-text);
-}
-.hc-wk-tab-label {
-  padding: 8px 0 0;
+.hc-gg-label {
+  padding: 12px 0 4px;
+  border-top: 1px solid var(--linie);
   color: var(--grau);
   font-size: 13px;
   font-weight: 600;
 }
-.hc-wk-tab-zelle {
-  padding: 11px 12px;
-  border: 1px solid var(--linie);
-  border-radius: 14px;
-  background: var(--flaeche);
+.hc-gg-zelle {
+  padding: 0 6px 12px 0;
+  font-size: 15px;
 }
-.hc-wk-tab-zelle--ziel {
-  border-color: color-mix(in srgb, var(--blau) 35%, transparent);
-  background: var(--blau-hell);
+.hc-gg-zelle + .hc-gg-zelle {
+  padding: 0 0 12px 12px;
+  border-left: 1px solid var(--linie);
 }
-.hc-wk-tab-zelle b {
-  display: block;
-  font-size: 20px;
+.hc-gg-wert {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.hc-gg-wert .hc-wb-ja {
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+}
+.hc-gg-wert b {
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.3;
   overflow-wrap: anywhere;
 }
-.hc-wk-tab-zelle--ziel b {
-  color: var(--blau-text);
-}
-.hc-wk-tab-zelle b.hc-wk-tab-text {
-  font-size: 15px;
-  letter-spacing: 0;
-  line-height: 1.3;
-}
-.hc-wk-tab-zelle b.hc-wk-tab-leise {
+.hc-gg-wert b.hc-gg-leise {
   color: var(--grau);
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
 }
-.hc-wk-tab-zelle small {
+.hc-gg-zelle small {
   display: block;
   margin-top: 4px;
   color: var(--grau);
@@ -1022,6 +1001,37 @@
   }
   .hc-erg-btn .hc-pfeil {
     transition: transform 0.2s var(--ease-erg);
+  }
+  /* Mini-Konfetti (CheckKonfetti.tsx, nur Fassung B): bricht oben in der Mitte auf, fällt kurz und blendet aus */
+  @keyframes hc-konfetti {
+    0% {
+      transform: translate(0, 0) rotate(0) scale(0.6);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    45% {
+      transform: translate(var(--dx), var(--dy)) rotate(calc(var(--dreh) * 0.5)) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(calc(var(--dx) * 1.15), calc(var(--dy) + 180px)) rotate(var(--dreh)) scale(1);
+      opacity: 0;
+    }
+  }
+  .hc-konfetti {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hc-konfetti span {
+    position: absolute;
+    left: 50%;
+    top: 26%;
+    animation: hc-konfetti 1s cubic-bezier(0.2, 0.7, 0.4, 1) both;
   }
   @media (hover: hover) {
     .hc-erg-btn:hover {

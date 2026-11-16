@@ -1,14 +1,19 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
+import CheckKonfetti from "@/components/CheckKonfetti";
 import CheckStimme from "@/components/CheckStimme";
 import {
   KEIN_PREIS,
+  KEIN_WERT,
   WERBEHINWEIS,
   antwortZeilen,
+  kurzVorteile,
+  vergleichZeilen,
   type Antworten,
   type Ergebnis,
   type Spalte,
+  type VergleichZelle,
   type Zeile,
 } from "@/data/halalFinanzCheck";
 import { followerGesamt } from "@/data/beweise";
@@ -20,9 +25,9 @@ import "@/styles/checkErgebnis.css";
  *  A (Elias RN10-06 „untereinander“): wie die Ergebnisseite des Perspective-Originals (Blueprint rn10 Abschnitt 5): Kopf mit Überschrift,
  *    Satz und Ring (Depot: Passung in Prozent; Konto: Logo im Ring, weil es für Konten keine gerechnete Zahl gibt), Karte mit Logo, Titel,
  *    Preis, belegten Vorteilen und genau einem Knopf, darunter statt „Passt auch gut“ die Liste heute gegen Match (Elias RN9-01).
- *  B (Elias RN11-01): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: Kopfzeile mit Logo-Platte und „Dein Match“, sofort
- *    Wischkarten ohne Weiter-Knopf (Match, Vorteile, Tabelle heute gegen Match, „Jetzt bei <Anbieter> eröffnen“), darunter Stimmen und
- *    ein zweiter Knopf ganz unten.
+ *  B (Elias RN11-01, RN11-02): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: große Überschrift wie im Original, sofort
+ *    Wischkarten ohne Weiter-Knopf (Match mit grünen Häkchen, Vergleich heute gegen Match mit beiden Logos, „Jetzt bei <Anbieter> eröffnen“),
+ *    darunter Stimmen und ein zweiter Knopf ganz unten; beim Erscheinen Mini-Konfetti (CheckKonfetti).
  * In beiden: „Über 22.000 Menschen informieren sich bei Finanzmuslim“ mit Bildern anderer (Elias RN9-03), Stimmen am Ende, Werbehinweis als
  * Sternchen; in A genau ein Link zum Anbieter (Elias RN8-02), in B zwei (Elias RN11-01). Beispiel-Bilder und -Stimmen nur im Entwicklungsmodus (checkStimmen.ts).
  */
@@ -239,56 +244,75 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Omit<Props, "fassung">) => (
 );
 
 // ---------------------------------------------------------------------------
-// Fassung B (Elias RN11-01): wie die Bildschirme des Ergänzungsvergleichs im OS, aber weiß: Kopfzeile mit Logo-Platte und „Dein Match“,
-// darunter sofort die Wischkarten (kein Weiter-Knopf), darunter Leute und Stimmen, ganz unten noch einmal der Knopf.
+// Fassung B (Elias RN11-01 und RN11-02): große Überschrift wie im Original, darunter sofort die Wischkarten (kein Weiter-Knopf):
+// Match, Vergleich heute gegen Match (nur mit heutigem Konto oder Depot), Eröffnen. Darunter Leute und Stimmen, ganz unten noch einmal der Knopf.
 
-type Karte = { id: string; ueber: string; ton?: "match"; inhalt: ReactNode };
+type Karte = { id: string; ueber: string; match?: boolean; inhalt: ReactNode };
 
-/** Logo auf weißer Platte wie .eg-dlogo im OS; auch im Dunkeln bleibt die Platte weiß (Logos stehen auf Weiß). */
+/** Logo auf weißer Platte wie .eg-dlogo im OS; auch im Dunkeln bleibt die Platte weiß. Orange ist nur die Markenfarbe der norisbank (schwarz-weißes Logo, Elias RN11-02). */
 const Platte = ({ e, gross }: { e: Ergebnis; gross?: boolean }) => (
-  <span className={`hc-wb-platte${gross ? " hc-wb-platte--gross" : ""}`}>
+  <span className={`hc-wb-platte${gross ? " hc-wb-platte--gross" : ""}${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
     <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
   </span>
 );
 
-/** Zweispaltige Tabelle, für jeden Vergleich wiederverwendbar: Kopf mit Logo und Name, je Zeile Beschriftung, links heute, rechts Match. Werte nur aus den Spalten. */
-const Tabelle = ({ links, rechts }: { links: Spalte; rechts: Spalte }) => {
-  const wert = (z: Zeile | undefined, ziel?: boolean) =>
-    z ? (
-      <td className={`hc-wk-tab-zelle${ziel ? " hc-wk-tab-zelle--ziel" : ""}`}>
-        <b className={`${z.wert.length > 14 ? "hc-wk-tab-text" : ""}${z.wert === KEIN_PREIS ? " hc-wk-tab-leise" : ""}`.trim() || undefined}>{z.wert}</b>
-        {z.zusatz?.map((t) => (
-          <small key={t}>{t}</small>
-        ))}
-      </td>
-    ) : (
-      <td className={`hc-wk-tab-zelle${ziel ? " hc-wk-tab-zelle--ziel" : ""}`} />
-    );
+/** Häkchen wie auf der Startseite und in der Vergleichstabelle der Verkaufsseite: grün, ohne Kreis. */
+const Ja = () => <Check className="hc-wb-ja" aria-hidden />;
+
+const HakenB = ({ zeilen }: { zeilen: string[] }) => (
+  <ul className="hc-wb-haken">
+    {zeilen.map((v) => (
+      <li key={v}>
+        <Ja />
+        <span>{v}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+const GgZelle = ({ z }: { z: VergleichZelle }) => {
+  const leise = z.text === KEIN_WERT || z.text === KEIN_PREIS;
   return (
-    <table className="hc-wk-tab">
+    <td className="hc-gg-zelle">
+      <span className="hc-gg-wert">
+        {z.ja && <Ja />}
+        <b className={leise ? "hc-gg-leise" : undefined}>{z.text}</b>
+        {z.text === KEIN_WERT && <span className="hc-nur-sr">keine Angabe</span>}
+      </span>
+      {z.klein && <small>{z.klein}</small>}
+    </td>
+  );
+};
+
+/** Beide Seiten nebeneinander: oben die Logos, je Zeile Beschriftung, links heute, rechts Match. Werte nur aus vergleichZeilen (belegt, sonst „–“). */
+const Gegenueber = ({ e }: { e: Ergebnis }) => {
+  const { links, rechts } = e;
+  const zeilen = vergleichZeilen(e);
+  if (!links || !rechts || zeilen.length === 0) return null;
+  return (
+    <table className="hc-gg">
       <thead>
         <tr>
           {[links, rechts].map((s, n) => (
-            <th key={s.name} scope="col" className={n === 1 ? "hc-wk-tab-kopf hc-wk-tab-kopf--ziel" : "hc-wk-tab-kopf"}>
-              <span className="hc-wb-platte hc-wb-platte--tab">
+            <th key={s.name} scope="col" className="hc-gg-kopf">
+              <span className={`hc-wb-platte hc-wb-platte--tab${n === 1 && e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
                 <AnbieterLogo name={s.name} domain={s.domain} gross />
               </span>
-              <span className="hc-wk-tab-name">{s.name}</span>
-              {s.produkt && <small>{s.produkt}</small>}
+              <span className="hc-gg-name">{s.name}</span>
             </th>
           ))}
         </tr>
       </thead>
-      {rechts.zeilen.map((z, i) => (
+      {zeilen.map((z) => (
         <tbody key={z.label}>
           <tr>
-            <th scope="colgroup" colSpan={2} className="hc-wk-tab-label">
+            <th scope="colgroup" colSpan={2} className="hc-gg-label">
               {z.label}
             </th>
           </tr>
           <tr>
-            {wert(links.zeilen[i])}
-            {wert(z, true)}
+            <GgZelle z={z.links} />
+            <GgZelle z={z.rechts} />
           </tr>
         </tbody>
       ))}
@@ -296,13 +320,13 @@ const Tabelle = ({ links, rechts }: { links: Spalte; rechts: Spalte }) => {
   );
 };
 
-/** Die Karten in Elias' Reihenfolge: Dein Match, Deine Vorteile, Tabelle heute gegen Match (nur mit heutigem Konto oder Depot), Eröffnen. */
+/** Die Karten: Dein Match, Im Vergleich (nur mit heutigem Konto oder Depot, ersetzt „Deine Vorteile“ und Tabelle), Eröffnen. */
 const karten = (e: Ergebnis): Karte[] => {
   const liste: Karte[] = [
     {
       id: "match",
       ueber: "Dein Match",
-      ton: "match",
+      match: true,
       inhalt: (
         <>
           <Platte e={e} gross />
@@ -314,19 +338,7 @@ const karten = (e: Ergebnis): Karte[] => {
               <span>Match</span>
             </p>
           )}
-          <Haken zeilen={e.vorteile.slice(0, 3)} />
-        </>
-      ),
-    },
-    {
-      id: "vorteile",
-      ueber: "Deine Vorteile",
-      inhalt: (
-        <>
-          <p className="hc-wb-preis">{e.preis}</p>
-          <p className="hc-wk-klein">{e.kartenTitel}</p>
-          <Haken zeilen={e.vorteile} />
-          {e.art === "konto" && e.praemie && <p className="hc-praemie">{e.praemie}</p>}
+          <HakenB zeilen={kurzVorteile(e)} />
         </>
       ),
     },
@@ -338,7 +350,7 @@ const karten = (e: Ergebnis): Karte[] => {
       inhalt: (
         <>
           {e.vergleichTitel && <h3>{e.vergleichTitel}</h3>}
-          <Tabelle links={e.links} rechts={e.rechts} />
+          <Gegenueber e={e} />
         </>
       ),
     });
@@ -396,11 +408,11 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
         {liste.map((k, n) => (
           <article
             key={k.id}
-            className={`hc-wk${k.ton === "match" ? " hc-wk--match" : ""}`}
+            className={`hc-wk${k.match ? " hc-wk--match" : ""}`}
             aria-roledescription="Karte"
             aria-label={`${n + 1} von ${liste.length}`}
           >
-            <span className={`hc-wk-ueber${k.ton === "match" ? " hc-wk-ueber--match" : ""}`}>{k.ueber}</span>
+            <span className="hc-wk-ueber">{k.ueber}</span>
             {k.inhalt}
           </article>
         ))}
@@ -433,12 +445,9 @@ const Wischen = ({ e }: { e: Ergebnis }) => {
 /** Zwei Links zum Anbieter gibt es nur in B (Elias RN11-01 ausdrücklich): einer in der letzten Karte, einer ganz unten. */
 const FassungB = ({ e, onNeu, bereit }: Omit<Props, "fassung">) => (
   <section className={`hc-erg hc-erg--b${bereit ? " hc-erg--bereit" : ""}`} aria-live="polite" data-ergebnis="b">
+    {bereit && <CheckKonfetti />}
     <header className="hc-wb-kopf" data-e="1">
-      <Platte e={e} />
-      <div className="hc-wb-kopf-text">
-        <span className="hc-erg-kicker">Deine Empfehlung</span>
-        <h1 className="hc-wb-h1">{e.ueberschrift}</h1>
-      </div>
+      <h1 className="hc-wb-h1">{e.ueberschrift}</h1>
     </header>
     <div data-e="2">
       <Wischen e={e} />

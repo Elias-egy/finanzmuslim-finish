@@ -514,26 +514,41 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelectorAll("a[href^='/out/']")).toHaveLength(1);
   });
 
-  it("Fassung B (?ergebnis=b): Kopfzeile „Dein Match“, Wischkarten Match, Vorteile, Tabelle, Eröffnen ohne Weiter-Knopf, zwei Links, Leute und Stimmen", async () => {
+  it("Fassung B (?ergebnis=b): große Überschrift, Wischkarten Match, Vergleich, Eröffnen ohne Weiter-Knopf, zwei Links, Leute und Stimmen", async () => {
     const { container } = await kontoWeg("/check?art=konto&schritt=fragen&ergebnis=b");
     expect(container.querySelector("[data-ergebnis='b']")).toBeTruthy();
-    expect(container.querySelector(".hc-wb-kopf")!.textContent).toContain("Dein Match");
-    expect(container.querySelector(".hc-wb-kopf h1")!.textContent).toContain("norisbank");
+    expect(container.querySelector(".hc-wb-kopf h1")!.textContent).toBe("Dein Match: ein kostenloses Girokonto bei norisbank");
     const ueber = [...container.querySelectorAll(".hc-wk-ueber")].map((u) => u.textContent);
-    expect(ueber).toEqual(["Dein Match", "Deine Vorteile", "Im Vergleich", "Letzter Schritt"]);
+    expect(ueber).toEqual(["Dein Match", "Im Vergleich", "Letzter Schritt"]);
     // Kein „Weiter“, keine Problem-Karte.
     expect([...container.querySelectorAll("button, a")].some((b) => /^weiter/i.test(b.textContent ?? ""))).toBe(false);
     expect(container.querySelector(".hc-wk--problem")).toBeNull();
-    // Beim Konto gibt es keine gerechnete Prozentzahl in der Match-Karte.
-    expect(container.querySelector(".hc-wk--match")!.textContent).not.toContain("%");
+    // Beim Konto gibt es keine gerechnete Prozentzahl in der Match-Karte, kein orangenes Etikett, höchstens drei Vorteile, grüne Häkchen.
+    const match = container.querySelector(".hc-wk--match")!;
+    expect(match.textContent).not.toContain("%");
     expect(container.querySelector(".hc-wb-passung")).toBeNull();
-    // Tabelle heute links, Match rechts, Werte aus den Spalten.
-    const tab = container.querySelector(".hc-wk-tab")!;
-    expect(tab.textContent).toContain("Sparkasse");
-    expect(tab.textContent).toContain("norisbank");
+    expect(container.querySelector(".hc-wk-ueber--match")).toBeNull();
+    expect(match.querySelectorAll(".hc-wb-haken li").length).toBeLessThanOrEqual(3);
+    expect(match.textContent!.replace(/\s/g, " ")).toContain("0 € Kontoführung unter 30 oder ab 500 € Geldeingang");
+    expect(match.textContent).not.toContain("sonst");
+    expect(container.querySelector(".hc-erg-badge")).toBeNull();
+    // Nur die norisbank-Logo-Platte hat den orangenen Rand; Sparkasse nicht.
+    expect(match.querySelector(".hc-wb-platte--noris")).toBeTruthy();
+    // Vergleich: beide Logos, Zeilen nur mit belegten Werten, sonst „–“, Beschriftungen ohne geratene Wechselzeit.
+    const gg = container.querySelector(".hc-gg")!;
+    expect(gg.textContent).toContain("Sparkasse");
+    expect(gg.textContent).toContain("norisbank");
+    expect(gg.querySelectorAll(".hc-wb-platte")).toHaveLength(2);
+    expect([...gg.querySelectorAll(".hc-gg-label")].map((l) => l.textContent)).toEqual(["Kontoführung im Monat", "Zinsen auf Guthaben", "Eröffnung"]);
+    expect(gg.textContent).toContain("Video-Ident oder Post-Ident");
+    expect(gg.textContent).not.toMatch(/zehn Minuten|Dispo/);
+    expect(gg.querySelectorAll(".hc-wb-ja").length).toBeGreaterThan(0);
+    expect(gg.querySelector(".lucide-x")).toBeNull();
     expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
+    // Kein Konfetti ohne prefers-reduced-motion: no-preference (jsdom hat kein matchMedia).
+    expect(container.querySelector(".hc-konfetti")).toBeNull();
     // Letzte Karte: Satz, Knopf, Etikett „Werbung“.
-    const letzte = container.querySelectorAll(".hc-wk")[3];
+    const letzte = container.querySelectorAll(".hc-wk")[2];
     expect(letzte.textContent).toContain("Jetzt bei norisbank eröffnen");
     expect(letzte.textContent).toContain("Werbung");
     // Genau zwei Links zum Anbieter: einer in der letzten Karte, einer ganz unten.

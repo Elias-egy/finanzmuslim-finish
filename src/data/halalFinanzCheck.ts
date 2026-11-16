@@ -856,3 +856,53 @@ export const problemVon = (e: Ergebnis, a: Antworten): Problem | null => {
   if (zeilen.length === 0) return null;
   return { titel: `Dein Depot bei ${e.links.name} hatte dieses Problem`, zeilen: zeilen.slice(0, 4) };
 };
+
+// ---------------------------------------------------------------------------
+// Fassung B (Elias RN11-02): kürzere Vorteile für die Match-Karte und die Zeilen der Karte „Vergleich“
+
+/** „unter 30 oder ab 500 € Geldeingang“: die Bedingung ohne „im Monat, sonst …“, Werte aus girokontoBonus.ts. */
+const kontoBedingungKurz = (k: BonusKonto) => `unter ${k.gratisUnter} oder ab ${euro(k.gratisAb)} Geldeingang`;
+
+const kontoZuAnbieter = (e: KontoErgebnis): BonusKonto => (e.anbieter.kurz === "bb" ? BB : NORIS);
+
+/** Höchstens drei kurze Vorteile für die Match-Karte (Konto: gekürzte belegte Felder, Depot: die ersten drei vorhandenen). */
+export const kurzVorteile = (e: Ergebnis): string[] => {
+  if (e.art === "depot") return e.vorteile.slice(0, 3);
+  const k = kontoZuAnbieter(e);
+  return [`0 € Kontoführung ${kontoBedingungKurz(k)}`, k.karte, `Bargeld ${k.bargeld.charAt(0).toLowerCase()}${k.bargeld.slice(1)}`];
+};
+
+/** Eine Seite einer Vergleichszeile: `ja` setzt ein Häkchen, `klein` eine graue Zeile darunter, KEIN_WERT und KEIN_PREIS stehen leise. */
+export type VergleichZelle = { text: string; ja?: boolean; klein?: string };
+export type VergleichZeile = { label: string; links: VergleichZelle; rechts: VergleichZelle };
+
+/** Gibt es für eine Seite keinen belegten Wert, steht dort „–“, nie eine geratene Zahl oder ein Kreuz. */
+export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
+  const { links, rechts } = e;
+  if (!links || !rechts) return [];
+  const finde = (s: Spalte, label: string) => s.zeilen.find((z) => z.label === label);
+  const text = (z: Zeile | undefined): VergleichZelle => ({ text: z?.wert ?? KEIN_WERT });
+
+  if (e.art === "depot") {
+    return ["Passt zu deinen Antworten", "Halal-ETFs und Fonds", "Depotgebühr", "Order"].map((label) => ({
+      label,
+      links: text(finde(links, label)),
+      rechts: text(finde(rechts, label)),
+    }));
+  }
+
+  // Konto: Kontoführung (heute aus kontopreise.ts über bankPreis, Match aus girokontoBonus.ts), Zinsen (nur das Match ist belegt),
+  // Eröffnung (Feld ident, heute nur wenn belegt). Dispo und Wechselzeit haben keinen Beleg und fehlen.
+  const k = kontoZuAnbieter(e);
+  const fuehrung = finde(links, "Kontoführung im Monat");
+  const eroeffnung = finde(links, "Eröffnung");
+  return [
+    {
+      label: "Kontoführung im Monat",
+      links: { ...text(fuehrung), klein: fuehrung && fuehrung.wert !== KEIN_PREIS ? fuehrung.zusatz?.[0] : undefined },
+      rechts: { text: "0 €", ja: true, klein: kontoBedingungKurz(k) },
+    },
+    { label: "Zinsen auf Guthaben", links: { text: KEIN_WERT }, rechts: { text: "keine", ja: true } },
+    { label: "Eröffnung", links: text(eroeffnung), rechts: { text: k.ident } },
+  ];
+};
