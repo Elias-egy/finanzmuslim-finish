@@ -412,12 +412,6 @@
   height: auto;
   border-radius: 1.25rem;
 }
-.hc-community-foto--bild figcaption {
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
-}
 .hc-community-stimmen {
   display: flex;
   flex-direction: column;
@@ -1968,9 +1962,9 @@
   border-radius: 1px;
 }
 
-/* RN15: das Pult-Bild (360 × 480) nicht über seine Größe hinaus ziehen */
+/* RN16-02: Elias' Originalfoto quer, volle Breite am Handy, am Laptop höchstens 720 px */
 .hc-community-foto--bild {
-  max-width: 360px;
+  max-width: 720px;
 }
 /* RN15 (Elias RN14-02): runde Bank-Logos statt Bildern anderer Leute, überlappend wie die Bilder im Original (32 px, -9 px) */
 .hc-rund-banken {

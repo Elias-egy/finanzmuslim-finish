@@ -22,17 +22,16 @@ import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
  */
 
 /**
- * Elias' Foto vom Vortrag. RN16 (Elias RN15-03: „Nicht mehr das von Ihnen in Hamburg, sondern das bei meinem Vortrag, wo ich Mikrofon habe.
- * Du weißt, dieses andere Bild, was auch auf meiner Webseite war, davor“): das Vortragsbild mit Headset-Mikrofon, das seit der ersten
- * Fassung der Seite oben stand (src/assets/hero-elias-talk.jpg, 1400 × 934), hochkant 3:4 um Elias zugeschnitten, ohne Bearbeitung
- * (public/bilder/check/vortrag-mikrofon.webp, 720 × 960, gezeigt in 360 × 480). Ersetzt vortrag-allein-am-pult.webp aus RN15.
+ * Elias' Foto vom Vortrag. RN16 (Elias RN15-03: „das bei meinem Vortrag, wo ich Mikrofon habe“), RN16-02 (Elias: „Nimm lieber das Bild,
+ * das ist das Originalbild, anstatt das, was du genommen hast. Und dieses Elias beim Vortrag darunter kann weg.“): sein Originalfoto
+ * quer und ungeschnitten (Vault raw/2026-11-16-elias-rn16-02-vortrag-mikrofon-original.jpg, 2048 × 1365), als
+ * public/bilder/check/vortrag-mikrofon.webp in 1440 × 960, ohne Zeile darunter.
  */
-const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number; zeile: string } | null = {
+const COMMUNITY_FOTO: { src: string; alt: string; b: number; h: number } | null = {
   src: "/bilder/check/vortrag-mikrofon.webp",
   alt: "Elias bei einem Vortrag mit Mikrofon",
-  b: 360,
-  h: 480,
-  zeile: "Elias bei einem Vortrag",
+  b: 1440,
+  h: 960,
 };
 
 /**
@@ -221,7 +220,6 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
               {COMMUNITY_FOTO ? (
                 <figure className="hc-community-foto hc-community-foto--bild">
                   <img src={COMMUNITY_FOTO.src} alt={COMMUNITY_FOTO.alt} width={COMMUNITY_FOTO.b} height={COMMUNITY_FOTO.h} loading="lazy" />
-                  <figcaption>{COMMUNITY_FOTO.zeile}</figcaption>
                 </figure>
               ) : (
                 import.meta.env.DEV && (

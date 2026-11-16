@@ -118,7 +118,7 @@ describe("Verkaufsseite", () => {
     expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben das Vortragsfoto mit Mikrofon (RN16, Elias RN15-03) statt des Platzhalters", () => {
+  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben Elias' Originalfoto mit Mikrofon quer und ohne Zeile (RN16-02) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
     expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(1);
     expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(1);
@@ -128,7 +128,8 @@ describe("Verkaufsseite", () => {
     const foto = container.querySelector(".hc-community-foto img")!;
     expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-mikrofon.webp");
     expect(foto.getAttribute("alt")).toContain("Mikrofon");
-    expect(container.querySelector(".hc-community-foto figcaption")!.textContent).toBe("Elias bei einem Vortrag");
+    expect(foto.getAttribute("width")).toBe("1440");
+    expect(container.querySelector(".hc-community-foto figcaption")).toBeNull();
     // RN16 (Elias RN15-03 „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): lokal die drei Beispielbilder an der Zeile.
     expect(container.querySelectorAll(".hc-vertrauen .hc-leute-bilder img")).toHaveLength(3);
   });
