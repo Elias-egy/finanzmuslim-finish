@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BANKEN, bankNachId, bankPreis, freieWahl, schnellwahl, suche, suchNorm, wahlVon } from "@/data/bankSuche";
+import { BANKEN, bankNachId, bankPreis, bankWerte, freieWahl, schnellwahl, suche, suchNorm, wahlVon } from "@/data/bankSuche";
 import { KONTOPREISE } from "@/data/kontopreise";
 
 const erste = (s: string) => suche(s)[0];
@@ -107,7 +107,7 @@ describe("Banksuche im Bankkonto-Check (RN8)", () => {
     }
   });
 
-  it("Schnellwahl: sechzehn Banken mit Logo-Domain, die ersten acht in der Reihenfolge des Auftrags", () => {
+  it("Schnellwahl: achtundzwanzig Banken mit Logo-Domain, die ersten acht in der Reihenfolge des Auftrags, dahinter RN16-05", () => {
     expect(schnellwahl().map((b) => b.name)).toEqual([
       "Sparkasse",
       "Volksbank",
@@ -125,8 +125,32 @@ describe("Banksuche im Bankkonto-Check (RN8)", () => {
       "Targobank",
       "Revolut",
       "Santander",
+      "Sparda-Bank",
+      "BBBank",
+      "PSD Bank",
+      "1822direkt",
+      "Ziraat Bank",
+      "İşbank",
+      "KT Bank",
+      "bunq",
+      "Vivid",
+      "Volkswagen Bank",
+      "apoBank",
+      "GLS Bank",
     ]);
     expect(schnellwahl().every((b) => b.domain)).toBe(true);
+  });
+
+  it("RN16-05: fehlende Häuser sind über die Suche zu finden, auch ohne Sonderzeichen, und haben keine geratenen Werte", () => {
+    expect(namen("ziraat")[0]).toBe("Ziraat Bank");
+    expect(namen("isbank")[0]).toBe("İşbank");
+    expect(namen("İş Bankası")[0]).toBe("İşbank");
+    expect(namen("vw bank")[0]).toBe("Volkswagen Bank");
+    expect(namen("apobank")[0]).toBe("apoBank");
+    expect(namen("oldenburgische")[0]).toBe("OLB");
+    const w = bankWerte(wahlVon(bankNachId("ziraat-bank")!));
+    expect([w.zinsfrei, w.keinDispo, w.karteOhneKredit, w.applePay, w.kontowechsel]).toEqual([null, null, null, null, null]);
+    expect(bankPreis(wahlVon(bankNachId("isbank")!))).toBeNull();
   });
 
   it("Banken ohne Treffer in der Vergleichsliste haben trotzdem eine Messgruppe, der freie Text steht nie darin", () => {

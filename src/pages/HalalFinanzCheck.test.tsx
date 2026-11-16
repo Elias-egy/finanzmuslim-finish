@@ -203,10 +203,10 @@ describe("Bankkonto-Check", () => {
     await tippeText("Neues Bankkonto");
     await tippeText("Fast nur mit Karte");
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
-    // Schnellwahl (Elias RN9-01: „scrollbar“): 16 Banken in einem Scroll-Rahmen, „Noch kein Konto“ steht fest darunter, außerhalb der Liste.
+    // Schnellwahl (Elias RN9-01: „scrollbar“): 28 Banken (RN16-05) in einem Scroll-Rahmen, „Noch kein Konto“ steht fest darunter, außerhalb der Liste.
     const rahmen = container.querySelector(".hc-schnell-rahmen") as HTMLElement;
     expect(rahmen).toBeTruthy();
-    expect(within(rahmen).getAllByRole("button")).toHaveLength(16);
+    expect(within(rahmen).getAllByRole("button")).toHaveLength(28);
     expect(rahmen.querySelector(".hc-schnell")).toBeTruthy();
     expect(within(rahmen).queryByRole("button", { name: "Noch kein Konto" })).toBeNull();
     const keine = container.querySelector(".hc-schnell-keine") as HTMLElement;

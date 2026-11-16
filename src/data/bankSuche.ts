@@ -155,6 +155,7 @@ const GRUPPEN: BankEintrag[] = [
     name: "Sparda-Bank",
     dativ: "der Sparda-Bank",
     gruppe: "volksbank",
+    domain: "sparda.de",
     istGruppe: true,
     aliase: ["sparda", "sparda bank"],
     rang: 9,
@@ -165,11 +166,27 @@ const GRUPPEN: BankEintrag[] = [
     name: "PSD Bank",
     dativ: "der PSD Bank",
     gruppe: "volksbank",
+    // Logo.dev hat für psd-bank.de nur ein blasses Bild, das grüne PSD-Zeichen liefert die Seite der PSD Bank Nürnberg (RN16-05).
+    domain: "psd-nuernberg.de",
     istGruppe: true,
     aliase: ["psd", "psd bank"],
     rang: 10,
     produkte: [],
   },
+];
+
+/**
+ * RN16-05 (Elias: „da fehlen auf jeden Fall noch ein paar Banken“): Häuser, die Leser haben, die aber nicht im Girokonto-Vergleich
+ * stehen. Sie sind wählbar wie jede Bank, mit Namen und Logo; Werte gibt es für sie keine (wie bei Sparda und PSD), also auch
+ * keine Zinsen- oder Dispo-Zeile ohne Beleg. Ziraat Bank und İşbank sind die türkischen Banken mit Girokonto und Filialen in
+ * Deutschland, KT Bank steht schon im Vergleich.
+ */
+const ZUSATZ: BankEintrag[] = [
+  { id: "ziraat-bank", name: "Ziraat Bank", dativ: "der Ziraat Bank", gruppe: "andere", domain: "ziraatbank.de", istGruppe: false, aliase: ["ziraat", "ziraat bankasi", "ziraat bankası"], rang: 11, produkte: [] },
+  { id: "isbank", name: "İşbank", dativ: "der İşbank", gruppe: "andere", domain: "isbank.de", istGruppe: false, aliase: ["isbank", "is bank", "işbank", "iş bankası", "is bankasi", "türkiye iş bankası"], rang: 12, produkte: [] },
+  { id: "volkswagen-bank", name: "Volkswagen Bank", dativ: "der Volkswagen Bank", gruppe: "direktbank", domain: "vwfs.de", istGruppe: false, aliase: ["vw bank", "vw", "volkswagen"], rang: 30, produkte: [] },
+  { id: "apobank", name: "apoBank", dativ: "der apoBank", gruppe: "andere", domain: "apobank.de", istGruppe: false, aliase: ["apo bank", "apotheker und aerztebank", "deutsche apotheker- und ärztebank"], rang: 30, produkte: [] },
+  { id: "olb", name: "OLB", dativ: "der OLB", gruppe: "grossbank", domain: "olb.de", istGruppe: false, aliase: ["oldenburgische landesbank", "olb bank"], rang: 30, produkte: [] },
 ];
 
 const anzeigeName = (haus: string, name: string) => HAUS[haus]?.name ?? name;
@@ -207,7 +224,7 @@ const baueListe = (): BankEintrag[] => {
       b.produkte.push({ id: a.id, produkt: a.produkt, preis, ident });
     }
   }
-  return [...GRUPPEN, ...nachHaus.values()];
+  return [...GRUPPEN, ...nachHaus.values(), ...ZUSATZ.filter((z) => !nachHaus.has(z.id))];
 };
 
 export const BANKEN: BankEintrag[] = baueListe();
@@ -236,6 +253,19 @@ export const SCHNELLWAHL_IDS = [
   "targobank",
   "revolut",
   "santander",
+  // RN16-05 (Elias: „da fehlen auf jeden Fall noch ein paar Banken“): weitere Häuser, die Leser haben
+  "grp-sparda",
+  "bbbank",
+  "grp-psd",
+  "1822direkt",
+  "ziraat-bank",
+  "isbank",
+  "kt-bank",
+  "bunq",
+  "vivid",
+  "volkswagen-bank",
+  "apobank",
+  "gls",
 ] as const;
 
 export const schnellwahl = (): BankEintrag[] =>
