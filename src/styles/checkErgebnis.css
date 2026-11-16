@@ -4,7 +4,7 @@
  * hoch als Bogen (obb-hoch), runter als Bogen (obb-runter), Linie zeichnet sich in 6,5 s, Häkchen nach den Videozeiten. Orange (Elias RN9-02)
  * in den Knoten, im Zähler, in der letzten Zeile und im Aufleuchten am Ende.
  * Ergebnis A nach Blueprint rn10 Abschnitt 5 (Ring 112/144, r 46, Strich 5, Karte Rundung 24, Häkchen 24-px-Kreis Blau 14 %, Knopf 56/16/700),
- * Ergebnis B nach dem Ergänzungsvergleich im OS (views/ergaenzung.css .eg-karte, .eg-k-zahlen, .eg-pfeil, .eg-pt).
+ * Ergebnis B (RN11-01) nach dem Ergänzungsvergleich im OS (views/ergaenzung.css .eg-kopfzeile, .eg-dlogo, .eg-karte, .eg-pfeil, .eg-pt, .eg-k-oeffnen, .eg-werbung), aber weiß.
  */
 .hc {
   --orange: #ff8a3d;
@@ -598,63 +598,80 @@
   font-size: 16px;
 }
 
-/* ---------- Fassung B: Start-Bildschirm, Wischkarten ---------- */
-.hc-wb-start {
-  min-height: calc(100svh - 120px);
+/* ---------- Fassung B: Kopfzeile, Wischkarten (weiß, wie die Bildschirme des Ergänzungsvergleichs im OS) ---------- */
+.hc-erg--b {
+  padding-top: 28px;
+}
+@media (min-width: 768px) {
+  .hc-erg--b {
+    padding-top: 56px;
+  }
+}
+/* Kopfzeile wie OS-Bild 2 (.eg-kopfzeile): links die weiße Logo-Platte des Matches, rechts Kicker und Überschrift */
+.hc-wb-kopf {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 18px;
-  text-align: center;
+  gap: 16px;
 }
-.hc-wb-start .hc-erg-kicker {
+.hc-wb-kopf-text {
+  min-width: 0;
+}
+.hc-wb-kopf-text .hc-erg-kicker {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.hc-wb-h1 {
   margin: 0;
-}
-.hc-wb-start .hc-erg-ring-zeile {
-  flex-direction: column;
-  gap: 10px;
-}
-.hc-wb-start .hc-erg-ring {
-  width: 144px;
-  height: 144px;
-}
-.hc-wb-start .hc-erg-ring-text {
-  max-width: none;
-}
-.hc-wb-start .hc-erg-satz {
-  margin: 0 auto;
-}
-.hc-wb-start .hc-erg-antw {
-  justify-content: center;
-  margin: 0;
-}
-.hc-wb-weiter {
-  margin: 16px 0 0;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  color: var(--blau-text);
-  font-size: 15px;
-  font-weight: 600;
-}
-.hc-wb-weiter svg {
-  width: 22px;
-  height: 22px;
-}
-
-.hc-wisch {
-  margin-top: 24px;
-}
-.hc-wisch-kopf h2 {
-  margin: 0 0 16px;
-  font-size: 24px;
+  font-size: clamp(20px, 5.2vw, 28px);
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+/* Logo auf weißer Platte wie .eg-dlogo, auch im Dunkeln weiß */
+.hc-wb-platte {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  padding: 10px 14px;
+  border: 1px solid var(--linie);
+  border-radius: 14px;
+  background: #fff;
+  color: #0b1220;
+  box-shadow: 0 10px 22px -14px rgba(15, 23, 42, 0.4);
+}
+.hc-wb-platte--gross {
+  align-self: center;
+  padding: 16px 24px;
+  border-radius: 20px;
+}
+.hc-wb-platte--tab {
+  padding: 6px 8px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+@media (max-width: 520px) {
+  .hc-wb-kopf {
+    gap: 12px;
+  }
+  .hc-wb-kopf > .hc-wb-platte {
+    padding: 8px 10px;
+  }
+  .hc-wb-kopf-text .hc-erg-kicker {
+    font-size: 11px;
+  }
+  .hc-wb-h1 {
+    font-size: 19px;
+  }
+}
+.hc-wisch {
+  margin-top: 24px;
 }
 .hc-wisch-fenster {
   display: flex;
+  align-items: flex-start;
   gap: 12px;
   margin-inline: -20px;
   padding: 4px 20px 8px;
@@ -702,22 +719,6 @@
   height: 3px;
   background: linear-gradient(90deg, var(--blau), color-mix(in srgb, var(--blau) 20%, transparent));
 }
-.hc-wk--problem::before {
-  background: linear-gradient(90deg, var(--orange), color-mix(in srgb, var(--orange) 20%, transparent));
-}
-.hc-wk-ueber {
-  color: var(--blau-text);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.hc-wk--problem .hc-wk-ueber {
-  color: #c2520f;
-}
-.dark .hc .hc-wk--problem .hc-wk-ueber {
-  color: var(--orange);
-}
 .hc-wk h3 {
   margin: 0;
   font-size: 22px;
@@ -731,120 +732,202 @@
   color: var(--grau);
   font-size: 14px;
 }
-.hc-wk-logos {
+/* Karte „Dein Match“: orangener Akzent (Balken oben und Marke), beim Depot die gerechnete Passung groß */
+.hc-wk--match::before {
+  background: linear-gradient(90deg, var(--orange), var(--blau));
+}
+.hc-wk-ueber {
+  color: var(--blau-text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hc-wk-ueber--match {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--orange) 20%, transparent);
+  color: #b4490c;
+}
+.dark .hc .hc-wk-ueber--match {
+  color: var(--orange);
+}
+.hc-wk--match h3 {
+  text-align: center;
+}
+.hc-wk--match .hc-wk-klein {
+  margin-top: -8px;
+  text-align: center;
+}
+.hc-wb-passung {
+  margin: 0;
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+.hc-wb-passung b {
+  color: var(--blau-text);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.hc-wb-passung span {
+  font-size: 18px;
+  font-weight: 600;
+}
+.hc-wb-preis {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.hc-wk .hc-erg-haken {
   gap: 12px;
 }
-.hc-wk-logos-pfeil {
-  width: 20px;
-  height: 20px;
+.hc-wk .hc-erg-haken li {
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+/* Tabelle heute links, Match rechts: für jeden Vergleich wiederverwendbar (Werte nur aus den Spalten) */
+.hc-wk-tab {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 8px 6px;
+  margin: -6px -8px;
+  width: calc(100% + 16px);
+}
+.hc-wk-tab th,
+.hc-wk-tab td {
+  text-align: left;
+  vertical-align: top;
+}
+.hc-wk-tab-kopf {
+  padding: 0 0 6px;
+  font-weight: 400;
+}
+.hc-wk-tab-kopf .hc-wb-platte {
+  display: grid;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 4px;
+  overflow: hidden;
+}
+/* Der Schriftzug ist 134 px breit und passt sonst nicht in eine halbe Karte am Handy */
+.hc-wk-tab-kopf .hc-wb-platte > * {
+  zoom: 0.72;
+}
+.hc-wk-tab-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.hc-wk-tab-kopf small {
+  display: block;
+  margin-top: 2px;
   color: var(--grau);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
 }
-.hc-wk-kacheln {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.hc-wk-tab-kopf--ziel .hc-wk-tab-name {
+  color: var(--blau-text);
 }
-.hc-wk-kachel {
-  display: grid;
-  gap: 4px;
-  padding: 12px 14px;
+.hc-wk-tab-label {
+  padding: 8px 0 0;
+  color: var(--grau);
+  font-size: 13px;
+  font-weight: 600;
+}
+.hc-wk-tab-zelle {
+  padding: 11px 12px;
   border: 1px solid var(--linie);
   border-radius: 14px;
   background: var(--flaeche);
 }
-.hc-wk-kachel span {
-  font-size: 14px;
-  line-height: 1.3;
-}
-.hc-wk-kachel b {
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.hc-wk-kachel b.hc-wk-kachel-lang {
-  font-size: 17px;
-  line-height: 1.25;
-}
-.hc-wk-kachel--ziel {
+.hc-wk-tab-zelle--ziel {
   border-color: color-mix(in srgb, var(--blau) 35%, transparent);
   background: var(--blau-hell);
 }
-.hc-wk-kachel--ziel b {
+.hc-wk-tab-zelle b {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.hc-wk-tab-zelle--ziel b {
   color: var(--blau-text);
 }
-.hc-wk-punkte {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
+.hc-wk-tab-zelle b.hc-wk-tab-text {
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 1.3;
 }
-.hc-wk-punkte li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 16px;
-  line-height: 1.45;
-}
-.hc-wk-punkte--problem svg {
-  flex: none;
-  width: 22px;
-  height: 22px;
-  margin-top: 1px;
-  padding: 4px;
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--orange) 18%, transparent);
-  color: #c2520f;
-  stroke-width: 3;
-}
-.dark .hc .hc-wk-punkte--problem svg {
-  color: var(--orange);
-}
-.hc-wk-satz {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.55;
-}
-.hc-wk-kopf {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.hc-wk-kopf p {
-  margin: 0;
-  display: grid;
-  gap: 2px;
-}
-.hc-wk-kopf b {
-  font-size: 18px;
-  font-weight: 600;
-}
-.hc-wk-kopf span {
+.hc-wk-tab-zelle b.hc-wk-tab-leise {
   color: var(--grau);
-  font-size: 14px;
-}
-.hc-wk-preis {
-  margin: 0;
-  font-size: 20px;
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
 }
-.hc-wk .hc-vs {
-  margin: 0;
+.hc-wk-tab-zelle small {
+  display: block;
+  margin-top: 4px;
+  color: var(--grau);
+  font-size: 13px;
+  line-height: 1.35;
 }
+
+/* Letzte Karte wie OS-Bild 4 (.eg-k-oeffnen): Logo groß, Satz, Knopf mit Etikett „Werbung“ */
 .hc-wk-oeffnen {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  padding: 8px 0 4px;
+  padding: 6px 0 2px;
   text-align: center;
 }
 .hc-wk-oeffnen h3 {
-  font-size: 26px;
+  font-size: clamp(22px, 6vw, 26px);
+}
+.hc-wb-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.hc-wb-werbung {
+  padding: 2px 10px;
+  border: 1px solid var(--linie);
+  border-radius: 9999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.hc-wk-oeffnen .hc-erg-pflicht {
+  max-width: 34ch;
+}
+
+/* Ganz unten noch einmal der Knopf (nur in B, Elias RN11-01) */
+.hc-wb-unten {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+@media (max-width: 520px) {
+  .hc-wb-unten .hc-erg-btn {
+    width: 100%;
+  }
 }
 .hc-wisch-steuer {
   display: flex;
@@ -913,11 +996,6 @@
       stroke-dashoffset: 289px;
     }
   }
-  @keyframes hc-erg-pfeil {
-    50% {
-      transform: translateY(5px);
-    }
-  }
   .hc-erg:not(.hc-erg--bereit) [data-e] {
     opacity: 0;
   }
@@ -941,9 +1019,6 @@
   }
   .hc-erg--bereit .hc-erg-ring-fuell {
     animation: hc-erg-fuellen 1.2s 0.3s var(--ease-erg) both;
-  }
-  .hc-erg--bereit .hc-wb-weiter svg {
-    animation: hc-erg-pfeil 1.6s 1.2s ease-in-out infinite;
   }
   .hc-erg-btn .hc-pfeil {
     transition: transform 0.2s var(--ease-erg);

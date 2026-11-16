@@ -514,17 +514,35 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.querySelectorAll("a[href^='/out/']")).toHaveLength(1);
   });
 
-  it("Fassung B (?ergebnis=b): Wischkarten Vergleich, altes Konto, neues Konto, Liste, „Jetzt bei norisbank eröffnen“ mit dem einen Link, darunter Stimmen", async () => {
+  it("Fassung B (?ergebnis=b): Kopfzeile „Dein Match“, Wischkarten Match, Vorteile, Tabelle, Eröffnen ohne Weiter-Knopf, zwei Links, Leute und Stimmen", async () => {
     const { container } = await kontoWeg("/check?art=konto&schritt=fragen&ergebnis=b");
     expect(container.querySelector("[data-ergebnis='b']")).toBeTruthy();
+    expect(container.querySelector(".hc-wb-kopf")!.textContent).toContain("Dein Match");
+    expect(container.querySelector(".hc-wb-kopf h1")!.textContent).toContain("norisbank");
     const ueber = [...container.querySelectorAll(".hc-wk-ueber")].map((u) => u.textContent);
-    expect(ueber).toEqual(["Hier der Vergleich", "Dein altes Konto", "Dein neues Konto", "Gegeneinander", "Letzter Schritt"]);
-    // Sparkasse hat keinen belegten Preis: ehrlicher Satz statt einer Zahl.
-    expect(container.querySelector(".hc-wk--problem")!.textContent).toContain("steht in deinem Kontoauszug");
-    expect(container.textContent).toContain("Jetzt bei norisbank eröffnen");
+    expect(ueber).toEqual(["Dein Match", "Deine Vorteile", "Im Vergleich", "Letzter Schritt"]);
+    // Kein „Weiter“, keine Problem-Karte.
+    expect([...container.querySelectorAll("button, a")].some((b) => /^weiter/i.test(b.textContent ?? ""))).toBe(false);
+    expect(container.querySelector(".hc-wk--problem")).toBeNull();
+    // Beim Konto gibt es keine gerechnete Prozentzahl in der Match-Karte.
+    expect(container.querySelector(".hc-wk--match")!.textContent).not.toContain("%");
+    expect(container.querySelector(".hc-wb-passung")).toBeNull();
+    // Tabelle heute links, Match rechts, Werte aus den Spalten.
+    const tab = container.querySelector(".hc-wk-tab")!;
+    expect(tab.textContent).toContain("Sparkasse");
+    expect(tab.textContent).toContain("norisbank");
+    expect(container.textContent).toContain("Sparkasse und norisbank im Vergleich");
+    // Letzte Karte: Satz, Knopf, Etikett „Werbung“.
+    const letzte = container.querySelectorAll(".hc-wk")[3];
+    expect(letzte.textContent).toContain("Jetzt bei norisbank eröffnen");
+    expect(letzte.textContent).toContain("Werbung");
+    // Genau zwei Links zum Anbieter: einer in der letzten Karte, einer ganz unten.
     const links = container.querySelectorAll("a[href^='/out/']");
-    expect(links).toHaveLength(1);
-    expect(links[0].closest(".hc-wk")).toBeTruthy();
+    expect(links).toHaveLength(2);
+    expect(links[0].closest(".hc-wk")).toBe(letzte);
+    expect(links[1].closest(".hc-wb-unten")!.textContent).toContain("Bei norisbank eröffnen");
+    // Darunter: Leute und Stimmen.
+    expect(container.textContent).toContain("Über 22.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.querySelector(".hc-erg-stimmen [data-stimme-platzhalter]")).toBeTruthy();
   });
 });
