@@ -19,8 +19,9 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
   it("genau ein Link, der den Check ganz normal öffnet, mit der Quelle des Freebies; kein „Quiz starten“, die Fragen laufen nicht im Kasten", () => {
     for (const quelle of ["boykottliste", "aktienliste", "halal-anlagen", "gold-plan", "rizq"] as const) {
       const { container, unmount } = zeige(quelle);
-      expect(ziele(container), quelle).toEqual([`/check?quelle=${quelle}`]);
-      expect(container.querySelector("a")?.textContent).toBe("Match finden");
+      // RN16-13: zwei Knöpfe, beide „Match finden“ auf denselben Check.
+      expect(ziele(container), quelle).toEqual([`/check?quelle=${quelle}`, `/check?quelle=${quelle}`]);
+      expect([...container.querySelectorAll("a")].map((a) => a.textContent)).toEqual(["Match finden", "Match finden"]);
       expect(container.textContent).not.toMatch(/Quiz starten|Check starten/);
       expect(container.querySelector("aside")?.getAttribute("data-check-einstieg")).toBe(quelle);
       unmount();
@@ -55,7 +56,7 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
 
   it("bis zu drei Stimmen untereinander, kein Wischen (RN16-10, RN16-11)", () => {
     const { container } = zeige("boykottliste");
-    expect(container.querySelectorAll(".ce-stimmen figure").length).toBeLessThanOrEqual(3);
+    expect(container.querySelectorAll(".ce-stimmen figure").length).toBeLessThanOrEqual(2);
     expect(container.querySelector(".ce-punkt")).toBeNull();
   });
 });

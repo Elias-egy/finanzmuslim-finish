@@ -91,7 +91,7 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
     const check = aufruf.querySelector("[data-check-einstieg='aktienliste']")!;
     // RN16-09: im Freebie nur noch Werbung mit einem Knopf, der den Check normal öffnet.
-    expect([...check.querySelectorAll("a")].map((a) => a.getAttribute("href"))).toEqual(["/check?quelle=aktienliste"]);
+    expect([...check.querySelectorAll("a")].map((a) => a.getAttribute("href"))).toEqual(["/check?quelle=aktienliste", "/check?quelle=aktienliste"]);
     expect(check.getAttribute("data-art")).toBe("depot");
     expect(check.textContent).toContain("Was suchst du gerade?");
     expect(check.textContent).toContain("passt zu deiner Liste");

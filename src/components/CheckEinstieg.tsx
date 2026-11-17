@@ -100,13 +100,14 @@ const useVorschau = () => {
  * bis zu drei Karten untereinander. Nur echte aus checkStimmen.ts; ohne echte zeigt nur der Entwicklungsmodus Beispiel-Stimmen
  * (als Platzhalter markiert), die Produktion nichts. Eine einzelne Stimme steht in voller Breite.
  */
-export const STIMMEN_MAX = 3;
+/** Elias RN16-13: „dann die 2 Testimonials“. */
+export const STIMMEN_MAX = 2;
 
 /** Titel und Satz (Elias RN16-12: „54 Bankkonten, 35 Depots. Ich habe sie alle getestet. Und dann unten … um Muslimen zu helfen, habe
  * ich einen riesen Vergleich aufgestellt“; „Nicht Girokonten, man kann hier erstmal Bankkonten schreiben“). Zahlen aus halalFinanzCheck.ts. */
 export const TITEL_ZAHLEN = `${KONTEN_GETESTET} Bankkonten, ${DEPOTS_GETESTET} Depots.`;
 export const TITEL = "Ich habe sie alle getestet.";
-export const SATZ = "Um Muslimen zu helfen, habe ich daraus einen riesigen Vergleich aufgestellt. Ein paar kurze Fragen, und du siehst dein Match.";
+export const SATZ = "Um Muslimen zu helfen, habe ich daraus einen riesigen Vergleich aufgestellt. Ein paar kurze Fragen, und du weißt, welcher Anbieter genau zu deinen Wünschen passt.";
 
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
@@ -139,6 +140,18 @@ const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   );
 };
 
+/** Elias RN16-13: „2 Call to Actions … Einer unter dem Satz … dann kommt das Video, dann die 2 Testimonials und dann nochmal Match finden“. */
+const Knopf = ({ quelle, art, stelle }: { quelle: CheckQuelle; art: string; stelle: "oben" | "unten" }) => (
+  <Link
+    to={`/check?quelle=${quelle}`}
+    onClick={() => ereignis("freebie_check_klick", { check: true, quelle, art, im: "freebie", stelle })}
+    className={`ce-knopf ce-knopf--${stelle}`}
+  >
+    Match finden
+    <ArrowRight aria-hidden />
+  </Link>
+);
+
 const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; className?: string }) => {
   const art = ART_JE_QUELLE[quelle] ?? "konto";
   const weg = WEG[art];
@@ -152,6 +165,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
         <span className="ce-titel-zahlen">{TITEL_ZAHLEN}</span> {TITEL}
       </h2>
       <p className="ce-satz">{SATZ}</p>
+      <Knopf quelle={quelle} art={art} stelle="oben" />
 
       <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
         <div className={`ce-reihe${an(1)}`}>
@@ -206,14 +220,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
 
       <StimmenReihe art={art} />
 
-      <Link
-        to={`/check?quelle=${quelle}`}
-        onClick={() => ereignis("freebie_check_klick", { check: true, quelle, art, im: "freebie" })}
-        className="ce-knopf"
-      >
-        Match finden
-        <ArrowRight aria-hidden />
-      </Link>
+      <Knopf quelle={quelle} art={art} stelle="unten" />
       <p className="ce-klein">Kostenlos und ohne Anmeldung</p>
     </aside>
   );

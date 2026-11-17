@@ -291,6 +291,9 @@
     transform: translateX(3px);
   }
 }
+.ce-knopf--oben {
+  margin-top: 16px;
+}
 .ce-knopf:active {
   transform: scale(0.98);
 }
