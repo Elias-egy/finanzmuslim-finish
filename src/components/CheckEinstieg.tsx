@@ -110,7 +110,9 @@ export const TITEL = "Ich habe sie alle getestet.";
 /** RN16-15 („Um Muslim zu helfen, das ist nicht so gut … die meisten Muslime wissen nicht, dass ihr Konto Zinsen zahlt … Mehr FOMO.
  * Deswegen habe ich den Test erstellt, der nach ein paar Fragen dir sagt, welcher Anbieter deinen Halal-Wünschen am besten entspricht“).
  * „ob“ statt „dass“: dass die meisten Konten Zinsen zahlen, ist nicht belegt. */
-export const SATZ = "Viele Muslime wissen nicht, ob ihr Konto oder Depot Zinsen auf ihr Geld zahlt. Deshalb habe ich einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
+// RN16-19: Elias' Wortlaut („Viele Muslime wissen nicht, dass ihr Bankkonto ihnen Zinsen zahlt oder ein Dispo einräumt. Deshalb habe ich
+// fast 90 Anbieter verglichen und einen Test gebaut. Und dann das danach.“); 54 Bankkonten und 35 Depots sind 89.
+export const SATZ = "Viele Muslime wissen nicht, dass ihr Bankkonto ihnen Zinsen zahlt oder einen Dispo einräumt. Deshalb habe ich fast 90 Anbieter verglichen und einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
 
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
