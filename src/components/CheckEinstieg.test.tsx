@@ -29,8 +29,8 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
 
   it("oben kein Foto, nur der Satz „selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst“, je Art mit der richtigen Zahl", () => {
     const k = zeige("boykottliste");
-    expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("Ich habe sie alle für dich getestet.");
-    expect(k.container.textContent).toContain("35 Depots und 54 Girokonten, getestet und bewertet, damit kein Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist.");
+    expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("54 Bankkonten, 35 Depots. Ich habe sie alle getestet.");
+    expect(k.container.textContent).toContain("Um Muslimen zu helfen, habe ich daraus einen riesigen Vergleich aufgestellt.");
   });
 
   it("die Vorschau zeigt die echte erste Frage mit „beliebt“ am Bankkonto und aus Anlagen-Freebies orange „passt zu …“ am Depot (RN16-08)", () => {

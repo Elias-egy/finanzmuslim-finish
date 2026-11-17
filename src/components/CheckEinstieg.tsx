@@ -102,10 +102,11 @@ const useVorschau = () => {
  */
 export const STIMMEN_MAX = 3;
 
-/** Titel und Satz (Elias RN16-11: „Der Titel muss mehr knallen. Ich habe sie alle für dich getestet … getestet und bewertet, damit kein
- * Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist“). Zahlen aus halalFinanzCheck.ts (54 Girokonten, belegt RN8-06). */
-export const TITEL = "Ich habe sie alle für dich getestet.";
-export const SATZ = `${DEPOTS_GETESTET} Depots und ${KONTEN_GETESTET} Girokonten, getestet und bewertet, damit kein Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist.`;
+/** Titel und Satz (Elias RN16-12: „54 Bankkonten, 35 Depots. Ich habe sie alle getestet. Und dann unten … um Muslimen zu helfen, habe
+ * ich einen riesen Vergleich aufgestellt“; „Nicht Girokonten, man kann hier erstmal Bankkonten schreiben“). Zahlen aus halalFinanzCheck.ts. */
+export const TITEL_ZAHLEN = `${KONTEN_GETESTET} Bankkonten, ${DEPOTS_GETESTET} Depots.`;
+export const TITEL = "Ich habe sie alle getestet.";
+export const SATZ = "Um Muslimen zu helfen, habe ich daraus einen riesigen Vergleich aufgestellt. Ein paar kurze Fragen, und du siehst dein Match.";
 
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
@@ -148,7 +149,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
   return (
     <aside data-check-einstieg={quelle} data-art={art} aria-labelledby={`check-${quelle}`} className={`ce ${className}`}>
       <h2 id={`check-${quelle}`} className="ce-titel">
-        {TITEL}
+        <span className="ce-titel-zahlen">{TITEL_ZAHLEN}</span> {TITEL}
       </h2>
       <p className="ce-satz">{SATZ}</p>
 

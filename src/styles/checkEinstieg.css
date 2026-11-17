@@ -25,6 +25,10 @@
     font-size: 30px;
   }
 }
+.ce-titel-zahlen {
+  display: block;
+  color: hsl(var(--primary));
+}
 .ce-satz {
   margin: 10px 0 0;
   font-size: 17px;
