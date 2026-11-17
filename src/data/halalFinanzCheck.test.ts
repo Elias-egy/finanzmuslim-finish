@@ -144,13 +144,14 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
 
   it("das grüne Etikett der ersten Frage hängt nur an der Quelle (Elias RN10-07): Standard Bankkonto „am beliebtesten“, bei den zwei Anlagen-Listen Depot „passt zu deiner Liste“", () => {
     expect(ETIKETT_LISTE).toBe("passt zu deiner Liste");
-    const etiketten = (q: Parameters<typeof zielFrage>[0]) => zielFrage(q).optionen.map((o) => [o.wert, o.etikett ?? null]);
+    // RN16-08: Bankkonto bleibt überall grün „am beliebtesten“, aus den Anlagen-Listen kommt orange „passt zu deiner Liste“ an Depot dazu.
+    const etiketten = (q: Parameters<typeof zielFrage>[0]) => zielFrage(q).optionen.map((o) => [o.wert, o.etikett ?? null, o.hinweis ?? null]);
     for (const q of ["homepage", "kopf", "menue", "quiz", "boykottliste"] as const) {
-      expect(etiketten(q), q).toEqual([["konto", "am beliebtesten"], ["invest", null], ["unsicher", null]]);
-      expect(hinweisJeQuelle(q)).toEqual({ ziel: "konto", etikett: "am beliebtesten" });
+      expect(etiketten(q), q).toEqual([["konto", "am beliebtesten", null], ["invest", null, null], ["unsicher", null, null]]);
+      expect(hinweisJeQuelle(q)).toBeUndefined();
     }
     for (const q of ["aktienliste", "halal-anlagen"] as const) {
-      expect(etiketten(q), q).toEqual([["konto", null], ["invest", "passt zu deiner Liste"], ["unsicher", null]]);
+      expect(etiketten(q), q).toEqual([["konto", "am beliebtesten", null], ["invest", null, "passt zu deiner Liste"], ["unsicher", null, null]]);
       expect(hinweisJeQuelle(q)).toEqual({ ziel: "invest", etikett: "passt zu deiner Liste" });
     }
     // Sonst ist die Frage überall dieselbe: Titel, Blase, Antworten.
@@ -221,16 +222,21 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(kennungen.size).toBe(8);
     for (const alt of ["ak", "ha", "bo", "hp", "ko", "me", "qz"]) expect(kennungen.has(alt)).toBe(false);
     // Das Etikett: Konto-Freebies Standard, Anlagen-Freebies Depot mit dem Wort, das zum Freebie passt.
-    expect(hinweisJeQuelle("vertrags-ampel")).toEqual({ ziel: "konto", etikett: ETIKETT });
-    expect(hinweisJeQuelle("rizq")).toEqual({ ziel: "konto", etikett: ETIKETT });
+    expect(hinweisJeQuelle("vertrags-ampel")).toBeUndefined();
+    expect(hinweisJeQuelle("rizq")).toBeUndefined();
+    expect(zielFrage("rizq").optionen[0].etikett).toBe(ETIKETT);
     for (const q of ["gold-plan", "sukuk-plan", "portfolio-plan"] as const) expect(hinweisJeQuelle(q)).toEqual({ ziel: "invest", etikett: ETIKETT_PLAN });
     expect(hinweisJeQuelle("broker-vergleich")).toEqual({ ziel: "invest", etikett: ETIKETT_VERGLEICH });
     expect(ETIKETT_PLAN).toBe("passt zu deinem Plan");
     expect(ETIKETT_VERGLEICH).toBe("passt zu deinem Vergleich");
     // Nur die zwei diktierten Quellen tragen „passt zu deiner Liste“.
-    const liste = (Object.keys(UEBERSCHRIFT) as CheckQuelle[]).filter((q) => hinweisJeQuelle(q).etikett === ETIKETT_LISTE);
+    const liste = (Object.keys(UEBERSCHRIFT) as CheckQuelle[]).filter((q) => hinweisJeQuelle(q)?.etikett === ETIKETT_LISTE);
     expect(liste.sort()).toEqual(["aktienliste", "halal-anlagen"]);
-    expect(zielFrage("gold-plan").optionen.map((o) => [o.wert, o.etikett ?? null])).toEqual([["konto", null], ["invest", "passt zu deinem Plan"], ["unsicher", null]]);
+    expect(zielFrage("gold-plan").optionen.map((o) => [o.wert, o.etikett ?? null, o.hinweis ?? null])).toEqual([
+      ["konto", ETIKETT, null],
+      ["invest", null, "passt zu deinem Plan"],
+      ["unsicher", null, null],
+    ]);
     // Unbekannte Werte laufen weiter als „homepage“.
     expect(quelleAus("gold")).toBe("homepage");
   });

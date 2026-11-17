@@ -99,7 +99,8 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     ]);
     expect(check.getAttribute("data-art")).toBe("depot");
     expect(check.textContent).toContain("Was suchst du gerade?");
-    expect(check.querySelector("[data-etikett]")?.textContent).toBe("passt zu deiner Liste");
-    expect([...check.querySelectorAll("li")].map((li) => li.textContent)).toEqual(["Neues Bankkonto", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
+    expect(check.querySelector("[data-etikett]")?.textContent).toBe("am beliebtesten");
+    expect(check.querySelector("[data-hinweis]")?.textContent).toBe("passt zu deiner Liste");
+    expect([...check.querySelectorAll("li")].map((li) => li.textContent)).toEqual(["Neues Bankkontoam beliebtesten", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
   });
 });

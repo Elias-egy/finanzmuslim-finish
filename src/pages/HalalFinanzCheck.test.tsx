@@ -183,12 +183,12 @@ describe("Chat", () => {
     expect(container.querySelector(".hc-chat .hc-sprech")?.textContent).toBe("Kein Problem. Dann fang mit dem Konto an, das ist der leichteste Schritt.");
   });
 
-  it("„Match finden“ öffnet auf derselben Route die erste Frage mit genau einem grünen Etikett: bei der Aktien-Liste „passt zu deiner Liste“, sonst „am beliebtesten“", async () => {
+  it("„Match finden“ öffnet auf derselben Route die erste Frage: Bankkonto immer grün „am beliebtesten“, aus der Aktien-Liste dazu orange „passt zu deiner Liste“ (RN16-08)", async () => {
     const a = zeige("/check?quelle=aktienliste");
     await tippe(/^Match finden/);
     expect(titel()).toBe("Was suchst du gerade?");
     expect(screen.getAllByText("passt zu deiner Liste").length).toBe(1);
-    expect(screen.queryByText("am beliebtesten")).toBeNull();
+    expect(screen.getAllByText("am beliebtesten").length).toBe(1);
     a.unmount();
     zeige("/check?quelle=homepage");
     await tippe(/^Match finden/);
@@ -473,7 +473,7 @@ describe("Ohne art und aus dem Freebie", () => {
     expect(titel()).toBe("Wo hast du dein Depot?");
   });
 
-  it("überall dieselbe erste Frage, nur das grüne Etikett wandert: Standard Bankkonto „am beliebtesten“, bei Aktien-Liste und Halal-Anlagen Depot „passt zu deiner Liste“", () => {
+  it("überall dieselbe erste Frage: Bankkonto grün „am beliebtesten“, bei Aktien-Liste und Halal-Anlagen dazu Depot orange „passt zu deiner Liste“", () => {
     const etiketten = (adresse: string) => {
       const r = zeige(adresse);
       const e = [...r.container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent);
@@ -484,7 +484,7 @@ describe("Ohne art und aus dem Freebie", () => {
       expect(etiketten(`/check?quelle=${q}&schritt=fragen`), q).toEqual(["Neues Bankkontoam beliebtesten", "Depot zum Investieren", "Noch unsicher"]);
     }
     for (const q of ["aktienliste", "halal-anlagen"]) {
-      expect(etiketten(`/check?quelle=${q}&schritt=fragen`), q).toEqual(["Neues Bankkonto", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
+      expect(etiketten(`/check?quelle=${q}&schritt=fragen`), q).toEqual(["Neues Bankkontoam beliebtesten", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
     }
   });
 

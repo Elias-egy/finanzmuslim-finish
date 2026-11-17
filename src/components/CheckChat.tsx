@@ -6,6 +6,7 @@ import {
   Building2,
   ChartPie,
   Coins,
+  Scale,
   CreditCard,
   Gem,
   ListChecks,
@@ -37,6 +38,7 @@ const ICONS: Record<string, LucideIcon> = {
   "hatDepot:nein": Sprout,
   "praef:halal": ListChecks,
   "praef:kosten": Coins,
+  "praef:mix": Scale,
   "anlage:etf": ChartPie,
   "anlage:aktien": TrendingUp,
   "anlage:gold": Gem,
@@ -122,6 +124,7 @@ const CheckChat = ({ frage, nummer, gesamt, gewaehlt, onWaehle, onZurueck, antwo
                     {Icon && <Icon aria-hidden />}
                     <span>{o.titel}</span>
                     {o.etikett && <span className="hc-wahl-etikett">{o.etikett}</span>}
+                    {o.hinweis && <span className="hc-wahl-etikett hc-wahl-etikett--hinweis">{o.hinweis}</span>}
                   </button>
                 </li>
               );

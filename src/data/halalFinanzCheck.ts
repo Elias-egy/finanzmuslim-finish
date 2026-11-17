@@ -182,7 +182,8 @@ export type Antworten = {
 
 export type FrageId = "ziel" | "zahlung" | "bank" | "hatDepot" | "depotHeute" | "praef" | "anlage" | "betrag";
 
-export type Option = { wert: string; titel: string; unter?: string; etikett?: string };
+/** `etikett` grün (am beliebtesten), `hinweis` orange (passt zum Freebie, aus dem der Leser kommt; Elias RN16-08). */
+export type Option = { wert: string; titel: string; unter?: string; etikett?: string; hinweis?: string };
 
 /** `warum` ist die erste Sprechblase (ein Satz, warum Elias fragt), `titel` die zweite (die Frage selbst). */
 export type Frage = { id: FrageId; warum: string; titel: string; optionen: Option[] };
@@ -298,15 +299,21 @@ const DEPOT_HINWEIS: Partial<Record<CheckQuelle, string>> = {
   "portfolio-plan": ETIKETT_PLAN,
   "broker-vergleich": ETIKETT_VERGLEICH,
 };
-export const hinweisJeQuelle = (quelle: CheckQuelle): { ziel: Ziel; etikett: string } => {
+/** Das orange Etikett je Einstieg: nur bei den Anlagen-Freebies, an „Depot zum Investieren“; sonst keins. */
+export const hinweisJeQuelle = (quelle: CheckQuelle): { ziel: Ziel; etikett: string } | undefined => {
   const depotWort = DEPOT_HINWEIS[quelle];
-  return depotWort ? { ziel: "invest", etikett: depotWort } : { ziel: "konto", etikett: ETIKETT };
+  return depotWort ? { ziel: "invest", etikett: depotWort } : undefined;
 };
 
-/** Die erste Frage „Was suchst du gerade?“ für einen Einstieg: überall dieselben Antworten, nur das eine grüne Etikett wandert. */
+/**
+ * Die erste Frage „Was suchst du gerade?“ für einen Einstieg: überall dieselben Antworten. „Neues Bankkonto“ trägt immer das grüne
+ * „am beliebtesten“ (Elias RN16-08: „dass natürlich immer noch in grün bleibt, hey, das beliebteste ist das Bankkonto“); wer aus einem
+ * Anlagen-Freebie kommt, sieht dazu an „Depot zum Investieren“ das orange Etikett („in eine andere orange gefleckt … er versteht, dass ich
+ * mich für Aktien interessiere“). Ersetzt RN10-07, wo das grüne Etikett zum Depot wanderte.
+ */
 export const zielFrage = (quelle: CheckQuelle): Frage => {
   const h = hinweisJeQuelle(quelle);
-  return { ...FRAGEN.ziel, optionen: FRAGEN.ziel.optionen.map(({ etikett: _alt, ...o }) => (o.wert === h.ziel ? { ...o, etikett: h.etikett } : o)) };
+  return { ...FRAGEN.ziel, optionen: FRAGEN.ziel.optionen.map((o) => (h && o.wert === h.ziel ? { ...o, hinweis: h.etikett } : o)) };
 };
 
 /** Die Frage mit den Antworten, die zum Einstieg passen (nur die erste Frage trägt je Einstieg ein anderes Etikett). */

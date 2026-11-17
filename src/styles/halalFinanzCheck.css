@@ -1065,6 +1065,10 @@
 .dark .hc .hc-wahl-etikett {
   color: #5fd49a;
 }
+.dark .hc .hc-wahl-etikett--hinweis {
+  background: #33240f;
+  color: #f5b35c;
+}
 .dark .hc .hc-stimme--platz {
   background: #2a2410;
 }
@@ -1269,6 +1273,11 @@
   font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
+}
+/* RN16-08: orange Etikett „passt zu deiner Liste“ neben dem grünen „am beliebtesten“ */
+.hc-wahl-etikett--hinweis {
+  background: #fff1e0;
+  color: #b45309;
 }
 @media (hover: hover) {
   .hc-wahl:hover {
