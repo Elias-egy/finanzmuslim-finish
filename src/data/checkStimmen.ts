@@ -24,7 +24,9 @@ export const STIMMEN: Stimme[] = [
   {
     art: "depot",
     zitat: "Ich hatte vor Elias' Beratung überhaupt keine Ahnung von ETFs und ETCs. Bei Fragen hat mir Elias sehr schnell und gut weitergeholfen.",
-    name: "Rolf K.",
+    // RN16-18: Name buchstabiert „R-E-U-F-K“, Depot bei Smartbroker+ („Nur Smart Broker sollte sein bei Rolf K.“).
+    name: "Reuf K.",
+    zeile: "Depot bei Smartbroker+",
   },
 ];
 

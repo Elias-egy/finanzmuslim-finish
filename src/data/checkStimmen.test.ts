@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { BEISPIEL_STIMMEN, STIMMEN, stimmeAnzeige, stimmenFuer } from "@/data/checkStimmen";
 
 describe("Stimmen auf der Verkaufsseite des Checks", () => {
-  it("nur echte Testimonials von Elias stehen hier, keins aus den Beispielen (RN16-16: Rolf K. als erste echte)", () => {
-    expect(STIMMEN.map((s) => s.name)).toEqual(["Rolf K."]);
+  it("nur echte Testimonials von Elias stehen hier, keins aus den Beispielen (RN16-16, RN16-18: Reuf K. als erste echte)", () => {
+    expect(STIMMEN.map((s) => s.name)).toEqual(["Reuf K."]);
     for (const s of STIMMEN) expect(BEISPIEL_STIMMEN.some((b) => b.zitat === s.zitat)).toBe(false);
   });
 
