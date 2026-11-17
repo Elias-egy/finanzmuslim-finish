@@ -11,7 +11,6 @@ import {
   ETIKETT,
   FRAGEN,
   KONTEN_GETESTET,
-  UEBERSCHRIFT,
   ergebnisAus,
   zielFrage,
   type Antworten,
@@ -97,32 +96,26 @@ const useVorschau = () => {
 };
 
 /**
- * Stimmen (Elias RN16-10: „Testimonials vielleicht 2, 3 Stück … swipebar“): bis zu drei Karten nebeneinander zum Wischen, die nächste
- * schaut rechts heraus, darunter Punkte. Nur echte aus checkStimmen.ts; ohne echte zeigt nur der Entwicklungsmodus Beispiel-Stimmen
+ * Stimmen (Elias RN16-10: „Testimonials vielleicht 2, 3 Stück“, RN16-11: „wenige Leute swipen bei Testimonials … untereinander“):
+ * bis zu drei Karten untereinander. Nur echte aus checkStimmen.ts; ohne echte zeigt nur der Entwicklungsmodus Beispiel-Stimmen
  * (als Platzhalter markiert), die Produktion nichts. Eine einzelne Stimme steht in voller Breite.
  */
 export const STIMMEN_MAX = 3;
 
+/** Titel und Satz (Elias RN16-11: „Der Titel muss mehr knallen. Ich habe sie alle für dich getestet … getestet und bewertet, damit kein
+ * Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist“). Zahlen aus halalFinanzCheck.ts (54 Girokonten, belegt RN8-06). */
+export const TITEL = "Ich habe sie alle für dich getestet.";
+export const SATZ = `${DEPOTS_GETESTET} Depots und ${KONTEN_GETESTET} Girokonten, getestet und bewertet, damit kein Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist.`;
+
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
   const modus = stimmeAnzeige(0, import.meta.env.DEV, echt);
-  const [aktiv, setAktiv] = useState(0);
   if (modus === "keine") return null;
   const liste: Stimme[] = (modus === "echt" ? echt : stimmenFuer(art, BEISPIEL_STIMMEN)).slice(0, STIMMEN_MAX);
   if (!liste.length) return null;
-  const mehrere = liste.length > 1;
-  const beimWischen = (el: HTMLDivElement) => {
-    const breite = el.firstElementChild instanceof HTMLElement ? el.firstElementChild.offsetWidth : el.clientWidth;
-    setAktiv(Math.min(liste.length - 1, Math.round(el.scrollLeft / Math.max(1, breite))));
-  };
   return (
     <div className="ce-stimmen" data-stimmen={liste.length}>
-      <div
-        className={`ce-stimmen-band${mehrere ? " ce-stimmen-band--mehr" : ""}`}
-        onScroll={(ev) => beimWischen(ev.currentTarget)}
-        tabIndex={mehrere ? 0 : undefined}
-        aria-label={mehrere ? "Stimmen, zum Wischen" : undefined}
-      >
+      <div className="ce-stimmen-band">
         {liste.map((s, i) => (
           <figure key={`${s.name}-${i}`} className="ce-stimme" data-stimme-platzhalter={modus === "platzhalter" ? "" : undefined}>
             {s.sterne && (
@@ -141,13 +134,6 @@ const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
           </figure>
         ))}
       </div>
-      {mehrere && (
-        <div className="ce-punkte" aria-hidden>
-          {liste.map((s, i) => (
-            <span key={`${s.name}-${i}`} className={i === aktiv ? "ce-punkt ce-punkt--an" : "ce-punkt"} />
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -159,16 +145,12 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
   const { ref, schritt } = useVorschau();
   const an = (n: number) => (schritt >= n ? " ce-an" : "");
   const prozent = e?.passung ?? 0;
-  const satz =
-    art === "depot"
-      ? `Ich habe ${DEPOTS_GETESTET} Depots selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst.`
-      : `Ich habe ${KONTEN_GETESTET} Girokonten selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst.`;
   return (
     <aside data-check-einstieg={quelle} data-art={art} aria-labelledby={`check-${quelle}`} className={`ce ${className}`}>
       <h2 id={`check-${quelle}`} className="ce-titel">
-        {UEBERSCHRIFT[quelle]}
+        {TITEL}
       </h2>
-      <p className="ce-satz">{satz}</p>
+      <p className="ce-satz">{SATZ}</p>
 
       <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
         <div className={`ce-reihe${an(1)}`}>

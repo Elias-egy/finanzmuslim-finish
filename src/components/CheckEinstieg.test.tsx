@@ -29,11 +29,8 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
 
   it("oben kein Foto, nur der Satz „selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst“, je Art mit der richtigen Zahl", () => {
     const k = zeige("boykottliste");
-    expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("Du achtest beim Einkaufen drauf. Und bei deiner Bank?");
-    expect(k.container.textContent).toContain("Ich habe 54 Girokonten selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst.");
-    k.unmount();
-    const d = zeige("aktienliste");
-    expect(d.container.textContent).toContain("Ich habe 35 Depots selbst getestet und die gesucht, die du als Muslim am besten nehmen kannst.");
+    expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("Ich habe sie alle für dich getestet.");
+    expect(k.container.textContent).toContain("35 Depots und 54 Girokonten, getestet und bewertet, damit kein Muslim sich mehr Gedanken machen muss, was das beste Match für ihn ist.");
   });
 
   it("die Vorschau zeigt die echte erste Frage mit „beliebt“ am Bankkonto und aus Anlagen-Freebies orange „passt zu …“ am Depot (RN16-08)", () => {
@@ -56,11 +53,10 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
     else expect(f).toBeNull();
   });
 
-  it("zwei bis drei Stimmen zum Wischen, nie mehr als drei (RN16-10)", () => {
+  it("bis zu drei Stimmen untereinander, kein Wischen (RN16-10, RN16-11)", () => {
     const { container } = zeige("boykottliste");
-    const n = container.querySelectorAll(".ce-stimmen figure").length;
-    expect(n).toBeLessThanOrEqual(3);
-    if (n > 1) expect(container.querySelectorAll(".ce-punkt")).toHaveLength(n);
+    expect(container.querySelectorAll(".ce-stimmen figure").length).toBeLessThanOrEqual(3);
+    expect(container.querySelector(".ce-punkt")).toBeNull();
   });
 });
 
