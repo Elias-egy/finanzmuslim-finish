@@ -90,17 +90,10 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(aufruf.getAttribute("data-fassung")).toBe("b");
     expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
     const check = aufruf.querySelector("[data-check-einstieg='aktienliste']")!;
-    const ziele = [...check.querySelectorAll("a")].map((a) => a.getAttribute("href"));
-    // Ein Quiz für alle Freebies (RN10-07): dieselbe erste Frage, „passt zu deiner Liste“ sitzt an „Depot zum Investieren“.
-    expect(ziele).toEqual([
-      "/check?quelle=aktienliste&start=2&a1=konto",
-      "/check?quelle=aktienliste&start=2&a1=invest",
-      "/check?quelle=aktienliste&start=2&a1=unsicher",
-    ]);
+    // RN16-09: im Freebie nur noch Werbung mit einem Knopf, der den Check normal öffnet.
+    expect([...check.querySelectorAll("a")].map((a) => a.getAttribute("href"))).toEqual(["/check?quelle=aktienliste"]);
     expect(check.getAttribute("data-art")).toBe("depot");
     expect(check.textContent).toContain("Was suchst du gerade?");
-    expect(check.querySelector("[data-etikett]")?.textContent).toBe("am beliebtesten");
-    expect(check.querySelector("[data-hinweis]")?.textContent).toBe("passt zu deiner Liste");
-    expect([...check.querySelectorAll("li")].map((li) => li.textContent)).toEqual(["Neues Bankkontoam beliebtesten", "Depot zum Investierenpasst zu deiner Liste", "Noch unsicher"]);
+    expect(check.textContent).toContain("passt zu deiner Liste");
   });
 });

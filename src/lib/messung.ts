@@ -42,6 +42,8 @@ export type Ereignis =
   | "check_start"
   // RN7 (15.11.2026): Klick auf „Check starten“ (oder eine Kriterien-Zeile) auf der Verkaufsseite vor den Fragen.
   | "check_klick"
+  // RN16-09 (17.11.2026): Knopf „Match finden“ im Check-Kasten eines Freebies.
+  | "freebie_check_klick"
   // RN5: 50:50-Test, einmal je Besucher und Test (src/lib/abTest.ts).
   | "ab_zuteilung";
 
