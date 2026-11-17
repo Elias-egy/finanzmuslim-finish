@@ -69,6 +69,8 @@ export const BEISPIEL_STIMMEN: Stimme[] = [
     zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der neuen Bank konnte ich alles rüberziehen.",
     name: "Matin M.",
     zeile: "Girokonto bei norisbank",
+    // RN16-24: Foto aus dem Newsletter-Kreis (4. Leserbild), enger ums Gesicht
+    foto: "/bilder/check/stimme-matin.webp",
     // RN16-23: „mach mal die Sterne weg“
   },
   {

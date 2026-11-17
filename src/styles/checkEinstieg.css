@@ -260,9 +260,11 @@
   font-size: 15px;
   color: hsl(var(--foreground));
 }
-.ce-stimme figcaption img {
-  width: 32px;
-  height: 32px;
+.ce-stimme-foto {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 0 4px;
   border-radius: 9999px;
   object-fit: cover;
 }

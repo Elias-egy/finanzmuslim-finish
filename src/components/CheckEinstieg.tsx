@@ -133,9 +133,10 @@ const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
                 ))}
               </div>
             )}
+            {/* RN16-24: Foto als großer Kreis oben über dem Zitat */}
+            {s.foto && <img className="ce-stimme-foto" src={s.foto} alt="" width={64} height={64} loading="lazy" />}
             <blockquote>„{s.zitat}“</blockquote>
             <figcaption>
-              {s.foto && <img src={s.foto} alt="" width={32} height={32} loading="lazy" />}
               <b>{s.name}</b>
               {s.zeile && <span>{s.zeile}</span>}
             </figcaption>
