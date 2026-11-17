@@ -49,9 +49,10 @@ const WEG: Record<"konto" | "depot", Weg> = {
   depot: {
     frage1: FRAGEN.ziel.titel,
     wahl1: "invest",
+    // RN16-17 („Smart Broker als Match“): der Mix aus beiden, gerechnet Smartbroker+.
     frage2: FRAGEN.praef.titel,
-    wahl2: "Möglichst viele Halal-Anlagen",
-    antworten: { ziel: "invest", hatDepot: "nein", praef: "halal", anlage: "etf" },
+    wahl2: "Ein Mix aus beiden",
+    antworten: { ziel: "invest", hatDepot: "nein", praef: "mix", anlage: "offen" },
   },
 };
 
@@ -110,13 +111,13 @@ export const TITEL = "Ich habe sie alle getestet.";
 /** RN16-15 („Um Muslim zu helfen, das ist nicht so gut … die meisten Muslime wissen nicht, dass ihr Konto Zinsen zahlt … Mehr FOMO.
  * Deswegen habe ich den Test erstellt, der nach ein paar Fragen dir sagt, welcher Anbieter deinen Halal-Wünschen am besten entspricht“).
  * „ob“ statt „dass“: dass die meisten Konten Zinsen zahlen, ist nicht belegt. */
-export const SATZ = "Viele Muslime wissen nicht, ob ihr Konto oder Depot Zinsen auf ihr Geld zahlt. Deshalb habe ich einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
+export const SATZ = "Die meisten Muslime wissen das nicht, aber viele Bankkonten zahlen automatisch Zinsen oder räumen dir einen Dispo ein. Deswegen habe ich fast 90 Anbieter verglichen und einen persönlichen Test gebaut, der dir zeigt, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
 
-const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
+const StimmenReihe = ({ art, von, bis }: { art: "konto" | "depot"; von: number; bis: number }) => {
   const echt = stimmenFuer(art);
   const modus = stimmeAnzeige(0, import.meta.env.DEV, echt);
   if (modus === "keine") return null;
-  const liste: Stimme[] = (modus === "echt" ? echt : stimmenFuer(art, BEISPIEL_STIMMEN)).slice(0, STIMMEN_MAX);
+  const liste: Stimme[] = (modus === "echt" ? echt : stimmenFuer(art, BEISPIEL_STIMMEN)).slice(0, STIMMEN_MAX).slice(von, bis);
   if (!liste.length) return null;
   return (
     <div className="ce-stimmen" data-stimmen={liste.length}>
@@ -168,6 +169,8 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
         <span className="ce-titel-zahlen">{TITEL_ZAHLEN}</span> {TITEL}
       </h2>
       <p className="ce-satz">{SATZ}</p>
+      {/* RN16-17: die erste Stimme direkt vor dem ersten Knopf, die zweite vor dem zweiten */}
+      <StimmenReihe art={art} von={0} bis={1} />
       <Knopf quelle={quelle} art={art} stelle="oben" />
 
       <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
@@ -221,7 +224,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
         )}
       </div>
 
-      <StimmenReihe art={art} />
+      <StimmenReihe art={art} von={1} bis={2} />
 
       <Knopf quelle={quelle} art={art} stelle="unten" />
       <p className="ce-klein">Kostenlos und ohne Anmeldung</p>
