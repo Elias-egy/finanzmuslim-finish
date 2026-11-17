@@ -133,13 +133,15 @@ const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
                 ))}
               </div>
             )}
-            {/* RN16-24: Foto als großer Kreis oben über dem Zitat */}
-            {s.foto && <img className="ce-stimme-foto" src={s.foto} alt="" width={64} height={64} loading="lazy" />}
-            <blockquote>„{s.zitat}“</blockquote>
-            <figcaption>
-              <b>{s.name}</b>
-              {s.zeile && <span>{s.zeile}</span>}
+            {/* RN16-25: Aufbau wie das Vorbild: Kopfzeile mit rundem Foto links, Name fett und Zeile daneben, darunter das Zitat */}
+            <figcaption className="ce-stimme-kopf">
+              {s.foto && <img className="ce-stimme-foto" src={s.foto} alt="" width={52} height={52} loading="lazy" />}
+              <span className="ce-stimme-wer">
+                <b>{s.name}</b>
+                {s.zeile && <span>{s.zeile}</span>}
+              </span>
             </figcaption>
+            <blockquote>„{s.zitat}“</blockquote>
           </figure>
         ))}
       </div>

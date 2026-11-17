@@ -245,26 +245,40 @@
   color: hsl(var(--border));
 }
 .ce-stimme blockquote {
-  margin: 8px 0 0;
+  margin: 12px 0 0;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.45;
   color: hsl(var(--foreground));
 }
-.ce-stimme figcaption {
-  margin-top: 8px;
+/* RN16-25: Kopfzeile wie das Vorbild, Foto links, rechts Name fett und darunter die Zeile kleiner und grau */
+.ce-stimme-kopf {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 4px 8px;
-  font-size: 15px;
+  gap: 12px;
+}
+.ce-stimme-wer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ce-stimme-wer b {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
   color: hsl(var(--foreground));
+}
+.ce-stimme-wer span {
+  font-size: 14px;
+  line-height: 1.3;
+  color: hsl(var(--muted-foreground));
 }
 .ce-stimme-foto {
   display: block;
-  width: 64px;
-  height: 64px;
-  margin: 0 0 4px;
+  flex: none;
+  width: 52px;
+  height: 52px;
   border-radius: 9999px;
   object-fit: cover;
 }
