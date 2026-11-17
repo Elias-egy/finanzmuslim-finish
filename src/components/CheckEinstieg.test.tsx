@@ -56,7 +56,7 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
 
   it("bis zu drei Stimmen untereinander, kein Wischen (RN16-10, RN16-11)", () => {
     const { container } = zeige("boykottliste");
-    expect(container.querySelectorAll(".ce-stimmen figure").length).toBeLessThanOrEqual(3);
+    expect(container.querySelectorAll(".ce-stimmen figure").length).toBeLessThanOrEqual(2);
     expect(container.querySelector(".ce-punkt")).toBeNull();
   });
 });

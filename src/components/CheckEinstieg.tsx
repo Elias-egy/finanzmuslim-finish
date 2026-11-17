@@ -101,7 +101,7 @@ const useVorschau = () => {
  * (als Platzhalter markiert), die Produktion nichts. Eine einzelne Stimme steht in voller Breite.
  */
 /** Elias RN16-13: „dann die 2 Testimonials“. */
-export const STIMMEN_MAX = 3;
+export const STIMMEN_MAX = 2;
 
 /** Titel und Satz (Elias RN16-12: „54 Bankkonten, 35 Depots. Ich habe sie alle getestet. Und dann unten … um Muslimen zu helfen, habe
  * ich einen riesen Vergleich aufgestellt“; „Nicht Girokonten, man kann hier erstmal Bankkonten schreiben“). Zahlen aus halalFinanzCheck.ts. */
@@ -118,7 +118,8 @@ const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
   // RN16-20: im Entwicklungsmodus füllen Beispiel-Stimmen (aller Arten) bis drei auf, damit Elias mehrere untereinander sieht; live nur echte.
   const beispiele = import.meta.env.DEV ? stimmenFuer(undefined, BEISPIEL_STIMMEN).filter((b) => !echt.some((e) => e.zitat === b.zitat)) : [];
-  const liste: (Stimme & { beispiel?: boolean })[] = [...echt, ...beispiele.map((b) => ({ ...b, beispiel: true }))].slice(0, STIMMEN_MAX);
+  // RN16-22: „die 5 Sterne von Matin zuerst, dann Reuf“, das dritte erst mal nicht.
+  const liste: (Stimme & { beispiel?: boolean })[] = [...beispiele.slice(0, 1).map((b) => ({ ...b, beispiel: true })), ...echt].slice(0, STIMMEN_MAX);
   if (!liste.length) return null;
   return (
     <div className="ce-stimmen" data-stimmen={liste.length}>

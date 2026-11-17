@@ -66,7 +66,7 @@ export const BEISPIEL_STIMMEN: Stimme[] = [
   // Sachen rüberziehen … m-a-t-i-n.m … Girokonto bei Norris Bank“), nur als Beispiel im Entwicklungsmodus.
   {
     art: "konto",
-    zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der norisbank konnte ich alles rüberziehen.",
+    zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der neuen Bank konnte ich alles rüberziehen.",
     name: "Matin M.",
     zeile: "Girokonto bei norisbank",
     sterne: 5,
