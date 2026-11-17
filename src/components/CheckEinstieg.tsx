@@ -107,7 +107,10 @@ export const STIMMEN_MAX = 2;
  * ich einen riesen Vergleich aufgestellt“; „Nicht Girokonten, man kann hier erstmal Bankkonten schreiben“). Zahlen aus halalFinanzCheck.ts. */
 export const TITEL_ZAHLEN = `${KONTEN_GETESTET} Bankkonten, ${DEPOTS_GETESTET} Depots.`;
 export const TITEL = "Ich habe sie alle getestet.";
-export const SATZ = "Um Muslimen zu helfen, habe ich daraus einen riesigen Vergleich aufgestellt. Ein paar kurze Fragen, und du weißt, welcher Anbieter genau zu deinen Wünschen passt.";
+/** RN16-15 („Um Muslim zu helfen, das ist nicht so gut … die meisten Muslime wissen nicht, dass ihr Konto Zinsen zahlt … Mehr FOMO.
+ * Deswegen habe ich den Test erstellt, der nach ein paar Fragen dir sagt, welcher Anbieter deinen Halal-Wünschen am besten entspricht“).
+ * „ob“ statt „dass“: dass die meisten Konten Zinsen zahlen, ist nicht belegt. */
+export const SATZ = "Viele Muslime wissen nicht, ob ihr Konto oder Depot Zinsen auf ihr Geld zahlt. Deshalb habe ich einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
 
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
