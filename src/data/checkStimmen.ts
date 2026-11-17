@@ -62,6 +62,15 @@ export const stimmeFuerEinstieg = (art: "konto" | "depot", stimmen: readonly Sti
  * zeigt ohne echte Stimme nichts (stimmeAnzeige). Wortlaut nach den Beispielen in Elias' Perspective-Funnel 6afa2cd179f7bfa91bb900d0.
  */
 export const BEISPIEL_STIMMEN: Stimme[] = [
+  // RN16-20 (Elias: „bei meinem alten Konto konnte ich ins Minus gehen. Und ich wusste nicht, dass das verzinst wird. Ich konnte alle
+  // Sachen rüberziehen … m-a-t-i-n.m … Girokonto bei Norris Bank“), nur als Beispiel im Entwicklungsmodus.
+  {
+    art: "konto",
+    zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der norisbank konnte ich alles rüberziehen.",
+    name: "Matin M.",
+    zeile: "Girokonto bei norisbank",
+    sterne: 5,
+  },
   {
     art: "konto",
     zitat: "Ich habe ein Konto bei der norisbank eröffnet. Den Wechsel von meiner alten Bank hat sie mir abgenommen.",

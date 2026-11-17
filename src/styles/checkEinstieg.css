@@ -25,6 +25,9 @@
     font-size: 30px;
   }
 }
+.ce-satz strong {
+  font-weight: 700;
+}
 .ce-titel--klein {
   font-size: 22px;
 }

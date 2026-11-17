@@ -25,7 +25,7 @@ describe("Stimmen auf der Verkaufsseite des Checks", () => {
 describe("Stimmen je Stelle (Elias RN15-01)", () => {
   it("die Beispiele sind je Stelle da: zwei für das Konto-Ergebnis (norisbank eröffnet), eine allgemeine für die Verkaufsseite", () => {
     expect(stimmenFuer("konto", BEISPIEL_STIMMEN).filter((s) => s.art === "konto").length).toBeGreaterThanOrEqual(2);
-    expect(stimmenFuer("konto", BEISPIEL_STIMMEN)[0].zitat).toMatch(/Konto bei der norisbank eröffnet/);
+    expect(stimmenFuer("konto", BEISPIEL_STIMMEN).some((s) => /Konto bei der norisbank eröffnet/.test(s.zitat))).toBe(true);
     const allgemein = stimmenFuer("alle", BEISPIEL_STIMMEN);
     expect(allgemein.length).toBeGreaterThanOrEqual(1);
     expect(allgemein.every((s) => s.art === "alle" || !s.art)).toBe(true);

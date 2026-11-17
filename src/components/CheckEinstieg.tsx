@@ -101,7 +101,7 @@ const useVorschau = () => {
  * (als Platzhalter markiert), die Produktion nichts. Eine einzelne Stimme steht in voller Breite.
  */
 /** Elias RN16-13: „dann die 2 Testimonials“. */
-export const STIMMEN_MAX = 2;
+export const STIMMEN_MAX = 3;
 
 /** Titel und Satz (Elias RN16-12: „54 Bankkonten, 35 Depots. Ich habe sie alle getestet. Und dann unten … um Muslimen zu helfen, habe
  * ich einen riesen Vergleich aufgestellt“; „Nicht Girokonten, man kann hier erstmal Bankkonten schreiben“). Zahlen aus halalFinanzCheck.ts. */
@@ -116,15 +116,15 @@ export const SATZ = "Viele Muslime wissen nicht, dass ihr Bankkonto ihnen Zinsen
 
 const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
   const echt = stimmenFuer(art);
-  const modus = stimmeAnzeige(0, import.meta.env.DEV, echt);
-  if (modus === "keine") return null;
-  const liste: Stimme[] = (modus === "echt" ? echt : stimmenFuer(art, BEISPIEL_STIMMEN)).slice(0, STIMMEN_MAX);
+  // RN16-20: im Entwicklungsmodus füllen Beispiel-Stimmen (aller Arten) bis drei auf, damit Elias mehrere untereinander sieht; live nur echte.
+  const beispiele = import.meta.env.DEV ? stimmenFuer(undefined, BEISPIEL_STIMMEN).filter((b) => !echt.some((e) => e.zitat === b.zitat)) : [];
+  const liste: (Stimme & { beispiel?: boolean })[] = [...echt, ...beispiele.map((b) => ({ ...b, beispiel: true }))].slice(0, STIMMEN_MAX);
   if (!liste.length) return null;
   return (
     <div className="ce-stimmen" data-stimmen={liste.length}>
       <div className="ce-stimmen-band">
         {liste.map((s, i) => (
-          <figure key={`${s.name}-${i}`} className="ce-stimme" data-stimme-platzhalter={modus === "platzhalter" ? "" : undefined}>
+          <figure key={`${s.name}-${i}`} className="ce-stimme" data-stimme-platzhalter={s.beispiel ? "" : undefined}>
             {s.sterne && (
               <div className="ce-sterne" role="img" aria-label={`${s.sterne} von 5`}>
                 {[1, 2, 3, 4, 5].map((n) => (
@@ -169,7 +169,10 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
       <h2 id={`check-${quelle}`} className="ce-titel">
         <span className="ce-titel-zahlen">{TITEL_ZAHLEN}</span> {TITEL}
       </h2>
-      <p className="ce-satz">{SATZ}</p>
+      <p className="ce-satz">
+        {/* RN16-20: drei Stellen leicht fett zum Überfliegen: Zinsen, Dispo, fast 90 Anbieter */}
+        {SATZ.split(/(Zinsen|Dispo|fast 90 Anbieter)/).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))}
+      </p>
       <Knopf quelle={quelle} art={art} stelle="oben" />
 
       <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
