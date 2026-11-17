@@ -18,7 +18,15 @@ export type Stimme = {
   sterne?: 1 | 2 | 3 | 4 | 5;
 };
 
-export const STIMMEN: Stimme[] = [];
+export const STIMMEN: Stimme[] = [
+  // Erste echte Stimme (Elias RN16-16, 17.11.2026, Vault raw/2026-11-17-elias-rn16-16-erste-stimme-rolf-k-ohne-sterne.md):
+  // „du“ auf Elias' Wunsch zu „Elias“, ohne Sterne („macht die Sterne mal raus“).
+  {
+    art: "depot",
+    zitat: "Ich hatte vor Elias' Beratung überhaupt keine Ahnung von ETFs und ETCs. Bei Fragen hat mir Elias sehr schnell und gut weitergeholfen.",
+    name: "Rolf K.",
+  },
+];
 
 /**
  * Die Stimmen, die zur Stelle passen (Elias RN15-01: „einmal eine, die alle abdeckt. Und dann immer, wenn was kommt, genau welche, die da passen“):
