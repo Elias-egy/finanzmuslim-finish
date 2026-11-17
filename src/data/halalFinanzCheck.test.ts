@@ -849,3 +849,26 @@ describe("Kennung am Knopf", () => {
     expect(e.link).not.toMatch(/trade|republic/i);
   });
 });
+
+describe("Depot: Ein Mix aus beiden (RN16-06)", () => {
+  const tp = BROKER_KARTEN.find((k) => k.id === "traders-place-depot")!;
+  const sb = BROKER_KARTEN.find((k) => k.id === "smartbroker-plus-depot")!;
+  const mix = (anlage: "etf" | "aktien" | "gold" | "offen") => ergebnisAus({ art: "depot", hatDepot: "nein", praef: "mix", anlage }, "homepage") as DepotErgebnis;
+
+  it("bietet die dritte Antwort an", () => {
+    expect(FRAGEN.praef.optionen.map((o) => o.titel)).toEqual(["Möglichst viele Halal-Anlagen", "Möglichst niedrige Kosten", "Ein Mix aus beiden"]);
+  });
+
+  it("zeigt Smartbroker+ und darunter Traders Place, beide gerechnet, oben nie die kleinere Zahl", () => {
+    for (const anlage of ["etf", "aktien", "gold", "offen"] as const) {
+      const e = mix(anlage);
+      const namen = [e.anbieter.name, e.auchGut?.anbieter.name].sort();
+      expect(namen).toEqual(["Smartbroker+", "Traders Place"]);
+      expect(e.passung).toBeGreaterThanOrEqual(e.auchGut!.passung);
+      const a = { art: "depot" as const, hatDepot: "nein" as const, praef: "mix" as const, anlage };
+      expect([e.passung, e.auchGut!.passung].sort()).toEqual([passungProzent(sb, a), passungProzent(tp, a)].sort());
+    }
+    expect(mix("offen").anbieter.name).toBe("Smartbroker+");
+    expect(mix("offen").auchGut?.link).toBe("/out/traders-place?src=fchptpza");
+  });
+});
