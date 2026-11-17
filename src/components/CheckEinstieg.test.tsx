@@ -55,6 +55,13 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
     if (import.meta.env.DEV) expect(f?.hasAttribute("data-stimme-platzhalter")).toBe(true);
     else expect(f).toBeNull();
   });
+
+  it("zwei bis drei Stimmen zum Wischen, nie mehr als drei (RN16-10)", () => {
+    const { container } = zeige("boykottliste");
+    const n = container.querySelectorAll(".ce-stimmen figure").length;
+    expect(n).toBeLessThanOrEqual(3);
+    if (n > 1) expect(container.querySelectorAll(".ce-punkt")).toHaveLength(n);
+  });
 });
 
 describe("Stimmen je Art", () => {

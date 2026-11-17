@@ -96,28 +96,59 @@ const useVorschau = () => {
   return { ref, schritt };
 };
 
-const StimmeKarte = ({ art }: { art: "konto" | "depot" }) => {
-  const liste = stimmenFuer(art);
-  const modus = stimmeAnzeige(0, import.meta.env.DEV, liste);
+/**
+ * Stimmen (Elias RN16-10: „Testimonials vielleicht 2, 3 Stück … swipebar“): bis zu drei Karten nebeneinander zum Wischen, die nächste
+ * schaut rechts heraus, darunter Punkte. Nur echte aus checkStimmen.ts; ohne echte zeigt nur der Entwicklungsmodus Beispiel-Stimmen
+ * (als Platzhalter markiert), die Produktion nichts. Eine einzelne Stimme steht in voller Breite.
+ */
+export const STIMMEN_MAX = 3;
+
+const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
+  const echt = stimmenFuer(art);
+  const modus = stimmeAnzeige(0, import.meta.env.DEV, echt);
+  const [aktiv, setAktiv] = useState(0);
   if (modus === "keine") return null;
-  const s: Stimme | undefined = modus === "echt" ? liste[0] : stimmenFuer(art, BEISPIEL_STIMMEN)[0];
-  if (!s) return null;
+  const liste: Stimme[] = (modus === "echt" ? echt : stimmenFuer(art, BEISPIEL_STIMMEN)).slice(0, STIMMEN_MAX);
+  if (!liste.length) return null;
+  const mehrere = liste.length > 1;
+  const beimWischen = (el: HTMLDivElement) => {
+    const breite = el.firstElementChild instanceof HTMLElement ? el.firstElementChild.offsetWidth : el.clientWidth;
+    setAktiv(Math.min(liste.length - 1, Math.round(el.scrollLeft / Math.max(1, breite))));
+  };
   return (
-    <figure className="ce-stimme" data-stimme-platzhalter={modus === "platzhalter" ? "" : undefined}>
-      {s.sterne && (
-        <div className="ce-sterne" role="img" aria-label={`${s.sterne} von 5`}>
-          {[1, 2, 3, 4, 5].map((n) => (
-            <Star key={n} className={n <= s.sterne! ? "ce-stern" : "ce-stern ce-stern--leer"} aria-hidden />
+    <div className="ce-stimmen" data-stimmen={liste.length}>
+      <div
+        className={`ce-stimmen-band${mehrere ? " ce-stimmen-band--mehr" : ""}`}
+        onScroll={(ev) => beimWischen(ev.currentTarget)}
+        tabIndex={mehrere ? 0 : undefined}
+        aria-label={mehrere ? "Stimmen, zum Wischen" : undefined}
+      >
+        {liste.map((s, i) => (
+          <figure key={`${s.name}-${i}`} className="ce-stimme" data-stimme-platzhalter={modus === "platzhalter" ? "" : undefined}>
+            {s.sterne && (
+              <div className="ce-sterne" role="img" aria-label={`${s.sterne} von 5`}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <Star key={n} className={n <= s.sterne! ? "ce-stern" : "ce-stern ce-stern--leer"} aria-hidden />
+                ))}
+              </div>
+            )}
+            <blockquote>„{s.zitat}“</blockquote>
+            <figcaption>
+              {s.foto && <img src={s.foto} alt="" width={32} height={32} loading="lazy" />}
+              <b>{s.name}</b>
+              {s.zeile && <span>{s.zeile}</span>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      {mehrere && (
+        <div className="ce-punkte" aria-hidden>
+          {liste.map((s, i) => (
+            <span key={`${s.name}-${i}`} className={i === aktiv ? "ce-punkt ce-punkt--an" : "ce-punkt"} />
           ))}
         </div>
       )}
-      <blockquote>„{s.zitat}“</blockquote>
-      <figcaption>
-        {s.foto && <img src={s.foto} alt="" width={32} height={32} loading="lazy" />}
-        <b>{s.name}</b>
-        {s.zeile && <span>{s.zeile}</span>}
-      </figcaption>
-    </figure>
+    </div>
   );
 };
 
@@ -190,7 +221,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
         )}
       </div>
 
-      <StimmeKarte art={art} />
+      <StimmenReihe art={art} />
 
       <Link
         to={`/check?quelle=${quelle}`}

@@ -201,9 +201,63 @@
   font-size: 11px;
 }
 
+/* Stimmen (RN16-10): bis zu drei zum Wischen, die nächste schaut heraus */
+.ce-stimmen {
+  margin-top: 16px;
+}
+.ce-stimmen-band {
+  display: flex;
+  gap: 10px;
+}
+.ce-stimmen-band--mehr {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* Schatten der Karten nicht abschneiden */
+  margin: -8px -4px;
+  padding: 8px 4px;
+  scroll-padding-inline: 4px;
+}
+.ce-stimmen-band--mehr::-webkit-scrollbar {
+  display: none;
+}
+.ce-stimmen-band--mehr .ce-stimme {
+  flex: 0 0 84%;
+  scroll-snap-align: start;
+}
+.ce-stimmen-band:focus-visible {
+  outline: 3px solid hsl(var(--primary) / 0.35);
+  outline-offset: 2px;
+  border-radius: 1.1rem;
+}
+.ce-punkte {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.ce-punkt {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: hsl(var(--border));
+  transition:
+    width 0.2s ease,
+    background-color 0.2s ease;
+}
+.ce-punkt--an {
+  width: 18px;
+  background: hsl(var(--primary));
+}
+@media (min-width: 768px) {
+  .ce-stimmen-band--mehr .ce-stimme {
+    flex-basis: 62%;
+  }
+}
+
 /* Stimme wie die weiße Karte auf der Verkaufsseite */
 .ce-stimme {
-  margin: 16px 0 0;
+  margin: 0;
   padding: 16px 18px;
   border: 1px solid hsl(var(--border));
   border-radius: 1.1rem;
@@ -226,7 +280,7 @@
 }
 .ce-stimme blockquote {
   margin: 8px 0 0;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.45;
   color: hsl(var(--foreground));
