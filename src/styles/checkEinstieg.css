@@ -287,15 +287,6 @@
   background: hsl(var(--muted));
 }
 
-/* RN16-35: echter Screenshot der Nachricht statt Zitat */
-.ce-stimme-screenshot {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin-top: 12px;
-  border-radius: 14px;
-}
-
 /* Der eine Knopf */
 .ce-knopf {
   margin-top: 18px;
