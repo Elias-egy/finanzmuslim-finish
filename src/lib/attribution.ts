@@ -173,7 +173,7 @@ export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|nl|[mgv][0-9])[a-z0-9]{0,18}$/;
 // (src/data/halalFinanzCheck.ts CHECK_SRC, gleiche Form), „x“ für die Alternative, am Ende die Test-Fassung a oder b (RN7). Eine Stelle, keine Herkunft.
 // RN6: qz = alle, die früher ins alte Quiz /vergleich/start kamen (Check ersetzt das Quiz).
 // RN10-07: je Freebie-Seite mit Kasten eine eigene Stelle: va Vertrags-Ampel, aa Auto-Abo, bb Baraka-Blocker, rq Rizq, gp Gold-Plan, sp Sukuk-Plan, pp Portfolio-Plan, bv Broker-Vergleich.
-const CHECK_STELLE = /^fc(ak|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
+const CHECK_STELLE = /^fc(ak|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
 
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
   !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src) || CHECK_STELLE.test(src));

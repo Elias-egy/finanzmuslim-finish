@@ -61,6 +61,7 @@ export type CheckQuelle =
   | "rizq"
   | "gold-plan"
   | "sukuk-plan"
+  | "etf-plan"
   | "portfolio-plan"
   | "broker-vergleich";
 
@@ -77,6 +78,7 @@ const QUELLEN: readonly CheckQuelle[] = [
   "rizq",
   "gold-plan",
   "sukuk-plan",
+  "etf-plan",
   "portfolio-plan",
   "broker-vergleich",
 ];
@@ -98,6 +100,7 @@ export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   rizq: "Konto, Depot oder beides?",
   "gold-plan": "Wo kaufst du dein Gold?",
   "sukuk-plan": "Wo kaufst du deine Sukuk?",
+  "etf-plan": "Wo kaufst du deine Halal-ETFs?",
   "portfolio-plan": "Wo setzt du deinen Plan um?",
   "broker-vergleich": "Welcher Broker passt zu dir?",
 };
@@ -113,6 +116,7 @@ export const ART_JE_QUELLE: Partial<Record<CheckQuelle, Art>> = {
   "halal-anlagen": "depot",
   "gold-plan": "depot",
   "sukuk-plan": "depot",
+  "etf-plan": "depot",
   "portfolio-plan": "depot",
   "broker-vergleich": "depot",
 };
@@ -296,6 +300,7 @@ const DEPOT_HINWEIS: Partial<Record<CheckQuelle, string>> = {
   "halal-anlagen": ETIKETT_LISTE,
   "gold-plan": ETIKETT_PLAN,
   "sukuk-plan": ETIKETT_PLAN,
+  "etf-plan": ETIKETT_PLAN,
   "portfolio-plan": ETIKETT_PLAN,
   "broker-vergleich": ETIKETT_VERGLEICH,
 };
@@ -952,10 +957,12 @@ const QUELLE_KURZ: Record<CheckQuelle, string> = {
   rizq: "rq",
   "gold-plan": "gp",
   "sukuk-plan": "sp",
+  // RN17-20: ETF-Plan läuft über das Stichwort ETF in ManyChat und bekommt den großen Kasten.
+  "etf-plan": "ep",
   "portfolio-plan": "pp",
   "broker-vergleich": "bv",
 };
-export const CHECK_SRC = /^fc(ak|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
+export const CHECK_SRC = /^fc(ak|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
 export const checkSrc = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>
   `fc${QUELLE_KURZ[quelle]}${anbieter.kurz}${zusatz ?? ""}${fassung}`;
 export const outLink = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>

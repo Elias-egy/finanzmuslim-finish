@@ -16,7 +16,7 @@ const QUELLE_JE_WORT: Record<LeiterWort, CheckQuelle | undefined> = {
   amin: "rizq",
   boykott: "boykottliste",
   plan: "portfolio-plan",
-  etf: undefined,
+  etf: "etf-plan",
   gold: "gold-plan",
   sukuk: "sukuk-plan",
 };

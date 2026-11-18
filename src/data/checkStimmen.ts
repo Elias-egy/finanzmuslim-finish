@@ -106,6 +106,7 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
   "halal-anlagen": ["reuf", "skeptisch"],
   "gold-plan": ["reuf", "klein-anfangen"],
   "sukuk-plan": ["reuf", "klein-anfangen"],
+  "etf-plan": ["klein-anfangen", "reuf"],
   "portfolio-plan": ["reuf", "klein-anfangen"],
   "broker-vergleich": ["klein-anfangen", "skeptisch"],
   "ergebnis-konto": KONTO_PAAR,
@@ -114,7 +115,7 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
 
 /**
  * Zwei weitere Stimmen im Kasten am Ende jedes Freebies (Elias RN16-41: „die 2 relevanten oben und 2 weniger passende, aber trotzdem
- * noch welche, die okay sind, unten“). Nie dieselben wie oben. Ohne Quelle (ETF-Plan): Matin und Reuf.
+ * noch welche, die okay sind, unten“). Nie dieselben wie oben. Ohne Quelle: Matin und Reuf.
  */
 const KONTO_UNTEN: StimmeId[] = ["reuf", "skeptisch"];
 export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> = {
@@ -127,6 +128,7 @@ export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> =
   "halal-anlagen": ["klein-anfangen", "matin"],
   "gold-plan": ["skeptisch", "matin"],
   "sukuk-plan": ["skeptisch", "matin"],
+  "etf-plan": ["skeptisch", "matin"],
   "portfolio-plan": ["skeptisch", "matin"],
   "broker-vergleich": ["reuf", "matin"],
 };

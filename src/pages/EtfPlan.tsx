@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
@@ -159,6 +160,10 @@ const EtfPlan = () => {
 
         {/* Alle ETFs als Liste wie in der Liste (Elias, 01.11.2026, MC7d15: „Das sind alle, die es gibt … dann machst du
             irgendwie drei, vier und dann machst du weitere Anzeigen“). Punkte-Hinweis und Beispielnamen sind weg. */}
+        {/* RN17-20 (Elias: „pack das auf jeden Fall rein bei allen Many-Chat-Abläufen, die momentan online sind“; ETF läuft live): der große
+            Kasten nach den ersten zwei Abschnitten wie bei Gold und Sukuk. */}
+        <CheckEinstieg quelle="etf-plan" className="mt-12" />
+
         <section id="alle-etfs" className="reveal mt-12 scroll-mt-20" aria-labelledby="alle">
           <h2 id="alle" className="text-[28px] font-extrabold leading-tight text-foreground">
             Alle {ETF_ZEILEN.length} Islamic ETFs und Fonds
