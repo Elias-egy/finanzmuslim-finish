@@ -63,7 +63,7 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     zitat: "Ich war skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei jeder Aktie dabei, woher die Einstufung kommt. Das hat mich überzeugt, weil ich es selbst nachprüfen konnte.",
     // RN17-12 (Elias: „bei dem mit, war skeptisch, kann das kommen mit Artin E. … das gleiche Bild, was wir bei Newsletter haben … das
     // allererste … ein bisschen näher … Hintergrund … blau verschwommen“): src/assets/leser/leser-1.webp, Person mit macOS-Vision
-    // freigestellt, vor blauem Verlauf, enger geschnitten.
+    // freigestellt, enger geschnitten; RN17-17: Hintergrund verschwommene Stadt wie das linke Leute-Bild (Unsplash photo-1494790108377, Ausschnitt ohne Person, stark weichgezeichnet).
     name: "Artin E.",
     foto: "/bilder/check/stimme-artin.webp",
     zeile: "Depot bei flatex",
