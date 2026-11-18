@@ -48,3 +48,17 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
     expect(stimmenAn("homepage", true).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
   });
 });
+
+describe("Stimmen unten im Freebie (Elias RN16-41)", () => {
+  it("zwei weitere, nie dieselben wie im Kasten oben", async () => {
+    const { stimmenUnten, STIMMEN_UNTEN_JE_QUELLE } = await import("@/data/checkStimmen");
+    for (const [q, ids] of Object.entries(STIMMEN_UNTEN_JE_QUELLE)) {
+      expect(ids).toHaveLength(2);
+      const oben = stimmenAn(q as StimmenStelle, true).map((s) => s.id);
+      for (const id of ids!) expect(oben).not.toContain(id);
+    }
+    expect(stimmenUnten("boykottliste", true).map((s) => s.id)).toEqual(["reuf", "skeptisch"]);
+    expect(stimmenUnten("boykottliste", false).map((s) => s.id)).toEqual(["reuf"]);
+    expect(stimmenUnten(undefined, true).map((s) => s.id)).toEqual(["matin", "reuf"]);
+  });
+});

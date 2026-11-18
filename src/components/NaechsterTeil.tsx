@@ -4,6 +4,8 @@ import { ereignis } from "@/lib/messung";
 import { ArrowRight } from "lucide-react";
 import type { LeiterWort } from "@/data/leiter";
 import { DEPOTS_GETESTET, KONTEN_GETESTET, type CheckQuelle } from "@/data/halalFinanzCheck";
+import { stimmenUnten } from "@/data/checkStimmen";
+import { StimmeKarte } from "@/components/CheckStimme";
 import "@/styles/checkEinstieg.css";
 
 /** Quelle des Checks je Freebie (wie beim Kasten oben); der ETF-Plan hat keine eigene, sein Knopf öffnet /check ohne Quelle. */
@@ -25,6 +27,7 @@ type Props = {
 };
 
 /**
+ * RN16-41: größer, mit zwei weiteren Stimmen (nicht die zwei vom Kasten oben).
  * RN16-13 (Elias 17.11.2026: „unten bei Blueprint also den Blueprint austauschen und nochmal eine kleinere Werbung für das Match machen“):
  * statt des Guides steht am Ende jedes Freebies eine kleine Werbung für den Check mit einem Knopf „Match finden“. Die Messung
  * freebie_ende bleibt. Früher:
@@ -48,6 +51,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
     return () => beobachter.disconnect();
   }, [wort]);
   const quelle = QUELLE_JE_WORT[wort];
+  const stimmen = stimmenUnten(quelle, import.meta.env.DEV);
   return (
     <aside
       ref={kasten}
@@ -56,12 +60,22 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       data-match-ende
       className={`ce ${className}`}
     >
-      <h2 id="naechster-teil" className="ce-titel ce-titel--klein scroll-mt-32">
+      <h2 id="naechster-teil" className="ce-titel scroll-mt-32">
         Dein Match in unter 60 Sekunden
       </h2>
       <p className="ce-satz">
         Aus {KONTEN_GETESTET} Bankkonten und {DEPOTS_GETESTET} Depots, die ich alle selbst getestet habe.
       </p>
+      {/* RN16-41 („nicht so winzig … mindestens noch zwei Testimonials rein. Unten. Zwei unwichtigere zu dem Thema“) */}
+      {stimmen.length > 0 && (
+        <div className="ce-stimmen" data-stimmen={stimmen.length}>
+          <div className="ce-stimmen-band">
+            {stimmen.map((s) => (
+              <StimmeKarte key={s.id} s={s} />
+            ))}
+          </div>
+        </div>
+      )}
       <Link
         to={quelle ? `/check?quelle=${quelle}` : "/check"}
         onClick={() => ereignis("freebie_check_klick", { check: true, quelle: quelle ?? "keine", im: "freebie", stelle: "ende", wort })}

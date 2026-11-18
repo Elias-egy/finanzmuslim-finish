@@ -100,6 +100,25 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
   "ergebnis-depot": ["reuf", "klein-anfangen"],
 };
 
+/**
+ * Zwei weitere Stimmen im Kasten am Ende jedes Freebies (Elias RN16-41: „die 2 relevanten oben und 2 weniger passende, aber trotzdem
+ * noch welche, die okay sind, unten“). Nie dieselben wie oben. Ohne Quelle (ETF-Plan): Matin und Reuf.
+ */
+const KONTO_UNTEN: StimmeId[] = ["reuf", "skeptisch"];
+export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> = {
+  boykottliste: KONTO_UNTEN,
+  "vertrags-ampel": KONTO_UNTEN,
+  "auto-abo": KONTO_UNTEN,
+  "baraka-blocker": KONTO_UNTEN,
+  rizq: KONTO_UNTEN,
+  aktienliste: ["klein-anfangen", "matin"],
+  "halal-anlagen": ["klein-anfangen", "matin"],
+  "gold-plan": ["skeptisch", "matin"],
+  "sukuk-plan": ["skeptisch", "matin"],
+  "portfolio-plan": ["skeptisch", "matin"],
+  "broker-vergleich": ["reuf", "matin"],
+};
+
 export type StimmeAnStelle = Stimme & { id: StimmeId; beispiel: boolean };
 
 /**
@@ -125,3 +144,9 @@ export const LEUTE_BEISPIEL = [
 ];
 export const leuteBilder = (dev: boolean, echt: readonly string[] = LEUTE_BILDER): string[] =>
   echt.length > 0 ? [...echt] : dev ? [...LEUTE_BEISPIEL] : [];
+
+/** Die zwei Stimmen unten im Freebie (RN16-41), live nur bestätigte. */
+export const stimmenUnten = (quelle: CheckQuelle | undefined, dev: boolean, alle: Record<StimmeId, Stimme> = ALLE_STIMMEN): StimmeAnStelle[] =>
+  ((quelle && STIMMEN_UNTEN_JE_QUELLE[quelle]) || (["matin", "reuf"] as StimmeId[]))
+    .map((id) => ({ ...alle[id], id, beispiel: !alle[id].bestaetigt }))
+    .filter((s) => dev || !s.beispiel);

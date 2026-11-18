@@ -1,13 +1,9 @@
 import { Fragment, useEffect } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { Heart, Info } from "lucide-react";
+import { Navigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
-import { edelmetallVergleich } from "@/data/edelmetallVergleich";
 import {
   AUCH_GENANNT,
   BOYKOTT_PFAD,
@@ -17,7 +13,6 @@ import {
   alleFirmen,
   artVon,
   bereiche,
-  boykottLink,
   boykottQuellen,
   listenQuellen,
   type Alternative,
@@ -94,60 +89,7 @@ const Bereich = ({ id, titel, firmen, alternativen }: { id: string; titel: strin
   </section>
 );
 
-/**
- * Haram ist nicht Boykott (Elias, 28.10.2026, raw/2026-10-28-elias-bk1-haram-ist-nicht-boykott.md):
- * keine Zahlen aus Indizes, nichts gegen Halal ETFs, Boykott als freiwilliges Gutes, Aufruf zu Gold
- * und islamischen Anleihen für alle, die außerhalb vom Aktienmarkt anlegen wollen.
- */
-const Boerse = () => (
-  <section className="reveal mt-12" aria-labelledby="boerse">
-    <p className="text-[14px] font-bold text-violet">Auch bei Aktien</p>
-    <h2 id="boerse" className="mt-1 text-[24px] font-extrabold text-foreground">
-      Haram ist nicht Boykott
-    </h2>
-    {/* Lesbarer als acht Zeilen Text (Elias, 01.11.2026, MC7d15): zwei Kacheln, dann zwei kurze Sätze. Wortlaut wie vorher. */}
-    <div className="mt-4 grid grid-cols-2 gap-2">
-      <div className="rounded-lg bg-loss-soft p-4 ring-1 ring-loss/20">
-        <p className="text-[20px] font-extrabold leading-none text-loss">Haram</p>
-        <p className="mt-2 text-[15px] leading-snug text-foreground">heißt verboten.</p>
-      </div>
-      <div className="rounded-lg bg-amber-50 p-4 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:ring-amber-500/30">
-        <p className="text-[20px] font-extrabold leading-none text-amber-700 dark:text-amber-300">Boykott</p>
-        <p className="mt-2 text-[15px] leading-snug text-foreground">ist ein freiwilliger Schritt obendrauf.</p>
-      </div>
-    </div>
-    <ul className="mt-3 grid gap-2">
-      <li className="card-surface flex items-start gap-3 p-4">
-        <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-        <p className="text-[16px] leading-snug text-foreground">
-          Steht eine Aktie auf der Boykott-Liste, heißt das nicht, dass sie haram ist.{" "}
-          <span className="font-bold">Halal ETFs bleiben eine gute Lösung.</span>
-        </p>
-      </li>
-      <li className="card-surface flex items-start gap-3 p-4">
-        <Heart className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-        <p className="text-[16px] leading-snug text-foreground">
-          Alternativen zu suchen, wo es geht, ist etwas sehr Gutes, inshallah. <span className="font-bold">Jeder Schritt zählt.</span>
-        </p>
-      </li>
-    </ul>
-    <FindeDeinAngebot
-      className="mt-4"
-      titel="Du willst lieber in Edelmetalle statt in Aktien anlegen?"
-      text="Ich habe gerankt, wo du in Deutschland Gold online kaufst und welche Anbieter zinsfrei sind."
-      knopf="Zum Gold-Vergleich"
-      logos={[...GOLD_DEPOT_LOGOS]}
-      gesamt={edelmetallVergleich.length}
-      ziel={boykottLink("/vergleich/edelmetalle", "mitte")}
-    />
-    <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
-      Lieber islamische Anleihen (Sukuk)?{" "}
-      <Link to={boykottLink("/blog/sukuk", "sukuk")} className="font-semibold text-primary hover:underline">
-        So funktionieren Sukuk
-      </Link>
-    </p>
-  </section>
-);
+/* RN16-41 (Elias: „dieses Haram ist nicht gleich Boykott und so, das kann alles weg. Also nur ein Call to Action“): Abschnitt Börse mit Gold-Aufruf und Sukuk-Link raus. */
 
 const BoykottListe = () => {
   const { schluessel } = useParams();
@@ -201,10 +143,7 @@ const BoykottListe = () => {
             <Bereich id={b.id} titel={b.titel} firmen={b.firmen} alternativen={b.alternativen} />
             {/* RN16-39 („dann die 4 Alternativen, Streaming und dann kommt direkt der Call to Action mit dem Match“): der große Kasten direkt nach Technik und Streaming */}
             {b.id === "technik" && (
-              <>
-                <CheckEinstieg quelle="boykottliste" className="mt-12" />
-                <Boerse />
-              </>
+              <CheckEinstieg quelle="boykottliste" className="mt-12" />
             )}
           </Fragment>
         ))}
