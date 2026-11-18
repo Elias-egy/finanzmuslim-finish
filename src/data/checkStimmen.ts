@@ -149,7 +149,9 @@ export const stimmenAn = (stelle: StimmenStelle, dev: boolean, alle: Record<Stim
  * sondern zwei, drei Bilder von anderen Leuten“). Echte Bilder kommen nach Elias' Antwort (echte Leser mit Erlaubnis oder Bilder wie im
  * Original). Bis dahin zeigt nur der Entwicklungsmodus die drei Porträts des Originals, live nichts.
  */
-export const LEUTE_BILDER: string[] = [];
+// RN17-24 (Elias: „nimm mal das von Halil. Das von Martin und das, was ich dir jetzt gegeben habe, bei den so viele Leute informieren sich.
+// Jetzt brauchen wir noch irgendwie eine Frau, aber das kriegen wir noch hin. Also mach erstmal die 3 Bilder rein.“): drei echte Leser.
+export const LEUTE_BILDER: string[] = ["/bilder/check/stimme-halil.webp", "/bilder/check/stimme-matin.webp", "/bilder/check/leute-3.webp"];
 /** Nur Entwicklung: die drei Porträts aus Elias' Perspective-Original (Blueprint rn10 Abschnitt 2.2, Unsplash crop=faces), nie live. */
 export const LEUTE_BEISPIEL = [
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=faces&fit=crop&w=160&h=160&q=72",
