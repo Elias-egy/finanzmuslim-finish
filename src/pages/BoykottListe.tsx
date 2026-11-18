@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { AlertTriangle, Heart, Info } from "lucide-react";
+import { Heart, Info } from "lucide-react";
 import Seo from "@/components/Seo";
 import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
@@ -13,7 +13,6 @@ import {
   BOYKOTT_PFAD,
   BOYKOTT_SCHLUESSEL,
   BOYKOTT_STAND,
-  VERSTECKT,
   WARE,
   alleFirmen,
   artVon,
@@ -190,24 +189,7 @@ const BoykottListe = () => {
           <p className="mt-3 text-[16px] leading-snug text-foreground/80">
             Von der offiziellen Liste der BDS-Bewegung, Stand {BOYKOTT_STAND}.
           </p>
-          <div className="mt-4 flex gap-3 rounded-lg bg-loss-soft p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
-            <div>
-              <p className="text-[16px] font-semibold leading-snug text-foreground">
-                Viele Marken gehören zu einem Konzern auf der Liste, ohne dass man es sieht.
-              </p>
-              <div className="mt-1.5 flex items-center gap-2">
-                <span className="flex gap-1">
-                  {VERSTECKT.map((v) => (
-                    <AnbieterLogo key={v.name} name={v.name} domain={v.domain} klein />
-                  ))}
-                </span>
-                <span className="text-[12px] text-muted-foreground">
-                  {VERSTECKT.map((v) => `${v.name} gehört zu ${v.konzern}`).join(", ")}
-                </span>
-              </div>
-            </div>
-          </div>
+          {/* RN16-39 (Elias: „dieses viele Marken kann weg, dann kommt direkt Essen, Trinken“): der rote Kasten mit den versteckten Marken ist raus. */}
           {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
@@ -217,7 +199,13 @@ const BoykottListe = () => {
         {bereiche.map((b) => (
           <Fragment key={b.id}>
             <Bereich id={b.id} titel={b.titel} firmen={b.firmen} alternativen={b.alternativen} />
-            {b.id === "technik" && <Boerse />}
+            {/* RN16-39 („dann die 4 Alternativen, Streaming und dann kommt direkt der Call to Action mit dem Match“): der große Kasten direkt nach Technik und Streaming */}
+            {b.id === "technik" && (
+              <>
+                <CheckEinstieg quelle="boykottliste" className="mt-12" />
+                <Boerse />
+              </>
+            )}
           </Fragment>
         ))}
 
@@ -242,9 +230,7 @@ const BoykottListe = () => {
           </div>
         </section>
 
-        {/* RN5: Halal-Finanz-Check nach dem Hauptinhalt, eigener Einstieg ?quelle=boykottliste (Perspective-Tipp 43). */}
-        <CheckEinstieg quelle="boykottliste" className="mt-12" />
-
+        {/* RN16-39 („unten auf der Liste kommt der Call to Action nochmal. Aber der untere … ein bisschen kleiner“): unten nur der kleine Kasten. */}
         <NaechsterTeil wort="boykott" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
