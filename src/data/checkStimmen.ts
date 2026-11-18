@@ -61,7 +61,11 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   skeptisch: {
     art: "depot",
     zitat: "Ich war skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei jeder Aktie dabei, woher die Einstufung kommt. Das hat mich überzeugt, weil ich es selbst nachprüfen konnte.",
-    name: "Name folgt",
+    // RN17-12 (Elias: „bei dem mit, war skeptisch, kann das kommen mit Artin E. … das gleiche Bild, was wir bei Newsletter haben … das
+    // allererste … ein bisschen näher … Hintergrund … blau verschwommen“): src/assets/leser/leser-1.webp, Person mit macOS-Vision
+    // freigestellt, vor blauem Verlauf, enger geschnitten.
+    name: "Artin E.",
+    foto: "/bilder/check/stimme-artin.webp",
     zeile: "Depot bei flatex",
   },
   // RN16-29, RN16-30 („Vor allem der zweite Satz“), RN16-32: Traders Place. 0 € Depot, Order und Sparplan laut brokerVergleich.ts.
