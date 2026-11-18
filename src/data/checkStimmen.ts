@@ -16,6 +16,8 @@ export type Stimme = {
   /** Eine kurze Zeile hinter dem Namen, etwa „Depot bei Smartbroker+“. */
   zeile?: string;
   foto?: string;
+  /** Statt des Zitats der echte Screenshot der Nachricht (Elias RN16-35); das Zitat bleibt als Bildbeschreibung. */
+  screenshot?: string;
   sterne?: 1 | 2 | 3 | 4 | 5;
   /** Die Person hat ihren Text bestätigt. Nur dann steht die Stimme live; sonst nur im Entwicklungsmodus, als Platzhalter markiert. */
   bestaetigt?: boolean;
@@ -30,9 +32,12 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-20 bis RN16-26: Matin, Foto aus Elias' Upload (RN16-26), ohne Sterne (RN16-23).
   matin: {
     art: "konto",
-    zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der neuen Bank konnte ich alles rüberziehen.",
-    name: "Matin Mahmoudi",
-    zeile: "Girokonto bei norisbank",
+    // RN16-35 (Elias: „wie das aussehen würde, wenn man wirklich den Screenshot einblendet … von Martin als Beispiel nur … Konto bei
+    // Norris Bank. Ja, Martin.m“): Ansicht mit Screenshot; der Screenshot ist Elias' Beispielbild, nur im Entwicklungsmodus.
+    zitat: "Eine absolut herausragende Beratung! Ich habe mich von Anfang an bestens aufgehoben und kompetent beraten gefühlt. Die Erreichbarkeit war jederzeit gegeben, Rückmeldungen kamen stets schnell und zuverlässig, und auch fachlich konnte mir jede meiner Fragen verständlich und fundiert beantwortet werden. Eine klare Weiterempfehlung!",
+    screenshot: "/bilder/check/stimme-matin-chat.webp",
+    name: "matin.m",
+    zeile: "Konto bei norisbank",
     foto: "/bilder/check/stimme-matin.webp",
   },
   // RN16-31 („mir hat gefallen, dass meine momentane Bank … nebeneinander gestellt wurden … sehr übersichtlich und gut zum Vergleichen“),

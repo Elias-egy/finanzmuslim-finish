@@ -27,7 +27,11 @@ export const StimmeKarte = ({ s }: { s: StimmeAnStelle }) => (
         {s.zeile && <span>{s.zeile}</span>}
       </span>
     </figcaption>
-    <blockquote>„{s.zitat}“</blockquote>
+    {s.screenshot ? (
+      <img className="ce-stimme-screenshot" src={s.screenshot} alt={s.zitat} width={720} height={627} loading="lazy" />
+    ) : (
+      <blockquote>„{s.zitat}“</blockquote>
+    )}
   </figure>
 );
 
