@@ -77,6 +77,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     zitat: "Ich wollte erstmal mit 50 € im Monat anfangen, deswegen waren mir vor allem niedrige Kosten wichtig. Bei Traders Place zahl ich 0 € auf meinen Sparplan. Definitive Empfehlung von mir.",
     // RN17-10 (Elias: „bei den 50 € Traders Place Ding Halil S nehmen“); Foto folgt aus seinem WhatsApp-Profil.
     name: "Halil S.",
+    // RN17-13: Foto aus Halils WhatsApp-Profil (Vault raw/2026-11-18-elias-rn17-13-foto-halil.png), quadratisch um das Gesicht.
+    foto: "/bilder/check/stimme-halil.webp",
     zeile: "Depot bei Traders Place",
   },
 };
