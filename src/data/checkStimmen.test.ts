@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { ALLE_STIMMEN, STIMMEN, STIMMEN_JE_STELLE, stimmenAn, type StimmenStelle } from "@/data/checkStimmen";
 
 describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
-  it("echt und bestätigt ist bisher nur Reuf K.", () => {
-    expect(STIMMEN.map((s) => s.name)).toEqual(["Reuf K."]);
+  it("echt und bestätigt: Matin, Reuf, Artin, Halil (RN18-02); die Commerzbank-Stimme nicht", () => {
+    expect(STIMMEN.map((s) => s.name)).toEqual(["Matin M.", "Reuf K.", "Artin E.", "Halil S."]);
   });
 
   it("fünf Stimmen: zwei zum Bankkonto, drei zum Investieren, keine mit Sternen", () => {
@@ -26,11 +26,15 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
     expect(ALLE_STIMMEN["bank-nebeneinander"].zeile).toBe("Girokonto bei BBBank");
     expect(ALLE_STIMMEN["bank-nebeneinander"].zitat).toMatch(/Konto bei der BBBank eröffnet\.$/);
     expect(ALLE_STIMMEN.matin.name).toBe("Matin M.");
+    // RN18-07: kürzer, ohne „Zinsen zahlen wollte ich auf keinen Fall“.
+    expect(ALLE_STIMMEN.matin.zitat).toMatch(/Sparkasse\. Ich hab gewechselt und mit dem Wechselservice alles rübergezogen\. Hat reibungslos geklappt\.$/);
+    expect(ALLE_STIMMEN.matin.zitat).not.toMatch(/auf keinen Fall/);
   });
 
-  it("Testseite drei (Matin, Reuf, Skeptisch), jedes Freebie zwei", () => {
+  it("Testseite drei (Matin, Reuf, Skeptisch), jedes Anlagen-Freebie zwei, Konto-Stellen nur Matin (RN18-03)", () => {
     expect(stimmenAn("check", true).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
-    for (const [stelle, ids] of Object.entries(STIMMEN_JE_STELLE)) if (stelle !== "check") expect(ids).toHaveLength(2);
+    for (const [stelle, ids] of Object.entries(STIMMEN_JE_STELLE)) if (stelle !== "check") expect(ids).toHaveLength(ids!.includes("matin") ? 1 : 2);
+    for (const ids of Object.values(STIMMEN_JE_STELLE)) expect(ids).not.toContain("bank-nebeneinander");
   });
 
   it("Konto-Freebies nur Konto-Stimmen, Anlagen-Freebies nur Depot-Stimmen", () => {
@@ -44,9 +48,11 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
   });
 
   it("live nur bestätigte, im Entwicklungsmodus unbestätigte als Beispiel markiert", () => {
-    expect(stimmenAn("boykottliste", false)).toHaveLength(0);
-    expect(stimmenAn("check", false).map((s) => s.id)).toEqual(["reuf"]);
-    expect(stimmenAn("check", true).map((s) => s.beispiel)).toEqual([true, false, true]);
+    expect(stimmenAn("boykottliste", false).map((s) => s.id)).toEqual(["matin"]);
+    expect(stimmenAn("check", false).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
+    expect(stimmenAn("check", true).map((s) => s.beispiel)).toEqual([false, false, false]);
+    expect(stimmenAn("check", true, { ...ALLE_STIMMEN, reuf: { ...ALLE_STIMMEN.reuf, bestaetigt: false } }).map((s) => s.beispiel)).toEqual([false, true, false]);
+    expect(stimmenAn("check", false, { ...ALLE_STIMMEN, reuf: { ...ALLE_STIMMEN.reuf, bestaetigt: false } }).map((s) => s.id)).toEqual(["matin", "skeptisch"]);
     expect(stimmenAn("homepage", true).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
   });
 });
@@ -60,7 +66,7 @@ describe("Stimmen unten im Freebie (Elias RN16-41)", () => {
       for (const id of ids!) expect(oben).not.toContain(id);
     }
     expect(stimmenUnten("boykottliste", true).map((s) => s.id)).toEqual(["reuf", "skeptisch"]);
-    expect(stimmenUnten("boykottliste", false).map((s) => s.id)).toEqual(["reuf"]);
+    expect(stimmenUnten("boykottliste", false).map((s) => s.id)).toEqual(["reuf", "skeptisch"]);
     expect(stimmenUnten(undefined, true).map((s) => s.id)).toEqual(["matin", "reuf"]);
   });
 });

@@ -913,3 +913,37 @@ describe("Depot-Vergleich bei bestehendem Depot wie beim Konto (RN17, Elias RN16
     for (const r of z) expect(r.links.text).toBe(KEIN_WERT);
   });
 });
+
+describe("Trading 212 und Scalable: Depot passt schon, flatex daneben (RN18-05)", () => {
+  const mit = (id: string, praef: "halal" | "kosten", anlage: Antworten["anlage"]) =>
+    depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot(id), praef, anlage, betrag: "50bis200" });
+
+  it("oben „passt schon“ mit der eigenen Passung, flatex mit der Order als Preis, kein „Passt auch gut“", () => {
+    for (const id of ["trading-212-depot", "scalable-capital-free-broker"])
+      for (const praef of ["halal", "kosten"] as const)
+        for (const anlage of ["etf", "aktien", "gold"] as const) {
+          const e = mit(id, praef, anlage);
+          expect(e.ueberschrift, `${id} ${praef} ${anlage}`).toMatch(/^Dein Depot bei .+ passt schon$/);
+          expect(e.bleiben).toBe(true);
+          expect(e.schonDa).toBe(false);
+          expect(e.anbieter.name).toBe("flatex");
+          expect(e.preis).toMatch(/^Order ab 5,90\s€$/);
+          expect(e.auchGut).toBeUndefined();
+          expect(e.passung).toBe(Number(e.links!.zeilen[0].wert.replace(/\D/g, "")));
+          expect(e.satz).toMatch(/12 von 12 Halal-ETFs/);
+        }
+  });
+
+  it("im Vergleich immer zuerst Halal-ETFs (flatex vorn), dann Order (das eigene Depot vorn)", () => {
+    const z = vergleichZeilen(mit("trading-212-depot", "kosten", "aktien"));
+    expect(z).toHaveLength(4);
+    expect(z[1]).toMatchObject({ label: "Halal-ETFs und Fonds", links: { text: "10 von 12", nein: true }, rechts: { text: "12 von 12", ja: true } });
+    expect(z[2]).toMatchObject({ label: "Order", links: { ja: true }, rechts: { text: expect.stringMatching(/^ab 5,90\s€$/), nein: true } });
+    expect(matchSatz(mit("scalable-capital-free-broker", "halal", "etf"), {})).toMatch(/^Du kannst bleiben\./);
+  });
+
+  it("andere Depots bekommen weiter den Wechsel (comdirect)", () => {
+    expect(mit("comdirect-depot", "halal", "etf").bleiben).toBeUndefined();
+  });
+});
+

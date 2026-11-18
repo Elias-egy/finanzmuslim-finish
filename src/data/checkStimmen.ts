@@ -34,7 +34,10 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-20 bis RN16-26: Matin, Foto aus Elias' Upload (RN16-26), ohne Sterne (RN16-23).
   matin: {
     art: "konto",
-    zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Zinsen zahlen wollte ich auf keinen Fall, also hab ich gewechselt und mit dem Wechselservice alles rübergezogen. Hat reibungslos geklappt.",
+    zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Ich hab gewechselt und mit dem Wechselservice alles rübergezogen. Hat reibungslos geklappt.",
+    // RN18-07 (Elias: „Nicht Zinsen zahlen wollte ich auf keinen Fall, sondern ich habe gewechselt … So, dass es ein bisschen kürzer ist.“).
+    // RN18-02 (Elias: „Martin, Artin und Halil haben ihren Text gesehen und sind einverstanden“), RN18-04: 12 Prozent stimmen.
+    bestaetigt: true,
     // RN17-04 (Elias: „Und ich würde Martin M. nehmen, dann ist alles mit Punkt.“): Vorname und Anfangsbuchstabe wie Reuf K.
     name: "Matin M.",
     zeile: "Girokonto bei norisbank",
@@ -68,6 +71,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     name: "Artin E.",
     foto: "/bilder/check/stimme-artin.webp",
     zeile: "Depot bei flatex",
+    // RN18-02: Text gesehen und einverstanden.
+    bestaetigt: true,
   },
   // RN16-29, RN16-30 („Vor allem der zweite Satz“), RN16-32: Traders Place. 0 € Depot, Order und Sparplan laut brokerVergleich.ts.
   "klein-anfangen": {
@@ -81,6 +86,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     // RN17-13: Foto aus Halils WhatsApp-Profil (Vault raw/2026-11-18-elias-rn17-13-foto-halil.png), quadratisch um das Gesicht.
     foto: "/bilder/check/stimme-halil.webp",
     zeile: "Depot bei Traders Place",
+    // RN18-02: Text gesehen und einverstanden.
+    bestaetigt: true,
   },
 };
 
@@ -90,7 +97,9 @@ export const STIMMEN: Stimme[] = Object.values(ALLE_STIMMEN).filter((s) => s.bes
 /** Stellen: die Freebies (Quelle des Kastens), die Testseite vor dem Check und das Ergebnis je Art. */
 export type StimmenStelle = CheckQuelle | "check" | "ergebnis-konto" | "ergebnis-depot";
 
-const KONTO_PAAR: StimmeId[] = ["matin", "bank-nebeneinander"];
+// RN18-03 (Elias: „Die Person Commerzbank … kann erstmal raus. Irgendwann sage ich wieder rein“): Stimme bank-nebeneinander steht nirgends,
+// der Eintrag bleibt für später. An den Konto-Stellen steht bis dahin nur Matin (eine Depot-Stimme passt dort nicht, RN16-32).
+const KONTO_PAAR: StimmeId[] = ["matin"];
 /**
  * Welche Stimmen wo stehen (Elias RN16-32: „auf der Hauptseite 3 auf den Freebies 2. Die 2 müssen passend sein, die 3 müssen die
  * stärksten sein, die immer gezeigt werden“; Boykott „typische Zinsfreiheit … Bankkonten-Testimonials“, Aktien „mit Halal“). Plan von

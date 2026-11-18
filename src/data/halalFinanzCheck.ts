@@ -437,6 +437,8 @@ export type DepotErgebnis = {
   depotVergleich?: VergleichZeile[];
   /** „Passt auch gut“ wie im Original (Elias RN11-03): das andere der beiden Depots mit eigener Passung und eigenem Knopf. */
   auchGut?: AuchGut;
+  /** RN18-05: das heutige Depot (Trading 212, Scalable) passt schon, flatex steht nur zum Vergleich daneben. */
+  bleiben?: boolean;
 };
 
 /** Das zweite Depot unter dem Match: eigene Passung aus passungProzent, Knopf über /out mit Kennung Zusatz z. */
@@ -853,13 +855,20 @@ const depotPunktReihe = (a: Antworten): DepotPunktId[] => {
   return alle.filter((id, n) => alle.indexOf(id) === n);
 };
 
-const depotVergleich = (heute: DepotWerte | null, heutePassung: number | null, match: DepotWerte, passung: number, a: Antworten): VergleichZeile[] => {
+const depotVergleich = (
+  heute: DepotWerte | null,
+  heutePassung: number | null,
+  match: DepotWerte,
+  passung: number,
+  a: Antworten,
+  vorn: DepotPunktId[] = [],
+): VergleichZeile[] => {
   const kopf: VergleichZeile = {
     label: "Passt zu deinen Antworten",
     links: { text: heutePassung === null ? KEIN_WERT : `${heutePassung} %`, ...(heutePassung !== null && heutePassung >= passung ? { ja: true } : {}) },
     rechts: { text: `${passung} %`, ...(heutePassung === null || passung >= heutePassung ? { ja: true } : {}) },
   };
-  const rang: { z: VergleichZeile; r: number; n: number }[] = [];
+  const rang: { z: VergleichZeile; r: number; n: number; id: DepotPunktId }[] = [];
   depotPunktReihe(a).forEach((id, n) => {
     const p = DEPOT_PUNKTE[id];
     const rt = p.text(match);
@@ -868,7 +877,7 @@ const depotVergleich = (heute: DepotWerte | null, heutePassung: number | null, m
     const lt = heute ? p.text(heute) : null;
     const la = heute ? p.anteil(heute) : null;
     if (lt === null || la === null) {
-      rang.push({ z: { label: p.label, links: { text: KEIN_WERT }, rechts: { text: rt, ja: true } }, r: 1, n });
+      rang.push({ z: { label: p.label, links: { text: KEIN_WERT }, rechts: { text: rt, ja: true } }, r: 1, n, id });
       return;
     }
     // Zinsen, die beide nicht haben, stehen nicht als Zeile (wie beim Konto, RN13-01: Gemeinsames halal nie als Zeile).
@@ -882,9 +891,12 @@ const depotVergleich = (heute: DepotWerte | null, heutePassung: number | null, m
       },
       r,
       n,
+      id,
     });
   });
-  const drei = rang.sort((x, y) => x.r - y.r || x.n - y.n).slice(0, 3).map((x) => x.z);
+  // RN18-05: beim Bleiben stehen Halal-ETFs und Order immer vorn, damit beides zugleich zu sehen ist.
+  const v = (id: DepotPunktId) => (vorn.includes(id) ? vorn.indexOf(id) - vorn.length : 0);
+  const drei = rang.sort((x, y) => v(x.id) - v(y.id) || x.r - y.r || x.n - y.n).slice(0, 3).map((x) => x.z);
   return [kopf, ...drei];
 };
 
@@ -932,6 +944,7 @@ const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Dep
   if (schonDa) {
     return { ...basis, ueberschrift: `Dein Depot bei ${d.anbieter.name} passt schon`, satz: `Bei ${d.anbieter.name} bist du richtig.` };
   }
+  if (heute.kind === "depot" && DEPOT_BLEIBEN.includes(heute.id)) return depotBleiben(heute, a, quelle, fassung);
   const w = depotWerte(heute);
   const heutePassung = passungRechenbar(w) ? passungAusWerten(w, a) : null;
   return {
@@ -942,6 +955,40 @@ const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Dep
     depotVergleich: depotVergleich(w, heutePassung, werteVonKarte(d.karte), passung, a),
   };
 };
+/**
+ * RN18-05 (Elias: „Ja, wer dort schon ein Depot hat, kann bleiben. Außer bei flatex, weil das der einzige ist. Also ich würde flatex oft
+ * anzeigen und sagen, hey, 12 von 12 Halal-Anlagen, vielleicht das im Vergleich setzen. Aber gleichzeitig auch die Ordergebühren beim
+ * anderen hervorheben. Dann kann die Person selber entscheiden.“). Trading 212 und Scalable rechnen im Check gleich gut oder besser als das
+ * Match (RN17). Dann steht oben „passt schon“ mit der Passung des eigenen Depots, darunter flatex mit der Order als Preis, im Vergleich
+ * immer Halal-ETFs und Order vorn. Kein „Passt auch gut“.
+ */
+const DEPOT_BLEIBEN = ["trading-212-depot", "scalable-capital-free-broker"];
+const depotBleiben = (heute: DepotWahl, a: Antworten, quelle: CheckQuelle, fassung: Fassung): DepotErgebnis => {
+  const d = depotTeil("fl", a);
+  const passung = passungProzent(d.karte, a);
+  const w = depotWerte(heute);
+  const heutePassung = passungRechenbar(w) ? passungAusWerten(w, a) : null;
+  return {
+    art: "depot",
+    anbieter: d.anbieter,
+    ueberschrift: `Dein Depot bei ${heute.name} passt schon`,
+    satz: `Du kannst bleiben. flatex hat alle ${d.karte.etfs} Halal-ETFs und Fonds aus meinem Vergleich, kostet aber ${d.karte.order} je Order. Entscheide selbst, was dir wichtiger ist.`,
+    kartenTitel: d.titel,
+    preis: `Order ${d.karte.order}`,
+    vorteile: depotVorteile(d.karte, d.kurz, a.anlage),
+    pflicht: d.pflicht,
+    knopf: "Depot eröffnen",
+    link: outLink(quelle, d.anbieter, fassung),
+    passung: heutePassung ?? passung,
+    schonDa: false,
+    bleiben: true,
+    links: { name: heute.name, domain: heute.domain, zeilen: depotZeilen(w, heutePassung) },
+    rechts: { name: d.anbieter.name, domain: d.anbieter.domain, zeilen: depotZeilen(werteVonKarte(d.karte), passung) },
+    vergleichTitel: `${heute.name} und ${d.anbieter.name} im Vergleich`,
+    depotVergleich: depotVergleich(w, heutePassung, werteVonKarte(d.karte), passung, a, ["etfs", "order"]),
+  };
+};
+
 /** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, am Ende die Fassung a oder b. Die Quelle (?quelle=) steckt nur hier, die Bank von heute nie. */
 const QUELLE_KURZ: Record<CheckQuelle, string> = {
   aktienliste: "ak",
@@ -1145,6 +1192,7 @@ const PRAEF_WICHTIG: Record<Praef, string> = { halal: "viele Halal-Anlagen", kos
 /** Höchstens zwei kurze Sätze, in denen sich der Leser wiedererkennt; leer, wenn das Match schon sein Konto oder Depot ist. */
 export const matchSatz = (e: Ergebnis, a: Antworten): string => {
   if (e.schonDa) return "";
+  if (e.art === "depot" && e.bleiben) return e.satz;
   if (e.art === "konto") {
     const z = a.zahlung ? KONTO_ZAHLUNG[a.zahlung] : undefined;
     const bank = a.bank;

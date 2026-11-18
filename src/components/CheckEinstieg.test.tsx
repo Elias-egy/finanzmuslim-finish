@@ -46,11 +46,11 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
     expect(container.querySelector(".ce-ring-zahl")?.textContent).toMatch(/^\d+%$/);
   });
 
-  it("ohne echte Stimme steht live keine Stimme: im Entwicklungsmodus nur die Beispiel-Stimme als Platzhalter markiert", () => {
+  it("bestätigte Stimmen stehen ohne Platzhalter-Markierung (RN18-02: Matin bestätigt)", () => {
     const { container } = zeige("boykottliste");
     const f = container.querySelector("figure");
-    if (import.meta.env.DEV) expect(f?.hasAttribute("data-stimme-platzhalter")).toBe(true);
-    else expect(f).toBeNull();
+    expect(f?.getAttribute("data-stimme")).toBe("matin");
+    expect(f?.hasAttribute("data-stimme-platzhalter")).toBe(false);
   });
 
   it("bis zu drei Stimmen untereinander, kein Wischen (RN16-10, RN16-11)", () => {
@@ -61,14 +61,14 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
 });
 
 describe("Stimmen je Freebie (Elias RN16-32)", () => {
-  it("Boykott-Liste: Matin, dann Bank nebeneinander; Aktien-Liste: Skeptisch, dann Reuf", () => {
+  it("Boykott-Liste: nur Matin (RN18-03); Aktien-Liste: Skeptisch, dann Reuf", () => {
     const ids = (q: CheckQuelle) => [...zeige(q).container.querySelectorAll(".ce-stimmen figure")].map((f) => f.getAttribute("data-stimme"));
     if (import.meta.env.DEV) {
-      expect(ids("boykottliste")).toEqual(["matin", "bank-nebeneinander"]);
+      expect(ids("boykottliste")).toEqual(["matin"]);
       expect(ids("aktienliste")).toEqual(["skeptisch", "reuf"]);
     } else {
-      expect(ids("boykottliste")).toEqual([]);
-      expect(ids("aktienliste")).toEqual(["reuf"]);
+      expect(ids("boykottliste")).toEqual(["matin"]);
+      expect(ids("aktienliste")).toEqual(["skeptisch", "reuf"]);
     }
   });
 });

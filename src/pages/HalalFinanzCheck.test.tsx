@@ -120,9 +120,9 @@ describe("Verkaufsseite", () => {
 
   it("drei Stimmen auf der Testseite (RN16-32), daneben Elias' Originalfoto mit Mikrofon im Ausschnitt von vorher und ohne Zeile (RN16-02) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
-    // RN16-32: die drei stärksten (Matin, Reuf, Skeptisch); Reuf echt, die anderen lokal als Platzhalter markiert, keine Sterne.
+    // RN16-32: die drei stärksten (Matin, Reuf, Skeptisch); seit RN18-02 alle drei bestätigt, keine Platzhalter, keine Sterne.
     expect([...container.querySelectorAll(".hc-community-stimmen [data-stimme]")].map((f) => f.getAttribute("data-stimme"))).toEqual(["matin", "reuf", "skeptisch"]);
-    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(2);
+    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(0);
     expect(container.querySelectorAll(".hc-community-stimmen .hc-sterne")).toHaveLength(0);
     expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
     const foto = container.querySelector(".hc-community-foto img")!;
@@ -562,12 +562,11 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     // Vergleich: die norisbank liegt vorn, immer drei Zeilen.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
-    // Community: 26.000, zwei Stimmen der Art Konto (Beispiele nur im Entwicklungsmodus).
+    // Community: 26.000, Stimme der Art Konto; seit RN18-03 nur Matin (bestätigt), die Commerzbank-Stimme ist raus.
     expect(container.textContent).toContain("Über 26.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/folgen mir/);
-    const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme-platzhalter]");
-    expect(stimmen).toHaveLength(2);
-    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin", "bank-nebeneinander"]);
+    const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme]");
+    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin"]);
     // Danach die frühere B-Karte und der offene Aufruf, in dieser Reihenfolge.
     const ueberzug = container.querySelector(".hc-erg-ueberzug")!;
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");
