@@ -34,7 +34,7 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-20 bis RN16-26: Matin, Foto aus Elias' Upload (RN16-26), ohne Sterne (RN16-23).
   matin: {
     art: "konto",
-    zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Zinsen zahlen wollte ich auf keinen Fall, also hab ich gewechselt und mit dem Wechselservice alles rübergezogen, Gehalt, Daueraufträge, alles.",
+    zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Zinsen zahlen wollte ich auf keinen Fall, also hab ich gewechselt und mit dem Wechselservice alles rübergezogen. Hat reibungslos geklappt.",
     // RN17-04 (Elias: „Und ich würde Martin M. nehmen, dann ist alles mit Punkt.“): Vorname und Anfangsbuchstabe wie Reuf K.
     name: "Matin M.",
     zeile: "Girokonto bei norisbank",
