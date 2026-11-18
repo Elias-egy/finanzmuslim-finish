@@ -26,11 +26,15 @@ export type Stimme = {
  * die Grammatik geglättet (RN16-30: „Du hast das umformuliert, mach's wie ich gesagt habe“). Elias gibt die Texte den Personen; live steht
  * eine Stimme erst, wenn die Person ihn bestätigt hat (bestaetigt: true) und Name samt Zeile von ihr stammen.
  */
+// RN16-37 (18.11.): Endfassungen aus Elias' Text. Matin: Sparkassen-Dispo statt 6,55 % „fast 12 Prozent“ (Preisaushänge 11/2026: Bielefeld
+// 10,90 %, Trier 11,10 %, Heilbronn 11,617 %, Zwickau 12,97 %), Matin gleicht mit seinem Auszug ab. Bank nebeneinander: Commerzbank statt
+// Sparkasse, 4,90 € Kontoführung (kontopreise.ts, Entgeltinformation GiroKonto). Skeptisch: Aktien-Liste nennt je Titel die Musaffa-Fundstelle.
+// Klein anfangen: Traders Place Sparplan 0 €, Sparrate ab 1 € (brokerVergleich.ts).
 export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-20 bis RN16-26: Matin, Foto aus Elias' Upload (RN16-26), ohne Sterne (RN16-23).
   matin: {
     art: "konto",
-    zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der neuen Bank konnte ich alles rüberziehen.",
+    zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Zinsen zahlen wollte ich auf keinen Fall, also hab ich gewechselt und mit dem Wechselservice alles rübergezogen, Gehalt, Daueraufträge, alles.",
     name: "Matin Mahmoudi",
     zeile: "Girokonto bei norisbank",
     foto: "/bilder/check/stimme-matin.webp",
@@ -39,7 +43,7 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-32: Konto bei norisbank. Name folgt von der Person.
   "bank-nebeneinander": {
     art: "konto",
-    zitat: "Mir hat gefallen, dass meine momentane Bank und die anderen nebeneinandergestellt wurden. Das war sehr übersichtlich und gut zum Vergleichen.",
+    zitat: "Ich hab meine Commerzbank und die anderen zum ersten Mal direkt nebeneinander gesehen. Ich zahl da seit Jahren 4,90 € im Monat Kontoführung und hab es nie gemerkt. Hab noch am selben Abend das Konto bei der norisbank eröffnet.",
     name: "Name folgt",
     zeile: "Girokonto bei norisbank",
   },
@@ -54,14 +58,14 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-29 (Elias' Satz wortgleich), RN16-32: Depot bei flatex.
   skeptisch: {
     art: "depot",
-    zitat: "Ich war ehrlich gesagt skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei den Sachen dabei, woher die Info kommt, und das hat mir gefallen.",
+    zitat: "Ich war skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei jeder Aktie dabei, woher die Einstufung kommt. Das hat mich überzeugt, weil ich es selbst nachprüfen konnte.",
     name: "Name folgt",
     zeile: "Depot bei flatex",
   },
   // RN16-29, RN16-30 („Vor allem der zweite Satz“), RN16-32: Traders Place. 0 € Depot, Order und Sparplan laut brokerVergleich.ts.
   "klein-anfangen": {
     art: "depot",
-    zitat: "Ich wollte erstmal klein anfangen. Es wurde ein Broker ausgewählt, der 0 Euro Gebühren hat. Ich bin sehr zufrieden, Alhamdulillah.",
+    zitat: "Ich wollte erstmal mit 50 € im Monat anfangen und nicht, dass Gebühren direkt was wegfressen. Bei Traders Place zahl ich 0 € Ordergebühr auf meinen Sparplan. Klein angefangen, aber angefangen, Alhamdulillah.",
     name: "Name folgt",
     zeile: "Depot bei Traders Place",
   },

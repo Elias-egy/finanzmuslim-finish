@@ -13,16 +13,16 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
     expect(alle.some((s) => s.sterne)).toBe(false);
   });
 
-  it("Elias' Wortlaut und Anbieter je Stimme (RN16-29 bis RN16-32)", () => {
+  it("Endfassungen und Anbieter je Stimme (RN16-37)", () => {
     expect(ALLE_STIMMEN.skeptisch.zitat).toBe(
-      "Ich war ehrlich gesagt skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei den Sachen dabei, woher die Info kommt, und das hat mir gefallen.",
+      "Ich war skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei jeder Aktie dabei, woher die Einstufung kommt. Das hat mich überzeugt, weil ich es selbst nachprüfen konnte.",
     );
     expect(ALLE_STIMMEN.skeptisch.zeile).toBe("Depot bei flatex");
     expect(ALLE_STIMMEN["klein-anfangen"].zitat).toBe(
-      "Ich wollte erstmal klein anfangen. Es wurde ein Broker ausgewählt, der 0 Euro Gebühren hat. Ich bin sehr zufrieden, Alhamdulillah.",
+      "Ich wollte erstmal mit 50 € im Monat anfangen und nicht, dass Gebühren direkt was wegfressen. Bei Traders Place zahl ich 0 € Ordergebühr auf meinen Sparplan. Klein angefangen, aber angefangen, Alhamdulillah.",
     );
     expect(ALLE_STIMMEN["klein-anfangen"].zeile).toBe("Depot bei Traders Place");
-    expect(ALLE_STIMMEN["bank-nebeneinander"].zitat).toMatch(/^Mir hat gefallen, dass meine momentane Bank/);
+    expect(ALLE_STIMMEN["bank-nebeneinander"].zitat).toMatch(/^Ich hab meine Commerzbank und die anderen .* 4,90 € im Monat Kontoführung/);
     expect(ALLE_STIMMEN["bank-nebeneinander"].zeile).toBe("Girokonto bei norisbank");
   });
 
