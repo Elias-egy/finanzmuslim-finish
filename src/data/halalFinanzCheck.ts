@@ -1101,7 +1101,13 @@ export const ladenTexte = (a: Antworten): LadenTexte => {
   const h = a.depotHeute;
   return {
     oben: "Danke für deine Antworten!",
-    titel: h && h.name ? `Passender Ersatz für ${h.name} wird gesucht` : "Dein passendes Halal-Depot wird gesucht",
+    // RN18-05: Trading 212 und Scalable dürfen bleiben, dort wird nichts ersetzt, sondern verglichen.
+    titel:
+      h && h.name
+        ? h.kind === "depot" && DEPOT_BLEIBEN.includes(h.id)
+          ? `${h.name} wird mit ${DEPOTS_GETESTET} Depots verglichen`
+          : `Passender Ersatz für ${h.name} wird gesucht`
+        : "Dein passendes Halal-Depot wird gesucht",
     schritte: [
       a.praef === "kosten"
         ? "Halal-Depots nach Kosten sortieren"

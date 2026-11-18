@@ -942,6 +942,11 @@ describe("Trading 212 und Scalable: Depot passt schon, flatex daneben (RN18-05)"
     expect(matchSatz(mit("scalable-capital-free-broker", "halal", "etf"), {})).toMatch(/^Du kannst bleiben\./);
   });
 
+  it("der Ladescreen sucht keinen Ersatz, er vergleicht", () => {
+    expect(ladenTexte({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("trading-212-depot") }).titel).toBe("Trading 212 wird mit 35 Depots verglichen");
+    expect(ladenTexte({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("comdirect-depot") }).titel).toBe("Passender Ersatz für comdirect wird gesucht");
+  });
+
   it("andere Depots bekommen weiter den Wechsel (comdirect)", () => {
     expect(mit("comdirect-depot", "halal", "etf").bleiben).toBeUndefined();
   });
