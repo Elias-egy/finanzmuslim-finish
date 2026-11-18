@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ereignis } from "@/lib/messung";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { stimmenAn } from "@/data/checkStimmen";
+import { StimmeKarte } from "@/components/CheckStimme";
 import { KEINE_BANK } from "@/data/bankSuche";
 import {
   ART_JE_QUELLE,
@@ -123,24 +124,7 @@ const StimmenReihe = ({ quelle }: { quelle: CheckQuelle }) => {
     <div className="ce-stimmen" data-stimmen={liste.length}>
       <div className="ce-stimmen-band">
         {liste.map((s) => (
-          <figure key={s.id} className="ce-stimme" data-stimme={s.id} data-stimme-platzhalter={s.beispiel ? "" : undefined}>
-            {s.sterne && (
-              <div className="ce-sterne" role="img" aria-label={`${s.sterne} von 5`}>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <Star key={n} className={n <= s.sterne! ? "ce-stern" : "ce-stern ce-stern--leer"} aria-hidden />
-                ))}
-              </div>
-            )}
-            {/* RN16-25: Aufbau wie das Vorbild: Kopfzeile mit rundem Foto links, Name fett und Zeile daneben, darunter das Zitat */}
-            <figcaption className="ce-stimme-kopf">
-              {s.foto && <img className="ce-stimme-foto" src={s.foto} alt="" width={52} height={52} loading="lazy" />}
-              <span className="ce-stimme-wer">
-                <b>{s.name}</b>
-                {s.zeile && <span>{s.zeile}</span>}
-              </span>
-            </figcaption>
-            <blockquote>„{s.zitat}“</blockquote>
-          </figure>
+          <StimmeKarte key={s.id} s={s} />
         ))}
       </div>
     </div>

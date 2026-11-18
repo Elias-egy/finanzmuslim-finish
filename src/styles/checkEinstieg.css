@@ -282,6 +282,10 @@
   border-radius: 9999px;
   object-fit: cover;
 }
+/* RN16-33: grauer Kreis, solange das Foto fehlt */
+.ce-stimme-foto--platz {
+  background: hsl(var(--muted));
+}
 
 /* Der eine Knopf */
 .ce-knopf {
