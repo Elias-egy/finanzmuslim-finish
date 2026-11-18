@@ -19,7 +19,7 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
     );
     expect(ALLE_STIMMEN.skeptisch.zeile).toBe("Depot bei flatex");
     expect(ALLE_STIMMEN["klein-anfangen"].zitat).toBe(
-      "Ich wollte erstmal mit 50 € im Monat anfangen. Da wäre jeder Euro Gebühr gleich ein großer Teil davon gewesen. Bei Traders Place zahl ich 0 € Ordergebühr auf meinen Sparplan. Definitive Empfehlung von mir.",
+      "Ich wollte erstmal mit 50 € im Monat anfangen und habe Traders Place als Ergebnis bekommen. Da zahl ich 0 € Ordergebühr auf meinen Sparplan. Das Ergebnis hat wirklich sehr gut gepasst.",
     );
     expect(ALLE_STIMMEN["klein-anfangen"].zeile).toBe("Depot bei Traders Place");
     expect(ALLE_STIMMEN["bank-nebeneinander"].zitat).toMatch(/^Ich hab meine Commerzbank und die anderen .* 4,90 € im Monat Kontoführung/);
