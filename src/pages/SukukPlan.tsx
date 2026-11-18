@@ -5,10 +5,8 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { IlluSukuk } from "@/components/illu";
-import { SUKUK_TOP3 } from "@/data/depotTop3";
 import {
   BILD_SATZ,
   ERWARTUNG,
@@ -16,7 +14,6 @@ import {
   MUSLIM_SATZ,
   SCHMERZ,
   SUKUK_BETRAEGE,
-  SUKUK_GESAMT_CHECK,
   SUKUK_MONATLICH,
   SUKUK_PFAD,
   SUKUK_SCHLUESSEL,
@@ -134,6 +131,9 @@ const SukukPlan = () => {
           </figure>
         </section>
 
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den ersten zwei Abschnitten (Anleihe, Anteil), etwa im ersten Drittel. */}
+        <CheckEinstieg quelle="sukuk-plan" className="mt-12" />
+
         {/* Drei Zeilen aus der Tabelle im Beitrag, die erste mit dem Betrag von oben (wie die Gramm beim Gold). */}
         <section className="reveal mt-12" aria-labelledby="nebeneinander">
           <Titel id="nebeneinander">Anleihe und Sukuk nebeneinander</Titel>
@@ -170,19 +170,7 @@ const SukukPlan = () => {
           </ul>
         </section>
 
-        {/* Wie beim Gold: die Zahl über alle Depots, dann die drei besten mit allen Sukuk (Elias, 02.11.2026, MC7d16:
-            „Und einmal noch das gleiche als Sukuk“; Runde 4: eigenes Wort statt auf der Gold-Seite). */}
-        <section className="reveal mt-12" aria-label="Die besten Broker für Sukuk">
-          <DepotAufruf
-            titel="Die besten Broker für Sukuk"
-            einleitung=""
-            check={SUKUK_GESAMT_CHECK}
-            top={SUKUK_TOP3}
-            link={(ziel, stelle) => `${ziel}?src=sk${stelle}`}
-          />
-        </section>
-
-        <CheckEinstieg quelle="sukuk-plan" className="mt-12" />
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Der Depot-Aufruf „Die besten Broker für Sukuk“ (DepotAufruf, Top 3 Depots mit Partnerwegen) ist raus. */}
 
         <NaechsterTeil wort="sukuk" className="mt-12" />
 

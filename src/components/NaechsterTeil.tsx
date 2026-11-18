@@ -22,7 +22,10 @@ const QUELLE_JE_WORT: Record<LeiterWort, CheckQuelle | undefined> = {
 };
 
 type Props = {
-  wort: LeiterWort;
+  /** Wort des Freebies; fehlt es (Auto-Abo, Baraka-Blocker, Broker-Vergleich), zählt die Quelle. */
+  wort?: LeiterWort;
+  /** RN16-42: direkte Quelle für Seiten ohne LeiterWort; sie geht dem Wort vor. */
+  quelle?: CheckQuelle;
   className?: string;
 };
 
@@ -36,7 +39,9 @@ type Props = {
  * nach einem kleinen Schritt und der Antwort FERTIG. Verlinkt ist nur der Schritt, nie die Belohnung
  * (Elias 28.10.2026: kein Verweis, der vom Freebie wegführt). Wortlaut in `src/data/leiter.ts`.
  */
-const NaechsterTeil = ({ wort, className = "" }: Props) => {
+// RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): `quelle` ersetzt die Pflicht zum Wort.
+const NaechsterTeil = ({ wort, quelle: quelleDirekt, className = "" }: Props) => {
+  const quelle = quelleDirekt ?? (wort ? QUELLE_JE_WORT[wort] : undefined);
   // Messung (CV4): Kommt der Kasten ins Bild, hat der Besucher das Freebie bis zum Ende gelesen. Einmal je Aufruf.
   const kasten = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -44,19 +49,18 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
     if (!el || typeof IntersectionObserver === "undefined") return;
     const beobachter = new IntersectionObserver((eintraege) => {
       if (!eintraege.some((e) => e.isIntersecting)) return;
-      ereignis("freebie_ende", { wort, seite: window.location.pathname });
+      ereignis("freebie_ende", { wort: wort ?? quelle, seite: window.location.pathname });
       beobachter.disconnect();
     }, { threshold: 0.3 });
     beobachter.observe(el);
     return () => beobachter.disconnect();
-  }, [wort]);
-  const quelle = QUELLE_JE_WORT[wort];
+  }, [wort, quelle]);
   const stimmen = stimmenUnten(quelle, import.meta.env.DEV);
   return (
     <aside
       ref={kasten}
       aria-labelledby="naechster-teil"
-      data-naechster-teil={wort}
+      data-naechster-teil={wort ?? quelle}
       data-match-ende
       className={`ce ${className}`}
     >
@@ -78,7 +82,7 @@ const NaechsterTeil = ({ wort, className = "" }: Props) => {
       )}
       <Link
         to={quelle ? `/check?quelle=${quelle}` : "/check"}
-        onClick={() => ereignis("freebie_check_klick", { check: true, quelle: quelle ?? "keine", im: "freebie", stelle: "ende", wort })}
+        onClick={() => ereignis("freebie_check_klick", { check: true, quelle: quelle ?? "keine", im: "freebie", stelle: "ende", wort: wort ?? quelle })}
         className="ce-knopf"
       >
         Match finden

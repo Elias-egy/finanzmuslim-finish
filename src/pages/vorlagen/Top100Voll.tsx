@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BadgeCheck, TrendingDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import KursZeile from "@/components/vorlagen/KursZeile";
-import AktienAufruf from "@/components/vorlagen/AktienAufruf";
-import { abFassung } from "@/lib/abTest";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import {
   aktien,
-  aktieLink,
   PRUEFSTAND,
   RAHMEN_MAX,
   TOP_ERSTER,
@@ -64,8 +62,6 @@ const zeile = (a: (typeof aktien)[number]) => (
 );
 
 const Top100Voll = () => {
-  // RN5: 50:50 „Nummer 1 und 2“ (a) gegen den Halal-Finanz-Check (b), einmal je Besucher gelost.
-  const [fassung] = useState(() => abFassung("aktien-check"));
   // Sanftes Einblenden beim Scrollen wie in der Liste und im Portfolio-Plan.
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
@@ -152,10 +148,8 @@ const Top100Voll = () => {
           </div>
         </section>
 
-        {/* Direkt nach dem Schmerz die Lösung (Elias, AF1-02: „Und dann danach direkt die Lösung“). */}
-        <section className="reveal mt-6" aria-labelledby="wo">
-          <AktienAufruf link={aktieLink} fassung={fassung} />
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): direkt nach dem Schmerz (AF1-02: „direkt die Lösung“) steht nur noch der Check-Kasten; die Depot-Karten und „Alle Depots im Vergleich“ (AktienAufruf, /vergleich/depot, /out/…) sind raus. */}
+        <CheckEinstieg quelle="aktienliste" className="mt-12" />
 
         <section className="reveal mt-10" aria-labelledby="titel-rest">
           <h2

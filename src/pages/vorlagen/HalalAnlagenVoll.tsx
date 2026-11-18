@@ -166,8 +166,9 @@ const HalalAnlagenVoll = () => {
               </details>
             )}
             {/* RN6 (15.11.2026, Elias: „Statt Depot-Kasten“, Vault raw/2026-11-15-elias-rn6-01-entscheidungen-check-phase1.md
-                Nr. 4): der Halal-Finanz-Check steht an der Stelle der Top 3 Depots, nach den Aktien-ETFs. */}
-            {g.kategorie === "aktien" && <CheckEinstieg quelle="halal-anlagen" className="mt-8" />}
+                Nr. 4): der Halal-Finanz-Check steht an der Stelle der Top 3 Depots, nach den Aktien-ETFs.
+                RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): das ist der einzige große Aufruf, unten nur der kleine Kasten. */}
+            {g.kategorie === "aktien" && <CheckEinstieg quelle="halal-anlagen" className="mt-12" />}
           </section>
         ))}
 

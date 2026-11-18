@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
-  ArrowRight,
   CheckCircle2,
   Bitcoin,
   Building2,
@@ -15,9 +14,7 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
-import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
@@ -31,7 +28,6 @@ import {
   lagen,
   MONATLICH,
   quellen,
-  SCHMERZ,
   SPIELRAUM,
   type Baustein,
   type BausteinId,
@@ -201,7 +197,7 @@ const PortfolioPlan = () => {
       <div className="container max-w-2xl py-8 md:py-12">
         <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
-            Dein Portfolio als Muslim in vier Schritten
+            Dein Portfolio als Muslim in drei Schritten
           </h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel Geld hast du im Monat übrig?</p>
           <div
@@ -253,15 +249,7 @@ const PortfolioPlan = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-8">
-            <GiroAufruf
-              gross={SCHMERZ.girokonto}
-              einleitung="Zum Beispiel:"
-              zwischen={SCHMERZ.muslim}
-              klein
-              link={(ziel, stelle) => `${ziel}?src=plg${stelle}`}
-            />
-          </div>
+          {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der Girokonto-Aufruf (GiroAufruf, /vergleich/girokonto, Bank-Partnerwege) ist raus. */}
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-2">
@@ -290,6 +278,9 @@ const PortfolioPlan = () => {
             })}
           </div>
         </section>
+
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den ersten zwei Schritten (Girokonto, Bausteine). */}
+        <CheckEinstieg quelle="portfolio-plan" className="mt-12" />
 
         <section id="plan" className="reveal mt-12 scroll-mt-20" aria-labelledby="schritt-3">
           <Schritt nr={3} id="schritt-3" titel="Wann brauchst du es?" />
@@ -323,16 +314,7 @@ const PortfolioPlan = () => {
           </p>
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="schritt-4">
-          <Schritt nr={4} id="schritt-4" titel={DEPOT_TITEL} />
-          {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
-              dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
-          <div className="mt-3">
-            <DepotAufruf ohneVideo link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
-          </div>
-        </section>
-
-        <CheckEinstieg quelle="portfolio-plan" className="mt-12" />
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Schritt 4 war nur der Depot-Aufruf (DepotAufruf, Top 3 Depots, /vergleich/depot) und ist samt Überschrift raus. */}
 
         <NaechsterTeil wort="plan" className="mt-12" />
 

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
-import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import {
   AMPEL_QUELLEN,
   AMPEL_RECHTSHINWEIS,
@@ -31,8 +30,6 @@ const v = vorlageBySlug("vertrags-ampel")!;
 const freebie = optinFreebie("vertrags-ampel")!;
 const pfad = vollPfad(freebie);
 const farben: Farbe[] = ["gruen", "gelb", "rot"];
-// Klickzählung je Stelle, Kennungen in src/lib/attribution.ts.
-const vertragLink = (ziel: string, stelle: "top2" | "alle") => `${ziel}?src=vtg${stelle}`;
 
 const Gruppe = ({ farbe }: { farbe: Farbe }) => {
   const gruppe = zeilen.filter((z) => z.farbe === farbe);
@@ -105,21 +102,12 @@ const VertragsAmpelVoll = () => {
 
         <Gruppe farbe="gruen" />
 
-        {/* Unter dem Girokonto, dem letzten grünen Vertrag, der Girokonto-Aufruf statt des Depot-Aufrufs (Elias, 01.11.2026,
-            MC7d15: „Dann unter Girokonto machst du dann die Werbung rein. Girokonto ohne Zinsen“). */}
-        <section className="reveal mt-10" aria-labelledby="giro">
-          <h2 id="giro" className="text-[24px] font-extrabold leading-tight text-foreground">
-            Girokonto ohne Zinsen
-          </h2>
-          <div className="mt-1">
-            <GiroAufruf link={vertragLink} />
-          </div>
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Check-Kasten steht nach den grünen Verträgen,
+            der Abschnitt „Girokonto ohne Zinsen“ mit GiroAufruf (/vergleich/girokonto, /out/…) ist raus. */}
+        <CheckEinstieg quelle="vertrags-ampel" className="mt-12" />
 
         <Gruppe farbe="gelb" />
         <Gruppe farbe="rot" />
-
-        <CheckEinstieg quelle="vertrags-ampel" className="mt-12" />
 
         <NaechsterTeil wort="vertrag" className="mt-12" />
 

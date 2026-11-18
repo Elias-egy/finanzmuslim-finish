@@ -6,12 +6,10 @@ import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import {
-  GOLD_GESAMT_CHECK,
   CFD_ANBIETER,
   CFD_ZEILE,
   ETC_SATZ,
@@ -158,6 +156,9 @@ const GoldPlan = () => {
           </div>
         </section>
 
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den ersten zwei Abschnitten (Regeln, Wette), etwa im ersten Drittel. */}
+        <CheckEinstieg quelle="gold-plan" className="mt-12" />
+
         <section className="reveal mt-12" aria-labelledby="ausnahme">
           <Titel id="ausnahme">Die Ausnahme mit Zertifikat</Titel>
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">{ETC_SATZ}</p>
@@ -183,21 +184,7 @@ const GoldPlan = () => {
           <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{GELEHRTE_SATZ}</p>
         </section>
 
-        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann vielleicht die zwei,
-            drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). Runde 3 (Elias,
-            02.11.2026, MC7d16): Titel „Die besten Broker für Edelmetalle“, statt der zwei bekannten die Zahl über alle Depots,
-            darunter dasselbe für Sukuk. Runde 4 (Elias, 02.11.2026, MC7d17): Sukuk raus, bekommt ein eigenes Wort. */}
-        <section className="reveal mt-12" aria-label="Die besten Broker für Edelmetalle">
-          <DepotAufruf
-            titel="Die besten Broker für Edelmetalle"
-            einleitung=""
-            check={GOLD_GESAMT_CHECK}
-            link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
-            alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
-          />
-        </section>
-
-        <CheckEinstieg quelle="gold-plan" className="mt-12" />
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Der Depot-Aufruf „Die besten Broker für Edelmetalle“ (DepotAufruf, /vergleich/edelmetalle, Broker-Partnerwege) ist raus. */}
 
         <NaechsterTeil wort="gold" className="mt-12" />
 

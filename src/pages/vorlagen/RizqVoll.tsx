@@ -3,13 +3,11 @@ import { BadgeCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import CheckEinstieg from "@/components/CheckEinstieg";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import DuaKarte from "@/components/vorlagen/DuaKarte";
 import PdfKnopf from "@/components/vorlagen/PdfKnopf";
 import { RIZQ_QUELLEN, RIZQ_RECHTSHINWEIS, RizqWarum } from "@/components/vorlagen/rizqTeile";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import { anliegen, duas, nummerVon } from "@/data/duas";
-import { logosFuer } from "@/lib/anbieterLogos";
 
 /**
  * Die volle Fassung von „Dua für jede Situation“, das Freebie zum Wort „Amin“, nur über den Link aus der Mail
@@ -28,12 +26,6 @@ const nachNummer = new Map(duas.map((d) => [nummerVon(d), d]));
 
 /** Kurze Namen für die Knöpfe oben, damit sie am Handy in zwei Reihen passen. */
 const KURZ = ["Jeden Tag", "Arbeit", "Schulden", "Entscheidungen"];
-
-const amLink = (ziel: string, stelle: "giro" | "depot") => `${ziel}?src=am${stelle}`;
-
-/** Die Girokonten für die Logos: wie im Girokonto-Aufruf ohne die Norisbank, bis ihr Anbieter-Beleg vorliegt (giroTop2.ts). */
-const GIRO_LOGOS = logosFuer("Girokonto");
-const giroLogos = GIRO_LOGOS.logos.filter((l) => !/norisbank/i.test(l.domain ?? ""));
 
 /**
  * Die gebende Hand klein wie eine Dua-Karte, direkt nach den Duas zur Arbeit (Elias, 02.11.2026, MC7d16: „Die gebende
@@ -56,38 +48,7 @@ const GebendeHand = () => (
   </aside>
 );
 
-/**
- * Statt des Top-3-Depot-Aufrufs zwei kleine Aufrufe mit Logos (Elias, ebenda: „nicht diese drei Gewinner, sondern diese
- * kleineren Call to Actions … die mit den Logos“), davor ein Satz in seiner Richtung („Gebe deine Halal Geld für Halal
- * aus und erwerbe es Halal … schaffe es in Deutschland auch deine Finanzen Halal zu regeln“). Beleg für Erwerb und
- * Ausgabe: at-Tirmidhi 2417 (Abū Barzah al-Aslamī, bei at-Tirmidhi ḥasan ṣaḥīḥ). Zwei FindeDeinAngebot auf einer Seite
- * weichen hier Elias' Wort. Runde 4 (Elias, 02.11.2026, MC7d17): Satz „Nach deinem Geld wirst du gefragt …“ mit Fundstelle
- * raus („damit man ein bisschen weniger zu lesen hat“), Rest hochgezogen.
- */
-const HalalRegeln = () => (
-  <div className="pt-4">
-    <h3 className="text-[22px] font-extrabold leading-tight text-foreground">Erwirb dein Geld halal und gib es halal aus.</h3>
-    <p className="mt-2 text-[16px] font-semibold leading-snug text-foreground">
-      So regelst du deine Finanzen auch in Deutschland halal:
-    </p>
-    <div className="mt-3 grid gap-3">
-      <FindeDeinAngebot
-        titel="Ein Girokonto ohne Zinsen"
-        text="Ich habe gerankt, welche Girokonten dir in Deutschland keine Zinsen zahlen."
-        knopf="Zum Girokonto-Vergleich"
-        logos={giroLogos}
-        gesamt={GIRO_LOGOS.gesamt}
-        ziel={amLink("/vergleich/girokonto", "giro")}
-      />
-      <FindeDeinAngebot
-        titel="Ein Depot ohne Zinsen"
-        text="Ich habe gerankt, bei welchen Depots dein Guthaben ohne Zinsen bleibt und du Islamic ETFs kaufst."
-        knopf="Zum Depot-Vergleich"
-        ziel={amLink("/vergleich/depot", "depot")}
-      />
-    </div>
-  </div>
-);
+/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): die zwei kleinen Aufrufe „Girokonto ohne Zinsen“ und „Depot ohne Zinsen“ (FindeDeinAngebot, /vergleich/girokonto, /vergleich/depot) sind raus. */
 
 const Anliegen = ({ i, nach }: { i: number; nach?: ReactNode }) => {
   const a = anliegen[i];
@@ -163,15 +124,10 @@ const RizqVoll = () => {
           <RizqWarum />
         </div>
 
-        <Anliegen
-          i={1}
-          nach={
-            <>
-              <GebendeHand />
-              <HalalRegeln />
-            </>
-          }
-        />
+        <Anliegen i={1} nach={<GebendeHand />} />
+
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach dem zweiten Anliegen (Arbeit), etwa im ersten Drittel. */}
+        <CheckEinstieg quelle="rizq" className="mt-12" />
 
         {anliegen.slice(2).map((a, i) => (
           <Anliegen key={a.titel} i={i + 2} />
@@ -191,8 +147,6 @@ const RizqVoll = () => {
             ))}
           </ul>
         </section>
-
-        <CheckEinstieg quelle="rizq" className="mt-12" />
 
         <NaechsterTeil wort="amin" className="mt-12" />
 

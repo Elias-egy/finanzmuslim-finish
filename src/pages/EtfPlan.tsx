@@ -5,7 +5,6 @@ import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
@@ -184,11 +183,7 @@ const EtfPlan = () => {
           )}
         </section>
 
-        {/* Nur der Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten Broker für
-            Muslime in der ganzen Liste“); „Wo kann ich sie kaufen?“ und der Broker-Satz sind raus (Runde 2: „zu viel Text“). */}
-        <section className="reveal mt-12" aria-label={DEPOT_TITEL}>
-          <DepotAufruf titel={DEPOT_TITEL} link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Der Depot-Aufruf (DepotAufruf, Top 3 Depots, /vergleich/depot) ist raus. Der ETF-Plan hat keine eigene Check-Quelle, darum steht hier nur der kleine Kasten am Ende. */}
 
         <NaechsterTeil wort="etf" className="mt-12" />
 
