@@ -244,12 +244,13 @@
   fill: none;
   color: hsl(var(--border));
 }
+/* RN16-40 (Elias: „die Schrift ein bisschen angenehmer. Die kleine grau, nicht so dick“, Vorbild Stimmenkarte mit grauem Zitat) */
 .ce-stimme blockquote {
   margin: 12px 0 0;
   font-size: 16px;
-  font-weight: 500;
-  line-height: 1.45;
-  color: hsl(var(--foreground));
+  font-weight: 400;
+  line-height: 1.65;
+  color: hsl(var(--foreground) / 0.7);
 }
 /* RN16-25: Kopfzeile wie das Vorbild, Foto links, rechts Name fett und darunter die Zeile kleiner und grau */
 .ce-stimme-kopf {
