@@ -74,7 +74,7 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     // RN17-06 bis -08 (Elias: „eher sowas wie 50 € im Monat anfangen. Und deswegen vor allem niedrige Kosten“, „anstatt dieses klein
     // angefangen, aber angefangen, Alhamdulillah … was viel Simpleres“, „Definitive Empfehlung von mir.“). 0 € je Sparplan-Rate laut
     // Depot-Vergleich (etfSparplanKosten Traders Place).
-    zitat: "Ich wollte erstmal mit 50 € im Monat anfangen, deswegen waren mir vor allem niedrige Kosten wichtig. Bei Traders Place zahl ich 0 € auf meinen Sparplan. Definitive Empfehlung von mir.",
+    zitat: "Ich wollte erstmal mit 50 € im Monat anfangen, deswegen waren mir vor allem niedrige Kosten wichtig. Bei Traders Place zahl ich 0 € auf meinen Sparplan. Definitive Empfehlung von mir.",
     // RN17-10 (Elias: „bei den 50 € Traders Place Ding Halil S nehmen“); Foto folgt aus seinem WhatsApp-Profil.
     name: "Halil S.",
     // RN17-13: Foto aus Halils WhatsApp-Profil (Vault raw/2026-11-18-elias-rn17-13-foto-halil.png), quadratisch um das Gesicht.
