@@ -118,12 +118,12 @@ describe("Verkaufsseite", () => {
     expect(tab.textContent).not.toMatch(/Werbelinks|teils/);
   });
 
-  it("Beispiel-Stimme mit Sternen nur im Entwicklungsmodus, eine allgemeine für alles (Elias RN15-01), daneben Elias' Originalfoto mit Mikrofon im Ausschnitt von vorher und ohne Zeile (RN16-02) statt des Platzhalters", () => {
+  it("drei Stimmen auf der Testseite (RN16-32), daneben Elias' Originalfoto mit Mikrofon im Ausschnitt von vorher und ohne Zeile (RN16-02) statt des Platzhalters", () => {
     const { container } = zeige("/check?quelle=aktienliste");
-    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(1);
-    expect(container.querySelectorAll("[data-stimme-platzhalter] .hc-sterne")).toHaveLength(1);
-    // Keine Konto- oder Depot-Stimme auf der allgemeinen Seite.
-    expect(container.querySelector("[data-stimme-platzhalter]")!.textContent).not.toMatch(/Konto|Broker/);
+    // RN16-32: die drei stärksten (Matin, Reuf, Skeptisch); Reuf echt, die anderen lokal als Platzhalter markiert, keine Sterne.
+    expect([...container.querySelectorAll(".hc-community-stimmen [data-stimme]")].map((f) => f.getAttribute("data-stimme"))).toEqual(["matin", "reuf", "skeptisch"]);
+    expect(container.querySelectorAll("[data-stimme-platzhalter]")).toHaveLength(2);
+    expect(container.querySelectorAll(".hc-community-stimmen .hc-sterne")).toHaveLength(0);
     expect(container.querySelector("[data-foto-platzhalter]")).toBeNull();
     const foto = container.querySelector(".hc-community-foto img")!;
     expect(foto.getAttribute("src")).toBe("/bilder/check/vortrag-mikrofon.webp");
@@ -567,7 +567,7 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.textContent).not.toMatch(/folgen mir/);
     const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme-platzhalter]");
     expect(stimmen).toHaveLength(2);
-    expect([...stimmen].every((st) => /Konto/.test(st.textContent ?? ""))).toBe(true);
+    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin", "bank-nebeneinander"]);
     // Danach die frühere B-Karte und der offene Aufruf, in dieser Reihenfolge.
     const ueberzug = container.querySelector(".hc-erg-ueberzug")!;
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");

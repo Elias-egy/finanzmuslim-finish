@@ -1,6 +1,6 @@
 import { ArrowRight, Check, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import CheckStimme from "@/components/CheckStimme";
+import CheckStimmen from "@/components/CheckStimme";
 import {
   KEIN_PREIS,
   KEIN_WERT,
@@ -367,9 +367,8 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Props) => {
         <p className="hc-erg-kicker">Aus der Community</p>
         <Leute />
         <div className="hc-erg-stimmen-gitter">
-          {[0, 1].map((i) => (
-            <CheckStimme key={i} stelle={i} art={e.art} />
-          ))}
+          {/* RN16-32: Konto: Matin, Bank nebeneinander. Depot: Reuf, Klein anfangen */}
+          <CheckStimmen stelle={e.art === "konto" ? "ergebnis-konto" : "ergebnis-depot"} />
         </div>
       </section>
 

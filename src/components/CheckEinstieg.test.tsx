@@ -3,7 +3,6 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import CheckEinstieg from "@/components/CheckEinstieg";
 import type { CheckQuelle } from "@/data/halalFinanzCheck";
-import { stimmeFuerEinstieg, stimmenFuer, type Stimme } from "@/data/checkStimmen";
 
 const zeige = (quelle: CheckQuelle) =>
   render(
@@ -61,20 +60,15 @@ describe("Werbung für den Check im Freebie (RN16-09): ein Knopf, kleine Vorscha
   });
 });
 
-describe("Stimmen je Art", () => {
-  const stimmen: Stimme[] = [
-    { art: "konto", zitat: "K", name: "A" },
-    { art: "depot", zitat: "D", name: "B" },
-    { art: "alle", zitat: "X", name: "C" },
-    { zitat: "O", name: "D" },
-  ];
-  it("eine Art sieht nur ihre eigenen und die für alle, nie die der anderen Art", () => {
-    expect(stimmenFuer("konto", stimmen).map((s) => s.zitat)).toEqual(["K", "X", "O"]);
-    expect(stimmenFuer("depot", stimmen).map((s) => s.zitat)).toEqual(["D", "X", "O"]);
-    expect(stimmenFuer(undefined, stimmen)).toHaveLength(4);
-    // Die allgemeine Seite (Elias RN15-01: „einmal eine, die alle abdeckt“) sieht nur die, die alles abdecken.
-    expect(stimmenFuer("alle", stimmen).map((s) => s.zitat)).toEqual(["X", "O"]);
-    expect(stimmeFuerEinstieg("konto", stimmen)?.zitat).toBe("K");
-    expect(stimmeFuerEinstieg("depot", [stimmen[0]])).toBeUndefined();
+describe("Stimmen je Freebie (Elias RN16-32)", () => {
+  it("Boykott-Liste: Matin, dann Bank nebeneinander; Aktien-Liste: Skeptisch, dann Reuf", () => {
+    const ids = (q: CheckQuelle) => [...zeige(q).container.querySelectorAll(".ce-stimmen figure")].map((f) => f.getAttribute("data-stimme"));
+    if (import.meta.env.DEV) {
+      expect(ids("boykottliste")).toEqual(["matin", "bank-nebeneinander"]);
+      expect(ids("aktienliste")).toEqual(["skeptisch", "reuf"]);
+    } else {
+      expect(ids("boykottliste")).toEqual([]);
+      expect(ids("aktienliste")).toEqual(["reuf"]);
+    }
   });
 });

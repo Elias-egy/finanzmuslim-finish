@@ -1,10 +1,10 @@
 import { ArrowRight, Check, Users, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import CheckStimme from "@/components/CheckStimme";
+import CheckStimmen from "@/components/CheckStimme";
 import { SchrittSzene, type SzeneId } from "@/components/CheckSchrittBild";
 import { followerGesamt } from "@/data/beweise";
 import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
-import { leuteBilder, stimmenFuer } from "@/data/checkStimmen";
+import { leuteBilder, stimmenAn } from "@/data/checkStimmen";
 import { RUNDE_BANKEN, rundStil } from "@/components/rundeBanken";
 
 /**
@@ -118,7 +118,7 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
   const kopf = KOPF[art ?? "alle"];
   const leute = leuteBilder(import.meta.env.DEV);
   // Ohne echte Stimme entfällt die ganze Community live, nur der Entwicklungsmodus zeigt den gelben Platzhalter (nie ausgedachte Stimmen).
-  const zeigeCommunity = stimmenFuer("alle").length > 0 || import.meta.env.DEV;
+  const zeigeCommunity = stimmenAn("check", import.meta.env.DEV).length > 0 || import.meta.env.DEV;
   return (
     <div className="hc-seite">
       <header className="hc-kopf">
@@ -198,7 +198,8 @@ const CheckVerkaufsseite = ({ onStart, art }: { onStart: (stelle: string) => voi
                 )
               )}
               <div className="hc-community-stimmen">
-                <CheckStimme stelle={0} art="alle" />
+                {/* RN16-32: die drei stärksten, immer dieselben */}
+                <CheckStimmen stelle="check" />
               </div>
             </div>
           </section>

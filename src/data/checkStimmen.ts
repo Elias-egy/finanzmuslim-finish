@@ -1,107 +1,111 @@
 /**
- * Die zwei Stimmen der Verkaufsseite vor dem Halal-Finanz-Check (/check): eine unter dem Hero-Foto, eine unter dem
- * Gründer-Satz (Perspective-Funnel, Seite „Start“). Elias liefert echte Testimonials, bis dahin stehen hier keine:
- * Vault raw/2026-11-15-elias-rn6-02-erst-sales-page-perspective-eins-zu-eins.md („Keine erfundenen Stimmen, nur echte“).
- *
- * Solange ein Eintrag fehlt, zeigt der Entwicklungsmodus einen gelb gestrichelten Platzhalter an der Stelle, im
- * Produktionsbuild entfällt die Karte (stimmeAnzeige). Sterne stehen nur da, wo der Eintrag selbst eine Zahl
- * mitbringt, nie von uns gesetzt. Foto nur ein echtes, Pfad unter /public.
+ * Stimmen (Testimonials) für den Halal-Finanz-Check: Testseite /check, Freebie-Kasten (CheckEinstieg) und Ergebnis.
+ * Keine erfundenen Stimmen live (Vault raw/2026-11-15-elias-rn6-02-erst-sales-page-perspective-eins-zu-eins.md): eine Stimme steht im
+ * Produktionsbuild erst mit bestaetigt: true, sonst nur im Entwicklungsmodus mit data-stimme-platzhalter. Sterne nur, wo der Eintrag selbst
+ * eine Zahl mitbringt. Foto nur ein echtes, Pfad unter /public.
  */
+import type { CheckQuelle } from "@/data/halalFinanzCheck";
+
+export type StimmeId = "matin" | "bank-nebeneinander" | "reuf" | "skeptisch" | "klein-anfangen";
+
 export type Stimme = {
   /** Für welchen Check die Stimme gilt (RN8): Bankkonto-Check, Depot-Check oder beide. Ohne Angabe gilt sie für beide. */
   art?: "konto" | "depot" | "alle";
   zitat: string;
   name: string;
-  /** Eine kurze Zeile hinter dem Namen, etwa „Erstes Depot 2025“. */
+  /** Eine kurze Zeile hinter dem Namen, etwa „Depot bei Smartbroker+“. */
   zeile?: string;
   foto?: string;
   sterne?: 1 | 2 | 3 | 4 | 5;
+  /** Die Person hat ihren Text bestätigt. Nur dann steht die Stimme live; sonst nur im Entwicklungsmodus, als Platzhalter markiert. */
+  bestaetigt?: boolean;
 };
 
-export const STIMMEN: Stimme[] = [
-  // Erste echte Stimme (Elias RN16-16, 17.11.2026, Vault raw/2026-11-17-elias-rn16-16-erste-stimme-rolf-k-ohne-sterne.md):
-  // „du“ auf Elias' Wunsch zu „Elias“, ohne Sterne („macht die Sterne mal raus“).
-  {
-    art: "depot",
-    zitat: "Ich hatte vor Elias' Beratung überhaupt keine Ahnung von ETFs und ETCs. Bei Fragen hat mir Elias sehr schnell und gut weitergeholfen.",
-    // RN16-18: Name buchstabiert „R-E-U-F-K“, Depot bei Smartbroker+ („Nur Smart Broker sollte sein bei Rolf K.“).
-    name: "Reuf K.",
-    zeile: "Depot bei Smartbroker+",
-  },
-];
-
 /**
- * Die Stimmen, die zur Stelle passen (Elias RN15-01: „einmal eine, die alle abdeckt. Und dann immer, wenn was kommt, genau welche, die da passen“):
- *  - „alle“ (Verkaufsseite vor dem Check): nur die allgemeinen, die alles abdecken,
- *  - „konto“ oder „depot“ (Ergebnis): erst die der Art, dann die allgemeinen,
- *  - ohne Angabe: alle Stimmen.
- * Nie eine Stimme der falschen Art (eine Konto-Stimme steht nicht im Depot-Check und nicht auf der allgemeinen Seite).
+ * Die fünf Stimmen (Elias RN16-27 bis RN16-32, 18.11.2026): zwei zum Bankkonto, drei zum Investieren. Wortlaut aus Elias' Diktat, nur
+ * die Grammatik geglättet (RN16-30: „Du hast das umformuliert, mach's wie ich gesagt habe“). Elias gibt die Texte den Personen; live steht
+ * eine Stimme erst, wenn die Person ihn bestätigt hat (bestaetigt: true) und Name samt Zeile von ihr stammen.
  */
-export const stimmenFuer = (art?: "konto" | "depot" | "alle", stimmen: readonly Stimme[] = STIMMEN): Stimme[] => {
-  if (!art) return [...stimmen];
-  const allgemein = stimmen.filter((s) => !s.art || s.art === "alle");
-  if (art === "alle") return allgemein;
-  return [...stimmen.filter((s) => s.art === art), ...allgemein];
-};
-
-export type StimmeAnzeige = "echt" | "platzhalter" | "keine";
-
-/** Was an Stelle 0 oder 1 steht: die echte Stimme, im Entwicklungsmodus der Platzhalter, sonst nichts. */
-export const stimmeAnzeige = (index: number, dev: boolean, stimmen: readonly Stimme[] = STIMMEN): StimmeAnzeige =>
-  stimmen[index] ? "echt" : dev ? "platzhalter" : "keine";
-
-/** Die Stimme im Freebie-Kasten (CheckEinstieg): die erste der passenden Art, ohne echte Stimme nichts (nie ein Platzhalter live). */
-export const stimmeFuerEinstieg = (art: "konto" | "depot", stimmen: readonly Stimme[] = STIMMEN): Stimme | undefined =>
-  stimmenFuer(art, stimmen)[0];
-
-/**
- * RN11 (Elias RN10-08: „Du kannst die Sternbewertung und so auch schon reinpacken. Dann weiß ich ungefähr, wie das aussieht.“):
- * RN15 (Elias RN15-01): zwei Konto-Beispiele („Ich habe ein Konto bei norisbank eröffnet …“) für das Ergebnis, eine allgemeine für die
- * Verkaufsseite; alle nur Platzhalter, echte Texte liefert Elias.
- * Beispiel-Stimmen mit Sternen, NUR im Entwicklungsmodus an der Stelle des Platzhalters (CheckStimme). Nie live: der Produktionsbuild
- * zeigt ohne echte Stimme nichts (stimmeAnzeige). Wortlaut nach den Beispielen in Elias' Perspective-Funnel 6afa2cd179f7bfa91bb900d0.
- */
-export const BEISPIEL_STIMMEN: Stimme[] = [
-  // RN16-20 (Elias: „bei meinem alten Konto konnte ich ins Minus gehen. Und ich wusste nicht, dass das verzinst wird. Ich konnte alle
-  // Sachen rüberziehen … m-a-t-i-n.m … Girokonto bei Norris Bank“), nur als Beispiel im Entwicklungsmodus.
-  {
+export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
+  // RN16-20 bis RN16-26: Matin, Foto aus Elias' Upload (RN16-26), ohne Sterne (RN16-23).
+  matin: {
     art: "konto",
     zitat: "Bei meinem alten Konto konnte ich ins Minus gehen und wusste nicht, dass das verzinst wird. Bei der neuen Bank konnte ich alles rüberziehen.",
     name: "Matin Mahmoudi",
     zeile: "Girokonto bei norisbank",
-    // RN16-24: Foto aus dem Newsletter-Kreis (4. Leserbild), enger ums Gesicht
     foto: "/bilder/check/stimme-matin.webp",
-    // RN16-23: „mach mal die Sterne weg“
   },
-  {
+  // RN16-31 („mir hat gefallen, dass meine momentane Bank … nebeneinander gestellt wurden … sehr übersichtlich und gut zum Vergleichen“),
+  // RN16-32: Konto bei norisbank. Name folgt von der Person.
+  "bank-nebeneinander": {
     art: "konto",
-    zitat: "Ich habe ein Konto bei der norisbank eröffnet. Den Wechsel von meiner alten Bank hat sie mir abgenommen.",
-    name: "Hatice D.",
-    zeile: "Wechsel zur norisbank",
-    sterne: 5,
+    zitat: "Mir hat gefallen, dass meine momentane Bank und die anderen nebeneinandergestellt wurden. Das war sehr übersichtlich und gut zum Vergleichen.",
+    name: "Name folgt",
+    zeile: "Girokonto bei norisbank",
   },
-  {
-    art: "konto",
-    zitat: "Ich habe jahrelang für mein Konto gezahlt, ohne es zu merken. Der Wechsel war einfacher als gedacht.",
-    name: "Meryem K.",
-    zeile: "Girokonto ohne Kontoführungsgebühr",
-    sterne: 5,
-  },
-  {
+  // RN16-16, RN16-18: erste echte Stimme, Name buchstabiert „R-E-U-F-K“, Depot bei Smartbroker+.
+  reuf: {
     art: "depot",
-    zitat: "Ich wusste nicht, welcher Broker zu meinem Sparplan passt. Nach der Empfehlung habe ich in einer Woche angefangen.",
-    name: "Yusuf A.",
-    zeile: "Endlich ein Depot, das passt",
-    sterne: 5,
+    zitat: "Ich hatte vor Elias' Beratung überhaupt keine Ahnung von ETFs und ETCs. Bei Fragen hat mir Elias sehr schnell und gut weitergeholfen.",
+    name: "Reuf K.",
+    zeile: "Depot bei Smartbroker+",
+    bestaetigt: true,
   },
-  {
-    art: "alle",
-    zitat: "Ein paar Fragen, und die Antwort passte zu meiner Situation statt zu irgendeiner Bestenliste.",
-    name: "Samir B.",
-    zeile: "Ich habe mich verstanden gefühlt",
-    sterne: 5,
+  // RN16-29 (Elias' Satz wortgleich), RN16-32: Depot bei flatex.
+  skeptisch: {
+    art: "depot",
+    zitat: "Ich war ehrlich gesagt skeptisch, weil auf Insta jeder irgendwas als halal verkauft. Hier stand bei den Sachen dabei, woher die Info kommt, und das hat mir gefallen.",
+    name: "Name folgt",
+    zeile: "Depot bei flatex",
   },
-];
+  // RN16-29, RN16-30 („Vor allem der zweite Satz“), RN16-32: Traders Place. 0 € Depot, Order und Sparplan laut brokerVergleich.ts.
+  "klein-anfangen": {
+    art: "depot",
+    zitat: "Ich wollte erstmal klein anfangen. Es wurde ein Broker ausgewählt, der 0 Euro Gebühren hat. Ich bin sehr zufrieden, Alhamdulillah.",
+    name: "Name folgt",
+    zeile: "Depot bei Traders Place",
+  },
+};
+
+/** Die echten, bestätigten Stimmen. */
+export const STIMMEN: Stimme[] = Object.values(ALLE_STIMMEN).filter((s) => s.bestaetigt);
+
+/** Stellen: die Freebies (Quelle des Kastens), die Testseite vor dem Check und das Ergebnis je Art. */
+export type StimmenStelle = CheckQuelle | "check" | "ergebnis-konto" | "ergebnis-depot";
+
+const KONTO_PAAR: StimmeId[] = ["matin", "bank-nebeneinander"];
+/**
+ * Welche Stimmen wo stehen (Elias RN16-32: „auf der Hauptseite 3 auf den Freebies 2. Die 2 müssen passend sein, die 3 müssen die
+ * stärksten sein, die immer gezeigt werden“; Boykott „typische Zinsfreiheit … Bankkonten-Testimonials“, Aktien „mit Halal“). Plan von
+ * Elias mit „Ja, kannst du einbauen“ bestätigt.
+ */
+export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
+  check: ["matin", "reuf", "skeptisch"],
+  boykottliste: KONTO_PAAR,
+  "vertrags-ampel": KONTO_PAAR,
+  "auto-abo": KONTO_PAAR,
+  "baraka-blocker": KONTO_PAAR,
+  rizq: KONTO_PAAR,
+  aktienliste: ["skeptisch", "reuf"],
+  "halal-anlagen": ["reuf", "skeptisch"],
+  "gold-plan": ["reuf", "klein-anfangen"],
+  "sukuk-plan": ["reuf", "klein-anfangen"],
+  "portfolio-plan": ["reuf", "klein-anfangen"],
+  "broker-vergleich": ["klein-anfangen", "skeptisch"],
+  "ergebnis-konto": KONTO_PAAR,
+  "ergebnis-depot": ["reuf", "klein-anfangen"],
+};
+
+export type StimmeAnStelle = Stimme & { id: StimmeId; beispiel: boolean };
+
+/**
+ * Die Stimmen einer Stelle in ihrer Reihenfolge: live nur bestätigte, im Entwicklungsmodus alle (unbestätigte als Beispiel markiert).
+ * Eine Stelle ohne Eintrag (Startseite, Menü) bekommt die der Testseite.
+ */
+export const stimmenAn = (stelle: StimmenStelle, dev: boolean, alle: Record<StimmeId, Stimme> = ALLE_STIMMEN): StimmeAnStelle[] =>
+  (STIMMEN_JE_STELLE[stelle] ?? STIMMEN_JE_STELLE.check!)
+    .map((id) => ({ ...alle[id], id, beispiel: !alle[id].bestaetigt }))
+    .filter((s) => dev || !s.beispiel);
 
 /**
  * Bilder anderer Menschen neben „Über 22.000 Menschen informieren sich bei Finanzmuslim“ (Elias RN9-03: „nicht ein Bild von mir,

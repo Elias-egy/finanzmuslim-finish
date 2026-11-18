@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 import { ereignis } from "@/lib/messung";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BEISPIEL_STIMMEN, stimmeAnzeige, stimmenFuer, type Stimme } from "@/data/checkStimmen";
+import { stimmenAn } from "@/data/checkStimmen";
 import { KEINE_BANK } from "@/data/bankSuche";
 import {
   ART_JE_QUELLE,
@@ -114,18 +114,16 @@ export const TITEL = "Ich habe sie alle getestet.";
 // fast 90 Anbieter verglichen und einen Test gebaut. Und dann das danach.“); 54 Bankkonten und 35 Depots sind 89.
 export const SATZ = "Viele Muslime wissen nicht, dass ihr Bankkonto ihnen Zinsen zahlt oder einen Dispo einräumt. Deshalb habe ich fast 90 Anbieter verglichen und einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
 
-const StimmenReihe = ({ art }: { art: "konto" | "depot" }) => {
-  const echt = stimmenFuer(art);
-  // RN16-20: im Entwicklungsmodus füllen Beispiel-Stimmen (aller Arten) bis drei auf, damit Elias mehrere untereinander sieht; live nur echte.
-  const beispiele = import.meta.env.DEV ? stimmenFuer(undefined, BEISPIEL_STIMMEN).filter((b) => !echt.some((e) => e.zitat === b.zitat)) : [];
-  // RN16-22: „die 5 Sterne von Matin zuerst, dann Reuf“, das dritte erst mal nicht.
-  const liste: (Stimme & { beispiel?: boolean })[] = [...beispiele.slice(0, 1).map((b) => ({ ...b, beispiel: true })), ...echt].slice(0, STIMMEN_MAX);
+const StimmenReihe = ({ quelle }: { quelle: CheckQuelle }) => {
+  // RN16-32: zwei passende Stimmen je Freebie (Konto-Freebies Matin und Bank nebeneinander, Aktien-Liste Skeptisch und Reuf …);
+  // live nur bestätigte, im Entwicklungsmodus alle, unbestätigte als Platzhalter markiert.
+  const liste = stimmenAn(quelle, import.meta.env.DEV).slice(0, STIMMEN_MAX);
   if (!liste.length) return null;
   return (
     <div className="ce-stimmen" data-stimmen={liste.length}>
       <div className="ce-stimmen-band">
-        {liste.map((s, i) => (
-          <figure key={`${s.name}-${i}`} className="ce-stimme" data-stimme-platzhalter={s.beispiel ? "" : undefined}>
+        {liste.map((s) => (
+          <figure key={s.id} className="ce-stimme" data-stimme={s.id} data-stimme-platzhalter={s.beispiel ? "" : undefined}>
             {s.sterne && (
               <div className="ce-sterne" role="img" aria-label={`${s.sterne} von 5`}>
                 {[1, 2, 3, 4, 5].map((n) => (
@@ -230,7 +228,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
         )}
       </div>
 
-      <StimmenReihe art={art} />
+      <StimmenReihe quelle={quelle} />
 
       <Knopf quelle={quelle} art={art} stelle="unten" />
       <p className="ce-klein">Kostenlos und ohne Anmeldung</p>

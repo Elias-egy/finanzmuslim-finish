@@ -376,9 +376,10 @@
     gap: 40px;
     margin-top: 40px;
   }
+  /* RN16-32: drei Stimmen auf der Testseite nebeneinander */
   .hc-community-stimmen {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     align-items: start;
   }
 }
