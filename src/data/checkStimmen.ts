@@ -38,6 +38,7 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     // RN17-04 (Elias: „Und ich würde Martin M. nehmen, dann ist alles mit Punkt.“): Vorname und Anfangsbuchstabe wie Reuf K.
     name: "Matin M.",
     zeile: "Girokonto bei norisbank",
+    // RN17-28: Foto ist das vierte Newsletter-Gesicht (src/assets/leser/leser-4.webp, blauer Hintergrund), näher geschnitten.
     foto: "/bilder/check/stimme-matin.webp",
   },
   // RN16-31 („mir hat gefallen, dass meine momentane Bank … nebeneinander gestellt wurden … sehr übersichtlich und gut zum Vergleichen“),
