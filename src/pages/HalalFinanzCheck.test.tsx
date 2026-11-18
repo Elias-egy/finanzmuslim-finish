@@ -58,7 +58,7 @@ describe("Verkaufsseite", () => {
     }
   });
 
-  it("die Hero-Zeile nennt „89 Angebote selbst getestet“, darunter 35 Depots und 54 Girokonten mit runden Bank-Logos (RN14-02), nie „eröffnet“, kein großes Foto von Elias im Kopf, 22.000 statt drei Haken", () => {
+  it("die Hero-Zeile nennt „89 Angebote selbst getestet“, darunter 35 Depots und 54 Girokonten mit runden Bank-Logos (RN14-02), nie „eröffnet“, kein großes Foto von Elias im Kopf, 26.000 statt drei Haken", () => {
     const { container } = zeige("/check?quelle=homepage");
     const zeile = container.querySelector(".hc-beweis")!;
     expect(zeile.querySelector(".hc-eyebrow")!.textContent).toBe("89 Angebote selbst getestet");
@@ -71,7 +71,7 @@ describe("Verkaufsseite", () => {
     // Kein Foto von Elias im Kopf (RN10-05); sein Bild steht nur in „Aus der Community“ (Elias RN15-00) und klein im Chat-Ausschnitt von Schritt 01.
     const hero = container.querySelector(".hc-hero")!;
     expect([...hero.querySelectorAll("img")].map((i) => i.getAttribute("src") ?? "").filter((s) => /elias|pult|einrichtung-flatex-poster/i.test(s))).toEqual([]);
-    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Über 22.000 Menschen informieren sich bei Finanzmuslim");
+    expect(container.querySelector(".hc-haken-zeile")!.textContent).toBe("Über 26.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/Nur wenige Fragen|Unter 2 Minuten/);
   });
 
@@ -130,7 +130,7 @@ describe("Verkaufsseite", () => {
     expect(foto.getAttribute("alt")).toContain("Mikrofon");
     expect(foto.getAttribute("width")).toBe("360");
     expect(container.querySelector(".hc-community-foto figcaption")).toBeNull();
-    // RN16 (Elias RN15-03 „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): lokal die drei Beispielbilder an der Zeile.
+    // RN16 (Elias RN15-03 „Über 26.000 Menschen, da kommen diese 3 Bilder hin“): lokal die drei Beispielbilder an der Zeile.
     expect(container.querySelectorAll(".hc-vertrauen .hc-leute-bilder img")).toHaveLength(3);
   });
 
@@ -549,7 +549,7 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(laden.textContent).toContain("von 35 Depots verglichen");
   });
 
-  it("Ergebnis (nur Fassung A, Elias RN15-01): Ring, Sätze unter „Dein Match“, Karte mit Logo, Liste Sparkasse gegen norisbank, 22.000, zwei Konto-Stimmen, Überzug, offener Aufruf, zwei Links", async () => {
+  it("Ergebnis (nur Fassung A, Elias RN15-01): Ring, Sätze unter „Dein Match“, Karte mit Logo, Liste Sparkasse gegen norisbank, 26.000, zwei Konto-Stimmen, Überzug, offener Aufruf, zwei Links", async () => {
     const { container } = await kontoWeg("/check?art=konto&schritt=fragen");
     expect(container.querySelector("[data-ergebnis='a']")).toBeTruthy();
     expect(container.querySelector(".hc-erg-ring")).toBeTruthy();
@@ -562,8 +562,8 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     // Vergleich: die norisbank liegt vorn, immer drei Zeilen.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
-    // Community: 22.000, zwei Stimmen der Art Konto (Beispiele nur im Entwicklungsmodus).
-    expect(container.textContent).toContain("Über 22.000 Menschen informieren sich bei Finanzmuslim");
+    // Community: 26.000, zwei Stimmen der Art Konto (Beispiele nur im Entwicklungsmodus).
+    expect(container.textContent).toContain("Über 26.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/folgen mir/);
     const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme-platzhalter]");
     expect(stimmen).toHaveLength(2);
