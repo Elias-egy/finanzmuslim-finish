@@ -141,8 +141,9 @@ const BoykottListe = () => {
         {bereiche.map((b) => (
           <Fragment key={b.id}>
             <Bereich id={b.id} titel={b.titel} firmen={b.firmen} alternativen={b.alternativen} />
-            {/* RN16-39 („dann die 4 Alternativen, Streaming und dann kommt direkt der Call to Action mit dem Match“): der große Kasten direkt nach Technik und Streaming */}
-            {b.id === "technik" && (
+            {/* RN17-01 (Elias: „wir haben gesagt, doch immer so bei 30%. Das heißt, der erste sollte nach den Essen, Trinken kommen … das geht
+                stattdessen, aber vor Technik und Streaming“): der große Kasten nach Essen und Trinken samt „Das geht stattdessen“. Ersetzt RN16-39. */}
+            {b.id === bereiche[0].id && (
               <CheckEinstieg quelle="boykottliste" className="mt-12" />
             )}
           </Fragment>

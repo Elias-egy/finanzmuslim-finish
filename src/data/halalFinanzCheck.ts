@@ -428,6 +428,8 @@ export type DepotErgebnis = {
   links?: Spalte;
   rechts?: Spalte;
   vergleichTitel?: string;
+  /** RN17 (Elias RN16-43): Zeilen „<heute> und <Match> im Vergleich“ mit Haken und Kreuz wie beim Konto, gerechnet in depotVergleich. */
+  depotVergleich?: VergleichZeile[];
   /** „Passt auch gut“ wie im Original (Elias RN11-03): das andere der beiden Depots mit eigener Passung und eigenem Knopf. */
   auchGut?: AuchGut;
 };
@@ -693,8 +695,11 @@ const depotTeil = (kurz: DepotKurz, a: Antworten) => {
  * (brokerFreebie.ts, Depot-Vergleich), jedes Merkmal hat ein Gewicht, das aus den Antworten folgt:
  *  - Halal-Anlagen: Anteil Halal-ETFs und Fonds, Edelmetalle und Sukuk (je x von y). Aufteilung 60/20/20; bei „ETFs“ 80/10/10
  *    (der ETF-Anteil zählt), bei „Gold und Silber“ 20/70/10 (der Edelmetall-Anteil zählt).
- *  - Kosten: Depotgebühr (0 € ist voll) und Ordergebühr im Verhältnis zur Monatsrate (10 % und mehr ist null). Aufteilung 40/60;
- *    bei „Einzelne Aktien“ 20/80 (die Order zählt).
+ *  - Kosten (RN17, Elias RN16-43: „89 und 95 macht wenig Sinn … Smart Broker ist ja da deutlich besser“): Depotgebühr (0 € ist voll),
+ *    Ordergebühr im Verhältnis zur Monatsrate (10 % und mehr ist null) und, neu, Kosten je ETF-Sparplan-Rate aus dem Vergleich
+ *    (etfSparplanKosten: 0 € voll, Prozent je Rate 1 % und mehr null, ein Eurobetrag im Verhältnis zur Rate, 2 % und mehr null).
+ *    Aufteilung Gebühr/Order/Sparplan 10/60/30; bei „ETFs“ 10/50/40, bei „Einzelne Aktien“ 10/80/10.
+ *    Fehlen die Sparplan-Kosten im Vergleich, teilen sich Gebühr und Order den Anteil wie vorher (40/60, Aktien 20/80).
  *    Die Monatsrate ist die Mitte der Antwort (unter 50 € gleich 25 €, 50 bis 200 € gleich 125 €, über 200 € gleich 300 €),
  *    ohne Antwort (Fassung a) 100 €.
  *  - Sparplan: ab 1 € ist voll, jeder Euro mehr kostet 1/24; kein Sparplan ist null.
@@ -718,6 +723,15 @@ const MONATSRATE: Record<Betrag, number> = { unter50: 25, "50bis200": 125, ueber
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
+/** Anteil 0 bis 1 aus den Kosten je ETF-Sparplan-Rate: „0 €“ voll, „1,5%“ je Rate (1 % und mehr null), „1,50 €“ im Verhältnis zur Rate (2 % und mehr null); ohne Wert null. */
+const sparplanKostenAnteil = (v: string | null | undefined, rate: number): number | null => {
+  if (!v) return null;
+  const pz = v.match(/(\d+(?:[.,]\d+)?)\s?%/);
+  if (pz) return 1 - clamp01(Number(pz[1].replace(",", ".")) / 1);
+  if (!/€/.test(v)) return null;
+  return 1 - clamp01(ersterEuro(v) / rate / 0.02);
+};
+
 /** Werte einer Brokerkarte in der Form der Depotsuche, damit beide Depots gleich gerechnet werden. */
 const werteVonKarte = (k: BrokerKarte): DepotWerte => ({
   etfs: k.etfs,
@@ -726,6 +740,7 @@ const werteVonKarte = (k: BrokerKarte): DepotWerte => ({
   depotgebuehr: k.depotgebuehr,
   order: k.order,
   sparplanAb: k.sparplanAb,
+  sparplanKosten: k.sparplanKosten,
   zinsfrei: k.zinsfrei ? "gut" : "schlecht",
 });
 
@@ -742,8 +757,15 @@ export const passungAusWerten = (w: DepotWerte, a: Antworten): number => {
   const gebuehrProzent = /%/.test(w.depotgebuehr ?? "") && !/^0\s?€/.test(w.depotgebuehr ?? "");
   const order = 1 - clamp01(ersterEuro(w.order) / rate / 0.1);
   const gebuehr = gebuehrProzent ? 0 : 1 - clamp01(ersterEuro(w.depotgebuehr) / 5);
-  const [pGeb, pOrder] = an === "aktien" ? [0.2, 0.8] : [0.4, 0.6];
-  const kosten = pGeb * gebuehr + pOrder * order;
+  const spar = sparplanKostenAnteil(w.sparplanKosten, rate);
+  let kosten: number;
+  if (spar === null) {
+    const [pGeb, pOrder] = an === "aktien" ? [0.2, 0.8] : [0.4, 0.6];
+    kosten = pGeb * gebuehr + pOrder * order;
+  } else {
+    const [pGeb, pOrder, pSpar] = an === "etf" ? [0.1, 0.5, 0.4] : an === "aktien" ? [0.1, 0.8, 0.1] : [0.1, 0.6, 0.3];
+    kosten = pGeb * gebuehr + pOrder * order + pSpar * spar;
+  }
   const sparplan = w.sparplanAb === "kein Sparplan" ? 0 : clamp01(1 - (ersterEuro(w.sparplanAb) - 1) / 24);
   const zinsfrei = w.zinsfrei === "gut" ? 1 : w.zinsfrei === "teils" ? 0.5 : 0;
 
@@ -779,6 +801,86 @@ const depotZeilen = (w: DepotWerte | null, passung: number | null): Zeile[] => {
     { label: "Sparplan ab", wert: v(w?.sparplanAb) },
     { label: "Guthaben", wert: w?.zinsfrei ? ZINS_TEXT[w.zinsfrei] : KEIN_WERT },
   ];
+};
+
+/**
+ * Depot-Vergleich auf dem Niveau des Konto-Vergleichs (RN17, Elias RN16-43: „Depot-Vergleich wenn man schon ein Depot hat, ist noch nicht
+ * auf dem Level wie der Girokonto-Vergleich … Mit den Haken und sowas“). Oben „Passt zu deinen Antworten“ mit Haken bei der höheren Zahl,
+ * darunter immer drei Punkte wie beim Konto (RN12-01 „Also immer 3 Punkte.“): erst, worin der Match belegt vorn liegt, in der Reihenfolge,
+ * die zu den Antworten passt (Zinsen auf das Guthaben immer zuerst, dann was zur Anlage und zum Wichtigsten gehört), dann offene Werte
+ * („–“), dann Gleiches mit zwei Haken, Vorteile des heutigen Depots ganz zuletzt. Jeder Wert aus dem Depot-Vergleich, nie geraten.
+ */
+type DepotPunkt = { label: string; text: (w: DepotWerte) => string | null; anteil: (w: DepotWerte) => number | null };
+const DEPOT_PUNKTE: Record<"zins" | "etfs" | "gold" | "sukuk" | "sparKosten" | "order" | "gebuehr" | "sparAb", DepotPunkt> = {
+  zins: {
+    label: "Zinsen auf Guthaben",
+    text: (w) => (w.zinsfrei === "gut" ? "keine Zinsen" : w.zinsfrei === "teils" ? "Zinsen, abschaltbar" : w.zinsfrei === "schlecht" ? "Zinsen" : null),
+    anteil: (w) => (w.zinsfrei ? ampelAnteil(w.zinsfrei) : null),
+  },
+  etfs: { label: "Halal-ETFs und Fonds", text: (w) => w.etfs, anteil: (w) => (w.etfs ? anteilVon(w.etfs) : null) },
+  gold: { label: "Gold und Silber", text: (w) => w.gold, anteil: (w) => (w.gold ? anteilVon(w.gold) : null) },
+  sukuk: { label: "Sukuk", text: (w) => w.sukuk, anteil: (w) => (w.sukuk ? anteilVon(w.sukuk) : null) },
+  sparKosten: {
+    label: "Kosten je Sparplan-Rate",
+    text: (w) => (w.sparplanKosten ? w.sparplanKosten.replace(/(\d)\s?%/, "$1 %") : null),
+    anteil: (w) => sparplanKostenAnteil(w.sparplanKosten, 100),
+  },
+  // Ein kurzer Wert je Seite, damit am Handy nichts umbricht (wie Kontoführung, RN14): „1 €, ab 500 €: 0 €“ wird „1 €“, „ab 4,90 €“ bleibt.
+  order: { label: "Order", text: (w) => (w.order ? w.order.match(/^(ab\s)?\d+(?:,\d+)?\s?€/)?.[0] ?? w.order : null), anteil: (w) => (w.order ? -ersterEuro(w.order) : null) },
+  gebuehr: {
+    label: "Depotgebühr",
+    text: (w) => w.depotgebuehr,
+    anteil: (w) => (w.depotgebuehr ? (/%/.test(w.depotgebuehr) && !/^0\s?€/.test(w.depotgebuehr) ? -1000 : -ersterEuro(w.depotgebuehr)) : null),
+  },
+  sparAb: {
+    label: "Sparplan ab",
+    text: (w) => w.sparplanAb,
+    anteil: (w) => (w.sparplanAb === "kein Sparplan" ? -1000 : w.sparplanAb ? -ersterEuro(w.sparplanAb) : null),
+  },
+};
+type DepotPunktId = keyof typeof DEPOT_PUNKTE;
+
+/** Reihenfolge der Punkte aus den Antworten: Zinsen immer zuerst, dann die Anlage, dann das Wichtigste. */
+const depotPunktReihe = (a: Antworten): DepotPunktId[] => {
+  const anlage: DepotPunktId[] = a.anlage === "etf" ? ["sparKosten", "etfs"] : a.anlage === "aktien" ? ["order"] : a.anlage === "gold" ? ["gold"] : [];
+  const praef: DepotPunktId[] = a.praef === "kosten" ? ["order", "sparKosten", "gebuehr"] : a.praef === "halal" ? ["etfs", "gold", "sukuk"] : ["etfs", "sparKosten", "order"];
+  const alle: DepotPunktId[] = ["zins", ...anlage, ...praef, "sparKosten", "order", "etfs", "gebuehr", "gold", "sukuk", "sparAb"];
+  return alle.filter((id, n) => alle.indexOf(id) === n);
+};
+
+const depotVergleich = (heute: DepotWerte | null, heutePassung: number | null, match: DepotWerte, passung: number, a: Antworten): VergleichZeile[] => {
+  const kopf: VergleichZeile = {
+    label: "Passt zu deinen Antworten",
+    links: { text: heutePassung === null ? KEIN_WERT : `${heutePassung} %`, ...(heutePassung !== null && heutePassung >= passung ? { ja: true } : {}) },
+    rechts: { text: `${passung} %`, ...(heutePassung === null || passung >= heutePassung ? { ja: true } : {}) },
+  };
+  const rang: { z: VergleichZeile; r: number; n: number }[] = [];
+  depotPunktReihe(a).forEach((id, n) => {
+    const p = DEPOT_PUNKTE[id];
+    const rt = p.text(match);
+    const ra = p.anteil(match);
+    if (rt === null || ra === null) return;
+    const lt = heute ? p.text(heute) : null;
+    const la = heute ? p.anteil(heute) : null;
+    if (lt === null || la === null) {
+      rang.push({ z: { label: p.label, links: { text: KEIN_WERT }, rechts: { text: rt, ja: true } }, r: 1, n });
+      return;
+    }
+    // Zinsen, die beide nicht haben, stehen nicht als Zeile (wie beim Konto, RN13-01: Gemeinsames halal nie als Zeile).
+    if (la === ra && id === "zins") return;
+    const r = ra > la ? 0 : ra === la ? 2 : 3;
+    rang.push({
+      z: {
+        label: p.label,
+        links: { text: lt, ...(r === 0 ? { nein: true } : { ja: true }) },
+        rechts: { text: rt, ...(r === 3 ? { nein: true } : { ja: true }) },
+      },
+      r,
+      n,
+    });
+  });
+  const drei = rang.sort((x, y) => x.r - y.r || x.n - y.n).slice(0, 3).map((x) => x.z);
+  return [kopf, ...drei];
 };
 
 /** Das zweite Depot aus depotPaar, gerechnet mit denselben Antworten. Fehlt, wenn es schon das heutige ist. */
@@ -832,6 +934,7 @@ const depotErgebnis = (a: Antworten, quelle: CheckQuelle, fassung: Fassung): Dep
     links: { name: heute.kind === "frei" ? heute.name || "Dein Depot" : heute.name, domain: heute.domain, zeilen: depotZeilen(w, heutePassung) },
     rechts: { name: d.anbieter.name, domain: d.anbieter.domain, zeilen: depotZeilen(werteVonKarte(d.karte), passung) },
     vergleichTitel: `${heute.kind === "frei" ? "Dein Depot" : heute.name} und ${d.anbieter.name} im Vergleich`,
+    depotVergleich: depotVergleich(w, heutePassung, werteVonKarte(d.karte), passung, a),
   };
 };
 /** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, am Ende die Fassung a oder b. Die Quelle (?quelle=) steckt nur hier, die Bank von heute nie. */
@@ -1174,12 +1277,8 @@ export const vergleichZeilen = (e: Ergebnis): VergleichZeile[] => {
   const finde = (s: Spalte, label: string) => s.zeilen.find((z) => z.label === label);
   const text = (z: Zeile | undefined): VergleichZelle => ({ text: z?.wert ?? KEIN_WERT });
 
-  if (e.art === "depot") {
-    // Nur Unterschiede (Elias RN11-04 „immer die, wo die sich unterscheiden“, gilt für jeden Vergleich): gleiche Werte fallen weg.
-    return ["Passt zu deinen Antworten", "Halal-ETFs und Fonds", "Depotgebühr", "Order"]
-      .map((label) => ({ label, links: text(finde(links, label)), rechts: text(finde(rechts, label)) }))
-      .filter((z) => z.label === "Passt zu deinen Antworten" || z.links.text !== z.rechts.text);
-  }
+  // RN17 (Elias RN16-43): Haken und Kreuz wie beim Konto, gerechnet in depotVergleich (ersetzt „nur Unterschiede als Text“ aus RN11-04).
+  if (e.art === "depot") return e.depotVergleich ?? [];
 
   // Konto: immer drei Punkte (Elias RN12-01 „Also immer 3 Punkte.“). Kontoführung steht immer, ein Wert je Seite mit Haken (RN14-01).
   // Dann, worin die heutige Bank bei Dispo und Zinsen belegt schlechter ist (RN11-04), dann Alltag-Unterschiede in beide Richtungen

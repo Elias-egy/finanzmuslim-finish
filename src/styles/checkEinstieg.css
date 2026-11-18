@@ -165,15 +165,35 @@
   justify-content: space-between;
   gap: 12px;
 }
+/* RN17-03: Logo in seinem eigenen Maß (AnbieterLogo gross) auf weißer Platte wie im Ergebnis, keine eigene Höhe mehr (schnitt das BBBank-Logo ab) */
 .ce-match-logo {
-  display: flex;
-  align-items: center;
-  height: 30px;
-  max-width: 150px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  background: #fff;
+  color: #0b1220;
+  overflow: hidden;
 }
-.ce-match-logo img {
-  max-height: 30px;
-  width: auto;
+.ce-match-titel {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: hsl(var(--foreground));
+}
+.ce-match-titel svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: hsl(var(--gain));
+  stroke-width: 3;
 }
 .ce-ring {
   position: relative;
@@ -348,4 +368,8 @@
     transition: none;
     animation: none;
   }
+}
+/* norisbank: Markenfarbe als Rahmen wie im Ergebnis (Elias RN11-02), hier ohne checkErgebnis.css */
+.ce-match-logo.hc-wb-platte--noris {
+  border: 2px solid #ff8a3d;
 }

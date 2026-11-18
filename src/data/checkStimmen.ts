@@ -35,7 +35,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   matin: {
     art: "konto",
     zitat: "Ich bin manchmal ins Minus gerutscht und hab nicht gecheckt, dass da Zinsen draufkommen. Waren am Ende fast 12 Prozent bei der Sparkasse. Zinsen zahlen wollte ich auf keinen Fall, also hab ich gewechselt und mit dem Wechselservice alles rübergezogen, Gehalt, Daueraufträge, alles.",
-    name: "Matin Mahmoudi",
+    // RN17-04 (Elias: „Und ich würde Martin M. nehmen, dann ist alles mit Punkt.“): Vorname und Anfangsbuchstabe wie Reuf K.
+    name: "Matin M.",
     zeile: "Girokonto bei norisbank",
     foto: "/bilder/check/stimme-matin.webp",
   },
@@ -43,9 +44,10 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-32: Konto bei norisbank. Name folgt von der Person.
   "bank-nebeneinander": {
     art: "konto",
-    zitat: "Ich hab meine Commerzbank und die anderen zum ersten Mal direkt nebeneinander gesehen. Ich zahl da seit Jahren 4,90 € im Monat Kontoführung und hab es nie gemerkt. Hab noch am selben Abend das Konto bei der norisbank eröffnet.",
+    zitat: "Ich hab meine Commerzbank und die anderen zum ersten Mal direkt nebeneinander gesehen. Ich zahl da seit Jahren 4,90 € im Monat Kontoführung und hab es nie gemerkt. Hab noch am selben Abend das Konto bei der BBBank eröffnet.",
     name: "Name folgt",
-    zeile: "Girokonto bei norisbank",
+    // RN17-02 (Elias: „ich habe meine Commerzbank, da würde ich sagen, Girokonto bei BB Bank“).
+    zeile: "Girokonto bei BBBank",
   },
   // RN16-16, RN16-18: erste echte Stimme, Name buchstabiert „R-E-U-F-K“, Depot bei Smartbroker+.
   reuf: {
@@ -65,7 +67,10 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   // RN16-29, RN16-30 („Vor allem der zweite Satz“), RN16-32: Traders Place. 0 € Depot, Order und Sparplan laut brokerVergleich.ts.
   "klein-anfangen": {
     art: "depot",
-    zitat: "Ich wollte erstmal mit 50 € im Monat anfangen und nicht, dass Gebühren direkt was wegfressen. Bei Traders Place zahl ich 0 € Ordergebühr auf meinen Sparplan. Klein angefangen, aber angefangen, Alhamdulillah.",
+    // RN17-06 bis -08 (Elias: „eher sowas wie 50 € im Monat anfangen. Und deswegen vor allem niedrige Kosten“, „anstatt dieses klein
+    // angefangen, aber angefangen, Alhamdulillah … was viel Simpleres“, „Definitive Empfehlung von mir.“). 0 € je Sparplan-Rate laut
+    // Depot-Vergleich (etfSparplanKosten Traders Place).
+    zitat: "Ich wollte erstmal mit 50 € im Monat anfangen, deswegen waren mir vor allem niedrige Kosten wichtig. Bei Traders Place zahl ich 0 € auf meinen Sparplan. Definitive Empfehlung von mir.",
     name: "Name folgt",
     zeile: "Depot bei Traders Place",
   },

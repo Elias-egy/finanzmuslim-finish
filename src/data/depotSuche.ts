@@ -26,6 +26,8 @@ export type DepotWerte = {
   depotgebuehr: string | null;
   order: string | null;
   sparplanAb: string | null;
+  /** Kosten je ETF-Sparplan-Rate aus dem Vergleich (etfSparplanKosten), etwa „0 €“, „1,50 €“ oder „1,5%“; null: nicht im Vergleich. */
+  sparplanKosten: string | null;
   /** zinsfreiAbStart aus dem Vergleich: gut (ohne Zinsen ab Eröffnung), schlecht (Zinsen nicht abschaltbar), null (nicht im Vergleich). */
   zinsfrei: "gut" | "teils" | "schlecht" | null;
 };
@@ -142,6 +144,7 @@ const werteAus = (a: Roh): DepotWerte => {
       depotgebuehr: karte.depotgebuehr,
       order: karte.order,
       sparplanAb: karte.sparplanAb,
+      sparplanKosten: karte.sparplanKosten,
       zinsfrei: karte.zinsfrei ? "gut" : "schlecht",
     };
   }
@@ -155,6 +158,7 @@ const werteAus = (a: Roh): DepotWerte => {
     depotgebuehr: textOderNull(w, "depotgebuehr") ? eur(textOderNull(w, "depotgebuehr") as string) : null,
     order: order ? eur(order) : null,
     sparplanAb: sparplanAus(textOderNull(w, "sparrate")),
+    sparplanKosten: textOderNull(w, "etfSparplanKosten") ? eur(textOderNull(w, "etfSparplanKosten") as string) : null,
     zinsfrei: z === "gut" || z === "teils" || z === "schlecht" ? z : null,
   };
 };

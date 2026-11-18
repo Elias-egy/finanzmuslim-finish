@@ -32,6 +32,8 @@ export type BrokerKarte = {
   depotgebuehr: string;
   order: string;
   sparplanAb: string;
+  /** Kosten je Sparplan-Rate auf ETFs aus dem Depot-Vergleich (etfSparplanKosten, Finanzfluss mit Quelle), etwa „0 €“ oder „1,5%“. */
+  sparplanKosten: string;
   /** Guthabenzins 0 % laut Anbieter-Beleg im Depot-Vergleich (zinsfreiAbStart „gut“). */
   zinsfrei: boolean;
   /** flatex richtet den Wertpapierkredit bei Eröffnung automatisch ein; Verzicht in Textform. */
@@ -94,6 +96,7 @@ export const BROKER_KARTEN: BrokerKarte[] = AUFBAU.map(({ id, out, rolle, src })
     depotgebuehr: eur(text("depotgebuehr")),
     order: eur(kostenKurz(id, "orderkosten") ?? text("orderkosten")),
     sparplanAb: sparplanAb(id, text("sparrate")),
+    sparplanKosten: eur(text("etfSparplanKosten")),
     zinsfrei: w.zinsfreiAbStart === "gut",
     kreditAutomatisch: w.kreditAbStart === "teils",
   };

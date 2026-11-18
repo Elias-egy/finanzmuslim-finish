@@ -749,7 +749,9 @@ describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
     const abstandKosten = (anl: Antworten["anlage"]) => passungProzent(SB, mitAnlage("kosten", anl)) - passungProzent(FL, mitAnlage("kosten", anl));
     expect(abstandKosten("aktien")).toBeGreaterThan(abstandKosten(undefined));
     // Gold: flatex und Smartbroker+ haben beide 7 von 7, das Gold-Gewicht trennt sie nicht, es hebt beide gegenüber dem Standard.
-    expect(passungProzent(FL, mitAnlage("halal", "gold"))).toBeGreaterThan(passungProzent(FL, mitAnlage("halal", undefined)));
+    // RN17: flatex hat überall volle Halal-Anteile, die Rundung kann gleich bleiben; Smartbroker+ (8 von 12 ETFs, 7 von 7 Gold) steigt.
+    expect(passungProzent(FL, mitAnlage("halal", "gold"))).toBeGreaterThanOrEqual(passungProzent(FL, mitAnlage("halal", undefined)));
+    expect(passungProzent(SB, mitAnlage("halal", "gold"))).toBeGreaterThan(passungProzent(SB, mitAnlage("halal", undefined)));
     expect(FL.gold).toBe(SB.gold);
     // Dieselben Antworten ohne und mit Anlage rechnen anders, verschiedene Anlagen geben nicht überall dieselbe Zahl.
     const zahlen = (["etf", "aktien", "gold"] as const).map((x) => passungProzent(SB, mitAnlage("halal", x)));
@@ -876,5 +878,38 @@ describe("Depot: Ein Mix aus beiden (RN16-06)", () => {
     }
     expect(mix("offen").anbieter.name).toBe("Smartbroker+");
     expect(mix("offen").auchGut?.link).toBe("/out/traders-place?src=fchptpza");
+  });
+});
+
+describe("Depot-Vergleich bei bestehendem Depot wie beim Konto (RN17, Elias RN16-43)", () => {
+  const mit = (id: string, praef: "halal" | "kosten", anlage: Antworten["anlage"]) =>
+    depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot(id), praef, anlage, betrag: "50bis200" });
+
+  it("comdirect liegt deutlich unter dem Match (Sparplan 1,5 % je Rate und Order belegt im Vergleich)", () => {
+    for (const praef of ["halal", "kosten"] as const)
+      for (const anlage of ["etf", "aktien", "gold"] as const) {
+        const e = mit("comdirect-depot", praef, anlage);
+        const heute = Number(e.links!.zeilen[0].wert.replace(/\D/g, ""));
+        expect(e.passung - heute, `${praef} ${anlage}`).toBeGreaterThanOrEqual(8);
+      }
+    const e = mit("comdirect-depot", "kosten", "etf");
+    expect(e.passung - Number(e.links!.zeilen[0].wert.replace(/\D/g, ""))).toBeGreaterThanOrEqual(20);
+  });
+
+  it("Passung oben, darunter immer drei Punkte mit Haken und Kreuz, der Match vorn zuerst", () => {
+    const z = vergleichZeilen(mit("comdirect-depot", "kosten", "etf"));
+    expect(z).toHaveLength(4);
+    expect(z[0].label).toBe("Passt zu deinen Antworten");
+    expect(z[0].rechts.ja).toBe(true);
+    expect(z[1]).toMatchObject({ label: "Kosten je Sparplan-Rate", links: { text: expect.stringMatching(/^1,5\s%$/), nein: true }, rechts: { text: expect.stringMatching(/^0\s€$/), ja: true } });
+    expect(z[2]).toMatchObject({ label: "Order", links: { text: expect.stringMatching(/^3,90\s€$/), nein: true }, rechts: { text: expect.stringMatching(/^1\s€$/), ja: true } });
+    // Zinsen auf das Guthaben, wo das heutige Depot sie hat, stehen zuerst.
+    expect(vergleichZeilen(mit("ing-direkt-depot", "kosten", "aktien"))[1]).toMatchObject({ label: "Zinsen auf Guthaben", links: { nein: true }, rechts: { ja: true } });
+  });
+
+  it("ohne Werte im Vergleich (Sparkasse) steht links „–“, nie eine geratene Zahl", () => {
+    const z = vergleichZeilen(mit("grp-sparkasse", "halal", "etf"));
+    expect(z).toHaveLength(4);
+    for (const r of z) expect(r.links.text).toBe(KEIN_WERT);
   });
 });

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { ereignis } from "@/lib/messung";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { stimmenAn } from "@/data/checkStimmen";
@@ -188,7 +188,10 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
           <div className={`ce-match${an(6)}`}>
             <span className="ce-match-kopf">Dein Match</span>
             <span className="ce-match-zeile">
-              <span className="ce-match-logo">
+              {/* RN17-03 (Elias: „dein Match bei BB Bank in der Animation ist irgendwie noch nicht so richtig gut“): das Logo war oben
+                  abgeschnitten und verzerrt (eigene Höhe 30 px gegen das Logomaß). Jetzt wie im Ergebnis auf weißer Platte in seinem
+                  eigenen Maß, darunter der Kartentitel mit grünem Haken. */}
+              <span className={`ce-match-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
                 <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
               </span>
               <span className="ce-ring">
@@ -207,6 +210,10 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
                   <small>%</small>
                 </span>
               </span>
+            </span>
+            <span className="ce-match-titel">
+              <Check aria-hidden />
+              {e.kartenTitel}
             </span>
           </div>
         )}
