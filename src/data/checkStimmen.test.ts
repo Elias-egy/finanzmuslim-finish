@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { ALLE_STIMMEN, STIMMEN, STIMMEN_JE_STELLE, stimmenAn, type StimmenStelle } from "@/data/checkStimmen";
 
 describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
-  it("echt und bestätigt: Matin, Reuf, Artin, Halil (RN18-02); die Commerzbank-Stimme nicht", () => {
-    expect(STIMMEN.map((s) => s.name)).toEqual(["Matin M.", "Reuf K.", "Artin E.", "Halil S."]);
+  it("echt und bestätigt: alle fünf (RN18-02, RN18-08 Pascal K.)", () => {
+    expect(STIMMEN.map((s) => s.name)).toEqual(["Matin M.", "Pascal K.", "Reuf K.", "Artin E.", "Halil S."]);
   });
 
   it("fünf Stimmen: zwei zum Bankkonto, drei zum Investieren, keine mit Sternen", () => {
@@ -26,15 +26,15 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
     expect(ALLE_STIMMEN["bank-nebeneinander"].zeile).toBe("Girokonto bei BBBank");
     expect(ALLE_STIMMEN["bank-nebeneinander"].zitat).toMatch(/Konto bei der BBBank eröffnet\.$/);
     expect(ALLE_STIMMEN.matin.name).toBe("Matin M.");
+    expect(ALLE_STIMMEN["bank-nebeneinander"].name).toBe("Pascal K.");
     // RN18-07: kürzer, ohne „Zinsen zahlen wollte ich auf keinen Fall“.
     expect(ALLE_STIMMEN.matin.zitat).toMatch(/Sparkasse\. Ich hab gewechselt und mit dem Wechselservice alles rübergezogen\. Hat reibungslos geklappt\.$/);
     expect(ALLE_STIMMEN.matin.zitat).not.toMatch(/auf keinen Fall/);
   });
 
-  it("Testseite drei (Matin, Reuf, Skeptisch), jedes Anlagen-Freebie zwei, Konto-Stellen nur Matin (RN18-03)", () => {
+  it("Testseite drei (Matin, Reuf, Skeptisch), jedes Freebie zwei", () => {
     expect(stimmenAn("check", true).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
-    for (const [stelle, ids] of Object.entries(STIMMEN_JE_STELLE)) if (stelle !== "check") expect(ids).toHaveLength(ids!.includes("matin") ? 1 : 2);
-    for (const ids of Object.values(STIMMEN_JE_STELLE)) expect(ids).not.toContain("bank-nebeneinander");
+    for (const [stelle, ids] of Object.entries(STIMMEN_JE_STELLE)) if (stelle !== "check") expect(ids).toHaveLength(2);
   });
 
   it("Konto-Freebies nur Konto-Stimmen, Anlagen-Freebies nur Depot-Stimmen", () => {
@@ -48,7 +48,7 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
   });
 
   it("live nur bestätigte, im Entwicklungsmodus unbestätigte als Beispiel markiert", () => {
-    expect(stimmenAn("boykottliste", false).map((s) => s.id)).toEqual(["matin"]);
+    expect(stimmenAn("boykottliste", false).map((s) => s.id)).toEqual(["matin", "bank-nebeneinander"]);
     expect(stimmenAn("check", false).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
     expect(stimmenAn("check", true).map((s) => s.beispiel)).toEqual([false, false, false]);
     expect(stimmenAn("check", true, { ...ALLE_STIMMEN, reuf: { ...ALLE_STIMMEN.reuf, bestaetigt: false } }).map((s) => s.beispiel)).toEqual([false, true, false]);

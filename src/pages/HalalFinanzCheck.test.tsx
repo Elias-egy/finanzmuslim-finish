@@ -562,11 +562,11 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     // Vergleich: die norisbank liegt vorn, immer drei Zeilen.
     const gg = container.querySelector(".hc-gg")!;
     expect(gg.querySelectorAll(".hc-gg-label")).toHaveLength(3);
-    // Community: 26.000, Stimme der Art Konto; seit RN18-03 nur Matin (bestätigt), die Commerzbank-Stimme ist raus.
+    // Community: 26.000, zwei Stimmen der Art Konto, beide bestätigt (RN18-02, RN18-08).
     expect(container.textContent).toContain("Über 26.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/folgen mir/);
     const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme]");
-    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin"]);
+    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin", "bank-nebeneinander"]);
     // Danach die frühere B-Karte und der offene Aufruf, in dieser Reihenfolge.
     const ueberzug = container.querySelector(".hc-erg-ueberzug")!;
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");

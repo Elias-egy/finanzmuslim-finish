@@ -49,7 +49,9 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
   "bank-nebeneinander": {
     art: "konto",
     zitat: "Ich hab meine Commerzbank und die anderen zum ersten Mal direkt nebeneinander gesehen. Ich zahl da seit Jahren 4,90 € im Monat Kontoführung und hab es nie gemerkt. Hab noch am selben Abend das Konto bei der BBBank eröffnet.",
-    name: "Name folgt",
+    // RN18-08 (Elias: „mach Commerzbank wieder rein. Ich hab's jetzt und schreib Pascal K.“).
+    name: "Pascal K.",
+    bestaetigt: true,
     // RN17-02 (Elias: „ich habe meine Commerzbank, da würde ich sagen, Girokonto bei BB Bank“).
     zeile: "Girokonto bei BBBank",
   },
@@ -97,9 +99,8 @@ export const STIMMEN: Stimme[] = Object.values(ALLE_STIMMEN).filter((s) => s.bes
 /** Stellen: die Freebies (Quelle des Kastens), die Testseite vor dem Check und das Ergebnis je Art. */
 export type StimmenStelle = CheckQuelle | "check" | "ergebnis-konto" | "ergebnis-depot";
 
-// RN18-03 (Elias: „Die Person Commerzbank … kann erstmal raus. Irgendwann sage ich wieder rein“): Stimme bank-nebeneinander steht nirgends,
-// der Eintrag bleibt für später. An den Konto-Stellen steht bis dahin nur Matin (eine Depot-Stimme passt dort nicht, RN16-32).
-const KONTO_PAAR: StimmeId[] = ["matin"];
+// RN18-03 kurz raus, RN18-08 wieder rein als Pascal K.
+const KONTO_PAAR: StimmeId[] = ["matin", "bank-nebeneinander"];
 /**
  * Welche Stimmen wo stehen (Elias RN16-32: „auf der Hauptseite 3 auf den Freebies 2. Die 2 müssen passend sein, die 3 müssen die
  * stärksten sein, die immer gezeigt werden“; Boykott „typische Zinsfreiheit … Bankkonten-Testimonials“, Aktien „mit Halal“). Plan von
