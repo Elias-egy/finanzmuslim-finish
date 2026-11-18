@@ -26,6 +26,7 @@ const BarakaBlocker = () => (
       rechtshinweis="Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Sie urteilt nicht über einzelne Personen. Innerhalb der Rechtsschulen gibt es zu mehreren dieser Punkte abweichende Auffassungen. In Zweifelsfällen wende dich an einen Gelehrten, dem du vertraust, und lege ihm deinen konkreten Fall vor."
       /* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): die Aufrufe zum Depot-Vergleich (/vergleich/depot) und zum Zakat-Rechner (/zakat-rechner) sind raus. */
       ctas={[]}
+      endeKasten={<NaechsterTeil quelle="baraka-blocker" />}
     >
       <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Baraka ist nicht dasselbe wie Menge</h2>
@@ -104,8 +105,7 @@ const BarakaBlocker = () => (
         </div>
       </section>
 
-      {/* RN16-42: ganz am Ende der kleine Kasten. */}
-      <NaechsterTeil quelle="baraka-blocker" />
+      {/* RN16-42, RN17: der kleine Kasten steht über endeKasten ganz am Ende, nach den Quellen. */}
     </VorlagenSeite>
   </>
 );

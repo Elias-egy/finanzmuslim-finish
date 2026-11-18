@@ -49,6 +49,7 @@ const AutoAboCheckVoll = () => (
       rechtshinweis={AUTO_RECHTSHINWEIS}
       /* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): die Aufrufe zum Sparzielrechner und zum Vertrags-Check (AUTO_CTAS) sind raus. */
       ctas={[]}
+      endeKasten={<NaechsterTeil quelle="auto-abo" />}
     >
       <WarumNicht />
       <WasAboAndersMacht />
@@ -114,8 +115,7 @@ const AutoAboCheckVoll = () => (
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{firmen}</p>
       </section>
 
-      {/* RN16-42: ganz am Ende der kleine Kasten. */}
-      <NaechsterTeil quelle="auto-abo" />
+      {/* RN16-42, RN17: der kleine Kasten steht über endeKasten ganz am Ende, nach den Quellen. */}
     </VorlagenSeite>
   </>
 );

@@ -31,6 +31,12 @@ type Props = {
   gesperrt?: OptinFreebie;
   /** Volle Fassung eines Freebies der Leiter: der Kasten „Dein nächster Schritt“ unter den Aufrufen. */
   naechster?: LeiterWort;
+  /**
+   * RN17 (Übergabe RN16 Punkt 2, Elias RN16-44: „überall nur noch das Neue … Wie wir es eingebracht haben bei der Liste“): der kleine
+   * Match-Kasten (NaechsterTeil) ganz am Ende nach den Quellen. Mit ihm fallen der PDF-Knopf im Kopf (Elias 02.11., MC7f: „diese
+   * PDF-Option rauslassen. Bei den anderen Freebies“) und die Newsletter-Box weg, damit es nur den einen Aufruf gibt.
+   */
+  endeKasten?: ReactNode;
 };
 
 /**
@@ -59,6 +65,7 @@ const VorlagenSeite = ({
   motiv,
   gesperrt,
   naechster,
+  endeKasten,
 }: Props) => {
   const Motiv = motiv ? motive[motiv] : null;
   return (
@@ -87,7 +94,7 @@ const VorlagenSeite = ({
               {gesperrt.knopf}
               <ArrowDown className="h-5 w-5" aria-hidden />
             </a>
-          ) : (
+          ) : endeKasten ? null : (
             <a href={pdfPfad} download className="btn-primary gap-2">
               <Download className="h-5 w-5" aria-hidden />
               PDF laden
@@ -121,9 +128,13 @@ const VorlagenSeite = ({
 
       {naechster && <NaechsterTeil wort={naechster} className="mx-auto mt-12 max-w-4xl" />}
 
-      <section className="mt-14">
-        <NewsletterBox />
-      </section>
+      {endeKasten ? (
+        <div className="mx-auto mt-12 max-w-4xl">{endeKasten}</div>
+      ) : (
+        <section className="mt-14">
+          <NewsletterBox />
+        </section>
+      )}
 
       <p className="mt-12 max-w-4xl mx-auto text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
     </div>
