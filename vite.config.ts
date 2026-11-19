@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
-import { existsSync, readFileSync, rmSync, writeFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "fs";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
         ausgabe = path.resolve(c.root, c.build.outDir);
       },
       closeBundle() {
+        // RN20 (Prüfbericht RN19 Punkt 13): interne Messseiten (public/__rn9-mess.html und ähnlich) gehören nicht live.
+        // Sie liegen nur lokal, sind in .gitignore und kommen hier auch aus dem Build, falls eine im Ordner liegt.
+        for (const datei of readdirSync(ausgabe)) {
+          if (datei.startsWith("__")) rmSync(path.join(ausgabe, datei), { recursive: true, force: true });
+        }
         if (!mitOs) {
           rmSync(path.join(ausgabe, "investment-os"), { recursive: true, force: true });
           // RN19: llms.txt nennt das OS nur in Phase 2. In Phase 1 wäre der Link eine 404.

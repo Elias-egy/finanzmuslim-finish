@@ -264,7 +264,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
     <div className="min-h-screen bg-background">
       {/* Conversion-Seite: nicht indexieren, nicht in Sitemap oder Navigation. */}
       <Seo
-        title={`${istSteuer ? "Deine" : "Dein"} ${seitenWort} bei ${partner.anbieter} – finanzmuslim`}
+        title={`${istSteuer ? "Deine" : "Dein"} ${seitenWort} bei ${partner.anbieter} | finanzmuslim`}
         description={
           istDepot
             ? `Schritt für Schritt zum islamkonformen Depot bei ${partner.anbieter}.`

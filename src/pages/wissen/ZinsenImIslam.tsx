@@ -57,7 +57,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <Beispiel
           titel="Zweimal Zeit, zwei Urteile"
           rechnung={[
-            "Erlaubt: Sofa bar 1.000 € oder in Raten 1.200 € — du wählst vor dem Vertrag",
+            "Erlaubt: Sofa bar 1.000 € oder in Raten 1.200 €, du wählst vor dem Vertrag",
             "Verboten: Bank leiht dir 1.000 €, du zahlst 1.200 € zurück",
           ]}
           ergebnis="Im ersten Fall wird eine Ware verkauft. Im zweiten wird Geld verliehen."

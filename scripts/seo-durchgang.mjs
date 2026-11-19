@@ -202,7 +202,19 @@ const main = async () => {
       }
       if (!href.startsWith("/")) continue;
       const rein = norm(href.split("#")[0].split("?")[0]);
-      if (rein.startsWith("/out/") || rein.startsWith("/weiter/")) continue; // Partnerlinks, bewusst Weiterleitung
+      if (rein.startsWith("/out/") || rein.startsWith("/weiter/")) {
+        // Partnerlinks sind bewusst Weiterleitungen, müssen aber als echte Datei ausgeliefert werden (RN20, Prüfbericht RN19
+        // Punkt 2). Ein direkter Aufruf ohne Datei gäbe 404. /out/<name> leitet auf eine interne Startseite, auch die muss da sein.
+        const datei = join(DIST, `${rein}.html`);
+        if (!existsSync(datei)) f(pfad, `Partnerweg ${rein} ohne ausgelieferte Datei`);
+        else if (rein.startsWith("/out/")) {
+          const nach = /http-equiv="refresh" content="0; url=([^"]+)"/.exec(await readFile(datei, "utf8"))?.[1];
+          const intern = nach && nach.startsWith("/") ? norm(nach.split("?")[0]) : null;
+          if (intern && !existsSync(join(DIST, `${intern}.html`)) && !existsSync(join(DIST, intern, "index.html")))
+            f(pfad, `Partnerweg ${rein} leitet auf ${intern}, dort liegt keine Datei`);
+        }
+        continue;
+      }
       ziele.add(rein);
     }
     linkMap.set(pfad, ziele);

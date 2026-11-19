@@ -133,7 +133,7 @@ const RechnerSeite = ({
                   <Link to={r.to} className="font-semibold text-primary hover:underline">
                     {r.name}
                   </Link>
-                  <span className="text-muted-foreground"> – {r.desc}</span>
+                  <span className="text-muted-foreground">: {r.desc}</span>
                 </li>
               ))}
             </ul>

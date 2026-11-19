@@ -145,7 +145,7 @@ export const SiteHeader = () => {
             beitragsKopf ? "beitragskopf-innen gap-3 sm:gap-6" : "gap-6",
           )}
         >
-          <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
+          <Link to="/" aria-label="finanzmuslim, zur Startseite" className="flex items-center">
             <Wordmark inverted className={cn(beitragsKopf ? "beitragskopf-marke text-[20px] sm:text-[23px] md:text-2xl" : "text-[23px] md:text-2xl")} />
           </Link>
 

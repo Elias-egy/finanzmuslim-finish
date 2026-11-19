@@ -2,6 +2,7 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { guides } from "@/data/guides";
 import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
+import { START_LINKS } from "@/data/startLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
@@ -272,7 +273,12 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
   // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
   ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
-  ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+  // Inaktive Partner (aktiv: false) haben keine Startseite, ihr /out/-Weg wird nicht erzeugt (RN20, Prüfbericht RN19 Punkt 2).
+  ...partnerLinks.filter((p) => p.aktiv).map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+  // /weiter/<kurzname> als echte Datei (RN20, Prüfbericht RN19 Punkt 2): Ziel der Knöpfe, die ein Werbeblocker sonst
+  // versteckt (src/lib/direktLink.ts). Ohne Datei antwortete ein direkter Aufruf mit 404, nur das Skript der Fehlerseite
+  // leitete weiter. Ziel ist der echte Partnerlink, {SUBID} wie in src/pages/Weiter.tsx als „startw“.
+  ...Object.entries(START_LINKS).map(([kurzname, link]) => ({ von: `/weiter/${kurzname}`, nach: link.replace("{SUBID}", "startw") })),
   // Kurze Adresse der Nummer 1 aus den Guide-PDFs: ohne eigene Datei antwortete der Hoster mit 404, nur das Skript der
   // Fehlerseite leitete weiter (Hermes ASSETS-URTEIL, CV15F 06.11.2026). Ziel beim Bau aus der Rangfolge.
   { von: "/depot-nummer-1", nach: depotNummerEinsZiel() },

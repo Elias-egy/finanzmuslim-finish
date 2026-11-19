@@ -25,3 +25,6 @@ dist-ssr
 
 # Zwischenstand der Typpruefung, gehoert nicht ins Repo
 *.tsbuildinfo
+
+# Interne Messseiten (RN20), nie ausliefern und nie einchecken
+public/__*

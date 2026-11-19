@@ -141,9 +141,9 @@ const Vergleiche = () => (
           to="/check?quelle=quiz"
           className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary px-8 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
         >
-          Finde, was zu dir passt
+          Match finden
         </Link>
-        <p className="mt-2 text-[14px] text-muted-foreground">Ein paar einfache Fragen, dann siehst du dein Paket: Depot, Konto, App.</p>
+        <p className="mt-2 text-[14px] text-muted-foreground">3 Fragen, 60 Sekunden, kostenlos</p>
       </header>
 
       <div className="mt-12 space-y-12">

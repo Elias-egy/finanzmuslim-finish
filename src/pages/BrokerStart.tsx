@@ -149,7 +149,7 @@ const BrokerStartSeite = ({ partner, start }: { partner: StartPartner; start: Br
   return (
     <div className="bg-background">
       <Seo
-        title={`Dein Halal-Depot bei ${partner.anbieter} – finanzmuslim`}
+        title={`Dein Halal-Depot bei ${partner.anbieter} | finanzmuslim`}
         description={`Dein Halal-Depot bei ${partner.anbieter} in 10 Minuten, Schritt für Schritt im Video.`}
         path={partner.pfad}
         noindex

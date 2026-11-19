@@ -53,9 +53,9 @@ import kursDaten from "@/data/kurse.json";
 type PresetKey = "ret3" | "ret5" | "ret8";
 
 const PRESETS: Record<PresetKey, { label: string; short: string; ret: number }> = {
-  ret3: { label: "Stabilität — 3 % p.a.",   short: "3 % p.a.",   ret: 0.03 },
-  ret5: { label: "Ausgewogen — 5 % p.a.",   short: "5 % p.a.",   ret: 0.05 },
-  ret8: { label: "Wachstum — 7,5 % p.a.",   short: "7,5 % p.a.", ret: 0.075 },
+  ret3: { label: "Stabilität: 3 % p.a.",   short: "3 % p.a.",   ret: 0.03 },
+  ret5: { label: "Ausgewogen: 5 % p.a.",   short: "5 % p.a.",   ret: 0.05 },
+  ret8: { label: "Wachstum: 7,5 % p.a.",   short: "7,5 % p.a.", ret: 0.075 },
 };
 
 /** Gepruefte Anlagen mit Fuenfjahresrendite, umgerechnet auf Rendite pro Jahr.
@@ -434,11 +434,11 @@ const ReturnCalculator = ({ showHeader = true }: { showHeader?: boolean } = {}) 
 
   const returnDisplay =
     mode === "own"
-      ? `${fmtPct(ownRate)}% p.a. – Eigene Rendite`
+      ? `${fmtPct(ownRate)}% p.a.: Eigene Rendite`
       : mode === "custom"
       ? `≈ ${fmtPct((portfolio?.ret ?? 0) * 100)}% p.a.`
       : mode === "anlage"
-      ? `${fmtPct((gewaehlteAnlage?.proJahr ?? 0) * 100)}% p.a. – ${gewaehlteAnlage?.name ?? ""}`
+      ? `${fmtPct((gewaehlteAnlage?.proJahr ?? 0) * 100)}% p.a.: ${gewaehlteAnlage?.name ?? ""}`
       : PRESETS[mode].label;
 
   let summary: { title: string; desc?: string } | null = null;

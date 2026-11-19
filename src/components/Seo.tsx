@@ -226,14 +226,21 @@ export const beitragJsonLd = (opts: {
   path: string;
   datePublished: string;
   dateModified?: string;
+  /** Absolute Adresse des Titelbilds. Ohne Angabe die Vorschaukarte der Seite (dist/og/<slug>.jpg, entsteht beim Build). */
+  image?: string;
   faq: { frage: string; antwort: string }[];
 }) => [
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "@id": `${SITE}${opts.path}#beitrag`,
     headline: opts.titel,
     description: opts.beschreibung,
+    // RN20 (Prüfbericht RN19 Punkt 8, VORLAGEN.md §1.3): image ist Pflicht im BlogPosting. Die Vorschaukarte hat jede Seite,
+    // gleiche Benennung wie scripts/og-bilder.mjs (Pfad ohne führenden Schrägstrich, „/“ als „--“).
+    image: opts.image ?? `${SITE}/og/${opts.path.slice(1).replace(/\//g, "--")}.jpg`,
     inLanguage: "de-DE",
+    url: `${SITE}${opts.path}`,
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.path}` },
     author: { "@type": "Person", "@id": PERSON_ID, name: "Elias El-Gendy", url: `${SITE}/ueber-mich` },
     publisher: { "@type": "Organization", "@id": ORGANISATION_ID, name: "finanzmuslim", url: SITE },

@@ -239,6 +239,8 @@ const graph = () => {
         "@id": `${url}#beitrag`,
         headline: TITEL,
         description: META,
+        // RN20 (Prüfbericht RN19 Punkt 8): image ist Pflicht im BlogPosting, Vorschaukarte der Seite wie bei den anderen Beiträgen.
+        image: `${SITE}/og/blog--halal-gold-kaufen.jpg`,
         mainEntityOfPage: url,
         url,
         author: { "@id": `${SITE}/ueber-mich#elias` },

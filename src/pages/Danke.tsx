@@ -232,7 +232,7 @@ const Danke = () => {
     <div className="bg-background">
       <Seo
         title="Schau in dein Postfach | finanzmuslim"
-        description="Dein Link kommt per Mail. Finde, was zu dir passt."
+        description="Dein Link kommt per Mail."
         path={`/danke/${freebie.id}`}
         noindex
       />
