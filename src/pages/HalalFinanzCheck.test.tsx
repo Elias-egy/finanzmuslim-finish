@@ -222,7 +222,10 @@ describe("Bankkonto-Check", () => {
     expect(screen.getByRole("link", { name: /Konto eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(screen.getByRole("link", { name: /Bei norisbank eröffnen\*/ }).getAttribute("href")).toBe("/out/norisbank?src=fcbonoa");
     expect(container.textContent).toContain("steht in deinem Kontoauszug");
-    expect(container.textContent).not.toMatch(/Depot|flatex|Alternative|Freitagsbrief/);
+    // RN20-14: Stimmen (Bilal E. spricht vom Depot) zählen nicht als Depot-Aufruf.
+    const ohneStimmen = container.cloneNode(true) as HTMLElement;
+    ohneStimmen.querySelectorAll("[data-stimme]").forEach((e) => e.remove());
+    expect(ohneStimmen.textContent).not.toMatch(/Depot|flatex|Alternative|Freitagsbrief/);
     // Seit RN13 (Elias RN12-01) auch beim Konto der Ring mit gerechneter Passung.
     expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
   });
@@ -566,7 +569,7 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     expect(container.textContent).toContain("Über 26.000 Menschen informieren sich bei Finanzmuslim");
     expect(container.textContent).not.toMatch(/folgen mir/);
     const stimmen = container.querySelectorAll(".hc-erg-community [data-stimme]");
-    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin", "bank-nebeneinander"]);
+    expect([...stimmen].map((st) => st.getAttribute("data-stimme"))).toEqual(["matin", "bilal"]);
     // Danach die frühere B-Karte und der offene Aufruf, in dieser Reihenfolge.
     const ueberzug = container.querySelector(".hc-erg-ueberzug")!;
     expect(ueberzug.textContent).toContain("Alles wird für dich rübergezogen");
