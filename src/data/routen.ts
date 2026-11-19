@@ -135,6 +135,9 @@ export const festeRouten: Route[] = [
   // Broker-Freebie (BT1, 13.11.2026): Ziel des Kommentar-Worts BROKER, Aufbau wie die Girokonto-Unterseite.
   vorlage("broker-vergleich", "BrokerVergleich.tsx"),
 
+  // RN19 (19.11.2026, Elias RN18-20): „alles Mögliche findest du bei Dokumente“. Hauptwort „depotübertrag formular“.
+  { pfad: "/dokumente", quelle: ["src/pages/Dokumente.tsx", "src/data/dokumente.ts"], changefreq: "monthly", prioritaet: "0.8" },
+
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   ...(deals.length > 0 ? [{ pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly" as const, prioritaet: "0.6" }] : []),
   { pfad: "/ueber-mich", quelle: ["src/pages/UeberMich.tsx"], changefreq: "yearly", prioritaet: "0.6" },
