@@ -201,6 +201,14 @@ export const DepotRatgeber = ({
           { titel: "Altes Depot kündigen", text: "Kündige erst, wenn alle Anlagen im neuen Depot angekommen sind." },
         ]}
       />
+      {/* RN19: eine Erwähnung der Sammelseite, Elias RN18-20 („alles Mögliche findest du bei Dokumente“). */}
+      <RText>
+        Alle Formulare und Listen findest du bei{" "}
+        <Link to="/dokumente" className="font-semibold text-primary hover:underline">
+          Dokumente
+        </Link>
+        .
+      </RText>
 
       <RH2 id="nicht-empfohlen">Diese Depots empfehlen wir nicht</RH2>
       <RText>

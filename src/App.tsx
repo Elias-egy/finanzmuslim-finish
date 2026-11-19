@@ -85,6 +85,8 @@ const Out = lazy(() => import("./pages/Out.tsx"));
 const Weiter = lazy(() => import("./pages/Weiter.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
+// RN19 (19.11.2026): Sammelseite für Formulare, Check, Listen und Rechner (Elias RN18-20).
+const Dokumente = lazy(() => import("./pages/Dokumente.tsx"));
 const VorlageHalalAnlagen = lazy(() => import("./pages/vorlagen/HalalAnlagen.tsx"));
 const VorlageVertragsAmpel = lazy(() => import("./pages/vorlagen/VertragsAmpel.tsx"));
 const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx"));
@@ -236,6 +238,7 @@ const App = () => (
             <Route path="/blog/dispo-und-schulden" element={<DispoUndSchulden />} />
             <Route path="/blog/trading-forex-cfd" element={<TradingForexCfd />} />
             <Route path="/blog/zakat-auf-aktien-etf-krypto" element={<ZakatAufAktienEtfKrypto />} />
+            <Route path="/dokumente" element={<Dokumente />} />
             <Route path="/vorlagen" element={<Vorlagen />} />
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />

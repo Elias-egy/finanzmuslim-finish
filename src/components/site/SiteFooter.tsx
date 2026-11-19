@@ -36,6 +36,7 @@ const blog: NavEntry[] = [
 const werkzeuge: NavEntry[] = [
   { label: "Rechner", to: "/rechner" },
   { label: "Vergleiche", to: "/vergleiche" },
+  { label: "Dokumente", to: "/dokumente" },
   { label: "Halal Investment Guide", to: "/halal-guide" },
   { label: "Newsletter", to: "/newsletter" },
 ];
