@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { CHECK, TOP3 } from "@/data/depotTop3";
-import { findStartPartner, STARTVIDEO } from "@/data/investmentStart";
 import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
 
 type Props = {
@@ -19,8 +18,6 @@ type Props = {
   alle?: { ziel: string; text: string };
   /** Die drei Karten im Kasten; ohne Angabe die drei besten Depots (Sukuk auf der Gold-Seite: SUKUK_TOP3). */
   top?: readonly DepotKarte[];
-  /** Ohne das Video in der Karte der Nummer 1 (Plan, Elias, 04.11.2026: „bei den drei vergleichen das Video auch rausnehmen“). */
-  ohneVideo?: boolean;
 };
 
 type DepotKarte = (typeof TOP3)[number];
@@ -96,8 +93,6 @@ const Wortmarke = ({ name, domain }: { name: string; domain: string }) => {
   );
 };
 
-// Die Startseite der Nummer 1 (/out/<kurzname> → /dein-investmentstart/<kurzname>) sagt, ob ihr Video ein Beispiel ist.
-const nr1Start = findStartPartner(TOP3.find((d) => d.nr1)?.link.replace(/^\/out\//, ""));
 /* Der Knopf der Nummer 1 führt auf /depot-nummer-1, das eine Ziel aller Geld-Knöpfe (Elias, CV15F-02/-03, 06.11.2026:
    „ein Ziel mit einem Knopf“). So folgt er der Rangfolge von selbst, ein PDF aus dieser Seite veraltet nicht. Nur für die
    drei besten Depots und nur, wenn die Karte wirklich die Nummer 1 des Depot-Vergleichs ist (nicht bei Sukuk-Karten). */
@@ -113,7 +108,6 @@ const DepotAufruf = ({
   check = CHECK,
   alle = { ziel: "/vergleich/depot", text: "Alle Depots im Vergleich" },
   top = TOP3,
-  ohneVideo = false,
 }: Props) => (
   <div data-depot-aufruf>
     {titel && (
@@ -171,32 +165,6 @@ const DepotAufruf = ({
                 ))}
               </ul>
             </div>
-            {d.nr1 && !ohneVideo && nr1Start?.art === "depot" && (
-              <div className="mt-4 md:col-span-2 md:row-start-3">
-                {/* Im PDF läuft kein Video: dort steht der Link auf die Startseite mit dem Video (MC7d13d, Schritt 232). */}
-                <a
-                  href={`https://finanzmuslim.com/dein-investmentstart/${nr1Start.kurzname}`}
-                  className="nur-druck rounded-lg border border-border bg-card p-3 text-[16px] font-semibold leading-snug text-primary underline underline-offset-2"
-                >
-                  Video ansehen: {d.name} eröffnen, Schritt für Schritt
-                </a>
-                <video
-                  className="kein-druck aspect-video w-full rounded-lg bg-black"
-                  src={STARTVIDEO.src}
-                  poster={STARTVIDEO.poster}
-                  controls
-                  playsInline
-                  preload="none"
-                  title={`${d.name} eröffnen, Schritt für Schritt`}
-                />
-                {nr1Start.videoHinweis && (
-                  <p className="kein-druck mt-1.5 text-[13px] leading-snug text-muted-foreground">
-                    Das Video zeigt die Einrichtung am Beispiel von Scalable Capital. Bei {d.name} läuft sie genauso,
-                    nur die Menüs heißen anders.
-                  </p>
-                )}
-              </div>
-            )}
             <div className="md:col-start-2 md:row-start-2">
               <Link
                 to={link(kartenZiel(d, top), d.nr1 ? "nr1" : "top3")}
