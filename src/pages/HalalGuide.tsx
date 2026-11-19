@@ -78,7 +78,7 @@ const HalalGuide = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Halal Investment Guide – Kostenlos anmelden | finanzmuslim"
+        title="Halal Investment Guide: kostenlos anmelden | finanzmuslim"
         description="Der kostenlose Halal Investment Guide: Grundlagen, Kriterien und praktische Schritte für islamkonformes Investieren. Ohne Verkaufsdruck."
         path="/halal-guide"
         brotkrumen={[{ name: "Halal Investment Guide", path: "/halal-guide" }]}
