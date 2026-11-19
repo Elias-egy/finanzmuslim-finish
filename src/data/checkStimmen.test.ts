@@ -3,13 +3,13 @@ import { ALLE_STIMMEN, STIMMEN, STIMMEN_JE_STELLE, stimmenAn, type StimmenStelle
 
 describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
   it("echt und bestätigt: alle fünf (RN18-02, RN18-08 Pascal K.)", () => {
-    expect(STIMMEN.map((s) => s.name)).toEqual(["Matin M.", "Pascal K.", "Reuf K.", "Artin E.", "Halil S."]);
+    expect(STIMMEN.map((s) => s.name)).toEqual(["Matin M.", "Pascal K.", "Reuf K.", "Artin E.", "Halil S.", "Bilal E."]);
   });
 
   it("fünf Stimmen: zwei zum Bankkonto, drei zum Investieren, keine mit Sternen", () => {
     const alle = Object.values(ALLE_STIMMEN);
     expect(alle.filter((s) => s.art === "konto")).toHaveLength(2);
-    expect(alle.filter((s) => s.art === "depot")).toHaveLength(3);
+    expect(alle.filter((s) => s.art === "depot")).toHaveLength(4);
     expect(alle.some((s) => s.sterne)).toBe(false);
   });
 
@@ -39,16 +39,18 @@ describe("Stimmen (Elias RN16-27 bis RN16-32)", () => {
 
   it("Konto-Freebies nur Konto-Stimmen, Anlagen-Freebies nur Depot-Stimmen", () => {
     const art = (st: StimmenStelle) => new Set(stimmenAn(st, true).map((s) => s.art));
-    for (const st of ["boykottliste", "vertrags-ampel", "auto-abo", "baraka-blocker", "rizq", "ergebnis-konto"] as const)
+    for (const st of ["vertrags-ampel", "auto-abo", "baraka-blocker", "rizq", "ergebnis-konto"] as const)
       expect([...art(st)]).toEqual(["konto"]);
     for (const st of ["aktienliste", "halal-anlagen", "gold-plan", "sukuk-plan", "portfolio-plan", "broker-vergleich", "ergebnis-depot"] as const)
       expect([...art(st)]).toEqual(["depot"]);
+    // RN20-13: Boykott-Liste oben Matin M. (Konto) und Artin E. (Depot).
+    expect(stimmenAn("boykottliste", true).map((s) => s.id)).toEqual(["matin", "skeptisch"]);
     expect(stimmenAn("aktienliste", true)[0].id).toBe("skeptisch");
     expect(stimmenAn("halal-anlagen", true)[0].id).toBe("reuf");
   });
 
   it("live nur bestätigte, im Entwicklungsmodus unbestätigte als Beispiel markiert", () => {
-    expect(stimmenAn("boykottliste", false).map((s) => s.id)).toEqual(["matin", "bank-nebeneinander"]);
+    expect(stimmenAn("boykottliste", false).map((s) => s.id)).toEqual(["matin", "skeptisch"]);
     expect(stimmenAn("check", false).map((s) => s.id)).toEqual(["matin", "reuf", "skeptisch"]);
     expect(stimmenAn("check", true).map((s) => s.beispiel)).toEqual([false, false, false]);
     expect(stimmenAn("check", true, { ...ALLE_STIMMEN, reuf: { ...ALLE_STIMMEN.reuf, bestaetigt: false } }).map((s) => s.beispiel)).toEqual([false, true, false]);
@@ -65,8 +67,8 @@ describe("Stimmen unten im Freebie (Elias RN16-41)", () => {
       const oben = stimmenAn(q as StimmenStelle, true).map((s) => s.id);
       for (const id of ids!) expect(oben).not.toContain(id);
     }
-    expect(stimmenUnten("boykottliste", true).map((s) => s.id)).toEqual(["reuf", "skeptisch"]);
-    expect(stimmenUnten("boykottliste", false).map((s) => s.id)).toEqual(["reuf", "skeptisch"]);
+    expect(stimmenUnten("boykottliste", true).map((s) => s.id)).toEqual(["bilal", "reuf"]);
+    expect(stimmenUnten("boykottliste", false).map((s) => s.id)).toEqual(["bilal", "reuf"]);
     expect(stimmenUnten(undefined, true).map((s) => s.id)).toEqual(["matin", "reuf"]);
   });
 });

@@ -6,7 +6,7 @@
  */
 import type { CheckQuelle } from "@/data/halalFinanzCheck";
 
-export type StimmeId = "matin" | "bank-nebeneinander" | "reuf" | "skeptisch" | "klein-anfangen";
+export type StimmeId = "matin" | "bank-nebeneinander" | "reuf" | "skeptisch" | "klein-anfangen" | "bilal";
 
 export type Stimme = {
   /** Für welchen Check die Stimme gilt (RN8): Bankkonto-Check, Depot-Check oder beide. Ohne Angabe gilt sie für beide. */
@@ -93,6 +93,14 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     // RN18-02: Text gesehen und einverstanden.
     bestaetigt: true,
   },
+  // RN20-14 (19.11.2026, Elias: „ich habe eine neue bekommen mach die einfach anstatt Pascal K erstmal rein“), Wortlaut geglättet,
+  // ohne Foto und ohne Bildplatzhalter, Depot-Anbieter nicht genannt.
+  bilal: {
+    art: "depot",
+    zitat: "Ich hatte noch gar kein Depot und jetzt endlich eins, nach Empfehlung und nach meinen Bedürfnissen. Elias war stets bereit, mir Antworten zu geben, auch nach der Registrierung.",
+    name: "Bilal E.",
+    bestaetigt: true,
+  },
 };
 
 /** Die echten, bestätigten Stimmen. */
@@ -135,7 +143,8 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
  */
 const KONTO_UNTEN: StimmeId[] = ["reuf", "skeptisch"];
 export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> = {
-  boykottliste: ["bank-nebeneinander", "reuf"],
+  // RN20-14: Bilal E. statt Pascal K.
+  boykottliste: ["bilal", "reuf"],
   "vertrags-ampel": KONTO_UNTEN,
   "auto-abo": KONTO_UNTEN,
   "baraka-blocker": KONTO_UNTEN,
