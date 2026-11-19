@@ -6,6 +6,7 @@ import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
 import { BOYKOTT_PFAD } from "./boykottListe";
+import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "./boykottfreiPfad";
 import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
 import { SUKUK_PFAD } from "./sukukPlan";
@@ -77,7 +78,6 @@ export const festeRouten: Route[] = [
 
   { pfad: "/halal-anlagen", quelle: ["src/pages/HalalAnlagen.tsx", "src/data/halalAnlagen.ts"], changefreq: "weekly", prioritaet: "0.9" },
   { pfad: "/vergleiche", quelle: ["src/pages/Vergleiche.tsx"], changefreq: "monthly", prioritaet: "0.8" },
-  { pfad: "/vergleich/start", quelle: ["src/pages/VergleichAssistent.tsx", "src/data/vergleichAssistent.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/depot", quelle: ["src/pages/VergleichDepot.tsx", "src/data/brokerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/girokonto", quelle: ["src/pages/VergleichGirokonto.tsx", "src/data/girokontoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/krypto", quelle: ["src/pages/VergleichKrypto.tsx", "src/data/kryptoVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
@@ -122,7 +122,7 @@ export const festeRouten: Route[] = [
   wissenBeitrag("zakat-auf-aktien-etf-krypto", "ZakatAufAktienEtfKrypto.tsx"),
 
   { pfad: "/vorlagen", quelle: ["src/pages/Vorlagen.tsx", "src/data/vorlagen.ts"], changefreq: "monthly", prioritaet: "0.8" },
-  vorlage("halal-anlagen", "HalalAnlagen.tsx"),
+  // /vorlagen/halal-anlagen steht nicht mehr hier: noindex, siehe nichtIndexiert (RN19).
   vorlage("vertrags-ampel", "VertragsAmpel.tsx"),
   vorlage("aktien-check", "AktienCheck.tsx"),
   vorlage("rizq", "Rizq.tsx"),
@@ -208,6 +208,16 @@ export const nichtIndexiert: string[] = [
   ...optinAdressen(),
   "/newsletter/archiv",
   ...ausgaben.map(ausgabePfad),
+  // Halal-Finanz-Check (RN5, RN7): Ziel fast jedes Knopfs der Seite. Ohne eigene Datei antwortete der Hoster mit 404,
+  // nur das Skript der Fehlerseite zeigte die Seite doch. Jetzt vorgerendert mit noindex (RN19).
+  "/check",
+  // Freebie „Halal-Anlagen-Liste“ (nur für Instagram, Elias SEO19: „Freebies müssen nicht SEO-optimiert sein“) trug „Halal Anlagen
+  // Liste“ im Title und teilte sich mit der Datenbank dieselben Suchen (Search Console 90 Tage: 154 Einblendungen dort,
+  // 287 auf /halal-anlagen, beide auf Position 40 bis 90). Seitenkarte: Datenbank ist die Seite, die Vorlage der Trichter, bei Google aus (RN19).
+  "/vorlagen/halal-anlagen",
+  // Freebie „Halal und boykottfrei“ (RN20, Video 26 boykottfreie Halal-Aktien): kurze Seite und volle Liste unter geheimem Pfad, beide noindex.
+  BF_TEASER_PFAD,
+  BF_VOLL_PFAD,
 ];
 
 /**
@@ -245,6 +255,8 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/halal-anlagen/invesco-physical-gold-ii", nach: "/halal-anlagen/invesco-physical-gold-etc" },
   { von: "/wissen/was-ist-riba", nach: "/blog/zinsen-im-islam" },
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
+  // RN6 (15.11.2026, Elias: „Check ersetzt Quiz“): das alte Quiz führt in den Halal-Finanz-Check.
+  { von: "/vergleich/start", nach: "/check?quelle=quiz" },
   /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
      Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
@@ -292,5 +304,10 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "/weiter/:kurzname", grund: "Partner-Weiterleitung für Knöpfe, die Werbeblocker sonst verstecken" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },
+  { pfad: "/vorlagen/halal-anlagen", grund: "Freebie-Liste nur für Instagram, nimmt der Datenbank /halal-anlagen die Suchen weg, setzt noindex (RN19)" },
+  { pfad: BF_TEASER_PFAD, grund: "Freebie zum Video 26 boykottfreie Halal-Aktien, nur ueber den Link aus dem Video, setzt noindex (RN20)" },
+  { pfad: BF_VOLL_PFAD, grund: "volle Liste des Freebies Halal und boykottfrei, geheimer Pfad, setzt noindex (RN20)" },
+  { pfad: "/check", grund: "Halal-Finanz-Check mit Verkaufsseite vor den Fragen (RN5, RN7), setzt noindex" },
+  { pfad: "/vergleich/start", grund: "Weiterleitung auf /check?quelle=quiz (RN6), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];

@@ -1,5 +1,7 @@
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
+import CheckEinstieg from "@/components/CheckEinstieg";
+import NaechsterTeil from "@/components/NaechsterTeil";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { blocker } from "@/data/barakaBlocker";
 
@@ -22,22 +24,11 @@ const BarakaBlocker = () => (
       slug={v.slug}
       quellen="Quran: 2:276, 2:278 bis 279, 9:34 bis 35, 14:7, 17:26 bis 27, 25:67. Deutsche Wiedergabe sinngemäß nach Bubenheim/Elyas. Hadith: Ṣaḥīḥ al-Buchari 1454, 2079, 2087, 2227, 5986; Ṣaḥīḥ Muslim 1513, 1532, 1598, 1606, 2963; Sunan Abū Dāwūd 2606; Sunan at-Tirmidhi 1212; Sunan Ibn Māja 2443. Die Nummerierung folgt der jeweils verbreiteten Zählung und kann je nach Ausgabe um wenige Stellen abweichen. Zum Überlieferungsgrad der einzelnen Hadithe äußert sich diese Seite nicht. Punkt 8 und 9 sind in Teilfragen umstritten, das ist dort vermerkt."
       rechtshinweis="Diese Seite gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Sie ist keine Fatwa und ersetzt weder die Auskunft eines Gelehrten noch eine Rechts-, Steuer- oder Anlageberatung. Sie urteilt nicht über einzelne Personen. Innerhalb der Rechtsschulen gibt es zu mehreren dieser Punkte abweichende Auffassungen. In Zweifelsfällen wende dich an einen Gelehrten, dem du vertraust, und lege ihm deinen konkreten Fall vor."
-      ctas={[
-        {
-          titel: "Punkt 1 in der Praxis",
-          text: "Welcher Anbieter Guthabenzins zahlt, wo man ihn abschalten kann und wer einen Dispo ungefragt einräumt.",
-          buttonLabel: "Depot-Vergleich",
-          to: "/vergleich/depot",
-        },
-        {
-          titel: "Punkt 4 ohne Kopfrechnen",
-          text: "Zakat auf Bargeld, Depot, Gold und Krypto, mit dem Nisab nach Gold oder Silber und einem festen Stichtag.",
-          buttonLabel: "Zakat-Rechner",
-          to: "/zakat-rechner",
-        },
-      ]}
+      /* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): die Aufrufe zum Depot-Vergleich (/vergleich/depot) und zum Zakat-Rechner (/zakat-rechner) sind raus. */
+      ctas={[]}
+      endeKasten={<NaechsterTeil quelle="baraka-blocker" />}
     >
-      <section className="rounded-2xl bg-hero p-6 md:p-8">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Baraka ist nicht dasselbe wie Menge</h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">
           Baraka heißt Segen im Sinne von: es reicht weiter, als es sollte. Zwei Menschen mit
@@ -64,7 +55,7 @@ const BarakaBlocker = () => (
               <p className="mt-2 border-t border-border pt-2 text-[12px] leading-relaxed text-muted-foreground">
                 {b.quelle}
                 {b.umstritten && (
-                  <span className="ml-1 font-semibold text-[hsl(38_92%_32%)]">Umstritten.</span>
+                  <span className="ml-1 font-semibold text-[hsl(38_92%_32%)] dark:text-[hsl(38_92%_70%)]">Umstritten.</span>
                 )}
               </p>
             </article>
@@ -72,7 +63,10 @@ const BarakaBlocker = () => (
         </div>
       </section>
 
-      <section className="rounded-2xl border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
+      {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den zehn Punkten, dem Hauptblock. */}
+      <CheckEinstieg quelle="baraka-blocker" />
+
+      <section className="rounded-lg border border-[hsl(var(--warning)/0.4)] bg-[hsl(var(--warning)/0.1)] p-6">
         <h2 className="text-xl font-bold text-foreground">Was dieses Blatt nicht tut</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-foreground/90">
           Es urteilt nicht über Personen und erklärt niemanden für schuldig. Mehrere der Punkte
@@ -110,6 +104,8 @@ const BarakaBlocker = () => (
           </div>
         </div>
       </section>
+
+      {/* RN16-42, RN17: der kleine Kasten steht über endeKasten ganz am Ende, nach den Quellen. */}
     </VorlagenSeite>
   </>
 );

@@ -65,8 +65,9 @@ describe("Liste (MC7d13)", () => {
     expect(KARTEN_DEPOTS.slice(0, top.length).map((k) => k.id)).toEqual(top);
   });
 
-  it("Reihenfolge: Top 3 nach den Aktien-ETFs, Kasten ganz unten, kein Krypto-Aufruf", () => {
-    expect(seite).toContain('g.kategorie === "aktien" && <TopDrei />');
+  it("Reihenfolge: Check nach den Aktien-ETFs (RN6 statt Top 3), Kasten ganz unten, kein Krypto-Aufruf", () => {
+    expect(seite).toContain('g.kategorie === "aktien" && <CheckEinstieg quelle="halal-anlagen"');
+    expect(seite).not.toContain("<TopDrei");
     expect(seite.indexOf('<NaechsterTeil wort="liste"')).toBeGreaterThan(seite.indexOf('id="gruppe-krypto"'));
     expect(seite.indexOf('<NaechsterTeil wort="liste"')).toBeLessThan(seite.indexOf("<footer"));
     expect(seite).not.toMatch(/vergleich\/krypto/);

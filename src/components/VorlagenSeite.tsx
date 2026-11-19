@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, ChevronRight, Download } from "lucide-react";
+import Aufruf from "@/components/Aufruf";
 import NewsletterBox from "@/components/NewsletterBox";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import type { LeiterWort } from "@/data/leiter";
@@ -30,6 +31,12 @@ type Props = {
   gesperrt?: OptinFreebie;
   /** Volle Fassung eines Freebies der Leiter: der Kasten „Dein nächster Schritt“ unter den Aufrufen. */
   naechster?: LeiterWort;
+  /**
+   * RN17 (Übergabe RN16 Punkt 2, Elias RN16-44: „überall nur noch das Neue … Wie wir es eingebracht haben bei der Liste“): der kleine
+   * Match-Kasten (NaechsterTeil) ganz am Ende nach den Quellen. Mit ihm fallen der PDF-Knopf im Kopf (Elias 02.11., MC7f: „diese
+   * PDF-Option rauslassen. Bei den anderen Freebies“) und die Newsletter-Box weg, damit es nur den einen Aufruf gibt.
+   */
+  endeKasten?: ReactNode;
 };
 
 /**
@@ -58,6 +65,7 @@ const VorlagenSeite = ({
   motiv,
   gesperrt,
   naechster,
+  endeKasten,
 }: Props) => {
   const Motiv = motiv ? motive[motiv] : null;
   return (
@@ -71,9 +79,9 @@ const VorlagenSeite = ({
         <span className="text-foreground">{titel}</span>
       </nav>
 
-      <header className="mt-6 rounded-2xl bg-hero p-6 md:p-10">
+      <header className="mt-6 rounded-lg border border-border bg-card p-6 md:p-10">
         {Motiv && (
-          <span className="mb-4 block h-16 w-16 overflow-hidden rounded-xl md:float-right md:mb-0 md:ml-6">
+          <span className="mb-4 block h-16 w-16 overflow-hidden rounded-lg md:float-right md:mb-0 md:ml-6">
             <Motiv />
           </span>
         )}
@@ -86,7 +94,7 @@ const VorlagenSeite = ({
               {gesperrt.knopf}
               <ArrowDown className="h-5 w-5" aria-hidden />
             </a>
-          ) : (
+          ) : endeKasten ? null : (
             <a href={pdfPfad} download className="btn-primary gap-2">
               <Download className="h-5 w-5" aria-hidden />
               PDF laden
@@ -111,18 +119,24 @@ const VorlagenSeite = ({
           <section key={c.titel} className="card-surface p-6 md:p-8">
             <h2 className="text-xl font-bold text-foreground">{c.titel}</h2>
             <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">{c.text}</p>
-            <Link to={c.to} className="btn-primary mt-5">
+            <Aufruf to={c.to} className="mt-5">
               {c.buttonLabel}
-            </Link>
+            </Aufruf>
           </section>
         ))}
       </div>
 
       {naechster && <NaechsterTeil wort={naechster} className="mx-auto mt-12 max-w-4xl" />}
 
-      <section className="mt-14">
-        <NewsletterBox />
-      </section>
+      {endeKasten ? (
+        <div className="mx-auto mt-12 max-w-4xl">{endeKasten}</div>
+      ) : (
+        <section className="mt-14">
+          <NewsletterBox />
+        </section>
+      )}
+
+      {/* Teil-Release RN20: der Verweis auf /dokumente (RN19, Sammelzweig) fehlt hier, die Seite geht noch nicht live. */}
 
       <p className="mt-12 max-w-4xl mx-auto text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
     </div>

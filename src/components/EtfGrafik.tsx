@@ -43,39 +43,39 @@ export const GrafikFilter = ({ zeile, unter }: { zeile: string; unter: string })
       role="img"
       aria-label={`Der MSCI World hat ${zahl(WORLD_FIRMEN)} Firmen, darunter Banken. Nach dem Filter bleiben im MSCI World Islamic ${zahl(ISLAMIC_FIRMEN)}. ${zeile} ${unter}`}
     >
-      <text x={70} y={22} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+      <text x={70} y={22} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
         MSCI World
       </text>
       <Raster x={32} farbe={(i) => (BLEIBT.has(i) ? "#0057FA" : null)} />
       <g className="eg-weg">
         <Raster x={32} farbe={(i) => (FINANZ.has(i) ? "#E5484D" : BLEIBT.has(i) ? null : GRAU)} />
       </g>
-      <text x={70} y={148} textAnchor="middle" fontSize={13} fill="#475569">
+      <text x={70} y={148} textAnchor="middle" fontSize={13} fill="#475569" className="dark:fill-[#ADB6C7]">
         {zahl(WORLD_FIRMEN)} Firmen
       </text>
 
       <path d="M141 62 h38 l-14 17 v15 l-10 5 v-20 z" fill="#94A3B8" />
       <path d="M151 110 h18 m-6 -6 l6 6 l-6 6" fill="none" stroke="#94A3B8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-      <text x={160} y={134} textAnchor="middle" fontSize={11} fill="#64748B">
+      <text x={160} y={134} textAnchor="middle" fontSize={11} fill="#64748B" className="dark:fill-[#ADB6C7]">
         Filter
       </text>
 
-      <text x={250} y={22} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+      <text x={250} y={22} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
         Islamic
       </text>
       <g className="eg-rein">
         <Raster x={212} farbe={(i) => (BLEIBT.has(i) ? "#0057FA" : null)} />
       </g>
-      <text x={250} y={148} textAnchor="middle" fontSize={13} fill="#475569">
+      <text x={250} y={148} textAnchor="middle" fontSize={13} fill="#475569" className="dark:fill-[#ADB6C7]">
         {zahl(ISLAMIC_FIRMEN)} Firmen
       </text>
 
       <g className="eg-zeile">
-        <rect x={20} y={162} width={280} height={54} rx={12} fill="#EBF2FF" stroke="#C7DAFF" strokeWidth={1.5} />
-        <text x={160} y={184} textAnchor="middle" fontSize={15} fontWeight={800} fill={TINTE}>
+        <rect x={20} y={162} width={280} height={54} rx={12} fill="#EBF2FF" stroke="#C7DAFF" strokeWidth={1.5} className="dark:fill-[#172036] dark:stroke-[#2B3A66]" />
+        <text x={160} y={184} textAnchor="middle" fontSize={15} fontWeight={800} fill={TINTE} className="dark:fill-[#F4F6FA]">
           {zeile}
         </text>
-        <text x={160} y={204} textAnchor="middle" fontSize={13} fill="#334155">
+        <text x={160} y={204} textAnchor="middle" fontSize={13} fill="#334155" className="dark:fill-[#E2E8F0]">
           {unter}
         </text>
       </g>

@@ -29,7 +29,15 @@ export type Ereignis =
   | "freebie_ende"
   | "vergleich_klick"
   // CV-LEER (06.11.2026): Fassung „Depot da, noch leer“ der Startseite, Klick auf „Halal-ETFs ansehen“.
-  | "leer_klick";
+  | "leer_klick"
+  // RN5 (15.11.2026): Halal-Finanz-Check /check, Start der ersten Frage.
+  | "check_start"
+  // RN7 (15.11.2026): Klick auf „Check starten“ (oder eine Kriterien-Zeile) auf der Verkaufsseite vor den Fragen.
+  | "check_klick"
+  // RN16-09 (17.11.2026): Knopf „Match finden“ im Check-Kasten eines Freebies.
+  | "freebie_check_klick"
+  // RN5: 50:50-Test, einmal je Besucher und Test (src/lib/abTest.ts).
+  | "ab_zuteilung";
 
 const speicher = (): Storage | null => {
   try {

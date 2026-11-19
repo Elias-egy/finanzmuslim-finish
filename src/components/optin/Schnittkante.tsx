@@ -55,7 +55,7 @@ const Schnittkante = ({ freebie, weitere, children, kopf }: Props) => (
               </span>
               <span
                 data-b={wert}
-                className={`inline-flex h-7 items-center rounded-full border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary ${ausAttribut}`}
+                className={`inline-flex h-7 items-center rounded border border-primary/25 bg-accent px-3 text-[12px] font-bold text-primary ${ausAttribut}`}
               />
             </div>
           ))}

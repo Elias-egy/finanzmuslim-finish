@@ -15,6 +15,15 @@ import { depotAnzeige, girokontoAnzeige, kryptoAnzeige, screenerAnzeige, steuerA
 export const instagramFollower = "13.800";
 
 /**
+ * Follower auf Instagram und TikTok zusammen, abgerundet. Quelle: Instagram 16.671 (Vault
+ * raw/2026-11-14-rk1-app-stories-rohdaten/ig-zielgruppe-14-11.json, konto.followers_count), TikTok 5.708
+ * (Vault data/tiktok.json, Stand 15.11.2026). Elias RN6 (15.11.2026): „Über 22.000 folgen mir (Empfohlen)“,
+ * Vault raw/2026-11-15-elias-rn6-01-entscheidungen-check-phase1.md Nr. 10.
+ */
+// RN17-15 (Elias 18.11.: „mit YouTube und mit Facebook kannst du irgendwie 27.000 draus machen … Oder 26.000“): mit YouTube und Facebook.
+export const followerGesamt = "26.000";
+
+/**
  * Alle Anbieter, die die Vergleiche zeigen, jedes Haus einmal (gleiche Domain, gleiches Haus).
  * Gezählt wird die Anzeige, nicht die Datendatei: Die Zahl stimmt mit dem überein, was der
  * Besucher im Vergleich findet, und wächst mit jedem Beleg. Ohne den Edelmetall-Vergleich: Der

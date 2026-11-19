@@ -3,12 +3,11 @@ import { BadgeCheck, TrendingDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
 import KursZeile from "@/components/vorlagen/KursZeile";
-import AktienAufruf from "@/components/vorlagen/AktienAufruf";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import { vorlageBySlug } from "@/data/vorlagen";
 import { optinFreebie, vollPfad } from "@/data/optin";
 import {
   aktien,
-  aktieLink,
   PRUEFSTAND,
   RAHMEN_MAX,
   TOP_ERSTER,
@@ -149,10 +148,8 @@ const Top100Voll = () => {
           </div>
         </section>
 
-        {/* Direkt nach dem Schmerz die Lösung (Elias, AF1-02: „Und dann danach direkt die Lösung“). */}
-        <section className="reveal mt-6" aria-labelledby="wo">
-          <AktienAufruf link={aktieLink} />
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): direkt nach dem Schmerz (AF1-02: „direkt die Lösung“) steht nur noch der Check-Kasten; die Depot-Karten und „Alle Depots im Vergleich“ (AktienAufruf, /vergleich/depot, /out/…) sind raus. */}
+        <CheckEinstieg quelle="aktienliste" className="mt-12" />
 
         <section className="reveal mt-10" aria-labelledby="titel-rest">
           <h2

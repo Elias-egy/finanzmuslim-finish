@@ -3,14 +3,13 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen } from "@/data/anlagenListe";
 import { GrafikTresor, GrafikWette } from "@/components/GoldGrafiken";
 import {
-  GOLD_GESAMT_CHECK,
   CFD_ANBIETER,
   CFD_ZEILE,
   ETC_SATZ,
@@ -90,7 +89,7 @@ const GoldPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Gold kannst du online kaufen</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat in Gold stecken?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat in Gold stecken?">
@@ -100,7 +99,7 @@ const GoldPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-card px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -142,7 +141,7 @@ const GoldPlan = () => {
           <div className="mt-4">
             <GrafikWette />
           </div>
-          <div className="mt-3 flex gap-3 rounded-2xl bg-loss-soft p-4">
+          <div className="mt-3 flex gap-3 rounded-lg bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <p className="text-[16px] font-semibold leading-snug text-foreground">{SCHMERZ.broker}</p>
           </div>
@@ -157,6 +156,9 @@ const GoldPlan = () => {
           </div>
         </section>
 
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den ersten zwei Abschnitten (Regeln, Wette), etwa im ersten Drittel. */}
+        <CheckEinstieg quelle="gold-plan" className="mt-12" />
+
         <section className="reveal mt-12" aria-labelledby="ausnahme">
           <Titel id="ausnahme">Die Ausnahme mit Zertifikat</Titel>
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">{ETC_SATZ}</p>
@@ -169,7 +171,7 @@ const GoldPlan = () => {
           {/* Steuer klar dazu (Elias, 02.11.2026, MC7d17: „man muss natürlich auch sagen, ganz klar, dass wegen Steuern … nicht,
               dass wir die Leute verarschen“). Beleg: src/pages/wissen/HalalGoldKaufen.tsx, Hinweis „Steuer, damit es
               vollständig ist“. */}
-          <p className="mt-3 rounded-xl bg-accent p-3 text-[15px] leading-snug text-foreground">
+          <p className="mt-3 rounded-lg border border-border bg-card p-3 text-[15px] leading-snug text-foreground">
             <strong>Wichtig zur Steuer:</strong> {GOLD_STEUER}
           </p>
           {/* Alle Gold-ETCs statt zwei Beispielen (Elias, 01.11.2026, MC7d15: „Dann machst du einfach alle“). */}
@@ -182,24 +184,11 @@ const GoldPlan = () => {
           <p className="mt-3 px-1 text-[14px] leading-snug text-foreground/80">{GELEHRTE_SATZ}</p>
         </section>
 
-        {/* Der Depot-Aufruf wie in der Liste, mit dem Gold-Vergleich (Elias, 01.11.2026, MC7d15: „dann vielleicht die zwei,
-            drei besten Anbieter für Gold, die alle haben“). Die Top 3 haben alle 4 (Test goldPlan.test.ts). Runde 3 (Elias,
-            02.11.2026, MC7d16): Titel „Die besten Broker für Edelmetalle“, statt der zwei bekannten die Zahl über alle Depots,
-            darunter dasselbe für Sukuk. Runde 4 (Elias, 02.11.2026, MC7d17): Sukuk raus, bekommt ein eigenes Wort. */}
-        <section className="reveal mt-12" aria-label="Die besten Broker für Edelmetalle">
-          <DepotAufruf
-            titel="Die besten Broker für Edelmetalle"
-            einleitung=""
-            check={GOLD_GESAMT_CHECK}
-            link={(ziel, stelle) => `${ziel}?src=gd${stelle}`}
-            alle={{ ziel: "/vergleich/edelmetalle", text: "Zum Gold-Vergleich" }}
-          />
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Der Depot-Aufruf „Die besten Broker für Edelmetalle“ (DepotAufruf, /vergleich/edelmetalle, Broker-Partnerwege) ist raus. */}
 
         <NaechsterTeil wort="gold" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
             Das sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.
           </p>

@@ -11,7 +11,7 @@
  * Bewusst nicht genannt: der Traders-Place-Bonus von 60 € (gilt nur mit Zinsen, Elias 07.11.2026: „Traders Place Boni
  * angeben, macht bei uns ja keinen Sinn, weil der nur mit Zinsen ist“), jede andere Prämie, jede Zahl ohne Beleg.
  */
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { kostenKurz } from "@/data/kostenKurz";
 
 export type BrokerRolle = "start" | "profi" | "platz3" | "honorable";
@@ -32,6 +32,8 @@ export type BrokerKarte = {
   depotgebuehr: string;
   order: string;
   sparplanAb: string;
+  /** Kosten je Sparplan-Rate auf ETFs aus dem Depot-Vergleich (etfSparplanKosten, Finanzfluss mit Quelle), etwa „0 €“ oder „1,5%“. */
+  sparplanKosten: string;
   /** Guthabenzins 0 % laut Anbieter-Beleg im Depot-Vergleich (zinsfreiAbStart „gut“). */
   zinsfrei: boolean;
   /** flatex richtet den Wertpapierkredit bei Eröffnung automatisch ein; Verzicht in Textform. */
@@ -94,6 +96,7 @@ export const BROKER_KARTEN: BrokerKarte[] = AUFBAU.map(({ id, out, rolle, src })
     depotgebuehr: eur(text("depotgebuehr")),
     order: eur(kostenKurz(id, "orderkosten") ?? text("orderkosten")),
     sparplanAb: sparplanAb(id, text("sparrate")),
+    sparplanKosten: eur(text("etfSparplanKosten")),
     zinsfrei: w.zinsfreiAbStart === "gut",
     kreditAutomatisch: w.kreditAbStart === "teils",
   };

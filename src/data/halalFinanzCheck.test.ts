@@ -1,0 +1,954 @@
+import { describe, expect, it } from "vitest";
+import { girokontoVergleich } from "@/data/girokontoVergleich";
+import {
+  ANGEBOTE_GETESTET,
+  ART_JE_QUELLE,
+  CHECK_SRC,
+  ANLAGE_TEXT,
+  ETIKETT,
+  ETIKETT_LISTE,
+  ETIKETT_PLAN,
+  ETIKETT_VERGLEICH,
+  checkSrc,
+  type CheckQuelle,
+  FRAGEN,
+  KEIN_PREIS,
+  KEIN_WERT,
+  PASSUNG_MAX,
+  antwortZeilen,
+  artVon,
+  vergleichBeideHalal,
+  checkEinstiegLink,
+  ergebnisAus,
+  ersteAntwortAus,
+  frageFuer,
+  hinweisJeQuelle,
+  royalMintKaufbar,
+  zielFrage,
+  fragenGesamt,
+  naechsteFrage,
+  outLink,
+  passungAusWerten,
+  passungProzent,
+  quelleAus,
+  UEBERSCHRIFT,
+  type Antworten,
+  type DepotErgebnis,
+  EINRICHTUNG_APP,
+  einrichtungVon,
+  kontoPassung,
+  ladenTexte,
+  matchSatz,
+  type KontoErgebnis,
+  vergleichZeilen,
+} from "@/data/halalFinanzCheck";
+import { BROKER_KARTEN } from "@/data/brokerFreebie";
+import { BONUS_KONTEN } from "@/data/girokontoBonus";
+import { freieWahl, KEINE_BANK, suche, wahlVon, bankNachId } from "@/data/bankSuche";
+import { depotNachId, depotWahlVon, depotWerte, freieDepotWahl } from "@/data/depotSuche";
+import { istGueltigeQuelle, istHerkunft } from "@/lib/attribution";
+
+const durch = (a: Antworten) => ergebnisAus(a, "aktienliste");
+const durchB = (a: Antworten) => ergebnisAus(a, "aktienliste", "b");
+const konto = (a: Antworten) => durch(a) as KontoErgebnis;
+const depot = (a: Antworten, b = false) => (b ? durchB(a) : durch(a)) as DepotErgebnis;
+const bank = (id: string) => wahlVon(bankNachId(id)!);
+const heuteDepot = (id: string) => depotWahlVon(depotNachId(id)!);
+const leer = (t?: string) => (t ?? "").replace(/\u00a0/g, " ");
+const FL = BROKER_KARTEN.find((d) => d.id === "flatex-depot")!;
+const SB = BROKER_KARTEN.find((d) => d.id === "smartbroker-plus-depot")!;
+
+describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
+  it("ohne art kommt zuerst „Was suchst du gerade?“ (Elias RN8-06), Bankkonto und Noch unsicher führen in den Bankkonto-Weg, Depot in den Depot-Weg", () => {
+    expect(naechsteFrage({})).toBe("ziel");
+    expect(FRAGEN.ziel.titel).toBe("Was suchst du gerade?");
+    expect(FRAGEN.ziel.warum).toBe(
+      "Salam! Ich habe 35 Depots und 54 Girokonten selbst getestet, um Muslimen zu helfen, und will dir nur das zeigen, was wirklich zu dir passt.",
+    );
+    expect(FRAGEN.ziel.optionen.map((o) => o.titel)).toEqual(["Neues Bankkonto", "Depot zum Investieren", "Noch unsicher"]);
+    expect(artVon({ ziel: "konto" })).toBe("konto");
+    expect(artVon({ ziel: "unsicher" })).toBe("konto");
+    expect(artVon({ ziel: "beides" })).toBe("konto");
+    expect(artVon({ ziel: "invest" })).toBe("depot");
+    expect(naechsteFrage({ ziel: "unsicher" })).toBe("zahlung");
+    expect(naechsteFrage({ ziel: "invest" })).toBe("hatDepot");
+  });
+
+  it("Bankkonto-Check hat genau zwei Fragen: Wie bezahlst du, Bank von heute", () => {
+    const a: Antworten = { art: "konto" };
+    expect(naechsteFrage(a)).toBe("zahlung");
+    expect(naechsteFrage({ ...a, zahlung: "karte" })).toBe("bank");
+    expect(naechsteFrage({ ...a, zahlung: "karte", bank: bank("grp-sparkasse") })).toBeNull();
+    expect(fragenGesamt(a)).toBe(2);
+    expect(fragenGesamt({ ziel: "konto" })).toBe(3);
+    expect(FRAGEN.zahlung.titel).toBe("Wie bezahlst du meistens?");
+    expect(FRAGEN.zahlung.optionen.map((o) => o.titel)).toEqual(["Fast nur mit Karte", "Karte und ab und zu Bargeld", "Viel Bargeld, ich will in eine Filiale"]);
+    expect(FRAGEN.bank.titel).toBe("Bei welcher Bank bist du heute?");
+  });
+
+  it("Depot-Check (RN10-07): Hast du schon ein Depot, nur bei Ja „Wo hast du dein Depot?“, dann „Was ist dir wichtiger?“, „Worin willst du investieren?“, in Fassung b zuletzt der Monatsbetrag", () => {
+    // Elias RN10-07: „Hast du schon ein Depot oder nicht? Bei welchem Depot bist du … was ist dir besonders wichtig … worin willst du investieren“.
+    const d: Antworten = { art: "depot" };
+    expect(naechsteFrage(d)).toBe("hatDepot");
+    expect(naechsteFrage({ ...d, hatDepot: "nein" })).toBe("praef");
+    expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal" })).toBe("anlage");
+    expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal", anlage: "etf" })).toBeNull();
+    // Nur „Ja“ fragt nach dem heutigen Depot, vor „Was ist dir wichtiger?“.
+    expect(naechsteFrage({ ...d, hatDepot: "ja" })).toBe("depotHeute");
+    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot") })).toBe("praef");
+    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "kosten" })).toBe("anlage");
+    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: freieDepotWahl("Mein Depot"), praef: "kosten", anlage: "aktien" })).toBeNull();
+    expect(naechsteFrage({ ...d, hatDepot: "nein", depotHeute: undefined })).not.toBe("depotHeute");
+    // Fassung b: der Monatsbetrag kommt zuletzt, auf beiden Wegen.
+    expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal", anlage: "gold" }, "b")).toBe("betrag");
+    const mitDepot: Antworten = { ...d, hatDepot: "ja", depotHeute: heuteDepot("ing-direkt-depot"), praef: "halal", anlage: "etf" };
+    expect(naechsteFrage(mitDepot, "b")).toBe("betrag");
+    expect(naechsteFrage({ ...mitDepot, betrag: "unter50" }, "b")).toBeNull();
+    expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal", anlage: "gold", betrag: "unter50" }, "b")).toBeNull();
+    // Fragenzahl: drei ohne Depot, vier mit Depot, in Fassung b eine mehr; mit der ersten Frage („ziel“) noch eine.
+    expect(fragenGesamt(d)).toBe(3);
+    expect(fragenGesamt({ ...d, hatDepot: "ja" })).toBe(4);
+    expect(fragenGesamt(d, "b")).toBe(4);
+    expect(fragenGesamt({ ...d, hatDepot: "ja" }, "b")).toBe(5);
+    expect(fragenGesamt({ ziel: "invest" })).toBe(4);
+    expect(fragenGesamt({ ziel: "invest", hatDepot: "ja" })).toBe(5);
+    expect(fragenGesamt({ ziel: "invest", hatDepot: "ja" }, "b")).toBe(6);
+    // Der Depot-Weg fragt nie nach der Bank oder der Zahlung, und nie mehr nach Erfahrung oder Eigenschaft.
+    const ids = new Set<string>();
+    for (const a of [d, { ...d, hatDepot: "nein" as const }, { ...d, hatDepot: "nein" as const, praef: "kosten" as const }, { ...d, hatDepot: "nein" as const, praef: "kosten" as const, anlage: "gold" as const }]) {
+      const n = naechsteFrage(a, "b");
+      ids.add(String(n));
+      expect(n).not.toBe("bank");
+      expect(n).not.toBe("zahlung");
+    }
+    expect(ids).toEqual(new Set(["hatDepot", "praef", "anlage", "betrag"]));
+    expect(Object.keys(FRAGEN)).not.toContain("erfahrung");
+    expect(Object.keys(FRAGEN)).not.toContain("eigenschaft");
+    expect(FRAGEN.betrag.titel).toBe("Wie viel möchtest du im Monat anlegen?");
+    expect(FRAGEN.hatDepot.titel).toBe("Hast du schon ein Depot?");
+    expect(FRAGEN.hatDepot.optionen.map((o) => o.titel)).toEqual(["Ja", "Nein, noch nicht"]);
+    expect(FRAGEN.depotHeute.titel).toBe("Wo hast du dein Depot?");
+    expect(FRAGEN.praef.titel).toBe("Was ist dir wichtiger?");
+    expect(FRAGEN.anlage.titel).toBe("Worin willst du investieren?");
+  });
+
+  it("„Worin willst du investieren?“ (Elias RN10-07, RN12-03): ETFs, Einzelne Aktien, Gold und Silber, Weiß noch nicht, für jeden Weg gleich", () => {
+    expect(FRAGEN.anlage.optionen.map((o) => o.wert)).toEqual(["etf", "aktien", "gold", "offen"]);
+    expect(FRAGEN.anlage.optionen.map((o) => o.titel)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber", "Weiß noch nicht"]);
+    for (const a of [{ art: "depot", hatDepot: "nein", praef: "halal" }, { art: "depot", hatDepot: "ja", praef: "kosten" }] as Antworten[]) {
+      expect(frageFuer("anlage", a)).toEqual(FRAGEN.anlage);
+    }
+    expect(ANLAGE_TEXT).toEqual({ etf: "ETFs", aktien: "Einzelne Aktien", gold: "Gold und Silber", offen: "Anlage noch offen" });
+  });
+
+  it("das grüne Etikett der ersten Frage hängt nur an der Quelle (Elias RN10-07): Standard Bankkonto „am beliebtesten“, bei den zwei Anlagen-Listen Depot „passt zu deiner Liste“", () => {
+    expect(ETIKETT_LISTE).toBe("passt zu deiner Liste");
+    // RN16-08: Bankkonto bleibt überall grün „am beliebtesten“, aus den Anlagen-Listen kommt orange „passt zu deiner Liste“ an Depot dazu.
+    const etiketten = (q: Parameters<typeof zielFrage>[0]) => zielFrage(q).optionen.map((o) => [o.wert, o.etikett ?? null, o.hinweis ?? null]);
+    for (const q of ["homepage", "kopf", "menue", "quiz", "boykottliste"] as const) {
+      expect(etiketten(q), q).toEqual([["konto", "am beliebtesten", null], ["invest", null, null], ["unsicher", null, null]]);
+      expect(hinweisJeQuelle(q)).toBeUndefined();
+    }
+    for (const q of ["aktienliste", "halal-anlagen"] as const) {
+      expect(etiketten(q), q).toEqual([["konto", "am beliebtesten", null], ["invest", null, "passt zu deiner Liste"], ["unsicher", null, null]]);
+      expect(hinweisJeQuelle(q)).toEqual({ ziel: "invest", etikett: "passt zu deiner Liste" });
+    }
+    // Sonst ist die Frage überall dieselbe: Titel, Blase, Antworten.
+    for (const q of ["homepage", "aktienliste", "halal-anlagen", "boykottliste"] as const) {
+      const f = zielFrage(q);
+      expect(f.titel).toBe("Was suchst du gerade?");
+      expect(f.warum).toBe(FRAGEN.ziel.warum);
+      expect(f.optionen.map((o) => o.titel)).toEqual(["Neues Bankkonto", "Depot zum Investieren", "Noch unsicher"]);
+      expect(frageFuer("ziel", {}, q)).toEqual(f);
+    }
+    // Alle anderen Fragen tragen nie ein Etikett, auch nicht je Quelle.
+    for (const q of ["homepage", "aktienliste"] as const) {
+      for (const id of ["zahlung", "hatDepot", "praef", "anlage", "betrag"] as const) expect(frageFuer(id, {}, q).optionen.every((o) => !o.etikett)).toBe(true);
+    }
+  });
+
+  it("jede Frage hat eine erste Sprechblase mit einem Satz, warum Elias fragt", () => {
+    for (const f of Object.values(FRAGEN)) {
+      expect(f.warum.length, f.id).toBeGreaterThan(10);
+      expect(f.warum, f.id).not.toMatch(/–|—/);
+      // Ausrufezeichen nur im Gruß „Salam!“ der ersten Frage (Elias' Wortlaut RN8-06).
+      expect(f.warum.replace(/^Salam!/, ""), f.id).not.toMatch(/!/);
+    }
+    expect(ANGEBOTE_GETESTET).toBe(89);
+  });
+
+  it("Etikett heißt „am beliebtesten“, im Standard nur an „Neues Bankkonto“ (Elias RN8-06), sonst an keiner Antwort", () => {
+    expect(ETIKETT).toBe("am beliebtesten");
+    const etiketten = Object.values(FRAGEN).flatMap((f) => f.optionen.map((o) => o.etikett).filter(Boolean));
+    expect(etiketten).toEqual(["am beliebtesten"]);
+  });
+
+  it("die Art hängt am Freebie: Boykott-Liste Bankkonto, Aktien-Liste und Halal-Anlagen-Liste Depot", () => {
+    expect(ART_JE_QUELLE.boykottliste).toBe("konto");
+    expect(ART_JE_QUELLE.aktienliste).toBe("depot");
+    expect(ART_JE_QUELLE["halal-anlagen"]).toBe("depot");
+    expect(UEBERSCHRIFT.boykottliste).toBe("Du achtest beim Einkaufen drauf. Und bei deiner Bank?");
+    expect(quelleAus("irgendwas")).toBe("homepage");
+  });
+
+  it("die acht weiteren Freebie-Stellen (RN10-07) haben je eine eigene Quelle, Kennung und Art, und das Etikett folgt dem Freebie", () => {
+    const neu = {
+      "vertrags-ampel": ["va", "konto"],
+      "auto-abo": ["aa", "konto"],
+      "baraka-blocker": ["bb", "konto"],
+      rizq: ["rq", "konto"],
+      "gold-plan": ["gp", "depot"],
+      "sukuk-plan": ["sp", "depot"],
+      "portfolio-plan": ["pp", "depot"],
+      "broker-vergleich": ["bv", "depot"],
+    } as const;
+    const kennungen = new Set<string>();
+    for (const [q, [kurz, art]] of Object.entries(neu)) {
+      expect(quelleAus(q), q).toBe(q);
+      expect(ART_JE_QUELLE[q as CheckQuelle], q).toBe(art);
+      expect(UEBERSCHRIFT[q as CheckQuelle].length, q).toBeGreaterThan(10);
+      expect(UEBERSCHRIFT[q as CheckQuelle], q).not.toMatch(/–|—|!|Finde, was zu dir passt/);
+      const e = durchB({ art: "depot", hatDepot: "nein", praef: "kosten", anlage: "etf", betrag: "unter50" }) as DepotErgebnis;
+      const src = checkSrc(q as CheckQuelle, e.anbieter, "b");
+      expect(src, q).toBe(`fc${kurz}sbb`);
+      expect(CHECK_SRC.test(src), q).toBe(true);
+      expect(istGueltigeQuelle(src), q).toBe(true);
+      expect(istHerkunft(src), q).toBe(false);
+      expect(src.length).toBeLessThanOrEqual(12);
+      kennungen.add(kurz);
+    }
+    // Kein Kürzel doppelt, auch nicht mit den alten sieben.
+    expect(kennungen.size).toBe(8);
+    for (const alt of ["ak", "ha", "bo", "hp", "ko", "me", "qz"]) expect(kennungen.has(alt)).toBe(false);
+    // Das Etikett: Konto-Freebies Standard, Anlagen-Freebies Depot mit dem Wort, das zum Freebie passt.
+    expect(hinweisJeQuelle("vertrags-ampel")).toBeUndefined();
+    expect(hinweisJeQuelle("rizq")).toBeUndefined();
+    expect(zielFrage("rizq").optionen[0].etikett).toBe(ETIKETT);
+    for (const q of ["gold-plan", "sukuk-plan", "portfolio-plan"] as const) expect(hinweisJeQuelle(q)).toEqual({ ziel: "invest", etikett: ETIKETT_PLAN });
+    expect(hinweisJeQuelle("broker-vergleich")).toEqual({ ziel: "invest", etikett: ETIKETT_VERGLEICH });
+    expect(ETIKETT_PLAN).toBe("passt zu deinem Plan");
+    expect(ETIKETT_VERGLEICH).toBe("passt zu deinem Vergleich");
+    // Nur die zwei diktierten Quellen und die boykottfreie Aktien-Liste (RN20, gleiche Art Liste) tragen „passt zu deiner Liste“.
+    const liste = (Object.keys(UEBERSCHRIFT) as CheckQuelle[]).filter((q) => hinweisJeQuelle(q)?.etikett === ETIKETT_LISTE);
+    expect(liste.sort()).toEqual(["aktienliste", "boykottfreie-aktien", "halal-anlagen"]);
+    expect(zielFrage("gold-plan").optionen.map((o) => [o.wert, o.etikett ?? null, o.hinweis ?? null])).toEqual([
+      ["konto", ETIKETT, null],
+      ["invest", null, "passt zu deinem Plan"],
+      ["unsicher", null, null],
+    ]);
+    // Unbekannte Werte laufen weiter als „homepage“.
+    expect(quelleAus("gold")).toBe("homepage");
+  });
+
+  it("Freebie-Adresse: quelle, start=2 und die Antwort auf „Was suchst du gerade?“, Bankname nie darin", () => {
+    expect(checkEinstiegLink("boykottliste", "konto")).toBe("/check?quelle=boykottliste&start=2&a1=konto");
+    expect(checkEinstiegLink("aktienliste", "invest")).toBe("/check?quelle=aktienliste&start=2&a1=invest");
+    for (const art of [undefined, "konto", "depot"] as const) {
+      expect(ersteAntwortAus(art, "konto")).toEqual({ ziel: "konto" });
+      expect(ersteAntwortAus(art, "invest")).toEqual({ ziel: "invest" });
+      expect(ersteAntwortAus(art, "unsicher")).toEqual({ ziel: "unsicher" });
+      expect(ersteAntwortAus(art, "unsinn")).toEqual({});
+      expect(ersteAntwortAus(art, null)).toEqual({});
+    }
+  });
+
+  it("alte Freebie-Adressen laufen sinnvoll weiter: Zahlungsart führt zum Bankkonto-Weg, Erfahrung zu Depot und „Hast du schon ein Depot?“", () => {
+    expect(ersteAntwortAus("konto", "bar")).toEqual({ art: "konto", zahlung: "bar" });
+    expect(ersteAntwortAus("konto", "karte-bar")).toEqual({ art: "konto", zahlung: "karte-bar" });
+    expect(ersteAntwortAus("depot", "keine")).toEqual({ ziel: "invest", hatDepot: "nein" });
+    expect(ersteAntwortAus("depot", "erste")).toEqual({ ziel: "invest", hatDepot: "nein" });
+    expect(ersteAntwortAus("depot", "depot")).toEqual({ ziel: "invest", hatDepot: "ja" });
+    // Eine Antwort der anderen Art gilt nicht.
+    expect(ersteAntwortAus("depot", "karte")).toEqual({});
+    expect(ersteAntwortAus("konto", "erste")).toEqual({});
+    expect(naechsteFrage(ersteAntwortAus("depot", "depot"))).toBe("depotHeute");
+    expect(naechsteFrage(ersteAntwortAus("depot", "keine"))).toBe("praef");
+    expect(naechsteFrage(ersteAntwortAus("konto", "karte"))).toBe("bank");
+  });
+});
+
+describe("Ergebnis Bankkonto", () => {
+  const sparkasse = { art: "konto", zahlung: "karte", bank: bank("grp-sparkasse") } as const;
+
+  it("nur „Viel Bargeld, ich will in eine Filiale“ führt zur BBBank, alle anderen zur norisbank", () => {
+    expect(konto({ ...sparkasse, zahlung: "karte" }).anbieter.out).toBe("norisbank");
+    expect(konto({ ...sparkasse, zahlung: "karte-bar" }).anbieter.out).toBe("norisbank");
+    expect(konto({ ...sparkasse, zahlung: "bar" }).anbieter.out).toBe("bbbank-bettersmart");
+  });
+
+  it("Überschrift wie im Original: „Dein Match: ein kostenloses Girokonto bei norisbank“, bei der BBBank „… bei der BBBank“, unabhängig von der heutigen Bank (Elias RN9-01)", () => {
+    // Früher „Von der Sparkasse zur norisbank“; seit RN10 steht die Überschrift des Originals, die heutige Bank steht nur im Vergleich darunter.
+    const noris = "Dein Match: ein kostenloses Girokonto bei norisbank";
+    expect(konto(sparkasse).ueberschrift).toBe(noris);
+    expect(konto({ ...sparkasse, bank: bank("deutsche-bank") }).ueberschrift).toBe(noris);
+    expect(konto({ ...sparkasse, bank: bank("n26") }).ueberschrift).toBe(noris);
+    expect(konto({ ...sparkasse, bank: KEINE_BANK }).ueberschrift).toBe(noris);
+    expect(konto({ ...sparkasse, bank: freieWahl("Phantasiebank") }).ueberschrift).toBe(noris);
+    const bb = "Dein Match: ein kostenloses Girokonto bei der BBBank";
+    expect(konto({ ...sparkasse, bank: bank("grp-volksbank"), zahlung: "bar" }).ueberschrift).toBe(bb);
+    expect(konto({ ...sparkasse, bank: KEINE_BANK, zahlung: "bar" }).ueberschrift).toBe(bb);
+  });
+
+  it("Konto-Ergebnis trägt satz, kartenTitel, preis „0 € im Monat“ und vorteile (Elias RN9-01)", () => {
+    const e = konto(sparkasse);
+    expect(e.satz).toContain("Du zahlst fast nur mit Karte.");
+    expect(e.satz).toContain("norisbank");
+    expect(konto({ ...sparkasse, zahlung: "bar" }).satz).toContain("BBBank");
+    expect(e.kartenTitel).toBe("Girokonto ohne Zinsen auf dein Guthaben");
+    expect(e.preis).toBe("0 € im Monat");
+    expect(e.vorteile.length).toBeGreaterThanOrEqual(3);
+    expect(leer(e.vorteile[0])).toMatch(/^0 € Kontoführung unter 30 oder ab 500 € Geldeingang im Monat, sonst 3,90 €/);
+    expect(e.vorteile.every((v) => v.length > 5)).toBe(true);
+  });
+
+  it("vergleichTitel „<Bank> und norisbank im Vergleich“, bei freiem Text „Deine Bank und …“, bei „Noch kein Konto“ weder links noch Titel", () => {
+    expect(konto(sparkasse).vergleichTitel).toBe("Sparkasse und norisbank im Vergleich");
+    expect(konto({ ...sparkasse, bank: bank("deutsche-bank") }).vergleichTitel).toBe("Deutsche Bank und norisbank im Vergleich");
+    expect(konto({ ...sparkasse, bank: bank("grp-volksbank"), zahlung: "bar" }).vergleichTitel).toBe("Volksbank und BBBank im Vergleich");
+    expect(konto({ ...sparkasse, bank: freieWahl("Phantasiebank") }).vergleichTitel).toBe("Deine Bank und norisbank im Vergleich");
+    const keine = konto({ ...sparkasse, bank: KEINE_BANK });
+    expect(keine.links).toBeUndefined();
+    expect(keine.vergleichTitel).toBeUndefined();
+    expect(keine.rechts.name).toBe("norisbank");
+  });
+
+  it("links nur belegte Werte: Gruppen und freie Eingaben nie eine Zahl, belegte Banken „ab“ mit Produktnamen", () => {
+    expect(konto(sparkasse).links?.zeilen[0].wert).toBe(KEIN_PREIS);
+    expect(konto({ ...sparkasse, bank: bank("grp-volksbank") }).links?.zeilen[0].wert).toBe(KEIN_PREIS);
+    expect(konto({ ...sparkasse, bank: freieWahl("Phantasiebank") }).links?.zeilen[0].wert).toBe(KEIN_PREIS);
+    const ing = konto({ ...sparkasse, bank: bank("ing") }).links!;
+    expect(leer(ing.zeilen[0].wert)).toBe("ab 0 €");
+    expect(ing.produkt).toBe("Girokonto");
+    expect(konto({ ...sparkasse, bank: bank("berliner-volksbank") }).links?.zeilen[0].wert.replace(/\u00a0/g, " ")).toBe("3,95 €");
+    // Ohne belegten Preis keine Eröffnungszeile links, damit nirgends geraten wird.
+    expect(konto(sparkasse).links?.zeilen).toHaveLength(1);
+    expect(konto(sparkasse).rechts.zeilen).toHaveLength(1);
+    expect(konto({ ...sparkasse, bank: bank("ing") }).rechts.zeilen.map((z) => z.label)).toEqual(["Kontoführung im Monat", "Eröffnung"]);
+  });
+
+  it("rechts die norisbank mit den Werten aus den Daten: 0 € unter 30 oder ab 500 € Geldeingang, sonst 3,90 €", () => {
+    const r = konto(sparkasse).rechts;
+    expect(r.name).toBe("norisbank");
+    expect(r.zeilen[0].wert).toBe("0 €");
+    expect(leer(r.zeilen[0].zusatz?.[0])).toBe("unter 30 oder ab 500 € Geldeingang im Monat, sonst 3,90 €");
+  });
+
+  it("genau ein Knopf, der Satz aus KONTO_PFLICHT, kein Depot, keine Alternative, Prozente nur als gerechnete Passung", () => {
+    const e = konto(sparkasse);
+    expect(e.knopf).toBe("Konto eröffnen");
+    expect(e.link).toBe("/out/norisbank?src=fcaknoa");
+    expect(e.pflicht).toMatch(/Keine Zinsen auf dein Guthaben/);
+    expect(e.pflicht).toMatch(/Tagesgeld/);
+    const text = JSON.stringify(e);
+    expect(text).not.toMatch(/flatex|Smartbroker|Depot|Alternative|Freitagsbrief|%|danach/i);
+    expect(e.passung).toBe(kontoPassung(BONUS_KONTEN.find((k) => k.id === "norisbank-top-girokonto")!, sparkasse));
+    expect(Object.keys(e)).not.toContain("alternative");
+    expect(Object.keys(e)).not.toContain("danach");
+  });
+
+  it("der Bankname steht nie im Link, nur im Zustand der Seite", () => {
+    for (const b of [bank("grp-sparkasse"), bank("ing"), freieWahl("Meine Spezialbank 123"), KEINE_BANK]) {
+      const e = konto({ art: "konto", zahlung: "karte", bank: b });
+      expect(e.link).toMatch(/^\/out\/norisbank\?src=fcaknoa$/);
+      expect(e.link).not.toMatch(/sparkasse|ing|spezial/i);
+    }
+  });
+
+  it("wählt jemand die norisbank als heutige Bank: freundlicher Satz, kein Knopf, kein Link", () => {
+    const e = konto({ art: "konto", zahlung: "karte", bank: bank("norisbank") });
+    expect(e.schonDa).toBe(true);
+    expect(e.ueberschrift).toBe("Du hast schon ein Konto ohne Zinsen auf dein Guthaben");
+    expect(e.link).toBeUndefined();
+    expect(e.knopf).toBe("");
+    // Mit Filiale ist die BBBank die Empfehlung, die norisbank-Kundschaft bekommt dann das normale Ergebnis.
+    const mitFiliale = konto({ art: "konto", zahlung: "bar", bank: bank("norisbank") });
+    expect(mitFiliale.schonDa).toBe(false);
+    expect(mitFiliale.ueberschrift).toBe("Dein Match: ein kostenloses Girokonto bei der BBBank");
+    expect(mitFiliale.vergleichTitel).toBe("norisbank und BBBank im Vergleich");
+  });
+
+  it("BBBank zeigt die Startprämie aus den Daten, die norisbank keine", () => {
+    expect(konto({ ...sparkasse, zahlung: "bar" }).praemie).toBe("50 € Startprämie für Neukunden".replace(" ", "\u00a0"));
+    expect(konto(sparkasse).praemie).toBeUndefined();
+  });
+
+  it("jede Eingabe der Suche führt zu einem Ergebnis, auch Phantasiebank", () => {
+    for (const eingabe of ["v", "s", "spk", "Sparkase", "Berliner Volksbank", "ing diba", "deutsche", "comdirekt", "Phantasiebank"]) {
+      const wahl = suche(eingabe)[0].wahl;
+      const e = konto({ art: "konto", zahlung: "karte-bar", bank: wahl });
+      expect(e.rechts.name, eingabe).toBe("norisbank");
+      expect(e.link, eingabe).toBeTruthy();
+    }
+  });
+  it("Vergleichskarte immer drei Punkte nur mit Haken (Elias RN12-01, RN13-02, RN14-01): Kontoführung ein Wert je Seite, ehrlich in beide Richtungen", () => {
+    const zeilen = (b: string, zahlung: Antworten["zahlung"] = "karte") => vergleichZeilen(konto({ ...sparkasse, zahlung, bank: bank(b) }));
+    const labels = (b: string, zahlung?: Antworten["zahlung"]) => zeilen(b, zahlung).map((z) => z.label);
+    const zelle = (z: { text: string; ja?: boolean; nein?: boolean }) => `${z.ja ? "✓ " : ""}${z.nein ? "✗ " : ""}${leer(z.text)}`;
+    // ING (Belege: ab 1.000 € oder unter 28, sonst 4,90 €) gegen norisbank (ab 500 € oder unter 30, sonst 3,90 €).
+    const ing = zeilen("ing", "karte-bar");
+    expect(ing.map((z) => z.label)).toEqual(["Kostenlos ab Geldeingang", "Girocard im Monat", "Bargeld einzahlen"]);
+    expect(zelle(ing[0].links)).toBe("✗ 1.000 €");
+    expect(zelle(ing[0].rechts)).toBe("✓ 500 €");
+    expect(zelle(ing[1].links)).toBe("✗ 1,49 €");
+    expect(zelle(ing[1].rechts)).toBe("✓ 0 €");
+    // DKB: Dispo an gegen kein Dispo ohne grauen Zusatz, seit RN16 (Elias RN15-03 „Dispo ist sozusagen zweite Priorität“) vor der Kontoführung.
+    const dkb = zeilen("dkb");
+    expect(dkb.map((z) => z.label)).toEqual(["Dispo", "Kostenlos ab Geldeingang", "Girocard im Monat"]);
+    expect(zelle(dkb[1].links)).toBe("✗ 700 €");
+    expect(dkb[0].links).toEqual({ text: "Dispo an", nein: true });
+    expect(dkb[0].rechts).toEqual({ text: "kein Dispo", ja: true });
+    // Commerzbank kostet auch bei Geldeingang. Ihr Vorteil bei Filialen steht seit RN15-01 („Norris Bank muss immer besser dastehen“) nur noch,
+    // wenn sonst keine drei Zeilen zusammenkommen; hier reichen die Zeilen, in denen die norisbank vorn oder gleich liegt.
+    expect(zeilen("commerzbank")[0]).toMatchObject({ label: "Kontoführung", links: { nein: true }, rechts: { ja: true } });
+    expect(leer(zeilen("commerzbank")[0].rechts.text)).toBe("0 €");
+    expect(labels("commerzbank", "karte-bar")).not.toContain("Filialen");
+    expect(labels("commerzbank")).not.toContain("Filialen");
+    // Gemeinsames halal steht nie als Zeile (RN13-01) und es gibt keinen Satz mehr darunter (RN14-01).
+    for (const b of ["ing", "commerzbank"]) expect(labels(b).some((l) => l === "Dispo" || l === "Zinsen auf Guthaben"), b).toBe(false);
+    // C24 kostenlos ohne Bedingung: Haken links, Kreuz rechts. Diese Zeile liegt für die norisbank hinten und steht deshalb nach den Zeilen,
+    // in denen sie vorn liegt (RN15-01), nicht mehr als erste.
+    // Seit RN16 (Elias RN15-03 „Erstmal C24, sagen wir mal Zinsen. Das ist das allererste“): Zinsen der heutigen Bank als erste Zeile, rot.
+    const c24 = zeilen("c24");
+    expect(c24.map((z) => z.rechts.nein)).not.toEqual([true, undefined, undefined]);
+    expect(c24[0]).toEqual({ label: "Zinsen auf Guthaben", links: { text: "Zinsen", nein: true }, rechts: { text: "keine Zinsen", ja: true } });
+    // comdirect hat einen zweiten Weg (3 Zahlungen mit Apple Pay): kein Haken, kein Kreuz bei der Kontoführung.
+    const cd = zeilen("comdirect").find((z) => z.label === "Kostenlos ab Geldeingang")!;
+    expect(cd.links.ja || cd.links.nein || cd.rechts.ja || cd.rechts.nein).toBeFalsy();
+    // Volksbank: nichts belegt, links „–“, nie ein Kreuz.
+    const vb = zeilen("grp-volksbank");
+    expect(vb.map((z) => z.label)).toEqual(["Kontoführung", "Dispo", "Zinsen auf Guthaben"]);
+    expect(vb[0].rechts.ja).toBeUndefined();
+    expect(vb.slice(1).every((z) => z.links.text === KEIN_WERT && !z.links.nein && z.rechts.ja)).toBe(true);
+    for (const b of ["grp-sparkasse", "commerzbank", "c24", "grp-volksbank", "ing", "dkb"]) {
+      expect(zeilen(b), b).toHaveLength(3);
+      expect(zeilen(b, "karte-bar"), b).toHaveLength(3);
+      expect(zeilen(b).every((z) => !z.links.klein && !z.rechts.klein), b).toBe(true);
+    }
+  });
+
+  it("RN16 (Elias RN15-03): erst Zinsen, dann Dispo der heutigen Bank; sind beide sauber, der Satz „<Bank> und norisbank: beide halal nutzbar“ und drei Zeilen", () => {
+    const e = (b: string) => konto({ ...sparkasse, zahlung: "karte", bank: bank(b) });
+    // Santander: Zinsen (Beleg santander.de) zuerst; DKB: Dispo zuerst; beide ohne Satz.
+    expect(vergleichZeilen(e("santander"))[0].label).toBe("Zinsen auf Guthaben");
+    expect(vergleichBeideHalal(e("santander"))).toBeNull();
+    expect(vergleichBeideHalal(e("dkb"))).toBeNull();
+    // N26 und ING: im Vergleich ohne Zinsen und ohne Dispo, also der Satz und danach die drei Zeilen wie in RN15.
+    expect(vergleichBeideHalal(e("n26"))).toBe("N26 und norisbank: beide halal nutzbar");
+    expect(vergleichZeilen(e("n26"))).toHaveLength(3);
+    expect(vergleichZeilen(e("n26")).some((z) => z.label === "Dispo" || z.label === "Zinsen auf Guthaben")).toBe(false);
+    // Offene Werte (Volksbank) und freie Eingaben: kein Satz.
+    expect(vergleichBeideHalal(e("grp-volksbank"))).toBeNull();
+  });
+
+  it("Zinsen und Dispo im Check nur mit Anbieter-Beleg: jeder Wert im Girokonto-Vergleich hat eine Quelle beim Anbieter, nicht bei Finanzfluss", () => {
+    for (const a of girokontoVergleich as unknown as { id: string; werte?: Record<string, unknown>; quellen?: Record<string, { url?: string }> }[]) {
+      for (const key of ["zinsfreiAbStart", "keinDispoAbStart"]) {
+        if (a.werte?.[key] === undefined || a.werte?.[key] === null) continue;
+        const url = a.quellen?.[key]?.url ?? "";
+        expect(url, `${a.id} ${key}`).toMatch(/^https:\/\//);
+        expect(url, `${a.id} ${key}`).not.toMatch(/finanzfluss/);
+      }
+    }
+  });
+
+  it("die Empfehlung steht im Vergleich immer klar besser da (Elias RN15-01): erst ihre Vorteile, gleiche Zeilen nur als Füller, nie vorn die heutige Bank", () => {
+    const rang = (z: { links: { ja?: boolean; nein?: boolean }; rechts: { ja?: boolean; nein?: boolean } }) =>
+      z.rechts.nein || (z.links.ja && !z.rechts.ja) ? 3 : z.links.ja && z.rechts.ja ? 2 : z.rechts.ja && z.links.nein ? 0 : 1;
+    for (const b of ["trade-republic", "ing", "grp-sparkasse", "dkb", "commerzbank", "grp-volksbank", "n26", "deutsche-bank", "postbank", "santander"]) {
+      for (const zahlung of ["karte", "karte-bar", "bar"] as const) {
+        const z = vergleichZeilen(konto({ ...sparkasse, zahlung, bank: bank(b) }));
+        const links = z.filter((x) => x.links.ja).length;
+        const rechts = z.filter((x) => x.rechts.ja).length;
+        expect(z, `${b} ${zahlung}`).toHaveLength(3);
+        expect(rechts, `${b} ${zahlung} Häkchen`).toBeGreaterThan(links);
+        // Reihenfolge: Rang steigt nie, keine Zeile mit Vorteil für die heutige Bank vor einer mit Vorteil für die Empfehlung.
+        expect(z.map(rang), `${b} ${zahlung} Reihenfolge`).toEqual([...z.map(rang)].sort((x, y) => x - y));
+        expect(rang(z[0]), `${b} ${zahlung} erste Zeile`).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
+  it("Trade Republic: die Girocard, die sie nicht hat, steht vorn, „immer kostenlos“ für Trade Republic steht nicht mehr da (Elias RN15-01)", () => {
+    const z = vergleichZeilen(konto({ ...sparkasse, bank: bank("trade-republic") }));
+    expect(z[0]).toMatchObject({ label: "Girocard im Monat", links: { text: "keine", nein: true }, rechts: { ja: true } });
+    expect(leer(z[0].rechts.text)).toBe("0 €");
+    expect(z.map((x) => x.label)).not.toContain("Kostenlos ab Geldeingang");
+    // Zwei „ja, ja“ nacheinander gibt es nicht mehr: höchstens eine gleiche Zeile als Füller.
+    expect(z.filter((x) => x.links.ja && x.rechts.ja).length).toBeLessThanOrEqual(1);
+  });
+
+  it("matchSatz: ein, zwei Sätze aus den eigenen Antworten (Elias RN15-01), nie ein Prozentzeichen, nie „Polster“", () => {
+    const satz = (a: Antworten) => matchSatz(ergebnisAus({ ziel: "konto", art: "konto", ...a }, "homepage")!, { ziel: "konto", art: "konto", ...a });
+    expect(satz({ zahlung: "karte", bank: bank("trade-republic") })).toBe("Du hast dein Konto bei Trade Republic und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte", bank: bank("ing") })).toBe("Du hast dein Konto bei der ING und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte-bar", bank: bank("grp-sparkasse") })).toBe("Du hast dein Konto bei der Sparkasse und zahlst mit Karte und ab und zu bar. Du suchst ein Konto, bei dem beides günstig bleibt.");
+    expect(satz({ zahlung: "bar", bank: bank("grp-volksbank") })).toBe("Du hast dein Konto bei der Volksbank und zahlst viel bar. Du suchst ein günstiges Konto mit Filiale.");
+    expect(satz({ zahlung: "karte", bank: KEINE_BANK })).toBe("Du hast noch kein Konto und zahlst fast nur mit Karte. Du suchst ein Konto, das günstig und flexibel ist.");
+    expect(satz({ zahlung: "karte", bank: freieWahl("Phantasiebank") })).toContain("bei Phantasiebank");
+    // Ist das Match schon das eigene Konto, bleibt der Satz leer (dort steht der freundliche Satz).
+    expect(satz({ zahlung: "karte", bank: bank("norisbank") })).toBe("");
+    // Depot: Depot von heute, Anlage und Wichtigstes aus den Antworten.
+    const d = (a: Antworten) => matchSatz(ergebnisAus({ art: "depot", ...a }, "homepage")!, { art: "depot", ...a });
+    expect(d({ hatDepot: "nein", praef: "halal", anlage: "etf" })).toBe("Du hast noch kein Depot. Du willst in ETFs investieren und legst Wert auf viele Halal-Anlagen.");
+    expect(d({ hatDepot: "nein", praef: "kosten", anlage: "offen" })).toBe("Du hast noch kein Depot. Du legst Wert auf niedrige Kosten.");
+    expect(d({ hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "halal", anlage: "gold" })).toBe(
+      "Du hast dein Depot bei Trade Republic. Du willst in Gold und Silber investieren und legst Wert auf viele Halal-Anlagen.",
+    );
+    for (const zahlung of ["karte", "karte-bar", "bar"] as const) {
+      expect(satz({ zahlung, bank: bank("ing") })).not.toMatch(/%|Polster|!|—|–/);
+    }
+  });
+
+  it("Konto-Passung gerechnet, nie fest (Elias RN12-01, RN13-01): Bargeld ohne Filiale kostet, Bedingung kostet, höchstens 98", () => {
+    const noris = BONUS_KONTEN.find((k) => k.id === "norisbank-top-girokonto")!;
+    const bb = BONUS_KONTEN.find((k) => k.id === "bbbank-bettersmart")!;
+    const mit = { art: "konto", bank: bank("commerzbank") } as Antworten;
+    expect(kontoPassung(noris, { ...mit, zahlung: "karte" })).toBe(96);
+    // RN13-01 „Norris Bank würde ich dann 89% oder so machen, weil es ja keine Bank hat“.
+    expect(kontoPassung(noris, { ...mit, zahlung: "karte-bar" })).toBe(90);
+    expect(kontoPassung(noris, { ...mit, bank: KEINE_BANK, zahlung: "karte-bar" })).toBe(89);
+    expect(kontoPassung(bb, { ...mit, zahlung: "bar" })).toBeLessThan(kontoPassung(noris, { ...mit, zahlung: "karte" }));
+    expect(kontoPassung(bb, { ...mit, zahlung: "bar" })).toBeGreaterThan(kontoPassung(noris, { ...mit, zahlung: "bar" }));
+    for (const z of ["karte", "karte-bar", "bar"] as const) {
+      const p = kontoPassung(noris, { ...mit, zahlung: z });
+      expect(p).toBeGreaterThan(50);
+      expect(p).toBeLessThanOrEqual(PASSUNG_MAX);
+    }
+    expect(konto({ ...sparkasse, zahlung: "bar" }).passung).toBe(kontoPassung(bb, { ...sparkasse, zahlung: "bar" }));
+  });
+
+  it("immer mindestens drei Wischkarten (Elias RN12-03): ohne Konto oder Depot von heute die Karte Einrichtung super easy aus belegten Werten", () => {
+    const k = konto({ art: "konto", zahlung: "karte", bank: KEINE_BANK });
+    expect(einrichtungVon(k)?.zeilen).toEqual(["Eröffnung per Video-Ident oder Post-Ident", "Bezahlen mit Apple Pay oder Google Pay", "Kein Dispo ab Eröffnung"]);
+    expect(einrichtungVon(konto(sparkasse))).toBeNull();
+    // Teil-Release RN20: die Broker-Startseiten (src/data/brokerStart.ts) gehen noch nicht live, der Abgleich mit ihnen entfällt.
+    expect(EINRICHTUNG_APP.fl.app).toBeTruthy();
+    expect(EINRICHTUNG_APP.sb.app).toBeTruthy();
+    const e = ergebnisAus({ art: "depot", hatDepot: "nein", praef: "kosten", anlage: "offen" }, "homepage")!;
+    expect(einrichtungVon(e)).toEqual({
+      titel: "Einrichtung super easy",
+      zeilen: ["Ausweisen mit der POSTIDENT-App am Handy", "Alles in der App Smartbroker+, für iPhone und Android", "Steuern führt die Bank für dich ab"],
+    });
+  });
+
+  it("„Weiß noch nicht“ rechnet mit der Standard-Aufteilung, stellt nichts nach vorn und steht im Ladescreen", () => {
+    const a = { art: "depot", hatDepot: "nein", praef: "halal", anlage: "offen" } as Antworten;
+    const ohne = { ...a, anlage: undefined };
+    const e = ergebnisAus(a, "homepage") as DepotErgebnis;
+    expect(e.passung).toBe(passungProzent(BROKER_KARTEN.find((k) => k.id === "flatex-depot")!, ohne));
+    expect(e.satz).toBe("Du willst möglichst viele Halal-Anlagen. flatex hat in meinem Vergleich die größte Halal-Auswahl.");
+    expect(ladenTexte(a).schritte[1]).toBe("ETFs, Gold und Sukuk je Depot zählen");
+    expect(antwortZeilen(a)).toContain("Anlage noch offen");
+  });
+});
+
+describe("Ergebnis Depot", () => {
+  const ohne = (praef: "halal" | "kosten", extra: Antworten = {}): Antworten => ({ art: "depot", hatDepot: "nein", praef, anlage: praef === "halal" ? "etf" : "aktien", ...extra });
+  const mit = (id: string, praef: "halal" | "kosten", extra: Antworten = {}): Antworten => ({
+    art: "depot",
+    hatDepot: "ja",
+    depotHeute: heuteDepot(id),
+    praef,
+    anlage: "etf",
+    ...extra,
+  });
+
+  it("Halal-Auswahl führt zu flatex, Kosten zu Smartbroker+, kein Girokonto-Kasten, keine Alternative, Art immer „depot“", () => {
+    for (const anlage of ["etf", "aktien", "gold"] as const) {
+      const halal = depot({ ...ohne("halal"), anlage });
+      expect(halal.anbieter.out).toBe("flatex");
+      expect(halal.art).toBe("depot");
+      expect(halal.ueberschrift).toBe("Dein Match: ein Halal-Depot bei flatex");
+      const kosten = depot({ ...ohne("kosten"), anlage });
+      expect(kosten.anbieter.out).toBe("smartbroker");
+      expect(kosten.art).toBe("depot");
+      expect(kosten.ueberschrift).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
+      for (const e of [halal, kosten]) {
+        expect(e.knopf).toBe("Depot eröffnen");
+        expect(e.schonDa).toBe(false);
+        expect(e.satz.length).toBeGreaterThan(20);
+        expect(Object.keys(e)).not.toContain("danach");
+        expect(Object.keys(e)).not.toContain("alternative");
+        expect(Object.keys(e)).not.toContain("warum");
+        expect(JSON.stringify(e)).not.toMatch(/norisbank|Girokonto|Alternative|Zweitdepot/);
+      }
+    }
+  });
+
+  it("„Ja, ich habe schon ein Depot“ führt nicht zum Zweitdepot: dieselbe Zuordnung wie ohne Depot, Art „depot“, Knopf „Depot eröffnen“ (Elias RN9-03)", () => {
+    // Früher: Erfahrung „depot“ gab ein Zweitdepot bei Smartbroker+. Jetzt zählt auch hier „Was ist dir wichtiger?“.
+    const halal = depot(mit("trade-republic-depot", "halal"));
+    expect(halal.art).toBe("depot");
+    expect(halal.anbieter.out).toBe("flatex");
+    expect(halal.knopf).toBe("Depot eröffnen");
+    const kosten = depot(mit("trade-republic-depot", "kosten"));
+    expect(kosten.art).toBe("depot");
+    expect(kosten.anbieter.out).toBe("smartbroker");
+    expect(kosten.knopf).toBe("Depot eröffnen");
+    for (const e of [halal, kosten]) expect(JSON.stringify(e)).not.toMatch(/zweitdepot/i);
+  });
+
+  it("ist das heutige Depot schon das Match: schonDa, „Dein Depot bei <Name> passt schon“, keine Spalten", () => {
+    const fl = depot(mit("flatex-depot", "halal"));
+    expect(fl.schonDa).toBe(true);
+    expect(fl.ueberschrift).toBe("Dein Depot bei flatex passt schon");
+    expect(fl.links).toBeUndefined();
+    expect(fl.rechts).toBeUndefined();
+    expect(fl.vergleichTitel).toBeUndefined();
+    const sb = depot(mit("smartbroker-plus-depot", "kosten"));
+    expect(sb.schonDa).toBe(true);
+    expect(sb.ueberschrift).toBe("Dein Depot bei Smartbroker+ passt schon");
+    // Das andere der beiden Depots ist nicht das Match: normales Ergebnis mit Vergleich.
+    const andersrum = depot(mit("flatex-depot", "kosten"));
+    expect(andersrum.schonDa).toBe(false);
+    expect(andersrum.anbieter.out).toBe("smartbroker");
+    expect(andersrum.vergleichTitel).toBe("flatex und Smartbroker+ im Vergleich");
+  });
+
+  it("anderes Depot von heute: links heute, rechts Match, Zeilen wie im Vergleich, Titel „<Depot> und <Match> im Vergleich“", () => {
+    const e = depot(mit("trade-republic-depot", "halal"));
+    expect(e.schonDa).toBe(false);
+    expect(e.vergleichTitel).toBe("Trade Republic und flatex im Vergleich");
+    expect(e.links?.name).toBe("Trade Republic");
+    expect(e.rechts?.name).toBe("flatex");
+    const labels = ["Passt zu deinen Antworten", "Halal-ETFs und Fonds", "Gold und Silber", "Sukuk", "Depotgebühr", "Order", "Sparplan ab", "Guthaben"];
+    expect(e.links?.zeilen.map((z) => z.label)).toEqual(labels);
+    expect(e.rechts?.zeilen.map((z) => z.label)).toEqual(labels);
+    // Rechts steht die Passung des Matches, links das heutige Depot hat Werte aus dem Vergleich.
+    expect(e.rechts?.zeilen[0].wert).toBe(`${e.passung} %`);
+    expect(e.links?.zeilen[0].wert).toMatch(/^\d+ %$/);
+    expect(Number(e.links!.zeilen[0].wert.replace(" %", ""))).toBeLessThanOrEqual(PASSUNG_MAX);
+    // Rechts stehen die Werte der Brokerkarte.
+    expect(e.rechts?.zeilen[1].wert).toBe(FL.etfs);
+    expect(e.rechts?.zeilen[4].wert).toBe(FL.depotgebuehr);
+    // Kosten-Match: Smartbroker+ rechts.
+    const k = depot(mit("trade-republic-depot", "kosten"));
+    expect(k.vergleichTitel).toBe("Trade Republic und Smartbroker+ im Vergleich");
+    expect(k.rechts?.zeilen[5].wert).toBe(SB.order);
+  });
+
+  it("unbekannte Depots (Sparkasse-Gruppe, Volksbank, freier Text) zeigen „–“, nie eine Zahl", () => {
+    for (const heute of [heuteDepot("grp-sparkasse"), heuteDepot("grp-volksbank"), heuteDepot("grp-deutsche-bank"), freieDepotWahl("Phantasiedepot")]) {
+      const e = depot({ art: "depot", hatDepot: "ja", depotHeute: heute, praef: "halal", anlage: "etf" });
+      expect(e.links?.zeilen).toHaveLength(8);
+      for (const z of e.links!.zeilen) expect(z.wert, `${heute.name} ${z.label}`).toBe(KEIN_WERT);
+      expect(KEIN_WERT).toBe("–");
+      // Das Match rechts hat dagegen echte Werte und eine Passung.
+      expect(e.rechts?.zeilen[0].wert).toMatch(/^\d+ %$/);
+    }
+    const frei = depot({ art: "depot", hatDepot: "ja", depotHeute: freieDepotWahl("Phantasiedepot"), praef: "halal", anlage: "etf" });
+    expect(frei.vergleichTitel).toBe("Dein Depot und flatex im Vergleich");
+    expect(frei.links?.name).toBe("Phantasiedepot");
+    expect(depotWerte(freieDepotWahl("x"))).toBeNull();
+    expect(depotWerte(heuteDepot("grp-sparkasse"))).toBeNull();
+  });
+
+  it("ohne heutiges Depot (Antwort „Nein, noch nicht“) keine Spalten und kein Vergleichstitel", () => {
+    const e = depot(ohne("halal"));
+    expect(e.links).toBeUndefined();
+    expect(e.rechts).toBeUndefined();
+    expect(e.vergleichTitel).toBeUndefined();
+  });
+
+  it("flatex nennt den Kreditrahmen, Smartbroker+ hat keine Pflicht, auch auf dem Depot-Weg", () => {
+    expect(depot(ohne("halal")).pflicht).toMatch(/Kreditrahmen/);
+    expect(depot(ohne("kosten")).pflicht).toBeUndefined();
+    expect(depot(mit("trade-republic-depot", "halal")).pflicht).toMatch(/Kreditrahmen/);
+  });
+
+  it("vorteile: das gewählte Thema steht zuerst, höchstens vier, keine Doppelten, nur Werte aus dem Vergleich (RN10-07)", () => {
+    const fl = (anlage: Antworten["anlage"]) => depot({ ...ohne("halal"), anlage }).vorteile;
+    expect(fl("etf")[0]).toBe(`${FL.etfs} Halal-ETFs und Fonds aus meinem Vergleich`);
+    expect(fl("aktien")[0]).toBe(`Order ${FL.order}`);
+    // Teil-Release RN20: anlagenKaufbar.ts (Stand live) trägt für flatex noch keinen Royal-Mint-Einzelbeleg, also steht die Zeile dort nicht.
+    expect(fl("gold")[0]).toBe(`Gold und Silber ${FL.gold}`);
+    const sb = (anlage: Antworten["anlage"]) => depot({ ...ohne("kosten"), anlage }).vorteile;
+    expect(sb("etf")[0]).toBe(`${SB.etfs} Halal-ETFs und Fonds aus meinem Vergleich`);
+    expect(sb("aktien")[0]).toBe(`Order ${SB.order}`);
+    expect(sb("gold")[0]).toMatch(/^Royal Mint Gold-ETC/);
+    expect(sb("gold")[1]).toBe(`Gold und Silber ${SB.gold}`);
+    for (const anlage of ["etf", "aktien", "gold"] as const) {
+      for (const praef of ["halal", "kosten"] as const) {
+        const v = depot({ ...ohne(praef), anlage }).vorteile;
+        expect(v.length).toBeLessThanOrEqual(4);
+        expect(v.length).toBeGreaterThanOrEqual(3);
+        expect(new Set(v).size).toBe(v.length);
+        expect(v.some((x) => /undefined|NaN/.test(x))).toBe(false);
+      }
+    }
+    // Das Thema steht auch im Satz.
+    expect(depot(ohne("halal", { anlage: "etf" })).satz).toContain("in ETFs investieren");
+    expect(depot(ohne("kosten", { anlage: "aktien" })).satz).toContain("einzelne Aktien kaufen");
+    expect(depot(ohne("halal", { anlage: "gold" })).satz).toContain("in Gold und Silber investieren");
+  });
+
+  it("Royal Mint (zertifiziert, auslieferbar) nur dort, wo anlagenKaufbar.ts den Kauf mit Anbieter-Beleg zeigt", () => {
+    // Teil-Release RN20: im Datenbestand, der live steht, trägt nur Smartbroker+ einen Einzelbeleg für XS2115336336; fehlt er, fällt die Zeile weg (nie ohne Beleg).
+    // Im Sammelzweig kommt flatex dazu (anlagenKaufbar.ts Stand 10.11.2026), dann gilt beides true.
+    expect(royalMintKaufbar("fl")).toBe(false);
+    expect(royalMintKaufbar("sb")).toBe(true);
+    for (const praef of ["halal", "kosten"] as const) {
+      expect(depot(ohne(praef, { anlage: "gold" })).vorteile.filter((v) => /Royal Mint/.test(v))).toHaveLength(praef === "kosten" ? 1 : 0);
+      for (const anlage of ["etf", "aktien"] as const) expect(depot(ohne(praef, { anlage })).vorteile.join(" ")).not.toMatch(/Royal Mint/);
+    }
+  });
+
+  it("Beides geht in den Bankkonto-Weg: Konto-Ergebnis ohne Depot", () => {
+    const e = konto({ ziel: "beides", zahlung: "karte", bank: bank("ing") });
+    expect(e.art).toBe("konto");
+    expect(JSON.stringify(e)).not.toMatch(/flatex|Depot/i);
+  });
+  it("„Passt auch gut“ zeigt das andere Depot mit eigener Passung und Kennung Zusatz z, nicht wenn es schon das heutige ist (Elias RN11-03)", () => {
+    const a = { art: "depot", ziel: "invest", hatDepot: "nein", praef: "halal", anlage: "etf" } as unknown as Antworten;
+    const e = ergebnisAus(a, "homepage") as DepotErgebnis;
+    expect(e.anbieter.kurz).toBe("fl");
+    expect(e.auchGut!.anbieter.kurz).toBe("sb");
+    expect(e.auchGut!.passung).toBe(passungProzent(BROKER_KARTEN.find((k) => k.id === "smartbroker-plus-depot")!, a));
+    expect(e.auchGut!.link).toBe("/out/smartbroker?src=fchpsbza");
+    expect(CHECK_SRC.test("fchpsbza")).toBe(true);
+    const mitSb = { ...a, hatDepot: "ja", depotHeute: depotWahlVon(depotNachId("smartbroker-plus-depot")!) } as unknown as Antworten;
+    expect((ergebnisAus(mitSb, "homepage") as DepotErgebnis).auchGut).toBeUndefined();
+  });
+});
+
+describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
+  const ohneD = (praef: "halal" | "kosten"): Antworten => ({ art: "depot", hatDepot: "nein", praef });
+  const a = (praef: "halal" | "kosten", extra: Antworten = {}): Antworten => ({ art: "depot", hatDepot: "nein", praef, ...extra });
+
+  it("Halal-Anlagen wichtig: flatex höher als Smartbroker+; Kosten wichtig: umgekehrt", () => {
+    expect(passungProzent(FL, a("halal"))).toBeGreaterThan(passungProzent(SB, a("halal")));
+    expect(passungProzent(SB, a("kosten"))).toBeGreaterThan(passungProzent(FL, a("kosten")));
+    for (const betrag of ["unter50", "50bis200", "ueber200"] as const) {
+      expect(passungProzent(FL, a("halal", { betrag }))).toBeGreaterThan(passungProzent(SB, a("halal", { betrag })));
+      expect(passungProzent(SB, a("kosten", { betrag }))).toBeGreaterThan(passungProzent(FL, a("kosten", { betrag })));
+    }
+  });
+
+  it("das empfohlene Depot trägt die Zahl, gerundet, höchstens 98, nie 100, auf beiden Wegen und bei jeder Anlage", () => {
+    for (const praef of ["halal", "kosten"] as const) {
+      for (const anlage of ["etf", "aktien", "gold"] as const) {
+        const e = depot({ art: "depot", hatDepot: "nein", praef, anlage });
+        expect(Number.isInteger(e.passung), `${praef} ${anlage}`).toBe(true);
+        expect(e.passung).toBeLessThanOrEqual(PASSUNG_MAX);
+        expect(e.passung, `${praef} ${anlage}`).toBeGreaterThan(50);
+        const m = depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef, anlage });
+        expect(Number.isInteger(m.passung)).toBe(true);
+        expect(m.passung).toBeLessThanOrEqual(98);
+        expect(m.passung).toBeGreaterThan(50);
+      }
+    }
+    expect(PASSUNG_MAX).toBe(98);
+  });
+
+  it("die Anlage ändert die Gewichte (Elias RN10-07): ETFs heben flatex (12 von 12), Einzelaktien die Order, Gold den Edelmetall-Anteil, nie das Depot selbst", () => {
+    const mitAnlage = (praef: "halal" | "kosten", anlage: Antworten["anlage"]) => a(praef, { anlage });
+    // ETFs: der Halal-ETF-Anteil zählt, flatex hat 12 von 12, Smartbroker+ 8 von 12: der Abstand wächst gegenüber dem Standard.
+    const abstand = (anl: Antworten["anlage"]) => passungProzent(FL, mitAnlage("halal", anl)) - passungProzent(SB, mitAnlage("halal", anl));
+    expect(abstand("etf")).toBeGreaterThan(abstand(undefined));
+    // Einzelaktien: die Order zählt, Smartbroker+ (1 €) gewinnt gegenüber flatex (ab 5,90 €) an Boden.
+    const abstandKosten = (anl: Antworten["anlage"]) => passungProzent(SB, mitAnlage("kosten", anl)) - passungProzent(FL, mitAnlage("kosten", anl));
+    expect(abstandKosten("aktien")).toBeGreaterThan(abstandKosten(undefined));
+    // Gold: flatex und Smartbroker+ haben beide 7 von 7, das Gold-Gewicht trennt sie nicht, es hebt beide gegenüber dem Standard.
+    // RN17: flatex hat überall volle Halal-Anteile, die Rundung kann gleich bleiben; Smartbroker+ (8 von 12 ETFs, 7 von 7 Gold) steigt.
+    expect(passungProzent(FL, mitAnlage("halal", "gold"))).toBeGreaterThanOrEqual(passungProzent(FL, mitAnlage("halal", undefined)));
+    expect(passungProzent(SB, mitAnlage("halal", "gold"))).toBeGreaterThan(passungProzent(SB, mitAnlage("halal", undefined)));
+    expect(FL.gold).toBe(SB.gold);
+    // Dieselben Antworten ohne und mit Anlage rechnen anders, verschiedene Anlagen geben nicht überall dieselbe Zahl.
+    const zahlen = (["etf", "aktien", "gold"] as const).map((x) => passungProzent(SB, mitAnlage("halal", x)));
+    expect(new Set(zahlen).size).toBeGreaterThan(1);
+    expect(zahlen.some((z) => z !== passungProzent(SB, mitAnlage("halal", undefined)))).toBe(true);
+    // Das Depot bleibt, wie die Anlage auch fällt: „Was ist dir wichtiger?“ entscheidet.
+    for (const x of ["etf", "aktien", "gold"] as const) {
+      expect(depot({ ...ohneD("halal"), anlage: x }).anbieter.out).toBe("flatex");
+      expect(depot({ ...ohneD("kosten"), anlage: x }).anbieter.out).toBe("smartbroker");
+    }
+  });
+
+  it("Das Match bleibt von „Was ist dir wichtiger?“ bestimmt; bei Halal plus Einzelne Aktien oder Gold rechnet Smartbroker+ knapp höher, das Depot bleibt flatex (offen für Elias)", () => {
+    // Kosten: Smartbroker+ liegt in jeder Anlage vor flatex. Halal: flatex liegt bei ETFs vor Smartbroker+ (12 von 12 gegen 8 von 12 ETFs).
+    for (const x of ["etf", "aktien", "gold"] as const) {
+      const k = a("kosten", { anlage: x });
+      expect(passungProzent(SB, k), `kosten ${x}`).toBeGreaterThan(passungProzent(FL, k));
+    }
+    const he = a("halal", { anlage: "etf" });
+    expect(passungProzent(FL, he)).toBeGreaterThan(passungProzent(SB, he));
+    // Halal plus Einzelne Aktien oder Gold: die Order (flatex ab 5,90 €, Smartbroker+ 1 €) und das gleiche Gold (7 von 7 bei beiden) ziehen
+    // Smartbroker+ knapp vorbei. Der Abstand ist klein (höchstens 5 Punkte), die Zuordnung folgt weiter der Wahl „Möglichst viele
+    // Halal-Anlagen“ (Elias RN7: flatex Nummer 1, flatex hat die größte Halal-Auswahl).
+    for (const x of ["aktien", "gold"] as const) {
+      const ha = a("halal", { anlage: x });
+      expect(Math.abs(passungProzent(SB, ha) - passungProzent(FL, ha)), `halal ${x}`).toBeLessThanOrEqual(5);
+      expect(depot(ha).anbieter.out).toBe("flatex");
+    }
+  });
+
+  it("passungAusWerten rechnet die Werte eines fremden Depots wie die einer Karte, höchstens 98", () => {
+    const w = depotWerte(heuteDepot("trade-republic-depot"))!;
+    const p = passungAusWerten(w, a("halal", { hatDepot: "ja", anlage: "etf" }));
+    expect(Number.isInteger(p)).toBe(true);
+    expect(p).toBeGreaterThanOrEqual(0);
+    expect(p).toBeLessThanOrEqual(PASSUNG_MAX);
+    // Gleiche Werte wie die Karte: gleiche Zahl.
+    const fw = depotWerte(heuteDepot("flatex-depot"))!;
+    expect(passungAusWerten(fw, a("halal"))).toBe(passungProzent(FL, a("halal")));
+  });
+
+  it("die Zahl folgt den Antworten und den Vergleichsdaten: eine kleine Monatsrate verteuert die Order bei flatex", () => {
+    const klein = passungProzent(FL, a("halal", { betrag: "unter50" }));
+    const gross = passungProzent(FL, a("halal", { betrag: "ueber200" }));
+    expect(klein).toBeLessThan(gross);
+    // Gleiche Antworten, gleiche Zahl; andere Antworten, andere Zahl.
+    expect(passungProzent(FL, a("halal"))).toBe(passungProzent(FL, a("halal")));
+    expect(passungProzent(FL, a("halal"))).not.toBe(passungProzent(FL, a("kosten")));
+  });
+
+  it("Fassung b: der Monatsbetrag ändert das Depot nicht, aber die Passung", () => {
+    const basis = { art: "depot", hatDepot: "nein", praef: "halal", anlage: "aktien" } as const;
+    const e1 = depot({ ...basis, betrag: "unter50" }, true);
+    const e2 = depot({ ...basis, betrag: "ueber200" }, true);
+    expect(e1.anbieter.out).toBe(e2.anbieter.out);
+    expect(e1.satz).toBe(e2.satz);
+    expect(e1.vorteile).toEqual(e2.vorteile);
+    expect(e1.passung).toBeLessThan(e2.passung);
+    expect(antwortZeilen({ ...basis, betrag: "50bis200" })).toContain("50 bis 200 € im Monat");
+    // Die gewählte Anlage und die Depot-Antwort stehen auch bei „Deine Antworten“.
+    expect(antwortZeilen(basis)).toContain(ANLAGE_TEXT.aktien);
+    expect(antwortZeilen(basis)).toContain("Noch kein Depot");
+    expect(antwortZeilen({ ...basis, hatDepot: "ja", depotHeute: heuteDepot("ing-direkt-depot") })).toEqual(["Schon ein Depot", "Depot bei ING", "Viele Halal-Anlagen", "Einzelne Aktien"]);
+  });
+
+  it("Bankkonto-Ergebnisse tragen seit RN13 eine gerechnete Passung (Elias RN12-01), nie als Text mit Prozentzeichen in den Daten", () => {
+    const e = konto({ art: "konto", zahlung: "karte", bank: bank("ing") });
+    expect(e.passung).toBeGreaterThan(50);
+    expect(e.passung).toBeLessThanOrEqual(PASSUNG_MAX);
+    expect(JSON.stringify(e)).not.toMatch(/%/);
+  });
+});
+
+describe("Kennung am Knopf", () => {
+  it("Knöpfe gehen über /out mit gültiger Kennung, die Fassung steht am Ende (Kennungen unverändert)", () => {
+    const e = konto({ art: "konto", zahlung: "karte", bank: bank("ing") });
+    expect(outLink("aktienliste", e.anbieter)).toBe("/out/norisbank?src=fcaknoa");
+    expect(outLink("aktienliste", e.anbieter, "b")).toBe("/out/norisbank?src=fcaknob");
+    expect(durchB({ art: "depot", hatDepot: "nein", praef: "kosten", anlage: "aktien", betrag: "unter50" })).toMatchObject({ link: "/out/smartbroker?src=fcaksbb" });
+    for (const src of ["fcakno", "fcakflz", "fchpsb", "fcbobb", "fcakfla", "fcaknob", "fcakflzb", "fcqzsbxa"]) {
+      expect(CHECK_SRC.test(src)).toBe(true);
+      expect(istGueltigeQuelle(src)).toBe(true);
+      expect(istHerkunft(src)).toBe(false);
+    }
+  });
+
+  it("Die Kennung der Fassung ist je Fassung unterscheidbar, die Quelle steckt nur in der Kennung", () => {
+    const basis = { art: "depot", hatDepot: "nein", praef: "halal", anlage: "gold" } as const;
+    const a = depot(basis);
+    const b = depot({ ...basis, betrag: "50bis200" }, true);
+    expect(outLink("homepage", a.anbieter, "a")).toMatch(/src=fchpfla$/);
+    expect(outLink("homepage", b.anbieter, "b")).toMatch(/src=fchpflb$/);
+    const ak = ergebnisAus(basis, "aktienliste") as DepotErgebnis;
+    const bo = ergebnisAus(basis, "boykottliste") as DepotErgebnis;
+    expect(ak.satz).toBe(bo.satz);
+    expect(ak.vorteile).toEqual(bo.vorteile);
+    expect(ak.passung).toBe(bo.passung);
+  });
+
+  it("auch auf dem Depot-Weg mit heutigem Depot bleibt die Kennung gleich, das heutige Depot steckt nie darin", () => {
+    const e = depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "halal", anlage: "etf" });
+    expect(e.link).toBe("/out/flatex?src=fcakfla");
+    expect(e.link).not.toMatch(/trade|republic/i);
+  });
+});
+
+describe("Depot: Ein Mix aus beiden (RN16-06)", () => {
+  const tp = BROKER_KARTEN.find((k) => k.id === "traders-place-depot")!;
+  const sb = BROKER_KARTEN.find((k) => k.id === "smartbroker-plus-depot")!;
+  const mix = (anlage: "etf" | "aktien" | "gold" | "offen") => ergebnisAus({ art: "depot", hatDepot: "nein", praef: "mix", anlage }, "homepage") as DepotErgebnis;
+
+  it("bietet die dritte Antwort an", () => {
+    expect(FRAGEN.praef.optionen.map((o) => o.titel)).toEqual(["Möglichst viele Halal-Anlagen", "Möglichst niedrige Kosten", "Ein Mix aus beiden"]);
+  });
+
+  it("zeigt Smartbroker+ und darunter Traders Place, beide gerechnet, oben nie die kleinere Zahl", () => {
+    for (const anlage of ["etf", "aktien", "gold", "offen"] as const) {
+      const e = mix(anlage);
+      const namen = [e.anbieter.name, e.auchGut?.anbieter.name].sort();
+      expect(namen).toEqual(["Smartbroker+", "Traders Place"]);
+      expect(e.passung).toBeGreaterThanOrEqual(e.auchGut!.passung);
+      const a = { art: "depot" as const, hatDepot: "nein" as const, praef: "mix" as const, anlage };
+      expect([e.passung, e.auchGut!.passung].sort()).toEqual([passungProzent(sb, a), passungProzent(tp, a)].sort());
+    }
+    expect(mix("offen").anbieter.name).toBe("Smartbroker+");
+    expect(mix("offen").auchGut?.link).toBe("/out/traders-place?src=fchptpza");
+  });
+});
+
+describe("Depot-Vergleich bei bestehendem Depot wie beim Konto (RN17, Elias RN16-43)", () => {
+  const mit = (id: string, praef: "halal" | "kosten", anlage: Antworten["anlage"]) =>
+    depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot(id), praef, anlage, betrag: "50bis200" });
+
+  it("comdirect liegt deutlich unter dem Match (Sparplan 1,5 % je Rate und Order belegt im Vergleich)", () => {
+    for (const praef of ["halal", "kosten"] as const)
+      for (const anlage of ["etf", "aktien", "gold"] as const) {
+        const e = mit("comdirect-depot", praef, anlage);
+        const heute = Number(e.links!.zeilen[0].wert.replace(/\D/g, ""));
+        expect(e.passung - heute, `${praef} ${anlage}`).toBeGreaterThanOrEqual(8);
+      }
+    const e = mit("comdirect-depot", "kosten", "etf");
+    expect(e.passung - Number(e.links!.zeilen[0].wert.replace(/\D/g, ""))).toBeGreaterThanOrEqual(20);
+  });
+
+  it("Passung oben, darunter immer drei Punkte mit Haken und Kreuz, der Match vorn zuerst", () => {
+    const z = vergleichZeilen(mit("comdirect-depot", "kosten", "etf"));
+    expect(z).toHaveLength(4);
+    expect(z[0].label).toBe("Passt zu deinen Antworten");
+    expect(z[0].rechts.ja).toBe(true);
+    expect(z[1]).toMatchObject({ label: "Kosten je Sparplan-Rate", links: { text: expect.stringMatching(/^1,5\s%$/), nein: true }, rechts: { text: expect.stringMatching(/^0\s€$/), ja: true } });
+    expect(z[2]).toMatchObject({ label: "Order", links: { text: expect.stringMatching(/^3,90\s€$/), nein: true }, rechts: { text: expect.stringMatching(/^1\s€$/), ja: true } });
+    // Zinsen auf das Guthaben, wo das heutige Depot sie hat, stehen zuerst.
+    expect(vergleichZeilen(mit("ing-direkt-depot", "kosten", "aktien"))[1]).toMatchObject({ label: "Zinsen auf Guthaben", links: { nein: true }, rechts: { ja: true } });
+  });
+
+  it("ohne Werte im Vergleich (Sparkasse) steht links „–“, nie eine geratene Zahl", () => {
+    const z = vergleichZeilen(mit("grp-sparkasse", "halal", "etf"));
+    expect(z).toHaveLength(4);
+    for (const r of z) expect(r.links.text).toBe(KEIN_WERT);
+  });
+});
+
+describe("Trading 212 und Scalable: Depot passt schon, flatex daneben (RN18-05)", () => {
+  const mit = (id: string, praef: "halal" | "kosten", anlage: Antworten["anlage"]) =>
+    depot({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot(id), praef, anlage, betrag: "50bis200" });
+
+  it("oben „passt schon“ mit der eigenen Passung, flatex mit der Order als Preis, kein „Passt auch gut“", () => {
+    for (const id of ["trading-212-depot", "scalable-capital-free-broker"])
+      for (const praef of ["halal", "kosten"] as const)
+        for (const anlage of ["etf", "aktien", "gold"] as const) {
+          const e = mit(id, praef, anlage);
+          expect(e.ueberschrift, `${id} ${praef} ${anlage}`).toMatch(/^Dein Depot bei .+ passt schon$/);
+          expect(e.bleiben).toBe(true);
+          expect(e.schonDa).toBe(false);
+          expect(e.anbieter.name).toBe("flatex");
+          expect(e.preis).toMatch(/^Order ab 5,90\s€$/);
+          expect(e.auchGut).toBeUndefined();
+          expect(e.passung).toBe(Number(e.links!.zeilen[0].wert.replace(/\D/g, "")));
+          expect(e.satz).toMatch(/12 von 12 Halal-ETFs/);
+        }
+  });
+
+  it("im Vergleich immer zuerst Halal-ETFs (flatex vorn), dann Order (das eigene Depot vorn)", () => {
+    const z = vergleichZeilen(mit("trading-212-depot", "kosten", "aktien"));
+    expect(z).toHaveLength(4);
+    expect(z[1]).toMatchObject({ label: "Halal-ETFs und Fonds", links: { text: "10 von 12", nein: true }, rechts: { text: "12 von 12", ja: true } });
+    expect(z[2]).toMatchObject({ label: "Order", links: { ja: true }, rechts: { text: expect.stringMatching(/^ab 5,90\s€$/), nein: true } });
+    expect(matchSatz(mit("scalable-capital-free-broker", "halal", "etf"), {})).toMatch(/^Du kannst bleiben\./);
+  });
+
+  it("der Ladescreen sucht keinen Ersatz, er vergleicht", () => {
+    expect(ladenTexte({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("trading-212-depot") }).titel).toBe("Trading 212 wird mit 35 Depots verglichen");
+    expect(ladenTexte({ art: "depot", hatDepot: "ja", depotHeute: heuteDepot("comdirect-depot") }).titel).toBe("Passender Ersatz für comdirect wird gesucht");
+  });
+
+  it("andere Depots bekommen weiter den Wechsel (comdirect)", () => {
+    expect(mit("comdirect-depot", "halal", "etf").bleiben).toBeUndefined();
+  });
+});
+

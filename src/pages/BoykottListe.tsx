@@ -1,23 +1,18 @@
 import { Fragment, useEffect } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { AlertTriangle, Heart, Info } from "lucide-react";
+import { Navigate, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
-import FindeDeinAngebot from "@/components/FindeDeinAngebot";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { GOLD_DEPOT_LOGOS } from "@/data/goldPlan";
-import { edelmetallVergleich } from "@/data/edelmetallVergleich";
 import {
   AUCH_GENANNT,
   BOYKOTT_PFAD,
   BOYKOTT_SCHLUESSEL,
   BOYKOTT_STAND,
-  VERSTECKT,
   WARE,
   alleFirmen,
   artVon,
   bereiche,
-  boykottLink,
   boykottQuellen,
   listenQuellen,
   type Alternative,
@@ -36,9 +31,9 @@ import {
 
 const Pille = ({ f }: { f: BoykottFirma }) =>
   artVon(f) === "boykott" ? (
-    <span className="rounded-full bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
+    <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
   ) : (
-    <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200">
+    <span className="rounded bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-500/30">
       Meiden, wo es geht
     </span>
   );
@@ -56,13 +51,13 @@ const Karte = ({ f }: { f: BoykottFirma }) => (
       </div>
     </div>
     <p className="mt-2 text-[16px] leading-snug text-foreground/80">{f.grund}</p>
-    {f.hinweis && <p className="mt-2 rounded-xl bg-accent px-3 py-2 text-[14px] leading-snug text-foreground">{f.hinweis}</p>}
+    {f.hinweis && <p className="mt-2 rounded-lg bg-accent px-3 py-2 text-[14px] leading-snug text-foreground">{f.hinweis}</p>}
   </div>
 );
 
 /** Alternativen wie die Beispiele in Fassung 5: heller Unterkasten mit Logo, nicht anklickbar. */
 const AlternativenKasten = ({ alternativen }: { alternativen: Alternative[] }) => (
-  <div className="mt-4 rounded-2xl bg-accent p-4" data-alternativen>
+  <div className="mt-4 rounded-lg border border-border bg-card p-4" data-alternativen>
     <p className="text-[16px] font-bold text-foreground">Das geht stattdessen</p>
     <p className="text-[12px] text-muted-foreground">Steht auf keiner der geprüften Listen.</p>
     <ul className="mt-3 grid gap-3">
@@ -94,60 +89,7 @@ const Bereich = ({ id, titel, firmen, alternativen }: { id: string; titel: strin
   </section>
 );
 
-/**
- * Haram ist nicht Boykott (Elias, 28.10.2026, raw/2026-10-28-elias-bk1-haram-ist-nicht-boykott.md):
- * keine Zahlen aus Indizes, nichts gegen Halal ETFs, Boykott als freiwilliges Gutes, Aufruf zu Gold
- * und islamischen Anleihen für alle, die außerhalb vom Aktienmarkt anlegen wollen.
- */
-const Boerse = () => (
-  <section className="reveal mt-12" aria-labelledby="boerse">
-    <p className="text-[14px] font-bold text-violet">Auch bei Aktien</p>
-    <h2 id="boerse" className="mt-1 text-[24px] font-extrabold text-foreground">
-      Haram ist nicht Boykott
-    </h2>
-    {/* Lesbarer als acht Zeilen Text (Elias, 01.11.2026, MC7d15): zwei Kacheln, dann zwei kurze Sätze. Wortlaut wie vorher. */}
-    <div className="mt-4 grid grid-cols-2 gap-2">
-      <div className="rounded-2xl bg-loss-soft p-4 ring-1 ring-loss/20">
-        <p className="text-[20px] font-extrabold leading-none text-loss">Haram</p>
-        <p className="mt-2 text-[15px] leading-snug text-foreground">heißt verboten.</p>
-      </div>
-      <div className="rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-200">
-        <p className="text-[20px] font-extrabold leading-none text-amber-700">Boykott</p>
-        <p className="mt-2 text-[15px] leading-snug text-foreground">ist ein freiwilliger Schritt obendrauf.</p>
-      </div>
-    </div>
-    <ul className="mt-3 grid gap-2">
-      <li className="card-surface flex items-start gap-3 p-4">
-        <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-        <p className="text-[16px] leading-snug text-foreground">
-          Steht eine Aktie auf der Boykott-Liste, heißt das nicht, dass sie haram ist.{" "}
-          <span className="font-bold">Halal ETFs bleiben eine gute Lösung.</span>
-        </p>
-      </li>
-      <li className="card-surface flex items-start gap-3 p-4">
-        <Heart className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-        <p className="text-[16px] leading-snug text-foreground">
-          Alternativen zu suchen, wo es geht, ist etwas sehr Gutes, inshallah. <span className="font-bold">Jeder Schritt zählt.</span>
-        </p>
-      </li>
-    </ul>
-    <FindeDeinAngebot
-      className="mt-4"
-      titel="Du willst lieber in Edelmetalle statt in Aktien anlegen?"
-      text="Ich habe gerankt, wo du in Deutschland Gold online kaufst und welche Anbieter zinsfrei sind."
-      knopf="Zum Gold-Vergleich"
-      logos={[...GOLD_DEPOT_LOGOS]}
-      gesamt={edelmetallVergleich.length}
-      ziel={boykottLink("/vergleich/edelmetalle", "mitte")}
-    />
-    <p className="mt-4 px-1 text-[16px] leading-snug text-foreground/80">
-      Lieber islamische Anleihen (Sukuk)?{" "}
-      <Link to={boykottLink("/blog/sukuk", "sukuk")} className="font-semibold text-primary hover:underline">
-        So funktionieren Sukuk
-      </Link>
-    </p>
-  </section>
-);
+/* RN16-41 (Elias: „dieses Haram ist nicht gleich Boykott und so, das kann alles weg. Also nur ein Call to Action“): Abschnitt Börse mit Gold-Aufruf und Sukuk-Link raus. */
 
 const BoykottListe = () => {
   const { schluessel } = useParams();
@@ -182,31 +124,14 @@ const BoykottListe = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Die Boykott-Liste: {alleFirmen.length} Firmen aus deinem Alltag
           </h1>
           <p className="mt-3 text-[16px] leading-snug text-foreground/80">
             Von der offiziellen Liste der BDS-Bewegung, Stand {BOYKOTT_STAND}.
           </p>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
-            <div>
-              <p className="text-[16px] font-semibold leading-snug text-foreground">
-                Viele Marken gehören zu einem Konzern auf der Liste, ohne dass man es sieht.
-              </p>
-              <div className="mt-1.5 flex items-center gap-2">
-                <span className="flex gap-1">
-                  {VERSTECKT.map((v) => (
-                    <AnbieterLogo key={v.name} name={v.name} domain={v.domain} klein />
-                  ))}
-                </span>
-                <span className="text-[12px] text-muted-foreground">
-                  {VERSTECKT.map((v) => `${v.name} gehört zu ${v.konzern}`).join(", ")}
-                </span>
-              </div>
-            </div>
-          </div>
+          {/* RN16-39 (Elias: „dieses viele Marken kann weg, dann kommt direkt Essen, Trinken“): der rote Kasten mit den versteckten Marken ist raus. */}
           {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
@@ -216,7 +141,11 @@ const BoykottListe = () => {
         {bereiche.map((b) => (
           <Fragment key={b.id}>
             <Bereich id={b.id} titel={b.titel} firmen={b.firmen} alternativen={b.alternativen} />
-            {b.id === "technik" && <Boerse />}
+            {/* RN17-01 (Elias: „wir haben gesagt, doch immer so bei 30%. Das heißt, der erste sollte nach den Essen, Trinken kommen … das geht
+                stattdessen, aber vor Technik und Streaming“): der große Kasten nach Essen und Trinken samt „Das geht stattdessen“. Ersetzt RN16-39. */}
+            {b.id === bereiche[0].id && (
+              <CheckEinstieg quelle="boykottliste" className="mt-12" />
+            )}
           </Fragment>
         ))}
 
@@ -227,12 +156,12 @@ const BoykottListe = () => {
           <div className="card-surface mt-4 p-4">
             <p className="flex flex-wrap items-center gap-x-2 text-[16px] font-bold text-foreground">
               {WARE.name}
-              <span className="rounded-full bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
+              <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
             </p>
             <p className="mt-0.5 text-[14px] text-muted-foreground">{WARE.alltag}</p>
             <p className="mt-2 text-[16px] leading-snug text-foreground/80">{WARE.grund}</p>
           </div>
-          <div className="mt-3 flex items-center gap-3 rounded-2xl bg-muted/60 p-4">
+          <div className="mt-3 flex items-center gap-3 rounded-lg bg-muted/60 p-4">
             <AnbieterLogo name={AUCH_GENANNT.name} domain={AUCH_GENANNT.domain} />
             <p className="text-[14px] leading-snug text-foreground/80">
               <span className="font-bold text-foreground">{AUCH_GENANNT.name}: </span>
@@ -241,6 +170,7 @@ const BoykottListe = () => {
           </div>
         </section>
 
+        {/* RN16-39 („unten auf der Liste kommt der Call to Action nochmal. Aber der untere … ein bisschen kleiner“): unten nur der kleine Kasten. */}
         <NaechsterTeil wort="boykott" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">

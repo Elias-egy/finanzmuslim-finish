@@ -34,17 +34,20 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(container.textContent).not.toMatch(/weitere anzeigen/);
   });
 
-  it("zeigt zuerst die 15 gefallenen Namen, dann den Aufruf, dann den Rest", () => {
+  it("zeigt zuerst die 15 gefallenen Namen, dann den einen Check-Kasten, dann den Rest", () => {
     const { container } = zeige();
     const oben = container.querySelector("[data-top-gefallen]")!;
     const imRahmen = [...oben.querySelectorAll("[data-aktie]")].map((z) => z.getAttribute("data-aktie"));
     expect(imRahmen.length).toBeGreaterThan(5);
     expect(imRahmen.length).toBeLessThanOrEqual(15);
     for (const t of imRahmen) expect(TOP_GEFALLEN as readonly string[]).toContain(t);
-    const aufruf = container.querySelector("[data-depot-aufruf]")!;
-    expect(oben.compareDocumentPosition(aufruf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(aufruf.textContent).toContain("In unter 10 Minuten");
-    expect(aufruf.textContent).not.toMatch(/reich/i);
+    // RN16-42: nur noch ein großer Aufruf (Check), keine Depot-Karten.
+    const checks = container.querySelectorAll("[data-check-einstieg='aktienliste']");
+    expect(checks).toHaveLength(1);
+    expect(oben.compareDocumentPosition(checks[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector("[data-depot-aufruf]")).toBeNull();
+    expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
+    expect(container.querySelector("a[href*='/vergleich/'], a[href*='/out/']")).toBeNull();
   });
 
   it("Nvidia steht im Rahmen auf Platz 1 (Elias, AF1-03: „nvidia und co auf 1“)", () => {
@@ -59,24 +62,5 @@ describe("Freebie Aktie: Liste und Depot-Aufruf", () => {
     expect(z.querySelector("img")?.getAttribute("src")).toBe("/logos/aktien/NKE.png");
     expect(z.textContent).toMatch(/€/);
     expect(z.textContent).toMatch(/[−+]?\d+,\d %/);
-  });
-
-  it("zeigt genau zwei Karten, Smartbroker+ für den Start, flatex für Profis", () => {
-    const { container } = zeige();
-    const karten = [...container.querySelectorAll("[data-depot-karte]")];
-    expect(karten).toHaveLength(2);
-    expect(karten[0].textContent).toContain("Smartbroker+");
-    expect(karten[0].textContent).toContain("Top für den Start");
-    expect(karten[1].textContent).toContain("flatex");
-    expect(karten[1].textContent).toContain("12 von 12");
-    expect(karten[1].textContent).toContain("7 von 7");
-    expect(container.querySelector("video")).toBeNull();
-  });
-
-  it("führt über die Partnerwege mit der Klickzählung der Seite", () => {
-    const { container } = zeige();
-    const ziele = [...container.querySelectorAll("[data-depot-karte] a")].map((a) => a.getAttribute("href"));
-    expect(ziele[0]).toMatch(/^\/(depot-nummer-1|out\/smartbroker)\?src=ak(nr1|top3)$/);
-    expect(ziele[1]).toMatch(/^\/(depot-nummer-1|out\/flatex)\?src=ak(nr1|top3)$/);
   });
 });

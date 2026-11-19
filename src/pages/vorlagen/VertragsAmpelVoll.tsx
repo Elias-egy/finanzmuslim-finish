@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
-import GiroAufruf from "@/components/vorlagen/GiroAufruf";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import {
   AMPEL_QUELLEN,
   AMPEL_RECHTSHINWEIS,
@@ -30,8 +30,6 @@ const v = vorlageBySlug("vertrags-ampel")!;
 const freebie = optinFreebie("vertrags-ampel")!;
 const pfad = vollPfad(freebie);
 const farben: Farbe[] = ["gruen", "gelb", "rot"];
-// Klickzählung je Stelle, Kennungen in src/lib/attribution.ts.
-const vertragLink = (ziel: string, stelle: "top2" | "alle") => `${ziel}?src=vtg${stelle}`;
 
 const Gruppe = ({ farbe }: { farbe: Farbe }) => {
   const gruppe = zeilen.filter((z) => z.farbe === farbe);
@@ -81,7 +79,7 @@ const VertragsAmpelVoll = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
             Haram oder halal: <span className="whitespace-nowrap">12 Verträge</span> aus dem Alltag
           </h1>
@@ -90,7 +88,7 @@ const VertragsAmpelVoll = () => {
               <a
                 key={f}
                 href={`#farbe-${f}`}
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-white px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-card px-3 text-[14px] font-semibold text-foreground ring-1 ring-black/5"
               >
                 <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${bewertung[f].punkt}`} aria-hidden />
                 <span className="font-extrabold tabular-nums">{zeilen.filter((z) => z.farbe === f).length}</span>{" "}
@@ -104,16 +102,9 @@ const VertragsAmpelVoll = () => {
 
         <Gruppe farbe="gruen" />
 
-        {/* Unter dem Girokonto, dem letzten grünen Vertrag, der Girokonto-Aufruf statt des Depot-Aufrufs (Elias, 01.11.2026,
-            MC7d15: „Dann unter Girokonto machst du dann die Werbung rein. Girokonto ohne Zinsen“). */}
-        <section className="reveal mt-10" aria-labelledby="giro">
-          <h2 id="giro" className="text-[24px] font-extrabold leading-tight text-foreground">
-            Girokonto ohne Zinsen
-          </h2>
-          <div className="mt-1">
-            <GiroAufruf link={vertragLink} />
-          </div>
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Check-Kasten steht nach den grünen Verträgen,
+            der Abschnitt „Girokonto ohne Zinsen“ mit GiroAufruf (/vergleich/girokonto, /out/…) ist raus. */}
+        <CheckEinstieg quelle="vertrags-ampel" className="mt-12" />
 
         <Gruppe farbe="gelb" />
         <Gruppe farbe="rot" />

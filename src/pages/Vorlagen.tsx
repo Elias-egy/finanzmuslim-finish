@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ChevronRight, Mail } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
@@ -8,8 +9,8 @@ import MotivBild from "@/components/MotivBild";
 const Vorlagen = () => (
   <main className="bg-background">
     <Seo
-      title="Kostenlose Listen: halal Anlagen, haram Verträge, Aktien | finanzmuslim"
-      description="Hol dir die 100 Halal-Aktien, zwölf Verträge im Halal-Check und die kaufbaren Halal-Anlagen gegen deine E-Mail. Spickzettel und Baraka-Blocker sind sofort offen."
+      title="Kostenlose Listen: halal Anlagen, haram Verträge, Aktien"
+      description="Hol dir die 100 Halal-Aktien, zwölf Verträge im Halal-Check und die kaufbaren Halal-Anlagen gegen deine E-Mail. Spickzettel und Baraka-Blocker sind offen."
       path="/vorlagen"
       brotkrumen={[{ name: "Kostenlose Listen", path: "/vorlagen" }]}
     />
@@ -31,7 +32,7 @@ const Vorlagen = () => (
 
       <div className="mt-10 grid gap-4 md:grid-cols-3">
         {vorlagen.map((v) => (
-          <article key={v.slug} className="flex flex-col overflow-hidden rounded-2xl bg-hero">
+          <article key={v.slug} className="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
             <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
             <div className="flex flex-1 flex-col p-6">
             <span className="flex flex-wrap items-center gap-2">
@@ -45,9 +46,9 @@ const Vorlagen = () => (
             <h2 className="mt-3 text-[19px] font-bold leading-snug text-foreground">{v.titel}</h2>
             <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted-foreground">{v.kurzbeschreibung}</p>
             <div className="mt-5 flex flex-wrap items-center gap-4">
-              <Link to={`/vorlagen/${v.slug}`} className="btn-primary">
+              <Aufruf to={`/vorlagen/${v.slug}`} className="block sm:inline-block">
                 {v.gegenEmail ? "Ansehen und holen" : "Ansehen und laden"}
-              </Link>
+              </Aufruf>
             </div>
             </div>
           </article>
@@ -59,9 +60,9 @@ const Vorlagen = () => (
         <p className="mt-2 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
           Einsteiger, Fortgeschritten und Profi laufen über die Guide-Seite.
         </p>
-        <Link to="/halal-guide" className="btn-primary mt-5">
+        <Aufruf to="/halal-guide" className="block sm:inline-block mt-5">
           Zum Guide
-        </Link>
+        </Aufruf>
       </section>
 
       <section className="mt-14">

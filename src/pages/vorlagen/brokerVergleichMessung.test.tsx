@@ -39,18 +39,15 @@ describe("Broker-Freebie: Seite und Messung", () => {
     zeige();
     expect(ereignis).not.toHaveBeenCalledWith("freebie_ende", expect.anything());
     melden?.([{ isIntersecting: true }]);
-    expect(ereignis).toHaveBeenCalledWith("freebie_ende", expect.objectContaining({ wort: "broker" }));
+    expect(ereignis).toHaveBeenCalledWith("freebie_ende", expect.objectContaining({ wort: "broker-vergleich" }));
   });
 
-  it("hat je Anbieter genau einen Knopf zum Partnerweg mit eigener Kennung", () => {
+  it("hat genau einen großen Check-Kasten und keinen Partnerweg mehr (RN16-42)", () => {
     const { container } = zeige();
-    const knoepfe = [...container.querySelectorAll("a[data-broker-knopf]")];
-    expect(knoepfe.map((k) => k.getAttribute("href"))).toEqual([
-      "/out/flatex?src=bvfx",
-      "/out/smartbroker?src=bvsb",
-      "/out/traders-place?src=bvtp",
-      "/out/scalable?src=bvsc",
-    ]);
+    expect(container.querySelectorAll("a[data-broker-knopf]")).toHaveLength(0);
+    expect(container.querySelector("a[href*='/out/'], a[href*='/vergleich/']")).toBeNull();
+    expect(container.querySelectorAll("[data-check-einstieg='broker-vergleich']")).toHaveLength(1);
+    expect(container.querySelectorAll("[data-match-ende]")).toHaveLength(1);
   });
 
   it("zeigt die vier Anbieter in der Reihenfolge der Seite und Scalable als Honorable Mention", () => {

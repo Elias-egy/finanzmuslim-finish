@@ -39,7 +39,7 @@ export const GrafikWette = () => (
       <text x={46} y={87} textAnchor="middle" fontSize={26} fontWeight={800} fill="#fff">
         €
       </text>
-      <text x={46} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+      <text x={46} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
         Dein Geld
       </text>
 
@@ -47,7 +47,7 @@ export const GrafikWette = () => (
 
       <line x1={110} y1={112} x2={210} y2={112} stroke="#E2E8F0" strokeWidth={2} />
       <polyline
-        className="gg-kurs"
+        className="gg-kurs dark:stroke-[#F4F6FA]"
         points="112,96 128,66 142,84 158,42 172,76 186,56 206,100"
         fill="none"
         stroke={TINTE}
@@ -57,7 +57,7 @@ export const GrafikWette = () => (
       />
       <path d="M158 30 l6 8 h-12 z" className="fill-gain" />
       <path d="M206 112 l6 -8 h-12 z" className="fill-loss" />
-      <text x={160} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+      <text x={160} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
         Nur der Kurs
       </text>
 
@@ -68,10 +68,10 @@ export const GrafikWette = () => (
         <text x={276} y={88} textAnchor="middle" fontSize={26} fontWeight={800} className="fill-loss">
           ?
         </text>
-        <text x={276} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+        <text x={276} y={132} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
           Kein Gold
         </text>
-        <text x={276} y={150} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE}>
+        <text x={276} y={150} textAnchor="middle" fontSize={14} fontWeight={700} fill={TINTE} className="dark:fill-[#F4F6FA]">
           dahinter
         </text>
       </g>
@@ -120,11 +120,11 @@ export const GrafikTresor = ({ zeile }: { zeile: string }) => (
       ))}
       <g className="gg-anteil">
         <line x1={160} y1={130} x2={160} y2={142} stroke={GOLD_DUNKEL} strokeWidth={2} strokeDasharray="3 3" />
-        <rect x={20} y={142} width={280} height={52} rx={12} fill="#FFF7E0" stroke="#F3D58A" strokeWidth={1.5} />
-        <text x={160} y={164} textAnchor="middle" fontSize={15} fontWeight={800} fill={TINTE}>
+        <rect x={20} y={142} width={280} height={52} rx={12} fill="#FFF7E0" stroke="#F3D58A" strokeWidth={1.5} className="dark:fill-[#2A230C] dark:stroke-[#5A4A1A]" />
+        <text x={160} y={164} textAnchor="middle" fontSize={15} fontWeight={800} fill={TINTE} className="dark:fill-[#F4F6FA]">
           {zeile}
         </text>
-        <text x={160} y={183} textAnchor="middle" fontSize={12} fill="#6B4E00">
+        <text x={160} y={183} textAnchor="middle" fontSize={12} fill="#6B4E00" className="dark:fill-[#F3CE62]">
           aus dem ganzen Bestand im Tresor
         </text>
       </g>

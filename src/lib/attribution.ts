@@ -169,8 +169,14 @@ export const VALID_SRC = [
 // nl plus Datum ohne Bindestriche: Halal-News (~/rebrand/mails/brief.py mit_src), seit 06.11.2026 (CV15F).
 export const QUELLEN_FAMILIE = /^(?:dm|fb|ml|nl|[mgv][0-9])[a-z0-9]{0,18}$/;
 
+// RN5 (15.11.2026): Knöpfe im Halal-Finanz-Check, fc plus Einstieg plus Anbieter, „z“ für den kleinen zweiten Schritt
+// (src/data/halalFinanzCheck.ts CHECK_SRC, gleiche Form), „x“ für die Alternative, am Ende die Test-Fassung a oder b (RN7). Eine Stelle, keine Herkunft.
+// RN6: qz = alle, die früher ins alte Quiz /vergleich/start kamen (Check ersetzt das Quiz).
+// RN10-07: je Freebie-Seite mit Kasten eine eigene Stelle: va Vertrags-Ampel, aa Auto-Abo, bb Baraka-Blocker, rq Rizq, gp Gold-Plan, sp Sukuk-Plan, pp Portfolio-Plan, bv Broker-Vergleich.
+const CHECK_STELLE = /^fc(ak|bf|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
+
 export const istGueltigeQuelle = (src: string | null | undefined): src is string =>
-  !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src));
+  !!src && ((VALID_SRC as readonly string[]).includes(src) || QUELLEN_FAMILIE.test(src) || CHECK_STELLE.test(src));
 
 export const SRC_STORAGE_KEY = "amanah_src";
 /** Die zuletzt geklickte Stelle auf unserer Seite (Freebie-Knopf, Bonus-Karte), getrennt von der Herkunft. */

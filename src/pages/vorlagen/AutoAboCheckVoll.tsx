@@ -1,10 +1,11 @@
 import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
+import CheckEinstieg from "@/components/CheckEinstieg";
+import NaechsterTeil from "@/components/NaechsterTeil";
 import type { Farbe } from "@/components/vorlagen/ampelTeile";
 import {
   AboLegende,
   AnbieterKarte,
-  AUTO_CTAS,
   AUTO_EINLEITUNG,
   AUTO_QUELLEN,
   AUTO_RECHTSHINWEIS,
@@ -46,7 +47,9 @@ const AutoAboCheckVoll = () => (
       slug={v.slug}
       quellen={AUTO_QUELLEN}
       rechtshinweis={AUTO_RECHTSHINWEIS}
-      ctas={AUTO_CTAS}
+      /* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): die Aufrufe zum Sparzielrechner und zum Vertrags-Check (AUTO_CTAS) sind raus. */
+      ctas={[]}
+      endeKasten={<NaechsterTeil quelle="auto-abo" />}
     >
       <WarumNicht />
       <WasAboAndersMacht />
@@ -66,6 +69,9 @@ const AutoAboCheckVoll = () => (
           ))}
         </div>
       </section>
+
+      {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den Anbietern, dem Hauptblock. */}
+      <CheckEinstieg quelle="auto-abo" />
 
       <Rechenbeispiel r={rechnung} />
 
@@ -102,12 +108,14 @@ const AutoAboCheckVoll = () => (
         </ul>
       </section>
 
-      <section className="rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="firmen">
+      <section className="rounded-lg border border-border bg-card p-6 md:p-8" aria-labelledby="firmen">
         <h2 id="firmen" className="text-xl font-bold text-foreground">
           Abos für Firmen
         </h2>
         <p className="mt-2 text-[16px] leading-relaxed text-foreground/90">{firmen}</p>
       </section>
+
+      {/* RN16-42, RN17: der kleine Kasten steht über endeKasten ganz am Ende, nach den Quellen. */}
     </VorlagenSeite>
   </>
 );

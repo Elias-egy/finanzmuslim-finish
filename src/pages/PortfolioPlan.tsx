@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
-  ArrowRight,
   CheckCircle2,
   Bitcoin,
   Building2,
@@ -13,10 +12,9 @@ import {
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
-import GiroAufruf from "@/components/vorlagen/GiroAufruf";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
 import {
@@ -30,7 +28,6 @@ import {
   lagen,
   MONATLICH,
   quellen,
-  SCHMERZ,
   SPIELRAUM,
   type Baustein,
   type BausteinId,
@@ -114,7 +111,7 @@ const PlanKarte = ({ lage, betrag }: { lage: Lage; betrag: number }) => (
     </ul>
     <p className="mt-4 text-[14px] text-muted-foreground">{lage.verhalten}</p>
     {lage.anteile.some((a) => SPIELRAUM.bausteine.includes(a.baustein)) && (
-      <div className="mt-4 rounded-2xl bg-accent p-4">
+      <div className="mt-4 rounded-lg border border-border bg-card p-4">
         <p className="flex items-center gap-2 text-[16px] font-semibold text-foreground">
           {SPIELRAUM.bausteine.map((id) => (
             <Punkt key={id} farbe={bausteinById(id).farbe} />
@@ -133,7 +130,7 @@ const BeispielKasten = ({ b }: { b: Baustein }) => {
   if (!b.beispiel) return null;
   const anlage = b.beispiel.slug ? anlageBySlug(b.beispiel.slug) : undefined;
   return (
-    <div className="mt-3 flex min-h-[44px] items-center gap-3 rounded-xl bg-accent px-3 py-2 text-[14px] font-semibold text-foreground">
+    <div className="mt-3 flex min-h-[44px] items-center gap-3 rounded-lg border border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
       {anlage ? (
         <AnlageLogo a={anlage} />
       ) : (
@@ -198,9 +195,9 @@ const PortfolioPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">
-            Dein Portfolio als Muslim in vier Schritten
+            Dein Portfolio als Muslim in drei Schritten
           </h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel Geld hast du im Monat übrig?</p>
           <div
@@ -214,7 +211,7 @@ const PortfolioPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-card px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -252,15 +249,7 @@ const PortfolioPlan = () => {
               </li>
             ))}
           </ul>
-          <div className="mt-8">
-            <GiroAufruf
-              gross={SCHMERZ.girokonto}
-              einleitung="Zum Beispiel:"
-              zwischen={SCHMERZ.muslim}
-              klein
-              link={(ziel, stelle) => `${ziel}?src=plg${stelle}`}
-            />
-          </div>
+          {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der Girokonto-Aufruf (GiroAufruf, /vergleich/girokonto, Bank-Partnerwege) ist raus. */}
         </section>
 
         <section className="reveal mt-12" aria-labelledby="schritt-2">
@@ -272,7 +261,7 @@ const PortfolioPlan = () => {
                 <div key={b.id} className="card-surface p-4">
                   <div className="flex gap-3">
                     <span
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
                       style={{ background: `${b.farbe}1A`, color: b.farbe }}
                       aria-hidden
                     >
@@ -290,13 +279,16 @@ const PortfolioPlan = () => {
           </div>
         </section>
 
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten nach den ersten zwei Schritten (Girokonto, Bausteine). */}
+        <CheckEinstieg quelle="portfolio-plan" className="mt-12" />
+
         <section id="plan" className="reveal mt-12 scroll-mt-20" aria-labelledby="schritt-3">
           <Schritt nr={3} id="schritt-3" titel="Wann brauchst du es?" />
           <p className="mt-2 text-[16px] leading-snug text-foreground/80">
             Hier ein Beispiel, wie dein Portfolio aussehen könnte.
           </p>
           <div
-            className="mt-5 grid grid-cols-3 gap-1 rounded-2xl bg-muted p-1"
+            className="mt-5 grid grid-cols-3 gap-1 rounded-lg bg-muted p-1"
             role="group"
             aria-label="Wann brauchst du das Geld?"
           >
@@ -306,8 +298,8 @@ const PortfolioPlan = () => {
                 type="button"
                 aria-pressed={l.id === lageId}
                 onClick={() => waehle(l.id)}
-                className={`min-h-[44px] rounded-xl px-1 text-[14px] font-bold transition-colors ${
-                  l.id === lageId ? "bg-white text-primary shadow-sm" : "text-foreground/70"
+                className={`min-h-[44px] rounded-lg px-1 text-[14px] font-bold transition-colors ${
+                  l.id === lageId ? "bg-card text-primary" : "text-foreground/70"
                 }`}
               >
                 {l.wann}
@@ -322,19 +314,11 @@ const PortfolioPlan = () => {
           </p>
         </section>
 
-        <section className="reveal mt-12" aria-labelledby="schritt-4">
-          <Schritt nr={4} id="schritt-4" titel={DEPOT_TITEL} />
-          {/* Check und Top 3 wie Seite 8 des XXL-Guides (Elias, 31.10.2026, MC7d13d: „Trade Republic … Zinsen bei XTB, und
-              dann hast du die drei besten da liegen“); vorher nur die beiden bekannten Depots, der Aufruf stand im Kasten. */}
-          <div className="mt-3">
-            <DepotAufruf ohneVideo link={(ziel, stelle) => `${ziel}?src=pl${stelle}`} />
-          </div>
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Schritt 4 war nur der Depot-Aufruf (DepotAufruf, Top 3 Depots, /vergleich/depot) und ist samt Überschrift raus. */}
 
         <NaechsterTeil wort="plan" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
             Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland
             eine Zulassung.

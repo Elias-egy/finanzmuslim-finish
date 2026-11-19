@@ -1,0 +1,1440 @@
+/*
+ * RN11: Ladescreen und Endbildschirm des Checks (CheckLaden.tsx, CheckErgebnis.tsx). Alles unter .hc, Farben aus halalFinanzCheck.css.
+ * Ladescreen nach dem OS-Onboarding (Vault …/entwurf/app/style.css .obb-laden Z. 902 bis 925, Farben Z. 829): Verlauf #041A4F → #06297A,
+ * hoch als Bogen (obb-hoch), runter als Bogen (obb-runter), Linie zeichnet sich in 6,5 s, Häkchen nach den Videozeiten. Orange (Elias RN9-02)
+ * in den Knoten, im Zähler, in der letzten Zeile und im Aufleuchten am Ende.
+ * Ergebnis A nach Blueprint rn10 Abschnitt 5 (Ring 112/144, r 46, Strich 5, Karte Rundung 24, Häkchen 24-px-Kreis Blau 14 %, Knopf 56/16/700),
+ * (Ergebnis B, die Wischkarten, ist seit RN15 weg; ihre Klassen .hc-wb-* und .hc-wk-* stehen noch für Tabelle, Logo-Platte und Häkchen.)
+ */
+.hc {
+  --orange: #ff8a3d;
+  --obb-tief: #041a4f;
+  --obb-ende: #06297a;
+  --ease-erg: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Ladescreen ---------- */
+@keyframes hc-hoch {
+  from {
+    clip-path: ellipse(160% 0% at 50% 100%);
+  }
+  to {
+    clip-path: ellipse(160% 160% at 50% 100%);
+  }
+}
+@keyframes hc-runter {
+  0% {
+    clip-path: ellipse(160% 160% at 50% 100%);
+  }
+  99% {
+    clip-path: ellipse(160% 0% at 50% 100%);
+  }
+  100% {
+    clip-path: ellipse(160% 0% at 50% 100%);
+    visibility: hidden;
+  }
+}
+@keyframes hc-dreh {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes hc-knall {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.4);
+  }
+}
+.hc-laden {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 27px;
+  padding: calc(env(safe-area-inset-top, 0px) + 28px) 24px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(180deg, var(--obb-tief), var(--obb-ende));
+}
+/* RN13 (Elias RN12-03 „ich würde den Ladebildschirm minimal kleiner machen“): Titel, Linie, Zeilen und Abstände etwa 10 % kleiner */
+.hc-laden-innen {
+  display: grid;
+  justify-items: center;
+  gap: 26px;
+  width: min(310px, 100%);
+}
+.hc-laden-titel {
+  margin: 0;
+  display: grid;
+  gap: 5px;
+  font-size: 15.5px;
+  line-height: 1.35;
+}
+.hc-laden-titel span {
+  font-size: 13.5px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.hc-laden-titel b {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.hc-laden-linie {
+  width: min(270px, 68vw);
+  height: auto;
+  overflow: visible;
+}
+.hc-laden-linie path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hc-laden-geist {
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1.6;
+}
+.hc-laden-weg {
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.hc-laden--laeuft .hc-laden-weg {
+  stroke-dashoffset: 0;
+  /* RN16: 6,5 s geteilt durch 1,3 (CheckLaden TEMPO) */
+  transition: stroke-dashoffset 5s cubic-bezier(0.3, 0.15, 0.45, 1);
+}
+.hc-laden-k {
+  fill: #1b3f96;
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 0.3s var(--ease-erg), transform 0.35s var(--ease-erg);
+}
+.hc-laden-k[data-an] {
+  fill: var(--orange);
+  stroke: #fff;
+  transform: scale(1.3);
+}
+.hc-laden-schritte {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 11px;
+  text-align: left;
+  justify-self: stretch;
+}
+.hc-laden-schritte li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.32);
+  transition: color 0.35s var(--ease-erg);
+}
+.hc-laden-schritte li:is([data-stand="laedt"], [data-stand="fertig"]) {
+  color: #fff;
+}
+.hc-laden-h {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.hc-laden-h svg {
+  width: 16px;
+  height: 16px;
+}
+.hc-laden-h path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.35s var(--ease-erg);
+}
+.hc-laden-schritte li[data-stand="fertig"] .hc-laden-h path {
+  stroke-dashoffset: 0;
+}
+.hc-laden-schritte li[data-stand="laedt"] .hc-laden-h {
+  width: 12px;
+  height: 12px;
+  margin: 2px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-top-color: transparent;
+  animation: hc-dreh 0.7s linear infinite;
+}
+/* Die letzte Zeile schlägt schneller und in Orange: der Trommelwirbel vor dem Match */
+.hc-laden-schritte li[data-letzte][data-stand="laedt"] .hc-laden-h {
+  border-color: var(--orange);
+  border-top-color: transparent;
+  animation-duration: 0.35s;
+}
+.hc-laden-schritte li[data-letzte][data-stand="fertig"] .hc-laden-h path {
+  stroke: var(--orange);
+}
+.hc-laden-schritte li[data-stand="laedt"] .hc-laden-h svg {
+  display: none;
+}
+.hc-laden-zahl {
+  display: inline-block;
+  min-width: 2ch;
+  color: var(--orange);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.hc-laden-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  border: 2px solid var(--orange);
+  opacity: 0;
+  pointer-events: none;
+}
+.hc-laden--knall .hc-laden-ring {
+  animation: hc-knall 0.6s var(--ease-erg) both;
+}
+.hc-laden--zu {
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hc-laden {
+    animation: hc-hoch 0.6s var(--ease-erg) both;
+  }
+  .hc-laden--zu {
+    animation: hc-runter 0.7s var(--ease-erg) forwards;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hc-laden--zu {
+    visibility: hidden;
+  }
+  .hc-laden--knall .hc-laden-ring {
+    animation: none;
+  }
+}
+
+/* ---------- Ergebnis, gemeinsam ---------- */
+.hc-erg {
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 48px 20px 72px;
+}
+@media (min-width: 768px) {
+  .hc-erg {
+    padding: 72px 48px 72px;
+  }
+}
+.hc-erg-kicker {
+  display: block;
+  margin: 0 0 10px;
+  color: var(--blau-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hc-erg-kopf {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+@media (min-width: 768px) {
+  .hc-erg-kopf {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+}
+.hc-erg-kopf-text {
+  max-width: 672px;
+}
+.hc-erg-h1 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+@media (min-width: 768px) {
+  .hc-erg-h1 {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+.hc-erg-satz {
+  margin: 16px 0 0;
+  max-width: 576px;
+  color: var(--grau);
+  font-size: 17px;
+  line-height: 1.625;
+}
+@media (min-width: 768px) {
+  .hc-erg-satz {
+    font-size: 18px;
+  }
+}
+.hc-erg-antw {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hc-erg-antw li {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--flaeche);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Ring */
+.hc-erg-ring-zeile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.hc-erg-ring {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+@media (min-width: 768px) {
+  .hc-erg-ring {
+    width: 144px;
+    height: 144px;
+  }
+}
+.hc-erg-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+/* RN15 (Elias RN14-02 „die Übereinstimmung ist ein bisschen dicker bei ihm“): Strich 9 bei r 44 statt 5 bei r 46 */
+.hc-erg-ring circle {
+  fill: none;
+  stroke-width: 9;
+}
+.hc-erg-ring-spur {
+  stroke: color-mix(in srgb, var(--text) 10%, transparent);
+}
+.hc-erg-ring-fuell {
+  stroke: var(--blau);
+  stroke-linecap: round;
+  stroke-dasharray: 276.5;
+  stroke-dashoffset: calc(var(--rest, 0) * 1px);
+}
+.dark .hc .hc-erg-ring-fuell {
+  stroke: var(--blau-text);
+}
+.hc-erg-ring-zahl {
+  display: flex;
+  align-items: flex-start;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+.hc-erg-ring-zahl small {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .hc-erg-ring-zahl {
+    font-size: 52px;
+  }
+  .hc-erg-ring-zahl small {
+    margin-top: 6px;
+    font-size: 24px;
+  }
+}
+.hc-erg-ring-logo {
+  display: grid;
+  place-items: center;
+  width: 72%;
+  max-height: 60%;
+}
+.hc-erg-ring-logo :is(img, svg, span) {
+  max-width: 100%;
+}
+.hc-erg-ring-text {
+  margin: 0;
+  max-width: 144px;
+  color: var(--grau);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.375;
+}
+
+/* Logo auf weißer Platte, auch im Dunkeln (Logos stehen auf Weiß) */
+.hc-erg-logo {
+  display: inline-grid;
+  place-items: center;
+  padding: 18px 26px;
+  border-radius: 20px;
+  background: #fff;
+  color: #0b1220;
+  box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.45);
+}
+
+/* Karte */
+.hc-erg-karte {
+  margin-top: 40px;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: 24px;
+  background: var(--bg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 768px) {
+  .hc-erg-karte {
+    margin-top: 48px;
+    grid-template-columns: 1.05fr 1fr;
+  }
+}
+.hc-erg-bild {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--blau-hell), color-mix(in srgb, var(--blau) 16%, var(--bg)));
+}
+@media (min-width: 768px) {
+  .hc-erg-bild {
+    aspect-ratio: auto;
+    min-height: 416px;
+  }
+}
+.hc-erg-inhalt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+}
+@media (min-width: 768px) {
+  .hc-erg-inhalt {
+    padding: 40px;
+  }
+}
+@media (min-width: 1024px) {
+  .hc-erg-inhalt {
+    padding: 48px;
+  }
+}
+.hc-erg-titelzeile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+}
+.hc-erg-titelzeile h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+@media (min-width: 768px) {
+  .hc-erg-titelzeile h2 {
+    font-size: 32px;
+  }
+}
+.hc-erg-preis {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-erg-haken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hc-erg-haken li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 1.625;
+}
+.hc-erg-knopfzeile {
+  padding-top: 4px;
+}
+.hc .hc-erg-btn {
+  min-height: 56px;
+  padding: 0 32px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.hc-erg-pflicht {
+  margin: 0;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.hc-erg .hc-praemie {
+  margin: 0;
+}
+
+/* Liste heute gegen Match */
+.hc-erg-vergleich {
+  margin-top: 48px;
+}
+@media (min-width: 768px) {
+  .hc-erg-vergleich {
+    margin-top: 64px;
+  }
+}
+.hc-erg-h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
+  letter-spacing: -0.025em;
+}
+
+/* „Über 22.000 Menschen informieren sich“ mit Bildern anderer, überlappend wie im Original (32 px, -9 px) */
+.hc-leute {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 48px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--linie);
+}
+.hc-leute-bilder {
+  display: flex;
+  flex: none;
+}
+.hc-leute-bilder img {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: 50% 25%;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.hc-leute-bilder img + img {
+  margin-left: -10px;
+}
+.hc-leute figcaption {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Stimmen */
+.hc-erg-stimmen {
+  margin-top: 40px;
+}
+.hc-erg-stimmen-gitter {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .hc-erg-stimmen-gitter {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.hc-erg-stimmen-gitter:empty,
+.hc-erg-stimmen:has(.hc-erg-stimmen-gitter:empty) {
+  display: none;
+}
+.hc-erg-stimmen .hc-stimme blockquote {
+  font-size: 16px;
+}
+
+/* ---------- Fassung B: Kopfzeile, Wischkarten (weiß, wie die Bildschirme des Ergänzungsvergleichs im OS) ---------- */
+/* RN13 (Elias RN12-02 „Vielleicht als Dreizeiler … oder … ein bisschen runterziehen“): oben 48 wie das Original, Überschrift am Handy 30 px in drei Zeilen */
+.hc-erg--b {
+  padding-top: 48px;
+}
+@media (min-width: 768px) {
+  .hc-erg--b {
+    padding-top: 56px;
+  }
+}
+/* Kopf (Elias RN11-02): nur die Überschrift, groß wie im Original (36 px Handy, 48 px ab 768), darunter sofort die Wischkarten */
+.hc-wb-h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+@media (min-width: 768px) {
+  .hc-wb-h1 {
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+.hc-wb-platte {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  padding: 10px 14px;
+  border: 1px solid var(--linie);
+  border-radius: 14px;
+  background: #fff;
+  color: #0b1220;
+  box-shadow: 0 10px 22px -14px rgba(15, 23, 42, 0.4);
+}
+.hc-wb-platte--gross {
+  align-self: center;
+  padding: 16px 24px;
+  border-radius: 20px;
+}
+.hc-wb-platte--tab {
+  padding: 6px 8px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+/* Orange nur als Markenfarbe der norisbank: ihr Logo ist schwarz-weiß und fällt sonst nicht auf (Elias RN11-02) */
+.hc-wb-platte--noris {
+  border: 2px solid var(--orange);
+}
+.hc-wisch {
+  margin-top: 24px;
+}
+/* RN13 (Elias RN12-01 „mach alles in der großen Karte … Nur der letzte kann in der kleinen Karte“): alle gleich hoch, die letzte nach Inhalt */
+.hc-wisch-fenster {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  margin-inline: -20px;
+  padding: 4px 20px 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.hc-wisch-fenster::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hc-wisch-fenster {
+    margin-inline: 0;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+  }
+}
+.hc-wk {
+  position: relative;
+  flex: 0 0 88%;
+  min-width: 0;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 18px 20px;
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: 22px;
+  background: var(--bg);
+  box-shadow: 0 10px 28px -18px rgba(15, 23, 42, 0.35);
+}
+@media (min-width: 768px) {
+  .hc-wk {
+    flex-basis: min(560px, 70%);
+    padding: 28px 28px 24px;
+  }
+}
+.hc-wk:last-child {
+  align-self: flex-start;
+}
+/* Kürzerer Inhalt sitzt mittig zwischen Kicker und unterem Rand, statt oben mit leerem Rest */
+.hc-wk:not(:last-child) > .hc-wk-ueber + * {
+  margin-top: auto;
+}
+.hc-wk:not(:last-child) > :last-child {
+  margin-bottom: auto;
+}
+.hc-wk::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blau), color-mix(in srgb, var(--blau) 20%, transparent));
+}
+.hc-wk h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.hc-wk-klein {
+  margin: 0;
+  color: var(--grau);
+  font-size: 14px;
+}
+/* Karte „Dein Match“: Logo, Name und Vorteile mittig, beim Depot die gerechnete Passung groß */
+.hc-wk-ueber {
+  color: var(--blau-text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hc-wk--match h3 {
+  text-align: center;
+}
+.hc-wk--match .hc-wk-klein {
+  margin-top: -10px;
+  text-align: center;
+}
+/* Match-Karte (Elias RN12-01 „passt so zu so und so viel Prozent zu dir“): Logo und Ring nebeneinander, darunter die Zahl in Worten, blau wie „Übereinstimmung“ im Original */
+.hc-wk-matchkopf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.hc-wk-matchkopf .hc-wb-platte--gross {
+  align-self: center;
+}
+.hc-erg-ring--klein {
+  width: 84px;
+  height: 84px;
+}
+.hc-erg-ring--klein .hc-erg-ring-zahl {
+  font-size: 28px;
+}
+.hc-erg-ring--klein .hc-erg-ring-zahl small {
+  margin-top: 3px;
+  font-size: 13px;
+}
+.hc-wk-passt {
+  margin: -6px 0 0;
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+/* Grüne Häkchen wie auf der Startseite (text-gain) und in der Vergleichstabelle der Verkaufsseite (.hc-tab-ja), ohne Kreis */
+.hc {
+  --ja: var(--gruen);
+}
+.dark .hc {
+  --ja: #3ecf8e;
+}
+.hc-wb-ja {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--ja);
+  stroke-width: 3;
+}
+.hc-wb-haken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hc-wb-haken li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+.hc-wb-haken .hc-wb-ja {
+  margin-top: 1.5px;
+}
+
+/* Karte „Vergleich“: beide Logos oben, je Zeile Beschriftung, links heute, rechts Match, ruhig wie die Vergleichstabelle der Verkaufsseite */
+.hc-gg {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+.hc-gg th,
+.hc-gg td {
+  text-align: left;
+  vertical-align: top;
+}
+.hc-gg-kopf {
+  padding: 0 6px 12px;
+  font-weight: 400;
+  text-align: center !important;
+}
+.hc-gg-kopf:first-child {
+  padding-left: 0;
+}
+.hc-gg-kopf:last-child {
+  padding-right: 0;
+}
+.hc-gg-kopf .hc-wb-platte {
+  display: grid;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 4px;
+  overflow: hidden;
+}
+/* Der Schriftzug ist 134 px breit und passt sonst nicht in eine halbe Karte am Handy */
+.hc-gg-kopf .hc-wb-platte > * {
+  zoom: 0.72;
+}
+.hc-gg-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.hc-gg-label {
+  padding: 12px 0 4px;
+  border-top: 1px solid var(--linie);
+  color: var(--grau);
+  font-size: 13px;
+  font-weight: 600;
+}
+.hc-gg-zelle {
+  padding: 0 6px 12px 0;
+  font-size: 15px;
+}
+.hc-gg-zelle + .hc-gg-zelle {
+  padding: 0 0 12px 12px;
+  border-left: 1px solid var(--linie);
+}
+.hc-gg-wert {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.hc-gg-wert .hc-wb-ja {
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+}
+.hc-gg-wert b {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.hc-gg-wert b.hc-gg-leise {
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hc-gg-zelle small {
+  display: block;
+  margin-top: 4px;
+  color: var(--grau);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* Letzte Karte wie OS-Bild 4 (.eg-k-oeffnen): Logo groß, Satz, Knopf mit Etikett „Werbung“ */
+.hc-wk-oeffnen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0 2px;
+  text-align: center;
+}
+.hc-wk-oeffnen h3 {
+  font-size: clamp(22px, 6vw, 26px);
+}
+.hc-wb-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.hc-wb-werbung {
+  padding: 2px 10px;
+  border: 1px solid var(--linie);
+  border-radius: 9999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.hc-wk-oeffnen .hc-erg-pflicht {
+  max-width: 34ch;
+}
+
+/* Ganz unten noch einmal der Knopf (nur in B, Elias RN11-01) */
+.hc-wb-unten {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+@media (max-width: 520px) {
+  .hc-wb-unten .hc-erg-btn {
+    width: 100%;
+  }
+}
+.hc-wisch-steuer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.hc-wisch-pfeil {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--linie);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 8px 20px -10px rgba(15, 23, 42, 0.4);
+}
+.hc-wisch-pfeil svg {
+  width: 20px;
+  height: 20px;
+}
+.hc-wisch-pfeil:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.hc-wisch-punkte {
+  display: flex;
+  gap: 2px;
+}
+.hc-wisch-pt {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.hc-wisch-pt::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--text) 22%, transparent);
+  transition: transform 0.2s var(--ease-erg), background-color 0.2s var(--ease-erg);
+}
+.hc-wisch-pt[aria-current="true"]::after {
+  background: var(--blau);
+  transform: scale(1.4);
+}
+
+/* Depot in B: Ring unter der Überschrift (Elias RN11-03) */
+.hc-wb-ring {
+  margin-top: 20px;
+}
+/* Kreuz im Vergleich (Elias RN11-02 „Häkchen und Kreuze“), nur bei belegtem Nachteil der heutigen Bank */
+.hc {
+  --nein: #c4321f;
+}
+.dark .hc {
+  --nein: #ff7a66;
+}
+.hc-gg-nein {
+  flex: none;
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  color: var(--nein);
+  stroke-width: 3;
+}
+/* „Wechsel in 10 Minuten“ unter dem Vergleich und in der Karte „Alles wird für dich rübergezogen“ (Elias RN11-04) */
+.hc-gg-wechsel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--linie);
+  font-size: 16px;
+  font-weight: 700;
+}
+.hc-wk-satz {
+  margin: -4px 0 0;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+.hc-ueberzug-bild {
+  display: block;
+  width: 100%;
+  max-width: 210px;
+  height: auto;
+  align-self: center;
+  border: 1px solid var(--linie);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 22px -14px rgba(15, 23, 42, 0.4);
+}
+
+/* „Passt auch gut“ wie im Original (Blueprint rn10 5.3): Handy Zeile mit Bild 96 links, ab 768 Bild oben 2:1. Logo statt Foto. */
+.hc-auch {
+  margin-top: 48px;
+}
+@media (min-width: 768px) {
+  .hc-auch {
+    margin-top: 64px;
+  }
+}
+.hc-auch-h {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
+  letter-spacing: -0.025em;
+}
+.hc-auch-karte {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px;
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: 20px;
+  background: var(--bg);
+}
+.hc-auch-bild {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fff;
+  color: #0b1220;
+  box-shadow: inset 0 0 0 1px var(--linie);
+}
+.hc-auch-bild > * {
+  zoom: 0.62;
+}
+.hc-auch-text {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.hc-auch-fit {
+  margin: 0 0 4px;
+  color: var(--blau-text);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-auch-text h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hc-auch-liste {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hc-auch-liste li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.375;
+}
+.hc-auch-liste svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: var(--blau-text);
+  stroke-width: 1.7;
+}
+.hc-auch-text .hc-erg-pflicht {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.hc-auch-fuss {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 16px;
+}
+.hc-auch-fuss b {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-auch-btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 9999px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.hc-auch-btn .hc-pfeil {
+  width: 16px;
+  height: 16px;
+}
+@media (min-width: 768px) {
+  .hc-auch-karte {
+    max-width: 560px;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  .hc-auch-bild {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 var(--linie);
+  }
+  .hc-auch-bild > * {
+    zoom: 1;
+  }
+  .hc-auch-text {
+    padding: 24px;
+  }
+  .hc-auch-fuss {
+    padding-top: 24px;
+  }
+}
+@media (hover: hover) {
+  .hc-auch-btn:hover {
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+}
+
+/* ---------- Bewegung: erst wenn der Ladescreen fällt (hc-erg--bereit), nur ohne „weniger Bewegung“ ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hc-erg-rein {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+  @keyframes hc-erg-fuellen {
+    from {
+      stroke-dashoffset: 276.5px;
+    }
+  }
+  .hc-erg:not(.hc-erg--bereit) [data-e] {
+    opacity: 0;
+  }
+  .hc-erg--bereit [data-e] {
+    animation: hc-erg-rein 0.7s var(--ease-erg) both;
+  }
+  .hc-erg--bereit [data-e="2"] {
+    animation-delay: 90ms;
+  }
+  .hc-erg--bereit [data-e="3"] {
+    animation-delay: 180ms;
+  }
+  .hc-erg--bereit [data-e="4"] {
+    animation-delay: 270ms;
+  }
+  .hc-erg--bereit [data-e="5"] {
+    animation-delay: 360ms;
+  }
+  .hc-erg--bereit [data-e="6"] {
+    animation-delay: 450ms;
+  }
+  .hc-erg--bereit .hc-erg-ring-fuell {
+    animation: hc-erg-fuellen 1.2s 0.3s var(--ease-erg) both;
+  }
+  .hc-erg-btn .hc-pfeil {
+    transition: transform 0.2s var(--ease-erg);
+  }
+  @media (hover: hover) {
+    .hc-erg-btn:hover {
+      transform: translateY(-2px);
+    }
+    .hc-erg-btn:hover .hc-pfeil {
+      transform: translateX(2px);
+    }
+  }
+}
+
+/* ---------- RN15: Fassung A wie das Perspective-Original (Elias RN14-02) ---------- */
+/* Kopf kleiner und tiefer: oben mehr Luft wie im Original, Überschrift 30 px am Handy (drei Zeilen statt vier bei 36), 44 px ab 768 */
+.hc-erg--a {
+  padding-top: 76px;
+}
+@media (min-width: 768px) {
+  .hc-erg--a {
+    padding-top: 104px;
+  }
+}
+.hc-erg--a .hc-erg-h1 {
+  font-size: 30px;
+  line-height: 1.12;
+}
+@media (min-width: 768px) {
+  .hc-erg--a .hc-erg-h1 {
+    font-size: 44px;
+    line-height: 1.05;
+  }
+}
+.hc-erg--a .hc-erg-kopf {
+  gap: 24px;
+}
+/* norisbank-Platte orange wie in B (Elias RN14-02 „Norisbank ist hier nicht mehr orange“) */
+.hc-erg-logo.hc-wb-platte--noris {
+  border: 2px solid var(--orange);
+}
+/* Vergleich: dieselbe Haken-Tabelle wie in B, als eigene Karte mit mehr Platz links und rechts */
+.hc-erg-vergleich--a {
+  padding: 24px 20px 12px;
+  border: 1px solid var(--linie);
+  border-radius: 24px;
+  background: var(--bg);
+  box-shadow: 0 10px 28px -18px rgba(15, 23, 42, 0.35);
+}
+@media (min-width: 768px) {
+  .hc-erg-vergleich--a {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: 36px 40px 20px;
+  }
+}
+.hc-erg-vergleich--a .hc-erg-h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.hc-erg-vergleich--a .hc-gg-kopf .hc-wb-platte {
+  min-height: 60px;
+}
+.hc-erg-vergleich--a .hc-gg-kopf .hc-wb-platte > * {
+  zoom: 0.86;
+}
+.hc-erg-vergleich--a .hc-gg-name {
+  font-size: 15px;
+}
+.hc-erg-vergleich--a .hc-gg-label {
+  padding-top: 14px;
+  font-size: 14px;
+}
+.hc-erg-vergleich--a .hc-gg-zelle {
+  padding-bottom: 14px;
+}
+.hc-erg-vergleich--a .hc-gg-zelle + .hc-gg-zelle {
+  padding-left: 16px;
+}
+.hc-erg-vergleich--a .hc-gg-wert b {
+  font-size: 17px;
+}
+/* Danach „Aus der Community“: Kicker, 22.000, Stimmen */
+.hc-erg-community {
+  margin-top: 56px;
+}
+.hc-erg-community .hc-leute {
+  margin: 0 0 24px;
+  padding-top: 0;
+  border-top: 0;
+}
+.hc-erg-community .hc-leute figcaption {
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- RN15: Sätze unter „Dein Match“, unten Überzug und offener Aufruf (Elias RN15-01) ---------- */
+/* Ein, zwei Sätze, in denen sich der Leser wiederfindet: normale Textfarbe, 17 px, kein grauer Kleindruck, keine Pillen */
+.hc-erg-match-satz {
+  max-width: 560px;
+  margin: 16px 0 0;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+/* Karte „Alles wird für dich rübergezogen“ unter den Stimmen, so sichtbar wie die anderen Karten */
+.hc-erg-ueberzug {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 48px;
+  padding: 28px 20px 24px;
+  border: 1px solid var(--linie);
+  border-radius: 24px;
+  background: var(--bg);
+  box-shadow: 0 10px 28px -18px rgba(15, 23, 42, 0.35);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .hc-erg-ueberzug {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: 36px 40px 28px;
+  }
+}
+.hc-erg-ueberzug .hc-erg-h3 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.hc-erg-ueberzug-satz {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.hc-erg-ueberzug .hc-gg-wechsel {
+  justify-content: center;
+  align-self: stretch;
+  font-size: 18px;
+}
+/* Offener Block ohne Rahmen: Logo, Überschrift, Knopf mit „Werbung“ */
+.hc-erg-eroeffnen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+  text-align: center;
+}
+.hc-erg-eroeffnen .hc-erg-h3 {
+  margin: 0;
+  font-size: clamp(24px, 6.5vw, 30px);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.hc-erg-eroeffnen .hc-erg-pflicht {
+  max-width: 40ch;
+}
+@media (max-width: 520px) {
+  .hc-erg-eroeffnen .hc-erg-btn {
+    width: 100%;
+  }
+}
+/* „Check neu starten“ nur noch als kleiner Text ganz am Ende */
+.hc-neu--klein {
+  display: block;
+  margin: 24px auto 0;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* RN16 (Elias RN15-03 „N26 und Ding, beide halal nutzbar“): ein Satz mit grünem Haken über den drei Zeilen, über beide Spalten */
+.hc-gg-beide {
+  padding: 12px 0;
+  border-top: 1px solid var(--linie);
+  font-size: 16px;
+  line-height: 1.35;
+}
+.hc-gg-beide .hc-wb-ja {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0 6px -3px 0;
+  vertical-align: baseline;
+}
+.hc-gg-beide b {
+  font-weight: 700;
+}
+
+/* RN16 (Elias RN15-04: „dieses blaue Bild … sieht so ein bisschen noch generisch aus … Vielleicht das Logo einfach groß und der Hintergrund
+   weiß oder so. Oder nur einen orangen Rand“): statt des blauen Verlaufs eine weiße Fläche, das Logo groß, bei der norisbank ein oranger
+   Rahmen (ihre Markenfarbe), sonst eine feine Linie. Bleibt auch im Dunkeln weiß, weil Logos auf Weiß stehen. */
+.hc-erg--a .hc-erg-bild {
+  padding: 12px;
+  background: #fff;
+}
+.hc-erg--a .hc-erg-bild .hc-erg-logo {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border: 2px solid rgba(21, 27, 40, 0.1);
+  border-radius: 16px;
+  box-shadow: none;
+}
+.hc-erg--a .hc-erg-bild .hc-erg-logo.hc-wb-platte--noris {
+  border: 3px solid var(--orange);
+}
+.hc-erg--a .hc-erg-bild .hc-erg-logo > * {
+  zoom: 1.7;
+}
+@media (min-width: 768px) {
+  .hc-erg--a .hc-erg-bild {
+    padding: 16px;
+  }
+  .hc-erg--a .hc-erg-bild .hc-erg-logo > * {
+    zoom: 2.1;
+  }
+}
+
+/* RN16 (Elias RN16-01): grüne Haken ohne Kreis in der Liste der Match-Karte, auf Höhe der ersten Zeile (16 px Schrift, 26 px Zeile) */
+.hc-erg-haken .hc-erg-haken-ja {
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+}

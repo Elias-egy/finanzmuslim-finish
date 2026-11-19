@@ -35,6 +35,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
+  // RN5: der Halal-Finanz-Check läuft im Vollbild ohne Menü, kein Knopf führt aus dem Ablauf heraus.
+  // RN7: Kopf, Fuß und Impressum-Links bringt die Seite selbst mit (Verkaufsseite wie bei Perspective), hier nur die weiße Fläche.
+  if (pathname === "/check") return <main className="min-h-screen bg-white">{children}</main>;
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -24,22 +24,23 @@ const zeige = () =>
     </HelmetProvider>,
   );
 
-/** Elias, 04.11.2026, Freebie Plan: kleiner Girokonto-Aufruf statt zwei Banken, Video bei den drei Depots raus. */
-describe("Plan: Aufrufe", () => {
-  it("zeigt im Girokonto-Schritt nur den kleinen Aufruf, keine Bankkarten", () => {
+/** RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): kein Girokonto- und kein Depot-Aufruf mehr, nur der Check-Kasten. */
+describe("Plan: ein Aufruf", () => {
+  it("hat weder Bankkarten noch Depot-Karten noch Vergleichs-Links", () => {
     const { container } = zeige();
-    const schritt1 = container.querySelector("section[aria-labelledby=schritt-1]")!;
-    expect(schritt1.querySelector("[data-depot-karte]")).toBeNull();
-    expect(schritt1.textContent).not.toMatch(/Consorsbank|Zum Angebot/);
-    const link = [...schritt1.querySelectorAll("a")].find((a) => a.textContent?.includes("Zum Vergleich"));
-    expect(link?.getAttribute("href")).toBe("/vergleich/girokonto?src=plgalle");
+    expect(container.querySelectorAll("[data-depot-karte]")).toHaveLength(0);
+    expect(container.querySelectorAll("video")).toHaveLength(0);
+    expect(container.querySelector("a[href*='/vergleich/'], a[href*='/out/']")).toBeNull();
+    expect(container.querySelector("section[aria-labelledby=schritt-4]")).toBeNull();
   });
 
-  it("zeigt bei den drei Depots die drei Anbieter, aber kein Video", () => {
+  it("zeigt genau einen großen Check-Kasten in der Mitte und unten den kleinen", () => {
     const { container } = zeige();
-    expect(container.querySelectorAll("video")).toHaveLength(0);
-    const schritt4 = container.querySelector("section[aria-labelledby=schritt-4]")!;
-    expect(schritt4.querySelectorAll("[data-depot-karte]")).toHaveLength(3);
-    expect(screen.queryByText(/Das Video zeigt die Einrichtung/)).toBeNull();
+    const gross = container.querySelectorAll("[data-check-einstieg='portfolio-plan']");
+    expect(gross).toHaveLength(1);
+    const unten = container.querySelectorAll("[data-match-ende]");
+    expect(unten).toHaveLength(1);
+    expect(gross[0].compareDocumentPosition(unten[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector("section[aria-labelledby=schritt-2]")!.compareDocumentPosition(gross[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });

@@ -1,0 +1,2058 @@
+/*
+ * Halal-Finanz-Check (/check), RN7 15.11.2026: Look und Bewegung 1:1 nach Elias' Perspective-Funnel.
+ * Bauplan: Vault hermes/renovierungskampagne/perspective/eins-zu-eins/index.html, Learnings 23 bis 41
+ * (hermes/renovierungskampagne/perspective/LEARNINGS-PERSPECTIVE.md). Werte aus dem Original-HTML: Weiß, Inter, Blau #0057FA,
+ * Text #151B28, Nebenschrift 62 %, Linien 12 %, Knöpfe ganz rund, große Rundungen. Alles unter .hc, damit der Rest der Seite
+ * unberührt bleibt. Bewegung nur bei no-preference.
+ */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.hc {
+  --blau: #0057fa;
+  --text: #151b28;
+  --grau: color-mix(in srgb, var(--text) 62%, transparent);
+  --linie: color-mix(in srgb, var(--text) 12%, transparent);
+  --linie-stark: color-mix(in srgb, var(--text) 45%, transparent);
+  --gruen: #0f8a4f;
+  --gruen-hell: #e8f7ef;
+  --bg: #fff;
+  --blase: #f1f2f5;
+  --flaeche: #f2f3f5;
+  --flaeche2: #eef1f6;
+  --blau-hell: #e8eeff;
+  --blau-text: var(--blau);
+  --rund: 1.75rem;
+  color-scheme: light;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+.hc *,
+.hc *::before,
+.hc *::after {
+  box-sizing: border-box;
+}
+.hc :is(h1, h2, h3, h4, button, summary) {
+  font-family: inherit;
+}
+.hc button {
+  cursor: pointer;
+}
+.hc a {
+  color: inherit;
+}
+.hc :focus-visible {
+  outline: 3px solid var(--blau);
+  outline-offset: 3px;
+}
+.hc-wrap {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px) {
+  .hc-wrap {
+    padding-inline: 32px;
+  }
+}
+
+/* Knöpfe ganz rund */
+.hc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 30px;
+  border: 1px solid var(--blau);
+  border-radius: 9999px;
+  background: var(--blau);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hc .hc-btn {
+  color: #fff;
+}
+.hc-btn--klein {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.hc-btn--rand {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--text) 22%, transparent);
+}
+.hc .hc-btn--rand {
+  color: var(--text);
+}
+.hc-btn--weiss {
+  background: #f3f6ff;
+  border-color: #f3f6ff;
+}
+.hc .hc-btn--weiss {
+  color: var(--blau);
+}
+.hc-btn--breit {
+  width: 100%;
+}
+.hc-pfeil {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+@media (hover: hover) {
+  .hc-btn:hover {
+    transform: translateY(-2px);
+  }
+  .hc-btn:hover .hc-pfeil {
+    transform: translateX(4px);
+  }
+}
+
+/* Knöpfe ganz rund (Verkaufsseite nach dem neuen Funnel: großer blauer Knopf, Knopf mit Rand, dunkler Kopf-Knopf) */
+.hc-btn--gross {
+  min-height: 56px;
+  gap: 8px;
+  padding: 0 32px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.hc-btn--rand.hc-btn--gross {
+  padding: 0 28px;
+  font-weight: 600;
+  box-shadow: none;
+}
+.hc-btn--dunkel {
+  background: var(--text);
+  border-color: var(--text);
+}
+.hc .hc-btn--dunkel {
+  color: var(--bg);
+}
+
+/* Kopf */
+.hc-kopf {
+  border-bottom: 1px solid var(--linie);
+}
+.hc-kopf-innen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+.hc-logo {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+@media (min-width: 768px) {
+  .hc-logo {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Hero: Zeile „89 Angebote selbst getestet“ mit drei Bank-Logos direkt daneben, Überschrift, Unterzeile, zwei Knöpfe, Häkchenzeile */
+.hc-hero.hc-wrap {
+  max-width: calc(72rem + 96px);
+  padding-top: 80px;
+  padding-inline: 24px;
+  container-type: inline-size;
+}
+@media (min-width: 768px) {
+  .hc-hero.hc-wrap {
+    padding-top: 112px;
+    padding-inline: 48px;
+  }
+}
+.hc-hero-gitter {
+  display: grid;
+  gap: 32px;
+}
+@media (min-width: 768px) {
+  .hc-hero-gitter {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 56px;
+  }
+}
+.hc-beweis {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px 14px;
+  min-width: 0;
+  margin-bottom: 20px;
+}
+.hc-eyebrow {
+  flex: none;
+  margin: 0;
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.375;
+  white-space: nowrap;
+}
+.hc-banken {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.hc-banklogo {
+  display: block;
+  flex: 0 1 var(--w);
+  width: var(--w);
+  min-width: 0;
+  height: 16px;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0.92;
+}
+.hc-banklogo--ing {
+  --w: 44px;
+}
+.hc-banklogo--dkb {
+  --w: 26px;
+}
+.hc-banklogo--cb {
+  --w: 52px;
+}
+@media (min-width: 520px) {
+  .hc-banken {
+    gap: 14px;
+  }
+  .hc-banklogo {
+    height: 18px;
+  }
+  .hc-banklogo--ing {
+    --w: 92px;
+  }
+  .hc-banklogo--dkb {
+    --w: 32px;
+  }
+  .hc-banklogo--cb {
+    --w: 100px;
+  }
+}
+@media (min-width: 768px) {
+  .hc-eyebrow {
+    font-size: 18px;
+  }
+}
+.hc-h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px) {
+  .hc-h1 {
+    font-size: min(4.5rem, 9cqw);
+    line-height: 1;
+  }
+}
+@media (min-width: 1024px) {
+  .hc-h1 {
+    font-size: min(5.25rem, 9cqw);
+  }
+}
+.hc-lead {
+  margin: 0;
+  max-width: 28rem;
+  color: var(--grau);
+  font-size: 18px;
+  line-height: 1.625;
+}
+.hc-knoepfe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.hc-haken-zeile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 56px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--linie);
+  list-style: none;
+}
+@media (min-width: 900px) {
+  .hc-haken-zeile {
+    margin-top: 72px;
+    padding-top: 28px;
+    gap: 12px 48px;
+  }
+}
+.hc-haken-zeile li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.375;
+  font-size: 15px;
+  font-weight: 500;
+}
+.hc-haken-icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--blau-text);
+}
+
+/* Aus der Community */
+.hc-community {
+  padding-block: 80px 24px;
+}
+.hc-kicker {
+  margin: 0 0 12px;
+  color: var(--blau-text);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hc-h2 {
+  margin: 0;
+  max-width: 17em;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+@media (min-width: 768px) {
+  .hc-h2 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+.hc-schritte .hc-h2 {
+  font-size: 1.875rem;
+  line-height: 1.25;
+}
+@media (min-width: 768px) {
+  .hc-schritte .hc-h2 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}
+.hc-community-gitter {
+  display: grid;
+  gap: 28px;
+  margin-top: 32px;
+}
+/* RN15 (Elias RN14-02 „sie haben gewechselt …, dann einfach das neue Bild. Dann da drunter halt die Sternebewertungen“): auch am Laptop
+   Bild oben, Stimmen darunter (am Laptop die Stimmen nebeneinander). */
+@media (min-width: 800px) {
+  .hc-community-gitter {
+    gap: 40px;
+    margin-top: 40px;
+  }
+  /* RN16-32: drei Stimmen auf der Testseite nebeneinander */
+  .hc-community-stimmen {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    align-items: start;
+  }
+}
+.hc-community-foto {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  aspect-ratio: 4 / 3;
+  background: var(--flaeche2);
+}
+@media (min-width: 800px) {
+  .hc-community-foto {
+    aspect-ratio: 4 / 5;
+  }
+}
+.hc-community-foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+/* RN14-01: das Vortragsbild ganz zeigen, wie Elias es zugeschnitten hat (nicht noch einmal beschneiden), darunter eine kleine Zeile in Textfarbe */
+.hc-community-foto--bild {
+  aspect-ratio: auto !important;
+  overflow: visible;
+  border-radius: 0;
+  background: none;
+}
+.hc-community-foto--bild img {
+  height: auto;
+  border-radius: 1.25rem;
+}
+.hc-community-stimmen {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Stimmen */
+.hc-stimme {
+  margin: 0;
+  max-width: 560px;
+  padding: 20px 22px;
+  border: 1px solid var(--linie);
+  border-radius: 1.25rem;
+  background: var(--bg);
+  box-shadow: 0 6px 24px -12px rgba(21, 27, 40, 0.18);
+}
+.hc-stimme blockquote {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.hc-stimme figcaption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.hc-stimme img {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-stimme-name {
+  font-weight: 600;
+}
+.hc-stimme-zeile {
+  color: var(--grau);
+}
+.hc-sterne {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.hc-stern {
+  width: 18px;
+  height: 18px;
+  fill: #f5a300;
+  color: #f5a300;
+}
+.hc-stern--leer {
+  fill: none;
+}
+.hc-stimme--platz {
+  border: 2px dashed #f5a300;
+  background: #fffbea;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* So entsteht deine Empfehlung: vier nummerierte Schritte mit kleinem Foto links */
+.hc-schritte {
+  padding-block: 80px 24px;
+}
+.hc-schritte-kopf {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 800px) {
+  .hc-schritte-kopf {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: end;
+    gap: 56px;
+  }
+}
+.hc-grau-text {
+  margin: 0;
+  color: var(--grau);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.hc-zeilen {
+  margin-top: 32px;
+}
+.hc-zeilen--zwei {
+  display: grid;
+  column-gap: 56px;
+}
+@media (min-width: 800px) {
+  .hc-zeilen--zwei {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 48px;
+  }
+}
+.hc-zeile {
+  display: grid;
+  grid-template-columns: clamp(104px, 28vw, 200px) minmax(0, 1fr);
+  align-items: start;
+  gap: 20px clamp(20px, 3vw, 24px);
+  width: 100%;
+  padding: 28px 0;
+  border: 0;
+  border-top: 1px solid var(--linie);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.hc-zeile-bild {
+  display: block;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  aspect-ratio: 4 / 3;
+  background: var(--flaeche2);
+}
+.hc-zeile-bild > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.hc-zeile-bild--oben > img {
+  object-position: 50% 12%;
+}
+@media (hover: hover) {
+  .hc-zeile:hover .hc-zeile-bild > img {
+    transform: scale(1.03);
+  }
+}
+.hc-zeile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.hc-zeile-nr {
+  color: var(--grau);
+  font-size: 15px;
+  font-weight: 500;
+}
+.hc-zeile-nr b {
+  margin-right: 4px;
+  color: var(--blau-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-zeile-titel {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.375;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+}
+.hc-zeile-beschr {
+  margin-top: 4px;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.625;
+}
+
+/* Tabelle: Finanzmuslim blau hinterlegt gegen Vergleichsportal und Selbst suchen. Feste Spaltenbreiten, Kopfzeilen brechen um,
+   bei 390 px läuft nichts über. */
+.hc-tabelle-box {
+  padding-block: 80px 24px;
+}
+.hc-h2--schmal {
+  max-width: 14em;
+}
+.hc-tab {
+  width: 100%;
+  margin-top: 32px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+.hc-tab th,
+.hc-tab td {
+  min-width: 0;
+  padding: 14px 4px;
+  overflow-wrap: break-word;
+  hyphens: manual;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.hc-tab thead th {
+  padding-top: 16px;
+  font-weight: 600;
+  vertical-align: bottom;
+}
+.hc-tab tbody th {
+  width: auto;
+  padding-left: 12px;
+  font-weight: 500;
+  text-align: left;
+}
+.hc-tab-ecke {
+  width: 31%;
+}
+.hc-tab tbody tr:nth-child(odd) > * {
+  background-color: color-mix(in srgb, var(--text) 4%, transparent);
+}
+.hc-tab tbody tr > :first-child {
+  border-radius: 0.875rem 0 0 0.875rem;
+}
+.hc-tab tbody tr > :last-child {
+  border-radius: 0 0.875rem 0.875rem 0;
+}
+.hc-tab .hc-tab-wir {
+  background-image: linear-gradient(color-mix(in srgb, var(--blau) 12%, transparent), color-mix(in srgb, var(--blau) 12%, transparent));
+  border-radius: 0;
+  color: var(--blau-text);
+}
+.hc-tab thead .hc-tab-wir {
+  border-radius: 0.875rem 0.875rem 0 0;
+}
+.hc-tab tbody tr:last-child .hc-tab-wir {
+  border-radius: 0 0 0.875rem 0.875rem;
+}
+.hc-tab-wir b {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+}
+.hc-tab-leer {
+  color: var(--grau);
+}
+.hc-tab-ja,
+.hc-tab-nein {
+  display: block;
+  margin-inline: auto;
+}
+.hc-tab-ja {
+  width: 22px;
+  height: 22px;
+  color: var(--blau-text);
+}
+.hc-tab-nein {
+  width: 18px;
+  height: 18px;
+  color: var(--grau);
+}
+.hc-nur-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (min-width: 640px) {
+  .hc-tab th,
+  .hc-tab td {
+    padding: 18px 12px;
+    font-size: 16px;
+  }
+  .hc-tab tbody th {
+    padding-left: 24px;
+  }
+  .hc-tab-ecke {
+    width: 38%;
+  }
+  .hc-tab-wir b {
+    font-size: 17px;
+  }
+}
+
+/* Schluss: Überschrift, drei nummerierte Zeilen, breiter Knopf */
+.hc-schluss {
+  padding-block: 80px 24px;
+}
+.hc-schluss-gitter {
+  display: grid;
+  gap: 32px 56px;
+}
+@media (min-width: 900px) {
+  .hc-schluss-gitter {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .hc-schluss-gitter .hc-h2 {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+  }
+  .hc-nummern {
+    grid-column: 7 / span 6;
+    grid-row: 1 / span 2;
+  }
+  .hc-schluss-knopf {
+    grid-column: 1 / span 5;
+    grid-row: 2;
+    align-self: end;
+  }
+}
+.hc-nummern {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--linie);
+  list-style: none;
+}
+.hc-nummern li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  align-items: baseline;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--linie);
+}
+.hc-nummern li > span {
+  color: var(--blau-text);
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hc-nummern h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.hc-nummern p {
+  margin: 8px 0 0;
+  max-width: 28em;
+  color: var(--grau);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Fuß: Kasten „Werbehinweis & Transparenz“ */
+.hc-fuss {
+  padding-block: 40px 56px;
+}
+.hc-fuss-karte {
+  display: grid;
+  gap: 24px 56px;
+  padding: 28px 24px;
+  border: 1px solid var(--linie);
+  border-radius: 1.5rem;
+  background: var(--flaeche);
+}
+@media (min-width: 800px) {
+  .hc-fuss-karte {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    padding: 44px;
+  }
+  .hc-fuss-karte .hc-logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hc-fuss-text {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .hc-fuss-links {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+  }
+}
+.hc-fuss-text p {
+  margin: 12px 0 0;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.hc-fuss-text .hc-fuss-titel {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 600;
+}
+.hc-fuss-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 0;
+  color: var(--grau);
+  font-size: 14px;
+}
+.hc-fuss-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Fragen und Ergebnis */
+.hc-frage {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: 28px 20px 56px;
+}
+.hc-striche {
+  display: flex;
+  gap: 5px;
+  margin: 0;
+  padding: 8px 0 0;
+  list-style: none;
+}
+.hc-striche li {
+  width: 36px;
+  height: 6px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  transition: background-color 0.3s ease;
+}
+.hc-striche li[data-an] {
+  background: var(--blau);
+}
+.hc-tag {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: var(--gruen);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.hc-zurueck {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+}
+.hc-zurueck svg {
+  width: 18px;
+  height: 18px;
+}
+
+.hc-ergebnis-h1 {
+  margin: 32px 0 0;
+  font-size: clamp(1.875rem, 1.3rem + 2.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.hc-antw-kopf {
+  margin: 28px 0 10px;
+  color: var(--grau);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hc-antw {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-antw li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.hc-antw svg {
+  width: 18px;
+  height: 18px;
+  color: var(--blau-text);
+}
+.hc-nr1 {
+  margin-top: 28px;
+  padding: 24px;
+  border-radius: var(--rund);
+  background: var(--blau-hell);
+}
+.hc-nr1-kopf {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hc-nr1-zahl {
+  color: var(--blau-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+.hc-nr1-label {
+  margin: 0;
+  color: var(--blau-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hc-nr1-name {
+  margin: 2px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.hc-nr1-name small {
+  display: block;
+  margin-top: 2px;
+  color: var(--grau);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.hc-nr1-logo {
+  margin-top: 18px;
+}
+.hc-nr1-warum {
+  margin: 16px 0 0;
+  font-size: 18px;
+  line-height: 1.45;
+}
+.hc-gruende {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-gruende li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.hc-gruende svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--blau-text);
+}
+.hc-pflicht {
+  margin: 16px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.hc-nr1 .hc-btn {
+  width: 100%;
+  margin-top: 22px;
+}
+.hc-folger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--linie);
+  font-size: 16px;
+  font-weight: 500;
+}
+.hc-folger img {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-werbung {
+  margin: 20px 0 0;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.hc-neu {
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Bewegung, nur wenn der Besucher sie nicht abgestellt hat (Learnings 36, 37, 40; Pillen und Chat-Blase gibt es auf der neuen Seite nicht mehr) */
+@media (prefers-reduced-motion: no-preference) {
+  .hc [data-enter] {
+    animation: hc-ein 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hc [data-enter="1"] {
+    animation-delay: 90ms;
+  }
+  .hc [data-enter="2"] {
+    animation-delay: 180ms;
+  }
+  .hc [data-enter="3"] {
+    animation-delay: 270ms;
+  }
+  .hc [data-enter="4"] {
+    animation-delay: 360ms;
+  }
+  .hc [data-enter="5"] {
+    animation-delay: 450ms;
+  }
+  @keyframes hc-ein {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+  .hc-frage {
+    animation: hc-ein 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .hc [data-reveal] {
+      animation: hc-reveal linear both;
+      animation-timeline: view(block);
+      animation-range: entry 6% cover 24%;
+    }
+    @keyframes hc-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+    }
+  }
+}
+
+/* Dunkler Modus (RN8): der Check folgt der Seite. Die Farben kommen aus den Dark-Mode-Werten der Seite (index.css .dark):
+   fast Schwarz #0B0D12, Karte #141821, Weiß #F4F6FA, Blau als Schrift #8FB5FF. Knöpfe und Rahmen bleiben das Marken-Blau,
+   Fotos bleiben unverändert, Bank-Logos stehen auf weißem Grund. */
+.dark .hc {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --text: #f4f6fa;
+  --blase: #1c212c;
+  --flaeche: #141821;
+  --flaeche2: #1a1f2b;
+  --blau-hell: #14213f;
+  --blau-text: #8fb5ff;
+  --gruen-hell: #0f2a1d;
+  --fenster: #141821;
+}
+.dark .hc .hc-wahl-etikett {
+  color: #5fd49a;
+}
+.dark .hc .hc-wahl-etikett--hinweis {
+  background: #33240f;
+  color: #f5b35c;
+}
+.dark .hc .hc-stimme--platz {
+  background: #2a2410;
+}
+.dark .hc .hc-stimme {
+  box-shadow: 0 0 0 1px var(--linie);
+}
+.dark .hc .hc-banklogo {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #fff;
+  opacity: 1;
+}
+
+/* Chat (RN8, RN9): 1:1 wie die Handyansicht von Elias' Perspective-Funnel 6afa2cd179f7bfa91bb900d0, Seite „Ziel“
+   (stepChat). Jeder Wert aus dem Original-HTML (get_funnel_html Z. 30), in px umgerechnet; Elias RN8-06: „nichts ist größer
+   oder unproportional“. Am Handy kein Kasten, ab 640 px ein Fenster mit Rand und Schatten wie dort. */
+.hc {
+  --fenster: color-mix(in srgb, var(--bg) 90%, white);
+  --sprech: color-mix(in srgb, var(--text) 9%, var(--bg));
+}
+.hc-chat {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+}
+.hc-fenster {
+  width: 100%;
+  max-width: 34rem;
+}
+.hc-chat-kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--linie);
+}
+.hc-chat-wer {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+.hc-chat-wer img {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-chat-wer > div {
+  min-width: 0;
+}
+.hc-chat-wer b,
+.hc-chat-wer span {
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.375;
+}
+.hc-chat-wer b {
+  font-size: 16px;
+  font-weight: 600;
+}
+.hc-chat-wer span {
+  color: var(--grau);
+  font-size: 14px;
+}
+.hc-chat-kopf .hc-striche {
+  flex: none;
+  align-items: center;
+  min-height: 12px;
+  margin: 0;
+  padding: 0;
+  gap: 3px;
+}
+.hc-chat-kopf .hc-striche li {
+  width: 14px;
+  height: 5px;
+  background: color-mix(in srgb, var(--text) 12%, transparent);
+}
+.hc-chat-kopf .hc-striche li[data-an] {
+  background: var(--blau);
+}
+.hc-faden {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 0 6px;
+}
+.hc-reihe {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.hc-reihe--zwei {
+  margin-top: 2px;
+}
+.hc-reihe-platz,
+.hc-reihe img {
+  display: block;
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+.hc-reihe img {
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-reihe-spalte {
+  display: flex;
+  min-width: 0;
+  max-width: 78%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hc-sprech {
+  position: relative;
+  isolation: isolate;
+  max-width: 100%;
+  margin: 0;
+  padding: 12px 17px;
+  border-radius: 18px;
+  background: var(--sprech);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+.hc-sprech h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+.hc-schwanz {
+  position: absolute;
+  bottom: -1px;
+  left: -6px;
+  z-index: -10;
+  display: block;
+  width: 24px;
+  height: 21px;
+  fill: var(--sprech);
+  transform: scaleX(-1);
+  pointer-events: none;
+}
+.hc-antwort {
+  margin-top: 24px;
+}
+.hc-wahlen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-wahlen li {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+}
+.hc-wahl {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--blau) 45%, transparent);
+  border-radius: 18px;
+  background: var(--fenster);
+  color: var(--blau-text);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+.hc-wahl svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.7;
+}
+.hc-wahl-etikett {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--gruen-hell);
+  color: var(--gruen);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+/* RN16-08: orange Etikett „passt zu deiner Liste“ neben dem grünen „am beliebtesten“ */
+.hc-wahl-etikett--hinweis {
+  background: #fff1e0;
+  color: #b45309;
+}
+@media (hover: hover) {
+  .hc-wahl:hover {
+    border-color: var(--blau);
+  }
+}
+.hc-wahl:active,
+.hc-wahl[data-gewaehlt] {
+  border-color: var(--blau);
+  background: color-mix(in srgb, var(--blau) 9%, var(--fenster));
+  box-shadow: 0 0 0 1px var(--blau);
+}
+.hc-chat-fuss {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--linie);
+}
+.hc-chat .hc-zurueck {
+  min-height: 0;
+  margin: -12px 0;
+  padding: 12px 0;
+  gap: 6px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hc-chat .hc-zurueck svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.7;
+}
+@media (min-width: 640px) {
+  .hc-chat {
+    padding-inline: 24px;
+  }
+  .hc-fenster {
+    padding: 24px 32px 32px;
+    border: 1px solid var(--linie);
+    border-radius: 24px;
+    background: var(--fenster);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  .hc-fenster .hc-sprech,
+  .hc-fenster .hc-schwanz {
+    --sprech: color-mix(in srgb, var(--text) 9%, var(--fenster));
+  }
+}
+
+/* Suchleiste für die Bank von heute */
+.hc-suche {
+  margin-top: 0;
+}
+.hc-suche-feld {
+  position: relative;
+}
+.hc-suche-feld svg {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 18px;
+  height: 18px;
+  color: var(--grau);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.hc-suche-feld input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px 0 44px;
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 18px;
+  background: var(--fenster);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.hc-suche-feld input::placeholder {
+  color: var(--grau);
+}
+.hc-suche-feld input:focus {
+  outline: none;
+  border-color: var(--blau);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blau) 26%, transparent);
+}
+.hc-schnell,
+.hc-vorschlaege {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hc-schnell {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.hc-schnell button,
+.hc-vorschlaege button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 18px;
+  background: var(--fenster);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+}
+.hc-schnell button > span:last-child,
+.hc-vorschlaege button > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* RN10 (Elias RN9-01): die Schnellwahl scrollt in ihrem Rahmen; vier Reihen ganz, die fünfte schaut zur Hälfte hervor
+   (4 × 44 px + 4 × 10 px Abstand + 22 px). Ein paar Pixel innen, damit Rand und Fokus nicht abgeschnitten werden. */
+.hc-schnell-rahmen {
+  max-height: 242px;
+  margin: 12px -2px 0;
+  padding: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.hc-schnell-rahmen .hc-schnell {
+  margin: 0;
+}
+.hc-suche > .hc-schnell-keine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--blau) 45%, transparent);
+  border-radius: 18px;
+  background: var(--fenster);
+  color: var(--blau-text);
+  font-size: 15px;
+  font-weight: 500;
+}
+.hc-vorschlaege button[data-erster] {
+  border-color: var(--blau);
+  background: var(--blau-hell);
+}
+.hc-vorschlaege .hc-uebernehmen {
+  color: var(--blau-text);
+}
+@media (hover: hover) {
+  .hc-schnell button:hover,
+  .hc-vorschlaege button:hover {
+    border-color: var(--blau);
+  }
+}
+.hc-vorschlaege small {
+  display: block;
+  color: var(--grau);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Ergebnis Bankkonto: deine Bank neben der norisbank */
+.hc-vs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+  margin-top: 24px;
+}
+.hc-vs--eins {
+  grid-template-columns: minmax(0, 1fr);
+}
+.hc-vs-label {
+  grid-column: 1 / -1;
+  margin: 10px 0 -4px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 600;
+}
+.hc-bank {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--linie);
+  border-radius: 1.25rem;
+  background: var(--bg);
+}
+.hc-bank--ziel {
+  border: 2px solid var(--blau);
+  background: var(--blau-hell);
+}
+.hc-bank--kopf {
+  display: flex;
+  min-height: 112px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.hc-bank-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.hc-bank-name small {
+  display: block;
+  margin-top: 2px;
+  color: var(--grau);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hc-bank-wert {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.hc-bank-wert--text {
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.hc-bank-wert--leise {
+  color: var(--grau);
+  font-weight: 600;
+}
+.hc-bank-zusatz {
+  margin: 6px 0 0;
+  color: var(--grau);
+  font-size: 14px;
+  line-height: 1.35;
+}
+.hc-praemie {
+  margin: 12px 0 0;
+  color: var(--gruen);
+  font-size: 14px;
+  font-weight: 700;
+}
+.dark .hc .hc-praemie {
+  color: #3ecf8e;
+}
+.hc-konto-ende {
+  margin-top: 22px;
+}
+.hc-konto-ende .hc-btn {
+  width: 100%;
+}
+.hc-schonda {
+  margin: 24px 0 0;
+  padding: 22px;
+  border: 1px solid var(--gruen);
+  border-radius: 1.25rem;
+  background: var(--gruen-hell);
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+/* Ergebnis Depot: Passung als Ring */
+.hc-passung {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+.hc-ring {
+  position: relative;
+  flex: none;
+  width: 96px;
+  height: 96px;
+}
+.hc-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.hc-ring circle {
+  fill: none;
+  stroke-width: 7;
+}
+.hc-ring-spur {
+  stroke: var(--linie);
+}
+.hc-ring-fuell {
+  stroke: var(--blau);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+}
+.dark .hc .hc-ring-fuell {
+  stroke: #4d86ff;
+}
+.hc-ring-zahl {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.hc-ring-zahl small {
+  font-size: 15px;
+  font-weight: 700;
+}
+.hc-passung-text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+.hc-passung-text b {
+  display: block;
+  font-size: 20px;
+  line-height: 1.25;
+}
+.hc-passung-text span {
+  display: block;
+  margin-top: 4px;
+  color: var(--grau);
+  font-size: 15px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hc-chat [data-d="ein"] {
+    animation: hc-chat-ein 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hc-chat [data-d="blase"] {
+    animation: hc-chat-blase 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: 0 100%;
+  }
+  .hc-chat [data-d="antwort"] {
+    animation: hc-chat-antwort 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes hc-chat-ein {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+  @keyframes hc-chat-blase {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+    }
+  }
+  @keyframes hc-chat-antwort {
+    from {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+  }
+  .hc-ring-fuell {
+    animation: hc-ring 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  }
+  @keyframes hc-ring {
+    from {
+      stroke-dashoffset: 100;
+    }
+  }
+}
+
+/* RN11 (Elias RN10-01): unter dem Titel „35 Depots und 54 Girokonten selbst getestet“ mit Bildern anderer, wie im Original
+   (32 px, überlappend, Text 14 px in 62 %); Bilder nur echte oder im Entwicklungsmodus Beispiele (checkStimmen.ts leuteBilder). */
+.hc-leute-zeile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 0;
+  color: var(--grau);
+  font-size: 15px;
+  line-height: 1.375;
+}
+.hc-leute-zeile .hc-leute-bilder img {
+  width: 32px;
+  height: 32px;
+  margin-left: -9px;
+}
+.hc-leute-zeile .hc-leute-bilder img:first-child {
+  margin-left: 0;
+}
+/* Platz für Elias' Vortragsfoto, nur im Entwicklungsmodus */
+.hc-community-foto--platz {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  border: 2px dashed var(--linie-stark);
+  color: var(--grau);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* RN15 (Elias RN14-02 „Bilder …, die nicht generisch wirken“): Schrittbilder als Szenen aus der echten Oberfläche (CheckSchrittBild.tsx).
+   Maße in cqw (Breite des Bildrahmens), damit die Szene bei 110 px am Handy und 200 px am Laptop gleich aussieht. */
+.hc-zeile-bild {
+  position: relative;
+  container-type: inline-size;
+}
+.hc-sz {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  background: var(--flaeche2);
+  color: var(--text);
+  line-height: 1.25;
+  transition: transform 0.6s ease;
+}
+@media (hover: hover) {
+  .hc-zeile:hover .hc-sz {
+    transform: scale(1.03);
+  }
+}
+.hc-sz svg {
+  flex: none;
+}
+.hc-sz-ja {
+  width: 6.5cqw;
+  height: 6.5cqw;
+  color: var(--ja, var(--gruen));
+  stroke-width: 3.2;
+}
+.hc-sz-nein {
+  width: 6cqw;
+  height: 6cqw;
+  color: #d83a3a;
+  stroke-width: 3.2;
+}
+.hc-sz-strich {
+  color: var(--grau);
+  font-size: 5.5cqw;
+  font-weight: 600;
+}
+/* 01 Chat */
+.hc-sz--chat {
+  flex-direction: column;
+  justify-content: center;
+  gap: 5cqw;
+  padding: 0 5cqw;
+}
+.hc-sz-reihe {
+  display: flex;
+  align-items: flex-end;
+  gap: 3cqw;
+}
+.hc-sz-reihe img {
+  width: 11cqw;
+  height: 11cqw;
+  flex: none;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.hc-sz-blase {
+  padding: 2.8cqw 4.2cqw;
+  border-radius: 6cqw 6cqw 6cqw 1.5cqw;
+  background: var(--bg);
+  font-size: 6cqw;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.hc-sz-wahlen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2.5cqw;
+}
+.hc-sz-wahl {
+  display: inline-flex;
+  align-items: center;
+  gap: 2cqw;
+  padding: 2.4cqw 4.5cqw;
+  border: 1px solid color-mix(in srgb, var(--blau) 45%, transparent);
+  border-radius: 6cqw;
+  background: var(--bg);
+  color: var(--blau-text);
+  font-size: 5.8cqw;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.hc-sz-wahl--an {
+  border-color: var(--blau);
+  background: color-mix(in srgb, var(--blau) 10%, var(--bg));
+  box-shadow: 0 0 0 1px var(--blau);
+}
+.hc-sz-etikett {
+  padding: 0.6cqw 2.4cqw;
+  border-radius: 9999px;
+  background: var(--gruen-hell);
+  color: var(--gruen);
+  font-size: 4.4cqw;
+  font-weight: 600;
+}
+/* 02 Raster aus dem Vergleich */
+.hc-sz--raster {
+  align-items: center;
+  justify-content: center;
+  padding: 5cqw;
+}
+.hc-sz-tab {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2.5cqw 4cqw;
+  border-radius: 5cqw;
+  background: var(--bg);
+  box-shadow: 0 2cqw 5cqw -3cqw rgba(15, 23, 42, 0.35);
+}
+.hc-sz-tkopf,
+.hc-sz-tzeile {
+  display: grid;
+  grid-template-columns: 40cqw 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.hc-sz-tkopf {
+  padding-bottom: 1.5cqw;
+  color: var(--grau);
+  font-size: 4.4cqw;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hc-sz-tzeile {
+  height: 13cqw;
+  margin-inline: -2cqw;
+  padding-inline: 2cqw;
+  border-top: 1px solid var(--linie);
+}
+.hc-sz-tzeile--match {
+  border-top-color: transparent;
+  border-radius: 3cqw;
+  background: color-mix(in srgb, var(--orange, #ff8a3d) 16%, var(--bg));
+}
+.hc-sz-tzeile--match + .hc-sz-tzeile {
+  border-top-color: transparent;
+}
+.hc-sz-tlogo {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+}
+/* AnbieterLogo ist 134 × 36 px fest; in der Szene füllt es den Rahmen aus logoRahmen (Maße in cqw), der Ausschnitt bleibt */
+.hc-sz-logo {
+  display: block;
+  flex: none;
+}
+.hc-sz-logo > span,
+.hc-sz-logo > span > span {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  border-radius: 0;
+}
+.hc-sz-twert b {
+  font-size: 5.2cqw;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* 03 Analyse mit Ring (Strich 9 wie der dickere Ring im Ergebnis A) */
+.hc-sz--analyse {
+  align-items: center;
+  justify-content: center;
+  gap: 6cqw;
+  padding: 0 6cqw;
+}
+.hc-sz-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40cqw;
+  height: 40cqw;
+  flex: none;
+}
+.hc-sz-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.hc-sz-ring circle {
+  fill: none;
+  stroke-width: 9;
+}
+.hc-sz-ring-spur {
+  stroke: color-mix(in srgb, var(--text) 10%, transparent);
+}
+.hc-sz-ring-fuell {
+  stroke: var(--blau-text);
+  stroke-linecap: round;
+  stroke-dasharray: 276.5;
+}
+.hc-sz-ring-zahl {
+  display: flex;
+  align-items: flex-start;
+  font-size: 12cqw;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.hc-sz-ring-zahl small {
+  margin-top: 1cqw;
+  font-size: 5.5cqw;
+}
+.hc-sz-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  font-size: 5.6cqw;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hc-sz-liste > span {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+}
+/* 04 Eröffnen */
+.hc-sz--oeffnen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6cqw;
+}
+.hc-sz-platte {
+  display: grid;
+  place-items: center;
+  padding: 3.5cqw 6cqw;
+  border: 1px solid var(--linie);
+  border-radius: 5cqw;
+  background: #fff;
+  box-shadow: 0 2cqw 5cqw -3cqw rgba(15, 23, 42, 0.35);
+}
+.hc-sz-platte--noris {
+  border: 2px solid var(--orange, #ff8a3d);
+}
+.hc-sz-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5cqw;
+  padding: 3.6cqw 7cqw;
+  border-radius: 9999px;
+  background: var(--blau);
+  color: #fff;
+  font-size: 6cqw;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.hc-sz-knopf svg {
+  width: 6cqw;
+  height: 6cqw;
+}
+/* 05 Erfolgserlebnis */
+.hc-sz--erfolg {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqw;
+  background: linear-gradient(160deg, var(--gruen-hell), var(--flaeche2));
+}
+.hc-sz-erfolg-haken {
+  display: grid;
+  place-items: center;
+  width: 25cqw;
+  height: 25cqw;
+  border-radius: 9999px;
+  background: var(--gruen);
+  color: #fff;
+  box-shadow: 0 0 0 3cqw color-mix(in srgb, var(--gruen) 18%, transparent);
+}
+.hc-sz-erfolg-haken svg {
+  width: 14cqw;
+  height: 14cqw;
+  stroke-width: 3.2;
+}
+.hc-sz-erfolg-text {
+  font-size: 6.6cqw;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.hc-sz-konfetti {
+  position: absolute;
+  width: 3cqw;
+  height: 5.5cqw;
+  border-radius: 1px;
+}
+
+/* RN16-02: Elias' Originalfoto im Ausschnitt von vorher (hochkant), so groß wie vorher: höchstens 360 px */
+.hc-community-foto--bild {
+  max-width: 360px;
+}
+/* RN15 (Elias RN14-02): runde Bank-Logos statt Bildern anderer Leute, überlappend wie die Bilder im Original (32 px, -9 px) */
+.hc-rund-banken {
+  display: flex;
+  flex: none;
+}
+.hc-rund-bank {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: -9px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--bg), inset 0 0 0 1px rgba(21, 27, 40, 0.12);
+}
+.hc-rund-bank:first-child {
+  margin-left: 0;
+}
+.hc-rund-bank > span {
+  display: block;
+}
+/* RN15 (Elias RN14-02 „Lieber vielleicht da 22.000 Leute vertrauen“): eine Zeile statt der drei Haken */
+.hc-vertrauen {
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.375;
+}
+.hc-vertrauen .hc-haken-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+}
+/* Im Dunkeln bleibt das Raster eine weiße Karte: die Logos stehen auf Weiß, sonst sitzen sie als einzelne weiße Flecken darin */
+.dark .hc .hc-sz-tab {
+  --bg: #fff;
+  --text: #151b28;
+  --grau: color-mix(in srgb, #151b28 62%, transparent);
+  --linie: color-mix(in srgb, #151b28 12%, transparent);
+  --gruen: #0f8a4f;
+  --ja: #0f8a4f;
+  color: var(--text);
+}
+.dark .hc .hc-sz-tab .hc-sz-logo > span {
+  background: transparent;
+}
+
+/* RN16 (Elias RN15-03 „Über 22.000 Menschen, da kommen diese 3 Bilder hin“): drei runde Bilder überlappend wie im Ergebnis (32 px, -9 px) */
+.hc-vertrauen .hc-leute-bilder {
+  display: flex;
+  flex: none;
+}
+.hc-vertrauen .hc-leute-bilder img {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: 50% 25%;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.hc-vertrauen .hc-leute-bilder img + img {
+  margin-left: -9px;
+}
+/* Mit den Bildern daneben bricht die Zeile bei 390 sonst dreizeilig */
+@media (max-width: 479px) {
+  .hc-vertrauen:has(.hc-leute-bilder) {
+    font-size: 15px;
+  }
+}
+/* RN16: Bankname im Raster, wenn es keinen Schriftzug gibt (Sparkasse) */
+.hc-sz-tname {
+  font-size: 5.6cqw;
+  font-weight: 800;
+  line-height: 1;
+  color: #151b28;
+  white-space: nowrap;
+}

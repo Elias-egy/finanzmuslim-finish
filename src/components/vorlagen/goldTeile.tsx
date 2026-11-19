@@ -18,7 +18,7 @@ export const GoldLegende = () => (
       {legende.map((l) => (
         <div key={l.farbe} className="card-surface p-5">
           <div className="flex items-center gap-3">
-            <span className={`h-5 w-5 rounded-full shadow-[inset_0_-2px_4px_rgba(0,0,0,0.15)] ${bewertung[l.farbe].punkt}`} aria-hidden />
+            <span className={`h-5 w-5 rounded-full ${bewertung[l.farbe].punkt}`} aria-hidden />
             <span className="text-[17px] font-bold text-foreground">{bewertung[l.farbe].wort}</span>
           </div>
           <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">{l.text}</p>
@@ -29,7 +29,7 @@ export const GoldLegende = () => (
 );
 
 export const Grundregel = () => (
-  <section className="rounded-2xl bg-hero p-6 md:p-8" aria-labelledby="grundregel">
+  <section className="rounded-lg border border-border bg-card p-6 md:p-8" aria-labelledby="grundregel">
     <span className="badge-new">Die Grundregel</span>
     <h2 id="grundregel" className="mt-3 text-2xl font-bold text-foreground">
       Hand zu Hand
@@ -58,7 +58,7 @@ export const FallKarte = ({ f }: { f: GoldFall }) => (
       <UrteilPille farbe={f.farbe} urteil={f.urteil} />
     </div>
     <p className="mt-3 text-[15px] leading-relaxed text-foreground/90">{f.grund}</p>
-    <div className="mt-4 rounded-xl bg-accent p-4">
+    <div className="mt-4 rounded-lg border border-border bg-card p-4">
       <span className="text-[12px] font-bold uppercase tracking-wide text-primary">Beispiel</span>
       <p className="mt-1 text-[15px] leading-relaxed text-foreground/90">{f.beispiel}</p>
     </div>

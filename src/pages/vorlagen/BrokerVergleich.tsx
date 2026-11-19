@@ -1,11 +1,10 @@
-import { useEffect, useRef, type ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, Check, Trophy } from "lucide-react";
+import type { ReactNode } from "react";
+import { Check, Trophy } from "lucide-react";
 import Seo from "@/components/Seo";
-import NewsletterBox from "@/components/NewsletterBox";
+import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { BROKER_HONORABLE, BROKER_SRC, BROKER_TOP3, brokerLink, type BrokerKarte } from "@/data/brokerFreebie";
-import { ereignis } from "@/lib/messung";
+import { BROKER_HONORABLE, BROKER_TOP3, type BrokerKarte } from "@/data/brokerFreebie";
 
 /**
  * /vorlagen/broker-vergleich: das Broker-Freebie zum Kommentar-Wort BROKER (Elias, 13.11.2026, BT1): „ähnlich wie bei den
@@ -16,7 +15,7 @@ import { ereignis } from "@/lib/messung";
  * am Ende die Regeln, die das Depot ohne Zinsen halten, Kennzeichnung Werbung. Je Anbieter ein Knopf. Alle Zahlen und Belege: `src/data/brokerFreebie.ts` (aus dem Depot-Vergleich). Keine
  * Prämie, keine Bedingung: Das sieht der Leser beim Anbieter (Regelbuch freebies-und-guides: „Kein Kleingedrucktes“).
  */
-const Werbung = () => <span className="text-[12px] text-muted-foreground">Werbung</span>;
+/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Die Partner-Knöpfe „Bei … eröffnen*“ (/out/flatex, /out/smartbroker, /out/traders-place, /out/scalable), das Wort „Werbung“, „Alle Depots im Vergleich“ (/vergleich/depot), der Werbehinweis und die Newsletter-Box sind raus. */
 
 const Haken = ({ children }: { children: ReactNode }) => (
   <li className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
@@ -25,13 +24,6 @@ const Haken = ({ children }: { children: ReactNode }) => (
     </span>
     <span>{children}</span>
   </li>
-);
-
-const Knopf = ({ k, children }: { k: BrokerKarte; children: ReactNode }) => (
-  <Link to={brokerLink(k.out, k.src)} rel="sponsored" className="btn-spark w-full sm:w-auto" data-broker-knopf={k.out}>
-    {children}
-    <ArrowRight className="h-5 w-5" aria-hidden />
-  </Link>
 );
 
 const Zelle = ({ children, fett }: { children: ReactNode; fett?: boolean }) => (
@@ -74,7 +66,6 @@ const Karte = ({ k }: { k: BrokerKarte }) => {
               )}
             </div>
           </div>
-          <Werbung />
         </div>
         <ul className="mt-4 space-y-2.5">
           {k.zinsfrei && <Haken>Guthaben ohne Zinsen</Haken>}
@@ -90,37 +81,12 @@ const Karte = ({ k }: { k: BrokerKarte }) => {
         </ul>
         {k.kreditAutomatisch && (
           <p className="mt-3 text-[16px] font-semibold leading-snug text-foreground" data-broker-kredit>
-            Bei {k.name} lehnst du den Kreditrahmen ab. Die Anleitung nach dem Klick zeigt dir, wie.
+            Bei {k.name} lehnst du den Kreditrahmen ab.
           </p>
         )}
-        <div className="mt-4">
-          <Knopf k={k}>
-            Bei {k.name} eröffnen*
-          </Knopf>
-        </div>
       </div>
     </li>
   );
-};
-
-/**
- * Messung wie auf der Girokonto-Seite: Der letzte Abschnitt (die Regeln) zählt als Ende des Freebies, einmal je Aufruf,
- * ab 30 % im Bild.
- */
-const useFreebieEnde = () => {
-  const ende = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const el = ende.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const beobachter = new IntersectionObserver((eintraege) => {
-      if (!eintraege.some((e) => e.isIntersecting)) return;
-      ereignis("freebie_ende", { wort: "broker", seite: window.location.pathname });
-      beobachter.disconnect();
-    }, { threshold: 0.3 });
-    beobachter.observe(el);
-    return () => beobachter.disconnect();
-  }, []);
-  return ende;
 };
 
 const [start, profi, platz3] = BROKER_TOP3;
@@ -128,7 +94,6 @@ const [start, profi, platz3] = BROKER_TOP3;
 const UNTEREINANDER = [profi, start, platz3];
 
 const BrokerVergleich = () => {
-  const ende = useFreebieEnde();
   return (
     <>
       <Seo
@@ -196,6 +161,9 @@ const BrokerVergleich = () => {
             </div>
           </section>
 
+          {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): der große Kasten direkt nach dem Vergleich der drei. */}
+          <CheckEinstieg quelle="broker-vergleich" className="mt-12" />
+
           {/* Die drei untereinander: Profis zuerst, Start zweitens, dann der dritte */}
           <section className="mt-12" data-broker-nr1>
             <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Die drei einzeln</h2>
@@ -218,7 +186,7 @@ const BrokerVergleich = () => {
           </section>
 
           {/* So bleibt es ohne Zinsen */}
-          <section ref={ende} className="mt-12 rounded-lg border border-border bg-card p-5 md:p-6" data-broker-regeln>
+          <section className="mt-12 rounded-lg border border-border bg-card p-5 md:p-6" data-broker-regeln>
             <h2 className="text-[22px] font-extrabold leading-tight text-foreground">Zwei Regeln halten dein Depot ohne Zinsen</h2>
             <ul className="mt-4 space-y-3">
               <Haken>
@@ -230,23 +198,10 @@ const BrokerVergleich = () => {
                 kostet Zinsen, sobald du ihn nutzt.
               </Haken>
             </ul>
-            <Link
-              to={`/vergleich/depot?src=${BROKER_SRC.vergleich}`}
-              className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
-            >
-              Alle Depots im Vergleich
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
           </section>
 
-          <p className="mt-8 text-[14px] leading-snug text-muted-foreground" data-werbehinweis>
-            * Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Preise und
-            Angebote können sich jederzeit ändern.
-          </p>
-
-          <section className="mt-14">
-            <NewsletterBox />
-          </section>
+          {/* Das Ende des Freebies zählt der kleine Kasten (freebie_ende mit Quelle broker-vergleich). */}
+          <NaechsterTeil quelle="broker-vergleich" className="mt-12" />
         </div>
       </main>
     </>

@@ -1,7 +1,9 @@
 import { lazy, Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { captureSrc } from "@/lib/attribution";
+import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "@/data/boykottfreiPfad";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -35,7 +37,12 @@ const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
 const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftware.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
-const VergleichAssistent = lazy(() => import("./pages/VergleichAssistent.tsx"));
+// RN6 (15.11.2026): /vergleich/start leitet in den Halal-Finanz-Check; die alte Seite pages/VergleichAssistent.tsx bleibt im Code.
+const QuizZumCheck = () => {
+  const { search } = useLocation();
+  return <Navigate to={checkZielAusVorhaben(new URLSearchParams(search).get("vorhaben"))} replace />;
+};
+const HalalFinanzCheck = lazy(() => import("./pages/HalalFinanzCheck.tsx"));
 const VergleichMethodik = lazy(() => import("./pages/VergleichMethodik.tsx"));
 const Rechner = lazy(() => import("./pages/Rechner.tsx"));
 const Vergleiche = lazy(() => import("./pages/Vergleiche.tsx"));
@@ -82,6 +89,8 @@ const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx")
 const VorlageRizq = lazy(() => import("./pages/vorlagen/Rizq.tsx"));
 const VorlageBarakaBlocker = lazy(() => import("./pages/vorlagen/BarakaBlocker.tsx"));
 const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"));
+const VorlageBoykottfrei = lazy(() => import("./pages/vorlagen/BoykottfreieAktien.tsx"));
+const VorlageBoykottfreiVoll = lazy(() => import("./pages/vorlagen/BoykottfreieAktienVoll.tsx"));
 const VorlageGoldCheck = lazy(() => import("./pages/vorlagen/GoldCheck.tsx"));
 const VorlageAutoAboCheck = lazy(() => import("./pages/vorlagen/AutoAboCheck.tsx"));
 const VorlageGirokontoBonus = lazy(() => import("./pages/vorlagen/GirokontoBonus.tsx"));
@@ -159,7 +168,10 @@ const App = () => (
             {/* Alle Beiträge liegen unter /blog (SEO43, 03.11.2026; vorher /wissen). Eine unbekannte
                 /blog/…-Adresse fällt in die Fehlerseite, nicht auf die Übersicht. */}
             <Route path="/blog/halal-etf" element={<HalalEtf />} />
-            <Route path="/vergleich/start" element={<VergleichAssistent />} />
+            {/* RN6: Check ersetzt das alte Quiz (VergleichAssistent bleibt im Code, rückholbar). */}
+            <Route path="/vergleich/start" element={<QuizZumCheck />} />
+            {/* RN5: Halal-Finanz-Check, Einstiege ?quelle=aktienliste|halal-anlagen|boykottliste|homepage */}
+            <Route path="/check" element={<HalalFinanzCheck />} />
             <Route path="/vergleich/depot" element={<VergleichDepot />} />
             <Route path="/depot-nummer-1" element={<DepotNummerEins />} />
             <Route path="/vergleich/girokonto" element={<VergleichGirokonto />} />
@@ -215,6 +227,8 @@ const App = () => (
             <Route path="/vorlagen/rizq" element={<VorlageRizq />} />
             <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
             <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
+            <Route path={BF_TEASER_PFAD} element={<VorlageBoykottfrei />} />
+            <Route path={BF_VOLL_PFAD} element={<VorlageBoykottfreiVoll />} />
             <Route path="/vorlagen/gold-check" element={<VorlageGoldCheck />} />
             <Route path="/vorlagen/auto-abo-check" element={<VorlageAutoAboCheck />} />
             <Route path="/vorlagen/girokonto-bonus" element={<VorlageGirokontoBonus />} />

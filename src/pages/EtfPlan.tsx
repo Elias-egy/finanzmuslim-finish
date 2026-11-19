@@ -3,9 +3,9 @@ import { Navigate, useParams } from "react-router-dom";
 import { AlertTriangle, ChevronDown } from "lucide-react";
 import Seo from "@/components/Seo";
 import NaechsterTeil from "@/components/NaechsterTeil";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import AnlageKarte from "@/components/vorlagen/AnlageKarte";
-import DepotAufruf, { DEPOT_TITEL } from "@/components/vorlagen/DepotAufruf";
 import BetragBalken from "@/components/vorlagen/BetragBalken";
 import { listenGruppen, SICHTBAR } from "@/data/anlagenListe";
 import { GrafikFilter } from "@/components/EtfGrafik";
@@ -84,7 +84,7 @@ const EtfPlan = () => {
       />
 
       <div className="container max-w-2xl py-8 md:py-12">
-        <header className="rounded-3xl bg-hero p-6 md:p-8">
+        <header className="rounded-lg border border-border bg-card p-6 md:p-8">
           <h1 className="text-[30px] font-extrabold leading-[1.1] text-foreground md:text-[38px]">Deine Halal-ETF-Liste</h1>
           <p className="mt-4 text-[16px] font-semibold text-foreground">Wie viel willst du im Monat anlegen?</p>
           <div className="mt-2 grid grid-cols-3 gap-1.5" role="group" aria-label="Wie viel willst du im Monat anlegen?">
@@ -94,7 +94,7 @@ const EtfPlan = () => {
                 type="button"
                 aria-pressed={b === betrag}
                 onClick={() => setBetrag(b)}
-                className={`min-h-[48px] rounded-2xl bg-white px-1 text-[16px] font-bold tabular-nums transition-shadow ${
+                className={`min-h-[48px] rounded-lg bg-card px-1 text-[16px] font-bold tabular-nums transition-shadow ${
                   b === betrag ? "text-primary ring-2 ring-primary" : "text-foreground ring-1 ring-black/5"
                 }`}
               >
@@ -117,7 +117,7 @@ const EtfPlan = () => {
 
         <section className="reveal mt-10" aria-labelledby="normal">
           <Titel id="normal">Im normalen ETF stecken Banken</Titel>
-          <div className="mt-4 flex gap-3 rounded-2xl bg-loss-soft p-4">
+          <div className="mt-4 flex gap-3 rounded-lg bg-loss-soft p-4">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-loss" aria-hidden />
             <div>
               <p className="text-[16px] font-semibold leading-snug text-foreground">{schmerzSatz(betrag)}</p>
@@ -160,6 +160,10 @@ const EtfPlan = () => {
 
         {/* Alle ETFs als Liste wie in der Liste (Elias, 01.11.2026, MC7d15: „Das sind alle, die es gibt … dann machst du
             irgendwie drei, vier und dann machst du weitere Anzeigen“). Punkte-Hinweis und Beispielnamen sind weg. */}
+        {/* RN17-20 (Elias: „pack das auf jeden Fall rein bei allen Many-Chat-Abläufen, die momentan online sind“; ETF läuft live): der große
+            Kasten nach den ersten zwei Abschnitten wie bei Gold und Sukuk. */}
+        <CheckEinstieg quelle="etf-plan" className="mt-12" />
+
         <section id="alle-etfs" className="reveal mt-12 scroll-mt-20" aria-labelledby="alle">
           <h2 id="alle" className="text-[28px] font-extrabold leading-tight text-foreground">
             Alle {ETF_ZEILEN.length} Islamic ETFs und Fonds
@@ -171,7 +175,7 @@ const EtfPlan = () => {
           </ul>
           {ETF_ZEILEN.length > SICHTBAR && (
             <details className="group mt-2">
-              <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-2xl px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
+              <summary className="flex min-h-[44px] cursor-pointer list-none items-center gap-2 rounded-lg px-1 text-[16px] font-semibold text-primary [&::-webkit-details-marker]:hidden">
                 {ETF_ZEILEN.length - SICHTBAR} weitere anzeigen
                 <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden />
               </summary>
@@ -184,16 +188,12 @@ const EtfPlan = () => {
           )}
         </section>
 
-        {/* Nur der Depot-Aufruf wie in der Liste (Elias, 01.11.2026, MC7d15: „genau das Gleiche wie die besten Broker für
-            Muslime in der ganzen Liste“); „Wo kann ich sie kaufen?“ und der Broker-Satz sind raus (Runde 2: „zu viel Text“). */}
-        <section className="reveal mt-12" aria-label={DEPOT_TITEL}>
-          <DepotAufruf titel={DEPOT_TITEL} link={(ziel, stelle) => `${ziel}?src=ef${stelle}`} />
-        </section>
+        {/* RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): Der Depot-Aufruf (DepotAufruf, Top 3 Depots, /vergleich/depot) ist raus. Der ETF-Plan hat keine eigene Check-Quelle, darum steht hier nur der kleine Kasten am Ende. */}
 
         <NaechsterTeil wort="etf" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Alle Zahlen stammen aus meinen Vergleichen und von MSCI.</p>
+          <p>Indexzahlen von MSCI.</p>
           <p>
             Das sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland eine Zulassung.
           </p>
