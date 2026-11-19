@@ -155,6 +155,8 @@ export type VergleichsSeiteProps = {
   /** Blogteil unter der Tabelle wie bei Finanzfluss (`VergleichsRatgeber`). Ersetzt den Kriterien-Kasten und die
       Fragen; `faq` speist weiter die strukturierten Daten und soll dieselben Fragen tragen. */
   ratgeber?: ReactNode;
+  /** Beiträge aus dem Blog, die zu diesem Vergleich gehören (RN19): Rücklink der Ketten Beitrag, Vergleich, Anbieter. */
+  weiterlesen?: { to: string; name: string; text: string }[];
   schluss: string;
   /** Nur Ansicht A3 (lokal): die ganze Datendatei, damit versteckte Angebote grau einsortiert stehen. */
   ansichtAlle?: RohAnbieter[];
@@ -190,6 +192,7 @@ export const VergleichsSeite = ({
   auszeichnungen,
   faq,
   ratgeber,
+  weiterlesen,
   schluss,
   ansichtAlle,
 }: VergleichsSeiteProps) => {
@@ -603,6 +606,24 @@ export const VergleichsSeite = ({
             ))}
           </Accordion>
         </section>
+        )}
+
+        {weiterlesen && weiterlesen.length > 0 && (
+          <aside className={`${AM_ENDE} ${BREIT} mt-12 max-w-3xl`} aria-labelledby="weiterlesen-blog">
+            <p id="weiterlesen-blog" className="text-2xl font-bold text-foreground">
+              Mehr dazu im Blog
+            </p>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {weiterlesen.map((w) => (
+                <li key={w.to}>
+                  <Link to={w.to} className="block h-full rounded-lg border border-border p-4 transition-colors hover:border-primary">
+                    <span className="block text-[16px] font-semibold text-foreground">{w.name}</span>
+                    <span className="mt-1 block text-[14px] text-muted-foreground">{w.text}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
         )}
 
         <p

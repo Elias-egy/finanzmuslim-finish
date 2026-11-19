@@ -29,7 +29,7 @@ const rechnerFaq = [
 const Renditerechner = () => (
   <>
     <Seo
-      title="Halal Renditerechner – Vermögensaufbau ohne Zinsen berechnen | finanzmuslim"
+      title="Halal Renditerechner: Vermögen ohne Zinsen berechnen"
       description="Berechne kostenlos, wie dein Vermögen mit Aktien, Sukuk, Gold und Silber über die Jahre wachsen kann. Ohne Zinsprodukte."
       path="/renditerechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Renditerechner", path: "/renditerechner" }]}

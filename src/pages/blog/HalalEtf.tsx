@@ -32,7 +32,7 @@ const SITE = "https://finanzmuslim.com";
 const PFAD = "/blog/halal-etf";
 const TITEL = "Beste Halal ETFs 2026: 8 im Vergleich";
 const META =
-  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Was sie in 1, 3 und 5 Jahren gebracht haben, was sie bei 10.000 € kosten und bei welchen Depots du sie kaufst.";
+  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Rendite über 1, 3 und 5 Jahre, Kosten bei 10.000 € und bei welchen Depots du sie kaufst.";
 const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "03.11.2026", iso: "2026-11-03T09:00:00+01:00" };
@@ -202,6 +202,8 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/halal-gold-kaufen", name: "Halal Gold kaufen", text: "Wo du Gold kaufst und worauf du achtest." },
   { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "Welche Firmen ein Halal ETF weglässt." },
   { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
+  { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
+  { to: "/blog/sukuk", name: "Sukuk", text: "Was hinter islamischen Anleihen steckt." },
 ];
 
 /* ------------------------------------------------------------------ */

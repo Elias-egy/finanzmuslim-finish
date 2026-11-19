@@ -105,8 +105,8 @@ const VergleichSteuersoftware = () => (
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
     untertitel={`${zahlwort(ANZAHL, true)} Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen`}
-    seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText={`${zahlwort(ANZAHL, true)} Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft.`}
+    seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen"
+    seoText={`${zahlwort(ANZAHL, true)} Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge und Vermietung.`}
     einheit="Programme"
     einleitung={
       <>

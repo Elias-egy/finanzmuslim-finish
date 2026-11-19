@@ -389,7 +389,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Was von Konto, Depot, Gold und Krypto in die Zakat-Rechnung geht, warum es nur einen Stichtag für alles gibt, welche zwei Bemessungen es für Aktien gibt und wohin der Betrag geht.";
+  "Was von Konto, Depot, Gold und Krypto in die Zakat-Rechnung geht, warum es nur einen Stichtag gibt, zwei Bemessungen für Aktien und wohin der Betrag geht.";
 
 const ZakatAufAktienEtfKrypto = () => (
   <>

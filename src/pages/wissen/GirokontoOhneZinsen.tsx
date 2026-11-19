@@ -320,12 +320,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Ein Girokonto ist erlaubt. Problematisch sind Dispo, Guthabenzinsen, Kreditkarten-Teilzahlung, Neukundenboni und angehängte Verträge. Sechs Handgriffe, dazu der Stand zur KT Bank in Deutschland.";
+  "Ein Girokonto ist erlaubt. Problematisch sind Dispo, Guthabenzinsen, Kreditkarten-Teilzahlung und angehängte Verträge. Sechs Handgriffe zum Umstellen.";
 
 const GirokontoOhneZinsen = () => (
   <>
     <Seo
-      title="Girokonto ohne Zinsen: Was du in zehn Minuten umstellst | finanzmuslim"
+      title="Girokonto ohne Zinsen: Was du in zehn Minuten umstellst"
       description={beschreibung}
       path="/blog/girokonto-ohne-zinsen"
       jsonLd={beitragJsonLd({

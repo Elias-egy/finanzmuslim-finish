@@ -330,7 +330,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Der Dispo wird tagesgenau verzinst, deshalb ist er die teuerste Schuld im Alltag. Die zwei Wege heraus, warum das Kündigen wichtiger ist als das Ausgleichen und wie Schulden islamisch überhaupt beurteilt werden.";
+  "Der Dispo ist die teuerste Schuld im Alltag. Die zwei Wege heraus, warum Kündigen wichtiger ist als Ausgleichen und wie Schulden islamisch beurteilt werden.";
 
 const DispoUndSchulden = () => (
   <>

@@ -23,7 +23,7 @@ const AN_DER_KANTE = 3;
 const Rizq = () => (
   <>
     <Seo
-      title="Dua für Rizq: 14 Bittgebete mit Quelle und Übersetzung | finanzmuslim"
+      title="Dua für Rizq: 14 Bittgebete mit Quelle und Übersetzung"
       description="Finde das Dua für dein Anliegen: Arbeit, Schulden oder eine Entscheidung. Drei Bittgebete offen, alle 14 mit Arabisch und Fundstelle gegen deine E-Mail."
       path="/vorlagen/rizq"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Dua für jede Situation", path: "/vorlagen/rizq" }]}

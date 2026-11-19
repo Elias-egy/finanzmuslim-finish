@@ -448,12 +448,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Bankfinanzierung, Null-Prozent-Aktion, Ratenkauf beim Händler und Murabaha im Vergleich. Welcher Weg ohne Zinsen auskommt, woran du eine echte Halal-Finanzierung erkennst und was es in Deutschland wirklich gibt.";
+  "Bankfinanzierung, Null-Prozent-Aktion, Ratenkauf oder Murabaha: Welcher Weg ohne Zinsen auskommt und woran du eine echte Halal-Finanzierung erkennst.";
 
 const AutoKaufenOhneZinsen = () => (
   <>
     <Seo
-      title="Auto kaufen ohne Zinsen: die Wege im Vergleich | finanzmuslim"
+      title="Auto kaufen ohne Zinsen: die Wege im Vergleich"
       description={beschreibung}
       path="/blog/auto-kaufen-ohne-zinsen"
       jsonLd={beitragJsonLd({

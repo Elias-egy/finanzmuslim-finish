@@ -17,13 +17,12 @@ geprüft".
 
 ## Anlagen und Vergleiche
 
-- [Halal-Anlagen](/halal-anlagen): Datenbank mit 30 Anlagen, je mit
+- [Halal Anlagen Datenbank](/halal-anlagen): 30 Anlagen, je mit
   ISIN, laufenden Kosten, Fondsgröße und der Stelle, die sie geprüft hat.
-- [Anlage-Detailseite](/halal-anlagen/ishares-msci-world-islamic): Muster einer
-  Einzelseite mit Kursverlauf, Stammdaten und Halal-Einordnung. Kurse sind
-  Wochenschlusskurse, keine Echtzeitkurse.
+- [Ist iShares MSCI World Islamic halal?](/halal-anlagen/ishares-msci-world-islamic): Muster einer
+  Einzelseite. Jede Anlage hat eine Seite „Ist <Name> halal?“ mit dem Nachweis der Prüfstelle, Kosten,
+  Kursverlauf und häufigen Fragen. Kurse sind Schlusskurse, keine Echtzeitkurse.
 - [Alle Vergleiche](/vergleiche): Übersicht aller Anbietervergleiche.
-- [Was passt zu mir?](/vergleich/start): Wenige Fragen, dann der passende Vergleich.
 - [Depot-Vergleich](/vergleich/depot): Broker nach vier Kriterien, die in
   normalen Vergleichen fehlen: Guthabenzins, Wertpapierkredit, Hebelprodukte,
   sharia-konforme ETFs.
@@ -93,7 +92,6 @@ geprüft".
 
 - [Alle Vorlagen](/vorlagen): Kostenlose Vorlagen. Die Bestseller gibt es ganz gegen E-Mail, Spickzettel und Baraka-Blocker sofort.
 - [Halal Vertrags-Check](/vorlagen/vertrags-ampel): Zwölf Alltagsverträge, grün, gelb oder rot. Zwei Verträge mit Farbe offen, alle gegen E-Mail.
-- [Halal-Anlagen-Liste](/vorlagen/halal-anlagen): Halal-Anlagen mit Kaufbeleg und den Anbietern, bei denen du sie kaufen kannst. Anzahl je Gruppe offen, Kauf-Tabelle gegen E-Mail.
 - [100 Halal-Aktien](/vorlagen/top-100-halal-aktien): 100 bekannte Aktien, alle halal nach Musaffa-Einzelprüfung. Sechs offen, alle gegen E-Mail.
 - [Dua für was?](/vorlagen/rizq): 14 Duas für Rizq nach Anliegen, mit Arabisch und Fundstelle. Drei offen, alle gegen E-Mail.
 - [Aktien-Check](/vorlagen/aktien-check): Spickzettel für die Prüfung einer Aktie.

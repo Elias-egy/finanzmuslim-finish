@@ -21,7 +21,7 @@ const AN_DER_KANTE = 3;
 const GoldCheck = () => (
   <>
     <Seo
-      title="Gold kaufen halal? Der Gold-Check für zehn Wege | finanzmuslim"
+      title="Gold kaufen halal? Der Gold-Check für zehn Wege"
       description="Prüfe, welcher Weg zu Gold halal ist: Barren, Sparplan und Altgold beim Juwelier. Zu jedem Weg das Urteil, der Grund und ein Beispiel."
       path="/vorlagen/gold-check"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Gold-Check", path: "/vorlagen/gold-check" }]}

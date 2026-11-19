@@ -244,7 +244,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Gharar meint übermäßige Unklarheit in einem Vertrag, nicht wirtschaftliches Risiko. Die klassischen Beispiele, wo der Begriff im deutschen Alltag greift, vier Fragen zum Prüfen und warum die Versicherung milder beurteilt wird als der Kredit.";
+  "Gharar meint übermäßige Unklarheit im Vertrag, nicht Risiko. Klassische Beispiele, vier Prüffragen und warum die Versicherung milder gilt als der Kredit.";
 
 const Gharar = () => (
   <>

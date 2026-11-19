@@ -45,7 +45,7 @@ const Sparzielrechner = () => (
   <>
     <Seo
       title="Sparzielrechner: wann du am Ziel bist | finanzmuslim"
-      description="Rechne aus, wann du die Hajj, das Auto ohne Kredit oder das Eigenkapital zusammen hast. Ziel, Betrag im Monat und Rendite eingeben, Ergebnis als Datum und Kurve."
+      description="Rechne aus, wann du die Hajj, das Auto ohne Kredit oder das Eigenkapital zusammen hast. Ziel, Betrag im Monat und Rendite eingeben, Ergebnis als Kurve."
       path="/sparzielrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Sparzielrechner", path: "/sparzielrechner" }]}
       jsonLd={[

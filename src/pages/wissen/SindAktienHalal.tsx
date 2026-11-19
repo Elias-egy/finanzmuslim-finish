@@ -255,6 +255,8 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/vorlagen/aktien-check", name: "Aktien-Check als PDF", text: "Die Regeln für Aktien auf einer Seite zum Ausdrucken." },
   { to: "/blog/trading-forex-cfd", name: "Trading, Forex und CFDs", text: "Warum Hebel und Wetten auf Kurse wegfallen." },
   { to: "/bereinigungsrechner", name: "Bereinigungsrechner", text: "Wie viel von deiner Dividende du weitergibst." },
+  { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
+  { to: "/blog/zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", text: "Was dein Depot an Zakat kostet." },
 ];
 
 /* ------------------------------------------------------------------ */

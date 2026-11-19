@@ -46,7 +46,7 @@ const faq = [
 const Budgetrechner = () => (
   <>
     <Seo
-      title="Budgetrechner: wie viel im Monat wirklich frei ist | finanzmuslim"
+      title="Budgetrechner: wie viel im Monat wirklich frei ist"
       description="Sieh auf einen Blick, wohin dein Netto geht und was übrig bleibt. Vier Zahlen eingeben, Ergebnis als Kreis, Vergleich mit der 50/30/20-Regel."
       path="/budgetrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Budgetrechner", path: "/budgetrechner" }]}

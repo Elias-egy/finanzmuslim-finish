@@ -205,13 +205,34 @@ const HalalAnlagen = () => {
   return (
     <main className="bg-background">
       <Seo
-        /* Diese Seite ist das Ziel für "halal Aktien" und "halal ETF" (Elias,
-           16.09.2026): Wer danach sucht, will kaufen, keinen Aufsatz lesen.
-           Deshalb steht der Suchbegriff vorn und die Zahl dahinter. */
-        title={`Halal Aktien und ETFs: ${halalAnlagen.length} geprüfte Anlagen | finanzmuslim`}
-        description="Halal Aktien-ETFs, Sukuk, Gold, Silber, Platin und Krypto, die du in Deutschland kaufen kannst. Mit ISIN, Kosten, Größe und der Stelle, die sie geprüft hat. Filterbar, kostenlos."
+        /* Hauptwort „Halal Anlagen“ mit dem Wort Datenbank (RN19). Die Seitenkarte des SEO-Guides (SEITENKARTE.md, Zeile
+           /halal-anlagen, D24) nimmt „Aktien“ und „ETFs“ aus dem Title: „halal aktien“ und „halal etf“ gehören den Boxen
+           der Hauptseiten (Liste der Aktien, /blog/halal-etf). Mit „Halal Aktien und ETFs“ im Title stand die Seite in 90
+           Tagen auf Position 54 bis 81 für „halal aktien“, „aktien islam“ und „islamische aktien“ (Search Console bis
+           17.11.2026: 287 Einblendungen, 1 Klick), weil Google dort Listen einzelner Aktien zeigt und diese Seite keine führt. */
+        title={`Halal Anlagen Datenbank: ${halalAnlagen.length} Anlagen mit Nachweis`}
+        description={`Halal Anlagen Datenbank mit ${halalAnlagen.length} Anlagen: Islamic ETFs, Sukuk, Gold, Silber und Krypto mit ISIN, Kosten, Größe und der Stelle, die sie geprüft hat.`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Halal Anlagen Datenbank",
+          description: `${halalAnlagen.length} Halal-Anlagen mit ISIN, Kosten und dem Nachweis der Prüfstelle.`,
+          url: "https://finanzmuslim.com/halal-anlagen",
+          inLanguage: "de-DE",
+          isPartOf: { "@type": "WebSite", name: "finanzmuslim", url: "https://finanzmuslim.com" },
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: halalAnlagen.length,
+            itemListElement: halalAnlagen.map((a, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: a.name,
+              url: `https://finanzmuslim.com/halal-anlagen/${a.slug}`,
+            })),
+          },
+        }}
         path="/halal-anlagen"
-        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal-Anlagen finden", path: "/halal-anlagen" }]}
+        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal Anlagen Datenbank", path: "/halal-anlagen" }]}
       />
 
       {/* Kopf. Bewusst flach: auf dem Handy stand hier vorher ein Bild, drei
@@ -228,14 +249,14 @@ const HalalAnlagen = () => {
               Vergleiche
             </Link>
             <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <span className="text-foreground">Halal-Anlagen finden</span>
+            <span className="text-foreground">Halal-Anlagen</span>
           </nav>
 
           <h1 className="mt-3 text-[26px] font-bold leading-tight text-foreground md:mt-5 md:text-4xl">
-            Halal Aktien und ETFs finden
+            Halal Anlagen Datenbank
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
-            Vergleiche Kosten, Rendite und Prüfstelle.
+            {halalAnlagen.length} Anlagen mit ISIN, Kosten und dem Nachweis, wer sie geprüft hat: Islamic ETFs, Sukuk, Gold, Silber und Krypto.
           </p>
           {/* Wer nach "halal Aktien" sucht, meint oft Einzelaktien und landet
               hier bei Fonds. Eine Zeile spart ihm den Rücksprung. */}
@@ -460,6 +481,28 @@ const HalalAnlagen = () => {
             Krypto schwankt deutlich stärker als alles andere in dieser Übersicht. Es gilt als kleine
             Beimischung, nicht als Grundlage eines Depots.
           </p>
+        </section>
+
+        {/* Beiträge zur Liste (RN19): Rücklink der Kette Beitrag, Datenbank, Anlage. */}
+        <section className="mt-10" aria-labelledby="halal-liste-blog">
+          <h2 id="halal-liste-blog" className="text-xl font-bold text-foreground md:text-2xl">
+            Mehr dazu im Blog
+          </h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+            {[
+              { to: "/blog/halal-etf", name: "Beste Halal ETFs 2026", text: "Acht Halal ETFs mit Kosten und Rendite." },
+              { to: "/blog/sind-aktien-haram", name: "Sind Aktien haram?", text: "Wann eine Aktie halal ist und wer das prüft." },
+              { to: "/blog/sukuk", name: "Sukuk", text: "Was hinter islamischen Anleihen steckt." },
+              { to: "/blog/halal-gold-kaufen", name: "Halal Gold kaufen", text: "Fünf Wege von Barren bis Gold-ETC." },
+            ].map((b) => (
+              <li key={b.to}>
+                <Link to={b.to} className="block h-full rounded-lg border border-border p-4 transition-colors hover:border-primary">
+                  <span className="block text-[16px] font-semibold text-foreground">{b.name}</span>
+                  <span className="mt-1 block text-[14px] text-muted-foreground">{b.text}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Vorlagen-Verweis */}

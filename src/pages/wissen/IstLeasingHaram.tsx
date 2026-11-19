@@ -496,7 +496,7 @@ const IstLeasingHaram = () => {
 
   return (
     <main className="bg-background">
-      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
+      <Seo title={SEO_TITEL} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           <Seitenleiste

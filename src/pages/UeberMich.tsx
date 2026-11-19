@@ -56,7 +56,7 @@ const UeberMich = () => (
   <main className="bg-background">
     <Seo
       title="Über mich: Elias El-Gendy, Gründer von finanzmuslim"
-      description="Lerne, wer hinter finanzmuslim steht: wie ich Anbieter prüfe, womit ich Geld verdiene und wie du mich erreichst."
+      description="Lerne, wer hinter finanzmuslim steht: wie ich Anbieter prüfe, womit ich Geld verdiene und wie du mich erreichst. Elias El-Gendy, Hamburg."
       path="/ueber-mich"
       brotkrumen={[{ name: "Über mich", path: "/ueber-mich" }]}
       jsonLd={person}
