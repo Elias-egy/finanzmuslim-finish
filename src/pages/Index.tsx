@@ -229,7 +229,7 @@ const Index = () => {
           hoechstens 570px: das Foto bleibt, ist kleiner, und Depot und Girokonto stehen ganz im ersten Schirm
           (Elias, 30.10.2026, FOTO1: "mindestens Depot, Girokonto ... noch halbwegs sehen"); die Reihenfolge stellt flex-order her, die Huellen sind am Handy display:contents. */}
       <section className="flex flex-col md:min-h-[calc(100svh-154px)] lg:min-h-[calc(100svh-154px)]">
-        <div className="relative flex min-h-[min(calc(100svh-300px),500px)] flex-1 flex-col overflow-hidden rounded-lg bg-card px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
+        <div className="relative flex min-h-[min(calc(100svh-194px),602px)] flex-1 flex-col overflow-hidden rounded-2xl bg-hero px-4 pb-16 pt-8 kurz:pt-6 md:min-h-0 md:justify-center md:rounded-lg md:bg-card md:px-10 md:pb-[96px] md:pt-10 lg:min-h-[480px] lg:px-12 lg:py-0">
           <div className="mx-auto w-full max-w-[1200px] max-md:contents">
             <div className="max-w-[680px] max-md:contents lg:pb-[76px] lg:pt-4">
               <h1 className="max-md:order-1 text-[30px] kurz:text-[28px] font-bold leading-[1.15] tracking-tight [text-wrap:balance] text-foreground md:text-[56px] md:leading-[64px] xl:text-[64px] xl:leading-[72px]">
@@ -250,7 +250,7 @@ const Index = () => {
                 // ohne z-10 malte das Foto über den Knopf („…tarten“, 390 px, 15.11.2026).
                 <div className="relative z-10 max-md:order-4 mt-4 flex flex-col items-start gap-2 md:mt-6 lg:mt-10">
                   <Aufruf to="/check?quelle=homepage" gross className="block w-full whitespace-nowrap sm:inline-block sm:w-auto">
-                    Halal-Finanz-Check starten
+                    Match finden
                     <ArrowRight className="h-5 w-5" aria-hidden />
                   </Aufruf>
                   <p className="text-[15px] font-medium text-muted-foreground max-sm:w-full max-sm:text-center">3 Fragen, 60 Sekunden, kostenlos</p>
@@ -274,7 +274,7 @@ const Index = () => {
                 ? "relative max-md:order-3 mt-3 -mb-16 min-h-[150px] flex-1 overflow-hidden md:hidden"
                 : // PH2 (15.11.2026, Elias: „unten der Schatten soll sozusagen in den Finanzcheck gehen. Jetzt ist weißer Raum
                   // dazwischen“): das Foto läuft bis hinter den Knopf, die weiche Kante liegt unter ihm statt davor.
-                  "relative max-md:order-3 mt-2 -mb-14 h-[296px] flex-none overflow-hidden [mask-image:linear-gradient(to_bottom,#000_80%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_80%,transparent_100%)] md:hidden"
+                  "relative max-md:order-3 mt-3 min-h-[150px] flex-1 overflow-hidden md:hidden"
             }
           >
             <img
@@ -283,12 +283,12 @@ const Index = () => {
               className={
                 MIT_OS
                   ? "absolute left-[29%] top-[-4%] h-[170%] w-auto max-w-none -translate-x-1/2"
-                  : "absolute left-[29%] top-[-34px] h-[550px] w-auto max-w-none -translate-x-1/2"
+                  : "absolute left-[29%] top-[-4%] h-[215%] w-auto max-w-none -translate-x-1/2"
               }
               loading="eager"
             />
             {/* Name als leiser Text rechts neben dem Kopf, ohne Schild auf dem Foto (Elias, 30.10.2026, FOTO1). */}
-            <div className={MIT_OS ? "absolute right-2 top-[44%] whitespace-nowrap" : "absolute right-2 top-[106px] whitespace-nowrap"}>
+            <div className={MIT_OS ? "absolute right-2 top-[44%] whitespace-nowrap" : "absolute right-2 top-[44%] whitespace-nowrap"}>
               <p className="text-[14px] font-bold leading-5 text-foreground">Elias El-Gendy</p>
               <p className="text-[12px] leading-4 text-muted-foreground">Gründer von finanzmuslim</p>
             </div>
