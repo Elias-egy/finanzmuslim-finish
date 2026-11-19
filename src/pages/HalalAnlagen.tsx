@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ChevronRight, ExternalLink, HelpCircle, Search, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import NewsletterBox from "@/components/NewsletterBox";
@@ -118,11 +119,11 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gru
           {region && (
             <div className="rounded-lg border border-border px-3 py-2">
               <dt className="text-[12px] text-muted-foreground">Anlagegebiet</dt>
-              <dd className="mt-0.5 flex items-center gap-1.5 text-[14px] font-semibold text-foreground">
+              <dd className="mt-0.5 flex items-start gap-1.5 text-[14px] font-semibold leading-snug text-foreground">
                 <span className="shrink-0 text-[17px] leading-none" aria-hidden>
                   {region.zeichen}
                 </span>
-                <span className="truncate">{region.label}</span>
+                <span className="min-w-0 break-words">{region.label}</span>
               </dd>
             </div>
           )}
@@ -204,19 +205,40 @@ const HalalAnlagen = () => {
   return (
     <main className="bg-background">
       <Seo
-        /* Diese Seite ist das Ziel für "halal Aktien" und "halal ETF" (Elias,
-           16.09.2026): Wer danach sucht, will kaufen, keinen Aufsatz lesen.
-           Deshalb steht der Suchbegriff vorn und die Zahl dahinter. */
-        title={`Halal Aktien und ETFs: ${halalAnlagen.length} geprüfte Anlagen | finanzmuslim`}
-        description="Halal Aktien-ETFs, Sukuk, Gold, Silber, Platin und Krypto, die du in Deutschland kaufen kannst. Mit ISIN, Kosten, Größe und der Stelle, die sie geprüft hat. Filterbar, kostenlos."
+        /* Hauptwort „Halal Anlagen“ mit dem Wort Datenbank (RN19). Die Seitenkarte des SEO-Guides (SEITENKARTE.md, Zeile
+           /halal-anlagen, D24) nimmt „Aktien“ und „ETFs“ aus dem Title: „halal aktien“ und „halal etf“ gehören den Boxen
+           der Hauptseiten (Liste der Aktien, /blog/halal-etf). Mit „Halal Aktien und ETFs“ im Title stand die Seite in 90
+           Tagen auf Position 54 bis 81 für „halal aktien“, „aktien islam“ und „islamische aktien“ (Search Console bis
+           17.11.2026: 287 Einblendungen, 1 Klick), weil Google dort Listen einzelner Aktien zeigt und diese Seite keine führt. */
+        title={`Halal Anlagen Datenbank: ${halalAnlagen.length} Anlagen mit Nachweis`}
+        description={`Halal Anlagen Datenbank mit ${halalAnlagen.length} Anlagen: Islamic ETFs, Sukuk, Gold, Silber und Krypto mit ISIN, Kosten, Größe und dem Nachweis, den wir dazu gefunden haben.`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Halal Anlagen Datenbank",
+          description: `${halalAnlagen.length} Halal-Anlagen mit ISIN, Kosten und dem Nachweis, den wir dazu gefunden haben.`,
+          url: "https://finanzmuslim.com/halal-anlagen",
+          inLanguage: "de-DE",
+          isPartOf: { "@type": "WebSite", name: "finanzmuslim", url: "https://finanzmuslim.com" },
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: halalAnlagen.length,
+            itemListElement: halalAnlagen.map((a, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: a.name,
+              url: `https://finanzmuslim.com/halal-anlagen/${a.slug}`,
+            })),
+          },
+        }}
         path="/halal-anlagen"
-        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal-Anlagen finden", path: "/halal-anlagen" }]}
+        brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }, { name: "Halal Anlagen Datenbank", path: "/halal-anlagen" }]}
       />
 
       {/* Kopf. Bewusst flach: auf dem Handy stand hier vorher ein Bild, drei
           Kacheln und zwei Sätze, zusammen fast ein halber Bildschirm, bevor
           die erste Anlage kam. Die Anzahl steht jetzt einmal über der Liste. */}
-      <section className="bg-hero">
+      <section className="border-b border-border bg-background">
         <div className="container py-5 md:py-12">
           <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
             <Link to="/" className="hover:text-primary">
@@ -227,14 +249,14 @@ const HalalAnlagen = () => {
               Vergleiche
             </Link>
             <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-            <span className="text-foreground">Halal-Anlagen finden</span>
+            <span className="text-foreground">Halal-Anlagen</span>
           </nav>
 
           <h1 className="mt-3 text-[26px] font-bold leading-tight text-foreground md:mt-5 md:text-4xl">
-            Halal Aktien und ETFs finden
+            Halal Anlagen Datenbank
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
-            Vergleiche Kosten, Rendite und Prüfstelle.
+            {halalAnlagen.length} Anlagen mit ISIN, Kosten und dem Nachweis, den wir dazu gefunden haben: Islamic ETFs, Sukuk, Gold, Silber und Krypto.
           </p>
           {/* Wer nach "halal Aktien" sucht, meint oft Einzelaktien und landet
               hier bei Fonds. Eine Zeile spart ihm den Rücksprung. */}
@@ -261,7 +283,7 @@ const HalalAnlagen = () => {
               value={suche}
               onChange={(e) => setSuche(e.target.value)}
               aria-label="Anlage, Kürzel oder ISIN suchen"
-              placeholder="Anlage, Kürzel oder ISIN suchen"
+              placeholder="Name oder ISIN"
               className="min-h-[48px] w-full rounded-lg border border-border bg-background pl-11 pr-11 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
             {suche && (
@@ -279,7 +301,7 @@ const HalalAnlagen = () => {
           {/* Art, Eigenschaften und Sortierung liegen jetzt hinter einem Knopf.
               Sichtbar bleibt nur, was die Zahlen in der Liste verändert. Beides
               in einer Zeile, damit die erste Anlage früher im Bild steht. */}
-          <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <AnlageFilter stand={filter} setzen={setFilter} />
               <span className="hidden text-[14px] text-muted-foreground sm:inline" aria-live="polite">
@@ -425,7 +447,7 @@ const HalalAnlagen = () => {
         )}
 
         {/* Woher die Renditen kommen */}
-        <section className="mt-8 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-8 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Woher die Renditen kommen</h2>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Kursdaten von Yahoo Finance, Stand {kursStand}. Alle Renditen sind in Euro umgerechnet, damit sie
@@ -442,13 +464,13 @@ const HalalAnlagen = () => {
             Nicht jeder Broker führt diese Anlagen. Welcher Islamic-ETFs, Sukuk und physisch hinterlegtes Gold
             im Angebot hat und was er kostet, steht im Depot-Vergleich.
           </p>
-          <Link to="/vergleich/depot" className="btn-primary mt-5">
+          <Aufruf to="/vergleich/depot" className="block sm:inline-block mt-5">
             Depot-Vergleich
-          </Link>
+          </Aufruf>
         </section>
 
         {/* Krypto */}
-        <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-10 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Krypto in dieser Liste</h2>
           <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-muted-foreground">
             Vier Münzen stehen unter denselben Zeilen wie alles andere, sie haben nur keine ISIN und
@@ -461,19 +483,41 @@ const HalalAnlagen = () => {
           </p>
         </section>
 
+        {/* Beiträge zur Liste (RN19): Rücklink der Kette Beitrag, Datenbank, Anlage. */}
+        <section className="mt-10" aria-labelledby="halal-liste-blog">
+          <h2 id="halal-liste-blog" className="text-xl font-bold text-foreground md:text-2xl">
+            Mehr dazu im Blog
+          </h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+            {[
+              { to: "/blog/halal-etf", name: "Beste Halal ETFs 2026", text: "Acht Halal ETFs mit Kosten und Rendite." },
+              { to: "/blog/sind-aktien-haram", name: "Sind Aktien haram?", text: "Wann eine Aktie halal ist und wer das prüft." },
+              { to: "/blog/sukuk", name: "Sukuk", text: "Was hinter islamischen Anleihen steckt." },
+              { to: "/blog/halal-gold-kaufen", name: "Halal Gold kaufen", text: "Fünf Wege von Barren bis Gold-ETC." },
+            ].map((b) => (
+              <li key={b.to}>
+                <Link to={b.to} className="block h-full rounded-lg border border-border p-4 transition-colors hover:border-primary">
+                  <span className="block text-[16px] font-semibold text-foreground">{b.name}</span>
+                  <span className="mt-1 block text-[14px] text-muted-foreground">{b.text}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {/* Vorlagen-Verweis */}
         <section className="card-surface mt-10 p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground md:text-2xl">Die Liste als PDF</h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
             Dieselben Anlagen zum Ausdrucken und Weitergeben, mit ISIN und Zertifizierer.
           </p>
-          <Link to="/vorlagen/halal-anlagen" className="btn-primary mt-5">
+          <Aufruf to="/vorlagen/halal-anlagen" className="block sm:inline-block mt-5">
             Zur Vorlage
-          </Link>
+          </Aufruf>
         </section>
 
         {/* Hinweis */}
-        <section className="mt-10 rounded-2xl bg-hero p-6 md:p-8">
+        <section className="mt-10 rounded-lg border border-border bg-card p-6 md:p-8">
           <h2 className="text-xl font-bold text-foreground">Was diese Übersicht nicht ist</h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
             Keine Empfehlung und keine Anlageberatung. Eine Übersicht dessen, was es gibt und wer es geprüft

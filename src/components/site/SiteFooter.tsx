@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { messungAktiv, oeffneBanner } from "@/lib/messung";
 import { Wordmark } from "@/components/Wordmark";
-import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
+import { FacebookLogo, InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import type { NavEntry } from "@/components/site/navData";
 
 
@@ -36,7 +36,9 @@ const blog: NavEntry[] = [
 const werkzeuge: NavEntry[] = [
   { label: "Rechner", to: "/rechner" },
   { label: "Vergleiche", to: "/vergleiche" },
+  { label: "Dokumente", to: "/dokumente" },
   { label: "Halal Investment Guide", to: "/halal-guide" },
+  { label: "Kostenlose Vorlagen", to: "/vorlagen" },
   { label: "Newsletter", to: "/newsletter" },
 ];
 
@@ -70,13 +72,15 @@ const kanaele = [
   { name: "Instagram", href: "https://instagram.com/finanz.muslim", Logo: InstagramLogo },
   { name: "TikTok", href: "https://tiktok.com/@finanz.muslim", Logo: TikTokLogo },
   { name: "YouTube", href: "https://youtube.com/@finanz.muslim", Logo: YouTubeLogo },
+  // Seite „Finanz Muslim“, dieselbe Adresse wie der Folgen-Knopf in den Facebook-Abläufen von ManyChat (MC11, 03.11.2026)
+  { name: "Facebook", href: "https://www.facebook.com/profile.php?id=61590041086013", Logo: FacebookLogo },
 ];
 
 export const SiteFooter = () => (
   <footer className="bg-card border-t border-border">
     <div className="container py-10 lg:py-14">
       {/* Social-Kasten oben, wie bei Finanzfluss: eine Flaeche, eine Reihe Symbole. */}
-      <div className="rounded-2xl bg-accent px-5 py-5">
+      <div className="rounded-lg border border-border bg-card px-5 py-5">
         <p className="text-[20px] font-bold text-primary">Hier findest du mich</p>
         <div className="mt-3 flex items-center gap-2">
           {kanaele.map(({ name, href, Logo }) => (

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Wordmark } from "@/components/Wordmark";
+import { useThema } from "@/lib/thema";
 
 /**
  * Opt-in-Seiten für die Instagram-DM (`/gratis/…`) laufen ohne Menü (Baustein 29):
@@ -10,8 +11,16 @@ import { Wordmark } from "@/components/Wordmark";
  * Baustein 30) bringen ihren eigenen Kopf mit Knopf mit, wie bei SKAILE (skaile-danke-02).
  * Alles andere mit Kopf und Fuß.
  */
-const Schlicht = ({ children, eigenerKopf = false }: { children: ReactNode; eigenerKopf?: boolean }) => (
-  <div className={`flex min-h-screen flex-col ${eigenerKopf ? "bg-background" : "bg-hero"}`}>
+const Schlicht = ({
+  children,
+  eigenerKopf = false,
+  className = "",
+}: {
+  children: ReactNode;
+  eigenerKopf?: boolean;
+  className?: string;
+}) => (
+  <div className={`flex min-h-screen flex-col bg-background ${className}`}>
     {!eigenerKopf && (
       <header className="container flex h-16 items-center">
         <Link to="/" aria-label="finanzmuslim Startseite">
@@ -32,12 +41,22 @@ const Schlicht = ({ children, eigenerKopf = false }: { children: ReactNode; eige
 );
 
 export const Layout = ({ children }: { children: ReactNode }) => {
+  useThema(); // hält die Klasse `dark` an <html> aktuell, auch auf Seiten ohne Kopf
   const { pathname } = useLocation();
   if (pathname.startsWith("/gratis/")) return <Schlicht>{children}</Schlicht>;
   if (pathname.startsWith("/danke/")) return <Schlicht eigenerKopf>{children}</Schlicht>;
   // RN5: der Halal-Finanz-Check läuft im Vollbild ohne Menü, kein Knopf führt aus dem Ablauf heraus.
   // RN7: Kopf, Fuß und Impressum-Links bringt die Seite selbst mit (Verkaufsseite wie bei Perspective), hier nur die weiße Fläche.
   if (pathname === "/check") return <main className="min-h-screen bg-white">{children}</main>;
+  // Der Portfolioplan bringt sein eigenes Onboarding mit Wortmarke mit: edel, weiß, ohne das blaue Menü, aber
+  // erkennbar Teil der Seite (Elias, CV26P 09.11.2026: „nicht wirkt wie eine komplett andere Seite“).
+  // `pp-rahmen`: schaltet der Leser dort auf Dunkel, wird auch der Fuß dunkel (portfolioplan.css, CV28P).
+  if (pathname.startsWith("/dein-portfolioplan/"))
+    return (
+      <Schlicht eigenerKopf className="pp-rahmen">
+        {children}
+      </Schlicht>
+    );
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />

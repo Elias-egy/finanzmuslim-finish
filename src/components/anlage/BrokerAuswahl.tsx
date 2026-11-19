@@ -28,7 +28,7 @@ const Inhalt = ({ anlageName, isin }: { anlageName: string; isin?: string }) => 
   }
   return (
     <div className="space-y-4 px-1 pb-2">
-      <div className="rounded-xl bg-accent px-4 py-4">
+      <div className="rounded-lg border border-border bg-card px-4 py-4">
         <p className="text-[15px] font-bold text-foreground">Noch keine geprüfte Zuordnung</p>
         <p className="mt-1 text-[14px] leading-[21px] text-muted-foreground">
           Wir tragen gerade zusammen, welcher Broker {anlageName} führt und ob ein Sparplan möglich

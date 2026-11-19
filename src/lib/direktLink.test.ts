@@ -10,7 +10,7 @@ describe("Zwischenseite nur mit Video (Elias, 05.11.2026, H16)", () => {
   beforeEach(() => sessionStorage.clear());
 
   it("lässt Depots auf ihrer Startseite und schickt alle anderen direkt", () => {
-    for (const p of startPartner) expect(ohneZwischenseite(p), p.kurzname).toBe(p.art !== "depot");
+    for (const p of startPartner) expect(ohneZwischenseite(p), p.kurzname).toBe(Boolean(p.link));
   });
 
   it("führt jede Startseite ohne Zwischenseite auf einen externen Link", () => {

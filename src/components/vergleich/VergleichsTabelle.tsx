@@ -2,8 +2,27 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { AngebotsDialog } from "./AngebotsDialog";
-import { AngebotsKnopf, BonusSchild, HinweisPunkt, ZellInhalt } from "./VergleichsBausteine";
+import {
+  AnbieterName,
+  AngebotsKnopf,
+  BonusSchild,
+  NotenBlock,
+  ZellInhalt,
+  auszeichnungFarbe,
+  auszeichnungGrund,
+  auszeichnungVon,
+} from "./VergleichsBausteine";
 import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./vergleichTypen";
+import { istMindestens } from "@/lib/platzAnsicht";
+import { stilVon } from "./karteStil";
+
+/** Ansicht A3 (nur Localhost, `?ansicht=a3`): Farbe einer Zelle „So entsteht der Platz“. */
+export const platzTon: Record<string, string> = {
+  verlust: "font-semibold text-destructive",
+  abzug: "font-semibold text-warning",
+  voll: "text-success",
+  leer: "text-muted-foreground",
+};
 
 /**
  * Die gedrehte Tabelle fuer den Laptop: links stehen die Kriterien, rechts je
@@ -18,11 +37,29 @@ import { hatEinzelheiten, type VergleichsSpalte, type VergleichsZeile } from "./
  * verliert man beim Schieben die Frage. Drittens steht die Angebotszeile
  * zweimal, oben und ganz unten, damit der Weg zum Anbieter nie weit ist.
  *
+ * Seit SEO74 wie Finanzfluss: Der Kopf je Spalte trägt einen eckigen Reiter mit der Platzzahl und
+ * die Auszeichnung als Text, darunter Logo und Name (blau mit Stern); Note mit Sternen und
+ * Produktdetails stehen in der ersten Zeile. Eine Spalte mit Auszeichnung ist leicht getönt. Die untere Angebotszeile läuft
+ * als Leiste am unteren Rand mit, sobald die obere aus dem Bild ist, und endet an ihrem Platz unter
+ * der Tabelle (Elias CV17F „Pop-up“, CV18F „Nur Laptop“).
+ *
+ * Kopf und Leiste sitzen außerhalb des Schiebers: `overflow-x: auto` macht ihn zum eigenen
+ * Scroll-Bereich, ein `sticky top` darin klebt nie am Fenster. Beide folgen ihm über `scrollLeft`.
+ *
  * Die Zellen zeigen nur den Wert. Ein Klick auf die Kopfzeile eines Angebots öffnet
  * `AngebotsDialog` mit dem Satz zur Zins-Ampel und den Quellen (Elias, 07.10.2026).
  */
 const SPALTE = 208;
 const KRITERIEN = 224;
+/**
+ * Girokonto und Depot am Laptop wie Finanzfluss (Elias PH5-01, 16.11.2026: „lass die Laptop-Ansicht auch, wie sie bei
+ * ihm ist“): Kriterienspalte 200 px, genau sechs ganze Anbieter-Spalten in der Breite, keine angeschnittene Spalte,
+ * Pfeile als runde Knöpfe am Rand des Kopfs, Zeilen Anbieter, Konto, Angebot, Bewertung, dann die Kriterien ohne
+ * graue Gruppenzeilen. Gemessen bei Finanzfluss 1440 px: 198 px Kriterien, sechs Spalten zu je 198 px.
+ */
+const KRITERIEN_STIL = 200;
+const SPALTEN_STIL = 6;
+const SPALTE_STIL_MIN = 160;
 /** Hoehe der Kopfleiste der Website. Die Tabelle klebt darunter, nicht darauf. */
 const KOPF = 68;
 
@@ -30,36 +67,54 @@ const gruppenTitel: Record<string, string> = {
   angebot: "Anbieter und Angebot",
   halal: "Halal-Merkmale",
   kosten: "Kosten und Konditionen",
+  platz: "So entsteht der Platz",
 };
 
-const etikettTon: Record<string, string> = {
-  empfehlung: "bg-primary/10 text-primary",
-  bonus: "bg-success/10 text-success",
-  hinweis: "bg-accent/10 text-accent",
-  platz: "bg-muted text-foreground",
-};
 
 export const VergleichsTabelle = ({
   zeilen,
   spalten,
+  stil = false,
+  kontoLabel = "Konto",
 }: {
   zeilen: VergleichsZeile[];
   spalten: VergleichsSpalte[];
+  /** Nur mit `stil`: Name der Zeile unter den Logos (Finanzfluss „Konto“, beim Depot „Depot“). */
+  kontoLabel?: string;
+  /** Girokonto und Depot (Elias 15.11.2026): Spaltenköpfe und Tönung in den hellen Tönen der Karten (`karteStil.ts`), Platz 1 blau, Bonus orange. */
+  stil?: boolean;
 }) => {
   const schieber = useRef<HTMLDivElement>(null);
+  const kopfLeiste = useRef<HTMLDivElement>(null);
+  const untenLeiste = useRef<HTMLDivElement>(null);
+  const obenAngebot = useRef<HTMLDivElement>(null);
   const [von, setVon] = useState(1);
   const [bis, setBis] = useState(1);
   const [offen, setOffen] = useState<string | null>(null);
+  const [erklaert, setErklaert] = useState<string | null>(null);
+  /* Die Leiste unten erscheint erst, wenn die obere Angebotszeile aus dem Bild ist: sonst stünden
+     dieselben Knöpfe zweimal im ersten Bildschirm. */
+  const [leisteZeigen, setLeisteZeigen] = useState(false);
+  const kriterienBreite = stil ? KRITERIEN_STIL : KRITERIEN;
+  const [spalteBreite, setSpalteBreite] = useState(SPALTE);
 
   const merkeStelle = useCallback(() => {
     const el = schieber.current;
     if (!el) return;
-    const sichtbar = Math.max(1, Math.floor((el.clientWidth - KRITERIEN) / SPALTE));
+    if (kopfLeiste.current) kopfLeiste.current.scrollLeft = el.scrollLeft;
+    if (untenLeiste.current) untenLeiste.current.scrollLeft = el.scrollLeft;
+    /* Mit `stil` immer ganze Spalten: sechs, auf schmalem Laptop so viele, wie mit mindestens 160 px passen. */
+    const anzahl = Math.max(1, Math.min(SPALTEN_STIL, Math.floor((el.clientWidth - KRITERIEN_STIL) / SPALTE_STIL_MIN)));
+    const breite = stil ? Math.floor((el.clientWidth - KRITERIEN_STIL) / anzahl) : SPALTE;
+    setSpalteBreite(breite);
+    const sichtbar = Math.max(1, Math.floor((el.clientWidth - kriterienBreite) / breite));
     /* Runden statt Abschneiden: sanftes Blättern endet oft einen Bruchteil vor der Spaltenkante. */
-    const erste = Math.round(el.scrollLeft / SPALTE) + 1;
+    const erste = Math.round(el.scrollLeft / breite) + 1;
+    /* Ganz rechts angekommen zählt die letzte Spalte mit, auch wenn sie nicht voll in die Breite passt. */
+    const amEnde = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
     setVon(Math.min(erste, spalten.length));
-    setBis(Math.min(erste + sichtbar - 1, spalten.length));
-  }, [spalten.length]);
+    setBis(amEnde ? spalten.length : Math.min(erste + sichtbar - 1, spalten.length));
+  }, [spalten.length, stil, kriterienBreite]);
 
   /* ResizeObserver statt window.resize: beim ersten Rendern ist die Breite
      noch 0, ein einmaliger Aufruf misst dann ins Leere und der Zaehler steht
@@ -72,29 +127,65 @@ export const VergleichsTabelle = ({
     return () => beobachter.disconnect();
   }, [merkeStelle]);
 
-  const schiebe = (richtung: 1 | -1) =>
-    schieber.current?.scrollBy({ left: richtung * SPALTE * 2, behavior: "smooth" });
+  useEffect(() => {
+    const ziel = obenAngebot.current;
+    if (!ziel) {
+      setLeisteZeigen(true);
+      return;
+    }
+    const beobachter = new IntersectionObserver(
+      ([e]) => setLeisteZeigen(!e.isIntersecting && e.boundingClientRect.top < KOPF),
+      { rootMargin: `-${KOPF}px 0px 0px 0px` },
+    );
+    beobachter.observe(ziel);
+    return () => beobachter.disconnect();
+  }, []);
 
-  /* Die Angebotszeile steht bewusst zweimal in der Liste. */
-  const alleZeilen: VergleichsZeile[] = [
-    ...zeilen,
-    {
-      key: "__angebot_unten",
-      label: "Angebot",
-      art: "text",
-      gruppe: "kosten",
-    },
-  ];
+  const schiebe = (richtung: 1 | -1) =>
+    schieber.current?.scrollBy({ left: richtung * spalteBreite * (stil ? Math.max(1, bis - von + 1) : 2), behavior: "smooth" });
+
+  const raster = {
+    gridTemplateColumns: `${kriterienBreite}px repeat(${spalten.length}, ${spalteBreite}px)`,
+    width: kriterienBreite + spalten.length * spalteBreite,
+  };
+  /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
+     Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
+     aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
+     die letzte Spalte wieder scharf. Kopf und Leiste blenden gleich aus. */
+  const maske =
+    !stil && bis < spalten.length
+      ? {
+          WebkitMaskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+          maskImage: "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
+        }
+      : undefined;
+  const grund = (s: VergleichsSpalte) => {
+    if (s.grau) return "bg-zinc-200 text-zinc-600 dark:bg-muted dark:text-muted-foreground";
+    if (stil) return stilVon(s)?.stil.spalte ?? "";
+    const a = auszeichnungVon(s);
+    return a ? auszeichnungGrund[a.ton] : "";
+  };
+  const mitNote = spalten.some((s) => s.note !== null);
 
   const zelle = "flex min-h-[60px] items-center justify-center border-b border-border px-3 py-2 text-center text-[13px]";
   const kriterium =
     "sticky left-0 z-20 flex min-h-[60px] items-center border-b border-r border-border bg-card px-3 py-2 text-[13px] text-foreground";
+  const angebot = (s: VergleichsSpalte) => (
+    <div className="w-full">
+      <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
+      {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
+    </div>
+  );
 
   let letzteGruppe = "";
+  /* Reihenfolge der Zeilen: mit `stil` wie Finanzfluss erst Angebot, dann Bewertung, dann die Kriterien. */
+  const reihen: Array<VergleichsZeile | "bewertung"> = stil
+    ? [...zeilen.filter((z) => z.key === "__angebot"), "bewertung", ...zeilen.filter((z) => z.key !== "__angebot")]
+    : ["bewertung", ...zeilen];
 
   return (
     <div className="relative">
-      <div className="mb-2 flex items-center justify-between">
+      <div className={`mb-2 flex items-center justify-between ${stil ? "hidden" : ""}`}>
         <p className="text-[14px] text-muted-foreground">
           {von} bis {bis} von {spalten.length} Angeboten
         </p>
@@ -103,7 +194,7 @@ export const VergleichsTabelle = ({
             type="button"
             onClick={() => schiebe(-1)}
             aria-label="Anbieter nach links"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-colors hover:bg-surface"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden />
           </button>
@@ -111,171 +202,247 @@ export const VergleichsTabelle = ({
             type="button"
             onClick={() => schiebe(1)}
             aria-label="Anbieter nach rechts"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-colors hover:bg-surface"
           >
             <ChevronRight className="h-5 w-5" aria-hidden />
           </button>
         </div>
       </div>
 
-      <div
-        ref={schieber}
-        onScroll={merkeStelle}
-        className="overflow-x-auto rounded-lg border border-border bg-card"
-        /* Ohne diesen Fade wirkt die zuletzt angeschnittene Spalte wie ein
-           Darstellungsfehler statt wie ein Hinweis zum Weiterschieben. Nur
-           aktiv, solange rechts noch etwas folgt; am Ende der Liste steht
-           die letzte Spalte wieder scharf. */
-        style={
-          bis < spalten.length
-            ? {
-                WebkitMaskImage:
-                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
-                maskImage:
-                  "linear-gradient(to right, black calc(100% - 96px), transparent 100%)",
-              }
-            : undefined
-        }
-      >
-        <div
-          className="grid"
-          style={{
-            gridTemplateColumns: `${KRITERIEN}px repeat(${spalten.length}, ${SPALTE}px)`,
-            width: KRITERIEN + spalten.length * SPALTE,
-          }}
-        >
-          {/* Kopfzeile: klebt oben, damit beim Scrollen immer sichtbar bleibt,
-              wessen Zahl gerade gelesen wird.
-
-              Zwei verschachtelte Ebenen statt einer: ein `sticky top`-Wert
-              direkt auf einem Grid-Kind verschiebt in Chrome die Startposition
-              der naechsten Zeile um genau diesen Top-Wert nach oben, auch
-              wenn die Kopfzeile noch gar nicht klebt. Ergebnis war, dass die
-              Angebotszeile sichtbar unter der Kopfzeile verschwand. Das
-              aeussere Div bleibt darum ein normales (bzw. nur horizontal
-              klebendes) Grid-Kind und traegt nichts als Platzhalter bei, das
-              vertikale Kleben passiert ausschliesslich am inneren Div, das
-              fuer die Grid-Zeilenberechnung unsichtbar ist. */}
-          <div className="sticky left-0 z-30 border-b border-r border-border">
-            {/* `h-full`: Die Fläche deckt die ganze Zelle. Sonst scheint beim seitlichen Blättern die Spalte darunter durch. */}
-            <div className="flex h-full flex-col justify-end bg-card px-3 py-2" style={{ position: "sticky", top: KOPF }}>
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Kriterium
-              </p>
-              <p className="text-[12px] text-muted-foreground">
-                {von} bis {bis} von {spalten.length}
-              </p>
+      {/* `overflow: clip` rundet die Ecken, ohne ein Scroll-Bereich zu werden: Kopf und Leiste kleben am Fenster. */}
+      <div className="rounded-lg border border-border bg-card" style={{ overflow: "clip" }}>
+        {/* Kopf: Reiter mit Platz und Auszeichnung, darunter das Logo. Klebt unter der Kopfleiste der Website. */}
+        <div className="sticky z-30 border-b border-border bg-card" style={{ top: KOPF }}>
+          <div ref={kopfLeiste} className="overflow-hidden" style={maske}>
+            <div className="grid" style={raster}>
+              <div className="sticky left-0 z-10 flex flex-col justify-end border-r border-border bg-card px-3 py-2">
+                <p className="text-[14px] font-semibold text-foreground">Anbieter</p>
+                <p className="text-[12px] text-muted-foreground">
+                  {von} bis {bis} von {spalten.length}
+                </p>
+              </div>
+              {spalten.map((s) => {
+                const a = auszeichnungVon(s);
+                const hervor = a?.ton === "empfehlung";
+                const farbe = stil ? stilVon(s) : null;
+                return (
+                  <div key={s.id} className="flex flex-col border-r border-border bg-card last:border-r-0">
+                    <div className={`flex h-full flex-col ${grund(s)}`}>
+                      {s.abgeraten ? (
+                        <p className="flex h-7 items-center justify-center bg-destructive/10 px-2 text-[12px] font-semibold text-destructive">
+                          Davon raten wir ab
+                        </p>
+                      ) : farbe ? (
+                        /* Heller Reiter wie auf der Karte: Platzzahl, Strich, Text („Bestes Girokonto“, „200 € Bonus“). */
+                        <div className={`flex h-7 items-stretch border-b text-[13px] font-semibold ${farbe.stil.reiter}`}>
+                          {s.platz != null && (
+                            <span className={`flex min-w-[28px] items-center justify-center border-r px-1.5 text-[13px] ${farbe.stil.trenner}`}>
+                              {s.platz}
+                            </span>
+                          )}
+                          <span className="min-w-0 flex-1 truncate px-2 text-center text-[13px] leading-7">{farbe.text}</span>
+                        </div>
+                      ) : (
+                        <div className="flex h-7 items-stretch">
+                          {s.platz != null && (
+                            <span
+                              className={`flex min-w-[28px] items-center justify-center rounded-br-lg border-b border-r px-1.5 text-[13px] font-semibold ${
+                                hervor ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground"
+                              }`}
+                            >
+                              {s.platz}
+                            </span>
+                          )}
+                          {a && (
+                            <span className={`min-w-0 flex-1 truncate px-2 text-center text-[13px] font-semibold leading-7 ${auszeichnungFarbe[a.ton]}`}>
+                              {a.text}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-3 pb-2.5 pt-1.5">
+                        <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
+                        {/* Der Name klebt mit: nach zehn Zeilen sagt ein Symbol allein nicht mehr, wessen Zahl man liest.
+                            Mit `stil` steht er wie bei Finanzfluss in der eigenen Zeile „Konto“ darunter. */}
+                        {!stil && (
+                          <p className="w-full truncate text-center text-[13px] leading-snug" title={`${s.anbieter} ${s.produkt}`}>
+                            <AnbieterName spalte={s} />
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              {stil && (
+                /* Zeile „Konto“ wie bei Finanzfluss: der Produktname blau und klickbar, klebt mit dem Kopf. */
+                <>
+                  <div className="sticky left-0 z-10 flex items-center border-r border-t border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
+                    {kontoLabel}
+                  </div>
+                  {spalten.map((s) => (
+                    <div key={`konto-${s.id}`} className="border-r border-t border-border bg-card last:border-r-0">
+                      <p
+                        className={`flex h-full min-h-[52px] items-center justify-center px-3 py-2 text-center text-[14px] leading-snug ${grund(s)}`}
+                        title={`${s.anbieter} ${s.produkt}`}
+                      >
+                        <span className="line-clamp-2">
+                          <AnbieterName spalte={s} />
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </div>
-          {spalten.map((s) => {
-            const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
-            const kopf = (
-              <>
-                <AnbieterLogo name={s.anbieter} domain={s.domain} gross />
-                <span className="block w-full truncate text-center text-[13px] font-bold text-foreground">
-                  {s.anbieter}
-                </span>
-                {s.tarif ? (
-                  /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Kopfzeile aller Spalten mit. */
-                  <span className="flex w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-[12px] font-normal text-muted-foreground">
-                    {s.produkt}
-                    <span className="rounded-full bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
+          {stil && (
+            /* Pfeile wie bei Finanzfluss: rund, halb durchsichtig, auf der Unterkante des Kopfs, links neben den Kriterien und am rechten Rand. */
+            <>
+              <button
+                type="button"
+                onClick={() => schiebe(-1)}
+                disabled={von <= 1}
+                aria-label="Anbieter nach links"
+                className="absolute bottom-0 z-40 inline-flex h-10 w-10 translate-y-1/2 items-center justify-center rounded-full bg-zinc-500/60 text-white transition-opacity hover:bg-zinc-600/80 disabled:opacity-0"
+                style={{ left: kriterienBreite + 6 }}
+              >
+                <ChevronLeft className="h-5 w-5" aria-hidden />
+              </button>
+              <button
+                type="button"
+                onClick={() => schiebe(1)}
+                disabled={bis >= spalten.length}
+                aria-label="Anbieter nach rechts"
+                className="absolute bottom-0 right-1.5 z-40 inline-flex h-10 w-10 translate-y-1/2 items-center justify-center rounded-full bg-zinc-500/60 text-white transition-opacity hover:bg-zinc-600/80 disabled:opacity-0"
+              >
+                <ChevronRight className="h-5 w-5" aria-hidden />
+              </button>
+            </>
+          )}
+        </div>
+
+        <div ref={schieber} onScroll={merkeStelle} className="overflow-x-auto" style={maske}>
+          <div className="grid" style={raster}>
+            {reihen.map((r) => r === "bewertung" ? (
+            /* Bewertung: Note mit Sternen, darunter Tarif und Produktdetails. Ohne Noten heißt die Zeile „Produkt“. */
+            <div key="__bewertung" className="contents">
+            <div className={kriterium}>{mitNote ? "Bewertung" : "Produkt"}</div>
+            {spalten.map((s) => {
+              const klickbar = Boolean(s.tarif) || hatEinzelheiten(s, zeilen);
+              return (
+                <div key={`note-${s.id}`} className={`${zelle} flex-col gap-1 border-r last:border-r-0 ${grund(s)}`}>
+                  {mitNote && (s.note !== null ? <NotenBlock note={s.note} mittig /> : <span className="text-muted-foreground">–</span>)}
+                  {/* PH5-01: Der Hinweis zu Prämie und Kredit (norisbank, flatex) steht am Laptop nur in den Produktdetails. */}
+                  {s.tarif && (
+                    /* Nur die Marke: Der Satz dazu steht im Dialog, sonst wächst die Zeile aller Spalten mit. */
+                    <span className="rounded bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
                       {s.tarif.marke}
                     </span>
-                  </span>
-                ) : (
-                  <span className="block w-full truncate text-center text-[12px] font-normal text-muted-foreground">
-                    {s.produkt}
-                  </span>
-                )}
-                {klickbar && (
-                  <span className="mt-auto inline-flex items-center pt-1 text-[12px] font-medium text-primary">
-                    Produktdetails
-                    <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-                  </span>
-                )}
-              </>
-            );
-            return (
-              <div key={s.id} className="z-20 border-b border-r border-border last:border-r-0">
-                {/* `h-full`: Bricht ein Produktname um, wächst die Kopfzeile für alle gleich. */}
-                <div className="flex h-full flex-col bg-card" style={{ position: "sticky", top: KOPF }}>
-                  {s.abgeraten ? (
-                    <div className="border-b border-destructive/30 bg-destructive/10 px-2 py-1.5">
-                      <span className="block truncate text-center text-[11px] font-semibold text-destructive">
-                        Davon raten wir ab
-                      </span>
-                    </div>
-                  ) : (
-                    s.etikett && (
-                      <div className="border-b border-border px-2 py-1.5">
-                        <span
-                          className={`block truncate rounded-full px-2 py-0.5 text-center text-[11px] font-semibold ${etikettTon[s.etikett.ton]}`}
-                        >
-                          {s.etikett.text}
-                        </span>
-                      </div>
-                    )
                   )}
-                  <div className="relative flex flex-1 flex-col">
-                    {klickbar ? (
-                      <button
-                        type="button"
-                        onClick={() => setOffen(s.id)}
-                        aria-haspopup="dialog"
-                        className="flex w-full flex-1 flex-col items-center gap-1 px-3 py-2 transition-colors hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
-                      >
-                        {kopf}
-                      </button>
-                    ) : (
-                      <div className="flex flex-1 flex-col items-center gap-1 px-3 py-2">{kopf}</div>
-                    )}
-                  </div>
+                  {klickbar && (
+                    <button
+                      type="button"
+                      onClick={() => setOffen(s.id)}
+                      aria-haspopup="dialog"
+                      className="inline-flex min-h-[28px] items-center text-[12px] font-medium text-primary hover:underline"
+                    >
+                      Produktdetails
+                      <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+                    </button>
+                  )}
                 </div>
-              </div>
-            );
-          })}
-
-          {/* Datenzeilen */}
-          {alleZeilen.map((z) => {
-            const neueGruppe = z.gruppe !== letzteGruppe && z.key !== "__angebot_unten";
-            letzteGruppe = z.gruppe;
-            return (
-              <div key={z.key} className="contents">
-                {neueGruppe && (
-                  <>
-                    <div className="sticky left-0 z-20 border-b border-r border-border bg-surface px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      {gruppenTitel[z.gruppe]}
-                    </div>
-                    {spalten.map((s) => (
-                      <div
-                        key={`${z.key}-g-${s.id}`}
-                        className="border-b border-r border-border bg-surface last:border-r-0"
-                      />
-                    ))}
-                  </>
-                )}
-                <div className={kriterium}>
-                  <span>
-                    {z.label}
-                    <HinweisPunkt text={z.hinweis} />
-                  </span>
-                </div>
-                {spalten.map((s) => (
-                  <div key={`${z.key}-${s.id}`} className={`${zelle} border-r last:border-r-0`}>
-                    {z.key === "__angebot" || z.key === "__angebot_unten" ? (
-                      <div className="w-full">
-                        <AngebotsKnopf link={s.link} abgeraten={s.abgeraten} />
-                        {!s.abgeraten && <BonusSchild anbieterId={s.id} />}
+              );
+            })}
+            </div>
+            ) : (() => {
+              /* Datenzeilen. Mit `stil` ohne graue Gruppenzeilen wie bei Finanzfluss. */
+              const z = r;
+              const neueGruppe = !stil && z.gruppe !== letzteGruppe;
+              letzteGruppe = z.gruppe;
+              return (
+                <div key={z.key} className="contents">
+                  {neueGruppe && (
+                    <>
+                      <div className="sticky left-0 z-20 border-b border-r border-border bg-surface px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        {gruppenTitel[z.gruppe]}
                       </div>
+                      {spalten.map((s) => (
+                        <div
+                          key={`${z.key}-g-${s.id}`}
+                          className="border-b border-r border-border bg-surface last:border-r-0"
+                        />
+                      ))}
+                    </>
+                  )}
+                  <div ref={z.key === "__angebot" ? obenAngebot : undefined} className={kriterium}>
+                    {z.hinweis ? (
+                      /* Wie Finanzfluss: ein Kriterium mit Erklärung ist blau gepunktet unterstrichen, ein Klick
+                         zeigt die Erklärung (Elias SEO74: „wie bei Finanzfluss sollten die teilweise auch blau sein“). */
+                      <span>
+                        <button
+                          type="button"
+                          onClick={() => setErklaert((alt) => (alt === z.key ? null : z.key))}
+                          aria-expanded={erklaert === z.key}
+                          title={z.hinweis}
+                          className="text-left font-medium text-primary underline decoration-dotted underline-offset-4 hover:text-primary-hover"
+                        >
+                          {z.label}
+                        </button>
+                        {erklaert === z.key && (
+                          <span className="mt-1 block text-[12px] leading-snug text-muted-foreground">{z.hinweis}</span>
+                        )}
+                      </span>
                     ) : (
-                      <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />
+                      <span>{z.label}</span>
                     )}
                   </div>
-                ))}
+                  {spalten.map((s) => (
+                    <div
+                      key={`${z.key}-${s.id}`}
+                      className={`${zelle} border-r last:border-r-0 ${grund(s)} ${stil && z.key === "__angebot" ? "!items-start pt-3" : ""} ${
+                        z.gruppe === "platz" ? `text-[12px] ${s.grau ? "" : "bg-accent/40"}` : ""
+                      } ${s.zerlegung && istMindestens(s.werte[z.key]?.text) ? "bg-warning/15 ring-1 ring-inset ring-warning/50" : ""}`}
+                    >
+                      {z.key.startsWith("__platz_") ? (
+                        /* Ansicht A3: Zeilen „So entsteht der Platz“. */
+                        <span
+                          title={s.zerlegung?.[z.key]?.text}
+                          className={`line-clamp-4 ${platzTon[s.zerlegung?.[z.key]?.ton ?? ""] ?? "text-foreground"}`}
+                        >
+                          {s.zerlegung?.[z.key]?.text ?? "–"}
+                        </span>
+                      ) : z.key === "__angebot" ? (
+                        angebot(s)
+                      ) : (
+                        <ZellInhalt wert={s.werte[z.key]} art={z.art} teilsText={z.teilsText} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            })())}
+          </div>
+        </div>
+
+        {/* Angebotszeile unten, nur Laptop: läuft am unteren Rand mit und endet hier an ihrem Platz. */}
+        <div
+          className={`sticky bottom-0 z-30 border-t border-border bg-card transition-[opacity,visibility] duration-200 ${
+            leisteZeigen ? "visible opacity-100" : "invisible opacity-0"
+          }`}
+        >
+          <div ref={untenLeiste} className="overflow-hidden" style={maske}>
+            <div className="grid" style={raster}>
+              <div className="sticky left-0 z-10 flex items-center border-r border-border bg-card px-3 py-2 text-[14px] font-semibold text-foreground">
+                Angebot
               </div>
-            );
-          })}
+              {spalten.map((s) => (
+                <div key={`unten-${s.id}`} className="border-r border-border bg-card last:border-r-0">
+                  <div className={`flex h-full items-center px-3 py-2 ${grund(s)}`}>{angebot(s)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

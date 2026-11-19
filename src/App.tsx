@@ -10,9 +10,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
-import Index from "./pages/Index.tsx";
+import { ladePartnerSprung, partnerKlick } from "@/lib/partnerKlick";
+import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "@/data/boykottfreiPfad";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
+// A10 (08.11.2026): auch die Startseite, sonst laden die Kursreihen aus kurse.json (rund 350 KB) auf jeder Seite mit.
+const Index = lazy(() => import("./pages/Index.tsx"));
 const InvestmentStart = lazy(() => import("./pages/InvestmentStart.tsx"));
 const DepotNummerEins = lazy(() => import("./pages/DepotNummerEins.tsx"));
 const HalalGuide = lazy(() => import("./pages/HalalGuide.tsx"));
@@ -27,6 +30,7 @@ const UeberMich = lazy(() => import("./pages/UeberMich.tsx"));
 const Kooperationen = lazy(() => import("./pages/Kooperationen.tsx"));
 const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const PortfolioPlan = lazy(() => import("./pages/PortfolioPlan.tsx"));
+const MeinPortfolioPlan = lazy(() => import("./pages/MeinPortfolioPlan.tsx"));
 const BoykottListe = lazy(() => import("./pages/BoykottListe.tsx"));
 const GoldPlan = lazy(() => import("./pages/GoldPlan.tsx"));
 const EtfPlan = lazy(() => import("./pages/EtfPlan.tsx"));
@@ -83,6 +87,8 @@ const Out = lazy(() => import("./pages/Out.tsx"));
 const Weiter = lazy(() => import("./pages/Weiter.tsx"));
 const Deals = lazy(() => import("./pages/Deals.tsx"));
 const Vorlagen = lazy(() => import("./pages/Vorlagen.tsx"));
+// RN19 (19.11.2026): Sammelseite für Formulare, Check, Listen und Rechner (Elias RN18-20).
+const Dokumente = lazy(() => import("./pages/Dokumente.tsx"));
 const VorlageHalalAnlagen = lazy(() => import("./pages/vorlagen/HalalAnlagen.tsx"));
 const VorlageVertragsAmpel = lazy(() => import("./pages/vorlagen/VertragsAmpel.tsx"));
 const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx"));
@@ -121,6 +127,20 @@ const SrcCapture = () => {
   return null;
 };
 
+// PH4 (16.11.2026): Knöpfe zu /out/<kurzname> springen beim Tippen sofort zum Anbieter (src/lib/partnerKlick.ts).
+// Die kleine Tabelle dafür lädt, sobald der Browser Luft hat, und kostet den ersten Seitenaufbau nichts.
+const PartnerSprung = () => {
+  useEffect(() => {
+    document.addEventListener("click", partnerKlick, true);
+    const laden = () => void ladePartnerSprung();
+    const w = window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(laden, { timeout: 1500 });
+    else setTimeout(laden, 800);
+    return () => document.removeEventListener("click", partnerKlick, true);
+  }, []);
+  return null;
+};
+
 // Bei jedem Routenwechsel oben starten — außer wenn ein Anker (#…) angesprungen wird.
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -138,6 +158,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SrcCapture />
+        <PartnerSprung />
         <ScrollToTop />
         <Einwilligung />
         <Layout>
@@ -184,6 +205,7 @@ const App = () => (
                 wird ueber Instagram und die bestehende Mailkette. */}
             <Route path="/dein-guide/:schluessel" element={<DeinGuide />} />
             <Route path="/dein-plan/:schluessel" element={<PortfolioPlan />} />
+            <Route path="/dein-portfolioplan/:schluessel" element={<MeinPortfolioPlan />} />
             <Route path="/deine-boykottliste/:schluessel" element={<BoykottListe />} />
             <Route path="/dein-gold/:schluessel" element={<GoldPlan />} />
             <Route path="/dein-etf/:schluessel" element={<EtfPlan />} />
@@ -220,6 +242,7 @@ const App = () => (
             <Route path="/blog/dispo-und-schulden" element={<DispoUndSchulden />} />
             <Route path="/blog/trading-forex-cfd" element={<TradingForexCfd />} />
             <Route path="/blog/zakat-auf-aktien-etf-krypto" element={<ZakatAufAktienEtfKrypto />} />
+            <Route path="/dokumente" element={<Dokumente />} />
             <Route path="/vorlagen" element={<Vorlagen />} />
             <Route path="/vorlagen/halal-anlagen" element={<VorlageHalalAnlagen />} />
             <Route path="/vorlagen/vertrags-ampel" element={<VorlageVertragsAmpel />} />

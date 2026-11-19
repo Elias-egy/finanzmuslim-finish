@@ -23,6 +23,11 @@ import { useEffect } from "react";
 const SITE = "https://finanzmuslim.com";
 const DEFAULT_OG = `${SITE}/og-default.jpg`;
 
+/** Feste Kennungen der beiden Entitäten. Beiträge, Vergleiche und die Startseite verweisen darauf,
+ *  die vollen Knoten stehen auf /ueber-mich (Person) und der Startseite (Organization). */
+export const PERSON_ID = `${SITE}/ueber-mich#elias`;
+export const ORGANISATION_ID = `${SITE}/#organization`;
+
 /** Erzeugt oder aktualisiert ein <meta>-Tag im <head>. */
 const setMeta = (attr: "name" | "property", key: string, content: string) => {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
@@ -172,13 +177,38 @@ const isoDatum = (deutsch: string) => {
  * um Begriffe wie "halal Depot" konkurriert, ist das der Unterschied zwischen
  * einer Zeile im Ergebnis und einem Block. Die Daten lagen ohnehin vor.
  */
+/** "14.09.2026" nach "2026-09-14"; alles andere ergibt kein Datum (Feld wird dann weggelassen). */
+const standIso = (stand?: string) => {
+  const m = stand && /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(stand.trim());
+  return m ? `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}` : null;
+};
+
 export const vergleichJsonLd = (opts: {
   titel: string;
   beschreibung: string;
   path: string;
   faq: { frage: string; antwort: string }[];
+  /** Datenstand der Seite wie sichtbar ("14.09.2026"), wird dateModified. */
+  stand?: string;
+  /** Anbieter in der Reihenfolge, wie die Tabelle sie beim Öffnen zeigt (SCHEMA.md Vergleich), wird ItemList. */
+  anbieter?: string[];
 }) => [
-  webPage(opts.titel, opts.beschreibung, `${SITE}${opts.path}`),
+  {
+    ...webPage(opts.titel, opts.beschreibung, `${SITE}${opts.path}`),
+    ...(standIso(opts.stand) ? { dateModified: standIso(opts.stand) } : {}),
+  },
+  ...(opts.anbieter?.length
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: opts.titel,
+          numberOfItems: opts.anbieter.length,
+          itemListOrder: "https://schema.org/ItemListOrderAscending",
+          itemListElement: opts.anbieter.map((name, i) => ({ "@type": "ListItem", position: i + 1, name })),
+        },
+      ]
+    : []),
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -196,17 +226,25 @@ export const beitragJsonLd = (opts: {
   path: string;
   datePublished: string;
   dateModified?: string;
+  /** Absolute Adresse des Titelbilds. Ohne Angabe die Vorschaukarte der Seite (dist/og/<slug>.jpg, entsteht beim Build). */
+  image?: string;
   faq: { frage: string; antwort: string }[];
 }) => [
   {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    "@id": `${SITE}${opts.path}#beitrag`,
     headline: opts.titel,
     description: opts.beschreibung,
+    // RN20 (Prüfbericht RN19 Punkt 8, VORLAGEN.md §1.3): image ist Pflicht im BlogPosting. Die Vorschaukarte hat jede Seite,
+    // gleiche Benennung wie scripts/og-bilder.mjs (Pfad ohne führenden Schrägstrich, „/“ als „--“).
+    image: opts.image ?? `${SITE}/og/${opts.path.slice(1).replace(/\//g, "--")}.jpg`,
     inLanguage: "de-DE",
+    url: `${SITE}${opts.path}`,
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${opts.path}` },
-    author: { "@type": "Person", name: "Elias El-Gendy", url: `${SITE}/ueber-mich` },
-    publisher: { "@type": "Organization", name: "finanzmuslim", url: SITE },
+    author: { "@type": "Person", "@id": PERSON_ID, name: "Elias El-Gendy", url: `${SITE}/ueber-mich` },
+    publisher: { "@type": "Organization", "@id": ORGANISATION_ID, name: "finanzmuslim", url: SITE },
+    isPartOf: { "@type": "Blog", "@id": `${SITE}/blog#blog`, name: "finanzmuslim Blog", url: `${SITE}/blog` },
     datePublished: isoDatum(opts.datePublished),
     ...(opts.dateModified ? { dateModified: isoDatum(opts.dateModified) } : {}),
   },
@@ -234,6 +272,7 @@ export const beitragJsonLd = (opts: {
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": ORGANISATION_ID,
   name: "finanzmuslim",
   url: SITE,
   logo: `${SITE}/apple-touch-icon.png`,
@@ -241,7 +280,9 @@ export const organizationJsonLd = {
     "Bildung fuer islamkonformes (halal) Investieren: Guides, Rechner und Kriterien-Checks fuer Muslime in Deutschland.",
   founder: {
     "@type": "Person",
+    "@id": PERSON_ID,
     name: "Elias El-Gendy",
+    url: `${SITE}/ueber-mich`,
     jobTitle: "Gruender",
     knowsAbout: ["Halal Investieren", "Islamic Finance", "ETF", "Sukuk", "Riba"],
     sameAs: ["https://www.linkedin.com/in/elias-el-gendy"],
@@ -267,6 +308,8 @@ export const anlageJsonLd = (opts: {
   isin?: string;
   anbieter: string;
   zertifizierer: string;
+  /** Name der Stelle, wo es keine Prüfstelle im engen Sinn gibt (Berater, Index). Standard „Shariah-Prüfstelle“. */
+  rolle?: string;
   krypto: boolean;
 }) => [
   {
@@ -283,7 +326,7 @@ export const anlageJsonLd = (opts: {
       : {
           additionalProperty: {
             "@type": "PropertyValue",
-            name: "Shariah-Prüfstelle",
+            name: opts.rolle ?? "Shariah-Prüfstelle",
             value: opts.zertifizierer,
           },
         }),

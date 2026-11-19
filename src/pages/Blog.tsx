@@ -21,7 +21,7 @@ const rang = (slug: string) => (VORNE.includes(slug) ? VORNE.indexOf(slug) - 100
 const fertig = wissenBeitraege.filter((b) => !b.bald).sort((x, y) => rang(x.slug) - rang(y.slug));
 /** Karte wie frontal.so/blog: Kachel, Thema und Datum, Titel, ein Satz, Autor, Knopf (Elias SEO47). */
 const Karte = ({ b }: { b: WissenBeitrag }) => (
-  <article className="relative flex flex-col border border-border bg-background p-4 transition-colors hover:border-foreground sm:p-5">
+  <article className="group relative flex flex-col border border-border bg-background p-4 transition-colors hover:border-foreground sm:p-5">
     <BlogKachel thema={b.thema} />
     <p className="mt-4 flex items-center justify-between gap-3 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
       <span className="text-primary">{b.thema}</span>
@@ -44,7 +44,9 @@ const Karte = ({ b }: { b: WissenBeitrag }) => (
           <span className="block text-[13px] text-muted-foreground">Gründer von finanzmuslim</span>
         </span>
       </p>
-      <span className="mt-4 flex min-h-[44px] items-center justify-center border border-border font-mono text-[12px] uppercase tracking-[0.14em] text-foreground">
+      {/* RN1 (12.11.): wie der ruhige runde Knopf (Aufruf „zweit“), damit „Beitrag lesen“ zu den übrigen Knöpfen passt
+          (Elias: „versuch mal alles zu vereinheitlichen, wenn es um Beitrag lesen und so“) */}
+      <span className="mt-4 flex min-h-[44px] items-center justify-center rounded-full border border-border bg-background text-[15px] font-semibold text-foreground transition-colors group-hover:border-foreground">
         Beitrag lesen
       </span>
     </div>

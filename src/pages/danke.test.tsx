@@ -27,7 +27,7 @@ describe("Danke-Seite", () => {
     expect(schluesselLinks()).toHaveLength(0);
     expect(screen.getByRole("status").textContent).toContain("per Mail");
     const test = screen.getAllByRole("link", { name: /Jetzt testen/ });
-    expect(test[0].getAttribute("href")).toBe("/vergleich/start?vorhaben=konto");
+    expect(test[0].getAttribute("href")).toBe("/check?quelle=quiz&ziel=konto"); // RN6: Check ersetzt das alte Quiz
   });
 
   it("zeigt beim Guide keinen Schlüssellink, auch mit gewählter Stufe", () => {

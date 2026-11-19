@@ -15,9 +15,11 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
 const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
-  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 56],
+  // 51 statt 56: eToro, Freedom24 (2), Plus500, Libertex sind raus (Elias 07.11.2026, A8, bauen.py AUS_DEM_VERGLEICH).
+  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 51],
   ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
-  ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 27],
+  // 26 statt 27: eToro Krypto ist raus (Elias 08.11.2026, A9, „Alle raus. Also die vier.“).
+  ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 26],
 ];
 
 describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, anzahl) => {
@@ -184,6 +186,9 @@ describe("Vergleichsdaten edelmetalle", () => {
     const mit = gerankt.filter((b) => String(b.anbieter.werte.royalMint).startsWith("ja")).length;
     expect(mit).toBeGreaterThan(0);
     expect(gerankt.slice(0, mit).every((b) => String(b.anbieter.werte.royalMint).startsWith("ja"))).toBe(true);
+    // A6 (07.11.2026): Royal Mint per Portal-Sparplan bei 10 weiteren Depots belegt, Platz 3 rückt nach Note nach.
+    // A12 (08.11.2026): Scalable FREE bekommt für den kostenlosen ETF-Kauf ab 250 € einen Punkt mehr und steht gleichauf
+    // mit S Broker (4,89); der Feinwert entscheidet.
     expect(gerankt.slice(0, 3).map((b) => b.anbieter.name)).toEqual(["Traders Place", "Smartbroker+", "Scalable Capital"]);
   });
 
@@ -293,6 +298,9 @@ describe("Gegenprüfung 20.09.2026", () => {
  * Beleg aus der Wertpapiersuche oder Produktliste des Anbieters selbst. Ohne Beleg wird die
  * Zeile gar nicht gezeigt, statt sie als kaufbar auszugeben.
  */
+// onvista und extraETF seit A8 (Elias 07.11.2026: "ich gebe offiziell die anderen Quellen frei").
+const PORTALE = ["finanzfluss.de", "justetf.com", "finanzen.net", "finanztip.de", "onvista.de", "extraetf.com"];
+
 describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
   it("belegt jede kaufbare Anlage mit einer Seite des Anbieters", () => {
     for (const [isin, eintrag] of Object.entries(ANLAGEN_KAUFBAR)) {
@@ -307,7 +315,9 @@ describe("Kaufbarkeit nur mit Beleg vom Anbieter", () => {
           const host = new URL(u).hostname.replace(/^www\./, "");
           return k.beleg.domains.some((d) => host === d || host.endsWith(`.${d}`) || d.endsWith(`.${host}`));
         };
-        const eigen = aufDomain(k.beleg.url) || (k.beleg.herkunft ? aufDomain(k.beleg.herkunft) : false);
+        // Seit 07.11.2026 (Elias, A5/A6): Vergleichsportale zählen als Sparplan-Beleg (beleg.belegart "portal").
+        const portal = k.beleg.belegart === "portal" && PORTALE.some((d) => new URL(k.beleg.url).hostname.replace(/^www\./, "").endsWith(d));
+        const eigen = portal || aufDomain(k.beleg.url) || (k.beleg.herkunft ? aufDomain(k.beleg.herkunft) : false);
         expect(eigen, `${ort}: belegt mit ${new URL(k.beleg.url).hostname}`).toBe(true);
       }
     }

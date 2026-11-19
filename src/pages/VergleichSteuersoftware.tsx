@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { STEUER_ZEILEN, STEUER_FILTER } from "@/data/steuersoftwareVergleich";
-import { steuerAnzeige } from "@/data/vergleichAnzeige";
+import { steuerAnzeige } from "@/data/anzeige/steuer";
 import { zahlwort } from "@/data/anzahlen";
 
 /**
@@ -21,10 +21,14 @@ import { zahlwort } from "@/data/anzahlen";
 const ANZAHL = steuerAnzeige.length;
 const ERST_BEI_ABGABE = steuerAnzeige.filter((a) => a.werte.zahlung === "erst bei Abgabe").length;
 const KOSTENLOS = steuerAnzeige.filter((a) => a.preisEinzel === 0).length;
+const PARTNER_NAMEN = (() => {
+  const n = steuerAnzeige.filter((a) => a.link).map((a) => a.name);
+  return n.length > 1 ? `${n.slice(0, -1).join(", ")} und ${n[n.length - 1]}` : n.join("");
+})();
 const NUR_WINDOWS = steuerAnzeige.filter((a) => a.werte.plattform === "nur Windows").length;
 
 const Reihenfolge = () => (
-  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
+  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:px-6 lg:py-5">
     <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
       Sortiert nach Leistung und Preis, je zur Hälfte. Die beiden kostenlosen stehen oben und
       zahlen uns nichts.
@@ -101,8 +105,8 @@ const VergleichSteuersoftware = () => (
     brotkrumen="Steuersoftware"
     titel="Steuersoftware im Vergleich"
     untertitel={`${zahlwort(ANZAHL, true)} Programme für die Steuererklärung: was sie kosten, wann du zahlst und welche Einkünfte sie annehmen`}
-    seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen | finanzmuslim"
-    seoText={`${zahlwort(ANZAHL, true)} Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix, smartsteuer und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge, Selbstständige und Vermietung, alles beim Anbieter geprüft.`}
+    seoTitel="Steuersoftware Vergleich 2026: Preise und Leistungen"
+    seoText={`${zahlwort(ANZAHL, true)} Steuerprogramme im Vergleich: ELSTER, CHECK24, WISO, Taxfix und mehr. Preis, Zahlung erst bei Abgabe, Kapitalerträge und Vermietung.`}
     einheit="Programme"
     einleitung={
       <>
@@ -131,7 +135,7 @@ const VergleichSteuersoftware = () => (
     reihenfolge={<Reihenfolge />}
     stand="19.09.2026"
     standHinweis="Alle Preise beim Anbieter geprüft"
-    quellenHinweis="Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei smartsteuer und WISO Steuer erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns."
+    quellenHinweis={`Alle Angaben stammen von den Seiten der Hersteller, geprüft am 19.09.2026, Steuerjahr 2025. Preise aus Vergleichsportalen haben wir bewusst nicht übernommen, sie widersprachen sich. Bei ${PARTNER_NAMEN} erhalten wir eine Vergütung, wenn du über unseren Link startest (Werbung). Die übrigen Programme sind keine Partner von uns.`}
     kriterienTitel="Worauf wir hier achten"
     kriterien={[
       {

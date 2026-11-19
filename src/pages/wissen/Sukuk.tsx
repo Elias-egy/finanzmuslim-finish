@@ -242,7 +242,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Ein Sukuk ist ein Anteil an einer Sache, keine Geldforderung. Die vier Bauformen, der Unterschied zur Anleihe, die Kritik aus der islamischen Finanzwelt und wie Privatanleger Zugang bekommen.";
+  "Ein Sukuk ist ein Anteil an einer Sache, keine Geldforderung. Die vier Bauformen, der Unterschied zur Anleihe und wie Privatanleger Zugang bekommen.";
 
 const Sukuk = () => (
   <>

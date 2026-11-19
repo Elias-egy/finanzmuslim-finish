@@ -37,7 +37,7 @@ const MonetarisierungsPlatz = ({
     return (
       <div
         data-werbeplatz={platz}
-        className="rounded-xl border border-dashed border-border px-4 py-3 text-[13px] text-muted-foreground"
+        className="rounded-lg border border-dashed border-border px-4 py-3 text-[13px] text-muted-foreground"
       >
         Platz: {platz}
       </div>
@@ -63,7 +63,7 @@ const MonetarisierungsPlatz = ({
   return (
     <div
       data-werbeplatz={platz}
-      className="flex items-start gap-3 rounded-xl bg-accent px-4 py-4"
+      className="flex items-start gap-3 rounded-lg border border-border bg-card px-4 py-4"
     >
       <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
       <div className="min-w-0">

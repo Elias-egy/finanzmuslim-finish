@@ -46,8 +46,8 @@ const faq = [
 const Kreditkostenrechner = () => (
   <>
     <Seo
-      title="Kreditkostenrechner: was dich der Zins wirklich kostet | finanzmuslim"
-      description="Sieh, wie viel Zinsen ein Kredit über die Laufzeit kostet und was dieselbe Rate gespart statt gezahlt bringt. Kreditsumme, Zins und Laufzeit eingeben, Ergebnis sofort als Bild."
+      title="Kreditkostenrechner: was dich der Zins wirklich kostet"
+      description="Sieh, wie viel Zinsen ein Kredit über die Laufzeit kostet und was dieselbe Rate gespart bringt. Kreditsumme, Zins und Laufzeit eingeben, Ergebnis sofort."
       path="/kreditkostenrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Kreditkostenrechner", path: "/kreditkostenrechner" }]}
       jsonLd={[
@@ -69,9 +69,9 @@ const Kreditkostenrechner = () => (
         </p>
       }
       unterRechner={
-        <div className="rounded-2xl bg-accent p-5 md:p-6">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-6">
           <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
-          <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+          <p className="mt-3 rounded-lg border border-border bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
             Rate = Kredit × Monatszins ÷ (1 − (1 + Monatszins)<sup>−Monate</sup>)
           </p>
           <p className="mt-3 text-[15px] leading-[24px] text-muted-foreground">

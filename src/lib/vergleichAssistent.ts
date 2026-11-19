@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, depotHalal, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotHalal, LINK_VORRANG, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -80,7 +80,11 @@ export type Treffer = {
   note: { gesamt: number; halal: number; finanz: number | null } | null;
   /** Wonach sortiert wird: die Note, mit gewählter Priorität der neu gewichtete Kosten-Teil. */
   sortWert: number;
-  /** Räumt Neukunden automatisch einen Kredit ein: steht nur über die Ausnahme des geführten Tests hier. */
+  /**
+   * Räumt Neukunden automatisch einen Kredit ein und darf darum nicht Nummer 1 sein: steht nur über die Ausnahme des
+   * geführten Tests hier. Im Depot seit 15.11.2026 immer false (Elias, RN3-07: flatex „als einzige Nummer 1“), nur noch
+   * im Edelmetall-Vergleich (`KREDIT_NIE_PLATZ_EINS` in `src/lib/rangfolge.ts`).
+   */
   kredit: boolean;
 };
 
@@ -220,7 +224,7 @@ export const werteAus = (
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
       sortWert: note
-        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert ohne den Abzug für den Kredit (Elias, 12.10.2026).
+        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert nach dem Halal-Teil (Elias, 12.10.2026; den Kredit-Abzug gibt es seit 07.11.2026 nicht mehr).
           ? runde((eigen?.halalVorKredit ?? bewertet!.halalVorKredit) + note.gesamt / 100)
           : eigen
             ? runde(ANTEIL_NOTE * note.gesamt + (1 - ANTEIL_NOTE) * (0.5 * eigen.halal + 0.5 * (kosten ?? note.finanz ?? 0)))
@@ -228,7 +232,7 @@ export const werteAus = (
               ? runde(0.5 * note.halal + 0.5 * kosten)
               : note.gesamt
         : 0,
-      kredit: bewertet?.kredit ?? false,
+      kredit: bewertet ? bewertet.kredit && !bewertet.uneingeschraenkt : false,
     };
     if (offen.length > 0 || !bewertet) ungeprueft.push(treffer);
     else passt.push(treffer);
@@ -239,6 +243,13 @@ export const werteAus = (
     q.sortWert - p.sortWert ||
     position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);
+  // Regel 7 der Rangfolge steckt in `vorrang`: bei gleicher angezeigter Note zuerst der eigene Link.
+  // Regel 6 der Rangfolge: Platz 1 nur ohne Abstellen (Elias, 07.11.2026, CV20F; Kredit ab Start im Depot seit 15.11.2026 frei). Ausnahme: Wer ausdrücklich
+  // die größte Auswahl will, bekommt das Depot mit Kredit weiter vorn (Elias, 12.10.2026). Wie in der Rangfolge
+  // nur mit eigenem Link, wo Regel 2 gilt (A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“).
+  const mitLink = passt.findIndex((t) => !t.kredit && (!LINK_VORRANG.has(kategorie) || Boolean(t.anbieter.link)));
+  const ersterFrei = auswahl.prioritaet?.nachHalal ? 0 : mitLink >= 0 ? mitLink : passt.findIndex((t) => !t.kredit);
+  if (ersterFrei > 0) passt.unshift(...passt.splice(ersterFrei, 1));
   ungeprueft.sort((p, q) => p.ungeprueft.length - q.ungeprueft.length || position.get(p.anbieter.id)! - position.get(q.anbieter.id)!);
 
   return { passt, ungeprueft, raus };
@@ -246,8 +257,8 @@ export const werteAus = (
 
 /**
  * Wer im Kasten „Unsere Nummer 1“ der Vergleichsseite steht: der beste Treffer ohne Wünsche, aber ohne die
- * Ausnahme des geführten Tests. Ein Depot mit automatischem Kredit steht dort nie, egal wie hoch seine Note
- * ist (Elias, 12.10.2026: „auf 1 ist schon nicht so geil“).
+ * Ausnahme des geführten Tests. Ein Depot mit automatischem Kredit stand dort bis 15.11.2026 nie (Elias, 12.10.2026:
+ * „auf 1 ist schon nicht so geil“); seit RN3-07 („Flatex als einzige Nummer 1“) gilt das nur noch für Edelmetall.
  */
 export const siegerDerSeite = (
   liste: readonly RohAnbieter[],

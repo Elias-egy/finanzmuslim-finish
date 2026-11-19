@@ -78,7 +78,7 @@ const HalalGuide = () => {
   return (
     <div className="min-h-screen bg-background">
       <Seo
-        title="Halal Investment Guide – Kostenlos anmelden | finanzmuslim"
+        title="Halal Investment Guide: kostenlos anmelden | finanzmuslim"
         description="Der kostenlose Halal Investment Guide: Grundlagen, Kriterien und praktische Schritte für islamkonformes Investieren. Ohne Verkaufsdruck."
         path="/halal-guide"
         brotkrumen={[{ name: "Halal Investment Guide", path: "/halal-guide" }]}
@@ -86,7 +86,7 @@ const HalalGuide = () => {
 
       <main>
         {/* 1. Hero */}
-        <section className="bg-hero">
+        <section className="border-b border-border bg-background">
           <div className="container py-12 md:py-20 lg:py-24">
             <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="max-w-xl lg:pl-12 xl:pl-20">
@@ -175,7 +175,7 @@ const HalalGuide = () => {
                 <div>
                   <h2 className="headline text-2xl md:text-3xl text-foreground">Von Elias El-Gendy</h2>
                   <p className="mt-4 text-[15px] leading-relaxed text-foreground/80">
-                    Elias beschäftigt sich seit Jahren mit islamkonformem Finanzwissen. Er hat den Guide geschrieben, weil viele Muslime wissen möchten, wie sie ihre Finanzen mit ihrem Glauben in Einklang bringen können – ohne Hektik und ohne Verkaufsdruck.
+                    Elias beschäftigt sich seit Jahren mit islamkonformem Finanzwissen. Er hat den Guide geschrieben, weil viele Muslime wissen möchten, wie sie ihre Finanzen mit ihrem Glauben in Einklang bringen können, ohne Hektik und ohne Verkaufsdruck.
                   </p>
                 </div>
               </div>

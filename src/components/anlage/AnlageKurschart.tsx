@@ -96,7 +96,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
 
   if (!kurs || kurs.status) {
     return (
-      <div className="rounded-xl bg-accent px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
+      <div className="rounded-lg border border-border bg-card px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
         Für diese Anlage liegen noch keine Kursdaten vor. Meist ist sie erst seit kurzem am Markt.
       </div>
     );
@@ -153,7 +153,7 @@ const AnlageKurschart = ({ kurs, id, quelle, stand }: Props) => {
     return (
       <div>
         {kopf}
-        <div className="mt-5 rounded-xl bg-accent px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
+        <div className="mt-5 rounded-lg border border-border bg-card px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
           {istEigenerZeitraum(zeitraum)
             ? "Im gewählten Von-bis-Zeitraum liegt kein Kurs vor. Versuch einen anderen Zeitraum."
             : "Für diesen Zeitraum reicht die Kurshistorie dieser Anlage noch nicht zurück. Wähl einen kürzeren Zeitraum oder einen eigenen Von-bis-Zeitraum."}

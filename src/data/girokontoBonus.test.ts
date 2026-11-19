@@ -14,7 +14,8 @@ const rang = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche
 
 describe("Girokonto-Unterseite /vorlagen/girokonto-bonus (H15 5c)", () => {
   it("zeigt die ersten drei Girokonten des Vergleichs, norisbank zuerst (RK1-B, 14.11.2026)", () => {
-    expect(rang.slice(0, 3).map((t) => t.anbieter.id).sort()).toEqual(BONUS_KONTEN.map((k) => k.id).sort());
+    // Sammelzweig: meine Bank steht ohne Partnerlink im Vergleich, die Seite zeigt nur Konten mit Partnerweg.
+    expect(rang.filter((t) => t.anbieter.link).slice(0, 3).map((t) => t.anbieter.id).sort()).toEqual(BONUS_KONTEN.map((k) => k.id).sort());
     expect(BONUS_KONTEN[0].id).toBe("norisbank-top-girokonto");
     expect(BONUS_KONTEN[1].id).toBe("bbbank-bettersmart");
   });

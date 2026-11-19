@@ -157,6 +157,11 @@ export const VALID_SRC = [
   "bvalle",
   // Mail D1 der Duas-Kette (Knopf Girokonto-Vergleich, ~/rebrand/mails/bauen.py), live seit 06.11.2026 (CV15F)
   "d1",
+  // RN19: Partner-Knöpfe auf /dokumente, je Anbieter eine Stelle (src/data/dokumente.ts DOKUMENTE_SRC).
+  "dokfl",
+  "doksb",
+  "doknb",
+  "dokbb",
 ] as const;
 
 /**

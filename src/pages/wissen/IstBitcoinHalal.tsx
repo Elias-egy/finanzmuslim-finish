@@ -292,12 +292,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Zu Krypto gibt es Gutachten in beide Richtungen. Die drei Kategorien, die man auseinanderhalten muss, worüber wirklich gestritten wird, welche Argumente nicht tragen und was unstrittig ausgeschlossen ist.";
+  "Zu Krypto gibt es Gutachten in beide Richtungen. Die drei Kategorien, der echte Streitpunkt, Argumente, die nicht tragen, und was unstrittig ausgeschlossen ist.";
 
 const IstBitcoinHalal = () => (
   <>
     <Seo
-      title="Ist Bitcoin halal oder haram? Der ehrliche Stand | finanzmuslim"
+      title="Ist Bitcoin halal oder haram? Der ehrliche Stand"
       description={beschreibung}
       path="/blog/ist-bitcoin-halal"
       jsonLd={beitragJsonLd({

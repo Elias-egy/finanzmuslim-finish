@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { KRYPTO_ZEILEN, KRYPTO_FILTER, KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
-import { kryptoAnzeige } from "@/data/vergleichAnzeige";
+import { kryptoAnzeige } from "@/data/anzeige/krypto";
 import { juengsterStand } from "@/lib/juengsterStand";
 
 /**
@@ -79,8 +79,8 @@ const VergleichKrypto = () => (
     brotkrumen="Krypto-Vergleich"
     titel="Krypto-Börsen für Muslime"
     untertitel="Finde die Börse, bei der du echte Coins zinsfrei kaufst"
-    seoTitel="Halal Krypto kaufen: Krypto-Börsen im Vergleich | finanzmuslim"
-    seoText={`Welche Krypto-Börse lässt sich ohne Zinsen nutzen? ${kryptoAnzeige.length} Angebote im Vergleich: echte Coins statt Zertifikat, Auszahlung auf die eigene Wallet, Kosten und Bezahlmodell.`}
+    seoTitel="Halal Krypto kaufen: Krypto-Börsen im Vergleich"
+    seoText={`Welche Krypto-Börse lässt sich ohne Zinsen nutzen? ${kryptoAnzeige.length} Angebote im Vergleich: echte Coins, Auszahlung auf die eigene Wallet, Kosten.`}
     einheit="Börsen"
     einleitung={
       <>
@@ -160,6 +160,11 @@ const VergleichKrypto = () => (
         antwort:
           "Ein ETP bildet den Kurs ab, du kaufst ein Wertpapier und keinen Coin. Wer den Coin selbst besitzen will, findet dort nicht, was er sucht. Das steht in der Zeile „Echte Coins statt Zertifikat“ und ist unabhängig davon, wie gut der Anbieter sonst ist.",
       },
+    ]}
+    weiterlesen={[
+      { to: "/blog/ist-bitcoin-halal", name: "Ist Bitcoin halal?", text: "Die drei Kategorien und der echte Streitpunkt." },
+      { to: "/blog/zakat-auf-aktien-etf-krypto", name: "Zakat auf Aktien und ETFs", text: "Was von Depot und Krypto in die Zakat-Rechnung geht." },
+      { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Börse. Kryptowährungen schwanken stark, ein Totalverlust ist möglich."
   />

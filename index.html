@@ -8,6 +8,20 @@
 
     <!-- Ownership check for the impact.com affiliate network (18.09.2026). -->
     <meta name="impact-site-verification" value="f5c665f6-2c4a-44d7-8cec-926dc33db0a9">
+    <!-- Hell oder dunkel vor dem ersten Bild: gemerkte Wahl (gleicher Schlüssel wie die Verkaufsseite), sonst die Geräteeinstellung. -->
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (function () {
+        try {
+          var w = localStorage.getItem("fm-verkauf-thema");
+          var d = w === "dark" || (w !== "light" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+          if (d) {
+            document.documentElement.classList.add("dark");
+            document.documentElement.dataset.theme = "dark";
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Icons: blaues F (15.09.2026). ?v=2 zwingt Browser, das alte Amanah-A aus dem Cache zu verwerfen. -->

@@ -117,9 +117,9 @@ const EmpfehlungsBox = ({
               ? "Depot, Girokonto, Krypto und Edelmetalle: alle Vergleiche mit denselben Halal-Kriterien."
               : "")}
       </p>
-      {/* Knopf wie der Depot-Kasten auf /blog/halal-etf (SEO47) */}
-      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="leuchtlinie mt-6 inline-block">
-        <span className="flex min-h-[48px] items-center gap-2 bg-foreground px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-background">
+      {/* Blauer runder Knopf wie jeder Aufruf (VS5-05) */}
+      <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="group mt-6 inline-block rounded-full">
+        <span className="flex min-h-[48px] items-center gap-2 rounded-full bg-primary px-6 text-[16px] font-semibold text-white transition-colors group-hover:bg-[#1f6bff]">
           {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
           <ArrowRight className="h-4 w-4" aria-hidden />
         </span>

@@ -247,12 +247,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Ratenzahlung ist nicht automatisch verboten. Entscheidend ist, ob der Händler dir eine Ware verkauft oder eine Bank dir Geld leiht. Mit Prüfung für Klarna, PayPal, Null-Prozent-Finanzierung und Handyverträge.";
+  "Ratenzahlung ist nicht automatisch verboten. Entscheidend ist, ob der Händler dir eine Ware verkauft oder eine Bank Geld leiht. Mit Klarna, PayPal und Co.";
 
 const RatenzahlungHaram = () => (
   <>
     <Seo
-      title="Ist Ratenzahlung haram? Die eine Frage, die entscheidet | finanzmuslim"
+      title="Ist Ratenzahlung haram? Die eine Frage, die entscheidet"
       description={beschreibung}
       path="/blog/ratenzahlung-haram"
       jsonLd={beitragJsonLd({

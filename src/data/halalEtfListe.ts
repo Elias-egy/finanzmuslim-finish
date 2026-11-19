@@ -282,6 +282,21 @@ export const sparplanAnzahl = (e: EtfEintrag) =>
     return n + (weitere ? Number(weitere[1]) : 1);
   }, 0);
 
+/**
+ * Auf wie viele ETFs der Liste ein Depot einen Sparplan hat, oder null, wenn noch nicht nachgesehen. Scalable PRIME+ zählt
+ * als Scalable (Elias SEO42: „Nur Scalable Prime und sowas. Das macht alles gar keinen Sinn“). Traders Place: Elias hat im
+ * eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026), 6 der 8.
+ */
+export const sparplanAuf = (anbieter: string): number | null => {
+  const n =
+    anbieter === "Traders Place"
+      ? 6
+      : anbieter === "Scalable Capital"
+        ? etfListe.filter((e) => e.sparplanBei.some((x) => x.startsWith("Scalable"))).length
+        : etfListe.filter((e) => e.sparplanBei.includes(anbieter)).length;
+  return n === 0 ? null : n;
+};
+
 /** Bei wie vielen Depots die Anlage laut Eigenbeleg kaufbar ist. */
 /** Tarife einer App zählen als ein Depot (Bux Basic, Plus, Prime gehören zu Bux; Beleg gilt für BUX insgesamt). */
 const depotName = (anbieter: string) => (anbieter.startsWith("Bux") ? "Bux" : anbieter);

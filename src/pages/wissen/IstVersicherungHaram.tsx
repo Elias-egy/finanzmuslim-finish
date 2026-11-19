@@ -8,7 +8,7 @@ import { kursStand } from "@/lib/kurse";
 import { PLATZ1, polster, zahlAus } from "@/lib/polster";
 import { etfListe, etfsBei } from "@/data/halalEtfListe";
 import { BBBANK_PRAEMIE, BONUS_KONTEN } from "@/data/girokontoBonus";
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import {
   AnbieterKasten,
   BIO,
@@ -353,7 +353,7 @@ const graph = () => {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+          { "@type": "ListItem", position: 1, name: "Start", item: SITE },
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
           { "@type": "ListItem", position: 3, name: TITEL, item: url },
         ],

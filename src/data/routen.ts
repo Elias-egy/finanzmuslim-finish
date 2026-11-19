@@ -2,9 +2,11 @@ import { halalAnlagen } from "@/data/halalAnlagen";
 import { guides } from "@/data/guides";
 import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
+import { START_LINKS } from "@/data/startLinks";
 import { startPartner } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
+import { QUIZ_PFAD } from "./portfolioQuizPfad";
 import { BOYKOTT_PFAD } from "./boykottListe";
 import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "./boykottfreiPfad";
 import { GOLD_PFAD } from "./goldPlan";
@@ -135,6 +137,9 @@ export const festeRouten: Route[] = [
   // Broker-Freebie (BT1, 13.11.2026): Ziel des Kommentar-Worts BROKER, Aufbau wie die Girokonto-Unterseite.
   vorlage("broker-vergleich", "BrokerVergleich.tsx"),
 
+  // RN19 (19.11.2026, Elias RN18-20): „alles Mögliche findest du bei Dokumente“. Hauptwort „depotübertrag formular“.
+  { pfad: "/dokumente", quelle: ["src/pages/Dokumente.tsx", "src/data/dokumente.ts"], changefreq: "monthly", prioritaet: "0.8" },
+
   { pfad: "/newsletter", quelle: ["src/pages/Newsletter.tsx"], changefreq: "monthly", prioritaet: "0.6" },
   ...(deals.length > 0 ? [{ pfad: "/deals", quelle: ["src/pages/Deals.tsx", "src/data/deals.ts"], changefreq: "weekly" as const, prioritaet: "0.6" }] : []),
   { pfad: "/ueber-mich", quelle: ["src/pages/UeberMich.tsx"], changefreq: "yearly", prioritaet: "0.6" },
@@ -196,6 +201,8 @@ export const nichtIndexiert: string[] = [
   ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
+  // Persönlicher Portfolioplan, die Belohnung auf FERTIG (CV26P), nur über den Link aus der Antwort-Mail
+  QUIZ_PFAD,
   // Boykott-Liste zum Wort „Boykott“ (BK1), ebenso nur über den Link aus dem Instagram-Chat
   BOYKOTT_PFAD,
   // Gold-Plan zum Wort „Gold“ (MC4b), ebenso nur über den Link aus dem Instagram-Chat
@@ -270,7 +277,12 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
   // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
   ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
-  ...partnerLinks.map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+  // Inaktive Partner (aktiv: false) haben keine Startseite, ihr /out/-Weg wird nicht erzeugt (RN20, Prüfbericht RN19 Punkt 2).
+  ...partnerLinks.filter((p) => p.aktiv).map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
+  // /weiter/<kurzname> als echte Datei (RN20, Prüfbericht RN19 Punkt 2): Ziel der Knöpfe, die ein Werbeblocker sonst
+  // versteckt (src/lib/direktLink.ts). Ohne Datei antwortete ein direkter Aufruf mit 404, nur das Skript der Fehlerseite
+  // leitete weiter. Ziel ist der echte Partnerlink, {SUBID} wie in src/pages/Weiter.tsx als „startw“.
+  ...Object.entries(START_LINKS).map(([kurzname, link]) => ({ von: `/weiter/${kurzname}`, nach: link.replace("{SUBID}", "startw") })),
   // Kurze Adresse der Nummer 1 aus den Guide-PDFs: ohne eigene Datei antwortete der Hoster mit 404, nur das Skript der
   // Fehlerseite leitete weiter (Hermes ASSETS-URTEIL, CV15F 06.11.2026). Ziel beim Bau aus der Rangfolge.
   { von: "/depot-nummer-1", nach: depotNummerEinsZiel() },
@@ -284,6 +296,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
   { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
   { pfad: "/dein-plan/:schluessel", grund: "Portfolio-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
+  { pfad: "/dein-portfolioplan/:schluessel", grund: "Persoenlicher Portfolioplan nur ueber den Link aus der FERTIG-Antwort, setzt noindex" },
   { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-gold/:schluessel", grund: "Gold-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-etf/:schluessel", grund: "ETF-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },

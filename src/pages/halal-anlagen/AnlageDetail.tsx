@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ChevronRight, ExternalLink } from "lucide-react";
-import Seo, { anlageJsonLd } from "@/components/Seo";
+import Seo, { anlageJsonLd, faqJsonLd } from "@/components/Seo";
 import AbschnittsNavigation, { type Abschnitt } from "@/components/anlage/AbschnittsNavigation";
 import AnlageKurschart from "@/components/anlage/AnlageKurschart";
 import AnlageRenditerechner from "@/components/anlage/AnlageRenditerechner";
@@ -13,6 +14,17 @@ import VerfuegbarBei from "@/components/anlage/VerfuegbarBei";
 import { AufteilungsBalken } from "@/components/anlage/Zusammensetzung";
 import { AnlageLogo } from "@/components/AnlageZeile";
 import { anlageBySlug } from "@/data/halalAnlagen";
+import {
+  antwortSatz,
+  faqFuer,
+  fragtHalal,
+  hatEigenenBeitrag,
+  h1Text,
+  seoBeschreibung,
+  seoTitel,
+  verwandteAnlagen,
+  weiterlesenFuer,
+} from "@/data/anlageSeo";
 import { etfListe } from "@/data/halalEtfListe";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { zusammensetzungFuer } from "@/data/zusammensetzung";
@@ -99,31 +111,35 @@ const AnlageDetail = () => {
     { label: "Auflage", wert: anlage.auflage },
   ].filter((f): f is { label: string; wert: string } => !!f.wert);
 
+  const faq = faqFuer(anlage);
+  const verwandt = verwandteAnlagen(anlage);
+  const weiter = weiterlesenFuer(anlage);
+
   return (
     <main className="bg-background">
       <Seo
-        title={`${anlage.name}: Kurs, Kosten und Halal-Einordnung | finanzmuslim`}
-        description={
-          istKrypto
-            ? `${anlage.name} (${anlage.kuerzel}): Kursverlauf in Euro, laufende Kosten und die Stelle, die die Münze nach Shariah-Kriterien eingeordnet hat.`
-            : `${anlage.name} (${anlage.isin}): Kursverlauf, ${anlage.kostenLabel} Kosten pro Jahr, Fondsgröße und die Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`
-        }
+        title={seoTitel(anlage)}
+        description={seoBeschreibung(anlage)}
         path={`/halal-anlagen/${anlage.slug}`}
-        jsonLd={anlageJsonLd({
-          name: anlage.name,
-          beschreibung: istKrypto
-            ? `${anlage.name} mit Kursverlauf in Euro und der Stelle, die die Münze nach Shariah-Kriterien eingeordnet hat.`
-            : `${anlage.name} mit Kursverlauf, ${anlage.kostenLabel} laufenden Kosten pro Jahr und der Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`,
-          path: `/halal-anlagen/${anlage.slug}`,
-          isin: anlage.isin,
-          anbieter: anlage.anbieter,
-          zertifizierer: anlage.zertifizierer,
-          krypto: istKrypto,
-        })}
+        jsonLd={[
+          ...anlageJsonLd({
+            name: anlage.name,
+            beschreibung: istKrypto
+              ? `${anlage.name} mit Kursverlauf in Euro und der Sharia-Analyse dazu, die nach eigenen Worten vorläufig und keine Fatwa ist.`
+              : `${anlage.name} mit Kursverlauf, ${anlage.kostenLabel} laufenden Kosten pro Jahr und dem Nachweis, den wir zur Shariah-Einordnung gefunden haben.`,
+            path: `/halal-anlagen/${anlage.slug}`,
+            isin: anlage.isin,
+            anbieter: anlage.anbieter,
+            zertifizierer: anlage.zertifizierer,
+            rolle: NACHWEIS[anlage.slug]?.rolle,
+            krypto: istKrypto,
+          }),
+          faqJsonLd(faq),
+        ]}
       />
 
       {/* 1 — Kopf */}
-      <section className="bg-hero">
+      <section className="border-b border-border bg-background">
         <div className="container py-8 md:py-12">
           <nav
             aria-label="Brotkrumen"
@@ -144,20 +160,20 @@ const AnlageDetail = () => {
             <AnlageLogo a={anlage} gross />
             <div className="min-w-0">
               <h1 className="text-[26px] font-bold leading-[1.15] text-foreground md:text-4xl">
-                {anlage.name}
+                {h1Text(anlage)}
               </h1>
               <p className="mt-2 flex flex-wrap items-center gap-2 text-[13px]">
                 {anlage.ertrag && (
-                  <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
+                  <span className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground">
                     {anlage.ertrag === "thesaurierend" ? "Thesaurierend" : "Ausschüttend"}
                   </span>
                 )}
-                <span className="rounded-full bg-card px-3 py-1 font-semibold text-foreground">
+                <span className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground">
                   {istKrypto ? "Kryptowährung" : anlage.anbieter}
                 </span>
                 {region && (
                   <span
-                    className="rounded-full bg-card px-3 py-1 font-semibold text-foreground"
+                    className="rounded border border-border bg-card px-3 py-1 font-semibold text-foreground"
                     title={region.label}
                   >
                     <span aria-hidden>{region.zeichen}</span> {region.label}
@@ -166,6 +182,18 @@ const AnlageDetail = () => {
               </p>
             </div>
           </div>
+
+          {/* Kurze, belegte Antwort gleich unter der Frage (RN19): nur der Nachweis aus den Daten, kein eigenes Urteil. */}
+          <p className="mt-4 max-w-2xl text-[17px] leading-[1.5] text-foreground">
+            {antwortSatz(anlage)}
+          </p>
+          {hatEigenenBeitrag(anlage) && (
+            <p className="mt-2 text-[15px]">
+              <Link to="/blog/ist-bitcoin-halal" className="font-semibold text-primary hover:underline">
+                Die ganze Diskussion: Ist Bitcoin halal? ›
+              </Link>
+            </p>
+          )}
 
           {anlage.isin && (
             <div className="mt-4">
@@ -224,15 +252,15 @@ const AnlageDetail = () => {
         </section>
 
         {/* 4 — Halal-Einordnung */}
-        <section id="halal" className="scroll-mt-32 rounded-2xl bg-hero p-6 md:p-10">
+        <section id="halal" className="scroll-mt-32 rounded-lg border border-border bg-card p-6 md:p-10">
           <div className="section-inner">
             <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">
-              Ist diese Anlage halal?
+              Halal-Nachweis im Detail
             </h2>
 
             <dl className="mt-4 grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg bg-card px-4 py-3">
-                <dt className="text-[13px] text-muted-foreground">Geprüft von</dt>
+                <dt className="text-[13px] text-muted-foreground">{NACHWEIS[anlage.slug]?.rolle ?? "Geprüft von"}</dt>
                 <dd className="mt-0.5 text-[15px] font-semibold text-foreground">
                   {anlage.zertifikatLink ? (
                     <a
@@ -455,15 +483,15 @@ const AnlageDetail = () => {
               <div className="mt-4">
                 <KaufbarListe kaufbar={kaufbar} />
               </div>
-              <div className="mt-6 rounded-lg bg-hero p-4 md:p-5">
+              <div className="mt-6 rounded-lg border border-border bg-card p-4 md:p-5">
                 <p className="text-[17px] font-bold text-foreground">Welches Depot passt zu dir</p>
                 <p className="mt-1 text-[15px] text-muted-foreground">
                   Beantworte ein paar Fragen: Du siehst, welches Depot zu dir passt.
                 </p>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Link to="/vergleich/start" className="btn-primary">
+                  <Aufruf to="/check?quelle=quiz" className="block sm:inline-block">
                     Passendes Depot finden
-                  </Link>
+                  </Aufruf>
                   <Link to="/vergleich/depot" className="text-[15px] font-semibold text-primary hover:underline">
                     Alle Depots vergleichen
                   </Link>
@@ -472,6 +500,57 @@ const AnlageDetail = () => {
             </div>
           </section>
         )}
+
+        {/* Häufige Fragen: aus den Daten der Anlage, gleichlautend im FAQPage-Schema (RN19). */}
+        <section id="fragen" className="section-card scroll-mt-32">
+          <div className="section-inner">
+            <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">Häufige Fragen</h2>
+            <dl className="mt-4 space-y-4">
+              {faq.map((f) => (
+                <div key={f.q} className="border-t border-border pt-4">
+                  <dt className="text-[17px] font-semibold text-foreground">{f.q}</dt>
+                  <dd className="mt-1 text-[16px] leading-[26px] text-muted-foreground">{f.a}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* Verwandte Anlagen und der Weg weiter zu Vergleich und Beiträgen (RN19). */}
+        <section id="verwandt" className="section-card scroll-mt-32">
+          <div className="section-inner">
+            <h2 className="text-[22px] font-bold text-foreground md:text-[28px]">Ähnliche Anlagen</h2>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {verwandt.map((v) => (
+                <li key={v.slug}>
+                  <Link
+                    to={`/halal-anlagen/${v.slug}`}
+                    className="block h-full rounded-lg border border-border p-4 transition-colors hover:border-primary"
+                  >
+                    <span className="block text-[16px] font-semibold text-foreground">
+                      {fragtHalal(v) ? `Ist ${v.name} halal?` : v.name}
+                    </span>
+                    <span className="mt-1 block text-[14px] text-muted-foreground">
+                      {v.kostenLabel === "keine" ? "Kryptowährung" : `${v.anbieter}, ${v.kostenLabel} Kosten pro Jahr`}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h2 className="mt-8 text-[22px] font-bold text-foreground md:text-[28px]">Weiterlesen</h2>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {weiter.map((w) => (
+                <li key={w.to}>
+                  <Link to={w.to} className="block h-full rounded-lg border border-border p-4 transition-colors hover:border-primary">
+                    <span className="block text-[16px] font-semibold text-foreground">{w.name}</span>
+                    <span className="mt-1 block text-[14px] text-muted-foreground">{w.text}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {/* 8 — Quellen und rechtlicher Hinweis */}
         <section className="section-card">

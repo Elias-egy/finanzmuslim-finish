@@ -83,27 +83,39 @@ const adressenLesen = async () => {
  * Abfrageparameter. Ohne das ginge bei /out/name das ?src= verloren, und dann
  * weiss niemand mehr, aus welchem Guide der Klick kam.
  */
-const weiterleitungsSeite = (nach, seo = false) => `<!DOCTYPE html>
+const weiterleitungsSeite = (nach, seo = false) => {
+  /* Externes Ziel (/weiter/<kurzname> zum Partnerlink): kein Canonical auf finanzmuslim.com, nie indexieren, und die
+     Abfrageparameter der eigenen Adresse gehoeren nicht an den Partner. Der Link steht bewusst nicht als <a href>,
+     weil Werbeblocker einen Link auf financeads.net/tc.php verstecken. */
+  const extern = /^https?:\/\//.test(nach);
+  const kopf = extern
+    ? '<meta name="robots" content="noindex, nofollow">\n'
+    : `${seo ? "" : '<meta name="robots" content="noindex, nofollow">\n'}<link rel="canonical" href="https://finanzmuslim.com${nach}">\n`;
+  const skript = extern
+    ? `window.location.replace(${JSON.stringify(nach)});`
+    : `var ziel = ${JSON.stringify(nach)};
+    var such = window.location.search;
+    if (such) ziel += (ziel.indexOf("?") === -1 ? "?" : "&") + such.slice(1);
+    window.location.replace(ziel);`;
+  const hinweis = extern ? "<p>Weiter zum Anbieter …</p>" : `<p>Weiter zu <a href="${nach}">${nach}</a></p>`;
+  return `<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-${seo ? "" : '<meta name="robots" content="noindex, nofollow">\n'}<link rel="canonical" href="https://finanzmuslim.com${nach}">
-<meta http-equiv="refresh" content="0; url=${nach}">
+${kopf}<meta http-equiv="refresh" content="0; url=${nach.replace(/&/g, "&amp;")}">
 <title>Weiterleitung</title>
 <script>
   (function () {
-    var ziel = ${JSON.stringify(nach)};
-    var such = window.location.search;
-    if (such) ziel += (ziel.indexOf("?") === -1 ? "?" : "&") + such.slice(1);
-    window.location.replace(ziel);
+    ${skript}
   })();
 </script>
 </head>
 <body>
-<p>Weiter zu <a href="${nach}">${nach}</a></p>
+${hinweis}
 </body>
 </html>
 `;
+};
 
 /**
  * Statischer Server über dist. Für echte Dateien liefert er die Datei, für

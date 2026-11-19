@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Info, Minus, Star, X } from "lucide-react";
+import { Check, Copy, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
+import { FLATEX_VERZICHT, WECHSEL_UNTERLAGEN } from "@/data/wechselUnterlagen";
+import { ereignis } from "@/lib/messung";
+import { anzeigeNote } from "@/lib/anzeigeNote";
 import { Link } from "react-router-dom";
 import {
   KEINE_ANGABE,
@@ -32,7 +35,7 @@ import {
 export const Sterne = ({ note }: { note: number | null }) => (
   <span className="inline-flex items-center gap-[2px]" aria-hidden>
     {[0, 1, 2, 3, 4].map((i) => {
-      const anteil = note === null ? 0 : Math.min(1, Math.max(0, note - i));
+      const anteil = note === null ? 0 : Math.min(1, Math.max(0, anzeigeNote(note) - i));
       return (
         <span key={i} className="relative inline-block h-4 w-4">
           <Star className="absolute inset-0 h-4 w-4 text-muted-foreground/35" />
@@ -55,11 +58,23 @@ export const NotenBlock = ({
   note,
   stand,
   mittig = false,
+  klein = false,
 }: {
   note: number | null;
   stand?: string;
   mittig?: boolean;
-}) => (
+  /** Eine Zeile unter dem Namen: Wort, Zahl, Sterne (Kasten der Nummer 1). */
+  klein?: boolean;
+}) =>
+  klein ? (
+    <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[14px] font-semibold text-foreground">
+      <span>
+        {noteWort(note)}
+        {note !== null && <span className="font-normal text-muted-foreground"> ({noteZahl(note)})</span>}
+      </span>
+      <Sterne note={note} />
+    </p>
+  ) : (
   <div className={mittig ? "text-center" : ""}>
     <p className="text-[15px] font-bold text-foreground">
       {noteWort(note)}
@@ -70,11 +85,68 @@ export const NotenBlock = ({
     <div className={`mt-1 flex ${mittig ? "justify-center" : ""}`}>
       <Sterne note={note} />
     </div>
-    <p className="mt-1 text-[12px] text-muted-foreground">
-      {note === null ? "" : stand}
-    </p>
+    {stand && note !== null && <p className="mt-1 text-[12px] text-muted-foreground">{stand}</p>}
   </div>
-);
+  );
+
+/* ------------------------------------------------------- Name und Reiter */
+
+/**
+ * Anbietername wie bei Finanzfluss: mit Partnerlink blau unterstrichen mit Stern, ohne Link
+ * schlichter Text (Elias CV17F: „blaue Namen“).
+ */
+export const AnbieterName = ({ spalte, className = "" }: { spalte: VergleichsSpalte; className?: string }) =>
+  spalte.link ? (
+    <Link
+      to={spalte.link}
+      rel="sponsored nofollow"
+      className={`text-primary underline underline-offset-2 hover:text-primary-hover ${className}`}
+    >
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}*
+    </Link>
+  ) : (
+    <span className={`text-foreground ${className}`}>
+      <span className="font-semibold">{spalte.anbieter}</span> {spalte.produkt}
+    </span>
+  );
+
+/**
+ * Eine Auszeichnung steht als farbiger Text neben dem Platz, keine runde Pille (Finanzfluss: „Beste
+ * Krypto-Börse“ im Reiter). Blau für die Nummer 1, dunkles Gelb für eine Auszeichnung aus den Daten (flatex
+ * „Meiste Halal-Anlagen“; Elias A11: „Der Ton ist gut, dass es so blass ist, aber … in diesem Gelb“).
+ */
+export const auszeichnungFarbe: Record<string, string> = {
+  empfehlung: "text-primary",
+  bonus: "text-[#7A5A00] dark:text-[#F3CE62]",
+  hinweis: "text-accent",
+  platz: "text-foreground",
+};
+
+/** Leichte Tönung der ganzen Spalte oder Karte mit Auszeichnung, wie die Spalten bei Finanzfluss; die Auszeichnung blass gelb. */
+export const auszeichnungGrund: Record<string, string> = {
+  empfehlung: "bg-primary/[0.05]",
+  bonus: "bg-[#FFF8D6] dark:bg-[#2A230C]",
+  hinweis: "",
+  platz: "",
+};
+
+/** Hat die Spalte eine Auszeichnung, die als Text im Reiter steht? „Platz n“ zählt nicht, die Zahl sagt es. */
+export const auszeichnungVon = (spalte: VergleichsSpalte) =>
+  spalte.etikett && spalte.etikett.ton !== "platz" && !spalte.abgeraten ? spalte.etikett : null;
+
+/**
+ * Kredit ab Start, sichtbar an Karte und Spalte statt nur in den Produktdetails (Elias SEO74: „Wir müssen uns
+ * Flatex nochmal deutlicher angucken“). Ein Satz mit Handlung, volle Textfarbe, kein Kleingedrucktes.
+ */
+export const KreditHinweis = ({ text, mittig = false }: { text?: string; mittig?: boolean }) =>
+  text ? (
+    <p className={`flex items-start gap-1.5 text-[13px] leading-snug text-foreground ${mittig ? "justify-center text-center" : ""}`}>
+      <TriangleAlert className="mt-px h-4 w-4 shrink-0 text-warning" aria-hidden />
+      <span>
+        <span className="font-semibold">Achtung:</span> {text}
+      </span>
+    </p>
+  ) : null;
 
 /* --------------------------------------------------------------- Etikett */
 
@@ -124,7 +196,7 @@ export const BonusSchild = ({ anbieterId, className = "" }: { anbieterId: string
   if (!deal) return null;
   return (
     <p
-      className={`mx-auto mt-2 w-fit rounded-md border border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-bold text-success ${className}`}
+      className={`mx-auto w-fit rounded-b-md border border-t-0 border-success bg-success/10 px-2.5 py-1 text-center text-[14px] font-semibold text-success ${className}`}
       title={`${deal.bedingungen}${deal.gueltigBis ? ` Gültig bis ${deal.gueltigBis.split("-").reverse().join(".")}.` : ""}`}
     >
       {schildText(deal)}
@@ -324,7 +396,7 @@ const HinweisBlock = ({
             className={`rounded-md border-2 px-3 py-2 text-[14px] leading-[21px] text-foreground transition-colors duration-700 motion-reduce:transition-none lg:text-[15px] lg:leading-[23px] ${ton}`}
           >
             <span
-              className={`mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full align-text-bottom text-[12px] font-bold leading-none text-white ${vorteil ? "bg-violet" : "bg-amber-500"}`}
+              className={`mr-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full align-text-bottom text-[12px] font-bold leading-none text-white dark:text-[#0B0D12] ${vorteil ? "bg-violet" : "bg-amber-500"}`}
               aria-hidden
             >
               {vorteil ? "?" : "!"}
@@ -353,12 +425,13 @@ export const ZinsSatz = ({
   if (!zins && hinweise.length === 0) return null;
   return (
     <>
+      {/* Die Warnung zuerst (Elias PH3-02: „bei mehr Informationen das allererste“), danach der Satz zur Ampel. */}
+      <HinweisBlock spalte={spalte} zeilen={zeilen} markieren={markieren} />
       {zins && !zinsAlsHinweis && (
         <p className="text-[14px] leading-[21px] text-foreground lg:text-[15px] lg:leading-[23px]">
           <span className="font-semibold">{zins.label}:</span> {zins.satz}
         </p>
       )}
-      <HinweisBlock spalte={spalte} zeilen={zeilen} markieren={markieren} />
     </>
   );
 };
@@ -431,9 +504,89 @@ export const ProduktDetails = ({
           </div>
         ))}
       </dl>
+      <WechselUnterlagen spalte={spalte} />
       <div className="mt-1 border-t border-border pt-3 empty:hidden">
         <QuellenListe spalte={spalte} zeilen={zeilen} />
       </div>
+    </div>
+  );
+};
+
+/**
+ * Links für den Wechsel, die bisher nur auf der Video-Seite standen (PH1-04, Elias 15.11.2026): flatex mit dem
+ * Antrag für den Depotübertrag und dem fertigen Verzicht auf den Kreditrahmen, Smartbroker+ mit dem Depotübertrag.
+ * Daten und Belege in `src/data/wechselUnterlagen.ts`. Bei allen anderen Anbietern steht hier nichts.
+ */
+export const WechselUnterlagen = ({ spalte }: { spalte: VergleichsSpalte }) => {
+  const [mailOffen, setMailOffen] = useState(false);
+  const [kopiert, setKopiert] = useState(false);
+  const daten = WECHSEL_UNTERLAGEN[spalte.id];
+  if (!daten) return null;
+  const kopieren = async () => {
+    try {
+      await navigator.clipboard.writeText(`${FLATEX_VERZICHT.betreff}\n\n${FLATEX_VERZICHT.text}`);
+      setKopiert(true);
+      ereignis("kredit_mail_kopiert", { anbieter: daten.kurzname, wo: "vergleich" });
+    } catch {
+      setKopiert(false);
+    }
+  };
+  return (
+    <div className="mt-1 border-t border-border pt-3 text-[14px]">
+      <p className="font-semibold text-foreground">Wechsel und Unterlagen</p>
+      <dl className="mt-1">
+        {daten.links.map((l) => (
+          <div key={l.url} className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2">
+            <dt className="text-muted-foreground">{l.titel}</dt>
+            <dd className="text-right">
+              <a
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => ereignis("wechsel_klick", { anbieter: daten.kurzname, wo: "vergleich" })}
+                className="font-semibold text-primary underline-offset-4 hover:underline"
+              >
+                {l.text}
+              </a>
+            </dd>
+          </div>
+        ))}
+        {daten.kreditVerzicht && (
+          <div className="border-b border-border py-2 last:border-b-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <dt className="text-muted-foreground">Kein Kreditrahmen</dt>
+              <dd className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setMailOffen((o) => !o)}
+                  aria-expanded={mailOffen}
+                  aria-controls={`verzicht-${spalte.id}`}
+                  className="font-semibold text-primary underline-offset-4 hover:underline"
+                >
+                  Verzicht, fertig zum Kopieren
+                </button>
+              </dd>
+            </div>
+            {mailOffen && (
+              <div
+                id={`verzicht-${spalte.id}`}
+                className="mt-2 rounded-[6px] border border-border bg-accent/50 p-3 text-[14px] leading-relaxed text-foreground"
+              >
+                <p className="font-semibold">Betreff: {FLATEX_VERZICHT.betreff}</p>
+                <p className="mt-2 whitespace-pre-line">{FLATEX_VERZICHT.text}</p>
+                <button
+                  type="button"
+                  onClick={() => void kopieren()}
+                  className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-[6px] bg-primary px-4 text-[15px] font-bold text-primary-foreground hover:bg-primary-hover"
+                >
+                  <Copy className="h-4 w-4" aria-hidden /> {kopiert ? "Kopiert" : "Text kopieren"}
+                </button>
+                <p className="mt-2">Einfügen {FLATEX_VERZICHT.weg.replace(/^In/, "in")}.</p>
+              </div>
+            )}
+          </div>
+        )}
+      </dl>
     </div>
   );
 };

@@ -277,7 +277,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Der Nisab entspricht 85 Gramm Gold oder 595 Gramm Silber. Beide Grenzen in Euro mit Datum, warum sie so weit auseinanderliegen, welche Rechtsschule welche nimmt und was das Mondjahr damit zu tun hat.";
+  "Der Nisab entspricht 85 Gramm Gold oder 595 Gramm Silber. Beide Grenzen in Euro mit Datum, die Wahl der Rechtsschulen und die Rolle des Mondjahrs.";
 
 const Nisab = () => (
   <>

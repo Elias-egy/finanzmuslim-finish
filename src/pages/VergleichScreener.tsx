@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
 import { SCREENER_ZEILEN, SCREENER_FILTER } from "@/data/screenerVergleich";
-import { screenerAnzeige } from "@/data/vergleichAnzeige";
+import { screenerAnzeige } from "@/data/anzeige/screener";
 import { zahlwort } from "@/data/anzahlen";
 
 /**
@@ -85,7 +85,7 @@ const WozuBlock = () => (
 );
 
 const Reihenfolge = () => (
-  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:border-primary/30 lg:bg-hero lg:px-6 lg:py-5">
+  <section className="mt-4 rounded-lg border border-border px-4 py-3 lg:mt-10 lg:px-6 lg:py-5">
     <p className="text-[14px] leading-snug text-muted-foreground lg:hidden">
       Sortiert nach Nachvollziehbarkeit und Nutzen, je zur Hälfte.
     </p>
@@ -106,8 +106,8 @@ const VergleichScreener = () => (
     brotkrumen="Screening-Apps"
     titel="Halal-Aktien prüfen: die Apps im Vergleich"
     untertitel={`${zahlwort(screenerAnzeige.length, true)} Werkzeuge, die dir sagen, ob eine Aktie halal ist, und worin sie sich unterscheiden`}
-    seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich | finanzmuslim"
-    seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag, Preis und was die kostenlose Fassung kann."
+    seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich"
+    seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag und Preis."
     einheit="Apps"
     reihenfolge={<Reihenfolge />}
     einleitung={
@@ -125,6 +125,10 @@ const VergleichScreener = () => (
         </p>
       </>
     }
+    weiterlesen={[
+      { to: "/blog/sind-aktien-haram", name: "Sind Aktien haram?", text: "Die Grenzwerte hinter dem Urteil einer App." },
+      { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Was mit dem unreinen Anteil der Dividende geschieht." },
+    ]}
     zeilen={SCREENER_ZEILEN}
     anbieter={screenerAnzeige}
     kategorie="screener"

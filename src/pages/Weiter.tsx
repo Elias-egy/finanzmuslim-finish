@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Seo from "@/components/Seo";
-import { findStartPartner } from "@/data/investmentStart";
+import { startLink } from "@/data/startLinks";
 
 /**
  * /weiter/:kurzname: Ziel der Knöpfe, deren Partnerlink ein Werbeblocker verstecken würde (`blockerFest` in
@@ -10,13 +10,19 @@ import { findStartPartner } from "@/data/investmentStart";
  */
 const Weiter = () => {
   const { kurzname } = useParams();
-  const partner = findStartPartner(kurzname);
+  // PH4: Link aus der kleinen Tabelle, ohne die 98 KB von investmentStart.ts.
+  const link = startLink(kurzname);
 
   useEffect(() => {
-    if (partner) window.location.replace(partner.link.replace("{SUBID}", "startw"));
-  }, [partner]);
+    if (link) window.location.replace(link.replace("{SUBID}", "startw"));
+  }, [link]);
 
-  if (partner) return <div className="min-h-[50vh] bg-background" aria-hidden />;
+  if (link)
+    return (
+      <main className="flex min-h-[50vh] items-center justify-center bg-background px-4">
+        <p className="text-[16px] text-foreground">Weiter zum Anbieter …</p>
+      </main>
+    );
 
   return (
     <main className="bg-background">

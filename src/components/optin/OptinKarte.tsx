@@ -45,7 +45,7 @@ const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const gesendet = new Map<string, Promise<Anmeldung>>();
 
 const feld =
-  "h-12 w-full rounded-xl border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground/70 transition focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/15";
+  "h-12 w-full rounded-lg border border-border bg-background px-4 text-[16px] text-foreground placeholder:text-muted-foreground/70 transition focus:border-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/15";
 
 type Props = {
   freebie: OptinFreebie;
@@ -194,12 +194,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
   const Ueberschrift = variante === "seite" ? "h1" : "h2";
 
   return (
-    <div className="relative overflow-hidden rounded-[1.75rem] border border-primary/20 bg-card p-6 text-left shadow-[0_28px_64px_-28px_hsl(var(--primary)/0.6),0_0_44px_-6px_hsl(219_100%_62%/0.28)] sm:p-8">
-      {/* Glanz: ein feiner Farbverlauf an der Oberkante, sonst bleibt die Karte ruhig. */}
-      <span
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-[hsl(var(--violet))] to-primary"
-      />
+    <div className="relative overflow-hidden rounded-lg border border-border bg-card p-6 text-left shadow-[0_4px_24px_rgba(0,0,0,0.08)] sm:p-8">
 
       {variante === "seite" && (
         <div className="mb-5 flex items-center gap-3">
@@ -216,9 +211,9 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
       {schritt > 1 && (
         <>
           <p className="text-[12px] font-semibold text-muted-foreground">Frage {schritt - 1} von 2</p>
-          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-accent" aria-hidden>
+          <div className="mt-2 h-1 w-full overflow-hidden rounded bg-accent" aria-hidden>
             <div
-              className="h-full rounded-full bg-primary transition-[width] duration-300"
+              className="h-full rounded bg-primary transition-[width] duration-300"
               style={{ width: `${((schritt - 1) / 2) * 100}%` }}
             />
           </div>
@@ -341,7 +336,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                   key={s.key}
                   type="button"
                   onClick={() => stufeWaehlen(s.key)}
-                  className="min-h-[64px] rounded-xl border border-border bg-background p-4 text-left transition-colors hover:border-primary hover:bg-accent"
+                  className="min-h-[64px] rounded-lg border border-border bg-background p-4 text-left transition-colors hover:border-primary hover:bg-accent"
                 >
                   <span className="block text-[16px] font-semibold text-foreground">{s.titel}</span>
                   <span className="mt-0.5 block text-[14px] leading-relaxed text-muted-foreground">{s.text}</span>
@@ -368,11 +363,11 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                     type="button"
                     aria-pressed={aktiv}
                     onClick={() => setVorhaben((v) => (aktiv ? v.filter((x) => x !== a.key) : [...v, a.key]))}
-                    className={`flex min-h-[64px] items-center gap-3 rounded-xl border p-3 text-left transition-colors sm:flex-col sm:items-start ${
+                    className={`flex min-h-[64px] items-center gap-3 rounded-lg border p-3 text-left transition-colors sm:flex-col sm:items-start ${
                       aktiv ? "border-primary bg-accent" : "border-border bg-background hover:border-primary"
                     }`}
                   >
-                    <span className="block h-12 w-12 shrink-0 overflow-hidden rounded-xl" aria-hidden>
+                    <span className="block h-12 w-12 shrink-0 overflow-hidden rounded-lg" aria-hidden>
                       <Motiv />
                     </span>
                     <span className="flex-1 text-[16px] font-semibold leading-snug text-foreground">{a.titel}</span>

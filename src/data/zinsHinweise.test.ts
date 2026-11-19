@@ -58,7 +58,9 @@ describe("Achtung-Meldung zum automatischen Kredit", () => {
 
   it("steht im Depot- und im Edelmetall-Vergleich und nur mit Beleg", () => {
     expect(kreditAchtung("depot", flatex)).toMatch(/Kredit/);
-    expect(kreditAchtung("depot", flatex)).toMatch(/nicht ganz vorn/);
+    // Seit 15.11.2026 ist flatex die Nummer 1 (Elias, RN3-07): kein Satz mehr, warum flatex nicht vorn steht.
+    expect(kreditAchtung("depot", flatex)).not.toMatch(/nicht ganz vorn/);
+    expect(kreditAchtung("depot", flatex)).toMatch(/Textform/);
     // Im Edelmetall-Vergleich wirkt derselbe Abzug: die Sache ja, der Satz zu den 22 Anlagen nein.
     expect(kreditAchtung("edelmetall", flatex)).toMatch(/Kredit/);
     expect(kreditAchtung("edelmetall", flatex)).not.toMatch(/22/);

@@ -295,12 +295,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Debitkarte oder Kreditkarte, das ist die eigentliche Frage. Warum die Debitkarte das Urteil des Kontos teilt, welche zwei Meinungen es zur Kreditkarte gibt, wo die Debitkarte wirklich an Grenzen kommt und warum ein Kreditrahmen kein Guthaben ist.";
+  "Debitkarte oder Kreditkarte? Warum die Debitkarte das Urteil des Kontos teilt, welche zwei Meinungen es zur Kreditkarte gibt und wo die Grenzen liegen.";
 
 const KreditkarteHalal = () => (
   <>
     <Seo
-      title="Kreditkarte oder Debitkarte: was gilt islamisch? | finanzmuslim"
+      title="Kreditkarte oder Debitkarte: was gilt islamisch?"
       description={beschreibung}
       path="/blog/kreditkarte-halal"
       jsonLd={beitragJsonLd({
@@ -334,7 +334,7 @@ const KreditkarteHalal = () => (
         ueberschrift: "Welches Konto passt zu dir?",
         text: "Beantworte ein paar einfache Fragen. Du siehst, welche Konten ohne Zinsen und ohne Dispo auskommen.",
         knopf: "Jetzt herausfinden",
-        linkZiel: "/vergleich/start",
+        linkZiel: "/check?quelle=quiz",
       }}
       boxMitte={{
         kategorie: "Vorlage",

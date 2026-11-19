@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Calculator, ChevronRight, Globe, Percent, PiggyBank, Sparkles, Target, TrendingDown, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
-import rechnerRender from "@/assets/rechner.webp";
+import rechnerRender from "@/assets/rechner-v2.webp";
 
 type Rechner = { name: string; icon: LucideIcon; to?: string; neu?: boolean };
 
@@ -45,7 +45,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
   return (
     <div
       aria-disabled="true"
-      className="relative flex min-h-[52px] items-center gap-3 rounded-xl border border-border bg-muted px-3 py-2 pr-14 opacity-70"
+      className="relative flex min-h-[52px] items-center gap-3 rounded-lg border border-border bg-muted px-3 py-2 pr-14 opacity-70"
     >
       <span className="badge-soon absolute right-3 top-1/2 -translate-y-1/2">bald</span>
       {inhalt}
@@ -56,8 +56,8 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
 const Rechner = () => (
   <main className="bg-background">
     <Seo
-      title="Islamische Finanzrechner: Zakat, Rendite, Zinskosten | finanzmuslim"
-      description="Kostenlose Rechner für Zakat, Rendite und islamkonforme Finanzplanung. Ohne Anmeldung nutzbar."
+      title="Islamische Finanzrechner: Zakat, Rendite, Zinskosten"
+      description="Kostenlose Rechner für Zakat, Rendite, Inflation, Kredit und Sparziel, gebaut für islamkonforme Finanzplanung. Ohne Anmeldung nutzbar, Ergebnis sofort."
       path="/rechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }]}
     />

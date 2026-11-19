@@ -3,7 +3,7 @@
  * zahlen … und dann die zwei besten Bankkonten“; Vault `raw/2026-11-01-elias-mc7d15-feedback-alle-freebies.md`).
  * Alles aus dem Girokonto-Vergleich gezählt, nichts von Hand; die Anbieter-Belege stehen dort im Feld quellen.
  */
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
 import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { werteAus } from "@/lib/vergleichAssistent";
 import type { CheckKarte } from "@/components/vorlagen/DepotAufruf";
@@ -20,7 +20,8 @@ const OHNE_BELEG = new Set(["norisbank-top-girokonto"]);
 
 /** Die zwei besten Girokonten ohne Kredit, in der Reihenfolge des Girokonto-Vergleichs. Der Test hält fest, dass beide ohne Zinsen sind. */
 export const GIRO_TOP2 = werteAus(girokontoAnzeige, "girokonto", GIRO_FINANZ_MAX, { wuensche: [], gewichte: [] })
-  .passt.filter((t) => !t.kredit && !OHNE_BELEG.has(t.anbieter.id))
+  // Nur mit eigenem Partnerweg (A12): Seit A11 steht meine Bank ohne Link auf Platz 2 der Liste.
+  .passt.filter((t) => !t.kredit && !OHNE_BELEG.has(t.anbieter.id) && t.anbieter.link)
   .slice(0, 2)
   .map((t) => {
     const w = t.anbieter.werte as Record<string, unknown>;

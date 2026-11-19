@@ -1,6 +1,6 @@
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AngebotsKnopf, BonusSchild, KostenGenau, QuellenListe, ZinsSatz } from "./VergleichsBausteine";
+import { AngebotsKnopf, BonusSchild, KostenGenau, QuellenListe, WechselUnterlagen, ZinsSatz } from "./VergleichsBausteine";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
 
 /**
@@ -44,6 +44,7 @@ export const AngebotsDialog = ({
               <BonusSchild anbieterId={spalte.id} />
             </div>
           )}
+          <WechselUnterlagen spalte={spalte} />
           <QuellenListe spalte={spalte} zeilen={zeilen} />
         </>
       )}

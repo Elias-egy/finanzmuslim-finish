@@ -1,15 +1,93 @@
 import { VergleichsSeite } from "@/components/vergleich/VergleichsSeite";
-import { GIRO_ZEILEN, GIRO_FILTER, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
-import { girokontoAnzeige } from "@/data/vergleichAnzeige";
-import { juengsterStand } from "@/lib/juengsterStand";
+import { GIRO_ZEILEN, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
+import { BESONDERS_JE_PRODUKT } from "@/data/girokontoBesondersDaten";
+import { GiroRatgeber } from "@/components/vergleich/GiroRatgeber";
+import { giroFragen } from "@/data/giroRatgeber";
+import { Link } from "react-router-dom";
+import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
+
+const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Girokonto" };
+
+/**
+ * Datum der Seite („Aktualisiert am“) und Monat der Unterzeile, eine Stelle. PH2-01, 15.11.2026: „Das beste Girokonto für
+ * Muslime 11/2026“ wie bei Finanzfluss. Wer die Seite neu prüft, setzt hier das Datum.
+ */
+const AKTUALISIERT = "15.11.2026";
+const MONAT_JAHR = AKTUALISIERT.slice(3).replace(".", "/");
+
+/** „Besonders“ je Konto: nur, was Finanzfluss unter „Besondere Eigenschaften“ nennt (`girokontoBesondersDaten.ts`). */
+const BESONDERS: Record<string, string[]> = Object.fromEntries(
+  girokontoAnzeige.flatMap((a) => {
+    const b = a.finanzfluss ? BESONDERS_JE_PRODUKT[a.finanzfluss.produkt] : undefined;
+    return b ? [[a.id, b]] : [];
+  }),
+);
+
+const ReihenfolgeSatz = () => (
+  <>
+    {sortiertSatz()}{" "}
+    <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+      So bewerten wir
+    </Link>
+  </>
+);
+
+/* Filter wie bei Finanzfluss („Eigenschaften“), nur mit Werten, die in den Daten belegt stehen (RN1, 12.11.2026). */
+const FILTER = [
+  { key: "keinDispoAbStart", label: "Kein Dispo ab Start" },
+  { key: "kontofuehrung", label: "Kontoführung ohne Bedingung kostenlos", erlaubt: ["0 €", "0€"] },
+  { key: "applePay", label: "Apple Pay oder Google Pay", erlaubt: ["true"] },
+  { key: "filialen", label: "Mit Filialen", erlaubt: ["true"] },
+];
+
+const KRITERIEN = [
+  {
+    titel: "Ohne Zinsen nutzbar",
+    text: "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten? Geht das nicht, gibt es keine Note.",
+  },
+  {
+    titel: "Kein Dispo ab Start",
+    text: "Wird dir nach der Eröffnung kein Dispokredit eingeräumt?",
+  },
+  {
+    titel: "Karte ohne Kredit",
+    text: "Ist die Standardkarte ohne Kreditrahmen und ohne Teilzahlung?",
+  },
+];
+
+const FAQ = [
+  ...giroFragen(),
+  {
+    frage: "Was ist an einem normalen Girokonto problematisch?",
+    antwort:
+      "Zwei Dinge. Erstens zahlen manche Banken Zinsen auf das Guthaben, und Zinsen sind Riba. Zweitens räumen viele Banken beim Öffnen des Kontos automatisch einen Dispokredit ein, der ebenfalls verzinst ist. Beides lässt sich bei vielen Banken abschalten oder auf null setzen, es steht nur selten im Vergleich.",
+  },
+  {
+    frage: "Reicht es, den Dispo nicht zu nutzen?",
+    antwort:
+      "Darüber sind Gelehrte unterschiedlicher Auffassung. Die vorsichtige Linie ist, den Dispo auf null setzen zu lassen, damit gar kein Zinsvertrag besteht. Wer dazu eine verbindliche Antwort braucht, fragt einen Gelehrten seines Vertrauens.",
+  },
+  {
+    frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
+    antwort:
+      "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
+  },
+  {
+    frage: "Wie entsteht die Reihenfolge?",
+    antwort:
+      reihenfolgeAntwort("Konto"),
+  },
+];
 
 const VergleichGirokonto = () => (
   <VergleichsSeite
     pfad="/vergleich/girokonto"
     brotkrumen="Girokonto-Vergleich"
-    titel="Girokonto-Vergleich für Muslime"
-    untertitel="Welches Konto passt, wenn du keine Zinsen willst"
-    seoTitel="Halal Girokonto: Konten ohne Zinsen im Vergleich | finanzmuslim"
+    titel="Girokonto-Vergleich 2026"
+    untertitel={`Das beste Girokonto für Muslime ${MONAT_JAHR}`}
+    seoTitel="Girokonto-Vergleich 2026: Die besten Halal-Girokonten"
+    auszeichnungen={AUSZEICHNUNGEN}
     seoText={`Welches Girokonto ist halal? ${girokontoAnzeige.length} Konten im Vergleich: ohne Guthabenzins, ohne Dispo ab Start und mit Karte ohne Kreditrahmen.`}
     einheit="Konten"
     einleitung={
@@ -26,49 +104,23 @@ const VergleichGirokonto = () => (
     }
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoAnzeige}
-    sortiertNach="Sortiert nach unserer Note: Halal-Merkmale und Kosten zählen je zur Hälfte."
+    sortiertNach={<ReihenfolgeSatz />}
+    weiterlesen={[
+      { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "Dein Konto in zehn Minuten umstellen." },
+      { to: "/blog/kreditkarte-halal", name: "Kreditkarte oder Debitkarte", text: "Was gilt islamisch, und was reicht im Alltag." },
+      { to: "/blog/dispo-und-schulden", name: "Dispo und Schulden", text: "Zwei Wege aus dem Minus." },
+      { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
+    ]}
+    giro={{ besonders: BESONDERS }}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}
-    filter={GIRO_FILTER}
-    stand={juengsterStand(girokontoAnzeige, "14.09.2026")}
-    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
-    kriterien={[
-      {
-        titel: "Ohne Zinsen nutzbar",
-        text: "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten? Geht das nicht, gibt es keine Note.",
-      },
-      {
-        titel: "Kein Dispo ab Start",
-        text: "Wird dir nach der Eröffnung kein Dispokredit eingeräumt?",
-      },
-      {
-        titel: "Karte ohne Kredit",
-        text: "Ist die Standardkarte ohne Kreditrahmen und ohne Teilzahlung?",
-      },
-    ]}
-    faq={[
-      {
-        frage: "Was ist an einem normalen Girokonto problematisch?",
-        antwort:
-          "Zwei Dinge. Erstens zahlen manche Banken Zinsen auf das Guthaben, und Zinsen sind Riba. Zweitens räumen viele Banken beim Öffnen des Kontos automatisch einen Dispokredit ein, der ebenfalls verzinst ist. Beides lässt sich bei vielen Banken abschalten oder auf null setzen, es steht nur selten im Vergleich.",
-      },
-      {
-        frage: "Reicht es, den Dispo nicht zu nutzen?",
-        antwort:
-          "Darüber sind Gelehrte unterschiedlicher Auffassung. Die vorsichtige Linie ist, den Dispo auf null setzen zu lassen, damit gar kein Zinsvertrag besteht. Wer dazu eine verbindliche Antwort braucht, fragt einen Gelehrten seines Vertrauens.",
-      },
-      {
-        frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
-        antwort:
-          "Nach verbreiteter Auffassung werden Zinserträge nicht behalten, sondern gespendet, ohne dafür eine Belohnung zu erwarten. Wichtig ist, die Beträge sauber getrennt zu erfassen.",
-      },
-      {
-        frage: "Wie entsteht die Reihenfolge?",
-        antwort:
-          "Halal-Merkmale und Kosten zählen je zur Hälfte zur Note. Jedes Halal-Merkmal belegen wir bei der Bank, eine Partnerschaft ändert keine Note. Haben mehrere Konten gleich viele Sterne, steht zuerst, was du über unseren Link eröffnen kannst. Danach entscheidet die Note.",
-      },
-    ]}
+    filter={FILTER}
+    stand={AKTUALISIERT}
+    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026, Gebühren im Ausland vom 19.09.2026"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, Gebühren im Ausland und „Besonders“ Stand 19.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    kriterien={KRITERIEN}
+    faq={FAQ}
+    ratgeber={<GiroRatgeber auszeichnung={AUSZEICHNUNGEN.nummerEins} kriterien={KRITERIEN} faq={FAQ} />}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."
   />
 );

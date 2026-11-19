@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { MIT_OS } from "@/config/phase";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
+import { useThema } from "@/lib/thema";
 
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
@@ -27,7 +29,14 @@ const Entry = ({ item, onClick }: { item: NavEntry; onClick?: () => void }) =>
     <SoonItem label={item.label} />
   );
 
-/** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Depot-Vergleich. */
+/**
+ * RN19 (Elias RN16-13/RN16-42: „nur noch diesen einen Call to Action … immer gleich“): Wo der Knopf oben im Beitrag nichts Eigenes zum Thema
+ * hat, führt er zum Check und heißt wie überall „Match finden“. Die Girokonto-Beiträge öffnen den Bankkonto-Check, nie „Depot-Vergleich“.
+ */
+const KOPF_STANDARD = { ziel: "/check?quelle=kopf", text: "Match finden", ohneZum: true };
+const KOPF_KONTO = { ziel: "/check?art=konto&quelle=kopf", text: "Match finden", ohneZum: true };
+
+/** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Check (KOPF_STANDARD). */
 const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean }> = {
   // Der Knopf nennt den Schmerz statt des Seitennamens (Elias, 04.11.2026, SEO51: „Gold ohne Preisaufschläge … Der Call
   // to Action muss halt sitzen“); belegt: Händler verkaufen nie zum reinen Metallpreis, der ETC kostet Ordergebühr und
@@ -41,6 +50,9 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Halal anlegen", ohneZum: true },
   // Kredit (SEO71): Sparen statt Kredit fängt beim Konto ohne Dispo an (Seiten-Prüfer SEO70 S1, Karte halal-kredit Money Page Girokonto).
   "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
+  "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
+  "/blog/dispo-und-schulden": KOPF_KONTO,
+  "/blog/kreditkarte-halal": KOPF_KONTO,
 };
 
 export const SiteHeader = () => {
@@ -55,7 +67,8 @@ export const SiteHeader = () => {
   // und „Dein Geld halal vermehren“ (vorher „Finde, was zu dir passt“; Elias CV4 04.11.2026: „das klickt glaube ich keiner“); beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
   // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
   const beitragsKopf = pathname.startsWith("/blog/");
-  const kopfZiel = KOPF_ZIEL[pathname] ?? { ziel: "/vergleich/depot", text: "Depot-Vergleich" };
+  const kopfZiel = KOPF_ZIEL[pathname] ?? KOPF_STANDARD;
+  const { dunkel, umschalten } = useThema();
   const [eng, setEng] = useState(false);
   useEffect(() => {
     if (!beitragsKopf) return setEng(false);
@@ -78,14 +91,34 @@ export const SiteHeader = () => {
       {/* Hinweisstreifen: violett, eine Zeile, kompakt. Genau wie vorher.
           Einzige Änderung gegenüber früher: er klebt nicht mehr oben, sondern
           scrollt mit weg. Sonst frisst er auf dem Handy dauerhaft Platz. */}
-      {aufStartseite && (
-        <Link
-          to="/halal-anlagen"
-          className="flex items-center justify-center gap-2 bg-violet px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 sm:text-[16px]"
+      {/* RN5: Phase 1 ohne OS, der Streifen kommt erst mit Phase 2 (src/config/phase.ts). */}
+      {MIT_OS && aufStartseite && (
+        /* VS5-06: der Streifen wirbt für das Halal-Investment-OS, „Neu“ runder („oben in lila, auch werbung für dein halal investment“) */
+        <a
+          href="/investment-os/"
+          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
         >
-          <span className="badge-new-inverted shrink-0">Neu</span>
+          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
           {/* Am Handy eine Zeile, sonst schiebt der Streifen die zweite Reihe der Vergleiche
               aus dem ersten Bildschirm (Elias, 14.10.2026: "Am Handy einzeilig"). */}
+          <span className="whitespace-nowrap sm:hidden">
+            <span className="font-bold">Dein Halal-Investment-OS</span> →
+          </span>
+          <span className="hidden sm:inline">
+            <span className="font-bold">Dein Halal-Investment-OS:</span>{" "}
+            <span className="font-normal">kostenlos für jeden Muslim, der investiert →</span>
+          </span>
+        </a>
+      )}
+
+      {/* RN19-04 („wie live“) und RN19-03 (die Halal-Datenbank wird nicht gefunden): Phase 1 trägt wieder die lila Leiste der Live-Seite,
+          sie ist der Weg von oben zur Datenbank. Handy eine Zeile, ab sm mit Vorspann (wie live, Stand 19.11.2026). */}
+      {!MIT_OS && aufStartseite && (
+        <Link
+          to="/halal-anlagen"
+          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
+        >
+          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
           <span className="whitespace-nowrap sm:hidden">
             <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
           </span>
@@ -112,7 +145,7 @@ export const SiteHeader = () => {
             beitragsKopf ? "beitragskopf-innen gap-3 sm:gap-6" : "gap-6",
           )}
         >
-          <Link to="/" aria-label="finanzmuslim – zur Startseite" className="flex items-center">
+          <Link to="/" aria-label="finanzmuslim, zur Startseite" className="flex items-center">
             <Wordmark inverted className={cn(beitragsKopf ? "beitragskopf-marke text-[20px] sm:text-[23px] md:text-2xl" : "text-[23px] md:text-2xl")} />
           </Link>
 
@@ -136,14 +169,37 @@ export const SiteHeader = () => {
                 </button>
               </div>
             ))}
+            {/* RN19: „alles Mögliche findest du bei Dokumente“ (Elias RN18-20). Ab 1040 px in der Leiste, unter 900 px im Menü,
+                dazwischen nur in der Fußleiste, weil die Leiste dort schon voll sein könnte (ungemessen). */}
+            <Link
+              to="/dokumente"
+              onMouseEnter={() => setOpenGroup(null)}
+              className="hidden min-h-[44px] items-center whitespace-nowrap text-[15px] font-medium text-white/90 transition-colors hover:text-white min-[1040px]:flex"
+            >
+              Dokumente
+            </Link>
           </nav>
 
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
               die halbe Breite und steht ohnehin im Menue. */}
           <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
+            {/* Hell/dunkel: Grundeinstellung nach Gerät, Wahl wird gemerkt (gleicher Schlüssel wie die Verkaufsseite) */}
+            <button
+              type="button"
+              aria-pressed={dunkel}
+              aria-label={dunkel ? "Hellen Modus einschalten" : "Dunklen Modus einschalten"}
+              onClick={umschalten}
+              // Auf den Beiträgen ist die Leiste am schmalen Handy schon voll (langer Knopftext): dort sitzt der Schalter im Menü.
+              className={cn(
+                "inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10",
+                beitragsKopf && "max-[419px]:hidden",
+              )}
+            >
+              {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
+            </button>
             {beitragsKopf ? (
-              <Link to={kopfZiel.ziel} className="leuchtlinie leuchtlinie-hell inline-block">
-                <span className="flex h-11 items-center whitespace-nowrap bg-white px-2.5 font-mono text-[12px] uppercase tracking-[0.02em] text-foreground min-[390px]:px-3 min-[390px]:tracking-[0.1em] min-[900px]:px-4">
+              <Link to={kopfZiel.ziel} className="inline-block rounded-full">
+                <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-3.5 text-[14px] font-semibold text-primary min-[900px]:px-5 min-[900px]:text-[15px]">
                   {!kopfZiel.ohneZum && <span className="hidden min-[420px]:inline">Zum&nbsp;</span>}
                   {kopfZiel.text}
                 </span>
@@ -158,12 +214,17 @@ export const SiteHeader = () => {
                 >
                   <Search className="h-[22px] w-[22px]" aria-hidden />
                 </button>
-                <Link
-                  to="/vergleich/start"
-                  className="hidden min-[900px]:inline-flex min-h-[44px] items-center whitespace-nowrap rounded-lg bg-white px-5 text-[14px] font-bold text-primary transition-colors hover:bg-white/90"
-                >
-                  Dein Geld halal vermehren
-                </Link>
+                {/* Oben rechts nur am Laptop: weiß und rund wie „Zugang anfragen“ im Kopf der Verkaufsseite, führt zum
+                    Halal-Investment-OS (VS5-05: „nur in der Laptop-Ansicht oben rechts Halal-Investment-OS“; „die Knöpfe bei
+                    dem Tab … mit Zugriff anfragen rechts in rund. Das gefällt mir deutlich besser“). Vorher „Dein Geld halal
+                    vermehren“ zum geführten Vergleich. */}
+                {/* RN5 Phase 1: derselbe Knopf führt zum Halal-Finanz-Check, Text „Investiere halal“ (startseite-und-navigation,
+                    Gilt 04.11.: „lieber sowas wie investiere halal“). */}
+                <a href={MIT_OS ? "/investment-os/" : "/check?quelle=kopf"} className="hidden rounded-full min-[900px]:inline-block">
+                  <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
+                    {MIT_OS ? "Halal-Investment-OS" : "Match finden"}
+                  </span>
+                </a>
               </>
             )}
             <button
@@ -179,7 +240,7 @@ export const SiteHeader = () => {
 
         {/* Mega-Menü */}
         {openGroup && (
-          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-card border-b border-border shadow-[0_12px_28px_-18px_rgba(0,0,0,0.35)]">
+          <div className="hidden min-[900px]:block absolute inset-x-0 top-full bg-card border-b border-border shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
             <div className="container py-8">
               <div className="grid grid-cols-4 gap-8">
                 {navGroups
@@ -208,10 +269,22 @@ export const SiteHeader = () => {
 
       {mobileOpen && (
         <div className="min-[900px]:hidden fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-foreground/40" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-foreground/40 dark:bg-black/60" onClick={() => setMobileOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-[86%] max-w-sm bg-card overflow-y-auto">
             <div className="flex items-center justify-between h-[68px] px-4 border-b border-border">
               <Wordmark className="text-xl" />
+              <button
+                type="button"
+                aria-pressed={dunkel}
+                aria-label={dunkel ? "Hellen Modus einschalten" : "Dunklen Modus einschalten"}
+                onClick={umschalten}
+                className={cn(
+                  "ml-auto mr-1 inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground hover:bg-muted",
+                  beitragsKopf ? "min-[420px]:hidden" : "hidden",
+                )}
+              >
+                {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
+              </button>
               <button
                 type="button"
                 aria-label="Menü schließen"
@@ -261,13 +334,23 @@ export const SiteHeader = () => {
                 </div>
               ))}
 
-              <Link
-                to="/vergleich/start"
+              <div className="border-b border-border">
+                <Link
+                  to="/dokumente"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex min-h-[44px] items-center text-[16px] font-semibold text-foreground"
+                >
+                  Dokumente
+                </Link>
+              </div>
+
+              <a
+                href={MIT_OS ? "/investment-os/" : "/check?quelle=menue"}
                 onClick={() => setMobileOpen(false)}
-                className="mt-4 mb-6 flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
+                className="mt-4 mb-6 flex min-h-[48px] items-center justify-center rounded-full bg-primary px-5 text-[16px] font-semibold text-primary-foreground"
               >
-                Dein Geld halal vermehren
-              </Link>
+                {MIT_OS ? "Dein Halal-Investment-OS" : "Match finden"}
+              </a>
             </div>
           </div>
         </div>

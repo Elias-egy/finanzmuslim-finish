@@ -33,7 +33,7 @@ const reinigungFaq = [
 const Bereinigungsrechner = () => (
   <>
     <Seo
-      title="Aktien reinigen: Bereinigungsrechner für Dividenden | finanzmuslim"
+      title="Aktien reinigen: Bereinigungsrechner für Dividenden"
       description="Rechne aus, welchen Anteil deiner Erträge du weitergibst. Betrag und Satz eintragen oder Betrag je Anteil mal Anteile, Ergebnis sofort als ganzer Satz."
       path="/bereinigungsrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Bereinigungsrechner", path: "/bereinigungsrechner" }]}
@@ -58,9 +58,9 @@ const Bereinigungsrechner = () => (
       }
       unterRechner={
         <>
-          <div className="rounded-2xl bg-accent p-5 md:p-6">
+          <div className="rounded-lg border border-border bg-card p-5 md:p-6">
             <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
-            <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+            <p className="mt-3 rounded-lg border border-border bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
               Ausschüttung × Satz
               <br />
               oder: Betrag je Anteil × Anteile

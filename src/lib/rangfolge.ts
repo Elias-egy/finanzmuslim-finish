@@ -1,9 +1,8 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
-import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
-import { EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
-import { GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
-import { KRYPTO_FINANZ_MAX } from "@/data/kryptoVergleich";
+import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
+import { anzeigeNote } from "@/lib/anzeigeNote";
+import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/leserEroeffnungen";
 
 /**
  * Rechenkern der Rangfolge für alle sechs Vergleiche (P3, 26.09.2026).
@@ -23,8 +22,10 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    Steuersoftware folgt seit 06.10.2026 derselben Regel: Unbelegte Leistungs- und Preiswerte
  *    zählen 0 Punkte und die Zelle zeigt einen Strich. Das Tor Anlage KAP bleibt: ohne Beleg
  *    dafür gibt es keinen Platz.
- * 2. Partner kaufen keine Note: Note, Halal- und Kosten-Teil lesen weder `link` noch
- *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Nur die Reihenfolge in
+ * 2. Partner kaufen keine Note: Halal- und Kosten-Teil lesen weder `link` noch
+ *    Finanzfluss-Rang, Etikett, alte Note, Partnerlinks oder Deals. Was wir verdienen, zählt nie. Einzige Stelle,
+ *    an der die Note den Link kennt, ist das offen genannte Kriterium „Bei meinen Lesern beliebt“ (Regel 8): Eröffnungen
+ *    sehen wir nur über unseren Link. Nur die Reihenfolge in
  *    Depot, Girokonto und Krypto kennt den eigenen Link (Elias, 06.10.2026: "Die Eins muss
  *    immer von uns kaufbar sein"): Bei gleicher Sternzahl (`sterne`, halbe Schritte) steht
  *    zuerst, was über unseren Link eröffnet werden kann, danach entscheidet die Note. Ein
@@ -40,6 +41,19 @@ import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
  *    ohne Einschränkung: Zins-Tor grün und keine rote Grundlage (`BASIS`).
  *    So gilt "gelb halbiert" (Elias, 14.09.2026) für die Liste und "kein Mensch
  *    will Zinsen" (19.09.2026) für die Empfehlung.
+ * 6. Platz 1 der Liste ist derselbe Eintrag: der erste ohne Einschränkung rückt nach vorn, alle anderen
+ *    behalten ihre Reihenfolge (Elias, 07.11.2026, CV20F: "1 muss immer etwas für die Mehrheit kostengünstig
+ *    sein", Regel "Platz 1 nur ohne Abstellen"). Seit 15.11.2026 zählt ein Kredit ab Start im Depot-Vergleich nicht
+ *    mehr als Einschränkung (Elias, RN3-07: „Flatex als einzige Nummer 1 benutzen ist gut. Smartbroker als Nummer 2.“,
+ *    raw/2026-11-15-elias-rn3-07-uebergabe-phase1-quiz-flatex-nr1-zwei-localhosts.md im Vault). Der Hinweis „Lehne
+ *    ihn in Textform ab“ bleibt am Angebot. Im Edelmetall-Vergleich gilt die alte Regel weiter (`KREDIT_NIE_PLATZ_EINS`).
+ * 7. Die Reihenfolge liest die angezeigte Note (`anzeigeNote`, eine Stelle, abgerundet), so stehen Zahl und Sterne
+ *    immer absteigend (Elias, 08.11.2026, A11). Bei gleicher angezeigter Note steht zuerst der eigene Link (Regel 2),
+ *    danach die genaue Note. Die feste Liste `LESER_REIHENFOLGE` (A9) ist seit 15.11.2026 abgelöst durch Regel 8:
+ *    Die Reihenfolge entsteht aus der Note, nicht aus einer Liste.
+ * 8. Depot und Girokonto: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
+ *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
+ *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
  */
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall";
@@ -55,8 +69,13 @@ export type Bewertet = {
   kosten: number | null;
   /** Zins-Tor grün und keine rote Grundlage. Nur solche Einträge können Nummer 1 werden. */
   uneingeschraenkt: boolean;
-  /** Das Haus räumt Neukunden automatisch einen Kredit ein (`kreditAbStart` "teils"). Zählt im Halal-Teil, nie Nummer 1. */
+  /**
+   * Das Haus räumt Neukunden automatisch einen Kredit ein (`kreditAbStart` "teils"). Kostet keine Punkte; nie Nummer 1
+   * nur noch, wo `KREDIT_NIE_PLATZ_EINS` es sagt (Edelmetall).
+   */
   kredit: boolean;
+  /** Punkte 0 bis 5 im Kriterium „Bei meinen Lesern beliebt“ (Regel 8), nur Depot und Girokonto, sonst null. */
+  beliebt: number | null;
   /** Halal-Teil vor dem Abzug für den Kredit. Der geführte Test sortiert damit, wer möglichst viele Anlagen will. */
   halalVorKredit: number;
 };
@@ -69,6 +88,11 @@ export type RangOptionen = {
   offeneAnfragen?: ReadonlySet<string>;
   /** Höchstpunkte der Finanzkriterien. Standard je Kategorie aus den Datendateien. */
   finanzMax?: Record<string, number>;
+  /**
+   * Regel 8 („Bei meinen Lesern beliebt“) einrechnen. Standard ja. Nur Tests schalten es ab, um den Halal- und
+   * Kosten-Teil von Hand nachzurechnen; jede Seite rechnet mit.
+   */
+  beliebt?: boolean;
 };
 
 /** Faktor auf den Halal-Teil, wenn Zinsen ab Start laufen und erst abgeschaltet werden müssen. */
@@ -81,19 +105,22 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
  * natürlich werten" (kein Urteil eines Gelehrten). Deshalb ein Abzug und kein Tor. Erst ein Viertel (wie ein Dispo auf "gelb"), das ergab Platz 8. Elias am selben Abend:
  * "Platz 8 ist schon echt weit unten", er dachte an Platz 5. Platz 5 gibt es rechnerisch nicht (mit
  * Link steht flatex bei 4,5 Sternen auf 4, bei 4 Sternen auf 6). Ein Zehntel Abzug ergibt Platz 4.
- * Nie Nummer 1: Dafür sorgen `uneingeschraenkt` in `nummerEins` und `siegerDerSeite` in
- * `src/lib/vergleichAssistent.ts` (der Kasten der Vergleichsseite), nicht dieser Faktor.
+ * Seit 07.11.2026 kein Abzug mehr: "fair ranken heißt ohne Abzug ... das ist ja easy abstellbar"
+ * (raw/2026-11-07-elias-cv19f-rangfolge-traders-place-flatex-smartbroker.md im Vault, Ja in CV20F). Platz 1
+ * blieb bis 15.11.2026 einem Eintrag ohne Abstellen vorbehalten; seither nur noch im Edelmetall-Vergleich
+ * (Regel 6, `KREDIT_NIE_PLATZ_EINS`), dazu `nummerEins` und `siegerDerSeite` in `src/lib/vergleichAssistent.ts`.
  */
-export const FAKTOR_KREDIT = 0.9;
+export const FAKTOR_KREDIT = 1;
 
 /**
  * Faktor auf den Halal-Teil im Girokonto, wenn der Dispo ab Start eingeräumt wird, sich aber abschalten lässt
  * (`keinDispoAbStart` "teils"). Vorbild `FAKTOR_KREDIT`. Elias, 13.10.2026: eine abschaltbare Ausnahme soll
  * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
  * werten". Bisher zählte "teils" nur halb (ein Viertel Abzug vom Halal-Teil, ein ganzer Stern). Nie Nummer 1,
- * wie flatex: Ob ein belegtes Abschalten den Abzug ganz aufhebt, entscheidet Elias.
+ * wie flatex. Seit 07.11.2026 kein Abzug mehr, dieselbe Regel wie beim Kredit: Abstellbares zählt nicht gegen
+ * die Note (CV20F), Platz 1 bleibt ihm verwehrt (Regel 6).
  */
-export const FAKTOR_DISPO = 0.9;
+export const FAKTOR_DISPO = 1;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
@@ -114,8 +141,14 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
 
 const TOR = "zinsfreiAbStart";
 
-/** Sterne auf der Seite: Note auf halbe Sterne gerundet. */
-export const sterne = (note: number): number => Math.round(note * 2) / 2;
+/** Sterne auf der Seite: angezeigte Note auf halbe Sterne gerundet. */
+export const sterne = (note: number): number => Math.round(anzeigeNote(note) * 2) / 2;
+
+/**
+ * Vergleiche, in denen ein Kredit ab Start (`kreditAbStart` "teils") Platz 1 weiter ausschließt (Regel 6). Im Depot
+ * nicht mehr seit 15.11.2026 (Elias, RN3-07: flatex „als einzige Nummer 1“).
+ */
+export const KREDIT_NIE_PLATZ_EINS: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["edelmetall"]);
 
 /** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
 export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
@@ -123,12 +156,13 @@ export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>([
 type MitNote = { note: number; anbieter: RohAnbieter };
 
 /**
- * Regel 2 als Vergleich: Sterne absteigend, bei gleicher Sternzahl der eigene Link zuerst.
- * 0 heißt, die Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
+ * Regel 2 und 7 als Vergleich: angezeigte Note absteigend, bei gleicher angezeigter Note zuerst der eigene Link.
+ * 0 heißt, die genaue Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
  */
 export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
   LINK_VORRANG.has(kategorie)
-    ? sterne(q.note) - sterne(p.note) || Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
+    ? anzeigeNote(q.note) - anzeigeNote(p.note) ||
+      Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : kategorie === "edelmetall"
       ? royalMintKaufbar(q.anbieter) - royalMintKaufbar(p.anbieter)
       : 0;
@@ -254,13 +288,19 @@ export const depotHalal = (
 };
 
 /** Depot zählt alle 22 Halal-Anlagen, Edelmetall nur die Zeile der Gold- und Silber-ETCs. */
-const depotUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, zeilen: Record<string, number> = ANTEIL_N): Urteil => {
+const depotUrteil = (
+  a: RohAnbieter,
+  finanzMax: Record<string, number>,
+  kategorie: RangKategorie,
+  zeilen: Record<string, number> = ANTEIL_N,
+): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
   const kosten = kostenAus(a, finanzMax) ?? 0;
   const { halal, halalVorKredit, kredit } = depotHalal(a, zeilen);
-  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !kredit, kredit, halalVorKredit };
+  const sperrt = kredit && KREDIT_NIE_PLATZ_EINS.has(kategorie);
+  return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !sperrt, kredit, halalVorKredit };
 };
 
 const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
@@ -329,9 +369,9 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
     case "screener":
       return screenerUrteil(a);
     case "edelmetall":
-      return depotUrteil(a, finanzMax, { halalEdelmetalle: ANTEIL_N.halalEdelmetalle });
+      return depotUrteil(a, finanzMax, kategorie, { halalEdelmetalle: ANTEIL_N.halalEdelmetalle });
     case "depot":
-      return depotUrteil(a, finanzMax);
+      return depotUrteil(a, finanzMax, kategorie);
     default:
       return zinsUrteil(a, kategorie, finanzMax);
   }
@@ -389,9 +429,14 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
       const angefragt = opt.offeneAnfragen?.has(anbieter.haus ?? anbieter.id) ?? false;
       nichtBewertet.push({ anbieter, grund: angefragt ? "Anfrage läuft" : "noch nicht geprüft", fehlt: u.fehlt });
     } else {
+      // Regel 8: 5 % „Bei meinen Lesern beliebt“ in Depot und Girokonto, Halal und Kosten behalten je die Hälfte des Rests.
+      const beliebt =
+        opt.beliebt !== false && istBeliebtKategorie(kategorie) ? beliebtPunkte(kategorie, anbieter.id, Boolean(anbieter.link)) : null;
+      const note = beliebt === null ? u.note : (1 - GEWICHT_BELIEBT) * u.note + GEWICHT_BELIEBT * beliebt;
       bewertet.push({
         anbieter,
-        note: runde(u.note),
+        note: runde(note),
+        beliebt: beliebt === null ? null : runde(beliebt),
         halal: runde(u.halal),
         kosten: u.kosten === null ? null : runde(u.kosten),
         uneingeschraenkt: u.uneingeschraenkt,
@@ -404,11 +449,17 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
     vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
+  // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“,
+  // A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“). Hat keiner ohne Einschränkung einen Link, zählt nur die Einschränkung.
+  const mitLink = bewertet.findIndex((b) => b.uneingeschraenkt && (!LINK_VORRANG.has(kategorie) || Boolean(b.anbieter.link)));
+  const ersterFrei = mitLink >= 0 ? mitLink : bewertet.findIndex((b) => b.uneingeschraenkt);
+  if (ersterFrei > 0) bewertet.unshift(...bewertet.splice(ersterFrei, 1));
+  const vorgezogen = ersterFrei > 0;
 
   const gerankt: Bewertet[] = [];
   bewertet.forEach((b, i) => {
     const vorher = gerankt[i - 1];
-    const platz = vorher && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
+    const platz = vorher && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
     gerankt.push({ ...b, platz });
   });
 

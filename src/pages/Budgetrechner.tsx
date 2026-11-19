@@ -46,7 +46,7 @@ const faq = [
 const Budgetrechner = () => (
   <>
     <Seo
-      title="Budgetrechner: wie viel im Monat wirklich frei ist | finanzmuslim"
+      title="Budgetrechner: wie viel im Monat wirklich frei ist"
       description="Sieh auf einen Blick, wohin dein Netto geht und was übrig bleibt. Vier Zahlen eingeben, Ergebnis als Kreis, Vergleich mit der 50/30/20-Regel."
       path="/budgetrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Budgetrechner", path: "/budgetrechner" }]}
@@ -68,9 +68,9 @@ const Budgetrechner = () => (
         </p>
       }
       unterRechner={
-        <div className="rounded-2xl bg-accent p-5 md:p-6">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-6">
           <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
-          <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+          <p className="mt-3 rounded-lg border border-border bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
             Frei = Netto − Wohnen − feste Kosten − Alltag
           </p>
           <p className="mt-3 text-[15px] leading-[24px] text-muted-foreground">

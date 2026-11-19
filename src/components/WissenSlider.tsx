@@ -36,7 +36,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
           type="button"
           aria-label="Zurück"
           onClick={() => scrollen(-1)}
-          className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:border-foreground"
         >
           <ChevronLeft className="h-5 w-5" aria-hidden />
         </button>
@@ -44,7 +44,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
           type="button"
           aria-label="Weiter"
           onClick={() => scrollen(1)}
-          className="inline-flex h-11 w-11 items-center justify-center border border-border bg-background text-foreground transition-colors hover:border-foreground"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:border-foreground"
         >
           <ChevronRight className="h-5 w-5" aria-hidden />
         </button>
@@ -76,9 +76,9 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
               {/* Kachel wie frontal.so/blog statt Motivbild (Elias SEO47) */}
               <div className="relative w-full p-4 pb-0">
                 <BlogKachel thema={k.thema ?? "Blog"} />
-                {k.beliebt && <span className="badge-new absolute left-7 top-7 z-10">Beliebt</span>}
-                {!k.beliebt && k.neu && (
-                  <span className="badge-new absolute left-7 top-7 z-10">Neu</span>
+                {/* RN1 (12.11.): Etikett „Beliebt“ raus (Elias: „dieses beliebt kann raus“), „Neu“ bleibt */}
+                {k.neu && (
+                  <span className="etikett-rund absolute right-7 top-7 z-10">Neu</span>
                 )}
               </div>
               <div className="p-5">
@@ -102,9 +102,7 @@ const WissenSlider = ({ karten }: { karten: WissenKarte[] }) => {
             <Link
               key={k.titel}
               to={k.to}
-              className={`group ${basis} transition-colors hover:border-primary ${
-                k.beliebt ? "hover:border-foreground" : ""
-              }`}
+              className={`group ${basis} transition-colors hover:border-primary`}
             >
               {inhalt}
             </Link>

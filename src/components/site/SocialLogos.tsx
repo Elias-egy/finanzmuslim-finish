@@ -41,6 +41,7 @@ export const TikTokLogo = ({
     <path
       d="M15.8 4.2c.5 1.9 1.9 3.3 3.8 3.6v2.7c-1.4 0-2.8-.4-4-1.2v5.4a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v2.8a2.9 2.9 0 1 0 2 2.7V2.9h2.9c0 .4 0 .9 0 1.3z"
       fill={muted ? "#9AA1AD" : "#000000"}
+      className={muted ? undefined : "dark:fill-white"}
     />
   </svg>
 );
@@ -55,5 +56,22 @@ export const YouTubeLogo = ({
   <svg viewBox="0 0 24 24" className={className} aria-hidden>
     <rect x="1" y="4.5" width="22" height="15" rx="4.5" fill={muted ? "#B9BEC8" : "#FF0000"} />
     <path d="M10 8.8l6 3.2-6 3.2V8.8z" fill="#fff" />
+  </svg>
+);
+
+/* RN1 (12.11.): Facebook-Seite „Finanz Muslim“ in der Fußzeile (Elias: „unten noch Facebook hinzufügen“). */
+export const FacebookLogo = ({
+  className = "h-6 w-6",
+  muted = false,
+}: {
+  className?: string;
+  muted?: boolean;
+}) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden>
+    <circle cx="12" cy="12" r="11" fill={muted ? "#B9BEC8" : "#0866FF"} />
+    <path
+      d="M13.4 21.9v-7.1h2.4l.4-2.8h-2.8v-1.8c0-.8.2-1.4 1.4-1.4h1.5V6.3a19 19 0 0 0-2.2-.1c-2.2 0-3.6 1.3-3.6 3.7V12H8.1v2.8h2.4v7.1z"
+      fill="#fff"
+    />
   </svg>
 );

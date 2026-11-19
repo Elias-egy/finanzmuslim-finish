@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { ArrowRight, ChevronDown, Info } from "lucide-react";
 import nisabDaten from "@/data/nisab.json";
 
@@ -26,15 +26,16 @@ const NISAB_SILBER_GRAMM = 595;
 
 type Methode = "voll" | "anteil";
 
-/** Anteil des Unternehmenswerts, der bei langfristig gehaltenen Aktien als
- *  zakatpflichtig angesetzt wird. Verbreiteter Naeherungswert. */
-const ANTEIL_SATZ = 0.3;
+/** Anteil des Depotwerts, der bei langfristig gehaltenen (laufenden) Investments
+ *  zakatpflichtig angesetzt wird: ein Viertel, also 0,625 % vom Depotwert.
+ *  Elias, CV39P-16 und CV40P-02 (10.11.2026). Ausgezahltes zaehlt voll (2,5 %). */
+const ANTEIL_SATZ = 0.25;
 
 const eur = (n: number) =>
   n.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
 const prozent = (n: number) =>
-  n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 3 });
 
 const parseDeDatum = (s: string) => {
   const [tag, monat, jahr] = s.split(".").map(Number);
@@ -47,7 +48,7 @@ const istPreisVeraltet = (stand: string) => {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-border bg-white px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
+  "w-full rounded-lg border border-border bg-card px-4 py-3 pr-10 text-[16px] font-medium text-foreground outline-none transition focus:border-primary/50";
 
 /** Ein Geldfeld mit Beschriftung, Erklaersatz und Euro-Zeichen.
  *
@@ -150,7 +151,7 @@ const ZakatCalculator = () => {
     <section className="container max-w-5xl px-0 pb-0 pt-0 md:px-6 md:pb-4 md:pt-14">
       <div className="grid grid-cols-1 items-start gap-6 md:gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* ── Eingaben ─────────────────────────────────────────────── */}
-        <div className="rounded-[1.5rem] border border-border/70 bg-card p-5 md:p-7">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-7">
           <h2 className="headline text-xl md:text-2xl">Dein Vermögen am Stichtag</h2>
           <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
             Trag ein, was du seit einem Mondjahr besitzt.
@@ -173,7 +174,7 @@ const ZakatCalculator = () => {
             />
 
             {/* Alles, was die meisten nicht brauchen, liegt hinter einem Klick. */}
-            <div className="rounded-2xl border border-border/70 bg-surface">
+            <div className="rounded-lg border border-border bg-surface">
               <button
                 type="button"
                 onClick={() => setMehrOffen((v) => !v)}
@@ -188,7 +189,7 @@ const ZakatCalculator = () => {
               </button>
 
               {mehrOffen && (
-                <div className="space-y-5 border-t border-border/70 px-4 py-4">
+                <div className="space-y-5 border-t border-border px-4 py-4">
                   <Feld
                     id="schulden"
                     label="Kurzfristig fällige Schulden"
@@ -213,10 +214,10 @@ const ZakatCalculator = () => {
                           type="button"
                           onClick={() => setMethode(wert)}
                           aria-pressed={methode === wert}
-                          className={`rounded-xl border px-3 py-2.5 text-left transition ${
+                          className={`rounded-lg border px-3 py-2.5 text-left transition ${
                             methode === wert
-                              ? "border-primary bg-white"
-                              : "border-border bg-white/60 hover:border-primary/40"
+                              ? "border-primary bg-card"
+                              : "border-border bg-card/60 hover:border-primary/40"
                           }`}
                         >
                           <span className="block text-[13px] font-semibold text-foreground">{titel}</span>
@@ -235,7 +236,7 @@ const ZakatCalculator = () => {
         <div className="space-y-4 lg:sticky lg:top-24">
           <div className="ergebnis-karte" data-ton="neutral">
             {istPreisVeraltet(nisabDaten.stand) && (
-              <div className="mb-4 rounded-xl bg-warning px-4 py-3 text-[13px] font-semibold text-warning-foreground">
+              <div className="mb-4 rounded-lg bg-warning px-4 py-3 text-[13px] font-semibold text-warning-foreground">
                 Der hinterlegte Preis ist vom {nisabDaten.stand} und damit älter als sechs Wochen.
                 Das Ergebnis kann abweichen.
               </div>
@@ -274,7 +275,7 @@ const ZakatCalculator = () => {
           </div>
 
           {/* Nisab: eingeklappt, weil die Voreinstellung fuer die meisten stimmt. */}
-          <div className="rounded-2xl border border-border/70 bg-card">
+          <div className="rounded-lg border border-border bg-card">
             <button
               type="button"
               onClick={() => setNisabOffen((v) => !v)}
@@ -296,7 +297,7 @@ const ZakatCalculator = () => {
             </button>
 
             {nisabOffen && (
-              <div className="border-t border-border/70 px-5 py-4">
+              <div className="border-t border-border px-5 py-4">
                 <p className="text-[12px] leading-relaxed text-muted-foreground">
                   Der Nisab ist die Untergrenze, ab der Zakat fällig wird. Er wird über den Gold-
                   oder Silberpreis bestimmt. Silber liegt niedriger und erfasst dadurch mehr
@@ -309,10 +310,10 @@ const ZakatCalculator = () => {
                       type="button"
                       onClick={() => setNisabBasis(b)}
                       aria-pressed={nisabBasis === b}
-                      className={`rounded-xl border px-3 py-2 text-[13px] font-semibold transition ${
+                      className={`rounded-lg border px-3 py-2 text-[13px] font-semibold transition ${
                         nisabBasis === b
-                          ? "border-primary bg-white text-foreground"
-                          : "border-border bg-white/60 text-muted-foreground hover:border-primary/40"
+                          ? "border-primary bg-card text-foreground"
+                          : "border-border bg-card/60 text-muted-foreground hover:border-primary/40"
                       }`}
                     >
                       {b === "silber" ? "Silber (595 g)" : "Gold (85 g)"}
@@ -342,7 +343,7 @@ const ZakatCalculator = () => {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border/70 bg-surface p-5">
+          <div className="rounded-lg border border-border bg-surface p-5">
             <div className="flex items-start gap-2.5">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
               <p className="text-[12px] leading-relaxed text-muted-foreground">
@@ -353,18 +354,15 @@ const ZakatCalculator = () => {
             </div>
           </div>
 
-          <Link
-            to="/bereinigungsrechner"
-            className="group flex items-center justify-between gap-3 rounded-2xl border border-primary/60 bg-white px-5 py-4 transition hover:-translate-y-[1px] hover:border-primary"
-          >
-            <span className="text-[14px] font-semibold text-foreground">
+          <Aufruf to="/bereinigungsrechner" className="block">
+            <span className="flex-1 text-left">
               Rechne aus, welchen Teil deiner Erträge du weitergibst
             </span>
             <ArrowRight
-              className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-0.5"
+              className="h-4 w-4 shrink-0"
               aria-hidden
             />
-          </Link>
+          </Aufruf>
         </div>
       </div>
     </section>

@@ -1,4 +1,6 @@
 import { ArrowRight, Check, X } from "lucide-react";
+import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
+import { giroKnopfHinweis } from "@/data/giroKnopfHinweis";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import CheckStimmen from "@/components/CheckStimme";
 import {
@@ -282,11 +284,12 @@ const Eroeffnen = ({ e }: { e: Ergebnis }) =>
     <section className="hc-erg-eroeffnen" aria-label={`Jetzt bei ${e.anbieter.name} eröffnen`} data-e="6">
       <Platte e={e} gross />
       <h2 className="hc-erg-h3">Jetzt bei {e.anbieter.name} eröffnen</h2>
+      {e.art === "konto" && <GiroKnopfHinweis anbieter={e.anbieter.kurz} className="hc-giro-hinweis" />}
       <div className="hc-wb-cta">
         <Knopf e={e} text={`Bei ${e.anbieter.name} eröffnen`} />
         <span className="hc-wb-werbung">Werbung</span>
       </div>
-      {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
+      {e.pflicht && !(e.art === "konto" && giroKnopfHinweis(e.anbieter.kurz)) && <p className="hc-erg-pflicht">{e.pflicht}</p>}
     </section>
   ) : null;
 
@@ -343,10 +346,12 @@ const FassungA = ({ e, antworten, onNeu, bereit }: Props) => {
           </div>
           <Haken zeilen={e.vorteile} />
           {e.art === "konto" && e.praemie && <p className="hc-praemie">{e.praemie}</p>}
+          {/* RN21: grüne Meldung direkt über dem Knopf statt des grauen Satzes darunter */}
+          {e.art === "konto" && <GiroKnopfHinweis anbieter={e.anbieter.kurz} className="hc-giro-hinweis" />}
           <div className="hc-erg-knopfzeile">
             <Knopf e={e} />
           </div>
-          {e.pflicht && <p className="hc-erg-pflicht">{e.pflicht}</p>}
+          {e.pflicht && !(e.art === "konto" && giroKnopfHinweis(e.anbieter.kurz)) && <p className="hc-erg-pflicht">{e.pflicht}</p>}
         </div>
       </article>
 

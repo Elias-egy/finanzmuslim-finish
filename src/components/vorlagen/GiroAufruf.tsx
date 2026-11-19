@@ -51,14 +51,14 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
         ziel={link("/vergleich/girokonto", "alle")}
       />
     ) : (
-    <div className="relative mt-5 rounded-3xl bg-accent p-4 ring-1 ring-primary/20 md:p-6" data-depot-kasten>
+    <div className="relative mt-5 rounded-lg border border-border bg-card p-4 md:p-6" data-depot-kasten>
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
       <p className="pr-16 text-[22px] font-extrabold leading-tight text-foreground">Die besten Alternativen aus meinem Vergleich</p>
       <ul className="mt-3 grid gap-4">
         {GIRO_TOP2.map((d) => (
           <li
             key={d.id}
-            className="rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)]"
+            className="rounded-lg border border-border bg-card p-4"
             data-depot-karte
           >
             <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
               {d.punkte.map((p) => (
                 <li key={p.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
                   <span
-                    className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white ${p.ok ? "bg-gain" : "bg-loss"}`}
+                    className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white dark:text-[#0B0D12] ${p.ok ? "bg-gain" : "bg-loss"}`}
                   >
                     {p.ok ? <Check className="h-4 w-4" strokeWidth={3} aria-hidden /> : <X className="h-4 w-4" strokeWidth={3} aria-hidden />}
                   </span>
@@ -83,7 +83,7 @@ const GiroAufruf = ({ titel, gross, einleitung = "Diese zwei bekannten zahlen di
             </ul>
             <Link
               to={link(d.link, "top2")}
-              className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-xl bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90"
+              className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90"
             >
               Zum Angebot*
             </Link>

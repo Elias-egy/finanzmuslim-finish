@@ -317,6 +317,27 @@ export const partnerLinks: PartnerLink[] = [
     aktiv: true,
     notiz: "financeAds, Programm 5710, Textlink 135756 (leitet am 04.10.2026 auf finst.com/de/). Angenommen, im Portal gesehen 04.10.2026. Teilnahmebedingungen: deutlich sichtbarer Risikohinweis (AFM), keine direkte Weiterleitung auf finst.com.",
   },
+  {
+    kurzname: "commerzbank-girokonto",
+    anbieter: "Commerzbank",
+    ziel: "/dein-investmentstart/commerzbank-girokonto",
+    aktiv: true,
+    notiz: "financeAds, Programm 3040, Textlink 57824 (Girokonto 50 Euro: Girokonto mit 50 EUR Startguthaben und 100 EUR Empfehlungspraemie) https://www.financeads.net/tc.php?t=87591C304057824T. Angenommen, im Portal gesehen 09.11.2026. Nur das GiroKonto bekommt den Link: fuer das KlassikKonto gibt es keinen passenden Textlink, die Commerzbank-Depots haben keinen Link.",
+  },
+  {
+    kurzname: "wundertax",
+    anbieter: "wundertax",
+    ziel: "/dein-investmentstart/wundertax",
+    aktiv: true,
+    notiz: "financeAds, Programm 1852, Textlink 41894 (Steuererklaerung) https://www.financeads.net/tc.php?t=87591C185241894T. Angenommen, im Portal gesehen 09.11.2026, 15 Euro je Sale. Steht noch nicht im Steuersoftware-Vergleich, weil dort die Zeile Daten vom Finanzamt leer ist (Mail an wundertax vom 26.09.2026 offen); der Link am Eintrag greift, sobald der Wert belegt ist.",
+  },
+  {
+    kurzname: "steuersparerklaerung",
+    anbieter: "SteuerSparErklärung",
+    ziel: "/dein-investmentstart/steuersparerklaerung",
+    aktiv: true,
+    notiz: "Awin, Programm 13746 (Steuertipps DE), Standard-Link https://www.awin1.com/cread.php?awinmid=13746&awinaffid=3099915. Zugelassen, im Portal gesehen 09.11.2026, 15 % vom Netto-Warenkorb. Startseite mit Steuer-Aufbau (art steuer), Link mit clickref.",
+  },
 ];
 
 /** Namen aller Anbieter mit aktivem Partnerlink, jeder einmal, nach Alphabet.

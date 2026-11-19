@@ -32,7 +32,7 @@ const AbschnittsNavigation = ({ abschnitte }: { abschnitte: Abschnitt[] }) => {
   return (
     <nav
       aria-label="Abschnitte dieser Seite"
-      className="sticky top-[60px] z-30 md:top-[68px] border-b border-border bg-background/95 backdrop-blur"
+      className="sticky top-[60px] z-30 md:top-[68px] border-b border-border bg-background"
     >
       <ul className="container flex max-w-[1200px] gap-1 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {abschnitte.map((a) => (

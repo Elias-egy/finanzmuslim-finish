@@ -16,6 +16,7 @@ import {
   kaufbarBei,
   kaufbarStand,
   sparplanAnzahl,
+  sparplanAuf,
   type EtfEintrag,
 } from "@/data/halalEtfListe";
 
@@ -31,7 +32,7 @@ const SITE = "https://finanzmuslim.com";
 const PFAD = "/blog/halal-etf";
 const TITEL = "Beste Halal ETFs 2026: 8 im Vergleich";
 const META =
-  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Was sie in 1, 3 und 5 Jahren gebracht haben, was sie bei 10.000 € kosten und bei welchen Depots du sie kaufst.";
+  "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Rendite über 1, 3 und 5 Jahre, Kosten bei 10.000 € und bei welchen Depots du sie kaufst.";
 const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "03.11.2026", iso: "2026-11-03T09:00:00+01:00" };
@@ -190,16 +191,10 @@ const DREIER: { anbieter: string; kaufbarName: string; logo: string; out: string
   { anbieter: "Scalable Capital", kaufbarName: "Scalable Capital", logo: "scalable", out: "/out/scalable" },
 ];
 
-// Sparplan je Depot nur aus den Belegen der Liste (sparplanBei). Scalable ohne die PRIME+-Hälfte (Elias SEO42: „Nur Scalable Prime
-// und sowas. Das macht alles gar keinen Sinn“, raw/2026-11-03-elias-seo42-leser-profil-skill-tabelle-langweilig.md); PRIME+ zählt als Scalable.
+// Sparplan je Depot nur aus den Belegen der Liste (`sparplanAuf`, gemeinsam mit dem Depot-Vergleich).
 function sparplanZeile(anbieter: string): string {
-  const zahl = (name: string) => etfListe.filter((e) => e.sparplanBei.includes(name)).length;
-  if (anbieter === "Scalable Capital") return `Sparplan auf ${etfListe.filter((e) => e.sparplanBei.some((x) => x.startsWith("Scalable"))).length} von 8`;
-  // Traders Place: Elias hat im eigenen Depot nachgesehen, „Sparplan ist drin“ (SEO31, 02.11.2026),
-  // für Platz 5 und 6 nicht (SEO35, raw/2026-11-03-elias-seo35-antworten-linkedin-fragebogen.md)
-  if (anbieter === "Traders Place") return "Sparplan auf 6 von 8";
-  const n = zahl(anbieter);
-  return n === 0 ? "Sparplan auf diese ETFs noch nicht nachgesehen" : `Sparplan auf ${n} von 8`;
+  const n = sparplanAuf(anbieter);
+  return n === null ? "Sparplan auf diese ETFs noch nicht nachgesehen" : `Sparplan auf ${n} von ${etfListe.length}`;
 }
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
@@ -207,6 +202,8 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/halal-gold-kaufen", name: "Halal Gold kaufen", text: "Wo du Gold kaufst und worauf du achtest." },
   { to: "/blog/sind-aktien-haram", name: "Sind Aktien halal?", text: "Welche Firmen ein Halal ETF weglässt." },
   { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Rechne aus, welchen Anteil du weitergibst." },
+  { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
+  { to: "/blog/sukuk", name: "Sukuk", text: "Was hinter islamischen Anleihen steckt." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -365,7 +362,7 @@ const graph = () => {
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+          { "@type": "ListItem", position: 1, name: "Start", item: SITE },
           { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
           { "@type": "ListItem", position: 3, name: TITEL, item: url },
         ],

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Aufruf from "@/components/Aufruf";
 import { Wordmark } from "@/components/Wordmark";
 import Seo from "@/components/Seo";
 
@@ -29,13 +30,10 @@ const NotFound = () => {
           Die Adresse ist falsch geschrieben oder die Seite wurde verschoben.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/" className="pill-btn bg-primary text-white hover:bg-primary-hover">
+          <Aufruf to="/">
             Zur Startseite
-          </Link>
-          <Link
-            to="/blog"
-            className="pill-btn bg-transparent text-primary border border-border hover:border-primary"
-          >
+          </Aufruf>
+          <Link to="/blog" className="inline-flex min-h-[44px] items-center px-2 font-semibold text-primary hover:underline">
             Zum Blog
           </Link>
         </div>

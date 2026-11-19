@@ -1,9 +1,14 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, KREDIT_NIE_PLATZ_EINS, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { beliebtPunkte, GEWICHT_BELIEBT, LESER_EROEFFNUNGEN } from "@/data/leserEroeffnungen";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { brokerVergleich, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
+import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "@/data/brokerVergleich";
+import { anzeigeNote } from "@/lib/anzeigeNote";
+import { siegerDerSeite } from "@/lib/vergleichAssistent";
+import { meisteHalalVon } from "@/data/vergleichHelfer";
+import { depotAnzeige } from "@/data/vergleichAnzeige";
 import { girokontoVergleich } from "@/data/girokontoVergleich";
 import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
@@ -71,10 +76,11 @@ const screener = (id: string, werte: RohAnbieter["werte"] = {}): RohAnbieter => 
   },
 });
 
+// Die Rechnungen von Hand prüfen Halal- und Kosten-Teil; Regel 8 (5 % beliebt) prüft ein eigener Block unten.
 const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
-  rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen });
+  rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen, beliebt: false });
 const rGiro = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
-  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen });
+  rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen, beliebt: false });
 const rKrypto = (liste: RohAnbieter[]) => rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO });
 
 /** Das eine Ergebnis eines Einzelanbieters in `gerankt`. */
@@ -271,12 +277,13 @@ describe("rangfolge: Kosten wie finanzNote", () => {
 /* ---------------------------------------------------------- Giro und Krypto */
 
 describe("rangfolge: Girokonto", () => {
-  it("zieht für einen abschaltbaren Dispo („teils“) ein Zehntel vom Halal-Teil ab (Elias, 14.10.2026)", () => {
-    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 0,9 = 4,5, bisher 3,75 mit einem Viertel Abzug
+  it("zieht für einen abschaltbaren Dispo („teils“) nichts mehr ab, Abstellbares zählt nicht gegen die Note (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 1 = 5; bis 07.11.2026 ein Zehntel Abzug (4,5)
     const b = einzig(rGiro([giro("haspa", { keinDispoAbStart: "teils" })]));
-    expect(FAKTOR_DISPO).toBe(0.9);
-    expect(b.halal).toBe(4.5);
+    expect(FAKTOR_DISPO).toBe(1);
+    expect(b.halal).toBe(5);
     expect(b.halalVorKredit).toBe(5);
+    expect(b.uneingeschraenkt).toBe(false);
   });
 
   it("macht ein Konto mit abschaltbarem Dispo nie zur Nummer 1, auch mit Link und bester Note", () => {
@@ -551,16 +558,20 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
     expect(ids(nummerEins(r))).toEqual(["b"]);
   });
 
-  it("hebt mit Link nie über eine höhere Sternzahl", () => {
-    // c: Kosten 5 × 60 / 100 = 3, Note 4, also 4 Sterne. a hat 5.
+  it("hebt mit Link nie über eine höhere Sternzahl, außer auf Platz 1 (Regel 6)", () => {
+    // c: Kosten 5 × 60 / 100 = 3, Note 4, also 4 Sterne. a hat 5. Platz 1 nur mit Link (Elias 08.11.2026, A11:
+    // „wir können nicht etwas auf die 1 packen, wo wir keinen Link haben“), dahinter wieder nach der Note.
     const c = krypto("c", {}, { finanzPunkte: { gebuehren: 60 }, link: "/out/c" });
-    expect(ids(rKrypto([c, a]).gerankt)).toEqual(["a", "c"]);
+    const d = krypto("d", {}, { finanzPunkte: { gebuehren: 50 }, link: "/out/d" });
+    expect(ids(rKrypto([c, a]).gerankt)).toEqual(["c", "a"]);
+    expect(ids(rKrypto([d, c, a]).gerankt)).toEqual(["c", "a", "d"]);
   });
 
   it("ordnet unter mehreren mit Link nach der Note", () => {
     // d: Kosten 4,6, Note 4,8, 5 Sterne, mit Link. b hat 4,9.
     const d = krypto("d", {}, { finanzPunkte: { gebuehren: 92 }, link: "/out/d" });
-    expect(ids(rKrypto([a, d, b]).gerankt)).toEqual(["b", "d", "a"]);
+    // Angezeigt a 5,0, b 4,9, d 4,8: nach der angezeigten Note (A11), b als erster mit Link auf Platz 1.
+    expect(ids(rKrypto([a, d, b]).gerankt)).toEqual(["b", "a", "d"]);
   });
 
   it("teilt den Platz nur bei gleichem Link-Stand", () => {
@@ -590,14 +601,16 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
 
   it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
-    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["traders-place-depot"]);
-    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["bbbank-bettersmart"]);
+    // Elias, 15.11.2026 (RN3-07): „Flatex als einzige Nummer 1 benutzen ist gut. Smartbroker als Nummer 2.“
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["flatex-depot"]);
+    // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“; seit Regel 8 mit der höchsten Note.
+    expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
     for (const [liste, kategorie] of [[brokerVergleich, "depot"], [girokontoVergleich, "girokonto"], [kryptoVergleich, "krypto"]] as const) {
       const r = rangfolge(liste, kategorie);
       for (const x of eins(liste, kategorie)) expect(x.anbieter.link, x.anbieter.id).toBeTruthy();
-      // Nie steht ein Eintrag mit weniger Sternen vor einem mit mehr.
-      r.gerankt.forEach((x, i) => i > 0 && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i - 1].note)));
+      // Nie steht ein Eintrag mit weniger Sternen vor einem mit mehr, außer der vorgezogenen Nummer 1 (Regel 6).
+      r.gerankt.slice(1).forEach((x, i) => i > 0 && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i].note)));
     }
   });
 });
@@ -610,11 +623,19 @@ describe("rangfolge: Nummer 1 nur ohne Einschränkung (Spec 10.7)", () => {
     expect(Object.fromEntries(r.gerankt.map((x) => [x.anbieter.id, x.uneingeschraenkt]))).toEqual({ frei: true, gelb: false, dispo: false });
   });
 
-  it("nimmt für die Nummer 1 den besten Eintrag ohne Einschränkung", () => {
-    // dispo: Halal 2,5, Kosten 5, Note 3,75. frei: Halal 5, Kosten 1, Note 3.
+  it("nimmt für die Nummer 1 den besten Eintrag ohne Einschränkung, und die Liste stellt ihn auf Platz 1 (Regel 6, Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+    // dispo: Halal 2,5, Kosten 5, Note 3,75. frei: Halal 5, Kosten 1, Note 3. Ohne Regel 6 stünde dispo vorn.
     const r = rGiro([giro("dispo", { keinDispoAbStart: "schlecht" }), giro("frei", {}, { finanzPunkte: { kontofuehrung: 2 } })]);
-    expect(ids(r.gerankt)).toEqual(["dispo", "frei"]);
+    expect(ids(r.gerankt)).toEqual(["frei", "dispo"]);
+    expect(r.gerankt.map((b) => b.platz)).toEqual([1, 2]);
     expect(ids(nummerEins(r))).toEqual(["frei"]);
+  });
+
+  it("lässt die Liste unverändert, wenn vorn schon ein Eintrag ohne Einschränkung steht, und ohne Kandidaten auch", () => {
+    const vorn = rGiro([giro("frei"), giro("dispo", { keinDispoAbStart: "schlecht" }, { finanzPunkte: { kontofuehrung: 1 } })]);
+    expect(ids(vorn.gerankt)).toEqual(["frei", "dispo"]);
+    const keiner = rKrypto([krypto("gelb", { zinsfreiAbStart: "teils" })]);
+    expect(ids(keiner.gerankt)).toEqual(["gelb"]);
   });
 
   it("liefert bei Gleichstand alle Gleichauf und ohne Kandidaten nichts", () => {
@@ -632,7 +653,8 @@ describe("rangfolge: Nummer 1 nur ohne Einschränkung (Spec 10.7)", () => {
 
 describe("sterne", () => {
   it("rundet die Note auf halbe Sterne", () => {
-    expect([4.24, 4.25, 4.74, 4.75, 0, 5].map(sterne)).toEqual([4, 4.5, 4.5, 5, 0, 5]);
+    // Erst auf die angezeigte Note abgerundet (A11): 4,25 zeigt 4,2, 4,75 zeigt 4,7.
+    expect([4.24, 4.25, 4.74, 4.75, 0, 5].map(sterne)).toEqual([4, 4, 4.5, 4.5, 0, 5]);
   });
 });
 
@@ -735,24 +757,26 @@ describe("rangfolge: echte Daten", () => {
   });
 });
 
-describe("automatischer Kredit im Depot (Elias, 12.10.2026)", () => {
+describe("automatischer Kredit im Depot (Elias, 12.10.2026; ohne Abzug seit 07.11.2026; Platz 1 frei seit 15.11.2026)", () => {
   const flatex = () => brokerVergleich.find((a) => a.id === "flatex-depot")!;
 
-  it("zieht den Kredit-Abzug vom Halal-Teil ab und macht das Depot nie zur Nummer 1", () => {
-    const mit = rangfolge(brokerVergleich, "depot").gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
+  it("zieht keinen Abzug vom Halal-Teil ab und sperrt Platz 1 im Depot nicht mehr (Elias, 15.11.2026, RN3-07)", () => {
+    const r = rangfolge(brokerVergleich, "depot");
+    const mit = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
     expect(flatex().werte.kreditAbStart).toBe("teils");
+    expect(FAKTOR_KREDIT).toBe(1);
     expect(mit.kredit).toBe(true);
-    expect(mit.uneingeschraenkt).toBe(false);
-    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * FAKTOR_KREDIT, 1);
-    expect(mit.halal).toBeLessThan(mit.halalVorKredit);
-    expect(nummerEins(rangfolge(brokerVergleich, "depot")).map((b) => b.anbieter.id)).not.toContain("flatex-depot");
+    expect(mit.uneingeschraenkt).toBe(true);
+    expect(mit.halal).toBe(mit.halalVorKredit);
+    expect(ids(nummerEins(r))).toEqual(["flatex-depot"]);
+    expect(r.gerankt[0].anbieter.id).toBe("flatex-depot");
   });
 
-  it("bleibt auch mit eigenem Link hinter den Häusern mit höherer Sternzahl", () => {
-    const r = rangfolge(brokerVergleich, "depot");
-    const platz = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!.platz;
-    expect(flatex().link).toBeTruthy();
-    expect(platz).toBeGreaterThan(3);
+  it("sperrt Platz 1 nur noch im Edelmetall-Vergleich", () => {
+    expect([...KREDIT_NIE_PLATZ_EINS]).toEqual(["edelmetall"]);
+    const a = depot("mit-kredit", { kreditAbStart: "teils" }, { link: "/out/x" });
+    expect(rangfolge([a], "depot", { finanzMax: MAX_DEPOT }).gerankt[0].uneingeschraenkt).toBe(true);
+    expect(rangfolge([a], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].uneingeschraenkt).toBe(false);
   });
 
   it("trägt ohne Kredit-Merkmal keinen Abzug", () => {
@@ -788,5 +812,78 @@ describe("Feinwert: Kleinigkeiten entscheiden nur bei sonst gleichem Stand (Elia
     const schlechter = klein("d-schlechter", { appIos: "5 / 5", appAndroid: "5 / 5" });
     schlechter.finanzPunkte = { kontofuehrung: 5 };
     expect(ids(rGiro([schlechter, besser]).gerankt)).toEqual(["c-besser", "d-schlechter"]);
+  });
+});
+
+describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (Elias, 08.11.2026 A11; 15.11.2026 RN3-07)", () => {
+  it("ordnet nach angezeigter Note absteigend, nur Platz 1 darf vorgezogen sein (Regel 6)", () => {
+    for (const kategorie of ["depot", "girokonto", "krypto"] as const) {
+      const liste = { depot: brokerVergleich, girokonto: girokontoVergleich, krypto: kryptoVergleich }[kategorie];
+      const r = rangfolge(liste, kategorie);
+      r.gerankt.slice(1).forEach((x, i) => i > 0 && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+    }
+  });
+  it("Sterne in Reihe: im Depot und Girokonto fällt die angezeigte Note von Platz zu Platz nie, auch Platz 1 nicht (Elias A10)", () => {
+    for (const [liste, kategorie] of [[depotAnzeige, "depot"], [girokontoVergleich, "girokonto"]] as const) {
+      const r = rangfolge(liste, kategorie);
+      r.gerankt.slice(1).forEach((x, i) => expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+    }
+  });
+  it("Depot: flatex 1, Smartbroker+ 2, Scalable 3, Traders Place 4, Trading 212 ohne Link dahinter", () => {
+    const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
+    expect(ids(r.gerankt.slice(0, 5))).toEqual([
+      "flatex-depot",
+      "smartbroker-plus-depot",
+      "scalable-capital-free-broker",
+      "traders-place-depot",
+      "trading-212-depot",
+    ]);
+    expect(r.gerankt.slice(0, 5).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5]);
+    // Die einzige Nummer 1 hebt sich in der Zahl ab: flatex 4,6, Smartbroker+ 4,5.
+    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.6, 4.5, 4.3, 4.3]);
+    expect(r.gerankt[0].anbieter.link).toBeTruthy();
+  });
+  it("Girokonto: norisbank 1, BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
+    const r = rangfolge(girokontoVergleich, "girokonto");
+    expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "consorsbank-girokonto", "trade-republic-girokonto"]);
+    // meine Bank (1 % im Ausland) steht hinter DKB und Revolut, nicht mehr auf Platz 3.
+    expect(ids(r.gerankt.slice(4, 7))).toEqual(["dkb-girokonto", "revolut-standard", "meine-bank-mein-girokonto"]);
+    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.7, 4.5, 4.5]);
+    expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
+    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+  });
+  it("rechnet 95 % Halal und Kosten je zur Hälfte plus 5 % beliebt, ohne Link 0 Punkte", () => {
+    expect(GEWICHT_BELIEBT).toBe(0.05);
+    const a = depot("a", {}, { link: "/out/a" });
+    const ohne = rangfolge([a], "depot", { finanzMax: MAX_DEPOT, beliebt: false }).gerankt[0];
+    const mit = rangfolge([a], "depot", { finanzMax: MAX_DEPOT }).gerankt[0];
+    // Kein Eintrag in den Leser-Eröffnungen: 0,95 × 5 + 0,05 × 0 = 4,75.
+    expect(ohne.note).toBe(5);
+    expect(mit.note).toBe(4.75);
+    expect(mit.beliebt).toBe(0);
+    // Beste Quote im Depot bekommt 5 Punkte, ohne Link nie Punkte.
+    expect(beliebtPunkte("depot", "flatex-depot", true)).toBe(5);
+    expect(beliebtPunkte("depot", "flatex-depot", false)).toBe(0);
+    expect(beliebtPunkte("girokonto", "norisbank-top-girokonto", true)).toBe(5);
+    // Nur Depot und Girokonto kennen das Kriterium.
+    expect(rangfolge([krypto("k")], "krypto", { finanzMax: MAX_KRYPTO }).gerankt[0].beliebt).toBeNull();
+    expect(rangfolge([depot("e")], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBeNull();
+  });
+  it("zählt Eröffnungen, nie Geld, und jede Zahl hat Klicks", () => {
+    for (const tabelle of Object.values(LESER_EROEFFNUNGEN))
+      for (const [id, e] of Object.entries(tabelle)) {
+        expect(e.klicks, id).toBeGreaterThan(0);
+        expect(e.abschluesse, id).toBeLessThanOrEqual(e.klicks);
+      }
+  });
+  it("Geld zählt nie: Provision und Deals stehen nicht in der Rangfolge", () => {
+    expect(readFileSync(join(__dirname, "rangfolge.ts"), "utf8")).not.toMatch(/from "@\/data\/(deals|provision)|dealFuer\(/);
+    expect(readFileSync(join(__dirname, "..", "data", "leserEroeffnungen.ts"), "utf8")).not.toMatch(/from "@\/data\/(deals|provision)|€ je Klick/);
+  });
+  it("eine Nummer 1 im Depot: kein zweiter Kasten, flatex hat selbst die meisten Halal-Anlagen", () => {
+    const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
+    const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
+    expect(sieger?.id).toBe("flatex-depot");
+    expect(meisteHalalVon(depotAnzeige, DEPOT_ZEILEN, new Set(r.gerankt.map((b) => b.anbieter.id)), sieger?.id)).toBeNull();
   });
 });

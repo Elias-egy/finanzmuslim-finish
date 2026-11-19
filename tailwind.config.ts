@@ -15,6 +15,14 @@ export default {
       },
     },
     extend: {
+      // Blau als Schrift folgt --primary-text (im dunklen Modus aufgehellt); Hintergründe und Ränder bleiben --primary.
+      textColor: {
+        primary: {
+          DEFAULT: "hsl(var(--primary-text))",
+          foreground: "hsl(var(--primary-foreground))",
+          hover: "hsl(var(--primary-text-hover))",
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -101,8 +109,8 @@ export default {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "var(--radius)",
+        sm: "calc(var(--radius) - 2px)",
       },
       keyframes: {
         "accordion-down": {

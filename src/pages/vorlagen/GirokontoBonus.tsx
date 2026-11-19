@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
@@ -142,7 +143,9 @@ const GirokontoBonus = () => {
               <p className="mt-3 text-[17px] leading-snug text-foreground">
                 Kostenlos unter {norisbank.gratisUnter} oder ab {euro(norisbank.gratisAb)} Geldeingang, sonst {euro(norisbank.sonst)} im Monat.
               </p>
-              <div className="mt-4">
+              {/* RN21: grüne Meldung direkt über dem Knopf */}
+              <GiroKnopfHinweis anbieter={norisbank.out} className="mt-4 bg-background" />
+              <div className="mt-3">
                 <Knopf to={link(norisbank.out, GIRO_BONUS_SRC.norisbankKopf)} anbieter={norisbank.out} stelle={GIRO_BONUS_SRC.norisbankKopf}>
                   Bei norisbank eröffnen*
                   <ArrowRight className="h-5 w-5" aria-hidden />
@@ -277,7 +280,8 @@ const GirokontoBonus = () => {
                 </li>
               ))}
             </ol>
-            <div className="mt-6">
+            <GiroKnopfHinweis anbieter={bbbank.out} className="mt-6" />
+            <div className="mt-3">
               <Knopf to={link(bbbank.out, GIRO_BONUS_SRC.warum)} anbieter={bbbank.out} stelle={GIRO_BONUS_SRC.warum}>
                 Konto bei der BBBank eröffnen*
                 <ArrowRight className="h-5 w-5" aria-hidden />

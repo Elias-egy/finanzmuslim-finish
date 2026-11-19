@@ -380,12 +380,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Warum Forex nicht Geldwechsel ist, was der Hebel wirklich ist, weshalb Short, Futures und CFDs jeweils eigene Probleme haben und was ein islamisches Trading-Konto tatsächlich ändert.";
+  "Warum Forex nicht Geldwechsel ist, was der Hebel wirklich ist, weshalb Short, Futures und CFDs eigene Probleme haben und was ein islamisches Konto ändert.";
 
 const TradingForexCfd = () => (
   <>
     <Seo
-      title="Trading, Forex und CFDs: warum es kein Handel ist | finanzmuslim"
+      title="Trading, Forex und CFDs: warum es kein Handel ist"
       description={beschreibung}
       path="/blog/trading-forex-cfd"
       jsonLd={beitragJsonLd({

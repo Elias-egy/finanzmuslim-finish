@@ -9,74 +9,96 @@ vergleicht, sie berät nicht und führt keine Order aus. Wo Gelehrte uneins sind
 werden beide Auffassungen genannt. Ungeprüftes heißt wörtlich „noch nicht
 geprüft".
 
+## Halal-Investment-OS
+
+- [Halal-Investment-OS](/investment-os/): Portfolio-Werkzeug mit über 500 getrackten
+  Halal-Aktien und ETFs. Kostenlos für alle, die ihr Depot über den Link auf der Seite
+  eröffnen und ihr erstes Halal-Investment machen. Die Adresse endet mit Schrägstrich.
+
 ## Anlagen und Vergleiche
 
-- [Halal-Anlagen](/halal-anlagen): Datenbank mit 27 Anlagen, je mit
+- [Halal Anlagen Datenbank](/halal-anlagen): 30 Anlagen, je mit
   ISIN, laufenden Kosten, Fondsgröße und der Stelle, die sie geprüft hat.
-- [Anlage-Detailseite](/halal-anlagen/ishares-msci-world-islamic): Muster einer
-  Einzelseite mit Kursverlauf, Stammdaten und Halal-Einordnung. Kurse sind
-  Wochenschlusskurse, keine Echtzeitkurse.
+- [Ist iShares MSCI World Islamic halal?](/halal-anlagen/ishares-msci-world-islamic): Muster einer
+  Einzelseite. Jede Anlage hat eine Seite „Ist <Name> halal?“ mit dem Nachweis der Prüfstelle, Kosten,
+  Kursverlauf und häufigen Fragen. Kurse sind Schlusskurse, keine Echtzeitkurse.
+- [Alle Vergleiche](/vergleiche): Übersicht aller Anbietervergleiche.
 - [Depot-Vergleich](/vergleich/depot): Broker nach vier Kriterien, die in
   normalen Vergleichen fehlen: Guthabenzins, Wertpapierkredit, Hebelprodukte,
   sharia-konforme ETFs.
-- [Alle Vergleiche](/vergleiche): Übersicht der geplanten und fertigen
-  Anbietervergleiche.
+- [Girokonto-Vergleich](/vergleich/girokonto): Girokonten für Muslime, die sich ohne Zinsen nutzen lassen.
+- [Krypto-Börsen](/vergleich/krypto): Börsen, bei denen du echte Coins zinsfrei kaufst.
+- [Edelmetalle](/vergleich/edelmetalle): Welcher Broker passt, wenn du Gold und Silber islamkonform kaufen willst.
+- [Screening-Apps](/vergleich/screening-apps): Werkzeuge, die dir sagen, ob eine Aktie halal ist, und worin sie sich unterscheiden.
+- [Steuersoftware](/vergleich/steuersoftware): Programme für die Steuererklärung: Kosten, Zahlungszeitpunkt und angenommene Einkünfte.
+- [So bewerten wir Anbieter](/vergleiche/methodik): Die Kriterien und die offene Punktetabelle hinter den Vergleichen.
 
 ## Rechner
 
+- [Alle Rechner](/rechner): Übersicht der acht Rechner.
 - [Zakat-Rechner](/zakat-rechner): Zakat auf Geld und Depot, mit Nisab nach Gold
   oder Silber, Formel und durchgerechnetem Beispiel.
 - [Renditerechner](/renditerechner): Modellrechnung mit Aktien, Sukuk, Gold und
   Silber, wahlweise mit der Fünfjahresrendite einer geprüften Anlage.
 - [Inflationsrechner](/inflationsrechner): Kaufkraftverlust von Geld auf dem
   Konto über die Jahre.
-- [Alle Rechner](/rechner): Übersicht.
+- [Bereinigungsrechner](/bereinigungsrechner): Welchen Anteil deiner Erträge du weitergibst.
+- [Auswanderungsrechner](/auswanderungsrechner): Wie weit dein Netto in der Türkei, in Dubai oder in Saudi-Arabien reicht.
+- [Kreditkostenrechner](/kreditkostenrechner): Was ein Kredit an Zinsen kostet und was dieselbe Rate gespart bringt.
+- [Budgetrechner](/budgetrechner): Wohin dein Netto geht und was im Monat frei bleibt.
+- [Sparzielrechner](/sparzielrechner): Wann du dein Sparziel erreichst, etwa Hajj oder Eigenkapital.
 
 ## Wissen, Grundlagen
 
 - [Zinsen im Islam](/blog/zinsen-im-islam): Was Riba ist und was ausdrücklich nicht.
 - [Gharar](/blog/gharar): Übermäßige Unsicherheit im Vertrag, abgegrenzt vom Risiko.
 - [Maysir](/blog/maysir): Was als Glücksspiel gilt, sechs Fälle eingeordnet.
-- [Die häufigsten Fehler](/blog/haeufige-fehler): Zehn Fehler von Einsteigern.
+- [Trading, Forex und CFDs](/blog/trading-forex-cfd): Warum Hebel, Swap und Short kein Handel sind.
+- [12 Fehler beim halal Investieren](/blog/haeufige-fehler): Stolperfallen, die am Anfang Geld kosten.
 - [Halal Investment Guide](/halal-guide): Kostenloser Einstieg als PDF.
 
 ## Wissen, Investieren
 
-- [Sind Aktien halal?](/blog/sind-aktien-haram): Die drei Grenzwerte des Screenings.
+- [Sind Aktien haram?](/blog/sind-aktien-haram): Die drei Grenzwerte des Screenings.
 - [Beste Halal ETFs 2026](/blog/halal-etf): Acht Halal ETFs im Vergleich, mit Kosten, Halal-Prüfung und Sparplan.
 - [Sukuk](/blog/sukuk): Anteil an einer Sache statt Geldforderung, vier Bauformen.
-- [Gold kaufen](/blog/halal-gold-kaufen): Barren, Münze oder Wertpapier.
+- [Halal Gold kaufen](/blog/halal-gold-kaufen): Barren, Münze oder Wertpapier.
 - [Ist Bitcoin halal?](/blog/ist-bitcoin-halal): Die Diskussion um Krypto.
+- [Dividenden reinigen](/blog/ertraege-reinigen): Welchen Anteil du weitergibst und wohin.
 
 ## Wissen, Alltag
 
 - [Girokonto ohne Zinsen](/blog/girokonto-ohne-zinsen): Vier Funktionen abstellen.
-- [Halal Kredit ohne Zinsen](/blog/halal-kredit-ohne-zinsen): Murabaha, Idschara,
+- [Ist die Kreditkarte haram?](/blog/kreditkarte-halal): Welche Karte du unterschreibst.
+- [Dispo und Schulden](/blog/dispo-und-schulden): Zwei Wege aus dem Minus.
+- [Halal Kredit](/blog/halal-kredit): Murabaha, Idschara,
   Muscharaka, Qard hasan.
+- [Auto kaufen ohne Zinsen](/blog/auto-kaufen-ohne-zinsen): Der Weg, der ohne Bank auskommt.
 - [Haus kaufen ohne Zinsen](/blog/haus-kaufen-ohne-zinsen): Die Wege zur
   islamkonformen Immobilienfinanzierung.
 - [Ist Ratenzahlung haram?](/blog/ratenzahlung-haram): Wann Raten zur Zinsfalle werden.
 - [Ist Leasing haram?](/blog/ist-leasing-haram): Fünf Punkte im Vertrag.
-- [Sind Versicherungen haram? Der komplette Guide 2026](/blog/ist-versicherung-haram): Pflicht oder freiwillig, Notlage, Lebensversicherung, Berufsunfähigkeit, Takaful.
+- [Sind Versicherungen haram?](/blog/sind-versicherungen-haram): Pflicht oder freiwillig, Notlage, Lebensversicherung, Berufsunfähigkeit, Takaful.
 
 ## Wissen, Pflichten
 
+- [Zakat auf Aktien und ETFs](/blog/zakat-auf-aktien-etf-krypto): Was dein Depot an Zakat kostet.
 - [Nisab](/blog/nisab): Ab welchem Vermögen Zakat fällig wird, beide Grenzen tagesaktuell.
-- [Erträge reinigen](/blog/ertraege-reinigen): Welchen Anteil du weitergibst und wohin.
 - [Erbe nach islamischem Recht](/blog/erbe): Vier Stufen, die Anteile und warum
   in Deutschland ohne Testament deutsches Erbrecht gilt.
+- [Alle Beiträge](/blog): Übersicht des Blogs.
 
 ## Vorlagen
 
 - [Alle Vorlagen](/vorlagen): Kostenlose Vorlagen. Die Bestseller gibt es ganz gegen E-Mail, Spickzettel und Baraka-Blocker sofort.
 - [Halal Vertrags-Check](/vorlagen/vertrags-ampel): Zwölf Alltagsverträge, grün, gelb oder rot. Zwei Verträge mit Farbe offen, alle gegen E-Mail.
-- [Halal-Anlagen-Liste](/vorlagen/halal-anlagen): Halal-Anlagen mit Kaufbeleg und den Anbietern, bei denen du sie kaufen kannst. Anzahl je Gruppe offen, Kauf-Tabelle gegen E-Mail.
 - [100 Halal-Aktien](/vorlagen/top-100-halal-aktien): 100 bekannte Aktien, alle halal nach Musaffa-Einzelprüfung. Sechs offen, alle gegen E-Mail.
 - [Dua für was?](/vorlagen/rizq): 14 Duas für Rizq nach Anliegen, mit Arabisch und Fundstelle. Drei offen, alle gegen E-Mail.
 - [Aktien-Check](/vorlagen/aktien-check): Spickzettel für die Prüfung einer Aktie.
 
 ## Weiteres
 
+- [Über mich](/ueber-mich): Wer hinter finanzmuslim steht, wie Anbieter geprüft werden und womit Geld verdient wird.
 - [Newsletter](/newsletter): Halal-News.
 - [So verdiene ich Geld](/wie-ich-geld-verdiene): Offenlegung der Einnahmen.
 - [Deals](/deals): Geprüfte Angebote, Partnerlinks gekennzeichnet.

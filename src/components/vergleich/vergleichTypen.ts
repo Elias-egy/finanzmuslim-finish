@@ -1,3 +1,4 @@
+import { anzeigeNote } from "@/lib/anzeigeNote";
 /**
  * Gemeinsame Form fuer alle Vergleiche.
  *
@@ -30,7 +31,7 @@ export type VergleichsZeile = {
   /** Steht in der Kartenansicht im Viererraster ganz oben. Genau vier. */
   imRaster?: boolean;
   /** Trennt die Halal-Merkmale von den Konditionen. */
-  gruppe: "halal" | "angebot" | "kosten";
+  gruppe: "halal" | "angebot" | "kosten" | "platz";
   /** Wort für eine gelbe Ampel. Ohne Angabe „abschaltbar“ (Zinsen, Dispo); der Reinigungsbetrag sagt „teils“. */
   teilsText?: string;
 };
@@ -72,6 +73,8 @@ export type VergleichsSpalte = {
   note: number | null;
   /** Monat und Jahr der Bewertung, z. B. "08/2026". */
   noteStand?: string;
+  /** Platz in unserer Rangfolge. Steht als Zahl im eckigen Reiter der Spalte und der Karte (wie Finanzfluss). */
+  platz?: number;
   /** Etikett ueber der Spalte, z. B. "Bester Broker" oder "60 € Bonus". */
   etikett?: { text: string; ton: "empfehlung" | "bonus" | "hinweis" | "platz" } | null;
   /**
@@ -82,17 +85,24 @@ export type VergleichsSpalte = {
   abgeraten?: boolean;
   /** Kostenpflichtiger Tarif: Marke am Produktnamen und ein Satz, was man für die Gebühr bekommt. */
   tarif?: { marke: string; satz: string } | null;
+  /** Ein Satz mit Handlung, sichtbar an Karte und Spalte: Das Haus räumt Neukunden automatisch einen Kredit ein. */
+  kreditKurz?: string;
   /** Führt das Haus mehrere Produkte: was dieses von den anderen unterscheidet, mit Beleg (`produktUnterschiede.ts`). */
   unterschied?: { titel: string; satz: string } | null;
   werte: Record<string, Zellwert>;
+  /** Nur Ansicht A3 (lokal): Angebot steht heute nicht auf der Seite. */
+  grau?: boolean;
+  /** Nur Ansicht A3 (lokal): Zellen der Zeilen „So entsteht der Platz“. */
+  zerlegung?: Record<string, { text: string; ton?: "verlust" | "voll" | "abzug" | "leer" }>;
 };
 
 /** Zelle ohne Angabe: ein Strich, nie ein Wort über den Stand der Prüfung (Elias, 05.10.2026). */
 export const KEINE_ANGABE = "–";
 
-/** Wort zur Note, wie man es aus Vergleichen kennt. */
-export const noteWort = (note: number | null) => {
-  if (note === null) return "–";
+/** Wort zur Note, wie man es aus Vergleichen kennt. Liest die angezeigte Note, damit Wort und Zahl zusammenpassen. */
+export const noteWort = (roh: number | null) => {
+  if (roh === null) return "–";
+  const note = anzeigeNote(roh);
   if (note >= 4.5) return "Sehr gut";
   if (note >= 3.5) return "Gut";
   if (note >= 2.5) return "Befriedigend";
@@ -100,9 +110,9 @@ export const noteWort = (note: number | null) => {
   return "Mangelhaft";
 };
 
-/** Note mit Komma, wie im Deutschen ueblich. */
+/** Note mit Komma, wie im Deutschen ueblich, abgerundet (`anzeigeNote`). */
 export const noteZahl = (note: number | null) =>
-  note === null ? null : note.toFixed(1).replace(".", ",");
+  note === null ? null : anzeigeNote(note).toFixed(1).replace(".", ",");
 
 /** Quelle und Stand, wie sie beim aufgeklappten Angebot stehen. */
 export const quellenText = (q: Quelle) => `${q.anzeige}${q.stand ? `, Stand ${q.stand}` : ""}`;

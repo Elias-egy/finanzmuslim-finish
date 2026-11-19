@@ -191,23 +191,26 @@ const ANGEBOT: Record<string, Eintrag> = {
 
 /**
  * Achtung-Meldung für Depots, die Neukunden automatisch einen Kredit einräumen (`kreditAbStart` "teils").
- * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Sie zahlt ins Zins-Kriterium
- * ein (`FAKTOR_KREDIT` in `src/lib/rangfolge.ts`). Beleg: `quellen.kreditAbStart` des Angebots.
+ * Elias, 12.10.2026: "eine extra Meldung, die es normalerweise nicht gibt". Seit 07.11.2026 kostet der Kredit
+ * keine Punkte mehr (`FAKTOR_KREDIT` 1), seit 15.11.2026 hält er das Depot auch nicht mehr von Platz 1 fern (Regel 6 in
+ * `src/lib/rangfolge.ts`, Elias RN3-07).
+ * Beleg: `quellen.kreditAbStart` des Angebots.
  */
 /** Der belegte Teil: was das Haus tut und was der Besucher tun kann. */
 const KREDIT_SACHE: Record<string, string> = {
   flatex:
-    "flatex räumt dir mit dem Depot automatisch einen Kredit ein. Zinsen fallen nur an, wenn du ihn nutzt, und du kannst in Textform darauf verzichten.",
+    "flatex räumt dir mit dem Depot automatisch einen Kredit ein, Zinsen fallen nur an, wenn du ihn nutzt. Lehne ihn in Textform ab.",
 };
 
 /** Im Depot-Vergleich dazu der Grund für den Platz. */
+// Bis 15.11.2026 stand hier der Grund, warum flatex nicht ganz vorn steht. Seit RN3-07 ist flatex unsere Nummer 1, der Satz nennt nur die Sache.
 const ACHTUNG_KREDIT: Record<string, string> = {
-  flatex: `${KREDIT_SACHE.flatex} Deshalb steht flatex im Vergleich nicht ganz vorn, obwohl du hier alle 22 Halal-Anlagen kaufen kannst.`,
+  flatex: KREDIT_SACHE.flatex,
 };
 
 /**
  * Die Achtung-Meldung zum Angebot, oder nichts: nur mit Beleg. Im Depot-Vergleich mit dem Grund für den
- * Platz. Im Edelmetall-Vergleich wirkt derselbe Abzug, dort steht nur die Sache: Die 22 Anlagen sind nicht
+ * Platz. Im Edelmetall-Vergleich gilt dieselbe Regel 6, dort steht nur die Sache: Die 22 Anlagen sind nicht
  * das Thema der Seite.
  */
 export const kreditAchtung = (
@@ -220,7 +223,56 @@ export const kreditAchtung = (
   return undefined;
 };
 
-export const ALLE_ACHTUNG_SAETZE: string[] = [...Object.values(ACHTUNG_KREDIT), ...Object.values(KREDIT_SACHE)];
+/**
+ * Die Kurzfassung sichtbar an Karte und Tabellenspalte, nicht erst in den Produktdetails (Elias SEO74: „Wir müssen
+ * uns Flatex nochmal deutlicher angucken“). Ein Satz mit Handlung, Wortlaut aus demselben Beleg: „Ablehnung … in
+ * Textform mitteilen“.
+ */
+const KREDIT_KURZ: Record<string, string> = {
+  flatex: "Kredit ab Start dabei. Lehne ihn in Textform ab.",
+};
+
+export const kreditKurz = (
+  kategorie: string | undefined,
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined =>
+  kreditAchtung(kategorie, angebot) && angebot.haus ? KREDIT_KURZ[angebot.haus] : undefined;
+
+/** Nur die Sache, ohne Grund für den Platz: für Texte, die der Rangfolge folgen und keinen Platz nennen (Depot-Ratgeber). */
+export const kreditSache = (
+  angebot: { haus?: string; werte: Record<string, unknown>; quellen?: Record<string, { url?: string } | undefined> },
+): string | undefined => (kreditAchtung("depot", angebot) && angebot.haus ? KREDIT_SACHE[angebot.haus] : undefined);
+
+/**
+ * Girokonten, deren Landeseite beim Partner oben mit Zins wirbt (Elias PH3-02, 16.11.2026: „unser Flex, irgendwie
+ * diese 200 €, diese ganzen Sachen weglassen. Dass die Leute nicht dieses Zinskonto eröffnen“, „bei mehr
+ * Informationen das allererste“, „immer ganz klein irgendwo stehen“). Der lange Satz steht als erste Meldung in den
+ * Produktdetails, der kurze klein an Karte, Tabelle und Nummer-1-Kasten.
+ * Beleg norisbank (Abruf 15.11.2026, Vault raw/2026-11-15-anbieter-norisbank-landeseite-praemie-tagesgeld-beleg.md):
+ * oben „200 € Prämie und 2,5% p.a. aufs Tagesgeld“; Bedingung der Prämie „Abschluss eines Top-Zinskontos (Tagesgeld)
+ * bei gleichzeitigem Abschluss eines Top-Girokontos“; „Sie schließen das Tagesgeldkonto automatisch mit dem
+ * Top-Girokonto ab“.
+ */
+const LANDESEITE: Record<string, { lang: string; kurz: string }> = {
+  "norisbank-top-girokonto": {
+    lang: "Auf der norisbank-Seite stehen oben 200 € Prämie und 2,5 % aufs Tagesgeld. Beides hängt am Tagesgeldkonto, das automatisch mit eröffnet wird: Zahl dort nichts ein.",
+    kurz: "200 € Prämie und 2,5 % gelten fürs Tagesgeld. Zahl dort nichts ein.",
+  },
+};
+
+/** Je Angebot, nicht je Haus: Das Girokonto plus führt auf eine andere Seite. */
+export const landeseiteAchtung = (kategorie: string | undefined, angebot: { id: string }): string | undefined =>
+  kategorie === "girokonto" ? LANDESEITE[angebot.id]?.lang : undefined;
+
+export const landeseiteKurz = (kategorie: string | undefined, angebot: { id: string }): string | undefined =>
+  kategorie === "girokonto" ? LANDESEITE[angebot.id]?.kurz : undefined;
+
+export const ALLE_ACHTUNG_SAETZE: string[] = [
+  ...Object.values(ACHTUNG_KREDIT),
+  ...Object.values(KREDIT_SACHE),
+  ...Object.values(KREDIT_KURZ),
+  ...Object.values(LANDESEITE).flatMap((l) => [l.lang, l.kurz]),
+];
 
 const istHinweis = (e: Eintrag): e is Hinweis => "satz" in e;
 

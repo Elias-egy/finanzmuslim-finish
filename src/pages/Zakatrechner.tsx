@@ -44,17 +44,17 @@ const zakatFaq = [
  */
 const UnterDemRechner = () => (
   <>
-    <div className="rounded-2xl bg-accent p-5 md:p-6">
+    <div className="rounded-lg border border-border bg-card p-5 md:p-6">
       <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
       {/* Auf dem Handy zweizeilig statt in einem Scrollkasten. Eine Formel,
           von der man die Hälfte wegschieben muss, liest niemand. */}
-      <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+      <p className="mt-3 rounded-lg border border-border bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
         (Geld + Depotanteil
         <br className="sm:hidden" /> − kurzfristige Schulden) × 0,025
       </p>
       <p className="mt-3 text-[15px] leading-[24px] text-muted-foreground">
-        0,025 sind die 2,5 Prozent. Der Depotanteil ist bei langfristig gehaltenen Anteilen rund 30
-        Prozent des Depotwerts, beim Handel der volle Wert.
+        0,025 sind die 2,5 Prozent. Der Depotanteil ist bei langfristig gehaltenen Anteilen ein Viertel
+        des Depotwerts, beim Handel der volle Wert.
       </p>
 
       <h3 className="mt-6 text-[17px] font-bold text-foreground">Ein Beispiel</h3>
@@ -62,9 +62,9 @@ const UnterDemRechner = () => (
         12.000 € auf dem Konto, 8.000 € im Depot liegen gelassen, 2.000 € Schulden im nächsten Jahr.
       </p>
       <ul className="mt-3 space-y-1 text-[15px] leading-[24px] text-foreground">
-        <li>Depotanteil: 8.000 € × 30 % = 2.400 €</li>
-        <li>Bemessung: 12.000 € + 2.400 € − 2.000 € = 12.400 €</li>
-        <li className="font-semibold">Zakat: 12.400 € × 2,5 % = 310 €</li>
+        <li>Depotanteil: 8.000 € × 25 % = 2.000 €</li>
+        <li>Bemessung: 12.000 € + 2.000 € − 2.000 € = 12.000 €</li>
+        <li className="font-semibold">Zakat: 12.000 € × 2,5 % = 300 €</li>
       </ul>
     </div>
 
@@ -84,8 +84,8 @@ const UnterDemRechner = () => (
       <h2 className="text-[19px] font-bold text-foreground">Zakat auf Aktien und ETFs</h2>
       <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
         Aktien und ETF-Anteile sind zakatpflichtig, strittig ist allein die Bemessung. Wer zum
-        Weiterverkauf hält, setzt den vollen Kurswert an, wer langfristig liegen lässt, nach
-        verbreiteter Auffassung rund 30 Prozent davon.
+        Weiterverkauf hält, setzt den vollen Kurswert an, wer langfristig liegen lässt, ein Viertel
+        davon.
       </p>
       <p className="mt-2 text-[15px] leading-[24px] text-muted-foreground">
         Trag den Depotwert oben bei „Im Depot angelegt“ ein und wähl unter „Mehr Angaben“, wie du
@@ -98,7 +98,7 @@ const UnterDemRechner = () => (
 const Zakatrechner = () => (
   <>
     <Seo
-      title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | finanzmuslim"
+      title="Zakat-Rechner 2026: Zakat auf Depot, Aktien und Gold"
       description="Berechne deine Zakat kostenlos: Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto. Mit Nisab nach Gold oder Silber und zwei Berechnungsmethoden für Aktien."
       path="/zakat-rechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Zakat-Rechner", path: "/zakat-rechner" }]}

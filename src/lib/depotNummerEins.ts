@@ -1,4 +1,4 @@
-import { depotAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
 import { DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 

@@ -3,8 +3,8 @@ import Seo from "@/components/Seo";
 const Impressum = () => (
   <div className="min-h-screen bg-background text-foreground">
     <Seo
-      title="Impressum – finanzmuslim"
-      description="Impressum und rechtliche Angaben zu finanzmuslim, Bildung für halal Investieren."
+      title="Impressum | finanzmuslim"
+      description="Impressum und rechtliche Angaben zu finanzmuslim, Bildung für halal Investieren: Angaben nach § 5 DDG, Kontakt und Hinweise für Besucher."
       path="/impressum"
       brotkrumen={[{ name: "Impressum", path: "/impressum" }]}
     />

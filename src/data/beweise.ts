@@ -1,4 +1,8 @@
-import { depotAnzeige, girokontoAnzeige, kryptoAnzeige, screenerAnzeige, steuerAnzeige } from "@/data/vergleichAnzeige";
+import { depotAnzeige } from "@/data/anzeige/depot";
+import { girokontoAnzeige } from "@/data/anzeige/girokonto";
+import { kryptoAnzeige } from "@/data/anzeige/krypto";
+import { screenerAnzeige } from "@/data/anzeige/screener";
+import { steuerAnzeige } from "@/data/anzeige/steuer";
 
 /**
  * Zahlen für die Beweisleiste der Danke-Seite (Vorbild SKAILE, Vault raw

@@ -103,7 +103,7 @@ const ArtikelSeite = ({ title, aktualisiert, kuerze, abschnitte, passendDazu, hi
                 <Link to={p.to} className="font-semibold text-primary hover:underline">
                   {p.name}
                 </Link>
-                <span className="text-muted-foreground"> – {p.desc}</span>
+                <span className="text-muted-foreground">: {p.desc}</span>
               </li>
             ))}
           </ul>

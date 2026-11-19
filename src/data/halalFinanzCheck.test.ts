@@ -43,6 +43,7 @@ import {
   vergleichZeilen,
 } from "@/data/halalFinanzCheck";
 import { BROKER_KARTEN } from "@/data/brokerFreebie";
+import { BROKER_START } from "@/data/brokerStart";
 import { BONUS_KONTEN } from "@/data/girokontoBonus";
 import { freieWahl, KEINE_BANK, suche, wahlVon, bankNachId } from "@/data/bankSuche";
 import { depotNachId, depotWahlVon, depotWerte, freieDepotWahl } from "@/data/depotSuche";
@@ -521,9 +522,10 @@ describe("Ergebnis Bankkonto", () => {
     const k = konto({ art: "konto", zahlung: "karte", bank: KEINE_BANK });
     expect(einrichtungVon(k)?.zeilen).toEqual(["Eröffnung per Video-Ident oder Post-Ident", "Bezahlen mit Apple Pay oder Google Pay", "Kein Dispo ab Eröffnung"]);
     expect(einrichtungVon(konto(sparkasse))).toBeNull();
-    // Teil-Release RN20: die Broker-Startseiten (src/data/brokerStart.ts) gehen noch nicht live, der Abgleich mit ihnen entfällt.
-    expect(EINRICHTUNG_APP.fl.app).toBeTruthy();
-    expect(EINRICHTUNG_APP.sb.app).toBeTruthy();
+    for (const kurz of ["fl", "sb"] as const) {
+      const start = BROKER_START[kurz === "fl" ? "flatex" : "smartbroker"];
+      expect(EINRICHTUNG_APP[kurz]).toEqual({ app: start.app.name, ident: start.ident!.name });
+    }
     const e = ergebnisAus({ art: "depot", hatDepot: "nein", praef: "kosten", anlage: "offen" }, "homepage")!;
     expect(einrichtungVon(e)).toEqual({
       titel: "Einrichtung super easy",
@@ -660,12 +662,11 @@ describe("Ergebnis Depot", () => {
     const fl = (anlage: Antworten["anlage"]) => depot({ ...ohne("halal"), anlage }).vorteile;
     expect(fl("etf")[0]).toBe(`${FL.etfs} Halal-ETFs und Fonds aus meinem Vergleich`);
     expect(fl("aktien")[0]).toBe(`Order ${FL.order}`);
-    // Teil-Release RN20: anlagenKaufbar.ts (Stand live) trägt für flatex noch keinen Royal-Mint-Einzelbeleg, also steht die Zeile dort nicht.
-    expect(fl("gold")[0]).toBe(`Gold und Silber ${FL.gold}`);
+    expect(fl("gold")[0]).toMatch(/^Royal Mint Gold-ETC/);
+    expect(fl("gold")[1]).toBe(`Gold und Silber ${FL.gold}`);
     const sb = (anlage: Antworten["anlage"]) => depot({ ...ohne("kosten"), anlage }).vorteile;
     expect(sb("etf")[0]).toBe(`${SB.etfs} Halal-ETFs und Fonds aus meinem Vergleich`);
     expect(sb("aktien")[0]).toBe(`Order ${SB.order}`);
-    expect(sb("gold")[0]).toMatch(/^Royal Mint Gold-ETC/);
     expect(sb("gold")[1]).toBe(`Gold und Silber ${SB.gold}`);
     for (const anlage of ["etf", "aktien", "gold"] as const) {
       for (const praef of ["halal", "kosten"] as const) {
@@ -683,12 +684,11 @@ describe("Ergebnis Depot", () => {
   });
 
   it("Royal Mint (zertifiziert, auslieferbar) nur dort, wo anlagenKaufbar.ts den Kauf mit Anbieter-Beleg zeigt", () => {
-    // Teil-Release RN20: im Datenbestand, der live steht, trägt nur Smartbroker+ einen Einzelbeleg für XS2115336336; fehlt er, fällt die Zeile weg (nie ohne Beleg).
-    // Im Sammelzweig kommt flatex dazu (anlagenKaufbar.ts Stand 10.11.2026), dann gilt beides true.
-    expect(royalMintKaufbar("fl")).toBe(false);
+    // Beide Häuser tragen im Datenbestand einen Einzelbeleg für XS2115336336; fehlt er, fällt die Zeile weg (nie ohne Beleg).
+    expect(royalMintKaufbar("fl")).toBe(true);
     expect(royalMintKaufbar("sb")).toBe(true);
     for (const praef of ["halal", "kosten"] as const) {
-      expect(depot(ohne(praef, { anlage: "gold" })).vorteile.filter((v) => /Royal Mint/.test(v))).toHaveLength(praef === "kosten" ? 1 : 0);
+      expect(depot(ohne(praef, { anlage: "gold" })).vorteile.filter((v) => /Royal Mint/.test(v))).toHaveLength(1);
       for (const anlage of ["etf", "aktien"] as const) expect(depot(ohne(praef, { anlage })).vorteile.join(" ")).not.toMatch(/Royal Mint/);
     }
   });

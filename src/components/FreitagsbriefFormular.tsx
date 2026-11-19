@@ -19,14 +19,15 @@ const stil = {
   },
   startseite: {
     form: "mt-5 flex max-w-[560px] flex-col gap-3 sm:flex-row",
-    feld: "h-14 rounded-lg border border-border bg-background px-4 text-[17px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-12 sm:flex-1 sm:text-[16px]",
-    knopf: "btn-primary h-14 disabled:opacity-60 sm:h-12",
+    /* RN1 (12.11.): Feld und Knopf rund wie „Jetzt holen“ im OS-Block (Elias: „die Buttons in dem runden Stil. Kann man öfter machen“) */
+    feld: "h-14 rounded-full border border-border bg-background px-5 text-[17px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:h-12 sm:flex-1 sm:text-[16px]",
+    knopf: "btn-primary h-14 !rounded-full disabled:opacity-60 sm:h-12",
     ergebnis: "mt-5 max-w-[560px]",
   },
   /** Dunkle Fläche oben auf einer Ausgabe der Halal-News. Statt des Satzes darunter ein Kästchen (Elias, H8). */
   platte: {
     form: "mt-6 flex flex-col gap-3",
-    feld: "h-14 rounded-lg border border-white/20 bg-white px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none",
+    feld: "h-14 rounded-lg border border-white/20 bg-card px-4 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none",
     knopf:
       "inline-flex h-14 items-center justify-center rounded-lg bg-primary px-6 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-60",
     ergebnis: "mt-6 text-left text-foreground",

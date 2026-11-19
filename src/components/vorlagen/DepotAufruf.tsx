@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, X } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { CHECK, TOP3 } from "@/data/depotTop3";
-import { findStartPartner, STARTVIDEO } from "@/data/investmentStart";
 import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
 
 type Props = {
@@ -19,8 +18,6 @@ type Props = {
   alle?: { ziel: string; text: string };
   /** Die drei Karten im Kasten; ohne Angabe die drei besten Depots (Sukuk auf der Gold-Seite: SUKUK_TOP3). */
   top?: readonly DepotKarte[];
-  /** Ohne das Video in der Karte der Nummer 1 (Plan, Elias, 04.11.2026: „bei den drei vergleichen das Video auch rausnehmen“). */
-  ohneVideo?: boolean;
 };
 
 type DepotKarte = (typeof TOP3)[number];
@@ -59,7 +56,7 @@ export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKa
       // Gelb und leicht Rot mit Rand wie im Portfolio-Plan (Elias, 01.11.2026, MC7d13d: „Ich fand das andere irgendwie besser“).
       <div
         key={d.id}
-        className={`rounded-2xl p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200"}`}
+        className={`rounded-lg p-3 ring-1 ${d.ton === "rot" ? "bg-loss-soft ring-loss/20" : "bg-amber-50 ring-amber-200 dark:bg-amber-950/40 dark:ring-amber-500/30"}`}
       >
         {/* Ohne Namen ist es eine Zahl über alle Depots (Gold, Sukuk), dann ohne Logo-Zeile. */}
         {d.name && (
@@ -69,7 +66,7 @@ export const CheckRaster = ({ check, className = "" }: { check: readonly CheckKa
           </div>
         )}
         <p
-          className={`${d.name ? "mt-2" : ""} whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700"}`}
+          className={`${d.name ? "mt-2" : ""} whitespace-nowrap text-[22px] font-extrabold leading-none tabular-nums ${d.ton === "rot" ? "text-loss" : "text-amber-700 dark:text-amber-300"}`}
         >
           {d.vor && <span className="mr-1 text-[13px] font-bold text-foreground">{d.vor}</span>}
           {d.gross}
@@ -96,8 +93,6 @@ const Wortmarke = ({ name, domain }: { name: string; domain: string }) => {
   );
 };
 
-// Die Startseite der Nummer 1 (/out/<kurzname> → /dein-investmentstart/<kurzname>) sagt, ob ihr Video ein Beispiel ist.
-const nr1Start = findStartPartner(TOP3.find((d) => d.nr1)?.link.replace(/^\/out\//, ""));
 /* Der Knopf der Nummer 1 führt auf /depot-nummer-1, das eine Ziel aller Geld-Knöpfe (Elias, CV15F-02/-03, 06.11.2026:
    „ein Ziel mit einem Knopf“). So folgt er der Rangfolge von selbst, ein PDF aus dieser Seite veraltet nicht. Nur für die
    drei besten Depots und nur, wenn die Karte wirklich die Nummer 1 des Depot-Vergleichs ist (nicht bei Sukuk-Karten). */
@@ -113,7 +108,6 @@ const DepotAufruf = ({
   check = CHECK,
   alle = { ziel: "/vergleich/depot", text: "Alle Depots im Vergleich" },
   top = TOP3,
-  ohneVideo = false,
 }: Props) => (
   <div data-depot-aufruf>
     {titel && (
@@ -123,7 +117,7 @@ const DepotAufruf = ({
     )}
     {einleitung && <p className={`${titel ? "mt-1" : ""} text-[16px] leading-snug text-foreground/80`}>{einleitung}</p>}
     <CheckRaster check={check} className={titel || einleitung ? "mt-3" : ""} />
-    <div className="relative mt-5 rounded-3xl bg-accent p-4 ring-1 ring-primary/20 md:p-6" data-depot-kasten>
+    <div className="relative mt-5 rounded-lg border border-border bg-card p-4 md:p-6" data-depot-kasten>
       <p className="absolute right-4 top-4 text-[12px] text-muted-foreground md:right-6 md:top-6">Werbung</p>
       {/* „Halal-Alternativen“ trägt bei Depots keinen Beleg (Anbieter-Belege in brokerVergleich.ts belegen „ohne Zinsen“);
           Elias' Wort seit MC7d15 ist „die besten Alternativen aus meinem Vergleich“. */}
@@ -135,12 +129,12 @@ const DepotAufruf = ({
         {top.map((d) => (
           <li
             key={d.id}
-            className="rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)] md:grid md:grid-cols-[1fr_200px] md:gap-x-6 md:p-6"
+            className="rounded-lg border border-border bg-card p-4 md:grid md:grid-cols-[1fr_200px] md:gap-x-6 md:p-6"
             data-depot-karte
           >
             {/* Handy: Wortmarke oben mittig; Laptop: rechts im Rahmen, darunter der Knopf. */}
             <div className="md:col-start-2 md:row-start-1">
-              <div className="mx-auto flex h-[72px] w-[176px] items-center justify-center rounded-xl border border-border bg-white px-4 md:w-full">
+              <div className="mx-auto flex h-[72px] w-[176px] items-center justify-center rounded-lg border border-border bg-white px-4 md:w-full">
                 <Wortmarke name={d.name} domain={d.domain} />
               </div>
             </div>
@@ -152,7 +146,7 @@ const DepotAufruf = ({
                 {d.punkte.map((p) => (
                   <li key={p.text} className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
                     <span
-                      className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white ${p.ok ? "bg-gain" : "bg-loss"}`}
+                      className={`mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white dark:text-[#0B0D12] ${p.ok ? "bg-gain" : "bg-loss"}`}
                     >
                       {p.ok ? (
                         <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
@@ -171,36 +165,10 @@ const DepotAufruf = ({
                 ))}
               </ul>
             </div>
-            {d.nr1 && !ohneVideo && nr1Start?.art === "depot" && (
-              <div className="mt-4 md:col-span-2 md:row-start-3">
-                {/* Im PDF läuft kein Video: dort steht der Link auf die Startseite mit dem Video (MC7d13d, Schritt 232). */}
-                <a
-                  href={`https://finanzmuslim.com/dein-investmentstart/${nr1Start.kurzname}`}
-                  className="nur-druck rounded-xl bg-accent p-3 text-[16px] font-semibold leading-snug text-primary underline underline-offset-2"
-                >
-                  Video ansehen: {d.name} eröffnen, Schritt für Schritt
-                </a>
-                <video
-                  className="kein-druck aspect-video w-full rounded-xl bg-black"
-                  src={STARTVIDEO.src}
-                  poster={STARTVIDEO.poster}
-                  controls
-                  playsInline
-                  preload="none"
-                  title={`${d.name} eröffnen, Schritt für Schritt`}
-                />
-                {nr1Start.videoHinweis && (
-                  <p className="kein-druck mt-1.5 text-[13px] leading-snug text-muted-foreground">
-                    Das Video zeigt die Einrichtung am Beispiel von Scalable Capital. Bei {d.name} läuft sie genauso,
-                    nur die Menüs heißen anders.
-                  </p>
-                )}
-              </div>
-            )}
             <div className="md:col-start-2 md:row-start-2">
               <Link
                 to={link(kartenZiel(d, top), d.nr1 ? "nr1" : "top3")}
-                className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-xl bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90"
+                className="mt-4 flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary text-[17px] font-bold text-primary-foreground hover:bg-primary/90"
               >
                 Zum Angebot*
               </Link>

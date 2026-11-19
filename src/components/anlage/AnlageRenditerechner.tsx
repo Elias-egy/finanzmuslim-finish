@@ -72,14 +72,14 @@ const AnlageRenditerechner = ({ kurs, name }: Props) => {
 
   if (!rendite || !ergebnis) {
     return (
-      <div className="rounded-xl bg-accent px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
+      <div className="rounded-lg border border-border bg-card px-4 py-6 text-[15px] leading-[24px] text-muted-foreground">
         Für eine Hochrechnung reicht die Kurshistorie dieser Anlage noch nicht.
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 md:p-6">
+    <div className="rounded-lg border border-border bg-card p-5 md:p-6">
       <h3 className="text-[18px] font-bold text-foreground">Was wäre daraus geworden?</h3>
       <p className="mt-1 text-[14px] text-muted-foreground">
         Rechne mit der historischen Rendite von {name}, ohne selbst eine Zahl schätzen zu müssen.
@@ -148,7 +148,7 @@ const AnlageRenditerechner = ({ kurs, name }: Props) => {
         </div>
       </div>
 
-      <div className="mt-5 rounded-xl bg-accent px-4 py-4 sm:px-5 sm:py-5">
+      <div className="mt-5 rounded-lg border border-border bg-card px-4 py-4 sm:px-5 sm:py-5">
         <p className="text-[13px] text-muted-foreground">
           Geschätzter Wert nach {jahre} {jahre === 1 ? "Jahr" : "Jahren"}
         </p>

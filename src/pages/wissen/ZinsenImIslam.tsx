@@ -57,7 +57,7 @@ const abschnitte: BeitragAbschnitt[] = [
         <Beispiel
           titel="Zweimal Zeit, zwei Urteile"
           rechnung={[
-            "Erlaubt: Sofa bar 1.000 € oder in Raten 1.200 € — du wählst vor dem Vertrag",
+            "Erlaubt: Sofa bar 1.000 € oder in Raten 1.200 €, du wählst vor dem Vertrag",
             "Verboten: Bank leiht dir 1.000 €, du zahlst 1.200 € zurück",
           ]}
           ergebnis="Im ersten Fall wird eine Ware verkauft. Im zweiten wird Geld verliehen."
@@ -347,12 +347,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Warum Zinsen im Islam verboten sind, warum ein Ratenkauf trotzdem erlaubt sein kann, welche Produkte betroffen sind und was du tun kannst, wenn du schon Zinsen hast.";
+  "Warum Zinsen im Islam verboten sind, warum ein Ratenkauf erlaubt sein kann, welche Produkte betroffen sind und was du tun kannst, wenn du schon Zinsen hast.";
 
 const ZinsenImIslam = () => (
   <>
     <Seo
-      title="Zinsen im Islam: Was verboten ist und was nicht | finanzmuslim"
+      title="Zinsen im Islam: Was verboten ist und was nicht"
       description={beschreibung}
       path="/blog/zinsen-im-islam"
       jsonLd={beitragJsonLd({

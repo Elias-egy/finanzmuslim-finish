@@ -29,7 +29,7 @@ const inflationFaq = [
 const Inflationsrechner = () => (
   <>
     <Seo
-      title="Inflationsrechner: was dein Geld in X Jahren noch wert ist | finanzmuslim"
+      title="Inflationsrechner: was dein Geld in X Jahren noch wert ist"
       description="Sieh, wie viel Kaufkraft dein Geld auf dem Konto verliert. Betrag, Zeitraum und Inflationsrate einstellen, Ergebnis sofort als Zahl und Grafik."
       path="/inflationsrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Inflationsrechner", path: "/inflationsrechner" }]}
@@ -53,9 +53,9 @@ const Inflationsrechner = () => (
         </p>
       }
       unterRechner={
-        <div className="rounded-2xl bg-accent p-5 md:p-6">
+        <div className="rounded-lg border border-border bg-card p-5 md:p-6">
           <h2 className="text-[19px] font-bold text-foreground">So wird gerechnet</h2>
-          <p className="mt-3 rounded-xl bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
+          <p className="mt-3 rounded-lg border border-border bg-card px-4 py-3 text-[16px] font-semibold leading-[26px] text-foreground md:text-[18px]">
             Betrag ÷ (1 + Inflation)<sup>Jahre</sup>
           </p>
           <p className="mt-3 text-[15px] leading-[24px] text-muted-foreground">

@@ -22,6 +22,9 @@ export type Ereignis =
   | "video_viertel"
   | "video_ende"
   | "ton_an"
+  | "bild_im_bild"
+  | "kredit_mail_kopiert"
+  | "wechsel_klick"
   | "quiz_frage"
   | "quiz_ergebnis"
   | "quiz_neu"
@@ -30,6 +33,11 @@ export type Ereignis =
   | "vergleich_klick"
   // CV-LEER (06.11.2026): Fassung „Depot da, noch leer“ der Startseite, Klick auf „Halal-ETFs ansehen“.
   | "leer_klick"
+  // CV23S (08.11.2026): Unterseiten je Broker, Klick auf einen App-Store-Link und auf die FERTIG-Mail.
+  | "app_klick"
+  | "fertig_klick"
+  // CV28V (13.11.2026): Mini-Formular „Halal-Investment-OS anfragen“ abgeschickt.
+  | "os_anfrage"
   // RN5 (15.11.2026): Halal-Finanz-Check /check, Start der ersten Frage.
   | "check_start"
   // RN7 (15.11.2026): Klick auf „Check starten“ (oder eine Kriterien-Zeile) auf der Verkaufsseite vor den Fragen.
@@ -141,6 +149,8 @@ export const merkeSeite = (pfad: string): void => {
   }
 };
 export const vorigeSeite = (): string => seiteDavor;
+/** Die Seite, auf der der Leser gerade ist (für den Sprung direkt vom Knopf, ohne /out dazwischen). */
+export const jetzigeSeite = (): string => seiteJetzt;
 
 /** Das Banner öffnet sich erneut (Link „Cookie-Einstellungen“ im Fuß). */
 export const BANNER_OEFFNEN = "fm-einwilligung-oeffnen";
