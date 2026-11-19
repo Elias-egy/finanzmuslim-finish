@@ -70,6 +70,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     // RN17-12 (Elias: „bei dem mit, war skeptisch, kann das kommen mit Artin E. … das gleiche Bild, was wir bei Newsletter haben … das
     // allererste … ein bisschen näher … Hintergrund … blau verschwommen“): src/assets/leser/leser-1.webp, Person mit macOS-Vision
     // enger geschnitten; RN17-19: von Codex in eine verschwommene Straße eingesetzt (Unsplash, MAK, „an empty street with a building in the background“, itoMkVLeWgc), ohne weißen Saum.
+    // RN20-02/-06 (19.11., Elias: „nehme bei artin im check doch das orginalbild mit richtigem hintergrund“): sein echtes Foto
+    // (Schwarz-Weiß, Werkstatt), aus Elias' Bildschirmfoto rund ausgeschnitten, ohne Bearbeitung. Ersetzt RN17-12/-19.
     name: "Artin E.",
     foto: "/bilder/check/stimme-artin.webp",
     zeile: "Depot bei flatex",
