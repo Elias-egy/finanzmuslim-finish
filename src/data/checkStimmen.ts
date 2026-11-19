@@ -51,7 +51,8 @@ export const ALLE_STIMMEN: Record<StimmeId, Stimme> = {
     zitat: "Ich hab meine Commerzbank und die anderen zum ersten Mal direkt nebeneinander gesehen. Ich zahl da seit Jahren 4,90 € im Monat Kontoführung und hab es nie gemerkt. Hab noch am selben Abend das Konto bei der BBBank eröffnet.",
     // RN18-08 (Elias: „mach Commerzbank wieder rein. Ich hab's jetzt und schreib Pascal K.“).
     name: "Pascal K.",
-    bestaetigt: true,
+    // RN20-14 (19.11.2026, Elias: „Pascal überall raus, zum Beispiel auch beim Ergebnis“): nicht mehr live, Bilal E. ersetzt ihn.
+    bestaetigt: false,
     // RN17-02 (Elias: „ich habe meine Commerzbank, da würde ich sagen, Girokonto bei BB Bank“).
     zeile: "Girokonto bei BBBank",
   },
@@ -110,7 +111,7 @@ export const STIMMEN: Stimme[] = Object.values(ALLE_STIMMEN).filter((s) => s.bes
 export type StimmenStelle = CheckQuelle | "check" | "ergebnis-konto" | "ergebnis-depot";
 
 // RN18-03 kurz raus, RN18-08 wieder rein als Pascal K.
-const KONTO_PAAR: StimmeId[] = ["matin", "bank-nebeneinander"];
+const KONTO_PAAR: StimmeId[] = ["matin", "bilal"];
 /**
  * Welche Stimmen wo stehen (Elias RN16-32: „auf der Hauptseite 3 auf den Freebies 2. Die 2 müssen passend sein, die 3 müssen die
  * stärksten sein, die immer gezeigt werden“; Boykott „typische Zinsfreiheit … Bankkonten-Testimonials“, Aktien „mit Halal“). Plan von
