@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { Check, ChevronDown, Minus, X } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import {
@@ -10,7 +11,6 @@ import {
   auszeichnungFarbe,
   auszeichnungGrund,
   auszeichnungVon,
-  KreditHinweis,
 } from "./VergleichsBausteine";
 import {
   KEINE_ANGABE,
@@ -200,12 +200,6 @@ const Karte = ({
           )}
         </div>
 
-        {spalte.kreditKurz && (
-          <div className="mt-2.5">
-            <KreditHinweis text={spalte.kreditKurz} />
-          </div>
-        )}
-
         {spalte.tarif && (
           <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-snug text-muted-foreground">
             <span className="rounded bg-violet/10 px-2 py-0.5 text-[12px] font-semibold text-violet">
@@ -275,6 +269,8 @@ const Karte = ({
         <div className="mt-auto">
           {spalte.link ? (
             <div className="mt-3">
+              {/* RN21: grüne Meldung direkt über dem Knopf statt „Achtung“ oben in der Karte (PH3-02) */}
+              <GiroKnopfHinweis anbieter={spalte.id} className="mb-2.5" />
               <AngebotsKnopf link={spalte.link} breit klein />
               <BonusSchild anbieterId={spalte.id} />
             </div>

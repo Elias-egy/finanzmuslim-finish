@@ -1438,3 +1438,12 @@
   height: 20px;
   margin-top: 3px;
 }
+
+/* RN21: grüne Meldung „Girokonto komplett zinsfrei“ direkt über dem Knopf zum Konto */
+.hc-erg-inhalt .hc-giro-hinweis {
+  margin-bottom: -12px;
+}
+.hc-erg-eroeffnen .hc-giro-hinweis {
+  width: 100%;
+  max-width: 28rem;
+}

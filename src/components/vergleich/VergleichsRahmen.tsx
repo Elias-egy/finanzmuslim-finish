@@ -1,9 +1,10 @@
 import { kostenKurz } from "@/data/kostenKurz";
+import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
-import { BonusSchild, KreditHinweis, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
+import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import { GiroInhalt } from "./GiroKarten";
 import { DepotInhalt } from "./DepotKarten";
 import { STIL_BLAU } from "./karteStil";
@@ -216,6 +217,8 @@ export const NummerEins = ({
             </li>
           ))}
         </ul>
+        {/* RN21: grüne Meldung über dem Knopf; am Laptop wie PH5-01 nicht direkt am Kasten, dort zuerst in den Produktdetails */}
+        {anbieter.link && <GiroKnopfHinweis anbieter={anbieter.id} className={`mt-3 ${stil ? "lg:hidden" : ""}`} />}
         {anbieter.link && (
           <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-3" : ""}`}>
             <Link
@@ -225,12 +228,6 @@ export const NummerEins = ({
             >
               Zum Angebot*
             </Link>
-          </div>
-        )}
-        {/* PH3-02: klein unter dem Knopf, was auf der Seite des Partners oben steht und nicht gemeint ist. */}
-        {spalte?.kreditKurz && (
-          <div className={`mt-2 ${stil ? "lg:hidden" : ""}`}>
-            <KreditHinweis text={spalte.kreditKurz} />
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} className={stil ? "lg:order-4" : ""} />
