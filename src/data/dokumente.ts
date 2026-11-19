@@ -337,7 +337,7 @@ const listen: DokGruppe = {
         {
           id: "halal-anlagen-finden",
           titel: "Halal-Anlagen finden",
-          satz: `${ANZAHL_HALAL_ANLAGEN} Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.`,
+          satz: `${ANZAHL_HALAL_ANLAGEN} Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto, mit dem Nachweis dazu.`,
           knopf: "Anlagen ansehen",
           ziel: { art: "intern", pfad: "/halal-anlagen" },
         },

@@ -40,7 +40,7 @@ const gruppen: Gruppe[] = [
       },
       {
         name: "Halal-Anlagen finden",
-        desc: `${ANZAHL_HALAL_ANLAGEN} Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto mit Prüfstelle.`,
+        desc: `${ANZAHL_HALAL_ANLAGEN} Anlagen: ETFs, Sukuk, Gold, Silber, Platin und Krypto, mit dem Nachweis dazu.`,
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },

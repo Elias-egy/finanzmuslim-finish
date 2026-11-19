@@ -444,8 +444,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Der Bericht räumt ein, dass die Abwicklung nach T+2 bei erster Lesart von AAOIFI Standard 57 nicht entspricht, und hält sie nach AAOIFI Standard 1 dennoch für zulässig",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027.",
     name: "WisdomTree Physical Gold",
     isin: "JE00B1VS3770",
     anbieter: "WisdomTree",
@@ -467,8 +468,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Der Bericht räumt ein, dass die Abwicklung nach T+2 bei erster Lesart von AAOIFI Standard 57 nicht entspricht, und hält sie nach AAOIFI Standard 1 dennoch für zulässig",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027.",
     name: "WisdomTree Core Physical Gold",
     isin: "JE00BN2CJ301",
     anbieter: "WisdomTree",
@@ -490,8 +492,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Der Bericht räumt ein, dass die Abwicklung nach T+2 bei erster Lesart von AAOIFI Standard 57 nicht entspricht, und hält sie nach AAOIFI Standard 1 dennoch für zulässig",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027.",
     name: "WisdomTree Physical Swiss Gold",
     isin: "JE00B588CD74",
     anbieter: "WisdomTree",
@@ -536,8 +539,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Der Bericht räumt ein, dass die Abwicklung nach T+2 bei erster Lesart von AAOIFI Standard 57 nicht entspricht, und hält sie nach AAOIFI Standard 1 dennoch für zulässig",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027.",
     name: "WisdomTree Physical Silver",
     isin: "JE00B1VS3333",
     anbieter: "WisdomTree",
@@ -559,8 +563,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Der Bericht räumt ein, dass die Abwicklung nach T+2 bei erster Lesart von AAOIFI Standard 57 nicht entspricht, und hält sie nach AAOIFI Standard 1 dennoch für zulässig",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027.",
     name: "WisdomTree Core Physical Silver",
     isin: "JE00BQRFDY49",
     anbieter: "WisdomTree",
@@ -582,8 +587,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Die Passage des Berichts zur Abwicklung nach T+2 spricht nur von Gold und Silber",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt WisdomTree Physical Platinum ausdrücklich. Für Platin gilt die Sonderregel für Gold und Silber nicht, es wird wie eine gewöhnliche Ware behandelt.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027. Er nennt WisdomTree Physical Platinum ausdrücklich in seiner Fondsliste. Seine Passage zur Abwicklung nach T+2 spricht nur von Gold und Silber.",
     name: "WisdomTree Physical Platinum",
     isin: "JE00B1VS2W53",
     anbieter: "WisdomTree",
@@ -605,8 +611,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Die Passage des Berichts zur Abwicklung nach T+2 spricht nur von Gold und Silber",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt WisdomTree Physical Palladium ausdrücklich. Auch für Palladium gilt die Sonderregel für Gold und Silber nicht.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027. Er nennt WisdomTree Physical Palladium ausdrücklich in seiner Fondsliste. Seine Passage zur Abwicklung nach T+2 spricht nur von Gold und Silber.",
     name: "WisdomTree Physical Palladium",
     isin: "JE00B1VS3002",
     anbieter: "WisdomTree",
@@ -628,8 +635,9 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink:
       "https://www.wisdomtree.com/eu/-/media/eu-media-files/other-documents/regulatory/sharia-compliant-certificate.pdf",
+    hinweis: "Die Passage des Berichts zur Abwicklung nach T+2 spricht nur von Gold und Silber",
     zertifikatHinweis:
-      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026, Prüfzeitraum bis 31. Dezember 2025. Er nennt den Korb als WisdomTree Physical Precious Metals Basket ausdrücklich. Im Korb stecken Gold, Silber, Platin und Palladium, für die beiden ersten gilt die Sonderregel der sofortigen Übergabe.",
+      "Unabhängiger Shariah-Prüfbericht des Al-Qalam-Panels an den Vorstand von WisdomTree Metal Securities, datiert 22. Juni 2026. Der Bericht deckt den Zeitraum 1. Januar 2025 bis 31. Mai 2026 ab, die nächste Prüfung nennt er für den 1. Juni 2027. Er nennt den Korb als WisdomTree Physical Precious Metals Basket ausdrücklich in seiner Fondsliste. Im Korb stecken Gold, Silber, Platin und Palladium. Die Passage des Berichts zur Abwicklung nach T+2 spricht nur von Gold und Silber.",
     name: "WisdomTree Physical Precious Metals",
     isin: "JE00B1VS3W29",
     anbieter: "WisdomTree",
@@ -716,7 +724,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink: "https://shariyah.net/cryptocurrencies/bitcoin/",
     zertifikatHinweis:
-      "Sharia-Analyse des Shariyah Review Bureau, lizenziert von der Central Bank of Bahrain. Wörtlich heißt es dort, den Prüfern sei nichts aufgefallen, was Bitcoin im Widerspruch zu den Sharia-Grundsätzen erscheinen ließe. Das ist eine Unbedenklichkeitserklärung zur Münze selbst, kein Zertifikat für ein Produkt und kein Freibrief für jeden Handel damit.",
+      "Sharia-Analyse des Shariyah Review Bureau, lizenziert von der Central Bank of Bahrain. Wörtlich heißt es dort, den Prüfern sei nichts aufgefallen, was Bitcoin im Widerspruch zu den Sharia-Grundsätzen erscheinen ließe. Das ist eine Unbedenklichkeitserklärung zur Münze selbst, kein Zertifikat für ein Produkt und kein Freibrief für jeden Handel damit. Das Büro nennt seine Analyse selbst eine vorläufige Recherche, keine Fatwa (Wortlaut: „preliminary Sharia research and is by no means a fatwa“, shariyah.net, gelesen am 19.11.2026).",
   },
   {
     slug: "ether",
@@ -732,7 +740,7 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink: "https://shariyah.net/cryptocurrencies/ethereum/",
     zertifikatHinweis:
-      "Sharia-Analyse des Shariyah Review Bureau, lizenziert von der Central Bank of Bahrain. Ether ist damit die einzige Münze dieser Liste, die zweimal unabhängig geprüft wurde: Amanie Advisors und die Ethereum Foundation haben 2019 zusätzlich ein eigenes Shariah White Paper vorgelegt, verantwortlich Dr. Mohd Daud Bakar. Beide Gutachten behandeln die Münze selbst, nicht das, was Nutzer damit tun.",
+      "Sharia-Analyse des Shariyah Review Bureau, lizenziert von der Central Bank of Bahrain. Ether ist damit die einzige Münze dieser Liste, die zweimal unabhängig geprüft wurde: Amanie Advisors und die Ethereum Foundation haben 2019 zusätzlich ein eigenes Shariah White Paper vorgelegt, verantwortlich Dr. Mohd Daud Bakar. Beide Gutachten behandeln die Münze selbst, nicht das, was Nutzer damit tun. Das Shariyah Review Bureau nennt seine Analyse selbst eine vorläufige Recherche, keine Fatwa (Wortlaut: „preliminary Sharia research and is by no means a fatwa“, shariyah.net, gelesen am 19.11.2026).",
   },
   {
     slug: "xrp",
@@ -765,8 +773,8 @@ export const halalAnlagen: Anlage[] = [
     zertifikatArt: "produkt",
     zertifikatLink: "https://shariyah.net/cryptocurrencies/chainlink/",
     zertifikatHinweis:
-      "Sharia-Analyse des Shariyah Review Bureau. Der LINK-Token könne als konform gelten, er zahlt für einen echten Dienst: Chainlink liefert Blockchains Daten von außen, etwa Kurse. Die Prüfer knüpfen das an eine Bedingung, nämlich dass der Inhaber selbst darauf achtet, wofür er den Token einsetzt und wie er bei Abstimmungen entscheidet.",
-    hinweis: "Urteil gilt unter der Bedingung, dass du den Token selbst zulässig einsetzt",
+      "Sharia-Analyse des Shariyah Review Bureau. Der LINK-Token könne als konform gelten, er zahlt für einen echten Dienst: Chainlink liefert Blockchains Daten von außen, etwa Kurse. Die Prüfer knüpfen das an eine Bedingung, nämlich dass der Inhaber selbst darauf achtet, wofür er den Token einsetzt und wie er bei Abstimmungen entscheidet. Das Büro nennt seine Analyse selbst eine vorläufige Recherche, keine Fatwa (Wortlaut: „preliminary Sharia research and is by no means a fatwa“, shariyah.net, gelesen am 19.11.2026).",
+    hinweis: "Die Prüfer knüpfen das an die Bedingung, dass der Inhaber den Token selbst zulässig einsetzt",
   },
 ];
 

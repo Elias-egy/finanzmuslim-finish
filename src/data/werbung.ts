@@ -75,7 +75,7 @@ export type VergleichsZeile = { pfad: string; text: string };
 
 const VERGLEICH = {
   depot: { pfad: "/vergleich/depot", text: "Der passende Vergleich: Depots mit Halal-Merkmalen" },
-  girokonto: { pfad: "/vergleich/girokonto", text: "Der passende Vergleich: Girokonten, die ohne Zinsen auskommen" },
+  girokonto: { pfad: "/vergleich/girokonto", text: "Der passende Vergleich: Girokonten mit Angabe, ob sie ohne Zinsen nutzbar sind" },
   krypto: { pfad: "/vergleich/krypto", text: "Der passende Vergleich: Krypto-Börsen mit echten Coins" },
   edelmetalle: { pfad: "/vergleich/edelmetalle", text: "Der passende Vergleich: Depots für Gold und Silber" },
 } satisfies Record<string, VergleichsZeile>;
