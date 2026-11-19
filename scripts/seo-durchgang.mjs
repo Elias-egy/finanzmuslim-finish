@@ -163,7 +163,8 @@ const main = async () => {
 
     // Halal-Datenbank: jede Detailseite trägt die Frage „Ist <Name> halal?“ in Title, H1 und Meta und hat ein FAQPage
     if (pfad.startsWith("/halal-anlagen/")) {
-      const bitcoin = pfad === "/halal-anlagen/bitcoin"; // eigener Beitrag trägt die Frage, siehe anlageSeo.ts
+      // Bitcoin: eigener Beitrag trägt die Frage. BNP Islamic Fund: Nachweis nur von 2020, Frage bewusst nicht gestellt (RN19). Siehe anlageSeo.ts.
+      const bitcoin = pfad === "/halal-anlagen/bitcoin" || pfad === "/halal-anlagen/bnp-paribas-islamic-fund-hilal-income-classic-c";
       if (!bitcoin) {
         if (!/^Ist .+ halal\?$/.test(h1Text)) f(pfad, `H1 ist nicht „Ist <Name> halal?“: "${h1Text}"`);
         if (!title.startsWith(h1Text.replace(/ halal\?$/, "").slice(0, 20))) f(pfad, `Title beginnt nicht wie die H1: "${title}"`);

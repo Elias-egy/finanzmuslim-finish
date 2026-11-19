@@ -208,7 +208,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Maysir ist ein Geschäft, bei dem der Zufall entscheidet. Neun Fälle eingeordnet, von Lotto über Forex bis Lootboxen, und die Grenze zum Investieren.";
+  "Maysir ist Glücksspiel: Einsatz, Zufall und der Gewinn des einen ist der Verlust des anderen. Neun Fälle von Lotto bis Lootboxen und die Grenze zum Investieren.";
 
 const Maysir = () => (
   <>

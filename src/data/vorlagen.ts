@@ -81,7 +81,7 @@ export const vorlagen: Vorlage[] = [
     kicker: "Aktien-Liste",
     kurzbeschreibung:
       "Von Apple bis Nike: bekannte Marken mit Musaffa-Einzelprüfung und Fundstelle, redaktionell sortiert nach Bekanntheit.",
-    nutzenZeile: "Alle 100 bekannten Aktien sind halal",
+    nutzenZeile: "100 bekannte Aktien, einzeln mit Musaffa geprüft, Stand 01.11.2026",
     kommentarKeyword: "AKTIE",
     pdfPfad: "/downloads/100-halal-aktien.pdf",
     motiv: "aktienPruefen",

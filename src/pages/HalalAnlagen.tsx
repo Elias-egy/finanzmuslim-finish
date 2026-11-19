@@ -211,12 +211,12 @@ const HalalAnlagen = () => {
            Tagen auf Position 54 bis 81 für „halal aktien“, „aktien islam“ und „islamische aktien“ (Search Console bis
            17.11.2026: 287 Einblendungen, 1 Klick), weil Google dort Listen einzelner Aktien zeigt und diese Seite keine führt. */
         title={`Halal Anlagen Datenbank: ${halalAnlagen.length} Anlagen mit Nachweis`}
-        description={`Halal Anlagen Datenbank mit ${halalAnlagen.length} Anlagen: Islamic ETFs, Sukuk, Gold, Silber und Krypto mit ISIN, Kosten, Größe und der Stelle, die sie geprüft hat.`}
+        description={`Halal Anlagen Datenbank mit ${halalAnlagen.length} Anlagen: Islamic ETFs, Sukuk, Gold, Silber und Krypto mit ISIN, Kosten, Größe und dem Nachweis, den wir dazu gefunden haben.`}
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           name: "Halal Anlagen Datenbank",
-          description: `${halalAnlagen.length} Halal-Anlagen mit ISIN, Kosten und dem Nachweis der Prüfstelle.`,
+          description: `${halalAnlagen.length} Halal-Anlagen mit ISIN, Kosten und dem Nachweis, den wir dazu gefunden haben.`,
           url: "https://finanzmuslim.com/halal-anlagen",
           inLanguage: "de-DE",
           isPartOf: { "@type": "WebSite", name: "finanzmuslim", url: "https://finanzmuslim.com" },
@@ -256,7 +256,7 @@ const HalalAnlagen = () => {
             Halal Anlagen Datenbank
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:mt-3 md:text-[17px]">
-            {halalAnlagen.length} Anlagen mit ISIN, Kosten und dem Nachweis, wer sie geprüft hat: Islamic ETFs, Sukuk, Gold, Silber und Krypto.
+            {halalAnlagen.length} Anlagen mit ISIN, Kosten und dem Nachweis, den wir dazu gefunden haben: Islamic ETFs, Sukuk, Gold, Silber und Krypto.
           </p>
           {/* Wer nach "halal Aktien" sucht, meint oft Einzelaktien und landet
               hier bei Fonds. Eine Zeile spart ihm den Rücksprung. */}

@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { halalAnlagen } from "./halalAnlagen";
-import { antwortSatz, faqFuer, fragtHalal, h1Text, seoBeschreibung, seoTitel, verwandteAnlagen } from "./anlageSeo";
+import { antwortSatz, faqFuer, fragtHalal, h1Text, kaufbarOhneZinsenRot, seoBeschreibung, seoTitel, verwandteAnlagen } from "./anlageSeo";
+import { NACHWEIS } from "./anlagenNachweis";
+import { ANLAGEN_KAUFBAR } from "./anlagenKaufbar";
+import { depotAnzeige } from "./anzeige/depot";
 import { fuehrenZurDatenbank, verwandteBeitraege, wissenBeitraege } from "./wissenBeitraege";
 
 /* RN19: Jede Detailseite der Halal-Datenbank trägt „Ist <Name> halal?“ in Title, H1 und Meta, mit den Längen der
@@ -19,10 +22,10 @@ describe("Anlage-Detailseiten, SEO", () => {
     expect(titel.size).toBe(halalAnlagen.length);
   });
 
-  it("H1, Title und Meta tragen die Frage; nur Bitcoin hat sie bewusst nicht (eigener Beitrag)", () => {
+  it("H1, Title und Meta tragen die Frage; nur Bitcoin (eigener Beitrag) und der BNP Islamic Fund (Nachweis nur von 2020) haben sie bewusst nicht", () => {
     for (const a of halalAnlagen) {
       if (!fragtHalal(a)) {
-        expect(a.slug).toBe("bitcoin");
+        expect(["bitcoin", "bnp-paribas-islamic-fund-hilal-income-classic-c"]).toContain(a.slug);
         continue;
       }
       expect(h1Text(a)).toBe(`Ist ${a.name} halal?`);
@@ -35,8 +38,51 @@ describe("Anlage-Detailseiten, SEO", () => {
     for (const a of halalAnlagen) {
       const alles = [antwortSatz(a), seoBeschreibung(a), seoTitel(a), ...faqFuer(a).map((f) => f.q + f.a)].join(" ");
       expect(alles).not.toMatch(/[–—]/);
-      expect(antwortSatz(a)).toContain("Über die Einstufung entscheidet die Prüfstelle, nicht wir.");
+      expect(antwortSatz(a)).toMatch(
+        NACHWEIS[a.slug]?.ohnePruefstelle
+          ? /Eine Stelle, die den Fonds eingestuft hat, haben wir nicht gefunden\. Über die Einstufung entscheiden nicht wir\./
+          : /Über die Einstufung entscheidet die Prüfstelle, nicht wir\./,
+      );
       expect(antwortSatz(a)).not.toMatch(/\bist halal\b|\bist haram\b|\bhalal ist\b/i);
+    }
+  });
+
+  it("Einschränkungen des Nachweises stehen in Antwortsatz, Meta und FAQ, nicht nur im Detail (Halal-Prüfer RN19)", () => {
+    for (const a of halalAnlagen) {
+      const grenze = NACHWEIS[a.slug]?.grenze;
+      if (!grenze) continue;
+      expect(antwortSatz(a), a.slug).toContain(grenze);
+      expect(seoBeschreibung(a), a.slug).toContain(grenze);
+      expect(faqFuer(a).map((f) => f.a).join(" "), a.slug).toContain(grenze);
+    }
+    const chain = halalAnlagen.find((a) => a.slug === "chainlink")!;
+    expect(antwortSatz(chain)).toContain("Bedingung");
+    expect(seoBeschreibung(chain)).toContain("Bedingung");
+    for (const a of halalAnlagen.filter((x) => x.slug.startsWith("wisdomtree-"))) {
+      expect(antwortSatz(a), a.slug).toContain("T+2");
+      expect(JSON.stringify(a.zertifikatHinweis)).not.toMatch(/gewöhnliche Ware|Sonderregel/);
+    }
+  });
+
+  it("MSCI-Index, Board und Berater heißen in der FAQ so, nicht „geprüft“; Xtrackers hat keine Prüfstelle", () => {
+    const frage = (slug: string) => faqFuer(halalAnlagen.find((a) => a.slug === slug)!).map((f) => f.q).join(" | ");
+    expect(frage("hsbc-msci-world-islamic-screened")).toContain("Wer hat den Index von");
+    expect(frage("comgest-growth-europe-s-eur-acc")).toContain("Shariah-Board");
+    expect(frage("xtrackers-ii-salam-usd-global-aggregate-sukuk")).toContain("berät zur Shari'a");
+    for (const slug of ["comgest-growth-europe-s-eur-acc", "xtrackers-ii-salam-usd-global-aggregate-sukuk"])
+      expect(frage(slug), slug).not.toMatch(/geprüft\?/);
+  });
+
+  it("Kaufen-FAQ nennt nur Anbieter, die im Depot-Vergleich bei „ohne Zinsen nutzbar“ grün stehen", () => {
+    const rot = new Set(depotAnzeige.filter((z) => z.abgeraten || z.werte.zinsfreiAbStart !== "gut").map((z) => z.haus));
+    const roteNamen = ["1822direkt", "HypoVereinsbank", "ING", "Bux Plus", "XTB", "WillBe"];
+    for (const a of halalAnlagen) {
+      const kaufbar = a.isin ? ANLAGEN_KAUFBAR[a.isin] : undefined;
+      if (!kaufbar) continue;
+      for (const k of kaufbarOhneZinsenRot(kaufbar)) expect(rot.has(k.haus), `${a.slug}: ${k.haus}`).toBe(false);
+      const antwort = faqFuer(a).find((f) => f.q.startsWith("Wo kann ich"))?.a ?? "";
+      for (const n of roteNamen) expect(antwort, `${a.slug}: ${n}`).not.toContain(n);
+      expect(antwort).not.toContain("Nicht jeder Anbieter ist geprüft");
     }
   });
 

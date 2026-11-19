@@ -18,6 +18,7 @@ import {
   antwortSatz,
   faqFuer,
   fragtHalal,
+  hatEigenenBeitrag,
   h1Text,
   seoBeschreibung,
   seoTitel,
@@ -124,12 +125,13 @@ const AnlageDetail = () => {
           ...anlageJsonLd({
             name: anlage.name,
             beschreibung: istKrypto
-              ? `${anlage.name} mit Kursverlauf in Euro und der Stelle, die die Münze nach Shariah-Kriterien eingeordnet hat.`
-              : `${anlage.name} mit Kursverlauf, ${anlage.kostenLabel} laufenden Kosten pro Jahr und der Stelle, die die Anlage nach Shariah-Kriterien geprüft hat.`,
+              ? `${anlage.name} mit Kursverlauf in Euro und der Sharia-Analyse dazu, die nach eigenen Worten vorläufig und keine Fatwa ist.`
+              : `${anlage.name} mit Kursverlauf, ${anlage.kostenLabel} laufenden Kosten pro Jahr und dem Nachweis, den wir zur Shariah-Einordnung gefunden haben.`,
             path: `/halal-anlagen/${anlage.slug}`,
             isin: anlage.isin,
             anbieter: anlage.anbieter,
             zertifizierer: anlage.zertifizierer,
+            rolle: NACHWEIS[anlage.slug]?.rolle,
             krypto: istKrypto,
           }),
           faqJsonLd(faq),
@@ -185,7 +187,7 @@ const AnlageDetail = () => {
           <p className="mt-4 max-w-2xl text-[17px] leading-[1.5] text-foreground">
             {antwortSatz(anlage)}
           </p>
-          {!fragtHalal(anlage) && (
+          {hatEigenenBeitrag(anlage) && (
             <p className="mt-2 text-[15px]">
               <Link to="/blog/ist-bitcoin-halal" className="font-semibold text-primary hover:underline">
                 Die ganze Diskussion: Ist Bitcoin halal? ›
@@ -258,7 +260,7 @@ const AnlageDetail = () => {
 
             <dl className="mt-4 grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg bg-card px-4 py-3">
-                <dt className="text-[13px] text-muted-foreground">Geprüft von</dt>
+                <dt className="text-[13px] text-muted-foreground">{NACHWEIS[anlage.slug]?.rolle ?? "Geprüft von"}</dt>
                 <dd className="mt-0.5 text-[15px] font-semibold text-foreground">
                   {anlage.zertifikatLink ? (
                     <a

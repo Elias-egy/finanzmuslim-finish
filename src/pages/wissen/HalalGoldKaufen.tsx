@@ -50,7 +50,7 @@ import {
 const PFAD = "/blog/halal-gold-kaufen";
 const TITEL = "Halal Gold kaufen: 5 Wege im Vergleich";
 const META =
-  "Halal Gold kaufen: 5 Wege im Vergleich, von Barren bis Gold-ETC. Welche Gold-ETCs ein Shariah-Zertifikat haben, was sie kosten und wo du sie kaufst.";
+  "Halal Gold kaufen: 5 Wege im Vergleich, von Barren bis Gold-ETC. Welche Gold-ETCs ein Zertifikat oder einen Prüfbericht haben, Kosten und wo du sie kaufst.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "04.11.2026", iso: "2026-11-04T09:00:00+01:00" };
 const LESEZEIT = 11;
@@ -173,12 +173,12 @@ const FRAGEN: { frage: string; antwort: string; link?: { to: string; text: strin
   {
     frage: "Welcher Gold-ETC ist eure Nummer 1?",
     antwort:
-      "Unsere Nummer 1 ist der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Ein Shariah-Zertifikat haben alle fünf Gold-ETCs in diesem Beitrag. Vorn steht er, weil du dir das Gold als Barren oder Münzen ausliefern lassen kannst. Der Gewinn ist nach einem Jahr steuerfrei. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
+      "Unsere Nummer 1 ist der Gold-ETC der Royal Mint von HANetf (ISIN XS2115336336). Ein Shariah-Zertifikat haben Royal Mint und Invesco, einen Prüfbericht des Al-Qalam-Panels die drei WisdomTree-ETCs. Vorn steht er, weil du dir das Gold als Barren oder Münzen ausliefern lassen kannst. Der Gewinn ist nach einem Jahr steuerfrei. Kaufen kannst du ihn unter anderem bei Traders Place, Scalable Capital und Smartbroker+.",
   },
   {
     frage: "Ist ein Gold-ETF oder Gold-ETC halal?",
     antwort:
-      "Die fünf Gold-ETCs in diesem Beitrag haben ein Shariah-Zertifikat: Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
+      "Zu den fünf Gold-ETCs in diesem Beitrag liegt ein Nachweis vor: ein Shariah-Zertifikat von Amanie bei Royal Mint und Invesco, ein Prüfbericht des Al-Qalam-Panels bei den drei WisdomTree-ETCs. Hinter ihnen liegt echtes Gold im Tresor. Ob das als Übergabe reicht, sehen Gelehrte unterschiedlich.",
   },
   {
     frage: "Ist Gold im Depot steuerfrei?",
@@ -596,7 +596,7 @@ const HalalGoldKaufen = () => {
                   </p>
                   <p>
                     Bei Gold entscheidet eine einzige Regel. Ich zeige dir, welche Wege sie erfüllen, welche {GOLD.length} Gold-ETCs ein
-                    Shariah-Zertifikat haben und bei welchem Depot du sie bekommst.
+                    Shariah-Zertifikat oder einen Prüfbericht haben und bei welchem Depot du sie bekommst.
                   </p>
                 </Text>
 

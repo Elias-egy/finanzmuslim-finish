@@ -301,6 +301,8 @@ export const anlageJsonLd = (opts: {
   isin?: string;
   anbieter: string;
   zertifizierer: string;
+  /** Name der Stelle, wo es keine Prüfstelle im engen Sinn gibt (Berater, Index). Standard „Shariah-Prüfstelle“. */
+  rolle?: string;
   krypto: boolean;
 }) => [
   {
@@ -317,7 +319,7 @@ export const anlageJsonLd = (opts: {
       : {
           additionalProperty: {
             "@type": "PropertyValue",
-            name: "Shariah-Prüfstelle",
+            name: opts.rolle ?? "Shariah-Prüfstelle",
             value: opts.zertifizierer,
           },
         }),
