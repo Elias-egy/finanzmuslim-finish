@@ -175,7 +175,6 @@ const HalalAnlagenVoll = () => {
         <NaechsterTeil wort="liste" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
             {staende.length === 1
               ? `Kaufbelege vom ${staende[0]}.`

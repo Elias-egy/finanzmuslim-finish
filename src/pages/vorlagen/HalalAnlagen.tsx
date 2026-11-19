@@ -2,6 +2,7 @@ import Seo from "@/components/Seo";
 import VorlagenSeite from "@/components/VorlagenSeite";
 import GesperrteZeile from "@/components/vorlagen/GesperrteZeile";
 import Schnittkante from "@/components/optin/Schnittkante";
+import CheckEinstieg from "@/components/CheckEinstieg";
 import KaufbarListe, { DEPOT_PARTNER, WERBE_FUSSNOTE } from "@/components/anlage/KaufbarListe";
 import {
   ANLAGEN_CTAS,
@@ -85,6 +86,10 @@ const HalalAnlagen = () => (
           <p className="mt-3 text-[13px] text-muted-foreground">{WERBE_FUSSNOTE}</p>
         )}
       </section>
+
+      {/* RN19 (Prüfer: der Check-Link war am Handy unsichtbar, nur der Kopfknopf zeigte ihn): wie in den übrigen Freebies der Check-Kasten
+          mit dem einen Knopf „Match finden“, auf jedem Schirm sichtbar. Lage im Freebie ist eine offene Frage an Elias (Zweig rn19-check-oben). */}
+      <CheckEinstieg quelle="halal-anlagen" />
 
       <Schnittkante freebie={freebie} weitere={`Alle ${ANZAHL_KAUFBAR} Anlagen mit ihren Anbietern`}>
         {kante.slice(0, AN_DER_KANTE).map((k) => (

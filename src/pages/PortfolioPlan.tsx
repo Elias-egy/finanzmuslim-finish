@@ -319,7 +319,6 @@ const PortfolioPlan = () => {
         <NaechsterTeil wort="plan" className="mt-12" />
 
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <p>Alle Zahlen stammen aus meinen Vergleichen.</p>
           <p>
             Die Pläne sind Beispiele, keine persönliche Empfehlung. Persönliche Anlageberatung braucht in Deutschland
             eine Zulassung.

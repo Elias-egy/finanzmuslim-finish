@@ -92,10 +92,9 @@ describe("Dokumente: interne Adressen", () => {
     expect(routerPfade.has("/dokumente")).toBe(true);
   });
 
-  it("der Check hat beide Wege, Konto und Depot", () => {
-    const adressen = intern.map((i) => i.pfad);
-    expect(adressen.some((a) => a.startsWith("/check?") && a.includes("art=konto"))).toBe(true);
-    expect(adressen.some((a) => a.startsWith("/check?") && a.includes("art=depot"))).toBe(true);
+  it("der Check steht als ein einziger Knopf, er fragt selbst nach Konto oder Depot", () => {
+    const adressen = intern.map((i) => i.pfad).filter((a) => a.startsWith("/check"));
+    expect(adressen).toEqual(["/check?quelle=quiz"]);
   });
 
   it("jedes Freebie aus vorlagen.ts steht auf der Seite", () => {

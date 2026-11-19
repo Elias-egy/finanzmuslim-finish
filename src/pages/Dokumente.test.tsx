@@ -30,7 +30,8 @@ describe("Seite /dokumente", () => {
     expect(flatex.rel).toContain("noopener");
     const eroeffnen = container.querySelector('[data-dok="flatex-eroeffnen"] a') as HTMLAnchorElement;
     expect(eroeffnen.getAttribute("href")).toBe("/out/flatex?src=dokfl");
-    const check = container.querySelector('[data-dok="check-konto"] a') as HTMLAnchorElement;
-    expect(check.getAttribute("href")).toBe("/check?art=konto&quelle=quiz");
+    const check = container.querySelector('[data-dok="check"] a') as HTMLAnchorElement;
+    expect(check.getAttribute("href")).toBe("/check?quelle=quiz");
+    expect([...container.querySelectorAll("a")].filter((a) => a.textContent === "Match finden" && a.closest("main")).length).toBe(1);
   });
 });

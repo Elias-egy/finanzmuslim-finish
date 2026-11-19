@@ -65,7 +65,7 @@ const KartenKnopf = ({ karte, gross = false }: { karte: DokKarte; gross?: boolea
     <span
       className="contents"
       onClick={() => {
-        if (istCheck) ereignis("freebie_check_klick", { check: true, quelle: "quiz", art: z.pfad.includes("art=depot") ? "depot" : "konto", im: "dokumente", stelle: "oben" });
+        if (istCheck) ereignis("freebie_check_klick", { check: true, quelle: "quiz", im: "dokumente", stelle: "oben" });
       }}
     >
       <Aufruf to={kartenAdresse(karte)} gross={gross} className="block w-full sm:w-auto">
@@ -113,7 +113,7 @@ const MatchGruppe = ({ gruppe }: { gruppe: DokGruppe }) => (
       {gruppe.titel}
     </h2>
     {gruppe.satz && <p className="mt-3 text-[19px] font-semibold leading-snug text-foreground md:text-[22px]">{gruppe.satz}</p>}
-    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+    <div className="mt-6 grid gap-4 sm:max-w-xl">
       {gruppe.bloecke.flatMap((b) => b.karten).map((k) => (
         <article key={k.id} className="flex flex-col rounded-xl border border-border bg-background p-5 md:p-6" data-dok={k.id}>
           <h3 className="text-[22px] font-bold leading-snug text-foreground">{k.titel}</h3>

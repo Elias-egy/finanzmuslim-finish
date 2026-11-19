@@ -75,9 +75,11 @@ export const DOKUMENTE_SRC = {
   bbbank: "dokbb",
 } as const;
 
-/** Check für Bankkonto und Depot; „quiz“ ist die Stelle für alle, die früher ins alte Quiz kamen (RN6). */
-const CHECK_KONTO = "/check?art=konto&quelle=quiz";
-const CHECK_DEPOT = "/check?art=depot&quelle=quiz";
+/**
+ * Der Check, ein Knopf (RN19, Prüfer: zwei gleiche blaue „Match finden“ untereinander; Elias RN16-42: „nur noch diesen einen Call to Action …
+ * immer gleich“). Der Check fragt selbst nach Konto oder Depot; „quiz“ ist die Stelle für alle, die früher ins alte Quiz kamen (RN6).
+ */
+const CHECK = "/check?quelle=quiz";
 
 const match: DokGruppe = {
   id: "match",
@@ -89,18 +91,11 @@ const match: DokGruppe = {
       id: "match-check",
       karten: [
         {
-          id: "check-konto",
-          titel: "Bankkonto-Check",
-          satz: "Ein paar Fragen, dann siehst du, welches Konto zu dir passt.",
+          id: "check",
+          titel: "Bankkonto oder Depot",
+          satz: "Ein paar Fragen, dann siehst du, was zu dir passt.",
           knopf: "Match finden",
-          ziel: { art: "intern", pfad: CHECK_KONTO },
-        },
-        {
-          id: "check-depot",
-          titel: "Depot-Check",
-          satz: "Ein paar Fragen, dann siehst du, welches Depot zu dir passt.",
-          knopf: "Match finden",
-          ziel: { art: "intern", pfad: CHECK_DEPOT },
+          ziel: { art: "intern", pfad: CHECK },
         },
       ],
     },

@@ -119,11 +119,11 @@ const Karte = ({ a, zeitraum, gruppe }: { a: Anlage; zeitraum: ZeitraumWert; gru
           {region && (
             <div className="rounded-lg border border-border px-3 py-2">
               <dt className="text-[12px] text-muted-foreground">Anlagegebiet</dt>
-              <dd className="mt-0.5 flex items-center gap-1.5 text-[14px] font-semibold text-foreground">
+              <dd className="mt-0.5 flex items-start gap-1.5 text-[14px] font-semibold leading-snug text-foreground">
                 <span className="shrink-0 text-[17px] leading-none" aria-hidden>
                   {region.zeichen}
                 </span>
-                <span className="truncate">{region.label}</span>
+                <span className="min-w-0 break-words">{region.label}</span>
               </dd>
             </div>
           )}
@@ -283,7 +283,7 @@ const HalalAnlagen = () => {
               value={suche}
               onChange={(e) => setSuche(e.target.value)}
               aria-label="Anlage, Kürzel oder ISIN suchen"
-              placeholder="Anlage, Kürzel oder ISIN suchen"
+              placeholder="Name oder ISIN"
               className="min-h-[48px] w-full rounded-lg border border-border bg-background pl-11 pr-11 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
             {suche && (
@@ -301,7 +301,7 @@ const HalalAnlagen = () => {
           {/* Art, Eigenschaften und Sortierung liegen jetzt hinter einem Knopf.
               Sichtbar bleibt nur, was die Zahlen in der Liste verändert. Beides
               in einer Zeile, damit die erste Anlage früher im Bild steht. */}
-          <div className="mt-3 flex items-center justify-between gap-3">
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <AnlageFilter stand={filter} setzen={setFilter} />
               <span className="hidden text-[14px] text-muted-foreground sm:inline" aria-live="polite">

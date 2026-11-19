@@ -6,6 +6,7 @@ import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
+import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 import { useThema } from "@/lib/thema";
 
 const SoonItem = ({ label }: { label: string }) => (
@@ -28,7 +29,14 @@ const Entry = ({ item, onClick }: { item: NavEntry; onClick?: () => void }) =>
     <SoonItem label={item.label} />
   );
 
-/** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Depot-Vergleich. */
+/**
+ * RN19 (Elias RN16-13/RN16-42: „nur noch diesen einen Call to Action … immer gleich“): Wo der Knopf oben im Beitrag nichts Eigenes zum Thema
+ * hat, führt er zum Check und heißt wie überall „Match finden“. Die Girokonto-Beiträge öffnen den Bankkonto-Check, nie „Depot-Vergleich“.
+ */
+const KOPF_STANDARD = { ziel: "/check?quelle=kopf", text: "Match finden", ohneZum: true };
+const KOPF_KONTO = { ziel: "/check?art=konto&quelle=kopf", text: "Match finden", ohneZum: true };
+
+/** Ziel des Kopfknopfs je Beitrag nach der Nische in SEITENKARTE.md (Spalte „Geld am Ende“); sonst der Check (KOPF_STANDARD). */
 const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean }> = {
   // Der Knopf nennt den Schmerz statt des Seitennamens (Elias, 04.11.2026, SEO51: „Gold ohne Preisaufschläge … Der Call
   // to Action muss halt sitzen“); belegt: Händler verkaufen nie zum reinen Metallpreis, der ETC kostet Ordergebühr und
@@ -42,6 +50,9 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/sind-aktien-haram": { ziel: "/vergleich/depot", text: "Halal anlegen", ohneZum: true },
   // Kredit (SEO71): Sparen statt Kredit fängt beim Konto ohne Dispo an (Seiten-Prüfer SEO70 S1, Karte halal-kredit Money Page Girokonto).
   "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
+  "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
+  "/blog/dispo-und-schulden": KOPF_KONTO,
+  "/blog/kreditkarte-halal": KOPF_KONTO,
 };
 
 export const SiteHeader = () => {
@@ -56,7 +67,7 @@ export const SiteHeader = () => {
   // und „Dein Geld halal vermehren“ (vorher „Finde, was zu dir passt“; Elias CV4 04.11.2026: „das klickt glaube ich keiner“); beim Scrollen zieht sich die Leiste zur schwebenden Leiste zusammen wie bei frontal.
   // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
   const beitragsKopf = pathname.startsWith("/blog/");
-  const kopfZiel = KOPF_ZIEL[pathname] ?? { ziel: "/vergleich/depot", text: "Depot-Vergleich" };
+  const kopfZiel = KOPF_ZIEL[pathname] ?? KOPF_STANDARD;
   const { dunkel, umschalten } = useThema();
   const [eng, setEng] = useState(false);
   useEffect(() => {
@@ -98,6 +109,24 @@ export const SiteHeader = () => {
             <span className="font-normal">kostenlos für jeden Muslim, der investiert →</span>
           </span>
         </a>
+      )}
+
+      {/* RN19-04 („wie live“) und RN19-03 (die Halal-Datenbank wird nicht gefunden): Phase 1 trägt wieder die lila Leiste der Live-Seite,
+          sie ist der Weg von oben zur Datenbank. Handy eine Zeile, ab sm mit Vorspann (wie live, Stand 19.11.2026). */}
+      {!MIT_OS && aufStartseite && (
+        <Link
+          to="/halal-anlagen"
+          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
+        >
+          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
+          <span className="whitespace-nowrap sm:hidden">
+            <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
+          </span>
+          <span className="hidden sm:inline">
+            <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
+            <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
+          </span>
+        </Link>
       )}
 
       <header
@@ -193,7 +222,7 @@ export const SiteHeader = () => {
                     Gilt 04.11.: „lieber sowas wie investiere halal“). */}
                 <a href={MIT_OS ? "/investment-os/" : "/check?quelle=kopf"} className="hidden rounded-full min-[900px]:inline-block">
                   <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
-                    {MIT_OS ? "Halal-Investment-OS" : "Investiere halal"}
+                    {MIT_OS ? "Halal-Investment-OS" : "Match finden"}
                   </span>
                 </a>
               </>
@@ -320,7 +349,7 @@ export const SiteHeader = () => {
                 onClick={() => setMobileOpen(false)}
                 className="mt-4 mb-6 flex min-h-[48px] items-center justify-center rounded-full bg-primary px-5 text-[16px] font-semibold text-primary-foreground"
               >
-                {MIT_OS ? "Dein Halal-Investment-OS" : "Investiere halal"}
+                {MIT_OS ? "Dein Halal-Investment-OS" : "Match finden"}
               </a>
             </div>
           </div>

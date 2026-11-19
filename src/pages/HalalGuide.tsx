@@ -175,7 +175,7 @@ const HalalGuide = () => {
                 <div>
                   <h2 className="headline text-2xl md:text-3xl text-foreground">Von Elias El-Gendy</h2>
                   <p className="mt-4 text-[15px] leading-relaxed text-foreground/80">
-                    Elias beschäftigt sich seit Jahren mit islamkonformem Finanzwissen. Er hat den Guide geschrieben, weil viele Muslime wissen möchten, wie sie ihre Finanzen mit ihrem Glauben in Einklang bringen können – ohne Hektik und ohne Verkaufsdruck.
+                    Elias beschäftigt sich seit Jahren mit islamkonformem Finanzwissen. Er hat den Guide geschrieben, weil viele Muslime wissen möchten, wie sie ihre Finanzen mit ihrem Glauben in Einklang bringen können, ohne Hektik und ohne Verkaufsdruck.
                   </p>
                 </div>
               </div>

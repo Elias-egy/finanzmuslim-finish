@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CalendarRange } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
@@ -35,6 +35,16 @@ const datumKurz = (iso: string) => {
  */
 const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
   const [offen, setOffen] = useState(false);
+  const leiste = useRef<HTMLDivElement>(null);
+  // RN19: Am Handy zeigt die Leiste nicht alle Knöpfe; der gewählte rückt ganz ins Bild statt halb angeschnitten am Rand zu stehen.
+  useEffect(() => {
+    const el = leiste.current;
+    const aktiv = el?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (!el || !aktiv || el.scrollWidth <= el.clientWidth) return;
+    const ende = aktiv.offsetLeft + aktiv.offsetWidth + 24;
+    if (ende > el.scrollLeft + el.clientWidth) el.scrollLeft = ende - el.clientWidth;
+    else if (aktiv.offsetLeft < el.scrollLeft) el.scrollLeft = Math.max(0, aktiv.offsetLeft - 24);
+  }, [wert]);
   const [range, setRange] = useState<DateRange | undefined>(
     istEigenerZeitraum(wert)
       ? { from: new Date(`${wert.von}T00:00:00`), to: new Date(`${wert.bis}T00:00:00`) }
@@ -49,6 +59,7 @@ const ZeitraumSchalter = ({ wert, onChange, className = "" }: Props) => {
 
   return (
     <div
+      ref={leiste}
       role="tablist"
       aria-label="Zeitraum"
       className={`relative -mx-1 flex items-center gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${className}`}
