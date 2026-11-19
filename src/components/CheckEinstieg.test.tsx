@@ -64,10 +64,10 @@ describe("Stimmen je Freebie (Elias RN16-32)", () => {
   it("Boykott-Liste: Matin, dann Pascal (RN18-08); Aktien-Liste: Skeptisch, dann Reuf", () => {
     const ids = (q: CheckQuelle) => [...zeige(q).container.querySelectorAll(".ce-stimmen figure")].map((f) => f.getAttribute("data-stimme"));
     if (import.meta.env.DEV) {
-      expect(ids("boykottliste")).toEqual(["matin", "bank-nebeneinander"]);
+      expect(ids("boykottliste")).toEqual(["matin", "skeptisch"]);
       expect(ids("aktienliste")).toEqual(["skeptisch", "reuf"]);
     } else {
-      expect(ids("boykottliste")).toEqual(["matin", "bank-nebeneinander"]);
+      expect(ids("boykottliste")).toEqual(["matin", "skeptisch"]);
       expect(ids("aktienliste")).toEqual(["skeptisch", "reuf"]);
     }
   });
