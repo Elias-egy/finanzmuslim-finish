@@ -10,6 +10,7 @@ import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
 import { ladePartnerSprung, partnerKlick } from "@/lib/partnerKlick";
+import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "@/data/boykottfreiPfad";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
 // A10 (08.11.2026): auch die Startseite, sonst laden die Kursreihen aus kurse.json (rund 350 KB) auf jeder Seite mit.
@@ -93,6 +94,8 @@ const VorlageAktienCheck = lazy(() => import("./pages/vorlagen/AktienCheck.tsx")
 const VorlageRizq = lazy(() => import("./pages/vorlagen/Rizq.tsx"));
 const VorlageBarakaBlocker = lazy(() => import("./pages/vorlagen/BarakaBlocker.tsx"));
 const VorlageTop100 = lazy(() => import("./pages/vorlagen/Top100HalalAktien.tsx"));
+const VorlageBoykottfrei = lazy(() => import("./pages/vorlagen/BoykottfreieAktien.tsx"));
+const VorlageBoykottfreiVoll = lazy(() => import("./pages/vorlagen/BoykottfreieAktienVoll.tsx"));
 const VorlageGoldCheck = lazy(() => import("./pages/vorlagen/GoldCheck.tsx"));
 const VorlageAutoAboCheck = lazy(() => import("./pages/vorlagen/AutoAboCheck.tsx"));
 const VorlageGirokontoBonus = lazy(() => import("./pages/vorlagen/GirokontoBonus.tsx"));
@@ -246,6 +249,8 @@ const App = () => (
             <Route path="/vorlagen/rizq" element={<VorlageRizq />} />
             <Route path="/vorlagen/baraka-blocker" element={<VorlageBarakaBlocker />} />
             <Route path="/vorlagen/top-100-halal-aktien" element={<VorlageTop100 />} />
+            <Route path={BF_TEASER_PFAD} element={<VorlageBoykottfrei />} />
+            <Route path={BF_VOLL_PFAD} element={<VorlageBoykottfreiVoll />} />
             <Route path="/vorlagen/gold-check" element={<VorlageGoldCheck />} />
             <Route path="/vorlagen/auto-abo-check" element={<VorlageAutoAboCheck />} />
             <Route path="/vorlagen/girokonto-bonus" element={<VorlageGirokontoBonus />} />

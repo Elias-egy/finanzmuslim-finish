@@ -116,6 +116,8 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
   "baraka-blocker": KONTO_PAAR,
   rizq: KONTO_PAAR,
   aktienliste: ["skeptisch", "reuf"],
+  // RN20: Liste der boykottfreien Halal-Aktien, Depot-Stimmen wie bei Gold-Plan und Portfolio-Plan.
+  "boykottfreie-aktien": ["reuf", "klein-anfangen"],
   "halal-anlagen": ["reuf", "skeptisch"],
   "gold-plan": ["reuf", "klein-anfangen"],
   "sukuk-plan": ["reuf", "klein-anfangen"],
@@ -138,6 +140,7 @@ export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> =
   "baraka-blocker": KONTO_UNTEN,
   rizq: KONTO_UNTEN,
   aktienliste: ["klein-anfangen", "matin"],
+  "boykottfreie-aktien": ["skeptisch", "matin"],
   "halal-anlagen": ["klein-anfangen", "matin"],
   "gold-plan": ["skeptisch", "matin"],
   "sukuk-plan": ["skeptisch", "matin"],
