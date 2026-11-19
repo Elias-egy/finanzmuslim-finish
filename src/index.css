@@ -662,6 +662,10 @@ html[data-druck] .rounded-xl,
 html[data-druck] .rounded-2xl,
 html[data-druck] .rounded-3xl:not([data-depot-aufruf]):not([data-depot-kasten]),
 html[data-druck] .rounded-lg:not([data-depot-aufruf]):not([data-depot-kasten]) { break-inside: avoid; }
+/* RN19: Die lange Liste der gefallenen Aktien (Top100Voll) ist ein rounded-lg und sprang als Ganzes auf Seite 2, Seite 1 blieb halb leer.
+   Die Liste darf über die Seite laufen, jede Zeile bleibt ganz. */
+html[data-druck] [data-top-gefallen] .overflow-hidden { break-inside: auto !important; }
+html[data-druck] [data-aktie] { break-inside: avoid; }
 
 /* Dua-PDF (MC7g, Elias 02.11.2026: „die Duas müssen eine anständige PDF sein“, Vault
    raw/2026-11-02-elias-mc7f-pdf-nur-duas-keine-kleinigkeiten.md). Nur die Druckfassung: Deckblatt allein, jedes
