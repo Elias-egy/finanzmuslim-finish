@@ -49,6 +49,7 @@ export const AB_TEST = "check-depotfrage";
  */
 export type CheckQuelle =
   | "aktienliste"
+  | "boykottfreie-aktien"
   | "halal-anlagen"
   | "boykottliste"
   | "homepage"
@@ -67,6 +68,7 @@ export type CheckQuelle =
 
 const QUELLEN: readonly CheckQuelle[] = [
   "aktienliste",
+  "boykottfreie-aktien",
   "halal-anlagen",
   "boykottliste",
   "kopf",
@@ -88,6 +90,7 @@ export const quelleAus = (wert: string | null | undefined): CheckQuelle => QUELL
 /** Eine kurze Zeile je Einstieg, nur im Freebie-Kasten (CheckEinstieg.tsx). Im Check selbst sehen alle Quellen dieselben Fragen (Elias RN7-03). Knüpft an das an, was die Person gerade gelesen hat (Perspective-Tipp 4 bis 8). Elias RN7: nicht länger als eine Zeile. */
 export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   aktienliste: "Wo kaufst du die Aktien aus der Liste?",
+  "boykottfreie-aktien": "Wo kaufst du die Aktien aus der Liste?",
   "halal-anlagen": "Wo kaufst du ETFs und Gold aus deiner Liste?",
   boykottliste: "Du achtest beim Einkaufen drauf. Und bei deiner Bank?",
   homepage: "Konto, Depot oder beides?",
@@ -113,6 +116,7 @@ export const ART_JE_QUELLE: Partial<Record<CheckQuelle, Art>> = {
   "baraka-blocker": "konto",
   rizq: "konto",
   aktienliste: "depot",
+  "boykottfreie-aktien": "depot",
   "halal-anlagen": "depot",
   "gold-plan": "depot",
   "sukuk-plan": "depot",
@@ -297,6 +301,7 @@ export const ETIKETT_PLAN = "passt zu deinem Plan";
 export const ETIKETT_VERGLEICH = "passt zu deinem Vergleich";
 const DEPOT_HINWEIS: Partial<Record<CheckQuelle, string>> = {
   aktienliste: ETIKETT_LISTE,
+  "boykottfreie-aktien": ETIKETT_LISTE,
   "halal-anlagen": ETIKETT_LISTE,
   "gold-plan": ETIKETT_PLAN,
   "sukuk-plan": ETIKETT_PLAN,
@@ -992,6 +997,8 @@ const depotBleiben = (heute: DepotWahl, a: Antworten, quelle: CheckQuelle, fassu
 /** Kennung am Knopf, nur Kleinbuchstaben und Ziffern (attribution.ts): fc, Quelle, Anbieter, am Ende die Fassung a oder b. Die Quelle (?quelle=) steckt nur hier, die Bank von heute nie. */
 const QUELLE_KURZ: Record<CheckQuelle, string> = {
   aktienliste: "ak",
+  // RN20: Freebie „Halal und boykottfrei“ (Video 26 boykottfreie Halal-Aktien).
+  "boykottfreie-aktien": "bf",
   "halal-anlagen": "ha",
   boykottliste: "bo",
   homepage: "hp",
@@ -1009,7 +1016,7 @@ const QUELLE_KURZ: Record<CheckQuelle, string> = {
   "portfolio-plan": "pp",
   "broker-vergleich": "bv",
 };
-export const CHECK_SRC = /^fc(ak|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
+export const CHECK_SRC = /^fc(ak|bf|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
 export const checkSrc = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>
   `fc${QUELLE_KURZ[quelle]}${anbieter.kurz}${zusatz ?? ""}${fassung}`;
 export const outLink = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>

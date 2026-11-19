@@ -7,6 +7,7 @@ import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
 import { QUIZ_PFAD } from "./portfolioQuizPfad";
 import { BOYKOTT_PFAD } from "./boykottListe";
+import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "./boykottfreiPfad";
 import { GOLD_PFAD } from "./goldPlan";
 import { ETF_PFAD } from "./etfPlan";
 import { SUKUK_PFAD } from "./sukukPlan";
@@ -220,6 +221,9 @@ export const nichtIndexiert: string[] = [
   // Liste“ im Title und teilte sich mit der Datenbank dieselben Suchen (Search Console 90 Tage: 154 Einblendungen dort,
   // 287 auf /halal-anlagen, beide auf Position 40 bis 90). Seitenkarte: Datenbank ist die Seite, die Vorlage der Trichter, bei Google aus (RN19).
   "/vorlagen/halal-anlagen",
+  // Freebie „Halal und boykottfrei“ (RN20, Video 26 boykottfreie Halal-Aktien): kurze Seite und volle Liste unter geheimem Pfad, beide noindex.
+  BF_TEASER_PFAD,
+  BF_VOLL_PFAD,
 ];
 
 /**
@@ -308,6 +312,8 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/weiter/:kurzname", grund: "Partner-Weiterleitung für Knöpfe, die Werbeblocker sonst verstecken" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },
   { pfad: "/vorlagen/halal-anlagen", grund: "Freebie-Liste nur für Instagram, nimmt der Datenbank /halal-anlagen die Suchen weg, setzt noindex (RN19)" },
+  { pfad: BF_TEASER_PFAD, grund: "Freebie zum Video 26 boykottfreie Halal-Aktien, nur ueber den Link aus dem Video, setzt noindex (RN20)" },
+  { pfad: BF_VOLL_PFAD, grund: "volle Liste des Freebies Halal und boykottfrei, geheimer Pfad, setzt noindex (RN20)" },
   { pfad: "/check", grund: "Halal-Finanz-Check mit Verkaufsseite vor den Fragen (RN5, RN7), setzt noindex" },
   { pfad: "/vergleich/start", grund: "Weiterleitung auf /check?quelle=quiz (RN6), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },

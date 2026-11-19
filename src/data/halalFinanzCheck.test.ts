@@ -229,9 +229,9 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(hinweisJeQuelle("broker-vergleich")).toEqual({ ziel: "invest", etikett: ETIKETT_VERGLEICH });
     expect(ETIKETT_PLAN).toBe("passt zu deinem Plan");
     expect(ETIKETT_VERGLEICH).toBe("passt zu deinem Vergleich");
-    // Nur die zwei diktierten Quellen tragen „passt zu deiner Liste“.
+    // Nur die zwei diktierten Quellen und die boykottfreie Aktien-Liste (RN20, gleiche Art Liste) tragen „passt zu deiner Liste“.
     const liste = (Object.keys(UEBERSCHRIFT) as CheckQuelle[]).filter((q) => hinweisJeQuelle(q)?.etikett === ETIKETT_LISTE);
-    expect(liste.sort()).toEqual(["aktienliste", "halal-anlagen"]);
+    expect(liste.sort()).toEqual(["aktienliste", "boykottfreie-aktien", "halal-anlagen"]);
     expect(zielFrage("gold-plan").optionen.map((o) => [o.wert, o.etikett ?? null, o.hinweis ?? null])).toEqual([
       ["konto", ETIKETT, null],
       ["invest", null, "passt zu deinem Plan"],
