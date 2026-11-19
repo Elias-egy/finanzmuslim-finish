@@ -15,7 +15,7 @@ const partner = partnerNamen();
 const WieIchGeldVerdiene = () => (
   <div className="min-h-screen bg-background">
     <Seo
-      title="So verdiene ich Geld – Transparenz | finanzmuslim"
+      title="So verdiene ich Geld: Transparenz | finanzmuslim"
       description="Wie sich finanzmuslim finanziert: Affiliate-Links, der kostenlose Guide und die Regel, warum Vertrauen vor Provision kommt."
       path="/wie-ich-geld-verdiene"
       brotkrumen={[{ name: "Wie ich Geld verdiene", path: "/wie-ich-geld-verdiene" }]}
