@@ -20,7 +20,7 @@ export const StimmeKarte = ({ s }: { s: StimmeAnStelle }) => (
       {s.foto ? (
         <img className="ce-stimme-foto" src={s.foto} alt="" width={52} height={52} loading="lazy" />
       ) : (
-        s.id !== "reuf" && <span className="ce-stimme-foto ce-stimme-foto--platz" aria-hidden />
+        s.id !== "reuf" && s.id !== "bank-nebeneinander" && <span className="ce-stimme-foto ce-stimme-foto--platz" aria-hidden />
       )}
       <span className="ce-stimme-wer">
         <b>{s.name}</b>

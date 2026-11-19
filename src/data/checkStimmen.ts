@@ -110,7 +110,8 @@ const KONTO_PAAR: StimmeId[] = ["matin", "bank-nebeneinander"];
  */
 export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
   check: ["matin", "reuf", "skeptisch"],
-  boykottliste: KONTO_PAAR,
+  // RN20-13 (Elias: „mach mal Artin E oben. Und unten Pascal K … ohne Platzhalter für Bild“).
+  boykottliste: ["matin", "skeptisch"],
   "vertrags-ampel": KONTO_PAAR,
   "auto-abo": KONTO_PAAR,
   "baraka-blocker": KONTO_PAAR,
@@ -134,7 +135,7 @@ export const STIMMEN_JE_STELLE: Partial<Record<StimmenStelle, StimmeId[]>> = {
  */
 const KONTO_UNTEN: StimmeId[] = ["reuf", "skeptisch"];
 export const STIMMEN_UNTEN_JE_QUELLE: Partial<Record<CheckQuelle, StimmeId[]>> = {
-  boykottliste: KONTO_UNTEN,
+  boykottliste: ["bank-nebeneinander", "reuf"],
   "vertrags-ampel": KONTO_UNTEN,
   "auto-abo": KONTO_UNTEN,
   "baraka-blocker": KONTO_UNTEN,
