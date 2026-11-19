@@ -136,6 +136,18 @@ const VorlagenSeite = ({
         </section>
       )}
 
+      {/* RN19: eine Erwähnung der Sammelseite am Ende der offenen Freebie-Seiten (Elias RN18-20: „alles Mögliche findest du
+          bei Dokumente“), nicht auf den Seiten mit E-Mail-Schranke und nicht, wo der Check-Kasten (endeKasten) das Ende ist: dort zählt ein Knopf. */}
+      {!gesperrt && !endeKasten && (
+        <p className="mx-auto mt-12 max-w-4xl text-[17px] leading-relaxed text-foreground">
+          Alle Formulare und Listen findest du bei{" "}
+          <Link to="/dokumente" className="font-semibold text-primary hover:underline">
+            Dokumente
+          </Link>
+          .
+        </p>
+      )}
+
       <p className="mt-12 max-w-4xl mx-auto text-[13px] leading-relaxed text-muted-foreground">{rechtshinweis}</p>
     </div>
   </main>

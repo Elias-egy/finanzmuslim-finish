@@ -140,6 +140,15 @@ export const SiteHeader = () => {
                 </button>
               </div>
             ))}
+            {/* RN19: „alles Mögliche findest du bei Dokumente“ (Elias RN18-20). Ab 1040 px in der Leiste, unter 900 px im Menü,
+                dazwischen nur in der Fußleiste, weil die Leiste dort schon voll sein könnte (ungemessen). */}
+            <Link
+              to="/dokumente"
+              onMouseEnter={() => setOpenGroup(null)}
+              className="hidden min-h-[44px] items-center whitespace-nowrap text-[15px] font-medium text-white/90 transition-colors hover:text-white min-[1040px]:flex"
+            >
+              Dokumente
+            </Link>
           </nav>
 
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
@@ -295,6 +304,16 @@ export const SiteHeader = () => {
                   )}
                 </div>
               ))}
+
+              <div className="border-b border-border">
+                <Link
+                  to="/dokumente"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex min-h-[44px] items-center text-[16px] font-semibold text-foreground"
+                >
+                  Dokumente
+                </Link>
+              </div>
 
               <a
                 href={MIT_OS ? "/investment-os/" : "/check?quelle=menue"}
