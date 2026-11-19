@@ -36,6 +36,7 @@ const HalalAnlagen = () => (
       title={ANLAGEN_SEO_TITEL}
       description="Finde Aktien-ETFs, Sukuk und Edelmetalle, die du in Deutschland wirklich kaufen kannst. Zu jeder die ISIN, die Prüfstelle und die Anbieter mit Kaufbeleg."
       path="/vorlagen/halal-anlagen"
+      noindex
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal-Anlagen", path: "/vorlagen/halal-anlagen" }]}
     />
     <VorlagenSeite

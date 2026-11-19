@@ -45,7 +45,7 @@ const faq = [
 const Auswanderungsrechner = () => (
   <>
     <Seo
-      title="Auswanderungsrechner: Türkei, Dubai, Saudi-Arabien | finanzmuslim"
+      title="Auswanderungsrechner: Türkei, Dubai, Saudi-Arabien"
       description="Sieh, wie weit dein Netto in der Türkei, in Dubai oder in Saudi-Arabien reicht. Mit Wegzugssteuer, Abkommen und den Fakten je Land, jede Zahl mit Quelle."
       path="/auswanderungsrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Auswanderungsrechner", path: "/auswanderungsrechner" }]}

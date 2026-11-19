@@ -46,8 +46,8 @@ const faq = [
 const Kreditkostenrechner = () => (
   <>
     <Seo
-      title="Kreditkostenrechner: was dich der Zins wirklich kostet | finanzmuslim"
-      description="Sieh, wie viel Zinsen ein Kredit über die Laufzeit kostet und was dieselbe Rate gespart statt gezahlt bringt. Kreditsumme, Zins und Laufzeit eingeben, Ergebnis sofort als Bild."
+      title="Kreditkostenrechner: was dich der Zins wirklich kostet"
+      description="Sieh, wie viel Zinsen ein Kredit über die Laufzeit kostet und was dieselbe Rate gespart bringt. Kreditsumme, Zins und Laufzeit eingeben, Ergebnis sofort."
       path="/kreditkostenrechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Kreditkostenrechner", path: "/kreditkostenrechner" }]}
       jsonLd={[

@@ -74,6 +74,40 @@ export const nachbarn = (slug: string) => {
   };
 };
 
+/**
+ * Verwandte Beiträge je Beitrag (RN19), je drei, von Hand nach dem Thema gewählt und nicht nach der Reihenfolge der
+ * Liste: „Vorher“ und „Als Nächstes“ sagen nichts darüber, was zusammengehört. Schlüssel und Werte sind die Schlüssel
+ * aus `wissenBeitraege`. Der Test prüft, dass jeder Schlüssel und jedes Ziel einen Beitrag hat.
+ */
+export const verwandteBeitraege: Record<string, string[]> = {
+  "sukuk": ["halal-etfs", "halal-gold-kaufen", "zinsen-im-islam"],
+  "ist-bitcoin-halal": ["maysir", "zakat-auf-aktien-etf-krypto", "sind-aktien-halal"],
+  "ertraege-reinigen": ["sind-aktien-halal", "halal-etfs", "zakat-auf-aktien-etf-krypto"],
+  "girokonto-ohne-zinsen": ["kreditkarte-halal", "dispo-und-schulden", "zinsen-im-islam"],
+  "kreditkarte-halal": ["girokonto-ohne-zinsen", "dispo-und-schulden", "ratenzahlung-haram"],
+  "dispo-und-schulden": ["halal-kredit-ohne-zinsen", "girokonto-ohne-zinsen", "ratenzahlung-haram"],
+  "ratenzahlung-haram": ["halal-kredit-ohne-zinsen", "kreditkarte-halal", "auto-kaufen-ohne-zinsen"],
+  "auto-kaufen-ohne-zinsen": ["ist-leasing-haram", "ratenzahlung-haram", "halal-kredit-ohne-zinsen"],
+  "haus-kaufen-ohne-zinsen": ["halal-kredit-ohne-zinsen", "ist-versicherung-haram", "girokonto-ohne-zinsen"],
+  "haeufige-fehler": ["sind-aktien-halal", "halal-etfs", "girokonto-ohne-zinsen"],
+  "gharar": ["maysir", "ist-versicherung-haram", "trading-forex-cfd"],
+  "maysir": ["gharar", "trading-forex-cfd", "ist-bitcoin-halal"],
+  "trading-forex-cfd": ["maysir", "gharar", "sind-aktien-halal"],
+  "zinsen-im-islam": ["girokonto-ohne-zinsen", "halal-kredit-ohne-zinsen", "ratenzahlung-haram"],
+  "zakat-auf-aktien-etf-krypto": ["nisab", "halal-etfs", "ertraege-reinigen"],
+  "nisab": ["zakat-auf-aktien-etf-krypto", "halal-gold-kaufen", "erbe"],
+  "erbe": ["nisab", "zakat-auf-aktien-etf-krypto", "ist-versicherung-haram"],
+};
+
+/** Beiträge, die auf die Halal-Datenbank (/halal-anlagen) führen: dort stehen die Anlagen, über die sie reden. */
+export const fuehrenZurDatenbank = new Set([
+  "sind-aktien-halal",
+  "halal-etfs",
+  "sukuk",
+  "halal-gold-kaufen",
+  "zakat-auf-aktien-etf-krypto",
+]);
+
 export const themen: { thema: WissenThema; id: string; satz: string }[] = [
   { thema: "Investieren", id: "investieren", satz: "Wie du dein Geld anlegst, ohne gegen deine Überzeugung zu handeln." },
   { thema: "Alltag", id: "alltag", satz: "Verträge, die dir im normalen Leben begegnen, vom Konto bis zum Auto." },

@@ -314,12 +314,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Auch geprüfte Aktien und ETFs lassen einen kleinen unreinen Anteil übrig. Die Fünf-Prozent-Regel, wie du den Betrag ausrechnest, welche Fonds es für dich übernehmen, welche App es kann und wohin das Geld geht.";
+  "Auch geprüfte Aktien und ETFs lassen einen unreinen Anteil übrig. Die Fünf-Prozent-Regel, wie du den Betrag ausrechnest und wohin das Geld geht.";
 
 const ErtraegeReinigen = () => (
   <>
     <Seo
-      title="Aktienbereinigung: Erträge reinigen, Schritt für Schritt | finanzmuslim"
+      title="Aktienbereinigung: Erträge reinigen, Schritt für Schritt"
       description={beschreibung}
       path="/blog/ertraege-reinigen"
       jsonLd={beitragJsonLd({

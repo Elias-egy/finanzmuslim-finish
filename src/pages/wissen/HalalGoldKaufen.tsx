@@ -50,7 +50,7 @@ import {
 const PFAD = "/blog/halal-gold-kaufen";
 const TITEL = "Halal Gold kaufen: 5 Wege im Vergleich";
 const META =
-  "Halal Gold kaufen: 5 Wege im Vergleich, von Barren bis Gold-ETC. Welche Gold-ETCs ein Shariah-Zertifikat haben, was sie kosten und bei welchen Depots du sie kaufst.";
+  "Halal Gold kaufen: 5 Wege im Vergleich, von Barren bis Gold-ETC. Welche Gold-ETCs ein Shariah-Zertifikat haben, was sie kosten und wo du sie kaufst.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
 const AKTUALISIERT = { text: "04.11.2026", iso: "2026-11-04T09:00:00+01:00" };
 const LESEZEIT = 11;
@@ -221,6 +221,8 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/zakat-rechner", name: "Der Zakat-Rechner", text: "Rechnet Gold, Silber und Ersparnisse zusammen." },
   { to: "/blog/nisab", name: "Nisab verstehen", text: "Welche der beiden Grenzen für dich gilt." },
   { to: "/blog/halal-etf", name: "Beste Halal ETFs", text: "Acht Halal ETFs im Vergleich." },
+  { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
+  { to: "/blog/sukuk", name: "Sukuk", text: "Was hinter islamischen Anleihen steckt." },
 ];
 
 /* ------------------------------------------------------------------ */

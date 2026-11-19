@@ -49,7 +49,7 @@ export const AnlageKopf = ({ a }: { a: Anlage }) => {
   );
 };
 
-export const ANLAGEN_SEO_TITEL = `Halal Anlagen Liste: ${ANZAHL_KAUFBAR} kaufbare Produkte mit ISIN | finanzmuslim`;
+export const ANLAGEN_SEO_TITEL = `Halal Anlagen Liste: ${ANZAHL_KAUFBAR} kaufbare Produkte mit ISIN`;
 
 export const ANLAGEN_EINLEITUNG =
   "Finde die Halal-Anlagen mit Kaufbeleg: Aktien-ETFs, Sukuk und Edelmetalle. Zu jeder die ISIN, die Prüfstelle und die Anbieter, bei denen du sie kaufen kannst.";

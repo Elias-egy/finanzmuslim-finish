@@ -38,6 +38,7 @@ const werkzeuge: NavEntry[] = [
   { label: "Vergleiche", to: "/vergleiche" },
   { label: "Dokumente", to: "/dokumente" },
   { label: "Halal Investment Guide", to: "/halal-guide" },
+  { label: "Kostenlose Vorlagen", to: "/vorlagen" },
   { label: "Newsletter", to: "/newsletter" },
 ];
 

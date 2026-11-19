@@ -105,6 +105,12 @@ const VergleichGirokonto = () => (
     zeilen={GIRO_ZEILEN}
     anbieter={girokontoAnzeige}
     sortiertNach={<ReihenfolgeSatz />}
+    weiterlesen={[
+      { to: "/blog/girokonto-ohne-zinsen", name: "Girokonto ohne Zinsen", text: "Dein Konto in zehn Minuten umstellen." },
+      { to: "/blog/kreditkarte-halal", name: "Kreditkarte oder Debitkarte", text: "Was gilt islamisch, und was reicht im Alltag." },
+      { to: "/blog/dispo-und-schulden", name: "Dispo und Schulden", text: "Zwei Wege aus dem Minus." },
+      { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
+    ]}
     giro={{ besonders: BESONDERS }}
     kategorie="girokonto"
     finanzMax={GIRO_FINANZ_MAX}

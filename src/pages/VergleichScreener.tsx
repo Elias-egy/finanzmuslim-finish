@@ -106,8 +106,8 @@ const VergleichScreener = () => (
     brotkrumen="Screening-Apps"
     titel="Halal-Aktien prüfen: die Apps im Vergleich"
     untertitel={`${zahlwort(screenerAnzeige.length, true)} Werkzeuge, die dir sagen, ob eine Aktie halal ist, und worin sie sich unterscheiden`}
-    seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich | finanzmuslim"
-    seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag, Preis und was die kostenlose Fassung kann."
+    seoTitel="Halal Aktien prüfen: Screening-Apps im Vergleich"
+    seoText="Ist diese Aktie halal? Musaffa, Zoya, Islamicly und Finispia im Vergleich: Maßstab, Prüfgremium, deutsche Aktien, Reinigungsbetrag und Preis."
     einheit="Apps"
     reihenfolge={<Reihenfolge />}
     einleitung={
@@ -125,6 +125,10 @@ const VergleichScreener = () => (
         </p>
       </>
     }
+    weiterlesen={[
+      { to: "/blog/sind-aktien-haram", name: "Sind Aktien haram?", text: "Die Grenzwerte hinter dem Urteil einer App." },
+      { to: "/blog/ertraege-reinigen", name: "Aktienbereinigung", text: "Was mit dem unreinen Anteil der Dividende geschieht." },
+    ]}
     zeilen={SCREENER_ZEILEN}
     anbieter={screenerAnzeige}
     kategorie="screener"

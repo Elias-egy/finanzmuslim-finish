@@ -390,7 +390,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Die Wege, ein Haus ohne Zinsen zu finanzieren, was es davon in Deutschland gibt, worauf du im Vertrag achten musst und was die viel zitierte Fatwa von 1999 wirklich sagt.";
+  "Wege, ein Haus ohne Zinsen zu finanzieren: was es davon in Deutschland gibt, worauf es im Vertrag ankommt und was die Fatwa von 1999 wirklich sagt.";
 
 const HausKaufenOhneZinsen = () => (
   <>

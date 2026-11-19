@@ -247,7 +247,7 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Zwölf Fehler, die Einsteiger machen: zu lange warten, Schulden ignorieren, dem Etikett vertrauen, die App als Freibrief nehmen, das Verrechnungskonto vergessen, den Neukundenbonus mitnehmen. Jeweils mit dem, was stattdessen hilft.";
+  "Zwölf Fehler, die Einsteiger machen: zu lange warten, Schulden ignorieren, dem Etikett vertrauen, die App als Freibrief nehmen. Dazu, was stattdessen hilft.";
 
 const HaeufigeFehler = () => (
   <>

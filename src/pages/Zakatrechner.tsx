@@ -98,7 +98,7 @@ const UnterDemRechner = () => (
 const Zakatrechner = () => (
   <>
     <Seo
-      title="Zakat-Rechner 2026 – Zakat auf Depot, Aktien & Gold berechnen | finanzmuslim"
+      title="Zakat-Rechner 2026: Zakat auf Depot, Aktien und Gold"
       description="Berechne deine Zakat kostenlos: Bargeld, Aktien, ETFs, Sukuk, Gold und Krypto. Mit Nisab nach Gold oder Silber und zwei Berechnungsmethoden für Aktien."
       path="/zakat-rechner"
       brotkrumen={[{ name: "Rechner", path: "/rechner" }, { name: "Zakat-Rechner", path: "/zakat-rechner" }]}

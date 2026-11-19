@@ -65,3 +65,39 @@ const jeBeitrag: Record<string, EmpfehlungsBoxProps> = {
 };
 
 export const werbungFuer = (slug: string): EmpfehlungsBoxProps => jeBeitrag[slug] ?? depot;
+
+/**
+ * Der passende Vergleich je Beitrag (RN19): steht als eine Zeile oben unter der Überschrift, vor jedem Anbieter-Kasten,
+ * damit jeder Beitrag früh auf seine Money Page führt (Elias RN19: „dass die Blogs mindestens sitzen“). Schlüssel ist
+ * der Schlüssel aus `wissenBeitraege`. Keine Werbung im Sinn der Kästen: ein Textlink ohne Anbieter.
+ */
+export type VergleichsZeile = { pfad: string; text: string };
+
+const VERGLEICH = {
+  depot: { pfad: "/vergleich/depot", text: "Der passende Vergleich: Depots mit Halal-Merkmalen" },
+  girokonto: { pfad: "/vergleich/girokonto", text: "Der passende Vergleich: Girokonten, die ohne Zinsen auskommen" },
+  krypto: { pfad: "/vergleich/krypto", text: "Der passende Vergleich: Krypto-Börsen mit echten Coins" },
+  edelmetalle: { pfad: "/vergleich/edelmetalle", text: "Der passende Vergleich: Depots für Gold und Silber" },
+} satisfies Record<string, VergleichsZeile>;
+
+const vergleichJeBeitrag: Record<string, VergleichsZeile> = {
+  "sukuk": VERGLEICH.depot,
+  "ist-bitcoin-halal": VERGLEICH.krypto,
+  "ertraege-reinigen": VERGLEICH.depot,
+  "girokonto-ohne-zinsen": VERGLEICH.girokonto,
+  "kreditkarte-halal": VERGLEICH.girokonto,
+  "dispo-und-schulden": VERGLEICH.girokonto,
+  "ratenzahlung-haram": VERGLEICH.girokonto,
+  "zinsen-im-islam": VERGLEICH.girokonto,
+  "auto-kaufen-ohne-zinsen": VERGLEICH.depot,
+  "haus-kaufen-ohne-zinsen": VERGLEICH.depot,
+  "haeufige-fehler": VERGLEICH.depot,
+  "gharar": VERGLEICH.depot,
+  "maysir": VERGLEICH.depot,
+  "trading-forex-cfd": VERGLEICH.depot,
+  "zakat-auf-aktien-etf-krypto": VERGLEICH.depot,
+  "nisab": VERGLEICH.edelmetalle,
+  "erbe": VERGLEICH.depot,
+};
+
+export const vergleichFuer = (slug: string): VergleichsZeile => vergleichJeBeitrag[slug] ?? VERGLEICH.depot;

@@ -289,6 +289,11 @@ const VergleichEdelmetalle = () => (
           "Dazu geben wir keine Empfehlung ab, das wäre Anlageberatung. Was sich sagen lässt: Gold wirft nichts ab, es zahlt keine Miete und keinen Gewinn. Es ist ein Wertspeicher, kein Einkommen. Und auf den Bestand fällt jedes Jahr Zakat an.",
       },
     ]}
+    weiterlesen={[
+      { to: "/blog/halal-gold-kaufen", name: "Halal Gold kaufen", text: "Fünf Wege von Barren bis Gold-ETC." },
+      { to: "/blog/nisab", name: "Nisab verstehen", text: "Welche der beiden Grenzen für dich gilt." },
+      { to: "/halal-anlagen", name: "Halal-Anlagen-Datenbank", text: "Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle." },
+    ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Fatwa. Sie gibt bekannte Positionen wieder, bei Gold als Wertpapier und bei Sparplänen gibt es abweichende Auffassungen. Investitionen in Wertpapiere sind mit Risiken verbunden, bis hin zum Totalverlust. Steuerliche Angaben sind keine Steuerberatung."
   />
 );

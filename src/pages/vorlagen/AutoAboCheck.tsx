@@ -30,7 +30,7 @@ const AN_DER_KANTE = 4;
 const AutoAboCheck = () => (
   <>
     <Seo
-      title="Auto-Abo statt Leasing: welcher Anbieter halal passt | finanzmuslim"
+      title="Auto-Abo statt Leasing: welcher Anbieter halal passt"
       description="Prüfe Auto-Abos als Alternative zu Autokredit und Leasing: FINN, SIXT+ und Hersteller-Abos. Zu jedem Anbieter das Urteil und der Wortlaut aus den eigenen AGB."
       path="/vorlagen/auto-abo-check"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Auto-Abo-Check", path: "/vorlagen/auto-abo-check" }]}

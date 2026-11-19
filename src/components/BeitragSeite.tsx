@@ -8,8 +8,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import EmpfehlungsBox, { type EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
-import { werbungFuer } from "@/data/werbung";
-import { beitragBySlug, beitragPfad, nachbarn } from "@/data/wissenBeitraege";
+import { vergleichFuer, werbungFuer } from "@/data/werbung";
+import { beitragBySlug, beitragPfad, fuehrenZurDatenbank, nachbarn, verwandteBeitraege } from "@/data/wissenBeitraege";
 import eliasPortrait from "@/assets/elias-autor.webp";
 
 export type BeitragAbschnitt = { id: string; titel: string; inhalt: ReactNode };
@@ -122,6 +122,9 @@ const BeitragSeite = ({
   const zeigeMitte = (boxMitte.linkZiel ?? boxMitte.kategorie) !== (werbung.linkZiel ?? werbung.kategorie);
   const eintrag = beitragBySlug(slug);
   const { vorher, nachher } = nachbarn(slug);
+  const vergleich = vergleichFuer(slug);
+  const verwandt = (verwandteBeitraege[slug] ?? []).map((s) => beitragBySlug(s)).filter((b) => !!b && !b.bald);
+  const zurDatenbank = fuehrenZurDatenbank.has(slug);
 
   /* Automatisch aus dem tatsächlichen Text geschätzt, nicht von Hand gepflegt
      — sonst veraltet die Angabe beim nächsten Textwechsel unbemerkt. */
@@ -174,6 +177,12 @@ const BeitragSeite = ({
             <header>
               <h1 className="font-titel text-[32px] leading-[1.1] text-foreground md:text-[42px]">{titel}</h1>
               {untertitel && <p className="mt-4 max-w-[600px] text-[18px] leading-[1.5] text-foreground/75">{untertitel}</p>}
+              {/* Money Page gleich oben (RN19): ein Textlink, kein Anbieter-Kasten; der erste Kasten bleibt bei einem Drittel. */}
+              <p className="mt-3 text-[16px] font-semibold">
+                <Link to={vergleich.pfad} className="text-primary underline-offset-[3px] hover:underline">
+                  {vergleich.text} ›
+                </Link>
+              </p>
               <div className="mt-6 flex items-start justify-between gap-4 border-b border-border pb-6">
                 <div className="flex gap-3">
                   <img src={eliasPortrait} alt="Elias El-Gendy" width={48} height={48} className="h-12 w-12 shrink-0 object-cover" />
@@ -267,6 +276,34 @@ const BeitragSeite = ({
             </section>
 
             {children && <div className="mt-12">{children}</div>}
+
+            {(verwandt.length > 0 || zurDatenbank) && (
+              <aside aria-labelledby="verwandt" className="mt-12">
+                <p id="verwandt" className="font-titel text-[22px] text-foreground">
+                  Verwandte Beiträge
+                </p>
+                <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {verwandt.map((b) => (
+                    <li key={b!.slug}>
+                      <Link to={beitragPfad(b!)} className="block h-full border border-border p-4 transition-colors hover:border-primary">
+                        <span className="block text-[16px] font-semibold text-foreground">{b!.name}</span>
+                        <span className="mt-1 block text-[14px] text-muted-foreground">{b!.desc}</span>
+                      </Link>
+                    </li>
+                  ))}
+                  {zurDatenbank && (
+                    <li>
+                      <Link to="/halal-anlagen" className="block h-full border border-border p-4 transition-colors hover:border-primary">
+                        <span className="block text-[16px] font-semibold text-foreground">Halal-Anlagen-Datenbank</span>
+                        <span className="mt-1 block text-[14px] text-muted-foreground">
+                          Jede Anlage mit ISIN, Kosten und dem Nachweis der Prüfstelle.
+                        </span>
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </aside>
+            )}
 
             {(vorher || nachher) && (
               <nav aria-label="Weiterlesen" className="mt-12 grid gap-3 sm:grid-cols-2">

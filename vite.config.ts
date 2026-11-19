@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
-import { rmSync } from "fs";
+import { existsSync, readFileSync, rmSync, writeFileSync } from "fs";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
@@ -60,7 +60,14 @@ export default defineConfig(({ mode }) => {
         ausgabe = path.resolve(c.root, c.build.outDir);
       },
       closeBundle() {
-        if (!mitOs) rmSync(path.join(ausgabe, "investment-os"), { recursive: true, force: true });
+        if (!mitOs) {
+          rmSync(path.join(ausgabe, "investment-os"), { recursive: true, force: true });
+          // RN19: llms.txt nennt das OS nur in Phase 2. In Phase 1 wäre der Link eine 404.
+          const llms = path.join(ausgabe, "llms.txt");
+          if (existsSync(llms)) {
+            writeFileSync(llms, readFileSync(llms, "utf8").replace(/## Halal-Investment-OS\n[\s\S]*?(?=\n## )\n/, ""));
+          }
+        }
       },
     },
     react(),

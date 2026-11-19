@@ -18,7 +18,7 @@ const freebie = optinFreebie("top-100-halal-aktien")!;
 const Top100HalalAktien = () => (
   <>
     <Seo
-      title="100 bekannte Halal-Aktien, von Apple bis Nike | finanzmuslim"
+      title="100 bekannte Halal-Aktien, von Apple bis Nike"
       description="Prüfe 100 bekannte Aktien auf halal, von Apple bis Nike. Mit Musaffa-Einzelprüfung vom 01.11.2026 und Fundstelle zu jedem Titel."
       path="/vorlagen/top-100-halal-aktien"
       brotkrumen={[

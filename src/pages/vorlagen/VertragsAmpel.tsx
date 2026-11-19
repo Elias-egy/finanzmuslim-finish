@@ -30,8 +30,8 @@ const AN_DER_KANTE = 3;
 const VertragsAmpel = () => (
   <>
     <Seo
-      title="Welche Verträge sind halal? Der Halal Vertrags-Check für 12 Verträge | finanzmuslim"
-      description="Welche Verträge halal sind und welche nicht: zwölf Verträge aus dem Alltag mit klarer Farbe und der Bedingung dahinter. Kreditkarte, Versicherung, Ratenzahlung, Leasing, Depot und mehr."
+      title="Welche Verträge sind halal? 12 Verträge im Check"
+      description="Welche Verträge halal sind: zwölf Alltagsverträge mit klarer Farbe und der Bedingung dahinter. Kreditkarte, Versicherung, Ratenzahlung, Leasing, Depot."
       path="/vorlagen/vertrags-ampel"
       brotkrumen={[{ name: "Vorlagen", path: "/vorlagen" }, { name: "Halal Vertrags-Check", path: "/vorlagen/vertrags-ampel" }]}
     />

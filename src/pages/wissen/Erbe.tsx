@@ -284,12 +284,12 @@ const faq: BeitragFrage[] = [
 ];
 
 const beschreibung =
-  "Vier Stufen vor der Verteilung, die häufigsten Anteile im Überblick, das Missverständnis mit dem doppelten Anteil und der entscheidende Punkt: Ohne Testament gilt in Deutschland deutsches Erbrecht.";
+  "Vier Stufen vor der Verteilung, die häufigsten Anteile und das Missverständnis mit dem doppelten Anteil. Ohne Testament gilt deutsches Erbrecht.";
 
 const Erbe = () => (
   <>
     <Seo
-      title="Erbe nach islamischem Recht: was in Deutschland zählt | finanzmuslim"
+      title="Erbe nach islamischem Recht: was in Deutschland zählt"
       description={beschreibung}
       path="/blog/erbe"
       jsonLd={beitragJsonLd({

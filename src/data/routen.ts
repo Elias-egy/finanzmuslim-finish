@@ -122,7 +122,7 @@ export const festeRouten: Route[] = [
   wissenBeitrag("zakat-auf-aktien-etf-krypto", "ZakatAufAktienEtfKrypto.tsx"),
 
   { pfad: "/vorlagen", quelle: ["src/pages/Vorlagen.tsx", "src/data/vorlagen.ts"], changefreq: "monthly", prioritaet: "0.8" },
-  vorlage("halal-anlagen", "HalalAnlagen.tsx"),
+  // /vorlagen/halal-anlagen steht nicht mehr hier: noindex, siehe nichtIndexiert (RN19).
   vorlage("vertrags-ampel", "VertragsAmpel.tsx"),
   vorlage("aktien-check", "AktienCheck.tsx"),
   vorlage("rizq", "Rizq.tsx"),
@@ -213,6 +213,13 @@ export const nichtIndexiert: string[] = [
   ...optinAdressen(),
   "/newsletter/archiv",
   ...ausgaben.map(ausgabePfad),
+  // Halal-Finanz-Check (RN5, RN7): Ziel fast jedes Knopfs der Seite. Ohne eigene Datei antwortete der Hoster mit 404,
+  // nur das Skript der Fehlerseite zeigte die Seite doch. Jetzt vorgerendert mit noindex (RN19).
+  "/check",
+  // Freebie „Halal-Anlagen-Liste“ (nur für Instagram, Elias SEO19: „Freebies müssen nicht SEO-optimiert sein“) trug „Halal Anlagen
+  // Liste“ im Title und teilte sich mit der Datenbank dieselben Suchen (Search Console 90 Tage: 154 Einblendungen dort,
+  // 287 auf /halal-anlagen, beide auf Position 40 bis 90). Seitenkarte: Datenbank ist die Seite, die Vorlage der Trichter, bei Google aus (RN19).
+  "/vorlagen/halal-anlagen",
 ];
 
 /**
@@ -300,6 +307,7 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/out/:kurzname", grund: "Partner-Weiterleitung, gehört nicht in den Index" },
   { pfad: "/weiter/:kurzname", grund: "Partner-Weiterleitung für Knöpfe, die Werbeblocker sonst verstecken" },
   { pfad: "/depot-nummer-1", grund: "Weiterleitung auf die Nummer 1 des Depot-Vergleichs (Guides), gehört nicht in den Index" },
+  { pfad: "/vorlagen/halal-anlagen", grund: "Freebie-Liste nur für Instagram, nimmt der Datenbank /halal-anlagen die Suchen weg, setzt noindex (RN19)" },
   { pfad: "/check", grund: "Halal-Finanz-Check mit Verkaufsseite vor den Fragen (RN5, RN7), setzt noindex" },
   { pfad: "/vergleich/start", grund: "Weiterleitung auf /check?quelle=quiz (RN6), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },

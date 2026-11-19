@@ -6,7 +6,7 @@ const Datenschutz = () => (
   <div className="min-h-screen bg-background text-foreground">
     <Seo
       title="Datenschutz – finanzmuslim"
-      description="Datenschutzerklärung von finanzmuslim, Informationen zur Verarbeitung personenbezogener Daten."
+      description="Datenschutzerklärung von finanzmuslim mit Informationen zur Verarbeitung personenbezogener Daten, zu Cookies und Messung und zu deinen Rechten als Besucher."
       path="/datenschutz"
       brotkrumen={[{ name: "Datenschutz", path: "/datenschutz" }]}
     />
