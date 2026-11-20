@@ -34,7 +34,7 @@ const WertText = ({ text }: { text: string | null | undefined }) =>
 export const DepotInhalt = ({ w }: { w: DepotWerte }) => {
   const z = depotZinsZeile(w.zinsfrei);
   const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : Minus;
-  const farbe = z.zeichen === "ja" ? "text-primary" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
+  const farbe = z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
   return (
     <>
       <p className="mt-3 flex items-start gap-2 text-[14px] font-semibold leading-snug text-foreground">

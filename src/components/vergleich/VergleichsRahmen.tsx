@@ -212,7 +212,7 @@ export const NummerEins = ({
         <ul className={`mt-3 xl:mt-4 xl:columns-2 xl:gap-x-8 ${stil ? "lg:hidden" : ""}`}>
           {punkte.map((punkt) => (
             <li key={punkt.key} className="mb-1.5 flex break-inside-avoid items-start gap-2 text-[14px] leading-snug text-foreground xl:mb-2">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden />
               <span>{punkt.text}</span>
             </li>
           ))}
@@ -304,7 +304,7 @@ export const ZweiNummerEins = ({
             <ul className="mt-2 mb-2.5">
               {punkte.map((punkt) => (
                 <li key={punkt.key} className="mb-1 flex items-start gap-1.5 text-[13px] leading-snug text-foreground xl:text-[14px]">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" aria-hidden />
                   <span>{punkt.text}</span>
                 </li>
               ))}

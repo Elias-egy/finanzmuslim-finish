@@ -85,7 +85,7 @@ const VorlagenSeite = ({
             <Motiv />
           </span>
         )}
-        <span className="badge-new">{kicker}</span>
+        <span className="etikett-rund">{kicker}</span>
         <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight text-foreground md:text-4xl">{titel}</h1>
         <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-foreground/90">{einleitung}</p>
         <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center">

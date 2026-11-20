@@ -36,7 +36,7 @@ const Vorlagen = () => (
             <MotivBild name={v.motiv} className="max-h-[104px] md:max-h-none" />
             <div className="flex flex-1 flex-col p-6">
             <span className="flex flex-wrap items-center gap-2">
-              <span className="badge-new">{v.kicker}</span>
+              <span className="etikett-rund">{v.kicker}</span>
               {v.gegenEmail && (
                 <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-primary">
                   <Mail className="h-3.5 w-3.5" aria-hidden /> Gegen E-Mail

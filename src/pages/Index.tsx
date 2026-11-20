@@ -533,7 +533,7 @@ const Index = () => {
                 titel={title}
                 to={to}
                 icon={Icon}
-                etikett={title === "Zakat-Rechner" ? <span className="badge-new">Neu</span> : undefined}
+                etikett={title === "Zakat-Rechner" ? <span className="etikett-rund">Neu</span> : undefined}
               />
             ))}
           </div>
