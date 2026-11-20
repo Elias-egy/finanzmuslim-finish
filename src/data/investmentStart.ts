@@ -2063,7 +2063,7 @@ export const startPartner: StartPartner[] = [
     titel: ["In 10 Minuten steht", "dein Halal-Depot."],
     knopf: "Bei flatex eröffnen →",
     videoHinweis: true,
-    chips: ["Aktien", "ETFs", "Alle 22 Halal-Anlagen", "Sparpläne ab 25 €"],
+    chips: ["Aktien", "ETFs", "Alle 22 Halal-Anlagen", "Sparpläne ab 1 €"],
     fakten: [
       {
         titel: "Guthaben ohne Zinsen",
