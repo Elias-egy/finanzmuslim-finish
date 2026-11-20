@@ -14,13 +14,8 @@ const gespeichert = (): Wahl => {
   }
 };
 
-const geraetDunkel = () => typeof window !== "undefined" && !!window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-
-/** Ohne gemerkte Wahl folgt die Seite der Geräteeinstellung. */
-export const istDunkel = () => {
-  const w = gespeichert();
-  return w ? w === "dark" : geraetDunkel();
-};
+/** Elias 20.11. (RN25L-05): Die Seite startet für jeden hell; dunkel nur, wenn jemand es selbst umschaltet. */
+export const istDunkel = () => gespeichert() === "dark";
 
 const anwenden = (dunkel: boolean) => {
   const root = document.documentElement;
@@ -36,19 +31,10 @@ export const useThema = () => {
   );
 
   useEffect(() => {
-    // Stand beim Laden angleichen (das Skript in index.html hat ihn schon gesetzt) und der Geräteeinstellung folgen, solange nichts gemerkt ist.
+    // Stand beim Laden angleichen (das Skript in index.html hat ihn schon gesetzt); die Geräteeinstellung zählt nicht.
     const d = istDunkel();
     anwenden(d);
     setDunkel(d);
-    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
-    const bei = () => {
-      if (gespeichert()) return;
-      const n = istDunkel();
-      anwenden(n);
-      setDunkel(n);
-    };
-    mq?.addEventListener?.("change", bei);
-    return () => mq?.removeEventListener?.("change", bei);
   }, []);
 
   const umschalten = useCallback(() => {
