@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -22,12 +22,11 @@ import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/Social
 import Aufruf from "@/components/Aufruf";
 import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
-import Tagesgewinner from "@/components/Tagesgewinner";
+import Tagesgewinner from "@/components/TagesgewinnerSpaeter";
 import MotivBild from "@/components/MotivBild";
 import OsWelt, { OS_GRUND } from "@/components/OsWelt";
 import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
 import { MIT_OS } from "@/config/phase";
-import { ausgabePfad, neuesteZuerst } from "@/data/newsletterAusgaben";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
@@ -194,10 +193,32 @@ const Zeile = ({
     </div>
   );
 
-/** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen. */
-const aktuelleAusgabe = neuesteZuerst()[0];
+/** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen.
+ *  Nacht-Tempo (RN25L, 20.11.2026): Die Ausgaben stecken als ganze Texte in einer Datei (rund 18 KB gzip), die für diesen
+ *  einen Link im Paket der Startseite lag. Sie lädt jetzt, sobald der Browser Luft hat; der Link steht im Abschnitt
+ *  Newsletter weit unter dem ersten Bildschirm, das Vorab-Rendern wartet darauf mit. */
+type Neueste = { to: string } | null;
+const useAktuelleAusgabe = (): Neueste => {
+  const [neueste, setNeueste] = useState<Neueste>(null);
+  useEffect(() => {
+    let aktiv = true;
+    const laden = () =>
+      void import("@/data/newsletterAusgaben").then(({ ausgabePfad, neuesteZuerst }) => {
+        const a = neuesteZuerst()[0];
+        if (aktiv && a) setNeueste({ to: ausgabePfad(a) });
+      });
+    const w = window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(laden, { timeout: 3000 });
+    else setTimeout(laden, 1500);
+    return () => {
+      aktiv = false;
+    };
+  }, []);
+  return neueste;
+};
 
 const Index = () => {
+  const aktuelleAusgabe = useAktuelleAusgabe();
   // Zwei Fassungen des OS-Blocks zum Vergleich (VS5): dunkel ist der Standard, ?os=hell zeigt die helle.
   const osHell = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("os") === "hell";
   // Mit /#os direkt am OS-Block oeffnen (zum Zeigen an der Stelle); die Seite setzt sich beim Laden sonst nach oben.
@@ -446,7 +467,7 @@ const Index = () => {
                 dann das Feld. Wer sieht, was drin steht, traegt sich eher ein. */}
             {aktuelleAusgabe && (
               <Link
-                to={ausgabePfad(aktuelleAusgabe)}
+                to={aktuelleAusgabe.to}
                 className="mt-5 inline-flex items-center gap-1 text-[17px] font-bold text-primary hover:underline"
               >
                 Zur aktuellen Ausgabe

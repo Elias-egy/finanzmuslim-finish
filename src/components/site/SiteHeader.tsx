@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { MIT_OS } from "@/config/phase";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
-import Suche from "@/components/site/Suche";
 import { cn } from "@/lib/utils";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 import { useThema } from "@/lib/thema";
+
+// Nacht-Tempo (RN25L, 20.11.2026): Die Suche trägt die ganze Anlagendatenbank (rund 35 KB) und wird erst beim
+// ersten Antippen der Lupe geladen; Berühren oder Fokus holen sie schon vorher.
+const ladeSuche = () => import("@/components/site/Suche");
+const Suche = lazy(ladeSuche);
 
 const SoonItem = ({ label }: { label: string }) => (
   <span className="flex min-h-[44px] items-center gap-2 text-[15px] text-muted-foreground/60 cursor-default">
@@ -60,6 +64,7 @@ export const SiteHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [sucheOffen, setSucheOffen] = useState(false);
+  const [sucheGeladen, setSucheGeladen] = useState(false);
   const { pathname } = useLocation();
   // Der Hinweisstreifen gehoert auf die Startseite, nicht auf jede Unterseite.
   const aufStartseite = pathname === "/";
@@ -209,7 +214,13 @@ export const SiteHeader = () => {
                 <button
                   type="button"
                   aria-label="Suche"
-                  onClick={() => setSucheOffen(true)}
+                  onClick={() => {
+                    setSucheGeladen(true);
+                    setSucheOffen(true);
+                  }}
+                  onPointerEnter={() => void ladeSuche()}
+                  onTouchStart={() => void ladeSuche()}
+                  onFocus={() => void ladeSuche()}
                   className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-white/90 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <Search className="h-[22px] w-[22px]" aria-hidden />
@@ -356,7 +367,11 @@ export const SiteHeader = () => {
         </div>
       )}
 
-      <Suche offen={sucheOffen} schliessen={() => setSucheOffen(false)} />
+      {sucheGeladen && (
+        <Suspense fallback={null}>
+          <Suche offen={sucheOffen} schliessen={() => setSucheOffen(false)} />
+        </Suspense>
+      )}
     </>
   );
 };

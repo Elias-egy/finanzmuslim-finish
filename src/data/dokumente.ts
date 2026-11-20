@@ -1,6 +1,6 @@
 import { vorlageBySlug } from "@/data/vorlagen";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
-import { DEPOTS_GETESTET, KONTEN_GETESTET } from "@/data/halalFinanzCheck";
+import { DEPOTS_GETESTET, KONTEN_GETESTET } from "@/data/halalFinanzCheckKern";
 
 /**
  * Die Seite /dokumente (RN19, 19.11.2026). Elias RN18-20: „Dokumentseite. Und dann kann man auch immer sagen, alles

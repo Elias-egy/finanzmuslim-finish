@@ -165,11 +165,23 @@ const seoFertig = async (seite) => {
 };
 
 /** Räumt auf, was nur zur Laufzeit gehört. */
-const aufraeumen = (html) =>
-  html
+const aufraeumen = (html, pfad = "") => {
+  let aus = html
     // Vite-Preload-Fehlerbehandlung und HMR-Reste kommen nicht vor, aber
     // leere Portale von Radix schon. Sie sind unsichtbar und harmlos.
     .replace(/<script type="module" src="\/@vite\/client"><\/script>/g, "");
+  /* Nacht-Tempo (RN25L, 20.11.2026): Auf der Startseite laden Tagesgewinner (Kursreihen, 88 KB gzip) und die
+     Newsletter-Ausgaben erst spaeter nach (src/components/TagesgewinnerSpaeter.tsx, Index.tsx). Beim Vorab-Rendern
+     laden sie sofort, damit der Text in der HTML-Datei steht; ihre Vorlade-Hinweise gehoeren aber nicht in die Datei,
+     sonst holt jeder Besucher die Pakete doch gleich mit. */
+  if (pfad === "/") {
+    aus = aus.replace(
+      /<link rel="modulepreload"[^>]*href="\/assets\/(?:kurse|Tagesgewinner|Rendite|AnlageZeile|halalAnlagen|newsletterAusgaben)-[^"]*\.js"[^>]*>/g,
+      "",
+    );
+  }
+  return aus;
+};
 
 /** Setzt robots auf noindex, egal was die Seite selbst gesetzt hat. */
 const aufNoindex = (html) =>
@@ -282,6 +294,7 @@ const main = async () => {
       await seoFertig(seite);
       const html = aufraeumen(
         await seite.evaluate(() => "<!DOCTYPE html>\n" + document.documentElement.outerHTML),
+        pfad,
       );
       await schreiben(pfad, nichtIndexiert.includes(pfad) ? aufNoindex(html) : html);
       /* Eine Seite der Sitemap, die sich heute selbst auf noindex setzt (/deals ohne laufenden Bonus). */

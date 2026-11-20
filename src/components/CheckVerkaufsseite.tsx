@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CheckStimmen from "@/components/CheckStimme";
 import { SchrittSzene, type SzeneId } from "@/components/CheckSchrittBild";
 import { followerGesamt } from "@/data/beweise";
-import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheck";
+import { ANGEBOTE_GETESTET, DEPOTS_GETESTET, KONTEN_GETESTET, type Art } from "@/data/halalFinanzCheckKern";
 import { leuteBilder, stimmenAn } from "@/data/checkStimmen";
 import { RUNDE_BANKEN, rundStil } from "@/components/rundeBanken";
 

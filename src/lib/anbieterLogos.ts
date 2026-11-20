@@ -1,28 +1,14 @@
-import { depotAnzeige } from "@/data/anzeige/depot";
-import { girokontoAnzeige } from "@/data/anzeige/girokonto";
-import { kryptoAnzeige } from "@/data/anzeige/krypto";
-import { empfehlbar } from "@/data/vergleichAssistent";
+import { LOGO_SCHNAPPSCHUSS } from "@/data/logoSchnappschuss";
 
 export type LogoAnbieter = { name: string; domain?: string };
+export type LogoKategorie = "Depot" | "Girokonto" | "Krypto";
 
-/** Die Angebote, die der Vergleich zeigt: Ein Logo führt dorthin und muss dort zu finden sein. */
-const LISTEN = { Depot: depotAnzeige, Girokonto: girokontoAnzeige, Krypto: kryptoAnzeige } as const;
-export type LogoKategorie = keyof typeof LISTEN;
-
-export const hatLogos = (kategorie: string): kategorie is LogoKategorie => kategorie in LISTEN;
+export const hatLogos = (kategorie: string): kategorie is LogoKategorie => kategorie in LOGO_SCHNAPPSCHUSS;
 
 /**
- * Logos für Aufrufe zu einem Vergleich. Nur Anbieter, die wir aktiv bewerben dürfen
- * (`empfehlbar`: ab Start ohne Zinsen, keine Halal-Grundlage verletzt, nicht abgeraten).
- * Partner stehen vorn, weil der Klick dort Geld verdient. Je Haus nur ein Logo.
+ * Logos für Aufrufe zu einem Vergleich: die Angebote, die der Vergleich zeigt, nur die bewerbbaren, Partner vorn, je Haus
+ * eines. Nacht-Tempo (RN25L, 20.11.2026): Die Liste kommt aus einem beim Bau erzeugten Schnappschuss
+ * (`src/data/logoSchnappschuss.ts`, Rechnung in `anbieterLogosLive.ts`), damit Blogbeiträge und Aufrufe die drei
+ * Vergleichsdateien samt Korrekturen (rund 100 KB gzip) nicht mitladen.
  */
-export const logosFuer = (kategorie: LogoKategorie): { logos: LogoAnbieter[]; gesamt: number } => {
-  const liste = LISTEN[kategorie];
-  const gruen = liste.filter((a) => a.domain && empfehlbar(a.id));
-  const sortiert = [...gruen.filter((a) => a.link), ...gruen.filter((a) => !a.link)];
-  const gesehen = new Set<string>();
-  const logos = sortiert
-    .filter((a) => (gesehen.has(a.domain!) ? false : (gesehen.add(a.domain!), true)))
-    .map((a) => ({ name: a.name, domain: a.domain }));
-  return { logos, gesamt: liste.length };
-};
+export const logosFuer = (kategorie: LogoKategorie): { logos: LogoAnbieter[]; gesamt: number } => LOGO_SCHNAPPSCHUSS[kategorie];

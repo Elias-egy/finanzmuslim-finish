@@ -1,11 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { captureSrc } from "@/lib/attribution";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
@@ -108,8 +104,6 @@ const Gratis = lazy(() => import("./pages/Gratis.tsx"));
 const Danke = lazy(() => import("./pages/Danke.tsx"));
 const VorlageVoll = lazy(() => import("./pages/VorlageVoll.tsx"));
 
-const queryClient = new QueryClient();
-
 const routeFallback = <div className="min-h-screen bg-background" aria-hidden />;
 
 // F3: captured ?src auf jeder Route (nicht nur InvestmentStart), damit die
@@ -151,10 +145,10 @@ const ScrollToTop = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+  // Nacht-Tempo (RN25L, 20.11.2026): QueryClientProvider, Toaster, Sonner und TooltipProvider sind raus. Nirgends im
+  // Code läuft useQuery, toast() oder ein Radix-Tooltip (die Tooltips der Rechner sind die von recharts), sie
+  // luden aber auf jeder Seite rund 200 KB Code im Hauptpaket. Wer sie braucht, setzt den Provider an der Stelle selbst.
+  <>
       <BrowserRouter>
         <SrcCapture />
         <PartnerSprung />
@@ -271,8 +265,7 @@ const App = () => (
         </Suspense>
         </Layout>
       </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  </>
 );
 
 export default App;

@@ -12,11 +12,11 @@ import {
   ETIKETT,
   FRAGEN,
   KONTEN_GETESTET,
-  ergebnisAus,
   zielFrage,
   type Antworten,
   type CheckQuelle,
-} from "@/data/halalFinanzCheck";
+} from "@/data/halalFinanzCheckKern";
+import { ergebnisAus } from "@/data/halalFinanzCheck";
 import "@/styles/checkEinstieg.css";
 
 /**

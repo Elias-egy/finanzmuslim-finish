@@ -4,7 +4,7 @@
  * Produktionsbuild erst mit bestaetigt: true, sonst nur im Entwicklungsmodus mit data-stimme-platzhalter. Sterne nur, wo der Eintrag selbst
  * eine Zahl mitbringt. Foto nur ein echtes, Pfad unter /public.
  */
-import type { CheckQuelle } from "@/data/halalFinanzCheck";
+import type { CheckQuelle } from "@/data/halalFinanzCheckKern";
 
 export type StimmeId = "matin" | "bank-nebeneinander" | "reuf" | "skeptisch" | "klein-anfangen" | "bilal";
 

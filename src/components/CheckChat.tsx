@@ -17,7 +17,7 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
-import { DEPOTS_GETESTET, KONTEN_GETESTET, type Frage } from "@/data/halalFinanzCheck";
+import { DEPOTS_GETESTET, KONTEN_GETESTET, type Frage } from "@/data/halalFinanzCheckKern";
 
 /**
  * Eine Frage als Chat (RN8, RN9), für beide Arten. Aufbau und Maße 1:1 wie die Handyansicht von Elias' Perspective-Funnel

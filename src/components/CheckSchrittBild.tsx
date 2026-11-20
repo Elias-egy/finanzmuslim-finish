@@ -4,7 +4,7 @@ import { ANBIETER_LOGOS, logoMass } from "@/data/anbieterLogos";
 import { LOGO_MASSE } from "@/data/anbieterLogoMasse";
 import { bankPreis, bankWerte, schnellwahl, wahlVon, type BankAmpel } from "@/data/bankSuche";
 import { depotNachId, depotSchnellwahl, depotWahlVon, depotWerte } from "@/data/depotSuche";
-import { ETIKETT, FRAGEN, type Art } from "@/data/halalFinanzCheck";
+import { ETIKETT, FRAGEN, type Art } from "@/data/halalFinanzCheckKern";
 
 /**
  * RN15 (Elias RN14-02: „So entsteht deine Empfehlung. Da will ich die Bilder einmal anpassen … Bilder …, die nicht generisch wirken“):

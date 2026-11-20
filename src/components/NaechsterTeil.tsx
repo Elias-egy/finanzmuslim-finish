@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ereignis } from "@/lib/messung";
 import { ArrowRight } from "lucide-react";
 import type { LeiterWort } from "@/data/leiter";
-import { DEPOTS_GETESTET, KONTEN_GETESTET, type CheckQuelle } from "@/data/halalFinanzCheck";
+import { DEPOTS_GETESTET, KONTEN_GETESTET, type CheckQuelle } from "@/data/halalFinanzCheckKern";
 import { stimmenUnten } from "@/data/checkStimmen";
 import { StimmeKarte } from "@/components/CheckStimme";
 import "@/styles/checkEinstieg.css";
