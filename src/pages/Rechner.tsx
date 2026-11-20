@@ -26,7 +26,7 @@ const Kachel = ({ name, icon: Icon, to, neu }: Rechner) => {
       </span>
       <span className="flex min-w-0 flex-wrap items-center gap-2 text-[15px] font-bold text-foreground">
         {name}
-        {neu && <span className="badge-new">Neu</span>}
+        {neu && <span className="etikett-rund">Neu</span>}
       </span>
     </>
   );

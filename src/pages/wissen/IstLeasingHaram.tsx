@@ -529,7 +529,7 @@ const IstLeasingHaram = () => {
               <ul data-vorlage="haken" className="mt-5 flex flex-wrap gap-2">
                 {["Rechner: Leasingrate oder Depot", "5 Punkte im Vertrag", "5 Wege zum Auto im Vergleich"].map((h) => (
                   <li key={h} className="inline-flex min-h-[34px] items-center gap-1.5 border border-border bg-muted/50 px-3 text-[14px] text-foreground/85">
-                    <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <Check className="h-4 w-4 shrink-0 text-success" aria-hidden />
                     {h}
                   </li>
                 ))}

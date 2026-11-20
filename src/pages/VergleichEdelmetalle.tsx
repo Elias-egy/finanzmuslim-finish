@@ -55,7 +55,7 @@ const NummerEinsGold = () => (
     <ul className="mt-2 space-y-1 md:mt-3 md:space-y-1.5">
       {RM_GRUENDE.map((g) => (
         <li key={g} className="flex items-center gap-2 text-[15px] text-foreground md:text-[16px]">
-          <Check className="h-[18px] w-[18px] shrink-0 text-primary" aria-hidden />
+          <Check className="h-[18px] w-[18px] shrink-0 text-success" aria-hidden />
           {g}
         </li>
       ))}

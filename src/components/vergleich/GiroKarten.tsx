@@ -145,7 +145,7 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
 export const GiroInhalt = ({ w, besonders }: { w: GiroWerte; besonders?: string[] }) => {
   const z = zinsDispoZeile(w.zinsfrei, w.keinDispo);
   const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : Minus;
-  const farbe = z.zeichen === "ja" ? "text-primary" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
+  const farbe = z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
   return (
     <>
       <p className="mt-3 flex items-start gap-2 text-[14px] font-semibold leading-snug text-foreground">

@@ -72,7 +72,7 @@ const Punkt = ({
   const [zeichen, text] = punktText(zeile, wert);
   const Icon = zeichen === "nein" ? X : zeichen === "offen" ? Minus : Check;
   const farbe = {
-    ja: "text-primary",
+    ja: "text-success",
     teils: "text-warning",
     nein: "text-destructive",
     offen: "text-muted-foreground/60",

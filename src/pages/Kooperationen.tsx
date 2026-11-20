@@ -76,7 +76,7 @@ const Kooperationen = () => (
           <ul className="mt-4 space-y-2">
             {themen.map((t) => (
               <li key={t} className="flex items-center gap-3 text-foreground">
-                <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                <Check className="h-4 w-4 shrink-0 text-success" aria-hidden />
                 {t}
               </li>
             ))}
