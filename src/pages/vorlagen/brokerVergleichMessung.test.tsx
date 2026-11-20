@@ -42,37 +42,25 @@ describe("Broker-Freebie: Seite und Messung", () => {
     expect(ereignis).toHaveBeenCalledWith("freebie_ende", expect.objectContaining({ wort: "broker-vergleich" }));
   });
 
-  it("hat genau einen großen Check-Kasten und keinen Partnerweg mehr (RN16-42)", () => {
+  it("führt mit dem Vergleich ein und gibt am Ende die freie Wahl: flatex, Smartbroker+, Traders Place (GB1)", () => {
     const { container } = zeige();
-    expect(container.querySelectorAll("a[data-broker-knopf]")).toHaveLength(0);
-    expect(container.querySelector("a[href*='/out/'], a[href*='/vergleich/']")).toBeNull();
-    expect(container.querySelectorAll("[data-check-einstieg='broker-vergleich']")).toHaveLength(1);
-    expect(container.querySelectorAll("[data-match-ende]")).toHaveLength(1);
+    expect(container.querySelector("[data-broker-versprechen] a")).toBeNull();
+    const wahl = container.querySelector("[data-broker-wahl]")!;
+    const karten = [...wahl.querySelectorAll("[data-broker-karte]")].map((k) => k.getAttribute("data-broker-karte"));
+    expect(karten).toEqual(["flatex", "smartbroker", "traders-place"]);
+    expect(wahl.querySelector('[data-broker-karte="flatex"] a')!.getAttribute("href")).toBe("/out/flatex?src=bvfx");
+    expect(wahl.querySelector("[data-broker-weitere] a")!.getAttribute("href")).toBe("/out/scalable?src=bvsc");
   });
 
-  it("zeigt die vier Anbieter in der Reihenfolge der Seite und Scalable als Honorable Mention", () => {
+  it("zeigt keine Kosten pro Order und nennt den Kreditrahmen nur bei flatex", () => {
     const { container } = zeige();
-    const karten = [...container.querySelectorAll("[data-broker-karte]")].map((k) => k.getAttribute("data-broker-karte"));
-    expect(karten).toEqual(["flatex", "smartbroker", "traders-place", "scalable"]);
-    expect(screen.getAllByText("Honorable Mention")).toHaveLength(1);
+    expect(container.textContent).not.toMatch(/Kosten pro Order/);
+    expect(container.querySelector("[data-broker-regeln]")!.textContent).toMatch(/flatex lehnst du den Kreditrahmen ab/);
   });
 
-  it("setzt die drei im Vergleich als Einleitung vor die Karten und die zwei Auszeichnungen in der Reihenfolge Profis, Start", () => {
+  it("hat den Test für Unsichere ganz unten", () => {
     const { container } = zeige();
-    const tabelle = container.querySelector("[data-broker-tabelle]")!;
-    const ersteKarte = container.querySelector("[data-broker-karte]")!;
-    expect(tabelle.compareDocumentPosition(ersteKarte) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    const ausz = [...container.querySelectorAll("[data-broker-auszeichnung]")].map((a) => a.textContent);
-    expect(ausz).toEqual(["Nummer 1 für Profis", "Nummer 1 für den Start"]);
-    expect(container.querySelector("[data-broker-karte='flatex'] [data-broker-auszeichnung]")).not.toBeNull();
-    expect(container.querySelector("[data-broker-karte='smartbroker'] [data-broker-auszeichnung]")).not.toBeNull();
-    const hm = screen.getByText("Honorable Mention");
-    expect(hm.compareDocumentPosition(container.querySelector("[data-broker-karte='scalable']")!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-  });
-
-  it("nennt den Kreditrahmen nur bei flatex", () => {
-    const { container } = zeige();
-    expect(container.querySelectorAll("[data-broker-kredit]")).toHaveLength(1);
-    expect(container.querySelector("[data-broker-karte='flatex'] [data-broker-kredit]")).not.toBeNull();
+    expect(container.querySelector("[data-broker-test] a")!.getAttribute("href")).toContain("/check?quelle=broker-vergleich");
+    screen.getByText("Noch unsicher, welcher?");
   });
 });

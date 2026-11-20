@@ -1,72 +1,39 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
-import NewsletterBox from "@/components/NewsletterBox";
 import AnbieterLogo from "@/components/AnbieterLogo";
-import { BONUS_KONTEN, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro } from "@/data/girokontoBonus";
+import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
+import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
+import eliasAutor from "@/assets/elias-autor.webp";
+import { BONUS_KONTEN, BBBANK_PRAEMIE, GIRO_BONUS_SRC, GIRO_BONUS_STAND, euro, type BonusKonto } from "@/data/girokontoBonus";
+import { KONTEN_GETESTET } from "@/data/halalFinanzCheckKern";
 import { findStartPartner } from "@/data/investmentStart";
 import { blockerFest, direktLink } from "@/lib/direktLink";
 import { ereignis } from "@/lib/messung";
 
 /**
- * /vorlagen/girokonto-bonus: das Girokonto-Freebie als offene Unterseite (Elias, 05.11.2026, H15 5c). Leser kommen über
- * die Halal-News und über das Video mit den 50 Euro. Aufbau nach Elias: die drei Konten im Vergleich, die BBBank als
- * Bonus und warum sie so gut ist, je Konto ein Knopf zum Eröffnen. Alle Zahlen und Belege: `src/data/girokontoBonus.ts`.
- * Nach dem Muster der Freebie-Seiten (Vault memory freebie-top3-statt-rot-guide-unten, freebie-seiten-simpel-beispiel-im-kontext):
- * weiß, große Zahl, Top-3-Karten mit Logo, Kennzeichnung Werbung, kein roter Kasten, kein Verweis auf andere Freebies.
+ * /vorlagen/girokonto-bonus: Ziel des DM-Worts KONTO.
+ * GB1 (Elias 20.11.2026, Vault raw/2026-11-20-elias-gb1-girokonto-broker-freebie-reihenfolge-codex-psychologie.md):
+ * „Am Anfang muss erstmal das Versprechen eingehalten werden … ganz clean wie ein Vergleich, sehr kompetent und dann am
+ * Ende, hey, hier hast du die freie Wahl … unten vielleicht nicht sicher welches, hier ist ein Test“. Vorher stand der
+ * norisbank-Knopf ganz oben („der drückt dir direkt den Norris-Bank-Link rein, bevor du irgendwas gelesen hast“).
+ * Reihenfolge nach Codex-Gutachten (Vault data/conversion/gb1-codex-gutachten.md): Versprechen, Vergleich, zwei Regeln,
+ * freie Wahl mit drei gleich großen Knöpfen, Test für Unsichere. Steuersatz, Prämien-Schritte, Pillen, Newsletter raus.
+ * Zahlen und Belege: `src/data/girokontoBonus.ts`.
  */
-const [norisbank, bbbank, consorsbank] = BONUS_KONTEN;
 
-/**
- * Knöpfe direkt auf den Affiliate-Link, ohne Zwischenseite (Elias, 05.11.2026: „direkt auf den Affiliate-Link …
- * Genauso auch hier“; 06.11.2026: „von da aus kommst du auf alle drei Girokonten wenn du auf den Knopf drückst“).
- * Link und SubID wie auf der Startseite (`src/lib/direktLink.ts`), Fallback /out/<kurzname>.
- */
 const link = (out: string, stelle: string) => {
   const start = findStartPartner(out);
   return start ? direktLink(start, `?src=${stelle}`) : `/out/${out}?src=${stelle}`;
 };
 
-const Werbung = () => <span className="text-[12px] text-muted-foreground">Werbung</span>;
-
-const Haken = ({ children }: { children: ReactNode }) => (
-  <li className="flex items-start gap-3 text-[17px] leading-snug text-foreground">
-    <span className="mt-px flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gain text-white dark:text-[#0B0D12]">
-      <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
-    </span>
-    <span>{children}</span>
-  </li>
-);
-
-const Pille = ({ children }: { children: ReactNode }) => (
-  <li className="flex min-h-[40px] items-center gap-1.5 rounded-full border border-border bg-background px-3 text-[14px] font-semibold text-foreground">
-    <Check className="h-4 w-4 text-gain" strokeWidth={3} aria-hidden />
-    {children}
-  </li>
-);
-
-// Messung (S6, 06.11.2026): partner_klick nennt das Konto (out-Kurzname) und die Stelle (gbkopf, gbwarum …) statt des
-// Netzwerk-Servers, sonst stehen im Wochenbericht nur c.neqty.net und financeads.net.
-const Knopf = ({
-  to,
-  anbieter,
-  stelle,
-  children,
-  klasse = "",
-}: {
-  to: string;
-  anbieter: string;
-  stelle: string;
-  children: ReactNode;
-  klasse?: string;
-}) =>
+const Knopf = ({ to, anbieter, stelle, children }: { to: string; anbieter: string; stelle: string; children: ReactNode }) =>
   to.startsWith("http") ? (
     <a
       href={blockerFest(anbieter, to, false).href}
       rel="sponsored noopener"
-      className={`btn-spark w-full sm:w-auto ${klasse}`}
+      className="btn-spark w-full"
       onClick={(e) => {
         ereignis("partner_klick", { anbieter, knopf: stelle, weg: "direkt", von: "girokonto-bonus" });
         blockerFest(anbieter, to, false).oeffnen?.(e);
@@ -75,122 +42,86 @@ const Knopf = ({
       {children}
     </a>
   ) : (
-    <Link to={to} className={`btn-spark w-full sm:w-auto ${klasse}`}>
+    <Link to={to} className="btn-spark w-full">
       {children}
     </Link>
   );
 
-const Zelle = ({ children, fett }: { children: ReactNode; fett?: boolean }) => (
-  <td className={`px-2 py-3 text-center align-middle text-[16px] leading-tight ${fett ? "font-extrabold text-foreground" : "text-foreground"}`}>
-    {children}
-  </td>
-);
+const Ja = () => <Check className="mx-auto h-5 w-5 text-gain" strokeWidth={3} aria-label="ja" />;
 
-/**
- * Messung (S6, 06.11.2026): Die Seite hat keinen Kasten „Dein nächster Schritt“, darum zählt hier der letzte Abschnitt
- * (die zwei Regeln) als Ende des Freebies, wie NaechsterTeil: einmal je Aufruf, ab 30 % im Bild.
- */
-const useFreebieEnde = () => {
+/** Ein Grund je Konto, nur aus den Werten in girokontoBonus.ts. */
+const GRUND: Record<string, (k: BonusKonto) => string> = {
+  "norisbank-top-girokonto": (k) => `Für die meisten: schon ab ${euro(k.gratisAb)} Geldeingang kostenlos.`,
+  "bbbank-bettersmart": () => `Wenn du Bargeld in der Filiale einzahlst. Dazu ${euro(BBBANK_PRAEMIE.betrag)} Startprämie für Neukunden.`,
+  "consorsbank-girokonto": (k) => `Wenn du kein Bargeld einzahlst: bis ${k.gratisUnter} Jahre immer kostenlos.`,
+};
+
+const STELLE: Record<string, string> = {
+  "norisbank-top-girokonto": GIRO_BONUS_SRC.norisbank,
+  "bbbank-bettersmart": GIRO_BONUS_SRC.warum,
+  "consorsbank-girokonto": GIRO_BONUS_SRC.consorsbank,
+};
+
+const ZEILEN: [string, (k: BonusKonto) => ReactNode][] = [
+  ["Keine Zinsen", () => <Ja />],
+  ["Kostenlos unter", (k) => `${k.gratisUnter} Jahren`],
+  ["Sonst kostenlos ab", (k) => `${euro(k.gratisAb)} Eingang`],
+  ["Startprämie", (k) => (k.id === "bbbank-bettersmart" ? <b className="text-primary">{euro(BBBANK_PRAEMIE.betrag)}</b> : "keine")],
+  ["Bargeld einzahlen", (k) => k.bargeld],
+];
+
+const GirokontoBonus = () => {
   const ende = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = ende.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    const beobachter = new IntersectionObserver((eintraege) => {
-      if (!eintraege.some((e) => e.isIntersecting)) return;
+    const b = new IntersectionObserver((e) => {
+      if (!e.some((x) => x.isIntersecting)) return;
       ereignis("freebie_ende", { wort: "girokonto", seite: window.location.pathname });
-      beobachter.disconnect();
+      b.disconnect();
     }, { threshold: 0.3 });
-    beobachter.observe(el);
-    return () => beobachter.disconnect();
+    b.observe(el);
+    return () => b.disconnect();
   }, []);
-  return ende;
-};
 
-const GirokontoBonus = () => {
-  const ende = useFreebieEnde();
   return (
     <>
       <Seo
-        title="Girokonto ohne Zinsen mit 50 € Bonus | finanzmuslim"
-        description="Vergleiche drei Girokonten ohne Zinsen und hol dir mit der BBBank 50 € Startprämie. Mit Kosten, Bedingungen und dem Weg zur Eröffnung."
+        title="Meine Top 3 Girokonten ohne Zinsen | finanzmuslim"
+        description={`Aus ${KONTEN_GETESTET} Bankkonten verglichen: norisbank, BBBank und Consorsbank ohne Zinsen, mit Kosten, Bargeld und 50 € Startprämie bei der BBBank.`}
         path="/vorlagen/girokonto-bonus"
-        brotkrumen={[{ name: "Girokonto mit Bonus", path: "/vorlagen/girokonto-bonus" }]}
+        brotkrumen={[{ name: "Top 3 Girokonten", path: "/vorlagen/girokonto-bonus" }]}
       />
       <main className="bg-background" data-vorlage="girokonto-bonus">
         <div className="mx-auto w-full max-w-[640px] px-4 pb-16 pt-8 md:pt-12">
-          {/* Kopf: Zustand, den der Leser haben will, dazu die große Zahl und gleich der Knopf */}
-          <header>
-            <h1 className="text-[32px] font-extrabold leading-[1.1] tracking-tight text-foreground md:text-[40px]">
-              Girokonto ohne Zinsen, 50 € Bonus obendrauf
+          {/* 1. Versprechen aus dem Video einlösen, noch kein Knopf */}
+          <header data-gb-versprechen>
+            <div className="flex items-center gap-3">
+              <img src={eliasAutor} alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
+              <p className="text-[15px] leading-tight text-foreground">
+                <b>Elias El-Gendy</b>
+                <br />
+                {KONTEN_GETESTET} Bankkonten verglichen
+              </p>
+            </div>
+            <h1 className="mt-5 text-[32px] font-extrabold leading-[1.1] tracking-tight text-foreground md:text-[40px]">
+              Das sind meine Top 3 Girokonten
             </h1>
-            <p className="mt-3 text-[18px] leading-snug text-foreground/85">
-              Vergleiche drei Girokonten ohne Zinsen. Mit der BBBank gibt es 50 € Startprämie.
-            </p>
+            <p className="mt-3 text-[18px] leading-snug text-foreground">Alle drei zahlen keine Zinsen auf dein Guthaben.</p>
           </header>
 
-          {/* RK1-B (14.11.2026, Elias): norisbank allein ganz oben über die ganze Breite, die BBBank mit 50 € steht weiter unten */}
-          <section className="mt-6" data-bonus-kopf>
-            <div className="flex flex-col rounded-2xl bg-accent p-5 ring-1 ring-primary/20 md:p-6" data-bonus-kopfkarte={norisbank.out}>
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <AnbieterLogo name={norisbank.name} domain={norisbank.domain} rand />
-                  <p className="text-[20px] font-extrabold leading-tight text-foreground">{norisbank.name}</p>
-                </div>
-                <Werbung />
-              </div>
-              <p className="mt-4 text-[64px] font-extrabold leading-none tracking-tight text-primary tabular-nums">{euro(0)}</p>
-              <p className="mt-1 text-[20px] font-bold leading-tight text-foreground">Kontoführung</p>
-              <p className="mt-3 text-[17px] leading-snug text-foreground">
-                Kostenlos unter {norisbank.gratisUnter} oder ab {euro(norisbank.gratisAb)} Geldeingang, sonst {euro(norisbank.sonst)} im Monat.
-              </p>
-              {/* RN21: grüne Meldung direkt über dem Knopf */}
-              <GiroKnopfHinweis anbieter={norisbank.out} className="mt-4 bg-background" />
-              <div className="mt-3">
-                <Knopf to={link(norisbank.out, GIRO_BONUS_SRC.norisbankKopf)} anbieter={norisbank.out} stelle={GIRO_BONUS_SRC.norisbankKopf}>
-                  Bei norisbank eröffnen*
-                  <ArrowRight className="h-5 w-5" aria-hidden />
-                </Knopf>
-              </div>
-            </div>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              <Pille>Keine Zinsen</Pille>
-              <Pille>Dispo nur auf Antrag</Pille>
-              <Pille>Karte ohne Kredit</Pille>
-            </ul>
-            <a
-              href="#vergleich"
-              className="mt-2 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
-            >
-              Erst die drei vergleichen
-              <ArrowDown className="h-4 w-4" aria-hidden />
-            </a>
-          </section>
-
-          {/* Die drei im Vergleich */}
-          <section id="vergleich" className="mt-12 scroll-mt-20">
-            <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Die drei im Vergleich</h2>
-            <ul className="mt-4 space-y-2.5">
-              <Haken>Keine Zinsen auf dein Guthaben</Haken>
-              <Haken>Dispo nur auf Antrag</Haken>
-              <Haken>Karte ohne Kredit</Haken>
-            </ul>
-            <div className="mt-4 rounded-2xl border-2 border-primary bg-accent p-4" data-bonus-tagesgeld>
-              <p className="text-[18px] font-extrabold leading-tight text-foreground">Oft kommt ein Tagesgeldkonto dazu</p>
-              <p className="mt-1.5 text-[17px] leading-snug text-foreground">
-                Bei BBBank und norisbank wird es automatisch mit eröffnet. Ignorier es einfach: Legst du dort kein Geld hin, gibt es
-                auch keine Zinsen.
-              </p>
-            </div>
-            <p className="mt-4 text-[16px] leading-snug text-foreground/80">Das gilt bei allen dreien. Der Unterschied liegt hier:</p>
-            <div className="mt-4 overflow-x-auto rounded-2xl border border-border" data-bonus-tabelle>
+          {/* 2. Der Vergleich, kompetent und knapp */}
+          <section className="mt-8" data-bonus-tabelle>
+            <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm">
               <table className="w-full min-w-[340px] border-collapse">
                 <thead>
                   <tr className="border-b border-border">
-                    <th scope="col" className="w-[26%] px-2 py-3 text-left text-[13px] font-semibold text-foreground/70">
-                      <span className="sr-only">Merkmal</span>
-                    </th>
-                    {BONUS_KONTEN.map((k) => (
-                      <th key={k.id} scope="col" className="px-1 py-3 text-center">
+                    <th scope="col" className="w-[28%] px-2 py-3"><span className="sr-only">Merkmal</span></th>
+                    {BONUS_KONTEN.map((k, i) => (
+                      <th key={k.id} scope="col" className="px-1 pb-3 pt-2 text-center align-top">
+                        <span className={`mb-2 flex min-h-[36px] items-center justify-center rounded px-1.5 py-0.5 text-[12px] font-bold leading-tight ${i === 0 ? "bg-primary text-primary-foreground" : "bg-accent text-primary"}`}>
+                          Nr. {i + 1}
+                        </span>
                         <span className="mx-auto flex w-fit flex-col items-center gap-1.5">
                           <AnbieterLogo name={k.name} domain={k.domain} rand />
                           <span className="text-[14px] font-extrabold leading-tight text-foreground">{k.name}</span>
@@ -199,130 +130,47 @@ const GirokontoBonus = () => {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="[&>tr]:border-b [&>tr]:border-border last:[&>tr]:border-0">
-                  <tr>
-                    <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
-                      Immer gratis
-                    </th>
-                    {BONUS_KONTEN.map((k) => (
-                      <Zelle key={k.id} fett>
-                        unter {k.gratisUnter}
-                      </Zelle>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
-                      Gratis ab Geldeingang
-                    </th>
-                    {BONUS_KONTEN.map((k) => (
-                      <Zelle key={k.id}>{euro(k.gratisAb)}</Zelle>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
-                      Sonst im Monat
-                    </th>
-                    {BONUS_KONTEN.map((k) => (
-                      <Zelle key={k.id}>{euro(k.sonst)}</Zelle>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">
-                      Bargeld einzahlen
-                    </th>
-                    {BONUS_KONTEN.map((k) => (
-                      <Zelle key={k.id}>{k.bargeld}</Zelle>
-                    ))}
-                  </tr>
+                <tbody className="[&>tr]:border-b [&>tr]:border-border [&>tr:nth-child(even)]:bg-accent/40 last:[&>tr]:border-0">
+                  {ZEILEN.map(([titel, wert]) => (
+                    <tr key={titel}>
+                      <th scope="row" className="px-2 py-3 text-left text-[14px] font-semibold leading-tight text-foreground">{titel}</th>
+                      {BONUS_KONTEN.map((k) => (
+                        <td key={k.id} className="px-1.5 py-3 text-center align-middle text-[15px] leading-tight text-foreground">
+                          {wert(k)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
-            <p className="mt-3 text-[16px] leading-snug text-foreground/80">
-              Geldeingang heißt: Dein Gehalt oder anderes Geld kommt jeden Monat aufs Konto.
-            </p>
           </section>
 
-          {/* Warum die BBBank, dazu der Weg */}
-          <section className="mt-12" data-bonus-warum>
-            <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Darum die BBBank</h2>
-            <ul className="mt-4 space-y-3">
-              <Haken>
-                <strong>50 € Startprämie.</strong> Als Voraussetzung nennt die BBBank nur: Du bist Neukunde.
-              </Haken>
-              <Haken>
-                <strong>Keine Zinsen.</strong> Im Preisverzeichnis der BBBank steht beim BetterSmart Konto kein Guthabenzins. Das
-                Tagesgeld, das dazukommt, lässt du leer.
-              </Haken>
-              <Haken>
-                <strong>Karte gratis.</strong> Visa Debitkarte und digitale girocard kosten nichts.
-              </Haken>
-              <Haken>
-                <strong>Kontoführung gratis</strong> ab {euro(bbbank.gratisAb)} Geldeingang im Monat, unter {bbbank.gratisUnter} Jahren immer.
-              </Haken>
+          {/* 3. Zwei Regeln, damit es ohne Zinsen bleibt */}
+          <section className="mt-8 rounded-xl border border-border bg-card p-4" data-bonus-regeln>
+            <p className="text-[17px] font-extrabold text-foreground">So bleibt dein Konto ohne Zinsen</p>
+            <ul className="mt-2 space-y-1.5 text-[16px] leading-snug text-foreground">
+              <li>Kommt ein Tagesgeldkonto mit, lässt du es leer.</li>
+              <li>Einen Dispo beantragst du nicht.</li>
             </ul>
-
-            <h3 className="mt-8 text-[20px] font-extrabold leading-tight text-foreground">So holst du dir die 50 €</h3>
-            <ol className="mt-3 space-y-3">
-              {[
-                ["1", "Konto online eröffnen", "Du darfst in den letzten 24 Monaten kein Girokonto bei der BBBank gehabt haben."],
-                ["2", "Per E-Ident oder Video-Ident bestätigen", "Ausweis in die Kamera halten oder mit dem Online-Ausweis."],
-                ["3", "50 € kommen aufs Konto", "Die BBBank zahlt innerhalb von 8 Wochen aus, sobald die Voraussetzungen erfüllt sind."],
-              ].map(([nr, titel, text]) => (
-                <li key={nr} className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-[16px] font-extrabold text-primary-foreground">
-                    {nr}
-                  </span>
-                  <span className="text-[17px] leading-snug text-foreground">
-                    <strong>{titel}</strong>
-                    <br />
-                    <span className="text-foreground/80">{text}</span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <GiroKnopfHinweis anbieter={bbbank.out} className="mt-6" />
-            <div className="mt-3">
-              <Knopf to={link(bbbank.out, GIRO_BONUS_SRC.warum)} anbieter={bbbank.out} stelle={GIRO_BONUS_SRC.warum}>
-                Konto bei der BBBank eröffnen*
-                <ArrowRight className="h-5 w-5" aria-hidden />
-              </Knopf>
-            </div>
-            <p className="mt-4 text-[16px] leading-snug text-foreground/80">
-              Laut BBBank gehört die Prämie in die Steuererklärung. Bis 256 € im Jahr (alle solchen Einkünfte zusammen) fällt keine
-              Steuer an, darüber zählt der volle Betrag.
-            </p>
           </section>
 
-          {/* Die anderen zwei */}
-          <section className="mt-12" data-bonus-andere>
-            <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Lieber ein anderes Konto?</h2>
-            <p className="mt-2 text-[17px] leading-snug text-foreground/85">Dieses Konto steht in meinem Vergleich hinter den zwei oben.</p>
+          {/* 4. Freie Wahl: drei gleich große Knöpfe, je ein Grund */}
+          <section ref={ende} className="mt-12" data-bonus-wahl>
+            <h2 className="text-[26px] font-extrabold leading-tight text-foreground">Du hast die freie Wahl</h2>
+            <p className="mt-1 text-[15px] leading-snug text-foreground">Werbung: Über meine Links bekomme ich eine Provision, für dich kostet es nichts extra.*</p>
             <ul className="mt-4 grid gap-4">
-              {[
-                { k: consorsbank, stelle: GIRO_BONUS_SRC.consorsbank, zeilen: [consorsbank.karte, "Eröffnung per Video-, Post- oder E-Ident", "Bargeld einzahlen geht nicht"] },
-              ].map(({ k, stelle, zeilen }) => (
-                <li
-                  key={k.id}
-                  className="rounded-2xl border border-primary/20 bg-background p-4 shadow-[0_6px_24px_-12px_rgba(15,23,42,0.18)]"
-                  data-bonus-karte
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <AnbieterLogo name={k.name} domain={k.domain} rand />
-                      <p className="text-[22px] font-extrabold leading-tight text-foreground">{k.name}</p>
-                    </div>
-                    <Werbung />
+              {BONUS_KONTEN.map((k, i) => (
+                <li key={k.id} className={`rounded-xl bg-card p-4 ${i === 0 ? "border-2 border-primary" : "border border-border"}`} data-bonus-karte={k.out}>
+                  <div className="flex items-center gap-3">
+                    <AnbieterLogo name={k.name} domain={k.domain} gross />
+                    {!ANBIETER_LOGOS[k.domain] && <p className="text-[20px] font-extrabold leading-tight text-foreground">{k.name}</p>}
+                    <span className="ml-auto text-[13px] font-bold text-primary">Nr. {i + 1}</span>
                   </div>
-                  <ul className="mt-3 space-y-2.5">
-                    {zeilen.map((z) => (
-                      <Haken key={z}>{z}</Haken>
-                    ))}
-                    <Haken>
-                      Gratis ab {euro(k.gratisAb)} Geldeingang, sonst {euro(k.sonst)} im Monat
-                    </Haken>
-                  </ul>
-                  <div className="mt-4">
-                    <Knopf to={link(k.out, stelle)} anbieter={k.out} stelle={stelle}>
+                  <p className="mt-2 text-[16px] leading-snug text-foreground">{GRUND[k.id](k)}</p>
+                  <GiroKnopfHinweis anbieter={k.out} className="mt-3" />
+                  <div className="mt-3">
+                    <Knopf to={link(k.out, STELLE[k.id])} anbieter={k.out} stelle={STELLE[k.id]}>
                       Bei {k.name} eröffnen*
                       <ArrowRight className="h-5 w-5" aria-hidden />
                     </Knopf>
@@ -332,35 +180,23 @@ const GirokontoBonus = () => {
             </ul>
           </section>
 
-          {/* So bleibt es ohne Zinsen */}
-          <section ref={ende} className="mt-12 rounded-3xl bg-accent p-5 md:p-6" data-bonus-regeln>
-            <h2 className="text-[22px] font-extrabold leading-tight text-foreground">Zwei Regeln halten dein Konto ohne Zinsen</h2>
-            <ul className="mt-4 space-y-3">
-              <Haken>
-                <strong>Tagesgeld ignorieren.</strong> BBBank und norisbank legen eins mit an. Es ist ein eigenes Konto und bleibt
-                leer, wenn du nichts einzahlst.
-              </Haken>
-              <Haken>
-                <strong>Keinen Dispo beantragen.</strong> Ein Dispo kostet Zinsen, sobald du ihn nutzt. Das Konto läuft auch ohne.
-              </Haken>
-            </ul>
+          {/* 5. Für Unsichere: der Test */}
+          <aside className="mt-10 rounded-xl bg-accent p-5" data-bonus-test>
+            <p className="text-[19px] font-extrabold text-foreground">Noch unsicher, welches?</p>
+            <p className="mt-1 text-[16px] leading-snug text-foreground">Ein paar Fragen, dann siehst du dein Match.</p>
             <Link
-              to={`/vergleich/girokonto?src=${GIRO_BONUS_SRC.vergleich}`}
-              className="mt-4 inline-flex min-h-[44px] items-center gap-1 text-[16px] font-semibold text-primary hover:underline"
+              to={`/check?start=2&a1=konto&src=${GIRO_BONUS_SRC.vergleich}test`}
+              onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "girokonto-bonus", im: "freebie", stelle: "ende", wort: "konto" })}
+              className="mt-3 inline-flex min-h-[44px] items-center gap-1 text-[17px] font-bold text-primary hover:underline"
             >
-              Alle Girokonten im Vergleich
+              Test machen
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
-          </section>
+          </aside>
 
-          <p className="mt-8 text-[14px] leading-snug text-muted-foreground" data-werbehinweis>
-            * Werbung: Eröffnest du über meinen Link ein Konto, bekomme ich eine Provision, ohne Mehrkosten für dich. Die Angaben
-            habe ich am {GIRO_BONUS_STAND} bei den Banken gelesen, die Aktionen können sich jederzeit ändern.
+          <p className="mt-8 text-[14px] leading-snug text-foreground/80" data-werbehinweis>
+            * Angaben am {GIRO_BONUS_STAND} bei den Banken gelesen, Aktionen können sich ändern.
           </p>
-
-          <section className="mt-14">
-            <NewsletterBox />
-          </section>
         </div>
       </main>
     </>

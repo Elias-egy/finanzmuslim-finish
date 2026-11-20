@@ -44,7 +44,7 @@ describe("Girokonto-Bonus: Messung (S6)", () => {
 
   it("partner_klick nennt Konto und Stelle statt des Netzwerk-Servers", () => {
     zeige();
-    const knopf = screen.getByRole("link", { name: /Konto bei der BBBank eröffnen/ });
+    const knopf = screen.getByRole("link", { name: /Bei BBBank eröffnen/ });
     knopf.addEventListener("click", (e) => e.preventDefault());
     fireEvent.click(knopf);
     const klick = ereignis.mock.calls.find(([n]) => n === "partner_klick");
