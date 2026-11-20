@@ -8,18 +8,13 @@
 
     <!-- Ownership check for the impact.com affiliate network (18.09.2026). -->
     <meta name="impact-site-verification" value="f5c665f6-2c4a-44d7-8cec-926dc33db0a9">
-    <!-- Hell für jeden; dunkel nur nach eigener Wahl (gleicher Schlüssel wie die Verkaufsseite). Elias 20.11. RN25L-05. -->
+    <!-- Immer hell, für jeden und auf jeder Seite; eine alte Dunkel-Wahl wird gelöscht. Elias 20.11. RN26-04. -->
     <meta name="color-scheme" content="light" />
     <script>
       (function () {
-        try {
-          var w = localStorage.getItem("fm-verkauf-thema");
-          var d = w === "dark";
-          if (d) {
-            document.documentElement.classList.add("dark");
-            document.documentElement.dataset.theme = "dark";
-          }
-        } catch (e) {}
+        try { localStorage.removeItem("fm-verkauf-thema"); } catch (e) {}
+        document.documentElement.classList.remove("dark");
+        delete document.documentElement.dataset.theme;
       })();
     </script>
     <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin />

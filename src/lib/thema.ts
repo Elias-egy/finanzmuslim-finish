@@ -3,19 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 /** Gleicher Schlüssel wie die Verkaufsseite des Halal-Investment-OS, damit die Wahl zwischen beiden mitgeht. */
 export const THEMA_SCHLUESSEL = "fm-verkauf-thema";
 
-type Wahl = "dark" | "light" | null;
-
-const gespeichert = (): Wahl => {
-  try {
-    const w = localStorage.getItem(THEMA_SCHLUESSEL);
-    return w === "dark" || w === "light" ? w : null;
-  } catch {
-    return null;
-  }
-};
-
-/** Elias 20.11. (RN25L-05): Die Seite startet für jeden hell; dunkel nur, wenn jemand es selbst umschaltet. */
-export const istDunkel = () => gespeichert() === "dark";
+/** Elias 20.11. (RN26-04): Die Seite ist bei jedem Aufruf hell, egal was früher gewählt wurde. Umschalten gilt nur für die offene Seite. */
+export const istDunkel = () => false;
 
 const anwenden = (dunkel: boolean) => {
   const root = document.documentElement;
@@ -41,11 +30,6 @@ export const useThema = () => {
     const n = !document.documentElement.classList.contains("dark");
     anwenden(n);
     setDunkel(n);
-    try {
-      localStorage.setItem(THEMA_SCHLUESSEL, n ? "dark" : "light");
-    } catch {
-      /* Speicher gesperrt: Wahl gilt nur für diese Sitzung */
-    }
   }, []);
 
   return { dunkel, umschalten };
