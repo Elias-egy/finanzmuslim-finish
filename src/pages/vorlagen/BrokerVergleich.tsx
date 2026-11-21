@@ -165,8 +165,12 @@ const BrokerVergleich = () => {
             data-broker-test
             className="mt-10"
             frage="Noch unsicher, welcher?"
-            match={`Finde dein Match aus ${DEPOTS_GETESTET} verglichenen Depots.`}
-            zahl={DEPOTS_GETESTET}
+            match={
+              <>
+                Finde dein Match aus <span className="text-primary">{DEPOTS_GETESTET}</span> verglichenen{" "}
+                <span className="text-primary">Depots</span>.
+              </>
+            }
             art="depot"
             quelle="broker-vergleich"
             to={`/check?quelle=broker-vergleich&src=${BROKER_SRC.vergleich}`}
