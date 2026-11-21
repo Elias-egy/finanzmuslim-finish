@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Seo from "@/components/Seo";
 import { MatchUnten } from "@/components/CheckEinstieg";
+import { DEPOTS_GETESTET } from "@/data/halalFinanzCheckKern";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
 import eliasAutor from "@/assets/elias-autor.webp";
@@ -164,6 +165,7 @@ const BrokerVergleich = () => {
             data-broker-test
             className="mt-10"
             frage="Noch unsicher, welcher?"
+            match={`Finde dein Match aus ${DEPOTS_GETESTET} verglichenen Depots.`}
             art="depot"
             quelle="broker-vergleich"
             to={`/check?quelle=broker-vergleich&src=${BROKER_SRC.vergleich}`}
