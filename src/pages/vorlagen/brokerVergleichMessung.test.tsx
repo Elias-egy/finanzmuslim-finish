@@ -52,9 +52,10 @@ describe("Broker-Freebie: Seite und Messung", () => {
     expect(wahl.querySelector("[data-broker-weitere] a")!.getAttribute("href")).toBe("/out/scalable?src=bvsc");
   });
 
-  it("zeigt keine Kosten pro Order und nennt den Kreditrahmen nur bei flatex", () => {
+  it("zeigt die Order als Grundpreis ohne „ab“ und nennt den Kreditrahmen nur bei flatex", () => {
     const { container } = zeige();
-    expect(container.textContent).not.toMatch(/Kosten pro Order/);
+    const zeile = [...container.querySelectorAll("tr")].find((t) => t.textContent?.startsWith("Order ab"))!;
+    expect([...zeile.querySelectorAll("td")].map((t) => t.textContent)).toEqual(["5,90 €", "1 €", "0,95 €"]);
     expect(container.querySelector("[data-broker-regeln]")!.textContent).toMatch(/flatex lehnst du den Kreditrahmen ab/);
   });
 

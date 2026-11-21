@@ -37,6 +37,8 @@ const ZEILEN: [string, (k: BrokerKarte) => string][] = [
   ["Sukuk", (k) => k.sukuk],
   ["Depotgebühr", (k) => k.depotgebuehr],
   ["Sparplan ab", (k) => k.sparplanAb],
+  // GB1-02 (Elias 21.11.: „bei Brokern Order ab … Schreibe auch nicht ab“): nur der Grundpreis je Order, ohne „ab“.
+  ["Order ab", (k) => k.order.match(/(\d+(?:,\d+)?)\s?€/)?.[1].concat(" €") ?? k.order],
 ];
 
 const BrokerVergleich = () => {
