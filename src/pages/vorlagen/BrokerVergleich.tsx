@@ -166,6 +166,7 @@ const BrokerVergleich = () => {
             className="mt-10"
             frage="Noch unsicher, welcher?"
             match={`Finde dein Match aus ${DEPOTS_GETESTET} verglichenen Depots.`}
+            zahl={DEPOTS_GETESTET}
             art="depot"
             quelle="broker-vergleich"
             to={`/check?quelle=broker-vergleich&src=${BROKER_SRC.vergleich}`}

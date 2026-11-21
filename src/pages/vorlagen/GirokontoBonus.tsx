@@ -187,6 +187,7 @@ const GirokontoBonus = () => {
             className="mt-10"
             frage="Noch unsicher, welches?"
             match={`Finde dein Match aus ${KONTEN_GETESTET} verglichenen Bankkonten.`}
+            zahl={KONTEN_GETESTET}
             art="konto"
             quelle="homepage"
             to={`/check?start=2&a1=konto&src=${GIRO_BONUS_SRC.vergleich}test`}

@@ -242,6 +242,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
 export const MatchUnten = ({
   frage,
   match,
+  zahl,
   art,
   quelle,
   to,
@@ -250,8 +251,10 @@ export const MatchUnten = ({
   ...rest
 }: {
   frage: string;
-  /** GB2-02 (Elias: „Dein Match aus 35 Anbietern … oder verglichenen Anbietern“): blaue Zeile mit der Zahl der verglichenen Anbieter. */
+  /** GB2-02 (Elias: „Dein Match aus 35 Anbietern … oder verglichenen Anbietern“): zweite Zeile mit der Zahl der verglichenen Anbieter.
+   * GB2-03 (Elias: „Machen wir alles schwarz. Und dann 54 blau.“): ganzer Titel schwarz, nur die Zahl blau. */
   match: string;
+  zahl: number;
   art: "konto" | "depot";
   quelle: CheckQuelle;
   to: string;
@@ -261,7 +264,9 @@ export const MatchUnten = ({
 }) => (
   <aside aria-labelledby="match-unten" className={`ce ce--unten ${className}`} {...rest}>
     <h2 id="match-unten" className="ce-titel ce-titel--klein">
-      {frage} <span className="ce-titel-zahlen">{match}</span>
+      {frage} <span className="block">
+        {match.split(String(zahl)).flatMap((t, i) => (i ? [<span key={i} className="text-primary">{zahl}</span>, t] : [t]))}
+      </span>
     </h2>
     <MatchBuehne art={art} quelle={quelle} />
     <Link to={to} onClick={onClick} className="ce-knopf ce-knopf--unten">
