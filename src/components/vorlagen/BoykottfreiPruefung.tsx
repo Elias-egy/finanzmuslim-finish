@@ -12,8 +12,7 @@ const BoykottfreiPruefung = ({ className = "" }: { className?: string }) => (
     </h2>
     <div className="mt-3 space-y-3 text-[16px] leading-relaxed text-foreground">
       <p>
-        <b>Halal:</b> Jede Aktie steht in unserer Liste der 100 Halal-Aktien und wurde einzeln bei Musaffa geprüft, Stand{" "}
-        {BF_STAND.halal}.
+        <b>Halal:</b> Jede Aktie haben wir einzeln bei Musaffa nachgesehen, zuletzt am {BF_STAND.halal}.
       </p>
       <p>
         <b>Boykott:</b> Keine dieser Aktien steht auf einer dieser Listen.
@@ -25,12 +24,11 @@ const BoykottfreiPruefung = ({ className = "" }: { className?: string }) => (
         <li>AFSC Investigate, Firmenseiten</li>
       </ul>
       <p>
-        Die 26 aus dem Video haben wir am {BF_STAND.video} noch einmal je Name gegen diese Listen gelesen. Die weiteren Aktien
-        haben wir am {BF_STAND.einzel} gegen dieselben Listen geprüft. Für alle gilt unsere Einzelprüfung vom {BF_STAND.einzel}:
-        Standorte, Übernahmen und Verträge mit Militär oder Ministerien.
+        Am {BF_STAND.nach} haben wir jede Firma noch einmal einzeln gesucht: Standorte, Töchter und Übernahmen in Israel, Verträge
+        mit Militär oder Ministerien. Schon eine eigene Firma in Israel zählt als leichter Befund und kommt nicht auf diese Liste.
       </p>
       <p>
-        Die Seite brands2boycott führt Garmin, Shiseido, Haleon und Crocs auf der untersten Stufe, weil sie dort nur im Land
+        Die Seite brands2boycott führt Garmin, Shiseido und Crocs auf der untersten Stufe, weil sie dort nur im Land
         verkauft werden. Einen Befund nach den Quellen oben gibt es nicht.
       </p>
       <p>

@@ -9,7 +9,9 @@ import {
   alleBoykottfrei,
   BF_QUELLE,
   BF_VOLL_PFAD,
+  neuListe,
   videoListe,
+  videoNachgeprueft,
   VOR_KASTEN,
   weitereListe,
   type BfZeile,
@@ -69,7 +71,7 @@ const BoykottfreieAktienVoll = () => {
           </p>
           <p className="mt-2 flex items-start gap-2 text-[17px] font-semibold leading-snug text-foreground">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-            <span>Auf keiner der geprüften Boykott-Listen. Stand November 2026.</span>
+            <span>Kein Boykott-Befund, auch keine eigene Firma in Israel. Stand 21. November 2026.</span>
           </p>
         </header>
 
@@ -89,11 +91,29 @@ const BoykottfreieAktienVoll = () => {
           <div className="card-surface mt-3 overflow-hidden p-0">{restVideo.map(zeile)}</div>
         </section>
 
+        <section className="reveal mt-10" aria-labelledby="titel-neu" data-neu-liste>
+          <h2 id="titel-neu" className="text-[24px] font-extrabold leading-tight text-foreground">
+            Neu dazu: {neuListe.length} Aktien
+          </h2>
+          <div className="card-surface mt-3 overflow-hidden p-0">{neuListe.map(zeile)}</div>
+        </section>
+
         <section className="reveal mt-10" aria-labelledby="titel-weitere" data-weitere-liste>
           <h2 id="titel-weitere" className="text-[24px] font-extrabold leading-tight text-foreground">
             Weitere {weitereListe.length} ohne Befund
           </h2>
           <div className="card-surface mt-3 overflow-hidden p-0">{weitereListe.map(zeile)}</div>
+        </section>
+
+        {/* BK6: die neun aus dem Video mit leichtem Befund, damit Zuschauer ihren Namen finden. */}
+        <section className="reveal mt-10" aria-labelledby="titel-nachgeprueft" data-nachgeprueft-liste>
+          <h2 id="titel-nachgeprueft" className="text-[24px] font-extrabold leading-tight text-foreground">
+            Aus dem Video nachgeprüft: {videoNachgeprueft.length} mit leichtem Befund
+          </h2>
+          <p className="mt-2 text-[16px] leading-snug text-foreground">
+            Leichter Befund heißt: eine eigene Firma oder ein Standort in Israel, aber keine Lieferung an das Militär und keine Siedlung.
+          </p>
+          <div className="card-surface mt-3 overflow-hidden p-0">{videoNachgeprueft.map(zeile)}</div>
         </section>
 
         <BoykottfreiPruefung className="mt-12" />

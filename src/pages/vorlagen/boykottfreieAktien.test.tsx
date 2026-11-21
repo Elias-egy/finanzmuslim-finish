@@ -11,7 +11,10 @@ import {
   AUSGENOMMEN,
   BF_QUELLE,
   BF_VOLL_PFAD,
+  NACHGEPRUEFT,
+  neuListe,
   videoListe,
+  videoNachgeprueft,
   weitereListe,
 } from "@/data/boykottfreieAktien";
 import { nichtIndexiert } from "@/data/routen";
@@ -44,18 +47,23 @@ const VIDEO_NAMEN = [
 ];
 
 describe("Freebie Halal und boykottfrei: Daten", () => {
-  it("führt genau die 26 aus dem Video in der Reihenfolge des Videos", () => {
-    expect(videoListe).toHaveLength(26);
-    expect(videoListe.map((z) => z.name)).toEqual(VIDEO_NAMEN);
-    for (const z of videoListe) expect(z.text.length).toBeGreaterThan(2);
+  it("teilt die 26 aus dem Video in boykottfrei und nachgeprüft, beide in der Reihenfolge des Videos (BK6)", () => {
+    expect(videoListe.length + videoNachgeprueft.length).toBe(26);
+    expect(videoListe.map((z) => z.name)).toEqual(VIDEO_NAMEN.filter((n) => videoListe.some((z) => z.name === n)));
+    expect([...videoListe, ...videoNachgeprueft].map((z) => z.name).sort()).toEqual([...VIDEO_NAMEN].sort());
+    expect(videoNachgeprueft.map((z) => z.ticker).sort()).toEqual(Object.keys(NACHGEPRUEFT).sort());
+    for (const z of [...videoListe, ...videoNachgeprueft]) expect(z.text.length).toBeGreaterThan(2);
   });
 
-  it("nimmt nur Aktien der 100 Halal-Aktien, ohne Doppelte", () => {
+  it("nimmt Aktien der 100 Halal-Aktien plus die neu geprüften, ohne Doppelte (BK6)", () => {
     const halal = new Set(aktien.map((a) => a.ticker));
     const t = alleBoykottfrei.map((z) => z.ticker);
     expect(new Set(t).size).toBe(t.length);
-    for (const x of t) expect(halal.has(x)).toBe(true);
-    expect(alleBoykottfrei).toHaveLength(videoListe.length + weitereListe.length);
+    for (const z of [...videoListe, ...weitereListe]) expect(halal.has(z.ticker)).toBe(true);
+    for (const z of neuListe) expect(halal.has(z.ticker)).toBe(false);
+    expect(alleBoykottfrei).toHaveLength(videoListe.length + neuListe.length + weitereListe.length);
+    expect(alleBoykottfrei).toHaveLength(40);
+    for (const z of videoNachgeprueft) expect(t).not.toContain(z.ticker);
   });
 
   it("enthält keine der ausdrücklich ausgenommenen Aktien", () => {
@@ -89,8 +97,9 @@ describe("Freebie Halal und boykottfrei: Daten", () => {
 describe("Freebie Halal und boykottfrei: Seite", () => {
   it("zeigt alle Zeilen, genau einen Check-Kasten im ersten Drittel und keine Partnerknöpfe", () => {
     const { container } = zeige(BoykottfreieAktienVoll);
-    const zeilen = container.querySelectorAll("[data-aktie]");
+    const zeilen = container.querySelectorAll("[data-video-liste] [data-aktie], [data-neu-liste] [data-aktie], [data-weitere-liste] [data-aktie]");
     expect(zeilen).toHaveLength(alleBoykottfrei.length);
+    expect(container.querySelectorAll("[data-nachgeprueft-liste] [data-aktie]")).toHaveLength(videoNachgeprueft.length);
     const kaesten = container.querySelectorAll(`[data-check-einstieg='${BF_QUELLE}']`);
     expect(kaesten).toHaveLength(1);
     const vorher = [...zeilen].filter((z) => kaesten[0].compareDocumentPosition(z) & Node.DOCUMENT_POSITION_PRECEDING);
@@ -104,15 +113,15 @@ describe("Freebie Halal und boykottfrei: Seite", () => {
     const { container } = zeige(BoykottfreieAktienVoll);
     expect(container.querySelector("h1")?.textContent).toBe(`Halal und boykottfrei: ${alleBoykottfrei.length} Aktien`);
     const text = container.textContent ?? "";
-    for (const n of ["Ecolab", "AMD", "Lululemon", "Colgate", "Tesla", "Nike", "Oréal", "Monster", "Microsoft"]) expect(text).not.toContain(n);
+    for (const n of ["Ecolab", "AMD", "Lululemon", "Colgate", "Tesla", "Nike", "Oréal", "Monster", "Microsoft", "Ferrari", "Amphenol", "Arista"]) expect(text).not.toContain(n);
   });
 
   it("zeigt „So haben wir geprüft“ mit den Quellen und Ständen, ohne Gedankenstrich", () => {
     const { container } = zeige(BoykottfreieAktienVoll);
     const p = container.querySelector("[data-pruefung]")!.textContent ?? "";
-    for (const w of ["BDS", "Who Profits", "A/HRC/63/20", "AFSC", "06.12.2024", "19.11.2026", "01.11.2026"]) expect(p).toContain(w);
+    for (const w of ["BDS", "Who Profits", "A/HRC/63/20", "AFSC", "06.12.2024", "21.11.2026"]) expect(p).toContain(w);
     expect(container.textContent).not.toMatch(/[–—]| - /);
-    expect(container.textContent).toMatch(/auf keiner der geprüften Boykott-Listen/i);
+    expect(container.textContent).toMatch(/Kein Boykott-Befund/);
   });
 
   it("der Teaser ist kurz, hat den Kasten und listet nur fünf", () => {

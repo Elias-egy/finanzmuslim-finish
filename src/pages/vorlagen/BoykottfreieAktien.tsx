@@ -19,7 +19,7 @@ const BoykottfreieAktien = () => {
     <main className="bg-background" data-freebie="boykottfreie-aktien" data-vorlage="boykottfreie-aktien" data-teaser>
       <Seo
         title={`Halal und boykottfrei: ${anzahl} Aktien | finanzmuslim`}
-        description="Halal geprüfte Aktien, die auf keiner der geprüften Boykott-Listen stehen. Stand November 2026."
+        description="Halal geprüfte Aktien ohne Boykott-Befund. Stand 21. November 2026."
         path={BF_TEASER_PFAD}
         noindex
       />
@@ -35,7 +35,7 @@ const BoykottfreieAktien = () => {
           </p>
           <p className="mt-2 flex items-start gap-2 text-[17px] font-semibold leading-snug text-foreground">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-gain" aria-hidden />
-            <span>Auf keiner der geprüften Boykott-Listen. Stand November 2026.</span>
+            <span>Kein Boykott-Befund, auch keine eigene Firma in Israel. Stand 21. November 2026.</span>
           </p>
         </header>
 
