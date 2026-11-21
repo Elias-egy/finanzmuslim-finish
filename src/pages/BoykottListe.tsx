@@ -9,8 +9,11 @@ import {
   BOYKOTT_PFAD,
   BOYKOTT_SCHLUESSEL,
   BOYKOTT_STAND,
+  ALTERNATIVEN_STAND,
   WARE,
   alleFirmen,
+  bdsFirmen,
+  starkeFirmen,
   artVon,
   bereiche,
   boykottQuellen,
@@ -29,9 +32,12 @@ import {
  * anderes Freebie. Versteckt: noindex, nicht in der Sitemap, aber vorgerendert (routen.ts).
  */
 
+/** BK7: „Starker Befund“ für Firmen außerhalb der BDS-Seite, blau und rund wie die Etiketten der Seite (VS5-05). */
 const Pille = ({ f }: { f: BoykottFirma }) =>
   artVon(f) === "boykott" ? (
     <span className="rounded bg-loss-soft px-2 py-0.5 text-[12px] font-bold text-loss">Boykott</span>
+  ) : artVon(f) === "stark" ? (
+    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[12px] font-bold text-primary ring-1 ring-primary/25">Starker Befund</span>
   ) : (
     <span className="rounded bg-amber-50 px-2 py-0.5 text-[12px] font-bold text-amber-700 ring-1 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-500/30">
       Meiden, wo es geht
@@ -129,13 +135,16 @@ const BoykottListe = () => {
             Die Boykott-Liste: {alleFirmen.length} Firmen aus deinem Alltag
           </h1>
           <p className="mt-3 text-[16px] leading-snug text-foreground/80">
-            Von der offiziellen Liste der BDS-Bewegung, Stand {BOYKOTT_STAND}.
+            {bdsFirmen.length} von der offiziellen Liste der BDS-Bewegung, {starkeFirmen.length} mit starkem Befund. Stand {BOYKOTT_STAND}.
           </p>
           {/* RN16-39 (Elias: „dieses viele Marken kann weg, dann kommt direkt Essen, Trinken“): der rote Kasten mit den versteckten Marken ist raus. */}
           {/* Kein PDF-Knopf mehr (Elias, 02.11.2026, MC7f: „diese PDF-Option rauslassen. Bei den anderen Freebies“; nur die Duas). */}
         </header>
         <p className="mt-2 px-2 text-[12px] text-muted-foreground">
           Rot heißt Boykott, gelb heißt meiden, wo es eine Alternative gibt. So teilt es die BDS-Bewegung ein.
+          <span className="mt-1 block">
+            Blau heißt starker Befund: nicht auf dieser BDS-Liste, aber die Verwicklung ist belegt ({starkeFirmen.map((f) => f.name).join(", ")}).
+          </span>
         </p>
 
         {bereiche.map((b) => (
@@ -176,7 +185,14 @@ const BoykottListe = () => {
         <footer className="mt-12 space-y-2 border-t border-border pt-6 text-[12px] leading-relaxed text-muted-foreground">
           <p>Die Liste und die Gründe geben die Seite der BDS-Bewegung wieder, kein eigenes Urteil. Der Grund bei McDonald's stammt von Al Jazeera.</p>
           <p>
-            Die Alternativen stehen auf keiner dieser Listen, Stand {BOYKOTT_STAND}:{" "}
+            Starker Befund:{" "}
+            {[...new Set(starkeFirmen.map((f) => f.quelle))]
+              .map((q) => `${starkeFirmen.filter((f) => f.quelle === q).map((f) => f.name).join(", ")} nach ${q}`)
+              .join("; ")}
+            .
+          </p>
+          <p>
+            Die Alternativen stehen auf keiner dieser Listen, Stand {ALTERNATIVEN_STAND}:{" "}
             {listenQuellen.map((q, i) => (
               <Fragment key={q.url}>
                 {i > 0 && ", "}

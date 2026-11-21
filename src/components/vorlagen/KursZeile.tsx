@@ -58,6 +58,9 @@ const KursZeile = ({ name, ticker, bekanntFuer, kurs }: Props) => {
             height={40}
             loading="lazy"
             onError={() => setOhneLogo(true)}
+            // BK7: Die Zeile bringt ihr Plättchen selbst mit (weiß oder dunkel). Ohne das Merkmal legt index.css im Dunkelmodus
+            // Weiß hinter jedes Logo, die weißen Logos aus LOGO_DUNKEL (Roblox, Vertex, Williams-Sonoma, Alcon) verschwanden.
+            data-ohne-platte=""
             className="h-full w-full object-contain p-1.5"
           />
         )}

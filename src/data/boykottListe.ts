@@ -8,13 +8,20 @@
  * Boykott-Ziel, 7 im unterstützten Boykott von unten, 5 als Druck-Ziel. Jede Begründung gibt die
  * BDS-Seite wieder, kein eigenes Urteil. Belege je Zeile in `docs/freebies/boykott-liste.belege.md`.
  *
+ * BK7 (21.11.2026, Elias BK5-03 „die Freebie-Listen free und Boycott deutlich aktualisieren“): BDS-Seite neu gelesen,
+ * unverändert 25 (`bds-what-to-boycott-2026-11-21.txt`). Dazu vier Firmen mit starkem Befund außerhalb dieser Seite,
+ * Gruppe „stark“: Zara (eigener Aufruf der BDS-Bewegung vom 24.07.2025), Sony, Shell, ExxonMobil (AFSC Investigate).
+ * Wortlaut je Quelle in `docs/freebies/quellen/*-2026-11-21.txt`. Zusammen 29 (Regel 20 bis 30).
+ *
  * Gebaut im Stil von Fassung 5 des Portfolio-Plans. Liegt versteckt unter /deine-boykottliste/<schluessel>:
  * nicht in Navigation oder Sitemap, noindex. Wer den Schlüssel ändert, macht alle verschickten Links ungültig.
  */
 
 export const BOYKOTT_SCHLUESSEL = "bk-7m4q";
 export const BOYKOTT_PFAD = `/deine-boykottliste/${BOYKOTT_SCHLUESSEL}`;
-export const BOYKOTT_STAND = "28.10.2026";
+export const BOYKOTT_STAND = "21.11.2026";
+/** Die Alternativen sind am 28.10.2026 gegen die sechs Listen geprüft (BK3); eigener Stand, damit niemand mehr behauptet. */
+export const ALTERNATIVEN_STAND = "28.10.2026";
 
 /** Jeder Link trägt seine Stelle, damit MC6 die Klicks je Stelle zählen kann. */
 // g0 plus Wort, damit die Kennung zur Familie in src/lib/attribution.ts passt; „gboykott-…“ fiel bis 06.11.2026 still auf „start“ (CV15F).
@@ -23,9 +30,10 @@ export const boykottLink = (ziel: string, stelle: string) => `${ziel}?src=g0boyk
 /**
  * boykott: BDS ruft zum Boykott auf (Boykott-Ziel oder unterstützter Boykott von unten).
  * meiden: Druck-Ziel, BDS ruft zum Boykott auf, „when reasonable alternatives exist“.
+ * stark: nicht auf der BDS-Seite „What to boycott“, aber mit starkem Befund aus eigener Quelle (BK7).
  */
-export type BoykottArt = "boykott" | "meiden";
-export type BdsGruppe = "ziel" | "vonUnten" | "druck";
+export type BoykottArt = "boykott" | "meiden" | "stark";
+export type BdsGruppe = "ziel" | "vonUnten" | "druck" | "stark";
 
 export type BoykottFirma = {
   name: string;
@@ -37,9 +45,11 @@ export type BoykottFirma = {
   gruppe: BdsGruppe;
   /** Zusatz, wo ein Boykott schaden kann (Medikamente). */
   hinweis?: string;
+  /** Nur Gruppe „stark“: die Quelle des Befunds, steht in boykottQuellen. */
+  quelle?: string;
 };
 
-export const artVon = (f: BoykottFirma): BoykottArt => (f.gruppe === "druck" ? "meiden" : "boykott");
+export const artVon = (f: BoykottFirma): BoykottArt => (f.gruppe === "druck" ? "meiden" : f.gruppe === "stark" ? "stark" : "boykott");
 
 /** Für die Gruppe „von unten“ nennt BDS keinen Grund je Firma, nur diesen gemeinsamen. */
 const VON_UNTEN = "Laut BDS hat die Firma oder ihr Partner in Israel den Staat offen unterstützt oder der Armee gespendet.";
@@ -87,6 +97,7 @@ export const bereiche: BoykottBereich[] = [
       { name: "HP", domain: "hp.com", alltag: "Drucker, Laptops", grund: "Liefert Technik an Israels Armee, Polizei und Gefängnisse.", gruppe: "ziel" },
       { name: "Disney+", domain: "disneyplus.com", alltag: "Filme und Serien", grund: "Wirbt laut BDS in Disney- und Marvel-Filmen für Israel.", gruppe: "ziel" },
       { name: "Wix", domain: "wix.com", alltag: "Webseiten-Baukasten", grund: VON_UNTEN, gruppe: "vonUnten" },
+      { name: "Sony", domain: "sony.com", alltag: "PlayStation, Fernseher, Kameras", grund: "Israel überwacht mit Sony-Kameras Ost-Jerusalem und Checkpoints in Gaza.", gruppe: "stark", quelle: "AFSC Investigate" },
     ],
     alternativen: [{ name: "LibreOffice", domain: "libreoffice.org", statt: "Microsoft Office, kostenlos" }],
   },
@@ -99,13 +110,16 @@ export const bereiche: BoykottBereich[] = [
       { name: "Expedia", domain: "expedia.de", alltag: "Reisen und Hotels", grund: "Vermittelt Unterkünfte in Siedlungen, steht auf der Liste der UN zu Firmen in Siedlungen.", gruppe: "druck" },
       { name: "RE/MAX", domain: "remax.de", alltag: "Immobilienmakler", grund: "Verkauft Häuser in Siedlungen im Westjordanland.", gruppe: "ziel" },
       { name: "Chevron", domain: "chevron.com", alltag: "Tankstellen Texaco und Caltex", grund: "Fördert das Gas, das Israel im Mittelmeer für sich beansprucht.", gruppe: "ziel" },
+      { name: "Shell", domain: "shell.de", alltag: "Tankstellen", grund: "Lieferte im Krieg rund 5 % von Israels Rohöl, auch für Treibstoff der Armee.", gruppe: "stark", quelle: "AFSC Investigate" },
+      { name: "ExxonMobil", domain: "exxonmobil.com", alltag: "Marken Esso und Mobil", grund: "Liefert Israels Armee Treibstoff für Kampfjets und Diesel für Militärjeeps.", gruppe: "stark", quelle: "AFSC Investigate" },
     ],
     alternativen: [{ name: "HalalBooking", domain: "halalbooking.com", statt: "Booking.com, Airbnb und Expedia" }],
   },
   {
     id: "haushalt",
-    titel: "Haushalt, Gesundheit, Sport, Versicherung",
+    titel: "Mode, Haushalt, Gesundheit, Versicherung",
     firmen: [
+      { name: "Zara", domain: "zara.com", alltag: "auch Massimo Dutti, Pull & Bear, Bershka, Stradivarius, Oysho, Zara Home", grund: "BDS ruft zum Boykott auf: Zara eröffnete im Krieg seinen größten Laden in Israel.", gruppe: "stark", quelle: "BDS-Bewegung, Aufruf vom 24.07.2025" },
       { name: "Siemens", domain: "siemens.com", alltag: "Geräte mit dem Namen Siemens", grund: "Baut das Stromkabel, das Siedlungen mit Europa verbinden soll.", gruppe: "ziel" },
       { name: "Teva", domain: "teva.de", alltag: "Medikamente von ratiopharm", grund: "Israelische Firma, verdient laut BDS seit Jahrzehnten an der Besatzung.", gruppe: "ziel", hinweis: "Setz nie ein Medikament einfach ab. Frag in der Apotheke nach demselben Wirkstoff von einem anderen Hersteller." },
       { name: "Reebok", domain: "reebok.de", alltag: "Sportschuhe", grund: "Sponsert seit 2025 Israels Fußballverband, mit Vereinen aus Siedlungen.", gruppe: "ziel" },
@@ -120,7 +134,11 @@ export const bereiche: BoykottBereich[] = [
 
 export const alleFirmen = bereiche.flatMap((b) => b.firmen);
 
-/** BDS nennt zusätzlich Ware, keine Firma: zählt nicht zu den 25. */
+/** Nur die Firmen von der BDS-Seite „What to boycott“ (25), ohne die Gruppe „stark“. */
+export const bdsFirmen = alleFirmen.filter((f) => f.gruppe !== "stark");
+export const starkeFirmen = alleFirmen.filter((f) => f.gruppe === "stark");
+
+/** BDS nennt zusätzlich Ware, keine Firma: zählt nicht zu den Firmen. */
 export const WARE = {
   name: "Obst, Gemüse und Wein aus Israel",
   alltag: "„Israel“ auf dem Etikett",
@@ -154,7 +172,11 @@ export const listenQuellen: { titel: string; url: string; datei: string }[] = [
 ];
 
 export const boykottQuellen: { titel: string; url: string }[] = [
-  { titel: "BDS-Bewegung, What to boycott (Stand 28.10.2026)", url: "https://bdsmovement.net/get-involved/what-to-boycott" },
+  { titel: "BDS-Bewegung, What to boycott (geprüft 21.11.2026)", url: "https://bdsmovement.net/get-involved/what-to-boycott" },
+  { titel: "BDS-Bewegung, Boycott ZARA (24.07.2025)", url: "https://bdsmovement.net/news/boycott-zara-dressing-apartheid-and-genocide" },
+  { titel: "AFSC Investigate, Sony Group (Stand 19.08.2022)", url: "https://investigate.afsc.org/company/sony" },
+  { titel: "AFSC Investigate, Shell (Stand 10.09.2025)", url: "https://investigate.afsc.org/company/shell" },
+  { titel: "AFSC Investigate, Exxon Mobil", url: "https://investigate.afsc.org/company/exxon-mobil" },
   { titel: "Al Jazeera, McDonald's kauft alle 225 Filialen in Israel zurück (05.04.2024)", url: "https://www.aljazeera.com/news/2024/4/5/mcdonalds-buys-all-225-of-israeli-franchise-restaurants-after-boycotts" },
   { titel: "ratiopharm ist Teil des Teva-Konzerns", url: "https://www.ratiopharm.de/" },
   { titel: "Coca-Cola Deutschland, Marken", url: "https://www.coca-cola.com/de/de/brands" },
