@@ -23,11 +23,23 @@ const [start, profi, platz3] = BROKER_TOP3;
 const DREI = [profi, start, platz3];
 const ROLLE: Record<string, string> = { profi: "Nr. 1 Profis", start: "Nr. 1 Start", platz3: "Nr. 3" };
 
+/** „12 von 12“ + „7 von 7“ + „3 von 3“ = „22 von 22“: Summe der Halal-Anlagen aus den Tabellenwerten, nichts von Hand. */
+const summe = (k: BrokerKarte) => {
+  const paare = [k.etfs, k.gold, k.sukuk].map((t) => t.match(/(\d+)\s*von\s*(\d+)/)).filter((m): m is RegExpMatchArray => !!m);
+  if (paare.length !== 3) return null;
+  return `${paare.reduce((n, m) => n + Number(m[1]), 0)} von ${paare.reduce((n, m) => n + Number(m[2]), 0)}`;
+};
+
+// GB2-06 (Elias 21.11.: „bei Flatex für Profis … 22 von 22 Halal Investments … keine zweite Reihe … Depotgebühr 0 Euro kann dann raus
+// bei Traders Place. Dann haben wir nur einen Zeiler“): je Karte eine Zeile.
 const grund = (k: BrokerKarte) => {
-  if (k.rolle === "profi") return `Für Profis: ${k.etfs} Islamic ETFs und Fonds, dazu Gold und Sukuk.`;
+  if (k.rolle === "profi") {
+    const s = summe(k);
+    return s ? `Für Profis: ${s} Halal-Investments.` : `Für Profis: ${k.etfs} Islamic ETFs und Fonds.`;
+  }
   if (k.rolle === "start")
     return `Für den Start: Sparplan ab ${k.sparplanAb}${k.sparplanKosten === "0 €" ? ", ohne Kosten je Rate" : ""}.`;
-  return `${k.etfs} Islamic ETFs und Fonds, Depotgebühr ${k.depotgebuehr}.`;
+  return `${k.etfs} Islamic ETFs und Fonds.`;
 };
 
 const klick = (k: BrokerKarte) => ereignis("partner_klick", { anbieter: k.out, knopf: k.src, weg: "out", von: "broker-vergleich" });

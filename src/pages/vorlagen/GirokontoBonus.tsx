@@ -188,7 +188,8 @@ const GirokontoBonus = () => {
             frage="Noch unsicher, welches?"
             match={
               <>
-                Finde dein <span className="text-primary">Match aus {KONTEN_GETESTET}</span> verglichenen Bankkonten.
+                Finde dein Match aus <span className="text-primary">{KONTEN_GETESTET}</span> verglichenen{" "}
+                <span className="text-primary">Bankkonten</span>.
               </>
             }
             art="konto"
