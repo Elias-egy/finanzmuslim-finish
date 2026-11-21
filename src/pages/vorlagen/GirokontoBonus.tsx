@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import Seo from "@/components/Seo";
+import { MatchUnten } from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
 import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
@@ -181,18 +182,15 @@ const GirokontoBonus = () => {
           </section>
 
           {/* 5. Für Unsichere: der Test */}
-          <aside className="mt-10 rounded-xl bg-accent p-5" data-bonus-test>
-            <p className="text-[19px] font-extrabold text-foreground">Noch unsicher, welches?</p>
-            <p className="mt-1 text-[16px] leading-snug text-foreground">Ein paar Fragen, dann siehst du dein Match.</p>
-            <Link
-              to={`/check?start=2&a1=konto&src=${GIRO_BONUS_SRC.vergleich}test`}
-              onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "girokonto-bonus", im: "freebie", stelle: "ende", wort: "konto" })}
-              className="mt-3 inline-flex min-h-[44px] items-center gap-1 text-[17px] font-bold text-primary hover:underline"
-            >
-              Test machen
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </aside>
+          <MatchUnten
+            data-bonus-test
+            className="mt-10"
+            frage="Noch unsicher, welches?"
+            art="konto"
+            quelle="homepage"
+            to={`/check?start=2&a1=konto&src=${GIRO_BONUS_SRC.vergleich}test`}
+            onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "girokonto-bonus", im: "freebie", stelle: "ende", wort: "konto" })}
+          />
 
           <p className="mt-8 text-[14px] leading-snug text-foreground/80" data-werbehinweis>
             * Angaben am {GIRO_BONUS_STAND} bei den Banken gelesen, Aktionen können sich ändern.

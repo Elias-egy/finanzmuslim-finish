@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Seo from "@/components/Seo";
+import { MatchUnten } from "@/components/CheckEinstieg";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { ANBIETER_LOGOS } from "@/data/anbieterLogos";
 import eliasAutor from "@/assets/elias-autor.webp";
@@ -160,18 +160,15 @@ const BrokerVergleich = () => {
           </section>
 
           {/* 5. Für Unsichere: der Test */}
-          <aside className="mt-10 rounded-xl bg-accent p-5" data-broker-test>
-            <p className="text-[19px] font-extrabold text-foreground">Noch unsicher, welcher?</p>
-            <p className="mt-1 text-[16px] leading-snug text-foreground">Ein paar Fragen, dann siehst du dein Match.</p>
-            <Link
-              to={`/check?quelle=broker-vergleich&src=${BROKER_SRC.vergleich}`}
-              onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "broker-vergleich", im: "freebie", stelle: "ende" })}
-              className="mt-3 inline-flex min-h-[44px] items-center gap-1 text-[17px] font-bold text-primary hover:underline"
-            >
-              Test machen
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </aside>
+          <MatchUnten
+            data-broker-test
+            className="mt-10"
+            frage="Noch unsicher, welcher?"
+            art="depot"
+            quelle="broker-vergleich"
+            to={`/check?quelle=broker-vergleich&src=${BROKER_SRC.vergleich}`}
+            onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "broker-vergleich", im: "freebie", stelle: "ende" })}
+          />
         </div>
       </main>
     </>

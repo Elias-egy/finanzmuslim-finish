@@ -143,13 +143,76 @@ const Knopf = ({ quelle, art, stelle }: { quelle: CheckQuelle; art: string; stel
   </Link>
 );
 
-const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; className?: string }) => {
-  const art = ART_JE_QUELLE[quelle] ?? "konto";
+/** Die kleine Quiz-Vorschau (Elias nennt sie „das Video“): spielt einen echten Weg durch den Check. */
+export const MatchBuehne = ({ art, quelle }: { art: "konto" | "depot"; quelle: CheckQuelle }) => {
   const weg = WEG[art];
   const e = ergebnisAus(weg.antworten, quelle);
   const { ref, schritt } = useVorschau();
   const an = (n: number) => (schritt >= n ? " ce-an" : "");
   const prozent = e?.passung ?? 0;
+  return (
+    <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
+      <div className={`ce-reihe${an(1)}`}>
+        <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
+        <span className="ce-blase">{weg.frage1}</span>
+      </div>
+      <div className={`ce-wahlen${an(2)}`}>
+        {zielFrage(quelle)
+          .optionen.slice(0, 2)
+          .map((o) => (
+            <span key={o.wert} className={`ce-wahl${o.wert === weg.wahl1 && schritt >= 3 ? " ce-wahl--getippt" : ""}`}>
+              <span className="ce-wahl-text">{o.titel}</span>
+              {o.etikett === ETIKETT && <span className="ce-etikett">beliebt</span>}
+              {o.hinweis && <span className="ce-etikett ce-etikett--hinweis">{o.hinweis}</span>}
+            </span>
+          ))}
+      </div>
+      <div className={`ce-reihe${an(4)}`}>
+        <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
+        <span className="ce-blase">{weg.frage2}</span>
+      </div>
+      <div className={`ce-wahlen${an(4)}`}>
+        <span className={`ce-wahl${schritt >= 5 ? " ce-wahl--getippt" : ""}`}>{weg.wahl2}</span>
+      </div>
+      {e && (
+        <div className={`ce-match${an(6)}`}>
+          <span className="ce-match-kopf">Dein Match</span>
+          <span className="ce-match-zeile">
+            {/* RN17-03 (Elias: „dein Match bei BB Bank in der Animation ist irgendwie noch nicht so richtig gut“): das Logo war oben
+                abgeschnitten und verzerrt (eigene Höhe 30 px gegen das Logomaß). Jetzt wie im Ergebnis auf weißer Platte in seinem
+                eigenen Maß, darunter der Kartentitel mit grünem Haken. */}
+            <span className={`ce-match-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
+              <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
+            </span>
+            <span className="ce-ring">
+              <svg viewBox="0 0 100 100">
+                <circle className="ce-ring-spur" cx="50" cy="50" r="44" />
+                <circle
+                  className="ce-ring-fuell"
+                  cx="50"
+                  cy="50"
+                  r="44"
+                  style={{ strokeDashoffset: schritt >= LETZTER ? (276.5 * (100 - prozent)) / 100 : 276.5 }}
+                />
+              </svg>
+              <span className="ce-ring-zahl">
+                {prozent}
+                <small>%</small>
+              </span>
+            </span>
+          </span>
+          <span className="ce-match-titel">
+            <Check aria-hidden />
+            {e.kartenTitel}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; className?: string }) => {
+  const art = ART_JE_QUELLE[quelle] ?? "konto";
   return (
     <aside data-check-einstieg={quelle} data-art={art} aria-labelledby={`check-${quelle}`} className={`ce ${className}`}>
       <h2 id={`check-${quelle}`} className="ce-titel">
@@ -161,63 +224,7 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
       </p>
       <Knopf quelle={quelle} art={art} stelle="oben" />
 
-      <div ref={ref} className="ce-buehne" aria-hidden data-schritt={schritt}>
-        <div className={`ce-reihe${an(1)}`}>
-          <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
-          <span className="ce-blase">{weg.frage1}</span>
-        </div>
-        <div className={`ce-wahlen${an(2)}`}>
-          {zielFrage(quelle)
-            .optionen.slice(0, 2)
-            .map((o) => (
-              <span key={o.wert} className={`ce-wahl${o.wert === weg.wahl1 && schritt >= 3 ? " ce-wahl--getippt" : ""}`}>
-                <span className="ce-wahl-text">{o.titel}</span>
-                {o.etikett === ETIKETT && <span className="ce-etikett">beliebt</span>}
-                {o.hinweis && <span className="ce-etikett ce-etikett--hinweis">{o.hinweis}</span>}
-              </span>
-            ))}
-        </div>
-        <div className={`ce-reihe${an(4)}`}>
-          <img src="/elias-el-gendy.webp" alt="" width={28} height={28} loading="lazy" />
-          <span className="ce-blase">{weg.frage2}</span>
-        </div>
-        <div className={`ce-wahlen${an(4)}`}>
-          <span className={`ce-wahl${schritt >= 5 ? " ce-wahl--getippt" : ""}`}>{weg.wahl2}</span>
-        </div>
-        {e && (
-          <div className={`ce-match${an(6)}`}>
-            <span className="ce-match-kopf">Dein Match</span>
-            <span className="ce-match-zeile">
-              {/* RN17-03 (Elias: „dein Match bei BB Bank in der Animation ist irgendwie noch nicht so richtig gut“): das Logo war oben
-                  abgeschnitten und verzerrt (eigene Höhe 30 px gegen das Logomaß). Jetzt wie im Ergebnis auf weißer Platte in seinem
-                  eigenen Maß, darunter der Kartentitel mit grünem Haken. */}
-              <span className={`ce-match-logo${e.anbieter.kurz === "no" ? " hc-wb-platte--noris" : ""}`}>
-                <AnbieterLogo name={e.anbieter.name} domain={e.anbieter.domain} gross />
-              </span>
-              <span className="ce-ring">
-                <svg viewBox="0 0 100 100">
-                  <circle className="ce-ring-spur" cx="50" cy="50" r="44" />
-                  <circle
-                    className="ce-ring-fuell"
-                    cx="50"
-                    cy="50"
-                    r="44"
-                    style={{ strokeDashoffset: schritt >= LETZTER ? (276.5 * (100 - prozent)) / 100 : 276.5 }}
-                  />
-                </svg>
-                <span className="ce-ring-zahl">
-                  {prozent}
-                  <small>%</small>
-                </span>
-              </span>
-            </span>
-            <span className="ce-match-titel">
-              <Check aria-hidden />
-              {e.kartenTitel}
-            </span>
-          </div>
-        )}
-      </div>
+      <MatchBuehne art={art} quelle={quelle} />
 
       <StimmenReihe quelle={quelle} />
 
@@ -226,5 +233,39 @@ const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; classN
     </aside>
   );
 };
+
+/**
+ * GB2 (Elias 21.11.2026: „unten noch unsicher welcher … ein bisschen cleaner … findet dein Match … wie dieser Call to Action da aussieht.
+ * Aber nicht zu viel, einfach ohne Testimonials. Das Video eingeblendet“): Schlusskasten der Girokonto- und Broker-Freebies.
+ * Titel, die Quiz-Vorschau, ein Knopf. Keine Stimmen, kein zweiter Knopf, kein Satz.
+ */
+export const MatchUnten = ({
+  frage,
+  art,
+  quelle,
+  to,
+  onClick,
+  className = "",
+  ...rest
+}: {
+  frage: string;
+  art: "konto" | "depot";
+  quelle: CheckQuelle;
+  to: string;
+  onClick: () => void;
+  className?: string;
+  [data: `data-${string}`]: string | boolean | undefined;
+}) => (
+  <aside aria-labelledby="match-unten" className={`ce ce--unten ${className}`} {...rest}>
+    <h2 id="match-unten" className="ce-titel ce-titel--klein">
+      {frage} <span className="ce-titel-zahlen">Finde dein Match.</span>
+    </h2>
+    <MatchBuehne art={art} quelle={quelle} />
+    <Link to={to} onClick={onClick} className="ce-knopf ce-knopf--unten">
+      Match finden
+      <ArrowRight aria-hidden />
+    </Link>
+  </aside>
+);
 
 export default CheckEinstieg;
