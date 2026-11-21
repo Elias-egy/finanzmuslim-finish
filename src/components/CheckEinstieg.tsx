@@ -252,7 +252,7 @@ export const MatchUnten = ({
 }: {
   frage: string;
   /** GB2-02 (Elias: „Dein Match aus 35 Anbietern … oder verglichenen Anbietern“): zweite Zeile mit der Zahl der verglichenen Anbieter.
-   * GB2-03 (Elias: „Machen wir alles schwarz. Und dann 54 blau.“): ganzer Titel schwarz, nur die Zahl blau. */
+   * GB2-03 (Elias: „Machen wir alles schwarz. Und dann 54 blau.“): ganzer Titel schwarz, nur die Zahl blau; GB2-04 Zahl bis Anbieterwort blau. */
   match: string;
   zahl: number;
   art: "konto" | "depot";
@@ -265,7 +265,10 @@ export const MatchUnten = ({
   <aside aria-labelledby="match-unten" className={`ce ce--unten ${className}`} {...rest}>
     <h2 id="match-unten" className="ce-titel ce-titel--klein">
       {frage} <span className="block">
-        {match.split(String(zahl)).flatMap((t, i) => (i ? [<span key={i} className="text-primary">{zahl}</span>, t] : [t]))}
+        {/* GB2-04 (Elias: „Match aus 54 … blau. Und beim anderen 35 Depots blau“): blau von der Zahl bis zum Wort, der Punkt bleibt schwarz. */}
+        {match.slice(0, match.indexOf(String(zahl)))}
+        <span className="text-primary">{match.slice(match.indexOf(String(zahl))).replace(/\.$/, "")}</span>
+        {match.endsWith(".") ? "." : ""}
       </span>
     </h2>
     <MatchBuehne art={art} quelle={quelle} />
