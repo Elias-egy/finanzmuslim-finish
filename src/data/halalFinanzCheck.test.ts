@@ -573,9 +573,10 @@ describe("Ergebnis Depot", () => {
   it("Halal-Auswahl führt zu flatex, Kosten zu Smartbroker+, kein Girokonto-Kasten, keine Alternative, Art immer „depot“", () => {
     for (const anlage of ["etf", "aktien", "gold"] as const) {
       const halal = depot({ ...ohne("halal"), anlage });
-      expect(halal.anbieter.out).toBe("flatex");
+      // Elias 22.11. (L6G): „ja smartbroker vorne“ bei Gold und mehreren Edelmetallen.
+      expect(halal.anbieter.out).toBe(anlage === "gold" ? "smartbroker" : "flatex");
       expect(halal.art).toBe("depot");
-      expect(halal.ueberschrift).toBe("Dein Match: ein Halal-Depot bei flatex");
+      expect(halal.ueberschrift).toBe(anlage === "gold" ? "Dein Match: ein günstiges Halal-Depot bei Smartbroker+" : "Dein Match: ein Halal-Depot bei flatex");
       const kosten = depot({ ...ohne("kosten"), anlage });
       expect(kosten.anbieter.out).toBe("smartbroker");
       expect(kosten.art).toBe("depot");
@@ -774,7 +775,7 @@ describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
     expect(zahlen.some((z) => z !== passungProzent(SB, mitAnlage("halal", undefined)))).toBe(true);
     // Das Depot bleibt, wie die Anlage auch fällt: „Was ist dir wichtiger?“ entscheidet.
     for (const x of ["etf", "aktien", "gold"] as const) {
-      expect(depot({ ...ohneD("halal"), anlage: x }).anbieter.out).toBe("flatex");
+      expect(depot({ ...ohneD("halal"), anlage: x }).anbieter.out).toBe(x === "gold" ? "smartbroker" : "flatex");
       expect(depot({ ...ohneD("kosten"), anlage: x }).anbieter.out).toBe("smartbroker");
     }
   });
@@ -793,7 +794,8 @@ describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
     for (const x of ["aktien", "gold"] as const) {
       const ha = a("halal", { anlage: x });
       expect(Math.abs(passungProzent(SB, ha) - passungProzent(FL, ha)), `halal ${x}`).toBeLessThanOrEqual(5);
-      expect(depot(ha).anbieter.out).toBe("flatex");
+      // Gold entschieden (Elias 22.11. L6G): oben steht nie die kleinere Zahl, Smartbroker+ vorn.
+      expect(depot(ha).anbieter.out).toBe(x === "gold" ? "smartbroker" : "flatex");
     }
   });
 
@@ -857,8 +859,8 @@ describe("Kennung am Knopf", () => {
     const basis = { art: "depot", hatDepot: "nein", praef: "halal", anlage: "gold" } as const;
     const a = depot(basis);
     const b = depot({ ...basis, betrag: "50bis200" }, true);
-    expect(outLink("homepage", a.anbieter, "a")).toMatch(/src=fchpfla$/);
-    expect(outLink("homepage", b.anbieter, "b")).toMatch(/src=fchpflb$/);
+    expect(outLink("homepage", a.anbieter, "a")).toMatch(/src=fchpsba$/);
+    expect(outLink("homepage", b.anbieter, "b")).toMatch(/src=fchpsbb$/);
     const ak = ergebnisAus(basis, "aktienliste") as DepotErgebnis;
     const bo = ergebnisAus(basis, "boykottliste") as DepotErgebnis;
     expect(ak.satz).toBe(bo.satz);

@@ -352,10 +352,10 @@ describe("Depot-Check", () => {
     await tippeText("Mehrere Edelmetalle");
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
     await tippeText("50 bis 200 €");
-    expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
+    expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     // Die Anlage steht seit RN15 nicht mehr als Pille, aber in den Vorteilen vorn.
     expect(document.querySelector(".hc-erg-haken")!.textContent).toMatch(/Gold und Silber/);
-    expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/flatex?src=fchpflb");
+    expect(screen.getByRole("link", { name: /Depot eröffnen\*/ }).getAttribute("href")).toBe("/out/smartbroker?src=fchpsbb");
   });
 
   it("Ja fragt „Wo hast du dein Depot?“ (DepotSuche) und führt dann über „Was ist dir wichtiger?“ und „Worin willst du investieren?“ (Elias RN9-03, RN10-07)", async () => {

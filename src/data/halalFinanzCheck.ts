@@ -377,6 +377,8 @@ const DEPOT_KARTE: Record<DepotKurz, { anbieter: Anbieter; karte: BrokerKarte; p
 export const depotPaar = (a: Antworten): [DepotKurz, DepotKurz] => {
   if (a.praef === "kosten") return ["sb", "fl"];
   if (a.praef === "mix") return passungProzent(TP, a) > passungProzent(SB, a) ? ["tp", "sb"] : ["sb", "tp"];
+  // Elias 22.11. (L6G): „ja smartbroker vorne“ bei Gold und mehreren Edelmetallen; oben steht nie die kleinere Zahl.
+  if (a.anlage === "gold") return passungProzent(SB, a) > passungProzent(FLATEX, a) ? ["sb", "fl"] : ["fl", "sb"];
   return ["fl", "sb"];
 };
 
@@ -388,9 +390,11 @@ const depotTeil = (kurz: DepotKurz, a: Antworten) => {
     const goldSatz =
       a.praef === "mix"
         ? `Du willst nur Gold, zertifiziert und günstig. ${k.anbieter.name} verbindet beides.`
-        : kurz === "sb"
+        : a.praef === "kosten"
           ? "Du willst Gold zu möglichst niedrigen Kosten. Dafür passt Smartbroker+."
-          : "Du willst mehrere Edelmetalle wie Gold und Silber. flatex hat in meinem Vergleich die größte Halal-Auswahl.";
+          : kurz === "sb"
+            ? "Du willst mehrere Edelmetalle wie Gold und Silber. Smartbroker+ hat sie in meinem Vergleich alle, zu niedrigeren Kosten."
+            : "Du willst mehrere Edelmetalle wie Gold und Silber. flatex hat in meinem Vergleich die größte Halal-Auswahl.";
     return { ...k, kurz, satz: goldSatz };
   }
   const satz =
