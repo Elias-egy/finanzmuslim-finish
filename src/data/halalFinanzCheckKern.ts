@@ -257,7 +257,7 @@ export const FRAGEN: Record<FrageId, Frage> = {
   },
   praef: {
     id: "praef",
-    warum: "Jedes Depot hat andere Stärken. Deshalb frage ich, was für dich zählt.",
+    warum: "Noch eine Frage, dann rechne ich aus, wie gut es zu dir passt.",
     titel: "Was ist dir wichtiger?",
     optionen: [
       { wert: "halal", titel: "Möglichst viele Halal-Anlagen", unter: `${FLATEX.etfs} Halal-ETFs und Fonds, ${FLATEX.gold} Edelmetalle` },
@@ -267,7 +267,7 @@ export const FRAGEN: Record<FrageId, Frage> = {
   },
   anlage: {
     id: "anlage",
-    warum: "Noch eine Frage, dann rechne ich aus, wie gut es zu dir passt.",
+    warum: "Damit ich weiß, welche Anlagen dein Depot haben muss.",
     titel: "Worin willst du investieren?",
     optionen: [
       { wert: "etf", titel: "ETFs", unter: "Ein Papier, viele Firmen" },
@@ -329,8 +329,41 @@ export const zielFrage = (quelle: CheckQuelle): Frage => {
   return { ...FRAGEN.ziel, optionen: FRAGEN.ziel.optionen.map((o) => (h && o.wert === h.ziel ? { ...o, hinweis: h.etikett } : o)) };
 };
 
+/**
+ * Elias 22.11. (L6-Gold): „bei Edelmetalle könnte dann kommen … Nur Gold, mehrere Edelmetalle oder was ist dir bei Gold wichtig?“
+ * Wer Gold und Silber wählt, bekommt diese Wichtig-Frage. Die Werte bleiben die alten, damit Passung und Depotwahl gleich rechnen:
+ * mehrere Edelmetalle gleich größte Halal-Auswahl (flatex), nur Gold gleich Mix (Smartbroker+ oder Traders Place), Kosten gleich Kosten.
+ */
+export const PRAEF_GOLD: Frage = {
+  id: "praef",
+  warum: "Noch eine Frage, dann rechne ich aus, wie gut es zu dir passt.",
+  titel: "Was ist dir bei Gold wichtig?",
+  optionen: [
+    { wert: "mix", titel: "Nur Gold", unter: "Zertifiziertes Gold, günstig gekauft" },
+    { wert: "halal", titel: "Mehrere Edelmetalle", unter: `Gold und Silber, bei flatex ${FLATEX.gold}` },
+    { wert: "kosten", titel: "Möglichst niedrige Kosten", unter: `${SB.depotgebuehr} Depotgebühr, Sparplan ab ${SB.sparplanAb}` },
+  ],
+};
+
+/** Das orange Etikett an der Anlage, die zum Freebie passt (Elias 22.11.: „und Gold und Silber auch machst, passt zu dein … wie beim Depot“). */
+const ANLAGE_HINWEIS: Partial<Record<CheckQuelle, { wert: Anlage; etikett: string }>> = {
+  "gold-plan": { wert: "gold", etikett: ETIKETT_PLAN },
+  "etf-plan": { wert: "etf", etikett: ETIKETT_PLAN },
+  aktienliste: { wert: "aktien", etikett: ETIKETT_LISTE },
+  "boykottfreie-aktien": { wert: "aktien", etikett: ETIKETT_LISTE },
+};
+export const anlageFrage = (quelle: CheckQuelle): Frage => {
+  const h = ANLAGE_HINWEIS[quelle];
+  return { ...FRAGEN.anlage, optionen: FRAGEN.anlage.optionen.map((o) => (h && o.wert === h.wert ? { ...o, hinweis: h.etikett } : o)) };
+};
+
 /** Die Frage mit den Antworten, die zum Einstieg passen (nur die erste Frage trägt je Einstieg ein anderes Etikett). */
-export const frageFuer = (id: FrageId, _a: Antworten, quelle: CheckQuelle = "homepage"): Frage => (id === "ziel" ? zielFrage(quelle) : FRAGEN[id]);
+export const frageFuer = (id: FrageId, a: Antworten, quelle: CheckQuelle = "homepage"): Frage => {
+  if (id === "ziel") return zielFrage(quelle);
+  if (id === "anlage") return anlageFrage(quelle);
+  if (id === "praef" && a.anlage === "gold") return PRAEF_GOLD;
+  return FRAGEN[id];
+};
 
 /** Fassung b fragt auf dem Depot-Weg zusätzlich nach dem Monatsbetrag (50:50-Test, Elias RN7-03: sinkt oder steigt der Abschluss mit einer Frage mehr?). */
 const mitBetrag = (fassung: Fassung) => fassung === "b";
@@ -356,8 +389,10 @@ export const naechsteFrage = (a: Antworten, fassung: Fassung = "a"): FrageId | n
   }
   if (!a.hatDepot) return "hatDepot";
   if (a.hatDepot === "ja" && !a.depotHeute) return "depotHeute";
-  if (!a.praef) return "praef";
+  // Elias 22.11. (L6-Gold): erst „Worin willst du investieren?“, dann „Was ist dir wichtiger?“, weil die Wichtig-Frage je Anlage
+  // andere Antworten hat (bei Gold: Nur Gold, mehrere Edelmetalle, niedrige Kosten).
   if (!a.anlage) return "anlage";
+  if (!a.praef) return "praef";
   return mitBetrag(fassung) && !a.betrag ? "betrag" : null;
 };
 

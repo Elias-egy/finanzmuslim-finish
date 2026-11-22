@@ -313,12 +313,13 @@ describe("Depot-Check", () => {
     // Keine Erfahrungsfrage mehr (Elias RN10-07: keine unnötigen Fragen).
     expect(container.textContent).not.toMatch(/Erfahrung|Erste Schritte/);
     await tippeText("Nein, noch nicht");
-    expect(titel()).toBe("Was ist dir wichtiger?");
-    await tippeText("Möglichst niedrige Kosten");
+    // Elias 22.11. (L6-Gold): erst die Anlage, dann was wichtiger ist.
     expect(titel()).toBe("Worin willst du investieren?");
     expect([...container.querySelectorAll(".hc-wahlen .hc-wahl")].map((b) => b.textContent)).toEqual(["ETFs", "Einzelne Aktien", "Gold und Silber", "Weiß noch nicht"]);
     expect(container.textContent).not.toMatch(/Wechsel|Welche dieser drei Eigenschaften/);
     await tippeText("Einzelne Aktien");
+    expect(titel()).toBe("Was ist dir wichtiger?");
+    await tippeText("Möglichst niedrige Kosten");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.querySelector(".hc-erg-ring")?.getAttribute("aria-label")).toMatch(/^Passt zu \d+ Prozent zu dir$/);
     expect(container.textContent).toContain("Übereinstimmung mit deinen Antworten");
@@ -345,9 +346,10 @@ describe("Depot-Check", () => {
     zeige("/check?art=depot&schritt=fragen", "b");
     await tippeText("Depot zum Investieren");
     await tippeText("Nein, noch nicht");
-    await tippeText("Möglichst viele Halal-Anlagen");
     expect(titel()).toBe("Worin willst du investieren?");
     await tippeText("Gold und Silber");
+    expect(titel()).toBe("Was ist dir bei Gold wichtig?");
+    await tippeText("Mehrere Edelmetalle");
     expect(titel()).toBe("Wie viel möchtest du im Monat anlegen?");
     await tippeText("50 bis 200 €");
     expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
@@ -367,10 +369,10 @@ describe("Depot-Check", () => {
     expect(container.querySelector(".hc-schnell-keine")).toBeNull();
     expect(screen.getByRole("textbox").getAttribute("aria-label")).toBe("Wo hast du dein Depot?");
     await tippeText("Trade Republic");
-    expect(titel()).toBe("Was ist dir wichtiger?");
-    await tippeText("Möglichst viele Halal-Anlagen");
     expect(titel()).toBe("Worin willst du investieren?");
     await tippeText("ETFs");
+    expect(titel()).toBe("Was ist dir wichtiger?");
+    await tippeText("Möglichst viele Halal-Anlagen");
     // Kein Zweitdepot: das Match folgt „Was ist dir wichtiger?“, die gewählte Anlage steht in den Vorteilen vorn.
     expect(titel()).toBe("Dein Match: ein Halal-Depot bei flatex");
     expect(container.textContent).toContain("Trade Republic und flatex im Vergleich");
@@ -392,8 +394,8 @@ describe("Depot-Check", () => {
     await act(async () => {
       vi.advanceTimersByTime(300);
     });
-    await tippeText("Möglichst niedrige Kosten");
     await tippeText("Einzelne Aktien");
+    await tippeText("Möglichst niedrige Kosten");
     expect(titel()).toBe("Dein Match: ein günstiges Halal-Depot bei Smartbroker+");
     expect(container.textContent).toContain("Dein Depot und Smartbroker+ im Vergleich");
     expect(container.textContent).toContain("Phantasiedepot");
@@ -406,8 +408,8 @@ describe("Depot-Check", () => {
     await tippeText("Depot zum Investieren");
     await tippeText("Ja");
     await tippeText("flatex");
-    await tippeText("Möglichst viele Halal-Anlagen");
     await tippeText("ETFs");
+    await tippeText("Möglichst viele Halal-Anlagen");
     expect(titel()).toBe("Dein Depot bei flatex passt schon");
     expect(container.textContent).not.toMatch(/im Vergleich/);
   });
@@ -416,8 +418,8 @@ describe("Depot-Check", () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     await tippeText("Nein, noch nicht");
-    await tippeText("Möglichst viele Halal-Anlagen");
     await tippeText("Gold und Silber");
+    await tippeText("Mehrere Edelmetalle");
     expect(container.textContent).toContain("Royal Mint Gold-ETC hier kaufbar, zertifiziert und auslieferbar");
   });
 
@@ -425,7 +427,7 @@ describe("Depot-Check", () => {
     zeige("/check?schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     await tippeText("Nein, noch nicht");
-    expect(titel()).toBe("Was ist dir wichtiger?");
+    expect(titel()).toBe("Worin willst du investieren?");
     await tippe(/Zurück/);
     expect(titel()).toBe("Hast du schon ein Depot?");
     await tippe(/Zurück/);
@@ -470,7 +472,7 @@ describe("Ohne art und aus dem Freebie", () => {
     expect(titel()).toBe("Bei welcher Bank bist du heute?");
     k.unmount();
     const d = zeige("/check?art=depot&quelle=aktienliste&start=2&a1=erste");
-    expect(titel()).toBe("Was ist dir wichtiger?");
+    expect(titel()).toBe("Worin willst du investieren?");
     d.unmount();
     zeige("/check?art=depot&quelle=aktienliste&start=2&a1=depot");
     expect(titel()).toBe("Wo hast du dein Depot?");
@@ -544,8 +546,8 @@ describe("Ladescreen und Endbildschirm (RN11)", () => {
     const { container } = zeige("/check?art=depot&schritt=fragen", "a");
     await tippeText("Depot zum Investieren");
     await tippeText("Nein, noch nicht");
-    await tippeText("Möglichst viele Halal-Anlagen");
     await tippeText("Gold und Silber");
+    await tippeText("Mehrere Edelmetalle");
     const laden = container.querySelector(".hc-laden")!;
     expect(laden.textContent).toContain("Dein passendes Halal-Depot wird gesucht");
     expect(laden.textContent).toContain("Gold und Silber je Depot prüfen");

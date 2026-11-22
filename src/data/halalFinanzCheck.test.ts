@@ -87,17 +87,32 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(FRAGEN.bank.titel).toBe("Bei welcher Bank bist du heute?");
   });
 
+  it("Gold (Elias 22.11.): nach Gold und Silber fragt der Check „Was ist dir bei Gold wichtig?“ mit Nur Gold, mehrere Edelmetalle, niedrige Kosten; aus dem Gold-Plan trägt Gold und Silber das orange Etikett", () => {
+    const g = frageFuer("praef", { art: "depot", hatDepot: "nein", anlage: "gold" }, "gold-plan");
+    expect(g.titel).toBe("Was ist dir bei Gold wichtig?");
+    expect(g.optionen.map((o) => [o.wert, o.titel])).toEqual([
+      ["mix", "Nur Gold"],
+      ["halal", "Mehrere Edelmetalle"],
+      ["kosten", "Möglichst niedrige Kosten"],
+    ]);
+    expect(frageFuer("praef", { art: "depot", hatDepot: "nein", anlage: "etf" }, "gold-plan").titel).toBe("Was ist dir wichtiger?");
+    expect(frageFuer("anlage", {}, "gold-plan").optionen.find((o) => o.wert === "gold")?.hinweis).toBe(ETIKETT_PLAN);
+    expect(frageFuer("anlage", {}, "homepage").optionen.every((o) => !o.hinweis)).toBe(true);
+    expect(antwortZeilen({ hatDepot: "nein", anlage: "gold", praef: "mix" })).toEqual(["Noch kein Depot", "Gold und Silber", "Nur Gold"]);
+  });
+
   it("Depot-Check (RN10-07): Hast du schon ein Depot, nur bei Ja „Wo hast du dein Depot?“, dann „Was ist dir wichtiger?“, „Worin willst du investieren?“, in Fassung b zuletzt der Monatsbetrag", () => {
     // Elias RN10-07: „Hast du schon ein Depot oder nicht? Bei welchem Depot bist du … was ist dir besonders wichtig … worin willst du investieren“.
     const d: Antworten = { art: "depot" };
     expect(naechsteFrage(d)).toBe("hatDepot");
-    expect(naechsteFrage({ ...d, hatDepot: "nein" })).toBe("praef");
-    expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal" })).toBe("anlage");
+    // Elias 22.11. (L6-Gold): erst die Anlage, dann was wichtiger ist.
+    expect(naechsteFrage({ ...d, hatDepot: "nein" })).toBe("anlage");
+    expect(naechsteFrage({ ...d, hatDepot: "nein", anlage: "etf" })).toBe("praef");
     expect(naechsteFrage({ ...d, hatDepot: "nein", praef: "halal", anlage: "etf" })).toBeNull();
     // Nur „Ja“ fragt nach dem heutigen Depot, vor „Was ist dir wichtiger?“.
     expect(naechsteFrage({ ...d, hatDepot: "ja" })).toBe("depotHeute");
-    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot") })).toBe("praef");
-    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "kosten" })).toBe("anlage");
+    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot") })).toBe("anlage");
+    expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), anlage: "aktien" })).toBe("praef");
     expect(naechsteFrage({ ...d, hatDepot: "ja", depotHeute: freieDepotWahl("Mein Depot"), praef: "kosten", anlage: "aktien" })).toBeNull();
     expect(naechsteFrage({ ...d, hatDepot: "nein", depotHeute: undefined })).not.toBe("depotHeute");
     // Fassung b: der Monatsbetrag kommt zuletzt, auf beiden Wegen.
@@ -116,7 +131,7 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(fragenGesamt({ ziel: "invest", hatDepot: "ja" }, "b")).toBe(6);
     // Der Depot-Weg fragt nie nach der Bank oder der Zahlung, und nie mehr nach Erfahrung oder Eigenschaft.
     const ids = new Set<string>();
-    for (const a of [d, { ...d, hatDepot: "nein" as const }, { ...d, hatDepot: "nein" as const, praef: "kosten" as const }, { ...d, hatDepot: "nein" as const, praef: "kosten" as const, anlage: "gold" as const }]) {
+    for (const a of [d, { ...d, hatDepot: "nein" as const }, { ...d, hatDepot: "nein" as const, anlage: "gold" as const }, { ...d, hatDepot: "nein" as const, praef: "kosten" as const, anlage: "gold" as const }]) {
       const n = naechsteFrage(a, "b");
       ids.add(String(n));
       expect(n).not.toBe("bank");
@@ -263,7 +278,7 @@ describe("Halal-Finanz-Check, zwei Arten auf einem Gerüst (RN8)", () => {
     expect(ersteAntwortAus("depot", "karte")).toEqual({});
     expect(ersteAntwortAus("konto", "erste")).toEqual({});
     expect(naechsteFrage(ersteAntwortAus("depot", "depot"))).toBe("depotHeute");
-    expect(naechsteFrage(ersteAntwortAus("depot", "keine"))).toBe("praef");
+    expect(naechsteFrage(ersteAntwortAus("depot", "keine"))).toBe("anlage");
     expect(naechsteFrage(ersteAntwortAus("konto", "karte"))).toBe("bank");
   });
 });
@@ -493,7 +508,7 @@ describe("Ergebnis Bankkonto", () => {
     expect(d({ hatDepot: "nein", praef: "halal", anlage: "etf" })).toBe("Du hast noch kein Depot. Du willst in ETFs investieren und legst Wert auf viele Halal-Anlagen.");
     expect(d({ hatDepot: "nein", praef: "kosten", anlage: "offen" })).toBe("Du hast noch kein Depot. Du legst Wert auf niedrige Kosten.");
     expect(d({ hatDepot: "ja", depotHeute: heuteDepot("trade-republic-depot"), praef: "halal", anlage: "gold" })).toBe(
-      "Du hast dein Depot bei Trade Republic. Du willst in Gold und Silber investieren und legst Wert auf viele Halal-Anlagen.",
+      "Du hast dein Depot bei Trade Republic. Du willst mehrere Edelmetalle kaufen, Gold und Silber.",
     );
     for (const zahlung of ["karte", "karte-bar", "bar"] as const) {
       expect(satz({ zahlung, bank: bank("ing") })).not.toMatch(/%|Polster|!|—|–/);
@@ -680,7 +695,7 @@ describe("Ergebnis Depot", () => {
     // Das Thema steht auch im Satz.
     expect(depot(ohne("halal", { anlage: "etf" })).satz).toContain("in ETFs investieren");
     expect(depot(ohne("kosten", { anlage: "aktien" })).satz).toContain("einzelne Aktien kaufen");
-    expect(depot(ohne("halal", { anlage: "gold" })).satz).toContain("in Gold und Silber investieren");
+    expect(depot(ohne("halal", { anlage: "gold" })).satz).toContain("mehrere Edelmetalle wie Gold und Silber");
   });
 
   it("Royal Mint (zertifiziert, auslieferbar) nur dort, wo anlagenKaufbar.ts den Kauf mit Anbieter-Beleg zeigt", () => {
@@ -814,7 +829,7 @@ describe("Passung in Prozent (RN8-03), berechnet und nie fest", () => {
     // Die gewählte Anlage und die Depot-Antwort stehen auch bei „Deine Antworten“.
     expect(antwortZeilen(basis)).toContain(ANLAGE_TEXT.aktien);
     expect(antwortZeilen(basis)).toContain("Noch kein Depot");
-    expect(antwortZeilen({ ...basis, hatDepot: "ja", depotHeute: heuteDepot("ing-direkt-depot") })).toEqual(["Schon ein Depot", "Depot bei ING", "Viele Halal-Anlagen", "Einzelne Aktien"]);
+    expect(antwortZeilen({ ...basis, hatDepot: "ja", depotHeute: heuteDepot("ing-direkt-depot") })).toEqual(["Schon ein Depot", "Depot bei ING", "Einzelne Aktien", "Viele Halal-Anlagen"]);
   });
 
   it("Bankkonto-Ergebnisse tragen seit RN13 eine gerechnete Passung (Elias RN12-01), nie als Text mit Prozentzeichen in den Daten", () => {

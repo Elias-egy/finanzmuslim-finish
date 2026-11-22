@@ -39,6 +39,15 @@ import "@/styles/checkEinstieg.css";
 
 type Weg = { frage1: string; wahl1: string; frage2: string; wahl2: string; antworten: Antworten };
 
+/** Vorschau auf der Gold-Seite: zweite Frage „Worin willst du investieren?“ mit Gold und Silber (Elias 22.11.: Fragen getauscht). */
+const WEG_GOLD: Weg = {
+  frage1: FRAGEN.ziel.titel,
+  wahl1: "invest",
+  frage2: FRAGEN.anlage.titel,
+  wahl2: "Gold und Silber",
+  antworten: { ziel: "invest", hatDepot: "nein", anlage: "gold", praef: "halal" },
+};
+
 const WEG: Record<"konto" | "depot", Weg> = {
   konto: {
     frage1: FRAGEN.ziel.titel,
@@ -115,6 +124,13 @@ export const TITEL = "Ich habe sie alle getestet.";
 // fast 90 Anbieter verglichen und einen Test gebaut. Und dann das danach.“); 54 Bankkonten und 35 Depots sind 89.
 export const SATZ = "Viele Muslime wissen nicht, dass ihr Bankkonto ihnen Zinsen zahlt oder einen Dispo einräumt. Deshalb habe ich fast 90 Anbieter verglichen und einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.";
 
+/** Gold-Seite (Elias 22.11., L6-Gold): „35 Anbieter für Gold. Ich habe sie alle getestet. Viele Muslime wissen nicht, dass sie in Gold
+ * Online investieren können. Und trotzdem als Besitz haben … Deswegen habe ich 35 Online-Anbieter verglichen. Und einen Test gebaut.“ */
+export const TITEL_ZAHLEN_GOLD = `${DEPOTS_GETESTET} Anbieter für Gold.`;
+export const SATZ_GOLD = `Viele Muslime wissen nicht, dass sie online in Gold investieren können und es trotzdem besitzen. Deshalb habe ich ${DEPOTS_GETESTET} Online-Anbieter verglichen und einen Test gebaut: Nach ein paar Fragen weißt du, welcher Anbieter am besten zu deinen Halal-Wünschen passt.`;
+const FETT = /(Zinsen|Dispo|fast 90 Anbieter)/;
+const FETT_GOLD = new RegExp(`(online in Gold investieren|besitzen|${DEPOTS_GETESTET} Online-Anbieter)`);
+
 const StimmenReihe = ({ quelle }: { quelle: CheckQuelle }) => {
   // RN16-32: zwei passende Stimmen je Freebie (Konto-Freebies Matin und Bank nebeneinander, Aktien-Liste Skeptisch und Reuf …);
   // live nur bestätigte, im Entwicklungsmodus alle, unbestätigte als Platzhalter markiert.
@@ -145,7 +161,7 @@ const Knopf = ({ quelle, art, stelle }: { quelle: CheckQuelle; art: string; stel
 
 /** Die kleine Quiz-Vorschau (Elias nennt sie „das Video“): spielt einen echten Weg durch den Check. */
 export const MatchBuehne = ({ art, quelle }: { art: "konto" | "depot"; quelle: CheckQuelle }) => {
-  const weg = WEG[art];
+  const weg = quelle === "gold-plan" && art === "depot" ? WEG_GOLD : WEG[art];
   const e = ergebnisAus(weg.antworten, quelle);
   const { ref, schritt } = useVorschau();
   const an = (n: number) => (schritt >= n ? " ce-an" : "");
@@ -213,14 +229,18 @@ export const MatchBuehne = ({ art, quelle }: { art: "konto" | "depot"; quelle: C
 
 const CheckEinstieg = ({ quelle, className = "" }: { quelle: CheckQuelle; className?: string }) => {
   const art = ART_JE_QUELLE[quelle] ?? "konto";
+  const gold = quelle === "gold-plan";
+  const titelZahlen = gold ? TITEL_ZAHLEN_GOLD : TITEL_ZAHLEN;
+  const satz = gold ? SATZ_GOLD : SATZ;
+  const fett = gold ? FETT_GOLD : FETT;
   return (
     <aside data-check-einstieg={quelle} data-art={art} aria-labelledby={`check-${quelle}`} className={`ce ${className}`}>
       <h2 id={`check-${quelle}`} className="ce-titel">
-        <span className="ce-titel-zahlen">{TITEL_ZAHLEN}</span> {TITEL}
+        <span className="ce-titel-zahlen">{titelZahlen}</span> {TITEL}
       </h2>
       <p className="ce-satz">
         {/* RN16-20: drei Stellen leicht fett zum Überfliegen: Zinsen, Dispo, fast 90 Anbieter */}
-        {SATZ.split(/(Zinsen|Dispo|fast 90 Anbieter)/).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))}
+        {satz.split(fett).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))}
       </p>
       <Knopf quelle={quelle} art={art} stelle="oben" />
 

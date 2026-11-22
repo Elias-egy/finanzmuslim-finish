@@ -383,6 +383,16 @@ export const depotPaar = (a: Antworten): [DepotKurz, DepotKurz] => {
 const depotTeil = (kurz: DepotKurz, a: Antworten) => {
   const und = a.anlage && ANLAGE_SATZ[a.anlage] ? ` und ${ANLAGE_SATZ[a.anlage]}` : "";
   const k = DEPOT_KARTE[kurz];
+  // Elias 22.11. (L6-Gold): bei Gold eigene Wichtig-Antworten (Nur Gold, mehrere Edelmetalle, niedrige Kosten), also eigene Sätze.
+  if (a.anlage === "gold") {
+    const goldSatz =
+      a.praef === "mix"
+        ? `Du willst nur Gold, zertifiziert und günstig. ${k.anbieter.name} verbindet beides.`
+        : kurz === "sb"
+          ? "Du willst Gold zu möglichst niedrigen Kosten. Dafür passt Smartbroker+."
+          : "Du willst mehrere Edelmetalle wie Gold und Silber. flatex hat in meinem Vergleich die größte Halal-Auswahl.";
+    return { ...k, kurz, satz: goldSatz };
+  }
   const satz =
     a.praef === "mix"
       ? `Du willst viele Halal-Anlagen bei niedrigen Kosten${und}. ${k.anbieter.name} verbindet beides.`
@@ -726,8 +736,13 @@ export const antwortZeilen = (a: Antworten): string[] => {
   if (a.zahlung) z.push({ karte: "Fast nur mit Karte", "karte-bar": "Karte und Bargeld", bar: "Viel Bargeld" }[a.zahlung]);
   if (a.hatDepot) z.push(a.hatDepot === "ja" ? "Schon ein Depot" : "Noch kein Depot");
   if (a.depotHeute) z.push(`Depot bei ${a.depotHeute.name}`);
-  if (a.praef) z.push({ halal: "Viele Halal-Anlagen", kosten: "Niedrige Kosten", mix: "Halal-Anlagen und Kosten" }[a.praef]);
   if (a.anlage) z.push(ANLAGE_TEXT[a.anlage]);
+  if (a.praef)
+    z.push(
+      a.anlage === "gold"
+        ? { halal: "Mehrere Edelmetalle", kosten: "Niedrige Kosten", mix: "Nur Gold" }[a.praef]
+        : { halal: "Viele Halal-Anlagen", kosten: "Niedrige Kosten", mix: "Halal-Anlagen und Kosten" }[a.praef],
+    );
   if (a.betrag) z.push({ unter50: "Unter 50 € im Monat", "50bis200": "50 bis 200 € im Monat", ueber200: "Über 200 € im Monat" }[a.betrag]);
   return z;
 };
@@ -809,7 +824,11 @@ export const ladenTexte = (a: Antworten): LadenTexte => {
           : `Passender Ersatz für ${h.name} wird gesucht`
         : "Dein passendes Halal-Depot wird gesucht",
     schritte: [
-      a.praef === "kosten"
+      a.anlage === "gold" && a.praef !== "kosten"
+        ? a.praef === "mix"
+          ? "Halal-Depots nach zertifiziertem Gold und Kosten sortieren"
+          : "Halal-Depots nach Edelmetallen sortieren"
+        : a.praef === "kosten"
         ? "Halal-Depots nach Kosten sortieren"
         : a.praef === "mix"
           ? "Halal-Depots nach Halal-Anlagen und Kosten sortieren"
@@ -894,6 +913,12 @@ const KONTO_ZAHLUNG: Record<Zahlung, { sie: string; wunsch: string }> = {
   bar: { sie: "zahlst viel bar", wunsch: "Du suchst ein günstiges Konto mit Filiale." },
 };
 const PRAEF_WICHTIG: Record<Praef, string> = { halal: "viele Halal-Anlagen", kosten: "niedrige Kosten", mix: "viele Halal-Anlagen bei niedrigen Kosten" };
+/** Bei Gold (Elias 22.11.): die Wichtig-Antworten Nur Gold, mehrere Edelmetalle, niedrige Kosten als ganzer Satz. */
+const GOLD_WUNSCH: Record<Praef, string> = {
+  mix: "Du willst nur Gold kaufen, zertifiziert und günstig.",
+  halal: "Du willst mehrere Edelmetalle kaufen, Gold und Silber.",
+  kosten: "Du willst Gold kaufen und legst Wert auf niedrige Kosten.",
+};
 
 /** Höchstens zwei kurze Sätze, in denen sich der Leser wiedererkennt; leer, wenn das Match schon sein Konto oder Depot ist. */
 export const matchSatz = (e: Ergebnis, a: Antworten): string => {
@@ -907,6 +932,7 @@ export const matchSatz = (e: Ergebnis, a: Antworten): string => {
     return [erster, z?.wunsch ?? "Du suchst ein Konto, das günstig und flexibel ist."].filter(Boolean).join(" ");
   }
   const depot = a.depotHeute ? `Du hast dein Depot bei ${a.depotHeute.dativ || a.depotHeute.name || "einer anderen Bank"}.` : a.hatDepot === "nein" ? "Du hast noch kein Depot." : "";
+  if (a.anlage === "gold" && a.praef) return [depot, GOLD_WUNSCH[a.praef]].filter(Boolean).join(" ");
   const wichtig = a.praef ? `legst Wert auf ${PRAEF_WICHTIG[a.praef]}` : "";
   const anlage = a.anlage && ANLAGE_SATZ[a.anlage] ? `willst ${ANLAGE_SATZ[a.anlage]}` : "";
   const wunsch = [anlage, wichtig].filter(Boolean).join(" und ");
