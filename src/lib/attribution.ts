@@ -160,6 +160,8 @@ export const VALID_SRC = [
   // RN19: Partner-Knöpfe auf /dokumente, je Anbieter eine Stelle (src/data/dokumente.ts DOKUMENTE_SRC).
   "dokfl",
   "doksb",
+  "doktp",
+  "doksc",
   "doknb",
   "dokbb",
 ] as const;

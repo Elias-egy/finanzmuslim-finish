@@ -73,6 +73,8 @@ export const DOKUMENTE_SRC = {
   smartbroker: "doksb",
   norisbank: "doknb",
   bbbank: "dokbb",
+  tradersPlace: "doktp",
+  scalable: "doksc",
 } as const;
 
 /**
@@ -389,6 +391,67 @@ const rechner: DokGruppe = {
 };
 
 export const DOKUMENTE: DokGruppe[] = [match, depot, konto, listen, rechner];
+
+/**
+ * Die vier Einrichtungsvideos (Elias 22.11.2026: „Pack auch die Videos von den vier Reihen, die wir haben. Traders Place,
+ * [flatex], Smart Broker und Scalable zusätzlich zu den Unterlagen. Vielleicht braucht man es ja irgendwann nochmal.“).
+ * Die Knöpfe auf der Seite führen weiter direkt zum Anbieter (RN18-19); die Videos stehen nur hier zum Nachschauen.
+ * Die Dateien liegen schon unter public/videos; Scalable ist das alte Startvideo (investmentStart.ts STARTVIDEO).
+ */
+export type DokVideo = {
+  id: string;
+  titel: string;
+  anbieter: DokAnbieter;
+  src: string;
+  poster: string;
+  knopf: DokKarte;
+};
+
+const videoKnopf = (id: string, name: string, kurzname: string, src: string): DokKarte => ({
+  id: `video-${id}-eroeffnen`,
+  titel: `Depot bei ${name} eröffnen`,
+  satz: "",
+  knopf: "Depot eröffnen*",
+  ziel: { art: "partner", kurzname, src },
+});
+
+export const EINRICHTUNGSVIDEOS_TITEL = "Einrichtungsvideos";
+export const EINRICHTUNGSVIDEOS_SATZ = "Ich zeige dir Schritt für Schritt, wie du dein Depot eröffnest und einrichtest.";
+
+export const EINRICHTUNGSVIDEOS: DokVideo[] = [
+  {
+    id: "traders-place",
+    titel: "Depot bei Traders Place",
+    anbieter: { name: "Traders Place", domain: "tradersplace.de" },
+    src: "/videos/einrichtung-traders-place.mp4",
+    poster: "/videos/einrichtung-traders-place-poster.jpg",
+    knopf: videoKnopf("traders-place", "Traders Place", "traders-place", DOKUMENTE_SRC.tradersPlace),
+  },
+  {
+    id: "flatex",
+    titel: "Depot bei flatex",
+    anbieter: FLATEX,
+    src: "/videos/einrichtung-flatex.mp4",
+    poster: "/videos/einrichtung-flatex-poster.jpg",
+    knopf: videoKnopf("flatex", "flatex", "flatex", DOKUMENTE_SRC.flatex),
+  },
+  {
+    id: "smartbroker",
+    titel: "Depot bei Smartbroker+",
+    anbieter: SMARTBROKER,
+    src: "/videos/einrichtung-smartbroker.mp4",
+    poster: "/videos/einrichtung-smartbroker-poster.jpg",
+    knopf: videoKnopf("smartbroker", "Smartbroker+", "smartbroker", DOKUMENTE_SRC.smartbroker),
+  },
+  {
+    id: "scalable",
+    titel: "Depot bei Scalable Capital",
+    anbieter: { name: "Scalable Capital", domain: "scalable.capital" },
+    src: "/videos/investmentstart.mp4",
+    poster: "/videos/investmentstart-poster.jpg",
+    knopf: videoKnopf("scalable", "Scalable Capital", "scalable", DOKUMENTE_SRC.scalable),
+  },
+];
 
 export const alleKarten = (): DokKarte[] => DOKUMENTE.flatMap((g) => g.bloecke.flatMap((b) => b.karten));
 

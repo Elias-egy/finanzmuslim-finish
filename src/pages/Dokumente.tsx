@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, ExternalLink, Mail } from "lucide-react";
 import Seo from "@/components/Seo";
@@ -9,11 +10,15 @@ import {
   DOKUMENTE_BESCHREIBUNG,
   DOKUMENTE_EINLEITUNG,
   DOKUMENTE_TITEL,
+  EINRICHTUNGSVIDEOS,
+  EINRICHTUNGSVIDEOS_SATZ,
+  EINRICHTUNGSVIDEOS_TITEL,
   alleKarten,
   kartenAdresse,
   type DokBlock,
   type DokGruppe,
   type DokKarte,
+  type DokVideo,
 } from "@/data/dokumente";
 
 const SITE = "https://finanzmuslim.com";
@@ -142,6 +147,43 @@ const Gruppe = ({ gruppe }: { gruppe: DokGruppe }) =>
     </section>
   );
 
+/** Ein Einrichtungsvideo: Logo, Video (lädt erst beim Abspielen), darunter der Knopf direkt zum Anbieter. */
+const VideoKarte = ({ video }: { video: DokVideo }) => (
+  <article className="card-surface flex flex-col p-5 md:p-6" data-dok-video={video.id}>
+    <div className="flex items-center gap-3">
+      <AnbieterLogo name={video.anbieter.name} domain={video.anbieter.domain} gross />
+      <h3 className="sr-only">{video.titel}</h3>
+    </div>
+    <video
+      className="mt-4 aspect-video w-full rounded-xl bg-black object-cover"
+      src={video.src}
+      poster={video.poster}
+      controls
+      playsInline
+      preload="none"
+      aria-label={`Einrichtungsvideo: ${video.titel}`}
+      onPlay={() => ereignis("video_start", { wo: "dokumente", video: video.id })}
+    />
+    <div className="mt-5">
+      <KartenKnopf karte={video.knopf} />
+    </div>
+  </article>
+);
+
+const Videos = () => (
+  <section aria-labelledby="dok-videos" className="mt-14 md:mt-16" data-dok-gruppe="videos">
+    <h2 id="dok-videos" className="text-[28px] font-bold leading-[1.15] tracking-tight text-foreground md:text-[40px] md:leading-[48px]">
+      {EINRICHTUNGSVIDEOS_TITEL}
+    </h2>
+    <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-foreground md:text-[18px]">{EINRICHTUNGSVIDEOS_SATZ}</p>
+    <div className="mt-6 grid gap-4 md:grid-cols-2">
+      {EINRICHTUNGSVIDEOS.map((v) => (
+        <VideoKarte key={v.id} video={v} />
+      ))}
+    </div>
+  </section>
+);
+
 const Dokumente = () => (
   <main className="bg-background" data-seite="dokumente">
     <Seo
@@ -166,7 +208,10 @@ const Dokumente = () => (
       </header>
 
       {DOKUMENTE.map((g) => (
-        <Gruppe key={g.id} gruppe={g} />
+        <Fragment key={g.id}>
+          <Gruppe gruppe={g} />
+          {g.id === "depot" && <Videos />}
+        </Fragment>
       ))}
     </div>
   </main>
