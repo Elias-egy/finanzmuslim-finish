@@ -233,4 +233,5 @@ export const ansichtA3 = (
 };
 
 /** Ein Wert mit „mind.“: nicht alle Anlagen der Zeile sind beantwortet. */
-export const istMindestens = (text: string | null | undefined) => typeof text === "string" && /^\s*mind\./.test(text);
+export const istMindestens = (text: string | null | undefined) =>
+  typeof text === "string" && (/^\s*mind\./.test(text) || /\sbestätigt\s*$/.test(text));

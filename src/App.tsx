@@ -4,6 +4,7 @@ import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { captureSrc } from "@/lib/attribution";
 import Layout from "@/components/site/Layout";
 import Einwilligung from "@/components/site/Einwilligung";
+import { LandErkennung } from "@/components/land/LandErkennung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
 import { ladePartnerSprung, partnerKlick } from "@/lib/partnerKlick";
 import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "@/data/boykottfreiPfad";
@@ -157,6 +158,7 @@ const App = () => (
       <BrowserRouter>
         <SrcCapture />
         <PartnerSprung />
+        <LandErkennung />
         <ScrollToTop />
         <Einwilligung />
         <Layout>
@@ -203,6 +205,19 @@ const App = () => (
             <Route path="/vergleich/girokonto/studenten" element={<VergleichKontoStudenten />} />
             <Route path="/vergleich/etf-sparplan" element={<VergleichEtfSparplan />} />
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
+            {/* DACH1 (23.11.2026): Länderversionen. Ohne fertige Liste zeigen sie „in Vorbereitung“ (noindex). */}
+            <Route path="/at/vergleiche" element={<Vergleiche />} />
+            <Route path="/at/vergleich/depot" element={<VergleichDepot />} />
+            <Route path="/at/vergleich/girokonto" element={<VergleichGirokonto />} />
+            <Route path="/at/vergleich/krypto" element={<VergleichKrypto />} />
+            <Route path="/at/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
+            <Route path="/at/vergleich/etf-sparplan" element={<VergleichEtfSparplan />} />
+            <Route path="/ch/vergleiche" element={<Vergleiche />} />
+            <Route path="/ch/vergleich/depot" element={<VergleichDepot />} />
+            <Route path="/ch/vergleich/girokonto" element={<VergleichGirokonto />} />
+            <Route path="/ch/vergleich/krypto" element={<VergleichKrypto />} />
+            <Route path="/ch/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
+            <Route path="/ch/vergleich/etf-sparplan" element={<VergleichEtfSparplan />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet
                 wird ueber Instagram und die bestehende Mailkette. */}
             <Route path="/dein-guide/:schluessel" element={<DeinGuide />} />

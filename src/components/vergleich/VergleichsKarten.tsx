@@ -110,6 +110,9 @@ export const giroWerteVon = (spalte: VergleichsSpalte): GiroWerte => ({
   // Nur Geschäftskonto: die Zeile gibt es sonst nicht, dann bleibt es bei den Kacheln des Girokontos.
   buchungen: spalte.werte.buchungen ? (spalte.werte.buchungen.kurz ?? spalte.werte.buchungen.text) : undefined,
   abheben: spalte.werte.abheben ? spalte.werte.abheben.text : undefined,
+  ohneGirocard: spalte.werte.girocard === undefined,
+  abhebungen: spalte.werte.abhebungen?.text,
+  fremdZahlen: spalte.werte.auslandFremdZahlen?.text,
 });
 
 const Karte = ({

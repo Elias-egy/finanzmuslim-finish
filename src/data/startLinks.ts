@@ -48,6 +48,18 @@ export const START_LINKS = {
   "flatex": "https://www.financeads.net/tc.php?t=87591C13010749T",
   "flatex-krypto": "https://www.financeads.net/tc.php?t=87591C130125837T",
   "zoya": "https://zoya.onelink.me/l7r0/finanzmuslim",
+  // Österreich und Schweiz (DACH1, 23.11.2026), Werbemittel aus netz-financequality.md und netz-financeads.md im Arbeitsordner DACH1.
+  // Scalable-Direktprogramm (PartnerID 1017): kein eigener AT-Link, Konditionen Abschnitt 6 „Nur Neukunden mit DE/AT-Wohnsitz“.
+  "scalable-at": "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
+  "traders-place-at": "https://c.neqty.net/trck/eclick/5a4b0eecd844504b7de215a0b61bfb55?subid={SUBID}",
+  "dkb-depot-at": "https://c.neqty.net/trck/eclick/175512c2679834b04880de5a3394ea36?subid={SUBID}",
+  "dkb-girokonto-at": "https://c.neqty.net/trck/eclick/feb975586e10c141da8e0aeeaa31d39b?subid={SUBID}",
+  "n26-at": "https://c.neqty.net/trck/eclick/d7289e91a9dbd189e0a93aec40d8ebb5?subid={SUBID}",
+  "n26-ch": "https://c.neqty.net/trck/eclick/d7289e91a9dbd189985686b44f975c49?subid={SUBID}",
+  "smartbroker-at": "https://www.financeads.net/tc.php?t=87591C296855636T",
+  "easybank-depot-at": "https://www.financeads.net/tc.php?t=87591C338104034T",
+  "easybank-girokonto-at": "https://www.financeads.net/tc.php?t=87591C338111906T",
+  "finst-at": "https://www.financeads.net/tc.php?t=87591C5710135756T",
 } as const satisfies Record<string, string>;
 
 export const startLink = (kurzname?: string): string | undefined =>

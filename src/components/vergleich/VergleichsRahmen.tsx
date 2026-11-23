@@ -2,7 +2,7 @@ import { kostenKurz } from "@/data/kostenKurz";
 import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import { GiroInhalt } from "./GiroKarten";
@@ -10,6 +10,8 @@ import { DepotInhalt } from "./DepotKarten";
 import { STIL_BLAU } from "./karteStil";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
+import { landPfad } from "@/lib/land";
+import { useLand } from "@/lib/useLand";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:
@@ -20,22 +22,27 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  * und ein dritter Vergleich nur noch die Daten mitbringen muss.
  */
 
-export const VergleichsBrotkrumen = ({ titel }: { titel: string }) => (
+export const VergleichsBrotkrumen = ({ titel, mitLandWahl = false }: { titel: string; mitLandWahl?: boolean }) => {
+  /* DACH1: auf einer Länderseite führt „Vergleiche“ in die Übersicht desselben Landes. */
+  const land = useLand();
+  return (
   <nav
     aria-label="Brotkrumen"
-    className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground"
+    className={`flex items-center gap-1 text-[13px] text-muted-foreground ${mitLandWahl ? "min-w-0 flex-1 flex-nowrap sm:flex-none sm:flex-wrap" : "flex-wrap"}`}
   >
-    <Link to="/" className="hover:text-primary">
+    {/* Mit Länderwahl daneben fehlt am Handy der Platz: „Start“ entfällt dort, das Menü oben führt dahin. */}
+    <Link to="/" className={`hover:text-primary ${mitLandWahl ? "hidden sm:inline" : ""}`}>
       Start
     </Link>
-    <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-    <Link to="/vergleiche" className="hover:text-primary">
+    <ChevronRight className={`h-3.5 w-3.5 ${mitLandWahl ? "hidden sm:block" : ""}`} aria-hidden />
+    <Link to={landPfad("/vergleiche", land)} className="hover:text-primary">
       Vergleiche
     </Link>
     <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-    <span className="text-foreground">{titel}</span>
+    <span className={`text-foreground ${mitLandWahl ? "min-w-0 truncate sm:overflow-visible" : ""}`}>{titel}</span>
   </nav>
-);
+  );
+};
 
 /**
  * Kennzahlen und Prüfdatum, nur am Laptop, rechts unter der Nummer 1. Ohne Foto
@@ -132,9 +139,12 @@ export const NummerEins = ({
   depot?: boolean;
 }) => {
   const [offen, setOffen] = useState(false);
+  const land = useLand();
   const { halal, kosten } = gruende(anbieter, zeilen);
   const stil = Boolean(giro || depot);
   const punkte = stil ? [] : [...halal, ...kosten];
+  /* Prüfung DACH1 S-1: Ist die Nummer 1 in Österreich nicht steuereinfach, sagt der Kasten es offen, am Handy und am Laptop. */
+  const steuerSelbst = land === "at" && anbieter.werte.kapest === false && zeilen.some((z) => z.key === "kapest");
   const wert = (k: string) => (typeof anbieter.werte[k] === "string" ? (anbieter.werte[k] as string) : null);
 
   return (
@@ -195,6 +205,9 @@ export const NummerEins = ({
               debitkarte: wert("debitkarte"),
               buchungen: "buchungen" in anbieter.werte ? wert("buchungen") : undefined,
               abheben: "abheben" in anbieter.werte ? wert("abheben") : undefined,
+              ohneGirocard: !zeilen.some((z) => z.key === "girocard"),
+              abhebungen: wert("abhebungen"),
+              fremdZahlen: wert("auslandFremdZahlen"),
             }}
             besonders={giro.besonders[anbieter.id]}
           />
@@ -225,7 +238,7 @@ export const NummerEins = ({
         {/* RN21: grüne Meldung über dem Knopf; am Laptop wie PH5-01 nicht direkt am Kasten, dort zuerst in den Produktdetails */}
         {anbieter.link && <GiroKnopfHinweis anbieter={anbieter.id} className={`mt-3 ${stil ? "lg:hidden" : ""}`} />}
         {anbieter.link && (
-          <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-3" : ""}`}>
+          <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-4" : ""}`}>
             <Link
               to={anbieter.link}
               rel="sponsored nofollow"
@@ -233,6 +246,21 @@ export const NummerEins = ({
             >
               Zum Angebot*
             </Link>
+          </div>
+        )}
+        {/* Prüfung 2 (S-2): am Handy unter dem Knopf, damit „Zum Angebot“ im ersten Schirm bleibt wie in Deutschland.
+            Am Laptop (`order`) weiter über dem Knopf. */}
+        {steuerSelbst && (
+          <div
+            className={`mt-3 flex items-start gap-2.5 rounded-lg border border-primary/25 bg-accent px-3 py-2.5 text-left ${stil ? "lg:order-3" : ""}`}
+            data-steuer-hinweis="at"
+          >
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <p className="m-0 text-[14px] leading-snug text-foreground">
+              <strong className="font-semibold">Steuer einmal im Jahr selbst angeben</strong>
+              <br />
+              In Österreich ist {anbieter.name} nicht steuereinfach. Deine Erträge trägst du selbst in die Steuererklärung ein.
+            </p>
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} className={stil ? "lg:order-4" : ""} />

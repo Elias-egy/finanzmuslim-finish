@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { startPartner } from "@/data/investmentStart";
 import { partnerLinks } from "@/data/partnerLinks";
 import { blockerFest, direktLink, imBlocker, ohneZwischenseite } from "./direktLink";
-import { findStartPartner } from "@/data/investmentStart";
+import { findStartPartner, startSeiteOffen } from "@/data/investmentStart";
 
 const finde = (k: string) => startPartner.find((p) => p.kurzname === k)!;
 
@@ -53,7 +53,8 @@ describe("Knöpfe trotz Werbeblocker sichtbar (06.11.2026, Smartbroker+ am Lapto
   });
 
   it("führt jeden umgeleiteten Knopf über /weiter/<kurzname> zum selben Partnerlink", () => {
-    const umgeleitet = startPartner.filter((p) => imBlocker(p.link));
+    // Zurückgestellte Startseiten (DACH1 Prüfung 2) gibt es nicht, ihr Knopf erscheint nirgends.
+    const umgeleitet = startPartner.filter((p) => imBlocker(p.link) && startSeiteOffen(p));
     expect(umgeleitet.length).toBeGreaterThan(10);
     for (const p of umgeleitet) {
       expect(blockerFest(p.kurzname, p.link, true).href).toBe(`/weiter/${p.kurzname}`);

@@ -1,4 +1,5 @@
 import { START_LINKS } from "@/data/startLinks";
+import { kurznameZurueckgestellt } from "@/data/land/zurueckgestellt";
 
 export { LEER_QUELLE, istLeerQuelle } from "@/data/startLinks";
 
@@ -60,6 +61,11 @@ export type StartPartner = {
   faqs: { q: string; a: string }[];
   /** Girokonten und Krypto: Schritte statt Video. */
   schritte?: { titel: string; text: string }[];
+  /**
+   * true: Für dieses Land fehlt der Anbieter-Beleg, dass das Guthaben auf dem Verrechnungskonto ohne Zinsen bleibt
+   * (DACH1, Scalable Österreich). Die Seite sagt dann nie „Halal-Depot“, „zinsfrei“ oder „riba-frei“.
+   */
+  zinsBelegFehlt?: boolean;
 };
 
 const allgemeineFaq = {
@@ -2269,11 +2275,506 @@ export const startPartner: StartPartner[] = [
         a: "Nein, nur auf Englisch. Die Begriffe dafür erklären wir in unseren Beiträgen auf Deutsch.",
       },
     ],
+  },  /* ------------------------------------------------------------------ Österreich und Schweiz (DACH1, 23.11.2026)
+     Eigene Startseiten je Land: Kurzname mit -at oder -ch, Texte nur mit Belegen für das Land (src/data/land/). Keine
+     deutschen Steuerversprechen. Traders Place, Smartbroker+ und DKB sind dieselben Produkte wie in Deutschland, in
+     Österreich aber nicht steuereinfach (Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026). */
+  {
+    kurzname: "scalable-at",
+    anbieter: "Scalable Capital",
+    kurz: "Scalable",
+    domain: "scalable.capital",
+    markenfarbe: "#22DFCF",
+    art: "depot",
+    pfad: "/dein-investmentstart/scalable-at",
+    link: START_LINKS["scalable-at"],
+    risikoUrl: "https://de.scalable.capital/risiko",
+    /* Prüfung DACH1 M-1: Für Österreich ist nur das getrennte Tagesgeld belegt, zum Verrechnungskonto fehlt der Beleg. */
+    zinsBelegFehlt: true,
+    titel: ["In 10 Minuten steht", "dein Depot."],
+    knopf: "Bei Scalable eröffnen →",
+    videoHinweis: false,
+    chips: ["Steuereinfach für Neukunden", "ETFs", "Gold", "Sparpläne ab 1 €"],
+    fakten: [
+      {
+        titel: "Halal-Anlagen für Österreich",
+        text: "Laut justETF Österreich gibt es bei Scalable den iShares MSCI World Islamic, zwei weitere Halal-ETFs, den iShares USD Sukuk und den Royal Mint Gold-ETC als Sparplan.",
+      },
+      {
+        titel: "Steuereinfach für Neukunden",
+        text: "Laut Finanzfluss führt Scalable die KESt für Neukunden in Österreich ab.",
+      },
+      {
+        titel: "Start ab 1 €, Depot kostenlos",
+        text: "Keine Depotgebühr, ETF-Sparpläne ohne Ausführungskosten ab 1 €, eine Order kostet 0,99 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln vor dem Start bei", "Scalable"],
+    checkliste: [
+      {
+        titel: "Tagesgeldkonto nicht eröffnen.",
+        text: "Scalable zahlt Zinsen auf ein getrenntes Tagesgeldkonto. Eröffne es nicht, dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Bleibt mein Guthaben ohne Zinsen?",
+        a: "Für das Verrechnungskonto in Österreich liegt uns noch kein Beleg von Scalable vor. Im Depot-Vergleich für Österreich bleibt das Feld deshalb offen, bis Scalable es bestätigt.",
+      },
+      {
+        q: "Kann ich mit Wohnsitz in Österreich eröffnen?",
+        a: "Ja. Scalable hat eine Seite für Österreich und nimmt Neukunden mit Wohnsitz in Österreich an.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "traders-place-at",
+    anbieter: "Traders Place",
+    kurz: "Traders Place",
+    domain: "tradersplace.de",
+    markenfarbe: "#12A391",
+    art: "depot",
+    pfad: "/dein-investmentstart/traders-place-at",
+    link: START_LINKS["traders-place-at"],
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei Traders Place eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Gold", "Sukuk"],
+    fakten: [
+      {
+        /* Prüfung DACH1 M-2: Zählung für Österreich (nur dort zugelassene Papiere, src/data/land/oesterreich.ts), nie die deutsche. */
+        titel: "Halal-Anlagen für Österreich",
+        text: "Laut der Wertpapiersuche von Traders Place handelbar: iShares MSCI World Islamic, iShares USD Sukuk und Royal Mint Gold-ETC. Für diese drei bestätigen die Herausgeber die Zulassung in Österreich.",
+      },
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Dein Guthaben auf dem Verrechnungskonto hat 0 % Zinsen. Zinsen gibt es nur auf dem eigenen Zinskonto.",
+      },
+      {
+        titel: "Nicht steuereinfach",
+        text: "Traders Place führt die KESt nicht für dich ab. Deine Erträge gibst du in Österreich selbst in der Steuererklärung an.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Traders-Place-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Zinskonto eröffnen.",
+        text: "Traders Place bietet zusätzlich ein verzinstes Zinskonto an. Das Depot funktioniert ohne. Einfach nicht abschließen.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Kann ich mit Wohnsitz in Österreich eröffnen?",
+        a: "Ja. Finanzfluss führt Traders Place im Depot-Vergleich für Österreich, und das Partnerprogramm gilt für Deutschland und Österreich.",
+      },
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei Traders Place genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "smartbroker-at",
+    anbieter: "Smartbroker+",
+    kurz: "Smartbroker+",
+    domain: "smartbrokerplus.de",
+    markenfarbe: "#80FF04",
+    art: "depot",
+    pfad: "/dein-investmentstart/smartbroker-at",
+    link: START_LINKS["smartbroker-at"],
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei Smartbroker+ eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sukuk", "Sparpläne ab 1 €"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Laut Konditionen gibt es Guthabenzinsen nur auf dem separaten Zinskonto. Das musst du eigens eröffnen.",
+      },
+      {
+        titel: "Halal-Anlagen kaufbar",
+        /* Prüfung DACH1 M-2 und Prüfung 2: nur Papiere mit Zulassungsbeleg des Herausgebers für Österreich. */
+        text: "Bei Smartbroker+ kaufbar: iShares MSCI World Islamic, iShares USD Sukuk und Royal Mint Gold-ETC. Für diese drei bestätigen die Herausgeber die Zulassung in Österreich.",
+      },
+      {
+        titel: "Nicht steuereinfach",
+        text: "Smartbroker+ führt die KESt nicht für dich ab. Deine Erträge gibst du in Österreich selbst in der Steuererklärung an.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Smartbroker+-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Zinskonto eröffnen.",
+        text: "Smartbroker+ bietet ein Zinskonto mit Guthabenzins an. Eröffne es nicht, dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei Smartbroker+ genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "dkb-depot-at",
+    anbieter: "DKB",
+    kurz: "DKB",
+    domain: "dkb.de",
+    markenfarbe: "#1283E0",
+    art: "depot",
+    pfad: "/dein-investmentstart/dkb-depot-at",
+    link: START_LINKS["dkb-depot-at"],
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei DKB eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Fonds", "Sparpläne"],
+    fakten: [
+      {
+        titel: "Depot und Girokonto aus einer Hand",
+        text: "Das DKB-Depot rechnet über das DKB-Girokonto ab. Das Guthaben dort liegt ohne Zinsen, du brauchst kein Tagesgeld.",
+      },
+      {
+        /* Prüfung 2 (S-4): Quelle ist die Programmbeschreibung der DKB bei FinanceQuality, nicht die DKB-Website. */
+        titel: "Auch mit Wohnsitz in Österreich",
+        text: "Laut Partnerprogramm der DKB kannst du das Depot mit Wohnsitz in Österreich eröffnen. Den Ausweis bestätigst du per Video-Ident.",
+      },
+      {
+        /* Prüfung 2: Finanzfluss Depot-Vergleich Österreich, deutsche Depotanbieter führen die KESt nicht ab. */
+        titel: "Nicht steuereinfach",
+        text: "Die DKB führt die KESt nicht für dich ab. Deine Erträge gibst du in Österreich selbst in der Steuererklärung an.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein DKB-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Tagesgeld und keine Überziehung nutzen.",
+        text: "Die DKB bietet Tagesgeld und einen Überziehungsrahmen an. Beides bringt Zinsen ins Spiel. Das Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei der DKB genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "easybank-depot-at",
+    anbieter: "easybank",
+    kurz: "easybank",
+    domain: "easybank.at",
+    markenfarbe: "#84B816",
+    art: "depot",
+    pfad: "/dein-investmentstart/easybank-depot-at",
+    link: START_LINKS["easybank-depot-at"],
+    titel: ["In 10 Minuten steht", "dein Depot."],
+    knopf: "Bei easybank eröffnen →",
+    videoHinweis: true,
+    chips: ["Steuereinfach", "Wiener Börse", "Sparpläne ab 50 €", "BAWAG-Gruppe"],
+    fakten: [
+      {
+        titel: "Verrechnungskonto ohne Zinsen",
+        text: "Das Verrechnungskonto zum Depot hat laut easybank 0,00 % Grundzinssatz. Du musst nichts abschalten.",
+      },
+      {
+        titel: "Steuereinfach",
+        text: "easybank führt die KESt in Österreich für dich ab, laut Finanzfluss ist das Depot steuereinfach.",
+      },
+      {
+        titel: "Kosten",
+        text: "Eine Order kostet 4,95 €, ein Sparplan 1,25 € je Ausführung. Dazu kommen eine Depotgebühr und 18 € im Jahr fürs Verrechnungskonto.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein easybank-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Sparkonto und keinen Kredit abschließen.",
+        text: "easybank bietet verzinste Sparkonten und Kredite an. Dein Depot funktioniert ohne. Einfach nicht abschließen.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Welche Halal-ETFs gibt es bei easybank?",
+        a: "Welche Anlagen aus unserer Halal-Liste bei easybank kaufbar sind, prüfen wir gerade. Den aktuellen Stand siehst du im Depot-Vergleich für Österreich.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
+    kurzname: "easybank-girokonto-at",
+    anbieter: "easybank",
+    kurz: "easybank",
+    domain: "easybank.at",
+    markenfarbe: "#84B816",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/easybank-girokonto-at",
+    link: START_LINKS["easybank-girokonto-at"],
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei easybank eröffnen →",
+    videoHinweis: false,
+    chips: ["0 € ab 400 € Gehalt", "Debitkarte gratis", "Hauptwohnsitz Österreich"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Name, Adresse und Ausweis. Dauert ein paar Minuten." },
+      { titel: "Identität bestätigen", text: "Den Ausweis bestätigst du im Antrag online." },
+      { titel: "Karte kommt per Post", text: "Die easy karte ist eine Debitkarte und bucht direkt vom Konto ab." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Laut easybank gibt es auf das Guthaben 0 % Zinsen. Du musst nichts abschalten.",
+      },
+      {
+        titel: "Debitkarte gratis",
+        text: "Die easy karte ist eine Debitkarte ohne Kreditrahmen. Eine Kreditkarte gibt es nur, wenn du sie extra beantragst.",
+      },
+      {
+        titel: "0 € ab 400 € Gehalt",
+        text: "Ab 400 € Gehaltseingang im Monat oder unter 27 kostet das Konto nichts, sonst 14,70 € im Quartal.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein easybank-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Überziehung beantragen.",
+        text: "Eine Überziehung kostet Zinsen, sobald du sie nutzt. Beantrage sie nicht.",
+      },
+      {
+        titel: "Kein Sparkonto und keine Kreditkarte mit Teilzahlung.",
+        text: "Beides bringt Zinsen ins Spiel. Die Debitkarte reicht für alles im Alltag.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "dkb-girokonto-at",
+    anbieter: "DKB",
+    kurz: "DKB",
+    domain: "dkb.de",
+    markenfarbe: "#1283E0",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/dkb-girokonto-at",
+    link: START_LINKS["dkb-girokonto-at"],
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei DKB eröffnen →",
+    videoHinweis: false,
+    chips: ["0 € ab 700 € Geldeingang", "Visa-Debitkarte", "Apple Pay", "Wohnsitz Österreich"],
+    schritte: [
+      { titel: "Antrag online ausfüllen", text: "Name, Adresse und Ausweis. Dauert ein paar Minuten." },
+      { titel: "Per Video-Ident bestätigen", text: "Mit Wohnsitz in Österreich geht es nur per Video-Ident." },
+      { titel: "App einrichten", text: "Die Karte kommt per Post, danach Apple Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Girokonto hat laut DKB 0,00 % Guthabenzins. Du musst nichts abschalten.",
+      },
+      {
+        titel: "Karte ohne Kreditrahmen",
+        text: "Die Visa-Debitkarte bucht direkt vom Konto ab, ohne Kreditrahmen und ohne Teilzahlung.",
+      },
+      {
+        titel: "Kostenlos ab 700 € Geldeingang",
+        text: "Bei mindestens 700 € Geldeingang im Monat oder unter 28 kostet die Kontoführung nichts, sonst 4,50 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein DKB-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Überziehung nutzen.",
+        text: "Die DKB räumt in der Regel einen Überziehungsrahmen ein. Er kostet Zinsen, sobald du ihn nutzt. Lass ihn auf null setzen.",
+      },
+      {
+        titel: "Kein Tagesgeld und keine Kreditkarte mit Teilzahlung.",
+        text: "Beides bringt Zinsen ins Spiel. Die Debitkarte reicht für alles im Alltag.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Kann ich mit Wohnsitz in Österreich eröffnen?",
+        a: "Ja, laut Partnerprogramm der DKB nimmt sie Kunden mit Wohnsitz in Österreich an. Die Legitimation läuft dann nur per Video-Ident.",
+      },
+    ],
+  },
+  {
+    kurzname: "n26-at",
+    anbieter: "N26",
+    kurz: "N26",
+    domain: "n26.com",
+    markenfarbe: "#36A18B",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/n26-at",
+    link: START_LINKS["n26-at"],
+    titel: ["Dein zinsfreies", "Girokonto."],
+    knopf: "Bei N26 eröffnen →",
+    videoHinweis: false,
+    chips: ["0 € im Monat", "Mastercard", "Apple Pay", "Keine Überziehung ab Start"],
+    schritte: [
+      { titel: "Antrag in der App", text: "Name, Adresse und Ausweis. Dauert ein paar Minuten." },
+      { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
+      { titel: "Loslegen", text: "Die virtuelle Karte ist sofort da, danach Apple Pay oder Google Pay einrichten." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Zinsen gibt es laut N26 nur auf dem separaten Tagesgeldkonto. Dein Hauptkonto wird nicht verzinst.",
+      },
+      {
+        titel: "Keine Überziehung ab Start",
+        text: "Einen Überziehungsrahmen musst du in der App selbst aktivieren. Ohne das gibt es keinen.",
+      },
+      {
+        titel: "Kostenlos ohne Bedingung",
+        text: "N26 Standard kostet nichts. Abheben in Euro ist laut Preisliste für Österreich kostenlos, die Plastikkarte kostet einmalig 10 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein N26-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Überziehungsrahmen oder Kredit aktivieren.",
+        text: "N26 bietet beides in der App an. Beides kostet Zinsen. Einfach nicht aktivieren.",
+      },
+      {
+        titel: "Kein Tagesgeld eröffnen.",
+        text: "Das N26-Tagesgeld bringt Zinsen. Dein Girokonto funktioniert ohne.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "n26-ch",
+    anbieter: "N26",
+    kurz: "N26",
+    domain: "n26.com",
+    markenfarbe: "#36A18B",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/n26-ch",
+    link: START_LINKS["n26-ch"],
+    titel: ["Dein zinsfreies", "Eurokonto."],
+    knopf: "Bei N26 eröffnen →",
+    videoHinweis: false,
+    chips: ["0 € im Monat", "Konto in Euro", "Mastercard", "Kein Überzug ab Start"],
+    schritte: [
+      { titel: "Antrag in der App", text: "Name, Adresse und Ausweis. Dauert ein paar Minuten." },
+      { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
+      { titel: "Loslegen", text: "Die virtuelle Mastercard ist sofort da." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Laut den Bedingungen von N26 gibt es auf das Guthaben im Konto keine Zinsen.",
+      },
+      {
+        titel: "Kein Überzug ab Start",
+        text: "Das Konto läuft auf Guthabenbasis. Einen Überzug gibt es nur mit einem eigenen Vertrag, den du nicht abschließen musst.",
+      },
+      {
+        titel: "Ein Konto in Euro",
+        text: "N26 führt das Konto in Euro, nicht in CHF. Praktisch für Zahlungen im Euroraum, Kartenzahlungen in anderen Währungen kosten keinen Aufschlag.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein N26-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Überzug oder Kredit abschließen.",
+        text: "Beides kostet Zinsen. Dein Konto funktioniert ohne.",
+      },
+      {
+        titel: "Kein verzinstes Sparprodukt dazubuchen.",
+        text: "Zinsen gibt es bei N26 nur mit einem eigenen Sparprodukt. Eröffne keines.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Girokonto überhaupt halal?",
+        a: "Ein Girokonto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    kurzname: "finst-at",
+    anbieter: "Finst",
+    kurz: "Finst",
+    domain: "finst.com",
+    markenfarbe: "#34C4CC",
+    art: "krypto",
+    pfad: "/dein-investmentstart/finst-at",
+    link: START_LINKS["finst-at"],
+    pflichthinweis:
+      "Investitionen in Kryptowerte sind mit dem Risiko des Kapitalverlusts verbunden. Kryptowerte sind sehr volatil und du kannst einen Teil oder deine gesamte Investition verlieren. Informiere dich immer selbst, bevor du investierst, und investiere nur Geld, dessen Verlust du dir leisten kannst.",
+    titel: ["In 10 Minuten steht", "dein Krypto-Konto."],
+    knopf: "Bei Finst starten →",
+    videoHinweis: false,
+    chips: ["Echte Coins", "Eigene Wallet", "400+ Coins", "MiCA-Lizenz"],
+    schritte: [
+      { titel: "Konto eröffnen", text: "Registrieren, dann per Foto-Ident mit dem Ausweis bestätigen." },
+      { titel: "Staking aus lassen", text: "Staking läuft bei Finst nur, wenn du es selbst aktivierst. Lass es aus, dann bleiben deine Coins ohne Zins." },
+      { titel: "Erste Coins kaufen", text: "Ab 0,05 € per Echtzeitüberweisung. Danach auf deine eigene Wallet übertragbar." },
+    ],
+    fakten: [
+      {
+        titel: "Echte Coins, keine Zertifikate",
+        text: "Du kaufst den Coin selbst und kannst ihn laut Finst auf eine eigene Wallet senden. Kein ETP, kein Zertifikat auf den Kurs.",
+      },
+      {
+        titel: "Ohne Zinsen nutzbar",
+        text: "Staking startet bei Finst erst, wenn du es mit einem Klick aktivierst. Lass es aus, dann bleiben deine Coins ohne Zins.",
+      },
+      {
+        titel: "400+ Coins, 0,15 % Gebühr",
+        text: "MiCA-Lizenz aus den Niederlanden, laut Finst 0,15 % Gebühr ohne extra Spread. Die Auszahlung von Bitcoin kostet 2,61 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Finst-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Staking aus lassen.",
+        text: "Finst startet Staking erst, wenn du es selbst aktivierst. Lass den Schalter aus.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist Finst halal nutzbar?",
+        a: "Mit den 2 Regeln aus der Checkliste. Du besitzt echte Coins, kannst sie auf deine eigene Wallet holen, und ohne Staking fällt kein Zins an.",
+      },
+    ],
   },
 ];
 
+/** DACH1 Prüfung 2: Startseiten zurückgestellter Anbieter (Beleg fehlt, `src/data/land/zurueckgestellt.ts`) gibt es nicht. */
+export const startSeiteOffen = (p: StartPartner): boolean => !kurznameZurueckgestellt(p.kurzname);
+
 export const findStartPartner = (kurzname?: string): StartPartner | undefined =>
-  startPartner.find((p) => p.kurzname === (kurzname ?? "scalable"));
+  startPartner.find((p) => p.kurzname === (kurzname ?? "scalable") && startSeiteOffen(p));
 
 
 export const LEER_FASSUNG = {

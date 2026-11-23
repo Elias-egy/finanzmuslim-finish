@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Check, Minus, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
+import { useLand } from "@/lib/useLand";
 
 /**
  * Bausteine der Girokonto-Karten am Handy, wie Finanzfluss (PH2-01, Elias 15.11.2026): eine Hakenzeile,
@@ -25,9 +26,16 @@ export type GiroWerte = {
    */
   buchungen?: string | null;
   abheben?: string | null;
+  /**
+   * DACH1: Österreich und die Schweiz haben keine Girocard und keine deutsche Automatenzahl (Zeilen fehlen dort,
+   * `landTexte.ts`). Dann zeigen die Kacheln statt dessen kostenlose Abhebungen und die Kartenzahlung in Fremdwährung.
+   */
+  ohneGirocard?: boolean;
+  abhebungen?: string | null;
+  fremdZahlen?: string | null;
 };
 
-export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").trim();
+export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").replace(/(\d)\s*CHF/g, "$1 CHF").trim();
 
 /** „0 € ab 700 € Geldeingang“ wird Betrag „0 €“ und Zusatz „ab 700 € Geldeingang“. */
 const kontofuehrungTeile = (w: GiroWerte): { betrag: string; zusatz?: string } | null => {
@@ -44,25 +52,29 @@ const girocardTeile = (s: string | null | undefined): string | null => {
 /** „VISA, 0€“ wird Marke „VISA“ und Preis „0 €“. */
 const debitTeile = (s: string | null | undefined): { marke: string; preis: string | null } | null => {
   if (!s || /^keine/i.test(s)) return null;
-  const m = /^(.*?),\s*(\d[\d.,]*\s*€)\s*$/.exec(s.trim());
+  const m = /^(.*?),\s*(\d[\d.,]*\s*(?:€|CHF))\s*$/.exec(s.trim());
   return m ? { marke: m[1], preis: euro(m[2]) } : { marke: s.trim(), preis: null };
 };
 
-/** Die Zeile mit dem Haken: nur, was die Zins- und Dispo-Ampel des Kontos belegt. */
+/**
+ * Die Zeile mit dem Haken: nur, was die Zins- und Dispo-Ampel des Kontos belegt. `dispo` ist das Wort des Landes
+ * (DACH1 Prüfung 2: in Österreich „Überziehung“, nicht „Dispo“).
+ */
 export const zinsDispoZeile = (
   zinsfrei: string | undefined,
   keinDispo: string | undefined,
+  dispo = "Dispo",
 ): { text: string; zeichen: "ja" | "teils" | "offen" | "nein" } => {
-  if (zinsfrei === "gut" && keinDispo === "gut") return { text: "Ohne Zinsen, ohne Dispo", zeichen: "ja" };
-  if (zinsfrei === "gut" && keinDispo === "teils") return { text: "Ohne Zinsen, Dispo abschaltbar", zeichen: "teils" };
-  if (zinsfrei === "teils" && keinDispo === "gut") return { text: "Zinsen abschaltbar, ohne Dispo", zeichen: "teils" };
-  if (zinsfrei === "teils" && keinDispo === "teils") return { text: "Zinsen und Dispo abschaltbar", zeichen: "teils" };
+  if (zinsfrei === "gut" && keinDispo === "gut") return { text: `Ohne Zinsen, ohne ${dispo}`, zeichen: "ja" };
+  if (zinsfrei === "gut" && keinDispo === "teils") return { text: `Ohne Zinsen, ${dispo} abschaltbar`, zeichen: "teils" };
+  if (zinsfrei === "teils" && keinDispo === "gut") return { text: `Zinsen abschaltbar, ohne ${dispo}`, zeichen: "teils" };
+  if (zinsfrei === "teils" && keinDispo === "teils") return { text: `Zinsen und ${dispo} abschaltbar`, zeichen: "teils" };
   if (zinsfrei === "gut") return { text: "Ohne Zinsen", zeichen: "ja" };
   if (zinsfrei === "teils") return { text: "Zinsen abschaltbar", zeichen: "teils" };
   // Geschäftskonto (VG2-04): offen ist kein Urteil, rot heißt, der Anbieter zahlt Zinsen auf das Guthaben.
   if (zinsfrei === "unbekannt") return { text: "Zinsen: noch offen", zeichen: "offen" };
   if (zinsfrei === "schlecht") return { text: "Zinsen auf das Guthaben", zeichen: "nein" };
-  return { text: "Zinsen und Dispo: nicht geprüft", zeichen: "offen" };
+  return { text: `Zinsen und ${dispo}: nicht geprüft`, zeichen: "offen" };
 };
 
 /* ------------------------------------------------------------------ Kartenbilder (eigene SVG, nichts geladen) */
@@ -170,19 +182,32 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
           <Wert leise>–</Wert>
         )}
       </Kachel>
-      <Kachel label="Geldautomaten">
-        {w.geldautomaten ? <Wert>{w.geldautomaten}</Wert> : <Wert leise>–</Wert>}
-      </Kachel>
-      <Kachel label="Girocard (Monat)">
-        {gc ? (
-          <>
-            <Wert>{gc}</Wert>
-            <GirocardBild />
-          </>
-        ) : (
-          <Wert leise>Keine</Wert>
-        )}
-      </Kachel>
+      {w.ohneGirocard ? (
+        <>
+          <Kachel label="Abheben">
+            {w.abhebungen ? <span className="text-[14px] font-bold leading-tight text-foreground">{euro(w.abhebungen)}</span> : <Wert leise>–</Wert>}
+          </Kachel>
+          <Kachel label="Zahlen in Fremdwährung">
+            {w.fremdZahlen ? <Wert>{euro(w.fremdZahlen)}</Wert> : <Wert leise>–</Wert>}
+          </Kachel>
+        </>
+      ) : (
+        <>
+          <Kachel label="Geldautomaten">
+            {w.geldautomaten ? <Wert>{w.geldautomaten}</Wert> : <Wert leise>–</Wert>}
+          </Kachel>
+          <Kachel label="Girocard (Monat)">
+            {gc ? (
+              <>
+                <Wert>{gc}</Wert>
+                <GirocardBild />
+              </>
+            ) : (
+              <Wert leise>Keine</Wert>
+            )}
+          </Kachel>
+        </>
+      )}
       <Kachel label="Debitkarte (Monat)">
         {db ? (
           <>
@@ -202,7 +227,8 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
 
 /** Haken, Kacheln und „Besonders“ in einem Stück, für Karte und Nummer-1-Kasten. */
 export const GiroInhalt = ({ w, besonders }: { w: GiroWerte; besonders?: string[] }) => {
-  const z = zinsDispoZeile(w.zinsfrei, w.keinDispo);
+  const land = useLand();
+  const z = zinsDispoZeile(w.zinsfrei, w.keinDispo, land === "at" ? "Überziehung" : "Dispo");
   const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : z.zeichen === "nein" ? X : Minus;
   const farbe =
     z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : z.zeichen === "nein" ? "text-destructive" : "text-muted-foreground/60";

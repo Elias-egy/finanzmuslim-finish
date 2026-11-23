@@ -3,7 +3,7 @@ import { guides } from "@/data/guides";
 import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
 import { START_LINKS } from "@/data/startLinks";
-import { startPartner } from "./investmentStart";
+import { startPartner, startSeiteOffen } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
 import { QUIZ_PFAD } from "./portfolioQuizPfad";
@@ -14,6 +14,8 @@ import { ETF_PFAD } from "./etfPlan";
 import { SUKUK_PFAD } from "./sukukPlan";
 import { ausgaben, ausgabePfad } from "./newsletterAusgaben";
 import { depotNummerEinsZiel } from "@/lib/depotNummerEins";
+import { LAND_VERGLEICHE, landFreigegeben, landHatFreigegebenes } from "@/data/land";
+import { landPfad, type Land } from "@/lib/land";
 
 /**
  * Die eine Liste aller öffentlichen, indexierbaren Adressen.
@@ -175,7 +177,32 @@ export const anlagenRouten = (): Route[] =>
   }));
 
 /** Alle indexierbaren Adressen, feste und erzeugte. */
-export const alleRouten = (): Route[] => [...festeRouten, ...anlagenRouten()];
+/**
+ * Länderversionen (DACH1, 23.11.2026): `/at/…` und `/ch/…` für die Übersicht und jeden Vergleich mit Länderliste. Eine
+ * Version steht nur mit fertiger Liste in der Sitemap und wird indexiert; sonst wird sie vorgerendert, setzt noindex und
+ * steht nicht in der Sitemap („in Vorbereitung“). Die Routen selbst stehen fest in `src/App.tsx`.
+ */
+const LAND_ZIELE: ("at" | "ch")[] = ["at", "ch"];
+const LAND_SEITEN: string[] = ["/vergleiche", ...Object.keys(LAND_VERGLEICHE)];
+const landDatei = (land: Land) => (land === "at" ? "src/data/land/oesterreich.ts" : "src/data/land/schweiz.ts");
+const landFertig = (land: "at" | "ch", grund: string) =>
+  grund === "/vergleiche" ? landHatFreigegebenes(land) : landFreigegeben(land, grund);
+
+export const landRouten = (): Route[] =>
+  LAND_ZIELE.flatMap((land) =>
+    LAND_SEITEN.filter((grund) => landFertig(land, grund)).map((grund): Route => ({
+      pfad: landPfad(grund, land),
+      quelle: [landDatei(land), "src/components/vergleich/VergleichsSeite.tsx"],
+      changefreq: "monthly",
+      prioritaet: "0.8",
+    })),
+  );
+
+/** Länderseiten ohne fertige Liste: werden vorgerendert, mit noindex, ohne Sitemap. */
+export const landEntwuerfe = (): string[] =>
+  LAND_ZIELE.flatMap((land) => LAND_SEITEN.filter((grund) => !landFertig(land, grund)).map((grund) => landPfad(grund, land)));
+
+export const alleRouten = (): Route[] => [...festeRouten, ...landRouten(), ...anlagenRouten()];
 
 /**
  * Adressen, die es gibt, die aber bewusst draußen bleiben. Steht hier, damit
@@ -199,9 +226,10 @@ export const alleRouten = (): Route[] => [...festeRouten, ...anlagenRouten()];
  * stehen nicht in der Sitemap.
  */
 export const nichtIndexiert: string[] = [
+  ...landEntwuerfe(),
   ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
-  ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
+  ...startPartner.filter((p) => p.kurzname !== "scalable" && startSeiteOffen(p)).map((p) => p.pfad),
   ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
@@ -293,6 +321,7 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
 ];
 
 export const bewusstDraussen: { pfad: string; grund: string }[] = [
+  ...landEntwuerfe().map((pfad) => ({ pfad, grund: "Länderversion ohne fertige Liste, in Vorbereitung, setzt noindex (DACH1)" })),
   ...(deals.length === 0 ? [{ pfad: "/deals", grund: "keine belegten Angebote, setzt noindex" }] : []),
   { pfad: "/zakatrechner", grund: "Zweitschreibweise von /zakat-rechner" },
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },
