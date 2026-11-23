@@ -54,6 +54,7 @@ const HAUS: Record<string, Eintrag> = {
   dkb: {
     depot: gut("Das Depot rechnet über dein DKB-Girokonto ab. Das Guthaben dort hat 0 % Zinsen."),
     girokonto: nullProzent("Girokonto"),
+    geschaeftskonto: nullProzent("Geschäftskonto"),
   },
   bbbank: {
     depot: gut("Das Depot rechnet über dein BBBank-Girokonto ab. Das Guthaben dort wird nicht verzinst."),
@@ -129,6 +130,8 @@ const HAUS: Record<string, Eintrag> = {
     geschaeftskonto: gut(`Dein Guthaben auf dem Konto wird nicht verzinst. ${NICHTS}`),
   },
   revolut: {
+    /* Geschäftskonto: Business Terms Revolut Bank UAB ab 22.09.2026 „We do not pay interest on the deposits in your current account.“ */
+    geschaeftskonto: gut("Auf dein Guthaben im Geschäftskonto zahlt Revolut keine Zinsen. Zinsen gibt es nur in einem Sparprodukt: Lege dort nichts an."),
     depot: gut(
       "Auf dein Guthaben im Hauptkonto zahlt Revolut keine Zinsen. Zinsen gibt es nur im Tagesgeldkonto: Zahle dort nichts ein.",
     ),

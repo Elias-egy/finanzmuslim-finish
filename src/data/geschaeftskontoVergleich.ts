@@ -198,6 +198,49 @@ const ING: Halal = {
   karteOhneKredit: beleg("https://www.ing.de/business/geschaeftskonto/konditionen/", "ING Konditionen Geschäftskonto", "Konditionen-Seite: „VISA Business Debitkarte und Zahlungen im Euro-Raum mit der Karte“, in jedem Tarif enthalten."),
 };
 
+// DKB: dok.dkb.de war am 23.11.2026 vom Mac nicht erreichbar, gelesen wurde die Archivkopie derselben Datei
+// (web.archive.org, Aufnahme 09.11.2026, PLV Stand 1. Oktober 2026). Vor dem Livegang einmal live gegenlesen.
+const DKB_PLV = "https://dok.dkb.de/pdf/plv_gk.pdf";
+const DKB_KONTO = "https://www.dkb.de/geschaeftskunden/konto-anlage/geschaeftskonto";
+const DKB: Halal = {
+  zinsfreiAbStart: beleg(
+    DKB_PLV,
+    "DKB Preis- und Leistungsverzeichnis Geschäftskunden 2.2",
+    "Preis- und Leistungsverzeichnis für Geschäftskunden (Stand 1. Oktober 2026), DKB-Business, 2.2 Zinssätze: „Zinssatz für Guthaben (zu Gunsten des Kunden) 0,00 % p. a. auf dem Internet-Konto“. Das verzinste Business-Guthabenkonto ist laut 2.1 optional und „Produkt wird nicht mehr angeboten“; Tagesgeld ist ein eigenes Konto „nur in Verbindung mit aktivem DKB Referenzkonto“.",
+  ),
+  keinDispoAbStart: beleg(
+    DKB_KONTO,
+    "DKB Geschäftskonto DKB-Business",
+    "Geschäftskonto-Seite: „Wenn Sie im Bereich der Heil- und freien Berufe tätig sind, können Sie auch eine Kreditlinie auf dem Konto erhalten. Den Antrag stellen Sie einfach online.“ Eine Kreditlinie gibt es also nur auf eigenen Antrag.",
+  ),
+  karteOhneKredit: beleg(
+    DKB_KONTO,
+    "DKB Geschäftskonto DKB-Business",
+    "Geschäftskonto-Seite: „Zum DKB-Business können Sie Visa Geschäftskreditkarten und Girokarten hinzubuchen - direkt mit Kontoeröffnung oder auch danach.“ Preis- und Leistungsverzeichnis 9.1: Girokarte „p. a. 30,00 EUR“. Die Girokarte ist eine Debitkarte ohne Kreditrahmen.",
+  ),
+};
+
+// Revolut: revolut.com war am 23.11.2026 gesperrt (403), gelesen wurden die Business Terms der Revolut Bank UAB von cdn.revolut.com,
+// gültig ab 22.09.2026. Die Bank sitzt in Litauen und führt auch die Konten in Deutschland (Finanzfluss: Einlagensicherung LT).
+const REVOLUT_TERMS = "https://cdn.revolut.com/terms_and_conditions/pdf/business_terms_86ed3cf7_1.5.1_1784223474_en.pdf";
+const REVOLUT: Halal = {
+  zinsfreiAbStart: beleg(
+    REVOLUT_TERMS,
+    "Revolut Business Terms",
+    "Business Terms der Revolut Bank UAB (gültig ab 22. September 2026): „We do not pay interest on the deposits in your current account. You can earn interest by depositing your funds in one of our interest bearing products which we may offer from time to time.“ Zinsen gibt es also nur, wenn man selbst Geld in ein Zinsprodukt legt.",
+  ),
+  keinDispoAbStart: beleg(
+    REVOLUT_TERMS,
+    "Revolut Business Terms",
+    "Business Terms der Revolut Bank UAB (gültig ab 22. September 2026): „You cannot borrow money on your account (for example, make payments of more than the value of the money in it), although you may be able to benefit from one of our credit products.“",
+  ),
+  karteOhneKredit: beleg(
+    REVOLUT_TERMS,
+    "Revolut Business Terms",
+    "Business Terms der Revolut Bank UAB: Die Revolut Card greift auf das Kontoguthaben zu, und „You cannot borrow money on your account (for example, make payments of more than the value of the money in it)“. Ein Kreditrahmen an der Karte ist damit ausgeschlossen.",
+  ),
+};
+
 /* ------------------------------------------------------------------ Tarife */
 
 type Tarif = {
@@ -286,6 +329,17 @@ const ING_FUER = ["Freiberufler", "Gewerbe", "GmbH", "OHG", "KG", "UG"];
 const BUSINESS_FUER = ["GbR", "OHG", "KG", "UG", "GmbH", "AG"];
 const FREELANCE_FUER = ["Freiberufler", "Gewerbe"];
 
+const revolutKosten = (kontofuehrung: number, frei: number): KostenEingabe => ({
+  kontofuehrung,
+  ...buchungFrei(frei, 0.2),
+  debitkarte: 0,
+  abheben: { prozent: 2 },
+  einzahlen: "nicht möglich",
+  unterkonten: "unbegrenzt",
+  buchhaltung: ["Sonstige"],
+  einlagensicherung: "ja",
+});
+
 const TARIFE: Tarif[] = [
   {
     id: "tide-lite", haus: "tide", name: "Tide", produkt: "Lite", domain: "tide.co", partner: "tide", halal: TIDE, karte: "gut", zeile: "Tide Geschäftskonto",
@@ -351,6 +405,16 @@ const TARIFE: Tarif[] = [
   { id: "ing-geschaeftskonto-s", haus: "ing", name: "ING", produkt: "Geschäftskonto Tarif S", domain: "ing.de", halal: ING, karte: "gut", marke: "VISA", zeile: "ING Geschäftskonto Tarif S", kosten: ingKosten(0, 0.3), fuerWen: ING_FUER, einlagenLand: "Deutschland" },
   { id: "ing-geschaeftskonto-m", haus: "ing", name: "ING", produkt: "Geschäftskonto Tarif M", domain: "ing.de", halal: ING, karte: "gut", marke: "VISA", zeile: "ING Geschäftskonto Tarif M", kosten: ingKosten(4.9, 0.2), fuerWen: ING_FUER, einlagenLand: "Deutschland" },
   { id: "ing-geschaeftskonto-l", haus: "ing", name: "ING", produkt: "Geschäftskonto Tarif L", domain: "ing.de", halal: ING, karte: "gut", marke: "VISA", zeile: "ING Geschäftskonto Tarif L", kosten: ingKosten(14.9, 0.1), fuerWen: ING_FUER, einlagenLand: "Deutschland" },
+  { id: "revolut-business-basic", haus: "revolut", name: "Revolut", produkt: "Business Basic", domain: "revolut.com", halal: REVOLUT, karte: "gut", zeile: "Revolut Business Basic", kosten: revolutKosten(10, 10), fuerWen: RECHTSFORMEN_KOMPLETT, einlagenLand: "Litauen" },
+  { id: "revolut-business-grow", haus: "revolut", name: "Revolut", produkt: "Business Grow", domain: "revolut.com", halal: REVOLUT, karte: "gut", zeile: "Revolut Business Grow", kosten: revolutKosten(30, 100), fuerWen: RECHTSFORMEN_KOMPLETT, einlagenLand: "Litauen" },
+  { id: "revolut-business-scale", haus: "revolut", name: "Revolut", produkt: "Business Scale", domain: "revolut.com", halal: REVOLUT, karte: "gut", zeile: "Revolut Business Scale", kosten: revolutKosten(90, 1000), fuerWen: RECHTSFORMEN_KOMPLETT, einlagenLand: "Litauen" },
+  {
+    // Für wen: Finanzfluss nennt alle Rechtsformen, das Preisverzeichnis „nur für Freie Berufe, Selbstständige und gewerbliche
+    // Immobilienverwalter“. Bei Widerspruch zählt der engere Wert. Debitkarte: Girokarte 30 € im Jahr (PLV 9.1), also 2,50 € im Monat.
+    id: "dkb-business", haus: "dkb", name: "DKB", produkt: "Business", domain: "dkb.de", halal: DKB, karte: "gut", zeile: "DKB-Business",
+    kosten: { kontofuehrung: 15, freieBuchungen: "unbegrenzt", kostenBuchung: 0, debitkarte: 2.5, abheben: { euro: 0 }, einzahlen: { prozent: 1.5 }, unterkonten: 0, buchhaltung: ["HBCI", "DATEV", "Lexware Office", "SevDesk", "Sonstige"], einlagensicherung: "ja" },
+    fuerWen: FREELANCE_FUER, einlagenLand: "Deutschland",
+  },
 ];
 
 const finanzfluss = (t: Tarif, hinweis: string, anzeige?: string): Quelle => ({
@@ -419,6 +483,6 @@ export const geschaeftskontoVergleich: RohAnbieter[] = TARIFE.map(zuAnbieter).so
 
 /** Anbieter des Finanzfluss-Vergleichs, die hier fehlen, weil ihr Hauptkonto laut Anbieter nicht belegt ohne Guthabenzins ist. */
 export const GESCHAEFT_DRAUSSEN = [
-  "FYRST", "Holvi", "bunq", "DKB", "Targobank", "Commerzbank", "Finom", "Deutsche Bank", "Postbank", "GLS Bank", "HypoVereinsbank",
-  "Wise", "Kontist", "Qonto", "Revolut Business",
+  "FYRST", "Holvi", "bunq", "Targobank", "Commerzbank", "Finom", "Deutsche Bank", "Postbank", "GLS Bank", "HypoVereinsbank",
+  "Wise", "Kontist", "Qonto",
 ] as const;

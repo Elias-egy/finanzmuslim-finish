@@ -21,24 +21,24 @@ const mitLink = (liste: RohAnbieter[], haus: string): RohAnbieter[] => liste.map
 /** Die Daten ohne jeden Partnerlink, für Fälle „noch kein Link“. */
 const ohneLinks = (liste: RohAnbieter[]): RohAnbieter[] => liste.map((a) => ({ ...a, link: undefined }));
 const rang = (liste: RohAnbieter[]) => rangfolge(liste, "geschaeftskonto", { finanzMax: GESCHAEFT_FINANZ_MAX });
-const HAEUSER = ["accountable", "ethikbank", "grenke", "ing", "lexware", "n26", "tide", "vivid"];
+const HAEUSER = ["accountable", "dkb", "ethikbank", "grenke", "ing", "lexware", "n26", "revolut", "tide", "vivid"];
 
 describe("Geschäftskonto: Daten", () => {
-  it("führt 25 Tarife von 8 Anbietern, jede ID einmal, alphabetisch", () => {
-    expect(geschaeftskontoVergleich).toHaveLength(25);
-    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(25);
+  it("führt 29 Tarife von 10 Anbietern, jede ID einmal, alphabetisch", () => {
+    expect(geschaeftskontoVergleich).toHaveLength(29);
+    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(29);
     expect([...new Set(geschaeftskontoVergleich.map((a) => a.haus))].sort()).toEqual(HAEUSER);
     const ist = geschaeftskontoVergleich.map((a) => `${a.name} ${a.produkt}`);
     expect(ist).toEqual([...ist].sort((a, b) => a.localeCompare(b, "de")));
   });
 
-  it("hat von Tide 2, Vivid 9, N26 4, Lexware 2, Accountable 1, Grenke 3, EthikBank 1 und ING 3 Tarifen", () => {
+  it("hat von Tide 2, Vivid 9, N26 4, Lexware 2, Accountable 1, DKB 1, Grenke 3, EthikBank 1, ING 3 und Revolut 3 Tarifen", () => {
     const je = (h: string) => geschaeftskontoVergleich.filter((a) => a.haus === h).length;
-    expect(HAEUSER.map(je)).toEqual([1, 1, 3, 3, 2, 4, 2, 9]);
+    expect(HAEUSER.map(je)).toEqual([1, 1, 1, 3, 3, 2, 4, 3, 2, 9]);
   });
 
-  it("nimmt keinen der 15 Anbieter ohne Beleg auf", () => {
-    expect(GESCHAEFT_DRAUSSEN).toHaveLength(15);
+  it("nimmt keinen der 13 Anbieter ohne Beleg auf", () => {
+    expect(GESCHAEFT_DRAUSSEN).toHaveLength(13);
     for (const a of geschaeftskontoVergleich)
       for (const n of GESCHAEFT_DRAUSSEN) expect(a.name.toLowerCase(), `${a.id} gegen ${n}`).not.toContain(n.toLowerCase());
   });
@@ -91,8 +91,8 @@ describe("Geschäftskonto: Daten", () => {
     expect(text).not.toMatch(/150/);
   });
 
-  it("zeigt alle 25 Tarife: jede Zeile hat einen Wert, jeder Wert der Note ist belegt", () => {
-    expect(geschaeftskontoAnzeige).toHaveLength(25);
+  it("zeigt alle 29 Tarife: jede Zeile hat einen Wert, jeder Wert der Note ist belegt", () => {
+    expect(geschaeftskontoAnzeige).toHaveLength(29);
     for (const a of geschaeftskontoVergleich) expect(luecken(a, "geschaeftskonto", GESCHAEFT_ZEILEN), a.id).toEqual([]);
   });
 
@@ -158,7 +158,7 @@ describe("Geschäftskonto: Partnerlinks", () => {
 describe("Geschäftskonto: Rangfolge", () => {
   it("ordnet alle Tarife mit Plätzen, keiner fällt heraus, keiner ist abgeraten", () => {
     const r = rang(geschaeftskontoAnzeige);
-    expect(r.gerankt).toHaveLength(25);
+    expect(r.gerankt).toHaveLength(29);
     expect(r.nichtBewertet).toEqual([]);
     expect(r.abgeraten).toEqual([]);
     for (const b of r.gerankt) expect(b.note, b.anbieter.id).toBeGreaterThan(0);
@@ -246,7 +246,7 @@ describe("Geschäftskonto: Sätze zu Zinsen", () => {
     expect(zinsHinweis("girokonto", { id: "vivid-plus", haus: "vivid", werte: { zinsfreiAbStart: "gut" } })).toMatch(/Interest Rate Pocket/);
     expect(zinsHinweis("depot", { id: "n26-depot", haus: "n26", werte: { zinsfreiAbStart: "gut" } })).toMatch(/Tagesgeldkonto/);
     // Ein Haus, das nur in anderen Vergleichen einen Satz hat, bekommt im Geschäftskonto keinen.
-    expect(zinsHinweis("geschaeftskonto", { id: "dkb-konto", haus: "dkb", werte: { zinsfreiAbStart: "gut" } })).toBeUndefined();
+    expect(zinsHinweis("geschaeftskonto", { id: "bbbank-konto", haus: "bbbank", werte: { zinsfreiAbStart: "gut" } })).toBeUndefined();
     expect(zinsHinweis("geschaeftskonto", { id: "n26-business-go", haus: "n26", werte: { zinsfreiAbStart: "teils" } })).toBeUndefined();
   });
 
