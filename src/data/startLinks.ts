@@ -9,6 +9,8 @@ export const START_LINKS = {
   "wiso-steuer": "https://www.awin1.com/cread.php?awinmid=17387&awinaffid=3099915&clickref={SUBID}",
   "steuersparerklaerung": "https://www.awin1.com/cread.php?awinmid=13746&awinaffid=3099915&clickref={SUBID}",
   "wundertax": "https://www.financeads.net/tc.php?t=87591C185241894T",
+  // VG2 (23.11.2026): financeAds Programm 3654, Textlink 8646 (Geschäftskonto), ohne Sub-ID (Regel financeAds).
+  "accountable": "https://www.financeads.net/tc.php?t=87591C3654128646T",
   "kraken": "https://api.skynet.mcanism.com/c/09d9dW",
   "scalable": "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",
   "scalable-krypto": "https://partner.scalable-capital.de/go.cgi?pid=1017&wmid=250&cpid=1&prid=1&subid={SUBID}&target=Trading-Broker-M",

@@ -290,6 +290,13 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "financeAds, Programm 127, Textlink 132812 (Top-Giro, leitet am 04.10.2026 auf norisbank.de/girokonto/kampagne/dein-neues-girokonto.html). Angenommen, im Portal gesehen 04.10.2026. Teilnahmebedingungen: kein Newsletter ohne Freigabe, kein Direktlink aus Social Media, Konditionen aktuell halten, Vertragsstrafe 5.000 Euro je Verstoss.",
   },
   {
+    kurzname: "accountable",
+    anbieter: "Accountable",
+    ziel: "/dein-investmentstart/accountable",
+    aktiv: true,
+    notiz: "financeAds, Programm 3654, Textlink 8646 (t-Code 87591C3654128646T, Geschaeftskonto). Leitet am 23.11.2026 auf accountable.de/banking/ (Zielseite ohne Zins- oder Tagesgeldwerbung, nur Cashback). Verguetung 150 Euro bei erfolgreicher Eroeffnung mit IBAN (Dashboard gelesen 23.11.2026). Ohne Sub-ID (financeAds-Regel).",
+  },
+  {
     kurzname: "smartbroker",
     anbieter: "Smartbroker+",
     ziel: "/dein-investmentstart/smartbroker",

@@ -1792,6 +1792,61 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    kurzname: "accountable",
+    anbieter: "Accountable",
+    kurz: "Accountable",
+    domain: "accountable.de",
+    markenfarbe: "#0057FA",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/accountable",
+    link: START_LINKS["accountable"],
+    titel: ["Dein zinsfreies", "Geschäftskonto."],
+    knopf: "Bei Accountable eröffnen →",
+    videoHinweis: false,
+    chips: ["Konto 0 €", "Virtuelle Debit Card 0 €", "Deutsche IBAN", "Steuerrücklagen"],
+    schritte: [
+      { titel: "Konto online eröffnen", text: "Du richtest das Geschäftskonto in der App ein, ohne Filiale." },
+      { titel: "Per Video- oder E-Ident bestätigen", text: "Ausweis in die Kamera halten, eine Schufa-Abfrage gibt es nicht." },
+      { titel: "Loslegen", text: "Die virtuelle Karte ist gleich da, die physische bestellst du in der App." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Konto ist ein unverzinsliches Konto. Du musst nichts einstellen.",
+      },
+      {
+        titel: "Kein Dispo",
+        text: "Auf dem Konto ist keine Überziehung erlaubt. Eine Zahlung ohne Deckung wird abgelehnt.",
+      },
+      {
+        titel: "Konto kostenlos",
+        text: "Das Geschäftskonto kostet in jedem Tarif nichts. Die virtuelle Debit Card ist kostenlos, die physische kostet 7,50 €.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Accountable-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Mit der Debit Card bezahlen.",
+        text: "Die Karte bucht nur ab, was auf dem Konto liegt. Es entsteht kein Kredit.",
+      },
+      {
+        titel: "Nicht ins Minus rutschen.",
+        text: "Behalte den Kontostand im Blick. Wer das Konto bewusst überzieht, kann eine Gebühr bekommen.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Gibt es auf dem Konto Zinsen?",
+        a: "Nein. Nach den Bedingungen der Partnerbank Swan ist das Konto unverzinslich. Das Cashback von Accountable ist laut Anbieter kein Zins.",
+      },
+      {
+        q: "Ist ein Geschäftskonto überhaupt halal?",
+        a: "Ein Konto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
     kurzname: "commerzbank-girokonto",
     anbieter: "Commerzbank",
     kurz: "Commerzbank",

@@ -324,7 +324,7 @@ const TARIFE: Tarif[] = [
   {
     // Unterkonten: Finanzfluss 1, Accountable selbst „bis zu 10 virtuelle Unterkonten“. Bei Widerspruch zählt der niedrigere Wert.
     // Debitkarte: die virtuelle ist kostenlos, die physische kostet 7,50 € (Preisseite). Gerechnet wird wie bei Finanzfluss mit 0 €.
-    id: "accountable-geschaeftskonto", haus: "accountable", name: "Accountable", produkt: "Geschäftskonto", domain: "accountable.de", halal: ACCOUNTABLE, karte: "gut", marke: "Mastercard", zeile: "Accountable Geschäftskonto",
+    id: "accountable-geschaeftskonto", haus: "accountable", name: "Accountable", produkt: "Geschäftskonto", domain: "accountable.de", partner: "accountable", halal: ACCOUNTABLE, karte: "gut", marke: "Mastercard", zeile: "Accountable Geschäftskonto",
     kosten: { kontofuehrung: 0, freieBuchungen: "unbegrenzt", kostenBuchung: 0, debitkarte: 0, abheben: { euro: 1 }, einzahlen: "nicht möglich", unterkonten: 1, buchhaltung: ["Sonstige", "eigenes Tool"], einlagensicherung: "teilweise" },
     fuerWen: ["Freiberufler", "Gewerbe", "GbR"], einlagenLand: "Frankreich",
   },

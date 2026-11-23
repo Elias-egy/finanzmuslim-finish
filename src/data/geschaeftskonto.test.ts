@@ -6,6 +6,8 @@ import { geschaeftskontoVergleich, GESCHAEFT_DRAUSSEN, GESCHAEFT_FILTER, GESCHAE
 import { geschaeftskontoAnzeige } from "./anzeige/geschaeftskonto";
 import { GESCHAEFT_FINANZ_MAX } from "./finanzMax";
 import { partnerLinks } from "./partnerLinks";
+import { START_LINKS } from "./startLinks";
+import { findStartPartner } from "./investmentStart";
 import { ALLE_ACHTUNG_SAETZE, ALLE_ZINS_SAETZE, verwahrAchtung, zinsHinweis } from "./zinsHinweise";
 import { baueSpalten, type RohAnbieter } from "./vergleichHelfer";
 import { reihenfolgeAntwortGeschaeft, sortiertSatzGeschaeft } from "./reihenfolgeText";
@@ -16,6 +18,8 @@ import { luecken } from "@/lib/vollstaendig";
 import VergleichGeschaeftskonto from "@/pages/VergleichGeschaeftskonto";
 
 const mitLink = (liste: RohAnbieter[], haus: string): RohAnbieter[] => liste.map((a) => (a.haus === haus ? { ...a, link: `/out/${haus}` } : a));
+/** Die Daten ohne jeden Partnerlink, für Fälle „noch kein Link“. */
+const ohneLinks = (liste: RohAnbieter[]): RohAnbieter[] => liste.map((a) => ({ ...a, link: undefined }));
 const rang = (liste: RohAnbieter[]) => rangfolge(liste, "geschaeftskonto", { finanzMax: GESCHAEFT_FINANZ_MAX });
 const HAEUSER = ["accountable", "ethikbank", "grenke", "ing", "lexware", "n26", "tide", "vivid"];
 
@@ -130,14 +134,24 @@ describe("Geschäftskonto: Partnerlinks", () => {
         expect(partnerLinks.some((p) => p.kurzname === kurz && p.aktiv), a.id).toBe(true);
       }
     }
-    // Solange kein Partner für Tide und Vivid eingetragen ist, hat kein Tarif einen Link.
+    // Ein Tarif hat genau dann einen Link, wenn sein Partner aktiv ist (Tide: "tide", Vivid: "vivid-business", Accountable: "accountable").
     const aktiv = new Set(partnerLinks.filter((p) => p.aktiv).map((p) => p.kurzname));
-    for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "tide" || x.haus === "vivid"))
-      expect(Boolean(a.link), a.id).toBe(aktiv.has(a.haus === "tide" ? "tide" : "vivid-business"));
+    const partner: Record<string, string> = { tide: "tide", vivid: "vivid-business", accountable: "accountable" };
+    for (const a of geschaeftskontoVergleich) expect(Boolean(a.link), a.id).toBe(Boolean(partner[a.haus!]) && aktiv.has(partner[a.haus!]));
   });
 
-  it("gibt Grenke, N26, Lexware, Accountable, EthikBank und ING nie einen Link", () => {
-    for (const a of geschaeftskontoVergleich.filter((x) => !["tide", "vivid"].includes(x.haus!))) expect(a.link, a.id).toBeUndefined();
+  it("gibt Grenke, N26, Lexware, EthikBank und ING nie einen Link", () => {
+    for (const a of geschaeftskontoVergleich.filter((x) => ["grenke", "n26", "lexware", "ethikbank", "ing"].includes(x.haus!))) expect(a.link, a.id).toBeUndefined();
+  });
+
+  it("führt Accountable über financeAds ohne Sub-ID, Programm 3654, auf die Startseite", () => {
+    const p = partnerLinks.find((x) => x.kurzname === "accountable")!;
+    expect(p.aktiv).toBe(true);
+    expect(p.ziel).toBe("/dein-investmentstart/accountable");
+    expect(START_LINKS.accountable).toBe("https://www.financeads.net/tc.php?t=87591C3654128646T");
+    expect(START_LINKS.accountable).not.toMatch(/SUBID|subid/i);
+    expect(findStartPartner("accountable")?.link).toBe(START_LINKS.accountable);
+    expect(geschaeftskontoVergleich.find((a) => a.id === "accountable-geschaeftskonto")!.link).toBe("/out/accountable");
   });
 });
 
@@ -148,7 +162,9 @@ describe("Geschäftskonto: Rangfolge", () => {
     expect(r.nichtBewertet).toEqual([]);
     expect(r.abgeraten).toEqual([]);
     for (const b of r.gerankt) expect(b.note, b.anbieter.id).toBeGreaterThan(0);
-    expect(r.gerankt.map((b) => b.note)).toEqual([...r.gerankt.map((b) => b.note)].sort((a, b) => b - a).filter((_, i, l) => i >= 0 && l));
+    // Ab Platz 2 steht die Liste nach Note. Platz 1 rückt nach Regel 6 vor: der erste Eintrag ohne Einschränkung mit Link.
+    const noten = r.gerankt.slice(1).map((b) => b.note);
+    expect(noten).toEqual([...noten].sort((x, y) => y - x));
   });
 
   it("stellt Grenke wegen der Kreditkarte ans Ende, nie auf Platz 1", () => {
@@ -165,23 +181,42 @@ describe("Geschäftskonto: Rangfolge", () => {
   });
 
   it("gibt ohne Partnerlink keinen Kasten Nummer 1, die Liste ist trotzdem gerankt", () => {
-    const sieger = siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX);
+    const basis = ohneLinks(geschaeftskontoAnzeige);
     // Der Platz 1 der Liste ist ein Konto ohne Einschränkung. Die Seite zeigt den Kasten nur, wenn dieses Konto einen Link hat.
-    expect(sieger).not.toBeNull();
-    expect(Boolean(sieger?.link)).toBe(geschaeftskontoAnzeige.some((a) => a.link && a.id === sieger?.id));
-    const r = rang(geschaeftskontoAnzeige);
+    const sieger = siegerDerSeite(basis, "geschaeftskonto", GESCHAEFT_FINANZ_MAX);
+    expect(sieger?.id).toBe("n26-business-smart");
+    expect(sieger?.link).toBeUndefined();
+    const r = rang(basis);
     expect(r.gerankt[0].platz).toBe(1);
+    expect(r.gerankt[0].anbieter.id).toBe("n26-business-smart");
+  });
+
+  it("stellt Accountable mit dem Partnerlink von financeAds auf Platz 1, mit Kasten, ohne die Note zu ändern", () => {
+    const r = rang(geschaeftskontoAnzeige);
+    expect(r.gerankt[0].anbieter.id).toBe("accountable-geschaeftskonto");
+    expect(r.gerankt[0].platz).toBe(1);
+    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
+    expect(nummerEins(r).map((b) => b.anbieter.id)).toEqual(["accountable-geschaeftskonto"]);
+    const sieger = siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX);
+    expect(sieger?.id).toBe("accountable-geschaeftskonto");
+    expect(sieger?.link).toBe("/out/accountable");
+    // Dieselbe Note wie ohne Link (4,48 vorher, Platz 9 ohne Link).
+    const ohne = rang(ohneLinks(geschaeftskontoAnzeige)).gerankt.find((b) => b.anbieter.id === "accountable-geschaeftskonto")!;
+    expect(ohne.platz).toBe(9);
+    expect(r.gerankt[0].note).toBe(ohne.note);
   });
 
   it("zeigt den Kasten von selbst, sobald Tide oder Vivid einen Link haben und ganz vorn stehen", () => {
-    const tide = mitLink(geschaeftskontoAnzeige, "tide");
+    const tide = mitLink(ohneLinks(geschaeftskontoAnzeige), "tide");
     expect(siegerDerSeite(tide, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.haus).toBe("tide");
     expect(siegerDerSeite(tide, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBe("/out/tide");
     expect(nummerEins(rang(tide))[0].anbieter.haus).toBe("tide");
 
-    const vivid = mitLink(geschaeftskontoAnzeige, "vivid");
+    const vivid = mitLink(ohneLinks(geschaeftskontoAnzeige), "vivid");
     expect(siegerDerSeite(vivid, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.haus).toBe("vivid");
     expect(rang(vivid).gerankt[0].anbieter.haus).toBe("vivid");
+    // Mit allen drei Links gewinnt der mit der besten Note: Vivid (4,7) vor Accountable (4,4) und Tide (4,2).
+    expect(rang(mitLink(mitLink(geschaeftskontoAnzeige, "tide"), "vivid")).gerankt[0].anbieter.haus).toBe("vivid");
   });
 
   it("ändert die Note nie durch einen Link", () => {
@@ -257,10 +292,17 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).toContain("Die besten Geschäftskonten für Muslime 11/2026");
   });
 
-  it("zeigt ohne Partnerlink keinen Kasten Nummer 1 und nennt keine Zinssätze", () => {
-    expect(html).not.toContain("Bestes Geschäftskonto");
+  it("zeigt mit dem Link von Accountable den Kasten Bestes Geschäftskonto, nur mit belegten Werten, ohne Zinssätze", () => {
+    expect(html).toContain("Bestes Geschäftskonto");
+    expect(html).toContain("Accountable");
     expect(html).not.toMatch(/Aktion: \d/);
     expect(html).not.toMatch(/Geldmarktfonds-Rendite/);
+    // Das Etikett steht vor dem Namen im Kasten, der Kasten trägt Zins und Dispo als erfüllt.
+    const ab = html.slice(html.indexOf('aria-label="Bestes Geschäftskonto"')).replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+    const kasten = ab.slice(0, ab.indexOf("Produktdetails"));
+    expect(kasten).toContain("Ohne Zinsen, ohne Dispo");
+    expect(kasten).toContain("Unbegrenzt kostenlos");
+    expect(kasten).not.toMatch(/Zinssatz|Rendite|Tagesgeld|Cashback|Bonus/);
   });
 
   it("hat sieben Fragen, darunter die zu Zinskonten ohne Urteil eines Gelehrten", () => {
