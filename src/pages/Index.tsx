@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  Briefcase,
   ArrowRight,
   Calculator,
   ChevronRight,
@@ -10,7 +11,6 @@ import {
   LineChart,
   Percent,
   PiggyBank,
-  Plane,
   Repeat,
   Sparkles,
   Target,
@@ -43,13 +43,17 @@ import rechnerRender from "@/assets/rechner-v2.webp";
 /* VG1 (Elias 23.11.2026: „Also 8 immer draußen haben“; Krypto, Edelmetall, Steuer und Prüf-Apps ohne Abschluss, „Prüf-Apps
    … das Erste, was rausfliegen würde“): hier die sechs Vergleiche, die am nächsten an einer Eröffnung sind, am Handy vier.
    Krypto, Halal-Aktien-Apps und Steuersoftware stehen unter „Alle Vergleiche“. */
+/* VG2 (Elias 23.11.2026: „Geschäftskonto könnte aber noch ganz oben sein.“, „in die Top 6 Edelmetalle kann trotzdem da
+   bleiben.“): Geschäftskonto steht vorn. Dafür weicht das Konto für Umrah und Urlaub (noch ohne Abschluss, führt wie das
+   Studentenkonto zur norisbank und steht weiter im Menü und unter /vergleiche). Am Handy vier: Geschäftskonto, Depot,
+   Girokonto, Konto für Studenten; Edelmetalle (bisher kein Abschluss) steht dort unter „Alle Vergleiche“. */
 const categories = [
-  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
-  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
+  { label: "Geschäftskonto", icon: Briefcase, to: "/vergleich/geschaeftskonto", handy: "max-md:order-1" },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-2" },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-3" },
   { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:hidden" },
-  { label: "Konto für Studenten", icon: GraduationCap, to: "/vergleich/girokonto/studenten", handy: "max-md:order-3" },
-  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-4" },
-  { label: "Konto für Umrah und Urlaub", icon: Plane, to: "/vergleich/girokonto/umrah-und-urlaub", handy: "max-md:hidden" },
+  { label: "Konto für Studenten", icon: GraduationCap, to: "/vergleich/girokonto/studenten", handy: "max-md:order-4" },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:hidden" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */

@@ -116,6 +116,7 @@ export const navGroups: NavGroup[] = [
         /* VG1 (23.11.2026): acht Vergleiche im Menü; Halal-Aktien-Apps und Steuersoftware nur noch unter „Alle Vergleiche“. */
         title: "Konto",
         items: [
+          { label: "Geschäftskonto-Vergleich", to: "/vergleich/geschaeftskonto" },
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
           { label: "Girokonto für Studenten", to: "/vergleich/girokonto/studenten" },
           { label: "Konto für Umrah und Urlaub", to: "/vergleich/girokonto/umrah-und-urlaub" },

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import {
   Banknote,
+  Briefcase,
   Bitcoin,
   ChevronRight,
   Coins,
@@ -22,7 +23,19 @@ type Gruppe = { titel: string; eintraege: Vergleich[] };
 /* VG1 (Elias 23.11.2026: „Also 8 immer draußen haben“, raw/2026-11-23-elias-vg1-01-rankings-acht-vergleiche-naeher-am-sale.md
    im Vault): acht Vergleiche oben, sortiert nach Nähe zur Eröffnung. Halal-Aktien-Apps und Steuersoftware brachten keinen
    Abschluss und stehen klein unter „Weitere Vergleiche“ („Dann kommt das halt später erst“). */
+/* VG2 (Elias 23.11.2026: „Geschäftskonto könnte aber noch ganz oben sein.“): Geschäftskonto ganz oben. */
 const gruppen: Gruppe[] = [
+  {
+    titel: "Für Selbstständige",
+    eintraege: [
+      {
+        name: "Geschäftskonto-Vergleich",
+        desc: "Finde das Geschäftskonto ohne Zins, ohne Dispo und mit Karte ohne Kredit.",
+        icon: Briefcase,
+        to: "/vergleich/geschaeftskonto",
+      },
+    ],
+  },
   {
     titel: "Investieren",
     eintraege: [

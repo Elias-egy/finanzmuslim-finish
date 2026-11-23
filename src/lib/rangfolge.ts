@@ -1,5 +1,5 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
-import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
+import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GESCHAEFT_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
 import { anzeigeNote } from "@/lib/anzeigeNote";
 import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/leserEroeffnungen";
@@ -56,7 +56,7 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
  */
 
-export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall";
+export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall" | "geschaeftskonto";
 
 export type Bewertet = {
   anbieter: RohAnbieter;
@@ -123,10 +123,12 @@ export const FAKTOR_KREDIT = 1;
 export const FAKTOR_DISPO = 1;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
-export const BASIS: Record<"depot" | "girokonto" | "krypto", string[]> = {
+export const BASIS: Record<"depot" | "girokonto" | "krypto" | "geschaeftskonto", string[]> = {
   depot: [],
   girokonto: ["keinDispoAbStart", "karteOhneKredit"],
   krypto: ["zinsfreiesModell"],
+  // VG2 (23.11.2026): dieselben Merkmale wie beim Girokonto, Vorbild Finanzfluss /vergleich/geschaeftskonto/.
+  geschaeftskonto: ["keinDispoAbStart", "karteOhneKredit"],
 };
 
 /** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Nenner ist die Summe, 22. */
@@ -137,6 +139,7 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
   girokonto: GIRO_FINANZ_MAX,
   krypto: KRYPTO_FINANZ_MAX,
   edelmetall: EDELMETALL_FINANZ_MAX,
+  geschaeftskonto: GESCHAEFT_FINANZ_MAX,
 };
 
 const TOR = "zinsfreiAbStart";
@@ -151,7 +154,7 @@ export const sterne = (note: number): number => Math.round(anzeigeNote(note) * 2
 export const KREDIT_NIE_PLATZ_EINS: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["edelmetall"]);
 
 /** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
-export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
+export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto", "geschaeftskonto"]);
 
 type MitNote = { note: number; anbieter: RohAnbieter };
 
@@ -195,8 +198,12 @@ export const feinwert = (a: RohAnbieter): number => {
   return teile.length === 0 ? 0 : Math.round((teile.reduce((s, x) => s + x, 0) / teile.length) * 1000) / 1000;
 };
 
-export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto", Array<[string, number]>> = {
+export const AMPEL_GEWICHTE: Record<"girokonto" | "krypto" | "geschaeftskonto", Array<[string, number]>> = {
   girokonto: [
+    ["keinDispoAbStart", 0.5],
+    ["karteOhneKredit", 0.5],
+  ],
+  geschaeftskonto: [
     ["keinDispoAbStart", 0.5],
     ["karteOhneKredit", 0.5],
   ],
@@ -326,7 +333,7 @@ const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Ur
   };
 };
 
-const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
+const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto" | "geschaeftskonto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
@@ -334,7 +341,7 @@ const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax
   if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
 
   // Dispo "teils" im Girokonto: voller Punkt für das Merkmal, dafür ein Zehntel Abzug auf den ganzen Halal-Teil.
-  const dispoAbschaltbar = kategorie === "girokonto" && a.werte.keinDispoAbStart === "teils";
+  const dispoAbschaltbar = (kategorie === "girokonto" || kategorie === "geschaeftskonto") && a.werte.keinDispoAbStart === "teils";
   let anteil = 0;
   for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie])
     anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : ampel(a.werte[key]));
