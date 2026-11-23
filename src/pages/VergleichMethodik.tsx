@@ -33,7 +33,8 @@ const kategorien = [
     titel: "Edelmetalle",
     to: "/vergleich/edelmetalle",
     halal: [
-      "Gold und Silber: wie viele der 7 Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kaufbar sind, 100 %",
+      "Gold und Silber: wie viele der 7 Gold- und Silber-ETCs aus unserem Halal-Anlagen-Vergleich kaufbar sind, 50 %",
+      "Alle Halal-Anlagen im selben Depot: wie viele der 22 Anlagen kaufbar sind, wie im Depot-Vergleich, 50 %",
     ],
     finanz: "Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service, App",
     max: FINANZ_MAX_SUMME.edelmetall,
@@ -98,7 +99,7 @@ const VergleichMethodik = () => (
         <p>
           <strong>Zweitens: Halal und Kosten zählen gleich.</strong> Die Note setzt sich zu{" "}
           {prozent(GEWICHT_HALAL)} aus den übrigen Halal-Merkmalen und zu {prozent(GEWICHT_FINANZ)} aus
-          Kosten und Konditionen zusammen. Im Depot- und im Girokonto-Vergleich kommt ein drittes Kriterium dazu:
+          Kosten und Konditionen zusammen. Im Depot-, im Girokonto- und im Edelmetall-Vergleich kommt ein drittes Kriterium dazu:
           Halal-Merkmale und Kosten zählen dort je {ANTEIL_HALAL_KOSTEN}, „Bei meinen Lesern beliebt“ zählt{" "}
           {ANTEIL_BELIEBT}.
         </p>

@@ -422,30 +422,34 @@ describe("rangfolge: Screener", () => {
 /* --------------------------------------------------------------- Edelmetalle */
 
 describe("rangfolge: Edelmetalle", () => {
-  // Dieselben Depots wie im Depot-Vergleich (Elias, 06.10.2026), im Halal-Teil zählt nur die Zeile der 7 Gold- und Silber-ETCs.
-  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT });
+  // Dieselben Depots wie im Depot-Vergleich (Elias, 06.10.2026). Seit 23.11.2026 (VG1) zählt der Halal-Teil zur Hälfte die
+  // 7 Gold- und Silber-ETCs und zur Hälfte alle 22 Halal-Anlagen des Depots („Gold gehört zum Anlegen“). Das Kriterium
+  // „Bei meinen Lesern beliebt“ prüft ein eigener Test unten, hier ist es aus.
+  const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT, beliebt: false });
 
-  it("zählt im Halal-Teil nur Gold und Silber, ETFs und Sukuk ändern nichts", () => {
-    // Halal 5 × 7/7 = 5, Kosten 5, Note 5
+  it("zählt im Halal-Teil halb Gold und Silber, halb alle Halal-Anlagen des Depots", () => {
+    // Metalle 5 × 7/7 = 5, alle 5 × 7/22 = 1,5909…, Halal 3,2954…, Kosten 5, Note 4,1477…
     const ohneRest = depot("metall", { halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3" }, { halalAnlagenPunkte: { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 7 } });
-    expect(einzig(r([ohneRest]))).toMatchObject({ note: 5, halal: 5, kosten: 5, uneingeschraenkt: true });
+    expect(einzig(r([ohneRest]))).toMatchObject({ note: 4.15, halal: 3.3, kosten: 5, uneingeschraenkt: true });
+    const voll = depot("voll", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 } });
+    expect(einzig(r([voll]))).toMatchObject({ note: 5, halal: 5, kosten: 5 });
   });
 
   it("rechnet den Anteil der belegten Papiere und teilt mit den Kosten", () => {
-    // Halal 5 × 5/7 = 3,5714…, Kosten 5 × 10/20 = 2,5, Note 3,0357…
+    // Metalle 5 × 5/7 = 3,5714…, alle 5 × 20/22 = 4,5454…, Halal 4,0584…, Kosten 5 × 10/20 = 2,5, Note 3,2792…
     const a = depot("teil", { halalEdelmetalle: "5 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 5 }, finanzPunkte: { depotgebuehr: 10, app: 0 } });
-    expect(einzig(r([a]))).toMatchObject({ halal: 3.57, kosten: 2.5, note: 3.04 });
+    expect(einzig(r([a]))).toMatchObject({ halal: 4.06, kosten: 2.5, note: 3.28 });
   });
 
   it("zählt bei „mind. x von 7“ nur die belegten Papiere und Unbelegtes als 0", () => {
-    // Halal 5 × 6/7 = 4,2857…
+    // Metalle 5 × 6/7 = 4,2857…, alle 5 × 21/22 = 4,7727…, Halal 4,5292…; leer: Metalle 0, alle 5 × 15/22, Halal 1,7045…
     const mind = depot("mind", { halalEdelmetalle: "mind. 6 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 6 } });
     const leer = depot("leer", { halalEdelmetalle: null }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3 } });
     const e = r([mind, leer]);
     expect(e.nichtBewertet).toEqual([]);
     expect(e.gerankt.map((x) => [x.anbieter.id, x.halal])).toEqual([
-      ["mind", 4.29],
-      ["leer", 0],
+      ["mind", 4.53],
+      ["leer", 1.7],
     ]);
   });
 
@@ -865,9 +869,10 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     expect(beliebtPunkte("depot", "flatex-depot", true)).toBe(5);
     expect(beliebtPunkte("depot", "flatex-depot", false)).toBe(0);
     expect(beliebtPunkte("girokonto", "norisbank-top-girokonto", true)).toBe(5);
-    // Nur Depot und Girokonto kennen das Kriterium.
+    // Depot, Girokonto und seit 23.11.2026 (VG1) Edelmetall kennen das Kriterium; Edelmetall liest die Depot-Eröffnungen.
     expect(rangfolge([krypto("k")], "krypto", { finanzMax: MAX_KRYPTO }).gerankt[0].beliebt).toBeNull();
-    expect(rangfolge([depot("e")], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBeNull();
+    expect(rangfolge([depot("e")], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(0);
+    expect(rangfolge([depot("flatex-depot", {}, { link: "/out/flatex" })], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(5);
   });
   it("zählt Eröffnungen, nie Geld, und jede Zahl hat Klicks", () => {
     for (const tabelle of Object.values(LESER_EROEFFNUNGEN))

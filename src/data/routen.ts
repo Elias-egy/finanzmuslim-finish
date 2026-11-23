@@ -86,6 +86,9 @@ export const festeRouten: Route[] = [
   { pfad: "/vergleich/screening-apps", quelle: ["src/pages/VergleichScreener.tsx", "src/data/screenerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/steuersoftware", quelle: ["src/pages/VergleichSteuersoftware.tsx", "src/data/steuersoftwareVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/edelmetalle", quelle: ["src/pages/VergleichEdelmetalle.tsx", "src/data/edelmetallVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
+  { pfad: "/vergleich/girokonto/umrah-und-urlaub", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
+  { pfad: "/vergleich/girokonto/studenten", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
+  { pfad: "/vergleich/etf-sparplan", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
   { pfad: "/vergleiche/methodik", quelle: ["src/pages/VergleichMethodik.tsx", "src/lib/bewertung.ts"], changefreq: "monthly", prioritaet: "0.6" },
 
   { pfad: "/rechner", quelle: ["src/pages/Rechner.tsx"], changefreq: "monthly", prioritaet: "0.7" },

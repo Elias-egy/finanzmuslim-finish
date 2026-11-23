@@ -5,7 +5,10 @@ import {
   ChevronRight,
   Coins,
   FileText,
+  GraduationCap,
   LineChart,
+  Plane,
+  Repeat,
   ScanSearch,
   ShieldCheck,
 } from "lucide-react";
@@ -16,6 +19,9 @@ import { ANZAHL_APPS, ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME, zahlwort } f
 type Vergleich = { name: string; desc: string; icon: LucideIcon; to?: string };
 type Gruppe = { titel: string; eintraege: Vergleich[] };
 
+/* VG1 (Elias 23.11.2026: „Also 8 immer draußen haben“, raw/2026-11-23-elias-vg1-01-rankings-acht-vergleiche-naeher-am-sale.md
+   im Vault): acht Vergleiche oben, sortiert nach Nähe zur Eröffnung. Halal-Aktien-Apps und Steuersoftware brachten keinen
+   Abschluss und stehen klein unter „Weitere Vergleiche“ („Dann kommt das halt später erst“). */
 const gruppen: Gruppe[] = [
   {
     titel: "Investieren",
@@ -27,10 +33,10 @@ const gruppen: Gruppe[] = [
         to: "/vergleich/depot",
       },
       {
-        name: "Krypto-Vergleich",
-        desc: "Finde die Börse, bei der du echte Coins zinsfrei kaufst.",
-        icon: Bitcoin,
-        to: "/vergleich/krypto",
+        name: "ETF-Sparplan",
+        desc: "Jeden Monat automatisch in Halal-ETFs anlegen, ohne Kosten für den Sparplan.",
+        icon: Repeat,
+        to: "/vergleich/etf-sparplan",
       },
       {
         name: "Edelmetalle",
@@ -44,10 +50,16 @@ const gruppen: Gruppe[] = [
         icon: ShieldCheck,
         to: "/halal-anlagen",
       },
+      {
+        name: "Krypto-Vergleich",
+        desc: "Finde die Börse, bei der du echte Coins zinsfrei kaufst.",
+        icon: Bitcoin,
+        to: "/vergleich/krypto",
+      },
     ],
   },
   {
-    titel: "Konto und Prüfung",
+    titel: "Konto",
     eintraege: [
       {
         name: "Girokonto-Vergleich",
@@ -56,18 +68,34 @@ const gruppen: Gruppe[] = [
         to: "/vergleich/girokonto",
       },
       {
-        name: "Aktien prüfen",
-        desc: `Vergleiche ${zahlwort(ANZAHL_APPS)} Apps, die einzelne Aktien auf Halal prüfen.`,
-        icon: ScanSearch,
-        to: "/vergleich/screening-apps",
+        name: "Girokonto für Studenten",
+        desc: "Kostenlos unter 30, ohne Geldeingang und ohne Zinsen.",
+        icon: GraduationCap,
+        to: "/vergleich/girokonto/studenten",
       },
       {
-        name: "Steuersoftware",
-        desc: `Vergleiche ${ANZAHL_STEUERPROGRAMME} Programme für die Steuererklärung: Preis, Zahlung und Einkünfte.`,
-        icon: FileText,
-        to: "/vergleich/steuersoftware",
+        name: "Konto für Umrah und Urlaub",
+        desc: "Im Ausland kostenlos abheben und bezahlen, ohne Zinsen.",
+        icon: Plane,
+        to: "/vergleich/girokonto/umrah-und-urlaub",
       },
     ],
+  },
+];
+
+/** Hinten, ohne Kachel (VG1, 23.11.2026). */
+const weitere: Vergleich[] = [
+  {
+    name: "Halal-Aktien-Apps",
+    desc: `Vergleiche ${zahlwort(ANZAHL_APPS)} Apps, die einzelne Aktien auf Halal prüfen.`,
+    icon: ScanSearch,
+    to: "/vergleich/screening-apps",
+  },
+  {
+    name: "Steuersoftware",
+    desc: `Vergleiche ${ANZAHL_STEUERPROGRAMME} Programme für die Steuererklärung.`,
+    icon: FileText,
+    to: "/vergleich/steuersoftware",
   },
 ];
 
@@ -160,6 +188,20 @@ const Vergleiche = () => (
           </section>
         ))}
       </div>
+
+      <section className="mt-12">
+        <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">Weitere Vergleiche</h2>
+        <ul className="mt-3 space-y-2">
+          {weitere.map((v) => (
+            <li key={v.name}>
+              <Link to={v.to!} className="text-[15px] font-semibold text-primary hover:underline">
+                {v.name}
+              </Link>
+              <span className="text-[15px] text-muted-foreground">: {v.desc}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="card-surface mt-14 p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Wie wir bewerten</h2>

@@ -4,14 +4,14 @@ import {
   ArrowRight,
   Calculator,
   ChevronRight,
-  Bitcoin,
   Coins,
-  FileText,
   Globe,
+  GraduationCap,
   LineChart,
   Percent,
   PiggyBank,
-  ScanSearch,
+  Plane,
+  Repeat,
   Sparkles,
   Target,
   TrendingDown,
@@ -40,13 +40,16 @@ import rechnerRender from "@/assets/rechner-v2.webp";
  *  Stelle, damit Depot, Girokonto und Edelmetalle unter dem Foto zu sehen sind (Elias, 30.10.2026, FOTO1). */
 /* VS5-06 (Elias 11.11.2026): am Laptop alle Vergleiche wie vorher, am Handy nur vier („Depot, Girokonto, Krypto,
    Edelmetalle“) und darunter der Weg zu allen Vergleichen. */
+/* VG1 (Elias 23.11.2026: „Also 8 immer draußen haben“; Krypto, Edelmetall, Steuer und Prüf-Apps ohne Abschluss, „Prüf-Apps
+   … das Erste, was rausfliegen würde“): hier die sechs Vergleiche, die am nächsten an einer Eröffnung sind, am Handy vier.
+   Krypto, Halal-Aktien-Apps und Steuersoftware stehen unter „Alle Vergleiche“. */
 const categories = [
   { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
-  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "max-md:order-3" },
-  { label: "Halal-Aktien-Apps", icon: ScanSearch, to: "/vergleich/screening-apps", handy: "max-md:hidden" },
+  { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:hidden" },
+  { label: "Konto für Studenten", icon: GraduationCap, to: "/vergleich/girokonto/studenten", handy: "max-md:order-3" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-4" },
-  { label: "Steuer\u00ADsoftware", icon: FileText, to: "/vergleich/steuersoftware", handy: "max-md:hidden" },
+  { label: "Konto für Umrah und Urlaub", icon: Plane, to: "/vergleich/girokonto/umrah-und-urlaub", handy: "max-md:hidden" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */

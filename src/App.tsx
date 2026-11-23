@@ -36,6 +36,10 @@ const VergleichKrypto = lazy(() => import("./pages/VergleichKrypto.tsx"));
 const VergleichScreener = lazy(() => import("./pages/VergleichScreener.tsx"));
 const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftware.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
+/* VG1 (23.11.2026): drei Vergleiche aus den Daten von Girokonto und Depot. */
+const VergleichKontoUmrah = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichKontoUmrah })));
+const VergleichKontoStudenten = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichKontoStudenten })));
+const VergleichEtfSparplan = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichEtfSparplan })));
 // RN6 (15.11.2026): /vergleich/start leitet in den Halal-Finanz-Check; die alte Seite pages/VergleichAssistent.tsx bleibt im Code.
 const QuizZumCheck = () => {
   const { search } = useLocation();
@@ -193,6 +197,9 @@ const App = () => (
             <Route path="/vergleich/screening-apps" element={<VergleichScreener />} />
             <Route path="/vergleich/steuersoftware" element={<VergleichSteuersoftware />} />
             <Route path="/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
+            <Route path="/vergleich/girokonto/umrah-und-urlaub" element={<VergleichKontoUmrah />} />
+            <Route path="/vergleich/girokonto/studenten" element={<VergleichKontoStudenten />} />
+            <Route path="/vergleich/etf-sparplan" element={<VergleichEtfSparplan />} />
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet
                 wird ueber Instagram und die bestehende Mailkette. */}

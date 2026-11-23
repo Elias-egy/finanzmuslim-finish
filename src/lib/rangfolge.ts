@@ -51,7 +51,7 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  *    immer absteigend (Elias, 08.11.2026, A11). Bei gleicher angezeigter Note steht zuerst der eigene Link (Regel 2),
  *    danach die genaue Note. Die feste Liste `LESER_REIHENFOLGE` (A9) ist seit 15.11.2026 abgelöst durch Regel 8:
  *    Die Reihenfolge entsteht aus der Note, nicht aus einer Liste.
- * 8. Depot und Girokonto: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
+ * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
  *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
  */
@@ -74,7 +74,7 @@ export type Bewertet = {
    * nur noch, wo `KREDIT_NIE_PLATZ_EINS` es sagt (Edelmetall).
    */
   kredit: boolean;
-  /** Punkte 0 bis 5 im Kriterium „Bei meinen Lesern beliebt“ (Regel 8), nur Depot und Girokonto, sonst null. */
+  /** Punkte 0 bis 5 im Kriterium „Bei meinen Lesern beliebt“ (Regel 8), nur Depot, Girokonto und Edelmetall, sonst null. */
   beliebt: number | null;
   /** Halal-Teil vor dem Abzug für den Kredit. Der geführte Test sortiert damit, wer möglichst viele Anlagen will. */
   halalVorKredit: number;
@@ -303,6 +303,29 @@ const depotUrteil = (
   return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !sperrt, kredit, halalVorKredit };
 };
 
+/** Zeilen des Edelmetall-Teils: nur die Gold- und Silber-ETCs. */
+const NUR_METALLE: Record<string, number> = { halalEdelmetalle: ANTEIL_N.halalEdelmetalle };
+
+/**
+ * Edelmetall seit 23.11.2026 (Elias, VG1: „Edelmetall, weiß ich nicht, ob das Ranking so gut ist.“, raw/2026-11-23-elias-vg1-01-
+ * rankings-acht-vergleiche-naeher-am-sale.md im Vault): Gold kauft man im selben Depot, in dem man anlegt („Gold gehört zum
+ * Anlegen und ist kein eigenes Ziel“, Regelbuch vergleiche-und-rangfolge.md). Der Halal-Teil zählt deshalb zur Hälfte die
+ * Gold- und Silber-ETCs und zur Hälfte alle Halal-Anlagen des Depots, wie im Depot-Vergleich. Kosten bleiben die Kosten
+ * eines Kaufs (`EDELMETALL_FINANZ_MAX`). Fast alle Depots haben jedes Metall, so entschied vorher allein der Orderpreis.
+ */
+const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Urteil => {
+  const u = depotUrteil(a, finanzMax, "edelmetall", NUR_METALLE);
+  if (u.art !== "bewertet") return u;
+  const alle = depotHalal(a);
+  const halal = (u.halal + alle.halal) / 2;
+  return {
+    ...u,
+    halal,
+    halalVorKredit: ((u.halalVorKredit ?? u.halal) + alle.halalVorKredit) / 2,
+    note: halbe(halal, u.kosten ?? 0),
+  };
+};
+
 const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
   if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
@@ -369,7 +392,7 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
     case "screener":
       return screenerUrteil(a);
     case "edelmetall":
-      return depotUrteil(a, finanzMax, kategorie, { halalEdelmetalle: ANTEIL_N.halalEdelmetalle });
+      return edelmetallUrteil(a, finanzMax);
     case "depot":
       return depotUrteil(a, finanzMax, kategorie);
     default:
@@ -386,7 +409,9 @@ export const unbelegteWerte = (a: RohAnbieter, kategorie: RangKategorie, opt: Ra
   const finanzMax = opt.finanzMax ?? STANDARD_FINANZ_MAX[kategorie] ?? {};
   if (kategorie === "depot" || kategorie === "edelmetall") {
     const tuer = a.werte[TOR];
-    const zeilen = kategorie === "depot" ? ANTEIL_N : { halalEdelmetalle: ANTEIL_N.halalEdelmetalle };
+    // Edelmetall rechnet seit 23.11.2026 alle Halal-Anlagen mit (`edelmetallUrteil`). Eine unbelegte ETF- oder Sukuk-Zeile
+    // zählt dort 0 Punkte wie im Depot-Vergleich, nimmt das Depot aber nicht aus der Gold-Liste: Gefordert sind nur die Metalle.
+    const zeilen = kategorie === "depot" ? ANTEIL_N : NUR_METALLE;
     return [
       ...(tuer === "gut" || tuer === "teils" || tuer === "schlecht" ? [] : [TOR]),
       ...Object.entries(zeilen)
@@ -429,9 +454,11 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
       const angefragt = opt.offeneAnfragen?.has(anbieter.haus ?? anbieter.id) ?? false;
       nichtBewertet.push({ anbieter, grund: angefragt ? "Anfrage läuft" : "noch nicht geprüft", fehlt: u.fehlt });
     } else {
-      // Regel 8: 5 % „Bei meinen Lesern beliebt“ in Depot und Girokonto, Halal und Kosten behalten je die Hälfte des Rests.
+      // Regel 8: 5 % „Bei meinen Lesern beliebt“ in Depot, Girokonto und Edelmetall, Halal und Kosten behalten je die Hälfte
+      // des Rests. Edelmetall rankt dieselben Depots, also zählen die Depot-Eröffnungen (seit 23.11.2026, VG1).
+      const beliebtKat = kategorie === "edelmetall" ? "depot" : kategorie;
       const beliebt =
-        opt.beliebt !== false && istBeliebtKategorie(kategorie) ? beliebtPunkte(kategorie, anbieter.id, Boolean(anbieter.link)) : null;
+        opt.beliebt !== false && istBeliebtKategorie(beliebtKat) ? beliebtPunkte(beliebtKat, anbieter.id, Boolean(anbieter.link)) : null;
       const note = beliebt === null ? u.note : (1 - GEWICHT_BELIEBT) * u.note + GEWICHT_BELIEBT * beliebt;
       bewertet.push({
         anbieter,

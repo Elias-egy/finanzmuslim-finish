@@ -106,17 +106,19 @@ export const navGroups: NavGroup[] = [
         items: [
           { label: "Alle Vergleiche", to: "/vergleiche" },
           { label: "Depot-Vergleich", to: "/vergleich/depot" },
-          { label: "Krypto-Vergleich", to: "/vergleich/krypto" },
+          { label: "ETF-Sparplan", to: "/vergleich/etf-sparplan" },
           { label: "Edelmetalle", to: "/vergleich/edelmetalle" },
           { label: "Halal-Anlagen finden", to: "/halal-anlagen" },
+          { label: "Krypto-Vergleich", to: "/vergleich/krypto" },
         ],
       },
       {
-        title: "Konto und Prüfung",
+        /* VG1 (23.11.2026): acht Vergleiche im Menü; Halal-Aktien-Apps und Steuersoftware nur noch unter „Alle Vergleiche“. */
+        title: "Konto",
         items: [
           { label: "Girokonto-Vergleich", to: "/vergleich/girokonto" },
-          { label: "Halal-Aktien-Apps", to: "/vergleich/screening-apps" },
-          { label: "Steuersoftware", to: "/vergleich/steuersoftware" },
+          { label: "Girokonto für Studenten", to: "/vergleich/girokonto/studenten" },
+          { label: "Konto für Umrah und Urlaub", to: "/vergleich/girokonto/umrah-und-urlaub" },
         ],
       },
       {
