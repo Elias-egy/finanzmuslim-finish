@@ -26,9 +26,14 @@ export const giroVorn = giroReihe.slice(0, 5);
 /** „Konten im Test“: die drei vorn, aus der laufenden Rangfolge (PH2-01, 15.11.2026), nie von Hand eingetragen. */
 export const giroTop3 = giroReihe.slice(0, 3);
 export const giroSiegerId = sieger?.id ?? null;
-export const giroAbgeraten = rang.abgeraten;
+// Seit VG2-04 (Regel 10) stehen auch Angebote mit belegtem, nicht abschaltbarem Zins auf der Liste, ganz hinten. Offen heißt: kein Beleg, kein Urteil.
+const zins = (a: RohAnbieter) => a.werte.zinsfreiAbStart;
+export const giroAbgeraten = rang.gerankt
+  .filter((b) => zins(b.anbieter) === "schlecht")
+  .map((b) => ({ anbieter: b.anbieter, grund: "Zinsen nicht abschaltbar" }));
+export const giroOffen = rang.gerankt.filter((b) => zins(b.anbieter) !== "gut" && zins(b.anbieter) !== "teils" && zins(b.anbieter) !== "schlecht").length;
 export const giroAnzahl = girokontoAnzeige.length;
-export const giroOhneZinsen = rang.gerankt.length;
+export const giroOhneZinsen = rang.gerankt.filter((b) => zins(b.anbieter) === "gut" || zins(b.anbieter) === "teils").length;
 
 const text = (a: RohAnbieter, key: string) => String(a.werte[key] ?? "").trim();
 /** „0 €“ und „0€“ sind dasselbe: Kontoführung ohne Bedingung kostenlos. */

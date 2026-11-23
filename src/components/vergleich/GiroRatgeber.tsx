@@ -22,6 +22,7 @@ import {
   auslandSatz,
   auslandZeilen,
   giroAbgeraten,
+  giroOffen,
   giroAuslandListe,
   giroAnzahl,
   giroBeideKarten,
@@ -99,8 +100,9 @@ export const GiroRatgeber = ({
         Start ohne Zinsen, wird dir kein Dispo eingeräumt, und kommt die Karte ohne Kredit? Dazu kommen die Kosten.
       </RText>
       <RText>
-        {giroOhneZinsen} der {giroAnzahl} Konten kannst du ohne Zinsen nutzen. Bei den übrigen {giroAbgeraten.length} geht das
-        nicht, sie stehen unten unter „Nicht empfohlen“.
+        {giroOhneZinsen} der {giroAnzahl} Konten kannst du belegt ohne Zinsen nutzen. Bei {giroAbgeraten.length} zahlt der Anbieter
+        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {giroOffen} belegt der Anbieter
+        dazu bisher nichts: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
       </RText>
       <RHinweis titel="Ein Tagesgeld kommt oft dazu: ignoriere es">
         Oft legt die Bank mit dem Girokonto ein Tagesgeld an, zum Beispiel die Norisbank und die BBBank. Zinsen gibt es nur auf
@@ -266,8 +268,7 @@ export const GiroRatgeber = ({
 
       <RH2 id="nicht-empfohlen">Diese Girokonten empfehlen wir nicht</RH2>
       <RText>
-        Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum bekommen diese Konten von uns keine
-        Note.
+        Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum stehen diese Konten ganz hinten.
       </RText>
       <ul className="mt-6">
         {giroAbgeraten.map(({ anbieter, grund }) => (

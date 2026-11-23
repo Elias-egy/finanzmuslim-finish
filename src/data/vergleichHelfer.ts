@@ -102,6 +102,9 @@ const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
   return { text, quelle: text === null ? undefined : quelle };
 };
 
+/** Vergleiche, in denen jeder Anbieter steht und ein fehlender Halal-Wert „Offen“ zeigt (Regel 10, VG2-04). */
+const ZEIGT_OFFEN: ReadonlySet<string> = new Set(["depot", "girokonto"]);
+
 /**
  * Baut aus Rohdaten und Zeilenliste die Spalten für Tabelle und Karten. Mit `kategorie` trägt die
  * Ampel „Ohne Zinsen nutzbar“ den Satz aus `zinsHinweise.ts`; gezeigt wird er beim aufgeklappten Angebot.
@@ -115,7 +118,11 @@ export const baueSpalten = (
     const werte: Record<string, Zellwert> = {};
     for (const z of zeilen) {
       if (z.key.startsWith("__")) continue;
-      werte[z.key] = zuZelle(a.werte[z.key] ?? null, z.art, a.quellen?.[z.key]);
+      const roh = a.werte[z.key] ?? null;
+      const offen = kategorie !== undefined && ZEIGT_OFFEN.has(kategorie) && roh === null && z.gruppe === "halal";
+      // Depot und Girokonto (VG2-04): Was bei den Halal-Merkmalen nicht belegt ist, steht als „Offen“ (grau), kein Urteil, kein Strich.
+      werte[z.key] = zuZelle(offen && z.art === "ampel" ? "unbekannt" : roh, z.art, a.quellen?.[z.key]);
+      if (offen && z.art === "text") werte[z.key] = { text: OFFEN };
       const kurz = kostenKurz(a.id, z.key);
       if (kurz && werte[z.key].text) werte[z.key].kurz = kurz;
     }

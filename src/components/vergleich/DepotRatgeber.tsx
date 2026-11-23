@@ -23,6 +23,7 @@ import { APP_BILD_QUELLE, APP_BILDER_ERWARTET, DEPOT_APP_BILDER, EIGENE_APP_BILD
 import {
   brokerText,
   depotAbgeraten,
+  depotOffen,
   depotAnzahl,
   depotMeisteHalalId,
   depotOhneZinsen,
@@ -90,8 +91,9 @@ export const DepotRatgeber = ({
         Zinsen führen, und wie viele Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
       </RText>
       <RText>
-        {depotOhneZinsen} der {depotAnzahl} Depots kannst du ohne Zinsen nutzen. Bei den übrigen {depotAbgeraten.length} geht
-        das nicht, sie stehen unten unter „Nicht empfohlen“.
+        {depotOhneZinsen} der {depotAnzahl} Depots kannst du belegt ohne Zinsen nutzen. Bei {depotAbgeraten.length} zahlt der Anbieter
+        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {depotOffen} belegt der Anbieter
+        dazu bisher nichts: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
       </RText>
       <RHinweis titel="Depot und Broker meinen hier dasselbe">
         Der Broker führt deine Käufe aus, im Depot liegen deine Anlagen. Fast jeder Broker bietet beides an, darum
@@ -212,8 +214,7 @@ export const DepotRatgeber = ({
 
       <RH2 id="nicht-empfohlen">Diese Depots empfehlen wir nicht</RH2>
       <RText>
-        Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum bekommen diese Depots von uns keine
-        Note.
+        Hier bekommst du Zinsen auf dein Guthaben und kannst sie nicht abschalten. Darum stehen diese Depots ganz hinten.
       </RText>
       <ul className="mt-6">
         {depotAbgeraten.map(({ anbieter, grund }) => (

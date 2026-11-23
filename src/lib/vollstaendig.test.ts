@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
-import type { RohAnbieter } from "@/data/vergleichHelfer";
+import { baueSpalten, OFFEN, type RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_ZEILEN } from "@/data/brokerVergleich";
 import { edelmetallVergleich, EDELMETALL_ZEILEN } from "@/data/edelmetallVergleich";
 import { girokontoVergleich, GIRO_ZEILEN } from "@/data/girokontoVergleich";
@@ -15,7 +15,7 @@ import {
   screenerAnzeige,
   steuerAnzeige,
 } from "@/data/vergleichAnzeige";
-import { rangfolge, unbelegteWerte, type RangKategorie } from "@/lib/rangfolge";
+import { rangfolge, STUFEN_ALLE_REIN, unbelegteWerte, type RangKategorie } from "@/lib/rangfolge";
 import { luecken, NUR_VOLLSTAENDIG, zeigbar } from "@/lib/vollstaendig";
 
 /**
@@ -32,6 +32,13 @@ const VERGLEICHE: Array<[string, RangKategorie, RohAnbieter[], RohAnbieter[], Ve
   ["Steuersoftware", "steuer", steuersoftwareVergleich, steuerAnzeige, STEUER_ZEILEN],
 ];
 
+/**
+ * Depot und Girokonto zeigen seit VG2-04 (Elias, 23.11.2026: „Ich will jeden einzelnen Anbieter ranken“) jeden Anbieter, die Regeln 10 in
+ * `rangfolge.ts` und der Block darunter prüfen sie. Alle anderen Vergleiche stehen weiter unter dem Schalter.
+ */
+const MIT_SCHALTER = VERGLEICHE.filter(([, kategorie]) => !STUFEN_ALLE_REIN.has(kategorie));
+const OHNE_SCHALTER = VERGLEICHE.filter(([, kategorie]) => STUFEN_ALLE_REIN.has(kategorie));
+
 const gefuellt = (a: RohAnbieter, z: VergleichsZeile) => {
   const w = a.werte[z.key];
   if (z.art === "ampel") return w === "gut" || w === "teils" || w === "schlecht";
@@ -44,14 +51,14 @@ describe("Nur vollständig Belegtes steht im Vergleich", () => {
     expect(NUR_VOLLSTAENDIG).toBe(true);
   });
 
-  it.each(VERGLEICHE)("%s: keine Zelle der Tabelle ist leer", (_, __, ___, gezeigt, zeilen) => {
+  it.each(MIT_SCHALTER)("%s: keine Zelle der Tabelle ist leer", (_, __, ___, gezeigt, zeilen) => {
     const leer = gezeigt.flatMap((a) =>
       zeilen.filter((z) => !z.key.startsWith("__") && !gefuellt(a, z)).map((z) => `${a.id}: ${z.key}`),
     );
     expect(leer).toEqual([]);
   });
 
-  it.each(VERGLEICHE)("%s: jeder Wert der Note ist belegt und jeder hat einen Platz", (_, kategorie, __, gezeigt) => {
+  it.each(MIT_SCHALTER)("%s: jeder Wert der Note ist belegt und jeder hat einen Platz", (_, kategorie, __, gezeigt) => {
     const r = rangfolge(gezeigt, kategorie);
     expect(r.nichtBewertet.map((x) => x.anbieter.id)).toEqual([]);
     const unbelegt = r.gerankt.flatMap((b) => unbelegteWerte(b.anbieter, kategorie).map((k) => `${b.anbieter.id}: ${k}`));
@@ -64,21 +71,36 @@ describe("Nur vollständig Belegtes steht im Vergleich", () => {
     expect(gezeigt.filter((a) => !ids.has(a.id))).toEqual([]);
   });
 
-  it("wer belegt wird, erscheint von selbst wieder", () => {
-    const belegtVorher = brokerVergleich.find((a) => a.id === "traders-place-depot")!;
+  it.each(OHNE_SCHALTER)("%s: jeder Anbieter der Daten steht im Vergleich, auch ohne Beleg (Regel 10)", (_, kategorie, alle, gezeigt) => {
+    expect(gezeigt.map((a) => a.id)).toEqual(alle.map((a) => a.id));
+    const r = rangfolge(gezeigt, kategorie);
+    expect(r.nichtBewertet.map((x) => x.anbieter.id)).toEqual([]);
+    expect(r.abgeraten.map((x) => x.anbieter.id)).toEqual([]);
+    expect(r.gerankt).toHaveLength(alle.length);
+  });
+
+  it("Depot: was nicht belegt ist, steht als „Offen“ in der Zelle, nicht als Strich, und zählt 0 Punkte", () => {
     const tp: RohAnbieter = {
-      ...belegtVorher,
-      werte: { ...belegtVorher.werte, halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null },
+      ...brokerVergleich.find((a) => a.id === "traders-place-depot")!,
+      werte: { ...brokerVergleich.find((a) => a.id === "traders-place-depot")!.werte, zinsfreiAbStart: null, halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null },
       halalAnlagenPunkte: undefined,
     };
-    expect(zeigbar([tp], "depot", DEPOT_ZEILEN)).toEqual([]);
-    expect(luecken(tp, "depot", DEPOT_ZEILEN).sort()).toEqual(["halalEdelmetalle", "halalEtfsFonds", "halalSukuk"]);
-    const belegt: RohAnbieter = {
-      ...tp,
-      werte: { ...tp.werte, halalEtfsFonds: "5 von 12", halalSukuk: "0 von 3", halalEdelmetalle: "mind. 2 von 7" },
-      halalAnlagenPunkte: { halalEtfsFonds: 5, halalSukuk: 0, halalEdelmetalle: 2 },
-    };
-    expect(zeigbar([belegt], "depot", DEPOT_ZEILEN).map((a) => a.id)).toEqual(["traders-place-depot"]);
+    // Die Lücken bleiben bekannt (`luecken`), der Anbieter steht trotzdem da.
+    expect(luecken(tp, "depot", DEPOT_ZEILEN).sort()).toEqual(["halalEdelmetalle", "halalEtfsFonds", "halalSukuk", "zinsfreiAbStart"]);
+    expect(zeigbar([tp], "depot", DEPOT_ZEILEN).map((a) => a.id)).toEqual(["traders-place-depot"]);
+    const sp = baueSpalten([tp], DEPOT_ZEILEN, "depot")[0];
+    for (const key of ["zinsfreiAbStart", "halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) expect(sp.werte[key].text, key).toBe(OFFEN);
+    expect(sp.werte.zinsfreiAbStart.status).toBe("unbekannt");
+    // Kein Urteil: Kosten stehen weiter da, der Halal-Teil der Anlagen zählt nichts.
+    expect(rangfolge([tp], "depot").gerankt[0]).toMatchObject({ halal: 0, uneingeschraenkt: false });
+  });
+
+  it("Krypto: wer belegt wird, erscheint von selbst wieder", () => {
+    const k = kryptoAnzeige[0];
+    const ohne: RohAnbieter = { ...k, werte: { ...k.werte, zinsfreiAbStart: null } };
+    expect(zeigbar([ohne], "krypto", KRYPTO_ZEILEN)).toEqual([]);
+    expect(luecken(ohne, "krypto", KRYPTO_ZEILEN)).toContain("zinsfreiAbStart");
+    expect(zeigbar([k], "krypto", KRYPTO_ZEILEN).map((a) => a.id)).toEqual([k.id]);
   });
 
   it("ein Partnerlink ändert nichts daran, wer gezeigt wird", () => {

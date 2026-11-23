@@ -1,12 +1,15 @@
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { unbelegteWerte, type RangKategorie, type RangOptionen } from "@/lib/rangfolge";
+import { STUFEN_ALLE_REIN, unbelegteWerte, type RangKategorie, type RangOptionen } from "@/lib/rangfolge";
 
 /**
  * Schalter für alle sechs Vergleiche (Elias, 08.10.2026: „alles rausnehmen, was wir nicht perfekt
  * bewerten können“). An: Ein Angebot steht nur im Vergleich, wenn jede Zeile der Tabelle einen
  * Wert trägt und jeder Wert der Note belegt ist. Aus: Alle Angebote stehen da, leere Zellen
  * zeigen einen Strich.
+ *
+ * Depot und Girokonto stehen seit VG2-04 (Elias, 23.11.2026: „Ich will jeden einzelnen Anbieter ranken“) nicht mehr unter diesem Schalter:
+ * Dort steht jeder Anbieter, fehlende Werte zeigen „Offen“ und zählen 0 Punkte (`STUFEN_ALLE_REIN`, Regel 10 in `rangfolge.ts`).
  *
  * Nichts wird gelöscht. Die Datendateien bleiben vollständig, gefiltert wird erst in
  * `src/data/vergleichAnzeige.ts`. Wer später belegt ist, erscheint beim nächsten Bau von selbst
@@ -45,4 +48,4 @@ export const zeigbar = (
   kategorie: RangKategorie,
   zeilen: VergleichsZeile[],
   opt: RangOptionen = {},
-): RohAnbieter[] => (NUR_VOLLSTAENDIG ? liste.filter((a) => luecken(a, kategorie, zeilen, opt).length === 0) : [...liste]);
+): RohAnbieter[] => (NUR_VOLLSTAENDIG && !STUFEN_ALLE_REIN.has(kategorie) ? liste.filter((a) => luecken(a, kategorie, zeilen, opt).length === 0) : [...liste]);

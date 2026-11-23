@@ -25,7 +25,7 @@ const ReihenfolgeSatz = () => (
 const KRITERIEN = [
   {
     titel: "Ohne Zinsen nutzbar",
-    text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Geht beides nicht, gibt es keine Note.",
+    text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Schreibt der Anbieter dazu nichts Ausdrückliches, steht „Offen“, das ist kein Urteil. Geht beides nicht, steht das Depot ganz hinten.",
   },
   {
     titel: "Halal-Anlagen",
@@ -98,8 +98,8 @@ const VergleichDepot = () => (
     finanzMax={DEPOT_FINANZ_MAX}
     filter={DEPOT_FILTER}
     stand={juengsterStand(depotAnzeige, "14.09.2026")}
-    standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    standHinweis="Halal-Merkmale beim Anbieter geprüft, wo ein Beleg steht, Konditionen vom 14.09.2026, 19 neue Tarife vom 23.11.2026"
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, die 19 neuen Tarife Stand 23.11.2026. Halal-Merkmale: beim Anbieter geprüft. Wo noch kein Beleg steht, steht „Offen“, das ist kein Urteil, und wir fragen nach."
     kriterien={KRITERIEN}
     faq={FAQ}
     weiterlesen={[

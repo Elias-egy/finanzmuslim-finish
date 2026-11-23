@@ -57,6 +57,10 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  *    Ausdrückliches schreibt (`zinsfreiAbStart` "unbekannt", kein Urteil), ganz hinten, wer laut Anbieter Zinsen auf das Guthaben zahlt
  *    ("schlecht", nicht abgeraten: auch er bekommt einen Platz). In jeder Stufe gilt die normale Note, halb Halal, halb Kosten. Ein
  *    unbelegter Dispo oder eine unbelegte Karte zählt 0 Punkte. Nummer 1 wird nur, wer belegt zinsfrei ist.
+ * 10. Depot und Girokonto (Elias, 23.11.2026, VG2-04: „Ich will jeden einzelnen Anbieter ranken … handle nicht immer mit deinen eigenen
+ *    Gedanken, sondern bleib offen“): Jeder Anbieter steht auf der Liste (`NUR_VOLLSTAENDIG` gilt dort nicht mehr), in denselben drei Stufen
+ *    wie Regel 9 (`stufe`): Zins belegt aus oder abschaltbar, dann offen (der Anbieter belegt dazu nichts), ganz hinten belegt verzinst. Was
+ *    nicht belegt ist, zählt 0 Punkte, nie geschätzt. Der Link-Vorrang (Regel 2) bleibt innerhalb der Stufe, `LINK_VORRANG` ist unverändert.
  * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
  *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
@@ -173,6 +177,25 @@ export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>([
 /** Regel 9: 0 belegt zinsfrei, 1 offen, 2 belegt mit Zins. */
 export const geschaeftStufe = (a: RohAnbieter): number => (a.werte[TOR] === "gut" ? 0 : a.werte[TOR] === "schlecht" ? 2 : 1);
 
+/**
+ * Regel 10 (Elias, 23.11.2026, VG2-04, wörtlich: „Ich will jeden einzelnen Anbieter ranken. Und wenn dann einer sich rausstellt … der zahlt
+ * Zinsen … Dann kommt der hinten auf die Liste … handle nicht immer mit deinen eigenen Gedanken, sondern bleib offen.“): Depot und Girokonto
+ * zeigen jeden Anbieter und ordnen wie das Geschäftskonto in drei Stufen, der Link-Vorrang (Regel 2) bleibt innerhalb der Stufe.
+ * Stufe 0: Zins belegt aus oder abschaltbar ("gut", "teils"). Stufe 1: offen, der Anbieter belegt dazu nichts (kein Urteil, kein Abzug).
+ * Stufe 2: der Anbieter zahlt Zinsen, die sich nicht abschalten lassen ("schlecht"), er steht ganz hinten, bekommt aber einen Platz.
+ */
+export const STUFEN_ALLE_REIN: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto"]);
+
+/** Stufe nach Regel 9 (Geschäftskonto) und Regel 10 (Depot, Girokonto). */
+export const stufe = (kategorie: RangKategorie, a: RohAnbieter): number =>
+  kategorie === "geschaeftskonto"
+    ? geschaeftStufe(a)
+    : a.werte[TOR] === "gut" || a.werte[TOR] === "teils"
+      ? 0
+      : a.werte[TOR] === "schlecht"
+        ? 2
+        : 1;
+
 type MitNote = { note: number; anbieter: RohAnbieter };
 
 /**
@@ -183,7 +206,8 @@ export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): numbe
   kategorie === "geschaeftskonto"
     ? geschaeftStufe(p.anbieter) - geschaeftStufe(q.anbieter)
     : LINK_VORRANG.has(kategorie)
-    ? anzeigeNote(q.note) - anzeigeNote(p.note) ||
+    ? (STUFEN_ALLE_REIN.has(kategorie) ? stufe(kategorie, p.anbieter) - stufe(kategorie, q.anbieter) : 0) ||
+      anzeigeNote(q.note) - anzeigeNote(p.note) ||
       Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : kategorie === "edelmetall"
       ? royalMintKaufbar(q.anbieter) - royalMintKaufbar(p.anbieter)
@@ -303,11 +327,14 @@ const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
 export const depotHalal = (
   a: RohAnbieter,
   zeilen: Record<string, number> = ANTEIL_N,
+  offenZaehlt = false,
 ): { halal: number; halalVorKredit: number; kredit: boolean } => {
   const tuer = a.werte[TOR];
   const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
   const anteil = nenner > 0 ? Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0) : 0;
-  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : 0;
+  // Regel 10: Im Depot-Vergleich rechnet ein Depot, zu dessen Zins der Anbieter nichts belegt (offen), wie ein zinsfreies; die Stufe stellt es
+  // hinter die belegten. Ein belegt verzinstes ("schlecht") rechnet mit 0.
+  const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : offenZaehlt && tuer !== "schlecht" ? FAKTOR_ZINS_OFFEN : 0;
   const kredit = a.werte.kreditAbStart === "teils";
   const halalVorKredit = 5 * anteil * faktor;
   return { halal: halalVorKredit * (kredit ? FAKTOR_KREDIT : 1), halalVorKredit, kredit };
@@ -321,10 +348,12 @@ const depotUrteil = (
   zeilen: Record<string, number> = ANTEIL_N,
 ): Urteil => {
   const tuer = a.werte[TOR];
-  if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
+  // Regel 10: Im Depot-Vergleich steht auch ein Depot mit belegtem Zins auf der Liste (Stufe 2, ganz hinten).
+  const alleRein = kategorie === "depot";
+  if (alleRein ? a.abgeraten && tuer !== "schlecht" : tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
   const kosten = kostenAus(a, finanzMax) ?? 0;
-  const { halal, halalVorKredit, kredit } = depotHalal(a, zeilen);
+  const { halal, halalVorKredit, kredit } = depotHalal(a, zeilen, alleRein);
   const sperrt = kredit && KREDIT_NIE_PLATZ_EINS.has(kategorie);
   return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !sperrt, kredit, halalVorKredit };
 };
@@ -354,26 +383,30 @@ const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Ur
 
 const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto" | "geschaeftskonto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
-  // Regel 9: Im Geschäftskonto kommen auch offene und belegt verzinste Konten auf die Liste, die Stufe sortiert sie nach hinten.
-  const alleRein = kategorie === "geschaeftskonto";
-  if ((tuer === "schlecht" && !alleRein) || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
+  // Regel 9 und 10: Im Geschäftskonto und im Girokonto kommen auch offene und belegt verzinste Konten auf die Liste, die Stufe sortiert sie nach hinten.
+  const alleRein = kategorie === "geschaeftskonto" || kategorie === "girokonto";
+  if (alleRein ? a.abgeraten && tuer !== "schlecht" : tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
   const { fehlt, lies } = sammler();
-  if (tuer !== "gut" && tuer !== "teils" && !(alleRein && (tuer === "unbekannt" || tuer === "schlecht"))) fehlt.push(TOR);
+  // Geschäftskonto: Ein fehlender Zins-Wert (null) heißt „nicht erfasst“, der Tarif fällt aus der Anzeige. Nur „unbekannt“ ist ein gesetzter Wert.
+  if ((!alleRein && tuer !== "gut" && tuer !== "teils") || (kategorie === "geschaeftskonto" && (tuer === null || tuer === undefined))) fehlt.push(TOR);
 
   // Dispo "teils" im Girokonto: voller Punkt für das Merkmal, dafür ein Zehntel Abzug auf den ganzen Halal-Teil.
   const dispoAbschaltbar = (kategorie === "girokonto" || kategorie === "geschaeftskonto") && a.werte.keinDispoAbStart === "teils";
   let anteil = 0;
   for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) {
-    // Geschäftskonto: Was der Anbieter nicht ausdrücklich belegt ("unbekannt"), zählt 0 Punkte, nie geschätzt (wie im Depot).
-    const punkt = alleRein && a.werte[key] === "unbekannt" ? 0 : ampel(a.werte[key]);
+    // Geschäftskonto und Girokonto: Was der Anbieter nicht ausdrücklich belegt ("unbekannt"), zählt 0 Punkte, nie geschätzt (wie im Depot).
+    // Im Girokonto gilt ein fehlender Wert (null) ebenso als offen, im Geschäftskonto fällt der Tarif dann aus der Anzeige.
+    const w = a.werte[key];
+    const offen = w === "unbekannt" || (kategorie === "girokonto" && (w === null || w === undefined));
+    const punkt = alleRein && offen ? 0 : ampel(w);
     anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : punkt);
   }
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
 
-  const zinsFaktor = tuer === "teils" ? FAKTOR_ABSCHALTBAR : alleRein && tuer === "unbekannt" ? FAKTOR_ZINS_OFFEN : alleRein && tuer === "schlecht" ? 0 : 1;
+  const zinsFaktor = tuer === "teils" ? FAKTOR_ABSCHALTBAR : alleRein && tuer === "schlecht" ? 0 : alleRein && tuer !== "gut" ? FAKTOR_ZINS_OFFEN : 1;
   const halalVorDispo = 5 * anteil * zinsFaktor;
   const halal = halalVorDispo * (dispoAbschaltbar ? FAKTOR_DISPO : 1);
   const basisRot = BASIS[kategorie].some((k) => a.werte[k] === "schlecht");

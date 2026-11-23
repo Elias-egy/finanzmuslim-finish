@@ -50,8 +50,11 @@ export const deals: Deal[] = [
   // CV16F H1, 07.11.2026: nur Boni, die über unseren eigenen Partnerlink gelten (Zielseite des Links
   // gelesen), nie an ein Zinsprodukt gebunden. Weggelassen: norisbank (200 € nur mit Tagesgeld-Abschluss),
   // Traders Place (Elias: „nur mit Zinsen“), Smartbroker+ (80 € nur über die Finanzfluss-Seite),
-  // Postbank (keine Prämie beim Anbieter), ING und Commerzbank (kein Partnerlink), 1822direkt (Konto nicht
-  // zinsfrei ab Start). Quelle: Vault hermes/funnel-pruefung/BENCHMARK-FINANZFLUSS.md H1, Belege im Laufzettel cv17.
+  // Commerzbank (kein Partnerlink), 1822direkt (Konto nicht zinsfrei ab Start), Openbank (abgeraten).
+  // Quelle: Vault hermes/funnel-pruefung/BENCHMARK-FINANZFLUSS.md H1, Belege im Laufzettel cv17.
+  // VG2, 23.11.2026: Postbank (seit 09.11. eine Prämie beim Anbieter), Deutsche Bank AktivKonto, maxblue Depot, Berliner Volksbank (unter 30)
+  // und ING nach der Seite des Anbieters, gelesen 23.11.2026. Berliner Volksbank und ING haben keinen Partnerlink, sie stehen nur als Hinweis.
+  // Consorsbank, UmweltBank und BBBank am 23.11.2026 beim Anbieter erneut gelesen, Betrag und Frist unverändert.
   {
     anbieter: "comdirect Girokonto Aktiv",
     titel: "250 € Prämie",
@@ -76,7 +79,7 @@ export const deals: Deal[] = [
     partnerKurzname: "consorsbank-girokonto",
     anbieterIds: ["consorsbank-girokonto"],
     bereich: "girokonto",
-    quelle: { url: "https://aktionen.consorsbank.de/girokonto", stand: "07.11.2026" },
+    quelle: { url: "https://aktionen.consorsbank.de/girokonto", stand: "23.11.2026" },
   },
   {
     anbieter: "comdirect Depot",
@@ -102,7 +105,7 @@ export const deals: Deal[] = [
     partnerKurzname: "umweltbank",
     anbieterIds: ["umweltbank-umweltgiro"],
     bereich: "girokonto",
-    quelle: { url: "https://www.umweltbank.de/konto-karte/praemie/", stand: "07.11.2026" },
+    quelle: { url: "https://www.umweltbank.de/konto-karte/praemie/", stand: "23.11.2026" },
   },
   {
     anbieter: "BBBank BetterSmart",
@@ -114,7 +117,71 @@ export const deals: Deal[] = [
     partnerKurzname: "bbbank-bettersmart",
     anbieterIds: ["bbbank-bettersmart"],
     bereich: "girokonto",
-    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "07.11.2026" },
+    quelle: { url: "https://www.bbbank.de/privatkunden/girokonto.html", stand: "23.11.2026" },
+  },
+  {
+    anbieter: "Postbank Giro pur",
+    titel: "222 € Prämie",
+    vorteil: "Eröffne dein erstes Postbank Privat-Girokonto: Du bekommst 222 € Prämie.",
+    bedingungen:
+      "Laut Postbank: „Bis zum 30.12.2026 222 € sichern“, Aktionszeitraum 09.11. bis 30.12.2026. Neukunde ist, wer in den letzten 6 Monaten kein Girokonto bei der Postbank hatte, das Konto muss mindestens zwölf Monate bestehen, die Prämie kommt bis Ende Februar 2027.",
+    betrag: 222,
+    gueltigBis: "2026-12-30",
+    partnerKurzname: "postbank",
+    anbieterIds: ["postbank-giro-pur"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.postbank.de/privatkunden/produkte/konten-karten/girokonten.html", stand: "23.11.2026" },
+  },
+  {
+    anbieter: "Deutsche Bank AktivKonto",
+    titel: "200 € Gutschrift",
+    vorteil: "Schließe das AktivKonto bei der Deutschen Bank online ab: Du bekommst einmalig 200 € Gutschrift.",
+    bedingungen:
+      "Laut Deutscher Bank: Online-Neuabschluss vom 02.11. bis 31.12.2026, in den letzten 6 Monaten kein Girokonto bei der Deutschen Bank, das Konto muss 12 Monate bestehen, die Gutschrift kommt bis spätestens Ende Februar 2027. Die Aktion endet bei Ausschöpfung des Budgets.",
+    betrag: 200,
+    gueltigBis: "2026-12-31",
+    partnerKurzname: "deutsche-bank-aktivkonto",
+    anbieterIds: ["deutsche-bank-aktivkonto"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.deutsche-bank.de/pk/topangebote.html", stand: "23.11.2026" },
+  },
+  {
+    anbieter: "maxblue Depot",
+    titel: "50 € Gutschrift",
+    vorteil: "Eröffne ein maxblue Depot online: Du bekommst 50 € Gutschrift.",
+    bedingungen:
+      "Laut Deutscher Bank: „Vom 16.11. bis 18.12.2026 online eröffnen und bei Hinterlegung einer Werbeeinwilligung 50 Euro Gutschrift erhalten.“",
+    betrag: 50,
+    gueltigBis: "2026-12-18",
+    partnerKurzname: "maxblue-depot",
+    anbieterIds: ["maxblue-depot"],
+    bereich: "depot",
+    quelle: { url: "https://www.deutsche-bank.de/pk/lp/blue-deal-weeks.html", stand: "23.11.2026" },
+  },
+  {
+    anbieter: "Berliner Volksbank Girokonto blauorange",
+    titel: "Bis 300 € für unter 30",
+    vorteil: "Für Neukunden unter 30 gibt es beim Girokonto blauorange der Berliner Volksbank bis zu 300 €.",
+    bedingungen:
+      "Laut Berliner Volksbank: Aktionszeitraum 02.11. bis 16.12.2026, 300 € für das Girokonto blauorange (unter 30). Beim Girokonto für alle gilt ein anderer Neukundenbonus. Kein Partnerlink von uns.",
+    betrag: 300,
+    bisZu: true,
+    gueltigBis: "2026-12-16",
+    anbieterIds: ["berliner-volksbank-girokonto"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.berliner-volksbank.de/privatkunden/girokonto-karten/kostenloses-girokonto.html", stand: "23.11.2026" },
+  },
+  {
+    anbieter: "ING Girokonto Future",
+    titel: "200 € Gutschrift",
+    vorteil: "Eröffne das Girokonto bei der ING bis 30.11.2026: Du bekommst 200 € Gutschrift.",
+    bedingungen:
+      "Laut ING: Konto bis 30.11.2026 eröffnen, zwei aufeinanderfolgende monatliche Geldeingänge, Login in der ING App und Einwilligung zu „Tipps für Sie persönlich“. Kein Partnerlink von uns.",
+    betrag: 200,
+    gueltigBis: "2026-11-30",
+    anbieterIds: ["ing-girokonto-future", "ing-girokonto"],
+    bereich: "girokonto",
+    quelle: { url: "https://www.ing.de/girokonto", stand: "23.11.2026" },
   },
 ];
 

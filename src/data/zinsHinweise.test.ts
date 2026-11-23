@@ -13,9 +13,11 @@ const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[]]> = [
 ];
 
 describe("Zins-Hinweise", () => {
-  it.each(faelle)("gibt in %s jedem gerankten Angebot mit Beleg einen Satz", (kategorie, anbieter) => {
+  it.each(faelle)("gibt in %s jedem gerankten Angebot mit Beleg und grüner oder gelber Ampel einen Satz", (kategorie, anbieter) => {
+    // Seit VG2-04 (Regel 10) stehen in Depot und Girokonto auch rote Angebote auf der Liste. Für rot gibt es nie einen Satz (siehe unten).
     const ohne = rangfolge(anbieter, kategorie)
       .gerankt.map((b) => b.anbieter)
+      .filter((a) => a.werte.zinsfreiAbStart === "gut" || a.werte.zinsfreiAbStart === "teils")
       .filter((a) => a.quellen?.zinsfreiAbStart?.hinweis && !zinsHinweis(kategorie, a))
       .map((a) => a.id);
     expect(ohne).toEqual([]);

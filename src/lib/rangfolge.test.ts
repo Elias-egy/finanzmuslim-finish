@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, KREDIT_NIE_PLATZ_EINS, nummerEins, rangfolge, sterne, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
+import { FAKTOR_DISPO, FAKTOR_KREDIT, feinwert, KREDIT_NIE_PLATZ_EINS, nummerEins, rangfolge, sterne, STUFEN_ALLE_REIN, stufe, type RangKategorie, type Rangliste } from "@/lib/rangfolge";
 import { beliebtPunkte, GEWICHT_BELIEBT, LESER_EROEFFNUNGEN } from "@/data/leserEroeffnungen";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import { brokerVergleich, DEPOT_FINANZ_MAX, DEPOT_ZEILEN } from "@/data/brokerVergleich";
@@ -81,7 +81,8 @@ const rDepot = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
   rangfolge(liste, "depot", { finanzMax: MAX_DEPOT, offeneAnfragen, beliebt: false });
 const rGiro = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
   rangfolge(liste, "girokonto", { finanzMax: MAX_GIRO, offeneAnfragen, beliebt: false });
-const rKrypto = (liste: RohAnbieter[]) => rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO });
+const rKrypto = (liste: RohAnbieter[], offeneAnfragen?: ReadonlySet<string>) =>
+  rangfolge(liste, "krypto", { finanzMax: MAX_KRYPTO, offeneAnfragen });
 
 /** Das eine Ergebnis eines Einzelanbieters in `gerankt`. */
 const einzig = (r: Rangliste) => {
@@ -90,27 +91,39 @@ const einzig = (r: Rangliste) => {
 };
 const ids = (xs: Array<{ anbieter: RohAnbieter }>) => xs.map((x) => x.anbieter.id);
 
+/**
+ * Regel 10: Im Depot und Girokonto fällt die Note nur innerhalb einer Stufe. Eine höhere Stufe steht nie vor einer niedrigeren, die Note darf
+ * beim Stufenwechsel wieder steigen. In den anderen Vergleichen gibt es keine Stufen.
+ */
+const gleicheStufe = (kategorie: RangKategorie, p: RohAnbieter, q: RohAnbieter): boolean =>
+  !STUFEN_ALLE_REIN.has(kategorie) || stufe(kategorie, p) === stufe(kategorie, q);
+const stufenAufsteigend = (kategorie: RangKategorie, r: Rangliste) =>
+  STUFEN_ALLE_REIN.has(kategorie) &&
+  r.gerankt.slice(1).forEach((x, i) => expect(stufe(kategorie, x.anbieter), x.anbieter.id).toBeGreaterThanOrEqual(stufe(kategorie, r.gerankt[i].anbieter)));
+
 /* ------------------------------------------------------------------ Gruppen */
 
+// Depot und Girokonto kennen seit VG2-04 (Regel 10) keine Gruppen „abgeraten“ und „nicht bewertet“ mehr, sie stehen auf der Liste. Die Gruppen
+// prüft hier Krypto, dort gilt Regel 10 nicht. Regel 10 selbst prüft der Block „Regel 10“ weiter unten.
 describe("rangfolge: Gruppen", () => {
   it("legt jede Eingabe in genau eine Gruppe", () => {
-    const liste = [giro("voll"), giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })];
-    const r = rGiro(liste);
+    const liste = [krypto("voll"), krypto("rot", { zinsfreiAbStart: "schlecht" }), krypto("offen", { zinsfreiAbStart: null })];
+    const r = rKrypto(liste);
     expect(ids(r.gerankt)).toEqual(["voll"]);
     expect(ids(r.abgeraten)).toEqual(["rot"]);
     expect(ids(r.nichtBewertet)).toEqual(["offen"]);
   });
 
   it("gibt nicht Bewerteten und Abgeratenen weder Platz noch Note", () => {
-    const r = rGiro([giro("rot", { zinsfreiAbStart: "schlecht" }), giro("offen", { zinsfreiAbStart: null })]);
+    const r = rKrypto([krypto("rot", { zinsfreiAbStart: "schlecht" }), krypto("offen", { zinsfreiAbStart: null })]);
     for (const x of [...r.abgeraten, ...r.nichtBewertet]) {
       expect(x).not.toHaveProperty("platz");
       expect(x).not.toHaveProperty("note");
     }
   });
 
-  it("rät ab vor nicht bewertet: rotes Zins-Tor mit Lücken ist abgeraten", () => {
-    const r = rDepot([depot("ib", { zinsfreiAbStart: "schlecht", halalSukuk: null })]);
+  it("rät ab vor nicht bewertet: rotes Zins-Tor mit Lücken ist abgeraten (Krypto)", () => {
+    const r = rKrypto([krypto("ib", { zinsfreiAbStart: "schlecht", echteCoins: null })]);
     expect(r.abgeraten).toEqual([{ anbieter: expect.objectContaining({ id: "ib" }), grund: "Zinsen nicht abschaltbar" }]);
     expect(r.nichtBewertet).toHaveLength(0);
   });
@@ -120,16 +133,16 @@ describe("rangfolge: Gruppen", () => {
     expect(ids(r.abgeraten)).toEqual(["markiert"]);
   });
 
-  it("wertet einen ungeprüften oder unbekannten Türsteher bei Girokonto und Krypto als fehlend", () => {
+  it("wertet einen ungeprüften oder unbekannten Türsteher bei Krypto als fehlend", () => {
     for (const tuer of [null, "unbekannt"] as const) {
-      const r = rGiro([giro("x", { zinsfreiAbStart: tuer })]);
+      const r = rKrypto([krypto("x", { zinsfreiAbStart: tuer })]);
       expect(r.nichtBewertet).toEqual([{ anbieter: expect.objectContaining({ id: "x" }), grund: "noch nicht geprüft", fehlt: ["zinsfreiAbStart"] }]);
     }
   });
 
   it("setzt den Grund „Anfrage läuft“ nur, wenn das Haus angefragt ist", () => {
-    const liste = [giro("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), giro("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
-    const r = rGiro(liste, new Set(["haus-a"]));
+    const liste = [krypto("a", { zinsfreiAbStart: null }, { haus: "haus-a" }), krypto("b", { zinsfreiAbStart: null }, { haus: "haus-b" })];
+    const r = rKrypto(liste, new Set(["haus-a"]));
     expect(r.nichtBewertet.map((x) => [x.anbieter.id, x.grund])).toEqual([
       ["a", "Anfrage läuft"],
       ["b", "noch nicht geprüft"],
@@ -137,26 +150,80 @@ describe("rangfolge: Gruppen", () => {
   });
 
   it("nimmt ohne Haus die id als Schlüssel für offene Anfragen", () => {
-    const r = rGiro([giro("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
+    const r = rKrypto([krypto("ohne-haus", { zinsfreiAbStart: null })], new Set(["ohne-haus"]));
     expect(r.nichtBewertet[0].grund).toBe("Anfrage läuft");
   });
 
   it("lässt eine offene Anfrage auf Bewertete und Abgeratene ohne Wirkung", () => {
-    const liste = [depot("fertig", {}, { haus: "h" }), depot("rot", { zinsfreiAbStart: "schlecht" }, { haus: "h" })];
-    const r = rDepot(liste, new Set(["h"]));
+    const liste = [krypto("fertig", {}, { haus: "h" }), krypto("rot", { zinsfreiAbStart: "schlecht" }, { haus: "h" })];
+    const r = rKrypto(liste, new Set(["h"]));
     expect(ids(r.gerankt)).toEqual(["fertig"]);
     expect(r.abgeraten[0].grund).toBe("Zinsen nicht abschaltbar");
   });
 
   it("sortiert nicht Bewertete und Abgeratene nach Name", () => {
-    const r = rGiro([
-      giro("c", { zinsfreiAbStart: null }),
-      giro("a", { zinsfreiAbStart: null }),
-      giro("z", { zinsfreiAbStart: "schlecht" }),
-      giro("m", { zinsfreiAbStart: "schlecht" }),
+    const r = rKrypto([
+      krypto("c", { zinsfreiAbStart: null }),
+      krypto("a", { zinsfreiAbStart: null }),
+      krypto("z", { zinsfreiAbStart: "schlecht" }),
+      krypto("m", { zinsfreiAbStart: "schlecht" }),
     ]);
     expect(ids(r.nichtBewertet)).toEqual(["a", "c"]);
     expect(ids(r.abgeraten)).toEqual(["m", "z"]);
+  });
+});
+
+/* ------------------------------------------------ Regel 10: alle Anbieter in Stufen */
+
+describe("Regel 10: Depot und Girokonto zeigen jeden Anbieter in drei Stufen (Elias, 23.11.2026, VG2-04)", () => {
+  it("Girokonto: belegt, offen und belegt verzinst stehen alle auf der Liste, in dieser Reihenfolge", () => {
+    const r = rGiro([
+      giro("rot", { zinsfreiAbStart: "schlecht" }),
+      giro("offen", { zinsfreiAbStart: null }),
+      giro("unbekannt", { zinsfreiAbStart: "unbekannt" }),
+      giro("gut"),
+    ]);
+    expect(r.abgeraten).toHaveLength(0);
+    expect(r.nichtBewertet).toHaveLength(0);
+    expect(ids(r.gerankt)).toEqual(["gut", "offen", "unbekannt", "rot"]);
+    expect(r.gerankt.map((b) => b.platz)).toEqual([1, 2, 2, 4]);
+    expect(ids(nummerEins(r))).toEqual(["gut"]);
+  });
+
+  it("Girokonto: ein offener Dispo oder eine offene Karte zählt 0 Punkte, nie geschätzt, und der Eintrag bekommt trotzdem einen Platz", () => {
+    for (const werte of [{ keinDispoAbStart: "unbekannt" }, { keinDispoAbStart: null }, { karteOhneKredit: "unbekannt" }, { karteOhneKredit: null }] as const) {
+      const x = einzig(rGiro([giro("x", werte)]));
+      // Halal 5 × (0,5 + 0) = 2,5, Kosten 5, Note 3,75
+      expect(x).toMatchObject({ halal: 2.5, kosten: 5, note: 3.75, platz: 1 });
+    }
+  });
+
+  it("Girokonto: ein belegt verzinstes Konto rechnet Halal 0 und steht ganz hinten, auch mit höherer Note als ein offenes", () => {
+    const r = rGiro([giro("rot", { zinsfreiAbStart: "schlecht" }, { finanzPunkte: { kontofuehrung: 10 } }), giro("offen", { zinsfreiAbStart: null }, { finanzPunkte: { kontofuehrung: 0 } })]);
+    expect(ids(r.gerankt)).toEqual(["offen", "rot"]);
+    expect(r.gerankt[1]).toMatchObject({ halal: 0, kosten: 5, note: 2.5, uneingeschraenkt: false });
+  });
+
+  it("Depot: ein belegt verzinstes Depot steht in Stufe 2 mit Platz, ein offenes in Stufe 1, beide ohne Nummer 1", () => {
+    const r = rDepot([depot("rot", { zinsfreiAbStart: "schlecht" }), depot("offen", { zinsfreiAbStart: null }), depot("gut"), depot("teils", { zinsfreiAbStart: "teils" })]);
+    expect(r.abgeraten).toHaveLength(0);
+    expect(ids(r.gerankt)).toEqual(["gut", "teils", "offen", "rot"]);
+    expect(r.gerankt.find((b) => b.anbieter.id === "rot")).toMatchObject({ halal: 0, kosten: 5, note: 2.5, uneingeschraenkt: false });
+    expect(ids(nummerEins(r))).toEqual(["gut"]);
+  });
+
+  it("Depot: die Stufe schlägt die Note, der Link ändert die Stufe nicht (LINK_VORRANG bleibt innerhalb der Stufe)", () => {
+    const schwach = depot("schwach", { halalEtfsFonds: "0 von 12" }, { halalAnlagenPunkte: { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 0 } });
+    const r = rDepot([depot("offen-mit-link", { zinsfreiAbStart: null }, { link: "/out/x" }), schwach]);
+    expect(ids(r.gerankt)).toEqual(["schwach", "offen-mit-link"]);
+    // Gleiche Stufe, gleiche Sterne: der eigene Link steht zuerst.
+    const g = rDepot([depot("ohne"), depot("mit", {}, { link: "/out/m" })]);
+    expect(ids(g.gerankt)).toEqual(["mit", "ohne"]);
+  });
+
+  it("Edelmetall und Krypto bleiben, wie sie waren: ein rotes Zins-Tor ist dort abgeraten", () => {
+    expect(rangfolge([depot("rot", { zinsfreiAbStart: "schlecht" })], "edelmetall", { finanzMax: MAX_DEPOT }).abgeraten).toHaveLength(1);
+    expect(rKrypto([krypto("rot", { zinsfreiAbStart: "schlecht" })]).abgeraten).toHaveLength(1);
   });
 });
 
@@ -215,15 +282,16 @@ describe("rangfolge: Depot", () => {
     for (const x of r.gerankt) expect(x.halal).toBe(3.41);
   });
 
-  it("gibt jedem Depot ohne rotes Zins-Tor eine Note, auch ohne Beleg für das Tor", () => {
+  it("gibt jedem Depot eine Note, auch ohne Beleg für das Tor (Regel 10)", () => {
     const r = rDepot([depot("gut"), depot("teils", { zinsfreiAbStart: "teils" }), depot("offen", { zinsfreiAbStart: null }), depot("unbekannt", { zinsfreiAbStart: "unbekannt" })]);
     expect(r.nichtBewertet).toHaveLength(0);
     expect(r.gerankt).toHaveLength(4);
-    // Nicht belegtes Tor: Halal-Teil zählt nicht, Kosten 5, Note 2,5. Nie Nummer 1.
+    // Nicht belegtes Tor: Der Halal-Teil rechnet mit den belegten Anlagen (5), Kosten 5, Note 5. Nie Nummer 1, und die Stufe stellt es hinter die belegten.
     for (const id of ["offen", "unbekannt"]) {
       const x = r.gerankt.find((y) => y.anbieter.id === id)!;
-      expect(x).toMatchObject({ halal: 0, kosten: 5, note: 2.5, uneingeschraenkt: false });
+      expect(x).toMatchObject({ halal: 5, kosten: 5, note: 5, uneingeschraenkt: false });
     }
+    expect(ids(r.gerankt)).toEqual(["gut", "teils", "offen", "unbekannt"]);
     expect(ids(nummerEins(r))).toEqual(["gut"]);
   });
 
@@ -302,8 +370,10 @@ describe("rangfolge: Girokonto", () => {
     expect(einzig(rGiro([giro("dkb", { keinDispoAbStart: "schlecht" })]))).toMatchObject({ halal: 2.5, note: 3.75 });
   });
 
-  it("wertet „unbekannt“ als fehlend", () => {
-    expect(rGiro([giro("x", { karteOhneKredit: "unbekannt" })]).nichtBewertet[0].fehlt).toEqual(["karteOhneKredit"]);
+  it("wertet „unbekannt“ als 0 Punkte, der Eintrag bleibt auf der Liste (Regel 10)", () => {
+    const r = rGiro([giro("x", { karteOhneKredit: "unbekannt" })]);
+    expect(r.nichtBewertet).toHaveLength(0);
+    expect(einzig(r).halal).toBe(2.5);
   });
 });
 
@@ -614,7 +684,8 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
       const r = rangfolge(liste, kategorie);
       for (const x of eins(liste, kategorie)) expect(x.anbieter.link, x.anbieter.id).toBeTruthy();
       // Nie steht ein Eintrag mit weniger Sternen vor einem mit mehr, außer der vorgezogenen Nummer 1 (Regel 6).
-      r.gerankt.slice(1).forEach((x, i) => i > 0 && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i].note)));
+      stufenAufsteigend(kategorie, r);
+      r.gerankt.slice(1).forEach((x, i) => i > 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(sterne(x.note), x.anbieter.id).toBeLessThanOrEqual(sterne(r.gerankt[i].note)));
     }
   });
 });
@@ -824,25 +895,29 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     for (const kategorie of ["depot", "girokonto", "krypto"] as const) {
       const liste = { depot: brokerVergleich, girokonto: girokontoVergleich, krypto: kryptoVergleich }[kategorie];
       const r = rangfolge(liste, kategorie);
-      r.gerankt.slice(1).forEach((x, i) => i > 0 && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+      stufenAufsteigend(kategorie, r);
+      r.gerankt.slice(1).forEach((x, i) => i > 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
   it("Sterne in Reihe: im Depot und Girokonto fällt die angezeigte Note von Platz zu Platz nie, auch Platz 1 nicht (Elias A10)", () => {
     for (const [liste, kategorie] of [[depotAnzeige, "depot"], [girokontoVergleich, "girokonto"]] as const) {
       const r = rangfolge(liste, kategorie);
-      r.gerankt.slice(1).forEach((x, i) => expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+      stufenAufsteigend(kategorie, r);
+      r.gerankt.slice(1).forEach((x, i) => gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
-  it("Depot: flatex 1, Smartbroker+ 2, Scalable 3, Traders Place 4, Trading 212 ohne Link dahinter", () => {
+  it("Depot: flatex 1, Smartbroker+ 2, Scalable 3, Traders Place 4, S Broker 5, Trading 212 ohne Link dahinter", () => {
+    // S Broker steht seit der Antwort vom 11.11.2026 (Franklin Shariah Technology Fund handelbar, 11 von 12) bei 4,3 Sternen und mit Link vor Trading 212.
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
-    expect(ids(r.gerankt.slice(0, 5))).toEqual([
+    expect(ids(r.gerankt.slice(0, 6))).toEqual([
       "flatex-depot",
       "smartbroker-plus-depot",
       "scalable-capital-free-broker",
       "traders-place-depot",
+      "s-broker-direkt-depot",
       "trading-212-depot",
     ]);
-    expect(r.gerankt.slice(0, 5).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5]);
+    expect(r.gerankt.slice(0, 6).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6]);
     // Die einzige Nummer 1 hebt sich in der Zahl ab: flatex 4,6, Smartbroker+ 4,5.
     expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.6, 4.5, 4.3, 4.3]);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();

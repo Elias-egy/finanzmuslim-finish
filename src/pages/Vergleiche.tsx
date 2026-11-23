@@ -115,7 +115,7 @@ const weitere: Vergleich[] = [
 const bewertung = [
   "Zuerst wird geprüft, dann wird über eine Partnerschaft gesprochen. Nie umgekehrt.",
   "Anbieter ohne Partnerschaft werden trotzdem gelistet.",
-  "Wessen Zinsen sich nicht abschalten lassen, bekommt keine Note.",
+  "Wessen Zinsen sich nicht abschalten lassen, steht ganz hinten (im Krypto-Vergleich bekommt er keine Note). Was nicht belegt ist, steht als „Offen“ da und ist kein Urteil.",
   "Jede Angabe ist mit Stand geprüft.",
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];

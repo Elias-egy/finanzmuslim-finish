@@ -484,6 +484,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finanzen.net zero",
       "finvesto",
+      "GLS Bank",
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
@@ -494,7 +495,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "IE000AGFZM58": {
     "kaufbar": [
@@ -619,6 +620,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finanzen.net zero",
       "finvesto",
+      "GLS Bank",
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
@@ -629,7 +631,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Traders Place",
       "WillBe"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "IE000I5NV504": {
     "kaufbar": [
@@ -742,6 +744,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "Fidelity",
       "finanzen.net zero",
       "finvesto",
+      "GLS Bank",
       "ING",
       "justTRADE",
       "maxblue Wertpapier-Sparplan",
@@ -753,10 +756,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "IE000LFC57H7": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -815,6 +830,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -924,10 +951,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "IE000UOXRAM8": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -1023,6 +1062,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -1186,7 +1237,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "maxblue Wertpapier-Sparplan",
       "WillBe"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "IE000X9FTI22": {
     "kaufbar": [
@@ -2707,6 +2758,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -2847,10 +2910,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "IE00B4ZJ4634": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -2926,6 +3001,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -3041,7 +3128,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "IE00B579F325": {
     "kaufbar": [
@@ -3422,6 +3509,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
+      {
         "anbieter": "comdirect",
         "haus": "comdirect",
         "beleg": {
@@ -3517,6 +3616,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -3694,7 +3805,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "JE00B1VS2W53": {
     "kaufbar": [],
@@ -4197,6 +4308,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "beleg": {
@@ -4358,7 +4481,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "N26",
       "WillBe"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "JE00B1VS3W29": {
     "kaufbar": [],
@@ -4475,6 +4598,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -4629,7 +4764,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "JE00BN2CJ301": {
     "kaufbar": [
@@ -4729,6 +4864,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -4883,7 +5030,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "N26",
       "WillBe"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "JE00BQRFDY49": {
     "kaufbar": [
@@ -4983,6 +5130,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -5136,10 +5295,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "N26",
       "WillBe"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "LU1150255971": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -5202,6 +5373,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -5281,10 +5464,22 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "LU2458330086": {
     "kaufbar": [
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
+        }
+      },
       {
         "anbieter": "comdirect",
         "haus": "comdirect",
@@ -5324,6 +5519,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
         }
       },
       {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
+        }
+      },
+      {
         "anbieter": "HypoVereinsbank",
         "haus": "hvb",
         "hinweis": "voller Ausgabeaufschlag",
@@ -5345,6 +5552,19 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "ing.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "S Broker",
+        "haus": "sbroker",
+        "hinweis": "Ausgabeaufschlag mit Rabatt",
+        "beleg": {
+          "url": "https://www.sbroker.de/",
+          "stand": "11.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "sbroker.de"
           ]
         }
       },
@@ -5401,7 +5621,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "07.11.2026"
+    "stand": "17.11.2026"
   },
   "LU3123443510": {
     "kaufbar": [
@@ -5414,6 +5634,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "1822direkt.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
           ]
         }
       },
@@ -5488,6 +5720,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
           "quelle": "anbieter",
           "domains": [
             "flatex.de"
+          ]
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
           ]
         }
       },
@@ -5620,7 +5864,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       "WillBe",
       "XTB"
     ],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "XS2115336336": {
     "kaufbar": [
@@ -5635,6 +5879,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "1822direkt.de"
           ],
           "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "BBBank",
+        "haus": "bbbank",
+        "beleg": {
+          "url": "https://www.bbbank.de/privatkunden/geldanlage/depot.html",
+          "stand": "10.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "bbbank.de"
+          ]
         }
       },
       {
@@ -5700,6 +5956,18 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
             "flatex.de"
           ],
           "belegart": "portal"
+        }
+      },
+      {
+        "anbieter": "GLS Bank",
+        "haus": "gls",
+        "beleg": {
+          "url": "https://www.gls.de/",
+          "stand": "17.11.2026",
+          "quelle": "anbieter",
+          "domains": [
+            "gls.de"
+          ]
         }
       },
       {
@@ -5809,7 +6077,7 @@ const ANLAGEN_KAUFBAR_ROH: Record<string, AnlageKaufbar> = {
       }
     ],
     "nichtImAngebot": [],
-    "stand": "10.11.2026"
+    "stand": "17.11.2026"
   },
   "XS3384723154": {
     "kaufbar": [

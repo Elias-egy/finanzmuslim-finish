@@ -15,7 +15,8 @@ export const ANTEIL_BELIEBT = prozent(GEWICHT_BELIEBT);
 
 /** Der Satz über der Liste, vor dem Link zur Methodik. */
 export const sortiertSatz = (): string =>
-  `Sortiert nach unserer Note: Halal-Merkmale und Kosten je ${ANTEIL_HALAL_KOSTEN}, bei meinen Lesern beliebt ${ANTEIL_BELIEBT}. ` +
+  "Zuerst stehen Angebote, bei denen der Anbieter belegt, dass es ohne Zinsen geht, danach die mit offener Zins-Frage, ganz hinten, wer Zinsen zahlt. " +
+  `Innerhalb jeder Gruppe zählt unsere Note: Halal-Merkmale und Kosten je ${ANTEIL_HALAL_KOSTEN}, bei meinen Lesern beliebt ${ANTEIL_BELIEBT}. ` +
   "„Beliebt“ zählt Eröffnungen über unsere Links, dafür bekommen wir von einigen Anbietern eine Provision.";
 
 /** Was „Bei meinen Lesern beliebt“ misst, in zwei Sätzen. */
@@ -31,7 +32,8 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
     `Jedes Halal-Merkmal belegen wir beim Anbieter.`,
     beliebtErklaerung(was),
     `Wie viel wir an einem ${was} verdienen, zählt nie.`,
-    "Die Liste steht nach der Note, die du siehst. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst.",
+    `Die Liste steht in drei Gruppen: zuerst alle ${was === "Depot" ? "Depots" : "Konten"}, bei denen der Anbieter belegt, dass dein Guthaben ohne Zinsen liegt oder sich der Zins abschalten lässt, danach alle, bei denen er dazu nichts belegt („Offen“, kein Urteil, wir fragen nach), ganz hinten, wer Zinsen zahlt, die sich nicht abschalten lassen. In jeder Gruppe zählt die Note, die du siehst. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst.`,
+    "Was nicht belegt ist, zählt 0 Punkte und wird nie geschätzt.",
     was === "Depot"
       ? "Platz 1 bekommt nur ein Depot ohne Zinsen ab Start, das du über unseren Link eröffnen kannst."
       : "Platz 1 bekommt nur ein Konto, das ohne Zinsen, ohne Dispo und ohne Kartenkredit startet und das du über unseren Link eröffnen kannst.",

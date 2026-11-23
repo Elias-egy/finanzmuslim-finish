@@ -30,9 +30,14 @@ export const depotMeisteHalalId = meisteHalalVon(
   sieger?.id,
 );
 export const depotNote = new Map(rang.gerankt.map((b) => [b.anbieter.id, b.note]));
-export const depotAbgeraten = rang.abgeraten;
+// Seit VG2-04 (Regel 10) stehen auch Angebote mit belegtem, nicht abschaltbarem Zins auf der Liste, ganz hinten. Offen heißt: kein Beleg, kein Urteil.
+const zins = (a: RohAnbieter) => a.werte.zinsfreiAbStart;
+export const depotAbgeraten = rang.gerankt
+  .filter((b) => zins(b.anbieter) === "schlecht")
+  .map((b) => ({ anbieter: b.anbieter, grund: "Zinsen nicht abschaltbar" }));
+export const depotOffen = rang.gerankt.filter((b) => zins(b.anbieter) !== "gut" && zins(b.anbieter) !== "teils" && zins(b.anbieter) !== "schlecht").length;
 export const depotAnzahl = depotAnzeige.length;
-export const depotOhneZinsen = rang.gerankt.length;
+export const depotOhneZinsen = rang.gerankt.filter((b) => zins(b.anbieter) === "gut" || zins(b.anbieter) === "teils").length;
 export const tradeRepublic = depotAnzeige.find((a) => a.id === "trade-republic-depot");
 
 const ZAEHL: Record<string, [string, string]> = {

@@ -407,10 +407,11 @@ describe("Ergebnis Bankkonto", () => {
     expect(zelle(ing[0].rechts)).toBe("✓ 500 €");
     expect(zelle(ing[1].links)).toBe("✗ 1,49 €");
     expect(zelle(ing[1].rechts)).toBe("✓ 0 €");
-    // DKB: Dispo an gegen kein Dispo ohne grauen Zusatz, seit RN16 (Elias RN15-03 „Dispo ist sozusagen zweite Priorität“) vor der Kontoführung.
-    const dkb = zeilen("dkb");
+    // Targobank (früher DKB, die seit 20.11.2026 neue Konten ohne Dispo startet, Beleg dkb.de 23.11.2026): Dispo an gegen kein Dispo ohne grauen Zusatz,
+    // seit RN16 (Elias RN15-03 „Dispo ist sozusagen zweite Priorität“) vor der Kontoführung.
+    const dkb = zeilen("targobank");
     expect(dkb.map((z) => z.label)).toEqual(["Dispo", "Kostenlos ab Geldeingang", "Girocard im Monat"]);
-    expect(zelle(dkb[1].links)).toBe("✗ 700 €");
+    expect(zelle(dkb[1].links)).toBe("✗ 600 €");
     expect(dkb[0].links).toEqual({ text: "Dispo an", nein: true });
     expect(dkb[0].rechts).toEqual({ text: "kein Dispo", ja: true });
     // Commerzbank kostet auch bei Geldeingang. Ihr Vorteil bei Filialen steht seit RN15-01 („Norris Bank muss immer besser dastehen“) nur noch,
@@ -444,10 +445,12 @@ describe("Ergebnis Bankkonto", () => {
 
   it("RN16 (Elias RN15-03): erst Zinsen, dann Dispo der heutigen Bank; sind beide sauber, der Satz „<Bank> und norisbank: beide halal nutzbar“ und drei Zeilen", () => {
     const e = (b: string) => konto({ ...sparkasse, zahlung: "karte", bank: bank(b) });
-    // Santander: Zinsen (Beleg santander.de) zuerst; DKB: Dispo zuerst; beide ohne Satz.
+    // Santander: Zinsen (Beleg santander.de) zuerst; Targobank: Dispo zuerst; beide ohne Satz.
     expect(vergleichZeilen(e("santander"))[0].label).toBe("Zinsen auf Guthaben");
     expect(vergleichBeideHalal(e("santander"))).toBeNull();
-    expect(vergleichBeideHalal(e("dkb"))).toBeNull();
+    expect(vergleichBeideHalal(e("targobank"))).toBeNull();
+    // DKB startet neue Konten seit 20.11.2026 auf Guthabenbasis (dkb.de, 23.11.2026): ohne Zinsen und ohne Dispo, also der Satz wie bei N26.
+    expect(vergleichBeideHalal(e("dkb"))).toBe("DKB und norisbank: beide halal nutzbar");
     // N26 und ING: im Vergleich ohne Zinsen und ohne Dispo, also der Satz und danach die drei Zeilen wie in RN15.
     expect(vergleichBeideHalal(e("n26"))).toBe("N26 und norisbank: beide halal nutzbar");
     expect(vergleichZeilen(e("n26"))).toHaveLength(3);

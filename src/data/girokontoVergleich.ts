@@ -10,7 +10,7 @@ import { GIRO_AUSLAND_ZEILEN } from "./girokontoAusland";
 
 export const GIRO_ZEILEN: VergleichsZeile[] = [
   { key: "__angebot", label: "Angebot", art: "text", gruppe: "angebot" },
-  { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Grün: kein Guthabenzins und kein verzinstes Unterkonto ab Eröffnung. Gelb: Zinsen laufen, lassen sich aber abschalten. Rot: nicht abschaltbar, dann gibt es keine Note." },
+  { key: "zinsfreiAbStart", label: "Ohne Zinsen nutzbar", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Grün: kein Guthabenzins und kein verzinstes Unterkonto ab Eröffnung. Gelb: Zinsen laufen, lassen sich aber abschalten. Rot: nicht abschaltbar, dann steht das Angebot ganz hinten. Offen: Der Anbieter belegt dazu bisher nichts, das ist kein Urteil." },
   { key: "keinDispoAbStart", label: "Kein Dispo ab Start", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Wird nach der Eröffnung kein Dispokredit eingeräumt?" },
   { key: "karteOhneKredit", label: "Karte ohne Kredit", art: "ampel", gruppe: "halal", hinweis: "Gibt es eine Girocard oder Debitkarte ohne Kreditrahmen?" },
   { key: "kontofuehrung", label: "Kontoführung im Monat", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Gerechnet mit 1.000 € Geldeingang im Monat, wie bei Finanzfluss. Gilt der Preis nur unter einer Bedingung, steht sie dabei. Den ganzen Preis siehst du beim aufgeklappten Angebot." },

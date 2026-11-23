@@ -14,7 +14,11 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "consorsbank.de"
       },
       {
-        "name": "finanzen.net zero",
+        "name": "DKB",
+        "domain": "dkb.de"
+      },
+      {
+        "name": "Finanzen invest",
         "domain": "finanzen.net"
       },
       {
@@ -26,8 +30,16 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "flatex.de"
       },
       {
+        "name": "JOE Broker",
+        "domain": "joebroker.de"
+      },
+      {
         "name": "justTRADE",
         "domain": "justtrade.com"
+      },
+      {
+        "name": "maxblue",
+        "domain": "maxblue.de"
       },
       {
         "name": "S Broker",
@@ -62,6 +74,10 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "getbux.com"
       },
       {
+        "name": "Commerzbank",
+        "domain": "commerzbank.de"
+      },
+      {
         "name": "DEGIRO",
         "domain": "degiro.de"
       },
@@ -78,16 +94,20 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "gls.de"
       },
       {
-        "name": "maxblue",
-        "domain": "maxblue.de"
-      },
-      {
         "name": "N26",
         "domain": "n26.com"
       },
       {
         "name": "Pax-Bank",
         "domain": "pax-bank.de"
+      },
+      {
+        "name": "Revolut",
+        "domain": "revolut.com"
+      },
+      {
+        "name": "Targobank",
+        "domain": "targobank.de"
       },
       {
         "name": "Trade Republic",
@@ -100,9 +120,13 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
       {
         "name": "Trading 212",
         "domain": "trading212.com"
+      },
+      {
+        "name": "Vivid",
+        "domain": "vivid.money"
       }
     ],
-    "gesamt": 38
+    "gesamt": 70
   },
   "Girokonto": {
     "logos": [
@@ -133,6 +157,10 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
       {
         "name": "Deutsche Bank",
         "domain": "deutsche-bank.de"
+      },
+      {
+        "name": "DKB",
+        "domain": "dkb.de"
       },
       {
         "name": "N26",
@@ -203,6 +231,10 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "revolut.com"
       },
       {
+        "name": "SumUp",
+        "domain": "sumup.com"
+      },
+      {
         "name": "Tomorrow",
         "domain": "tomorrow.one"
       },
@@ -215,7 +247,7 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "vivid.money"
       }
     ],
-    "gesamt": 54
+    "gesamt": 57
   },
   "Krypto": {
     "logos": [

@@ -15,8 +15,9 @@ import type { RohAnbieter } from "./vergleichHelfer";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 
 const faelle: Array<["depot" | "girokonto" | "krypto", RohAnbieter[], VergleichsZeile[], Record<string, number>, number]> = [
-  // 51 statt 56: eToro, Freedom24 (2), Plus500, Libertex sind raus (Elias 07.11.2026, A8, bauen.py AUS_DEM_VERGLEICH).
-  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 51],
+  // 70 statt 74: eToro, Freedom24 (2), Plus500, Libertex sind raus (Elias 07.11.2026, A8, bauen.py AUS_DEM_VERGLEICH). 51 Tarife aus dem Lauf vom
+  // 14.09.2026 plus 19 neue der Finanzfluss-Liste vom 23.11.2026 (`depotNachtraege.ts`, Elias VG2-04: jeden Anbieter ranken).
+  ["depot", brokerVergleich, DEPOT_ZEILEN, DEPOT_FINANZ_MAX, 70],
   ["girokonto", girokontoVergleich, GIRO_ZEILEN, GIRO_FINANZ_MAX, 57],
   // 26 statt 27: eToro Krypto ist raus (Elias 08.11.2026, A9, „Alle raus. Also die vier.“).
   ["krypto", kryptoVergleich, KRYPTO_ZEILEN, KRYPTO_FINANZ_MAX, 26],
@@ -98,17 +99,30 @@ describe.each(faelle)("Vergleichsdaten %s", (kategorie, anbieter, zeilen, max, a
     }
   });
 
-  it("vergibt keine Note, wenn Zinsen nicht abschaltbar sind, und nie Nummer 1 ohne belegtes Zins-Tor", () => {
+  it("setzt das Zins-Tor um: nie Nummer 1 ohne belegtes Tor; Krypto vergibt bei rotem Tor keine Note, Depot und Girokonto stellen es ganz hinten (Regel 10)", () => {
     const r = rangfolge(anbieter, kategorie, { finanzMax: max });
     const gerankt = new Map(r.gerankt.map((b) => [b.anbieter.id, b]));
     for (const a of anbieter) {
       const tuer = a.werte.zinsfreiAbStart;
-      if (tuer === "schlecht") expect(gerankt.has(a.id), a.id).toBe(false);
-      else if (tuer !== "gut" && tuer !== "teils") {
-        // Nicht belegtes Tor: bewertet, aber der Halal-Teil zählt nichts und es kann nie Nummer 1 werden.
-        expect(gerankt.get(a.id)?.halal, a.id).toBe(0);
-        expect(gerankt.get(a.id)?.uneingeschraenkt, a.id).toBe(false);
+      if (tuer === "schlecht") {
+        if (kategorie === "krypto") expect(gerankt.has(a.id), a.id).toBe(false);
+        else {
+          // Regel 10: belegt verzinst heißt Stufe 2, Halal-Teil 0, aber ein Platz.
+          expect(gerankt.get(a.id)?.halal, a.id).toBe(0);
+          expect(gerankt.get(a.id)?.uneingeschraenkt, a.id).toBe(false);
+        }
+      } else if (tuer !== "gut" && tuer !== "teils") {
+        // Nicht belegtes Tor: gerankt, aber nie Nummer 1. Im Depot und Girokonto steht es offen in Stufe 1, in Krypto wird nichts bewertet.
+        if (kategorie === "krypto") expect(gerankt.has(a.id), a.id).toBe(false);
+        else expect(gerankt.get(a.id)?.uneingeschraenkt, a.id).toBe(false);
       }
+    }
+    // Wer offen oder belegt verzinst ist, steht hinter allen mit belegtem Tor.
+    if (kategorie !== "krypto") {
+      const stufen = r.gerankt.map((b) => (b.anbieter.werte.zinsfreiAbStart === "gut" || b.anbieter.werte.zinsfreiAbStart === "teils" ? 0 : b.anbieter.werte.zinsfreiAbStart === "schlecht" ? 2 : 1));
+      expect(stufen).toEqual([...stufen].sort((x, y) => x - y));
+      expect(r.nichtBewertet).toHaveLength(0);
+      expect(r.gerankt).toHaveLength(anbieter.length);
     }
   });
 });

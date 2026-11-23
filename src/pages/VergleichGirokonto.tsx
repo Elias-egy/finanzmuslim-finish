@@ -44,7 +44,7 @@ const FILTER = [
 const KRITERIEN = [
   {
     titel: "Ohne Zinsen nutzbar",
-    text: "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten? Geht das nicht, gibt es keine Note.",
+    text: "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten? Schreibt der Anbieter dazu nichts Ausdrückliches, steht „Offen“, das ist kein Urteil. Geht das nicht, steht das Konto ganz hinten.",
   },
   {
     titel: "Kein Dispo ab Start",
@@ -117,7 +117,7 @@ const VergleichGirokonto = () => (
     filter={FILTER}
     stand={AKTUALISIERT}
     standHinweis="Halal-Merkmale geprüft, Konditionen vom 14.09.2026, Gebühren im Ausland vom 19.09.2026"
-    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, Gebühren im Ausland und „Besonders“ Stand 19.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft."
+    quellenHinweis="Kosten und Konditionen: Finanzfluss-Vergleich (Daten: Biallo), Stand 14.09.2026, Gebühren im Ausland und „Besonders“ Stand 19.09.2026. Kontoführung beim Anbieter geprüft, Stand 27.09.2026. Halal-Merkmale: beim Anbieter geprüft. Wo noch kein Beleg steht, steht „Offen“, das ist kein Urteil, und wir fragen nach."
     kriterien={KRITERIEN}
     faq={FAQ}
     ratgeber={<GiroRatgeber auszeichnung={AUSZEICHNUNGEN.nummerEins} kriterien={KRITERIEN} faq={FAQ} />}
