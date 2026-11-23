@@ -13,7 +13,9 @@ import type { Land } from "@/lib/land";
 /** Andere Beschriftung einer Zeile je Land (Schlüssel der Zeile zu neuem Wort). */
 const ZEILEN_WORT: Record<Land, Record<string, string>> = {
   de: {},
-  at: { kapest: "Steuereinfach (KESt wird abgeführt)", appIos: "App-Bewertung" },
+  /* „Dispo“ heißt in Österreich Überziehung oder Überziehungsrahmen (Prüfung DACH1 S-9; N26 Österreich sagt selbst
+     „Überziehungsrahmen“, n26.com/de-at/ueberziehungsrahmen). */
+  at: { kapest: "Steuereinfach (KESt wird abgeführt)", appIos: "App-Bewertung", keinDispoAbStart: "Keine Überziehung ab Start" },
   ch: { appIos: "App-Bewertung" },
 };
 
@@ -39,9 +41,11 @@ const ZEILEN_HINWEIS: Record<Land, Record<string, string>> = {
   de: {},
   at: {
     royalMint: "Unsere Nummer 1 bei Gold: Barren und Münzen lassen sich ausliefern, und ein jährliches Shariah-Zertifikat liegt vor.",
-    halalEtfsFonds: "Gezählt werden nur Halal-ETFs aus unserem Vergleich, die in Österreich zum Vertrieb zugelassen sind.",
-    halalSukuk: "Gezählt wird nur der iShares USD Sukuk, der in Österreich zum Vertrieb zugelassen ist.",
-    halalEdelmetalle: "Gezählt wird nur der Royal Mint Gold-ETC, der in Österreich registriert ist. Andere Gold- und Silber-ETCs zählen erst mit Beleg.",
+    /* Prüfung 2: nur mit positivem Beleg des Emittenten. Dass justETF keine Warnung zeigt, ist kein Beleg. */
+    halalEtfsFonds: "Gezählt wird nur der iShares MSCI World Islamic: Für ihn bestätigt BlackRock die Zulassung in Österreich.",
+    halalSukuk: "Gezählt wird nur der iShares USD Sukuk: Für ihn bestätigt BlackRock die Zulassung in Österreich.",
+    halalEdelmetalle: "Gezählt wird nur der Royal Mint Gold-ETC: HANetf nennt Österreich bei den Registrierungen.",
+    keinDispoAbStart: "Wird dir nach der Eröffnung kein Überziehungsrahmen eingeräumt?",
   },
   ch: {
     royalMint: "Unsere Nummer 1 bei Gold: Barren und Münzen lassen sich ausliefern, und ein jährliches Shariah-Zertifikat liegt vor.",
@@ -56,6 +60,15 @@ export const zeilenFuerLand = (zeilen: VergleichsZeile[], land: Land): Vergleich
     .filter((z) => !ZEILEN_WEG[land].includes(z.key))
     .map((z) => (ZEILEN_WORT[land][z.key] ? { ...z, label: ZEILEN_WORT[land][z.key] } : z))
     .map((z) => (ZEILEN_HINWEIS[land][z.key] ? { ...z, hinweis: ZEILEN_HINWEIS[land][z.key] } : z));
+
+/**
+ * Filter mit den Wörtern des Landes („Keine Überziehung ab Start“ statt „Kein Dispo ab Start“). Filter auf Zeilen, die es im
+ * Land nicht gibt (Edelmetalle Österreich: Gold- und Silber-ETCs außer Royal Mint), fallen weg.
+ */
+export const filterFuerLand = <F extends { key: string; label: string }>(filter: F[], land: Land): F[] =>
+  filter
+    .filter((f) => !ZEILEN_WEG[land].includes(f.key))
+    .map((f) => (ZEILEN_WORT[land][f.key] ? { ...f, label: ZEILEN_WORT[land][f.key] } : f));
 
 /** Höchstpunkte ohne die Zeilen, die es im Land nicht gibt, damit kein Anbieter dort Punkte „verliert“. */
 export const finanzMaxFuerLand = (finanzMax: Record<string, number>, land: Land): Record<string, number> =>

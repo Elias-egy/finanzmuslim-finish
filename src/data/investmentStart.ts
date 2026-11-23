@@ -1,4 +1,5 @@
 import { START_LINKS } from "@/data/startLinks";
+import { kurznameZurueckgestellt } from "@/data/land/zurueckgestellt";
 
 export { LEER_QUELLE, istLeerQuelle } from "@/data/startLinks";
 
@@ -2290,8 +2291,8 @@ export const startPartner: StartPartner[] = [
     fakten: [
       {
         /* Prüfung DACH1 M-2: Zählung für Österreich (nur dort zugelassene Papiere, src/data/land/oesterreich.ts), nie die deutsche. */
-        titel: "Alle Halal-Anlagen für Österreich",
-        text: "Laut der Wertpapiersuche von Traders Place sind alle 4 in Österreich zugelassenen Halal-ETFs aus unserem Vergleich handelbar, dazu der iShares USD Sukuk und der Royal Mint Gold-ETC.",
+        titel: "Halal-Anlagen für Österreich",
+        text: "Laut der Wertpapiersuche von Traders Place handelbar: iShares MSCI World Islamic, iShares USD Sukuk und Royal Mint Gold-ETC. Für diese drei bestätigen die Herausgeber die Zulassung in Österreich.",
       },
       {
         titel: "Guthaben ohne Zinsen",
@@ -2343,8 +2344,8 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Halal-Anlagen kaufbar",
-        /* Prüfung DACH1 M-2: Zählung für Österreich (nur dort zugelassene Papiere), nie die deutsche. */
-        text: "Alle 4 in Österreich zugelassenen Halal-ETFs aus unserer Liste, der iShares USD Sukuk und der Royal Mint Gold-ETC sind bei Smartbroker+ kaufbar.",
+        /* Prüfung DACH1 M-2 und Prüfung 2: nur Papiere mit Zulassungsbeleg des Herausgebers für Österreich. */
+        text: "Bei Smartbroker+ kaufbar: iShares MSCI World Islamic, iShares USD Sukuk und Royal Mint Gold-ETC. Für diese drei bestätigen die Herausgeber die Zulassung in Österreich.",
       },
       {
         titel: "Nicht steuereinfach",
@@ -2387,19 +2388,21 @@ export const startPartner: StartPartner[] = [
         text: "Das DKB-Depot rechnet über das DKB-Girokonto ab. Das Guthaben dort liegt ohne Zinsen, du brauchst kein Tagesgeld.",
       },
       {
-        titel: "Keine Depotgebühr",
-        text: "Das Depot kostet nichts. Eine Order kostet 10 €, ein ETF-Sparplan 1,50 € je Ausführung.",
+        /* Prüfung 2 (S-4): Quelle ist die Programmbeschreibung der DKB bei FinanceQuality, nicht die DKB-Website. */
+        titel: "Auch mit Wohnsitz in Österreich",
+        text: "Laut Partnerprogramm der DKB kannst du das Depot mit Wohnsitz in Österreich eröffnen. Den Ausweis bestätigst du per Video-Ident.",
       },
       {
-        titel: "Auch mit Wohnsitz in Österreich",
-        text: "Laut DKB kannst du das Depot mit Wohnsitz in Österreich eröffnen. Den Ausweis bestätigst du per Video-Ident.",
+        /* Prüfung 2: Finanzfluss Depot-Vergleich Österreich, deutsche Depotanbieter führen die KESt nicht ab. */
+        titel: "Nicht steuereinfach",
+        text: "Die DKB führt die KESt nicht für dich ab. Deine Erträge gibst du in Österreich selbst in der Steuererklärung an.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein DKB-Depot", "riba-frei"],
     checkliste: [
       {
-        titel: "Kein Tagesgeld und keinen Dispo nutzen.",
-        text: "Die DKB bietet Tagesgeld und einen Dispositionskredit an. Beides bringt Zinsen ins Spiel. Das Depot funktioniert ohne.",
+        titel: "Kein Tagesgeld und keine Überziehung nutzen.",
+        text: "Die DKB bietet Tagesgeld und einen Überziehungsrahmen an. Beides bringt Zinsen ins Spiel. Das Depot funktioniert ohne.",
       },
       derivate,
     ],
@@ -2542,8 +2545,8 @@ export const startPartner: StartPartner[] = [
     checklisteTitel: ["2 Regeln halten dein DKB-Konto", "riba-frei"],
     checkliste: [
       {
-        titel: "Keinen Dispo nutzen.",
-        text: "Die DKB räumt in der Regel einen Dispokredit ein. Er kostet Zinsen, sobald du ihn nutzt. Lass ihn auf null setzen.",
+        titel: "Keine Überziehung nutzen.",
+        text: "Die DKB räumt in der Regel einen Überziehungsrahmen ein. Er kostet Zinsen, sobald du ihn nutzt. Lass ihn auf null setzen.",
       },
       {
         titel: "Kein Tagesgeld und keine Kreditkarte mit Teilzahlung.",
@@ -2554,7 +2557,7 @@ export const startPartner: StartPartner[] = [
       allgemeineFaq,
       {
         q: "Kann ich mit Wohnsitz in Österreich eröffnen?",
-        a: "Ja. Die DKB nimmt laut ihrer Programmbeschreibung Kunden mit Wohnsitz in Österreich an. Die Legitimation läuft dann nur per Video-Ident.",
+        a: "Ja, laut Partnerprogramm der DKB nimmt sie Kunden mit Wohnsitz in Österreich an. Die Legitimation läuft dann nur per Video-Ident.",
       },
     ],
   },
@@ -2570,7 +2573,7 @@ export const startPartner: StartPartner[] = [
     titel: ["Dein zinsfreies", "Girokonto."],
     knopf: "Bei N26 eröffnen →",
     videoHinweis: false,
-    chips: ["0 € im Monat", "Mastercard", "Apple Pay", "Kein Dispo ab Start"],
+    chips: ["0 € im Monat", "Mastercard", "Apple Pay", "Keine Überziehung ab Start"],
     schritte: [
       { titel: "Antrag in der App", text: "Name, Adresse und Ausweis. Dauert ein paar Minuten." },
       { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
@@ -2582,7 +2585,7 @@ export const startPartner: StartPartner[] = [
         text: "Zinsen gibt es laut N26 nur auf dem separaten Tagesgeldkonto. Dein Hauptkonto wird nicht verzinst.",
       },
       {
-        titel: "Kein Dispo ab Start",
+        titel: "Keine Überziehung ab Start",
         text: "Einen Überziehungsrahmen musst du in der App selbst aktivieren. Ohne das gibt es keinen.",
       },
       {
@@ -2712,8 +2715,11 @@ export const startPartner: StartPartner[] = [
   },
 ];
 
+/** DACH1 Prüfung 2: Startseiten zurückgestellter Anbieter (Beleg fehlt, `src/data/land/zurueckgestellt.ts`) gibt es nicht. */
+export const startSeiteOffen = (p: StartPartner): boolean => !kurznameZurueckgestellt(p.kurzname);
+
 export const findStartPartner = (kurzname?: string): StartPartner | undefined =>
-  startPartner.find((p) => p.kurzname === (kurzname ?? "scalable"));
+  startPartner.find((p) => p.kurzname === (kurzname ?? "scalable") && startSeiteOffen(p));
 
 
 export const LEER_FASSUNG = {

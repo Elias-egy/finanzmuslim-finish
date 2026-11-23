@@ -6,6 +6,7 @@ import { LAND_LISTE, ohneLandPraefix, type Land } from "@/lib/land";
 import { LAND_VERGLEICHE, type LandDaten, type LandSchluessel, type LandVergleich } from "./typen";
 import { OESTERREICH } from "./oesterreich";
 import { SCHWEIZ } from "./schweiz";
+import { idZurueckgestellt } from "./zurueckgestellt";
 
 export { LAND_VERGLEICHE } from "./typen";
 export type { LandSchluessel, LandVergleich } from "./typen";
@@ -18,11 +19,16 @@ export const landSchluessel = (pfad: string): LandSchluessel | null => LAND_VERG
 /** Gibt es für diese Seite überhaupt Länderversionen? Davon hängt ab, ob die Länderwahl erscheint. */
 export const hatLandVersion = (pfad: string): boolean => landSchluessel(pfad) !== null;
 
-/** Die Liste eines Landes zu einem Vergleich. Deutschland hat keine (es liest seine Datendateien). */
+/**
+ * Die Liste eines Landes zu einem Vergleich. Deutschland hat keine (es liest seine Datendateien). Zurückgestellte Anbieter
+ * (`zurueckgestellt.ts`, Beleg fehlt) fallen hier heraus, für Seite, Zählung, Sitemap und Beschreibung zugleich.
+ */
 export const landVergleich = (land: Land, pfad: string): LandVergleich | null => {
   if (land === "de") return null;
   const schluessel = landSchluessel(pfad);
-  return schluessel ? DATEN[land][schluessel] : null;
+  if (!schluessel) return null;
+  const liste = DATEN[land][schluessel];
+  return { ...liste, anbieter: liste.anbieter.filter((a) => !idZurueckgestellt(a.id)) };
 };
 
 /** Fertig und öffentlich: kein Entwurf, mindestens ein Anbieter. Nur dann gibt es Sitemap, hreflang und Umstellung. */

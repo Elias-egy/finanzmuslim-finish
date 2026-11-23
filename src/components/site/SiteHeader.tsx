@@ -73,6 +73,8 @@ export const SiteHeader = () => {
   // Seit SEO48 auf jedem Beitrag (Elias 04.11.2026 zu Halal Gold: „dieser Depot-Vergleich-Knopf ist hier nicht drin gewesen“).
   const beitragsKopf = pathname.startsWith("/blog/");
   const kopfZiel = KOPF_ZIEL[pathname] ?? KOPF_STANDARD;
+  /* DACH1 Prüfung 2 (S-7): Der Check empfiehlt deutsche Angebote. Auf Länderseiten (/at, /ch) steht der Knopf nicht. */
+  const landSeite = /^\/(at|ch)(\/|$)/.test(pathname);
   const { dunkel, umschalten } = useThema();
   const [eng, setEng] = useState(false);
   useEffect(() => {
@@ -231,11 +233,13 @@ export const SiteHeader = () => {
                     vermehren“ zum geführten Vergleich. */}
                 {/* RN5 Phase 1: derselbe Knopf führt zum Halal-Finanz-Check, Text „Investiere halal“ (startseite-und-navigation,
                     Gilt 04.11.: „lieber sowas wie investiere halal“). */}
+                {!landSeite && (
                 <a href={MIT_OS ? "/investment-os/" : "/check?quelle=kopf"} className="hidden rounded-full min-[900px]:inline-block">
                   <span className="flex h-11 items-center whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-semibold text-primary transition-transform active:scale-[.97]">
                     {MIT_OS ? "Halal-Investment-OS" : "Match finden"}
                   </span>
                 </a>
+                )}
               </>
             )}
             <button
@@ -355,6 +359,7 @@ export const SiteHeader = () => {
                 </Link>
               </div>
 
+              {!landSeite && (
               <a
                 href={MIT_OS ? "/investment-os/" : "/check?quelle=menue"}
                 onClick={() => setMobileOpen(false)}
@@ -362,6 +367,7 @@ export const SiteHeader = () => {
               >
                 {MIT_OS ? "Dein Halal-Investment-OS" : "Match finden"}
               </a>
+              )}
             </div>
           </div>
         </div>

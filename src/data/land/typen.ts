@@ -58,6 +58,15 @@ export type LandVergleich = {
    * Anbieter dieser Liste ersetzt. Ohne Angabe: der deutsche Text mit der Zahl des Landes und „Für <Land>.“ am Ende.
    */
   seoText?: string;
+  /**
+   * Was die Seite statt eines Zählwerts zeigt (DACH1 Prüfung 2: keine Brüche, nur was bestätigt ist). Schlüssel der Zeile,
+   * dann gespeicherter Wert zu angezeigtem Text, etwa `{ halalEtfsFonds: { "1 von 1": "World Islamic" } }`. Die Rangfolge
+   * rechnet weiter mit dem gespeicherten Wert, nur Karten, Tabelle und Kasten zeigen den Text.
+   */
+  anzeige?: Record<string, Record<string, string>>;
+  /** Titel und Unterzeile, wenn der deutsche Text im Land nicht stimmt (Edelmetalle Österreich: nur Gold gezählt). */
+  titel?: string;
+  untertitel?: string;
   /** Kasten „Worauf wir achten“, wenn der deutsche Text im Land nicht stimmt. */
   kriterien?: Array<{ titel: string; text: string }>;
 };

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Check, Minus, TriangleAlert } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
+import { useLand } from "@/lib/useLand";
 
 /**
  * Bausteine der Girokonto-Karten am Handy, wie Finanzfluss (PH2-01, Elias 15.11.2026): eine Hakenzeile,
@@ -49,15 +50,22 @@ const debitTeile = (s: string | null | undefined): { marke: string; preis: strin
   return m ? { marke: m[1], preis: euro(m[2]) } : { marke: s.trim(), preis: null };
 };
 
-/** Die Zeile mit dem Haken: nur, was die Zins- und Dispo-Ampel des Kontos belegt. */
-export const zinsDispoZeile = (zinsfrei: string | undefined, keinDispo: string | undefined): { text: string; zeichen: "ja" | "teils" | "offen" } => {
-  if (zinsfrei === "gut" && keinDispo === "gut") return { text: "Ohne Zinsen, ohne Dispo", zeichen: "ja" };
-  if (zinsfrei === "gut" && keinDispo === "teils") return { text: "Ohne Zinsen, Dispo abschaltbar", zeichen: "teils" };
-  if (zinsfrei === "teils" && keinDispo === "gut") return { text: "Zinsen abschaltbar, ohne Dispo", zeichen: "teils" };
-  if (zinsfrei === "teils" && keinDispo === "teils") return { text: "Zinsen und Dispo abschaltbar", zeichen: "teils" };
+/**
+ * Die Zeile mit dem Haken: nur, was die Zins- und Dispo-Ampel des Kontos belegt. `dispo` ist das Wort des Landes
+ * (DACH1 Prüfung 2: in Österreich „Überziehung“, nicht „Dispo“).
+ */
+export const zinsDispoZeile = (
+  zinsfrei: string | undefined,
+  keinDispo: string | undefined,
+  dispo = "Dispo",
+): { text: string; zeichen: "ja" | "teils" | "offen" } => {
+  if (zinsfrei === "gut" && keinDispo === "gut") return { text: `Ohne Zinsen, ohne ${dispo}`, zeichen: "ja" };
+  if (zinsfrei === "gut" && keinDispo === "teils") return { text: `Ohne Zinsen, ${dispo} abschaltbar`, zeichen: "teils" };
+  if (zinsfrei === "teils" && keinDispo === "gut") return { text: `Zinsen abschaltbar, ohne ${dispo}`, zeichen: "teils" };
+  if (zinsfrei === "teils" && keinDispo === "teils") return { text: `Zinsen und ${dispo} abschaltbar`, zeichen: "teils" };
   if (zinsfrei === "gut") return { text: "Ohne Zinsen", zeichen: "ja" };
   if (zinsfrei === "teils") return { text: "Zinsen abschaltbar", zeichen: "teils" };
-  return { text: "Zinsen und Dispo: nicht geprüft", zeichen: "offen" };
+  return { text: `Zinsen und ${dispo}: nicht geprüft`, zeichen: "offen" };
 };
 
 /* ------------------------------------------------------------------ Kartenbilder (eigene SVG, nichts geladen) */
@@ -163,7 +171,8 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
 
 /** Haken, Kacheln und „Besonders“ in einem Stück, für Karte und Nummer-1-Kasten. */
 export const GiroInhalt = ({ w, besonders }: { w: GiroWerte; besonders?: string[] }) => {
-  const z = zinsDispoZeile(w.zinsfrei, w.keinDispo);
+  const land = useLand();
+  const z = zinsDispoZeile(w.zinsfrei, w.keinDispo, land === "at" ? "Überziehung" : "Dispo");
   const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : Minus;
   const farbe = z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
   return (

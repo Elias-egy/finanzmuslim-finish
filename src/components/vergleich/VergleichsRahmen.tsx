@@ -232,6 +232,19 @@ export const NummerEins = ({
         </ul>
         {/* RN21: grüne Meldung über dem Knopf; am Laptop wie PH5-01 nicht direkt am Kasten, dort zuerst in den Produktdetails */}
         {anbieter.link && <GiroKnopfHinweis anbieter={anbieter.id} className={`mt-3 ${stil ? "lg:hidden" : ""}`} />}
+        {anbieter.link && (
+          <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-4" : ""}`}>
+            <Link
+              to={anbieter.link}
+              rel="sponsored nofollow"
+              className="flex min-h-[44px] w-full items-center justify-center rounded-md bg-primary px-4 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+            >
+              Zum Angebot*
+            </Link>
+          </div>
+        )}
+        {/* Prüfung 2 (S-2): am Handy unter dem Knopf, damit „Zum Angebot“ im ersten Schirm bleibt wie in Deutschland.
+            Am Laptop (`order`) weiter über dem Knopf. */}
         {steuerSelbst && (
           <div
             className={`mt-3 flex items-start gap-2.5 rounded-lg border border-primary/25 bg-accent px-3 py-2.5 text-left ${stil ? "lg:order-3" : ""}`}
@@ -243,17 +256,6 @@ export const NummerEins = ({
               <br />
               In Österreich ist {anbieter.name} nicht steuereinfach. Deine Erträge trägst du selbst in die Steuererklärung ein.
             </p>
-          </div>
-        )}
-        {anbieter.link && (
-          <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-3" : ""}`}>
-            <Link
-              to={anbieter.link}
-              rel="sponsored nofollow"
-              className="flex min-h-[44px] w-full items-center justify-center rounded-md bg-primary px-4 text-[16px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
-            >
-              Zum Angebot*
-            </Link>
           </div>
         )}
         <BonusSchild anbieterId={anbieter.id} className={stil ? "lg:order-4" : ""} />

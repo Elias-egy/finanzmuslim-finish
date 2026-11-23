@@ -3,7 +3,7 @@ import { guides } from "@/data/guides";
 import { optinAdressen } from "@/data/optin";
 import { partnerLinks } from "@/data/partnerLinks";
 import { START_LINKS } from "@/data/startLinks";
-import { startPartner } from "./investmentStart";
+import { startPartner, startSeiteOffen } from "./investmentStart";
 import { deals } from "./deals";
 import { PLAN_PFAD } from "./portfolioPlan";
 import { QUIZ_PFAD } from "./portfolioQuizPfad";
@@ -228,7 +228,7 @@ export const nichtIndexiert: string[] = [
   ...landEntwuerfe(),
   ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
-  ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
+  ...startPartner.filter((p) => p.kurzname !== "scalable" && startSeiteOffen(p)).map((p) => p.pfad),
   ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,

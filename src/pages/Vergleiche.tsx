@@ -111,7 +111,24 @@ const bewertung = [
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];
 
-const Kachel = ({ name, desc, icon: Icon, to: toDe, land = "de" }: Vergleich & { land?: Land }) => {
+/**
+ * DACH1 Prüfung 2 (S-8, S-9): In Österreich zählt im Edelmetall-Vergleich nur Gold, und „Dispo“ heißt dort Überziehung.
+ * Kacheltexte, die im Land anders lauten, nach Name der Kachel.
+ */
+const DESC_LAND: Partial<Record<Land, Record<string, string>>> = {
+  at: {
+    Edelmetalle: "Finde das Depot, in dem du Gold zinsfrei kaufst.",
+    "Girokonto-Vergleich": "Finde das Konto ohne Zins, ohne Überziehung und mit Karte ohne Kredit.",
+  },
+};
+
+/** Was unter „Wie wir bewerten“ im Land anders lautet. Österreich: Lücken stehen als Strich, nicht alles ist geprüft. */
+const BEWERTUNG_LAND: Partial<Record<Land, Record<string, string>>> = {
+  at: { "Jede Angabe ist mit Stand geprüft.": "Jede Angabe hat einen Beleg mit Stand. Fehlt einer, steht ein Strich." },
+};
+
+const Kachel = ({ name, desc: descDe, icon: Icon, to: toDe, land = "de" }: Vergleich & { land?: Land }) => {
+  const desc = DESC_LAND[land]?.[name] ?? descDe;
   /* DACH1: In Österreich und der Schweiz führt die Kachel in die Länderversion, wenn es sie gibt und sie fertig ist.
      Ohne Länderversion bleibt die Kachel bei Deutschland (Halal-Anlagen, Check), eine unfertige steht grau mit „bald“. */
   const hatVersion = toDe ? hatLandVersion(toDe) : false;
@@ -233,7 +250,7 @@ const Vergleiche = () => {
       <section className="card-surface mt-14 p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Wie wir bewerten</h2>
         <ul className="mt-4 space-y-3">
-          {bewertung.map((punkt) => (
+          {bewertung.map((p) => BEWERTUNG_LAND[land]?.[p] ?? p).map((punkt) => (
             <li key={punkt} className="flex gap-3 text-[15px] text-foreground">
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
               <span>{punkt}</span>

@@ -11,14 +11,28 @@
  */
 import { leereListe, type LandDaten } from "./typen";
 
+/**
+ * Prüfung 2 (23.11.2026): Gezählt wird nur, was der Emittent für Österreich bestätigt: iShares MSCI World Islamic
+ * IE00B27YCN58 und iShares USD Sukuk IE000929U2U9 (BlackRock Österreich „Zum Vertrieb zugelassen“), Royal Mint Physical
+ * Gold ETC XS2115336336 (HANetf, Registrations „Austria“). Die Seite zeigt den Namen statt „1 von 1“.
+ */
+const ANLAGEN_ANZEIGE = {
+  halalEtfsFonds: { "1 von 1": "World Islamic" },
+  halalSukuk: { "1 von 1": "USD Sukuk" },
+  halalEdelmetalle: { "1 von 1": "Royal Mint Gold" },
+};
+
 export const OESTERREICH: LandDaten = {
   "depot": {
     entwurf: false,
     stand: "23.11.2026",
-    quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; eigene Halal-Prüfung mit Anbieter-Belegen. Traders Place, Smartbroker+ und DKB: Belege des deutschen Vergleichs, dasselbe Depot. Kaufbare Halal-ETFs bei Trade Republic und Scalable: justETF Österreich, Stand 11/2026.",
-    einleitung: ["Hier stehen Depots, die du mit Wohnsitz in Österreich eröffnen kannst. Steuereinfach heißt: Die Bank führt die KESt für dich ab.", "Für Muslime entscheiden zwei Punkte: Liegt dein Geld ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle sind dort für Kunden in Österreich kaufbar?"],
+    quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; eigene Halal-Prüfung mit Anbieter-Belegen. Traders Place, Smartbroker+ und DKB: Belege des deutschen Vergleichs, dasselbe Depot. Kaufbare Halal-ETFs bei Trade Republic: justETF Österreich, Stand 11/2026.",
+    /* Prüfung 2 (S-2): ein Satz, er steht am Handy unter der Liste. */
+    einleitung: ["Hier stehen Depots, die du mit Wohnsitz in Österreich eröffnen kannst. Steuereinfach heißt: Die Bank führt die KESt für dich ab."],
+    kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur mit Beleg des Anbieters steht ein Depot hier."}, {"titel": "Halal-Anlagen für Österreich", "text": "Kannst du dort den iShares MSCI World Islamic, den iShares USD Sukuk und den Royal Mint Gold-ETC kaufen? Für diese drei bestätigen die Herausgeber die Zulassung in Österreich."}],
     reihenfolge: ["flatex-depot-at", "traders-place-depot-at", "smartbroker-plus-depot-at", "trade-republic-depot-at", "dkb-depot-at", "scalable-capital-depot-at", "dadat-depot-at", "easybank-depot-at"],
-    anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anteilN: {"halalEtfsFonds": 1, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anzeige: ANLAGEN_ANZEIGE,
     seoText: "Welches Depot ist halal? {anzahl} Depots für Österreich im Vergleich: ohne Zinsen nutzbar, steuereinfach mit KESt, und welche Halal-ETFs, Sukuk und Gold-ETCs dort kaufbar sind.",
     anbieter: [
       {
@@ -29,7 +43,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "flatex-at",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "2 von 4 bestätigt",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": null,
           "halalEdelmetalle": null,
           "depotgebuehr": "0 €",
@@ -96,7 +110,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.broker-test.at/depot/flatex/",
             "stand": "18.09.2025",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. broker-test.at, Antwort des Autors vom 18.09.2025 zu flatex Österreich: „IE00B27YCN58 | IE00BMYMHS24 Den ersten ETF gibt es auch als Sparplan, den zweiten ETF leider nur als Kauf über den Handelsplatz.“ In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. broker-test.at, Antwort des Autors vom 18.09.2025 zu flatex Österreich: „IE00B27YCN58 | IE00BMYMHS24 Den ersten ETF gibt es auch als Sparplan, den zweiten ETF leider nur als Kauf über den Handelsplatz.“ In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           }
         },
         "finanzPunkte": {
@@ -115,7 +129,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 2
+          "halalEtfsFonds": 1
         }
       },
       {
@@ -126,7 +140,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "traders-place",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -173,7 +187,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "16.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
@@ -183,7 +197,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -202,7 +216,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -216,7 +230,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "smartbroker",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -258,7 +272,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.smartbrokerplus.de/",
             "stand": "21.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000929U2U9",
@@ -268,7 +282,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=XS2115336336",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -287,7 +301,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -301,7 +315,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "trade-republic",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
@@ -368,7 +382,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
@@ -378,7 +392,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -397,7 +411,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         }
@@ -410,7 +424,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "dkb",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "3 von 4 bestätigt",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": null,
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -420,10 +434,15 @@ export const OESTERREICH: LandDaten = {
           "intervalle": "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr",
           "kundenservice": "E-Mail, Telefon, Chat",
           "handelsplaetze": "DE, Europa (ex-DE), USA, Sonstige, OTC",
-          "kapest": null,
+          "kapest": false,
           "appIos": "4,6 / 5"
         },
         "quellen": {
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "23.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026: „Der Nachteil ist allerdings, dass ein deutscher Depotanbieter die Kapitalertragsteuer nicht automatisch an das Finanzamt abführt.“ Als deutsche Broker mit steuereinfachem Depot nennt die Seite nur Trade Republic und Flatex. Die DKB hat keine Niederlassung in Österreich, die KESt führst du über die Steuererklärung selbst ab."
+          },
           "zinsfreiAbStart": {
             "url": "https://dok.dkb.de/pdf/plv_pk_konten.pdf",
             "stand": "20.09.2026",
@@ -437,12 +456,12 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
             "stand": "07.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Laut deutschem Vergleich kaufbar, dasselbe Depot; Invesco MSCI ACWI Islamic bei der DKB noch nicht bestätigt. In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Laut deutschem Vergleich kaufbar, dasselbe Depot; Invesco MSCI ACWI Islamic bei der DKB noch nicht bestätigt. In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalEdelmetalle": {
             "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
             "stand": "07.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -461,7 +480,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 3,
+          "halalEtfsFonds": 1,
           "halalEdelmetalle": 1
         },
         "link": "/out/dkb-depot-at"
@@ -475,7 +494,7 @@ export const OESTERREICH: LandDaten = {
         "link": "/out/scalable-at",
         "werte": {
           "zinsfreiAbStart": null,
-          "halalEtfsFonds": "3 von 4 bestätigt",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
@@ -537,7 +556,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital bei IE00B27YCN58, IE000LFC57H7 und IE00BMYMHS24; beim Invesco Dow Jones Islamic nicht genannt. In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital bei IE00B27YCN58, IE000LFC57H7 und IE00BMYMHS24; beim Invesco Dow Jones Islamic nicht genannt. In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
@@ -547,7 +566,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -566,7 +585,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 3,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         }
@@ -758,7 +777,8 @@ export const OESTERREICH: LandDaten = {
     entwurf: false,
     stand: "23.11.2026",
     quellenHinweis: "Basis: Preisblätter und Entgeltinformationen der Banken für Österreich, gelesen am 23.11.2026; DKB mit den Belegen des deutschen Vergleichs. Auswahl angelehnt an den Capitalo Girokonto-Vergleich, Stand 12.11.2026. Eigene Halal-Prüfung mit Anbieter-Belegen.",
-    einleitung: ["Hier stehen Girokonten, die du mit Wohnsitz in Österreich eröffnen kannst.", "Für Muslime entscheiden drei Punkte: Liegt dein Geld ohne Zinsen, gibt es keinen Überziehungsrahmen ab Start, und kommt die Karte ohne Kreditrahmen?"],
+    einleitung: ["Hier stehen Girokonten für Wohnsitz in Österreich: ohne Zinsen, ohne Überziehungsrahmen ab Start und mit Karte ohne Kreditrahmen."],
+    kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Kein Guthabenzins und kein verzinstes Unterkonto, oder lässt sich beides abschalten?"}, {"titel": "Keine Überziehung ab Start", "text": "Wird dir nach der Eröffnung kein Überziehungsrahmen eingeräumt?"}, {"titel": "Karte ohne Kredit", "text": "Ist die Standardkarte ohne Kreditrahmen und ohne Teilzahlung?"}],
     reihenfolge: ["n26-standard-at", "easybank-easy-gratis-at", "dkb-girokonto-at", "trade-republic-girokonto-at", "bank99-smartkonto99-at", "bawag-kontobox-small-at"],
     anbieter: [
       {
@@ -1659,8 +1679,10 @@ export const OESTERREICH: LandDaten = {
     quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026. Royal Mint Gold-ETC: in Österreich registriert laut HANetf, kaufbar laut justETF Österreich (Stand 11/2026) oder laut deutschem Vergleich bei demselben Depot. Eigene Halal-Prüfung mit Anbieter-Belegen.",
     einleitung: ["Hier stehen Depots, in denen du mit Wohnsitz in Österreich den Royal Mint Gold-ETC kaufen kannst. Hinter jedem Anteil liegt echtes Gold, Barren und Münzen lassen sich ausliefern.", "Wie Gewinne aus dem Gold-ETC in Österreich besteuert werden, klärst du am besten mit einem Steuerberater."],
     reihenfolge: ["traders-place-depot-gold-at", "smartbroker-plus-depot-gold-at", "trade-republic-depot-gold-at", "dkb-depot-gold-at"],
+    untertitel: "Welcher Broker passt, wenn du Gold islamkonform kaufen willst",
     seoText: "Wo kannst du Gold halal kaufen? {anzahl} Depots für Österreich im Vergleich: ohne Zinsen nutzbar, mit dem Royal Mint Gold-ETC und den Kosten pro Kauf.",
-    anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anteilN: {"halalEtfsFonds": 1, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anzeige: ANLAGEN_ANZEIGE,
     kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur solche Depots stehen in diesem Vergleich."}, {"titel": "Royal Mint kaufbar", "text": "Kannst du dort den Royal Mint Gold-ETC kaufen? Er ist in Österreich registriert, nur solche Depots stehen hier."}, {"titel": "Halal-Anlagen im selben Depot", "text": "Bekommst du im selben Depot auch Halal-ETFs und Sukuk, die in Österreich zugelassen sind? Gold gehört zum Anlegen, du brauchst dafür kein zweites Depot."}, {"titel": "Kosten pro Kauf", "text": "Was kostet dich ein Kauf? Es zählen Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service und App."}],
     anbieter: [
       {
@@ -1671,7 +1693,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "traders-place",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -1719,7 +1741,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "16.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
@@ -1729,12 +1751,12 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           },
           "royalMint": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -1753,7 +1775,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -1767,7 +1789,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "smartbroker",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -1810,7 +1832,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.smartbrokerplus.de/",
             "stand": "21.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000929U2U9",
@@ -1820,12 +1842,12 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=XS2115336336",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           },
           "royalMint": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=XS2115336336",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -1844,7 +1866,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -1858,7 +1880,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "trade-republic",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
@@ -1926,7 +1948,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
@@ -1936,12 +1958,12 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           },
           "royalMint": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -1960,7 +1982,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         }
@@ -1973,7 +1995,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "dkb",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "3 von 4 bestätigt",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": null,
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -1983,11 +2005,16 @@ export const OESTERREICH: LandDaten = {
           "intervalle": "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr",
           "kundenservice": "E-Mail, Telefon, Chat",
           "handelsplaetze": "DE, Europa (ex-DE), USA, Sonstige, OTC",
-          "kapest": null,
+          "kapest": false,
           "appIos": "4,6 / 5",
           "royalMint": "ja"
         },
         "quellen": {
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "23.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026: „Der Nachteil ist allerdings, dass ein deutscher Depotanbieter die Kapitalertragsteuer nicht automatisch an das Finanzamt abführt.“ Als deutsche Broker mit steuereinfachem Depot nennt die Seite nur Trade Republic und Flatex. Die DKB hat keine Niederlassung in Österreich, die KESt führst du über die Steuererklärung selbst ab."
+          },
           "zinsfreiAbStart": {
             "url": "https://dok.dkb.de/pdf/plv_pk_konten.pdf",
             "stand": "20.09.2026",
@@ -2001,17 +2028,17 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.finanzfluss.de/informer/etf/ie00b27ycn58/",
             "stand": "07.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Laut deutschem Vergleich kaufbar, dasselbe Depot; Invesco MSCI ACWI Islamic bei der DKB noch nicht bestätigt. In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Laut deutschem Vergleich kaufbar, dasselbe Depot; Invesco MSCI ACWI Islamic bei der DKB noch nicht bestätigt. In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalEdelmetalle": {
             "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
             "stand": "07.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           },
           "royalMint": {
             "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
             "stand": "07.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer nennt die DKB (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -2030,7 +2057,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 3,
+          "halalEtfsFonds": 1,
           "halalEdelmetalle": 1
         },
         "link": "/out/dkb-depot-at"
@@ -2041,9 +2068,11 @@ export const OESTERREICH: LandDaten = {
     entwurf: false,
     stand: "23.11.2026",
     quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; Sparplan-Angebote für Österreich laut justETF, Stand 11/2026. Eigene Halal-Prüfung mit Anbieter-Belegen.",
-    einleitung: ["Hier stehen Depots, in denen der ETF-Sparplan für Kunden in Österreich nichts kostet und Halal-ETFs kaufbar sind.", "Gezählt werden nur Halal-ETFs, die in Österreich zum Vertrieb zugelassen sind, etwa der iShares MSCI World Islamic."],
+    einleitung: ["Hier stehen Depots, in denen der ETF-Sparplan für Kunden in Österreich nichts kostet und Halal-ETFs kaufbar sind.", "Gezählt wird der iShares MSCI World Islamic: Für ihn bestätigt BlackRock die Zulassung in Österreich."],
+    kriterien: [{"titel": "Sparplan kostenlos", "text": "Die Ausführung des ETF-Sparplans kostet 0 €, ganz oder bei den großen Fondsgesellschaften. Nur solche Depots stehen hier."}, {"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur mit Beleg des Anbieters steht ein Depot hier."}, {"titel": "Halal-ETF für Österreich", "text": "Kannst du dort den iShares MSCI World Islamic besparen? Für ihn bestätigt BlackRock die Zulassung in Österreich."}],
     reihenfolge: ["traders-place-sparplan-at", "smartbroker-plus-sparplan-at", "trade-republic-sparplan-at"],
-    anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anteilN: {"halalEtfsFonds": 1, "halalSukuk": 1, "halalEdelmetalle": 1},
+    anzeige: ANLAGEN_ANZEIGE,
     anbieter: [
       {
         "id": "traders-place-sparplan-at",
@@ -2053,7 +2082,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "traders-place",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -2100,7 +2129,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "16.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
@@ -2110,7 +2139,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.tradersplace.de/wertpapiersuche",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Traders Place Wertpapiersuche (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -2129,7 +2158,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -2143,7 +2172,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "smartbroker",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -2185,7 +2214,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.smartbrokerplus.de/",
             "stand": "21.10.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. Smartbroker+ (deutscher Vergleich, dasselbe Depot). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=IE000929U2U9",
@@ -2195,7 +2224,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.smartbrokerplus.de/api/data/tradeable-assets/?q=XS2115336336",
             "stand": "04.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Smartbroker+ Wertpapierliste (deutscher Vergleich, dasselbe Depot). In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -2214,7 +2243,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         },
@@ -2228,7 +2257,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "trade-republic",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "4 von 4",
+          "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
@@ -2295,7 +2324,7 @@ export const OESTERREICH: LandDaten = {
           "halalEtfsFonds": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic bei allen vier (IE00B27YCN58, IE000LFC57H7, IE000UOXRAM8, IE00BMYMHS24). In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
           },
           "halalSukuk": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
@@ -2305,7 +2334,7 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Trade Republic. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -2324,7 +2353,7 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 4,
+          "halalEtfsFonds": 1,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         }

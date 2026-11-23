@@ -4,6 +4,12 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { LandWahl } from "@/components/land/LandWahl";
 import VergleichDepot from "@/pages/VergleichDepot";
 import VergleichKrypto from "@/pages/VergleichKrypto";
+import VergleichGirokonto from "@/pages/VergleichGirokonto";
+import VergleichEdelmetalle from "@/pages/VergleichEdelmetalle";
+import { VergleichEtfSparplan } from "@/pages/VergleichAbgeleitet";
+import { findPartnerLink } from "@/data/partnerLinks";
+import { findStartPartner } from "@/data/investmentStart";
+import { ZURUECKGESTELLT } from "@/data/land/zurueckgestellt";
 import { landFreigegeben, landVergleich } from "@/data/land";
 import Vergleiche from "@/pages/Vergleiche";
 
@@ -55,7 +61,9 @@ describe("Länderseite ohne Liste (DACH1)", () => {
   it("eine fertige Länderliste zeigt ihre eigenen Anbieter, nie die deutsche Liste", () => {
     const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
     expect(container.textContent).toContain("Steuereinfach (KESt wird abgeführt)");
-    expect(container.textContent).toContain("DADAT");
+    expect(container.textContent).toContain("flatex");
+    // Prüfung 2: DADAT ist zurückgestellt (Halal-Kauf ohne Beleg).
+    expect(container.textContent).not.toContain("DADAT");
     expect(container.textContent).not.toContain("norisbank");
     expect(container.textContent).not.toContain("Comdirect");
   });
@@ -91,7 +99,7 @@ describe("Länderseite ohne Liste (DACH1)", () => {
   it("die Österreich-Depotseite zählt in der Beschreibung ihre eigenen Depots (Prüfung S-3)", () => {
     zeige("/at/vergleich/depot", <VergleichDepot />);
     const beschreibung = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    expect(beschreibung).toContain("8 Depots für Österreich");
+    expect(beschreibung).toContain("5 Depots für Österreich");
     expect(beschreibung).not.toContain("38");
     expect(beschreibung).not.toContain("Kredit ab Start");
   });
@@ -110,9 +118,69 @@ describe("Nummer 1 in Österreich (DACH1, Prüfung S-1)", () => {
       const liste = landVergleich("at", pfad);
       expect(liste?.anbieter.some((a) => /scalable/i.test(a.id)), pfad).toBe(false);
     }
-    const depot = landVergleich("at", "/vergleich/depot");
-    const scalable = depot?.anbieter.find((a) => a.id === "scalable-capital-depot-at");
-    expect(scalable?.werte.zinsfreiAbStart ?? null).toBeNull();
+    // Prüfung 2: Scalable ist auch im Depot zurückgestellt, bis der Zinsbeleg für Österreich da ist.
+    expect(landVergleich("at", "/vergleich/depot")?.anbieter.some((a) => /scalable/i.test(a.id))).toBe(false);
+  });
+});
+
+const AT_SEITEN = [
+  ["/at/vergleich/depot", <VergleichDepot key="d" />],
+  ["/at/vergleich/girokonto", <VergleichGirokonto key="g" />],
+  ["/at/vergleich/krypto", <VergleichKrypto key="k" />],
+  ["/at/vergleich/edelmetalle", <VergleichEdelmetalle key="e" />],
+  ["/at/vergleich/etf-sparplan", <VergleichEtfSparplan key="s" />],
+] as const;
+
+describe("Österreich nach Prüfung 2 (DACH1, 23.11.2026)", () => {
+  it("nimmt zurückgestellte Anbieter aus jeder Liste, schaltet ihren Link ab und ihre Startseite aus", () => {
+    const alle = AT_SEITEN.flatMap(([pfad]) => landVergleich("at", pfad.replace(/^\/at/, ""))?.anbieter ?? []);
+    for (const z of ZURUECKGESTELLT) {
+      for (const id of z.ids) expect(alle.some((a) => a.id === id), id).toBe(false);
+      for (const k of z.kurznamen) {
+        expect(findPartnerLink(k)?.aktiv, k).toBe(false);
+        expect(findStartPartner(k), k).toBeUndefined();
+      }
+    }
+    for (const a of alle) expect(a.link ?? "", a.id).not.toMatch(/scalable|easybank/);
+  });
+
+  it("zählt nur Papiere mit Zulassungsbeleg des Herausgebers und zeigt ihren Namen statt eines Bruchs", () => {
+    for (const pfad of ["/vergleich/depot", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
+      const liste = landVergleich("at", pfad)!;
+      expect(liste.anteilN, pfad).toEqual({ halalEtfsFonds: 1, halalSukuk: 1, halalEdelmetalle: 1 });
+      for (const a of liste.anbieter)
+        for (const k of ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) expect([null, "1 von 1"], `${a.id} ${k}`).toContain(a.werte[k] ?? null);
+    }
+    const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
+    expect(container.textContent).toContain("World Islamic");
+    expect(container.textContent).not.toContain("1 von 1");
+    expect(container.textContent).not.toMatch(/von 4|bestätigt|mind\./);
+  });
+
+  it("sagt bei der DKB in Österreich: nicht steuereinfach", () => {
+    for (const pfad of ["/vergleich/depot", "/vergleich/edelmetalle"]) {
+      const dkb = landVergleich("at", pfad)!.anbieter.find((a) => a.id.startsWith("dkb-"));
+      expect(dkb?.werte.kapest, pfad).toBe(false);
+      expect(dkb?.quellen?.kapest?.hinweis, pfad).toContain("Kapitalertragsteuer nicht automatisch");
+    }
+    expect(findStartPartner("dkb-depot-at")?.fakten.some((f) => f.titel === "Nicht steuereinfach")).toBe(true);
+  });
+
+  it("führt auf keiner AT-Seite in den Blog, die Methodik oder den deutschen Check, und sagt nie „Dispo“ oder „Silber“", () => {
+    for (const [pfad, Seite] of AT_SEITEN) {
+      const { container, unmount } = zeige(pfad, Seite);
+      // Die Flagge „DE“ der Länderwahl führt gewollt zur deutschen Fassung, alle anderen Links bleiben in Österreich.
+      const links = [...container.querySelectorAll("a")]
+        .filter((a) => !a.closest('nav[aria-label="Land wählen"]'))
+        .map((a) => a.getAttribute("href") ?? "");
+      for (const l of links) {
+        expect(l, pfad).not.toMatch(/^\/(blog|halal-anlagen|check|vergleiche\/methodik)/);
+        expect(l, pfad).not.toMatch(/^\/vergleich\//);
+      }
+      expect(container.textContent, pfad).not.toContain("Dispo");
+      expect(container.textContent, pfad).not.toContain("Silber");
+      unmount();
+    }
   });
 });
 

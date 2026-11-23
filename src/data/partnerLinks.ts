@@ -20,6 +20,7 @@
 // Netzwerk Awin, Publisher-ID 3099915 (finanzmuslim). Standard-Link
 // https://www.awin1.com/cread.php?awinmid=<Programm>&awinaffid=3099915.
 
+import { kurznameZurueckgestellt } from "@/data/land/zurueckgestellt";
 export type PartnerLink = {
   kurzname: string;
   anbieter: string;
@@ -353,7 +354,8 @@ export const partnerLinks: PartnerLink[] = [
     kurzname: "scalable-at",
     anbieter: "Scalable Capital",
     ziel: "/dein-investmentstart/scalable-at",
-    aktiv: true,
+    /* DACH1 Prüfung 2: zurückgestellt, bis der Beleg da ist (src/data/land/zurueckgestellt.ts). */
+    aktiv: !kurznameZurueckgestellt("scalable-at"),
     notiz: "Scalable-Direktprogramm (PartnerID 1017), derselbe Link wie scalable. Konditionen Abschnitt 6: „Nur Neukunden mit DE/AT-Wohnsitz“ (Vault-Kopie Finanzmuslim Arbeit/1_FINANZMUSLIM/referenz/scalable/SCALABLE_KONDITIONEN.md, Zeile 62). Der financeAds-Antrag 1428 ist damit nicht nötig.",
     land: "at",
   },
@@ -401,7 +403,8 @@ export const partnerLinks: PartnerLink[] = [
     kurzname: "easybank-depot-at",
     anbieter: "easybank",
     ziel: "/dein-investmentstart/easybank-depot-at",
-    aktiv: true,
+    /* DACH1 Prüfung 2: zurückgestellt, bis der Beleg da ist (src/data/land/zurueckgestellt.ts). */
+    aktiv: !kurznameZurueckgestellt("easybank-depot-at"),
     notiz: "financeAds, Programm 338 (angenommen 23.11.2026), Textlink Depot 104034, Ziel easybank.at/easybank/anlegen/wertpapierdepot. Nie Sparkonto, Kredit oder Businesskonto.",
     land: "at",
   },
@@ -409,7 +412,8 @@ export const partnerLinks: PartnerLink[] = [
     kurzname: "easybank-girokonto-at",
     anbieter: "easybank",
     ziel: "/dein-investmentstart/easybank-girokonto-at",
-    aktiv: true,
+    /* DACH1 Prüfung 2: zurückgestellt, bis der Beleg da ist (src/data/land/zurueckgestellt.ts). */
+    aktiv: !kurznameZurueckgestellt("easybank-girokonto-at"),
     notiz: "financeAds, Programm 338, Textlink Girokonto easy gratis 111906, Ziel easybank.at/easybank/konto/easy-gratis.",
     land: "at",
   },

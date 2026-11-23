@@ -31,9 +31,9 @@ import { siegerDerSeite } from "@/lib/vergleichAssistent";
 import { ANSICHT_A3, ansichtA3, platzZeilen, type AnsichtEintrag } from "@/lib/platzAnsicht";
 import { LandWahl } from "@/components/land/LandWahl";
 import { LandInVorbereitung } from "@/components/land/LandInVorbereitung";
-import { freigegebeneLaender, hatLandVersion, landVergleich } from "@/data/land";
+import { freigegebeneLaender, hatLandVersion, landFreigegeben, landVergleich } from "@/data/land";
 import { BEISPIEL_EINTRAG } from "@/data/land/beispiel";
-import { finanzMaxFuerLand, LAND_SPRACHE, zeilenFuerLand } from "@/data/land/landTexte";
+import { filterFuerLand, finanzMaxFuerLand, LAND_SPRACHE, zeilenFuerLand } from "@/data/land/landTexte";
 import { LAENDER, landPfad } from "@/lib/land";
 import { festeOrdnung } from "@/lib/landRangfolge";
 import { useLand } from "@/lib/useLand";
@@ -180,7 +180,7 @@ export const VergleichsSeite = ({
   einheit,
   zeilen: zeilenDe,
   anbieter: anbieterDe,
-  filter,
+  filter: filterDe,
   stand: standDe,
   standHinweis: standHinweisDe,
   kategorie,
@@ -199,7 +199,7 @@ export const VergleichsSeite = ({
   auszeichnungen,
   faq: faqDe,
   ratgeber: ratgeberDe,
-  weiterlesen,
+  weiterlesen: weiterlesenDe,
   schluss,
   ansichtAlle: ansichtAlleDe,
   einleitung: einleitungDe,
@@ -224,6 +224,16 @@ export const VergleichsSeite = ({
     return <LandInVorbereitung land={land} pfad={pfad} brotkrumen={brotkrumen} titel={titel} />;
   }
   const zeilen = land === "de" ? zeilenDe : zeilenFuerLand(zeilenDe, land);
+  const filter = land === "de" ? filterDe : filterFuerLand(filterDe, land);
+  /* DACH1 Prüfung 2 (S-7): Auf Länderseiten kein Weg zu deutschen Inhalten mit deutschen Steuer- oder Produktaussagen.
+     Aus „Mehr dazu“ bleiben nur Vergleiche, die es im Land fertig gibt, mit der Adresse des Landes; Blog, Datenbank und
+     Methodik (deutsche Zählung) fallen weg. */
+  const weiterlesen =
+    land === "de"
+      ? weiterlesenDe
+      : weiterlesenDe
+          ?.filter((w) => hatLandVersion(w.to) && landFreigegeben(land, w.to) && w.to !== pfad)
+          .map((w) => ({ ...w, to: landPfad(w.to, land) }));
   const finanzMax = land === "de" || !finanzMaxDe ? finanzMaxDe : finanzMaxFuerLand(finanzMaxDe, land);
   const stand = land === "de" ? standDe : (eigeneListe?.stand ?? standDe);
   const standHinweis = land === "de" ? standHinweisDe : undefined;
@@ -252,10 +262,7 @@ export const VergleichsSeite = ({
   const sortiertNach =
     landSeite && eigeneListe?.reihenfolge && !beispiel ? (
       <>
-        {landSeite.rangHinweis}{" "}
-        <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
-          So bewerten wir
-        </Link>
+        {landSeite.rangHinweis}
       </>
     ) : (
       sortiertNachDe
@@ -337,11 +344,24 @@ export const VergleichsSeite = ({
         ...nachRang.filter((a) => a.id !== sieger.id),
       ]
     : nachRang;
+  /* DACH1 Prüfung 2: Länderlisten zeigen statt eines Zählwerts den Namen dessen, was bestätigt ist (`anzeige`). Die
+     Rangfolge oben rechnet mit dem gespeicherten Wert, nur was man sieht, wechselt. */
+  const anzeigeRegeln = !beispiel ? eigeneListe?.anzeige : undefined;
+  const zeige = (a: RohAnbieter): RohAnbieter => {
+    if (!anzeigeRegeln) return a;
+    const werte = { ...a.werte };
+    for (const [key, ersatz] of Object.entries(anzeigeRegeln)) {
+      const w = werte[key];
+      if (typeof w === "string" && ersatz[w]) werte[key] = ersatz[w];
+    }
+    return { ...a, werte };
+  };
+  const siegerAnzeige = sieger ? zeige(sieger) : null;
   const spaltenLive = baueSpalten(
     sortiert.map((a) => {
       /* Der Platz steht als Zahl im Reiter, nicht mehr als Etikett „Platz n“ (Finanzfluss, Elias CV17F). */
       const mitNote = {
-        ...a,
+        ...zeige(a),
         note: a.note ?? noteVon?.get(a.id) ?? null,
         platz: platz?.get(a.id) ?? (a.id === sieger?.id ? 1 : undefined),
       };
@@ -427,10 +447,10 @@ export const VergleichsSeite = ({
             {/* Wie Finanzfluss: große H1 mit Jahr, Unterzeile in voller Farbe, dann Autor mit Foto
                 und Datum des letzten Datenstands (Elias CV17F: „immer aktualisiert am …“). */}
             <h1 className="text-[34px] font-semibold leading-[1.1] tracking-tight text-foreground md:text-[48px]">
-              {titel}
+              {(!beispiel && eigeneListe?.titel) || titel}
             </h1>
             <p className="mt-3 text-[20px] leading-snug text-foreground md:text-[26px]">
-              {untertitel}
+              {(!beispiel && eigeneListe?.untertitel) || untertitel}
             </p>
             <div className={`mt-4 ${AUTOR_KASTEN} lg:inline-flex lg:pr-6 ${kopfFF ? "xl:hidden" : ""}`}>
               <img src={eliasAutor} alt="Elias El-Gendy" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
@@ -449,7 +469,7 @@ export const VergleichsSeite = ({
             {einleitung}
           </div>
 
-          {MIT_ASSISTENT.includes(pfad) && (
+          {MIT_ASSISTENT.includes(pfad) && land === "de" && (
             <Link
               to="/check?quelle=quiz"
               className="mt-4 flex min-h-[50px] items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-[15px] text-foreground transition-colors hover:border-primary lg:mt-5 lg:max-w-3xl"
@@ -566,11 +586,11 @@ export const VergleichsSeite = ({
           {sieger && !zweiter && (
             <div className={kopfFF ? "xl:col-start-3 xl:row-span-2 xl:row-start-1" : ""}>
             <NummerEins
-              anbieter={sieger}
+              anbieter={siegerAnzeige ?? sieger}
               zeilen={zeilen}
               einheit={einheit}
               linkVorrang={kategorie ? LINK_VORRANG.has(kategorie) : false}
-              spalte={baueSpalten([sieger], zeilen, kategorie)[0]}
+              spalte={baueSpalten([siegerAnzeige ?? sieger], zeilen, kategorie)[0]}
               auszeichnung={nummerEinsText}
               note={noteVon?.get(sieger.id) ?? null}
               giro={giro}
@@ -621,6 +641,7 @@ export const VergleichsSeite = ({
               </li>
             ))}
           </ul>
+          {land === "de" && (
           <p className="mt-5 text-[15px]">
             <Link
               to="/vergleiche/methodik"
@@ -629,6 +650,7 @@ export const VergleichsSeite = ({
               So entsteht die Bewertung
             </Link>
           </p>
+          )}
         </section>
         )}
 
@@ -683,10 +705,15 @@ export const VergleichsSeite = ({
           * Mit Stern markierte Links sind Werbe- oder Affiliate-Links. Wenn du
           darüber ein Produkt abschließt, erhalte ich eine Provision. Für dich
           entstehen dadurch keine Mehrkosten.{" "}
-          {standHinweis ? `Stand: ${stand}. ${standHinweis}.` : `Stand: ${stand}.`}{" "}
-          <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
-            So bewerten wir
-          </Link>
+          {standHinweis ? `Stand: ${stand}. ${standHinweis}.` : `Stand: ${stand}.`}
+          {land === "de" && (
+            <>
+              {" "}
+              <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+                So bewerten wir
+              </Link>
+            </>
+          )}
         </p>
 
         {zusatz && <div className={`${AM_ENDE} ${BREIT}`}>{zusatz}</div>}
@@ -714,7 +741,7 @@ export const VergleichsSeite = ({
         {weiterlesen && weiterlesen.length > 0 && (
           <aside className={`${AM_ENDE} ${BREIT} mt-12 max-w-3xl`} aria-labelledby="weiterlesen-blog">
             <p id="weiterlesen-blog" className="text-2xl font-bold text-foreground">
-              Mehr dazu im Blog
+              {land === "de" ? "Mehr dazu im Blog" : "Mehr Vergleiche"}
             </p>
             <ul className="mt-3 grid gap-3 sm:grid-cols-2">
               {weiterlesen.map((w) => (
