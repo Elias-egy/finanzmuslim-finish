@@ -295,7 +295,7 @@ export const ZellInhalt = ({
       <span className="inline-flex items-center gap-2">
         <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ampelFarbe[status]}`} aria-hidden />
         <span className={status === "unbekannt" ? "text-muted-foreground" : "text-foreground"}>
-          {status === "unbekannt" ? KEINE_ANGABE : status === "gut" ? "ja" : status === "schlecht" ? "nein" : teilsText}
+          {status === "unbekannt" ? (wert?.text || KEINE_ANGABE) : status === "gut" ? "ja" : status === "schlecht" ? "nein" : teilsText}
         </span>
       </span>
     );

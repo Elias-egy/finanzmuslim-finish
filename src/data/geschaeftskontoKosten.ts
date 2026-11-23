@@ -17,15 +17,16 @@
  *  - Einlagensicherung 18: Ja alles, Teilweise die Hälfte, Nein nichts.
  */
 
-export type Gebuehr = { euro: number } | { prozent: number } | "nicht möglich" | "Fremdbank";
+/** `"keine Angabe"`: Finanzfluss nennt keinen Wert (Wise Business), das zählt 0 Punkte, nichts wird geschätzt. */
+export type Gebuehr = { euro: number } | { prozent: number } | "nicht möglich" | "Fremdbank" | "keine Angabe";
 
 export type KostenEingabe = {
   /** Kontoführung im Monat in Euro. */
   kontofuehrung: number;
-  /** Freie Buchungen im Monat, `"unbegrenzt"` oder eine Zahl. */
-  freieBuchungen: number | "unbegrenzt";
-  /** Preis je Buchung über die freien hinaus, in Euro. */
-  kostenBuchung: number;
+  /** Freie Buchungen im Monat, `"unbegrenzt"` oder eine Zahl. Jahreszahlen vorher durch 12 teilen. null: keine Angabe, 0 Punkte. */
+  freieBuchungen: number | "unbegrenzt" | null;
+  /** Preis je Buchung über die freien hinaus, in Euro. null: keine Angabe, 0 Punkte. */
+  kostenBuchung: number | null;
   /** Debitkarte: Kosten im Monat in Euro, null heißt keine Debitkarte. */
   debitkarte: number | null;
   abheben: Gebuehr;
@@ -42,20 +43,20 @@ const zwischen = (x: number) => Math.min(1, Math.max(0, x));
 const linearFallend = (wert: number, bis: number) => zwischen(1 - wert / bis);
 
 const gebuehrAnteil = (g: Gebuehr): number => {
-  if (g === "nicht möglich") return 0;
+  if (g === "nicht möglich" || g === "keine Angabe") return 0;
   if (g === "Fremdbank") return 0.5;
   return "euro" in g ? linearFallend(g.euro, 5) : linearFallend(g.prozent, 3);
 };
 
 /** Die Punkte je Kriterium, Schlüssel wie in `GESCHAEFT_FINANZ_MAX`. Höchstens so viel wie dort. */
 export const geschaeftFinanzPunkte = (k: KostenEingabe, max: Record<string, number>): Record<string, number> => {
-  const frei = k.freieBuchungen === "unbegrenzt" ? 1 : zwischen(k.freieBuchungen / 100);
+  const frei = k.freieBuchungen === "unbegrenzt" ? 1 : k.freieBuchungen === null ? 0 : zwischen(k.freieBuchungen / 100);
   const unter = k.unterkonten === "unbegrenzt" ? 1 : zwischen(k.unterkonten / 5);
   const anbindungen = new Set(k.buchhaltung.map((b) => b.trim().toLowerCase()).filter(Boolean)).size;
   const sicherung = k.einlagensicherung === "ja" ? 1 : k.einlagensicherung === "teilweise" ? 0.5 : 0;
   const anteile: Record<string, number> = {
     kontofuehrung: linearFallend(k.kontofuehrung, 30),
-    kostenBuchung: linearFallend(k.kostenBuchung, 0.4),
+    kostenBuchung: k.kostenBuchung === null ? 0 : linearFallend(k.kostenBuchung, 0.4),
     freieBuchungen: frei,
     abheben: gebuehrAnteil(k.abheben),
     einzahlen: gebuehrAnteil(k.einzahlen),

@@ -1,7 +1,9 @@
 // Von Hand gepflegt (VG2, 23.11.2026). Wie bei der Steuersoftware steht hinter diesem Vergleich keine erzeugte Tabelle.
 // Kosten und Leistungen: Finanzfluss-Vergleich Geschäftskonto, Stand 11.11.2026 (Quelle je Wert, Abruf 23.11.2026).
 // Halal-Merkmale (Zinsen, Dispo, Karte): nur mit wörtlichem Beleg von der Seite des Anbieters, Stand 23.11.2026.
-// Was null ist, ist nicht belegt: Der Tarif fällt aus der Anzeige (`anzeige/geschaeftskonto.ts`), nichts wird geschätzt.
+// Seit VG2-04 (Elias, 23.11.2026) stehen alle 71 Tarife der 23 Anbieter von Finanzfluss drin. Wo der Anbieter nichts Ausdrückliches
+// schreibt, steht der Wert auf "unbekannt" (Zelle „Offen“, grau, kein Urteil). Was null ist, ist nicht belegt: Der Tarif fällt aus der
+// Anzeige (`anzeige/geschaeftskonto.ts`), nichts wird geschätzt.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Quelle } from "@/components/vergleich/vergleichTypen";
 import { GESCHAEFT_FINANZ_MAX } from "./finanzMax";
@@ -10,9 +12,9 @@ import { partnerLinks } from "./partnerLinks";
 import type { RohAnbieter } from "./vergleichHelfer";
 
 /**
- * Geschäftskonten im Vergleich. Aufbau wie bei Finanzfluss (/vergleich/geschaeftskonto/), die Auswahl aber nach unserer Regel:
- * Aufgenommen ist nur, wessen Hauptkonto laut Anbieter ohne Guthabenzins ist. Die übrigen Anbieter des Finanzfluss-Vergleichs
- * stehen draußen, bis der Anbieter es belegt (Elias: „Nichts Unbelegtes reinpacken“, Abwesenheit ist kein Beleg).
+ * Geschäftskonten im Vergleich. Aufbau wie bei Finanzfluss (/vergleich/geschaeftskonto/), alle 71 Tarife. Die Rangfolge ordnet in drei
+ * Stufen (`src/lib/rangfolge.ts`): erst, wessen Hauptkonto laut Anbieter ohne Guthabenzins ist, dann die Häuser, bei denen der Anbieter
+ * dazu nichts Ausdrückliches schreibt (offen), ganz hinten, wer laut Anbieter Zinsen auf das Guthaben zahlt (Wise).
  *
  * Zinssätze, Aktionszinsen und Renditen von Geldmarktfonds stehen nirgends als Vorteil, Etikett oder Bonus.
  */
@@ -25,10 +27,10 @@ export const GESCHAEFT_ZEILEN: VergleichsZeile[] = [
     gruppe: "halal",
     imRaster: true,
     hinweis:
-      "Grün: Das Konto zahlt keinen Guthabenzins. Zinsen gibt es höchstens auf einem eigenen Konto, bei dem du selbst entscheidest, ob du Geld einzahlst. Gelb: Zinsen laufen, lassen sich aber abschalten. Rot: nicht abschaltbar, dann gibt es keine Note.",
+      "Grün: Das Konto zahlt laut Anbieter keinen Guthabenzins. Zinsen gibt es höchstens auf einem eigenen Konto, bei dem du selbst entscheidest, ob du Geld einzahlst. Offen: Der Anbieter schreibt dazu bisher nichts Ausdrückliches, wir fragen nach. Das ist kein Urteil. Rot: Der Anbieter zahlt Zinsen auf das Guthaben, solche Konten stehen ganz hinten.",
   },
-  { key: "keinDispoAbStart", label: "Kein Dispo ab Start", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Wird nach der Eröffnung kein Dispokredit eingeräumt? Ein Kredit nur auf eigenen Antrag zählt als erfüllt." },
-  { key: "karteOhneKredit", label: "Karte ohne Kredit", art: "ampel", gruppe: "halal", hinweis: "Gibt es eine Debitkarte ohne Kreditrahmen? Gibt es nur eine Kreditkarte, ist das Merkmal nicht erfüllt." },
+  { key: "keinDispoAbStart", label: "Kein Dispo ab Start", art: "ampel", gruppe: "halal", imRaster: true, hinweis: "Wird nach der Eröffnung kein Dispokredit eingeräumt? Ein Kredit nur auf eigenen Antrag zählt als erfüllt. Offen: Der Anbieter belegt es bisher nicht ausdrücklich." },
+  { key: "karteOhneKredit", label: "Karte ohne Kredit", art: "ampel", gruppe: "halal", hinweis: "Gibt es eine Debitkarte ohne Kreditrahmen? Gibt es nur eine Kreditkarte, ist das Merkmal nicht erfüllt. Offen: Der Anbieter belegt es bisher nicht ausdrücklich." },
   { key: "kontofuehrung", label: "Kontoführung im Monat", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Der Preis laut Finanzfluss-Vergleich. Gilt er nur mit einer Bedingung, steht sie dabei." },
   { key: "buchungen", label: "Buchungen im Monat", art: "text", gruppe: "kosten", imRaster: true, hinweis: "Wie viele beleglose Buchungen im Monat nichts kosten und was jede weitere kostet." },
   { key: "debitkarte", label: "Debitkarte im Monat", art: "text", gruppe: "kosten", hinweis: "Was die erste Debitkarte im Monat kostet." },
@@ -241,7 +243,246 @@ const REVOLUT: Halal = {
   ),
 };
 
+/* ------------------------------------------------------------------ Offene Häuser und Wise
+ * Elias, 23.11.2026 (VG2-04): „Ich will jeden einzelnen Anbieter ranken. Und wenn dann einer sich rausstellt, der zahlt Zinsen, dann
+ * kommt der hinten auf die Liste“ (raw/2026-11-23-elias-vg2-04-alle-anbieter-rein-eine-mailrunde-dach.md im Vault). Drei Stände beim
+ * Zins: belegt ohne Zins (oben), offen (`unbekannt`, grau, kein Urteil), belegt mit Zins (`schlecht`, ganz hinten). Dispo und Karte
+ * sind `gut`, wo der Anbieter es mit einem Zitat belegt, sonst `unbekannt`. Zitate stehen wortgleich in den Berichten
+ * data/recherche/geschaeftskonto-vg2-2026-11-23.md und geschaeftskonto-vg2-tief-2026-11-23/ (Abruf 23.11.2026).
+ */
+/** Beleg zu einem offenen Wert: steht nur im Datensatz, die Zelle zeigt „Offen“. */
+const offen = beleg;
+
+const AGB_NICHT_VERPFLICHTET =
+  "„Die Girokonten bei der Bank werden als Kontokorrentkonten im Sinne des § 355 des Handelsgesetzbuches (Konten in laufender Rechnung) geführt; zur Verzinsung der Guthaben ist die Bank nicht verpflichtet.“";
+
+const FYRST: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.fyrst.de/dam/fyrst/pdf/fyrst_agbs.pdf",
+    "FYRST AGB Abschnitt 7",
+    `AGB, Abschnitt 7 Abs. 1: ${AGB_NICHT_VERPFLICHTET} Ein Satz, dass das Konto ohne Guthabenzins läuft, steht dort nicht. Zinsen gibt es laut Anbieter auf dem eigenen Tagesgeldkonto (https://www.fyrst.de/konten/tagesgeldkonto.html).`,
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.fyrst.de/finanzierung/businesskreditlinie.html",
+    "FYRST Geschäfts-Kreditlinie",
+    "Seite Geschäfts-Kreditlinie: „Die FYRST Geschäfts-Kreditlinie können Sie ganz einfach im Online-Banking beantragen.“ Ein Kredit gibt es also nur auf eigenen Antrag.",
+  ),
+  karteOhneKredit: beleg(
+    "https://www.fyrst.de/konten/geschaeftskonten/fyrstcomplete.html",
+    "FYRST Produktseiten",
+    "Produktseiten BASE, COMPLETE und Gründerkonto: „Kostenfreie Debit Mastercard“. Eine Debitkarte hat keinen Kreditrahmen.",
+  ),
+};
+
+const POSTBANK: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.postbank.de/dam/postbank/pdf/geschaeftskunden/Postbank-AGB-Starterpaket-GK-FK-921-001-273-0926.pdf",
+    "Postbank AGB Nr. 7",
+    `AGB Starterpaket (Version 09.26), Nr. 7 Abs. 1: ${AGB_NICHT_VERPFLICHTET} Ein Satz, dass das Konto ohne Guthabenzins läuft, steht dort nicht. Zinsen gibt es laut Anbieter auf dem eigenen Business Tagesgeld.`,
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.postbank.de/geschaeftskunden/produkte/finanzierung/kredite/business-kreditlinie.html",
+    "Postbank Business Kreditlinie",
+    "Seite Business Kreditlinie: „Klicken Sie auf „Business Kreditlinie beantragen“ und füllen Sie das Antragsformular aus.“ Ein Kredit gibt es also nur auf eigenen Antrag.",
+  ),
+  karteOhneKredit: beleg(
+    "https://www.postbank.de/geschaeftskunden/produkte/karten-konten/girokonten/business-giro-aktiv-plus.html",
+    "Postbank Business Girokonten",
+    "Seite Business Girokonten: „Postbank Card Business (Debitkarte) inklusive“. Die Kreditkarte Classic ist eine eigene Zeile mit „Bonität vorausgesetzt“.",
+  ),
+};
+
+const dbKarte = (zitat: string): Quelle =>
+  beleg(
+    "https://www.deutsche-bank.de/ms/geschaeftskunden/produktloesungen/geschaeftskonten.html",
+    "Deutsche Bank Geschäftskonten",
+    `Seite Geschäftskonten: ${zitat}. Eine Debitkarte hat keinen Kreditrahmen.`,
+  );
+const deutscheBank = (karte: Quelle): Halal => ({
+  zinsfreiAbStart: offen(
+    "https://www.deutsche-bank.de/content/dam/deutschebank/de/shared/pdf/kontakt-und-service/preis-und-leistungsverzeichnis-der-deutsche-bank-ag.pdf",
+    "Deutsche Bank Preis- und Leistungsverzeichnis",
+    "Preis- und Leistungsverzeichnis (Stand 1. Oktober 2026), Kontomodelle und AGB nennen keinen Guthabenzins für das Geschäftskonto. Ein Satz, dass es keinen gibt, steht auch nicht dort. Zinsen gibt es laut Anbieter auf dem eigenen Business Tagesgeld.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.deutsche-bank.de/gk/produktloesungen/finanzierung/geschaeftskreditlinie.html",
+    "Deutsche Bank Geschäftskreditlinie",
+    "Seite Geschäftskreditlinie: „Geschäftskreditlinie online beantragen“. Ein Kredit gibt es also nur auf eigenen Antrag.",
+  ),
+  karteOhneKredit: karte,
+});
+
+const COMMERZ_KONTEN = "https://www.commerzbank.de/unternehmerkunden/geschaeftskonten/";
+const COMMERZ_KLASSIK = "https://www.commerzbank.de/kp/lp/af/klassikgeschaeftskonto/";
+const COMMERZ_OHNE_SEITE = "Für dieses Angebot gibt es keine eigene Seite mit Konditionen. Kein ausdrücklicher Beleg gefunden.";
+const COMMERZ_PREMIUM = "https://www.commerzbank.de/kp/lp/af/premiumgeschaeftskonto/";
+/** `kartenzitat` und `kartenseite` nur, wo es einen Beleg gibt; GründerAngebot hat keine eigene Seite, dort bleiben Dispo und Karte offen. */
+const commerzbank = (seite: string, kartenseite: string, kartenzitat: string | null): Halal => ({
+  zinsfreiAbStart: offen(
+    COMMERZ_KONTEN,
+    "Commerzbank Geschäftskonten",
+    "Die Seiten werben mit „3,75% p.a. Guthabenszins“. Gemeint ist ein eigenes Tagesgeldkonto: „Nach der Eröffnung des Geschäftskontos können Sie exklusiv das Tagesgeldkonto mit 3,75% p.a. auf bis zu 5 Mio. Euro eröffnen.“ Ein Satz zum Guthaben auf dem Geschäftskonto selbst steht dort nicht.",
+  ),
+  keinDispoAbStart: kartenzitat
+    ? beleg(seite, "Commerzbank Geschäftskonto", "Landingpage: „Separater Kreditantrag und Bonität erforderlich.“ Ein Kredit gibt es also nur auf eigenen Antrag.")
+    : offen(COMMERZ_KONTEN, "Commerzbank Geschäftskonten", COMMERZ_OHNE_SEITE),
+  karteOhneKredit: kartenzitat
+    ? beleg(kartenseite, "Commerzbank Geschäftskonto", `Seite: ${kartenzitat}. Eine Debitkarte hat keinen Kreditrahmen.`)
+    : offen(COMMERZ_KONTEN, "Commerzbank Geschäftskonten", COMMERZ_OHNE_SEITE),
+});
+
+const TARGO_PLV = "https://www.targobank.de/de/download/Preisubersicht.pdf";
+const TARGOBANK: Halal = {
+  zinsfreiAbStart: offen(
+    TARGO_PLV,
+    "Targobank Preis- und Leistungsverzeichnis",
+    "Preis- und Leistungsverzeichnis (Stand 20. November 2026), Teil Geschäftskunden: Unter „Guthaben- und Sollzinsen“ stehen nur Sollzinsen, eine Zeile zum Guthabenzins des Business-Kontos gibt es nicht. Zinsen gibt es laut Anbieter auf dem eigenen Business-Tagesgeld-Konto.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.targobank.de/de/geschaeftskunden/konten.html",
+    "Targobank Geschäftskonto",
+    "Produktseite: „Bitte beachten Sie, dass online nur ein Business-Konto ohne Kontokorrentkredit beantragt werden kann.“ Ein Kredit gibt es also nur auf Antrag und nach Prüfung.",
+  ),
+  karteOhneKredit: beleg(
+    TARGO_PLV,
+    "Targobank Preis- und Leistungsverzeichnis",
+    "Preis- und Leistungsverzeichnis C 1.1.1: „Ausgabe einer Debitkarte (girocard V PAY/Visa) je Konto“, „Kostenlos“. Eine Debitkarte hat keinen Kreditrahmen.",
+  ),
+};
+
+const HVB_PROFIL = "https://www.hypovereinsbank.de/content/dam/hypovereinsbank/shared/pdf/Konto-UBK/HVB-BusinessKonto-4You-Produktprofil.pdf";
+const HVB: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.hypovereinsbank.de/content/dam/hypovereinsbank/footer/Geschaeftsbedingungen/HVB-Aktuelles-Preis-Leistungs-Verzeichnis.pdf",
+    "HVB Preis- und Leistungsverzeichnis",
+    "Preis- und Leistungsverzeichnis (Stand 1. November 2026): Für das BusinessKonto 4You steht kein Zinssatz für Guthaben. Das Produktprofil sagt nur: „Neben der Abwicklung des betrieblichen Zahlungsverkehrs dient es zugleich der Verwahrung von Einlagen.“",
+  ),
+  keinDispoAbStart: offen(HVB_PROFIL, "HVB Produktprofil BusinessKonto 4You", "Ein Kontokorrentkredit läuft über einen eigenen Kreditvertrag. Dass er nur auf Antrag kommt, steht nicht ausdrücklich dort."),
+  karteOhneKredit: beleg(
+    HVB_PROFIL,
+    "HVB Produktprofil BusinessKonto 4You",
+    "Produktprofil: „Ausgabe einer Debitkarte UniCredit Card Business pro Monat 1,00 EUR (kostenfrei bis 31. Dezember 2027, danach Belastung einmal jährlich: 12 EUR)“. Eine Debitkarte hat keinen Kreditrahmen.",
+  ),
+};
+
+const GLS: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.gls.de/media/PDF/uncached/134020_PAH_11.26_20261103.pdf",
+    "GLS Preisaushang",
+    "Preisaushang (gültig ab 1. November 2026): „Zinssatz für Guthaben (Sichteinlagen) pro Jahr 0,00 %“, aber unter der Überschrift Privatkonten. Für das GLS Konto Geschäft steht im Preis- und Leistungsverzeichnis nur ein Einlagenentgelt von 0,00 %.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.gls.de/konten-karten/konten/firmenkonto/",
+    "GLS Firmenkonto",
+    "Konto-Seite: „Das GLS Konto Geschäft bietet Dir darüber hinaus zusätzliche Funktionen wie Einrichtung einer Kontokorrentlinie“. Ein Kredit ist also eine eigene Einrichtung und kommt nicht von selbst.",
+  ),
+  karteOhneKredit: beleg(
+    "https://www.gls.de/konten-karten/konten/geschaeftskonto/",
+    "GLS Geschäftskonto",
+    "Preis- und Leistungsverzeichnis 3.2.1: „girocard Debit Mastercard (GLS BankCard)“. Eine Debitkarte hat keinen Kreditrahmen.",
+  ),
+};
+
+const HOLVI: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.holvi.com/de/verdiene-rendite/",
+    "Holvi Verdiene Rendite",
+    "Holvi nennt Zinsen nur für einen Geldmarktfonds, nicht für das Konto: „Aktuell steht das Angebot ausschließlich für Unternehmen mit der Rechtsform GmbH oder UG zur Verfügung.“ Ein Satz zum Guthaben auf dem Konto selbst steht dort nicht, die Preisliste war nicht abrufbar.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://www.holvi.com/de/geschaeftskonto/",
+    "Holvi Geschäftskonto",
+    "Geschäftskonto-Seite: „Holvi bietet keinen Dispokredit. Es kann nur ausgegeben werden, was auf dem Konto vorhanden ist.“",
+  ),
+  karteOhneKredit: beleg(
+    "https://support.holvi.com/hc/de/articles/40582795829778-Holvi-Fee-Schedule-for-Germany",
+    "Holvi Fee Schedule",
+    "Fee Schedule for Germany (Version 1.13, 9. November 2026): „Holvi Business Debit Mastercard“. Eine Kreditkarte gibt es nur auf Antrag.",
+  ),
+};
+
+const BUNQ_AGB = "https://www.bunq.com/en-us/documents/business-account-terms-conditions";
+const BUNQ: Halal = {
+  zinsfreiAbStart: offen(
+    BUNQ_AGB,
+    "bunq Business AGB Ziffer 17",
+    "Business-AGB, Ziffer 17: „With MassInterest , you can earn interest by opening one or more dedicated savings accounts in the bunq app.“ Ein Satz zum Guthaben auf dem Hauptkonto steht dort nicht.",
+  ),
+  keinDispoAbStart: beleg(BUNQ_AGB, "bunq Business AGB Ziffer 26", "Business-AGB, Ziffer 26: „We usually don't offer an arranged overdraft, so negative balances are generally not allowed.“"),
+  karteOhneKredit: beleg(
+    BUNQ_AGB,
+    "bunq Business AGB",
+    "Business-AGB, Kartenabschnitt: „To keep your card secure, we don't offer overdrafts or credit.“ In der Entgeltinformation steht „Ausgabe einer Debitkarte“.",
+  ),
+};
+
+const QONTO_VERTRAG = "https://qonto.pactsafe.io/versions/6afd624d0caaf0ecff4178f4.pdf";
+const QONTO: Halal = {
+  zinsfreiAbStart: offen(
+    QONTO_VERTRAG,
+    "Qonto Rahmenvertrag Ziffer 2.5b",
+    "Rahmenvertrag (wirksam ab 18. November 2026), Ziffer 2.5b: „Ein positiver Saldo auf einem Girokonto des Kunden kann, wenn eine bestimmte Höhe überschritten wird, dazu führen, dass Qonto zusätzliche Kosten für die Kontoführung entstehen.“ Ein Satz, dass das Konto ohne Guthabenzins läuft, steht nicht dort.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://qonto.com/de/financing/overdraft",
+    "Qonto Kontokorrentkredit",
+    "Seite Kontokorrentkredit: „Nach erfolgreichem Antrag ist Ihr Kontokorrentkredit direkt in Ihrem Konto verfügbar.“ Ein Kredit gibt es also nur auf eigenen Antrag.",
+  ),
+  karteOhneKredit: offen(QONTO_VERTRAG, "Qonto Rahmenvertrag", "Die Karten sind Mastercard-Karten am Konto. Das Wort Debit steht dort nicht, ein Kreditrahmen auch nicht. Kein ausdrücklicher Beleg."),
+};
+
+const KONTIST: Halal = {
+  zinsfreiAbStart: offen(
+    "https://www.solarisgroup.com/customer-information/germany/de-iban/german/preis-und-leistungsverzeichnis",
+    "Kontist und Solaris Preis- und Leistungsverzeichnis",
+    "Kontist und die Partnerbank Solaris nennen keinen Guthabenzins und auch keinen Satz, dass keiner gezahlt wird. Das Preis- und Leistungsverzeichnis der Solaris SE (Version 3.3) nennt ein Entgelt: „ein Verwahrentgelt i.H.v 0,5% p.a. auf die den Allgemeinen Freibetrag übersteigenden Einlagen“ (bei Geschäftskunden ab 100.000 €).",
+  ),
+  keinDispoAbStart: offen(
+    "https://intercom.help/kontist/de/articles/11163669-zinsen-nachweise-und-eigenstandige-kundigung-deines-dispokredits",
+    "Kontist Hilfe-Center",
+    "Das Hilfe-Center (Stand 1. Juli 2026) sagt, dass es derzeit keine Möglichkeit gibt, einen Dispokredit zu beantragen. Auf der Preisseite steht kein Dispo. Kein ausdrücklicher Beleg.",
+  ),
+  karteOhneKredit: beleg("https://kontist.com/pricing/", "Kontist Preisseite", "Preisseite: Free „Physische Visa Debitkarte“, Start und Plus „Physische & Virtuelle Visa Debitkarten“."),
+};
+
+const finom = (dispoSolo: boolean): Halal => ({
+  zinsfreiAbStart: offen(
+    "https://help.finom.co/de/articles/13653128-was-ist-das-zinskonto-interest-wallet-und-wie-funktioniert-es",
+    "Finom Hilfe, Zinskonto",
+    "Hilfe-Center: „Um ein Interest Wallet zu eröffnen, müssen Sie der Kontoinhaber sein.“ Das Zinskonto ist ein eigenes Wallet. Für den Tarif Core steht im Hilfe-Center ein Zins auf dem Kontoguthaben, für Solo, Basic und Smart steht dort kein Satz zum Hauptkonto.",
+  ),
+  keinDispoAbStart: beleg(
+    "https://help.finom.co/de/articles/17463404-wie-aktiviere-ich-den-dispokredit",
+    "Finom Hilfe, Dispokredit",
+    dispoSolo
+      ? "Hilfe-Center: Der Dispokredit setzt voraus, „Bestehender Finom-Kunde mit einem kostenpflichtigen Tarif sein (Basic und höher)“. Im Tarif Solo gibt es ihn damit nicht."
+      : "Hilfe-Center: „Wir schalten den Dispokredit nie ohne Ihre Bestätigung frei.“ Ein Kredit gibt es also nur nach eigener Aktivierung.",
+  ),
+  karteOhneKredit: beleg(
+    "https://help.finom.co/de/articles/4815568-kann-ich-eine-kreditkarte-bekommen",
+    "Finom Hilfe, Karten",
+    "Hilfe-Center: „Mit Finom können Sie außerdem sowohl physische als auch virtuelle Visa Debitkarten bestellen“. Die Kreditkarte ist optional.",
+  ),
+});
+
+const WISE_AGB = "https://wise.com/eu/legal/terms-of-use-business";
+const WISE: Halal = {
+  zinsfreiAbStart: beleg(
+    "https://wise.com/help/articles/b8sVSdAzytqVamfajSirb/how-does-balance-cashback-work",
+    "Wise Hilfe, Cashback auf Guthaben",
+    "Hilfe-Artikel: „As interest rates rise, we believe it’s right to share the interest from the money you hold with us. Cashback is available to all customers in the European Economic Area (EEA).“ und „Wise pays cashback each month based on the EUR, GBP and USD you hold in your Wise account.“ Die Business Customer Agreement (7. August 2026, 12.1 c) sagt dagegen: „The funds held on your Wise Business Account will not earn any interest.“ Ob sich das Cashback abschalten lässt, ist offen.",
+  ),
+  keinDispoAbStart: beleg(WISE_AGB, "Wise Business Customer Agreement 14.7", "Business Customer Agreement (7. August 2026), 14.7: „You promise to always have a zero or positive balance in your Wise Business Account“. Ein Dispo wird nicht angeboten."),
+  karteOhneKredit: beleg(
+    WISE_AGB,
+    "Wise Business Customer Agreement 17.1",
+    "Business Customer Agreement (7. August 2026), 17.1: „The Wise Business Card is a Debit/ Prepaid card that can be used to access and spend the funds in your Wise Business Account“.",
+  ),
+};
+
 /* ------------------------------------------------------------------ Tarife */
+
+type Stand = "gut" | "unbekannt" | "schlecht";
 
 type Tarif = {
   id: string;
@@ -251,8 +492,12 @@ type Tarif = {
   domain: string;
   partner?: string;
   halal: Halal;
-  /** Karte ohne Kredit: gut bei belegter Debitkarte, sonst schlecht. */
-  karte: "gut" | "schlecht";
+  /** Zins ab Start: gut belegt ohne Zins (Standard), unbekannt offen, schlecht belegt mit Zins. */
+  zins?: Stand;
+  /** Dispo ab Start: gut, wo der Anbieter „nicht verfügbar“ oder „nur auf Antrag“ belegt (Standard), sonst unbekannt. */
+  dispo?: Stand;
+  /** Karte ohne Kredit: gut bei belegter Debitkarte, schlecht bei nur einer Kreditkarte, sonst unbekannt. */
+  karte: Stand;
   /** Marke der Debitkarte, nur wenn der Anbieter sie nennt. */
   marke?: string;
   kosten: KostenEingabe;
@@ -262,6 +507,8 @@ type Tarif = {
   zeile: string;
   /** Nur wenn eine Bedingung zum Preis gehört: Text hinter dem Betrag. */
   kontofuehrungZusatz?: string;
+  /** Eigener Text für die Zeile Buchungen, wenn Finanzfluss „im Jahr“ nennt. */
+  buchungenText?: string;
   einlagenLand: string;
 };
 
@@ -269,17 +516,27 @@ const euro = (x: number) => `${x.toLocaleString("de-DE", { minimumFractionDigits
 const prozent = (x: number) => `${x.toLocaleString("de-DE")} %`;
 
 const gebuehrText = (g: Gebuehr): string =>
-  g === "nicht möglich" ? "Nicht möglich" : g === "Fremdbank" ? "Gebühr der Fremdbank" : "euro" in g ? euro(g.euro) : prozent(g.prozent);
+  g === "nicht möglich"
+    ? "Nicht möglich"
+    : g === "Fremdbank"
+      ? "Gebühr der Fremdbank"
+      : g === "keine Angabe"
+        ? "Nicht angegeben"
+        : "euro" in g
+          ? euro(g.euro)
+          : prozent(g.prozent);
 
 const buchungenText = (k: KostenEingabe): string =>
-  k.freieBuchungen === "unbegrenzt"
-    ? "Unbegrenzt kostenlos"
-    : k.freieBuchungen === 0
-      ? `${euro(k.kostenBuchung)} je Buchung`
-      : `${k.freieBuchungen} frei, danach ${euro(k.kostenBuchung)}`;
+  k.freieBuchungen === null || k.kostenBuchung === null
+    ? "Nicht angegeben"
+    : k.freieBuchungen === "unbegrenzt"
+      ? "Unbegrenzt kostenlos"
+      : k.freieBuchungen === 0
+        ? `${euro(k.kostenBuchung)} je Buchung`
+        : `${k.freieBuchungen} frei, danach ${euro(k.kostenBuchung)}`;
 
 const einlagenText = (k: KostenEingabe, land: string): string =>
-  `${k.einlagensicherung === "ja" ? "Ja" : k.einlagensicherung === "teilweise" ? "Teilweise" : "Nein"} (${land})`;
+  k.einlagensicherung === "nein" ? "Nein" : `${k.einlagensicherung === "ja" ? "Ja" : "Teilweise"} (${land})`;
 
 const RECHTSFORMEN_KOMPLETT = ["Freiberufler", "Gewerbe", "UG", "GmbH", "GbR", "OHG", "KG", "AG"];
 
@@ -339,6 +596,37 @@ const revolutKosten = (kontofuehrung: number, frei: number): KostenEingabe => ({
   buchhaltung: ["Sonstige"],
   einlagensicherung: "ja",
 });
+
+/* Hilfen für die Zeilen der übrigen Anbieter: Werte aus Finanzfluss Teil A (data/recherche/geschaeftskonto-vg2-2026-11-23.md). */
+const e = (x: number): Gebuehr => ({ euro: x });
+const p = (x: number): Gebuehr => ({ prozent: x });
+const ke = (o: {
+  f: number;
+  frei: number | "unbegrenzt" | null;
+  kb: number | null;
+  debit: number | null;
+  ab: Gebuehr;
+  ein: Gebuehr;
+  unter: number | "unbegrenzt";
+  buch: string[];
+  sich: KostenEingabe["einlagensicherung"];
+}): KostenEingabe => ({
+  kontofuehrung: o.f,
+  freieBuchungen: o.frei,
+  kostenBuchung: o.kb,
+  debitkarte: o.debit,
+  abheben: o.ab,
+  einzahlen: o.ein,
+  unterkonten: o.unter,
+  buchhaltung: o.buch,
+  einlagensicherung: o.sich,
+});
+const FF_ALLE = RECHTSFORMEN_KOMPLETT;
+const FF_SIEBEN = ["Freiberufler", "Gewerbe", "UG", "GmbH", "GbR", "OHG", "KG"];
+const BUNQ_FUER = ["Freiberufler", "Gewerbe", "GbR", "UG", "GmbH"];
+const HBCI5 = ["HBCI", "DATEV", "Lexware Office", "SevDesk", "Sonstige"];
+const HBCI6 = [...HBCI5, "eigenes Tool"];
+const DATEV_ALLE = ["DATEV", "Lexware Office", "SevDesk", "Sonstige", "eigenes Tool"];
 
 const TARIFE: Tarif[] = [
   {
@@ -415,6 +703,61 @@ const TARIFE: Tarif[] = [
     kosten: { kontofuehrung: 15, freieBuchungen: "unbegrenzt", kostenBuchung: 0, debitkarte: 2.5, abheben: { euro: 0 }, einzahlen: { prozent: 1.5 }, unterkonten: 0, buchhaltung: ["HBCI", "DATEV", "Lexware Office", "SevDesk", "Sonstige"], einlagensicherung: "ja" },
     fuerWen: FREELANCE_FUER, einlagenLand: "Deutschland",
   },
+  /* ---------------------------------------------------------------- Offene Häuser (Zins ohne ausdrücklichen Satz) und Wise */
+  { id: "fyrst-base", haus: "fyrst", name: "FYRST", produkt: "BASE", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "FYRST BASE", kosten: ke({ f: 0, frei: 50, kb: 0.19, debit: 0, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "fyrst-complete", haus: "fyrst", name: "FYRST", produkt: "Complete (Gründerkonto)", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Fyrst Complete (Gründerkonto)", kosten: ke({ f: 10, frei: 75, kb: 0.08, debit: 0, ab: e(0), ein: e(2.5), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "fyrst-premium", haus: "fyrst", name: "FYRST", produkt: "Premium", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Fyrst Premium", kosten: ke({ f: 24, frei: 0, kb: 0.04, debit: 0, ab: e(0), ein: e(2.5), unter: 5, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+
+  { id: "postbank-business-giro", haus: "postbank", name: "Postbank", produkt: "Business Giro", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro", kosten: ke({ f: 12.9, frei: 0, kb: 0.28, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-business-giro-aktiv", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro aktiv", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-gruenderkonto", haus: "postbank", name: "Postbank", produkt: "Gründerkonto", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Gründerkonto", kosten: ke({ f: 16.9, frei: 0, kb: 0.22, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(im ersten Jahr 0 €)", fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "postbank-business-giro-aktiv-plus", haus: "postbank", name: "Postbank", produkt: "Business Giro aktiv plus", domain: "postbank.de", halal: POSTBANK, zins: "unbekannt", karte: "gut", zeile: "Postbank Business Giro aktiv plus", kosten: ke({ f: 24.9, frei: 0, kb: 0.12, debit: 2, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+
+  { id: "deutsche-bank-business-basickonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Business BasicKonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Deutsche Bank Card Business (Debitkarte) inklusive“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Business BasicKonto", kosten: ke({ f: 14.9, frei: 0, kb: 0.3, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "deutsche-bank-business-classickonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Business ClassicKonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Bis zu zwei Deutsche Bank Card Business (Debitkarte) inklusive“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Business ClassicKonto", kosten: ke({ f: 24.9, frei: 0, kb: 0.2, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "deutsche-bank-business-premiumkonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Business PremiumKonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Zwei Deutsche Bank Card Business (Debitkarte) und zwei BusinessCard (Kreditkarten) inklusive“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Business PremiumKonto", kosten: ke({ f: 39.9, frei: 0, kb: 0.1, debit: 0, ab: e(0), ein: e(0), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "deutsche-bank-gruenderkonto", haus: "deutsche-bank", name: "Deutsche Bank", produkt: "Gründerkonto", domain: "deutsche-bank.de", halal: deutscheBank(dbKarte("„Bis zu 2 Deutsche Bank Card Business (Debitkarte) inkl.“")), zins: "unbekannt", karte: "gut", zeile: "Deutsche Bank Gründerkonto", kosten: ke({ f: 24.9, frei: 0, kb: 0.2, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: [...HBCI5, "eigenes Tool"], sich: "ja" }), kontofuehrungZusatz: "(im ersten Jahr 0 €)", fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+
+  { id: "commerzbank-klassikgeschaeftskonto", haus: "commerzbank", name: "Commerzbank", produkt: "KlassikGeschäftskonto", domain: "commerzbank.de", halal: commerzbank(COMMERZ_KLASSIK, COMMERZ_KLASSIK, "„Girocard mit Visa-Funktion (Debitkarte)“"), zins: "unbekannt", karte: "gut", zeile: "Commerzbank KlassikGeschäftskonto", kosten: ke({ f: 15.9, frei: 10, kb: 0.2, debit: 5.9, ab: e(2.5), ein: e(2.5), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(im ersten Jahr 0 €)", fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "commerzbank-premiumgeschaeftskonto", haus: "commerzbank", name: "Commerzbank", produkt: "PremiumGeschäftskonto", domain: "commerzbank.de", halal: commerzbank(COMMERZ_PREMIUM, COMMERZ_KONTEN, "„Girocard mit Visa-Funktion (Debitkarte)“"), zins: "unbekannt", karte: "gut", zeile: "Commerzbank PremiumGeschäftskonto", kosten: ke({ f: 34.9, frei: 50, kb: 0.15, debit: 0, ab: e(2.5), ein: e(2.5), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(in den ersten 2 Jahren 8,90 €)", fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "commerzbank-premiumgeschaeftskonto-plus", haus: "commerzbank", name: "Commerzbank", produkt: "PremiumGeschäftskonto Plus", domain: "commerzbank.de", halal: commerzbank(COMMERZ_PREMIUM, COMMERZ_KONTEN, "„2 Girocards mit Visa-Funktion (Debitkarte)“"), zins: "unbekannt", karte: "gut", zeile: "Commerzbank PremiumGeschäftskonto Plus", kosten: ke({ f: 54.9, frei: 250, kb: 0.1, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "commerzbank-gruenderangebot", haus: "commerzbank", name: "Commerzbank", produkt: "GründerAngebot", domain: "commerzbank.de", halal: commerzbank(COMMERZ_KONTEN, COMMERZ_KONTEN, null), zins: "unbekannt", dispo: "unbekannt", karte: "unbekannt", zeile: "Commerzbank GründerAngebot", kosten: ke({ f: 34.9, frei: 50, kb: 0.15, debit: 0, ab: e(2.5), ein: e(2.5), unter: 0, buch: HBCI5, sich: "ja" }), kontofuehrungZusatz: "(in den ersten 2 Jahren 8,90 €)", fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+
+  { id: "targobank-business-konto-plus", haus: "targobank", name: "Targobank", produkt: "Business-Konto Plus", domain: "targobank.de", halal: TARGOBANK, zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Targobank Business-Konto Plus", kosten: ke({ f: 9.9, frei: 0, kb: 0.2, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "targobank-business-konto-komfort", haus: "targobank", name: "Targobank", produkt: "Business-Konto Komfort", domain: "targobank.de", halal: TARGOBANK, zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Targobank Business-Konto Komfort", kosten: ke({ f: 14.9, frei: 30, kb: 0.15, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+  { id: "targobank-business-konto-premium", haus: "targobank", name: "Targobank", produkt: "Business-Konto Premium", domain: "targobank.de", halal: TARGOBANK, zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Targobank Business-Konto Premium", kosten: ke({ f: 26.9, frei: 75, kb: 0.1, debit: 0, ab: e(0), ein: e(0), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
+
+  { id: "hvb-businesskonto-4you", haus: "hvb", name: "HVB", produkt: "BusinessKonto 4You", domain: "hypovereinsbank.de", halal: HVB, zins: "unbekannt", dispo: "unbekannt", karte: "gut", zeile: "HVB BusinessKonto 4You", kosten: ke({ f: 25, frei: 50, kb: 0.4, debit: 0, ab: e(0), ein: e(2.5), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "gls-geschaeftskonto", haus: "gls", name: "GLS Bank", produkt: "Geschäftskonto", domain: "gls.de", halal: GLS, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "GLS Geschäftskonto", kosten: ke({ f: 15, frei: 0, kb: 0.14, debit: 1.25, ab: e(0), ein: e(9.5), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+
+  { id: "holvi-flex", haus: "holvi", name: "Holvi", produkt: "Flex", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Flex", kosten: ke({ f: 0, frei: 0, kb: 0.25, debit: 0, ab: p(2.5), ein: "nicht möglich", unter: 0, buch: ["DATEV", "SevDesk", "Sonstige"], sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-lite", haus: "holvi", name: "Holvi", produkt: "Lite", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Lite", kosten: ke({ f: 5.36, frei: 100, kb: 0.25, debit: 0, ab: p(2.5), ein: p(2.5), unter: 2, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-pro", haus: "holvi", name: "Holvi", produkt: "Pro", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Pro", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(2), ein: p(2), unter: 5, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+  { id: "holvi-business", haus: "holvi", name: "Holvi", produkt: "Business", domain: "holvi.com", halal: HOLVI, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Holvi Business", kosten: ke({ f: 70.21, frei: "unbegrenzt", kb: 0, debit: 0, ab: p(0), ein: p(2), unter: 15, buch: DATEV_ALLE, sich: "teilweise" }), fuerWen: FF_SIEBEN, einlagenLand: "Finnland" },
+
+  { id: "bunq-free-business", haus: "bunq", name: "bunq", produkt: "Free Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Free Business", kosten: ke({ f: 0, frei: 0, kb: 0.13, debit: 0, ab: e(2.99), ein: p(0.5), unter: 3, buch: [], sich: "ja" }), fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-core-business", haus: "bunq", name: "bunq", produkt: "Core Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Core Business", kosten: ke({ f: 7.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0.99), ein: e(0), unter: 5, buch: [], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-pro-business", haus: "bunq", name: "bunq", produkt: "Pro Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Pro Business", kosten: ke({ f: 13.99, frei: 250 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "250 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+  { id: "bunq-elite-business", haus: "bunq", name: "bunq", produkt: "Elite Business", domain: "bunq.com", halal: BUNQ, zins: "unbekannt", karte: "gut", zeile: "bunq Elite Business", kosten: ke({ f: 23.99, frei: 500 / 12, kb: 0.13, debit: 0, ab: e(0), ein: p(0.5), unter: 25, buch: ["SevDesk", "Sonstige"], sich: "ja" }), buchungenText: "500 im Jahr frei, danach 0,13 €", fuerWen: BUNQ_FUER, einlagenLand: "Niederlande" },
+
+  { id: "finom-solo", haus: "finom", name: "Finom", produkt: "Solo", domain: "finom.co", halal: finom(true), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Solo", kosten: ke({ f: 0, frei: "unbegrenzt", kb: 0, debit: 3, ab: p(1), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FREELANCE_FUER, einlagenLand: "keins" },
+  { id: "finom-basic", haus: "finom", name: "Finom", produkt: "Basic", domain: "finom.co", halal: finom(false), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Basic", kosten: ke({ f: 10.71, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
+  { id: "finom-smart", haus: "finom", name: "Finom", produkt: "Smart", domain: "finom.co", halal: finom(false), zins: "unbekannt", karte: "gut", marke: "Visa", zeile: "Finom Smart", kosten: ke({ f: 28.56, frei: "unbegrenzt", kb: 0, debit: 0, ab: e(0), ein: "nicht möglich", unter: "unbegrenzt", buch: DATEV_ALLE, sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
+
+  { id: "kontist-free", haus: "kontist", name: "Kontist", produkt: "Free", domain: "kontist.com", halal: KONTIST, zins: "unbekannt", dispo: "unbekannt", karte: "gut", marke: "Visa", zeile: "Kontist Free", kosten: ke({ f: 0, frei: 5, kb: 0.4, debit: 0, ab: e(2), ein: p(2.9), unter: 0, buch: ["SevDesk"], sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "kontist-start", haus: "kontist", name: "Kontist", produkt: "Start", domain: "kontist.com", halal: KONTIST, zins: "unbekannt", dispo: "unbekannt", karte: "gut", marke: "Visa", zeile: "Kontist Start", kosten: ke({ f: 13.09, frei: 30, kb: 0.4, debit: 0, ab: e(2), ein: p(2.9), unter: 3, buch: ["DATEV", "SevDesk", "Sonstige"], sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+  { id: "kontist-plus", haus: "kontist", name: "Kontist", produkt: "Plus", domain: "kontist.com", halal: KONTIST, zins: "unbekannt", dispo: "unbekannt", karte: "gut", marke: "Visa", zeile: "Kontist Plus", kosten: ke({ f: 29.75, frei: 100, kb: 0.4, debit: 0, ab: e(2), ein: p(2.9), unter: 5, buch: ["DATEV", "SevDesk", "Sonstige", "eigenes Tool"], sich: "ja" }), fuerWen: FF_ALLE, einlagenLand: "Deutschland" },
+
+  { id: "qonto-starter", haus: "qonto", name: "Qonto", produkt: "Starter", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Starter", kosten: ke({ f: 0, frei: 5, kb: 0.2, debit: 5, ab: e(2), ein: "nicht möglich", unter: 0, buch: HBCI6, sich: "teilweise" }), fuerWen: FREELANCE_FUER, einlagenLand: "Frankreich" },
+  { id: "qonto-basic", haus: "qonto", name: "Qonto", produkt: "Basic", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Basic", kosten: ke({ f: 10.71, frei: 30, kb: 0.2, debit: 0, ab: e(2), ein: "nicht möglich", unter: 0, buch: HBCI6, sich: "teilweise" }), fuerWen: FREELANCE_FUER, einlagenLand: "Frankreich" },
+  { id: "qonto-smart", haus: "qonto", name: "Qonto", produkt: "Smart", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Smart", kosten: ke({ f: 22.61, frei: 60, kb: 0.2, debit: 0, ab: e(2), ein: "nicht möglich", unter: 1, buch: HBCI6, sich: "teilweise" }), fuerWen: FF_ALLE, einlagenLand: "Frankreich" },
+  { id: "qonto-premium", haus: "qonto", name: "Qonto", produkt: "Premium", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Premium", kosten: ke({ f: 46.41, frei: 200, kb: 0.1, debit: 0, ab: e(2), ein: "nicht möglich", unter: 4, buch: HBCI6, sich: "teilweise" }), fuerWen: FF_ALLE, einlagenLand: "Frankreich" },
+  { id: "qonto-essential", haus: "qonto", name: "Qonto", produkt: "Essential", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Essential", kosten: ke({ f: 58.31, frei: 150, kb: 0.15, debit: 0, ab: e(2), ein: "nicht möglich", unter: 9, buch: HBCI6, sich: "teilweise" }), fuerWen: FF_ALLE, einlagenLand: "Frankreich" },
+  { id: "qonto-business", haus: "qonto", name: "Qonto", produkt: "Business", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Business", kosten: ke({ f: 117.81, frei: 500, kb: 0.15, debit: 0, ab: e(2), ein: "nicht möglich", unter: 29, buch: HBCI6, sich: "teilweise" }), fuerWen: FF_ALLE, einlagenLand: "Frankreich" },
+  { id: "qonto-enterprise", haus: "qonto", name: "Qonto", produkt: "Enterprise", domain: "qonto.com", halal: QONTO, zins: "unbekannt", karte: "unbekannt", zeile: "Qonto Enterprise", kosten: ke({ f: 236.81, frei: 10000, kb: 0.1, debit: 0, ab: e(2), ein: "nicht möglich", unter: 99, buch: HBCI6, sich: "teilweise" }), fuerWen: FF_ALLE, einlagenLand: "Frankreich" },
+
+  // Wise: Finanzfluss nennt keine Werte für Buchungen und Bargeld, das zählt 0 Punkte (`keine Angabe`). Zins: Cashback auf Guthaben (Hilfe-Artikel).
+  { id: "wise-business", haus: "wise", name: "Wise", produkt: "Business", domain: "wise.com", halal: WISE, zins: "schlecht", karte: "gut", zeile: "Wise Business", kosten: ke({ f: 0, frei: null, kb: null, debit: 0, ab: "keine Angabe", ein: "keine Angabe", unter: 0, buch: ["Sonstige"], sich: "nein" }), fuerWen: FF_ALLE, einlagenLand: "keins" },
 ];
 
 const finanzfluss = (t: Tarif, hinweis: string, anzeige?: string): Quelle => ({
@@ -440,16 +783,16 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
     finanzfluss: { produkt: t.zeile, partnerlink: null },
     finanzPunkte: geschaeftFinanzPunkte(k, GESCHAEFT_FINANZ_MAX),
     werte: {
-      zinsfreiAbStart: "gut",
-      keinDispoAbStart: "gut",
+      zinsfreiAbStart: t.zins ?? "gut",
+      keinDispoAbStart: t.dispo ?? "gut",
       karteOhneKredit: t.karte,
       kontofuehrung,
-      buchungen: buchungenText(k),
+      buchungen: t.buchungenText ?? buchungenText(k),
       debitkarte: debit,
       abheben: gebuehrText(k.abheben),
       einzahlen: gebuehrText(k.einzahlen),
       unterkonten: k.unterkonten === "unbegrenzt" ? "Unbegrenzt" : k.unterkonten === 0 ? "Keine" : String(k.unterkonten),
-      buchhaltung: k.buchhaltung.join(", "),
+      buchhaltung: k.buchhaltung.length > 0 ? k.buchhaltung.join(", ") : "Keine angegeben",
       einlagensicherung: einlagenText(k, t.einlagenLand),
       fuerWen: t.fuerWen.join(", "),
       freiberufler: rechts("Freiberufler"),
@@ -461,12 +804,12 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
       keinDispoAbStart: t.halal.keinDispoAbStart,
       karteOhneKredit: t.halal.karteOhneKredit,
       kontofuehrung: finanzfluss(t, `Kontoführung ${euro(k.kontofuehrung)} im Monat.`, "Finanzfluss-Vergleich Geschäftskonto"),
-      buchungen: finanzfluss(t, buchungenText(k)),
+      buchungen: finanzfluss(t, t.buchungenText ?? buchungenText(k)),
       debitkarte: finanzfluss(t, `Debitkarte ${debit}.`),
       abheben: finanzfluss(t, `Bargeld abheben ${gebuehrText(k.abheben)}.`),
       einzahlen: finanzfluss(t, `Bargeld einzahlen ${gebuehrText(k.einzahlen)}.`),
       unterkonten: finanzfluss(t, `Unterkonten ${k.unterkonten}.`),
-      buchhaltung: finanzfluss(t, k.buchhaltung.join(", ")),
+      buchhaltung: finanzfluss(t, k.buchhaltung.length > 0 ? k.buchhaltung.join(", ") : "Keine angegeben"),
       einlagensicherung: finanzfluss(t, einlagenText(k, t.einlagenLand)),
       fuerWen: finanzfluss(t, t.fuerWen.join(", ")),
       freiberufler: finanzfluss(t, t.fuerWen.join(", ")),
@@ -480,9 +823,3 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
 export const geschaeftskontoVergleich: RohAnbieter[] = TARIFE.map(zuAnbieter).sort(
   (a, b) => `${a.name} ${a.produkt}`.localeCompare(`${b.name} ${b.produkt}`, "de"),
 );
-
-/** Anbieter des Finanzfluss-Vergleichs, die hier fehlen, weil ihr Hauptkonto laut Anbieter nicht belegt ohne Guthabenzins ist. */
-export const GESCHAEFT_DRAUSSEN = [
-  "FYRST", "Holvi", "bunq", "Targobank", "Commerzbank", "Finom", "Deutsche Bank", "Postbank", "GLS Bank", "HypoVereinsbank",
-  "Wise", "Kontist", "Qonto",
-] as const;

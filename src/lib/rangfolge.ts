@@ -51,6 +51,12 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  *    immer absteigend (Elias, 08.11.2026, A11). Bei gleicher angezeigter Note steht zuerst der eigene Link (Regel 2),
  *    danach die genaue Note. Die feste Liste `LESER_REIHENFOLGE` (A9) ist seit 15.11.2026 abgelöst durch Regel 8:
  *    Die Reihenfolge entsteht aus der Note, nicht aus einer Liste.
+ * 9. Geschäftskonto (Elias, 23.11.2026, VG2-04: „Ich will jeden einzelnen Anbieter ranken … mach es wirklich, wie du es machen würdest,
+ *    unabhängig vom Link“, raw/2026-11-23-elias-vg2-04-alle-anbieter-rein-eine-mailrunde-dach.md im Vault): kein Link-Vorrang. Die Liste
+ *    steht in drei Stufen (`geschaeftStufe`): erst alle mit belegt zinsfreiem Hauptkonto, dann alle, bei denen der Anbieter dazu nichts
+ *    Ausdrückliches schreibt (`zinsfreiAbStart` "unbekannt", kein Urteil), ganz hinten, wer laut Anbieter Zinsen auf das Guthaben zahlt
+ *    ("schlecht", nicht abgeraten: auch er bekommt einen Platz). In jeder Stufe gilt die normale Note, halb Halal, halb Kosten. Ein
+ *    unbelegter Dispo oder eine unbelegte Karte zählt 0 Punkte. Nummer 1 wird nur, wer belegt zinsfrei ist.
  * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
  *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
@@ -113,6 +119,13 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
 export const FAKTOR_KREDIT = 1;
 
 /**
+ * Faktor auf den Halal-Teil im Geschäftskonto, wenn der Anbieter zum Guthabenzins nichts Ausdrückliches schreibt (`zinsfreiAbStart`
+ * "unbekannt"). 1: Der Eintrag wird wie ein zinsfreier gerechnet und steht nur durch die Stufe hinter den belegten (Regel 9). Bei
+ * "schlecht" (der Anbieter zahlt Zinsen) ist der Faktor 0.
+ */
+export const FAKTOR_ZINS_OFFEN = 1;
+
+/**
  * Faktor auf den Halal-Teil im Girokonto, wenn der Dispo ab Start eingeräumt wird, sich aber abschalten lässt
  * (`keinDispoAbStart` "teils"). Vorbild `FAKTOR_KREDIT`. Elias, 13.10.2026: eine abschaltbare Ausnahme soll
  * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
@@ -154,7 +167,11 @@ export const sterne = (note: number): number => Math.round(anzeigeNote(note) * 2
 export const KREDIT_NIE_PLATZ_EINS: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["edelmetall"]);
 
 /** Vergleiche, in denen bei gleicher Sternzahl der eigene Link zuerst steht (Regel 2). */
-export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto", "geschaeftskonto"]);
+// Geschäftskonto nicht mehr (Elias, 23.11.2026, VG2-04: „unabhängig vom Link“, raw/2026-11-23-elias-vg2-04-alle-anbieter-rein-eine-mailrunde-dach.md).
+export const LINK_VORRANG: ReadonlySet<RangKategorie> = new Set<RangKategorie>(["depot", "girokonto", "krypto"]);
+
+/** Regel 9: 0 belegt zinsfrei, 1 offen, 2 belegt mit Zins. */
+export const geschaeftStufe = (a: RohAnbieter): number => (a.werte[TOR] === "gut" ? 0 : a.werte[TOR] === "schlecht" ? 2 : 1);
 
 type MitNote = { note: number; anbieter: RohAnbieter };
 
@@ -163,7 +180,9 @@ type MitNote = { note: number; anbieter: RohAnbieter };
  * 0 heißt, die genaue Note entscheidet. Liste, Kasten und geführter Vergleich nutzen dieselbe Funktion.
  */
 export const vorrang = (kategorie: RangKategorie, p: MitNote, q: MitNote): number =>
-  LINK_VORRANG.has(kategorie)
+  kategorie === "geschaeftskonto"
+    ? geschaeftStufe(p.anbieter) - geschaeftStufe(q.anbieter)
+    : LINK_VORRANG.has(kategorie)
     ? anzeigeNote(q.note) - anzeigeNote(p.note) ||
       Number(Boolean(q.anbieter.link)) - Number(Boolean(p.anbieter.link))
     : kategorie === "edelmetall"
@@ -335,21 +354,27 @@ const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Ur
 
 const zinsUrteil = (a: RohAnbieter, kategorie: "girokonto" | "krypto" | "geschaeftskonto", finanzMax: Record<string, number>): Urteil => {
   const tuer = a.werte[TOR];
-  if (tuer === "schlecht" || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
+  // Regel 9: Im Geschäftskonto kommen auch offene und belegt verzinste Konten auf die Liste, die Stufe sortiert sie nach hinten.
+  const alleRein = kategorie === "geschaeftskonto";
+  if ((tuer === "schlecht" && !alleRein) || a.abgeraten) return { art: "abgeraten", grund: "Zinsen nicht abschaltbar" };
 
   const { fehlt, lies } = sammler();
-  if (tuer !== "gut" && tuer !== "teils") fehlt.push(TOR);
+  if (tuer !== "gut" && tuer !== "teils" && !(alleRein && (tuer === "unbekannt" || tuer === "schlecht"))) fehlt.push(TOR);
 
   // Dispo "teils" im Girokonto: voller Punkt für das Merkmal, dafür ein Zehntel Abzug auf den ganzen Halal-Teil.
   const dispoAbschaltbar = (kategorie === "girokonto" || kategorie === "geschaeftskonto") && a.werte.keinDispoAbStart === "teils";
   let anteil = 0;
-  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie])
-    anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : ampel(a.werte[key]));
+  for (const [key, gewicht] of AMPEL_GEWICHTE[kategorie]) {
+    // Geschäftskonto: Was der Anbieter nicht ausdrücklich belegt ("unbekannt"), zählt 0 Punkte, nie geschätzt (wie im Depot).
+    const punkt = alleRein && a.werte[key] === "unbekannt" ? 0 : ampel(a.werte[key]);
+    anteil += gewicht * lies(key, key === "keinDispoAbStart" && dispoAbschaltbar ? 1 : punkt);
+  }
   const kosten = kostenAus(a, finanzMax);
   if (kosten === null) fehlt.push("finanzPunkte");
   if (fehlt.length > 0) return { art: "offen", fehlt };
 
-  const halalVorDispo = 5 * anteil * (tuer === "teils" ? FAKTOR_ABSCHALTBAR : 1);
+  const zinsFaktor = tuer === "teils" ? FAKTOR_ABSCHALTBAR : alleRein && tuer === "unbekannt" ? FAKTOR_ZINS_OFFEN : alleRein && tuer === "schlecht" ? 0 : 1;
+  const halalVorDispo = 5 * anteil * zinsFaktor;
   const halal = halalVorDispo * (dispoAbschaltbar ? FAKTOR_DISPO : 1);
   const basisRot = BASIS[kategorie].some((k) => a.werte[k] === "schlecht");
   return {

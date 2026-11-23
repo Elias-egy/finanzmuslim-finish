@@ -47,14 +47,17 @@ export const Kennzahlen = ({
   stand,
   standHinweis,
   className = "",
+  max = 2,
 }: {
   kennzahlen: Array<{ zahl: string | number; text: string }>;
+  /** Wie viele Kennzahlen stehen (2 Spalten). Standard zwei. */
+  max?: number;
   stand: string;
   standHinweis?: string;
   className?: string;
 }) => (
   <div className={`${className} grid-cols-2 gap-3`}>
-    {kennzahlen.slice(0, 2).map((k) => (
+    {kennzahlen.slice(0, max).map((k) => (
       <div key={k.text} className="rounded-lg border border-border p-4">
         <p className="text-[20px] font-bold text-foreground">{k.zahl}</p>
         <p className="text-[14px] leading-snug text-muted-foreground">{k.text}</p>

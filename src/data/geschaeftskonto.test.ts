@@ -2,17 +2,18 @@ import { describe, expect, it, vi } from "vitest";
 import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { MemoryRouter } from "react-router-dom";
-import { geschaeftskontoVergleich, GESCHAEFT_DRAUSSEN, GESCHAEFT_FILTER, GESCHAEFT_ZEILEN } from "./geschaeftskontoVergleich";
+import { geschaeftskontoVergleich, GESCHAEFT_FILTER, GESCHAEFT_ZEILEN } from "./geschaeftskontoVergleich";
 import { geschaeftskontoAnzeige } from "./anzeige/geschaeftskonto";
 import { GESCHAEFT_FINANZ_MAX } from "./finanzMax";
 import { partnerLinks } from "./partnerLinks";
 import { START_LINKS } from "./startLinks";
 import { findStartPartner } from "./investmentStart";
-import { ALLE_ACHTUNG_SAETZE, ALLE_ZINS_SAETZE, verwahrAchtung, zinsHinweis } from "./zinsHinweise";
+import { ALLE_ACHTUNG_SAETZE, ALLE_OFFENEN_SAETZE, ALLE_ZINS_SAETZE, verwahrAchtung, zinsHinweis } from "./zinsHinweise";
 import { baueSpalten, type RohAnbieter } from "./vergleichHelfer";
 import { reihenfolgeAntwortGeschaeft, sortiertSatzGeschaeft } from "./reihenfolgeText";
 import { GESCHAEFT_FAQ } from "./geschaeftskontoFaq";
-import { nummerEins, rangfolge } from "@/lib/rangfolge";
+import { zahlwort } from "./anzahlen";
+import { geschaeftStufe, LINK_VORRANG, nummerEins, rangfolge } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 import { luecken } from "@/lib/vollstaendig";
 import VergleichGeschaeftskonto from "@/pages/VergleichGeschaeftskonto";
@@ -22,12 +23,18 @@ const mitLink = (liste: RohAnbieter[], haus: string): RohAnbieter[] => liste.map
 const ohneLinks = (liste: RohAnbieter[]): RohAnbieter[] => liste.map((a) => ({ ...a, link: undefined }));
 const rang = (liste: RohAnbieter[]) => rangfolge(liste, "geschaeftskonto", { finanzMax: GESCHAEFT_FINANZ_MAX });
 const HAEUSER = ["accountable", "dkb", "ethikbank", "grenke", "ing", "lexware", "n26", "revolut", "tide", "vivid"];
+/** Die 13 Häuser, die seit VG2-04 (Elias, 23.11.2026) dazukommen, mit der Zahl ihrer Tarife bei Finanzfluss. */
+const NEU: Record<string, number> = {
+  bunq: 4, commerzbank: 4, "deutsche-bank": 4, finom: 3, fyrst: 3, gls: 1, holvi: 4, hvb: 1, kontist: 3, postbank: 4, qonto: 7, targobank: 3, wise: 1,
+};
+/** Zins offen: Der Anbieter schreibt nichts Ausdrückliches. Wise ist belegt mit Zins. */
+const OFFENE = Object.keys(NEU).filter((h) => h !== "wise");
 
 describe("Geschäftskonto: Daten", () => {
-  it("führt 29 Tarife von 10 Anbietern, jede ID einmal, alphabetisch", () => {
-    expect(geschaeftskontoVergleich).toHaveLength(29);
-    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(29);
-    expect([...new Set(geschaeftskontoVergleich.map((a) => a.haus))].sort()).toEqual(HAEUSER);
+  it("führt alle 71 Tarife von 23 Anbietern, jede ID einmal, alphabetisch", () => {
+    expect(geschaeftskontoVergleich).toHaveLength(71);
+    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(71);
+    expect([...new Set(geschaeftskontoVergleich.map((a) => a.haus))].sort()).toEqual([...HAEUSER, ...Object.keys(NEU)].sort());
     const ist = geschaeftskontoVergleich.map((a) => `${a.name} ${a.produkt}`);
     expect(ist).toEqual([...ist].sort((a, b) => a.localeCompare(b, "de")));
   });
@@ -37,13 +44,14 @@ describe("Geschäftskonto: Daten", () => {
     expect(HAEUSER.map(je)).toEqual([1, 1, 1, 3, 3, 2, 4, 3, 2, 9]);
   });
 
-  it("nimmt keinen der 13 Anbieter ohne Beleg auf", () => {
-    expect(GESCHAEFT_DRAUSSEN).toHaveLength(13);
-    for (const a of geschaeftskontoVergleich)
-      for (const n of GESCHAEFT_DRAUSSEN) expect(a.name.toLowerCase(), `${a.id} gegen ${n}`).not.toContain(n.toLowerCase());
+  it("hat von den 13 neuen Häusern genau die Zahl der Tarife von Finanzfluss (42), keiner der 71 Tarife fehlt", () => {
+    const je = (h: string) => geschaeftskontoVergleich.filter((a) => a.haus === h).length;
+    for (const [h, n] of Object.entries(NEU)) expect(je(h), h).toBe(n);
+    expect(Object.values(NEU).reduce((s, n) => s + n, 0)).toBe(42);
+    expect(new Set(geschaeftskontoVergleich.map((a) => a.finanzfluss!.produkt)).size).toBe(71);
   });
 
-  it("belegt Zinsen, Dispo und Karte jedes Tarifs mit Zitat und Adresse, Zinsen nur auf der Domain des Anbieters", () => {
+  it("belegt Zinsen, Dispo und Karte, wo ein Wert steht, mit Zitat und Adresse, die 29 ersten Zinsen nur auf der Domain des Anbieters", () => {
     // Accountable führt das Konto bei Swan und verweist in den AGB darauf („den Vertrag direkt mit Swan“).
     // Grenke: Das Preis- und Leistungsverzeichnis liegt bei Atruvia und ist von grenkebank.de/firmenkunden/geschaeftskonto.html verlinkt.
     const BANK: Record<string, string[]> = { "accountable.de": ["swan.io"], "grenkebank.de": ["atruvia.scene7.com"] };
@@ -51,12 +59,15 @@ describe("Geschäftskonto: Daten", () => {
       for (const k of ["zinsfreiAbStart", "keinDispoAbStart", "karteOhneKredit"]) {
         const q = a.quellen?.[k];
         expect(q?.url, `${a.id} ${k}`).toMatch(/^https:\/\//);
-        expect(q?.hinweis, `${a.id} ${k}`).toContain("„");
         expect(q?.stand, `${a.id} ${k}`).toBe("23.11.2026");
+        // Ein gesetzter Wert (grün, rot) trägt ein wörtliches Zitat. Ein offener Wert nur, wo es etwas Wörtliches gibt.
+        if (a.werte[k] !== "unbekannt") expect(q?.hinweis, `${a.id} ${k}`).toContain("„");
       }
-      const host = new URL(a.quellen!.zinsfreiAbStart.url!).hostname.replace(/^www\./, "");
-      const domains = [a.domain!, ...(BANK[a.domain!] ?? [])];
-      expect(domains.some((d) => host === d || host.endsWith(`.${d}`)), `${a.id}: Zins belegt mit ${host}`).toBe(true);
+      if (a.werte.zinsfreiAbStart === "gut") {
+        const host = new URL(a.quellen!.zinsfreiAbStart.url!).hostname.replace(/^www\./, "");
+        const domains = [a.domain!, ...(BANK[a.domain!] ?? [])];
+        expect(domains.some((d) => host === d || host.endsWith(`.${d}`)), `${a.id}: Zins belegt mit ${host}`).toBe(true);
+      }
     }
   });
 
@@ -67,12 +78,35 @@ describe("Geschäftskonto: Daten", () => {
     }
   });
 
-  it("wertet Zinsen und Dispo grün und die Karte grün, nur Grenke (nur Kreditkarte) rot", () => {
-    for (const a of geschaeftskontoVergleich) {
+  it("wertet bei den 29 ersten Tarifen Zinsen und Dispo grün und die Karte grün, nur Grenke (nur Kreditkarte) rot", () => {
+    for (const a of geschaeftskontoVergleich.filter((x) => HAEUSER.includes(x.haus!))) {
       expect(a.werte.zinsfreiAbStart, a.id).toBe("gut");
       expect(a.werte.keinDispoAbStart, a.id).toBe("gut");
       expect(a.werte.karteOhneKredit, a.id).toBe(a.haus === "grenke" ? "schlecht" : "gut");
     }
+  });
+
+  it("stellt den Zins bei den 12 offenen Häusern auf offen (kein Urteil), bei Wise auf rot, nie auf grün", () => {
+    for (const a of geschaeftskontoVergleich.filter((x) => OFFENE.includes(x.haus!))) expect(a.werte.zinsfreiAbStart, a.id).toBe("unbekannt");
+    for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "wise")) expect(a.werte.zinsfreiAbStart, a.id).toBe("schlecht");
+    expect(geschaeftskontoVergleich.filter((a) => a.werte.zinsfreiAbStart === "gut")).toHaveLength(29);
+    // Wo der Bericht Dispo oder Karte nicht belegt, steht „offen“, nirgends rot.
+    const offen = geschaeftskontoVergleich.filter((a) => !HAEUSER.includes(a.haus!) && (a.werte.keinDispoAbStart === "unbekannt" || a.werte.karteOhneKredit === "unbekannt")).map((a) => a.haus);
+    expect([...new Set(offen)].sort()).toEqual(["commerzbank", "hvb", "kontist", "qonto"]);
+    for (const a of geschaeftskontoVergleich.filter((x) => !HAEUSER.includes(x.haus!))) {
+      expect(a.werte.keinDispoAbStart, a.id).not.toBe("schlecht");
+      expect(a.werte.karteOhneKredit, a.id).not.toBe("schlecht");
+    }
+  });
+
+  it("zeigt „Offen“ in der Zelle der offenen Konten, nie ein Wort wie haram oder unerlaubt", () => {
+    const spalten = baueSpalten(geschaeftskontoAnzeige, GESCHAEFT_ZEILEN, "geschaeftskonto");
+    for (const s of spalten) {
+      const roh = geschaeftskontoVergleich.find((a) => a.id === s.id)!;
+      for (const k of ["zinsfreiAbStart", "keinDispoAbStart", "karteOhneKredit"])
+        if (roh.werte[k] === "unbekannt") expect(s.werte[k].text, `${s.id} ${k}`).toBe("Offen");
+    }
+    expect(JSON.stringify(ALLE_ZINS_SAETZE)).not.toMatch(/haram|unerlaubt|verboten/i);
   });
 
   it("zeigt keinen Zinssatz, keine Rendite und kein Tagesgeld als Wert, Etikett oder Bonus", () => {
@@ -91,8 +125,8 @@ describe("Geschäftskonto: Daten", () => {
     expect(text).not.toMatch(/150/);
   });
 
-  it("zeigt alle 29 Tarife: jede Zeile hat einen Wert, jeder Wert der Note ist belegt", () => {
-    expect(geschaeftskontoAnzeige).toHaveLength(29);
+  it("zeigt alle 71 Tarife: jede Zeile hat einen Wert, jeder Wert der Note ist belegt oder ausdrücklich offen", () => {
+    expect(geschaeftskontoAnzeige).toHaveLength(71);
     for (const a of geschaeftskontoVergleich) expect(luecken(a, "geschaeftskonto", GESCHAEFT_ZEILEN), a.id).toEqual([]);
   });
 
@@ -156,18 +190,46 @@ describe("Geschäftskonto: Partnerlinks", () => {
 });
 
 describe("Geschäftskonto: Rangfolge", () => {
-  it("ordnet alle Tarife mit Plätzen, keiner fällt heraus, keiner ist abgeraten", () => {
+  const stufe = geschaeftStufe;
+
+  it("ordnet alle 71 Tarife mit Plätzen, keiner fällt heraus, keiner ist abgeraten", () => {
     const r = rang(geschaeftskontoAnzeige);
-    expect(r.gerankt).toHaveLength(29);
+    expect(r.gerankt).toHaveLength(71);
     expect(r.nichtBewertet).toEqual([]);
     expect(r.abgeraten).toEqual([]);
     for (const b of r.gerankt) expect(b.note, b.anbieter.id).toBeGreaterThan(0);
-    // Ab Platz 2 steht die Liste nach Note. Platz 1 rückt nach Regel 6 vor: der erste Eintrag ohne Einschränkung mit Link.
-    const noten = r.gerankt.slice(1).map((b) => b.note);
-    expect(noten).toEqual([...noten].sort((x, y) => y - x));
   });
 
-  it("stellt Grenke wegen der Kreditkarte ans Ende, nie auf Platz 1", () => {
+  it("ordnet in drei Stufen: erst belegt ohne Zins (29), dann offen (41), ganz hinten belegt mit Zins (Wise)", () => {
+    const r = rang(geschaeftskontoAnzeige);
+    const stufen = r.gerankt.map((b) => stufe(b.anbieter));
+    expect(stufen).toEqual([...stufen].sort((x, y) => x - y));
+    expect(stufen.filter((x) => x === 0)).toHaveLength(29);
+    expect(stufen.filter((x) => x === 1)).toHaveLength(41);
+    expect(stufen.filter((x) => x === 2)).toHaveLength(1);
+    expect(r.gerankt[70].anbieter.haus).toBe("wise");
+    expect(r.gerankt[70].platz).toBe(71);
+    // Innerhalb jeder Stufe steht die Liste nach Note.
+    for (const st of [0, 1]) {
+      const noten = r.gerankt.filter((b) => stufe(b.anbieter) === st).map((b) => b.note);
+      expect(noten, `Stufe ${st}`).toEqual([...noten].sort((x, y) => y - x));
+    }
+  });
+
+  it("macht nie einen offenen oder verzinsten Tarif zur Nummer 1 und rechnet sie ohne Urteil, nur mit belegten Punkten", () => {
+    const r = rang(geschaeftskontoAnzeige);
+    for (const b of r.gerankt.filter((x) => stufe(x.anbieter) > 0)) expect(b.uneingeschraenkt, b.anbieter.id).toBe(false);
+    expect(r.gerankt[0].anbieter.werte.zinsfreiAbStart).toBe("gut");
+    // Wise zahlt laut Anbieter Zinsen: der Halal-Teil ist 0, die Kosten zählen weiter.
+    expect(r.gerankt[70].halal).toBe(0);
+    expect(r.gerankt[70].kosten).toBeGreaterThan(0);
+    // Ein offener Dispo oder eine offene Karte zählt 0 Punkte: Qonto hat keine belegte Karte, Halal-Teil also 2,5 statt 5.
+    for (const b of r.gerankt.filter((x) => x.anbieter.haus === "qonto")) expect(b.halal, b.anbieter.id).toBe(2.5);
+    // Alle übrigen offenen Konten mit belegter Dispo und Karte rechnen wie zinsfreie (Faktor 1): fyrst-base hat 5.
+    expect(r.gerankt.find((x) => x.anbieter.id === "fyrst-base")!.halal).toBe(5);
+  });
+
+  it("stellt Grenke wegen der Kreditkarte ans Ende der belegten Stufe, nie auf Platz 1", () => {
     const r = rang(geschaeftskontoAnzeige);
     const grenke = r.gerankt.filter((b) => b.anbieter.haus === "grenke");
     expect(grenke).toHaveLength(3);
@@ -175,7 +237,7 @@ describe("Geschäftskonto: Rangfolge", () => {
       expect(b.uneingeschraenkt, b.anbieter.id).toBe(false);
       expect(b.halal, b.anbieter.id).toBe(2.5);
     }
-    expect(r.gerankt.slice(-3).map((b) => b.anbieter.haus)).toEqual(["grenke", "grenke", "grenke"]);
+    expect(r.gerankt.slice(26, 29).map((b) => b.anbieter.haus)).toEqual(["grenke", "grenke", "grenke"]);
     // Auch mit Partnerlink bleibt Grenke von Platz 1 weg.
     expect(rang(mitLink(geschaeftskontoAnzeige, "grenke")).gerankt[0].anbieter.haus).not.toBe("grenke");
   });
@@ -191,37 +253,37 @@ describe("Geschäftskonto: Rangfolge", () => {
     expect(r.gerankt[0].anbieter.id).toBe("n26-business-smart");
   });
 
-  it("stellt Accountable mit dem Partnerlink von financeAds auf Platz 1, mit Kasten, ohne die Note zu ändern", () => {
-    const r = rang(geschaeftskontoAnzeige);
-    expect(r.gerankt[0].anbieter.id).toBe("accountable-geschaeftskonto");
-    expect(r.gerankt[0].platz).toBe(1);
-    expect(r.gerankt[0].uneingeschraenkt).toBe(true);
-    expect(nummerEins(r).map((b) => b.anbieter.id)).toEqual(["accountable-geschaeftskonto"]);
-    const sieger = siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX);
-    expect(sieger?.id).toBe("accountable-geschaeftskonto");
-    expect(sieger?.link).toBe("/out/accountable");
-    // Dieselbe Note wie ohne Link (4,48 vorher, Platz 9 ohne Link).
-    const ohne = rang(ohneLinks(geschaeftskontoAnzeige)).gerankt.find((b) => b.anbieter.id === "accountable-geschaeftskonto")!;
-    expect(ohne.platz).toBe(9);
-    expect(r.gerankt[0].note).toBe(ohne.note);
+  it("ranked unabhängig vom Link (Elias VG2-04): Accountable steht mit und ohne Link auf Platz 9, die Nummer 1 bleibt N26 ohne Link", () => {
+    const mit = rang(geschaeftskontoAnzeige);
+    const ohne = rang(ohneLinks(geschaeftskontoAnzeige));
+    expect(mit.gerankt.map((b) => b.anbieter.id)).toEqual(ohne.gerankt.map((b) => b.anbieter.id));
+    expect(mit.gerankt[0].anbieter.id).toBe("n26-business-smart");
+    const acc = mit.gerankt.find((b) => b.anbieter.id === "accountable-geschaeftskonto")!;
+    expect(acc.platz).toBe(9);
+    expect(acc.note).toBe(ohne.gerankt.find((b) => b.anbieter.id === "accountable-geschaeftskonto")!.note);
+    expect(nummerEins(mit).map((b) => b.anbieter.id)).toEqual(["n26-business-smart"]);
+    // Der Kasten der Seite braucht einen Link am Sieger. Accountable steht nicht vorn, also kein Kasten.
+    expect(siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBeUndefined();
   });
 
-  it("zeigt den Kasten von selbst, sobald Tide oder Vivid einen Link haben und ganz vorn stehen", () => {
-    const tide = mitLink(ohneLinks(geschaeftskontoAnzeige), "tide");
-    expect(siegerDerSeite(tide, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.haus).toBe("tide");
-    expect(siegerDerSeite(tide, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBe("/out/tide");
-    expect(nummerEins(rang(tide))[0].anbieter.haus).toBe("tide");
-
-    const vivid = mitLink(ohneLinks(geschaeftskontoAnzeige), "vivid");
-    expect(siegerDerSeite(vivid, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.haus).toBe("vivid");
-    expect(rang(vivid).gerankt[0].anbieter.haus).toBe("vivid");
-    // Mit allen drei Links gewinnt der mit der besten Note: Vivid (4,7) vor Accountable (4,4) und Tide (4,2).
-    expect(rang(mitLink(mitLink(geschaeftskontoAnzeige, "tide"), "vivid")).gerankt[0].anbieter.haus).toBe("vivid");
+  it("zeigt den Kasten von selbst, sobald das Konto ganz vorn einen Link hat, ändert aber die Reihenfolge nie", () => {
+    const basis = rang(ohneLinks(geschaeftskontoAnzeige)).gerankt.map((b) => b.anbieter.id);
+    for (const haus of ["tide", "vivid", "n26"]) {
+      const liste = mitLink(ohneLinks(geschaeftskontoAnzeige), haus);
+      expect(rang(liste).gerankt.map((b) => b.anbieter.id), haus).toEqual(basis);
+    }
+    const n26 = mitLink(ohneLinks(geschaeftskontoAnzeige), "n26");
+    expect(siegerDerSeite(n26, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBe("/out/n26");
   });
 
   it("ändert die Note nie durch einen Link", () => {
     const ohne = new Map(rang(geschaeftskontoAnzeige).gerankt.map((b) => [b.anbieter.id, b.note]));
     for (const b of rang(mitLink(mitLink(geschaeftskontoAnzeige, "tide"), "vivid")).gerankt) expect(b.note, b.anbieter.id).toBe(ohne.get(b.anbieter.id));
+  });
+
+  it("ändert die Rangfolge der anderen Vergleiche nicht: dort gilt der Link-Vorrang weiter", () => {
+    expect(LINK_VORRANG.has("geschaeftskonto")).toBe(false);
+    for (const k of ["depot", "girokonto", "krypto"] as const) expect(LINK_VORRANG.has(k), k).toBe(true);
   });
 });
 
@@ -250,13 +312,41 @@ describe("Geschäftskonto: Sätze zu Zinsen", () => {
     expect(zinsHinweis("geschaeftskonto", { id: "n26-business-go", haus: "n26", werte: { zinsfreiAbStart: "teils" } })).toBeUndefined();
   });
 
-  it("enthält keinen Zinssatz und keine Prozentzahl, außer 0 % bei Grenke und EthikBank", () => {
-    for (const a of geschaeftskontoAnzeige) {
+  it("enthält bei den grünen Tarifen keinen Zinssatz und keine Prozentzahl, außer 0 % bei Grenke und EthikBank", () => {
+    for (const a of geschaeftskontoAnzeige.filter((x) => x.werte.zinsfreiAbStart === "gut")) {
       const s = zinsHinweis("geschaeftskonto", a)!;
       const prozent = s.match(/\d[\d,.]*\s*%/g) ?? [];
       expect(prozent.every((p) => p.startsWith("0 %")), `${a.id}: ${s}`).toBe(true);
     }
     for (const s of ALLE_ZINS_SAETZE) expect(s).not.toMatch(/[–—]/);
+  });
+
+  it("sagt bei den 41 offenen Tarifen neutral „Noch offen“ und nennt den Anbieter, ohne Urteil und ohne Gedankenstrich", () => {
+    const offene = geschaeftskontoAnzeige.filter((x) => x.werte.zinsfreiAbStart === "unbekannt");
+    expect(offene).toHaveLength(41);
+    for (const a of offene) {
+      const s = zinsHinweis("geschaeftskonto", a)!;
+      expect(s, a.id).toMatch(/^Noch offen: Wir fragen bei .+ nach, ob das Konto ohne Zinsen läuft\./);
+      expect(s, a.id).not.toMatch(/haram|halal|unerlaubt|verboten|[–—]/i);
+    }
+    for (const s of ALLE_OFFENEN_SAETZE) expect(s).not.toMatch(/[–—!]|Ticket|Gegenprobe|Chrome/i);
+    // Commerzbank: die Landingpage wirbt groß mit dem Tagesgeld, das steht im Satz, im Wortlaut.
+    const comm = zinsHinweis("geschaeftskonto", geschaeftskontoAnzeige.find((x) => x.id === "commerzbank-premiumgeschaeftskonto")!)!;
+    expect(comm).toContain("„3,75% p.a. Guthabenszins“");
+    expect(comm).toContain("Tagesgeldkonto");
+    // Postbank: der Satz aus den AGB, wortgleich.
+    expect(zinsHinweis("geschaeftskonto", geschaeftskontoAnzeige.find((x) => x.id === "postbank-business-giro")!)).toContain("„zur Verzinsung der Guthaben ist die Bank nicht verpflichtet“");
+  });
+
+  it("sagt bei Wise, dass Cashback auf das Guthaben läuft, und lässt offen, ob man es abschalten kann", () => {
+    const wise = geschaeftskontoAnzeige.find((x) => x.id === "wise-business")!;
+    const satz = zinsHinweis("geschaeftskonto", wise)!;
+    expect(satz).toMatch(/Cashback/);
+    expect(satz).toMatch(/abschalten kannst, ist offen/);
+    expect(wise.quellen!.zinsfreiAbStart.hinweis).toContain("„Wise pays cashback each month based on the EUR, GBP and USD you hold in your Wise account.“");
+    expect(wise.quellen!.zinsfreiAbStart.url).toBe("https://wise.com/help/articles/b8sVSdAzytqVamfajSirb/how-does-balance-cashback-work");
+    // Die Sätze zu den anderen Vergleichen bleiben.
+    expect(zinsHinweis("depot", { id: "wise-x", haus: "wise", werte: { zinsfreiAbStart: "teils" } })).toMatch(/Melde dich davon ab/);
   });
 
   it("nennt das Verwahrentgelt nur bei N26 und Lexware, nur im Geschäftskonto, ohne Gedankenstrich", () => {
@@ -292,23 +382,23 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).toContain("Die besten Geschäftskonten für Muslime 11/2026");
   });
 
-  it("zeigt mit dem Link von Accountable den Kasten Bestes Geschäftskonto, nur mit belegten Werten, ohne Zinssätze", () => {
-    expect(html).toContain("Bestes Geschäftskonto");
-    expect(html).toContain("Accountable");
+  it("zeigt ohne Link an Platz 1 keinen Kasten, trägt aber alle Konten mit den Kennzahlen 71, 29 und 41 und „Offen“ in den Zellen", () => {
+    expect(html).not.toContain('aria-label="Bestes Geschäftskonto"');
+    expect(html).toContain("Offen");
+    expect(html).toContain("Wise");
+    expect(html).toContain("Qonto Enterprise");
     expect(html).not.toMatch(/Aktion: \d/);
     expect(html).not.toMatch(/Geldmarktfonds-Rendite/);
-    // Das Etikett steht vor dem Namen im Kasten, der Kasten trägt Zins und Dispo als erfüllt.
-    const ab = html.slice(html.indexOf('aria-label="Bestes Geschäftskonto"')).replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-    const kasten = ab.slice(0, ab.indexOf("Produktdetails"));
-    expect(kasten).toContain("Ohne Zinsen, ohne Dispo");
-    expect(kasten).toContain("Unbegrenzt kostenlos");
-    expect(kasten).not.toMatch(/Zinssatz|Rendite|Tagesgeld|Cashback|Bonus/);
+    const text = html.replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+    expect(text).toMatch(/71 Konten im Vergleich/);
+    expect(text).toMatch(/29 belegt ohne Zinsen nutzbar/);
+    expect(text).toMatch(/41 Zinsen noch offen/);
   });
 
   it("hat sieben Fragen, darunter die zu Zinskonten ohne Urteil eines Gelehrten", () => {
     expect(GESCHAEFT_FAQ).toHaveLength(7);
     const fragen = GESCHAEFT_FAQ.map((f) => f.frage);
-    for (const f of ["Brauche ich als Selbstständiger ein Geschäftskonto?", "Welche Rechtsform passt zu welchem Konto?", "Sind Zinskonten und Geldmarktfonds bei Geschäftskonten erlaubt?", "Wie entsteht die Reihenfolge?"])
+    for (const f of ["Brauche ich als Selbstständiger ein Geschäftskonto?", "Welche Rechtsform passt zu welchem Konto?", "Sind Zinskonten und Geldmarktfonds bei Geschäftskonten erlaubt?", "Was heißt „Offen“ bei den Zinsen?", "Wie entsteht die Reihenfolge?"])
       expect(fragen).toContain(f);
     const zins = GESCHAEFT_FAQ.find((f) => f.frage.startsWith("Sind Zinskonten"))!;
     expect(zins.antwort).toMatch(/^Das sind Zinsprodukte\. Wir empfehlen sie nicht/);
@@ -320,6 +410,7 @@ describe("Geschäftskonto: Seite", () => {
   it("nennt in der Kostenfrage die Spanne aus den Daten", () => {
     const k = GESCHAEFT_FAQ.find((f) => f.frage === "Was kostet ein Geschäftskonto?")!.antwort;
     expect(k).toContain("von 0 € bis 296 €");
-    expect(k).toMatch(/^Das reicht .* Sieben Konten/);
+    const kostenlos = geschaeftskontoAnzeige.filter((a) => a.werte.kontofuehrung === "0 €").length;
+    expect(k).toContain(`${zahlwort(kostenlos, true)} Konten in dieser Liste haben keine Kontoführung`);
   });
 });

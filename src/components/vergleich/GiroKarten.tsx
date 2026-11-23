@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Check, Minus, TriangleAlert } from "lucide-react";
+import { Check, Minus, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 
 /**
@@ -49,13 +49,19 @@ const debitTeile = (s: string | null | undefined): { marke: string; preis: strin
 };
 
 /** Die Zeile mit dem Haken: nur, was die Zins- und Dispo-Ampel des Kontos belegt. */
-export const zinsDispoZeile = (zinsfrei: string | undefined, keinDispo: string | undefined): { text: string; zeichen: "ja" | "teils" | "offen" } => {
+export const zinsDispoZeile = (
+  zinsfrei: string | undefined,
+  keinDispo: string | undefined,
+): { text: string; zeichen: "ja" | "teils" | "offen" | "nein" } => {
   if (zinsfrei === "gut" && keinDispo === "gut") return { text: "Ohne Zinsen, ohne Dispo", zeichen: "ja" };
   if (zinsfrei === "gut" && keinDispo === "teils") return { text: "Ohne Zinsen, Dispo abschaltbar", zeichen: "teils" };
   if (zinsfrei === "teils" && keinDispo === "gut") return { text: "Zinsen abschaltbar, ohne Dispo", zeichen: "teils" };
   if (zinsfrei === "teils" && keinDispo === "teils") return { text: "Zinsen und Dispo abschaltbar", zeichen: "teils" };
   if (zinsfrei === "gut") return { text: "Ohne Zinsen", zeichen: "ja" };
   if (zinsfrei === "teils") return { text: "Zinsen abschaltbar", zeichen: "teils" };
+  // Geschäftskonto (VG2-04): offen ist kein Urteil, rot heißt, der Anbieter zahlt Zinsen auf das Guthaben.
+  if (zinsfrei === "unbekannt") return { text: "Zinsen: noch offen", zeichen: "offen" };
+  if (zinsfrei === "schlecht") return { text: "Zinsen auf das Guthaben", zeichen: "nein" };
   return { text: "Zinsen und Dispo: nicht geprüft", zeichen: "offen" };
 };
 
@@ -197,8 +203,9 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
 /** Haken, Kacheln und „Besonders“ in einem Stück, für Karte und Nummer-1-Kasten. */
 export const GiroInhalt = ({ w, besonders }: { w: GiroWerte; besonders?: string[] }) => {
   const z = zinsDispoZeile(w.zinsfrei, w.keinDispo);
-  const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : Minus;
-  const farbe = z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : "text-muted-foreground/60";
+  const Icon = z.zeichen === "ja" ? Check : z.zeichen === "teils" ? TriangleAlert : z.zeichen === "nein" ? X : Minus;
+  const farbe =
+    z.zeichen === "ja" ? "text-success" : z.zeichen === "teils" ? "text-warning" : z.zeichen === "nein" ? "text-destructive" : "text-muted-foreground/60";
   return (
     <>
       <p className="mt-3 flex items-start gap-2 text-[14px] font-semibold leading-snug text-foreground">

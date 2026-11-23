@@ -161,7 +161,7 @@ export const hinweiseAmAngebot = (spalte: VergleichsSpalte, zeilen: VergleichsZe
   if (spalte.tarif) {
     liste.push({ art: "tarif", titel: spalte.tarif.marke, text: `${spalte.tarif.satz} ${TARIF_ERNSTER}` });
   }
-  const zinsZeile = zeilen.find((z) => spalte.werte[z.key]?.zusatz && spalte.werte[z.key]?.status === "teils");
+  const zinsZeile = zeilen.find((z) => spalte.werte[z.key]?.zusatz && ["teils", "schlecht"].includes(spalte.werte[z.key]?.status ?? ""));
   if (zinsZeile) liste.push({ art: "zins", titel: zinsZeile.label, text: spalte.werte[zinsZeile.key].zusatz! });
   if (spalte.unterschied) liste.push({ art: "unterschied", titel: spalte.unterschied.titel, text: spalte.unterschied.satz });
   return liste;

@@ -14,9 +14,10 @@ import { unbelegteWerte, type RangKategorie, type RangOptionen } from "@/lib/ran
  */
 export const NUR_VOLLSTAENDIG = true;
 
-const leer = (a: RohAnbieter, z: VergleichsZeile): boolean => {
+const leer = (a: RohAnbieter, z: VergleichsZeile, kategorie: RangKategorie): boolean => {
   const w = a.werte[z.key];
-  if (z.art === "ampel") return !(w === "gut" || w === "teils" || w === "schlecht");
+  // Geschäftskonto (VG2-04): „unbekannt“ ist dort ein gesetzter Wert, die Zelle zeigt „Offen“. In den anderen Vergleichen bleibt es leer.
+  if (z.art === "ampel") return !(w === "gut" || w === "teils" || w === "schlecht" || (kategorie === "geschaeftskonto" && w === "unbekannt"));
   if (z.art === "janein") return typeof w !== "boolean";
   // Ein Wert, der nur aus einem Strich besteht, ist für den Leser eine leere Zelle.
   return !(typeof w === "string" && w.replace(/[\s–—-]/g, "") !== "");
@@ -32,7 +33,7 @@ export const luecken = (
   zeilen: VergleichsZeile[],
   opt: RangOptionen = {},
 ): string[] => {
-  const zeilenLeer = zeilen.filter((z) => !z.key.startsWith("__") && leer(a, z)).map((z) => z.key);
+  const zeilenLeer = zeilen.filter((z) => !z.key.startsWith("__") && leer(a, z, kategorie)).map((z) => z.key);
   const rot = a.abgeraten || a.werte.zinsfreiAbStart === "schlecht";
   const note = rot ? [] : unbelegteWerte(a, kategorie, opt);
   return [...new Set([...zeilenLeer, ...note])];

@@ -140,6 +140,8 @@ export type VergleichsSeiteProps = {
    * dreimal die Null.
    */
   kennzahlen?: Array<{ zahl: number; text: string }>;
+  /** Wie viele Kennzahlen am Laptop stehen. Standard zwei. */
+  kennzahlenMax?: number;
   /** Ersetzt den Hinweis zur Reihenfolge, der sonst von Halal-Merkmalen spricht. */
   reihenfolge?: ReactNode;
   /** Freier Abschnitt unter der Tabelle. Für Erklärungen, die nur einen Vergleich betreffen. */
@@ -186,6 +188,7 @@ export const VergleichsSeite = ({
   kriterien,
   kriterienTitel = "Worauf wir bei Halal achten",
   kennzahlen,
+  kennzahlenMax,
   reihenfolge,
   zusatz,
   vorneweg,
@@ -478,6 +481,7 @@ export const VergleichsSeite = ({
           {!sieger && (
           <Kennzahlen
             className="hidden lg:grid"
+            max={kennzahlenMax}
             kennzahlen={
               kennzahlen ?? [
                 { zahl: anbieter.length, text: `${einheit} im Vergleich` },

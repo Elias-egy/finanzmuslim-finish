@@ -24,6 +24,16 @@ const abschaltbar = (satz: string): Hinweis => ({ bei: "teils", satz });
 const dreiKategorien = (h: Hinweis): Partial<Record<ZinsKategorie, Hinweis>> => ({ depot: h, girokonto: h, krypto: h });
 
 const NICHTS = "Du musst nichts einstellen.";
+
+/**
+ * Geschäftskonto, offene Häuser (VG2-04, Elias 23.11.2026): Der Anbieter schreibt zum Zins auf dem Hauptkonto nichts Ausdrückliches.
+ * Das ist kein Urteil. Der Satz sagt, was der Anbieter bisher schreibt (Wortlaut und Quelle stehen in `quellen.zinsfreiAbStart` des
+ * Tarifs), und dass wir nachfragen. Gilt nur, solange die Ampel auf "unbekannt" steht.
+ */
+const offen = (haus: string, was: string): Hinweis => ({
+  bei: "unbekannt",
+  satz: `Noch offen: Wir fragen bei ${haus} nach, ob das Konto ohne Zinsen läuft. ${was}`,
+});
 const ohneZins = (konto: string) => gut(`Dein Guthaben auf dem ${konto} wird nicht verzinst. ${NICHTS}`);
 const nullProzent = (konto?: string) =>
   gut(`Dein Guthaben${konto ? ` auf dem ${konto}` : ""} hat 0 % Zinsen. ${NICHTS}`);
@@ -40,12 +50,22 @@ const HAUS: Record<string, Eintrag> = {
   maxblue: gut(`Das Depotkonto hat keine Verzinsung. ${NICHTS}`),
   degiro: gut(`Degiro zahlt keine Zinsen auf Guthaben, das du nicht angelegt hast. ${NICHTS}`),
   fidelity: nullProzent(),
-  gls: nullProzent(),
+  gls: {
+    ...dreiKategorien(nullProzent()),
+    geschaeftskonto: offen(
+      "der GLS Bank",
+      "Das Preisverzeichnis nennt für das GLS Konto Geschäft nur ein Einlagenentgelt von 0,00 %, einen Zinssatz für Guthaben nennt es nicht.",
+    ),
+  },
   plus500: gut(`Plus500 zahlt keine Zinsen auf dein Guthaben. ${NICHTS}`),
   libertex: gut(`Libertex zahlt keine Zinsen auf dein Guthaben. ${NICHTS}`),
   commerzbank: {
     depot: ohneZins("Girokonto oder Verrechnungskonto Plus"),
     girokonto: nullProzent("Girokonto"),
+    geschaeftskonto: offen(
+      "der Commerzbank",
+      "Auf den Seiten der Commerzbank steht „3,75% p.a. Guthabenszins“. Gemeint ist ein eigenes Tagesgeldkonto, das du nach der Eröffnung selbst eröffnen müsstest: Eröffne es nicht. Zum Guthaben auf dem Geschäftskonto steht dort nichts.",
+    ),
   },
   "pax-bank": {
     depot: ohneZins("Konto zum Depot"),
@@ -63,19 +83,38 @@ const HAUS: Record<string, Eintrag> = {
   targobank: {
     depot: gut("Das Depot rechnet über dein Girokonto ab. Wähle das Online-Konto: Dort gibt es keine Guthabenzinsen."),
     girokonto: gut(`Das Online-Konto hat keine Guthabenzinsen. ${NICHTS}`),
+    geschaeftskonto: offen(
+      "der Targobank",
+      "Das Preisverzeichnis nennt für das Business-Konto nur Sollzinsen und keinen Guthabenzins. Zinsen gibt es auf dem eigenen Business-Tagesgeld-Konto: Eröffne es nicht.",
+    ),
   },
   "geno-broker": gut(
     "GENO Broker verzinst dein Guthaben nicht. Das Verrechnungskonto führt deine Volksbank oder Raiffeisenbank: Frag dort, ob sie Guthaben verzinst.",
   ),
   "meine-bank": ohneZins("Girokonto"),
-  postbank: nullProzent("Girokonto"),
+  postbank: {
+    ...dreiKategorien(nullProzent("Girokonto")),
+    geschaeftskonto: offen(
+      "der Postbank",
+      "In den AGB steht nur: „zur Verzinsung der Guthaben ist die Bank nicht verpflichtet“. Zinsen gibt es auf dem eigenen Business Tagesgeld: Eröffne es nicht.",
+    ),
+  },
   bforbank: ohneZins("Girokonto"),
   "berliner-volksbank": gut(
     "Über 30 Jahre wird dein Guthaben nicht verzinst. Von 18 bis 30 Jahren gibt es Zinsen nur für Mitglieder der Bank: Werde kein Mitglied.",
   ),
   sumup: gut(`SumUp verzinst dein Guthaben nicht. ${NICHTS}`),
-  "deutsche-bank": nullProzent("Girokonto"),
-  hvb: { girokonto: gut(`Auf dem Girokonto gibt es keine Guthabenzinsen. ${NICHTS}`) },
+  "deutsche-bank": {
+    ...dreiKategorien(nullProzent("Girokonto")),
+    geschaeftskonto: offen(
+      "der Deutschen Bank",
+      "Preisverzeichnis, Kontomodelle und AGB nennen keinen Guthabenzins für das Geschäftskonto. Zinsen gibt es auf dem eigenen Business Tagesgeld: Eröffne es nicht.",
+    ),
+  },
+  hvb: {
+    girokonto: gut(`Auf dem Girokonto gibt es keine Guthabenzinsen. ${NICHTS}`),
+    geschaeftskonto: offen("der HypoVereinsbank", "Das Preisverzeichnis nennt für das BusinessKonto 4You keinen Zinssatz für Guthaben."),
+  },
   monese: gut(`Monese zahlt keine Zinsen auf dein Guthaben. ${NICHTS}`),
   "kt-bank": gut(`Bei der KT Bank gibt es keine Zinsen. ${NICHTS}`),
   "psd-nuernberg": ohneZins("Girokonto"),
@@ -159,7 +198,43 @@ const HAUS: Record<string, Eintrag> = {
   },
   klarna: gut("Zinsen gibt es nur mit einem Sparkonto, also Flexkonto oder Festgeld. Eröffne keines."),
   norisbank: gut("Zinsen gibt es nur auf dem Top-Zinskonto, einem eigenen Konto. Zahle dort nichts ein."),
-  bunq: gut("Zinsen gibt es nur auf Sparkonten, die du in der App selbst eröffnen müsstest. Eröffne keines."),
+  bunq: {
+    ...dreiKategorien(gut("Zinsen gibt es nur auf Sparkonten, die du in der App selbst eröffnen müsstest. Eröffne keines.")),
+    geschaeftskonto: offen(
+      "bunq",
+      "Die Geschäfts-AGB nennen Zinsen nur für Sparkonten, die du in der App selbst eröffnen müsstest: Eröffne keines. Zum Hauptkonto steht dort nichts.",
+    ),
+  },
+  fyrst: {
+    geschaeftskonto: offen(
+      "FYRST",
+      "In den AGB steht nur: „zur Verzinsung der Guthaben ist die Bank nicht verpflichtet“. Zinsen gibt es auf dem eigenen Tagesgeldkonto: Eröffne es nicht.",
+    ),
+  },
+  holvi: {
+    geschaeftskonto: offen(
+      "Holvi",
+      "Holvi nennt Zinsen nur für einen Geldmarktfonds, den du als GmbH oder UG selbst aktivieren müsstest: Aktiviere ihn nicht. Zum Guthaben auf dem Konto steht dort nichts.",
+    ),
+  },
+  qonto: {
+    geschaeftskonto: offen(
+      "Qonto",
+      "Der Rahmenvertrag sagt: „Ein positiver Saldo auf einem Girokonto des Kunden kann, wenn eine bestimmte Höhe überschritten wird, dazu führen, dass Qonto zusätzliche Kosten für die Kontoführung entstehen.“ Zinsen gibt es nur, wenn du selbst in einen Geldmarktfonds anlegst: Lege dort nichts an.",
+    ),
+  },
+  kontist: {
+    geschaeftskonto: offen(
+      "Kontist",
+      "Kontist und die Partnerbank Solaris nennen keinen Guthabenzins. Die Solaris schreibt ein Entgelt: „ein Verwahrentgelt i.H.v 0,5% p.a. auf die den Allgemeinen Freibetrag übersteigenden Einlagen“, bei Geschäftskunden ab 100.000 €.",
+    ),
+  },
+  finom: {
+    geschaeftskonto: offen(
+      "Finom",
+      "Für Solo, Basic und Smart steht kein Satz zu Zinsen auf dem Hauptkonto. Das Zinskonto ist ein eigenes Wallet, das du selbst eröffnen müsstest: Eröffne es nicht.",
+    ),
+  },
   tomorrow: gut(
     "Dein Guthaben auf dem Girokonto wird nicht verzinst. Zinsen gibt es nur auf dem Tagesgeldkonto: Eröffne es nicht.",
   ),
@@ -208,9 +283,14 @@ const HAUS: Record<string, Eintrag> = {
   robinhood: gut("Staking und Zinsen auf Guthaben gibt es nur nach eigener Anmeldung. Melde dich für beides nicht an."),
 
   /* Läuft ab Start, abschaltbar */
-  wise: abschaltbar(
-    "Wise zahlt ab dem Start jeden Monat Cashback auf dein Guthaben. Melde dich davon ab: Das geht jederzeit.",
-  ),
+  wise: {
+    ...dreiKategorien(abschaltbar("Wise zahlt ab dem Start jeden Monat Cashback auf dein Guthaben. Melde dich davon ab: Das geht jederzeit.")),
+    // Belegt mit Zins (Hilfe-Artikel, Wortlaut in `quellen.zinsfreiAbStart`). Ob es sich abschalten lässt, ist offen.
+    geschaeftskonto: {
+      bei: "schlecht",
+      satz: "Wise zahlt laut Hilfe-Artikel jeden Monat Cashback auf dein Guthaben in EUR, GBP und USD. Ob du es abschalten kannst, ist offen.",
+    },
+  },
 };
 
 /** Ausnahme je Angebot, geht dem Haus vor. */
@@ -336,7 +416,13 @@ export const zinsHinweis = (
   return hinweis && hinweis.bei === angebot.werte.zinsfreiAbStart ? hinweis.satz : undefined;
 };
 
-/** Alle Sätze, für den Test auf Wörter, die nur in die Recherche gehören. */
-export const ALLE_ZINS_SAETZE: string[] = [...Object.values(HAUS), ...Object.values(ANGEBOT)].flatMap((e) =>
-  istHinweis(e) ? [e.satz] : Object.values(e).map((h) => h.satz),
-);
+const ALLE_HINWEISE: Hinweis[] = [...Object.values(HAUS), ...Object.values(ANGEBOT)].flatMap((e) => (istHinweis(e) ? [e] : Object.values(e)));
+
+/** Alle Sätze zu grün und gelb, für den Test auf Wörter, die nur in die Recherche gehören, und auf die Länge. */
+export const ALLE_ZINS_SAETZE: string[] = ALLE_HINWEISE.filter((h) => h.bei === "gut" || h.bei === "teils").map((h) => h.satz);
+
+/**
+ * Die Sätze zu „Offen“ (Anbieter schreibt nichts Ausdrückliches) und zu rot (Anbieter zahlt Zinsen) im Geschäftskonto (VG2-04). Sie sagen, was
+ * der Anbieter bisher schreibt, und sind deshalb länger als die Sätze zu grün. Dieselben verbotenen Wörter gelten, die Längengrenze nicht.
+ */
+export const ALLE_OFFENEN_SAETZE: string[] = ALLE_HINWEISE.filter((h) => h.bei === "unbekannt" || h.bei === "schlecht").map((h) => h.satz);

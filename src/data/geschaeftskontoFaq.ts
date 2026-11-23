@@ -27,12 +27,12 @@ export const GESCHAEFT_FAQ = [
   {
     frage: "Warum zählt der Dispo?",
     antwort:
-      "Ein Dispo ist ein Kredit auf dem Konto mit Sollzinsen. In dieser Liste wird dir nach der Eröffnung keiner eingeräumt. Gibt es einen Kredit, dann nur auf deinen Antrag.",
+      "Ein Dispo ist ein Kredit auf dem Konto mit Sollzinsen. Bei den Konten mit Beleg wird dir nach der Eröffnung keiner eingeräumt. Gibt es einen Kredit, dann nur auf deinen Antrag. Wo der Anbieter das nicht belegt, steht „Offen“.",
   },
   {
-    frage: "Warum fehlen manche bekannten Anbieter?",
+    frage: "Was heißt „Offen“ bei den Zinsen?",
     antwort:
-      "Aufgenommen ist nur, wer laut eigenen Unterlagen auf dem Hauptkonto keinen Guthabenzins zahlt. Bei den übrigen Anbietern liegt uns dieser Beleg noch nicht vor. Sobald er da ist, kommt der Anbieter dazu.",
+      "Bei diesen Konten schreibt der Anbieter zu Zinsen auf dem Hauptkonto bisher nichts Ausdrückliches. Das ist kein Urteil. Wir fragen beim Anbieter nach und tragen die Antwort ein. Bis dahin stehen sie hinter den Konten mit Beleg. Zahlt ein Anbieter Zinsen auf das Guthaben, steht sein Konto ganz hinten.",
   },
   {
     frage: "Was kostet ein Geschäftskonto?",

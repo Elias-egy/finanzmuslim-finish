@@ -42,8 +42,8 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
  * gibt es hier nicht, weil es keine Eröffnungen über unsere Links gibt. Fehlt es in der Rechnung, steht es auch nicht im Text.
  */
 export const sortiertSatzGeschaeft = (): string =>
-  "Sortiert nach unserer Note: Halal-Merkmale und Kosten je zur Hälfte. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. " +
-  "Dafür bekommen wir von einigen Anbietern eine Provision.";
+  "Zuerst stehen Konten, bei denen der Anbieter belegt, dass das Hauptkonto keinen Guthabenzins zahlt, danach die mit offener Zins-Frage, ganz hinten, wer Zinsen zahlt. " +
+  "Innerhalb jeder Gruppe zählt unsere Note: Halal-Merkmale und Kosten je zur Hälfte. Was wir an einem Konto verdienen, zählt nie.";
 
 export const reihenfolgeAntwortGeschaeft = (): string =>
   [
@@ -52,5 +52,6 @@ export const reihenfolgeAntwortGeschaeft = (): string =>
     "Zu den Kosten zählen Kontoführung, Buchungen, Bargeld, Debitkarte, Unterkonten, Buchhaltung und Einlagensicherung, wie bei Finanzfluss gewichtet, ohne Tagesgeld.",
     "Zinsen, Aktionszinsen und Renditen von Geldmarktfonds zählen nie als Vorteil.",
     "Wie viel wir an einem Konto verdienen, zählt für die Note nie.",
-    "Platz 1 bekommt ein Konto ohne Zinsen, ohne Dispo und mit Debitkarte, das du über unseren Link eröffnen kannst. Wo es noch keinen Link gibt, steht das beste Konto ohne Einschränkung vorn, aber ohne den Kasten „Nummer 1“.",
+    "Die Liste steht in drei Gruppen: zuerst alle Konten, bei denen der Anbieter belegt, dass das Hauptkonto keinen Guthabenzins zahlt, danach alle, bei denen er dazu nichts Ausdrückliches schreibt („Offen“, kein Urteil, wir fragen nach), ganz hinten, wer Zinsen auf das Guthaben zahlt. In jeder Gruppe entscheidet die Note, ein Link ändert nichts daran.",
+    "Was der Anbieter bei Dispo oder Karte nicht ausdrücklich belegt, zählt als nicht erfüllt, bis er es belegt.",
   ].join(" ");

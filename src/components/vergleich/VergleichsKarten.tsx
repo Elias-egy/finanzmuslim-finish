@@ -46,7 +46,7 @@ const punktText = (
   zeile: VergleichsZeile,
   wert?: Zellwert,
 ): [Zeichen, string] => {
-  const offen: [Zeichen, string] = ["offen", `${zeile.label}: ${KEINE_ANGABE}`];
+  const offen: [Zeichen, string] = ["offen", `${zeile.label}: ${zeile.art === "ampel" && wert?.text ? wert.text : KEINE_ANGABE}`];
   if (zeile.art === "ampel") {
     const status = wert?.status ?? "unbekannt";
     if (status === "gut") return ["ja", zeile.label];

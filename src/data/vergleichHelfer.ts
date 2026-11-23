@@ -80,6 +80,9 @@ const ampelText: Record<CheckStatus, string> = {
   schlecht: "nicht erfüllt",
 };
 
+/** Text einer Ampelzelle, die ausdrücklich auf "unbekannt" steht: der Anbieter schreibt dazu bisher nichts Ausdrückliches. */
+export const OFFEN = "Offen";
+
 const istStatus = (w: RohWert): w is CheckStatus =>
   w === "gut" || w === "teils" || w === "schlecht" || w === "unbekannt";
 
@@ -87,7 +90,9 @@ const istStatus = (w: RohWert): w is CheckStatus =>
 const zuZelle = (roh: RohWert, art: string, quelle?: Quelle): Zellwert => {
   if (art === "ampel") {
     const status = istStatus(roh) ? roh : "unbekannt";
-    return { status, text: ampelText[status], quelle: status === "unbekannt" ? undefined : quelle };
+    // Ausdrücklich "unbekannt" (Geschäftskonto, VG2-04): Die Zelle sagt „Offen“, kein Urteil. Fehlt der Wert ganz (null), bleibt es der Strich.
+    const text = status === "unbekannt" && roh === "unbekannt" ? OFFEN : ampelText[status];
+    return { status, text, quelle: status === "unbekannt" ? undefined : quelle };
   }
   if (art === "janein") {
     const jaNein = typeof roh === "boolean" ? roh : null;
