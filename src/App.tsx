@@ -7,13 +7,14 @@ import Einwilligung from "@/components/site/Einwilligung";
 import { merkeHerkunft, merkeSeite } from "@/lib/messung";
 import { ladePartnerSprung, partnerKlick } from "@/lib/partnerKlick";
 import { BF_TEASER_PFAD, BF_VOLL_PFAD } from "@/data/boykottfreiPfad";
+import { ALTE_GUIDE_SCHLUESSEL } from "@/data/alteGuideAdressen";
 
 // Lazy: haelt recharts (Renditerechner) aus dem Homepage-Bundle heraus.
 // A10 (08.11.2026): auch die Startseite, sonst laden die Kursreihen aus kurse.json (rund 350 KB) auf jeder Seite mit.
 const Index = lazy(() => import("./pages/Index.tsx"));
 const InvestmentStart = lazy(() => import("./pages/InvestmentStart.tsx"));
 const DepotNummerEins = lazy(() => import("./pages/DepotNummerEins.tsx"));
-const HalalGuide = lazy(() => import("./pages/HalalGuide.tsx"));
+const Guide = lazy(() => import("./pages/Guide.tsx"));
 const Impressum = lazy(() => import("./pages/Impressum.tsx"));
 const Datenschutz = lazy(() => import("./pages/Datenschutz.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
@@ -23,7 +24,6 @@ const Zakatrechner = lazy(() => import("./pages/Zakatrechner.tsx"));
 const WieIchGeldVerdiene = lazy(() => import("./pages/WieIchGeldVerdiene.tsx"));
 const UeberMich = lazy(() => import("./pages/UeberMich.tsx"));
 const Kooperationen = lazy(() => import("./pages/Kooperationen.tsx"));
-const DeinGuide = lazy(() => import("./pages/DeinGuide.tsx"));
 const PortfolioPlan = lazy(() => import("./pages/PortfolioPlan.tsx"));
 const MeinPortfolioPlan = lazy(() => import("./pages/MeinPortfolioPlan.tsx"));
 const BoykottListe = lazy(() => import("./pages/BoykottListe.tsx"));
@@ -164,7 +164,14 @@ const App = () => (
             <Route path="/dein-investmentstart" element={<InvestmentStart />} />
             <Route path="/dein-investmentstart/:partner" element={<InvestmentStart />} />
             <Route path="/dein-investment-start" element={<InvestmentStart />} key="is-alias" />
-            <Route path="/halal-guide" element={<HalalGuide />} />
+            <Route path="/guide" element={<Guide />} />
+            {/* AG4: ein Guide. Alte Adressen leiten auf /guide (Liste `weiterleitungen`, wie /wissen). */}
+            <Route path="/halal-guide" element={<AlteAdresse />} />
+            <Route path="/gratis/guide" element={<AlteAdresse />} />
+            <Route path="/anfaengerguide" element={<AlteAdresse />} />
+            {ALTE_GUIDE_SCHLUESSEL.map((s) => (
+              <Route key={s} path={`/dein-guide/${s}`} element={<AlteAdresse />} />
+            ))}
             <Route path="/tools" element={<Tools />} />
             <Route path="/renditerechner" element={<Renditerechner />} />
             <Route path="/inflationsrechner" element={<Inflationsrechner />} />
@@ -196,7 +203,6 @@ const App = () => (
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
             {/* Nicht verlinkt, noindex, nicht in der Sitemap. Freigeschaltet
                 wird ueber Instagram und die bestehende Mailkette. */}
-            <Route path="/dein-guide/:schluessel" element={<DeinGuide />} />
             <Route path="/dein-plan/:schluessel" element={<PortfolioPlan />} />
             <Route path="/dein-portfolioplan/:schluessel" element={<MeinPortfolioPlan />} />
             <Route path="/deine-boykottliste/:schluessel" element={<BoykottListe />} />

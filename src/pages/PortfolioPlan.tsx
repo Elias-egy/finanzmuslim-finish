@@ -181,7 +181,7 @@ const PortfolioPlan = () => {
     return () => io.disconnect();
   }, []);
 
-  if (schluessel !== PLAN_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== PLAN_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   const waehle = (id: LageId) => setLageId(id);
 

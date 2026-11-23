@@ -118,7 +118,7 @@ const BoykottListe = () => {
     return () => io.disconnect();
   }, []);
 
-  if (schluessel !== BOYKOTT_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== BOYKOTT_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   return (
     <main className="bg-background" data-freebie="boykott-liste">

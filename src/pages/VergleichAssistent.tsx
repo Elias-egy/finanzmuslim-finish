@@ -497,7 +497,7 @@ const Ergebnis = ({ antworten, neu, aendern, feier }: { antworten: Antworten; ne
   const danach = [
     ...(sparen ? [{ to: "/sparzielrechner", text: "Rechne aus, wann du dein Ziel erreichst" }] : []),
     ...(mitDepot ? [{ to: "/halal-anlagen", text: "Sieh, welche Anlagen geprüft sind" }] : []),
-    { to: "/halal-guide", text: "Hol dir den Guide für die ersten Schritte" },
+    { to: "/guide", text: "Hol dir den Halal Starter Guide für die ersten Schritte" },
   ];
 
   return (

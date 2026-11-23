@@ -31,7 +31,7 @@ import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import guideCover from "@/assets/guide-cover-v5.webp";
+import guideCover from "@/assets/halal-starter-guide-cover.webp";
 import newsletterPhone from "@/assets/newsletter-handy-v4.webp";
 import rechnerRender from "@/assets/rechner-v2.webp";
 
@@ -378,26 +378,22 @@ const Index = () => {
       {/* 2 — Phase 1 (RN5, ohne OS): der Guide-Block wie vor VS4 (Fassung aus d65af7e^), Elias RN2-03: „der Guide bleibt“. */}
       {!MIT_OS && (
       <section className="section-card">
-        <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
+        <div className="section-inner grid items-center gap-2 lg:grid-cols-[300px_1fr] lg:gap-16">
           <img
             src={guideCover}
-            alt="Der Halal Investment Guide als Buch"
-            className="mx-auto max-h-[220px] w-auto object-contain lg:max-h-none lg:w-[380px]"
+            alt="Titelseite des Halal Starter Guide"
+            className="mx-auto max-h-[220px] w-auto rounded-md object-contain shadow-[0_12px_32px_rgba(10,25,60,0.2)] lg:max-h-none lg:w-[300px]"
             loading="lazy"
           />
           <div>
             <p className="eyebrow">Guide</p>
-            <h2 className="section-title mt-2">Der Halal Investment Guide</h2>
+            <h2 className="section-title mt-2">Halal Starter Guide</h2>
             <p className="section-text mt-3 max-w-[640px]">
-              Der Guide erklärt dir die Grundprinzipien islamkonformer Geldanlage und welche
-              Anlageklassen infrage kommen.
-              <span className="hidden md:inline">
-                {" "}
-                Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
-              </span>
+              Erkenne Zinsen im Alltag, wechsle zu einem Bankkonto ohne Zinsen und starte dein erstes Depot ohne die
+              häufigsten Fehler.
             </p>
-            <Aufruf to="/halal-guide" className="block sm:inline-block mt-6 lg:mt-8">
-              Guide kostenlos sichern
+            <Aufruf to="/guide" className="block sm:inline-block mt-6 lg:mt-8">
+              Halal Starter Guide holen
             </Aufruf>
           </div>
         </div>

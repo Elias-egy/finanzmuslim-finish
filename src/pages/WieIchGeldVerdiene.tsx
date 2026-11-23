@@ -78,7 +78,7 @@ const WieIchGeldVerdiene = () => (
               <div>
                 <h2 className="headline text-xl md:text-2xl">Der kostenlose Guide</h2>
                 <p className="mt-3 text-muted-foreground leading-relaxed">
-                  Der Halal Investment Guide ist kostenlos. Wenn du ihn per E-Mail
+                  Der Halal Starter Guide ist kostenlos. Wenn du ihn per E-Mail
                   anforderst, landest du auf meiner E-Mail-Liste. Dort erfährst du von
                   neuen Rechnern, Vergleichen und Artikeln.
                 </p>
@@ -87,10 +87,10 @@ const WieIchGeldVerdiene = () => (
                   dir eine sachliche Grundlage fürs islamkonforme Investieren zu geben.
                 </p>
                 <Link
-                  to="/halal-guide"
+                  to="/guide"
                   className="mt-4 inline-flex items-center text-primary font-semibold hover:underline"
                 >
-                  Zum Halal Investment Guide
+                  Zum Halal Starter Guide
                 </Link>
               </div>
             </div>

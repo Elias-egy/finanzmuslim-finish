@@ -72,7 +72,7 @@ const EtfPlan = () => {
     return () => io.disconnect();
   }, []);
 
-  if (schluessel !== ETF_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== ETF_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   return (
     <main className="bg-background" data-freebie="etf-plan">

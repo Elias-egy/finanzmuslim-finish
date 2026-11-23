@@ -722,8 +722,11 @@ const QUELLE_KURZ: Record<CheckQuelle, string> = {
   "etf-plan": "ep",
   "portfolio-plan": "pp",
   "broker-vergleich": "bv",
+  // AG4: Link aus dem Halal Starter Guide (gd) und dem Halal Klartext Guide (kt).
+  guide: "gd",
+  klartext: "kt",
 };
-export const CHECK_SRC = /^fc(ak|bf|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv)(fl|sb|no|bb)[zx]?[ab]?$/;
+export const CHECK_SRC = /^fc(ak|bf|ha|bo|hp|ko|me|qz|va|aa|bb|rq|gp|sp|ep|pp|bv|gd|kt)(fl|sb|no|bb)[zx]?[ab]?$/;
 export const checkSrc = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>
   `fc${QUELLE_KURZ[quelle]}${anbieter.kurz}${zusatz ?? ""}${fassung}`;
 export const outLink = (quelle: CheckQuelle, anbieter: Anbieter, fassung: Fassung = "a", zusatz?: "z" | "x"): string =>

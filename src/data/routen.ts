@@ -1,6 +1,6 @@
 import { halalAnlagen } from "@/data/halalAnlagen";
-import { guides } from "@/data/guides";
 import { optinAdressen } from "@/data/optin";
+import { ALTE_GUIDE_SCHLUESSEL } from "@/data/alteGuideAdressen";
 import { partnerLinks } from "@/data/partnerLinks";
 import { START_LINKS } from "@/data/startLinks";
 import { startPartner } from "./investmentStart";
@@ -76,7 +76,7 @@ const rechner = (pfad: string, datei: string): Route => ({
 /** Alles außer den Anlagen-Detailseiten. Reihenfolge = Reihenfolge im XML. */
 export const festeRouten: Route[] = [
   { pfad: "/", quelle: ["src/pages/Index.tsx"], changefreq: "weekly", prioritaet: "1.0" },
-  { pfad: "/halal-guide", quelle: ["src/pages/HalalGuide.tsx"], changefreq: "weekly", prioritaet: "0.9" },
+  { pfad: "/guide", quelle: ["src/pages/Guide.tsx"], changefreq: "weekly", prioritaet: "0.9" },
 
   { pfad: "/halal-anlagen", quelle: ["src/pages/HalalAnlagen.tsx", "src/data/halalAnlagen.ts"], changefreq: "weekly", prioritaet: "0.9" },
   { pfad: "/vergleiche", quelle: ["src/pages/Vergleiche.tsx"], changefreq: "monthly", prioritaet: "0.8" },
@@ -198,7 +198,6 @@ export const nichtIndexiert: string[] = [
   ...(deals.length === 0 ? ["/deals"] : []),
   "/dein-investmentstart",
   ...startPartner.filter((p) => p.kurzname !== "scalable").map((p) => p.pfad),
-  ...guides.filter((g) => !g.nurPdf).map((g) => `/dein-guide/${g.schluessel}`),
   // Halal-Portfolio-Plan zum Wort „Invest“ (MC3), nur über den Link aus dem Instagram-Chat
   PLAN_PFAD,
   // Persönlicher Portfolioplan, die Belohnung auf FERTIG (CV26P), nur über den Link aus der Antwort-Mail
@@ -272,11 +271,13 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   // Alte Blog-Adresse der Versicherung (SEO69, Titel und Adresse nach „sind versicherungen haram“), ohne noindex wie oben.
   { von: "/blog/ist-versicherung-haram", nach: "/blog/sind-versicherungen-haram", seo: true },
   { von: "/blog/halal-kredit-ohne-zinsen", nach: "/blog/halal-kredit", seo: true },
-  // Kurze Adresse des Anfänger-Guides: öffnet sofort das PDF, keine Seite dazwischen (Elias, 02.11.2026, MC7g, Vault
-  // raw/2026-11-02-elias-mc7g-fusion-mc8-guide-pdf-link.md). Die Datei liegt gleich unter /guides/ für alte Links.
-  { von: "/anfaengerguide", nach: "/anfaengerguide.pdf" },
-  // Guides nie als Seite (MC7d17): /dein-guide/start-2026 und /aufbau-2026 öffnen sofort ihr PDF.
-  ...guides.filter((g) => g.weiterleitung).map((g) => ({ von: `/dein-guide/${g.schluessel}`, nach: g.weiterleitung! })),
+  // AG4 (23.11.2026, Elias: „bei der Anmeldung zum Guide kriegt man jetzt nur noch einen … finanzmuslim.com/guide“):
+  // Es gibt einen Guide, den Halal Starter Guide. Jede alte Guide-Adresse führt auf /guide. Die alten PDF-Dateien
+  // bleiben liegen (ein statischer Hoster kann ein PDF nicht umleiten) und enthalten jetzt denselben Guide.
+  { von: "/halal-guide", nach: "/guide" },
+  { von: "/gratis/guide", nach: "/guide" },
+  { von: "/anfaengerguide", nach: "/guide" },
+  ...ALTE_GUIDE_SCHLUESSEL.map((s) => ({ von: `/dein-guide/${s}`, nach: "/guide" })),
   // Inaktive Partner (aktiv: false) haben keine Startseite, ihr /out/-Weg wird nicht erzeugt (RN20, Prüfbericht RN19 Punkt 2).
   ...partnerLinks.filter((p) => p.aktiv).map((p) => ({ von: `/out/${p.kurzname}`, nach: p.ziel })),
   // /weiter/<kurzname> als echte Datei (RN20, Prüfbericht RN19 Punkt 2): Ziel der Knöpfe, die ein Werbeblocker sonst
@@ -294,7 +295,10 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: "/tools", grund: "Zweitschreibweise von /rechner" },
   { pfad: "/dein-investmentstart", grund: "setzt noindex" },
   { pfad: "/dein-investmentstart/:partner", grund: "Startseite je Partner, setzt noindex" },
-  { pfad: "/dein-guide/:schluessel", grund: "Guide nur ueber den verschickten Link, setzt noindex" },
+  { pfad: "/halal-guide", grund: "Weiterleitung auf /guide (AG4), gehört nicht in den Index" },
+  { pfad: "/gratis/guide", grund: "Weiterleitung auf /guide (AG4), gehört nicht in den Index" },
+  { pfad: "/anfaengerguide", grund: "Weiterleitung auf /guide (AG4), gehört nicht in den Index" },
+  { pfad: "/dein-guide/:schluessel", grund: "Weiterleitung auf /guide (AG4): die vier alten Schlüssel, gehört nicht in den Index" },
   { pfad: "/dein-plan/:schluessel", grund: "Portfolio-Plan nur ueber den Link aus dem Instagram-Chat, setzt noindex" },
   { pfad: "/dein-portfolioplan/:schluessel", grund: "Persoenlicher Portfolioplan nur ueber den Link aus der FERTIG-Antwort, setzt noindex" },
   { pfad: "/deine-boykottliste/:schluessel", grund: "Boykott-Liste nur ueber den Link aus dem Instagram-Chat, setzt noindex" },

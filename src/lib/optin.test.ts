@@ -23,7 +23,7 @@ describe("quelleFuer", () => {
   it("nimmt sonst die Seite", () => {
     expect(quelleFuer("/vorlagen/rizq", null)).toBe("web:/vorlagen/rizq");
     expect(quelleFuer("/vorlagen/rizq", "bio")).toBe("web:/vorlagen/rizq");
-    expect(quelleFuer("/halal-guide", "dm-aktie")).toBe("web:/halal-guide");
+    expect(quelleFuer("/guide", "dm-aktie")).toBe("web:/guide");
   });
 });
 
@@ -51,10 +51,10 @@ describe("optinDaten", () => {
   });
 
   it("schickt beim Guide keine Stufe mehr mit, die kommt als Nachtrag", () => {
-    const d = optinDaten({ email: "a@b.de", vorname: "", freebie: "guide", pfad: "/halal-guide", lang: "tr", firma: "" });
+    const d = optinDaten({ email: "a@b.de", vorname: "", freebie: "guide", pfad: "/guide", lang: "tr", firma: "" });
     expect(d).not.toHaveProperty("level");
     expect(d.sprache).toBe("tr");
-    expect(d.quelle).toBe("web:/halal-guide");
+    expect(d.quelle).toBe("web:/guide");
   });
 });
 

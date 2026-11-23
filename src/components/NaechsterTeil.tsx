@@ -33,11 +33,8 @@ type Props = {
  * RN16-41: größer, mit zwei weiteren Stimmen (nicht die zwei vom Kasten oben).
  * RN16-13 (Elias 17.11.2026: „unten bei Blueprint also den Blueprint austauschen und nochmal eine kleinere Werbung für das Match machen“):
  * statt des Guides steht am Ende jedes Freebies eine kleine Werbung für den Check mit einem Knopf „Match finden“. Die Messung
- * freebie_ende bleibt. Früher:
- * Der Kasten „Dein nächster Schritt“ ganz am Ende jedes Freebies, gebaut wie der Abschluss des alten
- * Einsteiger-Guides (`src/guides/einsteiger.html` Seite 10): Der Profi-Guide liegt bereit, kommt aber erst
- * nach einem kleinen Schritt und der Antwort FERTIG. Verlinkt ist nur der Schritt, nie die Belohnung
- * (Elias 28.10.2026: kein Verweis, der vom Freebie wegführt). Wortlaut in `src/data/leiter.ts`.
+ * freebie_ende bleibt. AG4 (23.11.2026): Der alte Kasten „Dein nächster Schritt“ mit dem Blueprint ist samt seinem
+ * Wortlaut gestrichen, nur die Liste der Wörter liegt noch in `src/data/leiter.ts`.
  */
 // RN16-42 (Elias: „nur noch diesen einen Call to Action … immer gleich“): `quelle` ersetzt die Pflicht zum Wort.
 const NaechsterTeil = ({ wort, quelle: quelleDirekt, className = "" }: Props) => {

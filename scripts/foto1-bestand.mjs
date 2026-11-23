@@ -11,7 +11,7 @@ const seiten = [
   ["start", "/"],
   ["ueber-mich", "/ueber-mich"],
   ["investmentstart", "/dein-investmentstart"],
-  ["halal-guide", "/halal-guide"],
+  ["guide", "/guide"],
   ["beitrag", "/blog/ist-leasing-haram"],
   ["gratis", "/gratis/halal-anlagen"],
   ["danke", "/danke/halal-anlagen"],

@@ -112,23 +112,6 @@ export const BROKER_START: Record<string, BrokerStart> = {
 /** Text für den Verzicht auf den flex-Kredit; liegt seit PH1-04 bei den Wechsel-Links, die auch der Vergleich zeigt. */
 export { FLATEX_VERZICHT } from "@/data/wechselUnterlagen";
 
-/**
- * FERTIG mit Nachweis (Elias, CV22F 08.11.2026): „Schreibe mir die Mail fertig mit einem Screenshot von deinem
- * Halal-ETF“. Seit CV26P steht in der Mail nur noch „Fertig“ und der Hinweis (Elias, CV25V: „im eigenen E-Mail-Provider
- * direkt sozusagen nur stehen fertig … und dann halt irgendwie noch unten als Hinweis … Screenshot hinzufügen und
- * abschicken … Das kann auch ruhig in den Text geschrieben werden“, Vault
- * raw/2026-11-08-elias-cv25v-portfolioplan-zuerst-fertig-mail-video.md). Belohnung ist der persönliche Portfolioplan
- * statt des XXL-Guides (Elias, CV25V: „dieses XXL-Guide … musst du auch alles wegmachen“). Der Zoho-Antworter am VPS
- * (scripts/scheduler/zoho_antworten.py, ist_fertig) erkennt Betreff FERTIG bei eigenem Text bis 220 Zeichen; seine
- * Antwort zeigt erst mit dem gemeinsamen Livegang auf den Plan.
- */
-const FERTIG_TEXT = "Fertig\n\n(Screenshot hinzufügen und abschicken)\n";
-export const FERTIG_MAIL = {
-  link: "hier die Mail an mich",
-  satz: "Screenshot deines Halal-ETFs hinzufügen, dann bekommst du deinen persönlichen Portfolioplan.",
-  href: `mailto:elias@finanzmuslim.com?subject=FERTIG&body=${encodeURIComponent(FERTIG_TEXT)}`,
-};
-
 export type AnlagenGruppe = { titel: string; namen: string[] };
 
 /** „Kaufbar: A, B, C. Nicht im Angebot: …“ → [A, B, C], ohne Klammerzusätze. */

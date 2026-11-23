@@ -390,7 +390,7 @@ const MeinPortfolioPlan = () => {
   const typ = useMemo(() => anlegertyp(anteile), [anteile]);
   const risk = useMemo(() => risiko(anteile), [anteile]);
 
-  if (schluessel !== QUIZ_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== QUIZ_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   const fragen = fragenFuer(a);
   const frage = fragen[schritt];
