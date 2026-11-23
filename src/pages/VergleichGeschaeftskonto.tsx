@@ -115,8 +115,6 @@ const VergleichGeschaeftskonto = () => (
     kriterien={KRITERIEN}
     faq={GESCHAEFT_FAQ}
     weiterlesen={[
-      { to: "/vergleich/girokonto", name: "Girokonto-Vergleich", text: "Das Konto für dein privates Geld." },
-      { to: "/vergleich/depot", name: "Depot-Vergleich", text: "Dein Geld halal anlegen." },
       { to: "/vergleiche/methodik", name: "So bewerten wir", text: "Wie aus den Merkmalen eine Note wird." },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."

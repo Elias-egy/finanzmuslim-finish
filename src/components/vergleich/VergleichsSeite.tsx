@@ -1,9 +1,8 @@
 import { useState, type ReactNode } from "react";
-import { ArrowRight, ChevronDown, Search, ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Search, ShieldCheck } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import eliasAutor from "@/assets/elias-autor.webp";
 import Seo, { vergleichJsonLd } from "@/components/Seo";
-import { Switch } from "@/components/ui/switch";
 import {
   Accordion,
   AccordionContent,
@@ -18,6 +17,8 @@ import {
   ReihenfolgeHinweis,
 } from "./VergleichsRahmen";
 import { VergleichsTabelle } from "./VergleichsTabelle";
+import { FilterLeiste } from "./FilterLeiste";
+import { WeitereVergleiche } from "./WeitereVergleiche";
 import { SEITE, VergleichsKarten } from "./VergleichsKarten";
 import type { VergleichsZeile } from "./vergleichTypen";
 import {
@@ -210,7 +211,6 @@ export const VergleichsSeite = ({
   const sortiertUnten = Boolean(giro && sortiertNachDe);
   const stil = Boolean(giro || depot);
   const [aktiv, setAktiv] = useState<string[]>([]);
-  const [filterOffen, setFilterOffen] = useState(false);
 
   /* DACH1 (23.11.2026): Länderversionen. Die Adresse sagt das Land (`/at/…`, `/ch/…`), `pfad` bleibt die deutsche
      Grundadresse. Ohne fertige Liste zeigt die Seite „in Vorbereitung“, nichts wird aus Deutschland übernommen. Mit
@@ -332,7 +332,10 @@ export const VergleichsSeite = ({
     auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
   const zweiter = auszeichnungen?.zweiNummerEins && meisteHalalId ? (anbieter.find((a) => a.id === meisteHalalId) ?? null) : null;
   /** Kopf wie Finanzfluss am breiten Laptop (ab `xl`): Kennzahlen, Autor und schmaler Kasten rechts. */
-  const kopfFF = stil && Boolean(sieger) && !zweiter;
+  const kopfFF = stil && !zweiter && (Boolean(sieger) || ohneNummerEins);
+  /* VG3: Ohne Nummer 1 (Geschäftskonto, solange kein Link vorn steht) bleibt der Kopf wie Finanzfluss, nur ohne den
+     schmalen Kasten: zwei Kennzahlen und der Autor rechts neben dem Text. */
+  const kopfOhneKasten = kopfFF && !sieger;
   const nachRang = platz
     ? [
         ...gefiltert
@@ -426,7 +429,7 @@ export const VergleichsSeite = ({
         ]}
       />
 
-      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${kopfFF ? RASTER_KOPF_FF : sieger ? RASTER_KASTEN_BREIT : ""}`}>
+      <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${kopfOhneKasten ? "" : kopfFF ? RASTER_KOPF_FF : sieger ? RASTER_KASTEN_BREIT : ""}`}>
         <div className={sieger ? KOPF_LINKS : BREIT}>
           {hatLandVersion(pfad) ? (
             <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
@@ -490,65 +493,30 @@ export const VergleichsSeite = ({
             </Link>
           )}
 
-          {/* Ohne Knopf kein Kasten und keine Handy-Leiste: ein Filter, der nichts kürzt, kostet nur Platz. */}
-          {filter.length > 0 && (
-          <section
-            className="mt-4 rounded-lg border border-border lg:mt-5 lg:max-w-3xl lg:px-5 lg:py-3"
-            aria-label="Filter"
-          >
-            <button
-              type="button"
-              onClick={() => setFilterOffen((o) => !o)}
-              aria-expanded={filterOffen}
-              className="flex min-h-[52px] w-full items-center gap-2.5 px-4 text-left text-[15px] font-semibold text-foreground lg:hidden"
-            >
-              <SlidersHorizontal
-                className="h-[18px] w-[18px] text-primary"
-                aria-hidden
-              />
-              Filter
-              {aktiv.length > 0 && (
-                <span className="rounded-full bg-primary px-2 py-0.5 text-[12px] font-bold text-primary-foreground">
-                  {aktiv.length}
-                </span>
-              )}
-              <span className="ml-auto text-[14px] font-normal text-muted-foreground">
-                {gefiltert.length} von {anbieter.length}
-              </span>
-              <ChevronDown
-                className={`h-5 w-5 text-muted-foreground transition-transform ${filterOffen ? "rotate-180" : ""}`}
-                aria-hidden
-              />
-            </button>
-            <div
-              className={`${filterOffen ? "flex" : "hidden"} flex-col gap-4 border-t border-border p-4 md:flex-row md:items-center md:justify-between lg:flex lg:border-t-0 lg:p-0`}
-            >
-              <div className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-6">
-                {filter.map((f) => (
-                  <label
-                    key={f.key}
-                    className="flex min-h-[44px] cursor-pointer items-center gap-3 text-[15px] text-foreground"
-                  >
-                    <Switch
-                      checked={aktiv.includes(f.key)}
-                      onCheckedChange={() => umschalten(f.key)}
-                    />
-                    <span>{f.label}</span>
-                  </label>
-                ))}
-              </div>
-              <p className="hidden text-[14px] text-muted-foreground md:shrink-0 lg:block">
-                {gefiltert.length} von {anbieter.length} {einheit}
-              </p>
-            </div>
-          </section>
-          )}
         </div>
+
+        {/* Filter wie Finanzfluss (VG3): am Laptop über die ganze Breite direkt vor der Liste (Zeile 3 des Rasters), am Handy vor
+            der Nummer 1. Ohne Filter keine Leiste: ein Filter, der nichts kürzt, kostet nur Platz. */}
+        {filter.length > 0 && (
+          <div className={`${BREIT} lg:row-start-3`}>
+            <FilterLeiste
+              filter={filter}
+              aktiv={aktiv}
+              umschalten={umschalten}
+              zuruecksetzen={() => setAktiv([])}
+              anzahl={gefiltert.length}
+            />
+          </div>
+        )}
 
         {/* Rechte Spalte am Laptop, auf dem Handy direkt unter dem Einstieg: die Nummer 1, darunter die Kennzahlen. */}
         <aside
           className={`mt-4 lg:col-start-2 lg:self-start ${sieger ? KASTEN_OBEN : KASTEN_NEBEN_KOPF} ${
-            kopfFF ? "xl:mt-[118px] xl:grid xl:grid-cols-[1fr_1fr_252px] xl:gap-3" : ""
+            kopfOhneKasten
+              ? "xl:mt-[78px] xl:grid xl:grid-cols-2 xl:gap-3"
+              : kopfFF
+                ? "xl:mt-[118px] xl:grid xl:grid-cols-[1fr_1fr_252px] xl:gap-3"
+                : ""
           }`}
         >
           {kopfFF && (
@@ -603,7 +571,7 @@ export const VergleichsSeite = ({
           )}
           {!sieger && (
           <Kennzahlen
-            className="hidden lg:grid"
+            className={kopfOhneKasten ? "hidden lg:grid xl:hidden" : "hidden lg:grid"}
             max={kennzahlenMax}
             kennzahlen={
               kennzahlen ?? [
@@ -620,7 +588,7 @@ export const VergleichsSeite = ({
           )}
         </aside>
 
-        {!sieger && !fest && (
+        {!sieger && !fest && !sortiertNach && (
           <div className={BREIT}>
             {reihenfolge ?? <ReihenfolgeHinweis einheit={einheit} />}
           </div>
@@ -759,6 +727,8 @@ export const VergleichsSeite = ({
             </ul>
           </aside>
         )}
+
+        <WeitereVergleiche pfad={pfad} land={land} className={`${AM_ENDE} ${BREIT}`} />
 
         <p
           className={`${AM_ENDE} ${BREIT} mt-12 text-[13px] leading-relaxed text-muted-foreground`}
