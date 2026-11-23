@@ -12,6 +12,7 @@
  */
 export { depotAnzeige } from "./anzeige/depot";
 export { edelmetallAnzeige } from "./anzeige/edelmetall";
+export { geschaeftskontoAnzeige } from "./anzeige/geschaeftskonto";
 export { girokontoAnzeige } from "./anzeige/girokonto";
 export { kryptoAnzeige } from "./anzeige/krypto";
 export { screenerAnzeige } from "./anzeige/screener";

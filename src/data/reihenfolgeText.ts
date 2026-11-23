@@ -36,3 +36,21 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
       ? "Platz 1 bekommt nur ein Depot ohne Zinsen ab Start, das du über unseren Link eröffnen kannst."
       : "Platz 1 bekommt nur ein Konto, das ohne Zinsen, ohne Dispo und ohne Kartenkredit startet und das du über unseren Link eröffnen kannst.",
   ].join(" ");
+
+/**
+ * Geschäftskonto (VG2, 23.11.2026): Die Note besteht je zur Hälfte aus Halal-Merkmalen und Kosten. „Bei meinen Lesern beliebt“
+ * gibt es hier nicht, weil es keine Eröffnungen über unsere Links gibt. Fehlt es in der Rechnung, steht es auch nicht im Text.
+ */
+export const sortiertSatzGeschaeft = (): string =>
+  "Sortiert nach unserer Note: Halal-Merkmale und Kosten je zur Hälfte. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst. " +
+  "Dafür bekommen wir von einigen Anbietern eine Provision.";
+
+export const reihenfolgeAntwortGeschaeft = (): string =>
+  [
+    "Die Note besteht zur Hälfte aus Halal-Merkmalen und zur Hälfte aus Kosten und Konditionen.",
+    "Zu den Halal-Merkmalen zählen Zinsen, Dispo und Karte ohne Kredit. Jedes belegen wir beim Anbieter.",
+    "Zu den Kosten zählen Kontoführung, Buchungen, Bargeld, Debitkarte, Unterkonten, Buchhaltung und Einlagensicherung, wie bei Finanzfluss gewichtet, ohne Tagesgeld.",
+    "Zinsen, Aktionszinsen und Renditen von Geldmarktfonds zählen nie als Vorteil.",
+    "Wie viel wir an einem Konto verdienen, zählt für die Note nie.",
+    "Platz 1 bekommt ein Konto ohne Zinsen, ohne Dispo und mit Debitkarte, das du über unseren Link eröffnen kannst. Wo es noch keinen Link gibt, steht das beste Konto ohne Einschränkung vorn, aber ohne den Kasten „Nummer 1“.",
+  ].join(" ");

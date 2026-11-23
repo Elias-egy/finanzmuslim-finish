@@ -10,7 +10,7 @@ import {
 } from "@/components/vergleich/vergleichTypen";
 import { unterschiedFuer } from "./produktUnterschiede";
 import { TARIF_MARKEN } from "./vergleichKorrekturenDaten";
-import { kreditAchtung, landeseiteAchtung, landeseiteKurz, zinsHinweis } from "./zinsHinweise";
+import { kreditAchtung, landeseiteAchtung, landeseiteKurz, verwahrAchtung, zinsHinweis } from "./zinsHinweise";
 
 /**
  * Bindeglied zwischen den Datendateien und den Bausteinen.
@@ -121,6 +121,9 @@ export const baueSpalten = (
     // PH3-02: Landeseite des Partners wirbt oben mit Zins, die Meldung steht zuerst in den Produktdetails.
     const landeseite = landeseiteAchtung(kategorie, a);
     if (landeseite && werte.zinsfreiAbStart) werte.zinsfreiAbStart.achtung = landeseite;
+    // VG2: Verwahrentgelt auf hohe Guthaben im Geschäftskonto, steht nur bei den Häusern, deren Preisliste es nennt.
+    const verwahr = verwahrAchtung(kategorie, a);
+    if (verwahr && werte.zinsfreiAbStart && !werte.zinsfreiAbStart.achtung) werte.zinsfreiAbStart.achtung = verwahr;
     return {
       id: a.id,
       anbieter: a.name,

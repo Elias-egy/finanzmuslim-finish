@@ -11,6 +11,12 @@ export const DEPOT_FINANZ_MAX: Record<string, number> = {"depotgebuehr": 16, "et
 
 export const GIRO_FINANZ_MAX: Record<string, number> = {"kontofuehrung": 15, "bankkarte": 10, "girocard": 5, "debitkarte": 5, "abheben": 5, "einzahlen": 3, "mobilesBezahlen": 8, "sepa": 10, "support": 5, "kontowechsel": 2, "app": 2, "ident": 2, "ohneBedingung": 4, "ausland": 12};
 
+/**
+ * Geschäftskonto (VG2, 23.11.2026): Höchstpunkte der Kosten nach dem Schema von Finanzfluss, ohne Tagesgeld (Zinsprodukte zählen bei uns
+ * nie). Von Hand gepflegt, steht in keiner erzeugten Datei. Die Rechnung dazu: `geschaeftskontoKosten.ts`.
+ */
+export const GESCHAEFT_FINANZ_MAX: Record<string, number> = {"kontofuehrung": 40, "kostenBuchung": 20, "freieBuchungen": 16, "abheben": 10, "einzahlen": 8, "debitkarte": 20, "unterkonten": 11, "buchhaltung": 7, "einlagensicherung": 18};
+
 export const KRYPTO_FINANZ_MAX: Record<string, number> = {"gebuehren": 100, "transparenz": 100, "transferkosten": 70, "sicherheit": 50, "verifizierung": 60, "bezahlmethoden": 50, "mica": 30, "sparplan": 20, "mindestbetrag": 20};
 
 /**

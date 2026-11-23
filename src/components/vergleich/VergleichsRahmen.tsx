@@ -190,6 +190,8 @@ export const NummerEins = ({
               geldautomaten: wert("geldautomaten"),
               girocard: wert("girocard"),
               debitkarte: wert("debitkarte"),
+              buchungen: "buchungen" in anbieter.werte ? wert("buchungen") : undefined,
+              abheben: "abheben" in anbieter.werte ? wert("abheben") : undefined,
             }}
             besonders={giro.besonders[anbieter.id]}
           />

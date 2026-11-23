@@ -19,6 +19,12 @@ export type GiroWerte = {
   geldautomaten: string | null | undefined;
   girocard: string | null | undefined;
   debitkarte: string | null | undefined;
+  /**
+   * Nur Geschäftskonto (VG2, 23.11.2026): Steht die Zeile „Buchungen“ in den Daten, zeigen die Kacheln Kontoführung, Buchungen,
+   * Bargeld abheben und Debitkarte statt Geldautomaten und Girocard.
+   */
+  buchungen?: string | null;
+  abheben?: string | null;
 };
 
 export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").trim();
@@ -94,7 +100,54 @@ export const Wert = ({ children, leise = false }: { children: ReactNode; leise?:
   <span className={`text-[16px] font-bold leading-tight ${leise ? "text-muted-foreground" : "text-foreground"}`}>{children}</span>
 );
 
+/** „VISA, 0 €“ wird Marke und Preis, „1,25 €“ nur der Preis, „Keine“ nichts. */
+const kartePreis = (s: string | null | undefined): { marke: string; preis: string } | null => {
+  if (!s || /^keine/i.test(s)) return null;
+  const m = /^(?:(.*?),\s*)?(\d[\d.,]*\s*€)\s*$/.exec(s.trim());
+  return m ? { marke: m[1] ?? "", preis: euro(m[2]) } : null;
+};
+
+/** Geschäftskonto: vier Kacheln mit dem, was bei einem Geschäftskonto zählt. */
+const GeschaeftKacheln = ({ w }: { w: GiroWerte }) => {
+  const kf = kontofuehrungTeile(w);
+  const db = kartePreis(w.debitkarte);
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <Kachel label="Kontoführung (Monat)">
+        {kf ? (
+          <div className="min-w-0">
+            <Wert>{kf.betrag}</Wert>
+            {kf.zusatz && <p className="mt-0.5 text-[12px] font-normal leading-tight text-muted-foreground">{kf.zusatz}</p>}
+          </div>
+        ) : (
+          <Wert leise>–</Wert>
+        )}
+      </Kachel>
+      <Kachel label="Buchungen (Monat)">
+        {w.buchungen ? <Wert>{w.buchungen}</Wert> : <Wert leise>–</Wert>}
+      </Kachel>
+      <Kachel label="Bargeld abheben">
+        {w.abheben ? <Wert>{w.abheben}</Wert> : <Wert leise>–</Wert>}
+      </Kachel>
+      <Kachel label="Debitkarte (Monat)">
+        {db ? (
+          <>
+            <div className="min-w-0">
+              <Wert>{db.preis}</Wert>
+              {db.marke && !/^(visa|mastercard)$/i.test(db.marke) && <p className="mt-0.5 text-[12px] leading-tight text-muted-foreground">{db.marke}</p>}
+            </div>
+            {/^visa$/i.test(db.marke) ? <VisaBild /> : /^mastercard$/i.test(db.marke) ? <MastercardBild /> : null}
+          </>
+        ) : (
+          <Wert leise>Keine</Wert>
+        )}
+      </Kachel>
+    </div>
+  );
+};
+
 export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
+  if (w.buchungen !== undefined) return <GeschaeftKacheln w={w} />;
   const kf = kontofuehrungTeile(w);
   const gc = girocardTeile(w.girocard);
   const db = debitTeile(w.debitkarte);

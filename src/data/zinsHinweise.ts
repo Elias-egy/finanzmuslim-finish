@@ -12,13 +12,16 @@ import type { CheckStatus } from "@/components/vergleich/vergleichTypen";
  * Ein Satz je Haus, bei Bedarf je Vergleich getrennt. Weicht ein einzelnes Angebot ab, steht es
  * unter `ANGEBOT` und geht dem Haus vor.
  */
-export type ZinsKategorie = "depot" | "girokonto" | "krypto";
+export type ZinsKategorie = "depot" | "girokonto" | "krypto" | "geschaeftskonto";
 
 type Hinweis = { bei: CheckStatus; satz: string };
 type Eintrag = Hinweis | Partial<Record<ZinsKategorie, Hinweis>>;
 
 const gut = (satz: string): Hinweis => ({ bei: "gut", satz });
 const abschaltbar = (satz: string): Hinweis => ({ bei: "teils", satz });
+
+/** Derselbe Satz für Depot, Girokonto und Krypto: für Häuser, die dort schon standen und im Geschäftskonto einen eigenen Satz brauchen. */
+const dreiKategorien = (h: Hinweis): Partial<Record<ZinsKategorie, Hinweis>> => ({ depot: h, girokonto: h, krypto: h });
 
 const NICHTS = "Du musst nichts einstellen.";
 const ohneZins = (konto: string) => gut(`Dein Guthaben auf dem ${konto} wird nicht verzinst. ${NICHTS}`);
@@ -77,7 +80,12 @@ const HAUS: Record<string, Eintrag> = {
   "psd-nuernberg": ohneZins("Girokonto"),
   umweltbank: ohneZins("Girokonto"),
   haspa: ohneZins("Girokonto"),
-  ethikbank: nullProzent("Girokonto"),
+  ethikbank: {
+    ...dreiKategorien(nullProzent("Girokonto")),
+    geschaeftskonto: gut(
+      "Dein Guthaben auf dem Geschäftskonto hat 0 % Zinsen. Das ZinskontoBusiness ist ein eigenes Konto: Eröffne es nicht.",
+    ),
+  },
   relai: gut(`In der Relai App gibt es keine Zinsen und kein Staking. ${NICHTS}`),
   "21bitcoin": gut(`21bitcoin verleiht deine Bitcoin nicht, Zinsen gibt es keine. ${NICHTS}`),
 
@@ -113,7 +121,13 @@ const HAUS: Record<string, Eintrag> = {
   finvesto: gut(
     "Dein Guthaben auf dem Konto flex wird nicht verzinst. Tagesgeld und Festgeld sind eigene Konten: Eröffne sie nicht.",
   ),
-  n26: gut("Zinsen gibt es nur auf dem Tagesgeldkonto, das du in der App eigens eröffnen müsstest. Eröffne es nicht."),
+  n26: {
+    ...dreiKategorien(
+      gut("Zinsen gibt es nur auf dem Tagesgeldkonto, das du in der App eigens eröffnen müsstest. Eröffne es nicht."),
+    ),
+    /* Geschäftskonto: AGB 2.5 „Für das Guthaben auf dem Konto erhältst du keine Zinsen.“ Ein Tagesgeldkonto ist dort nicht belegt, also nicht genannt. */
+    geschaeftskonto: gut(`Dein Guthaben auf dem Konto wird nicht verzinst. ${NICHTS}`),
+  },
   revolut: {
     depot: gut(
       "Auf dein Guthaben im Hauptkonto zahlt Revolut keine Zinsen. Zinsen gibt es nur im Tagesgeldkonto: Zahle dort nichts ein.",
@@ -126,20 +140,34 @@ const HAUS: Record<string, Eintrag> = {
       "Staking läuft nach dem Kauf automatisch. Schalte in der App den Schalter „Auto-earn“ aus.",
     ),
   },
-  vivid: gut("Zinsen gibt es nur im Interest Rate Pocket, das du selbst anlegen müsstest. Lege es nicht an."),
+  vivid: {
+    ...dreiKategorien(gut("Zinsen gibt es nur im Interest Rate Pocket, das du selbst anlegen müsstest. Lege es nicht an.")),
+    geschaeftskonto: gut("Zinsen gibt es nur auf dem Zinskonto, das du selbst eröffnen müsstest. Eröffne es nicht."),
+  },
   freedom24: gut("Zinsen laufen nur auf einem eigenen D-Konto. Eröffne es nicht."),
   "1822direkt": {
     girokonto: gut(
       "Das Tagesgeldkonto wird automatisch mit eröffnet. Zahle dort nichts ein, dann fallen keine Zinsen an.",
     ),
   },
-  ing: { girokonto: gut("Zinsen gibt es nur auf dem Extra-Konto, einem eigenen Konto. Zahle dort nichts ein.") },
+  ing: {
+    girokonto: gut("Zinsen gibt es nur auf dem Extra-Konto, einem eigenen Konto. Zahle dort nichts ein."),
+    geschaeftskonto: gut("Zinsen gibt es nur auf dem Business Extra-Konto, einem eigenen Konto. Eröffne es nicht."),
+  },
   klarna: gut("Zinsen gibt es nur mit einem Sparkonto, also Flexkonto oder Festgeld. Eröffne keines."),
   norisbank: gut("Zinsen gibt es nur auf dem Top-Zinskonto, einem eigenen Konto. Zahle dort nichts ein."),
   bunq: gut("Zinsen gibt es nur auf Sparkonten, die du in der App selbst eröffnen müsstest. Eröffne keines."),
   tomorrow: gut(
     "Dein Guthaben auf dem Girokonto wird nicht verzinst. Zinsen gibt es nur auf dem Tagesgeldkonto: Eröffne es nicht.",
   ),
+
+  /* Geschäftskonto-Vergleich (VG2, 23.11.2026): nur diese Häuser, jeder Satz aus dem Beleg in `geschaeftskontoVergleich.ts`. */
+  tide: {
+    geschaeftskonto: gut("Das Tagesgeldkonto wird automatisch mit eröffnet. Zahle dort nichts ein, dann fallen keine Zinsen an."),
+  },
+  lexware: { geschaeftskonto: gut(`Lexware zahlt keine Zinsen auf dein Guthaben. ${NICHTS}`) },
+  accountable: { geschaeftskonto: gut(`Das Konto ist unverzinslich. ${NICHTS}`) },
+  grenke: { geschaeftskonto: nullProzent("Geschäftskonto") },
 
   /* Zinsen, Staking oder Earn erst nach eigenem Einschalten: aus lassen */
   trading212: gut("Zinsen laufen erst, wenn du sie selbst aktivierst. Lass sie aus."),
@@ -267,7 +295,23 @@ export const landeseiteAchtung = (kategorie: string | undefined, angebot: { id: 
 export const landeseiteKurz = (kategorie: string | undefined, angebot: { id: string }): string | undefined =>
   kategorie === "girokonto" ? LANDESEITE[angebot.id]?.kurz : undefined;
 
+/**
+ * Verwahrentgelt auf hohe Guthaben im Geschäftskonto (VG2, 23.11.2026): ein Entgelt, kein Zins, aber für ein Geschäftskonto mit
+ * großem Kontostand wichtig. Nur, wo es in der Preisliste steht.
+ * N26: Preisliste (Version 4.5, 19.11.2026, https://docs.n26.com/legal/01+DE/01+Account/de/13account-pricelist-de.pdf): „Verwahrentgelt
+ * für Kontoguthaben über 50.000€ 0,5% p.a.“ Lexware: Preis- und Leistungsverzeichnis der Partnerbank Solaris SE (Version 3.3, 08.08.2025):
+ * 0,5 % p.a. ab einem Gesamtbetrag von mehr als 100.000 € bei Geschäftskunden; ob Lexware es erhebt, sagt Lexware nicht.
+ */
+const VERWAHRENTGELT: Record<string, string> = {
+  n26: "In der N26-Preisliste steht ein Verwahrentgelt von 0,5 % im Jahr auf Guthaben über 50.000 €.",
+  lexware: "In der Preisliste der Partnerbank Solaris steht ein Verwahrentgelt von 0,5 % im Jahr auf Guthaben über 100.000 €.",
+};
+
+export const verwahrAchtung = (kategorie: string | undefined, angebot: { haus?: string }): string | undefined =>
+  kategorie === "geschaeftskonto" && angebot.haus ? VERWAHRENTGELT[angebot.haus] : undefined;
+
 export const ALLE_ACHTUNG_SAETZE: string[] = [
+  ...Object.values(VERWAHRENTGELT),
   ...Object.values(ACHTUNG_KREDIT),
   ...Object.values(KREDIT_SACHE),
   ...Object.values(KREDIT_KURZ),
@@ -281,10 +325,11 @@ export const zinsHinweis = (
   kategorie: string | undefined,
   angebot: { id: string; haus?: string; werte: Record<string, unknown> },
 ): string | undefined => {
-  if (kategorie !== "depot" && kategorie !== "girokonto" && kategorie !== "krypto") return undefined;
+  if (kategorie !== "depot" && kategorie !== "girokonto" && kategorie !== "krypto" && kategorie !== "geschaeftskonto") return undefined;
   const eintrag = ANGEBOT[angebot.id] ?? (angebot.haus ? HAUS[angebot.haus] : undefined);
   if (!eintrag) return undefined;
-  const hinweis = istHinweis(eintrag) ? eintrag : eintrag[kategorie];
+  // Im Geschäftskonto gilt nur ein eigener Satz: Die Sätze der anderen Vergleiche (Tagesgeld in der App, Pocket) passen dort nicht.
+  const hinweis = istHinweis(eintrag) ? (kategorie === "geschaeftskonto" ? undefined : eintrag) : eintrag[kategorie];
   return hinweis && hinweis.bei === angebot.werte.zinsfreiAbStart ? hinweis.satz : undefined;
 };
 
