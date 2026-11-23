@@ -4,6 +4,8 @@
 // Seit VG2-04 (Elias, 23.11.2026) stehen alle 71 Tarife der 23 Anbieter von Finanzfluss drin. Wo der Anbieter nichts Ausdrückliches
 // schreibt, steht der Wert auf "unbekannt" (Zelle „Offen“, grau, kein Urteil). Was null ist, ist nicht belegt: Der Tarif fällt aus der
 // Anzeige (`anzeige/geschaeftskonto.ts`), nichts wird geschätzt.
+// Seit VG3 KT Bank (23.11.2026) steht zusätzlich das KT GeschäftsKonto der KT Bank drin: Finanzfluss führt es nicht, alle Angaben
+// (auch die Kosten) stammen von kt-bank.de, Stand 23.11.2026. Kein Partnerprogramm (KT Bank, 26.10.2026), deshalb kein Link.
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 import type { Quelle } from "@/components/vergleich/vergleichTypen";
 import { GESCHAEFT_FINANZ_MAX } from "./finanzMax";
@@ -480,6 +482,67 @@ const WISE: Halal = {
   ),
 };
 
+/* ------------------------------------------------------------------ KT Bank (VG3, 23.11.2026) */
+
+const KT = "https://www.kt-bank.de";
+const KT_PRODUKT = `${KT}/firmenkunden/konten/geschaeftskonto/`;
+const KT_ANTRAG = `${KT}/dokumente/antrag-geschaeftskonto/`;
+const KT_PLV = `${KT}/dokumente/preis-und-leistungsverzeichnis/`;
+const KT_MC = `${KT}/firmenkunden/konten/mastercard-business/`;
+
+const KT_BANK: Halal = {
+  zinsfreiAbStart: beleg(
+    KT_ANTRAG,
+    "KT Bank Antrag Geschäftskonto Nr. 5",
+    "Antrag Geschäftskonto (Fußzeile „Antrag-GiroKonto - GK - 01.05.2023“), Nr. 5: „Die Kontoführung erfolgt unverzinslich.“ Das Formular ist von 2023, Produktseite und aktuelles Preis- und Leistungsverzeichnis nennen den Zins für das Geschäftskonto nicht. Beim separaten BeteiligungsKonto Business (https://www.kt-bank.de/firmenkunden/sparen/beteiligungskonto/) steht: „Aufgrund der Islamkonformität können wir keine festgelegten Renditen für die Einlagen zusagen.“ Das ist ein eigenes Konto, das nur nutzt, wer es selbst eröffnet.",
+  ),
+  keinDispoAbStart: beleg(
+    KT_ANTRAG,
+    "KT Bank Antrag Geschäftskonto Nr. 8",
+    "Antrag Geschäftskonto, Nr. 8: „Der Kontoinhaber ist/Die Kontoinhaber sind verpflichtet, das Konto ausschließlich im Guthaben zu führen.“ „Ein Dispositionskredit wird nicht eingeräumt.“ Weiter: „Barverfügungen und Überweisungen sind nur im Rahmen des jeweiligen Kontoguthabens zulässig.“ Gleiche Fassung (01.05.2023) wie beim Zins.",
+  ),
+  karteOhneKredit: beleg(
+    KT_MC,
+    "KT Bank Mastercard Business",
+    "Offen, weil die Quellen sich widersprechen. Mastercard-Business-Seite: „KT Mastercard Business ist Geschäftskonto-Girokarte und international einsetzbare Debitkarte in einem.“ Produktseite: „Tägliche Abrechnung vom Guthaben auf Ihrem KT GiroKonto“. Dagegen ist das PDF „Bedingungen für die Debit Mastercard“ (https://www.kt-bank.de/dokumente/bedingungen-fuer-die-debit-mastercard/) mit „Bedingungen für die MasterCard (Kreditkarte)“ überschrieben und nennt „Die MasterCard ist eine Kreditkarte.“ und eine „geduldete Kontoüberziehung“ bei Kartenumsätzen über dem Guthaben. Wir fragen bei der KT Bank nach.",
+  ),
+};
+
+const ktBeleg = (url: string, anzeige: string, hinweis: string): Quelle => ({ url, stand: BELEG, anzeige, hinweis });
+
+const KT_QUELLEN: Record<string, Quelle> = {
+  kontofuehrung: ktBeleg(KT_PRODUKT, "KT Bank Produktseite GeschäftsKonto", "Produktseite KT GeschäftsKonto: „Keine Kontoführungsgebühren.“"),
+  buchungen: ktBeleg(
+    KT_PRODUKT,
+    "KT Bank Produktseite GeschäftsKonto",
+    "Produktseite: „Beleglose Buchungen, kostenfrei und ohne Obergrenze.“ Preis- und Leistungsverzeichnis (gültig ab 23.06.2026), Teil B 2: „Beleglose Überweisung kostenfrei“, „Per Dauerauftrag kostenfrei“. Eine beleghafte Überweisung kostet 5,00 €.",
+  ),
+  debitkarte: ktBeleg(
+    KT_PLV,
+    "KT Bank Preis- und Leistungsverzeichnis, Teil B 5.1",
+    "Preis- und Leistungsverzeichnis (gültig ab 23.06.2026), Teil B 5.1: „KT Bank Debit Mastercard Business Jahresentgelt für Haupt- bzw. Zusatzkarte 50,00“. Die Produktseite nennt zusätzlich „Maestro“, dessen Preis das Verzeichnis nicht aufführt.",
+  ),
+  abheben: ktBeleg(
+    KT_PLV,
+    "KT Bank Preis- und Leistungsverzeichnis, Teil B 1 b",
+    "Die Angaben widersprechen sich. Preis- und Leistungsverzeichnis, Teil B 1 b: „mit KT Bank Debit Mastercard Business (Debitkarte) im In- und Ausland - eine Bargeldauszahlung pro Kalendermonat in Euro kostenfrei, entfällt pro Auszahlung 3,00“. Mastercard-Business-Seite (https://www.kt-bank.de/firmenkunden/konten/mastercard-business/): „Weltweit Bargeld abheben (dreimal im Monat gebührenfrei)*“. Deshalb steht hier kein Wert, bis die Bank es klärt.",
+  ),
+  einzahlen: ktBeleg(KT_PLV, "KT Bank Preis- und Leistungsverzeichnis, Teil B 1", "Preis- und Leistungsverzeichnis, Teil B 1 a: „Bargeldeinzahlungen derzeit nicht möglich“. Teil B 1 c: „auf das eigene Konto bei der KT Bank derzeit nicht verfügbar“."),
+  unterkonten: ktBeleg(KT_PRODUKT, "KT Bank Produktseite GeschäftsKonto", "Die Produktseite nennt keine Unterkonten, deshalb steht hier kein Wert. Sie nennt Fremdwährungskonten: „Zusätzlich zu Ihrem KT GeschäftsKonto in Euro bieten wir Ihnen auch die Möglichkeit, Ihr Konto in folgenden Währungen zu führen“."),
+  buchhaltung: ktBeleg(KT_PRODUKT, "KT Bank Produktseite GeschäftsKonto", "Die Produktseite führt keine DATEV-, HBCI- oder Buchhaltungsanbindung auf. Das Preis- und Leistungsverzeichnis nennt EBICS für Geschäftskunden und „Elektronischer Kontoauszug MT 940 (EBICS) kostenfrei“."),
+  einlagensicherung: ktBeleg(
+    `${KT}/dokumente/informationsbogen-fuer-den-einleger/`,
+    "KT Bank Informationsbogen für den Einleger",
+    "Informationsbogen: „Einlagen bei der KT Bank AG sind geschützt durch: Entschädigungseinrichtung deutscher Banken GmbH“, „Sicherungsobergrenze 100.000 Euro pro Einleger pro Kreditinstitut“. Ein Beleg für den freiwilligen Einlagensicherungsfonds liegt nicht vor.",
+  ),
+  fuerWen: ktBeleg(
+    KT_PRODUKT,
+    "KT Bank Produktseite GeschäftsKonto",
+    "Produktseite: „Mit dem KT GeschäftsKonto bieten wir eine Lösung zur Abwicklung Ihrer täglichen Bankgeschäfte.“ Antrag: „Das Konto wird ausschließlich für geschäftliche Zwecke genutzt und in laufender Rechnung geführt.“ Welche Rechtsformen (Freiberufler, GbR, UG, GmbH) das Konto eröffnen können, nennt die Bank nicht. Eröffnung: „Für die Eröffnung Ihres KT GeschäftsKontos stehen wir Ihnen persönlich in unseren Filialen gerne zur Verfügung.“",
+  ),
+};
+for (const k of ["freiberufler", "gewerbe", "kapitalgesellschaft"]) KT_QUELLEN[k] = KT_QUELLEN.fuerWen;
+
 /* ------------------------------------------------------------------ Tarife */
 
 type Stand = "gut" | "unbekannt" | "schlecht";
@@ -510,6 +573,14 @@ type Tarif = {
   /** Eigener Text für die Zeile Buchungen, wenn Finanzfluss „im Jahr“ nennt. */
   buchungenText?: string;
   einlagenLand: string;
+  /** VG3 KT Bank: Der Tarif steht nicht im Finanzfluss-Vergleich, es gibt keine Finanzfluss-Zeile. */
+  ohneFinanzfluss?: boolean;
+  /** VG3 KT Bank: Quellen, die für die Werte dieses Tarifs gelten, statt der Finanzfluss-Quelle (Schlüssel wie in `GESCHAEFT_ZEILEN`). */
+  eigeneQuellen?: Record<string, Quelle>;
+  /** Eigener Text statt der berechneten Zelle (nur wo der Anbieter einen Wert anders angibt, als die Rechnung ihn zeigt). */
+  texte?: Partial<Record<"debitkarte" | "abheben" | "unterkonten" | "einlagensicherung", string>>;
+  /** Der Anbieter nennt die Rechtsformen nicht: Die drei Ja/Nein-Zeilen stehen auf „unbekannt“, nichts wird geraten. */
+  rechtsformenOffen?: boolean;
 };
 
 const euro = (x: number) => `${x.toLocaleString("de-DE", { minimumFractionDigits: x % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })} €`;
@@ -703,6 +774,16 @@ const TARIFE: Tarif[] = [
     kosten: { kontofuehrung: 15, freieBuchungen: "unbegrenzt", kostenBuchung: 0, debitkarte: 2.5, abheben: { euro: 0 }, einzahlen: { prozent: 1.5 }, unterkonten: 0, buchhaltung: ["HBCI", "DATEV", "Lexware Office", "SevDesk", "Sonstige"], einlagensicherung: "ja" },
     fuerWen: FREELANCE_FUER, einlagenLand: "Deutschland",
   },
+  // VG3 KT Bank (23.11.2026): kein Finanzfluss-Tarif, Werte von kt-bank.de. Zins und Dispo wörtlich im Antrag (Fassung 2023), die Karte ist
+  // offen (die Bedingungen widersprechen sich), Bargeld abheben ebenso (Produktseite dreimal, Verzeichnis einmal im Monat frei), Unterkonten
+  // und Rechtsformen nennt die Bank nicht. Debit Mastercard Business: 50 € im Jahr. Kein Partnerprogramm, kein Link.
+  {
+    id: "kt-bank-geschaeftskonto", haus: "kt-bank", name: "KT Bank", produkt: "GeschäftsKonto", domain: "kt-bank.de", halal: KT_BANK, karte: "unbekannt", marke: "Mastercard", zeile: "KT GeschäftsKonto",
+    kosten: { kontofuehrung: 0, ...buchungFrei("unbegrenzt", 0), debitkarte: 50 / 12, abheben: "keine Angabe", einzahlen: "nicht möglich", unterkonten: null, buchhaltung: [], einlagensicherung: "ja" },
+    texte: { debitkarte: "Mastercard, 50 € im Jahr", abheben: "Nicht eindeutig angegeben", unterkonten: "Nicht angegeben" },
+    fuerWen: ["Firmenkunden, Rechtsform nicht angegeben"], rechtsformenOffen: true, einlagenLand: "Deutschland",
+    ohneFinanzfluss: true, eigeneQuellen: KT_QUELLEN,
+  },
   /* ---------------------------------------------------------------- Offene Häuser (Zins ohne ausdrücklichen Satz) und Wise */
   { id: "fyrst-base", haus: "fyrst", name: "FYRST", produkt: "BASE", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "FYRST BASE", kosten: ke({ f: 0, frei: 50, kb: 0.19, debit: 0, ab: e(0), ein: e(3), unter: 0, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
   { id: "fyrst-complete", haus: "fyrst", name: "FYRST", produkt: "Complete (Gründerkonto)", domain: "fyrst.de", halal: FYRST, zins: "unbekannt", karte: "gut", marke: "Mastercard", zeile: "Fyrst Complete (Gründerkonto)", kosten: ke({ f: 10, frei: 75, kb: 0.08, debit: 0, ab: e(0), ein: e(2.5), unter: 1, buch: HBCI5, sich: "ja" }), fuerWen: FF_SIEBEN, einlagenLand: "Deutschland" },
@@ -769,9 +850,11 @@ const finanzfluss = (t: Tarif, hinweis: string, anzeige?: string): Quelle => ({
 
 const zuAnbieter = (t: Tarif): RohAnbieter => {
   const k = t.kosten;
-  const debit = k.debitkarte === null ? "Keine" : t.marke ? `${t.marke}, ${euro(k.debitkarte)}` : euro(k.debitkarte);
+  const debit = t.texte?.debitkarte ?? (k.debitkarte === null ? "Keine" : t.marke ? `${t.marke}, ${euro(k.debitkarte)}` : euro(k.debitkarte));
+  const abheben = t.texte?.abheben ?? gebuehrText(k.abheben);
+  const unterkonten = t.texte?.unterkonten ?? (k.unterkonten === "unbegrenzt" ? "Unbegrenzt" : k.unterkonten === 0 ? "Keine" : String(k.unterkonten));
+  const rechts3 = (form: string): boolean | "unbekannt" => (t.rechtsformenOffen ? "unbekannt" : t.fuerWen.includes(form));
   const link = t.partner ? partnerLink(t.partner) : undefined;
-  const rechts = (form: string) => t.fuerWen.includes(form);
   const kontofuehrung = `${euro(k.kontofuehrung)}${t.kontofuehrungZusatz ? ` ${t.kontofuehrungZusatz}` : ""}`;
   return {
     id: t.id,
@@ -780,7 +863,7 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
     domain: t.domain,
     haus: t.haus,
     ...(link ? { link } : {}),
-    finanzfluss: { produkt: t.zeile, partnerlink: null },
+    ...(t.ohneFinanzfluss ? {} : { finanzfluss: { produkt: t.zeile, partnerlink: null } }),
     finanzPunkte: geschaeftFinanzPunkte(k, GESCHAEFT_FINANZ_MAX),
     werte: {
       zinsfreiAbStart: t.zins ?? "gut",
@@ -789,15 +872,15 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
       kontofuehrung,
       buchungen: t.buchungenText ?? buchungenText(k),
       debitkarte: debit,
-      abheben: gebuehrText(k.abheben),
+      abheben,
       einzahlen: gebuehrText(k.einzahlen),
-      unterkonten: k.unterkonten === "unbegrenzt" ? "Unbegrenzt" : k.unterkonten === 0 ? "Keine" : String(k.unterkonten),
+      unterkonten,
       buchhaltung: k.buchhaltung.length > 0 ? k.buchhaltung.join(", ") : "Keine angegeben",
       einlagensicherung: einlagenText(k, t.einlagenLand),
       fuerWen: t.fuerWen.join(", "),
-      freiberufler: rechts("Freiberufler"),
-      gewerbe: rechts("Gewerbe"),
-      kapitalgesellschaft: rechts("UG") || rechts("GmbH"),
+      freiberufler: rechts3("Freiberufler"),
+      gewerbe: rechts3("Gewerbe"),
+      kapitalgesellschaft: t.rechtsformenOffen ? "unbekannt" : rechts3("UG") === true || rechts3("GmbH") === true,
     },
     quellen: {
       zinsfreiAbStart: t.halal.zinsfreiAbStart,
@@ -806,15 +889,16 @@ const zuAnbieter = (t: Tarif): RohAnbieter => {
       kontofuehrung: finanzfluss(t, `Kontoführung ${euro(k.kontofuehrung)} im Monat.`, "Finanzfluss-Vergleich Geschäftskonto"),
       buchungen: finanzfluss(t, t.buchungenText ?? buchungenText(k)),
       debitkarte: finanzfluss(t, `Debitkarte ${debit}.`),
-      abheben: finanzfluss(t, `Bargeld abheben ${gebuehrText(k.abheben)}.`),
+      abheben: finanzfluss(t, `Bargeld abheben ${abheben}.`),
       einzahlen: finanzfluss(t, `Bargeld einzahlen ${gebuehrText(k.einzahlen)}.`),
-      unterkonten: finanzfluss(t, `Unterkonten ${k.unterkonten}.`),
+      unterkonten: finanzfluss(t, `Unterkonten ${unterkonten}.`),
       buchhaltung: finanzfluss(t, k.buchhaltung.length > 0 ? k.buchhaltung.join(", ") : "Keine angegeben"),
       einlagensicherung: finanzfluss(t, einlagenText(k, t.einlagenLand)),
       fuerWen: finanzfluss(t, t.fuerWen.join(", ")),
       freiberufler: finanzfluss(t, t.fuerWen.join(", ")),
       gewerbe: finanzfluss(t, t.fuerWen.join(", ")),
       kapitalgesellschaft: finanzfluss(t, t.fuerWen.join(", ")),
+      ...t.eigeneQuellen,
     },
   };
 };

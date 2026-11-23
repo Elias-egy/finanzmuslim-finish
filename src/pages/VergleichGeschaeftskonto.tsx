@@ -11,7 +11,7 @@ import { siegerDerSeite } from "@/lib/vergleichAssistent";
  * Geschäftskonto-Vergleich (VG2, 23.11.2026, Elias: „Geschäftskonto könnte aber noch ganz oben sein.“). Aufbau wie
  * Finanzfluss /vergleich/geschaeftskonto/: Titel mit Jahr, Unterzeile mit Monat, Filter, Karten am Handy, Tabelle am Laptop,
  * Kriterien, Fragen. Seit VG2-04 (Elias, 23.11.2026: „ich möchte, dass du erstmal alle Anbieter reinlegst … Ich will jeden einzelnen
- * Anbieter ranken“) stehen alle 71 Tarife der 23 Anbieter von Finanzfluss drin, gerankt in drei Stufen (`src/lib/rangfolge.ts`, Regel 9):
+ * Anbieter ranken“) stehen alle 71 Tarife der 23 Anbieter von Finanzfluss drin (seit VG3 KT Bank, 23.11.2026, zusätzlich das KT GeschäftsKonto), gerankt in drei Stufen (`src/lib/rangfolge.ts`, Regel 9):
  * belegt ohne Guthabenzins, offen (der Anbieter schreibt nichts Ausdrückliches), belegt mit Zins.
  *
  * Der Kasten „Nummer 1“ erscheint von selbst, sobald das Konto ganz vorn einen Partnerlink hat (Elias, 08.11.2026: „wir können
@@ -87,7 +87,7 @@ const VergleichGeschaeftskonto = () => (
       <>
         <p>Selbstständige, Freiberufler und Gründer einer GmbH oder UG trennen mit einem Geschäftskonto Privates und Geschäftliches.</p>
         <p>
-          Hier stehen alle Geschäftskonten von Finanzfluss. Vorn die Konten, bei denen der Anbieter belegt, dass es keinen Guthabenzins gibt, dann die,
+          Hier stehen alle Geschäftskonten von Finanzfluss und das GeschäftsKonto der KT Bank. Vorn die Konten, bei denen der Anbieter belegt, dass es keinen Guthabenzins gibt, dann die,
           bei denen das noch offen ist. Dazu Dispo, Karte und die Kosten, wie bei Finanzfluss gewichtet.
         </p>
       </>
@@ -110,7 +110,7 @@ const VergleichGeschaeftskonto = () => (
     filter={FILTER}
     stand={AKTUALISIERT}
     standHinweis="Halal-Merkmale beim Anbieter belegt, wo ein Beleg steht, Kosten laut Finanzfluss vom 11.11.2026"
-    quellenHinweis={`Kosten und Konditionen: Finanzfluss-Vergleich Geschäftskonto, Stand 11.11.2026. Zinsen, Dispo und Karte: beim Anbieter belegt, Stand 23.11.2026. Aufgenommen sind alle Tarife des Finanzfluss-Vergleichs. Wo der Anbieter zum Zins auf dem Hauptkonto nichts Ausdrückliches schreibt, steht „Offen“, und wir fragen nach.${MIT_PARTNER ? " Bei einigen Anbietern erhalten wir eine Vergütung, wenn du über unseren Link ein Konto eröffnest (Werbung)." : ""}`}
+    quellenHinweis={`Kosten und Konditionen: Finanzfluss-Vergleich Geschäftskonto, Stand 11.11.2026. Zinsen, Dispo und Karte: beim Anbieter belegt, Stand 23.11.2026. Aufgenommen sind alle Tarife des Finanzfluss-Vergleichs. Zusätzlich ist die KT Bank drin (Angaben von kt-bank.de, Stand 23.11.2026). Wo der Anbieter zum Zins auf dem Hauptkonto nichts Ausdrückliches schreibt, steht „Offen“, und wir fragen nach.${MIT_PARTNER ? " Bei einigen Anbietern erhalten wir eine Vergütung, wenn du über unseren Link ein Konto eröffnest (Werbung)." : ""}`}
     kriterienTitel="Worauf wir bei Geschäftskonten achten"
     kriterien={KRITERIEN}
     faq={GESCHAEFT_FAQ}

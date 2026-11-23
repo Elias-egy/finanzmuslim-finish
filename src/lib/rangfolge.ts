@@ -1,7 +1,7 @@
 import type { RohAnbieter, RohWert } from "@/data/vergleichHelfer";
 import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GESCHAEFT_FINANZ_MAX, GIRO_FINANZ_MAX, KRYPTO_FINANZ_MAX } from "@/data/finanzMax";
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
-import { anzeigeNote } from "@/lib/anzeigeNote";
+import { anzeigeNote, sterne } from "@/lib/anzeigeNote";
 import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/leserEroeffnungen";
 
 /**
@@ -172,8 +172,8 @@ const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>
 
 const TOR = "zinsfreiAbStart";
 
-/** Sterne auf der Seite: angezeigte Note auf halbe Sterne gerundet. */
-export const sterne = (note: number): number => Math.round(anzeigeNote(note) * 2) / 2;
+/** Sterne auf der Seite: angezeigte Note auf halbe Sterne gerundet (Definition in `anzeigeNote.ts`, dort liest sie auch die Sterne-Zeichnung). */
+export { sterne };
 
 /**
  * Vergleiche, in denen ein Kredit ab Start (`kreditAbStart` "teils") Platz 1 weiter ausschließt (Regel 6). Im Depot

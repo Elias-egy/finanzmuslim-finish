@@ -3,7 +3,7 @@ import { Check, Copy, Info, Minus, Star, TriangleAlert, X } from "lucide-react";
 import { dealFuer, schildText } from "@/data/deals";
 import { FLATEX_VERZICHT, WECHSEL_UNTERLAGEN } from "@/data/wechselUnterlagen";
 import { ereignis } from "@/lib/messung";
-import { anzeigeNote } from "@/lib/anzeigeNote";
+import { sterne } from "@/lib/anzeigeNote";
 import { Link } from "react-router-dom";
 import {
   KEINE_ANGABE,
@@ -32,10 +32,13 @@ import {
  * daneben, dass noch nicht bewertet wurde. Ein leerer Sternebalken ist
  * ehrlicher als gar keiner: er zeigt, dass die Bewertung vorgesehen ist.
  */
-export const Sterne = ({ note }: { note: number | null }) => (
-  <span className="inline-flex items-center gap-[2px]" aria-hidden>
+export const Sterne = ({ note }: { note: number | null }) => {
+  /* Halbe Schritte aus der angezeigten Note (`sterne`): gleiche angezeigte Note, gleiche Sterne (Regel 7, VG3). */
+  const voll = note === null ? 0 : sterne(note);
+  return (
+  <span className="inline-flex items-center gap-[2px]" aria-hidden data-sterne={voll}>
     {[0, 1, 2, 3, 4].map((i) => {
-      const anteil = note === null ? 0 : Math.min(1, Math.max(0, anzeigeNote(note) - i));
+      const anteil = Math.min(1, Math.max(0, voll - i));
       return (
         <span key={i} className="relative inline-block h-4 w-4">
           <Star className="absolute inset-0 h-4 w-4 text-muted-foreground/35" />
@@ -51,7 +54,8 @@ export const Sterne = ({ note }: { note: number | null }) => (
       );
     })}
   </span>
-);
+  );
+};
 
 /** Note als Wort, Zahl und Sterne. Der Block steht in Tabelle und Karte gleich. */
 export const NotenBlock = ({

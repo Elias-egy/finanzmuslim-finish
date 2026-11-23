@@ -29,12 +29,15 @@ const NEU: Record<string, number> = {
 };
 /** Zins offen: Der Anbieter schreibt nichts Ausdrückliches. Wise ist belegt mit Zins. */
 const OFFENE = Object.keys(NEU).filter((h) => h !== "wise");
+/** VG3 KT Bank (23.11.2026): kein Tarif aus dem Finanzfluss-Vergleich, Werte von kt-bank.de. */
+const KT_HAUS = "kt-bank";
+const ausFinanzfluss = (liste: RohAnbieter[]) => liste.filter((a) => a.haus !== KT_HAUS);
 
 describe("Geschäftskonto: Daten", () => {
-  it("führt alle 71 Tarife von 23 Anbietern, jede ID einmal, alphabetisch", () => {
-    expect(geschaeftskontoVergleich).toHaveLength(71);
-    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(71);
-    expect([...new Set(geschaeftskontoVergleich.map((a) => a.haus))].sort()).toEqual([...HAEUSER, ...Object.keys(NEU)].sort());
+  it("führt alle 71 Tarife von 23 Anbietern von Finanzfluss und dazu das KT GeschäftsKonto (VG3 KT Bank: 72 Tarife, 24 Anbieter), jede ID einmal, alphabetisch", () => {
+    expect(geschaeftskontoVergleich).toHaveLength(72);
+    expect(new Set(geschaeftskontoVergleich.map((a) => a.id)).size).toBe(72);
+    expect([...new Set(geschaeftskontoVergleich.map((a) => a.haus))].sort()).toEqual([...HAEUSER, ...Object.keys(NEU), KT_HAUS].sort());
     const ist = geschaeftskontoVergleich.map((a) => `${a.name} ${a.produkt}`);
     expect(ist).toEqual([...ist].sort((a, b) => a.localeCompare(b, "de")));
   });
@@ -48,7 +51,9 @@ describe("Geschäftskonto: Daten", () => {
     const je = (h: string) => geschaeftskontoVergleich.filter((a) => a.haus === h).length;
     for (const [h, n] of Object.entries(NEU)) expect(je(h), h).toBe(n);
     expect(Object.values(NEU).reduce((s, n) => s + n, 0)).toBe(42);
-    expect(new Set(geschaeftskontoVergleich.map((a) => a.finanzfluss!.produkt)).size).toBe(71);
+    // VG3 KT Bank: Das KT GeschäftsKonto hat keine Finanzfluss-Zeile.
+    expect(new Set(ausFinanzfluss(geschaeftskontoVergleich).map((a) => a.finanzfluss!.produkt)).size).toBe(71);
+    expect(geschaeftskontoVergleich.find((a) => a.haus === KT_HAUS)!.finanzfluss).toBeUndefined();
   });
 
   it("belegt Zinsen, Dispo und Karte, wo ein Wert steht, mit Zitat und Adresse, die 29 ersten Zinsen nur auf der Domain des Anbieters", () => {
@@ -72,7 +77,7 @@ describe("Geschäftskonto: Daten", () => {
   });
 
   it("nennt als Kostenquelle den Finanzfluss-Vergleich mit Stand 11.11.2026", () => {
-    for (const a of geschaeftskontoVergleich) {
+    for (const a of ausFinanzfluss(geschaeftskontoVergleich)) {
       expect(a.quellen!.kontofuehrung.url).toBe("https://www.finanzfluss.de/vergleich/geschaeftskonto/");
       expect(a.quellen!.kontofuehrung.stand).toBe("11.11.2026");
     }
@@ -89,10 +94,12 @@ describe("Geschäftskonto: Daten", () => {
   it("stellt den Zins bei den 12 offenen Häusern auf offen (kein Urteil), bei Wise auf rot, nie auf grün", () => {
     for (const a of geschaeftskontoVergleich.filter((x) => OFFENE.includes(x.haus!))) expect(a.werte.zinsfreiAbStart, a.id).toBe("unbekannt");
     for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "wise")) expect(a.werte.zinsfreiAbStart, a.id).toBe("schlecht");
-    expect(geschaeftskontoVergleich.filter((a) => a.werte.zinsfreiAbStart === "gut")).toHaveLength(29);
+    // VG3 KT Bank: 29 erste Tarife plus das KT GeschäftsKonto (Zins im Antrag wörtlich belegt).
+    expect(geschaeftskontoVergleich.filter((a) => a.werte.zinsfreiAbStart === "gut")).toHaveLength(30);
     // Wo der Bericht Dispo oder Karte nicht belegt, steht „offen“, nirgends rot.
     const offen = geschaeftskontoVergleich.filter((a) => !HAEUSER.includes(a.haus!) && (a.werte.keinDispoAbStart === "unbekannt" || a.werte.karteOhneKredit === "unbekannt")).map((a) => a.haus);
-    expect([...new Set(offen)].sort()).toEqual(["commerzbank", "hvb", "kontist", "qonto"]);
+    // VG3 KT Bank: Auch beim KT GeschäftsKonto steht die Karte auf offen (die Bedingungen der Bank widersprechen sich).
+    expect([...new Set(offen)].sort()).toEqual(["commerzbank", "hvb", "kontist", "kt-bank", "qonto"]);
     for (const a of geschaeftskontoVergleich.filter((x) => !HAEUSER.includes(x.haus!))) {
       expect(a.werte.keinDispoAbStart, a.id).not.toBe("schlecht");
       expect(a.werte.karteOhneKredit, a.id).not.toBe("schlecht");
@@ -125,8 +132,8 @@ describe("Geschäftskonto: Daten", () => {
     expect(text).not.toMatch(/150/);
   });
 
-  it("zeigt alle 71 Tarife: jede Zeile hat einen Wert, jeder Wert der Note ist belegt oder ausdrücklich offen", () => {
-    expect(geschaeftskontoAnzeige).toHaveLength(71);
+  it("zeigt alle 72 Tarife (71 von Finanzfluss und das KT GeschäftsKonto, VG3 KT Bank): jede Zeile hat einen Wert, jeder Wert der Note ist belegt oder ausdrücklich offen", () => {
+    expect(geschaeftskontoAnzeige).toHaveLength(72); // VG3 KT Bank: 71 von Finanzfluss plus KT GeschäftsKonto
     for (const a of geschaeftskontoVergleich) expect(luecken(a, "geschaeftskonto", GESCHAEFT_ZEILEN), a.id).toEqual([]);
   });
 
@@ -157,6 +164,60 @@ describe("Geschäftskonto: Daten", () => {
 
   it("hat zu jedem Filter eine Zeile", () => {
     for (const f of GESCHAEFT_FILTER) expect(GESCHAEFT_ZEILEN.some((z) => z.key === f.key), f.key).toBe(true);
+  });
+});
+
+describe("Geschäftskonto: KT Bank (VG3 KT Bank, 23.11.2026)", () => {
+  const kt = geschaeftskontoVergleich.find((a) => a.id === "kt-bank-geschaeftskonto")!;
+
+  it("führt das KT GeschäftsKonto mit den belegten Werten von kt-bank.de und ohne Partnerlink", () => {
+    expect(kt.name).toBe("KT Bank");
+    expect(kt.produkt).toBe("GeschäftsKonto");
+    expect(kt.domain).toBe("kt-bank.de");
+    expect(kt.link).toBeUndefined();
+    expect(partnerLinks.some((p) => p.kurzname === "kt-bank" && p.aktiv)).toBe(false);
+    expect(kt.werte).toMatchObject({
+      zinsfreiAbStart: "gut",
+      keinDispoAbStart: "gut",
+      karteOhneKredit: "unbekannt",
+      kontofuehrung: "0 €",
+      buchungen: "Unbegrenzt kostenlos",
+      debitkarte: "Mastercard, 50 € im Jahr",
+      einzahlen: "Nicht möglich",
+      einlagensicherung: "Ja (Deutschland)",
+    });
+  });
+
+  it("belegt Zins und Dispo wörtlich im Antrag auf kt-bank.de, die Karte bleibt offen und nie rot", () => {
+    expect(kt.quellen!.zinsfreiAbStart.url).toBe("https://www.kt-bank.de/dokumente/antrag-geschaeftskonto/");
+    expect(kt.quellen!.zinsfreiAbStart.hinweis).toContain("„Die Kontoführung erfolgt unverzinslich.“");
+    expect(kt.quellen!.keinDispoAbStart.hinweis).toContain("„Ein Dispositionskredit wird nicht eingeräumt.“");
+    expect(kt.quellen!.keinDispoAbStart.url).toBe("https://www.kt-bank.de/dokumente/antrag-geschaeftskonto/");
+    expect(kt.werte.karteOhneKredit).toBe("unbekannt");
+    expect(kt.quellen!.karteOhneKredit.hinweis).toMatch(/widersprechen/);
+  });
+
+  it("nimmt alle Kosten von kt-bank.de statt von Finanzfluss und schreibt nichts hin, was die Bank nicht eindeutig sagt", () => {
+    for (const k of ["kontofuehrung", "buchungen", "debitkarte", "abheben", "einzahlen", "unterkonten", "buchhaltung", "einlagensicherung", "fuerWen"]) {
+      const q = kt.quellen![k];
+      expect(q.url, k).toMatch(/^https:\/\/www\.kt-bank\.de\//);
+      expect(q.stand, k).toBe("23.11.2026");
+    }
+    // Abheben (Produktseite dreimal, Verzeichnis einmal frei) und Unterkonten sind leer, die Rechtsformen offen.
+    expect(kt.werte.abheben).toBe("Nicht eindeutig angegeben");
+    expect(kt.werte.unterkonten).toBe("Nicht angegeben");
+    expect([kt.werte.freiberufler, kt.werte.gewerbe, kt.werte.kapitalgesellschaft]).toEqual(["unbekannt", "unbekannt", "unbekannt"]);
+    expect(kt.finanzPunkte!.abheben).toBe(0);
+    expect(kt.finanzPunkte!.unterkonten).toBe(0);
+  });
+
+  it("steht in der Stufe belegt ohne Zins, mit Halal-Teil 2,5 (Karte offen), nicht auf Platz 1", () => {
+    const r = rang(geschaeftskontoAnzeige);
+    const b = r.gerankt.find((x) => x.anbieter.id === "kt-bank-geschaeftskonto")!;
+    expect(geschaeftStufe(b.anbieter)).toBe(0);
+    expect(b.halal).toBe(2.5);
+    expect(b.platz).toBeGreaterThan(1);
+    expect(zinsHinweis("geschaeftskonto", kt)).toMatch(/unverzinslich/);
   });
 });
 
@@ -192,23 +253,23 @@ describe("Geschäftskonto: Partnerlinks", () => {
 describe("Geschäftskonto: Rangfolge", () => {
   const stufe = geschaeftStufe;
 
-  it("ordnet alle 71 Tarife mit Plätzen, keiner fällt heraus, keiner ist abgeraten", () => {
+  it("ordnet alle 72 Tarife (VG3 KT Bank: 71 plus KT GeschäftsKonto) mit Plätzen, keiner fällt heraus, keiner ist abgeraten", () => {
     const r = rang(geschaeftskontoAnzeige);
-    expect(r.gerankt).toHaveLength(71);
+    expect(r.gerankt).toHaveLength(72);
     expect(r.nichtBewertet).toEqual([]);
     expect(r.abgeraten).toEqual([]);
     for (const b of r.gerankt) expect(b.note, b.anbieter.id).toBeGreaterThan(0);
   });
 
-  it("ordnet in drei Stufen: erst belegt ohne Zins (29), dann offen (41), ganz hinten belegt mit Zins (Wise)", () => {
+  it("ordnet in drei Stufen: erst belegt ohne Zins (30, VG3 KT Bank: 29 plus KT GeschäftsKonto), dann offen (41), ganz hinten belegt mit Zins (Wise)", () => {
     const r = rang(geschaeftskontoAnzeige);
     const stufen = r.gerankt.map((b) => stufe(b.anbieter));
     expect(stufen).toEqual([...stufen].sort((x, y) => x - y));
-    expect(stufen.filter((x) => x === 0)).toHaveLength(29);
+    expect(stufen.filter((x) => x === 0)).toHaveLength(30);
     expect(stufen.filter((x) => x === 1)).toHaveLength(41);
     expect(stufen.filter((x) => x === 2)).toHaveLength(1);
-    expect(r.gerankt[70].anbieter.haus).toBe("wise");
-    expect(r.gerankt[70].platz).toBe(71);
+    expect(r.gerankt[71].anbieter.haus).toBe("wise");
+    expect(r.gerankt[71].platz).toBe(72);
     // Innerhalb jeder Stufe steht die Liste nach Note.
     for (const st of [0, 1]) {
       const noten = r.gerankt.filter((b) => stufe(b.anbieter) === st).map((b) => b.note);
@@ -221,8 +282,8 @@ describe("Geschäftskonto: Rangfolge", () => {
     for (const b of r.gerankt.filter((x) => stufe(x.anbieter) > 0)) expect(b.uneingeschraenkt, b.anbieter.id).toBe(false);
     expect(r.gerankt[0].anbieter.werte.zinsfreiAbStart).toBe("gut");
     // Wise zahlt laut Anbieter Zinsen: der Halal-Teil ist 0, die Kosten zählen weiter.
-    expect(r.gerankt[70].halal).toBe(0);
-    expect(r.gerankt[70].kosten).toBeGreaterThan(0);
+    expect(r.gerankt[71].halal).toBe(0);
+    expect(r.gerankt[71].kosten).toBeGreaterThan(0);
     // Ein offener Dispo oder eine offene Karte zählt 0 Punkte: Qonto hat keine belegte Karte, Halal-Teil also 2,5 statt 5.
     for (const b of r.gerankt.filter((x) => x.anbieter.haus === "qonto")) expect(b.halal, b.anbieter.id).toBe(2.5);
     // Alle übrigen offenen Konten mit belegter Dispo und Karte rechnen wie zinsfreie (Faktor 1): fyrst-base hat 5.
@@ -237,7 +298,8 @@ describe("Geschäftskonto: Rangfolge", () => {
       expect(b.uneingeschraenkt, b.anbieter.id).toBe(false);
       expect(b.halal, b.anbieter.id).toBe(2.5);
     }
-    expect(r.gerankt.slice(26, 29).map((b) => b.anbieter.haus)).toEqual(["grenke", "grenke", "grenke"]);
+    // VG3 KT Bank: Das KT GeschäftsKonto (Karte offen, Halal-Teil ebenfalls 2,5) steht mit den drei Grenke-Tarifen am Ende der belegten Stufe.
+    expect(r.gerankt.slice(26, 30).map((b) => b.anbieter.haus).sort()).toEqual(["grenke", "grenke", "grenke", "kt-bank"]);
     // Auch mit Partnerlink bleibt Grenke von Platz 1 weg.
     expect(rang(mitLink(geschaeftskontoAnzeige, "grenke")).gerankt[0].anbieter.haus).not.toBe("grenke");
   });
@@ -382,7 +444,7 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).toContain("Die besten Geschäftskonten für Muslime 11/2026");
   });
 
-  it("zeigt ohne Link an Platz 1 keinen Kasten, trägt aber alle Konten mit den Kennzahlen 71, 29 und 41 und „Offen“ in den Zellen", () => {
+  it("zeigt ohne Link an Platz 1 keinen Kasten, trägt aber alle Konten mit den Kennzahlen 72, 30 und 41 (VG3 KT Bank) und „Offen“ in den Zellen", () => {
     expect(html).not.toContain('aria-label="Bestes Geschäftskonto"');
     expect(html).toContain("Offen");
     expect(html).toContain("Wise");
@@ -390,8 +452,10 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).not.toMatch(/Aktion: \d/);
     expect(html).not.toMatch(/Geldmarktfonds-Rendite/);
     const text = html.replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-    expect(text).toMatch(/71 Konten im Vergleich/);
-    expect(text).toMatch(/29 belegt ohne Zinsen nutzbar/);
+    expect(text).toMatch(/72 Konten im Vergleich/);
+    expect(text).toMatch(/24 Anbieter/);
+    expect(text).toMatch(/30 belegt ohne Zinsen nutzbar/);
+    expect(text).toContain("Zusätzlich ist die KT Bank drin (Angaben von kt-bank.de, Stand 23.11.2026)");
     expect(text).toMatch(/41 Zinsen noch offen/);
   });
 

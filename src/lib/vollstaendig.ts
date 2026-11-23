@@ -21,7 +21,8 @@ const leer = (a: RohAnbieter, z: VergleichsZeile, kategorie: RangKategorie): boo
   const w = a.werte[z.key];
   // Geschäftskonto (VG2-04): „unbekannt“ ist dort ein gesetzter Wert, die Zelle zeigt „Offen“. In den anderen Vergleichen bleibt es leer.
   if (z.art === "ampel") return !(w === "gut" || w === "teils" || w === "schlecht" || (kategorie === "geschaeftskonto" && w === "unbekannt"));
-  if (z.art === "janein") return typeof w !== "boolean";
+  // Geschäftskonto (VG3 KT Bank): Nennt der Anbieter die Rechtsformen nicht, steht „unbekannt“, die Zelle zeigt „ohne Angabe“, nichts wird geraten.
+  if (z.art === "janein") return !(typeof w === "boolean" || (kategorie === "geschaeftskonto" && w === "unbekannt"));
   // Ein Wert, der nur aus einem Strich besteht, ist für den Leser eine leere Zelle.
   return !(typeof w === "string" && w.replace(/[\s–—-]/g, "") !== "");
 };

@@ -116,7 +116,11 @@ const HAUS: Record<string, Eintrag> = {
     geschaeftskonto: offen("der HypoVereinsbank", "Das Preisverzeichnis nennt für das BusinessKonto 4You keinen Zinssatz für Guthaben."),
   },
   monese: gut(`Monese zahlt keine Zinsen auf dein Guthaben. ${NICHTS}`),
-  "kt-bank": gut(`Bei der KT Bank gibt es keine Zinsen. ${NICHTS}`),
+  "kt-bank": {
+    ...dreiKategorien(gut(`Bei der KT Bank gibt es keine Zinsen. ${NICHTS}`)),
+    // VG3 KT Bank (23.11.2026): Antrag Geschäftskonto Nr. 5, wörtlich „Die Kontoführung erfolgt unverzinslich.“
+    geschaeftskonto: gut(`Die KT Bank führt das Geschäftskonto laut Antrag unverzinslich. ${NICHTS}`),
+  },
   "psd-nuernberg": ohneZins("Girokonto"),
   umweltbank: ohneZins("Girokonto"),
   haspa: ohneZins("Girokonto"),

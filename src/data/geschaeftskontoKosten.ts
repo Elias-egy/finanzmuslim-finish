@@ -31,7 +31,8 @@ export type KostenEingabe = {
   debitkarte: number | null;
   abheben: Gebuehr;
   einzahlen: Gebuehr;
-  unterkonten: number | "unbegrenzt";
+  /** null: keine Angabe, 0 Punkte (VG3 KT Bank: Die Produktseite nennt keine Unterkonten). */
+  unterkonten: number | "unbegrenzt" | null;
   /** Eine Anbindung je Eintrag. */
   buchhaltung: string[];
   einlagensicherung: "ja" | "teilweise" | "nein";
@@ -51,7 +52,7 @@ const gebuehrAnteil = (g: Gebuehr): number => {
 /** Die Punkte je Kriterium, Schlüssel wie in `GESCHAEFT_FINANZ_MAX`. Höchstens so viel wie dort. */
 export const geschaeftFinanzPunkte = (k: KostenEingabe, max: Record<string, number>): Record<string, number> => {
   const frei = k.freieBuchungen === "unbegrenzt" ? 1 : k.freieBuchungen === null ? 0 : zwischen(k.freieBuchungen / 100);
-  const unter = k.unterkonten === "unbegrenzt" ? 1 : zwischen(k.unterkonten / 5);
+  const unter = k.unterkonten === "unbegrenzt" ? 1 : k.unterkonten === null ? 0 : zwischen(k.unterkonten / 5);
   const anbindungen = new Set(k.buchhaltung.map((b) => b.trim().toLowerCase()).filter(Boolean)).size;
   const sicherung = k.einlagensicherung === "ja" ? 1 : k.einlagensicherung === "teilweise" ? 0.5 : 0;
   const anteile: Record<string, number> = {
