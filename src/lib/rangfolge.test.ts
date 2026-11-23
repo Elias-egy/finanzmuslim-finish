@@ -906,15 +906,16 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
       r.gerankt.slice(1).forEach((x, i) => gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
-  it("Depot: flatex 1, Smartbroker+ 2, Scalable 3, Traders Place 4, S Broker 5, Trading 212 ohne Link dahinter", () => {
+  it("Depot: flatex 1, Smartbroker+ 2, S Broker 3, Traders Place 4, Scalable 5, Trading 212 ohne Link dahinter (Regel 11, VG3)", () => {
     // S Broker steht seit der Antwort vom 11.11.2026 (Franklin Shariah Technology Fund handelbar, 11 von 12) bei 4,3 Sternen und mit Link vor Trading 212.
+    // Regel 11 (Elias VG2-05): bei gleichen 4,3 Sternen zuerst der größere Halal-Teil (S Broker), dann mehr Halal-ETFs (Traders Place 9, Scalable 8).
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
     expect(ids(r.gerankt.slice(0, 6))).toEqual([
       "flatex-depot",
       "smartbroker-plus-depot",
-      "scalable-capital-free-broker",
-      "traders-place-depot",
       "s-broker-direkt-depot",
+      "traders-place-depot",
+      "scalable-capital-free-broker",
       "trading-212-depot",
     ]);
     expect(r.gerankt.slice(0, 6).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6]);

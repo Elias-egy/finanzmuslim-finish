@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, depotHalal, LINK_VORRANG, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotGleichstand, depotHalal, LINK_VORRANG, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -240,6 +240,7 @@ export const werteAus = (
 
   const ordnung = (p: Treffer, q: Treffer) =>
     vorrang(kategorie, { note: p.sortWert, anbieter: p.anbieter }, { note: q.sortWert, anbieter: q.anbieter }) ||
+    depotGleichstand(kategorie, { halal: p.note?.halal ?? 0, anbieter: p.anbieter }, { halal: q.note?.halal ?? 0, anbieter: q.anbieter }) ||
     q.sortWert - p.sortWert ||
     position.get(p.anbieter.id)! - position.get(q.anbieter.id)!;
   passt.sort(ordnung);

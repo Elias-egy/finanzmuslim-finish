@@ -61,6 +61,11 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  *    Gedanken, sondern bleib offen“): Jeder Anbieter steht auf der Liste (`NUR_VOLLSTAENDIG` gilt dort nicht mehr), in denselben drei Stufen
  *    wie Regel 9 (`stufe`): Zins belegt aus oder abschaltbar, dann offen (der Anbieter belegt dazu nichts), ganz hinten belegt verzinst. Was
  *    nicht belegt ist, zählt 0 Punkte, nie geschätzt. Der Link-Vorrang (Regel 2) bleibt innerhalb der Stufe, `LINK_VORRANG` ist unverändert.
+ * 11. Depot (VG3, Elias 23.11.2026, VG2-05 zu S Broker: „Sparkassenbroker kann sogar ziemlich weit nach vorne … 11 von 12 wusste ich gar
+ *    nicht“, raw/2026-11-23-elias-vg2-05-kt-bank-aussehen-sparplan-sbroker-fuehrung.md im Vault): Bei gleicher angezeigter Note und gleichem
+ *    Link-Stand steht zuerst der größere Halal-Teil, dann wer mehr Halal-ETFs belegt kaufbar hat, erst danach die genaue Note. Die genaue Note
+ *    trennt sonst nur das Kriterium „Bei meinen Lesern beliebt“, und ein neuer Partnerlink hat dort noch keine Eröffnungen. Die Sterne bleiben
+ *    absteigend (Regel 7), Platz 1 bleibt Regel 6.
  * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
  *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
@@ -517,6 +522,22 @@ export const unbelegteWerte = (a: RohAnbieter, kategorie: RangKategorie, opt: Ra
 const nachName = (p: RohAnbieter, q: RohAnbieter) =>
   p.name.localeCompare(q.name, "de") || p.produkt.localeCompare(q.produkt, "de") || p.id.localeCompare(q.id, "de");
 
+/** Belegt kaufbare Halal-ETFs und Fonds („11 von 12“ wird 11), sonst 0. */
+export const halalEtfZahl = (a: RohAnbieter): number => {
+  const m = String(a.werte.halalEtfsFonds ?? "").match(/^(\d+) von \d+/);
+  return m ? Number(m[1]) : 0;
+};
+
+/** Regel 11: im Depot bei gleicher angezeigter Note und gleichem Link-Stand zuerst Halal-Teil, dann Zahl der Halal-ETFs. */
+export const depotGleichstand = (
+  kategorie: RangKategorie,
+  p: { halal: number; anbieter: RohAnbieter },
+  q: { halal: number; anbieter: RohAnbieter },
+): number =>
+  kategorie !== "depot"
+    ? 0
+    : q.halal - p.halal || (p.halal > 0 ? halalEtfZahl(q.anbieter) - halalEtfZahl(p.anbieter) : 0);
+
 export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategorie, opt: RangOptionen = {}): Rangliste => {
   const finanzMax = opt.finanzMax ?? STANDARD_FINANZ_MAX[kategorie] ?? {};
   const anteilN = opt.anteilN ? Object.fromEntries(Object.entries(opt.anteilN).filter(([, n]) => n > 0)) : ANTEIL_N;
@@ -551,7 +572,9 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   }
 
   const gleichauf = (p: Omit<Bewertet, "platz">, q: Omit<Bewertet, "platz">) =>
-    vorrang(kategorie, p, q) || q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
+    vorrang(kategorie, p, q) ||
+    depotGleichstand(kategorie, p, q) ||
+    q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
   // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“,
   // A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“). Hat keiner ohne Einschränkung einen Link, zählt nur die Einschränkung.

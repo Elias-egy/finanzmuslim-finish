@@ -46,8 +46,8 @@ describe("Liste (MC7d13)", () => {
 
   it("Top 3 statt Rot (MC7d13d): die drei besten Depots, alle ab dem ersten Tag ohne Zinsen, mit Wortmarke", () => {
     expect(TOP3).toHaveLength(3);
-    // Elias, 15.11.2026 (RN3-07): flatex einzige Nummer 1, Smartbroker+ Nummer 2, dahinter Scalable.
-    expect(TOP3.map((d) => d.id)).toEqual(["flatex-depot", "smartbroker-plus-depot", "scalable-capital-free-broker"]);
+    // Elias, 15.11.2026 (RN3-07): flatex einzige Nummer 1, Smartbroker+ Nummer 2; dahinter seit VG3 (Regel 11) S Broker.
+    expect(TOP3.map((d) => d.id)).toEqual(["flatex-depot", "smartbroker-plus-depot", "s-broker-direkt-depot"]);
     expect(TOP3.filter((d) => d.nr1)).toHaveLength(1);
     for (const d of TOP3) {
       expect(d.zinsfreiAbStart, d.id).toBe(true);
