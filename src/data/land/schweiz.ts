@@ -8,7 +8,8 @@ import { leereListe, type LandDaten } from "./typen";
 
 export const SCHWEIZ: LandDaten = {
   "depot": {
-    entwurf: false,
+    /* Prüfung DACH1 M-3 (23.11.2026): bis flatex-CH-Vergütung, Saxo-Zinssatz und die Lücken geklärt sind „In Vorbereitung“. */
+    entwurf: true,
     stand: "23.11.2026",
     quellenHinweis: "Basis: Finanzfluss Broker-Vergleich Schweiz, Stand 01.10.2026, Preise in CHF; eigene Halal-Prüfung mit Anbieter-Belegen. flatex: Halal-Belege des deutschen Vergleichs, dasselbe Depot.",
     einleitung: ["Hier stehen Depots, die du mit Wohnsitz in der Schweiz eröffnen kannst. Die Preise stehen in CHF, wo der Anbieter sie so nennt.", "Für Muslime entscheiden zwei Punkte: Liegt dein Geld ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle kannst du dort kaufen?"],
@@ -288,7 +289,8 @@ export const SCHWEIZ: LandDaten = {
     ],
   },
   "girokonto": {
-    entwurf: false,
+    /* Prüfung DACH1 M-3 (23.11.2026): bis flatex-CH-Vergütung, Saxo-Zinssatz und die Lücken geklärt sind „In Vorbereitung“. */
+    entwurf: true,
     stand: "23.11.2026",
     quellenHinweis: "Basis: Preislisten und Bedingungen der Banken für die Schweiz, gelesen am 23.11.2026. Eigene Halal-Prüfung mit Anbieter-Belegen.",
     einleitung: ["Hier stehen Privatkonten, die du mit Wohnsitz in der Schweiz eröffnen kannst.", "Für Muslime entscheiden drei Punkte: Liegt dein Geld ohne Zinsen, gibt es keinen Überzug ab Start, und kommt die Karte ohne Kreditrahmen?"],

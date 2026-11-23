@@ -427,24 +427,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://finanzmuslim.com/ch/vergleiche</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://finanzmuslim.com/ch/vergleich/depot</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://finanzmuslim.com/ch/vergleich/girokonto</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://finanzmuslim.com/halal-anlagen/ishares-msci-world-islamic</loc>
     <lastmod>2026-11-19</lastmod>
     <changefreq>monthly</changefreq>

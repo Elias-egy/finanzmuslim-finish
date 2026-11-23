@@ -125,7 +125,10 @@ export const erkenneLand = (sprachen: readonly string[], zeitzone: string | null
   return "de";
 };
 
-/** Merkzettel für „diese Sitzung wurde schon geprüft“, damit die Zurück-Taste nie gefangen wird. */
+/**
+ * Merkzettel für „die automatische Erkennung lief in dieser Sitzung schon“, damit die Zurück-Taste nie gefangen wird. Gilt
+ * nur für die Erkennung, nie für eine gemerkte Wahl.
+ */
 export const SITZUNG_GEPRUEFT = "fm_land_geprueft";
 /** Merkzettel für „diese Sitzung wurde automatisch umgestellt“, der Hinweis unter der Länderwahl liest ihn. */
 export const SITZUNG_AUTO = "fm_land_auto";
@@ -134,9 +137,12 @@ export const SITZUNG_AUTO = "fm_land_auto";
  * Entscheidet, ob ein Besucher auf einer deutschen Vergleichsseite zur Länderversion gehört.
  * Reine Entscheidung ohne Nebenwirkung; `LandErkennung` führt sie aus.
  *
- * - Eine gemerkte Wahl gewinnt immer (auch `de`: wer Deutschland gewählt hat, bleibt dort).
- * - Ohne Wahl entscheidet die Erkennung.
- * - Nie bei Robotern, nie wenn die Sitzung schon geprüft wurde, nie wenn die Länderversion noch keine Daten hat.
+ * - Eine gemerkte Wahl gewinnt immer und gilt auf jeder Seite, auch mehrmals in derselben Sitzung (Prüfung DACH1 M-4:
+ *   wer Österreich gewählt hat, sieht auf jeder weiteren Vergleichsseite die Österreich-Version; wer Deutschland gewählt
+ *   hat, bleibt bei Deutschland).
+ * - Ohne Wahl entscheidet die Erkennung, und die nur einmal je Sitzung (`schonGeprueft`), damit die Zurück-Taste nie
+ *   gefangen wird.
+ * - Nie bei Robotern, nie auf einer Länderseite, nie wenn die Länderversion noch nicht fertig ist.
  */
 export const zielLand = (opt: {
   aktuell: Land;
@@ -146,7 +152,8 @@ export const zielLand = (opt: {
   schonGeprueft: boolean;
   verfuegbar: (land: Land) => boolean;
 }): Land | null => {
-  if (opt.robot || opt.schonGeprueft || opt.aktuell !== "de") return null;
+  if (opt.robot || opt.aktuell !== "de") return null;
+  if (!opt.gemerkt && opt.schonGeprueft) return null;
   const wunsch = opt.gemerkt ?? opt.erkannt;
   if (wunsch === "de" || !opt.verfuegbar(wunsch)) return null;
   return wunsch;

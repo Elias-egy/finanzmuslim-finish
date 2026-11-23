@@ -19,6 +19,7 @@ export const OESTERREICH: LandDaten = {
     einleitung: ["Hier stehen Depots, die du mit Wohnsitz in Österreich eröffnen kannst. Steuereinfach heißt: Die Bank führt die KESt für dich ab.", "Für Muslime entscheiden zwei Punkte: Liegt dein Geld ohne Zinsen, und welche Halal-ETFs, Sukuk und Edelmetalle sind dort für Kunden in Österreich kaufbar?"],
     reihenfolge: ["flatex-depot-at", "traders-place-depot-at", "smartbroker-plus-depot-at", "trade-republic-depot-at", "dkb-depot-at", "scalable-capital-depot-at", "dadat-depot-at", "easybank-depot-at"],
     anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
+    seoText: "Welches Depot ist halal? {anzahl} Depots für Österreich im Vergleich: ohne Zinsen nutzbar, steuereinfach mit KESt, und welche Halal-ETFs, Sukuk und Gold-ETCs dort kaufbar sind.",
     anbieter: [
       {
         "id": "flatex-depot-at",
@@ -28,7 +29,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "flatex-at",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "mind. 2 von 4",
+          "halalEtfsFonds": "2 von 4 bestätigt",
           "halalSukuk": null,
           "halalEdelmetalle": null,
           "depotgebuehr": "0 €",
@@ -409,7 +410,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "dkb",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "mind. 3 von 4",
+          "halalEtfsFonds": "3 von 4 bestätigt",
           "halalSukuk": null,
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -474,7 +475,7 @@ export const OESTERREICH: LandDaten = {
         "link": "/out/scalable-at",
         "werte": {
           "zinsfreiAbStart": null,
-          "halalEtfsFonds": "mind. 3 von 4",
+          "halalEtfsFonds": "3 von 4 bestätigt",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
@@ -1657,7 +1658,8 @@ export const OESTERREICH: LandDaten = {
     stand: "23.11.2026",
     quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026. Royal Mint Gold-ETC: in Österreich registriert laut HANetf, kaufbar laut justETF Österreich (Stand 11/2026) oder laut deutschem Vergleich bei demselben Depot. Eigene Halal-Prüfung mit Anbieter-Belegen.",
     einleitung: ["Hier stehen Depots, in denen du mit Wohnsitz in Österreich den Royal Mint Gold-ETC kaufen kannst. Hinter jedem Anteil liegt echtes Gold, Barren und Münzen lassen sich ausliefern.", "Wie Gewinne aus dem Gold-ETC in Österreich besteuert werden, klärst du am besten mit einem Steuerberater."],
-    reihenfolge: ["traders-place-depot-gold-at", "smartbroker-plus-depot-gold-at", "trade-republic-depot-gold-at", "dkb-depot-gold-at", "scalable-capital-depot-gold-at"],
+    reihenfolge: ["traders-place-depot-gold-at", "smartbroker-plus-depot-gold-at", "trade-republic-depot-gold-at", "dkb-depot-gold-at"],
+    seoText: "Wo kannst du Gold halal kaufen? {anzahl} Depots für Österreich im Vergleich: ohne Zinsen nutzbar, mit dem Royal Mint Gold-ETC und den Kosten pro Kauf.",
     anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
     kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur solche Depots stehen in diesem Vergleich."}, {"titel": "Royal Mint kaufbar", "text": "Kannst du dort den Royal Mint Gold-ETC kaufen? Er ist in Österreich registriert, nur solche Depots stehen hier."}, {"titel": "Halal-Anlagen im selben Depot", "text": "Bekommst du im selben Depot auch Halal-ETFs und Sukuk, die in Österreich zugelassen sind? Gold gehört zum Anlegen, du brauchst dafür kein zweites Depot."}, {"titel": "Kosten pro Kauf", "text": "Was kostet dich ein Kauf? Es zählen Depotgebühr, Orderkosten, Handelsplätze, Steuerabführung, Service und App."}],
     anbieter: [
@@ -1971,7 +1973,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "dkb",
         "werte": {
           "zinsfreiAbStart": "gut",
-          "halalEtfsFonds": "mind. 3 von 4",
+          "halalEtfsFonds": "3 von 4 bestätigt",
           "halalSukuk": null,
           "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0€",
@@ -2032,117 +2034,6 @@ export const OESTERREICH: LandDaten = {
           "halalEdelmetalle": 1
         },
         "link": "/out/dkb-depot-at"
-      },
-      {
-        "id": "scalable-capital-depot-gold-at",
-        "name": "Scalable Capital",
-        "produkt": "Free Broker",
-        "domain": "scalable.capital",
-        "haus": "scalable-at",
-        "link": "/out/scalable-at",
-        "werte": {
-          "zinsfreiAbStart": null,
-          "halalEtfsFonds": "mind. 3 von 4",
-          "halalSukuk": "1 von 1",
-          "halalEdelmetalle": "1 von 1",
-          "depotgebuehr": "0 €",
-          "orderkosten": "0,99 € (gettex), Xetra 1,99 €",
-          "etfSparplanKosten": "0 €",
-          "sparrate": "1 € bis 5.000 €",
-          "intervalle": "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr",
-          "handelsplaetze": "Europa (ex-AT)",
-          "kapest": true,
-          "appIos": "4,6 / 5",
-          "kundenservice": "E-Mail, Telefon, Chat",
-          "royalMint": "ja"
-        },
-        "quellen": {
-          "depotgebuehr": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "etfSparplanKosten": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "sparrate": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "intervalle": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "handelsplaetze": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "appIos": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "kundenservice": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "kapest": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026: „Steuereinfach für Neukunden“."
-          },
-          "orderkosten": {
-            "url": "https://at.scalable.capital/trading-gebuehren",
-            "stand": "23.11.2026",
-            "hinweis": "Scalable Capital Österreich, Trading-Gebühren: 0,99 € je Order über gettex, Xetra 1,99 €."
-          },
-          "halalEtfsFonds": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital bei IE00B27YCN58, IE000LFC57H7 und IE00BMYMHS24; beim Invesco Dow Jones Islamic nicht genannt. In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
-          },
-          "halalSukuk": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares USD Sukuk (IE000929U2U9). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich zugelassen laut BlackRock Österreich; Xtrackers Salam Sukuk laut justETF Österreich nicht zugelassen."
-          },
-          "halalEdelmetalle": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
-          },
-          "royalMint": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
-          }
-        },
-        "finanzPunkte": {
-          "depotgebuehr": 16,
-          "etfSparplanProzent": 6,
-          "etfSparplanPauschal": 4,
-          "orderProzent": 3,
-          "orderPauschal": 4,
-          "mindestsparrate": 3,
-          "maximalsparrate": 0.667,
-          "intervalle": 2.5,
-          "handelsplaetze": 1,
-          "kapest": 9,
-          "kundenservice": 5,
-          "app": 5,
-          "abzug": 0
-        },
-        "halalAnlagenPunkte": {
-          "halalEtfsFonds": 3,
-          "halalSukuk": 1,
-          "halalEdelmetalle": 1
-        }
       }
     ],
   },
@@ -2151,7 +2042,7 @@ export const OESTERREICH: LandDaten = {
     stand: "23.11.2026",
     quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; Sparplan-Angebote für Österreich laut justETF, Stand 11/2026. Eigene Halal-Prüfung mit Anbieter-Belegen.",
     einleitung: ["Hier stehen Depots, in denen der ETF-Sparplan für Kunden in Österreich nichts kostet und Halal-ETFs kaufbar sind.", "Gezählt werden nur Halal-ETFs, die in Österreich zum Vertrieb zugelassen sind, etwa der iShares MSCI World Islamic."],
-    reihenfolge: ["traders-place-sparplan-at", "smartbroker-plus-sparplan-at", "trade-republic-sparplan-at", "scalable-capital-sparplan-at"],
+    reihenfolge: ["traders-place-sparplan-at", "smartbroker-plus-sparplan-at", "trade-republic-sparplan-at"],
     anteilN: {"halalEtfsFonds": 4, "halalSukuk": 1, "halalEdelmetalle": 1},
     anbieter: [
       {
@@ -2434,111 +2325,6 @@ export const OESTERREICH: LandDaten = {
         },
         "halalAnlagenPunkte": {
           "halalEtfsFonds": 4,
-          "halalSukuk": 1,
-          "halalEdelmetalle": 1
-        }
-      },
-      {
-        "id": "scalable-capital-sparplan-at",
-        "name": "Scalable Capital",
-        "produkt": "Free Broker",
-        "domain": "scalable.capital",
-        "haus": "scalable-at",
-        "link": "/out/scalable-at",
-        "werte": {
-          "zinsfreiAbStart": null,
-          "halalEtfsFonds": "mind. 3 von 4",
-          "halalSukuk": "1 von 1",
-          "halalEdelmetalle": "1 von 1",
-          "depotgebuehr": "0 €",
-          "orderkosten": "0,99 € (gettex), Xetra 1,99 €",
-          "etfSparplanKosten": "0 €",
-          "sparrate": "1 € bis 5.000 €",
-          "intervalle": "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr",
-          "handelsplaetze": "Europa (ex-AT)",
-          "kapest": true,
-          "appIos": "4,6 / 5",
-          "kundenservice": "E-Mail, Telefon, Chat"
-        },
-        "quellen": {
-          "depotgebuehr": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "etfSparplanKosten": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "sparrate": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "intervalle": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "handelsplaetze": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "appIos": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "kundenservice": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026"
-          },
-          "kapest": {
-            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
-            "stand": "23.11.2026",
-            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 23.11.2026: „Steuereinfach für Neukunden“."
-          },
-          "orderkosten": {
-            "url": "https://at.scalable.capital/trading-gebuehren",
-            "stand": "23.11.2026",
-            "hinweis": "Scalable Capital Österreich, Trading-Gebühren: 0,99 € je Order über gettex, Xetra 1,99 €."
-          },
-          "halalEtfsFonds": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital bei IE00B27YCN58, IE000LFC57H7 und IE00BMYMHS24; beim Invesco Dow Jones Islamic nicht genannt. In Österreich zum Vertrieb zugelassen und hier gezählt: iShares MSCI World Islamic, Invesco MSCI ACWI Islamic, Invesco Dow Jones Islamic Global Developed Markets und HANetf Saturna Al-Kawthar (justETF Österreich ohne Hinweis „keine Vertriebszulassung“, mit Sparplan-Angeboten für Österreich, Stand 11/2026). Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
-          },
-          "halalSukuk": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: iShares USD Sukuk (IE000929U2U9). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich zugelassen laut BlackRock Österreich; Xtrackers Salam Sukuk laut justETF Österreich nicht zugelassen."
-          },
-          "halalEdelmetalle": {
-            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
-            "stand": "23.11.2026",
-            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Gold- und Silber-ETCs zählen in Österreich erst mit Beleg der Zulassung."
-          }
-        },
-        "finanzPunkte": {
-          "depotgebuehr": 16,
-          "etfSparplanProzent": 6,
-          "etfSparplanPauschal": 4,
-          "orderProzent": 3,
-          "orderPauschal": 4,
-          "mindestsparrate": 3,
-          "maximalsparrate": 0.667,
-          "intervalle": 2.5,
-          "handelsplaetze": 1,
-          "kapest": 9,
-          "kundenservice": 5,
-          "app": 5,
-          "abzug": 0
-        },
-        "halalAnlagenPunkte": {
-          "halalEtfsFonds": 3,
           "halalSukuk": 1,
           "halalEdelmetalle": 1
         }

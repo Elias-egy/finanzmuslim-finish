@@ -15,8 +15,8 @@ import {
  * Schickt Besucher aus Österreich und der Schweiz einmal in ihre Länderversion (DACH1, Elias 23.11.2026).
  *
  * Gilt nur auf einer deutschen Vergleichsseite, die es auch als Länderversion gibt, und nur, wenn diese Version fertig
- * ist (`landFreigegeben`). Eine gemerkte Wahl (Cookie) geht vor der Erkennung. Pro Sitzung höchstens einmal, damit die
- * Zurück-Taste nie in eine Schleife läuft. Crawler (Google kommt aus den USA), Vorschaukarten und das Prerendering beim
+ * ist (`landFreigegeben`). Eine gemerkte Wahl (Cookie) geht vor der Erkennung und gilt auf jeder Seite. Die Erkennung ohne
+ * Wahl läuft pro Sitzung höchstens einmal, damit die Zurück-Taste nie in eine Schleife läuft. Crawler (Google kommt aus den USA), Vorschaukarten und das Prerendering beim
  * Build werden nie umgeleitet. Die Umstellung ersetzt den Eintrag im Verlauf (`replace`), sie ist keine Weiterleitung per
  * Server, und die deutsche Adresse bleibt für Google die deutsche Seite.
  */
@@ -26,13 +26,17 @@ export const LandErkennung = () => {
 
   useEffect(() => {
     if (landAusPfad(pathname) !== "de" || !hatLandVersion(pathname)) return;
+    const gemerkt = gemerktesLand();
+    /* Der Sitzungs-Merkzettel begrenzt nur die automatische Erkennung. Eine gemerkte Wahl gilt auf jeder Seite (M-4). */
     let schonGeprueft = false;
-    try {
-      schonGeprueft = sessionStorage.getItem(SITZUNG_GEPRUEFT) === "1";
-      sessionStorage.setItem(SITZUNG_GEPRUEFT, "1");
-    } catch {
-      /* Speicher gesperrt: dann bleibt es bei der deutschen Seite, nichts wird erzwungen. */
-      return;
+    if (!gemerkt) {
+      try {
+        schonGeprueft = sessionStorage.getItem(SITZUNG_GEPRUEFT) === "1";
+        sessionStorage.setItem(SITZUNG_GEPRUEFT, "1");
+      } catch {
+        /* Speicher gesperrt: ohne Wahl bleibt es bei der deutschen Seite, nichts wird erzwungen. */
+        return;
+      }
     }
     let zeitzone: string | null = null;
     try {
@@ -42,7 +46,7 @@ export const LandErkennung = () => {
     }
     const ziel = zielLand({
       aktuell: "de",
-      gemerkt: gemerktesLand(),
+      gemerkt,
       erkannt: erkenneLand(navigator.languages?.length ? navigator.languages : [navigator.language], zeitzone),
       robot: istRobot(navigator.userAgent, navigator.webdriver),
       schonGeprueft,

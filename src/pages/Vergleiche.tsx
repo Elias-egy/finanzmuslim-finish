@@ -158,7 +158,11 @@ const Vergleiche = () => {
   <main className="bg-background">
     <Seo
       title={land === "de" ? "Halal Depot, Konto und Börse im Vergleich | finanzmuslim" : `Halal Depot, Konto und Börse im Vergleich (${LAENDER[land].name}) | finanzmuslim`}
-      description="Vergleiche Depots, Girokonten, Krypto-Börsen, Edelmetalle und Screening-Apps nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten."
+      description={
+        land === "de"
+          ? "Vergleiche Depots, Girokonten, Krypto-Börsen, Edelmetalle und Screening-Apps nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten."
+          : `Vergleiche Depots, Girokonten, Krypto-Börsen und Edelmetalle für ${LAENDER[land].mitArtikel} nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten.`
+      }
       path={landPfad("/vergleiche", land)}
       noindex={leer}
       locale={LAENDER[land].hreflang.replace("-", "_")}
@@ -182,13 +186,15 @@ const Vergleiche = () => {
           Wir prüfen Anbieter nach Kriterien, die in normalen Vergleichen fehlen. Was zählt, ist nicht
           nur der Preis, sondern ob das Produkt zu deinem Glauben passt.
         </p>
+        {land === "de" && (
         <Link
           to="/check?quelle=quiz"
           className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-primary px-8 text-[17px] font-semibold text-primary-foreground transition-colors hover:bg-primary-hover sm:w-auto"
         >
           Match finden
         </Link>
-        <p className="mt-2 text-[14px] text-muted-foreground">3 Fragen, 60 Sekunden, kostenlos</p>
+        )}
+        {land === "de" && <p className="mt-2 text-[14px] text-muted-foreground">3 Fragen, 60 Sekunden, kostenlos</p>}
       </header>
 
       <div className="mt-12 space-y-12">
@@ -198,7 +204,7 @@ const Vergleiche = () => {
               {gruppe.titel}
             </h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {gruppe.eintraege.filter((v) => v.to).map((v) => (
+              {gruppe.eintraege.filter((v) => v.to && (land === "de" || hatLandVersion(v.to))).map((v) => (
                 <Kachel key={v.name} {...v} land={land} />
               ))}
             </div>
@@ -206,6 +212,9 @@ const Vergleiche = () => {
         ))}
       </div>
 
+      {/* DACH1 Prüfung S-4: Die Länderübersicht zeigt nur Ländervergleiche. Steuersoftware, Studenten- und Umrah-Konto, der
+          Check und die Halal-Anlagen sind deutsche Seiten und stehen dort nicht. */}
+      {land === "de" && (
       <section className="mt-12">
         <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">Weitere Vergleiche</h2>
         <ul className="mt-3 space-y-2">
@@ -219,6 +228,7 @@ const Vergleiche = () => {
           ))}
         </ul>
       </section>
+      )}
 
       <section className="card-surface mt-14 p-6 md:p-8">
         <h2 className="text-xl font-bold text-foreground">Wie wir bewerten</h2>

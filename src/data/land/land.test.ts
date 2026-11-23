@@ -135,7 +135,8 @@ describe("Länderlisten: nur im Land zugelassene Papiere zählen (DACH1, Korrekt
           for (const [k, n] of Object.entries(liste.anteilN)) {
             const w = a.werte[k];
             if (typeof w !== "string") continue;
-            expect(w, `${a.id} ${k}`).toMatch(new RegExp(`^(mind\\. )?\\d+ von ${n}$`));
+            // Nie „mind.“ auf der Seite (Regelbuch Nie), offene Papiere heißen „x von y bestätigt“ (Prüfung S-5).
+            expect(w, `${a.id} ${k}`).toMatch(new RegExp(`^\\d+ von ${n}( bestätigt)?$`));
           }
         }
       }

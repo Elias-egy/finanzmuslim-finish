@@ -217,7 +217,10 @@ export const VergleichsSeite = ({
   const eigeneListe = land !== "de" ? landVergleich(land, pfad) : null;
   const beispiel = import.meta.env.DEV && land !== "de" && new URLSearchParams(search).get("beispiel") === "1";
   const anbieter = land === "de" ? anbieterDe : beispiel ? [BEISPIEL_EINTRAG] : (eigeneListe?.anbieter ?? []);
-  if (land !== "de" && anbieter.length === 0) {
+  /* Prüfung DACH1 M-3: Ein Entwurf mit Daten (Schweiz) zeigt öffentlich auch nur „In Vorbereitung“. Im Entwicklungsserver
+     zeigt `?entwurf=1` die Liste trotzdem, damit die Daten für später sichtbar bleiben. */
+  const entwurfAnsehen = import.meta.env.DEV && new URLSearchParams(search).get("entwurf") === "1";
+  if (land !== "de" && (anbieter.length === 0 || (eigeneListe?.entwurf && !beispiel && !entwurfAnsehen))) {
     return <LandInVorbereitung land={land} pfad={pfad} brotkrumen={brotkrumen} titel={titel} />;
   }
   const zeilen = land === "de" ? zeilenDe : zeilenFuerLand(zeilenDe, land);
@@ -258,6 +261,13 @@ export const VergleichsSeite = ({
       sortiertNachDe
     );
   const seoPfad = landPfad(pfad, land);
+  /* DACH1 Prüfung S-3: Die Beschreibung zählt die Länderliste, nie die deutsche Liste. Eigener Text mit „{anzahl}“ aus der
+     Länderliste, sonst der deutsche Text mit der Zahl des Landes und dem Land am Ende. */
+  const seoBeschreibung = !landSeite
+    ? seoText
+    : eigeneListe?.seoText && !beispiel
+      ? eigeneListe.seoText.replace("{anzahl}", String(anbieter.length))
+      : `${seoText.replace(/\d+/, String(anbieter.length))} Für ${landSeite.seoZusatz}.`;
   /* hreflang nur, wenn es mindestens zwei fertige Fassungen gibt; jede Seite nennt sich selbst, x-default ist Deutschland. */
   const fassungen = hatLandVersion(pfad) ? freigegebeneLaender(pfad) : [];
   const alternates =
@@ -374,14 +384,14 @@ export const VergleichsSeite = ({
     <main className="bg-background">
       <Seo
         title={landSeite ? `${seoTitel} (${landSeite.seoZusatz})` : seoTitel}
-        description={landSeite ? `${seoText} Für ${landSeite.seoZusatz}.` : seoText}
+        description={seoBeschreibung}
         path={seoPfad}
         noindex={beispiel}
         alternates={alternates}
         locale={LAENDER[land].hreflang.replace("-", "_")}
         jsonLd={vergleichJsonLd({
           titel: seoTitel,
-          beschreibung: seoText,
+          beschreibung: seoBeschreibung,
           path: seoPfad,
           faq,
           stand,

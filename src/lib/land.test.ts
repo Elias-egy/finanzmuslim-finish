@@ -82,6 +82,12 @@ describe("Umstellung entscheiden (DACH1)", () => {
     expect(zielLand({ ...basis, gemerkt: "de" })).toBeNull();
     expect(zielLand({ ...basis, gemerkt: "ch", erkannt: "at" })).toBe("ch");
   });
+  it("eine gemerkte Wahl gilt auch in einer schon geprüften Sitzung (Prüfung M-4), nie für Roboter", () => {
+    expect(zielLand({ ...basis, gemerkt: "at", erkannt: "de", schonGeprueft: true })).toBe("at");
+    expect(zielLand({ ...basis, gemerkt: "de", schonGeprueft: true })).toBeNull();
+    expect(zielLand({ ...basis, gemerkt: "at", robot: true })).toBeNull();
+    expect(zielLand({ ...basis, gemerkt: "at", verfuegbar: () => false })).toBeNull();
+  });
   it("stellt nie um: Roboter, schon geprüfte Sitzung, Länderseite, Version ohne Liste", () => {
     expect(zielLand({ ...basis, robot: true })).toBeNull();
     expect(zielLand({ ...basis, schonGeprueft: true })).toBeNull();

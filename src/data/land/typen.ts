@@ -53,6 +53,11 @@ export type LandVergleich = {
    * Ohne Angabe die deutschen 12, 3 und 7.
    */
   anteilN?: Record<string, number>;
+  /**
+   * Beschreibung für Suchmaschinen, wenn der deutsche Text im Land nicht stimmt. „{anzahl}“ wird durch die Zahl der
+   * Anbieter dieser Liste ersetzt. Ohne Angabe: der deutsche Text mit der Zahl des Landes und „Für <Land>.“ am Ende.
+   */
+  seoText?: string;
   /** Kasten „Worauf wir achten“, wenn der deutsche Text im Land nicht stimmt. */
   kriterien?: Array<{ titel: string; text: string }>;
 };

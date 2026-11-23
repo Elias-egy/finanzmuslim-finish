@@ -60,6 +60,11 @@ export type StartPartner = {
   faqs: { q: string; a: string }[];
   /** Girokonten und Krypto: Schritte statt Video. */
   schritte?: { titel: string; text: string }[];
+  /**
+   * true: Für dieses Land fehlt der Anbieter-Beleg, dass das Guthaben auf dem Verrechnungskonto ohne Zinsen bleibt
+   * (DACH1, Scalable Österreich). Die Seite sagt dann nie „Halal-Depot“, „zinsfrei“ oder „riba-frei“.
+   */
+  zinsBelegFehlt?: boolean;
 };
 
 const allgemeineFaq = {
@@ -2228,7 +2233,9 @@ export const startPartner: StartPartner[] = [
     pfad: "/dein-investmentstart/scalable-at",
     link: START_LINKS["scalable-at"],
     risikoUrl: "https://de.scalable.capital/risiko",
-    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    /* Prüfung DACH1 M-1: Für Österreich ist nur das getrennte Tagesgeld belegt, zum Verrechnungskonto fehlt der Beleg. */
+    zinsBelegFehlt: true,
+    titel: ["In 10 Minuten steht", "dein Depot."],
     knopf: "Bei Scalable eröffnen →",
     videoHinweis: false,
     chips: ["Steuereinfach für Neukunden", "ETFs", "Gold", "Sparpläne ab 1 €"],
@@ -2246,7 +2253,7 @@ export const startPartner: StartPartner[] = [
         text: "Keine Depotgebühr, ETF-Sparpläne ohne Ausführungskosten ab 1 €, eine Order kostet 0,99 €.",
       },
     ],
-    checklisteTitel: ["2 Einstellungen machen dein Scalable-Depot", "riba-frei"],
+    checklisteTitel: ["2 Regeln vor dem Start bei", "Scalable"],
     checkliste: [
       {
         titel: "Tagesgeldkonto nicht eröffnen.",
@@ -2256,6 +2263,10 @@ export const startPartner: StartPartner[] = [
     ],
     faqs: [
       allgemeineFaq,
+      {
+        q: "Bleibt mein Guthaben ohne Zinsen?",
+        a: "Für das Verrechnungskonto in Österreich liegt uns noch kein Beleg von Scalable vor. Im Depot-Vergleich für Österreich bleibt das Feld deshalb offen, bis Scalable es bestätigt.",
+      },
       {
         q: "Kann ich mit Wohnsitz in Österreich eröffnen?",
         a: "Ja. Scalable hat eine Seite für Österreich und nimmt Neukunden mit Wohnsitz in Österreich an.",
@@ -2278,8 +2289,9 @@ export const startPartner: StartPartner[] = [
     chips: ["Aktien", "ETFs", "Gold", "Sukuk"],
     fakten: [
       {
-        titel: "18 von 22 Halal-Anlagen aus unserer Liste",
-        text: "Laut der Wertpapiersuche von Traders Place sind 9 von 12 Halal-ETFs und Fonds, 2 von 3 Sukuk und alle 7 Gold- und Silber-ETCs aus unserem Vergleich handelbar.",
+        /* Prüfung DACH1 M-2: Zählung für Österreich (nur dort zugelassene Papiere, src/data/land/oesterreich.ts), nie die deutsche. */
+        titel: "Alle Halal-Anlagen für Österreich",
+        text: "Laut der Wertpapiersuche von Traders Place sind alle 4 in Österreich zugelassenen Halal-ETFs aus unserem Vergleich handelbar, dazu der iShares USD Sukuk und der Royal Mint Gold-ETC.",
       },
       {
         titel: "Guthaben ohne Zinsen",
@@ -2331,7 +2343,8 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Halal-Anlagen kaufbar",
-        text: "8 von 12 Halal-ETFs und Fonds unserer Liste, alle 3 Sukuk-Fonds und alle 7 Gold- und Silber-Anlagen sind bei Smartbroker+ kaufbar.",
+        /* Prüfung DACH1 M-2: Zählung für Österreich (nur dort zugelassene Papiere), nie die deutsche. */
+        text: "Alle 4 in Österreich zugelassenen Halal-ETFs aus unserer Liste, der iShares USD Sukuk und der Royal Mint Gold-ETC sind bei Smartbroker+ kaufbar.",
       },
       {
         titel: "Nicht steuereinfach",

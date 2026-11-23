@@ -263,8 +263,11 @@ const halbe = (halal: number, kosten: number) => 0.5 * halal + 0.5 * kosten;
 const kostenAus = (a: RohAnbieter, finanzMax: Record<string, number>): number | null =>
   a.finanzPunkte && Object.keys(a.finanzPunkte).length > 0 ? finanzNote(a, finanzMax, []) : null;
 
-/** "x von N" und "mind. x von N": x ist die Zahl der belegten Treffer. Alles andere ist kein Beleg. */
-const ANLAGEN_ZEILE = /^\s*(?:mind\.\s+)?(\d+)\s+von\s+(\d+)\s*$/;
+/**
+ * "x von N", "mind. x von N" und "x von N bestätigt": x ist die Zahl der belegten Treffer. Alles andere ist kein Beleg.
+ * „bestätigt“ schreiben die Länderlisten statt „mind.“ (DACH1, Regelbuch Nie: keine „mindestens“-Angaben auf der Seite).
+ */
+const ANLAGEN_ZEILE = /^\s*(?:mind\.\s+)?(\d+)\s+von\s+(\d+)(?:\s+bestätigt)?\s*$/;
 
 /** Belegte, gewichtete Punkte einer Halal-Anlagen-Zeile. Fehlt der Beleg oder passt N nicht, zählt die Zeile 0. */
 const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {

@@ -2,7 +2,7 @@ import { kostenKurz } from "@/data/kostenKurz";
 import GiroKnopfHinweis from "@/components/GiroKnopfHinweis";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Info } from "lucide-react";
 import { AnbieterLogo } from "@/components/AnbieterLogo";
 import { BonusSchild, NotenBlock, ProduktDetails } from "./VergleichsBausteine";
 import { GiroInhalt } from "./GiroKarten";
@@ -136,9 +136,12 @@ export const NummerEins = ({
   depot?: boolean;
 }) => {
   const [offen, setOffen] = useState(false);
+  const land = useLand();
   const { halal, kosten } = gruende(anbieter, zeilen);
   const stil = Boolean(giro || depot);
   const punkte = stil ? [] : [...halal, ...kosten];
+  /* Prüfung DACH1 S-1: Ist die Nummer 1 in Österreich nicht steuereinfach, sagt der Kasten es offen, am Handy und am Laptop. */
+  const steuerSelbst = land === "at" && anbieter.werte.kapest === false && zeilen.some((z) => z.key === "kapest");
   const wert = (k: string) => (typeof anbieter.werte[k] === "string" ? (anbieter.werte[k] as string) : null);
 
   return (
@@ -229,6 +232,19 @@ export const NummerEins = ({
         </ul>
         {/* RN21: grüne Meldung über dem Knopf; am Laptop wie PH5-01 nicht direkt am Kasten, dort zuerst in den Produktdetails */}
         {anbieter.link && <GiroKnopfHinweis anbieter={anbieter.id} className={`mt-3 ${stil ? "lg:hidden" : ""}`} />}
+        {steuerSelbst && (
+          <div
+            className={`mt-3 flex items-start gap-2.5 rounded-lg border border-primary/25 bg-accent px-3 py-2.5 text-left ${stil ? "lg:order-3" : ""}`}
+            data-steuer-hinweis="at"
+          >
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+            <p className="m-0 text-[14px] leading-snug text-foreground">
+              <strong className="font-semibold">Steuer einmal im Jahr selbst angeben</strong>
+              <br />
+              In Österreich ist {anbieter.name} nicht steuereinfach. Deine Erträge trägst du selbst in die Steuererklärung ein.
+            </p>
+          </div>
+        )}
         {anbieter.link && (
           <div className={`mt-2.5 xl:mt-3 ${stil ? "lg:order-3" : ""}`}>
             <Link

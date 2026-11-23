@@ -4,7 +4,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { LandWahl } from "@/components/land/LandWahl";
 import VergleichDepot from "@/pages/VergleichDepot";
 import VergleichKrypto from "@/pages/VergleichKrypto";
-import { landFreigegeben } from "@/data/land";
+import { landFreigegeben, landVergleich } from "@/data/land";
 import Vergleiche from "@/pages/Vergleiche";
 
 beforeAll(() => {
@@ -28,13 +28,14 @@ const zeige = (pfad: string, element: JSX.Element) =>
   );
 
 describe("Länderwahl (DACH1)", () => {
-  it("zeigt drei Länder mit Flagge, der aktuelle ist markiert und jeder Eintrag ist ein Link auf dieselbe Seite", () => {
+  it("zeigt die Länder mit öffentlichem Vergleich mit Flagge, der aktuelle ist markiert und jeder Eintrag ist ein Link auf dieselbe Seite", () => {
     const { container } = zeige("/at/vergleich/depot", <LandWahl />);
     const links = [...container.querySelectorAll("a")] as HTMLAnchorElement[];
-    expect(links.map((a) => a.textContent)).toEqual(["DE", "AT", "CH"]);
-    expect(links.map((a) => a.getAttribute("href"))).toEqual(["/vergleich/depot", "/at/vergleich/depot", "/ch/vergleich/depot"]);
-    expect(links.map((a) => a.getAttribute("aria-current"))).toEqual([null, "true", null]);
-    expect(container.querySelectorAll("svg").length).toBe(3);
+    // Schweiz: alle Vergleiche „In Vorbereitung“ (Prüfung DACH1 M-3), deshalb keine Flagge.
+    expect(links.map((a) => a.textContent)).toEqual(["DE", "AT"]);
+    expect(links.map((a) => a.getAttribute("href"))).toEqual(["/vergleich/depot", "/at/vergleich/depot"]);
+    expect(links.map((a) => a.getAttribute("aria-current"))).toEqual([null, "true"]);
+    expect(container.querySelectorAll("svg").length).toBe(2);
     expect(links[1].getAttribute("aria-label")).toBe("Österreich");
   });
 });
@@ -68,11 +69,62 @@ describe("Länderseite ohne Liste (DACH1)", () => {
   it("Übersicht Schweiz: Kacheln ohne fertige Version stehen grau, kein Link in eine leere Seite", () => {
     const { container } = zeige("/ch/vergleiche", <Vergleiche />);
     const links = [...container.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
-    for (const pfad of ["/vergleich/krypto", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
+    for (const pfad of ["/vergleich/depot", "/vergleich/girokonto", "/vergleich/krypto", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
       expect(landFreigegeben("ch", pfad), pfad).toBe(false);
       expect(links.includes(`/ch${pfad}`), pfad).toBe(false);
     }
-    expect(links.includes("/ch/vergleich/depot")).toBe(true);
     expect(container.querySelectorAll('[aria-disabled="true"]').length).toBeGreaterThan(0);
+  });
+
+  it("Übersicht Österreich: nur Ländervergleiche, keine deutschen Seiten (Prüfung S-4)", () => {
+    const { container } = zeige("/at/vergleiche", <Vergleiche />);
+    const links = [...container.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
+    for (const pfad of ["/vergleich/depot", "/vergleich/girokonto", "/vergleich/krypto", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
+      expect(links.includes(`/at${pfad}`), pfad).toBe(true);
+    }
+    for (const de of ["/vergleich/steuersoftware", "/vergleich/screening-apps", "/vergleich/girokonto/studenten", "/vergleich/girokonto/umrah-und-urlaub", "/halal-anlagen"]) {
+      expect(links.includes(de), de).toBe(false);
+    }
+    expect(links.some((l) => l.startsWith("/check"))).toBe(false);
+  });
+
+  it("die Österreich-Depotseite zählt in der Beschreibung ihre eigenen Depots (Prüfung S-3)", () => {
+    zeige("/at/vergleich/depot", <VergleichDepot />);
+    const beschreibung = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
+    expect(beschreibung).toContain("8 Depots für Österreich");
+    expect(beschreibung).not.toContain("38");
+    expect(beschreibung).not.toContain("Kredit ab Start");
+  });
+});
+
+describe("Nummer 1 in Österreich (DACH1, Prüfung S-1)", () => {
+  it("sagt im Kasten offen, dass Traders Place in Österreich nicht steuereinfach ist", () => {
+    const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
+    const kasten = container.querySelector('[data-steuer-hinweis="at"]');
+    expect(kasten?.textContent).toContain("Traders Place nicht steuereinfach");
+  });
+
+  it("nennt Scalable in Österreich nur im Depot, nicht bei Edelmetallen und ETF-Sparplan (Prüfung M-1)", () => {
+    expect(landFreigegeben("at", "/vergleich/edelmetalle")).toBe(true);
+    for (const pfad of ["/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
+      const liste = landVergleich("at", pfad);
+      expect(liste?.anbieter.some((a) => /scalable/i.test(a.id)), pfad).toBe(false);
+    }
+    const depot = landVergleich("at", "/vergleich/depot");
+    const scalable = depot?.anbieter.find((a) => a.id === "scalable-capital-depot-at");
+    expect(scalable?.werte.zinsfreiAbStart ?? null).toBeNull();
+  });
+});
+
+describe("Schweiz in Vorbereitung (DACH1, Prüfung M-3)", () => {
+  it("die Schweizer Depot- und Girokonto-Seite zeigen trotz Daten nur „In Vorbereitung“", () => {
+    for (const [pfad, Seite] of [["/ch/vergleich/depot", <VergleichDepot key="d" />]] as const) {
+      const { container, unmount } = zeige(pfad, Seite);
+      expect(container.textContent).toContain("In Vorbereitung");
+      expect(container.textContent).not.toContain("Swissquote");
+      expect(container.querySelectorAll("table").length).toBe(0);
+      unmount();
+    }
+    expect(landFreigegeben("ch", "/vergleich/girokonto")).toBe(false);
   });
 });

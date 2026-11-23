@@ -105,7 +105,7 @@ const JumpLink = ({ to, children, light = false }: { to: "#start" | "#los"; chil
   </div>
 );
 
-const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
+const VideoHinweis = ({ anbieter, vergleich = "/vergleich/depot" }: { anbieter: string; vergleich?: string }) => (
   <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[13px] leading-snug text-muted-foreground">
     <span>
       (Dieses Beispielvideo zeigt die App von Scalable Capital. Bei {anbieter} unterscheidet sich die Einrichtung nur
@@ -124,7 +124,7 @@ const VideoHinweis = ({ anbieter }: { anbieter: string }) => (
           Die Schritte sind bei allen Brokern gleich: Konto eröffnen, Ausweis bestätigen, Geld einzahlen und die
           erste Anlage wählen. Bei {anbieter} heißen nur die Menüs anders. Welche Halal-Anlagen es dort gibt, siehst du
           im{" "}
-          <Link to="/vergleich/depot" className="text-primary underline underline-offset-2">
+          <Link to={vergleich} className="text-primary underline underline-offset-2">
             Depot-Vergleich
           </Link>
           .
@@ -267,7 +267,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
         title={`${istSteuer ? "Deine" : "Dein"} ${seitenWort} bei ${partner.anbieter} | finanzmuslim`}
         description={
           istDepot
-            ? `Schritt für Schritt zum islamkonformen Depot bei ${partner.anbieter}.`
+            ? `Schritt für Schritt zum ${partner.zinsBelegFehlt ? "" : "islamkonformen "}Depot bei ${partner.anbieter}.`
             : istKrypto
               ? `Schritt für Schritt zum zinsfreien Krypto-Konto bei ${partner.anbieter}.`
               : istSteuer
@@ -387,7 +387,13 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
                   </button>
                 )}
               </div>
-              {partner.videoHinweis && <VideoHinweis anbieter={partner.anbieter} />}
+              {partner.videoHinweis && (
+                <VideoHinweis
+                  anbieter={partner.anbieter}
+                  /* DACH1: Startseiten für Österreich und die Schweiz führen in den Vergleich ihres Landes. */
+                  vergleich={/-at$/.test(partner.kurzname) ? "/at/vergleich/depot" : /-ch$/.test(partner.kurzname) ? "/ch/vergleich/depot" : "/vergleich/depot"}
+                />
+              )}
             </div>
           )}
 
@@ -644,7 +650,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
           </h2>
           <p className="reveal mt-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
             {istDepot
-              ? "Schritt für Schritt, und dein Halal-Depot steht."
+              ? `Schritt für Schritt, und dein ${partner.zinsBelegFehlt ? "" : "Halal-"}Depot steht.`
               : istSteuer
                 ? "Ausfüllen, Erstattung sehen, dann entscheiden."
                 : istApp
@@ -699,7 +705,7 @@ const InvestmentStartSeite = ({ partner }: { partner: StartPartner }) => {
             <div className="hidden min-w-0 flex-1 md:block">
               <p className="truncate text-[15px] font-semibold text-foreground">
                 {istDepot
-                  ? `Dein Halal-Depot bei ${partner.anbieter}`
+                  ? `Dein ${partner.zinsBelegFehlt ? "" : "Halal-"}Depot bei ${partner.anbieter}`
                   : istSteuer
                     ? `Deine Steuererklärung bei ${partner.anbieter}`
                     : istApp
