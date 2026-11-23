@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Seo from "@/components/Seo";
+import { LandWahl } from "@/components/land/LandWahl";
+import { hatLandVersion, landFreigegeben, landHatFreigegebenes } from "@/data/land";
+import { LAENDER, landPfad, type Land } from "@/lib/land";
+import { useLand } from "@/lib/useLand";
 import { ANZAHL_APPS, ANZAHL_HALAL_ANLAGEN, ANZAHL_STEUERPROGRAMME, zahlwort } from "@/data/anzahlen";
 
 type Vergleich = { name: string; desc: string; icon: LucideIcon; to?: string };
@@ -107,7 +111,11 @@ const bewertung = [
   "Mit Stern markierte Links sind Werbe- oder Affiliate-Links.",
 ];
 
-const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
+const Kachel = ({ name, desc, icon: Icon, to: toDe, land = "de" }: Vergleich & { land?: Land }) => {
+  /* DACH1: In Österreich und der Schweiz führt die Kachel in die Länderversion, wenn es sie gibt und sie fertig ist.
+     Ohne Länderversion bleibt die Kachel bei Deutschland (Halal-Anlagen, Check), eine unfertige steht grau mit „bald“. */
+  const hatVersion = toDe ? hatLandVersion(toDe) : false;
+  const to = toDe && land !== "de" && hatVersion && landFreigegeben(land, toDe) ? landPfad(toDe, land) : toDe && land !== "de" && hatVersion ? undefined : toDe;
   const inhalt = (
     <>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
@@ -142,22 +150,31 @@ const Kachel = ({ name, desc, icon: Icon, to }: Vergleich) => {
   );
 };
 
-const Vergleiche = () => (
+const Vergleiche = () => {
+  const land = useLand();
+  /* Eine Länderübersicht ohne einen einzigen fertigen Vergleich bleibt aus dem Index (noindex, nicht in der Sitemap). */
+  const leer = land !== "de" && !landHatFreigegebenes(land);
+  return (
   <main className="bg-background">
     <Seo
-      title="Halal Depot, Konto und Börse im Vergleich | finanzmuslim"
+      title={land === "de" ? "Halal Depot, Konto und Börse im Vergleich | finanzmuslim" : `Halal Depot, Konto und Börse im Vergleich (${LAENDER[land].name}) | finanzmuslim`}
       description="Vergleiche Depots, Girokonten, Krypto-Börsen, Edelmetalle und Screening-Apps nach Halal-Merkmalen: ohne Zinsen nutzbar, geprüfte Anlagen und Kosten."
-      path="/vergleiche"
-      brotkrumen={[{ name: "Vergleiche", path: "/vergleiche" }]}
+      path={landPfad("/vergleiche", land)}
+      noindex={leer}
+      locale={LAENDER[land].hreflang.replace("-", "_")}
+      brotkrumen={[{ name: "Vergleiche", path: landPfad("/vergleiche", land) }]}
     />
     <div className="container py-10 md:py-14">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
       <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground">
-        <Link to="/" className="hover:text-primary">
+        <Link to="/" className="hidden hover:text-primary sm:inline">
           Start
         </Link>
-        <ChevronRight className="h-3.5 w-3.5" aria-hidden />
+        <ChevronRight className="hidden h-3.5 w-3.5 sm:block" aria-hidden />
         <span className="text-foreground">Vergleiche</span>
       </nav>
+      <LandWahl />
+      </div>
 
       <header className="mt-6 max-w-3xl">
         <h1 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">Anbieter im Vergleich</h1>
@@ -182,7 +199,7 @@ const Vergleiche = () => (
             </h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {gruppe.eintraege.filter((v) => v.to).map((v) => (
-                <Kachel key={v.name} {...v} />
+                <Kachel key={v.name} {...v} land={land} />
               ))}
             </div>
           </section>
@@ -216,6 +233,7 @@ const Vergleiche = () => (
       </section>
     </div>
   </main>
-);
+  );
+};
 
 export default Vergleiche;

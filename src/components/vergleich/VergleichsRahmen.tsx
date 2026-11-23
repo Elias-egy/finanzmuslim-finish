@@ -10,6 +10,8 @@ import { DepotInhalt } from "./DepotKarten";
 import { STIL_BLAU } from "./karteStil";
 import type { RohAnbieter } from "@/data/vergleichHelfer";
 import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
+import { landPfad } from "@/lib/land";
+import { useLand } from "@/lib/useLand";
 
 /**
  * Die Bauteile, die bei Finanzfluss auf jeder Vergleichsseite gleich sind:
@@ -20,22 +22,27 @@ import type { VergleichsSpalte, VergleichsZeile } from "./vergleichTypen";
  * und ein dritter Vergleich nur noch die Daten mitbringen muss.
  */
 
-export const VergleichsBrotkrumen = ({ titel }: { titel: string }) => (
+export const VergleichsBrotkrumen = ({ titel, mitLandWahl = false }: { titel: string; mitLandWahl?: boolean }) => {
+  /* DACH1: auf einer Länderseite führt „Vergleiche“ in die Übersicht desselben Landes. */
+  const land = useLand();
+  return (
   <nav
     aria-label="Brotkrumen"
-    className="flex flex-wrap items-center gap-1 text-[13px] text-muted-foreground"
+    className={`flex items-center gap-1 text-[13px] text-muted-foreground ${mitLandWahl ? "min-w-0 flex-1 flex-nowrap sm:flex-none sm:flex-wrap" : "flex-wrap"}`}
   >
-    <Link to="/" className="hover:text-primary">
+    {/* Mit Länderwahl daneben fehlt am Handy der Platz: „Start“ entfällt dort, das Menü oben führt dahin. */}
+    <Link to="/" className={`hover:text-primary ${mitLandWahl ? "hidden sm:inline" : ""}`}>
       Start
     </Link>
-    <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-    <Link to="/vergleiche" className="hover:text-primary">
+    <ChevronRight className={`h-3.5 w-3.5 ${mitLandWahl ? "hidden sm:block" : ""}`} aria-hidden />
+    <Link to={landPfad("/vergleiche", land)} className="hover:text-primary">
       Vergleiche
     </Link>
     <ChevronRight className="h-3.5 w-3.5" aria-hidden />
-    <span className="text-foreground">{titel}</span>
+    <span className={`text-foreground ${mitLandWahl ? "min-w-0 truncate sm:overflow-visible" : ""}`}>{titel}</span>
   </nav>
-);
+  );
+};
 
 /**
  * Kennzahlen und Prüfdatum, nur am Laptop, rechts unter der Nummer 1. Ohne Foto

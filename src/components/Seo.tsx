@@ -51,6 +51,13 @@ export type SeoProps = {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** Stufen ohne "Start", das steht immer vorn. Ergibt eine BreadcrumbList. */
   brotkrumen?: { name: string; path: string }[];
+  /**
+   * Länderversionen derselben Seite (DACH1): je Eintrag `hreflang` ("de-DE", "de-AT", "de-CH") und Pfad. Nur fertige
+   * Versionen gehören hierher, jede Seite nennt auch sich selbst, `x-default` ist die deutsche Fassung.
+   */
+  alternates?: { hreflang: string; path: string }[];
+  /** `og:locale`, Standard "de_DE". */
+  locale?: string;
 };
 
 /** WebPage-Schema aus den Angaben, die ohnehin schon da sind. */
@@ -76,7 +83,7 @@ const breadcrumb = (stufen: { name: string; path: string }[]) => ({
   })),
 });
 
-const Seo = ({ title, description, path, image, noindex, jsonLd, brotkrumen }: SeoProps) => {
+const Seo = ({ title, description, path, image, noindex, jsonLd, brotkrumen, alternates, locale = "de_DE" }: SeoProps) => {
   const url = `${SITE}${path}`;
   const og = image ?? DEFAULT_OG;
 
@@ -102,7 +109,7 @@ const Seo = ({ title, description, path, image, noindex, jsonLd, brotkrumen }: S
 
     setMeta("property", "og:type", "website");
     setMeta("property", "og:site_name", "finanzmuslim");
-    setMeta("property", "og:locale", "de_DE");
+    setMeta("property", "og:locale", locale);
     setMeta("property", "og:url", url);
     setMeta("property", "og:title", title);
     setMeta("property", "og:description", description);
@@ -120,7 +127,25 @@ const Seo = ({ title, description, path, image, noindex, jsonLd, brotkrumen }: S
       document.head.appendChild(link);
     }
     link.href = url;
-  }, [title, description, url, og, noindex]);
+  }, [title, description, url, og, noindex, locale]);
+
+  // hreflang der Länderversionen. Beim Routenwechsel räumt die Aufräumfunktion sie weg, sonst stünden die Verweise der
+  // vorigen Seite im <head> der nächsten.
+  const alternatesText = alternates?.length ? JSON.stringify(alternates) : "";
+  useEffect(() => {
+    if (!alternatesText || noindex) return;
+    const liste = JSON.parse(alternatesText) as { hreflang: string; path: string }[];
+    const gesetzt = liste.map((a) => {
+      const el = document.createElement("link");
+      el.rel = "alternate";
+      el.hreflang = a.hreflang;
+      el.href = `${SITE}${a.path}`;
+      el.dataset.seo = "hreflang";
+      document.head.appendChild(el);
+      return el;
+    });
+    return () => gesetzt.forEach((el) => el.remove());
+  }, [alternatesText, noindex]);
 
   // JSON-LD getrennt: muss beim Routenwechsel wieder verschwinden, sonst
   // sammeln sich die Schemata der zuvor besuchten Seiten im <head> an.

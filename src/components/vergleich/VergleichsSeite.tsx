@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { ArrowRight, ChevronDown, Search, ShieldCheck, SlidersHorizontal } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import eliasAutor from "@/assets/elias-autor.webp";
 import Seo, { vergleichJsonLd } from "@/components/Seo";
 import { Switch } from "@/components/ui/switch";
@@ -29,6 +29,13 @@ import {
 import { LINK_VORRANG, rangfolge, type RangKategorie } from "@/lib/rangfolge";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 import { ANSICHT_A3, ansichtA3, platzZeilen, type AnsichtEintrag } from "@/lib/platzAnsicht";
+import { LandWahl } from "@/components/land/LandWahl";
+import { LandInVorbereitung } from "@/components/land/LandInVorbereitung";
+import { freigegebeneLaender, hatLandVersion, landVergleich } from "@/data/land";
+import { BEISPIEL_EINTRAG } from "@/data/land/beispiel";
+import { finanzMaxFuerLand, LAND_SPRACHE, zeilenFuerLand } from "@/data/land/landTexte";
+import { LAENDER, landPfad } from "@/lib/land";
+import { useLand } from "@/lib/useLand";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
 /** „29.10.2026“ wird „29. Oktober 2026“, wie bei Finanzfluss „Aktualisiert am: 7. November 2026“. */
@@ -169,37 +176,75 @@ export const VergleichsSeite = ({
   untertitel,
   seoTitel,
   seoText,
-  einleitung,
   einheit,
-  zeilen,
-  anbieter,
+  zeilen: zeilenDe,
+  anbieter: anbieterDe,
   filter,
-  stand,
-  standHinweis,
+  stand: standDe,
+  standHinweis: standHinweisDe,
   kategorie,
-  finanzMax,
+  finanzMax: finanzMaxDe,
   ohneNummerEins = false,
   sortiertNach,
   giro,
   depot,
-  quellenHinweis,
+  quellenHinweis: quellenHinweisDe,
   kriterien,
   kriterienTitel = "Worauf wir bei Halal achten",
   kennzahlen,
   reihenfolge,
   zusatz,
-  vorneweg,
+  vorneweg: vorneWegDe,
   auszeichnungen,
-  faq,
-  ratgeber,
+  faq: faqDe,
+  ratgeber: ratgeberDe,
   weiterlesen,
   schluss,
-  ansichtAlle,
+  ansichtAlle: ansichtAlleDe,
+  einleitung: einleitungDe,
 }: VergleichsSeiteProps) => {
   const sortiertUnten = Boolean(giro && sortiertNach);
   const stil = Boolean(giro || depot);
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
+
+  /* DACH1 (23.11.2026): Länderversionen. Die Adresse sagt das Land (`/at/…`, `/ch/…`), `pfad` bleibt die deutsche
+     Grundadresse. Ohne fertige Liste zeigt die Seite „in Vorbereitung“, nichts wird aus Deutschland übernommen. Mit
+     `?beispiel=1` im Entwicklungsserver steht ein erfundener Beispielanbieter drin, nur um das Bild zu sehen. */
+  const land = useLand();
+  const { search } = useLocation();
+  const eigeneListe = land !== "de" ? landVergleich(land, pfad) : null;
+  const beispiel = import.meta.env.DEV && land !== "de" && new URLSearchParams(search).get("beispiel") === "1";
+  const anbieter = land === "de" ? anbieterDe : beispiel ? [BEISPIEL_EINTRAG] : (eigeneListe?.anbieter ?? []);
+  if (land !== "de" && anbieter.length === 0) {
+    return <LandInVorbereitung land={land} pfad={pfad} brotkrumen={brotkrumen} titel={titel} />;
+  }
+  const zeilen = land === "de" ? zeilenDe : zeilenFuerLand(zeilenDe, land);
+  const finanzMax = land === "de" || !finanzMaxDe ? finanzMaxDe : finanzMaxFuerLand(finanzMaxDe, land);
+  const stand = land === "de" ? standDe : (eigeneListe?.stand ?? standDe);
+  const standHinweis = land === "de" ? standHinweisDe : undefined;
+  const quellenHinweis = land === "de" ? quellenHinweisDe : (eigeneListe?.quellenHinweis ?? "");
+  const ansichtAlle = land === "de" ? ansichtAlleDe : undefined;
+  const ratgeber = land === "de" ? ratgeberDe : undefined;
+  const vorneweg = land === "de" ? vorneWegDe : undefined;
+  const faq = land === "de" ? faqDe : [];
+  const einleitung =
+    land === "de" ? (
+      einleitungDe
+    ) : (
+      <p>{LAND_SPRACHE[land].einleitung}</p>
+    );
+  const landSeite = land !== "de" ? LAND_SPRACHE[land] : null;
+  const seoPfad = landPfad(pfad, land);
+  /* hreflang nur, wenn es mindestens zwei fertige Fassungen gibt; jede Seite nennt sich selbst, x-default ist Deutschland. */
+  const fassungen = hatLandVersion(pfad) ? freigegebeneLaender(pfad) : [];
+  const alternates =
+    fassungen.length > 1
+      ? [
+          ...fassungen.map((l) => ({ hreflang: LAENDER[l].hreflang, path: landPfad(pfad, l) })),
+          { hreflang: "x-default", path: landPfad(pfad, "de") },
+        ]
+      : undefined;
 
   const umschalten = (key: string) =>
     setAktiv((alt) =>
@@ -295,26 +340,41 @@ export const VergleichsSeite = ({
   return (
     <main className="bg-background">
       <Seo
-        title={seoTitel}
-        description={seoText}
-        path={pfad}
+        title={landSeite ? `${seoTitel} (${landSeite.seoZusatz})` : seoTitel}
+        description={landSeite ? `${seoText} Für ${landSeite.seoZusatz}.` : seoText}
+        path={seoPfad}
+        noindex={beispiel}
+        alternates={alternates}
+        locale={LAENDER[land].hreflang.replace("-", "_")}
         jsonLd={vergleichJsonLd({
           titel: seoTitel,
           beschreibung: seoText,
-          path: pfad,
+          path: seoPfad,
           faq,
           stand,
           anbieter: spalten.map((sp) => sp.anbieter),
         })}
         brotkrumen={[
-          { name: "Vergleiche", path: "/vergleiche" },
-          { name: brotkrumen, path: pfad },
+          { name: "Vergleiche", path: landPfad("/vergleiche", land) },
+          { name: brotkrumen, path: seoPfad },
         ]}
       />
 
       <div className={`container flex flex-col py-6 md:py-10 ${RASTER} ${kopfFF ? RASTER_KOPF_FF : sieger ? RASTER_KASTEN_BREIT : ""}`}>
         <div className={sieger ? KOPF_LINKS : BREIT}>
-          <VergleichsBrotkrumen titel={brotkrumen} />
+          {hatLandVersion(pfad) ? (
+            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+              <VergleichsBrotkrumen titel={brotkrumen} mitLandWahl />
+              <LandWahl />
+            </div>
+          ) : (
+            <VergleichsBrotkrumen titel={brotkrumen} />
+          )}
+          {beispiel && (
+            <p className="mt-3 rounded-lg border border-warning/50 bg-warning/10 px-4 py-2 text-[14px] text-foreground">
+              Nur Entwicklung: erfundene Beispieldaten, nicht live.
+            </p>
+          )}
         </div>
 
         {/* Handy: `contents`, damit die Einleitung per `order` unter die Liste rutschen kann.
@@ -590,7 +650,7 @@ export const VergleichsSeite = ({
 
         {ratgeber ? (
           <div className={`${AM_ENDE} ${BREIT}`}>{ratgeber}</div>
-        ) : (
+        ) : faq.length === 0 ? null : (
         <section className={`${AM_ENDE} ${BREIT} mt-14 max-w-3xl`}>
           <h2 className="text-2xl font-bold text-foreground">Häufige Fragen</h2>
           <Accordion type="single" collapsible className="mt-4">

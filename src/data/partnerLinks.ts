@@ -26,6 +26,12 @@ export type PartnerLink = {
   ziel: string;
   aktiv: boolean;
   notiz: string;
+  /**
+   * Für welches Land der Link gilt (DACH1, 23.11.2026). Ohne Angabe Deutschland. Ein Link für Österreich oder die Schweiz
+   * trägt `"at"` oder `"ch"` und seinen Kurznamen mit `-at` oder `-ch` am Ende (`trade-republic-at`), damit er nie mit dem
+   * deutschen Link desselben Anbieters verwechselt wird. Die Länderlisten in `src/data/land/` verweisen nur auf solche Links.
+   */
+  land?: "de" | "at" | "ch";
 };
 
 export const partnerLinks: PartnerLink[] = [
