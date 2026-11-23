@@ -39,6 +39,22 @@ export type LandVergleich = {
   /** Woher Kosten und Konditionen stammen, steht unter der Tabelle. */
   quellenHinweis: string | null;
   anbieter: RohAnbieter[];
+  /**
+   * Feste Rangfolge (Anbieter-IDs, Platz 1 zuerst), wie sie der deutsche Code bis 15.11.2026 mit `LESER_REIHENFOLGE`
+   * setzte (Commit 55cb5c8, Regel 7 alt). Quelle der Reihenfolge: die Rangfolge-Entscheidung des Landes (DACH1). Regel 6
+   * gilt weiter: Hat Platz 1 keinen eigenen Link oder keine Note ohne Einschränkung, rückt der erste mit beidem nach vorn.
+   * Die Note steht nur, wenn sie in dieser Reihenfolge absteigt (Elias A11: „Zahl und Sterne immer absteigend“).
+   */
+  reihenfolge?: string[];
+  /** Sätze oben auf der Länderseite statt des allgemeinen Satzes aus `landTexte.ts`. */
+  einleitung?: string[];
+  /**
+   * Wie viele Halal-Anlagen je Zeile im Land zählen (nur dort zum Vertrieb zugelassene Papiere), für Note und „x von y“.
+   * Ohne Angabe die deutschen 12, 3 und 7.
+   */
+  anteilN?: Record<string, number>;
+  /** Kasten „Worauf wir achten“, wenn der deutsche Text im Land nicht stimmt. */
+  kriterien?: Array<{ titel: string; text: string }>;
 };
 
 export type LandDaten = Record<LandSchluessel, LandVergleich>;

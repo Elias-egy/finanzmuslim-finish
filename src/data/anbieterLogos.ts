@@ -98,6 +98,16 @@ export const ANBIETER_LOGOS: Record<string, LogoEintrag> = {
   "wise.com": { datei: "/logos/wise.com.svg" },
   "xtb.com": { datei: "/logos/xtb.com.svg", hoehe: 28.8 },
   "zoya.finance": { datei: "/logos/zoya.finance.png" },
+  // DACH1 (23.11.2026): Österreich und Schweiz. Herkunft je Datei in docs/LOGOS.md. ubs.com fehlt (Seite sperrt Abruf).
+  "easybank.at": { datei: "/logos/easybank.at.svg" },
+  "bank99.at": { datei: "/logos/bank99.at.svg" },
+  "bawag.at": { datei: "/logos/bawag.at.svg" },
+  "dad.at": { datei: "/logos/dad.at.png" },
+  "coinfinity.co": { datei: "/logos/coinfinity.co.svg" },
+  "home.saxo": { datei: "/logos/home.saxo.svg" },
+  "swissquote.com": { datei: "/logos/swissquote.com.svg" },
+  "neon-free.ch": { datei: "/logos/neon-free.ch.svg" },
+  "migrosbank.ch": { datei: "/logos/migrosbank.ch.svg" },
 };
 
 /** Fläche, die ein Logo ohne Finanzfluss-Maß bekommt: so viel Schrift wie im Mittel bei Finanzfluss (rund 2.000 px²). */

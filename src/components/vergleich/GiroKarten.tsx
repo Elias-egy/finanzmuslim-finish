@@ -19,9 +19,16 @@ export type GiroWerte = {
   geldautomaten: string | null | undefined;
   girocard: string | null | undefined;
   debitkarte: string | null | undefined;
+  /**
+   * DACH1: Österreich und die Schweiz haben keine Girocard und keine deutsche Automatenzahl (Zeilen fehlen dort,
+   * `landTexte.ts`). Dann zeigen die Kacheln statt dessen kostenlose Abhebungen und die Kartenzahlung in Fremdwährung.
+   */
+  ohneGirocard?: boolean;
+  abhebungen?: string | null;
+  fremdZahlen?: string | null;
 };
 
-export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").trim();
+export const euro = (s: string) => s.replace(/(\d)\s*€/g, "$1 €").replace(/(\d)\s*CHF/g, "$1 CHF").trim();
 
 /** „0 € ab 700 € Geldeingang“ wird Betrag „0 €“ und Zusatz „ab 700 € Geldeingang“. */
 const kontofuehrungTeile = (w: GiroWerte): { betrag: string; zusatz?: string } | null => {
@@ -38,7 +45,7 @@ const girocardTeile = (s: string | null | undefined): string | null => {
 /** „VISA, 0€“ wird Marke „VISA“ und Preis „0 €“. */
 const debitTeile = (s: string | null | undefined): { marke: string; preis: string | null } | null => {
   if (!s || /^keine/i.test(s)) return null;
-  const m = /^(.*?),\s*(\d[\d.,]*\s*€)\s*$/.exec(s.trim());
+  const m = /^(.*?),\s*(\d[\d.,]*\s*(?:€|CHF))\s*$/.exec(s.trim());
   return m ? { marke: m[1], preis: euro(m[2]) } : { marke: s.trim(), preis: null };
 };
 
@@ -111,19 +118,32 @@ export const GiroKacheln = ({ w }: { w: GiroWerte }) => {
           <Wert leise>–</Wert>
         )}
       </Kachel>
-      <Kachel label="Geldautomaten">
-        {w.geldautomaten ? <Wert>{w.geldautomaten}</Wert> : <Wert leise>–</Wert>}
-      </Kachel>
-      <Kachel label="Girocard (Monat)">
-        {gc ? (
-          <>
-            <Wert>{gc}</Wert>
-            <GirocardBild />
-          </>
-        ) : (
-          <Wert leise>Keine</Wert>
-        )}
-      </Kachel>
+      {w.ohneGirocard ? (
+        <>
+          <Kachel label="Abheben">
+            {w.abhebungen ? <span className="text-[14px] font-bold leading-tight text-foreground">{euro(w.abhebungen)}</span> : <Wert leise>–</Wert>}
+          </Kachel>
+          <Kachel label="Zahlen in Fremdwährung">
+            {w.fremdZahlen ? <Wert>{euro(w.fremdZahlen)}</Wert> : <Wert leise>–</Wert>}
+          </Kachel>
+        </>
+      ) : (
+        <>
+          <Kachel label="Geldautomaten">
+            {w.geldautomaten ? <Wert>{w.geldautomaten}</Wert> : <Wert leise>–</Wert>}
+          </Kachel>
+          <Kachel label="Girocard (Monat)">
+            {gc ? (
+              <>
+                <Wert>{gc}</Wert>
+                <GirocardBild />
+              </>
+            ) : (
+              <Wert leise>Keine</Wert>
+            )}
+          </Kachel>
+        </>
+      )}
       <Kachel label="Debitkarte (Monat)">
         {db ? (
           <>

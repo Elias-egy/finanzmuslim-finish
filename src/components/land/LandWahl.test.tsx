@@ -3,6 +3,8 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeAll, describe, expect, it } from "vitest";
 import { LandWahl } from "@/components/land/LandWahl";
 import VergleichDepot from "@/pages/VergleichDepot";
+import VergleichKrypto from "@/pages/VergleichKrypto";
+import { landFreigegeben } from "@/data/land";
 import Vergleiche from "@/pages/Vergleiche";
 
 beforeAll(() => {
@@ -39,12 +41,22 @@ describe("Länderwahl (DACH1)", () => {
 
 describe("Länderseite ohne Liste (DACH1)", () => {
   it("zeigt „In Vorbereitung“ statt erfundener Anbieter und führt zur deutschen Seite", () => {
-    const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
+    // Schweiz Krypto ist noch ein Entwurf (src/data/land/schweiz.ts).
+    expect(landFreigegeben("ch", "/vergleich/krypto")).toBe(false);
+    const { container } = zeige("/ch/vergleich/krypto", <VergleichKrypto />);
     expect(container.textContent).toContain("In Vorbereitung");
-    expect(container.textContent).not.toContain("flatex");
+    expect(container.textContent).not.toContain("Bitvavo");
     expect(container.querySelectorAll("table").length).toBe(0);
     const zurueck = [...container.querySelectorAll("a")].find((a) => a.textContent === "Deutschland ansehen") as HTMLAnchorElement;
-    expect(zurueck.getAttribute("href")).toBe("/vergleich/depot");
+    expect(zurueck.getAttribute("href")).toBe("/vergleich/krypto");
+  });
+
+  it("eine fertige Länderliste zeigt ihre eigenen Anbieter, nie die deutsche Liste", () => {
+    const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
+    expect(container.textContent).toContain("Steuereinfach (KESt wird abgeführt)");
+    expect(container.textContent).toContain("DADAT");
+    expect(container.textContent).not.toContain("norisbank");
+    expect(container.textContent).not.toContain("Comdirect");
   });
 
   it("die deutsche Seite hat ihre Länderwahl und ihre Anbieter", () => {
@@ -53,10 +65,14 @@ describe("Länderseite ohne Liste (DACH1)", () => {
     expect(container.textContent).toContain("flatex");
   });
 
-  it("Übersicht Österreich: Kacheln ohne fertige Version stehen grau, kein Link in eine leere Seite", () => {
-    const { container } = zeige("/at/vergleiche", <Vergleiche />);
+  it("Übersicht Schweiz: Kacheln ohne fertige Version stehen grau, kein Link in eine leere Seite", () => {
+    const { container } = zeige("/ch/vergleiche", <Vergleiche />);
     const links = [...container.querySelectorAll("a")].map((a) => a.getAttribute("href") ?? "");
-    expect(links.some((h) => h.startsWith("/at/vergleich/"))).toBe(false);
+    for (const pfad of ["/vergleich/krypto", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
+      expect(landFreigegeben("ch", pfad), pfad).toBe(false);
+      expect(links.includes(`/ch${pfad}`), pfad).toBe(false);
+    }
+    expect(links.includes("/ch/vergleich/depot")).toBe(true);
     expect(container.querySelectorAll('[aria-disabled="true"]').length).toBeGreaterThan(0);
   });
 });

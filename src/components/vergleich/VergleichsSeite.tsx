@@ -35,6 +35,7 @@ import { freigegebeneLaender, hatLandVersion, landVergleich } from "@/data/land"
 import { BEISPIEL_EINTRAG } from "@/data/land/beispiel";
 import { finanzMaxFuerLand, LAND_SPRACHE, zeilenFuerLand } from "@/data/land/landTexte";
 import { LAENDER, landPfad } from "@/lib/land";
+import { festeOrdnung } from "@/lib/landRangfolge";
 import { useLand } from "@/lib/useLand";
 
 /** Vergleiche, für die es den geführten Einstieg gibt. */
@@ -185,15 +186,15 @@ export const VergleichsSeite = ({
   kategorie,
   finanzMax: finanzMaxDe,
   ohneNummerEins = false,
-  sortiertNach,
+  sortiertNach: sortiertNachDe,
   giro,
   depot,
   quellenHinweis: quellenHinweisDe,
-  kriterien,
+  kriterien: kriterienDe,
   kriterienTitel = "Worauf wir bei Halal achten",
   kennzahlen,
   reihenfolge,
-  zusatz,
+  zusatz: zusatzDe,
   vorneweg: vorneWegDe,
   auszeichnungen,
   faq: faqDe,
@@ -203,7 +204,7 @@ export const VergleichsSeite = ({
   ansichtAlle: ansichtAlleDe,
   einleitung: einleitungDe,
 }: VergleichsSeiteProps) => {
-  const sortiertUnten = Boolean(giro && sortiertNach);
+  const sortiertUnten = Boolean(giro && sortiertNachDe);
   const stil = Boolean(giro || depot);
   const [aktiv, setAktiv] = useState<string[]>([]);
   const [filterOffen, setFilterOffen] = useState(false);
@@ -227,14 +228,35 @@ export const VergleichsSeite = ({
   const ansichtAlle = land === "de" ? ansichtAlleDe : undefined;
   const ratgeber = land === "de" ? ratgeberDe : undefined;
   const vorneweg = land === "de" ? vorneWegDe : undefined;
+  /* Der freie Abschnitt unter der Tabelle ist deutscher Text (Edelmetalle: Händler in Deutschland, deutsches Steuerrecht). */
+  const zusatz = land === "de" ? zusatzDe : undefined;
+  const kriterien = (!beispiel && eigeneListe?.kriterien) || kriterienDe;
   const faq = land === "de" ? faqDe : [];
   const einleitung =
     land === "de" ? (
       einleitungDe
+    ) : eigeneListe?.einleitung && !beispiel ? (
+      <>
+        {eigeneListe.einleitung.map((satz) => (
+          <p key={satz}>{satz}</p>
+        ))}
+      </>
     ) : (
       <p>{LAND_SPRACHE[land].einleitung}</p>
     );
   const landSeite = land !== "de" ? LAND_SPRACHE[land] : null;
+  /* Feste Rangfolge eines Landes: der Satz über der Liste sagt, wonach sie geordnet ist, nicht der deutsche Notensatz. */
+  const sortiertNach =
+    landSeite && eigeneListe?.reihenfolge && !beispiel ? (
+      <>
+        {landSeite.rangHinweis}{" "}
+        <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
+          So bewerten wir
+        </Link>
+      </>
+    ) : (
+      sortiertNachDe
+    );
   const seoPfad = landPfad(pfad, land);
   /* hreflang nur, wenn es mindestens zwei fertige Fassungen gibt; jede Seite nennt sich selbst, x-default ist Deutschland. */
   const fassungen = hatLandVersion(pfad) ? freigegebeneLaender(pfad) : [];
@@ -261,19 +283,30 @@ export const VergleichsSeite = ({
     }),
   );
 
-  const sieger =
-    kategorie && finanzMax && !ohneNummerEins
-      ? siegerDerSeite(anbieter, kategorie, finanzMax)
-      : null;
   /* Ist jeder Anbieter ohne rotes Zins-Merkmal gerankt, steht die Liste in der Reihenfolge der
      Rangfolge und jede Spalte trägt ihren Platz. Sonst bleibt es alphabetisch. */
   const rang =
-    kategorie && finanzMax ? rangfolge(anbieter, kategorie, { finanzMax }) : null;
-  const platz =
-    rang && rang.nichtBewertet.length === 0
+    kategorie && finanzMax ? rangfolge(anbieter, kategorie, { finanzMax, anteilN: beispiel ? undefined : eigeneListe?.anteilN }) : null;
+  /* DACH1: Länderlisten mit fester Rangfolge (`reihenfolge` in src/data/land/). Platz und Nummer 1 kommen aus
+     `festeOrdnung`, die Note nur, wenn sie in dieser Reihenfolge absteigt. */
+  const fest =
+    !beispiel && eigeneListe?.reihenfolge && kategorie
+      ? festeOrdnung(anbieter, eigeneListe.reihenfolge, kategorie, rang)
+      : null;
+  const sieger = fest
+    ? ohneNummerEins
+      ? null
+      : (anbieter.find((a) => a.id === fest.siegerId) ?? null)
+    : kategorie && finanzMax && !ohneNummerEins
+      ? siegerDerSeite(anbieter, kategorie, finanzMax)
+      : null;
+  const platz = fest
+    ? fest.platz
+    : rang && rang.nichtBewertet.length === 0
       ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.platz]))
       : null;
-  const noteVon = rang ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.note])) : null;
+  const noteVon =
+    rang && (!fest || fest.noteZeigen) ? new Map(rang.gerankt.map((b) => [b.anbieter.id, b.note])) : null;
   const nummerEinsText = auszeichnungen?.nummerEins ?? "Unsere Nummer 1";
   const meisteHalalId =
     auszeichnungen?.meisteHalal && platz ? meisteHalalVon(anbieter, zeilen, new Set(platz.keys()), sieger?.id) : null;
@@ -553,7 +586,7 @@ export const VergleichsSeite = ({
           )}
         </aside>
 
-        {!sieger && (
+        {!sieger && !fest && (
           <div className={BREIT}>
             {reihenfolge ?? <ReihenfolgeHinweis einheit={einheit} />}
           </div>

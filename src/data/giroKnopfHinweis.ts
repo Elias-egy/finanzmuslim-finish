@@ -11,7 +11,7 @@
  *   ohne Dispo ab Start, Karte ohne Kredit.
  * Keine Prämie im Satz: deals.ts führt bei der norisbank keine (200 € nur mit Tagesgeld).
  */
-export type GiroKnopfHinweis = { bank: "norisbank" | "bbbank"; titel: string; satz: string };
+export type GiroKnopfHinweis = { bank: "norisbank" | "bbbank" | "n26"; titel: string; satz: string };
 
 const NORISBANK: GiroKnopfHinweis = {
   bank: "norisbank",
@@ -25,6 +25,18 @@ const BBBANK: GiroKnopfHinweis = {
   satz: "Das Tagesgeld, das dabei ist, kannst du ignorieren. Klick einfach auf „Jetzt Konto eröffnen“.",
 };
 
+/**
+ * N26 Österreich (DACH1, 23.11.2026): Die Landeseite des Partnerlinks (n26.com/de-at/kostenloses-girokonto, Abruf
+ * 23.11.2026) nennt unten die Zinssätze des Tagesgeldkontos („Die Zinssätze für das N26 Tagesgeldkonto hängen von deinem
+ * N26 Hauptkonto ab“). Das Hauptkonto wird nicht verzinst (n26.com/de-at/sparkonto: „Die Zinsen werden nur auf dein Guthaben
+ * auf diesem separaten Tagesgeldkonto gezahlt.“), ein Überziehungsrahmen muss eigens aktiviert werden.
+ */
+const N26_AT: GiroKnopfHinweis = {
+  bank: "n26",
+  titel: "Girokonto komplett zinsfrei",
+  satz: "Das Tagesgeld, das N26 auf der Seite nennt, kannst du ignorieren. Eröffne einfach das kostenlose Standard-Konto.",
+};
+
 /** Je Schlüssel, wie ihn die Stellen kennen: Kürzel im Check, out-Kurzname, Kennung im Girokonto-Vergleich. */
 const JE_SCHLUESSEL: Record<string, GiroKnopfHinweis> = {
   no: NORISBANK,
@@ -32,9 +44,11 @@ const JE_SCHLUESSEL: Record<string, GiroKnopfHinweis> = {
   "norisbank-top-girokonto": NORISBANK,
   bb: BBBANK,
   "bbbank-bettersmart": BBBANK,
+  "n26-at": N26_AT,
+  "n26-standard-at": N26_AT,
 };
 
 export const giroKnopfHinweis = (schluessel: string | undefined): GiroKnopfHinweis | undefined =>
   schluessel ? JE_SCHLUESSEL[schluessel] : undefined;
 
-export const ALLE_GIRO_KNOPF_HINWEISE: GiroKnopfHinweis[] = [NORISBANK, BBBANK];
+export const ALLE_GIRO_KNOPF_HINWEISE: GiroKnopfHinweis[] = [NORISBANK, BBBANK, N26_AT];

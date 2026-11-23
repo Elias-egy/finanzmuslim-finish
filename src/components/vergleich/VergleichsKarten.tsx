@@ -107,6 +107,9 @@ export const giroWerteVon = (spalte: VergleichsSpalte): GiroWerte => ({
   geldautomaten: spalte.werte.geldautomaten?.text,
   girocard: spalte.werte.girocard?.text,
   debitkarte: spalte.werte.debitkarte?.text,
+  ohneGirocard: spalte.werte.girocard === undefined,
+  abhebungen: spalte.werte.abhebungen?.text,
+  fremdZahlen: spalte.werte.auslandFremdZahlen?.text,
 });
 
 const Karte = ({

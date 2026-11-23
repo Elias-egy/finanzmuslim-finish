@@ -79,6 +79,22 @@ const HAUS: Record<string, Eintrag> = {
   haspa: ohneZins("Girokonto"),
   ethikbank: nullProzent("Girokonto"),
   relai: gut(`In der Relai App gibt es keine Zinsen und kein Staking. ${NICHTS}`),
+
+  /* Österreich und Schweiz (DACH1, 23.11.2026), Belege in src/data/land/ */
+  "flatex-at": nullProzent(),
+  dadat: nullProzent("Verrechnungskonto"),
+  easybank: {
+    depot: nullProzent("Verrechnungskonto"),
+    girokonto: nullProzent("Girokonto"),
+  },
+  bank99: nullProzent("Konto"),
+  bawag: nullProzent("Konto"),
+  swissquote: nullProzent(),
+  neon: nullProzent("Konto"),
+  "migros-bank": nullProzent("Privatkonto"),
+  ubs: nullProzent("Privatkonto"),
+  "revolut-ch": gut(`Auf dein Guthaben im Konto zahlt Revolut keine Zinsen. ${NICHTS}`),
+  "n26-ch": gut(`Auf dein Guthaben im Konto zahlt N26 keine Zinsen. ${NICHTS}`),
   "21bitcoin": gut(`21bitcoin verleiht deine Bitcoin nicht, Zinsen gibt es keine. ${NICHTS}`),
 
   /* Zinsen nur auf einem eigenen Konto: nicht eröffnen, nichts einzahlen */

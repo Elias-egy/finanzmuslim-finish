@@ -197,6 +197,9 @@ export const NummerEins = ({
               geldautomaten: wert("geldautomaten"),
               girocard: wert("girocard"),
               debitkarte: wert("debitkarte"),
+              ohneGirocard: !zeilen.some((z) => z.key === "girocard"),
+              abhebungen: wert("abhebungen"),
+              fremdZahlen: wert("auslandFremdZahlen"),
             }}
             besonders={giro.besonders[anbieter.id]}
           />

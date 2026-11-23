@@ -93,6 +93,12 @@ export type RangOptionen = {
    * Kosten-Teil von Hand nachzurechnen; jede Seite rechnet mit.
    */
   beliebt?: boolean;
+  /**
+   * DACH1 (23.11.2026): Wie viele Anlagen je Halal-Zeile im Land zählen. Österreich und Schweiz zählen nur Papiere, die
+   * dort zum Vertrieb zugelassen sind (Länderlisten in `src/data/land/`). Standard `ANTEIL_N` (Deutschland, 12, 3, 7).
+   * Eine Zeile mit 0 fällt weg.
+   */
+  anteilN?: Record<string, number>;
 };
 
 /** Faktor auf den Halal-Teil, wenn Zinsen ab Start laufen und erst abgeschaltet werden müssen. */
@@ -313,10 +319,11 @@ const NUR_METALLE: Record<string, number> = { halalEdelmetalle: ANTEIL_N.halalEd
  * Gold- und Silber-ETCs und zur Hälfte alle Halal-Anlagen des Depots, wie im Depot-Vergleich. Kosten bleiben die Kosten
  * eines Kaufs (`EDELMETALL_FINANZ_MAX`). Fast alle Depots haben jedes Metall, so entschied vorher allein der Orderpreis.
  */
-const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>): Urteil => {
-  const u = depotUrteil(a, finanzMax, "edelmetall", NUR_METALLE);
+const edelmetallUrteil = (a: RohAnbieter, finanzMax: Record<string, number>, anteilN: Record<string, number> = ANTEIL_N): Urteil => {
+  const metalle = anteilN === ANTEIL_N ? NUR_METALLE : { halalEdelmetalle: anteilN.halalEdelmetalle ?? 0 };
+  const u = depotUrteil(a, finanzMax, "edelmetall", metalle);
   if (u.art !== "bewertet") return u;
-  const alle = depotHalal(a);
+  const alle = depotHalal(a, anteilN);
   const halal = (u.halal + alle.halal) / 2;
   return {
     ...u,
@@ -385,16 +392,16 @@ const screenerUrteil = (a: RohAnbieter): Urteil => {
   return { art: "bewertet", halal: transparenz, kosten: nutzen, note: halbe(transparenz, nutzen), uneingeschraenkt: true };
 };
 
-const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<string, number>): Urteil => {
+const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<string, number>, anteilN: Record<string, number> = ANTEIL_N): Urteil => {
   switch (kategorie) {
     case "steuer":
       return steuerUrteil(a);
     case "screener":
       return screenerUrteil(a);
     case "edelmetall":
-      return edelmetallUrteil(a, finanzMax);
+      return edelmetallUrteil(a, finanzMax, anteilN);
     case "depot":
-      return depotUrteil(a, finanzMax, kategorie);
+      return depotUrteil(a, finanzMax, kategorie, anteilN);
     default:
       return zinsUrteil(a, kategorie, finanzMax);
   }
@@ -407,11 +414,12 @@ const urteil = (a: RohAnbieter, kategorie: RangKategorie, finanzMax: Record<stri
  */
 export const unbelegteWerte = (a: RohAnbieter, kategorie: RangKategorie, opt: RangOptionen = {}): string[] => {
   const finanzMax = opt.finanzMax ?? STANDARD_FINANZ_MAX[kategorie] ?? {};
+  const anteilN = opt.anteilN ? Object.fromEntries(Object.entries(opt.anteilN).filter(([, n]) => n > 0)) : ANTEIL_N;
   if (kategorie === "depot" || kategorie === "edelmetall") {
     const tuer = a.werte[TOR];
     // Edelmetall rechnet seit 23.11.2026 alle Halal-Anlagen mit (`edelmetallUrteil`). Eine unbelegte ETF- oder Sukuk-Zeile
     // zählt dort 0 Punkte wie im Depot-Vergleich, nimmt das Depot aber nicht aus der Gold-Liste: Gefordert sind nur die Metalle.
-    const zeilen = kategorie === "depot" ? ANTEIL_N : NUR_METALLE;
+    const zeilen = kategorie === "depot" ? anteilN : opt.anteilN ? { halalEdelmetalle: anteilN.halalEdelmetalle ?? 0 } : NUR_METALLE;
     return [
       ...(tuer === "gut" || tuer === "teils" || tuer === "schlecht" ? [] : [TOR]),
       ...Object.entries(zeilen)
@@ -434,7 +442,7 @@ export const unbelegteWerte = (a: RohAnbieter, kategorie: RangKategorie, opt: Ra
       ...(typeof p === "number" && Number.isFinite(p) && p >= 0 ? [] : ["preisEinzel"]),
     ];
   }
-  const u = urteil(a, kategorie, finanzMax);
+  const u = urteil(a, kategorie, finanzMax, anteilN);
   return u.art === "offen" ? u.fehlt : [];
 };
 
@@ -443,12 +451,13 @@ const nachName = (p: RohAnbieter, q: RohAnbieter) =>
 
 export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategorie, opt: RangOptionen = {}): Rangliste => {
   const finanzMax = opt.finanzMax ?? STANDARD_FINANZ_MAX[kategorie] ?? {};
+  const anteilN = opt.anteilN ? Object.fromEntries(Object.entries(opt.anteilN).filter(([, n]) => n > 0)) : ANTEIL_N;
   const bewertet: Array<Omit<Bewertet, "platz">> = [];
   const nichtBewertet: NichtBewertet[] = [];
   const abgeraten: Abgeraten[] = [];
 
   for (const anbieter of liste) {
-    const u = urteil(anbieter, kategorie, finanzMax);
+    const u = urteil(anbieter, kategorie, finanzMax, anteilN);
     if (u.art === "abgeraten") abgeraten.push({ anbieter, grund: u.grund });
     else if (u.art === "offen") {
       const angefragt = opt.offeneAnfragen?.has(anbieter.haus ?? anbieter.id) ?? false;

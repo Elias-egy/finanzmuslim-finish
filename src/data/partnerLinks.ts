@@ -344,6 +344,91 @@ export const partnerLinks: PartnerLink[] = [
     aktiv: true,
     notiz: "Awin, Programm 13746 (Steuertipps DE), Standard-Link https://www.awin1.com/cread.php?awinmid=13746&awinaffid=3099915. Zugelassen, im Portal gesehen 09.11.2026, 15 % vom Netto-Warenkorb. Startseite mit Steuer-Aufbau (art steuer), Link mit clickref.",
   },
+  /* ------------------------------------------------------------------ Österreich und Schweiz (DACH1, 23.11.2026)
+     Nur angenommene Programme. Beantragt und noch ohne Link (Knopf „Beim Anbieter direkt abschließbar“ wie in Deutschland):
+     flatex Österreich (financeAds 335), DADAT (FinanceQuality 1563 und 1560), DKB über
+     financeAds (103). Ohne Programm: Trade Republic, Bitpanda, bank99, BAWAG, neon, Saxo, Swissquote, Migros Bank, UBS,
+     Revolut Schweiz, Bitvavo. Nachtrag nach Annahme: Liste in bau-daten.md im Arbeitsordner DACH1. */
+  {
+    kurzname: "scalable-at",
+    anbieter: "Scalable Capital",
+    ziel: "/dein-investmentstart/scalable-at",
+    aktiv: true,
+    notiz: "Scalable-Direktprogramm (PartnerID 1017), derselbe Link wie scalable. Konditionen Abschnitt 6: „Nur Neukunden mit DE/AT-Wohnsitz“ (Vault-Kopie Finanzmuslim Arbeit/1_FINANZMUSLIM/referenz/scalable/SCALABLE_KONDITIONEN.md, Zeile 62). Der financeAds-Antrag 1428 ist damit nicht nötig.",
+    land: "at",
+  },
+  {
+    kurzname: "traders-place-at",
+    anbieter: "Traders Place",
+    ziel: "/dein-investmentstart/traders-place-at",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 1981 (Gebiet DE und AT), Werbemittel 23712 (Textlink Home), Ziel aktion.tradersplace.de. Keine eigene AT-Gruppe.",
+    land: "at",
+  },
+  {
+    kurzname: "smartbroker-at",
+    anbieter: "Smartbroker+",
+    ziel: "/dein-investmentstart/smartbroker-at",
+    aktiv: true,
+    notiz: "financeAds, Programm 2968 (Gebiet DE und AT), Produkt „Kurzantrag AT“ 60 €. Ein eigenes AT-Werbemittel ist nicht erkennbar, deshalb derselbe Textlink wie in Deutschland (55636). AT-Tracking mit financeAds klären.",
+    land: "at",
+  },
+  {
+    kurzname: "dkb-depot-at",
+    anbieter: "DKB",
+    ziel: "/dein-investmentstart/dkb-depot-at",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 494 DKB-Broker (Gebiet DE und AT, laut DKB auch für Wohnsitz Österreich), Werbemittel 3886.",
+    land: "at",
+  },
+  {
+    kurzname: "dkb-girokonto-at",
+    anbieter: "DKB",
+    ziel: "/dein-investmentstart/dkb-girokonto-at",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 5 „DKB Girokonto Österreich“, Werbemittel 19257 (Textlink). Für Österreich nur diese Links, Legitimation nur per VideoIdent.",
+    land: "at",
+  },
+  {
+    kurzname: "n26-at",
+    anbieter: "N26",
+    ziel: "/dein-investmentstart/n26-at",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 1782, Gruppe N26 (AT), Werbemittel 24825 (N26 Standard), Ziel n26.com/de-at/kostenloses-girokonto.",
+    land: "at",
+  },
+  {
+    kurzname: "easybank-depot-at",
+    anbieter: "easybank",
+    ziel: "/dein-investmentstart/easybank-depot-at",
+    aktiv: true,
+    notiz: "financeAds, Programm 338 (angenommen 23.11.2026), Textlink Depot 104034, Ziel easybank.at/easybank/anlegen/wertpapierdepot. Nie Sparkonto, Kredit oder Businesskonto.",
+    land: "at",
+  },
+  {
+    kurzname: "easybank-girokonto-at",
+    anbieter: "easybank",
+    ziel: "/dein-investmentstart/easybank-girokonto-at",
+    aktiv: true,
+    notiz: "financeAds, Programm 338, Textlink Girokonto easy gratis 111906, Ziel easybank.at/easybank/konto/easy-gratis.",
+    land: "at",
+  },
+  {
+    kurzname: "finst-at",
+    anbieter: "Finst",
+    ziel: "/dein-investmentstart/finst-at",
+    aktiv: true,
+    notiz: "financeAds, Programm 5710 (Gebiet DE, AT, CH), Textlink 135756 wie in Deutschland.",
+    land: "at",
+  },
+  {
+    kurzname: "n26-ch",
+    anbieter: "N26",
+    ziel: "/dein-investmentstart/n26-ch",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 1782, Gruppe N26 (CH), Werbemittel 24747, Ziel n26.com/de-ch.",
+    land: "ch",
+  },
 ];
 
 /** Namen aller Anbieter mit aktivem Partnerlink, jeder einmal, nach Alphabet.
