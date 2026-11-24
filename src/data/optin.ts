@@ -52,7 +52,7 @@ export const optinFreebies: OptinFreebie[] = [
     deinObjekt: "dein Guide",
     ueberschrift: ["Dein Halal", "Starter Guide"],
     nutzen: "Erkenne Zinsen im Alltag, wechsle zu einem Konto ohne Zinsen und starte dein erstes Depot.",
-    knopf: "Guide zuschicken",
+    knopf: "Guide schicken",
     frage: "Du willst den Guide?",
     seite: "/guide",
   },

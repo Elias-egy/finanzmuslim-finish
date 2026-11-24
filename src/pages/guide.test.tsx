@@ -10,7 +10,7 @@ import { festeRouten, nichtIndexiert, weiterleitungen } from "@/data/routen";
 import { istGueltigeQuelle } from "@/lib/attribution";
 import Guide from "./Guide";
 
-// AG4 (23.11.2026): ein Guide, der Halal Starter Guide, Seite /guide, Vorname und E-Mail, keine Stufenfrage.
+// AG4 (23.11.2026; 24.11. Seite wie Acquisition.com, AG4-03): ein Guide, der Halal Starter Guide, Seite /guide, Vorname und E-Mail, keine Stufenfrage.
 const Ort = () => <p data-testid="ort">{useLocation().pathname}</p>;
 
 const zeige = () =>
@@ -45,14 +45,18 @@ describe("Seite /guide", () => {
     expect(ALTE_GUIDE_SCHLUESSEL).toEqual(expect.arrayContaining(["start-2026", "aufbau-2026", "tiefe-2026"]));
   });
 
-  it("zeigt Titel, Vorname, E-Mail, Knopf und den Satz „Ich schicke dir den Guide direkt zu.“ ohne Stufenfrage", () => {
+  it("zeigt wie die Acquisition-Seite: Titel, Satz mit 30 Sekunden und Mail-Hinweis, Bild, Vorname, E-Mail, Knopf „Guide schicken“", () => {
     zeige();
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Halal Starter Guide");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("Finde heraus, was dich vom Halal-Investieren abhält");
+    expect(screen.getByText(/Hol dir deinen Halal Starter Guide in 30 Sekunden/).textContent).toBe(
+      "Hol dir deinen Halal Starter Guide in 30 Sekunden. Bei Fragen antworte einfach auf meine Mail, ich helfe dir.",
+    );
+    expect(screen.getByRole("img", { name: /Halal Starter Guide/ })).toBeTruthy();
     expect(screen.getByLabelText("Vorname")).toBeTruthy();
     expect(screen.getByLabelText("E-Mail-Adresse")).toBeTruthy();
-    expect(screen.getByRole("button", { name: /Guide zuschicken/ })).toBeTruthy();
-    expect(screen.getByText("Ich schicke dir den Guide direkt zu.")).toBeTruthy();
-    expect(document.body.textContent).not.toMatch(/Fortgeschritten|Profi|Einsteiger|XXL|Blueprint/);
+    expect(screen.queryByLabelText(/Nachname/i)).toBeNull();
+    expect(screen.getByRole("button", { name: /^Guide schicken$/ })).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/Fortgeschritten|Profi|Einsteiger|XXL|Blueprint|[–—]/);
   });
 
   it("schickt nach Vorname und E-Mail direkt auf /danke/guide, ohne Stufenfrage", async () => {
@@ -62,7 +66,7 @@ describe("Seite /guide", () => {
     fireEvent.change(screen.getByLabelText("Vorname"), { target: { value: "Lea" } });
     fireEvent.change(screen.getByLabelText("E-Mail-Adresse"), { target: { value: "lea@example.com" } });
     fireEvent.click(screen.getByRole("checkbox"));
-    fireEvent.click(screen.getByRole("button", { name: /Guide zuschicken/ }));
+    fireEvent.click(screen.getByRole("button", { name: /^Guide schicken$/ }));
     await waitFor(() => expect(screen.getByTestId("ort").textContent).toBe("/danke/guide"));
     // Genau ein Aufruf (Make-Szenario Opt-in-Karte), kein Nachtrag mit Stufe.
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -74,10 +78,10 @@ describe("Seite /guide", () => {
     expect(daten).not.toHaveProperty("level");
   });
 
-  it("der Guide ist der Halal Starter Guide mit Knopf „Guide zuschicken“", () => {
+  it("der Guide ist der Halal Starter Guide mit Knopf „Guide schicken“", () => {
     const g = optinFreebie("guide")!;
     expect(g.name).toBe("Halal Starter Guide");
-    expect(g.knopf).toBe("Guide zuschicken");
+    expect(g.knopf).toBe("Guide schicken");
   });
 });
 
