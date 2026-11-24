@@ -35,4 +35,11 @@ describe("Danke-Seite", () => {
     expect(schluesselLinks()).toHaveLength(0);
     expect(screen.getByRole("status").textContent).toContain("per Mail");
   });
+
+  it("trägt beim Guide wie überall den Kopf mit farbigem Knopf zum Match-Test (AG4-16)", () => {
+    zeige({ pathname: "/danke/guide", state: { vorname: "Lea" } });
+    const kopf = screen.getAllByRole("banner")[0];
+    const knopf = kopf.querySelector("a[href^='/check']");
+    expect(knopf?.textContent).toContain("Match finden");
+  });
 });

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import type { ReactNode } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import Aufruf from "@/components/Aufruf";
 import Seo from "@/components/Seo";
-import { Wordmark } from "@/components/Wordmark";
 import guideVorschau from "@/assets/halal-starter-guide-vorschau.webp";
 
 /** Ziel des einen nächsten Schritts: der Match-Test, Quelle „danke“ (Elias AG4-08). */
@@ -14,9 +13,10 @@ const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
  * Die Glückwunsch-Seite nach dem Absenden des Guide-Formulars (AG4-08, Elias 24.11.2026: „die Seite, wenn man seine Mail
  * abschickt, hat er auch eine richtig gute … diese Glückwunschseite“). Muster der Acquisition-Seite nach dem Absenden
  * (acquisition.com ließ sich nicht öffnen, deshalb nach dem Muster gebaut): groß bestätigen, „schau in dein Postfach“,
- * was als Nächstes passiert, genau ein nächster Schritt. Hier der Match-Test. Weiß, ein Knopf, kein Menü.
+ * was als Nächstes passiert, genau ein nächster Schritt. Hier der Match-Test. Den Kopf (weiße Leiste mit farbigem Knopf, blaues Band)
+ * bringt `Danke.tsx` mit, wie bei jedem Freebie (AG4-16).
  */
-const DankeGuide = ({ vorname }: { vorname?: string }) => {
+const DankeGuide = ({ vorname, kopf }: { vorname?: string; kopf: ReactNode }) => {
   const name = vorname?.trim() ? gross(vorname.trim()) : "";
   return (
     <div className="bg-background">
@@ -27,11 +27,7 @@ const DankeGuide = ({ vorname }: { vorname?: string }) => {
         noindex
       />
 
-      <header className="container flex h-16 items-center justify-center">
-        <Link to="/" aria-label="finanzmuslim Startseite" className="inline-flex min-h-[44px] items-center">
-          <Wordmark className="text-xl" />
-        </Link>
-      </header>
+      {kopf}
 
       <main className="container pb-12 pt-4 md:pb-20 md:pt-10">
         <div className="mx-auto flex max-w-[560px] flex-col items-center text-center">

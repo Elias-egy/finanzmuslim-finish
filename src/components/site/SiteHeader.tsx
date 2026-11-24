@@ -115,24 +115,41 @@ export const SiteHeader = () => {
         </a>
       )}
 
-      {/* AG4-08 (Elias 24.11.2026: „oben dieses New“ wie bei Acquisition, „oben bei Free Course wird es auch zur Mail gebracht“):
-          eine schmale Leiste ganz oben auf jeder Seite mit Kopf, kleines „Neu“, ein Satz, Ziel /guide. Hellblau mit blauer
-          Schrift statt Lila, damit sie sich vom blauen Kopf darunter abhebt. Sie scrollt mit weg. Auf /guide selbst entfällt sie.
+      {/* AG4-08 und AG4-16 (Elias 24.11.2026: „oben dieses New“ wie bei Acquisition; „zu klein in der Laptop-Ansicht … die Farbe ist
+          auf einmal komplett anders. Ich würde es in einer anderen Farbe machen“): Leiste ganz oben auf jeder Seite mit Kopf, Maße
+          und Aufbau 1:1 von acquisition.com (volle Breite, Innenabstand oben und unten 19,5 bis 22 px, Text ab Tablet 18 px, Handy
+          14 px, erster Teil fett, weiße runde Pille mit schwarzer fetter Schrift 13 px, weißer Pfeil 32 x 16, alles mittig in einer
+          Zeile, Abstand 10 px). Farbe: das kräftige Violett der Palette (--violet, wie die frühere Leiste „wie live“) mit weißer
+          Schrift; der Kopf darunter ist Signalblau, so hebt sich die Leiste ab. Sie scrollt mit weg. Auf /guide selbst entfällt sie.
           Sie ersetzt die lila Halal-Anlagen-Leiste der Startseite (RN19-04); die Datenbank bleibt im Menü. */}
       {pathname !== "/guide" && (
         <Link
           to="/guide"
-          className="flex items-center justify-center gap-2 bg-accent px-4 py-1.5 text-center text-[14px] leading-[22px] text-primary-text transition-colors hover:bg-accent/70 sm:text-[15px]"
+          className="flex items-center justify-center gap-2.5 bg-violet px-4 py-3 text-center text-[14px] leading-snug text-violet-foreground transition-colors hover:bg-violet/90 md:py-[21px] md:text-[18px]"
         >
-          <span className="shrink-0 rounded-full bg-primary px-2.5 text-[12px] font-bold uppercase leading-[20px] tracking-wide text-white">
+          <span className="shrink-0 rounded-full bg-white px-2.5 py-[3px] text-[13px] font-extrabold uppercase leading-none text-black">
             Neu
           </span>
-          <span className="whitespace-nowrap sm:hidden">
-            <span className="font-bold">Mein Halal Starter Guide ist da</span> →
+          <span className="whitespace-nowrap md:hidden">
+            <span className="font-bold">Mein Halal Starter Guide ist da</span>
           </span>
-          <span className="hidden sm:inline">
-            <span className="font-bold">Mein Halal Starter Guide ist da:</span> kostenlos holen →
+          <span className="hidden md:inline">
+            <span className="font-bold">Mein Halal Starter Guide ist da:</span> <span className="font-normal">kostenlos holen</span>
           </span>
+          <svg
+            width="32"
+            height="16"
+            viewBox="0 0 32 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            className="shrink-0"
+          >
+            <path d="M1 8h29M23 1.5 30 8l-7 6.5" />
+          </svg>
         </Link>
       )}
 

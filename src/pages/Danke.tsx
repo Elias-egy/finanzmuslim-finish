@@ -12,7 +12,7 @@ import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { anbieterZahl, instagramFollower, vergleichsSeiten } from "@/data/beweise";
 import { optinFreebie } from "@/data/optin";
 import type { DankeState } from "@/components/optin/OptinKarte";
-import DankeGuide from "@/components/optin/DankeGuide";
+import DankeGuide, { DANKE_GUIDE_TEST } from "@/components/optin/DankeGuide";
 
 /**
  * /danke/<freebie> (Baustein 30), Aufbau nach der SKAILE-Danke-Seite (Vault raw
@@ -106,9 +106,9 @@ const Kopfband = () => {
 };
 
 /** Knopf zum Test (eigene Seite): der Baustein Aufruf. */
-const TestKnopf = ({ ziel, klein = false }: { ziel: string; klein?: boolean }) => (
+const TestKnopf = ({ ziel, klein = false, text = "Jetzt testen" }: { ziel: string; klein?: boolean; text?: string }) => (
   <Aufruf to={ziel} className={klein ? "" : "block sm:inline-block"}>
-    Jetzt testen
+    {text}
     {!klein && <ArrowRight className="h-4 w-4" aria-hidden />}
   </Aufruf>
 );
@@ -163,12 +163,32 @@ const Danke = () => {
   const { state } = useLocation() as { state: DankeState | null };
   const freebie = optinFreebie(id);
   if (!freebie) return <Navigate to="/vorlagen" replace />;
-  // AG4-08: der Guide hat seine eigene Glückwunsch-Seite (components/optin/DankeGuide.tsx), ein Schritt: der Match-Test.
-  if (freebie.id === "guide") return <DankeGuide vorname={state?.vorname} />;
 
   // RN6: Check ersetzt das alte Quiz; das Vorhaben aus dem Freebie wird die erste Antwort.
   const ziel = checkZielAusVorhaben(state?.vorhaben?.length ? vorhabenListe(state.vorhaben) : "");
   const logos = bekannteZuerst(logosFuer("Depot").logos).slice(0, 3);
+
+  // Kopf wie auf finanzmuslim.com live: weiße Leiste mit Wortmarke und farbigem Knopf, darunter das blaue Band mit Elias und den Anbieter-Logos.
+  // AG4-16 (Elias 24.11.2026: „Ist es normal, dass oben gar kein Button mehr ist? … Header, das Blaue rausgenommen“): auch der Guide trägt ihn wieder,
+  // sein Knopf führt zum Match-Test wie der Schritt im Text.
+  const guide = freebie.id === "guide";
+  const kopf = (
+    <>
+      <header className="sticky top-0 z-40 border-b border-border bg-background">
+        <div className="container flex h-[72px] items-center justify-between">
+          <Link to="/" aria-label="finanzmuslim Startseite" className="inline-flex min-h-[44px] items-center">
+            <Wordmark className="text-xl" />
+          </Link>
+          <TestKnopf ziel={guide ? DANKE_GUIDE_TEST : ziel} text={guide ? "Match finden" : undefined} klein />
+        </div>
+      </header>
+
+      <Kopfband />
+    </>
+  );
+
+  // AG4-08: der Guide hat seine eigene Glückwunsch-Seite (components/optin/DankeGuide.tsx), ein Schritt: der Match-Test.
+  if (guide) return <DankeGuide vorname={state?.vorname} kopf={kopf} />;
 
   const karten = [
     {
@@ -240,16 +260,7 @@ const Danke = () => {
         noindex
       />
 
-      <header className="sticky top-0 z-40 border-b border-border bg-background">
-        <div className="container flex h-[72px] items-center justify-between">
-          <Link to="/" aria-label="finanzmuslim Startseite" className="inline-flex min-h-[44px] items-center">
-            <Wordmark className="text-xl" />
-          </Link>
-          <TestKnopf ziel={ziel} klein />
-        </div>
-      </header>
-
-      <Kopfband />
+      {kopf}
 
       <section className="container relative z-30 -mt-2 text-center md:-mt-4">
         <div
