@@ -65,7 +65,7 @@ describe("Seite /guide", () => {
     zeige();
     fireEvent.change(screen.getByLabelText("Vorname"), { target: { value: "Lea" } });
     fireEvent.change(screen.getByLabelText("E-Mail-Adresse"), { target: { value: "lea@example.com" } });
-    fireEvent.click(screen.getByRole("checkbox"));
+    expect(screen.queryByRole("checkbox")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: /^Guide schicken$/ }));
     await waitFor(() => expect(screen.getByTestId("ort").textContent).toBe("/danke/guide"));
     // Genau ein Aufruf (Make-Szenario Opt-in-Karte), kein Nachtrag mit Stufe.

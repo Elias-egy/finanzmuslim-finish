@@ -80,7 +80,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
   const [schritt, setSchritt] = useState<1 | 2 | 3>(1);
   const [vorname, setVorname] = useState("");
   const [email, setEmail] = useState("");
-  const [zustimmung, setZustimmung] = useState(false);
   const [firma, setFirma] = useState("");
   const [sendet, setSendet] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
@@ -109,10 +108,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     if (sendet) return;
     if (!emailGueltig(email)) {
       setFehler("Bitte gib eine gültige E-Mail-Adresse ein.");
-      return;
-    }
-    if (!zustimmung) {
-      setFehler(`Setz bitte das Häkchen, dann bekommst du ${freebie.objekt}.`);
       return;
     }
     const adresse = email.trim();
@@ -193,7 +188,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     setSchritt(1);
     setEmail("");
     setGespeichert("");
-    setZustimmung(false);
     setAnmeldung(null);
     setStufe(undefined);
     setVorhaben([]);
@@ -307,15 +301,11 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 aria-hidden="true"
                 className="hidden"
               />
-              <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 text-[13px] leading-snug text-muted-foreground">
-                <input
-                  type="checkbox"
-                  checked={zustimmung}
-                  onChange={(e) => setZustimmung(e.target.checked)}
-                  className="h-4 w-4 shrink-0 cursor-pointer rounded border-border accent-[hsl(var(--primary))]"
-                />
-                <span>{EINWILLIGUNG_TEXT}</span>
-              </label>
+              {/* Elias AG4-05 (24.11.2026): no newsletter tick box, only a plain notice with the privacy link. */}
+              <p className="text-[13px] leading-snug text-muted-foreground">
+                Mit dem Absenden wirst du Teil des Newsletters. Abmelden geht jederzeit.{" "}
+                <a href="/datenschutz" className="underline">Datenschutz</a>
+              </p>
               {fehler && (
                 <p role="alert" className="text-[14px] leading-relaxed text-destructive">
                   {fehler}
