@@ -6,6 +6,7 @@ import { juengsterStand } from "@/lib/juengsterStand";
 import { DepotRatgeber } from "@/components/vergleich/DepotRatgeber";
 import { depotFragen } from "@/data/depotRatgeber";
 import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
+import { ReihenfolgeGeaendert } from "@/components/vergleich/VergleichsBausteine";
 
 /* Seit 15.11.2026 eine Nummer 1 (Elias, RN3-07: „Flatex als einzige Nummer 1 benutzen ist gut. Smartbroker als Nummer 2.“).
    Der Doppel-Kasten „Unsere zwei Nummer 1“ (A11) ist abgelöst; `meisteHalal` bleibt, greift aber nur, wenn ein anderer als
@@ -29,7 +30,11 @@ const KRITERIEN = [
   },
   {
     titel: "Halal-Anlagen",
-    text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?",
+    text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen? Ein Halal-ETF zählt doppelt, Royal Mint Gold wie ein ETF.",
+  },
+  {
+    titel: "Kein Kredit ab Start",
+    text: "Räumt dir das Depot ab der Eröffnung einen Kredit ein, zählen die Halal-Merkmale 10 % weniger.",
   },
 ];
 
@@ -90,6 +95,7 @@ const VergleichDepot = () => (
       </>
     }
     depot
+    vorneweg={<ReihenfolgeGeaendert />}
     zeilen={DEPOT_ZEILEN}
     anbieter={depotAnzeige}
     ansichtAlle={brokerVergleich}

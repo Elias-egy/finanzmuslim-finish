@@ -618,3 +618,13 @@ export const HinweisPunkt = ({ text }: { text?: string }) =>
       <Info className="ml-1 h-3.5 w-3.5 text-muted-foreground/70" aria-label={text} />
     </span>
   ) : null;
+
+/**
+ * Hinweis oben auf dem Depot- und dem ETF-Sparplan-Vergleich ab 01.12.2026 (Regel 12 in `src/lib/rangfolge.ts`, Elias VG4-03 und VG5-01,
+ * Übergabe VG4 zu VG5 Offen 1): Die Reihenfolge hat sich geändert, und der Leser sieht in einem Satz, warum.
+ */
+export const ReihenfolgeGeaendert = () => (
+  <p className="rounded-lg border-2 border-primary/40 bg-primary/5 px-4 py-3 text-base">
+    <b>Depotvergleich Dezember: Reihenfolge geändert.</b> Halal-ETFs zählen jetzt doppelt, und ein Kredit ab Start kostet Punkte.
+  </p>
+);

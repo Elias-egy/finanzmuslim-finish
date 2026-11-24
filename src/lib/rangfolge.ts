@@ -3,6 +3,7 @@ import { DEPOT_FINANZ_MAX, EDELMETALL_FINANZ_MAX, GESCHAEFT_FINANZ_MAX, GIRO_FIN
 import { finanzNote, kostenlosReicht } from "@/lib/vergleichLeser";
 import { anzeigeNote, sterne } from "@/lib/anzeigeNote";
 import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/leserEroeffnungen";
+import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
 
 /**
  * Rechenkern der Rangfolge für alle sechs Vergleiche (P3, 26.09.2026).
@@ -69,6 +70,14 @@ import { beliebtPunkte, GEWICHT_BELIEBT, istBeliebtKategorie } from "@/data/lese
  * 8. Depot, Girokonto und seit 23.11.2026 Edelmetall: Die Note ist 47,5 % Halal-Teil, 47,5 % Kosten und 5 % „Bei meinen Lesern beliebt“
  *    (`src/data/leserEroeffnungen.ts`, Hermes RK1 ergebnisse/03 §4b). Elias' Formel Halal und Kosten je zur Hälfte
  *    bleibt; das Zusatzkriterium steht offen auf der Methodik-Seite und unter beiden Vergleichen (UWG § 5b Abs. 2).
+ * 12. Halal-Teil der Depots seit 24.11.2026 (Elias, VG4-03, wörtlich: „ein Halal-ETF mehr zählt mehr als ein Sukuk oder Edelmetall mehr.
+ *    Also das Doppelte. Außer der Han-ETF, der zählt so viel wie ein normaler ETF … Zinsen ausschalten ist ein riesen Minuspunkt … Dispo von
+ *    Anfang an … ist auch ein relativ großer Minuspunkt“, raw/2026-11-24-elias-vg4-03-kriterien-halal-etf-doppelt-zinsen-dispo-kosten.md;
+ *    VG5-01: „Flatex würde ich das mit dem Dispo 10 Prozent nur runternehmen“, raw/2026-11-24-elias-vg5-01-programme-dach-suchen-mailplan-
+ *    reihenfolge-final.md, beide im Vault): Ein Halal-ETF oder Fonds zählt 2 Punkte, ein Sukuk und ein Edelmetall je 1 (`HALAL_GEWICHT`), der
+ *    Royal Mint Gold-ETC von HANetf 2 (`GEWICHT_ROYAL_MINT`, nur mit Kaufbeleg und nur in den deutschen Listen). Kredit ab Start (Depot,
+ *    Edelmetall) und abschaltbarer Dispo ab Start (Girokonto, Geschäftskonto) kosten je 10 % des Halal-Teils (`FAKTOR_KREDIT`,
+ *    `FAKTOR_DISPO`), Zinsen, die erst abgeschaltet werden müssen, weiter die Hälfte (`FAKTOR_ABSCHALTBAR`).
  */
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall" | "geschaeftskonto";
@@ -85,8 +94,8 @@ export type Bewertet = {
   /** Zins-Tor grün und keine rote Grundlage. Nur solche Einträge können Nummer 1 werden. */
   uneingeschraenkt: boolean;
   /**
-   * Das Haus räumt Neukunden automatisch einen Kredit ein (`kreditAbStart` "teils"). Kostet keine Punkte; nie Nummer 1
-   * nur noch, wo `KREDIT_NIE_PLATZ_EINS` es sagt (Edelmetall).
+   * Das Haus räumt Neukunden automatisch einen Kredit ein (`kreditAbStart` "teils"). Kostet seit 24.11.2026 10 % des Halal-Teils
+   * (`FAKTOR_KREDIT`, Regel 12); nie Nummer 1 nur, wo `KREDIT_NIE_PLATZ_EINS` es sagt (Edelmetall).
    */
   kredit: boolean;
   /** Punkte 0 bis 5 im Kriterium „Bei meinen Lesern beliebt“ (Regel 8), nur Depot, Girokonto und Edelmetall, sonst null. */
@@ -130,8 +139,10 @@ export const FAKTOR_ABSCHALTBAR = 0.5;
  * (raw/2026-11-07-elias-cv19f-rangfolge-traders-place-flatex-smartbroker.md im Vault, Ja in CV20F). Platz 1
  * blieb bis 15.11.2026 einem Eintrag ohne Abstellen vorbehalten; seither nur noch im Edelmetall-Vergleich
  * (Regel 6, `KREDIT_NIE_PLATZ_EINS`), dazu `nummerEins` und `siegerDerSeite` in `src/lib/vergleichAssistent.ts`.
+ * Seit 24.11.2026 wieder ein Zehntel Abzug (Regel 12, Elias VG4-03: „Dispo von Anfang an … ist auch ein relativ großer Minuspunkt“, VG5-01:
+ * „Flatex würde ich das mit dem Dispo 10 Prozent nur runternehmen, dass er ungefähr auf 3 bis 4 kommt“).
  */
-export const FAKTOR_KREDIT = 1;
+export const FAKTOR_KREDIT = 0.9;
 
 /**
  * Faktor auf den Halal-Teil im Geschäftskonto, wenn der Anbieter zum Guthabenzins nichts Ausdrückliches schreibt (`zinsfreiAbStart`
@@ -146,9 +157,10 @@ export const FAKTOR_ZINS_OFFEN = 1;
  * "hoch ranken mit ehrlichem Hinweis", 28.09.2026: ein Dispo "macht es nicht haram wie Zinsen, aber natürlich
  * werten". Bisher zählte "teils" nur halb (ein Viertel Abzug vom Halal-Teil, ein ganzer Stern). Nie Nummer 1,
  * wie flatex. Seit 07.11.2026 kein Abzug mehr, dieselbe Regel wie beim Kredit: Abstellbares zählt nicht gegen
- * die Note (CV20F), Platz 1 bleibt ihm verwehrt (Regel 6).
+ * die Note (CV20F), Platz 1 bleibt ihm verwehrt (Regel 6). Seit 24.11.2026 wieder ein Zehntel Abzug wie beim Kredit (Regel 12: dieselben
+ * Kriterien für alle Vergleiche).
  */
-export const FAKTOR_DISPO = 1;
+export const FAKTOR_DISPO = 0.9;
 
 /** Halal-Grundlagen je Kategorie. Steht hier "schlecht", wird der Eintrag gerankt, aber nie Nummer 1. */
 export const BASIS: Record<"depot" | "girokonto" | "krypto" | "geschaeftskonto", string[]> = {
@@ -159,8 +171,21 @@ export const BASIS: Record<"depot" | "girokonto" | "krypto" | "geschaeftskonto",
   geschaeftskonto: ["keinDispoAbStart", "karteOhneKredit"],
 };
 
-/** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen. Nenner ist die Summe, 22. */
+/** Wie viele Anlagen je Zeile im Halal-Anlagen-Vergleich stehen (12, 3, 7). Gewichtet zählen sie nach `HALAL_GEWICHT`. */
 export const ANTEIL_N: Record<string, number> = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
+
+/** Regel 12: Punkte je belegt kaufbarer Anlage einer Zeile. Ein Halal-ETF oder Fonds zählt doppelt (Elias, VG4-03). */
+export const HALAL_GEWICHT: Record<string, number> = { halalEtfsFonds: 2, halalSukuk: 1, halalEdelmetalle: 1 };
+
+/** Regel 12: Der Royal Mint Gold-ETC (HANetf, `ROYAL_MINT`) zählt wie ein Halal-ETF (Elias, VG4-03: „so viel wie ein richtiger ETF“). */
+export const GEWICHT_ROYAL_MINT = 2;
+
+/** Zeilen des Edelmetall-Teils: nur die Gold- und Silber-ETCs. */
+const NUR_METALLE: Record<string, number> = { halalEdelmetalle: ANTEIL_N.halalEdelmetalle };
+
+/** Royal Mint Gold-ETC beim Haus oder Finanzfluss-Produkt belegt kaufbar (`ROYAL_MINT_HAEUSER`, wie `belegt` in `edelmetallVergleich.ts`). */
+export const royalMintBelegt = (a: RohAnbieter): boolean =>
+  [a.haus, a.finanzfluss?.produkt].some((k) => typeof k === "string" && ROYAL_MINT_HAEUSER.includes(k));
 
 const STANDARD_FINANZ_MAX: Partial<Record<RangKategorie, Record<string, number>>> = {
   depot: DEPOT_FINANZ_MAX,
@@ -334,18 +359,37 @@ const anlagenPunkte = (a: RohAnbieter, key: string, n: number): number => {
 };
 
 /**
- * Halal-Teil eines Depots über die genannten Zeilen der Halal-Anlagen, 0 bis 5: Anteil der belegten Anlagen,
- * mal Zins-Tor, mal Abzug für den Kredit. Der Vergleich zählt alle 22, der Edelmetall-Vergleich nur Gold und
- * Silber, der geführte Test die Zeilen, die der Besucher kaufen will (`werteAus`).
+ * Regel 12: gewichtete Halal-Punkte eines Depots über die genannten Zeilen und die Höchstpunkte dazu. Der Royal Mint Gold-ETC zählt nur
+ * in den deutschen Listen (`ANTEIL_N` und `NUR_METALLE`), denn die Länderlisten zählen nur dort zugelassene Papiere, und für ihn liegt dort
+ * kein Beleg vor. Deutschland: 12 × 2 + 3 + 7 + 2 = 36 Höchstpunkte.
+ */
+export const halalPunkte = (
+  a: RohAnbieter,
+  zeilen: Record<string, number> = ANTEIL_N,
+  mitRoyalMint = zeilen === ANTEIL_N || zeilen === NUR_METALLE,
+): { punkte: number; max: number } => {
+  const rm = mitRoyalMint && "halalEdelmetalle" in zeilen;
+  const max = Object.entries(zeilen).reduce((s, [key, n]) => s + n * (HALAL_GEWICHT[key] ?? 1), 0) + (rm ? GEWICHT_ROYAL_MINT : 0);
+  const punkte =
+    Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) * (HALAL_GEWICHT[key] ?? 1), 0) +
+    (rm && royalMintBelegt(a) ? GEWICHT_ROYAL_MINT : 0);
+  return { punkte, max };
+};
+
+/**
+ * Halal-Teil eines Depots über die genannten Zeilen der Halal-Anlagen, 0 bis 5: Anteil der belegten, gewichteten Anlagen
+ * (`halalPunkte`, Regel 12), mal Zins-Tor, mal Abzug für den Kredit. Der Vergleich zählt alle 22 und Royal Mint, der
+ * Edelmetall-Vergleich nur Gold, Silber und Royal Mint, der geführte Test die Zeilen, die der Besucher kaufen will (`werteAus`).
  */
 export const depotHalal = (
   a: RohAnbieter,
   zeilen: Record<string, number> = ANTEIL_N,
   offenZaehlt = false,
+  mitRoyalMint = zeilen === ANTEIL_N || zeilen === NUR_METALLE,
 ): { halal: number; halalVorKredit: number; kredit: boolean } => {
   const tuer = a.werte[TOR];
-  const nenner = Object.values(zeilen).reduce((s, n) => s + n, 0);
-  const anteil = nenner > 0 ? Object.entries(zeilen).reduce((s, [key, n]) => s + anlagenPunkte(a, key, n) / nenner, 0) : 0;
+  const { punkte, max } = halalPunkte(a, zeilen, mitRoyalMint);
+  const anteil = max > 0 ? punkte / max : 0;
   // Regel 10: Im Depot-Vergleich rechnet ein Depot, zu dessen Zins der Anbieter nichts belegt (offen), wie ein zinsfreies; die Stufe stellt es
   // hinter die belegten. Ein belegt verzinstes ("schlecht") rechnet mit 0.
   const faktor = tuer === "gut" ? 1 : tuer === "teils" ? FAKTOR_ABSCHALTBAR : offenZaehlt && tuer !== "schlecht" ? FAKTOR_ZINS_OFFEN : 0;
@@ -371,9 +415,6 @@ const depotUrteil = (
   const sperrt = kredit && KREDIT_NIE_PLATZ_EINS.has(kategorie);
   return { art: "bewertet", halal, kosten, note: halbe(halal, kosten), uneingeschraenkt: tuer === "gut" && !sperrt, kredit, halalVorKredit };
 };
-
-/** Zeilen des Edelmetall-Teils: nur die Gold- und Silber-ETCs. */
-const NUR_METALLE: Record<string, number> = { halalEdelmetalle: ANTEIL_N.halalEdelmetalle };
 
 /**
  * Edelmetall seit 23.11.2026 (Elias, VG1: „Edelmetall, weiß ich nicht, ob das Ranking so gut ist.“, raw/2026-11-23-elias-vg1-01-

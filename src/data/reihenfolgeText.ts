@@ -30,6 +30,11 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
   [
     `Die Note besteht zu ${ANTEIL_HALAL_KOSTEN} aus Halal-Merkmalen, zu ${ANTEIL_HALAL_KOSTEN} aus Kosten und Konditionen und zu ${ANTEIL_BELIEBT} daraus, wie beliebt ein Angebot bei meinen Lesern ist.`,
     `Jedes Halal-Merkmal belegen wir beim Anbieter.`,
+    ...(was === "Depot"
+      ? [
+          "Ein Halal-ETF zählt doppelt so viel wie ein Sukuk oder ein Edelmetall, Royal Mint Gold zählt wie ein ETF. Räumt dir ein Depot ab Start einen Kredit ein, zählen die Halal-Merkmale 10 % weniger.",
+        ]
+      : []),
     beliebtErklaerung(was),
     `Wie viel wir an einem ${was} verdienen, zählt nie.`,
     `Die Liste steht in drei Gruppen: zuerst alle ${was === "Depot" ? "Depots" : "Konten"}, bei denen der Anbieter belegt, dass dein Guthaben ohne Zinsen liegt oder sich der Zins abschalten lässt, danach alle, bei denen er dazu nichts belegt („Offen“, kein Urteil, wir fragen nach), ganz hinten, wer Zinsen zahlt, die sich nicht abschalten lassen. In jeder Gruppe zählt die Note, die du siehst. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst.`,

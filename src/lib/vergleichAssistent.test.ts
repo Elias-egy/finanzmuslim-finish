@@ -491,14 +491,14 @@ describe("vorhabenAusSuche", () => {
 describe("Depot mit automatischem Kredit im geführten Test (Elias, 12.10.2026)", () => {
   const d = () => bausteine.find((b) => b.id === "depot")!;
 
-  it("steht bei Wunsch nach vielen Anlagen und ohne Wunsch vorn (Elias, 15.11.2026, RN3-07: „Flatex als einzige Nummer 1“)", () => {
+  it("steht bei Wunsch nach vielen Anlagen vorn, ohne Wunsch seit 24.11.2026 auf 3 (Regel 12, Elias VG5-01: „Flatex … dass er ungefähr auf 3 bis 4 kommt“)", () => {
     const auswahl = { ...auswahlAus("depot", { vorhaben: ["anlegen"], wichtig: ["auswahl"] }), wuensche: [] };
     const viele = werteAus(d().anbieter, d().kategorie, d().finanzMax, auswahl);
     expect(viele.passt[0].anbieter.id).toBe("flatex-depot");
     const normal = werteAus(d().anbieter, d().kategorie, d().finanzMax, leer);
-    expect(normal.passt[0].anbieter.id).toBe("flatex-depot");
-    expect(normal.passt[0].kredit).toBe(false);
-    expect(ids(normal.passt).indexOf("smartbroker-plus-depot")).toBe(1);
+    expect(normal.passt[0].anbieter.id).toBe("smartbroker-plus-depot");
+    expect(ids(normal.passt).indexOf("flatex-depot")).toBe(2);
+    expect(normal.passt[2].kredit).toBe(false);
   });
 
   it("lässt kein Zins-Tor teils herein", () => {
@@ -514,7 +514,8 @@ describe("Depot mit automatischem Kredit: nie im Kasten, nie ohne Hinweis (Elias
   it("der Kasten der Vergleichsseite nimmt seit 15.11.2026 auch ein Depot mit Kredit, wenn es vorn liegt (Elias, RN3-07)", () => {
     const r = rangfolge(brokerVergleich, "depot", { finanzMax: DEPOT_FINANZ_MAX });
     const flatex = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
-    const dahinter = r.gerankt.filter((b) => b.uneingeschraenkt && b.note < flatex.note).slice(0, 3).map((b) => b.anbieter);
+    // Seit Regel 12 steht flatex auf 3; die Liste nimmt nur Depots mit kleinerer angezeigter Note, damit flatex vorn liegt.
+    const dahinter = r.gerankt.filter((b) => b.uneingeschraenkt && sterne(b.note) < sterne(flatex.note)).slice(0, 3).map((b) => b.anbieter);
     const liste = [flatex.anbieter, ...dahinter];
     expect(dahinter.length).toBe(3);
     const passt = werteAus(liste, "depot", DEPOT_FINANZ_MAX, leer).passt;
@@ -581,8 +582,9 @@ describe("Wer sagt, was er kaufen will, bekommt danach sortiert (Elias, 13.10.20
     halalAnlagenPunkte: { halalEtfsFonds: etfs, halalSukuk: sukuk, halalEdelmetalle: metalle },
     finanzPunkte: { kosten },
   });
-  /* "guenstig" führt die Rangfolge an: alles außer ETFs und die besseren Kosten. "alleEtfs" hat jeden ETF, sonst nichts. */
-  const liste = [depot("guenstig", 6, 3, 7, 95), depot("alleEtfs", 12, 0, 0, 90), depot("sukuk", 2, 3, 0, 80)];
+  /* "guenstig" führt die Rangfolge an: viel außer ETFs und die besseren Kosten. "alleEtfs" hat jeden ETF, sonst nichts.
+     Seit Regel 12 zählt ein ETF doppelt: guenstig 2 × 8 + 3 + 7 = 26 Punkte gegen 24. */
+  const liste = [depot("guenstig", 8, 3, 7, 95), depot("alleEtfs", 12, 0, 0, 90), depot("sukuk", 2, 3, 0, 80)];
   const mit = (anlagen: string[], rest: Partial<Auswahl> = {}) => werteAus(liste, "depot", MAX_D, { ...leer, anlagen, ...rest });
 
   it("ohne Angabe gilt die Rangfolge des Vergleichs", () => {
@@ -642,11 +644,11 @@ describe("Wer sagt, was er kaufen will, bekommt danach sortiert (Elias, 13.10.20
     }
   });
 
-  it("ohne Abzug für den Kredit steht das Depot ohne Kredit trotzdem vorn, außer der Besucher will ausdrücklich die größte Auswahl (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
+  it("mit dem Abzug für den Kredit (Regel 12, seit 24.11.2026) steht das Depot ohne Kredit vorn, wer ausdrücklich die größte Auswahl will, sieht beide gleichauf (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
     const k = [depot("kredit", 12, 0, 0, 90, { kreditAbStart: "teils" }), depot("frei", 12, 0, 0, 90)];
     const normal = werteAus(k, "depot", MAX_D, { ...leer, anlagen: ["halalEtfsFonds"] }).passt;
     expect(ids(normal)).toEqual(["frei", "kredit"]);
-    expect(normal[1].sortWert).toBe(normal[0].sortWert);
+    expect(normal[1].sortWert).toBeLessThan(normal[0].sortWert);
     const auswahl = auswahlAus("depot", { vorhaben: ["anlegen"], bestimmtes: ["etfs"], wichtig: ["auswahl"] });
     const viele = werteAus(k, "depot", MAX_D, { ...auswahl, wuensche: [] }).passt;
     /* Gleich viele Anlagen: Es trennt sie nur noch die Note des Vergleichs, als Hundertstel. */

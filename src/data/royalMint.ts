@@ -10,3 +10,13 @@ export const ROYAL_MINT = "XS2115336336";
  * angeboten werden“); die Liste bleibt für später.
  */
 export const ROYAL_MINT_SPARPLAN: readonly string[] = ["Scalable Capital", "Trade Republic"];
+
+/**
+ * Häuser (und Finanzfluss-Produkte), bei denen der Royal Mint Gold-ETC belegt kaufbar ist, aus `ANLAGEN_KAUFBAR[ROYAL_MINT]`
+ * (`kaufbar[].haus` und `haeuser`). Hier klein abgeschrieben, damit die Rangfolge ihn zählen kann, ohne die ganze Kaufbar-Liste
+ * zu laden (UP6, 10.11.2026). `rangfolge.test.ts` prüft, dass beide Listen gleich sind. Stand der Belege: 17.11.2026.
+ */
+export const ROYAL_MINT_HAEUSER: readonly string[] = [
+  "1822direkt", "bbbank", "comdirect", "consorsbank", "dkb", "Finvesto Wertpapierdepot", "flatex", "gls", "n26", "sbroker",
+  "scalable", "scalable-prime", "smartbroker", "trade-republic", "tradegate-direct", "traders-place", "trading212",
+];

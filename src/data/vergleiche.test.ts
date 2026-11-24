@@ -205,7 +205,8 @@ describe("Vergleichsdaten edelmetalle", () => {
     // mit S Broker (4,89); der Feinwert entscheidet.
     // VG1 (23.11.2026): Halal-Teil halb Metalle, halb alle Halal-Anlagen, dazu 5 % „Bei meinen Lesern beliebt“ aus den
     // Depot-Eröffnungen. Smartbroker+ vorn wie im Gold-Check (Elias 22.11.: „ja smartbroker vorne“), flatex danach.
-    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Smartbroker+", "flatex", "Scalable Capital", "Traders Place"]);
+    // Regel 12 (24.11.2026): Royal Mint zählt 2, Kredit ab Start minus 10 %; flatex fällt hinter Traders Place, S Broker und Scalable.
+    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Smartbroker+", "Traders Place", "S Broker", "Scalable Capital"]);
   });
 
   it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {

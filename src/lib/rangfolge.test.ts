@@ -14,6 +14,9 @@ import { kryptoVergleich } from "@/data/kryptoVergleich";
 import { steuersoftwareVergleich } from "@/data/steuersoftwareVergleich";
 import { screenerVergleich } from "@/data/screenerVergleich";
 import { edelmetallVergleich, EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
+import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
+import { ROYAL_MINT, ROYAL_MINT_HAEUSER } from "@/data/royalMint";
+import { GEWICHT_ROYAL_MINT, HALAL_GEWICHT, halalPunkte } from "@/lib/rangfolge";
 
 /**
  * Rechenkern der Rangfolge, Spezifikation `docs/rangfolge/P3-SPEC.md` (Abschnitt 10 hat Vorrang).
@@ -24,10 +27,12 @@ const MAX_DEPOT = { depotgebuehr: 10, app: 10 };
 const MAX_GIRO = { kontofuehrung: 10 };
 const MAX_KRYPTO = { gebuehren: 100 };
 
+// Haus „flatex“: Royal Mint Gold ist dort belegt kaufbar (`ROYAL_MINT_HAEUSER`), so hat das volle Paket 36 von 36 Halal-Punkten (Regel 12).
 const depot = (id: string, werte: RohAnbieter["werte"] = {}, extra: Partial<RohAnbieter> = {}): RohAnbieter => ({
   id,
   name: id,
   produkt: "Depot",
+  haus: "flatex",
   werte: { zinsfreiAbStart: "gut", halalEtfsFonds: "12 von 12", halalSukuk: "3 von 3", halalEdelmetalle: "7 von 7", ...werte },
   halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 },
   finanzPunkte: { depotgebuehr: 10, app: 10 },
@@ -234,27 +239,27 @@ describe("rangfolge: Depot", () => {
     expect(einzig(rDepot([depot("voll")]))).toMatchObject({ platz: 1, note: 5, halal: 5, kosten: 5 });
   });
 
-  it("rechnet Fonds gewichtet über alle 22 Anlagen", () => {
-    // Halal 5 × (10,5 + 2,5 + 7) / 22 = 4,5454…, Kosten 5 × 15 / 20 = 3,75, Note 4,1477…
+  it("rechnet Fonds gewichtet über alle 22 Anlagen, Halal-ETFs doppelt, Royal Mint 2 (Regel 12)", () => {
+    // Halal 5 × (2 × 10,5 + 2,5 + 7 + 2) / 36 = 4,5138…, Kosten 5 × 15 / 20 = 3,75, Note 4,1319…
     const a = depot("fonds", {}, {
       halalAnlagenPunkte: { halalEtfsFonds: 10.5, halalSukuk: 2.5, halalEdelmetalle: 7 },
       finanzPunkte: { depotgebuehr: 5, app: 10 },
     });
-    expect(einzig(rDepot([a]))).toMatchObject({ halal: 4.55, kosten: 3.75, note: 4.15 });
+    expect(einzig(rDepot([a]))).toMatchObject({ halal: 4.51, kosten: 3.75, note: 4.13 });
   });
 
   it("rechnet Teiltreffer: 6 von 22", () => {
-    // Halal 5 × 6 / 22 = 1,3636…, Kosten 5, Note 3,1818…
+    // Halal 5 × (2 × 5 + 1 + 0 + 2) / 36 = 1,8055…, Kosten 5, Note 3,4027…
     const a = depot("teil", { halalEtfsFonds: "5 von 12", halalSukuk: "1 von 3", halalEdelmetalle: "0 von 7" }, {
       halalAnlagenPunkte: { halalEtfsFonds: 5, halalSukuk: 1, halalEdelmetalle: 0 },
     });
-    expect(einzig(rDepot([a]))).toMatchObject({ halal: 1.36, note: 3.18 });
+    expect(einzig(rDepot([a]))).toMatchObject({ halal: 1.81, note: 3.4 });
   });
 
   it("zählt bei „mind. x von N“ nur die belegten Punkte", () => {
-    // Halal 5 × (3 + 3 + 7) / 22 = 2,9545…, Kosten 5, Note 3,9772…
+    // Halal 5 × (2 × 3 + 3 + 7 + 2) / 36 = 2,5, Kosten 5, Note 3,75
     const a = depot("mind", { halalEtfsFonds: "mind. 3 von 12" }, { halalAnlagenPunkte: { halalEtfsFonds: 3, halalSukuk: 3, halalEdelmetalle: 7 } });
-    expect(einzig(rDepot([a]))).toMatchObject({ halal: 2.95, kosten: 5, note: 3.98 });
+    expect(einzig(rDepot([a]))).toMatchObject({ halal: 2.5, kosten: 5, note: 3.75 });
   });
 
   it("zählt unbelegte Zeilen als nicht vorhanden und rät nie", () => {
@@ -266,20 +271,20 @@ describe("rangfolge: Depot", () => {
     const r = rDepot([ohneSchluessel, mitNull, ganzOhne, leereZeilen]);
     expect(r.nichtBewertet).toHaveLength(0);
     const nach = (id: string) => r.gerankt.find((x) => x.anbieter.id === id)!;
-    // Halal 5 × (0 + 3 + 7) / 22 = 2,2727…, Note 3,64
-    expect(nach("ohne")).toMatchObject({ halal: 2.27, note: 3.64 });
-    expect(nach("null")).toMatchObject({ halal: 2.27, note: 3.64 });
-    expect(nach("ganz")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
-    expect(nach("leer")).toMatchObject({ halal: 0, kosten: 5, note: 2.5 });
+    // Halal 5 × (0 + 3 + 7 + 2) / 36 = 1,6666…, Note 3,33. Ohne jede belegte Zeile bleibt nur Royal Mint: 5 × 2 / 36 = 0,2777…, Note 2,64
+    expect(nach("ohne")).toMatchObject({ halal: 1.67, note: 3.33 });
+    expect(nach("null")).toMatchObject({ halal: 1.67, note: 3.33 });
+    expect(nach("ganz")).toMatchObject({ halal: 0.28, kosten: 5, note: 2.64 });
+    expect(nach("leer")).toMatchObject({ halal: 0.28, kosten: 5, note: 2.64 });
   });
 
   it("zählt eine Zeile mit falschem N oder Punkten über N als nicht belegt", () => {
-    // 8 von 8 Edelmetalle passt nicht zu N = 7, Punkte 8 liegen über 7: Zeile zählt 0, Halal 5 × 15 / 22 = 3,4090…
+    // 8 von 8 Edelmetalle passt nicht zu N = 7, Punkte 8 liegen über 7: Zeile zählt 0, Halal 5 × (24 + 3 + 2) / 36 = 4,0277…
     const falschesN = depot("acht", { halalEdelmetalle: "8 von 8" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 8 } });
     const zuViel = depot("viel", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 9 } });
     const r = rDepot([falschesN, zuViel]);
     expect(r.nichtBewertet).toHaveLength(0);
-    for (const x of r.gerankt) expect(x.halal).toBe(3.41);
+    for (const x of r.gerankt) expect(x.halal).toBe(4.03);
   });
 
   it("gibt jedem Depot eine Note, auch ohne Beleg für das Tor (Regel 10)", () => {
@@ -299,9 +304,10 @@ describe("rangfolge: Depot", () => {
     const keine = { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 0 };
     const etwas = { halalEtfsFonds: 1, halalSukuk: 0, halalEdelmetalle: 0 };
     const viel = { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 };
+    // Ohne Haus: auch Royal Mint ist nicht belegt, beide haben 0 Halal-Punkte.
     const r = rDepot([
-      depot("keine", {}, { halalAnlagenPunkte: keine }),
-      depot("null", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null }, { halalAnlagenPunkte: undefined }),
+      depot("keine", {}, { halalAnlagenPunkte: keine, haus: undefined }),
+      depot("null", { halalEtfsFonds: null, halalSukuk: null, halalEdelmetalle: null }, { halalAnlagenPunkte: undefined, haus: undefined }),
       depot("etwas", {}, { halalAnlagenPunkte: etwas }),
       depot("viel", {}, { halalAnlagenPunkte: viel }),
     ]);
@@ -345,11 +351,11 @@ describe("rangfolge: Kosten wie finanzNote", () => {
 /* ---------------------------------------------------------- Giro und Krypto */
 
 describe("rangfolge: Girokonto", () => {
-  it("zieht für einen abschaltbaren Dispo („teils“) nichts mehr ab, Abstellbares zählt nicht gegen die Note (Elias, 07.11.2026, raw/2026-11-07-elias-cv20f-rangfolge-ja-trading212-videos-direkt-rein.md)", () => {
-    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 1 = 5; bis 07.11.2026 ein Zehntel Abzug (4,5)
+  it("zieht für einen abschaltbaren Dispo („teils“) seit 24.11.2026 wieder ein Zehntel ab (Regel 12, Elias VG4-03 und VG5-01)", () => {
+    // Halal 5 × (0,5 × 1 + 0,5 × 1) × 0,9 = 4,5; vom 07.11. bis 24.11.2026 ohne Abzug (5)
     const b = einzig(rGiro([giro("haspa", { keinDispoAbStart: "teils" })]));
-    expect(FAKTOR_DISPO).toBe(1);
-    expect(b.halal).toBe(5);
+    expect(FAKTOR_DISPO).toBe(0.9);
+    expect(b.halal).toBe(4.5);
     expect(b.halalVorKredit).toBe(5);
     expect(b.uneingeschraenkt).toBe(false);
   });
@@ -498,28 +504,28 @@ describe("rangfolge: Edelmetalle", () => {
   const r = (liste: RohAnbieter[]) => rangfolge(liste, "edelmetall", { finanzMax: MAX_DEPOT, beliebt: false });
 
   it("zählt im Halal-Teil halb Gold und Silber, halb alle Halal-Anlagen des Depots", () => {
-    // Metalle 5 × 7/7 = 5, alle 5 × 7/22 = 1,5909…, Halal 3,2954…, Kosten 5, Note 4,1477…
+    // Regel 12: Metalle (7 + Royal Mint 2) von 9 = 5, alle 5 × (7 + 2) / 36 = 1,25, Halal 3,125, Kosten 5, Note 4,0625
     const ohneRest = depot("metall", { halalEtfsFonds: "0 von 12", halalSukuk: "0 von 3" }, { halalAnlagenPunkte: { halalEtfsFonds: 0, halalSukuk: 0, halalEdelmetalle: 7 } });
-    expect(einzig(r([ohneRest]))).toMatchObject({ note: 4.15, halal: 3.3, kosten: 5, uneingeschraenkt: true });
+    expect(einzig(r([ohneRest]))).toMatchObject({ note: 4.06, halal: 3.13, kosten: 5, uneingeschraenkt: true });
     const voll = depot("voll", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 7 } });
     expect(einzig(r([voll]))).toMatchObject({ note: 5, halal: 5, kosten: 5 });
   });
 
   it("rechnet den Anteil der belegten Papiere und teilt mit den Kosten", () => {
-    // Metalle 5 × 5/7 = 3,5714…, alle 5 × 20/22 = 4,5454…, Halal 4,0584…, Kosten 5 × 10/20 = 2,5, Note 3,2792…
+    // Metalle 5 × (5 + 2) / 9 = 3,8888…, alle 5 × (24 + 3 + 5 + 2) / 36 = 4,7222…, Halal 4,3055…, Kosten 5 × 10/20 = 2,5, Note 3,4027…
     const a = depot("teil", { halalEdelmetalle: "5 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 5 }, finanzPunkte: { depotgebuehr: 10, app: 0 } });
-    expect(einzig(r([a]))).toMatchObject({ halal: 4.06, kosten: 2.5, note: 3.28 });
+    expect(einzig(r([a]))).toMatchObject({ halal: 4.31, kosten: 2.5, note: 3.4 });
   });
 
   it("zählt bei „mind. x von 7“ nur die belegten Papiere und Unbelegtes als 0", () => {
-    // Metalle 5 × 6/7 = 4,2857…, alle 5 × 21/22 = 4,7727…, Halal 4,5292…; leer: Metalle 0, alle 5 × 15/22, Halal 1,7045…
+    // Metalle 5 × (6 + 2) / 9 = 4,4444…, alle 5 × 35/36 = 4,8611…, Halal 4,6527…; leer: Metalle 5 × 2/9, alle 5 × 29/36, Halal 2,5694…
     const mind = depot("mind", { halalEdelmetalle: "mind. 6 von 7" }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3, halalEdelmetalle: 6 } });
     const leer = depot("leer", { halalEdelmetalle: null }, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 3 } });
     const e = r([mind, leer]);
     expect(e.nichtBewertet).toEqual([]);
     expect(e.gerankt.map((x) => [x.anbieter.id, x.halal])).toEqual([
-      ["mind", 4.53],
-      ["leer", 1.7],
+      ["mind", 4.65],
+      ["leer", 2.57],
     ]);
   });
 
@@ -675,8 +681,9 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
 
   it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
-    // Elias, 15.11.2026 (RN3-07): „Flatex als einzige Nummer 1 benutzen ist gut. Smartbroker als Nummer 2.“
-    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["flatex-depot"]);
+    // Seit 24.11.2026 (Regel 12, Elias VG5-01: „ich finde Smartbroker auf zwei, weil er einfach gut performt“): Mit dem Kredit-Abzug
+    // fällt flatex auf 3, Smartbroker+ hat die beste Eröffnungsquote (Stand 23.11.) und steht vorn.
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
     // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“; seit Regel 8 mit der höchsten Note.
     expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
@@ -835,16 +842,16 @@ describe("rangfolge: echte Daten", () => {
 describe("automatischer Kredit im Depot (Elias, 12.10.2026; ohne Abzug seit 07.11.2026; Platz 1 frei seit 15.11.2026)", () => {
   const flatex = () => brokerVergleich.find((a) => a.id === "flatex-depot")!;
 
-  it("zieht keinen Abzug vom Halal-Teil ab und sperrt Platz 1 im Depot nicht mehr (Elias, 15.11.2026, RN3-07)", () => {
+  it("zieht seit 24.11.2026 ein Zehntel vom Halal-Teil ab und sperrt Platz 1 im Depot weiter nicht (Regel 12, Elias VG5-01: „Flatex … mit dem Dispo 10 Prozent nur runternehmen, dass er ungefähr auf 3 bis 4 kommt“)", () => {
     const r = rangfolge(brokerVergleich, "depot");
     const mit = r.gerankt.find((b) => b.anbieter.id === "flatex-depot")!;
     expect(flatex().werte.kreditAbStart).toBe("teils");
-    expect(FAKTOR_KREDIT).toBe(1);
+    expect(FAKTOR_KREDIT).toBe(0.9);
     expect(mit.kredit).toBe(true);
     expect(mit.uneingeschraenkt).toBe(true);
-    expect(mit.halal).toBe(mit.halalVorKredit);
-    expect(ids(nummerEins(r))).toEqual(["flatex-depot"]);
-    expect(r.gerankt[0].anbieter.id).toBe("flatex-depot");
+    expect(mit.halal).toBeCloseTo(mit.halalVorKredit * 0.9, 1);
+    expect(mit.platz).toBe(3);
+    expect(ids(nummerEins(r))).toEqual(["smartbroker-plus-depot"]);
   });
 
   it("sperrt Platz 1 nur noch im Edelmetall-Vergleich", () => {
@@ -906,21 +913,21 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
       r.gerankt.slice(1).forEach((x, i) => gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
-  it("Depot: flatex 1, Smartbroker+ 2, S Broker 3, Traders Place 4, Scalable 5, Trading 212 ohne Link dahinter (Regel 11, VG3)", () => {
-    // S Broker steht seit der Antwort vom 11.11.2026 (Franklin Shariah Technology Fund handelbar, 11 von 12) bei 4,3 Sternen und mit Link vor Trading 212.
-    // Regel 11 (Elias VG2-05): bei gleichen 4,3 Sternen zuerst der größere Halal-Teil (S Broker), dann mehr Halal-ETFs (Traders Place 9, Scalable 8).
+  it("Depot ab 01.12.2026: Smartbroker+ 1, S Broker 2, flatex 3, Traders Place 4, Trading 212 ohne Link 5, Scalable 6 (Regel 12, VG5)", () => {
+    // Regel 12 (Elias VG4-03, VG5-01): Halal-ETF doppelt, Royal Mint 2, Kredit ab Start minus 10 %; „Bei meinen Lesern beliebt“ mit dem Stand vom 23.11.
+    // Smartbroker+ 4,4 (beste Eröffnungsquote 11 von 85), dahinter vier Depots mit 4,3: mit Link nach Regel 11 der größere Halal-Teil zuerst
+    // (S Broker 4,38, flatex 4,34, Traders Place 4,03), Trading 212 ohne Link dahinter.
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
     expect(ids(r.gerankt.slice(0, 6))).toEqual([
-      "flatex-depot",
       "smartbroker-plus-depot",
       "s-broker-direkt-depot",
+      "flatex-depot",
       "traders-place-depot",
-      "scalable-capital-free-broker",
       "trading-212-depot",
+      "scalable-capital-free-broker",
     ]);
     expect(r.gerankt.slice(0, 6).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6]);
-    // Die einzige Nummer 1 hebt sich in der Zahl ab: flatex 4,6, Smartbroker+ 4,5.
-    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.6, 4.5, 4.3, 4.3]);
+    expect(r.gerankt.slice(0, 6).map((b) => anzeigeNote(b.note))).toEqual([4.4, 4.3, 4.3, 4.3, 4.3, 4.2]);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
   });
   it("Girokonto: norisbank 1, BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
@@ -928,7 +935,8 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     expect(ids(r.gerankt.slice(0, 4))).toEqual(["norisbank-top-girokonto", "bbbank-bettersmart", "consorsbank-girokonto", "trade-republic-girokonto"]);
     // meine Bank (1 % im Ausland) steht hinter DKB und Revolut, nicht mehr auf Platz 3.
     expect(ids(r.gerankt.slice(4, 7))).toEqual(["dkb-girokonto", "revolut-standard", "meine-bank-mein-girokonto"]);
-    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.7, 4.5, 4.5]);
+    // Stand 23.11.2026: BBBank 13 Anträge aus 65 Klicks, dadurch 4,8 wie norisbank (31 aus 102).
+    expect(r.gerankt.slice(0, 4).map((b) => anzeigeNote(b.note))).toEqual([4.8, 4.8, 4.5, 4.5]);
     expect(r.gerankt[0].anbieter.link).toBe("/out/norisbank");
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
   });
@@ -941,14 +949,16 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     expect(ohne.note).toBe(5);
     expect(mit.note).toBe(4.75);
     expect(mit.beliebt).toBe(0);
-    // Beste Quote im Depot bekommt 5 Punkte, ohne Link nie Punkte.
-    expect(beliebtPunkte("depot", "flatex-depot", true)).toBe(5);
+    // Beste Quote im Depot bekommt 5 Punkte (Stand 23.11.2026 Smartbroker+ 11 von 85), die anderen anteilig, ohne Link nie Punkte.
+    expect(beliebtPunkte("depot", "smartbroker-plus-depot", true)).toBe(5);
+    // flatex 7 von 85: 5 × 7 / 11 = 3,1818…
+    expect(beliebtPunkte("depot", "flatex-depot", true)).toBeCloseTo(3.18, 2);
     expect(beliebtPunkte("depot", "flatex-depot", false)).toBe(0);
     expect(beliebtPunkte("girokonto", "norisbank-top-girokonto", true)).toBe(5);
     // Depot, Girokonto und seit 23.11.2026 (VG1) Edelmetall kennen das Kriterium; Edelmetall liest die Depot-Eröffnungen.
     expect(rangfolge([krypto("k")], "krypto", { finanzMax: MAX_KRYPTO }).gerankt[0].beliebt).toBeNull();
     expect(rangfolge([depot("e")], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(0);
-    expect(rangfolge([depot("flatex-depot", {}, { link: "/out/flatex" })], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(5);
+    expect(rangfolge([depot("smartbroker-plus-depot", {}, { link: "/out/smartbroker" })], "edelmetall", { finanzMax: MAX_DEPOT }).gerankt[0].beliebt).toBe(5);
   });
   it("zählt Eröffnungen, nie Geld, und jede Zahl hat Klicks", () => {
     for (const tabelle of Object.values(LESER_EROEFFNUNGEN))
@@ -961,10 +971,49 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
     expect(readFileSync(join(__dirname, "rangfolge.ts"), "utf8")).not.toMatch(/from "@\/data\/(deals|provision)|dealFuer\(/);
     expect(readFileSync(join(__dirname, "..", "data", "leserEroeffnungen.ts"), "utf8")).not.toMatch(/from "@\/data\/(deals|provision)|€ je Klick/);
   });
-  it("eine Nummer 1 im Depot: kein zweiter Kasten, flatex hat selbst die meisten Halal-Anlagen", () => {
+  it("eine Nummer 1 im Depot: kein zweiter Kasten, weil flatex und BBBank mit 22 von 22 gleichauf die meisten Halal-Anlagen haben", () => {
     const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
-    expect(sieger?.id).toBe("flatex-depot");
+    expect(sieger?.id).toBe("smartbroker-plus-depot");
     expect(meisteHalalVon(depotAnzeige, DEPOT_ZEILEN, new Set(r.gerankt.map((b) => b.anbieter.id)), sieger?.id)).toBeNull();
+  });
+});
+
+describe("Regel 12: Halal-ETF doppelt, Royal Mint wie ein ETF, Kredit und Dispo ab Start minus 10 % (Elias, 24.11.2026, VG4-03 und VG5-01)", () => {
+  it("zählt Halal-ETFs und Fonds 2, Sukuk und Edelmetall 1, Royal Mint 2: Deutschland 36 Höchstpunkte", () => {
+    expect(HALAL_GEWICHT).toEqual({ halalEtfsFonds: 2, halalSukuk: 1, halalEdelmetalle: 1 });
+    expect(GEWICHT_ROYAL_MINT).toBe(2);
+    expect(halalPunkte(depot("voll"))).toEqual({ punkte: 36, max: 36 });
+    // Ohne Royal-Mint-Beleg: 34 von 36, Halal 5 × 34 / 36 = 4,7222…, Note 4,86
+    const ohneRm = depot("ohne-rm", {}, { haus: undefined });
+    expect(halalPunkte(ohneRm)).toEqual({ punkte: 34, max: 36 });
+    expect(einzig(rDepot([ohneRm]))).toMatchObject({ halal: 4.72, note: 4.86 });
+    // Ein Halal-ETF mehr wiegt doppelt so viel wie ein Sukuk mehr.
+    const etf = depot("etf", {}, { halalAnlagenPunkte: { halalEtfsFonds: 12, halalSukuk: 2, halalEdelmetalle: 7 } });
+    const sukuk = depot("sukuk", {}, { halalAnlagenPunkte: { halalEtfsFonds: 11, halalSukuk: 3, halalEdelmetalle: 7 } });
+    expect(halalPunkte(etf).punkte - halalPunkte(sukuk).punkte).toBe(1);
+  });
+
+  it("zählt Royal Mint nur in den deutschen Listen, Länderlisten zählen nur dort zugelassene Papiere", () => {
+    const a = depot("at", { halalEtfsFonds: "1 von 1", halalSukuk: "1 von 1", halalEdelmetalle: "1 von 1" }, { halalAnlagenPunkte: { halalEtfsFonds: 1, halalSukuk: 1, halalEdelmetalle: 1 } });
+    expect(halalPunkte(a, { halalEtfsFonds: 1, halalSukuk: 1, halalEdelmetalle: 1 })).toEqual({ punkte: 4, max: 4 });
+  });
+
+  it("die Häuser mit Royal-Mint-Beleg stimmen mit der Kaufbar-Liste überein", () => {
+    const e = ANLAGEN_KAUFBAR[ROYAL_MINT];
+    const ausListe = new Set(e.kaufbar.flatMap((k) => [k.haus, ...(k.haeuser ?? [])]));
+    expect(new Set(ROYAL_MINT_HAEUSER)).toEqual(ausListe);
+    expect(e.nichtImAngebot).toEqual([]);
+    // Gleiches Ergebnis wie die Zeile „Royal Mint kaufbar“ im Edelmetall-Vergleich.
+    const zuId = new Map(brokerVergleich.map((x) => [x.id, x]));
+    for (const g of edelmetallVergleich) expect(String(g.werte.royalMint).startsWith("ja"), g.id).toBe(halalPunkte(zuId.get(g.id)!).punkte > halalPunkte({ ...zuId.get(g.id)!, haus: undefined, finanzfluss: undefined }).punkte);
+  });
+
+  it("Smartbroker+ hat 8 von 12 Halal-ETFs: die vier HSBC-ETFs gibt es dort nicht (API leer am 24.11.2026, nur Paris, London, SIX)", () => {
+    const sb = brokerVergleich.find((x) => x.id === "smartbroker-plus-depot")!;
+    expect(sb.werte.halalEtfsFonds).toBe("8 von 12");
+    expect(sb.werte.kreditAbStart ?? null).toBeNull();
+    // 2 × 8 + 3 + 7 + 2 = 28 von 36, Halal 3,89
+    expect(halalPunkte(sb)).toEqual({ punkte: 28, max: 36 });
   });
 });

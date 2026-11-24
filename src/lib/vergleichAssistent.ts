@@ -224,7 +224,7 @@ export const werteAus = (
       gruende: ohneDoppeltes((auswahl.gruende ?? []).map((g) => g(a)).filter((g): g is string => !!g)),
       note,
       sortWert: note
-        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert nach dem Halal-Teil (Elias, 12.10.2026; den Kredit-Abzug gibt es seit 07.11.2026 nicht mehr).
+        ? auswahl.prioritaet?.nachHalal // Wer möglichst viele Anlagen will, sortiert nach dem Halal-Teil (Elias, 12.10.2026), vor dem Kredit-Abzug (seit 24.11.2026 wieder 10 %, Regel 12).
           ? runde((eigen?.halalVorKredit ?? bewertet!.halalVorKredit) + note.gesamt / 100)
           : eigen
             ? runde(ANTEIL_NOTE * note.gesamt + (1 - ANTEIL_NOTE) * (0.5 * eigen.halal + 0.5 * (kosten ?? note.finanz ?? 0)))

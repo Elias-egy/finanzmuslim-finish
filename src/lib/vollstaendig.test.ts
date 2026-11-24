@@ -91,8 +91,8 @@ describe("Nur vollständig Belegtes steht im Vergleich", () => {
     const sp = baueSpalten([tp], DEPOT_ZEILEN, "depot")[0];
     for (const key of ["zinsfreiAbStart", "halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) expect(sp.werte[key].text, key).toBe(OFFEN);
     expect(sp.werte.zinsfreiAbStart.status).toBe("unbekannt");
-    // Kein Urteil: Kosten stehen weiter da, der Halal-Teil der Anlagen zählt nichts.
-    expect(rangfolge([tp], "depot").gerankt[0]).toMatchObject({ halal: 0, uneingeschraenkt: false });
+    // Kein Urteil: Kosten stehen weiter da, der Halal-Teil der Anlagen zählt nichts. Belegt bleibt nur Royal Mint Gold (Regel 12): 5 × 2 / 36 = 0,28.
+    expect(rangfolge([tp], "depot").gerankt[0]).toMatchObject({ halal: 0.28, uneingeschraenkt: false });
   });
 
   it("Krypto: wer belegt wird, erscheint von selbst wieder", () => {

@@ -5,6 +5,9 @@ import {
   FAKTOR_ABSCHALTBAR,
   FAKTOR_KREDIT,
   depotHalal,
+  GEWICHT_ROYAL_MINT,
+  HALAL_GEWICHT,
+  halalPunkte,
   rangfolge,
   sterne,
   type RangKategorie,
@@ -74,6 +77,9 @@ export const platzZeilen = (kategorie: RangKategorie, finanzMax: Record<string, 
   const z = (key: string, label: string, hinweis?: string) =>
     ({ key: `__platz_${key}`, label, art: "text", gruppe: PLATZ_GRUPPE, hinweis }) as unknown as VergleichsZeile;
   const n = kategorie === "edelmetall" ? ANTEIL_N.halalEdelmetalle : Object.values(ANTEIL_N).reduce((s, x) => s + x, 0);
+  // Regel 12 (Elias VG4-03): gewichtete Höchstpunkte, Deutschland 36, Edelmetall 9 (7 Metalle und Royal Mint).
+  const zeilenN = kategorie === "edelmetall" ? { halalEdelmetalle: ANTEIL_N.halalEdelmetalle } : ANTEIL_N;
+  const hoechst = Object.entries(zeilenN).reduce((s, [k, x]) => s + x * (HALAL_GEWICHT[k] ?? 1), 0) + GEWICHT_ROYAL_MINT;
   return [
     z("fehlt", "Fehlt in der Tabelle", "Leere Zelle auf der Seite. Deshalb steht das Angebot heute nicht dort."),
     z("platz", "Platz"),
@@ -90,8 +96,12 @@ export const platzZeilen = (kategorie: RangKategorie, finanzMax: Record<string, 
     z("ja", "Kaufbar", "Mit Beleg, woher das Ja kommt."),
     z("nein", "Nicht im Angebot", "Mit Beleg, woher das Nein kommt."),
     z("offen", "Noch offen", "Weder Ja noch Nein belegt. Zählt 0 Punkte, auf der Seite steht dann „mind.“."),
-    z("anlagen", `Halal-Punkte (von ${n})`, "Jede kaufbare Anlage 1 Punkt. Fonds mit Ausgabeaufschlag zählen weniger: mit Rabatt 0,75, voller oder unbekannter Aufschlag 0,5 (Elias, 15.09.2026)."),
-    z("halalVor", "Halal-Teil vor Abzug", `5 mal Halal-Punkte durch ${n}.`),
+    z(
+      "anlagen",
+      `Halal-Punkte (von ${punkte(hoechst)})`,
+      "Ein Halal-ETF oder Fonds zählt 2 Punkte, ein Sukuk und ein Edelmetall je 1, Royal Mint Gold 2 (Elias, 24.11.2026). Fonds mit Ausgabeaufschlag zählen weniger: mit Rabatt 0,75, voller oder unbekannter Aufschlag 0,5 (Elias, 15.09.2026).",
+    ),
+    z("halalVor", "Halal-Teil vor Abzug", `5 mal Halal-Punkte durch ${punkte(hoechst)}.`),
     z(
       "abzug",
       "Abzug Halal-Teil",
@@ -119,8 +129,10 @@ const zerlege = (
 ): Record<string, PlatzZelle> => {
   const zeilenN = kategorie === "edelmetall" ? { halalEdelmetalle: ANTEIL_N.halalEdelmetalle } : ANTEIL_N;
   const n = Object.values(zeilenN).reduce((s, x) => s + x, 0);
-  const belegt = Object.keys(zeilenN).reduce((s, k) => s + (a.halalAnlagenPunkte?.[k] ?? 0), 0);
-  const h = depotHalal(a, zeilenN);
+  // Regel 12: gewichtet, mit Royal Mint wie in der Rangfolge der deutschen Listen.
+  const gewichtet = halalPunkte(a, zeilenN, true);
+  const belegt = gewichtet.punkte;
+  const h = depotHalal(a, zeilenN, false, true);
   const tuer = a.werte.zinsfreiAbStart;
   const labels = { ...ZEILEN_LABEL(zeilen), finanzPunkte: "Kostenpunkte" };
   const belege = (BELEG[a.id] ?? []).filter((x) => x.z in zeilenN);
@@ -154,7 +166,7 @@ const zerlege = (
           ? { text: "ja, eigener Link", ton: "voll" }
           : { text: "nein, kein Link", ton: "leer" },
     __platz_anlagen: {
-      text: `${punkte(belegt)} von ${n}${
+      text: `${punkte(belegt)} von ${punkte(gewichtet.max)}${
         weniger.length ? `: ${weniger.map((x) => `${x.n.split(" ")[0]} ${x.a === "reduziert" ? "0,75" : "0,5"}`).join(", ")}` : ""
       }`,
     },
@@ -227,7 +239,7 @@ export const ansichtA3 = (
         : "abgeraten";
     const fehlt = grau ? luecken(a, kategorie, zeilen, { finanzMax }) : [];
     const zeilenN = kategorie === "edelmetall" ? { halalEdelmetalle: ANTEIL_N.halalEdelmetalle } : ANTEIL_N;
-    const ohneAbzug = b ? Math.round((0.5 * depotHalal(a, zeilenN).halalVorKredit + 0.5 * (b.kosten ?? 0)) * 100) / 100 : null;
+    const ohneAbzug = b ? Math.round((0.5 * depotHalal(a, zeilenN, false, true).halalVorKredit + 0.5 * (b.kosten ?? 0)) * 100) / 100 : null;
     return { anbieter: a, grau, platz: zerlege(a, kategorie, finanzMax, b, platzText, fehlt, zeilen), ohneAbzug };
   });
 };

@@ -1422,7 +1422,7 @@ export const startPartner: StartPartner[] = [
       },
       {
         titel: "Halal-Anlagen",
-        text: "Welche Anlagen aus unserer Halal-Liste beim S Broker kaufbar sind, prüfen wir gerade Anlage für Anlage.",
+        text: "Beim S Broker kaufbar: 11 von 12 Halal-ETFs und Fonds aus unserer Halal-Liste, 2 von 3 Sukuk und alle 7 Gold- und Silber-ETCs.",
       },
     ],
     checklisteTitel: ["2 Regeln halten dein S Broker-Depot", "riba-frei"],

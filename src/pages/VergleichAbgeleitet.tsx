@@ -4,6 +4,7 @@ import { GIRO_ZEILEN, GIRO_FINANZ_MAX } from "@/data/girokontoVergleich";
 import { DEPOT_ZEILEN, DEPOT_FINANZ_MAX } from "@/data/brokerVergleich";
 import { BESONDERS_JE_PRODUKT } from "@/data/girokontoBesondersDaten";
 import { reihenfolgeAntwort, sortiertSatz } from "@/data/reihenfolgeText";
+import { ReihenfolgeGeaendert } from "@/components/vergleich/VergleichsBausteine";
 import { juengsterStand } from "@/lib/juengsterStand";
 import { umrahKonten, studentenKonten, etfSparplanDepots } from "@/data/abgeleiteteVergleiche";
 import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
@@ -217,6 +218,7 @@ export const VergleichEtfSparplan = () => (
       </>
     }
     depot
+    vorneweg={<ReihenfolgeGeaendert />}
     zeilen={mitVorn(DEPOT_ZEILEN, ["halalEtfsFonds", "etfSparplanKosten", "sparrate"])}
     anbieter={etfSparplanDepots}
     sortiertNach={<ReihenfolgeSatz />}
@@ -229,7 +231,8 @@ export const VergleichEtfSparplan = () => (
     kriterien={[
       { titel: "Sparplan kostenlos", text: "Die Ausführung des ETF-Sparplans kostet 0 €, ganz oder bei den großen Fondsgesellschaften. Nur solche Depots stehen hier." },
       { titel: "Ohne Zinsen nutzbar", text: "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Geht beides nicht, gibt es keine Note." },
-      { titel: "Halal-Anlagen", text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen?" },
+      { titel: "Halal-Anlagen", text: "Wie viele Halal-ETFs und Fonds, Sukuk und Edelmetalle aus unserem Halal-Anlagen-Vergleich kannst du dort kaufen? Ein Halal-ETF zählt doppelt, Royal Mint Gold wie ein ETF." },
+      { titel: "Kein Kredit ab Start", text: "Räumt dir das Depot ab der Eröffnung einen Kredit ein, zählen die Halal-Merkmale 10 % weniger." },
     ]}
     faq={SPARPLAN_FAQ}
     weiterlesen={[
