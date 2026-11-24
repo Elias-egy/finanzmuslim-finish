@@ -5,7 +5,6 @@ import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import { cn } from "@/lib/utils";
-import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 import { useThema } from "@/lib/thema";
 
 // Nacht-Tempo (RN25L, 20.11.2026): Die Suche trägt die ganze Anlagendatenbank (rund 35 KB) und wird erst beim
@@ -116,20 +115,23 @@ export const SiteHeader = () => {
         </a>
       )}
 
-      {/* RN19-04 („wie live“) und RN19-03 (die Halal-Datenbank wird nicht gefunden): Phase 1 trägt wieder die lila Leiste der Live-Seite,
-          sie ist der Weg von oben zur Datenbank. Handy eine Zeile, ab sm mit Vorspann (wie live, Stand 19.11.2026). */}
-      {!MIT_OS && aufStartseite && (
+      {/* AG4-08 (Elias 24.11.2026: „oben dieses New“ wie bei Acquisition, „oben bei Free Course wird es auch zur Mail gebracht“):
+          eine schmale Leiste ganz oben auf jeder Seite mit Kopf, kleines „Neu“, ein Satz, Ziel /guide. Hellblau mit blauer
+          Schrift statt Lila, damit sie sich vom blauen Kopf darunter abhebt. Sie scrollt mit weg. Auf /guide selbst entfällt sie.
+          Sie ersetzt die lila Halal-Anlagen-Leiste der Startseite (RN19-04); die Datenbank bleibt im Menü. */}
+      {pathname !== "/guide" && (
         <Link
-          to="/halal-anlagen"
-          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
+          to="/guide"
+          className="flex items-center justify-center gap-2 bg-accent px-4 py-1.5 text-center text-[14px] leading-[22px] text-primary-text transition-colors hover:bg-accent/70 sm:text-[15px]"
         >
-          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
+          <span className="shrink-0 rounded-full bg-primary px-2.5 text-[12px] font-bold uppercase leading-[20px] tracking-wide text-white">
+            Neu
+          </span>
           <span className="whitespace-nowrap sm:hidden">
-            <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
+            <span className="font-bold">Mein Halal Starter Guide ist da</span> →
           </span>
           <span className="hidden sm:inline">
-            <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
-            <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
+            <span className="font-bold">Mein Halal Starter Guide ist da:</span> kostenlos holen →
           </span>
         </Link>
       )}

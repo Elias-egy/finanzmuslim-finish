@@ -1,7 +1,5 @@
 import Seo from "@/components/Seo";
-import OptinKarte from "@/components/optin/OptinKarte";
-import { optinFreebie } from "@/data/optin";
-import guideVorschau from "@/assets/halal-starter-guide-vorschau.webp";
+import GuideAnmeldung from "@/components/optin/GuideAnmeldung";
 
 /**
  * /guide: die eine Seite für den einen Guide, den Halal Starter Guide (AG4, 23.11.2026, Elias: „bei der Anmeldung zum
@@ -13,9 +11,8 @@ import guideVorschau from "@/assets/halal-starter-guide-vorschau.webp";
  * Roadmap-Seite: Marke, Titel mit der Psychologie „Find the constraint holding your business back“, ein Satz mit
  * „in 30 Sekunden“ und dem Hinweis, dass Elias per Mail erreichbar ist (statt „free call“), kleines Produktbild
  * (Titelseite und zwei Innenseiten, ohne Foto von Elias), Vorname, E-Mail, Knopf „Guide schicken“. Sonst nichts.
+ * AG4-06 (24.11.2026): der Block steht als Bauteil in components/optin/GuideAnmeldung.tsx, die Startseite nutzt dasselbe.
  */
-const guideFreebie = optinFreebie("guide")!;
-
 const Guide = () => (
   <div className="min-h-screen bg-background">
     <Seo
@@ -26,36 +23,7 @@ const Guide = () => (
     />
 
     <main>
-      <section className="container pb-10 pt-4 max-lg:[.einwilligung-offen_&]:pb-[380px] md:pb-16 md:pt-10">
-        <div className="mx-auto flex max-w-[560px] flex-col items-center text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-[12px] font-bold uppercase tracking-wide text-primary-text sm:text-[13px]">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
-            Kostenloser Halal Starter Guide
-          </span>
-
-          <h1 className="headline mt-3 text-balance text-[28px] font-extrabold leading-[1.07] sm:text-[42px]">
-            Finde heraus, was dich vom Halal-Investieren abhält
-          </h1>
-
-          <p className="mt-2.5 text-[15.5px] leading-snug text-foreground/75 sm:text-[18px]">
-            Hol dir deinen Halal Starter Guide in 30 Sekunden. Bei Fragen antworte einfach auf meine Mail, ich helfe dir.
-          </p>
-
-          <img
-            src={guideVorschau}
-            alt="Der Halal Starter Guide von finanzmuslim: Titelseite und zwei Innenseiten"
-            width={960}
-            height={540}
-            fetchPriority="high"
-            className="mt-1 h-auto w-full max-w-[360px] sm:max-w-[480px]"
-            draggable={false}
-          />
-
-          <div className="mt-1 w-full">
-            <OptinKarte freebie={guideFreebie} ohneUeberschrift knopfHinweis="Kostenlos. Dauert 30 Sekunden." />
-          </div>
-        </div>
-      </section>
+      <GuideAnmeldung />
     </main>
   </div>
 );
