@@ -78,7 +78,24 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  *    Royal Mint Gold-ETC von HANetf 2 (`GEWICHT_ROYAL_MINT`, nur mit Kaufbeleg und nur in den deutschen Listen). Kredit ab Start (Depot,
  *    Edelmetall) und abschaltbarer Dispo ab Start (Girokonto, Geschäftskonto) kosten je 10 % des Halal-Teils (`FAKTOR_KREDIT`,
  *    `FAKTOR_DISPO`), Zinsen, die erst abgeschaltet werden müssen, weiter die Hälfte (`FAKTOR_ABSCHALTBAR`).
+ * 13. Depot Deutschland, feste Spitze (Elias, 24.11.2026, VG5-03, wörtlich: „Warum ist Smart Broker VS Broker? Ich würde es sonst
+ *    andersrum machen. Dann Flatex, Traders Place, Trading, Scalable, BB Bank. Erstmal“, raw/2026-11-24-elias-vg5-03-ja-beides-s-broker-
+ *    eins-feste-reihenfolge.md im Vault): Die Einträge aus `DEPOT_SPITZE` stehen in dieser Reihenfolge vorn, jeder auf eigenem Platz,
+ *    alle anderen danach nach Note. Noten und Sterne rechnen weiter nach Regel 8 und 12; an der Spitze gilt die Liste vor Regel 7
+ *    (S Broker 4,3 vor Smartbroker+ 4,4). Regel 6 bleibt Wächter für Platz 1. Gilt für Depot und ETF-Sparplan, nicht für Edelmetall.
  */
+
+/** Regel 13: feste Spitze im deutschen Depot-Vergleich (Elias VG5-03, 24.11.2026, „erstmal“). */
+export const DEPOT_SPITZE: readonly string[] = [
+  "s-broker-direkt-depot",
+  "smartbroker-plus-depot",
+  "flatex-depot",
+  "traders-place-depot",
+  "trading-212-depot",
+  "scalable-capital-free-broker",
+  "bbbank-depot",
+];
+export const spitzenRang = (kategorie: RangKategorie, id: string): number => (kategorie === "depot" ? DEPOT_SPITZE.indexOf(id) : -1);
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall" | "geschaeftskonto";
 
@@ -617,6 +634,11 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
     depotGleichstand(kategorie, p, q) ||
     q.note - p.note || (q.kosten ?? 0) - (p.kosten ?? 0) || q.halal - p.halal || feinwert(q.anbieter) - feinwert(p.anbieter);
   bewertet.sort((p, q) => gleichauf(p, q) || nachName(p.anbieter, q.anbieter));
+  // Regel 13: feste Spitze im deutschen Depot, alle anderen behalten ihre Reihenfolge dahinter.
+  const spitze = bewertet
+    .filter((b) => spitzenRang(kategorie, b.anbieter.id) >= 0)
+    .sort((p, q) => spitzenRang(kategorie, p.anbieter.id) - spitzenRang(kategorie, q.anbieter.id));
+  if (spitze.length > 0) bewertet.splice(0, bewertet.length, ...spitze, ...bewertet.filter((b) => !spitze.includes(b)));
   // Regel 6: Platz 1 nur ohne Einschränkung und, wo Regel 2 gilt, über unseren Link (Elias 06.10.: „Die Eins muss immer von uns kaufbar sein“,
   // A11: „nicht etwas auf die 1 packen, wo wir keinen Link haben“). Hat keiner ohne Einschränkung einen Link, zählt nur die Einschränkung.
   const mitLink = bewertet.findIndex((b) => b.uneingeschraenkt && (!LINK_VORRANG.has(kategorie) || Boolean(b.anbieter.link)));
@@ -627,7 +649,8 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
   const gerankt: Bewertet[] = [];
   bewertet.forEach((b, i) => {
     const vorher = gerankt[i - 1];
-    const platz = vorher && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
+    const inSpitze = spitzenRang(kategorie, b.anbieter.id) >= 0 || (vorher && spitzenRang(kategorie, vorher.anbieter.id) >= 0);
+    const platz = vorher && !inSpitze && !(vorgezogen && i === 1) && gleichauf(vorher, b) === 0 ? vorher.platz : i + 1;
     gerankt.push({ ...b, platz });
   });
 

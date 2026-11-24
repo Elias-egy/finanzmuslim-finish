@@ -1,5 +1,5 @@
 import type { RohAnbieter } from "@/data/vergleichHelfer";
-import { ANTEIL_N, BASIS, depotGleichstand, depotHalal, LINK_VORRANG, rangfolge, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
+import { ANTEIL_N, BASIS, depotGleichstand, depotHalal, LINK_VORRANG, rangfolge, spitzenRang, vorrang, type Bewertet, type RangKategorie } from "@/lib/rangfolge";
 import { finanzNote } from "@/lib/vergleichLeser";
 
 export { ANTEIL_N, BASIS, finanzNote };
@@ -238,7 +238,15 @@ export const werteAus = (
     else passt.push(treffer);
   }
 
+  // Regel 13 der Rangfolge: feste Spitze im deutschen Depot, solange der Leser nichts gewählt hat (keine Priorität, kein Wunsch, keine Anlage, keine Gewichtung).
+  const spitze = (t: Treffer) => (auswahl.prioritaet || auswahl.wuensche.length > 0 || (auswahl.anlagen?.length ?? 0) > 0 || auswahl.gewichte.length > 0 ? -1 : spitzenRang(kategorie, t.anbieter.id));
+  const nachSpitze = (p: Treffer, q: Treffer) => {
+    const a = spitze(p);
+    const b = spitze(q);
+    return a >= 0 && b >= 0 ? a - b : a >= 0 ? -1 : b >= 0 ? 1 : 0;
+  };
   const ordnung = (p: Treffer, q: Treffer) =>
+    nachSpitze(p, q) ||
     vorrang(kategorie, { note: p.sortWert, anbieter: p.anbieter }, { note: q.sortWert, anbieter: q.anbieter }) ||
     depotGleichstand(kategorie, { halal: p.note?.halal ?? 0, anbieter: p.anbieter }, { halal: q.note?.halal ?? 0, anbieter: q.anbieter }) ||
     q.sortWert - p.sortWert ||

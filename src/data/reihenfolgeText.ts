@@ -13,8 +13,16 @@ export const ANTEIL_HALAL_KOSTEN = prozent((1 - GEWICHT_BELIEBT) / 2);
 /** 5 % */
 export const ANTEIL_BELIEBT = prozent(GEWICHT_BELIEBT);
 
+/**
+ * Regel 13 der Rangfolge (Elias VG5-03, 24.11.2026): Die ersten Plätze im Depot legt Elias selbst fest. Das muss der Leser
+ * erfahren (UWG § 5b Abs. 2: Hauptkriterien der Rangliste nennen), sonst stimmt der Satz „In jeder Gruppe zählt die Note“ nicht.
+ */
+export const SPITZE_SATZ_DEPOT =
+  "Die ersten sieben Plätze lege ich selbst fest. Die Note daneben rechnet nach denselben Kriterien wie bei allen anderen.";
+
 /** Der Satz über der Liste, vor dem Link zur Methodik. */
-export const sortiertSatz = (): string =>
+export const sortiertSatz = (was?: "Depot"): string =>
+  (was === "Depot" ? `${SPITZE_SATZ_DEPOT} ` : "") +
   "Zuerst stehen Angebote, bei denen der Anbieter belegt, dass es ohne Zinsen geht, danach die mit offener Zins-Frage, ganz hinten, wer Zinsen zahlt. " +
   `Innerhalb jeder Gruppe zählt unsere Note: Halal-Merkmale und Kosten je ${ANTEIL_HALAL_KOSTEN}, bei meinen Lesern beliebt ${ANTEIL_BELIEBT}. ` +
   "„Beliebt“ zählt Eröffnungen über unsere Links, dafür bekommen wir von einigen Anbietern eine Provision.";
@@ -37,6 +45,7 @@ export const reihenfolgeAntwort = (was: "Depot" | "Konto"): string =>
       : []),
     beliebtErklaerung(was),
     `Wie viel wir an einem ${was} verdienen, zählt nie.`,
+    ...(was === "Depot" ? [SPITZE_SATZ_DEPOT] : []),
     `Die Liste steht in drei Gruppen: zuerst alle ${was === "Depot" ? "Depots" : "Konten"}, bei denen der Anbieter belegt, dass dein Guthaben ohne Zinsen liegt oder sich der Zins abschalten lässt, danach alle, bei denen er dazu nichts belegt („Offen“, kein Urteil, wir fragen nach), ganz hinten, wer Zinsen zahlt, die sich nicht abschalten lassen. In jeder Gruppe zählt die Note, die du siehst. Bei gleicher Note steht zuerst, was du über unseren Link eröffnen kannst.`,
     "Was nicht belegt ist, zählt 0 Punkte und wird nie geschätzt.",
     was === "Depot"

@@ -15,7 +15,7 @@ const AUSZEICHNUNGEN = { nummerEins: "Bestes Halal-Depot", meisteHalal: "Meiste 
 
 const ReihenfolgeSatz = () => (
   <>
-    {sortiertSatz()}{" "}
+    {sortiertSatz("Depot")}{" "}
     <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
       So bewerten wir
     </Link>

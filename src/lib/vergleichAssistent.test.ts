@@ -496,7 +496,7 @@ describe("Depot mit automatischem Kredit im geführten Test (Elias, 12.10.2026)"
     const viele = werteAus(d().anbieter, d().kategorie, d().finanzMax, auswahl);
     expect(viele.passt[0].anbieter.id).toBe("flatex-depot");
     const normal = werteAus(d().anbieter, d().kategorie, d().finanzMax, leer);
-    expect(normal.passt[0].anbieter.id).toBe("smartbroker-plus-depot");
+    expect(normal.passt[0].anbieter.id).toBe("s-broker-direkt-depot");
     expect(ids(normal.passt).indexOf("flatex-depot")).toBe(2);
     expect(normal.passt[2].kredit).toBe(false);
   });

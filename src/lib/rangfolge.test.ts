@@ -16,7 +16,7 @@ import { screenerVergleich } from "@/data/screenerVergleich";
 import { edelmetallVergleich, EDELMETALL_FINANZ_MAX } from "@/data/edelmetallVergleich";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import { ROYAL_MINT, ROYAL_MINT_HAEUSER } from "@/data/royalMint";
-import { GEWICHT_ROYAL_MINT, HALAL_GEWICHT, halalPunkte } from "@/lib/rangfolge";
+import { DEPOT_SPITZE, GEWICHT_ROYAL_MINT, HALAL_GEWICHT, halalPunkte, spitzenRang } from "@/lib/rangfolge";
 
 /**
  * Rechenkern der Rangfolge, Spezifikation `docs/rangfolge/P3-SPEC.md` (Abschnitt 10 hat Vorrang).
@@ -681,9 +681,8 @@ describe("rangfolge: eigener Link bei gleicher Sternzahl (Regel 2, Elias 06.10.2
 
   it("echte Daten: Die Nummer 1 in Depot, Girokonto und Krypto hat einen eigenen Link", () => {
     const eins = (liste: RohAnbieter[], kategorie: RangKategorie) => nummerEins(rangfolge(liste, kategorie));
-    // Seit 24.11.2026 (Regel 12, Elias VG5-01: „ich finde Smartbroker auf zwei, weil er einfach gut performt“): Mit dem Kredit-Abzug
-    // fällt flatex auf 3, Smartbroker+ hat die beste Eröffnungsquote (Stand 23.11.) und steht vorn.
-    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["smartbroker-plus-depot"]);
+    // Seit 24.11.2026 (Regel 13, Elias VG5-03): feste Spitze, S Broker auf 1.
+    expect(ids(eins(brokerVergleich, "depot"))).toEqual(["s-broker-direkt-depot"]);
     // Elias, 12.11.2026 (RN1): „Pack Norris Bank auf die 1“; seit Regel 8 mit der höchsten Note.
     expect(ids(eins(girokontoVergleich, "girokonto"))).toEqual(["norisbank-top-girokonto"]);
     expect(ids(eins(kryptoVergleich, "krypto"))).toEqual(["finst-standard"]);
@@ -851,7 +850,7 @@ describe("automatischer Kredit im Depot (Elias, 12.10.2026; ohne Abzug seit 07.1
     expect(mit.uneingeschraenkt).toBe(true);
     expect(mit.halal).toBeCloseTo(mit.halalVorKredit * 0.9, 1);
     expect(mit.platz).toBe(3);
-    expect(ids(nummerEins(r))).toEqual(["smartbroker-plus-depot"]);
+    expect(ids(nummerEins(r))).toEqual(["s-broker-direkt-depot"]);
   });
 
   it("sperrt Platz 1 nur noch im Edelmetall-Vergleich", () => {
@@ -906,29 +905,22 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
       r.gerankt.slice(1).forEach((x, i) => i > 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
-  it("Sterne in Reihe: im Depot und Girokonto fällt die angezeigte Note von Platz zu Platz nie, auch Platz 1 nicht (Elias A10)", () => {
+  it("Sterne in Reihe: im Depot und Girokonto fällt die angezeigte Note von Platz zu Platz nie, auch Platz 1 nicht (Elias A10); im Depot erst hinter der festen Spitze (Regel 13, VG5-03)", () => {
     for (const [liste, kategorie] of [[depotAnzeige, "depot"], [girokontoVergleich, "girokonto"]] as const) {
       const r = rangfolge(liste, kategorie);
       stufenAufsteigend(kategorie, r);
-      r.gerankt.slice(1).forEach((x, i) => gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
+      r.gerankt.slice(1).forEach((x, i) => spitzenRang(kategorie, x.anbieter.id) < 0 && spitzenRang(kategorie, r.gerankt[i].anbieter.id) < 0 && gleicheStufe(kategorie, x.anbieter, r.gerankt[i].anbieter) && expect(anzeigeNote(x.note), x.anbieter.id).toBeLessThanOrEqual(anzeigeNote(r.gerankt[i].note)));
     }
   });
-  it("Depot ab 01.12.2026: Smartbroker+ 1, S Broker 2, flatex 3, Traders Place 4, Trading 212 ohne Link 5, Scalable 6 (Regel 12, VG5)", () => {
-    // Regel 12 (Elias VG4-03, VG5-01): Halal-ETF doppelt, Royal Mint 2, Kredit ab Start minus 10 %; „Bei meinen Lesern beliebt“ mit dem Stand vom 23.11.
-    // Smartbroker+ 4,4 (beste Eröffnungsquote 11 von 85), dahinter vier Depots mit 4,3: mit Link nach Regel 11 der größere Halal-Teil zuerst
-    // (S Broker 4,38, flatex 4,34, Traders Place 4,03), Trading 212 ohne Link dahinter.
+  it("Depot ab 01.12.2026: S Broker 1, Smartbroker+ 2, flatex 3, Traders Place 4, Trading 212 5, Scalable 6, BBBank 7 (Regel 13, Elias VG5-03)", () => {
+    // Elias VG5-03: „Warum ist Smart Broker VS Broker? Ich würde es sonst andersrum machen. Dann Flatex, Traders Place, Trading, Scalable, BB Bank.“
+    // Die Noten rechnen weiter nach Regel 8 und 12 (Smartbroker+ 4,4 wegen „beliebt“), die Reihenfolge an der Spitze ist fest.
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
-    expect(ids(r.gerankt.slice(0, 6))).toEqual([
-      "smartbroker-plus-depot",
-      "s-broker-direkt-depot",
-      "flatex-depot",
-      "traders-place-depot",
-      "trading-212-depot",
-      "scalable-capital-free-broker",
-    ]);
-    expect(r.gerankt.slice(0, 6).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6]);
-    expect(r.gerankt.slice(0, 6).map((b) => anzeigeNote(b.note))).toEqual([4.4, 4.3, 4.3, 4.3, 4.3, 4.2]);
+    expect(ids(r.gerankt.slice(0, 7))).toEqual([...DEPOT_SPITZE]);
+    expect(r.gerankt.slice(0, 7).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(r.gerankt.slice(0, 7).map((b) => anzeigeNote(b.note))).toEqual([4.3, 4.4, 4.3, 4.3, 4.3, 4.2, 4.2]);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
+    expect(r.gerankt.slice(7).every((b) => anzeigeNote(b.note) <= 4.2)).toBe(true);
   });
   it("Girokonto: norisbank 1, BBBank 2, Consorsbank 3, Trade Republic 4 (mit Kriterium Ausland, PH2-01), Sterne in Reihe", () => {
     const r = rangfolge(girokontoVergleich, "girokonto");
@@ -974,7 +966,7 @@ describe("Regel 7 und 8: angezeigte Note, 5 % „Bei meinen Lesern beliebt“ (E
   it("eine Nummer 1 im Depot: kein zweiter Kasten, weil flatex und BBBank mit 22 von 22 gleichauf die meisten Halal-Anlagen haben", () => {
     const sieger = siegerDerSeite(depotAnzeige, "depot", DEPOT_FINANZ_MAX);
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
-    expect(sieger?.id).toBe("smartbroker-plus-depot");
+    expect(sieger?.id).toBe("s-broker-direkt-depot");
     expect(meisteHalalVon(depotAnzeige, DEPOT_ZEILEN, new Set(r.gerankt.map((b) => b.anbieter.id)), sieger?.id)).toBeNull();
   });
 });

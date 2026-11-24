@@ -18,9 +18,9 @@ import type { VergleichsZeile } from "@/components/vergleich/vergleichTypen";
 const AKTUALISIERT = "23.11.2026";
 const MONAT_JAHR = AKTUALISIERT.slice(3).replace(".", "/");
 
-const ReihenfolgeSatz = () => (
+const ReihenfolgeSatz = ({ was }: { was?: "Depot" }) => (
   <>
-    {sortiertSatz()}{" "}
+    {sortiertSatz(was)}{" "}
     <Link to="/vergleiche/methodik" className="font-semibold text-primary hover:underline">
       So bewerten wir
     </Link>
@@ -221,7 +221,7 @@ export const VergleichEtfSparplan = () => (
     vorneweg={<ReihenfolgeGeaendert />}
     zeilen={mitVorn(DEPOT_ZEILEN, ["halalEtfsFonds", "etfSparplanKosten", "sparrate"])}
     anbieter={etfSparplanDepots}
-    sortiertNach={<ReihenfolgeSatz />}
+    sortiertNach={<ReihenfolgeSatz was="Depot" />}
     kategorie="depot"
     finanzMax={DEPOT_FINANZ_MAX}
     filter={[]}
