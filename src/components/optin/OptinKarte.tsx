@@ -303,8 +303,8 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
               />
               {/* Elias AG4-05 (24.11.2026): no newsletter tick box, only a plain notice with the privacy link. */}
               <p className="text-[13px] leading-snug text-muted-foreground">
-                Mit dem Absenden wirst du Teil des Newsletters. Abmelden geht jederzeit.{" "}
-                <a href="/datenschutz" className="underline">Datenschutz</a>
+                Mit dem Absenden hast du die{" "}
+                <a href="/datenschutz" className="underline">Datenschutzerklärung</a> zur Kenntnis genommen.
               </p>
               {fehler && (
                 <p role="alert" className="text-[14px] leading-relaxed text-destructive">
