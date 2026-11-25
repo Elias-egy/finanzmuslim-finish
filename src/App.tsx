@@ -65,6 +65,7 @@ const Nisab = lazy(() => import("./pages/wissen/Nisab.tsx"));
 const Sukuk = lazy(() => import("./pages/wissen/Sukuk.tsx"));
 const HalalEtf = lazy(() => import("./pages/blog/HalalEtf.tsx"));
 const TradeRepublicAlternative = lazy(() => import("./pages/blog/TradeRepublicAlternative.tsx"));
+const GeschaeftskontoFuerMuslime = lazy(() => import("./pages/blog/GeschaeftskontoFuerMuslime.tsx"));
 const Gharar = lazy(() => import("./pages/wissen/Gharar.tsx"));
 const HaeufigeFehler = lazy(() => import("./pages/wissen/HaeufigeFehler.tsx"));
 const ErtraegeReinigen = lazy(() => import("./pages/wissen/ErtraegeReinigen.tsx"));
@@ -196,6 +197,7 @@ const App = () => (
                 /blog/…-Adresse fällt in die Fehlerseite, nicht auf die Übersicht. */}
             <Route path="/blog/halal-etf" element={<HalalEtf />} />
             <Route path="/blog/trade-republic-alternative" element={<TradeRepublicAlternative />} />
+            <Route path="/blog/geschaeftskonto-fuer-muslime" element={<GeschaeftskontoFuerMuslime />} />
             {/* RN6: Check ersetzt das alte Quiz (VergleichAssistent bleibt im Code, rückholbar). */}
             <Route path="/vergleich/start" element={<QuizZumCheck />} />
             {/* RN5: Halal-Finanz-Check, Einstiege ?quelle=aktienliste|halal-anlagen|boykottliste|homepage */}

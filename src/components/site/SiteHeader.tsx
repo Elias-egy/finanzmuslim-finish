@@ -57,6 +57,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   // SEO84 (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action“): Kopfknopf zum Check mit der Depot-Art; „Depot-Vergleich“
   // als Knopfwort fällt weg, damit die Seite dem Depot-Vergleich das Wort nicht nimmt. Der Link zur Money Page steht im Text.
   "/blog/trade-republic-alternative": { ziel: "/check?art=depot&quelle=kopf", text: "Match finden", ohneZum: true },
+  // Geschäftskonto für Muslime (SEO84): Der Check kennt kein Geschäftskonto, darum führt „Match finden“ in den Vergleich mit Filter nach Rechtsform.
+  "/blog/geschaeftskonto-fuer-muslime": { ziel: "/vergleich/geschaeftskonto", text: "Match finden", ohneZum: true },
   "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
   "/blog/dispo-und-schulden": KOPF_KONTO,
   "/blog/kreditkarte-halal": KOPF_KONTO,
