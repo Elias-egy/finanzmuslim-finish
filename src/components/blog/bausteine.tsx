@@ -344,21 +344,45 @@ export const GoogleKasten = () => (
 );
 
 /** YouTube erst nach dem Klick laden: vorher kein Kontakt zu Google. Vorschaubild liegt bei uns. */
-export const Video = ({ id, titel, bild }: { id: string; titel: string; bild?: string }) => {
+/** Kapitelmarke im Video: `s` ist die Startsekunde. */
+export type VideoKapitel = { s: number; titel: string };
+export const zeitText = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+
+/** Schema.org-Clips für Googles Schlüsselmomente, aus denselben Kapiteln wie die Knöpfe unter dem Video. */
+export const videoClips = (id: string, kapitel: VideoKapitel[], dauer: number) =>
+  kapitel.map((k, i) => ({
+    "@type": "Clip",
+    name: k.titel,
+    startOffset: k.s,
+    endOffset: kapitel[i + 1]?.s ?? dauer,
+    url: `https://www.youtube.com/watch?v=${id}&t=${k.s}s`,
+  }));
+
+/**
+ * Video mit Datenschutz-Klick (youtube-nocookie lädt erst beim Abspielen). Mit `kapitel` stehen unter dem Bild die Kapitelmarken
+ * als Knöpfe: Ein Klick startet das Video an dieser Stelle (SEO91, Elias: Video gut sichtbar mit Kapitelmarken).
+ */
+export const Video = ({ id, titel, bild, kapitel }: { id: string; titel: string; bild?: string; kapitel?: VideoKapitel[] }) => {
   const [an, setAn] = useState(false);
+  const [start, setStart] = useState(0);
+  const los = (s: number) => {
+    setStart(s);
+    setAn(true);
+  };
   return (
     <figure className="mt-5">
       <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
         {an ? (
           <iframe
-            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+            key={start}
+            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0${start ? `&start=${start}` : ""}`}
             title={`${titel}, Video von Finanz Muslim`}
             allow="autoplay; encrypted-media; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 h-full w-full"
           />
         ) : (
-          <button type="button" onClick={() => setAn(true)} className="group absolute inset-0 h-full w-full" aria-label={`Video abspielen: ${titel}`}>
+          <button type="button" onClick={() => los(0)} className="group absolute inset-0 h-full w-full" aria-label={`Video abspielen: ${titel}`}>
             {bild ? (
               <img src={bild} alt={`Vorschaubild des Videos ${titel}`} width={480} height={360} loading="lazy" className="h-full w-full object-cover opacity-90" />
             ) : (
@@ -370,12 +394,31 @@ export const Video = ({ id, titel, bild }: { id: string; titel: string; bild?: s
           </button>
         )}
       </div>
-      <figcaption className="mt-2 text-[13px] text-muted-foreground">
+      <figcaption className="mt-2 text-[15px] leading-snug text-foreground/75">
         Erst beim Abspielen lädt YouTube. Auf YouTube:{" "}
         <a href={`https://www.youtube.com/watch?v=${id}`} className="underline" target="_blank" rel="noopener noreferrer">
           {titel}
         </a>
       </figcaption>
+      {kapitel && kapitel.length > 0 && (
+        <div className="mt-5">
+          <Etikett>Kapitel im Video</Etikett>
+          <ol className="mt-2 grid gap-x-3 gap-y-1.5 sm:grid-cols-2">
+            {kapitel.map((k) => (
+              <li key={k.s}>
+                <button
+                  type="button"
+                  onClick={() => los(k.s)}
+                  className="flex min-h-[44px] w-full items-center gap-3 border border-border bg-card px-3 py-2 text-left text-[15px] leading-snug text-foreground transition-colors hover:border-foreground"
+                >
+                  <span className="w-[46px] shrink-0 font-mono text-[13px] font-semibold tabular-nums text-primary">{zeitText(k.s)}</span>
+                  <span>{k.titel}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </figure>
   );
 };

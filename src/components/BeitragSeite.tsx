@@ -40,6 +40,12 @@ type Props = {
   boxMitteNach?: number;
   /** Optionaler Abschlussverweis unter dem Beitrag. */
   children?: ReactNode;
+  /** Einleitung mit dem Hauptwort, gleich unter der Autorzeile (A6: höchstens 95 Wörter). Ohne Angabe nichts. */
+  einleitung?: ReactNode;
+  /** Eigener Anbieter-Kasten statt der EmpfehlungsBox an der ersten Werbestelle (SEO91). */
+  werbungKasten?: ReactNode;
+  /** Nach welchem Abschnitt (Index, 0-basiert) die erste Werbung steht, Standard nach dem ersten (SEO91: bei einem Viertel bis Drittel). */
+  werbungNach?: number;
 };
 
 /** Reiner Text aus einem ReactNode-Baum, für die Lesezeit-Schätzung. Kein
@@ -115,6 +121,9 @@ const BeitragSeite = ({
   boxMitte,
   boxMitteNach,
   children,
+  einleitung,
+  werbungKasten,
+  werbungNach = 0,
 }: Props) => {
   const [offen, setOffen] = useState(false);
   const werbung = werbungFuer(slug);
@@ -205,6 +214,10 @@ const BeitragSeite = ({
               </div>
             </header>
 
+            {einleitung && (
+              <div className="beitrag-text mt-8 max-w-[664px] space-y-4 text-[17px] leading-[1.65] text-foreground/75">{einleitung}</div>
+            )}
+
             <section className="mt-8 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7" aria-labelledby="kurz-gesagt">
               <h2 id="kurz-gesagt" className="font-titel text-[25px] leading-[1.2] text-foreground md:text-[28px]">
                 Das Wichtigste
@@ -252,7 +265,7 @@ const BeitragSeite = ({
                       {a.inhalt}
                     </div>
                   </section>
-                  {i === 0 && abschnitte.length > 1 && <EmpfehlungsBox {...werbung} />}
+                  {i === werbungNach && abschnitte.length > 1 && (werbungKasten ?? <EmpfehlungsBox {...werbung} />)}
                   {i === mitteNach && i !== 0 && zeigeMitte && <EmpfehlungsBox {...boxMitte} />}
                 </div>
               ))}

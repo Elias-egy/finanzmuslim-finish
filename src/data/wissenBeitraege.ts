@@ -46,10 +46,10 @@ export const wissenBeitraege: WissenBeitrag[] = [
   { slug: "dispo-und-schulden", name: "Dispo und Schulden", motiv: "dispo", desc: "Komm in zwei Wegen aus dem Minus.", thema: "Alltag", datum: "5. September 2026" },
   { slug: "halal-kredit-ohne-zinsen", name: "Halal Kredit", motiv: "kredit", pfad: "/blog/halal-kredit", desc: "Sieh, was statt Kredit erlaubt ist, und rechne, was Sparen bringt.", thema: "Alltag", datum: "7. November 2026" },
   { slug: "ratenzahlung-haram", name: "Ist Ratenzahlung haram?", motiv: "raten", desc: "Prüf an der Kasse, wann Raten zur Zinsfalle werden.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten. Rechne, was deine Rate im Depot gebracht hätte.", thema: "Alltag", datum: "5. November 2026" },
+  { slug: "auto-kaufen-ohne-zinsen", name: "Auto kaufen ohne Zinsen", motiv: "auto", desc: "Finde den Weg, der ohne Bank auskommt.", thema: "Alltag", datum: "26. November 2026" },
+  { slug: "ist-leasing-haram", name: "Ist Leasing haram?", motiv: "auto", desc: "Prüf deinen Vertrag an fünf Punkten. Rechne, was deine Rate im Depot gebracht hätte.", thema: "Alltag", datum: "26. November 2026" },
   { slug: "haus-kaufen-ohne-zinsen", name: "Haus kaufen ohne Zinsen", motiv: "haus", desc: "Sieh drei Wege, ein Haus ohne Zinsen zu finanzieren.", thema: "Alltag", datum: "5. September 2026" },
-  { slug: "ist-versicherung-haram", name: "Sind Versicherungen haram?", motiv: "versicherung", pfad: "/blog/sind-versicherungen-haram", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht. Rechne, was dein Beitrag halal angelegt gebracht hätte.", thema: "Alltag", datum: "6. November 2026" },
+  { slug: "ist-versicherung-haram", name: "Sind Versicherungen haram?", motiv: "versicherung", pfad: "/blog/sind-versicherungen-haram", desc: "Sieh, welche Versicherung Pflicht ist und welche nicht. Rechne, was dein Beitrag halal angelegt gebracht hätte.", thema: "Alltag", datum: "26. November 2026" },
 
   { slug: "zinsen-im-islam", name: "Zinsen im Islam", motiv: "zins", desc: "Verstehe, was verboten ist und was ausdrücklich nicht.", thema: "Grundlagen", datum: "5. September 2026" },
   { slug: "haeufige-fehler", name: "12 Fehler beim halal Investieren", motiv: "fehler", desc: "Umgeh zwölf Stolperfallen, die am Anfang Geld kosten.", thema: "Grundlagen", datum: "5. September 2026" },

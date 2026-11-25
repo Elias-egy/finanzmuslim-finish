@@ -1,4 +1,8 @@
 import Seo, { beitragJsonLd } from "@/components/Seo";
+import { AnbieterKasten, Video, videoClips, WerkzeugKasten, SITE } from "@/components/blog/bausteine";
+import { KAPITEL_LEASING, VIDEO_LEASING } from "@/data/blogVideos";
+import { etfListe, etfsBei } from "@/data/halalEtfListe";
+import { PLATZ1 } from "@/lib/polster";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
 import { IlluMurabaha, IlluRaten } from "@/components/illu";
 import {
@@ -18,7 +22,25 @@ import {
   Tabelle,
 } from "@/components/beitrag";
 
+/** Kurze Antwort gleich am Anfang (SEO91): das Wort „auto finanzieren ohne zinsen“ als H2, Antwort aus den Abschnitten darunter (Gelehrte, Ep. 21 im Vault ~/hourani/positionen/autofinanzierung.md). */
 const abschnitte: BeitragAbschnitt[] = [
+  {
+    id: "ohne-zinsen",
+    titel: "Auto finanzieren ohne Zinsen: geht das?",
+    inhalt: (
+      <>
+        <p>
+          <B>Nicht über eine Bank.</B> Eine Autofinanzierung ist ein Darlehen: Die Bank gibt Geld und will mehr zurück. Das gilt für die eigene Bank
+          genauso wie für die Autobank des Herstellers. Auch ein Prospekt mit „0 %“ ändert daran nichts, solange eine Bank dahintersteht, denn dann
+          steckt der Zins im Preis.
+        </p>
+        <p>
+          Ohne Zinsen kommst du auf drei Wegen an ein Auto: bar bezahlen, in Raten direkt beim Händler ohne Bank oder über Murabaha, wenn der Anbieter
+          das Auto wirklich besitzt. Alle drei stehen unten Schritt für Schritt.
+        </p>
+      </>
+    ),
+  },
   {
     id: "vier-wege",
     titel: "Die vier Wege, ein Auto zu bezahlen",
@@ -121,9 +143,38 @@ const abschnitte: BeitragAbschnitt[] = [
         <p>
           Der Preisaufschlag selbst ist übrigens nicht das Problem. Er ist es nur, weil eine Bank
           dahintersteht. Genau derselbe Aufschlag ist erlaubt, wenn der Händler ihn nimmt. Warum, steht im
-          nächsten Abschnitt und ausführlich in{" "}
+          Abschnitt zum Ratenkauf und ausführlich in{" "}
           <L to="/blog/ratenzahlung-haram">Ratenkauf</L>.
         </p>
+      </>
+    ),
+  },
+  {
+    id: "leasing-video",
+    titel: "Leasing statt Kredit: das sagt Elias im Video",
+    inhalt: (
+      <>
+        <p>
+          Leasing ist kein Kredit, sondern Miete, und wird deshalb anders beurteilt. Der Knackpunkt ist, wer bei einem Schaden haftet. Der halal Weg ist
+          meist ein Auto-Abo.
+        </p>
+        <Video
+          id={VIDEO_LEASING.id}
+          titel={VIDEO_LEASING.titel}
+          bild={VIDEO_LEASING.bild}
+          kapitel={KAPITEL_LEASING}
+        />
+        <p>
+          Wie du einen Vertrag Punkt für Punkt prüfst und was das Auto-Abo kostet, steht unter{" "}
+          <L to="/blog/ist-leasing-haram">Leasing ohne Zinsen: geht das halal?</L>
+        </p>
+        <WerkzeugKasten
+          etikett="Rechner"
+          titel="Leasingrate oder Depot: Was wäre aus deiner Rate geworden?"
+          text="Gib deine Rate ein und sieh, was daraus als Sparplan auf einen Halal ETF geworden wäre."
+          ziel="/blog/ist-leasing-haram#rechner"
+          knopf="Zum Leasing-Rechner"
+        />
       </>
     ),
   },
@@ -279,7 +330,7 @@ const abschnitte: BeitragAbschnitt[] = [
   },
   {
     id: "anbieter",
-    titel: "Was es in Deutschland tatsächlich gibt",
+    titel: "Halal Auto finanzieren: gibt es das in Deutschland?",
     inhalt: (
       <>
         <Frage>Gibt es einen Anbieter, bei dem ich einfach halal finanzieren kann?</Frage>
@@ -351,7 +402,7 @@ const abschnitte: BeitragAbschnitt[] = [
                 <>
                   Leasing ist kein Kredit, sondern Miete, und wird deshalb anders beurteilt. Der
                   Knackpunkt ist, wer bei einem Schaden haftet, den niemand verschuldet hat. Das steht
-                  in <L to="/blog/ist-leasing-haram">Leasing</L>.
+                  in <L to="/blog/ist-leasing-haram">Leasing ohne Zinsen: geht das halal?</L>
                 </>
               ),
             },
@@ -431,7 +482,7 @@ const faq: BeitragFrage[] = [
       "An der Gewährleistung. Frage, an wen du dich bei einem Mangel am Auto wendest. Ist das der Anbieter der Finanzierung, war er wirklich Eigentümer und Verkäufer. Ist es das Autohaus, hat der Anbieter nur Geld gegeben. Zusätzlich gilt: nach dem Zertifikat einer anerkannten Prüfstelle fragen, denn das Wort halal ist in Deutschland nicht geschützt.",
   },
   {
-    frage: "Gibt es in Deutschland eine halale Autofinanzierung?",
+    frage: "Kann ich ein Auto in Deutschland halal finanzieren?",
     antwort:
       "Nach dem Kenntnisstand der Gelehrten, die sich damit befasst haben, gab es Ende 2025 keinen Anbieter mit einer geprüften Halal-Fahrzeugfinanzierung. Einzelne Unternehmen behaupten es, konnten es auf Nachfrage aber nicht belegen. Möglich wäre ein solches Angebot, gebaut hat es bisher niemand mit der nötigen Sorgfalt.",
   },
@@ -447,31 +498,70 @@ const faq: BeitragFrage[] = [
   },
 ];
 
+const PFAD = "/blog/auto-kaufen-ohne-zinsen";
+const TITEL = "Auto kaufen ohne Zinsen halal? Der komplette Guide 2026";
+/** Title-Tag: Hauptwort vorn wie die Adresse (Ahrefs „auto kaufen ohne zinsen halal“), Jahr, mit „| finanzmuslim“ 59 Zeichen. */
+const SEO_TITEL = "Auto kaufen ohne Zinsen halal? Die Wege 2026";
 const beschreibung =
-  "Bankfinanzierung, Null-Prozent-Aktion, Ratenkauf oder Murabaha: Welcher Weg ohne Zinsen auskommt und woran du eine echte Halal-Finanzierung erkennst.";
+  "Auto kaufen ohne Zinsen halal? Bank und 0-Prozent-Aktion fallen weg. Bar, Ratenkauf beim Händler und Murabaha gehen. Mit Video und Rechner zum Leasing.";
+
+const DREIER = [
+  { name: "Traders Place", logo: "/bilder/blog/halal-etf/logos/traders-place-wortmarke.svg", out: "/out/traders-place" },
+  { name: "Smartbroker+", logo: "/bilder/blog/halal-etf/logos/smartbroker.webp", out: "/out/smartbroker" },
+  { name: "Scalable Capital", logo: "/bilder/blog/halal-etf/logos/scalable.webp", out: "/out/scalable" },
+];
+// Sparplan auf Platz 1 wie im Leasing-Beitrag: Smartbroker+ und Scalable aus sparplanBei der Liste, Traders Place nach Elias' eigenem Depot.
+const sparplanPlatz1 = (name: string) => name === "Traders Place" || PLATZ1.sparplanBei.some((s) => s.startsWith(name.split(" ")[0]));
+const ANBIETER = DREIER.map((d) => ({
+  ...d,
+  zeilen: [
+    sparplanPlatz1(d.name) ? `Sparplan auf ${PLATZ1.name}` : `Sparplan auf ${PLATZ1.name} noch nicht nachgesehen`,
+    `Halal ETFs aus unserer Liste: ${etfsBei(d.name)} von ${etfListe.length}`,
+    d.name === "Smartbroker+" ? "Zinsen nur auf eigenem Zinskonto" : "Zinsen aufs Guthaben: 0 %",
+  ],
+}));
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "@id": `${SITE}${PFAD}#video`,
+  name: VIDEO_LEASING.titel,
+  description: "Elias erklärt in unter zehn Minuten, wann Leasing als Muslim geht und warum das Auto-Abo die Alternative ist.",
+  thumbnailUrl: `${SITE}${VIDEO_LEASING.bild}`,
+  uploadDate: VIDEO_LEASING.hochgeladen,
+  duration: "PT9M11S",
+  embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO_LEASING.id}`,
+  contentUrl: `https://www.youtube.com/watch?v=${VIDEO_LEASING.id}`,
+  hasPart: videoClips(VIDEO_LEASING.id, KAPITEL_LEASING, VIDEO_LEASING.dauer),
+};
+
+const AUFGEFRISCHT = "26. November 2026";
 
 const AutoKaufenOhneZinsen = () => (
   <>
     <Seo
-      title="Auto kaufen ohne Zinsen: die Wege im Vergleich"
+      title={`${SEO_TITEL} | finanzmuslim`}
       description={beschreibung}
-      path="/blog/auto-kaufen-ohne-zinsen"
-      jsonLd={beitragJsonLd({
-        titel: "Auto kaufen ohne Zinsen",
-        beschreibung,
-        path: "/blog/auto-kaufen-ohne-zinsen",
-        datePublished: "5. September 2026",
-        dateModified: "5. September 2026",
-        faq,
-      })}
+      path={PFAD}
+      jsonLd={[
+        ...beitragJsonLd({
+          titel: TITEL,
+          beschreibung,
+          path: PFAD,
+          datePublished: "5. September 2026",
+          dateModified: AUFGEFRISCHT,
+          faq,
+        }),
+        videoSchema,
+      ]}
     />
     <BeitragSeite
       slug="auto-kaufen-ohne-zinsen"
-      titel="Auto kaufen ohne Zinsen"
+      titel={TITEL}
       untertitel="Die erste Frage ist nicht, wie hoch der Zins ist, sondern wer dir das Geld gibt."
       kurzGesagt={[
         "Bankfinanzierung ist ein Darlehen: Geld gegen mehr Geld. Das gilt für die eigene Bank wie für die Autobank des Herstellers.",
-        "Null Prozent ist kein Ausweg. Der Zinsbetrag wandert dann in den Kaufpreis.",
+        "Null Prozent ist kein Ausweg, solange eine Bank dahintersteht: Der Zinsbetrag wandert in den Kaufpreis.",
         "Ein höherer Preis bei Ratenzahlung ist erlaubt, wenn der Händler selbst verkauft und der Preis vorher feststeht.",
         "Murabaha funktioniert nur, wenn der Anbieter das Auto wirklich kauft. Test: Wer trägt die Gewährleistung?",
         "Ende 2025 gab es in Deutschland keinen geprüften Anbieter. Ohne Zertifikat einer anerkannten Stelle: Finger weg.",
@@ -479,9 +569,20 @@ const AutoKaufenOhneZinsen = () => (
       abschnitte={abschnitte}
       faq={faq}
       datePublished="5. September 2026"
-      dateModified="5. September 2026"
-      boxMitteNach={4}
-      rechtshinweis="Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts- oder Finanzberatung. Zur Beurteilung konzerneigener Autobanken, zur Zulässigkeit einzelner Vertragsklauseln und zu Notlagen bestehen unter Gelehrten unterschiedliche Auffassungen. Angaben zum Anbietermarkt beziehen sich auf den Stand Ende 2025. Die Zahlen in den Beispielen sind erfunden."
+      dateModified="26. November 2026"
+      boxMitteNach={2}
+      werbungNach={3}
+      werbungKasten={<AnbieterKasten titel="Depots für deine Ersparnisse" anbieter={ANBIETER} />}
+      einleitung={
+        <>
+          <p>
+            Das Autohaus wirbt mit 0 % Finanzierung. Aber geht Auto kaufen ohne Zinsen halal? Über eine Bank nicht, denn eine Finanzierung ist ein
+            Darlehen mit Zins. Bar bezahlen, der Ratenkauf direkt beim Händler und Murabaha gehen, wenn der Anbieter das Auto wirklich besitzt. Einen
+            geprüften Anbieter kannten Gelehrte in Deutschland Ende 2025 nicht.
+          </p>
+        </>
+      }
+      rechtshinweis="Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts- oder Finanzberatung. Zur Beurteilung konzerneigener Autobanken, zur Zulässigkeit einzelner Vertragsklauseln und zu Notlagen bestehen unter Gelehrten unterschiedliche Auffassungen. Angaben zum Anbietermarkt beziehen sich auf den Stand Ende 2025. Die Zahlen in den Beispielen sind erfunden."
       boxOben={{
         kategorie: "Vorlage",
         ueberschrift: "Vertrag prüfen, bevor du unterschreibst",
@@ -500,7 +601,7 @@ const AutoKaufenOhneZinsen = () => (
       <PasstDazu
         punkte={[
           { to: "/blog/ratenzahlung-haram", name: "Ratenkauf", text: "erklärt, warum ein höherer Preis in Raten erlaubt ist und wann er kippt." },
-          { to: "/blog/ist-leasing-haram", name: "Leasing", text: "prüft die Alternative zum Kauf an fünf Punkten im Vertrag." },
+          { to: "/blog/ist-leasing-haram", name: "Leasing ohne Zinsen", text: "prüft die Alternative zum Kauf an fünf Punkten im Vertrag." },
           { to: "/blog/halal-kredit", name: "Kredit ohne Zinsen", text: "zeigt, welche Verträge einen Kredit ersetzen können." },
           { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "sagt, was genau verboten ist und was ausdrücklich nicht." },
         ]}

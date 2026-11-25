@@ -1,5 +1,5 @@
-import { useMemo, useState, type ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowDown, Check, ChevronDown, X } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Seo from "@/components/Seo";
@@ -32,9 +32,11 @@ import {
   TL,
   useAktiv,
   Video,
+  videoClips,
   YOUTUBE,
 } from "@/components/blog/bausteine";
 import { ANKER_VERGLEICH } from "@/data/ankertexte";
+import { KAPITEL_LEASING, VIDEO_LEASING } from "@/data/blogVideos";
 
 /**
  * „Ist Leasing haram?“, neu gebaut in SEO54 (04.11.2026) im Aufbau von /blog/halal-gold-kaufen (Elias SEO53: „Leasing muss ja
@@ -46,12 +48,12 @@ import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 const PFAD = "/blog/ist-leasing-haram";
 const TITEL = "Ist Leasing haram? Wann Leasing halal ist: 5 Punkte";
-/** Title-Tag unter 65 Zeichen mit „| finanzmuslim“, damit Google ihn nicht abschneidet; H1 bleibt TITEL. */
+/** Title-Tag unter 65 Zeichen, mit „| finanzmuslim“ angehängt (SEO91, 62 Zeichen); H1 bleibt TITEL. */
 const SEO_TITEL = "Ist Leasing haram? Wann es halal ist: 5 Punkte";
 const META =
-  "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Die 5 Punkte zum Prüfen, das Auto-Abo als halal Weg und ein Rechner: Leasingrate oder Depot.";
+  "Ist Leasing haram? Fast immer ja, wegen einer Klausel im Vertrag. Auch Leasing ohne Zinsen ist nicht automatisch halal. Die 5 Punkte, Auto-Abo, Rechner.";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
-const AKTUALISIERT = { text: "05.11.2026", iso: "2026-11-05T09:00:00+01:00" };
+const AKTUALISIERT = { text: "26.11.2026", iso: "2026-11-26T09:00:00+01:00" };
 const LESEZEIT = 8;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, maßgeblich ist dein eigener Vertrag. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
@@ -62,6 +64,7 @@ const KNOPF = "Rate halal anlegen";
 type Abschnitt = { id: string; titel: string; leiste?: boolean; kurz?: string };
 const ABSCHNITTE: Abschnitt[] = [
   { id: "das-wichtigste", titel: "Das Wichtigste", leiste: true },
+  { id: "leasing-ohne-zinsen", titel: "Leasing ohne Zinsen: geht das halal?", leiste: true, kurz: "Leasing ohne Zinsen" },
   /** Überschrift der Karten-Reihe (bausteine KartenReihe, id kurzer-vergleich), darum nur im Inhaltsverzeichnis. */
   { id: "kurzer-vergleich", titel: "5 Wege zum Auto auf einen Blick", leiste: true, kurz: "5 Wege zum Auto" },
   { id: "fuenf-punkte", titel: "Woran erkennst du, ob ein Leasingvertrag halal ist?", leiste: true, kurz: "Die 5 Punkte im Vertrag" },
@@ -250,7 +253,8 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/sind-versicherungen-haram", name: "Sind Versicherungen haram?", text: "Warum die Vollkasko nie ein Notfall ist." },
 ];
 
-const VIDEO = { id: "ukcCjjf7FIY", titel: "So geht Leasing als Muslim (in unter 10 Minuten)", hochgeladen: "2026-04-19" };
+const VIDEO = VIDEO_LEASING;
+const KAPITEL = KAPITEL_LEASING;
 
 /* ------------------------------------------------------------------ */
 /* Schema                                                              */
@@ -282,6 +286,8 @@ const graph = () => {
         "@id": `${url}#video`,
         name: VIDEO.titel,
         description: "Elias erklärt in unter zehn Minuten, wann Leasing als Muslim geht und warum das Auto-Abo die Alternative ist.",
+        duration: "PT9M11S",
+        hasPart: videoClips(VIDEO.id, KAPITEL, VIDEO.dauer),
         thumbnailUrl: `${SITE}/bilder/blog/ist-leasing-haram/video-leasing.webp`,
         uploadDate: VIDEO.hochgeladen,
         embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
@@ -473,6 +479,13 @@ const Rechner = () => {
 /* ------------------------------------------------------------------ */
 
 const IstLeasingHaram = () => {
+  // Verweise von anderen Beiträgen (…#rechner, …#leasing-ohne-zinsen) springen auch beim Klick innerhalb der Seite an die Stelle.
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!hash) return;
+    const t = window.setTimeout(() => document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView(), 80);
+    return () => window.clearTimeout(t);
+  }, [hash]);
   const [offen, setOffen] = useState(false);
   const ids = useMemo(() => LEISTE.map((a) => a.id), []);
   const aktiv = useAktiv(ids);
@@ -497,7 +510,7 @@ const IstLeasingHaram = () => {
 
   return (
     <main className="bg-background">
-      <Seo title={SEO_TITEL} description={META} path={PFAD} jsonLd={graph()} />
+      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           <Seitenleiste
@@ -576,7 +589,8 @@ const IstLeasingHaram = () => {
                     unterschreiben?
                   </p>
                   <p>
-                    Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter. Und wer ohne Rate auskommt, lässt das Geld im Depot wachsen.
+                    Ist Leasing haram? Beim üblichen Leasing aus dem Autohaus fast immer ja, weil du für ein Auto haftest, das dir nicht gehört. Auch Leasing ohne
+                    Zinsen ist nicht automatisch halal. Der halal Weg ist meist ein Auto-Abo oder ein bezahlter Gebrauchter.
                   </p>
                 </Text>
 
@@ -596,6 +610,17 @@ const IstLeasingHaram = () => {
 
                 {/* Kurzer Vergleich wie /blog/halal-gold-kaufen; Rechner und erste Werbung erst nach den 5 Punkten, bei etwa einem Drittel (Elias SEO55) */}
                 <GoogleKasten />
+
+                <section className="mt-14">
+                  <Ueber id="leasing-ohne-zinsen" />
+                  <Text>
+                    <p>
+                      <strong className="font-semibold text-foreground">Nicht automatisch.</strong> Leasing ist Miete, und der Zins ist dabei gar nicht das große Problem. Es zählt, wer für das Auto haftet
+                      und wer Versicherung, Steuer und Wartung zahlt. Steht im Vertrag, dass du das trägst, wird er auch ohne Zinsen nicht halal. Elias zeigt es dir in neun Minuten im Video.
+                    </p>
+                  </Text>
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" kapitel={KAPITEL} />
+                </section>
 
                 <div className="mt-7">
                 <KartenReihe etikett="Kurzer Vergleich" titel="5 Wege zum Auto auf einen Blick" anzahl={WEGE.length}>
@@ -649,9 +674,9 @@ const IstLeasingHaram = () => {
                   <Kernsatz>Wem das Auto gehört, der trägt sein Risiko. Schiebt der Vertrag es dir zu, ist es keine Miete mehr.</Kernsatz>
                 </section>
 
-                <Rechner />
-
                 <AnbieterKasten titel="Depots für deine Rate" anbieter={ANBIETER} />
+
+                <Rechner />
 
                 <section className="mt-14">
                   <Ueber id="warum" />
@@ -678,7 +703,6 @@ const IstLeasingHaram = () => {
                       als die der Leasingfirmen, die Klausel zur Haftung steht trotzdem drin.
                     </p>
                   </Text>
-                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-leasing-haram/video-leasing.webp" />
                 </section>
 
                 <section className="mt-14">
@@ -718,7 +742,7 @@ const IstLeasingHaram = () => {
                       Unterm Strich zahlst du für das Abo etwa 50 bis 100&nbsp;€ mehr im Monat. Dafür trägst du kein Risiko für ein Auto, das dir nicht gehört.
                     </p>
                   </Text>
-                  <p className="mt-3 max-w-[664px] text-[13px] leading-relaxed text-muted-foreground">
+                  <p className="mt-3 max-w-[664px] text-[15px] leading-relaxed text-foreground/75">
                     Abo: MOCEAN, 12 Monate, 1.000 km im Monat. Leasing: Beispiel der Hyundai Finance, 48 Monate. Beide abgerufen am 05.11.2026.
                   </p>
                 </section>
@@ -765,6 +789,10 @@ const IstLeasingHaram = () => {
                     <p>
                       <strong className="font-semibold text-foreground">Erst sparen, dann kaufen.</strong> Wer die Rate ein paar Jahre zur Seite legt, hat
                       den Preis eines guten Gebrauchten zusammen. Was das im Depot bringt, zeigt der <a href="#rechner" className="font-medium text-primary underline underline-offset-2 hover:no-underline">Rechner oben</a>.
+                    </p>
+                    <p>
+                      Alle Wege zum eigenen Auto, auch über den Händler und ohne Bank, findest du unter{" "}
+                      <TL to="/blog/auto-kaufen-ohne-zinsen">Auto kaufen ohne Zinsen halal</TL>.
                     </p>
                   </Text>
                 </section>

@@ -33,6 +33,8 @@ import {
   TL,
   useAktiv,
   Video,
+  videoClips,
+  type VideoKapitel,
   YOUTUBE,
 } from "@/components/blog/bausteine";
 import { ANKER_VERGLEICH } from "@/data/ankertexte";
@@ -48,13 +50,13 @@ import { ANKER_VERGLEICH } from "@/data/ankertexte";
 const PFAD = "/blog/sind-versicherungen-haram";
 /** Elias SEO63: ein Titel mit Hauptbegriff, Jahr und Versprechen wie frontal „Best GTM Agency in 2026: The Buyer's Shortlist“, kein zählender Satz. */
 const TITEL = "Sind Versicherungen haram? Der komplette Guide 2026";
-/** Title-Tag ohne „| finanzmuslim“: mit Zusatz 66 Zeichen, so 51 und unter 60 (Prüfzeile S052-A07-04). */
-const SEO_TITEL = TITEL;
+/** Title-Tag auf Klick (SEO91, CTR 2,3 %): Hauptwort vorn wie die Adresse, danach das, was der Leser wissen will, Jahr, „| finanzmuslim“ (62 Zeichen). */
+const SEO_TITEL = "Sind Versicherungen haram? Was erlaubt ist 2026";
 const META =
-  "Sind Versicherungen haram? Für die große Mehrheit der Gelehrten ja, Pflicht ist ausgenommen. Was bei Kfz, Leben und Berufsunfähigkeit gilt, mit Rechner.";
+  "Sind Versicherungen haram? Freiwillige ja, Pflicht ist ausgenommen. Was bei Kranken-, Kfz- und Lebensversicherung gilt, ob es Takaful gibt: mit Video.";
 const VEROEFFENTLICHT = { text: "15.08.2026", iso: "2026-08-15T09:00:00+02:00" };
-const AKTUALISIERT = { text: "06.11.2026", iso: "2026-11-06T09:00:00+01:00" };
-const LESEZEIT = 9;
+const AKTUALISIERT = { text: "26.11.2026", iso: "2026-11-26T09:00:00+01:00" };
+const LESEZEIT = 10;
 const RECHTSHINWEIS =
   "Dieser Beitrag ist keine Fatwa und keine Versicherungs- oder Anlageberatung. Zu einzelnen Punkten gibt es abweichende Auffassungen, ob bei dir eine Notlage vorliegt, klärst du mit einem Gelehrten. Vergangene Kursentwicklung ist kein Versprechen für die Zukunft.";
 
@@ -68,12 +70,13 @@ const ABSCHNITTE: Abschnitt[] = [
   { id: "uebersicht", titel: "Pflicht oder freiwillig? Die Übersicht", leiste: true, kurz: "Pflicht oder freiwillig" },
   { id: "warum", titel: "Warum sind Versicherungen haram?", leiste: true, kurz: "Warum haram" },
   { id: "pflicht", titel: "Welche Versicherungen sind Pflicht und damit ausgenommen?", leiste: true, kurz: "Pflichtversicherungen" },
+  { id: "krankenversicherung", titel: "Ist die Krankenversicherung haram?", leiste: true, kurz: "Krankenversicherung" },
   { id: "rechner", titel: "Beitrag oder Halal Investments: Was wäre aus deinem Geld geworden?", leiste: true, kurz: "Rechner: Beitrag oder Halal Investments" },
   { id: "notfall", titel: "Wann ist eine freiwillige Versicherung erlaubt?", leiste: true, kurz: "Ausnahme Notlage" },
   { id: "lebensversicherung", titel: "Ist eine Lebensversicherung haram?", leiste: true, kurz: "Lebensversicherung" },
   { id: "berufsunfaehigkeit", titel: "Ist die Berufsunfähigkeitsversicherung haram?", leiste: true, kurz: "Berufsunfähigkeit" },
   { id: "beigabe", titel: "Ist eine Versicherung im Mitgliedsbeitrag erlaubt?", leiste: true, kurz: "Versicherung als Beigabe" },
-  { id: "takaful", titel: "Was ist Takaful, und gibt es das in Deutschland?", leiste: true, kurz: "Takaful" },
+  { id: "takaful", titel: "Islamische Versicherung: gibt es das in Deutschland?", leiste: true, kurz: "Islamische Versicherung" },
   { id: "schon-versichert", titel: "Ich habe schon Versicherungen. Was jetzt?", leiste: true, kurz: "Schon versichert" },
   { id: "haeufige-fragen", titel: "Häufige Fragen", leiste: true },
   { id: "naechster-schritt", titel: "Dein nächster Schritt: das passende Depot" },
@@ -99,7 +102,7 @@ const ARTEN: { art: string; pflicht: string; marke: string; ton: Ton; besonders:
     besonders: "Gesetzlich vorgeschrieben",
     warum: "Du hast keine Wahl, der Zwang hebt das Urteil auf",
     tun: "Tarif mit fairem Preis wählen, nicht das teuerste Paket",
-    ziel: "pflicht",
+    ziel: "krankenversicherung",
   },
   {
     art: "Kfz-Haftpflicht",
@@ -257,11 +260,6 @@ const FRAGEN: { frage: string; antwort: string }[] = [
       "Du zahlst sicher und weißt nicht, ob, wann und wie viel zurückkommt. Für die einen Gelehrten ist das Geld gegen mehr Geld, für die anderen ein Vertrag voller Unbekannter, und beide sagen haram.",
   },
   {
-    frage: "Ist die Krankenversicherung haram?",
-    antwort:
-      "Nein. Die Kranken- und Pflegeversicherung ist Pflicht und darum vom Urteil ausgenommen. Zusatztarife wie Zahnzusatz schließt du dagegen freiwillig ab.",
-  },
-  {
     frage: "Ist die Kfz-Versicherung haram?",
     antwort:
       "Die Kfz-Haftpflicht ist Pflicht und darum ausgenommen. Die Teilkasko kann in einer Notlage erlaubt sein, das klärst du mit einem Gelehrten.",
@@ -291,15 +289,6 @@ const FRAGEN: { frage: string; antwort: string }[] = [
     antwort:
       "Nein. Wer Versicherungen verkauft, hilft der Versicherung bei dem Vertrag, das gilt auch für Pflichtversicherungen. Steckst du in dem Beruf, sprich mit einem Gelehrten über deinen Weg raus.",
   },
-  {
-    frage: "Was ist Takaful?",
-    antwort:
-      "Eine Versicherung auf Gegenseitigkeit: Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Ein Takaful-Angebot gab es Anfang 2026 in Deutschland nicht.",
-  },
-  {
-    frage: "In meinem Vereinsbeitrag steckt eine Versicherung. Ist das ein Problem?",
-    antwort: "Nein, solange du wegen des Vereins beigetreten bist und nicht wegen der Versicherung.",
-  },
 ];
 
 const PASST_DAZU: { to: string; name: string; text: string }[] = [
@@ -309,7 +298,28 @@ const PASST_DAZU: { to: string; name: string; text: string }[] = [
   { to: "/blog/zinsen-im-islam", name: "Zinsen im Islam", text: "Warum Geld gegen mehr Geld verboten ist." },
 ];
 
-const VIDEO = { id: "6omtkXGP9tk", titel: "Sind Versicherungen als Muslim erlaubt? (Die einzige Erklärung, die du brauchst)", hochgeladen: "2026-04-13" };
+const VIDEO = { id: "6omtkXGP9tk", titel: "Sind Versicherungen als Muslim erlaubt? (Die einzige Erklärung, die du brauchst)", hochgeladen: "2026-04-13", dauer: 1838 };
+
+/**
+ * Kapitelmarken (SEO91): Startsekunden aus den Untertiteln des Videos (yt-dlp, 26.11.2026, Sekunde auf die erste Zeile des Themas);
+ * Kapitel in YouTube selbst hat das Video nicht. Titel in Alltagswörtern, ohne neue Aussage.
+ */
+const KAPITEL: VideoKapitel[] = [
+  { s: 0, titel: "Worum es geht" },
+  { s: 45, titel: "Wie sich die Gemeinde früher abgesichert hat" },
+  { s: 170, titel: "Nicht für alles eine Versicherung: Tawakkul" },
+  { s: 260, titel: "Die Versicherung in Deutschland ist ein Kaufvertrag" },
+  { s: 339, titel: "Riba und Gharar kurz erklärt" },
+  { s: 804, titel: "Was die Versicherung damit zu tun hat" },
+  { s: 1128, titel: "Ausnahme Pflicht: Krankenkasse, Kfz-Haftpflicht" },
+  { s: 1208, titel: "Wenn die Versicherung nur Beigabe ist" },
+  { s: 1404, titel: "Gibt es eine Notlage, die es erlaubt?" },
+  { s: 1496, titel: "Teilkasko und Vollkasko" },
+  { s: 1615, titel: "Gibt es eine Alternative in Deutschland?" },
+  { s: 1705, titel: "Was du stattdessen tun kannst" },
+];
+/** Sprung ins Video für Verweise im Text (Kapitel `s`). */
+const imVideo = (s: number) => `https://www.youtube.com/watch?v=${VIDEO.id}&t=${s}s`;
 
 /* ------------------------------------------------------------------ */
 /* Schema                                                              */
@@ -341,6 +351,8 @@ const graph = () => {
         "@id": `${url}#video`,
         name: VIDEO.titel,
         description: "Elias erklärt, warum die übliche Versicherung als Kauf gilt, welche Ausnahmen es gibt und was Takaful ist.",
+        duration: "PT30M38S",
+        hasPart: videoClips(VIDEO.id, KAPITEL, VIDEO.dauer),
         thumbnailUrl: `${SITE}/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp`,
         uploadDate: VIDEO.hochgeladen,
         embedUrl: `https://www.youtube-nocookie.com/embed/${VIDEO.id}`,
@@ -608,7 +620,7 @@ const IstVersicherungHaram = () => {
 
   return (
     <main className="bg-background">
-      <Seo title={SEO_TITEL} description={META} path={PFAD} jsonLd={graph()} />
+      <Seo title={`${SEO_TITEL} | finanzmuslim`} description={META} path={PFAD} jsonLd={graph()} />
       <div className="container py-8 md:py-12">
         <div className="mx-auto max-w-[720px] xl:grid xl:max-w-[1048px] xl:grid-cols-[280px_minmax(0,720px)] xl:gap-12">
           <Seitenleiste
@@ -696,8 +708,9 @@ const IstVersicherungHaram = () => {
                     du das als Muslim unterschreiben?
                   </p>
                   <p>
-                    Kurz gesagt: Eine Versicherung, die du freiwillig abschließt, sieht die große Mehrheit der Gelehrten als haram. Was dir der Staat oder dein
-                    Beruf vorschreibt, ist ausgenommen.
+                    Sind Versicherungen haram? Eine Versicherung, die du freiwillig abschließt, sieht die große Mehrheit der Gelehrten als haram. Was dir der
+                    Staat oder dein Beruf vorschreibt, ist ausgenommen, etwa die Krankenversicherung. Eine islamische Versicherung gab es in Deutschland
+                    Anfang 2026 nicht zu kaufen.
                   </p>
                 </Text>
 
@@ -757,7 +770,10 @@ const IstVersicherungHaram = () => {
                       Ausnahmen weiter unten.
                     </p>
                   </Text>
-                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp" />
+                  <Text>
+                    <p>Elias erklärt es in 30 Minuten im Video. Mit einem Klick auf ein Kapitel springst du an die Stelle, die dich betrifft.</p>
+                  </Text>
+                  <Video id={VIDEO.id} titel={VIDEO.titel} bild="/bilder/blog/ist-versicherung-haram/video-versicherung-vorschau.webp" kapitel={KAPITEL} />
                 </section>
 
                 {/* Erster Anbieter-Kasten nach dem zweiten Inhaltsblock, zwischen einem Viertel und einem Drittel wie bei Frontal (Elias SEO67) */}
@@ -770,7 +786,11 @@ const IstVersicherungHaram = () => {
                       Zu manchen Versicherungen zwingt dich der Staat oder dein Beruf. Dann hast du keine Wahl, und der Zwang hebt das Urteil auf.
                     </p>
                     <p>
-                      <Fett>Kranken- und Pflegeversicherung.</Fett> In Deutschland für jeden Pflicht, genau wie die übrige Sozialversicherung.
+                      <Fett>Kranken- und Pflegeversicherung.</Fett> In Deutschland für jeden Pflicht, genau wie die übrige Sozialversicherung.{" "}
+                      <a href="#krankenversicherung" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Mehr zur Krankenversicherung
+                      </a>
+                      .
                     </p>
                     <p>
                       <Fett>Kfz-Haftpflicht.</Fett> Hast du ein Auto, musst du sie abschließen.
@@ -785,6 +805,26 @@ const IstVersicherungHaram = () => {
                       Auch bei einer Pflicht wählst du klug: Nimm den Tarif mit dem besten Preis für das, was du brauchst, nicht das Paket mit der
                       höchsten Leistung.
                     </p>
+                  </Text>
+                </section>
+
+                <section className="mt-14">
+                  <Ueber id="krankenversicherung" />
+                  <Text>
+                    <p>
+                      <Fett>Nein, die gesetzliche Krankenversicherung ist Pflicht.</Fett> Jeder in Deutschland muss krankenversichert sein, genau wie
+                      pflegeversichert. Für Pflichten gilt das Urteil über freiwillige Versicherungen nicht, du hast keine Wahl.
+                    </p>
+                    <p>
+                      <Fett>Freiwillig ist, was du dazukaufst.</Fett> Zahnzusatz oder ein Zusatztarif sind freiwillig. Auch wer sich nur wegen des Preises für
+                      die private Krankenversicherung entscheidet, schließt freiwillig ab. Für die gilt das Urteil für freiwillige Versicherungen, so erklärt es
+                      Elias im{" "}
+                      <a href={imVideo(1128)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Video ab Minute 18:48
+                      </a>
+                      .
+                    </p>
+                    <p>Bei der Pflicht wählst du klug: Nimm den Tarif mit fairem Preis für das, was du brauchst, nicht das teuerste Paket.</p>
                   </Text>
                 </section>
 
@@ -856,7 +896,9 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      Takaful ist die islamische Versicherung auf Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung. Erlaubt heißt hier: Du darfst sie nehmen, wenn ein Schaden droht, den du selbst nicht tragen kannst.
+                      <Fett>Nein, kaufen konntest du sie Anfang 2026 nicht.</Fett> Eine islamische Versicherung heißt Takaful und ist eine Versicherung auf
+                      Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung. Erlaubt heißt hier: Du darfst sie nehmen, wenn ein Schaden
+                      droht, den du selbst nicht tragen kannst.
                     </p>
                     <p>
                       Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
@@ -865,8 +907,12 @@ const IstVersicherungHaram = () => {
                   <Topfbild />
                   <Text>
                     <p>
-                      Anfang 2026 gab es in Deutschland keine Takaful-Versicherung zu kaufen. Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um
-                      2018 aufgehört, weil kaum jemand sie wollte.
+                      Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018 aufgehört, weil kaum jemand sie wollte. Auch Elias
+                      sagt im{" "}
+                      <a href={imVideo(1615)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Video ab Minute 26:55
+                      </a>
+                      : Eine Alternative zur üblichen Versicherung gibt es hier nicht.
                     </p>
                     <p>
                       Große Versicherer bieten Takaful nur im Ausland an. Eine Versicherung auf Gegenseitigkeit gibt es hier nur sehr vereinzelt, etwa als Sterbekasse in einem Verein. Ob der Aufbau stimmt,
