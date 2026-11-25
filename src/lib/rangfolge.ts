@@ -92,7 +92,7 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  * 15. Girokonto, feste Spitze (Elias, 25.11.2026, wörtlich: „Und im Girokonto-Vergleich steht BB Bank auf Platz 1. Und lass uns da gucken,
  *    nicht BB Bank, Norris Bank, sorry … Aber also erstmal Norris Bank, BB Bank, Consobank“): norisbank steht fest auf Platz 1
  *    (`GIRO_SPITZE`), alle anderen danach nach Note wie bisher. Die Note bleibt gerechnet. Die Seite sagt das offen über der Liste
- *    (`SPITZE_SATZ_GIRO`). Gilt für jede Girokonto-Liste (Hauptliste, Studenten, Umrah). Regel 6 bleibt Wächter für Platz 1.
+ *    (`SPITZE_SATZ_GIRO`). Gilt für jede Girokonto-Liste (die Hauptliste). Regel 6 bleibt Wächter für Platz 1.
  */
 
 /** Regel 13: feste Spitze im deutschen Depot-Vergleich (Elias VG5-03, 24.11.2026, „erstmal“). */

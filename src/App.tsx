@@ -39,8 +39,6 @@ const VergleichSteuersoftware = lazy(() => import("./pages/VergleichSteuersoftwa
 const VergleichGeschaeftskonto = lazy(() => import("./pages/VergleichGeschaeftskonto.tsx"));
 const VergleichEdelmetalle = lazy(() => import("./pages/VergleichEdelmetalle.tsx"));
 /* VG1 (23.11.2026): drei Vergleiche aus den Daten von Girokonto und Depot. */
-const VergleichKontoUmrah = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichKontoUmrah })));
-const VergleichKontoStudenten = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichKontoStudenten })));
 const VergleichEtfSparplan = lazy(() => import("./pages/VergleichAbgeleitet.tsx").then((m) => ({ default: m.VergleichEtfSparplan })));
 // RN6 (15.11.2026): /vergleich/start leitet in den Halal-Finanz-Check; die alte Seite pages/VergleichAssistent.tsx bleibt im Code.
 const QuizZumCheck = () => {
@@ -201,8 +199,9 @@ const App = () => (
             <Route path="/vergleich/steuersoftware" element={<VergleichSteuersoftware />} />
             <Route path="/vergleich/geschaeftskonto" element={<VergleichGeschaeftskonto />} />
             <Route path="/vergleich/edelmetalle" element={<VergleichEdelmetalle />} />
-            <Route path="/vergleich/girokonto/umrah-und-urlaub" element={<VergleichKontoUmrah />} />
-            <Route path="/vergleich/girokonto/studenten" element={<VergleichKontoStudenten />} />
+            {/* VG8-02 (25.11.2026): Studenten- und Umrah-Konto sind raus, die alten Adressen leiten auf /vergleich/girokonto. */}
+            <Route path="/vergleich/girokonto/umrah-und-urlaub" element={<AlteAdresse />} />
+            <Route path="/vergleich/girokonto/studenten" element={<AlteAdresse />} />
             <Route path="/vergleich/etf-sparplan" element={<VergleichEtfSparplan />} />
             <Route path="/vergleiche/methodik" element={<VergleichMethodik />} />
             {/* DACH1 (23.11.2026): Länderversionen. Ohne fertige Liste zeigen sie „in Vorbereitung“ (noindex). */}

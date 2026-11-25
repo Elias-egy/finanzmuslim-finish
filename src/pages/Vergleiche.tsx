@@ -6,9 +6,7 @@ import {
   ChevronRight,
   Coins,
   FileText,
-  GraduationCap,
   LineChart,
-  Plane,
   Repeat,
   ScanSearch,
   ShieldCheck,
@@ -83,18 +81,6 @@ const gruppen: Gruppe[] = [
         desc: "Finde das Konto ohne Zins, ohne Dispo und mit Karte ohne Kredit.",
         icon: Banknote,
         to: "/vergleich/girokonto",
-      },
-      {
-        name: "Girokonto für Studenten",
-        desc: "Kostenlos unter 30, ohne Geldeingang und ohne Zinsen.",
-        icon: GraduationCap,
-        to: "/vergleich/girokonto/studenten",
-      },
-      {
-        name: "Konto für Umrah und Urlaub",
-        desc: "Im Ausland kostenlos abheben und bezahlen, ohne Zinsen.",
-        icon: Plane,
-        to: "/vergleich/girokonto/umrah-und-urlaub",
       },
     ],
   },
@@ -242,7 +228,7 @@ const Vergleiche = () => {
         ))}
       </div>
 
-      {/* DACH1 Prüfung S-4: Die Länderübersicht zeigt nur Ländervergleiche. Steuersoftware, Studenten- und Umrah-Konto, der
+      {/* DACH1 Prüfung S-4: Die Länderübersicht zeigt nur Ländervergleiche. Steuersoftware, der
           Check und die Halal-Anlagen sind deutsche Seiten und stehen dort nicht. */}
       {land === "de" && (
       <section className="mt-12">

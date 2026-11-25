@@ -950,13 +950,13 @@ describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein 
     expect(mitSpitze.filter((x) => x !== "norisbank-top-girokonto")).toEqual(ohneNoris);
     expect(ohneNoris[0]).toBe("bbbank-bettersmart");
   });
-  it("Girokonto Regel 15: der Satz über der Liste sagt offen, dass Platz 1 festgelegt ist, auf Hauptliste, Studenten und Umrah", () => {
+  it("Girokonto Regel 15: der Satz über der Liste sagt offen, dass Platz 1 festgelegt ist, auf der Hauptliste", () => {
     expect(sortiertSatz("Girokonto")).toContain("Platz 1 lege ich selbst fest.");
     expect(sortiertSatz("Girokonto")).toContain("je zur Hälfte");
     expect(sortiertSatz("Girokonto")).not.toMatch(/Gedankenstrich|–|—/);
     expect(reihenfolgeAntwort("Konto")).toContain(SPITZE_SATZ_GIRO);
     expect(sortiertSatz()).not.toContain("selbst fest");
-    for (const datei of ["VergleichGirokonto.tsx", "VergleichAbgeleitet.tsx"]) {
+    for (const datei of ["VergleichGirokonto.tsx"]) {
       const t = readFileSync(join(__dirname, "..", "pages", datei), "utf8");
       expect(t, datei).toMatch(/sortiertSatz\("Girokonto"\)|was="Girokonto"/);
     }

@@ -7,7 +7,6 @@ import {
   ChevronRight,
   Coins,
   Globe,
-  GraduationCap,
   LineChart,
   Percent,
   PiggyBank,
@@ -44,15 +43,15 @@ import rechnerRender from "@/assets/rechner-v2.webp";
    … das Erste, was rausfliegen würde“): hier die sechs Vergleiche, die am nächsten an einer Eröffnung sind, am Handy vier.
    Krypto, Halal-Aktien-Apps und Steuersoftware stehen unter „Alle Vergleiche“. */
 /* VG2 (Elias 23.11.2026: „Geschäftskonto könnte aber noch ganz oben sein.“, „in die Top 6 Edelmetalle kann trotzdem da
-   bleiben.“): Geschäftskonto steht vorn. Dafür weicht das Konto für Umrah und Urlaub (noch ohne Abschluss, führt wie das
-   Studentenkonto zur norisbank und steht weiter im Menü und unter /vergleiche). Am Handy vier: Geschäftskonto, Depot,
-   Girokonto, Konto für Studenten; Edelmetalle (bisher kein Abschluss) steht dort unter „Alle Vergleiche“. */
+   bleiben.“): Geschäftskonto steht vorn. Dafür weicht das Konto für Umrah und Urlaub. Am Handy vier: Geschäftskonto, Depot,
+   Girokonto, ETF-Sparplan; Edelmetalle (bisher kein Abschluss) steht dort unter „Alle Vergleiche“.
+   VG8-02 (25.11.2026, Elias VG8-01: „Ja, beide sollen raus, Studenten.“): Studenten- und Umrah-Konto sind ganz raus,
+   das Handy-Feld vier füllt der ETF-Sparplan. */
 const categories = [
   { label: "Geschäftskonto", icon: Briefcase, to: "/vergleich/geschaeftskonto", handy: "max-md:order-1" },
   { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-2" },
   { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-3" },
-  { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:hidden" },
-  { label: "Konto für Studenten", icon: GraduationCap, to: "/vergleich/girokonto/studenten", handy: "max-md:order-4" },
+  { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:order-4" },
   { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:hidden" },
 ];
 

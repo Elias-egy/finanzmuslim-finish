@@ -245,6 +245,15 @@ describe("Geschäftskonto: Partnerlinks", () => {
     for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "n26")) expect(a.link, a.id).toBe("/out/n26-business");
   });
 
+  it("führt Tide (FinanceQuality 2001, Werbemittel 24773) und Vivid Business (2036, Werbemittel 390901) auf ihre Startseiten (VG8-02, 25.11.2026)", () => {
+    expect(partnerLinks.find((x) => x.kurzname === "tide")?.aktiv).toBe(true);
+    expect(partnerLinks.find((x) => x.kurzname === "vivid-business")?.aktiv).toBe(true);
+    expect(START_LINKS["tide"]).toBe("https://c.neqty.net/trck/eclick/c08c6723e82961bd3f02ae4edc5abe59?subid={SUBID}");
+    expect(START_LINKS["vivid-business"]).toBe("https://c.neqty.net/trck/eclick/924275e3267970f8844f88ae4fb97113f6a09cb885187376?subid={SUBID}");
+    for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "tide")) expect(a.link, a.id).toBe("/out/tide");
+    for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "vivid")) expect(a.link, a.id).toBe("/out/vivid-business");
+  });
+
   it("führt Accountable über financeAds ohne Sub-ID, Programm 3654, auf die Startseite", () => {
     const p = partnerLinks.find((x) => x.kurzname === "accountable")!;
     expect(p.aktiv).toBe(true);

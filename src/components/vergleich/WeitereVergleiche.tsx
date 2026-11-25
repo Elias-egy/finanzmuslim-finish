@@ -15,8 +15,6 @@ export const VORNE: { to: string; name: string }[] = [
   { to: "/vergleich/etf-sparplan", name: "ETF-Sparplan" },
   { to: "/vergleich/edelmetalle", name: "Edelmetalle" },
   { to: "/vergleich/girokonto", name: "Girokonto" },
-  { to: "/vergleich/girokonto/studenten", name: "Girokonto für Studenten" },
-  { to: "/vergleich/girokonto/umrah-und-urlaub", name: "Konto für Umrah und Urlaub" },
   { to: "/vergleich/krypto", name: "Krypto" },
 ];
 

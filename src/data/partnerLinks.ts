@@ -107,6 +107,20 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "FinanceQuality, Kampagne 1782 (N26), Werbemittel 24750 (Business Smart), leitet am 25.11.2026 auf n26.com/de-de/geschaeftskonto, die Geschäftskonto-Seite mit allen vier Business-Tarifen. Werbemittel aus dem Portal gelesen von VG8 (25.11.2026), Ziel per curl geprüft. Gilt für alle vier N26-Business-Tarife im Geschäftskonto-Vergleich (eigene Werbemittel gäbe es für Standard 24751, Metal 24749, Kontenvergleich 24748).",
   },
   {
+    kurzname: "tide",
+    anbieter: "Tide",
+    ziel: "/dein-investmentstart/tide",
+    aktiv: true,
+    notiz: "FinanceQuality, Programm 2001, Werbemittel 24773 (tide Geschäftskonto Textlink), leitet am 25.11.2026 auf tide.co/de-DE/SPARTIDE/ (Zielseite wirbt mit Tagesgeld-Zins, die Konten selbst sind belegt zinsfrei, Elias VG8-01 25.11.2026: Wenn die Konten keine Zinsen haben, dann ist es okay). Provision laut FQ-Programmliste 120 Euro CPO. Ziel per curl geprüft.",
+  },
+  {
+    kurzname: "vivid-business",
+    anbieter: "Vivid",
+    ziel: "/dein-investmentstart/vivid-business",
+    aktiv: true,
+    notiz: "FinanceQuality, Programm 2036, Werbemittel 390901 (Vivid Business Geschäftskonto DE), leitet am 25.11.2026 auf vivid.money/de-de/business/ (Zielseite wirbt mit Zinskonto-Zins, die Konten selbst sind belegt zinsfrei, Elias VG8-01 25.11.2026: Wenn die Konten keine Zinsen haben, dann ist es okay). Provision laut FQ-Programmliste 60 Euro CPO. Ziel per curl geprüft.",
+  },
+  {
     kurzname: "bbbank",
     anbieter: "BBBank",
     ziel: "/dein-investmentstart/bbbank",

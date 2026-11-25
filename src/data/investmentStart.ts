@@ -1952,6 +1952,112 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    // VG8-02 (25.11.2026): FinanceQuality Tide 2001, Werbemittel 24773. Sätze nur aus den Belegen in
+    // geschaeftskontoVergleich.ts (Konstante TIDE), keine Bonus-Beträge.
+    kurzname: "tide",
+    anbieter: "Tide",
+    kurz: "Tide",
+    domain: "tide.co",
+    markenfarbe: "#4B40EB",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/tide",
+    link: START_LINKS["tide"],
+    titel: ["Dein zinsfreies", "Geschäftskonto."],
+    knopf: "Bei Tide eröffnen →",
+    videoHinweis: false,
+    chips: ["Lite 0 € im Monat", "Debit Mastercard", "Ohne Schufa-Prüfung", "Für Selbstständige"],
+    schritte: [
+      { titel: "Konto online eröffnen", text: "Du richtest das Geschäftskonto in der App ein, ohne Filiale." },
+      { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
+      { titel: "Loslegen", text: "Die Debit Mastercard bestellst du in der App, die erste blaue Karte ist kostenlos." },
+    ],
+    fakten: [
+      {
+        titel: "Geschäftskonto ohne Zinsen",
+        text: "In der Kontovereinbarung steht: „Your Tide Business Account is subject to 0% interest.“",
+      },
+      {
+        titel: "Kein Dispo",
+        text: "Im Preis- und Leistungsverzeichnis heißt es: Dispokredite nicht verfügbar. Ins Minus kommst du mit dem Konto nicht.",
+      },
+      {
+        titel: "Debit Mastercard",
+        text: "Tide gibt eine kostenlose Debit Mastercard aus, ohne Schufa-Prüfung. Die Karte bucht nur ab, was auf dem Konto liegt.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Tide-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Nichts auf das Tagesgeldkonto buchen.",
+        text: "Tide legt mit dem Geschäftskonto automatisch ein Tagesgeldkonto an. Zinsen gibt es nur auf Geld, das du selbst dorthin buchst. Lass es leer.",
+      },
+      {
+        titel: "Mit der Debit Mastercard bezahlen.",
+        text: "Die Karte bucht nur ab, was auf dem Konto liegt. Es entsteht kein Kredit.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Geschäftskonto überhaupt halal?",
+        a: "Ein Konto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    // VG8-02 (25.11.2026): FinanceQuality Vivid Business 2036, Werbemittel 390901. Sätze nur aus den Belegen in
+    // geschaeftskontoVergleich.ts (Konstante VIVID), keine Bonus-Beträge.
+    kurzname: "vivid-business",
+    anbieter: "Vivid",
+    kurz: "Vivid",
+    domain: "vivid.money",
+    markenfarbe: "#7B2DFF",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/vivid-business",
+    link: START_LINKS["vivid-business"],
+    titel: ["Dein zinsfreies", "Geschäftskonto."],
+    knopf: "Bei Vivid eröffnen →",
+    videoHinweis: false,
+    chips: ["Freelance Standard 0 €", "Visa Debit", "Für Selbstständige und Firmen"],
+    schritte: [
+      { titel: "Konto online eröffnen", text: "Du richtest das Geschäftskonto in der App ein, ohne Filiale." },
+      { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
+      { titel: "Loslegen", text: "Die Visa-Karte bestellst du in der App." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Die Vivid-AGB sagen in Ziffer 3.10: „Ihr Guthaben auf dem Vivid-Konto berechtigt Sie nicht zu Zinsen.“",
+      },
+      {
+        titel: "Kein Overdraft",
+        text: "Laut Hilfe-Center bietet Vivid Business keinen Überziehungsservice an.",
+      },
+      {
+        titel: "Visa Debit auf Guthabenbasis",
+        text: "Die Visa-Karten von Vivid sind Debitkarten auf Guthabenbasis, ohne Kreditrahmen. Freelance Standard kostet 0 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Vivid-Konto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Kein Zinskonto eröffnen.",
+        text: "Zinsen gibt es bei Vivid nur auf dem Zinskonto, das du selbst eröffnest. Eröffne keines.",
+      },
+      {
+        titel: "Mit der Visa Debit bezahlen.",
+        text: "Die Karte nutzt nur das Geld, das auf dem Konto liegt. Es entsteht kein Kredit.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Ist ein Geschäftskonto überhaupt halal?",
+        a: "Ein Konto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
     kurzname: "commerzbank-girokonto",
     anbieter: "Commerzbank",
     kurz: "Commerzbank",

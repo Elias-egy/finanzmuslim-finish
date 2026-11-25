@@ -23,6 +23,9 @@ export const START_LINKS = {
   // VG6-04 (25.11.2026): FinanceQuality N26 1782, Werbemittel 24750 Business Smart, Ziel n26.com/de-de/geschaeftskonto.
   "n26-business": "https://c.neqty.net/trck/eclick/d7289e91a9dbd18913cb4e1ded7f4674?subid={SUBID}",
   "bbbank": "https://c.neqty.net/trck/eclick/5a913135bf2744d85558983a6eb6625b?subid={SUBID}",
+  // VG8-02 (25.11.2026): FinanceQuality Tide 2001, Werbemittel 24773, Ziel tide.co/de-DE/SPARTIDE/; Vivid Business 2036, Werbemittel 390901, Ziel vivid.money/de-de/business/.
+  "tide": "https://c.neqty.net/trck/eclick/c08c6723e82961bd3f02ae4edc5abe59?subid={SUBID}",
+  "vivid-business": "https://c.neqty.net/trck/eclick/924275e3267970f8844f88ae4fb97113f6a09cb885187376?subid={SUBID}",
   "joe-broker": "https://www.financeads.net/tc.php?t=87591C5496129308T",
   "bunq": "https://www.financeads.net/tc.php?t=87591C3156123231T",
   "wise": "https://wise.prf.hn/click/camref:1011l5RuSL/destination:https%3A%2F%2Fwise.com%2Fde%2F",

@@ -89,8 +89,6 @@ export const festeRouten: Route[] = [
   { pfad: "/vergleich/screening-apps", quelle: ["src/pages/VergleichScreener.tsx", "src/data/screenerVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/steuersoftware", quelle: ["src/pages/VergleichSteuersoftware.tsx", "src/data/steuersoftwareVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
   { pfad: "/vergleich/edelmetalle", quelle: ["src/pages/VergleichEdelmetalle.tsx", "src/data/edelmetallVergleich.ts"], changefreq: "monthly", prioritaet: "0.9" },
-  { pfad: "/vergleich/girokonto/umrah-und-urlaub", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
-  { pfad: "/vergleich/girokonto/studenten", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
   { pfad: "/vergleich/etf-sparplan", quelle: ["src/pages/VergleichAbgeleitet.tsx", "src/data/abgeleiteteVergleiche.ts"], changefreq: "monthly", prioritaet: "0.8" },
   { pfad: "/vergleiche/methodik", quelle: ["src/pages/VergleichMethodik.tsx", "src/lib/bewertung.ts"], changefreq: "monthly", prioritaet: "0.6" },
 
@@ -296,6 +294,10 @@ export const weiterleitungen: { von: string; nach: string; seo?: boolean }[] = [
   { von: "/reinigungsrechner", nach: "/bereinigungsrechner" },
   // RN6 (15.11.2026, Elias: „Check ersetzt Quiz“): das alte Quiz führt in den Halal-Finanz-Check.
   { von: "/vergleich/start", nach: "/check?quelle=quiz" },
+  // VG8-02 (25.11.2026, Elias VG8-01: „Ja, beide sollen raus, Studenten.“): Studenten- und Umrah-Konto-Vergleich sind weg,
+  // die beiden indexierten Adressen geben ihre Signale ohne noindex an den Girokonto-Vergleich weiter.
+  { von: "/vergleich/girokonto/studenten", nach: "/vergleich/girokonto", seo: true },
+  { von: "/vergleich/girokonto/umrah-und-urlaub", nach: "/vergleich/girokonto", seo: true },
   /* Umzug einer indexierten Seite (SEO24, 01.11.2026): ohne noindex, damit Google die Signale der alten
      Adresse an die neue weitergibt. noindex auf einer Weiterleitung sagt das Gegenteil. */
   { von: "/wissen/halal-etfs", nach: "/blog/halal-etf", seo: true },
@@ -354,6 +356,8 @@ export const bewusstDraussen: { pfad: string; grund: string }[] = [
   { pfad: BF_TEASER_PFAD, grund: "Freebie zum Video 26 boykottfreie Halal-Aktien, nur ueber den Link aus dem Video, setzt noindex (RN20)" },
   { pfad: BF_VOLL_PFAD, grund: "volle Liste des Freebies Halal und boykottfrei, geheimer Pfad, setzt noindex (RN20)" },
   { pfad: "/check", grund: "Halal-Finanz-Check mit Verkaufsseite vor den Fragen (RN5, RN7), setzt noindex" },
+  { pfad: "/vergleich/girokonto/studenten", grund: "Weiterleitung auf /vergleich/girokonto (VG8-02), ohne noindex" },
+  { pfad: "/vergleich/girokonto/umrah-und-urlaub", grund: "Weiterleitung auf /vergleich/girokonto (VG8-02), ohne noindex" },
   { pfad: "/vergleich/start", grund: "Weiterleitung auf /check?quelle=quiz (RN6), gehört nicht in den Index" },
   { pfad: "*", grund: "Fehlerseite" },
 ];
