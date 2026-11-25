@@ -57,8 +57,7 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   // SEO84 (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action“): Kopfknopf zum Check mit der Depot-Art; „Depot-Vergleich“
   // als Knopfwort fällt weg, damit die Seite dem Depot-Vergleich das Wort nicht nimmt. Der Link zur Money Page steht im Text.
   "/blog/trade-republic-alternative": { ziel: "/check?art=depot&quelle=kopf", text: "Match finden", ohneZum: true },
-  // Geschäftskonto für Muslime (SEO84): Der Check kennt kein Geschäftskonto, darum führt „Match finden“ in den Vergleich mit Filter nach Rechtsform.
-  "/blog/geschaeftskonto-fuer-muslime": { ziel: "/vergleich/geschaeftskonto", text: "Match finden", ohneZum: true },
+  // SEO85: der Geschäftskonto-Beitrag ist jetzt Ratgeber unter /vergleich/geschaeftskonto (Elias SEO84-03), kein eigener Kopfknopf mehr.
   "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
   "/blog/dispo-und-schulden": KOPF_KONTO,
   "/blog/kreditkarte-halal": KOPF_KONTO,
@@ -130,7 +129,9 @@ export const SiteHeader = () => {
           Zeile, Abstand 10 px). Farbe: das kräftige Violett der Palette (--violet, wie die frühere Leiste „wie live“) mit weißer
           Schrift; der Kopf darunter ist Signalblau, so hebt sich die Leiste ab. Sie scrollt mit weg. Auf /guide selbst entfällt sie.
           Sie ersetzt die lila Halal-Anlagen-Leiste der Startseite (RN19-04); die Datenbank bleibt im Menü. */}
-      {pathname !== "/guide" && (
+      {/* SEO85 (Elias SEO84-03: „mein Halal Starter Guide ist da kostenlos holen, macht in den Blogs keinen Sinn, weil es zu viel
+          Ablenkung ist“): auf den Beiträgen entfällt die Leiste. */}
+      {pathname !== "/guide" && !beitragsKopf && (
         <Link
           to="/guide"
           className="flex items-center justify-center gap-2.5 bg-violet px-4 py-3 text-center text-[14px] leading-snug text-violet-foreground transition-colors hover:bg-violet/90 md:py-[21px] md:text-[18px]"
@@ -181,6 +182,9 @@ export const SiteHeader = () => {
             <Wordmark inverted className={cn(beitragsKopf ? "beitragskopf-marke text-[20px] sm:text-[23px] md:text-2xl" : "text-[23px] md:text-2xl")} />
           </Link>
 
+          {/* SEO85 (Elias SEO84-03: „dieses Blog, Halal-Check, Rechner, Vergleiche, Dokumente erstmal weglassen und nur das
+              Finanzmuslim-Logo, Dark Mode und Match finden“): auf den Beiträgen kein Menü. */}
+          {!beitragsKopf && (
           <nav
             className="hidden min-[900px]:flex items-center gap-6 lg:gap-8 mx-auto"
             aria-label="Hauptnavigation"
@@ -211,20 +215,20 @@ export const SiteHeader = () => {
               Dokumente
             </Link>
           </nav>
+          )}
 
           {/* Handy: nur Logo, Lupe, Menuestriche. Der Guide-Knopf frisst dort
               die halbe Breite und steht ohnehin im Menue. */}
-          <div className="ml-auto min-[900px]:ml-0 flex items-center gap-1 min-[900px]:gap-2">
+          <div className={cn("ml-auto flex items-center gap-1 min-[900px]:gap-2", !beitragsKopf && "min-[900px]:ml-0")}>
             {/* Hell/dunkel: Grundeinstellung nach Gerät, Wahl wird gemerkt (gleicher Schlüssel wie die Verkaufsseite) */}
             <button
               type="button"
               aria-pressed={dunkel}
               aria-label={dunkel ? "Hellen Modus einschalten" : "Dunklen Modus einschalten"}
               onClick={umschalten}
-              // Auf den Beiträgen ist die Leiste am schmalen Handy schon voll (langer Knopftext): dort sitzt der Schalter im Menü.
+              // SEO85: Auf den Beiträgen gibt es kein Menü mehr, darum steht der Schalter auch am Handy in der Leiste (Elias SEO84-03).
               className={cn(
                 "inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10",
-                beitragsKopf && "max-[419px]:hidden",
               )}
             >
               {dunkel ? <Sun className="h-5 w-5" aria-hidden /> : <Moon className="h-5 w-5" aria-hidden />}
@@ -271,7 +275,7 @@ export const SiteHeader = () => {
               type="button"
               aria-label="Menü öffnen"
               onClick={() => setMobileOpen(true)}
-              className="min-[900px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-white"
+              className={cn("min-[900px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-white", beitragsKopf && "hidden")}
             >
               <Menu className="h-[26px] w-[26px]" aria-hidden />
             </button>

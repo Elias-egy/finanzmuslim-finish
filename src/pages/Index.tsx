@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
+  Bitcoin,
   Briefcase,
   ArrowRight,
   Calculator,
@@ -45,12 +46,17 @@ import rechnerRender from "@/assets/rechner-v2.webp";
    Girokonto, ETF-Sparplan; Edelmetalle (bisher kein Abschluss) steht dort unter „Alle Vergleiche“.
    VG8-02 (25.11.2026, Elias VG8-01: „Ja, beide sollen raus, Studenten.“): Studenten- und Umrah-Konto sind ganz raus,
    das Handy-Feld vier füllt der ETF-Sparplan. */
+/* SEO85 (Elias SEO84-03, 25.11.2026: „Krypto-Vergleich kann als 6. Vergleich rein … Depot, dann in der Mitte Giro … dann kommt
+   Edelmetalle, dann kommt Geschäft, dann kommt ETF-Sparplan und dann kommt Krypto. Das sind die 6.“): sechs Vergleiche in seiner
+   Reihenfolge, am Laptop zwei Reihen zu drei. Am Handy die ersten vier in derselben Reihenfolge, ETF-Sparplan und Krypto unter
+   „Alle Vergleiche“ (VS5-06: am Handy vier). Ersetzt die Reihenfolge aus VG2. */
 const categories = [
-  { label: "Geschäftskonto", icon: Briefcase, to: "/vergleich/geschaeftskonto", handy: "max-md:order-1" },
-  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-2" },
-  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-3" },
-  { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:order-4" },
-  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:hidden" },
+  { label: "Depot", icon: LineChart, to: "/vergleich/depot", handy: "max-md:order-1" },
+  { label: "Girokonto", icon: Wallet, to: "/vergleich/girokonto", handy: "max-md:order-2" },
+  { label: "Edelmetalle", icon: Coins, to: "/vergleich/edelmetalle", handy: "max-md:order-3" },
+  { label: "Geschäftskonto", icon: Briefcase, to: "/vergleich/geschaeftskonto", handy: "max-md:order-4" },
+  { label: "ETF-Sparplan", icon: Repeat, to: "/vergleich/etf-sparplan", handy: "max-md:hidden" },
+  { label: "Krypto", icon: Bitcoin, to: "/vergleich/krypto", handy: "max-md:hidden" },
 ];
 
 /** Acht Rechner, jeder mit eigener Seite. */

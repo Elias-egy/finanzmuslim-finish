@@ -32,7 +32,8 @@ type Props = {
    *  Veröffentlichungsdatum. */
   dateModified?: string;
   rechtshinweis: string;
-  boxOben: EmpfehlungsBoxProps;
+  /** Seit SEO85 nicht mehr gezeigt (kein oberer Aufruf im Blog), bleibt als Feld, damit die Beiträge unverändert bauen. */
+  boxOben?: EmpfehlungsBoxProps;
   boxMitte: EmpfehlungsBoxProps;
   /** Nach welchem Abschnitt (Index, 0-basiert) die mittlere Box steht.
    *  Ohne Angabe nach der Hälfte der Abschnitte. */
@@ -111,7 +112,6 @@ const BeitragSeite = ({
   datePublished,
   dateModified,
   rechtshinweis,
-  boxOben,
   boxMitte,
   boxMitteNach,
   children,
@@ -144,8 +144,8 @@ const BeitragSeite = ({
         <li key={a.id}>
           <a
             href={`#${a.id}`}
-            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
-              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
+            className={`block border-l-2 py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary font-semibold text-primary" : "border-border text-foreground/70"
             }`}
           >
             {a.titel}
@@ -219,9 +219,8 @@ const BeitragSeite = ({
               </ul>
             </section>
 
-            <div className="mt-6">
-              <EmpfehlungsBox {...boxOben} />
-            </div>
+            {/* SEO85 (Elias SEO84-03: „dann nochmal oben den Call to Action, der kann weg. Der kommt weg in den Blogs“): kein Kasten
+                direkt unter „Das Wichtigste“; der Kopfknopf „Match finden“ und der erste Kasten nach dem ersten Abschnitt bleiben. */}
 
             <nav aria-label="Auf dieser Seite" className="mt-7 border-y border-border xl:hidden">
               <button

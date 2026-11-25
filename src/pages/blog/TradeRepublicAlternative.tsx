@@ -79,14 +79,15 @@ const RECHTSHINWEIS =
 /**
  * Hauptaufruf „Finde dein Match“ (Elias SEO83-03: „ich würde immer das Match nehmen als Call to Action … nur natürlich nicht so mit blau
  * und leuchtend“). Ziel wie der Kopfknopf (SiteHeader KOPF_STANDARD, /check) mit der Depot-Art, damit der Check gleich beim Depot startet.
- * Schlicht schwarz und eckig wie die Knöpfe dieser Seite; die einzige Bewegung ist der Pfeil beim Zeigen (aus bei reduzierter Bewegung).
+ * SEO85 (Elias SEO84-03: „Dieser schwarze Balken ist richtig schlecht. Ich würde den wirklich als blauen machen“; „so wie du es sonst
+ * machst mit dem blauen Knopf“): blau und rund wie der Aufruf der Freebies; die einzige Bewegung ist der Pfeil beim Zeigen.
  */
 const MATCH_ZIEL = "/check?art=depot";
 const MatchKnopf = ({ stelle, className = "" }: { stelle: string; className?: string }) => (
   <Link
     to={MATCH_ZIEL}
     onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "blog", im: "blog", seite: PFAD, stelle })}
-    className={`group inline-flex min-h-[48px] items-center justify-center gap-2 bg-foreground px-6 py-3 text-[16px] font-semibold text-background transition-colors hover:bg-foreground/85 ${className}`}
+    className={`group inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-[16px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover ${className}`}
   >
     Finde dein Match
     <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden />
@@ -219,9 +220,10 @@ const DREIER = depotVorn
  * 10 %, Halal-Anlagen kaufbar, Kosten; /vergleiche/methodik). Der Test ist der Check (/check).
  * SEO84 Prüfer-MUSS 1: Zahl und Wort wie das Klickziel /check und Elias' Freebie-Wortlaut („54 Bankkonten, 35 Depots. Ich habe sie alle
  * getestet.“, Vault raw/2026-11-17-elias-rn16-12-*.md), also DEPOTS_GETESTET und „getestet“. Die {depotAnzahl} bleibt nur für den Umfang
- * des Vergleichs. Der Satz steht höchstens zweimal auf der Seite: unter dem Dreier (ICH_MITTE) und als Kasten „Mein Test“.
+ * des Vergleichs. Seit SEO85 steht der Satz nur noch einmal, im Kasten weiter unten (Elias SEO84-03).
  */
-const ICH_MITTE = `Ich habe ${DEPOTS_GETESTET} Depots getestet und auf Zinsen, Kredit, Halal-Auswahl und Kosten geachtet. Welches davon zu dir passt, zeigt dir mein Test.`;
+/** Fett zum Überfliegen wie in den Freebies (RN16-20). */
+const FETT_TEST = /(ohne Zinsen nutzen|einen Kredit|Halal-ETFs, Sukuk und Gold-ETCs|einen Test gebaut)/;
 const ICH_KRITERIEN =
   "Geachtet habe ich darauf, ob du das Depot ohne Zinsen nutzen kannst, ob dir der Broker ab Start einen Kredit gibt, wie viele Halal-ETFs, Sukuk und Gold-ETCs du dort kaufst und was es kostet.";
 const ICH_TEST = "Daraus habe ich einen Test gebaut. Nach ein paar Fragen zeigt er dir das Depot, das zu dir passt.";
@@ -441,8 +443,8 @@ const TradeRepublicAlternative = () => {
           <a
             href={`#${a.id}`}
             aria-current={aktiv === a.id ? "location" : undefined}
-            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
-              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
+            className={`block border-l-2 py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary font-semibold text-primary" : "border-border text-foreground/70"
             }`}
           >
             {a.kurz ?? a.titel}
@@ -550,7 +552,8 @@ const TradeRepublicAlternative = () => {
                     {anzahl(depotVorn[0], "halalEtfsFonds") ? `: Dort kaufst du ${anzahl(depotVorn[0], "halalEtfsFonds")!.text}.` : "."}
                   </p>
                 </Text>
-                <MatchKnopf stelle="einstieg" className="mt-5" />
+                {/* SEO85 (Elias SEO84-03: „Lass erstmal das Wichtigste, kein Call to Action. Erstmal runter. Und dann kommt die Tabelle“):
+                    nach dem Einstieg kein Knopf; der Kopf hat schon „Match finden“, das Karussell die Anbieter. */}
 
                 <section className="mt-10 border-l-2 border-primary bg-muted px-5 py-6 md:px-8 md:py-7">
                   <Ueber id="das-wichtigste" />
@@ -619,10 +622,6 @@ const TradeRepublicAlternative = () => {
                     SEO84 (Elias SEO83-03: „einmal in die Mitte so die 3 besten“): die drei besten aus der Rangfolge, darunter der Check.
                     Er steht vor den fünf Einträgen, so spät, wie die Drittel-Regel (Tor M-DRITTEL, 20 bis 40 %) es zulässt. */}
                 <AnbieterKasten titel={`Die ${DREIER.length} besten Trade Republic Alternativen`} anbieter={DREIER} />
-                <div className="mt-5 flex flex-col items-start gap-3 border border-border p-5 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-[17px] leading-snug text-foreground">{ICH_MITTE}</p>
-                  <MatchKnopf stelle="mitte" className="shrink-0" />
-                </div>
 
                 <section className="mt-14">
                   <Ueber id="alternativen" />
@@ -677,19 +676,25 @@ const TradeRepublicAlternative = () => {
                   </Text>
                 </section>
 
-                {/* SEO84: Elias' Satz zum zweiten Mal, als Kasten wie in den Freebies (CheckEinstieg: „Ich habe sie alle getestet.“), aber weiß,
-                    ohne blaue Fläche, mit der kleinen Check-Vorschau (MatchBuehne). Zahl und „getestet“ wie /check (Prüfer-MUSS 1). */}
-                <aside aria-labelledby="mein-test" className="mt-12 border border-border bg-card p-5 md:p-7">
-                  <Etikett>Mein Test</Etikett>
-                  <p id="mein-test" className="font-titel mt-2.5 text-[24px] leading-[1.2] text-foreground md:text-[28px]">
-                    {DEPOTS_GETESTET} Depots. Ich habe sie alle getestet.
+                {/* SEO85 (Elias SEO84-03: „Ich habe sie alle getestet … weiter unten … ein bisschen auffälliger … so machen, wie ich es auch in
+                    den Freebies mache“): derselbe Kasten wie CheckEinstieg (src/styles/checkEinstieg.css): Zahl blau, Titel fett, Satz mit
+                    fetten Stellen, Quiz-Vorschau, blauer runder Knopf. Zahl und „getestet“ wie /check (Prüfer-MUSS 1 SEO84). Steht nur einmal. */}
+                <aside aria-labelledby="mein-test" data-check-einstieg="blog" className="ce mt-12">
+                  <h2 id="mein-test" className="ce-titel">
+                    <span className="ce-titel-zahlen">{DEPOTS_GETESTET} Depots.</span> Ich habe sie alle getestet.
+                  </h2>
+                  <p className="ce-satz">
+                    {`${ICH_KRITERIEN} ${ICH_TEST}`.split(FETT_TEST).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))}
                   </p>
-                  <p className="mt-3 max-w-[600px] text-[17px] leading-[1.6] text-foreground">{ICH_KRITERIEN}</p>
-                  <p className="mt-3 max-w-[600px] text-[17px] leading-[1.6] text-foreground">{ICH_TEST}</p>
-                  <div className="mt-2 max-w-[440px]">
-                    <MatchBuehne art="depot" quelle="kopf" />
-                  </div>
-                  <MatchKnopf stelle="kasten" className="mt-5 w-full sm:w-auto" />
+                  <MatchBuehne art="depot" quelle="kopf" />
+                  <Link
+                    to={MATCH_ZIEL}
+                    onClick={() => ereignis("freebie_check_klick", { check: true, quelle: "blog", im: "blog", seite: PFAD, stelle: "kasten" })}
+                    className="ce-knopf"
+                  >
+                    Finde dein Match
+                    <ArrowRight aria-hidden />
+                  </Link>
                 </aside>
 
                 <section className="mt-12">

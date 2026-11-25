@@ -484,8 +484,8 @@ const IstLeasingHaram = () => {
           <a
             href={`#${a.id}`}
             aria-current={aktiv === a.id ? "location" : undefined}
-            className={`block border-l py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
-              aktiv === a.id ? "border-primary text-primary" : "border-transparent text-foreground/70"
+            className={`block border-l-2 py-[7px] pl-3 text-[15px] leading-snug transition-colors hover:text-primary ${
+              aktiv === a.id ? "border-primary font-semibold text-primary" : "border-border text-foreground/70"
             }`}
           >
             {a.kurz ?? a.titel}

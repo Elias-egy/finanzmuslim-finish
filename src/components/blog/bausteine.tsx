@@ -272,22 +272,23 @@ export const Karte = ({
       className={`relative flex h-[104px] items-center justify-center gap-2.5 border-b border-border bg-background px-3 ${
         erste ? "shadow-[inset_0_2px_0_hsl(var(--primary))]" : ""
       }`}
-      style={RASTER}
+      style={marke ? undefined : RASTER}
     >
       <span className="absolute left-3 top-3 border border-border bg-background px-1.5 py-0.5 font-mono text-[12px] tabular-nums text-foreground">
         {String(nummer).padStart(2, "0")}
       </span>
       {logo && <img src={logo} alt="" aria-hidden="true" width={40} height={40} className="h-10 w-10 object-contain" />}
-      {marke ? (
-        <span className="flex flex-col items-center gap-1.5 pt-4">
-          {marke}
-          <span className="text-center text-[15px] font-semibold leading-tight text-foreground">{kopf}</span>
-        </span>
-      ) : (
+      {/* SEO85 (Elias SEO84-03: „die Überschrift gar nicht in das Logo packen … unten machen, also über am besten für“; „nicht auf
+          diese Kacheln, sondern wie im Depot-Vergleich so ein komplettes Bild“): mit Schriftzug steht das Logo groß auf weißer Fläche
+          ohne Raster, der Name darunter über dem ersten Etikett. */}
+      {marke ? <span className="flex scale-[1.3] items-center justify-center pt-3">{marke}</span> : (
         <span className="text-center text-[16px] font-semibold leading-tight text-foreground">{kopf}</span>
       )}
     </div>
-    <div className="flex flex-1 flex-col px-4 pb-1 pt-4">{children}</div>
+    <div className="flex flex-1 flex-col px-4 pb-1 pt-4">
+      {marke && <p className="mb-2 text-[17px] font-semibold leading-tight text-foreground">{kopf}</p>}
+      {children}
+    </div>
   </li>
 );
 
