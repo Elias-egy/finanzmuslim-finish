@@ -117,7 +117,7 @@ const abschnitte: BeitragAbschnitt[] = [
           Im Schaufenster steht „0 % Finanzierung“. Kein Zins, also kein Problem, oder?
         </Frage>
         <p>
-          Das ist die häufigste Falle bei diesem Thema. Bei einer Null-Prozent-Aktion rechnet der Händler
+          Das ist eine verbreitete Masche, über die auch Hourani spricht (ilmCast Ep. 21, 00:32:18). Bei einer Null-Prozent-Aktion rechnet der Händler
           aus, was die Bank an Zinsen verdient hätte, und schlägt diesen Betrag auf den Kaufpreis. Danach
           steht im Vertrag null Prozent, und der Aufschlag steckt im Preis.
         </p>
@@ -127,7 +127,7 @@ const abschnitte: BeitragAbschnitt[] = [
           ergebnis="Der Aufschlag ist derselbe. Nur der Name auf dem Formular hat sich geändert."
         >
           <p>
-            Die Zahlen sind ein einfaches Rechenbeispiel, kein reales Angebot. Entscheidend ist die
+            Das Beispiel folgt einem Beispiel von Hourani. Entscheidend ist die
             Struktur: Es fließt weiterhin Geld von der Bank zum Händler, und du zahlst der Bank mehr
             zurück, als sie gegeben hat.
           </p>
@@ -582,7 +582,7 @@ const AutoKaufenOhneZinsen = () => (
           </p>
         </>
       }
-      rechtshinweis="Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts- oder Finanzberatung. Zur Beurteilung konzerneigener Autobanken, zur Zulässigkeit einzelner Vertragsklauseln und zu Notlagen bestehen unter Gelehrten unterschiedliche Auffassungen. Angaben zum Anbietermarkt beziehen sich auf den Stand Ende 2025. Die Zahlen in den Beispielen sind erfunden."
+      rechtshinweis="Werbung: Eröffnest du über meinen Link ein Depot, bekomme ich eine Provision, ohne Mehrkosten für dich. Dieser Beitrag gibt bekannte Positionen wieder und dient ausschließlich zu Bildungszwecken. Er ist keine Fatwa und keine Rechts- oder Finanzberatung. Zur Beurteilung konzerneigener Autobanken, zur Zulässigkeit einzelner Vertragsklauseln und zu Notlagen bestehen unter Gelehrten unterschiedliche Auffassungen. Angaben zum Anbietermarkt beziehen sich auf den Stand Ende 2025. Die Zahlen im Beispiel zu Leasingrate oder Depot sind erfunden. Das Beispiel zur Null-Prozent-Aktion folgt einem Beispiel von Hourani."
       boxOben={{
         kategorie: "Vorlage",
         ueberschrift: "Vertrag prüfen, bevor du unterschreibst",

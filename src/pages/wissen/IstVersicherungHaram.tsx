@@ -101,7 +101,7 @@ const ARTEN: { art: string; pflicht: string; marke: string; ton: Ton; besonders:
     ton: "gruen",
     besonders: "Gesetzlich vorgeschrieben",
     warum: "Du hast keine Wahl, der Zwang hebt das Urteil auf",
-    tun: "Tarif mit fairem Preis wählen, nicht das teuerste Paket",
+    tun: "Pflicht behalten",
     ziel: "krankenversicherung",
   },
   {
@@ -800,31 +800,24 @@ const IstVersicherungHaram = () => {
                     </p>
                   </Text>
                   <Kernsatz>Der Zwang macht eine Versicherung nicht halal. Er nimmt dir nur die Entscheidung ab.</Kernsatz>
-                  <Text>
-                    <p>
-                      Auch bei einer Pflicht wählst du klug: Nimm den Tarif mit dem besten Preis für das, was du brauchst, nicht das Paket mit der
-                      höchsten Leistung.
-                    </p>
-                  </Text>
                 </section>
 
                 <section className="mt-14">
                   <Ueber id="krankenversicherung" />
                   <Text>
                     <p>
-                      <Fett>Nein, die gesetzliche Krankenversicherung ist Pflicht.</Fett> Jeder in Deutschland muss krankenversichert sein, genau wie
-                      pflegeversichert. Für Pflichten gilt das Urteil über freiwillige Versicherungen nicht, du hast keine Wahl.
+                      <Fett>Nein, die gesetzliche Krankenversicherung ist Pflicht.</Fett> Für Pflichten gilt das Urteil über freiwillige Versicherungen
+                      nicht, du hast keine Wahl.
                     </p>
                     <p>
-                      <Fett>Freiwillig ist, was du dazukaufst.</Fett> Zahnzusatz oder ein Zusatztarif sind freiwillig. Auch wer sich nur wegen des Preises für
-                      die private Krankenversicherung entscheidet, schließt freiwillig ab. Für die gilt das Urteil für freiwillige Versicherungen, so erklärt es
-                      Elias im{" "}
-                      <a href={imVideo(1128)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
-                        Video ab Minute 18:48
+                      <Fett>Freiwillig ist, was du dazukaufst.</Fett> Eine Zahnzusatzversicherung schließt du freiwillig ab. Die private Krankenversicherung ist
+                      freiwillig. Wer sie wählt, um Geld zu sparen, schließt freiwillig ab, und dafür gilt das Urteil für freiwillige Versicherungen. So
+                      erklärt es Elias im{" "}
+                      <a href={imVideo(1150)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Video ab Minute 19:10
                       </a>
                       .
                     </p>
-                    <p>Bei der Pflicht wählst du klug: Nimm den Tarif mit fairem Preis für das, was du brauchst, nicht das teuerste Paket.</p>
                   </Text>
                 </section>
 
@@ -896,9 +889,9 @@ const IstVersicherungHaram = () => {
                   <Ueber id="takaful" />
                   <Text>
                     <p>
-                      <Fett>Nein, kaufen konntest du sie Anfang 2026 nicht.</Fett> Eine islamische Versicherung heißt Takaful und ist eine Versicherung auf
-                      Gegenseitigkeit. Mit richtigem Aufbau ist sie eine islamkonforme Versicherung. Erlaubt heißt hier: Du darfst sie nehmen, wenn ein Schaden
-                      droht, den du selbst nicht tragen kannst.
+                      <Fett>Nein, kaufen konntest du sie zum Zeitpunkt des Videos nicht.</Fett> Eine islamische Versicherung heißt Takaful und ist eine Versicherung auf
+                      Gegenseitigkeit. Hourani nennt sie „im erlaubten Rahmen“, wenn der Aufbau stimmt. Erlaubt heißt hier: Du kannst sie nehmen, wenn es
+                      unbedingt sein muss, bei einem Schaden, der die Kraft jedes Einzelnen übersteigt, und mäßig. Der Islam drängt nicht dazu.
                     </p>
                     <p>
                       Alle zahlen in einen gemeinsamen Topf, und wer einen Schaden hat, bekommt daraus etwas. Es geht um Hilfe untereinander, nicht um Gewinn.
@@ -909,8 +902,8 @@ const IstVersicherungHaram = () => {
                     <p>
                       Ein Anbieter aus Luxemburg hat es mit einer Lebensversicherung versucht und um 2018 aufgehört, weil kaum jemand sie wollte. Auch Elias
                       sagt im{" "}
-                      <a href={imVideo(1615)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
-                        Video ab Minute 26:55
+                      <a href={imVideo(1630)} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2 hover:no-underline">
+                        Video ab Minute 27:10
                       </a>
                       : Eine Alternative zur üblichen Versicherung gibt es hier nicht.
                     </p>
@@ -918,7 +911,7 @@ const IstVersicherungHaram = () => {
                       Große Versicherer bieten Takaful nur im Ausland an. Eine Versicherung auf Gegenseitigkeit gibt es hier nur sehr vereinzelt, etwa als Sterbekasse in einem Verein. Ob der Aufbau stimmt,
                       klärst du mit einem Gelehrten.
                     </p>
-                    <p>Auch eine erlaubte Versicherung ist kein Muss. Wer selbst Ersparnisse hat, braucht sie für vieles gar nicht.</p>
+                    <p>Auch Elias sagt: Man braucht nicht für alles eine Takaful, man soll auf Allah vertrauen (Tawakkul), Video 2:36 bis 3:02.</p>
                   </Text>
                 </section>
 

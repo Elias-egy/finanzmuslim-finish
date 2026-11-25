@@ -221,7 +221,7 @@ export const giroFragen = (): Array<{ frage: string; antwort: string }> => {
   f.push({
     frage: "Ist ein Dispokredit haram?",
     antwort:
-      "Der Dispo ist ein Kredit: Sobald du dein Konto überziehst, zahlst du Zinsen, und Zinsen meidest du als Muslim. Ob schon ein eingeräumter, aber ungenutzter Dispo ein Problem ist, sehen Gelehrte unterschiedlich. Die vorsichtige Linie ist ein Konto ohne Dispo ab Start.",
+      "Der Dispo ist ein Kredit: Sobald du dein Konto überziehst, zahlst du Zinsen, und Zinsen meidest du als Muslim. Hourani rät, einen Dispo aktiv bei der Bank zu kündigen, damit du dir nicht die Möglichkeit gibst, ins Minus zu gehen (ilmCast Ep. 13, ab 00:19:48). Darum ist ein Konto ohne Dispo ab Start die sichere Wahl.",
   });
   if (giroOhneMindesteingang.length >= 2) {
     const namen = giroOhneMindesteingang.slice(0, 3).map((a) => a.name);

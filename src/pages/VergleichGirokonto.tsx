@@ -68,7 +68,7 @@ const FAQ = [
   {
     frage: "Reicht es, den Dispo nicht zu nutzen?",
     antwort:
-      "Darüber sind Gelehrte unterschiedlicher Auffassung. Die vorsichtige Linie ist, den Dispo auf null setzen zu lassen, damit gar kein Zinsvertrag besteht. Wer dazu eine verbindliche Antwort braucht, fragt einen Gelehrten seines Vertrauens.",
+      "Hourani sagt, man solle den Dispo aktiv bei der Bank kündigen, auch wenn man ihn nicht nutzt, damit man gar nicht erst ins Minus rutschen kann (ilmCast Ep. 13, 00:19:48 bis 00:20:56). Ob ein eingeräumter, aber ungenutzter Dispo für sich schon Zins bedeutet, hat er dort nicht ausdrücklich beantwortet: Wer das verbindlich klären will, fragt einen Gelehrten seines Vertrauens.",
   },
   {
     frage: "Was mache ich mit Zinsen, die trotzdem anfallen?",
