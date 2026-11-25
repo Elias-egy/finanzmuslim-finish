@@ -131,7 +131,7 @@ const passt = (a: RohAnbieter) => PASST[a.id]?.(a) ?? `du ${anzahl(a, "halalEtfs
  * wortgleich in Karte, H3 und Tabelle. Trade Republic ehrlich und ohne Schlechtreden (memory/eigene-produkte-nie-schlechtreden.md).
  */
 const BEST_FUER: Record<string, (a: RohAnbieter) => string> = {
-  "trade-republic-depot": () => "wer es schon hat, Zinsen aus",
+  "trade-republic-depot": () => "alle, die es schon haben",
   "flatex-depot": (a) => (anzahl(a, "halalEtfsFonds")?.x === anzahl(a, "halalEtfsFonds")?.y ? "die volle Auswahl" : "viele Halal-ETFs"),
   "smartbroker-plus-depot": () => "ETFs, Sukuk und Gold zusammen",
   "scalable-capital-free-broker": () => "große ETF-Käufe",
@@ -330,7 +330,9 @@ const Eintrag = ({ a, platz }: { a: RohAnbieter; platz: number }) => {
         </span>
       </H3>
       <Text>
-        <p>{brokerText(a).map(sauber).join(" ")}</p>
+        {/* Seiten-Prüfer SEO82 R2 SOLLTE 5: Kreditsatz als eigener Absatz, damit kein Absatz am Handy über sieben Zeilen läuft. */}
+        <p>{brokerText(a).map(sauber).filter((t) => !/Kredit/.test(t)).join(" ")}</p>
+        {brokerText(a).some((t) => /Kredit/.test(t)) && <p>{brokerText(a).map(sauber).filter((t) => /Kredit/.test(t)).join(" ")}</p>}
       </Text>
       <ul className="mt-4 max-w-[664px] space-y-2 text-[16px] leading-snug text-foreground">
         {vorteile(a)
@@ -534,7 +536,7 @@ const TradeRepublicAlternative = () => {
                     </p>
                   </Text>
                   <Tabelle
-                    kopf={[{ titel: "Halal-ETFs", zusatz: "und Fonds", rechts: true }, { titel: "Sukuk", rechts: true }, { titel: "Order", text: true }, { titel: "Passt zu", text: true }]}
+                    kopf={[{ titel: "Depot" }, { titel: "Passt zu", text: true }, { titel: "Halal-ETFs", zusatz: "und Fonds", rechts: true }, { titel: "Sukuk", rechts: true }, { titel: "Order", eng: true }]}
                     zeilen={ALLE.map((a) => ({
                       schluessel: a.id,
                       name: (
@@ -542,7 +544,7 @@ const TradeRepublicAlternative = () => {
                           {a.name}
                         </a>
                       ),
-                      zellen: [zahl(a, "halalEtfsFonds"), zahl(a, "halalSukuk"), order(a), bestFuer(a)],
+                      zellen: [bestFuer(a), zahl(a, "halalEtfsFonds"), zahl(a, "halalSukuk"), order(a)],
                     }))}
                   />
                 </section>
@@ -598,11 +600,11 @@ const TradeRepublicAlternative = () => {
                     </p>
                   </Text>
                   <Tabelle
-                    kopf={[{ titel: "Wenn du …" }, { titel: "Achte auf", text: true }, { titel: "Nimm", text: true }]}
+                    kopf={[{ titel: "Wenn du …" }, { titel: "Nimm", text: true }, { titel: "Achte auf", text: true }]}
                     zeilen={ALLE.map((a) => ({
                       schluessel: `wenn-${a.id}`,
                       name: WENN[a.id]?.(a) ?? passt(a),
-                      zellen: [achte(a), <Nimm key="nimm" a={a} />],
+                      zellen: [<Nimm key="nimm" a={a} />, achte(a)],
                     }))}
                     wischen
                   />
@@ -651,9 +653,9 @@ const TradeRepublicAlternative = () => {
                   <Text>
                     <p>
                       Du weißt jetzt, was Trade Republic kann und wo es fehlt. Fehlt dir dort ein Halal-ETF, brauchst du ein zweites Depot. Bei{" "}
-                      {depotVorn[0]?.name} kaufst du {anzahl(depotVorn[0], "halalEtfsFonds")?.text}. Was du bei jedem Depot für 0 % Zinsen tust, steht in
+                      {depotVorn[0]?.name} kaufst du {anzahl(depotVorn[0], "halalEtfsFonds")?.text}. Was du bei jedem Depot auf dieser Seite für 0 % Zinsen tust, steht in
                       seinem Eintrag. Ohne Zinsen nutzen kannst du {depotOhneZinsen} der {depotAnzahl} Depots aus unserem Vergleich. Alle {depotAnzahl} mit
-                      Kosten und mit dem, ob du sie ohne Zinsen nutzt, findest du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
+                      Kosten und der Angabe, ob sie ohne Zinsen gehen, findest du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
                     </p>
                   </Text>
                 </section>

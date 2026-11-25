@@ -27,6 +27,11 @@ export const DEPOT_APP_BILDER: Record<string, AppBild[]> = {
     { src: "/vergleich/depot-app/traders-place-1.webp", alt: "Traders Place App: Portfolio-Übersicht", text: "Portfolio-Übersicht in der App" },
     { src: "/vergleich/depot-app/traders-place-2.webp", alt: "Traders Place App: Suche nach einem Halal-ETF", text: "Suche nach einem Halal-ETF" },
   ],
+  /** Seit SEO83: App-Store-Bilder 1 und 2 (Id 566325832); Bild 3 (Hebel und Short) und 4 (Karte) bewusst nicht. */
+  trading212: [
+    { src: "/vergleich/depot-app/trading212-1.webp", alt: "Trading 212 App: Depot-Übersicht mit Watchlist", text: "Depot-Übersicht in der App" },
+    { src: "/vergleich/depot-app/trading212-2.webp", alt: "Trading 212 App: Aktienseite mit Kursverlauf", text: "Aktienseite mit Kursverlauf" },
+  ],
   scalable: [
     { src: "/vergleich/depot-app/scalable-1.webp", alt: "Scalable Capital App: Sukuk-ETF mit Kaufen und Sparplan", text: "ETF-Seite mit Kaufen und Sparplan" },
     { src: "/vergleich/depot-app/scalable-2.webp", alt: "Scalable Capital App: Broker-Übersicht", text: "Broker-Übersicht in der App" },
