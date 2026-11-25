@@ -9,3 +9,12 @@ export const ANKER_VERGLEICH = {
   "/vergleich/girokonto": "Halal-Girokonten im Vergleich",
   "/vergleich/edelmetalle": "Halal Gold kaufen: Depots im Vergleich",
 } as const;
+
+/**
+ * Ankertext eines Beitrags, den die Vergleiche verlinken (SEO85): Das Wort „trade republic alternative“ gehört der Kaufseite
+ * /blog/trade-republic-alternative, der Depot-Vergleich verweist nur mit diesem Anker dorthin. Bewusst getrennt von
+ * ANKER_VERGLEICH, das nur die Vergleichsseiten zählt.
+ */
+export const ANKER_BEITRAG = {
+  "/blog/trade-republic-alternative": "Trade Republic Alternative",
+} as const;

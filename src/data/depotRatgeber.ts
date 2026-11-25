@@ -141,6 +141,26 @@ export const tradeRepublicText = () => {
   };
 };
 
+/** Der Sieger-Satz für den Anfang des Ratgebers: Name und Grund aus den Daten, nie von Hand. Ohne Sieger kein Satz. */
+export const depotSiegerSatz = (): string | null => {
+  const a = depotVorn.find((x) => x.id === depotSiegerId);
+  if (!a) return null;
+  const etf = anzahl(a, "halalEtfsFonds");
+  const gruende = [
+    a.werte.zinsfreiAbStart === "gut" ? "ohne Zinsen nutzbar" : "",
+    etf ? `dort kaufst du ${etf.text}` : "",
+  ].filter(Boolean);
+  return `In unserem Vergleich liegt ${a.name} vorn${gruende.length ? `: ${gruende.join(", ")}` : ""}.`;
+};
+
+/** Niedrigster Betrag in Euro aus „1€ bis 5.000€“ oder „ab 0,95€“, sonst null. */
+const erstesEuro = (text: string) => {
+  const m = /(\d+(?:,\d+)?)\s?€/.exec(text);
+  return m ? Number(m[1].replace(",", ".")) : null;
+};
+const namenReihe = (namen: string[]) =>
+  namen.length < 2 ? (namen[0] ?? "") : `${namen.slice(0, -1).join(", ")} und ${namen[namen.length - 1]}`;
+
 /** Halal-Sparplan: auf wie viele der Halal ETFs aus /blog/halal-etf die ersten fünf einen Sparplan haben. */
 export const sparplanZeilen = () =>
   depotVorn
@@ -198,6 +218,32 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
       frage: "Mit welcher App kann ich halal investieren?",
       antwort: `Mit jeder App aus unserem Vergleich, die du ohne Zinsen nutzen kannst. Vorn liegen ${drei[0]}, ${drei[1]} und ${drei[2]}: Dort kaufst du Halal ETFs, Sukuk und Gold in der App.`,
     });
+  }
+  const sg = depotSiegerSatz();
+  if (eins && sg) {
+    const sparab = depotVorn.map((a) => ({ a, v: erstesEuro(String(a.werte.sparrate ?? "")) })).filter((x) => x.v !== null);
+    const minV = sparab.length ? Math.min(...sparab.map((x) => x.v as number)) : null;
+    const guenstigStart = minV === null ? [] : sparab.filter((x) => x.v === minV).map((x) => x.a.name);
+    const gratisDepot = depotVorn.filter((a) => a.werte.depotgebuehr === "0€").map((a) => a.name);
+    const orders = depotVorn.map((a) => ({ a, v: erstesEuro(orderKurz(a)) })).filter((x) => x.v !== null);
+    const minO = orders.length ? Math.min(...orders.map((x) => x.v as number)) : null;
+    const guenstigOrder = minO === null ? [] : orders.filter((x) => x.v === minO).map((x) => x.a.name);
+    f.push({
+      frage: "Welches Depot ist das beste für Anfänger?",
+      antwort: `Zum Einstieg zählt, dass du das Depot ohne Zinsen nutzen kannst, dass es wenig kostet und dass du klein anfangen kannst. ${sg} Mit einem Sparplan kaufst du jeden Monat automatisch für einen festen Betrag.`,
+    });
+    if (gratisDepot.length >= 2 || guenstigOrder.length > 0) {
+      f.push({
+        frage: "Welches Depot hat die geringsten Kosten?",
+        antwort: `${gratisDepot.length >= 2 ? `${gratisDepot.length === depotVorn.length ? `Bei allen ${depotVorn.length}` : `Bei ${gratisDepot.length} der ${depotVorn.length}`} Depots vorn kostet die Depotführung nichts: ${namenReihe(gratisDepot)}. ` : ""}${guenstigOrder.length > 0 && guenstigOrder.length < depotVorn.length ? `Bei der Order ist ${namenReihe(guenstigOrder)} am günstigsten. ` : ""}Alle Kosten stehen in der Tabelle oben. Halal und Kosten zählen in unserer Note je zur Hälfte.`,
+      });
+    }
+    if (guenstigStart.length > 0 && minV !== null) {
+      f.push({
+        frage: "Wie viel Geld brauche ich zum Start?",
+        antwort: `Du brauchst keine große Summe. Bei ${namenReihe(guenstigStart)} startet der ETF-Sparplan schon ab ${String(minV).replace(".", ",")} € im Monat. Du kannst klein anfangen.`,
+      });
+    }
   }
   f.push({
     frage: "Gibt es beim Broker ein islamisches Konto?",

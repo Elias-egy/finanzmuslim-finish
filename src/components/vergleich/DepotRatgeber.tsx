@@ -18,6 +18,8 @@ import {
   VorNachteile,
   type RatgeberEintrag,
 } from "./VergleichsRatgeber";
+import { AngebotsKnopf } from "./VergleichsBausteine";
+import { ANKER_BEITRAG, ANKER_VERGLEICH } from "@/data/ankertexte";
 import { kostenKurz } from "@/data/kostenKurz";
 import { APP_BILD_QUELLE, APP_BILDER_ERWARTET, DEPOT_APP_BILDER, EIGENE_APP_BILDER } from "@/data/depotAppBilder";
 import {
@@ -32,10 +34,9 @@ import {
   nachteil,
   sparplanVon,
   sparplanZeilen,
-  tradeRepublicText,
+  depotSiegerSatz,
   vorteile,
 } from "@/data/depotRatgeber";
-import type { RohAnbieter } from "@/data/vergleichHelfer";
 
 const EINTRAEGE: RatgeberEintrag[] = [
   { id: "beste-halal-depots", titel: "Die besten Halal-Depots" },
@@ -52,22 +53,12 @@ const EINTRAEGE: RatgeberEintrag[] = [
 ];
 
 const VERGLEICHE = [
-  { to: "/vergleich/girokonto", name: "Girokonto-Vergleich für Muslime" },
-  { to: "/vergleich/edelmetalle", name: "Halal Gold kaufen: Depots im Vergleich" },
+  { to: "/vergleich/girokonto", name: ANKER_VERGLEICH["/vergleich/girokonto"] },
+  { to: "/vergleich/edelmetalle", name: ANKER_VERGLEICH["/vergleich/edelmetalle"] },
   { to: "/vergleich/krypto", name: "Krypto-Börsen für Muslime" },
   { to: "/vergleich/steuersoftware", name: "Steuersoftware im Vergleich" },
   { to: "/vergleich/screening-apps", name: "Halal-Aktien prüfen: die Apps im Vergleich" },
 ];
-
-/** Blauer Name mit Stern, wenn es einen Partnerlink gibt (wie `AnbieterName` in der Tabelle). */
-const Name = ({ a }: { a: RohAnbieter }) =>
-  a.link ? (
-    <Link to={a.link} rel="sponsored nofollow" className="font-semibold text-primary underline underline-offset-2 hover:text-primary-hover">
-      {a.name}*
-    </Link>
-  ) : (
-    <span className="font-semibold">{a.name}</span>
-  );
 
 export const DepotRatgeber = ({
   auszeichnungen,
@@ -78,27 +69,30 @@ export const DepotRatgeber = ({
   kriterien: Array<{ titel: string; text: string }>;
   faq: Array<{ frage: string; antwort: string }>;
 }) => {
-  const tr = tradeRepublicText();
   const sieger = depotVorn.find((a) => a.id === depotSiegerId) ?? null;
   const sparplan = sparplanZeilen();
+  const siegerSatz = depotSiegerSatz();
   return (
     <VergleichsRatgeber eintraege={EINTRAEGE} nummerEins={sieger} auszeichnung={auszeichnungen.nummerEins}>
       <RH2 id="beste-halal-depots" gross>
         Die besten Halal-Depots 2026
       </RH2>
+      {siegerSatz && <RText>{siegerSatz}</RText>}
       <RText>
-        Für diesen Depotvergleich haben wir {depotAnzahl} Depots angesehen. Zwei Fragen stehen vorn: Kannst du ein Depot ohne
-        Zinsen führen, und wie viele Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
+        Ich habe {depotAnzahl} Depots verglichen. Zwei Fragen stehen vorn: Kannst du ein Depot ohne Zinsen führen, und wie viele
+        Halal-Anlagen kaufst du dort? Dazu kommen die Kosten.
       </RText>
       <RText>
-        {depotOhneZinsen} der {depotAnzahl} Depots kannst du belegt ohne Zinsen nutzen. Bei {depotAbgeraten.length} zahlt der Anbieter
-        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {depotOffen} belegt der Anbieter
-        dazu bisher nichts: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
+        {depotOhneZinsen} der {depotAnzahl} Depots kannst du ohne Zinsen nutzen. Bei {depotAbgeraten.length} zahlt der Anbieter
+        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {depotOffen} liegt vom
+        Anbieter dazu bisher nichts vor: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
       </RText>
       <RHinweis titel="Depot und Broker meinen hier dasselbe">
         Der Broker führt deine Käufe aus, im Depot liegen deine Anlagen. Fast jeder Broker bietet beides an, darum
         vergleichen wir sie zusammen.
       </RHinweis>
+      {/* VIDEO-PLATZ (SEO85-Prüfbericht): Hier gehört später Elias' Video „So eröffnest du dein Halal-Depot“ hin, als H3 mit VideoObject im Schema,
+          ohne Marke oder mit der aktuellen Nummer 1 (SEO83-03: kein Video zu einem Anbieter, der nicht vorn liegt). Zweiter Platz: unter „So eröffnest du dein Depot“. */}
 
       <RH2 id="broker-vergleich">Broker-Vergleich: Welcher Broker passt zu Muslimen?</RH2>
       <RText>
@@ -130,36 +124,19 @@ export const DepotRatgeber = ({
         );
       })}
 
-      {tr && (
-        <>
-          {/* SEO82: Das Wort „trade republic alternative“ gehört der Kaufseite /blog/trade-republic-alternative (Kein Doppel). */}
-          <RH3 id="schon-trade-republic">Hast du schon Trade Republic?</RH3>
-          <RText>{tr.saetze.join(" ")}</RText>
-          {tr.mehr.length > 0 && (
-            <RText>
-              Mehr Halal-ETFs und Fonds findest du bei{" "}
-              {tr.mehr.map((m, i) => (
-                <span key={m.anbieter.id}>
-                  {i > 0 && (i === tr.mehr.length - 1 ? " und " : ", ")}
-                  <Name a={m.anbieter} /> ({m.zahl})
-                </span>
-              ))}
-              .
-            </RText>
-          )}
-          <RHinweis titel="Der Depotübertrag ist kostenlos">
-            Wechselst du innerhalb Deutschlands, ziehen deine Anlagen kostenlos ins neue Depot um. Du musst dafür nichts
-            verkaufen.
-          </RHinweis>
-          <RText>
-            Welche Depots mehr Halal-ETFs haben als Trade Republic, zeige ich dir in{" "}
-            <Link to="/blog/trade-republic-alternative" className="font-semibold text-primary hover:underline">
-              Beste Trade Republic Alternative 2026
-            </Link>
-            .
-          </RText>
-        </>
-      )}
+      {/* SEO82/SEO85: Das Wort „trade republic alternative“ und der Kern gehören der Kaufseite /blog/trade-republic-alternative (Kein Doppel). Hier nur der Depotübertrag und ein Link. */}
+      <RH3 id="schon-trade-republic">Hast du schon Trade Republic?</RH3>
+      <RHinweis titel="Der Depotübertrag ist kostenlos">
+        Wechselst du innerhalb Deutschlands, ziehen deine Anlagen kostenlos ins neue Depot um. Du musst dafür nichts
+        verkaufen.
+      </RHinweis>
+      <RText>
+        Was bei Trade Republic fehlt und welche Depots du stattdessen eröffnest, steht auf der Seite{" "}
+        <Link to="/blog/trade-republic-alternative" className="font-semibold text-primary hover:underline">
+          {ANKER_BEITRAG["/blog/trade-republic-alternative"]}
+        </Link>
+        .
+      </RText>
 
       <RH2 id="depot-kosten">Depot-Kosten im Vergleich</RH2>
       <RText>So viel zahlst du bei den {depotVorn.length} Depots vorn im Vergleich.</RText>
@@ -280,6 +257,11 @@ export const DepotRatgeber = ({
             In unserem Depot-Vergleich liegt {sieger.name} vorn. Schau vor dem Abschluss oben beim Broker, was du für null
             Zinsen tun musst.
           </RText>
+          {sieger.link && (
+            <div className="mt-6 max-w-sm">
+              <AngebotsKnopf link={sieger.link} />
+            </div>
+          )}
         </>
       )}
 

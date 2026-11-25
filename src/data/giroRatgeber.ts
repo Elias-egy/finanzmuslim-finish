@@ -157,6 +157,23 @@ export const giroIdents = Array.from(
   new Set(giroVorn.flatMap((a) => text(a, "ident").split(",").map((s) => s.trim()).filter(Boolean))),
 );
 
+/** Merkmale eines Kontos, die ein Leser sofort versteht, aus den Daten: für den Sieger-Satz und das Fazit. */
+export const giroMerkmale = (a: RohAnbieter): string[] =>
+  [
+    a.werte.zinsfreiAbStart === "gut" ? "ohne Zinsen nutzbar" : "",
+    a.werte.keinDispoAbStart === "gut" ? "kein Dispo ab Start" : "",
+    a.werte.karteOhneKredit === "gut" ? "die Karte ohne Kredit" : "",
+  ].filter(Boolean);
+
+/** Der Sieger-Satz für den Anfang des Ratgebers, nie von Hand. Ohne Sieger kein Satz. */
+export const giroSiegerSatz = (): string | null => {
+  const a = giroVorn.find((x) => x.id === giroSiegerId);
+  if (!a) return null;
+  const m = giroMerkmale(a);
+  const liste = m.length > 1 ? `${m.slice(0, -1).join(", ")} und ${m[m.length - 1]}` : (m[0] ?? "");
+  return `In unserem Vergleich liegt ${a.name} vorn${liste ? `: ${liste}` : ""}.`;
+};
+
 const halalSatz = (a: RohAnbieter) =>
   [
     zinsHinweis("girokonto", a),

@@ -17,6 +17,8 @@ import {
   VorNachteile,
   type RatgeberEintrag,
 } from "./VergleichsRatgeber";
+import { AngebotsKnopf } from "./VergleichsBausteine";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 import {
   altersGrenze,
   auslandSatz,
@@ -28,12 +30,14 @@ import {
   giroBeideKarten,
   giroIdents,
   giroJung,
+  giroMerkmale,
   giroMitWechsel,
   giroOhneDispo,
   giroOhneMindesteingang,
   giroOhneMindesteingangAnzahl,
   giroOhneZinsen,
   giroSiegerId,
+  giroSiegerSatz,
   giroTop3,
   giroVorn,
   kontofuehrung,
@@ -73,8 +77,8 @@ const EINTRAEGE: RatgeberEintrag[] = [
 ];
 
 const VERGLEICHE = [
-  { to: "/vergleich/depot", name: "Depot-Vergleich 2026" },
-  { to: "/vergleich/edelmetalle", name: "Halal Gold kaufen: Depots im Vergleich" },
+  { to: "/vergleich/depot", name: ANKER_VERGLEICH["/vergleich/depot"] },
+  { to: "/vergleich/edelmetalle", name: ANKER_VERGLEICH["/vergleich/edelmetalle"] },
   { to: "/vergleich/krypto", name: "Krypto-Börsen für Muslime" },
   { to: "/vergleich/steuersoftware", name: "Steuersoftware im Vergleich" },
   { to: "/vergleich/screening-apps", name: "Halal-Aktien prüfen: die Apps im Vergleich" },
@@ -90,24 +94,28 @@ export const GiroRatgeber = ({
   faq: Array<{ frage: string; antwort: string }>;
 }) => {
   const sieger = giroVorn.find((a) => a.id === giroSiegerId) ?? null;
+  const siegerSatz = giroSiegerSatz();
   return (
     <VergleichsRatgeber eintraege={EINTRAEGE} nummerEins={sieger} auszeichnung={auszeichnung}>
       <RH2 id="beste-halal-girokonten" gross>
         Das beste Girokonto 2026 für Muslime
       </RH2>
+      {siegerSatz && <RText>{siegerSatz}</RText>}
       <RText>
-        Für diesen Girokonto-Vergleich haben wir {giroAnzahl} Konten angesehen. Drei Fragen stehen vorn: Liegt dein Geld ab
-        Start ohne Zinsen, wird dir kein Dispo eingeräumt, und kommt die Karte ohne Kredit? Dazu kommen die Kosten.
+        Ich habe {giroAnzahl} Konten verglichen. Drei Fragen stehen vorn: Liegt dein Geld ab Start ohne Zinsen, wird dir kein
+        Dispo eingeräumt, und kommt die Karte ohne Kredit? Dazu kommen die Kosten.
       </RText>
       <RText>
-        {giroOhneZinsen} der {giroAnzahl} Konten kannst du belegt ohne Zinsen nutzen. Bei {giroAbgeraten.length} zahlt der Anbieter
-        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {giroOffen} belegt der Anbieter
-        dazu bisher nichts: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
+        {giroOhneZinsen} der {giroAnzahl} Konten kannst du ohne Zinsen nutzen. Bei {giroAbgeraten.length} zahlt der Anbieter
+        Zinsen, die sich nicht abschalten lassen, sie stehen ganz hinten unter „Nicht empfohlen“. Bei {giroOffen} liegt vom
+        Anbieter dazu bisher nichts vor: Das ist kein Urteil, die Zeile steht auf „Offen“, und wir fragen nach.
       </RText>
       <RHinweis titel="Ein Tagesgeld kommt oft dazu: ignoriere es">
         Oft legt die Bank mit dem Girokonto ein Tagesgeld an, zum Beispiel die Norisbank und die BBBank. Zinsen gibt es nur auf
         Geld, das du dort einzahlst. Zahle nichts ein, dann bleibt dein Konto ohne Zinsen.
       </RHinweis>
+      {/* VIDEO-PLATZ (SEO85-Prüfbericht): Hier gehört später Elias' Video „So stellst du dein Girokonto ohne Zinsen um“ hin (Dispo auf null, Tagesgeld leer lassen),
+          ohne Anbieter oder mit der aktuellen Nummer 1 (SEO83-03). Zweiter Platz: unter „So eröffnest du dein Girokonto“. */}
 
       <RH2 id="was-ist-ein-girokonto">Was ist ein Girokonto?</RH2>
       <RText>
@@ -199,12 +207,29 @@ export const GiroRatgeber = ({
       <RH3 id="ohne-zinsen">Girokonto ohne Zinsen</RH3>
       <RText>
         Manche Banken zahlen Zinsen auf das Guthaben, und Zinsen sind Riba. {giroOhneZinsen} der {giroAnzahl} Konten kannst
-        du ohne Zinsen nutzen. Kommt ein Tagesgeld mit dem Konto, zahle dort nichts ein.
+        du ohne Zinsen nutzen. Kommt ein Tagesgeld mit dem Konto, zahle dort nichts ein. Wie du dein Konto in zehn Minuten
+        umstellst, steht im Beitrag{" "}
+        <Link to="/blog/girokonto-ohne-zinsen" className="font-semibold text-primary hover:underline">
+          Girokonto ohne Zinsen
+        </Link>
+        .
       </RText>
       <RH3 id="ohne-dispo">Girokonto ohne Dispo</RH3>
       <RText>
         Der Dispo ist ein Kredit: Überziehst du dein Konto, zahlst du Zinsen. Bei {giroOhneDispo} der {giroAnzahl} Konten bekommst du ab Start keinen Dispo, bei den übrigen lässt er
-        sich abschalten.
+        sich abschalten. Was du tun kannst, wenn schon ein Dispo im Minus steht, liest du in{" "}
+        <Link to="/blog/dispo-und-schulden" className="font-semibold text-primary hover:underline">
+          Dispo und Schulden
+        </Link>
+        .
+      </RText>
+      <RText>
+        Auch bei der Karte geht es um Kredit: Welche Karte islamisch passt und warum eine Kreditkarte anders ist als eine
+        Debitkarte, steht im Beitrag{" "}
+        <Link to="/blog/kreditkarte-halal" className="font-semibold text-primary hover:underline">
+          Kreditkarte oder Debitkarte
+        </Link>
+        .
       </RText>
 
       <RH2 id="welche-karte">Welche Karte brauchst du?</RH2>
@@ -309,17 +334,15 @@ export const GiroRatgeber = ({
           <RH2 id="fazit">Fazit</RH2>
           <RText>
             In unserem Girokonto-Vergleich liegt {sieger.name} vorn
-            {(() => {
-              const m = [
-                sieger.werte.zinsfreiAbStart === "gut" ? "ohne Zinsen nutzbar" : "",
-                sieger.werte.keinDispoAbStart === "gut" ? "kein Dispo ab Start" : "",
-                sieger.werte.karteOhneKredit === "gut" ? "die Karte ohne Kredit" : "",
-              ].filter(Boolean);
-              return m.length ? `: ${reihe(m)}` : "";
-            })()}
+            {giroMerkmale(sieger).length ? `: ${reihe(giroMerkmale(sieger))}` : ""}
             .
             Prüfe vor dem Abschluss nur, ob du die Bedingung für 0 € Kontoführung erfüllst.
           </RText>
+          {sieger.link && sieger.werte.zinsfreiAbStart !== "schlecht" && (
+            <div className="mt-6 max-w-sm">
+              <AngebotsKnopf link={sieger.link} />
+            </div>
+          )}
         </>
       )}
 
