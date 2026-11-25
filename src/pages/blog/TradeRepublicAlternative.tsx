@@ -139,7 +139,7 @@ const kostenSatz = (() => {
   const billig = nachOrder[0];
   const teuer = nachOrder[nachOrder.length - 1];
   const order3 = billig && teuer && billig.id !== teuer.id ? `, bei ${billig.name} ${order(billig)} und bei ${teuer.name} ${order(teuer)}` : "";
-  return `${alleKostenlos ? "Das Depot kostet bei allen 0 €. " : ""}Eine Order kostet bei Trade Republic ${order(tr)}${order3}.`;
+  return `${alleKostenlos ? "Bei der Trade Republic Konkurrenz kostet das Depot überall 0 €. " : ""}Eine Order kostet bei Trade Republic ${order(tr)}${order3}.`;
 })();
 const alleOhneZinsen = depotVorn.every((a) => a.werte.zinsfreiAbStart === "gut");
 const alleMehrSukuk = depotVorn.every((a) => (anzahl(a, "halalSukuk")?.x ?? 0) > (anzahl(tr, "halalSukuk")?.x ?? 0));
