@@ -921,7 +921,9 @@ describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein 
     const r = rangfolge(depotAnzeige, "depot", { finanzMax: DEPOT_FINANZ_MAX });
     expect(ids(r.gerankt.slice(0, 7))).toEqual([...DEPOT_SPITZE]);
     expect(r.gerankt.slice(0, 7).map((b) => b.platz)).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(r.gerankt.slice(0, 7).map((b) => anzeigeNote(b.note))).toEqual([4.5, 4.4, 4.4, 4.5, 4.5, 4.3, 4.4]);
+    // Regel 14 (Elias VG5-06): feste Noten, BBBank gerechnet.
+    expect(r.gerankt.slice(0, 7).map((b) => anzeigeNote(b.note))).toEqual([4.6, 4.5, 4.5, 4.5, 4.4, 4.4, 4.4]);
+    expect(r.gerankt.slice(0, 6).every((b) => typeof b.noteGerechnet === "number")).toBe(true);
     expect(r.gerankt[0].anbieter.link).toBeTruthy();
     expect(r.gerankt.slice(7).every((b) => anzeigeNote(b.note) <= 4.3)).toBe(true);
   });
@@ -936,7 +938,7 @@ describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein 
     expect(r.gerankt[0].uneingeschraenkt).toBe(true);
   });
   it("rechnet Halal und Kosten je zur Hälfte, ein Partnerlink ändert die Note nicht (seit 25.11.2026 kein „beliebt“, Elias VG5-05)", () => {
-    const mitLink = depot("smartbroker-plus-depot", {}, { link: "/out/smartbroker" });
+    const mitLink = depot("mit-link", {}, { link: "/out/smartbroker" });
     const ohneLink = depot("ohne-link");
     for (const kategorie of ["depot", "edelmetall"] as const) {
       const a = rangfolge([mitLink], kategorie, { finanzMax: MAX_DEPOT }).gerankt[0];
@@ -957,7 +959,7 @@ describe("Regel 7 und 8: angezeigte Note, Halal und Kosten je zur Hälfte, kein 
       readFileSync(join(__dirname, "..", "pages", "VergleichEdelmetalle.tsx"), "utf8"),
     ];
     for (const t of texte) expect(t).not.toMatch(/beliebt|Lesern|47,5/i);
-    expect(sortiertSatz("Depot")).toContain("Die ersten sieben Plätze lege ich selbst fest.");
+    expect(sortiertSatz("Depot")).toContain("Die ersten sieben Plätze und ihre Noten lege ich selbst fest.");
     expect(sortiertSatz("Depot")).toContain("je zur Hälfte");
   });
   it("die Rangfolge liest die Leser-Eröffnungen nicht mehr", () => {

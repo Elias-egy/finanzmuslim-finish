@@ -207,7 +207,8 @@ describe("Vergleichsdaten edelmetalle", () => {
     // Regel 12 (24.11.2026): Royal Mint zählt 2, Kredit ab Start minus 10 %.
     // 25.11.2026 (VG5-05): „Bei meinen Lesern beliebt“ ist raus. Traders Place (4,76), S Broker (4,74) und Smartbroker+ (4,72) liegen jetzt
     // innerhalb von 0,04 Punkten; Smartbroker+ steht damit auf Platz 3, Elias' Wunsch „Smartbroker vorne“ ist offen und wird nicht erzwungen.
-    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Traders Place", "S Broker", "Smartbroker+", "Trading 212"]);
+    // Regel 14 (Elias VG5-06, 25.11.2026): „Smart Broker hat doch alle Edelmetalle … Da kann Smart Broker bei Edelmetall auf 1.“
+    expect(gerankt.slice(0, 4).map((b) => b.anbieter.name)).toEqual(["Smartbroker+", "Traders Place", "S Broker", "Trading 212"]);
   });
 
   it("hat für jede Zeile der Seite einen Wert aus dem Depot-Vergleich oder der Zählung", () => {

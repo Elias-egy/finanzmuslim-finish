@@ -10,7 +10,7 @@
  * erfahren (UWG § 5b Abs. 2: Hauptkriterien der Rangliste nennen), sonst stimmt der Satz „In jeder Gruppe zählt die Note“ nicht.
  */
 export const SPITZE_SATZ_DEPOT =
-  "Die ersten sieben Plätze lege ich selbst fest. Die Note daneben rechnet nach denselben Kriterien wie bei allen anderen.";
+  "Die ersten sieben Plätze und ihre Noten lege ich selbst fest. Alle anderen Depots rechnet die Seite nach Halal-Merkmalen und Kosten.";
 
 /** Der Satz über der Liste, vor dem Link zur Methodik. */
 export const sortiertSatz = (was?: "Depot"): string =>

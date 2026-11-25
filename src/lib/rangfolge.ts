@@ -82,7 +82,13 @@ import { ROYAL_MINT_HAEUSER } from "@/data/royalMint";
  *    andersrum machen. Dann Flatex, Traders Place, Trading, Scalable, BB Bank. Erstmal“, raw/2026-11-24-elias-vg5-03-ja-beides-s-broker-
  *    eins-feste-reihenfolge.md im Vault): Die Einträge aus `DEPOT_SPITZE` stehen in dieser Reihenfolge vorn, jeder auf eigenem Platz,
  *    alle anderen danach nach Note. Noten und Sterne rechnen weiter nach Regel 8 und 12; an der Spitze gilt die Liste vor Regel 7
- *    (S Broker 4,3 vor Smartbroker+ 4,4). Regel 6 bleibt Wächter für Platz 1. Gilt für Depot und ETF-Sparplan, nicht für Edelmetall.
+ *    (S Broker 4,3 vor Smartbroker+ 4,4). Regel 6 bleibt Wächter für Platz 1. Gilt für Depot und ETF-Sparplan.
+ * 14. Feste Noten an der Depot-Spitze und Edelmetall-Spitze (Elias, 25.11.2026, VG5-06, wörtlich: „S-Broker eine 4,6 oder so … Dann Smart
+ *    Broker eine 4,5 oder so. Und Flatex auch. Und vielleicht Traders Place auch. Und darüber Scalable 4,4. Trading 2 4,4.“ und „Smart Broker
+ *    hat doch alle Edelmetalle … Da kann Smart Broker bei Edelmetall auf 1.“, raw/2026-11-25-elias-vg5-06-edelmetall-smartbroker-eins-depot-
+ *    noten-fest.md im Vault): Wer in `DEPOT_FESTE_NOTE` steht, zeigt diese Note statt der gerechneten (`noteGerechnet` behält sie). Die
+ *    Seite sagt das offen über der Liste (`SPITZE_SATZ_DEPOT`). Im Edelmetall steht Smartbroker+ fest vorn (`EDELMETALL_SPITZE`), die Note
+ *    bleibt dort gerechnet.
  */
 
 /** Regel 13: feste Spitze im deutschen Depot-Vergleich (Elias VG5-03, 24.11.2026, „erstmal“). */
@@ -95,7 +101,19 @@ export const DEPOT_SPITZE: readonly string[] = [
   "scalable-capital-free-broker",
   "bbbank-depot",
 ];
-export const spitzenRang = (kategorie: RangKategorie, id: string): number => (kategorie === "depot" ? DEPOT_SPITZE.indexOf(id) : -1);
+/** Regel 14: feste Noten an der Depot-Spitze (Elias VG5-06, 25.11.2026). BBBank behält die gerechnete Note. */
+export const DEPOT_FESTE_NOTE: Readonly<Record<string, number>> = {
+  "s-broker-direkt-depot": 4.6,
+  "smartbroker-plus-depot": 4.5,
+  "flatex-depot": 4.5,
+  "traders-place-depot": 4.5,
+  "trading-212-depot": 4.4,
+  "scalable-capital-free-broker": 4.4,
+};
+/** Regel 14: Smartbroker+ fest auf 1 im Edelmetall-Vergleich (Elias VG5-06, 25.11.2026). */
+export const EDELMETALL_SPITZE: readonly string[] = ["smartbroker-plus-depot"];
+export const spitzenRang = (kategorie: RangKategorie, id: string): number =>
+  kategorie === "depot" ? DEPOT_SPITZE.indexOf(id) : kategorie === "edelmetall" ? EDELMETALL_SPITZE.indexOf(id) : -1;
 
 export type RangKategorie = "depot" | "girokonto" | "krypto" | "steuer" | "screener" | "edelmetall" | "geschaeftskonto";
 
@@ -117,6 +135,8 @@ export type Bewertet = {
   kredit: boolean;
   /** Halal-Teil vor dem Abzug für den Kredit. Der geführte Test sortiert damit, wer möglichst viele Anlagen will. */
   halalVorKredit: number;
+  /** Regel 14: gerechnete Note, wenn die angezeigte fest gesetzt ist. */
+  noteGerechnet?: number;
 };
 export type NichtBewertet = { anbieter: RohAnbieter; grund: "noch nicht geprüft" | "Anfrage läuft"; fehlt: string[] };
 export type Abgeraten = { anbieter: RohAnbieter; grund: string };
@@ -604,9 +624,11 @@ export const rangfolge = (liste: readonly RohAnbieter[], kategorie: RangKategori
       nichtBewertet.push({ anbieter, grund: angefragt ? "Anfrage läuft" : "noch nicht geprüft", fehlt: u.fehlt });
     } else {
       // Regel 8: Halal-Teil und Kosten je zur Hälfte, kein weiteres Kriterium (seit 25.11.2026).
+      const festeNote = kategorie === "depot" ? DEPOT_FESTE_NOTE[anbieter.id] : undefined;
       bewertet.push({
         anbieter,
-        note: runde(u.note),
+        note: festeNote ?? runde(u.note),
+        ...(festeNote !== undefined ? { noteGerechnet: runde(u.note) } : {}),
         halal: runde(u.halal),
         kosten: u.kosten === null ? null : runde(u.kosten),
         uneingeschraenkt: u.uneingeschraenkt,
