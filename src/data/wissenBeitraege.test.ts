@@ -7,7 +7,10 @@ import { alleRouten, weiterleitungen, wissenUmzug } from "./routen";
    und das Datum auf der Übersicht ist das Datum, das die Seite selbst zeigt. */
 const datei = (slug: string) => {
   const name = slug.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join("");
-  return slug === "halal-etfs" ? "src/pages/blog/HalalEtf.tsx" : `src/pages/wissen/${name}.tsx`;
+  // Kaufseiten liegen unter src/pages/blog (SEO82).
+  if (slug === "halal-etfs") return "src/pages/blog/HalalEtf.tsx";
+  if (slug === "trade-republic-alternative") return "src/pages/blog/TradeRepublicAlternative.tsx";
+  return `src/pages/wissen/${name}.tsx`;
 };
 
 describe("Blog-Register", () => {

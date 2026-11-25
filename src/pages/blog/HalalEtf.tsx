@@ -57,7 +57,8 @@ const VIDEO_NAME = "Sind ETFs Halal oder Haram? I Was du unbedingt berücksichti
 const VIDEO_BESCHREIBUNG = "Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.";
 const VIDEO_HOCHGELADEN = "2026-05-19T11:56:22-07:00";
 const VIDEO_DAUER = "PT10M0S";
-const VIDEO_VORSCHAU = `https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
+/* Eigenes Vorschaubild (Tor S-VIDEO-BILD: kein i.ytimg.com im HTML), aus maxresdefault am 25.11.2026 auf 960x540 WebP gebracht (SEO82). */
+const VIDEO_VORSCHAU = "https://finanzmuslim.com/bilder/blog/halal-etf/video-etfs-halal-oder-haram.webp";
 /** Google „bevorzugte Quelle“: dorthin leitet auch Finanzfluss (link.finanzfluss.de, ?q=finanzfluss.de). */
 const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.com";
 const BIO =
@@ -281,10 +282,10 @@ const Video = () => {
             aria-label="Video abspielen: Sind ETFs Halal oder Haram?"
           >
             <img
-              src="/bilder/blog/halal-etf/video-etfs-halal-oder-haram.jpg"
+              src="/bilder/blog/halal-etf/video-etfs-halal-oder-haram.webp"
               alt="Vorschaubild des Videos Sind ETFs Halal oder Haram"
-              width={480}
-              height={360}
+              width={960}
+              height={540}
               loading="lazy"
               className="h-full w-full object-cover opacity-90"
             />

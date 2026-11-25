@@ -159,10 +159,8 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
     frage: "Was ist ein Halal-Broker?",
     antwort: `Ein Broker ist nicht von sich aus halal. Es zählt, ob du das Depot ohne Zinsen nutzen kannst und ob du dort Halal-Anlagen kaufst. Von den ${depotAnzahl} Depots in unserem Vergleich kannst du ${depotOhneZinsen} ohne Zinsen nutzen.`,
   });
-  for (const [id, name] of [
-    ["trade-republic-depot", "Trade Republic"],
-    ["scalable-capital-free-broker", "Scalable Capital"],
-  ] as const) {
+  // „Ist Trade Republic halal?“ steht seit SEO82 auf /blog/trade-republic-alternative (Kein Doppel, Karte vergleich-depot.seo.json).
+  for (const [id, name] of [["scalable-capital-free-broker", "Scalable Capital"]] as const) {
     const a = depotAnzeige.find((x) => x.id === id);
     if (!a) continue;
     f.push({
