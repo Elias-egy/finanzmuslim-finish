@@ -88,12 +88,12 @@ export const LAND_SPRACHE: Record<Exclude<Land, "de">, LandSprache> = {
     seoZusatz: "Österreich",
     einleitung: "Hier steht die Auswahl für Österreich: Anbieter, die du dort nutzen kannst, mit eigener Rangfolge und eigenen Links.",
     rangHinweis:
-      "Unsere Rangfolge für Österreich: Zuerst zählt, was ohne Zinsen nutzbar und beim Anbieter belegt ist, dann die Kosten. Sind Anbieter fast gleich gut, steht vorn, wer uns für eine Eröffnung mehr zahlt.",
+      "Unsere Rangfolge für Österreich: Zuerst zählt, was ohne Zinsen nutzbar und beim Anbieter belegt ist, dann die Kosten.",
   },
   ch: {
     seoZusatz: "Schweiz",
     einleitung: "Hier steht die Auswahl für die Schweiz: Anbieter, die du dort nutzen kannst, mit eigener Rangfolge, eigenen Links und Preisen in CHF.",
     rangHinweis:
-      "Unsere Rangfolge für die Schweiz: Zuerst zählt, was ohne Zinsen nutzbar und beim Anbieter belegt ist, dann die Kosten. Sind Anbieter fast gleich gut, steht vorn, wer uns für eine Eröffnung mehr zahlt.",
+      "Unsere Rangfolge für die Schweiz: Zuerst zählt, was ohne Zinsen nutzbar und beim Anbieter belegt ist, dann die Kosten.",
   },
 };
