@@ -130,9 +130,8 @@ export const DepotRatgeber = ({
 
       {tr && (
         <>
-          {/* SEO82: Das Wort „trade republic alternative“ gehört der Kaufseite /blog/trade-republic-alternative (Kein Doppel). */}
-          <RH3 id="schon-trade-republic">Hast du schon Trade Republic?</RH3>
-          <RText>{tr.saetze.join(" ")}</RText>
+          <RH3 id="trade-republic-alternative">Trade Republic Alternative für Muslime</RH3>
+          <RText>Hast du schon ein Depot bei Trade Republic? {tr.saetze.join(" ")}</RText>
           {tr.mehr.length > 0 && (
             <RText>
               Mehr Halal-ETFs und Fonds findest du bei{" "}
@@ -149,13 +148,6 @@ export const DepotRatgeber = ({
             Wechselst du innerhalb Deutschlands, ziehen deine Anlagen kostenlos ins neue Depot um. Du musst dafür nichts
             verkaufen.
           </RHinweis>
-          <RText>
-            Welche Depots mehr Halal-ETFs haben als Trade Republic, zeige ich dir in{" "}
-            <Link to="/blog/trade-republic-alternative" className="font-semibold text-primary hover:underline">
-              Beste Trade Republic Alternative 2026
-            </Link>
-            .
-          </RText>
         </>
       )}
 

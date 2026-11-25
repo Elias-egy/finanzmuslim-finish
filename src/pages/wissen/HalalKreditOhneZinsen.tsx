@@ -36,7 +36,6 @@ import {
   Video,
   YOUTUBE,
 } from "@/components/blog/bausteine";
-import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /**
  * „Halal Kredit ohne Zinsen“, neu gebaut in SEO70 (07.11.2026) im Aufbau von /blog/sind-versicherungen-haram über den Skill
@@ -924,8 +923,8 @@ const HalalKreditOhneZinsen = () => {
                   <Text>
                     <p>
                       Leg die Rate, die du sonst der Bank zahlen würdest, auf ein Girokonto ohne Dispo und ohne Zinsen. So kommt das Geld für Auto oder
-                      Hochzeit zusammen, und du schuldest niemandem etwas. Welches Konto zu dir passt, siehst du unter{" "}
-                      <TL to="/vergleich/girokonto">{ANKER_VERGLEICH["/vergleich/girokonto"]}</TL>.
+                      Hochzeit zusammen, und du schuldest niemandem etwas. Welches Konto zu dir passt, siehst du im{" "}
+                      <TL to="/vergleich/girokonto">Girokonto-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>

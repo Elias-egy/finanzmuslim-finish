@@ -35,7 +35,6 @@ import {
   Video,
   YOUTUBE,
 } from "@/components/blog/bausteine";
-import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /**
  * „Sind Versicherungen haram?“, neu gebaut in SEO57 (05.11.2026) im Aufbau von /blog/ist-leasing-haram (Station je Beitrag,
@@ -920,7 +919,7 @@ const IstVersicherungHaram = () => {
                   <Text>
                     <p>
                       Leg das Geld, das du sonst für freiwillige Versicherungen zahlst, als Sparplan auf einen Halal ETF an. Welches Depot das kann und
-                      keine Zinsen aufs Guthaben zahlt, siehst du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
+                      keine Zinsen aufs Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>

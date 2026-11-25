@@ -64,10 +64,7 @@ const AUSSCHUSS_HSBC =
 const NUR_INDEX_MSCI =
   "Das Zertifikat gilt für den Index, dem der Fonds folgt: MSCI lässt die Methodik seiner Islamic-Indizes von einem Ausschuss islamischer Gelehrter freigeben.";
 
-/* Zahlen in den Texten stehen als {kaufbar} (bei wie vielen Depots kaufbar) und {sparplan} (bei wie vielen Depots als Sparplan).
-   Sie werden unten in `etfListe` aus ANLAGEN_KAUFBAR und `sparplanBei` eingesetzt, damit Fließtext, Karten und Tabelle
-   dieselbe Zahl zeigen und der Text nicht mehr veraltet (SEO81, Befund 25.11.2026: Text 27, Tabelle 34). */
-const ETF_ROH: EtfEintrag[] = [
+export const etfListe: EtfEintrag[] = [
   {
     platz: 1,
     isin: "IE00B27YCN58",
@@ -84,11 +81,11 @@ const ETF_ROH: EtfEintrag[] = [
     absaetze: [
       "Der iShares MSCI World Islamic ist der bekannteste Halal ETF in Deutschland. Er kauft die großen Firmen aus Industrieländern, ohne Banken, Versicherungen und alles, was bei der Shariah-Prüfung durchfällt.",
       "Er ist seit Dezember 2007 am Markt und mit 1,6 Mrd. € der größte Fonds dieser Liste. So gibt es echte Zahlen aus fast zwei Jahrzehnten, auch aus schlechten Jahren.",
-      "Er kostet 0,30 % im Jahr, bei 10.000 € also 30 €. Einen Sparplan darauf bieten {sparplan} Depots, so viele wie bei keinem anderen ETF hier. Kaufen kannst du ihn bei {kaufbar} Depots.",
+      "Er kostet 0,30 % im Jahr, bei 10.000 € also 30 €. Einen Sparplan darauf bieten 14 Depots, so viele wie bei keinem anderen ETF hier. Kaufen kannst du ihn bei 27 Depots.",
       "Er schüttet zweimal im Jahr aus, das Geld legst du selbst wieder an. Ein eigenes Gremium bei iShares prüft ihn, den kleinen unreinen Anteil spendet der Fonds selbst.",
     ],
     passt: "du mit einem einzigen ETF anfangen willst",
-    dafuer: ["Eigenes Gremium mit Fatwa.", "Sparplan bei {sparplan} Depots, so oft wie bei keinem hier.", "Spendet den unreinen Anteil selbst."],
+    dafuer: ["Eigenes Gremium mit Fatwa.", "Sparplan bei 14 Depots, so oft wie bei keinem hier.", "Spendet den unreinen Anteil selbst."],
     dagegen: ["Ausschüttungen legst du selbst wieder an.", "Keine Schwellenländer drin."],
     geprueftText: PANEL_ISHARES,
   },
@@ -110,7 +107,7 @@ const ETF_ROH: EtfEintrag[] = [
       "Er nimmt die Firmenliste von Dow Jones statt der von MSCI. Darum stecken teils andere Firmen drin als bei Platz 1, die Idee ist dieselbe: Industrieländer, geprüft nach islamischen Regeln.",
       "Er schüttet nicht aus. Gewinne bleiben im Fonds und arbeiten weiter, du musst nichts selbst neu anlegen.",
       "Mit 1,0 Mrd. € ist er der zweitgrößte Fonds der Liste, am Markt seit Januar 2022. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €.",
-      "Einen Sparplan bieten {sparplan} Depots, kaufen kannst du ihn bei {kaufbar}. Sein Shariah-Zertifikat gilt für genau diesen ETF.",
+      "Einen Sparplan bieten 5 Depots, kaufen kannst du ihn bei 17. Sein Shariah-Zertifikat gilt für genau diesen ETF.",
     ],
     passt: "Gewinne im Fonds bleiben sollen",
     dafuer: ["Keine Ausschüttung, die du selbst anlegen musst.", "Eigenes Zertifikat für genau diesen ETF."],
@@ -134,11 +131,11 @@ const ETF_ROH: EtfEintrag[] = [
     absaetze: [
       "Er kauft nur Firmen aus den USA, geprüft nach denselben Regeln und vom selben Gremium bei iShares wie Platz 1.",
       "Seit Dezember 2007 am Markt, 609 Mio. € groß. Er kostet 0,30 % im Jahr, also 30 € bei 10.000 €.",
-      "Einen Sparplan bieten {sparplan} Depots, kaufen kannst du ihn bei {kaufbar}. Er schüttet aus, das Geld legst du selbst wieder an.",
+      "Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 24. Er schüttet aus, das Geld legst du selbst wieder an.",
       "Alles steckt in einem Land. Läuft es in den USA schlecht, trifft es den ganzen Fonds.",
     ],
     passt: "du gezielt auf die USA setzen willst",
-    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei {sparplan} Depots."],
+    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 8 Depots."],
     dagegen: ["Nur ein Land.", "Er schüttet aus."],
     geprueftText: PANEL_WIE_PLATZ_1,
   },
@@ -158,11 +155,11 @@ const ETF_ROH: EtfEintrag[] = [
     absaetze: [
       "Er kauft Firmen aus Schwellenländern wie China und Indien, die in Platz 1 fehlen, geprüft vom selben Gremium bei iShares wie Platz 1.",
       "Die Schwankung ist groß. 2024 lag er bei minus 2,06 %, 2025 bei plus 32,08 %. Darum steht er hier als Beimischung neben einem Welt-ETF, nicht als einziger ETF.",
-      "Seit Dezember 2007 am Markt, 700 Mio. € groß. Er kostet 0,35 % im Jahr, also 35 € bei 10.000 €. Einen Sparplan bieten {sparplan} Depots, kaufen kannst du ihn bei {kaufbar}.",
+      "Seit Dezember 2007 am Markt, 700 Mio. € groß. Er kostet 0,35 % im Jahr, also 35 € bei 10.000 €. Einen Sparplan bieten 9 Depots, kaufen kannst du ihn bei 23.",
       "Er schüttet aus, und allein deckt er nur einen Teil der Welt ab.",
     ],
     passt: "du neben Platz 1 einen kleinen Teil Schwellenländer willst",
-    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei {sparplan} Depots."],
+    dafuer: ["Gremium mit Fatwa wie Platz 1.", "Sparplan bei 9 Depots."],
     dagegen: ["Starke Schwankung, 2024 im Minus.", "Etwas teurer als Platz 1."],
     geprueftText: PANEL_WIE_PLATZ_1,
   },
@@ -182,7 +179,7 @@ const ETF_ROH: EtfEintrag[] = [
     absaetze: [
       "Er kauft wie Platz 1 Firmen aus Industrieländern nach islamischen Regeln und kostet genauso 0,30 % im Jahr, also 30 € bei 10.000 €.",
       "Anders als Platz 1 schüttet er nicht aus, Gewinne bleiben im Fonds. Ein Shariah-Ausschuss bei HSBC prüft den Fonds selbst.",
-      "Seit November 2022 am Markt, 182 Mio. € groß, kaufbar bei {kaufbar} Depots.",
+      "Seit November 2022 am Markt, 182 Mio. € groß, kaufbar bei 9 Depots.",
     ],
     passt: "du einmal anlegst und nichts ausgeschüttet haben willst",
     dafuer: ["Gewinne bleiben im Fonds.", "Shariah-Ausschuss prüft den Fonds selbst."],
@@ -208,7 +205,7 @@ const ETF_ROH: EtfEintrag[] = [
       "ACWI heißt All Country World, also die ganze Welt. Der ETF nimmt Industrie- und Schwellenländer zusammen, du brauchst keinen zweiten ETF dafür.",
       "Er ist der jüngste der Liste, aufgelegt im Februar 2026. Seitdem steht er bei plus 17,62 %, für 1, 3 oder 5 Jahre gibt es noch keine Zahlen.",
       "Er kostet 0,35 % im Jahr, also 35 € bei 10.000 €, und schüttet nicht aus. Zertifiziert ist die Firmenliste, der er folgt, nicht der Fonds selbst.",
-      "Kaufen kannst du ihn bei {kaufbar} Depots.",
+      "Kaufen kannst du ihn bei 11 Depots.",
     ],
     passt: "du die ganze Welt in einem ETF willst und mit wenig Geschichte leben kannst",
     dafuer: ["Industrie- und Schwellenländer in einem ETF.", "Gewinne bleiben im Fonds."],
@@ -232,10 +229,10 @@ const ETF_ROH: EtfEintrag[] = [
     absaetze: [
       "Dieser ETF ist aktiv. Ein Fondsmanagement wählt die Firmen selbst aus, statt einem Index zu folgen.",
       "Das hat seinen Preis: 0,75 % im Jahr, also 75 € bei 10.000 €. Mit 19 Mio. € ist er außerdem der kleinste Fonds der Liste.",
-      "Am Markt seit September 2020, sein Shariah-Zertifikat gilt für 2025. Einen Sparplan bieten {sparplan} Depots, kaufen kannst du ihn bei {kaufbar}.",
+      "Am Markt seit September 2020, sein Shariah-Zertifikat gilt für 2025. Einen Sparplan bieten 8 Depots, kaufen kannst du ihn bei 18.",
     ],
     passt: "du einem Fondsmanagement mehr vertraust als einem Index",
-    dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei {sparplan} Depots."],
+    dafuer: ["Frisches Zertifikat für 2025.", "Sparplan bei 8 Depots."],
     dagegen: ["Höchste Kosten der Liste.", "Kleinster Fonds der Liste."],
     geprueftText:
       "Das Shariah Supervisory Board von Amanie Advisors hat den Fonds für das Geschäftsjahr 2025 geprüft. Das unterschriebene Zertifikat ist vom 22.05.2026.",
@@ -257,7 +254,7 @@ const ETF_ROH: EtfEintrag[] = [
       "Sukuk sind das islamische Gegenstück zu Anleihen. Statt Zinsen bekommst du einen Anteil an Erträgen aus echten Werten.",
       "Der ETF kauft in US-Dollar. Darum schwankt sein Wert in Euro mit dem Dollarkurs, 2025 lag er bei minus 5,04 %.",
       "Ein eigenes Sukuk-Gremium bei iShares prüft ihn. Er schüttet jedes Quartal aus.",
-      "Seit Januar 2024 am Markt, 160 Mio. € groß. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €. Einen Sparplan bieten {sparplan} Depots, kaufen kannst du ihn bei {kaufbar}.",
+      "Seit Januar 2024 am Markt, 160 Mio. € groß. Er kostet 0,40 % im Jahr, also 40 € bei 10.000 €. Einen Sparplan bieten 3 Depots, kaufen kannst du ihn bei 19.",
     ],
     passt: "ein Teil deines Geldes nicht in Aktien liegen soll",
     dafuer: ["Eigenes Sukuk-Gremium mit Fatwa.", "Zahlt dir jedes Quartal Erträge aus."],
@@ -321,18 +318,6 @@ export const gepruefteDepots = () => {
   }
   return alle.size;
 };
-
-/** Setzt {kaufbar} und {sparplan} in einem Text ein. */
-const zahlenEinsetzen = (text: string, e: EtfEintrag) =>
-  text.replace("{kaufbar}", String(kaufbarBei(e.isin).length)).replace("{sparplan}", String(sparplanAnzahl(e)));
-
-/** Die Liste mit eingesetzten Zahlen. Nur hier entstehen die Zahlen im Text, nie von Hand. */
-export const etfListe: EtfEintrag[] = ETF_ROH.map((e) => ({
-  ...e,
-  absaetze: e.absaetze.map((t) => zahlenEinsetzen(t, e)),
-  dafuer: e.dafuer.map((t) => zahlenEinsetzen(t, e)),
-  dagegen: e.dagegen.map((t) => zahlenEinsetzen(t, e)),
-}));
 
 export const kaufbarStand = () => ANLAGEN_KAUFBAR[etfListe[0].isin]?.stand ?? "";
 

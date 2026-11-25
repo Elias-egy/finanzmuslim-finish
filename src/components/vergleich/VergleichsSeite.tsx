@@ -90,8 +90,6 @@ export type VergleichsSeiteProps = {
   titel: string;
   untertitel: string;
   seoTitel: string;
-  /** Optional: Überschrift (H1) für das Schema, wenn sie vom Seitentitel abweicht (headline im WebPage-Knoten). */
-  schemaHeadline?: string;
   seoText: string;
   einleitung: ReactNode;
   einheit: string;
@@ -170,7 +168,6 @@ export const VergleichsSeite = ({
   titel,
   untertitel,
   seoTitel,
-  schemaHeadline,
   seoText,
   einleitung,
   einheit,
@@ -304,7 +301,6 @@ export const VergleichsSeite = ({
         jsonLd={vergleichJsonLd({
           titel: seoTitel,
           beschreibung: seoText,
-          headline: schemaHeadline,
           path: pfad,
           faq,
           stand,

@@ -74,7 +74,6 @@ Offizielle App-Bilder der Anbieter aus dem App Store, geholt über die Apple-Sch
 | flatex-1.webp, flatex-2.webp | 1084714808 | 2, 5 |
 | traders-place-1.webp, traders-place-2.webp | 6450201119 | 2, 4 |
 | scalable-1.webp, scalable-2.webp | 1075561513 | 5, 7 |
-| trading212-1.webp, trading212-2.webp | 566325832 | 1, 2 (SEO83, 25.11.2026; Bild 3 zeigt Hebel und Short, darum nicht) |
 
 Seit SEO79 (08.11.2026): traders-place-1/-2 und scalable-1/-2 sind In-App-Bilder von Elias (~/Downloads/apps IMG_4199, 4200, 4201, 4202), Statusleiste abgeschnitten, Kontostand bei Scalable unkenntlich; Quellenzeile dort „Bilder: meine App von …“ (EIGENE_APP_BILDER).
 | bforbank.de | public/logos/bforbank.de.svg | Anbieter-Seite, Kopf der Startseite: https://bforbank.cdn.prismic.io/bforbank/0340417d-6cfc-4dee-8f86-fab7441bd83c_logo-bfb.svg (Kopf von https://www.bforbank.com/de, dorthin leitet bforbank.de), geladen 16.11.2026 (PH4); Farben original (Blau/Dunkel), auf Weiß sichtbar |

@@ -38,7 +38,6 @@ import {
   useAktiv,
   YOUTUBE,
 } from "@/components/blog/bausteine";
-import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /**
  * „Halal Gold kaufen“, neu gebaut in SEO48 (04.11.2026) im Aufbau von /blog/halal-etf (Elias: „beste Halal ETFs kannst du
@@ -855,7 +854,7 @@ const HalalGoldKaufen = () => {
                   titel="Gold kaufen ohne Aufschlag"
                   text="Beim Händler zahlst du immer mehr als den Goldpreis. Im Depot kaufst du zum Börsenpreis, dafür kostet jeder Kauf eine kleine Gebühr. Im Vergleich siehst du, welches Depot unsere Nummer 1 führt und was ein Kauf dort kostet."
                   ziel="/vergleich/edelmetalle"
-                  knopf={ANKER_VERGLEICH["/vergleich/edelmetalle"]}
+                  knopf="Gold ohne Aufschlag"
                 />
 
                 <section className="mt-14">
@@ -964,7 +963,7 @@ const HalalGoldKaufen = () => {
                   <Text>
                     <p>
                       Willst du Gold im Depot kaufen, zählt das Depot. Es sollte alle Gold-ETCs mit Zertifikat führen und dir keine Zinsen aufs
-                      Guthaben zahlen. Beides siehst du je Depot unter <TL to="/vergleich/edelmetalle">{ANKER_VERGLEICH["/vergleich/edelmetalle"]}</TL>.
+                      Guthaben zahlen. Beides siehst du je Depot im <TL to="/vergleich/edelmetalle">Gold-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>

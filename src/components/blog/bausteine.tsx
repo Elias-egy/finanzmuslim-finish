@@ -419,31 +419,9 @@ export const Seitenleiste = ({
     if (r.top < b.top) box.scrollTop += r.top - b.top;
     else if (r.bottom > b.bottom) box.scrollTop += r.bottom - b.bottom;
   });
-  // SEO82: Seit der höheren Leiste oben (AG4-16) beginnt die Spalte am Seitenanfang rund 87 px tiefer als im Klebezustand
-  // (top-24). Die Höhe folgt darum der echten Lage, damit der Aufruf-Kasten am Laptop auch ganz oben voll im Bild ist
-  // (blog-leiste.mjs, Tor M-LEISTE; Elias SEO31 und SEO60 „der sitzt wieder so ganz unten“). Das Verzeichnis scrollt dafür in sich.
-  const saeule = useRef<HTMLDivElement>(null);
-  const [hoehe, setHoehe] = useState<number | null>(null);
-  useEffect(() => {
-    const el = saeule.current;
-    if (!el) return;
-    let rahmen = 0;
-    const messen = () => {
-      cancelAnimationFrame(rahmen);
-      rahmen = requestAnimationFrame(() => setHoehe(Math.floor(window.innerHeight - Math.max(el.getBoundingClientRect().top, 96) - 40)));
-    };
-    messen();
-    window.addEventListener("scroll", messen, { passive: true });
-    window.addEventListener("resize", messen);
-    return () => {
-      cancelAnimationFrame(rahmen);
-      window.removeEventListener("scroll", messen);
-      window.removeEventListener("resize", messen);
-    };
-  }, []);
   return (
   <aside className="hidden xl:block" aria-label="Inhaltsverzeichnis">
-    <div ref={saeule} className="sticky top-24 flex max-h-[calc(100vh-8.5rem)] flex-col" style={hoehe ? { maxHeight: hoehe } : undefined}>
+    <div className="sticky top-24 flex max-h-[calc(100vh-8.5rem)] flex-col">
       <Etikett className="shrink-0 border-t border-border pt-4">Auf dieser Seite</Etikett>
       <div ref={liste} className="mt-3 max-h-[17.5rem] min-h-0 overflow-y-auto [scrollbar-width:thin]">{inhalt}</div>
       <div className="mt-5 shrink-0 border border-border bg-card p-5">

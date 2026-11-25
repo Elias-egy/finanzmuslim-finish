@@ -1,6 +1,5 @@
 import type { EmpfehlungsBoxProps } from "@/components/EmpfehlungsBox";
 import { ANZAHL_DEPOTS, ANZAHL_KONTEN, ANZAHL_KRYPTO } from "./anzahlen";
-import { ANKER_VERGLEICH } from "./ankertexte";
 
 /**
  * Werbe-Box in jedem Wissensbeitrag, direkt nach Kapitel 1 (Elias, 15.09.2026: der erste Aufruf muss
@@ -15,7 +14,7 @@ const depot: EmpfehlungsBoxProps = {
   variante: "vergleich",
   ueberschrift: "Welches Depot passt zu dir?",
   text: `${ANZAHL_DEPOTS} Broker im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar und welche Halal-Anlagen es dort gibt.`,
-  knopf: ANKER_VERGLEICH["/vergleich/depot"],
+  knopf: "Zum Depot-Vergleich",
   linkZiel: "/vergleich/depot",
 };
 
@@ -24,7 +23,7 @@ const girokonto: EmpfehlungsBoxProps = {
   variante: "vergleich",
   ueberschrift: "Welches Konto kommt ohne Zinsen aus?",
   text: `${ANZAHL_KONTEN} Girokonten im Vergleich, mit Halal-Merkmalen: ohne Zinsen nutzbar, kein Dispo, Karte ohne Kredit.`,
-  knopf: ANKER_VERGLEICH["/vergleich/girokonto"],
+  knopf: "Zum Girokonto-Vergleich",
   linkZiel: "/vergleich/girokonto",
 };
 
@@ -75,10 +74,10 @@ export const werbungFuer = (slug: string): EmpfehlungsBoxProps => jeBeitrag[slug
 export type VergleichsZeile = { pfad: string; text: string };
 
 const VERGLEICH = {
-  depot: { pfad: "/vergleich/depot", text: ANKER_VERGLEICH["/vergleich/depot"] },
-  girokonto: { pfad: "/vergleich/girokonto", text: ANKER_VERGLEICH["/vergleich/girokonto"] },
+  depot: { pfad: "/vergleich/depot", text: "Der passende Vergleich: Depots mit Halal-Merkmalen" },
+  girokonto: { pfad: "/vergleich/girokonto", text: "Der passende Vergleich: Girokonten mit Angabe, ob sie ohne Zinsen nutzbar sind" },
   krypto: { pfad: "/vergleich/krypto", text: "Der passende Vergleich: Krypto-Börsen mit echten Coins" },
-  edelmetalle: { pfad: "/vergleich/edelmetalle", text: ANKER_VERGLEICH["/vergleich/edelmetalle"] },
+  edelmetalle: { pfad: "/vergleich/edelmetalle", text: "Der passende Vergleich: Depots für Gold und Silber" },
 } satisfies Record<string, VergleichsZeile>;
 
 const vergleichJeBeitrag: Record<string, VergleichsZeile> = {

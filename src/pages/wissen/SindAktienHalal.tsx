@@ -34,7 +34,6 @@ import {
   Werbung,
   YOUTUBE,
 } from "@/components/blog/bausteine";
-import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /**
  * „Sind Aktien haram?“, neu gebaut in SEO61 im Stil von /blog/ist-leasing-haram, umgebaut in SEO62 (05.11.2026) nach Elias'
@@ -988,8 +987,8 @@ const SindAktienHalal = () => {
                   <Ueber id="naechster-schritt" />
                   <Text>
                     <p>
-                      Fang mit einem Sparplan auf einen Halal ETF an. Welches Depot das kann und keine Zinsen aufs Guthaben zahlt, siehst du unter{" "}
-                      <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
+                      Fang mit einem Sparplan auf einen Halal ETF an. Welches Depot das kann und keine Zinsen aufs Guthaben zahlt, siehst du im{" "}
+                      <TL to="/vergleich/depot">Depot-Vergleich</TL>.
                     </p>
                   </Text>
                 </section>
