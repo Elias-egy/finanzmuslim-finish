@@ -318,6 +318,8 @@ export const DEPOT_QUELLEN: Quellen = {
     etfSparplanKosten: preisseite("Traders Place", "https://tradersplace.de/konditionen/deine-konditionen", "„Sparpläne in ETFs und Fonds unserer Premium Partner Amundi, DWS, DJE, DWS xtrackers, iShares und Vanguard“ „€ 0,00“, „Sonstige Sparpläne in ETFs und Fonds“ „€ 0,50“."),
   },
   "finanzen-net-zero-depot": {
+    // VG12 (25.11.2026): Antwort von Finanzen invest auf die Mailrunde VG10, Wortlaut ~/rebrand/data/vergleiche/belege/finanzen-invest/2026-11-25-05361c68.txt.
+    zinsfreiAbStart: { url: "https://www.finanzen.net/zero/wp-content/uploads/2026/08/Preis-Leistungsverzeichnis-V12_Wertpapiere.pdf", stand: "25.11.2026", hinweis: "Preis- und Leistungsverzeichnis V12: „Guthabenzinssatz für das Verrechnungskonto 0 %“. Schriftlich bestätigt vom Kundenservice von Finanzen invest am 25.11.2026 (Ticket 3756003): „ein Kredit wird bei Eröffnung nicht eingeräumt.“" },
     orderkosten: preisseite("finanzen.net zero", "https://www.finanzen.net/zero/wp-content/uploads/2026/08/Preis-Leistungsverzeichnis-V12_Wertpapiere.pdf", "Preis- und Leistungsverzeichnis, Stand Juli 2026 (V12): „Kauf oder Verkauf von Aktien, ETFs und Fonds über den Handelsplatz gettex oder im außerbörslichen Handel mit der Bank“ „0 €“, „Mindermengenzuschlag bei Orders unter einem Kurswert von 500 € in Aktien, Fonds, ETFs und Bezugsrechten“ „1 €“."),
   },
   "flatex-depot": {

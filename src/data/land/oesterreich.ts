@@ -252,8 +252,8 @@ export const OESTERREICH: LandDaten = {
         "quellen": {
           "zinsfreiAbStart": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
-            "stand": "20.09.2026",
-            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“"
+            "stand": "25.11.2026",
+            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“ Für Kunden in Österreich schriftlich bestätigt vom Smartbroker-Kundenservice am 25.11.2026: „Ein Wertpapierkredit wird nicht automatisch eingerichtet. Diesen müssen Sie bei Bedarf eigenständig beantragen.“"
           },
           "orderkosten": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
@@ -2142,8 +2142,8 @@ export const OESTERREICH: LandDaten = {
         "quellen": {
           "zinsfreiAbStart": {
             "url": "https://finst.com/de/staking",
-            "stand": "20.09.2026",
-            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Wie starte ich mit dem Staking bei Finst? Das Staking von Kryptowährungen bei Finst ist ganz einfach. Sobald du deine Lieblingskryptowährung gekauft hast, kannst du das Staking mit einem Klick direkt in deinem Finst-Konto aktivieren. Ab dann erhältst du automatisch wöchentlich Staking-Rewards."
+            "stand": "25.11.2026",
+            "hinweis": "Schriftlich bestätigt vom Finst-Team am 25.11.2026: „Nein. Der Kontostand auf Ihrem Konto ist nicht zinsbringend. Wir bieten Staking an, das es Kunden ermöglicht, Belohnungen für ihre Kryptowährungen zu erhalten, dies ist jedoch standardmäßig deaktiviert und muss vom Kunden aktiviert werden“ und „Nein. Wir bieten keine Überziehungsmöglichkeit oder Kreditlinie an.“ Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Wie starte ich mit dem Staking bei Finst? Das Staking von Kryptowährungen bei Finst ist ganz einfach. Sobald du deine Lieblingskryptowährung gekauft hast, kannst du das Staking mit einem Klick direkt in deinem Finst-Konto aktivieren. Ab dann erhältst du automatisch wöchentlich Staking-Rewards."
           },
           "echteCoins": {
             "url": "https://help.finst.com/de/article/wie-kann-ich-kryptowahrungen-an-eine-externe-wallet-auszahlen-abheben-1x588wu/",
@@ -2542,8 +2542,8 @@ export const OESTERREICH: LandDaten = {
         "quellen": {
           "zinsfreiAbStart": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
-            "stand": "20.09.2026",
-            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“"
+            "stand": "25.11.2026",
+            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“ Für Kunden in Österreich schriftlich bestätigt vom Smartbroker-Kundenservice am 25.11.2026: „Ein Wertpapierkredit wird nicht automatisch eingerichtet. Diesen müssen Sie bei Bedarf eigenständig beantragen.“"
           },
           "orderkosten": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
@@ -2924,8 +2924,8 @@ export const OESTERREICH: LandDaten = {
         "quellen": {
           "zinsfreiAbStart": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
-            "stand": "20.09.2026",
-            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“"
+            "stand": "25.11.2026",
+            "hinweis": "Beleg aus dem deutschen Vergleich, dasselbe Produkt für Kunden in Österreich: Konditionen: „Wertpapierverwahrung und Kontoführung (Baader): Depotführung inklusive Nebendepots kostenlos, Kontoführung inklusive Währungskonten kostenlos“; Guthabenzinsen werden nur unter „Zinskonto (Baader)“ genannt: „Zinssatz für Guthaben auf dem Zinskonto 2,25 % p.a.“ / Zinskonto-Seite: „auf das Guthaben auf einem separat zu eröffnendem Zinskonto“ Für Kunden in Österreich schriftlich bestätigt vom Smartbroker-Kundenservice am 25.11.2026: „Ein Wertpapierkredit wird nicht automatisch eingerichtet. Diesen müssen Sie bei Bedarf eigenständig beantragen.“"
           },
           "orderkosten": {
             "url": "https://www.smartbrokerplus.de/de-de/konditionen/",
