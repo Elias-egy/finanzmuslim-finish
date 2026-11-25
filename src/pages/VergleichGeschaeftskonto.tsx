@@ -6,6 +6,8 @@ import { GESCHAEFT_FINANZ_MAX } from "@/data/finanzMax";
 import { ISLAMIC_KONTO_FILTER } from "@/data/islamicKonto";
 import { sortiertSatzGeschaeft } from "@/data/reihenfolgeText";
 import { GESCHAEFT_FAQ } from "@/data/geschaeftskontoFaq";
+import { GeschaeftsRatgeber } from "@/components/vergleich/GeschaeftsRatgeber";
+import { geschaeftsFragen } from "@/data/geschaeftsRatgeber";
 import { siegerDerSeite } from "@/lib/vergleichAssistent";
 
 /**
@@ -75,6 +77,11 @@ const KRITERIEN = [
   },
 ];
 
+const AUSZEICHNUNGEN = { nummerEins: "Bestes Geschäftskonto" };
+
+/** Fragen des Vergleichs: die vier aus dem Beitrag „Geschäftskonto für Muslime“ zuerst, dann die des Vergleichs (ohne Doppel). */
+const FAQ = [...geschaeftsFragen(), ...GESCHAEFT_FAQ];
+
 const VergleichGeschaeftskonto = () => (
   <VergleichsSeite
     pfad="/vergleich/geschaeftskonto"
@@ -84,7 +91,7 @@ const VergleichGeschaeftskonto = () => (
     seoTitel="Geschäftskonto-Vergleich 2026: ohne Zinsen, ohne Dispo"
     seoText={`${ANZAHL} Geschäftskonten von ${ANBIETER} Anbietern für Selbstständige, Freiberufler und GmbH: zuerst die ohne Guthabenzins, ohne Dispo ab Start und mit Debitkarte. Kosten und Konditionen im Vergleich.`}
     einheit="Konten"
-    auszeichnungen={{ nummerEins: "Bestes Geschäftskonto" }}
+    auszeichnungen={AUSZEICHNUNGEN}
     einleitung={
       <>
         <p>Selbstständige, Freiberufler und Gründer einer GmbH oder UG trennen mit einem Geschäftskonto Privates und Geschäftliches.</p>
@@ -115,10 +122,10 @@ const VergleichGeschaeftskonto = () => (
     quellenHinweis={`Kosten und Konditionen: Finanzfluss-Vergleich Geschäftskonto, Stand 11.11.2026. Zinsen, Dispo und Karte: beim Anbieter belegt, Stand 23.11.2026. Aufgenommen sind alle Tarife des Finanzfluss-Vergleichs. Zusätzlich ist die KT Bank drin (Angaben von kt-bank.de, Stand 23.11.2026). Wo der Anbieter zum Zins auf dem Hauptkonto nichts Ausdrückliches schreibt, steht „Offen“, und wir fragen nach.${MIT_PARTNER ? " Bei einigen Anbietern erhalten wir eine Vergütung, wenn du über unseren Link ein Konto eröffnest (Werbung)." : ""}`}
     kriterienTitel="Worauf wir bei Geschäftskonten achten"
     kriterien={KRITERIEN}
-    faq={GESCHAEFT_FAQ}
+    faq={FAQ}
+    ratgeber={<GeschaeftsRatgeber auszeichnung={AUSZEICHNUNGEN.nummerEins} kriterien={KRITERIEN} faq={FAQ} />}
     weiterlesen={[
       { to: "/vergleiche/methodik", name: "So bewerten wir", text: "Wie aus den Merkmalen eine Note wird." },
-      { to: "/blog/geschaeftskonto-fuer-muslime", name: "Geschäftskonto für Muslime", text: "Worauf du bei Zinsen, Dispo und Karte achtest." },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."
   />
