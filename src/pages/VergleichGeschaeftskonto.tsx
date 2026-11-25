@@ -118,6 +118,7 @@ const VergleichGeschaeftskonto = () => (
     faq={GESCHAEFT_FAQ}
     weiterlesen={[
       { to: "/vergleiche/methodik", name: "So bewerten wir", text: "Wie aus den Merkmalen eine Note wird." },
+      { to: "/blog/geschaeftskonto-fuer-muslime", name: "Geschäftskonto für Muslime", text: "Worauf du bei Zinsen, Dispo und Karte achtest." },
     ]}
     schluss="Diese Seite ist keine Anlageberatung und keine Empfehlung für eine bestimmte Bank. Über die Zulässigkeit eines Vertrags entscheidest du selbst, im Zweifel mit einem Gelehrten."
   />

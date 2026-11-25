@@ -56,6 +56,8 @@ const KOPF_ZIEL: Record<string, { ziel: string; text: string; ohneZum?: boolean 
   "/blog/halal-kredit": { ziel: "/vergleich/girokonto", text: "Konto ohne Zinsen", ohneZum: true },
   // Trade Republic Alternative (SEO82): Kaufseite, Money Page ist der Depot-Vergleich (Karte trade-republic-alternative.seo.json).
   "/blog/trade-republic-alternative": { ziel: "/vergleich/depot", text: "Depot-Vergleich" },
+  // Geschäftskonto für Muslime (SEO84): Der Check kennt kein Geschäftskonto, darum führt „Match finden“ in den Vergleich mit Filter nach Rechtsform.
+  "/blog/geschaeftskonto-fuer-muslime": { ziel: "/vergleich/geschaeftskonto", text: "Match finden", ohneZum: true },
   "/blog/girokonto-ohne-zinsen": KOPF_KONTO,
   "/blog/dispo-und-schulden": KOPF_KONTO,
   "/blog/kreditkarte-halal": KOPF_KONTO,
