@@ -68,7 +68,7 @@ const SukukPlan = () => {
     return () => io.disconnect();
   }, []);
 
-  if (schluessel !== SUKUK_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== SUKUK_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   return (
     <main className="bg-background" data-freebie="sukuk-plan">

@@ -95,7 +95,18 @@ const pruefen = [
   ["/wissen/", 200],
   ["/halal-anlagen/gibt-es-nicht", 404],
   ["/vergleich/gibt-es-nicht", 404],
+  // AG4 (23.11.2026): /dein-guide/<schluessel> gibt es nicht mehr; nur die vier alten Schlüssel leiten auf /guide
+  // (stehen als weiterleitungen oben mit 200), jeder andere ist eine 404.
   ["/dein-guide/falscher-schluessel", 404],
+  ["/dein-guide/", 404],
+  // Der eine Guide und die alten PDF-Adressen aus Mails (ein statischer Hoster kann ein PDF nicht umleiten): alle liefern die Datei.
+  ["/guides/finanzmuslim-halal-starter-guide.pdf", 200],
+  ["/guides/finanzmuslim-einsteiger-guide.pdf", 200],
+  ["/guides/finanzmuslim-fortgeschritten-guide.pdf", 200],
+  ["/guides/finanzmuslim-profi-guide.pdf", 200],
+  ["/anfaengerguide.pdf", 200],
+  ["/guides/finanzmuslim-xxl-guide-mt6puo.pdf", 200],
+  ["/guides/finanzmuslim-halal-klartext-guide-k7r2xq.pdf", 200],
 ];
 
 server.listen(0, "127.0.0.1", async () => {

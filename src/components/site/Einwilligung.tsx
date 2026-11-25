@@ -36,6 +36,13 @@ const Einwilligung = () => {
     return () => window.removeEventListener(BANNER_OEFFNEN, oeffnen);
   }, []);
 
+  // Solange das Blatt unten offen ist, steht die Klasse am Wurzelelement. Seiten mit einem Formular ganz unten (z. B. /guide)
+  // geben sich damit Luft, damit der Knopf über das Blatt gescrollt werden kann (Elias AG4-03: Banner darf den Knopf nicht verdecken).
+  useEffect(() => {
+    document.documentElement.classList.toggle("einwilligung-offen", offen && !einstellungen);
+    return () => document.documentElement.classList.remove("einwilligung-offen");
+  }, [offen, einstellungen]);
+
   if (!offen) return null;
 
   const waehle = (wahl: Wahl) => {

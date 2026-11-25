@@ -1,6 +1,4 @@
 import type { MotivName } from "@/components/motive";
-import type { Stufe } from "@/lib/optin";
-import { guides } from "@/data/guides";
 
 /**
  * Die Bestseller, die es nur gegen E-Mail gibt (Elias, 27.09.2026, Vault raw
@@ -49,14 +47,14 @@ export type OptinFreebie = {
 export const optinFreebies: OptinFreebie[] = [
   {
     id: "guide",
-    name: "Halal Investment Guide",
+    name: "Halal Starter Guide",
     objekt: "den Guide",
     deinObjekt: "dein Guide",
-    ueberschrift: ["Dein Guide in", "unter 30 Sekunden"],
-    nutzen: "Lerne in deiner Stufe, wie du halal anlegst: Grundlagen, Prüfung und der erste Schritt.",
-    knopf: "Guide holen",
+    ueberschrift: ["Dein Halal", "Starter Guide"],
+    nutzen: "Erkenne Zinsen im Alltag, wechsle zu einem Konto ohne Zinsen und starte dein erstes Depot.",
+    knopf: "Guide schicken",
     frage: "Du willst den Guide?",
-    seite: "/halal-guide",
+    seite: "/guide",
   },
   {
     id: "top-100-halal-aktien",
@@ -145,14 +143,11 @@ export const optinFreebie = (id?: string) => optinFreebies.find((f) => f.id === 
 /** Eine Vorlage ist gesperrt, wenn sie hier mit Schlüssel steht. */
 export const istGesperrt = (slug: string) => optinFreebies.some((f) => f.id === slug && f.schluessel);
 
-/** Adresse der vollen Fassung. Beim Guide entscheidet die Stufe, ohne Stufe der Einsteiger. */
-export const vollPfad = (f: OptinFreebie, stufe?: Stufe) => {
-  if (f.id === "guide") {
-    const g = guides.find((x) => x.stufe === (stufe ?? "einsteiger")) ?? guides[0];
-    return `/dein-guide/${g.schluessel}`;
-  }
-  return `/vorlagen/${f.id}/${f.schluessel}`;
-};
+/**
+ * Adresse der vollen Fassung. Der Guide hat keine (AG4, 23.11.2026: ein Guide, kommt als PDF per Mail); ohne
+ * Schlüssel führt der Pfad nirgends hin, `optinAdressen` nimmt ihn deshalb nicht auf.
+ */
+export const vollPfad = (f: OptinFreebie) => `/vorlagen/${f.id}/${f.schluessel}`;
 
 /**
  * PDF der vollen Fassung unter `/downloads/v/<schluessel>/`, per robots.txt gesperrt und nicht in
@@ -163,7 +158,8 @@ export const vollPdfPfad = (f: OptinFreebie, pdfPfad: string) => `/downloads/v/$
 
 /** Alle Adressen, die als Datei existieren müssen, aber nicht in den Index gehören. */
 export const optinAdressen = (): string[] => [
-  ...optinFreebies.map((f) => `/gratis/${f.id}`),
+  // Der Guide hat keine eigene Opt-in-Seite mehr: /gratis/guide leitet auf /guide (weiterleitungen in routen.ts).
+  ...optinFreebies.filter((f) => f.id !== "guide").map((f) => `/gratis/${f.id}`),
   ...optinFreebies.map((f) => `/danke/${f.id}`),
   ...optinFreebies.filter((f) => f.schluessel).map((f) => vollPfad(f)),
 ];

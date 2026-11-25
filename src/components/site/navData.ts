@@ -16,7 +16,7 @@ export const navGroups: NavGroup[] = [
           { label: "Was ist Gharar", to: "/blog/gharar" },
           { label: "Glücksspiel (Maysir)", to: "/blog/maysir" },
           { label: "Trading, Forex und CFDs", to: "/blog/trading-forex-cfd" },
-          { label: "Halal investieren für Anfänger", to: "/halal-guide" },
+          { label: "Halal Starter Guide", to: "/guide" },
           { label: "12 Fehler beim halal Investieren", to: "/blog/haeufige-fehler" },
         ],
       },

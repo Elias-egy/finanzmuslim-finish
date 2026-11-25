@@ -345,10 +345,10 @@ const listen: DokGruppe = {
         },
         {
           id: "guide",
-          titel: "Halal Investment Guide",
-          satz: "Die Grundlagen und der erste Schritt, als PDF in dein Postfach.",
+          titel: "Halal Starter Guide",
+          satz: "Zinsen erkennen, Konto ohne Zinsen, erstes Depot: 14 Seiten als PDF in dein Postfach.",
           knopf: "Guide holen",
-          ziel: { art: "intern", pfad: "/halal-guide" },
+          ziel: { art: "intern", pfad: "/guide" },
           gegenEmail: true,
         },
         ...freebieKarten,

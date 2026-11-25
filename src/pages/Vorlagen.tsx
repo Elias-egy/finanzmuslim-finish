@@ -56,12 +56,12 @@ const Vorlagen = () => (
       </div>
 
       <section className="card-surface mt-6 p-6 md:p-8">
-        <h2 className="text-xl font-bold text-foreground">Die drei großen Guides</h2>
+        <h2 className="text-xl font-bold text-foreground">Der Halal Starter Guide</h2>
         <p className="mt-2 max-w-2xl text-[16px] leading-relaxed text-muted-foreground">
-          Einsteiger, Fortgeschritten und Profi laufen über die Guide-Seite.
+          Zinsen im Alltag erkennen, Konto ohne Zinsen, erstes Depot: 14 Seiten, kostenlos per Mail.
         </p>
-        <Aufruf to="/halal-guide" className="block sm:inline-block mt-5">
-          Zum Guide
+        <Aufruf to="/guide" className="block sm:inline-block mt-5">
+          Guide holen
         </Aufruf>
       </section>
 

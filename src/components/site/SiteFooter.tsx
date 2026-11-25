@@ -28,7 +28,7 @@ const blog: NavEntry[] = [
   { label: "Alle Beiträge", to: "/blog" },
   { label: "Beste Halal ETFs 2026", to: "/blog/halal-etf" },
   { label: "Zinsen im Islam", to: "/blog/zinsen-im-islam" },
-  { label: "Halal investieren für Anfänger", to: "/halal-guide" },
+  { label: "Halal Starter Guide", to: "/guide" },
   { label: "Halal-Anlagen", to: "/halal-anlagen" },
   { label: "Zakat berechnen", to: "/zakat-rechner" },
 ];
@@ -37,7 +37,7 @@ const werkzeuge: NavEntry[] = [
   { label: "Rechner", to: "/rechner" },
   { label: "Vergleiche", to: "/vergleiche" },
   { label: "Dokumente", to: "/dokumente" },
-  { label: "Halal Investment Guide", to: "/halal-guide" },
+  { label: "Halal Starter Guide", to: "/guide" },
   { label: "Kostenlose Vorlagen", to: "/vorlagen" },
   { label: "Newsletter", to: "/newsletter" },
 ];

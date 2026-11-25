@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Briefcase,
@@ -17,21 +17,19 @@ import {
   TrendingUp,
   Wallet,
 } from "lucide-react";
-import { InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
+import { FacebookLogo, InstagramLogo, TikTokLogo, YouTubeLogo } from "@/components/site/SocialLogos";
 import Aufruf from "@/components/Aufruf";
 import Seo, { startseiteJsonLd } from "@/components/Seo";
 import WissenSlider, { type WissenKarte } from "@/components/WissenSlider";
 import Tagesgewinner from "@/components/TagesgewinnerSpaeter";
 import MotivBild from "@/components/MotivBild";
 import OsWelt, { OS_GRUND } from "@/components/OsWelt";
-import FreitagsbriefFormular from "@/components/FreitagsbriefFormular";
+import guideVorschau from "@/assets/halal-starter-guide-vorschau.webp";
 import { MIT_OS } from "@/config/phase";
 import { ANZAHL_KAUFBAR } from "@/data/halalAnlagenZahl";
 import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 
 import eliasCutout from "@/assets/elias-freigestellt.webp";
-import guideCover from "@/assets/guide-cover-v5.webp";
-import newsletterPhone from "@/assets/newsletter-handy-v4.webp";
 import rechnerRender from "@/assets/rechner-v2.webp";
 
 /** Kacheln wie auf /vergleiche. Ohne Ziel wird eine Kachel nicht gezeigt,
@@ -159,6 +157,13 @@ const kanaele = [
     Logo: YouTubeLogo,
     handle: "@finanz.muslim",
   },
+  // AG4-08 (Elias: „Kanäle, folge mir, hast du Facebook gar nicht drin“): dieselbe Seite wie im Fuß und im ManyChat-Folgen-Knopf (MC11)
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61590041086013",
+    Logo: FacebookLogo,
+    handle: "Finanz Muslim",
+  },
 ];
 
 /** Kleine Zeilenkachel unter einem Themenblock: Symbol, Text, Chevron. */
@@ -199,32 +204,7 @@ const Zeile = ({
     </div>
   );
 
-/** Neueste verschickte Ausgabe. Ohne Ausgabe entfällt der Link, statt ins Leere zu führen.
- *  Nacht-Tempo (RN25L, 20.11.2026): Die Ausgaben stecken als ganze Texte in einer Datei (rund 18 KB gzip), die für diesen
- *  einen Link im Paket der Startseite lag. Sie lädt jetzt, sobald der Browser Luft hat; der Link steht im Abschnitt
- *  Newsletter weit unter dem ersten Bildschirm, das Vorab-Rendern wartet darauf mit. */
-type Neueste = { to: string } | null;
-const useAktuelleAusgabe = (): Neueste => {
-  const [neueste, setNeueste] = useState<Neueste>(null);
-  useEffect(() => {
-    let aktiv = true;
-    const laden = () =>
-      void import("@/data/newsletterAusgaben").then(({ ausgabePfad, neuesteZuerst }) => {
-        const a = neuesteZuerst()[0];
-        if (aktiv && a) setNeueste({ to: ausgabePfad(a) });
-      });
-    const w = window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number };
-    if (w.requestIdleCallback) w.requestIdleCallback(laden, { timeout: 3000 });
-    else setTimeout(laden, 1500);
-    return () => {
-      aktiv = false;
-    };
-  }, []);
-  return neueste;
-};
-
 const Index = () => {
-  const aktuelleAusgabe = useAktuelleAusgabe();
   // Zwei Fassungen des OS-Blocks zum Vergleich (VS5): dunkel ist der Standard, ?os=hell zeigt die helle.
   const osHell = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("os") === "hell";
   // Mit /#os direkt am OS-Block oeffnen (zum Zeigen an der Stelle); die Seite setzt sich beim Laden sonst nach oben.
@@ -381,32 +361,29 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 2 — Phase 1 (RN5, ohne OS): der Guide-Block wie vor VS4 (Fassung aus d65af7e^), Elias RN2-03: „der Guide bleibt“. */}
+      {/* 2 — Phase 1 (RN5, ohne OS): der Guide als Karte wie die Roadmap-Karte auf acquisition.com (AG4-06 und AG4-11, Elias 24.11.:
+          „Einfach nur brand new oder ganz neu, die 3 und dann get my scaling roadmap, Titel, mehr nicht. Nicht … 1:1 so wie im Funnel.“):
+          graue Karte, Etikett „Ganz neu“, drei Guide-Seiten nebeneinander, Titel, ein Knopf zu /guide. Kein Formular, kein weiterer Text. */}
       {!MIT_OS && (
-      <section className="section-card">
-        <div className="section-inner grid items-center gap-2 lg:grid-cols-[380px_1fr] lg:gap-16">
-          <img
-            src={guideCover}
-            alt="Der Halal Investment Guide als Buch"
-            className="mx-auto max-h-[220px] w-auto object-contain lg:max-h-none lg:w-[380px]"
-            loading="lazy"
-          />
-          <div>
-            <p className="eyebrow">Guide</p>
-            <h2 className="section-title mt-2">Der Halal Investment Guide</h2>
-            <p className="section-text mt-3 max-w-[640px]">
-              Der Guide erklärt dir die Grundprinzipien islamkonformer Geldanlage und welche
-              Anlageklassen infrage kommen.
-              <span className="hidden md:inline">
-                {" "}
-                Dazu bekommst du eine Prüfreihenfolge, mit der du Schritt für Schritt startest.
-              </span>
-            </p>
-            <Aufruf to="/halal-guide" className="block sm:inline-block mt-6 lg:mt-8">
-              Guide kostenlos sichern
-            </Aufruf>
-          </div>
-        </div>
+      <section className="relative overflow-hidden rounded-lg bg-muted px-5 pb-7 pt-16 text-center md:pb-12 md:pt-20">
+        <span className="absolute right-0 top-0 rounded-bl-2xl bg-[#E0523F] px-5 py-2.5 text-[15px] font-extrabold uppercase italic tracking-wide text-white sm:text-[17px]">
+          Ganz neu
+        </span>
+        <img
+          src={guideVorschau}
+          alt="Die ersten Seiten des Halal Starter Guide"
+          width={960}
+          height={540}
+          className="mx-auto h-auto w-full max-w-[520px] mix-blend-multiply dark:mix-blend-normal"
+          loading="lazy"
+          draggable={false}
+        />
+        <h2 className="mt-3 text-[26px] font-extrabold uppercase leading-tight tracking-tight sm:text-[34px]">
+          Halal Starter Guide
+        </h2>
+        <Aufruf to="/guide" gross className="mx-auto mt-5 block max-w-[520px]">
+          Halal Starter Guide holen
+        </Aufruf>
       </section>
       )}
 
@@ -450,41 +427,6 @@ const Index = () => {
         </div>
       </section>
       )}
-
-      {/* 3 — Newsletter */}
-      <section className="section-card">
-        <div className="section-inner grid items-center gap-2 lg:grid-cols-[1fr_420px] lg:gap-16">
-          <img
-            src={newsletterPhone}
-            alt="Newsletter-Ausgabe auf dem Smartphone"
-            className="mx-auto -mb-2 max-h-[340px] w-auto object-contain lg:order-2 lg:mb-0 lg:max-h-none lg:w-[420px]"
-            loading="lazy"
-          />
-
-          <div className="lg:order-1">
-            <p className="eyebrow">Newsletter</p>
-            <h2 className="section-title mt-2">Jede Woche ein Schritt näher</h2>
-            <p className="section-text mt-3 max-w-[640px]">
-              Jeden Freitag das Wichtigste für dein Geld: geprüfte Anlagen, Fristen und Antworten.
-              Jederzeit abbestellbar.
-            </p>
-
-            {/* Wie bei Finanzfluss: erst der Blick in die letzte Ausgabe,
-                dann das Feld. Wer sieht, was drin steht, traegt sich eher ein. */}
-            {aktuelleAusgabe && (
-              <Link
-                to={aktuelleAusgabe.to}
-                className="mt-5 inline-flex items-center gap-1 text-[17px] font-bold text-primary hover:underline"
-              >
-                Zur aktuellen Ausgabe
-                <ArrowRight className="h-5 w-5" aria-hidden />
-              </Link>
-            )}
-
-            <FreitagsbriefFormular id="home-newsletter-email" variante="startseite" />
-          </div>
-        </div>
-      </section>
 
       {/* 4 — Anlagen */}
       <section className="section-card">
@@ -573,7 +515,7 @@ const Index = () => {
           <p className="eyebrow">Kanäle</p>
           <h2 className="section-title mt-2">Folge mir</h2>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-3 md:gap-4">
+          <div className="mt-6 grid gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
             {kanaele.map(({ name, href, Logo, handle }) => (
               <a
                 key={name}

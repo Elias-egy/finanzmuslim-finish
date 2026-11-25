@@ -65,9 +65,9 @@ const Datenschutz = () => (
       <section className="mb-10">
         <h2 className="text-xl font-semibold mb-4">4. Newsletter, Guide und kostenlose Vorlagen</h2>
         <p className="text-muted-foreground leading-relaxed">
-          Wenn du die Halal-News, den Halal Investment Guide oder eine unserer Vorlagen
-          anforderst, erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen
-          und dein Erfahrungslevel. Dazu speichern wir, über welchen Weg du dich eingetragen hast
+          Wenn du die Halal-News, den Halal Starter Guide oder eine unserer Vorlagen
+          anforderst, erheben wir deine E-Mail-Adresse und, falls du sie angibst, deinen Vornamen.
+          Bei den Vorlagen fragen wir zusätzlich nach deinem Erfahrungslevel. Dazu speichern wir, über welchen Weg du dich eingetragen hast
           (zum Beispiel eine bestimmte Vorlage auf dieser Website oder ein Stichwort auf
           Instagram), in welcher Sprache du unsere E-Mails bekommen möchtest und welche Themen dich
           interessieren. So bekommst du die passenden E-Mails in deiner Sprache. Die Verarbeitung
@@ -95,7 +95,7 @@ const Datenschutz = () => (
           Schreibst du deine E-Mail-Adresse im Instagram-Chat in den automatischen Ablauf, bekommst
           du die angeforderte Vorlage und unseren Newsletter, ohne eine Bestätigungsmail. Du
           schreibst die Adresse selbst in dein eigenes Konto, der Ablauf nennt dir vorher, dass wir
-          dir damit weitere kostenlose Guides und Empfehlungen schicken und dass du dich jederzeit
+          dir damit weitere kostenlose Vorlagen und Empfehlungen schicken und dass du dich jederzeit
           abmelden kannst. Zum Nachweis speichern wir den Weg (das Stichwort), den Zeitpunkt und
           deinen Instagram-Namen (Art. 6 Abs. 1 lit. a und f DSGVO). Ein Abmeldelink steht in jeder
           E-Mail.

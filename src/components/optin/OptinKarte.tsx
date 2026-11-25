@@ -39,7 +39,7 @@ const gross = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /**
  * Was diese Seite schon gesendet hat. Nur im Speicher, nie im Browser abgelegt. Auf
- * `/halal-guide` stehen zwei Karten; wer dieselbe Adresse zweimal abschickt, bekäme sonst
+ * einer Seite können zwei Karten stehen; wer dieselbe Adresse zweimal abschickt, bekäme sonst
  * eine zweite Bestätigungsmail.
  */
 const gesendet = new Map<string, Promise<Anmeldung>>();
@@ -51,8 +51,10 @@ type Props = {
   freebie: OptinFreebie;
   /** `seite`: eigene Opt-in-Seite mit Kopf und H1. `eingebettet`: an der Schnittkante einer Vorlage. */
   variante?: "seite" | "eingebettet";
-  /** Ohne eigene Überschrift, wenn die Seite drumherum schon eine hat (z. B. /halal-guide). */
+  /** Ohne eigene Überschrift, wenn die Seite drumherum schon eine hat (z. B. /guide). */
   ohneUeberschrift?: boolean;
+  /** Ein Satz direkt unter dem Knopf (z. B. „Ich schicke dir den Guide direkt zu.“). */
+  knopfHinweis?: string;
 };
 
 /**
@@ -67,14 +69,17 @@ type Props = {
  * ohne Felder, die Karte ist die Tür Webseite. Das Freebie selbst liegt unter einem versteckten
  * Pfad (`vollPfad`), den die Instagram-DM und die Mail kennen. Vor dem ersten Klick steht nichts
  * von den zwei Fragen, auch keine Schrittzahl (Elias, 09.10.2026).
+ *
+ * AG4 (23.11.2026, Elias: „Vorname, Mail und dann kriegen die den zugesendet“): Der Guide hat keine Klickfragen mehr.
+ * Nach Vorname und Adresse geht es sofort auf /danke/guide; die Stufe wird nicht mehr gefragt (Make legt ohne Stufe
+ * alle in „Einsteiger“, dort hängt die Mail mit dem einen Guide).
  */
-const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = false }: Props) => {
+const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = false, knopfHinweis }: Props) => {
   const { pathname, search } = useLocation();
   const navigate = useNavigate();
   const [schritt, setSchritt] = useState<1 | 2 | 3>(1);
   const [vorname, setVorname] = useState("");
   const [email, setEmail] = useState("");
-  const [zustimmung, setZustimmung] = useState(false);
   const [firma, setFirma] = useState("");
   const [sendet, setSendet] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
@@ -105,10 +110,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
       setFehler("Bitte gib eine gültige E-Mail-Adresse ein.");
       return;
     }
-    if (!zustimmung) {
-      setFehler(`Setz bitte das Häkchen, dann bekommst du ${freebie.objekt}.`);
-      return;
-    }
     const adresse = email.trim();
     const schluessel = `${freebie.id}|${adresse.toLowerCase()}`;
     setSendet(true);
@@ -125,6 +126,11 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
       setAnmeldung(await laeuft);
       setGespeichert(adresse);
       setGemerkt(merken({ email: adresse, vorname, einwilligung: EINWILLIGUNG, freebie: freebie.id }));
+      if (freebie.id === "guide") {
+        const state: DankeState = { vorname: vorname.trim() };
+        navigate(`/danke/${freebie.id}`, { state });
+        return;
+      }
       setSchritt(2);
     } catch {
       gesendet.delete(schluessel);
@@ -182,7 +188,6 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
     setSchritt(1);
     setEmail("");
     setGespeichert("");
-    setZustimmung(false);
     setAnmeldung(null);
     setStufe(undefined);
     setVorhaben([]);
@@ -245,6 +250,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
               {sendet ? "Wird gesendet …" : freebie.knopf}
               {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
             </button>
+            {knopfHinweis && <p className="mt-3 text-center text-[15px] font-medium leading-snug text-foreground">{knopfHinweis}</p>}
             <Bekannt adresse={gemerkt.email} andereAdresse={andereAdresse} />
           </>
         )}
@@ -266,8 +272,8 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 type="text"
                 name="vorname"
                 autoComplete="given-name"
-                placeholder="Vorname (freiwillig)"
-                aria-label="Vorname, freiwillig"
+                placeholder={freebie.id === "guide" ? "Vorname" : "Vorname (freiwillig)"}
+                aria-label={freebie.id === "guide" ? "Vorname" : "Vorname, freiwillig"}
                 value={vorname}
                 onChange={(e) => setVorname(e.target.value)}
                 className={feld}
@@ -295,15 +301,11 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 aria-hidden="true"
                 className="hidden"
               />
-              <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 text-[13px] leading-snug text-muted-foreground">
-                <input
-                  type="checkbox"
-                  checked={zustimmung}
-                  onChange={(e) => setZustimmung(e.target.checked)}
-                  className="h-4 w-4 shrink-0 cursor-pointer rounded border-border accent-[hsl(var(--primary))]"
-                />
-                <span>{EINWILLIGUNG_TEXT}</span>
-              </label>
+              {/* Elias AG4-05 (24.11.2026): no newsletter tick box, only a plain notice with the privacy link. */}
+              <p className="text-[13px] leading-snug text-muted-foreground">
+                Mit dem Absenden hast du die{" "}
+                <a href="/datenschutz" className="underline">Datenschutzerklärung</a> zur Kenntnis genommen.
+              </p>
               {fehler && (
                 <p role="alert" className="text-[14px] leading-relaxed text-destructive">
                   {fehler}
@@ -313,6 +315,7 @@ const OptinKarte = ({ freebie, variante = "eingebettet", ohneUeberschrift = fals
                 {sendet ? "Wird gesendet …" : freebie.knopf}
                 {!sendet && <ArrowRight className="h-5 w-5" aria-hidden />}
               </button>
+              {knopfHinweis && <p className="text-center text-[15px] font-medium leading-snug text-foreground">{knopfHinweis}</p>}
               </fieldset>
             </form>
 

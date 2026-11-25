@@ -66,7 +66,10 @@ export type CheckQuelle =
   | "sukuk-plan"
   | "etf-plan"
   | "portfolio-plan"
-  | "broker-vergleich";
+  | "broker-vergleich"
+  // AG4 (23.11.2026): die zwei Guide-PDFs verlinken /check?quelle=guide (Halal Starter Guide) und /check?quelle=klartext (Halal Klartext Guide).
+  | "guide"
+  | "klartext";
 
 const QUELLEN: readonly CheckQuelle[] = [
   "aktienliste",
@@ -85,6 +88,8 @@ const QUELLEN: readonly CheckQuelle[] = [
   "etf-plan",
   "portfolio-plan",
   "broker-vergleich",
+  "guide",
+  "klartext",
 ];
 
 export const quelleAus = (wert: string | null | undefined): CheckQuelle => QUELLEN.find((q) => q === wert) ?? "homepage";
@@ -108,6 +113,8 @@ export const UEBERSCHRIFT: Record<CheckQuelle, string> = {
   "etf-plan": "Wo kaufst du deine Halal-ETFs?",
   "portfolio-plan": "Wo setzt du deinen Plan um?",
   "broker-vergleich": "Welcher Broker passt zu dir?",
+  guide: "Konto, Depot oder beides?",
+  klartext: "Konto, Depot oder beides?",
 };
 
 /** Welche Art ein Freebie-Einstieg betont (RN8): Boykott-Liste und die Freebies rund um Konto und Alltag Bankkonto, die Anlagen-Freebies Depot. Seit RN10-07 nur noch die Lage des grünen Etiketts, die Fragen sind überall gleich. */

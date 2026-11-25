@@ -12,6 +12,7 @@ import { checkZielAusVorhaben } from "@/lib/checkZiel";
 import { anbieterZahl, instagramFollower, vergleichsSeiten } from "@/data/beweise";
 import { optinFreebie } from "@/data/optin";
 import type { DankeState } from "@/components/optin/OptinKarte";
+import DankeGuide from "@/components/optin/DankeGuide";
 
 /**
  * /danke/<freebie> (Baustein 30), Aufbau nach der SKAILE-Danke-Seite (Vault raw
@@ -162,6 +163,8 @@ const Danke = () => {
   const { state } = useLocation() as { state: DankeState | null };
   const freebie = optinFreebie(id);
   if (!freebie) return <Navigate to="/vorlagen" replace />;
+  // AG4-08: der Guide hat seine eigene Glückwunsch-Seite (components/optin/DankeGuide.tsx), ein Schritt: der Match-Test.
+  if (freebie.id === "guide") return <DankeGuide vorname={state?.vorname} />;
 
   // RN6: Check ersetzt das alte Quiz; das Vorhaben aus dem Freebie wird die erste Antwort.
   const ziel = checkZielAusVorhaben(state?.vorhaben?.length ? vorhabenListe(state.vorhaben) : "");

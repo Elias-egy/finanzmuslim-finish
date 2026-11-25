@@ -5,7 +5,6 @@ import { ChevronDown, Menu, Moon, Search, Sun, X } from "lucide-react";
 import { Wordmark } from "@/components/Wordmark";
 import { navGroups, type NavEntry } from "@/components/site/navData";
 import { cn } from "@/lib/utils";
-import { ANZAHL_HALAL_ANLAGEN } from "@/data/anzahlen";
 import { useThema } from "@/lib/thema";
 
 // Nacht-Tempo (RN25L, 20.11.2026): Die Suche trägt die ganze Anlagendatenbank (rund 35 KB) und wird erst beim
@@ -122,21 +121,41 @@ export const SiteHeader = () => {
         </a>
       )}
 
-      {/* RN19-04 („wie live“) und RN19-03 (die Halal-Datenbank wird nicht gefunden): Phase 1 trägt wieder die lila Leiste der Live-Seite,
-          sie ist der Weg von oben zur Datenbank. Handy eine Zeile, ab sm mit Vorspann (wie live, Stand 19.11.2026). */}
-      {!MIT_OS && aufStartseite && (
+      {/* AG4-08 und AG4-16 (Elias 24.11.2026: „oben dieses New“ wie bei Acquisition; „zu klein in der Laptop-Ansicht … die Farbe ist
+          auf einmal komplett anders. Ich würde es in einer anderen Farbe machen“): Leiste ganz oben auf jeder Seite mit Kopf, Maße
+          und Aufbau 1:1 von acquisition.com (volle Breite, Innenabstand oben und unten 19,5 bis 22 px, Text ab Tablet 18 px, Handy
+          14 px, erster Teil fett, weiße runde Pille mit schwarzer fetter Schrift 13 px, weißer Pfeil 32 x 16, alles mittig in einer
+          Zeile, Abstand 10 px). Farbe: das kräftige Violett der Palette (--violet, wie die frühere Leiste „wie live“) mit weißer
+          Schrift; der Kopf darunter ist Signalblau, so hebt sich die Leiste ab. Sie scrollt mit weg. Auf /guide selbst entfällt sie.
+          Sie ersetzt die lila Halal-Anlagen-Leiste der Startseite (RN19-04); die Datenbank bleibt im Menü. */}
+      {pathname !== "/guide" && (
         <Link
-          to="/halal-anlagen"
-          className="flex items-center justify-center gap-2 bg-violet dark:bg-[#5340CF] dark:text-white px-4 py-1.5 text-center text-[15px] font-medium leading-[22px] text-violet-foreground transition-colors hover:bg-violet/90 dark:hover:bg-[#5340CF]/90 sm:text-[16px]"
+          to="/guide"
+          className="flex items-center justify-center gap-2.5 bg-violet px-4 py-3 text-center text-[14px] leading-snug text-violet-foreground transition-colors hover:bg-violet/90 md:py-[21px] md:text-[18px]"
         >
-          <span className="badge-new-inverted shrink-0 !rounded-full !px-2.5">Neu</span>
-          <span className="whitespace-nowrap sm:hidden">
-            <span className="font-bold">{ANZAHL_HALAL_ANLAGEN} Halal-Anlagen</span> an einem Ort →
+          <span className="shrink-0 rounded-full bg-white px-2.5 py-[3px] text-[13px] font-extrabold uppercase leading-none text-black">
+            Neu
           </span>
-          <span className="hidden sm:inline">
-            <span className="font-bold">Halal-Anlagen entdecken:</span>{" "}
-            <span className="font-normal">{ANZAHL_HALAL_ANLAGEN} Anlagen an einem Ort →</span>
+          <span className="whitespace-nowrap md:hidden">
+            <span className="font-bold">Mein Halal Starter Guide ist da</span>
           </span>
+          <span className="hidden md:inline">
+            <span className="font-bold">Mein Halal Starter Guide ist da:</span> <span className="font-normal">kostenlos holen</span>
+          </span>
+          <svg
+            width="32"
+            height="16"
+            viewBox="0 0 32 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            className="shrink-0"
+          >
+            <path d="M1 8h29M23 1.5 30 8l-7 6.5" />
+          </svg>
         </Link>
       )}
 

@@ -13,7 +13,7 @@ const zeige = (eintrag: string | { pathname: string; state: unknown }) =>
   );
 
 const schluesselLinks = () =>
-  screen.queryAllByRole("link").filter((a) => /\/voll-|\/dein-guide\//.test(a.getAttribute("href") ?? ""));
+  screen.queryAllByRole("link").filter((a) => /\/voll-|\/dein-guide\/|\/guides\//.test(a.getAttribute("href") ?? ""));
 
 describe("Danke-Seite", () => {
   it("zeigt direkt aufgerufen keinen Schlüssellink", () => {
@@ -30,8 +30,9 @@ describe("Danke-Seite", () => {
     expect(test[0].getAttribute("href")).toBe("/check?quelle=quiz&ziel=konto"); // RN6: Check ersetzt das alte Quiz
   });
 
-  it("zeigt beim Guide keinen Schlüssellink, auch mit gewählter Stufe", () => {
-    zeige({ pathname: "/danke/guide", state: { vorname: "", stufe: "profi" } });
+  it("zeigt beim Guide keinen Schlüssellink, der Guide kommt per Mail (AG4: ein Guide, keine Stufe)", () => {
+    zeige({ pathname: "/danke/guide", state: { vorname: "Lea" } });
     expect(schluesselLinks()).toHaveLength(0);
+    expect(screen.getByRole("status").textContent).toContain("per Mail");
   });
 });

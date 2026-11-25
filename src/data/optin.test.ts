@@ -48,10 +48,16 @@ describe("gesperrte Freebies", () => {
     for (const g of gruppen) expect(g).toMatch(/^Disallow: \/downloads\/v\/$/m);
   });
 
-  it("der Guide führt je nach Stufe auf seinen Guide, ohne Stufe auf den Einsteiger", () => {
+  it("der Guide ist der Halal Starter Guide: eine Seite /guide, keine gesperrte Fassung, keine eigene Opt-in-Seite (AG4)", () => {
     const guide = optinFreebies.find((f) => f.id === "guide")!;
-    expect(vollPfad(guide)).toBe("/dein-guide/start-2026");
-    expect(vollPfad(guide, "profi")).toBe("/dein-guide/tiefe-2026");
+    expect(guide.name).toBe("Halal Starter Guide");
+    expect(guide.seite).toBe("/guide");
+    expect(guide.schluessel).toBeUndefined();
+    expect(istGesperrt("guide")).toBe(false);
+    const a = optinAdressen();
+    expect(a).toContain("/danke/guide");
+    expect(a).not.toContain("/gratis/guide");
+    expect(a.some((p) => p.includes("dein-guide"))).toBe(false);
   });
 });
 

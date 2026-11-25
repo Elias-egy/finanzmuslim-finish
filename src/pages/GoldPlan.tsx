@@ -75,7 +75,7 @@ const GoldPlan = () => {
     return () => io.disconnect();
   }, []);
 
-  if (schluessel !== GOLD_SCHLUESSEL) return <Navigate to="/halal-guide" replace />;
+  if (schluessel !== GOLD_SCHLUESSEL) return <Navigate to="/check" replace />;
 
   const imMonat = gramm(betrag);
 

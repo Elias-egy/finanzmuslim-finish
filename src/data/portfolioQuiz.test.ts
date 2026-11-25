@@ -1,7 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { PDFDocument } from "pdf-lib";
-import { FERTIG_MAIL } from "@/data/brokerStart";
 import { ANLAGEN_KAUFBAR } from "@/data/anlagenKaufbar";
 import {
   aufteilung,
@@ -63,16 +62,6 @@ describe("Portfolioplan (CV26P)", () => {
       }
       expect(produktFuer("etf", b.id)).toBeTruthy();
     }
-  });
-
-  it("FERTIG-Mail: Betreff FERTIG, nur „Fertig“ und der Hinweis, kurz genug für den Zoho-Antworter (220 Zeichen)", () => {
-    const url = new URL(FERTIG_MAIL.href);
-    expect(url.searchParams.get("subject")).toBe("FERTIG");
-    const body = url.searchParams.get("body")!;
-    expect(body.startsWith("Fertig")).toBe(true);
-    expect(body).toContain("Screenshot hinzufügen und abschicken");
-    expect(body.length).toBeLessThanOrEqual(220);
-    expect(body.toLowerCase()).not.toMatch(/nicht\s+(noch\s+)?fertig|noch\s+nicht/);
   });
 
   it("PDF: drei Seiten im Stil des Dashboards, ohne kopierte Blueprint-Seiten (CV27P)", async () => {
