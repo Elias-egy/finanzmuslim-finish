@@ -99,8 +99,8 @@ describe("Länderseite ohne Liste (DACH1)", () => {
   it("die Österreich-Depotseite zählt in der Beschreibung ihre eigenen Depots (Prüfung S-3)", () => {
     zeige("/at/vergleich/depot", <VergleichDepot />);
     const beschreibung = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    // VG7 (25.11.2026): Scalable ist mit dem Zinsbeleg für Österreich wieder im Depot, also 6.
-    expect(beschreibung).toContain("6 Depots für Österreich");
+    // VG7 (25.11.2026): Scalable ist mit dem Zinsbeleg für Österreich wieder im Depot, also 6. VG8-01 (25.11.2026): dazu Trading 212, Bitpanda, N26, Erste Bank, Bank Direkt und Börse Live (offen ist nicht draußen), also 12.
+    expect(beschreibung).toContain("12 Depots für Österreich");
     expect(beschreibung).not.toContain("38");
     expect(beschreibung).not.toContain("Kredit ab Start");
   });
@@ -154,7 +154,8 @@ describe("Österreich nach Prüfung 2 (DACH1, 23.11.2026)", () => {
     }
     const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
     expect(container.textContent).toContain("World Islamic");
-    expect(container.textContent).not.toContain("1 von 1");
+    // „1 von 12 Angeboten“ (Seitenzähler) enthält „1 von 1“: nur die Anlagenzählung „1 von 1“ ohne weitere Ziffer ist verboten.
+    expect(container.textContent).not.toMatch(/1 von 1(?!\d)/);
     expect(container.textContent).not.toMatch(/von 4|bestätigt|mind\./);
   });
 

@@ -25,12 +25,12 @@ const ANLAGEN_ANZEIGE = {
 export const OESTERREICH: LandDaten = {
   "depot": {
     entwurf: false,
-    stand: "23.11.2026",
-    quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; eigene Halal-Prüfung mit Anbieter-Belegen. Traders Place, Smartbroker+ und DKB: Belege des deutschen Vergleichs, dasselbe Depot. Kaufbare Halal-ETFs bei Trade Republic: justETF Österreich, Stand 11/2026.",
+    stand: "25.11.2026",
+    quellenHinweis: "Basis: Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026; eigene Halal-Prüfung mit Anbieter-Belegen. Traders Place, Smartbroker+ und DKB: Belege des deutschen Vergleichs, dasselbe Depot. Kaufbare Halal-ETFs bei Trade Republic, Trading 212 und N26: justETF Österreich, Stand 11/2026. Trading 212, Bitpanda, N26 und Erste Bank: Zeilen aus dem Finanzfluss-Vergleich Österreich, Preise von N26 und Erste Bank aus ihren eigenen Preisblättern. Bank Direkt und Börse Live (beide Raiffeisenlandesbank Oberösterreich): Konditionen der Bank, Stand Oktober 2026. Was ein Anbieter nicht belegt, steht als offen.",
     /* Prüfung 2 (S-2): ein Satz, er steht am Handy unter der Liste. */
     einleitung: ["Hier stehen Depots, die du mit Wohnsitz in Österreich eröffnen kannst. Steuereinfach heißt: Die Bank führt die KESt für dich ab."],
-    kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Nur mit Beleg des Anbieters steht ein Depot hier."}, {"titel": "Halal-Anlagen für Österreich", "text": "Kannst du dort den iShares MSCI World Islamic, den iShares USD Sukuk und den Royal Mint Gold-ETC kaufen? Für diese drei bestätigen die Herausgeber die Zulassung in Österreich."}],
-    reihenfolge: ["flatex-depot-at", "traders-place-depot-at", "smartbroker-plus-depot-at", "trade-republic-depot-at", "dkb-depot-at", "scalable-capital-depot-at", "dadat-depot-at", "easybank-depot-at"],
+    kriterien: [{"titel": "Ohne Zinsen nutzbar", "text": "Liegt dein Guthaben ohne Zins, oder lassen sich die Zinsen abschalten? Ein Ja steht nur mit Beleg des Anbieters. Fehlt der Beleg, steht Offen und wir fragen nach."}, {"titel": "Halal-Anlagen für Österreich", "text": "Kannst du dort den iShares MSCI World Islamic, den iShares USD Sukuk und den Royal Mint Gold-ETC kaufen? Für diese drei bestätigen die Herausgeber die Zulassung in Österreich."}],
+    reihenfolge: ["flatex-depot-at", "traders-place-depot-at", "smartbroker-plus-depot-at", "trade-republic-depot-at", "dkb-depot-at", "scalable-capital-depot-at", "trading-212-depot-at", "n26-depot-at", "bitpanda-depot-at", "dadat-depot-at", "easybank-depot-at", "bank-direkt-depot-at", "erste-bank-selfinvest-depot-at", "boerse-live-depot-at"],
     anteilN: {"halalEtfsFonds": 1, "halalSukuk": 1, "halalEdelmetalle": 1},
     anzeige: ANLAGEN_ANZEIGE,
     seoText: "Welches Depot ist halal? {anzahl} Depots für Österreich im Vergleich: ohne Zinsen nutzbar, steuereinfach mit KESt, und welche Halal-ETFs, Sukuk und Gold-ETCs dort kaufbar sind.",
@@ -778,6 +778,631 @@ export const OESTERREICH: LandDaten = {
           "kapest": 9,
           "kundenservice": 3,
           "app": 5,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {}
+      },
+      {
+        "id": "trading-212-depot-at",
+        "name": "Trading 212",
+        "produkt": "Depot",
+        "domain": "trading212.com",
+        "haus": "trading212",
+        "werte": {
+          "zinsfreiAbStart": "gut",
+          "halalEtfsFonds": "1 von 1",
+          "halalSukuk": null,
+          "halalEdelmetalle": "1 von 1",
+          "depotgebuehr": "0 €",
+          "orderkosten": "0 € (Wiener Börse 0 €)",
+          "etfSparplanKosten": "0 €",
+          "sparrate": "1 € bis unbegrenzt",
+          "intervalle": "Monat, Halbjahr, Tag, Woche",
+          "handelsplaetze": "AT, Europa (ex-AT), USA, Sonstige, OTC",
+          "kapest": false,
+          "appIos": "4,6 / 5",
+          "kundenservice": "E-Mail, Chat"
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Depotgebühr (p.a.): „0€“"
+          },
+          "etfSparplanKosten": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Ausführungskosten ETF-Sparplan: „0€“"
+          },
+          "sparrate": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Sparrate: „1€ bis unbegrenzt“"
+          },
+          "intervalle": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Ausführungsintervalle: angehakt: Monat, Halbjahr, Tag, Woche"
+          },
+          "handelsplaetze": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Handelsplätze: angehakt: AUT, Europa (ex-AUT), USA, Sonstige, OTC"
+          },
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Steuereinfach in Österreich: Kreuz (nicht steuereinfach)"
+          },
+          "appIos": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, App-Bewertung: „4,6 / 5“"
+          },
+          "kundenservice": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Kundenservice: Kanäle laut Symbolen: E-Mail, Chat"
+          },
+          "orderkosten": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Trading 212 Depot“, Kosten pro Order: „0€“, Kosten Wien-Order „0€“"
+          },
+          "zinsfreiAbStart": {
+            "url": "https://helpcentre.trading212.com/hc/en-us/articles/15475153380637-What-is-interest-on-cash",
+            "stand": "25.11.2026",
+            "hinweis": "Trading 212 Help Centre, „What is interest on cash“, gelesen am 25.11.2026: „You can disable it at any time via the 'Interest on cash' dashboard in your app“ und für das Einschalten „Tap the 'Enable' button.“ Für Trading 212 EU GmbH gilt „interest is paid on EUR balances up to €100,000 per account“. Die deutsche Zinsseite (trading212.com/de/interest-on-cash) sperrt Abrufe ohne Browser; ihr Wortlaut, am 24.09.2026 im Chrome gelesen: „Wenn du Zinsen aktivierst, halten wir dein Guthaben bei unseren Partnerbanken und in qualifizierten Geldmarktfonds. Andernfalls halten wir es ausschließlich bei unseren Partnerbanken.“ Ob dieselben Bedingungen für Kunden in Österreich gelten, ist als Frage an Trading 212 offen."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
+            "stand": "25.11.2026",
+            "hinweis": "Kaufbar: iShares MSCI World Islamic. justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: Trading 212 mit 0,00 € je Sparrate und 0,00 € Depotgebühr, neben Scalable Capital, Trade Republic, Bitpanda, Smartbroker, N26 und flatex.at. In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+          },
+          "halalSukuk": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares USD Sukuk (IE000929U2U9). justETF Österreich, Sparplan-Angebote für Österreich, gelesen am 25.11.2026: Die Tabelle nennt nur Scalable Capital, Trade Republic und Bitpanda, Trading 212 steht nicht dabei. Trading 212 führt ihn laut deutscher Instrumentenseite (trading212.com/de/trading-instruments/invest, 14.09.2026), die Abrufe sperrt und heute nicht erneut gelesen wurde. Für Österreich fehlt der Beleg, Frage an Trading 212."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
+            "stand": "25.11.2026",
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: Trading 212 neben Scalable Capital, Trade Republic und Bitpanda. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 16,
+          "etfSparplanProzent": 6,
+          "etfSparplanPauschal": 4,
+          "orderProzent": 3,
+          "orderPauschal": 6,
+          "mindestsparrate": 3,
+          "maximalsparrate": 1,
+          "intervalle": 2.0,
+          "handelsplaetze": 2,
+          "kapest": 0,
+          "kundenservice": 3,
+          "app": 5,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {
+          "halalEtfsFonds": 1,
+          "halalEdelmetalle": 1
+        }
+      },
+      {
+        "id": "bitpanda-depot-at",
+        "name": "Bitpanda",
+        "produkt": "Depot",
+        "domain": "bitpanda.com",
+        "haus": "bitpanda",
+        "werte": {
+          "zinsfreiAbStart": "gut",
+          "halalEtfsFonds": null,
+          "halalSukuk": null,
+          "halalEdelmetalle": null,
+          "depotgebuehr": "0 €",
+          "orderkosten": "1 €",
+          "etfSparplanKosten": "0 €",
+          "sparrate": "2 € bis unbegrenzt",
+          "intervalle": "Monat, Wöchentlich, Zweiwöchentlich",
+          "handelsplaetze": "DE",
+          "kapest": true,
+          "appIos": "4,6 / 5",
+          "kundenservice": "Chat"
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Depotgebühr (p.a.): „0€“"
+          },
+          "etfSparplanKosten": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Ausführungskosten ETF-Sparplan: „0€“"
+          },
+          "sparrate": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Sparrate: „2€ bis unbegrenzt“"
+          },
+          "intervalle": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Ausführungsintervalle: angehakt: Monat, Wöchentlich, Zweiwöchentlich"
+          },
+          "handelsplaetze": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Handelsplätze: angehakt: DE"
+          },
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Steuereinfach in Österreich: Haken (steuereinfach). Gegenstimme: broker-test.at, Bitpanda Depot (15.07.2026) nennt das Angebot „nach Tarif zu besteuern“ wegen der früheren Derivate; Bitpanda führt Aktien und ETFs seit Ende Januar 2026 als echte Wertpapiere (bitpanda.com/en/stocks: „No, you trade real physical stocks and ETFs with full economic rights.“)"
+          },
+          "appIos": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, App-Bewertung: „4,6 / 5“"
+          },
+          "kundenservice": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bitpanda“, Kundenservice: Kanäle laut Symbolen: Chat"
+          },
+          "orderkosten": {
+            "url": "https://www.bitpanda.com/en/stocks",
+            "stand": "25.11.2026",
+            "hinweis": "Bitpanda Stocks, FAQ, gelesen am 25.11.2026: „There's a flat trade fee of €1 per trade (or equivalent currency value) when buying or selling.“ und „Holding your stocks or ETFs is free and there are no custody fees.“ Finanzfluss Österreich: Kosten Wien-Order „Nicht möglich“."
+          },
+          "zinsfreiAbStart": {
+            "url": "https://www.bitpanda.com/en/bitpanda-cash-plus",
+            "stand": "25.11.2026",
+            "hinweis": "Bitpanda Cash Plus, gelesen am 25.11.2026: Ertrag auf Guthaben gibt es erst nach Einschalten: „By switching the toggles you accept the derivative contract and start earning a yield.“ Ohne diesen Schritt läuft kein Zins. Ob Cash Plus für Kunden in Österreich angeboten wird, nennt die Seite nicht."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Ob die Papiere bei Bitpanda echte Anteile oder Derivate sind, ist als Frage an Bitpanda offen (alte Derivat-Frage). iShares MSCI World Islamic (IE00B27YCN58): justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: Bitpanda mit 0,00 € je Sparrate und 0,00 € Depotgebühr. Bitpanda selbst schreibt (bitpanda.com/en/stocks): „No, you trade real physical stocks and ETFs with full economic rights.“ und nennt die früheren derivatbasierten Papiere „Legacy Assets“; broker-test.at (15.07.2026): „Abbildung der Aktien und ETFs über Finanzinstrument Derivatkontrakt“. Eine Liste der handelbaren ETFs mit ISIN liegt öffentlich nicht vor."
+          },
+          "halalSukuk": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Ob die Papiere bei Bitpanda echte Anteile oder Derivate sind, ist als Frage an Bitpanda offen (alte Derivat-Frage). iShares USD Sukuk (IE000929U2U9): justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: Bitpanda neben Scalable Capital und Trade Republic. "
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Ob die Papiere bei Bitpanda echte Anteile oder Derivate sind, ist als Frage an Bitpanda offen (alte Derivat-Frage). Royal Mint Physical Gold ETC (XS2115336336): justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: Bitpanda neben Scalable Capital, Trade Republic und Trading 212. "
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 16,
+          "etfSparplanProzent": 6,
+          "etfSparplanPauschal": 4,
+          "orderProzent": 3,
+          "orderPauschal": 4,
+          "mindestsparrate": 2,
+          "maximalsparrate": 1,
+          "intervalle": 1.5,
+          "handelsplaetze": 1,
+          "kapest": 9,
+          "kundenservice": 1,
+          "app": 5,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {}
+      },
+      {
+        "id": "n26-depot-at",
+        "name": "N26",
+        "produkt": "Aktien und ETFs",
+        "domain": "n26.com",
+        "haus": "n26",
+        "werte": {
+          "zinsfreiAbStart": "gut",
+          "halalEtfsFonds": "1 von 1",
+          "halalSukuk": null,
+          "halalEdelmetalle": null,
+          "depotgebuehr": "0 €",
+          "orderkosten": "0,90 €",
+          "etfSparplanKosten": "0 €",
+          "sparrate": "1 € bis unbegrenzt",
+          "intervalle": "Monat, Quartal, Halbjahr, Jahr",
+          "handelsplaetze": "DE",
+          "kapest": false,
+          "appIos": "4,6 / 5",
+          "kundenservice": "Chat"
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Depotgebühr (p.a.): „0€“"
+          },
+          "etfSparplanKosten": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Ausführungskosten ETF-Sparplan: „0€“"
+          },
+          "sparrate": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Sparrate: „1€ bis unbegrenzt“"
+          },
+          "intervalle": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Ausführungsintervalle: angehakt: Monat, Quartal, Halbjahr, Jahr"
+          },
+          "handelsplaetze": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Handelsplätze: angehakt: DE"
+          },
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Steuereinfach in Österreich: Kreuz (nicht steuereinfach)"
+          },
+          "appIos": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, App-Bewertung: „4,6 / 5“"
+          },
+          "kundenservice": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „N26 Standard Depot“, Kundenservice: Kanäle laut Symbolen: Chat"
+          },
+          "orderkosten": {
+            "url": "https://n26.com/de-at/aktien-und-etfs",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Aktien und ETFs, gelesen am 25.11.2026: „Für den Kauf oder Verkauf von Aktien, ETFs und ETCs fällt eine pauschale Ordergebühr von 0,90 € an.“ Finanzfluss Österreich (Stand 01.10.2026) nennt 0 €, die Seite von N26 gilt. Kosten Wien-Order laut Finanzfluss „nicht möglich“."
+          },
+          "zinsfreiAbStart": {
+            "url": "https://n26.com/de-at/sparkonto",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Sparkonto-Seite, gelesen am 25.11.2026: „Dein Hauptkonto nutzt du für alltägliche Transaktionen und Zahlungen, dein Geld wird jedoch nicht verzinst.“ und „Die Zinsen werden nur auf dein Guthaben auf diesem separaten Tagesgeldkonto gezahlt.“ Das Anlagekonto für Aktien und ETFs steht in der App neben dem Hauptkonto (n26.com/de-at/aktien-und-etfs: „Finanzkonten für das Hauptkonto, Aktien und ETFs und Kryptowährungen“)."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
+            "stand": "25.11.2026",
+            "hinweis": "Kaufbar: iShares MSCI World Islamic. justETF Österreich, Sparplan-Angebote für Österreich (Tabelle „Alle Angebote anzeigen“), Stand 11/2026, gelesen am 25.11.2026: N26 mit 0,00 € je Sparrate und 0,00 € Depotgebühr, neben Scalable Capital, Trade Republic, Trading 212, Bitpanda, Smartbroker und flatex.at. In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+          },
+          "halalSukuk": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares USD Sukuk (IE000929U2U9). justETF Österreich, Sparplan-Angebote für Österreich, gelesen am 25.11.2026: Die Tabelle nennt nur Scalable Capital, Trade Republic und Bitpanda, N26 steht nicht dabei. Frage an N26."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Royal Mint Physical Gold ETC (XS2115336336). Widerspruch der Quellen: Das Finanzfluss Informer nennt N26 unter den Brokern mit Sparplan („… Flatex AT, Freedom24, N26, S Broker …“), aber ohne Hinweis auf Österreich; justETF Österreich (Sparplan-Angebote, gelesen am 25.11.2026) nennt für Österreich nur Scalable Capital, Trade Republic, Trading 212 und Bitpanda, nicht N26. Frage an N26."
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 16,
+          "etfSparplanProzent": 6,
+          "etfSparplanPauschal": 4,
+          "orderProzent": 3,
+          "orderPauschal": 4,
+          "mindestsparrate": 3,
+          "maximalsparrate": 1,
+          "intervalle": 2.0,
+          "handelsplaetze": 1,
+          "kapest": 0,
+          "kundenservice": 1,
+          "app": 5,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {
+          "halalEtfsFonds": 1
+        }
+      },
+      {
+        "id": "erste-bank-selfinvest-depot-at",
+        "name": "Erste Bank",
+        "produkt": "Selfinvest Depot",
+        "domain": "sparkasse.at",
+        "haus": "erste-bank",
+        "werte": {
+          "zinsfreiAbStart": null,
+          "halalEtfsFonds": null,
+          "halalSukuk": null,
+          "halalEdelmetalle": null,
+          "depotgebuehr": "0 € bis 50.000 € Depotvolumen",
+          "orderkosten": "3,99 € + 0,19 %",
+          "etfSparplanKosten": "1 € je Wertpapier",
+          "sparrate": "10 € bis unbegrenzt",
+          "intervalle": "Monat, Zweimonatlich, Quartal, Halbjahr, Jahr",
+          "handelsplaetze": "AT, Europa (ex-AT), USA, Sonstige, OTC",
+          "kapest": true,
+          "appIos": "4,8 / 5",
+          "kundenservice": "E-Mail, Telefon"
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://cdn.erstegroup.com/content/dam/at/spk-erstebank/konditionenaushang/2.006-2.009-SE2.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Erste Bank, Konditionenaushang Selfinvest Depot ab 04.05.2026 (Ausgabe 05.05.2026), Depotführungsentgelt: „Bis maximal € 50.000,00 Depotvolumen Kein Entgelt“, für den übersteigenden Betrag „0,015 % per Monat zuzüglich 20 % USt.“"
+          },
+          "etfSparplanKosten": {
+            "url": "https://cdn.erstegroup.com/content/dam/at/spk-erstebank/konditionenaushang/2.006-2.009-SE2.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Erste Bank, Konditionenaushang Selfinvest Depot ab 04.05.2026 (Ausgabe 05.05.2026): „Kauf im Rahmen des Wertpapier-Sparplans für … ETFs … 1 € je ISIN (=Wertpapier)“."
+          },
+          "sparrate": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, Sparrate: „10€ bis unbegrenzt“"
+          },
+          "intervalle": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, Ausführungsintervalle: angehakt: Monat, Quartal, Halbjahr, Jahr, Zweimonatlich"
+          },
+          "handelsplaetze": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, Handelsplätze: angehakt: AUT, Europa (ex-AUT), USA, Sonstige, OTC"
+          },
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, Steuereinfach in Österreich: Haken (steuereinfach)"
+          },
+          "appIos": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, App-Bewertung: „4,8 / 5“"
+          },
+          "kundenservice": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Erste Bank Selfinvest Depot“, Kundenservice: Kanäle laut Symbolen: E-Mail, Telefon"
+          },
+          "orderkosten": {
+            "url": "https://cdn.erstegroup.com/content/dam/at/spk-erstebank/konditionenaushang/2.006-2.009-SE2.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Erste Bank, Konditionenaushang Selfinvest Depot ab 04.05.2026 (Ausgabe 05.05.2026), Kauf / Verkauf börslicher Handel, ETFs: „€ 3,99 + 0,19 % vom Kurswert“ (Vieltrader ab 15 Transaktionen im Monat: „€ 3,99 + 0,15 % vom Kurswert“)."
+          },
+          "zinsfreiAbStart": {
+            "url": "https://cdn.erstegroup.com/content/dam/at/spk-erstebank/konditionenaushang/2.050.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Erste Bank, Konditionenaushang Wertpapier-Verrechnungskonto zu legitimiertem Wertpapierdepot in Euro (Ausgabe 07.04.2025), Verzinsung: „Habenzinssatz 0,010 % p.a.“ Der Anbieter schreibt also einen kleinen Zins vor, und ob er sich abschalten lässt oder ein zinsloses Konto möglich ist, steht dort nicht. Weder als „ohne Zinsen nutzbar“ noch als „verzinst, nicht abschaltbar“ belegt, deshalb offen. Frage an die Erste Bank."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE00B27YCN58",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares MSCI World Islamic (IE00B27YCN58). justETF Österreich, Sparplan-Angebote für Österreich, gelesen am 25.11.2026: Die Erste Bank steht in der Tabelle nicht. Eine Liste der sparplanfähigen ETFs der Erste Bank mit ISIN liegt öffentlich nicht vor (Einmalkauf an der Börse offen). Frage an die Erste Bank."
+          },
+          "halalSukuk": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=IE000929U2U9",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares USD Sukuk (IE000929U2U9). justETF Österreich, Sparplan-Angebote für Österreich, gelesen am 25.11.2026: Die Erste Bank steht in der Tabelle nicht. Eine Liste der sparplanfähigen ETFs der Erste Bank mit ISIN liegt öffentlich nicht vor (Einmalkauf an der Börse offen). Frage an die Erste Bank."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, gelesen am 25.11.2026: Die Erste Bank steht in der Tabelle nicht. Eine Liste der sparplanfähigen ETFs der Erste Bank mit ISIN liegt öffentlich nicht vor (Einmalkauf an der Börse offen). Frage an die Erste Bank."
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 16,
+          "etfSparplanProzent": 6,
+          "etfSparplanPauschal": 2.667,
+          "orderProzent": 1.5,
+          "orderPauschal": 2,
+          "mindestsparrate": 2,
+          "maximalsparrate": 1,
+          "intervalle": 2.5,
+          "handelsplaetze": 2,
+          "kapest": 9,
+          "kundenservice": 4,
+          "app": 5,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {}
+      },
+      {
+        "id": "bank-direkt-depot-at",
+        "name": "Bank Direkt",
+        "produkt": "Wertpapierdepot",
+        "domain": "bankdirekt.at",
+        "haus": "bank-direkt",
+        "werte": {
+          "zinsfreiAbStart": "gut",
+          "halalEtfsFonds": null,
+          "halalSukuk": null,
+          "halalEdelmetalle": null,
+          "depotgebuehr": "0,12 % (mindestens 5,93 € je Position)",
+          "orderkosten": "5,95 € + 0,155 %",
+          "etfSparplanKosten": "1,9 %",
+          "sparrate": "ab 25 €",
+          "intervalle": "Monat, Quartal, Halbjahr, Jahr",
+          "handelsplaetze": "AT, Europa (ex-AT), USA, Sonstige, OTC",
+          "kapest": true,
+          "appIos": "3,6 / 5",
+          "kundenservice": "Telefon, Chat"
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://www.bankdirekt.at/de/service/konditionen.html",
+            "stand": "25.11.2026",
+            "hinweis": "Bank Direkt, Konditionen, Wertpapierdepot, gelesen am 25.11.2026: „Depotgebühr für im In- und Ausland verwahrte Wertpapiere 0,10 % p.a. zuzüglich 20 % USt.“, „Mindestdepotgebühr pro Position EUR 4,94 p.a. zuzüglich 20 % USt.“ Das sind 0,12 % und 5,93 € mit Umsatzsteuer (Finanzfluss: „0,12% (min. 5,93€/Position)“)."
+          },
+          "etfSparplanKosten": {
+            "url": "https://www.bankdirekt.at/de/service/konditionen.html",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich (Stand 01.10.2026, gelesen am 25.11.2026): Zeile „Bank Direkt Depot“, Ausführungskosten ETF-Sparplan „1,9%“. Auf bankdirekt.at steht der Satz nicht; die gleiche Bank (Raiffeisenlandesbank Oberösterreich) nennt in ihrem Leistungs- und Preisblatt Depot Classic „ETF/ETC Sparplan 1,90 % Serviceentgelt“."
+          },
+          "sparrate": {
+            "url": "https://www.bankdirekt.at/de/produkte/vorsorgen/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Bank Direkt, ETF-Sparplan, gelesen am 25.11.2026: „Mindestbetrag 25 Euro monatlich“. Finanzfluss nennt 100 €; die Seite der Bank gilt. Eine Obergrenze steht dort nicht."
+          },
+          "intervalle": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bank Direkt Depot“, Ausführungsintervalle: angehakt: Monat, Quartal, Halbjahr, Jahr"
+          },
+          "handelsplaetze": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bank Direkt Depot“, Handelsplätze: angehakt: AUT, Europa (ex-AUT), USA, Sonstige, OTC"
+          },
+          "kapest": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bank Direkt Depot“, Steuereinfach in Österreich: Haken (steuereinfach)"
+          },
+          "appIos": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bank Direkt Depot“, App-Bewertung: „3,6 / 5“"
+          },
+          "kundenservice": {
+            "url": "https://www.finanzfluss.de/vergleich/depot-oesterreich/",
+            "stand": "25.11.2026",
+            "hinweis": "Finanzfluss Depot-Vergleich Österreich, Stand 01.10.2026, gelesen am 25.11.2026: Zeile „Bank Direkt Depot“, Kundenservice: Kanäle laut Symbolen: Telefon, Chat"
+          },
+          "orderkosten": {
+            "url": "https://www.bankdirekt.at/de/service/konditionen.html",
+            "stand": "25.11.2026",
+            "hinweis": "Bank Direkt, Konditionen, Wertpapierhandel, gelesen am 25.11.2026: Börsenhandel Inland bis EUR 30.000 „0,155 %“ plus „Basisgebühr pro Auftrag EUR 5,95“ (Ausland EUR 9,95 plus Handelsortentgelt inkl. Fremdspesen)."
+          },
+          "zinsfreiAbStart": {
+            "url": "https://www.bankdirekt.at/de/service/konditionen.html",
+            "stand": "25.11.2026",
+            "hinweis": "Bank Direkt, Konditionen, gelesen am 25.11.2026: „Wertpapierverrechnungskonto (obligatorisch zum Wertpapierdepot): Girokonto der Bank Direkt“ und für das Girokonto „Habenzinssatz p.a. 0,000 %“."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.bankdirekt.at/de/produkte/vorsorgen/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares MSCI World Islamic (IE00B27YCN58). Bank Direkt, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs (unter anderem iShares MSCI ACWI, iShares Core MSCI World), aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Bank Direkt."
+          },
+          "halalSukuk": {
+            "url": "https://www.bankdirekt.at/de/produkte/vorsorgen/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares USD Sukuk (IE000929U2U9). Bank Direkt, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs (unter anderem iShares MSCI ACWI, iShares Core MSCI World), aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Bank Direkt."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.bankdirekt.at/de/produkte/vorsorgen/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Royal Mint Physical Gold ETC (XS2115336336). Bank Direkt, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs (unter anderem iShares MSCI ACWI, iShares Core MSCI World), aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Bank Direkt."
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 0,
+          "etfSparplanProzent": 0,
+          "etfSparplanPauschal": 4,
+          "orderProzent": 1.5,
+          "orderPauschal": 0,
+          "mindestsparrate": 1,
+          "maximalsparrate": 0,
+          "intervalle": 2.0,
+          "handelsplaetze": 2,
+          "kapest": 9,
+          "kundenservice": 3,
+          "app": 1.667,
+          "abzug": 0
+        },
+        "halalAnlagenPunkte": {}
+      },
+      {
+        "id": "boerse-live-depot-at",
+        "name": "Börse Live",
+        "produkt": "Depot Classic",
+        "domain": "boerse-live.at",
+        "haus": "boerse-live",
+        "werte": {
+          "zinsfreiAbStart": null,
+          "halalEtfsFonds": null,
+          "halalSukuk": null,
+          "halalEdelmetalle": null,
+          "depotgebuehr": "0,25 % Inland, 0,50 % Ausland (mindestens 5 bis 8 € je Position)",
+          "orderkosten": "0,40 % (mindestens 19 €) plus 3 € Orderleitgebühr",
+          "etfSparplanKosten": "1,90 %",
+          "sparrate": "ab 25 €",
+          "intervalle": "Monat",
+          "handelsplaetze": "AT, Europa (ex-AT), USA, Sonstige",
+          "kapest": true,
+          "appIos": null,
+          "kundenservice": null
+        },
+        "quellen": {
+          "depotgebuehr": {
+            "url": "https://www.boerse-live.at/de/handeln/konditionen/depot.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live (Raiffeisenlandesbank Oberösterreich), Konditionen Depot, Stand Oktober 2026, Depotmodell CLASSIC: „Sammelverwahrung 0,25 % vom Kurswert p.a. (mind. EUR 5,00) zzgl. USt.“ und „Wertpapierrechnung 0,50 % vom Kurswert p.a. (mind. EUR 8,00) zzgl. USt.“ Das Depotmodell NOW (Altersgrenze 30) ist bis 50.000 € Depotwert gebührenfrei; hier steht das Standardmodell CLASSIC."
+          },
+          "orderkosten": {
+            "url": "https://www.boerse-live.at/de/handeln/konditionen/aktien-anleihen-etf-zertifikate-optionsscheine-und-aehnliche-wertpapiere.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, Konditionen Handelsgebühren, Stand Oktober 2026, Depotmodell CLASSIC, Auftrag über Mein ELBA: „bis EUR 20.000,00 0,40 % vom Kurswert (mind. EUR 19,00)“ und „Orderleitgebühr von EUR 3,00“. Bei Auslandsaufträgen zusätzlich Handelsortentgelt inkl. Fremdspesen."
+          },
+          "etfSparplanKosten": {
+            "url": "https://www.boerse-live.at/de/handeln/konditionen/sparplaene.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, Konditionen Sparpläne, Stand Oktober 2026, Depotmodell CLASSIC: „ETF/ETC Sparplan 1,90 % Serviceentgelt (ohne Mindestgebühren) + *Handelsortentgelt inkl. Fremdspesen“. Depotmodell NOW: „EUR 25 – 500: EUR 1,00 Flat-Fee“."
+          },
+          "sparrate": {
+            "url": "https://www.boerse-live.at/de/anlegen-und-vorsorgen/sparplaene/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, ETF-Sparplan, gelesen am 25.11.2026: „Ansparung in verschiedene ETFs ab 25 Euro im Monat möglich.“ Eine Obergrenze steht dort nicht."
+          },
+          "intervalle": {
+            "url": "https://www.boerse-live.at/de/anlegen-und-vorsorgen/sparplaene/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, ETF-Sparplan, gelesen am 25.11.2026: „Eine Ansparung in einen ETF ist ab 25 Euro im Monat möglich.“ Andere Intervalle nennt die Seite nicht."
+          },
+          "handelsplaetze": {
+            "url": "https://www.boerse-live.at/resources/boerse-live/boerse-live/handeln/konditionen/downloads/RB%20CLASSIC.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, Leistungs- und Preisblatt Depot Classic (Stand Juni 2025), Handelsortentgelt inkl. Fremdspesen: „Frankfurt Xetra“, „Deutschland Parkett“, „USA“, „Börsen Euro-Länder“, „Börsen Nicht-Euro-Länder und Schweiz“, „Restliche Börsen“; Inland: „Mindestgebühren im Inland/Ausland“."
+          },
+          "kapest": {
+            "url": "https://www.boerse-live.at/de/wissen-und-blog/steuern.html",
+            "stand": "25.11.2026",
+            "hinweis": "Börse Live, Steuern, gelesen am 25.11.2026: „Der automatische KESt-Abzug auf Kursgewinne wird nur für realisierte Kursgewinne aus (Wertpapier-) Neubestand abgezogen.“"
+          },
+          "zinsfreiAbStart": {
+            "url": "https://www.boerse-live.at/resources/boerse-live/boerse-live/handeln/konditionen/downloads/RB%20CLASSIC.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Börse Live, Leistungs- und Preisblatt Depot Classic (Stand Juni 2025): „ein Wertpapierdepot nur in Verbindung mit einem Verrechnungskonto möglich … Über die Kosten des Verrechnungskontos werden Sie bei Abschluss mit einem gesonderten Leistungs- und Preisblatt informiert.“ Ein Habenzins steht auf boerse-live.at nirgends. Frage an Börse Live."
+          },
+          "halalEtfsFonds": {
+            "url": "https://www.boerse-live.at/de/anlegen-und-vorsorgen/sparplaene/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares MSCI World Islamic (IE00B27YCN58). Börse Live, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs, aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Börse Live."
+          },
+          "halalSukuk": {
+            "url": "https://www.boerse-live.at/de/anlegen-und-vorsorgen/sparplaene/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: iShares USD Sukuk (IE000929U2U9). Börse Live, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs, aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Börse Live."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.boerse-live.at/de/anlegen-und-vorsorgen/sparplaene/ETF-sparplan.html",
+            "stand": "25.11.2026",
+            "hinweis": "Offen: Royal Mint Physical Gold ETC (XS2115336336). Börse Live, ETF-Sparplan, gelesen am 25.11.2026: Die Liste „Sparplanfähige ETFs ab 25 Euro im Monat“ nennt 17 ETFs, aber keines unserer Papiere. Ob der Einmalkauf an der Börse möglich ist, steht nicht dabei. Frage an Börse Live."
+          }
+        },
+        "finanzPunkte": {
+          "depotgebuehr": 0,
+          "etfSparplanProzent": 0,
+          "etfSparplanPauschal": 4,
+          "orderProzent": 1.5,
+          "orderPauschal": 0,
+          "mindestsparrate": 1,
+          "maximalsparrate": 0,
+          "intervalle": 0.5,
+          "handelsplaetze": 2,
+          "kapest": 9,
+          "kundenservice": 0,
+          "app": 0,
           "abzug": 0
         },
         "halalAnlagenPunkte": {}
