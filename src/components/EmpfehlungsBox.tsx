@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import AnbieterLogo from "@/components/AnbieterLogo";
 import { hatLogos, logosFuer } from "@/lib/anbieterLogos";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 export type EmpfehlungsBoxProps = {
   /** Zum Beispiel "Depot" oder "Girokonto". */
@@ -120,7 +121,7 @@ const EmpfehlungsBox = ({
       {/* Blauer runder Knopf wie jeder Aufruf (VS5-05) */}
       <Link to={linkZiel ?? vergleichsSeite ?? "/vergleiche"} className="group mt-6 inline-block rounded-full">
         <span className="flex min-h-[48px] items-center gap-2 rounded-full bg-primary px-6 text-[16px] font-semibold text-white transition-colors group-hover:bg-[#1f6bff]">
-          {knopf ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
+          {knopf ?? ANKER_VERGLEICH[(linkZiel ?? vergleichsSeite) as keyof typeof ANKER_VERGLEICH] ?? (vergleichsSeite ? `Zum ${kategorie}-Vergleich` : istVergleich ? "Zu den Vergleichen" : "Ansehen")}
           <ArrowRight className="h-4 w-4" aria-hidden />
         </span>
       </Link>

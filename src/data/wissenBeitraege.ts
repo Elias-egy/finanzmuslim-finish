@@ -33,7 +33,8 @@ export const beitragPfad = (b: WissenBeitrag) => b.pfad ?? `/blog/${b.slug}`;
 /* Reihenfolge nach dem Leser (SEO43, Vault-Skill leser-finanzmuslim): zuerst Geld anlegen, dann das Girokonto,
    Grundbegriffe und Pflichten danach; Bereinigung und Krypto nie oben („Krypto, wird eh nicht so oft gesucht“). */
 export const wissenBeitraege: WissenBeitrag[] = [
-  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Sieh, was in acht Halal ETFs steckt, was sie gebracht haben und was sie in Euro kosten.", thema: "Investieren", pfad: "/blog/halal-etf", datum: "3. November 2026" },
+  { slug: "halal-etfs", name: "Beste Halal ETFs 2026", motiv: "etf", desc: "Sieh, was in acht Halal ETFs steckt, was sie gebracht haben und was sie in Euro kosten.", thema: "Investieren", pfad: "/blog/halal-etf", datum: "25. November 2026" },
+  { slug: "trade-republic-alternative", name: "Beste Trade Republic Alternative 2026", motiv: "handy", desc: "Behalte Trade Republic oder nimm ein Depot mit mehr Halal-ETFs. Sieh die fünf Alternativen aus unserem Vergleich.", thema: "Investieren", datum: "25. November 2026" },
   { slug: "sind-aktien-halal", name: "Sind Aktien haram?", motiv: "aktienPruefen", desc: "Sieh, wann Aktien halal sind und wer das für dich prüft. Rechne, was 100 € im Monat im Halal ETF gebracht hätten.", thema: "Investieren", pfad: "/blog/sind-aktien-haram", datum: "6. November 2026" },
   { slug: "halal-gold-kaufen", name: "Halal Gold kaufen", motiv: "gold", desc: "Kauf Gold richtig: Händler, online oder Sparplan.", thema: "Investieren", datum: "4. November 2026" },
   { slug: "sukuk", name: "Sukuk", motiv: "sukuk", desc: "Sieh, was hinter islamischen Anleihen steckt.", thema: "Investieren", datum: "5. September 2026" },

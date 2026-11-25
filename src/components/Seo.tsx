@@ -210,6 +210,8 @@ const standIso = (stand?: string) => {
 
 export const vergleichJsonLd = (opts: {
   titel: string;
+  /** Sichtbare H1, wenn sie vom Seitentitel abweicht; wird headline im WebPage-Knoten. */
+  headline?: string;
   beschreibung: string;
   path: string;
   faq: { frage: string; antwort: string }[];
@@ -220,6 +222,7 @@ export const vergleichJsonLd = (opts: {
 }) => [
   {
     ...webPage(opts.titel, opts.beschreibung, `${SITE}${opts.path}`),
+    ...(opts.headline ? { headline: opts.headline } : {}),
     ...(standIso(opts.stand) ? { dateModified: standIso(opts.stand) } : {}),
   },
   ...(opts.anbieter?.length

@@ -148,6 +148,14 @@ export const sparplanZeilen = () =>
     .filter((z) => z.auf !== null);
 export const sparplanVon = etfListe.length;
 
+/**
+ * Woran ein Depot hängt, als ein Satz für alle Seiten (SEO82, Halal-Prüfer Fund 2): nicht abschließend („unter anderem“), mit dem
+ * Kredit des Brokers. Beleg: ~/hourani/positionen/aktien.md Ep. 18 00:19:20 (Halal-Geschäftszweck) und 01:18:56 bis 01:19:04 („Margin ist
+ * haram, dass der Broker dir so eine Art Zinsdarlehen gibt“), bankkonten.md Ep. 13 00:12:36 („Das ist Riba und Haram.“).
+ */
+export const DEPOT_HALAL_SATZ =
+  "Ob dein Depot halal ist, hängt unter anderem davon ab, was du kaufst, ob dein Guthaben Zinsen bringt und ob du einen Kredit des Brokers nutzt.";
+
 /** Zusätzliche Fragen aus der Secondary-Box der Karte vergleich-depot.seo.json, Antworten nur aus diesen Daten. */
 export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
   const f: Array<{ frage: string; antwort: string }> = [];
@@ -162,18 +170,16 @@ export const depotFragen = (): Array<{ frage: string; antwort: string }> => {
   }
   f.push({
     frage: "Was ist ein Halal-Broker?",
-    antwort: `Ein Broker ist nicht von sich aus halal. Es zählt, ob du das Depot ohne Zinsen nutzen kannst und ob du dort Halal-Anlagen kaufst. Von den ${depotAnzahl} Depots in unserem Vergleich kannst du ${depotOhneZinsen} ohne Zinsen nutzen.`,
+    antwort: `Ein Broker ist nicht von sich aus halal. Es zählt unter anderem, ob du das Depot ohne Zinsen nutzen kannst, ob du dort Halal-Anlagen kaufst und ob du einen Kredit des Brokers nutzt. Von den ${depotAnzahl} Depots in unserem Vergleich kannst du ${depotOhneZinsen} ohne Zinsen nutzen.`,
   });
-  for (const [id, name] of [
-    ["trade-republic-depot", "Trade Republic"],
-    ["scalable-capital-free-broker", "Scalable Capital"],
-  ] as const) {
+  // „Ist Trade Republic halal?“ steht seit SEO82 auf /blog/trade-republic-alternative (Kein Doppel, Karte vergleich-depot.seo.json).
+  for (const [id, name] of [["scalable-capital-free-broker", "Scalable Capital"]] as const) {
     const a = depotAnzeige.find((x) => x.id === id);
     if (!a) continue;
     f.push({
       frage: `Ist ${name} halal?`,
       antwort: [
-        "Ob dein Depot halal ist, hängt davon ab, was du kaufst und ob dein Guthaben Zinsen bringt.",
+        DEPOT_HALAL_SATZ,
         halalSatz(a, `Bei ${name}`),
         zinsHinweis("depot", a),
       ]
