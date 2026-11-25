@@ -126,7 +126,7 @@ export const SCHWEIZ: LandDaten = {
         "haus": "saxo-ch",
         "werte": {
           "zinsfreiAbStart": null,
-          "halalEtfsFonds": "mind. 1 von 10",
+          "halalEtfsFonds": "1 von 10 bestätigt",
           "halalSukuk": null,
           "depotgebuehr": "0 CHF",
           "orderkosten": "0,08 %, mindestens 3 CHF",
@@ -309,16 +309,16 @@ export const SCHWEIZ: LandDaten = {
           "karteOhneKredit": "gut",
           "kontofuehrung": "0 € (Konto in Euro)",
           "debitkarte": "Mastercard, 0 €",
-          "applePay": null,
+          "applePay": true,
           "abhebungen": "2 in Euro im Monat",
           "bargeldEinzahlen": null,
-          "auslandAbheben": null,
-          "auslandFremdAbheben": null,
+          "auslandAbheben": "2 frei im Monat, danach 2 €",
+          "auslandFremdAbheben": "1,7 %",
           "auslandFremdZahlen": "0 €",
           "sepaKostenlos": true,
-          "kundenservice": null,
+          "kundenservice": "Chat",
           "filialen": false,
-          "appIos": null
+          "appIos": "4,7 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -365,6 +365,31 @@ export const SCHWEIZ: LandDaten = {
             "url": "https://n26.com/de-ch",
             "stand": "23.11.2026",
             "hinweis": "N26 Schweiz: „N26 ist die erste 100 % mobile Bank“."
+          },
+          "applePay": {
+            "url": "https://n26.com/de-ch/kostenloses-girokonto",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Schweiz, Standard: „Verknüpfe sie mit Apple Pay, Google Pay oder Garmin Pay, um in Geschäften kontaktlos per Smartphone zu bezahlen.“"
+          },
+          "auslandAbheben": {
+            "url": "https://docs.n26.com/legal/06+EU/01+Account/en/13account-pricelist-en.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Preisliste für Kunden mit Adresse unter anderem in der Schweiz, Version 4.0 vom 26.06.2026: „Mastercard withdrawals at ATMs in EUR … Customers with a N26 standard … account 2 free ATM withdrawals per calendar month, 2.00 € per additional withdrawal“."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://docs.n26.com/legal/06+EU/01+Account/en/13account-pricelist-en.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Preisliste Schweiz, Version 4.0 vom 26.06.2026: „Mastercard withdrawals at ATMs in other currencies: … For Business, Current Account, N26 Smart, N26 Business Smart 1.7% of amount drawn“."
+          },
+          "kundenservice": {
+            "url": "https://n26.com/de-ch/kostenloses-girokonto",
+            "stand": "25.11.2026",
+            "hinweis": "N26 Schweiz, Standard: „Erhalte rund um die Uhr Support via Chat“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/ch/app/n26-love-your-bank/id956857223",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Schweiz, App „N26: Love your bank“ (N26 SE), Bewertung 4,72 von 5 aus 4.784 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -374,11 +399,11 @@ export const SCHWEIZ: LandDaten = {
           "debitkarte": 5,
           "abheben": 2.5,
           "einzahlen": 0,
-          "mobilesBezahlen": 0,
+          "mobilesBezahlen": 8,
           "sepa": 10,
-          "support": 0,
+          "support": 2.5,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 4,
           "ausland": 4.0,
@@ -399,14 +424,14 @@ export const SCHWEIZ: LandDaten = {
           "debitkarte": "Debit Mastercard",
           "applePay": true,
           "abhebungen": "2,50 CHF je Bezug, gratis an Kassen von Coop, ALDI und LIDL",
-          "bargeldEinzahlen": null,
-          "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
+          "bargeldEinzahlen": "nicht möglich",
+          "auslandAbheben": "1,5 % des Betrags, dazu 0,35 % Wechselkurs",
+          "auslandFremdAbheben": "1,5 % des Betrags, dazu 0,35 % Wechselkurs",
+          "auslandFremdZahlen": "0,35 % Wechselkurs",
+          "sepaKostenlos": true,
           "kundenservice": null,
           "filialen": null,
-          "appIos": null
+          "appIos": "4,5 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -438,6 +463,36 @@ export const SCHWEIZ: LandDaten = {
             "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
             "stand": "23.11.2026",
             "hinweis": "neon Dienstleistungspreise, free: am Automaten 2,50 CHF je Bezug, gratis an den Kassen von Coop, ALDI und LIDL."
+          },
+          "bargeldEinzahlen": {
+            "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "neon Dienstleistungspreise, Stand 1. Oktober 2026, Zahlungen: „Bargeldeinzahlung Nicht möglich“ (alle Pläne)."
+          },
+          "auslandAbheben": {
+            "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "neon Dienstleistungspreise, Stand 1. Oktober 2026, neon Debit Mastercard, free: „Abhebung Ausland 1.5% auf den Betrag“, „Gebühr unabhängig von Währung. Für neon free: zusätzlich Wechselkursaufschlag.“ Wechselkurs free: „0.35%“."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "neon Dienstleistungspreise, Stand 1. Oktober 2026, neon Debit Mastercard, free: „Abhebung Ausland 1.5% auf den Betrag“, dazu Wechselkurs „0.35%“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "neon Dienstleistungspreise, Stand 1. Oktober 2026, neon Debit Mastercard, free: „Einkauf Ausland“ ohne Gebühr, „Wechselkurs 0.35%“."
+          },
+          "sepaKostenlos": {
+            "url": "https://www.neon-free.ch/media/neon_dienstleistungspreise_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "neon Dienstleistungspreise, Stand 1. Oktober 2026, Zahlungen: „IBAN-Überweisung Inland CHF“ ohne Gebühr (alle Pläne); in EUR „Keine Bearbeitungsgebühr; 1,5% Wechselkursaufschlag“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/ch/app/neon-die-schweizer-finanz-app/id1387883068",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Schweiz, App „neon: Die Schweizer Finanz-App“ (neon Switzerland AG), Bewertung 4,51 von 5 aus 7.925 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -448,10 +503,10 @@ export const SCHWEIZ: LandDaten = {
           "abheben": 2.5,
           "einzahlen": 0,
           "mobilesBezahlen": 8,
-          "sepa": 0,
+          "sepa": 10,
           "support": 0,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 4,
           "ausland": 0.0,
@@ -473,13 +528,13 @@ export const SCHWEIZ: LandDaten = {
           "applePay": true,
           "abhebungen": "gratis an über 1.700 Standorten",
           "bargeldEinzahlen": null,
-          "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
-          "kundenservice": null,
-          "filialen": null,
-          "appIos": null
+          "auslandAbheben": "5 CHF je Bezug",
+          "auslandFremdAbheben": "5 CHF je Bezug",
+          "auslandFremdZahlen": "1,50 CHF je Einkauf",
+          "sepaKostenlos": true,
+          "kundenservice": "Telefon",
+          "filialen": true,
+          "appIos": "4,5 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -511,6 +566,41 @@ export const SCHWEIZ: LandDaten = {
             "url": "https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto.html",
             "stand": "23.11.2026",
             "hinweis": "Migros Bank: Bargeld gratis an über 1.700 Standorten."
+          },
+          "auslandAbheben": {
+            "url": "https://www.migrosbank.ch/de/dam/jcr:f49f70eb-c052-49ff-92fc-a06630032018/preise_fuer_dienstleistungen_de.71175a10e17a48ad5565873983130261.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Preise für Dienstleistungen, Karten, Visa Debit CHF: „Bancomat Fremdbank Ausland, je Bezug CHF 5“."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://www.migrosbank.ch/de/dam/jcr:f49f70eb-c052-49ff-92fc-a06630032018/preise_fuer_dienstleistungen_de.71175a10e17a48ad5565873983130261.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Preise für Dienstleistungen, Karten, Visa Debit CHF: „Bancomat Fremdbank Ausland, je Bezug CHF 5“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://www.migrosbank.ch/de/dam/jcr:f49f70eb-c052-49ff-92fc-a06630032018/preise_fuer_dienstleistungen_de.71175a10e17a48ad5565873983130261.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Preise für Dienstleistungen, Karten, Visa Debit CHF, Einkauf: „Ausland in anderer Währung CHF 1.50“."
+          },
+          "sepaKostenlos": {
+            "url": "https://www.migrosbank.ch/de/dam/jcr:f49f70eb-c052-49ff-92fc-a06630032018/preise_fuer_dienstleistungen_de.71175a10e17a48ad5565873983130261.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Preise für Dienstleistungen, Zahlungsauftrag mit E-Banking: „Einzelzahlung, je Zahlung“ Inlandzahlungen in CHF und EUR „kostenlos“; SEPA-Zahlungen CHF 0.30."
+          },
+          "kundenservice": {
+            "url": "https://www.migrosbank.ch/de/dam/jcr:f49f70eb-c052-49ff-92fc-a06630032018/preise_fuer_dienstleistungen_de.71175a10e17a48ad5565873983130261.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Preise für Dienstleistungen, Weitere Preisangaben, Telefon: „Service Line 0848 845 400“."
+          },
+          "filialen": {
+            "url": "https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto.html",
+            "stand": "25.11.2026",
+            "hinweis": "Migros Bank, Privatkonto: „von 70 Niederlassungen schweizweit“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/ch/app/migros-bank-e-banking/id452805858",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Schweiz, App „Migros Bank E-Banking“ (Migros Bank AG), Bewertung 4,52 von 5 aus 58.541 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -521,10 +611,10 @@ export const SCHWEIZ: LandDaten = {
           "abheben": 2.5,
           "einzahlen": 0,
           "mobilesBezahlen": 8,
-          "sepa": 0,
-          "support": 0,
+          "sepa": 10,
+          "support": 5,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 0,
           "ausland": 0.0,
@@ -543,16 +633,16 @@ export const SCHWEIZ: LandDaten = {
           "karteOhneKredit": "gut",
           "kontofuehrung": "0 CHF (Eröffnung nur in der App)",
           "debitkarte": "UBS Debitkarte, 0 CHF",
-          "applePay": null,
+          "applePay": true,
           "abhebungen": "gratis an UBS-Bancomaten in CHF",
-          "bargeldEinzahlen": null,
-          "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
+          "bargeldEinzahlen": "kostenlos am UBS Bancomat Plus",
+          "auslandAbheben": "5 CHF je Bezug",
+          "auslandFremdAbheben": "5 CHF je Bezug",
+          "auslandFremdZahlen": "2 %, mindestens 1 CHF",
+          "sepaKostenlos": true,
           "kundenservice": null,
-          "filialen": null,
-          "appIos": null
+          "filialen": true,
+          "appIos": "4,7 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -584,6 +674,46 @@ export const SCHWEIZ: LandDaten = {
             "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
             "stand": "23.11.2026",
             "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026: „UBS Bancomaten in CHF: Kostenlos“."
+          },
+          "applePay": {
+            "url": "https://www.ubs.com/ch/de/help/debitcard/wallet.html",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Hilfe, Debitkarten: „Alle UBS Debitkarten funktionieren mit Apple Pay, Google Pay, Samsung Pay und Smartwatches.“"
+          },
+          "bargeldEinzahlen": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026, UBS Debitkarten: „Bargeldeinzahlungen am UBS Bancomat Plus – CHF Kostenlos“."
+          },
+          "auslandAbheben": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026, Bargeldbezüge an Bancomaten und Automaten anderer Banken, ohne Modul: „Im Ausland in der jeweiligen Landeswährung CHF 5 pro Bezug, UBS-Devisenverkaufskurs“. Das Paket Easy enthält kein Modul weltweit."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026: „Im Ausland in der jeweiligen Landeswährung CHF 5 pro Bezug, UBS-Devisenverkaufskurs“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026, UBS Debitkarten, Bargeldlos bezahlen: „Im Ausland 2% des Betrages, mindestens CHF 1, UBS-Devisenverkaufskurs“."
+          },
+          "sepaKostenlos": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026, UBS Banking Easy, Weitere Dienstleistungen inklusive: „Inlandzahlungen elektronisch CHF“ mit Haken."
+          },
+          "filialen": {
+            "url": "https://www.ubs.com/content/dam/ubs/ch/swissbank/private/zahlen-und-sparen/konten/dienstleistungen-und-preise.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "UBS Dienstleistungen und Preise, gültig ab 23.09.2026: Preise für Einzahlungen und Bezüge am „UBS-Schalter“, etwa „CHF auf CHF-Konto Kostenlos“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/ch/app/ubs-ubs-key4/id441068021",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Schweiz, App „UBS & UBS key4“ (UBS AG), Bewertung 4,73 von 5 aus 214.409 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -592,12 +722,12 @@ export const SCHWEIZ: LandDaten = {
           "girocard": 0,
           "debitkarte": 5,
           "abheben": 2.5,
-          "einzahlen": 0,
-          "mobilesBezahlen": 0,
-          "sepa": 0,
+          "einzahlen": 3,
+          "mobilesBezahlen": 8,
+          "sepa": 10,
           "support": 0,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 0,
           "ausland": 0.0,
@@ -616,16 +746,16 @@ export const SCHWEIZ: LandDaten = {
           "karteOhneKredit": null,
           "kontofuehrung": "0 CHF",
           "debitkarte": null,
-          "applePay": null,
+          "applePay": true,
           "abhebungen": "5 Bezüge oder 200 CHF im Monat ohne Gebühr",
           "bargeldEinzahlen": null,
-          "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
-          "kundenservice": null,
+          "auslandAbheben": "5 Bezüge oder 200 CHF im Monat frei, danach 2 %, mindestens 1 CHF",
+          "auslandFremdAbheben": "5 Bezüge oder 200 CHF im Monat frei, danach 2 %, mindestens 1 CHF",
+          "auslandFremdZahlen": "werktags 0 % bis 1.250 CHF Wechsel im Monat, sonst 1 %",
+          "sepaKostenlos": true,
+          "kundenservice": "Chat",
           "filialen": null,
-          "appIos": null
+          "appIos": "4,8 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -647,6 +777,41 @@ export const SCHWEIZ: LandDaten = {
             "url": "https://cdn.revolut.com/terms_and_conditions/pdf/geb_hren_f_r_privatkunden_standard_f_r_schweizer_kunden_der_revolut_bank_uab_59eb6320_2.0.0_1761212457_de.pdf",
             "stand": "23.11.2026",
             "hinweis": "Revolut Gebühren für Schweizer Kunden, Standard: „bis zu 5 Abhebungen am Geldautomaten oder CHF 200“ ohne Gebühr, danach 2 %, mindestens CHF 1."
+          },
+          "applePay": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/allgemeine_gesch_ftsbedingungen_f_r_privatkunden_f_r_schweizer_kunden_der_revolut_bank_uab_c4927da5_1.4.0_1790846276_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut AGB für Schweizer Kunden der Revolut Bank UAB (gültig ab 3. Dezember 2026): Zahlungen mit der Revolut-Karte umfassen eine „Karte, die zu Apple Pay oder Google Pay hinzugefügt wurde“."
+          },
+          "auslandAbheben": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/geb_hren_f_r_privatkunden_standard_f_r_schweizer_kunden_der_revolut_bank_uab_59eb6320_2.0.0_1761212457_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut Gebühren für Schweizer Kunden, Standard: „Kostenlose Bargeldabhebungen: bis zu 5 Abhebungen am Geldautomaten oder CHF 200 pro laufendem Monat … Diese Gebühr beträgt 2 % des abgehobenen Betrags, mindestens aber CHF 1 pro Abhebung.“ Die Regel gilt ohne Unterschied nach Land."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/geb_hren_f_r_privatkunden_standard_f_r_schweizer_kunden_der_revolut_bank_uab_59eb6320_2.0.0_1761212457_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut Gebühren für Schweizer Kunden, Standard: bis zu 5 Abhebungen oder CHF 200 im Monat frei, danach 2 %, mindestens CHF 1; Währungswechsel im „Wechsellimit von CHF 1’250 pro Monat“ werktags ohne Gebühr, am Wochenende „eine Gebühr von 1 %“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/geb_hren_f_r_privatkunden_standard_f_r_schweizer_kunden_der_revolut_bank_uab_59eb6320_2.0.0_1761212457_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut Gebühren für Schweizer Kunden, Standard: „Wechsellimit von CHF 1’250 pro Monat. Für jeden zusätzlichen Währungswechsel fällt eine faire Nutzungsgebühr in Höhe von 1 %“; werktags „fallen keine Wechselgebühren an“, am Wochenende „eine Gebühr von 1 %“."
+          },
+          "sepaKostenlos": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/geb_hren_f_r_privatkunden_standard_f_r_schweizer_kunden_der_revolut_bank_uab_59eb6320_2.0.0_1761212457_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut Gebühren für Schweizer Kunden, Standard: „Lokale Zahlungen Kostenlos“ und „Zahlungen innerhalb des europäischen Zahlungsraums Kostenlos“."
+          },
+          "kundenservice": {
+            "url": "https://cdn.revolut.com/terms_and_conditions/pdf/allgemeine_gesch_ftsbedingungen_f_r_privatkunden_f_r_schweizer_kunden_der_revolut_bank_uab_c4927da5_1.4.0_1790846276_de.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "Revolut AGB für Schweizer Kunden: „Der In-App-Chat ist unser Kundenservice-Tool“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/ch/app/revolut-mehr-als-eine-bank/id932493382",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Schweiz, App „Revolut: Mehr als eine Bank“ (Revolut Ltd), Bewertung 4,81 von 5 aus 80.114 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -656,11 +821,11 @@ export const SCHWEIZ: LandDaten = {
           "debitkarte": 0,
           "abheben": 2.5,
           "einzahlen": 0,
-          "mobilesBezahlen": 0,
-          "sepa": 0,
-          "support": 0,
+          "mobilesBezahlen": 8,
+          "sepa": 10,
+          "support": 2.5,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 4,
           "ausland": 0.0,

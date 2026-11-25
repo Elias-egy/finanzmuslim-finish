@@ -45,7 +45,7 @@ export const OESTERREICH: LandDaten = {
           "zinsfreiAbStart": "gut",
           "halalEtfsFonds": "1 von 1",
           "halalSukuk": null,
-          "halalEdelmetalle": null,
+          "halalEdelmetalle": "1 von 1",
           "depotgebuehr": "0 €",
           "orderkosten": "5,90 € bis 3.500 € Ordervolumen (Wien und Deutschland)",
           "etfSparplanKosten": "1,50 € je Ausführung, über 700 Premium-Sparpläne 0 €",
@@ -111,6 +111,11 @@ export const OESTERREICH: LandDaten = {
             "url": "https://www.broker-test.at/depot/flatex/",
             "stand": "18.09.2025",
             "hinweis": "Kaufbar: iShares MSCI World Islamic, HANetf Saturna Al-Kawthar Global Focused Equity. broker-test.at, Antwort des Autors vom 18.09.2025 zu flatex Österreich: „IE00B27YCN58 | IE00BMYMHS24 Den ersten ETF gibt es auch als Sparplan, den zweiten ETF leider nur als Kauf über den Handelsplatz.“ In Österreich gezählt wird nur der iShares MSCI World Islamic (IE00B27YCN58): BlackRock Österreich nennt ihn „Zum Vertrieb Zugelassen In … Österreich“ (blackrock.com/at, 23.11.2026). Für die übrigen Halal-ETFs fehlt ein Zulassungsbeleg des Emittenten, sie zählen nicht. Nicht zugelassen laut justETF Österreich: iShares MSCI USA und EM Islamic, alle HSBC-ETFs."
+          },
+          "halalEdelmetalle": {
+            "url": "https://www.finanzfluss.de/informer/etf/xs2115336336/",
+            "stand": "25.11.2026",
+            "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). Finanzfluss Informer, gelesen am 25.11.2026: „Den HANetf The Royal Mint Physical Gold ETC Securities kannst du bei 1822direkt, Bitpanda, Consorsbank, DKB, Flatex, Flatex AT, Freedom24, N26, S Broker, Scalable Capital, Trade Republic, Trading 212 und comdirect mit einem Sparplan besparen.“ Flatex AT steht dort als eigener Broker neben Flatex. Wer das Papier im Sparplan führt, verkauft es auch einzeln. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
           }
         },
         "finanzPunkte": {
@@ -129,7 +134,8 @@ export const OESTERREICH: LandDaten = {
           "abzug": 0
         },
         "halalAnlagenPunkte": {
-          "halalEtfsFonds": 1
+          "halalEtfsFonds": 1,
+          "halalEdelmetalle": 1
         }
       },
       {
@@ -493,7 +499,7 @@ export const OESTERREICH: LandDaten = {
         "haus": "scalable-at",
         "link": "/out/scalable-at",
         "werte": {
-          "zinsfreiAbStart": null,
+          "zinsfreiAbStart": "gut",
           "halalEtfsFonds": "1 von 1",
           "halalSukuk": "1 von 1",
           "halalEdelmetalle": "1 von 1",
@@ -567,6 +573,11 @@ export const OESTERREICH: LandDaten = {
             "url": "https://www.justetf.com/at/etf-profile.html?isin=XS2115336336",
             "stand": "23.11.2026",
             "hinweis": "Kaufbar: Royal Mint Physical Gold ETC (XS2115336336). justETF Österreich, Sparplan-Angebote für Österreich, Stand 11/2026: Scalable Capital. In Österreich registriert laut HANetf (Registrations: Austria). Die übrigen Edelmetall-ETCs zählen in Österreich erst mit Beleg der Zulassung."
+          },
+          "zinsfreiAbStart": {
+            "url": "https://at.scalable.capital/country-annex-austria",
+            "stand": "25.11.2026",
+            "hinweis": "Länderanhang Österreich der Scalable Capital Bank GmbH Zweigniederlassung Österreich (Kundendokumente ab 20.11.2026), Preis- und Leistungsverzeichnis Österreich, Verzinsung von Guthaben: „Verrechnungskonten: 0,00 % p.a.“ Zinsübersicht Österreich (at.scalable.capital/zinsuebersicht, gelesen 25.11.2026): Verrechnungskonten „0 % p.a.“, mit und ohne PRIME+. Zinsen gibt es nur auf dem Tagesgeld, einem eigenen Konto (Hilfe Österreich, help.scalable.capital/de-AT, „Wie eröffne ich das Tagesgeldkonto?“): „Nach der Eröffnung erhält Ihr Tagesgeldkonto eine eigene IBAN.“ und für den Zins „müssen Sie Guthaben aktiv auf dieses Konto einzahlen“."
           }
         },
         "finanzPunkte": {
@@ -914,15 +925,15 @@ export const OESTERREICH: LandDaten = {
           "kontofuehrung": "0 € ab 400 € Gehaltseingang oder unter 27, sonst 14,70 € im Quartal",
           "debitkarte": "easy karte, 0 €",
           "applePay": null,
-          "abhebungen": null,
-          "bargeldEinzahlen": null,
+          "abhebungen": "12 Automaten-Transaktionen im Quartal gratis, danach 1 €",
+          "bargeldEinzahlen": "am BAWAG-Automaten im Kontingent, am Schalter 4,90 €",
           "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
+          "auslandFremdAbheben": "1,82 € + 0,75 %",
+          "auslandFremdZahlen": "1,09 € + 0,75 %",
+          "sepaKostenlos": true,
           "kundenservice": null,
           "filialen": null,
-          "appIos": null
+          "appIos": "4,7 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -944,6 +955,36 @@ export const OESTERREICH: LandDaten = {
             "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
             "stand": "23.11.2026",
             "hinweis": "easybank Konditionen easy gratis: „easy karte (Debitkarte) … GRATIS“."
+          },
+          "abhebungen": {
+            "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "easybank Preisblatt easy gratis, Stand 14.10.2026: „12 Automaten Transaktionen im Quartal, z.B. Bargeldbehebung am Geldausgabeautomat GRATIS“, „Ab der 13. Automaten Transaktion im Quartal € 1,00“."
+          },
+          "bargeldEinzahlen": {
+            "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "easybank Preisblatt easy gratis, Stand 14.10.2026: Automaten-Transaktionen umfassen „Bareinzahlungen auf das eigene Konto“ (BAWAG Selbstbedienungszone und BAWAG Geldautomaten); „Bareinzahlung und Barauszahlung in BAWAG P.S.K. Geschäftsstellen € 4,90“."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "easybank Preisblatt easy gratis, Stand 14.10.2026: „Bargeldbehebung mit easy karte (Debitkarte) außerhalb des Euroraums € 1,82 + 0,75% vom Behebungsbetrag“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "easybank Preisblatt easy gratis, Stand 14.10.2026: „Handelskasse und Online Shop Transaktion außerhalb des Euroraums € 1,09 + 0,75% vom Umsatzbetrag“."
+          },
+          "sepaKostenlos": {
+            "url": "https://www.easybank.at/resource/blob/49330/58e8bb9ab6f54f0bcdc2bd68ba7df2ca/easy-gratis-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "easybank Preisblatt easy gratis, Stand 14.10.2026: „alle elektronischen Transaktionen GRATIS“, Fußnote: „Gut- und Lastschriften im eBanking und Zahlungen mit Konto-/Debitkarte oder Kreditkarte“."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/at/app/easybank-%C3%B6sterreich/id1468066542",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Österreich, App „easybank Österreich“ (easybank AG), Bewertung 4,65 von 5 aus 5.295 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -951,13 +992,13 @@ export const OESTERREICH: LandDaten = {
           "bankkarte": 10,
           "girocard": 0,
           "debitkarte": 5,
-          "abheben": 0,
-          "einzahlen": 0,
+          "abheben": 2.5,
+          "einzahlen": 1.5,
           "mobilesBezahlen": 0,
-          "sepa": 0,
+          "sepa": 10,
           "support": 0,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 0,
           "ausland": 0.0,
@@ -1169,15 +1210,15 @@ export const OESTERREICH: LandDaten = {
           "kontofuehrung": "1,99 €",
           "debitkarte": "Debitkarte, 0 €",
           "applePay": null,
-          "abhebungen": null,
-          "bargeldEinzahlen": null,
-          "auslandAbheben": null,
+          "abhebungen": "1 Automaten-Leistung im Monat gratis, danach 0,80 €",
+          "bargeldEinzahlen": "am Automaten im Kontingent, danach 0,80 €; am Schalter 2 im Jahr gratis, danach 4,79 €",
+          "auslandAbheben": "im Euro-Raum 1 im Monat gratis, danach 0,80 €",
           "auslandFremdAbheben": null,
           "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
+          "sepaKostenlos": true,
           "kundenservice": null,
           "filialen": null,
-          "appIos": null
+          "appIos": "1,5 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -1199,6 +1240,31 @@ export const OESTERREICH: LandDaten = {
             "url": "https://assets.bank99.at/documents/w225-konditionen_konto99.pdf",
             "stand": "23.11.2026",
             "hinweis": "bank99 Konditionen konto99: „Debitkarte Inkludiert“."
+          },
+          "abhebungen": {
+            "url": "https://assets.bank99.at/documents/w225-konditionen_konto99.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "bank99 Konditionenübersicht konto99, Stand Februar 2026, smartkonto99: Selbstbedienungsgeräte (im Foyer und Geldautomaten) „1x/Monat kostenlos, jede weitere Leistung € 0,80“ für „Bargeldbehebung im Euro-Raum“ und „Bargeldeinzahlungen auf eigenes Konto“."
+          },
+          "bargeldEinzahlen": {
+            "url": "https://assets.bank99.at/documents/w225-konditionen_konto99.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "bank99 Konditionenübersicht konto99, Stand Februar 2026, smartkonto99: am Selbstbedienungsgerät „1x/Monat kostenlos, jede weitere Leistung € 0,80“; am Schalter Bargeldeinzahlung „2x/Jahr kostenlos, jede weitere € 4,79“."
+          },
+          "auslandAbheben": {
+            "url": "https://assets.bank99.at/documents/w225-konditionen_konto99.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "bank99 Konditionenübersicht konto99, Stand Februar 2026, smartkonto99: „Bargeldbehebung im Euro-Raum“ an Selbstbedienungsgeräten „1x/Monat kostenlos, jede weitere Leistung € 0,80“."
+          },
+          "sepaKostenlos": {
+            "url": "https://assets.bank99.at/documents/w225-konditionen_konto99.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "bank99 Konditionenübersicht konto99, Stand Februar 2026: „Online-Banking (Internetbanking) und App: Zugang inkl. alle Funktionen kostenlos“. SEPA-Überweisung am Selbstbedienungsgerät 0,80 €, am Schalter 4,79 €."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/at/app/meine99-online-banking/id1497542355",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Österreich, App „meine99 | Online Banking“ (bank99 AG), Bewertung 1,5 von 5 aus 754 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
@@ -1206,10 +1272,10 @@ export const OESTERREICH: LandDaten = {
           "bankkarte": 10,
           "girocard": 0,
           "debitkarte": 5,
-          "abheben": 0,
-          "einzahlen": 0,
+          "abheben": 2.5,
+          "einzahlen": 1.5,
           "mobilesBezahlen": 0,
-          "sepa": 0,
+          "sepa": 10,
           "support": 0,
           "kontowechsel": 0,
           "app": 0,
@@ -1228,19 +1294,19 @@ export const OESTERREICH: LandDaten = {
         "werte": {
           "zinsfreiAbStart": "gut",
           "keinDispoAbStart": null,
-          "karteOhneKredit": null,
+          "karteOhneKredit": "gut",
           "kontofuehrung": "6,08 €, die ersten 6 Monate 0 €",
-          "debitkarte": null,
+          "debitkarte": "Kontokarte (Debitkarte), inkludiert",
           "applePay": null,
-          "abhebungen": null,
-          "bargeldEinzahlen": null,
+          "abhebungen": "1 Automaten-Transaktion im Monat inkludiert, danach 0,51 €",
+          "bargeldEinzahlen": "am BAWAG-Automaten im Kontingent, danach 0,51 €; am Schalter 4,12 €",
           "auslandAbheben": null,
-          "auslandFremdAbheben": null,
-          "auslandFremdZahlen": null,
-          "sepaKostenlos": null,
+          "auslandFremdAbheben": "1,82 € + 0,75 %",
+          "auslandFremdZahlen": "1,09 € + 0,75 %",
+          "sepaKostenlos": true,
           "kundenservice": null,
-          "filialen": null,
-          "appIos": null
+          "filialen": true,
+          "appIos": "4,7 / 5"
         },
         "quellen": {
           "zinsfreiAbStart": {
@@ -1252,20 +1318,65 @@ export const OESTERREICH: LandDaten = {
             "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
             "stand": "23.11.2026",
             "hinweis": "BAWAG Preisblatt KontoBoxen für Neukunden: KontoBox Small 6,08 € im Monat, die ersten 6 Monate gratis."
+          },
+          "karteOhneKredit": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: KontoBox Small „Inkludiert: alle elektronischen Transaktionen, eBanking, PDF-Auszug, eine Automaten Transaktion, eine Kontokarte“; die Kontokarte steht unter „Debitkarte/Kontokarte“. Eine Kreditkarte gibt es nur in der KontoBox Large oder gegen Entgelt, „Vorbehaltlich einer positiven Bonitätsprüfung durch die BAWAG“."
+          },
+          "debitkarte": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: KontoBox Small „Inkludiert: … eine Kontokarte“, Abschnitt „Debitkarte/Kontokarte“."
+          },
+          "abhebungen": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: KontoBox Small inkludiert „eine Automaten Transaktion“; Postenentgelt „Automaten Transaktionen € 0,51“. Automaten Transaktionen sind Barauszahlungen und Bareinzahlungen an BAWAG Geldautomaten."
+          },
+          "bargeldEinzahlen": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: Automaten Transaktionen umfassen „Bareinzahlungen auf das eigene Konto“, je € 0,51 nach der inkludierten; „Manuelle Buchungen und Schaltertransaktionen € 4,12“."
+          },
+          "auslandFremdAbheben": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026, Debitkarte/Kontokarte: „Manipulationsentgelt für Kartentransaktionen 0,75%“ „zuzüglich an Geldautomaten € 1,82“ für Umsätze in Nicht-EUR-Währungen; dazu „Allfällige Fremdspesen“."
+          },
+          "auslandFremdZahlen": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026, Debitkarte/Kontokarte: „Manipulationsentgelt für Kartentransaktionen 0,75%“ „an Handelskassen und Online Shops € 1,09“ für Umsätze in Nicht-EUR-Währungen."
+          },
+          "sepaKostenlos": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: KontoBox Small „Inkludiert: alle elektronischen Transaktionen“, Fußnote „Gut- und Lastschriften im eBanking und Zahlungen mit Kontokarte oder Kreditkarte“."
+          },
+          "filialen": {
+            "url": "https://www.bawag.at/resource/blob/17844/fc3015a250213d6d43c8e3e32ce4f36a/giro-preisblatt-kontoboxen-neukunden-data.pdf",
+            "stand": "25.11.2026",
+            "hinweis": "BAWAG Konditionenübersicht Giroprodukte, Stand 23.9.2026: „Manuelle Buchungen und Schaltertransaktionen € 4,12“, die Bank hat also Schalter."
+          },
+          "appIos": {
+            "url": "https://apps.apple.com/at/app/bawag-banking-app/id1444730051",
+            "stand": "25.11.2026",
+            "hinweis": "App Store Österreich, App „BAWAG Banking App“ (BAWAG P.S.K.), Bewertung 4,74 von 5 aus 14.796 Bewertungen, abgerufen am 25.11.2026 über die öffentliche iTunes-Suche von Apple."
           }
         },
         "finanzPunkte": {
           "kontofuehrung": 0,
-          "bankkarte": 0,
+          "bankkarte": 10,
           "girocard": 0,
-          "debitkarte": 0,
-          "abheben": 0,
-          "einzahlen": 0,
+          "debitkarte": 5,
+          "abheben": 2.5,
+          "einzahlen": 1.5,
           "mobilesBezahlen": 0,
-          "sepa": 0,
+          "sepa": 10,
           "support": 0,
           "kontowechsel": 0,
-          "app": 0,
+          "app": 2,
           "ident": 0,
           "ohneBedingung": 0,
           "ausland": 0.0,

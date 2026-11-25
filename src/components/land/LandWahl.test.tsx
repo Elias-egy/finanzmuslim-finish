@@ -99,7 +99,8 @@ describe("Länderseite ohne Liste (DACH1)", () => {
   it("die Österreich-Depotseite zählt in der Beschreibung ihre eigenen Depots (Prüfung S-3)", () => {
     zeige("/at/vergleich/depot", <VergleichDepot />);
     const beschreibung = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
-    expect(beschreibung).toContain("5 Depots für Österreich");
+    // VG7 (25.11.2026): Scalable ist mit dem Zinsbeleg für Österreich wieder im Depot, also 6.
+    expect(beschreibung).toContain("6 Depots für Österreich");
     expect(beschreibung).not.toContain("38");
     expect(beschreibung).not.toContain("Kredit ab Start");
   });
@@ -118,8 +119,8 @@ describe("Nummer 1 in Österreich (DACH1, Prüfung S-1)", () => {
       const liste = landVergleich("at", pfad);
       expect(liste?.anbieter.some((a) => /scalable/i.test(a.id)), pfad).toBe(false);
     }
-    // Prüfung 2: Scalable ist auch im Depot zurückgestellt, bis der Zinsbeleg für Österreich da ist.
-    expect(landVergleich("at", "/vergleich/depot")?.anbieter.some((a) => /scalable/i.test(a.id))).toBe(false);
+    // VG7 (25.11.2026): Der Zinsbeleg für Österreich liegt vor (Preis- und Leistungsverzeichnis Österreich „Verrechnungskonten: 0,00 % p.a.“), Scalable steht wieder im Depot.
+    expect(landVergleich("at", "/vergleich/depot")?.anbieter.some((a) => /scalable/i.test(a.id))).toBe(true);
   });
 });
 
@@ -141,7 +142,7 @@ describe("Österreich nach Prüfung 2 (DACH1, 23.11.2026)", () => {
         expect(findStartPartner(k), k).toBeUndefined();
       }
     }
-    for (const a of alle) expect(a.link ?? "", a.id).not.toMatch(/scalable|easybank/);
+    for (const a of alle) expect(a.link ?? "", a.id).not.toMatch(/easybank/);
   });
 
   it("zählt nur Papiere mit Zulassungsbeleg des Herausgebers und zeigt ihren Namen statt eines Bruchs", () => {

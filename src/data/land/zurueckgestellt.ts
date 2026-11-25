@@ -19,12 +19,11 @@ export type Zurueckgestellt = {
 };
 
 export const ZURUECKGESTELLT: Zurueckgestellt[] = [
-  { ids: ["scalable-capital-depot-at"], kurznamen: ["scalable-at"], grund: "Zins auf dem Verrechnungskonto in Österreich ohne Anbieter-Beleg", offen: "Mail 4 an Scalable offen" },
   { ids: ["easybank-depot-at"], kurznamen: ["easybank-depot-at"], grund: "Halal-ETFs, Sukuk und Royal Mint ohne Kaufbeleg", offen: "Mail 6 an easybank offen" },
   { ids: ["easybank-easy-gratis-at"], kurznamen: ["easybank-girokonto-at"], grund: "Überziehungsrahmen ab Start ohne Beleg", offen: "Mail 6 an easybank offen" },
   { ids: ["dadat-depot-at"], kurznamen: [], grund: "Halal-ETFs, Sukuk und Royal Mint ohne Kaufbeleg", offen: "Mail 7 an DADAT offen" },
   { ids: ["bank99-smartkonto99-at"], kurznamen: [], grund: "Überziehungsrahmen ab Start ohne Beleg (Konditionenblatt nennt 9,99 % Sollzins)", offen: "Frage an bank99 (recherche-at.md Abschnitt 7) noch nicht geschickt" },
-  { ids: ["bawag-kontobox-small-at"], kurznamen: [], grund: "Überziehungsrahmen ab Start und Debitkarte ohne Beleg", offen: "Mail 11 an BAWAG offen" },
+  { ids: ["bawag-kontobox-small-at"], kurznamen: [], grund: "Überziehungsrahmen ab Start ohne Beleg (Preisblatt nennt Sollzinssatz 12,50 %); Kontokarte seit 25.11.2026 belegt", offen: "Mail 11 an BAWAG offen" },
   { ids: ["trade-republic-krypto-at"], kurznamen: [], grund: "Echte Coins, Auszahlung auf eigene Wallet und Bezahlmodell für Österreich ohne Beleg", offen: "Mail 2 an Trade Republic offen, die Krypto-Fragen dort ergänzen" },
 ];
 

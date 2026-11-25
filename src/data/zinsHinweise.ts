@@ -134,6 +134,8 @@ const HAUS: Record<string, Eintrag> = {
 
   /* Österreich und Schweiz (DACH1, 23.11.2026), Belege in src/data/land/ */
   "flatex-at": nullProzent(),
+  /* VG7 (25.11.2026): Preis- und Leistungsverzeichnis Österreich „Verrechnungskonten: 0,00 % p.a.“, Tagesgeld ist ein eigenes Konto. */
+  "scalable-at": { depot: gut("Dein Guthaben auf dem Verrechnungskonto hat 0 % Zinsen. Eröffne das Tagesgeld nicht.") },
   dadat: nullProzent("Verrechnungskonto"),
   easybank: {
     depot: nullProzent("Verrechnungskonto"),
