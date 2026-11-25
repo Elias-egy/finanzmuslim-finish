@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import ArtikelSeite, { type ArtikelAbschnitt } from "@/components/ArtikelSeite";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 const abschnitte: ArtikelAbschnitt[] = [
   {
@@ -133,7 +134,7 @@ const WasIstRiba = () => (
       passendDazu={[
         { name: "Zakat-Rechner", desc: "Deine Zakat auf Bargeld, Depot und Gold berechnen.", to: "/zakat-rechner" },
         { name: "Renditerechner", desc: "Sehen, wie Vermögen ohne Zins über die Jahre wachsen kann.", to: "/renditerechner" },
-        { name: "Depot-Vergleich", desc: "Broker nach Zinsen, Kredit und Hebelprodukten geprüft.", to: "/vergleich/depot" },
+        { name: ANKER_VERGLEICH["/vergleich/depot"], desc: "Broker nach Zinsen, Kredit und Hebelprodukten geprüft.", to: "/vergleich/depot" },
       ]}
       hinweis="Dieser Beitrag ist keine Rechts- oder Anlageberatung."
     />

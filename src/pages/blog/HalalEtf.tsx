@@ -6,6 +6,7 @@ import Seo from "@/components/Seo";
 import { Seitenleiste } from "@/components/blog/bausteine";
 import eliasPortrait from "@/assets/elias-autor.webp";
 import { kursFuerIsin, kursStand } from "@/lib/kurse";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 import {
   RENDITE_STAND,
   anker,
@@ -35,7 +36,7 @@ const META =
   "Beste Halal ETFs 2026: 8 Islamic ETFs im Vergleich. Rendite über 1, 3 und 5 Jahre, Kosten bei 10.000 € und bei welchen Depots du sie kaufst.";
 const TITELBILD = "/bilder/blog/halal-etf/beste-halal-etfs-2026.jpg";
 const VEROEFFENTLICHT = { text: "16.08.2026", iso: "2026-08-16T09:00:00+02:00" };
-const AKTUALISIERT = { text: "03.11.2026", iso: "2026-11-03T09:00:00+01:00" };
+const AKTUALISIERT = { text: "25.11.2026", iso: "2026-11-25T09:00:00+01:00" };
 const INSTAGRAM = "https://www.instagram.com/finanz.muslim/";
 
 /** Stand der Kursreihe ist der Abruftag; fällt er aufs Wochenende, gilt der Freitag davor. */
@@ -51,6 +52,12 @@ const LINKEDIN = "https://www.linkedin.com/in/elias-el-gendy";
 const LINKEDIN_FIRMA = "https://www.linkedin.com/company/finanzmuslim";
 const PROFILE = [INSTAGRAM, "https://www.tiktok.com/@finanz.muslim", YOUTUBE, LINKEDIN];
 const VIDEO_ID = "uO0ZnlaFolw";
+/* Echte Werte von der YouTube-Seite des Videos (watch?v=uO0ZnlaFolw, abgerufen 25.11.2026): Titel, Länge, Hochladedatum, Vorschaubild. */
+const VIDEO_NAME = "Sind ETFs Halal oder Haram? I Was du unbedingt berücksichtigen musst!";
+const VIDEO_BESCHREIBUNG = "Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.";
+const VIDEO_HOCHGELADEN = "2026-05-19T11:56:22-07:00";
+const VIDEO_DAUER = "PT10M0S";
+const VIDEO_VORSCHAU = `https://i.ytimg.com/vi/${VIDEO_ID}/maxresdefault.jpg`;
 /** Google „bevorzugte Quelle“: dorthin leitet auch Finanzfluss (link.finanzfluss.de, ?q=finanzfluss.de). */
 const GOOGLE_QUELLE = "https://www.google.com/preferences/source?q=finanzmuslim.com";
 const BIO =
@@ -91,10 +98,15 @@ const LEISTE = ABSCHNITTE.filter((a) => a.leiste);
  * Neu in SEO32 (Elias: „sehr generisch“, „viele wissen nicht mal, was Index ist“), gekürzt in SEO44 nach dem Skill
  * leser-finanzmuslim: kein Prüf-Jargon, keine Lücke als Tatsache, Zahlen in Euro (raw/2026-11-03-elias-seo42-nur-index-gremium-interessiert-niemanden.md).
  */
+// Platz 1: die Zahlen im Fließtext kommen aus denselben Quellen wie Karte und Tabelle (kaufbarBei, sparplanAnzahl).
+const PLATZ_EINS = etfListe.find((e) => e.platz === 1)!;
+const PLATZ_EINS_KAUFBAR = kaufbarBei(PLATZ_EINS.isin).length;
+const PLATZ_EINS_SPARPLAN = sparplanAnzahl(PLATZ_EINS);
+
 const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
   {
     lead: "Acht Halal ETFs im Vergleich, alle in Deutschland zu kaufen.",
-    text: "Der bekannteste ist der iShares MSCI World Islamic, seit 2007 am Markt und bei 27 Depots zu haben.",
+    text: `Der bekannteste ist der ${PLATZ_EINS.name}, seit 2007 am Markt und bei ${PLATZ_EINS_KAUFBAR} Depots zu haben.`,
   },
   {
     lead: "Banken und Versicherungen fliegen raus.",
@@ -109,7 +121,7 @@ const WICHTIGSTES: { lead: string; text: ReactNode }[] = [
     text: (
       <>
         Viele Depots zahlen Zinsen auf das Geld, das dort liegt. Traders Place und Scalable zahlen 0 %, Smartbroker+ zahlt
-        Zinsen nur auf ein eigenes Zinskonto. Alle weiteren stehen im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+        Zinsen nur auf ein eigenes Zinskonto. Alle weiteren stehen unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
       </>
     ),
   },
@@ -152,7 +164,7 @@ const FRAGEN: Frage[] = [
     antwort: `Laut Wertpapiersuche von Trade Republic kannst du ${tradeRepublicZahl} der 8 ETFs dieser Liste kaufen, alle außer ${ohneTradeRepublic.join(
       ", ",
     )}.`,
-    link: { to: "/vergleich/depot", text: "Zum Depot-Vergleich" },
+    link: { to: "/vergleich/depot", text: ANKER_VERGLEICH["/vergleich/depot"] },
   },
   {
     frage: "Ist der MSCI World halal?",
@@ -336,6 +348,20 @@ const graph = () => {
         datePublished: VEROEFFENTLICHT.iso,
         dateModified: AKTUALISIERT.iso,
         inLanguage: "de-DE",
+        video: { "@id": `${url}#video` },
+      },
+      {
+        "@type": "VideoObject",
+        "@id": `${url}#video`,
+        name: VIDEO_NAME,
+        description: VIDEO_BESCHREIBUNG,
+        thumbnailUrl: [VIDEO_VORSCHAU],
+        uploadDate: VIDEO_HOCHGELADEN,
+        duration: VIDEO_DAUER,
+        contentUrl: `https://www.youtube.com/watch?v=${VIDEO_ID}`,
+        embedUrl: `https://www.youtube.com/embed/${VIDEO_ID}`,
+        inLanguage: "de-DE",
+        publisher: { "@id": `${SITE}/#organization` },
       },
       {
         "@type": "ItemList",
@@ -1268,6 +1294,14 @@ const HalalEtf = () => {
                   </p>
                 </section>
 
+                {/* 5b Video bei etwa 30 % des Textes, nach dem Wichtigsten (SEO81, Befund 25.11.2026: stand bei 56 % nach Platz 1) */}
+                <section className="mt-10">
+                  <Text>
+                    <p>Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.</p>
+                  </Text>
+                  <Video />
+                </section>
+
                 {/* 6 Tabellen wie frontal: wenige Spalten, kurze Wörter; seit SEO44 direkt nach dem Wichtigsten wie die Quick Comparison bei halalwallet */}
                 <section className="mt-14">
                   <H2 id="halal-etf-liste" />
@@ -1315,7 +1349,7 @@ const HalalEtf = () => {
                     })}
                   />
                   <p className="font-titel mt-7 max-w-[664px] border-l-2 border-primary pl-5 text-[20px] leading-[1.4] text-foreground">
-                    Platz 1 kostet 30 € im Jahr bei 10.000 € und läuft bei 14 Depots als Sparplan, bei keinem anderen ETF hier
+                    Platz 1 kostet 30 € im Jahr bei 10.000 € und läuft bei {PLATZ_EINS_SPARPLAN} Depots als Sparplan, bei keinem anderen ETF hier
                     so oft.
                   </p>
                   <p className="font-titel mt-10 text-[21px] leading-tight text-foreground">Rendite im Vergleich</p>
@@ -1358,7 +1392,7 @@ const HalalEtf = () => {
                 {/* 8 Depots, erstes Mal */}
                 <DepotKasten />
 
-                {/* 9 Die acht Plätze, Video am Ende von Platz 1 */}
+                {/* 9 Die acht Plätze */}
                 <section className="mt-14">
                   <H2 id="die-besten-halal-etfs" />
                   <Text>
@@ -1371,16 +1405,6 @@ const HalalEtf = () => {
                     {etfListe.map((e) => (
                       <div key={e.isin}>
                         <Eintrag e={e} />
-                        {e.platz === 1 && (
-                          <div className="mt-8">
-                            <Text>
-                              <p>
-                                Lieber hören als lesen? Im Video erkläre ich, woran du erkennst, ob ein ETF halal ist.
-                              </p>
-                            </Text>
-                            <Video />
-                          </div>
-                        )}
                       </div>
                     ))}
                   </div>
@@ -1517,8 +1541,8 @@ const HalalEtf = () => {
                   <Text>
                     <p>
                       Neben dem ETF zählt das Depot. Es sollte deinen ETF als Sparplan
-                      führen. Schau auch, ob es dir Zinsen aufs Guthaben zahlt. Im{" "}
-                      <TL to="/vergleich/depot">Depot-Vergleich</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
+                      führen. Schau auch, ob es dir Zinsen aufs Guthaben zahlt. Unter{" "}
+                      <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL> siehst du je Depot, welche Halal ETFs es hat und wie es mit
                       Zinsen umgeht.
                     </p>
                   </Text>

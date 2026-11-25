@@ -3,6 +3,7 @@ import Seo, { beitragJsonLd } from "@/components/Seo";
 import BeitragSeite, { type BeitragAbschnitt, type BeitragFrage } from "@/components/BeitragSeite";
 import { IlluDepot, IlluZins } from "@/components/illu";
 import { B, Bild, Frage, Hinweis, L, Merksatz, PasstDazu, Schritte } from "@/components/beitrag";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /** Ein Fehler: was passiert, und was stattdessen. Die Nummer kommt aus der
  *  fortlaufenden Zählung über alle Abschnitte hinweg. */
@@ -115,8 +116,8 @@ const abschnitte: BeitragAbschnitt[] = [
               text: fehler(
                 "Der ETF ist geprüft, das Geld daneben liegt auf einem verzinsten Verrechnungskonto. Damit läuft genau das Zinsgeschäft mit, das vermieden werden sollte.",
                 <>
-                  Beim Broker die Verzinsung abschalten, wo es geht. Welcher Anbieter das erlaubt, steht im{" "}
-                  <L to="/vergleich/depot">Depot-Vergleich</L>.
+                  Beim Broker die Verzinsung abschalten, wo es geht. Welcher Anbieter das erlaubt, steht unter{" "}
+                  <L to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</L>.
                 </>,
               ),
             },

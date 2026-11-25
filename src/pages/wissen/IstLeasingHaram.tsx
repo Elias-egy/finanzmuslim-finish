@@ -34,6 +34,7 @@ import {
   Video,
   YOUTUBE,
 } from "@/components/blog/bausteine";
+import { ANKER_VERGLEICH } from "@/data/ankertexte";
 
 /**
  * „Ist Leasing haram?“, neu gebaut in SEO54 (04.11.2026) im Aufbau von /blog/halal-gold-kaufen (Elias SEO53: „Leasing muss ja
@@ -788,7 +789,7 @@ const IstLeasingHaram = () => {
                   <Text>
                     <p>
                       Brauchst du nicht sofort ein neues Auto, leg die Rate als Sparplan auf einen Halal ETF an. Welches Depot das kann und keine Zinsen aufs
-                      Guthaben zahlt, siehst du im <TL to="/vergleich/depot">Depot-Vergleich</TL>.
+                      Guthaben zahlt, siehst du unter <TL to="/vergleich/depot">{ANKER_VERGLEICH["/vergleich/depot"]}</TL>.
                     </p>
                   </Text>
                 </section>

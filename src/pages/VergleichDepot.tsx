@@ -65,11 +65,12 @@ const VergleichDepot = () => (
   <VergleichsSeite
     pfad="/vergleich/depot"
     brotkrumen="Depot-Vergleich"
-    titel="Depot-Vergleich 2026"
-    untertitel="Die besten Depots für Muslime"
-    seoTitel="Depot-Vergleich 2026: Die besten Halal-Depots"
+    titel="Bestes Depot für Muslime 2026"
+    untertitel="Depot-Vergleich: Die besten Halal-Depots"
+    seoTitel="Bestes Depot für Muslime 2026: Depot-Vergleich"
+    schemaHeadline="Bestes Depot für Muslime 2026"
     auszeichnungen={AUSZEICHNUNGEN}
-    seoText={`Welches Depot ist halal? ${depotAnzeige.length} Depots im Vergleich: ohne Zinsen nutzbar, ohne Kredit ab Start, und welche Halal-ETFs, Sukuk und Edelmetalle dort kaufbar sind.`}
+    seoText={`Bestes Depot für Muslime 2026: ${depotAnzeige.length} Depots im Vergleich. Ohne Zinsen nutzbar, ohne Kredit ab Start, dazu welche Halal-ETFs, Sukuk und Edelmetalle du kaufst.`}
     einheit="Depots"
     einleitung={
       <>
