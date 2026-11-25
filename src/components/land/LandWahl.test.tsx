@@ -145,15 +145,17 @@ describe("Österreich nach Prüfung 2 (DACH1, 23.11.2026)", () => {
     for (const a of alle) expect(a.link ?? "", a.id).not.toMatch(/easybank/);
   });
 
-  it("zählt nur Papiere mit Zulassungsbeleg des Herausgebers und zeigt ihren Namen statt eines Bruchs", () => {
+  it("zählt nur in Österreich zugelassene Papiere (VG13: vier Halal-ETFs laut justETF Österreich) und zeigt Text statt eines Bruchs", () => {
     for (const pfad of ["/vergleich/depot", "/vergleich/edelmetalle", "/vergleich/etf-sparplan"]) {
       const liste = landVergleich("at", pfad)!;
-      expect(liste.anteilN, pfad).toEqual({ halalEtfsFonds: 1, halalSukuk: 1, halalEdelmetalle: 1 });
-      for (const a of liste.anbieter)
-        for (const k of ["halalEtfsFonds", "halalSukuk", "halalEdelmetalle"]) expect([null, "1 von 1"], `${a.id} ${k}`).toContain(a.werte[k] ?? null);
+      expect(liste.anteilN, pfad).toEqual({ halalEtfsFonds: 4, halalSukuk: 1, halalEdelmetalle: 1 });
+      for (const a of liste.anbieter) {
+        expect([null, "1 von 4", "2 von 4", "3 von 4", "4 von 4"], `${a.id} halalEtfsFonds`).toContain(a.werte.halalEtfsFonds ?? null);
+        for (const k of ["halalSukuk", "halalEdelmetalle"]) expect([null, "1 von 1"], `${a.id} ${k}`).toContain(a.werte[k] ?? null);
+      }
     }
     const { container } = zeige("/at/vergleich/depot", <VergleichDepot />);
-    expect(container.textContent).toContain("World Islamic");
+    expect(container.textContent).toContain("Alle 4 Halal-ETFs");
     // „1 von 12 Angeboten“ (Seitenzähler) enthält „1 von 1“: nur die Anlagenzählung „1 von 1“ ohne weitere Ziffer ist verboten.
     expect(container.textContent).not.toMatch(/1 von 1(?!\d)/);
     expect(container.textContent).not.toMatch(/von 4|bestätigt|mind\./);
