@@ -100,6 +100,13 @@ export const partnerLinks: PartnerLink[] = [
     notiz: "FinanceQuality, Kampagne 1782, Werbemittel 24756 (N26 Standard DE).",
   },
   {
+    kurzname: "n26-business",
+    anbieter: "N26",
+    ziel: "/dein-investmentstart/n26-business",
+    aktiv: true,
+    notiz: "FinanceQuality, Kampagne 1782 (N26), Werbemittel 24750 (Business Smart), leitet am 25.11.2026 auf n26.com/de-de/geschaeftskonto, die Geschäftskonto-Seite mit allen vier Business-Tarifen. Werbemittel aus dem Portal gelesen von VG8 (25.11.2026), Ziel per curl geprüft. Gilt für alle vier N26-Business-Tarife im Geschäftskonto-Vergleich (eigene Werbemittel gäbe es für Standard 24751, Metal 24749, Kontenvergleich 24748).",
+  },
+  {
     kurzname: "bbbank",
     anbieter: "BBBank",
     ziel: "/dein-investmentstart/bbbank",
@@ -336,7 +343,14 @@ export const partnerLinks: PartnerLink[] = [
     anbieter: "Commerzbank",
     ziel: "/dein-investmentstart/commerzbank-girokonto",
     aktiv: true,
-    notiz: "financeAds, Programm 3040, Textlink 57824 (Girokonto 50 Euro: Girokonto mit 50 EUR Startguthaben und 100 EUR Empfehlungspraemie) https://www.financeads.net/tc.php?t=87591C304057824T. Angenommen, im Portal gesehen 09.11.2026. Nur das GiroKonto bekommt den Link: fuer das KlassikKonto gibt es keinen passenden Textlink, die Commerzbank-Depots haben keinen Link.",
+    notiz: "financeAds, Programm 3040, Textlink 57824 (Girokonto 50 Euro: Girokonto mit 50 EUR Startguthaben und 100 EUR Empfehlungspraemie) https://www.financeads.net/tc.php?t=87591C304057824T. Angenommen, im Portal gesehen 09.11.2026. Nur das GiroKonto bekommt den Link: fuer das KlassikKonto gibt es keinen passenden Textlink. Das DirektDepot hat seit 25.11.2026 einen eigenen Link (commerzbank-direktdepot).",
+  },
+  {
+    kurzname: "commerzbank-direktdepot",
+    anbieter: "Commerzbank",
+    ziel: "/dein-investmentstart/commerzbank-direktdepot",
+    aktiv: true,
+    notiz: "financeAds, Programm 3040, Werbemittelkategorie Depot, Textlink 89374 (DirektDepot der Commerzbank) https://www.financeads.net/tc.php?t=87591C304089374T, leitet am 25.11.2026 auf commerzbank.de/kp/lp/af/depot-eroeffnen/. Angenommen, im Portal gelesen 25.11.2026 (VG6-04): „DirektDepot 70,00 EUR / CPO“, Cookie 60 Tage. Teilnahmebedingungen: keine Provisionsweitergabe oder Incentivierung ohne schriftliche Genehmigung. Nur das DirektDepot, für KlassikDepot und PremiumDepot gibt es keinen Textlink.",
   },
   {
     kurzname: "wundertax",

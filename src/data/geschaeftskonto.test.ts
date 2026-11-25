@@ -231,12 +231,18 @@ describe("Geschäftskonto: Partnerlinks", () => {
     }
     // Ein Tarif hat genau dann einen Link, wenn sein Partner aktiv ist (Tide: "tide", Vivid: "vivid-business", Accountable: "accountable").
     const aktiv = new Set(partnerLinks.filter((p) => p.aktiv).map((p) => p.kurzname));
-    const partner: Record<string, string> = { tide: "tide", vivid: "vivid-business", accountable: "accountable" };
+    const partner: Record<string, string> = { tide: "tide", vivid: "vivid-business", accountable: "accountable", n26: "n26-business" };
     for (const a of geschaeftskontoVergleich) expect(Boolean(a.link), a.id).toBe(Boolean(partner[a.haus!]) && aktiv.has(partner[a.haus!]));
   });
 
-  it("gibt Grenke, N26, Lexware, EthikBank und ING nie einen Link", () => {
-    for (const a of geschaeftskontoVergleich.filter((x) => ["grenke", "n26", "lexware", "ethikbank", "ing"].includes(x.haus!))) expect(a.link, a.id).toBeUndefined();
+  it("gibt Grenke, Lexware, EthikBank und ING nie einen Link", () => {
+    for (const a of geschaeftskontoVergleich.filter((x) => ["grenke", "lexware", "ethikbank", "ing"].includes(x.haus!))) expect(a.link, a.id).toBeUndefined();
+  });
+
+  it("führt N26 Business über FinanceQuality 1782 (Werbemittel 24750) auf die Startseite (VG6-04, 25.11.2026)", () => {
+    expect(partnerLinks.find((x) => x.kurzname === "n26-business")?.aktiv).toBe(true);
+    expect(START_LINKS["n26-business"]).toBe("https://c.neqty.net/trck/eclick/d7289e91a9dbd18913cb4e1ded7f4674?subid={SUBID}");
+    for (const a of geschaeftskontoVergleich.filter((x) => x.haus === "n26")) expect(a.link, a.id).toBe("/out/n26-business");
   });
 
   it("führt Accountable über financeAds ohne Sub-ID, Programm 3654, auf die Startseite", () => {
@@ -315,7 +321,7 @@ describe("Geschäftskonto: Rangfolge", () => {
     expect(r.gerankt[0].anbieter.id).toBe("n26-business-smart");
   });
 
-  it("ranked unabhängig vom Link (Elias VG2-04): Accountable steht mit und ohne Link auf Platz 9, die Nummer 1 bleibt N26 ohne Link", () => {
+  it("ranked unabhängig vom Link (Elias VG2-04): Accountable steht mit und ohne Link auf Platz 9, die Nummer 1 bleibt N26", () => {
     const mit = rang(geschaeftskontoAnzeige);
     const ohne = rang(ohneLinks(geschaeftskontoAnzeige));
     expect(mit.gerankt.map((b) => b.anbieter.id)).toEqual(ohne.gerankt.map((b) => b.anbieter.id));
@@ -324,8 +330,8 @@ describe("Geschäftskonto: Rangfolge", () => {
     expect(acc.platz).toBe(9);
     expect(acc.note).toBe(ohne.gerankt.find((b) => b.anbieter.id === "accountable-geschaeftskonto")!.note);
     expect(nummerEins(mit).map((b) => b.anbieter.id)).toEqual(["n26-business-smart"]);
-    // Der Kasten der Seite braucht einen Link am Sieger. Accountable steht nicht vorn, also kein Kasten.
-    expect(siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBeUndefined();
+    // Der Kasten der Seite braucht einen Link am Sieger. Seit VG6-04 (25.11.2026) hat N26 Business den Link von FinanceQuality.
+    expect(siegerDerSeite(geschaeftskontoAnzeige, "geschaeftskonto", GESCHAEFT_FINANZ_MAX)?.link).toBe("/out/n26-business");
   });
 
   it("zeigt den Kasten von selbst, sobald das Konto ganz vorn einen Link hat, ändert aber die Reihenfolge nie", () => {
@@ -444,19 +450,18 @@ describe("Geschäftskonto: Seite", () => {
     expect(html).toContain("Die besten Geschäftskonten für Muslime 11/2026");
   });
 
-  it("zeigt ohne Link an Platz 1 keinen Kasten, trägt aber alle Konten mit den Kennzahlen 72, 30 und 41 (VG3 KT Bank) und „Offen“ in den Zellen", () => {
-    expect(html).not.toContain('aria-label="Bestes Geschäftskonto"');
+  it("zeigt mit Link an Platz 1 (N26 Business, VG6-04) den Kasten und trägt alle Konten mit den Kennzahlen 72, 30 und 41 (VG3 KT Bank) und „Offen“ in den Zellen", () => {
+    expect(html).toContain('aria-label="Bestes Geschäftskonto"');
     expect(html).toContain("Offen");
     expect(html).toContain("Wise");
     expect(html).toContain("Qonto Enterprise");
     expect(html).not.toMatch(/Aktion: \d/);
     expect(html).not.toMatch(/Geldmarktfonds-Rendite/);
     const text = html.replace(/<svg.*?<\/svg>/gs, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-    expect(text).toMatch(/72 Konten im Vergleich/);
-    expect(text).toMatch(/24 Anbieter/);
-    expect(text).toMatch(/30 belegt ohne Zinsen nutzbar/);
+    // Mit Kasten zeigt die Seite die Kennzahlen im Kopf wie die anderen Vergleiche (72 überprüft, 30 ohne Zinsen nutzbar).
+    expect(text).toMatch(/72 Überprüfte Konten/);
+    expect(text).toMatch(/30 Ohne Zinsen nutzbar/);
     expect(text).toContain("Zusätzlich ist die KT Bank drin (Angaben von kt-bank.de, Stand 23.11.2026)");
-    expect(text).toMatch(/41 Zinsen noch offen/);
   });
 
   it("hat sieben Fragen, darunter die zu Zinskonten ohne Urteil eines Gelehrten", () => {

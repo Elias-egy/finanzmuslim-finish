@@ -10,6 +10,10 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
         "domain": "comdirect.de"
       },
       {
+        "name": "Commerzbank",
+        "domain": "commerzbank.de"
+      },
+      {
         "name": "Consorsbank",
         "domain": "consorsbank.de"
       },
@@ -72,10 +76,6 @@ export const LOGO_SCHNAPPSCHUSS: Record<LogoKategorie, { logos: LogoAnbieter[]; 
       {
         "name": "Bux",
         "domain": "getbux.com"
-      },
-      {
-        "name": "Commerzbank",
-        "domain": "commerzbank.de"
       },
       {
         "name": "DEGIRO",

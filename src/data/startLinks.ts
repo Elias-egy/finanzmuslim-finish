@@ -20,6 +20,8 @@ export const START_LINKS = {
   "finvesto": "https://c.neqty.net/trck/eclick/ca16f02d65f99bd7e0a84991894b75e3?subid={SUBID}",
   "dkb-girokonto": "https://c.neqty.net/trck/eclick/79bc49b9d70debbb2d943925ed126d17?subid={SUBID}",
   "n26": "https://c.neqty.net/trck/eclick/d7289e91a9dbd189bedb781dc15f3a41?subid={SUBID}",
+  // VG6-04 (25.11.2026): FinanceQuality N26 1782, Werbemittel 24750 Business Smart, Ziel n26.com/de-de/geschaeftskonto.
+  "n26-business": "https://c.neqty.net/trck/eclick/d7289e91a9dbd18913cb4e1ded7f4674?subid={SUBID}",
   "bbbank": "https://c.neqty.net/trck/eclick/5a913135bf2744d85558983a6eb6625b?subid={SUBID}",
   "joe-broker": "https://www.financeads.net/tc.php?t=87591C5496129308T",
   "bunq": "https://www.financeads.net/tc.php?t=87591C3156123231T",
@@ -41,6 +43,8 @@ export const START_LINKS = {
   "justtrade-krypto": "https://www.financeads.net/tc.php?t=87591C326261718T",
   "norisbank": "https://www.financeads.net/tc.php?t=87591C127132812T",
   "commerzbank-girokonto": "https://www.financeads.net/tc.php?t=87591C304057824T",
+  // VG6-04 (25.11.2026): financeAds Programm 3040, Textlink 89374 (DirektDepot), ohne Sub-ID (Regel financeAds).
+  "commerzbank-direktdepot": "https://www.financeads.net/tc.php?t=87591C304089374T",
   "smartbroker": "https://www.financeads.net/tc.php?t=87591C296855636T",
   "smartbroker-krypto": "https://www.financeads.net/tc.php?t=87591C2968124479T",
   "umweltbank": "https://www.financeads.net/tc.php?t=87591C4946128612T",

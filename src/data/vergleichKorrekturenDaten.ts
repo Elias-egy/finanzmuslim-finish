@@ -27,6 +27,10 @@ export const NACHGETRAGENE_LINKS: Record<string, string> = {
   "consorsbank-depot": "/out/consorsbank-depot",
   "norisbank-top-girokonto": "/out/norisbank",
   "1822direkt-girodirekt": "/out/1822direkt-girokonto",
+  // VG6-04 (25.11.2026): financeAds Commerzbank 3040, Textlink DirektDepot. Das Programm zahlt nur fürs DirektDepot.
+  "commerzbank-direktdepot": "/out/commerzbank-direktdepot",
+  // VG6-04 (25.11.2026): Der maxblue Wertpapier-Sparplan läuft im maxblue Depot, derselbe Link wie maxblue-depot (financeAds 472, Textlink 85472).
+  "maxblue-wertpapier-sparplan": "/out/maxblue-depot",
 };
 
 /**

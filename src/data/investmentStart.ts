@@ -1645,6 +1645,52 @@ export const startPartner: StartPartner[] = [
     ],
   },
   {
+    // VG6-04 (25.11.2026): financeAds Commerzbank 3040, DirektDepot. Zins: schriftliche Antwort des Commerzbank-Kundencenters
+    // vom 22.09.2026 (vergleichKorrekturenDaten.ts, DEPOT_QUELLEN). Kosten aus der Korrektur zum DirektDepot.
+    kurzname: "commerzbank-direktdepot",
+    anbieter: "Commerzbank",
+    kurz: "Commerzbank",
+    domain: "commerzbank.de",
+    markenfarbe: "#FFCC00",
+    art: "depot",
+    pfad: "/dein-investmentstart/commerzbank-direktdepot",
+    link: START_LINKS["commerzbank-direktdepot"],
+    titel: ["In 10 Minuten steht", "dein Halal-Depot."],
+    knopf: "Bei der Commerzbank eröffnen →",
+    videoHinweis: true,
+    chips: ["Aktien", "ETFs", "Sparpläne", "Depot einer Filialbank"],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Das Commerzbank-Kundencenter hat uns am 22.09.2026 schriftlich bestätigt: Guthaben auf dem Girokonto oder dem Verrechnungskonto Plus wird aktuell nicht verzinst.",
+      },
+      {
+        titel: "Depot kostenlos mit einer Order im Quartal",
+        text: "Mit einer Order oder einem Sparplan im Quartal kostet das Depot nichts, sonst 0,175 %, mindestens 4,95 € im Quartal. Eine Order kostet 4,90 € plus 0,25 %, mindestens 9,90 €.",
+      },
+      {
+        titel: "Halal-Anlagen",
+        text: "Welche Anlagen aus unserer Halal-Liste bei der Commerzbank kaufbar sind, prüfen wir gerade Anlage für Anlage.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein Commerzbank-Depot", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keine Zinsangebote annehmen.",
+        text: "Bietet dir die Commerzbank Tagesgeld, Festgeld oder einen Kredit an, lehne ab. Dein Depot funktioniert ohne.",
+      },
+      derivate,
+    ],
+    faqs: [
+      allgemeineFaq,
+      {
+        q: "Warum zeigt das Video Scalable Capital?",
+        a: "Das Video zeigt die Einrichtung am Beispiel Scalable. Kontoeröffnung, Ausweis bestätigen, Geld einzahlen und erste Anlage wählen laufen bei der Commerzbank genauso ab, nur die Menüs heißen anders.",
+      },
+      boerseFaq,
+    ],
+  },
+  {
     kurzname: "justtrade",
     anbieter: "justTRADE",
     kurz: "justTRADE",
@@ -1846,6 +1892,59 @@ export const startPartner: StartPartner[] = [
         q: "Gibt es auf dem Konto Zinsen?",
         a: "Nein. Nach den Bedingungen der Partnerbank Swan ist das Konto unverzinslich. Das Cashback von Accountable ist laut Anbieter kein Zins.",
       },
+      {
+        q: "Ist ein Geschäftskonto überhaupt halal?",
+        a: "Ein Konto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
+      },
+    ],
+  },
+  {
+    // VG6-04 (25.11.2026): FinanceQuality N26 1782, Business-Werbemittel. Zins und Guthabenkonto aus den N26-AGB
+    // (geschaeftskontoVergleich.ts, Konstante N26), Kosten aus dem Geschäftskonto-Vergleich.
+    kurzname: "n26-business",
+    anbieter: "N26",
+    kurz: "N26",
+    domain: "n26.com",
+    markenfarbe: "#36A18B",
+    art: "girokonto",
+    pfad: "/dein-investmentstart/n26-business",
+    link: START_LINKS["n26-business"],
+    titel: ["Dein zinsfreies", "Geschäftskonto."],
+    knopf: "Bei N26 eröffnen →",
+    videoHinweis: false,
+    chips: ["Business Standard 0 €", "Deutsche IBAN", "Mastercard", "Für Selbstständige"],
+    schritte: [
+      { titel: "Antrag in der App", text: "Name, Adresse, Ausweis und deine Selbstständigkeit angeben. Dauert ein paar Minuten." },
+      { titel: "Identität bestätigen", text: "Ausweis in die Kamera halten, alles in der App." },
+      { titel: "Loslegen", text: "Die virtuelle Business-Mastercard ist sofort da." },
+    ],
+    fakten: [
+      {
+        titel: "Guthaben ohne Zinsen",
+        text: "Die N26-AGB sagen in Ziffer 2.5: „Für das Guthaben auf dem Konto erhältst du keine Zinsen.“",
+      },
+      {
+        titel: "Guthabenkonto",
+        text: "Laut Ziffer 2.3 der AGB wird das Konto als Guthabenkonto geführt. Einen Kredit gibt es nur, wenn du ihn selbst beantragst.",
+      },
+      {
+        titel: "Für Selbstständige",
+        text: "Die Business-Karte gibt N26 nur an selbstständige natürliche Personen, zum Beispiel Freelancer. Business Standard kostet 0 € im Monat.",
+      },
+    ],
+    checklisteTitel: ["2 Regeln halten dein N26-Geschäftskonto", "riba-frei"],
+    checkliste: [
+      {
+        titel: "Keinen Überzug oder Kredit abschließen.",
+        text: "Beides kostet Zinsen. Dein Konto funktioniert ohne.",
+      },
+      {
+        titel: "Kein Tagesgeld dazubuchen.",
+        text: "Zinsen gibt es bei N26 nur mit einem eigenen Tagesgeldkonto. Eröffne keines.",
+      },
+    ],
+    faqs: [
+      allgemeineFaq,
       {
         q: "Ist ein Geschäftskonto überhaupt halal?",
         a: "Ein Konto ohne Zinsen und ohne genutzten Kredit ist nach den gängigen Gelehrten-Standards erlaubt. Entscheidend sind die 2 Regeln aus der Checkliste.",
